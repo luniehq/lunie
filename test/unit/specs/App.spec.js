@@ -1,5 +1,3 @@
-"use strict"
-
 /* mocking electron differently in one file apparently didn't work so I had to split the App tests in 2 files */
 
 jest.mock(
@@ -7,18 +5,14 @@ jest.mock(
   () => jest.fn(() => require(`../helpers/node_mock`)) // using jest.fn to be able to spy on the constructor call
 )
 
-describe(`App without analytics`, () => {
+describe(`App Start`, () => {
   jest.mock(`../../../app/src/config`, () => ({
-    google_analytics_uid: `123`,
-    sentry_dsn_public: `456`
-  }))
-  jest.mock(`raven-js`, () => ({
-    config: () => {
-      return { install: () => {} }
-    },
-    captureException: err => console.error(err)
+    google_analytics_uid: `123`
   }))
   jest.mock(`renderer/google-analytics.js`, () => () => {})
+  // popper.js is used by tooltips and causes some errors if
+  // not mocked because it requires a real DOM
+  jest.mock(`popper.js`, () => () => {})
   jest.mock(`electron`, () => ({
     remote: {
       getGlobal: () => ({
@@ -38,10 +32,11 @@ describe(`App without analytics`, () => {
   }))
 
   beforeEach(() => {
-    Object.defineProperty(window.location, `search`, {
-      writable: true,
-      value: `?node=localhost&lcd_port=8080`
-    })
+    window.history.pushState(
+      {},
+      `Mock Voyager`,
+      `/?node=localhost&lcd_port=8080`
+    )
     document.body.innerHTML = `<div id="app"></div>`
     jest.resetModules()
   })
@@ -55,12 +50,15 @@ describe(`App without analytics`, () => {
     electron.remote.getGlobal = () => ({
       env: { NODE_ENV: `test` },
       mocked: true,
-      node_lcd: `https://awesomenode.de:12345`
+      node_lcd: `https://awesomenode.de:12345`,
+      development: false,
+      lcd_port_prod: `8080`
     })
     let Node = require(`renderer/connectors/node.js`)
     require(`renderer/main.js`)
     expect(Node).toHaveBeenCalledWith(
-      `http://localhost:8080`,
+      expect.any(Function),
+      `https://localhost:8080`, // axios or axios proxy
       `https://awesomenode.de:12345`,
       true
     )
@@ -75,17 +73,14 @@ describe(`App without analytics`, () => {
     mockDone()
   })
 
-  it(`does not set Raven dsn if analytics is disabled`, mockDone => {
-    jest.mock(`raven-js`, () => ({
-      config: dsn => {
-        expect(dsn).toBe(``)
-        return {
-          install: () => {
-            mockDone()
-          }
-        }
+  it(`does not set Sentry dsn if analytics is disabled`, mockDone => {
+    jest.mock(`@sentry/browser`, () => ({
+      init: config => {
+        expect(config).toEqual({})
+        mockDone()
       },
-      captureException: err => console.error(err)
+      configureScope: () => {},
+      captureException: () => {}
     }))
     require(`renderer/main.js`)
   })
@@ -114,7 +109,7 @@ describe(`App without analytics`, () => {
     }
 
     const { store } = require(`renderer/main.js`)
-    expect(store.state.node.approvalRequired).toBe(`THISISSOMEHASH`)
+    expect(store.state.connection.approvalRequired).toBe(`THISISSOMEHASH`)
   })
 
   it(`sends a message to the main thread, that the app has loaded`, () => {
@@ -199,7 +194,10 @@ describe(`App without analytics`, () => {
       },
       rpcConnect: () => {},
       rpcReconnect: () => {},
-      lcdConnected: () => Promise.resolve(false)
+      lcdConnected: () => Promise.resolve(false),
+      keys: {
+        values: () => []
+      }
     }))
 
     ipcRenderer.send = jest.fn()

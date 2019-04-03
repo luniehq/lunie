@@ -4,8 +4,8 @@ const { Writable } = require(`stream`)
 const { normalize, sep } = require(`path`)
 
 /*
-* this mock implements every function (all used in this project for now) in fs-extra so that the file system is just represented by a json file holding file content as strings
-*/
+ * this mock implements every function (all used in this project for now) in fs-extra so that the file system is just represented by a json file holding file content as strings
+ */
 export default function mockFsExtra(fileSystem = {}) {
   const fsExtraMock = {
     copy: (from, to) => {
@@ -15,6 +15,7 @@ export default function mockFsExtra(fileSystem = {}) {
       }
       create(to, fsExtraMock.fs, file)
     },
+    copyFile: (from, to) => fsExtraMock.copy(from, to),
     ensureFile: path => {
       let { file } = get(path, fsExtraMock.fs)
       if (file === null) {

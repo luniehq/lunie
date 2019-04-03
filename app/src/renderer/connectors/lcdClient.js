@@ -3,7 +3,8 @@
 const Client = (axios, localLcdURL, remoteLcdURL) => {
   async function request(method, path, data, useRemote) {
     const url = useRemote ? remoteLcdURL : localLcdURL
-    return (await axios[method.toLowerCase()](url + path, data)).data
+    const result = await axios({ data, method, url: url + path })
+    return result.data
   }
 
   // returns an async function which makes a request for the given
@@ -19,23 +20,14 @@ const Client = (axios, localLcdURL, remoteLcdURL) => {
   // to the path (/foo/{arg}/...)
   function argReq(method, prefix, suffix = ``, useRemote) {
     return function(args, data) {
-      // `args` can either be a single value or an array
-      if (Array.isArray(args)) {
-        args = args.join(`/`)
-      }
-      if (method === `DELETE`) {
-        data = { data }
-      }
       return request(method, `${prefix}/${args}${suffix}`, data, useRemote)
     }
   }
 
-  let fetchAccount = argReq(`GET`, `/auth/accounts`)
+  let fetchAccount = argReq(`GET`, `/auth/accounts`, ``, true)
 
   const keys = {
     add: req(`POST`, `/keys`),
-
-    // axios handles DELETE requests different then other requests, we have to but the body in a config object with the prop data
     delete: argReq(`DELETE`, `/keys`),
 
     get: async key => {
@@ -64,6 +56,8 @@ const Client = (axios, localLcdURL, remoteLcdURL) => {
       return keys.values().then(() => true, () => false)
     },
 
+    nodeVersion: req(`GET`, `/node_version`),
+
     // tx
     postTx: req(`POST`, `/tx`),
 
@@ -86,8 +80,8 @@ const Client = (axios, localLcdURL, remoteLcdURL) => {
     },
     txs: function(addr) {
       return Promise.all([
-        req(`GET`, `/txs?tag=sender_bech32='${addr}'`, true)(),
-        req(`GET`, `/txs?tag=recipient_bech32='${addr}'`, true)()
+        req(`GET`, `/txs?sender=${addr}`, true)(),
+        req(`GET`, `/txs?recipient=${addr}`, true)()
       ]).then(([senderTxs, recipientTxs]) => [].concat(senderTxs, recipientTxs))
     },
     tx: argReq(`GET`, `/txs`, ``, true),
@@ -95,8 +89,18 @@ const Client = (axios, localLcdURL, remoteLcdURL) => {
     /* ============ STAKE ============ */
 
     // Get all delegations information from a delegator
-    getDelegator: function(addr) {
-      return req(`GET`, `/stake/delegators/${addr}`, true)()
+    getDelegations: function(addr) {
+      return req(`GET`, `/stake/delegators/${addr}/delegations`, true)()
+    },
+    getUndelegations: function(addr) {
+      return req(
+        `GET`,
+        `/stake/delegators/${addr}/unbonding_delegations`,
+        true
+      )()
+    },
+    getRedelegations: function(addr) {
+      return req(`GET`, `/stake/delegators/${addr}/redelegations`, true)()
     },
     // Get all txs from a delegator
     getDelegatorTxs: function(addr, types) {
@@ -129,8 +133,19 @@ const Client = (axios, localLcdURL, remoteLcdURL) => {
     // Get the list of the validators in the latest validator set
     getValidatorSet: req(`GET`, `/validatorsets/latest`, true),
 
-    updateDelegations: function(delegatorAddr, data) {
+    postDelegation: function(delegatorAddr, data) {
       return req(`POST`, `/stake/delegators/${delegatorAddr}/delegations`)(data)
+    },
+    postUnbondingDelegation: function(delegatorAddr, data) {
+      return req(
+        `POST`,
+        `/stake/delegators/${delegatorAddr}/unbonding_delegations`
+      )(data)
+    },
+    postRedelegation: function(delegatorAddr, data) {
+      return req(`POST`, `/stake/delegators/${delegatorAddr}/redelegations`)(
+        data
+      )
     },
 
     // Query a delegation between a delegator and a validator
@@ -149,12 +164,12 @@ const Client = (axios, localLcdURL, remoteLcdURL) => {
       )()
     },
     getPool: req(`GET`, `/stake/pool`, true),
-    getParameters: req(`GET`, `/stake/parameters`, true),
+    getStakingParameters: req(`GET`, `/stake/parameters`, true),
 
     /* ============ Slashing ============ */
 
     queryValidatorSigningInfo: function(pubKey) {
-      return req(`GET`, `/slashing/signing_info/${pubKey}`, true)()
+      return req(`GET`, `/slashing/validators/${pubKey}/signing_info`, true)()
     },
 
     /* ============ Governance ============ */
@@ -179,24 +194,28 @@ const Client = (axios, localLcdURL, remoteLcdURL) => {
         true
       )()
     },
-    getGovernanceTxs: function(addr) {
-      return Promise.all([
-        req(
-          `GET`,
-          `/txs?tag=action=submit-proposal&proposer='${addr}'`,
-          true
-        )(),
-        req(`GET`, `/txs?tag=action=deposit&depositer='${addr}'`, true)()
-      ]).then(([proposalTxs, depositTxs]) => [].concat(proposalTxs, depositTxs))
+    getProposalTally: function(proposalId) {
+      return req(`GET`, `/gov/proposals/${proposalId}/tally`, true)()
     },
+    getGovDepositParameters: req(`GET`, `/gov/parameters/deposit`, true),
+    getGovTallyingParameters: req(`GET`, `/gov/parameters/tallying`, true),
+    getGovVotingParameters: req(`GET`, `/gov/parameters/voting`, true),
     submitProposal: function(data) {
       return req(`POST`, `/gov/proposals`, true)(data)
     },
     submitProposalVote: function(proposalId, data) {
       return req(`POST`, `/gov/proposals/${proposalId}/votes`, true)(data)
     },
-    submitDeposit: function(proposalId, data) {
+    submitProposalDeposit: function(proposalId, data) {
       return req(`POST`, `/gov/proposals/${proposalId}/deposits`, true)(data)
+    },
+    getGovernanceTxs: async function(address) {
+      return await Promise.all([
+        req(`GET`, `/txs?action=submit_proposal&proposer=${address}`, true)(),
+        req(`GET`, `/txs?action=deposit&depositor=${address}`, true)()
+      ]).then(([depositorTxs, proposerTxs]) =>
+        [].concat(depositorTxs, proposerTxs)
+      )
     }
   }
 }

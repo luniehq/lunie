@@ -1,8 +1,6 @@
-"use strict"
-
+import * as Sentry from "@sentry/browser"
+import { ipcRenderer, remote } from "electron"
 import enableGoogleAnalytics from "../../google-analytics.js"
-import Raven from "raven-js"
-const { ipcRenderer, remote } = require(`electron`)
 const config = remote.getGlobal(`config`)
 
 export default ({ node }) => {
@@ -14,11 +12,11 @@ export default ({ node }) => {
     accounts: [],
     pauseHistory: false,
     history: [],
-    password: null,
     account: null,
     address: null,
     errorCollection: false,
-    stateLoaded: false // shows if the persisted state is already loaded. used to prevent overwriting the persisted state before it is loaded
+    stateLoaded: false, // shows if the persisted state is already loaded. used to prevent overwriting the persisted state before it is loaded
+    error: null
   }
 
   const mutations = {
@@ -61,15 +59,20 @@ export default ({ node }) => {
           dl: `/session/` + screen
         })
     },
-    async loadAccounts({ commit }) {
+    async loadAccounts({ commit, state }) {
+      state.loading = true
       try {
         let keys = await node.keys.values()
         commit(`setAccounts`, keys)
-      } catch (err) {
+      } catch (error) {
+        Sentry.captureException(error)
         commit(`notifyError`, {
           title: `Couldn't read keys`,
-          body: err.message
+          body: error.message
         })
+        state.error = error
+      } finally {
+        state.loading = false
       }
     },
     async testLogin(state, { password, account }) {
@@ -79,7 +82,7 @@ export default ({ node }) => {
           new_password: password,
           old_password: password
         })
-      } catch (err) {
+      } catch (error) {
         throw Error(`Incorrect passphrase`)
       }
     },
@@ -100,21 +103,21 @@ export default ({ node }) => {
       await node.keys.delete(name, { name, password })
       return true
     },
-    async signIn({ state, commit, dispatch }, { password, account }) {
-      state.password = password
+    async signIn({ state, commit, dispatch }, { account }) {
       state.account = account
       state.signedIn = true
 
       let { address } = await node.keys.get(account)
       state.address = address
 
-      dispatch(`loadPersistedState`, { password })
+      dispatch(`loadPersistedState`)
       commit(`setModalSession`, false)
+      await dispatch(`getStakingParameters`)
       dispatch(`initializeWallet`, address)
+      await dispatch(`getGovParameters`)
       dispatch(`loadErrorCollection`, account)
     },
     signOut({ state, commit, dispatch }) {
-      state.password = null
       state.account = null
       state.signedIn = false
 
@@ -124,7 +127,6 @@ export default ({ node }) => {
     resetSessionData({ state }) {
       state.atoms = 0
       state.history = []
-      state.password = null
       state.account = null
       state.address = null
     },
@@ -147,18 +149,20 @@ export default ({ node }) => {
         state.errorCollection
       )
 
-      Raven.uninstall()
-        .config(state.errorCollection ? config.sentry_dsn_public : ``)
-        .install()
       if (state.errorCollection) {
-        console.log(`Analytics enabled in browser`)
+        Sentry.init({
+          dsn: config.sentry_dsn,
+          release: `voyager@${config.version}`
+        })
         enableGoogleAnalytics(config.google_analytics_uid)
+        console.log(`Analytics and error reporting have been enabled`)
         window.analytics &&
           window.analytics.send(`pageview`, {
             dl: window.location.pathname
           })
       } else {
         console.log(`Analytics disabled in browser`)
+        Sentry.init({})
         window.analytics = null
       }
 

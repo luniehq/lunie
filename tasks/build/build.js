@@ -28,14 +28,24 @@ const updateConfig = (config, { network }) =>
     `default_network = "${path.basename(network)}"`
   )
 
-const copyGaia = (buildPath, electronVersion, platform, arch, callback) => {
+const copyGaia = options => (
+  buildPath,
+  electronVersion,
+  platform,
+  arch,
+  callback
+) => {
   const platformPath = platform === `win32` ? `windows` : platform
+  const binaryName = platform === `win32` ? `gaiacli.exe` : `gaiacli`
 
-  fs.copy(
-    path.join(__dirname, `../../builds/Gaia/${platformPath}_amd64`),
-    `${buildPath}/bin`,
-    callback
-  )
+  const binaryPath =
+    options.binaryPath === `default`
+      ? path.join(
+          __dirname,
+          `../../builds/Gaia/${platformPath}_amd64/${binaryName}`
+        )
+      : options.binaryPath
+  fs.copy(binaryPath, `${buildPath}/bin/${binaryName}`, callback)
 }
 
 /**
@@ -97,8 +107,8 @@ async function tarFolder(inDir, outDir) {
           resolve
         )
       })
-    } catch (err) {
-      console.error(`Couldn't pack file`, file, err)
+    } catch (error) {
+      console.error(`Couldn't pack file`, file, error)
       // skip this file
     }
   }
@@ -171,11 +181,11 @@ const packagerWrapper = async ({ productName, version }, options) => {
 /**
  * Use electron-packager to build electron app
  */
-const build = async platform => {
+const build = cliOptions => async platform => {
   // electron-packager options
   // Docs: https://simulatedgreg.gitbooks.io/electron-vue/content/docs/building_your_app.html
   const options = {
-    afterCopy: [copyGaia],
+    afterCopy: [copyGaia(cliOptions)],
     arch: `x64`,
     asar: false,
     dir: path.join(__dirname, `../../app`),
@@ -253,7 +263,8 @@ const buildAllPlatforms = async options => {
   )
 
   pack()
-  const buildHashes = await Promise.all([`darwin`, `linux`, `win32`].map(build))
+  const oss = options.os === `all` ? [`darwin`, `linux`, `win32`] : [options.os]
+  const buildHashes = await Promise.all(oss.map(build(options)))
   const end = new Date()
 
   console.log(
@@ -262,7 +273,9 @@ const buildAllPlatforms = async options => {
 }
 
 const optionsSpecification = {
-  network: [`name of the default network to use`, `unspecified`]
+  network: [`name of the default network to use`, `unspecified`],
+  os: [`os to build`, `all`],
+  binaryPath: [`path of gaiacli binary`, `default`]
 }
 
 if (require.main === module) {

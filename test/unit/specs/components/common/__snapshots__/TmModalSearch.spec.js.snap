@@ -12,6 +12,7 @@ exports[`TmModalSearch has the expected html structure 1`] = `
     >
       <!---->
       <!---->
+       
       <div
         class="tm-form-group__field"
       >
@@ -24,6 +25,7 @@ exports[`TmModalSearch has the expected html structure 1`] = `
             placeholder="Search..."
             type="text"
           />
+           
           <button
             class="tm-btn"
           >
@@ -36,7 +38,6 @@ exports[`TmModalSearch has the expected html structure 1`] = `
               >
                 close
               </i>
-              <!---->
               <!---->
             </span>
           </button>

@@ -1,13 +1,36 @@
-<template lang="pug">
-a.anchor-copy(@click="click")
-  i.material-icons {{ icon }}
-  | {{ label }}
+<template>
+  <a class="anchor-copy" @click="click"
+    ><i class="material-icons">{{ icon }}</i
+    >{{ label }}</a
+  >
 </template>
 
 <script>
 import { clipboard } from "electron"
 export default {
   name: `anchor-copy`,
+  props: {
+    title: {
+      type: String,
+      required: true
+    },
+    body: {
+      type: String,
+      required: true
+    },
+    value: {
+      type: String,
+      required: true
+    },
+    label: {
+      type: String,
+      required: true
+    },
+    icon: {
+      type: String,
+      required: true
+    }
+  },
   computed: {
     notifyTitle() {
       if (this.title) return this.title
@@ -27,7 +50,6 @@ export default {
         body: this.notifyBody
       })
     }
-  },
-  props: [`value`, `label`, `icon`, `title`, `body`]
+  }
 }
 </script>

@@ -1,40 +1,71 @@
 import setup from "../../../helpers/vuex-setup"
-import htmlBeautify from "html-beautify"
 import TabParameters from "renderer/components/staking/TabParameters"
-// import lcdClientMock from "renderer/connectors/lcdClientMock.js"
+import lcdClientMock from "renderer/connectors/lcdClientMock.js"
+
+let { pool, stakingParameters } = lcdClientMock.state
 
 describe(`TabParameters`, () => {
   let wrapper, store
   let { mount } = setup()
 
   beforeEach(() => {
-    let instance = mount(TabParameters)
+    let instance = mount(TabParameters, {
+      stubs: {
+        "tm-data-connecting": true,
+        "tm-data-loading": true
+      }
+    })
     wrapper = instance.wrapper
     store = instance.store
-
     store.commit(`setConnected`, true)
-    wrapper.update()
+    store.commit(`setPool`, pool)
+    store.commit(`setStakingParameters`, stakingParameters.parameters)
+    store.state.stakingParameters.loaded = true
+    store.state.pool.loaded = true
   })
 
   it(`has the expected html structure`, async () => {
-    // after importing the @tendermint/ui components from modules
-    // the perfect scroll plugin needs a $nextTick and a wrapper.update
-    // to work properly in the tests (snapshots weren't matching)
-    // this has occured across multiple tests
-    await wrapper.vm.$nextTick()
-    wrapper.update()
-    expect(htmlBeautify(wrapper.html())).toMatchSnapshot()
+    expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
-  it(`shows the staking parameters`, async () => {
-    await store.dispatch(`getParameters`)
-    wrapper.update()
-    expect(store.state.parameters).toBeDefined()
+  it(`shows the staking parameters and pool`, () => {
+    expect(store.state.stakingParameters.parameters).toEqual(
+      stakingParameters.parameters
+    )
+    expect(store.state.pool.pool).toEqual(pool)
   })
 
-  it(`shows the staking pool`, async () => {
-    await store.dispatch(`getPool`)
-    wrapper.update()
-    expect(store.state.pool).toBeDefined()
+  it(`displays unbonding period in days`, () => {
+    store.commit(`setStakingParameters`, stakingParameters.parameters)
+    expect(wrapper.vm.unbondingTimeInDays).toEqual(3)
+  })
+
+  it(`displays a message if waiting for connection`, () => {
+    store.commit(`setConnected`, false)
+    store.state.stakingParameters.loaded = false
+    expect(wrapper.contains(`tm-data-connecting-stub`)).toBe(true)
+    expect(wrapper.vm.$el).toMatchSnapshot()
+
+    store.state.stakingParameters.loaded = true
+    store.state.pool.loaded = false
+    expect(wrapper.vm.$el).toMatchSnapshot()
+    expect(wrapper.contains(`tm-data-connecting-stub`)).toBe(true)
+  })
+
+  it(`displays a message if loading`, () => {
+    store.commit(`setConnected`, true)
+    store.state.stakingParameters.loaded = false
+    store.state.stakingParameters.loading = true
+    store.state.pool.loaded = true
+    store.state.pool.loading = true
+    expect(wrapper.vm.$el).toMatchSnapshot()
+    expect(wrapper.contains(`tm-data-loading-stub`)).toBe(true)
+
+    store.state.stakingParameters.loaded = true
+    store.state.stakingParameters.loading = false
+    store.state.pool.loaded = false
+    store.state.pool.loading = true
+    expect(wrapper.vm.$el).toMatchSnapshot()
+    expect(wrapper.contains(`tm-data-loading-stub`)).toBe(true)
   })
 })

@@ -1,40 +1,50 @@
-<template lang="pug">
-tm-page(data-title="Wallet")
-  template(slot="menu-body", v-if="config.devMode"): tm-balance
-  div(slot="menu")
-    vm-tool-bar
-      a(@click='connected && updateBalances()' v-tooltip.bottom="'Refresh'" :disabled="!connected")
-        i.material-icons refresh
-      a(@click='setSearch()' v-tooltip.bottom="'Search'" :disabled="!somethingToSearch")
-        i.material-icons search
-
-  modal-search(type="balances" v-if="somethingToSearch")
-
-  tm-part(title='Your Address')
-    tm-list-item(
-      :title="wallet.address"
-      :btn="'Receive'"
-      :overflow="true")
-
-      btn-receive(slot="btn-receive")
-
-  tm-part#part-available-balances(title="Available Balances")
-    tm-data-loading(v-if="wallet.balancesLoading")
-    tm-data-msg(id="account_empty_msg" v-else-if="wallet.balances.length === 0" icon="help_outline")
-      div(slot="title") Account empty
-      div(slot="subtitle")
-        | This account doesn't hold any coins yet. Go to the&nbsp;
-        a(href="https://gaia.faucetcosmos.network/") token faucet
-        | &nbsp;to aquire tokens to play with.
-    data-empty-search(v-else-if="filteredBalances.length === 0")
-    tm-list-item.tm-li-balance(
-      v-for="i in filteredBalances"
-      v-if="wallet.balances.length > 0 && i.amount > 0"
-      :btn="'Send'"
-      :key="i.denom"
-      :dt="i.denom.toUpperCase()"
-      :dd="num.full(i.amount)"
-      :to="{name: 'send', params: {denom: i.denom}}")
+<template>
+  <tm-page data-title="Wallet">
+    <template slot="menu-body">
+      <tm-balance />
+      <tool-bar>
+        <a
+          v-tooltip.bottom="'Refresh'"
+          :disabled="!connected"
+          @click="connected && queryWalletBalances()"
+        >
+          <i class="material-icons">refresh</i>
+        </a>
+        <a
+          v-tooltip.bottom="'Search'"
+          :disabled="!somethingToSearch"
+          @click="setSearch()"
+        >
+          <i class="material-icons">search</i>
+        </a>
+      </tool-bar>
+    </template>
+    <modal-search v-if="somethingToSearch" type="balances" />
+    <tm-data-connecting v-if="!wallet.loaded && !connected" />
+    <tm-data-loading v-else-if="!wallet.loaded && wallet.loading" />
+    <tm-data-msg
+      v-else-if="wallet.balances.length === 0"
+      id="account_empty_msg"
+      icon="help_outline"
+    >
+      <div slot="title">Account empty</div>
+      <div slot="subtitle">
+        This account doesn't hold any coins yet. Go to the&nbsp;
+        <a href="https://gaia.faucetcosmos.network/">token faucet</a> &nbsp;to
+        aquire tokens to play with.
+      </div>
+    </tm-data-msg>
+    <data-empty-search v-else-if="filteredBalances.length === 0" />
+    <ul v-else>
+      <li-coin
+        v-for="coin in filteredBalances"
+        v-if="wallet.balances.length > 0 && coin.amount > 0"
+        :key="coin.denom"
+        :coin="coin"
+        class="tm-li-balance"
+      />
+    </ul>
+  </tm-page>
 </template>
 
 <script>
@@ -43,34 +53,54 @@ import { mapGetters, mapActions } from "vuex"
 import { includes, orderBy } from "lodash"
 import Mousetrap from "mousetrap"
 import DataEmptySearch from "common/TmDataEmptySearch"
+import TmDataConnecting from "common/TmDataConnecting"
 import LiCopy from "common/TmLiCopy"
-import BtnReceive from "common/TmBtnReceive"
-import {
-  TmListItem,
-  TmPage,
-  TmPart,
-  TmDataLoading,
-  TmDataMsg
-} from "@tendermint/ui"
+import LiCoin from "./LiCoin"
+import TmListItem from "common/TmListItem"
+import TmPage from "common/TmPage"
+import TmPart from "common/TmPart"
+import TmDataLoading from "common/TmDataLoading"
+import TmDataMsg from "common/TmDataMsg"
 import TmBalance from "common/TmBalance"
 import ModalSearch from "common/TmModalSearch"
-import VmToolBar from "common/VmToolBar"
+import ToolBar from "common/ToolBar"
+
+/**
+ * Page Wallet
+ * @vue-prop {Number} num Module that implements all the numerical methods
+ * @vue-computed {function} filters mapGetter
+ * @vue-computed {function} wallet mapGetter
+ * @vue-computed {function} committedDelegations mapGetter
+ * @vue-computed {function} oldBondedAtoms mapGetter
+ * @vue-computed {function} config mapGetter
+ * @vue-computed {function} connected mapGetter
+ *
+ * @vue-computed {function} somethingToSearch returns a boolean stating true if we have data and we are not in loading phase
+ * @vue-computed {function} allDenomBalances for denoms not in balances, add empty balance
+ * @vue-computed {function} filteredBalances filter the balance per coin name, returns an ordered list
+ *
+ * @vue-methods {function} updateDelegates mapAction
+ * @vue-methods {function} updateDelegates mapAction
+ * @vue-methods {function} setSearch launches the setSearchVisible action if somethingToSearch returns true
+ * @vue-methods {function} updateBalances dispatch a queryWalletBalances action to update the informations
+ */
 export default {
   name: `page-wallet`,
-  data: () => ({ num }),
   components: {
     TmBalance,
     TmDataLoading,
     TmDataMsg,
     DataEmptySearch,
+    TmDataConnecting,
+    LiCoin,
     LiCopy,
     TmListItem,
     ModalSearch,
     TmPage,
     TmPart,
-    VmToolBar,
-    BtnReceive
+    ToolBar
   },
+  data: () => ({ num }),
   computed: {
     ...mapGetters([
       `filters`,
@@ -81,7 +111,7 @@ export default {
       `connected`
     ]),
     somethingToSearch() {
-      return !this.wallet.balancesLoading && !!this.wallet.balances.length
+      return !this.wallet.loading && !!this.wallet.balances.length
     },
     allDenomBalances() {
       // for denoms not in balances, add empty balance
@@ -103,39 +133,26 @@ export default {
         [`desc`, `asc`]
       )
       if (this.filters.balances.search.visible) {
-        return list.filter(i => includes(i.denom.toLowerCase(), query))
+        return list.filter(coin =>
+          includes(JSON.stringify(coin).toLowerCase(), query.toLowerCase())
+        )
       } else {
         return list
       }
-    }
-  },
-  methods: {
-    ...mapActions([`updateDelegates`, `queryWalletState`]),
-    setSearch(bool = !this.filters[`balances`].search.visible) {
-      if (!this.somethingToSearch) return false
-      this.$store.commit(`setSearchVisible`, [`balances`, bool])
-    },
-    updateBalances() {
-      this.queryWalletState()
     }
   },
   mounted() {
     Mousetrap.bind([`command+f`, `ctrl+f`], () => this.setSearch(true))
     Mousetrap.bind(`esc`, () => this.setSearch(false))
     this.updateDelegates()
-    this.queryWalletState()
+    this.queryWalletBalances()
+  },
+  methods: {
+    ...mapActions([`updateDelegates`, `queryWalletBalances`]),
+    setSearch(bool = !this.filters[`balances`].search.visible) {
+      if (!this.somethingToSearch) return false
+      this.$store.commit(`setSearchVisible`, [`balances`, bool])
+    }
   }
 }
 </script>
-
-<style lang="stylus">
-main
-  .tm-li-label
-    max-width calc(100% - 110px)
-
-  .tm-li-title
-    white-space nowrap
-    overflow hidden
-    text-overflow ellipsis
-    width 100%
-</style>

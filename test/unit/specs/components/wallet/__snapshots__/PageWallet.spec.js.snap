@@ -15,7 +15,9 @@ exports[`PageWallet has the expected html structure 1`] = `
         class="tm-page-header-text"
       >
         <!---->
+         
         <!---->
+         
         <div
           class="tm-page-header-body"
         >
@@ -33,29 +35,34 @@ exports[`PageWallet has the expected html structure 1`] = `
                   src="~assets/images/cosmos-logo.png"
                 />
               </div>
+               
               <div
                 class="total-atoms top-section"
               >
                 <h3>
-                  Total Steak
+                  Total STAKE
                 </h3>
-                <h2>
+                 
+                <h2
+                  class="total-atoms__value"
+                >
                   1,014.0000…
                 </h2>
               </div>
+               
               <div
                 class="unbonded-atoms top-section"
               >
                 <h3>
-                  Available Steak
+                  Available STAKE
                 </h3>
+                 
                 <h2>
                   1,000.0000…
                 </h2>
               </div>
-              <!---->
-              <!---->
             </div>
+             
             <div
               class="short-bech32"
             >
@@ -63,8 +70,11 @@ exports[`PageWallet has the expected html structure 1`] = `
                 class="address"
                 id="address"
               >
-                cosmos…xxn9
+                
+    cosmos…xxn9
+  
               </div>
+               
               <div
                 class="copied"
               >
@@ -78,362 +88,271 @@ exports[`PageWallet has the expected html structure 1`] = `
                 </span>
               </div>
             </div>
+             
             <div
               class="tabs"
             />
+             
+          </div>
+           
+          <div
+            class="tm-tool-bar"
+          >
+            <a
+              class="back"
+              disabled="disabled"
+            >
+              <i
+                class="material-icons"
+              >
+                arrow_back
+              </i>
+            </a>
+             
+            <a>
+              <i
+                class="material-icons"
+              >
+                refresh
+              </i>
+            </a>
+             
+            <a>
+              <i
+                class="material-icons"
+              >
+                search
+              </i>
+            </a>
+            <a
+              class="help"
+            >
+              <i
+                class="material-icons"
+              >
+                help_outline
+              </i>
+            </a>
+             
+            <router-link-stub
+              id="settings"
+              to="/preferences"
+            >
+              <i
+                class="material-icons"
+              >
+                settings
+              </i>
+            </router-link-stub>
+            <a
+              id="signOut-btn"
+            >
+              <i
+                class="material-icons"
+              >
+                exit_to_app
+              </i>
+            </a>
           </div>
         </div>
       </div>
+       
       <menu
         class="tm-page-header-menu"
       >
-        <div>
-          <div>
-            <div
-              class="tm-tool-bar"
-            >
-              <div
-                class="tm-tool-bar-container"
-              >
-                <div
-                  class="main"
-                >
-                  <a
-                    class="back"
-                    disabled="disabled"
-                  >
-                    <i
-                      class="material-icons"
-                    >
-                      arrow_back
-                    </i>
-                  </a>
-                  <a>
-                    <i
-                      class="material-icons"
-                    >
-                      refresh
-                    </i>
-                  </a>
-                  <a>
-                    <i
-                      class="material-icons"
-                    >
-                      search
-                    </i>
-                  </a>
-                  <a
-                    class="help"
-                  >
-                    <i
-                      class="material-icons"
-                    >
-                      help_outline
-                    </i>
-                  </a>
-                  <a
-                    class="settings"
-                    href="#/preferences"
-                  >
-                    <i
-                      class="material-icons"
-                      id="settings"
-                    >
-                      settings
-                    </i>
-                  </a>
-                  <a
-                    id="signOut-btn"
-                  >
-                    <i
-                      class="material-icons"
-                    >
-                      exit_to_app
-                    </i>
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+        <div />
       </menu>
     </div>
   </header>
+   
   <main
-    class="tm-page-main ps"
+    class="tm-page-main"
   >
-    <modal-search
+     
+    <modal-search-stub
       type="balances"
     />
-    <section
-      class="tm-part"
-    >
-      <div
-        class="tm-part-container"
+     
+    <ul>
+      <li
+        class="li-coin tm-li-balance"
       >
-        <header
-          class="tm-part-header"
+        <div
+          class="li-coin__icon"
+        >
+          <img
+            src="~assets/images/cosmos-logo.png"
+          />
+        </div>
+         
+        <div
+          class="li-coin__content"
         >
           <div
-            class="tm-part-header-container"
+            class="li-coin__content__left__denom"
           >
-            <div
-              class="tm-part-title h5"
+            <p
+              class="coin-denom"
             >
-              Your Address
-            </div>
-            <menu
-              class="tm-part-menu"
-            />
+              Fermion
+            </p>
           </div>
-        </header>
-        <main
-          class="tm-part-main"
-        >
+           
           <div
-            class="tm-li tm-li-receive"
+            class="li-coin__content__left__amount"
           >
-            <div
-              class="tm-li-container"
+            <p
+              class="coin-amount"
             >
-              <div
-                class="tm-li-thumb"
+              2,300.0000000000
+            </p>
+          </div>
+           
+          <router-link-stub
+            to="[object Object]"
+          >
+            <button
+              class="tm-btn sendTx-btn"
+            >
+              <span
+                class="tm-btn__container tm-btn__icon-right tm-btn--primary"
               >
-                <!---->
-              </div>
-              <div
-                class="tm-li-label"
-              >
-                <div
-                  class="tm-li-title"
+                <i
+                  aria-hidden="true"
+                  class="tm-btn__icon material-icons"
                 >
-                  cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9
-                </div>
-                <div
-                  class="tm-li-subtitle"
-                >
-                  
-                </div>
-              </div>
-              <button
-                class="tm-btn btn-receive"
-              >
+                  chevron_right
+                </i>
                 <span
-                  class="tm-btn__container tm-btn__icon-right tm-btn--primary"
+                  class="tm-btn__value"
                 >
-                  <i
-                    aria-hidden="true"
-                    class="tm-btn__icon material-icons"
-                  >
-                    file_download
-                  </i>
-                  <!---->
-                  <span
-                    class="tm-btn__value"
-                  >
-                    Receive
-                  </span>
+                  Send
                 </span>
-              </button>
-            </div>
-          </div>
-        </main>
-      </div>
-    </section>
-    <section
-      class="tm-part"
-      id="part-available-balances"
-    >
-      <div
-        class="tm-part-container"
+              </span>
+            </button>
+          </router-link-stub>
+        </div>
+      </li>
+      <li
+        class="li-coin tm-li-balance"
       >
-        <header
-          class="tm-part-header"
+        <div
+          class="li-coin__icon"
+        >
+          <img
+            src="~assets/images/cosmos-logo.png"
+          />
+        </div>
+         
+        <div
+          class="li-coin__content"
         >
           <div
-            class="tm-part-header-container"
+            class="li-coin__content__left__denom"
           >
-            <div
-              class="tm-part-title h5"
+            <p
+              class="coin-denom"
             >
-              Available Balances
-            </div>
-            <menu
-              class="tm-part-menu"
-            />
+              Stake
+            </p>
           </div>
-        </header>
-        <main
-          class="tm-part-main"
+           
+          <div
+            class="li-coin__content__left__amount"
+          >
+            <p
+              class="coin-amount"
+            >
+              1,000.0000000000
+            </p>
+          </div>
+           
+          <router-link-stub
+            to="[object Object]"
+          >
+            <button
+              class="tm-btn sendTx-btn"
+            >
+              <span
+                class="tm-btn__container tm-btn__icon-right tm-btn--primary"
+              >
+                <i
+                  aria-hidden="true"
+                  class="tm-btn__icon material-icons"
+                >
+                  chevron_right
+                </i>
+                <span
+                  class="tm-btn__value"
+                >
+                  Send
+                </span>
+              </span>
+            </button>
+          </router-link-stub>
+        </div>
+      </li>
+      <li
+        class="li-coin tm-li-balance"
+      >
+        <div
+          class="li-coin__icon"
         >
-          <!---->
-          <a
-            class="tm-li tm-li-link tm-li-balance"
-            href="#/wallet/send/fermion"
+          <img
+            src="~assets/images/cosmos-logo.png"
+          />
+        </div>
+         
+        <div
+          class="li-coin__content"
+        >
+          <div
+            class="li-coin__content__left__denom"
           >
-            <div
-              class="tm-li-container"
+            <p
+              class="coin-denom"
             >
-              <div
-                class="tm-li-thumb"
-              >
-                <!---->
-              </div>
-              <div
-                class="tm-li-dl"
-              >
-                <div
-                  class="tm-li-dt"
-                >
-                  FERMION
-                </div>
-                <div
-                  class="tm-li-dd"
-                >
-                  2,300.0000000000
-                </div>
-              </div>
-              <button
-                class="tm-btn"
-              >
-                <span
-                  class="tm-btn__container tm-btn__icon-right tm-btn--primary"
-                >
-                  <i
-                    aria-hidden="true"
-                    class="tm-btn__icon material-icons"
-                  >
-                    chevron_right
-                  </i>
-                  <!---->
-                  <span
-                    class="tm-btn__value"
-                  >
-                    Send
-                  </span>
-                </span>
-              </button>
-            </div>
-          </a>
-          <a
-            class="tm-li tm-li-link tm-li-balance"
-            href="#/wallet/send/mycoin"
+              Mycoin
+            </p>
+          </div>
+           
+          <div
+            class="li-coin__content__left__amount"
           >
-            <div
-              class="tm-li-container"
+            <p
+              class="coin-amount"
             >
-              <div
-                class="tm-li-thumb"
-              >
-                <!---->
-              </div>
-              <div
-                class="tm-li-dl"
-              >
-                <div
-                  class="tm-li-dt"
-                >
-                  MYCOIN
-                </div>
-                <div
-                  class="tm-li-dd"
-                >
-                  1,000.0000000000
-                </div>
-              </div>
-              <button
-                class="tm-btn"
-              >
-                <span
-                  class="tm-btn__container tm-btn__icon-right tm-btn--primary"
-                >
-                  <i
-                    aria-hidden="true"
-                    class="tm-btn__icon material-icons"
-                  >
-                    chevron_right
-                  </i>
-                  <!---->
-                  <span
-                    class="tm-btn__value"
-                  >
-                    Send
-                  </span>
-                </span>
-              </button>
-            </div>
-          </a>
-          <a
-            class="tm-li tm-li-link tm-li-balance"
-            href="#/wallet/send/steak"
+              1,000.0000000000
+            </p>
+          </div>
+           
+          <router-link-stub
+            to="[object Object]"
           >
-            <div
-              class="tm-li-container"
+            <button
+              class="tm-btn sendTx-btn"
             >
-              <div
-                class="tm-li-thumb"
+              <span
+                class="tm-btn__container tm-btn__icon-right tm-btn--primary"
               >
-                <!---->
-              </div>
-              <div
-                class="tm-li-dl"
-              >
-                <div
-                  class="tm-li-dt"
+                <i
+                  aria-hidden="true"
+                  class="tm-btn__icon material-icons"
                 >
-                  STEAK
-                </div>
-                <div
-                  class="tm-li-dd"
-                >
-                  1,000.0000000000
-                </div>
-              </div>
-              <button
-                class="tm-btn"
-              >
+                  chevron_right
+                </i>
                 <span
-                  class="tm-btn__container tm-btn__icon-right tm-btn--primary"
+                  class="tm-btn__value"
                 >
-                  <i
-                    aria-hidden="true"
-                    class="tm-btn__icon material-icons"
-                  >
-                    chevron_right
-                  </i>
-                  <!---->
-                  <span
-                    class="tm-btn__value"
-                  >
-                    Send
-                  </span>
+                  Send
                 </span>
-              </button>
-            </div>
-          </a>
-        </main>
-      </div>
-    </section>
-    <div
-      class="ps__rail-x"
-      style="left: 0px; top: 0px;"
-    >
-      <div
-        class="ps__thumb-x"
-        style="left: 0px; width: 0px;"
-        tabindex="0"
-      />
-    </div>
-    <div
-      class="ps__rail-y"
-      style="top: 0px; left: 0px;"
-    >
-      <div
-        class="ps__thumb-y"
-        style="top: 0px; height: 0px;"
-        tabindex="0"
-      />
-    </div>
+              </span>
+            </button>
+          </router-link-stub>
+        </div>
+      </li>
+      <!---->
+    </ul>
   </main>
 </div>
 `;
@@ -453,7 +372,9 @@ exports[`PageWallet should filter the balances 1`] = `
         class="tm-page-header-text"
       >
         <!---->
+         
         <!---->
+         
         <div
           class="tm-page-header-body"
         >
@@ -471,29 +392,34 @@ exports[`PageWallet should filter the balances 1`] = `
                   src="~assets/images/cosmos-logo.png"
                 />
               </div>
+               
               <div
                 class="total-atoms top-section"
               >
                 <h3>
-                  Total Steak
+                  Total STAKE
                 </h3>
-                <h2>
+                 
+                <h2
+                  class="total-atoms__value"
+                >
                   1,014.0000…
                 </h2>
               </div>
+               
               <div
                 class="unbonded-atoms top-section"
               >
                 <h3>
-                  Available Steak
+                  Available STAKE
                 </h3>
+                 
                 <h2>
                   1,000.0000…
                 </h2>
               </div>
-              <!---->
-              <!---->
             </div>
+             
             <div
               class="short-bech32"
             >
@@ -501,8 +427,11 @@ exports[`PageWallet should filter the balances 1`] = `
                 class="address"
                 id="address"
               >
-                cosmos…xxn9
+                
+    cosmos…xxn9
+  
               </div>
+               
               <div
                 class="copied"
               >
@@ -516,266 +445,152 @@ exports[`PageWallet should filter the balances 1`] = `
                 </span>
               </div>
             </div>
+             
             <div
               class="tabs"
             />
+             
+          </div>
+           
+          <div
+            class="tm-tool-bar"
+          >
+            <a
+              class="back"
+              disabled="disabled"
+            >
+              <i
+                class="material-icons"
+              >
+                arrow_back
+              </i>
+            </a>
+             
+            <a>
+              <i
+                class="material-icons"
+              >
+                refresh
+              </i>
+            </a>
+             
+            <a>
+              <i
+                class="material-icons"
+              >
+                search
+              </i>
+            </a>
+            <a
+              class="help"
+            >
+              <i
+                class="material-icons"
+              >
+                help_outline
+              </i>
+            </a>
+             
+            <router-link-stub
+              id="settings"
+              to="/preferences"
+            >
+              <i
+                class="material-icons"
+              >
+                settings
+              </i>
+            </router-link-stub>
+            <a
+              id="signOut-btn"
+            >
+              <i
+                class="material-icons"
+              >
+                exit_to_app
+              </i>
+            </a>
           </div>
         </div>
       </div>
+       
       <menu
         class="tm-page-header-menu"
       >
-        <div>
-          <div>
-            <div
-              class="tm-tool-bar"
-            >
-              <div
-                class="tm-tool-bar-container"
-              >
-                <div
-                  class="main"
-                >
-                  <a
-                    class="back"
-                    disabled="disabled"
-                  >
-                    <i
-                      class="material-icons"
-                    >
-                      arrow_back
-                    </i>
-                  </a>
-                  <a>
-                    <i
-                      class="material-icons"
-                    >
-                      refresh
-                    </i>
-                  </a>
-                  <a>
-                    <i
-                      class="material-icons"
-                    >
-                      search
-                    </i>
-                  </a>
-                  <a
-                    class="help"
-                  >
-                    <i
-                      class="material-icons"
-                    >
-                      help_outline
-                    </i>
-                  </a>
-                  <a
-                    class="settings"
-                    href="#/preferences"
-                  >
-                    <i
-                      class="material-icons"
-                      id="settings"
-                    >
-                      settings
-                    </i>
-                  </a>
-                  <a
-                    id="signOut-btn"
-                  >
-                    <i
-                      class="material-icons"
-                    >
-                      exit_to_app
-                    </i>
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+        <div />
       </menu>
     </div>
   </header>
+   
   <main
-    class="tm-page-main ps"
+    class="tm-page-main"
   >
-    <modal-search
+     
+    <modal-search-stub
       type="balances"
     />
-    <section
-      class="tm-part"
-    >
-      <div
-        class="tm-part-container"
+     
+    <ul>
+      <li
+        class="li-coin tm-li-balance"
       >
-        <header
-          class="tm-part-header"
+        <div
+          class="li-coin__icon"
+        >
+          <img
+            src="~assets/images/cosmos-logo.png"
+          />
+        </div>
+         
+        <div
+          class="li-coin__content"
         >
           <div
-            class="tm-part-header-container"
+            class="li-coin__content__left__denom"
           >
-            <div
-              class="tm-part-title h5"
+            <p
+              class="coin-denom"
             >
-              Your Address
-            </div>
-            <menu
-              class="tm-part-menu"
-            />
+              Stake
+            </p>
           </div>
-        </header>
-        <main
-          class="tm-part-main"
-        >
+           
           <div
-            class="tm-li tm-li-receive"
+            class="li-coin__content__left__amount"
           >
-            <div
-              class="tm-li-container"
+            <p
+              class="coin-amount"
             >
-              <div
-                class="tm-li-thumb"
+              1,000.0000000000
+            </p>
+          </div>
+           
+          <router-link-stub
+            to="[object Object]"
+          >
+            <button
+              class="tm-btn sendTx-btn"
+            >
+              <span
+                class="tm-btn__container tm-btn__icon-right tm-btn--primary"
               >
-                <!---->
-              </div>
-              <div
-                class="tm-li-label"
-              >
-                <div
-                  class="tm-li-title"
+                <i
+                  aria-hidden="true"
+                  class="tm-btn__icon material-icons"
                 >
-                  cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9
-                </div>
-                <div
-                  class="tm-li-subtitle"
-                >
-                  
-                </div>
-              </div>
-              <button
-                class="tm-btn btn-receive"
-              >
+                  chevron_right
+                </i>
                 <span
-                  class="tm-btn__container tm-btn__icon-right tm-btn--primary"
+                  class="tm-btn__value"
                 >
-                  <i
-                    aria-hidden="true"
-                    class="tm-btn__icon material-icons"
-                  >
-                    file_download
-                  </i>
-                  <!---->
-                  <span
-                    class="tm-btn__value"
-                  >
-                    Receive
-                  </span>
+                  Send
                 </span>
-              </button>
-            </div>
-          </div>
-        </main>
-      </div>
-    </section>
-    <section
-      class="tm-part"
-      id="part-available-balances"
-    >
-      <div
-        class="tm-part-container"
-      >
-        <header
-          class="tm-part-header"
-        >
-          <div
-            class="tm-part-header-container"
-          >
-            <div
-              class="tm-part-title h5"
-            >
-              Available Balances
-            </div>
-            <menu
-              class="tm-part-menu"
-            />
-          </div>
-        </header>
-        <main
-          class="tm-part-main"
-        >
-          <!---->
-          <a
-            class="tm-li tm-li-link tm-li-balance"
-            href="#/wallet/send/steak"
-          >
-            <div
-              class="tm-li-container"
-            >
-              <div
-                class="tm-li-thumb"
-              >
-                <!---->
-              </div>
-              <div
-                class="tm-li-dl"
-              >
-                <div
-                  class="tm-li-dt"
-                >
-                  STEAK
-                </div>
-                <div
-                  class="tm-li-dd"
-                >
-                  1,000.0000000000
-                </div>
-              </div>
-              <button
-                class="tm-btn"
-              >
-                <span
-                  class="tm-btn__container tm-btn__icon-right tm-btn--primary"
-                >
-                  <i
-                    aria-hidden="true"
-                    class="tm-btn__icon material-icons"
-                  >
-                    chevron_right
-                  </i>
-                  <!---->
-                  <span
-                    class="tm-btn__value"
-                  >
-                    Send
-                  </span>
-                </span>
-              </button>
-            </div>
-          </a>
-        </main>
-      </div>
-    </section>
-    <div
-      class="ps__rail-x"
-      style="left: 0px; top: 0px;"
-    >
-      <div
-        class="ps__thumb-x"
-        style="left: 0px; width: 0px;"
-        tabindex="0"
-      />
-    </div>
-    <div
-      class="ps__rail-y"
-      style="top: 0px; left: 0px;"
-    >
-      <div
-        class="ps__thumb-y"
-        style="top: 0px; height: 0px;"
-        tabindex="0"
-      />
-    </div>
+              </span>
+            </button>
+          </router-link-stub>
+        </div>
+      </li>
+    </ul>
   </main>
 </div>
 `;

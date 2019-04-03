@@ -1,25 +1,30 @@
-<template lang="pug">
-tm-page(data-title="Staking").staking
-  template(slot="menu-body")
-    tm-balance(:tabs="tabs")
-
-  div(slot="menu"): vm-tool-bar
-    a(@click='connected && updateDelegates()' v-tooltip.bottom="'Refresh'" :disabled="!connected")
-      i.material-icons refresh
-    a(@click='setSearch()' v-tooltip.bottom="'Search'")
-      i.search.material-icons search
-
-  modal-search(type="delegates")
-
-  router-view
+<template>
+  <tm-page class="staking" data-title="Staking"
+    ><template slot="menu-body">
+      <tm-balance :tabs="tabs" />
+      <tool-bar
+        ><a
+          v-tooltip.bottom="'Refresh'"
+          :disabled="!connected"
+          @click="connected && updateDelegates()"
+          ><i class="material-icons">refresh</i></a
+        ><a v-tooltip.bottom="'Search'" @click="setSearch()"
+          ><i class="search material-icons">search</i></a
+        ></tool-bar
+      >
+    </template>
+    <modal-search type="delegates" />
+    <router-view />
+  </tm-page>
 </template>
 
 <script>
 import { mapGetters, mapActions } from "vuex"
 import Mousetrap from "mousetrap"
-import { TmPage } from "@tendermint/ui"
+import TmPage from "common/TmPage"
 import ModalSearch from "common/TmModalSearch"
-import VmToolBar from "common/VmToolBar"
+import PerfectScrollbar from "perfect-scrollbar"
+import ToolBar from "common/ToolBar"
 import TmBalance from "common/TmBalance"
 export default {
   name: `page-staking`,
@@ -27,27 +32,45 @@ export default {
     ModalSearch,
     TmPage,
     TmBalance,
-    VmToolBar
+    ToolBar
   },
   data: () => ({
     query: ``,
-    tabs: [`My Delegations`, `Validators`]
+    tabs: [
+      {
+        displayName: `My Delegations`,
+        pathName: `My Delegations`
+      },
+      {
+        displayName: `Validators`,
+        pathName: `Validators`
+      },
+      {
+        displayName: `Parameters`,
+        pathName: `Staking Parameters`
+      }
+    ]
   }),
   computed: {
     ...mapGetters([`connected`, `delegates`, `filters`])
+  },
+  mounted() {
+    this.ps = new PerfectScrollbar(this.$el.querySelector(`.tm-page-main`))
+
+    Mousetrap.bind([`command+f`, `ctrl+f`], () => this.setSearch(true))
+    Mousetrap.bind(`esc`, () => this.setSearch(false))
+
+    // XXX temporary because querying the shares shows old shares after bonding
+    // this.updateDelegates()
+  },
+  updated() {
+    this.$el.querySelector(`.tm-page-main`).scrollTop = 0
   },
   methods: {
     setSearch(bool = !this.filters[`delegates`].search.visible) {
       this.$store.commit(`setSearchVisible`, [`delegates`, bool])
     },
     ...mapActions([`updateDelegates`])
-  },
-  async mounted() {
-    Mousetrap.bind([`command+f`, `ctrl+f`], () => this.setSearch(true))
-    Mousetrap.bind(`esc`, () => this.setSearch(false))
-
-    // XXX temporary because querying the shares shows old shares after bonding
-    // this.updateDelegates()
   }
 }
 </script>

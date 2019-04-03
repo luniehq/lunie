@@ -1,3 +1,5 @@
+import * as Sentry from "@sentry/browser"
+
 export default ({ node }) => {
   const state = {
     blockMetaInfo: { block_id: {} },
@@ -5,7 +7,9 @@ export default ({ node }) => {
     subscription: false,
     syncing: true,
     blockMetas: {},
-    subscribedRPC: null
+    subscribedRPC: null,
+    loading: false,
+    error: null
   }
 
   const mutations = {
@@ -33,36 +37,41 @@ export default ({ node }) => {
       dispatch(`subscribeToBlocks`)
     },
     async queryBlockInfo({ state, commit }, height) {
-      if (!height) {
-        commit(`notifyError`, {
-          title: `Couldn't query block`,
-          body: `No Height Provided`
-        })
-        return
-      }
-      let blockMetaInfo = state.blockMetas[height]
-      if (blockMetaInfo) {
-        return blockMetaInfo
-      }
-      blockMetaInfo = await new Promise(resolve => {
-        node.rpc.blockchain(
-          { minHeight: height, maxHeight: height },
-          (err, data) => {
-            if (err) {
-              commit(`notifyError`, {
-                title: `Couldn't query block`,
-                body: err.message
-              })
-              resolve(null)
-            } else {
-              resolve(data.block_metas && data.block_metas[0])
+      try {
+        let blockMetaInfo = state.blockMetas[height]
+        if (blockMetaInfo) {
+          return blockMetaInfo
+        }
+        state.loading = true
+        blockMetaInfo = await new Promise((resolve, reject) => {
+          node.rpc.blockchain(
+            { minHeight: String(height), maxHeight: String(height) },
+            (error, data) => {
+              if (error) {
+                reject(new Error(`Couldn't query block. ${error.message}`))
+              } else {
+                resolve(data.block_metas && data.block_metas[0])
+              }
             }
-          }
-        )
-      })
+          )
+        })
+        state.loading = false
 
-      commit(`setBlockMetas`, { ...state.blockMetas, [height]: blockMetaInfo })
-      return blockMetaInfo
+        commit(`setBlockMetas`, {
+          ...state.blockMetas,
+          [height]: blockMetaInfo
+        })
+        return blockMetaInfo
+      } catch (error) {
+        commit(`notifyError`, {
+          title: `Error fetching block information`,
+          body: error.message
+        })
+        Sentry.captureException(error)
+        state.loading = false
+        state.error = error.message
+        return null
+      }
     },
     subscribeToBlocks({ state, commit, dispatch }) {
       // ensure we never subscribe twice
@@ -70,13 +79,13 @@ export default ({ node }) => {
       if (state.subscribedRPC === node.rpc) return false
       commit(`setSubscribedRPC`, node.rpc)
 
-      function error(err) {
+      function handleError(error) {
         dispatch(`nodeHasHalted`)
-        console.error(err.message)
+        state.error = error
       }
 
-      node.rpc.status((err, status) => {
-        if (err) return error(err)
+      node.rpc.status((error, status) => {
+        if (error) return handleError(error)
         commit(`setBlockHeight`, status.sync_info.latest_block_height)
         if (status.sync_info.catching_up) {
           // still syncing, let's try subscribing again in 30 seconds
@@ -89,10 +98,10 @@ export default ({ node }) => {
         commit(`setSyncing`, false)
 
         // only subscribe if the node is not catching up anymore
-        node.rpc.subscribe({ query: `tm.event = 'NewBlock'` }, err => {
-          commit(`setSubscription`, true)
+        node.rpc.subscribe({ query: `tm.event = 'NewBlock'` }, error => {
+          if (error) return handleError(error)
 
-          if (err) return error(err)
+          if (state.subscription === false) commit(`setSubscription`, true)
         })
       })
       return true

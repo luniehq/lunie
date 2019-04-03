@@ -1,15 +1,31 @@
-<template lang="pug">
-tm-btn.btn-copy(
-  icon="content_copy"
-  @click.native="click"
-  value="Copy")
+<template>
+  <tm-btn
+    class="btn-copy"
+    icon="content_copy"
+    value="Copy"
+    @click.native="click"
+  />
 </template>
 
 <script>
 import { clipboard } from "electron"
-import { TmBtn } from "@tendermint/ui"
+import TmBtn from "common/TmBtn"
 export default {
   components: { TmBtn },
+  props: {
+    title: {
+      type: String,
+      default: null
+    },
+    body: {
+      type: String,
+      default: null
+    },
+    value: {
+      type: String,
+      required: true
+    }
+  },
   computed: {
     notifyTitle() {
       if (this.title) return this.title
@@ -34,7 +50,6 @@ export default {
         body: this.notifyBody
       })
     }
-  },
-  props: [`value`, `title`, `body`]
+  }
 }
 </script>

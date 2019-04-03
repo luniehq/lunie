@@ -1,15 +1,17 @@
-"use strict"
-
+import * as Sentry from "@sentry/browser"
 import BN from "bignumber.js"
 import { ratToBigNumber } from "scripts/common"
 import num from "scripts/num"
 import { isEmpty } from "lodash"
 import b32 from "scripts/b32"
+
 export default ({ node }) => {
   const emptyState = {
     delegates: [],
     globalPower: null,
-    loading: false
+    loading: false,
+    loaded: false,
+    error: null
   }
   const state = JSON.parse(JSON.stringify(emptyState))
 
@@ -67,34 +69,48 @@ export default ({ node }) => {
       }
       commit(`setDelegates`, validators)
     },
-    async getDelegates({ commit, dispatch }) {
+    async getDelegates({ commit, dispatch, rootState }) {
       commit(`setDelegateLoading`, true)
-      let validators = await node.getCandidates()
-      let { validators: validatorSet } = await node.getValidatorSet()
-      for (let validator of validators) {
-        validator.isValidator = false
-        if (validatorSet.find(v => v.pub_key === validator.pub_key)) {
-          validator.isValidator = true
+
+      if (!rootState.connection.connected) return
+
+      try {
+        let validators = await node.getCandidates()
+        let { validators: validatorSet } = await node.getValidatorSet()
+        state.error = null
+        state.loading = false
+        state.loaded = true
+
+        for (let validator of validators) {
+          validator.isValidator = false
+          if (validatorSet.find(v => v.pub_key === validator.pub_key)) {
+            validator.isValidator = true
+          }
         }
-      }
-      // the tokens and shares are currently served in a weird format that is a amino representation of a float value
-      validators = validators.map(validator => {
-        return Object.assign(JSON.parse(JSON.stringify(validator)), {
-          tokens: ratToBigNumber(validator.tokens)
-            .div(10000000000)
-            .toString(),
-          delegator_shares: ratToBigNumber(validator.delegator_shares)
-            .div(10000000000)
-            .toString()
+        // the tokens and shares are currently served in a weird format that is a amino representation of a float value
+        validators = validators.map(validator => {
+          return Object.assign(JSON.parse(JSON.stringify(validator)), {
+            tokens: validator.tokens,
+            delegator_shares: validator.delegator_shares
+          })
         })
-      })
 
-      commit(`setDelegates`, validators)
-      commit(`setDelegateLoading`, false)
-      dispatch(`getKeybaseIdentities`, validators)
-      dispatch(`updateSigningInfo`, validators)
+        commit(`setDelegates`, validators)
+        commit(`setDelegateLoading`, false)
+        dispatch(`getKeybaseIdentities`, validators)
+        dispatch(`updateSigningInfo`, validators)
 
-      return validators
+        return validators
+      } catch (error) {
+        commit(`notifyError`, {
+          title: `Error fetching validators`,
+          body: error.message
+        })
+        Sentry.captureException(error)
+        commit(`setDelegateLoading`, false)
+        state.error = error
+        return []
+      }
     },
     async getSelfBond({ commit }, validator) {
       if (validator.selfBond) return validator.selfBond

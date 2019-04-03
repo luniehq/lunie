@@ -1,4 +1,6 @@
 "use strict"
+
+const moment = require(`moment`)
 const b32 = require(`../scripts/b32.js`)
 const { getHeight } = require(`./rpcWrapperMock.js`)
 
@@ -33,7 +35,7 @@ let state = {
           amount: `2300`
         },
         {
-          denom: `steak`,
+          denom: `STAKE`,
           amount: `1000`
         }
       ],
@@ -133,7 +135,7 @@ let state = {
                 description: `This is a test proposal`,
                 initial_deposit: [
                   {
-                    denom: `stake`,
+                    denom: `STAKE`,
                     amount: `100`
                   }
                 ]
@@ -153,11 +155,11 @@ let state = {
             {
               type: `cosmos-sdk/MsgDeposit`,
               value: {
-                depositer: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
+                depositor: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
                 proposal_id: `1`,
                 amount: [
                   {
-                    denom: `stake`,
+                    denom: `STAKE`,
                     amount: `100`
                   }
                 ]
@@ -178,7 +180,7 @@ let state = {
                 delegator_addr: addresses[0],
                 delegation: {
                   amount: `24`,
-                  denom: `steak`
+                  denom: `STAKE`
                 }
               }
             }
@@ -213,7 +215,7 @@ let state = {
         {
           delegator_addr: addresses[0],
           validator_addr: validators[0],
-          shares: `140000000000`,
+          shares: `14`,
           height: 123
         }
       ],
@@ -226,8 +228,8 @@ let state = {
       operator_address: validators[0],
       pub_key: `cosmosvalpub1234`,
       revoked: false,
-      tokens: `140000000000`,
-      delegator_shares: `140000000000`,
+      tokens: `14`,
+      delegator_shares: `14`,
       description: {
         website: `www.monty.ca`,
         details: `Mr Mounty`,
@@ -273,8 +275,8 @@ let state = {
     {
       operator_address: validators[2],
       pub_key: `cosmosvalpub8910`,
-      tokens: `190000000000`,
-      delegator_shares: `190000000000`,
+      tokens: `19`,
+      delegator_shares: `19`,
       description: {
         details: `Herr Schmidt`,
         website: `www.schmidt.de`,
@@ -296,20 +298,34 @@ let state = {
     }
   ],
   pool: {
-    loose_tokens: 0,
-    bonded_tokens: 0,
-    inflation_last_time: `1970-01-01 01:00:00 +0100 CET`,
-    inflation: `700000000`,
-    date_last_commission_reset: 0,
-    prev_bonded_shares: 0
+    loose_tokens: `100.0000000000`,
+    bonded_tokens: `50.0000000000`
   },
-  parameters: {
-    inflation_max: `20000000000`,
-    inflation_min: `700000000`,
-    goal_bonded: `6700000000`,
-    unbonding_time: `72h0m0s`,
-    max_validators: 100,
-    bond_denom: `steak`
+  stakingParameters: {
+    parameters: {
+      unbonding_time: `259200000000000`,
+      max_validators: 100,
+      bond_denom: `STAKE`
+    }
+  },
+  governanceParameters: {
+    deposit: {
+      min_deposit: [
+        {
+          denom: `STAKE`,
+          amount: `10.0000000000`
+        }
+      ],
+      max_deposit_period: `86400000000000`
+    },
+    tallying: {
+      threshold: `0.5000000000`,
+      veto: `0.3340000000`,
+      governance_penalty: `0.0100000000`
+    },
+    voting: {
+      voting_period: `86400000000000`
+    }
   },
   sendHeight: 2,
   signing_info: {
@@ -318,26 +334,28 @@ let state = {
     jailed_until: `1970-01-01T00:00:00Z`,
     signed_blocks_counter: 1
   },
-  proposals: [
-    {
+  proposals: {
+    "1": {
       proposal_id: `1`,
       proposal_type: `Text`,
       title: `Proposal Title`,
       description: `Proposal description`,
       initial_deposit: [
         {
-          denom: `stake`,
+          denom: `STAKE`,
           amount: `100`
         }
       ],
       total_deposit: [
         {
-          denom: `stake`,
+          denom: `STAKE`,
           amount: `100`
         }
       ],
-      submit_block: `120`,
-      voting_start_block: `135`,
+      submit_time: `2018-11-21T13:29:24.66404Z`,
+      deposit_end_time: `2018-11-23T13:29:24.66404Z`,
+      voting_start_time: `2018-11-23T13:29:24.66404Z`,
+      voting_end_time: `2018-11-25T13:29:24.66404Z`,
       proposal_status: `Passed`,
       tally_result: {
         yes: `500`,
@@ -346,26 +364,28 @@ let state = {
         abstain: `56`
       }
     },
-    {
+    "2": {
       proposal_id: `2`,
       proposal_type: `Text`,
-      title: `Active proposal`,
+      title: `VotingPeriod proposal`,
       description: `custom text proposal description`,
       initial_deposit: [
         {
-          denom: `stake`,
+          denom: `STAKE`,
           amount: `200`
         }
       ],
       total_deposit: [
         {
-          denom: `stake`,
+          denom: `STAKE`,
           amount: `200`
         }
       ],
-      submit_block: `10`,
-      voting_start_block: `10`,
-      proposal_status: `Active`,
+      submit_time: `2018-11-21T13:29:24.66404Z`,
+      deposit_end_time: `2018-11-23T13:29:24.66404Z`,
+      voting_start_time: `2018-11-23T13:29:24.66404Z`,
+      voting_end_time: `2018-11-25T13:29:24.66404Z`,
+      proposal_status: `VotingPeriod`,
       tally_result: {
         yes: `0`,
         no: `0`,
@@ -373,97 +393,201 @@ let state = {
         abstain: `0`
       }
     },
-    {
+    "5": {
       proposal_id: `5`,
       proposal_type: `Text`,
       title: `Custom text proposal`,
       description: `custom text proposal description`,
       initial_deposit: [
         {
-          denom: `stake`,
-          amount: `15`
+          denom: `STAKE`,
+          amount: `20`
         }
       ],
       total_deposit: [
         {
-          denom: `stake`,
-          amount: `15`
+          denom: `STAKE`,
+          amount: `170`
         }
       ],
-      submit_block: `10`,
-      voting_start_block: `-1`,
-      proposal_status: `Pending`,
+      submit_time: `2018-11-21T13:29:24.66404Z`,
+      deposit_end_time: `2018-11-23T13:29:24.66404Z`,
+      voting_start_time: `0001-01-01T00:00:00Z`,
+      voting_end_time: `0001-01-01T00:00:00Z`,
+      proposal_status: `DepositPeriod`,
       tally_result: {
         yes: `0`,
         no: `0`,
         no_with_veto: `0`,
         abstain: `0`
       }
+    },
+    "6": {
+      proposal_id: `6`,
+      proposal_type: `Text`,
+      title: `Rejected proposal`,
+      description: `this proposal was rejected`,
+      initial_deposit: [
+        {
+          denom: `STAKE`,
+          amount: `100`
+        }
+      ],
+      total_deposit: [
+        {
+          denom: `STAKE`,
+          amount: `100`
+        }
+      ],
+      submit_time: `2018-11-21T13:29:24.66404Z`,
+      deposit_end_time: `2018-11-23T13:29:24.66404Z`,
+      voting_start_time: `2018-11-23T13:29:24.66404Z`,
+      voting_end_time: `2018-11-25T13:29:24.66404Z`,
+      proposal_status: `Rejected`,
+      tally_result: {
+        yes: `10`,
+        no: `30`,
+        no_with_veto: `100`,
+        abstain: `20`
+      }
     }
-  ],
+  },
+  tallies: {
+    "1": {
+      yes: `500`,
+      no: `25`,
+      no_with_veto: `10`,
+      abstain: `56`
+    },
+    "2": {
+      yes: `0`,
+      no: `0`,
+      no_with_veto: `0`,
+      abstain: `0`
+    },
+    "5": {
+      yes: `0`,
+      no: `0`,
+      no_with_veto: `0`,
+      abstain: `0`
+    },
+    "6": {
+      yes: `10`,
+      no: `30`,
+      no_with_veto: `100`,
+      abstain: `20`
+    }
+  },
   votes: {
-    1: [
+    "1": [
       {
         proposal_id: `1`,
         voter: validators[0],
-        option: `yes`
+        option: `Yes`
       },
       {
         proposal_id: `1`,
         voter: validators[1],
-        option: `no_with_veto`
+        option: `NoWithVeto`
       }
     ],
-    2: [],
-    5: [
+    "2": [],
+    "5": [
       {
         proposal_id: `5`,
         voter: validators[0],
-        option: `no`
+        option: `No`
       },
       {
         proposal_id: `5`,
         voter: validators[1],
-        option: `abstain`
+        option: `Abstain`
+      }
+    ],
+    "6": [
+      {
+        proposal_id: `6`,
+        voter: validators[0],
+        option: `No`
+      },
+      {
+        proposal_id: `6`,
+        voter: validators[1],
+        option: `NoWithVeto`
       }
     ]
   },
   deposits: {
-    1: [
+    "1": [
       {
         proposal_id: `1`,
-        depositer: validators[0],
-        amount: {
-          denom: `stake`,
-          amount: `15`
-        }
+        depositor: validators[0],
+        amount: [
+          {
+            denom: `STAKE`,
+            amount: `15`
+          },
+          {
+            denom: `STAKE`,
+            amount: `5`
+          }
+        ]
       },
       {
         proposal_id: `1`,
-        depositer: validators[1],
-        amount: {
-          denom: `stake`,
-          amount: `5`
-        }
+        depositor: validators[1],
+        amount: [
+          {
+            denom: `STAKE`,
+            amount: `5`
+          }
+        ]
       }
     ],
-    2: [],
-    5: [
+    "2": [
+      {
+        proposal_id: `2`,
+        depositor: validators[0],
+        amount: [
+          {
+            denom: `STAKE`,
+            amount: `200`
+          }
+        ]
+      }
+    ],
+    "5": [
       {
         proposal_id: `5`,
-        depositer: validators[0],
-        amount: {
-          denom: `stake`,
-          amount: `11`
-        }
+        depositor: validators[0],
+        amount: [
+          {
+            denom: `STAKE`,
+            amount: `20`
+          }
+        ]
       },
       {
         proposal_id: `5`,
-        depositer: validators[1],
-        amount: {
-          denom: `stake`,
-          amount: `150`
-        }
+        depositor: validators[1],
+        amount: [
+          {
+            denom: `STAKE`,
+            amount: `150`
+          }
+        ]
+      }
+    ],
+    "6": [
+      {
+        proposal_id: `6`,
+        depositor: validators[0],
+        amount: [
+          {
+            denom: `STAKE`,
+            amount: `100`
+          }
+        ]
       }
     ]
   }
@@ -552,16 +676,101 @@ module.exports = {
   },
 
   // staking
-  async updateDelegations(
+  async postDelegation(
     delegatorAddr,
     {
       base_req: { name, sequence },
-      delegations = [],
-      begin_unbondings = [],
-      begin_redelegates = []
+      delegator_addr,
+      validator_addr,
+      delegation
     }
   ) {
-    let results = []
+    let fromKey = state.keys.find(a => a.name === name)
+    let fromAccount = state.accounts[fromKey.address]
+    let delegator = state.stake[fromKey.address]
+    if (delegator_addr !== fromKey.address) {
+      return txResult(1, `Must use own delegator account`)
+    }
+    if (!delegator) {
+      state.stake[fromKey.address] = {
+        delegations: [],
+        unbonding_delegations: []
+      }
+      delegator = state.stake[fromKey.address]
+    }
+    if (fromAccount == null) {
+      return txResult(1, `Nonexistent account`)
+    }
+    // check nonce
+    if (parseInt(fromAccount.sequence) !== parseInt(sequence)) {
+      return txResult(
+        2,
+        `Expected sequence "${fromAccount.sequence}", got "${sequence}"`
+      )
+    }
+    let denom = state.stakingParameters.parameters.bond_denom
+    let amount = parseInt(delegation.amount)
+    if (amount < 0) {
+      return txResult(1, `Amount cannot be negative`)
+    }
+    if (fromAccount.coins.find(c => c.denom === denom).amount < amount) {
+      return txResult(1, `Not enough coins in your account`)
+    }
+    // update sender account
+    incrementSequence(fromAccount)
+    fromAccount.coins.find(c => c.denom === denom).amount -= amount
+
+    // update stake
+    let existingDelegation = delegator.delegations.find(
+      d => d.validator_addr === validator_addr
+    )
+    if (!existingDelegation) {
+      delegation = {
+        delegator_addr: fromKey.address,
+        validator_addr: validator_addr,
+        shares: `0`,
+        height: 0
+      }
+      delegator.delegations.push(delegation)
+    }
+
+    let shares = parseInt(delegation.shares)
+    delegation.shares = (shares + amount).toString()
+    let candidate = state.candidates.find(
+      c => c.operator_address === validator_addr
+    )
+    // TODO: Update error msg
+    if (candidate.revoked) {
+      throw new Error(`checkTx failed: (262245) Msg 0 failed: === ABCI Log ===
+Codespace: 4
+Code:      101
+ABCICode:  262245
+Error:     --= Error =--
+Data: common.FmtError{format:"validator for this address is currently revoked", args:[]interface {}(nil)}
+Msg Traces:
+--= /Error =--
+
+=== /ABCI Log ===`)
+    }
+
+    updateValidatorShares(state, validator_addr, amount)
+
+    storeTx(`cosmos-sdk/MsgDelegate`, {
+      delegator_addr,
+      validator_addr,
+      delegation
+    })
+    return txResult(0)
+  },
+  async postUnbondingDelegation(
+    delegatorAddr,
+    {
+      base_req: { name, sequence },
+      validator_addr,
+      delegator_addr,
+      shares
+    }
+  ) {
     let fromKey = state.keys.find(a => a.name === name)
     let fromAccount = state.accounts[fromKey.address]
     let delegator = state.stake[fromKey.address]
@@ -573,237 +782,198 @@ module.exports = {
       delegator = state.stake[fromKey.address]
     }
     if (fromAccount == null) {
-      results.push(txResult(1, `Nonexistent account`))
-      return results
+      return txResult(1, `Nonexistent account`)
     }
     // check nonce
     if (parseInt(fromAccount.sequence) !== parseInt(sequence)) {
-      results.push(
-        txResult(
-          2,
-          `Expected sequence "${fromAccount.sequence}", got "${sequence}"`
-        )
+      return txResult(
+        2,
+        `Expected sequence "${fromAccount.sequence}", got "${sequence}"`
       )
-      return results
     }
-    for (let tx of delegations) {
-      let { denom } = tx.delegation
-      let amount = parseInt(tx.delegation.amount)
-      if (amount < 0) {
-        results.push(txResult(1, `Amount cannot be negative`))
-        return results
-      }
-      if (fromAccount.coins.find(c => c.denom === denom).amount < amount) {
-        results.push(txResult(1, `Not enough coins in your account`))
-        return results
-      }
-      // update sender account
-      incrementSequence(fromAccount)
-      fromAccount.coins.find(c => c.denom === denom).amount -= amount
+    incrementSequence(fromAccount)
 
-      // update stake
-      let delegation = delegator.delegations.find(
-        d => d.validator_addr === tx.validator_addr
-      )
-      if (!delegation) {
-        delegation = {
-          delegator_addr: fromKey.address,
-          validator_addr: tx.validator_addr,
-          shares: `0`,
-          height: 0
+    let amount = parseInt(shares)
+
+    // update stake
+    let delegation = delegator.delegations.find(
+      d => d.validator_addr === validator_addr
+    )
+    if (!delegation) {
+      return txResult(2, `Nonexistent delegation`)
+    }
+
+    // update sender balance
+    let coinBalance = fromAccount.coins.find(
+      c => c.denom === state.stakingParameters.parameters.bond_denom
+    )
+
+    coinBalance.amount = String(parseInt(coinBalance.amount) + amount)
+
+    let delegationShares = parseInt(delegation.shares)
+    delegation.shares = (+delegationShares - amount).toString()
+
+    updateValidatorShares(state, validator_addr, amount)
+
+    delegator.unbonding_delegations.push(
+      Object.assign(
+        {},
+        { validator_addr, delegator_addr, shares },
+        {
+          balance: { amount: shares }
         }
-        delegator.delegations.push(delegation)
-      }
-
-      // TODO remove after sdk.Dec parsing is fixed
-      amount = amount * 10000000000
-
-      let shares = parseInt(delegation.shares)
-      delegation.shares = (shares + amount).toString()
-      let candidate = state.candidates.find(
-        c => c.operator_address === tx.validator_addr
       )
-      // TODO: Update error msg
-      if (candidate.revoked) {
-        throw new Error(`checkTx failed: (262245) Msg 0 failed: === ABCI Log ===
-  Codespace: 4
-  Code:      101
-  ABCICode:  262245
-  Error:     --= Error =--
-  Data: common.FmtError{format:"validator for this address is currently revoked", args:[]interface {}(nil)}
-  Msg Traces:
-  --= /Error =--
+    )
 
-  === /ABCI Log ===`)
+    storeTx(`cosmos-sdk/BeginUnbonding`, {
+      validator_addr,
+      delegator_addr,
+      shares
+    })
+    return txResult(0)
+  },
+  async postRedelegation(
+    delegatorAddr,
+    {
+      base_req: { name, sequence },
+      validator_src_addr,
+      validator_dst_addr,
+      delegator_addr,
+      shares
+    }
+  ) {
+    let fromKey = state.keys.find(a => a.name === name)
+    let fromAccount = state.accounts[fromKey.address]
+    let delegator = state.stake[fromKey.address]
+    if (!delegator) {
+      state.stake[fromKey.address] = {
+        delegations: [],
+        unbonding_delegations: []
       }
+      delegator = state.stake[fromKey.address]
+    }
+    if (fromAccount == null) {
+      return txResult(1, `Nonexistent account`)
+    }
+    // check nonce
+    if (parseInt(fromAccount.sequence) !== parseInt(sequence)) {
+      return txResult(
+        2,
+        `Expected sequence "${fromAccount.sequence}", got "${sequence}"`
+      )
+    }
+    incrementSequence(fromAccount)
 
-      updateValidatorShares(state, tx.validator_addr, amount)
+    // check if source validator exist
+    let srcValidator = state.candidates.find(
+      c => c.operator_address === validator_src_addr
+    )
 
-      storeTx(`cosmos-sdk/MsgDelegate`, tx)
-      results.push(txResult(0))
+    if (!srcValidator) {
+      return txResult(3, `Nonexistent source validator`)
     }
 
-    for (let tx of begin_unbondings) {
-      incrementSequence(fromAccount)
+    // check if dest validator exist
+    let dstValidator = state.candidates.find(
+      c => c.operator_address === validator_dst_addr
+    )
 
-      let amount = parseInt(tx.shares)
-
-      // update stake
-      let delegation = delegator.delegations.find(
-        d => d.validator_addr === tx.validator_addr
-      )
-      if (!delegation) {
-        results.push(txResult(2, `Nonexistent delegation`))
-        return results
-      }
-
-      // update sender balance
-      let coinBalance = fromAccount.coins.find(
-        c => c.denom === state.parameters.bond_denom
-      )
-
-      coinBalance.amount = String(parseInt(coinBalance.amount) + amount)
-
-      // TODO remove after sdk.Dec parsing is fixed
-      amount = amount * 10000000000
-
-      let shares = parseInt(delegation.shares)
-      delegation.shares = (+shares - amount).toString()
-
-      updateValidatorShares(state, tx.validator_addr, amount)
-
-      delegator.unbonding_delegations.push(
-        Object.assign({}, tx, {
-          balance: {
-            amount: tx.shares
-          }
-        })
-      )
-
-      storeTx(`cosmos-sdk/BeginUnbonding`, tx)
-      results.push(txResult(0))
+    if (!dstValidator) {
+      return txResult(3, `Nonexistent destination validator`)
     }
 
-    for (let tx of begin_redelegates) {
-      incrementSequence(fromAccount)
+    // TODO: Update error msg
+    if (dstValidator.revoked) {
+      throw new Error(`checkTx failed: (262245) Msg 0 failed: === ABCI Log ===
+Codespace: 4
+Code:      101
+ABCICode:  262245
+Error:     --= Error =--
+Data: common.FmtError{format:"validator for this address is currently revoked", args:[]interface {}(nil)}
+Msg Traces:
+--= /Error =--
 
-      // check if source validator exist
-      let srcValidator = state.candidates.find(
-        c => c.operator_address === tx.validator_src_addr
-      )
-
-      if (!srcValidator) {
-        results.push(txResult(3, `Nonexistent source validator`))
-        return results
-      }
-
-      // check if dest validator exist
-      let dstValidator = state.candidates.find(
-        c => c.operator_address === tx.validator_dst_addr
-      )
-
-      if (!dstValidator) {
-        results.push(txResult(3, `Nonexistent destination validator`))
-        return results
-      }
-
-      // TODO: Update error msg
-      if (dstValidator.revoked) {
-        throw new Error(`checkTx failed: (262245) Msg 0 failed: === ABCI Log ===
-  Codespace: 4
-  Code:      101
-  ABCICode:  262245
-  Error:     --= Error =--
-  Data: common.FmtError{format:"validator for this address is currently revoked", args:[]interface {}(nil)}
-  Msg Traces:
-  --= /Error =--
-
-  === /ABCI Log ===`)
-      }
-
-      // check if delegation exists
-      let srcDelegation = delegator.delegations.find(
-        d => d.validator_addr === tx.validator_src_addr
-      )
-      if (!srcDelegation) {
-        results.push(
-          txResult(3, `Nonexistent delegation with source validator`)
-        )
-        return results
-      }
-
-      // check if there's an existing redelegation
-      let summary = this.getDelegator(tx.delegator_addr)
-      let red = summary.redelegations.find(
-        red =>
-          red.validator_src_addr === tx.validator_src_addr &&
-          red.validator_dst_addr === tx.validator_dst_addr
-      )
-
-      if (red) {
-        results.push(txResult(3, `conflicting redelegation`))
-        return results
-      }
-
-      let height = getHeight()
-
-      // check if amount of shares redelegated is valid
-      if (Number(srcDelegation.shares) < tx.shares) {
-        results.push(
-          txResult(
-            3,
-            `cannot redelegate more shares than the current delegated shares amount`
-          )
-        )
-        return results
-      }
-      // unbond shares from source validator
-      srcDelegation.shares = String(Number(srcDelegation.shares) - tx.shares)
-      srcDelegation.height = height
-
-      // delegate to dst validator
-      let dstDelegation = delegator.delegations.find(
-        d => d.validator_addr === tx.validator_dst_addr
-      )
-      if (dstDelegation) {
-        dstDelegation.shares = String(Number(dstDelegation.shares) + tx.shares)
-      } else {
-        delegator.delegations.push({
-          delegator_addr: tx.delegator_addr,
-          validator_addr: tx.validator_dst_addr,
-          shares: tx.shares,
-          height
-        })
-      }
-
-      // add redelegation object
-      let coins = {
-        amount: tx.shares, // in mock mode we assume 1 share = 1 token
-        denom: state.parameters.bond_denom
-      }
-      let minTime = Date.now()
-      red = {
-        delegator_addr: tx.delegator_addr,
-        validator_src_addr: tx.validator_src_addr,
-        validator_dst_addr: tx.validator_dst_addr,
-        shares_src: tx.shares,
-        shares_dst: tx.shares,
-        min_time: new Date(minTime + 10 * 60 * 1000).getTime(), // uses a 10 min unbonding period
-        creation_height: height,
-        initial_balance: coins,
-        balance: coins
-      }
-      delegator.redelegations.push(red)
-
-      // update validator shares
-      updateValidatorShares(state, tx.validator_src_addr, -tx.shares)
-      updateValidatorShares(state, tx.validator_dst_addr, tx.shares)
-
-      storeTx(`cosmos-sdk/BeginRedelegate`, tx)
-      results.push(txResult(0))
+=== /ABCI Log ===`)
     }
 
-    return results
+    // check if delegation exists
+    let srcDelegation = delegator.delegations.find(
+      d => d.validator_addr === validator_src_addr
+    )
+    if (!srcDelegation) {
+      return txResult(3, `Nonexistent delegation with source validator`)
+    }
+
+    // check if there's an existing redelegation
+    let redelegations = this.getRedelegations(delegator_addr)
+    let red = redelegations.find(
+      red =>
+        red.validator_src_addr === validator_src_addr &&
+        red.validator_dst_addr === validator_dst_addr
+    )
+
+    if (red) {
+      return txResult(3, `conflicting redelegation`)
+    }
+
+    let height = getHeight()
+
+    // check if amount of shares redelegated is valid
+    if (Number(srcDelegation.shares) < shares) {
+      return txResult(
+        3,
+        `cannot redelegate more shares than the current delegated shares amount`
+      )
+    }
+    // unbond shares from source validator
+    srcDelegation.shares = String(Number(srcDelegation.shares) - shares)
+    srcDelegation.height = height
+
+    // delegate to dst validator
+    let dstDelegation = delegator.delegations.find(
+      d => d.validator_addr === validator_dst_addr
+    )
+    if (dstDelegation) {
+      dstDelegation.shares = String(Number(dstDelegation.shares) + shares)
+    } else {
+      delegator.delegations.push({
+        delegator_addr: delegator_addr,
+        validator_addr: validator_dst_addr,
+        shares: shares,
+        height
+      })
+    }
+
+    // add redelegation object
+    let coins = {
+      amount: shares, // in mock mode we assume 1 share = 1 token
+      denom: state.stakingParameters.parameters.bond_denom
+    }
+    let minTime = Date.now()
+    red = {
+      delegator_addr,
+      validator_src_addr,
+      validator_dst_addr,
+      shares_src: shares,
+      shares_dst: shares,
+      min_time: new Date(minTime + 10 * 60 * 1000).getTime(), // uses a 10 min unbonding period
+      creation_height: height,
+      initial_balance: coins,
+      balance: coins
+    }
+    delegator.redelegations.push(red)
+
+    // update validator shares
+    updateValidatorShares(state, validator_src_addr, -shares)
+    updateValidatorShares(state, validator_dst_addr, shares)
+
+    storeTx(`cosmos-sdk/BeginRedelegate`, {
+      delegator_addr,
+      validator_src_addr,
+      validator_dst_addr,
+      shares
+    })
+    return txResult(0)
   },
   async queryDelegation(delegatorAddress, validatorAddress) {
     let delegator = state.stake[delegatorAddress]
@@ -823,9 +993,17 @@ module.exports = {
     )
   },
   // Get all delegations information from a delegator
-  getDelegator(delegatorAddress) {
+  getDelegations(delegatorAddress) {
     let delegator = state.stake[delegatorAddress] || {}
-    return delegator
+    return delegator.delegations || []
+  },
+  getUndelegations(delegatorAddress) {
+    let delegator = state.stake[delegatorAddress] || {}
+    return delegator.unbonding_delegations || []
+  },
+  getRedelegations(delegatorAddress) {
+    let delegator = state.stake[delegatorAddress] || {}
+    return delegator.redelegations || []
   },
   async getDelegatorTxs(addr, types = []) {
     // filter for transactions belonging to that delegator and are staking
@@ -872,27 +1050,225 @@ module.exports = {
   async getPool() {
     return state.pool
   },
-  async getParameters() {
-    return state.parameters
+  async getStakingParameters() {
+    return state.stakingParameters.parameters
   },
   async getProposals() {
     return state.proposals || []
   },
+  async submitProposal({
+    base_req,
+    title,
+    description,
+    proposal_type,
+    proposer,
+    initial_deposit
+  }) {
+    let results = []
+    // get new proposal id
+    let proposal_id = `1`
+    const proposalIds = Object.keys(state.proposals)
+    if (state.proposals && proposalIds.length > 0) {
+      proposal_id = String(
+        parseInt(
+          proposalIds.reduce((max_id, id) => (id > max_id ? id : max_id), `0`)
+        ) + 1
+      )
+    }
+
+    if (
+      proposal_type !== `Text` &&
+      proposal_type !== `ParameterChange` &&
+      proposal_type !== `SoftwareUpgrade`
+    ) {
+      results.push(txResult(2, `${proposal_type} is not a valid proposal type`))
+      return results
+    }
+
+    let tally_result = {
+      yes: `0`,
+      no: `0`,
+      no_with_veto: `0`,
+      abstain: `0`
+    }
+    let submit_time = Date.now()
+    let deposit_end_time = moment(submit_time)
+      .add(86400000, `ms`)
+      .toDate()
+
+    let proposal = {
+      proposal_id,
+      title,
+      description,
+      proposal_type,
+      proposal_status: `DepositPeriod`,
+      tally_result,
+      submit_time,
+      deposit_end_time,
+      voting_start_time: undefined,
+      voting_end_time: undefined,
+      total_deposit: []
+    }
+
+    // we add the proposal to the state to make it available for the submitProposalDeposit function
+    state.proposals[proposal.proposal_id] = proposal
+    results = await this.submitProposalDeposit({
+      base_req,
+      proposal_id,
+      depositor: proposer,
+      amount: initial_deposit
+    })
+    // remove proposal from state if it fails
+    if (results[0].check_tx.code !== 0) {
+      delete state.proposals[proposal.proposal_id]
+    }
+    return results
+  },
   async getProposal(proposalId) {
-    return state.proposals.find(
-      proposal => proposal.proposal_id === String(proposalId)
-    )
+    return state.proposals[proposalId]
+  },
+  async getProposalTally(proposalId) {
+    let proposal = await this.getProposal(proposalId)
+    return proposal.tally_result
   },
   async getProposalDeposits(proposalId) {
     return state.deposits[proposalId] || []
   },
   async getProposalDeposit(proposalId, address) {
     return state.deposits[proposalId].find(
-      deposit => deposit.depositer === address
+      deposit => deposit.depositor === address
     )
   },
-  async getProposalVotes(proposalId) {
-    return state.votes[proposalId] || []
+  async submitProposalDeposit({
+    proposal_id,
+    base_req: { name, sequence },
+    depositor,
+    amount
+  }) {
+    let results = []
+    let fromKey = state.keys.find(a => a.name === name)
+    let fromAccount = state.accounts[fromKey.address]
+    if (fromAccount == null) {
+      results.push(txResult(1, `Nonexistent account`))
+      return results
+    }
+    // check nonce
+    if (parseInt(fromAccount.sequence) !== parseInt(sequence)) {
+      results.push(
+        txResult(
+          2,
+          `Expected sequence "${fromAccount.sequence}", got "${sequence}"`
+        )
+      )
+      return results
+    }
+
+    let proposal = await this.getProposal(proposal_id)
+    if (!proposal) {
+      results.push(txResult(3, `Nonexistent proposal`))
+      return results
+    } else if (
+      proposal.proposal_status != `DepositPeriod` &&
+      proposal.proposal_status != `VotingPeriod`
+    ) {
+      results.push(txResult(3, `Proposal #${proposal_id} already finished`))
+      return results
+    }
+
+    let coin
+    let submittedDeposit = {
+      proposal_id,
+      depositor,
+      amount
+    }
+
+    // javascript's forEach doesn't support break, so using classic for loop...
+    for (let i = 0; i < amount.length; i++) {
+      coin = amount[i]
+      let depositCoinAmt = parseInt(coin.amount)
+      let coinBalance = fromAccount.coins.find(c => c.denom === coin.denom)
+
+      if (depositCoinAmt < 0) {
+        results.push(txResult(1, `Amount of ${coin.denom}s cannot be negative`))
+        return results
+      } else if (!coinBalance || coinBalance.amount < depositCoinAmt) {
+        results.push(txResult(1, `Not enough ${coin.denom}s in your account`))
+        return results
+      }
+
+      // update depositor's balance
+      coinBalance.amount -= depositCoinAmt
+
+      // ============= TOTAL PROPOSAL's DEPOSIT =============
+      // Increment total deposit of the proposal
+      let deposit = proposal.total_deposit.find(
+        deposit => deposit.denom === coin.denom
+      )
+      if (!deposit) {
+        // if there's no previous deposit in that denom we just append it to the total deposit
+        proposal.total_deposit.push(coin)
+      } else {
+        // if there's an existing deposit with that denom we add the submited deposit amount to it
+        let newAmt = String(parseInt(deposit.amount) + parseInt(coin.amount))
+        deposit.amount = newAmt
+      }
+
+      // ============= USER'S DEPOSITS =============
+      // check if there's an existing deposit by the depositor
+      let prevDeposit =
+        state.deposits[proposal_id] &&
+        state.deposits[proposal_id].find(
+          deposit => deposit.depositor === depositor
+        )
+
+      if (!prevDeposit) {
+        // if no previous deposit by the depositor, we add it to the existing deposits
+        if (!state.deposits[proposal_id]) state.deposits[proposal_id] = []
+        state.deposits[proposal_id].push(submittedDeposit)
+        break // break since no need to iterate over other coins
+      } else {
+        // ============= USER'S DEPOSITS WITH SAME COIN DENOM =============
+        // if there's a prev deposit, add the new amount to the corresponding coin
+        let prevDepCoin = prevDeposit.amount.find(prevDepCoin => {
+          return prevDepCoin.denom === coin.denom
+        })
+        if (!prevDepCoin) {
+          prevDeposit.amount.push(coin)
+        } else {
+          // there's a previous deposit from the depositor with the same coin
+          let newAmt = parseInt(prevDepCoin.amount) + parseInt(coin.amount)
+          prevDepCoin.amount = String(newAmt)
+        }
+      }
+    }
+
+    incrementSequence(fromAccount)
+
+    // check if the propoposal is now active
+    if (proposal.proposal_status === `DepositPeriod`) {
+      // TODO: get min deposit denom from gov params instead of stake params
+      let depositCoinAmt = proposal.total_deposit.find(coin => {
+        return coin.denom === `STAKE`
+      }).amount
+
+      let minDepositCoin = state.governanceParameters.deposit.min_deposit[0]
+      if (parseInt(depositCoinAmt) >= parseInt(minDepositCoin.amount)) {
+        proposal.proposal_status = `VotingPeriod`
+        proposal.voting_start_time = Date.now()
+        proposal.voting_end_time = moment(proposal.voting_start_time)
+          .add(86400000, `ms`)
+          .toDate()
+      }
+    }
+    storeTx(`cosmos-sdk/MsgDeposit`, submittedDeposit)
+    results.push(txResult(0))
+    return results
+  },
+  async queryProposalVotes(proposalId) {
+    return (
+      state.votes[proposalId] ||
+      Promise.reject({ message: `Invalid proposalId #${proposalId}` })
+    )
   },
   async submitProposalVote({
     proposal_id,
@@ -919,14 +1295,12 @@ module.exports = {
       return results
     }
 
-    let proposal = state.proposals.find(
-      proposal => proposal.proposal_id === proposal_id
-    )
+    let proposal = await this.getProposal(proposal_id)
 
     if (!proposal) {
       results.push(txResult(3, `Nonexistent proposal`))
       return results
-    } else if (proposal.proposal_status != `Active`) {
+    } else if (proposal.proposal_status != `VotingPeriod`) {
       results.push(txResult(3, `Proposal #${proposal_id} is inactive`))
       return results
     } else if (
@@ -959,25 +1333,36 @@ module.exports = {
   async queryProposals() {
     // TODO: return only value of the `value` property when https://github.com/cosmos/cosmos-sdk/issues/2507 is solved
     let proposals = state.proposals
-    return proposals.map(proposal => {
+    return Object.keys(proposals).map(key => {
       return {
-        value: JSON.parse(JSON.stringify(proposal)),
+        value: JSON.parse(JSON.stringify(proposals[key])),
         type: `gov/TextProposal`
       }
     })
   },
-  async getGovernaceTxs(addr) {
-    return state.txs.filter(tx => {
-      let type = tx.tx.value.msg[0].type
+  async getGovernanceTxs(addr) {
+    return (
+      state.txs.filter(tx => {
+        let type = tx.tx.value.msg[0].type
 
-      if (type === `cosmos-sdk/MsgSubmitProposal`) {
-        return tx.tx.value.msg[0].value.proposer === addr
-      } else if (type === `cosmos-sdk/MsgDeposit`) {
-        return tx.tx.value.msg[0].value.depositer === addr
-      }
+        if (type === `cosmos-sdk/MsgSubmitProposal`) {
+          return tx.tx.value.msg[0].value.proposer === addr
+        } else if (type === `cosmos-sdk/MsgDeposit`) {
+          return tx.tx.value.msg[0].value.depositor === addr
+        }
 
-      return false
-    })
+        return false
+      }) || []
+    )
+  },
+  async getGovDepositParameters() {
+    return state.governanceParameters.deposit
+  },
+  async getGovTallyingParameters() {
+    return state.governanceParameters.tallying
+  },
+  async getGovVotingParameters() {
+    return state.governanceParameters.voting
   },
   // exports to be used in tests
   state,

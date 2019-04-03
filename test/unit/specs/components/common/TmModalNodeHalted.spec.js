@@ -25,13 +25,4 @@ describe(`TmModalNodeHalted`, () => {
     // also closing the modal
     expect(store.state.config.modals.nodeHalted.active).toBe(false)
   })
-
-  it(`switches to a mock connection`, () => {
-    wrapper.vm.useMock()
-
-    expect(store.state.node.mocked).toBe(true)
-
-    // also closing the modal
-    expect(store.state.config.modals.nodeHalted.active).toBe(false)
-  })
 })

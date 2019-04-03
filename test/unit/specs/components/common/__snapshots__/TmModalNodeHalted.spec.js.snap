@@ -16,16 +16,23 @@ exports[`TmModalNodeHalted has the expected html structure 1`] = `
         sync_problem
       </i>
     </div>
+     
     <div
       class="tm-modal-error__title"
     >
       Node has halted
     </div>
+     
     <div
       class="tm-modal-error__body"
     >
-      The node your are connected to appears to have halted. You can try to connect to another node or switch to a demo connection so you can try out Voyager.
+      
+      The node your are connected to appears to have halted. You can try to
+      connect to another node or switch to a demo connection so you can try
+      out Voyager.
+    
     </div>
+     
     <div
       class="tm-modal-error__footer"
     >
@@ -42,32 +49,10 @@ exports[`TmModalNodeHalted has the expected html structure 1`] = `
           >
             autorenew
           </i>
-          <!---->
           <span
             class="tm-btn__value"
           >
             Switch Node
-          </span>
-        </span>
-      </button>
-      <button
-        class="tm-btn"
-        id="tm-modal-error__btn-mock"
-      >
-        <span
-          class="tm-btn__container tm-btn--size-lg"
-        >
-          <i
-            aria-hidden="true"
-            class="tm-btn__icon material-icons"
-          >
-            pageview
-          </i>
-          <!---->
-          <span
-            class="tm-btn__value"
-          >
-            Try Demo
           </span>
         </span>
       </button>

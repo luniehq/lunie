@@ -1,9 +1,12 @@
 import axios from "axios"
+import * as Sentry from "@sentry/browser"
 
 export default ({}) => {
   const emptyState = {
     identities: {},
-    loading: false
+    loading: false,
+    loaded: false,
+    error: null
   }
   const state = JSON.parse(JSON.stringify(emptyState))
 
@@ -35,19 +38,31 @@ export default ({}) => {
         }
       }
     },
-    async getKeybaseIdentities({ dispatch, commit }, validators) {
-      return Promise.all(
-        validators.map(async validator => {
-          if (validator.description.identity) {
-            return dispatch(
-              `getKeybaseIdentity`,
-              validator.description.identity
-            )
-          }
-        })
-      ).then(identities => {
+    async getKeybaseIdentities({ dispatch, commit, state }, validators) {
+      try {
+        state.loading = true
+        const identities = await Promise.all(
+          validators.map(async validator => {
+            if (validator.description.identity) {
+              return dispatch(
+                `getKeybaseIdentity`,
+                validator.description.identity
+              )
+            }
+          })
+        )
+        state.error = null
+        state.loading = false
+        state.loaded = true
         commit(`setKeybaseIdentities`, identities.filter(x => !!x))
-      })
+      } catch (error) {
+        commit(`notifyError`, {
+          title: `Error fetching keybase information for validators`,
+          body: error.message
+        })
+        Sentry.captureException(error)
+        state.error = error
+      }
     }
   }
 

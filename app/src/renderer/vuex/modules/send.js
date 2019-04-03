@@ -1,5 +1,3 @@
-"use strict"
-
 export default ({ node }) => {
   let lock = null
 
@@ -16,13 +14,20 @@ export default ({ node }) => {
   }
 
   async function doSend({ state, dispatch, commit, rootState }, args) {
+    if (!rootState.connection.connected) {
+      throw Error(
+        `Currently not connected to a secure node. Please try again when Voyager has secured a connection.`
+      )
+    }
+
     await dispatch(`queryWalletBalances`) // the nonce was getting out of sync, this is to force a sync
     let requestMetaData = {
       sequence: state.nonce,
       name: rootState.user.account,
-      password: rootState.user.password,
+      password: args.password,
       account_number: rootState.wallet.accountNumber, // TODO move into LCD?
-      chain_id: rootState.node.lastHeader.chain_id
+      chain_id: rootState.connection.lastHeader.chain_id,
+      gas: `500000`
     }
     args.base_req = requestMetaData
 
@@ -33,13 +38,26 @@ export default ({ node }) => {
     // extract "to" address
     let to = args.to
     delete args.to
-    args.gas = `50000000`
 
     // submit to LCD to build, sign, and broadcast
     let req = to ? node[type](to, args) : node[type](args)
 
     let res = await req.catch(err => {
-      throw new Error(err.message)
+      let message
+      // TODO: get rid of this logic once the appended message is actually included inside the object message
+      if (!err.response.data.message) {
+        let idxColon = err.response.data.indexOf(`:`)
+        let indexOpenBracket = err.response.data.indexOf(`{`)
+        if (idxColon < indexOpenBracket) {
+          // e.g => Msg 0 failed: {"codespace":4,"code":102,"abci_code":262246,"message":"existing unbonding delegation found"}
+          message = JSON.parse(err.response.data.substr(idxColon + 1)).message
+        } else {
+          message = err.response.data
+        }
+      } else {
+        message = err.response.data.message
+      }
+      throw new Error(message)
     })
 
     // check response code
@@ -66,8 +84,8 @@ export default ({ node }) => {
         // wait for doSend to finish
         let res = await lock
         return res
-      } catch (err) {
-        throw err
+      } catch (error) {
+        throw error
       } finally {
         // get rid of lock whether doSend throws or succeeds
         lock = null

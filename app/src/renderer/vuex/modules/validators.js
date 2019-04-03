@@ -1,9 +1,11 @@
-"use strict"
+import * as Sentry from "@sentry/browser"
 
 export default ({ node }) => {
   const emptyState = {
     validators: [],
     loading: false,
+    loaded: false,
+    error: null,
     validatorHash: null
   }
   let state = JSON.parse(JSON.stringify(emptyState))
@@ -27,18 +29,25 @@ export default ({ node }) => {
       // clear previous account state
       rootState.validators = JSON.parse(JSON.stringify(emptyState))
     },
-    async getValidators({ state, commit }) {
+    async getValidators({ state, commit, rootState }) {
       state.loading = true
+
+      if (!rootState.connection.connected) return
+
       try {
         let validators = (await node.getValidatorSet()).validators
+        state.error = null
+        state.loading = false
+        state.loaded = true
         commit(`setValidators`, validators)
-      } catch (err) {
+      } catch (error) {
         commit(`notifyError`, {
           title: `Error fetching validator set`,
-          body: err.message
+          body: error.message
         })
+        Sentry.captureException(error)
+        state.error = error
       }
-      state.loading = false
     },
     async maybeUpdateValidators({ state, commit, dispatch }, header) {
       let validatorHash = header.validators_hash

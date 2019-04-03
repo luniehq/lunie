@@ -1,8 +1,12 @@
-const fp = require(`lodash/fp`)
+import fp from "lodash/fp"
 import { uniqBy } from "lodash"
+import * as Sentry from "@sentry/browser"
+import Vue from "vue"
 export default ({ node }) => {
   let emptyState = {
     loading: false,
+    loaded: false,
+    error: null,
     wallet: [], // {height, result: { gas, tags }, tx: { type, value: { fee: { amount: [{denom, amount}], gas}, msg: {type, inputs, outputs}}, signatures} }}
     staking: [],
     governance: []
@@ -28,8 +32,9 @@ export default ({ node }) => {
     setTransactionTime(state, { blockHeight, blockMetaInfo }) {
       txCategories.forEach(category => {
         state[category].forEach(t => {
-          if (t.height === blockHeight) {
-            t.time = blockMetaInfo && blockMetaInfo.header.time
+          if (t.height === blockHeight && blockMetaInfo) {
+            // time seems to be an ISO string, but we are expecting a Number type
+            Vue.set(t, `time`, new Date(blockMetaInfo.header.time).getTime())
           }
         })
       })
@@ -46,22 +51,36 @@ export default ({ node }) => {
         await dispatch(`getAllTxs`)
       }
     },
-    async getAllTxs({ commit, dispatch }) {
-      commit(`setHistoryLoading`, true)
-      const stakingTxs = await dispatch(`getTx`, `staking`)
-      commit(`setStakingTxs`, stakingTxs)
+    async getAllTxs({ commit, dispatch, state, rootState }) {
+      try {
+        state.loading = true
 
-      const governanceTxs = await dispatch(`getTx`, `governance`)
-      commit(`setGovernanceTxs`, governanceTxs)
+        if (!rootState.connection.connected) return
 
-      const walletTxs = await dispatch(`getTx`, `wallet`)
-      commit(`setWalletTxs`, walletTxs)
+        const stakingTxs = await dispatch(`getTx`, `staking`)
+        commit(`setStakingTxs`, stakingTxs)
 
-      const allTxs = stakingTxs.concat(governanceTxs.concat(walletTxs))
-      await dispatch(`enrichTransactions`, {
-        transactions: allTxs
-      })
-      commit(`setHistoryLoading`, false)
+        const governanceTxs = await dispatch(`getTx`, `governance`)
+        commit(`setGovernanceTxs`, governanceTxs)
+
+        const walletTxs = await dispatch(`getTx`, `wallet`)
+        commit(`setWalletTxs`, walletTxs)
+
+        const allTxs = stakingTxs.concat(governanceTxs.concat(walletTxs))
+        await dispatch(`enrichTransactions`, {
+          transactions: allTxs
+        })
+        state.error = null
+        state.loading = false
+        state.loaded = true
+      } catch (error) {
+        commit(`notifyError`, {
+          title: `Error getting transactions`,
+          body: error.message
+        })
+        Sentry.captureException(error)
+        state.error = error
+      }
     },
     async getTx(
       {
@@ -89,7 +108,9 @@ export default ({ node }) => {
       return response ? uniqBy(transactionsPlusType, `hash`) : []
     },
     async enrichTransactions({ dispatch }, { transactions }) {
-      const blockHeights = new Set(transactions.map(({ height }) => height))
+      const blockHeights = new Set(
+        transactions.map(({ height }) => parseInt(height))
+      )
       await Promise.all(
         [...blockHeights].map(blockHeight =>
           dispatch(`queryTransactionTime`, { blockHeight })

@@ -1,4 +1,5 @@
 import setup from "../../helpers/vuex-setup"
+import validatorsModule from "renderer/vuex/modules/validators.js"
 
 let instance = setup()
 
@@ -23,6 +24,8 @@ describe(`Module: Validators`, () => {
     let test = instance.shallow(null)
     store = test.store
     node = test.node
+
+    store.commit(`setConnected`, true)
   })
 
   it(`should have no validators by default`, () => {
@@ -67,7 +70,7 @@ describe(`Module: Validators`, () => {
 
   it(`should query the validators on reconnection`, () => {
     jest.resetModules()
-    store.state.node.stopConnecting = true
+    store.state.connection.stopConnecting = true
     store.state.validators.loading = true
     jest.spyOn(node, `getValidatorSet`)
     store.dispatch(`reconnected`)
@@ -76,10 +79,30 @@ describe(`Module: Validators`, () => {
 
   it(`should not query validators on reconnection if not stuck in loading`, () => {
     jest.resetModules()
-    store.state.node.stopConnecting = true
+    store.state.connection.stopConnecting = true
     store.state.validators.loading = false
     jest.spyOn(node.rpc, `validators`)
     store.dispatch(`reconnected`)
     expect(node.rpc.validators).not.toHaveBeenCalled()
+  })
+
+  it(`should store an error if failed to load validators`, async () => {
+    let { actions, state } = validatorsModule({
+      node: {
+        getValidatorSet: () => Promise.reject(new Error(`reason`))
+      }
+    })
+    const commit = jest.fn()
+    const rootState = {
+      connection: {
+        connected: true
+      }
+    }
+    await actions.getValidators({ state, commit, rootState })
+    expect(state.error.message).toBe(`reason`)
+    expect(commit).toHaveBeenCalledWith(`notifyError`, {
+      title: `Error fetching validator set`,
+      body: expect.stringContaining(`reason`)
+    })
   })
 })

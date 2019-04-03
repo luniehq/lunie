@@ -7,8 +7,9 @@ exports[`TmLiCopy has the expected html structure 1`] = `
   <div
     class="value"
   >
-    
+    hallo
   </div>
+   
   <menu>
     <button
       class="tm-btn btn-copy"
@@ -22,7 +23,6 @@ exports[`TmLiCopy has the expected html structure 1`] = `
         >
           content_copy
         </i>
-        <!---->
         <span
           class="tm-btn__value"
         >
@@ -43,6 +43,7 @@ exports[`TmLiCopy should show the receive button 1`] = `
   >
     HALLO
   </div>
+   
   <menu>
     <button
       class="tm-btn btn-copy"
@@ -56,7 +57,6 @@ exports[`TmLiCopy should show the receive button 1`] = `
         >
           content_copy
         </i>
-        <!---->
         <span
           class="tm-btn__value"
         >

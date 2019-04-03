@@ -3,6 +3,15 @@ import lcdClientMock from "renderer/connectors/lcdClientMock.js"
 let { proposals, deposits } = lcdClientMock.state
 let addresses = lcdClientMock.addresses
 
+let mockRootState = {
+  wallet: {
+    address: addresses[0]
+  },
+  connection: {
+    connected: true
+  }
+}
+
 describe(`Module: Deposits`, () => {
   let module
 
@@ -12,8 +21,8 @@ describe(`Module: Deposits`, () => {
 
   it(`adds deposits to state`, () => {
     let { mutations, state } = module
-    mutations.setProposalDeposits(state, proposals[0].proposal_id, deposits)
-    expect(state.deposits[proposals[0].proposal_id]).toEqual(deposits)
+    mutations.setProposalDeposits(state, `1`, deposits)
+    expect(state.deposits[`1`]).toEqual(deposits)
   })
 
   it(`fetches all deposits from a proposal`, async () => {
@@ -25,13 +34,15 @@ describe(`Module: Deposits`, () => {
     })
     let { actions, state } = module
     let commit = jest.fn()
-    proposals.forEach(async (proposal, i) => {
-      let proposalID = proposal.proposal_id
-      await actions.getProposalDeposits({ state, commit }, proposalID)
+    Object.keys(proposals).forEach(async (proposal_id, i) => {
+      await actions.getProposalDeposits(
+        { state, commit, rootState: mockRootState },
+        proposal_id
+      )
       expect(commit.mock.calls[i]).toEqual([
         `setProposalDeposits`,
-        proposalID,
-        deposits[proposalID]
+        proposal_id,
+        deposits[proposal_id]
       ])
     })
   })
@@ -40,45 +51,52 @@ describe(`Module: Deposits`, () => {
     let { actions } = module
     jest.useFakeTimers()
 
-    const rootState = {
-      config: {
-        bondingDenom: `stake`
-      },
-      wallet: {
-        address: addresses[0]
-      }
-    }
-
     let dispatch = jest.fn()
-    const amount = 15
+    const amount = [
+      {
+        denom: `stake`,
+        amount: `15`
+      }
+    ]
 
-    proposals.forEach(async (proposal, i) => {
+    const proposalIds = Object.keys(proposals)
+    proposalIds.forEach(async (proposal_id, i) => {
       await actions.submitDeposit(
-        { rootState, dispatch },
-        proposal.proposal_id,
-        amount
+        { rootState: mockRootState, dispatch },
+        { proposal_id, amount }
       )
 
       expect(dispatch.mock.calls[i]).toEqual([
         `sendTx`,
         {
-          type: `submitDeposit`,
-          proposal_id: proposal.proposal_id,
-          depositer: addresses[0],
-          amount: [
-            {
-              denom: rootState.config.bondingDenom,
-              amount
-            }
-          ]
+          type: `submitProposalDeposit`,
+          to: proposal_id,
+          proposal_id,
+          depositor: addresses[0],
+          amount
         }
       ])
 
       jest.runAllTimers()
-      expect(dispatch.mock.calls[i + proposals.length]).toEqual([
+      expect(dispatch.mock.calls[i + proposalIds.length]).toEqual([
         `getProposalDeposits`,
-        proposal.proposal_id
+        proposal_id
       ])
     })
+  })
+
+  it(`should store an error if failed to load deposits`, async () => {
+    module = depositsModule({
+      node: {
+        queryProposalDeposits: () => Promise.reject(new Error(`Error`))
+      }
+    })
+    let { actions, state } = module
+    await actions.getProposalDeposits({
+      state,
+      rootState: mockRootState,
+      commit: jest.fn()
+    })
+    expect(state.error.message).toBe(`Error`)
   })
 })

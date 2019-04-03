@@ -17,6 +17,7 @@ exports[`ModalVote component matches snapshot has the expected html structure 1`
     >
       Vote
     </span>
+     
     <div
       class="tm-modal-icon tm-modal-close"
       id="closeBtn"
@@ -28,19 +29,23 @@ exports[`ModalVote component matches snapshot has the expected html structure 1`
       </i>
     </div>
   </div>
+   
   <div>
     <h2>
       Title: Proposal Title
     </h2>
+     
     <h3>
       Proposal ID: #1
     </h3>
   </div>
+   
   <div
     class="modal-vote-form-group options tm-form-group"
   >
     <!---->
     <!---->
+     
     <div
       class="tm-form-group__field"
     >
@@ -52,7 +57,6 @@ exports[`ModalVote component matches snapshot has the expected html structure 1`
           class="tm-btn__container tm-btn--size-md tm-btn--secondary"
         >
           <!---->
-          <!---->
           <span
             class="tm-btn__value"
           >
@@ -60,6 +64,7 @@ exports[`ModalVote component matches snapshot has the expected html structure 1`
           </span>
         </span>
       </button>
+       
       <button
         class="tm-btn"
         id="vote-no"
@@ -68,7 +73,6 @@ exports[`ModalVote component matches snapshot has the expected html structure 1`
           class="tm-btn__container tm-btn--size-md tm-btn--secondary"
         >
           <!---->
-          <!---->
           <span
             class="tm-btn__value"
           >
@@ -76,6 +80,7 @@ exports[`ModalVote component matches snapshot has the expected html structure 1`
           </span>
         </span>
       </button>
+       
       <button
         class="tm-btn"
         id="vote-veto"
@@ -84,7 +89,6 @@ exports[`ModalVote component matches snapshot has the expected html structure 1`
           class="tm-btn__container tm-btn--size-md tm-btn--secondary"
         >
           <!---->
-          <!---->
           <span
             class="tm-btn__value"
           >
@@ -92,6 +96,7 @@ exports[`ModalVote component matches snapshot has the expected html structure 1`
           </span>
         </span>
       </button>
+       
       <button
         class="tm-btn"
         id="vote-abstain"
@@ -100,7 +105,6 @@ exports[`ModalVote component matches snapshot has the expected html structure 1`
           class="tm-btn__container tm-btn--size-md tm-btn--secondary"
         >
           <!---->
-          <!---->
           <span
             class="tm-btn__value"
           >
@@ -108,17 +112,56 @@ exports[`ModalVote component matches snapshot has the expected html structure 1`
           </span>
         </span>
       </button>
+       
+      <hr />
     </div>
   </div>
+   
+  <div
+    class="modal-vote-form-group tm-form-group"
+  >
+    <!---->
+    <label
+      class="tm-form-group__label"
+      for="password"
+    >
+      Account password
+    </label>
+     
+    <div
+      class="tm-form-group__field"
+    >
+      <input
+        class="tm-field"
+        id="password"
+        placeholder="password..."
+        type="password"
+      />
+       
+      <input
+        id="showPasswordCheckbox"
+        type="checkbox"
+      />
+       
+      <label
+        for="showPasswordCheckbox"
+      >
+        Show password
+      </label>
+    </div>
+  </div>
+   
   <div
     class="modal-vote-form-group tm-form-group"
   >
     <!---->
     <!---->
+     
     <div
       class="tm-form-group__field"
     />
   </div>
+   
   <div
     class="modal-vote-footer"
   >
@@ -130,7 +173,6 @@ exports[`ModalVote component matches snapshot has the expected html structure 1`
       <span
         class="tm-btn__container tm-btn--size-lg tm-btn--primary"
       >
-        <!---->
         <!---->
         <span
           class="tm-btn__value"

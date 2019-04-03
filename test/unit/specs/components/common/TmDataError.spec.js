@@ -1,5 +1,4 @@
 import { mount } from "@vue/test-utils"
-import htmlBeautify from "html-beautify"
 import TmDataError from "common/TmDataError"
 
 describe(`TmDataError`, () => {
@@ -9,7 +8,7 @@ describe(`TmDataError`, () => {
   })
 
   it(`has the expected html structure`, () => {
-    expect(htmlBeautify(wrapper.html())).toMatchSnapshot()
+    expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
   it(`has an icon`, () => {
@@ -37,7 +36,7 @@ describe(`TmDataError`, () => {
         .text()
         .trim()
     ).toContain(
-      `Even though you're connected a full node, we can't display this data for you right now.`
+      `Even though you're connected a full node, we can't display this data`
     )
   })
 })

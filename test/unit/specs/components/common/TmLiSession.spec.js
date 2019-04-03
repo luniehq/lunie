@@ -1,4 +1,4 @@
-import { shallow } from "@vue/test-utils"
+import { shallowMount } from "@vue/test-utils"
 import TmLiSession from "common/TmLiSession"
 
 describe(`TmLiSession`, () => {
@@ -9,7 +9,7 @@ describe(`TmLiSession`, () => {
     subtitle: `useful subtitle`
   }
   beforeEach(() => {
-    wrapper = shallow(TmLiSession, { propsData })
+    wrapper = shallowMount(TmLiSession, { propsData })
   })
 
   it(`has the expected html structure`, () => {

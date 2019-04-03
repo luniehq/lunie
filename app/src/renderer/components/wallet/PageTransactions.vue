@@ -1,27 +1,46 @@
-<template lang="pug">
-tm-page(data-title='Transactions')
-  template(slot="menu-body"): tm-balance
-  div(slot="menu")
-    vm-tool-bar
-      a(@click='connected && refreshTransactions()' v-tooltip.bottom="'Refresh'" :disabled="!connected")
-        i.material-icons refresh
-      a(@click='setSearch()' v-tooltip.bottom="'Search'" :disabled="!somethingToSearch")
-        i.material-icons search
-
-  modal-search(type="transactions" v-if="somethingToSearch")
-
-  tm-data-loading(v-if="transactions.loading")
-  data-empty-tx(v-else-if='allTransactions.length === 0')
-  data-empty-search(v-else-if="filteredTransactions.length === 0")
-  template(v-else v-for="(tx, i) in filteredTransactions")
-    tm-li-any-transaction(
-      :validators="delegates.delegates"
-      :validatorURL='validatorURL'
-      :proposalsURL='proposalsURL'
-      :key="shortid.generate()"
-      :transaction="tx"
-      :address="wallet.address"
-      :bondingDenom="bondingDenom")
+<template>
+  <tm-page data-title="Transactions"
+    ><template slot="menu-body">
+      <tm-balance />
+      <tool-bar
+        ><a
+          v-tooltip.bottom="'Refresh'"
+          :disabled="!connected"
+          class="refresh-button"
+          @click="connected && refreshTransactions()"
+          ><i class="material-icons">refresh</i></a
+        ><a
+          v-tooltip.bottom="'Search'"
+          :disabled="!somethingToSearch"
+          class="search-button"
+          @click="setSearch()"
+          ><i class="material-icons">search</i></a
+        ></tool-bar
+      >
+    </template>
+    <modal-search v-if="somethingToSearch" type="transactions" />
+    <tm-data-connecting v-if="!transactions.loaded && !connected" />
+    <tm-data-loading v-else-if="!transactions.loaded && transactions.loading" />
+    <tm-data-error v-else-if="transactions.error" />
+    <data-empty-tx v-else-if="allTransactions.length === 0" />
+    <data-empty-search v-else-if="filteredTransactions.length === 0" /><template
+      v-for="tx in filteredTransactions"
+      v-else
+    >
+      <tm-li-any-transaction
+        :validators="delegates.delegates"
+        :validators-url="validatorURL"
+        :proposals-url="proposalsURL"
+        :key="tx.hash"
+        :transaction="tx"
+        :address="wallet.address"
+        :bonding-denom="bondDenom"
+        :unbonding-time="
+          time.getUnbondingTime(tx, delegation.unbondingDelegations)
+        "
+      />
+    </template>
+  </tm-page>
 </template>
 
 <script>
@@ -33,41 +52,55 @@ import DataEmptySearch from "common/TmDataEmptySearch"
 import DataEmptyTx from "common/TmDataEmptyTx"
 import ModalSearch from "common/TmModalSearch"
 import TmBalance from "common/TmBalance"
-import { TmPage, TmDataLoading, TmLiAnyTransaction } from "@tendermint/ui"
-import VmToolBar from "common/VmToolBar"
+import TmDataError from "common/TmDataError"
+import TmDataConnecting from "common/TmDataConnecting"
+import TmPage from "common/TmPage"
+import TmDataLoading from "common/TmDataLoading"
+import TmLiAnyTransaction from "transactions/TmLiAnyTransaction"
+import ToolBar from "common/ToolBar"
+import time from "scripts/time"
+
 export default {
   name: `page-transactions`,
   components: {
     TmBalance,
     TmLiAnyTransaction,
     TmDataLoading,
+    TmDataError,
+    TmDataConnecting,
     DataEmptySearch,
     DataEmptyTx,
     ModalSearch,
     TmPage,
-    VmToolBar
+    ToolBar
   },
+  data: () => ({
+    shortid: shortid,
+    sort: {
+      property: `height`,
+      order: `desc`
+    },
+    validatorURL: `/staking/validators`,
+    proposalsURL: `/governance`,
+    time
+  }),
   computed: {
-    ...mapState([`transactions`, `node`]),
+    ...mapState([`transactions`]),
     ...mapGetters([
       `filters`,
       `allTransactions`,
       `wallet`,
-      `bondingDenom`,
+      `bondDenom`,
       `delegation`,
       `delegates`,
-      `connected`,
-      `validators`
+      `connected`
     ]),
     somethingToSearch() {
       return !this.transactions.loading && !!this.allTransactions.length
     },
-    enrichedTransactions() {
-      return this.allTransactions.map(this.enrichUnbondingTransactions)
-    },
     orderedTransactions() {
       return orderBy(
-        this.enrichedTransactions.map(t => {
+        this.allTransactions.map(t => {
           t.height = parseInt(t.height)
           return t // TODO what happens if block height is bigger then int?
         }),
@@ -87,47 +120,19 @@ export default {
       }
     }
   },
-  data: () => ({
-    shortid: shortid,
-    sort: {
-      property: `height`,
-      order: `desc`
-    },
-    validatorURL: `/staking/validators`,
-    proposalsURL: `/governance/proposals`
-  }),
+  mounted() {
+    Mousetrap.bind([`command+f`, `ctrl+f`], () => this.setSearch(true))
+    Mousetrap.bind(`esc`, () => this.setSearch(false))
+    this.refreshTransactions()
+  },
   methods: {
     refreshTransactions() {
       this.$store.dispatch(`getAllTxs`)
-    },
-    enrichUnbondingTransactions(transaction) {
-      let copiedTransaction = JSON.parse(JSON.stringify(transaction))
-      let type = copiedTransaction.tx.value.msg[0].type
-      if (type === `cosmos-sdk/BeginUnbonding`) {
-        let tx = copiedTransaction.tx.value.msg[0].value
-        let unbondingDelegation = this.delegation.unbondingDelegations[
-          tx.validator_addr
-        ]
-        // TODO hack, use creation_height when https://github.com/cosmos/cosmos-sdk/issues/2314 is resolved
-        if (
-          unbondingDelegation &&
-          new Date(unbondingDelegation.min_time).getTime() -
-            new Date(copiedTransaction.time).getTime() ===
-            0
-        )
-          copiedTransaction.unbondingDelegation = unbondingDelegation
-      }
-      return copiedTransaction
     },
     setSearch(bool = !this.filters[`transactions`].search.visible) {
       if (!this.somethingToSearch) return false
       this.$store.commit(`setSearchVisible`, [`transactions`, bool])
     }
-  },
-  mounted() {
-    Mousetrap.bind([`command+f`, `ctrl+f`], () => this.setSearch(true))
-    Mousetrap.bind(`esc`, () => this.setSearch(false))
-    this.refreshTransactions()
   }
 }
 </script>

@@ -1,16 +1,20 @@
 import Vuex from "vuex"
 import { mount, createLocalVue } from "@vue/test-utils"
-import htmlBeautify from "html-beautify"
 import TmModalError from "common/TmModalError"
 
 const localVue = createLocalVue()
 localVue.use(Vuex)
+localVue.directive(`tooltip`, () => {})
+localVue.directive(`focus`, () => {})
 
 jest.mock(`electron`, () => ({
   remote: {
     getGlobal: () => {
       return `$HOME/.cosmos-voyager-dev`
     }
+  },
+  shell: {
+    openItem: jest.fn()
   }
 }))
 
@@ -31,7 +35,7 @@ describe(`TmModalError`, () => {
   })
 
   it(`has the expected html structure`, () => {
-    expect(htmlBeautify(wrapper.html())).toMatchSnapshot()
+    expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
   it(`has an icon`, () => {
@@ -44,11 +48,7 @@ describe(`TmModalError`, () => {
   })
 
   it(`shows an icon if specified`, () => {
-    wrapper = mount(TmModalError, {
-      localVue,
-      store,
-      propsData: { icon: `icon-x` }
-    })
+    wrapper.setProps({ icon: `icon-x` })
     expect(
       wrapper
         .find(`.tm-modal-error__icon i.material-icons`)
@@ -67,11 +67,7 @@ describe(`TmModalError`, () => {
   })
 
   it(`shows a title if specified`, () => {
-    wrapper = mount(TmModalError, {
-      localVue,
-      store,
-      propsData: { title: `title-x` }
-    })
+    wrapper.setProps({ title: `title-x` })
     expect(
       wrapper
         .find(`.tm-modal-error__title`)
@@ -92,11 +88,7 @@ describe(`TmModalError`, () => {
   })
 
   it(`shows a body if specified`, () => {
-    wrapper = mount(TmModalError, {
-      localVue,
-      store,
-      propsData: { body: `body-x` }
-    })
+    wrapper.setProps({ body: `body-x` })
     expect(
       wrapper
         .find(`.tm-modal-error__body`)

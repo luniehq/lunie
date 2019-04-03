@@ -1,16 +1,19 @@
-<template lang="pug">
-div
-  tm-data-loading(v-if="loading")
-  tm-data-empty(v-else-if="proposals.length === 0")
-  data-empty-search(v-else-if="filteredProposals.length === 0")
-  table(v-else)
-    thead
-      panel-sort(:sort='sort', :properties="properties")
-    tbody
-      li-proposal(
-        v-for="(value, key) in filteredProposals"
-           :key="key"
-           :proposal="value")
+<template>
+  <div>
+    <data-empty-search v-if="filteredProposals.length === 0" />
+    <table v-else class="data-table">
+      <thead>
+        <panel-sort :sort="sort" :properties="properties" />
+      </thead>
+      <tbody>
+        <li-proposal
+          v-for="(value, key) in filteredProposals"
+          :key="key"
+          :proposal="value"
+        />
+      </tbody>
+    </table>
+  </div>
 </template>
 
 <script>
@@ -18,23 +21,24 @@ import { mapGetters } from "vuex"
 import Mousetrap from "mousetrap"
 import { includes, orderBy } from "lodash"
 import LiProposal from "./LiProposal"
-import { TmDataEmpty, TmDataLoading } from "@tendermint/ui"
-import DataEmptySearch from "common/TmDataEmptySearch"
-import { ratToBigNumber } from "scripts/common"
 import ModalSearch from "common/TmModalSearch"
+import DataEmptySearch from "common/TmDataEmptySearch"
 import PanelSort from "staking/PanelSort"
-import VmToolBar from "common/VmToolBar"
+import ToolBar from "common/ToolBar"
 export default {
   name: `table-proposals`,
-  props: [`proposals`, `loading`],
   components: {
     LiProposal,
-    TmDataEmpty,
     DataEmptySearch,
-    TmDataLoading,
     ModalSearch,
     PanelSort,
-    VmToolBar
+    ToolBar
+  },
+  props: {
+    proposals: {
+      type: Object,
+      required: true
+    }
   },
   data: () => ({
     query: ``,
@@ -46,35 +50,12 @@ export default {
   computed: {
     ...mapGetters([`filters`, `config`]),
     somethingToSearch() {
-      return !!this.proposals.length
-    },
-    // TODO delete once tally is changed from Rat --> Dec
-    parsedProposals() {
-      if (!this.proposals || this.proposals.length === 0) return []
-
-      let copiedProposals = JSON.parse(JSON.stringify(this.proposals))
-      return Object.values(copiedProposals).map(p => {
-        p.tally_result.yes = Math.round(
-          ratToBigNumber(p.tally_result.yes).toNumber()
-        )
-        p.tally_result.no = Math.round(
-          ratToBigNumber(p.tally_result.no).toNumber()
-        )
-        p.tally_result.no_with_veto = Math.round(
-          ratToBigNumber(p.tally_result.no_with_veto).toNumber()
-        )
-        p.tally_result.abstain = Math.round(
-          ratToBigNumber(p.tally_result.abstain).toNumber()
-        )
-        return p
-      })
+      return Object.keys(this.proposals).length > 0
     },
     filteredProposals() {
-      if (!this.proposals || this.proposals.length === 0) return []
-
       let query = this.filters.proposals.search.query || ``
       let proposals = orderBy(
-        this.parsedProposals,
+        this.proposals,
         [this.sort.property],
         [this.sort.order]
       )
@@ -95,10 +76,10 @@ export default {
           class: `proposal_title`
         },
         {
-          title: `Submitted Block`,
-          value: `submit_block`,
-          tooltip: `Block height when proposal was submitted`,
-          class: `submit_block`
+          title: `Proposal id`,
+          value: `proposal_id`,
+          tooltip: `Id of the proposal`,
+          class: `proposal_id`
         },
         {
           title: `Yes`,
@@ -127,69 +108,18 @@ export default {
       ]
     }
   },
+  mounted() {
+    Mousetrap.bind([`command+f`, `ctrl+f`], () => this.setSearch())
+    Mousetrap.bind(`esc`, () => this.setSearch())
+    this.$store.dispatch(`getProposals`)
+  },
   methods: {
-    setSearch(
-      bool = !this.filters[`proposals`].search.visible,
-      { somethingToSearch, $store } = this
-    ) {
-      if (somethingToSearch) {
-        $store.commit(`setSearchVisible`, [`proposals`, bool])
+    setSearch() {
+      if (this.somethingToSearch) {
+        let toggle = !this.filters[`proposals`].search.visible
+        this.$store.commit(`setSearchVisible`, [`proposals`, toggle])
       }
     }
-  },
-  mounted() {
-    Mousetrap.bind([`command+f`, `ctrl+f`], () => this.setSearch(true))
-    Mousetrap.bind([`command+n`, `ctrl+n`], () => this.newProposal())
-    Mousetrap.bind(`esc`, () => this.setSearch(false))
-
-    this.$store.dispatch(`getProposals`)
   }
 }
 </script>
-<style lang="stylus">
-@require '~variables'
-
-table
-  border-spacing 0 0.25rem
-  margin 0 0 0 2rem
-  min-width
-  padding 0
-  table-layout auto
-  counter-reset rowNumber + 1
-
-table tr
-  counter-increment rowNumber
-
-table tr td:first-child::before
-  content counter(rowNumber)
-  position absolute
-  font-size sm
-  width 2rem
-  text-align right
-  color var(--dim)
-  left -3rem
-
-table th
-  min-width 130px
-  width 100%
-  padding 0.5rem
-
-table td
-  min-width 130px
-  width 100%
-  padding 0 0.5rem
-  position relative
-
-  a
-    display inline-block
-
-table tr td:nth-child(3):after
-  display block
-  position absolute
-  content ''
-  height 2rem
-  width 2px
-  top 1.5rem
-  right 2rem
-  background var(--bc-dim)
-</style>

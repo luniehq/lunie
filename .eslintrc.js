@@ -2,23 +2,25 @@
 
 module.exports = {
   root: true,
-  parser: "babel-eslint",
+  extends: ["plugin:vue/recommended", "prettier", "prettier/vue"],
   parserOptions: {
     ecmaVersion: 2017,
-    sourceType: "module"
+    sourceType: "module",
+    parser: "babel-eslint"
   },
   env: {
     browser: true,
     es6: true,
     node: true
   },
-  plugins: ["html"],
+  plugins: ["vue", "prettier"],
   rules: {
     // allow debugger during development
     "no-debugger": process.env.NODE_ENV === "production" ? 2 : 0,
     "no-undef": "error",
     "no-unused-vars": "error",
     quotes: ["error", "backtick"],
-    "no-var": "error"
+    "no-var": "error",
+    "prettier/prettier": "error"
   }
 }

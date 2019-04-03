@@ -1,17 +1,37 @@
-<template lang="pug">
-.tm-session: .tm-session-container
-  .tm-session-header
-    a(@click="setState('welcome')"): i.material-icons arrow_back
-    .tm-session-title Sign In
-    a(@click="help"): i.material-icons help_outline
-  .tm-session-main
-    hardware-state(v-if="status == 'connect'" @click.native="setStatus('detect')"
-      icon="usb" value="Please plug in your Ledger Wallet")
-    hardware-state(v-if="status == 'detect'" @click.native="setStatus('success')"
-      icon="rotate_right" spin="true" value="Detecting your Ledger Wallet")
-    hardware-state(v-if="status == 'success'" @click.native="onSubmit"
-      icon="check_circle" value="Ledger Wallet successfully loaded")
-  .tm-session-footer
+<template>
+  <div class="tm-session">
+    <div class="tm-session-container">
+      <div class="tm-session-header">
+        <a @click="setState('welcome')"
+          ><i class="material-icons">arrow_back</i></a
+        >
+        <div class="tm-session-title">Sign In</div>
+        <a @click="help"><i class="material-icons">help_outline</i></a>
+      </div>
+      <div class="tm-session-main">
+        <hardware-state
+          v-if="status == 'connect'"
+          icon="usb"
+          value="Please plug in your Ledger Wallet"
+          @click.native="setStatus('detect')"
+        />
+        <hardware-state
+          v-if="status == 'detect'"
+          :spin="true"
+          icon="rotate_right"
+          value="Detecting your Ledger Wallet"
+          @click.native="setStatus('success')"
+        />
+        <hardware-state
+          v-if="status == 'success'"
+          icon="check_circle"
+          value="Ledger Wallet successfully loaded"
+          @click.native="onSubmit"
+        />
+      </div>
+      <div class="tm-session-footer" />
+    </div>
+  </div>
 </template>
 
 <script>

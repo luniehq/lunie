@@ -1,15 +1,21 @@
-"use strict"
+import * as Sentry from "@sentry/browser"
+import Vue from "vue"
 
 export default ({ node }) => {
   let emptyState = {
     loading: false,
-    proposals: {}
+    loaded: false,
+    error: null,
+    proposals: {},
+    tallies: {}
   }
   const state = JSON.parse(JSON.stringify(emptyState))
-
   const mutations = {
     setProposal(state, proposal) {
-      state.proposals[proposal.proposal_id] = proposal
+      Vue.set(state.proposals, proposal.proposal_id, proposal)
+    },
+    setProposalTally(state, { proposal_id, tally_result }) {
+      Vue.set(state.tallies, proposal_id, tally_result)
     }
   }
   let actions = {
@@ -19,37 +25,89 @@ export default ({ node }) => {
       }
     },
     resetSessionData({ rootState }) {
-      // clear previous account state
       rootState.proposals = JSON.parse(JSON.stringify(emptyState))
     },
-    async getProposals({ state, commit }) {
+    async getProposals({ state, commit, rootState }) {
       state.loading = true
-      let proposals = await node.queryProposals()
-      if (proposals.length > 0) {
-        proposals.forEach(proposal => {
-          commit(`setProposal`, proposal.value)
+
+      if (!rootState.connection.connected) return
+
+      try {
+        let tally_result
+        let proposals = await node.queryProposals()
+        if (proposals.length > 0) {
+          await Promise.all(
+            proposals.map(async proposal => {
+              commit(`setProposal`, proposal.value)
+              if (proposal.value.proposal_status === `VotingPeriod`) {
+                tally_result = await node.getProposalTally(
+                  proposal.value.proposal_id
+                )
+              } else {
+                tally_result = JSON.parse(
+                  JSON.stringify(proposal.value.tally_result)
+                )
+              }
+              commit(`setProposalTally`, {
+                proposal_id: proposal.value.proposal_id,
+                tally_result
+              })
+            })
+          )
+        }
+        state.error = null
+        state.loading = false
+        state.loaded = true
+      } catch (error) {
+        commit(`notifyError`, {
+          title: `Error fetching proposals`,
+          body: error.message
         })
+        Sentry.captureException(error)
+        state.error = error
       }
-      state.loading = false
+    },
+    async getProposal({ state, commit }, proposal_id) {
+      state.loading = true
+      try {
+        let tally_result
+        state.error = null
+        state.loading = false
+        state.loaded = true // TODO make state for single proposal
+        let proposal = await node.queryProposal(proposal_id)
+        commit(`setProposal`, proposal.value)
+        if (proposal.value.proposal_status === `VotingPeriod`) {
+          tally_result = await node.getProposalTally(proposal.value.proposal_id)
+        } else {
+          tally_result = JSON.parse(JSON.stringify(proposal.value.tally_result))
+        }
+        commit(`setProposalTally`, { proposal_id, tally_result })
+      } catch (error) {
+        commit(`notifyError`, {
+          title: `Error querying proposal with id #${proposal_id}`,
+          body: error.message
+        })
+        Sentry.captureException(error)
+        state.error = error
+      }
     },
     async submitProposal(
       {
         rootState: { wallet },
         dispatch
       },
-      proposal
+      { title, description, type, initial_deposit, password }
     ) {
       await dispatch(`sendTx`, {
         type: `submitProposal`,
         proposer: wallet.address,
-        proposal_type: proposal.proposal_type,
-        title: proposal.title,
-        description: proposal.description,
-        initial_deposit: proposal.initial_deposit
+        proposal_type: type,
+        title,
+        description,
+        initial_deposit,
+        password
       })
-      setTimeout(async () => {
-        dispatch(`getProposals`)
-      }, 5000)
+      await dispatch(`getProposals`)
     }
   }
   return {

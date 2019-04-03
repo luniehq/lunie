@@ -1,107 +1,137 @@
 "use strict"
 
-import htmlBeautify from "html-beautify"
-import { createLocalVue, mount } from "@vue/test-utils"
-import Vuelidate from "vuelidate"
+import setup from "../../../helpers/vuex-setup"
 import UndelegationModal from "staking/UndelegationModal"
+import Vuelidate from "vuelidate"
+import lcdClientMock from "renderer/connectors/lcdClientMock.js"
 
-// Create an example stake modal window.
-const getters = {
-  bondingDenom: `atom`
-}
-
-const Wrapper = () => {
-  const $store = {
-    commit: jest.fn(),
-    dispatch: jest.fn(),
-    getters
-  }
-
-  const localVue = createLocalVue()
+describe(`UndelegationModal`, () => {
+  let wrapper, store
+  let { stakingParameters } = lcdClientMock.state
+  let { mount, localVue } = setup()
   localVue.use(Vuelidate)
+  localVue.directive(`tooltip`, () => {})
+  localVue.directive(`focus`, () => {})
 
-  return mount(UndelegationModal, {
-    localVue,
-    propsData: {
-      maximum: 100,
-      to: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au`
-    },
-    mocks: {
-      $store
-    }
+  beforeEach(() => {
+    let instance = mount(UndelegationModal, {
+      localVue,
+      propsData: {
+        maximum: 100,
+        to: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au`,
+        denom: stakingParameters.parameters.bond_denom
+      }
+    })
+    wrapper = instance.wrapper
+    store = instance.store
+    store.commit(`setStakingParameters`, stakingParameters.parameters)
   })
-}
 
-test(`renders correctly`, () => {
-  expect(htmlBeautify(Wrapper().html())).toMatchSnapshot()
-})
+  describe(`component matches snapshot`, () => {
+    it(`has the expected html structure`, async () => {
+      expect(wrapper.vm.$el).toMatchSnapshot()
+    })
+  })
 
-test(`the "amount" field defaults to 0`, () => {
-  expect(Number(Wrapper().vm.amount)).toEqual(0)
-})
+  describe(`default values are set correctly`, () => {
+    it(`the 'amount' defaults to 0`, () => {
+      expect(wrapper.vm.amount).toEqual(0)
+    })
 
-test(`display the 'To' address`, () => {
-  expect(Wrapper().find(`#to`).element.value).toEqual(
-    `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au`
-  )
-})
+    it(`displays the user's wallet address as the default`, () => {
+      let toField = wrapper.find(`#to`)
+      expect(toField).toBeDefined()
+      expect(toField.element.value).toEqual(
+        `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au`
+      )
+    })
 
-test(`unstake button emits the unstake signal`, () => {
-  const wrapper = Wrapper()
-  wrapper.setData({ amount: 50 })
-  wrapper.vm.onUndelegate()
+    it(`account password defaults to an empty string`, () => {
+      expect(wrapper.vm.password).toEqual(``)
+    })
 
-  expect(wrapper.emittedByOrder()).toEqual([
-    {
-      name: `submitUndelegation`,
-      args: [
+    it(`password is hidden by default`, () => {
+      expect(wrapper.vm.showPassword).toBe(false)
+    })
+  })
+
+  describe(`Password display`, () => {
+    it(`toggles the password between text and password`, () => {
+      wrapper.vm.togglePassword()
+      expect(wrapper.vm.showPassword).toBe(true)
+      wrapper.vm.togglePassword()
+      expect(wrapper.vm.showPassword).toBe(false)
+    })
+  })
+
+  describe(`enables or disables the Delegation button correctly`, () => {
+    describe(`disables the 'Delegation' button`, () => {
+      it(`with default values`, () => {
+        let undelegationBtn = wrapper.find(`#submit-undelegation`)
+        expect(undelegationBtn.html()).toContain(`disabled="disabled"`)
+      })
+
+      it(`if the user manually inputs a number greater than the balance`, () => {
+        wrapper.setData({ amount: 142, password: `1234567890` })
+        let amountField = wrapper.find(`#amount`)
+        let undelegationBtn = wrapper.find(`#submit-undelegation`)
+        expect(undelegationBtn.html()).toContain(`disabled="disabled"`)
+        let errorMessage = wrapper.find(`input#amount + div`)
+        expect(errorMessage.classes()).toContain(`tm-form-msg--error`)
+
+        amountField.trigger(`input`)
+        expect(amountField.element.value).toBe(`100`)
+      })
+
+      it(`if the password field is empty`, () => {
+        wrapper.setData({ amount: 10, password: `` })
+        let undelegationBtn = wrapper.find(`#submit-undelegation`)
+        expect(undelegationBtn.html()).toContain(`disabled="disabled"`)
+      })
+    })
+
+    describe(`enables the 'Delegation' button`, () => {
+      it(`if the amout is positive and the user has enough balance`, () => {
+        wrapper.setData({ amount: 50, password: `1234567890` })
+
+        let undelegationBtn = wrapper.find(`#submit-undelegation`)
+        expect(undelegationBtn.html()).not.toContain(`disabled="disabled"`)
+      })
+    })
+  })
+
+  describe(`Undelegate`, () => {
+    it(`Undelegation button submits an unbonding delegation and closes modal`, () => {
+      wrapper.setData({ amount: 4.2, password: `1234567890` })
+      wrapper.vm.onUndelegate()
+
+      expect(wrapper.emittedByOrder()).toEqual([
         {
-          amount: 50
-        }
-      ]
-    },
-    {
-      name: `update:showUndelegationModal`,
-      args: [false]
-    }
-  ])
-})
-
-test(`only allow maximum owned atoms`, () => {
-  const wrapper = Wrapper()
-  wrapper.setProps({ maximum: 4.2 })
-
-  wrapper.find(`#amount`).element.value = 50
-  wrapper.find(`#amount`).trigger(`input`)
-  wrapper.update()
-  expect(wrapper.find(`#amount`).element.value).toBe(`4.2`)
-
-  wrapper.vm.onUndelegate()
-
-  expect(wrapper.emittedByOrder()).toEqual([
-    {
-      name: `submitUndelegation`,
-      args: [
+          name: `submitUndelegation`,
+          args: [
+            {
+              amount: 4.2,
+              password: `1234567890`
+            }
+          ]
+        },
         {
-          amount: 4.2
+          name: `update:showUndelegationModal`,
+          args: [false]
         }
-      ]
-    },
-    {
-      name: `update:showUndelegationModal`,
-      args: [false]
-    }
-  ])
-})
+      ])
+    })
+  })
 
-test(`X button emits close signal`, () => {
-  const wrapper = Wrapper()
-  wrapper.vm.close()
-
-  expect(wrapper.emittedByOrder()).toEqual([
-    {
-      name: `update:showUndelegationModal`,
-      args: [false]
-    }
-  ])
+  describe(`closes modal correctly`, () => {
+    it(`X button emits close signal`, () => {
+      wrapper.vm.close()
+      expect(wrapper.emittedByOrder()).toEqual([
+        {
+          name: `update:showUndelegationModal`,
+          args: [false]
+        }
+      ])
+    })
+  })
 })

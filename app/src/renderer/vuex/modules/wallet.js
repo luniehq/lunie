@@ -1,18 +1,18 @@
-"use strict"
-
-let fs = require(`fs-extra`)
-let { join } = require(`path`)
-const { remote } = require(`electron`)
+import * as Sentry from "@sentry/browser"
+import fs from "fs-extra"
+import { join } from "path"
+import { remote } from "electron"
+import { sleep } from "scripts/common.js"
 const root = remote.getGlobal(`root`)
-let { sleep } = require(`scripts/common.js`)
 
 export default ({ node }) => {
   let emptyState = {
     balances: [],
-    balancesLoading: true,
+    loading: true,
+    loaded: false,
+    error: null,
     denoms: [],
     address: null,
-    zoneIds: [`basecoind-demo1`, `basecoind-demo2`],
     subscribedRPC: null
   }
   let state = JSON.parse(JSON.stringify(emptyState))
@@ -20,7 +20,7 @@ export default ({ node }) => {
   let mutations = {
     setWalletBalances(state, balances) {
       state.balances = balances
-      state.balancesLoading = false
+      state.loading = false
     },
     setWalletAddress(state, address) {
       state.address = address
@@ -35,57 +35,80 @@ export default ({ node }) => {
 
   let actions = {
     reconnected({ state, dispatch }) {
-      if (state.balancesLoading && state.address) {
+      if (state.loading && state.address) {
         dispatch(`queryWalletBalances`)
       }
     },
     initializeWallet({ commit, dispatch }, address) {
       commit(`setWalletAddress`, address)
+      dispatch(`queryWalletBalances`)
       dispatch(`loadDenoms`)
-      dispatch(`queryWalletState`)
       dispatch(`walletSubscribe`)
     },
     resetSessionData({ rootState }) {
       // clear previous account state
       rootState.wallet = JSON.parse(JSON.stringify(emptyState))
     },
-    queryWalletState({ dispatch }) {
-      dispatch(`queryWalletBalances`)
-    },
     async queryWalletBalances({ state, rootState, commit }) {
       if (!state.address) return
 
-      let res = await node.queryAccount(state.address)
-      if (!res) {
-        state.balancesLoading = false
-        return
-      }
-      let coins = res.coins || []
-      commit(`setNonce`, res.sequence)
-      commit(`setAccountNumber`, res.account_number)
-      commit(`setWalletBalances`, coins)
-      for (let coin of coins) {
-        if (coin.denom === rootState.config.bondingDenom.toLowerCase()) {
-          commit(`setAtoms`, parseFloat(coin.amount))
-          break
-        }
-      }
+      state.loading = true
+      if (!rootState.connection.connected) return
 
-      state.balancesLoading = false
+      try {
+        let res = await node.queryAccount(state.address)
+        if (!res) {
+          state.loading = false
+          state.loaded = true
+          return
+        }
+        state.error = null
+        let coins = res.coins || []
+        commit(`setNonce`, res.sequence)
+        commit(`setAccountNumber`, res.account_number)
+        commit(`setWalletBalances`, coins)
+        for (let coin of coins) {
+          if (
+            coin.denom === rootState.stakingParameters.parameters.bond_denom
+          ) {
+            commit(`setAtoms`, parseFloat(coin.amount))
+            break
+          }
+        }
+        state.loading = false
+        state.loaded = true
+      } catch (error) {
+        commit(`notifyError`, {
+          title: `Error fetching balances`,
+          body: error.message
+        })
+        Sentry.captureException(error)
+        state.error = error
+      }
     },
-    async loadDenoms({ commit }) {
+    async loadDenoms({ commit, state }, maxIterations = 10) {
       // read genesis.json to get default denoms
 
       // wait for genesis.json to exist
       let genesisPath = join(root, `genesis.json`)
-      while (true) {
+
+      // wait for the genesis and load it
+      // at some point give up and throw an error
+      while (maxIterations) {
         try {
           await fs.pathExists(genesisPath)
           break
-        } catch (err) {
-          console.log(`waiting for genesis`, err, genesisPath)
+        } catch (error) {
+          console.log(`waiting for genesis`, error, genesisPath)
+          maxIterations--
           await sleep(500)
         }
+      }
+      if (maxIterations === 0) {
+        const error = new Error(`Couldn't load genesis at path ${genesisPath}`)
+        Sentry.captureException(error)
+        state.error = error
+        return
       }
 
       let genesis = await fs.readJson(genesisPath)
@@ -104,9 +127,10 @@ export default ({ node }) => {
       return new Promise(resolve => {
         // wait until height is >= `height`
         let interval = setInterval(() => {
-          if (rootState.node.lastHeader.height < height) return
+          if (rootState.connection.lastHeader.height < height) return
           clearInterval(interval)
-          dispatch(`queryWalletState`)
+          dispatch(`queryWalletBalances`)
+          dispatch(`getBondedDelegates`)
           resolve()
         }, 1000)
       })
@@ -119,9 +143,11 @@ export default ({ node }) => {
 
       state.subscribedRPC = node.rpc
 
-      function onTx(err, event) {
-        if (err) {
-          return console.error(`error subscribing to transactions`, err)
+      function onTx(error, event) {
+        if (error) {
+          Sentry.captureException(error)
+          console.error(`error subscribing to transactions`, error)
+          return
         }
         dispatch(
           `queryWalletStateAfterHeight`,
@@ -129,19 +155,23 @@ export default ({ node }) => {
         )
       }
 
-      node.rpc.subscribe(
-        {
-          query: `tm.event = 'Tx' AND sender = '${state.address}'`
-        },
-        onTx
-      )
+      const queries = [
+        `tm.event = 'Tx' AND sender = '${state.address}'`,
+        `tm.event = 'Tx' AND recipient = '${state.address}'`,
+        `tm.event = 'Tx' AND proposer = '${state.address}'`,
+        `tm.event = 'Tx' AND depositor = '${state.address}'`,
+        `tm.event = 'Tx' AND delegator = '${state.address}'`,
+        `tm.event = 'Tx' AND voter = '${state.address}'`
+      ]
 
-      node.rpc.subscribe(
-        {
-          query: `tm.event = 'Tx' AND recipient = '${state.address}'`
-        },
-        onTx
-      )
+      queries.forEach(query => {
+        node.rpc.subscribe(
+          {
+            query
+          },
+          onTx
+        )
+      })
     }
   }
 

@@ -1,6 +1,6 @@
 import TmOnboarding from "common/TmOnboarding.vue"
-import htmlBeautify from "html-beautify"
 import setup from "../../../helpers/vuex-setup"
+import lcdClientMock from "renderer/connectors/lcdClientMock.js"
 
 jest.mock(
   `../../../../../app/src/renderer/assets/images/onboarding/step-0.png`,
@@ -25,42 +25,40 @@ jest.mock(
 
 describe(`TmOnboarding`, () => {
   let wrapper, store, instance
+  let { stakingParameters } = lcdClientMock.state
+
   let { mount } = setup()
 
   beforeEach(() => {
     instance = mount(TmOnboarding)
     wrapper = instance.wrapper
     store = instance.store
-    wrapper.update()
+    store.commit(`setStakingParameters`, stakingParameters.parameters)
   })
 
   it(`has the expected html structure 0`, () => {
     store.commit(`setOnboardingState`, `0`)
-    expect(htmlBeautify(wrapper.html())).toMatchSnapshot()
+    expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
   it(`has the expected html structure 1`, () => {
     store.commit(`setOnboardingState`, `1`)
-    wrapper.update()
-    expect(htmlBeautify(wrapper.html())).toMatchSnapshot()
+    expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
   it(`has the expected html structure 2`, () => {
     store.commit(`setOnboardingState`, `2`)
-    wrapper.update()
-    expect(htmlBeautify(wrapper.html())).toMatchSnapshot()
+    expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
   it(`has the expected html structure 3`, () => {
     store.commit(`setOnboardingState`, `3`)
-    wrapper.update()
-    expect(htmlBeautify(wrapper.html())).toMatchSnapshot()
+    expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
   it(`has the expected html structure 4`, () => {
     store.commit(`setOnboardingState`, `4`)
-    wrapper.update()
-    expect(htmlBeautify(wrapper.html())).toMatchSnapshot()
+    expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
   it(`can go to another onboarding node`, () => {

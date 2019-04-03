@@ -1,7 +1,6 @@
 import setup from "../../../helpers/vuex-setup"
 import Vuelidate from "vuelidate"
-import htmlBeautify from "html-beautify"
-import NISessionSignUp from "common/TmSessionSignUp"
+import TmSessionSignUp from "common/TmSessionSignUp"
 jest.mock(`renderer/google-analytics.js`, () => () => {})
 
 let instance = setup()
@@ -11,7 +10,7 @@ describe(`NISessionSignUp`, () => {
   let wrapper, store
 
   beforeEach(() => {
-    let test = instance.mount(NISessionSignUp, {
+    let test = instance.mount(TmSessionSignUp, {
       getters: {
         connected: () => true
       }
@@ -21,8 +20,7 @@ describe(`NISessionSignUp`, () => {
   })
 
   it(`has the expected html structure`, () => {
-    wrapper.update()
-    expect(htmlBeautify(wrapper.html())).toMatchSnapshot()
+    expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
   it(`should go back to the welcome screen on click`, () => {
@@ -43,7 +41,16 @@ describe(`NISessionSignUp`, () => {
   })
 
   it(`should close the modal on successful login`, async () => {
-    wrapper.setData({
+    const commit = jest.fn()
+    await wrapper.vm.onSubmit({
+      $store: {
+        commit,
+        dispatch: jest.fn(() => `key`)
+      },
+      $v: {
+        $touch: () => {},
+        $error: false
+      },
       fields: {
         signUpPassword: `1234567890`,
         signUpPasswordConfirm: `1234567890`,
@@ -52,12 +59,21 @@ describe(`NISessionSignUp`, () => {
         signUpWarning: true
       }
     })
-    await wrapper.vm.onSubmit()
-    expect(store.commit).toHaveBeenCalledWith(`setModalSession`, false)
+    expect(commit).toHaveBeenCalledWith(`setModalSession`, false)
   })
 
   it(`should signal signedin state on successful login`, async () => {
-    wrapper.setData({
+    const commit = jest.fn()
+    const dispatch = jest.fn(() => `key`)
+    await wrapper.vm.onSubmit({
+      $store: {
+        commit,
+        dispatch
+      },
+      $v: {
+        $touch: () => {},
+        $error: false
+      },
       fields: {
         signUpPassword: `1234567890`,
         signUpPasswordConfirm: `1234567890`,
@@ -66,18 +82,25 @@ describe(`NISessionSignUp`, () => {
         signUpWarning: true
       }
     })
-    await wrapper.vm.onSubmit()
-    expect(
-      store.commit.mock.calls.find(([action]) => action === `notify`)[1]
-    ).toMatchSnapshot()
-    expect(store.dispatch).toHaveBeenCalledWith(`signIn`, {
+    expect(commit).toHaveBeenCalledWith(`notify`, expect.any(Object))
+    expect(dispatch).toHaveBeenCalledWith(`signIn`, {
       password: `1234567890`,
       account: `testaccount`
     })
   })
 
   it(`should set error collection opt in state`, async () => {
-    wrapper.setData({
+    const commit = jest.fn()
+    const dispatch = jest.fn(() => `key`)
+    await wrapper.vm.onSubmit({
+      $store: {
+        commit,
+        dispatch
+      },
+      $v: {
+        $touch: () => {},
+        $error: false
+      },
       fields: {
         signUpPassword: `1234567890`,
         signUpPasswordConfirm: `1234567890`,
@@ -87,33 +110,32 @@ describe(`NISessionSignUp`, () => {
         errorCollection: true
       }
     })
-    await wrapper.vm.onSubmit()
-    expect(
-      store.dispatch.mock.calls.find(
-        ([action]) => action === `setErrorCollection`
-      )[1]
-    ).toMatchObject({
+    expect(dispatch).toHaveBeenCalledWith(`setErrorCollection`, {
       account: `testaccount`,
       optin: true
     })
 
-    wrapper.setData({
+    dispatch.mockClear()
+
+    await wrapper.vm.onSubmit({
+      $store: {
+        commit,
+        dispatch
+      },
+      $v: {
+        $touch: () => {},
+        $error: false
+      },
       fields: {
         signUpPassword: `1234567890`,
         signUpPasswordConfirm: `1234567890`,
         signUpSeed: `bar`, // <-- doesn#t check for correctness of seed
         signUpName: `testaccount`,
-        signUpWarning: true,
+        signUpWarning: false,
         errorCollection: false
       }
     })
-    store.dispatch.mockClear()
-    await wrapper.vm.onSubmit()
-    expect(
-      store.dispatch.mock.calls.find(
-        ([action]) => action === `setErrorCollection`
-      )[1]
-    ).toMatchObject({
+    expect(dispatch).toHaveBeenCalledWith(`setErrorCollection`, {
       account: `testaccount`,
       optin: false
     })
@@ -195,18 +217,29 @@ describe(`NISessionSignUp`, () => {
   })
 
   it(`should show a notification if creation failed`, async () => {
-    store.dispatch = jest.fn(() => Promise.reject({ message: `test` }))
-    wrapper.setData({
+    let $store = {
+      commit: jest.fn(),
+      dispatch: jest.fn(() => Promise.reject({ message: `reason` }))
+    }
+
+    let self = {
       fields: {
         signUpPassword: `1234567890`,
         signUpPasswordConfirm: `1234567890`,
         signUpSeed: `bar`,
         signUpName: `testaccount`,
         signUpWarning: true
-      }
+      },
+      $v: {
+        $touch: () => {},
+        $error: false
+      },
+      $store
+    }
+    await TmSessionSignUp.methods.onSubmit.call(self)
+    expect($store.commit).toHaveBeenCalledWith(`notifyError`, {
+      title: `Couldn't create account`,
+      body: expect.stringContaining(`reason`)
     })
-    await wrapper.vm.onSubmit()
-    expect(store.commit.mock.calls[0][0]).toEqual(`notifyError`)
-    expect(store.commit.mock.calls[0][1].body).toEqual(`test`)
   })
 })

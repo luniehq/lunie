@@ -1,35 +1,28 @@
-<template lang='pug'>
-.tm-modal-search(v-if="open")
-  form.tm-modal-search-container(
-    v-if="type === 'blocks'"
-    v-on:submit.prevent.default="gotoBlock")
-    tm-form-group(field-id="search-input" field-label=""
-      :error="$v.filters.blocks.search.query.$invalid")
-      .tm-modal-search-field
-        tm-field#search-input.mousetrap(
-          type="number"
-          step="1"
-          placeholder="View block height..."
-          v-model="query")
-        tm-btn(value="Find")
-        tm-btn(type="button" icon="close" @click.native="close")
-      tm-form-msg(name="Query" type="numeric"
-        v-if="!$v.filters.blocks.search.query.numeric")
-      tm-form-msg(name="Query" type="between" min="0"
-        :max="$v.filters.blocks.search.query.$params.between.max"
-        v-if="!$v.filters.blocks.search.query.between")
-  .tm-modal-search-container(v-else)
-    tm-form-group(field-id="search-input" field-label="")
-      .tm-modal-search-field
-        tm-field#search-input.mousetrap(
-          type="text" placeholder="Search..." v-model="query")
-        tm-btn(icon="close" @click.native="close")
+<template>
+  <div v-if="open" class="tm-modal-search">
+    <div class="tm-modal-search-container">
+      <tm-form-group field-id="search-input" field-label="">
+        <div class="tm-modal-search-field">
+          <tm-field
+            id="search-input"
+            v-model.trim="query"
+            class="mousetrap"
+            type="text"
+            placeholder="Search..."
+          />
+          <tm-btn icon="close" @click.native="close" />
+        </div>
+      </tm-form-group>
+    </div>
+  </div>
 </template>
 
 <script>
-import { between, numeric } from "vuelidate/lib/validators"
 import { mapGetters } from "vuex"
-import { TmBtn, TmFormGroup, TmField, TmFormMsg } from "@tendermint/ui"
+import TmBtn from "common/TmBtn"
+import TmFormGroup from "common/TmFormGroup"
+import TmField from "common/TmField"
+import TmFormMsg from "common/TmFormMsg"
 export default {
   name: `modal-search`,
   components: {
@@ -37,6 +30,12 @@ export default {
     TmField,
     TmFormGroup,
     TmFormMsg
+  },
+  props: {
+    type: {
+      type: String,
+      required: true
+    }
   },
   computed: {
     ...mapGetters([`filters`, `lastHeader`]),
@@ -52,66 +51,53 @@ export default {
       }
     }
   },
-  methods: {
-    close() {
-      this.$store.commit(`setSearchVisible`, [this.type, false])
-    },
-    gotoBlock() {
-      this.$router.push({
-        name: `block`,
-        params: { block: this.filters.blocks.search.query }
-      })
-    }
-  },
-  validations: () => ({
-    filters: {
-      blocks: {
-        search: {
-          query: {
-            numeric,
-            between(height) {
-              return between(1, this.lastHeader.height)(height)
-            }
-          }
-        }
-      }
-    }
-  }),
   watch: {
     open(open) {
       if (open) {
         setTimeout(() => {
           let el = this.$el.querySelector(`.tm-field`)
-          el.select()
+          el.focus()
         })
       }
     }
   },
-  props: [`type`]
+  methods: {
+    close() {
+      this.$store.commit(`setSearchVisible`, [this.type, false])
+    }
+  }
 }
 </script>
 
-<style lang="stylus">
-@require '~variables'
-.tm-modal-search
-  position sticky
-  top 0
-  z-index z(modal)
-  width 100%
-.tm-modal-search-container
-  background var(--app-fg)
-  margin-bottom 1rem
-  padding 0.5rem 0
+<style>
+.tm-modal-search {
+  position: sticky;
+  top: 0;
+  z-index: var(--z-modal);
+  width: 100%;
+}
 
-  .tm-btn
-    margin-left 0.5rem
-  .tm-field
-    background var(--app-bg)
+.tm-modal-search-container {
+  background: var(--app-fg);
+  margin-bottom: 1rem;
+  padding: 0.5rem 0;
+}
 
-.tm-modal-search-field
-  display flex
-  flex 1
-  .tm-field
-    width auto
-    flex 1
+.tm-modal-search-container .tm-btn {
+  margin-left: 0.5rem;
+}
+
+.tm-modal-search-container .tm-field {
+  background: var(--app-bg);
+}
+
+.tm-modal-search-field {
+  display: flex;
+  flex: 1;
+}
+
+.tm-modal-search-field .tm-field {
+  width: auto;
+  flex: 1;
+}
 </style>

@@ -2,6 +2,7 @@
 
 exports[`TextBlock has the expected html structure 1`] = `
 <div
+  author="faboweb"
   class="text-block"
 >
   <p>

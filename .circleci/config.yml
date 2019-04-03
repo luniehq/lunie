@@ -32,7 +32,7 @@ jobs:
 
   changelogUpdated:
     docker:
-      - image: circleci/node:9.4.0-browsers
+      - image: circleci/node:10.13.0-browsers
 
     steps:
       - checkout
@@ -41,7 +41,7 @@ jobs:
 
   testUnit:
     docker:
-      - image: circleci/node:9.4.0-browsers
+      - image: circleci/node:10.13.0-browsers
 
     steps:
       - checkout
@@ -72,7 +72,7 @@ jobs:
 
   testE2e:
     docker:
-      - image: circleci/node:9.4.0-browsers
+      - image: circleci/node:10.13.0-browsers
 
     environment:
       - BINARY_PATH: "/home/circleci/project/builds/Gaia/linux_amd64/gaiacli"
@@ -109,7 +109,7 @@ jobs:
   # Create release.
   release:
     docker:
-      - image: circleci/node:9.11.1
+      - image: circleci/node:10.13.0
 
     steps:
       - checkout
@@ -125,7 +125,7 @@ jobs:
   # Publish the release to GitHub.
   publish:
     docker:
-      - image: circleci/node:9.11.1
+      - image: circleci/node:10.13.0
 
     steps:
       - checkout
@@ -149,7 +149,8 @@ jobs:
               yarn install
 
               # download network configs
-              tasks/build/testnets/build.sh
+              # skip as this will overwrite game of stakes
+              # tasks/build/testnets/build.sh
 
               # build Voyager
               node tasks/build/build.js

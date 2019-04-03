@@ -1,17 +1,19 @@
-<template lang="pug">
-tm-list-item.tm-li-user(
-  v-if="user.signedIn"
-  type="link"
-  to="/preferences"
-  @click.native="close"
-  title="Preferences"
-  :subtitle="user.account")
+<template>
+  <tm-list-item
+    v-if="user.signedIn"
+    :subtitle="user.account"
+    class="tm-li-user"
+    type="link"
+    to="/preferences"
+    title="Preferences"
+    @click.native="close"
+  />
 </template>
 
 <script>
 import { mapGetters } from "vuex"
 import noScroll from "no-scroll"
-import { TmListItem } from "@tendermint/ui"
+import TmListItem from "common/TmListItem"
 export default {
   name: `tm-user-pane`,
   components: { TmListItem },
@@ -25,10 +27,9 @@ export default {
 }
 </script>
 
-<style lang="stylus">
-@import '~variables'
-
-.tm-li.tm-li-user
-  border-top px solid var(--bc)
-  height 3.5rem + px
+<style>
+.tm-li.tm-li-user {
+  border-top: px solid var(--bc);
+  height: calc(3.5rem + var(--px));
+}
 </style>

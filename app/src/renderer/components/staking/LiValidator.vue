@@ -1,18 +1,54 @@
-<template lang='pug'>
-tr.li-validator
-  td.li-validator__moniker-container
-    img.li-validator__avatar(v-if="validator.keybase" :src="validator.keybase.avatarUrl" width="48" height="48")
-    img.li-validator__avatar.no-img(v-else src="~assets/images/validator-icon.svg" width="48" height="48")
-    .li-validator__name-container
-      span.validator-profile__status(v-bind:class="statusColor" v-tooltip.top="status")
-      router-link.li-validator__moniker(:to="{ name: 'validator', params: { validator: validator.id }}", :class='styles') {{ validator.description.moniker }}
-      short-bech32.li-validator__address(:address="validator.operator_address")
-  td.li-validator__delegated-steak {{ yourVotes.isLessThan(0.01) && yourVotes.isGreaterThan(0) ? '< ' + num.shortNumber(0.01) : num.shortNumber(yourVotes) }}
-  td.li-validator__rewards n/a
-  td.li-validator__voting-power {{ validator.percent_of_vote ? validator.percent_of_vote : `n/a` }}
-  td.li-validator__uptime {{ uptime }}
-  td.li-validator__commission {{ commission }}
-  td.li-validator__slashes n/a
+<template>
+  <tr class="data-table__row li-validator">
+    <td class="data-table__row__info">
+      <img
+        v-if="validator.keybase"
+        :src="validator.keybase.avatarUrl"
+        class="data-table__row__info__image"
+        width="48"
+        height="48"
+      /><img
+        v-else
+        class="data-table__row__info__image data-table__row__info__image--no-img"
+        src="~assets/images/validator-icon.svg"
+        width="48"
+        height="48"
+      />
+      <div class="data-table__row__info__container">
+        <span
+          v-tooltip.top="status"
+          :class="statusColor"
+          class="data-table__row__info__container__status"
+        />
+        <router-link
+          :to="{
+            name: 'validator',
+            params: { validator: validator.operator_address }
+          }"
+          :class="styles"
+          class="data-table__row__info__container__name"
+          >{{ validator.description.moniker }}</router-link
+        >
+        <div class="data-table__row__info__container__description">
+          <short-bech32 :address="validator.operator_address" />
+        </div>
+      </div>
+    </td>
+    <td class="li-validator__delegated-steak">
+      {{
+        yourVotes.isLessThan(0.01) && yourVotes.isGreaterThan(0)
+          ? "< " + num.shortNumber(0.01) // eslint-disable-line
+          : num.shortNumber(yourVotes)
+      }}
+    </td>
+    <td class="li-validator__rewards data-table__row__cell__separator">n/a</td>
+    <td class="li-validator__voting-power">
+      {{ validator.percent_of_vote ? validator.percent_of_vote : `n/a` }}
+    </td>
+    <td class="li-validator__uptime">{{ uptime }}</td>
+    <td class="li-validator__commission">{{ commission }}</td>
+    <td class="li-validator__slashes">n/a</td>
+  </tr>
 </template>
 
 <script>
@@ -23,10 +59,20 @@ import ShortBech32 from "common/ShortBech32"
 import BigNumber from "bignumber.js"
 export default {
   name: `li-validator`,
-  props: [`validator`, `disabled`],
   components: {
     ShortBech32
   },
+  props: {
+    validator: {
+      type: Object,
+      required: true
+    },
+    disabled: {
+      type: Boolean,
+      required: true
+    }
+  },
+  data: () => ({ num }),
   computed: {
     ...mapGetters([`delegates`, `committedDelegations`]),
     commission() {
@@ -59,8 +105,8 @@ export default {
       return this.validator.revoked
         ? `Revoked`
         : this.validator.isValidator
-          ? `Validator`
-          : `Candidate`
+        ? `Validator`
+        : `Candidate`
     },
     powerRatio() {
       return ratToBigNumber(this.validator.tokens)
@@ -89,58 +135,15 @@ export default {
       // status: active
       return `green`
     }
-  },
-  data: () => ({ num })
+  }
 }
 </script>
 
-<style lang="stylus">
-@require '~variables'
-
-.li-validator
-  padding 1rem
-  background-color var(--app-fg)
-  border-radius 0.25rem
-  border 1px solid var(--bc-dim)
-
-  &:hover
-    background var(--hover-bg)
-
-  .validator-profile__status
-    left 0
-    top 0.5rem
-
-.li-validator__name-container
-  position relative
-  margin-left 0.5rem
-
-  .li-validator__moniker
-    padding-left 0.75rem
-
-.li-validator__moniker-container
-  display flex
-  align-items center
-  width 100%
-
-.li-validator__moniker
-  max-width 200px
-  overflow hidden
-  white-space nowrap
-  text-overflow ellipsis
-
-.li-validator__avatar
-  height 3rem
-  width 3rem
-  margin 1rem 0.5rem
-  border-radius 50%
-  display block
-  background var(--app-nav)
-
-  &.no-img
-    padding 0.5rem
-
-.li-validator__address
-  .address
-    font-size sm
-
+<style>
+.li-validator .li-validator__delegated-steak {
+  min-width: 10rem;
+}
+.li-validator .li-validator__voting-power {
+  min-width: 9rem;
+}
 </style>

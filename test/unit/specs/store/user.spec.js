@@ -1,4 +1,5 @@
 import setup from "../../helpers/vuex-setup"
+import userModule from "renderer/vuex/modules/user.js"
 import b32 from "scripts/b32"
 
 function mockGA() {
@@ -13,8 +14,7 @@ describe(`Module: User`, () => {
   let accounts = [
     {
       address: `tb1zg69v7yszg69v7yszg69v7yszg69v7ysd8ep6q`,
-      name: `ACTIVE_ACCOUNT`,
-      password: `1234567890`
+      name: `ACTIVE_ACCOUNT`
     }
   ]
 
@@ -26,7 +26,6 @@ describe(`Module: User`, () => {
 
   it(`should default to signed out state`, () => {
     expect(store.state.user.signedIn).toBe(false)
-    expect(store.state.user.password).toBe(null)
     expect(store.state.user.account).toBe(null)
     expect(store.state.user.address).toBe(null)
   })
@@ -52,9 +51,20 @@ describe(`Module: User`, () => {
   })
 
   it(`should show an error if loading accounts fails`, async () => {
-    node.keys.values = () => Promise.reject(`Expected Error`)
-    await store.dispatch(`loadAccounts`)
-    expect(store.state.notifications[0].title).toBe(`Couldn't read keys`)
+    let { actions, state } = userModule({
+      node: {
+        keys: {
+          values: () => Promise.reject(new Error(`Expected Error`))
+        }
+      }
+    })
+    jest.spyOn(console, `error`).mockImplementationOnce(() => {})
+    const commit = jest.fn()
+    await actions.loadAccounts({ state, commit })
+    expect(commit).toHaveBeenCalledWith(`notifyError`, {
+      title: `Couldn't read keys`,
+      body: expect.stringContaining(`Expected Error`)
+    })
   })
 
   it(`should set atoms`, () => {
@@ -153,7 +163,6 @@ describe(`Module: User`, () => {
     await store.dispatch(`signIn`, { password, account })
     store.dispatch(`signOut`)
     expect(store.state.user.account).toBe(null)
-    expect(store.state.user.password).toBe(null)
     expect(store.state.user.signedIn).toBe(false)
 
     // hide login
@@ -161,19 +170,21 @@ describe(`Module: User`, () => {
   })
 
   it(`should set the error collection opt in`, async () => {
-    const Raven = require(`raven-js`)
-    const ravenSpy = jest.spyOn(Raven, `config`)
-    store.dispatch(`setErrorCollection`, { account: `abc`, optin: true })
+    const Sentry = require(`@sentry/browser`)
+    await store.dispatch(`setErrorCollection`, { account: `abc`, optin: true })
     expect(store.state.user.errorCollection).toBe(true)
     expect(window.analytics).toBeTruthy()
-    expect(ravenSpy).toHaveBeenCalled()
-    expect(ravenSpy).not.toHaveBeenCalledWith(``)
-    expect(ravenSpy.mock.calls).toMatchSnapshot()
+    expect(Sentry.init).toHaveBeenCalled()
+    expect(Sentry.init).toHaveBeenCalledWith({
+      dsn: expect.stringMatching(`https://.*@sentry.io/.*`),
+      release: `voyager@0.0.1`
+    })
 
+    Sentry.init.mockClear()
     store.dispatch(`setErrorCollection`, { account: `abc`, optin: false })
     expect(store.state.user.errorCollection).toBe(false)
     expect(window.analytics).toBeFalsy()
-    expect(ravenSpy).toHaveBeenCalledWith(``)
+    expect(Sentry.init).toHaveBeenCalledWith({})
   })
 
   it(`should persist the error collection opt in`, () => {
@@ -206,8 +217,7 @@ describe(`Module: User`, () => {
   })
 
   it(`should not set error collection if in development mode`, async () => {
-    const Raven = require(`raven-js`)
-    const ravenSpy = jest.spyOn(Raven, `config`)
+    const Sentry = require(`@sentry/browser`)
     jest.doMock(`electron`, () => ({
       ipcRenderer: { send: jest.fn() },
       remote: {
@@ -220,18 +230,25 @@ describe(`Module: User`, () => {
       }
     }))
 
-    // we need to force resetting of the store modules to enable the new electron mock
+    // we need to reset the module to use the mocked electron dependency
     jest.resetModules()
-    let setup = require(`../../helpers/vuex-setup`).default
-    let instance = setup()
-    let test = instance.shallow()
-    store = test.store
-    node = test.node
+    const userModule = require(`renderer/vuex/modules/user.js`).default
+    let { actions, state } = userModule({
+      node: {
+        keys: {
+          values: () => Promise.reject(new Error(`Expected Error`))
+        }
+      }
+    })
 
-    ravenSpy.mockClear()
-    store.dispatch(`setErrorCollection`, { account: `abc`, optin: true })
-    expect(store.state.user.errorCollection).toBe(false)
+    const commit = jest.fn()
+    Sentry.init.mockClear()
+    actions.setErrorCollection(
+      { state, commit },
+      { account: `abc`, optin: true }
+    )
+    expect(state.errorCollection).toBe(false)
     expect(window.analytics).toBeFalsy()
-    expect(ravenSpy).not.toHaveBeenCalled()
+    expect(Sentry.init).not.toHaveBeenCalled()
   })
 })

@@ -1,9 +1,15 @@
 let test = require(`tape-promise/tape`)
 let { getApp, restart } = require(`./launch.js`)
-let { navigate, login, sleep, waitForText } = require(`./common.js`)
+let {
+  navigate,
+  login,
+  sleep,
+  waitForText,
+  closeNotifications
+} = require(`./common.js`)
 /*
-* NOTE: don't use a global `let client = app.client` as the client object changes when restarting the app
-*/
+ * NOTE: don't use a global `let client = app.client` as the client object changes when restarting the app
+ */
 
 test(`delegation`, async function(t) {
   let { app } = await getApp(t)
@@ -26,28 +32,30 @@ test(`delegation`, async function(t) {
       `it shows all three validators`
     )
     await t.ok(
-      await app.client.$(`.li-validator__moniker=local_1`).isVisible(),
+      await app.client
+        .$(`.data-table__row__info__container__name=local_1`)
+        .isVisible(),
       `show validator 1`
     )
     await t.ok(
-      await app.client.$(`.li-validator__moniker=local_2`).isVisible(),
+      await app.client
+        .$(`.data-table__row__info__container__name=local_2`)
+        .isVisible(),
       `show validator 2`
     )
     await t.ok(
-      await app.client.$(`.li-validator__moniker=local_3`).isVisible(),
+      await app.client
+        .$(`.data-table__row__info__container__name=local_3`)
+        .isVisible(),
       `show validator 3`
     )
-    let myVotesText = await app.client
-      .$(`.li-validator__delegated-steak`)
-      .getText()
-    let myVotes = parseFloat(myVotesText.replace(/,/g, ``))
-    console.log(myVotesText, myVotes)
-    await t.equal(
-      myVotes,
-      parseFloat(bondedStake),
-      `show my stake in the validator`
-    )
 
+    // check if my stake in the validator is correct
+    await waitForText(
+      () => app.client.$(`.li-validator__delegated-steak`),
+      `${bondedStake}.0000…`,
+      10 * 10000
+    )
     t.end()
   })
 
@@ -59,6 +67,8 @@ test(`delegation`, async function(t) {
       .$(`.header-balance .unbonded-atoms h2`)
       .getText()).split(`.`)[0] // 30.000...
 
+    await t.equal(totalAtoms, `130`, `i have 130 Atoms`)
+    await t.equal(unbondedAtoms, `30`, `i have 30 unbounded Atoms`)
     // Select the second validator.
     await app.client.click(`//*[. = 'local_2']`)
 
@@ -74,27 +84,31 @@ test(`delegation`, async function(t) {
     await app.client
       .click(`//button/*[. = 'Delegate']`)
       .setValue(`#amount`, 10)
+      .setValue(`#password`, `1234567890`)
       .click(
         `//*[@id = 'delegation-modal']//button//*[. = 'Confirm Delegation']`
       )
       .waitForVisible(
-        `//*[. = 'You have successfully delegated your Steaks']`,
-        5 * 1000
+        `//*[. = 'You have successfully delegated your STAKEs']`,
+        10 * 1000
       )
 
       // Go back to Staking page.
       .click(`//a//*[. = 'Staking']`)
 
-    // there was a bug that updated the balances in a way that it would show more atoms,
-    // then the users has
+    console.log(`Testing total balance`)
     await waitForText(
       () => app.client.$(`.header-balance .total-atoms h2`),
-      `${totalAtoms}.0000…`
+      `${parseInt(totalAtoms) - 10}.0000…`,
+      10 * 1000
     )
+    console.log(`Testing unbonded balance`)
     await waitForText(
       () => app.client.$(`.header-balance .unbonded-atoms h2`),
-      `${unbondedAtoms - 10}.0000…`
+      `${parseInt(unbondedAtoms) - 10}.0000…`,
+      10 * 1000
     )
+    await closeNotifications(app)
 
     // Shouldn't be necessary but see
     // https://github.com/jprichardson/tape-promise/issues/17#issuecomment-425276035.
@@ -121,32 +135,79 @@ test(`delegation`, async function(t) {
     await app.client
       .click(`//button/*[. = 'Undelegate']`)
       .setValue(`#amount`, 5)
+      .setValue(`#password`, `1234567890`)
       .click(`//*[@id = 'undelegation-modal']//button//*[. = 'Undelegate']`)
       .waitForVisible(
-        `//*[. = 'You have successfully undelegated 5 Steaks.']`,
+        `//*[. = 'You have successfully undelegated 5 STAKEs.']`,
         5 * 1000
       )
 
       // Go back to Staking page.
       .click(`//a//*[. = 'Staking']`)
+    await closeNotifications(app)
 
     // Shouldn't be necessary but see
     // https://github.com/jprichardson/tape-promise/issues/17#issuecomment-425276035.
     t.end()
   })
 
-  // TODO uncomment when redelegation tab is added again
-  // t.test(`Parameters`, async function(t) {
-  //   // Select the Parameters tab.
-  //   await app.client.click(`//a[. = 'Parameters']`)
-  //
-  //   await t.notOk(
-  //     await app.client.waitForExist(`.tm-notification`, 2 * 1000),
-  //     `should not get an notification error while fetching params and pool`
-  //   )
-  //
-  //   t.end()
-  // })
+  t.test(`showing transactions`, async function(t) {
+    await navigate(app, `Transactions`)
+
+    // delegated
+    await app.client.waitForExist(
+      `//div[contains(text(), "Delegated")]`,
+      15 * 1000
+    )
+    // unbonded
+    await app.client.waitForExist(
+      `//div[contains(text(), "Unbonded")]`,
+      15 * 1000
+    )
+
+    // TODO redelegation transaction
+
+    t.end()
+  })
+
+  t.test(`Parameters`, async function(t) {
+    await navigate(app, `Staking`)
+    await app.client.click(`//a[. = 'Parameters']`)
+    await t.ok(
+      await app.client.waitForVisible(
+        `//h3[contains(text(), "Staking Pool")]`,
+        1000
+      ),
+      `Shows staking pool`
+    )
+    await t.ok(
+      await app.client.waitForVisible(
+        `//h3[contains(text(), "Staking Parameters")]`,
+        1000
+      ),
+      `Shows staking parameters`
+    )
+    await t.ok(
+      !(await app.client.isExisting(`//dd[contains(text(), "n/a")]`)),
+      `all parameters and pool fields are defined`
+    )
+    await t.ok(
+      !(await app.client.isExisting(`.tm-notification`, 4 * 1000)),
+      `should not get a notification error while fetching params and pool`
+    )
+    // test that the parameters and pool values are displayed
+    await t.equal(
+      await app.client.$(`#loose_tokens`).getText(),
+      `25.0000000000`,
+      `display pool values`
+    )
+    await t.equal(
+      await app.client.$(`#max_validators`).getText(),
+      `100`,
+      `display params values`
+    )
+    t.end()
+  })
 
   t.end()
 })

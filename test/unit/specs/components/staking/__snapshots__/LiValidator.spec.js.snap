@@ -2,78 +2,98 @@
 
 exports[`LiValidator has the expected html structure 1`] = `
 <tr
-  class="li-validator"
+  class="data-table__row li-validator"
 >
   <td
-    class="li-validator__moniker-container"
+    class="data-table__row__info"
   >
     <img
-      class="li-validator__avatar no-img"
+      class="data-table__row__info__image data-table__row__info__image--no-img"
       height="48"
       src="~assets/images/validator-icon.svg"
       width="48"
     />
+     
     <div
-      class="li-validator__name-container"
+      class="data-table__row__info__container"
     >
       <span
-        class="validator-profile__status green"
+        class="data-table__row__info__container__status green"
       />
-      <a
-        class="li-validator__moniker"
-        href="#/staking/validators/abc"
+       
+      <router-link-stub
+        class="data-table__row__info__container__name"
+        to="[object Object]"
       >
-        herr_schmidt_revoked
-      </a>
+        good_greg
+      </router-link-stub>
+       
       <div
-        class="short-bech32 li-validator__address"
+        class="data-table__row__info__container__description"
       >
         <div
-          class="address"
-          id="address"
+          class="short-bech32"
         >
-          cosmosvaladdr…n3au
-        </div>
-        <div
-          class="copied"
-        >
-          <i
-            class="material-icons"
+          <div
+            class="address"
+            id="address"
           >
-            check
-          </i>
-          <span>
-            Copied
-          </span>
+            
+    cosmosvaladdr…n3au
+  
+          </div>
+           
+          <div
+            class="copied"
+          >
+            <i
+              class="material-icons"
+            >
+              check
+            </i>
+            <span>
+              Copied
+            </span>
+          </div>
         </div>
       </div>
     </div>
   </td>
+   
   <td
     class="li-validator__delegated-steak"
   >
+    
     0.0000…
+  
   </td>
+   
   <td
-    class="li-validator__rewards"
+    class="li-validator__rewards data-table__row__cell__separator"
   >
     n/a
   </td>
+   
   <td
     class="li-validator__voting-power"
   >
+    
     22%
+  
   </td>
+   
   <td
     class="li-validator__uptime"
   >
     98.78%
   </td>
+   
   <td
     class="li-validator__commission"
   >
     0.05%
   </td>
+   
   <td
     class="li-validator__slashes"
   >

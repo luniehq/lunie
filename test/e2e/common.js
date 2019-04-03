@@ -5,12 +5,13 @@ function sleep(ms) {
 }
 
 /*
-* NOTE: don't use a global `let client = app.client` and don't pass around the client as the client object changes when restarting the app. Always use `app.client`.
-*/
+ * NOTE: don't use a global `let client = app.client` and don't pass around the client as the client object changes when restarting the app. Always use `app.client`.
+ */
 
 module.exports = {
   async closeNotifications(app) {
     // close notifications as they overlay the menu button
+    console.log(`closing notifications`)
     await sleep(100)
     while (await app.client.isExisting(`.tm-notification`)) {
       await app.client.$(`.tm-notification`).click()
@@ -61,6 +62,7 @@ module.exports = {
   async navigateToPreferences(app) {
     await module.exports.openMenu(app)
     // click link
+    await app.client.waitForExist(`#settings`, 1000)
     await app.client.$(`#settings`).click()
     console.log(`navigated to preferences`)
   },

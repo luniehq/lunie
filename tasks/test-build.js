@@ -16,7 +16,7 @@ function test(executablePath) {
       child.stdout.pipe(process.stdout)
 
       child.stdout.on(`data`, async data => {
-        let msg = new Buffer(data, `utf-8`).toString()
+        let msg = Buffer.from(data, `utf-8`).toString()
         if (msg.indexOf(`[START SUCCESS]`) !== -1) {
           clearTimeout(wait)
           await cleanExitChild(child)
@@ -28,10 +28,10 @@ function test(executablePath) {
         await cleanExitChild(child)
         reject()
       }, 5000)
-    } catch (err) {
+    } catch (error) {
       if (child) await cleanExitChild(child)
-      console.error(`Unexpected error`, err)
-      reject(err)
+      console.error(`Unexpected error`, error)
+      reject(error)
     }
   })
 }

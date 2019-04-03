@@ -1,16 +1,23 @@
 import setup from "../../helpers/vuex-setup"
+import transactionsModule from "renderer/vuex/modules/transactions.js"
 import lcdClientMock from "renderer/connectors/lcdClientMock.js"
 import walletTxs from "./json/txs.js"
 
 let instance = setup()
+const mockRootState = {
+  connection: {
+    connected: true
+  }
+}
 
 describe(`Module: Transactions`, () => {
-  let store, node
+  let store, node, module
 
   beforeEach(async () => {
     let test = instance.shallow(null)
     store = test.store
     node = test.node
+    module = transactionsModule({ node })
 
     await store.dispatch(`signIn`, {
       account: `default`,
@@ -27,9 +34,8 @@ describe(`Module: Transactions`, () => {
     )
     store.commit(`setStakingTxs`, lcdClientMock.state.txs.slice(4))
     store.commit(`setGovernanceTxs`, lcdClientMock.state.txs.slice(2, 4))
+    store.commit(`setConnected`, true)
   })
-
-  // DEFAULT
 
   it(`should have an empty state by default`, () => {
     expect(store.state.transactions).toMatchSnapshot()
@@ -44,13 +50,13 @@ describe(`Module: Transactions`, () => {
       blockHeight: `3436`,
       blockMetaInfo: {
         header: {
-          time: 1042
+          time: 42000
         }
       }
     })
     expect(
       store.state.transactions.wallet.find(tx => tx.height === `3436`).time
-    ).toBe(1042)
+    ).toBe(42000)
   })
 
   it(`should clear session data`, () => {
@@ -90,12 +96,18 @@ describe(`Module: Transactions`, () => {
     expect(store.state.transactions.governance).toMatchSnapshot()
   })
 
-  it(`should fail if trying to get transactions of wrong type`, async done => {
-    await store.dispatch(`getTx`, `unknown`).catch(() => done())
+  it(`should fail if trying to get transactions of wrong type`, done => {
+    store
+      .dispatch(`getTx`, `unknown`)
+      .then(() => done.fail())
+      .catch(error => {
+        expect(error).toEqual(new Error(`Unknown transaction type`))
+        done()
+      })
   })
 
   it(`should query the txs on reconnection`, async () => {
-    store.state.node.stopConnecting = true
+    store.state.connection.stopConnecting = true
     node.getGovernanceTxs = jest.fn(() => lcdClientMock.state.txs.slice(2, 4))
     store.state.transactions.loading = true
     jest.spyOn(node, `txs`)
@@ -104,10 +116,28 @@ describe(`Module: Transactions`, () => {
   })
 
   it(`should not query the txs on reconnection if not stuck in loading`, async () => {
-    store.state.node.stopConnecting = true
+    store.state.connection.stopConnecting = true
     store.state.transactions.loading = false
     jest.spyOn(node, `txs`)
     await store.dispatch(`reconnected`)
     expect(node.txs).not.toHaveBeenCalled()
+  })
+
+  it(`should set error to true if enriching transactions fail`, async () => {
+    let error = new Error(`unexpected error`)
+    let { actions, state } = module
+
+    const commit = jest.fn()
+    const dispatch = jest.fn(() => {
+      throw error
+    })
+    await actions.getAllTxs({
+      commit,
+      dispatch,
+      state,
+      rootState: mockRootState
+    })
+
+    expect(state.error).toBe(error)
   })
 })

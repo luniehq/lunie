@@ -1,9 +1,10 @@
 import setup from "../../../helpers/vuex-setup"
-import htmlBeautify from "html-beautify"
 import TmBalance from "common/TmBalance"
+import lcdClientMock from "renderer/connectors/lcdClientMock.js"
 
 describe(`TmBalance`, () => {
-  let wrapper
+  let wrapper, store
+  let { stakingParameters } = lcdClientMock.state
   let { mount } = setup()
 
   beforeEach(() => {
@@ -18,29 +19,17 @@ describe(`TmBalance`, () => {
         totalAtoms: () => {
           return 321
         }
+      },
+      propsData: {
+        tabs: []
       }
     })
     wrapper = instance.wrapper
-    wrapper.update()
+    store = instance.store
+    store.commit(`setStakingParameters`, stakingParameters.parameters)
   })
 
   it(`has the expected html structure before adding props`, () => {
-    expect(htmlBeautify(wrapper.html())).toMatchSnapshot()
-  })
-
-  it(`shows correct stats depending on props`, () => {
-    expect(wrapper.contains(`.unbonded-atoms`)).toBe(true)
-
-    expect(wrapper.contains(`.total-earnings`)).toBe(false)
-    wrapper.setProps({ totalEarnings: 1337 })
-    wrapper.update()
-    expect(wrapper.contains(`.total-earnings`)).toBe(true)
-
-    expect(wrapper.contains(`.total-rewards`)).toBe(false)
-    wrapper.setProps({ totalRewards: 1337 })
-    wrapper.update()
-    expect(wrapper.contains(`.total-rewards`)).toBe(true)
-
-    expect(htmlBeautify(wrapper.html())).toMatchSnapshot()
+    expect(wrapper.vm.$el).toMatchSnapshot()
   })
 })

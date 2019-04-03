@@ -1,46 +1,57 @@
-"use strict"
+import * as Sentry from "@sentry/browser"
+import Vue from "vue"
 
 export default ({ node }) => {
   const state = {
     loading: false,
+    error: null,
+    loaded: false,
     deposits: {}
   }
 
   const mutations = {
     setProposalDeposits(state, proposalId, deposits) {
-      state.deposits[proposalId] = deposits
+      Vue.set(state.deposits, proposalId, deposits)
     }
   }
   let actions = {
-    async getProposalDeposits({ state, commit }, proposalId) {
+    async getProposalDeposits({ state, commit, rootState }, proposalId) {
       state.loading = true
-      let deposits = await node.queryProposalDeposits(proposalId)
-      commit(`setProposalDeposits`, proposalId, deposits)
-      state.loading = false
+
+      if (!rootState.connection.connected) return
+
+      try {
+        let deposits = await node.queryProposalDeposits(proposalId)
+        state.error = null
+        state.loading = false
+        state.loaded = true
+        commit(`setProposalDeposits`, proposalId, deposits)
+      } catch (error) {
+        commit(`notifyError`, {
+          title: `Error fetching deposits on proposals`,
+          body: error.message
+        })
+        Sentry.captureException(error)
+        state.error = error
+      }
     },
     async submitDeposit(
       {
-        rootState: { config, wallet },
+        rootState: { wallet },
         dispatch
       },
-      proposalId,
-      depositAmount
+      { proposal_id, amount, password }
     ) {
-      const denom = config.bondingDenom.toLowerCase()
       await dispatch(`sendTx`, {
-        type: `submitDeposit`,
-        proposal_id: proposalId,
-        depositer: wallet.address,
-        amount: [
-          {
-            denom: denom,
-            amount: depositAmount
-          }
-        ]
+        type: `submitProposalDeposit`,
+        to: proposal_id,
+        proposal_id,
+        depositor: wallet.address,
+        amount,
+        password
       })
-      setTimeout(async () => {
-        dispatch(`getProposalDeposits`, proposalId)
-      }, 5000)
+      await dispatch(`getProposalDeposits`, proposal_id)
+      await dispatch(`getProposal`, proposal_id)
     }
   }
   return {

@@ -1,27 +1,53 @@
 "use strict"
 
-let runDev = require(`./runner.js`)
+let runner = require(`./runner.js`)
 let config = require(`../app/src/config.js`)
-const path = require(`path`)
-const childProcess = require(`child_process`)
-const userHome = require(`user-home`)
 const fs = require(`fs-extra`)
+const { join, resolve } = require(`path`)
+const {
+  startNodes,
+  buildNodes,
+  setupAccounts
+} = require(`./build/local/helper`)
+const appDir = resolve(`${__dirname}/../`)
+const buildTestnetPath = join(appDir, `builds`, `testnets`)
 
 async function main() {
   const network = process.argv[2] || config.default_network
+  const numberNodes = parseInt(process.argv[3], 10) || 1
 
   let extendedEnv = {}
+  let networkPath = `./app/networks/${network}/`
 
   if (network === `local-testnet`) {
+    const { cliHomePrefix, nodes, mainAccountSignInfo } = await buildNodes(
+      join(buildTestnetPath, network),
+      {
+        chainId: network,
+        password: `1234567890`,
+        overwrite: false,
+        moniker: `local`,
+        keyName: `main-account`
+      },
+      numberNodes
+    )
+    await startNodes(nodes, mainAccountSignInfo, network)
+    fs.copySync(join(nodes[1].home, `config`), cliHomePrefix)
+    let { version } = require(`../package.json`)
+    fs.writeFileSync(`${cliHomePrefix}/app_version`, version)
+    networkPath = cliHomePrefix // join(nodes[1].home, `config`)
     extendedEnv = {
-      LCD_URL: `http://localhost:9070`,
-      RPC_URL: `http://localhost:26657`
+      LCD_URL: `https://localhost:9070`,
+      RPC_URL: `http://localhost:26657`,
+      COSMOS_HOME: cliHomePrefix
     }
-    startLocalNode()
+    await setupAccounts(nodes[1].cliHome, join(cliHomePrefix, `lcd`), {
+      keyName: `local-test`
+    })
   }
 
   // run Voyager in a development environment
-  let children = await runDev(`./app/networks/${network}/`, extendedEnv)
+  let children = await runner(networkPath, extendedEnv)
 
   // kill all development processes if master process fails
   process.on(`exit`, () => {
@@ -30,37 +56,6 @@ async function main() {
   children.forEach(child => child.on(`exit`, () => process.exit()))
 }
 
-main().catch(function(err) {
-  console.error(`Starting the application failed`, err)
+main().catch(function(error) {
+  console.error(`Starting the application failed`, error)
 })
-
-async function startLocalNode() {
-  const TESTNET_NODE_FOLDER = path.join(userHome, `.gaiad-testnet`)
-  const osFolderName = {
-    win32: `windows_amd64`,
-    darwin: `darwin_amd64`,
-    linux: `linux_amd64`
-  }[process.platform]
-  const gaiadFileName = process.platform === `win32` ? `gaiad.exe` : `gaiad`
-  const gaiadPath = path.join(`./builds/Gaia`, osFolderName, gaiadFileName)
-
-  console.log(`Starting local node`)
-  let child = childProcess.spawn(gaiadPath, [
-    `start`,
-    `--home`,
-    TESTNET_NODE_FOLDER
-  ])
-
-  // log output
-  const PROCESS_LOG = path.join(TESTNET_NODE_FOLDER, `process.log`)
-  const log = fs.createWriteStream(PROCESS_LOG, { flags: `a` })
-  console.log(`Find the node process logs at: ${PROCESS_LOG}`)
-  child.stdout.pipe(log)
-  child.stderr.pipe(process.stderr)
-
-  // handle node crashed
-  child.on(`exit`, () => {
-    console.error(`Local node crashed`)
-    process.exit()
-  })
-}

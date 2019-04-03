@@ -9,29 +9,64 @@ exports[`TmConnectedNetwork has a connecting state 1`] = `
     class="tm-connected-network-loader"
     src="~assets/images/loader.svg"
   />
+   
   <div
     class="tm-connected-network__string tm-connected-network__string--connecting"
   >
+    
     Connecting to Test Net…
+  
   </div>
 </div>
 `;
 
 exports[`TmConnectedNetwork has the expected html structure 1`] = `
-"<div id=\\"tm-connected-network\\" class=\\"tm-connected-network tm-connected-network--mocked\\">
-   <div class=\\"tm-connected-network__connection\\">
-      <div id=\\"tm-connected-network__icon\\" class=\\"tm-connected-network__icon\\">
-         <i class=\\"material-icons\\">lock</i>
-      </div>
-<div id=\\"tm-connected-network__string\\" class=\\"tm-connected-network__string\\">
-   <span class=\\"chain-id\\">Test Net</span>
+<div
+  class="tm-connected-network"
+  id="tm-connected-network"
+>
+  <div
+    class="tm-connected-network__connection"
+  >
+    <div
+      class="tm-connected-network__icon"
+      id="tm-connected-network__icon"
+    >
+      <i
+        class="material-icons"
+      >
+        lock
+      </i>
+    </div>
+     
+    <div
+      class="tm-connected-network__string"
+      id="tm-connected-network__string"
+    >
+      <span
+        class="chain-id"
+      >
+        Test Net
+      </span>
+    </div>
+  </div>
+   
+  <div
+    class="tm-connected-network__string"
+    id="tm-connected-network__block"
+  >
+    <a
+      href="https://explorecosmos.network/blocks/42"
+    >
+      #42
+      <i
+        class="material-icons exit"
+      >
+        exit_to_app
+      </i>
+    </a>
+  </div>
 </div>
-</div>
-<div class=\\"tm-connected-network__string\\" id=\\"tm-connected-network__block\\">
-   <span>#42</span>
-   <!---->
-</div>
-</div>"
 `;
 
 exports[`TmConnectedNetwork shows the connected node 1`] = `
@@ -52,6 +87,7 @@ exports[`TmConnectedNetwork shows the connected node 1`] = `
         lock
       </i>
     </div>
+     
     <div
       class="tm-connected-network__string"
       id="tm-connected-network__string"
@@ -63,11 +99,11 @@ exports[`TmConnectedNetwork shows the connected node 1`] = `
       </span>
     </div>
   </div>
+   
   <div
     class="tm-connected-network__string"
     id="tm-connected-network__block"
   >
-    <!---->
     <a
       href="https://explorecosmos.network/blocks/0"
     >

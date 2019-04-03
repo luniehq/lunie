@@ -1,43 +1,80 @@
-<template lang="pug">
-.tm-session: tm-form-struct(:submit="onSubmit").tm-session-container
-  .tm-session-header
-    a(@click="setState('welcome')"): i.material-icons arrow_back
-    .tm-session-title Sign In
-    a(@click="help"): i.material-icons help_outline
-  .tm-session-main
-    tm-form-group(field-id='sign-in-name' field-label='Select Account')
-      tm-field#sign-in-name(
-        type="select"
-        v-model="fields.signInName"
-        placeholder="Select account…"
-        :options="accounts"
-        vue-focus)
-      tm-form-msg(name='Name' type='required' v-if='!$v.fields.signInName.required')
-
-    tm-form-group(:error='$v.fields.signInPassword.$error'
-      field-id='sign-in-password' field-label='Password')
-      tm-field#sign-in-password(
-        type="password"
-        v-model="fields.signInPassword")
-      tm-form-msg(name='Password' type='required' v-if='!$v.fields.signInPassword.required')
-      tm-form-msg(name='Password' type='minLength' min="10" v-if='!$v.fields.signInPassword.minLength')
-      tm-form-msg(v-if='mockedConnector') default password is 1234567890
-
-  .tm-session-footer
-    tm-btn(v-if="connected" icon="arrow_forward" icon-pos="right" value="Next" size="lg")
-    tm-btn(v-else icon-pos="right" value="Connecting..." size="lg" disabled="true")
+<template>
+  <div class="tm-session">
+    <tm-form-struct :submit="onSubmit" class="tm-session-container">
+      <div class="tm-session-header">
+        <a @click="setState('welcome')"
+          ><i class="material-icons">arrow_back</i></a
+        >
+        <div class="tm-session-title">Sign In</div>
+        <a @click="help"><i class="material-icons">help_outline</i></a>
+      </div>
+      <div class="tm-session-main">
+        <tm-form-group field-id="sign-in-name" field-label="Select Account">
+          <tm-field
+            id="sign-in-name"
+            v-model="fields.signInName"
+            :options="accounts"
+            type="select"
+            placeholder="Select account…"
+            vue-focus="vue-focus"
+          />
+          <tm-form-msg
+            v-if="!$v.fields.signInName.required"
+            name="Name"
+            type="required"
+          />
+        </tm-form-group>
+        <tm-form-group
+          :error="$v.fields.signInPassword.$error"
+          field-id="sign-in-password"
+          field-label="Password"
+        >
+          <tm-field
+            id="sign-in-password"
+            v-model="fields.signInPassword"
+            type="password"
+          />
+          <tm-form-msg
+            v-if="!$v.fields.signInPassword.required"
+            name="Password"
+            type="required"
+          />
+          <tm-form-msg
+            v-if="!$v.fields.signInPassword.minLength"
+            name="Password"
+            type="minLength"
+            min="10"
+          />
+        </tm-form-group>
+      </div>
+      <div class="tm-session-footer">
+        <tm-btn
+          v-if="connected"
+          icon="arrow_forward"
+          icon-pos="right"
+          value="Next"
+          size="lg"
+        />
+        <tm-btn
+          v-else
+          icon-pos="right"
+          value="Connecting..."
+          size="lg"
+          disabled="true"
+        />
+      </div>
+    </tm-form-struct>
+  </div>
 </template>
 
 <script>
 import { mapGetters } from "vuex"
 import { required, minLength } from "vuelidate/lib/validators"
-import {
-  TmBtn,
-  TmFormGroup,
-  TmFormStruct,
-  TmField,
-  TmFormMsg
-} from "@tendermint/ui"
+import TmBtn from "common/TmBtn"
+import TmFormGroup from "common/TmFormGroup"
+import TmFormStruct from "common/TmFormStruct"
+import TmField from "common/TmField"
+import TmFormMsg from "common/TmFormMsg"
 export default {
   name: `tm-session-sign-in`,
   components: {
@@ -54,12 +91,15 @@ export default {
     }
   }),
   computed: {
-    ...mapGetters([`user`, `mockedConnector`, `lastHeader`, `connected`]),
+    ...mapGetters([`user`, `lastHeader`, `connected`]),
     accounts() {
       let accounts = this.user.accounts
       accounts = accounts.filter(({ name }) => name !== `trunk`)
       return accounts.map(({ name }) => ({ key: name, value: name }))
     }
+  },
+  mounted() {
+    this.setDefaultAccount(this.accounts)
   },
   methods: {
     help() {
@@ -83,10 +123,10 @@ export default {
         localStorage.setItem(`prevAccountKey`, this.fields.signInName)
         this.$router.push(`/`)
         this.$store.commit(`setModalSession`, false)
-      } catch (err) {
+      } catch (error) {
         this.$store.commit(`notifyError`, {
           title: `Signing In Failed`,
-          body: err.message
+          body: error.message
         })
       }
     },
@@ -107,12 +147,6 @@ export default {
       }
     }
   },
-  mounted() {
-    this.setDefaultAccount(this.accounts)
-    if (this.mockedConnector) {
-      this.fields.signInPassword = `1234567890`
-    }
-  },
   validations: () => ({
     fields: {
       signInName: { required },
@@ -121,8 +155,8 @@ export default {
   })
 }
 </script>
-<style lang="stylus">
-.tm-form-group
-  a
-    cursor pointer
+<style>
+.tm-form-group a {
+  cursor: pointer;
+}
 </style>

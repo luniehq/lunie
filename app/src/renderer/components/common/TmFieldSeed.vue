@@ -1,26 +1,24 @@
-<template lang="pug">
-tm-field.tm-field-seed(
-  type="textarea"
-  @input="update($event)"
-  :value="value")
+<template>
+  <tm-field
+    :value="value"
+    class="tm-field-seed"
+    type="textarea"
+    @input="update($event)"
+  />
 </template>
 
 <script>
 import autosize from "autosize"
-import { TmField } from "@tendermint/ui"
+import TmField from "common/TmField"
 export default {
   name: `tm-field-seed`,
   components: { TmField },
-  methods: {
-    update(value) {
-      this.$emit(`input`, value)
+  props: {
+    value: {
+      type: String,
+      required: true
     }
   },
-  mounted() {
-    // adjust the textarea element height to match content
-    autosize(this.$el)
-  },
-  props: [`value`],
   watch: {
     value: {
       handler: async function() {
@@ -28,10 +26,20 @@ export default {
         autosize.update(this.$el)
       }
     }
+  },
+  mounted() {
+    // adjust the textarea element height to match content
+    autosize(this.$el)
+  },
+  methods: {
+    update(value) {
+      this.$emit(`input`, value)
+    }
   }
 }
 </script>
-<style lang="stylus">
-  .tm-field:disabled.tm-field-seed
-    border 1px solid var(--bc)
+<style>
+.tm-field:disabled.tm-field-seed {
+  border: 1px solid var(--bc);
+}
 </style>

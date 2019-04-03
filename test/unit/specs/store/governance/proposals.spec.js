@@ -1,7 +1,16 @@
 import proposalsModule from "renderer/vuex/modules/governance/proposals.js"
 import lcdClientMock from "renderer/connectors/lcdClientMock.js"
-let proposals = lcdClientMock.state.proposals
+let { proposals, tallies } = lcdClientMock.state
 let addresses = lcdClientMock.addresses
+
+let mockRootState = {
+  wallet: {
+    address: addresses[0]
+  },
+  connection: {
+    connected: true
+  }
+}
 
 describe(`Module: Proposals`, () => {
   let module
@@ -22,16 +31,26 @@ describe(`Module: Proposals`, () => {
     expect(instance.dispatch).toHaveBeenCalledWith(`getProposals`)
   })
 
-  it(`adds proposals to state`, () => {
+  it(`adds a proposal to state`, () => {
     let { mutations, state } = module
-    mutations.setProposal(state, proposals[0])
-    expect(state.proposals[proposals[0].proposal_id]).toEqual(proposals[0])
+    mutations.setProposal(state, proposals[`1`])
+    expect(state.proposals[`1`]).toEqual(proposals[`1`])
+  })
+
+  it(`adds a tally result to a proposal already in state`, () => {
+    let { mutations, state } = module
+    mutations.setProposal(state, proposals[`2`])
+    mutations.setProposalTally(state, {
+      proposal_id: `2`,
+      tally_result: tallies[`1`]
+    })
+    expect(state.tallies[`2`]).toEqual(tallies[`1`])
   })
 
   it(`replaces existing proposal with same id`, () => {
     let { mutations, state } = module
-    mutations.setProposal(state, proposals[0])
-    let newProposal = JSON.parse(JSON.stringify(proposals[0]))
+    mutations.setProposal(state, proposals[`1`])
+    let newProposal = JSON.parse(JSON.stringify(proposals[`1`]))
     newProposal.tally_result = {
       yes: `10`,
       no: `3`,
@@ -39,59 +58,153 @@ describe(`Module: Proposals`, () => {
       abstain: `4`
     }
     mutations.setProposal(state, newProposal)
-    expect(state.proposals[proposals[0].proposal_id]).toHaveProperty(
-      `tally_result`,
-      {
-        yes: `10`,
-        no: `3`,
-        no_with_veto: `1`,
-        abstain: `4`
-      }
-    )
+    expect(state.proposals[`1`]).toHaveProperty(`tally_result`, {
+      yes: `10`,
+      no: `3`,
+      no_with_veto: `1`,
+      abstain: `4`
+    })
   })
 
-  it(`fetches all proposals`, async () => {
-    module = proposalsModule({
-      node: {
-        queryProposals: () =>
-          Promise.resolve(
-            proposals.map(proposal => ({
-              value: proposal
-            }))
-          )
-      }
+  describe(`Fetches all proposal`, () => {
+    it(`when the request is successful`, async () => {
+      module = proposalsModule({
+        node: {
+          queryProposals: () =>
+            Promise.resolve(
+              Object.values(proposals).map(proposal => ({
+                value: proposal
+              }))
+            ),
+          getProposalTally: proposal_id => Promise.resolve(tallies[proposal_id])
+        }
+      })
+
+      let { actions, state } = module
+      let commit = jest.fn()
+      let dispatch = jest.fn()
+
+      await actions.getProposals({
+        state,
+        commit,
+        dispatch,
+        rootState: mockRootState
+      })
+      expect(commit.mock.calls).toEqual(
+        expect.arrayContaining([
+          [`setProposal`, proposals[`1`]],
+          [
+            `setProposalTally`,
+            { proposal_id: `1`, tally_result: tallies[`1`] }
+          ],
+          [`setProposal`, proposals[`2`]],
+          [
+            `setProposalTally`,
+            { proposal_id: `2`, tally_result: tallies[`2`] }
+          ],
+          [`setProposal`, proposals[`5`]],
+          [
+            `setProposalTally`,
+            { proposal_id: `5`, tally_result: tallies[`5`] }
+          ],
+          [`setProposal`, proposals[`6`]],
+          [`setProposalTally`, { proposal_id: `6`, tally_result: tallies[`6`] }]
+        ])
+      )
     })
 
-    let { actions, state } = module
-    let commit = jest.fn()
-    let dispatch = jest.fn()
+    it(`throws and stores error if the request fails`, async () => {
+      module = proposalsModule({
+        node: {
+          queryProposals: () => Promise.reject(new Error(`Error`))
+        }
+      })
+      let { actions, state } = module
+      await actions.getProposals({
+        state,
+        commit: jest.fn(),
+        rootState: mockRootState
+      })
+      expect(state.error.message).toBe(`Error`)
+    })
+  })
 
-    await actions.getProposals({ state, commit, dispatch })
-    expect(commit.mock.calls).toEqual([
-      [`setProposal`, proposals[0]],
-      [`setProposal`, proposals[1]],
-      [`setProposal`, proposals[2]]
-    ])
+  describe(`Fetch a single proposal`, () => {
+    it(`when the request is successful`, async () => {
+      module = proposalsModule({
+        node: {
+          queryProposal: proposal_id =>
+            Promise.resolve({ value: proposals[proposal_id] }),
+          getProposalTally: proposal_id => Promise.resolve(tallies[proposal_id])
+        }
+      })
+
+      let { actions, state } = module
+      let commit = jest.fn()
+      let dispatch = jest.fn()
+
+      // not on VotingPeriod
+      await actions.getProposal(
+        { state, commit, dispatch, rootState: mockRootState },
+        `1`
+      )
+      expect(commit.mock.calls).toEqual([
+        [`setProposal`, proposals[`1`]],
+        [`setProposalTally`, { proposal_id: `1`, tally_result: tallies[`1`] }]
+      ])
+
+      // on VotingPeriod
+      await actions.getProposal(
+        { state, commit, dispatch, rootState: mockRootState },
+        `2`
+      )
+      expect(commit.mock.calls.slice(2)).toEqual([
+        [`setProposal`, proposals[`2`]],
+        [`setProposalTally`, { proposal_id: `2`, tally_result: tallies[`2`] }]
+      ])
+    })
+
+    it(`throws and stores error if the request fails`, async () => {
+      module = proposalsModule({
+        node: {
+          queryProposal: () => Promise.reject(new Error(`Error`))
+        }
+      })
+
+      let { actions, state } = module
+      let commit = jest.fn()
+      let dispatch = jest.fn()
+
+      await actions.getProposal(
+        { state, commit, dispatch, rootState: mockRootState },
+        `1`
+      )
+      expect(state.error.message).toBe(`Error`)
+    })
   })
 
   it(`submits a new proposal`, async () => {
     let { actions } = module
     jest.useFakeTimers()
 
-    const rootState = {
-      wallet: {
-        address: addresses[0]
-      }
-    }
     let dispatch = jest.fn()
-    proposals.forEach(async (proposal, i) => {
-      await actions.submitProposal({ rootState, dispatch }, proposal)
+    const proposalsArray = Object.values(proposals)
+    proposalsArray.forEach(async (proposal, i) => {
+      await actions.submitProposal(
+        { dispatch, rootState: mockRootState },
+        {
+          type: proposal.proposal_type,
+          title: proposal.title,
+          description: proposal.description,
+          initial_deposit: proposal.initial_deposit
+        }
+      )
       expect(dispatch.mock.calls[i]).toEqual([
         `sendTx`,
         {
           type: `submitProposal`,
-          proposer: addresses[0],
           proposal_type: proposal.proposal_type,
+          proposer: addresses[0],
           title: proposal.title,
           description: proposal.description,
           initial_deposit: proposal.initial_deposit
@@ -99,7 +212,7 @@ describe(`Module: Proposals`, () => {
       ])
 
       jest.runAllTimers()
-      expect(dispatch.mock.calls[i + proposals.length]).toEqual([
+      expect(dispatch.mock.calls[i + proposalsArray.length]).toEqual([
         `getProposals`
       ])
     })

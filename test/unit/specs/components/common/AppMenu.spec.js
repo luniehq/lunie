@@ -1,5 +1,4 @@
 import AppMenu from "common/AppMenu"
-import htmlBeautify from "html-beautify"
 import setup from "../../../helpers/vuex-setup"
 
 describe(`AppMenu`, () => {
@@ -14,23 +13,21 @@ describe(`AppMenu`, () => {
       account: `default`,
       password: `1234567890`
     })
-    wrapper.update()
   })
 
   it(`has the expected html structure`, () => {
-    Object.assign(store.state.node, {
+    Object.assign(store.state.connection, {
       mocked: false,
       node: {
         remoteLcdURL: `123.123.123.123`
       },
-      lastHeader: Object.assign(store.state.node.lastHeader, {
+      lastHeader: Object.assign(store.state.connection.lastHeader, {
         chain_id: `chain_id`
       }),
       connected: true
     })
 
-    wrapper.update()
-    expect(htmlBeautify(wrapper.html())).toMatchSnapshot()
+    expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
   it(`checks whether current page is validators`, () => {

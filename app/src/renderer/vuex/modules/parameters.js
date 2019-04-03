@@ -1,29 +1,40 @@
+import * as Sentry from "@sentry/browser"
+
 export default ({ node }) => {
   const emptyState = {
     parameters: {},
-    loading: false
+    loading: false,
+    loaded: false,
+    error: null
   }
   const state = JSON.parse(JSON.stringify(emptyState))
 
   const mutations = {
-    setParameters(state, parameters) {
+    setStakingParameters(state, parameters) {
       state.parameters = parameters
     }
   }
 
   const actions = {
-    async getParameters({ state, commit }) {
+    async getStakingParameters({ state, commit, rootState }) {
       state.loading = true
+
+      if (!rootState.connection.connected) return
+
       try {
-        let parameters = await node.getParameters()
-        commit(`setParameters`, parameters)
-      } catch (err) {
+        let parameters = await node.getStakingParameters()
+        commit(`setStakingParameters`, parameters)
+        state.error = null
+        state.loading = false
+        state.loaded = true
+      } catch (error) {
         commit(`notifyError`, {
           title: `Error fetching staking parameters`,
-          body: err.message
+          body: error.message
         })
+        Sentry.captureException(error)
+        state.error = error
       }
-      state.loading = false
     }
   }
 

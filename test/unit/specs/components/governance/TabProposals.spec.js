@@ -1,23 +1,81 @@
 import setup from "../../../helpers/vuex-setup"
-import htmlBeautify from "html-beautify"
 import TabProposals from "renderer/components/governance/TabProposals"
+const lcdClientMock = require(`renderer/connectors/lcdClientMock.js`)
+
+let { tallies } = lcdClientMock.state
 
 describe(`TabProposals`, () => {
-  let wrapper
   let { mount } = setup()
 
-  beforeEach(() => {
-    let instance = mount(TabProposals)
-    wrapper = instance.wrapper
+  it(`has the expected html structure`, async () => {
+    let { wrapper } = mount(TabProposals, {
+      getters: {
+        proposals: () => ({
+          loading: false,
+          loaded: false,
+          proposals: lcdClientMock.state.proposals,
+          tallies
+        }),
+        connected: () => true
+      },
+      stubs: {
+        "tm-data-connecting": true
+      }
+    })
+    expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
-  it(`has the expected html structure`, async () => {
-    // after importing the @tendermint/ui components from modules
-    // the perfect scroll plugin needs a $nextTick and a wrapper.update
-    // to work properly in the tests (snapshots weren't matching)
-    // this has occured across multiple tests
-    await wrapper.vm.$nextTick()
-    wrapper.update()
-    expect(htmlBeautify(wrapper.html())).toMatchSnapshot()
+  it(`shows a message if still connecting`, async () => {
+    let { wrapper } = mount(TabProposals, {
+      getters: {
+        proposals: () => ({
+          loading: false,
+          loaded: false,
+          proposals: {},
+          tallies: {}
+        }),
+        connected: () => false
+      },
+      stubs: {
+        "tm-data-connecting": true
+      }
+    })
+    expect(wrapper.vm.$el).toMatchSnapshot()
+  })
+
+  it(`shows a message if still loading`, async () => {
+    let { wrapper } = mount(TabProposals, {
+      getters: {
+        proposals: () => ({
+          loading: true,
+          loaded: false,
+          proposals: {},
+          tallies: {}
+        }),
+        connected: () => true
+      },
+      stubs: {
+        "tm-data-loading": true
+      }
+    })
+    expect(wrapper.vm.$el).toMatchSnapshot()
+  })
+
+  it(`shows a message if there is nothing to display`, async () => {
+    let { wrapper } = mount(TabProposals, {
+      getters: {
+        proposals: () => ({
+          loading: false,
+          loaded: false,
+          tallies: {},
+          proposals: {}
+        }),
+        connected: () => true
+      },
+      stubs: {
+        "tm-data-loading": true
+      }
+    })
+    expect(wrapper.vm.$el).toMatchSnapshot()
   })
 })

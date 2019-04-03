@@ -1,28 +1,15 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Module: Wallet should handle subscription errors 1`] = `
-Array [
-  Array [
-    "error subscribing to transactions",
-    [Error: foo],
-  ],
-  Array [
-    "error subscribing to transactions",
-    [Error: foo],
-  ],
-]
-`;
-
 exports[`Module: Wallet should have an empty state by default 1`] = `
 Object {
   "address": null,
   "balances": Array [],
-  "balancesLoading": true,
   "denoms": Array [],
+  "error": null,
+  "loaded": false,
+  "loading": true,
   "subscribedRPC": null,
-  "zoneIds": Array [
-    "basecoind-demo1",
-    "basecoind-demo2",
-  ],
 }
 `;
+
+exports[`Module: Wallet should throw an error if can't load genesis 1`] = `[Error: Couldn't load genesis at path test/unit/tmp/test_root/genesis.json]`;
