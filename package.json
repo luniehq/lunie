@@ -19,7 +19,7 @@
     "build:gaia": "cd tasks/build/Gaia && ./localBuild.sh",
     "build:local": "node tasks/build/local/build",
     "build:keybase-cache": "babel-node --presets @babel/env tasks/keybase-fallback.js",
-    "build:ui": "cross-env NODE_ENV=production webpack --colors --config webpack.renderer.config.js --mode=production --profile --json",
+    "build:ui": "cross-env NODE_ENV=production webpack --colors --config webpack.renderer.config.js --mode=production",
     "start": "concurrently -k \"yarn frontend\" \"yarn backend\"",
     "start:new": "concurrently -k \"yarn frontend\" \"yarn backend:new\"",
     "serve": "http-server -p 8081 ./app/dist",
