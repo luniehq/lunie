@@ -103,6 +103,8 @@ executors:
 
 jobs:
   build:
+    environment:
+      DIST_TESTNET: *DIST_TESTNET
     executor: web
     steps:
       - checkout
@@ -112,7 +114,7 @@ jobs:
 
           yarn build:keybase-cache
           if [ "${CIRCLE_BRANCH}" = "master" ]; then
-            yarn build:ui --output-path ${DIST_TESTNET}
+            yarn build:ui --output-path $DIST_TESTNET
             STARGATE=https://stargate.cosmos.network RPC=https://rpc.cosmos.network CIRCLECI=true yarn build:ui
           else
             CIRCLECI=true yarn build
