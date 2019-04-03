@@ -353,3 +353,10 @@ workflows:
                 - develop
     jobs:
       - release
+  releaseManually:
+    jobs:
+      - release:
+          filters:
+            branches:
+              only:
+                - release
