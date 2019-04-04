@@ -3,7 +3,7 @@
 const childProcess = require(`child_process`)
 const { cli } = require(`@nodeguy/cli`)
 const fp = require(`lodash/fp`)
-const fs = require(`fs-extra`)
+const fs = require(`fs`)
 const path = require(`path`)
 const untildify = require(`untildify`)
 

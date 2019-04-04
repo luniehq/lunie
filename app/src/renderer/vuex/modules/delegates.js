@@ -2,7 +2,6 @@ import * as Sentry from "@sentry/browser"
 import BN from "bignumber.js"
 import { ratToBigNumber } from "scripts/common"
 import num from "scripts/num"
-import { isEmpty, merge } from "lodash"
 import b32 from "scripts/b32"
 import Vue from "vue"
 
@@ -13,7 +12,8 @@ export default ({ node }) => {
     loading: false,
     loaded: false,
     error: null,
-    lastValidatorsUpdate: 0
+    lastValidatorsUpdate: 0,
+    signingInfos: {}
   }
   const state = JSON.parse(JSON.stringify(emptyState))
 
@@ -49,6 +49,9 @@ export default ({ node }) => {
       state.delegates.find(
         validator => validator.operator_address === operator_address
       ).selfBond = ratio
+    },
+    setSigningInfos(state, signingInfos) {
+      state.signingInfos = signingInfos
     }
   }
 
@@ -71,23 +74,28 @@ export default ({ node }) => {
       // throttle the update for validators for every 10 blocks
       const waited10Blocks =
         Number(lastHeader.height) - state.lastDelegatesUpdate >= 10
-      if (state.lastValidatorsUpdate === 0 || waited10Blocks) {
-        state.lastValidatorsUpdate = Number(lastHeader.height)
-        for (const validator of validators) {
-          if (validator.consensus_pubkey) {
-            const signing_info = await node.getValidatorSigningInfo(
-              validator.consensus_pubkey
-            )
-            if (!isEmpty(signing_info)) {
-              upsertValidator(
-                state,
-                Object.assign({},validator, { signing_info })
-              )
-            }
+      if (state.lastValidatorsUpdate !== 0 && !waited10Blocks) {
+        return
+      }
+
+      state.lastValidatorsUpdate = Number(lastHeader.height)
+      const signingInfos = await Promise.all(validators.map(async validator => {
+        if (validator.consensus_pubkey) {
+          const signing_info = await node.getValidatorSigningInfo(
+            validator.consensus_pubkey
+          )
+          return {
+            operator_address: validator.operator_address,
+            signing_info
           }
         }
-        commit(`setDelegates`, validators)
-      }
+      }))
+      commit(`setSigningInfos`, signingInfos
+        .filter(x => !!x)
+        .reduce((signingInfos, { operator_address, signing_info }) => ({
+          ...signingInfos,
+          [operator_address]: signing_info
+        }), {}))
     },
     async getDelegates({ state, commit, dispatch, rootState }) {
       commit(`setDelegateLoading`, true)
@@ -163,6 +171,6 @@ function upsertValidator(state, validator) {
   Vue.set(
     state.delegates,
     oldValidatorIndex,
-    merge(state.delegates[oldValidatorIndex], validator)
+    Object.assign({}, state.delegates[oldValidatorIndex], validator)
   )
 }

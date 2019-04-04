@@ -113,7 +113,10 @@ it(`don't create PR if nothing changed`, () => {
 })
 
 it(`beautifys changes`, () => {
-  const pending = `[Added] xxx @faboweb\n[Changed] yyy @fedekunze`
+  const pending = [
+    `[Added] xxx @faboweb\n[Changed] yyy @fedekunze`,
+    `[Fixed] zzz @faboweb`
+  ]
   const expected =
 `### Added
 
@@ -121,6 +124,10 @@ it(`beautifys changes`, () => {
 
 ### Changed
 
-- yyy @fedekunze`
+- yyy @fedekunze
+
+### Fixed
+
+- zzz @faboweb`
   expect(release.beautifyChanges(pending)).toBe(expected)
 })

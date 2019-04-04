@@ -10,7 +10,7 @@ Thank you! 🚀
 
 For contributor:
 
-- [ ] Added entries in `PENDING.md` with issue # and GitHub username
+- [ ] Added changes entries. Run `yarn changelog` for a guided process.
 - [ ] Reviewed `Files changed` in the github PR explorer
 - [ ] Attach screenshots of the UI components on the PR description (if applicable)
 - [ ] Scope of work approved for big PRs

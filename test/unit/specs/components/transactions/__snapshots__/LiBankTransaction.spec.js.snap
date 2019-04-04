@@ -64,8 +64,8 @@ exports[`LiBankTransaction should show bank transaction when user hasn't signed 
     <short-bech32-stub
       address="A"
     />
-    
-        to 
+     to
+        
     <short-bech32-stub
       address="B"
     />

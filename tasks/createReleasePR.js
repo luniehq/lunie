@@ -16,14 +16,12 @@ function bumpVersion(versionString) {
   return versionElements.join(`.`)
 }
 
-// collect all changes from files and merge into one
+// collect all changes from files
 /* istanbul ignore next */ // only touches filesystem
 async function collectPending() {
-  let allChanges = ``
   const files = await fs.readdirSync(changesPath)
-  files.forEach(file => {
-    const content = fs.readFileSync(join(changesPath, file), `utf8`)
-    allChanges += content
+  const allChanges = files.map(file => {
+    return fs.readFileSync(join(changesPath, file), `utf8`)
   })
 
   return allChanges
@@ -38,8 +36,11 @@ function addCategory(output, category, groupedLines) {
 
   return output
 }
+
+// stitch all changes into one nice changelog
+// changes is an array of the content from all individual changelogs
 function beautifyChanges(changes) {
-  const lines = changes.split(`\n`)
+  const lines = changes.join(`\n`).split(`\n`)
 
   const categorized = lines.map(line => {
     const matches = /\[(\w+)\] (.+)/.exec(line)
