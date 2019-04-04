@@ -381,8 +381,6 @@ workflows:
             branches:
               only:
                 - develop
-    jobs:
-      - release
   mergeBack:
     jobs:
       - mergeBack:
