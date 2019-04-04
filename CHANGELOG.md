@@ -7,6 +7,17 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [1.0.0-beta.37] - 2019-04-04
+
+### Changed
+
+- [#2402](https://github.com/cosmos/lunie/pull/2402) Updated several dependencies + removed some + slimmed down tendermint-js @faboweb
+
+### Fixed
+
+- [#2413](https://github.com/cosmos/lunie/issues/2413) Fix uptime not displaying @faboweb
+- [#2416](https://github.com/cosmos/lunie/pull/2416) Fixed stitching of changelog @faboweb
+
 ## [1.0.0-beta.36] - 2019-04-03
 
 ### Changed
