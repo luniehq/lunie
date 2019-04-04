@@ -25,6 +25,11 @@
             name="Name"
             type="required"
           />
+          <tm-form-msg
+            v-else-if="$v.address.$error && !$v.address.bech32Validate"
+            name="Address"
+            type="bech32"
+          />
         </tm-form-group>
       </div>
       <div class="tm-session-footer">
@@ -65,12 +70,6 @@ export default {
     async onSubmit() {
       this.$v.$touch()
       if (this.$v.$error) return
-      try {
-        bech32.decode(this.address)
-      } catch (err) {
-        this.error = `The provided address is incorrect.`
-        return
-      }
 
       this.$store.dispatch(`signIn`, {
         sessionType: `explore`,
@@ -79,10 +78,18 @@ export default {
       localStorage.setItem(`prevAddress`, this.address)
       this.$router.push(`/`)
       this.$store.commit(`toggleSessionModal`, false)
+    },
+    bech32Validate(param) {
+      try {
+        bech32.decode(param)
+        return true
+      } catch (error) {
+        return false
+      }
     }
   },
   validations: () => ({
-    address: { required }
+    address: { required, bech32Validate: this.bech32Validate }
   })
 }
 </script>
