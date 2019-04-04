@@ -13,7 +13,9 @@
           src="~assets/images/cosmos-logo.png"
         >
         <span class="action-modal-title">
-          {{ session.signedIn ? title : `Sign in required` }}
+          {{ session.signedIn && session.sessionType !== "explore"
+            ? title
+            : `Sign in required` }}
         </span>
         <div
           id="closeBtn"
@@ -24,7 +26,7 @@
         </div>
       </div>
       <div
-        v-if="!session.signedIn"
+        v-if="!session.signedIn || session.sessionType === 'explore'"
         class="action-modal-form"
       >
         <p>You need to sign in to submit a transaction.</p>
@@ -127,7 +129,7 @@
           <tm-form-group class="action-modal-group">
             <div>
               <tm-btn
-                v-if="!session.signedIn"
+                v-if="!session.signedIn || session.sessionType === 'explore'"
                 value="Go to Sign In"
                 icon="navigate_next"
                 color="primary"

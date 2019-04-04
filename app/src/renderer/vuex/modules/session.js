@@ -147,6 +147,9 @@ export default () => {
         case `ledger`:
           accountAddress = address
           break
+        case `explore`:
+          accountAddress = address
+          break
         default:
           // local keyStore
           state.localKeyPairName = localKeyPairName

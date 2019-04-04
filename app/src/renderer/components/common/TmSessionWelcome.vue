@@ -17,6 +17,15 @@
           subtitle="If you have a Ledger Wallet, choose this option."
           @click.native="setState('hardware')"
         />
+        <li-session
+          v-if="accountExists"
+          id="explore-address"
+          icon="search"
+          title="Sign in with Address"
+          subtitle="If you just want to explore your address
+            , choose this option."
+          @click.native="setState('explore')"
+        />
         <template v-if="session.insecureMode">
           <li-session
             v-if="accountExists"
