@@ -4,7 +4,7 @@ process.env.BABEL_ENV = `renderer`
 
 const path = require(`path`)
 const webpack = require(`webpack`)
-const fs = require(`fs-extra`)
+const fs = require(`fs`)
 
 const HtmlWebpackPlugin = require(`html-webpack-plugin`)
 const VueLoaderPlugin = require(`vue-loader/lib/plugin`)
@@ -25,7 +25,7 @@ const commitHash = require(`child_process`)
   .trim()
 
 const devPlugins = process.env.CIRCLECI ? [] : [
-  new CleanWebpackPlugin([buildPath]),
+  new CleanWebpackPlugin(),
   // new BundleAnalyzerPlugin({
   //   analyzerMode: `static`,
   //   openAnalyzer: false
