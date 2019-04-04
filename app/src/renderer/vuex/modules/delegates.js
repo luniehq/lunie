@@ -2,7 +2,6 @@ import * as Sentry from "@sentry/browser"
 import BN from "bignumber.js"
 import { ratToBigNumber } from "scripts/common"
 import num from "scripts/num"
-import { isEmpty, merge } from "lodash"
 import b32 from "scripts/b32"
 import Vue from "vue"
 
