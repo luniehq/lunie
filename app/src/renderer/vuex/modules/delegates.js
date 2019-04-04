@@ -90,10 +90,12 @@ export default ({ node }) => {
           }
         }
       }))
-      commit(`setSigningInfos`, signingInfos.reduce((signingInfos, { operator_address, signing_info }) => ({
-        ...signingInfos,
-        [operator_address]: signing_info
-      }), {}))
+      commit(`setSigningInfos`, signingInfos
+        .filter(x => !!x)
+        .reduce((signingInfos, { operator_address, signing_info }) => ({
+          ...signingInfos,
+          [operator_address]: signing_info
+        }), {}))
     },
     async getDelegates({ state, commit, dispatch, rootState }) {
       commit(`setDelegateLoading`, true)
