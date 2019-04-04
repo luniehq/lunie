@@ -3,7 +3,7 @@
     <div class="tm-session-container">
       <div class="tm-session-header">
         <div class="tm-session-title">
-          Sign in to Cosmos Voyager
+          Sign in to Lunie
         </div>
         <a @click="closeSession">
           <i class="material-icons">close</i>
