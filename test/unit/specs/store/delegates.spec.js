@@ -79,6 +79,20 @@ describe(`Module: Delegates`, () => {
     ])
   })
 
+  it(`sets the signing infos`, () => {
+    const { mutations, state } = instance
+    mutations.setSigningInfos(state, {
+      operatorX: {
+        signingInfoY: 1
+      }
+    })
+    expect(state.signingInfos).toEqual({
+      operatorX: {
+        signingInfoY: 1
+      }
+    })
+  })
+
   it(`fetches all candidates`, async () => {
     const { actions, state } = instance
     const commit = jest.fn()
@@ -153,9 +167,14 @@ describe(`Module: Delegates`, () => {
       state.delegates
     )
 
-    expect(state.delegates).toContainEqual(
-      expect.objectContaining({ signing_info: expect.anything() })
-    )
+    expect(commit).toHaveBeenCalledWith(`setSigningInfos`, {
+      foo: {
+        index_offset: 1,
+        jailed_until: `1970-01-01T00:00:42.000Z`,
+        missed_blocks_counter: 1,
+        start_height: 2,
+      }
+    })
   })
 
   it(`throttles validator fetching to every 20 blocks`, async () => {
