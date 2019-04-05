@@ -48,7 +48,7 @@ import TmField from "common/TmField"
 import TmFormMsg from "common/TmFormMsg"
 import bech32 from "bech32"
 export default {
-  name: `tm-session-sign-in`,
+  name: `tm-session-explore`,
   components: {
     TmBtn,
     TmField,
@@ -88,9 +88,11 @@ export default {
       }
     }
   },
-  validations: () => ({
-    address: { required, bech32Validate: this.bech32Validate }
-  })
+  validations() {
+    return {
+      address: { required, bech32Validate: this.bech32Validate }
+    }
+  }
 }
 </script>
 <style>
