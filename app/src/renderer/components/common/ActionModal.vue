@@ -302,6 +302,7 @@ export default {
     },
     goToSession() {
       this.close()
+
       this.$store.commit(`setSessionModalView`, `welcome`)
       this.$store.commit(`toggleSessionModal`, true)
     },
