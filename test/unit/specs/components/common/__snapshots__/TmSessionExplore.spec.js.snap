@@ -1,0 +1,67 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TmSessionExplore shows a form to sign in with an address 1`] = `
+<div
+  class="tm-session"
+>
+  <tm-form-struct-stub
+    class="tm-session-container"
+    submit="function () { [native code] }"
+    width=""
+  >
+    <div
+      class="tm-session-header"
+    >
+      <a>
+        <i
+          class="material-icons"
+        >
+          arrow_back
+        </i>
+      </a>
+       
+      <div
+        class="tm-session-title"
+      >
+        
+        Explore
+      
+      </div>
+       
+      <a>
+        <i
+          class="material-icons"
+        >
+          close
+        </i>
+      </a>
+    </div>
+     
+    <div
+      class="tm-session-main"
+    >
+      <tm-form-group-stub
+        fieldid="sign-in-name"
+        fieldlabel="Address"
+      >
+        <tm-field-stub
+          placeholder="Your Cosmos Address"
+          type="text"
+          vue-focus="vue-focus"
+        />
+         
+        <!---->
+      </tm-form-group-stub>
+    </div>
+     
+    <div
+      class="tm-session-footer"
+    >
+      <tm-btn-stub
+        size="lg"
+        value="Next"
+      />
+    </div>
+  </tm-form-struct-stub>
+</div>
+`;

@@ -4,7 +4,6 @@
     name="slide-fade"
   >
     <div
-      v-click-outside="close"
       class="action-modal"
     >
       <div class="action-modal-header">
@@ -13,7 +12,9 @@
           src="~assets/images/cosmos-logo.png"
         >
         <span class="action-modal-title">
-          {{ session.signedIn ? title : `Sign in required` }}
+          {{ requiresSignIn
+            ? `Sign in required`
+            : title }}
         </span>
         <div
           id="closeBtn"
@@ -24,7 +25,7 @@
         </div>
       </div>
       <div
-        v-if="!session.signedIn"
+        v-if="requiresSignIn"
         class="action-modal-form"
       >
         <p>You need to sign in to submit a transaction.</p>
@@ -127,7 +128,7 @@
           <tm-form-group class="action-modal-group">
             <div>
               <tm-btn
-                v-if="!session.signedIn"
+                v-if="requiresSignIn"
                 value="Go to Sign In"
                 icon="navigate_next"
                 color="primary"
@@ -173,7 +174,6 @@
 </template>
 
 <script>
-import ClickOutside from "vue-click-outside"
 import HardwareState from "common/TmHardwareState"
 import TmBtn from "common/TmBtn"
 import TmField from "common/TmField"
@@ -194,9 +194,6 @@ const signWithLocalKeystore = `local`
 
 export default {
   name: `action-modal`,
-  directives: {
-    ClickOutside
-  },
   components: {
     HardwareState,
     TmBtn,
@@ -246,6 +243,9 @@ export default {
   }),
   computed: {
     ...mapGetters([`connected`, `session`, `bondDenom`, `wallet`]),
+    requiresSignIn() {
+      return !this.session.signedIn || this.session.sessionType === `explore`
+    },
     balance() {
       if (!this.wallet.loading && !!this.wallet.balances.length) {
         const balance = this.wallet.balances.find(

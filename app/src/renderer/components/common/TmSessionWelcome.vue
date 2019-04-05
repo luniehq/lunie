@@ -3,7 +3,7 @@
     <div class="tm-session-container">
       <div class="tm-session-header">
         <div class="tm-session-title">
-          Sign in to Cosmos Voyager
+          Sign in to Lunie
         </div>
         <a @click="closeSession">
           <i class="material-icons">close</i>
@@ -16,6 +16,15 @@
           title="Sign in with Ledger Nano S"
           subtitle="If you have a Ledger Wallet, choose this option."
           @click.native="setState('hardware')"
+        />
+        <li-session
+          v-if="accountExists"
+          id="explore-address"
+          icon="search"
+          title="Sign in with Address"
+          subtitle="If you want to use Lunie with an address
+            , choose this option."
+          @click.native="setState('explore')"
         />
         <template v-if="session.insecureMode">
           <div class="danger-zone">
