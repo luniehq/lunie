@@ -13,9 +13,9 @@
           src="~assets/images/cosmos-logo.png"
         >
         <span class="action-modal-title">
-          {{ session.signedIn && session.sessionType !== "explore"
-            ? title
-            : `Sign in required` }}
+          {{ requiresSignIn
+            ? `Sign in required`
+            : title }}
         </span>
         <div
           id="closeBtn"
@@ -26,7 +26,7 @@
         </div>
       </div>
       <div
-        v-if="!session.signedIn || session.sessionType === 'explore'"
+        v-if="requiresSignIn"
         class="action-modal-form"
       >
         <p>You need to sign in to submit a transaction.</p>
@@ -129,7 +129,7 @@
           <tm-form-group class="action-modal-group">
             <div>
               <tm-btn
-                v-if="!session.signedIn || session.sessionType === 'explore'"
+                v-if="requiresSignIn"
                 value="Go to Sign In"
                 icon="navigate_next"
                 color="primary"
@@ -248,6 +248,9 @@ export default {
   }),
   computed: {
     ...mapGetters([`connected`, `session`, `bondDenom`, `wallet`]),
+    requiresSignIn() {
+      return !this.session.signedIn || this.session.sessionType === "explore"
+    },
     balance() {
       if (!this.wallet.loading && !!this.wallet.balances.length) {
         const balance = this.wallet.balances.find(
