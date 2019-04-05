@@ -7,6 +7,17 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [1.0.0-beta.38] - 2019-04-05
+
+### Added
+
+- [#2393](https://github.com/cosmos/lunie/issues/2393) Sign in with just an address for exploration @faboweb
+- [#2419](https://github.com/cosmos/lunie/pull/2419) Merge master back to dev @faboweb
+
+### Changed
+
+- [#2423](https://github.com/cosmos/lunie/pull/2423) ActionModal doesn't close anymore when clicking outside @faboweb
+
 ## [1.0.0-beta.37] - 2019-04-04
 
 ### Changed

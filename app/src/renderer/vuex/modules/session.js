@@ -146,27 +146,25 @@ export default () => {
       let accountAddress
       switch (sessionType) {
         case `ledger`:
+        case `explore`:
           accountAddress = address
           break
         default:
           // local keyStore
           state.localKeyPairName = localKeyPairName
-          accountAddress = (await state.externals.loadKeys())
-            .find(({ name }) => name === localKeyPairName).address
+          accountAddress = await getLocalAddress(state, localKeyPairName)
       }
       commit(`setSignIn`, true)
       commit(`setSessionType`, sessionType)
+      commit(`setUserAddress`, accountAddress)
       dispatch(`setErrorCollection`, {
         account: accountAddress,
         optin: errorCollection
       })
-      commit(`setUserAddress`, accountAddress)
       dispatch(`loadPersistedState`)
       commit(`toggleSessionModal`, false)
-      await dispatch(`getStakingParameters`)
-      await dispatch(`getGovParameters`)
       dispatch(`loadErrorCollection`, accountAddress)
-      await dispatch(`initializeWallet`, { address: accountAddress })
+      dispatch(`initializeWallet`, { address: accountAddress })
       dispatch(`persistSession`, { localKeyPairName, address: accountAddress, sessionType })
 
       state.externals.track(`event`, `session`, `sign-in`, sessionType)
@@ -230,4 +228,9 @@ export default () => {
     mutations,
     actions
   }
+}
+
+async function getLocalAddress(state, localKeyPairName) {
+  return (await state.externals.loadKeys())
+    .find(({ name }) => name === localKeyPairName).address
 }
