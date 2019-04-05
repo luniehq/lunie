@@ -282,6 +282,9 @@ jobs:
       - run:
           command: |
             git remote add bot https://${GIT_BOT_TOKEN}@github.com/luniehq/lunie.git
+            git checkout develop
+            git pull
+            git checkout master
             git push bot master:develop
 
 
