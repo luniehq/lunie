@@ -278,10 +278,14 @@ jobs:
   mergeBack:
     executor: node
     steps:
+      - checkout
       - run:
           command: |
             git remote add bot https://${GIT_BOT_TOKEN}@github.com/luniehq/lunie.git
-            git push bot master:develop
+            git checkout develop
+            git pull
+            git merge origin/master
+            git push
 
 
 workflows:
