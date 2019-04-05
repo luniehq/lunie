@@ -4,7 +4,6 @@
     name="slide-fade"
   >
     <div
-      v-click-outside="close"
       class="action-modal"
     >
       <div class="action-modal-header">
@@ -173,7 +172,6 @@
 </template>
 
 <script>
-import ClickOutside from "vue-click-outside"
 import HardwareState from "common/TmHardwareState"
 import TmBtn from "common/TmBtn"
 import TmField from "common/TmField"
@@ -194,9 +192,6 @@ const signWithLocalKeystore = `local`
 
 export default {
   name: `action-modal`,
-  directives: {
-    ClickOutside
-  },
   components: {
     HardwareState,
     TmBtn,
