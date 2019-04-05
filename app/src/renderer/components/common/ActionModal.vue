@@ -249,7 +249,7 @@ export default {
   computed: {
     ...mapGetters([`connected`, `session`, `bondDenom`, `wallet`]),
     requiresSignIn() {
-      return !this.session.signedIn || this.session.sessionType === "explore"
+      return !this.session.signedIn || this.session.sessionType === `explore`
     },
     balance() {
       if (!this.wallet.loading && !!this.wallet.balances.length) {
