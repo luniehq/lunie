@@ -2,6 +2,7 @@
   <modal v-if="active" :close="close">
     <div slot="main">
       <session-welcome v-if="session.modals.session.state == 'welcome'" />
+      <session-explore v-else-if="session.modals.session.state == 'explore'" />
       <session-sign-up v-else-if="session.modals.session.state == 'sign-up'" />
       <session-sign-in v-else-if="session.modals.session.state == 'sign-in'" />
       <session-account-delete
@@ -20,6 +21,7 @@
 import { mapGetters } from "vuex"
 import Modal from "common/TmModal"
 import SessionWelcome from "common/TmSessionWelcome"
+import SessionExplore from "common/TmSessionExplore"
 import SessionSignUp from "common/TmSessionSignUp"
 import SessionSignIn from "common/TmSessionSignIn"
 import SessionHardware from "common/TmSessionHardware"
@@ -32,6 +34,7 @@ export default {
   components: {
     Modal,
     SessionWelcome,
+    SessionExplore,
     SessionSignUp,
     SessionSignIn,
     SessionHardware,

@@ -15,7 +15,7 @@ exports[`TmSessionWelcome with accounts has the expected html structure 1`] = `
         class="tm-session-title"
       >
         
-        Sign in to Cosmos Voyager
+        Sign in to Lunie
       
       </div>
        
@@ -35,6 +35,14 @@ exports[`TmSessionWelcome with accounts has the expected html structure 1`] = `
         icon="usb"
         subtitle="If you have a Ledger Wallet, choose this option."
         title="Sign in with Ledger Nano S"
+      />
+       
+      <li-session-stub
+        icon="search"
+        id="explore-address"
+        subtitle="If you want to use Lunie with an address
+          , choose this option."
+        title="Sign in with Address"
       />
        
       <div
@@ -90,7 +98,7 @@ exports[`TmSessionWelcome without accounts has the expected html structure 1`] =
         class="tm-session-title"
       >
         
-        Sign in to Cosmos Voyager
+        Sign in to Lunie
       
       </div>
        
@@ -111,6 +119,8 @@ exports[`TmSessionWelcome without accounts has the expected html structure 1`] =
         subtitle="If you have a Ledger Wallet, choose this option."
         title="Sign in with Ledger Nano S"
       />
+       
+      <!---->
        
       <div
         class="danger-zone"
