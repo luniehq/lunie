@@ -22,7 +22,7 @@
           id="explore-address"
           icon="search"
           title="Sign in with Address"
-          subtitle="If you just want to explore your address
+          subtitle="If you want to use Lunie with an address
             , choose this option."
           @click.native="setState('explore')"
         />
