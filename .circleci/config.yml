@@ -274,6 +274,15 @@ jobs:
 
               node tasks/publish.js
             fi
+  # Push merges to master immediatly back to develop to stay in sync
+  mergeBack:
+    executor: node
+    steps:
+      - run:
+          command: |
+            git remote add bot https://${GIT_BOT_TOKEN}@github.com/luniehq/lunie.git
+            git push bot master:develop
+
 
 workflows:
   version: 2
@@ -365,3 +374,16 @@ workflows:
             branches:
               only:
                 - release
+    triggers:
+      - schedule:
+          cron: "0 0 * * *"
+          filters:
+            branches:
+              only:
+                - develop
+  mergeBack:
+    jobs:
+      - mergeBack:
+          filters:
+            branches:
+              only: master
