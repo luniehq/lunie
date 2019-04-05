@@ -280,7 +280,7 @@ jobs:
     steps:
       - run:
           command: |
-            git remote add bot https://${GIT_BOT_TOKEN}@github.com/cosmos/voyager.git
+            git remote add bot https://${GIT_BOT_TOKEN}@github.com/luniehq/lunie.git
             git push bot master:develop
 
 
