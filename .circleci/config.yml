@@ -278,6 +278,7 @@ jobs:
   mergeBack:
     executor: node
     steps:
+      - checkout
       - run:
           command: |
             git remote add bot https://${GIT_BOT_TOKEN}@github.com/luniehq/lunie.git
