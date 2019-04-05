@@ -321,7 +321,10 @@ workflows:
             - security
             - lint
 
-      - buildGaia
+      - buildGaia:
+          filters:
+            branches:
+              ignore: release
       - deploy2s3:
           requires:
             - testUnit
