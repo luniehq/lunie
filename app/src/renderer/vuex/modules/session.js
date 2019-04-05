@@ -146,8 +146,6 @@ export default () => {
       let accountAddress
       switch (sessionType) {
         case `ledger`:
-          accountAddress = address
-          break
         case `explore`:
           accountAddress = address
           break

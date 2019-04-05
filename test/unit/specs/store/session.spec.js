@@ -266,6 +266,23 @@ describe(`Module: Session`, () => {
       expect(dispatch).toHaveBeenCalledWith(`loadErrorCollection`, address)
       expect(state.externals.track).toHaveBeenCalled()
     })
+
+    it(`in explore mode`, async () => {
+      const address = `cosmos1qpd4xgtqmxyf9ktjh757nkdfnzpnkamny3cpzv`
+      const commit = jest.fn()
+      const dispatch = jest.fn()
+      await actions.signIn(
+        { state, commit, dispatch },
+        { sessionType: `explore`, address }
+      )
+      expect(commit).toHaveBeenCalledWith(`setUserAddress`, address)
+      expect(commit).toHaveBeenCalledWith(`toggleSessionModal`, false)
+      expect(commit).toHaveBeenCalledWith(`setSessionType`, `explore`)
+      expect(dispatch).toHaveBeenCalledWith(`loadPersistedState`)
+      expect(dispatch).toHaveBeenCalledWith(`initializeWallet`, { address })
+      expect(dispatch).toHaveBeenCalledWith(`loadErrorCollection`, address)
+      expect(state.externals.track).toHaveBeenCalled()
+    })
   })
 
   it(`should sign out`, async () => {
