@@ -8,7 +8,7 @@
         </h2>
         <short-bech32 :address="session.address || ''" />
       </div>
-      <div v-if="unbondedAtoms" class="unbonded-atoms top-section">
+      <div class="unbonded-atoms top-section">
         <h3>Available {{ num.viewDenom(bondDenom) }}</h3>
         <h2>{{ unbondedAtoms }}</h2>
       </div>
@@ -93,14 +93,17 @@ export default {
           this.session.signedIn &&
           (this.lastUpdate === 0 || waitedTenBlocks)
         ) {
-          this.lastUpdate = height
-          this.$store.dispatch(`getTotalRewards`)
-          this.$store.dispatch(`queryWalletBalances`)
+          this.update(height)
         }
       }
     }
   },
   methods: {
+    update(height) {
+      this.lastUpdate = height
+      this.$store.dispatch(`getTotalRewards`)
+      this.$store.dispatch(`queryWalletBalances`)
+    },
     onWithdrawal() {
       this.$refs.modalWithdrawAllRewards.open()
     }
@@ -161,17 +164,16 @@ export default {
     padding: 0 0 1.5rem 0;
   }
 
-  .header-balance .top {
-    flex-direction: column;
-  }
-
   .top-section {
     padding: 0.5rem 0 1rem;
     border-right: none;
   }
 
-  .top-section:nth-child(2),
-  .top-section:nth-child(3) {
+  .top-section:not(:first-child) {
+    margin-left: 2rem;
+  }
+
+  .top-section:nth-child(2) {
     display: none;
   }
 }

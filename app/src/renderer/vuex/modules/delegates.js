@@ -2,8 +2,8 @@ import * as Sentry from "@sentry/browser"
 import BN from "bignumber.js"
 import { ratToBigNumber } from "scripts/common"
 import num from "scripts/num"
-import { isEmpty } from "lodash"
 import b32 from "scripts/b32"
+import Vue from "vue"
 
 export default ({ node }) => {
   const emptyState = {
@@ -12,7 +12,8 @@ export default ({ node }) => {
     loading: false,
     loaded: false,
     error: null,
-    lastValidatorsUpdate: 0
+    lastValidatorsUpdate: 0,
+    signingInfos: {}
   }
   const state = JSON.parse(JSON.stringify(emptyState))
 
@@ -34,8 +35,9 @@ export default ({ node }) => {
         validator.percent_of_vote = num.percent(
           validator.voting_power / state.globalPower
         )
+
+        upsertValidator(state, validator)
       })
-      state.delegates = validators
     },
     setSelfBond(
       state,
@@ -47,6 +49,9 @@ export default ({ node }) => {
       state.delegates.find(
         validator => validator.operator_address === operator_address
       ).selfBond = ratio
+    },
+    setSigningInfos(state, signingInfos) {
+      state.signingInfos = signingInfos
     }
   }
 
@@ -69,18 +74,28 @@ export default ({ node }) => {
       // throttle the update for validators for every 10 blocks
       const waited10Blocks =
         Number(lastHeader.height) - state.lastDelegatesUpdate >= 10
-      if (state.lastValidatorsUpdate === 0 || waited10Blocks) {
-        state.lastValidatorsUpdate = Number(lastHeader.height)
-        for (const validator of validators) {
-          if (validator.consensus_pubkey) {
-            const signing_info = await node.getValidatorSigningInfo(
-              validator.consensus_pubkey
-            )
-            if (!isEmpty(signing_info)) validator.signing_info = signing_info
+      if (state.lastValidatorsUpdate !== 0 && !waited10Blocks) {
+        return
+      }
+
+      state.lastValidatorsUpdate = Number(lastHeader.height)
+      const signingInfos = await Promise.all(validators.map(async validator => {
+        if (validator.consensus_pubkey) {
+          const signing_info = await node.getValidatorSigningInfo(
+            validator.consensus_pubkey
+          )
+          return {
+            operator_address: validator.operator_address,
+            signing_info
           }
         }
-        commit(`setDelegates`, validators)
-      }
+      }))
+      commit(`setSigningInfos`, signingInfos
+        .filter(x => !!x)
+        .reduce((signingInfos, { operator_address, signing_info }) => ({
+          ...signingInfos,
+          [operator_address]: signing_info
+        }), {}))
     },
     async getDelegates({ state, commit, dispatch, rootState }) {
       commit(`setDelegateLoading`, true)
@@ -141,4 +156,21 @@ export default ({ node }) => {
     mutations,
     actions
   }
+}
+
+// incrementally add the validator to the list or update it in place
+// "upsert": (computing, databases) An operation that inserts rows into a database table if they do not already exist, or updates them if they do.
+function upsertValidator(state, validator) {
+  const oldValidatorIndex = state.delegates.findIndex((oldValidator) =>
+    oldValidator.operator_address === validator.operator_address
+  )
+  if (oldValidatorIndex === -1) {
+    state.delegates.push(validator)
+    return
+  }
+  Vue.set(
+    state.delegates,
+    oldValidatorIndex,
+    Object.assign({}, state.delegates[oldValidatorIndex], validator)
+  )
 }

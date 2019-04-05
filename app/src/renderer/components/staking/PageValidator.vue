@@ -115,8 +115,18 @@
             </dl>
             <dl class="info_dl">
               <dt>Website</dt>
-              <dd>
-                {{ translateEmptyDescription(validator.description.website) }}
+              <dd v-if="website !== `--`">
+                <a
+                  id="validator-website"
+                  :href="website"
+                  target="_blank"
+                  rel="nofollow noreferrer noopener"
+                >
+                  {{ website }}
+                </a>
+              </dd>
+              <dd v-else>
+                {{ website }}
               </dd>
             </dl>
             <dl class="info_dl">
@@ -233,7 +243,7 @@ export default {
       const totalBlocks = this.lastHeader.height
       const missedBlocks = this.validator.signing_info.missed_blocks_counter
       const signedBlocks = totalBlocks - missedBlocks
-      const uptime = signedBlocks / totalBlocks * 100
+      const uptime = (signedBlocks / totalBlocks) * 100
 
       return String(uptime).substring(0, 4) + `%`
     },
@@ -287,6 +297,11 @@ export default {
 
       // status: active
       return `green`
+    },
+    // empty descriptions have a strange '[do-not-modify]' value which we don't want to show
+    website() {
+      const url = this.validator.description.website
+      return this.translateEmptyDescription(url)
     },
     rewards() {
       const { session, bondDenom, distribution, validator } = this
@@ -387,7 +402,6 @@ export default {
         })
       return myWallet.concat(redelegationOptions)
     },
-    // empty descriptions have a strange '[do-not-modify]' value which we don't want to show
     translateEmptyDescription(value) {
       if (!value || value === `[do-not-modify]`) return `--`
       return value

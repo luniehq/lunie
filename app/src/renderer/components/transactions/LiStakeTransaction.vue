@@ -1,9 +1,5 @@
 <template>
-  <li-transaction
-    color="#47AB6C"
-    :time="time"
-    :block="block"
-  >
+  <li-transaction color="#47AB6C" :time="time" :block="block">
     <template v-if="txType === `cosmos-sdk/MsgCreateValidator`">
       <div slot="caption">
         Create validator
@@ -21,9 +17,7 @@
         <b>{{ convertedFees ? convertedFees.amount : full(0) }}</b>
         <span>
           {{
-            convertedFees
-              ? convertedFees.denom
-              : num.viewDenom(bondingDenom)
+            convertedFees ? convertedFees.denom : num.viewDenom(bondingDenom)
           }}s
         </span>
       </div>
@@ -43,9 +37,7 @@
         <b>{{ convertedFees ? convertedFees.amount : full(0) }}</b>
         <span>
           {{
-            convertedFees
-              ? convertedFees.denom
-              : num.viewDenom(bondingDenom)
+            convertedFees ? convertedFees.denom : num.viewDenom(bondingDenom)
           }}s
         </span>
       </div>
@@ -67,9 +59,7 @@
         <b>{{ convertedFees ? convertedFees.amount : full(0) }}</b>
         <span>
           {{
-            convertedFees
-              ? convertedFees.denom
-              : num.viewDenom(bondingDenom)
+            convertedFees ? convertedFees.denom : num.viewDenom(bondingDenom)
           }}s
         </span>
       </div>
@@ -100,9 +90,7 @@
         <b>{{ convertedFees ? convertedFees.amount : full(0) }}</b>
         <span>
           {{
-            convertedFees
-              ? convertedFees.denom
-              : num.viewDenom(bondingDenom)
+            convertedFees ? convertedFees.denom : num.viewDenom(bondingDenom)
           }}s
         </span>
       </div>
@@ -125,7 +113,7 @@
         <router-link :to="`${url}/${tx.validator_src_address}`">
           {{ moniker(tx.validator_src_address) }}
         </router-link>
-        to
+        &nbsp;to&nbsp;
         <router-link :to="`${url}/${tx.validator_dst_address}`">
           {{ moniker(tx.validator_dst_address) }}
         </router-link>
@@ -135,9 +123,7 @@
         <b>{{ convertedFees ? convertedFees.amount : full(0) }}</b>
         <span>
           {{
-            convertedFees
-              ? convertedFees.denom
-              : num.viewDenom(bondingDenom)
+            convertedFees ? convertedFees.denom : num.viewDenom(bondingDenom)
           }}s
         </span>
       </div>
@@ -157,9 +143,7 @@
         <b>{{ convertedFees ? convertedFees.amount : full(0) }}</b>
         <span>
           {{
-            convertedFees
-              ? convertedFees.denom
-              : num.viewDenom(bondingDenom)
+            convertedFees ? convertedFees.denom : num.viewDenom(bondingDenom)
           }}s
         </span>
       </div>
@@ -211,7 +195,7 @@ export default {
     },
     time: {
       type: String,
-      default: null // TODO: fails with required: true
+      required: true
     },
     block: {
       type: Number,
@@ -255,7 +239,7 @@ export default {
       const validator = this.validators.find(
         val => val.operator_address === validatorAddr
       )
-      return full(this.atoms(calculateTokens(validator, shares).toNumber()))
+      return validator ? full(this.atoms(calculateTokens(validator, shares).toNumber())) : `--`
     }
   }
 }

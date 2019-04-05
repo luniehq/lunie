@@ -10,8 +10,9 @@ export default () => {
   const ERROR_COLLECTION_KEY = `voyager_error_collection`
 
   const state = {
-    experimentalMode: config.development, // development mode
-    insecureMode: config.development, // show the local signer
+    developmentMode: config.development, // can't be set in browser
+    experimentalMode: config.development, // development mode, can be set from browser
+    insecureMode: false, // show the local signer
     gasPrice: config.default_gas_price, // price per unit of gas
     gasAdjustment: config.default_gas_adjustment, // default adjustment multiplier
     signedIn: false,

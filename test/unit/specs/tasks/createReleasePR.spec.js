@@ -2,6 +2,13 @@
 
 const release = require(`../../../../tasks/createReleasePR`)
 
+jest.mock(`@octokit/rest`, () => () => ({
+  authenticate: () => {},
+  pullRequests: {
+    create: () => {}
+  }
+}))
+
 it(`bumps version`, () => {
   expect(release.bumpVersion(`0.6.1`)).toEqual(`0.6.2`)
 })
@@ -103,4 +110,24 @@ it(`don't create PR if nothing changed`, () => {
   }
   expect(release.main({ octokit, shell, fs }, `\n\n## [Unreleased]\n\n## [0.6.1] - 2018-05-24`, ``, { version: `0.0.1` })).resolved
   expect(octokit.pullRequests.create).not.toHaveBeenCalled()
+})
+
+it(`beautifys changes`, () => {
+  const pending = [
+    `[Added] xxx @faboweb\n[Changed] yyy @fedekunze`,
+    `[Fixed] zzz @faboweb`
+  ]
+  const expected =
+`### Added
+
+- xxx @faboweb
+
+### Changed
+
+- yyy @fedekunze
+
+### Fixed
+
+- zzz @faboweb`
+  expect(release.beautifyChanges(pending)).toBe(expected)
 })

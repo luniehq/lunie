@@ -7,7 +7,7 @@ describe(`TmSessionWelcome`, () => {
 
   beforeEach(() => {
     const getters = {
-      session: { accounts, insecureMode: true, experimentalMode: true },
+      session: { accounts, insecureMode: true, developmentMode: true },
       lastPage: `/`
     }
     $store = {
@@ -113,7 +113,7 @@ describe(`TmSessionWelcome`, () => {
 
     it(`should hide seed import if not in development`, () => {
       expect(wrapper.find(`#import-seed`).exists()).toBe(true)
-      wrapper.vm.session.experimentalMode = false
+      wrapper.vm.session.developmentMode = false
       expect(wrapper.find(`#import-seed`).exists()).toBe(false)
     })
   })

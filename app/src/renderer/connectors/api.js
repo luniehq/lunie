@@ -295,4 +295,4 @@ const Client = (axios, remoteLcdURL) => {
   }
 }
 
-module.exports = Client
+export default Client

@@ -1,4 +1,3 @@
-/* @import '../../../../node_modules/nib/index.styl' */
 @import "reset";
 @import "variables";
 @import "vendor/material-icons.css";
@@ -101,23 +100,8 @@ input.tm-field {
   flex-flow: column no-wrap;
 }
 
-#develop-mode-warning {
-  background: red;
-  text-align: center;
-  height: 1.5rem;
-  font-weight: 500;
-  z-index: 1000000;
-  width: 100%;
-  top: 0;
-  position: absolute;
-}
-
 #appzi-launch-button-cf1d801a-9653-4934-8a18-cea8c9e77495 {
   z-index: var(--z-appHeader) !important;
-}
-
-.mobile #develop-mode-warning {
-  position: relative;
 }
 
 @media screen and (min-width: 1023px) {

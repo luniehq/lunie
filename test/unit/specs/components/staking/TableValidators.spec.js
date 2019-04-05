@@ -28,6 +28,13 @@ describe(`TableValidators`, () => {
         bonded_tokens: 500001,
       }
     },
+    delegates: {
+      signingInfos: {
+        cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw: {
+          missed_blocks_counter: 2
+        }
+      }
+    }
   }
 
   beforeEach(() => {

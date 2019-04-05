@@ -90,6 +90,10 @@ export default function ({ node }) {
           height: status.sync_info.latest_block_height,
           chain_id: status.node_info.network
         })
+
+        if (status.node_info.network === `testnet`) {
+          commit(`setInsecureMode`)
+        }
       })
 
       node.rpc.subscribe(

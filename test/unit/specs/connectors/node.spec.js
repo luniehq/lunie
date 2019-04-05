@@ -28,7 +28,7 @@ describe(`Connector`, () => {
       fooRpc: `rpcBarMock`
     }))
 
-    Node = require(`renderer/connectors/node`)
+    Node = require(`renderer/connectors/node`).default
   })
 
   it(`should hold the lcdPort`, () => {
