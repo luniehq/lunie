@@ -40,7 +40,7 @@ exports[`TmSessionWelcome with accounts has the expected html structure 1`] = `
       <li-session-stub
         icon="search"
         id="explore-address"
-        subtitle="If you just want to explore your address
+        subtitle="If you want to use Lunie with an address
           , choose this option."
         title="Sign in with Address"
       />
