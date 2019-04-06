@@ -1,53 +1,63 @@
 <template>
-  <tm-page data-title="About" hide-header>
+  <tm-page data-title="About">
     <div class="container">
       <div class="card">
         <h1>About</h1>
         <p>
-          Lunie was the <b>first</b> visual interface ever build for the Cosmos
-          network. We develop Lunie putting the <b>user first</b>. We try to <b>
-            reduce the complexity
-          </b> of blockchain to minimum so you can <b>focus</b> on what
-          you really
-          aim to do. We want to keep Lunie <b>Open Source</b> so the
-          community can
-          grow from the learnings we have had already.
-          The developers of Lunie accompanied the Cosmos SDK team to build
-          the amazing
-          tooling that exist today for building visual interfaces for Cosmos.
-          We want to continue assisting development in the network so we all
-          can benefit. We want to keep Lunie <b>independent</b>
-          from validators so
-          there is an entity you can trust.
+          Lunie is your one-stop-shop for sending and receiving Cosmos tokens,
+          viewing your transaction history, delegating your ATOMs, and
+          participating in governance on the Cosmos Hub.
+        </p>
+        <p>
+          This software is developed by the team at Lunie Internation Software
+          Systems. It's
+          <a href="https://github.com/luniehq/lunie" target="_blank">
+            open source
+          </a>
+          and built for the
+          <a href="https://cosmos.network" target="_blank">Cosmos</a> community.
+        </p>
+        <p>
+          For your safety and security, Lunie will not ask for or store your
+          private keys or seed phrases. For now, to send transactions with
+          Lunie, you'll have to sign them with your Ledger Nano&nbsp;S.
+        </p>
+        <p>
+          You can try Lunie on our testnet by visiting
+          <a href="https://testnet.lunie.io" target="_blank">
+            testnet.lunie.io
+          </a>.
         </p>
       </div>
       <div class="card">
         <h1>Team</h1>
-        We are working enthusiastically to develop Lunie for you.<br>
-        <br>
         <div class="flex-row">
           <div class="profile">
-            <img src="~assets/images/team/jordan.jpg">
-            <span>Jordan Bible<br>CEO<br>Canada</span>
-          </div>
-          <div class="profile">
             <img src="~assets/images/team/fabo.jpg">
-            <span>Fabian Weber<br>CTO<br>Germany</span>
+            <div class="profile-info">
+              <span>Fabian Weber</span>
+              <span class="flag">🇩🇪</span>
+            </div>
           </div>
           <div class="profile">
-            <img src="~assets/images/team/fede.jpg">
-            <span>Federico Kunze<br>Software Engineer<br>Chile</span>
+            <img src="~assets/images/team/jordan.jpg">
+            <div class="profile-info">
+              <span>Jordan Bibla</span>
+              <span class="flag">🇨🇦</span>
+            </div>
           </div>
         </div>
       </div>
       <div class="card">
         <h1>Contact</h1>
         <p>
-          We are happy about any feedback or question. Write us at:<br>
-          <br>
-          <a href="mailto:contact@lunie.io">contact[at]lunie.io</a><br>
-          <a href="https://github.com/cosmos/lunie">GitHub</a><br>
-          <a href="https://forum.cosmos.network/c/wallet">Cosmos Forum</a>
+          Please let us know what you think! You can find us on
+          <a href="https://github.com/cosmos/lunie" target="_blank">GitHub</a>,
+          email us at
+          <a href="mailto:contact@lunie.io" target="_blank">
+            contact[at]lunie.io
+          </a>
+          or click the <i>feedback</i> button on the left.
         </p>
       </div>
     </div>
@@ -66,43 +76,57 @@ export default {
 
 <style scoped>
 h1 {
-  font-size: var(--xl);
+  font-size: var(--xxl);
+  color: var(--bright);
   margin-bottom: 1rem;
+  font-weight: 500;
 }
 
-b {
-  font-weight: 700;
-  color: var(--link);
+.container {
+  display: flex;
+  flex-direction: column;
 }
 
 .card {
   background: var(--app-fg);
-  padding: 4rem;
+  max-width: 600px;
+  padding: 2rem;
   margin: 1rem;
   border-radius: 0.25rem;
 }
 
-.flex-row {
-  display: flex;
-  flex-flow: row wrap;
-  margin-top: -1rem;
-}
-
-.flex-row > * {
-  margin-top: 1rem;
+p {
+  margin-bottom: 1rem;
+  font-size: var(--m);
+  line-height: 1.5;
+  font-weight: 400;
 }
 
 .profile {
   display: flex;
-  height: 9rem;
-  flex-direction: row;
   align-items: center;
-  min-width: 20rem;
+  padding: 0.5rem;
+  margin: 0.5rem 0;
+  border: 1px solid var(--bc);
+  background: var(--app-bg);
+  border-radius: 0.25rem;
+}
+
+.profile-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: 500;
+  width: 100%;
+}
+
+.flag {
+  font-size: var(--xl);
 }
 
 .profile img {
-  height: 8rem;
-  width: 8rem;
+  height: 3rem;
+  width: 3rem;
   border-radius: 50%;
   margin-right: 1rem;
 }
