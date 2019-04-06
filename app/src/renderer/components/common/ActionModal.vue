@@ -388,7 +388,7 @@ export default {
 
 <style>
 .action-modal {
-  background: var(--app-nav);
+  background: var(--app-nav-light);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
