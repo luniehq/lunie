@@ -120,7 +120,13 @@ exports[`TmSessionWelcome without accounts has the expected html structure 1`] =
         title="Sign in with Ledger Nano S"
       />
        
-      <!---->
+      <li-session-stub
+        icon="search"
+        id="explore-address"
+        subtitle="If you want to use Lunie with an address
+          , choose this option."
+        title="Sign in with Address"
+      />
        
       <div
         class="danger-zone"

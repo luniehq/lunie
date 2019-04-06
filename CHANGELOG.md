@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [1.0.0-beta.39] - 2019-04-06
+
+### Added
+
+- [#2424](https://github.com/cosmos/lunie/pull/2424) Lint files on every commit but only staged files @faboweb
+
+### Fixed
+
+- [#2427](https://github.com/cosmos/lunie/pull/2427) Fixed sign in with address not visible @faboweb
+
 ## [1.0.0-beta.38] - 2019-04-05
 
 ### Added

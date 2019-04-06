@@ -18,7 +18,6 @@
           @click.native="setState('hardware')"
         />
         <li-session
-          v-if="accountExists"
           id="explore-address"
           icon="search"
           title="Sign in with Address"
