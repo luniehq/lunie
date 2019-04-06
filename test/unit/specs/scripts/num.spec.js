@@ -34,7 +34,7 @@ describe(`number helper`, () => {
   })
 
   it(`should convert utam denom to atom denom`, () => {
-    expect(num.viewDenom(`uatom`)).toBe(`atom`)
+    expect(num.viewDenom(`uatom`)).toBe(`ATOM`)
   })
 
   it(`should convert SDK coins to view coins`, () => {
@@ -42,7 +42,7 @@ describe(`number helper`, () => {
       denom: `uatom`,
       amount: 1000000
     })).toEqual({
-      denom: `atom`,
+      denom: `ATOM`,
       amount: `1.000000`
     })
   })

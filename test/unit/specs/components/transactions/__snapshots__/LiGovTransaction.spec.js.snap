@@ -15,7 +15,7 @@ exports[`LiGovTransaction deposits 1`] = `
     </b>
      
     <span>
-      atoms
+      ATOMs
     </span>
   </div>
    
@@ -41,7 +41,7 @@ exports[`LiGovTransaction deposits 1`] = `
     </b>
      
     <span>
-      atoms
+      ATOMs
     </span>
   </div>
 </li-transaction-stub>
@@ -62,7 +62,7 @@ exports[`LiGovTransaction proposals 1`] = `
     </b>
      
     <span>
-      atoms
+      ATOMs
     </span>
   </div>
    
@@ -83,7 +83,7 @@ exports[`LiGovTransaction proposals 1`] = `
     </b>
      
     <span>
-      atoms
+      ATOMs
     </span>
   </div>
 </li-transaction-stub>
@@ -123,7 +123,7 @@ exports[`LiGovTransaction votes 1`] = `
     </b>
      
     <span>
-      atoms
+      ATOMs
     </span>
   </div>
 </li-transaction-stub>

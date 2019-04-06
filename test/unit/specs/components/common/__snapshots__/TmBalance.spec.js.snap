@@ -11,7 +11,7 @@ exports[`TmBalance has the expected html structure before adding props 1`] = `
       class="total-atoms top-section"
     >
       <h3>
-        Total stake
+        Total STAKE
       </h3>
        
       <h2
@@ -31,7 +31,7 @@ exports[`TmBalance has the expected html structure before adding props 1`] = `
       class="unbonded-atoms top-section"
     >
       <h3>
-        Available stake
+        Available STAKE
       </h3>
        
       <h2>

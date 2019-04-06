@@ -13,9 +13,7 @@ exports[`TableInvoice should show the transaction invoice summary 1`] = `
       </td>
        
       <td>
-        <b>
-          ø
-        </b>
+        
         1.000000
       
       </td>
@@ -25,20 +23,11 @@ exports[`TableInvoice should show the transaction invoice summary 1`] = `
       <td>
         
         Fees (estimated)
-        
-        <i
-          class="material-icons info-button"
-        >
-          
-          info_outline
-        
-        </i>
+      
       </td>
        
       <td>
-        <b>
-          ø
-        </b>
+        
         0.046296
       
       </td>
@@ -52,9 +41,7 @@ exports[`TableInvoice should show the transaction invoice summary 1`] = `
       </td>
        
       <td>
-        <b>
-          ø
-        </b>
+        
         1.046296
       
       </td>

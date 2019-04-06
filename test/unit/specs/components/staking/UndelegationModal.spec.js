@@ -130,7 +130,7 @@ describe(`UndelegationModal`, () => {
 
       expect($store.commit).toHaveBeenCalledWith(`notify`,
         {
-          body: `You have successfully undelegated 4.2 atoms.`,
+          body: `You have successfully undelegated 4.2 ATOMs.`,
           title: `Successful undelegation!`
         }
       )

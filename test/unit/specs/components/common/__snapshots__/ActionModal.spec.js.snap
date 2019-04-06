@@ -429,8 +429,7 @@ exports[`ActionModal should show the action modal when user hasn't logged in 1`]
       <div>
         <tm-btn-stub
           color="primary"
-          icon="navigate_next"
-          value="Go to Sign In"
+          value="Sign In"
         />
       </div>
     </tm-form-group-stub>
