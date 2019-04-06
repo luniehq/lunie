@@ -118,7 +118,8 @@ async function main() {
   })
 
   // commit changelog
-  exec(`git commit -m 'changelog' '${changeFileName}'`)
+  exec(`git add ${changeFileName}`)
+  exec(`git commit -m 'changelog' ${changeFileName}`)
 }
 
 main()
