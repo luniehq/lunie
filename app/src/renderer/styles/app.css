@@ -22,10 +22,6 @@ body,
   background: var(--app-bg);
 }
 
-html {
-  overflow: hidden;
-}
-
 a {
   color: var(--link);
   text-decoration: none;
@@ -49,6 +45,7 @@ a:hover {
   display: flex;
   flex-flow: column nowrap;
   min-width: 0;
+  overflow: hidden;
 }
 
 .tm-field {
@@ -85,8 +82,9 @@ input.tm-field {
   background: var(--bc-dim);
   display: inline-block;
   position: absolute;
-  padding: 6px 8px;
+  padding: 7px 8px;
   font-size: var(--sm);
+  text-transform: uppercase;
   right: 30px;
   letter-spacing: 1px;
   text-align: right;
@@ -98,6 +96,7 @@ input.tm-field {
   flex: 1;
   display: flex;
   flex-flow: column no-wrap;
+  overflow: scroll;
 }
 
 #appzi-launch-button-cf1d801a-9653-4934-8a18-cea8c9e77495 {
