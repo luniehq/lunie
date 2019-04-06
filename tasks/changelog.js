@@ -118,7 +118,7 @@ async function main() {
   })
 
   // commit changelog
-  exec(`git commit -m 'changelog' ${changesFolderPath}/*`)
+  exec(`git commit -m 'changelog' '${changeFileName}'`)
 }
 
 main()
