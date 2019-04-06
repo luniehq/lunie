@@ -12,7 +12,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 
 - [#2434](https://github.com/cosmos/lunie/pull/2434) Automatic commit of changelog files to git @faboweb
-- [#2434](https://github.com/cosmos/lunie/pull/2434) Automatic commit of changelog entries to git @faboweb
 
 ### Changed
 
