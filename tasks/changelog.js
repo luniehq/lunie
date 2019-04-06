@@ -116,6 +116,9 @@ async function main() {
     flag: `wx`,
     encoding: `utf8`
   })
+
+  // commit changelog
+  exec(`git commit -m 'changelog' ${changesFolderPath}/*`)
 }
 
 main()
