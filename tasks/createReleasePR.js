@@ -19,6 +19,9 @@ function bumpVersion(versionString) {
 // collect all changes from files
 /* istanbul ignore next */ // only touches filesystem
 async function collectPending() {
+  if (!fs.existsSync(changesPath)) {
+    throw new Error(`No pending changes.`)
+  }
   const files = await fs.readdirSync(changesPath)
   const allChanges = files.map(file => {
     return fs.readFileSync(join(changesPath, file), `utf8`)

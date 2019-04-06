@@ -7,6 +7,17 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [1.0.0-beta.40] - 2019-04-06
+
+### Added
+
+- [#2434](https://github.com/cosmos/lunie/pull/2434) Automatic commit of changelog files to git @faboweb
+
+### Changed
+
+- [#2436](https://github.com/cosmos/lunie/pull/2436) Improved documentation on manual releases @faboweb
+- [#2433](https://github.com/cosmos/lunie/pull/2433) Switch servers to Lunie servers @faboweb
+
 ## [1.0.0-beta.39] - 2019-04-06
 
 ### Added

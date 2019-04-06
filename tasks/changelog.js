@@ -116,6 +116,10 @@ async function main() {
     flag: `wx`,
     encoding: `utf8`
   })
+
+  // commit changelog
+  exec(`git add ${changeFileName}`)
+  exec(`git commit -m 'changelog' ${changeFileName}`)
 }
 
 main()

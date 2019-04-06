@@ -133,6 +133,14 @@ If you want to set a particular `Stargate` (Cosmos light client) or Tendermint's
 STARGATE=<https://StargateAddress:port> RPC=<https://RPCAddress:port> yarn build:ui
 ```
 
+## Release
+
+Lunie has a automated release process. Every night the CI creates a new release PR. To release manually, run
+
+```bash
+yarn release
+```
+
 ### Run local testnet
 
 #### Run and create local account
