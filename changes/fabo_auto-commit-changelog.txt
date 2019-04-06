@@ -1,0 +1,1 @@
+[Added] [#2434](https://github.com/cosmos/lunie/pull/2434) Automatic commit of changelog entries to git @faboweb
