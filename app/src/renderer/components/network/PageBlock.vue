@@ -7,7 +7,7 @@
           <div class="page-profile__header__info">
             <div class="page-profile__status-and-title">
               <h2 class="page-profile__title">
-                Block {{ blockTitle }}
+                Block {{ blockTitle || `--` }}
               </h2>
             </div>
           </div>
@@ -35,7 +35,7 @@
                 No Transactions
               </div>
               <div slot="subtitle">
-                This block doesn't contain any transaction.
+                This block doesn't contain any transactions.
               </div>
             </tm-data-msg>
             <li-any-transaction
