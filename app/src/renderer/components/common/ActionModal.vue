@@ -1,20 +1,13 @@
 <template>
-  <transition
-    v-if="show"
-    name="slide-fade"
-  >
-    <div
-      class="action-modal"
-    >
+  <transition v-if="show" name="slide-fade">
+    <div class="action-modal">
       <div class="action-modal-header">
         <img
           class="icon action-modal-atom"
           src="~assets/images/cosmos-logo.png"
         >
         <span class="action-modal-title">
-          {{ requiresSignIn
-            ? `Sign in required`
-            : title }}
+          {{ requiresSignIn ? `Sign in required` : title }}
         </span>
         <div
           id="closeBtn"
@@ -24,16 +17,10 @@
           <i class="material-icons">close</i>
         </div>
       </div>
-      <div
-        v-if="requiresSignIn"
-        class="action-modal-form"
-      >
+      <div v-if="requiresSignIn" class="action-modal-form">
         <p>You need to sign in to submit a transaction.</p>
       </div>
-      <div
-        v-else-if="step === `txDetails`"
-        class="action-modal-form"
-      >
+      <div v-else-if="step === `txDetails`" class="action-modal-form">
         <slot />
       </div>
       <div v-else-if="step === `fees`" class="action-modal-form">
@@ -42,7 +29,7 @@
           :error="$v.gasPrice.$error && $v.gasPrice.$invalid"
           class="action-modal-group"
           field-id="gasPrice"
-          field-label="Gas Price"
+          field-label="Network Fee"
         >
           <span class="input-suffix">{{ bondDenom }}</span>
           <tm-field
@@ -129,15 +116,17 @@
             <div>
               <tm-btn
                 v-if="requiresSignIn"
-                value="Go to Sign In"
-                icon="navigate_next"
+                value="Sign In"
                 color="primary"
                 @click.native="goToSession"
               />
               <tm-btn
                 v-else-if="sending"
-                :value="step === `sign` && selectedSignMethod === `ledger`
-                  ? `Waiting for Ledger` : `Sending...`"
+                :value="
+                  step === `sign` && selectedSignMethod === `ledger`
+                    ? `Waiting for Ledger`
+                    : `Sending...`
+                "
                 disabled="disabled"
                 color="primary"
               />
@@ -244,7 +233,7 @@ export default {
   computed: {
     ...mapGetters([`connected`, `session`, `bondDenom`, `wallet`]),
     requiresSignIn() {
-      return !this.session.signedIn || this.session.sessionType === `explore`
+      return !this.session.signedIn
     },
     balance() {
       if (!this.wallet.loading && !!this.wallet.balances.length) {
