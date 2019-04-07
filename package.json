@@ -1,7 +1,7 @@
 {
   "name": "lunie",
   "productName": "lunie",
-  "version": "1.0.0-beta.38",
+  "version": "1.0.0-beta.40",
   "description": "Lunie is a web based user interface for the Cosmos Hub.",
   "author": "All In Bits, Inc <hello@tendermint.com>",
   "license": "Apache-2.0",
@@ -32,7 +32,7 @@
     "test:e2e": "(kill $(lsof -t -i:9515) || true) && nightwatch --config ./test/e2e/nightwatch.json",
     "test:exe": "node tasks/test-build.js",
     "test:coverage": "http-server test/unit/coverage/lcov-report",
-    "release": "node ./tasks/releasePullRequest.js",
+    "release": "git checkout develop & git pull & git push origin develop:release",
     "postcheckout": "yarn",
     "watch": "tasks/watch.sh",
     "nodes": "node ./tasks/local-testnet/start.js",
