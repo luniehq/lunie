@@ -392,7 +392,7 @@ export default {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  right: 2rem;
+  right: 1rem;
   padding: 1.5rem 1.5rem 2rem 1.5rem;
   position: fixed;
   bottom: 0;

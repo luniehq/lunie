@@ -1,5 +1,5 @@
 <template>
-  <tm-page data-title="About">
+  <tm-page data-title="About" hide-header>
     <div class="container">
       <div class="card">
         <h1>About</h1>
@@ -11,11 +11,22 @@
         <p>
           This software is developed by the team at Lunie Internation Software
           Systems. It's
-          <a href="https://github.com/luniehq/lunie" target="_blank">
+          <a
+            href="https://github.com/luniehq/lunie"
+            target="_blank"
+            rel="noopener norefferer"
+          >
             open source
           </a>
           and built for the
-          <a href="https://cosmos.network" target="_blank">Cosmos</a> community.
+          <a
+            href="https://cosmos.network"
+            target="_blank"
+            rel="noopener norefferer"
+          >
+            Cosmos
+          </a>
+          community.
         </p>
         <p>
           For your safety and security, Lunie will not ask for or store your
@@ -24,7 +35,11 @@
         </p>
         <p>
           You can try Lunie on our testnet by visiting
-          <a href="https://testnet.lunie.io" target="_blank">
+          <a
+            href="https://testnet.lunie.io"
+            target="_blank"
+            rel="noopener norefferer"
+          >
             testnet.lunie.io
           </a>.
         </p>
@@ -52,9 +67,18 @@
         <h1>Contact</h1>
         <p>
           Please let us know what you think! You can find us on
-          <a href="https://github.com/cosmos/lunie" target="_blank">GitHub</a>,
-          email us at
-          <a href="mailto:contact@lunie.io" target="_blank">
+          <a
+            href="https://github.com/cosmos/lunie"
+            target="_blank"
+            rel="noopener norefferer"
+          >
+            GitHub
+          </a>, email us at
+          <a
+            href="mailto:contact@lunie.io"
+            target="_blank"
+            rel="noopener norefferer"
+          >
             contact[at]lunie.io
           </a>
           or click the <i>feedback</i> button on the left.
