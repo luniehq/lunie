@@ -59,12 +59,12 @@ export function uatoms(number = 0) {
   return BigNumber(number).times(1e6).toString()
 }
 
-// convert micro denoms like uatom to display denoms like atom
+// convert micro denoms like uatom to display denoms like ATOM
 export function viewDenom(denom) {
   if (denom.charAt(0) === `u`) {
-    return denom.substr(1)
+    return denom.substr(1).toUpperCase()
   }
-  return denom
+  return denom.toUpperCase()
 }
 
 export function viewCoin({ amount, denom }) {

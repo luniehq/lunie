@@ -6,6 +6,7 @@
   --secondary: hsl(277, 92%, 58%);
   --primary: hsl(233, 88%, 57%);
   --link: hsl(217, 100%, 70%);
+  --link-dark: hsl(217, 100%, 45%);
   --link-hover: rgba(31, 117, 255, 1);
   --hover: rgba(0, 0, 0, 8%);
   --hover-bg: rgba(27, 113, 255, 0.1);
@@ -16,7 +17,8 @@
   --bc-dim: hsla(233, 24%, 75%, 0.0875);
   --app-fg: hsl(233, 36%, 18%);
   --app-bg: hsl(233, 30%, 22%);
-  --app-nav: hsl(233, 38%, 14%);
+  --app-nav: hsl(233, 38%, 7%);
+  --app-nav-light: hsl(233, 38%, 11%);
   --black: rgb(0, 0, 0);
   --grey: hsl(234, 13%, 85%);
   --white-fade-1: rgba(177, 179, 187, 0.25);
