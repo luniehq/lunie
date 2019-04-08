@@ -39,6 +39,13 @@ describe(`Module: Governance Parameters`, () => {
     ])
   })
 
+  it(`fetches all governance parameters on sign in`, async () => {
+    const { actions } = module
+    const dispatch = jest.fn()
+    await actions.signIn({ dispatch })
+    expect(dispatch).toHaveBeenCalledWith(`getGovParameters`)
+  })
+
   it(`should store an error if failed to load governance deposit parameters`, async () => {
     node.getGovDepositParameters = () => Promise.reject(new Error(`Error`))
     const { actions, state } = module

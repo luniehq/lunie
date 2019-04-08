@@ -5,6 +5,7 @@
     :submit-fn="submitForm"
     :simulate-fn="simulateForm"
     :validate="validateForm"
+    :amount="amount"
     title="Send"
     submission-error-prefix="Sending tokens failed"
     @close="clear"
