@@ -161,10 +161,10 @@ export default () => {
         account: accountAddress,
         optin: errorCollection
       })
-      dispatch(`loadPersistedState`)
+      await dispatch(`loadPersistedState`)
       commit(`toggleSessionModal`, false)
       dispatch(`loadErrorCollection`, accountAddress)
-      dispatch(`initializeWallet`, { address: accountAddress })
+      await dispatch(`initializeWallet`, { address: accountAddress })
       dispatch(`persistSession`, { localKeyPairName, address: accountAddress, sessionType })
 
       state.externals.track(`event`, `session`, `sign-in`, sessionType)
