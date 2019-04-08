@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [1.0.0-beta.41] - 2019-04-08
+
+### Fixed
+
+- [#2353](https://github.com/cosmos/lunie/issues/2353) cleaned up many styling issues and resolved scroll issue @jbibla
+
 ## [1.0.0-beta.40] - 2019-04-06
 
 ### Added
