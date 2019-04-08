@@ -2,7 +2,6 @@
 
 exports[`SendModal should display send modal form 1`] = `
 <action-modal-stub
-  amount="0"
   denom="STAKE"
   id="send-modal"
   simulatefn="function () { [native code] }"
@@ -64,7 +63,7 @@ exports[`SendModal should display send modal form 1`] = `
 
 exports[`SendModal validation should show address required error 1`] = `
 <action-modal-stub
-  amount="0"
+  amount="2"
   denom="STAKE"
   id="send-modal"
   simulatefn="function () { [native code] }"
@@ -128,7 +127,7 @@ exports[`SendModal validation should show address required error 1`] = `
 
 exports[`SendModal validation should show bech32 error when address length is too long 1`] = `
 <action-modal-stub
-  amount="0"
+  amount="2"
   denom="STAKE"
   id="send-modal"
   simulatefn="function () { [native code] }"
@@ -192,7 +191,7 @@ exports[`SendModal validation should show bech32 error when address length is to
 
 exports[`SendModal validation should show bech32 error when address length is too short 1`] = `
 <action-modal-stub
-  amount="0"
+  amount="2"
   denom="STAKE"
   id="send-modal"
   simulatefn="function () { [native code] }"
@@ -256,7 +255,6 @@ exports[`SendModal validation should show bech32 error when address length is to
 
 exports[`SendModal validation should show bech32 error when alphanumeric is wrong 1`] = `
 <action-modal-stub
-  amount="0"
   denom="STAKE"
   id="send-modal"
   simulatefn="function () { [native code] }"
