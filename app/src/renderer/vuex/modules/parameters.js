@@ -16,7 +16,7 @@ export default ({ node }) => {
   }
 
   const actions = {
-    initializeWallet({ dispatch }) {
+    signIn({ dispatch }) {
       // needed for bond denom for gas calculation
       dispatch(`getStakingParameters`)
     },

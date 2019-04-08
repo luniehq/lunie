@@ -20,7 +20,7 @@ export default ({ node }) => {
   }
 
   const actions = {
-    initializeWallet({ dispatch }) {
+    signIn({ dispatch }) {
       // needed for deposit denom for governance
       dispatch(`getGovParameters`)
     },
