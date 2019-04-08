@@ -64,17 +64,6 @@
         </h2>
         <i class="material-icons">chevron_right</i>
       </router-link>
-      <router-link
-        class="app-menu-item app-menu-item--link"
-        to="/about"
-        exact="exact"
-        title="About"
-        @click.native="close"
-      >
-        <h2>
-          About
-        </h2>
-      </router-link>
     </div>
     <connected-network />
   </menu>
@@ -104,13 +93,13 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .app-menu {
   z-index: var(--z-appMenu);
   user-select: none;
-  display: flex;
+  display: block;
   flex-flow: column nowrap;
-  height: 100vh;
+  position: relative;
 }
 
 .app-menu .app-menu-main {
@@ -129,31 +118,45 @@ export default {
   border-radius: 0.25rem;
 }
 
+.app-menu-item-small:hover {
+  color: var(--link);
+}
+
 .app-menu .app-menu-item:not(.app-menu-item--link):hover {
   color: var(--bright);
   background: var(--app-fg);
 }
 
-.app-menu .app-menu-item.app-menu-item--link {
+.app-menu .app-menu-item--link {
+  display: block;
+  font-size: 14px;
+  padding: 0 0.75rem;
+  margin: 0.5rem;
+  font-weight: 400;
+  color: var(--dim);
+}
+
+.app-menu .app-menu-item--link:hover {
   color: var(--link);
 }
 
-.app-menu .router-link-active {
+.app-menu .app-menu-item.router-link-active {
   background: var(--app-fg);
 }
 
-.app-menu .router-link-active i {
+.app-menu .app-menu-item.router-link-active i {
   color: var(--tertiary);
 }
 
-.app-menu .router-link-active h2 {
+.app-menu .app-menu-item.router-link-active h2 {
   color: var(--bright);
   font-weight: 500;
 }
 
 @media screen and (max-width: 1023px) {
   .app-menu {
-    background: var(--app-bg);
+    background: var(--app-nav);
+    height: 100vh;
   }
 
   .app-menu .app-menu-item {
@@ -161,13 +164,17 @@ export default {
   }
 
   .app-menu-title {
-    font-size: 1.5rem;
+    font-size: var(--xxl);
+    line-height: 1.125;
+    font-weight: 600;
+    letter-spacing: 0.004em;
+    color: var(--bright);
   }
 }
 
 @media screen and (min-width: 1023px) {
   .app-menu {
-    flex: 1;
+    width: var(--width-side);
   }
 }
 </style>

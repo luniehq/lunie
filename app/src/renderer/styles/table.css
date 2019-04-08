@@ -92,7 +92,7 @@
   width: 3rem;
   margin-right: 0.5rem;
   display: block;
-  background: var(--app-nav);
+  background: var(--app-nav-light);
 }
 
 .data-table__row__info__image--no-img {

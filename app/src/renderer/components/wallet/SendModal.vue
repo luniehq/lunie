@@ -182,7 +182,7 @@ export default {
         title: `Successful Send`,
         body: `Successfully sent ${amount} ${num.viewDenom(
           denom
-        )} to ${address}`
+        )}s to ${address}`
       })
     },
     bech32Validate(param) {

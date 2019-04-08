@@ -79,6 +79,12 @@ export default {
   font-size: 1rem;
 }
 
+@media screen and (max-width: 767px) {
+  .tm-data-msg {
+    padding: 2rem 1rem;
+  }
+}
+
 @media screen and (max-width: 1023px) {
   .tm-data-msg {
     display: block;

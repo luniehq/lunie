@@ -172,7 +172,7 @@ describe(`SendModal`, () => {
 
       expect($store.commit).toHaveBeenCalledWith(`notify`,
         {
-          body: `Successfully sent 10 atom to cosmos1address`,
+          body: `Successfully sent 10 ATOMs to cosmos1address`,
           title: `Successful Send`
         }
       )

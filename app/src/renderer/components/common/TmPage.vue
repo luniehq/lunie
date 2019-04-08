@@ -19,19 +19,47 @@
         <tm-data-connecting v-if="!loaded && !connected" />
         <tm-data-loading v-else-if="!loaded && loading" />
         <tm-data-error v-else-if="error" />
-        <slot
-          v-else-if="dataEmpty"
-          name="no-data"
-        >
+        <slot v-else-if="dataEmpty" name="no-data">
           <tm-data-empty />
         </slot>
-        <slot
-          v-else
-          name="managed-body"
-        />
+        <slot v-else name="managed-body" />
       </template>
       <slot />
     </main>
+    <footer class="footer">
+      <ul class="link-list">
+        <li>
+          <router-link
+            class="app-menu-item-small"
+            to="/about"
+            exact="exact"
+            title="About"
+          >
+            About
+          </router-link>
+        </li>
+        <li>
+          <router-link
+            class="app-menu-item-small"
+            to="/terms"
+            exact="exact"
+            title="About"
+          >
+            Terms of Service
+          </router-link>
+        </li>
+        <li>
+          <router-link
+            class="app-menu-item-small"
+            to="/privacy"
+            exact="exact"
+            title="About"
+          >
+            Privacy Policy
+          </router-link>
+        </li>
+      </ul>
+    </footer>
   </div>
 </template>
 
@@ -132,7 +160,6 @@ export default {
   display: flex;
   flex-flow: column nowrap;
   position: relative;
-  width: 100%;
 }
 
 .tm-page-main {
@@ -277,6 +304,34 @@ export default {
   line-height: 1.25rem;
   color: var(--bright);
   word-break: break-all;
+}
+
+.footer {
+  width: 100%;
+  background: var(--app-fg);
+  padding: 0.5rem;
+  margin-top: 1rem;
+}
+
+.app-menu-item-small {
+  display: inline-block;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.25rem 0.25rem;
+  margin: 0 0.5rem;
+  color: var(--dim);
+  border-radius: 0.25rem;
+  font-size: var(--sm);
+}
+
+.link-list {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.link-list li {
+  display: inline;
 }
 
 @media screen and (max-width: 767px) {

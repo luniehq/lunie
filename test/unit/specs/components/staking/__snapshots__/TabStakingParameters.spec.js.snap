@@ -54,7 +54,7 @@ exports[`TabStakingParameters displays a message if loading 2`] = `
               id="bond_denom"
             >
               
-              stake
+              STAKE
             
             </dd>
           </dl>
@@ -135,7 +135,7 @@ exports[`TabStakingParameters displays a message if waiting for connection 2`] =
               id="bond_denom"
             >
               
-              stake
+              STAKE
             
             </dd>
           </dl>
@@ -214,7 +214,7 @@ exports[`TabStakingParameters has the expected html structure 1`] = `
               id="bond_denom"
             >
               
-              stake
+              STAKE
             
             </dd>
           </dl>
