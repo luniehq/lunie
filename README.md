@@ -2,8 +2,7 @@
 
 # Cosmos Lunie
 
-[![CircleCI](https://circleci.com/gh/cosmos/lunie.svg?style=svg)](https://circleci.com/gh/cosmos/lunie)
-[![codecov](https://codecov.io/gh/cosmos/lunie/branch/develop/graph/badge.svg)](https://codecov.io/gh/cosmos/lunie)
+[![CircleCI](https://circleci.com/gh/luniehq/lunie/tree/develop.svg?style=svg)](https://circleci.com/gh/luniehq/lunie/tree/develop)
 
 👋 Welcome to Lunie, the official wallet and UI for the [Cosmos Hub](https://cosmos.network/).
 
