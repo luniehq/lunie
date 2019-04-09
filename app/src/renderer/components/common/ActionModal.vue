@@ -252,7 +252,7 @@ export default {
       return true
     },
     selectedSignMethod() {
-      if (this.session.sessionType === `ledger`) {
+      if (this.session.sessionType === `ledger` || this.session.sessionType === `explore`) {
         return signWithLedger
       }
       return signWithLocalKeystore
