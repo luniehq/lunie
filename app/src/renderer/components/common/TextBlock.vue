@@ -1,9 +1,7 @@
 <template>
-  <div class="text-block">
-    <pre>
-      {{ content.trim() }}
-    </pre>
-  </div>
+  <p class="text-block">
+    {{ content.trim() }}
+  </p>
 </template>
 
 <script>
