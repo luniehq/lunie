@@ -184,11 +184,9 @@ exports[`PageProposal renders votes in HTML when voting is open 1`] = `
             Description
           </dt>
            
-          <dd>
-            <text-block-stub
-              content="custom text proposal description"
-            />
-          </dd>
+          <text-block-stub
+            content="custom text proposal description"
+          />
         </dl>
       </div>
     </div>
@@ -391,11 +389,9 @@ exports[`PageProposal should display proposal page if user has signed in 1`] = `
             Description
           </dt>
            
-          <dd>
-            <text-block-stub
-              content="custom text proposal description"
-            />
-          </dd>
+          <text-block-stub
+            content="custom text proposal description"
+          />
         </dl>
       </div>
     </div>
@@ -598,11 +594,9 @@ exports[`PageProposal should display proposal page should default tally to 0 if 
             Description
           </dt>
            
-          <dd>
-            <text-block-stub
-              content="custom text proposal description"
-            />
-          </dd>
+          <text-block-stub
+            content="custom text proposal description"
+          />
         </dl>
       </div>
     </div>
