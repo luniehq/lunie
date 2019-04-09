@@ -17,12 +17,8 @@ export default {
 </script>
 
 <style>
-.text-block pre {
-  white-space: pre-wrap /* Since CSS 2.1 */;
-  white-space: -moz-pre-wrap /* Mozilla, since 1999 */;
-  white-space: -o-pre-wrap /* Opera 7 */;
-  word-wrap: break-word /* Internet Explorer 5.5+ */;
-  max-width: calc(var(--width-main) - 2rem);
+.text-block {
+  word-break: break-word;
 }
 
 .text-block p {
