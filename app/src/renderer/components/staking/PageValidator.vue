@@ -315,7 +315,7 @@ export default {
         : null
 
       if (amount) {
-        return `${amount} ${bondDenom}`
+        return `${amount} ${num.viewDenom(bondDenom)}`
       }
       return null
     }

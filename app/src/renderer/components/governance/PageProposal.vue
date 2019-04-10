@@ -85,10 +85,7 @@
       </div>
 
       <div class="page-profile__section">
-        <div
-          v-if="proposal.proposal_status === 'VotingPeriod'"
-          class="row"
-        >
+        <div v-if="proposal.proposal_status === 'VotingPeriod'" class="row">
           <dl class="info_dl colored_dl">
             <dt>Yes</dt>
             <dd>{{ num.atoms(tally.yes) }} / {{ yesPercentage }}</dd>
@@ -100,9 +97,7 @@
           <dl class="info_dl colored_dl">
             <dt>No with Veto</dt>
             <dd>
-              {{
-                num.atoms(tally.no_with_veto) }} / {{ noWithVetoPercentage
-              }}
+              {{ num.atoms(tally.no_with_veto) }} / {{ noWithVetoPercentage }}
             </dd>
           </dl>
           <dl class="info_dl colored_dl">
@@ -114,9 +109,7 @@
           <div class="column">
             <dl class="info_dl colored_dl">
               <dt>Description</dt>
-              <dd>
-                <text-block :content="proposal.description" />
-              </dd>
+              <text-block :content="proposal.description" />
             </dl>
           </div>
         </div>
