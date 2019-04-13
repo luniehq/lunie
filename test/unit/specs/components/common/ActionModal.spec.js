@@ -26,6 +26,10 @@ describe(`ActionModal`, () => {
           balances: [
             { denom: `uatom`, amount: `20000000` }
           ]
+        },
+        ledger: {
+          cosmosApp: {},
+          isConnected: true
         }
       }
     }
@@ -43,6 +47,89 @@ describe(`ActionModal`, () => {
       }
     })
     wrapper.vm.open()
+  })
+
+  it(`should set the submissionError if the submission is rejected`, async () => {
+    const submitFn = jest
+      .fn()
+      .mockRejectedValue(new Error(`some kind of error message`))
+    const $store = { dispatch: jest.fn() }
+    const self = {
+      $store,
+      ledger: {
+        cosmosApp: {},
+        isConnected: true
+      },
+      submitFn,
+      submissionErrorPrefix: `PREFIX`
+    }
+    await ActionModal.methods.submit.call(self)
+
+    expect(self.submissionError).toEqual(`PREFIX: some kind of error message.`)
+  })
+
+  it(`should clear the submissionError after a timeout if the function is rejected`, async () => {
+    jest.useFakeTimers()
+
+    const submitFn = jest
+      .fn()
+      .mockRejectedValue(new Error(`some kind of error message`))
+    const $store = { dispatch: jest.fn() }
+    const self = {
+      $store,
+      ledger: {
+        cosmosApp: {},
+        isConnected: true
+      },
+      submitFn,
+      submissionErrorPrefix: `PREFIX`
+    }
+    await ActionModal.methods.submit.call(self)
+
+    jest.runAllTimers()
+    expect(self.submissionError).toEqual(null)
+  })
+
+  it(`should default to submissionError being null`, () => {
+    expect(wrapper.vm.submissionError).toBe(null)
+  })
+
+  it(`opens`, () => {
+    wrapper.vm.track = jest.fn()
+    wrapper.vm.open()
+
+    expect(wrapper.isEmpty()).not.toBe(true)
+    expect(wrapper.vm.track).toHaveBeenCalled()
+  })
+
+  it(`opens session modal and closes itself`, () => {
+    const $store = { commit: jest.fn() }
+    const self = { $store, close: jest.fn() }
+    ActionModal.methods.goToSession.call(self)
+    expect(self.close).toHaveBeenCalled()
+    expect($store.commit).toHaveBeenCalledWith(`setSessionModalView`, `welcome`)
+    expect($store.commit).toHaveBeenCalledWith(`toggleSessionModal`, true)
+  })
+
+  it(`shows a password input for local signing`, async () => {
+    wrapper.vm.step = `sign`
+    expect(wrapper.vm.selectedSignMethod).toBe(`local`)
+    await wrapper.vm.$nextTick()
+    expect(wrapper.find(`#password`).exists()).toBe(true)
+  })
+
+  it(`hides password input if signing with Ledger`, async () => {
+    wrapper.vm.session.sessionType = `ledger`
+    wrapper.vm.step = `sign`
+    expect(wrapper.vm.selectedSignMethod).toBe(`ledger`)
+    expect(wrapper.find(`#password`).exists()).toBe(false)
+  })
+
+  it(`should dispatch connectLedgerApp`, () => {
+    const $store = { dispatch: jest.fn() }
+    const self = { $store }
+    ActionModal.methods.connectLedger.call(self)
+    expect($store.dispatch).toHaveBeenCalledWith(`connectLedgerApp`)
   })
 
   describe(`should show the action modal`, () => {
@@ -95,26 +182,6 @@ describe(`ActionModal`, () => {
       await wrapper.vm.$nextTick()
       expect(wrapper.vm.$el).toMatchSnapshot()
     })
-  })
-  it(`should default to submissionError being null`, () => {
-    expect(wrapper.vm.submissionError).toBe(null)
-  })
-
-  it(`opens`, () => {
-    wrapper.vm.track = jest.fn()
-    wrapper.vm.open()
-
-    expect(wrapper.isEmpty()).not.toBe(true)
-    expect(wrapper.vm.track).toHaveBeenCalled()
-  })
-
-  it(`opens session modal and closes itself`, () => {
-    const $store = { commit: jest.fn() }
-    const self = { $store, close: jest.fn() }
-    ActionModal.methods.goToSession.call(self)
-    expect(self.close).toHaveBeenCalled()
-    expect($store.commit).toHaveBeenCalledWith(`setSessionModalView`, `welcome`)
-    expect($store.commit).toHaveBeenCalledWith(`toggleSessionModal`, true)
   })
 
   describe(`close modal`, () => {
@@ -195,7 +262,6 @@ describe(`ActionModal`, () => {
   })
 
   describe(`validates password and gas price`, () => {
-
     describe(`success`, () => {
       it(`when password is required`, () => {
         wrapper.vm.step = `sign`
@@ -269,29 +335,6 @@ describe(`ActionModal`, () => {
       jest.runAllTimers()
       expect(self.submissionError).toBeNull()
     })
-  })
-
-  it(`should set the submissionError if the submission is rejected`, async () => {
-    const submitFn = jest
-      .fn()
-      .mockRejectedValue(new Error(`some kind of error message`))
-    const self = { submitFn, submissionErrorPrefix: `PREFIX` }
-    await ActionModal.methods.submit.call(self)
-
-    expect(self.submissionError).toEqual(`PREFIX: some kind of error message.`)
-  })
-
-  it(`should clear the submissionError after a timeout if the function is rejected`, async () => {
-    jest.useFakeTimers()
-
-    const submitFn = jest
-      .fn()
-      .mockRejectedValue(new Error(`some kind of error message`))
-    const self = { submitFn, submissionErrorPrefix: `PREFIX` }
-    await ActionModal.methods.submit.call(self)
-
-    jest.runAllTimers()
-    expect(self.submissionError).toEqual(null)
   })
 
   describe(`runs validation and changes step`, () => {
@@ -426,20 +469,6 @@ describe(`ActionModal`, () => {
       expect(self.sending).toBe(true)
       jest.runAllTimers()
     })
-  })
-
-  it(`shows a password input for local signing`, async () => {
-    wrapper.vm.step = `sign`
-    expect(wrapper.vm.selectedSignMethod).toBe(`local`)
-    await wrapper.vm.$nextTick()
-    expect(wrapper.find(`#password`).exists()).toBe(true)
-  })
-
-  it(`hides password input if signing with Ledger`, async () => {
-    wrapper.vm.session.sessionType = `ledger`
-    wrapper.vm.step = `sign`
-    expect(wrapper.vm.selectedSignMethod).toBe(`ledger`)
-    expect(wrapper.find(`#password`).exists()).toBe(false)
   })
 
   describe(`selected sign method`, () => {

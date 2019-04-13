@@ -231,7 +231,7 @@ export default {
     uatoms
   }),
   computed: {
-    ...mapGetters([`connected`, `session`, `bondDenom`, `wallet`]),
+    ...mapGetters([`connected`, `session`, `bondDenom`, `wallet`, `ledger`]),
     requiresSignIn() {
       return !this.session.signedIn
     },
@@ -344,7 +344,12 @@ export default {
       }
     },
     async submit() {
+      this.submissionError = null
       track(`event`, `submit`, this.title, this.selectedSignMethod)
+
+      if (!this.ledger.isConnected || !this.ledger.cosmosApp) {
+        await this.connectLedger()
+      }
 
       try {
         await this.submitFn(
@@ -362,7 +367,14 @@ export default {
           this.submissionError = null
         }, 5000)
       }
-    }
+    },
+    async connectLedger() {
+      try {
+        await this.$store.dispatch(`connectLedgerApp`)
+      } catch (error) {
+        this.submissionError = `${this.submissionErrorPrefix}: ${error}.`
+      }
+    },
   },
   validations() {
     return {
