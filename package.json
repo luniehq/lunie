@@ -1,14 +1,14 @@
 {
   "name": "lunie",
   "productName": "lunie",
-  "version": "1.0.0-beta.42",
-  "description": "Lunie is a web based user interface for the Cosmos Hub.",
-  "author": "All In Bits, Inc <hello@tendermint.com>",
+  "version": "1.0.0-beta.43",
+  "description": "Lunie is the user interface for the Cosmos Hub.",
+  "author": "Lunie International Software Systems Inc. <hello@lunie.io>",
   "license": "Apache-2.0",
   "homepage": "https://lunie.io",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/cosmos/voyager.git"
+    "url": "git+https://github.com/luniehq/lunie.git"
   },
   "engines": {
     "node": ">=10.13.0"
