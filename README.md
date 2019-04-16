@@ -1,18 +1,16 @@
-![Cosmos Lunie logo — spaceship blasting off](/app/static/icons/png/128x128.png)
+![Lunie logo — spaceship blasting off](/app/static/icons/png/128x128.png)
 
-# Cosmos Lunie
+# Welcome to [Lunie.io](https://lunie.io)!
 
 [![CircleCI](https://circleci.com/gh/luniehq/lunie/tree/develop.svg?style=svg)](https://circleci.com/gh/luniehq/lunie/tree/develop)
 
 👋 Welcome to Lunie, the official wallet and UI for the [Cosmos Hub](https://cosmos.network/).
 
-⚠️ This is still alpha-level software. **DO NOT** enter your Cosmos fundraiser seed into Lunie.
+⚠️ This is beta software. **DO NOT** enter your Cosmos fundraiser seed into Lunie. We will not ask for it and this is considered highly unsafe.
 
-<!-- 🎉 Binary releases are [available here](https://github.com/cosmos/lunie/releases). After downloading and untar/unzip-ing, navigate to the source directory and click on the `Cosmos Lunie` icon to launch Lunie. -->
+## Development Dependencies
 
-## Lunie Dependencies
-
-Install the following dependencies if you wish to run lunie on developer mode or [contribute](https://github.com/cosmos/lunie/blob/develop/CONTRIBUTING.md).
+Install the following dependencies if you wish to run lunie on developer mode or [contribute](https://github.com/luniehq/lunie/blob/develop/CONTRIBUTING.md).
 
 ### Node
 
@@ -46,7 +44,7 @@ Lunie supports sending transactions through the `Cøsmos` app for [Ledger Nano S
 With Node, Yarn and Docker installed, you're ready to check out the source code:
 
 ```bash
-git clone https://github.com/cosmos/lunie.git
+git clone https://github.com/luniehq/lunie.git
 cd lunie
 yarn install
 ```
@@ -57,9 +55,9 @@ yarn install
 
 ### Gaia (Cosmos SDK)
 
-Since Lunie runs on top of the Cosmos Hub blockchain, we also need to install Gaia (the Cosmos Hub application) and download the supported testnets.
+Since Lunie runs on top of the Cosmos Hub blockchain, you'll also need to install Gaia (the Cosmos Hub application) and download the supported testnets.
 
-Open the Docker App and build the Gaia CLI (`gaiacli`) and the full node (`gaiad`), which are part of the Cosmos SDK, with the following command:
+Open the [Docker App](https://www.docker.com/products/docker-desktop) and build the Gaia CLI (`gaiacli`) and the full node (`gaiad`), which are part of the Cosmos SDK, with the following command:
 
 ```bash
 yarn build:gaia
@@ -126,7 +124,7 @@ Create the bundle to deploy Lunie you can run:
 yarn build:ui
 ```
 
-If you want to set a particular `Stargate` (Cosmos light client) or Tendermint's `RPC` endpoints:
+If you want to set a particular `Stargate` (Cosmos SDK REST API) or Tendermint's `RPC` endpoints:
 
 ```bash
 STARGATE=<https://StargateAddress:port> RPC=<https://RPCAddress:port> yarn build:ui
