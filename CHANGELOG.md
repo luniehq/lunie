@@ -15,15 +15,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Fixed
 
-- [#2435](https://github.com/cosmos/lunie/issues/2435) Fixed fee display for sending tokens @faboweb
-- [#2435](https://github.com/cosmos/lunie/issues/2435) Fixed fee denom not being correct and therefor sending not working @faboweb
-- [#2441](https://github.com/cosmos/lunie/pull/2441) Fixed account cache restoration @faboweb
 - [#2431](https://github.com/cosmos/lunie/issues/2431) check for ledger on submit to avoid action modal failures @jbibla
 - [#2449](https://github.com/cosmos/lunie/issues/2449) explore mode should not ask for password in action modals @jbibla
 - [#0](https://github.com/cosmos/lunie/issues/0) tm connected network still included the word testnet in the language @jbibla
 - [#2445](https://github.com/cosmos/lunie/issues/2445) page validator label should be ATOM not uatom @jbibla
 - [#2448](https://github.com/cosmos/lunie/issues/2448) proposal description is awkward @jbibla
-- [#2353](https://github.com/cosmos/lunie/issues/2353) cleaned up many styling issues and resolved scroll issue @jbibla
 
 ## [1.0.0-beta.42] - 2019-04-08
 
