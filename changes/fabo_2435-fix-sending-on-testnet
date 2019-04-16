@@ -1,2 +1,0 @@
-[Fixed] [#2435](https://github.com/cosmos/lunie/issues/2435) Fixed fee display for sending tokens @faboweb
-[Fixed] [#2435](https://github.com/cosmos/lunie/issues/2435) Fixed fee denom not being correct and therefor sending not working @faboweb
