@@ -5,8 +5,6 @@
         v-if="validator.keybase && validator.keybase.avatarUrl"
         :src="validator.keybase.avatarUrl"
         class="data-table__row__info__image"
-        width="48"
-        height="48"
       >
       <img
         v-else
@@ -15,8 +13,6 @@
           data-table__row__info__image--no-img
         "
         src="~assets/images/validator-icon.svg"
-        width="48"
-        height="48"
       >
       <div class="data-table__row__info__container">
         <span
