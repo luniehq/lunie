@@ -4,7 +4,7 @@
     ref="actionModal"
     :submit-fn="submitForm"
     :simulate-fn="simulateForm"
-    title="Withdraw Rewards"
+    title="Withdraw"
     class="modal-withdraw-rewards"
     submission-error-prefix="Withdrawal failed"
   >
@@ -84,7 +84,7 @@ export default {
 
       this.$store.commit(`notify`, {
         title: `Successful withdrawal!`,
-        body: `You have successfully withdrawn all your unclaimed rewards.`
+        body: `You have successfully withdrawn your rewards.`
       })
     }
   }
