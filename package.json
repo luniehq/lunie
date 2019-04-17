@@ -65,6 +65,7 @@
     "clean-webpack-plugin": "2.0.1",
     "concurrently": "4.1.0",
     "cross-env": "5.2.0",
+    "csp-webpack-plugin": "2.0.2",
     "css-loader": "2.1.1",
     "cssnano": "4.1.10",
     "duplexer": "0.1.1",

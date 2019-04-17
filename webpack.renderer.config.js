@@ -7,6 +7,7 @@ const webpack = require(`webpack`)
 const fs = require(`fs`)
 
 const HtmlWebpackPlugin = require(`html-webpack-plugin`)
+const CSPWebpackPlugin = require(`csp-webpack-plugin`)
 const VueLoaderPlugin = require(`vue-loader/lib/plugin`)
 // const BundleAnalyzerPlugin = require(`webpack-bundle-analyzer`)
 // .BundleAnalyzerPlugin
@@ -32,8 +33,10 @@ const devPlugins = process.env.CIRCLECI ? [] : [
   // })
 ]
 
+const production = process.env.NODE_ENV === `production`
+
 const rendererConfig = {
-  devtool: process.env.NODE_ENV === `production` ?
+  devtool: production ?
     `#cheap-source-map` : `#inline-source-map`,
   entry: {
     renderer: path.join(__dirname, `app/src/renderer/main.js`)
@@ -54,7 +57,10 @@ const rendererConfig = {
     {
       test: /\.css$/,
       use: [
-        `style-loader`,
+        // process.env.NODE_ENV !== `production`
+        //   ? `vue-style-loader`
+        //   : MiniCssExtractPlugin.loader,
+        MiniCssExtractPlugin.loader,
         {
           loader: `css-loader`,
           options: {
@@ -82,9 +88,8 @@ const rendererConfig = {
     {
       test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
       use: [{
-        loader: `url-loader`,
+        loader: `file-loader`,
         query: {
-          limit: 10000,
           name: `images/[name].[ext]`
         }
       }]
@@ -92,9 +97,8 @@ const rendererConfig = {
     {
       test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
       use: [{
-        loader: `url-loader`,
+        loader: `file-loader`,
         query: {
-          limit: 10000,
           name: `fonts/[name].[ext]`
         }
       }]
@@ -126,10 +130,35 @@ const rendererConfig = {
     new HtmlWebpackPlugin({
       filename: `index.html`,
       template: `./app/index.ejs`,
-      appModules: process.env.NODE_ENV !== `production` ?
-        path.resolve(__dirname, `app/node_modules`) : false,
+      appModules: production ? false :
+        path.resolve(__dirname, `app/node_modules`),
       styles: fs.readFileSync(`./app/src/renderer/styles/index.css`, `utf8`),
       favicon: `./app/static/icons/favicon.ico`
+    }),
+    new CSPWebpackPlugin({
+      'object-src': `'none'`,
+      'base-uri': `'self'`,
+      'default-src': `'self'`,
+      'script-src': [
+        `'self'`,
+        `https://app.appzi.io/`,
+        production ? `https://*.lunie.io` : `https://Localhost:9080`
+      ],
+      'worker-src': `'none'`,
+      'style-src': `'self'`,
+      'connect-src':
+        !production ? `*` : [
+          // third party tools
+          `https://sentry.io`,
+          `https://appzi-collector-b.azurewebsites.net`,
+          // mainnet
+          `https://stargate.cosmos.network`,
+          `wss://rpc.cosmos.network:26657`,
+          // testnet
+          `https://sntajlxzsg.execute-api.eu-central-1.amazonaws.com/`,
+          `wss://test.voyager.ninja:26657`
+        ],
+      'frame-src': [`'self'`, `https://app.appzi.io/`]
     }),
     // warnings caused by websocket-stream, which has a server-part that is unavailable on the the client
     new webpack.IgnorePlugin(/(bufferutil|utf-8-validate)/),
