@@ -9,6 +9,7 @@ const fs = require(`fs`)
 const HtmlWebpackPlugin = require(`html-webpack-plugin`)
 const CSPWebpackPlugin = require(`csp-webpack-plugin`)
 const VueLoaderPlugin = require(`vue-loader/lib/plugin`)
+const MiniCssExtractPlugin = require(`mini-css-extract-plugin`)
 // const BundleAnalyzerPlugin = require(`webpack-bundle-analyzer`)
 // .BundleAnalyzerPlugin
 const CleanWebpackPlugin = require(`clean-webpack-plugin`)
@@ -57,10 +58,9 @@ const rendererConfig = {
     {
       test: /\.css$/,
       use: [
-        // process.env.NODE_ENV !== `production`
-        //   ? `vue-style-loader`
-        //   : MiniCssExtractPlugin.loader,
-        MiniCssExtractPlugin.loader,
+        process.env.NODE_ENV !== `production`
+          ? `vue-style-loader`
+          : MiniCssExtractPlugin.loader,
         {
           loader: `css-loader`,
           options: {
@@ -112,6 +112,9 @@ const rendererConfig = {
   },
   plugins: [
     new VueLoaderPlugin(),
+    new MiniCssExtractPlugin({
+      filename: `style.css`
+    }),
     new webpack.NoEmitOnErrorsPlugin(),
     // the global.GENTLY below fixes a compile issue with superagent + webpack
     // https://github.com/visionmedia/superagent/issues/672
@@ -145,12 +148,14 @@ const rendererConfig = {
         production ? `https://*.lunie.io` : `https://Localhost:9080`
       ],
       'worker-src': `'none'`,
-      'style-src': `'self'`,
+      // 'style-src': production ? `'self'` : `*`, // SECURITY Appzi is applying styles inline, inquired to them already
+      'style-src': [`'self'`, `'unsafe-inline'`],
       'connect-src':
         !production ? `*` : [
           // third party tools
           `https://sentry.io`,
           `https://appzi-collector-b.azurewebsites.net`,
+          `https://keybase.io`,
           // mainnet
           `https://stargate.cosmos.network`,
           `wss://rpc.cosmos.network:26657`,
@@ -158,7 +163,8 @@ const rendererConfig = {
           `https://sntajlxzsg.execute-api.eu-central-1.amazonaws.com/`,
           `wss://test.voyager.ninja:26657`
         ],
-      'frame-src': [`'self'`, `https://app.appzi.io/`]
+      'frame-src': [`'self'`, `https://app.appzi.io/`],
+      'img-src': [`'self'`, `https://www.google-analytics.com/`, `https://s3.amazonaws.com/keybase_processed_uploads/`]
     }),
     // warnings caused by websocket-stream, which has a server-part that is unavailable on the the client
     new webpack.IgnorePlugin(/(bufferutil|utf-8-validate)/),
