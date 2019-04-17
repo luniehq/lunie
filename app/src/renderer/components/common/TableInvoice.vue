@@ -6,21 +6,15 @@
           Subtotal
         </td>
         <td>
-          <b>ø</b>{{ full(subTotal) }}
+          {{ full(subTotal) }}
         </td>
       </tr>
       <tr>
         <td>
           Fees (estimated)
-          <i
-            v-tooltip.left="info"
-            class="material-icons info-button"
-          >
-            info_outline
-          </i>
         </td>
         <td>
-          <b>ø</b>{{ full(estimatedFee) }}
+          {{ full(estimatedFee) }}
         </td>
       </tr>
       <tr>
@@ -28,7 +22,7 @@
           Total
         </td>
         <td>
-          <b>ø</b>{{ full(total) }}
+          {{ full(total) }}
         </td>
       </tr>
     </table>
@@ -56,7 +50,7 @@ export default {
   },
   data: () => ({
     full,
-    info: `Estimated fees required to process the transaction, based on simulation. Lunie doesn't take any fees.`
+    info: `Estimated network fees based on simulation.`
   }),
   computed: {
     ...mapGetters([`session`]),
@@ -78,11 +72,19 @@ export default {
 </script>
 <style scoped>
 .data-table {
-  border-spacing: 0 0.25rem;
-  width: 17rem;
+  margin: 2rem 0 0;
+  border-collapse: inherit;
+  padding: 0 0.25rem;
+  font-size: var(--sm);
+}
+
+.data-table tr {
+  width: 100%;
+}
+
+.data-table td {
   padding: 0;
-  table-layout: auto;
-  float: right;
+  color: var(--dim);
 }
 
 .data-table td:not(:first-child) {

@@ -7,6 +7,45 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [1.0.0-beta.43] - 2019-04-16
+
+### Added
+
+- [#2449](https://github.com/cosmos/lunie/pull/2449) added new circle ci badge to readme @jbibla
+
+### Fixed
+
+- [#2431](https://github.com/cosmos/lunie/issues/2431) check for ledger on submit to avoid action modal failures @jbibla
+- [#2449](https://github.com/cosmos/lunie/issues/2449) explore mode should not ask for password in action modals @jbibla
+- [#0](https://github.com/cosmos/lunie/issues/0) tm connected network still included the word testnet in the language @jbibla
+- [#2445](https://github.com/cosmos/lunie/issues/2445) page validator label should be ATOM not uatom @jbibla
+- [#2448](https://github.com/cosmos/lunie/issues/2448) proposal description is awkward @jbibla
+
+## [1.0.0-beta.42] - 2019-04-08
+
+### Fixed
+
+- [#2435](https://github.com/cosmos/lunie/issues/2435) Fixed fee display for sending tokens @faboweb
+- [#2435](https://github.com/cosmos/lunie/issues/2435) Fixed fee denom not being correct and therefor sending not working @faboweb
+- [#2441](https://github.com/cosmos/lunie/pull/2441) Fixed account cache restoration @faboweb
+
+## [1.0.0-beta.41] - 2019-04-08
+
+### Fixed
+
+- [#2353](https://github.com/cosmos/lunie/issues/2353) cleaned up many styling issues and resolved scroll issue @jbibla
+
+## [1.0.0-beta.40] - 2019-04-06
+
+### Added
+
+- [#2434](https://github.com/cosmos/lunie/pull/2434) Automatic commit of changelog files to git @faboweb
+
+### Changed
+
+- [#2436](https://github.com/cosmos/lunie/pull/2436) Improved documentation on manual releases @faboweb
+- [#2433](https://github.com/cosmos/lunie/pull/2433) Switch servers to Lunie servers @faboweb
+
 ## [1.0.0-beta.39] - 2019-04-06
 
 ### Added

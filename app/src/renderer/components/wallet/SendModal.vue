@@ -5,6 +5,7 @@
     :submit-fn="submitForm"
     :simulate-fn="simulateForm"
     :validate="validateForm"
+    :amount="amount"
     title="Send"
     submission-error-prefix="Sending tokens failed"
     @close="clear"
@@ -182,7 +183,7 @@ export default {
         title: `Successful Send`,
         body: `Successfully sent ${amount} ${num.viewDenom(
           denom
-        )} to ${address}`
+        )}s to ${address}`
       })
     },
     bech32Validate(param) {

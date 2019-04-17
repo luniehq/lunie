@@ -33,6 +33,6 @@ describe(`LiCoin`, () => {
   })
 
   it(`should capitalize the coin denomination`, () => {
-    expect(wrapper.vm.denomination).toEqual(`Stake`)
+    expect(wrapper.vm.denomination).toEqual(`STAKE`)
   })
 })

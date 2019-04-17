@@ -31,6 +31,13 @@ describe(`Module: Staking Parameters`, () => {
     ])
   })
 
+  it(`fetches all staking parameters on sign in`, async () => {
+    const { actions } = module
+    const dispatch = jest.fn()
+    await actions.signIn({ dispatch })
+    expect(dispatch).toHaveBeenCalledWith(`getStakingParameters`)
+  })
+
   it(`should add staking parameters to state`, () => {
     const { mutations, state } = module
     mutations.setStakingParameters(state, stakingParameters.parameters)

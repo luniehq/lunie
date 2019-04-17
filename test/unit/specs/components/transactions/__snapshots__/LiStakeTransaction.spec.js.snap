@@ -15,7 +15,7 @@ exports[`LiStakeTransaction create validator with fees 1`] = `
     </b>
      
     <span>
-      atoms
+      ATOMs
     </span>
   </div>
    
@@ -42,7 +42,7 @@ exports[`LiStakeTransaction create validator with fees 1`] = `
      
     <span>
       
-        atoms
+        ATOMs
       
     </span>
   </div>
@@ -64,7 +64,7 @@ exports[`LiStakeTransaction create validator without fees 1`] = `
     </b>
      
     <span>
-      atoms
+      ATOMs
     </span>
   </div>
    
@@ -91,7 +91,7 @@ exports[`LiStakeTransaction create validator without fees 1`] = `
      
     <span>
       
-        atoms
+        ATOMs
       
     </span>
   </div>
@@ -113,7 +113,7 @@ exports[`LiStakeTransaction delegations with fees 1`] = `
     </b>
      
     <span>
-      atoms
+      ATOMs
     </span>
   </div>
    
@@ -140,7 +140,7 @@ exports[`LiStakeTransaction delegations with fees 1`] = `
      
     <span>
       
-        atoms
+        ATOMs
       
     </span>
   </div>
@@ -162,7 +162,7 @@ exports[`LiStakeTransaction delegations without fees 1`] = `
     </b>
      
     <span>
-      atoms
+      ATOMs
     </span>
   </div>
    
@@ -189,7 +189,7 @@ exports[`LiStakeTransaction delegations without fees 1`] = `
      
     <span>
       
-        atoms
+        ATOMs
       
     </span>
   </div>
@@ -231,7 +231,7 @@ exports[`LiStakeTransaction edit validator with fees 1`] = `
      
     <span>
       
-        atoms
+        ATOMs
       
     </span>
   </div>
@@ -273,7 +273,7 @@ exports[`LiStakeTransaction edit validator without fees 1`] = `
      
     <span>
       
-        atoms
+        ATOMs
       
     </span>
   </div>
@@ -297,7 +297,7 @@ exports[`LiStakeTransaction redelegations with fees 1`] = `
     </b>
      
     <span>
-      atoms
+      ATOMs
     </span>
   </div>
    
@@ -334,7 +334,7 @@ exports[`LiStakeTransaction redelegations with fees 1`] = `
      
     <span>
       
-        atoms
+        ATOMs
       
     </span>
   </div>
@@ -358,7 +358,7 @@ exports[`LiStakeTransaction redelegations without fees 1`] = `
     </b>
      
     <span>
-      atoms
+      ATOMs
     </span>
   </div>
    
@@ -395,7 +395,7 @@ exports[`LiStakeTransaction redelegations without fees 1`] = `
      
     <span>
       
-        atoms
+        ATOMs
       
     </span>
   </div>
@@ -419,7 +419,7 @@ exports[`LiStakeTransaction unbonding delegations should default to ended if no 
     </b>
      
     <span>
-      atoms
+      ATOMs
     </span>
      
     <!---->
@@ -448,7 +448,7 @@ exports[`LiStakeTransaction unbonding delegations should default to ended if no 
      
     <span>
       
-        atoms
+        ATOMs
       
     </span>
   </div>
@@ -472,7 +472,7 @@ exports[`LiStakeTransaction unbonding delegations should show unbonding delegati
     </b>
      
     <span>
-      atoms
+      ATOMs
     </span>
      
     <!---->
@@ -501,7 +501,7 @@ exports[`LiStakeTransaction unbonding delegations should show unbonding delegati
      
     <span>
       
-        atoms
+        ATOMs
       
     </span>
   </div>
@@ -525,7 +525,7 @@ exports[`LiStakeTransaction unbonding delegations with fees 1`] = `
     </b>
      
     <span>
-      atoms
+      ATOMs
     </span>
      
     <span
@@ -560,7 +560,7 @@ exports[`LiStakeTransaction unbonding delegations with fees 1`] = `
      
     <span>
       
-        atoms
+        ATOMs
       
     </span>
   </div>
@@ -584,7 +584,7 @@ exports[`LiStakeTransaction unbonding delegations without fees 1`] = `
     </b>
      
     <span>
-      atoms
+      ATOMs
     </span>
      
     <!---->
@@ -613,7 +613,7 @@ exports[`LiStakeTransaction unbonding delegations without fees 1`] = `
      
     <span>
       
-        atoms
+        ATOMs
       
     </span>
   </div>
@@ -655,7 +655,7 @@ exports[`LiStakeTransaction unjail with fees 1`] = `
      
     <span>
       
-        atoms
+        ATOMs
       
     </span>
   </div>
@@ -697,7 +697,7 @@ exports[`LiStakeTransaction unjail without fees 1`] = `
      
     <span>
       
-        atoms
+        ATOMs
       
     </span>
   </div>

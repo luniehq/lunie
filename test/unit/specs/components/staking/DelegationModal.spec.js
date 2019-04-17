@@ -236,7 +236,7 @@ describe(`DelegationModal`, () => {
 
       expect($store.commit).toHaveBeenCalledWith(`notify`,
         {
-          body: `You have successfully delegated your atoms`,
+          body: `You have successfully delegated your ATOMs`,
           title: `Successful delegation!`
         }
       )
@@ -316,7 +316,7 @@ describe(`DelegationModal`, () => {
 
       expect($store.commit).toHaveBeenCalledWith(`notify`,
         {
-          body: `You have successfully redelegated your atoms`,
+          body: `You have successfully redelegated your ATOMs`,
           title: `Successful redelegation!`
         }
       )

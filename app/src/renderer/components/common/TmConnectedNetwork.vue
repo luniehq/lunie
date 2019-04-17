@@ -55,9 +55,9 @@ export default {
     ...mapGetters([`lastHeader`, `nodeUrl`, `connected`]),
     networkTooltip({ connected, nodeUrl, lastHeader } = this) {
       if (connected) {
-        return `You're connected to the ${
+        return `You're connected to ${
           lastHeader.chain_id
-        } testnet via node ${nodeUrl}.`
+        } via ${nodeUrl}.`
       }
       return `We're pinging nodes to try to connect you to ${
         lastHeader.chain_id
