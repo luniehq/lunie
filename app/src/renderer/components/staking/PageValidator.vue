@@ -226,9 +226,9 @@ export default {
       )
       if (validator) {
         validator.keybase = this.keybase[validator.description.identity]
+        validator.signing_info =
+          this.delegates.signingInfos[validator.operator_address]
       }
-      validator.signing_info =
-        this.delegates.signingInfos[validator.operator_address]
 
       return validator
     },

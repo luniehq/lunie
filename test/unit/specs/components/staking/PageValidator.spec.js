@@ -49,7 +49,12 @@ const getters = {
   delegates: {
     delegates: [validator, validatorTo],
     globalPower: 4200,
-    loaded: true
+    loaded: true,
+    signingInfos: {
+      cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw: {
+        missed_blocks_counter: 2
+      }
+    }
   },
   delegation: { loaded: true },
   committedDelegations: {
