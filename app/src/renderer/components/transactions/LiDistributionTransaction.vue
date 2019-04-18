@@ -6,7 +6,7 @@
   >
     <template v-if="txType === `cosmos-sdk/MsgWithdrawDelegationReward`">
       <div slot="caption">
-        Withdraw rewards
+        Withdrawal
       </div>
       <div slot="details">
         From&nbsp;<router-link :to="`${url}/${tx.validator_address}`">

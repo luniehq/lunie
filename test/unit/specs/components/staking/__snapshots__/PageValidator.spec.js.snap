@@ -128,7 +128,7 @@ exports[`PageValidator shows a validator profile information errors signing info
               id="page-profile__uptime"
             >
               
-              
+              99.6%
             
             </dd>
           </dl>
@@ -146,18 +146,6 @@ exports[`PageValidator shows a validator profile information errors signing info
               
               5.00%
             
-            </dd>
-          </dl>
-           
-          <dl
-            class="info_dl colored_dl"
-          >
-            <dt>
-              Slashes
-            </dt>
-             
-            <dd>
-              --
             </dd>
           </dl>
         </div>
@@ -485,18 +473,6 @@ exports[`PageValidator shows a validator profile information if user has signed 
             
             </dd>
           </dl>
-           
-          <dl
-            class="info_dl colored_dl"
-          >
-            <dt>
-              Slashes
-            </dt>
-             
-            <dd>
-              --
-            </dd>
-          </dl>
         </div>
       </div>
     </div>
@@ -820,18 +796,6 @@ exports[`PageValidator shows a validator profile information if user hasn't sign
               
               5.00%
             
-            </dd>
-          </dl>
-           
-          <dl
-            class="info_dl colored_dl"
-          >
-            <dt>
-              Slashes
-            </dt>
-             
-            <dd>
-              --
             </dd>
           </dl>
         </div>

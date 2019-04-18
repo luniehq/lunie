@@ -8,7 +8,7 @@ exports[`ModalWithdrawAllRewards should show the withdraw rewards modal 1`] = `
   simulatefn="function () { [native code] }"
   submissionerrorprefix="Withdrawal failed"
   submitfn="function () { [native code] }"
-  title="Withdraw Rewards"
+  title="Withdraw"
 >
   <tm-form-group-stub
     class="action-modal-form-group"

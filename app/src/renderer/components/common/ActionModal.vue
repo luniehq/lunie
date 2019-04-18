@@ -231,18 +231,12 @@ export default {
     uatoms
   }),
   computed: {
-    ...mapGetters([`connected`, `session`, `bondDenom`, `wallet`, `ledger`]),
+    ...mapGetters([`connected`, `session`, `bondDenom`, `wallet`, `ledger`, `liquidAtoms`]),
     requiresSignIn() {
       return !this.session.signedIn
     },
     balance() {
-      if (!this.wallet.loading && !!this.wallet.balances.length) {
-        const balance = this.wallet.balances.find(
-          coin => coin.denom === this.bondDenom
-        )
-        if (balance) return parseFloat(balance.amount)
-      }
-      return 0
+      return this.liquidAtoms
     },
     isValidChildForm() {
       // here we trigger the validation of the child form

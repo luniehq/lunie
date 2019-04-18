@@ -88,10 +88,6 @@
                 {{ percent(validator.commission.rate) }}
               </dd>
             </dl>
-            <dl v-if="session.experimentalMode" class="info_dl colored_dl">
-              <dt>Slashes</dt>
-              <dd>--</dd>
-            </dl>
           </div>
         </div>
       </div>
@@ -230,6 +226,8 @@ export default {
       )
       if (validator) {
         validator.keybase = this.keybase[validator.description.identity]
+        validator.signing_info =
+          this.delegates.signingInfos[validator.operator_address]
       }
 
       return validator
