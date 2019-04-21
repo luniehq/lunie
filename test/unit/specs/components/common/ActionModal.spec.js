@@ -23,14 +23,12 @@ describe(`ActionModal`, () => {
         bondDenom: `uatom`,
         wallet: {
           loading: false,
-          balances: [
-            { denom: `uatom`, amount: `20000000` }
-          ]
         },
         ledger: {
           cosmosApp: {},
           isConnected: true
-        }
+        },
+        liquidAtoms: 1230000000,
       }
     }
 
@@ -208,40 +206,6 @@ describe(`ActionModal`, () => {
       wrapper.vm.step = `sign`
       wrapper.vm.close()
       expect(wrapper.vm.step).toBe(`txDetails`)
-    })
-  })
-
-  describe(`gets balance`, () => {
-    it(`returns 0 if wallet is loading`, () => {
-      const self = {
-        wallet: { loading: true }
-      }
-      const balance = ActionModal.computed.balance.call(self)
-      expect(balance).toBe(0)
-    })
-
-    it(`returns 0 if wallet doesn't have the bond denom`, () => {
-      const self = {
-        wallet: {
-          loading: false,
-          balances: [{ denom: `photon`, amount: `10` }]
-        },
-        bondDenom: `uatom`
-      }
-      const balance = ActionModal.computed.balance.call(self)
-      expect(balance).toBe(0)
-    })
-
-    it(`returns balance if wallet has the bond denom`, () => {
-      const self = {
-        wallet: {
-          loading: false,
-          balances: [{ denom: `uatom`, amount: `10` }]
-        },
-        bondDenom: `uatom`
-      }
-      const balance = ActionModal.computed.balance.call(self)
-      expect(balance).toBe(10)
     })
   })
 
