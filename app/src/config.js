@@ -3,16 +3,16 @@ const stargate =
   process.env.STARGATE ||
   (dev
     ? `http://localhost:8080`
-    : `https://sntajlxzsg.execute-api.eu-central-1.amazonaws.com/dev/`)
+    : `https://stargate.lunie.io`)
 
 const rpc =
   process.env.RPC ||
-  (dev ? `localhost:26657` : `https://test.voyager.ninja:26657/`)
+  (dev ? `localhost:26657` : `https://rpc.lunie.io:26657`)
 
 const faucet = process.env.FAUCET !== undefined ? process.env.FAUCET : `https://faucet.voyager.ninja`
 
 export default {
-  name: `Cosmos Lunie`,
+  name: `Lunie`,
   development: dev,
   network: process.env.NETWORK || `local-testnet`,
   stargate,

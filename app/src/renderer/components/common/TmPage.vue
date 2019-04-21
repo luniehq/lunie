@@ -147,7 +147,7 @@ export default {
       this.scrollContainer.scrollTop = 0
     }
   },
-  async mounted() {
+  mounted() {
     this.scrollContainer = this.$el.querySelector(`.tm-page-main`)
     this.perfectScrollbar = new PerfectScrollbar(this.scrollContainer)
   }

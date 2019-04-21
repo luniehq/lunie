@@ -43,7 +43,7 @@ exports[`LiDistributionTransaction transaction without fees 1`] = `
 >
   <div>
     
-      Withdraw rewards
+      Withdrawal
     
   </div>
    
@@ -84,7 +84,7 @@ exports[`LiDistributionTransaction withdraw delegation rewards 1`] = `
 >
   <div>
     
-      Withdraw rewards
+      Withdrawal
     
   </div>
    

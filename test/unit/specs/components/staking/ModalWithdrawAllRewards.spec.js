@@ -35,7 +35,6 @@ describe(`ModalWithdrawAllRewards`, () => {
   })
 
   describe(`Withdraw`, () => {
-
     it(`should simulate transaction to estimate gas used`, async () => {
       const estimate = 1234567
       const $store = { dispatch: jest.fn(() => estimate) }
@@ -46,6 +45,7 @@ describe(`ModalWithdrawAllRewards`, () => {
       expect($store.dispatch).toHaveBeenCalledWith(`simulateWithdrawAllRewards`)
       expect(res).toBe(estimate)
     })
+
     it(`submits withdrawal`, async () => {
       const $store = {
         dispatch: jest.fn(),
@@ -73,7 +73,7 @@ describe(`ModalWithdrawAllRewards`, () => {
       expect($store.commit).toBeCalledWith(`notify`,
         {
           title: `Successful withdrawal!`,
-          body: `You have successfully withdrawn all your unclaimed rewards.`
+          body: `You have successfully withdrawn your rewards.`
         }
       )
     })

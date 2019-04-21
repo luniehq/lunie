@@ -153,5 +153,6 @@ p {
   width: 3rem;
   border-radius: 50%;
   margin-right: 1rem;
+  object-fit: cover;
 }
 </style>
