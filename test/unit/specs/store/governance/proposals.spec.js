@@ -75,9 +75,7 @@ describe(`Module: Proposals`, () => {
         node: {
           getProposals: () =>
             Promise.resolve(
-              Object.values(proposals).map(proposal => ({
-                value: proposal
-              }))
+              Object.values(proposals)
             ),
           getProposalTally: proposal_id => Promise.resolve(tallies[proposal_id])
         }
@@ -138,7 +136,7 @@ describe(`Module: Proposals`, () => {
       moduleInstance = proposalsModule({
         node: {
           getProposal: proposal_id =>
-            Promise.resolve({ value: proposals[proposal_id] }),
+            Promise.resolve(proposals[proposal_id]),
           getProposalTally: proposal_id => Promise.resolve(tallies[proposal_id])
         }
       })
@@ -200,18 +198,26 @@ describe(`Module: Proposals`, () => {
     const proposal = proposals[`1`]
     const res = await actions.simulateProposal(self, {
       type: proposal.proposal_type,
-      title: proposal.title,
-      description: proposal.description,
-      initial_deposit: proposal.initial_deposit
+      initial_deposit: proposal.initial_deposit,
+      proposal_content: {
+        value: {
+          title: proposal.title,
+          description: proposal.description,
+        }
+      }
     })
 
     expect(self.dispatch).toHaveBeenCalledWith(`simulateTx`, {
       type: `postProposal`,
       proposal_type: proposal.proposal_type,
-      title: proposal.title,
-      description: proposal.description,
       initial_deposit: proposal.initial_deposit,
-      proposer: mockRootState.wallet.address
+      proposer: mockRootState.wallet.address,
+      proposal_content: {
+        value: {
+          title: proposal.title,
+          description: proposal.description,
+        }
+      }
     })
     expect(res).toBe(123123)
   })
@@ -228,9 +234,8 @@ describe(`Module: Proposals`, () => {
         { dispatch, rootState: mockRootState, commit },
         {
           type: proposal.proposal_type,
-          title: proposal.title,
-          description: proposal.description,
-          initial_deposit: proposal.initial_deposit
+          initial_deposit: proposal.initial_deposit,
+          proposal_content: proposal.proposal_content
         }
       )
       expect(dispatch.mock.calls[i]).toEqual([
@@ -239,9 +244,8 @@ describe(`Module: Proposals`, () => {
           type: `postProposal`,
           proposal_type: proposal.proposal_type,
           proposer: addresses[0],
-          title: proposal.title,
-          description: proposal.description,
-          initial_deposit: proposal.initial_deposit
+          initial_deposit: proposal.initial_deposit,
+          proposal_content: proposal.proposal_content
         }
       ])
 
@@ -259,13 +263,17 @@ describe(`Module: Proposals`, () => {
 
     // optimistic update
     expect(commit).toHaveBeenCalledWith(`setProposal`, {
-      description: `custom text proposal description`,
       initial_deposit: [{
         amount: `200000000`,
         denom: `stake`,
       }],
       proposal_id: `1`,
-      title: `Custom text proposal`,
+      proposal_content: {
+        value: {
+          title: `Custom text proposal`,
+          description: `custom text proposal description`,
+        }
+      }
     })
   })
 })

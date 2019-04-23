@@ -108,7 +108,11 @@ describe(`LiProposal`, () => {
     wrapper.setProps({
       proposal: {
         ...proposal,
-        description: `This is some kind of long description. longer than 100 characters for optimum-maximum-ideal truncation.`,
+        proposal_content: {
+          value: {
+            description: `This is some kind of long description. longer than 100 characters for optimum-maximum-ideal truncation.`,
+          }
+        }
       }
     })
     expect(wrapper.vm.description).toEqual(
