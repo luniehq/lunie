@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [1.0.0-beta.45] - 2019-04-23
+
+### Fixed
+
+- [#2467](https://github.com/cosmos/lunie/pull/2467) Fixed sending by fixing the send body according to the SDK update @faboweb
+
 ## [1.0.0-beta.44] - 2019-04-21
 
 ### Fixed
