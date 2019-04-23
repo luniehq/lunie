@@ -20,13 +20,16 @@ services:
   #     - "1317:1317"
 
   node:
-    image: "lunie/gaia-script:latest"
+    image: "tendermint/gaia:v0.34.1"
     container_name: node
     environment:
       - RICH_ADDRESS=cosmos1ek9cd8ewgxg9w5xllq9um0uf4aaxaruvcw4v9e
     volumes:
       - ./nodes/first.sh:/etc/script.sh
       - ./node:/mnt/node
+    entrypoint:
+      - sh
+      - /etc/script.sh
     expose:
       - 9070
       - 26657

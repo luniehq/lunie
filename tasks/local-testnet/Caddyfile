@@ -2,12 +2,6 @@ https://localhost:8080 {
   cors
   tls self_signed
 
-  header / {
-    Access-Control-Allow-Origin "*"
-    Access-Control-Allow-Methods "OPTIONS, HEAD, GET, POST, PUT, DELETE"
-    Access-Control-Allow-Headers "*"
-  }
-
   proxy / node:9070/ {
     insecure_skip_verify
   }
