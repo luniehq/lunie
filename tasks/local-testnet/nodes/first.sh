@@ -32,6 +32,8 @@ sed -i -e 's/\"inflation\".*$/\"inflation\":\ \"0.000000001300000000\",/' -e 's/
 #screen -dmS rest gaiacli rest-server --laddr tcp://0.0.0.0:${API_PORT} --home . --node http://localhost:${PORT} --chain-id ${NETWORK} --trust-node true
 #screen -dmSL faucet ./faucet.sh ${ACCOUNT} ${PASSWORD} ${NETWORK}
 
+echo ${PASSWORD} | gaiacli tx send ${RICH_ADDRESS} 1000000000stake --from ${ACCOUNT}
+
 echo ${NODEID}
 
 cp -a ${HOME}/. ${TARGET}/

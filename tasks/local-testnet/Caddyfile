@@ -1,5 +1,6 @@
-:8080 {
+https://localhost:8080 {
   cors
+  tls self_signed
 
   header / {
     Access-Control-Allow-Origin "*"
@@ -7,7 +8,15 @@
     Access-Control-Allow-Headers "*"
   }
 
-  proxy / node:9070 {
+  proxy / node:9070/ {
     insecure_skip_verify
+  }
+}
+
+https://localhost:8081 {
+  tls self_signed
+
+  proxy /websocket node:26657/websocket {
+    websocket
   }
 }
