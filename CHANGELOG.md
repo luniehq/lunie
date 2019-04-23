@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [1.0.0-beta.44] - 2019-04-21
+
+### Fixed
+
+- [#2431](https://github.com/cosmos/lunie/issues/2431) check for ledger on submit to avoid action modal failures @jbibla
+- [#2413](https://github.com/cosmos/lunie/issues/2413) page validator uptime was not showing @jbibla
+
 ## [1.0.0-beta.43] - 2019-04-16
 
 ### Added

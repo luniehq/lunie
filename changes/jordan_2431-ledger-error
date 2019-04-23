@@ -1,1 +1,0 @@
-[Fixed] [#2431](https://github.com/cosmos/lunie/issues/2431) check for ledger on submit to avoid action modal failures @jbibla
