@@ -13,26 +13,20 @@ exports[`LiProposal has the expected html structure 1`] = `
       <span
         class="data-table__row__info__container__status material-icons"
       >
-        
         checkmark
-      
       </span>
        
       <router-link-stub
         class="data-table__row__info__container__name"
         to="[object Object]"
       >
-        
         Proposal Title
-      
       </router-link-stub>
        
       <p
         class="data-table__row__info__container__description"
       >
-        
         Proposal description
-      
       </p>
     </div>
   </td>
@@ -44,33 +38,25 @@ exports[`LiProposal has the expected html structure 1`] = `
   <td
     class="li-proposal__value yes"
   >
-    
     85%
-  
   </td>
    
   <td
     class="li-proposal__value no"
   >
-    
     4%
-  
   </td>
    
   <td
     class="li-proposal__value no_with_veto"
   >
-    
     2%
-  
   </td>
    
   <td
     class="li-proposal__value abstain"
   >
-    
     9%
-  
   </td>
 </tr>
 `;
@@ -88,26 +74,20 @@ exports[`LiProposal should survive the tally result not being present yet 1`] = 
       <span
         class="data-table__row__info__container__status material-icons"
       >
-        
         checkmark
-      
       </span>
        
       <router-link-stub
         class="data-table__row__info__container__name"
         to="[object Object]"
       >
-        
         Proposal Title
-      
       </router-link-stub>
        
       <p
         class="data-table__row__info__container__description"
       >
-        
         Proposal description
-      
       </p>
     </div>
   </td>
@@ -119,33 +99,25 @@ exports[`LiProposal should survive the tally result not being present yet 1`] = 
   <td
     class="li-proposal__value yes"
   >
-    
     0%
-  
   </td>
    
   <td
     class="li-proposal__value no"
   >
-    
     0%
-  
   </td>
    
   <td
     class="li-proposal__value no_with_veto"
   >
-    
     0%
-  
   </td>
    
   <td
     class="li-proposal__value abstain"
   >
-    
     0%
-  
   </td>
 </tr>
 `;

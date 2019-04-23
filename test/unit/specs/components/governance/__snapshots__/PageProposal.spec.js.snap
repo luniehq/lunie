@@ -15,9 +15,7 @@ exports[`PageProposal renders votes in HTML when voting is open 1`] = `
       <h2
         class="proposal-id"
       >
-        
-          #2
-        
+        #2
       </h2>
        
       <div
@@ -94,9 +92,7 @@ exports[`PageProposal renders votes in HTML when voting is open 1`] = `
         </dt>
          
         <dd>
-          
-            2,000.000000 STAKE
-          
+          2,000.000000 STAKE
         </dd>
       </dl>
        
@@ -220,9 +216,7 @@ exports[`PageProposal should display proposal page if user has signed in 1`] = `
       <h2
         class="proposal-id"
       >
-        
-          #2
-        
+        #2
       </h2>
        
       <div
@@ -299,9 +293,7 @@ exports[`PageProposal should display proposal page if user has signed in 1`] = `
         </dt>
          
         <dd>
-          
-            2,000.000000 STAKE
-          
+          2,000.000000 STAKE
         </dd>
       </dl>
        
@@ -425,9 +417,7 @@ exports[`PageProposal should display proposal page should default tally to 0 if 
       <h2
         class="proposal-id"
       >
-        
-          #2
-        
+        #2
       </h2>
        
       <div
@@ -504,9 +494,7 @@ exports[`PageProposal should display proposal page should default tally to 0 if 
         </dt>
          
         <dd>
-          
-            2,000.000000 STAKE
-          
+          2,000.000000 STAKE
         </dd>
       </dl>
        
