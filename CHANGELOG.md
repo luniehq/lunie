@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [1.0.0-beta.46] - 2019-04-23
+
+### Fixed
+
+- [#2470](https://github.com/cosmos/lunie/pull/2470) Fixed proposal displaying due to SDK update @faboweb
+
 ## [1.0.0-beta.45] - 2019-04-23
 
 ### Fixed
