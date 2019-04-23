@@ -1,0 +1,1 @@
+[Fixed] [#2467](https://github.com/cosmos/lunie/pull/2467) Fixed sending by fixing the send body according to the SDK update @faboweb
