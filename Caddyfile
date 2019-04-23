@@ -1,6 +1,4 @@
 localhost:8080 {
-  cors
-
   header / {
     Access-Control-Allow-Origin "*"
     Access-Control-Allow-Methods "OPTIONS, HEAD, GET, POST, PUT, DELETE"

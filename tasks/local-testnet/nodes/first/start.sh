@@ -1,0 +1,2 @@
+docker build --tag lunie/gaia-main .
+docker run -it   --mount type=bind,source="~/Documents/Entwicklung/voyager/tasks/local-testnet/node",target="/mnt/node" -p 26657:26657 -p 1317:1317 lunie/gaia-main:latest

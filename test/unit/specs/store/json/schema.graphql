@@ -1,0 +1,43 @@
+# Welcome to AWS AppSync!
+#
+# Use this editor to define the structure of your API with the GraphQL
+# schema definition language (SDL).
+#
+# Getting started is easy!
+#
+# 1. Uncomment (cmd/ctrl + /) the schema below and click save.
+# 2. Click provision resources to deploy a DynamoDB table and connect it with queries.
+# 3. Go to the queries tab and query DynamoDB with GraphQL.
+#
+schema {
+    query: Query
+}
+type Query {
+    # Get a single value of type 'Post' by primary key.
+    getValidators: [Validators]
+}
+# type Mutation {
+#     # Put a single value of type 'Post'.
+#     # If an item exists it's updated. If it does not it's created.
+#     putPost(id: ID!, title: String!): Post
+# }
+type Validators {
+    operator_address: ID!,
+    consensus_pubkey: String!,
+    jailed: Boolean!,
+    status: Int!,
+    tokens: Int!,
+    delegator_shares: Int!,
+    description__moniker: String!,
+    description__identity: String,
+    description__website: String,
+    description__details: String
+    bond_height: Int!,
+    bond_Intra_tx_counter: Int!,
+    unbonding_height: Int!,
+    unbonding_time: String!,
+    commission__rate: Float!,
+    commission__max_rate: Float!,
+    commission__max_change_rate: Float!,
+    commission__update_time: String
+}

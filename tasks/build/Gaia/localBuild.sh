@@ -11,6 +11,7 @@ case "${unameOut}" in
     Linux*)     export PLATFORM=linux;;
     Darwin*)    export PLATFORM=darwin;;
     CYGWIN*)    export PLATFORM=windows;;
+    MINGW*)    export PLATFORM=windows;;
     *)          echo "UNKNOWN machine:${unameOut}"
 esac
 
