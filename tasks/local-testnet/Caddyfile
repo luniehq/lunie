@@ -1,11 +1,13 @@
-localhost:8080 {
+:8080 {
+  cors
+
   header / {
     Access-Control-Allow-Origin "*"
     Access-Control-Allow-Methods "OPTIONS, HEAD, GET, POST, PUT, DELETE"
     Access-Control-Allow-Headers "*"
   }
 
-  proxy / http://localhost:9070/ {
-	insecure_skip_verify
+  proxy / node:9070 {
+    insecure_skip_verify
   }
 }

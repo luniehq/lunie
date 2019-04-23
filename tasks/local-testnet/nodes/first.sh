@@ -3,7 +3,7 @@
 PASSWORD=1234567890
 ACCOUNT=main_account
 PORT=26657
-API_PORT=8080
+API_PORT=9070
 NETWORK=testnet
 HOME=./node
 TARGET=/mnt/node
@@ -12,7 +12,7 @@ TARGET=/mnt/node
 #aws s3 rm s3://cosmos-gaia/genesis.json
 
 # Initialize local node with an account name and a chain
-gaiad init ${ACCOUNT} --home ${HOME} --chain-id ${NETWORK} --overwrite
+gaiad init ${ACCOUNT} --home ${HOME} --chain-id ${NETWORK}
 NODEID=$(gaiad tendermint show-node-id --home ${HOME})
 
 # Create our main account and add it to the genesis with a lot of money
@@ -36,8 +36,7 @@ echo ${NODEID}
 
 cp -a ${HOME}/. ${TARGET}/
 
-gaiad start --home ${HOME} &
-(
-  sleep 6s && #wait for first block
+gaiad start --home ${HOME} & (
+  sleep 6s &&
   gaiacli rest-server --home ${HOME} --chain-id ${NETWORK} --trust-node true --laddr tcp://0.0.0.0:${API_PORT}
 )

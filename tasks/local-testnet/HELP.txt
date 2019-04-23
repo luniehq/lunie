@@ -1,0 +1,6 @@
+# Windows
+
+Docker fails downloading a container?
+
+Restart the machine:
+- 

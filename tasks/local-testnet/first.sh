@@ -3,7 +3,7 @@
 PASSWORD=1234567890
 ACCOUNT=main_account
 PORT=26657
-API_PORT=8080
+API_PORT=9070
 NETWORK=testnet
 
 # first of all remove old genesis, we do not want other node to boot with the wrong stuff
