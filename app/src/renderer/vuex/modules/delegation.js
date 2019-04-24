@@ -194,12 +194,13 @@ export default ({ node }) => {
       // optimistic update the atoms of the user before we get the new values from chain
       commit(`updateWalletBalance`, {
         denom,
-        amount: Number(liquidAtoms) - Number(amount)
+        amount: Number(liquidAtoms) - Number(amount.amount)
       })
       // optimistically update the committed delegations
       commit(`setCommittedDelegation`, {
         candidateId: validator_address,
-        value: state.committedDelegates[validator_address] + Number(amount)
+        value: state.committedDelegates[validator_address] +
+          Number(amount.amount)
       })
 
       await dispatch(`getAllTxs`)
@@ -253,11 +254,16 @@ export default ({ node }) => {
     },
     async simulateRedelegation(
       {
-        rootState: { session },
+        rootState: { stakingParameters, session },
         dispatch
       },
       { validatorSrc, validatorDst, amount }
     ) {
+      const denom = stakingParameters.parameters.bond_denom
+      amount = {
+        denom,
+        amount: String(amount)
+      }
       return await dispatch(`simulateTx`, {
         type: `postRedelegation`,
         to: session.address,
@@ -269,7 +275,7 @@ export default ({ node }) => {
     },
     async submitRedelegation(
       {
-        rootState: { session },
+        rootState: { stakingParameters, session },
         dispatch
       },
       {
@@ -277,6 +283,12 @@ export default ({ node }) => {
         gas_prices, password, submitType
       }
     ) {
+      const denom = stakingParameters.parameters.bond_denom
+      amount = {
+        denom,
+        amount: String(amount)
+      }
+
       await dispatch(`sendTx`, {
         type: `postRedelegation`,
         to: session.address,
