@@ -5,6 +5,7 @@ services:
     volumes:
       - ./.caddy:/root/.caddy  # to save certificates on disk
       - ./Caddyfile:/etc/Caddyfile  # to mount custom Caddyfile
+      - ./certs:/etc/certs  # to mount custom Caddyfile
     ports:
       - "8080:8080"
       - "8081:8081"
@@ -12,20 +13,13 @@ services:
     networks:
         - frontend
 
-  # stargate:
-  #   image: "lunie/gaia-script:latest"
-  #   volumes:
-  #     - ./nodes/stargate.sh:/etc/script.sh
-  #   ports:
-  #     - "1317:1317"
-
   node:
     image: "tendermint/gaia:v0.34.1"
     container_name: node
     environment:
       - RICH_ADDRESS=cosmos1ek9cd8ewgxg9w5xllq9um0uf4aaxaruvcw4v9e
     volumes:
-      - ./nodes/first.sh:/etc/script.sh
+      - ./nodes/copy.sh:/etc/script.sh
       - ./node:/mnt/node
     entrypoint:
       - sh
