@@ -35,14 +35,14 @@
         type="number"
         placeholder="Amount"
       />
-      <p v-if="maximum > 0">
-        {{ num.viewDenom(denom) }}s delegated: {{ maximum }}
-      </p>
+      <span v-if="maximum > 0" class="form-message">
+        Currently Delegated: {{ maximum }} {{ num.viewDenom(denom) }}s
+      </span>
       <tm-form-msg
         v-if="maximum === 0"
-        :msg="`don't have any ${
-          num.viewDenom(denom)
-        }s delegated to this validator`"
+        :msg="
+          `don't have any ${num.viewDenom(denom)}s delegated to this validator`
+        "
         name="You"
         type="custom"
       />
@@ -112,7 +112,7 @@ export default {
     num
   }),
   computed: {
-    ...mapGetters([`bondDenom`, `liquidAtoms`])
+    ...mapGetters([`liquidAtoms`])
   },
   validations() {
     return {
@@ -139,13 +139,13 @@ export default {
     },
     async simulateForm() {
       return await this.$store.dispatch(`simulateUnbondingDelegation`, {
-        amount: -uatoms(this.amount),
+        amount: uatoms(this.amount),
         validator: this.validator
       })
     },
     async submitForm(gasEstimate, gasPrice, password, submitType) {
       await this.$store.dispatch(`submitUnbondingDelegation`, {
-        amount: -uatoms(this.amount),
+        amount: uatoms(this.amount),
         validator: this.validator,
         gas: String(gasEstimate),
         gas_prices: [
