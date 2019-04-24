@@ -255,6 +255,7 @@ describe(`DelegationModal`, () => {
       }
       const from = `cosmosvaloper1address2`
       const amount = 50
+      const denom = `uatom`
       const $store = { dispatch: jest.fn(() => estimate) }
       const res = await DelegationModal.methods.simulateRedelegation.call(
         {
@@ -262,13 +263,17 @@ describe(`DelegationModal`, () => {
           from,
           delegates,
           amount,
-          validator
+          validator,
+          denom
         }
       )
 
       expect($store.dispatch).toHaveBeenCalledWith(`simulateRedelegation`,
         {
-          amount: `50000000`,
+          amount: {
+            amount: `50000000`,
+            denom: `uatom`,
+          },
           validatorSrc: delegates.delegates[0],
           validatorDst: validator
         }
@@ -304,7 +309,10 @@ describe(`DelegationModal`, () => {
 
       expect($store.dispatch).toHaveBeenCalledWith(`submitRedelegation`,
         {
-          amount: `50000000`,
+          amount: {
+            amount: `50000000`,
+            denom: `uatom`,
+          },
           validatorSrc: delegates.delegates[0],
           validatorDst: validator,
           gas,

@@ -6,7 +6,7 @@
     "globals_path": "./globals.js",
     "disable_colors": false,
     "test_workers": false,
-    "launch_url": "http://localhost:8081?stargate=http://localhost:8080&&rpc=http://localhost:26657",
+    "launch_url": "http://localhost:8081",
     "test_settings": {
         "default": {
             "silent": true,
