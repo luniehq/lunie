@@ -220,6 +220,10 @@ jobs:
           at: *WORKSPACE
       - yarn-install
       - run:
+          name: Build for E2E test
+          command: 
+            STARGATE=https://localhost:8080 RPC=https://localhost:26657 CIRCLECI=true yarn build:ui
+      - run:
           name: Test
           command: yarn serve & yarn run test:e2e
           no_output_timeout: 120
