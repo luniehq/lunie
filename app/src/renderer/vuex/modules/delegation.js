@@ -153,7 +153,7 @@ export default ({ node }) => {
         amount: String(amount)
       }
 
-      await dispatch(`simulateTx`, {
+      return await dispatch(`simulateTx`, {
         type: `postDelegation`,
         to: session.address, // TODO strange syntax
         password,
@@ -219,8 +219,7 @@ export default ({ node }) => {
         denom,
         amount: String(amount)
       }
-
-      await dispatch(`simulateTx`, {
+      return await dispatch(`simulateTx`, {
         type: `postUnbondingDelegation`,
         to: session.address,
         delegator_address: session.address,
@@ -240,7 +239,6 @@ export default ({ node }) => {
         denom,
         amount: String(amount)
       }
-
       await dispatch(`sendTx`, {
         type: `postUnbondingDelegation`,
         to: session.address,
@@ -266,8 +264,7 @@ export default ({ node }) => {
         denom,
         amount: String(amount)
       }
-
-      await dispatch(`simulateTx`, {
+      return await dispatch(`simulateTx`, {
         type: `postRedelegation`,
         to: session.address,
         delegator_address: session.address,
