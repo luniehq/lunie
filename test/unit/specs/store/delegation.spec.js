@@ -443,7 +443,7 @@ describe(`Module: Delegations`, () => {
     }])
   })
 
-  it.only(`should update the atoms on a delegation optimistically`, async () => {
+  it(`should update the atoms on a delegation optimistically`, async () => {
     const commit = jest.fn()
     const delegates = lcdClientMock.state.candidates
     const stakingTransactions = {}
