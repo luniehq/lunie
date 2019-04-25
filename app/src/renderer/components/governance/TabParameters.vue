@@ -24,7 +24,7 @@
         </div>
         <div class="column">
           <dl class="info_dl">
-            <dt v-tooltip.top="depositTooltips.max_deposit_period">
+            <dt>
               Maximum Deposit Period
               <i
                 v-tooltip.top="depositTooltips.max_deposit_period"
