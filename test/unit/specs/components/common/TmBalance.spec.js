@@ -37,7 +37,7 @@ describe(`TmBalance`, () => {
         $store
       },
       methods: {
-        update: () => {}
+        update: () => { }
       }
     })
   })
@@ -47,7 +47,7 @@ describe(`TmBalance`, () => {
   })
 
   it(`displays unbonded tokens`, () => {
-    expect(wrapper.vm.unbondedAtoms).toBe(`1,230.0000…`)
+    expect(wrapper.vm.unbondedAtoms).toBe(`1,230.000`)
   })
 
   it(`displays neither total tokens nor unbonded tokens if not completely loaded`, () => {
@@ -63,12 +63,12 @@ describe(`TmBalance`, () => {
   })
 
   it(`gets user rewards`, () => {
-    expect(wrapper.vm.rewards).toBe(`1,000,450.0000…`)
+    expect(wrapper.vm.rewards).toBe(`1,000,450.000`)
   })
 
   it(`shows 0 if user doesn't have rewards`, () => {
     wrapper.vm.$store.getters.distribution.totalRewards = {}
-    expect(wrapper.vm.rewards).toBe(`0.0000…`)
+    expect(wrapper.vm.rewards).toBe(`0.000`)
   })
 
   it(`opens withdraw modal`, () => {

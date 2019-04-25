@@ -2,50 +2,40 @@
 
 exports[`TableInvoice should show the transaction invoice summary 1`] = `
 <div>
-  <table
-    class="data-table"
+  <ul
+    class="table-invoice"
   >
-    <tr>
-      <td>
-        
+    <li>
+      <span>
         Subtotal
-      
-      </td>
+      </span>
        
-      <td>
-        
-        1.000000
-      
-      </td>
-    </tr>
+      <span>
+        1.000000 STAKE
+      </span>
+    </li>
      
-    <tr>
-      <td>
-        
-        Fees (estimated)
-      
-      </td>
+    <li>
+      <span>
+        Network Fee
+      </span>
        
-      <td>
-        
-        0.046296
-      
-      </td>
-    </tr>
+      <span>
+        0.030864 STAKE
+      </span>
+    </li>
      
-    <tr>
-      <td>
-        
+    <li
+      class="total-row"
+    >
+      <span>
         Total
-      
-      </td>
+      </span>
        
-      <td>
-        
-        1.046296
-      
-      </td>
-    </tr>
-  </table>
+      <span>
+        1.030864 STAKE
+      </span>
+    </li>
+  </ul>
 </div>
 `;
