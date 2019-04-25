@@ -27,11 +27,11 @@ services:
     image: "tendermint/gaia:v0.34.1"
     container_name: node2
     volumes:
-      - ./nodes/others.sh:/etc/others.sh
+      - ./nodes:/etc/nodes
       - ./node:/mnt/node
     entrypoint:
       - sh
-      - /etc/others.sh
+      - /etc/nodes/secondary.sh
     restart: "always"
     networks:
         - frontend

@@ -6,11 +6,12 @@ AMOUNTP=5000000photino
 
 REQUEST_FOLDER=/mnt/node/addresses
 
-# ACCOUNT=$1
-# PASSWORD=$2
-# NETWORK=$3
+ACCOUNT=$1
+PASSWORD=$2
+NETWORK=$3
 
 echo "Starting Faucet"
+echo $ACCOUNT $PASSWORD $NETWORK
 
 while true
 do
@@ -38,9 +39,10 @@ do
                     # echo ${PASSWORD} | gaiacli tx send ${DESTINATION} ${AMOUNTC} --home . --from ${ADDRESS} --chain-id=${NETWORK}
                     echo "$dt - $DESTINATION funded, enjoy!"
                 fi
+                
+                # Remove this address from the ones that needs money
+                rm ${REQUEST_FOLDER}/${DESTINATION}
             fi
-            # Remove this address from the ones that needs money
-            rm ${REQUEST_FOLDER}/${DESTINATION}
         done
     fi
     sleep 5s
