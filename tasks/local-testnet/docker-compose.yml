@@ -48,5 +48,31 @@ services:
     networks:
         - frontend
 
+  node3:
+    image: "tendermint/gaia:v0.34.1"
+    container_name: node3
+    volumes:
+      - ./nodes:/etc/nodes
+      - ./node:/mnt/node
+    entrypoint:
+      - sh
+      - /etc/nodes/secondary.sh
+    restart: "always"
+    networks:
+        - frontend
+
+  node4:
+    image: "tendermint/gaia:v0.34.1"
+    container_name: node4
+    volumes:
+      - ./nodes:/etc/nodes
+      - ./node:/mnt/node
+    entrypoint:
+      - sh
+      - /etc/nodes/secondary.sh
+    restart: "always"
+    networks:
+        - frontend
+
 networks:
     frontend:
