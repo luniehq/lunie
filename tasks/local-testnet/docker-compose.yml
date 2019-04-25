@@ -1,32 +1,34 @@
 version: '3'
 services:
-  caddy:
-    image: "abiosoft/caddy:latest"
-    volumes:
-      - ./.caddy:/root/.caddy  # to save certificates on disk
-      - ./Caddyfile:/etc/Caddyfile  # to mount custom Caddyfile
-      - ./certs:/etc/certs  # to mount custom Caddyfile
-    ports:
-      - "8080:8080"
-      - "8081:8081"
-    restart: "always"
-    networks:
-        - frontend
+  # caddy:
+  #   image: "abiosoft/caddy:latest"
+  #   volumes:
+  #     - ./.caddy:/root/.caddy  # to save certificates on disk
+  #     - ./Caddyfile:/etc/Caddyfile  # to mount custom Caddyfile
+  #     - ./certs:/etc/certs  # to mount custom Caddyfile
+  #   ports:
+  #     - "8080:8080"
+  #     - "8081:8081"
+  #   restart: "always"
+  #   networks:
+  #       - frontend
 
   node:
     image: "tendermint/gaia:v0.34.1"
     container_name: node
     environment:
+    # mnemonic: 
       - RICH_ADDRESS=cosmos1ek9cd8ewgxg9w5xllq9um0uf4aaxaruvcw4v9e
     volumes:
-      - ./nodes/copy.sh:/etc/script.sh
+      - ./nodes:/etc/nodes
       - ./node:/mnt/node
     entrypoint:
       - sh
-      - /etc/script.sh
+      - /etc/nodes/first.sh
     expose:
       - 9070
       - 26657
+      - 26656
     ports:
       - "26657:26657"
       - "9070:9070"
@@ -34,21 +36,18 @@ services:
     networks:
         - frontend
 
-  # node2:
-  #   image: "lunie/gaia-script:latest"
-  #   container_name: node
-  #   volumes:
-  #     - ./nodes/other.sh:/etc/script.sh
-  #     - ./node:/mnt/node
-  #   expose:
-  #     - 9070
-  #     - 26657
-  #   ports:
-  #     - "26657:26657"
-  #     - "9070:9070"
-  #   restart: "always"
-  #   networks:
-  #       - frontend
+  node2:
+    image: "tendermint/gaia:v0.34.1"
+    container_name: node2
+    volumes:
+      - ./nodes/others.sh:/etc/others.sh
+      - ./node:/mnt/node
+    entrypoint:
+      - sh
+      - /etc/others.sh
+    restart: "always"
+    networks:
+        - frontend
 
 networks:
     frontend:
