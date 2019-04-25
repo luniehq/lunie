@@ -1,35 +1,23 @@
 <template>
   <div>
-    <table class="data-table">
-      <tr>
-        <td>
-          Subtotal
-        </td>
-        <td>
-          {{ full(subTotal) }}
-        </td>
-      </tr>
-      <tr>
-        <td>
-          Fees (estimated)
-        </td>
-        <td>
-          {{ full(estimatedFee) }}
-        </td>
-      </tr>
-      <tr>
-        <td>
-          Total
-        </td>
-        <td>
-          {{ full(total) }}
-        </td>
-      </tr>
-    </table>
+    <ul class="table-invoice">
+      <li>
+        <span>Subtotal</span>
+        <span>{{ full(subTotal) }} {{ viewDenom(bondDenom) }}</span>
+      </li>
+      <li>
+        <span>Network Fee</span>
+        <span>{{ full(estimatedFee) }} {{ viewDenom(bondDenom) }}</span>
+      </li>
+      <li class="total-row">
+        <span>Total</span>
+        <span>{{ full(total) }} {{ viewDenom(bondDenom) }}</span>
+      </li>
+    </ul>
   </div>
 </template>
 <script>
-import { full } from "../../scripts/num.js"
+import { full, viewDenom } from "../../scripts/num.js"
 import { mapGetters } from "vuex"
 
 export default {
@@ -50,15 +38,15 @@ export default {
   },
   data: () => ({
     full,
+    viewDenom,
     info: `Estimated network fees based on simulation.`
   }),
   computed: {
-    ...mapGetters([`session`]),
+    ...mapGetters([`bondDenom`]),
     estimatedFee() {
       return (
         Number(this.gasPrice) *
-        Number(this.gasEstimate) *
-        this.session.gasAdjustment
+        Number(this.gasEstimate)
       ) // already in atoms
     },
     subTotal() {
@@ -71,23 +59,33 @@ export default {
 }
 </script>
 <style scoped>
-.data-table {
+.table-invoice {
   margin: 2rem 0 0;
   border-collapse: inherit;
   padding: 0 0.25rem;
   font-size: var(--sm);
+  letter-spacing: 0.4px;
 }
 
-.data-table tr {
+.table-invoice li {
   width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
-.data-table td {
+.table-invoice span {
   padding: 0;
   color: var(--dim);
 }
 
-.data-table td:not(:first-child) {
+.table-invoice span:not(:first-child) {
   text-align: right;
+}
+
+.total-row {
+  border-top: 2px solid var(--bc);
+  margin-top: 0.5rem;
+  padding-top: 0.25rem;
 }
 </style>
