@@ -309,7 +309,7 @@ export default {
 
       const validatorRewards = distribution.rewards[validator.operator_address]
       const amount = validatorRewards
-        ? full(atoms(validatorRewards[bondDenom]) || 0)
+        ? full(atoms(validatorRewards[bondDenom])) || 0
         : null
 
       if (amount) {
