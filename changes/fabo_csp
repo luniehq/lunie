@@ -1,1 +1,0 @@
-[Security] [#2463](https://github.com/cosmos/lunie/pull/2463) Added a CSP header to limit source of JS and connections content of the website can do @faboweb
