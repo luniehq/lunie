@@ -64,6 +64,12 @@ exports[`SendModal should display send modal form 1`] = `
     fieldid="memo"
     fieldlabel="Memo"
   >
+    <span
+      class="input-suffix"
+    >
+      (Sent via Lunie)
+    </span>
+     
     <tm-field-stub
       id="memo"
       placeholder="Add a description..."
@@ -140,6 +146,12 @@ exports[`SendModal validation should show address required error 1`] = `
     fieldid="memo"
     fieldlabel="Memo"
   >
+    <span
+      class="input-suffix"
+    >
+      (Sent via Lunie)
+    </span>
+     
     <tm-field-stub
       id="memo"
       placeholder="Add a description..."
@@ -216,6 +228,12 @@ exports[`SendModal validation should show bech32 error when address length is to
     fieldid="memo"
     fieldlabel="Memo"
   >
+    <span
+      class="input-suffix"
+    >
+      (Sent via Lunie)
+    </span>
+     
     <tm-field-stub
       id="memo"
       placeholder="Add a description..."
@@ -292,6 +310,12 @@ exports[`SendModal validation should show bech32 error when address length is to
     fieldid="memo"
     fieldlabel="Memo"
   >
+    <span
+      class="input-suffix"
+    >
+      (Sent via Lunie)
+    </span>
+     
     <tm-field-stub
       id="memo"
       placeholder="Add a description..."
@@ -376,6 +400,12 @@ exports[`SendModal validation should show bech32 error when alphanumeric is wron
     fieldid="memo"
     fieldlabel="Memo"
   >
+    <span
+      class="input-suffix"
+    >
+      (Sent via Lunie)
+    </span>
+     
     <tm-field-stub
       id="memo"
       placeholder="Add a description..."

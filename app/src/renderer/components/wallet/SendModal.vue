@@ -95,6 +95,9 @@
       field-id="memo"
       field-label="Memo"
     >
+      <span class="input-suffix">
+        {{ (memo ? " - " : "") + "(Sent via Lunie)" }}
+      </span>
       <tm-field
         id="memo"
         v-model="memo"
