@@ -67,7 +67,9 @@ exports[`SendModal should display send modal form 1`] = `
     <span
       class="input-suffix"
     >
+      
       (Sent via Lunie)
+    
     </span>
      
     <tm-field-stub
@@ -149,7 +151,9 @@ exports[`SendModal validation should show address required error 1`] = `
     <span
       class="input-suffix"
     >
+      
       (Sent via Lunie)
+    
     </span>
      
     <tm-field-stub
@@ -231,7 +235,9 @@ exports[`SendModal validation should show bech32 error when address length is to
     <span
       class="input-suffix"
     >
+      
       (Sent via Lunie)
+    
     </span>
      
     <tm-field-stub
@@ -313,7 +319,9 @@ exports[`SendModal validation should show bech32 error when address length is to
     <span
       class="input-suffix"
     >
+      
       (Sent via Lunie)
+    
     </span>
      
     <tm-field-stub
@@ -403,7 +411,9 @@ exports[`SendModal validation should show bech32 error when alphanumeric is wron
     <span
       class="input-suffix"
     >
+      
       (Sent via Lunie)
+    
     </span>
      
     <tm-field-stub
