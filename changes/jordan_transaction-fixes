@@ -1,0 +1,2 @@
+[Fixed] [#2486](https://github.com/cosmos/lunie/issues/2486) transactions list items were broken @jbibla
+[Changed] [#2455](https://github.com/cosmos/lunie/issues/2455) standardized numbers throughout lunie and reduced to 3 decimal points @jbibla
