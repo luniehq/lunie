@@ -4,6 +4,7 @@ exports[`LiBankTransaction should show a bank transaction without fees 1`] = `
 <li-transaction-stub
   block="500"
   color="#ED553B"
+  memo="TESTING (Sent via Lunie)"
   time="1970-01-01T00:00:42.000Z"
 >
   <div>
@@ -44,6 +45,7 @@ exports[`LiBankTransaction should show bank transaction when user hasn't signed 
 <li-transaction-stub
   block="500"
   color="#ED553B"
+  memo="TESTING (Sent via Lunie)"
   time="1970-01-01T00:00:42.000Z"
 >
   <div>
@@ -90,6 +92,7 @@ exports[`LiBankTransaction should show incoming transactions 1`] = `
 <li-transaction-stub
   block="500"
   color="#ED553B"
+  memo="TESTING (Sent via Lunie)"
   time="1970-01-01T00:00:42.000Z"
 >
   <div>
@@ -131,6 +134,7 @@ exports[`LiBankTransaction should show outgoing transactions 1`] = `
 <li-transaction-stub
   block="500"
   color="#ED553B"
+  memo="TESTING (Sent via Lunie)"
   time="1970-01-01T00:00:42.000Z"
 >
   <div>
@@ -173,6 +177,7 @@ exports[`LiBankTransaction should show outgoing transactions send to herself 1`]
 <li-transaction-stub
   block="500"
   color="#ED553B"
+  memo="TESTING (Sent via Lunie)"
   time="1970-01-01T00:00:42.000Z"
 >
   <div>

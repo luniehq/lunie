@@ -19,7 +19,8 @@ describe(`LiDistributionTransaction`, () => {
     },
     txType: ``,
     time: new Date(Date.now()).toISOString(),
-    block: 500
+    block: 500,
+    memo: `TESTING (Sent via Lunie)`
   }
 
   beforeEach(() => {

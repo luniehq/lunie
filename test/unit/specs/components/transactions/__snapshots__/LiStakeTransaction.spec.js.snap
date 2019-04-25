@@ -4,6 +4,7 @@ exports[`LiStakeTransaction create validator with fees 1`] = `
 <li-transaction-stub
   block="500"
   color="#47AB6C"
+  memo="TESTING (Sent via Lunie)"
   time="1970-01-01T00:00:42.000Z"
 >
   <div>
@@ -53,6 +54,7 @@ exports[`LiStakeTransaction create validator without fees 1`] = `
 <li-transaction-stub
   block="500"
   color="#47AB6C"
+  memo="TESTING (Sent via Lunie)"
   time="1970-01-01T00:00:42.000Z"
 >
   <div>
@@ -102,6 +104,7 @@ exports[`LiStakeTransaction delegations with fees 1`] = `
 <li-transaction-stub
   block="500"
   color="#47AB6C"
+  memo="TESTING (Sent via Lunie)"
   time="1970-01-01T00:00:42.000Z"
 >
   <div>
@@ -151,6 +154,7 @@ exports[`LiStakeTransaction delegations without fees 1`] = `
 <li-transaction-stub
   block="500"
   color="#47AB6C"
+  memo="TESTING (Sent via Lunie)"
   time="1970-01-01T00:00:42.000Z"
 >
   <div>
@@ -200,6 +204,7 @@ exports[`LiStakeTransaction edit validator with fees 1`] = `
 <li-transaction-stub
   block="500"
   color="#47AB6C"
+  memo="TESTING (Sent via Lunie)"
   time="1970-01-01T00:00:42.000Z"
 >
   <div>
@@ -242,6 +247,7 @@ exports[`LiStakeTransaction edit validator without fees 1`] = `
 <li-transaction-stub
   block="500"
   color="#47AB6C"
+  memo="TESTING (Sent via Lunie)"
   time="1970-01-01T00:00:42.000Z"
 >
   <div>
@@ -284,6 +290,7 @@ exports[`LiStakeTransaction redelegations with fees 1`] = `
 <li-transaction-stub
   block="500"
   color="#47AB6C"
+  memo="TESTING (Sent via Lunie)"
   time="1970-01-01T00:00:42.000Z"
 >
   <div>
@@ -345,6 +352,7 @@ exports[`LiStakeTransaction redelegations without fees 1`] = `
 <li-transaction-stub
   block="500"
   color="#47AB6C"
+  memo="TESTING (Sent via Lunie)"
   time="1970-01-01T00:00:42.000Z"
 >
   <div>
@@ -406,6 +414,7 @@ exports[`LiStakeTransaction unbonding delegations should default to ended if no 
 <li-transaction-stub
   block="500"
   color="#47AB6C"
+  memo="TESTING (Sent via Lunie)"
   time="1970-01-01T00:00:42.000Z"
 >
   <div>
@@ -459,6 +468,7 @@ exports[`LiStakeTransaction unbonding delegations should show unbonding delegati
 <li-transaction-stub
   block="500"
   color="#47AB6C"
+  memo="TESTING (Sent via Lunie)"
   time="1970-01-01T00:00:42.000Z"
 >
   <div>
@@ -512,6 +522,7 @@ exports[`LiStakeTransaction unbonding delegations with fees 1`] = `
 <li-transaction-stub
   block="500"
   color="#47AB6C"
+  memo="TESTING (Sent via Lunie)"
   time="1970-01-01T00:00:42.000Z"
 >
   <div>
@@ -571,6 +582,7 @@ exports[`LiStakeTransaction unbonding delegations without fees 1`] = `
 <li-transaction-stub
   block="500"
   color="#47AB6C"
+  memo="TESTING (Sent via Lunie)"
   time="1970-01-01T00:00:42.000Z"
 >
   <div>
@@ -624,6 +636,7 @@ exports[`LiStakeTransaction unjail with fees 1`] = `
 <li-transaction-stub
   block="500"
   color="#47AB6C"
+  memo="TESTING (Sent via Lunie)"
   time="1970-01-01T00:00:42.000Z"
 >
   <div>
@@ -666,6 +679,7 @@ exports[`LiStakeTransaction unjail without fees 1`] = `
 <li-transaction-stub
   block="500"
   color="#47AB6C"
+  memo="TESTING (Sent via Lunie)"
   time="1970-01-01T00:00:42.000Z"
 >
   <div>

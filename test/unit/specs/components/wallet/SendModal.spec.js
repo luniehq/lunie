@@ -124,6 +124,7 @@ describe(`SendModal`, () => {
           amount: 10,
           address: `cosmos1address`,
           denom: `uatom`,
+          memo: `TESTING (Sent via Lunie)`
         }
       )
 
@@ -131,7 +132,8 @@ describe(`SendModal`, () => {
         {
           type: `send`,
           to: `cosmos1address`,
-          amount: [{ amount: `10000000`, denom: `uatom` }]
+          amount: [{ amount: `10000000`, denom: `uatom` }],
+          memo: `TESTING (Sent via Lunie)`
         }
       )
       expect(res).toBe(estimate)
@@ -153,7 +155,8 @@ describe(`SendModal`, () => {
           denom: `uatom`,
           bondDenom: `uatom`,
           $store,
-          sendTx
+          sendTx,
+          memo: `TESTING (Sent via Lunie)`
         },
         gas, gasPrice, ``, `ledger`
       )
@@ -166,7 +169,8 @@ describe(`SendModal`, () => {
           gas,
           gas_prices,
           submitType: `ledger`,
-          password: ``
+          password: ``,
+          memo: `TESTING (Sent via Lunie)`
         }
       )
 

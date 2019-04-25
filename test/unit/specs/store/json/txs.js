@@ -19,7 +19,8 @@ export const bankTxs = [
         fee: {
           amount: [{ amount: `3421`, denom: `uatom` }],
           gas: `500000`
-        }
+        },
+        memo: `TESTING (Sent via Lunie)`
       },
       result: {
         gasUsed: `3324`,
@@ -58,7 +59,8 @@ export const bankTxs = [
           amount: null,
           gas: `500000`
         },
-        gas: `500000`
+        gas: `500000`,
+        memo: `TESTING (Sent via Lunie)`
       },
       result: {
         gasUsed: `3324`,
@@ -100,7 +102,8 @@ export const bankTxs = [
         fee: {
           amount: [{ amount: `3421`, denom: `uatom` }],
           gas: `500000`
-        }
+        },
+        memo: `TESTING (Sent via Lunie)`
       },
       result: {
         gasUsed: `3324`,
@@ -168,7 +171,7 @@ export const stakingTxs = [
           amount: [{ amount: `3421`, denom: `uatom` }],
           gas: `101587`
         },
-        memo: ``
+        memo: `TESTING (Sent via Lunie)`
       }
     }
   },
@@ -203,7 +206,7 @@ export const stakingTxs = [
           amount: [{ amount: `3421`, denom: `uatom` }],
           gas: `101587`
         },
-        memo: ``
+        memo: `TESTING (Sent via Lunie)`
       }
     }
   },
@@ -229,7 +232,8 @@ export const stakingTxs = [
         fee: {
           amount: [{ amount: `3421`, denom: `uatom` }],
           gas: `500000`
-        }
+        },
+        memo: `TESTING (Sent via Lunie)`
       },
       result: {
         gasUsed: `3324`,
@@ -243,7 +247,7 @@ export const stakingTxs = [
             value: `N0ZFQzVEREE0NDA3RDVBRUQ5OTlFMTM3QjYxQTQ2QTEzQTc2MkJCNg==`
           }
         ]
-      }
+      },
     }
   },
   {
@@ -267,7 +271,8 @@ export const stakingTxs = [
         fee: {
           amount: [{ amount: `3421`, denom: `uatom` }],
           gas: `500000`
-        }
+        },
+        memo: `TESTING (Sent via Lunie)`
       },
       result: {
         gasUsed: `3324`,
@@ -281,7 +286,7 @@ export const stakingTxs = [
             value: `N0ZFQzVEREE0NDA3RDVBRUQ5OTlFMTM3QjYxQTQ2QTEzQTc2MkJCNg==`
           }
         ]
-      }
+      },
     }
   },
   {
@@ -304,7 +309,8 @@ export const stakingTxs = [
         fee: {
           amount: [{ amount: `3421`, denom: `uatom` }],
           gas: `500000`
-        }
+        },
+        memo: `TESTING (Sent via Lunie)`
       },
       result: {
         gasUsed: `3324`,
@@ -318,7 +324,7 @@ export const stakingTxs = [
             value: `N0ZFQzVEREE0NDA3RDVBRUQ5OTlFMTM3QjYxQTQ2QTEzQTc2MkJCNg==`
           }
         ]
-      }
+      },
     }
   },
   {
@@ -352,7 +358,7 @@ export const stakingTxs = [
           amount: [{ amount: `3421`, denom: `uatom` }],
           gas: `101587`
         },
-        memo: ``
+        memo: `TESTING (Sent via Lunie)`
       }
     }
   }
@@ -385,7 +391,8 @@ export const governanceTxs = [
         fee: {
           amount: [{ amount: `3421`, denom: `uatom` }],
           gas: `500000`
-        }
+        },
+        memo: `TESTING (Sent via Lunie)`
       },
       result: {
         gasUsed: `3324`,
@@ -399,7 +406,7 @@ export const governanceTxs = [
             value: `N0ZFQzVEREE0NDA3RDVBRUQ5OTlFMTM3QjYxQTQ2QTEzQTc2MkJCNg==`
           }
         ]
-      }
+      },
     }
   },
   {
@@ -428,6 +435,7 @@ export const governanceTxs = [
           amount: [{ amount: `3421`, denom: `uatom` }],
           gas: `500000`
         },
+        memo: `TESTING (Sent via Lunie)`
       },
       result: {
         gasUsed: `3324`,
@@ -441,7 +449,7 @@ export const governanceTxs = [
             value: `N0ZFQzVEREE0NDA3RDVBRUQ5OTlFMTM3QjYxQTQ2QTEzQTc2MkJCNg==`
           }
         ]
-      }
+      },
     }
   },
   {
@@ -464,7 +472,8 @@ export const governanceTxs = [
         fee: {
           amount: [{ amount: `3421`, denom: `uatom` }],
           gas: `500000`
-        }
+        },
+        memo: `TESTING (Sent via Lunie)`
       },
       result: {
         gasUsed: `3324`,
@@ -536,7 +545,7 @@ export const distributionTxs = [
             signature: `RDq6lowz7Oo/dK8h686qzobzs0rI2nFrd3bHEf1P34wPYx56XXG4KysPt52B0f34I4C5bluXU5+scKtyRNTyGQ==`
           }
         ],
-        memo: `Sent via Cosmos UI 🚀`
+        memo: `TESTING (Sent via Lunie)`
       }
     }
   },
@@ -585,7 +594,7 @@ export const distributionTxs = [
             signature: `RDq6lowz7Oo/dK8h686qzobzs0rI2nFrd3bHEf1P34wPYx56XXG4KysPt52B0f34I4C5bluXU5+scKtyRNTyGQ==`
           }
         ],
-        memo: `Sent via Cosmos UI 🚀`
+        memo: `TESTING (Sent via Lunie)`
       }
     }
   },
@@ -625,7 +634,7 @@ export const distributionTxs = [
           amount: [{ amount: `3421`, denom: `uatom` }],
           gas: `500000`
         },
-        memo: `Sent via Cosmos UI 🚀`
+        memo: `TESTING (Sent via Lunie)`
       }
     }
   }
