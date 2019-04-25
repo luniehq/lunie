@@ -3,16 +3,16 @@
 PASSWORD=1234567890
 ACCOUNT=operator_account
 PORT=26656
-MAINNODEIP=`host node`
+MAINNODEIP=`nslookup node | awk '/Address \d: (.+)/ { print $3 }'`
 MAINACCOUNT=main_account
 NETWORK=testnet
 VALIDATOR_AMOUNT=10000000stake
 REQUEST_FOLDER=/mnt/node/addresses
 HOME=/etc/home
 
-echo MAINNODEIP
+echo "Connecting to main node at $MAINNODEIP"
 
-sleep 8s # prevent race
+sleep 3s # prevent race
 
 idNotFound=true
 while ${idNotFound}
@@ -26,8 +26,6 @@ do
     fi
 done
 
-echo $MAINNODEID
-
 rm -rf ${HOME}
 
 # Initialize local node with a secondary account
@@ -38,10 +36,8 @@ echo "Initialized"
 rm -f ${HOME}/config/genesis.json
 cp /mnt/node/config/genesis.json ${HOME}/config/genesis.json
 
-echo "${MAINNODEID}@http://${MAINNODEIP}:${PORT}"
-
 # boot referring to the remote node
-gaiad start --p2p.persistent_peers=${MAINNODEID}@http://${MAINNODEIP}:${PORT} --home ${HOME}
+gaiad start --p2p.persistent_peers=${MAINNODEID}@${MAINNODEIP}:${PORT} --home ${HOME}
 
 # get the key to make my node validator
 PUBKEY=$(gaiad tendermint show-validator)
