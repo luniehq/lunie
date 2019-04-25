@@ -13,20 +13,24 @@ function truncate(number, digits) {
 
 export const SMALLEST = 1e-6
 const language = window.navigator.userLanguage || window.navigator.language
+
 export function full(number = 0) {
   return new Intl.NumberFormat(language, { minimumFractionDigits: 6 })
     .format(truncate(number, 6))
 }
+
 export function shortNumber(number = 0) {
-  return new Intl.NumberFormat(language, { minimumFractionDigits: 4 })
-    .format(truncate(number, 4)) + `…`
+  return new Intl.NumberFormat(language, { minimumFractionDigits: 3 })
+    .format(truncate(number, 3))
 }
+
 export function pretty(number = 0) {
   return new Intl.NumberFormat(
     language,
     { minimumFractionDigits: 2, maximumFractionDigits: 2 }
   ).format(Math.round(number * 100) / 100)
 }
+
 // pretty print long decimals not in scientific notation
 export function prettyDecimals(number = 0) {
   let longDecimals = new Intl.NumberFormat(
@@ -46,21 +50,26 @@ export function prettyDecimals(number = 0) {
 
   return longDecimals
 }
+
 export function prettyInt(number = 0) {
   return new Intl.NumberFormat(language).format(Math.round(number))
 }
+
 export function percentInt(number = 0) {
   return new Intl.NumberFormat(language).format(Math.round(number * 100)) + `%`
 }
+
 export function percent(number = 0) {
   return new Intl.NumberFormat(
     language,
     { minimumFractionDigits: 2, maximumFractionDigits: 2 }
   ).format(Math.round(number * 10000) / 100) + `%`
 }
+
 export function atoms(number = 0) {
   return BigNumber(number).div(1e6).toNumber()
 }
+
 export function uatoms(number = 0) {
   return BigNumber(number).times(1e6).toString()
 }
@@ -80,12 +89,20 @@ export function viewCoin({ amount, denom }) {
   }
 }
 
+export function viewCoinShort({ amount, denom }) {
+  return {
+    amount: shortNumber(atoms(amount)),
+    denom: viewDenom(denom)
+  }
+}
+
 export default {
   SMALLEST,
   atoms,
   uatoms,
   viewDenom,
   viewCoin,
+  viewCoinShort,
   full,
   shortNumber,
   pretty,
