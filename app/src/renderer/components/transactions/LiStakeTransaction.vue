@@ -3,8 +3,8 @@
     <template v-if="txType === `cosmos-sdk/MsgCreateValidator`">
       <div slot="caption">
         Create validator
-        <b>{{ value && value.amount }}</b>
-        <span>{{ value && value.denom }}s</span>
+        <b>{{ shortNumber(value.amount) }}</b>
+        <span>{{ value && value.denom }}</span>
       </div>
       <div slot="details">
         Moniker:
@@ -13,12 +13,11 @@
         </router-link>
       </div>
       <div slot="fees">
-        Network Fee:&nbsp;
-        <b>{{ convertedFees ? convertedFees.amount : full(0) }}</b>
+        Network Fee:&nbsp;<b>{{ convertedFees ? convertedFees.amount : 0 }}</b>
         <span>
           {{
             convertedFees ? convertedFees.denom : num.viewDenom(bondingDenom)
-          }}s
+          }}
         </span>
       </div>
     </template>
@@ -33,20 +32,19 @@
         </router-link>
       </div>
       <div slot="fees">
-        Network Fee:&nbsp;
-        <b>{{ convertedFees ? convertedFees.amount : full(0) }}</b>
+        Network Fee:&nbsp;<b>{{ convertedFees ? convertedFees.amount : 0 }}</b>
         <span>
           {{
             convertedFees ? convertedFees.denom : num.viewDenom(bondingDenom)
-          }}s
+          }}
         </span>
       </div>
     </template>
     <template v-else-if="txType === `cosmos-sdk/MsgDelegate`">
       <div slot="caption">
-        Delegation
-        <b>{{ value && value.amount }}</b>
-        <span>{{ value && value.denom }}s</span>
+        Delegated
+        <b>{{ shortNumber(atoms(tx.amount.amount)) }}</b>
+        <span>{{ num.viewDenom(tx.amount.denom) }}</span>
       </div>
       <div slot="details">
         To&nbsp;
@@ -55,24 +53,21 @@
         </router-link>
       </div>
       <div slot="fees">
-        Network Fee:&nbsp;
-        <b>{{ convertedFees ? convertedFees.amount : full(0) }}</b>
+        Network Fee:&nbsp;<b>{{ convertedFees ? convertedFees.amount : 0 }}</b>
         <span>
           {{
             convertedFees ? convertedFees.denom : num.viewDenom(bondingDenom)
-          }}s
+          }}
         </span>
       </div>
     </template>
     <template v-else-if="txType === `cosmos-sdk/MsgUndelegate`">
       <div slot="caption">
-        Undelegation
+        Undelegated
         <b>
-          {{
-            calculatePrettifiedTokens(tx.validator_address, tx.shares_amount)
-          }}
+          {{ shortNumber(atoms(tx.amount.amount)) }}
         </b>
-        <span>{{ num.viewDenom(bondingDenom) }}s</span>
+        <span>{{ num.viewDenom(bondingDenom) }}</span>
         <template v-if="timeDiff">
           <span class="tx-unbonding__time-diff">
             {{ timeDiff }}
@@ -86,27 +81,21 @@
         </router-link>
       </div>
       <div slot="fees">
-        Network Fee:&nbsp;
-        <b>{{ convertedFees ? convertedFees.amount : full(0) }}</b>
+        Network Fee:&nbsp;<b>{{ convertedFees ? convertedFees.amount : 0 }}</b>
         <span>
           {{
             convertedFees ? convertedFees.denom : num.viewDenom(bondingDenom)
-          }}s
+          }}
         </span>
       </div>
     </template>
     <template v-else-if="txType === `cosmos-sdk/MsgBeginRedelegate`">
       <div slot="caption">
-        Redelegation
+        Redelegated
         <b>
-          {{
-            calculatePrettifiedTokens(
-              tx.validator_src_address,
-              tx.shares_amount
-            )
-          }}
+          {{ shortNumber(atoms(tx.amount.amount)) }}
         </b>
-        <span>{{ num.viewDenom(bondingDenom) }}s</span>
+        <span>{{ num.viewDenom(bondingDenom) }}</span>
       </div>
       <div slot="details">
         From&nbsp;
@@ -119,12 +108,11 @@
         </router-link>
       </div>
       <div slot="fees">
-        Network Fee:&nbsp;
-        <b>{{ convertedFees ? convertedFees.amount : full(0) }}</b>
+        Network Fee:&nbsp;<b>{{ convertedFees ? convertedFees.amount : 0 }}</b>
         <span>
           {{
             convertedFees ? convertedFees.denom : num.viewDenom(bondingDenom)
-          }}s
+          }}
         </span>
       </div>
     </template>
@@ -139,12 +127,11 @@
         </router-link>
       </div>
       <div slot="fees">
-        Network Fee:&nbsp;
-        <b>{{ convertedFees ? convertedFees.amount : full(0) }}</b>
+        Network Fee:&nbsp;<b>{{ convertedFees ? convertedFees.amount : 0 }}</b>
         <span>
           {{
             convertedFees ? convertedFees.denom : num.viewDenom(bondingDenom)
-          }}s
+          }}
         </span>
       </div>
     </template>
@@ -153,7 +140,7 @@
 
 <script>
 import LiTransaction from "./LiTransaction"
-import num, { atoms, full } from "../../scripts/num.js"
+import num, { atoms, full, shortNumber } from "../../scripts/num.js"
 import { calculateTokens } from "../../scripts/common.js"
 import moment from "moment"
 
@@ -205,7 +192,8 @@ export default {
   data: () => ({
     atoms,
     full,
-    num
+    num,
+    shortNumber
   }),
   computed: {
     timeDiff() {

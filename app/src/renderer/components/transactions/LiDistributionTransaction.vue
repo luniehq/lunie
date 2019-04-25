@@ -1,9 +1,5 @@
 <template>
-  <li-transaction
-    :color="`#F2B134`"
-    :time="time"
-    :block="block"
-  >
+  <li-transaction :color="`#F2B134`" :time="time" :block="block">
     <template v-if="txType === `cosmos-sdk/MsgWithdrawDelegationReward`">
       <div slot="caption">
         Withdrawal
@@ -14,14 +10,11 @@
         </router-link>
       </div>
       <div slot="fees">
-        Network Fee:&nbsp;
-        <b>{{ convertedFees ? convertedFees.amount : full(0) }}</b>
+        Network Fee:&nbsp;<b>{{ convertedFees ? convertedFees.amount : 0 }}</b>
         <span>
           {{
-            convertedFees
-              ? convertedFees.denom
-              : num.viewDenom(bondingDenom)
-          }}s
+            convertedFees ? convertedFees.denom : num.viewDenom(bondingDenom)
+          }}
         </span>
       </div>
     </template>
@@ -33,14 +26,11 @@
         To {{ tx.withdraw_address }}
       </div>
       <div slot="fees">
-        Network Fee:&nbsp;
-        <b>{{ convertedFees ? convertedFees.amount : full(0) }}</b>
+        Network Fee:&nbsp;<b>{{ convertedFees ? convertedFees.amount : 0 }}</b>
         <span>
           {{
-            convertedFees
-              ? convertedFees.denom
-              : num.viewDenom(bondingDenom)
-          }}s
+            convertedFees ? convertedFees.denom : num.viewDenom(bondingDenom)
+          }}
         </span>
       </div>
     </template>
@@ -56,14 +46,11 @@
         </router-link>
       </div>
       <div slot="fees">
-        Network Fee:&nbsp;
-        <b>{{ convertedFees ? convertedFees.amount : full(0) }}</b>
+        Network Fee:&nbsp;<b>{{ convertedFees ? convertedFees.amount : 0 }}</b>
         <span>
           {{
-            convertedFees
-              ? convertedFees.denom
-              : num.viewDenom(bondingDenom)
-          }}s
+            convertedFees ? convertedFees.denom : num.viewDenom(bondingDenom)
+          }}
         </span>
       </div>
     </template>

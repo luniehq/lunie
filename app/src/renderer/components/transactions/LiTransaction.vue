@@ -68,6 +68,12 @@ export default {
   background: var(--app-fg);
   width: 100%;
   font-weight: 300;
+  position: relative;
+}
+
+.li-tx .copied {
+  position: absolute;
+  bottom: 0;
 }
 
 .li-tx b {
