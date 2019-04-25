@@ -3,6 +3,7 @@
     :color="`#15CFCC`"
     :time="time"
     :block="block"
+    :memo="memo"
   >
     <template v-if="txType === `cosmos-sdk/MsgSubmitProposal`">
       <div slot="caption">
@@ -93,7 +94,11 @@ export default {
     block: {
       type: Number,
       required: true
-    }
+    },
+    memo: {
+      type: String,
+      default: null
+    },
   },
   data: () => ({
     full,

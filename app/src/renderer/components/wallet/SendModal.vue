@@ -90,6 +90,18 @@
         type="between"
       />
     </tm-form-group>
+    <tm-form-group
+      class="action-modal-group"
+      field-id="memo"
+      field-label="Memo"
+    >
+      <tm-field
+        id="memo"
+        v-model="memo"
+        type="text"
+        placeholder="Add a description..."
+      />
+    </tm-form-group>
   </action-modal>
 </template>
 
@@ -115,7 +127,8 @@ export default {
     address: ``,
     amount: null,
     denom: ``,
-    num
+    num,
+    memo: null
   }),
   computed: {
     ...mapGetters([`wallet`]),
@@ -155,7 +168,8 @@ export default {
       return await this.$store.dispatch(`simulateTx`, {
         type,
         to: address,
-        amount: [{ denom, amount: String(uatoms(amount)) }]
+        amount: [{ denom, amount: String(uatoms(amount)) }],
+        memo: this.memo
       })
     },
     async submitForm(gasEstimate, gasPrice, password, submitType) {
@@ -176,7 +190,8 @@ export default {
         submitType,
         password,
         to: address,
-        amount: [{ denom, amount: String(uatoms(amount)) }]
+        amount: [{ denom, amount: String(uatoms(amount)) }],
+        memo: this.memo
       })
 
       this.$store.commit(`notify`, {

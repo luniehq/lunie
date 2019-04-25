@@ -1,5 +1,10 @@
 <template>
-  <li-transaction :color="`#ED553B`" :time="time" :block="block">
+  <li-transaction
+    :color="`#ED553B`"
+    :time="time"
+    :block="block"
+    :memo="memo"
+  >
     <template v-if="address === ''">
       <div slot="caption">
         Sent<b>{{ coins.amount }}</b>
@@ -88,7 +93,11 @@ export default {
     block: {
       type: Number,
       required: true
-    }
+    },
+    memo: {
+      type: String,
+      default: null
+    },
   },
   data: () => ({
     atoms,

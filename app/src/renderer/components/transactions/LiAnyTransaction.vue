@@ -12,6 +12,7 @@
         :fees="fees"
         :time="transaction.time"
         :block="Number(transaction.height)"
+        :memo="transaction.tx.value.memo"
       />
       <li-stake-transaction
         v-else-if="stakingTx(msg.type)"
@@ -24,6 +25,7 @@
         :fees="fees"
         :time="transaction.time"
         :block="Number(transaction.height)"
+        :memo="transaction.tx.value.memo"
       />
       <li-gov-transaction
         v-else-if="governanceTx(msg.type)"
@@ -34,6 +36,7 @@
         :fees="fees"
         :time="transaction.time"
         :block="Number(transaction.height)"
+        :memo="transaction.tx.value.memo"
       />
       <li-distribution-transaction
         v-else-if="distributionTx(msg.type)"
@@ -45,6 +48,7 @@
         :fees="fees"
         :time="transaction.time"
         :block="Number(transaction.height)"
+        :memo="transaction.tx.value.memo"
       />
       <li-transaction
         v-else

@@ -15,6 +15,9 @@
         </div>
         <div class="li-tx__content__information">
           <slot name="details" />
+          <span v-if="memo">
+            &#32;-&#32;{{ memo.replace(" (Sent via Lunie)", "") }}
+          </span>
         </div>
       </div>
       <div class="li-tx__content__right">
@@ -46,7 +49,11 @@ export default {
     block: {
       type: Number,
       required: true
-    }
+    },
+    memo: {
+      type: String,
+      default: null
+    },
   },
   computed: {
     date({ time } = this) {

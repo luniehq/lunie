@@ -3,6 +3,7 @@
     :color="`#F2B134`"
     :time="time"
     :block="block"
+    :memo="memo"
   >
     <template v-if="txType === `cosmos-sdk/MsgWithdrawDelegationReward`">
       <div slot="caption">
@@ -109,7 +110,11 @@ export default {
     block: {
       type: Number,
       required: true
-    }
+    },
+    memo: {
+      type: String,
+      default: null
+    },
   },
   data: () => ({
     atoms,
