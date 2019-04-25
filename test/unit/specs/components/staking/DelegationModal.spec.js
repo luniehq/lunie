@@ -270,10 +270,7 @@ describe(`DelegationModal`, () => {
 
       expect($store.dispatch).toHaveBeenCalledWith(`simulateRedelegation`,
         {
-          amount: {
-            amount: `50000000`,
-            denom: `uatom`,
-          },
+          amount: `50000000`,
           validatorSrc: delegates.delegates[0],
           validatorDst: validator
         }
