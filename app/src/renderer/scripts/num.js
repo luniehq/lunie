@@ -5,10 +5,9 @@ import BigNumber from "bignumber.js"
  * Defines all numerical methods
  * @module num
  */
+
+// truncate decimals to not round when using Intl.NumberFormat
 function truncate(number, digits) {
-  if (digits === 0) {
-    return Math.trunc(number)
-  }
   return Math.trunc(number * Math.pow(10, digits)) / Math.pow(10, digits)
 }
 
