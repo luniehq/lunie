@@ -36,3 +36,4 @@ cp /mnt/node/config/genesis.json ${HOME}/config/genesis.json
 # boot referring to the remote node
 gaiad start --p2p.persistent_peers=${MAINNODEID}@${MAINNODEIP}:${PORT} --home ${HOME} > /dev/null &
 sh /etc/nodes/declareValidation.sh $PASSWORD $ACCOUNT $REQUEST_FOLDER $NETWORK $HOME
+wait
