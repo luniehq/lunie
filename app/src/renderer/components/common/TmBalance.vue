@@ -13,7 +13,7 @@
         <h2>{{ unbondedAtoms }}</h2>
       </div>
       <div v-if="rewards" class="top-section">
-        <h3>Pending Rewards</h3>
+        <h3>Rewards</h3>
         <h2>{{ rewards }}</h2>
         <tm-btn
           id="withdraw-btn"
@@ -156,7 +156,7 @@ export default {
 .withdraw-rewards {
   font-size: var(--sm);
   position: absolute;
-  font-weight: 300;
+  font-weight: 500;
 }
 
 @media screen and (max-width: 767px) {
