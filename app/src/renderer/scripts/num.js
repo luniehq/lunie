@@ -5,15 +5,22 @@ import BigNumber from "bignumber.js"
  * Defines all numerical methods
  * @module num
  */
+function truncate(number, digits) {
+  if (digits === 0) {
+    return Math.trunc(number)
+  }
+  return Math.trunc(number * Math.pow(10, digits)) / Math.pow(10, digits)
+}
 
 export const SMALLEST = 1e-6
 const language = window.navigator.userLanguage || window.navigator.language
 export function full(number = 0) {
   return new Intl.NumberFormat(language, { minimumFractionDigits: 6 })
-    .format(number)
+    .format(truncate(number, 6))
 }
 export function shortNumber(number = 0) {
-  return new Intl.NumberFormat(language, { minimumFractionDigits: 4 }).format(number) + `…`
+  return new Intl.NumberFormat(language, { minimumFractionDigits: 4 })
+    .format(truncate(number, 4)) + `…`
 }
 export function pretty(number = 0) {
   return new Intl.NumberFormat(
