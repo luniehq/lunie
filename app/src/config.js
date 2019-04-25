@@ -2,12 +2,12 @@ const dev = process.env.NODE_ENV === `development`
 const stargate =
   process.env.STARGATE ||
   (dev
-    ? `http://localhost:8080`
+    ? `https://stargate.lunie.io`
     : `https://stargate.lunie.io`)
 
 const rpc =
   process.env.RPC ||
-  (dev ? `localhost:26657` : `https://rpc.lunie.io:26657`)
+  (dev ? `https://rpc.lunie.io:26657` : `https://rpc.lunie.io:26657`)
 
 const faucet = process.env.FAUCET !== undefined ? process.env.FAUCET : `https://faucet.voyager.ninja`
 

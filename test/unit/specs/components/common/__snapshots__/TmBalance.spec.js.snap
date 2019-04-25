@@ -18,7 +18,7 @@ exports[`TmBalance has the expected html structure before adding props 1`] = `
         class="total-atoms__value"
       >
         
-        3,210.0000…
+        3,210.000
       
       </h2>
        
@@ -35,7 +35,7 @@ exports[`TmBalance has the expected html structure before adding props 1`] = `
       </h3>
        
       <h2>
-        1,230.0000…
+        1,230.000
       </h2>
     </div>
      
@@ -43,11 +43,11 @@ exports[`TmBalance has the expected html structure before adding props 1`] = `
       class="top-section"
     >
       <h3>
-        Pending Rewards
+        Rewards
       </h3>
        
       <h2>
-        1,000,450.0000…
+        1,000,450.000
       </h2>
        
       <tm-btn-stub

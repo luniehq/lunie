@@ -11,11 +11,11 @@ exports[`LiStakeTransaction create validator with fees 1`] = `
       Create validator
       
     <b>
-      1.000000
+      1.000
     </b>
      
     <span>
-      ATOMs
+      ATOM
     </span>
   </div>
    
@@ -35,14 +35,13 @@ exports[`LiStakeTransaction create validator with fees 1`] = `
   <div>
     
       Network Fee: 
-      
     <b>
       0.003421
     </b>
      
     <span>
       
-        ATOMs
+        ATOM
       
     </span>
   </div>
@@ -60,11 +59,11 @@ exports[`LiStakeTransaction create validator without fees 1`] = `
       Create validator
       
     <b>
-      1.000000
+      1.000
     </b>
      
     <span>
-      ATOMs
+      ATOM
     </span>
   </div>
    
@@ -84,14 +83,13 @@ exports[`LiStakeTransaction create validator without fees 1`] = `
   <div>
     
       Network Fee: 
-      
     <b>
-      0.000000
+      0
     </b>
      
     <span>
       
-        ATOMs
+        ATOM
       
     </span>
   </div>
@@ -106,20 +104,20 @@ exports[`LiStakeTransaction delegations with fees 1`] = `
 >
   <div>
     
-      Delegation
+      Create validator
       
     <b>
-      42,000.000000
+      NaN
     </b>
      
     <span>
-      ATOMs
+      ATOM
     </span>
   </div>
    
   <div>
     
-      To 
+      Moniker:
       
     <router-link-stub
       to="/validator/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
@@ -133,14 +131,13 @@ exports[`LiStakeTransaction delegations with fees 1`] = `
   <div>
     
       Network Fee: 
-      
     <b>
       0.003421
     </b>
      
     <span>
       
-        ATOMs
+        ATOM
       
     </span>
   </div>
@@ -155,20 +152,20 @@ exports[`LiStakeTransaction delegations without fees 1`] = `
 >
   <div>
     
-      Delegation
+      Create validator
       
     <b>
-      42,000.000000
+      NaN
     </b>
      
     <span>
-      ATOMs
+      ATOM
     </span>
   </div>
    
   <div>
     
-      To 
+      Moniker:
       
     <router-link-stub
       to="/validator/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
@@ -182,14 +179,13 @@ exports[`LiStakeTransaction delegations without fees 1`] = `
   <div>
     
       Network Fee: 
-      
     <b>
-      0.000000
+      0.003421
     </b>
      
     <span>
       
-        ATOMs
+        ATOM
       
     </span>
   </div>
@@ -224,14 +220,13 @@ exports[`LiStakeTransaction edit validator with fees 1`] = `
   <div>
     
       Network Fee: 
-      
     <b>
       0.003421
     </b>
      
     <span>
       
-        ATOMs
+        ATOM
       
     </span>
   </div>
@@ -266,14 +261,13 @@ exports[`LiStakeTransaction edit validator without fees 1`] = `
   <div>
     
       Network Fee: 
-      
     <b>
-      0.000000
+      0
     </b>
      
     <span>
       
-        ATOMs
+        ATOM
       
     </span>
   </div>
@@ -288,38 +282,26 @@ exports[`LiStakeTransaction redelegations with fees 1`] = `
 >
   <div>
     
-      Redelegation
+      Create validator
       
     <b>
-      
-        30.000000
-      
+      0.000
     </b>
      
     <span>
-      ATOMs
+      
     </span>
   </div>
    
   <div>
     
-      From 
+      Moniker:
       
     <router-link-stub
-      to="/validator/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
+      to="/validator/undefined"
     >
       
-        mr_mounty
-      
-    </router-link-stub>
-    
-       to 
-      
-    <router-link-stub
-      to="/validator/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au"
-    >
-      
-        good_greg
+        
       
     </router-link-stub>
   </div>
@@ -327,14 +309,13 @@ exports[`LiStakeTransaction redelegations with fees 1`] = `
   <div>
     
       Network Fee: 
-      
     <b>
       0.003421
     </b>
      
     <span>
       
-        ATOMs
+        ATOM
       
     </span>
   </div>
@@ -349,38 +330,26 @@ exports[`LiStakeTransaction redelegations without fees 1`] = `
 >
   <div>
     
-      Redelegation
+      Create validator
       
     <b>
-      
-        30.000000
-      
+      0.000
     </b>
      
     <span>
-      ATOMs
+      
     </span>
   </div>
    
   <div>
     
-      From 
+      Moniker:
       
     <router-link-stub
-      to="/validator/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
+      to="/validator/undefined"
     >
       
-        mr_mounty
-      
-    </router-link-stub>
-    
-       to 
-      
-    <router-link-stub
-      to="/validator/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au"
-    >
-      
-        good_greg
+        
       
     </router-link-stub>
   </div>
@@ -388,14 +357,13 @@ exports[`LiStakeTransaction redelegations without fees 1`] = `
   <div>
     
       Network Fee: 
-      
     <b>
-      0.000000
+      0.003421
     </b>
      
     <span>
       
-        ATOMs
+        ATOM
       
     </span>
   </div>
@@ -410,24 +378,20 @@ exports[`LiStakeTransaction unbonding delegations should default to ended if no 
 >
   <div>
     
-      Undelegation
+      Create validator
       
     <b>
-      
-        0.000323
-      
+      0.000
     </b>
      
     <span>
-      ATOMs
+      
     </span>
-     
-    <!---->
   </div>
    
   <div>
     
-      From 
+      Moniker:
       
     <router-link-stub
       to="/validator/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
@@ -441,14 +405,13 @@ exports[`LiStakeTransaction unbonding delegations should default to ended if no 
   <div>
     
       Network Fee: 
-      
     <b>
       0.003421
     </b>
      
     <span>
       
-        ATOMs
+        ATOM
       
     </span>
   </div>
@@ -463,24 +426,20 @@ exports[`LiStakeTransaction unbonding delegations should show unbonding delegati
 >
   <div>
     
-      Undelegation
+      Create validator
       
     <b>
-      
-        0.000323
-      
+      0.000
     </b>
      
     <span>
-      ATOMs
+      
     </span>
-     
-    <!---->
   </div>
    
   <div>
     
-      From 
+      Moniker:
       
     <router-link-stub
       to="/validator/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
@@ -494,14 +453,13 @@ exports[`LiStakeTransaction unbonding delegations should show unbonding delegati
   <div>
     
       Network Fee: 
-      
     <b>
       0.003421
     </b>
      
     <span>
       
-        ATOMs
+        ATOM
       
     </span>
   </div>
@@ -575,24 +533,20 @@ exports[`LiStakeTransaction unbonding delegations without fees 1`] = `
 >
   <div>
     
-      Undelegation
+      Create validator
       
     <b>
-      
-        0.000323
-      
+      0.000
     </b>
      
     <span>
-      ATOMs
+      
     </span>
-     
-    <!---->
   </div>
    
   <div>
     
-      From 
+      Moniker:
       
     <router-link-stub
       to="/validator/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
@@ -606,14 +560,13 @@ exports[`LiStakeTransaction unbonding delegations without fees 1`] = `
   <div>
     
       Network Fee: 
-      
     <b>
-      0.000000
+      0.003421
     </b>
      
     <span>
       
-        ATOMs
+        ATOM
       
     </span>
   </div>
@@ -648,14 +601,13 @@ exports[`LiStakeTransaction unjail with fees 1`] = `
   <div>
     
       Network Fee: 
-      
     <b>
       0.003421
     </b>
      
     <span>
       
-        ATOMs
+        ATOM
       
     </span>
   </div>
@@ -690,14 +642,13 @@ exports[`LiStakeTransaction unjail without fees 1`] = `
   <div>
     
       Network Fee: 
-      
     <b>
-      0.000000
+      0
     </b>
      
     <span>
       
-        ATOMs
+        ATOM
       
     </span>
   </div>
