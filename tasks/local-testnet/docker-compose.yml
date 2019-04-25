@@ -22,6 +22,7 @@ services:
 
   faucet:
     image: "tendermint/gaia:v0.34.1"
+    container_name: faucet
     environment:
       # mnemonic: 
       - RICH_ADDRESS=cosmos1ek9cd8ewgxg9w5xllq9um0uf4aaxaruvcw4v9e
