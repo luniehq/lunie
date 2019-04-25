@@ -106,7 +106,7 @@ export default ({ node }) => {
     async simulateTx({ state, dispatch, rootState }, args) {
       if (!rootState.connection.connected) {
         throw Error(
-          `Currently not connected to a secure node. Please try again when Voyager has secured a connection.`
+          `Currently not connected to a secure node. Please try again when Lunie has secured a connection.`
         )
       }
 
@@ -162,7 +162,7 @@ export default ({ node }) => {
     async sendTx({ state, dispatch, commit, rootState }, args) {
       if (!rootState.connection.connected) {
         throw Error(
-          `Currently not connected to a secure node. Please try again when Voyager has secured a connection.`
+          `Currently not connected to a secure node. Please try again when Lunie has secured a connection.`
         )
       }
 
