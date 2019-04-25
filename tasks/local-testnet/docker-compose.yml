@@ -3,9 +3,6 @@ services:
   node:
     image: "tendermint/gaia:v0.34.1"
     container_name: node
-    environment:
-    # mnemonic: 
-      - RICH_ADDRESS=cosmos1ek9cd8ewgxg9w5xllq9um0uf4aaxaruvcw4v9e
     volumes:
       - ./nodes:/etc/nodes
       - ./node:/mnt/node
@@ -19,6 +16,21 @@ services:
     ports:
       - "26657:26657"
       - "9070:9070"
+    restart: "always"
+    networks:
+        - frontend
+
+  faucet:
+    image: "tendermint/gaia:v0.34.1"
+    environment:
+      # mnemonic: 
+      - RICH_ADDRESS=cosmos1ek9cd8ewgxg9w5xllq9um0uf4aaxaruvcw4v9e
+    volumes:
+      - ./nodes:/etc/nodes
+      - ./node:/mnt/node
+    entrypoint:
+      - sh
+      - /etc/nodes/faucet.sh
     restart: "always"
     networks:
         - frontend

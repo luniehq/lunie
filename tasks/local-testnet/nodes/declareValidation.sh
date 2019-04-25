@@ -8,21 +8,21 @@ HOME=$5
 VALIDATOR_AMOUNT=10000000stake
 
 # get the key to make my node validator
-PUBKEY=$(gaiad tendermint show-validator)
+PUBKEY=$(gaiad tendermint show-validator --home ${HOME})
+echo $PUBKEY
 echo ${PASSWORD} | gaiacli keys add ${ACCOUNT} --home ${HOME}
 ADDRESS=$(gaiacli keys show ${ACCOUNT} --address --home ${HOME})
 echo "Requesting funds for address: ${ADDRESS}"
+mkdir -p ${REQUEST_FOLDER}
 echo ${PUBKEY} > ${REQUEST_FOLDER}/${ADDRESS} # request money from faucet
 
-poor=true
-while ${poor}
-do
+while true; do
     echo "Waiting for funds to declare node to be a validator"
     # query my account to check if I'm still poor
-    ACCOUNT_INFO=$(gaiacli query account ${ADDRESS} --chain-id ${NETWORK} --trust-node --home ${HOME})
-    if [ -z "${$ACCOUNT_INFO##*steak*}" ]; then
+    gaiacli query account ${ADDRESS} --chain-id ${NETWORK} --trust-node --home ${HOME} 2> /dev/null
+    if [ $? -eq 0 ]; then
         echo "Address funded, thanks main node!"
-        poor=false
+        break
     fi
     sleep 3s
 done
