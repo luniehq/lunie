@@ -1,18 +1,5 @@
 version: '3'
 services:
-  # caddy:
-  #   image: "abiosoft/caddy:latest"
-  #   volumes:
-  #     - ./.caddy:/root/.caddy  # to save certificates on disk
-  #     - ./Caddyfile:/etc/Caddyfile  # to mount custom Caddyfile
-  #     - ./certs:/etc/certs  # to mount custom Caddyfile
-  #   ports:
-  #     - "8080:8080"
-  #     - "8081:8081"
-  #   restart: "always"
-  #   networks:
-  #       - frontend
-
   node:
     image: "tendermint/gaia:v0.34.1"
     container_name: node

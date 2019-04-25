@@ -8,8 +8,9 @@ NETWORK=testnet
 HOME=./node
 TARGET=/mnt/node
 
-# first of all remove old genesis, we do not want other node to boot with the wrong stuff
-#aws s3 rm s3://cosmos-gaia/genesis.json
+# clean up
+rm -rf ${HOME}
+rm -f ${TARGET}/id.txt
 
 # Initialize local node with an account name and a chain
 gaiad init ${ACCOUNT} --home ${HOME} --chain-id ${NETWORK}
@@ -23,14 +24,6 @@ echo ${PASSWORD} | gaiad gentx --name ${ACCOUNT} --home ${HOME} --home-client ${
 gaiad collect-gentxs --home ${HOME}
 
 sed -i -e 's/\"inflation\".*$/\"inflation\":\ \"0.000000001300000000\",/' -e 's/\"inflation_max\".*$/\"inflation_max\":\ \"0.000000002000000000\",/' -e 's/\"inflation_min\".*$/\"inflation_min\":\ \"0.000000000700000000\",/' -e 's/\"goal_bonded\".*$/\"goal_bonded\":\ \"0.000000006700000000\",/' ${HOME}/config/genesis.json
-
-# Make our genesis avaialable to the secondary nodes
-#aws s3 cp config/genesis.json s3://cosmos-gaia/genesis.json
-
-# boot proper nodes in reachable detached sessions
-#screen -dmS gaia gaiad start --home .
-#screen -dmS rest gaiacli rest-server --laddr tcp://0.0.0.0:${API_PORT} --home . --node http://localhost:${PORT} --chain-id ${NETWORK} --trust-node true
-#screen -dmSL faucet ./faucet.sh ${ACCOUNT} ${PASSWORD} ${NETWORK}
 
 # safe node id for other nodes to connect to it
 echo ${NODEID} >> ${TARGET}/id.txt

@@ -1,9 +1,0 @@
-version: '3'
-services:
-  api:
-    image: "lambci/lambda:nodejs8.10"
-    volumes:
-      - ./:/var/task
-    entrypoint:
-      - sh
-      - /var/task/script.sh
