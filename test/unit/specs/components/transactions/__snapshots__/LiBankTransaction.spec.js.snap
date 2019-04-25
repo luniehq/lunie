@@ -109,7 +109,7 @@ exports[`LiBankTransaction should show incoming transactions 1`] = `
   </div>
    
   <span>
-    From 
+    From 
     <short-bech32-stub
       address="A"
     />

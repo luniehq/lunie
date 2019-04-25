@@ -52,7 +52,7 @@ export default {
 </script>
 <style>
 .short-bech32 {
-  align-items: flex-start;
+  align-items: baseline;
   display: flex;
   padding: 0;
   margin: 0;

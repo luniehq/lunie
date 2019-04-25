@@ -48,7 +48,7 @@
         <b>{{ coins.amount }}</b>
         <span>{{ coins.denom }}s</span>
       </div>
-      <span slot="details">From <short-bech32 :address="sender" /></span>
+      <span slot="details">From&nbsp;<short-bech32 :address="sender" /></span>
       <div slot="fees">
         Network Fee:&nbsp;
         <b>{{ convertedFees ? convertedFees.amount : full(0) }}</b>
