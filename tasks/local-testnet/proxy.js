@@ -31,14 +31,19 @@ proxy.on(`error`, function (err, req, res) {
 })
 
 const enableCors = function (req, res) {
-  function setAccessControlHeader(requestHeader, allowHeader) {
+  function setRequestedAccessControlHeader(requestHeader, allowHeader) {
     if (req.headers[requestHeader]) {
       res.setHeader(allowHeader, req.headers[requestHeader])
     }
   }
 
-  setAccessControlHeader(`access-control-request-headers`, `access-control-allow-headers`)
-  setAccessControlHeader(`access-control-allow-origin`, `access-control-request-headers`)
+  setRequestedAccessControlHeader(`access-control-request-headers`, `access-control-allow-headers`)
+  setRequestedAccessControlHeader(`access-control-allow-origin`, `access-control-request-headers`)
+
+  if (req.headers.origin) {
+    res.setHeader(`access-control-allow-origin`, req.headers.origin)
+    res.setHeader(`access-control-allow-credentials`, `true`)
+  }
 }
 
 // set header for CORS
