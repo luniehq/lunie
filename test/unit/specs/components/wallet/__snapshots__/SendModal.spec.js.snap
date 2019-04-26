@@ -77,6 +77,8 @@ exports[`SendModal should display send modal form 1`] = `
       placeholder="Add a description..."
       type="text"
     />
+     
+    <!---->
   </tm-form-group-stub>
 </action-modal-stub>
 `;
@@ -161,6 +163,8 @@ exports[`SendModal validation should show address required error 1`] = `
       placeholder="Add a description..."
       type="text"
     />
+     
+    <!---->
   </tm-form-group-stub>
 </action-modal-stub>
 `;
@@ -245,6 +249,8 @@ exports[`SendModal validation should show bech32 error when address length is to
       placeholder="Add a description..."
       type="text"
     />
+     
+    <!---->
   </tm-form-group-stub>
 </action-modal-stub>
 `;
@@ -329,6 +335,8 @@ exports[`SendModal validation should show bech32 error when address length is to
       placeholder="Add a description..."
       type="text"
     />
+     
+    <!---->
   </tm-form-group-stub>
 </action-modal-stub>
 `;
@@ -421,6 +429,8 @@ exports[`SendModal validation should show bech32 error when alphanumeric is wron
       placeholder="Add a description..."
       type="text"
     />
+     
+    <!---->
   </tm-form-group-stub>
 </action-modal-stub>
 `;
