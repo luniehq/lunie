@@ -248,7 +248,7 @@ export default {
         }
     },
     totalDeposit() {
-      return num.viewCoin(this.proposal.total_deposit[0])
+      return num.createCoinObject(this.proposal.total_deposit[0])
     }
   },
   async mounted({ proposals, proposalId, $store } = this) {

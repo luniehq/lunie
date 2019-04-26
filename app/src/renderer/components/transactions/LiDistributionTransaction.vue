@@ -59,7 +59,7 @@
 
 <script>
 import LiTransaction from "./LiTransaction"
-import num, { pretty, atoms, full } from "../../scripts/num.js"
+import num, { pretty, atoms } from "../../scripts/num.js"
 
 export default {
   name: `li-distribution-transaction`,
@@ -100,13 +100,12 @@ export default {
   },
   data: () => ({
     atoms,
-    full,
     pretty,
     num
   }),
   computed: {
     convertedFees() {
-      return this.fees ? num.viewCoin(this.fees) : undefined
+      return this.fees ? num.createCoinObject(this.fees) : undefined
     }
   },
   methods: {

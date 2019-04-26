@@ -3,7 +3,7 @@
     <template v-if="txType === `cosmos-sdk/MsgCreateValidator`">
       <div slot="caption">
         Create validator
-        <b>{{ shortNumber(value.amount) }}</b>
+        <b>{{ setDecimalLength(value.amount) }}</b>
         <span>{{ value && value.denom }}</span>
       </div>
       <div slot="details">
@@ -43,7 +43,7 @@
     <template v-else-if="txType === `cosmos-sdk/MsgDelegate`">
       <div slot="caption">
         Delegated
-        <b>{{ shortNumber(atoms(tx.amount.amount)) }}</b>
+        <b>{{ setDecimalLength(atoms(tx.amount.amount)) }}</b>
         <span>{{ num.viewDenom(tx.amount.denom) }}</span>
       </div>
       <div slot="details">
@@ -65,7 +65,7 @@
       <div slot="caption">
         Undelegated
         <b>
-          {{ shortNumber(atoms(tx.amount.amount)) }}
+          {{ setDecimalLength(atoms(tx.amount.amount)) }}
         </b>
         <span>{{ num.viewDenom(bondingDenom) }}</span>
         <template v-if="timeDiff">
@@ -93,7 +93,7 @@
       <div slot="caption">
         Redelegated
         <b>
-          {{ shortNumber(atoms(tx.amount.amount)) }}
+          {{ setDecimalLength(atoms(tx.amount.amount)) }}
         </b>
         <span>{{ num.viewDenom(bondingDenom) }}</span>
       </div>
@@ -140,7 +140,7 @@
 
 <script>
 import LiTransaction from "./LiTransaction"
-import num, { atoms, full, shortNumber } from "../../scripts/num.js"
+import num, { atoms, setDecimalLength } from "../../scripts/num.js"
 import moment from "moment"
 
 /*
@@ -190,9 +190,8 @@ export default {
   },
   data: () => ({
     atoms,
-    full,
     num,
-    shortNumber
+    setDecimalLength
   }),
   computed: {
     timeDiff() {
@@ -209,10 +208,10 @@ export default {
       return `locked`
     },
     value() {
-      return this.tx.value ? num.viewCoin(this.tx.value) : {}
+      return this.tx.value ? num.createCoinObject(this.tx.value) : {}
     },
     convertedFees() {
-      return this.fees ? num.viewCoin(this.fees) : undefined
+      return this.fees ? num.createCoinObject(this.fees) : undefined
     }
   },
   methods: {

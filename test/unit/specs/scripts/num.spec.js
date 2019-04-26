@@ -2,11 +2,11 @@ import num from "renderer/scripts/num"
 
 describe(`number helper`, () => {
   it(`should format numbers showing many decimals`, () => {
-    expect(num.full(1001950.123456)).toBe(`1,001,950.123456`)
+    expect(num.setDecimalLength(1001950.123456, 6)).toBe(`1,001,950.123456`)
   })
 
   it(`should format numbers showing many decimals`, () => {
-    expect(num.shortNumber(1.123456789)).toBe(`1.123`)
+    expect(num.setDecimalLength(1.123456789)).toBe(`1.123`)
   })
 
   it(`should format numbers showing few decimals`, () => {
@@ -38,17 +38,17 @@ describe(`number helper`, () => {
   })
 
   it(`should convert SDK coins to view coins with 6 decimal points`, () => {
-    expect(num.viewCoin({
+    expect(num.createCoinObject({
       denom: `uatom`,
       amount: 1000000
-    })).toEqual({
+    }, 6)).toEqual({
       denom: `ATOM`,
       amount: `1.000000`
     })
   })
 
   it(`should convert SDK coins to view coins with 3 decimal points`, () => {
-    expect(num.viewCoinShort({
+    expect(num.createCoinObject({
       denom: `uatom`,
       amount: 1000000
     })).toEqual({

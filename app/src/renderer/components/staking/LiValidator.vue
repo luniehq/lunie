@@ -37,13 +37,15 @@
     <td class="li-validator__delegated-steak">
       {{
         validator.my_delegations
-          ? num.shortNumber(num.atoms(validator.my_delegations))
+          ? num.setDecimalLength(num.atoms(validator.my_delegations))
           : `--`
       }}
     </td>
     <td class="li-validator__rewards">
       {{
-        validator.rewards ? num.shortNumber(num.atoms(validator.rewards)) : `--`
+        validator.rewards
+          ? num.setDecimalLength(num.atoms(validator.rewards))
+          : `--`
       }}
     </td>
     <td class="li-validator__voting-power">

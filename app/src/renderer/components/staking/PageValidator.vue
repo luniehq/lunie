@@ -182,7 +182,7 @@
 import moment from "moment"
 import { calculateTokens } from "scripts/common"
 import { mapGetters } from "vuex"
-import num, { percent, pretty, atoms, full } from "scripts/num"
+import num, { percent, pretty, atoms, setDecimalLength } from "scripts/num"
 import TmBtn from "common/TmBtn"
 import { shortAddress, ratToBigNumber } from "scripts/common"
 import DelegationModal from "staking/DelegationModal"
@@ -205,7 +205,8 @@ export default {
     showCannotModal: false,
     shortAddress,
     tabIndex: 1,
-    moment
+    moment,
+    setDecimalLength
   }),
   computed: {
     ...mapGetters([
@@ -256,7 +257,7 @@ export default {
     },
     myDelegation() {
       const { bondDenom, myBond } = this
-      const myDelegation = full(myBond)
+      const myDelegation = this.setDecimalLength(myBond, 6)
       const myDelegationString = `${myDelegation} ${num.viewDenom(bondDenom)}`
       return Number(myBond) === 0 ? `--` : myDelegationString
     },
@@ -309,7 +310,7 @@ export default {
 
       const validatorRewards = distribution.rewards[validator.operator_address]
       const amount = validatorRewards
-        ? full(atoms(validatorRewards[bondDenom])) || 0
+        ? this.setDecimalLength(atoms(validatorRewards[bondDenom]), 6) || 0
         : null
 
       if (amount) {

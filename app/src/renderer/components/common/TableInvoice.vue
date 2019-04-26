@@ -3,21 +3,26 @@
     <ul class="table-invoice">
       <li>
         <span>Subtotal</span>
-        <span>{{ full(subTotal) }} {{ viewDenom(bondDenom) }}</span>
+        <span>
+          {{ setDecimalLength(subTotal, 6) }} {{ viewDenom(bondDenom) }}
+        </span>
       </li>
       <li>
         <span>Network Fee</span>
-        <span>{{ full(estimatedFee) }} {{ viewDenom(bondDenom) }}</span>
+        <span>
+          {{ setDecimalLength(estimatedFee, 6) }}
+          {{ viewDenom(bondDenom) }}
+        </span>
       </li>
       <li class="total-row">
         <span>Total</span>
-        <span>{{ full(total) }} {{ viewDenom(bondDenom) }}</span>
+        <span>{{ setDecimalLength(total, 6) }} {{ viewDenom(bondDenom) }}</span>
       </li>
     </ul>
   </div>
 </template>
 <script>
-import { full, viewDenom } from "../../scripts/num.js"
+import { setDecimalLength, viewDenom } from "../../scripts/num.js"
 import { mapGetters } from "vuex"
 
 export default {
@@ -37,7 +42,7 @@ export default {
     }
   },
   data: () => ({
-    full,
+    setDecimalLength,
     viewDenom,
     info: `Estimated network fees based on simulation.`
   }),

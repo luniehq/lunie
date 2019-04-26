@@ -52,7 +52,7 @@ export default {
   computed: {
     ...mapGetters([`lastHeader`]),
     viewCoin() {
-      return num.viewCoin(this.coin)
+      return num.createCoinObject(this.coin, 6)
     },
     amount() {
       return this.viewCoin.amount

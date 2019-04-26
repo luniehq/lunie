@@ -2,7 +2,7 @@
   <li-transaction :color="`#ED553B`" :time="time" :block="block">
     <template v-if="address === ''">
       <div slot="caption">
-        Sent<b>{{ coins.amount }}</b>
+        Sent<b>{{ setDecimalLength(coins.amount) }}</b>
         <span>{{ viewDenom(coins.denom) }}</span>
       </div>
       <span slot="details">
@@ -25,7 +25,7 @@
     <template v-else-if="sent">
       <div slot="caption">
         Sent
-        <b>{{ coins.amount }}</b>
+        <b>{{ setDecimalLength(coins.amount) }}</b>
         <span>{{ viewDenom(coins.denom) }}</span>
       </div>
       <span slot="details">
@@ -50,7 +50,7 @@
     <template v-else>
       <div slot="caption">
         Received
-        <b>{{ coins.amount }}</b>
+        <b>{{ setDecimalLength(coins.amount) }}</b>
         <span>{{ viewDenom(coins.denom) }}</span>
       </div>
       <span slot="details">From <short-bech32 :address="sender" /></span>
@@ -71,7 +71,7 @@
 <script>
 import ShortBech32 from "common/ShortBech32"
 import LiTransaction from "./LiTransaction"
-import num, { atoms, full, viewDenom, shortNumber } from "../../scripts/num.js"
+import num, { atoms, viewDenom, setDecimalLength } from "../../scripts/num.js"
 
 export default {
   name: `li-bank-transaction`,
@@ -107,9 +107,8 @@ export default {
   },
   data: () => ({
     atoms,
-    full,
     viewDenom,
-    shortNumber
+    setDecimalLength
   }),
   computed: {
     // TODO: sum relevant inputs/outputs
@@ -123,10 +122,10 @@ export default {
       return this.tx.from_address
     },
     coins() {
-      return this.tx.amount.map(num.viewCoinShort)[0]
+      return this.tx.amount.map(num.createCoinObject)[0]
     },
     convertedFees() {
-      return this.fees ? num.viewCoin(this.fees) : undefined
+      return this.fees ? num.createCoinObject(this.fees) : undefined
     },
     receiver() {
       return this.tx.to_address

@@ -110,13 +110,13 @@ export default {
   }),
   computed: {
     initialDeposit() {
-      return num.viewCoin(this.tx.initial_deposit[0])
+      return num.createCoinObject(this.tx.initial_deposit[0])
     },
     deposit() {
-      return num.viewCoin(this.tx.amount[0])
+      return num.createCoinObject(this.tx.amount[0])
     },
     convertedFees() {
-      return this.fees ? num.viewCoin(this.fees) : undefined
+      return this.fees ? num.createCoinObject(this.fees) : undefined
     }
   }
 }
