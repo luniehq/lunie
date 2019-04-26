@@ -132,29 +132,6 @@ jobs:
             - app/dist
             - app/dist_testnet
 
-  # Build Gaia from the SDK source code specified by tasks/build/Gaia/VERSION
-  buildGaia:
-    executor: go
-    steps:
-      - checkout
-      - restore_cache:
-          key: v8-gaia-{{ checksum "tasks/build/Gaia/VERSION" }}
-      - run: |
-          if [ ! -d /tmp/gaia ]; then
-            cd tasks/build/Gaia
-            TAG=`cat ./VERSION` TARGET=/tmp/gaia PLATFORM=linux ./build.sh
-          fi
-      - save_cache:
-          key: v8-gaia-{{ checksum "tasks/build/Gaia/VERSION" }}
-          paths:
-            - *GAIA
-      - persist_to_workspace:
-          root: *GAIA
-          paths:
-            - "*"
-      - store_artifacts:
-          path: builds/Gaia/linux_amd64/*
-
   pendingUpdated:
     executor: node
     steps:
@@ -211,9 +188,6 @@ jobs:
 
   testE2e:
     executor: web
-    environment:
-      - BINARY_PATH: "/tmp/voyager/linux_amd64/gaiacli"
-      - NODE_BINARY_PATH: "/tmp/voyager/linux_amd64/gaiad"
     steps:
       - checkout
       - attach_workspace:
@@ -222,10 +196,10 @@ jobs:
       - run:
           name: Build for E2E test
           command: 
-            STARGATE=https://localhost:8080 RPC=https://localhost:26657 CIRCLECI=true yarn build:ui
+            STARGATE=https://localhost:9071 RPC=http://localhost:26657 CIRCLECI=true yarn build:ui
       - run:
           name: Test
-          command: yarn serve & yarn run test:e2e
+          command: yarn serve & yarn proxy & yarn testnet & yarn run test:e2e
           no_output_timeout: 120
       - store_artifacts:
           path: testArtifacts
@@ -325,10 +299,6 @@ workflows:
             - security
             - lint
 
-      - buildGaia:
-          filters:
-            branches:
-              ignore: release
       - deploy2s3:
           requires:
             - testUnit
@@ -349,7 +319,6 @@ workflows:
 
       - testE2e:
           requires:
-            - buildGaia
             - build
           filters:
             branches:
