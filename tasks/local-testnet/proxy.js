@@ -54,8 +54,8 @@ const fs = require(`fs`),
   { join } = require(`path`),
   https = require(`https`)
 
-const privateKey = fs.readFileSync(join(__dirname, `certs/server_dev.key`)).toString()
-const certificate = fs.readFileSync(join(__dirname, `certs/server_dev.crt`)).toString()
+const privateKey = fs.readFileSync(join(__dirname, `../../certs/dev.key`)).toString()
+const certificate = fs.readFileSync(join(__dirname, `../../certs/dev.crt`)).toString()
 
 const server = https.createServer({
   key: privateKey,
