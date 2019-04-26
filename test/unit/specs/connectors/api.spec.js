@@ -693,7 +693,8 @@ describe(`API`, () => {
           coins: [{ x: 1 }],
           sequence: `1`,
           account_number: `213`,
-          vestingProp: `Y`
+          vestingProp: `Y`,
+          vested: true
         })
       })
 

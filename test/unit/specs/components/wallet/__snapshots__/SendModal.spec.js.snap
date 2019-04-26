@@ -52,6 +52,8 @@ exports[`SendModal should display send modal form 1`] = `
       type="number"
     />
      
+    <!---->
+     
     <tm-form-msg-stub
       msg="doesn't have any s"
       name="Wallet"
@@ -121,6 +123,8 @@ exports[`SendModal validation should show address required error 1`] = `
     />
      
     <!---->
+     
+    <!---->
   </tm-form-group-stub>
 </action-modal-stub>
 `;
@@ -185,6 +189,8 @@ exports[`SendModal validation should show bech32 error when address length is to
     />
      
     <!---->
+     
+    <!---->
   </tm-form-group-stub>
 </action-modal-stub>
 `;
@@ -247,6 +253,8 @@ exports[`SendModal validation should show bech32 error when address length is to
       type="number"
       value="2"
     />
+     
+    <!---->
      
     <!---->
   </tm-form-group-stub>
@@ -315,6 +323,8 @@ exports[`SendModal validation should show bech32 error when alphanumeric is wron
       placeholder="Amount"
       type="number"
     />
+     
+    <!---->
      
     <tm-form-msg-stub
       msg="doesn't have any s"

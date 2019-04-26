@@ -53,7 +53,9 @@ const Client = (axios, remoteLcdURL) => {
               return emptyAccount
             }
             account = Object.assign(
-              {},
+              {
+                vested: true
+              },
               account.BaseVestingAccount.BaseAccount,
               account.BaseVestingAccount
             )

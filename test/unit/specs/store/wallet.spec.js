@@ -73,6 +73,12 @@ describe(`Module: Wallet`, () => {
       mutations.setAccountNumber(state, `0`)
       expect(state.accountNumber).toBe(`0`)
     })
+
+    it(`should set vested account`, () => {
+      const { state, mutations } = instance
+      mutations.setVestedAccount(state)
+      expect(state.vestedAccount).toBe(true)
+    })
   })
 
   describe(`actions`, () => {
@@ -267,6 +273,30 @@ describe(`Module: Wallet`, () => {
         commit
       })
       expect(state.error.message).toBe(`Error`)
+    })
+
+    it(`should set vesting account`, async () => {
+      const node = {
+        getAccount: jest.fn(() =>
+          Promise.resolve({
+            coins: [],
+            sequence: `1`,
+            account_number: `2`,
+            vested: true
+          })
+        )
+      }
+      const { state, actions } = walletModule({
+        node
+      })
+      const commit = jest.fn()
+      state.address = `x`
+      await actions.queryWalletBalances({
+        state,
+        rootState: mockRootState,
+        commit
+      })
+      expect(commit).toHaveBeenCalledWith(`setVestedAccount`)
     })
 
     it(`should simulate a transfer transaction`, async () => {

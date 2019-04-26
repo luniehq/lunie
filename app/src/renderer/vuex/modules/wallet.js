@@ -12,7 +12,8 @@ export default ({ node }) => {
     accountNumber: null,
     address: null,
     subscribedRPC: null,
-    externals: { config }
+    externals: { config },
+    vestedAccount: false
   }
   const state = JSON.parse(JSON.stringify(emptyState))
   state.externals.axios = axios
@@ -37,6 +38,9 @@ export default ({ node }) => {
     },
     setAccountNumber(state, accountNumber) {
       state.accountNumber = accountNumber
+    },
+    setVestedAccount(state) {
+      state.vestedAccount = true
     }
   }
 
@@ -72,10 +76,13 @@ export default ({ node }) => {
       try {
         const res = await node.getAccount(state.address)
         state.error = null
-        const { coins, sequence, account_number } = res || {}
+        const { coins, sequence, account_number, vested } = res || {}
         commit(`setNonce`, sequence)
         commit(`setAccountNumber`, account_number)
         commit(`setWalletBalances`, coins || [])
+        if (vested) {
+          commit(`setVestedAccount`)
+        }
         state.loading = false
         state.loaded = true
       } catch (error) {

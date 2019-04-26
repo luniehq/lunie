@@ -22,5 +22,6 @@ Object {
   "loaded": false,
   "loading": true,
   "subscribedRPC": null,
+  "vestedAccount": false,
 }
 `;

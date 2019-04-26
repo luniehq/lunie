@@ -67,6 +67,12 @@
         type="number"
       />
       <tm-form-msg
+        v-if="wallet.vestedAccount"
+        :msg="vestedWarning"
+        name="Account"
+        type="custom"
+      />
+      <tm-form-msg
         v-if="balance === 0"
         :msg="`doesn't have any ${num.viewDenom(denom)}s`"
         name="Wallet"
@@ -115,7 +121,8 @@ export default {
     address: ``,
     amount: null,
     denom: ``,
-    num
+    num,
+    vestedWarning: `has vested coins. You will not be able to send those until the vesting period is over.`
   }),
   computed: {
     ...mapGetters([`wallet`]),
