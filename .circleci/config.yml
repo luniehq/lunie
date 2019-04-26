@@ -187,7 +187,7 @@ jobs:
             exit 0
 
   testE2e:
-    executor: node
+    executor: web
     steps:
       - checkout
       - attach_workspace:
@@ -199,7 +199,7 @@ jobs:
             STARGATE=http://localhost:9070 RPC=http://localhost:26657 CIRCLECI=true yarn build:ui
       - run:
           name: Test
-          command: yarn serve & yarn testnet & yarn run test:e2e
+          command: yarn serve & yarn run test:e2e
           no_output_timeout: 120
       - store_artifacts:
           path: testArtifacts
