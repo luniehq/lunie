@@ -2,7 +2,6 @@
 
 AMOUNTS=10000000stake
 AMOUNTP=5000000photino
-# AMOUNTC=123123cococoin
 
 REQUEST_FOLDER=/mnt/node/addresses
 
@@ -41,6 +40,8 @@ SEQUENCE=1
 echo "Funding rich account ${RICH_ADDRESS}"
 echo ${PASSWORD} | gaiacli tx send ${RICH_ADDRESS} 1000000000stake --from ${ACCOUNT} --chain-id ${NETWORK} --yes --home ${HOME} --node ${NODE} --sequence $SEQUENCE
 SEQUENCE=$((SEQUENCE+1))
+# echo ${PASSWORD} | gaiacli tx send ${RICH_ADDRESS} ${AMOUNTP} --from ${ACCOUNT} --chain-id ${NETWORK} --yes --home ${HOME} --node ${NODE} --sequence $SEQUENCE
+# SEQUENCE=$((SEQUENCE+1))
 
 while true; do
     # Is anyone asking for money
@@ -63,10 +64,9 @@ while true; do
                     continue
                 fi
                 SEQUENCE=$((SEQUENCE+1))
-                #sleep 5s # TODO: should be smarter, check if block was created or not
-                #echo "photino $AMOUNTP at $DESTINATION"
-                #echo ${PASSWORD} | gaiacli tx send ${DESTINATION} ${AMOUNTP} --home ${HOME} --from ${ADDRESS} --chain-id=${NETWORK} --yes
-                # echo ${PASSWORD} | gaiacli tx send ${DESTINATION} ${AMOUNTC} --home ${HOME} --from ${ADDRESS} --chain-id=${NETWORK}
+                # echo "photino $AMOUNTP at $DESTINATION"
+                # echo ${PASSWORD} | gaiacli tx send ${DESTINATION} ${AMOUNTP} --home ${HOME} --from ${ADDRESS} --chain-id=${NETWORK} --yes --node ${NODE} --sequence $SEQUENCE
+                # SEQUENCE=$((SEQUENCE+1))
                 echo "$dt - $DESTINATION funded, enjoy!"
             fi
 
