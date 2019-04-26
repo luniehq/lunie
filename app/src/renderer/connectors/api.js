@@ -1,16 +1,11 @@
-"use strict"
+import _axios from "axios"
 
-async function request(axios, url, method, path, data) {
-  const result = await axios({ data, method, url: url + path })
-  return result.data
-}
-
-const Client = (axios, remoteLcdURL) => {
+const Client = (remoteLcdURL, axios = _axios) => {
   // returns an async function which makes a request for the given
   // HTTP method (GET/POST/DELETE/etc) and path (/foo/bar)
   function req(method, path) {
     return async function (data) {
-      return await request(axios, remoteLcdURL, method, path, data)
+      return (await axios({ data, method, url: remoteLcdURL + path })).data
     }
   }
 
@@ -18,8 +13,8 @@ const Client = (axios, remoteLcdURL) => {
   // HTTP method and path, which accepts arguments to be appended
   // to the path (/foo/{arg}/...)
   function argReq(method, prefix, suffix = ``) {
-    return function (args, data) {
-      return request(axios, remoteLcdURL, method, `${prefix}/${args}${suffix}`, data)
+    return async function (args, data) {
+      return (await axios({ data, method, url: `${remoteLcdURL}${prefix}/${args}${suffix}` })).data
     }
   }
 
@@ -97,10 +92,6 @@ const Client = (axios, remoteLcdURL) => {
     getDelegatorValidators: function (delegatorAddr) {
       return req(`GET`, `/staking/delegators/${delegatorAddr}/validators`)()
     },
-    // // Query a validator info that a delegator is bonded to
-    // getDelegatorValidator: function(delegatorAddr, validatorAddr) {
-    //   return req("GET", `/staking/delegators/${delegatorAddr}/validators/${validatorAddr}`)()
-    // },
 
     // Get a list containing all the validator candidates
     getValidators: req(`GET`, `/staking/validators`),
@@ -108,10 +99,6 @@ const Client = (axios, remoteLcdURL) => {
     getValidator: function (addr) {
       return req(`GET`, `/staking/validators/${addr}`)()
     },
-    // // Get all of the validator bonded delegators
-    // getValidatorDelegators: function(addr) {
-    //   return req("GET", `/staking/validator/${addr}/delegators`)()
-    // },
 
     // Get the list of the validators in the latest validator set
     getValidatorSet: req(`GET`, `/validatorsets/latest`),

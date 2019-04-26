@@ -199,7 +199,7 @@ describe(`App Start`, () => {
         stargate: `http://stargateurl.com`
       })
 
-      expect(Node).toHaveBeenCalledWith(expect.objectContaining({}), `http://stargateurl.com`)
+      expect(Node).toHaveBeenCalledWith(`http://stargateurl.com`)
     })
   })
 })

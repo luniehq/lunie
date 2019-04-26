@@ -20,7 +20,7 @@ describe(`API`, () => {
 
     beforeEach(() => {
       axios = jest.fn(() => new Promise())
-      client = api(axios, `http://remotehost`)
+      client = api(`http://remotehost`, axios)
     })
 
     describe(`helper functions`, () => {
