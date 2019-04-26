@@ -7,7 +7,7 @@ describe(`LiStakeTransaction`, () => {
   let wrapper
   const validators = state.candidates
   const propsData = {
-    transaction: stakingTxs[0],
+    tx: stakingTxs[0].tx.value.msg[0].value,
     txType: `cosmos-sdk/MsgCreateValidator`,
     validators,
     url: `/validator`,
@@ -15,7 +15,9 @@ describe(`LiStakeTransaction`, () => {
     fees: {
       amount: `3421`,
       denom: `uatom`
-    }
+    },
+    time: new Date(Date.now()).toISOString(),
+    block: 500
   }
 
   beforeEach(() => {
@@ -40,7 +42,7 @@ describe(`LiStakeTransaction`, () => {
 
     beforeEach(() => {
       wrapper.setProps({
-        transaction: stakingTxs[1],
+        tx: stakingTxs[1].tx.value.msg[0].value,
         txType: `cosmos-sdk/MsgEditValidator`,
         fees: {
           amount: `3421`,
@@ -64,7 +66,7 @@ describe(`LiStakeTransaction`, () => {
   describe(`delegations`, () => {
     beforeEach(() => {
       wrapper.setProps({
-        transaction: stakingTxs[2],
+        tx: stakingTxs[2].tx.value.msg[0].value,
         txType: `cosmos-sdk/MsgDelegate`,
         fees: {
           amount: `3421`,
@@ -101,7 +103,7 @@ describe(`LiStakeTransaction`, () => {
   describe(`unbonding delegations`, () => {
     beforeEach(() => {
       wrapper.setProps({
-        transaction: stakingTxs[3],
+        tx: stakingTxs[3].tx.value.msg[0].value,
         txType: `cosmos-sdk/MsgUndelegate`,
         fees: {
           amount: `3421`,
@@ -141,7 +143,7 @@ describe(`LiStakeTransaction`, () => {
 
     beforeEach(() => {
       wrapper.setProps({
-        transaction: stakingTxs[4],
+        tx: stakingTxs[4].tx.value.msg[0].value,
         txType: `cosmos-sdk/MsgBeginRedelegate`,
         fees: {
           amount: `3421`,
@@ -167,7 +169,7 @@ describe(`LiStakeTransaction`, () => {
   describe(`unjail`, () => {
     beforeEach(() => {
       wrapper.setProps({
-        transaction: stakingTxs[5],
+        tx: stakingTxs[5].tx.value.msg[0].value,
         txType: `cosmos-sdk/MsgUnjail`,
         fees: {
           amount: `3421`,

@@ -4,6 +4,7 @@ exports[`UndelegationModal should display undelegation modal form 1`] = `
 <action-modal-stub
   class="undelegation-modal"
   id="undelegation-modal"
+  simulatefn="function () { [native code] }"
   submissionerrorprefix="Undelegating failed"
   submitfn="function () { [native code] }"
   title="Undelegate"
@@ -39,11 +40,13 @@ exports[`UndelegationModal should display undelegation modal form 1`] = `
       type="number"
     />
      
-    <p>
+    <span
+      class="form-message"
+    >
       
-      STAKEs delegated: 1000000000
+      Currently Delegated: 1000000000 STAKEs
     
-    </p>
+    </span>
      
     <!---->
   </tm-form-group-stub>

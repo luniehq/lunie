@@ -1,7 +1,7 @@
 "use strict"
 
 const test = require(`tape-promise/tape`)
-const fs = require(`fs-extra`)
+const fs = require(`fs`)
 const { join } = require(`path`)
 const { getApp, startApp, stop } = require(`./launch.js`)
 

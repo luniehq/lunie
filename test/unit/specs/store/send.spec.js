@@ -23,7 +23,11 @@ jest.mock(`renderer/scripts/wallet.js`, () => ({
 }))
 
 const mockRootState = {
-  session: { account: `default` },
+  session: {
+    account: `default`,
+    gasPrice: 2.5e-8,
+    gasAdjustment: 1.5
+  },
   wallet: {
     accountNumber: `12`,
     address: `cosmos1demo`
@@ -64,13 +68,13 @@ describe(`Module: Send`, () => {
     }
   }
 
+  const gas = String(Math.floor(1234567 * 1.5))
   const gas_prices = [
     {
       amount: `0.025`, // recommended on Cosmos Docs
       denom: `uatom` //TODO: this shouldn't be hardcoded
     }
   ]
-  const gas_adjustment = `1.5`
 
   beforeEach(() => {
     node = {
@@ -84,7 +88,7 @@ describe(`Module: Send`, () => {
         }
       }),
       postTx: jest.fn(() => Promise.resolve({
-        height: 1,
+        height: `1`,
         txhash: `h`
       })
       )
@@ -118,6 +122,46 @@ describe(`Module: Send`, () => {
       expect(state.nonce).toBe(`0`)
     })
 
+    describe(`simulate transactions`, () => {
+      describe(`succeeds`, () => {
+        it(`if node is connected`, async () => {
+          const self = {
+            state,
+            dispatch: jest.fn(),
+            rootState: mockRootState
+          }
+          const args = {
+            type: `send`,
+            amount: [{ denom: `uatom`, amount: 123 }]
+          }
+          const estimate = await actions.simulateTx(self, args)
+          expect(estimate).toBe(123123)
+        })
+      })
+
+      describe(`fails`, () => {
+        it(`when there's no connection`, async () => {
+          const self = {
+            state,
+            dispatch: jest.fn(),
+            rootState: JSON.parse(JSON.stringify(mockRootState))
+          }
+          const args = {
+            type: `send`,
+            amount: [{ denom: `uatom`, amount: 123 }]
+          }
+          self.rootState.connection.connected = false
+          try {
+            await actions.simulateTx(self, args)
+          } catch ({ message }) {
+            expect(message).toBe(
+              `Currently not connected to a secure node. Please try again when Voyager has secured a connection.`
+            )
+          }
+        })
+      })
+    })
+
     describe(`send transactions`, () => {
       describe(`succeeds`, () => {
         describe(`signing with local keystore`, () => {
@@ -126,6 +170,8 @@ describe(`Module: Send`, () => {
               type: `send`,
               password: `1234567890`,
               amount: [{ denom: `uatom`, amount: 123 }],
+              gas: `1234567`,
+              gas_prices,
               submitType: `local`
             }
             await actions.sendTx(
@@ -137,7 +183,6 @@ describe(`Module: Send`, () => {
               },
               args
             )
-            expect(node.send).toBeCalledTimes(2)
             expect(node.send).toHaveBeenCalledWith({
               amount: [{ amount: 123, denom: `uatom` }],
               password: `1234567890`,
@@ -145,10 +190,9 @@ describe(`Module: Send`, () => {
                 account_number: `12`,
                 chain_id: `mock-chain`,
                 from: `cosmos1demo`,
-                gas: `123123`,
+                gas,
                 sequence: `0`,
-                memo: `Sent via Cosmos Wallet 🚀`,
-                gas_adjustment,
+                memo: `Sent via Lunie`,
                 gas_prices,
                 simulate: false
               }
@@ -163,6 +207,8 @@ describe(`Module: Send`, () => {
               type: `send`,
               to: `mock_address`,
               password: `1234567890`,
+              gas: `1234567`,
+              gas_prices,
               amount: [{ denom: `uatom`, amount: 123 }],
               submitType: `local`
             }
@@ -175,7 +221,7 @@ describe(`Module: Send`, () => {
               },
               args
             )
-            expect(node.send).toBeCalledTimes(2)
+
             expect(node.send).toHaveBeenCalledWith(`mock_address`,
               {
                 amount: [{ amount: 123, denom: `uatom` }],
@@ -184,10 +230,9 @@ describe(`Module: Send`, () => {
                   account_number: `12`,
                   chain_id: `mock-chain`,
                   from: `cosmos1demo`,
-                  gas: `123123`,
+                  gas,
                   sequence: `0`,
-                  memo: `Sent via Cosmos Wallet 🚀`,
-                  gas_adjustment,
+                  memo: `Sent via Lunie`,
                   gas_prices,
                   simulate: false
                 }
@@ -203,6 +248,8 @@ describe(`Module: Send`, () => {
               to: `mock_address`,
               pathParameter: `cosmosvaloper1address`,
               password: `1234567890`,
+              gas: `1234567`,
+              gas_prices,
               amount: [{ denom: `uatom`, amount: 123 }],
               submitType: `local`
             }
@@ -215,7 +262,7 @@ describe(`Module: Send`, () => {
               },
               args
             )
-            expect(node.send).toBeCalledTimes(2)
+
             expect(node.send).toHaveBeenCalledWith(`mock_address`, `cosmosvaloper1address`, {
               amount: [{ amount: 123, denom: `uatom` }],
               password: `1234567890`,
@@ -223,10 +270,9 @@ describe(`Module: Send`, () => {
                 account_number: `12`,
                 chain_id: `mock-chain`,
                 from: `cosmos1demo`,
-                gas: `123123`,
+                gas,
                 sequence: `0`,
-                memo: `Sent via Cosmos Wallet 🚀`,
-                gas_adjustment,
+                memo: `Sent via Lunie`,
                 gas_prices,
                 simulate: false
               }
@@ -243,7 +289,9 @@ describe(`Module: Send`, () => {
               type: `send`,
               password: `1234567890`,
               amount: [{ denom: `uatom`, amount: 123 }],
-              submitType: `ledger`
+              submitType: `ledger`,
+              gas: `1234567`,
+              gas_prices: [{ denom: `uatom`, amount: `0.025` }]
             }
             state.externals = {
               createSignMessage: jest.fn(),
@@ -263,7 +311,7 @@ describe(`Module: Send`, () => {
               },
               args
             )
-            expect(node.send).toBeCalledTimes(2)
+
             expect(node.send).toHaveBeenCalledWith({
               amount: [{ amount: 123, denom: `uatom` }],
               password: `1234567890`,
@@ -271,11 +319,10 @@ describe(`Module: Send`, () => {
                 account_number: `12`,
                 chain_id: `mock-chain`,
                 from: `cosmos1demo`,
-                gas: `123123`,
+                gas,
                 sequence: `0`,
-                memo: `Sent via Cosmos Wallet 🚀`,
+                memo: `Sent via Lunie`,
                 gas_prices,
-                gas_adjustment,
                 simulate: false
               }
             })
@@ -322,6 +369,7 @@ describe(`Module: Send`, () => {
           node.postTx = () => Promise.reject(errMsgNoObject.response.data)
           const args = {
             to: `mock_address`,
+            type: `send`,
             amount: [{ denom: `uatom`, amount: 123 }]
           }
           await expect(
@@ -340,6 +388,7 @@ describe(`Module: Send`, () => {
         it(`if the data is an object and has a 'message' property`, async () => {
           node.postTx = () => Promise.reject(errObject.response.data)
           const args = {
+            type: `send`,
             to: `mock_address`,
             password: `1234567890`,
             amount: [{ denom: `uatom`, amount: 123 }]
@@ -359,6 +408,7 @@ describe(`Module: Send`, () => {
 
         it(`should signal check tx failure`, async () => {
           const args = {
+            type: `send`,
             to: `mock_address`,
             password: `1234567890`,
             amount: [{ denom: `uatom`, amount: 123 }]
@@ -382,6 +432,7 @@ describe(`Module: Send`, () => {
 
         it(`should signal deliver tx failure`, async () => {
           const args = {
+            type: `send`,
             to: `mock_address`,
             password: `1234567890`,
             amount: [{ denom: `uatom`, amount: 123 }]
@@ -405,6 +456,7 @@ describe(`Module: Send`, () => {
 
         it(`should handle tx failure in multiple tx result`, async () => {
           const args = {
+            type: `send`,
             to: `mock_address`,
             password: `1234567890`,
             amount: [{ denom: `uatom`, amount: 123 }]
@@ -471,6 +523,7 @@ describe(`Module: Send`, () => {
 
       it(`should interpret a returned empty array as failed delivery`, async () => {
         const args = {
+          type: `send`,
           to: `mock_address`,
           password: `1234567890`,
           amount: [{ denom: `uatom`, amount: 123 }]
@@ -489,11 +542,106 @@ describe(`Module: Send`, () => {
         ).rejects.toEqual(new Error(`Error sending transaction`))
       })
 
+      it(`should handle txs not being integrated into a block right away`, async () => {
+        const args = {
+          type: `send`,
+          to: `mock_address`,
+          password: `1234567890`,
+          amount: [{ denom: `uatom`, amount: 123 }]
+        }
+        node.postTx = async () => ({
+          height: `0`,
+          txhash: `acbdefghi`
+        })
+        actions.signTx = () => ``
+        const dispatch = jest.fn()
+        await actions.sendTx(
+          {
+            state,
+            dispatch,
+            commit: jest.fn(),
+            rootState: mockRootState
+          },
+          args
+        )
+
+        expect(dispatch).toHaveBeenCalledWith(`queryTxInclusion`, `acbdefghi`)
+      })
+
+      it(`should handle failed checkTx on sync tx posting`, async () => {
+        const args = {
+          type: `send`,
+          to: `mock_address`,
+          password: `1234567890`,
+          amount: [{ denom: `uatom`, amount: 123 }]
+        }
+        node.postTx = async () => ({
+          code: `4`,
+          height: `0`,
+          txhash: `acbdefghi`
+        })
+        actions.signTx = () => ``
+        const dispatch = jest.fn()
+        await expect(actions.sendTx(
+          {
+            state,
+            dispatch,
+            commit: jest.fn(),
+            rootState: mockRootState
+          },
+          args
+        )).rejects.toEqual(new Error(`Error sending: unauthorized`))
+      })
+
+      it(`should poll txs block inclusion`, async () => {
+        jest.useRealTimers()
+
+        const node = {
+          tx: jest.fn()
+            .mockImplementationOnce(() => Promise.reject(new Error(`404`)))
+            .mockImplementationOnce(() => Promise.resolve({}))
+        }
+        await actions.queryTxInclusion(
+          {
+            state: {
+              txQueryIterations: 10,
+              txQueryTimeout: 1,
+              node
+            }
+          },
+          `acbdefghi`
+        )
+
+        expect(node.tx).toHaveBeenCalledTimes(2)
+        expect(node.tx).toHaveBeenCalledWith(`acbdefghi`)
+      })
+
+      it(`should throw an error if txs are not integrated in a block for a long time`, async () => {
+        const node = {
+          tx: jest.fn(() => Promise.reject(new Error(`404`)))
+        }
+        await expect(actions.queryTxInclusion(
+          {
+            state: {
+              txQueryIterations: 1,
+              txQueryTimeout: 0,
+              node
+            }
+          },
+          `acbdefghi`
+        )).rejects.toEqual(new Error(`The transaction was still not included in a block. We can't say for certain it will be included in the future.`))
+
+        expect(node.tx).toHaveBeenCalledTimes(1)
+        expect(node.tx).toHaveBeenCalledWith(`acbdefghi`)
+      })
+
       it(`should still send a transaction after failing to send another transaction`, async () => {
         const send = node.postTx.bind(node)
 
         node.postTx = () => Promise.reject(true)
         let args = {
+          type: `send`,
+          submitType: `local`,
           to: `mock_address`,
           password: `1234567890`,
           amount: [{ denom: `uatom`, amount: 123 }]
@@ -516,6 +664,8 @@ describe(`Module: Send`, () => {
 
         node.postTx = send
         args = {
+          type: `send`,
+          submitType: `local`,
           to: `mock_address`,
           password: `1234567890`,
           amount: [{ denom: `uatom`, amount: 123 }]
@@ -541,11 +691,15 @@ describe(`Module: Send`, () => {
         jest.useFakeTimers()
 
         const args = {
+          type: `send`,
+          submitType: `local`,
           to: `mock_address`,
           password: `1234567890`,
           amount: [{ denom: `uatom`, amount: 123 }]
         }
         const args2 = {
+          type: `send`,
+          submitType: `local`,
           to: `mock_address_2`,
           password: `1234567890`,
           amount: [{ denom: `uatom`, amount: 123 }]
@@ -596,11 +750,15 @@ describe(`Module: Send`, () => {
 
       it(`should free the lock if sending a tx fails`, async () => {
         const args = {
+          type: `send`,
+          submitType: `local`,
           to: `mock_address`,
           password: `1234567890`,
           amount: [{ denom: `uatom`, amount: 123 }]
         }
         const args2 = {
+          type: `send`,
+          submitType: `local`,
           to: `mock_address_2`,
           password: `1234567890`,
           amount: [{ denom: `uatom`, amount: 123 }]
@@ -633,6 +791,8 @@ describe(`Module: Send`, () => {
 
       it(`should query the wallet state before sending to acquire nonce`, async () => {
         const args = {
+          type: `send`,
+          submitType: `local`,
           to: `mock_address`,
           password: `1234567890`,
           amount: [{ denom: `uatom`, amount: 123 }]
@@ -652,6 +812,7 @@ describe(`Module: Send`, () => {
 
       it(`should throw an error if not connected`, async () => {
         const args = {
+          type: `send`,
           to: `mock_address`,
           amount: [{ denom: `uatom`, amount: 123 }]
         }

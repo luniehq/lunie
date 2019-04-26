@@ -6,7 +6,7 @@ describe(`number helper`, () => {
   })
 
   it(`should format numbers showing many decimals`, () => {
-    expect(num.shortNumber(1.123456789)).toBe(`1.1235…`)
+    expect(num.shortNumber(1.123456789)).toBe(`1.1234…`)
   })
 
   it(`should format numbers showing few decimals`, () => {
@@ -34,7 +34,7 @@ describe(`number helper`, () => {
   })
 
   it(`should convert utam denom to atom denom`, () => {
-    expect(num.viewDenom(`uatom`)).toBe(`atom`)
+    expect(num.viewDenom(`uatom`)).toBe(`ATOM`)
   })
 
   it(`should convert SDK coins to view coins`, () => {
@@ -42,7 +42,7 @@ describe(`number helper`, () => {
       denom: `uatom`,
       amount: 1000000
     })).toEqual({
-      denom: `atom`,
+      denom: `ATOM`,
       amount: `1.000000`
     })
   })

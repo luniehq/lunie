@@ -1,46 +1,61 @@
 <template>
-  <li-bank-transaction
-    v-if="bankTx"
-    :transaction="transaction"
-    :bonding-denom="bondingDenom"
-    :address="address"
-    :fees="fees"
-  />
-  <li-stake-transaction
-    v-else-if="stakingTx"
-    :transaction="transaction"
-    :validators="validators"
-    :url="validatorsUrl"
-    :unbonding-time="unbondingTime"
-    :bonding-denom="bondingDenom"
-    :tx-type="type"
-    :fees="fees"
-  />
-  <li-gov-transaction
-    v-else-if="governanceTx"
-    :transaction="transaction"
-    :bonding-denom="bondingDenom"
-    :url="proposalsUrl"
-    :tx-type="type"
-    :fees="fees"
-  />
-  <li-distribution-transaction
-    v-else-if="distributionTx"
-    :transaction="transaction"
-    :url="validatorsUrl"
-    :bonding-denom="bondingDenom"
-    :tx-type="type"
-    :validators="validators"
-    :fees="fees"
-  />
-  <li-transaction
-    v-else
-    :time="transaction.time"
-    :block="transaction.height"
-    color="grey"
-  >
-    <span slot="caption">Unknown Transaction Type</span>
-  </li-transaction>
+  <div>
+    <div
+      v-for="(msg, index) in transaction.tx.value.msg"
+      :key="index"
+    >
+      <li-bank-transaction
+        v-if="bankTx(msg.type)"
+        :tx="msg.value"
+        :bonding-denom="bondingDenom"
+        :address="address"
+        :fees="fees"
+        :time="transaction.time"
+        :block="Number(transaction.height)"
+      />
+      <li-stake-transaction
+        v-else-if="stakingTx(msg.type)"
+        :tx="msg.value"
+        :validators="validators"
+        :url="validatorsUrl"
+        :unbonding-time="unbondingTime"
+        :bonding-denom="bondingDenom"
+        :tx-type="msg.type"
+        :fees="fees"
+        :time="transaction.time"
+        :block="Number(transaction.height)"
+      />
+      <li-gov-transaction
+        v-else-if="governanceTx(msg.type)"
+        :tx="msg.value"
+        :bonding-denom="bondingDenom"
+        :url="proposalsUrl"
+        :tx-type="msg.type"
+        :fees="fees"
+        :time="transaction.time"
+        :block="Number(transaction.height)"
+      />
+      <li-distribution-transaction
+        v-else-if="distributionTx(msg.type)"
+        :tx="msg.value"
+        :url="validatorsUrl"
+        :bonding-denom="bondingDenom"
+        :tx-type="msg.type"
+        :validators="validators"
+        :fees="fees"
+        :time="transaction.time"
+        :block="Number(transaction.height)"
+      />
+      <li-transaction
+        v-else
+        :time="transaction.time"
+        :block="Number(transaction.height)"
+        color="grey"
+      >
+        <span slot="caption">Unknown Transaction Type</span>
+      </li-transaction>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -90,19 +105,18 @@ export default {
     }
   },
   computed: {
-    type() {
-      return this.transaction.tx.value.msg[0].type
-    },
     fees() {
       return (
         this.transaction.tx.value.fee.amount &&
         this.transaction.tx.value.fee.amount[0]
       )
+    }
+  },
+  methods: {
+    bankTx(type) {
+      return [`cosmos-sdk/MsgSend`].includes(type)
     },
-    bankTx() {
-      return [`cosmos-sdk/MsgSend`].includes(this.type)
-    },
-    stakingTx() {
+    stakingTx(type) {
       return [
         `cosmos-sdk/MsgCreateValidator`,
         `cosmos-sdk/MsgEditValidator`,
@@ -110,21 +124,21 @@ export default {
         `cosmos-sdk/MsgUndelegate`,
         `cosmos-sdk/MsgBeginRedelegate`,
         `cosmos-sdk/MsgUnjail`
-      ].includes(this.type)
+      ].includes(type)
     },
-    governanceTx() {
+    governanceTx(type) {
       return [
         `cosmos-sdk/MsgSubmitProposal`,
         `cosmos-sdk/MsgDeposit`,
         `cosmos-sdk/MsgVote`
-      ].includes(this.type)
+      ].includes(type)
     },
-    distributionTx() {
+    distributionTx(type) {
       return [
         `cosmos-sdk/MsgSetWithdrawAddress`,
         `cosmos-sdk/MsgWithdrawDelegationReward`,
         `cosmos-sdk/MsgWithdrawValidatorCommission`
-      ].includes(this.type)
+      ].includes(type)
     }
   }
 }

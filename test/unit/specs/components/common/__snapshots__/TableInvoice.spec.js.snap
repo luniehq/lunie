@@ -1,0 +1,51 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TableInvoice should show the transaction invoice summary 1`] = `
+<div>
+  <table
+    class="data-table"
+  >
+    <tr>
+      <td>
+        
+        Subtotal
+      
+      </td>
+       
+      <td>
+        
+        1.000000
+      
+      </td>
+    </tr>
+     
+    <tr>
+      <td>
+        
+        Fees (estimated)
+      
+      </td>
+       
+      <td>
+        
+        0.046296
+      
+      </td>
+    </tr>
+     
+    <tr>
+      <td>
+        
+        Total
+      
+      </td>
+       
+      <td>
+        
+        1.046296
+      
+      </td>
+    </tr>
+  </table>
+</div>
+`;

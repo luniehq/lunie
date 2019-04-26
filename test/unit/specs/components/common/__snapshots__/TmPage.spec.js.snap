@@ -26,6 +26,53 @@ exports[`TmPage should show links to other pages 1`] = `
     <!---->
      
   </main>
+   
+  <footer
+    class="footer"
+  >
+    <ul
+      class="link-list"
+    >
+      <li>
+        <router-link-stub
+          class="app-menu-item-small"
+          exact="exact"
+          title="About"
+          to="/about"
+        >
+          
+          About
+        
+        </router-link-stub>
+      </li>
+       
+      <li>
+        <router-link-stub
+          class="app-menu-item-small"
+          exact="exact"
+          title="About"
+          to="/terms"
+        >
+          
+          Terms of Service
+        
+        </router-link-stub>
+      </li>
+       
+      <li>
+        <router-link-stub
+          class="app-menu-item-small"
+          exact="exact"
+          title="About"
+          to="/privacy"
+        >
+          
+          Privacy Policy
+        
+        </router-link-stub>
+      </li>
+    </ul>
+  </footer>
 </div>
 `;
 
@@ -55,5 +102,52 @@ exports[`TmPage shows a page skeleton 1`] = `
     <!---->
      
   </main>
+   
+  <footer
+    class="footer"
+  >
+    <ul
+      class="link-list"
+    >
+      <li>
+        <router-link-stub
+          class="app-menu-item-small"
+          exact="exact"
+          title="About"
+          to="/about"
+        >
+          
+          About
+        
+        </router-link-stub>
+      </li>
+       
+      <li>
+        <router-link-stub
+          class="app-menu-item-small"
+          exact="exact"
+          title="About"
+          to="/terms"
+        >
+          
+          Terms of Service
+        
+        </router-link-stub>
+      </li>
+       
+      <li>
+        <router-link-stub
+          class="app-menu-item-small"
+          exact="exact"
+          title="About"
+          to="/privacy"
+        >
+          
+          Privacy Policy
+        
+        </router-link-stub>
+      </li>
+    </ul>
+  </footer>
 </div>
 `;

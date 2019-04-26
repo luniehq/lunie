@@ -25,7 +25,9 @@ describe(`Module: Session`, () => {
         development: false,
         google_analytics_uid: `UA-123`,
         version: `abcfdef`,
-        sentry_dsn: `https://1:1@sentry.io/1`
+        sentry_dsn: `https://1:1@sentry.io/1`,
+        default_gas_price: 2.5e-8,
+        default_gas_adjustment: 1.5
       },
       loadKeys: () => [
         {
@@ -259,6 +261,23 @@ describe(`Module: Session`, () => {
       expect(commit).toHaveBeenCalledWith(`setUserAddress`, address)
       expect(commit).toHaveBeenCalledWith(`toggleSessionModal`, false)
       expect(commit).toHaveBeenCalledWith(`setSessionType`, `ledger`)
+      expect(dispatch).toHaveBeenCalledWith(`loadPersistedState`)
+      expect(dispatch).toHaveBeenCalledWith(`initializeWallet`, { address })
+      expect(dispatch).toHaveBeenCalledWith(`loadErrorCollection`, address)
+      expect(state.externals.track).toHaveBeenCalled()
+    })
+
+    it(`in explore mode`, async () => {
+      const address = `cosmos1qpd4xgtqmxyf9ktjh757nkdfnzpnkamny3cpzv`
+      const commit = jest.fn()
+      const dispatch = jest.fn()
+      await actions.signIn(
+        { state, commit, dispatch },
+        { sessionType: `explore`, address }
+      )
+      expect(commit).toHaveBeenCalledWith(`setUserAddress`, address)
+      expect(commit).toHaveBeenCalledWith(`toggleSessionModal`, false)
+      expect(commit).toHaveBeenCalledWith(`setSessionType`, `explore`)
       expect(dispatch).toHaveBeenCalledWith(`loadPersistedState`)
       expect(dispatch).toHaveBeenCalledWith(`initializeWallet`, { address })
       expect(dispatch).toHaveBeenCalledWith(`loadErrorCollection`, address)

@@ -3,7 +3,7 @@
     <div class="tm-session-container">
       <div class="tm-session-header">
         <div class="tm-session-title">
-          Sign in to Cosmos Voyager
+          Sign in to Lunie
         </div>
         <a @click="closeSession">
           <i class="material-icons">close</i>
@@ -17,29 +17,46 @@
           subtitle="If you have a Ledger Wallet, choose this option."
           @click.native="setState('hardware')"
         />
+        <li-session
+          id="explore-address"
+          icon="search"
+          title="Sign in with Address"
+          subtitle="If you want to use Lunie with an address
+            , choose this option."
+          @click.native="setState('explore')"
+        />
         <template v-if="session.insecureMode">
-          <li-session
-            v-if="accountExists"
-            id="sign-in-with-account"
-            icon="lock"
-            title="Sign in with password"
-            subtitle="If you have an account, choose this option."
-            @click.native="setState('sign-in')"
-          />
-          <li-session
-            icon="person_add"
-            title="Create new account"
-            subtitle="Generate a brand new seed and create a new account."
-            @click.native="setState('sign-up')"
-          />
-          <li-session
-            v-if="session.experimentalMode"
-            id="import-seed"
-            icon="settings_backup_restore"
-            title="Import with seed"
-            subtitle="Use an existing seed phrase to create an account."
-            @click.native="setState('import')"
-          />
+          <div class="danger-zone">
+            <div class="header">
+              <h1>DANGER ZONE</h1>
+              <p>
+                Never use accounts created in the browser on a real network. You
+                could loose all your money.
+              </p>
+            </div>
+            <li-session
+              v-if="accountExists"
+              id="sign-in-with-account"
+              icon="lock"
+              title="Sign in with password"
+              subtitle="If you have an account, choose this option."
+              @click.native="setState('sign-in')"
+            />
+            <li-session
+              icon="person_add"
+              title="Create new account"
+              subtitle="Generate a brand new seed and create a new account."
+              @click.native="setState('sign-up')"
+            />
+            <li-session
+              v-if="session.developmentMode"
+              id="import-seed"
+              icon="settings_backup_restore"
+              title="Import with seed"
+              subtitle="Use an existing seed phrase to create an account."
+              @click.native="setState('import')"
+            />
+          </div>
         </template>
       </div>
     </div>
@@ -70,3 +87,13 @@ export default {
   }
 }
 </script>
+<style scoped>
+.danger-zone {
+  border: 1px solid var(--danger);
+}
+
+.danger-zone .header {
+  color: var(--danger);
+  padding: 1rem 1rem 0 1rem;
+}
+</style>

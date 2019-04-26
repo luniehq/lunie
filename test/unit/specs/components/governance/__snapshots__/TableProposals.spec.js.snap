@@ -143,7 +143,7 @@ exports[`TableProposals has the expected html structure 1`] = `
           class="li-proposal__value yes"
         >
           
-    100
+    6%
   
         </td>
          
@@ -151,7 +151,7 @@ exports[`TableProposals has the expected html structure 1`] = `
           class="li-proposal__value no"
         >
           
-    300
+    19%
   
         </td>
          
@@ -159,7 +159,7 @@ exports[`TableProposals has the expected html structure 1`] = `
           class="li-proposal__value no_with_veto"
         >
           
-    1000
+    63%
   
         </td>
          
@@ -167,7 +167,7 @@ exports[`TableProposals has the expected html structure 1`] = `
           class="li-proposal__value abstain"
         >
           
-    200
+    13%
   
         </td>
       </tr>
@@ -279,7 +279,7 @@ exports[`TableProposals has the expected html structure 1`] = `
           class="li-proposal__value yes"
         >
           
-    --
+    0%
   
         </td>
          
@@ -287,7 +287,7 @@ exports[`TableProposals has the expected html structure 1`] = `
           class="li-proposal__value no"
         >
           
-    --
+    0%
   
         </td>
          
@@ -295,7 +295,7 @@ exports[`TableProposals has the expected html structure 1`] = `
           class="li-proposal__value no_with_veto"
         >
           
-    --
+    0%
   
         </td>
          
@@ -303,7 +303,7 @@ exports[`TableProposals has the expected html structure 1`] = `
           class="li-proposal__value abstain"
         >
           
-    --
+    0%
   
         </td>
       </tr>
@@ -351,7 +351,7 @@ exports[`TableProposals has the expected html structure 1`] = `
           class="li-proposal__value yes"
         >
           
-    5000
+    85%
   
         </td>
          
@@ -359,7 +359,7 @@ exports[`TableProposals has the expected html structure 1`] = `
           class="li-proposal__value no"
         >
           
-    250
+    4%
   
         </td>
          
@@ -367,7 +367,7 @@ exports[`TableProposals has the expected html structure 1`] = `
           class="li-proposal__value no_with_veto"
         >
           
-    100
+    2%
   
         </td>
          
@@ -375,7 +375,7 @@ exports[`TableProposals has the expected html structure 1`] = `
           class="li-proposal__value abstain"
         >
           
-    560
+    9%
   
         </td>
       </tr>
@@ -527,7 +527,7 @@ exports[`TableProposals should filter the proposals 1`] = `
           class="li-proposal__value yes"
         >
           
-    100
+    6%
   
         </td>
          
@@ -535,7 +535,7 @@ exports[`TableProposals should filter the proposals 1`] = `
           class="li-proposal__value no"
         >
           
-    300
+    19%
   
         </td>
          
@@ -543,7 +543,7 @@ exports[`TableProposals should filter the proposals 1`] = `
           class="li-proposal__value no_with_veto"
         >
           
-    1000
+    63%
   
         </td>
          
@@ -551,7 +551,7 @@ exports[`TableProposals should filter the proposals 1`] = `
           class="li-proposal__value abstain"
         >
           
-    200
+    13%
   
         </td>
       </tr>
@@ -663,7 +663,7 @@ exports[`TableProposals should filter the proposals 1`] = `
           class="li-proposal__value yes"
         >
           
-    --
+    0%
   
         </td>
          
@@ -671,7 +671,7 @@ exports[`TableProposals should filter the proposals 1`] = `
           class="li-proposal__value no"
         >
           
-    --
+    0%
   
         </td>
          
@@ -679,7 +679,7 @@ exports[`TableProposals should filter the proposals 1`] = `
           class="li-proposal__value no_with_veto"
         >
           
-    --
+    0%
   
         </td>
          
@@ -687,7 +687,7 @@ exports[`TableProposals should filter the proposals 1`] = `
           class="li-proposal__value abstain"
         >
           
-    --
+    0%
   
         </td>
       </tr>
@@ -735,7 +735,7 @@ exports[`TableProposals should filter the proposals 1`] = `
           class="li-proposal__value yes"
         >
           
-    5000
+    85%
   
         </td>
          
@@ -743,7 +743,7 @@ exports[`TableProposals should filter the proposals 1`] = `
           class="li-proposal__value no"
         >
           
-    250
+    4%
   
         </td>
          
@@ -751,7 +751,7 @@ exports[`TableProposals should filter the proposals 1`] = `
           class="li-proposal__value no_with_veto"
         >
           
-    100
+    2%
   
         </td>
          
@@ -759,7 +759,7 @@ exports[`TableProposals should filter the proposals 1`] = `
           class="li-proposal__value abstain"
         >
           
-    560
+    9%
   
         </td>
       </tr>

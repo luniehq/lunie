@@ -9,7 +9,8 @@
           class="data-table__row__info__container__status material-icons"
         >
           checkmark
-        </span><span
+        </span>
+        <span
           v-else
           v-tooltip.top="status.message"
           :class="status.color"
@@ -22,7 +23,7 @@
           }"
           class="data-table__row__info__container__name"
         >
-          {{ proposal.title }}
+          {{ proposal.proposal_content.value.title }}
         </router-link>
         <p class="data-table__row__info__container__description">
           {{ description }}
@@ -31,23 +32,24 @@
     </td>
     <td>{{ `#` + proposal.proposal_id }}</td>
     <td class="li-proposal__value yes">
-      {{ tally.yes || `--` }}
+      {{ yesPercentage }}
     </td>
     <td class="li-proposal__value no">
-      {{ tally.no || `--` }}
+      {{ noPercentage }}
     </td>
     <td class="li-proposal__value no_with_veto">
-      {{ tally.no_with_veto || `--` }}
+      {{ noWithVetoPercentage }}
     </td>
     <td class="li-proposal__value abstain">
-      {{ tally.abstain || `--` }}
+      {{ abstainPercentage }}
     </td>
   </tr>
 </template>
 
 <script>
+import BigNumber from "bignumber.js"
 import { mapGetters } from "vuex"
-import { atoms } from "../../scripts/num.js"
+import { percentInt } from "../../scripts/num.js"
 export default {
   name: `li-proposal`,
   props: {
@@ -59,14 +61,45 @@ export default {
   computed: {
     ...mapGetters([`proposals`]),
     tally() {
-      const proposalTally =
+      const { yes, no, abstain, no_with_veto } =
         this.proposals.tallies[this.proposal.proposal_id] || {}
       return {
-        yes: Math.round(atoms(proposalTally.yes)),
-        no: Math.round(atoms(proposalTally.no)),
-        no_with_veto: Math.round(atoms(proposalTally.no_with_veto)),
-        abstain: Math.round(atoms(proposalTally.abstain))
+        yes: yes || BigNumber(0),
+        no: no || BigNumber(0),
+        abstain: abstain || BigNumber(0),
+        no_with_veto: no_with_veto || BigNumber(0)
       }
+    },
+    totalVotes({ tally: { yes, no, no_with_veto, abstain } } = this) {
+      return BigNumber(yes)
+        .plus(no)
+        .plus(no_with_veto)
+        .plus(abstain)
+        .toNumber()
+    },
+    yesPercentage({ tally, totalVotes } = this) {
+      if (this.proposal.proposal_status === `DepositPeriod`) {
+        return `--`
+      }
+      return percentInt(totalVotes === 0 ? 0 : tally.yes / totalVotes)
+    },
+    noPercentage({ tally, totalVotes } = this) {
+      if (this.proposal.proposal_status === `DepositPeriod`) {
+        return `--`
+      }
+      return percentInt(totalVotes === 0 ? 0 : tally.no / totalVotes)
+    },
+    noWithVetoPercentage({ tally, totalVotes } = this) {
+      if (this.proposal.proposal_status === `DepositPeriod`) {
+        return `--`
+      }
+      return percentInt(totalVotes === 0 ? 0 : tally.no_with_veto / totalVotes)
+    },
+    abstainPercentage({ tally, totalVotes } = this) {
+      if (this.proposal.proposal_status === `DepositPeriod`) {
+        return `--`
+      }
+      return percentInt(totalVotes === 0 ? 0 : tally.abstain / totalVotes)
     },
     status() {
       if (this.proposal.proposal_status === `Passed`) {
@@ -96,9 +129,10 @@ export default {
       }
     },
     description() {
-      return this.proposal.description.length > 100
-        ? this.proposal.description.substring(0, 100) + `…`
-        : this.proposal.description.substring(0, 100)
+      const { description } = this.proposal.proposal_content.value
+      return description.length > 100
+        ? description.substring(0, 100) + `…`
+        : description.substring(0, 100)
     }
   }
 }

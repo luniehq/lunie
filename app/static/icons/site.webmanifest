@@ -1,6 +1,6 @@
 {
-  "name": "Voyager",
-  "short_name": "Voyager",
+  "name": "Lunie",
+  "short_name": "Lunie",
   "icons": [
     {
       "src": "/static/icons/android-chrome-192x192.png",
@@ -13,7 +13,7 @@
       "type": "image/png"
     }
   ],
-  "theme_color": "#ffffff",
-  "background_color": "#ffffff",
-  "display": "standalone"
+  "background_color": "#15182d",
+  "display": "standalone",
+  "description": "The official wallet of the Cosmos Hub."
 }

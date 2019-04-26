@@ -98,7 +98,7 @@ exports[`PageNetwork should display the network page with data and the blocks ta
             class="info_dl"
           >
             <dt>
-              Total Liquid stake
+              Total Liquid STAKE
             </dt>
              
             <dd
@@ -118,7 +118,7 @@ exports[`PageNetwork should display the network page with data and the blocks ta
             class="info_dl"
           >
             <dt>
-              Total Delegated stake
+              Total Delegated STAKE
             </dt>
              
             <dd
@@ -283,7 +283,7 @@ exports[`PageNetwork should display the network page with the blocks table in a 
             class="info_dl"
           >
             <dt>
-              Total Liquid stake
+              Total Liquid STAKE
             </dt>
              
             <dd
@@ -303,7 +303,7 @@ exports[`PageNetwork should display the network page with the blocks table in a 
             class="info_dl"
           >
             <dt>
-              Total Delegated stake
+              Total Delegated STAKE
             </dt>
              
             <dd

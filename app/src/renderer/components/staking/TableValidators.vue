@@ -45,6 +45,7 @@ export default {
   computed: {
     ...mapGetters([
       `committedDelegations`,
+      `delegates`,
       `session`,
       `distribution`,
       `bondDenom`,
@@ -54,6 +55,9 @@ export default {
     enrichedValidators(
       {
         validators,
+        delegates: {
+          signingInfos
+        },
         pool,
         committedDelegations,
         keybase,
@@ -62,8 +66,9 @@ export default {
         rollingWindow
       } = this
     ) {
-      return validators.map(v =>
-        Object.assign({}, v, {
+      return validators.map(v => {
+        const signingInfo = signingInfos[v.operator_address]
+        return Object.assign({}, v, {
           small_moniker: v.description.moniker.toLowerCase(),
           percent_of_vote: v.voting_power / pool.pool.bonded_tokens,
           my_delegations:
@@ -76,12 +81,12 @@ export default {
             session.signedIn && distribution.rewards[v.operator_address]
               ? distribution.rewards[v.operator_address][this.bondDenom]
               : 0,
-          uptime: v.signing_info
-            ? (rollingWindow - v.signing_info.missed_blocks_counter) /
-              rollingWindow
+          uptime: signingInfo
+            ? (rollingWindow - signingInfo.missed_blocks_counter) /
+            rollingWindow
             : 0
         })
-      )
+      })
     },
     sortedEnrichedValidators() {
       return orderBy(
@@ -100,9 +105,9 @@ export default {
         {
           title: `My Delegations`,
           value: `my_delegations`,
-          tooltip: `Number of ${
+          tooltip: `Number of ${num.viewDenom(
             this.bondDenom
-          } you have delegated to this validator`
+          )} you have delegated to this validator`
         },
         {
           title: `Rewards`,
@@ -137,7 +142,7 @@ export default {
     }
   },
   watch: {
-    address: function() {
+    address: function () {
       this.session.address && this.$store.dispatch(`updateDelegates`)
     }
   },

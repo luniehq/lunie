@@ -3,7 +3,9 @@
     id="undelegation-modal"
     ref="actionModal"
     :submit-fn="submitForm"
+    :simulate-fn="simulateForm"
     :validate="validateForm"
+    :amount="amount"
     title="Undelegate"
     class="undelegation-modal"
     submission-error-prefix="Undelegating failed"
@@ -33,14 +35,14 @@
         type="number"
         placeholder="Amount"
       />
-      <p v-if="maximum > 0">
-        {{ num.viewDenom(denom) }}s delegated: {{ maximum }}
-      </p>
+      <span v-if="maximum > 0" class="form-message">
+        Currently Delegated: {{ maximum }} {{ num.viewDenom(denom) }}s
+      </span>
       <tm-form-msg
         v-if="maximum === 0"
-        :msg="`don't have any ${
-          num.viewDenom(denom)
-        }s delegated to this validator`"
+        :msg="
+          `don't have any ${num.viewDenom(denom)}s delegated to this validator`
+        "
         name="You"
         type="custom"
       />
@@ -110,7 +112,7 @@ export default {
     num
   }),
   computed: {
-    ...mapGetters([`bondDenom`, `liquidAtoms`])
+    ...mapGetters([`liquidAtoms`])
   },
   validations() {
     return {
@@ -135,17 +137,32 @@ export default {
 
       this.amount = null
     },
-    async submitForm(submitType, password) {
+    async simulateForm() {
+      return await this.$store.dispatch(`simulateUnbondingDelegation`, {
+        amount: uatoms(this.amount),
+        validator: this.validator
+      })
+    },
+    async submitForm(gasEstimate, gasPrice, password, submitType) {
       await this.$store.dispatch(`submitUnbondingDelegation`, {
-        amount: -uatoms(this.amount),
+        amount: uatoms(this.amount),
         validator: this.validator,
+        gas: String(gasEstimate),
+        gas_prices: [
+          {
+            amount: String(uatoms(gasPrice)),
+            denom: this.denom
+          }
+        ],
         submitType,
         password
       })
 
       this.$store.commit(`notify`, {
         title: `Successful undelegation!`,
-        body: `You have successfully undelegated ${this.amount} ${this.denom}s.`
+        body: `You have successfully undelegated ${this.amount} ${num.viewDenom(
+          this.denom
+        )}s.`
       })
     }
   }

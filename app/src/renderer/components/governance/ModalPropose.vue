@@ -3,7 +3,9 @@
     id="modal-propose"
     ref="actionModal"
     :submit-fn="submitForm"
+    :simulate-fn="simulateForm"
     :validate="validateForm"
+    :amount="amount"
     title="Proposal"
     submission-error-prefix="Submitting proposal failed"
     @close="clear"
@@ -62,12 +64,13 @@
       :error="$v.amount.$error && $v.amount.$invalid"
       class="action-modal-form-group"
       field-id="amount"
-      field-label="Amount"
+      field-label="Deposit"
     >
       <span class="input-suffix">{{ num.viewDenom(denom) }}</span>
       <tm-field
         id="amount"
         v-model="amount"
+        :value="Number(amount)"
         type="number"
       />
       <tm-form-msg
@@ -78,19 +81,19 @@
       />
       <tm-form-msg
         v-else-if="$v.amount.$error && (!$v.amount.required || amount === 0)"
-        name="Amount"
+        name="Deposit"
         type="required"
       />
       <tm-form-msg
         v-else-if="$v.amount.$error && !$v.amount.decimal"
-        name="Amount"
+        name="Deposit"
         type="numberic"
       />
       <tm-form-msg
         v-else-if="$v.amount.$error && !$v.amount.between"
         :max="$v.amount.$params.between.max"
         :min="$v.amount.$params.between.min"
-        name="Amount"
+        name="Deposit"
         type="between"
       />
     </tm-form-group>
@@ -142,7 +145,7 @@ export default {
     num
   }),
   computed: {
-    ...mapGetters([`wallet`]),
+    ...mapGetters([`wallet`, `bondDenom`]),
     balance() {
       // TODO: refactor to get the selected coin when multicoin deposit is enabled
       if (!this.wallet.loading && !!this.wallet.balances.length) {
@@ -194,18 +197,38 @@ export default {
       this.description = ``
       this.amount = 0
     },
-    async submitForm(submitType, password) {
+    async simulateForm() {
+      return await this.$store.dispatch(`simulateProposal`, {
+        title: this.title,
+        description: this.description,
+        type: this.type,
+        initial_deposit: [
+          {
+            denom: this.denom,
+            amount: String(uatoms(this.amount))
+          }
+        ]
+      })
+    },
+    async submitForm(gasEstimate, gasPrice, password, submitType) {
       await this.$store.dispatch(`submitProposal`, {
         title: this.title,
         description: this.description,
         type: this.type,
-        submitType,
         initial_deposit: [
           {
             denom: this.denom,
             amount: String(uatoms(this.amount))
           }
         ],
+        gas: String(gasEstimate),
+        gas_prices: [
+          {
+            amount: String(uatoms(gasPrice)),
+            denom: this.bondDenom
+          }
+        ],
+        submitType,
         password
       })
       this.$store.commit(`notify`, {

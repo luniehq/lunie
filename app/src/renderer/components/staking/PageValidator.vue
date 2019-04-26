@@ -1,14 +1,15 @@
 <template>
-  <tm-page
-    data-title="Validator"
-  >
+  <tm-page data-title="Validator">
     <data-view
       :loading="delegates.loading"
       :loaded="delegates.loaded"
       :error="delegates.error"
       :data-empty="!validator"
     >
-      <template v-if="validator" slot="data">
+      <template
+        v-if="validator"
+        slot="data"
+      >
         <!-- we need the v-if as the template
         somehow is rendered in any case -->
         <div class="page-profile__header page-profile__section">
@@ -90,87 +91,94 @@
                   {{ percent(validator.commission.rate) }}
                 </dd>
               </dl>
-              <dl v-if="session.experimentalMode" class="info_dl colored_dl">
-                <dt>Slashes</dt>
-                <dd>--</dd>
-              </dl>
             </div>
           </div>
-        </div>
 
-        <div class="page-profile__section">
-          <div class="row">
-            <div class="column">
-              <dl class="info_dl">
-                <dt>First Seen</dt>
-                <dd>Block #{{ validator.bond_height }}</dd>
-              </dl>
-              <dl class="info_dl">
-                <dt>Full Operator Address</dt>
-                <dd>{{ validator.operator_address }}</dd>
-              </dl>
-              <dl class="info_dl">
-                <dt>Keybase ID</dt>
-                <dd>
-                  {{ translateEmptyDescription(
-                    validator.description.identity
-                  ) }}
-                </dd>
-              </dl>
-              <dl class="info_dl">
-                <dt>Website</dt>
-                <dd>
-                  {{ translateEmptyDescription(validator.description.website) }}
-                </dd>
-              </dl>
-              <dl class="info_dl">
-                <dt>Description</dt>
-                <dd class="info_dl__text-box">
-                  {{ translateEmptyDescription(validator.description.details) }}
-                </dd>
-              </dl>
+          <div class="page-profile__section">
+            <div class="row">
+              <div class="column">
+                <dl class="info_dl">
+                  <dt>First Seen</dt>
+                  <dd>Block #{{ validator.bond_height }}</dd>
+                </dl>
+                <dl class="info_dl">
+                  <dt>Full Operator Address</dt>
+                  <dd>{{ validator.operator_address }}</dd>
+                </dl>
+                <dl class="info_dl">
+                  <dt>Keybase ID</dt>
+                  <dd>
+                    {{
+                      translateEmptyDescription(validator.description.identity)
+                    }}
+                  </dd>
+                </dl>
+                <dl class="info_dl">
+                  <dt>Website</dt>
+                  <dd v-if="website !== `--`">
+                    <a
+                      id="validator-website"
+                      :href="website"
+                      target="_blank"
+                      rel="nofollow noreferrer noopener"
+                    >
+                      {{ website }}
+                    </a>
+                  </dd>
+                  <dd v-else>
+                    {{ website }}
+                  </dd>
+                </dl>
+                <dl class="info_dl">
+                  <dt>Description</dt>
+                  <dd class="info_dl__text-box">
+                    {{ translateEmptyDescription(validator.description.details)
+                    }}
+                  </dd>
+                </dl>
+              </div>
+              <div class="column">
+                <dl class="info_dl">
+                  <dt>Current Commission Rate</dt>
+                  <dd>{{ percent(validator.commission.rate) }}</dd>
+                </dl>
+                <dl class="info_dl">
+                  <dt>Max Commission Rate</dt>
+                  <dd>{{ percent(validator.commission.max_rate) }}</dd>
+                </dl>
+                <dl class="info_dl">
+                  <dt>Max Daily Commission Change</dt>
+                  <dd>{{ percent(validator.commission.max_change_rate) }}</dd>
+                </dl>
+                <dl class="info_dl">
+                  <dt>Last Commission Change</dt>
+                  <dd>{{ lastCommissionChange }}</dd>
+                </dl>
+                <dl class="info_dl">
+                  <dt>Self Delegation</dt>
+                  <dd id="page-profile__self-bond">
+                    {{ selfBond }}
+                  </dd>
+                </dl>
+              </div>
             </div>
-            <div class="column">
-              <dl class="info_dl">
-                <dt>Current Commission Rate</dt>
-                <dd>{{ percent(validator.commission.rate) }}</dd>
-              </dl>
-              <dl class="info_dl">
-                <dt>Max Commission Rate</dt>
-                <dd>{{ percent(validator.commission.max_rate) }}</dd>
-              </dl>
-              <dl class="info_dl">
-                <dt>Max Daily Commission Change</dt>
-                <dd>{{ percent(validator.commission.max_change_rate) }}</dd>
-              </dl>
-              <dl class="info_dl">
-                <dt>Last Commission Change</dt>
-                <dd>{{ lastCommissionChange }}</dd>
-              </dl>
-              <dl class="info_dl">
-                <dt>Self Delegation</dt>
-                <dd id="page-profile__self-bond">
-                  {{ selfBond }}
-                </dd>
-              </dl>
-            </div>
+            <delegation-modal
+              ref="delegationModal"
+              :from-options="delegationTargetOptions()"
+              :to="validator.operator_address"
+              :validator="validator"
+              :denom="bondDenom"
+            />
+            <undelegation-modal
+              ref="undelegationModal"
+              :maximum="Number(myBond)"
+              :from-options="delegationTargetOptions()"
+              :to="session.signedIn ? session.address : ``"
+              :validator="validator"
+              :denom="bondDenom"
+            />
           </div>
         </div>
-        <delegation-modal
-          ref="delegationModal"
-          :from-options="delegationTargetOptions()"
-          :to="validator.operator_address"
-          :validator="validator"
-          :denom="bondDenom"
-        />
-        <undelegation-modal
-          ref="undelegationModal"
-          :maximum="Number(myBond)"
-          :from-options="delegationTargetOptions()"
-          :to="session.signedIn ? session.address : ``"
-          :validator="validator"
-          :denom="bondDenom"
-        />
       </template>
     </data-view>
   </tm-page>
@@ -180,7 +188,7 @@
 import moment from "moment"
 import { calculateTokens } from "scripts/common"
 import { mapGetters } from "vuex"
-import { percent, pretty, atoms, full } from "scripts/num"
+import num, { percent, pretty, atoms, full } from "scripts/num"
 import TmBtn from "common/TmBtn"
 import { shortAddress, ratToBigNumber } from "scripts/common"
 import DelegationModal from "staking/DelegationModal"
@@ -226,6 +234,9 @@ export default {
       )
       if (validator) {
         validator.keybase = this.keybase[validator.description.identity]
+        validator.signing_info = this.delegates.signingInfos[
+          validator.operator_address
+        ]
       }
 
       return validator
@@ -239,7 +250,7 @@ export default {
       const totalBlocks = this.lastHeader.height
       const missedBlocks = this.validator.signing_info.missed_blocks_counter
       const signedBlocks = totalBlocks - missedBlocks
-      const uptime = signedBlocks / totalBlocks * 100
+      const uptime = (signedBlocks / totalBlocks) * 100
 
       return String(uptime).substring(0, 4) + `%`
     },
@@ -255,7 +266,7 @@ export default {
     myDelegation() {
       const { bondDenom, myBond } = this
       const myDelegation = full(myBond)
-      const myDelegationString = `${myDelegation} ${bondDenom}`
+      const myDelegationString = `${myDelegation} ${num.viewDenom(bondDenom)}`
       return Number(myBond) === 0 ? `--` : myDelegationString
     },
     powerRatio() {
@@ -294,6 +305,11 @@ export default {
       // status: active
       return `green`
     },
+    // empty descriptions have a strange '[do-not-modify]' value which we don't want to show
+    website() {
+      const url = this.validator.description.website
+      return this.translateEmptyDescription(url)
+    },
     rewards() {
       const { session, bondDenom, distribution, validator } = this
       if (!session.signedIn) {
@@ -306,7 +322,7 @@ export default {
         : null
 
       if (amount) {
-        return `${amount} ${bondDenom}`
+        return `${amount} ${num.viewDenom(bondDenom)}`
       }
       return null
     }
@@ -393,7 +409,6 @@ export default {
         })
       return myWallet.concat(redelegationOptions)
     },
-    // empty descriptions have a strange '[do-not-modify]' value which we don't want to show
     translateEmptyDescription(value) {
       if (!value || value === `[do-not-modify]`) return `--`
       return value

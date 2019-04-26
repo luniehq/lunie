@@ -1,9 +1,9 @@
 "use strict"
 
-const RestClient = require(`./api.js`)
-const RpcWrapper = require(`./rpcWrapper.js`)
+import RestClient from "./api.js"
+import RpcWrapper from "./rpcWrapper.js"
 
-module.exports = function(axios, stargateUrl, mocked = false) {
+export default function(axios, stargateUrl, mocked = false) {
   const connector = {
     mocked,
     remoteLcdURL: stargateUrl,

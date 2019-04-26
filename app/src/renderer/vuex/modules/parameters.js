@@ -16,6 +16,10 @@ export default ({ node }) => {
   }
 
   const actions = {
+    signIn({ dispatch }) {
+      // needed for bond denom for gas calculation
+      dispatch(`getStakingParameters`)
+    },
     async getStakingParameters({ state, commit, rootState }) {
       state.loading = true
 

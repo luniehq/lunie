@@ -20,6 +20,10 @@ export default ({ node }) => {
   }
 
   const actions = {
+    signIn({ dispatch }) {
+      // needed for deposit denom for governance
+      dispatch(`getGovParameters`)
+    },
     async getGovParameters({ state, commit, rootState }) {
       state.loading = true
 

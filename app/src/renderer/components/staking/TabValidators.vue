@@ -20,28 +20,18 @@ export default {
     TableValidators,
     DataView
   },
+  data: () => ({
+    lastUpdate: 0
+  }),
   computed: {
     ...mapGetters([
       `lastHeader`,
       `delegates`,
       `committedDelegations`,
       `connected`,
-      `session`
-    ]),
-    yourValidators(
-      {
-        committedDelegations,
-        delegates: { delegates },
-        session: { signedIn }
-      } = this
-    ) {
-      return (
-        signedIn &&
-        delegates.filter(
-          ({ operator_address }) => operator_address in committedDelegations
-        )
-      )
-    }
+      `session`,
+      `yourValidators`
+    ])
   },
   watch: {
     "session.signedIn": function(signedIn) {
@@ -49,25 +39,15 @@ export default {
     },
     lastHeader: {
       immediate: true,
-      handler(newHeader) {
-        const waitTwentyBlocks = Number(newHeader.height) % 20 === 0
-        if (
-          waitTwentyBlocks &&
-          this.yourValidators &&
-          this.yourValidators.length > 0
-        ) {
-          this.$store.dispatch(
-            `getRewardsFromAllValidators`,
-            this.yourValidators
-          )
-        }
+      handler() {
+        this.$store.dispatch(`getRewardsFromMyValidators`)
       }
     }
   },
   mounted() {
     this.$store.dispatch(`updateDelegates`)
     if (this.yourValidators) {
-      this.$store.dispatch(`getRewardsFromAllValidators`, this.yourValidators)
+      this.$store.dispatch(`getRewardsFromMyValidators`, this.yourValidators)
     }
   }
 }

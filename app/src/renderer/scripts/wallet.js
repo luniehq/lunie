@@ -8,7 +8,20 @@ import CryptoJS from "crypto-js"
 
 const hdPathAtom = `m/44'/118'/0'/0/0` // key controlling ATOM allocation
 
-const standardRandomBytesFunc = x => CryptoJS.lib.WordArray.random(x).toString()
+export function standardRandomBytesFunc (size) {
+  /* istanbul ignore if: not testable on node */
+  if (window.crypto) {
+    let key = ``
+    let keyContainer = new Uint32Array(size/4)
+    keyContainer = window.crypto.getRandomValues(keyContainer)
+    for (let keySegment = 0; keySegment < keyContainer.length; keySegment++) {
+      key += keyContainer[keySegment].toString(16) // Convert int to hex
+    }
+    return key
+  } else {
+    return CryptoJS.lib.WordArray.random(size).toString()
+  }
+}
 
 export function generateWalletFromSeed(mnemonic) {
   const masterKey = deriveMasterKey(mnemonic)
@@ -173,9 +186,10 @@ export function createSignedTx(tx, signature) {
 }
 
 // the broadcast body consists of the signed tx and a return type
-export function createBroadcastBody(signedTx) {
+// returnType can be block (inclusion in block), async (right away), sync (after checkTx has passed)
+export function createBroadcastBody(signedTx, returnType = `sync`) {
   return JSON.stringify({
     tx: signedTx,
-    return: `block`
+    mode: returnType
   })
 }

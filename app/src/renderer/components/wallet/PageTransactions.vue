@@ -82,8 +82,13 @@ export default {
       return this.orderedTransactions.length === 0
     }
   },
-  mounted() {
-    this.refreshTransactions()
+  watch: {
+    "session.signedIn": {
+      immediate: true,
+      handler() {
+        this.refreshTransactions()
+      }
+    }
   },
   methods: {
     async refreshTransactions({ $store, session } = this) {

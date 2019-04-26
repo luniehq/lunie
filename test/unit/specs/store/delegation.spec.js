@@ -164,19 +164,46 @@ describe(`Module: Delegations`, () => {
     })
   })
 
-  // TODO: this still uses the condensed POST endpoint, which is incorrect
-  it(`submits delegation transaction`, async () => {
-    const stakingTransactions = {}
-    stakingTransactions.delegations = [
+  it(`should simulate a delegation transaction`, async () => {
+    const validator_address = lcdClientMock.state.candidates[0].operator_address
+    const amount = 10
+    const dispatch = jest.fn(() => 123123)
+
+    const res = await actions.simulateDelegation(
       {
-        validator: lcdClientMock.state.candidates[0],
-        atoms: 109
+        rootState: mockRootState,
+        getters: {
+          liquidAtoms: 1000
+        },
+        state,
+        dispatch,
+        commit: jest.fn()
       },
-      {
-        validator: lcdClientMock.state.candidates[1],
-        atoms: 456
+      { validator_address, amount }
+    )
+
+    expect(dispatch).toHaveBeenCalledWith(`simulateTx`, {
+      type: `postDelegation`,
+      to: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
+      delegator_address: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
+      validator_address,
+      amount: {
+        denom: `STAKE`,
+        amount: `10`
       }
-    ]
+    })
+
+    expect(res).toBe(123123)
+  })
+
+  it(`submits delegation transaction`, async () => {
+    const validator_address = lcdClientMock.state.candidates[0].operator_address
+    const amount = 10
+    const gas = `1234567`
+    const gas_prices = [{ denom: `uatom`, amount: `123` }]
+    const password = ``
+    const submitType = `ledger`
+
     const dispatch = jest.fn()
 
     await actions.submitDelegation(
@@ -189,10 +216,52 @@ describe(`Module: Delegations`, () => {
         dispatch,
         commit: jest.fn()
       },
-      { stakingTransactions }
+      { validator_address, amount, gas, gas_prices, password, submitType }
     )
 
+    expect(dispatch).toHaveBeenCalledWith(`sendTx`, {
+      type: `postDelegation`,
+      to: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
+      delegator_address: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
+      validator_address,
+      gas,
+      gas_prices,
+      submitType,
+      password,
+      amount: {
+        denom: `STAKE`,
+        amount: `10`
+      }
+    })
+
     expect(dispatch).toHaveBeenCalledWith(`getAllTxs`)
+  })
+
+  it(`should simulate an undelegation transaction`, async () => {
+    const validator = lcdClientMock.state.candidates[0]
+    const amount = 10
+    const dispatch = jest.fn(() => 123123)
+
+    const res = await actions.simulateUnbondingDelegation(
+      {
+        rootState: mockRootState,
+        state,
+        dispatch
+      },
+      { validator, amount }
+    )
+
+    expect(dispatch).toHaveBeenCalledWith(`simulateTx`, {
+      type: `postUnbondingDelegation`,
+      to: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
+      delegator_address: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
+      validator_address: validator.operator_address,
+      amount: {
+        amount: `10`,
+        denom: `STAKE`
+      }
+    })
+    expect(res).toBe(123123)
   })
 
   it(`submits undelegation transaction`, async () => {
@@ -216,13 +285,44 @@ describe(`Module: Delegations`, () => {
       to: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
       delegator_address: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
       validator_address: validator.operator_address,
-      shares: `10.0000000000`,
+      amount: {
+        amount: `10`,
+        denom: `STAKE`
+      },
       password,
       submitType
     })
     expect(dispatch).toHaveBeenCalledWith(`getAllTxs`)
   })
 
+  it(`should simulate a redelegation transaction`, async () => {
+    const validatorSrc = lcdClientMock.state.candidates[0]
+    const validatorDst = lcdClientMock.state.candidates[1]
+    const amount = 10
+    const dispatch = jest.fn(() => 123123)
+
+    const res = await actions.simulateRedelegation(
+      {
+        rootState: mockRootState,
+        state,
+        dispatch
+      },
+      { validatorSrc, validatorDst, amount }
+    )
+
+    expect(dispatch).toHaveBeenCalledWith(`simulateTx`, {
+      type: `postRedelegation`,
+      to: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
+      delegator_address: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
+      validator_src_address: validatorSrc.operator_address,
+      validator_dst_address: validatorDst.operator_address,
+      amount: {
+        amount: `10`,
+        denom: `STAKE`
+      },
+    })
+    expect(res).toBe(123123)
+  })
   it(`submits redelegation transaction`, async () => {
     const validatorSrc = lcdClientMock.state.candidates[0]
     const validatorDst = lcdClientMock.state.candidates[1]
@@ -246,7 +346,10 @@ describe(`Module: Delegations`, () => {
       delegator_address: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
       validator_src_address: validatorSrc.operator_address,
       validator_dst_address: validatorDst.operator_address,
-      shares: `10.0000000000`,
+      amount: {
+        amount: `10`,
+        denom: `STAKE`
+      },
       password,
       submitType
     })
@@ -368,10 +471,10 @@ describe(`Module: Delegations`, () => {
           liquidAtoms: 1000
         },
         dispatch: () => { },
-        commit
+        commit,
       },
       {
-        amount: 100,
+        amount: `100`,
         validator_address: delegates[0].operator_address,
         password: `12345`
       }

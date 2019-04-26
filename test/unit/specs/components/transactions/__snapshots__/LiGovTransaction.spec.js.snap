@@ -2,9 +2,9 @@
 
 exports[`LiGovTransaction deposits 1`] = `
 <li-transaction-stub
-  block="56675"
+  block="500"
   color="#15CFCC"
-  time="1970-01-01T00:00:42.567Z"
+  time="1970-01-01T00:00:42.000Z"
 >
   <div>
     
@@ -15,13 +15,13 @@ exports[`LiGovTransaction deposits 1`] = `
     </b>
      
     <span>
-      atoms
+      ATOMs
     </span>
   </div>
    
   <div>
     
-      On
+      On 
       
     <router-link-stub
       to="/proposals/1"
@@ -37,11 +37,11 @@ exports[`LiGovTransaction deposits 1`] = `
       Network Fee: 
       
     <b>
-      0.000000
+      0.003421
     </b>
      
     <span>
-      stakes
+      ATOMs
     </span>
   </div>
 </li-transaction-stub>
@@ -49,9 +49,9 @@ exports[`LiGovTransaction deposits 1`] = `
 
 exports[`LiGovTransaction proposals 1`] = `
 <li-transaction-stub
-  block="56673"
+  block="500"
   color="#15CFCC"
-  time="1970-01-01T00:00:42.540Z"
+  time="1970-01-01T00:00:42.000Z"
 >
   <div>
     
@@ -62,13 +62,13 @@ exports[`LiGovTransaction proposals 1`] = `
     </b>
      
     <span>
-      atoms
+      ATOMs
     </span>
   </div>
    
   <div>
     
-      Title:
+      Title: 
     <i>
       Test Proposal
     </i>
@@ -79,11 +79,11 @@ exports[`LiGovTransaction proposals 1`] = `
       Network Fee: 
       
     <b>
-      0.000000
+      0.003421
     </b>
      
     <span>
-      stakes
+      ATOMs
     </span>
   </div>
 </li-transaction-stub>
@@ -91,19 +91,19 @@ exports[`LiGovTransaction proposals 1`] = `
 
 exports[`LiGovTransaction votes 1`] = `
 <li-transaction-stub
-  block="56673"
+  block="500"
   color="#15CFCC"
-  time="1970-01-01T00:00:43.300Z"
+  time="1970-01-01T00:00:42.000Z"
 >
   <div>
     
-      VoteYes
+      Vote Yes
     
   </div>
    
   <div>
     
-      On
+      On 
       
     <router-link-stub
       to="/proposals/1"
@@ -119,11 +119,11 @@ exports[`LiGovTransaction votes 1`] = `
       Network Fee: 
       
     <b>
-      0.000000
+      0.003421
     </b>
      
     <span>
-      stakes
+      ATOMs
     </span>
   </div>
 </li-transaction-stub>

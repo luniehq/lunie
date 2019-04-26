@@ -9,15 +9,8 @@
       <i v-tooltip.bottom="'Refresh'" class="material-icons">refresh</i>
     </a>
     <slot />
-    <a
-      v-if="session.signedIn"
-      id="signOut-btn"
-      @click="signOut()"
-    >
-      <i
-        v-tooltip.bottom.end="'Sign Out'"
-        class="material-icons"
-      >
+    <a v-if="session.signedIn" id="signOut-btn" @click="signOut()">
+      <i v-tooltip.bottom.end="'Sign Out'" class="material-icons">
         exit_to_app
       </i>
     </a>
@@ -95,6 +88,10 @@ export default {
 }
 
 @media screen and (max-width: 1023px) {
+  .tool-bar a {
+    display: none;
+  }
+
   .sign-in-button {
     margin: 0;
     width: 100%;

@@ -2,8 +2,10 @@
 
 exports[`ModalVote should display vote modal form 1`] = `
 <action-modal-stub
+  amount="0"
   class="modal-vote"
   id="modal-vote"
+  simulatefn="function () { [native code] }"
   submissionerrorprefix="Voting failed"
   submitfn="function () { [native code] }"
   title="Vote"

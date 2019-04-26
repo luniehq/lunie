@@ -16,14 +16,14 @@ const mockRootState = {
 }
 
 describe(`Module: Proposals`, () => {
-  let proposalsModuleInstance
+  let moduleInstance
 
   beforeEach(() => {
-    proposalsModuleInstance = proposalsModule({ node: {} })
+    moduleInstance = proposalsModule({ node: {} })
   })
 
   it(`should query for proposals on reconnection if was loading before`, async () => {
-    const { actions } = proposalsModuleInstance
+    const { actions } = moduleInstance
     const instance = {
       state: {
         loading: true
@@ -35,13 +35,13 @@ describe(`Module: Proposals`, () => {
   })
 
   it(`adds a proposal to state`, () => {
-    const { mutations, state } = proposalsModuleInstance
+    const { mutations, state } = moduleInstance
     mutations.setProposal(state, proposals[`1`])
     expect(state.proposals[`1`]).toEqual(proposals[`1`])
   })
 
   it(`adds a tally result to a proposal already in state`, () => {
-    const { mutations, state } = proposalsModuleInstance
+    const { mutations, state } = moduleInstance
     mutations.setProposal(state, proposals[`2`])
     mutations.setProposalTally(state, {
       proposal_id: `2`,
@@ -51,7 +51,7 @@ describe(`Module: Proposals`, () => {
   })
 
   it(`replaces existing proposal with same id`, () => {
-    const { mutations, state } = proposalsModuleInstance
+    const { mutations, state } = moduleInstance
     mutations.setProposal(state, proposals[`1`])
     const newProposal = JSON.parse(JSON.stringify(proposals[`1`]))
     newProposal.final_tally_result = {
@@ -71,19 +71,17 @@ describe(`Module: Proposals`, () => {
 
   describe(`Fetches all proposal`, () => {
     it(`when the request is successful`, async () => {
-      proposalsModuleInstance = proposalsModule({
+      moduleInstance = proposalsModule({
         node: {
           getProposals: () =>
             Promise.resolve(
-              Object.values(proposals).map(proposal => ({
-                value: proposal
-              }))
+              Object.values(proposals)
             ),
           getProposalTally: proposal_id => Promise.resolve(tallies[proposal_id])
         }
       })
 
-      const { actions, state } = proposalsModuleInstance
+      const { actions, state } = moduleInstance
       const commit = jest.fn()
 
       await actions.getProposals({
@@ -118,15 +116,15 @@ describe(`Module: Proposals`, () => {
     })
 
     it(`throws and stores error if the request fails`, async () => {
-      proposalsModuleInstance = proposalsModule({
+      moduleInstance = proposalsModule({
         node: {
           getProposals: () => Promise.reject(new Error(`Error`))
         }
       })
-      const { actions, state } = proposalsModuleInstance
+      const { actions, state } = moduleInstance
       await actions.getProposals({
         state,
-        commit: () => {},
+        commit: () => { },
         rootState: mockRootState
       })
       expect(state.error.message).toBe(`Error`)
@@ -135,15 +133,15 @@ describe(`Module: Proposals`, () => {
 
   describe(`Fetch a single proposal`, () => {
     it(`when the request is successful`, async () => {
-      proposalsModuleInstance = proposalsModule({
+      moduleInstance = proposalsModule({
         node: {
           getProposal: proposal_id =>
-            Promise.resolve({ value: proposals[proposal_id] }),
+            Promise.resolve(proposals[proposal_id]),
           getProposalTally: proposal_id => Promise.resolve(tallies[proposal_id])
         }
       })
 
-      const { actions, state } = proposalsModuleInstance
+      const { actions, state } = moduleInstance
       const commit = jest.fn()
 
       // not on VotingPeriod
@@ -174,13 +172,13 @@ describe(`Module: Proposals`, () => {
     })
 
     it(`throws and stores error if the request fails`, async () => {
-      proposalsModuleInstance = proposalsModule({
+      moduleInstance = proposalsModule({
         node: {
           getProposal: () => Promise.reject(new Error(`Error`))
         }
       })
 
-      const { actions, state } = proposalsModuleInstance
+      const { actions, state } = moduleInstance
       const commit = jest.fn()
 
       await actions.getProposal(
@@ -191,8 +189,41 @@ describe(`Module: Proposals`, () => {
     })
   })
 
+  it(`should simulate a proposal transaction`, async () => {
+    const { actions } = moduleInstance
+    const self = {
+      rootState: mockRootState,
+      dispatch: jest.fn(() => 123123)
+    }
+    const proposal = proposals[`1`]
+    const res = await actions.simulateProposal(self, {
+      type: proposal.proposal_type,
+      initial_deposit: proposal.initial_deposit,
+      proposal_content: {
+        value: {
+          title: proposal.title,
+          description: proposal.description,
+        }
+      }
+    })
+
+    expect(self.dispatch).toHaveBeenCalledWith(`simulateTx`, {
+      type: `postProposal`,
+      proposal_type: proposal.proposal_type,
+      initial_deposit: proposal.initial_deposit,
+      proposer: mockRootState.wallet.address,
+      proposal_content: {
+        value: {
+          title: proposal.title,
+          description: proposal.description,
+        }
+      }
+    })
+    expect(res).toBe(123123)
+  })
+
   it(`submits a new proposal`, async () => {
-    const { actions } = proposalsModuleInstance
+    const { actions } = moduleInstance
     jest.useFakeTimers()
 
     const dispatch = jest.fn()
@@ -203,9 +234,8 @@ describe(`Module: Proposals`, () => {
         { dispatch, rootState: mockRootState, commit },
         {
           type: proposal.proposal_type,
-          title: proposal.title,
-          description: proposal.description,
-          initial_deposit: proposal.initial_deposit
+          initial_deposit: proposal.initial_deposit,
+          proposal_content: proposal.proposal_content
         }
       )
       expect(dispatch.mock.calls[i]).toEqual([
@@ -214,9 +244,8 @@ describe(`Module: Proposals`, () => {
           type: `postProposal`,
           proposal_type: proposal.proposal_type,
           proposer: addresses[0],
-          title: proposal.title,
-          description: proposal.description,
-          initial_deposit: proposal.initial_deposit
+          initial_deposit: proposal.initial_deposit,
+          proposal_content: proposal.proposal_content
         }
       ])
 
@@ -234,13 +263,17 @@ describe(`Module: Proposals`, () => {
 
     // optimistic update
     expect(commit).toHaveBeenCalledWith(`setProposal`, {
-      description: `custom text proposal description`,
       initial_deposit: [{
         amount: `200000000`,
         denom: `stake`,
       }],
       proposal_id: `1`,
-      title: `Custom text proposal`,
+      proposal_content: {
+        value: {
+          title: `Custom text proposal`,
+          description: `custom text proposal description`,
+        }
+      }
     })
   })
 })

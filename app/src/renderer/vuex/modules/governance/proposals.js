@@ -2,14 +2,14 @@ import * as Sentry from "@sentry/browser"
 import Vue from "vue"
 import BigNumber from "bignumber.js"
 
-export const setProposalTally = (commit, node) => async ({ value }) => {
-  commit(`setProposal`, value)
+export const setProposalTally = (commit, node) => async (proposal) => {
+  commit(`setProposal`, proposal)
   const final_tally_result =
-    value.proposal_status === `VotingPeriod` ?
-      await node.getProposalTally(value.proposal_id) :
-      { ...value.final_tally_result }
+    proposal.proposal_status === `VotingPeriod` ?
+      await node.getProposalTally(proposal.proposal_id) :
+      { ...proposal.final_tally_result }
   commit(`setProposalTally`, {
-    proposal_id: value.proposal_id,
+    proposal_id: proposal.proposal_id,
     final_tally_result
   })
 }
@@ -75,21 +75,49 @@ export default ({ node }) => {
       }
       return undefined
     },
+    async simulateProposal({
+      rootState: { wallet },
+      dispatch
+    },
+    { title, description, type, initial_deposit }) {
+      return await dispatch(`simulateTx`, {
+        type: `postProposal`,
+        proposer: wallet.address,
+        proposal_type: type,
+        proposal_content: {
+          value: {
+            title,
+            description,
+          }
+        },
+        initial_deposit
+      })
+    },
     async submitProposal(
       {
         rootState: { wallet },
         dispatch,
         commit
       },
-      { title, description, type, initial_deposit, password, submitType }
+      {
+        type, gas, gas_prices,
+        initial_deposit, password, submitType,
+        proposal_content: { value: { title, description } }
+      }
     ) {
       await dispatch(`sendTx`, {
         type: `postProposal`,
         proposer: wallet.address,
         proposal_type: type,
-        title,
-        description,
+        proposal_content: {
+          value: {
+            title,
+            description,
+          }
+        },
         initial_deposit,
+        gas,
+        gas_prices,
         password,
         submitType
       })
@@ -109,8 +137,12 @@ export default ({ node }) => {
       }, 0)
       commit(`setProposal`, {
         proposal_id: String(latestId + 1),
-        title,
-        description,
+        proposal_content: {
+          value: {
+            title,
+            description
+          }
+        },
         initial_deposit
       })
 

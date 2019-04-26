@@ -124,7 +124,23 @@ describe(`Module: Fee Distribution`, () => {
     })
 
     describe(`withdrawAllRewards`, () => {
-      it(`success`, async () => {
+
+      it(`should simulate a withdrawal transaction`, async () => {
+        const { actions } = module
+        const self = {
+          rootState,
+          dispatch: jest.fn(() => 123123)
+        }
+        const res = await actions.simulateWithdrawAllRewards(self)
+
+        expect(self.dispatch).toHaveBeenCalledWith(`simulateTx`, {
+          type: `postWithdrawDelegatorRewards`,
+          to: `cosmos1address`
+        })
+        expect(res).toBe(123123)
+      })
+
+      it(`success withdrawal`, async () => {
         await actions.withdrawAllRewards(
           { rootState, dispatch },
           { password: ``, submitType: `ledger` }
@@ -139,15 +155,14 @@ describe(`Module: Fee Distribution`, () => {
       })
     })
 
-    describe(`getRewardsFromAllValidators`, () => {
+    describe(`getRewardsFromMyValidators`, () => {
       it(`success`, async () => {
         const validators = [
           { operator_address: `cosmosvaloper1address1` },
           { operator_address: `cosmosvaloper1address2` },
         ]
-        await actions.getRewardsFromAllValidators(
-          { state, dispatch },
-          validators
+        await actions.getRewardsFromMyValidators(
+          { state, dispatch, getters: { lastHeader: { height: `44` }, yourValidators: validators } }
         )
         expect(dispatch).toBeCalledTimes(2)
         expect(dispatch).toBeCalledWith(
@@ -166,12 +181,28 @@ describe(`Module: Fee Distribution`, () => {
           { operator_address: `cosmosvaloper1address2` },
         ]
         dispatch = jest.fn(async () => Promise.reject(Error(`invalid address`)))
-        await expect(actions.getRewardsFromAllValidators(
-          { state, dispatch },
-          validators)
+        await expect(actions.getRewardsFromMyValidators(
+          { state, dispatch, getters: { lastHeader: { height: `44` }, yourValidators: validators } }
+        )
         ).rejects.toThrowError(`invalid address`)
       })
 
+      it(`throttle to every 20 blocks`, async () => {
+        const validators = [
+          { operator_address: `cosmosvaloper1address1` },
+          { operator_address: `cosmosvaloper1address2` },
+        ]
+        state.lastValidatorRewardsUpdate = 0
+        await actions.getRewardsFromMyValidators(
+          { state, dispatch, getters: { lastHeader: { height: `43` }, yourValidators: validators } }
+        )
+        expect(state.lastValidatorRewardsUpdate).toBe(43)
+        dispatch.mockClear()
+        await actions.getRewardsFromMyValidators(
+          { state, dispatch, getters: { lastHeader: { height: `44` }, yourValidators: validators } }
+        )
+        expect(dispatch).not.toHaveBeenCalled()
+      })
     })
 
     describe(`getRewardsFromValidator`, () => {

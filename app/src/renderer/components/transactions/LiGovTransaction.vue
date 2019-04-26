@@ -1,8 +1,8 @@
 <template>
   <li-transaction
     :color="`#15CFCC`"
-    :time="transaction.time"
-    :block="transaction.height"
+    :time="time"
+    :block="block"
   >
     <template v-if="txType === `cosmos-sdk/MsgSubmitProposal`">
       <div slot="caption">
@@ -11,7 +11,7 @@
         <span>{{ initialDeposit.denom }}s</span>
       </div>
       <div slot="details">
-        Title:<i>{{ tx.title }}</i>
+        Title:&nbsp;<i>{{ tx.title }}</i>
       </div>
       <div slot="fees">
         Network Fee:&nbsp;
@@ -28,7 +28,7 @@
         </template>
       </div>
       <div slot="details">
-        On
+        On&nbsp;
         <router-link :to="`${url}/${tx.proposal_id}`">
           Proposal &#35;{{ tx.proposal_id }}
         </router-link>
@@ -41,10 +41,10 @@
     </template>
     <template v-else-if="txType === `cosmos-sdk/MsgVote`">
       <div slot="caption">
-        Vote{{ tx.option }}
+        Vote&nbsp;{{ tx.option }}
       </div>
       <div slot="details">
-        On
+        On&nbsp;
         <router-link :to="`${url}/${tx.proposal_id}`">
           Proposal &#35;{{ tx.proposal_id }}
         </router-link>
@@ -66,7 +66,7 @@ export default {
   name: `li-gov-transaction`,
   components: { LiTransaction },
   props: {
-    transaction: {
+    tx: {
       type: Object,
       required: true
     },
@@ -85,6 +85,14 @@ export default {
     txType: {
       type: String,
       required: true
+    },
+    time: {
+      type: String,
+      required: true
+    },
+    block: {
+      type: Number,
+      required: true
     }
   },
   data: () => ({
@@ -92,9 +100,6 @@ export default {
     atoms
   }),
   computed: {
-    tx() {
-      return this.transaction.tx.value.msg[0].value
-    },
     initialDeposit() {
       return num.viewCoin(this.tx.initial_deposit[0])
     },

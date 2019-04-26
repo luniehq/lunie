@@ -2,14 +2,14 @@
   <div class="header-balance">
     <div class="top">
       <div class="total-atoms top-section">
-        <h3>Total {{ bondDenom }}</h3>
+        <h3>Total {{ num.viewDenom(bondDenom) }}</h3>
         <h2 class="total-atoms__value">
           {{ totalAtomsDisplay }}
         </h2>
         <short-bech32 :address="session.address || ''" />
       </div>
-      <div v-if="unbondedAtoms" class="unbonded-atoms top-section">
-        <h3>Available {{ bondDenom }}</h3>
+      <div class="unbonded-atoms top-section">
+        <h3>Available {{ num.viewDenom(bondDenom) }}</h3>
         <h2>{{ unbondedAtoms }}</h2>
       </div>
       <div v-if="rewards" class="top-section">
@@ -45,7 +45,8 @@ export default {
   },
   data() {
     return {
-      num
+      num,
+      lastUpdate: 0
     }
   },
   computed: {
@@ -85,15 +86,24 @@ export default {
     lastHeader: {
       immediate: true,
       handler(newHeader) {
-        const waitTenBlocks = Number(newHeader.height) % 10 === 0
-        if (this.session.signedIn && waitTenBlocks) {
-          this.$store.dispatch(`getTotalRewards`)
-          this.$store.dispatch(`queryWalletBalances`)
+        const height = Number(newHeader.height)
+        // run the update queries the first time and after every 10 blocks
+        const waitedTenBlocks = height - this.lastUpdate >= 10
+        if (
+          this.session.signedIn &&
+          (this.lastUpdate === 0 || waitedTenBlocks)
+        ) {
+          this.update(height)
         }
       }
     }
   },
   methods: {
+    update(height) {
+      this.lastUpdate = height
+      this.$store.dispatch(`getTotalRewards`)
+      this.$store.dispatch(`queryWalletBalances`)
+    },
     onWithdrawal() {
       this.$refs.modalWithdrawAllRewards.open()
     }
@@ -154,17 +164,16 @@ export default {
     padding: 0 0 1.5rem 0;
   }
 
-  .header-balance .top {
-    flex-direction: column;
-  }
-
   .top-section {
     padding: 0.5rem 0 1rem;
     border-right: none;
   }
 
-  .top-section:nth-child(2),
-  .top-section:nth-child(3) {
+  .top-section:not(:first-child) {
+    margin-left: 2rem;
+  }
+
+  .top-section:nth-child(2) {
     display: none;
   }
 }

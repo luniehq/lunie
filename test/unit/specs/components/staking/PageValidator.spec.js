@@ -49,7 +49,12 @@ const getters = {
   delegates: {
     delegates: [validator, validatorTo],
     globalPower: 4200,
-    loaded: true
+    loaded: true,
+    signingInfos: {
+      cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw: {
+        missed_blocks_counter: 2
+      }
+    }
   },
   delegation: { loaded: true },
   committedDelegations: {
@@ -195,16 +200,16 @@ describe(`PageValidator`, () => {
 
   describe(`myDelegation`, () => {
     it(`when user has delegations`, () => {
-      const bondDenom = `stake`
+      const bondDenom = `STAKE`
       const myBond = 10
       const delegationString = PageValidator.computed.myDelegation.call(
         { bondDenom, myBond }
       )
-      expect(delegationString).toBe(`10.000000 stake`)
+      expect(delegationString).toBe(`10.000000 STAKE`)
     })
 
     it(`when user doesn't have any delegations`, () => {
-      const bondDenom = `stake`
+      const bondDenom = `STAKE`
       const myBond = 0
       const delegationString = PageValidator.computed.myDelegation.call(
         { bondDenom, myBond }
@@ -217,7 +222,7 @@ describe(`PageValidator`, () => {
     let bondDenom, validator, session, lastHeader
 
     beforeEach(() => {
-      bondDenom = `stake`
+      bondDenom = `STAKE`
       validator = { operator_address: `cosmos1address` }
       session = { signedIn: true }
       lastHeader = { height: `20` }
@@ -233,7 +238,7 @@ describe(`PageValidator`, () => {
       const rewardsString = PageValidator.computed.rewards.call(
         { session, bondDenom, distribution, validator, lastHeader }
       )
-      expect(rewardsString).toBe(`100.000000 stake`)
+      expect(rewardsString).toBe(`100.000000 STAKE`)
     })
 
     it(`when validator rewards are 0`, () => {
@@ -248,7 +253,7 @@ describe(`PageValidator`, () => {
       const rewardsString = PageValidator.computed.rewards.call(
         { session, bondDenom, distribution, validator, lastHeader }
       )
-      expect(rewardsString).toBe(`0.000000 stake`)
+      expect(rewardsString).toBe(`0.000000 STAKE`)
     })
 
     it(`when user doesn't have any delegations`, () => {

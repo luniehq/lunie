@@ -1,21 +1,70 @@
 <template>
   <div class="tm-page">
-    <tm-page-header v-if="!hideHeader" :tabs="tabs">
-      <h2 v-if="title" slot="title">
+    <tm-page-header
+      v-if="!hideHeader"
+      :tabs="tabs"
+    >
+      <h2
+        v-if="title"
+        slot="title"
+      >
         {{ title }}
       </h2>
-      <h3 v-if="subtitle" slot="subtitle">
+      <h3
+        v-if="subtitle"
+        slot="subtitle"
+      >
         {{ subtitle }}
       </h3>
-      <slot slot="menu-body" name="menu-body">
+      <slot
+        slot="menu-body"
+        name="menu-body"
+      >
         <tm-balance v-if="session.signedIn" />
         <tool-bar :refresh="refreshable" />
       </slot>
-      <slot slot="header-buttons" name="header-buttons" />
+      <slot
+        slot="header-buttons"
+        name="header-buttons"
+      />
     </tm-page-header>
     <main class="tm-page-main">
       <slot />
     </main>
+    <footer class="footer">
+      <ul class="link-list">
+        <li>
+          <router-link
+            class="app-menu-item-small"
+            to="/about"
+            exact="exact"
+            title="About"
+          >
+            About
+          </router-link>
+        </li>
+        <li>
+          <router-link
+            class="app-menu-item-small"
+            to="/terms"
+            exact="exact"
+            title="About"
+          >
+            Terms of Service
+          </router-link>
+        </li>
+        <li>
+          <router-link
+            class="app-menu-item-small"
+            to="/privacy"
+            exact="exact"
+            title="About"
+          >
+            Privacy Policy
+          </router-link>
+        </li>
+      </ul>
+    </footer>
   </div>
 </template>
 
@@ -88,9 +137,14 @@ export default {
       return refresh ? { connected, refresh } : undefined
     }
   },
-  async mounted() {
-    const container = this.$el.querySelector(`.tm-page-main`)
-    this.perfectScrollbar = new PerfectScrollbar(container)
+  watch: {
+    $route() {
+      this.scrollContainer.scrollTop = 0
+    }
+  },
+  mounted() {
+    this.scrollContainer = this.$el.querySelector(`.tm-page-main`)
+    this.perfectScrollbar = new PerfectScrollbar(this.scrollContainer)
   }
 }
 </script>
@@ -101,7 +155,6 @@ export default {
   display: flex;
   flex-flow: column nowrap;
   position: relative;
-  width: 100%;
 }
 
 .tm-page-main {
@@ -246,6 +299,34 @@ export default {
   line-height: 1.25rem;
   color: var(--bright);
   word-break: break-all;
+}
+
+.footer {
+  width: 100%;
+  background: var(--app-fg);
+  padding: 0.5rem;
+  margin-top: 1rem;
+}
+
+.app-menu-item-small {
+  display: inline-block;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.25rem 0.25rem;
+  margin: 0 0.5rem;
+  color: var(--dim);
+  border-radius: 0.25rem;
+  font-size: var(--sm);
+}
+
+.link-list {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.link-list li {
+  display: inline;
 }
 
 @media screen and (max-width: 767px) {

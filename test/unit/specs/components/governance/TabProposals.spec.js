@@ -1,43 +1,51 @@
-import setup from "../../../helpers/vuex-setup"
+import { shallowMount } from "@vue/test-utils"
 import TabProposals from "renderer/components/governance/TabProposals"
-const lcdClientMock = require(`renderer/connectors/lcdClientMock.js`)
-
-const { tallies } = lcdClientMock.state
+import { proposals, tallies } from "../../store/json/proposals"
 
 describe(`TabProposals`, () => {
-  const { mount } = setup()
+  let $store
 
-  it(`has the expected html structure`, async () => {
-    const { wrapper } = mount(TabProposals, {
-      getters: {
-        proposals: () => ({
-          loading: false,
-          loaded: false,
-          proposals: lcdClientMock.state.proposals,
-          tallies
-        }),
-        connected: () => true
+  beforeEach(() => {
+    $store = {
+      commit: jest.fn(),
+      dispatch: jest.fn(),
+      getters: {}
+    }
+  })
+
+  it(`shows a proposals table`, async () => {
+    $store.getters = {
+      proposals: {
+        loading: false,
+        loaded: false,
+        proposals,
+        tallies
       },
-      stubs: {
-        "tm-data-connecting": true
+      connected: true
+    }
+
+    const wrapper = shallowMount(TabProposals, {
+      mocks: {
+        $store
       }
     })
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
   it(`shows a message if there is nothing to display`, async () => {
-    const { wrapper } = mount(TabProposals, {
-      getters: {
-        proposals: () => ({
-          loading: false,
-          loaded: false,
-          tallies: {},
-          proposals: {}
-        }),
-        connected: () => true
+    $store.getters = {
+      proposals: {
+        loading: false,
+        loaded: false,
+        tallies: {},
+        proposals: {}
       },
-      stubs: {
-        "tm-data-loading": true
+      connected: true
+    }
+
+    const wrapper = shallowMount(TabProposals, {
+      mocks: {
+        $store
       }
     })
     expect(wrapper.vm.$el).toMatchSnapshot()

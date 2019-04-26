@@ -18,7 +18,7 @@
                 class="page-profile__status"
               />
               <h2 class="page-profile__title">
-                {{ proposal.title }}
+                {{ title }}
               </h2>
             </div>
 
@@ -72,9 +72,7 @@
 
           <dl class="info_dl colored_dl">
             <dt>Deposit Count</dt>
-            <dd>
-              {{ `${totalDeposit.amount} ${totalDeposit.denom}` }}
-            </dd>
+            <dd>{{ `${totalDeposit.amount} ${totalDeposit.denom}` }}</dd>
           </dl>
           <dl
             v-if="proposal.proposal_status === 'VotingPeriod'"
@@ -102,9 +100,7 @@
           <dl class="info_dl colored_dl">
             <dt>No with Veto</dt>
             <dd>
-              {{
-                num.atoms(tally.no_with_veto) }} / {{ noWithVetoPercentage
-              }}
+              {{ num.atoms(tally.no_with_veto) }} / {{ noWithVetoPercentage }}
             </dd>
           </dl>
           <dl class="info_dl colored_dl">
@@ -116,9 +112,7 @@
           <div class="column">
             <dl class="info_dl colored_dl">
               <dt>Description</dt>
-              <dd>
-                <text-block :content="proposal.description" />
-              </dd>
+              <text-block :content="description" />
             </dl>
           </div>
         </div>
@@ -127,13 +121,13 @@
       <modal-deposit
         ref="modalDeposit"
         :proposal-id="proposalId"
-        :proposal-title="proposal.title"
+        :proposal-title="title"
         :denom="depositDenom"
       />
       <modal-vote
         ref="modalVote"
         :proposal-id="proposalId"
-        :proposal-title="proposal.title"
+        :proposal-title="title"
         :last-vote-option="lastVote && lastVote.option"
       />
     </data-view>
@@ -183,6 +177,12 @@ export default {
     proposal({ proposals, proposalId } = this) {
       return proposals.proposals[proposalId]
     },
+    title({ proposal } = this) {
+      return proposal.proposal_content.value.title
+    },
+    description({ proposal } = this) {
+      return proposal.proposal_content.value.description
+    },
     submittedAgo({ proposal } = this) {
       return moment(new Date(proposal.submit_time)).fromNow()
     },
@@ -217,10 +217,10 @@ export default {
       const { yes, no, abstain, no_with_veto } =
         proposals.tallies[proposalId] || {}
       return {
-        yes: yes,
-        no: no,
-        abstain: abstain,
-        no_with_veto: no_with_veto
+        yes: yes || BigNumber(0),
+        no: no || BigNumber(0),
+        abstain: abstain || BigNumber(0),
+        no_with_veto: no_with_veto || BigNumber(0)
       }
     },
     status({ proposal } = this) {

@@ -67,13 +67,6 @@ export default [
     meta: { requiresAuth: true }
   },
   {
-    path: `/wallet/send/:denom?`,
-    name: `send`,
-    props: true,
-    component: require(`./components/wallet/SendModal`).default,
-    meta: { requiresAuth: true }
-  },
-  {
     path: `/transactions`,
     name: `transactions`,
     component: require(`./components/wallet/PageTransactions`).default,
@@ -90,5 +83,6 @@ export default [
     component: require(`./components/network/PageBlock`).default
   },
   { path: `/404`, component: require(`./components/common/Page404`).default },
+  { path: `/about`, component: require(`./components/common/PageAbout`).default },
   { path: `*`, component: require(`./components/common/Page404`).default }
 ]

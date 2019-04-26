@@ -10,8 +10,11 @@ export default () => {
   const ERROR_COLLECTION_KEY = `voyager_error_collection`
 
   const state = {
-    experimentalMode: config.development, // development mode
-    insecureMode: config.development, // show the local signer
+    developmentMode: config.development, // can't be set in browser
+    experimentalMode: config.development, // development mode, can be set from browser
+    insecureMode: false, // show the local signer
+    gasPrice: config.default_gas_price, // price per unit of gas
+    gasAdjustment: config.default_gas_adjustment, // default adjustment multiplier
     signedIn: false,
     sessionType: null, // local, ledger
     accounts: [],
@@ -143,25 +146,23 @@ export default () => {
       let accountAddress
       switch (sessionType) {
         case `ledger`:
+        case `explore`:
           accountAddress = address
           break
         default:
           // local keyStore
           state.localKeyPairName = localKeyPairName
-          accountAddress = (await state.externals.loadKeys())
-            .find(({ name }) => name === localKeyPairName).address
+          accountAddress = await getLocalAddress(state, localKeyPairName)
       }
       commit(`setSignIn`, true)
       commit(`setSessionType`, sessionType)
+      commit(`setUserAddress`, accountAddress)
       dispatch(`setErrorCollection`, {
         account: accountAddress,
         optin: errorCollection
       })
-      commit(`setUserAddress`, accountAddress)
-      dispatch(`loadPersistedState`)
+      await dispatch(`loadPersistedState`)
       commit(`toggleSessionModal`, false)
-      await dispatch(`getStakingParameters`)
-      await dispatch(`getGovParameters`)
       dispatch(`loadErrorCollection`, accountAddress)
       await dispatch(`initializeWallet`, { address: accountAddress })
       dispatch(`persistSession`, { localKeyPairName, address: accountAddress, sessionType })
@@ -227,4 +228,9 @@ export default () => {
     mutations,
     actions
   }
+}
+
+async function getLocalAddress(state, localKeyPairName) {
+  return (await state.externals.loadKeys())
+    .find(({ name }) => name === localKeyPairName).address
 }
