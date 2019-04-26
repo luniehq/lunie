@@ -25,7 +25,6 @@ describe(`LiStakeTransaction`, () => {
   })
 
   describe(`create validator`, () => {
-
     it(`with fees`, () => {
       expect(wrapper.vm.$el).toMatchSnapshot()
     })
@@ -39,7 +38,6 @@ describe(`LiStakeTransaction`, () => {
   })
 
   describe(`edit validator`, () => {
-
     beforeEach(() => {
       wrapper.setProps({
         tx: stakingTxs[1].tx.value.msg[0].value,

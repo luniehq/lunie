@@ -141,7 +141,6 @@
 <script>
 import LiTransaction from "./LiTransaction"
 import num, { atoms, full, shortNumber } from "../../scripts/num.js"
-import { calculateTokens } from "../../scripts/common.js"
 import moment from "moment"
 
 /*
@@ -222,12 +221,6 @@ export default {
         c => c.operator_address === validatorAddr
       )
       return validator ? validator.description.moniker : validatorAddr
-    },
-    calculatePrettifiedTokens(validatorAddr, shares) {
-      const validator = this.validators.find(
-        val => val.operator_address === validatorAddr
-      )
-      return validator ? full(this.atoms(calculateTokens(validator, shares).toNumber())) : `--`
     }
   }
 }
