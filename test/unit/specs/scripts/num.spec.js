@@ -37,13 +37,23 @@ describe(`number helper`, () => {
     expect(num.viewDenom(`uatom`)).toBe(`ATOM`)
   })
 
-  it(`should convert SDK coins to view coins`, () => {
+  it(`should convert SDK coins to view coins with 6 decimal points`, () => {
     expect(num.viewCoin({
       denom: `uatom`,
       amount: 1000000
     })).toEqual({
       denom: `ATOM`,
       amount: `1.000000`
+    })
+  })
+
+  it(`should convert SDK coins to view coins with 3 decimal points`, () => {
+    expect(num.viewCoinShort({
+      denom: `uatom`,
+      amount: 1000000
+    })).toEqual({
+      denom: `ATOM`,
+      amount: `1.000`
     })
   })
 })
