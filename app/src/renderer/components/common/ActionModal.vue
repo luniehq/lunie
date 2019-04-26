@@ -35,6 +35,7 @@
           <tm-field
             id="gas-price"
             v-model="gasPrice"
+            step="0.000000001"
             type="number"
             min="0"
           />
