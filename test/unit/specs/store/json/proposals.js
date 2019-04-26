@@ -4,8 +4,12 @@ export const proposals = {
   1: {
     proposal_id: `1`,
     proposal_type: `Text`,
-    title: `Proposal Title`,
-    description: `Proposal description`,
+    proposal_content: {
+      value: {
+        title: `Proposal Title`,
+        description: `Proposal description`
+      }
+    },
     initial_deposit: [
       {
         denom: `stake`,
@@ -33,8 +37,12 @@ export const proposals = {
   2: {
     proposal_id: `2`,
     proposal_type: `Text`,
-    title: `VotingPeriod proposal`,
-    description: `custom text proposal description`,
+    proposal_content: {
+      value: {
+        title: `VotingPeriod proposal`,
+        description: `custom text proposal description`
+      }
+    },
     initial_deposit: [
       {
         denom: `stake`,
@@ -62,8 +70,12 @@ export const proposals = {
   5: {
     proposal_id: `5`,
     proposal_type: `Text`,
-    title: `Custom text proposal`,
-    description: `custom text proposal description`,
+    proposal_content: {
+      value: {
+        title: `Custom text proposal`,
+        description: `custom text proposal description`,
+      }
+    },
     initial_deposit: [
       {
         denom: `stake`,
@@ -91,8 +103,12 @@ export const proposals = {
   6: {
     proposal_id: `6`,
     proposal_type: `Text`,
-    title: `Rejected proposal`,
-    description: `this proposal was rejected`,
+    proposal_content: {
+      value: {
+        title: `Rejected proposal`,
+        description: `this proposal was rejected`
+      }
+    },
     initial_deposit: [
       {
         denom: `stake`,

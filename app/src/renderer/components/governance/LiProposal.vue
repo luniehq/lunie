@@ -9,7 +9,8 @@
           class="data-table__row__info__container__status material-icons"
         >
           checkmark
-        </span><span
+        </span>
+        <span
           v-else
           v-tooltip.top="status.message"
           :class="status.color"
@@ -22,7 +23,7 @@
           }"
           class="data-table__row__info__container__name"
         >
-          {{ proposal.title }}
+          {{ proposal.proposal_content.value.title }}
         </router-link>
         <p class="data-table__row__info__container__description">
           {{ description }}
@@ -128,9 +129,10 @@ export default {
       }
     },
     description() {
-      return this.proposal.description.length > 100
-        ? this.proposal.description.substring(0, 100) + `…`
-        : this.proposal.description.substring(0, 100)
+      const { description } = this.proposal.proposal_content.value
+      return description.length > 100
+        ? description.substring(0, 100) + `…`
+        : description.substring(0, 100)
     }
   }
 }

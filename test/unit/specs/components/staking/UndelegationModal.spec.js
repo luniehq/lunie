@@ -92,7 +92,7 @@ describe(`UndelegationModal`, () => {
 
       expect(self.$store.dispatch).toHaveBeenCalledWith(`simulateUnbondingDelegation`,
         {
-          amount: -4200000,
+          amount: `4200000`,
           validator
         }
       )
@@ -119,7 +119,7 @@ describe(`UndelegationModal`, () => {
 
       expect($store.dispatch).toHaveBeenCalledWith(`submitUnbondingDelegation`,
         {
-          amount: -4200000,
+          amount: `4200000`,
           validator,
           gas,
           gas_prices,

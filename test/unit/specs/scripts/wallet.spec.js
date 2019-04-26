@@ -240,7 +240,7 @@ describe(`Signing`, () => {
     expect(createBroadcastBody(signedTx)).toEqual(
       JSON.stringify({
         tx: { x: 1 },
-        return: `block`
+        mode: `sync`
       })
     )
   })

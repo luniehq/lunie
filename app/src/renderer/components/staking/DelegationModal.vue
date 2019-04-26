@@ -181,7 +181,7 @@ export default {
       return await this.$store.dispatch(`simulateRedelegation`, {
         validatorSrc,
         validatorDst: this.validator,
-        amount: String(uatoms(this.amount))
+        amount: String(uatoms(this.amount)),
       })
     },
     async submitRedelegation(gasEstimate, gasPrice, password, submitType) {
@@ -191,7 +191,10 @@ export default {
       await this.$store.dispatch(`submitRedelegation`, {
         validatorSrc,
         validatorDst: this.validator,
-        amount: String(uatoms(this.amount)),
+        amount: {
+          amount: String(uatoms(this.amount)),
+          denom: this.denom
+        },
         submitType,
         password,
         gas: String(gasEstimate),

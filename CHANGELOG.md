@@ -7,6 +7,46 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [1.0.0-beta.48] - 2019-04-25
+
+### Fixed
+
+- [#2475](https://github.com/cosmos/lunie/issues/2475) fixed delegation, redelegation, and undelegation issues @jbibla
+- [#2476](https://github.com/cosmos/lunie/issues/2476) fixed redelegation errors @jbibla
+
+### Security
+
+- [#2463](https://github.com/cosmos/lunie/pull/2463) Added a CSP header to limit source of JS and connections content of the website can do @faboweb
+
+## [1.0.0-beta.47] - 2019-04-24
+
+### Fixed
+
+- [#2475](https://github.com/cosmos/lunie/issues/2475) fixed delegation, redelegation, and undelegation issues @jbibla
+
+### Security
+
+- [#2463](https://github.com/cosmos/lunie/pull/2463) Added a CSP header to limit source of JS and connections content of the website can do @faboweb
+
+## [1.0.0-beta.46] - 2019-04-23
+
+### Fixed
+
+- [#2470](https://github.com/cosmos/lunie/pull/2470) Fixed proposal displaying due to SDK update @faboweb
+
+## [1.0.0-beta.45] - 2019-04-23
+
+### Fixed
+
+- [#2467](https://github.com/cosmos/lunie/pull/2467) Fixed sending by fixing the send body according to the SDK update @faboweb
+
+## [1.0.0-beta.44] - 2019-04-21
+
+### Fixed
+
+- [#2431](https://github.com/cosmos/lunie/issues/2431) check for ledger on submit to avoid action modal failures @jbibla
+- [#2413](https://github.com/cosmos/lunie/issues/2413) page validator uptime was not showing @jbibla
+
 ## [1.0.0-beta.43] - 2019-04-16
 
 ### Added
