@@ -33,11 +33,13 @@
           </dl>
           <dl class="info_dl colored_dl">
             <dt>Transactions</dt>
-            <dd>{{ lastHeader.total_txs || `--` }}</dd>
+            <dd>{{ num.setDecimalLength(lastHeader.total_txs) || `--` }}</dd>
           </dl>
           <dl class="info_dl colored_dl">
             <dt>Number of Validators</dt>
-            <dd>{{ delegates.delegates.length || `--` }}</dd>
+            <dd>
+              {{ num.setDecimalLength(delegates.delegates.length) || `--` }}
+            </dd>
           </dl>
         </div>
         <div class="row">
@@ -48,8 +50,7 @@
                 {{
                   pool.pool && pool.pool.not_bonded_tokens
                     ? num.setDecimalLength(
-                      num.atoms(pool.pool.not_bonded_tokens),
-                      6
+                      num.atoms(pool.pool.not_bonded_tokens)
                     )
                     : `--`
                 }}
@@ -62,10 +63,7 @@
               <dd id="bonded_tokens">
                 {{
                   pool.pool && pool.pool.bonded_tokens
-                    ? num.setDecimalLength(
-                      num.atoms(pool.pool.bonded_tokens),
-                      6
-                    )
+                    ? num.setDecimalLength(num.atoms(pool.pool.bonded_tokens))
                     : `--`
                 }}
               </dd>

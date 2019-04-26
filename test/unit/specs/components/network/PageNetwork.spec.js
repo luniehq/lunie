@@ -26,8 +26,8 @@ describe(`PageNetwork`, () => {
       },
       pool: {
         pool: {
-          bonded_tokens: 125,
-          not_bonded_tokens: 10
+          bonded_tokens: 18056799300.444444,
+          not_bonded_tokens: 9008256400.444444
         }
       },
       bondDenom: `stake`,

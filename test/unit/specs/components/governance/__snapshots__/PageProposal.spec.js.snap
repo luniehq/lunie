@@ -15,9 +15,7 @@ exports[`PageProposal renders votes in HTML when voting is open 1`] = `
       <h2
         class="proposal-id"
       >
-        
-          #2
-        
+        #2
       </h2>
        
       <div
@@ -102,11 +100,11 @@ exports[`PageProposal renders votes in HTML when voting is open 1`] = `
         class="info_dl colored_dl"
       >
         <dt>
-          Vote Count
+          Total Vote Count
         </dt>
          
         <dd>
-          10000
+          10,000
         </dd>
       </dl>
     </div>
@@ -126,7 +124,10 @@ exports[`PageProposal renders votes in HTML when voting is open 1`] = `
         </dt>
          
         <dd>
-          1000 / 10%
+          
+            1,000 /
+            10%
+          
         </dd>
       </dl>
        
@@ -138,7 +139,10 @@ exports[`PageProposal renders votes in HTML when voting is open 1`] = `
         </dt>
          
         <dd>
-          2000 / 20%
+          
+            2,000 /
+            20%
+          
         </dd>
       </dl>
        
@@ -151,7 +155,8 @@ exports[`PageProposal renders votes in HTML when voting is open 1`] = `
          
         <dd>
           
-            3000 / 30%
+            3,000 /
+            30%
           
         </dd>
       </dl>
@@ -164,7 +169,10 @@ exports[`PageProposal renders votes in HTML when voting is open 1`] = `
         </dt>
          
         <dd>
-          4000 / 40%
+          
+            4,000 /
+            40%
+          
         </dd>
       </dl>
     </div>
@@ -218,9 +226,7 @@ exports[`PageProposal should display proposal page if user has signed in 1`] = `
       <h2
         class="proposal-id"
       >
-        
-          #2
-        
+        #2
       </h2>
        
       <div
@@ -305,7 +311,7 @@ exports[`PageProposal should display proposal page if user has signed in 1`] = `
         class="info_dl colored_dl"
       >
         <dt>
-          Vote Count
+          Total Vote Count
         </dt>
          
         <dd>
@@ -329,7 +335,10 @@ exports[`PageProposal should display proposal page if user has signed in 1`] = `
         </dt>
          
         <dd>
-          0 / 0%
+          
+            0 /
+            0%
+          
         </dd>
       </dl>
        
@@ -341,7 +350,10 @@ exports[`PageProposal should display proposal page if user has signed in 1`] = `
         </dt>
          
         <dd>
-          0 / 0%
+          
+            0 /
+            0%
+          
         </dd>
       </dl>
        
@@ -354,7 +366,8 @@ exports[`PageProposal should display proposal page if user has signed in 1`] = `
          
         <dd>
           
-            0 / 0%
+            0 /
+            0%
           
         </dd>
       </dl>
@@ -367,7 +380,10 @@ exports[`PageProposal should display proposal page if user has signed in 1`] = `
         </dt>
          
         <dd>
-          0 / 0%
+          
+            0 /
+            0%
+          
         </dd>
       </dl>
     </div>
@@ -421,9 +437,7 @@ exports[`PageProposal should display proposal page should default tally to 0 if 
       <h2
         class="proposal-id"
       >
-        
-          #2
-        
+        #2
       </h2>
        
       <div
@@ -508,7 +522,7 @@ exports[`PageProposal should display proposal page should default tally to 0 if 
         class="info_dl colored_dl"
       >
         <dt>
-          Vote Count
+          Total Vote Count
         </dt>
          
         <dd>
@@ -532,7 +546,10 @@ exports[`PageProposal should display proposal page should default tally to 0 if 
         </dt>
          
         <dd>
-          0 / 0%
+          
+            0 /
+            0%
+          
         </dd>
       </dl>
        
@@ -544,7 +561,10 @@ exports[`PageProposal should display proposal page should default tally to 0 if 
         </dt>
          
         <dd>
-          0 / 0%
+          
+            0 /
+            0%
+          
         </dd>
       </dl>
        
@@ -557,7 +577,8 @@ exports[`PageProposal should display proposal page should default tally to 0 if 
          
         <dd>
           
-            0 / 0%
+            0 /
+            0%
           
         </dd>
       </dl>
@@ -570,7 +591,10 @@ exports[`PageProposal should display proposal page should default tally to 0 if 
         </dt>
          
         <dd>
-          0 / 0%
+          
+            0 /
+            0%
+          
         </dd>
       </dl>
     </div>
