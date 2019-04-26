@@ -1,17 +1,16 @@
 "use strict"
 
-const Client = (axios, remoteLcdURL) => {
-  async function request(method, path, data) {
-    const url = remoteLcdURL
-    const result = await axios({ data, method, url: url + path })
-    return result.data
-  }
+async function request(axios, url, method, path, data) {
+  const result = await axios({ data, method, url: url + path })
+  return result.data
+}
 
+const Client = (axios, remoteLcdURL) => {
   // returns an async function which makes a request for the given
   // HTTP method (GET/POST/DELETE/etc) and path (/foo/bar)
   function req(method, path) {
     return async function (data) {
-      return await request(method, path, data)
+      return await request(axios, remoteLcdURL, method, path, data)
     }
   }
 
@@ -20,7 +19,7 @@ const Client = (axios, remoteLcdURL) => {
   // to the path (/foo/{arg}/...)
   function argReq(method, prefix, suffix = ``) {
     return function (args, data) {
-      return request(method, `${prefix}/${args}${suffix}`, data)
+      return request(axios, remoteLcdURL, method, `${prefix}/${args}${suffix}`, data)
     }
   }
 
