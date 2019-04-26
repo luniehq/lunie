@@ -104,7 +104,7 @@ export default () => {
       const version = { major, minor, patch, test_mode }
       commit(`setCosmosAppVersion`, version)
       if (minor === 0 && patch === 0) {
-        throw new Error(`Comos Ledger App is outdated. Please update to at least version 1.0.1`)
+        throw new Error(`Comos Ledger App is outdated. Please update it to the latest version`)
       }
     },
     async getLedgerPubKey({ commit, state }) {
