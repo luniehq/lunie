@@ -98,16 +98,13 @@ export default () => {
       }
     },
     async getLedgerCosmosVersion({ commit, state }) {
-      let response
-      try {
-        response = await state.cosmosApp.get_version()
-        actions.checkLedgerErrors(response)
-        const { major, minor, patch, test_mode } = response
-        const version = { major, minor, patch, test_mode }
-        commit(`setCosmosAppVersion`, version)
-      } catch (error) {
-        Sentry.captureException(error)
-        commit(`setLedgerError`, error)
+      const response = await state.cosmosApp.get_version()
+      actions.checkLedgerErrors(response)
+      const { major, minor, patch, test_mode } = response
+      const version = { major, minor, patch, test_mode }
+      commit(`setCosmosAppVersion`, version)
+      if (minor === 0 && patch === 0) {
+        throw new Error(`Comos Ledger App is outdated. Please update to at least version 1.0.1`)
       }
     },
     async getLedgerPubKey({ commit, state }) {
