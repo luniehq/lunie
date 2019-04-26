@@ -76,7 +76,7 @@ describe(`Module: Wallet`, () => {
 
     it(`should set vested account`, () => {
       const { state, mutations } = instance
-      mutations.setVestedAccount(state)
+      mutations.setVestingAccount(state)
       expect(state.vestedAccount).toBe(true)
     })
   })
@@ -296,7 +296,7 @@ describe(`Module: Wallet`, () => {
         rootState: mockRootState,
         commit
       })
-      expect(commit).toHaveBeenCalledWith(`setVestedAccount`)
+      expect(commit).toHaveBeenCalledWith(`setVestingAccount`)
     })
 
     it(`should simulate a transfer transaction`, async () => {

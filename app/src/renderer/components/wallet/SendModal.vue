@@ -122,7 +122,7 @@ export default {
     amount: null,
     denom: ``,
     num,
-    vestedWarning: `has vested coins. You will not be able to send those until the vesting period is over.`
+    vestedWarning: `has vesting coins. You will not be able to send these until the vesting period is over.`
   }),
   computed: {
     ...mapGetters([`wallet`]),

@@ -39,7 +39,7 @@ export default ({ node }) => {
     setAccountNumber(state, accountNumber) {
       state.accountNumber = accountNumber
     },
-    setVestedAccount(state) {
+    setVestingAccount(state) {
       state.vestedAccount = true
     }
   }
@@ -81,7 +81,7 @@ export default ({ node }) => {
         commit(`setAccountNumber`, account_number)
         commit(`setWalletBalances`, coins || [])
         if (vested) {
-          commit(`setVestedAccount`)
+          commit(`setVestingAccount`)
         }
         state.loading = false
         state.loaded = true
