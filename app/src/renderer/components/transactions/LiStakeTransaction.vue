@@ -3,7 +3,7 @@
     <template v-if="txType === `cosmos-sdk/MsgCreateValidator`">
       <div slot="caption">
         Create validator
-        <b>{{ setDecimalLength(value.amount) }}</b>
+        <b>{{ atoms(tx.amount.amount) }}</b>
         <span>{{ value && value.denom }}</span>
       </div>
       <div slot="details">
@@ -43,7 +43,7 @@
     <template v-else-if="txType === `cosmos-sdk/MsgDelegate`">
       <div slot="caption">
         Delegated
-        <b>{{ setDecimalLength(atoms(tx.amount.amount)) }}</b>
+        <b>{{ atoms(tx.amount.amount) }}</b>
         <span>{{ num.viewDenom(tx.amount.denom) }}</span>
       </div>
       <div slot="details">
@@ -65,7 +65,7 @@
       <div slot="caption">
         Undelegated
         <b>
-          {{ setDecimalLength(atoms(tx.amount.amount)) }}
+          {{ atoms(tx.amount.amount) }}
         </b>
         <span>{{ num.viewDenom(bondingDenom) }}</span>
         <template v-if="timeDiff">
@@ -93,7 +93,7 @@
       <div slot="caption">
         Redelegated
         <b>
-          {{ setDecimalLength(atoms(tx.amount.amount)) }}
+          {{ atoms(tx.amount.amount) }}
         </b>
         <span>{{ num.viewDenom(bondingDenom) }}</span>
       </div>

@@ -11,7 +11,7 @@ exports[`LiGovTransaction deposits 1`] = `
       Deposited
       
     <b>
-      1,000.000
+      1,000
     </b>
      
     <span>
@@ -59,7 +59,7 @@ exports[`LiGovTransaction proposals 1`] = `
       Submitted text proposal
       
     <b>
-      1,000.000
+      1,000
     </b>
      
     <span>

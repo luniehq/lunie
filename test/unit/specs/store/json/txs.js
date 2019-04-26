@@ -195,11 +195,11 @@ export const stakingTxs = [
             type: `cosmos-sdk/MsgEditValidator`,
             value: {
               validator_address: `cosmosvaloper1qecshyc40kshszkwrtscgmsdd8tz3n4hrj9yf2`,
+              amount: {
+                denom: `uatom`,
+                amount: `1000000`
+              }
             },
-            amount: {
-              denom: `uatom`,
-              amount: `1000000`
-            }
           }
         ],
         fee: {

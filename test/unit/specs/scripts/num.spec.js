@@ -53,7 +53,7 @@ describe(`number helper`, () => {
       amount: 1000000
     })).toEqual({
       denom: `ATOM`,
-      amount: `1.000`
+      amount: `1`
     })
   })
 })

@@ -2,7 +2,7 @@
   <li-transaction :color="`#ED553B`" :time="time" :block="block">
     <template v-if="address === ''">
       <div slot="caption">
-        Sent<b>{{ setDecimalLength(coins.amount) }}</b>
+        Sent<b>{{ coins.amount }}</b>
         <span>{{ viewDenom(coins.denom) }}</span>
       </div>
       <span slot="details">
@@ -25,7 +25,7 @@
     <template v-else-if="sent">
       <div slot="caption">
         Sent
-        <b>{{ setDecimalLength(coins.amount) }}</b>
+        <b>{{ coins.amount }}</b>
         <span>{{ viewDenom(coins.denom) }}</span>
       </div>
       <span slot="details">
@@ -50,7 +50,7 @@
     <template v-else>
       <div slot="caption">
         Received
-        <b>{{ setDecimalLength(coins.amount) }}</b>
+        <b>{{ coins.amount }}</b>
         <span>{{ viewDenom(coins.denom) }}</span>
       </div>
       <span slot="details">From <short-bech32 :address="sender" /></span>

@@ -15,8 +15,9 @@ export const SMALLEST = 1e-6
 const language = window.navigator.userLanguage || window.navigator.language
 
 export function setDecimalLength(value, length = 3) {
-  return new Intl.NumberFormat(language, { minimumFractionDigits: length })
-    .format(truncate(value, length))
+  return new Intl.NumberFormat(language, {
+    minimumFractionDigits: length > 3 ? length : 0
+  }).format(truncate(value, length))
 }
 
 export function pretty(number = 0) {

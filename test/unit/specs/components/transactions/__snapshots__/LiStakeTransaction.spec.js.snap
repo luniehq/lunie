@@ -11,7 +11,7 @@ exports[`LiStakeTransaction create validator with fees 1`] = `
       Create validator
       
     <b>
-      0.000
+      1
     </b>
      
     <span>
@@ -36,7 +36,7 @@ exports[`LiStakeTransaction create validator with fees 1`] = `
     
       Network Fee: 
     <b>
-      0.003421
+      0.003
     </b>
      
     <span>
@@ -59,7 +59,7 @@ exports[`LiStakeTransaction create validator without fees 1`] = `
       Create validator
       
     <b>
-      0.000
+      1
     </b>
      
     <span>
@@ -107,7 +107,7 @@ exports[`LiStakeTransaction delegations with fees 1`] = `
       Delegated
       
     <b>
-      42,000.000
+      42000
     </b>
      
     <span>
@@ -132,7 +132,7 @@ exports[`LiStakeTransaction delegations with fees 1`] = `
     
       Network Fee: 
     <b>
-      0.003421
+      0.003
     </b>
      
     <span>
@@ -155,7 +155,7 @@ exports[`LiStakeTransaction delegations without fees 1`] = `
       Delegated
       
     <b>
-      42,000.000
+      42000
     </b>
      
     <span>
@@ -221,7 +221,7 @@ exports[`LiStakeTransaction edit validator with fees 1`] = `
     
       Network Fee: 
     <b>
-      0.003421
+      0.003
     </b>
      
     <span>
@@ -286,7 +286,7 @@ exports[`LiStakeTransaction redelegations with fees 1`] = `
       
     <b>
       
-        1.000
+        1
       
     </b>
      
@@ -322,7 +322,7 @@ exports[`LiStakeTransaction redelegations with fees 1`] = `
     
       Network Fee: 
     <b>
-      0.003421
+      0.003
     </b>
      
     <span>
@@ -346,7 +346,7 @@ exports[`LiStakeTransaction redelegations without fees 1`] = `
       
     <b>
       
-        1.000
+        1
       
     </b>
      
@@ -406,7 +406,7 @@ exports[`LiStakeTransaction unbonding delegations should default to ended if no 
       
     <b>
       
-        1.000
+        1
       
     </b>
      
@@ -434,7 +434,7 @@ exports[`LiStakeTransaction unbonding delegations should default to ended if no 
     
       Network Fee: 
     <b>
-      0.003421
+      0.003
     </b>
      
     <span>
@@ -458,7 +458,7 @@ exports[`LiStakeTransaction unbonding delegations should show unbonding delegati
       
     <b>
       
-        1.000
+        1
       
     </b>
      
@@ -486,7 +486,7 @@ exports[`LiStakeTransaction unbonding delegations should show unbonding delegati
     
       Network Fee: 
     <b>
-      0.003421
+      0.003
     </b>
      
     <span>
@@ -510,7 +510,7 @@ exports[`LiStakeTransaction unbonding delegations with fees 1`] = `
       
     <b>
       
-        1.000
+        1
       
     </b>
      
@@ -544,7 +544,7 @@ exports[`LiStakeTransaction unbonding delegations with fees 1`] = `
     
       Network Fee: 
     <b>
-      0.003421
+      0.003
     </b>
      
     <span>
@@ -568,7 +568,7 @@ exports[`LiStakeTransaction unbonding delegations without fees 1`] = `
       
     <b>
       
-        1.000
+        1
       
     </b>
      
@@ -637,7 +637,7 @@ exports[`LiStakeTransaction unjail with fees 1`] = `
     
       Network Fee: 
     <b>
-      0.003421
+      0.003
     </b>
      
     <span>

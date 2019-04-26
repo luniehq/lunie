@@ -151,7 +151,7 @@ describe(`LiStakeTransaction`, () => {
 
     it(`with fees`, () => {
       expect(wrapper.vm.$el).toMatchSnapshot()
-      expect(wrapper.text()).toContain(`1.000`)
+      expect(wrapper.text()).toContain(`0.003`)
     })
 
     it(`without fees`, () => {
