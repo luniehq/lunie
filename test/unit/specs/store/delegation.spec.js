@@ -187,7 +187,7 @@ describe(`Module: Delegations`, () => {
       to: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
       delegator_address: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
       validator_address,
-      delegation: {
+      amount: {
         denom: `STAKE`,
         amount: `10`
       }
@@ -228,7 +228,7 @@ describe(`Module: Delegations`, () => {
       gas_prices,
       submitType,
       password,
-      delegation: {
+      amount: {
         denom: `STAKE`,
         amount: `10`
       }
@@ -256,7 +256,10 @@ describe(`Module: Delegations`, () => {
       to: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
       delegator_address: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
       validator_address: validator.operator_address,
-      shares: `10.0000000000`
+      amount: {
+        amount: `10`,
+        denom: `STAKE`
+      }
     })
     expect(res).toBe(123123)
   })
@@ -282,7 +285,10 @@ describe(`Module: Delegations`, () => {
       to: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
       delegator_address: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
       validator_address: validator.operator_address,
-      shares: `10.0000000000`,
+      amount: {
+        amount: `10`,
+        denom: `STAKE`
+      },
       password,
       submitType
     })
@@ -310,7 +316,10 @@ describe(`Module: Delegations`, () => {
       delegator_address: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
       validator_src_address: validatorSrc.operator_address,
       validator_dst_address: validatorDst.operator_address,
-      shares: `10.0000000000`,
+      amount: {
+        amount: `10`,
+        denom: `STAKE`
+      },
     })
     expect(res).toBe(123123)
   })
@@ -337,7 +346,10 @@ describe(`Module: Delegations`, () => {
       delegator_address: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
       validator_src_address: validatorSrc.operator_address,
       validator_dst_address: validatorDst.operator_address,
-      shares: `10.0000000000`,
+      amount: {
+        amount: `10`,
+        denom: `STAKE`
+      },
       password,
       submitType
     })
@@ -459,10 +471,10 @@ describe(`Module: Delegations`, () => {
           liquidAtoms: 1000
         },
         dispatch: () => { },
-        commit
+        commit,
       },
       {
-        amount: 100,
+        amount: `100`,
         validator_address: delegates[0].operator_address,
         password: `12345`
       }

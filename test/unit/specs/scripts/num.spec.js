@@ -6,7 +6,7 @@ describe(`number helper`, () => {
   })
 
   it(`should format numbers showing many decimals`, () => {
-    expect(num.shortNumber(1.123456789)).toBe(`1.1235…`)
+    expect(num.shortNumber(1.123456789)).toBe(`1.1234…`)
   })
 
   it(`should format numbers showing few decimals`, () => {

@@ -7,6 +7,39 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [1.0.0-beta.49] - 2019-04-26
+
+### Fixed
+
+- [#2487](https://github.com/cosmos/lunie/pull/2487) Remove rounding in small numbers @faboweb
+
+## [1.0.0-beta.48] - 2019-04-25
+
+### Fixed
+
+- [#2475](https://github.com/cosmos/lunie/issues/2475) fixed delegation, redelegation, and undelegation issues @jbibla
+- [#2476](https://github.com/cosmos/lunie/issues/2476) fixed redelegation errors @jbibla
+
+### Security
+
+- [#2463](https://github.com/cosmos/lunie/pull/2463) Added a CSP header to limit source of JS and connections content of the website can do @faboweb
+
+## [1.0.0-beta.47] - 2019-04-24
+
+### Fixed
+
+- [#2475](https://github.com/cosmos/lunie/issues/2475) fixed delegation, redelegation, and undelegation issues @jbibla
+
+### Security
+
+- [#2463](https://github.com/cosmos/lunie/pull/2463) Added a CSP header to limit source of JS and connections content of the website can do @faboweb
+
+## [1.0.0-beta.46] - 2019-04-23
+
+### Fixed
+
+- [#2470](https://github.com/cosmos/lunie/pull/2470) Fixed proposal displaying due to SDK update @faboweb
+
 ## [1.0.0-beta.45] - 2019-04-23
 
 ### Fixed
