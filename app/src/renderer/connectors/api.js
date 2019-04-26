@@ -37,45 +37,7 @@ const Client = (axios, remoteLcdURL) => {
 
     // coins
     send: argReq(`POST`, `/bank/accounts`, `/transfers`),
-    getAccount: function (address) {
-      const emptyAccount = {
-        coins: [],
-        sequence: `0`,
-        account_number: `0`
-      }
-      return req(`GET`, `/auth/accounts/${address}`)()
-        .then(res => {
-          // HACK, hope for: https://github.com/cosmos/cosmos-sdk/issues/3885
-          let account = res.value || emptyAccount
-          if (res.type === `auth/DelayedVestingAccount`) {
-            if (!account.BaseVestingAccount) {
-              console.error(`SDK format of vesting accounts responses has changed`)
-              return emptyAccount
-            }
-            account = Object.assign(
-              {
-                vested: true
-              },
-              account.BaseVestingAccount.BaseAccount,
-              account.BaseVestingAccount
-            )
-            delete account.BaseAccount
-            delete account.BaseVestingAccount
-          }
-          return account
-        })
-        .catch(err => {
-          // if account not found, return null instead of throwing
-          if (
-            err.response &&
-            (err.response.data.includes(`account bytes are empty`) ||
-              err.response.data.includes(`failed to prove merkle proof`))
-          ) {
-            return emptyAccount
-          }
-          throw err
-        })
-    },
+    getAccount: addr => getAccount(req, addr),
     txs: function (addr) {
       return Promise.all([
         req(`GET`, `/txs?sender=${addr}`)(),
@@ -295,6 +257,46 @@ const Client = (axios, remoteLcdURL) => {
       return req(`GET`, `/distribution/outstanding_rewards`)()
     }
   }
+}
+
+const emptyAccount = {
+  coins: [],
+  sequence: `0`,
+  account_number: `0`
+}
+function getAccount(req, address) {
+  return req(`GET`, `/auth/accounts/${address}`)()
+    .then(res => {
+      // HACK, hope for: https://github.com/cosmos/cosmos-sdk/issues/3885
+      let account = res.value || emptyAccount
+      if (res.type === `auth/DelayedVestingAccount`) {
+        if (!account.BaseVestingAccount) {
+          console.error(`SDK format of vesting accounts responses has changed`)
+          return emptyAccount
+        }
+        account = Object.assign(
+          {
+            vested: true
+          },
+          account.BaseVestingAccount.BaseAccount,
+          account.BaseVestingAccount
+        )
+        delete account.BaseAccount
+        delete account.BaseVestingAccount
+      }
+      return account
+    })
+    .catch(err => {
+      // if account not found, return null instead of throwing
+      if (
+        err.response &&
+        (err.response.data.includes(`account bytes are empty`) ||
+          err.response.data.includes(`failed to prove merkle proof`))
+      ) {
+        return emptyAccount
+      }
+      throw err
+    })
 }
 
 export default Client
