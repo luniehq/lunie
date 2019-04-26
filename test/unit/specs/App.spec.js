@@ -1,4 +1,4 @@
-import { startApp, main, routeGuard } from "renderer/scripts/boot"
+import { startApp, main, routeGuard } from "scripts/boot"
 
 async function start(urlParams, environment) {
   const node = {

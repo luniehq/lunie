@@ -1,5 +1,5 @@
-import lcdClientMock from "renderer/connectors/lcdClientMock.js"
-import delegationModule from "renderer/vuex/modules/delegation.js"
+import lcdClientMock from "src/connectors/lcdClientMock.js"
+import delegationModule from "src/vuex/modules/delegation.js"
 
 const mockRootState = {
   connection: {

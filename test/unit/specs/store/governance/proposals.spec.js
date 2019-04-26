@@ -1,4 +1,4 @@
-import proposalsModule from "renderer/vuex/modules/governance/proposals.js"
+import proposalsModule from "src/vuex/modules/governance/proposals.js"
 import { proposals, tallies } from "../json/proposals"
 import { addresses } from "../json/addresses"
 

@@ -1,4 +1,4 @@
-import sessionModule from "renderer/vuex/modules/session.js"
+import sessionModule from "src/vuex/modules/session.js"
 
 describe(`Module: Session`, () => {
   let module, state, actions, mutations, node
@@ -132,13 +132,13 @@ describe(`Module: Session`, () => {
     jest.spyOn(console, `error`).mockImplementationOnce(() => { })
 
     jest.resetModules()
-    jest.doMock(`renderer/scripts/keystore.js`, () => ({
+    jest.doMock(`scripts/keystore.js`, () => ({
       loadKeys: async () => {
         throw Error(`Error`)
       }
     }))
 
-    const sessionModule = require(`renderer/vuex/modules/session.js`).default
+    const sessionModule = require(`src/vuex/modules/session.js`).default
     module = sessionModule({ node })
     state = module.state
     actions = module.actions
@@ -173,14 +173,14 @@ describe(`Module: Session`, () => {
 
   it(`should test if the login works`, async () => {
     jest.resetModules()
-    jest.doMock(`renderer/scripts/keystore.js`, () => ({
+    jest.doMock(`scripts/keystore.js`, () => ({
       testPassword: jest
         .fn()
         .mockReturnValueOnce(true)
         .mockReturnValueOnce(false)
     }))
 
-    const sessionModule = require(`renderer/vuex/modules/session.js`).default
+    const sessionModule = require(`src/vuex/modules/session.js`).default
     module = sessionModule({ node })
     state = module.state
     actions = module.actions

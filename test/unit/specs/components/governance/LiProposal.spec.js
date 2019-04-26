@@ -1,5 +1,5 @@
 import { shallowMount, createLocalVue } from "@vue/test-utils"
-import LiProposal from "renderer/components/governance/LiProposal"
+import LiProposal from "src/components/governance/LiProposal"
 
 import { proposals, tallies } from "../../store/json/proposals"
 

@@ -17,7 +17,7 @@
 </template>
 
 <script>
-import config from "../../../config"
+import config from "src/config"
 
 export default {
   name: `tm-session-loading`,

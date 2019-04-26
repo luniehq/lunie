@@ -1,4 +1,4 @@
-import connectionModule from "renderer/vuex/modules/connection.js"
+import connectionModule from "src/vuex/modules/connection.js"
 
 jest.mock(`src/config.js`, () => ({
   stargate: `https://voyager.lol`,

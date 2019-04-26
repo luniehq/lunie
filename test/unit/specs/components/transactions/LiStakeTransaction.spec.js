@@ -1,7 +1,7 @@
 import { shallowMount } from "@vue/test-utils"
 import LiStakeTransaction from "transactions/LiStakeTransaction"
 import { stakingTxs } from "../../store/json/txs"
-import { state } from "renderer/connectors/lcdClientMock.js"
+import { state } from "src/connectors/lcdClientMock.js"
 
 describe(`LiStakeTransaction`, () => {
   let wrapper

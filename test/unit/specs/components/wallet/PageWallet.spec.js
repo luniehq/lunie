@@ -1,6 +1,6 @@
 import { shallowMount, createLocalVue } from "@vue/test-utils"
-import lcdClientMock from "renderer/connectors/lcdClientMock.js"
-import PageWallet from "renderer/components/wallet/PageWallet"
+import lcdClientMock from "src/connectors/lcdClientMock.js"
+import PageWallet from "src/components/wallet/PageWallet"
 
 describe(`PageWallet`, () => {
   const localVue = createLocalVue()

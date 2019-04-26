@@ -1,4 +1,4 @@
-import { getURLParams } from "src/helpers/url.js"
+import { getURLParams } from "scripts/url.js"
 
 describe(`URL functions`, () => {
   it(`gets query params`, () => {

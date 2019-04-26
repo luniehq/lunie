@@ -1,4 +1,4 @@
-import PageTransactions from "renderer/components/wallet/PageTransactions"
+import PageTransactions from "src/components/wallet/PageTransactions"
 import { createLocalVue, shallowMount } from "@vue/test-utils"
 
 describe(`PageTransactions`, () => {
