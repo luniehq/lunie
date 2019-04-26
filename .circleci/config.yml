@@ -196,10 +196,10 @@ jobs:
       - run:
           name: Build for E2E test
           command: 
-            STARGATE=https://localhost:9071 RPC=http://localhost:26657 CIRCLECI=true yarn build:ui
+            STARGATE=http://localhost:9070 RPC=http://localhost:26657 CIRCLECI=true yarn build:ui
       - run:
           name: Test
-          command: yarn serve & yarn proxy & yarn testnet & yarn run test:e2e
+          command: yarn serve & yarn testnet & yarn run test:e2e
           no_output_timeout: 120
       - store_artifacts:
           path: testArtifacts
