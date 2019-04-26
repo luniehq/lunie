@@ -11,7 +11,7 @@ exports[`LiGovTransaction deposits 1`] = `
       Deposited
       
     <b>
-      1,000.000000
+      1,000.000
     </b>
      
     <span>
@@ -36,7 +36,7 @@ exports[`LiGovTransaction deposits 1`] = `
     
       Network Fee: 
     <b>
-      0.003421
+      0.003
     </b>
      
     <span>
@@ -59,7 +59,7 @@ exports[`LiGovTransaction proposals 1`] = `
       Submitted text proposal
       
     <b>
-      1,000.000000
+      1,000.000
     </b>
      
     <span>
@@ -79,7 +79,7 @@ exports[`LiGovTransaction proposals 1`] = `
     
       Network Fee: 
     <b>
-      0.003421
+      0.003
     </b>
      
     <span>
@@ -120,7 +120,7 @@ exports[`LiGovTransaction votes 1`] = `
     
       Network Fee: 
     <b>
-      0.003421
+      0.003
     </b>
      
     <span>

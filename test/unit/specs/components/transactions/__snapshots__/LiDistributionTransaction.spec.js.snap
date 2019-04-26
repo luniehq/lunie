@@ -22,7 +22,7 @@ exports[`LiDistributionTransaction set withdraw address 1`] = `
     
       Network Fee: 
     <b>
-      0.003421
+      0.003
     </b>
      
     <span>
@@ -102,7 +102,7 @@ exports[`LiDistributionTransaction withdraw delegation rewards 1`] = `
     
       Network Fee: 
     <b>
-      0.003421
+      0.003
     </b>
      
     <span>
@@ -142,7 +142,7 @@ exports[`LiDistributionTransaction withdraw validator commission 1`] = `
     
       Network Fee: 
     <b>
-      0.003421
+      0.003
     </b>
      
     <span>

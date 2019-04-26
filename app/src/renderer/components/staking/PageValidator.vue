@@ -257,7 +257,7 @@ export default {
     },
     myDelegation() {
       const { bondDenom, myBond } = this
-      const myDelegation = this.setDecimalLength(myBond, 6)
+      const myDelegation = setDecimalLength(myBond, 6)
       const myDelegationString = `${myDelegation} ${num.viewDenom(bondDenom)}`
       return Number(myBond) === 0 ? `--` : myDelegationString
     },
@@ -310,7 +310,7 @@ export default {
 
       const validatorRewards = distribution.rewards[validator.operator_address]
       const amount = validatorRewards
-        ? this.setDecimalLength(atoms(validatorRewards[bondDenom]), 6) || 0
+        ? setDecimalLength(atoms(validatorRewards[bondDenom]), 6) || 0
         : null
 
       if (amount) {
