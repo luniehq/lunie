@@ -1,6 +1,6 @@
 import { sleep } from "scripts/common.js"
 import Vue from "vue"
-import config from "../../../config"
+import config from "src/config"
 
 const NODE_HALTED_TIMEOUT = config.node_halted_timeout
 

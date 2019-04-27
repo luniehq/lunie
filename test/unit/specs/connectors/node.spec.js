@@ -8,7 +8,7 @@ describe(`Connector`, () => {
     axios = jest.fn()
 
     jest.mock(
-      `renderer/connectors/api`,
+      `src/connectors/api`,
       () =>
         class LCDClient {
           fooLcd() {
@@ -16,19 +16,19 @@ describe(`Connector`, () => {
           }
         }
     )
-    jest.mock(`renderer/connectors/lcdClientMock`, () => ({
+    jest.mock(`src/connectors/lcdClientMock`, () => ({
       fooLcd() {
         return `lcdBarMock`
       }
     }))
-    jest.mock(`renderer/connectors/rpcWrapper`, () => () => ({
+    jest.mock(`src/connectors/rpcWrapper`, () => () => ({
       fooRpc: `rpcBar`
     }))
-    jest.mock(`renderer/connectors/rpcWrapperMock`, () => () => ({
+    jest.mock(`src/connectors/rpcWrapperMock`, () => () => ({
       fooRpc: `rpcBarMock`
     }))
 
-    Node = require(`renderer/connectors/node`).default
+    Node = require(`src/connectors/node`).default
   })
 
   it(`should hold the lcdPort`, () => {

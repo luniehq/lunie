@@ -3,7 +3,7 @@
 const axios = require(`axios`)
 const fs = require(`fs`)
 const path = require(`path`)
-const { lookupId } = require(`../app/src/renderer/vuex/modules/keybase.js`)
+const { lookupId } = require(`../src/vuex/modules/keybase.js`)
 
 // This function creates a file with keybase profiles of all validators (as a fallback cache)
 // This should be created on every build
@@ -27,7 +27,7 @@ async function main() {
       }
   }))
 
-  fs.writeFileSync(path.join(__dirname, `../app/src/renderer/keybase-cache.json`), JSON.stringify(cache), `utf8`)
+  fs.writeFileSync(path.join(__dirname, `../src/keybase-cache.json`), JSON.stringify(cache), `utf8`)
 }
 
 main()

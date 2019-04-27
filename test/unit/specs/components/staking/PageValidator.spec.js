@@ -1,5 +1,5 @@
 import { shallowMount, createLocalVue } from "@vue/test-utils"
-import PageValidator from "renderer/components/staking/PageValidator"
+import PageValidator from "src/components/staking/PageValidator"
 import BigNumber from "bignumber.js"
 
 const stakingParameters = {

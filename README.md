@@ -1,4 +1,4 @@
-![Lunie logo — spaceship blasting off](/app/static/icons/png/128x128.png)
+![Lunie logo — spaceship blasting off](/src/images/png/128x128.png)
 
 # Welcome to [Lunie.io](https://lunie.io)!
 
@@ -64,14 +64,6 @@ yarn build:gaia
 ```
 
 The version built is specified in `tasks/build/Gaia/VERSION` and the programs are placed in the `builds/Gaia` directory.
-
-### Testnets
-
-To connect to a testnet, Lunie needs the configuration files of those networks in the folder `app/networks/{network_name}`. Gaia has a Git repository that holds the configuration files. Lunie has script to download those configurations for you:
-
-```bash
-yarn build:testnets
-```
 
 ### Caddy Proxy
 
@@ -213,7 +205,7 @@ If you want to run them locally build the UI and serve the files so the E2E test
 
 ```bash
 yarn build:ui
-./node_modules/.bin/http-server /app/dist -p 8081
+./node_modules/.bin/http-server /dist -p 8081
 ```
 
 Then run the actual tests:

@@ -1,6 +1,6 @@
 import * as Sentry from "@sentry/browser"
 import Vue from "vue"
-import config from "../../../config"
+import config from "src/config"
 import axios from "axios"
 
 export default ({ node }) => {

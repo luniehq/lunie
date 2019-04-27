@@ -1,5 +1,5 @@
 import { shallowMount } from "@vue/test-utils"
-import TabMyDelegations from "renderer/components/staking/TabMyDelegations"
+import TabMyDelegations from "src/components/staking/TabMyDelegations"
 import validators from "../../store/json/validators.js"
 import { stakingTxs } from "../../store/json/txs"
 

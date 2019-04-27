@@ -16,7 +16,7 @@ export default () => {
   // prepopulating the keybase cache. The cache is build on every build.
   // This mitigates the problem of the keybase API rate limiting users and therefor
   // users not being able to see profile pictures.
-  const cache = require(`../../keybase-cache.json`)
+  const cache = require(`src/keybase-cache.json`)
   const localCache = localStorage.getItem(`keybaseCache`)
   state.identities = localCache ? JSON.parse(localCache) : cache
 

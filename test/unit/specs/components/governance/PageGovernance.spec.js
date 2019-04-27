@@ -1,8 +1,8 @@
 import setup from "../../../helpers/vuex-setup"
 import Vuelidate from "vuelidate"
-import PageGovernance from "renderer/components/governance/PageGovernance"
-import ModalPropose from "renderer/components/governance/ModalPropose"
-import lcdClientMock from "renderer/connectors/lcdClientMock.js"
+import PageGovernance from "src/components/governance/PageGovernance"
+import ModalPropose from "src/components/governance/ModalPropose"
+import lcdClientMock from "src/connectors/lcdClientMock.js"
 
 const { governanceParameters, stakingParameters } = lcdClientMock.state
 

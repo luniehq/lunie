@@ -2,11 +2,11 @@ import store, {
   getStorageKey,
   storeUpdateHandler,
   loadPersistedState
-} from "renderer/vuex/store"
-import lcdClientMock from "renderer/connectors/lcdClientMock.js"
+} from "src/vuex/store"
+import lcdClientMock from "src/connectors/lcdClientMock.js"
 import { Store } from "vuex"
 
-jest.mock(`renderer/vuex/modules/index.js`, () => () => ({}))
+jest.mock(`src/vuex/modules/index.js`, () => () => ({}))
 
 const mockState = {
   session: {

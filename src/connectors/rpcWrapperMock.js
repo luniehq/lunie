@@ -1,6 +1,6 @@
 "use strict"
 
-const mockValidators = require(`../../helpers/json/mock_validators.json`)
+const mockValidators = require(`scripts/mock_validators.json`)
 const { sleep } = require(`../scripts/common.js`)
 
 const state = { blockMetas: [], blocks: [], connected: true }
