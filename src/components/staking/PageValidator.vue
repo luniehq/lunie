@@ -73,7 +73,7 @@
             <dl class="info_dl colored_dl">
               <dt>Voting Power</dt>
               <dd id="page-profile__power">
-                {{ percent(powerRatio) }}
+                {{ num.percent(powerRatio) }}
               </dd>
             </dl>
             <dl class="info_dl colored_dl">
@@ -85,7 +85,7 @@
             <dl class="info_dl colored_dl">
               <dt>Commission</dt>
               <dd id="page-profile__commission">
-                {{ percent(validator.commission.rate) }}
+                {{ num.percent(validator.commission.rate) }}
               </dd>
             </dl>
           </div>
@@ -135,15 +135,15 @@
           <div class="column">
             <dl class="info_dl">
               <dt>Current Commission Rate</dt>
-              <dd>{{ percent(validator.commission.rate) }}</dd>
+              <dd>{{ num.percent(validator.commission.rate) }}</dd>
             </dl>
             <dl class="info_dl">
               <dt>Max Commission Rate</dt>
-              <dd>{{ percent(validator.commission.max_rate) }}</dd>
+              <dd>{{ num.percent(validator.commission.max_rate) }}</dd>
             </dl>
             <dl class="info_dl">
               <dt>Max Daily Commission Change</dt>
-              <dd>{{ percent(validator.commission.max_change_rate) }}</dd>
+              <dd>{{ num.percent(validator.commission.max_change_rate) }}</dd>
             </dl>
             <dl class="info_dl">
               <dt>Last Commission Change</dt>
@@ -182,7 +182,7 @@
 import moment from "moment"
 import { calculateTokens } from "scripts/common"
 import { mapGetters } from "vuex"
-import num, { percent, pretty, atoms, full } from "scripts/num"
+import num from "scripts/num"
 import TmBtn from "common/TmBtn"
 import { shortAddress, ratToBigNumber } from "scripts/common"
 import DelegationModal from "staking/DelegationModal"
@@ -200,12 +200,11 @@ export default {
     TmPage
   },
   data: () => ({
-    percent,
-    pretty,
     showCannotModal: false,
     shortAddress,
     tabIndex: 1,
-    moment
+    moment,
+    num
   }),
   computed: {
     ...mapGetters([
@@ -233,7 +232,7 @@ export default {
       return validator
     },
     selfBond() {
-      return percent(this.validator.selfBond)
+      return num.percent(this.validator.selfBond)
     },
     uptime() {
       if (!this.validator.signing_info) return null
@@ -247,7 +246,7 @@ export default {
     },
     myBond() {
       if (!this.validator) return 0
-      return atoms(
+      return num.atoms(
         calculateTokens(
           this.validator,
           this.committedDelegations[this.validator.operator_address] || 0
@@ -256,7 +255,7 @@ export default {
     },
     myDelegation() {
       const { bondDenom, myBond } = this
-      const myDelegation = full(myBond)
+      const myDelegation = num.shortDecimals(myBond)
       const myDelegationString = `${myDelegation} ${num.viewDenom(bondDenom)}`
       return Number(myBond) === 0 ? `--` : myDelegationString
     },
@@ -309,7 +308,7 @@ export default {
 
       const validatorRewards = distribution.rewards[validator.operator_address]
       const amount = validatorRewards
-        ? full(atoms(validatorRewards[bondDenom]) || 0)
+        ? num.shortDecimals(num.atoms(validatorRewards[bondDenom])) || 0
         : null
 
       if (amount) {

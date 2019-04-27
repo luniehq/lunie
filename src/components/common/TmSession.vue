@@ -177,7 +177,7 @@ export default {
 }
 
 .tm-form-group__label {
-  color: var(--dim);
+  color: var(--txt);
   font-size: var(--sm);
   line-height: var(--xl);
   display: inline;

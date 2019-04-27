@@ -122,7 +122,7 @@ export default {
         {
           title: `Commission`,
           value: `commission`,
-          tooltip: `The validator's commission`
+          tooltip: `The fee the validator will charge from your rewards`
         },
         {
           title: `Uptime`,

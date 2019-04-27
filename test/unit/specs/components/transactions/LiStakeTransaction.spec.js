@@ -25,7 +25,6 @@ describe(`LiStakeTransaction`, () => {
   })
 
   describe(`create validator`, () => {
-
     it(`with fees`, () => {
       expect(wrapper.vm.$el).toMatchSnapshot()
     })
@@ -39,7 +38,6 @@ describe(`LiStakeTransaction`, () => {
   })
 
   describe(`edit validator`, () => {
-
     beforeEach(() => {
       wrapper.setProps({
         tx: stakingTxs[1].tx.value.msg[0].value,
@@ -131,7 +129,7 @@ describe(`LiStakeTransaction`, () => {
     it(`should show unbonding delegations as ended`, () => {
       wrapper.setProps({ unbondingTime: Date.now() - 1000 })
       expect(wrapper.vm.$el).toMatchSnapshot()
-      expect(wrapper.text()).toContain(`0.000323`)
+      expect(wrapper.text()).toContain(`0.003`)
     })
 
     it(`should default to ended if no unbonding delegation is present`, () => {
@@ -140,7 +138,6 @@ describe(`LiStakeTransaction`, () => {
   })
 
   describe(`redelegations`, () => {
-
     beforeEach(() => {
       wrapper.setProps({
         tx: stakingTxs[4].tx.value.msg[0].value,
@@ -154,7 +151,7 @@ describe(`LiStakeTransaction`, () => {
 
     it(`with fees`, () => {
       expect(wrapper.vm.$el).toMatchSnapshot()
-      expect(wrapper.text()).toContain(`30.000000`)
+      expect(wrapper.text()).toContain(`0.003`)
     })
 
     it(`without fees`, () => {

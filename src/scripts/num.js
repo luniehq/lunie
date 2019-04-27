@@ -13,20 +13,27 @@ function truncate(number, digits) {
 
 export const SMALLEST = 1e-6
 const language = window.navigator.userLanguage || window.navigator.language
-export function full(number = 0) {
-  return new Intl.NumberFormat(language, { minimumFractionDigits: 6 })
-    .format(truncate(number, 6))
+
+function setDecimalLength(value, length) {
+  return new Intl.NumberFormat(language, {
+    minimumFractionDigits: length > 3 ? length : 0
+  }).format(truncate(value, length))
 }
-export function shortNumber(number = 0) {
-  return new Intl.NumberFormat(language, { minimumFractionDigits: 4 })
-    .format(truncate(number, 4)) + `…`
+export function shortDecimals(value) {
+  return setDecimalLength(value, 3)
 }
+
+export function fullDecimals(value) {
+  return setDecimalLength(value, 6)
+}
+
 export function pretty(number = 0) {
   return new Intl.NumberFormat(
     language,
     { minimumFractionDigits: 2, maximumFractionDigits: 2 }
   ).format(Math.round(number * 100) / 100)
 }
+
 // pretty print long decimals not in scientific notation
 export function prettyDecimals(number = 0) {
   let longDecimals = new Intl.NumberFormat(
@@ -46,21 +53,26 @@ export function prettyDecimals(number = 0) {
 
   return longDecimals
 }
+
 export function prettyInt(number = 0) {
   return new Intl.NumberFormat(language).format(Math.round(number))
 }
+
 export function percentInt(number = 0) {
   return new Intl.NumberFormat(language).format(Math.round(number * 100)) + `%`
 }
+
 export function percent(number = 0) {
   return new Intl.NumberFormat(
     language,
     { minimumFractionDigits: 2, maximumFractionDigits: 2 }
   ).format(Math.round(number * 10000) / 100) + `%`
 }
+
 export function atoms(number = 0) {
   return BigNumber(number).div(1e6).toNumber()
 }
+
 export function uatoms(number = 0) {
   return BigNumber(number).times(1e6).toString()
 }
@@ -73,9 +85,9 @@ export function viewDenom(denom) {
   return denom.toUpperCase()
 }
 
-export function viewCoin({ amount, denom }) {
+export function createDisplayCoin({ amount, denom }, length = 3) {
   return {
-    amount: full(atoms(amount)),
+    amount: setDecimalLength(atoms(amount), length),
     denom: viewDenom(denom)
   }
 }
@@ -85,9 +97,9 @@ export default {
   atoms,
   uatoms,
   viewDenom,
-  viewCoin,
-  full,
-  shortNumber,
+  createDisplayCoin,
+  shortDecimals,
+  fullDecimals,
   pretty,
   prettyInt,
   percent,

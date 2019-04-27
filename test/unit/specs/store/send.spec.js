@@ -155,7 +155,7 @@ describe(`Module: Send`, () => {
             await actions.simulateTx(self, args)
           } catch ({ message }) {
             expect(message).toBe(
-              `Currently not connected to a secure node. Please try again when Voyager has secured a connection.`
+              `Currently not connected to a secure node. Please try again when Lunie has secured a connection.`
             )
           }
         })
@@ -832,7 +832,7 @@ describe(`Module: Send`, () => {
           )
         ).rejects.toEqual(
           new Error(
-            `Currently not connected to a secure node. Please try again when Voyager has secured a connection.`
+            `Currently not connected to a secure node. Please try again when Lunie has secured a connection.`
           )
         )
       })

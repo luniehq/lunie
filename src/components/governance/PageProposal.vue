@@ -76,8 +76,8 @@
             v-if="proposal.proposal_status === 'VotingPeriod'"
             class="info_dl colored_dl"
           >
-            <dt>Vote Count</dt>
-            <dd>{{ num.atoms(totalVotes) }}</dd>
+            <dt>Total Vote Count</dt>
+            <dd>{{ num.shortDecimals(num.atoms(totalVotes)) }}</dd>
           </dl>
         </div>
       </div>
@@ -89,21 +89,31 @@
         >
           <dl class="info_dl colored_dl">
             <dt>Yes</dt>
-            <dd>{{ num.atoms(tally.yes) }} / {{ yesPercentage }}</dd>
+            <dd>
+              {{ num.shortDecimals(num.atoms(tally.yes)) }} /
+              {{ yesPercentage }}
+            </dd>
           </dl>
           <dl class="info_dl colored_dl">
             <dt>No</dt>
-            <dd>{{ num.atoms(tally.no) }} / {{ noPercentage }}</dd>
+            <dd>
+              {{ num.shortDecimals(num.atoms(tally.no)) }} /
+              {{ noPercentage }}
+            </dd>
           </dl>
           <dl class="info_dl colored_dl">
             <dt>No with Veto</dt>
             <dd>
-              {{ num.atoms(tally.no_with_veto) }} / {{ noWithVetoPercentage }}
+              {{ num.shortDecimals(num.atoms(tally.no_with_veto)) }} /
+              {{ noWithVetoPercentage }}
             </dd>
           </dl>
           <dl class="info_dl colored_dl">
             <dt>Abstain</dt>
-            <dd>{{ num.atoms(tally.abstain) }} / {{ abstainPercentage }}</dd>
+            <dd>
+              {{ num.shortDecimals(num.atoms(tally.abstain)) }} /
+              {{ abstainPercentage }}
+            </dd>
           </dl>
         </div>
         <div class="row">
@@ -248,7 +258,7 @@ export default {
         }
     },
     totalDeposit() {
-      return num.viewCoin(this.proposal.total_deposit[0])
+      return num.createDisplayCoin(this.proposal.total_deposit[0])
     }
   },
   async mounted({ proposals, proposalId, $store } = this) {

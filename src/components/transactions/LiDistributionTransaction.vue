@@ -4,7 +4,7 @@
     :time="time"
     :block="block"
   >
-    <template v-if="txType === `cosmos-sdk/MsgWithdrawDelegationReward`">
+    <template v-if="txType === MsgWithdrawDelegationReward">
       <div slot="caption">
         Withdrawal
       </div>
@@ -14,18 +14,15 @@
         </router-link>
       </div>
       <div slot="fees">
-        Network Fee:&nbsp;
-        <b>{{ convertedFees ? convertedFees.amount : full(0) }}</b>
+        Network Fee:&nbsp;<b>{{ convertedFees ? convertedFees.amount : 0 }}</b>
         <span>
           {{
-            convertedFees
-              ? convertedFees.denom
-              : num.viewDenom(bondingDenom)
-          }}s
+            convertedFees ? convertedFees.denom : num.viewDenom(bondingDenom)
+          }}
         </span>
       </div>
     </template>
-    <template v-else-if="txType === `cosmos-sdk/MsgSetWithdrawAddress`">
+    <template v-else-if="txType === MsgSetWithdrawAddress">
       <div slot="caption">
         Update withdraw address
       </div>
@@ -33,20 +30,15 @@
         To {{ tx.withdraw_address }}
       </div>
       <div slot="fees">
-        Network Fee:&nbsp;
-        <b>{{ convertedFees ? convertedFees.amount : full(0) }}</b>
+        Network Fee:&nbsp;<b>{{ convertedFees ? convertedFees.amount : 0 }}</b>
         <span>
           {{
-            convertedFees
-              ? convertedFees.denom
-              : num.viewDenom(bondingDenom)
-          }}s
+            convertedFees ? convertedFees.denom : num.viewDenom(bondingDenom)
+          }}
         </span>
       </div>
     </template>
-    <template
-      v-else-if="txType === `cosmos-sdk/MsgWithdrawValidatorCommission`"
-    >
+    <template v-else-if="txType === MsgWithdrawValidatorCommission">
       <div slot="caption">
         Withdraw validator commission
       </div>
@@ -56,14 +48,11 @@
         </router-link>
       </div>
       <div slot="fees">
-        Network Fee:&nbsp;
-        <b>{{ convertedFees ? convertedFees.amount : full(0) }}</b>
+        Network Fee:&nbsp;<b>{{ convertedFees ? convertedFees.amount : 0 }}</b>
         <span>
           {{
-            convertedFees
-              ? convertedFees.denom
-              : num.viewDenom(bondingDenom)
-          }}s
+            convertedFees ? convertedFees.denom : num.viewDenom(bondingDenom)
+          }}
         </span>
       </div>
     </template>
@@ -72,7 +61,7 @@
 
 <script>
 import LiTransaction from "./LiTransaction"
-import num, { pretty, atoms, full } from "../../scripts/num.js"
+import num from "../../scripts/num.js"
 
 export default {
   name: `li-distribution-transaction`,
@@ -112,14 +101,14 @@ export default {
     }
   },
   data: () => ({
-    atoms,
-    full,
-    pretty,
-    num
+    num,
+    MsgWithdrawValidatorCommission: `cosmos-sdk/MsgWithdrawValidatorCommission`,
+    MsgSetWithdrawAddress: `cosmos-sdk/MsgSetWithdrawAddress`,
+    MsgWithdrawDelegationReward: `cosmos-sdk/MsgWithdrawDelegationReward`
   }),
   computed: {
     convertedFees() {
-      return this.fees ? num.viewCoin(this.fees) : undefined
+      return this.fees ? num.createDisplayCoin(this.fees) : undefined
     }
   },
   methods: {

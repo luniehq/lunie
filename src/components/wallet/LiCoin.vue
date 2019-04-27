@@ -1,5 +1,8 @@
 <template>
-  <li :id="`li-coin--` + denomination.toLowerCase()" class="li-coin">
+  <li
+    :id="`li-coin--` + denomination.toLowerCase()"
+    class="li-coin"
+  >
     <div class="li-coin__icon">
       <img src="~assets/images/cosmos-logo.png">
     </div>
@@ -52,7 +55,7 @@ export default {
   computed: {
     ...mapGetters([`lastHeader`]),
     viewCoin() {
-      return num.viewCoin(this.coin)
+      return num.createDisplayCoin(this.coin, 6)
     },
     amount() {
       return this.viewCoin.amount

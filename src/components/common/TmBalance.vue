@@ -13,7 +13,7 @@
         <h2>{{ unbondedAtoms }}</h2>
       </div>
       <div v-if="rewards" class="top-section">
-        <h3>Pending Rewards</h3>
+        <h3>Rewards</h3>
         <h2>{{ rewards }}</h2>
         <tm-btn
           id="withdraw-btn"
@@ -65,11 +65,11 @@ export default {
       return this.wallet.loaded && this.delegation.loaded
     },
     totalAtomsDisplay() {
-      return this.loaded ? num.shortNumber(num.atoms(this.totalAtoms)) : `--`
+      return this.loaded ? this.num.shortDecimals(this.num.atoms(this.totalAtoms)) : `--`
     },
     unbondedAtoms() {
       return this.loaded
-        ? this.num.shortNumber(this.num.atoms(this.liquidAtoms))
+        ? this.num.shortDecimals(this.num.atoms(this.liquidAtoms))
         : `--`
     },
     rewards() {
@@ -77,7 +77,7 @@ export default {
         return `--`
       }
       const rewards = this.distribution.totalRewards[this.bondDenom]
-      return this.num.shortNumber(
+      return this.num.shortDecimals(
         this.num.atoms(rewards && rewards > 10 ? rewards : 0)
       )
     }
@@ -156,7 +156,7 @@ export default {
 .withdraw-rewards {
   font-size: var(--sm);
   position: absolute;
-  font-weight: 300;
+  font-weight: 500;
 }
 
 @media screen and (max-width: 767px) {

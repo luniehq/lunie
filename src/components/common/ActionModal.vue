@@ -41,14 +41,14 @@
           :error="$v.gasPrice.$error && $v.gasPrice.$invalid"
           class="action-modal-group"
           field-id="gasPrice"
-          field-label="Network Fee"
+          field-label="Gas Price"
         >
-          <span class="input-suffix">{{ bondDenom }}</span>
+          <span class="input-suffix">{{ viewDenom(bondDenom) }}</span>
           <tm-field
             id="gas-price"
             v-model="gasPrice"
-            type="number"
             step="0.000000001"
+            type="number"
             min="0"
           />
           <tm-form-msg
@@ -185,7 +185,7 @@ import TmFormGroup from "common/TmFormGroup"
 import TmFormMsg from "common/TmFormMsg"
 import TableInvoice from "common/TableInvoice"
 import { mapGetters } from "vuex"
-import { uatoms, atoms } from "../../scripts/num.js"
+import { uatoms, atoms, viewDenom } from "../../scripts/num.js"
 import { between, requiredIf } from "vuelidate/lib/validators"
 import { track } from "scripts/google-analytics.js"
 
@@ -238,12 +238,13 @@ export default {
     password: null,
     sending: false,
     gasEstimate: null,
-    gasPrice: (2.5e-8).toFixed(9), // default: 0.025 uatom per gas
+    gasPrice: 2.5e-8, // default: 0.025 uatom per gas
     submissionError: null,
     show: false,
     track,
     atoms,
-    uatoms
+    uatoms,
+    viewDenom
   }),
   computed: {
     ...mapGetters([
@@ -491,6 +492,13 @@ export default {
   position: absolute;
   left: 1.5rem;
   bottom: 1rem;
+}
+
+.form-message {
+  font-size: var(--sm);
+  font-weight: 500;
+  font-style: italic;
+  color: var(--dim);
 }
 
 .slide-fade-enter-active {

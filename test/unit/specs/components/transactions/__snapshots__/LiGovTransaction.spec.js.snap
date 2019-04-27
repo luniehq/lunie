@@ -8,14 +8,14 @@ exports[`LiGovTransaction deposits 1`] = `
 >
   <div>
     
-      Deposit
+      Deposited
       
     <b>
-      1,000.000000
+      1,000
     </b>
      
     <span>
-      ATOMs
+      ATOM
     </span>
   </div>
    
@@ -35,13 +35,14 @@ exports[`LiGovTransaction deposits 1`] = `
   <div>
     
       Network Fee: 
-      
     <b>
-      0.003421
+      0.003
     </b>
      
     <span>
-      ATOMs
+      
+        ATOM
+      
     </span>
   </div>
 </li-transaction-stub>
@@ -55,14 +56,14 @@ exports[`LiGovTransaction proposals 1`] = `
 >
   <div>
     
-      Submit text proposal
+      Submitted text proposal
       
     <b>
-      1,000.000000
+      1,000
     </b>
      
     <span>
-      ATOMs
+      ATOM
     </span>
   </div>
    
@@ -77,13 +78,14 @@ exports[`LiGovTransaction proposals 1`] = `
   <div>
     
       Network Fee: 
-      
     <b>
-      0.003421
+      0.003
     </b>
      
     <span>
-      ATOMs
+      
+        ATOM
+      
     </span>
   </div>
 </li-transaction-stub>
@@ -97,7 +99,7 @@ exports[`LiGovTransaction votes 1`] = `
 >
   <div>
     
-      Vote Yes
+      Voted Yes
     
   </div>
    
@@ -117,13 +119,14 @@ exports[`LiGovTransaction votes 1`] = `
   <div>
     
       Network Fee: 
-      
     <b>
-      0.003421
+      0.003
     </b>
      
     <span>
-      ATOMs
+      
+        ATOM
+      
     </span>
   </div>
 </li-transaction-stub>

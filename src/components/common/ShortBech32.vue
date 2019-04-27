@@ -53,7 +53,7 @@ export default {
 <style>
 .short-bech32 {
   align-items: flex-start;
-  display: flex;
+  display: inline-flex;
   padding: 0;
   margin: 0;
 }
@@ -61,8 +61,8 @@ export default {
 .short-bech32 .address {
   color: var(--link);
   cursor: pointer;
-  font-size: var(--sm);
-  font-weight: 300;
+  font-weight: 500;
+  font-size: 14px;
   white-space: nowrap;
 }
 
@@ -76,6 +76,7 @@ export default {
   font-size: var(--sm);
   opacity: 0;
   padding-left: 10px;
+  padding-top: 2px;
   transition: opacity 500ms ease;
 }
 
