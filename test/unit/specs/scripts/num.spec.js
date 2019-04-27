@@ -1,4 +1,4 @@
-import num from "renderer/scripts/num"
+import num from "scripts/num"
 
 describe(`number helper`, () => {
   it(`should format numbers showing many decimals`, () => {

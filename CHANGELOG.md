@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [1.0.0-beta.49] - 2019-04-26
+
+### Fixed
+
+- [#2487](https://github.com/cosmos/lunie/pull/2487) Remove rounding in small numbers @faboweb
+
 ## [1.0.0-beta.48] - 2019-04-25
 
 ### Fixed

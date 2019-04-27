@@ -19,7 +19,7 @@ function resolve(dir) {
   return path.join(__dirname, dir)
 }
 
-const buildPath = path.join(__dirname, `app/dist`)
+const buildPath = path.join(__dirname, `dist`)
 
 const commitHash = require(`child_process`)
   .execSync(`git rev-parse HEAD`)
@@ -40,13 +40,13 @@ const rendererConfig = {
   devtool: production ?
     `#cheap-source-map` : `#inline-source-map`,
   entry: {
-    renderer: path.join(__dirname, `app/src/renderer/main.js`)
+    renderer: path.join(__dirname, `src/main.js`)
   },
   module: {
     rules: [{
       test: /\.js$/,
       use: `babel-loader`,
-      include: [path.resolve(__dirname, `app/src/renderer`)],
+      include: [path.resolve(__dirname, `src`)],
       exclude: /node_modules/
     },
     {
@@ -132,11 +132,9 @@ const rendererConfig = {
     }),
     new HtmlWebpackPlugin({
       filename: `index.html`,
-      template: `./app/index.ejs`,
-      appModules: production ? false :
-        path.resolve(__dirname, `app/node_modules`),
-      styles: fs.readFileSync(`./app/src/renderer/styles/index.css`, `utf8`),
-      favicon: `./app/static/icons/favicon.ico`
+      template: `./src/index.ejs`,
+      styles: fs.readFileSync(`./src/styles/index.css`, `utf8`),
+      favicon: `./src/assets/images/favicon.ico`
     }),
     new CSPWebpackPlugin({
       'object-src': `'none'`,
@@ -179,25 +177,22 @@ const rendererConfig = {
   },
   resolve: {
     alias: {
-      renderer: resolve(`app/src/renderer`),
-      "@": resolve(`app/src/renderer`),
-      assets: resolve(`app/src/renderer/assets`),
-      scripts: resolve(`app/src/renderer/scripts`),
-      common: resolve(`app/src/renderer/components/common`),
-      transactions: resolve(`app/src/renderer/components/transactions`),
-      govern: resolve(`app/src/renderer/components/govern`),
-      staking: resolve(`app/src/renderer/components/staking`),
-      wallet: resolve(`app/src/renderer/components/wallet`)
+      src: resolve(`src`),
+      "@": resolve(`src`),
+      assets: resolve(`src/assets`),
+      scripts: resolve(`src/scripts`),
+      common: resolve(`src/components/common`),
+      transactions: resolve(`src/components/transactions`),
+      govern: resolve(`src/components/govern`),
+      staking: resolve(`src/components/staking`),
+      wallet: resolve(`src/components/wallet`)
     },
     extensions: [`.js`, `.vue`, `.json`, `.css`, `.node`],
-    modules: [
-      path.join(__dirname, `app/node_modules`),
-      path.join(__dirname, `node_modules`)
-    ]
+    modules: [path.join(__dirname, `node_modules`)]
   },
   devServer: {
     contentBase: [
-      path.join(__dirname, `app/dist`),
+      path.join(__dirname, `dist`),
       path.join(__dirname, `app`)
     ],
     stats: `errors-only`
@@ -240,7 +235,7 @@ if (process.env.RELEASE) {
   console.log(`releasing to Sentry`)
   rendererConfig.plugins.push(
     new SentryPlugin({
-      include: `./app/dist`,
+      include: `./dist`,
       validate: true
     })
   )

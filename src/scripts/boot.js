@@ -16,9 +16,9 @@ import App from "../App"
 import routes from "../routes"
 import _Node from "../connectors/node"
 import _Store from "../vuex/store"
-import * as urlHelpers from "../../helpers/url.js"
-import _config from "../../config"
-import { enableGoogleAnalytics } from "../google-analytics"
+import * as urlHelpers from "scripts/url.js"
+import _config from "src/config"
+import { enableGoogleAnalytics } from "scripts/google-analytics"
 const _enableGoogleAnalytics = enableGoogleAnalytics
 
 export const routeGuard = store => (to, from, next) => {

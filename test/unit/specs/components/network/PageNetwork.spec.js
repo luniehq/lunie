@@ -1,5 +1,5 @@
 import { shallowMount, createLocalVue } from "@vue/test-utils"
-import PageNetwork from "renderer/components/network/PageNetwork"
+import PageNetwork from "src/components/network/PageNetwork"
 
 const localVue = createLocalVue()
 localVue.directive(`tooltip`, () => { })

@@ -1,5 +1,5 @@
-import time from "renderer/scripts/time"
-import lcdClientMock from "renderer/connectors/lcdClientMock.js"
+import time from "scripts/time"
+import lcdClientMock from "src/connectors/lcdClientMock.js"
 const delegates = lcdClientMock.candidates
 import { stakingTxs } from "../store/json/txs"
 const unbondingTransaction = stakingTxs[3]

@@ -2,8 +2,8 @@
 
 import Vuelidate from "vuelidate"
 import { shallowMount, createLocalVue } from "@vue/test-utils"
-import ModalVote from "renderer/components/governance/ModalVote"
-import lcdClientMock from "renderer/connectors/lcdClientMock.js"
+import ModalVote from "src/components/governance/ModalVote"
+import lcdClientMock from "src/connectors/lcdClientMock.js"
 
 describe(`ModalVote`, () => {
   let wrapper, $store

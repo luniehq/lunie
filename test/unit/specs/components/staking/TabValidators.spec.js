@@ -1,5 +1,5 @@
 import { shallowMount } from "@vue/test-utils"
-import TabValidators from "renderer/components/staking/TabValidators"
+import TabValidators from "src/components/staking/TabValidators"
 import validators from "../../store/json/validators.js"
 
 describe(`TabValidators`, () => {

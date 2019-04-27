@@ -3,7 +3,7 @@
 import { shallowMount, createLocalVue } from "@vue/test-utils"
 import DelegationModal from "staking/DelegationModal"
 import Vuelidate from "vuelidate"
-import lcdClientMock from "renderer/connectors/lcdClientMock.js"
+import lcdClientMock from "src/connectors/lcdClientMock.js"
 
 describe(`DelegationModal`, () => {
   let wrapper

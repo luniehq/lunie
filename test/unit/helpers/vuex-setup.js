@@ -3,8 +3,8 @@ import Vuelidate from "vuelidate"
 import { shallow, mount, createLocalVue } from "@vue/test-utils"
 import { getCommits, getDispatches } from "./vuex-helpers.js"
 
-const Modules = require(`renderer/vuex/modules`).default
-const Getters = require(`renderer/vuex/getters`)
+const Modules = require(`src/vuex/modules`).default
+const Getters = require(`src/vuex/getters`)
 
 export default function vuexSetup() {
   const localVue = createLocalVue()

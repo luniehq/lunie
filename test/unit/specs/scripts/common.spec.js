@@ -1,4 +1,4 @@
-import { shortAddress, coinsToObject, calculateShares } from "renderer/scripts/common"
+import { shortAddress, coinsToObject, calculateShares } from "scripts/common"
 
 describe(`shortAddress`, () => {
   const bech32ish = `asdf1asdfghjkl`

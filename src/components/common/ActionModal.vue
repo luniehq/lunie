@@ -1,5 +1,8 @@
 <template>
-  <transition v-if="show" name="slide-fade">
+  <transition
+    v-if="show"
+    name="slide-fade"
+  >
     <div class="action-modal">
       <div class="action-modal-header">
         <img
@@ -17,13 +20,22 @@
           <i class="material-icons">close</i>
         </div>
       </div>
-      <div v-if="requiresSignIn" class="action-modal-form">
+      <div
+        v-if="requiresSignIn"
+        class="action-modal-form"
+      >
         <p>You need to sign in to submit a transaction.</p>
       </div>
-      <div v-else-if="step === `txDetails`" class="action-modal-form">
+      <div
+        v-else-if="step === `txDetails`"
+        class="action-modal-form"
+      >
         <slot />
       </div>
-      <div v-else-if="step === `fees`" class="action-modal-form">
+      <div
+        v-else-if="step === `fees`"
+        class="action-modal-form"
+      >
         <tm-form-group
           v-if="session.experimentalMode"
           :error="$v.gasPrice.$error && $v.gasPrice.$invalid"
@@ -64,7 +76,10 @@
           :gas-price="Number(gasPrice)"
         />
       </div>
-      <div v-else-if="step === `sign`" class="action-modal-form">
+      <div
+        v-else-if="step === `sign`"
+        class="action-modal-form"
+      >
         <tm-form-group
           v-if="signMethods.length > 1"
           class="action-modal-form-group"
@@ -87,7 +102,7 @@
             sending
               ? `Please verify and sign the transaction on your Ledger`
               : `Please plug in your Ledger&nbsp;Nano&nbsp;S and open
-                 the Cosmos app`
+          the Cosmos app`
           }}
         </hardware-state>
         <tm-form-group
@@ -172,7 +187,7 @@ import TableInvoice from "common/TableInvoice"
 import { mapGetters } from "vuex"
 import { uatoms, atoms, viewDenom } from "../../scripts/num.js"
 import { between, requiredIf } from "vuelidate/lib/validators"
-import { track } from "../../google-analytics.js"
+import { track } from "scripts/google-analytics.js"
 
 const defaultStep = `txDetails`
 const feeStep = `fees`
@@ -232,7 +247,14 @@ export default {
     viewDenom
   }),
   computed: {
-    ...mapGetters([`connected`, `session`, `bondDenom`, `wallet`, `ledger`, `liquidAtoms`]),
+    ...mapGetters([
+      `connected`,
+      `session`,
+      `bondDenom`,
+      `wallet`,
+      `ledger`,
+      `liquidAtoms`
+    ]),
     requiresSignIn() {
       return !this.session.signedIn
     },
@@ -247,7 +269,10 @@ export default {
       return true
     },
     selectedSignMethod() {
-      if (this.session.sessionType === `ledger` || this.session.sessionType === `explore`) {
+      if (
+        this.session.sessionType === `ledger` ||
+        this.session.sessionType === `explore`
+      ) {
         return signWithLedger
       }
       return signWithLocalKeystore
@@ -369,7 +394,7 @@ export default {
       } catch (error) {
         this.submissionError = `${this.submissionErrorPrefix}: ${error}.`
       }
-    },
+    }
   },
   validations() {
     return {

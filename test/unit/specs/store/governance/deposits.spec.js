@@ -1,5 +1,5 @@
-import depositsModule from "renderer/vuex/modules/governance/deposits.js"
-import lcdClientMock from "renderer/connectors/lcdClientMock.js"
+import depositsModule from "src/vuex/modules/governance/deposits.js"
+import lcdClientMock from "src/connectors/lcdClientMock.js"
 const { proposals, deposits } = lcdClientMock.state
 const addresses = lcdClientMock.addresses
 

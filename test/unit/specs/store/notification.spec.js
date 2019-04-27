@@ -1,6 +1,6 @@
 import Vuex from "vuex"
 import { createLocalVue } from "@vue/test-utils"
-import notifications from "renderer/vuex/modules/notifications"
+import notifications from "src/vuex/modules/notifications"
 
 const localVue = createLocalVue()
 localVue.use(Vuex)

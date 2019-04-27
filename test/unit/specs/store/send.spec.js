@@ -1,7 +1,7 @@
 import sendModule from "modules/send.js"
-import lcdClientMock from "renderer/connectors/lcdClientMock.js"
+import lcdClientMock from "src/connectors/lcdClientMock.js"
 
-jest.mock(`renderer/scripts/keystore.js`, () => ({
+jest.mock(`scripts/keystore.js`, () => ({
   getKey: () => ({
     cosmosAddress: `cosmos1r5v5srda7xfth3hn2s26txvrcrntldjumt8mhl`,
     privateKey: `8088c2ed2149c34f6d6533b774da4e1692eb5cb426fdbaef6898eeda489630b7`,
@@ -13,7 +13,7 @@ jest.mock(`src/config.js`, () => ({
   default_gas: 42
 }))
 
-jest.mock(`renderer/scripts/wallet.js`, () => ({
+jest.mock(`scripts/wallet.js`, () => ({
   sign: jest.fn(() => []),
   createBroadcastBody: jest.fn(() => ({
     broadcast: `body`

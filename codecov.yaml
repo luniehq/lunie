@@ -21,4 +21,3 @@ comment:
 ignore:
   - "tasks/releasePullRequest.js"
   - "tasks/publish.js"
-  - "app/src/renderer/components/govern/*"
