@@ -14,10 +14,17 @@ function truncate(number, digits) {
 export const SMALLEST = 1e-6
 const language = window.navigator.userLanguage || window.navigator.language
 
-export function setDecimalLength(value, length = 3) {
+function setDecimalLength(value, length) {
   return new Intl.NumberFormat(language, {
     minimumFractionDigits: length > 3 ? length : 0
   }).format(truncate(value, length))
+}
+export function shortDecimals(value) {
+  return setDecimalLength(value, 3)
+}
+
+export function fullDecimals(value) {
+  return setDecimalLength(value, 6)
 }
 
 export function pretty(number = 0) {
@@ -78,7 +85,7 @@ export function viewDenom(denom) {
   return denom.toUpperCase()
 }
 
-export function createCoinObject({ amount, denom }, length = 3) {
+export function createDisplayCoin({ amount, denom }, length = 3) {
   return {
     amount: setDecimalLength(atoms(amount), length),
     denom: viewDenom(denom)
@@ -90,8 +97,9 @@ export default {
   atoms,
   uatoms,
   viewDenom,
-  createCoinObject,
-  setDecimalLength,
+  createDisplayCoin,
+  shortDecimals,
+  fullDecimals,
   pretty,
   prettyInt,
   percent,

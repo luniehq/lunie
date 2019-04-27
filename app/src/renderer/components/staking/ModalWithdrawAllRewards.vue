@@ -45,7 +45,7 @@ export default {
     ...mapGetters([`bondDenom`, `distribution`, `lastHeader`, `session`]),
     totalRewards({ bondDenom, distribution } = this) {
       const rewards = distribution.totalRewards[bondDenom]
-      return (rewards && num.setDecimalLength(atoms(rewards), 6)) || 0
+      return (rewards && num.fullDecimals(atoms(rewards))) || 0
     }
   },
   watch: {

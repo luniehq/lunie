@@ -38,7 +38,9 @@ exports[`TableInvoice should show the transaction invoice summary 1`] = `
       </span>
        
       <span>
+        
         1.030864 STAKE
+      
       </span>
     </li>
   </ul>

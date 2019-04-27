@@ -37,14 +37,14 @@
     <td class="li-validator__delegated-steak">
       {{
         validator.my_delegations
-          ? num.setDecimalLength(num.atoms(validator.my_delegations))
+          ? num.shortDecimals(num.atoms(validator.my_delegations))
           : `--`
       }}
     </td>
     <td class="li-validator__rewards">
       {{
         validator.rewards
-          ? num.setDecimalLength(num.atoms(validator.rewards))
+          ? num.shortDecimals(num.atoms(validator.rewards))
           : `--`
       }}
     </td>
@@ -81,12 +81,7 @@ export default {
   },
   data: () => ({ num }),
   computed: {
-    ...mapGetters([
-      `delegates`,
-      `distribution`,
-      `session`,
-      `lastHeader`
-    ]),
+    ...mapGetters([`delegates`, `distribution`, `session`, `lastHeader`]),
     status() {
       // status: jailed
       if (this.validator.jailed)

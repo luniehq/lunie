@@ -1,9 +1,13 @@
 <template>
-  <li-transaction color="#47AB6C" :time="time" :block="block">
+  <li-transaction
+    color="#47AB6C"
+    :time="time"
+    :block="block"
+  >
     <template v-if="txType === `cosmos-sdk/MsgCreateValidator`">
       <div slot="caption">
         Create validator
-        <b>{{ atoms(tx.amount.amount) }}</b>
+        <b>{{ num.atoms(tx.amount.amount) }}</b>
         <span>{{ value && value.denom }}</span>
       </div>
       <div slot="details">
@@ -43,7 +47,7 @@
     <template v-else-if="txType === `cosmos-sdk/MsgDelegate`">
       <div slot="caption">
         Delegated
-        <b>{{ atoms(tx.amount.amount) }}</b>
+        <b>{{ num.atoms(tx.amount.amount) }}</b>
         <span>{{ num.viewDenom(tx.amount.denom) }}</span>
       </div>
       <div slot="details">
@@ -65,7 +69,7 @@
       <div slot="caption">
         Undelegated
         <b>
-          {{ atoms(tx.amount.amount) }}
+          {{ num.atoms(tx.amount.amount) }}
         </b>
         <span>{{ num.viewDenom(bondingDenom) }}</span>
         <template v-if="timeDiff">
@@ -93,7 +97,7 @@
       <div slot="caption">
         Redelegated
         <b>
-          {{ atoms(tx.amount.amount) }}
+          {{ num.atoms(tx.amount.amount) }}
         </b>
         <span>{{ num.viewDenom(bondingDenom) }}</span>
       </div>
@@ -140,7 +144,7 @@
 
 <script>
 import LiTransaction from "./LiTransaction"
-import num, { atoms, setDecimalLength } from "../../scripts/num.js"
+import num from "../../scripts/num.js"
 import moment from "moment"
 
 /*
@@ -189,9 +193,7 @@ export default {
     }
   },
   data: () => ({
-    atoms,
-    num,
-    setDecimalLength
+    num
   }),
   computed: {
     timeDiff() {
@@ -208,10 +210,10 @@ export default {
       return `locked`
     },
     value() {
-      return this.tx.value ? num.createCoinObject(this.tx.value) : {}
+      return this.tx.value ? num.createDisplayCoin(this.tx.value) : {}
     },
     convertedFees() {
-      return this.fees ? num.createCoinObject(this.fees) : undefined
+      return this.fees ? num.createDisplayCoin(this.fees) : undefined
     }
   },
   methods: {

@@ -1,6 +1,10 @@
 <template>
-  <li-transaction :color="`#F2B134`" :time="time" :block="block">
-    <template v-if="txType === `cosmos-sdk/MsgWithdrawDelegationReward`">
+  <li-transaction
+    :color="`#F2B134`"
+    :time="time"
+    :block="block"
+  >
+    <template v-if="txType === MsgWithdrawDelegationReward">
       <div slot="caption">
         Withdrawal
       </div>
@@ -18,7 +22,7 @@
         </span>
       </div>
     </template>
-    <template v-else-if="txType === `cosmos-sdk/MsgSetWithdrawAddress`">
+    <template v-else-if="txType === MsgSetWithdrawAddress">
       <div slot="caption">
         Update withdraw address
       </div>
@@ -34,9 +38,7 @@
         </span>
       </div>
     </template>
-    <template
-      v-else-if="txType === `cosmos-sdk/MsgWithdrawValidatorCommission`"
-    >
+    <template v-else-if="txType === MsgWithdrawValidatorCommission">
       <div slot="caption">
         Withdraw validator commission
       </div>
@@ -59,7 +61,7 @@
 
 <script>
 import LiTransaction from "./LiTransaction"
-import num, { pretty, atoms } from "../../scripts/num.js"
+import num from "../../scripts/num.js"
 
 export default {
   name: `li-distribution-transaction`,
@@ -99,13 +101,14 @@ export default {
     }
   },
   data: () => ({
-    atoms,
-    pretty,
-    num
+    num,
+    MsgWithdrawValidatorCommission: `cosmos-sdk/MsgWithdrawValidatorCommission`,
+    MsgSetWithdrawAddress: `cosmos-sdk/MsgSetWithdrawAddress`,
+    MsgWithdrawDelegationReward: `cosmos-sdk/MsgWithdrawDelegationReward`
   }),
   computed: {
     convertedFees() {
-      return this.fees ? num.createCoinObject(this.fees) : undefined
+      return this.fees ? num.createDisplayCoin(this.fees) : undefined
     }
   },
   methods: {

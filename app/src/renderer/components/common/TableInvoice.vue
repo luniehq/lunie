@@ -4,25 +4,27 @@
       <li>
         <span>Subtotal</span>
         <span>
-          {{ setDecimalLength(subTotal, 6) }} {{ viewDenom(bondDenom) }}
+          {{ num.fullDecimals(subTotal) }} {{ num.viewDenom(bondDenom) }}
         </span>
       </li>
       <li>
         <span>Network Fee</span>
         <span>
-          {{ setDecimalLength(estimatedFee, 6) }}
-          {{ viewDenom(bondDenom) }}
+          {{ num.fullDecimals(estimatedFee) }}
+          {{ num.viewDenom(bondDenom) }}
         </span>
       </li>
       <li class="total-row">
         <span>Total</span>
-        <span>{{ setDecimalLength(total, 6) }} {{ viewDenom(bondDenom) }}</span>
+        <span>
+          {{ num.fullDecimals(total) }} {{ num.viewDenom(bondDenom) }}
+        </span>
       </li>
     </ul>
   </div>
 </template>
 <script>
-import { setDecimalLength, viewDenom } from "../../scripts/num.js"
+import num from "../../scripts/num.js"
 import { mapGetters } from "vuex"
 
 export default {
@@ -42,17 +44,13 @@ export default {
     }
   },
   data: () => ({
-    setDecimalLength,
-    viewDenom,
+    num,
     info: `Estimated network fees based on simulation.`
   }),
   computed: {
     ...mapGetters([`bondDenom`]),
     estimatedFee() {
-      return (
-        Number(this.gasPrice) *
-        Number(this.gasEstimate)
-      ) // already in atoms
+      return Number(this.gasPrice) * Number(this.gasEstimate) // already in atoms
     },
     subTotal() {
       return Number(this.amount) // already in atoms

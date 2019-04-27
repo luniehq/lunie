@@ -33,12 +33,12 @@
           </dl>
           <dl class="info_dl colored_dl">
             <dt>Transactions</dt>
-            <dd>{{ num.setDecimalLength(lastHeader.total_txs) || `--` }}</dd>
+            <dd>{{ num.shortDecimals(lastHeader.total_txs) || `--` }}</dd>
           </dl>
           <dl class="info_dl colored_dl">
             <dt>Number of Validators</dt>
             <dd>
-              {{ num.setDecimalLength(delegates.delegates.length) || `--` }}
+              {{ num.shortDecimals(delegates.delegates.length) || `--` }}
             </dd>
           </dl>
         </div>
@@ -49,7 +49,7 @@
               <dd id="loose_tokens">
                 {{
                   pool.pool && pool.pool.not_bonded_tokens
-                    ? num.setDecimalLength(
+                    ? num.shortDecimals(
                       num.atoms(pool.pool.not_bonded_tokens)
                     )
                     : `--`
@@ -63,7 +63,7 @@
               <dd id="bonded_tokens">
                 {{
                   pool.pool && pool.pool.bonded_tokens
-                    ? num.setDecimalLength(num.atoms(pool.pool.bonded_tokens))
+                    ? num.shortDecimals(num.atoms(pool.pool.bonded_tokens))
                     : `--`
                 }}
               </dd>
@@ -76,12 +76,21 @@
           <panel-sort :properties="properties" />
         </thead>
         <tbody>
-          <tr v-if="blocks.length === 0" class="block data-table__row">
+          <tr
+            v-if="blocks.length === 0"
+            class="block data-table__row"
+          >
             <td>
-              <img class="loading-icon" src="~assets/images/loader.svg">
+              <img
+                class="loading-icon"
+                src="~assets/images/loader.svg"
+              >
             </td>
             <td>
-              <img class="loading-icon" src="~assets/images/loader.svg">
+              <img
+                class="loading-icon"
+                src="~assets/images/loader.svg"
+              >
             </td>
           </tr>
           <tr
@@ -91,7 +100,10 @@
           >
             <td>
               <router-link
-                :to="{ name: `block`, params: { height: block.header.height } }"
+                :to="{
+                  name: `block`,
+                  params: { height: block.header.height }
+                }"
               >
                 {{ `#` + num.prettyInt(block.header.height) }}
               </router-link>

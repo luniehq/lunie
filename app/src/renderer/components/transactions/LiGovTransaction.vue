@@ -1,5 +1,9 @@
 <template>
-  <li-transaction :color="`#15CFCC`" :time="time" :block="block">
+  <li-transaction
+    :color="`#15CFCC`"
+    :time="time"
+    :block="block"
+  >
     <template v-if="txType === `cosmos-sdk/MsgSubmitProposal`">
       <div slot="caption">
         Submitted {{ tx.proposal_type.toLowerCase() }} proposal
@@ -110,13 +114,13 @@ export default {
   }),
   computed: {
     initialDeposit() {
-      return num.createCoinObject(this.tx.initial_deposit[0])
+      return num.createDisplayCoin(this.tx.initial_deposit[0])
     },
     deposit() {
-      return num.createCoinObject(this.tx.amount[0])
+      return num.createDisplayCoin(this.tx.amount[0])
     },
     convertedFees() {
-      return this.fees ? num.createCoinObject(this.fees) : undefined
+      return this.fees ? num.createDisplayCoin(this.fees) : undefined
     }
   }
 }

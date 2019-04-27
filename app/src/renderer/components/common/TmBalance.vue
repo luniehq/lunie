@@ -65,11 +65,11 @@ export default {
       return this.wallet.loaded && this.delegation.loaded
     },
     totalAtomsDisplay() {
-      return this.loaded ? this.num.setDecimalLength(this.num.atoms(this.totalAtoms)) : `--`
+      return this.loaded ? this.num.shortDecimals(this.num.atoms(this.totalAtoms)) : `--`
     },
     unbondedAtoms() {
       return this.loaded
-        ? this.num.setDecimalLength(this.num.atoms(this.liquidAtoms))
+        ? this.num.shortDecimals(this.num.atoms(this.liquidAtoms))
         : `--`
     },
     rewards() {
@@ -77,7 +77,7 @@ export default {
         return `--`
       }
       const rewards = this.distribution.totalRewards[this.bondDenom]
-      return this.num.setDecimalLength(
+      return this.num.shortDecimals(
         this.num.atoms(rewards && rewards > 10 ? rewards : 0)
       )
     }
