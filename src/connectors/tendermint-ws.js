@@ -1,9 +1,9 @@
-'use strict'
+"use strict"
 
 /*
-* Extracted from https://github.com/nomic-io/js-tendermint
-* TODO missing tests
-*/
+ * Extracted from https://github.com/nomic-io/js-tendermint
+ * TODO missing tests
+ */
 
 const EventEmitter = require(`events`)
 const url = require(`url`)
@@ -13,7 +13,7 @@ const websocket = require(`websocket-stream`)
 const ndjson = require(`ndjson`)
 const pumpify = require(`pumpify`).obj
 
-function convertWsArgs (args = {}) {
+function convertWsArgs(args = {}) {
   for (const k in args) {
     const v = args[k]
     if (typeof v === `number`) {
@@ -28,7 +28,7 @@ function convertWsArgs (args = {}) {
 }
 
 class Client extends EventEmitter {
-  constructor (uriString = `localhost:26657`) {
+  constructor(uriString = `localhost:26657`) {
     super()
 
     // parse full-node URI
@@ -45,24 +45,21 @@ class Client extends EventEmitter {
     this.connectWs()
   }
 
-  connectWs () {
-    this.ws = pumpify(
-      ndjson.stringify(),
-      websocket(this.uri)
-    )
-    this.ws.on(`error`, (err) => this.emit(`error`, err))
+  connectWs() {
+    this.ws = pumpify(ndjson.stringify(), websocket(this.uri))
+    this.ws.on(`error`, err => this.emit(`error`, err))
     this.ws.on(`close`, () => {
       if (this.closed) return
       this.emit(`error`, Error(`websocket disconnected`))
     })
-    this.ws.on(`data`, (data) => {
+    this.ws.on(`data`, data => {
       data = JSON.parse(data)
       if (!data.id) return
       this.emit(data.id, data.error, data.result)
     })
   }
 
-  callWs (method, args, listener) {
+  callWs(method, args, listener) {
     const self = this
     return new Promise((resolve, reject) => {
       const id = Math.random().toString(36)
@@ -80,7 +77,7 @@ class Client extends EventEmitter {
         })
 
         // promise resolves on successful subscription or error
-        this.on(id, (err) => {
+        this.on(id, err => {
           if (err) return reject(err)
           resolve()
         })
@@ -96,7 +93,7 @@ class Client extends EventEmitter {
     })
   }
 
-  close () {
+  close() {
     this.closed = true
     if (!this.ws) return
     this.ws.destroy()
@@ -141,7 +138,7 @@ const tendermintMethods = [
 
 // add methods to Client class based on methods defined in './methods.js'
 for (const name of tendermintMethods) {
-  Client.prototype[camel(name)] = function (args, listener) {
+  Client.prototype[camel(name)] = function(args, listener) {
     return this.call(name, args, listener)
   }
 }

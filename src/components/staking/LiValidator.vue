@@ -5,7 +5,7 @@
         v-if="validator.keybase && validator.keybase.avatarUrl"
         :src="validator.keybase.avatarUrl"
         class="data-table__row__info__image"
-      >
+      />
       <img
         v-else
         class="
@@ -13,7 +13,7 @@
           data-table__row__info__image--no-img
         "
         src="~assets/images/validator-icon.svg"
-      >
+      />
       <div class="data-table__row__info__container">
         <span
           v-tooltip.top="status"
@@ -30,7 +30,7 @@
           {{ validator.description.moniker }}
         </router-link>
         <div class="data-table__row__info__container__description">
-          <short-bech32 :address="validator.operator_address" />
+          <ShortBech32 :address="validator.operator_address" />
         </div>
       </div>
     </td>

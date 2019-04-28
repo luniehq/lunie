@@ -14,7 +14,7 @@
         exit_to_app
       </i>
     </a>
-    <tm-btn
+    <TmBtn
       v-if="!session.signedIn"
       class="sign-in-button"
       value="Sign In"

@@ -1,5 +1,5 @@
 <template>
-  <tm-field
+  <TmField
     :value="value"
     class="tm-field-seed"
     type="textarea"

@@ -1,12 +1,12 @@
 <template>
   <div>
-    <card-sign-in-required v-if="!session.signedIn" />
+    <CardSignInRequired v-if="!session.signedIn" />
     <div v-else-if="delegation.loaded && yourValidators.length > 0">
-      <table-validators :validators="yourValidators" />
+      <TableValidators :validators="yourValidators" />
     </div>
-    <tm-data-connecting v-else-if="!delegation.loaded && !connected" />
-    <tm-data-loading v-else-if="!delegation.loaded && delegation.loading" />
-    <tm-data-msg
+    <TmDataConnecting v-else-if="!delegation.loaded && !connected" />
+    <TmDataLoading v-else-if="!delegation.loaded && delegation.loading" />
+    <TmDataMsg
       v-else-if="yourValidators.length === 0"
       icon="sentiment_dissatisfied"
     >
@@ -21,14 +21,14 @@
         </router-link>
         to make your first delegation!
       </div>
-    </tm-data-msg>
+    </TmDataMsg>
     <div v-if="delegation.loaded && unbondingTransactions.length > 0">
       <h3 class="tab-header transactions">
         Pending Undelegations
       </h3>
       <div class="unbonding-transactions">
         <template>
-          <li-any-transaction
+          <LiAnyTransaction
             v-for="tx in unbondingTransactions"
             :key="tx.txhash"
             :validators="yourValidators"
@@ -41,7 +41,7 @@
               time.getUnbondingTime(tx, delegation.unbondingDelegations)
             "
           />
-          <br>
+          <br />
         </template>
       </div>
     </div>

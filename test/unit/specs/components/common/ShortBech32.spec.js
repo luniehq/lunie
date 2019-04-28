@@ -4,7 +4,7 @@ import ShortBech32 from "src/components/common/ShortBech32"
 
 const localVue = createLocalVue()
 localVue.directive(`clipboard`, VueClipboard)
-localVue.directive(`tooltip`, () => { })
+localVue.directive(`tooltip`, () => {})
 
 describe(`ShortBech32`, () => {
   let wrapper

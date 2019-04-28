@@ -11,13 +11,13 @@
       </div>
 
       <div class="tm-session-main">
-        <li-session
+        <LiSession
           icon="usb"
           title="Sign in with Ledger Nano S"
           subtitle="If you have a Ledger Wallet, choose this option."
           @click.native="setState('hardware')"
         />
-        <li-session
+        <LiSession
           id="explore-address"
           icon="search"
           title="Sign in with Address"
@@ -34,7 +34,7 @@
                 could loose all your money.
               </p>
             </div>
-            <li-session
+            <LiSession
               v-if="accountExists"
               id="sign-in-with-account"
               icon="lock"
@@ -42,13 +42,13 @@
               subtitle="If you have an account, choose this option."
               @click.native="setState('sign-in')"
             />
-            <li-session
+            <LiSession
               icon="person_add"
               title="Create new account"
               subtitle="Generate a brand new seed and create a new account."
               @click.native="setState('sign-up')"
             />
-            <li-session
+            <LiSession
               v-if="session.developmentMode"
               id="import-seed"
               icon="settings_backup_restore"

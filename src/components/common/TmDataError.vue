@@ -1,5 +1,5 @@
 <template>
-  <tm-data-msg icon="sentiment_very_dissatisfied">
+  <TmDataMsg icon="sentiment_very_dissatisfied">
     <div slot="title">
       Aw shucks!
     </div>
@@ -9,7 +9,7 @@
       <a href="https://github.com/cosmos/voyager/issues">file a bug report</a>.
       Apologies!
     </div>
-  </tm-data-msg>
+  </TmDataMsg>
 </template>
 
 <script>

@@ -4,7 +4,7 @@ exports[`SessionSignUp has the expected html structure 1`] = `
 <div
   class="tm-session"
 >
-  <tm-form-struct-stub
+  <tmformstruct-stub
     class="tm-session-container"
     submit="function () { [native code] }"
     width=""
@@ -40,11 +40,11 @@ exports[`SessionSignUp has the expected html structure 1`] = `
     <div
       class="tm-session-main"
     >
-      <tm-form-group-stub
+      <tmformgroup-stub
         fieldid="sign-up-name"
         fieldlabel="Account Name"
       >
-        <tm-field-stub
+        <tmfield-stub
           id="sign-up-name"
           placeholder="Must be at least 5 characters"
           type="text"
@@ -54,13 +54,13 @@ exports[`SessionSignUp has the expected html structure 1`] = `
         <!---->
          
         <!---->
-      </tm-form-group-stub>
+      </tmformgroup-stub>
        
-      <tm-form-group-stub
+      <tmformgroup-stub
         fieldid="sign-up-password"
         fieldlabel="Password"
       >
-        <tm-field-stub
+        <tmfield-stub
           id="sign-up-password"
           placeholder="Must be at least 10 characters"
           type="password"
@@ -70,13 +70,13 @@ exports[`SessionSignUp has the expected html structure 1`] = `
         <!---->
          
         <!---->
-      </tm-form-group-stub>
+      </tmformgroup-stub>
        
-      <tm-form-group-stub
+      <tmformgroup-stub
         fieldid="sign-up-password-confirm"
         fieldlabel="Confirm Password"
       >
-        <tm-field-stub
+        <tmfield-stub
           id="sign-up-password-confirm"
           placeholder="Enter password again"
           type="password"
@@ -84,29 +84,29 @@ exports[`SessionSignUp has the expected html structure 1`] = `
         />
          
         <!---->
-      </tm-form-group-stub>
+      </tmformgroup-stub>
        
-      <tm-form-group-stub
+      <tmformgroup-stub
         class="sign-up-seed-group"
         fieldid="sign-up-seed"
         fieldlabel="Seed Phrase"
       >
-        <field-seed-stub
+        <fieldseed-stub
           disabled="disabled"
           id="sign-up-seed"
           value="seed"
         />
          
-        <tm-form-msg-stub
+        <tmformmsg-stub
           class="sm"
           msg="Please back up the seed phrase for this account.
           This seed phrase cannot be recovered."
           name=""
           type="custom"
         />
-      </tm-form-group-stub>
+      </tmformgroup-stub>
        
-      <tm-form-group-stub
+      <tmformgroup-stub
         fieldid="sign-up-warning"
         fieldlabel=""
       >
@@ -134,9 +134,9 @@ exports[`SessionSignUp has the expected html structure 1`] = `
         </div>
          
         <!---->
-      </tm-form-group-stub>
+      </tmformgroup-stub>
        
-      <tm-form-group-stub
+      <tmformgroup-stub
         fieldid="error-collection"
         fieldlabel=""
       >
@@ -162,17 +162,17 @@ exports[`SessionSignUp has the expected html structure 1`] = `
           
           </label>
         </div>
-      </tm-form-group-stub>
+      </tmformgroup-stub>
     </div>
      
     <div
       class="tm-session-footer"
     >
-      <tm-btn-stub
+      <tmbtn-stub
         size="lg"
         value="Next"
       />
     </div>
-  </tm-form-struct-stub>
+  </tmformstruct-stub>
 </div>
 `;

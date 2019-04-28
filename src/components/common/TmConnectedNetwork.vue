@@ -30,7 +30,7 @@
     id="tm-disconnected-network"
     class="tm-connected-network tm-disconnected-network"
   >
-    <img class="tm-connected-network-loader" src="~assets/images/loader.svg">
+    <img class="tm-connected-network-loader" src="~assets/images/loader.svg" />
     <div
       v-tooltip.top="networkTooltip"
       class="
@@ -55,9 +55,7 @@ export default {
     ...mapGetters([`lastHeader`, `nodeUrl`, `connected`]),
     networkTooltip({ connected, nodeUrl, lastHeader } = this) {
       if (connected) {
-        return `You're connected to ${
-          lastHeader.chain_id
-        } via ${nodeUrl}.`
+        return `You're connected to ${lastHeader.chain_id} via ${nodeUrl}.`
       }
       return `We're pinging nodes to try to connect you to ${
         lastHeader.chain_id

@@ -72,5 +72,4 @@ describe(`TmPage`, () => {
     TmPage.watch.$route.call(self)
     expect(self.scrollContainer.scrollTop).toBe(0)
   })
-
 })

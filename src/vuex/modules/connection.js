@@ -4,7 +4,7 @@ import config from "src/config"
 
 const NODE_HALTED_TIMEOUT = config.node_halted_timeout
 
-export default function ({ node }) {
+export default function({ node }) {
   // get tendermint RPC client from basecoin client
 
   const state = {
@@ -42,7 +42,10 @@ export default function ({ node }) {
       await dispatch(`maybeUpdateValidators`, header)
     },
     async connect({ state, commit, dispatch }) {
-      const { externals: { node }, rpcUrl } = state
+      const {
+        externals: { node },
+        rpcUrl
+      } = state
 
       if (state.stopConnecting) return
 

@@ -2,13 +2,13 @@ import Vuex from "vuex"
 import Vuelidate from "vuelidate"
 import { mount, createLocalVue } from "@vue/test-utils"
 import TmSessionImport from "common/TmSessionImport"
-jest.mock(`scripts/google-analytics.js`, () => () => { })
+jest.mock(`scripts/google-analytics.js`, () => () => {})
 const seed = `goose toward escape engine wheel board help torch avocado educate rose rebel rigid side aspect abandon grace admit inherit female grant pledge shine inquiry`
 const localVue = createLocalVue()
 localVue.use(Vuex)
 localVue.use(Vuelidate)
-localVue.directive(`tooltip`, () => { })
-localVue.directive(`focus`, () => { })
+localVue.directive(`tooltip`, () => {})
+localVue.directive(`focus`, () => {})
 
 describe(`TmSessionImport`, () => {
   let wrapper, store

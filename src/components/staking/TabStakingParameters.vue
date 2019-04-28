@@ -1,6 +1,6 @@
 <template>
-  <tm-data-connecting v-if="!connected && !stakingParameters.loaded" />
-  <tm-data-loading
+  <TmDataConnecting v-if="!connected && !stakingParameters.loaded" />
+  <TmDataLoading
     v-else-if="!stakingParameters.loaded && stakingParameters.loading"
   />
   <div v-else>

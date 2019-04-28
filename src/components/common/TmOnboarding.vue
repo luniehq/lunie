@@ -11,20 +11,20 @@
           <div class="tm-session-label">
             {{ activeValue }}
           </div>
-          <img :src="activeImg">
-          <tm-bar-discrete
+          <img :src="activeImg" />
+          <TmBarDiscrete
             :nodes="nodes"
             :click-fn="go"
             :active="parseInt(activeKey)"
           />
         </div>
         <div v-if="activeKey === nodes.length - 1" class="tm-session-footer">
-          <tm-btn
+          <TmBtn
             value="Restart"
             icon="settings_backup_restore"
             @click.native="go(0)"
           />
-          <tm-btn
+          <TmBtn
             value="Finish"
             color="primary"
             icon="chevron_right"
@@ -33,8 +33,8 @@
           />
         </div>
         <div v-else class="tm-session-footer">
-          <tm-btn value="Skip" icon="close" @click.native="finish" />
-          <tm-btn
+          <TmBtn value="Skip" icon="close" @click.native="finish" />
+          <TmBtn
             value="Next"
             color="primary"
             icon="chevron_right"

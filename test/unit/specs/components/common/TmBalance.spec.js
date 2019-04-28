@@ -37,7 +37,7 @@ describe(`TmBalance`, () => {
         $store
       },
       methods: {
-        update: () => { }
+        update: () => {}
       }
     })
   })
@@ -86,7 +86,8 @@ describe(`TmBalance`, () => {
         const update = jest.fn()
         TmBalance.watch.lastHeader.handler.call(
           { session, $store, lastUpdate: 0, update },
-          newHeader)
+          newHeader
+        )
         expect(update).not.toHaveBeenCalledWith()
       })
 
@@ -97,7 +98,8 @@ describe(`TmBalance`, () => {
         const update = jest.fn()
         TmBalance.watch.lastHeader.handler.call(
           { session, $store, lastUpdate: 0, update },
-          newHeader)
+          newHeader
+        )
         expect(update).not.toHaveBeenCalledWith()
       })
     })
@@ -109,7 +111,8 @@ describe(`TmBalance`, () => {
         const update = jest.fn()
         TmBalance.watch.lastHeader.handler.call(
           { session, lastUpdate: 0, update },
-          newHeader)
+          newHeader
+        )
         expect(update).toHaveBeenCalledWith(10)
       })
 
@@ -119,11 +122,13 @@ describe(`TmBalance`, () => {
         const update = jest.fn()
         TmBalance.watch.lastHeader.handler.call(
           { session, lastUpdate: 15, update },
-          newHeader)
+          newHeader
+        )
         expect(update).not.toHaveBeenCalled()
         TmBalance.watch.lastHeader.handler.call(
           { session, lastUpdate: 5, update },
-          newHeader)
+          newHeader
+        )
         expect(update).toHaveBeenCalledWith(20)
       })
 

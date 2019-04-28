@@ -1,9 +1,5 @@
 <template>
-  <li-transaction
-    :color="`#15CFCC`"
-    :time="time"
-    :block="block"
-  >
+  <LiTransaction :color="`#15CFCC`" :time="time" :block="block" :memo="memo">
     <template v-if="txType === `cosmos-sdk/MsgSubmitProposal`">
       <div slot="caption">
         Submitted {{ tx.proposal_type.toLowerCase() }} proposal
@@ -41,16 +37,12 @@
       <div slot="fees">
         Network Fee:&nbsp;<b>{{ convertedFees ? convertedFees.amount : 0 }}</b>
         <span>
-          {{
-            fees ? viewDenom(convertedFees.denom) : viewDenom(bondingDenom)
-          }}
+          {{ fees ? viewDenom(convertedFees.denom) : viewDenom(bondingDenom) }}
         </span>
       </div>
     </template>
     <template v-else-if="txType === `cosmos-sdk/MsgVote`">
-      <div slot="caption">
-        Voted&nbsp;{{ tx.option }}
-      </div>
+      <div slot="caption">Voted&nbsp;{{ tx.option }}</div>
       <div slot="details">
         On&nbsp;
         <router-link :to="`${url}/${tx.proposal_id}`">
@@ -68,7 +60,7 @@
         </span>
       </div>
     </template>
-  </li-transaction>
+  </LiTransaction>
 </template>
 
 <script>
@@ -106,6 +98,10 @@ export default {
     block: {
       type: Number,
       required: true
+    },
+    memo: {
+      type: String,
+      default: null
     }
   },
   data: () => ({

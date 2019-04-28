@@ -13,7 +13,8 @@ describe(`LiBankTransaction`, () => {
       denom: `uatom`
     },
     time: new Date(Date.now()).toISOString(),
-    block: 500
+    block: 500,
+    memo: `TESTING (Sent via Lunie)`
   }
 
   beforeEach(() => {
@@ -24,7 +25,6 @@ describe(`LiBankTransaction`, () => {
   })
 
   it(`should show bank transaction when user hasn't signed in`, () => {
-
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
@@ -63,5 +63,4 @@ describe(`LiBankTransaction`, () => {
     expect(wrapper.vm.sentSelf).toBe(true)
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
-
 })

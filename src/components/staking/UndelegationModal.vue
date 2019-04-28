@@ -1,5 +1,5 @@
 <template>
-  <action-modal
+  <ActionModal
     id="undelegation-modal"
     ref="actionModal"
     :submit-fn="submitForm"
@@ -11,25 +11,21 @@
     submission-error-prefix="Undelegating failed"
     @close="clear"
   >
-    <tm-form-group
+    <TmFormGroup
       class="action-modal-form-group"
       field-id="from"
       field-label="From"
     >
-      <tm-field
-        id="from"
-        v-model="validator.operator_address"
-        readonly
-      />
-    </tm-form-group>
-    <tm-form-group
+      <TmField id="from" v-model="validator.operator_address" readonly />
+    </TmFormGroup>
+    <TmFormGroup
       :error="$v.amount.$error && $v.amount.$invalid"
       class="action-modal-form-group"
       field-id="amount"
       field-label="Amount"
     >
       <span class="input-suffix">{{ num.viewDenom(denom) }}</span>
-      <tm-field
+      <TmField
         id="amount"
         v-model="amount"
         type="number"
@@ -38,7 +34,7 @@
       <span v-if="maximum > 0" class="form-message">
         Currently Delegated: {{ maximum }} {{ num.viewDenom(denom) }}s
       </span>
-      <tm-form-msg
+      <TmFormMsg
         v-if="maximum === 0"
         :msg="
           `don't have any ${num.viewDenom(denom)}s delegated to this validator`
@@ -46,25 +42,25 @@
         name="You"
         type="custom"
       />
-      <tm-form-msg
+      <TmFormMsg
         v-else-if="$v.amount.$error && (!$v.amount.required || amount === 0)"
         name="Amount"
         type="required"
       />
-      <tm-form-msg
+      <TmFormMsg
         v-else-if="$v.amount.$error && !$v.amount.decimal"
         name="Amount"
         type="numeric"
       />
-      <tm-form-msg
+      <TmFormMsg
         v-else-if="$v.amount.$error && !$v.amount.between"
         :max="$v.amount.$params.between.max"
         :min="$v.amount.$params.between.min"
         name="Amount"
         type="between"
       />
-    </tm-form-group>
-  </action-modal>
+    </TmFormGroup>
+  </ActionModal>
 </template>
 
 <script>

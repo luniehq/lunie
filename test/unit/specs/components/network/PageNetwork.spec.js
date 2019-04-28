@@ -2,7 +2,7 @@ import { shallowMount, createLocalVue } from "@vue/test-utils"
 import PageNetwork from "src/components/network/PageNetwork"
 
 const localVue = createLocalVue()
-localVue.directive(`tooltip`, () => { })
+localVue.directive(`tooltip`, () => {})
 
 describe(`PageNetwork`, () => {
   let wrapper

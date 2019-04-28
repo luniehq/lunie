@@ -1,6 +1,6 @@
 <template>
   <div class="tm-session">
-    <tm-form-struct :submit="onSubmit" class="tm-session-container">
+    <TmFormStruct :submit="onSubmit" class="tm-session-container">
       <div class="tm-session-header">
         <a @click="goToWelcome()">
           <i class="material-icons">arrow_back</i>
@@ -13,29 +13,29 @@
         </a>
       </div>
       <div class="tm-session-main">
-        <tm-form-group field-id="sign-in-name" field-label="Address">
-          <tm-field
+        <TmFormGroup field-id="sign-in-name" field-label="Address">
+          <TmField
             v-model="address"
             type="text"
             placeholder="Your Cosmos Address"
             vue-focus="vue-focus"
           />
-          <tm-form-msg
+          <TmFormMsg
             v-if="$v.address.$error && !$v.address.required"
             name="Name"
             type="required"
           />
-          <tm-form-msg
+          <TmFormMsg
             v-else-if="$v.address.$error && !$v.address.bech32Validate"
             name="Address"
             type="bech32"
           />
-        </tm-form-group>
+        </TmFormGroup>
       </div>
       <div class="tm-session-footer">
-        <tm-btn value="Next" size="lg" />
+        <TmBtn value="Next" size="lg" />
       </div>
-    </tm-form-struct>
+    </TmFormStruct>
   </div>
 </template>
 

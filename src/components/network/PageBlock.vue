@@ -1,6 +1,6 @@
 <template>
-  <tm-page data-title="Block">
-    <tm-data-error v-if="!connected || !block" />
+  <TmPage data-title="Block">
+    <TmDataError v-if="!connected || !block" />
     <template v-else>
       <div class="page-profile__header page-profile__section block">
         <div class="row">
@@ -27,7 +27,7 @@
             <h3 v-if="block.transactions" class="page-profile__section-title">
               Transactions
             </h3>
-            <tm-data-msg
+            <TmDataMsg
               v-if="block.transactions && block.transactions.length === 0"
               icon="info_outline"
             >
@@ -37,8 +37,8 @@
               <div slot="subtitle">
                 This block doesn't contain any transactions.
               </div>
-            </tm-data-msg>
-            <li-any-transaction
+            </TmDataMsg>
+            <LiAnyTransaction
               v-for="tx in block.transactions"
               :key="tx.txhash"
               :validators="delegates.delegates"
@@ -53,12 +53,12 @@
                 getUnbondingTime(tx, delegation.unbondingDelegations)
               "
             />
-            <br>
+            <br />
           </div>
         </div>
       </div>
     </template>
-  </tm-page>
+  </TmPage>
 </template>
 
 <script>

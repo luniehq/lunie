@@ -1,9 +1,10 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`LiDistributionTransaction set withdraw address 1`] = `
-<li-transaction-stub
+<litransaction-stub
   block="500"
   color="#F2B134"
+  memo="TESTING (Sent via Lunie)"
   time="1970-01-01T00:00:42.000Z"
 >
   <div>
@@ -13,9 +14,7 @@ exports[`LiDistributionTransaction set withdraw address 1`] = `
   </div>
    
   <div>
-    
-      To cosmos18ymm350peujvq2xy9ymyqj4v34ekvnk3wydrs3
-    
+    To cosmos18ymm350peujvq2xy9ymyqj4v34ekvnk3wydrs3
   </div>
    
   <div>
@@ -31,13 +30,14 @@ exports[`LiDistributionTransaction set withdraw address 1`] = `
       
     </span>
   </div>
-</li-transaction-stub>
+</litransaction-stub>
 `;
 
 exports[`LiDistributionTransaction transaction without fees 1`] = `
-<li-transaction-stub
+<litransaction-stub
   block="500"
   color="#F2B134"
+  memo="TESTING (Sent via Lunie)"
   time="1970-01-01T00:00:42.000Z"
 >
   <div>
@@ -71,13 +71,14 @@ exports[`LiDistributionTransaction transaction without fees 1`] = `
       
     </span>
   </div>
-</li-transaction-stub>
+</litransaction-stub>
 `;
 
 exports[`LiDistributionTransaction withdraw delegation rewards 1`] = `
-<li-transaction-stub
+<litransaction-stub
   block="500"
   color="#F2B134"
+  memo="TESTING (Sent via Lunie)"
   time="1970-01-01T00:00:42.000Z"
 >
   <div>
@@ -111,13 +112,14 @@ exports[`LiDistributionTransaction withdraw delegation rewards 1`] = `
       
     </span>
   </div>
-</li-transaction-stub>
+</litransaction-stub>
 `;
 
 exports[`LiDistributionTransaction withdraw validator commission 1`] = `
-<li-transaction-stub
+<litransaction-stub
   block="500"
   color="#F2B134"
+  memo="TESTING (Sent via Lunie)"
   time="1970-01-01T00:00:42.000Z"
 >
   <div>
@@ -151,5 +153,5 @@ exports[`LiDistributionTransaction withdraw validator commission 1`] = `
       
     </span>
   </div>
-</li-transaction-stub>
+</litransaction-stub>
 `;

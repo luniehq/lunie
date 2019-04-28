@@ -1,14 +1,14 @@
 <template>
-  <tm-data-connecting v-if="!proposals.loaded && !connected" />
-  <tm-data-loading v-else-if="!proposals.loaded && proposals.loading" />
-  <tm-data-empty
+  <TmDataConnecting v-if="!proposals.loaded && !connected" />
+  <TmDataLoading v-else-if="!proposals.loaded && proposals.loading" />
+  <TmDataEmpty
     v-else-if="Object.keys(proposals.proposals).length === 0"
     title="No Governance Proposals"
     subtitle="There are currently no governance proposals to display.
     Click the 'Create Proposal' button to submit a proposal."
     icon="gavel"
   />
-  <table-proposals
+  <TableProposals
     v-else
     :proposals="proposals.proposals"
     :loading="proposals.loading"

@@ -1,5 +1,5 @@
 <template>
-  <tm-page data-title="About" hide-header>
+  <TmPage data-title="About" hide-header>
     <div class="container">
       <div class="card">
         <h1>About</h1>
@@ -40,22 +40,22 @@
             target="_blank"
             rel="noopener norefferer"
           >
-            testnet.lunie.io
-          </a>.
+            testnet.lunie.io </a
+          >.
         </p>
       </div>
       <div class="card">
         <h1>Team</h1>
         <div class="flex-row">
           <div class="profile">
-            <img src="~assets/images/team/fabo.jpg">
+            <img src="~assets/images/team/fabo.jpg" />
             <div class="profile-info">
               <span>Fabian Weber</span>
               <span class="flag">🇩🇪</span>
             </div>
           </div>
           <div class="profile">
-            <img src="~assets/images/team/jordan.jpg">
+            <img src="~assets/images/team/jordan.jpg" />
             <div class="profile-info">
               <span>Jordan Bibla</span>
               <span class="flag">🇨🇦</span>
@@ -72,8 +72,8 @@
             target="_blank"
             rel="noopener norefferer"
           >
-            GitHub
-          </a>, email us at
+            GitHub </a
+          >, email us at
           <a
             href="mailto:contact@lunie.io"
             target="_blank"
@@ -85,7 +85,7 @@
         </p>
       </div>
     </div>
-  </tm-page>
+  </TmPage>
 </template>
 
 <script>

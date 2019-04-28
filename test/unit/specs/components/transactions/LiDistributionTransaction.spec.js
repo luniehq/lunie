@@ -19,13 +19,15 @@ describe(`LiDistributionTransaction`, () => {
     },
     txType: ``,
     time: new Date(Date.now()).toISOString(),
-    block: 500
+    block: 500,
+    memo: `TESTING (Sent via Lunie)`
   }
 
   beforeEach(() => {
-    wrapper = shallowMount(LiDistributionTransaction,
-      { propsData, stubs: [`router-link`] }
-    )
+    wrapper = shallowMount(LiDistributionTransaction, {
+      propsData,
+      stubs: [`router-link`]
+    })
   })
 
   it(`withdraw delegation rewards`, () => {

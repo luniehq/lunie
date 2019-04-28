@@ -1,13 +1,13 @@
 <template>
   <div id="app">
-    <session />
+    <Session />
     <template>
-      <app-header />
+      <AppHeader />
       <div id="app-content">
         <router-view />
       </div>
     </template>
-    <tm-notifications :notifications="notifications" />
+    <TmNotifications :notifications="notifications" />
   </div>
 </template>
 

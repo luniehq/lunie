@@ -1,10 +1,5 @@
 import transactionsModule from "src/vuex/modules/transactions.js"
-import {
-  bankTxs,
-  stakingTxs,
-  governanceTxs,
-  distributionTxs
-} from "./json/txs"
+import { bankTxs, stakingTxs, governanceTxs, distributionTxs } from "./json/txs"
 
 describe(`Module: Transactions`, () => {
   let module, state, actions, mutations, node
@@ -25,7 +20,7 @@ describe(`Module: Transactions`, () => {
       txs: () => Promise.resolve([{ txhash: 2 }]),
       getStakingTxs: () => Promise.resolve([{ txhash: 1 }]),
       getGovernanceTxs: () => Promise.resolve([{ txhash: 3 }, { txhash: 3 }]),
-      getDistributionTxs: () => Promise.resolve([{ txhash: 4 }]),
+      getDistributionTxs: () => Promise.resolve([{ txhash: 4 }])
     }
     module = transactionsModule({ node })
     state = module.state
@@ -66,7 +61,6 @@ describe(`Module: Transactions`, () => {
 
   describe(`Actions`, () => {
     describe(`resetSessionData`, () => {
-
       it(`should clear session data`, () => {
         actions.resetSessionData({
           rootState: {
@@ -120,7 +114,9 @@ describe(`Module: Transactions`, () => {
           const txs = [{ txhash: 3 }]
           const enrichedTxs = [
             {
-              txhash: 3, time: `1970-01-01T00:07:00.000Z`, type: `bank`
+              txhash: 3,
+              time: `1970-01-01T00:07:00.000Z`,
+              type: `bank`
             }
           ]
           const dispatch = jest
@@ -133,9 +129,10 @@ describe(`Module: Transactions`, () => {
           )
 
           expect(dispatch).toHaveBeenCalledWith(`getTx`, `bank`)
-          expect(dispatch).toHaveBeenCalledWith(`enrichTransactions`,
-            { transactions: txs, txType: `bank` }
-          )
+          expect(dispatch).toHaveBeenCalledWith(`enrichTransactions`, {
+            transactions: txs,
+            txType: `bank`
+          })
           expect(commit).toHaveBeenCalledWith(`setBankTxs`, enrichedTxs)
         })
 
@@ -144,7 +141,9 @@ describe(`Module: Transactions`, () => {
           const txs = [{ txhash: 3 }]
           const enrichedTxs = [
             {
-              txhash: 3, time: `1970-01-01T00:07:00.000Z`, type: `staking`
+              txhash: 3,
+              time: `1970-01-01T00:07:00.000Z`,
+              type: `staking`
             }
           ]
           const dispatch = jest
@@ -157,9 +156,10 @@ describe(`Module: Transactions`, () => {
           )
 
           expect(dispatch).toHaveBeenCalledWith(`getTx`, `staking`)
-          expect(dispatch).toHaveBeenCalledWith(`enrichTransactions`,
-            { transactions: txs, txType: `staking` }
-          )
+          expect(dispatch).toHaveBeenCalledWith(`enrichTransactions`, {
+            transactions: txs,
+            txType: `staking`
+          })
           expect(commit).toHaveBeenCalledWith(`setStakingTxs`, enrichedTxs)
         })
 
@@ -168,7 +168,9 @@ describe(`Module: Transactions`, () => {
           const txs = [{ txhash: 3 }, { txhash: 3 }]
           const enrichedTxs = [
             {
-              txhash: 3, time: `1970-01-01T00:07:00.000Z`, type: `governance`
+              txhash: 3,
+              time: `1970-01-01T00:07:00.000Z`,
+              type: `governance`
             }
           ]
           const dispatch = jest
@@ -181,9 +183,10 @@ describe(`Module: Transactions`, () => {
           )
 
           expect(dispatch).toHaveBeenCalledWith(`getTx`, `governance`)
-          expect(dispatch).toHaveBeenCalledWith(`enrichTransactions`,
-            { transactions: [txs[0]], txType: `governance` }
-          )
+          expect(dispatch).toHaveBeenCalledWith(`enrichTransactions`, {
+            transactions: [txs[0]],
+            txType: `governance`
+          })
           expect(commit).toHaveBeenCalledWith(`setGovernanceTxs`, enrichedTxs)
         })
 
@@ -192,7 +195,9 @@ describe(`Module: Transactions`, () => {
           const txs = [{ txhash: 3 }]
           const enrichedTxs = [
             {
-              txhash: 3, time: `1970-01-01T00:07:00.000Z`, type: `distribution`
+              txhash: 3,
+              time: `1970-01-01T00:07:00.000Z`,
+              type: `distribution`
             }
           ]
           const dispatch = jest
@@ -205,9 +210,10 @@ describe(`Module: Transactions`, () => {
           )
 
           expect(dispatch).toHaveBeenCalledWith(`getTx`, `distribution`)
-          expect(dispatch).toHaveBeenCalledWith(`enrichTransactions`,
-            { transactions: txs, txType: `distribution` }
-          )
+          expect(dispatch).toHaveBeenCalledWith(`enrichTransactions`, {
+            transactions: txs,
+            txType: `distribution`
+          })
           expect(commit).toHaveBeenCalledWith(`setDistributionTxs`, enrichedTxs)
         })
 
@@ -216,7 +222,9 @@ describe(`Module: Transactions`, () => {
           const txs = [{ txhash: 3 }]
           const enrichedTxs = [
             {
-              txhash: 3, time: `1970-01-01T00:07:00.000Z`, type: `other`
+              txhash: 3,
+              time: `1970-01-01T00:07:00.000Z`,
+              type: `other`
             }
           ]
           const dispatch = jest
@@ -229,12 +237,12 @@ describe(`Module: Transactions`, () => {
           )
 
           expect(dispatch).toHaveBeenCalledWith(`getTx`, `other`)
-          expect(dispatch).not.toHaveBeenCalledWith(`enrichTransactions`,
-            { transactions: txs, txType: `other` }
-          )
+          expect(dispatch).not.toHaveBeenCalledWith(`enrichTransactions`, {
+            transactions: txs,
+            txType: `other`
+          })
           expect(commit).not.toHaveBeenCalled()
         })
-
       })
 
       it(`shouldn't set txs that already exist in state`, async () => {
@@ -242,21 +250,20 @@ describe(`Module: Transactions`, () => {
           loading: false,
           loaded: false,
           error: null,
-          bank: bankTxs,
+          bank: bankTxs
         }
         const commit = jest.fn()
-        const dispatch = jest
-          .fn()
-          .mockImplementation(async () => await bankTxs)
+        const dispatch = jest.fn().mockImplementation(async () => await bankTxs)
         await actions.parseAndSetTxs(
           { commit, dispatch, state },
           { txType: `bank` }
         )
 
         expect(dispatch).toHaveBeenCalledWith(`getTx`, `bank`)
-        expect(dispatch).not.toHaveBeenCalledWith(`enrichTransactions`,
-          { transactions: bankTxs, txType: `bank` }
-        )
+        expect(dispatch).not.toHaveBeenCalledWith(`enrichTransactions`, {
+          transactions: bankTxs,
+          txType: `bank`
+        })
 
         expect(commit).not.toHaveBeenCalledWith(`setBankTxs`, bankTxs)
         expect(state.error).toBeNull()
@@ -274,10 +281,18 @@ describe(`Module: Transactions`, () => {
         })
 
         expect(dispatch).toHaveBeenCalledTimes(4)
-        expect(dispatch).toHaveBeenCalledWith(`parseAndSetTxs`, { txType: `bank` })
-        expect(dispatch).toHaveBeenCalledWith(`parseAndSetTxs`, { txType: `staking` })
-        expect(dispatch).toHaveBeenCalledWith(`parseAndSetTxs`, { txType: `governance` })
-        expect(dispatch).toHaveBeenCalledWith(`parseAndSetTxs`, { txType: `distribution` })
+        expect(dispatch).toHaveBeenCalledWith(`parseAndSetTxs`, {
+          txType: `bank`
+        })
+        expect(dispatch).toHaveBeenCalledWith(`parseAndSetTxs`, {
+          txType: `staking`
+        })
+        expect(dispatch).toHaveBeenCalledWith(`parseAndSetTxs`, {
+          txType: `governance`
+        })
+        expect(dispatch).toHaveBeenCalledWith(`parseAndSetTxs`, {
+          txType: `distribution`
+        })
         expect(state.error).toBeNull()
       })
     })
@@ -317,7 +332,7 @@ describe(`Module: Transactions`, () => {
 
       it(`should fetch txs with empty response`, async () => {
         node = {
-          getDistributionTxs: () => Promise.resolve(null),
+          getDistributionTxs: () => Promise.resolve(null)
         }
 
         const moduleInstance = transactionsModule({ node })
@@ -329,11 +344,11 @@ describe(`Module: Transactions`, () => {
       })
 
       it(`should throw error`, async () => {
-
         try {
           await actions.getTx(
             { rootState: { session: { address } } },
-            `zero-knowledge`)
+            `zero-knowledge`
+          )
         } catch (error) {
           expect(error.message).toBe(`Unknown transaction type: zero-knowledge`)
         }
@@ -343,12 +358,16 @@ describe(`Module: Transactions`, () => {
     describe(`enrichTransactions`, () => {
       it(`should add add time and block height`, async () => {
         const txs = [{ height: 1 }, { height: 2 }]
-        const dispatch = jest.fn()
+        const dispatch = jest
+          .fn()
           .mockResolvedValue({ header: { time: 420000 } })
-        const enreichedTxs = await actions.enrichTransactions({ dispatch }, {
-          transactions: txs,
-          txType: `bank`
-        })
+        const enreichedTxs = await actions.enrichTransactions(
+          { dispatch },
+          {
+            transactions: txs,
+            txType: `bank`
+          }
+        )
 
         expect(dispatch).toBeCalledTimes(txs.length)
         expect(dispatch).toHaveBeenCalledWith(`queryBlockInfo`, 1)

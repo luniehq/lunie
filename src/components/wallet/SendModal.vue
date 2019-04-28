@@ -1,5 +1,5 @@
 <template>
-  <action-modal
+  <ActionModal
     id="send-modal"
     ref="actionModal"
     :submit-fn="submitForm"
@@ -10,97 +10,128 @@
     submission-error-prefix="Sending tokens failed"
     @close="clear"
   >
-    <tm-form-group
+    <TmFormGroup
       :error="$v.denom.$dirty && $v.denom.$invalid"
       class="action-modal-form-group"
       field-id="send-denomination"
       field-label="Denomination"
     >
-      <tm-field
+      <TmField
         id="send-denomination"
         :value="num.viewDenom($v.denom.$model)"
         type="text"
         readonly
       />
-      <tm-form-msg
+      <TmFormMsg
         v-if="$v.denom.$error && !$v.denom.required"
         name="Denomination"
         type="required"
       />
-    </tm-form-group>
+    </TmFormGroup>
 
-    <tm-form-group
+    <TmFormGroup
       :error="$v.address.$error && $v.address.$invalid"
       class="action-modal-form-group"
       field-id="send-address"
       field-label="Send To"
     >
-      <tm-field
+      <TmField
         id="send-address"
         v-model.number="$v.address.$model"
         v-focus
         type="text"
         placeholder="Address"
       />
-      <tm-form-msg
+      <TmFormMsg
         v-if="$v.address.$error && !$v.address.required"
         name="Address"
         type="required"
       />
-      <tm-form-msg
+      <TmFormMsg
         v-else-if="$v.address.$error && !$v.address.bech32Validate"
         name="Address"
         type="bech32"
       />
-    </tm-form-group>
-    <tm-form-group
+    </TmFormGroup>
+    <TmFormGroup
       :error="$v.amount.$error && $v.amount.$invalid"
       class="action-modal-form-group"
       field-id="amount"
       field-label="Amount"
     >
-      <tm-field
+      <TmField
         id="amount"
         v-model="amount"
         class="tm-field"
         placeholder="Amount"
         type="number"
       />
-      <tm-form-msg
+      <TmFormMsg
         v-if="balance === 0"
         :msg="`doesn't have any ${num.viewDenom(denom)}s`"
         name="Wallet"
         type="custom"
       />
-      <tm-form-msg
+      <TmFormMsg
         v-else-if="$v.amount.$error && (!$v.amount.required || amount === 0)"
         name="Amount"
         type="required"
       />
-      <tm-form-msg
+      <TmFormMsg
         v-else-if="$v.amount.$error && !$v.amount.decimal"
         name="Amount"
         type="numeric"
       />
-      <tm-form-msg
+      <TmFormMsg
         v-else-if="$v.amount.$error && !$v.amount.between"
         :max="$v.amount.$params.between.max"
         :min="$v.amount.$params.between.min"
         name="Amount"
         type="between"
       />
-    </tm-form-group>
-  </action-modal>
+    </TmFormGroup>
+    <TmBtn
+      v-if="editMemo === false"
+      id="edit-memo-btn"
+      value="Edit Memo"
+      :to="''"
+      type="link"
+      size="sm"
+      @click.native="editMemo = true"
+    />
+    <TmFormGroup
+      v-if="editMemo"
+      id="memo"
+      :error="$v.memo.$error && $v.memo.$invalid"
+      class="action-modal-group"
+      field-id="memo"
+      field-label="Memo"
+    >
+      <TmField
+        id="memo"
+        v-model="memo"
+        type="text"
+        placeholder="Add a description..."
+      />
+      <TmFormMsg
+        v-if="$v.memo.$error && !$v.memo.maxLength"
+        name="Memo"
+        type="maxLength"
+        :max="max_memo_characters"
+      />
+    </TmFormGroup>
+  </ActionModal>
 </template>
 
 <script>
 import b32 from "scripts/b32"
-import { required, between, decimal } from "vuelidate/lib/validators"
+import { required, between, decimal, maxLength } from "vuelidate/lib/validators"
 import num, { uatoms, atoms, SMALLEST } from "../../scripts/num.js"
 import { mapActions, mapGetters } from "vuex"
 import TmFormGroup from "common/TmFormGroup"
 import TmField from "common/TmField"
 import TmFormMsg from "common/TmFormMsg"
+import TmBtn from "common/TmBtn"
 import ActionModal from "common/ActionModal"
 
 export default {
@@ -109,13 +140,17 @@ export default {
     TmField,
     TmFormGroup,
     TmFormMsg,
-    ActionModal
+    ActionModal,
+    TmBtn
   },
   data: () => ({
     address: ``,
     amount: null,
     denom: ``,
-    num
+    num,
+    memo: "(Sent via Lunie)",
+    max_memo_characters: 256,
+    editMemo: false
   }),
   computed: {
     ...mapGetters([`wallet`]),
@@ -145,6 +180,8 @@ export default {
 
       this.address = ``
       this.amount = 0
+      this.editMemo = false
+      this.memo = "(Sent via Lunie)"
     },
     async simulateForm() {
       const amount = +this.amount
@@ -155,7 +192,8 @@ export default {
       return await this.$store.dispatch(`simulateTx`, {
         type,
         to: address,
-        amount: [{ denom, amount: String(uatoms(amount)) }]
+        amount: [{ denom, amount: String(uatoms(amount)) }],
+        memo: this.memo
       })
     },
     async submitForm(gasEstimate, gasPrice, password, submitType) {
@@ -176,7 +214,8 @@ export default {
         submitType,
         password,
         to: address,
-        amount: [{ denom, amount: String(uatoms(amount)) }]
+        amount: [{ denom, amount: String(uatoms(amount)) }],
+        memo: this.memo
       })
 
       this.$store.commit(`notify`, {
@@ -206,8 +245,19 @@ export default {
         decimal,
         between: between(SMALLEST, atoms(this.balance))
       },
-      denom: { required }
+      denom: { required },
+      memo: {
+        maxLength: maxLength(this.max_memo_characters)
+      }
     }
   }
 }
 </script>
+<style scoped>
+#edit-memo-btn {
+  display: inline-block;
+  height: 58px;
+  padding: 12px 0;
+  box-sizing: content-box;
+}
+</style>

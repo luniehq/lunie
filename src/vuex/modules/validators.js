@@ -68,8 +68,10 @@ export default ({ node }) => {
     async getValidatorDistributionInfo({ commit }, validatorAddr) {
       state.loading = true
       try {
-        let { self_bond_rewards, val_commission } =
-          await node.getValidatorDistributionInformation(validatorAddr)
+        let {
+          self_bond_rewards,
+          val_commission
+        } = await node.getValidatorDistributionInformation(validatorAddr)
         self_bond_rewards = coinsToObject(self_bond_rewards)
         val_commission = coinsToObject(val_commission)
         const info = { self_bond_rewards, val_commission }

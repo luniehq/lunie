@@ -48,13 +48,12 @@ export default ({ node }) => {
     },
     async initializeWallet({ state, commit, dispatch }, { address }) {
       commit(`setWalletAddress`, address)
-      dispatch(`queryWalletBalances`)
-        .then(() => {
-          // if the account is empty and there is a faucet for that network, give the account some money
-          if (state.balances.length === 0 && state.externals.config.faucet) {
-            dispatch(`getMoney`, address)
-          }
-        })
+      dispatch(`queryWalletBalances`).then(() => {
+        // if the account is empty and there is a faucet for that network, give the account some money
+        if (state.balances.length === 0 && state.externals.config.faucet) {
+          dispatch(`getMoney`, address)
+        }
+      })
       dispatch(`getTotalRewards`)
       dispatch(`walletSubscribe`)
     },
@@ -87,10 +86,7 @@ export default ({ node }) => {
         state.error = error
       }
     },
-    async simulateSendCoins(
-      { dispatch },
-      { receiver, amount, denom }
-    ) {
+    async simulateSendCoins({ dispatch }, { receiver, amount, denom }) {
       return await dispatch(`simulateTx`, {
         type: `send`,
         to: receiver,
@@ -161,8 +157,10 @@ export default ({ node }) => {
       })
     },
     async getMoney({ state }, address) {
-      return state.externals.axios.get(`${state.externals.config.faucet}/${address}`)
-    },
+      return state.externals.axios.get(
+        `${state.externals.config.faucet}/${address}`
+      )
+    }
   }
 
   return {

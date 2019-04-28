@@ -1,14 +1,11 @@
 <template>
-  <transition
-    v-if="show"
-    name="slide-fade"
-  >
+  <transition v-if="show" name="slide-fade">
     <div class="action-modal">
       <div class="action-modal-header">
         <img
           class="icon action-modal-atom"
           src="~assets/images/cosmos-logo.png"
-        >
+        />
         <span class="action-modal-title">
           {{ requiresSignIn ? `Sign in required` : title }}
         </span>
@@ -20,23 +17,14 @@
           <i class="material-icons">close</i>
         </div>
       </div>
-      <div
-        v-if="requiresSignIn"
-        class="action-modal-form"
-      >
+      <div v-if="requiresSignIn" class="action-modal-form">
         <p>You need to sign in to submit a transaction.</p>
       </div>
-      <div
-        v-else-if="step === `txDetails`"
-        class="action-modal-form"
-      >
+      <div v-else-if="step === `txDetails`" class="action-modal-form">
         <slot />
       </div>
-      <div
-        v-else-if="step === `fees`"
-        class="action-modal-form"
-      >
-        <tm-form-group
+      <div v-else-if="step === `fees`" class="action-modal-form">
+        <TmFormGroup
           v-if="session.experimentalMode"
           :error="$v.gasPrice.$error && $v.gasPrice.$invalid"
           class="action-modal-group"
@@ -44,56 +32,53 @@
           field-label="Gas Price"
         >
           <span class="input-suffix">{{ viewDenom(bondDenom) }}</span>
-          <tm-field
+          <TmField
             id="gas-price"
             v-model="gasPrice"
             step="0.000000001"
             type="number"
             min="0"
           />
-          <tm-form-msg
+          <TmFormMsg
             v-if="balance === 0"
             :msg="`doesn't have any ${bondDenom}s`"
             name="Wallet"
             type="custom"
           />
-          <tm-form-msg
+          <TmFormMsg
             v-else-if="$v.gasPrice.$error && !$v.gasPrice.required"
             name="Gas price"
             type="required"
           />
-          <tm-form-msg
+          <TmFormMsg
             v-else-if="$v.gasPrice.$error && !$v.gasPrice.between"
             :max="$v.gasPrice.$params.between.max"
             :min="0"
             name="Gas price"
             type="between"
           />
-        </tm-form-group>
-        <table-invoice
+        </TmFormGroup>
+        <TableInvoice
           :amount="Number(amount)"
           :gas-estimate="Number(gasEstimate)"
           :gas-price="Number(gasPrice)"
         />
       </div>
-      <div
-        v-else-if="step === `sign`"
-        class="action-modal-form"
-      >
-        <tm-form-group
+      <div v-else-if="step === `sign`" class="action-modal-form">
+        <TmFormGroup
           v-if="signMethods.length > 1"
           class="action-modal-form-group"
           field-id="sign-method"
           field-label="Signing Method"
         >
-          <tm-field
+          <TmField
             id="sign-method"
             v-model="selectedSignMethod"
             :options="signMethods"
             type="select"
           />
-        </tm-form-group>
-        <hardware-state
+        </TmFormGroup>
+        <HardwareState
           v-if="selectedSignMethod === `ledger`"
           icon="usb"
           :loading="!!sending"
@@ -104,38 +89,38 @@
               : `Please plug in your Ledger&nbsp;Nano&nbsp;S and open
           the Cosmos app`
           }}
-        </hardware-state>
-        <tm-form-group
+        </HardwareState>
+        <TmFormGroup
           v-else-if="selectedSignMethod === `local`"
           :error="$v.password.$error && $v.password.$invalid"
           class="action-modal-group"
           field-id="password"
           field-label="Password"
         >
-          <tm-field
+          <TmField
             id="password"
             v-model="password"
             type="password"
             placeholder="Password"
           />
-          <tm-form-msg
+          <TmFormMsg
             v-if="$v.password.$error && !$v.password.required"
             name="Password"
             type="required"
           />
-        </tm-form-group>
+        </TmFormGroup>
       </div>
       <div class="action-modal-footer">
         <slot name="action-modal-footer">
-          <tm-form-group class="action-modal-group">
+          <TmFormGroup class="action-modal-group">
             <div>
-              <tm-btn
+              <TmBtn
                 v-if="requiresSignIn"
                 value="Sign In"
                 color="primary"
                 @click.native="goToSession"
               />
-              <tm-btn
+              <TmBtn
                 v-else-if="sending"
                 :value="
                   step === `sign` && selectedSignMethod === `ledger`
@@ -145,26 +130,26 @@
                 disabled="disabled"
                 color="primary"
               />
-              <tm-btn
+              <TmBtn
                 v-else-if="!connected"
                 value="Connecting..."
                 disabled="disabled"
                 color="primary"
               />
-              <tm-btn
+              <TmBtn
                 v-else-if="step !== `sign`"
                 color="primary"
                 value="Next"
                 @click.native="validateChangeStep"
               />
-              <tm-btn
+              <TmBtn
                 v-else
                 color="primary"
                 value="Submit"
                 @click.native="validateChangeStep"
               />
             </div>
-          </tm-form-group>
+          </TmFormGroup>
         </slot>
         <p
           v-if="submissionError"

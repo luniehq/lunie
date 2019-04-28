@@ -9,8 +9,8 @@ describe(`TabParameters`, () => {
   let wrapper, store
   const { mount, localVue } = setup()
   localVue.use(Vuelidate)
-  localVue.directive(`tooltip`, () => { })
-  localVue.directive(`focus`, () => { })
+  localVue.directive(`tooltip`, () => {})
+  localVue.directive(`focus`, () => {})
 
   const $store = {
     commit: jest.fn(),

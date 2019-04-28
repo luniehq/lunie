@@ -2,7 +2,7 @@ import { shallowMount, createLocalVue } from "@vue/test-utils"
 import LiValidator from "src/components/staking/LiValidator"
 
 const localVue = createLocalVue()
-localVue.directive(`tooltip`, () => { })
+localVue.directive(`tooltip`, () => {})
 
 describe(`LiValidator`, () => {
   let wrapper, $store
@@ -44,8 +44,7 @@ describe(`LiValidator`, () => {
         delegates: { delegates: [], globalPower: 9000 },
         committedDelegations: {},
         distribution: {
-          rewards: {
-          }
+          rewards: {}
         },
         session: {
           signedIn: true

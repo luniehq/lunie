@@ -19,11 +19,10 @@ export default function setRpcWrapper(container) {
         rpcWrapper.rpcInfo.connected = false
       }
 
-      const newRpc = await rpcConnect(rpcURL)
-        .catch(err => {
-          rpcWrapper.rpcInfo.connected = false
-          throw err
-        })
+      const newRpc = await rpcConnect(rpcURL).catch(err => {
+        rpcWrapper.rpcInfo.connected = false
+        throw err
+      })
       container.rpc = newRpc
       rpcWrapper.rpcInfo.connected = true
     }

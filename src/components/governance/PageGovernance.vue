@@ -1,6 +1,6 @@
 <template>
-  <tm-page :tabs="tabs" class="governance" data-title="Governance">
-    <tm-btn
+  <TmPage :tabs="tabs" class="governance" data-title="Governance">
+    <TmBtn
       v-if="session.signedIn"
       id="propose-btn"
       slot="header-buttons"
@@ -9,9 +9,9 @@
       color="primary"
       @click.native="onPropose"
     />
-    <modal-propose ref="modalPropose" :denom="depositDenom" />
+    <ModalPropose ref="modalPropose" :denom="depositDenom" />
     <router-view />
-  </tm-page>
+  </TmPage>
 </template>
 
 <script>

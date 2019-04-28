@@ -5,7 +5,7 @@ describe(`PanelSort`, () => {
   let wrapper
 
   const localVue = createLocalVue()
-  localVue.directive(`tooltip`, () => { })
+  localVue.directive(`tooltip`, () => {})
 
   beforeEach(() => {
     wrapper = shallowMount(PanelSort, {

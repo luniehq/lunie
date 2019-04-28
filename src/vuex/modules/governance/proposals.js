@@ -2,12 +2,12 @@ import * as Sentry from "@sentry/browser"
 import Vue from "vue"
 import BigNumber from "bignumber.js"
 
-export const setProposalTally = (commit, node) => async (proposal) => {
+export const setProposalTally = (commit, node) => async proposal => {
   commit(`setProposal`, proposal)
   const final_tally_result =
-    proposal.proposal_status === `VotingPeriod` ?
-      await node.getProposalTally(proposal.proposal_id) :
-      { ...proposal.final_tally_result }
+    proposal.proposal_status === `VotingPeriod`
+      ? await node.getProposalTally(proposal.proposal_id)
+      : { ...proposal.final_tally_result }
   commit(`setProposalTally`, {
     proposal_id: proposal.proposal_id,
     final_tally_result
@@ -47,9 +47,7 @@ export default ({ node }) => {
       try {
         const proposals = await node.getProposals()
         if (proposals.length > 0) {
-          await Promise.all(
-            proposals.map(setProposalTally(commit, node))
-          )
+          await Promise.all(proposals.map(setProposalTally(commit, node)))
         }
 
         state.error = null
@@ -75,11 +73,13 @@ export default ({ node }) => {
       }
       return undefined
     },
-    async simulateProposal({
-      rootState: { wallet },
-      dispatch
-    },
-    { title, description, type, initial_deposit }) {
+    async simulateProposal(
+      {
+        rootState: { wallet },
+        dispatch
+      },
+      { title, description, type, initial_deposit }
+    ) {
       return await dispatch(`simulateTx`, {
         type: `postProposal`,
         proposer: wallet.address,
@@ -87,7 +87,7 @@ export default ({ node }) => {
         proposal_content: {
           value: {
             title,
-            description,
+            description
           }
         },
         initial_deposit
@@ -100,9 +100,15 @@ export default ({ node }) => {
         commit
       },
       {
-        type, gas, gas_prices,
-        initial_deposit, password, submitType,
-        proposal_content: { value: { title, description } }
+        type,
+        gas,
+        gas_prices,
+        initial_deposit,
+        password,
+        submitType,
+        proposal_content: {
+          value: { title, description }
+        }
       }
     ) {
       await dispatch(`sendTx`, {
@@ -112,7 +118,7 @@ export default ({ node }) => {
         proposal_content: {
           value: {
             title,
-            description,
+            description
           }
         },
         initial_deposit,
@@ -124,11 +130,14 @@ export default ({ node }) => {
 
       // optimistic updates
       initial_deposit.forEach(({ amount, denom }) => {
-        const oldBalance = wallet.balances
-          .find(balance => balance.denom === denom)
+        const oldBalance = wallet.balances.find(
+          balance => balance.denom === denom
+        )
         commit(`updateWalletBalance`, {
           denom,
-          amount: BigNumber(oldBalance.amount).minus(amount).toNumber()
+          amount: BigNumber(oldBalance.amount)
+            .minus(amount)
+            .toNumber()
         })
       })
 

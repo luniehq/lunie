@@ -4,7 +4,7 @@
       <img
         :style="{ borderColor: color }"
         src="~assets/images/cosmos-logo.png"
-      >
+      />
     </div>
     <div class="li-tx__content">
       <div class="li-tx__content__left">
@@ -15,14 +15,15 @@
         </div>
         <div class="li-tx__content__information">
           <slot name="details" />
+          <span v-if="memo"> &nbsp;- {{ memo }} </span>
         </div>
       </div>
       <div class="li-tx__content__right">
         <slot name="fees" />
         <div class="li-tx__content__block">
           <router-link :to="{ name: `block`, params: { height: block } }">
-            Block #{{ block }}&nbsp;
-          </router-link>@&nbsp;{{ date }}
+            Block #{{ block }}&nbsp; </router-link
+          >@&nbsp;{{ date }}
         </div>
       </div>
     </div>
@@ -46,6 +47,10 @@ export default {
     block: {
       type: Number,
       required: true
+    },
+    memo: {
+      type: String,
+      default: null
     }
   },
   computed: {
@@ -111,8 +116,10 @@ export default {
   text-align: right;
 }
 
-.li-tx__content__information > div {
+.li-tx__content__information,
+.li-tx__content__information > * {
   display: flex;
+  flex-direction: row;
 }
 
 .li-tx__content__information,

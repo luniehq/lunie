@@ -1,5 +1,5 @@
 <template>
-  <action-modal
+  <ActionModal
     id="delegation-modal"
     ref="actionModal"
     :submit-fn="submitForm"
@@ -11,71 +11,62 @@
     submission-error-prefix="Delegating failed"
     @close="clear"
   >
-    <tm-form-group
-      class="action-modal-form-group"
-      field-id="to"
-      field-label="To"
-    >
-      <tm-field
-        id="to"
-        v-model="to"
-        type="text"
-        readonly
-      />
-    </tm-form-group>
+    <TmFormGroup class="action-modal-form-group" field-id="to" field-label="To">
+      <TmField id="to" v-model="to" type="text" readonly />
+    </TmFormGroup>
 
-    <tm-form-group
+    <TmFormGroup
       v-if="fromOptions.length > 1"
       class="action-modal-form-group"
       field-id="from"
       field-label="From"
     >
-      <tm-field
+      <TmField
         id="from"
         v-model="selectedIndex"
         :title="from"
         :options="fromOptions"
         type="select"
       />
-    </tm-form-group>
-    <tm-form-group
+    </TmFormGroup>
+    <TmFormGroup
       :error="$v.amount.$error && $v.amount.$invalid"
       class="action-modal-form-group"
       field-id="amount"
       field-label="Amount"
     >
       <span class="input-suffix">{{ num.viewDenom(denom) }}</span>
-      <tm-field
+      <TmField
         id="amount"
         v-model="amount"
         type="number"
         placeholder="Amount"
       />
-      <tm-form-msg
+      <TmFormMsg
         v-if="balance === 0"
         :msg="`doesn't have any ${num.viewDenom(denom)}s`"
         name="Wallet"
         type="custom"
       />
-      <tm-form-msg
+      <TmFormMsg
         v-else-if="$v.amount.$error && !$v.amount.decimal"
         name="Amount"
         type="numeric"
       />
-      <tm-form-msg
+      <TmFormMsg
         v-else-if="$v.amount.$error && (!$v.amount.required || amount === 0)"
         name="Amount"
         type="required"
       />
-      <tm-form-msg
+      <TmFormMsg
         v-else-if="$v.amount.$error && !$v.amount.between"
         :max="$v.amount.$params.between.max"
         :min="$v.amount.$params.between.min"
         name="Amount"
         type="between"
       />
-    </tm-form-group>
-  </action-modal>
+    </TmFormGroup>
+  </ActionModal>
 </template>
 
 <script>
@@ -181,7 +172,7 @@ export default {
       return await this.$store.dispatch(`simulateRedelegation`, {
         validatorSrc,
         validatorDst: this.validator,
-        amount: String(uatoms(this.amount)),
+        amount: String(uatoms(this.amount))
       })
     },
     async submitRedelegation(gasEstimate, gasPrice, password, submitType) {

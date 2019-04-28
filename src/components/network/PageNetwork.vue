@@ -1,5 +1,5 @@
 <template>
-  <tm-page
+  <TmPage
     :managed="true"
     :loading="!lastHeader"
     :loaded="!!lastHeader"
@@ -49,9 +49,7 @@
               <dd id="loose_tokens">
                 {{
                   pool.pool && pool.pool.not_bonded_tokens
-                    ? num.shortDecimals(
-                      num.atoms(pool.pool.not_bonded_tokens)
-                    )
+                    ? num.shortDecimals(num.atoms(pool.pool.not_bonded_tokens))
                     : `--`
                 }}
               </dd>
@@ -73,24 +71,15 @@
       </div>
       <table class="blocks data-table">
         <thead>
-          <panel-sort :properties="properties" />
+          <PanelSort :properties="properties" />
         </thead>
         <tbody>
-          <tr
-            v-if="blocks.length === 0"
-            class="block data-table__row"
-          >
+          <tr v-if="blocks.length === 0" class="block data-table__row">
             <td>
-              <img
-                class="loading-icon"
-                src="~assets/images/loader.svg"
-              >
+              <img class="loading-icon" src="~assets/images/loader.svg" />
             </td>
             <td>
-              <img
-                class="loading-icon"
-                src="~assets/images/loader.svg"
-              >
+              <img class="loading-icon" src="~assets/images/loader.svg" />
             </td>
           </tr>
           <tr
@@ -113,7 +102,7 @@
         </tbody>
       </table>
     </template>
-  </tm-page>
+  </TmPage>
 </template>
 
 <script>

@@ -1,9 +1,10 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`LiStakeTransaction create validator with fees 1`] = `
-<li-transaction-stub
+<litransaction-stub
   block="500"
   color="#47AB6C"
+  memo="TESTING (Sent via Lunie)"
   time="1970-01-01T00:00:42.000Z"
 >
   <div>
@@ -45,13 +46,14 @@ exports[`LiStakeTransaction create validator with fees 1`] = `
       
     </span>
   </div>
-</li-transaction-stub>
+</litransaction-stub>
 `;
 
 exports[`LiStakeTransaction create validator without fees 1`] = `
-<li-transaction-stub
+<litransaction-stub
   block="500"
   color="#47AB6C"
+  memo="TESTING (Sent via Lunie)"
   time="1970-01-01T00:00:42.000Z"
 >
   <div>
@@ -93,13 +95,14 @@ exports[`LiStakeTransaction create validator without fees 1`] = `
       
     </span>
   </div>
-</li-transaction-stub>
+</litransaction-stub>
 `;
 
 exports[`LiStakeTransaction delegations with fees 1`] = `
-<li-transaction-stub
+<litransaction-stub
   block="500"
   color="#47AB6C"
+  memo="TESTING (Sent via Lunie)"
   time="1970-01-01T00:00:42.000Z"
 >
   <div>
@@ -141,13 +144,14 @@ exports[`LiStakeTransaction delegations with fees 1`] = `
       
     </span>
   </div>
-</li-transaction-stub>
+</litransaction-stub>
 `;
 
 exports[`LiStakeTransaction delegations without fees 1`] = `
-<li-transaction-stub
+<litransaction-stub
   block="500"
   color="#47AB6C"
+  memo="TESTING (Sent via Lunie)"
   time="1970-01-01T00:00:42.000Z"
 >
   <div>
@@ -189,13 +193,14 @@ exports[`LiStakeTransaction delegations without fees 1`] = `
       
     </span>
   </div>
-</li-transaction-stub>
+</litransaction-stub>
 `;
 
 exports[`LiStakeTransaction edit validator with fees 1`] = `
-<li-transaction-stub
+<litransaction-stub
   block="500"
   color="#47AB6C"
+  memo="TESTING (Sent via Lunie)"
   time="1970-01-01T00:00:42.000Z"
 >
   <div>
@@ -230,13 +235,14 @@ exports[`LiStakeTransaction edit validator with fees 1`] = `
       
     </span>
   </div>
-</li-transaction-stub>
+</litransaction-stub>
 `;
 
 exports[`LiStakeTransaction edit validator without fees 1`] = `
-<li-transaction-stub
+<litransaction-stub
   block="500"
   color="#47AB6C"
+  memo="TESTING (Sent via Lunie)"
   time="1970-01-01T00:00:42.000Z"
 >
   <div>
@@ -271,13 +277,14 @@ exports[`LiStakeTransaction edit validator without fees 1`] = `
       
     </span>
   </div>
-</li-transaction-stub>
+</litransaction-stub>
 `;
 
 exports[`LiStakeTransaction redelegations with fees 1`] = `
-<li-transaction-stub
+<litransaction-stub
   block="500"
   color="#47AB6C"
+  memo="TESTING (Sent via Lunie)"
   time="1970-01-01T00:00:42.000Z"
 >
   <div>
@@ -331,13 +338,14 @@ exports[`LiStakeTransaction redelegations with fees 1`] = `
       
     </span>
   </div>
-</li-transaction-stub>
+</litransaction-stub>
 `;
 
 exports[`LiStakeTransaction redelegations without fees 1`] = `
-<li-transaction-stub
+<litransaction-stub
   block="500"
   color="#47AB6C"
+  memo="TESTING (Sent via Lunie)"
   time="1970-01-01T00:00:42.000Z"
 >
   <div>
@@ -391,13 +399,14 @@ exports[`LiStakeTransaction redelegations without fees 1`] = `
       
     </span>
   </div>
-</li-transaction-stub>
+</litransaction-stub>
 `;
 
 exports[`LiStakeTransaction unbonding delegations should default to ended if no unbonding delegation is present 1`] = `
-<li-transaction-stub
+<litransaction-stub
   block="500"
   color="#47AB6C"
+  memo="TESTING (Sent via Lunie)"
   time="1970-01-01T00:00:42.000Z"
 >
   <div>
@@ -443,13 +452,14 @@ exports[`LiStakeTransaction unbonding delegations should default to ended if no 
       
     </span>
   </div>
-</li-transaction-stub>
+</litransaction-stub>
 `;
 
 exports[`LiStakeTransaction unbonding delegations should show unbonding delegations as ended 1`] = `
-<li-transaction-stub
+<litransaction-stub
   block="500"
   color="#47AB6C"
+  memo="TESTING (Sent via Lunie)"
   time="1970-01-01T00:00:42.000Z"
 >
   <div>
@@ -495,13 +505,14 @@ exports[`LiStakeTransaction unbonding delegations should show unbonding delegati
       
     </span>
   </div>
-</li-transaction-stub>
+</litransaction-stub>
 `;
 
 exports[`LiStakeTransaction unbonding delegations with fees 1`] = `
-<li-transaction-stub
+<litransaction-stub
   block="500"
   color="#47AB6C"
+  memo="TESTING (Sent via Lunie)"
   time="1970-01-01T00:00:42.000Z"
 >
   <div>
@@ -553,13 +564,14 @@ exports[`LiStakeTransaction unbonding delegations with fees 1`] = `
       
     </span>
   </div>
-</li-transaction-stub>
+</litransaction-stub>
 `;
 
 exports[`LiStakeTransaction unbonding delegations without fees 1`] = `
-<li-transaction-stub
+<litransaction-stub
   block="500"
   color="#47AB6C"
+  memo="TESTING (Sent via Lunie)"
   time="1970-01-01T00:00:42.000Z"
 >
   <div>
@@ -605,13 +617,14 @@ exports[`LiStakeTransaction unbonding delegations without fees 1`] = `
       
     </span>
   </div>
-</li-transaction-stub>
+</litransaction-stub>
 `;
 
 exports[`LiStakeTransaction unjail with fees 1`] = `
-<li-transaction-stub
+<litransaction-stub
   block="500"
   color="#47AB6C"
+  memo="TESTING (Sent via Lunie)"
   time="1970-01-01T00:00:42.000Z"
 >
   <div>
@@ -646,13 +659,14 @@ exports[`LiStakeTransaction unjail with fees 1`] = `
       
     </span>
   </div>
-</li-transaction-stub>
+</litransaction-stub>
 `;
 
 exports[`LiStakeTransaction unjail without fees 1`] = `
-<li-transaction-stub
+<litransaction-stub
   block="500"
   color="#47AB6C"
+  memo="TESTING (Sent via Lunie)"
   time="1970-01-01T00:00:42.000Z"
 >
   <div>
@@ -687,5 +701,5 @@ exports[`LiStakeTransaction unjail without fees 1`] = `
       
     </span>
   </div>
-</li-transaction-stub>
+</litransaction-stub>
 `;

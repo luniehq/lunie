@@ -63,10 +63,15 @@ describe(`Module: Validators`, () => {
 
   it(`should set validator's distribution info`, () => {
     const validatorAddr = `cosmosvaloper1address`
-    const info = { rewards, self_bond_rewards: `0.0001`, val_commission: `0.0005` }
+    const info = {
+      rewards,
+      self_bond_rewards: `0.0001`,
+      val_commission: `0.0005`
+    }
     store.commit(`setValidatorDistributionInfo`, { validatorAddr, info })
-    expect(store.state.validators.distributionInfo[validatorAddr])
-      .toMatchObject(info)
+    expect(
+      store.state.validators.distributionInfo[validatorAddr]
+    ).toMatchObject(info)
   })
 
   it(`should set validator hash`, () => {
@@ -183,7 +188,7 @@ describe(`Module: Validators`, () => {
 
     beforeEach(() => {
       node = {
-        getValidatorDistributionInformation: jest.fn(async () => info),
+        getValidatorDistributionInformation: jest.fn(async () => info)
       }
       module = validatorsModule({ node })
       state = module.state
@@ -198,10 +203,12 @@ describe(`Module: Validators`, () => {
         { state, rootState, commit },
         validatorAddr
       )
-      expect(node.getValidatorDistributionInformation)
-        .toHaveBeenCalledWith(validatorAddr)
+      expect(node.getValidatorDistributionInformation).toHaveBeenCalledWith(
+        validatorAddr
+      )
       expect(commit).toHaveBeenCalledWith(`setValidatorDistributionInfo`, {
-        validatorAddr, info: {
+        validatorAddr,
+        info: {
           self_bond_rewards: rewards,
           val_commission: rewards
         }
@@ -210,18 +217,19 @@ describe(`Module: Validators`, () => {
 
     it(`fails`, async () => {
       const validatorAddr = null
-      node.getValidatorDistributionInformation =
-        jest.fn(async () => Promise.reject(
-          Error(`invalid validator address`))
-        )
+      node.getValidatorDistributionInformation = jest.fn(async () =>
+        Promise.reject(Error(`invalid validator address`))
+      )
       await actions.getValidatorDistributionInfo(
         { state, rootState, commit },
         validatorAddr
       )
-      expect(node.getValidatorDistributionInformation)
-        .toHaveBeenCalledWith(validatorAddr)
+      expect(node.getValidatorDistributionInformation).toHaveBeenCalledWith(
+        validatorAddr
+      )
       expect(commit).not.toHaveBeenCalledWith(`setValidatorDistributionInfo`, {
-        validatorAddr, info: {
+        validatorAddr,
+        info: {
           self_bond_rewards: rewards,
           val_commission: rewards
         }
@@ -252,21 +260,26 @@ describe(`Module: Validators`, () => {
       )
       expect(node.getValidatorRewards).toHaveBeenCalledWith(validatorAddr)
       expect(commit).toHaveBeenCalledWith(`setValidatorRewards`, {
-        validatorAddr, rewards
+        validatorAddr,
+        rewards
       })
     })
 
     it(`fails`, async () => {
       const validatorAddr = null
-      node.getValidatorRewards = jest.fn(async () => Promise.reject(Error(`invalid validator address`)))
+      node.getValidatorRewards = jest.fn(async () =>
+        Promise.reject(Error(`invalid validator address`))
+      )
       await actions.getValidatorDistributionRewards(
         { state, rootState, commit },
         validatorAddr
       )
       expect(node.getValidatorRewards).toHaveBeenCalledWith(validatorAddr)
-      expect(commit).not.toHaveBeenCalledWith(`setValidatorRewards`, { validatorAddr, rewards })
+      expect(commit).not.toHaveBeenCalledWith(`setValidatorRewards`, {
+        validatorAddr,
+        rewards
+      })
       expect(state.error).toEqual(Error(`invalid validator address`))
     })
   })
-
 })
