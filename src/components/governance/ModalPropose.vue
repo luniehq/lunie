@@ -1,5 +1,5 @@
 <template>
-  <action-modal
+  <ActionModal
     id="modal-propose"
     ref="actionModal"
     :submit-fn="submitForm"
@@ -10,94 +10,94 @@
     submission-error-prefix="Submitting proposal failed"
     @close="clear"
   >
-    <tm-form-group
+    <TmFormGroup
       :error="$v.title.$error && $v.title.$invalid"
       class="action-modal-form-group"
       field-id="title"
       field-label="Title"
     >
-      <tm-field
+      <TmField
         id="title"
         v-model.trim="title"
         v-focus
         type="text"
         placeholder="Proposal title"
       />
-      <tm-form-msg
+      <TmFormMsg
         v-if="$v.title.$error && !$v.title.maxLength"
         :max="$v.title.$params.maxLength.max"
         name="Proposal Title"
         type="maxLength"
       />
-      <tm-form-msg
+      <TmFormMsg
         v-if="$v.title.$error && !$v.title.required"
         name="Proposal Title"
         type="required"
       />
-    </tm-form-group>
-    <tm-form-group
+    </TmFormGroup>
+    <TmFormGroup
       :error="$v.description.$error && $v.description.$invalid"
       class="action-modal-form-group"
       field-id="description"
       field-label="Description"
     >
-      <tm-field
+      <TmField
         id="description"
         v-model.trim="description"
         type="textarea"
         class="textarea-large"
         placeholder="Write your proposal here..."
       />
-      <tm-form-msg
+      <TmFormMsg
         v-if="$v.description.$error && !$v.description.maxLength"
         :max="$v.description.$params.maxLength.max"
         name="Description"
         type="maxLength"
       />
-      <tm-form-msg
+      <TmFormMsg
         v-if="$v.description.$error && !$v.description.required"
         name="Description"
         type="required"
       />
-    </tm-form-group>
-    <tm-form-group
+    </TmFormGroup>
+    <TmFormGroup
       :error="$v.amount.$error && $v.amount.$invalid"
       class="action-modal-form-group"
       field-id="amount"
       field-label="Deposit"
     >
       <span class="input-suffix">{{ num.viewDenom(denom) }}</span>
-      <tm-field
+      <TmField
         id="amount"
         v-model="amount"
         :value="Number(amount)"
         type="number"
       />
-      <tm-form-msg
+      <TmFormMsg
         v-if="balance === 0"
         :msg="`doesn't have any ${num.viewDenom(denom)}s`"
         name="Wallet"
         type="custom"
       />
-      <tm-form-msg
+      <TmFormMsg
         v-else-if="$v.amount.$error && (!$v.amount.required || amount === 0)"
         name="Deposit"
         type="required"
       />
-      <tm-form-msg
+      <TmFormMsg
         v-else-if="$v.amount.$error && !$v.amount.decimal"
         name="Deposit"
         type="numberic"
       />
-      <tm-form-msg
+      <TmFormMsg
         v-else-if="$v.amount.$error && !$v.amount.between"
         :max="$v.amount.$params.between.max"
         :min="$v.amount.$params.between.min"
         name="Deposit"
         type="between"
       />
-    </tm-form-group>
-  </action-modal>
+    </TmFormGroup>
+  </ActionModal>
 </template>
 
 <script>

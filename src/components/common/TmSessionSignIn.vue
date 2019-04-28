@@ -1,6 +1,6 @@
 <template>
   <div class="tm-session">
-    <tm-form-struct :submit="onSubmit" class="tm-session-container">
+    <TmFormStruct :submit="onSubmit" class="tm-session-container">
       <div class="tm-session-header">
         <a @click="goToWelcome()">
           <i class="material-icons">arrow_back</i>
@@ -13,8 +13,8 @@
         </a>
       </div>
       <div class="tm-session-main">
-        <tm-form-group field-id="sign-in-name" field-label="Select Account">
-          <tm-field
+        <TmFormGroup field-id="sign-in-name" field-label="Select Account">
+          <TmField
             id="sign-in-name"
             v-model="signInName"
             :options="accounts"
@@ -22,40 +22,40 @@
             placeholder="Select account…"
             vue-focus="vue-focus"
           />
-          <tm-form-msg
+          <TmFormMsg
             v-if="$v.signInName.$error && !$v.signInName.required"
             name="Name"
             type="required"
           />
-        </tm-form-group>
-        <tm-form-group
+        </TmFormGroup>
+        <TmFormGroup
           :error="$v.signInPassword.$error"
           field-id="sign-in-password"
           field-label="Password"
         >
-          <tm-field
+          <TmField
             id="sign-in-password"
             v-model="signInPassword"
             type="password"
           />
-          <tm-form-msg
+          <TmFormMsg
             v-if="$v.signInPassword.$error && !$v.signInPassword.required"
             name="Password"
             type="required"
           />
-          <tm-form-msg
+          <TmFormMsg
             v-if="$v.signInPassword.$error && !$v.signInPassword.minLength"
             name="Password"
             type="minLength"
             min="10"
           />
-          <tm-form-msg v-if="error" type="custom" :msg="error" />
-        </tm-form-group>
+          <TmFormMsg v-if="error" type="custom" :msg="error" />
+        </TmFormGroup>
       </div>
       <div class="tm-session-footer">
-        <tm-btn value="Next" size="lg" />
+        <TmBtn value="Next" size="lg" />
       </div>
-    </tm-form-struct>
+    </TmFormStruct>
   </div>
 </template>
 

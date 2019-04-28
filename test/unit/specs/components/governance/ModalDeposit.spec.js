@@ -21,9 +21,7 @@ describe(`ModalDeposit`, () => {
         bondDenom: `uatom`,
         liquidAtoms: 1000000,
         wallet: {
-          balances: [
-            { denom: `uatom`, amount: `10` }
-          ],
+          balances: [{ denom: `uatom`, amount: `10` }],
           loading: false
         }
       }
@@ -101,35 +99,29 @@ describe(`ModalDeposit`, () => {
   })
 
   describe(`Deposit`, () => {
-
     it(`should simulate transaction to estimate gas used`, async () => {
       const estimate = 1234567
       const $store = { dispatch: jest.fn(() => estimate) }
-      const res = await ModalDeposit.methods.simulateForm.call(
-        {
-          $store,
-          type: `Text`,
-          denom: `uatom`,
-          amount: 10,
-          proposalId: `1`
-        }
-      )
+      const res = await ModalDeposit.methods.simulateForm.call({
+        $store,
+        type: `Text`,
+        denom: `uatom`,
+        amount: 10,
+        proposalId: `1`
+      })
 
-      expect($store.dispatch).toHaveBeenCalledWith(`simulateDeposit`,
-        {
-          amount: [
-            {
-              amount: `10000000`,
-              denom: `uatom`
-            }
-          ],
-          proposal_id: `1`,
-        }
-      )
+      expect($store.dispatch).toHaveBeenCalledWith(`simulateDeposit`, {
+        amount: [
+          {
+            amount: `10000000`,
+            denom: `uatom`
+          }
+        ],
+        proposal_id: `1`
+      })
       expect(res).toBe(estimate)
     })
     it(`submits a deposit`, async () => {
-
       const $store = {
         dispatch: jest.fn(),
         commit: jest.fn()
@@ -140,32 +132,37 @@ describe(`ModalDeposit`, () => {
       const gas_prices = [{ denom: `uatom`, amount: `0.025` }]
 
       await ModalDeposit.methods.submitForm.call(
-        { denom: `uatom`, bondDenom: `uatom`, proposalId: `1`, amount: 10, $store },
-        gas, gasPrice, ``, `ledger`
+        {
+          denom: `uatom`,
+          bondDenom: `uatom`,
+          proposalId: `1`,
+          amount: 10,
+          $store
+        },
+        gas,
+        gasPrice,
+        ``,
+        `ledger`
       )
 
-      expect($store.dispatch).toHaveBeenCalledWith(`submitDeposit`,
-        {
-          amount: [
-            {
-              amount: `10000000`,
-              denom: `uatom`
-            }
-          ],
-          proposal_id: `1`,
-          gas,
-          gas_prices,
-          password: ``,
-          submitType: `ledger`
-        }
-      )
+      expect($store.dispatch).toHaveBeenCalledWith(`submitDeposit`, {
+        amount: [
+          {
+            amount: `10000000`,
+            denom: `uatom`
+          }
+        ],
+        proposal_id: `1`,
+        gas,
+        gas_prices,
+        password: ``,
+        submitType: `ledger`
+      })
 
-      expect($store.commit).toHaveBeenCalledWith(`notify`,
-        {
-          body: `You have successfully deposited your ATOMs on proposal #1`,
-          title: `Successful deposit!`
-        }
-      )
+      expect($store.commit).toHaveBeenCalledWith(`notify`, {
+        body: `You have successfully deposited your ATOMs on proposal #1`,
+        title: `Successful deposit!`
+      })
     })
   })
 })

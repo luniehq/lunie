@@ -1,10 +1,8 @@
 <template>
   <div class="tm-session">
-    <tm-form-struct :submit="onSubmit" class="tm-session-container">
+    <TmFormStruct :submit="onSubmit" class="tm-session-container">
       <div class="tm-session-header">
-        <a
-          @click="setState('sign-in')"
-        >
+        <a @click="setState('sign-in')">
           <i class="material-icons">arrow_back</i>
         </a>
         <div class="tm-session-title">
@@ -12,30 +10,30 @@
         </div>
       </div>
       <div class="tm-session-main">
-        <tm-form-group
+        <TmFormGroup
           :error="$v.deletionPassword.$error"
           field-id="sign-in-password"
           field-label="Password"
         >
-          <tm-field
+          <TmField
             id="sign-in-password"
             v-model="deletionPassword"
             type="password"
             placeholder="Enter your password"
           />
-          <tm-form-msg
+          <TmFormMsg
             v-if="!$v.deletionPassword.required"
             name="Password"
             type="required"
           />
-          <tm-form-msg
+          <TmFormMsg
             v-if="!$v.deletionPassword.minLength"
             name="Password"
             type="minLength"
             min="10"
           />
-        </tm-form-group>
-        <tm-form-group
+        </TmFormGroup>
+        <TmFormGroup
           :error="$v.deletionWarning.$error"
           field-id="sign-up-warning"
           field-label=" "
@@ -46,31 +44,28 @@
                 id="sign-up-warning"
                 v-model="deletionWarning"
                 type="checkbox"
-              >
+              />
             </div>
-            <label
-              class="tm-field-checkbox-label"
-              for="sign-up-warning"
-            >
+            <label class="tm-field-checkbox-label" for="sign-up-warning">
               I understand that Cosmos cannot recover deleted accounts without
               the passphrase.
             </label>
           </div>
-          <tm-form-msg
+          <TmFormMsg
             v-if="!$v.deletionWarning.required"
             name="Deletion confirmation"
             type="required"
           />
-        </tm-form-group>
+        </TmFormGroup>
       </div>
       <div class="tm-session-footer">
-        <tm-btn
+        <TmBtn
           icon="exit_to_app"
           value="Sign Out and Remove Account"
           size="lg"
         />
       </div>
-    </tm-form-struct>
+    </TmFormStruct>
   </div>
 </template>
 

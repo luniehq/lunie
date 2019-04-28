@@ -1,5 +1,5 @@
 <template>
-  <tm-data-msg icon="account_box">
+  <TmDataMsg icon="account_box">
     <div slot="title">
       Sign In Required
     </div>
@@ -7,7 +7,7 @@
       This page shows data for a specific address. To access the page, please
       <a @click="goToSession">sign&nbsp;in</a>.
     </div>
-  </tm-data-msg>
+  </TmDataMsg>
 </template>
 
 <script>
@@ -28,4 +28,3 @@ a {
   cursor: pointer;
 }
 </style>
-

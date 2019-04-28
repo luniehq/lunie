@@ -1,5 +1,5 @@
 <template>
-  <action-modal
+  <ActionModal
     id="modal-withdraw-all-rewards"
     ref="actionModal"
     :submit-fn="submitForm"
@@ -8,20 +8,20 @@
     class="modal-withdraw-rewards"
     submission-error-prefix="Withdrawal failed"
   >
-    <tm-form-group
+    <TmFormGroup
       class="action-modal-form-group"
       field-id="amount"
       field-label="Amount"
     >
       <span class="input-suffix">{{ num.viewDenom(bondDenom) }}</span>
-      <tm-field
+      <TmField
         id="amount"
         v-model="totalRewards"
         type="number"
         readonly="readonly"
       />
-    </tm-form-group>
-  </action-modal>
+    </TmFormGroup>
+  </ActionModal>
 </template>
 
 <script>

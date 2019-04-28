@@ -65,7 +65,6 @@ export default ({ node }) => {
       state.nonce = `0`
     },
     cleanRequestArguments({ state, rootState }, args) {
-
       const requestMetaData = {
         sequence: state.nonce,
         from: rootState.wallet.address,
@@ -87,7 +86,15 @@ export default ({ node }) => {
       // extract path parameters
       const to = args.to
       const pathParameter = args.pathParameter
-      const properties = [`submitType`, `type`, `to`, `pathParameter`, `gas`, `gas_prices`, `simulate`]
+      const properties = [
+        `submitType`,
+        `type`,
+        `to`,
+        `pathParameter`,
+        `gas`,
+        `gas_prices`,
+        `simulate`
+      ]
       properties.forEach(property => delete args[property])
 
       args.base_req = requestMetaData
@@ -113,8 +120,12 @@ export default ({ node }) => {
       await dispatch(`queryWalletBalances`) // the nonce was getting out of sync, this is to force a sync
 
       args.simulate = true
-      const { requestBody, type, to, pathParameter } =
-        await actions.cleanRequestArguments({ state, rootState }, args)
+      const {
+        requestBody,
+        type,
+        to,
+        pathParameter
+      } = await actions.cleanRequestArguments({ state, rootState }, args)
 
       const request = actions.apiRequest(
         state.node,
@@ -130,10 +141,7 @@ export default ({ node }) => {
       let signature
       if (submitType === `ledger`) {
         await dispatch(`pollLedgerDevice`)
-        const signMessage = state.externals.createSignMessage(
-          tx,
-          args.base_req
-        )
+        const signMessage = state.externals.createSignMessage(tx, args.base_req)
         const signatureByteArray = await dispatch(`signWithLedger`, signMessage)
         // we have to parse the signature from Ledger as it's in DER format
         const signatureBuffer = state.externals.signatureImport(
@@ -173,8 +181,13 @@ export default ({ node }) => {
       const { gasAdjustment } = rootState.session // we don't use the gas_adjustment flag bc it only works with gas=auto
       const adjustedGas = String(Math.floor(Number(args.gas) * gasAdjustment)) // by using floor we match the displayed expected fees
       args.gas = adjustedGas // only suports integer or auto
-      const { requestBody, type, submitType, to, pathParameter } =
-        actions.cleanRequestArguments({ state, rootState }, args)
+      const {
+        requestBody,
+        type,
+        submitType,
+        to,
+        pathParameter
+      } = actions.cleanRequestArguments({ state, rootState }, args)
 
       // generate transaction without signatures (i.e generate_only)
       const request = actions.apiRequest(
@@ -190,7 +203,9 @@ export default ({ node }) => {
       // sign transaction
       const signature = await actions.signTx(
         { dispatch, state, rootState },
-        submitType, tx, args
+        submitType,
+        tx,
+        args
       )
 
       // broadcast transaction with signatures included
@@ -230,7 +245,9 @@ export default ({ node }) => {
         }
       }
       if (iterations <= 0) {
-        throw new Error(`The transaction was still not included in a block. We can't say for certain it will be included in the future.`)
+        throw new Error(
+          `The transaction was still not included in a block. We can't say for certain it will be included in the future.`
+        )
       }
     }
   }

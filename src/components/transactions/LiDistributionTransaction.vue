@@ -1,9 +1,5 @@
 <template>
-  <li-transaction
-    :color="`#F2B134`"
-    :time="time"
-    :block="block"
-  >
+  <LiTransaction :color="`#F2B134`" :time="time" :block="block">
     <template v-if="txType === MsgWithdrawDelegationReward">
       <div slot="caption">
         Withdrawal
@@ -26,9 +22,7 @@
       <div slot="caption">
         Update withdraw address
       </div>
-      <div slot="details">
-        To {{ tx.withdraw_address }}
-      </div>
+      <div slot="details">To {{ tx.withdraw_address }}</div>
       <div slot="fees">
         Network Fee:&nbsp;<b>{{ convertedFees ? convertedFees.amount : 0 }}</b>
         <span>
@@ -56,7 +50,7 @@
         </span>
       </div>
     </template>
-  </li-transaction>
+  </LiTransaction>
 </template>
 
 <script>

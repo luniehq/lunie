@@ -1,7 +1,4 @@
-export const addresses = [
-  `AddressA`,
-  `AddressB`
-]
+export const addresses = [`AddressA`, `AddressB`]
 
 export const validators = [
   `CosmosValidatorAddress1`,

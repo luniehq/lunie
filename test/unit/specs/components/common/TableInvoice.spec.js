@@ -4,7 +4,7 @@ import TableInvoice from "src/components/common/TableInvoice"
 describe(`TableInvoice`, () => {
   let wrapper
   const localVue = createLocalVue()
-  localVue.directive(`tooltip`, () => { })
+  localVue.directive(`tooltip`, () => {})
 
   const $store = {
     getters: {

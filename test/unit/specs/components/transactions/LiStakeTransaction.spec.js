@@ -21,7 +21,10 @@ describe(`LiStakeTransaction`, () => {
   }
 
   beforeEach(() => {
-    wrapper = shallowMount(LiStakeTransaction, { propsData, stubs: [`router-link`] })
+    wrapper = shallowMount(LiStakeTransaction, {
+      propsData,
+      stubs: [`router-link`]
+    })
   })
 
   describe(`create validator`, () => {

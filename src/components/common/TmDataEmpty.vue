@@ -1,5 +1,5 @@
 <template>
-  <tm-data-msg :icon="icon">
+  <TmDataMsg :icon="icon">
     <h4 v-if="title" slot="title">
       {{ title }}
     </h4>
@@ -12,7 +12,7 @@
     <h5 v-else slot="subtitle">
       No data available yet.
     </h5>
-  </tm-data-msg>
+  </TmDataMsg>
 </template>
 
 <script>

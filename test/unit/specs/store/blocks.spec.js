@@ -60,17 +60,22 @@ describe(`Module: Blocks`, () => {
           [`5`]: { header: { time: 100 } }
         }
       }
-      node.getTxsByHeight = () => Promise.resolve([{
-        hash: `abcdefghijklm`
-      }])
+      node.getTxsByHeight = () =>
+        Promise.resolve([
+          {
+            hash: `abcdefghijklm`
+          }
+        ])
       const commit = jest.fn()
       await actions.getBlockTxs({ state, commit }, `5`)
       expect(commit).toHaveBeenCalledWith(`setBlocksLoading`, true)
-      expect(commit).toHaveBeenCalledWith(`setBlockTransactions`, [{
-        hash: `abcdefghijklm`,
-        time: 100,
-        height: `5`
-      }])
+      expect(commit).toHaveBeenCalledWith(`setBlockTransactions`, [
+        {
+          hash: `abcdefghijklm`,
+          time: 100,
+          height: `5`
+        }
+      ])
       expect(commit).toHaveBeenCalledWith(`setBlocksLoaded`, true)
     })
 
@@ -78,9 +83,11 @@ describe(`Module: Blocks`, () => {
       node.getTxsByHeight = () => Promise.reject(Error(`error`))
       const commit = jest.fn()
       await actions.getBlockTxs({ state, commit }, `5`)
-      expect(commit).not.toHaveBeenCalledWith(`setBlockTransactions`, [{
-        hash: `abcdefghijklm`
-      }])
+      expect(commit).not.toHaveBeenCalledWith(`setBlockTransactions`, [
+        {
+          hash: `abcdefghijklm`
+        }
+      ])
       expect(commit).toHaveBeenCalledWith(`setBlockError`, Error(`error`))
     })
   })

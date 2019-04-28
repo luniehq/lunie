@@ -12,7 +12,9 @@ export function getURLParams(window, env = process.env.NODE_ENV) {
   }, {})
 
   if (env === `production` && (parameters.stargate || parameters.rpc)) {
-    alert(`The ability to set the remote stargate and full node was removed in production to improve security.`)
+    alert(
+      `The ability to set the remote stargate and full node was removed in production to improve security.`
+    )
   }
 
   return parameters

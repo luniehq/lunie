@@ -51,8 +51,7 @@ exports[`LiTransaction should show a transaction item 1`] = `
           to="[object Object]"
         >
           
-          Block #500 
-        
+          Block #500  
         </router-link-stub>
         @ 00:00:42
       

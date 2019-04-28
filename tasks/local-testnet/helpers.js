@@ -14,18 +14,17 @@ const {
   sendTokens
 } = require(`../gaia`)
 
-const buildLocalTestnet = async (
-  buildTestnetPath,
-  numberNodes,
-  options
-) => {
-  options = Object.assign({
-    chainId: `default-testnet`,
-    password: `1234567890`,
-    overwrite: true,
-    moniker: `local`,
-    keyName: `account-with-funds`
-  }, options)
+const buildLocalTestnet = async (buildTestnetPath, numberNodes, options) => {
+  options = Object.assign(
+    {
+      chainId: `default-testnet`,
+      password: `1234567890`,
+      overwrite: true,
+      moniker: `local`,
+      keyName: `account-with-funds`
+    },
+    options
+  )
   const { nodes, mainAccountSignInfo } = await buildNodes(
     buildTestnetPath,
     options,
@@ -35,7 +34,8 @@ const buildLocalTestnet = async (
   await nodesInitialStart(nodes, mainAccountSignInfo, options.chainId)
 
   const { mnemonic, address } = await sendMoneyToFixedAccounts(
-    mainAccountSignInfo, options.chainId
+    mainAccountSignInfo,
+    options.chainId
   )
 
   console.log(`\n    🎉  SUCCESS 🎉\n`)
@@ -216,7 +216,12 @@ const defaultRichAccount = {
   address: `cosmos1ek9cd8ewgxg9w5xllq9um0uf4aaxaruvcw4v9e`
 }
 async function sendMoneyToFixedAccounts(mainAccountSignInfo, chainId) {
-  await sendTokens(mainAccountSignInfo, `${100 * 10e6}stake`, defaultRichAccount.address, chainId)
+  await sendTokens(
+    mainAccountSignInfo,
+    `${100 * 10e6}stake`,
+    defaultRichAccount.address,
+    chainId
+  )
 
   return defaultRichAccount
 }

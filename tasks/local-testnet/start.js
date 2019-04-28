@@ -21,15 +21,11 @@ async function main() {
       startLocalNode(home, i, nodeOneId)
     }
   } else {
-    await buildLocalTestnet(
-      targetDir,
-      numberNodes,
-      {
-        chainId: network,
-        overwrite: true,
-        moniker: `local`
-      }
-    )
+    await buildLocalTestnet(targetDir, numberNodes, {
+      chainId: network,
+      overwrite: true,
+      moniker: `local`
+    })
   }
 }
 

@@ -66,7 +66,7 @@ module.exports = {
       if (Date.now() - start >= timeout) {
         throw Error(
           `Timed out waiting for text. Expected ${text}, Showing ${(await elGetterFn().getText()) ||
-          `nothing`}`
+            `nothing`}`
         )
       }
       await sleep(100)
@@ -78,7 +78,7 @@ module.exports = {
       if (Date.now() - start >= timeout) {
         throw Error(
           `Timed out waiting for value. Expected ${value}, Showing ${(await elGetterFn().getValue()) ||
-          `nothing`}`
+            `nothing`}`
         )
       }
       await sleep(100)

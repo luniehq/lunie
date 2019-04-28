@@ -6,7 +6,7 @@
         <h2 class="total-atoms__value">
           {{ totalAtomsDisplay }}
         </h2>
-        <short-bech32 :address="session.address || ''" />
+        <ShortBech32 :address="session.address || ''" />
       </div>
       <div class="unbonded-atoms top-section">
         <h3>Available {{ num.viewDenom(bondDenom) }}</h3>
@@ -15,7 +15,7 @@
       <div v-if="rewards" class="top-section">
         <h3>Rewards</h3>
         <h2>{{ rewards }}</h2>
-        <tm-btn
+        <TmBtn
           id="withdraw-btn"
           class="withdraw-rewards"
           :value="connected ? 'Withdraw' : 'Connecting...'"
@@ -27,7 +27,7 @@
       </div>
     </div>
     <slot />
-    <modal-withdraw-all-rewards ref="modalWithdrawAllRewards" />
+    <ModalWithdrawAllRewards ref="modalWithdrawAllRewards" />
   </div>
 </template>
 <script>
@@ -65,7 +65,9 @@ export default {
       return this.wallet.loaded && this.delegation.loaded
     },
     totalAtomsDisplay() {
-      return this.loaded ? this.num.shortDecimals(this.num.atoms(this.totalAtoms)) : `--`
+      return this.loaded
+        ? this.num.shortDecimals(this.num.atoms(this.totalAtoms))
+        : `--`
     },
     unbondedAtoms() {
       return this.loaded

@@ -1,20 +1,18 @@
 <template>
-  <modal v-if="active" :close="close">
+  <Modal v-if="active" :close="close">
     <div slot="main">
-      <session-welcome v-if="session.modals.session.state == 'welcome'" />
-      <session-explore v-else-if="session.modals.session.state == 'explore'" />
-      <session-sign-up v-else-if="session.modals.session.state == 'sign-up'" />
-      <session-sign-in v-else-if="session.modals.session.state == 'sign-in'" />
-      <session-account-delete
+      <SessionWelcome v-if="session.modals.session.state == 'welcome'" />
+      <SessionExplore v-else-if="session.modals.session.state == 'explore'" />
+      <SessionSignUp v-else-if="session.modals.session.state == 'sign-up'" />
+      <SessionSignIn v-else-if="session.modals.session.state == 'sign-in'" />
+      <SessionAccountDelete
         v-else-if="session.modals.session.state == 'delete'"
       />
-      <session-hardware
-        v-else-if="session.modals.session.state == 'hardware'"
-      />
-      <session-import v-else-if="session.modals.session.state == 'import'" />
+      <SessionHardware v-else-if="session.modals.session.state == 'hardware'" />
+      <SessionImport v-else-if="session.modals.session.state == 'import'" />
     </div>
-    <connected-network />
-  </modal>
+    <ConnectedNetwork />
+  </Modal>
 </template>
 
 <script>

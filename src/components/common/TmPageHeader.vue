@@ -16,7 +16,7 @@
         <slot name="menu" />
       </menu>
       <div class="tabs-and-buttons">
-        <tabs v-if="tabs" :tabs="tabs" />
+        <Tabs v-if="tabs" :tabs="tabs" />
         <div v-if="$slots['header-buttons']" class="header-buttons">
           <slot name="header-buttons" />
         </div>

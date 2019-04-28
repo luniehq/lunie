@@ -1,5 +1,5 @@
 <template>
-  <tm-data-msg icon="receipt">
+  <TmDataMsg icon="receipt">
     <div slot="title">
       No Transaction History
     </div>
@@ -11,7 +11,7 @@
       </router-link>
       to make your first transaction!
     </div>
-  </tm-data-msg>
+  </TmDataMsg>
 </template>
 
 <script>

@@ -1,6 +1,6 @@
 <template>
   <div class="tm-notifications">
-    <tm-notification
+    <TmNotification
       v-for="notification in notifications"
       :key="notification.key"
       :type="notification.type"

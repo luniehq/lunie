@@ -13,12 +13,12 @@
         </a>
       </div>
       <div class="tm-session-main">
-        <hardware-state :loading="status === `detect` ? true : false">
+        <HardwareState :loading="status === `detect` ? true : false">
           Please plug in your Ledger&nbsp;Nano&nbsp;S and open the Cosmos app
           <p v-if="connectionError" class="error-message">
             {{ connectionError }}
           </p>
-        </hardware-state>
+        </HardwareState>
       </div>
       <div class="tm-session-footer">
         <p class="ledger-install">
@@ -28,10 +28,10 @@
             target="_blank"
             rel="noopener noreferrer"
           >
-            here
-          </a>.
+            here </a
+          >.
         </p>
-        <tm-btn value="Sign In" @click.native="connectLedger()" />
+        <TmBtn value="Sign In" @click.native="connectLedger()" />
       </div>
     </div>
   </div>

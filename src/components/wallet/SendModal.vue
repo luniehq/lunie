@@ -1,5 +1,5 @@
 <template>
-  <action-modal
+  <ActionModal
     id="send-modal"
     ref="actionModal"
     :submit-fn="submitForm"
@@ -10,87 +10,87 @@
     submission-error-prefix="Sending tokens failed"
     @close="clear"
   >
-    <tm-form-group
+    <TmFormGroup
       :error="$v.denom.$dirty && $v.denom.$invalid"
       class="action-modal-form-group"
       field-id="send-denomination"
       field-label="Denomination"
     >
-      <tm-field
+      <TmField
         id="send-denomination"
         :value="num.viewDenom($v.denom.$model)"
         type="text"
         readonly
       />
-      <tm-form-msg
+      <TmFormMsg
         v-if="$v.denom.$error && !$v.denom.required"
         name="Denomination"
         type="required"
       />
-    </tm-form-group>
+    </TmFormGroup>
 
-    <tm-form-group
+    <TmFormGroup
       :error="$v.address.$error && $v.address.$invalid"
       class="action-modal-form-group"
       field-id="send-address"
       field-label="Send To"
     >
-      <tm-field
+      <TmField
         id="send-address"
         v-model.number="$v.address.$model"
         v-focus
         type="text"
         placeholder="Address"
       />
-      <tm-form-msg
+      <TmFormMsg
         v-if="$v.address.$error && !$v.address.required"
         name="Address"
         type="required"
       />
-      <tm-form-msg
+      <TmFormMsg
         v-else-if="$v.address.$error && !$v.address.bech32Validate"
         name="Address"
         type="bech32"
       />
-    </tm-form-group>
-    <tm-form-group
+    </TmFormGroup>
+    <TmFormGroup
       :error="$v.amount.$error && $v.amount.$invalid"
       class="action-modal-form-group"
       field-id="amount"
       field-label="Amount"
     >
-      <tm-field
+      <TmField
         id="amount"
         v-model="amount"
         class="tm-field"
         placeholder="Amount"
         type="number"
       />
-      <tm-form-msg
+      <TmFormMsg
         v-if="balance === 0"
         :msg="`doesn't have any ${num.viewDenom(denom)}s`"
         name="Wallet"
         type="custom"
       />
-      <tm-form-msg
+      <TmFormMsg
         v-else-if="$v.amount.$error && (!$v.amount.required || amount === 0)"
         name="Amount"
         type="required"
       />
-      <tm-form-msg
+      <TmFormMsg
         v-else-if="$v.amount.$error && !$v.amount.decimal"
         name="Amount"
         type="numeric"
       />
-      <tm-form-msg
+      <TmFormMsg
         v-else-if="$v.amount.$error && !$v.amount.between"
         :max="$v.amount.$params.between.max"
         :min="$v.amount.$params.between.min"
         name="Amount"
         type="between"
       />
-    </tm-form-group>
-  </action-modal>
+    </TmFormGroup>
+  </ActionModal>
 </template>
 
 <script>

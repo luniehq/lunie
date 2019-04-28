@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`PageValidator shows a validator profile information errors signing info is missing 1`] = `
-<tm-page-stub
+<tmpage-stub
   data-title="Validator"
   loaded="true"
   managed="true"
@@ -43,7 +43,7 @@ exports[`PageValidator shows a validator profile information errors signing info
                 </div>
               </div>
                
-              <short-bech32-stub
+              <shortbech32-stub
                 address="cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
               />
             </div>
@@ -52,13 +52,13 @@ exports[`PageValidator shows a validator profile information errors signing info
           <div
             class="page-profile__header__actions"
           >
-            <tm-btn-stub
+            <tmbtn-stub
               color="primary"
               id="delegation-btn"
               value="Delegate"
             />
              
-            <tm-btn-stub
+            <tmbtn-stub
               color="secondary"
               id="undelegation-btn"
               value="Undelegate"
@@ -307,14 +307,14 @@ exports[`PageValidator shows a validator profile information errors signing info
       </div>
     </div>
      
-    <delegation-modal-stub
+    <delegationmodal-stub
       denom="STAKE"
       fromoptions="[object Object]"
       to="cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
       validator="[object Object]"
     />
      
-    <undelegation-modal-stub
+    <undelegationmodal-stub
       denom="STAKE"
       fromoptions="[object Object]"
       maximum="0"
@@ -322,11 +322,11 @@ exports[`PageValidator shows a validator profile information errors signing info
       validator="[object Object]"
     />
   </template>
-</tm-page-stub>
+</tmpage-stub>
 `;
 
 exports[`PageValidator shows a validator profile information if user has signed in 1`] = `
-<tm-page-stub
+<tmpage-stub
   data-title="Validator"
   loaded="true"
   managed="true"
@@ -368,7 +368,7 @@ exports[`PageValidator shows a validator profile information if user has signed 
                 </div>
               </div>
                
-              <short-bech32-stub
+              <shortbech32-stub
                 address="cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
               />
             </div>
@@ -377,13 +377,13 @@ exports[`PageValidator shows a validator profile information if user has signed 
           <div
             class="page-profile__header__actions"
           >
-            <tm-btn-stub
+            <tmbtn-stub
               color="primary"
               id="delegation-btn"
               value="Delegate"
             />
              
-            <tm-btn-stub
+            <tmbtn-stub
               color="secondary"
               id="undelegation-btn"
               value="Undelegate"
@@ -632,14 +632,14 @@ exports[`PageValidator shows a validator profile information if user has signed 
       </div>
     </div>
      
-    <delegation-modal-stub
+    <delegationmodal-stub
       denom="STAKE"
       fromoptions="[object Object]"
       to="cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
       validator="[object Object]"
     />
      
-    <undelegation-modal-stub
+    <undelegationmodal-stub
       denom="STAKE"
       fromoptions="[object Object]"
       maximum="0"
@@ -647,11 +647,11 @@ exports[`PageValidator shows a validator profile information if user has signed 
       validator="[object Object]"
     />
   </template>
-</tm-page-stub>
+</tmpage-stub>
 `;
 
 exports[`PageValidator shows a validator profile information if user hasn't signed in 1`] = `
-<tm-page-stub
+<tmpage-stub
   data-title="Validator"
   loaded="true"
   managed="true"
@@ -693,7 +693,7 @@ exports[`PageValidator shows a validator profile information if user hasn't sign
                 </div>
               </div>
                
-              <short-bech32-stub
+              <shortbech32-stub
                 address="cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
               />
             </div>
@@ -702,13 +702,13 @@ exports[`PageValidator shows a validator profile information if user hasn't sign
           <div
             class="page-profile__header__actions"
           >
-            <tm-btn-stub
+            <tmbtn-stub
               color="primary"
               id="delegation-btn"
               value="Delegate"
             />
              
-            <tm-btn-stub
+            <tmbtn-stub
               color="secondary"
               id="undelegation-btn"
               value="Undelegate"
@@ -957,14 +957,14 @@ exports[`PageValidator shows a validator profile information if user hasn't sign
       </div>
     </div>
      
-    <delegation-modal-stub
+    <delegationmodal-stub
       denom="STAKE"
       fromoptions=""
       to="cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
       validator="[object Object]"
     />
      
-    <undelegation-modal-stub
+    <undelegationmodal-stub
       denom="STAKE"
       fromoptions=""
       maximum="0"
@@ -972,7 +972,7 @@ exports[`PageValidator shows a validator profile information if user hasn't sign
       validator="[object Object]"
     />
   </template>
-</tm-page-stub>
+</tmpage-stub>
 `;
 
 exports[`PageValidator shows a validator profile information shows a validator as candidate if he has no voting_power 1`] = `"This validator does not have enough voting power yet and is inactive"`;

@@ -4,14 +4,14 @@ import PageWallet from "src/components/wallet/PageWallet"
 
 describe(`PageWallet`, () => {
   const localVue = createLocalVue()
-  localVue.directive(`tooltip`, () => { })
+  localVue.directive(`tooltip`, () => {})
 
   let wrapper, $store
   const getters = {
     wallet: {
       loading: false,
       balances: lcdClientMock.state.accounts[lcdClientMock.addresses[0]].coins,
-      externals: { config: { faucet: `yo` } },
+      externals: { config: { faucet: `yo` } }
     },
     lastHeader: { height: `20` },
     connected: true,

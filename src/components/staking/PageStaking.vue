@@ -1,12 +1,12 @@
 <template>
-  <tm-page
+  <TmPage
     :tabs="tabs"
     :refresh="getDelegates"
     class="staking"
     data-title="Staking"
   >
     <router-view />
-  </tm-page>
+  </TmPage>
 </template>
 
 <script>

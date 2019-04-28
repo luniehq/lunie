@@ -38,20 +38,27 @@ describe(`number helper`, () => {
   })
 
   it(`should convert SDK coins to view coins with 6 decimal points`, () => {
-    expect(num.createDisplayCoin({
-      denom: `uatom`,
-      amount: 1000000
-    }, 6)).toEqual({
+    expect(
+      num.createDisplayCoin(
+        {
+          denom: `uatom`,
+          amount: 1000000
+        },
+        6
+      )
+    ).toEqual({
       denom: `ATOM`,
       amount: `1.000000`
     })
   })
 
   it(`should convert SDK coins to view coins with 3 decimal points`, () => {
-    expect(num.createDisplayCoin({
-      denom: `uatom`,
-      amount: 1000000
-    })).toEqual({
+    expect(
+      num.createDisplayCoin({
+        denom: `uatom`,
+        amount: 1000000
+      })
+    ).toEqual({
       denom: `ATOM`,
       amount: `1`
     })

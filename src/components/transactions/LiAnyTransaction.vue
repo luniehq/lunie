@@ -1,10 +1,7 @@
 <template>
   <div>
-    <div
-      v-for="(msg, index) in transaction.tx.value.msg"
-      :key="index"
-    >
-      <li-bank-transaction
+    <div v-for="(msg, index) in transaction.tx.value.msg" :key="index">
+      <LiBankTransaction
         v-if="bankTx(msg.type)"
         :tx="msg.value"
         :bonding-denom="bondingDenom"
@@ -13,7 +10,7 @@
         :time="transaction.time"
         :block="Number(transaction.height)"
       />
-      <li-stake-transaction
+      <LiStakeTransaction
         v-else-if="stakingTx(msg.type)"
         :tx="msg.value"
         :validators="validators"
@@ -25,7 +22,7 @@
         :time="transaction.time"
         :block="Number(transaction.height)"
       />
-      <li-gov-transaction
+      <LiGovTransaction
         v-else-if="governanceTx(msg.type)"
         :tx="msg.value"
         :bonding-denom="bondingDenom"
@@ -35,7 +32,7 @@
         :time="transaction.time"
         :block="Number(transaction.height)"
       />
-      <li-distribution-transaction
+      <LiDistributionTransaction
         v-else-if="distributionTx(msg.type)"
         :tx="msg.value"
         :url="validatorsUrl"
@@ -46,14 +43,14 @@
         :time="transaction.time"
         :block="Number(transaction.height)"
       />
-      <li-transaction
+      <LiTransaction
         v-else
         :time="transaction.time"
         :block="Number(transaction.height)"
         color="grey"
       >
         <span slot="caption">Unknown Transaction Type</span>
-      </li-transaction>
+      </LiTransaction>
     </div>
   </div>
 </template>

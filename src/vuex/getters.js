@@ -15,22 +15,23 @@ export const lastPage = state => {
 // wallet
 export const transactions = state => state.transactions
 export const allTransactions = state =>
-  state.transactions.bank
-    .concat(
-      state.transactions.staking,
-      state.transactions.governance,
-      state.transactions.distribution
-    )
+  state.transactions.bank.concat(
+    state.transactions.staking,
+    state.transactions.governance,
+    state.transactions.distribution
+  )
 export const ledger = state => state.ledger
 export const wallet = state => state.wallet
 
 // fee distribution
 export const distribution = state => state.distribution
 export const yourValidators = (state, getters) =>
-  state.session.signedIn ?
-    getters.delegates.delegates.filter(
-      ({ operator_address }) => operator_address in getters.committedDelegations
-    ) : []
+  state.session.signedIn
+    ? getters.delegates.delegates.filter(
+        ({ operator_address }) =>
+          operator_address in getters.committedDelegations
+      )
+    : []
 
 // staking
 export const liquidAtoms = state =>
@@ -84,8 +85,9 @@ export const keybase = state => state.keybase.identities
 export const pool = state => state.pool
 export const stakingParameters = state => state.stakingParameters
 export const bondDenom = getters =>
-  getters.stakingParameters.parameters &&
-  getters.stakingParameters.parameters.bond_denom || `uatom`
+  (getters.stakingParameters.parameters &&
+    getters.stakingParameters.parameters.bond_denom) ||
+  `uatom`
 
 // governance
 export const proposals = state => state.proposals
@@ -94,7 +96,7 @@ export const deposits = state => state.deposits.deposits
 export const governanceParameters = state => state.governanceParameters
 export const depositDenom = getters =>
   getters.governanceParameters.loaded &&
-    getters.governanceParameters.parameters.deposit.min_deposit
+  getters.governanceParameters.parameters.deposit.min_deposit
     ? getters.governanceParameters.parameters.deposit.min_deposit[0].denom
     : `uatom`
 

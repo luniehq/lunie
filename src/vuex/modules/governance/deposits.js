@@ -31,11 +31,12 @@ export default ({ node }) => {
         state.error = error
       }
     },
-    async simulateDeposit({
-      rootState: { wallet },
-      dispatch
-    },
-    { proposal_id, amount }
+    async simulateDeposit(
+      {
+        rootState: { wallet },
+        dispatch
+      },
+      { proposal_id, amount }
     ) {
       return await dispatch(`simulateTx`, {
         type: `postProposalDeposit`,
@@ -67,8 +68,9 @@ export default ({ node }) => {
 
       // optimistic update
       amount.forEach(({ amount, denom }) => {
-        const oldBalance = wallet.balances
-          .find(balance => balance.denom === denom)
+        const oldBalance = wallet.balances.find(
+          balance => balance.denom === denom
+        )
         commit(`updateWalletBalance`, {
           denom,
           amount: oldBalance.amount - amount

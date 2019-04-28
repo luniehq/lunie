@@ -11,7 +11,7 @@
         {{ body }}
       </div>
       <div class="tm-modal-error__footer">
-        <tm-btn
+        <TmBtn
           id="tm-modal-error__btn-issue"
           :href="issueUrl"
           size="lg"

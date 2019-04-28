@@ -1,5 +1,5 @@
 <template>
-  <tm-page
+  <TmPage
     :managed="true"
     :loading="transactions.loading"
     :loaded="transactions.loaded"
@@ -9,9 +9,9 @@
     data-title="Transactions"
     :sign-in-required="true"
   >
-    <data-empty-tx slot="no-data" />
+    <DataEmptyTx slot="no-data" />
     <template slot="managed-body">
-      <li-any-transaction
+      <LiAnyTransaction
         v-for="tx in orderedTransactions"
         :key="tx.txhash"
         :validators="delegates.delegates"
@@ -24,9 +24,9 @@
           time.getUnbondingTime(tx, delegation.unbondingDelegations)
         "
       />
-      <br>
+      <br />
     </template>
-  </tm-page>
+  </TmPage>
 </template>
 
 <script>

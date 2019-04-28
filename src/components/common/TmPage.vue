@@ -1,6 +1,6 @@
 <template>
   <div class="tm-page">
-    <tm-page-header v-if="!hideHeader" :tabs="tabs">
+    <TmPageHeader v-if="!hideHeader" :tabs="tabs">
       <h2 v-if="title" slot="title">
         {{ title }}
       </h2>
@@ -8,19 +8,19 @@
         {{ subtitle }}
       </h3>
       <slot slot="menu-body" name="menu-body">
-        <tm-balance v-if="session.signedIn" />
-        <tool-bar :refresh="refreshable" />
+        <TmBalance v-if="session.signedIn" />
+        <ToolBar :refresh="refreshable" />
       </slot>
       <slot slot="header-buttons" name="header-buttons" />
-    </tm-page-header>
+    </TmPageHeader>
     <main class="tm-page-main">
-      <card-sign-in-required v-if="signInRequired && !session.signedIn" />
+      <CardSignInRequired v-if="signInRequired && !session.signedIn" />
       <template v-else-if="managed">
-        <tm-data-connecting v-if="!loaded && !connected" />
-        <tm-data-loading v-else-if="!loaded && loading" />
-        <tm-data-error v-else-if="error" />
+        <TmDataConnecting v-if="!loaded && !connected" />
+        <TmDataLoading v-else-if="!loaded && loading" />
+        <TmDataError v-else-if="error" />
         <slot v-else-if="dataEmpty" name="no-data">
-          <tm-data-empty />
+          <TmDataEmpty />
         </slot>
         <slot v-else name="managed-body" />
       </template>

@@ -1,9 +1,5 @@
 <template>
-  <li-transaction
-    color="#47AB6C"
-    :time="time"
-    :block="block"
-  >
+  <LiTransaction color="#47AB6C" :time="time" :block="block">
     <template v-if="txType === `cosmos-sdk/MsgCreateValidator`">
       <div slot="caption">
         Create validator
@@ -139,7 +135,7 @@
         </span>
       </div>
     </template>
-  </li-transaction>
+  </LiTransaction>
 </template>
 
 <script>

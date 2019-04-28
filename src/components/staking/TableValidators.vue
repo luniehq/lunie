@@ -2,10 +2,10 @@
   <div>
     <table class="data-table">
       <thead>
-        <panel-sort :sort="sort" :properties="properties" />
+        <PanelSort :sort="sort" :properties="properties" />
       </thead>
       <tbody>
-        <li-validator
+        <LiValidator
           v-for="validator in sortedEnrichedValidators"
           :key="validator.operator_address"
           :validator="validator"
@@ -55,9 +55,7 @@ export default {
     enrichedValidators(
       {
         validators,
-        delegates: {
-          signingInfos
-        },
+        delegates: { signingInfos },
         pool,
         committedDelegations,
         keybase,
@@ -83,7 +81,7 @@ export default {
               : 0,
           uptime: signingInfo
             ? (rollingWindow - signingInfo.missed_blocks_counter) /
-            rollingWindow
+              rollingWindow
             : 0
         })
       })
@@ -142,7 +140,7 @@ export default {
     }
   },
   watch: {
-    address: function () {
+    address: function() {
       this.session.address && this.$store.dispatch(`updateDelegates`)
     }
   },

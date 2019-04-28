@@ -13,6 +13,7 @@ describe(`PageGovernance`, () => {
   localVue.use(Vuelidate)
   localVue.directive(`tooltip`, () => {})
   localVue.directive(`focus`, () => {})
+  localVue.directive(`clipboard`, () => {})
 
   beforeEach(() => {
     const instance = mount(PageGovernance, {

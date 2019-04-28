@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`UndelegationModal should display undelegation modal form 1`] = `
-<action-modal-stub
+<actionmodal-stub
   class="undelegation-modal"
   id="undelegation-modal"
   simulatefn="function () { [native code] }"
@@ -10,20 +10,20 @@ exports[`UndelegationModal should display undelegation modal form 1`] = `
   title="Undelegate"
   validate="function () { [native code] }"
 >
-  <tm-form-group-stub
+  <tmformgroup-stub
     class="action-modal-form-group"
     fieldid="from"
     fieldlabel="From"
   >
-    <tm-field-stub
+    <tmfield-stub
       id="from"
       readonly=""
       type="text"
       value="cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au"
     />
-  </tm-form-group-stub>
+  </tmformgroup-stub>
    
-  <tm-form-group-stub
+  <tmformgroup-stub
     class="action-modal-form-group"
     fieldid="amount"
     fieldlabel="Amount"
@@ -34,7 +34,7 @@ exports[`UndelegationModal should display undelegation modal form 1`] = `
       STAKE
     </span>
      
-    <tm-field-stub
+    <tmfield-stub
       id="amount"
       placeholder="Amount"
       type="number"
@@ -49,6 +49,6 @@ exports[`UndelegationModal should display undelegation modal form 1`] = `
     </span>
      
     <!---->
-  </tm-form-group-stub>
-</action-modal-stub>
+  </tmformgroup-stub>
+</actionmodal-stub>
 `;

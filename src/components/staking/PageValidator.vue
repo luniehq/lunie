@@ -1,5 +1,5 @@
 <template>
-  <tm-page
+  <TmPage
     :managed="true"
     :loading="delegates.loading"
     :loaded="delegates.loaded"
@@ -15,11 +15,11 @@
             v-if="validator.keybase && validator.keybase.avatarUrl"
             :src="validator.keybase.avatarUrl"
             class="avatar"
-          ><img
+          /><img
             v-else
             class="avatar"
             src="~assets/images/validator-icon.svg"
-          >
+          />
 
           <div class="page-profile__header__info">
             <div>
@@ -34,19 +34,19 @@
                     {{ validator.description.moniker }}
                   </div>
                 </div>
-                <short-bech32 :address="validator.operator_address" />
+                <ShortBech32 :address="validator.operator_address" />
               </div>
             </div>
 
             <div class="page-profile__header__actions">
-              <tm-btn
+              <TmBtn
                 id="delegation-btn"
                 :disabled="!connected"
                 :value="connected ? 'Delegate' : 'Connecting...'"
                 color="primary"
                 @click.native="onDelegation"
               />
-              <tm-btn
+              <TmBtn
                 id="undelegation-btn"
                 :disabled="!connected"
                 :value="connected ? 'Undelegate' : 'Connecting...'"
@@ -159,14 +159,14 @@
         </div>
       </div>
 
-      <delegation-modal
+      <DelegationModal
         ref="delegationModal"
         :from-options="delegationTargetOptions()"
         :to="validator.operator_address"
         :validator="validator"
         :denom="bondDenom"
       />
-      <undelegation-modal
+      <UndelegationModal
         ref="undelegationModal"
         :maximum="Number(myBond)"
         :from-options="delegationTargetOptions()"
@@ -175,7 +175,7 @@
         :denom="bondDenom"
       />
     </template>
-  </tm-page>
+  </TmPage>
 </template>
 
 <script>
@@ -225,8 +225,9 @@ export default {
       )
       if (validator) {
         validator.keybase = this.keybase[validator.description.identity]
-        validator.signing_info =
-          this.delegates.signingInfos[validator.operator_address]
+        validator.signing_info = this.delegates.signingInfos[
+          validator.operator_address
+        ]
       }
 
       return validator
@@ -429,4 +430,3 @@ export default {
   }
 }
 </style>
-

@@ -6,7 +6,7 @@ import { proposals, tallies } from "../../store/json/proposals"
 describe(`TableProposals`, () => {
   let wrapper, $store
   const localVue = createLocalVue()
-  localVue.directive(`tooltip`, () => { })
+  localVue.directive(`tooltip`, () => {})
 
   beforeEach(() => {
     $store = {
@@ -38,16 +38,12 @@ describe(`TableProposals`, () => {
     wrapper.vm.sort.property = `proposal_id`
     wrapper.vm.sort.order = `asc`
 
-    expect(wrapper.vm.filteredProposals[0].title).toEqual(
-      proposals[`1`].title
-    )
+    expect(wrapper.vm.filteredProposals[0].title).toEqual(proposals[`1`].title)
 
     wrapper.vm.sort.property = `proposal_id`
     wrapper.vm.sort.order = `desc`
 
-    expect(wrapper.vm.filteredProposals[0].title).toEqual(
-      proposals[`6`].title
-    )
+    expect(wrapper.vm.filteredProposals[0].title).toEqual(proposals[`6`].title)
   })
 
   it(`should filter the proposals`, () => {

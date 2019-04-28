@@ -5,7 +5,7 @@ import SendModal from "src/components/wallet/SendModal"
 describe(`SendModal`, () => {
   const localVue = createLocalVue()
   localVue.use(Vuelidate)
-  localVue.directive(`focus`, () => { })
+  localVue.directive(`focus`, () => {})
 
   let wrapper, $store
 
@@ -118,22 +118,18 @@ describe(`SendModal`, () => {
     it(`should simulate transaction to estimate gas used`, async () => {
       const estimate = 1234567
       const $store = { dispatch: jest.fn(() => estimate) }
-      const res = await SendModal.methods.simulateForm.call(
-        {
-          $store,
-          amount: 10,
-          address: `cosmos1address`,
-          denom: `uatom`,
-        }
-      )
+      const res = await SendModal.methods.simulateForm.call({
+        $store,
+        amount: 10,
+        address: `cosmos1address`,
+        denom: `uatom`
+      })
 
-      expect($store.dispatch).toHaveBeenCalledWith(`simulateTx`,
-        {
-          type: `send`,
-          to: `cosmos1address`,
-          amount: [{ amount: `10000000`, denom: `uatom` }]
-        }
-      )
+      expect($store.dispatch).toHaveBeenCalledWith(`simulateTx`, {
+        type: `send`,
+        to: `cosmos1address`,
+        amount: [{ amount: `10000000`, denom: `uatom` }]
+      })
       expect(res).toBe(estimate)
     })
   })
@@ -155,27 +151,26 @@ describe(`SendModal`, () => {
           $store,
           sendTx
         },
-        gas, gasPrice, ``, `ledger`
+        gas,
+        gasPrice,
+        ``,
+        `ledger`
       )
 
-      expect(sendTx).toHaveBeenCalledWith(
-        {
-          type: `send`,
-          to: `cosmos1address`,
-          amount: [{ amount: `10000000`, denom: `uatom` }],
-          gas,
-          gas_prices,
-          submitType: `ledger`,
-          password: ``
-        }
-      )
+      expect(sendTx).toHaveBeenCalledWith({
+        type: `send`,
+        to: `cosmos1address`,
+        amount: [{ amount: `10000000`, denom: `uatom` }],
+        gas,
+        gas_prices,
+        submitType: `ledger`,
+        password: ``
+      })
 
-      expect($store.commit).toHaveBeenCalledWith(`notify`,
-        {
-          body: `Successfully sent 10 ATOMs to cosmos1address`,
-          title: `Successful Send`
-        }
-      )
+      expect($store.commit).toHaveBeenCalledWith(`notify`, {
+        body: `Successfully sent 10 ATOMs to cosmos1address`,
+        title: `Successful Send`
+      })
     })
   })
   it(`validates bech32 addresses`, () => {

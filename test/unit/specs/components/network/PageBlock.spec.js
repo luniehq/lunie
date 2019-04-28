@@ -4,7 +4,7 @@ import { bankTxs } from "../../store/json/txs"
 import { state } from "src/connectors/lcdClientMock.js"
 
 const localVue = createLocalVue()
-localVue.directive(`tooltip`, () => { })
+localVue.directive(`tooltip`, () => {})
 
 describe(`PageBlock`, () => {
   let wrapper
@@ -153,7 +153,7 @@ describe(`PageBlock`, () => {
 
     await PageBlock.methods.getBlock({
       $store: {
-        dispatch: () => null, // not returning a block when querying
+        dispatch: () => null // not returning a block when querying
       },
       $route: {
         params: {

@@ -7,7 +7,7 @@
         </div>
       </div>
       <div class="tm-session-main tm-session-main--loading">
-        <img src="~assets/images/loader.svg"><br>{{ message }} &nbsp;
+        <img src="~assets/images/loader.svg" /><br />{{ message }} &nbsp;
       </div>
       <div class="tm-session-footer">
         &nbsp;

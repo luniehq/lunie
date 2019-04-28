@@ -1,7 +1,5 @@
 import * as Sentry from "@sentry/browser"
-import {
-  track
-} from "scripts/google-analytics.js"
+import { track } from "scripts/google-analytics.js"
 import config from "src/config"
 import { loadKeys, importKey, testPassword } from "../../scripts/keystore.js"
 import { generateSeed } from "../../scripts/wallet.js"
@@ -103,7 +101,10 @@ export default () => {
       }
     },
     async persistSession(store, { localKeyPairName, address, sessionType }) {
-      localStorage.setItem(`session`, JSON.stringify({ localKeyPairName, address, sessionType }))
+      localStorage.setItem(
+        `session`,
+        JSON.stringify({ localKeyPairName, address, sessionType })
+      )
     },
     async loadAccounts({ commit, state }) {
       state.loading = true
@@ -141,7 +142,12 @@ export default () => {
     // TODO split into sign in with ledger and signin with local key
     async signIn(
       { state, commit, dispatch },
-      { localKeyPairName, address, sessionType = `local`, errorCollection = false }
+      {
+        localKeyPairName,
+        address,
+        sessionType = `local`,
+        errorCollection = false
+      }
     ) {
       let accountAddress
       switch (sessionType) {
@@ -165,7 +171,11 @@ export default () => {
       commit(`toggleSessionModal`, false)
       dispatch(`loadErrorCollection`, accountAddress)
       await dispatch(`initializeWallet`, { address: accountAddress })
-      dispatch(`persistSession`, { localKeyPairName, address: accountAddress, sessionType })
+      dispatch(`persistSession`, {
+        localKeyPairName,
+        address: accountAddress,
+        sessionType
+      })
 
       state.externals.track(`event`, `session`, `sign-in`, sessionType)
     },
@@ -192,10 +202,7 @@ export default () => {
         dispatch(`setErrorCollection`, { address, optin: errorCollection })
     },
     setErrorCollection({ state, commit }, { address, optin }) {
-      if (
-        optin &&
-        state.externals.config.development
-      ) {
+      if (optin && state.externals.config.development) {
         commit(`notifyError`, {
           title: `Couldn't switch on error collection.`,
           body: `Error collection is disabled during development.`
@@ -231,6 +238,7 @@ export default () => {
 }
 
 async function getLocalAddress(state, localKeyPairName) {
-  return (await state.externals.loadKeys())
-    .find(({ name }) => name === localKeyPairName).address
+  return (await state.externals.loadKeys()).find(
+    ({ name }) => name === localKeyPairName
+  ).address
 }

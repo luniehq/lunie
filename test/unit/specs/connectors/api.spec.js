@@ -227,7 +227,7 @@ describe(`API`, () => {
               method: `GET`,
               url: `http://remotehost/txs?action=unjail&source-validator=def`
             }
-          ],
+          ]
         ])
       })
 
@@ -544,7 +544,7 @@ describe(`API`, () => {
         ])
       })
 
-      describe(`Parameters`, function () {
+      describe(`Parameters`, function() {
         it(`queries for governance deposit parameters`, async () => {
           axios.mockReturnValue({})
           await client.getGovDepositParameters()
@@ -698,14 +698,15 @@ describe(`API`, () => {
       })
 
       it(`shows an error if vesting format changed`, async () => {
-        const spy = jest.spyOn(console, `error`).mockImplementationOnce(() => {})
+        const spy = jest
+          .spyOn(console, `error`)
+          .mockImplementationOnce(() => {})
         axios.mockReturnValueOnce(
           Promise.resolve({
             data: {
               type: `auth/DelayedVestingAccount`,
               value: {
-                xxx: {
-                }
+                xxx: {}
               }
             }
           })
@@ -722,10 +723,12 @@ describe(`API`, () => {
     })
 
     describe(`Fee Distribution`, () => {
-
       it(`queries for governance txs`, async () => {
         axios.mockReturnValue({ data: [] })
-        await client.getDistributionTxs(`cosmos1address`, `cosmosvaloper1address`)
+        await client.getDistributionTxs(
+          `cosmos1address`,
+          `cosmosvaloper1address`
+        )
 
         expect(axios.mock.calls).toEqual([
           [

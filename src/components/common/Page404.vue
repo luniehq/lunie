@@ -1,10 +1,10 @@
 <template>
-  <tm-page data-title="404" class="four-oh-four" hide-header>
-    <tm-part class="four-oh-four-top">
+  <TmPage data-title="404" class="four-oh-four" hide-header>
+    <TmPart class="four-oh-four-top">
       <h2>Oops! We can't find the page you're looking for.</h2>
       <h3>Error code: 404</h3>
-    </tm-part>
-    <tm-part>
+    </TmPart>
+    <TmPart>
       <p>Here are some helpful links to get you out of here:</p>
       <ul>
         <li>
@@ -33,8 +33,8 @@
           </router-link>
         </li>
       </ul>
-    </tm-part>
-  </tm-page>
+    </TmPart>
+  </TmPage>
 </template>
 
 <script>

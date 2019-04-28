@@ -1,5 +1,5 @@
 <template>
-  <action-modal
+  <ActionModal
     id="modal-vote"
     ref="actionModal"
     :submit-fn="submitForm"
@@ -10,8 +10,8 @@
     submission-error-prefix="Voting failed"
     @close="clear"
   >
-    <tm-form-group class="action-modal-group vote-options">
-      <tm-btn
+    <TmFormGroup class="action-modal-group vote-options">
+      <TmBtn
         id="vote-yes"
         :class="[vote === `Yes` ? 'active' : '']"
         :disabled="lastVoteOption === `Yes`"
@@ -20,7 +20,7 @@
         size="md"
         @click.native="vote = 'Yes'"
       />
-      <tm-btn
+      <TmBtn
         id="vote-no"
         :class="[vote === `No` ? 'active' : '']"
         :disabled="lastVoteOption === `No`"
@@ -29,7 +29,7 @@
         size="md"
         @click.native="vote = 'No'"
       />
-      <tm-btn
+      <TmBtn
         id="vote-veto"
         :class="[vote === `NoWithVeto` ? 'active' : '']"
         :disabled="lastVoteOption === `NoWithVeto`"
@@ -38,7 +38,7 @@
         size="md"
         @click.native="vote = 'NoWithVeto'"
       />
-      <tm-btn
+      <TmBtn
         id="vote-abstain"
         :class="[vote === `Abstain` ? 'active' : '']"
         :disabled="lastVoteOption === `Abstain`"
@@ -47,13 +47,13 @@
         size="md"
         @click.native="vote = 'Abstain'"
       />
-      <tm-form-msg
+      <TmFormMsg
         v-if="$v.vote.$error && !$v.vote.required"
         name="Vote"
         type="required"
       />
-    </tm-form-group>
-  </action-modal>
+    </TmFormGroup>
+  </ActionModal>
 </template>
 
 <script>

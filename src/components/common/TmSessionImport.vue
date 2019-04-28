@@ -1,6 +1,6 @@
 <template>
   <div class="tm-session">
-    <tm-form-struct :submit="onSubmit.bind(this)" class="tm-session-container">
+    <TmFormStruct :submit="onSubmit.bind(this)" class="tm-session-container">
       <div class="tm-session-header">
         <a @click="setState('welcome')">
           <i class="material-icons">arrow_back</i>
@@ -13,23 +13,23 @@
         </a>
       </div>
       <div class="tm-session-main">
-        <tm-form-group
+        <TmFormGroup
           :error="$v.$error && $v.fields.importName.$invalid"
           field-id="import-name"
           field-label="Account Name"
         >
-          <tm-field
+          <TmField
             id="import-name"
             v-model.trim="fields.importName"
             type="text"
             placeholder="Must have at least 5 characters"
           />
-          <tm-form-msg
+          <TmFormMsg
             v-if="$v.fields.importName.$error && !$v.fields.importName.required"
             name="Name"
             type="required"
           />
-          <tm-form-msg
+          <TmFormMsg
             v-if="
               $v.fields.importName.$error && !$v.fields.importName.minLength
             "
@@ -37,19 +37,19 @@
             type="minLength"
             min="5"
           />
-        </tm-form-group>
-        <tm-form-group
+        </TmFormGroup>
+        <TmFormGroup
           :error="$v.$error && $v.fields.importPassword.$invalid"
           field-id="import-password"
           field-label="Password"
         >
-          <tm-field
+          <TmField
             id="import-password"
             v-model="fields.importPassword"
             type="password"
             placeholder="Must be at least 10 characters"
           />
-          <tm-form-msg
+          <TmFormMsg
             v-if="
               $v.fields.importPassword.$error &&
                 !$v.fields.importPassword.required
@@ -57,7 +57,7 @@
             name="Password"
             type="required"
           />
-          <tm-form-msg
+          <TmFormMsg
             v-if="
               $v.fields.importPassword.$error &&
                 !$v.fields.importPassword.minLength
@@ -66,19 +66,19 @@
             type="minLength"
             min="10"
           />
-        </tm-form-group>
-        <tm-form-group
+        </TmFormGroup>
+        <TmFormGroup
           :error="$v.$error && $v.fields.importPasswordConfirm.$invalid"
           field-id="import-password-confirmation"
           field-label="Confirm Password"
         >
-          <tm-field
+          <TmField
             id="import-password-confirmation"
             v-model="fields.importPasswordConfirm"
             type="password"
             placeholder="Enter password again"
           />
-          <tm-form-msg
+          <TmFormMsg
             v-if="
               $v.fields.importPasswordConfirm.$error &&
                 !$v.fields.importPasswordConfirm.sameAsPassword
@@ -86,36 +86,36 @@
             name="Password confirmation"
             type="match"
           />
-        </tm-form-group>
+        </TmFormGroup>
         <p class="fundraiser-warning">
           Warning – Do not enter your actual 12 or 24 word seed phrase. This
           feature is intended for testing and is considered highly unsafe.
         </p>
-        <tm-form-group
+        <TmFormGroup
           :error="$v.$error && $v.fields.importSeed.$invalid"
           field-id="import-seed"
           field-label="Seed Phrase"
         >
-          <field-seed
+          <FieldSeed
             id="import-seed"
             :value="fields.importSeed"
             placeholder="Must be exactly 24 words"
             @input="val => (fields.importSeed = val)"
           />
-          <tm-form-msg
+          <TmFormMsg
             v-if="$v.fields.importSeed.$error && !$v.fields.importSeed.required"
             name="Seed"
             type="required"
           />
-          <tm-form-msg
+          <TmFormMsg
             v-else-if="
               $v.fields.importSeed.$error && !$v.fields.importSeed.words24
             "
             name="Seed"
             type="words24"
           />
-        </tm-form-group>
-        <tm-form-group
+        </TmFormGroup>
+        <TmFormGroup
           :error="$v.$error && $v.fields.errorCollection.$invalid"
           field-id="error-collection"
           field-label
@@ -126,25 +126,20 @@
                 id="error-collection"
                 v-model="fields.errorCollection"
                 type="checkbox"
-              >
+              />
             </div>
             <label class="tm-field-checkbox-label" for="error-collection">
               I'd like to opt in for remote error tracking to help improve
               Voyager.
             </label>
           </div>
-        </tm-form-group>
+        </TmFormGroup>
       </div>
       <div class="tm-session-footer">
-        <tm-btn v-if="connected" value="Next" size="lg" />
-        <tm-btn
-          v-else
-          value="Connecting..."
-          size="lg"
-          disabled="true"
-        />
+        <TmBtn v-if="connected" value="Next" size="lg" />
+        <TmBtn v-else value="Connecting..." size="lg" disabled="true" />
       </div>
-    </tm-form-struct>
+    </TmFormStruct>
   </div>
 </template>
 
@@ -233,4 +228,3 @@ const words24 = param => {
   font-weight: 500;
 }
 </style>
-
