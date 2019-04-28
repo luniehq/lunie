@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [1.0.0-beta.51] - 2019-04-28
+
+### Added
+
+- [#2265](https://github.com/cosmos/lunie/issues/2265) Added memo to transactions list and input to send modal (without forced memo suffix) @faboweb
+
+### Changed
+
+- [#2495](https://github.com/cosmos/lunie/pull/2495) Added prettier for simple code formating @faboweb
+
 ## [1.0.0-beta.50] - 2019-04-28
 
 ### Changed
