@@ -1,5 +1,5 @@
 import walletModule from "modules/wallet.js"
-import lcdClientMock from "renderer/connectors/lcdClientMock.js"
+import lcdClientMock from "src/connectors/lcdClientMock.js"
 
 const { stakingParameters } = lcdClientMock.state
 

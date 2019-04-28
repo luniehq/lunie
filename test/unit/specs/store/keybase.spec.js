@@ -1,9 +1,9 @@
-import keybaseModule from "renderer/vuex/modules/keybase.js"
+import keybaseModule from "src/vuex/modules/keybase.js"
 
 describe(`Module: Keybase`, () => {
   let state, actions, mutations
 
-  jest.mock(`renderer/keybase-cache.json`, () => [])
+  jest.mock(`src/keybase-cache.json`, () => [])
 
   async function mockKeybaseLookup() {
     return {

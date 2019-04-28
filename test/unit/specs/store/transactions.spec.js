@@ -1,4 +1,4 @@
-import transactionsModule from "renderer/vuex/modules/transactions.js"
+import transactionsModule from "src/vuex/modules/transactions.js"
 import {
   bankTxs,
   stakingTxs,

@@ -1,5 +1,5 @@
 import { shallowMount, createLocalVue } from "@vue/test-utils"
-import PageValidator from "renderer/components/staking/PageValidator"
+import PageValidator from "src/components/staking/PageValidator"
 import BigNumber from "bignumber.js"
 
 const stakingParameters = {
@@ -205,7 +205,7 @@ describe(`PageValidator`, () => {
       const delegationString = PageValidator.computed.myDelegation.call(
         { bondDenom, myBond }
       )
-      expect(delegationString).toBe(`10.000000 STAKE`)
+      expect(delegationString).toBe(`10 STAKE`)
     })
 
     it(`when user doesn't have any delegations`, () => {
@@ -238,7 +238,7 @@ describe(`PageValidator`, () => {
       const rewardsString = PageValidator.computed.rewards.call(
         { session, bondDenom, distribution, validator, lastHeader }
       )
-      expect(rewardsString).toBe(`100.000000 STAKE`)
+      expect(rewardsString).toBe(`100 STAKE`)
     })
 
     it(`when validator rewards are 0`, () => {
@@ -253,7 +253,7 @@ describe(`PageValidator`, () => {
       const rewardsString = PageValidator.computed.rewards.call(
         { session, bondDenom, distribution, validator, lastHeader }
       )
-      expect(rewardsString).toBe(`0.000000 STAKE`)
+      expect(rewardsString).toBe(`0 STAKE`)
     })
 
     it(`when user doesn't have any delegations`, () => {

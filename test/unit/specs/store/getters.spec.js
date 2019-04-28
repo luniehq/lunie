@@ -1,4 +1,4 @@
-import { oldBondedAtoms, liquidAtoms, totalAtoms, oldUnbondingAtoms, yourValidators } from "renderer/vuex/getters.js"
+import { oldBondedAtoms, liquidAtoms, totalAtoms, oldUnbondingAtoms, yourValidators } from "src/vuex/getters.js"
 import validators from "./json/validators.js"
 
 describe(`Store: getters`, () => {

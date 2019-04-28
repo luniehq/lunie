@@ -1,7 +1,7 @@
 "use strict"
 
-const mockValidators = require(`src/helpers/json/mock_validators.json`)
-const mockLcd = require(`../../../app/src/renderer/connectors/lcdClientMock.js`)
+const mockValidators = require(`scripts/mock_validators.json`)
+const mockLcd = require(`../../../src/connectors/lcdClientMock.js`)
 
 module.exports = {
   // REST

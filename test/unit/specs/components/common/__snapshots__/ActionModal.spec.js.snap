@@ -163,7 +163,7 @@ exports[`ActionModal should show the action modal when user has logged in with l
     >
       
         Please plug in your Ledger Nano S and open
-               the Cosmos app
+        the Cosmos app
       
     </hardware-state-stub>
   </div>

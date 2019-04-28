@@ -1,5 +1,5 @@
-import { getTxHash } from "renderer/scripts/tx-utils.js"
-import blocks, { cache } from "renderer/vuex/modules/blocks.js"
+import { getTxHash } from "scripts/tx-utils.js"
+import blocks, { cache } from "src/vuex/modules/blocks.js"
 
 describe(`Module: Blocks`, () => {
   let module, state, actions, node

@@ -1,5 +1,5 @@
 import { shallowMount, createLocalVue } from "@vue/test-utils"
-import PanelSort from "renderer/components/staking/PanelSort"
+import PanelSort from "src/components/staking/PanelSort"
 
 describe(`PanelSort`, () => {
   let wrapper

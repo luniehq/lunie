@@ -1,5 +1,5 @@
 import setup from "../../helpers/vuex-setup"
-import validatorsModule from "renderer/vuex/modules/validators.js"
+import validatorsModule from "src/vuex/modules/validators.js"
 
 const instance = setup()
 

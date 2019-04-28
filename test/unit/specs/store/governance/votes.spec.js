@@ -1,5 +1,5 @@
-import votesModule from "renderer/vuex/modules/governance/votes.js"
-import lcdClientMock from "renderer/connectors/lcdClientMock.js"
+import votesModule from "src/vuex/modules/governance/votes.js"
+import lcdClientMock from "src/connectors/lcdClientMock.js"
 const { proposals, votes, stakingParameters } = lcdClientMock.state
 const addresses = lcdClientMock.addresses
 
