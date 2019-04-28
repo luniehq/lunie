@@ -193,7 +193,7 @@ describe(`Module: Send`, () => {
                 from: `cosmos1demo`,
                 gas,
                 sequence: `0`,
-                memo: undefined,
+                memo: "(Sent via Lunie)",
                 gas_prices,
                 simulate: false
               }
@@ -232,7 +232,7 @@ describe(`Module: Send`, () => {
                 from: `cosmos1demo`,
                 gas,
                 sequence: `0`,
-                memo: undefined,
+                memo: "(Sent via Lunie)",
                 gas_prices,
                 simulate: false
               }
@@ -275,7 +275,7 @@ describe(`Module: Send`, () => {
                   from: `cosmos1demo`,
                   gas,
                   sequence: `0`,
-                  memo: undefined,
+                  memo: "(Sent via Lunie)",
                   gas_prices,
                   simulate: false
                 }
@@ -325,7 +325,7 @@ describe(`Module: Send`, () => {
                 from: `cosmos1demo`,
                 gas,
                 sequence: `0`,
-                memo: undefined,
+                memo: "(Sent via Lunie)",
                 gas_prices,
                 simulate: false
               }
