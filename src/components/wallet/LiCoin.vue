@@ -1,10 +1,7 @@
 <template>
-  <li
-    :id="`li-coin--` + denomination.toLowerCase()"
-    class="li-coin"
-  >
+  <li :id="`li-coin--` + denomination.toLowerCase()" class="li-coin">
     <div class="li-coin__icon">
-      <img src="~assets/images/cosmos-logo.png">
+      <img src="~assets/images/cosmos-logo.png" />
     </div>
     <div class="li-coin__content">
       <div class="li-coin__content-left">
@@ -16,7 +13,7 @@
         </p>
       </div>
       <!-- disable send on the hub until send is enabled -->
-      <tm-btn
+      <TmBtn
         v-if="!lastHeader || lastHeader.chain_id === 'cosmoshub-1'"
         v-tooltip.left="tooltip"
         value="Send"
@@ -24,7 +21,7 @@
       />
       <!-- here we use the unconverted denom, as the SendModal
       checks for balances based on the actual denom -->
-      <tm-btn
+      <TmBtn
         v-else
         value="Send"
         color="primary"

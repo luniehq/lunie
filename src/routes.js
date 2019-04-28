@@ -83,6 +83,9 @@ export default [
     component: require(`./components/network/PageBlock`).default
   },
   { path: `/404`, component: require(`./components/common/Page404`).default },
-  { path: `/about`, component: require(`./components/common/PageAbout`).default },
+  {
+    path: `/about`,
+    component: require(`./components/common/PageAbout`).default
+  },
   { path: `*`, component: require(`./components/common/Page404`).default }
 ]

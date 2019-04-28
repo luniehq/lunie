@@ -13,8 +13,7 @@ export default ({ node }) => {
     distribution: []
   }
 
-  const
-    TypeBank = `bank`,
+  const TypeBank = `bank`,
     TypeStaking = `staking`,
     TypeGovernance = `governance`,
     TypeDistribution = `distribution`
@@ -53,10 +52,7 @@ export default ({ node }) => {
     async parseAndSetTxs({ commit, dispatch, state }, { txType }) {
       const txs = await dispatch(`getTx`, txType)
       if (state[txType] && txs.length > state[txType].length) {
-        let newTxs = uniqBy(
-          txs.concat(state[txType]),
-          `txhash`
-        )
+        let newTxs = uniqBy(txs.concat(state[txType]), `txhash`)
         newTxs = await dispatch(`enrichTransactions`, {
           transactions: newTxs,
           txType
@@ -82,9 +78,9 @@ export default ({ node }) => {
         commit(`setHistoryLoading`, true)
 
         if (!rootState.connection.connected) return
-
-        [TypeBank, TypeStaking, TypeGovernance, TypeDistribution]
-          .forEach(async txType => await dispatch(`parseAndSetTxs`, { txType }))
+        ;[TypeBank, TypeStaking, TypeGovernance, TypeDistribution].forEach(
+          async txType => await dispatch(`parseAndSetTxs`, { txType })
+        )
 
         state.error = null
         commit(`setHistoryLoading`, false)
@@ -94,7 +90,14 @@ export default ({ node }) => {
         state.error = error
       }
     },
-    async getTx({ rootState: { session: { address } } }, type) {
+    async getTx(
+      {
+        rootState: {
+          session: { address }
+        }
+      },
+      type
+    ) {
       let response
       const validatorAddress = address.replace(`cosmos`, `cosmosvaloper`)
       switch (type) {

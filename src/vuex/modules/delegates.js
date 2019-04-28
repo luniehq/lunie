@@ -79,23 +79,31 @@ export default ({ node }) => {
       }
 
       state.lastValidatorsUpdate = Number(lastHeader.height)
-      const signingInfos = await Promise.all(validators.map(async validator => {
-        if (validator.consensus_pubkey) {
-          const signing_info = await node.getValidatorSigningInfo(
-            validator.consensus_pubkey
-          )
-          return {
-            operator_address: validator.operator_address,
-            signing_info
+      const signingInfos = await Promise.all(
+        validators.map(async validator => {
+          if (validator.consensus_pubkey) {
+            const signing_info = await node.getValidatorSigningInfo(
+              validator.consensus_pubkey
+            )
+            return {
+              operator_address: validator.operator_address,
+              signing_info
+            }
           }
-        }
-      }))
-      commit(`setSigningInfos`, signingInfos
-        .filter(x => !!x)
-        .reduce((signingInfos, { operator_address, signing_info }) => ({
-          ...signingInfos,
-          [operator_address]: signing_info
-        }), {}))
+        })
+      )
+      commit(
+        `setSigningInfos`,
+        signingInfos
+          .filter(x => !!x)
+          .reduce(
+            (signingInfos, { operator_address, signing_info }) => ({
+              ...signingInfos,
+              [operator_address]: signing_info
+            }),
+            {}
+          )
+      )
     },
     async getDelegates({ state, commit, dispatch, rootState }) {
       commit(`setDelegateLoading`, true)
@@ -161,8 +169,8 @@ export default ({ node }) => {
 // incrementally add the validator to the list or update it in place
 // "upsert": (computing, databases) An operation that inserts rows into a database table if they do not already exist, or updates them if they do.
 function upsertValidator(state, validator) {
-  const oldValidatorIndex = state.delegates.findIndex((oldValidator) =>
-    oldValidator.operator_address === validator.operator_address
+  const oldValidatorIndex = state.delegates.findIndex(
+    oldValidator => oldValidator.operator_address === validator.operator_address
   )
   if (oldValidatorIndex === -1) {
     state.delegates.push(validator)

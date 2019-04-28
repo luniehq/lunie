@@ -3,7 +3,7 @@ import { createLocalVue, shallowMount } from "@vue/test-utils"
 
 describe(`PageTransactions`, () => {
   const localVue = createLocalVue()
-  localVue.directive(`tooltip`, () => { })
+  localVue.directive(`tooltip`, () => {})
 
   const addresses = [
     `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
@@ -287,7 +287,8 @@ describe(`PageTransactions`, () => {
 
   it(`should refresh the transaction history`, async () => {
     await PageTransactions.methods.refreshTransactions.call({
-      $store, session: {
+      $store,
+      session: {
         signedIn: true
       }
     })
@@ -295,7 +296,8 @@ describe(`PageTransactions`, () => {
 
     $store.dispatch.mockClear()
     await PageTransactions.methods.refreshTransactions.call({
-      $store, session: {
+      $store,
+      session: {
         signedIn: false
       }
     })

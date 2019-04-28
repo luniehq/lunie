@@ -2,13 +2,10 @@
   <div>
     <table class="data-table">
       <thead>
-        <panel-sort
-          :sort="sort"
-          :properties="properties"
-        />
+        <PanelSort :sort="sort" :properties="properties" />
       </thead>
       <tbody>
-        <li-proposal
+        <LiProposal
           v-for="(value, key) in filteredProposals"
           :key="key"
           :proposal="value"

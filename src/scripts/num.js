@@ -28,18 +28,18 @@ export function fullDecimals(value) {
 }
 
 export function pretty(number = 0) {
-  return new Intl.NumberFormat(
-    language,
-    { minimumFractionDigits: 2, maximumFractionDigits: 2 }
-  ).format(Math.round(number * 100) / 100)
+  return new Intl.NumberFormat(language, {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2
+  }).format(Math.round(number * 100) / 100)
 }
 
 // pretty print long decimals not in scientific notation
 export function prettyDecimals(number = 0) {
-  let longDecimals = new Intl.NumberFormat(
-    language,
-    { minimumFractionDigits: 20, maximumFractionDigits: 20 }
-  ).format(number)
+  let longDecimals = new Intl.NumberFormat(language, {
+    minimumFractionDigits: 20,
+    maximumFractionDigits: 20
+  }).format(number)
 
   // remove all trailing zeros
   while (longDecimals.charAt(longDecimals.length - 1) === `0`) {
@@ -63,18 +63,24 @@ export function percentInt(number = 0) {
 }
 
 export function percent(number = 0) {
-  return new Intl.NumberFormat(
-    language,
-    { minimumFractionDigits: 2, maximumFractionDigits: 2 }
-  ).format(Math.round(number * 10000) / 100) + `%`
+  return (
+    new Intl.NumberFormat(language, {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2
+    }).format(Math.round(number * 10000) / 100) + `%`
+  )
 }
 
 export function atoms(number = 0) {
-  return BigNumber(number).div(1e6).toNumber()
+  return BigNumber(number)
+    .div(1e6)
+    .toNumber()
 }
 
 export function uatoms(number = 0) {
-  return BigNumber(number).times(1e6).toString()
+  return BigNumber(number)
+    .times(1e6)
+    .toString()
 }
 
 // convert micro denoms like uatom to display denoms like ATOM

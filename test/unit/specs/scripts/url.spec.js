@@ -35,7 +35,7 @@ describe(`URL functions`, () => {
   })
 
   it(`alerts about inability to set remote urls in production`, () => {
-    const spy = jest.spyOn(window, `alert`).mockImplementationOnce(() => { })
+    const spy = jest.spyOn(window, `alert`).mockImplementationOnce(() => {})
     const windowMock = {
       location: {
         search: `?stargate=1&rpc=2`

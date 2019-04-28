@@ -83,16 +83,17 @@ export default ({ node }) => {
         commit(`setDistributionError`, error)
       }
     },
-    async simulateWithdrawAllRewards(
-      { rootState: { wallet }, dispatch }
-    ) {
+    async simulateWithdrawAllRewards({ rootState: { wallet }, dispatch }) {
       return await dispatch(`simulateTx`, {
         type: `postWithdrawDelegatorRewards`,
         to: wallet.address
       })
     },
     async withdrawAllRewards(
-      { rootState: { wallet }, dispatch },
+      {
+        rootState: { wallet },
+        dispatch
+      },
       { gas, gas_prices, password, submitType }
     ) {
       await dispatch(`sendTx`, {
@@ -107,13 +108,11 @@ export default ({ node }) => {
       await dispatch(`queryWalletBalances`)
       await dispatch(`getAllTxs`)
     },
-    async getRewardsFromMyValidators(
-      {
-        state,
-        dispatch,
-        getters: { lastHeader, yourValidators }
-      }
-    ) {
+    async getRewardsFromMyValidators({
+      state,
+      dispatch,
+      getters: { lastHeader, yourValidators }
+    }) {
       // throttle the update of validator rewards to every 20 blocks
       const waitedTwentyBlocks =
         Number(lastHeader.height) - state.lastValidatorRewardsUpdate >= 20
@@ -174,8 +173,7 @@ export default ({ node }) => {
     async getOutstandingRewards({ commit }) {
       state.loading = true
       try {
-        const oustandingRewardsArray =
-          await node.getDistributionOutstandingRewards()
+        const oustandingRewardsArray = await node.getDistributionOutstandingRewards()
         const oustandingRewards = coinsToObject(oustandingRewardsArray)
         commit(`setOutstandingRewards`, oustandingRewards)
         commit(`setDistributionError`, null)

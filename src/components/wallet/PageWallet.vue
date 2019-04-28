@@ -1,5 +1,5 @@
 <template>
-  <tm-page
+  <TmPage
     :managed="true"
     :loading="wallet.loading"
     :loaded="wallet.loaded"
@@ -9,7 +9,7 @@
     data-title="Wallet"
     :sign-in-required="true"
   >
-    <tm-data-msg
+    <TmDataMsg
       id="account_empty_msg"
       slot="no-data"
       icon="account_balance_wallet"
@@ -20,9 +20,9 @@
       <div slot="subtitle">
         This account doesn't have anything in it&nbsp;yet.
       </div>
-    </tm-data-msg>
+    </TmDataMsg>
     <template slot="managed-body">
-      <li-coin
+      <LiCoin
         v-for="coin in filteredBalances"
         :key="coin.denom"
         :coin="coin"
@@ -30,8 +30,8 @@
         @show-modal="showModal"
       />
     </template>
-    <send-modal ref="sendModal" />
-  </tm-page>
+    <SendModal ref="sendModal" />
+  </TmPage>
 </template>
 
 <script>

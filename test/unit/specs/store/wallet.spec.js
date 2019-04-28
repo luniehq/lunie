@@ -87,7 +87,9 @@ describe(`Module: Wallet`, () => {
       const { state, actions } = instance
       const address = `X`
       await actions.getMoney({ state }, address)
-      expect(state.externals.axios.get).toHaveBeenCalledWith(`${faucet}/${address}`)
+      expect(state.externals.axios.get).toHaveBeenCalledWith(
+        `${faucet}/${address}`
+      )
     })
 
     it(`should initialize wallet`, async () => {
@@ -96,10 +98,12 @@ describe(`Module: Wallet`, () => {
       const address = `cosmos1wdhk6e2pv3j8yetnwv0yr6s6`
       const commit = jest.fn()
       const dispatch = jest.fn(() => Promise.resolve())
-      state.balances = [{
-        denom: `stake`,
-        amount: `100`
-      }]
+      state.balances = [
+        {
+          denom: `stake`,
+          amount: `100`
+        }
+      ]
       await actions.initializeWallet({ state, commit, dispatch }, { address })
       expect(commit).toHaveBeenCalledWith(`setWalletAddress`, address)
       expect(dispatch.mock.calls).toEqual([
@@ -277,7 +281,7 @@ describe(`Module: Wallet`, () => {
       const res = await actions.simulateSendCoins(self, {
         receiver: `cosmos1address1`,
         amount: 12,
-        denom: `uatom`,
+        denom: `uatom`
       })
 
       expect(self.dispatch).toHaveBeenCalledWith(`simulateTx`, {

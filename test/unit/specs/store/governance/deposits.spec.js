@@ -6,10 +6,12 @@ const addresses = lcdClientMock.addresses
 const mockRootState = {
   wallet: {
     address: addresses[0],
-    balances: [{
-      denom: `stake`,
-      amount: 100
-    }]
+    balances: [
+      {
+        denom: `stake`,
+        amount: 100
+      }
+    ]
   },
   connection: {
     connected: true
@@ -57,7 +59,10 @@ describe(`Module: Deposits`, () => {
       dispatch: jest.fn(() => 123123)
     }
     const amount = [{ denom: `uatom`, amount: `10000000` }]
-    const res = await actions.simulateDeposit(self, { proposal_id: `1`, amount })
+    const res = await actions.simulateDeposit(self, {
+      proposal_id: `1`,
+      amount
+    })
 
     expect(self.dispatch).toHaveBeenCalledWith(`simulateTx`, {
       type: `postProposalDeposit`,

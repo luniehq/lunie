@@ -1,9 +1,5 @@
 <template>
-  <li-transaction
-    :color="`#ED553B`"
-    :time="time"
-    :block="block"
-  >
+  <LiTransaction :color="`#ED553B`" :time="time" :block="block">
     <template v-if="address === ''">
       <div slot="caption">
         Sent<b>{{ coins.amount }}</b>
@@ -12,8 +8,8 @@
       <span slot="details">
         <template>
           From
-          <short-bech32 :address="sender" /> to
-          <short-bech32 :address="receiver" />
+          <ShortBech32 :address="sender" /> to
+          <ShortBech32 :address="receiver" />
         </template>
       </span>
       <div slot="fees">
@@ -39,7 +35,7 @@
         </template>
         <template v-else>
           To
-          <short-bech32 :address="receiver" />
+          <ShortBech32 :address="receiver" />
         </template>
       </span>
       <div slot="fees">
@@ -61,7 +57,7 @@
       </div>
       <span slot="details">
         From
-        <short-bech32 :address="sender" />
+        <ShortBech32 :address="sender" />
       </span>
       <div slot="fees">
         Network Fee:&nbsp;<b>{{ convertedFees ? convertedFees.amount : 0 }}</b>
@@ -74,7 +70,7 @@
         </span>
       </div>
     </template>
-  </li-transaction>
+  </LiTransaction>
 </template>
 
 <script>

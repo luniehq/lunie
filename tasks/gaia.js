@@ -65,7 +65,9 @@ async function initGenesis(
   )
   // faucet, we add this to better emulate testnet behaviour on local testnets
   await makeExec(
-    `${nodeBinary} add-genesis-account ${faucet.address} ${faucet.amount}stake  --home ${nodeHomeDir}`
+    `${nodeBinary} add-genesis-account ${faucet.address} ${
+      faucet.amount
+    }stake  --home ${nodeHomeDir}`
   )
 
   await makeExecWithInputs(
@@ -323,18 +325,22 @@ function fixInflation(genesis, faucetAmount) {
   genesis.app_state.mint = {
     minter: {
       inflation: BN(defaultMintValue.minter.inflation)
-        .div(inflationFactor).toFixed(18),
+        .div(inflationFactor)
+        .toFixed(18),
       annual_provisions: `0.000000000000000000`
     },
     params: {
       mint_denom: `stake`,
       inflation_rate_change: `0.130000000000000000`,
       inflation_max: BN(defaultMintValue.params.inflation_max)
-        .div(inflationFactor).toFixed(18),
+        .div(inflationFactor)
+        .toFixed(18),
       inflation_min: BN(defaultMintValue.params.inflation_min)
-        .div(inflationFactor).toFixed(18),
+        .div(inflationFactor)
+        .toFixed(18),
       goal_bonded: BN(defaultMintValue.params.goal_bonded)
-        .div(inflationFactor).toFixed(18),
+        .div(inflationFactor)
+        .toFixed(18),
       blocks_per_year: `6311520`
     }
   }

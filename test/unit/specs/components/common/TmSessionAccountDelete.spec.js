@@ -11,7 +11,7 @@ describe(`TmSessionAccountDelete`, () => {
   beforeEach(() => {
     $store = {
       commit: jest.fn(),
-      dispatch: jest.fn(async () => true),
+      dispatch: jest.fn(async () => true)
     }
 
     wrapper = shallowMount(TmSessionAccountDelete, {
@@ -87,6 +87,9 @@ describe(`TmSessionAccountDelete`, () => {
     })
 
     await wrapper.vm.onSubmit()
-    expect($store.commit).toHaveBeenCalledWith(`notifyError`, { body: `Error body`, title: `Account Deletion Failed` })
+    expect($store.commit).toHaveBeenCalledWith(`notifyError`, {
+      body: `Error body`,
+      title: `Account Deletion Failed`
+    })
   })
 })

@@ -1,6 +1,6 @@
 <template>
   <div class="tm-session">
-    <tm-form-struct :submit="onSubmit.bind(this)" class="tm-session-container">
+    <TmFormStruct :submit="onSubmit.bind(this)" class="tm-session-container">
       <div class="tm-session-header">
         <a @click="setState('welcome')">
           <i class="material-icons">arrow_back</i>
@@ -13,23 +13,23 @@
         </a>
       </div>
       <div class="tm-session-main">
-        <tm-form-group
+        <TmFormGroup
           :error="$v.fields.signUpName.$error"
           field-id="sign-up-name"
           field-label="Account Name"
         >
-          <tm-field
+          <TmField
             id="sign-up-name"
             v-model.trim="fields.signUpName"
             type="text"
             placeholder="Must be at least 5 characters"
           />
-          <tm-form-msg
+          <TmFormMsg
             v-if="$v.fields.signUpName.$error && !$v.fields.signUpName.required"
             name="Name"
             type="required"
           />
-          <tm-form-msg
+          <TmFormMsg
             v-if="
               $v.fields.signUpName.$error && !$v.fields.signUpName.minLength
             "
@@ -37,19 +37,19 @@
             type="minLength"
             min="5"
           />
-        </tm-form-group>
-        <tm-form-group
+        </TmFormGroup>
+        <TmFormGroup
           :error="$v.fields.signUpPassword.$error"
           field-id="sign-up-password"
           field-label="Password"
         >
-          <tm-field
+          <TmField
             id="sign-up-password"
             v-model="fields.signUpPassword"
             type="password"
             placeholder="Must be at least 10 characters"
           />
-          <tm-form-msg
+          <TmFormMsg
             v-if="
               $v.fields.signUpPassword.$error &&
                 !$v.fields.signUpPassword.required
@@ -57,7 +57,7 @@
             name="Password"
             type="required"
           />
-          <tm-form-msg
+          <TmFormMsg
             v-if="
               $v.fields.signUpPassword.$error &&
                 !$v.fields.signUpPassword.minLength
@@ -66,19 +66,19 @@
             type="minLength"
             min="10"
           />
-        </tm-form-group>
-        <tm-form-group
+        </TmFormGroup>
+        <TmFormGroup
           :error="$v.fields.signUpPasswordConfirm.$error"
           field-id="sign-up-password-confirm"
           field-label="Confirm Password"
         >
-          <tm-field
+          <TmField
             id="sign-up-password-confirm"
             v-model="fields.signUpPasswordConfirm"
             type="password"
             placeholder="Enter password again"
           />
-          <tm-form-msg
+          <TmFormMsg
             v-if="
               $v.fields.signUpPasswordConfirm.$error &&
                 !$v.fields.signUpPasswordConfirm.sameAsPassword
@@ -86,25 +86,25 @@
             name="Password confirmation"
             type="match"
           />
-        </tm-form-group>
-        <tm-form-group
+        </TmFormGroup>
+        <TmFormGroup
           field-id="sign-up-seed"
           class="sign-up-seed-group"
           field-label="Seed Phrase"
         >
-          <field-seed
+          <FieldSeed
             id="sign-up-seed"
             v-model="fields.signUpSeed"
             disabled="disabled"
           />
-          <tm-form-msg
+          <TmFormMsg
             class="sm"
             type="custom"
             msg="Please back up the seed phrase for this account.
             This seed phrase cannot be recovered."
           />
-        </tm-form-group>
-        <tm-form-group
+        </TmFormGroup>
+        <TmFormGroup
           :error="$v.fields.signUpWarning.$error"
           field-id="sign-up-warning"
           field-label
@@ -115,14 +115,14 @@
                 id="sign-up-warning"
                 v-model="fields.signUpWarning"
                 type="checkbox"
-              >
+              />
             </div>
             <label class="tm-field-checkbox-label" for="sign-up-warning">
               I have securely written down my seed. I understand that lost seeds
               cannot be recovered.
             </label>
           </div>
-          <tm-form-msg
+          <TmFormMsg
             v-if="
               $v.fields.signUpWarning.$error &&
                 !$v.fields.signUpWarning.required
@@ -130,8 +130,8 @@
             name="Recovery confirmation"
             type="required"
           />
-        </tm-form-group>
-        <tm-form-group
+        </TmFormGroup>
+        <TmFormGroup
           :error="$v.fields.errorCollection.$error"
           field-id="error-collection"
           field-label
@@ -142,19 +142,19 @@
                 id="error-collection"
                 v-model="fields.errorCollection"
                 type="checkbox"
-              >
+              />
             </div>
             <label class="tm-field-checkbox-label" for="error-collection">
               I'd like to opt in for remote error tracking to help improve
               Voyager.
             </label>
           </div>
-        </tm-form-group>
+        </TmFormGroup>
       </div>
       <div class="tm-session-footer">
-        <tm-btn value="Next" size="lg" />
+        <TmBtn value="Next" size="lg" />
       </div>
-    </tm-form-struct>
+    </TmFormStruct>
   </div>
 </template>
 

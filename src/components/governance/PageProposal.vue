@@ -1,13 +1,11 @@
 <template>
-  <tm-page data-title="Proposal">
-    <tm-data-error v-if="!proposal" />
+  <TmPage data-title="Proposal">
+    <TmDataError v-if="!proposal" />
 
     <template v-else>
       <div class="page-profile__header page-profile__section proposal">
         <div class="row">
-          <h2 class="proposal-id">
-            #{{ proposalId }}
-          </h2>
+          <h2 class="proposal-id">#{{ proposalId }}</h2>
           <div class="page-profile__header__info">
             <div class="page-profile__status-and-title">
               <span
@@ -21,7 +19,7 @@
             </div>
 
             <div class="page-profile__header__actions">
-              <tm-btn
+              <TmBtn
                 v-if="proposal.proposal_status === 'VotingPeriod'"
                 id="vote-btn"
                 :value="connected ? 'Vote' : 'Connecting...'"
@@ -29,7 +27,7 @@
                 color="primary"
                 @click.native="() => onVote()"
               />
-              <tm-btn
+              <TmBtn
                 v-if="proposal.proposal_status === 'DepositPeriod'"
                 id="deposit-btn"
                 :value="connected ? 'Deposit' : 'Connecting...'"
@@ -37,13 +35,13 @@
                 color="primary"
                 @click.native="onDeposit"
               />
-              <tm-btn
+              <TmBtn
                 v-if="proposal.proposal_status === 'Passed'"
                 value="Vote Passed"
                 disabled="disabled"
                 color="primary"
               />
-              <tm-btn
+              <TmBtn
                 v-if="proposal.proposal_status === 'Rejected'"
                 value="Vote Rejected"
                 disabled="disabled"
@@ -83,10 +81,7 @@
       </div>
 
       <div class="page-profile__section">
-        <div
-          v-if="proposal.proposal_status === 'VotingPeriod'"
-          class="row"
-        >
+        <div v-if="proposal.proposal_status === 'VotingPeriod'" class="row">
           <dl class="info_dl colored_dl">
             <dt>Yes</dt>
             <dd>
@@ -120,26 +115,26 @@
           <div class="column">
             <dl class="info_dl colored_dl">
               <dt>Description</dt>
-              <text-block :content="description" />
+              <TextBlock :content="description" />
             </dl>
           </div>
         </div>
       </div>
 
-      <modal-deposit
+      <ModalDeposit
         ref="modalDeposit"
         :proposal-id="proposalId"
         :proposal-title="title"
         :denom="depositDenom"
       />
-      <modal-vote
+      <ModalVote
         ref="modalVote"
         :proposal-id="proposalId"
         :proposal-title="title"
         :last-vote-option="lastVote && lastVote.option"
       />
     </template>
-  </tm-page>
+  </TmPage>
 </template>
 
 <script>

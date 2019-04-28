@@ -10,10 +10,12 @@ describe(`time helper`, () => {
       const address = delegates[0].operator_address
       expect(
         time.getUnbondingTime(stakingTxs[1], {
-          [address]: [{
-            creation_height: `170`,
-            completion_time: new Date().toISOString()
-          }]
+          [address]: [
+            {
+              creation_height: `170`,
+              completion_time: new Date().toISOString()
+            }
+          ]
         })
       ).toBe(NaN)
     })
@@ -22,10 +24,12 @@ describe(`time helper`, () => {
       const address = delegates[0].operator_address
       expect(
         time.getUnbondingTime(unbondingTransaction, {
-          [address]: [{
-            creation_height: `171`,
-            completion_time: new Date().toISOString()
-          }]
+          [address]: [
+            {
+              creation_height: `171`,
+              completion_time: new Date().toISOString()
+            }
+          ]
         })
       ).toBe(NaN)
     })
@@ -34,10 +38,12 @@ describe(`time helper`, () => {
       const address = delegates[0].operator_address
       expect(
         time.getUnbondingTime(unbondingTransaction, {
-          [address]: [{
-            creation_height: `569`,
-            completion_time: new Date(Date.now()).toISOString()
-          }]
+          [address]: [
+            {
+              creation_height: `569`,
+              completion_time: new Date(Date.now()).toISOString()
+            }
+          ]
         })
       ).toBe(42000)
     })

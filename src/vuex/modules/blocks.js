@@ -46,7 +46,7 @@ export default ({ node }) => {
       (state.subscription = subscription),
     setBlocksLoading: (state, loading) => (state.loading = loading),
     setBlocksLoaded: (state, loaded) => (state.loaded = loaded),
-    setBlockError: (state, error) => (state.error = error),
+    setBlockError: (state, error) => (state.error = error)
   }
 
   const actions = {
@@ -61,10 +61,12 @@ export default ({ node }) => {
         commit(`setBlocksLoading`, true)
         let txs = await node.getTxsByHeight(height)
         const time = state.blockMetas[height].header.time
-        txs = txs.map(tx => Object.assign({}, tx, {
-          height,
-          time
-        }))
+        txs = txs.map(tx =>
+          Object.assign({}, tx, {
+            height,
+            time
+          })
+        )
         commit(`setBlockTransactions`, txs)
         commit(`setBlocksLoaded`, true)
       } catch (error) {
@@ -75,7 +77,6 @@ export default ({ node }) => {
     },
     async queryBlockInfo({ state, commit }, height) {
       try {
-
         let blockMetaInfo = state.blockMetas[height]
         if (blockMetaInfo) {
           return blockMetaInfo

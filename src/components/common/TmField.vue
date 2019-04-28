@@ -8,12 +8,7 @@
       @keyup="onKeyup"
       @keydown="onKeydown"
     >
-      <option
-        value=""
-        disabled="disabled"
-        selected="selected"
-        hidden="hidden"
-      >
+      <option value="" disabled="disabled" selected="selected" hidden="hidden">
         {{ selectPlaceholder }}
       </option>
       <template>
@@ -46,8 +41,9 @@
     <div class="tm-toggle-wrapper" @click.prevent="toggle">
       <span>
         {{
-          currentToggleState ?
-            resolvedOptions.checked : resolvedOptions.unchecked
+          currentToggleState
+            ? resolvedOptions.checked
+            : resolvedOptions.unchecked
         }}
       </span>
       <div class="toggle-option-checked">
@@ -62,7 +58,7 @@
         :value="currentToggleState"
         type="checkbox"
         @change="onChange"
-      >
+      />
     </div>
   </label>
 
@@ -77,7 +73,7 @@
     @keyup="onKeyup"
     @keydown="onKeydown"
     @input="updateValue($event.target.value)"
-  >
+  />
 </template>
 
 <script>

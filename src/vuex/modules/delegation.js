@@ -41,14 +41,14 @@ export default ({ node }) => {
     setUnbondingDelegations(state, unbondingDelegations) {
       state.unbondingDelegations = unbondingDelegations
         ? unbondingDelegations
-          // building a dict from the array and taking out the validators with no undelegations
-          .reduce(
-            (dict, { validator_address, entries }) => ({
-              ...dict,
-              [validator_address]: entries.length > 0 ? entries : undefined
-            }),
-            {}
-          )
+            // building a dict from the array and taking out the validators with no undelegations
+            .reduce(
+              (dict, { validator_address, entries }) => ({
+                ...dict,
+                [validator_address]: entries.length > 0 ? entries : undefined
+              }),
+              {}
+            )
         : {}
     }
   }
@@ -65,10 +65,7 @@ export default ({ node }) => {
       await dispatch(`updateDelegates`)
     },
     // load committed delegations from LCD
-    async getBondedDelegates(
-      { state, rootState, commit },
-      candidates
-    ) {
+    async getBondedDelegates({ state, rootState, commit }, candidates) {
       state.loading = true
 
       if (!rootState.connection.connected) return
@@ -143,7 +140,7 @@ export default ({ node }) => {
     async simulateDelegation(
       {
         rootState: { stakingParameters, session },
-        dispatch,
+        dispatch
       },
       { validator_address, amount, password, submitType }
     ) {
@@ -199,8 +196,8 @@ export default ({ node }) => {
       // optimistically update the committed delegations
       commit(`setCommittedDelegation`, {
         candidateId: validator_address,
-        value: state.committedDelegates[validator_address] +
-          Number(amount.amount)
+        value:
+          state.committedDelegates[validator_address] + Number(amount.amount)
       })
 
       await dispatch(`getAllTxs`)
@@ -279,8 +276,13 @@ export default ({ node }) => {
         dispatch
       },
       {
-        validatorSrc, validatorDst, amount, gas,
-        gas_prices, password, submitType
+        validatorSrc,
+        validatorDst,
+        amount,
+        gas,
+        gas_prices,
+        password,
+        submitType
       }
     ) {
       const denom = stakingParameters.parameters.bond_denom

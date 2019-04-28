@@ -157,7 +157,6 @@ describe(`TmField`, () => {
     wrapper.find(`.tm-toggle-wrapper`).trigger(`click`)
     expect(wrapper.find(`.tm-toggle-wrapper > span`).text()).not.toBe(`cool`)
     expect(wrapper.vm.$el).toMatchSnapshot()
-
   })
 
   it(`allows for style customization`, () => {

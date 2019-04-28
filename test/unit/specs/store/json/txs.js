@@ -132,7 +132,7 @@ export const stakingTxs = [
       {
         key: `destination-validator`,
         value: `cosmosvaloper1qecshyc40kshszkwrtscgmsdd8tz3n4hrj9yf2`
-      },
+      }
     ],
     tx: {
       type: `auth/StdTx`,
@@ -185,7 +185,7 @@ export const stakingTxs = [
       {
         key: `destination-validator`,
         value: `cosmosvaloper1qecshyc40kshszkwrtscgmsdd8tz3n4hrj9yf2`
-      },
+      }
     ],
     tx: {
       type: `auth/StdTx`,
@@ -199,7 +199,7 @@ export const stakingTxs = [
                 denom: `uatom`,
                 amount: `1000000`
               }
-            },
+            }
           }
         ],
         fee: {
@@ -267,7 +267,7 @@ export const stakingTxs = [
                 denom: `uatom`,
                 amount: `1000000`
               }
-            },
+            }
           }
         ],
         fee: {
@@ -345,7 +345,7 @@ export const stakingTxs = [
       {
         key: `destination-validator`,
         value: `cosmosvaloper1qecshyc40kshszkwrtscgmsdd8tz3n4hrj9yf2`
-      },
+      }
     ],
     tx: {
       type: `auth/StdTx`,
@@ -441,7 +441,7 @@ export const governanceTxs = [
         fee: {
           amount: [{ amount: `3421`, denom: `uatom` }],
           gas: `500000`
-        },
+        }
       },
       result: {
         gasUsed: `3324`,
@@ -645,4 +645,3 @@ export const distributionTxs = [
   }
 ]
 export const allTxs = bankTxs.concat(stakingTxs, governanceTxs, distributionTxs)
-

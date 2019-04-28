@@ -32,30 +32,34 @@ export default () => {
     async getKeybaseIdentity({ state }, keybaseId) {
       if (!/.{16}/.test(keybaseId)) return // the keybase id is not correct
 
-      const lastUpdatedBefore2Minutes = state.identities[keybaseId]
-        && state.externals.moment(state.identities[keybaseId].lastUpdated)
-          .diff(state.externals.moment(), `minutes`)
-          <= -2
+      const lastUpdatedBefore2Minutes =
+        state.identities[keybaseId] &&
+        state.externals
+          .moment(state.identities[keybaseId].lastUpdated)
+          .diff(state.externals.moment(), `minutes`) <= -2
 
       // if we don't have the identity or we have checked but didn't found it 2 minutes ago we query the identity
       if (
-        !state.identities[keybaseId]
-        || (!state.identities[keybaseId].userName && lastUpdatedBefore2Minutes)
+        !state.identities[keybaseId] ||
+        (!state.identities[keybaseId].userName && lastUpdatedBefore2Minutes)
       ) {
         return lookupId(state, keybaseId)
       }
 
-      const lastUpdatedBefore1Day = state.identities[keybaseId]
-        && state.externals.moment(state.identities[keybaseId].lastUpdated)
-          .diff(state.externals.moment(), `days`)
-          <= -1
+      const lastUpdatedBefore1Day =
+        state.identities[keybaseId] &&
+        state.externals
+          .moment(state.identities[keybaseId].lastUpdated)
+          .diff(state.externals.moment(), `days`) <= -1
 
-      if (state.identities[keybaseId]) { // we already have this identity
+      if (state.identities[keybaseId]) {
+        // we already have this identity
         // check if the last check is more then 1 days ago to refresh
         if (lastUpdatedBefore1Day) {
           // as a recommendation by keybase we should prefer looking up profiles by username
           return lookupUsername(
-            state, keybaseId,
+            state,
+            keybaseId,
             state.identities[keybaseId].userName
           )
         }
@@ -113,9 +117,10 @@ async function query(state, url, keybaseId) {
       if (user) {
         return {
           keybaseId,
-          avatarUrl: user.pictures && user.pictures.primary
-            ? user.pictures.primary.url
-            : undefined,
+          avatarUrl:
+            user.pictures && user.pictures.primary
+              ? user.pictures.primary.url
+              : undefined,
           userName: user.basics.username,
           profileUrl: `https://keybase.io/` + user.basics.username,
           lastUpdated: new Date(Date.now()).toUTCString()

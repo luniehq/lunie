@@ -65,7 +65,7 @@
         <i class="material-icons">chevron_right</i>
       </router-link>
     </div>
-    <connected-network />
+    <ConnectedNetwork />
   </menu>
 </template>
 
