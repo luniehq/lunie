@@ -15,16 +15,15 @@
         </div>
         <div class="li-tx__content__information">
           <slot name="details" />
-          <span v-if="memo">
-            &nbsp;- {{ memo }}
-          </span>
+          <span v-if="memo"> &nbsp;- {{ memo }} </span>
         </div>
       </div>
       <div class="li-tx__content__right">
         <slot name="fees" />
         <div class="li-tx__content__block">
           <router-link :to="{ name: `block`, params: { height: block } }">
-            Block #{{ block }}&nbsp; </router-link>@&nbsp;{{ date }}
+            Block #{{ block }}&nbsp; </router-link
+          >@&nbsp;{{ date }}
         </div>
       </div>
     </div>

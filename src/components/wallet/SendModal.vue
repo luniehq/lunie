@@ -91,8 +91,8 @@
       />
     </TmFormGroup>
     <TmBtn
-      id="edit-memo-btn"
       v-if="editMemo === false"
+      id="edit-memo-btn"
       value="Edit Memo"
       :to="''"
       type="link"
@@ -100,8 +100,8 @@
       @click.native="editMemo = true"
     />
     <TmFormGroup
-      id="memo"
       v-if="editMemo"
+      id="memo"
       :error="$v.memo.$error && $v.memo.$invalid"
       class="action-modal-group"
       field-id="memo"
@@ -261,4 +261,3 @@ export default {
   box-sizing: content-box;
 }
 </style>
-
