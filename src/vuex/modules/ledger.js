@@ -3,7 +3,7 @@ import { App, comm_u2f } from "ledger-cosmos-js"
 import { createCosmosAddress } from "../../scripts/wallet.js"
 
 // TODO: discuss TIMEOUT value
-const TIMEOUT = 50 // seconds to wait for user action on Ledger
+const TIMEOUT = 120 // seconds to wait for user action on Ledger
 
 /*
 HD wallet derivation path (BIP44)
