@@ -96,9 +96,6 @@
       field-id="memo"
       field-label="Memo"
     >
-      <span class="input-suffix">
-        {{ (memo ? " - " : "") + "(Sent via Lunie)" }}
-      </span>
       <TmField
         id="memo"
         v-model="memo"
@@ -138,8 +135,8 @@ export default {
     amount: null,
     denom: ``,
     num,
-    memo: null,
-    max_memo_characters: 256 - ` + (Sent via Lunie)`.length
+    memo: "(Sent via Lunie)",
+    max_memo_characters: 256
   }),
   computed: {
     ...mapGetters([`wallet`]),
@@ -235,7 +232,7 @@ export default {
       denom: { required },
       memo: {
         maxLength: maxLength(
-          this.max_memo_characters - ` + (Sent via Lunie)`.length
+          this.max_memo_characters
         )
       }
     }
