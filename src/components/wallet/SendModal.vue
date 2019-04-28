@@ -181,7 +181,7 @@ export default {
       this.address = ``
       this.amount = 0
       this.editMemo = false
-      this.memo = ``
+      this.memo = "(Sent via Lunie)"
     },
     async simulateForm() {
       const amount = +this.amount
