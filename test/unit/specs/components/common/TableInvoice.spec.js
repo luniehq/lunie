@@ -1,5 +1,5 @@
 import { shallowMount, createLocalVue } from "@vue/test-utils"
-import TableInvoice from "renderer/components/common/TableInvoice"
+import TableInvoice from "src/components/common/TableInvoice"
 
 describe(`TableInvoice`, () => {
   let wrapper
@@ -11,7 +11,8 @@ describe(`TableInvoice`, () => {
       session: {
         gasPrice: 2.5e-8,
         gasAdjustment: 1.5
-      }
+      },
+      bondDenom: `STAKE`
     }
   }
 

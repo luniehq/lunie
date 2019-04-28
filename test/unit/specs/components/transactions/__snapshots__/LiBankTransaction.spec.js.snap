@@ -11,11 +11,11 @@ exports[`LiBankTransaction should show a bank transaction without fees 1`] = `
       Sent
       
     <b>
-      12,340.000000
+      12,340
     </b>
      
     <span>
-      ATOMs
+      ATOM
     </span>
   </div>
    
@@ -28,13 +28,14 @@ exports[`LiBankTransaction should show a bank transaction without fees 1`] = `
   <div>
     
       Network Fee: 
-      
     <b>
-      0.000000
+      0
     </b>
      
     <span>
-      uatoms
+      
+        ATOM
+      
     </span>
   </div>
 </li-transaction-stub>
@@ -50,17 +51,18 @@ exports[`LiBankTransaction should show bank transaction when user hasn't signed 
     
       Sent
     <b>
-      12,340.000000
+      12,340
     </b>
      
     <span>
-      ATOMs
+      ATOM
     </span>
   </div>
    
   <span>
     
-        From 
+        From
+        
     <short-bech32-stub
       address="A"
     />
@@ -74,13 +76,14 @@ exports[`LiBankTransaction should show bank transaction when user hasn't signed 
   <div>
     
       Network Fee: 
-      
     <b>
-      0.003421
+      0.003
     </b>
      
     <span>
-      ATOMs
+      
+        ATOM
+      
     </span>
   </div>
 </li-transaction-stub>
@@ -97,16 +100,18 @@ exports[`LiBankTransaction should show incoming transactions 1`] = `
       Received
       
     <b>
-      12,340.000000
+      12,340
     </b>
      
     <span>
-      ATOMs
+      ATOM
     </span>
   </div>
    
   <span>
-    From 
+    
+      From
+      
     <short-bech32-stub
       address="A"
     />
@@ -115,13 +120,14 @@ exports[`LiBankTransaction should show incoming transactions 1`] = `
   <div>
     
       Network Fee: 
-      
     <b>
-      0.003421
+      0.003
     </b>
      
     <span>
-      ATOMs
+      
+        ATOM
+      
     </span>
   </div>
 </li-transaction-stub>
@@ -138,17 +144,18 @@ exports[`LiBankTransaction should show outgoing transactions 1`] = `
       Sent
       
     <b>
-      12,340.000000
+      12,340
     </b>
      
     <span>
-      ATOMs
+      ATOM
     </span>
   </div>
    
   <span>
     
-        To 
+        To
+        
     <short-bech32-stub
       address="A"
     />
@@ -157,13 +164,14 @@ exports[`LiBankTransaction should show outgoing transactions 1`] = `
   <div>
     
       Network Fee: 
-      
     <b>
-      0.003421
+      0.003
     </b>
      
     <span>
-      ATOMs
+      
+        ATOM
+      
     </span>
   </div>
 </li-transaction-stub>
@@ -180,11 +188,11 @@ exports[`LiBankTransaction should show outgoing transactions send to herself 1`]
       Sent
       
     <b>
-      12,340.000000
+      12,340
     </b>
      
     <span>
-      ATOMs
+      ATOM
     </span>
   </div>
    
@@ -197,13 +205,14 @@ exports[`LiBankTransaction should show outgoing transactions send to herself 1`]
   <div>
     
       Network Fee: 
-      
     <b>
-      0.003421
+      0.003
     </b>
      
     <span>
-      ATOMs
+      
+        ATOM
+      
     </span>
   </div>
 </li-transaction-stub>

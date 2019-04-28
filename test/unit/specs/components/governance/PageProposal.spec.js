@@ -1,7 +1,7 @@
 "use strict"
 
 import moment from "moment"
-import PageProposal from "renderer/components/governance/PageProposal"
+import PageProposal from "src/components/governance/PageProposal"
 
 import { proposals, tallies } from "../../store/json/proposals"
 import { governanceParameters } from "../../store/json/parameters"

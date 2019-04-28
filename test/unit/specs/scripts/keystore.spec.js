@@ -5,7 +5,7 @@ import {
   testPassword,
   importKey,
   getKey
-} from "renderer/scripts/keystore.js"
+} from "scripts/keystore.js"
 
 // to test Web API Crypto
 import crypto from "crypto"

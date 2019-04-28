@@ -1,5 +1,5 @@
 import { mount, createLocalVue } from "@vue/test-utils"
-import TableProposals from "renderer/components/governance/TableProposals"
+import TableProposals from "src/components/governance/TableProposals"
 
 import { proposals, tallies } from "../../store/json/proposals"
 

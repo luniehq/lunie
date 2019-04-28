@@ -1,5 +1,5 @@
 import { shallowMount, createLocalVue } from "@vue/test-utils"
-import LiValidator from "renderer/components/staking/LiValidator"
+import LiValidator from "src/components/staking/LiValidator"
 
 const localVue = createLocalVue()
 localVue.directive(`tooltip`, () => { })

@@ -3,7 +3,7 @@
 import { shallowMount, createLocalVue } from "@vue/test-utils"
 import DelegationModal from "staking/DelegationModal"
 import Vuelidate from "vuelidate"
-import lcdClientMock from "renderer/connectors/lcdClientMock.js"
+import lcdClientMock from "src/connectors/lcdClientMock.js"
 
 describe(`DelegationModal`, () => {
   let wrapper
@@ -243,7 +243,7 @@ describe(`DelegationModal`, () => {
     })
   })
 
-  describe(`simulateDelegation`, () => {
+  describe(`simulateRedelegation`, () => {
     it(`should simulate transaction to estimate gas used`, async () => {
       const estimate = 1234567
       const validator = { operator_address: `cosmosvaloper1address` }
@@ -255,6 +255,7 @@ describe(`DelegationModal`, () => {
       }
       const from = `cosmosvaloper1address2`
       const amount = 50
+      const denom = `uatom`
       const $store = { dispatch: jest.fn(() => estimate) }
       const res = await DelegationModal.methods.simulateRedelegation.call(
         {
@@ -262,7 +263,8 @@ describe(`DelegationModal`, () => {
           from,
           delegates,
           amount,
-          validator
+          validator,
+          denom
         }
       )
 
@@ -304,7 +306,10 @@ describe(`DelegationModal`, () => {
 
       expect($store.dispatch).toHaveBeenCalledWith(`submitRedelegation`,
         {
-          amount: `50000000`,
+          amount: {
+            amount: `50000000`,
+            denom: `uatom`,
+          },
           validatorSrc: delegates.delegates[0],
           validatorDst: validator,
           gas,

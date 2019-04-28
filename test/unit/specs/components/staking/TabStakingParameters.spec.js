@@ -1,5 +1,5 @@
 import { shallowMount, createLocalVue } from "@vue/test-utils"
-import TabStakingParameters from "renderer/components/staking/TabStakingParameters"
+import TabStakingParameters from "src/components/staking/TabStakingParameters"
 
 const stakingParameters = {
   unbonding_time: `259200000000000`,

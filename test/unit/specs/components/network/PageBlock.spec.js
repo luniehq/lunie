@@ -1,7 +1,7 @@
 import { shallowMount, createLocalVue } from "@vue/test-utils"
-import PageBlock from "renderer/components/network/PageBlock"
+import PageBlock from "src/components/network/PageBlock"
 import { bankTxs } from "../../store/json/txs"
-import { state } from "renderer/connectors/lcdClientMock.js"
+import { state } from "src/connectors/lcdClientMock.js"
 
 const localVue = createLocalVue()
 localVue.directive(`tooltip`, () => { })

@@ -2,23 +2,23 @@ import { shallowMount } from "@vue/test-utils"
 import TmOnboarding from "common/TmOnboarding.vue"
 
 jest.mock(
-  `../../../../../app/src/renderer/assets/images/onboarding/step-0.png`,
+  `../../../../../src/assets/images/onboarding/step-0.png`,
   () => jest.fn()
 )
 jest.mock(
-  `../../../../../app/src/renderer/assets/images/onboarding/step-1.png`,
+  `../../../../../src/assets/images/onboarding/step-1.png`,
   () => jest.fn()
 )
 jest.mock(
-  `../../../../../app/src/renderer/assets/images/onboarding/step-2.png`,
+  `../../../../../src/assets/images/onboarding/step-2.png`,
   () => jest.fn()
 )
 jest.mock(
-  `../../../../../app/src/renderer/assets/images/onboarding/step-3.png`,
+  `../../../../../src/assets/images/onboarding/step-3.png`,
   () => jest.fn()
 )
 jest.mock(
-  `../../../../../app/src/renderer/assets/images/onboarding/step-4.png`,
+  `../../../../../src/assets/images/onboarding/step-4.png`,
   () => jest.fn()
 )
 

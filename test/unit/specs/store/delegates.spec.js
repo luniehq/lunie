@@ -1,4 +1,4 @@
-import delegatesModule from "renderer/vuex/modules/delegates.js"
+import delegatesModule from "src/vuex/modules/delegates.js"
 import nodeMock from "../../helpers/node_mock.js"
 import BN from "bignumber.js"
 
