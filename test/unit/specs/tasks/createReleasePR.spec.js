@@ -59,9 +59,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [0.6.1] - 2018-05-24
 `
 
-  expect(
-    release.updateChangeLog(previous, pending, newVersion, now)
-  ).toEqual(updated)
+  expect(release.updateChangeLog(previous, pending, newVersion, now)).toEqual(
+    updated
+  )
 })
 
 it(`updates package.json`, () => {
@@ -93,7 +93,14 @@ it(`creates release PR`, async () => {
   const fs = {
     writeFileSync: () => {}
   }
-  await expect(release.main({ octokit, shell, fs }, `\n\n## [Unreleased]\n\n## [0.6.1] - 2018-05-24`, `XXX`, { version: `0.0.1` })).resolved
+  await expect(
+    release.main(
+      { octokit, shell, fs },
+      `\n\n## [Unreleased]\n\n## [0.6.1] - 2018-05-24`,
+      `XXX`,
+      { version: `0.0.1` }
+    )
+  ).resolved
   expect(octokit.pullRequests.create).toHaveBeenCalled()
 })
 
@@ -108,7 +115,14 @@ it(`don't create PR if nothing changed`, () => {
   const fs = {
     writeFileSync: () => {}
   }
-  expect(release.main({ octokit, shell, fs }, `\n\n## [Unreleased]\n\n## [0.6.1] - 2018-05-24`, ``, { version: `0.0.1` })).resolved
+  expect(
+    release.main(
+      { octokit, shell, fs },
+      `\n\n## [Unreleased]\n\n## [0.6.1] - 2018-05-24`,
+      ``,
+      { version: `0.0.1` }
+    )
+  ).resolved
   expect(octokit.pullRequests.create).not.toHaveBeenCalled()
 })
 
@@ -117,8 +131,7 @@ it(`beautifys changes`, () => {
     `[Added] xxx @faboweb\n[Changed] yyy @fedekunze`,
     `[Fixed] zzz @faboweb`
   ]
-  const expected =
-`### Added
+  const expected = `### Added
 
 - xxx @faboweb
 

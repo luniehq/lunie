@@ -4,7 +4,7 @@ exports[`TmPage should show links to other pages 1`] = `
 <div
   class="tm-page"
 >
-  <tm-page-header-stub
+  <tmpageheader-stub
     tabs=""
   >
     <!---->
@@ -14,11 +14,11 @@ exports[`TmPage should show links to other pages 1`] = `
     <template>
       <!---->
        
-      <tool-bar-stub />
+      <toolbar-stub />
     </template>
      
     <template />
-  </tm-page-header-stub>
+  </tmpageheader-stub>
    
   <main
     class="tm-page-main"
@@ -80,7 +80,7 @@ exports[`TmPage shows a page skeleton 1`] = `
 <div
   class="tm-page"
 >
-  <tm-page-header-stub
+  <tmpageheader-stub
     tabs=""
   >
     <!---->
@@ -90,11 +90,11 @@ exports[`TmPage shows a page skeleton 1`] = `
     <template>
       <!---->
        
-      <tool-bar-stub />
+      <toolbar-stub />
     </template>
      
     <template />
-  </tm-page-header-stub>
+  </tmpageheader-stub>
    
   <main
     class="tm-page-main"

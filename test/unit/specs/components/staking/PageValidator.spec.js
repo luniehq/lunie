@@ -1,5 +1,5 @@
 import { shallowMount, createLocalVue } from "@vue/test-utils"
-import PageValidator from "renderer/components/staking/PageValidator"
+import PageValidator from "src/components/staking/PageValidator"
 import BigNumber from "bignumber.js"
 
 const stakingParameters = {
@@ -45,7 +45,11 @@ const validatorTo = {
 }
 
 const getters = {
-  session: { experimentalMode: true, signedIn: true, address: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9` },
+  session: {
+    experimentalMode: true,
+    signedIn: true,
+    address: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`
+  },
   delegates: {
     delegates: [validator, validatorTo],
     globalPower: 4200,
@@ -77,7 +81,7 @@ const getters = {
 describe(`PageValidator`, () => {
   let wrapper, $store
   const localVue = createLocalVue()
-  localVue.directive(`tooltip`, () => { })
+  localVue.directive(`tooltip`, () => {})
 
   beforeEach(() => {
     $store = {
@@ -114,7 +118,9 @@ describe(`PageValidator`, () => {
     })
 
     it(`shows a default avatar`, () => {
-      expect(wrapper.find(`.page-profile__header`).html()).toContain(`validator-icon.svg`)
+      expect(wrapper.find(`.page-profile__header`).html()).toContain(
+        `validator-icon.svg`
+      )
     })
 
     it(`should return the self bond based on the validator`, () => {
@@ -142,32 +148,40 @@ describe(`PageValidator`, () => {
     it(`should show the validator status`, () => {
       expect(wrapper.vm.status).toBe(`This validator is actively validating`)
       // Jailed
-      $store.getters.delegates.delegates = [Object.assign({}, validator, {
-        revoked: true
-      })]
+      $store.getters.delegates.delegates = [
+        Object.assign({}, validator, {
+          revoked: true
+        })
+      ]
       expect(wrapper.vm.status).toBe(
         `This validator has been jailed and is not currently validating`
       )
       // Is not a validator
-      $store.getters.delegates.delegates = [Object.assign({}, validator, {
-        voting_power: 0
-      })]
+      $store.getters.delegates.delegates = [
+        Object.assign({}, validator, {
+          voting_power: 0
+        })
+      ]
       expect(wrapper.vm.status).toBe(
         `This validator does not have enough voting power yet and is inactive`
       )
     })
 
     it(`shows a validator as candidate if he has no voting_power`, () => {
-      $store.getters.delegates.delegates = [Object.assign({}, validator, {
-        voting_power: 0
-      })]
+      $store.getters.delegates.delegates = [
+        Object.assign({}, validator, {
+          voting_power: 0
+        })
+      ]
       expect(wrapper.vm.status).toMatchSnapshot()
     })
 
     it(`shows that a validator is revoked`, () => {
-      $store.getters.delegates.delegates = [Object.assign({}, validator, {
-        revoked: true
-      })]
+      $store.getters.delegates.delegates = [
+        Object.assign({}, validator, {
+          revoked: true
+        })
+      ]
       expect(wrapper.vm.status).toMatchSnapshot()
     })
 
@@ -176,22 +190,28 @@ describe(`PageValidator`, () => {
         wrapper.vm.$el.querySelector(`#delegation-btn`).getAttribute(`disabled`)
       ).toBeNull()
       expect(
-        wrapper.vm.$el.querySelector(`#undelegation-btn`).getAttribute(`disabled`)
+        wrapper.vm.$el
+          .querySelector(`#undelegation-btn`)
+          .getAttribute(`disabled`)
       ).toBeNull()
       $store.getters.connected = false
       expect(
         wrapper.vm.$el.querySelector(`#delegation-btn`).getAttribute(`disabled`)
       ).not.toBeNull()
       expect(
-        wrapper.vm.$el.querySelector(`#undelegation-btn`).getAttribute(`disabled`)
+        wrapper.vm.$el
+          .querySelector(`#undelegation-btn`)
+          .getAttribute(`disabled`)
       ).not.toBeNull()
     })
 
     describe(`errors`, () => {
       it(`signing info is missing`, () => {
-        $store.getters.delegates.delegates = [Object.assign({}, validator, {
-          signing_info: undefined
-        })]
+        $store.getters.delegates.delegates = [
+          Object.assign({}, validator, {
+            signing_info: undefined
+          })
+        ]
         // still shows the validator without crashing
         expect(wrapper.vm.$el).toMatchSnapshot()
       })
@@ -202,18 +222,20 @@ describe(`PageValidator`, () => {
     it(`when user has delegations`, () => {
       const bondDenom = `STAKE`
       const myBond = 10
-      const delegationString = PageValidator.computed.myDelegation.call(
-        { bondDenom, myBond }
-      )
-      expect(delegationString).toBe(`10.000000 STAKE`)
+      const delegationString = PageValidator.computed.myDelegation.call({
+        bondDenom,
+        myBond
+      })
+      expect(delegationString).toBe(`10 STAKE`)
     })
 
     it(`when user doesn't have any delegations`, () => {
       const bondDenom = `STAKE`
       const myBond = 0
-      const delegationString = PageValidator.computed.myDelegation.call(
-        { bondDenom, myBond }
-      )
+      const delegationString = PageValidator.computed.myDelegation.call({
+        bondDenom,
+        myBond
+      })
       expect(delegationString).toBe(`--`)
     })
   })
@@ -235,10 +257,14 @@ describe(`PageValidator`, () => {
           }
         }
       }
-      const rewardsString = PageValidator.computed.rewards.call(
-        { session, bondDenom, distribution, validator, lastHeader }
-      )
-      expect(rewardsString).toBe(`100.000000 STAKE`)
+      const rewardsString = PageValidator.computed.rewards.call({
+        session,
+        bondDenom,
+        distribution,
+        validator,
+        lastHeader
+      })
+      expect(rewardsString).toBe(`100 STAKE`)
     })
 
     it(`when validator rewards are 0`, () => {
@@ -250,17 +276,25 @@ describe(`PageValidator`, () => {
         }
       }
 
-      const rewardsString = PageValidator.computed.rewards.call(
-        { session, bondDenom, distribution, validator, lastHeader }
-      )
-      expect(rewardsString).toBe(`0.000000 STAKE`)
+      const rewardsString = PageValidator.computed.rewards.call({
+        session,
+        bondDenom,
+        distribution,
+        validator,
+        lastHeader
+      })
+      expect(rewardsString).toBe(`0 STAKE`)
     })
 
     it(`when user doesn't have any delegations`, () => {
       const distribution = { rewards: {} }
-      const rewardsString = PageValidator.computed.rewards.call(
-        { session, bondDenom, distribution, validator, lastHeader }
-      )
+      const rewardsString = PageValidator.computed.rewards.call({
+        session,
+        bondDenom,
+        distribution,
+        validator,
+        lastHeader
+      })
       expect(rewardsString).toBeNull()
     })
   })
@@ -269,9 +303,7 @@ describe(`PageValidator`, () => {
     const $store = { dispatch: jest.fn() }
     const myBond = 1
     const $route = { params: { validator: `cosmos1address` } }
-    PageValidator.watch[`myBond`].handler.call(
-      { $store, $route }, myBond
-    )
+    PageValidator.watch[`myBond`].handler.call({ $store, $route }, myBond)
     expect($store.dispatch).toHaveBeenCalledWith(
       `getRewardsFromValidator`,
       $route.params.validator
@@ -282,9 +314,7 @@ describe(`PageValidator`, () => {
     const $store = { dispatch: jest.fn() }
     const myBond = 0
     const $route = { params: { validator: `cosmos1address` } }
-    PageValidator.watch[`myBond`].handler.call(
-      { $store, $route }, myBond
-    )
+    PageValidator.watch[`myBond`].handler.call({ $store, $route }, myBond)
     expect($store.dispatch).not.toHaveBeenCalledWith(
       `getRewardsFromValidator`,
       $route.params.validator
@@ -305,7 +335,8 @@ describe(`PageValidator`, () => {
         const delegation = { loaded: true }
         PageValidator.watch.lastHeader.handler.call(
           { session, $store, $route, myBond, delegation },
-          newHeader)
+          newHeader
+        )
         expect($store.dispatch).not.toHaveBeenCalledWith(
           `getRewardsFromValidator`,
           $route.params.validator
@@ -324,7 +355,8 @@ describe(`PageValidator`, () => {
         const delegation = { loaded: true }
         PageValidator.watch.lastHeader.handler.call(
           { session, $store, $route, myBond, delegation },
-          newHeader)
+          newHeader
+        )
         expect($store.dispatch).not.toHaveBeenCalledWith(
           `getRewardsFromValidator`,
           $route.params.validator
@@ -343,7 +375,8 @@ describe(`PageValidator`, () => {
         const delegation = { loaded: true }
         PageValidator.watch.lastHeader.handler.call(
           { session, $store, $route, myBond, delegation },
-          newHeader)
+          newHeader
+        )
         expect($store.dispatch).not.toHaveBeenCalledWith(
           `getRewardsFromValidator`,
           $route.params.validator
@@ -362,7 +395,8 @@ describe(`PageValidator`, () => {
         const delegation = { loaded: true }
         PageValidator.watch.lastHeader.handler.call(
           { session, $store, $route, myBond, delegation },
-          newHeader)
+          newHeader
+        )
         expect($store.dispatch).not.toHaveBeenCalledWith(
           `getRewardsFromValidator`,
           $route.params.validator
@@ -373,8 +407,8 @@ describe(`PageValidator`, () => {
     describe(`should update rewards `, () => {
       it(
         `if waited for 20 blocks, ` +
-        `user has signed in, ` +
-        `has delegations and is watching the validator page`,
+          `user has signed in, ` +
+          `has delegations and is watching the validator page`,
         () => {
           const $store = { dispatch: jest.fn() }
           const session = { signedIn: true }
@@ -387,12 +421,14 @@ describe(`PageValidator`, () => {
           const delegation = { loaded: true }
           PageValidator.watch.lastHeader.handler.call(
             { session, $store, $route, myBond, delegation },
-            newHeader)
+            newHeader
+          )
           expect($store.dispatch).toHaveBeenCalledWith(
             `getRewardsFromValidator`,
             $route.params.validator
           )
-        })
+        }
+      )
     })
   })
 })

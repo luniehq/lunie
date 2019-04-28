@@ -1,5 +1,5 @@
 import { shallowMount, createLocalVue } from "@vue/test-utils"
-import LiProposal from "renderer/components/governance/LiProposal"
+import LiProposal from "src/components/governance/LiProposal"
 
 import { proposals, tallies } from "../../store/json/proposals"
 
@@ -7,7 +7,7 @@ const proposal = proposals[`1`]
 
 describe(`LiProposal`, () => {
   const localVue = createLocalVue()
-  localVue.directive(`tooltip`, () => { })
+  localVue.directive(`tooltip`, () => {})
 
   let wrapper
 
@@ -110,7 +110,7 @@ describe(`LiProposal`, () => {
         ...proposal,
         proposal_content: {
           value: {
-            description: `This is some kind of long description. longer than 100 characters for optimum-maximum-ideal truncation.`,
+            description: `This is some kind of long description. longer than 100 characters for optimum-maximum-ideal truncation.`
           }
         }
       }

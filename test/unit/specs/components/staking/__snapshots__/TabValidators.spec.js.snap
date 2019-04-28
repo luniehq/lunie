@@ -2,7 +2,7 @@
 
 exports[`TabValidators shows a list of validators 1`] = `
 <div>
-  <table-validators-stub
+  <tablevalidators-stub
     validators="[object Object],[object Object],[object Object]"
   />
 </div>
@@ -10,13 +10,13 @@ exports[`TabValidators shows a list of validators 1`] = `
 
 exports[`TabValidators shows a message if still connecting 1`] = `
 <div>
-  <tm-data-connecting-stub />
+  <tmdataconnecting-stub />
 </div>
 `;
 
 exports[`TabValidators shows a message if still loading 1`] = `
 <div>
-  <tm-data-loading-stub
+  <tmdataloading-stub
     title="Data is loading…"
   />
 </div>
@@ -24,7 +24,7 @@ exports[`TabValidators shows a message if still loading 1`] = `
 
 exports[`TabValidators shows a message if there is nothing to display 1`] = `
 <div>
-  <tm-data-empty-stub
+  <tmdataempty-stub
     icon="info_outline"
   />
 </div>

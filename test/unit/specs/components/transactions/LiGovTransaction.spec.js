@@ -19,9 +19,10 @@ describe(`LiGovTransaction`, () => {
   }
 
   beforeEach(() => {
-    wrapper = shallowMount(
-      LiGovTransaction, { propsData, stubs: [`router-link`] }
-    )
+    wrapper = shallowMount(LiGovTransaction, {
+      propsData,
+      stubs: [`router-link`]
+    })
   })
 
   it(`proposals`, () => {

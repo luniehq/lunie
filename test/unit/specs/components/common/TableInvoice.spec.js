@@ -1,17 +1,18 @@
 import { shallowMount, createLocalVue } from "@vue/test-utils"
-import TableInvoice from "renderer/components/common/TableInvoice"
+import TableInvoice from "src/components/common/TableInvoice"
 
 describe(`TableInvoice`, () => {
   let wrapper
   const localVue = createLocalVue()
-  localVue.directive(`tooltip`, () => { })
+  localVue.directive(`tooltip`, () => {})
 
   const $store = {
     getters: {
       session: {
         gasPrice: 2.5e-8,
         gasAdjustment: 1.5
-      }
+      },
+      bondDenom: `STAKE`
     }
   }
 

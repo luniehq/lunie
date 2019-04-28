@@ -1,11 +1,11 @@
 import { shallowMount, createLocalVue } from "@vue/test-utils"
 import Vuelidate from "vuelidate"
-import SendModal from "renderer/components/wallet/SendModal"
+import SendModal from "src/components/wallet/SendModal"
 
 describe(`SendModal`, () => {
   const localVue = createLocalVue()
   localVue.use(Vuelidate)
-  localVue.directive(`focus`, () => { })
+  localVue.directive(`focus`, () => {})
 
   let wrapper, $store
 
@@ -118,24 +118,20 @@ describe(`SendModal`, () => {
     it(`should simulate transaction to estimate gas used`, async () => {
       const estimate = 1234567
       const $store = { dispatch: jest.fn(() => estimate) }
-      const res = await SendModal.methods.simulateForm.call(
-        {
-          $store,
-          amount: 10,
-          address: `cosmos1address`,
-          denom: `uatom`,
-          memo: `TESTING (Sent via Lunie)`
-        }
-      )
+      const res = await SendModal.methods.simulateForm.call({
+        $store,
+        amount: 10,
+        address: `cosmos1address`,
+        denom: `uatom`,
+        memo: `TESTING (Sent via Lunie)`
+      })
 
-      expect($store.dispatch).toHaveBeenCalledWith(`simulateTx`,
-        {
-          type: `send`,
-          to: `cosmos1address`,
-          amount: [{ amount: `10000000`, denom: `uatom` }],
-          memo: `TESTING (Sent via Lunie)`
-        }
-      )
+      expect($store.dispatch).toHaveBeenCalledWith(`simulateTx`, {
+        type: `send`,
+        to: `cosmos1address`,
+        amount: [{ amount: `10000000`, denom: `uatom` }],
+        memo: `TESTING (Sent via Lunie)`
+      })
       expect(res).toBe(estimate)
     })
   })
@@ -158,28 +154,27 @@ describe(`SendModal`, () => {
           sendTx,
           memo: `TESTING (Sent via Lunie)`
         },
-        gas, gasPrice, ``, `ledger`
+        gas,
+        gasPrice,
+        ``,
+        `ledger`
       )
 
-      expect(sendTx).toHaveBeenCalledWith(
-        {
-          type: `send`,
-          to: `cosmos1address`,
-          amount: [{ amount: `10000000`, denom: `uatom` }],
-          gas,
-          gas_prices,
-          submitType: `ledger`,
-          password: ``,
-          memo: `TESTING (Sent via Lunie)`
-        }
-      )
+      expect(sendTx).toHaveBeenCalledWith({
+        type: `send`,
+        to: `cosmos1address`,
+        amount: [{ amount: `10000000`, denom: `uatom` }],
+        gas,
+        gas_prices,
+        submitType: `ledger`,
+        password: ``,
+        memo: `TESTING (Sent via Lunie)`
+      })
 
-      expect($store.commit).toHaveBeenCalledWith(`notify`,
-        {
-          body: `Successfully sent 10 ATOMs to cosmos1address`,
-          title: `Successful Send`
-        }
-      )
+      expect($store.commit).toHaveBeenCalledWith(`notify`, {
+        body: `Successfully sent 10 ATOMs to cosmos1address`,
+        title: `Successful Send`
+      })
     })
   })
   it(`validates bech32 addresses`, () => {

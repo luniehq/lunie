@@ -14,11 +14,10 @@ function bumpVersion(versionString) {
   versionElements[patchVersionPosition] =
     parseInt(versionElements[patchVersionPosition]) + 1
   return versionElements.join(`.`)
-}
+} // only touches filesystem
 
 // collect all changes from files
-/* istanbul ignore next */ // only touches filesystem
-async function collectPending() {
+/* istanbul ignore next */ async function collectPending() {
   if (!fs.existsSync(changesPath)) {
     throw new Error(`No pending changes.`)
   }
@@ -33,7 +32,9 @@ async function collectPending() {
 function addCategory(output, category, groupedLines) {
   if (groupedLines[category]) {
     output += `### ${category}\n\n`
-    groupedLines[category].forEach(({ content }) => output += `- ${content}\n`)
+    groupedLines[category].forEach(
+      ({ content }) => (output += `- ${content}\n`)
+    )
     output += `\n`
   }
 
@@ -150,7 +151,10 @@ async function main({ octokit, shell, fs }, changeLog, pending, packageJson) {
 if (require.main === module) {
   /* istanbul ignore next */
   cli({}, async () => {
-    const changeLog = fs.readFileSync(join(__dirname, `..`, `CHANGELOG.md`), `utf8`)
+    const changeLog = fs.readFileSync(
+      join(__dirname, `..`, `CHANGELOG.md`),
+      `utf8`
+    )
     const pending = beautifyChanges(await collectPending())
     const packageJson = require(join(__dirname, `..`, `package.json`))
 

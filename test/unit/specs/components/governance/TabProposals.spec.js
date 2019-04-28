@@ -1,5 +1,5 @@
 import { shallowMount } from "@vue/test-utils"
-import TabProposals from "renderer/components/governance/TabProposals"
+import TabProposals from "src/components/governance/TabProposals"
 import { proposals, tallies } from "../../store/json/proposals"
 
 describe(`TabProposals`, () => {

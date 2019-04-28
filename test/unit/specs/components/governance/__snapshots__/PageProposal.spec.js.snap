@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`PageProposal renders votes in HTML when voting is open 1`] = `
-<tm-page-stub
+<tmpage-stub
   data-title="Proposal"
   subtitle=""
   title=""
@@ -15,9 +15,7 @@ exports[`PageProposal renders votes in HTML when voting is open 1`] = `
       <h2
         class="proposal-id"
       >
-        
-          #2
-        
+        #2
       </h2>
        
       <div
@@ -42,7 +40,7 @@ exports[`PageProposal renders votes in HTML when voting is open 1`] = `
         <div
           class="page-profile__header__actions"
         >
-          <tm-btn-stub
+          <tmbtn-stub
             color="primary"
             id="vote-btn"
             value="Vote"
@@ -94,7 +92,7 @@ exports[`PageProposal renders votes in HTML when voting is open 1`] = `
         </dt>
          
         <dd>
-          2,000.000000 STAKE
+          2,000 STAKE
         </dd>
       </dl>
        
@@ -102,11 +100,11 @@ exports[`PageProposal renders votes in HTML when voting is open 1`] = `
         class="info_dl colored_dl"
       >
         <dt>
-          Vote Count
+          Total Vote Count
         </dt>
          
         <dd>
-          10000
+          10,000
         </dd>
       </dl>
     </div>
@@ -126,7 +124,10 @@ exports[`PageProposal renders votes in HTML when voting is open 1`] = `
         </dt>
          
         <dd>
-          1000 / 10%
+          
+            1,000 /
+            10%
+          
         </dd>
       </dl>
        
@@ -138,7 +139,10 @@ exports[`PageProposal renders votes in HTML when voting is open 1`] = `
         </dt>
          
         <dd>
-          2000 / 20%
+          
+            2,000 /
+            20%
+          
         </dd>
       </dl>
        
@@ -151,7 +155,8 @@ exports[`PageProposal renders votes in HTML when voting is open 1`] = `
          
         <dd>
           
-            3000 / 30%
+            3,000 /
+            30%
           
         </dd>
       </dl>
@@ -164,7 +169,10 @@ exports[`PageProposal renders votes in HTML when voting is open 1`] = `
         </dt>
          
         <dd>
-          4000 / 40%
+          
+            4,000 /
+            40%
+          
         </dd>
       </dl>
     </div>
@@ -182,7 +190,7 @@ exports[`PageProposal renders votes in HTML when voting is open 1`] = `
             Description
           </dt>
            
-          <text-block-stub
+          <textblock-stub
             content="custom text proposal description"
           />
         </dl>
@@ -190,21 +198,21 @@ exports[`PageProposal renders votes in HTML when voting is open 1`] = `
     </div>
   </div>
    
-  <modal-deposit-stub
+  <modaldeposit-stub
     denom="STAKE"
     proposalid="2"
     proposaltitle="VotingPeriod proposal"
   />
    
-  <modal-vote-stub
+  <modalvote-stub
     proposalid="2"
     proposaltitle="VotingPeriod proposal"
   />
-</tm-page-stub>
+</tmpage-stub>
 `;
 
 exports[`PageProposal should display proposal page if user has signed in 1`] = `
-<tm-page-stub
+<tmpage-stub
   data-title="Proposal"
   subtitle=""
   title=""
@@ -218,9 +226,7 @@ exports[`PageProposal should display proposal page if user has signed in 1`] = `
       <h2
         class="proposal-id"
       >
-        
-          #2
-        
+        #2
       </h2>
        
       <div
@@ -245,7 +251,7 @@ exports[`PageProposal should display proposal page if user has signed in 1`] = `
         <div
           class="page-profile__header__actions"
         >
-          <tm-btn-stub
+          <tmbtn-stub
             color="primary"
             id="vote-btn"
             value="Vote"
@@ -297,7 +303,7 @@ exports[`PageProposal should display proposal page if user has signed in 1`] = `
         </dt>
          
         <dd>
-          2,000.000000 STAKE
+          2,000 STAKE
         </dd>
       </dl>
        
@@ -305,7 +311,7 @@ exports[`PageProposal should display proposal page if user has signed in 1`] = `
         class="info_dl colored_dl"
       >
         <dt>
-          Vote Count
+          Total Vote Count
         </dt>
          
         <dd>
@@ -329,7 +335,10 @@ exports[`PageProposal should display proposal page if user has signed in 1`] = `
         </dt>
          
         <dd>
-          0 / 0%
+          
+            0 /
+            0%
+          
         </dd>
       </dl>
        
@@ -341,7 +350,10 @@ exports[`PageProposal should display proposal page if user has signed in 1`] = `
         </dt>
          
         <dd>
-          0 / 0%
+          
+            0 /
+            0%
+          
         </dd>
       </dl>
        
@@ -354,7 +366,8 @@ exports[`PageProposal should display proposal page if user has signed in 1`] = `
          
         <dd>
           
-            0 / 0%
+            0 /
+            0%
           
         </dd>
       </dl>
@@ -367,7 +380,10 @@ exports[`PageProposal should display proposal page if user has signed in 1`] = `
         </dt>
          
         <dd>
-          0 / 0%
+          
+            0 /
+            0%
+          
         </dd>
       </dl>
     </div>
@@ -385,7 +401,7 @@ exports[`PageProposal should display proposal page if user has signed in 1`] = `
             Description
           </dt>
            
-          <text-block-stub
+          <textblock-stub
             content="custom text proposal description"
           />
         </dl>
@@ -393,21 +409,21 @@ exports[`PageProposal should display proposal page if user has signed in 1`] = `
     </div>
   </div>
    
-  <modal-deposit-stub
+  <modaldeposit-stub
     denom="STAKE"
     proposalid="2"
     proposaltitle="VotingPeriod proposal"
   />
    
-  <modal-vote-stub
+  <modalvote-stub
     proposalid="2"
     proposaltitle="VotingPeriod proposal"
   />
-</tm-page-stub>
+</tmpage-stub>
 `;
 
 exports[`PageProposal should display proposal page should default tally to 0 if it's not yet present  1`] = `
-<tm-page-stub
+<tmpage-stub
   data-title="Proposal"
   subtitle=""
   title=""
@@ -421,9 +437,7 @@ exports[`PageProposal should display proposal page should default tally to 0 if 
       <h2
         class="proposal-id"
       >
-        
-          #2
-        
+        #2
       </h2>
        
       <div
@@ -448,7 +462,7 @@ exports[`PageProposal should display proposal page should default tally to 0 if 
         <div
           class="page-profile__header__actions"
         >
-          <tm-btn-stub
+          <tmbtn-stub
             color="primary"
             id="vote-btn"
             value="Vote"
@@ -500,7 +514,7 @@ exports[`PageProposal should display proposal page should default tally to 0 if 
         </dt>
          
         <dd>
-          2,000.000000 STAKE
+          2,000 STAKE
         </dd>
       </dl>
        
@@ -508,7 +522,7 @@ exports[`PageProposal should display proposal page should default tally to 0 if 
         class="info_dl colored_dl"
       >
         <dt>
-          Vote Count
+          Total Vote Count
         </dt>
          
         <dd>
@@ -532,7 +546,10 @@ exports[`PageProposal should display proposal page should default tally to 0 if 
         </dt>
          
         <dd>
-          0 / 0%
+          
+            0 /
+            0%
+          
         </dd>
       </dl>
        
@@ -544,7 +561,10 @@ exports[`PageProposal should display proposal page should default tally to 0 if 
         </dt>
          
         <dd>
-          0 / 0%
+          
+            0 /
+            0%
+          
         </dd>
       </dl>
        
@@ -557,7 +577,8 @@ exports[`PageProposal should display proposal page should default tally to 0 if 
          
         <dd>
           
-            0 / 0%
+            0 /
+            0%
           
         </dd>
       </dl>
@@ -570,7 +591,10 @@ exports[`PageProposal should display proposal page should default tally to 0 if 
         </dt>
          
         <dd>
-          0 / 0%
+          
+            0 /
+            0%
+          
         </dd>
       </dl>
     </div>
@@ -588,7 +612,7 @@ exports[`PageProposal should display proposal page should default tally to 0 if 
             Description
           </dt>
            
-          <text-block-stub
+          <textblock-stub
             content="custom text proposal description"
           />
         </dl>
@@ -596,25 +620,25 @@ exports[`PageProposal should display proposal page should default tally to 0 if 
     </div>
   </div>
    
-  <modal-deposit-stub
+  <modaldeposit-stub
     denom="STAKE"
     proposalid="2"
     proposaltitle="VotingPeriod proposal"
   />
    
-  <modal-vote-stub
+  <modalvote-stub
     proposalid="2"
     proposaltitle="VotingPeriod proposal"
   />
-</tm-page-stub>
+</tmpage-stub>
 `;
 
 exports[`PageProposal shows an error if the proposal couldn't be found 1`] = `
-<tm-page-stub
+<tmpage-stub
   data-title="Proposal"
   subtitle=""
   title=""
 >
-  <tm-data-error-stub />
-</tm-page-stub>
+  <tmdataerror-stub />
+</tmpage-stub>
 `;

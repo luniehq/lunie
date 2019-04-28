@@ -1,5 +1,5 @@
 import { shallowMount, createLocalVue } from "@vue/test-utils"
-import TabStakingParameters from "renderer/components/staking/TabStakingParameters"
+import TabStakingParameters from "src/components/staking/TabStakingParameters"
 
 const stakingParameters = {
   unbonding_time: `259200000000000`,
@@ -67,7 +67,7 @@ describe(`TabStakingParameters`, () => {
       }
     })
 
-    expect(wrapper.contains(`tm-data-connecting-stub`)).toBe(true)
+    expect(wrapper.contains(`TmDataConnecting-stub`)).toBe(true)
     expect(wrapper.vm.$el).toMatchSnapshot()
 
     $store = {
@@ -92,7 +92,7 @@ describe(`TabStakingParameters`, () => {
     })
 
     expect(wrapper.vm.$el).toMatchSnapshot()
-    expect(wrapper.contains(`tm-data-connecting-stub`)).toBe(false)
+    expect(wrapper.contains(`TmDataConnecting-stub`)).toBe(false)
   })
 
   it(`displays a message if loading`, () => {
@@ -117,7 +117,7 @@ describe(`TabStakingParameters`, () => {
       }
     })
 
-    expect(wrapper.contains(`tm-data-loading-stub`)).toBe(true)
+    expect(wrapper.contains(`TmDataLoading-stub`)).toBe(true)
     expect(wrapper.vm.$el).toMatchSnapshot()
 
     $store = {

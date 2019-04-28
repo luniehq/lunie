@@ -1,7 +1,7 @@
 import sendModule from "modules/send.js"
-import lcdClientMock from "renderer/connectors/lcdClientMock.js"
+import lcdClientMock from "src/connectors/lcdClientMock.js"
 
-jest.mock(`renderer/scripts/keystore.js`, () => ({
+jest.mock(`scripts/keystore.js`, () => ({
   getKey: () => ({
     cosmosAddress: `cosmos1r5v5srda7xfth3hn2s26txvrcrntldjumt8mhl`,
     privateKey: `8088c2ed2149c34f6d6533b774da4e1692eb5cb426fdbaef6898eeda489630b7`,
@@ -13,13 +13,13 @@ jest.mock(`src/config.js`, () => ({
   default_gas: 42
 }))
 
-jest.mock(`renderer/scripts/wallet.js`, () => ({
+jest.mock(`scripts/wallet.js`, () => ({
   sign: jest.fn(() => []),
   createBroadcastBody: jest.fn(() => ({
     broadcast: `body`
   })),
-  createSignedTx: jest.fn(() => { }),
-  createSignMessage: jest.fn(() => { })
+  createSignedTx: jest.fn(() => {}),
+  createSignMessage: jest.fn(() => {})
 }))
 
 const mockRootState = {
@@ -87,10 +87,11 @@ describe(`Module: Send`, () => {
           return Promise.resolve({ msg: {} })
         }
       }),
-      postTx: jest.fn(() => Promise.resolve({
-        height: `1`,
-        txhash: `h`
-      })
+      postTx: jest.fn(() =>
+        Promise.resolve({
+          height: `1`,
+          txhash: `h`
+        })
       )
     }
     module = sendModule({
@@ -155,7 +156,7 @@ describe(`Module: Send`, () => {
             await actions.simulateTx(self, args)
           } catch ({ message }) {
             expect(message).toBe(
-              `Currently not connected to a secure node. Please try again when Voyager has secured a connection.`
+              `Currently not connected to a secure node. Please try again when Lunie has secured a connection.`
             )
           }
         })
@@ -222,21 +223,20 @@ describe(`Module: Send`, () => {
               args
             )
 
-            expect(node.send).toHaveBeenCalledWith(`mock_address`,
-              {
-                amount: [{ amount: 123, denom: `uatom` }],
-                password: `1234567890`,
-                base_req: {
-                  account_number: `12`,
-                  chain_id: `mock-chain`,
-                  from: `cosmos1demo`,
-                  gas,
-                  sequence: `0`,
-                  memo: `(Sent via Lunie)`,
-                  gas_prices,
-                  simulate: false
-                }
-              })
+            expect(node.send).toHaveBeenCalledWith(`mock_address`, {
+              amount: [{ amount: 123, denom: `uatom` }],
+              password: `1234567890`,
+              base_req: {
+                account_number: `12`,
+                chain_id: `mock-chain`,
+                from: `cosmos1demo`,
+                gas,
+                sequence: `0`,
+                memo: `(Sent via Lunie)`,
+                gas_prices,
+                simulate: false
+              }
+            })
             expect(node.postTx).toHaveBeenCalledWith({
               broadcast: `body`
             })
@@ -263,20 +263,24 @@ describe(`Module: Send`, () => {
               args
             )
 
-            expect(node.send).toHaveBeenCalledWith(`mock_address`, `cosmosvaloper1address`, {
-              amount: [{ amount: 123, denom: `uatom` }],
-              password: `1234567890`,
-              base_req: {
-                account_number: `12`,
-                chain_id: `mock-chain`,
-                from: `cosmos1demo`,
-                gas,
-                sequence: `0`,
-                memo: `(Sent via Lunie)`,
-                gas_prices,
-                simulate: false
+            expect(node.send).toHaveBeenCalledWith(
+              `mock_address`,
+              `cosmosvaloper1address`,
+              {
+                amount: [{ amount: 123, denom: `uatom` }],
+                password: `1234567890`,
+                base_req: {
+                  account_number: `12`,
+                  chain_id: `mock-chain`,
+                  from: `cosmos1demo`,
+                  gas,
+                  sequence: `0`,
+                  memo: `(Sent via Lunie)`,
+                  gas_prices,
+                  simulate: false
+                }
               }
-            })
+            )
             expect(node.postTx).toHaveBeenCalledWith({
               broadcast: `body`
             })
@@ -582,22 +586,25 @@ describe(`Module: Send`, () => {
         })
         actions.signTx = () => ``
         const dispatch = jest.fn()
-        await expect(actions.sendTx(
-          {
-            state,
-            dispatch,
-            commit: jest.fn(),
-            rootState: mockRootState
-          },
-          args
-        )).rejects.toEqual(new Error(`Error sending: unauthorized`))
+        await expect(
+          actions.sendTx(
+            {
+              state,
+              dispatch,
+              commit: jest.fn(),
+              rootState: mockRootState
+            },
+            args
+          )
+        ).rejects.toEqual(new Error(`Error sending: unauthorized`))
       })
 
       it(`should poll txs block inclusion`, async () => {
         jest.useRealTimers()
 
         const node = {
-          tx: jest.fn()
+          tx: jest
+            .fn()
             .mockImplementationOnce(() => Promise.reject(new Error(`404`)))
             .mockImplementationOnce(() => Promise.resolve({}))
         }
@@ -620,16 +627,22 @@ describe(`Module: Send`, () => {
         const node = {
           tx: jest.fn(() => Promise.reject(new Error(`404`)))
         }
-        await expect(actions.queryTxInclusion(
-          {
-            state: {
-              txQueryIterations: 1,
-              txQueryTimeout: 0,
-              node
-            }
-          },
-          `acbdefghi`
-        )).rejects.toEqual(new Error(`The transaction was still not included in a block. We can't say for certain it will be included in the future.`))
+        await expect(
+          actions.queryTxInclusion(
+            {
+              state: {
+                txQueryIterations: 1,
+                txQueryTimeout: 0,
+                node
+              }
+            },
+            `acbdefghi`
+          )
+        ).rejects.toEqual(
+          new Error(
+            `The transaction was still not included in a block. We can't say for certain it will be included in the future.`
+          )
+        )
 
         expect(node.tx).toHaveBeenCalledTimes(1)
         expect(node.tx).toHaveBeenCalledWith(`acbdefghi`)
@@ -832,7 +845,7 @@ describe(`Module: Send`, () => {
           )
         ).rejects.toEqual(
           new Error(
-            `Currently not connected to a secure node. Please try again when Voyager has secured a connection.`
+            `Currently not connected to a secure node. Please try again when Lunie has secured a connection.`
           )
         )
       })

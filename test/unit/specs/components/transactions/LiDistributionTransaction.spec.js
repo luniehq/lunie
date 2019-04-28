@@ -24,9 +24,10 @@ describe(`LiDistributionTransaction`, () => {
   }
 
   beforeEach(() => {
-    wrapper = shallowMount(LiDistributionTransaction,
-      { propsData, stubs: [`router-link`] }
-    )
+    wrapper = shallowMount(LiDistributionTransaction, {
+      propsData,
+      stubs: [`router-link`]
+    })
   })
 
   it(`withdraw delegation rewards`, () => {

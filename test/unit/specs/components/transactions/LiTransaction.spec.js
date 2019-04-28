@@ -28,19 +28,15 @@ describe(`LiTransaction`, () => {
 
   it(`Should print the hour only if the same day`, () => {
     expect(
-      LiTransaction.computed.date(
-        { time: new Date(Date.now()).toISOString() }
-      )
-    ).toEqual(
-      `00:00:42`
-    )
+      LiTransaction.computed.date({ time: new Date(Date.now()).toISOString() })
+    ).toEqual(`00:00:42`)
   })
 
   it(`Should print the datetime if we are in a different day`, () => {
     expect(
-      LiTransaction.computed.date(
-        { time: new Date(Date.now() - day * 2).toISOString() }
-      )
+      LiTransaction.computed.date({
+        time: new Date(Date.now() - day * 2).toISOString()
+      })
     ).toEqual(`Dec 30th 1969 00:00:42`)
   })
 })

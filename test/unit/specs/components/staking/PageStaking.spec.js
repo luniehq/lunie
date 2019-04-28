@@ -1,5 +1,5 @@
 import { shallowMount } from "@vue/test-utils"
-import PageStaking from "renderer/components/staking/PageStaking"
+import PageStaking from "src/components/staking/PageStaking"
 
 describe(`PageStaking`, () => {
   let wrapper

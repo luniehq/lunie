@@ -1,25 +1,20 @@
 import { shallowMount } from "@vue/test-utils"
 import TmOnboarding from "common/TmOnboarding.vue"
 
-jest.mock(
-  `../../../../../app/src/renderer/assets/images/onboarding/step-0.png`,
-  () => jest.fn()
+jest.mock(`../../../../../src/assets/images/onboarding/step-0.png`, () =>
+  jest.fn()
 )
-jest.mock(
-  `../../../../../app/src/renderer/assets/images/onboarding/step-1.png`,
-  () => jest.fn()
+jest.mock(`../../../../../src/assets/images/onboarding/step-1.png`, () =>
+  jest.fn()
 )
-jest.mock(
-  `../../../../../app/src/renderer/assets/images/onboarding/step-2.png`,
-  () => jest.fn()
+jest.mock(`../../../../../src/assets/images/onboarding/step-2.png`, () =>
+  jest.fn()
 )
-jest.mock(
-  `../../../../../app/src/renderer/assets/images/onboarding/step-3.png`,
-  () => jest.fn()
+jest.mock(`../../../../../src/assets/images/onboarding/step-3.png`, () =>
+  jest.fn()
 )
-jest.mock(
-  `../../../../../app/src/renderer/assets/images/onboarding/step-4.png`,
-  () => jest.fn()
+jest.mock(`../../../../../src/assets/images/onboarding/step-4.png`, () =>
+  jest.fn()
 )
 
 describe(`TmOnboarding`, () => {
@@ -40,7 +35,7 @@ describe(`TmOnboarding`, () => {
     wrapper = shallowMount(TmOnboarding, {
       mocks: {
         $store
-      },
+      }
     })
   })
 
