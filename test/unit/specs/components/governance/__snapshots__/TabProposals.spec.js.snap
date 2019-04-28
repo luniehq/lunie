@@ -1,15 +1,15 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`TabProposals shows a message if still connecting 1`] = `<tm-data-connecting-stub />`;
+exports[`TabProposals shows a message if still connecting 1`] = `<tmdataconnecting-stub />`;
 
 exports[`TabProposals shows a message if still loading 1`] = `
-<tm-data-loading-stub
+<tmdataloading-stub
   title="Data is loading…"
 />
 `;
 
 exports[`TabProposals shows a message if there is nothing to display 1`] = `
-<tm-data-empty-stub
+<tmdataempty-stub
   icon="gavel"
   subtitle="There are currently no governance proposals to display.
   Click the 'Create Proposal' button to submit a proposal."
@@ -18,7 +18,7 @@ exports[`TabProposals shows a message if there is nothing to display 1`] = `
 `;
 
 exports[`TabProposals shows a proposals table 1`] = `
-<table-proposals-stub
+<tableproposals-stub
   proposals="[object Object]"
 />
 `;

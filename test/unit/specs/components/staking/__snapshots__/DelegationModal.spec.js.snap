@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`DelegationModal should display the delegation modal form 1`] = `
-<action-modal-stub
+<actionmodal-stub
   class="delegation-modal"
   id="delegation-modal"
   simulatefn="function () { [native code] }"
@@ -10,34 +10,34 @@ exports[`DelegationModal should display the delegation modal form 1`] = `
   title="Delegate"
   validate="function () { [native code] }"
 >
-  <tm-form-group-stub
+  <tmformgroup-stub
     class="action-modal-form-group"
     fieldid="to"
     fieldlabel="To"
   >
-    <tm-field-stub
+    <tmfield-stub
       id="to"
       readonly=""
       type="text"
       value="cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au"
     />
-  </tm-form-group-stub>
+  </tmformgroup-stub>
    
-  <tm-form-group-stub
+  <tmformgroup-stub
     class="action-modal-form-group"
     fieldid="from"
     fieldlabel="From"
   >
-    <tm-field-stub
+    <tmfield-stub
       id="from"
       options="[object Object],[object Object],[object Object]"
       title="cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9"
       type="select"
       value="0"
     />
-  </tm-form-group-stub>
+  </tmformgroup-stub>
    
-  <tm-form-group-stub
+  <tmformgroup-stub
     class="action-modal-form-group"
     fieldid="amount"
     fieldlabel="Amount"
@@ -48,13 +48,13 @@ exports[`DelegationModal should display the delegation modal form 1`] = `
       STAKE
     </span>
      
-    <tm-field-stub
+    <tmfield-stub
       id="amount"
       placeholder="Amount"
       type="number"
     />
      
     <!---->
-  </tm-form-group-stub>
-</action-modal-stub>
+  </tmformgroup-stub>
+</actionmodal-stub>
 `;

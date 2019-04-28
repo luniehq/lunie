@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`PageWallet should display the wallet page 1`] = `
-<tm-page-stub
+<tmpage-stub
   data-title="Wallet"
   managed="true"
   refresh="function () { [native code] }"
@@ -9,7 +9,7 @@ exports[`PageWallet should display the wallet page 1`] = `
   subtitle=""
   title=""
 >
-  <tm-data-msg-stub
+  <tmdatamsg-stub
     icon="account_balance_wallet"
     id="account_empty_msg"
   >
@@ -24,29 +24,29 @@ exports[`PageWallet should display the wallet page 1`] = `
       This account doesn't have anything in it yet.
     
     </div>
-  </tm-data-msg-stub>
+  </tmdatamsg-stub>
    
   <template>
-    <li-coin-stub
+    <licoin-stub
       class="tm-li-balance"
       coin="[object Object]"
     />
-    <li-coin-stub
+    <licoin-stub
       class="tm-li-balance"
       coin="[object Object]"
     />
-    <li-coin-stub
+    <licoin-stub
       class="tm-li-balance"
       coin="[object Object]"
     />
   </template>
    
-  <send-modal-stub />
-</tm-page-stub>
+  <sendmodal-stub />
+</tmpage-stub>
 `;
 
 exports[`PageWallet should not show denoms or the faucet button for a user who is not signed in 1`] = `
-<tm-page-stub
+<tmpage-stub
   data-title="Wallet"
   managed="true"
   refresh="function () { [native code] }"
@@ -54,7 +54,7 @@ exports[`PageWallet should not show denoms or the faucet button for a user who i
   subtitle=""
   title=""
 >
-  <tm-data-msg-stub
+  <tmdatamsg-stub
     icon="account_balance_wallet"
     id="account_empty_msg"
   >
@@ -69,29 +69,29 @@ exports[`PageWallet should not show denoms or the faucet button for a user who i
       This account doesn't have anything in it yet.
     
     </div>
-  </tm-data-msg-stub>
+  </tmdatamsg-stub>
    
   <template>
-    <li-coin-stub
+    <licoin-stub
       class="tm-li-balance"
       coin="[object Object]"
     />
-    <li-coin-stub
+    <licoin-stub
       class="tm-li-balance"
       coin="[object Object]"
     />
-    <li-coin-stub
+    <licoin-stub
       class="tm-li-balance"
       coin="[object Object]"
     />
   </template>
    
-  <send-modal-stub />
-</tm-page-stub>
+  <sendmodal-stub />
+</tmpage-stub>
 `;
 
 exports[`PageWallet should show the sending modal 1`] = `
-<tm-page-stub
+<tmpage-stub
   data-title="Wallet"
   managed="true"
   refresh="function () { [native code] }"
@@ -99,7 +99,7 @@ exports[`PageWallet should show the sending modal 1`] = `
   subtitle=""
   title=""
 >
-  <tm-data-msg-stub
+  <tmdatamsg-stub
     icon="account_balance_wallet"
     id="account_empty_msg"
   >
@@ -114,23 +114,23 @@ exports[`PageWallet should show the sending modal 1`] = `
       This account doesn't have anything in it yet.
     
     </div>
-  </tm-data-msg-stub>
+  </tmdatamsg-stub>
    
   <template>
-    <li-coin-stub
+    <licoin-stub
       class="tm-li-balance"
       coin="[object Object]"
     />
-    <li-coin-stub
+    <licoin-stub
       class="tm-li-balance"
       coin="[object Object]"
     />
-    <li-coin-stub
+    <licoin-stub
       class="tm-li-balance"
       coin="[object Object]"
     />
   </template>
    
-  <send-modal-stub />
-</tm-page-stub>
+  <sendmodal-stub />
+</tmpage-stub>
 `;

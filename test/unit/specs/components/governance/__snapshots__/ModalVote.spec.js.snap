@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`ModalVote should display vote modal form 1`] = `
-<action-modal-stub
+<actionmodal-stub
   amount="0"
   class="modal-vote"
   id="modal-vote"
@@ -11,10 +11,10 @@ exports[`ModalVote should display vote modal form 1`] = `
   title="Vote"
   validate="function () { [native code] }"
 >
-  <tm-form-group-stub
+  <tmformgroup-stub
     class="action-modal-group vote-options"
   >
-    <tm-btn-stub
+    <tmbtn-stub
       class=""
       color="secondary"
       id="vote-yes"
@@ -22,7 +22,7 @@ exports[`ModalVote should display vote modal form 1`] = `
       value="Yes"
     />
      
-    <tm-btn-stub
+    <tmbtn-stub
       class=""
       color="secondary"
       id="vote-no"
@@ -30,7 +30,7 @@ exports[`ModalVote should display vote modal form 1`] = `
       value="No"
     />
      
-    <tm-btn-stub
+    <tmbtn-stub
       class=""
       color="secondary"
       id="vote-veto"
@@ -38,7 +38,7 @@ exports[`ModalVote should display vote modal form 1`] = `
       value="No With Veto"
     />
      
-    <tm-btn-stub
+    <tmbtn-stub
       class=""
       color="secondary"
       id="vote-abstain"
@@ -47,6 +47,6 @@ exports[`ModalVote should display vote modal form 1`] = `
     />
      
     <!---->
-  </tm-form-group-stub>
-</action-modal-stub>
+  </tmformgroup-stub>
+</actionmodal-stub>
 `;

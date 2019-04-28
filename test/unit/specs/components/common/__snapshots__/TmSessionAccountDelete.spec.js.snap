@@ -4,7 +4,7 @@ exports[`TmSessionAccountDelete has the expected html structure 1`] = `
 <div
   class="tm-session"
 >
-  <tm-form-struct-stub
+  <tmformstruct-stub
     class="tm-session-container"
     submit="function () { [native code] }"
     width=""
@@ -32,27 +32,27 @@ exports[`TmSessionAccountDelete has the expected html structure 1`] = `
     <div
       class="tm-session-main"
     >
-      <tm-form-group-stub
+      <tmformgroup-stub
         fieldid="sign-in-password"
         fieldlabel="Password"
       >
-        <tm-field-stub
+        <tmfield-stub
           id="sign-in-password"
           placeholder="Enter your password"
           type="password"
           value=""
         />
          
-        <tm-form-msg-stub
+        <tmformmsg-stub
           msg=""
           name="Password"
           type="required"
         />
          
         <!---->
-      </tm-form-group-stub>
+      </tmformgroup-stub>
        
-      <tm-form-group-stub
+      <tmformgroup-stub
         fieldid="sign-up-warning"
         fieldlabel=" "
       >
@@ -79,23 +79,23 @@ exports[`TmSessionAccountDelete has the expected html structure 1`] = `
           </label>
         </div>
          
-        <tm-form-msg-stub
+        <tmformmsg-stub
           msg=""
           name="Deletion confirmation"
           type="required"
         />
-      </tm-form-group-stub>
+      </tmformgroup-stub>
     </div>
      
     <div
       class="tm-session-footer"
     >
-      <tm-btn-stub
+      <tmbtn-stub
         icon="exit_to_app"
         size="lg"
         value="Sign Out and Remove Account"
       />
     </div>
-  </tm-form-struct-stub>
+  </tmformstruct-stub>
 </div>
 `;

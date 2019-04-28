@@ -313,7 +313,7 @@ describe(`PageTransactions`, () => {
   })
 
   it(`should show transactions`, async () => {
-    expect(wrapper.findAll(`li-any-transaction-stub`).length).toBe(6)
+    expect(wrapper.findAll(`LiAnyTransaction-stub`).length).toBe(6)
   })
 
   it(`should sort the transaction by time`, () => {

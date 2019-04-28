@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`PageProposal renders votes in HTML when voting is open 1`] = `
-<tm-page-stub
+<tmpage-stub
   data-title="Proposal"
   subtitle=""
   title=""
@@ -15,9 +15,7 @@ exports[`PageProposal renders votes in HTML when voting is open 1`] = `
       <h2
         class="proposal-id"
       >
-        
-          #2
-        
+        #2
       </h2>
        
       <div
@@ -42,7 +40,7 @@ exports[`PageProposal renders votes in HTML when voting is open 1`] = `
         <div
           class="page-profile__header__actions"
         >
-          <tm-btn-stub
+          <tmbtn-stub
             color="primary"
             id="vote-btn"
             value="Vote"
@@ -192,7 +190,7 @@ exports[`PageProposal renders votes in HTML when voting is open 1`] = `
             Description
           </dt>
            
-          <text-block-stub
+          <textblock-stub
             content="custom text proposal description"
           />
         </dl>
@@ -200,21 +198,21 @@ exports[`PageProposal renders votes in HTML when voting is open 1`] = `
     </div>
   </div>
    
-  <modal-deposit-stub
+  <modaldeposit-stub
     denom="STAKE"
     proposalid="2"
     proposaltitle="VotingPeriod proposal"
   />
    
-  <modal-vote-stub
+  <modalvote-stub
     proposalid="2"
     proposaltitle="VotingPeriod proposal"
   />
-</tm-page-stub>
+</tmpage-stub>
 `;
 
 exports[`PageProposal should display proposal page if user has signed in 1`] = `
-<tm-page-stub
+<tmpage-stub
   data-title="Proposal"
   subtitle=""
   title=""
@@ -228,9 +226,7 @@ exports[`PageProposal should display proposal page if user has signed in 1`] = `
       <h2
         class="proposal-id"
       >
-        
-          #2
-        
+        #2
       </h2>
        
       <div
@@ -255,7 +251,7 @@ exports[`PageProposal should display proposal page if user has signed in 1`] = `
         <div
           class="page-profile__header__actions"
         >
-          <tm-btn-stub
+          <tmbtn-stub
             color="primary"
             id="vote-btn"
             value="Vote"
@@ -405,7 +401,7 @@ exports[`PageProposal should display proposal page if user has signed in 1`] = `
             Description
           </dt>
            
-          <text-block-stub
+          <textblock-stub
             content="custom text proposal description"
           />
         </dl>
@@ -413,21 +409,21 @@ exports[`PageProposal should display proposal page if user has signed in 1`] = `
     </div>
   </div>
    
-  <modal-deposit-stub
+  <modaldeposit-stub
     denom="STAKE"
     proposalid="2"
     proposaltitle="VotingPeriod proposal"
   />
    
-  <modal-vote-stub
+  <modalvote-stub
     proposalid="2"
     proposaltitle="VotingPeriod proposal"
   />
-</tm-page-stub>
+</tmpage-stub>
 `;
 
 exports[`PageProposal should display proposal page should default tally to 0 if it's not yet present  1`] = `
-<tm-page-stub
+<tmpage-stub
   data-title="Proposal"
   subtitle=""
   title=""
@@ -441,9 +437,7 @@ exports[`PageProposal should display proposal page should default tally to 0 if 
       <h2
         class="proposal-id"
       >
-        
-          #2
-        
+        #2
       </h2>
        
       <div
@@ -468,7 +462,7 @@ exports[`PageProposal should display proposal page should default tally to 0 if 
         <div
           class="page-profile__header__actions"
         >
-          <tm-btn-stub
+          <tmbtn-stub
             color="primary"
             id="vote-btn"
             value="Vote"
@@ -618,7 +612,7 @@ exports[`PageProposal should display proposal page should default tally to 0 if 
             Description
           </dt>
            
-          <text-block-stub
+          <textblock-stub
             content="custom text proposal description"
           />
         </dl>
@@ -626,25 +620,25 @@ exports[`PageProposal should display proposal page should default tally to 0 if 
     </div>
   </div>
    
-  <modal-deposit-stub
+  <modaldeposit-stub
     denom="STAKE"
     proposalid="2"
     proposaltitle="VotingPeriod proposal"
   />
    
-  <modal-vote-stub
+  <modalvote-stub
     proposalid="2"
     proposaltitle="VotingPeriod proposal"
   />
-</tm-page-stub>
+</tmpage-stub>
 `;
 
 exports[`PageProposal shows an error if the proposal couldn't be found 1`] = `
-<tm-page-stub
+<tmpage-stub
   data-title="Proposal"
   subtitle=""
   title=""
 >
-  <tm-data-error-stub />
-</tm-page-stub>
+  <tmdataerror-stub />
+</tmpage-stub>
 `;

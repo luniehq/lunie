@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`PageNetwork should display the network page with data and the blocks table 1`] = `
-<tm-page-stub
+<tmpage-stub
   data-title="Network"
   loaded="true"
   managed="true"
@@ -139,7 +139,7 @@ exports[`PageNetwork should display the network page with data and the blocks ta
       class="blocks data-table"
     >
       <thead>
-        <panel-sort-stub
+        <panelsort-stub
           properties="[object Object],[object Object]"
         />
       </thead>
@@ -184,11 +184,11 @@ exports[`PageNetwork should display the network page with data and the blocks ta
       </tbody>
     </table>
   </template>
-</tm-page-stub>
+</tmpage-stub>
 `;
 
 exports[`PageNetwork should display the network page with the blocks table in a loading state 1`] = `
-<tm-page-stub
+<tmpage-stub
   data-title="Network"
   loaded="true"
   managed="true"
@@ -326,7 +326,7 @@ exports[`PageNetwork should display the network page with the blocks table in a 
       class="blocks data-table"
     >
       <thead>
-        <panel-sort-stub
+        <panelsort-stub
           properties="[object Object],[object Object]"
         />
       </thead>
@@ -353,5 +353,5 @@ exports[`PageNetwork should display the network page with the blocks table in a 
       </tbody>
     </table>
   </template>
-</tm-page-stub>
+</tmpage-stub>
 `;
