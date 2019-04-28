@@ -7,6 +7,18 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [1.0.0-beta.50] - 2019-04-28
+
+### Changed
+
+- [#2491](https://github.com/cosmos/lunie/pull/2491) Restructured the repository to simplify it @faboweb
+- [#2455](https://github.com/cosmos/lunie/issues/2455) standardized numbers throughout lunie and reduced to 3 decimal points @jbibla
+
+### Fixed
+
+- [#2487](https://github.com/cosmos/lunie/pull/2487) Removed rounding in small numbers @faboweb
+- [#2486](https://github.com/cosmos/lunie/issues/2486) transactions list items were broken @jbibla
+
 ## [1.0.0-beta.49] - 2019-04-26
 
 ### Fixed
