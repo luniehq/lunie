@@ -1,10 +1,5 @@
 <template>
-  <LiTransaction
-    :color="`#ED553B`"
-    :time="time"
-    :block="block"
-    :memo="memo"
-  >
+  <LiTransaction :color="`#ED553B`" :time="time" :block="block" :memo="memo">
     <template v-if="address === ''">
       <div slot="caption">
         Sent<b>{{ coins.amount }}</b>
@@ -21,9 +16,9 @@
         Network Fee:&nbsp;<b>{{ convertedFees ? convertedFees.amount : 0 }}</b>
         <span>
           {{
-          convertedFees
-          ? num.viewDenom(convertedFees.denom)
-          : num.viewDenom(bondingDenom)
+            convertedFees
+              ? num.viewDenom(convertedFees.denom)
+              : num.viewDenom(bondingDenom)
           }}
         </span>
       </div>
@@ -47,9 +42,9 @@
         Network Fee:&nbsp;<b>{{ convertedFees ? convertedFees.amount : 0 }}</b>
         <span>
           {{
-          convertedFees
-          ? num.viewDenom(convertedFees.denom)
-          : num.viewDenom(bondingDenom)
+            convertedFees
+              ? num.viewDenom(convertedFees.denom)
+              : num.viewDenom(bondingDenom)
           }}
         </span>
       </div>
@@ -68,9 +63,9 @@
         Network Fee:&nbsp;<b>{{ convertedFees ? convertedFees.amount : 0 }}</b>
         <span>
           {{
-          convertedFees
-          ? num.viewDenom(convertedFees.denom)
-          : num.viewDenom(bondingDenom)
+            convertedFees
+              ? num.viewDenom(convertedFees.denom)
+              : num.viewDenom(bondingDenom)
           }}
         </span>
       </div>

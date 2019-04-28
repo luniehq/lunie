@@ -99,13 +99,13 @@
       <span class="input-suffix">
         {{ (memo ? " - " : "") + "(Sent via Lunie)" }}
       </span>
-      <tm-field
+      <TmField
         id="memo"
         v-model="memo"
         type="text"
         placeholder="Add a description..."
       />
-      <tm-form-msg
+      <TmFormMsg
         v-if="$v.memo.$error && !$v.memo.maxLength"
         name="Memo"
         type="maxLength"

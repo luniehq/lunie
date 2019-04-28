@@ -1,10 +1,5 @@
 <template>
-  <LiTransaction
-    :color="`#F2B134`"
-    :time="time"
-    :block="block"
-    :memo="memo"
-  >
+  <LiTransaction :color="`#F2B134`" :time="time" :block="block" :memo="memo">
     <template v-if="txType === MsgWithdrawDelegationReward">
       <div slot="caption">
         Withdrawal
@@ -18,7 +13,7 @@
         Network Fee:&nbsp;<b>{{ convertedFees ? convertedFees.amount : 0 }}</b>
         <span>
           {{
-          convertedFees ? convertedFees.denom : num.viewDenom(bondingDenom)
+            convertedFees ? convertedFees.denom : num.viewDenom(bondingDenom)
           }}
         </span>
       </div>
@@ -32,7 +27,7 @@
         Network Fee:&nbsp;<b>{{ convertedFees ? convertedFees.amount : 0 }}</b>
         <span>
           {{
-          convertedFees ? convertedFees.denom : num.viewDenom(bondingDenom)
+            convertedFees ? convertedFees.denom : num.viewDenom(bondingDenom)
           }}
         </span>
       </div>
@@ -50,7 +45,7 @@
         Network Fee:&nbsp;<b>{{ convertedFees ? convertedFees.amount : 0 }}</b>
         <span>
           {{
-          convertedFees ? convertedFees.denom : num.viewDenom(bondingDenom)
+            convertedFees ? convertedFees.denom : num.viewDenom(bondingDenom)
           }}
         </span>
       </div>

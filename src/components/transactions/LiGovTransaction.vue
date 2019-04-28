@@ -1,10 +1,5 @@
 <template>
-  <LiTransaction
-    :color="`#15CFCC`"
-    :time="time"
-    :block="block"
-    :memo="memo"
-  >
+  <LiTransaction :color="`#15CFCC`" :time="time" :block="block" :memo="memo">
     <template v-if="txType === `cosmos-sdk/MsgSubmitProposal`">
       <div slot="caption">
         Submitted {{ tx.proposal_type.toLowerCase() }} proposal
@@ -18,9 +13,9 @@
         Network Fee:&nbsp;<b>{{ convertedFees ? convertedFees.amount : 0 }}</b>
         <span>
           {{
-          convertedFees
-          ? viewDenom(convertedFees.denom)
-          : viewDenom(bondingDenom)
+            convertedFees
+              ? viewDenom(convertedFees.denom)
+              : viewDenom(bondingDenom)
           }}
         </span>
       </div>
@@ -58,9 +53,9 @@
         Network Fee:&nbsp;<b>{{ convertedFees ? convertedFees.amount : 0 }}</b>
         <span>
           {{
-          convertedFees
-          ? viewDenom(convertedFees.denom)
-          : viewDenom(bondingDenom)
+            convertedFees
+              ? viewDenom(convertedFees.denom)
+              : viewDenom(bondingDenom)
           }}
         </span>
       </div>

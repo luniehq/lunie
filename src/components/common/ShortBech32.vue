@@ -9,10 +9,7 @@
     >
       {{ shortBech32 }}
     </div>
-    <div
-      :class="{ active: copySuccess }"
-      class="copied"
-    >
+    <div :class="{ active: copySuccess }" class="copied">
       <i class="material-icons">check</i><span>Copied</span>
     </div>
   </div>

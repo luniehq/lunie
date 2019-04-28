@@ -1,10 +1,5 @@
 <template>
-  <LiTransaction
-    color="#47AB6C"
-    :time="time"
-    :block="block"
-    :memo="memo"
-  >
+  <LiTransaction color="#47AB6C" :time="time" :block="block" :memo="memo">
     <template v-if="txType === `cosmos-sdk/MsgCreateValidator`">
       <div slot="caption">
         Create validator
@@ -21,7 +16,7 @@
         Network Fee:&nbsp;<b>{{ convertedFees ? convertedFees.amount : 0 }}</b>
         <span>
           {{
-          convertedFees ? convertedFees.denom : num.viewDenom(bondingDenom)
+            convertedFees ? convertedFees.denom : num.viewDenom(bondingDenom)
           }}
         </span>
       </div>
@@ -40,7 +35,7 @@
         Network Fee:&nbsp;<b>{{ convertedFees ? convertedFees.amount : 0 }}</b>
         <span>
           {{
-          convertedFees ? convertedFees.denom : num.viewDenom(bondingDenom)
+            convertedFees ? convertedFees.denom : num.viewDenom(bondingDenom)
           }}
         </span>
       </div>
@@ -61,7 +56,7 @@
         Network Fee:&nbsp;<b>{{ convertedFees ? convertedFees.amount : 0 }}</b>
         <span>
           {{
-          convertedFees ? convertedFees.denom : num.viewDenom(bondingDenom)
+            convertedFees ? convertedFees.denom : num.viewDenom(bondingDenom)
           }}
         </span>
       </div>
@@ -89,7 +84,7 @@
         Network Fee:&nbsp;<b>{{ convertedFees ? convertedFees.amount : 0 }}</b>
         <span>
           {{
-          convertedFees ? convertedFees.denom : num.viewDenom(bondingDenom)
+            convertedFees ? convertedFees.denom : num.viewDenom(bondingDenom)
           }}
         </span>
       </div>
@@ -116,7 +111,7 @@
         Network Fee:&nbsp;<b>{{ convertedFees ? convertedFees.amount : 0 }}</b>
         <span>
           {{
-          convertedFees ? convertedFees.denom : num.viewDenom(bondingDenom)
+            convertedFees ? convertedFees.denom : num.viewDenom(bondingDenom)
           }}
         </span>
       </div>
@@ -135,7 +130,7 @@
         Network Fee:&nbsp;<b>{{ convertedFees ? convertedFees.amount : 0 }}</b>
         <span>
           {{
-          convertedFees ? convertedFees.denom : num.viewDenom(bondingDenom)
+            convertedFees ? convertedFees.denom : num.viewDenom(bondingDenom)
           }}
         </span>
       </div>

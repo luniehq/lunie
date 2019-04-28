@@ -53,7 +53,7 @@ export default {
     memo: {
       type: String,
       default: null
-    },
+    }
   },
   computed: {
     date({ time } = this) {
