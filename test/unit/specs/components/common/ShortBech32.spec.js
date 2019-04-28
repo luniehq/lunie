@@ -1,10 +1,10 @@
 import { shallowMount, createLocalVue } from "@vue/test-utils"
 import VueClipboard from "vue-clipboard2"
-import ShortBech32 from "renderer/components/common/ShortBech32"
+import ShortBech32 from "src/components/common/ShortBech32"
 
 const localVue = createLocalVue()
 localVue.directive(`clipboard`, VueClipboard)
-localVue.directive(`tooltip`, () => { })
+localVue.directive(`tooltip`, () => {})
 
 describe(`ShortBech32`, () => {
   let wrapper

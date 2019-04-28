@@ -31,13 +31,13 @@ exports[`TmSessionWelcome with accounts has the expected html structure 1`] = `
     <div
       class="tm-session-main"
     >
-      <li-session-stub
+      <lisession-stub
         icon="usb"
         subtitle="If you have a Ledger Wallet, choose this option."
         title="Sign in with Ledger Nano S"
       />
        
-      <li-session-stub
+      <lisession-stub
         icon="search"
         id="explore-address"
         subtitle="If you want to use Lunie with an address
@@ -63,14 +63,14 @@ exports[`TmSessionWelcome with accounts has the expected html structure 1`] = `
           </p>
         </div>
          
-        <li-session-stub
+        <lisession-stub
           icon="lock"
           id="sign-in-with-account"
           subtitle="If you have an account, choose this option."
           title="Sign in with password"
         />
          
-        <li-session-stub
+        <lisession-stub
           icon="person_add"
           subtitle="Generate a brand new seed and create a new account."
           title="Create new account"
@@ -114,13 +114,13 @@ exports[`TmSessionWelcome without accounts has the expected html structure 1`] =
     <div
       class="tm-session-main"
     >
-      <li-session-stub
+      <lisession-stub
         icon="usb"
         subtitle="If you have a Ledger Wallet, choose this option."
         title="Sign in with Ledger Nano S"
       />
        
-      <li-session-stub
+      <lisession-stub
         icon="search"
         id="explore-address"
         subtitle="If you want to use Lunie with an address
@@ -148,13 +148,13 @@ exports[`TmSessionWelcome without accounts has the expected html structure 1`] =
          
         <!---->
          
-        <li-session-stub
+        <lisession-stub
           icon="person_add"
           subtitle="Generate a brand new seed and create a new account."
           title="Create new account"
         />
          
-        <li-session-stub
+        <lisession-stub
           icon="settings_backup_restore"
           id="import-seed"
           subtitle="Use an existing seed phrase to create an account."

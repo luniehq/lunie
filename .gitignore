@@ -1,5 +1,5 @@
 .DS_Store
-app/dist
+dist
 builds/*
 tasks/builds
 coverage
@@ -12,8 +12,9 @@ thumbs.db
 .vscode/*
 yarn-error.log
 testArtifacts/*
-app/networks/local-testnet/*
 .idea/*
+*.crt
+*.key
 chromedriver.log
-app/src/renderer/keybase-cache.json
+src/keybase-cache.json
 certs/*

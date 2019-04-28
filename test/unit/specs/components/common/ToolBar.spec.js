@@ -3,7 +3,7 @@ import ToolBar from "common/ToolBar"
 
 describe(`ToolBar`, () => {
   const localVue = createLocalVue()
-  localVue.directive(`tooltip`, () => { })
+  localVue.directive(`tooltip`, () => {})
 
   let wrapper, $store
 

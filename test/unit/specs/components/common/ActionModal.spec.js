@@ -1,6 +1,6 @@
 import { shallowMount, createLocalVue } from "@vue/test-utils"
 import Vuelidate from "vuelidate"
-import ActionModal from "renderer/components/common/ActionModal"
+import ActionModal from "src/components/common/ActionModal"
 
 const localVue = createLocalVue()
 localVue.use(Vuelidate)
@@ -22,13 +22,13 @@ describe(`ActionModal`, () => {
         },
         bondDenom: `uatom`,
         wallet: {
-          loading: false,
+          loading: false
         },
         ledger: {
           cosmosApp: {},
           isConnected: true
         },
-        liquidAtoms: 1230000000,
+        liquidAtoms: 1230000000
       }
     }
 
@@ -148,7 +148,6 @@ describe(`ActionModal`, () => {
           await wrapper.vm.$nextTick()
           expect(wrapper.vm.$el).toMatchSnapshot()
         })
-
       })
 
       describe(`with ledger`, () => {
@@ -172,7 +171,6 @@ describe(`ActionModal`, () => {
           expect(wrapper.vm.$el).toMatchSnapshot()
         })
       })
-
     })
 
     it(`when user hasn't logged in`, async () => {
@@ -240,7 +238,6 @@ describe(`ActionModal`, () => {
         wrapper.setData({ gasPrice: 2.5e-8 })
         expect(wrapper.vm.isValidInput(`gasPrice`)).toBe(true)
       })
-
     })
 
     describe(`fails`, () => {
@@ -329,9 +326,7 @@ describe(`ActionModal`, () => {
 
         await ActionModal.methods.validateChangeStep.call(self)
         expect(self.simulate).toHaveBeenCalled()
-
       })
-
     })
 
     describe(`on fees step`, () => {
@@ -349,7 +344,6 @@ describe(`ActionModal`, () => {
         await ActionModal.methods.validateChangeStep.call(self)
         expect(self.step).toBe(`fees`)
       })
-
     })
 
     describe(`on sign step`, () => {

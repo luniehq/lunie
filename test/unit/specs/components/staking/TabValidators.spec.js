@@ -1,5 +1,5 @@
 import { shallowMount } from "@vue/test-utils"
-import TabValidators from "renderer/components/staking/TabValidators"
+import TabValidators from "src/components/staking/TabValidators"
 import validators from "../../store/json/validators.js"
 
 describe(`TabValidators`, () => {
@@ -141,22 +141,21 @@ describe(`TabValidators`, () => {
 
   it(`queries for validators and delegations on sign in`, () => {
     const dispatch = jest.fn()
-    TabValidators.watch[`session.signedIn`].call({
-      $store: {
-        dispatch
-      }
-    }, true)
+    TabValidators.watch[`session.signedIn`].call(
+      {
+        $store: {
+          dispatch
+        }
+      },
+      true
+    )
     expect(dispatch).toHaveBeenCalledWith(`updateDelegates`)
   })
 
   it(`should trigger reward updates on every block `, () => {
     const $store = { dispatch: jest.fn() }
     const newHeader = { height: `40` }
-    TabValidators.watch.lastHeader.handler.call(
-      { $store },
-      newHeader)
-    expect($store.dispatch).toHaveBeenCalledWith(
-      `getRewardsFromMyValidators`
-    )
+    TabValidators.watch.lastHeader.handler.call({ $store }, newHeader)
+    expect($store.dispatch).toHaveBeenCalledWith(`getRewardsFromMyValidators`)
   })
 })

@@ -40,16 +40,16 @@ exports[`ActionModal should show the action modal when user has logged in with l
   <div
     class="action-modal-footer"
   >
-    <tm-form-group-stub
+    <tmformgroup-stub
       class="action-modal-group"
     >
       <div>
-        <tm-btn-stub
+        <tmbtn-stub
           color="primary"
           value="Next"
         />
       </div>
-    </tm-form-group-stub>
+    </tmformgroup-stub>
      
     <!---->
   </div>
@@ -94,7 +94,7 @@ exports[`ActionModal should show the action modal when user has logged in with l
   >
     <!---->
      
-    <table-invoice-stub
+    <tableinvoice-stub
       amount="0"
       gasestimate="0"
       gasprice="2.5e-8"
@@ -104,16 +104,16 @@ exports[`ActionModal should show the action modal when user has logged in with l
   <div
     class="action-modal-footer"
   >
-    <tm-form-group-stub
+    <tmformgroup-stub
       class="action-modal-group"
     >
       <div>
-        <tm-btn-stub
+        <tmbtn-stub
           color="primary"
           value="Next"
         />
       </div>
-    </tm-form-group-stub>
+    </tmformgroup-stub>
      
     <!---->
   </div>
@@ -158,29 +158,29 @@ exports[`ActionModal should show the action modal when user has logged in with l
   >
     <!---->
      
-    <hardware-state-stub
+    <hardwarestate-stub
       icon="usb"
     >
       
         Please plug in your Ledger Nano S and open
-               the Cosmos app
+        the Cosmos app
       
-    </hardware-state-stub>
+    </hardwarestate-stub>
   </div>
    
   <div
     class="action-modal-footer"
   >
-    <tm-form-group-stub
+    <tmformgroup-stub
       class="action-modal-group"
     >
       <div>
-        <tm-btn-stub
+        <tmbtn-stub
           color="primary"
           value="Submit"
         />
       </div>
-    </tm-form-group-stub>
+    </tmformgroup-stub>
      
     <!---->
   </div>
@@ -227,16 +227,16 @@ exports[`ActionModal should show the action modal when user has logged in with l
   <div
     class="action-modal-footer"
   >
-    <tm-form-group-stub
+    <tmformgroup-stub
       class="action-modal-group"
     >
       <div>
-        <tm-btn-stub
+        <tmbtn-stub
           color="primary"
           value="Next"
         />
       </div>
-    </tm-form-group-stub>
+    </tmformgroup-stub>
      
     <!---->
   </div>
@@ -281,7 +281,7 @@ exports[`ActionModal should show the action modal when user has logged in with l
   >
     <!---->
      
-    <table-invoice-stub
+    <tableinvoice-stub
       amount="0"
       gasestimate="0"
       gasprice="2.5e-8"
@@ -291,16 +291,16 @@ exports[`ActionModal should show the action modal when user has logged in with l
   <div
     class="action-modal-footer"
   >
-    <tm-form-group-stub
+    <tmformgroup-stub
       class="action-modal-group"
     >
       <div>
-        <tm-btn-stub
+        <tmbtn-stub
           color="primary"
           value="Next"
         />
       </div>
-    </tm-form-group-stub>
+    </tmformgroup-stub>
      
     <!---->
   </div>
@@ -345,34 +345,34 @@ exports[`ActionModal should show the action modal when user has logged in with l
   >
     <!---->
      
-    <tm-form-group-stub
+    <tmformgroup-stub
       class="action-modal-group"
       fieldid="password"
       fieldlabel="Password"
     >
-      <tm-field-stub
+      <tmfield-stub
         id="password"
         placeholder="Password"
         type="password"
       />
        
       <!---->
-    </tm-form-group-stub>
+    </tmformgroup-stub>
   </div>
    
   <div
     class="action-modal-footer"
   >
-    <tm-form-group-stub
+    <tmformgroup-stub
       class="action-modal-group"
     >
       <div>
-        <tm-btn-stub
+        <tmbtn-stub
           color="primary"
           value="Submit"
         />
       </div>
-    </tm-form-group-stub>
+    </tmformgroup-stub>
      
     <!---->
   </div>
@@ -423,16 +423,16 @@ exports[`ActionModal should show the action modal when user hasn't logged in 1`]
   <div
     class="action-modal-footer"
   >
-    <tm-form-group-stub
+    <tmformgroup-stub
       class="action-modal-group"
     >
       <div>
-        <tm-btn-stub
+        <tmbtn-stub
           color="primary"
           value="Sign In"
         />
       </div>
-    </tm-form-group-stub>
+    </tmformgroup-stub>
      
     <!---->
   </div>

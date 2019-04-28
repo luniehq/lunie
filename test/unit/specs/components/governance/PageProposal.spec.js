@@ -1,7 +1,7 @@
 "use strict"
 
 import moment from "moment"
-import PageProposal from "renderer/components/governance/PageProposal"
+import PageProposal from "src/components/governance/PageProposal"
 
 import { proposals, tallies } from "../../store/json/proposals"
 import { governanceParameters } from "../../store/json/parameters"
@@ -33,8 +33,8 @@ describe(`PageProposal`, () => {
     const localVue = createLocalVue()
     localVue.use(Vuex)
     localVue.use(Vuelidate)
-    localVue.directive(`tooltip`, () => { })
-    localVue.directive(`focus`, () => { })
+    localVue.directive(`tooltip`, () => {})
+    localVue.directive(`focus`, () => {})
 
     $store = {
       commit: jest.fn(),
@@ -94,7 +94,10 @@ describe(`PageProposal`, () => {
   })
 
   it(`shows an error if the proposal couldn't be found`, () => {
-    wrapper = shallowMount(PageProposal, { ...args, propsData: { proposalId: `666` } })
+    wrapper = shallowMount(PageProposal, {
+      ...args,
+      propsData: { proposalId: `666` }
+    })
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
@@ -162,7 +165,7 @@ describe(`PageProposal`, () => {
       $store = { dispatch: jest.fn() }
 
       const thisIs = {
-        $refs: { modalVote: { open: () => { } } },
+        $refs: { modalVote: { open: () => {} } },
         $store,
         votes: {},
         proposalId: `2`,
@@ -182,13 +185,15 @@ describe(`PageProposal`, () => {
       $store = { dispatch: jest.fn() }
 
       const thisIs = {
-        $refs: { modalVote: { open: () => { } } },
+        $refs: { modalVote: { open: () => {} } },
         $store,
         votes: {
-          2: [{
-            voter: `X`,
-            vote: `yes`
-          }]
+          2: [
+            {
+              voter: `X`,
+              vote: `yes`
+            }
+          ]
         },
         proposalId: `2`,
         lastVote: undefined,

@@ -1,9 +1,9 @@
-import PageTransactions from "renderer/components/wallet/PageTransactions"
+import PageTransactions from "src/components/wallet/PageTransactions"
 import { createLocalVue, shallowMount } from "@vue/test-utils"
 
 describe(`PageTransactions`, () => {
   const localVue = createLocalVue()
-  localVue.directive(`tooltip`, () => { })
+  localVue.directive(`tooltip`, () => {})
 
   const addresses = [
     `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
@@ -287,7 +287,8 @@ describe(`PageTransactions`, () => {
 
   it(`should refresh the transaction history`, async () => {
     await PageTransactions.methods.refreshTransactions.call({
-      $store, session: {
+      $store,
+      session: {
         signedIn: true
       }
     })
@@ -295,7 +296,8 @@ describe(`PageTransactions`, () => {
 
     $store.dispatch.mockClear()
     await PageTransactions.methods.refreshTransactions.call({
-      $store, session: {
+      $store,
+      session: {
         signedIn: false
       }
     })
@@ -311,7 +313,7 @@ describe(`PageTransactions`, () => {
   })
 
   it(`should show transactions`, async () => {
-    expect(wrapper.findAll(`li-any-transaction-stub`).length).toBe(6)
+    expect(wrapper.findAll(`LiAnyTransaction-stub`).length).toBe(6)
   })
 
   it(`should sort the transaction by time`, () => {

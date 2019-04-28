@@ -1,5 +1,5 @@
 import { shallowMount } from "@vue/test-utils"
-import FundraiserWarning from "renderer/components/common/FundraiserWarning"
+import FundraiserWarning from "src/components/common/FundraiserWarning"
 
 describe(`FundraiserWarning`, () => {
   let wrapper

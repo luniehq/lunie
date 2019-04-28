@@ -1,5 +1,5 @@
-import parametersModule from "renderer/vuex/modules/governance/parameters.js"
-import lcdClientMock from "renderer/connectors/lcdClientMock.js"
+import parametersModule from "src/vuex/modules/governance/parameters.js"
+import lcdClientMock from "src/connectors/lcdClientMock.js"
 const { governanceParameters } = lcdClientMock.state
 
 const mockRootState = {

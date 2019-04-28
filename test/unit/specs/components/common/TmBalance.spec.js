@@ -47,7 +47,7 @@ describe(`TmBalance`, () => {
   })
 
   it(`displays unbonded tokens`, () => {
-    expect(wrapper.vm.unbondedAtoms).toBe(`1,230.0000…`)
+    expect(wrapper.vm.unbondedAtoms).toBe(`1,230`)
   })
 
   it(`displays neither total tokens nor unbonded tokens if not completely loaded`, () => {
@@ -63,12 +63,12 @@ describe(`TmBalance`, () => {
   })
 
   it(`gets user rewards`, () => {
-    expect(wrapper.vm.rewards).toBe(`1,000,450.0000…`)
+    expect(wrapper.vm.rewards).toBe(`1,000,450`)
   })
 
   it(`shows 0 if user doesn't have rewards`, () => {
     wrapper.vm.$store.getters.distribution.totalRewards = {}
-    expect(wrapper.vm.rewards).toBe(`0.0000…`)
+    expect(wrapper.vm.rewards).toBe(`0`)
   })
 
   it(`opens withdraw modal`, () => {
@@ -86,7 +86,8 @@ describe(`TmBalance`, () => {
         const update = jest.fn()
         TmBalance.watch.lastHeader.handler.call(
           { session, $store, lastUpdate: 0, update },
-          newHeader)
+          newHeader
+        )
         expect(update).not.toHaveBeenCalledWith()
       })
 
@@ -97,7 +98,8 @@ describe(`TmBalance`, () => {
         const update = jest.fn()
         TmBalance.watch.lastHeader.handler.call(
           { session, $store, lastUpdate: 0, update },
-          newHeader)
+          newHeader
+        )
         expect(update).not.toHaveBeenCalledWith()
       })
     })
@@ -109,7 +111,8 @@ describe(`TmBalance`, () => {
         const update = jest.fn()
         TmBalance.watch.lastHeader.handler.call(
           { session, lastUpdate: 0, update },
-          newHeader)
+          newHeader
+        )
         expect(update).toHaveBeenCalledWith(10)
       })
 
@@ -119,11 +122,13 @@ describe(`TmBalance`, () => {
         const update = jest.fn()
         TmBalance.watch.lastHeader.handler.call(
           { session, lastUpdate: 15, update },
-          newHeader)
+          newHeader
+        )
         expect(update).not.toHaveBeenCalled()
         TmBalance.watch.lastHeader.handler.call(
           { session, lastUpdate: 5, update },
-          newHeader)
+          newHeader
+        )
         expect(update).toHaveBeenCalledWith(20)
       })
 

@@ -11,7 +11,7 @@ const {
  * NOTE: don't use a global `let client = app.client` as the client object changes when restarting the app
  */
 
-test(`delegation`, async function (t) {
+test(`delegation`, async function(t) {
   const { app } = await getApp(t)
   // app.env.COSMOS_MOCKED = false
   await restart(app)
@@ -22,7 +22,7 @@ test(`delegation`, async function (t) {
   // default values from e2e mounted node
   const bondedStake = 100
 
-  t.test(`Validators`, async function (t) {
+  t.test(`Validators`, async function(t) {
     // Select the Validators tab.
     await app.client.click(`//a[normalize-space() = 'Validators']`)
 
@@ -154,7 +154,7 @@ test(`delegation`, async function (t) {
     t.end()
   })
 
-  t.test(`showing transactions`, async function (t) {
+  t.test(`showing transactions`, async function(t) {
     await navigate(app, `Transactions`)
 
     // delegated
@@ -173,7 +173,7 @@ test(`delegation`, async function (t) {
     t.end()
   })
 
-  t.test(`Parameters`, async function (t) {
+  t.test(`Parameters`, async function(t) {
     await navigate(app, `Staking`)
     await app.client.click(`//a[normalize-space() = 'Parameters']`)
     await t.ok(

@@ -1,5 +1,5 @@
 import { shallowMount, createLocalVue } from "@vue/test-utils"
-import TmPage from "renderer/components/common/TmPage"
+import TmPage from "src/components/common/TmPage"
 import Vuex from "vuex"
 const localVue = createLocalVue()
 
@@ -72,5 +72,4 @@ describe(`TmPage`, () => {
     TmPage.watch.$route.call(self)
     expect(self.scrollContainer.scrollTop).toBe(0)
   })
-
 })

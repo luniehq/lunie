@@ -1,0 +1,39 @@
+<template>
+  <TmDataMsg :icon="icon">
+    <h4 v-if="title" slot="title">
+      {{ title }}
+    </h4>
+    <h4 v-else slot="title">
+      N/A
+    </h4>
+    <h5 v-if="subtitle" slot="subtitle">
+      {{ subtitle }}
+    </h5>
+    <h5 v-else slot="subtitle">
+      No data available yet.
+    </h5>
+  </TmDataMsg>
+</template>
+
+<script>
+import TmDataMsg from "./TmDataMsg.vue"
+
+export default {
+  name: `tm-data-empty`,
+  components: { TmDataMsg },
+  props: {
+    title: {
+      type: String,
+      default: null
+    },
+    subtitle: {
+      type: String,
+      default: null
+    },
+    icon: {
+      type: String,
+      default: `info_outline`
+    }
+  }
+}
+</script>

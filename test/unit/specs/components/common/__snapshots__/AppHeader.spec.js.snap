@@ -21,7 +21,7 @@ exports[`AppHeader should display the sidebar on desktop 1`] = `
       <!---->
     </div>
      
-    <app-menu-stub />
+    <appmenu-stub />
   </div>
 </nav>
 `;
@@ -57,7 +57,7 @@ exports[`AppHeader should show the sidebar as a menu on mobile 1`] = `
       <!---->
     </div>
      
-    <app-menu-stub />
+    <appmenu-stub />
   </div>
 </nav>
 `;

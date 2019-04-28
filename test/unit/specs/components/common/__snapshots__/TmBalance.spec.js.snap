@@ -18,11 +18,11 @@ exports[`TmBalance has the expected html structure before adding props 1`] = `
         class="total-atoms__value"
       >
         
-        3,210.0000…
+        3,210
       
       </h2>
        
-      <short-bech32-stub
+      <shortbech32-stub
         address="cosmos1address"
       />
     </div>
@@ -35,7 +35,7 @@ exports[`TmBalance has the expected html structure before adding props 1`] = `
       </h3>
        
       <h2>
-        1,230.0000…
+        1,230
       </h2>
     </div>
      
@@ -43,14 +43,14 @@ exports[`TmBalance has the expected html structure before adding props 1`] = `
       class="top-section"
     >
       <h3>
-        Pending Rewards
+        Rewards
       </h3>
        
       <h2>
-        1,000,450.0000…
+        1,000,450
       </h2>
        
-      <tm-btn-stub
+      <tmbtn-stub
         class="withdraw-rewards"
         id="withdraw-btn"
         size="sm"
@@ -61,6 +61,6 @@ exports[`TmBalance has the expected html structure before adding props 1`] = `
     </div>
   </div>
     
-  <modal-withdraw-all-rewards-stub />
+  <modalwithdrawallrewards-stub />
 </div>
 `;

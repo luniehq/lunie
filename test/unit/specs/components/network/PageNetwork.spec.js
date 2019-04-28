@@ -1,8 +1,8 @@
 import { shallowMount, createLocalVue } from "@vue/test-utils"
-import PageNetwork from "renderer/components/network/PageNetwork"
+import PageNetwork from "src/components/network/PageNetwork"
 
 const localVue = createLocalVue()
-localVue.directive(`tooltip`, () => { })
+localVue.directive(`tooltip`, () => {})
 
 describe(`PageNetwork`, () => {
   let wrapper
@@ -26,8 +26,8 @@ describe(`PageNetwork`, () => {
       },
       pool: {
         pool: {
-          bonded_tokens: 125,
-          not_bonded_tokens: 10
+          bonded_tokens: 18056799300.444444,
+          not_bonded_tokens: 9008256400.444444
         }
       },
       bondDenom: `stake`,

@@ -20,7 +20,7 @@ describe(`ModalWithdrawAllRewards`, () => {
     wrapper = shallowMount(ModalWithdrawAllRewards, {
       mocks: {
         $store
-      },
+      }
     })
   })
 
@@ -38,9 +38,9 @@ describe(`ModalWithdrawAllRewards`, () => {
     it(`should simulate transaction to estimate gas used`, async () => {
       const estimate = 1234567
       const $store = { dispatch: jest.fn(() => estimate) }
-      const res = await ModalWithdrawAllRewards.methods.simulateForm.call(
-        { $store }
-      )
+      const res = await ModalWithdrawAllRewards.methods.simulateForm.call({
+        $store
+      })
 
       expect($store.dispatch).toHaveBeenCalledWith(`simulateWithdrawAllRewards`)
       expect(res).toBe(estimate)
@@ -58,24 +58,23 @@ describe(`ModalWithdrawAllRewards`, () => {
 
       await ModalWithdrawAllRewards.methods.submitForm.call(
         { bondDenom: `uatom`, $store },
-        gas, gasPrice, ``, `ledger`
+        gas,
+        gasPrice,
+        ``,
+        `ledger`
       )
 
-      expect($store.dispatch).toBeCalledWith(`withdrawAllRewards`,
-        {
-          gas,
-          gas_prices,
-          submitType: `ledger`,
-          password: ``
-        }
-      )
+      expect($store.dispatch).toBeCalledWith(`withdrawAllRewards`, {
+        gas,
+        gas_prices,
+        submitType: `ledger`,
+        password: ``
+      })
 
-      expect($store.commit).toBeCalledWith(`notify`,
-        {
-          title: `Successful withdrawal!`,
-          body: `You have successfully withdrawn your rewards.`
-        }
-      )
+      expect($store.commit).toBeCalledWith(`notify`, {
+        title: `Successful withdrawal!`,
+        body: `You have successfully withdrawn your rewards.`
+      })
     })
   })
 
@@ -85,8 +84,11 @@ describe(`ModalWithdrawAllRewards`, () => {
         const $store = { dispatch: jest.fn() }
         const session = { signedIn: false }
         const $refs = { actionModal: { show: true } }
-        ModalWithdrawAllRewards.watch.lastHeader.handler.call(
-          { session, $store, $refs })
+        ModalWithdrawAllRewards.watch.lastHeader.handler.call({
+          session,
+          $store,
+          $refs
+        })
         expect($store.dispatch).not.toHaveBeenCalledWith(`getTotalRewards`)
       })
 
@@ -94,13 +96,19 @@ describe(`ModalWithdrawAllRewards`, () => {
         const $store = { dispatch: jest.fn() }
         const session = { signedIn: true }
         let $refs = {}
-        ModalWithdrawAllRewards.watch.lastHeader.handler.call(
-          { session, $store, $refs })
+        ModalWithdrawAllRewards.watch.lastHeader.handler.call({
+          session,
+          $store,
+          $refs
+        })
         expect($store.dispatch).not.toHaveBeenCalledWith(`getTotalRewards`)
 
         $refs = { actionModal: { show: false } }
-        ModalWithdrawAllRewards.watch.lastHeader.handler.call(
-          { session, $store, $refs })
+        ModalWithdrawAllRewards.watch.lastHeader.handler.call({
+          session,
+          $store,
+          $refs
+        })
         expect($store.dispatch).not.toHaveBeenCalledWith(`getTotalRewards`)
       })
     })
@@ -110,8 +118,11 @@ describe(`ModalWithdrawAllRewards`, () => {
         const $store = { dispatch: jest.fn() }
         const session = { signedIn: true }
         const $refs = { actionModal: { show: true } }
-        ModalWithdrawAllRewards.watch.lastHeader.handler.call(
-          { session, $store, $refs })
+        ModalWithdrawAllRewards.watch.lastHeader.handler.call({
+          session,
+          $store,
+          $refs
+        })
         expect($store.dispatch).toHaveBeenCalledWith(`getTotalRewards`)
       })
     })
