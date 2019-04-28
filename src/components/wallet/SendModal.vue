@@ -90,7 +90,17 @@
         type="between"
       />
     </TmFormGroup>
+    <TmBtn
+      id="edit-memo-btn"
+      v-if="editMemo === false"
+      value="Edit Memo"
+      :to="''"
+      type="link"
+      size="sm"
+      @click.native="editMemo = true"
+    />
     <TmFormGroup
+      v-if="editMemo"
       :error="$v.memo.$error && $v.memo.$invalid"
       class="action-modal-group"
       field-id="memo"
@@ -120,6 +130,7 @@ import { mapActions, mapGetters } from "vuex"
 import TmFormGroup from "common/TmFormGroup"
 import TmField from "common/TmField"
 import TmFormMsg from "common/TmFormMsg"
+import TmBtn from "common/TmBtn"
 import ActionModal from "common/ActionModal"
 
 export default {
@@ -128,7 +139,8 @@ export default {
     TmField,
     TmFormGroup,
     TmFormMsg,
-    ActionModal
+    ActionModal,
+    TmBtn
   },
   data: () => ({
     address: ``,
@@ -136,7 +148,8 @@ export default {
     denom: ``,
     num,
     memo: "(Sent via Lunie)",
-    max_memo_characters: 256
+    max_memo_characters: 256,
+    editMemo: false
   }),
   computed: {
     ...mapGetters([`wallet`]),
@@ -166,6 +179,8 @@ export default {
 
       this.address = ``
       this.amount = 0
+      this.editMemo = false
+      this.memo = ``
     },
     async simulateForm() {
       const amount = +this.amount
@@ -231,11 +246,18 @@ export default {
       },
       denom: { required },
       memo: {
-        maxLength: maxLength(
-          this.max_memo_characters
-        )
+        maxLength: maxLength(this.max_memo_characters)
       }
     }
   }
 }
 </script>
+<style scoped>
+#edit-memo-btn {
+  display: inline-block;
+  height: 58px;
+  padding: 12px 0;
+  box-sizing: content-box;
+}
+</style>
+
