@@ -69,6 +69,14 @@ describe(`SendModal`, () => {
     expect(self.amount).toBe(0)
   })
 
+  it(`shows the memo input if desired`, () => {
+    wrapper.setData({
+      editMemo: true
+    })
+
+    expect(wrapper.exists("#memo")).toBe(true)
+  })
+
   describe(`validation`, () => {
     it(`should show address required error`, async () => {
       wrapper.setData({

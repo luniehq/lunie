@@ -100,6 +100,7 @@
       @click.native="editMemo = true"
     />
     <TmFormGroup
+      id="memo"
       v-if="editMemo"
       :error="$v.memo.$error && $v.memo.$invalid"
       class="action-modal-group"
