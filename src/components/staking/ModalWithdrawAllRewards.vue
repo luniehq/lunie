@@ -17,7 +17,6 @@
       <TmField
         id="amount"
         v-model="totalRewards"
-        type="number"
         readonly="readonly"
       />
     </TmFormGroup>
