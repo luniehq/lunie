@@ -1,5 +1,5 @@
 <template>
-  <LiTransaction :color="`#F2B134`" :time="time" :block="block">
+  <LiTransaction :color="`#F2B134`" :time="time" :block="block" :memo="memo">
     <template v-if="txType === MsgWithdrawDelegationReward">
       <div slot="caption">
         Withdrawal
@@ -92,6 +92,10 @@ export default {
     block: {
       type: Number,
       required: true
+    },
+    memo: {
+      type: String,
+      default: null
     }
   },
   data: () => ({

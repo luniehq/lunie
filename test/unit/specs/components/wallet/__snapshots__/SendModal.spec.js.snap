@@ -58,6 +58,28 @@ exports[`SendModal should display send modal form 1`] = `
       type="custom"
     />
   </tmformgroup-stub>
+   
+  <tmformgroup-stub
+    class="action-modal-group"
+    fieldid="memo"
+    fieldlabel="Memo"
+  >
+    <span
+      class="input-suffix"
+    >
+      
+      (Sent via Lunie)
+    
+    </span>
+     
+    <tmfield-stub
+      id="memo"
+      placeholder="Add a description..."
+      type="text"
+    />
+     
+    <!---->
+  </tmformgroup-stub>
 </actionmodal-stub>
 `;
 
@@ -118,6 +140,28 @@ exports[`SendModal validation should show address required error 1`] = `
       placeholder="Amount"
       type="number"
       value="2"
+    />
+     
+    <!---->
+  </tmformgroup-stub>
+   
+  <tmformgroup-stub
+    class="action-modal-group"
+    fieldid="memo"
+    fieldlabel="Memo"
+  >
+    <span
+      class="input-suffix"
+    >
+      
+      (Sent via Lunie)
+    
+    </span>
+     
+    <tmfield-stub
+      id="memo"
+      placeholder="Add a description..."
+      type="text"
     />
      
     <!---->
@@ -186,6 +230,28 @@ exports[`SendModal validation should show bech32 error when address length is to
      
     <!---->
   </tmformgroup-stub>
+   
+  <tmformgroup-stub
+    class="action-modal-group"
+    fieldid="memo"
+    fieldlabel="Memo"
+  >
+    <span
+      class="input-suffix"
+    >
+      
+      (Sent via Lunie)
+    
+    </span>
+     
+    <tmfield-stub
+      id="memo"
+      placeholder="Add a description..."
+      type="text"
+    />
+     
+    <!---->
+  </tmformgroup-stub>
 </actionmodal-stub>
 `;
 
@@ -246,6 +312,28 @@ exports[`SendModal validation should show bech32 error when address length is to
       placeholder="Amount"
       type="number"
       value="2"
+    />
+     
+    <!---->
+  </tmformgroup-stub>
+   
+  <tmformgroup-stub
+    class="action-modal-group"
+    fieldid="memo"
+    fieldlabel="Memo"
+  >
+    <span
+      class="input-suffix"
+    >
+      
+      (Sent via Lunie)
+    
+    </span>
+     
+    <tmfield-stub
+      id="memo"
+      placeholder="Add a description..."
+      type="text"
     />
      
     <!---->
@@ -321,6 +409,28 @@ exports[`SendModal validation should show bech32 error when alphanumeric is wron
       name="Wallet"
       type="custom"
     />
+  </tmformgroup-stub>
+   
+  <tmformgroup-stub
+    class="action-modal-group"
+    fieldid="memo"
+    fieldlabel="Memo"
+  >
+    <span
+      class="input-suffix"
+    >
+      
+      (Sent via Lunie)
+    
+    </span>
+     
+    <tmfield-stub
+      id="memo"
+      placeholder="Add a description..."
+      type="text"
+    />
+     
+    <!---->
   </tmformgroup-stub>
 </actionmodal-stub>
 `;

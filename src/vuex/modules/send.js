@@ -73,7 +73,7 @@ export default ({ node }) => {
         gas: args.gas,
         gas_prices: args.gas_prices,
         simulate: args.simulate,
-        memo: `Sent via Lunie`
+        memo: `${args.memo ? args.memo + ` ` : ``}(Sent via Lunie)`
       }
 
       // extract type

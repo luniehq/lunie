@@ -90,12 +90,34 @@
         type="between"
       />
     </TmFormGroup>
+    <TmFormGroup
+      :error="$v.memo.$error && $v.memo.$invalid"
+      class="action-modal-group"
+      field-id="memo"
+      field-label="Memo"
+    >
+      <span class="input-suffix">
+        {{ (memo ? " - " : "") + "(Sent via Lunie)" }}
+      </span>
+      <TmField
+        id="memo"
+        v-model="memo"
+        type="text"
+        placeholder="Add a description..."
+      />
+      <TmFormMsg
+        v-if="$v.memo.$error && !$v.memo.maxLength"
+        name="Memo"
+        type="maxLength"
+        :max="max_memo_characters"
+      />
+    </TmFormGroup>
   </ActionModal>
 </template>
 
 <script>
 import b32 from "scripts/b32"
-import { required, between, decimal } from "vuelidate/lib/validators"
+import { required, between, decimal, maxLength } from "vuelidate/lib/validators"
 import num, { uatoms, atoms, SMALLEST } from "../../scripts/num.js"
 import { mapActions, mapGetters } from "vuex"
 import TmFormGroup from "common/TmFormGroup"
@@ -115,7 +137,9 @@ export default {
     address: ``,
     amount: null,
     denom: ``,
-    num
+    num,
+    memo: null,
+    max_memo_characters: 256 - ` + (Sent via Lunie)`.length
   }),
   computed: {
     ...mapGetters([`wallet`]),
@@ -155,7 +179,8 @@ export default {
       return await this.$store.dispatch(`simulateTx`, {
         type,
         to: address,
-        amount: [{ denom, amount: String(uatoms(amount)) }]
+        amount: [{ denom, amount: String(uatoms(amount)) }],
+        memo: this.memo
       })
     },
     async submitForm(gasEstimate, gasPrice, password, submitType) {
@@ -176,7 +201,8 @@ export default {
         submitType,
         password,
         to: address,
-        amount: [{ denom, amount: String(uatoms(amount)) }]
+        amount: [{ denom, amount: String(uatoms(amount)) }],
+        memo: this.memo
       })
 
       this.$store.commit(`notify`, {
@@ -206,7 +232,12 @@ export default {
         decimal,
         between: between(SMALLEST, atoms(this.balance))
       },
-      denom: { required }
+      denom: { required },
+      memo: {
+        maxLength: maxLength(
+          this.max_memo_characters - ` + (Sent via Lunie)`.length
+        )
+      }
     }
   }
 }

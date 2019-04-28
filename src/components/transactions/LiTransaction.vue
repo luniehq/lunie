@@ -15,6 +15,9 @@
         </div>
         <div class="li-tx__content__information">
           <slot name="details" />
+          <span v-if="memo">
+            &nbsp;- {{ memo.replace(" (Sent via Lunie)", "") }}
+          </span>
         </div>
       </div>
       <div class="li-tx__content__right">
@@ -46,6 +49,10 @@ export default {
     block: {
       type: Number,
       required: true
+    },
+    memo: {
+      type: String,
+      default: null
     }
   },
   computed: {
@@ -111,8 +118,10 @@ export default {
   text-align: right;
 }
 
-.li-tx__content__information > div {
+.li-tx__content__information,
+.li-tx__content__information > * {
   display: flex;
+  flex-direction: row;
 }
 
 .li-tx__content__information,

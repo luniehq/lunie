@@ -1,5 +1,5 @@
 <template>
-  <LiTransaction color="#47AB6C" :time="time" :block="block">
+  <LiTransaction color="#47AB6C" :time="time" :block="block" :memo="memo">
     <template v-if="txType === `cosmos-sdk/MsgCreateValidator`">
       <div slot="caption">
         Create validator
@@ -186,6 +186,10 @@ export default {
     block: {
       type: Number,
       required: true
+    },
+    memo: {
+      type: String,
+      default: null
     }
   },
   data: () => ({

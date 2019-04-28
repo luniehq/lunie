@@ -6,7 +6,8 @@ describe(`LiTransaction`, () => {
   const propsData = {
     color: `#FFFFFF`,
     time: new Date(Date.now()).toISOString(),
-    block: 500
+    block: 500,
+    memo: `TESTING (Sent via Lunie)`
   }
   const day = 86400000
 
