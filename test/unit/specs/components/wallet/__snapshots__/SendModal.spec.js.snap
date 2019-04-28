@@ -72,7 +72,7 @@ exports[`SendModal should display send modal form 1`] = `
     
     </span>
      
-    <tm-field-stub
+    <tmfield-stub
       id="memo"
       placeholder="Add a description..."
       type="text"
@@ -158,7 +158,7 @@ exports[`SendModal validation should show address required error 1`] = `
     
     </span>
      
-    <tm-field-stub
+    <tmfield-stub
       id="memo"
       placeholder="Add a description..."
       type="text"
@@ -244,7 +244,7 @@ exports[`SendModal validation should show bech32 error when address length is to
     
     </span>
      
-    <tm-field-stub
+    <tmfield-stub
       id="memo"
       placeholder="Add a description..."
       type="text"
@@ -330,7 +330,7 @@ exports[`SendModal validation should show bech32 error when address length is to
     
     </span>
      
-    <tm-field-stub
+    <tmfield-stub
       id="memo"
       placeholder="Add a description..."
       type="text"
@@ -424,7 +424,7 @@ exports[`SendModal validation should show bech32 error when alphanumeric is wron
     
     </span>
      
-    <tm-field-stub
+    <tmfield-stub
       id="memo"
       placeholder="Add a description..."
       type="text"
