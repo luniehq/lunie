@@ -15,9 +15,7 @@
         </div>
         <div class="li-tx__content__information">
           <slot name="details" />
-          <span v-if="memo">
-            &nbsp;- {{ memo.replace(" (Sent via Lunie)", "") }}
-          </span>
+          <span v-if="memo"> &nbsp;- {{ memo }} </span>
         </div>
       </div>
       <div class="li-tx__content__right">

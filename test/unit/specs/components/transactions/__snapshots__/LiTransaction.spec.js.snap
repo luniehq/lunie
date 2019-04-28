@@ -39,9 +39,7 @@ exports[`LiTransaction should show a transaction item 1`] = `
         </span>
          
         <span>
-          
-           - TESTING
-        
+            - TESTING (Sent via Lunie) 
         </span>
       </div>
     </div>
