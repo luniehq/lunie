@@ -18,7 +18,7 @@ const httpProxy = require(`http-proxy`)
 
 // Create a proxy server with custom application logic
 const proxy = httpProxy.createProxyServer({})
-const sendError = function (res, err) {
+const sendError = function(res, err) {
   return res.status(500).send({
     error: err,
     message: `An error occured in the proxy`
@@ -26,19 +26,29 @@ const sendError = function (res, err) {
 }
 
 // error handling
-proxy.on(`error`, function (err, req, res) {
-  sendError(res, err)
+proxy.on(`error`, function(err, req, res) {
+  if (res) {
+    sendError(res, err)
+  } else {
+    console.error(err)
+  }
 })
 
-const enableCors = function (req, res) {
+const enableCors = function(req, res) {
   function setRequestedAccessControlHeader(requestHeader, allowHeader) {
     if (req.headers[requestHeader]) {
       res.setHeader(allowHeader, req.headers[requestHeader])
     }
   }
 
-  setRequestedAccessControlHeader(`access-control-request-headers`, `access-control-allow-headers`)
-  setRequestedAccessControlHeader(`access-control-allow-origin`, `access-control-request-headers`)
+  setRequestedAccessControlHeader(
+    `access-control-request-headers`,
+    `access-control-allow-headers`
+  )
+  setRequestedAccessControlHeader(
+    `access-control-allow-origin`,
+    `access-control-request-headers`
+  )
 
   if (req.headers.origin) {
     res.setHeader(`access-control-allow-origin`, req.headers.origin)
@@ -47,7 +57,7 @@ const enableCors = function (req, res) {
 }
 
 // set header for CORS
-proxy.on(`proxyRes`, function (proxyRes, req, res) {
+proxy.on(`proxyRes`, function(proxyRes, req, res) {
   enableCors(req, res)
 })
 
@@ -55,29 +65,41 @@ const fs = require(`fs`),
   { join } = require(`path`),
   https = require(`https`)
 
-const privateKey = fs.readFileSync(join(__dirname, `../../certs/dev.key`)).toString()
-const certificate = fs.readFileSync(join(__dirname, `../../certs/dev.crt`)).toString()
+const privateKey = fs
+  .readFileSync(join(__dirname, `../../certs/dev.key`))
+  .toString()
+const certificate = fs
+  .readFileSync(join(__dirname, `../../certs/dev.crt`))
+  .toString()
 
-const server = https.createServer({
-  key: privateKey,
-  cert: certificate
-}, function (req, res) {
-  // You can define here your custom logic to handle the request
-  // and then proxy the request.
-  if (req.method === `OPTIONS`) {
-    enableCors(req, res)
-    res.writeHead(200)
-    res.end()
-    return
+const server = https.createServer(
+  {
+    key: privateKey,
+    cert: certificate
+  },
+  function(req, res) {
+    // You can define here your custom logic to handle the request
+    // and then proxy the request.
+    if (req.method === `OPTIONS`) {
+      enableCors(req, res)
+      res.writeHead(200)
+      res.end()
+      return
+    }
+
+    proxy.web(
+      req,
+      res,
+      {
+        target: options.target,
+        secure: true,
+        changeOrigin: true
+      },
+      function(err) {
+        sendError(res, err)
+      }
+    )
   }
-
-  proxy.web(req, res, {
-    target: options.target,
-    secure: true,
-    changeOrigin: true
-  }, function (err) {
-    sendError(res, err)
-  })
-})
+)
 
 server.listen(options.port)
