@@ -37,7 +37,7 @@ module.exports = {
   testURL: `http://localhost`,
   setupFiles: [
     `./test/unit/helpers/fixed_time.js`,
-    `./test/unit/helpers/console_error_throw.js`,
+    // `./test/unit/helpers/console_error_throw.js`,
     `./test/unit/helpers/sentry_mock.js`,
     `./test/unit/helpers/mock_perfect-scrollbar.js`,
     `./test/unit/helpers/window_mock.js`,
