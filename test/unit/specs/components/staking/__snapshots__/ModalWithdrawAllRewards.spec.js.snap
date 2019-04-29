@@ -24,7 +24,7 @@ exports[`ModalWithdrawAllRewards should show the withdraw rewards modal 1`] = `
     <tmfield-stub
       id="amount"
       readonly="readonly"
-      type="number"
+      type="text"
       value="10.000000"
     />
   </tmformgroup-stub>

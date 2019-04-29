@@ -14,12 +14,7 @@
       field-label="Amount"
     >
       <span class="input-suffix">{{ num.viewDenom(bondDenom) }}</span>
-      <TmField
-        id="amount"
-        v-model="totalRewards"
-        type="number"
-        readonly="readonly"
-      />
+      <TmField id="amount" v-model="totalRewards" readonly="readonly" />
     </TmFormGroup>
   </ActionModal>
 </template>
