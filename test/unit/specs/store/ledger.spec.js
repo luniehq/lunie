@@ -238,7 +238,9 @@ describe(`Module: Ledger`, () => {
           state.cosmosApp.get_version = jest.fn(async () =>
             Promise.reject(new Error(`Execution Error`))
           )
-          expect(actions.getLedgerCosmosVersion({ commit, dispatch, state })).rejects.toThrow(`Execution Error`)
+          expect(
+            actions.getLedgerCosmosVersion({ commit, dispatch, state })
+          ).rejects.toThrow(`Execution Error`)
           expect(commit).not.toHaveBeenCalledWith(
             `setCosmosAppVersion`,
             version
@@ -256,8 +258,10 @@ describe(`Module: Ledger`, () => {
           state.cosmosApp.get_version = jest.fn(async () => version)
           await expect(
             actions.getLedgerCosmosVersion({ commit, dispatch, state })
-          ).rejects.toThrow(`Comos Ledger App is outdated.` +
-            ` Please update it to the latest version`)
+          ).rejects.toThrow(
+            `Comos Ledger App is outdated.` +
+              ` Please update it to the latest version`
+          )
           expect(commit).not.toHaveBeenCalledWith(
             `setCosmosAppVersion`,
             version
