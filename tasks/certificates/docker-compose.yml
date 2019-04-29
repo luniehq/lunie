@@ -1,0 +1,11 @@
+version: '3'
+services:
+  api:
+    image: "jordi/openssl"
+    volumes:
+      - ../../certs:/work
+      - ./certificates.sh:/etc/certificates.sh
+      - ./openssl.cnf:/etc/openssl.cnf
+    entrypoint:
+      - sh
+      - /etc/certificates.sh

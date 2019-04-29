@@ -1,23 +1,8 @@
-const { buildLocalTestnet } = require(`../../tasks/local-testnet/helpers`)
-const { cliBinary, nodeBinary } = require(`../../tasks/gaia.js`)
-const { join } = require(`path`)
-
-const testDir = join(__dirname, `..`, `..`, `testArtifacts`)
-
 module.exports = {
   // controls the timeout time for async hooks. Expects the done() callback to be invoked within this time
   // or an error is thrown
   asyncHookTimeout: 30000,
 
-  async before(done) {
-    await bootLocalNetwork(testDir, {
-      chainId: `test_chain`,
-      overwrite: true,
-      moniker: `local`
-    })
-
-    done()
-  },
   beforeEach(browser, done) {
     browser.url(browser.launch_url).execute(function() {
       window.localStorage.setItem(
@@ -51,11 +36,4 @@ module.exports = {
       process.exit(1)
     }
   }
-}
-
-const bootLocalNetwork = async (targetDir, options) => {
-  console.log(`using cli binary`, cliBinary)
-  console.log(`using node binary`, nodeBinary)
-
-  await buildLocalTestnet(targetDir, 3, options)
 }
