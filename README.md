@@ -76,17 +76,6 @@ This will create a rich account. You need to import that account into Lunie:
 
 You should now have a bunch of stake to play with.
 
-### Run Lunie on a different network
-
-Start a full node for the network that you want to connect to (See [guide](https://cosmos.network/docs/gaia/join-mainnet.html#setting-up-a-new-node)).
-
-
-Then start Lunie without the local testnet:
-
-```bash
-yarn frontend & yarn connect
-```
-
 ### Deploy
 
 Create the bundle to deploy Lunie you can run:

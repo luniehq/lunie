@@ -1,39 +1,32 @@
 #!/bin/bash
 
+MAINNODEHOME=$1
+NUMBER=$2
 PASSWORD=1234567890
-ACCOUNT=operator_account
-PORT=26656
-MAINNODEIP=`nslookup node | awk '/Address \d: (.+)/ { print $3 }'`
+ACCOUNT=operator_account_$NUMBER
+MAINNODEPORT=26656
+STARTPORT=$((3*$NUMBER+$MAINNODEPORT))
+MAINNODEIP=localhost
 MAINACCOUNT=main_account
 NETWORK=testnet
-REQUEST_FOLDER=/mnt/node/addresses
-HOME=/etc/home
+REQUEST_FOLDER=/var/addresses
+HOME=/var/nodes/$NUMBER
+MAINNODEID=`cat $MAINNODEHOME/id.txt`
 
-echo "Connecting to main node at $MAINNODEIP"
-
-sleep 3s # prevent race
-
-while true; do
-    echo "Checking for main node id"
-    if [[ -f /mnt/node/id.txt ]]; then
-        MAINNODEID=`cat /mnt/node/id.txt`
-        break
-    else
-        sleep 1s
-    fi
-done
-
+# clean up
 rm -rf ${HOME}
 
-# Initialize local node with a secondary account
-gaiad init ${ACCOUNT} --chain-id ${NETWORK} --home ${HOME} 2>/dev/null
+echo "Starting secondary node $ACCOUNT"
 
-echo "Initialized"
+# Initialize local node with a secondary account
+gaiad init ${ACCOUNT} --chain-id ${NETWORK} --home ${HOME} &> /dev/null
+
+# echo "Initialized"
 
 rm -f ${HOME}/config/genesis.json
-cp /mnt/node/config/genesis.json ${HOME}/config/genesis.json
+cp $MAINNODEHOME/config/genesis.json ${HOME}/config/genesis.json
 
 # boot referring to the remote node
-gaiad start --p2p.persistent_peers=${MAINNODEID}@${MAINNODEIP}:${PORT} --home ${HOME} > /dev/null &
+gaiad start --p2p.persistent_peers=${MAINNODEID}@${MAINNODEIP}:${MAINNODEPORT} --p2p.laddr=tcp://0.0.0.0:${STARTPORT} --address=tcp://0.0.0.0:$(($STARTPORT + 1)) --rpc.laddr=tcp://0.0.0.0:$(($STARTPORT + 2)) --home ${HOME} > /dev/null &
 sh /etc/nodes/declareValidation.sh $PASSWORD $ACCOUNT $REQUEST_FOLDER $NETWORK $HOME
 wait

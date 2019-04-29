@@ -1,6 +1,9 @@
 version: '3'
 services:
   node:
+    environment:
+      # mnemonic: `release endorse scale across absurd trouble climb unaware actor elite fantasy chair license word rare length business kiss smoke tackle report february bid ginger`
+      - RICH_ADDRESS=cosmos1ek9cd8ewgxg9w5xllq9um0uf4aaxaruvcw4v9e
     image: "tendermint/gaia:v0.34.1"
     container_name: node
     volumes:
@@ -9,71 +12,7 @@ services:
     entrypoint:
       - sh
       - /etc/nodes/first.sh
-    expose:
-      - 9070
-      - 26657
-      - 26656
     ports:
       - "26657:26657"
       - "9070:9070"
     restart: "always"
-    networks:
-        - frontend
-
-  faucet:
-    image: "tendermint/gaia:v0.34.1"
-    container_name: faucet
-    environment:
-      # mnemonic: `release endorse scale across absurd trouble climb unaware actor elite fantasy chair license word rare length business kiss smoke tackle report february bid ginger`
-      - RICH_ADDRESS=cosmos1ek9cd8ewgxg9w5xllq9um0uf4aaxaruvcw4v9e
-    volumes:
-      - ./nodes:/etc/nodes
-      - ./node:/mnt/node
-    entrypoint:
-      - sh
-      - /etc/nodes/faucet.sh
-    restart: "always"
-    networks:
-        - frontend
-
-  node2:
-    image: "tendermint/gaia:v0.34.1"
-    container_name: node2
-    volumes:
-      - ./nodes:/etc/nodes
-      - ./node:/mnt/node
-    entrypoint:
-      - sh
-      - /etc/nodes/secondary.sh
-    restart: "always"
-    networks:
-        - frontend
-
-  node3:
-    image: "tendermint/gaia:v0.34.1"
-    container_name: node3
-    volumes:
-      - ./nodes:/etc/nodes
-      - ./node:/mnt/node
-    entrypoint:
-      - sh
-      - /etc/nodes/secondary.sh
-    restart: "always"
-    networks:
-        - frontend
-
-  node4:
-    image: "tendermint/gaia:v0.34.1"
-    container_name: node4
-    volumes:
-      - ./nodes:/etc/nodes
-      - ./node:/mnt/node
-    entrypoint:
-      - sh
-      - /etc/nodes/secondary.sh
-    restart: "always"
-    networks:
-        - frontend
-
-networks:
-    frontend:
