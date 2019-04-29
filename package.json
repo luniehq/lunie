@@ -18,7 +18,7 @@
     "build:keybase-cache": "babel-node --presets @babel/env tasks/keybase-fallback.js",
     "build:ui": "cross-env NODE_ENV=production webpack --colors --config webpack.renderer.config.js --mode=production",
     "start": "yarn frontend & yarn proxy & yarn testnet",
-    "serve": "live-server --port 8081 ./dist",
+    "serve": "live-server --port=8081 ./dist",
     "lint": "yarn lint:eslint && yarn lint:css",
     "lint:eslint": "eslint -f ./node_modules/eslint-friendly-formatter \"{,**/}*.{js,vue}\"",
     "lint:css": "stylelint '**/*.{css,vue}'",
