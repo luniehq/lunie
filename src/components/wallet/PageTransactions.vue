@@ -32,7 +32,7 @@
 <script>
 import shortid from "shortid"
 import { mapGetters } from "vuex"
-import { orderBy } from "lodash"
+import orderBy from "lodash.orderby"
 import DataEmptyTx from "common/TmDataEmptyTx"
 import TmPage from "common/TmPage"
 import LiAnyTransaction from "transactions/LiAnyTransaction"

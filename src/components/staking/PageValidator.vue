@@ -189,7 +189,7 @@ import DelegationModal from "staking/DelegationModal"
 import UndelegationModal from "staking/UndelegationModal"
 import ShortBech32 from "common/ShortBech32"
 import TmPage from "common/TmPage"
-import { isEmpty } from "lodash"
+import isEmpty from "lodash.isempty"
 export default {
   name: `page-validator`,
   components: {
