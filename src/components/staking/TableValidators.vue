@@ -21,6 +21,7 @@ import num from "scripts/num"
 import { orderBy } from "lodash"
 import LiValidator from "staking/LiValidator"
 import PanelSort from "staking/PanelSort"
+import BN from "bignumber.js"
 export default {
   name: `table-validators`,
   components: {
@@ -68,12 +69,14 @@ export default {
         const signingInfo = signingInfos[v.operator_address]
         return Object.assign({}, v, {
           small_moniker: v.description.moniker.toLowerCase(),
-          percent_of_vote: v.voting_power / pool.pool.bonded_tokens,
           my_delegations:
             session.signedIn && committedDelegations[v.id] > 0
               ? committedDelegations[v.id]
               : 0,
           commission: v.commission.rate,
+          voting_power: BN(v.tokens)
+            .div(pool.pool.bonded_tokens)
+            .toFixed(10),
           keybase: keybase[v.description.identity],
           rewards:
             session.signedIn && distribution.rewards[v.operator_address]
@@ -114,7 +117,7 @@ export default {
         },
         {
           title: `Voting Power`,
-          value: `percent_of_vote`,
+          value: `voting_power`,
           tooltip: `Percentage of voting shares`
         },
         {

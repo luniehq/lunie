@@ -217,7 +217,8 @@ export default {
       `keybase`,
       `liquidAtoms`,
       `session`,
-      `connected`
+      `connected`,
+      `pool`
     ]),
     validator() {
       const validator = this.delegates.delegates.find(
@@ -233,7 +234,9 @@ export default {
       return validator
     },
     selfBond() {
-      return num.percent(this.validator.selfBond)
+      return num.percent(
+        this.delegates.selfBond[this.validator.operator_address]
+      )
     },
     uptime() {
       if (!this.validator.signing_info) return null
@@ -262,7 +265,7 @@ export default {
     },
     powerRatio() {
       return ratToBigNumber(this.validator.tokens)
-        .div(this.delegates.globalPower)
+        .div(this.pool.pool.bonded_tokens)
         .toNumber()
     },
     lastCommissionChange() {
