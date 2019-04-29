@@ -1,5 +1,5 @@
 import { App, comm_u2f } from "ledger-cosmos-js"
-import { createCosmosAddress } from "../../scripts/wallet.js"
+import { createCosmosAddress } from "scripts/wallet.js"
 import { signatureImport } from "secp256k1"
 
 // TODO: discuss TIMEOUT value
@@ -11,7 +11,7 @@ DerivationPath{44, 118, account, 0, index}
 */
 const HDPATH = [44, 118, 0, 0, 0]
 
-export class Ledger {
+export default class Ledger {
   constructor() {}
 
   async testLedgerDevice() {
@@ -44,10 +44,7 @@ export class Ledger {
 
     await this.testLedgerDevice()
 
-    const communicationMethod = await comm_u2f.create_async(
-      timeout,
-      true
-    )
+    const communicationMethod = await comm_u2f.create_async(timeout, true)
     const cosmosLedgerApp = new App(communicationMethod)
 
     this.cosmosApp = cosmosLedgerApp

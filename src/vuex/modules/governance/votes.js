@@ -21,7 +21,7 @@ export default ({ node }) => {
       if (!rootState.connection.connected) return
 
       try {
-        const votes = await node.getProposalVotes(proposalId)
+        const votes = await node.get.proposalVotes(proposalId)
         commit(`setProposalVotes`, { proposalId, votes })
         state.error = null
         state.loading = false

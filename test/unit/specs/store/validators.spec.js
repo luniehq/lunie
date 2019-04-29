@@ -203,7 +203,7 @@ describe(`Module: Validators`, () => {
         { state, rootState, commit },
         validatorAddr
       )
-      expect(node.getValidatorDistributionInformation).toHaveBeenCalledWith(
+      expect(node.get.validatorDistributionInformation).toHaveBeenCalledWith(
         validatorAddr
       )
       expect(commit).toHaveBeenCalledWith(`setValidatorDistributionInfo`, {
@@ -217,14 +217,14 @@ describe(`Module: Validators`, () => {
 
     it(`fails`, async () => {
       const validatorAddr = null
-      node.getValidatorDistributionInformation = jest.fn(async () =>
+      node.get.validatorDistributionInformation = jest.fn(async () =>
         Promise.reject(Error(`invalid validator address`))
       )
       await actions.getValidatorDistributionInfo(
         { state, rootState, commit },
         validatorAddr
       )
-      expect(node.getValidatorDistributionInformation).toHaveBeenCalledWith(
+      expect(node.get.validatorDistributionInformation).toHaveBeenCalledWith(
         validatorAddr
       )
       expect(commit).not.toHaveBeenCalledWith(`setValidatorDistributionInfo`, {
@@ -258,7 +258,7 @@ describe(`Module: Validators`, () => {
         { state, rootState, commit },
         validatorAddr
       )
-      expect(node.getValidatorRewards).toHaveBeenCalledWith(validatorAddr)
+      expect(node.get.validatorRewards).toHaveBeenCalledWith(validatorAddr)
       expect(commit).toHaveBeenCalledWith(`setValidatorRewards`, {
         validatorAddr,
         rewards
@@ -267,14 +267,14 @@ describe(`Module: Validators`, () => {
 
     it(`fails`, async () => {
       const validatorAddr = null
-      node.getValidatorRewards = jest.fn(async () =>
+      node.get.validatorRewards = jest.fn(async () =>
         Promise.reject(Error(`invalid validator address`))
       )
       await actions.getValidatorDistributionRewards(
         { state, rootState, commit },
         validatorAddr
       )
-      expect(node.getValidatorRewards).toHaveBeenCalledWith(validatorAddr)
+      expect(node.get.validatorRewards).toHaveBeenCalledWith(validatorAddr)
       expect(commit).not.toHaveBeenCalledWith(`setValidatorRewards`, {
         validatorAddr,
         rewards

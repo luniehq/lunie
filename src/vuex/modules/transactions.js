@@ -105,13 +105,13 @@ export default ({ node }) => {
           response = await node.txs(address)
           break
         case TypeStaking:
-          response = await node.getStakingTxs(address, validatorAddress)
+          response = await node.get.stakingTxs(address, validatorAddress)
           break
         case TypeGovernance:
-          response = await node.getGovernanceTxs(address)
+          response = await node.get.governanceTxs(address)
           break
         case TypeDistribution:
-          response = await node.getDistributionTxs(address, validatorAddress)
+          response = await node.get.distributionTxs(address, validatorAddress)
           break
         default:
           throw new Error(`Unknown transaction type: ${type}`)

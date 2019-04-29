@@ -59,7 +59,7 @@ export default ({ node }) => {
       try {
         commit(`setBlocksLoaded`, false)
         commit(`setBlocksLoading`, true)
-        let txs = await node.getTxsByHeight(height)
+        let txs = await node.get.txsByHeight(height)
         const time = state.blockMetas[height].header.time
         txs = txs.map(tx =>
           Object.assign({}, tx, {
@@ -83,7 +83,7 @@ export default ({ node }) => {
         }
         commit(`setBlocksLoaded`, false)
         commit(`setBlocksLoading`, true)
-        const block = await node.getBlock(height)
+        const block = await node.get.block(height)
 
         blockMetaInfo = block.block_meta
         commit(`setBlocksLoading`, false)

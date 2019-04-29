@@ -69,10 +69,9 @@ export default ({ node }) => {
       if (!rootState.connection.connected) return
 
       try {
-        const res = await node.getAccount(state.address)
+        const res = await node.get.account(state.address)
         state.error = null
-        const { coins, sequence, account_number } = res || {}
-        commit(`setNonce`, sequence)
+        const { coins, account_number } = res || {}
         commit(`setAccountNumber`, account_number)
         commit(`setWalletBalances`, coins || [])
         state.loading = false

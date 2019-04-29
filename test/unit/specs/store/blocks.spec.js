@@ -60,7 +60,7 @@ describe(`Module: Blocks`, () => {
           [`5`]: { header: { time: 100 } }
         }
       }
-      node.getTxsByHeight = () =>
+      node.get.txsByHeight = () =>
         Promise.resolve([
           {
             hash: `abcdefghijklm`
@@ -80,7 +80,7 @@ describe(`Module: Blocks`, () => {
     })
 
     it(`should fail if request to full node fails`, async () => {
-      node.getTxsByHeight = () => Promise.reject(Error(`error`))
+      node.get.txsByHeight = () => Promise.reject(Error(`error`))
       const commit = jest.fn()
       await actions.getBlockTxs({ state, commit }, `5`)
       expect(commit).not.toHaveBeenCalledWith(`setBlockTransactions`, [
@@ -94,7 +94,7 @@ describe(`Module: Blocks`, () => {
 
   it(`should query block info`, async () => {
     state.blockMetas = {}
-    node.getBlock = () => ({
+    node.get.block = () => ({
       block_meta: blockMeta,
       block: {
         height: `42`

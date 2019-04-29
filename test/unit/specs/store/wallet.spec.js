@@ -156,7 +156,7 @@ describe(`Module: Wallet`, () => {
         [`setAccountNumber`, `2`],
         [`setWalletBalances`, coins]
       ])
-      expect(node.getAccount).toHaveBeenCalled()
+      expect(node.get.account).toHaveBeenCalled()
     })
 
     describe(`queries the balances on reconnection`, () => {

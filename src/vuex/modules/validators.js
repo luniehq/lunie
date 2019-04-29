@@ -45,7 +45,7 @@ export default ({ node }) => {
       if (!rootState.connection.connected) return
 
       try {
-        const validators = (await node.getValidatorSet()).validators
+        const validators = (await node.get.validatorSet()).validators
         state.error = null
         state.loading = false
         state.loaded = true
@@ -71,7 +71,7 @@ export default ({ node }) => {
         let {
           self_bond_rewards,
           val_commission
-        } = await node.getValidatorDistributionInformation(validatorAddr)
+        } = await node.get.validatorDistributionInformation(validatorAddr)
         self_bond_rewards = coinsToObject(self_bond_rewards)
         val_commission = coinsToObject(val_commission)
         const info = { self_bond_rewards, val_commission }
@@ -87,7 +87,7 @@ export default ({ node }) => {
     async getValidatorDistributionRewards({ commit }, validatorAddr) {
       state.loading = true
       try {
-        const rewardsArray = await node.getValidatorRewards(validatorAddr)
+        const rewardsArray = await node.get.validatorRewards(validatorAddr)
         const rewards = coinsToObject(rewardsArray)
         commit(`setValidatorRewards`, { validatorAddr, rewards })
         state.error = null

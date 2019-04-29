@@ -1,6 +1,6 @@
 "use strict"
 
-import RestClient from "./api.js"
+import Cosmos from "@lunie/cosmos-js"
 import RpcWrapper from "./rpcWrapper.js"
 
 export default function(axios, stargateUrl, mocked = false) {
@@ -10,7 +10,7 @@ export default function(axios, stargateUrl, mocked = false) {
     // activate or deactivate the mocked lcdClient
     setup: mocked => {
       console.log(`Setting connector to state:` + (mocked ? `mocked` : `live`))
-      const newRestClient = new RestClient(axios, stargateUrl)
+      const newRestClient = new Cosmos(stargateUrl)
       const newRpcClient = RpcWrapper(connector)
       Object.assign(connector, newRestClient, newRpcClient)
       // we can't assign class functions to an object so we need to iterate over the prototype

@@ -21,7 +21,7 @@ export default ({ node }) => {
       if (!rootState.connection.connected) return
 
       try {
-        const deposits = await node.getProposalDeposits(proposalId)
+        const deposits = await node.get.proposalDeposits(proposalId)
         state.error = null
         state.loading = false
         state.loaded = true

@@ -109,7 +109,7 @@ describe(`Module: Delegations`, () => {
     })
 
     it(`fetches bonded delegates`, async () => {
-      expect(node.getDelegations).toHaveBeenCalled()
+      expect(node.get.delegations).toHaveBeenCalled()
       expect(commit).toHaveBeenCalledWith(`setCommittedDelegation`, {
         candidateId: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw`,
         value: 14
@@ -121,7 +121,7 @@ describe(`Module: Delegations`, () => {
     })
 
     it(`fetches current undelegations`, async () => {
-      expect(node.getUndelegations).toHaveBeenCalled()
+      expect(node.get.undelegations).toHaveBeenCalled()
       expect(commit).toHaveBeenCalledWith(`setUnbondingDelegations`, [
         {
           validator_address: lcdClientMock.validators[0],

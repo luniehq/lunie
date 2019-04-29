@@ -1,26 +1,25 @@
 import { getKey } from "scripts/keystore"
 import { signWithPrivateKey } from "scripts/wallet"
-import Sender from "connectors/sender"
+import Cosmos from "@lunie/cosmos-js"
 import Ledger from "scripts/ledger"
 
 export default ({ node }) => {
   const state = {
     node,
     externals: {
-      Sender,
+      Cosmos,
       Ledger,
       getKey,
       signWithPrivateKey
     }
   }
 
-  const mutations = {
-  }
+  const mutations = {}
 
   const actions = {
     async getSigner({ state, rootState }, { submitType, password }) {
       if (submitType === `local`) {
-        return (signMessage) => {
+        return signMessage => {
           const wallet = state.externals.getKey(
             rootState.session.localKeyPairName,
             password
@@ -52,18 +51,18 @@ export default ({ node }) => {
         )
       }
 
-      const sender = new state.Sender(state.node.url, rootState.session.address, rootState.connection.lastHeader.chain_id)
-
-      const gasEstimate = await sender[args.type](args).simulate({ memo: args.memo })
+      const cosmos = new state.externals.Cosmos(
+        state.node.url,
+        rootState.session.address
+      )
+      const gasEstimate = cosmos[args.type](args).simulate({ memo: args.memo })
 
       return gasEstimate
     },
-    async sendTx({ state, rootState, dispatch }, {
-      type,
-      txArguments,
-      gas, gasPrice, memo,
-      submitType, password
-    }) {
+    async sendTx(
+      { state, rootState, dispatch },
+      { type, txArguments, gas, gasPrice, memo, submitType, password }
+    ) {
       if (!rootState.connection.connected) {
         throw Error(
           `Currently not connected to a secure node. Please try again when Lunie has secured a connection.`
@@ -71,11 +70,17 @@ export default ({ node }) => {
       }
 
       const signer = await dispatch(`getSigner`, { submitType, password })
-      const sender = new state.Sender(state.node.url, rootState.session.address, rootState.connection.lastHeader.chain_id, signer)
+      const cosmos = new state.externals.Cosmos(
+        state.node.url,
+        rootState.session.address
+      )
 
-      const { included } = await sender[type](txArguments).send({ gas, gasPrice, memo })
+      const { included } = await cosmos[type](txArguments).send(
+        { gas, gasPrice, memo },
+        signer
+      )
       await included()
-    },
+    }
   }
 
   return {

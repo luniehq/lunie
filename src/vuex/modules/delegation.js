@@ -73,9 +73,9 @@ export default ({ node }) => {
       const address = rootState.session.address
 
       try {
-        const delegations = await node.getDelegations(address)
-        const unbondingDelegations = await node.getUndelegations(address)
-        const redelegations = await node.getRedelegations(address)
+        const delegations = await node.get.delegations(address)
+        const unbondingDelegations = await node.get.undelegations(address)
+        const redelegations = await node.get.redelegations(address)
         const delegator = {
           delegations,
           unbondingDelegations,

@@ -47,7 +47,7 @@ describe(`Module: Governance Parameters`, () => {
   })
 
   it(`should store an error if failed to load governance deposit parameters`, async () => {
-    node.getGovDepositParameters = () => Promise.reject(new Error(`Error`))
+    node.get.govDepositParameters = () => Promise.reject(new Error(`Error`))
     const { actions, state } = module
     await actions.getGovParameters({
       state,
@@ -58,7 +58,7 @@ describe(`Module: Governance Parameters`, () => {
   })
 
   it(`should store an error if failed to load governance tally parameters`, async () => {
-    node.getGovTallyingParameters = () => Promise.reject(new Error(`Error`))
+    node.get.govTallyingParameters = () => Promise.reject(new Error(`Error`))
     const { actions, state } = module
     await actions.getGovParameters({
       state,
@@ -69,7 +69,7 @@ describe(`Module: Governance Parameters`, () => {
   })
 
   it(`should store an error if failed to load governance voting parameters`, async () => {
-    node.getGovVotingParameters = () => Promise.reject(new Error(`Error`))
+    node.get.govVotingParameters = () => Promise.reject(new Error(`Error`))
     const { actions, state } = module
     await actions.getGovParameters({
       state,

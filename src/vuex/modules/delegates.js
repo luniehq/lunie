@@ -82,7 +82,7 @@ export default ({ node }) => {
       const signingInfos = await Promise.all(
         validators.map(async validator => {
           if (validator.consensus_pubkey) {
-            const signing_info = await node.getValidatorSigningInfo(
+            const signing_info = await node.get.validatorSigningInfo(
               validator.consensus_pubkey
             )
             return {
@@ -111,7 +111,7 @@ export default ({ node }) => {
       if (!rootState.connection.connected) return
 
       try {
-        let validators = await node.getValidators()
+        let validators = await node.get.validators()
         state.error = null
         state.loading = false
         state.loaded = true
@@ -145,7 +145,7 @@ export default ({ node }) => {
       else {
         const hexAddr = b32.decode(validator.operator_address)
         const operatorCosmosAddr = b32.encode(hexAddr, `cosmos`)
-        const delegation = await node.getDelegation(
+        const delegation = await node.get.delegation(
           operatorCosmosAddr,
           validator.operator_address
         )

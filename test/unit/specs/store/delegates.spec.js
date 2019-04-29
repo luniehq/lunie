@@ -114,7 +114,7 @@ describe(`Module: Delegates`, () => {
     const { actions, state } = instance
     const commit = jest.fn()
     const dispatch = jest.fn()
-    node.getValidators = () => Promise.reject(new Error(`Expected`))
+    node.get.validators = () => Promise.reject(new Error(`Expected`))
     await actions.getDelegates({
       state,
       commit,
@@ -200,7 +200,7 @@ describe(`Module: Delegates`, () => {
       ]
     )
     expect(state.lastValidatorsUpdate).toBe(43)
-    node.getValidatorSigningInfo.mockClear()
+    node.get.validatorSigningInfo.mockClear()
     await actions.updateSigningInfo(
       {
         state,
@@ -215,7 +215,7 @@ describe(`Module: Delegates`, () => {
         }
       ]
     )
-    expect(node.getValidatorSigningInfo).not.toHaveBeenCalled()
+    expect(node.get.validatorSigningInfo).not.toHaveBeenCalled()
   })
 
   it(`should query for delegates on reconnection if was loading before`, async () => {
@@ -249,7 +249,7 @@ describe(`Module: Delegates`, () => {
       operator_address: nodeMock.validators[0],
       delegator_shares: `120`
     }
-    node.getDelegation = jest.fn(() => ({ shares: `12` }))
+    node.get.delegation = jest.fn(() => ({ shares: `12` }))
 
     await actions.getSelfBond({ commit }, validator)
     expect(commit).toHaveBeenCalledWith(`setSelfBond`, {
@@ -266,10 +266,10 @@ describe(`Module: Delegates`, () => {
       delegator_shares: `120`,
       selfBond: BN(1)
     }
-    node.getDelegation = jest.fn()
+    node.get.delegation = jest.fn()
 
     await actions.getSelfBond({ commit }, validator)
-    expect(node.getDelegation).not.toHaveBeenCalled()
+    expect(node.get.delegation).not.toHaveBeenCalled()
   })
 
   it(`should set self bond of a validator`, async () => {
@@ -293,7 +293,7 @@ describe(`Module: Delegates`, () => {
 
   it(`should store an error if failed to load delegates`, async () => {
     const { actions, state } = instance
-    node.getValidators = async () => Promise.reject(`Error`)
+    node.get.validators = async () => Promise.reject(`Error`)
     await actions.getDelegates({
       commit: jest.fn(),
       dispatch: jest.fn(),
