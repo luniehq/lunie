@@ -332,11 +332,11 @@ export default {
         }
       }
     },
-    validator: {
+    "validator.operator_address": {
       immediate: true,
-      handler(validator) {
-        if (!validator) return
-        this.$store.dispatch(`getSelfBond`, validator)
+      handler(operator_address) {
+        if (!operator_address) return
+        this.$store.dispatch(`getSelfBond`, this.validator)
       }
     },
     lastHeader: {

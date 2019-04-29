@@ -1,6 +1,5 @@
 import * as Sentry from "@sentry/browser"
 import BN from "bignumber.js"
-import { ratToBigNumber } from "scripts/common"
 import b32 from "scripts/b32"
 import Vue from "vue"
 
@@ -39,7 +38,7 @@ export default ({ node }) => {
         ratio
       }
     ) {
-      state.selfBond[operator_address] = ratio
+      Vue.set(state.selfBond, operator_address, ratio)
     },
     setSigningInfos(state, signingInfos) {
       state.signingInfos = signingInfos
@@ -131,20 +130,18 @@ export default ({ node }) => {
         return []
       }
     },
-    async getSelfBond({ commit }, validator) {
-      if (validator.selfBond) return validator.selfBond
+    async getSelfBond({ commit, state }, validator) {
+      if (state.selfBond[validator.operator_address])
+        return state.selfBond[validator.operator_address]
       else {
         const hexAddr = b32.decode(validator.operator_address)
         const operatorCosmosAddr = b32.encode(hexAddr, `cosmos`)
-        const delegation = (await node.getDelegations(
-          operatorCosmosAddr
-        )).filter(
+        const delegations = await node.getDelegations(operatorCosmosAddr)
+        const delegation = delegations.filter(
           ({ validator_address }) =>
             validator.operator_address === validator_address
         )[0]
-        const ratio = new BN(delegation.shares).div(
-          ratToBigNumber(validator.delegator_shares)
-        )
+        const ratio = new BN(delegation.shares).div(validator.delegator_shares)
 
         commit(`setSelfBond`, { validator, ratio })
         return ratio
