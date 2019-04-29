@@ -91,7 +91,7 @@ export default {
         return `This validator has been jailed and is not currently validating`
 
       // status: inactive
-      if (parseFloat(this.validator.voting_power) === 0)
+      if (parseFloat(this.validator.status) === 0)
         return `This validator does not have enough voting power and is inactive`
 
       // status: active
@@ -102,7 +102,7 @@ export default {
       if (this.validator.jailed) return `red`
 
       // status: inactive
-      if (parseFloat(this.validator.voting_power) === 0) return `yellow`
+      if (parseFloat(this.validator.status) === 0) return `yellow`
 
       // status: active
       return `green`
