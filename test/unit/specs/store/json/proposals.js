@@ -73,7 +73,7 @@ export const proposals = {
     proposal_content: {
       value: {
         title: `Custom text proposal`,
-        description: `custom text proposal description`,
+        description: `custom text proposal description`
       }
     },
     initial_deposit: [
@@ -91,7 +91,7 @@ export const proposals = {
     submit_time: new Date(Date.now()).toISOString(),
     deposit_end_time: new Date(Date.now() + day * 2).toISOString(),
     voting_start_time: `0001-01-01T00:00:00Z`, // TODO: fix
-    voting_end_time: `0001-01-01T00:00:00Z`,// TODO: fix
+    voting_end_time: `0001-01-01T00:00:00Z`, // TODO: fix
     proposal_status: `DepositPeriod`,
     final_tally_result: {
       yes: `0`,

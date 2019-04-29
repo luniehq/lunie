@@ -2,11 +2,11 @@ import store, {
   getStorageKey,
   storeUpdateHandler,
   loadPersistedState
-} from "renderer/vuex/store"
-import lcdClientMock from "renderer/connectors/lcdClientMock.js"
+} from "src/vuex/store"
+import lcdClientMock from "src/connectors/lcdClientMock.js"
 import { Store } from "vuex"
 
-jest.mock(`renderer/vuex/modules/index.js`, () => () => ({}))
+jest.mock(`src/vuex/modules/index.js`, () => () => ({}))
 
 const mockState = {
   session: {
@@ -103,7 +103,7 @@ describe(`Store`, () => {
   it(`should throttle updating the store cache`, async () => {
     jest.useFakeTimers()
 
-    const pending = setTimeout(() => { }, 10000)
+    const pending = setTimeout(() => {}, 10000)
     storeUpdateHandler({ type: `setWalletBalances` }, mockState, pending)
 
     // not updating yet, as it waits if there are more updates incoming
@@ -116,7 +116,7 @@ describe(`Store`, () => {
   })
 
   it(`should not crash if the stored cache is invalid`, async () => {
-    jest.spyOn(console, `error`).mockImplementationOnce(() => { })
+    jest.spyOn(console, `error`).mockImplementationOnce(() => {})
 
     localStorage.setItem(`store_test-net_xxx`, `xxx`)
     loadPersistedState.call(
@@ -139,7 +139,8 @@ describe(`Store`, () => {
             lastHeader: {}
           }
         }),
-        commit: jest.fn(), dispatch
+        commit: jest.fn(),
+        dispatch
       }
     )
 

@@ -7,7 +7,9 @@ const webpack = require(`webpack`)
 const fs = require(`fs`)
 
 const HtmlWebpackPlugin = require(`html-webpack-plugin`)
+const CSPWebpackPlugin = require(`csp-webpack-plugin`)
 const VueLoaderPlugin = require(`vue-loader/lib/plugin`)
+const MiniCssExtractPlugin = require(`mini-css-extract-plugin`)
 // const BundleAnalyzerPlugin = require(`webpack-bundle-analyzer`)
 // .BundleAnalyzerPlugin
 const CleanWebpackPlugin = require(`clean-webpack-plugin`)
@@ -17,88 +19,96 @@ function resolve(dir) {
   return path.join(__dirname, dir)
 }
 
-const buildPath = path.join(__dirname, `app/dist`)
+const buildPath = path.join(__dirname, `dist`)
 
 const commitHash = require(`child_process`)
   .execSync(`git rev-parse HEAD`)
   .toString()
   .trim()
 
-const devPlugins = process.env.CIRCLECI ? [] : [
-  new CleanWebpackPlugin(),
-  // new BundleAnalyzerPlugin({
-  //   analyzerMode: `static`,
-  //   openAnalyzer: false
-  // })
-]
+const devPlugins = process.env.CIRCLECI
+  ? []
+  : [
+      new CleanWebpackPlugin()
+      // new BundleAnalyzerPlugin({
+      //   analyzerMode: `static`,
+      //   openAnalyzer: false
+      // })
+    ]
+
+const production = process.env.NODE_ENV === `production`
 
 const rendererConfig = {
-  devtool: process.env.NODE_ENV === `production` ?
-    `#cheap-source-map` : `#inline-source-map`,
+  devtool: production ? `#cheap-source-map` : `#inline-source-map`,
   entry: {
-    renderer: path.join(__dirname, `app/src/renderer/main.js`)
+    renderer: path.join(__dirname, `src/main.js`)
   },
   module: {
-    rules: [{
-      test: /\.js$/,
-      use: `babel-loader`,
-      include: [path.resolve(__dirname, `app/src/renderer`)],
-      exclude: /node_modules/
-    },
-    {
-      test: /\.vue$/,
-      use: {
-        loader: `vue-loader`
+    rules: [
+      {
+        test: /\.js$/,
+        use: `babel-loader`,
+        include: [path.resolve(__dirname, `src`)],
+        exclude: /node_modules/
+      },
+      {
+        test: /\.vue$/,
+        use: {
+          loader: `vue-loader`
+        }
+      },
+      {
+        test: /\.css$/,
+        use: [
+          process.env.NODE_ENV !== `production`
+            ? `vue-style-loader`
+            : MiniCssExtractPlugin.loader,
+          {
+            loader: `css-loader`,
+            options: {
+              importLoaders: 1
+            }
+          },
+          {
+            loader: `postcss-loader`,
+            options: {
+              sourceMap: true,
+              ident: `postcss`,
+              plugins: loader => [
+                require(`postcss-import`)({
+                  root: loader.resourcePath
+                }),
+                require(`postcss-preset-env`)({
+                  browsers: `last 3 versions`
+                }),
+                require(`cssnano`)()
+              ]
+            }
+          }
+        ]
+      },
+      {
+        test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
+        use: [
+          {
+            loader: `file-loader`,
+            query: {
+              name: `images/[name].[ext]`
+            }
+          }
+        ]
+      },
+      {
+        test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
+        use: [
+          {
+            loader: `file-loader`,
+            query: {
+              name: `fonts/[name].[ext]`
+            }
+          }
+        ]
       }
-    },
-    {
-      test: /\.css$/,
-      use: [
-        `style-loader`,
-        {
-          loader: `css-loader`,
-          options: {
-            importLoaders: 1
-          }
-        },
-        {
-          loader: `postcss-loader`,
-          options: {
-            sourceMap: true,
-            ident: `postcss`,
-            plugins: loader => [
-              require(`postcss-import`)({
-                root: loader.resourcePath
-              }),
-              require(`postcss-preset-env`)({
-                browsers: `last 3 versions`
-              }),
-              require(`cssnano`)()
-            ]
-          }
-        }
-      ]
-    },
-    {
-      test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
-      use: [{
-        loader: `url-loader`,
-        query: {
-          limit: 10000,
-          name: `images/[name].[ext]`
-        }
-      }]
-    },
-    {
-      test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
-      use: [{
-        loader: `url-loader`,
-        query: {
-          limit: 10000,
-          name: `fonts/[name].[ext]`
-        }
-      }]
-    }
     ]
   },
   node: {
@@ -108,6 +118,9 @@ const rendererConfig = {
   },
   plugins: [
     new VueLoaderPlugin(),
+    new MiniCssExtractPlugin({
+      filename: `style.css`
+    }),
     new webpack.NoEmitOnErrorsPlugin(),
     // the global.GENTLY below fixes a compile issue with superagent + webpack
     // https://github.com/visionmedia/superagent/issues/672
@@ -125,11 +138,42 @@ const rendererConfig = {
     }),
     new HtmlWebpackPlugin({
       filename: `index.html`,
-      template: `./app/index.ejs`,
-      appModules: process.env.NODE_ENV !== `production` ?
-        path.resolve(__dirname, `app/node_modules`) : false,
-      styles: fs.readFileSync(`./app/src/renderer/styles/index.css`, `utf8`),
-      favicon: `./app/static/icons/favicon.ico`
+      template: `./src/index.ejs`,
+      styles: fs.readFileSync(`./src/styles/index.css`, `utf8`),
+      favicon: `./src/assets/images/favicon.ico`
+    }),
+    new CSPWebpackPlugin({
+      "object-src": `'none'`,
+      "base-uri": `'self'`,
+      "default-src": `'self'`,
+      "script-src": [
+        `'self'`,
+        `https://app.appzi.io/`,
+        production ? `https://*.lunie.io` : `https://Localhost:9080`
+      ],
+      "worker-src": `'none'`,
+      // 'style-src': production ? `'self'` : `*`, // SECURITY Appzi is applying styles inline, inquired to them already
+      "style-src": [`'self'`, `'unsafe-inline'`],
+      "connect-src": !production
+        ? `*`
+        : [
+            // third party tools
+            `https://sentry.io`,
+            `https://appzi-collector-b.azurewebsites.net`,
+            `https://keybase.io`,
+            // mainnet
+            `https://stargate.lunie.io`,
+            `wss://rpc.lunie.io:26657`,
+            // testnet
+            `https://sntajlxzsg.execute-api.eu-central-1.amazonaws.com/`,
+            `wss://test.voyager.ninja:26657`
+          ],
+      "frame-src": [`'self'`, `https://app.appzi.io/`],
+      "img-src": [
+        `'self'`,
+        `https://www.google-analytics.com/`,
+        `https://s3.amazonaws.com/keybase_processed_uploads/`
+      ]
     }),
     // warnings caused by websocket-stream, which has a server-part that is unavailable on the the client
     new webpack.IgnorePlugin(/(bufferutil|utf-8-validate)/),
@@ -144,27 +188,21 @@ const rendererConfig = {
   },
   resolve: {
     alias: {
-      renderer: resolve(`app/src/renderer`),
-      "@": resolve(`app/src/renderer`),
-      assets: resolve(`app/src/renderer/assets`),
-      scripts: resolve(`app/src/renderer/scripts`),
-      common: resolve(`app/src/renderer/components/common`),
-      transactions: resolve(`app/src/renderer/components/transactions`),
-      govern: resolve(`app/src/renderer/components/govern`),
-      staking: resolve(`app/src/renderer/components/staking`),
-      wallet: resolve(`app/src/renderer/components/wallet`)
+      src: resolve(`src`),
+      "@": resolve(`src`),
+      assets: resolve(`src/assets`),
+      scripts: resolve(`src/scripts`),
+      common: resolve(`src/components/common`),
+      transactions: resolve(`src/components/transactions`),
+      govern: resolve(`src/components/govern`),
+      staking: resolve(`src/components/staking`),
+      wallet: resolve(`src/components/wallet`)
     },
     extensions: [`.js`, `.vue`, `.json`, `.css`, `.node`],
-    modules: [
-      path.join(__dirname, `app/node_modules`),
-      path.join(__dirname, `node_modules`)
-    ]
+    modules: [path.join(__dirname, `node_modules`)]
   },
   devServer: {
-    contentBase: [
-      path.join(__dirname, `app/dist`),
-      path.join(__dirname, `app`)
-    ],
+    contentBase: [path.join(__dirname, `dist`), path.join(__dirname, `app`)],
     stats: `errors-only`
   },
   optimization: {
@@ -205,7 +243,7 @@ if (process.env.RELEASE) {
   console.log(`releasing to Sentry`)
   rendererConfig.plugins.push(
     new SentryPlugin({
-      include: `./app/dist`,
+      include: `./dist`,
       validate: true
     })
   )

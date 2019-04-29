@@ -5,8 +5,8 @@ aliases:
   # Define paths and never think about them again
   - &GAIA /tmp/gaia
   - &WORKSPACE /tmp/voyager
-  - &DIST /tmp/voyager/app/dist
-  - &DIST_TESTNET /tmp/voyager/app/dist_testnet
+  - &DIST /tmp/voyager/dist
+  - &DIST_TESTNET /tmp/voyager/dist_testnet
   # Pick docker versions here only, then use the aliases in the executors definition
   - &docker-node tendermintdev/voyager_node
   - &docker-browsers tendermintdev/voyager_node_browser
@@ -112,7 +112,7 @@ jobs:
       - checkout
       - yarn-install
       - run: |
-          mkdir -p app/dist
+          mkdir -p dist
 
           yarn build:keybase-cache
           if [ "${CIRCLE_BRANCH}" = "master" ]; then
@@ -129,31 +129,8 @@ jobs:
       - persist_to_workspace:
           root: *WORKSPACE
           paths:
-            - app/dist
-            - app/dist_testnet
-
-  # Build Gaia from the SDK source code specified by tasks/build/Gaia/VERSION
-  buildGaia:
-    executor: go
-    steps:
-      - checkout
-      - restore_cache:
-          key: v8-gaia-{{ checksum "tasks/build/Gaia/VERSION" }}
-      - run: |
-          if [ ! -d /tmp/gaia ]; then
-            cd tasks/build/Gaia
-            TAG=`cat ./VERSION` TARGET=/tmp/gaia PLATFORM=linux ./build.sh
-          fi
-      - save_cache:
-          key: v8-gaia-{{ checksum "tasks/build/Gaia/VERSION" }}
-          paths:
-            - *GAIA
-      - persist_to_workspace:
-          root: *GAIA
-          paths:
-            - "*"
-      - store_artifacts:
-          path: builds/Gaia/linux_amd64/*
+            - dist
+            - dist_testnet
 
   pendingUpdated:
     executor: node
@@ -211,14 +188,15 @@ jobs:
 
   testE2e:
     executor: web
-    environment:
-      - BINARY_PATH: "/tmp/voyager/linux_amd64/gaiacli"
-      - NODE_BINARY_PATH: "/tmp/voyager/linux_amd64/gaiad"
     steps:
       - checkout
       - attach_workspace:
           at: *WORKSPACE
       - yarn-install
+      - run:
+          name: Build for E2E test
+          command: 
+            STARGATE=http://localhost:9070 RPC=http://localhost:26657 CIRCLECI=true yarn build:ui
       - run:
           name: Test
           command: yarn serve & yarn run test:e2e
@@ -243,7 +221,7 @@ jobs:
       - checkout
       - yarn-install
       - run: |
-          mkdir -p app/dist
+          mkdir -p dist
           CIRCLECI=true RELEASE=true yarn build:ui
 
   # Create release.
@@ -321,10 +299,6 @@ workflows:
             - security
             - lint
 
-      - buildGaia:
-          filters:
-            branches:
-              ignore: release
       - deploy2s3:
           requires:
             - testUnit
@@ -345,7 +319,6 @@ workflows:
 
       - testE2e:
           requires:
-            - buildGaia
             - build
           filters:
             branches:

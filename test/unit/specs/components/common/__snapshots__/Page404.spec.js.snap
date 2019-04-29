@@ -1,14 +1,14 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Page404 should show the 404 page 1`] = `
-<tm-page-stub
+<tmpage-stub
   class="four-oh-four"
   data-title="404"
   hideheader="true"
   subtitle=""
   title=""
 >
-  <tm-part-stub
+  <tmpart-stub
     class="four-oh-four-top"
   >
     <h2>
@@ -18,9 +18,9 @@ exports[`Page404 should show the 404 page 1`] = `
     <h3>
       Error code: 404
     </h3>
-  </tm-part-stub>
+  </tmpart-stub>
    
-  <tm-part-stub>
+  <tmpart-stub>
     <p>
       Here are some helpful links to get you out of here:
     </p>
@@ -76,6 +76,6 @@ exports[`Page404 should show the 404 page 1`] = `
         </router-link-stub>
       </li>
     </ul>
-  </tm-part-stub>
-</tm-page-stub>
+  </tmpart-stub>
+</tmpage-stub>
 `;

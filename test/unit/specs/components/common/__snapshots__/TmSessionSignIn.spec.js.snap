@@ -4,7 +4,7 @@ exports[`TmSessionSignIn has the expected html structure 1`] = `
 <div
   class="tm-session"
 >
-  <tm-form-struct-stub
+  <tmformstruct-stub
     class="tm-session-container"
     submit="function () { [native code] }"
     width=""
@@ -40,11 +40,11 @@ exports[`TmSessionSignIn has the expected html structure 1`] = `
     <div
       class="tm-session-main"
     >
-      <tm-form-group-stub
+      <tmformgroup-stub
         fieldid="sign-in-name"
         fieldlabel="Select Account"
       >
-        <tm-field-stub
+        <tmfield-stub
           id="sign-in-name"
           options="[object Object]"
           placeholder="Select account…"
@@ -54,13 +54,13 @@ exports[`TmSessionSignIn has the expected html structure 1`] = `
         />
          
         <!---->
-      </tm-form-group-stub>
+      </tmformgroup-stub>
        
-      <tm-form-group-stub
+      <tmformgroup-stub
         fieldid="sign-in-password"
         fieldlabel="Password"
       >
-        <tm-field-stub
+        <tmfield-stub
           id="sign-in-password"
           type="password"
           value=""
@@ -71,17 +71,17 @@ exports[`TmSessionSignIn has the expected html structure 1`] = `
         <!---->
          
         <!---->
-      </tm-form-group-stub>
+      </tmformgroup-stub>
     </div>
      
     <div
       class="tm-session-footer"
     >
-      <tm-btn-stub
+      <tmbtn-stub
         size="lg"
         value="Next"
       />
     </div>
-  </tm-form-struct-stub>
+  </tmformstruct-stub>
 </div>
 `;

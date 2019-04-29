@@ -84,8 +84,7 @@ exports[`TmSessionHardware has the expected html structure when there're errors 
           target="_blank"
         >
           
-          here
-        
+          here 
         </a>
         .
       
@@ -188,8 +187,7 @@ exports[`TmSessionHardware has the expected html structure with no errors 1`] = 
           target="_blank"
         >
           
-          here
-        
+          here 
         </a>
         .
       
@@ -222,8 +220,7 @@ exports[`TmSessionHardware should show a state indicator for different states of
         <!----></div></div> <img src=\\"~assets/images/loader.svg\\" style=\\"display: none;\\"></div></div> <div class=\\"tm-session-footer\\"><p class=\\"ledger-install\\">
         Don't have the Cosmos Ledger App yet? Install it
         <a href=\\"https://github.com/cosmos/voyager#ledger-cosmos-app\\" target=\\"_blank\\" rel=\\"noopener noreferrer\\">
-          here
-        </a>.
+          here </a>.
       </p> <button class=\\"tm-btn\\"><span class=\\"tm-btn__container\\"><!----><span class=\\"tm-btn__value\\">Sign In</span></span></button></div></div></div>"
 `;
 
@@ -235,7 +232,6 @@ exports[`TmSessionHardware should show a state indicator for different states of
         <!----></div></div> <img src=\\"~assets/images/loader.svg\\" style=\\"\\"></div></div> <div class=\\"tm-session-footer\\"><p class=\\"ledger-install\\">
         Don't have the Cosmos Ledger App yet? Install it
         <a href=\\"https://github.com/cosmos/voyager#ledger-cosmos-app\\" target=\\"_blank\\" rel=\\"noopener noreferrer\\">
-          here
-        </a>.
+          here </a>.
       </p> <button class=\\"tm-btn\\"><span class=\\"tm-btn__container\\"><!----><span class=\\"tm-btn__value\\">Sign In</span></span></button></div></div></div>"
 `;

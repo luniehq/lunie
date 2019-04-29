@@ -1,4 +1,4 @@
-import delegatesModule from "renderer/vuex/modules/delegates.js"
+import delegatesModule from "src/vuex/modules/delegates.js"
 import nodeMock from "../../helpers/node_mock.js"
 import BN from "bignumber.js"
 
@@ -172,7 +172,7 @@ describe(`Module: Delegates`, () => {
         index_offset: 1,
         jailed_until: `1970-01-01T00:00:42.000Z`,
         missed_blocks_counter: 1,
-        start_height: 2,
+        start_height: 2
       }
     })
   })
@@ -187,7 +187,9 @@ describe(`Module: Delegates`, () => {
     state.lastValidatorsUpdate = 0
     await actions.updateSigningInfo(
       {
-        state, commit, getters: { lastHeader: { height: `43` } }
+        state,
+        commit,
+        getters: { lastHeader: { height: `43` } }
       },
       [
         {
@@ -201,7 +203,9 @@ describe(`Module: Delegates`, () => {
     node.getValidatorSigningInfo.mockClear()
     await actions.updateSigningInfo(
       {
-        state, commit, getters: { lastHeader: { height: `44` } }
+        state,
+        commit,
+        getters: { lastHeader: { height: `44` } }
       },
       [
         {

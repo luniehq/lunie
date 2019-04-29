@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`ModalPropose should display proposal modal form 1`] = `
-<action-modal-stub
+<actionmodal-stub
   amount="0"
   id="modal-propose"
   simulatefn="function () { [native code] }"
@@ -10,12 +10,12 @@ exports[`ModalPropose should display proposal modal form 1`] = `
   title="Proposal"
   validate="function () { [native code] }"
 >
-  <tm-form-group-stub
+  <tmformgroup-stub
     class="action-modal-form-group"
     fieldid="title"
     fieldlabel="Title"
   >
-    <tm-field-stub
+    <tmfield-stub
       id="title"
       placeholder="Proposal title"
       type="text"
@@ -25,14 +25,14 @@ exports[`ModalPropose should display proposal modal form 1`] = `
     <!---->
      
     <!---->
-  </tm-form-group-stub>
+  </tmformgroup-stub>
    
-  <tm-form-group-stub
+  <tmformgroup-stub
     class="action-modal-form-group"
     fieldid="description"
     fieldlabel="Description"
   >
-    <tm-field-stub
+    <tmfield-stub
       class="textarea-large"
       id="description"
       placeholder="Write your proposal here..."
@@ -43,9 +43,9 @@ exports[`ModalPropose should display proposal modal form 1`] = `
     <!---->
      
     <!---->
-  </tm-form-group-stub>
+  </tmformgroup-stub>
    
-  <tm-form-group-stub
+  <tmformgroup-stub
     class="action-modal-form-group"
     fieldid="amount"
     fieldlabel="Deposit"
@@ -56,13 +56,13 @@ exports[`ModalPropose should display proposal modal form 1`] = `
       ATOM
     </span>
      
-    <tm-field-stub
+    <tmfield-stub
       id="amount"
       type="number"
       value="0"
     />
      
     <!---->
-  </tm-form-group-stub>
-</action-modal-stub>
+  </tmformgroup-stub>
+</actionmodal-stub>
 `;

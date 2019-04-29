@@ -103,9 +103,11 @@ describe(`TmSessionWelcome`, () => {
 
   describe(`production`, () => {
     it(`should hide sign in with account if users do not opt in`, () => {
-      wrapper.vm.session.accounts = [{
-        name: `test`
-      }]
+      wrapper.vm.session.accounts = [
+        {
+          name: `test`
+        }
+      ]
       expect(wrapper.find(`#sign-in-with-account`).exists()).toBe(true)
       wrapper.vm.session.insecureMode = false
       expect(wrapper.find(`#sign-in-with-account`).exists()).toBe(false)

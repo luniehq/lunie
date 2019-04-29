@@ -4,7 +4,7 @@ exports[`TmSessionExplore shows a form to sign in with an address 1`] = `
 <div
   class="tm-session"
 >
-  <tm-form-struct-stub
+  <tmformstruct-stub
     class="tm-session-container"
     submit="function () { [native code] }"
     width=""
@@ -40,28 +40,28 @@ exports[`TmSessionExplore shows a form to sign in with an address 1`] = `
     <div
       class="tm-session-main"
     >
-      <tm-form-group-stub
+      <tmformgroup-stub
         fieldid="sign-in-name"
         fieldlabel="Address"
       >
-        <tm-field-stub
+        <tmfield-stub
           placeholder="Your Cosmos Address"
           type="text"
           vue-focus="vue-focus"
         />
          
         <!---->
-      </tm-form-group-stub>
+      </tmformgroup-stub>
     </div>
      
     <div
       class="tm-session-footer"
     >
-      <tm-btn-stub
+      <tmbtn-stub
         size="lg"
         value="Next"
       />
     </div>
-  </tm-form-struct-stub>
+  </tmformstruct-stub>
 </div>
 `;

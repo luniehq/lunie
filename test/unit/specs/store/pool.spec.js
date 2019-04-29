@@ -1,4 +1,4 @@
-import poolModule from "renderer/vuex/modules/pool.js"
+import poolModule from "src/vuex/modules/pool.js"
 
 describe(`Module: Pool`, () => {
   let moduleInstance, state, actions, mutations

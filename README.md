@@ -26,7 +26,7 @@ Yarn is a JS package manager we use to manage Lunie's dependencies. Download it 
 
 ### Docker
 
-Building Lunie and its dependencies requires [Docker](https://www.docker.com/) installed. You can download it [here](https://www.docker.com/get-docker).
+To run a local tesnet for Lunie you will need [Docker](https://www.docker.com/) installed. You can download it [here](https://www.docker.com/get-docker).
 
 ### Ledger Cosmos App
 
@@ -53,68 +53,28 @@ yarn install
 
 ## Lunie Development
 
-### Gaia (Cosmos SDK)
-
-Since Lunie runs on top of the Cosmos Hub blockchain, you'll also need to install Gaia (the Cosmos Hub application) and download the supported testnets.
-
-Open the [Docker App](https://www.docker.com/products/docker-desktop) and build the Gaia CLI (`gaiacli`) and the full node (`gaiad`), which are part of the Cosmos SDK, with the following command:
-
-```bash
-yarn build:gaia
-```
-
-The version built is specified in `tasks/build/Gaia/VERSION` and the programs are placed in the `builds/Gaia` directory.
-
-### Testnets
-
-To connect to a testnet, Lunie needs the configuration files of those networks in the folder `app/networks/{network_name}`. Gaia has a Git repository that holds the configuration files. Lunie has script to download those configurations for you:
-
-```bash
-yarn build:testnets
-```
-
-### Caddy Proxy
-
-Currently we need a proxy to enable easy local development. We use [Caddy](https://caddyserver.com). To download run:
-
-```bash
-curl https://getcaddy.com | bash -s personal http.cors
-```
-
-## Local testnet
-
-Sometimes you may want to run a local node, i.e. in the case there is no available network. To do so first [Build Gaia](#gaia-cosmos-sdk), then use our automatic script or the manual process to set up your node.
-
 ### Generate SSL certificates
 
-If you want to have a predictable environment for Lunie please generate some ssl certificates:
+First generate some SSL certificates and add them to your trusted certificates.
 
 ```bash
-openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
-  -keyout server_dev.key -out server_dev.crt \
-  -subj "/C=US/ST=CA/L=Irvine/O=Acme Inc./CN=localhost" \
-  -reqexts v3_req -reqexts SAN -extensions SAN \
-  -config \
-  <(echo -e '
-    [req]\n
-    distinguished_name=req_distinguished_name\n
-    [req_distinguished_name]\n
-    [SAN]\n
-    subjectKeyIdentifier=hash\n
-    authorityKeyIdentifier=keyid:always,issuer:always\n
-    basicConstraints=CA:TRUE\n
-    subjectAltName=@alt_names
-    [alt_names]
-    DNS.1 = localhost
-  ')
+yarn certificates
 ```
 
-Afterwards you can use:
+### Run local testnet
+
+You can simply start a docker based testnet and the frontend.
 
 ```bash
-yarn backend:fixed-https
-yarn frontend:fixed-https
+yarn start
 ```
+
+This will create a rich account. You need to import that account into Lunie:
+- Sign In
+- Import Account
+- Use mnemonic: `release endorse scale across absurd trouble climb unaware actor elite fantasy chair license word rare length business kiss smoke tackle report february bid ginger`
+
+You should now have a bunch of stake to play with.
 
 ### Deploy
 
@@ -136,51 +96,6 @@ Lunie has a automated release process. Every night the CI creates a new release 
 
 ```bash
 yarn release
-```
-
-### Run local testnet
-
-#### Run and create local account
-
-You can create a local account to run Lunie's local-testnet on development mode by using:
-
-```bash
-yarn start:new
-```
-
-This will print a newly generated account on the console, such as the following:
-
-```bash
-Created Account: {
-  name: 'account-with-funds',
-  type: 'local',
-  address: 'cosmos1...',
-  pub_key: 'cosmospub1...',
-  mnemonic: '...'
-  }
-```
-
-To import the account to Lunie, go to the `Import with seed` option on the `Sign in`, and paste the `mnemonic` value from above on the `Seed Phrase` field.
-
-**Note:** Running `yarn start:new` overwrites all previously generated local accounts, meaning that you will have to import the account every time ! Use `yarn start` if you want to keep your account.
-
-#### Run with already generated accounts
-
-Once you've generated a local account, run Lunie on the default `local-testnet`:
-
-```bash
-yarn start
-```
-
-### Set up Lunie on a different network
-
-Start a full node for the network that you want to connect to (See [guide](https://cosmos.network/docs/gaia/join-mainnet.html#setting-up-a-new-node)).
-
-
-Then start Lunie without the local testnet:
-
-```bash
-yarn frontend & yarn connect
 ```
 
 ## Testing

@@ -1,14 +1,16 @@
-import proposalsModule from "renderer/vuex/modules/governance/proposals.js"
+import proposalsModule from "src/vuex/modules/governance/proposals.js"
 import { proposals, tallies } from "../json/proposals"
 import { addresses } from "../json/addresses"
 
 const mockRootState = {
   wallet: {
     address: addresses[0],
-    balances: [{
-      denom: `stake`,
-      amount: 1000000000
-    }]
+    balances: [
+      {
+        denom: `stake`,
+        amount: 1000000000
+      }
+    ]
   },
   connection: {
     connected: true
@@ -73,10 +75,7 @@ describe(`Module: Proposals`, () => {
     it(`when the request is successful`, async () => {
       moduleInstance = proposalsModule({
         node: {
-          getProposals: () =>
-            Promise.resolve(
-              Object.values(proposals)
-            ),
+          getProposals: () => Promise.resolve(Object.values(proposals)),
           getProposalTally: proposal_id => Promise.resolve(tallies[proposal_id])
         }
       })
@@ -124,7 +123,7 @@ describe(`Module: Proposals`, () => {
       const { actions, state } = moduleInstance
       await actions.getProposals({
         state,
-        commit: () => { },
+        commit: () => {},
         rootState: mockRootState
       })
       expect(state.error.message).toBe(`Error`)
@@ -135,8 +134,7 @@ describe(`Module: Proposals`, () => {
     it(`when the request is successful`, async () => {
       moduleInstance = proposalsModule({
         node: {
-          getProposal: proposal_id =>
-            Promise.resolve(proposals[proposal_id]),
+          getProposal: proposal_id => Promise.resolve(proposals[proposal_id]),
           getProposalTally: proposal_id => Promise.resolve(tallies[proposal_id])
         }
       })
@@ -202,7 +200,7 @@ describe(`Module: Proposals`, () => {
       proposal_content: {
         value: {
           title: proposal.title,
-          description: proposal.description,
+          description: proposal.description
         }
       }
     })
@@ -215,7 +213,7 @@ describe(`Module: Proposals`, () => {
       proposal_content: {
         value: {
           title: proposal.title,
-          description: proposal.description,
+          description: proposal.description
         }
       }
     })
@@ -229,49 +227,53 @@ describe(`Module: Proposals`, () => {
     const dispatch = jest.fn()
     const commit = jest.fn()
     const proposalsArray = Object.values(proposals)
-    await Promise.all(proposalsArray.map(async (proposal, i) => {
-      await actions.submitProposal(
-        { dispatch, rootState: mockRootState, commit },
-        {
-          type: proposal.proposal_type,
-          initial_deposit: proposal.initial_deposit,
-          proposal_content: proposal.proposal_content
-        }
-      )
-      expect(dispatch.mock.calls[i]).toEqual([
-        `sendTx`,
-        {
-          type: `postProposal`,
-          proposal_type: proposal.proposal_type,
-          proposer: addresses[0],
-          initial_deposit: proposal.initial_deposit,
-          proposal_content: proposal.proposal_content
-        }
-      ])
+    await Promise.all(
+      proposalsArray.map(async (proposal, i) => {
+        await actions.submitProposal(
+          { dispatch, rootState: mockRootState, commit },
+          {
+            type: proposal.proposal_type,
+            initial_deposit: proposal.initial_deposit,
+            proposal_content: proposal.proposal_content
+          }
+        )
+        expect(dispatch.mock.calls[i]).toEqual([
+          `sendTx`,
+          {
+            type: `postProposal`,
+            proposal_type: proposal.proposal_type,
+            proposer: addresses[0],
+            initial_deposit: proposal.initial_deposit,
+            proposal_content: proposal.proposal_content
+          }
+        ])
 
-      jest.runAllTimers()
-      expect(dispatch.mock.calls[i + proposalsArray.length]).toEqual([
-        `getProposals`
-      ])
+        jest.runAllTimers()
+        expect(dispatch.mock.calls[i + proposalsArray.length]).toEqual([
+          `getProposals`
+        ])
 
-      // optimistic update
-      expect(commit).toHaveBeenCalledWith(`updateWalletBalance`, {
-        denom: `stake`,
-        amount: 1000000000 - proposal.initial_deposit[0].amount
+        // optimistic update
+        expect(commit).toHaveBeenCalledWith(`updateWalletBalance`, {
+          denom: `stake`,
+          amount: 1000000000 - proposal.initial_deposit[0].amount
+        })
       })
-    }))
+    )
 
     // optimistic update
     expect(commit).toHaveBeenCalledWith(`setProposal`, {
-      initial_deposit: [{
-        amount: `200000000`,
-        denom: `stake`,
-      }],
+      initial_deposit: [
+        {
+          amount: `200000000`,
+          denom: `stake`
+        }
+      ],
       proposal_id: `1`,
       proposal_content: {
         value: {
           title: `Custom text proposal`,
-          description: `custom text proposal description`,
+          description: `custom text proposal description`
         }
       }
     })

@@ -1,8 +1,8 @@
-import connectionModule from "renderer/vuex/modules/connection.js"
+import connectionModule from "src/vuex/modules/connection.js"
 
 jest.mock(`src/config.js`, () => ({
   stargate: `https://voyager.lol`,
-  rpc: `https://voyager-rpc.lol`,
+  rpc: `https://voyager-rpc.lol`
 }))
 
 describe(`Module: Connection`, () => {
@@ -40,7 +40,6 @@ describe(`Module: Connection`, () => {
   })
 
   describe(`mutations`, () => {
-
     it(`sets the header`, () => {
       const dispatch = jest.fn()
       actions.setLastHeader(

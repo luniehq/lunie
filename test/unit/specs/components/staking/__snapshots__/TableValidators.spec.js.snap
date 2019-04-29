@@ -6,20 +6,20 @@ exports[`TableValidators has the expected html structure 1`] = `
     class="data-table"
   >
     <thead>
-      <panel-sort-stub
+      <panelsort-stub
         properties="[object Object],[object Object],[object Object],[object Object],[object Object],[object Object]"
         sort="[object Object]"
       />
     </thead>
      
     <tbody>
-      <li-validator-stub
+      <livalidator-stub
         validator="[object Object]"
       />
-      <li-validator-stub
+      <livalidator-stub
         validator="[object Object]"
       />
-      <li-validator-stub
+      <livalidator-stub
         validator="[object Object]"
       />
     </tbody>
