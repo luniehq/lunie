@@ -1,19 +1,17 @@
 import * as Sentry from "@sentry/browser"
 import BN from "bignumber.js"
-import { ratToBigNumber } from "scripts/common"
-import num from "scripts/num"
 import b32 from "scripts/b32"
 import Vue from "vue"
 
 export default ({ node }) => {
   const emptyState = {
     delegates: [],
-    globalPower: null,
     loading: false,
     loaded: false,
     error: null,
     lastValidatorsUpdate: 0,
-    signingInfos: {}
+    signingInfos: {},
+    selfBond: {}
   }
   const state = JSON.parse(JSON.stringify(emptyState))
 
@@ -22,22 +20,16 @@ export default ({ node }) => {
       state.loading = loading
     },
     setDelegates(state, validators) {
-      // update global power for quick access
-      state.globalPower = validators
-        .reduce((sum, validator) => {
-          return sum.plus(ratToBigNumber(validator.tokens))
-        }, new BN(0))
-        .toNumber()
-
       validators.forEach(validator => {
-        validator.id = validator.operator_address
-        validator.voting_power = ratToBigNumber(validator.tokens)
-        validator.percent_of_vote = num.percent(
-          validator.voting_power / state.globalPower
-        )
-
         upsertValidator(state, validator)
       })
+      // filter not existing once out
+      state.delegates = state.delegates.filter(validator =>
+        validators.find(
+          ({ operator_address }) =>
+            validator.operator_address === operator_address
+        )
+      )
     },
     setSelfBond(
       state,
@@ -46,9 +38,7 @@ export default ({ node }) => {
         ratio
       }
     ) {
-      state.delegates.find(
-        validator => validator.operator_address === operator_address
-      ).selfBond = ratio
+      Vue.set(state.selfBond, operator_address, ratio)
     },
     setSigningInfos(state, signingInfos) {
       state.signingInfos = signingInfos
@@ -140,18 +130,18 @@ export default ({ node }) => {
         return []
       }
     },
-    async getSelfBond({ commit }, validator) {
-      if (validator.selfBond) return validator.selfBond
+    async getSelfBond({ commit, state }, validator) {
+      if (state.selfBond[validator.operator_address])
+        return state.selfBond[validator.operator_address]
       else {
         const hexAddr = b32.decode(validator.operator_address)
         const operatorCosmosAddr = b32.encode(hexAddr, `cosmos`)
-        const delegation = await node.getDelegation(
-          operatorCosmosAddr,
-          validator.operator_address
-        )
-        const ratio = new BN(delegation.shares).div(
-          ratToBigNumber(validator.delegator_shares)
-        )
+        const delegations = await node.getDelegations(operatorCosmosAddr)
+        const delegation = delegations.filter(
+          ({ validator_address }) =>
+            validator.operator_address === validator_address
+        )[0]
+        const ratio = new BN(delegation.shares).div(validator.delegator_shares)
 
         commit(`setSelfBond`, { validator, ratio })
         return ratio

@@ -37,7 +37,7 @@
 <script>
 import num from "scripts/num"
 import { mapGetters, mapActions } from "vuex"
-import { orderBy } from "lodash"
+import orderBy from "lodash.orderby"
 import LiCoin from "./LiCoin"
 import SendModal from "wallet/SendModal"
 import TmPage from "common/TmPage"

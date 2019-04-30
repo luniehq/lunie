@@ -189,7 +189,7 @@ import DelegationModal from "staking/DelegationModal"
 import UndelegationModal from "staking/UndelegationModal"
 import ShortBech32 from "common/ShortBech32"
 import TmPage from "common/TmPage"
-import { isEmpty } from "lodash"
+import isEmpty from "lodash.isempty"
 export default {
   name: `page-validator`,
   components: {
@@ -217,7 +217,8 @@ export default {
       `keybase`,
       `liquidAtoms`,
       `session`,
-      `connected`
+      `connected`,
+      `pool`
     ]),
     validator() {
       const validator = this.delegates.delegates.find(
@@ -233,7 +234,9 @@ export default {
       return validator
     },
     selfBond() {
-      return num.percent(this.validator.selfBond)
+      return num.percent(
+        this.delegates.selfBond[this.validator.operator_address]
+      )
     },
     uptime() {
       if (!this.validator.signing_info) return null
@@ -262,7 +265,7 @@ export default {
     },
     powerRatio() {
       return ratToBigNumber(this.validator.tokens)
-        .div(this.delegates.globalPower)
+        .div(this.pool.pool.bonded_tokens)
         .toNumber()
     },
     lastCommissionChange() {
@@ -329,11 +332,11 @@ export default {
         }
       }
     },
-    validator: {
+    "validator.operator_address": {
       immediate: true,
-      handler(validator) {
-        if (!validator) return
-        this.$store.dispatch(`getSelfBond`, validator)
+      handler(operator_address) {
+        if (!operator_address) return
+        this.$store.dispatch(`getSelfBond`, this.validator)
       }
     },
     lastHeader: {

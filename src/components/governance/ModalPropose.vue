@@ -110,7 +110,8 @@ import {
   decimal
 } from "vuelidate/lib/validators"
 import num, { uatoms, atoms, SMALLEST } from "../../scripts/num.js"
-import { isEmpty, trim } from "lodash"
+import isEmpty from "lodash.isempty"
+import trim from "lodash.trim"
 import TmField from "common/TmField"
 import TmFormGroup from "common/TmFormGroup"
 import TmFormMsg from "common/TmFormMsg"

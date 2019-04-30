@@ -49,11 +49,7 @@
       }}
     </td>
     <td class="li-validator__voting-power">
-      {{
-        validator.percent_of_vote
-          ? num.percent(validator.percent_of_vote)
-          : `--`
-      }}
+      {{ validator.tokens ? percentOfVotingPower : `--` }}
     </td>
     <td class="li-validator__commission">
       {{ validator.commission ? num.percent(validator.commission) : `--` }}
@@ -68,6 +64,7 @@
 import { mapGetters } from "vuex"
 import num from "scripts/num"
 import ShortBech32 from "common/ShortBech32"
+import BN from "bignumber.js"
 export default {
   name: `li-validator`,
   components: {
@@ -81,14 +78,20 @@ export default {
   },
   data: () => ({ num }),
   computed: {
-    ...mapGetters([`delegates`, `distribution`, `session`, `lastHeader`]),
+    ...mapGetters([
+      `delegates`,
+      `distribution`,
+      `session`,
+      `lastHeader`,
+      `pool`
+    ]),
     status() {
       // status: jailed
       if (this.validator.jailed)
         return `This validator has been jailed and is not currently validating`
 
       // status: inactive
-      if (parseFloat(this.validator.voting_power) === 0)
+      if (parseFloat(this.validator.status) === 0)
         return `This validator does not have enough voting power and is inactive`
 
       // status: active
@@ -99,10 +102,17 @@ export default {
       if (this.validator.jailed) return `red`
 
       // status: inactive
-      if (parseFloat(this.validator.voting_power) === 0) return `yellow`
+      if (parseFloat(this.validator.status) === 0) return `yellow`
 
       // status: active
       return `green`
+    },
+    percentOfVotingPower() {
+      return num.percent(
+        BN(this.validator.tokens)
+          .div(this.pool.pool.bonded_tokens)
+          .toFixed(4)
+      )
     }
   }
 }

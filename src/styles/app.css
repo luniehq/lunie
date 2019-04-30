@@ -96,7 +96,6 @@ input.tm-field {
   flex: 1;
   display: flex;
   flex-flow: column no-wrap;
-  overflow: scroll;
 }
 
 #appzi-launch-button-cf1d801a-9653-4934-8a18-cea8c9e77495 {

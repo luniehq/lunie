@@ -31,8 +31,6 @@ const validator = {
     update_time: Date.now() - 1
   },
   prev_bonded_shares: `0`,
-  voting_power: `10`,
-  selfBond: 0.01,
   signing_info: {
     missed_blocks_counter: 2
   }
@@ -51,8 +49,10 @@ const getters = {
     address: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`
   },
   delegates: {
+    selfBond: {
+      [validator.operator_address]: 0.01
+    },
     delegates: [validator, validatorTo],
-    globalPower: 4200,
     loaded: true,
     signingInfos: {
       cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw: {
@@ -75,7 +75,12 @@ const getters = {
   keybase: `keybase`,
   liquidAtoms: 1337,
   connected: true,
-  bondDenom: stakingParameters.bond_denom
+  bondDenom: stakingParameters.bond_denom,
+  pool: {
+    pool: {
+      bonded_tokens: 4200
+    }
+  }
 }
 
 describe(`PageValidator`, () => {
@@ -124,13 +129,10 @@ describe(`PageValidator`, () => {
     })
 
     it(`should return the self bond based on the validator`, () => {
-      const validator = {
-        selfBond: 1
-      }
       wrapper.setData({ validator })
-      expect(wrapper.vm.selfBond).toBe(`100.00%`)
+      expect(wrapper.vm.selfBond).toBe(`1.00%`)
 
-      validator.selfBond = undefined
+      wrapper.vm.delegates.selfBond[validator.operator_address] = `0`
       wrapper.setData({ validator })
       expect(wrapper.vm.selfBond).toBe(`0.00%`)
     })
