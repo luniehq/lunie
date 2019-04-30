@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [1.0.0-beta.52] - 2019-04-30
+
+### Fixed
+
+- [#2499](https://github.com/cosmos/lunie/pull/2499) Fix withdraw in europe number format @faboweb
+- [#2493](https://github.com/cosmos/lunie/pull/2493) Throws an error if Ledger Cosmos App is outdated @faboweb
+
 ## [1.0.0-beta.51] - 2019-04-28
 
 ### Added
