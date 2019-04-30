@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [1.0.0-beta.52] - 2019-04-30
+
+### Fixed
+
+- [#2500](https://github.com/cosmos/lunie/issues/2500) Fixed displaying voting power @faboweb
+- [#2500](https://github.com/cosmos/lunie/issues/2500) Fixed displaying of self delegation ratio @faboweb
+- [#2502](https://github.com/cosmos/lunie/pulls/2502) Fixed redelegation @faboweb
+- [#2499](https://github.com/cosmos/lunie/pull/2499) Fix withdraw in europe number format @faboweb
+- [#2493](https://github.com/cosmos/lunie/pull/2493) Throws an error if Ledger Cosmos App is outdated @faboweb
+
 ## [1.0.0-beta.51] - 2019-04-28
 
 ### Added

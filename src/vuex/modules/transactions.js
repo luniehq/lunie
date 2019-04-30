@@ -1,4 +1,4 @@
-import { uniqBy } from "lodash"
+import uniqBy from "lodash.uniqby"
 import * as Sentry from "@sentry/browser"
 import Vue from "vue"
 

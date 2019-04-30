@@ -13,7 +13,6 @@ export default [
       country: `Canada`,
       identity: `keybase`
     },
-    voting_power: 140000,
     signing_info: {
       missed_blocks_counter: 2
     },
@@ -43,7 +42,6 @@ export default [
       country: `USA`,
       identity: `keybase`
     },
-    voting_power: 180000,
     signing_info: null,
     status: 2,
     bond_height: `0`,
@@ -71,7 +69,6 @@ export default [
       identity: `keybase`
     },
     revoked: true,
-    voting_power: 220000,
     signing_info: {
       missed_blocks_counter: 2000
     },

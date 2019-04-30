@@ -10,7 +10,7 @@ export default () => {
   const state = {
     developmentMode: config.development, // can't be set in browser
     experimentalMode: config.development, // development mode, can be set from browser
-    insecureMode: false, // show the local signer
+    insecureMode: true, // show the local signer
     gasPrice: config.default_gas_price, // price per unit of gas
     gasAdjustment: config.default_gas_adjustment, // default adjustment multiplier
     signedIn: false,
