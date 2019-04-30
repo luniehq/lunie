@@ -318,8 +318,6 @@ workflows:
                 - master
 
       - testE2e:
-          requires:
-            - build
           filters:
             branches:
               ignore:
