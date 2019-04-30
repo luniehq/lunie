@@ -29,7 +29,6 @@
     "test:exe": "node tasks/test-build.js",
     "test:coverage": "http-server test/unit/coverage/lcov-report",
     "release": "git checkout develop & git pull & git push origin develop:release",
-    "postcheckout": "yarn",
     "watch": "tasks/watch.sh",
     "testnet": "docker-compose -f ./tasks/local-testnet/docker-compose.yml up",
     "proxy": "node ./tasks/local-testnet/proxy.js",
@@ -73,7 +72,7 @@
     "jest": "24.6.0",
     "jest-localstorage-mock": "2.4.0",
     "json-loader": "0.5.7",
-    "lint-staged": "8.1.5",
+    "lint-prepush": "0.3.1",
     "live-server": "1.2.1",
     "lodash.groupby": "4.6.0",
     "lodash.isempty": "4.4.0",
@@ -137,17 +136,20 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged"
+      "pre-push": "lint-prepush"
     }
   },
-  "lint-staged": {
-    "*.{js,vue}": [
-      "eslint --fix",
-      "git add"
-    ],
-    "*.{css,vue}": [
-      "stylelint --fix",
-      "git add"
-    ]
+  "lint-prepush": {
+    "base": "develop",
+    "tasks": {
+      "*.{js,vue}": [
+        "eslint --fix",
+        "git add"
+      ],
+      "*.{css,vue}": [
+        "stylelint --fix",
+        "git add"
+      ]
+    }
   }
 }
