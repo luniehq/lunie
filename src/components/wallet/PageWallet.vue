@@ -21,6 +21,7 @@
         This account doesn't have anything in it&nbsp;yet.
       </div>
     </TmDataMsg>
+
     <template slot="managed-body">
       <LiCoin
         v-for="coin in filteredBalances"

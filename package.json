@@ -37,18 +37,18 @@
     "changelog": "node tasks/changelog.js"
   },
   "devDependencies": {
+    "@babel/core": "7.4.4",
     "@babel/node": "7.2.2",
     "@babel/plugin-transform-runtime": "7.4.0",
-    "@babel/preset-env": "7.4.2",
+    "@babel/preset-env": "7.4.4",
     "@babel/runtime": "7.4.2",
     "@nodeguy/cli": "0.2.3",
     "@octokit/rest": "16.23.1",
     "@sentry/webpack-plugin": "1.6.2",
     "@vue/test-utils": "1.0.0-beta.29",
     "autoprefixer": "9.5.0",
-    "babel-core": "^7.0.0-0",
     "babel-eslint": "10.0.1",
-    "babel-jest": "24.6.0",
+    "babel-jest": "24.7.1",
     "babel-loader": "8.0.5",
     "babel-plugin-istanbul": "5.1.1",
     "chromedriver": "2.46.0",
@@ -144,6 +144,7 @@
     "tasks": {
       "*.{js,vue}": [
         "eslint --fix",
+        "jest --bail --coverage --findRelatedTests",
         "git add"
       ],
       "*.{css,vue}": [
