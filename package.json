@@ -28,14 +28,14 @@
     "test:e2e": "nightwatch --config ./test/e2e/nightwatch.conf.js",
     "test:exe": "node tasks/test-build.js",
     "test:coverage": "http-server test/unit/coverage/lcov-report",
-    "release": "git checkout develop & git pull & git push origin develop:release",
     "postcheckout": "yarn",
     "watch": "tasks/watch.sh",
     "testnet": "docker-compose -f ./tasks/local-testnet/docker-compose.yml up",
     "proxy": "node ./tasks/local-testnet/proxy.js",
     "certificates": "docker-compose -f tasks/certificates/docker-compose.yml up",
     "frontend": "cross-env NODE_ENV=development FAUCET='http://localhost:8080' webpack-dev-server --hot --colors --config webpack.renderer.config.js --port 9080 --content-base app/dist --https --mode=development --cert 'certs/dev.crt' --key 'certs/dev.key'",
-    "changelog": "node tasks/changelog.js"
+    "changelog": "simsala log --pending-path ./changes",
+    "release": "git checkout develop & git pull & git push origin develop:release"
   },
   "devDependencies": {
     "@babel/node": "7.2.2",
@@ -89,6 +89,7 @@
     "postcss-preset-env": "6.6.0",
     "prettier": "1.17.0",
     "publish-release": "1.6.0",
+    "simsala": "0.0.6",
     "style-loader": "0.23.1",
     "stylelint": "9.10.1",
     "stylelint-config-standard": "18.2.0",

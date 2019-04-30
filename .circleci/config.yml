@@ -230,28 +230,9 @@ jobs:
     steps:
       - checkout
       - yarn-install
-      - run: node tasks/createReleasePR.js
-
-  # Publish the release to GitHub.
-  publish:
-    executor: node
-    steps:
-      - checkout
-      - yarn-install
-      - run:
-          command: |
-            mostRecentTag=$(git describe --abbrev=0 --tags)
-
-            if [ $mostRecentTag = release-candidate ]; then
-              set -o verbose
-
-              # Delete the tag before testing the build in case it fails.
-              git remote add bot https://${GIT_BOT_TOKEN}@github.com/cosmos/voyager.git
-              git tag -d release-candidate
-              git push --delete bot release-candidate
-
-              node tasks/publish.js
-            fi
+      - run: simsala release --pending-path ./changes
+      - run: simsala release-candidate --pending-path ./changes --owner luniehq --repository lunie --token ${GIT_BOT_TOKEN}
+      
   # Push merges to master immediatly back to develop to stay in sync
   mergeBack:
     executor: node
