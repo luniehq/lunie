@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [1.0.0-beta.53] - 2019-05-01
+
+### Changed
+
+- [#2509](https://github.com/cosmos/lunie/pull/2509) Switched to linting on push only @faboweb
+
 ## [1.0.0-beta.52] - 2019-04-30
 
 ### Fixed
