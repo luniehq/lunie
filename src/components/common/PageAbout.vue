@@ -72,16 +72,22 @@
             target="_blank"
             rel="noopener norefferer"
           >
-            GitHub </a
+            GitHub</a
+          >
+          and
+          <a
+            href="https://twitter.com/luniehq"
+            target="_blank"
+            rel="noopener norefferer"
+            >Twitter</a
           >, email us at
           <a
             href="mailto:contact@lunie.io"
             target="_blank"
             rel="noopener norefferer"
           >
-            contact[at]lunie.io
-          </a>
-          or click the <i>feedback</i> button on the left.
+            contact[at]lunie.io </a
+          >, or click the <i>feedback</i> button on the left.
         </p>
       </div>
     </div>
@@ -124,6 +130,10 @@ p {
   font-size: var(--m);
   line-height: 1.5;
   font-weight: 400;
+}
+
+i {
+  font-style: italic;
 }
 
 .profile {

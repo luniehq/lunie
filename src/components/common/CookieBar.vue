@@ -26,7 +26,6 @@ export default {
       this.$store.dispatch(`setAnalyticsCollection`, true)
       this.$store.dispatch(`setErrorCollection`, true)
       this.$store.dispatch(`storeLocalPreferences`)
-      this.$forceUpdate();
     }
   }
 }

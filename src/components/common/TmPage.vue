@@ -43,7 +43,7 @@
             class="app-menu-item-small"
             to="/terms"
             exact="exact"
-            title="About"
+            title="Terms"
           >
             Terms of Service
           </router-link>
@@ -53,9 +53,19 @@
             class="app-menu-item-small"
             to="/privacy"
             exact="exact"
-            title="About"
+            title="Privacy"
           >
             Privacy Policy
+          </router-link>
+        </li>
+        <li>
+          <router-link
+            class="app-menu-item-small"
+            to="/security"
+            exact="exact"
+            title="Security"
+          >
+            Security
           </router-link>
         </li>
       </ul>
