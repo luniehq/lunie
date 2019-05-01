@@ -1,12 +1,14 @@
 <template>
-  <div id="app">
-    <session />
-    <app-header />
-    <div id="app-content">
-      <router-view />
-    </div>
-    <tm-notifications :notifications="notifications" />
+  <div>
     <cookie-bar />
+    <div id="app">
+      <session />
+      <app-header />
+      <div id="app-content">
+        <router-view />
+      </div>
+      <tm-notifications :notifications="notifications" />
+    </div>
   </div>
 </template>
 

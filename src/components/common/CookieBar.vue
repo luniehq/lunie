@@ -1,11 +1,14 @@
 <template>
-  <div v-if="!session.cookiesAccepted" class="cookieBar">
+  <div v-if="!session.cookiesAccepted" class="cookie-bar">
+    <i></i>
+    <p>
+      This site uses cookies to provide you with a great user experience. By
+      using Lunie, you accept our
+      <a class="link" href="/privacy-policy">privacy policy</a>.
+    </p>
     <a class="close">
       <i class="material-icons" @click="accept">close</i>
     </a>
-    Lunie uses cookies and remote error collection to improve the app.
-    By dismissing this notification, you consent to this policy.
-    <a href="/privacy-policy">Click to learn more.</a>
   </div>
 </template>
 
@@ -21,41 +24,44 @@ export default {
       this.$store.dispatch(`setAnalyticsCollection`, true)
       this.$store.dispatch(`setErrorCollection`, true)
       this.$store.dispatch(`storeLocalPreferences`)
+      this.$forceUpdate();
     }
   }
 }
 </script>
 
 <style scoped>
-.cookieBar {
-  position: fixed;
-  left: 39px;
-  bottom: 0;
-  z-index: 1000;
-  max-width: 225px;
-  padding: 17px 31px;
-  border-top-left-radius: 5px;
-  border-top-right-radius: 5px;
-  background-color: var(--app-fg);
-  box-shadow: 0 -2px 6px 0 var(--app-bg);
-  font-size: 13px;
-  line-height: 20px;
+.cookie-bar {
+  left: 0;
+  right: 0;
+  top: 0;
+  width: 100%;
+  padding: 1rem;
+  font-family: var(--sans);
+  background-color: var(--link-dark);
+  font-size: 14px;
+  font-weight: 400;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: var(--bright);
 }
 
-.cookieBar .close {
-  position: absolute;
-  top: 0;
-  right: 0;
-  display: flex;
-  width: 44px;
-  height: 44px;
-  justify-content: center;
-  align-items: center;
+.cookie-bar .link {
+  text-decoration: underline;
+  color: var(--bright);
+}
+
+.cookie-bar .close {
   cursor: pointer;
+  height: 1rem;
+  width: 1rem;
+  color: var(--bright);
 }
 
 @media (max-width: 767px) {
-  .cookieBar {
+  .cookie-bar {
     left: 0;
     border-radius: 0;
     max-width: 100%;
