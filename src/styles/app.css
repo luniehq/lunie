@@ -38,6 +38,10 @@ a:hover {
   font-family: var(--sans);
   color: var(--txt);
   display: flex;
+  padding-top: 56px;
+  flex-flow: column nowrap;
+  min-width: 0;
+  overflow: hidden;
 }
 
 .tm-field {

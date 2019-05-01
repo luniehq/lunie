@@ -1,9 +1,11 @@
 <template>
   <div v-if="!session.cookiesAccepted" class="cookie-bar">
-    <i></i>
+    <i class="hide-on-mobile"></i>
     <p>
-      This site uses cookies to provide you with a great user experience. By
-      using Lunie, you accept our
+      <span class="hide-on-mobile"
+        >This site uses cookies to help improve the user experience.</span
+      >
+      By using Lunie, you accept our
       <a class="link" href="/privacy-policy">privacy policy</a>.
     </p>
     <a class="close">
@@ -38,7 +40,7 @@ export default {
   width: 100%;
   padding: 1rem;
   font-family: var(--sans);
-  background-color: var(--link-dark);
+  background-color: var(--primary);
   font-size: 14px;
   font-weight: 400;
   text-align: center;
@@ -62,9 +64,16 @@ export default {
 
 @media (max-width: 767px) {
   .cookie-bar {
-    left: 0;
-    border-radius: 0;
-    max-width: 100%;
+    position: fixed;
+    top: auto;
+    bottom: 0;
+    z-index: 99;
+    padding: 0.5rem;
+    justify-content: space-around;
+  }
+
+  .hide-on-mobile {
+    display: none;
   }
 }
 </style>
