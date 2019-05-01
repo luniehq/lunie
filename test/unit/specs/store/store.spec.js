@@ -2,11 +2,11 @@ import store, {
   getStorageKey,
   storeUpdateHandler,
   loadPersistedState
-} from "renderer/vuex/store"
-import lcdClientMock from "renderer/connectors/lcdClientMock.js"
+} from "src/vuex/store"
+import lcdClientMock from "src/connectors/lcdClientMock.js"
 import { Store } from "vuex"
 
-jest.mock(`renderer/vuex/modules/index.js`, () => () => ({}))
+jest.mock(`src/vuex/modules/index.js`, () => () => ({}))
 
 const mockState = {
   session: {
@@ -123,6 +123,29 @@ describe(`Store`, () => {
       { replaceState: jest.fn() },
       { state: mockState, commit: jest.fn() }
     )
+  })
+
+  it(`should retry if network is unknown`, async () => {
+    const dispatch = jest.fn()
+    const replaceState = jest.fn()
+
+    localStorage.setItem(`store_test-net_xxx`, `xxx`)
+    jest.useRealTimers()
+    await loadPersistedState.call(
+      { replaceState },
+      {
+        state: Object.assign({}, mockState, {
+          connection: {
+            lastHeader: {}
+          }
+        }),
+        commit: jest.fn(),
+        dispatch
+      }
+    )
+
+    expect(dispatch).toHaveBeenCalledWith(`loadPersistedState`)
+    expect(replaceState).not.toHaveBeenCalled()
   })
 
   it(`get storage keys`, () => {

@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`TabStakingParameters displays a message if loading 1`] = `
-<tm-data-loading-stub
+<tmdataloading-stub
   title="Data is loading…"
 />
 `;
@@ -54,7 +54,7 @@ exports[`TabStakingParameters displays a message if loading 2`] = `
               id="bond_denom"
             >
               
-              stake
+              STAKE
             
             </dd>
           </dl>
@@ -85,7 +85,7 @@ exports[`TabStakingParameters displays a message if loading 2`] = `
 </div>
 `;
 
-exports[`TabStakingParameters displays a message if waiting for connection 1`] = `<tm-data-connecting-stub />`;
+exports[`TabStakingParameters displays a message if waiting for connection 1`] = `<tmdataconnecting-stub />`;
 
 exports[`TabStakingParameters displays a message if waiting for connection 2`] = `
 <div>
@@ -135,7 +135,7 @@ exports[`TabStakingParameters displays a message if waiting for connection 2`] =
               id="bond_denom"
             >
               
-              stake
+              STAKE
             
             </dd>
           </dl>
@@ -214,7 +214,7 @@ exports[`TabStakingParameters has the expected html structure 1`] = `
               id="bond_denom"
             >
               
-              stake
+              STAKE
             
             </dd>
           </dl>

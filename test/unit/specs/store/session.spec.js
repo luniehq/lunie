@@ -1,4 +1,4 @@
-import sessionModule from "renderer/vuex/modules/session.js"
+import sessionModule from "src/vuex/modules/session.js"
 
 describe(`Module: Session`, () => {
   let module, state, actions, mutations, node
@@ -124,23 +124,25 @@ describe(`Module: Session`, () => {
     const commit = jest.fn()
     await actions.loadAccounts({ commit, state })
 
-    expect(commit).toHaveBeenCalledWith(`setAccounts`, [{
-      name: `def`,
-      address: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`
-    }])
+    expect(commit).toHaveBeenCalledWith(`setAccounts`, [
+      {
+        name: `def`,
+        address: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`
+      }
+    ])
   })
 
   it(`should show an error if loading accounts fails`, async () => {
     jest.spyOn(console, `error`).mockImplementationOnce(() => { })
 
     jest.resetModules()
-    jest.doMock(`renderer/scripts/keystore.js`, () => ({
+    jest.doMock(`scripts/keystore.js`, () => ({
       loadKeys: async () => {
         throw Error(`Error`)
       }
     }))
 
-    const sessionModule = require(`renderer/vuex/modules/session.js`).default
+    const sessionModule = require(`src/vuex/modules/session.js`).default
     module = sessionModule({ node })
     state = module.state
     actions = module.actions
@@ -175,14 +177,14 @@ describe(`Module: Session`, () => {
 
   it(`should test if the login works`, async () => {
     jest.resetModules()
-    jest.doMock(`renderer/scripts/keystore.js`, () => ({
+    jest.doMock(`scripts/keystore.js`, () => ({
       testPassword: jest
         .fn()
         .mockReturnValueOnce(true)
         .mockReturnValueOnce(false)
     }))
 
-    const sessionModule = require(`renderer/vuex/modules/session.js`).default
+    const sessionModule = require(`src/vuex/modules/session.js`).default
     module = sessionModule({ node })
     state = module.state
     actions = module.actions
@@ -261,6 +263,23 @@ describe(`Module: Session`, () => {
       expect(commit).toHaveBeenCalledWith(`setSessionType`, `ledger`)
       expect(dispatch).toHaveBeenCalledWith(`loadPersistedState`)
       expect(dispatch).toHaveBeenCalledWith(`initializeWallet`, { address })
+      expect(state.externals.track).toHaveBeenCalled()
+    })
+
+    it(`in explore mode`, async () => {
+      const address = `cosmos1qpd4xgtqmxyf9ktjh757nkdfnzpnkamny3cpzv`
+      const commit = jest.fn()
+      const dispatch = jest.fn()
+      await actions.signIn(
+        { state, commit, dispatch },
+        { sessionType: `explore`, address }
+      )
+      expect(commit).toHaveBeenCalledWith(`setUserAddress`, address)
+      expect(commit).toHaveBeenCalledWith(`toggleSessionModal`, false)
+      expect(commit).toHaveBeenCalledWith(`setSessionType`, `explore`)
+      expect(dispatch).toHaveBeenCalledWith(`loadPersistedState`)
+      expect(dispatch).toHaveBeenCalledWith(`initializeWallet`, { address })
+      expect(dispatch).toHaveBeenCalledWith(`loadErrorCollection`, address)
       expect(state.externals.track).toHaveBeenCalled()
     })
   })
@@ -416,18 +435,40 @@ describe(`Module: Session`, () => {
 
   describe(`persistance`, () => {
     it(`persists the session in localstorage`, async () => {
-      await actions.persistSession({}, { localKeyPairName: `def`, address: `xxx`, sessionType: `local` })
-      expect(localStorage.getItem(`session`)).toEqual(JSON.stringify({ localKeyPairName: `def`, address: `xxx`, sessionType: `local` }))
+      await actions.persistSession(
+        {},
+        { localKeyPairName: `def`, address: `xxx`, sessionType: `local` }
+      )
+      expect(localStorage.getItem(`session`)).toEqual(
+        JSON.stringify({
+          localKeyPairName: `def`,
+          address: `xxx`,
+          sessionType: `local`
+        })
+      )
     })
 
     it(`persists the session on sign in`, async () => {
       const dispatch = jest.fn()
-      await actions.signIn({ state, commit: jest.fn(), dispatch }, { localKeyPairName: `def`, address: `xxx`, sessionType: `local` })
-      expect(dispatch).toHaveBeenCalledWith(`persistSession`, { localKeyPairName: `def`, address: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`, sessionType: `local` })
+      await actions.signIn(
+        { state, commit: jest.fn(), dispatch },
+        { localKeyPairName: `def`, address: `xxx`, sessionType: `local` }
+      )
+      expect(dispatch).toHaveBeenCalledWith(`persistSession`, {
+        localKeyPairName: `def`,
+        address: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
+        sessionType: `local`
+      })
 
       dispatch.mockClear()
-      await actions.signIn({ state, commit: jest.fn(), dispatch }, { address: `xxx`, sessionType: `ledger` })
-      expect(dispatch).toHaveBeenCalledWith(`persistSession`, { address: `xxx`, sessionType: `ledger` })
+      await actions.signIn(
+        { state, commit: jest.fn(), dispatch },
+        { address: `xxx`, sessionType: `ledger` }
+      )
+      expect(dispatch).toHaveBeenCalledWith(`persistSession`, {
+        address: `xxx`,
+        sessionType: `ledger`
+      })
     })
 
     it(`removes the persisted session on sign out`, async () => {
@@ -438,9 +479,20 @@ describe(`Module: Session`, () => {
 
     it(`signs the user in if a session was found`, async () => {
       const dispatch = jest.fn()
-      localStorage.setItem(`session`, JSON.stringify({ localKeyPairName: `def`, address: `xxx`, sessionType: `local` }))
+      localStorage.setItem(
+        `session`,
+        JSON.stringify({
+          localKeyPairName: `def`,
+          address: `xxx`,
+          sessionType: `local`
+        })
+      )
       await actions.checkForPersistedSession({ dispatch })
-      expect(dispatch).toHaveBeenCalledWith(`signIn`, { localKeyPairName: `def`, address: `xxx`, sessionType: `local` })
+      expect(dispatch).toHaveBeenCalledWith(`signIn`, {
+        localKeyPairName: `def`,
+        address: `xxx`,
+        sessionType: `local`
+      })
 
       dispatch.mockClear()
       localStorage.removeItem(`session`)

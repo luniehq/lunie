@@ -4,7 +4,7 @@ import TmBalance from "common/TmBalance"
 describe(`TmBalance`, () => {
   let wrapper, $store
 
-  beforeEach(() => {
+  beforeEach(async () => {
     $store = {
       getters: {
         connected: true,
@@ -35,6 +35,9 @@ describe(`TmBalance`, () => {
     wrapper = shallowMount(TmBalance, {
       mocks: {
         $store
+      },
+      methods: {
+        update: () => {}
       }
     })
   })
@@ -44,7 +47,7 @@ describe(`TmBalance`, () => {
   })
 
   it(`displays unbonded tokens`, () => {
-    expect(wrapper.vm.unbondedAtoms).toBe(`1,230.0000…`)
+    expect(wrapper.vm.unbondedAtoms).toBe(`1,230`)
   })
 
   it(`displays neither total tokens nor unbonded tokens if not completely loaded`, () => {
@@ -60,12 +63,12 @@ describe(`TmBalance`, () => {
   })
 
   it(`gets user rewards`, () => {
-    expect(wrapper.vm.rewards).toBe(`1,000,450.0000…`)
+    expect(wrapper.vm.rewards).toBe(`1,000,450`)
   })
 
   it(`shows 0 if user doesn't have rewards`, () => {
     wrapper.vm.$store.getters.distribution.totalRewards = {}
-    expect(wrapper.vm.rewards).toBe(`0.0000…`)
+    expect(wrapper.vm.rewards).toBe(`0`)
   })
 
   it(`opens withdraw modal`, () => {
@@ -80,50 +83,65 @@ describe(`TmBalance`, () => {
         const $store = { dispatch: jest.fn() }
         const session = { signedIn: false }
         const newHeader = { height: `10` }
+        const update = jest.fn()
         TmBalance.watch.lastHeader.handler.call(
-          { session, $store },
-          newHeader)
-        expect($store.dispatch).not.toHaveBeenCalledWith(`getTotalRewards`)
-        expect($store.dispatch).not.toHaveBeenCalledWith(`queryWalletBalances`)
+          { session, $store, lastUpdate: 0, update },
+          newHeader
+        )
+        expect(update).not.toHaveBeenCalledWith()
       })
 
       it(`if hasn't waited for 10 blocks `, () => {
         const $store = { dispatch: jest.fn() }
         const session = { signedIn: true }
         const newHeader = { height: `12` }
+        const update = jest.fn()
         TmBalance.watch.lastHeader.handler.call(
-          { session, $store },
-          newHeader)
-        expect($store.dispatch).not.toHaveBeenCalledWith(`getTotalRewards`)
-        expect($store.dispatch).not.toHaveBeenCalledWith(`queryWalletBalances`)
+          { session, $store, lastUpdate: 0, update },
+          newHeader
+        )
+        expect(update).not.toHaveBeenCalledWith()
       })
     })
 
     describe(`should update balance and rewards `, () => {
       it(`if user is signed in initially`, () => {
-        const $store = { dispatch: jest.fn() }
         const session = { signedIn: true }
         const newHeader = { height: `10` }
+        const update = jest.fn()
         TmBalance.watch.lastHeader.handler.call(
-          { session, $store, lastUpdate: 0 },
-          newHeader)
-        expect($store.dispatch).toHaveBeenCalledWith(`getTotalRewards`)
-        expect($store.dispatch).toHaveBeenCalledWith(`queryWalletBalances`)
+          { session, lastUpdate: 0, update },
+          newHeader
+        )
+        expect(update).toHaveBeenCalledWith(10)
       })
 
       it(`if user is signed in and wait for 10 blocks`, () => {
-        const $store = { dispatch: jest.fn() }
         const session = { signedIn: true }
         const newHeader = { height: `20` }
+        const update = jest.fn()
         TmBalance.watch.lastHeader.handler.call(
-          { session, $store, lastUpdate: 15 },
-          newHeader)
-        expect($store.dispatch).not.toHaveBeenCalled()
+          { session, lastUpdate: 15, update },
+          newHeader
+        )
+        expect(update).not.toHaveBeenCalled()
         TmBalance.watch.lastHeader.handler.call(
-          { session, $store, lastUpdate: 5 },
-          newHeader)
+          { session, lastUpdate: 5, update },
+          newHeader
+        )
+        expect(update).toHaveBeenCalledWith(20)
+      })
+
+      it(`triggers an update`, () => {
+        const $store = { dispatch: jest.fn() }
+        const self = {
+          $store,
+          lastUpdate: 0
+        }
+        TmBalance.methods.update.call(self, 10)
         expect($store.dispatch).toHaveBeenCalledWith(`getTotalRewards`)
         expect($store.dispatch).toHaveBeenCalledWith(`queryWalletBalances`)
+        expect(self.lastUpdate).toBe(10)
       })
     })
   })

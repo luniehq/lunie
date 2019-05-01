@@ -23,7 +23,7 @@ exports[`LiCoin has the expected html structure 1`] = `
         class="coin-denom"
       >
         
-        Stake
+        STAKE
       
       </p>
        
@@ -36,7 +36,7 @@ exports[`LiCoin has the expected html structure 1`] = `
       </p>
     </div>
      
-    <tm-btn-stub
+    <tmbtn-stub
       color="primary"
       value="Send"
     />

@@ -2,14 +2,14 @@
 
 import Vuelidate from "vuelidate"
 import { shallowMount, createLocalVue } from "@vue/test-utils"
-import ModalPropose from "renderer/components/governance/ModalPropose"
+import ModalPropose from "src/components/governance/ModalPropose"
 
 describe(`ModalPropose`, () => {
   let wrapper, $store
 
   const localVue = createLocalVue()
   localVue.use(Vuelidate)
-  localVue.directive(`focus`, () => { })
+  localVue.directive(`focus`, () => {})
 
   const inputs = {
     amount: 15,
@@ -18,7 +18,6 @@ describe(`ModalPropose`, () => {
   }
 
   beforeEach(async () => {
-
     $store = {
       commit: jest.fn(),
       dispatch: jest.fn(),
@@ -27,12 +26,10 @@ describe(`ModalPropose`, () => {
         connection: { connected: true },
         liquidAtoms: 200000000,
         wallet: {
-          balances: [
-            { denom: `uatom`, amount: `20000000` }
-          ],
+          balances: [{ denom: `uatom`, amount: `20000000` }],
           loading: false
         }
-      },
+      }
     }
     wrapper = shallowMount(ModalPropose, {
       localVue,
@@ -140,23 +137,19 @@ describe(`ModalPropose`, () => {
     it(`should simulate transaction to estimate gas used`, async () => {
       const estimate = 1234567
       const $store = { dispatch: jest.fn(() => estimate) }
-      const res = await ModalPropose.methods.simulateForm.call(
-        {
-          $store,
-          type: `Text`,
-          denom: `uatom`,
-          ...inputs
-        }
-      )
+      const res = await ModalPropose.methods.simulateForm.call({
+        $store,
+        type: `Text`,
+        denom: `uatom`,
+        ...inputs
+      })
 
-      expect($store.dispatch).toHaveBeenCalledWith(`simulateProposal`,
-        {
-          description: `a valid description for the proposal`,
-          initial_deposit: [{ amount: `15000000`, denom: `uatom` }],
-          title: `A new text proposal for Cosmos`,
-          type: `Text`,
-        }
-      )
+      expect($store.dispatch).toHaveBeenCalledWith(`simulateProposal`, {
+        description: `a valid description for the proposal`,
+        initial_deposit: [{ amount: `15000000`, denom: `uatom` }],
+        title: `A new text proposal for Cosmos`,
+        type: `Text`
+      })
       expect(res).toBe(estimate)
     })
   })
@@ -174,28 +167,27 @@ describe(`ModalPropose`, () => {
 
       await ModalPropose.methods.submitForm.call(
         { ...inputs, type: `Text`, denom: `uatom`, bondDenom: `uatom`, $store },
-        gas, gasPrice, ``, `ledger`
+        gas,
+        gasPrice,
+        ``,
+        `ledger`
       )
 
-      expect($store.dispatch).toHaveBeenCalledWith(`submitProposal`,
-        {
-          description: `a valid description for the proposal`,
-          initial_deposit: [{ amount: `15000000`, denom: `uatom` }],
-          title: `A new text proposal for Cosmos`,
-          type: `Text`,
-          gas,
-          gas_prices,
-          submitType: `ledger`,
-          password: ``
-        }
-      )
+      expect($store.dispatch).toHaveBeenCalledWith(`submitProposal`, {
+        description: `a valid description for the proposal`,
+        initial_deposit: [{ amount: `15000000`, denom: `uatom` }],
+        title: `A new text proposal for Cosmos`,
+        type: `Text`,
+        gas,
+        gas_prices,
+        submitType: `ledger`,
+        password: ``
+      })
 
-      expect($store.commit).toHaveBeenCalledWith(`notify`,
-        {
-          body: `You have successfully submitted a new text proposal`,
-          title: `Successful proposal submission!`
-        }
-      )
+      expect($store.commit).toHaveBeenCalledWith(`notify`, {
+        body: `You have successfully submitted a new text proposal`,
+        title: `Successful proposal submission!`
+      })
     })
   })
 })

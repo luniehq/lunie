@@ -1,5 +1,5 @@
 import { shallowMount } from "@vue/test-utils"
-import LiCoin from "renderer/components/wallet/LiCoin"
+import LiCoin from "src/components/wallet/LiCoin"
 
 describe(`LiCoin`, () => {
   let wrapper
@@ -10,6 +10,15 @@ describe(`LiCoin`, () => {
         coin: {
           denom: `Stake`,
           amount: `10000000000`
+        }
+      },
+      mocks: {
+        $store: {
+          getters: {
+            lastHeader: {
+              chain_id: `testnet`
+            }
+          }
         }
       }
     })
@@ -24,6 +33,6 @@ describe(`LiCoin`, () => {
   })
 
   it(`should capitalize the coin denomination`, () => {
-    expect(wrapper.vm.denomination).toEqual(`Stake`)
+    expect(wrapper.vm.denomination).toEqual(`STAKE`)
   })
 })

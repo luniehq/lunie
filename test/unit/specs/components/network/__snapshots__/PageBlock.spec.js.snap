@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`PageBlock shows a page with information about a certain block 1`] = `
-<tm-page-stub
+<tmpage-stub
   data-title="Block"
   subtitle=""
   title=""
@@ -65,7 +65,7 @@ exports[`PageBlock shows a page with information about a certain block 1`] = `
          
         <!---->
          
-        <li-any-transaction-stub
+        <lianytransaction-stub
           address=""
           bondingdenom="atom"
           height="100"
@@ -76,7 +76,7 @@ exports[`PageBlock shows a page with information about a certain block 1`] = `
           validators="[object Object],[object Object],[object Object]"
           validatorsurl="/staking/validators"
         />
-        <li-any-transaction-stub
+        <lianytransaction-stub
           address=""
           bondingdenom="atom"
           height="100"
@@ -87,7 +87,7 @@ exports[`PageBlock shows a page with information about a certain block 1`] = `
           validators="[object Object],[object Object],[object Object]"
           validatorsurl="/staking/validators"
         />
-        <li-any-transaction-stub
+        <lianytransaction-stub
           address=""
           bondingdenom="atom"
           height="100"
@@ -103,11 +103,11 @@ exports[`PageBlock shows a page with information about a certain block 1`] = `
       </div>
     </div>
   </div>
-</tm-page-stub>
+</tmpage-stub>
 `;
 
 exports[`PageBlock shows the block page with no txs 1`] = `
-<tm-page-stub
+<tmpage-stub
   data-title="Block"
   subtitle=""
   title=""
@@ -169,7 +169,7 @@ exports[`PageBlock shows the block page with no txs 1`] = `
           
         </h3>
          
-        <tm-data-msg-stub
+        <tmdatamsg-stub
           icon="info_outline"
         >
           <div>
@@ -180,20 +180,20 @@ exports[`PageBlock shows the block page with no txs 1`] = `
            
           <div>
             
-              This block doesn't contain any transaction.
+              This block doesn't contain any transactions.
             
           </div>
-        </tm-data-msg-stub>
+        </tmdatamsg-stub>
           
         <br />
       </div>
     </div>
   </div>
-</tm-page-stub>
+</tmpage-stub>
 `;
 
 exports[`PageBlock shows the page when the block hasn't been loaded yet 1`] = `
-<tm-page-stub
+<tmpage-stub
   data-title="Block"
   subtitle=""
   title=""
@@ -255,5 +255,5 @@ exports[`PageBlock shows the page when the block hasn't been loaded yet 1`] = `
       </div>
     </div>
   </div>
-</tm-page-stub>
+</tmpage-stub>
 `;

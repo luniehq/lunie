@@ -8,7 +8,7 @@ import {
   generateWallet,
   createSignedTx,
   createBroadcastBody
-} from "renderer/scripts/wallet.js"
+} from "scripts/wallet.js"
 
 describe(`Key Generation`, () => {
   it(`should create a master key from a seed`, () => {
@@ -240,7 +240,7 @@ describe(`Signing`, () => {
     expect(createBroadcastBody(signedTx)).toEqual(
       JSON.stringify({
         tx: { x: 1 },
-        return: `block`
+        mode: `sync`
       })
     )
   })

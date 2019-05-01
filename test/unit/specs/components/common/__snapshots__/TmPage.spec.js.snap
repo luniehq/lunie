@@ -4,7 +4,7 @@ exports[`TmPage should show links to other pages 1`] = `
 <div
   class="tm-page"
 >
-  <tm-page-header-stub
+  <tmpageheader-stub
     tabs=""
   >
     <!---->
@@ -14,11 +14,11 @@ exports[`TmPage should show links to other pages 1`] = `
     <template>
       <!---->
        
-      <tool-bar-stub />
+      <toolbar-stub />
     </template>
      
     <template />
-  </tm-page-header-stub>
+  </tmpageheader-stub>
    
   <main
     class="tm-page-main"
@@ -26,6 +26,53 @@ exports[`TmPage should show links to other pages 1`] = `
     <!---->
      
   </main>
+   
+  <footer
+    class="footer"
+  >
+    <ul
+      class="link-list"
+    >
+      <li>
+        <router-link-stub
+          class="app-menu-item-small"
+          exact="exact"
+          title="About"
+          to="/about"
+        >
+          
+          About
+        
+        </router-link-stub>
+      </li>
+       
+      <li>
+        <router-link-stub
+          class="app-menu-item-small"
+          exact="exact"
+          title="About"
+          to="/terms"
+        >
+          
+          Terms of Service
+        
+        </router-link-stub>
+      </li>
+       
+      <li>
+        <router-link-stub
+          class="app-menu-item-small"
+          exact="exact"
+          title="About"
+          to="/privacy"
+        >
+          
+          Privacy Policy
+        
+        </router-link-stub>
+      </li>
+    </ul>
+  </footer>
 </div>
 `;
 
@@ -33,7 +80,7 @@ exports[`TmPage shows a page skeleton 1`] = `
 <div
   class="tm-page"
 >
-  <tm-page-header-stub
+  <tmpageheader-stub
     tabs=""
   >
     <!---->
@@ -43,11 +90,11 @@ exports[`TmPage shows a page skeleton 1`] = `
     <template>
       <!---->
        
-      <tool-bar-stub />
+      <toolbar-stub />
     </template>
      
     <template />
-  </tm-page-header-stub>
+  </tmpageheader-stub>
    
   <main
     class="tm-page-main"
@@ -55,5 +102,52 @@ exports[`TmPage shows a page skeleton 1`] = `
     <!---->
      
   </main>
+   
+  <footer
+    class="footer"
+  >
+    <ul
+      class="link-list"
+    >
+      <li>
+        <router-link-stub
+          class="app-menu-item-small"
+          exact="exact"
+          title="About"
+          to="/about"
+        >
+          
+          About
+        
+        </router-link-stub>
+      </li>
+       
+      <li>
+        <router-link-stub
+          class="app-menu-item-small"
+          exact="exact"
+          title="About"
+          to="/terms"
+        >
+          
+          Terms of Service
+        
+        </router-link-stub>
+      </li>
+       
+      <li>
+        <router-link-stub
+          class="app-menu-item-small"
+          exact="exact"
+          title="About"
+          to="/privacy"
+        >
+          
+          Privacy Policy
+        
+        </router-link-stub>
+      </li>
+    </ul>
+  </footer>
 </div>
 `;

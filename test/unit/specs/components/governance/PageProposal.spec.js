@@ -1,7 +1,7 @@
 "use strict"
 
 import moment from "moment"
-import PageProposal from "renderer/components/governance/PageProposal"
+import PageProposal from "src/components/governance/PageProposal"
 
 import { proposals, tallies } from "../../store/json/proposals"
 import { governanceParameters } from "../../store/json/parameters"
@@ -58,9 +58,14 @@ describe(`PageProposal`, () => {
     wrapper = shallowMount(PageProposal, args)
   })
 
-  describe(`has the expected html structure`, () => {
+  describe(`should display proposal page`, () => {
     it(`if user has signed in`, async () => {
       wrapper = shallowMount(PageProposal, args)
+      expect(wrapper.vm.$el).toMatchSnapshot()
+    })
+
+    it(`should default tally to 0 if it's not yet present `, () => {
+      wrapper.vm.proposals.tallies = {}
       expect(wrapper.vm.$el).toMatchSnapshot()
     })
   })
@@ -89,7 +94,10 @@ describe(`PageProposal`, () => {
   })
 
   it(`shows an error if the proposal couldn't be found`, () => {
-    wrapper = shallowMount(PageProposal, { ...args, propsData: { proposalId: `666` } })
+    wrapper = shallowMount(PageProposal, {
+      ...args,
+      propsData: { proposalId: `666` }
+    })
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
@@ -179,10 +187,14 @@ describe(`PageProposal`, () => {
       const thisIs = {
         $refs: { modalVote: { open: () => {} } },
         $store,
-        votes: { 2: [{
-          voter: `X`,
-          vote: `yes`
-        }] },
+        votes: {
+          2: [
+            {
+              voter: `X`,
+              vote: `yes`
+            }
+          ]
+        },
         proposalId: `2`,
         lastVote: undefined,
         wallet: { address: `X` }

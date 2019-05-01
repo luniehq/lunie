@@ -1,6 +1,5 @@
 /archive
-/app/dist/
-/app/networks/
+/dist
 /**/builds/*
 /testArtifacts
 /test/unit/coverage/

@@ -12,9 +12,7 @@ exports[`LiValidator has the expected html structure 1`] = `
         data-table__row__info__image
         data-table__row__info__image--no-img
       "
-      height="48"
       src="~assets/images/validator-icon.svg"
-      width="48"
     />
      
     <div
@@ -36,7 +34,7 @@ exports[`LiValidator has the expected html structure 1`] = `
       <div
         class="data-table__row__info__container__description"
       >
-        <short-bech32-stub
+        <shortbech32-stub
           address="cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au"
         />
       </div>
@@ -63,7 +61,7 @@ exports[`LiValidator has the expected html structure 1`] = `
     class="li-validator__voting-power"
   >
     
-    22.00%
+    1.40%
   
   </td>
    
@@ -97,9 +95,7 @@ exports[`LiValidator should display uptime as double-dash 1`] = `
         data-table__row__info__image
         data-table__row__info__image--no-img
       "
-      height="48"
       src="~assets/images/validator-icon.svg"
-      width="48"
     />
      
     <div
@@ -121,7 +117,7 @@ exports[`LiValidator should display uptime as double-dash 1`] = `
       <div
         class="data-table__row__info__container__description"
       >
-        <short-bech32-stub
+        <shortbech32-stub
           address="cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au"
         />
       </div>
@@ -148,7 +144,7 @@ exports[`LiValidator should display uptime as double-dash 1`] = `
     class="li-validator__voting-power"
   >
     
-    22.00%
+    1.40%
   
   </td>
    
@@ -182,9 +178,7 @@ exports[`LiValidator works if user is not signed in 1`] = `
         data-table__row__info__image
         data-table__row__info__image--no-img
       "
-      height="48"
       src="~assets/images/validator-icon.svg"
-      width="48"
     />
      
     <div
@@ -206,7 +200,7 @@ exports[`LiValidator works if user is not signed in 1`] = `
       <div
         class="data-table__row__info__container__description"
       >
-        <short-bech32-stub
+        <shortbech32-stub
           address="cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au"
         />
       </div>
@@ -233,7 +227,7 @@ exports[`LiValidator works if user is not signed in 1`] = `
     class="li-validator__voting-power"
   >
     
-    22.00%
+    1.40%
   
   </td>
    

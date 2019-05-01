@@ -1,9 +1,10 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`LiStakeTransaction create validator with fees 1`] = `
-<li-transaction-stub
+<litransaction-stub
   block="500"
   color="#47AB6C"
+  memo="TESTING (Sent via Lunie)"
   time="1970-01-01T00:00:42.000Z"
 >
   <div>
@@ -11,11 +12,11 @@ exports[`LiStakeTransaction create validator with fees 1`] = `
       Create validator
       
     <b>
-      1.000000
+      1
     </b>
      
     <span>
-      atoms
+      
     </span>
   </div>
    
@@ -35,24 +36,24 @@ exports[`LiStakeTransaction create validator with fees 1`] = `
   <div>
     
       Network Fee: 
-      
     <b>
-      0.003421
+      0.003
     </b>
      
     <span>
       
-        atoms
+        ATOM
       
     </span>
   </div>
-</li-transaction-stub>
+</litransaction-stub>
 `;
 
 exports[`LiStakeTransaction create validator without fees 1`] = `
-<li-transaction-stub
+<litransaction-stub
   block="500"
   color="#47AB6C"
+  memo="TESTING (Sent via Lunie)"
   time="1970-01-01T00:00:42.000Z"
 >
   <div>
@@ -60,11 +61,11 @@ exports[`LiStakeTransaction create validator without fees 1`] = `
       Create validator
       
     <b>
-      1.000000
+      1
     </b>
      
     <span>
-      atoms
+      
     </span>
   </div>
    
@@ -84,36 +85,36 @@ exports[`LiStakeTransaction create validator without fees 1`] = `
   <div>
     
       Network Fee: 
-      
     <b>
-      0.000000
+      0
     </b>
      
     <span>
       
-        atoms
+        ATOM
       
     </span>
   </div>
-</li-transaction-stub>
+</litransaction-stub>
 `;
 
 exports[`LiStakeTransaction delegations with fees 1`] = `
-<li-transaction-stub
+<litransaction-stub
   block="500"
   color="#47AB6C"
+  memo="TESTING (Sent via Lunie)"
   time="1970-01-01T00:00:42.000Z"
 >
   <div>
     
-      Delegation
+      Delegated
       
     <b>
-      42,000.000000
+      42000
     </b>
      
     <span>
-      atoms
+      ATOM
     </span>
   </div>
    
@@ -133,36 +134,36 @@ exports[`LiStakeTransaction delegations with fees 1`] = `
   <div>
     
       Network Fee: 
-      
     <b>
-      0.003421
+      0.003
     </b>
      
     <span>
       
-        atoms
+        ATOM
       
     </span>
   </div>
-</li-transaction-stub>
+</litransaction-stub>
 `;
 
 exports[`LiStakeTransaction delegations without fees 1`] = `
-<li-transaction-stub
+<litransaction-stub
   block="500"
   color="#47AB6C"
+  memo="TESTING (Sent via Lunie)"
   time="1970-01-01T00:00:42.000Z"
 >
   <div>
     
-      Delegation
+      Delegated
       
     <b>
-      42,000.000000
+      42000
     </b>
      
     <span>
-      atoms
+      ATOM
     </span>
   </div>
    
@@ -182,24 +183,24 @@ exports[`LiStakeTransaction delegations without fees 1`] = `
   <div>
     
       Network Fee: 
-      
     <b>
-      0.000000
+      0
     </b>
      
     <span>
       
-        atoms
+        ATOM
       
     </span>
   </div>
-</li-transaction-stub>
+</litransaction-stub>
 `;
 
 exports[`LiStakeTransaction edit validator with fees 1`] = `
-<li-transaction-stub
+<litransaction-stub
   block="500"
   color="#47AB6C"
+  memo="TESTING (Sent via Lunie)"
   time="1970-01-01T00:00:42.000Z"
 >
   <div>
@@ -224,24 +225,24 @@ exports[`LiStakeTransaction edit validator with fees 1`] = `
   <div>
     
       Network Fee: 
-      
     <b>
-      0.003421
+      0.003
     </b>
      
     <span>
       
-        atoms
+        ATOM
       
     </span>
   </div>
-</li-transaction-stub>
+</litransaction-stub>
 `;
 
 exports[`LiStakeTransaction edit validator without fees 1`] = `
-<li-transaction-stub
+<litransaction-stub
   block="500"
   color="#47AB6C"
+  memo="TESTING (Sent via Lunie)"
   time="1970-01-01T00:00:42.000Z"
 >
   <div>
@@ -266,38 +267,38 @@ exports[`LiStakeTransaction edit validator without fees 1`] = `
   <div>
     
       Network Fee: 
-      
     <b>
-      0.000000
+      0
     </b>
      
     <span>
       
-        atoms
+        ATOM
       
     </span>
   </div>
-</li-transaction-stub>
+</litransaction-stub>
 `;
 
 exports[`LiStakeTransaction redelegations with fees 1`] = `
-<li-transaction-stub
+<litransaction-stub
   block="500"
   color="#47AB6C"
+  memo="TESTING (Sent via Lunie)"
   time="1970-01-01T00:00:42.000Z"
 >
   <div>
     
-      Redelegation
+      Redelegated
       
     <b>
       
-        30.000000
+        1
       
     </b>
      
     <span>
-      atoms
+      ATOM
     </span>
   </div>
    
@@ -313,7 +314,7 @@ exports[`LiStakeTransaction redelegations with fees 1`] = `
       
     </router-link-stub>
     
-      to
+       to 
       
     <router-link-stub
       to="/validator/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au"
@@ -327,38 +328,38 @@ exports[`LiStakeTransaction redelegations with fees 1`] = `
   <div>
     
       Network Fee: 
-      
     <b>
-      0.003421
+      0.003
     </b>
      
     <span>
       
-        atoms
+        ATOM
       
     </span>
   </div>
-</li-transaction-stub>
+</litransaction-stub>
 `;
 
 exports[`LiStakeTransaction redelegations without fees 1`] = `
-<li-transaction-stub
+<litransaction-stub
   block="500"
   color="#47AB6C"
+  memo="TESTING (Sent via Lunie)"
   time="1970-01-01T00:00:42.000Z"
 >
   <div>
     
-      Redelegation
+      Redelegated
       
     <b>
       
-        30.000000
+        1
       
     </b>
      
     <span>
-      atoms
+      ATOM
     </span>
   </div>
    
@@ -374,7 +375,7 @@ exports[`LiStakeTransaction redelegations without fees 1`] = `
       
     </router-link-stub>
     
-      to
+       to 
       
     <router-link-stub
       to="/validator/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au"
@@ -388,38 +389,38 @@ exports[`LiStakeTransaction redelegations without fees 1`] = `
   <div>
     
       Network Fee: 
-      
     <b>
-      0.000000
+      0
     </b>
      
     <span>
       
-        atoms
+        ATOM
       
     </span>
   </div>
-</li-transaction-stub>
+</litransaction-stub>
 `;
 
 exports[`LiStakeTransaction unbonding delegations should default to ended if no unbonding delegation is present 1`] = `
-<li-transaction-stub
+<litransaction-stub
   block="500"
   color="#47AB6C"
+  memo="TESTING (Sent via Lunie)"
   time="1970-01-01T00:00:42.000Z"
 >
   <div>
     
-      Undelegation
+      Undelegated
       
     <b>
       
-        0.000323
+        1
       
     </b>
      
     <span>
-      atoms
+      ATOM
     </span>
      
     <!---->
@@ -441,38 +442,38 @@ exports[`LiStakeTransaction unbonding delegations should default to ended if no 
   <div>
     
       Network Fee: 
-      
     <b>
-      0.003421
+      0.003
     </b>
      
     <span>
       
-        atoms
+        ATOM
       
     </span>
   </div>
-</li-transaction-stub>
+</litransaction-stub>
 `;
 
 exports[`LiStakeTransaction unbonding delegations should show unbonding delegations as ended 1`] = `
-<li-transaction-stub
+<litransaction-stub
   block="500"
   color="#47AB6C"
+  memo="TESTING (Sent via Lunie)"
   time="1970-01-01T00:00:42.000Z"
 >
   <div>
     
-      Undelegation
+      Undelegated
       
     <b>
       
-        0.000323
+        1
       
     </b>
      
     <span>
-      atoms
+      ATOM
     </span>
      
     <!---->
@@ -494,38 +495,38 @@ exports[`LiStakeTransaction unbonding delegations should show unbonding delegati
   <div>
     
       Network Fee: 
-      
     <b>
-      0.003421
+      0.003
     </b>
      
     <span>
       
-        atoms
+        ATOM
       
     </span>
   </div>
-</li-transaction-stub>
+</litransaction-stub>
 `;
 
 exports[`LiStakeTransaction unbonding delegations with fees 1`] = `
-<li-transaction-stub
+<litransaction-stub
   block="500"
   color="#47AB6C"
+  memo="TESTING (Sent via Lunie)"
   time="1970-01-01T00:00:42.000Z"
 >
   <div>
     
-      Undelegation
+      Undelegated
       
     <b>
       
-        0.000323
+        1
       
     </b>
      
     <span>
-      atoms
+      ATOM
     </span>
      
     <span
@@ -553,38 +554,38 @@ exports[`LiStakeTransaction unbonding delegations with fees 1`] = `
   <div>
     
       Network Fee: 
-      
     <b>
-      0.003421
+      0.003
     </b>
      
     <span>
       
-        atoms
+        ATOM
       
     </span>
   </div>
-</li-transaction-stub>
+</litransaction-stub>
 `;
 
 exports[`LiStakeTransaction unbonding delegations without fees 1`] = `
-<li-transaction-stub
+<litransaction-stub
   block="500"
   color="#47AB6C"
+  memo="TESTING (Sent via Lunie)"
   time="1970-01-01T00:00:42.000Z"
 >
   <div>
     
-      Undelegation
+      Undelegated
       
     <b>
       
-        0.000323
+        1
       
     </b>
      
     <span>
-      atoms
+      ATOM
     </span>
      
     <!---->
@@ -606,24 +607,24 @@ exports[`LiStakeTransaction unbonding delegations without fees 1`] = `
   <div>
     
       Network Fee: 
-      
     <b>
-      0.000000
+      0
     </b>
      
     <span>
       
-        atoms
+        ATOM
       
     </span>
   </div>
-</li-transaction-stub>
+</litransaction-stub>
 `;
 
 exports[`LiStakeTransaction unjail with fees 1`] = `
-<li-transaction-stub
+<litransaction-stub
   block="500"
   color="#47AB6C"
+  memo="TESTING (Sent via Lunie)"
   time="1970-01-01T00:00:42.000Z"
 >
   <div>
@@ -648,24 +649,24 @@ exports[`LiStakeTransaction unjail with fees 1`] = `
   <div>
     
       Network Fee: 
-      
     <b>
-      0.003421
+      0.003
     </b>
      
     <span>
       
-        atoms
+        ATOM
       
     </span>
   </div>
-</li-transaction-stub>
+</litransaction-stub>
 `;
 
 exports[`LiStakeTransaction unjail without fees 1`] = `
-<li-transaction-stub
+<litransaction-stub
   block="500"
   color="#47AB6C"
+  memo="TESTING (Sent via Lunie)"
   time="1970-01-01T00:00:42.000Z"
 >
   <div>
@@ -690,16 +691,15 @@ exports[`LiStakeTransaction unjail without fees 1`] = `
   <div>
     
       Network Fee: 
-      
     <b>
-      0.000000
+      0
     </b>
      
     <span>
       
-        atoms
+        ATOM
       
     </span>
   </div>
-</li-transaction-stub>
+</litransaction-stub>
 `;

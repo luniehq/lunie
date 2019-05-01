@@ -3,7 +3,7 @@ describe(`RPC Connector`, () => {
 
   function newConnector() {
     jest.resetModules()
-    const RpcWrapper = require(`renderer/connectors/rpcWrapper`)
+    const RpcWrapper = require(`src/connectors/rpcWrapper`).default
 
     connector = {}
     const newRpcClient = RpcWrapper(connector)
@@ -12,13 +12,11 @@ describe(`RPC Connector`, () => {
   }
 
   beforeEach(() => {
-    jest.mock(`tendermint`, () => ({
-      RpcClient: () => ({
-        on() {},
-        removeAllListeners() {},
-        ws: { destroy() {} },
-        health: () => ({})
-      })
+    jest.mock(`src/connectors/tendermint-ws.js`, () => () => ({
+      on() {},
+      removeAllListeners() {},
+      ws: { destroy() {} },
+      health: () => ({})
     }))
 
     newConnector()
@@ -31,15 +29,13 @@ describe(`RPC Connector`, () => {
   })
 
   it(`should remember if it could not connect via rpc`, async () => {
-    jest.mock(`tendermint`, () => ({
-      RpcClient: () => ({
-        on(value, cb) {
-          if (value === `error`) {
-            cb({ code: `ECONNREFUSED` })
-          }
-        },
-        health: () => ({})
-      })
+    jest.mock(`src/connectors/tendermint-ws.js`, () => () => ({
+      on(value, cb) {
+        if (value === `error`) {
+          cb({ code: `ECONNREFUSED` })
+        }
+      },
+      health: () => ({})
     }))
     newConnector()
     await expect(connector.rpcConnect(`localhost`)).rejects.toThrow()
@@ -57,5 +53,19 @@ describe(`RPC Connector`, () => {
 
     expect(spyListeners).toHaveBeenCalledWith(`error`)
     expect(spyDestroy).toHaveBeenCalled()
+    expect(connector.rpcInfo.connected).toBe(true)
+  })
+
+  it(`should disconnect`, async () => {
+    await connector.rpcConnect(`localhost`)
+
+    const spyListeners = jest.spyOn(connector.rpc, `removeAllListeners`)
+    const spyDestroy = jest.spyOn(connector.rpc.ws, `destroy`)
+
+    await connector.rpcDisconnect()
+
+    expect(spyListeners).toHaveBeenCalledWith(`error`)
+    expect(spyDestroy).toHaveBeenCalled()
+    expect(connector.rpcInfo.connected).toBe(false)
   })
 })

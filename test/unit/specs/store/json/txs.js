@@ -19,7 +19,8 @@ export const bankTxs = [
         fee: {
           amount: [{ amount: `3421`, denom: `uatom` }],
           gas: `500000`
-        }
+        },
+        memo: `TESTING (Sent via Lunie)`
       },
       result: {
         gasUsed: `3324`,
@@ -42,7 +43,6 @@ export const bankTxs = [
     height: `3438`,
     tx: {
       type: `8EFE47F0625DE8`,
-
       value: {
         msg: [
           {
@@ -58,7 +58,8 @@ export const bankTxs = [
           amount: null,
           gas: `500000`
         },
-        gas: `500000`
+        gas: `500000`,
+        memo: `TESTING (Sent via Lunie)`
       },
       result: {
         gasUsed: `3324`,
@@ -100,7 +101,8 @@ export const bankTxs = [
         fee: {
           amount: [{ amount: `3421`, denom: `uatom` }],
           gas: `500000`
-        }
+        },
+        memo: `TESTING (Sent via Lunie)`
       },
       result: {
         gasUsed: `3324`,
@@ -133,7 +135,7 @@ export const stakingTxs = [
       {
         key: `destination-validator`,
         value: `cosmosvaloper1qecshyc40kshszkwrtscgmsdd8tz3n4hrj9yf2`
-      },
+      }
     ],
     tx: {
       type: `auth/StdTx`,
@@ -157,7 +159,7 @@ export const stakingTxs = [
               delegator_address: `cosmos1qecshyc40kshszkwrtscgmsdd8tz3n4hxx339e`,
               validator_address: `cosmosvaloper1qecshyc40kshszkwrtscgmsdd8tz3n4hrj9yf2`,
               pubkey: `cosmosvalconspub1zcjduepqjja8zg8ccvdd5rx50ad79faaaucq5vr98pr7eawnslqrscelwhaszhaq83`,
-              value: {
+              amount: {
                 denom: `uatom`,
                 amount: `1000000`
               }
@@ -168,7 +170,7 @@ export const stakingTxs = [
           amount: [{ amount: `3421`, denom: `uatom` }],
           gas: `101587`
         },
-        memo: ``
+        memo: `TESTING (Sent via Lunie)`
       }
     }
   },
@@ -186,7 +188,7 @@ export const stakingTxs = [
       {
         key: `destination-validator`,
         value: `cosmosvaloper1qecshyc40kshszkwrtscgmsdd8tz3n4hrj9yf2`
-      },
+      }
     ],
     tx: {
       type: `auth/StdTx`,
@@ -196,6 +198,10 @@ export const stakingTxs = [
             type: `cosmos-sdk/MsgEditValidator`,
             value: {
               validator_address: `cosmosvaloper1qecshyc40kshszkwrtscgmsdd8tz3n4hrj9yf2`,
+              amount: {
+                denom: `uatom`,
+                amount: `1000000`
+              }
             }
           }
         ],
@@ -203,7 +209,7 @@ export const stakingTxs = [
           amount: [{ amount: `3421`, denom: `uatom` }],
           gas: `101587`
         },
-        memo: ``
+        memo: `TESTING (Sent via Lunie)`
       }
     }
   },
@@ -219,7 +225,7 @@ export const stakingTxs = [
             type: `cosmos-sdk/MsgDelegate`,
             value: {
               validator_address: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw`,
-              value: {
+              amount: {
                 amount: `42000000000`,
                 denom: `uatom`
               }
@@ -229,7 +235,8 @@ export const stakingTxs = [
         fee: {
           amount: [{ amount: `3421`, denom: `uatom` }],
           gas: `500000`
-        }
+        },
+        memo: `TESTING (Sent via Lunie)`
       },
       result: {
         gasUsed: `3324`,
@@ -248,8 +255,7 @@ export const stakingTxs = [
   },
   {
     hash: `not a real hash 6`,
-
-    time: new Date(4200).toISOString(), // set by Voyager
+    time: new Date(4200).toISOString(),
     height: `569`,
     tx: {
       type: `8EFE47F0625DE8`,
@@ -260,14 +266,19 @@ export const stakingTxs = [
             value: {
               validator_address: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw`,
               shares_amount: `323.000000000000000000`,
-              delegator_address: `cosmos1ek9cd8ewgxg9w5xllq9um0uf4aaxaruvcw4v9e`
+              delegator_address: `cosmos1ek9cd8ewgxg9w5xllq9um0uf4aaxaruvcw4v9e`,
+              amount: {
+                denom: `uatom`,
+                amount: `1000000`
+              }
             }
           }
         ],
         fee: {
           amount: [{ amount: `3421`, denom: `uatom` }],
           gas: `500000`
-        }
+        },
+        memo: `TESTING (Sent via Lunie)`
       },
       result: {
         gasUsed: `3324`,
@@ -286,7 +297,7 @@ export const stakingTxs = [
   },
   {
     hash: `not a real hash 7`,
-    time: new Date(45000).toISOString(), // set by Voyager
+    time: new Date(45000).toISOString(),
     height: `567`,
     tx: {
       type: `8EFE47F0625DE8`,
@@ -297,14 +308,19 @@ export const stakingTxs = [
             value: {
               validator_src_address: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw`,
               validator_dst_address: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au`,
-              shares_amount: `30000000`
+              shares_amount: `30000000`,
+              amount: {
+                denom: `uatom`,
+                amount: `1000000`
+              }
             }
           }
         ],
         fee: {
           amount: [{ amount: `3421`, denom: `uatom` }],
           gas: `500000`
-        }
+        },
+        memo: `TESTING (Sent via Lunie)`
       },
       result: {
         gasUsed: `3324`,
@@ -335,7 +351,7 @@ export const stakingTxs = [
       {
         key: `destination-validator`,
         value: `cosmosvaloper1qecshyc40kshszkwrtscgmsdd8tz3n4hrj9yf2`
-      },
+      }
     ],
     tx: {
       type: `auth/StdTx`,
@@ -345,6 +361,10 @@ export const stakingTxs = [
             type: `cosmos-sdk/MsgUnjail`,
             value: {
               address: `cosmosvaloper1qecshyc40kshszkwrtscgmsdd8tz3n4hrj9yf2`,
+              amount: {
+                denom: `uatom`,
+                amount: `1000000`
+              }
             }
           }
         ],
@@ -352,7 +372,7 @@ export const stakingTxs = [
           amount: [{ amount: `3421`, denom: `uatom` }],
           gas: `101587`
         },
-        memo: ``
+        memo: `TESTING (Sent via Lunie)`
       }
     }
   }
@@ -385,7 +405,8 @@ export const governanceTxs = [
         fee: {
           amount: [{ amount: `3421`, denom: `uatom` }],
           gas: `500000`
-        }
+        },
+        memo: `TESTING (Sent via Lunie)`
       },
       result: {
         gasUsed: `3324`,
@@ -428,6 +449,7 @@ export const governanceTxs = [
           amount: [{ amount: `3421`, denom: `uatom` }],
           gas: `500000`
         },
+        memo: `TESTING (Sent via Lunie)`
       },
       result: {
         gasUsed: `3324`,
@@ -464,7 +486,8 @@ export const governanceTxs = [
         fee: {
           amount: [{ amount: `3421`, denom: `uatom` }],
           gas: `500000`
-        }
+        },
+        memo: `TESTING (Sent via Lunie)`
       },
       result: {
         gasUsed: `3324`,
@@ -536,7 +559,7 @@ export const distributionTxs = [
             signature: `RDq6lowz7Oo/dK8h686qzobzs0rI2nFrd3bHEf1P34wPYx56XXG4KysPt52B0f34I4C5bluXU5+scKtyRNTyGQ==`
           }
         ],
-        memo: `Sent via Cosmos UI 🚀`
+        memo: `TESTING (Sent via Lunie)`
       }
     }
   },
@@ -585,7 +608,7 @@ export const distributionTxs = [
             signature: `RDq6lowz7Oo/dK8h686qzobzs0rI2nFrd3bHEf1P34wPYx56XXG4KysPt52B0f34I4C5bluXU5+scKtyRNTyGQ==`
           }
         ],
-        memo: `Sent via Cosmos UI 🚀`
+        memo: `TESTING (Sent via Lunie)`
       }
     }
   },
@@ -625,10 +648,9 @@ export const distributionTxs = [
           amount: [{ amount: `3421`, denom: `uatom` }],
           gas: `500000`
         },
-        memo: `Sent via Cosmos UI 🚀`
+        memo: `TESTING (Sent via Lunie)`
       }
     }
   }
 ]
 export const allTxs = bankTxs.concat(stakingTxs, governanceTxs, distributionTxs)
-

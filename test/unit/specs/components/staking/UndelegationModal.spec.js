@@ -90,9 +90,10 @@ describe(`UndelegationModal`, () => {
       }
       const res = await UndelegationModal.methods.simulateForm.call(self)
 
-      expect(self.$store.dispatch).toHaveBeenCalledWith(`simulateUnbondingDelegation`,
+      expect(self.$store.dispatch).toHaveBeenCalledWith(
+        `simulateUnbondingDelegation`,
         {
-          amount: -4200000,
+          amount: `4200000`,
           validator
         }
       )
@@ -114,12 +115,16 @@ describe(`UndelegationModal`, () => {
       wrapper.setData({ amount: 4.2 })
       await UndelegationModal.methods.submitForm.call(
         { $store, amount: 4.2, denom: `uatom`, validator },
-        gas, gasPrice, `1234567890`, `local`
+        gas,
+        gasPrice,
+        `1234567890`,
+        `local`
       )
 
-      expect($store.dispatch).toHaveBeenCalledWith(`submitUnbondingDelegation`,
+      expect($store.dispatch).toHaveBeenCalledWith(
+        `submitUnbondingDelegation`,
         {
-          amount: -4200000,
+          amount: `4200000`,
           validator,
           gas,
           gas_prices,
@@ -128,12 +133,10 @@ describe(`UndelegationModal`, () => {
         }
       )
 
-      expect($store.commit).toHaveBeenCalledWith(`notify`,
-        {
-          body: `You have successfully undelegated 4.2 atoms.`,
-          title: `Successful undelegation!`
-        }
-      )
+      expect($store.commit).toHaveBeenCalledWith(`notify`, {
+        body: `You have successfully undelegated 4.2 ATOMs.`,
+        title: `Successful undelegation!`
+      })
     })
   })
 })

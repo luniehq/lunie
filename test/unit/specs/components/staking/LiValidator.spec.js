@@ -1,8 +1,8 @@
 import { shallowMount, createLocalVue } from "@vue/test-utils"
-import LiValidator from "renderer/components/staking/LiValidator"
+import LiValidator from "src/components/staking/LiValidator"
 
 const localVue = createLocalVue()
-localVue.directive(`tooltip`, () => { })
+localVue.directive(`tooltip`, () => {})
 
 describe(`LiValidator`, () => {
   let wrapper, $store
@@ -25,8 +25,6 @@ describe(`LiValidator`, () => {
     proposer_reward_pool: null,
     commission: `0.05`,
     prev_bonded_shares: `0`,
-    voting_power: 10,
-    percent_of_vote: 0.22,
     signing_info: {
       start_height: 0,
       index_offset: 465400,
@@ -41,17 +39,21 @@ describe(`LiValidator`, () => {
       commit: jest.fn(),
       dispatch: jest.fn(),
       getters: {
-        delegates: { delegates: [], globalPower: 9000 },
+        delegates: { delegates: [] },
         committedDelegations: {},
         distribution: {
-          rewards: {
-          }
+          rewards: {}
         },
         session: {
           signedIn: true
         },
         bondDenom: `stake`,
-        lastHeader: ``
+        lastHeader: ``,
+        pool: {
+          pool: {
+            bonded_tokens: 1000
+          }
+        }
       }
     }
 
@@ -73,7 +75,7 @@ describe(`LiValidator`, () => {
   })
 
   it(`should show the voting power`, () => {
-    expect(wrapper.html()).toContain(`22.00%`)
+    expect(wrapper.html()).toContain(`1.40%`)
   })
 
   it(`should show the validator status`, () => {
@@ -91,7 +93,7 @@ describe(`LiValidator`, () => {
     wrapper.setProps({
       validator: Object.assign({}, validator, {
         jailed: false,
-        voting_power: 0
+        status: 0
       })
     })
     expect(wrapper.vm.status).toBe(
@@ -112,7 +114,7 @@ describe(`LiValidator`, () => {
     wrapper.setProps({
       validator: Object.assign({}, validator, {
         jailed: false,
-        voting_power: 0
+        status: 0
       })
     })
     expect(wrapper.vm.statusColor).toBe(`yellow`)

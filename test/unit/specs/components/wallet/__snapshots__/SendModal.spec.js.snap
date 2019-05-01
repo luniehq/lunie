@@ -1,8 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`SendModal should display send modal form 1`] = `
-<action-modal-stub
-  amount="0"
+<actionmodal-stub
   denom="STAKE"
   id="send-modal"
   simulatefn="function () { [native code] }"
@@ -11,12 +10,12 @@ exports[`SendModal should display send modal form 1`] = `
   title="Send"
   validate="function () { [native code] }"
 >
-  <tm-form-group-stub
+  <tmformgroup-stub
     class="action-modal-form-group"
     fieldid="send-denomination"
     fieldlabel="Denomination"
   >
-    <tm-field-stub
+    <tmfield-stub
       id="send-denomination"
       readonly=""
       type="text"
@@ -24,14 +23,14 @@ exports[`SendModal should display send modal form 1`] = `
     />
      
     <!---->
-  </tm-form-group-stub>
+  </tmformgroup-stub>
    
-  <tm-form-group-stub
+  <tmformgroup-stub
     class="action-modal-form-group"
     fieldid="send-address"
     fieldlabel="Send To"
   >
-    <tm-field-stub
+    <tmfield-stub
       id="send-address"
       placeholder="Address"
       type="text"
@@ -39,32 +38,42 @@ exports[`SendModal should display send modal form 1`] = `
     />
      
     <!---->
-  </tm-form-group-stub>
+  </tmformgroup-stub>
    
-  <tm-form-group-stub
+  <tmformgroup-stub
     class="action-modal-form-group"
     fieldid="amount"
     fieldlabel="Amount"
   >
-    <tm-field-stub
+    <tmfield-stub
       class="tm-field"
       id="amount"
       placeholder="Amount"
       type="number"
     />
      
-    <tm-form-msg-stub
+    <tmformmsg-stub
       msg="doesn't have any s"
       name="Wallet"
       type="custom"
     />
-  </tm-form-group-stub>
-</action-modal-stub>
+  </tmformgroup-stub>
+   
+  <tmbtn-stub
+    id="edit-memo-btn"
+    size="sm"
+    to=""
+    type="link"
+    value="Edit Memo"
+  />
+   
+  <!---->
+</actionmodal-stub>
 `;
 
 exports[`SendModal validation should show address required error 1`] = `
-<action-modal-stub
-  amount="0"
+<actionmodal-stub
+  amount="2"
   denom="STAKE"
   id="send-modal"
   simulatefn="function () { [native code] }"
@@ -73,12 +82,12 @@ exports[`SendModal validation should show address required error 1`] = `
   title="Send"
   validate="function () { [native code] }"
 >
-  <tm-form-group-stub
+  <tmformgroup-stub
     class="action-modal-form-group"
     fieldid="send-denomination"
     fieldlabel="Denomination"
   >
-    <tm-field-stub
+    <tmfield-stub
       id="send-denomination"
       readonly=""
       type="text"
@@ -86,34 +95,34 @@ exports[`SendModal validation should show address required error 1`] = `
     />
      
     <!---->
-  </tm-form-group-stub>
+  </tmformgroup-stub>
    
-  <tm-form-group-stub
+  <tmformgroup-stub
     class="action-modal-form-group"
     error="true"
     fieldid="send-address"
     fieldlabel="Send To"
   >
-    <tm-field-stub
+    <tmfield-stub
       id="send-address"
       placeholder="Address"
       type="text"
       value=""
     />
      
-    <tm-form-msg-stub
+    <tmformmsg-stub
       msg=""
       name="Address"
       type="required"
     />
-  </tm-form-group-stub>
+  </tmformgroup-stub>
    
-  <tm-form-group-stub
+  <tmformgroup-stub
     class="action-modal-form-group"
     fieldid="amount"
     fieldlabel="Amount"
   >
-    <tm-field-stub
+    <tmfield-stub
       class="tm-field"
       id="amount"
       placeholder="Amount"
@@ -122,13 +131,23 @@ exports[`SendModal validation should show address required error 1`] = `
     />
      
     <!---->
-  </tm-form-group-stub>
-</action-modal-stub>
+  </tmformgroup-stub>
+   
+  <tmbtn-stub
+    id="edit-memo-btn"
+    size="sm"
+    to=""
+    type="link"
+    value="Edit Memo"
+  />
+   
+  <!---->
+</actionmodal-stub>
 `;
 
 exports[`SendModal validation should show bech32 error when address length is too long 1`] = `
-<action-modal-stub
-  amount="0"
+<actionmodal-stub
+  amount="2"
   denom="STAKE"
   id="send-modal"
   simulatefn="function () { [native code] }"
@@ -137,12 +156,12 @@ exports[`SendModal validation should show bech32 error when address length is to
   title="Send"
   validate="function () { [native code] }"
 >
-  <tm-form-group-stub
+  <tmformgroup-stub
     class="action-modal-form-group"
     fieldid="send-denomination"
     fieldlabel="Denomination"
   >
-    <tm-field-stub
+    <tmfield-stub
       id="send-denomination"
       readonly=""
       type="text"
@@ -150,34 +169,34 @@ exports[`SendModal validation should show bech32 error when address length is to
     />
      
     <!---->
-  </tm-form-group-stub>
+  </tmformgroup-stub>
    
-  <tm-form-group-stub
+  <tmformgroup-stub
     class="action-modal-form-group"
     error="true"
     fieldid="send-address"
     fieldlabel="Send To"
   >
-    <tm-field-stub
+    <tmfield-stub
       id="send-address"
       placeholder="Address"
       type="text"
       value="asdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdf"
     />
      
-    <tm-form-msg-stub
+    <tmformmsg-stub
       msg=""
       name="Address"
       type="bech32"
     />
-  </tm-form-group-stub>
+  </tmformgroup-stub>
    
-  <tm-form-group-stub
+  <tmformgroup-stub
     class="action-modal-form-group"
     fieldid="amount"
     fieldlabel="Amount"
   >
-    <tm-field-stub
+    <tmfield-stub
       class="tm-field"
       id="amount"
       placeholder="Amount"
@@ -186,13 +205,23 @@ exports[`SendModal validation should show bech32 error when address length is to
     />
      
     <!---->
-  </tm-form-group-stub>
-</action-modal-stub>
+  </tmformgroup-stub>
+   
+  <tmbtn-stub
+    id="edit-memo-btn"
+    size="sm"
+    to=""
+    type="link"
+    value="Edit Memo"
+  />
+   
+  <!---->
+</actionmodal-stub>
 `;
 
 exports[`SendModal validation should show bech32 error when address length is too short 1`] = `
-<action-modal-stub
-  amount="0"
+<actionmodal-stub
+  amount="2"
   denom="STAKE"
   id="send-modal"
   simulatefn="function () { [native code] }"
@@ -201,12 +230,12 @@ exports[`SendModal validation should show bech32 error when address length is to
   title="Send"
   validate="function () { [native code] }"
 >
-  <tm-form-group-stub
+  <tmformgroup-stub
     class="action-modal-form-group"
     fieldid="send-denomination"
     fieldlabel="Denomination"
   >
-    <tm-field-stub
+    <tmfield-stub
       id="send-denomination"
       readonly=""
       type="text"
@@ -214,34 +243,34 @@ exports[`SendModal validation should show bech32 error when address length is to
     />
      
     <!---->
-  </tm-form-group-stub>
+  </tmformgroup-stub>
    
-  <tm-form-group-stub
+  <tmformgroup-stub
     class="action-modal-form-group"
     error="true"
     fieldid="send-address"
     fieldlabel="Send To"
   >
-    <tm-field-stub
+    <tmfield-stub
       id="send-address"
       placeholder="Address"
       type="text"
       value="asdf"
     />
      
-    <tm-form-msg-stub
+    <tmformmsg-stub
       msg=""
       name="Address"
       type="bech32"
     />
-  </tm-form-group-stub>
+  </tmformgroup-stub>
    
-  <tm-form-group-stub
+  <tmformgroup-stub
     class="action-modal-form-group"
     fieldid="amount"
     fieldlabel="Amount"
   >
-    <tm-field-stub
+    <tmfield-stub
       class="tm-field"
       id="amount"
       placeholder="Amount"
@@ -250,13 +279,22 @@ exports[`SendModal validation should show bech32 error when address length is to
     />
      
     <!---->
-  </tm-form-group-stub>
-</action-modal-stub>
+  </tmformgroup-stub>
+   
+  <tmbtn-stub
+    id="edit-memo-btn"
+    size="sm"
+    to=""
+    type="link"
+    value="Edit Memo"
+  />
+   
+  <!---->
+</actionmodal-stub>
 `;
 
 exports[`SendModal validation should show bech32 error when alphanumeric is wrong 1`] = `
-<action-modal-stub
-  amount="0"
+<actionmodal-stub
   denom="STAKE"
   id="send-modal"
   simulatefn="function () { [native code] }"
@@ -265,64 +303,74 @@ exports[`SendModal validation should show bech32 error when alphanumeric is wron
   title="Send"
   validate="function () { [native code] }"
 >
-  <tm-form-group-stub
+  <tmformgroup-stub
     class="action-modal-form-group"
     error="true"
     fieldid="send-denomination"
     fieldlabel="Denomination"
   >
-    <tm-field-stub
+    <tmfield-stub
       id="send-denomination"
       readonly=""
       type="text"
       value=""
     />
      
-    <tm-form-msg-stub
+    <tmformmsg-stub
       msg=""
       name="Denomination"
       type="required"
     />
-  </tm-form-group-stub>
+  </tmformgroup-stub>
    
-  <tm-form-group-stub
+  <tmformgroup-stub
     class="action-modal-form-group"
     error="true"
     fieldid="send-address"
     fieldlabel="Send To"
   >
-    <tm-field-stub
+    <tmfield-stub
       id="send-address"
       placeholder="Address"
       type="text"
       value=""
     />
      
-    <tm-form-msg-stub
+    <tmformmsg-stub
       msg=""
       name="Address"
       type="required"
     />
-  </tm-form-group-stub>
+  </tmformgroup-stub>
    
-  <tm-form-group-stub
+  <tmformgroup-stub
     class="action-modal-form-group"
     error="true"
     fieldid="amount"
     fieldlabel="Amount"
   >
-    <tm-field-stub
+    <tmfield-stub
       class="tm-field"
       id="amount"
       placeholder="Amount"
       type="number"
     />
      
-    <tm-form-msg-stub
+    <tmformmsg-stub
       msg="doesn't have any s"
       name="Wallet"
       type="custom"
     />
-  </tm-form-group-stub>
-</action-modal-stub>
+  </tmformgroup-stub>
+   
+  <tmbtn-stub
+    id="edit-memo-btn"
+    size="sm"
+    to=""
+    type="link"
+    value="Edit Memo"
+  />
+   
+  <!---->
+</actionmodal-stub>
 `;

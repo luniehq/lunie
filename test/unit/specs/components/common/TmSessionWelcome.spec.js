@@ -7,7 +7,7 @@ describe(`TmSessionWelcome`, () => {
 
   beforeEach(() => {
     const getters = {
-      session: { accounts, insecureMode: true, experimentalMode: true },
+      session: { accounts, insecureMode: true, developmentMode: true },
       lastPage: `/`
     }
     $store = {
@@ -103,9 +103,11 @@ describe(`TmSessionWelcome`, () => {
 
   describe(`production`, () => {
     it(`should hide sign in with account if users do not opt in`, () => {
-      wrapper.vm.session.accounts = [{
-        name: `test`
-      }]
+      wrapper.vm.session.accounts = [
+        {
+          name: `test`
+        }
+      ]
       expect(wrapper.find(`#sign-in-with-account`).exists()).toBe(true)
       wrapper.vm.session.insecureMode = false
       expect(wrapper.find(`#sign-in-with-account`).exists()).toBe(false)
@@ -113,7 +115,7 @@ describe(`TmSessionWelcome`, () => {
 
     it(`should hide seed import if not in development`, () => {
       expect(wrapper.find(`#import-seed`).exists()).toBe(true)
-      wrapper.vm.session.experimentalMode = false
+      wrapper.vm.session.developmentMode = false
       expect(wrapper.find(`#import-seed`).exists()).toBe(false)
     })
   })

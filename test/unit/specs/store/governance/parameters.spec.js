@@ -1,5 +1,5 @@
-import parametersModule from "renderer/vuex/modules/governance/parameters.js"
-import lcdClientMock from "renderer/connectors/lcdClientMock.js"
+import parametersModule from "src/vuex/modules/governance/parameters.js"
+import lcdClientMock from "src/connectors/lcdClientMock.js"
 const { governanceParameters } = lcdClientMock.state
 
 const mockRootState = {
@@ -37,6 +37,13 @@ describe(`Module: Governance Parameters`, () => {
     expect(commit.mock.calls).toEqual([
       [`setGovParameters`, governanceParameters]
     ])
+  })
+
+  it(`fetches all governance parameters on sign in`, async () => {
+    const { actions } = module
+    const dispatch = jest.fn()
+    await actions.signIn({ dispatch })
+    expect(dispatch).toHaveBeenCalledWith(`getGovParameters`)
   })
 
   it(`should store an error if failed to load governance deposit parameters`, async () => {

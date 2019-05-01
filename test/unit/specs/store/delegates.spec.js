@@ -1,4 +1,4 @@
-import delegatesModule from "renderer/vuex/modules/delegates.js"
+import delegatesModule from "src/vuex/modules/delegates.js"
 import nodeMock from "../../helpers/node_mock.js"
 import BN from "bignumber.js"
 
@@ -28,11 +28,9 @@ describe(`Module: Delegates`, () => {
     ])
     expect(state.delegates).toEqual([
       {
-        id: `foo`,
         operator_address: `foo`,
         percent_of_vote: `100.00%`,
-        tokens: `10`,
-        voting_power: BN(10)
+        tokens: `10`
       }
     ])
   })
@@ -48,35 +46,25 @@ describe(`Module: Delegates`, () => {
     ])
     expect(state.delegates).toEqual([
       {
-        id: `foo`,
         operator_address: `foo`,
-        percent_of_vote: `100.00%`,
         tokens: `12`,
-        updated: true,
-        voting_power: BN(12)
+        updated: true
       }
     ])
   })
 
-  it(`parses delegate tokens with fraction value`, () => {
+  it(`sets the signing infos`, () => {
     const { mutations, state } = instance
-    mutations.setDelegates(state, [
-      {
-        operator_address: `foo`,
-        tokens: `4000/40`,
-        updated: true
+    mutations.setSigningInfos(state, {
+      operatorX: {
+        signingInfoY: 1
       }
-    ])
-    expect(state.delegates).toEqual([
-      {
-        id: `foo`,
-        operator_address: `foo`,
-        percent_of_vote: `100.00%`,
-        tokens: `4000/40`,
-        updated: true,
-        voting_power: BN(100)
+    })
+    expect(state.signingInfos).toEqual({
+      operatorX: {
+        signingInfoY: 1
       }
-    ])
+    })
   })
 
   it(`fetches all candidates`, async () => {
@@ -153,9 +141,14 @@ describe(`Module: Delegates`, () => {
       state.delegates
     )
 
-    expect(state.delegates).toContainEqual(
-      expect.objectContaining({ signing_info: expect.anything() })
-    )
+    expect(commit).toHaveBeenCalledWith(`setSigningInfos`, {
+      foo: {
+        index_offset: 1,
+        jailed_until: `1970-01-01T00:00:42.000Z`,
+        missed_blocks_counter: 1,
+        start_height: 2
+      }
+    })
   })
 
   it(`throttles validator fetching to every 20 blocks`, async () => {
@@ -168,7 +161,9 @@ describe(`Module: Delegates`, () => {
     state.lastValidatorsUpdate = 0
     await actions.updateSigningInfo(
       {
-        state, commit, getters: { lastHeader: { height: `43` } }
+        state,
+        commit,
+        getters: { lastHeader: { height: `43` } }
       },
       [
         {
@@ -182,7 +177,9 @@ describe(`Module: Delegates`, () => {
     node.getValidatorSigningInfo.mockClear()
     await actions.updateSigningInfo(
       {
-        state, commit, getters: { lastHeader: { height: `44` } }
+        state,
+        commit,
+        getters: { lastHeader: { height: `44` } }
       },
       [
         {
@@ -220,15 +217,17 @@ describe(`Module: Delegates`, () => {
   })
 
   it(`should query self bond of a validator`, async () => {
-    const { actions } = instance
+    const { actions, state } = instance
     const commit = jest.fn()
     const validator = {
       operator_address: nodeMock.validators[0],
       delegator_shares: `120`
     }
-    node.getDelegation = jest.fn(() => ({ shares: `12` }))
+    node.getDelegations = jest.fn(() => [
+      { shares: `12`, validator_address: nodeMock.validators[0] }
+    ])
 
-    await actions.getSelfBond({ commit }, validator)
+    await actions.getSelfBond({ commit, state }, validator)
     expect(commit).toHaveBeenCalledWith(`setSelfBond`, {
       validator,
       ratio: BN(0.1)
@@ -236,17 +235,17 @@ describe(`Module: Delegates`, () => {
   })
 
   it(`should not query self bond of a validator if already queried`, async () => {
-    const { actions } = instance
+    const { actions, state } = instance
     const commit = jest.fn()
     const validator = {
       operator_address: nodeMock.validators[0],
-      delegator_shares: `120`,
-      selfBond: BN(1)
+      delegator_shares: `120`
     }
-    node.getDelegation = jest.fn()
+    state.selfBond[nodeMock.validators[0]] = `0.1`
+    node.getDelegations = jest.fn(() => [])
 
-    await actions.getSelfBond({ commit }, validator)
-    expect(node.getDelegation).not.toHaveBeenCalled()
+    await actions.getSelfBond({ commit, state }, validator)
+    expect(node.getDelegations).not.toHaveBeenCalled()
   })
 
   it(`should set self bond of a validator`, async () => {
@@ -255,17 +254,12 @@ describe(`Module: Delegates`, () => {
       operator_address: nodeMock.validators[0],
       delegator_shares: `120`
     }
-    state.delegates = [validator]
 
     await mutations.setSelfBond(state, {
       validator,
       ratio: BN(0.1)
     })
-    expect(
-      state.delegates.find(
-        ({ operator_address }) => operator_address === nodeMock.validators[0]
-      )
-    ).toHaveProperty(`selfBond`, BN(0.1))
+    expect(state.selfBond[nodeMock.validators[0]]).toEqual(BN(0.1))
   })
 
   it(`should store an error if failed to load delegates`, async () => {
