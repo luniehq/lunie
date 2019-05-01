@@ -40,7 +40,7 @@
             target="_blank"
             rel="noopener norefferer"
           >
-            testnet.lunie.io </a
+            testnet.lunie.io</a
           >.
         </p>
       </div>
@@ -86,7 +86,7 @@
             target="_blank"
             rel="noopener norefferer"
           >
-            contact[at]lunie.io </a
+            contact[at]lunie.io</a
           >, or click the <i>feedback</i> button on the left.
         </p>
       </div>
@@ -118,7 +118,6 @@ h1 {
 }
 
 .card {
-  background: var(--app-fg);
   max-width: 600px;
   padding: 2rem;
   margin: 1rem;
@@ -139,10 +138,10 @@ i {
 .profile {
   display: flex;
   align-items: center;
-  padding: 0.5rem;
+  padding: 0.5rem 1rem;
   margin: 0.5rem 0;
-  border: 1px solid var(--bc);
-  background: var(--app-bg);
+  border: 2px solid var(--bc);
+  background: var(--app-fg);
   border-radius: 0.25rem;
 }
 
@@ -159,8 +158,8 @@ i {
 }
 
 .profile img {
-  height: 3rem;
-  width: 3rem;
+  height: 2.5rem;
+  width: 2.5rem;
   border-radius: 50%;
   margin-right: 1rem;
   object-fit: cover;
