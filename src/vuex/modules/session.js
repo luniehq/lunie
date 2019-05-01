@@ -148,16 +148,7 @@ export default () => {
     // TODO split into sign in with ledger and signin with local key
     async signIn(
       { state, commit, dispatch },
-<<<<<<< HEAD:app/src/renderer/vuex/modules/session.js
       { localKeyPairName, address, sessionType = `ledger` }
-=======
-      {
-        localKeyPairName,
-        address,
-        sessionType = `local`,
-        errorCollection = false
-      }
->>>>>>> develop:src/vuex/modules/session.js
     ) {
       let accountAddress
       switch (sessionType) {
@@ -173,20 +164,10 @@ export default () => {
       commit(`setSignIn`, true)
       commit(`setSessionType`, sessionType)
       commit(`setUserAddress`, accountAddress)
-<<<<<<< HEAD:app/src/renderer/vuex/modules/session.js
       dispatch(`loadPersistedState`)
       commit(`toggleSessionModal`, false)
       await dispatch(`getStakingParameters`)
       await dispatch(`getGovParameters`)
-=======
-      dispatch(`setErrorCollection`, {
-        account: accountAddress,
-        optin: errorCollection
-      })
-      await dispatch(`loadPersistedState`)
-      commit(`toggleSessionModal`, false)
-      dispatch(`loadErrorCollection`, accountAddress)
->>>>>>> develop:src/vuex/modules/session.js
       await dispatch(`initializeWallet`, { address: accountAddress })
       dispatch(`persistSession`, {
         localKeyPairName,
@@ -228,19 +209,8 @@ export default () => {
       if (state.analyticsCollection !== analyticsCollection)
         dispatch(`setAnalyticsCollection`, analyticsCollection)
     },
-<<<<<<< HEAD:app/src/renderer/vuex/modules/session.js
     storeLocalPreferences({ state }) {
       state.cookiesAccepted = true
-=======
-    setErrorCollection({ state, commit }, { address, optin }) {
-      if (optin && state.externals.config.development) {
-        commit(`notifyError`, {
-          title: `Couldn't switch on error collection.`,
-          body: `Error collection is disabled during development.`
-        })
-      }
-      state.errorCollection = state.externals.config.development ? false : optin
->>>>>>> develop:src/vuex/modules/session.js
       localStorage.setItem(
         USER_PREFERENCES_KEY,
         JSON.stringify({
