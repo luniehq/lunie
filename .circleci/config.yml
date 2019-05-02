@@ -117,7 +117,7 @@ jobs:
           yarn build:keybase-cache
           if [ "${CIRCLE_BRANCH}" = "master" ]; then
             yarn build:ui --output-path $DIST_TESTNET
-            STARGATE=https://stargate.lunie.io RPC=https://rpc.lunie.io:26657 CIRCLECI=true yarn build:ui
+            STARGATE=https://lcd.nylira.net RPC=https://rpc.nylira.net:443 CIRCLECI=true yarn build:ui
           else
             CIRCLECI=true yarn build
           fi
