@@ -51,6 +51,10 @@ describe(`Module: Session`, () => {
     expect(state.address).toBe(null)
   })
 
+  it("should always default to disable the local signer", () => {
+    expect(state.insecureMode).toBe(false)
+  })
+
   describe(`mutations`, () => {
     it(`should set signin`, () => {
       expect(state.signedIn).toBe(false)
