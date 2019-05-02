@@ -207,7 +207,7 @@ describe(`PageValidator`, () => {
       ).not.toBeNull()
     })
 
-    it('shows formatted validator website url', () => {
+    it("shows formatted validator website url", () => {
       expect(wrapper.vm.$el).toMatchSnapshot()
     })
 
