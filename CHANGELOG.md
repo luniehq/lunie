@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [1.0.0-beta.56] - 2019-05-02
+
+### Fixed
+
+- [#2521](https://github.com/cosmos/lunie/pull/2521) add nylira nodes to CSP @faboweb
+
 ## [1.0.0-beta.55] - 2019-05-02
 
 ### Fixed
