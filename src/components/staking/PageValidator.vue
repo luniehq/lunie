@@ -302,13 +302,12 @@ export default {
     // empty descriptions have a strange '[do-not-modify]' value which we don't want to show
     website() {
       let url = this.validator.description.website
-
       // Check if validator url is empty
       if (url === ``) {
         return this.translateEmptyDescription(url)
 
         // Check if validator url does not contain either http or https
-      } else if (!url.includes(`http`) || !url.includes(`https`)) {
+      } else if (!url.includes(`https`) && !url.includes(`http`)) {
         url = `https://` + url
         return this.translateEmptyDescription(url)
       } else {

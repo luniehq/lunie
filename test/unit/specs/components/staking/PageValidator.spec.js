@@ -207,8 +207,22 @@ describe(`PageValidator`, () => {
       ).not.toBeNull()
     })
 
-    it("shows formatted validator website url", () => {
-      expect(wrapper.vm.$el).toMatchSnapshot()
+    it(`shows empty website url`, () => {
+      validator.description.website = ``
+      wrapper.setData({ validator })
+      expect(wrapper.vm.website).toBe(`--`)
+    })
+
+    it(`shows https website url`, () => {
+      validator.description.website = `www.monty.ca`
+      wrapper.setData({ validator })
+      expect(wrapper.vm.website).toBe(`https://www.monty.ca`)
+    })
+
+    it(`shows http website url`, () => {
+      validator.description.website = `http://www.monty.ca`
+      wrapper.setData({ validator })
+      expect(wrapper.vm.website).toBe(`http://www.monty.ca`)
     })
 
     describe(`errors`, () => {
