@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [1.0.0-beta.54] - 2019-05-02
+
+### Added
+
+- [#1797](https://github.com/cosmos/lunie/issues/1797) Added notification about cookies and error tracking @faboweb
+- [#2517](https://github.com/cosmos/lunie/pull/2517) Readded the insecure flag to allow users to access their local wallets @faboweb
+
 ## [1.0.0-beta.53] - 2019-05-01
 
 ### Changed
