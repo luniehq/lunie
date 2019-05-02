@@ -164,8 +164,6 @@ const rendererConfig = {
             // mainnet
             `https://stargate.lunie.io`,
             `wss://rpc.lunie.io:26657`,
-            `https://lcd.nylira.net`,
-            `wss://rpc.nylira.net`,
             // testnet
             `https://sntajlxzsg.execute-api.eu-central-1.amazonaws.com/`,
             `wss://test.voyager.ninja:26657`
