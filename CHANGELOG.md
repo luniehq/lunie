@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [1.0.0-beta.57] - 2019-05-02
+
+### Fixed
+
+- [#2523](https://github.com/cosmos/lunie/pull/2523) Move back to own servers after outage @faboweb
+
 ## [1.0.0-beta.56] - 2019-05-02
 
 ### Fixed
