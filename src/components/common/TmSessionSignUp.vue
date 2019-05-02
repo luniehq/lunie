@@ -208,10 +208,6 @@ export default {
           password: this.fields.signUpPassword,
           name: this.fields.signUpName
         })
-        this.$store.dispatch(`setErrorCollection`, {
-          account: this.fields.signUpName,
-          optin: this.fields.errorCollection
-        })
         this.$store.commit(`toggleSessionModal`, false)
         this.$store.commit(`notify`, {
           title: `Signed Up`,

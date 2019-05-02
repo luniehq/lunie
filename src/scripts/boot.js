@@ -105,8 +105,12 @@ export const startApp = async (
   if (urlParams.rpc) {
     store.commit(`setRpcUrl`, urlParams.rpc)
   }
+  if (urlParams.insecure) {
+    store.commit(`setInsecureMode`)
+  }
 
   store.dispatch(`showInitialScreen`)
+  store.dispatch(`loadLocalPreferences`)
   store
     .dispatch(`connect`)
     // wait for connected as the check for session will sign in directly and query account data
