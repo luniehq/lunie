@@ -4,6 +4,7 @@ exports[`ActionModal should show the action modal when user has logged in with l
 <div
   class="action-modal"
   name="slide-fade"
+  tabindex="0"
 >
   <div
     class="action-modal-header"
@@ -60,6 +61,7 @@ exports[`ActionModal should show the action modal when user has logged in with l
 <div
   class="action-modal"
   name="slide-fade"
+  tabindex="0"
 >
   <div
     class="action-modal-header"
@@ -124,6 +126,7 @@ exports[`ActionModal should show the action modal when user has logged in with l
 <div
   class="action-modal"
   name="slide-fade"
+  tabindex="0"
 >
   <div
     class="action-modal-header"
@@ -191,6 +194,7 @@ exports[`ActionModal should show the action modal when user has logged in with l
 <div
   class="action-modal"
   name="slide-fade"
+  tabindex="0"
 >
   <div
     class="action-modal-header"
@@ -247,6 +251,7 @@ exports[`ActionModal should show the action modal when user has logged in with l
 <div
   class="action-modal"
   name="slide-fade"
+  tabindex="0"
 >
   <div
     class="action-modal-header"
@@ -311,6 +316,7 @@ exports[`ActionModal should show the action modal when user has logged in with l
 <div
   class="action-modal"
   name="slide-fade"
+  tabindex="0"
 >
   <div
     class="action-modal-header"
@@ -383,6 +389,7 @@ exports[`ActionModal should show the action modal when user hasn't logged in 1`]
 <div
   class="action-modal"
   name="slide-fade"
+  tabindex="0"
 >
   <div
     class="action-modal-header"
