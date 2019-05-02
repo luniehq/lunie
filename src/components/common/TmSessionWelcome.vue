@@ -31,7 +31,7 @@
               <h1>DANGER ZONE</h1>
               <p>
                 Never use accounts created in the browser on a real network. You
-                could loose all your money.
+                could lose all your money.
               </p>
             </div>
             <LiSession
