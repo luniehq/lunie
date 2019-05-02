@@ -162,10 +162,8 @@ export default () => {
       commit(`setSignIn`, true)
       commit(`setSessionType`, sessionType)
       commit(`setUserAddress`, accountAddress)
-      dispatch(`loadPersistedState`)
+      await dispatch(`loadPersistedState`)
       commit(`toggleSessionModal`, false)
-      await dispatch(`getStakingParameters`)
-      await dispatch(`getGovParameters`)
       await dispatch(`initializeWallet`, { address: accountAddress })
       dispatch(`persistSession`, {
         localKeyPairName,

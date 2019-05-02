@@ -106,7 +106,8 @@ export default {
       if (sessionCorrect) {
         this.$store.dispatch(`signIn`, {
           password: this.signInPassword,
-          localKeyPairName: this.signInName
+          localKeyPairName: this.signInName,
+          sessionType: "local"
         })
         localStorage.setItem(`prevAccountKey`, this.signInName)
         this.$router.push(`/`)
