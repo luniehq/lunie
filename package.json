@@ -25,6 +25,7 @@
     "lint:fix": "eslint --fix -f ./node_modules/eslint-friendly-formatter \"{,**/}*.{js,vue}\" && stylelint \"**/*.{css,vue}\" --fix",
     "test": "yarn run lint && yarn test:unit && yarn test:e2e",
     "test:unit": "cross-env NODE_ENV=testing jest --maxWorkers=2",
+    "test:updateSnapshot": "cross-env NODE_ENV=testing jest --updateSnapshot",
     "test:e2e": "nightwatch --config ./test/e2e/nightwatch.conf.js",
     "test:exe": "node tasks/test-build.js",
     "test:coverage": "http-server test/unit/coverage/lcov-report",
