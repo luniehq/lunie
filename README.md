@@ -1,4 +1,4 @@
-![Lunie logo — spaceship blasting off](/app/static/icons/png/128x128.png)
+![Lunie logo — spaceship blasting off](/src/assets/images/png/128x128.png)
 
 # Welcome to [Lunie.io](https://lunie.io)!
 
