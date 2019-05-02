@@ -88,6 +88,7 @@ export default {
   flex: 1;
   display: flex;
   flex-flow: column nowrap;
+  position: fixed;
 }
 
 .app-header .header-item {
@@ -110,6 +111,11 @@ export default {
     left: 0;
     width: 100%;
     min-height: 0;
+  }
+
+  .container {
+    width: 100%;
+    background: var(--app-nav);
   }
 
   .app-header .header-item {
