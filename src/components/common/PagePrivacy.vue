@@ -2,11 +2,7 @@
   <div class="container">
     <div class="card">
       <h1>Privacy Policy</h1>
-      <p>
-        <span class="c0"
-          >This Privacy Policy will be effective from March 28, 2019.</span
-        >
-      </p>
+      <p class="c3">Effective Date: March 28, 2019</p>
       <p><span class="c5">When this Privacy Policy Applies</span></p>
       <p>
         <span class="c0"
@@ -91,11 +87,11 @@
           >
         </li>
       </ul>
-      <p>If you do not want us to collect, store, use or share your
-          information in the ways described in this Privacy Policy, please do
-          not access the App or otherwise access or use the Services. &nbsp;By
-          accessing the App and using or accessing the Services you consent to
-          this Privacy Policy.
+      <p>
+        If you do not want us to collect, store, use or share your information
+        in the ways described in this Privacy Policy, please do not access the
+        App or otherwise access or use the Services. &nbsp;By accessing the App
+        and using or accessing the Services you consent to this Privacy Policy.
       </p>
       <p>
         <span class="c0"
