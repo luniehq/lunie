@@ -50,7 +50,7 @@ exports[`TmPage should show links to other pages 1`] = `
         <router-link-stub
           class="app-menu-item-small"
           exact="exact"
-          title="About"
+          title="Terms"
           to="/terms"
         >
           
@@ -63,11 +63,24 @@ exports[`TmPage should show links to other pages 1`] = `
         <router-link-stub
           class="app-menu-item-small"
           exact="exact"
-          title="About"
+          title="Privacy"
           to="/privacy"
         >
           
           Privacy Policy
+        
+        </router-link-stub>
+      </li>
+       
+      <li>
+        <router-link-stub
+          class="app-menu-item-small"
+          exact="exact"
+          title="Security"
+          to="/security"
+        >
+          
+          Security
         
         </router-link-stub>
       </li>
@@ -126,7 +139,7 @@ exports[`TmPage shows a page skeleton 1`] = `
         <router-link-stub
           class="app-menu-item-small"
           exact="exact"
-          title="About"
+          title="Terms"
           to="/terms"
         >
           
@@ -139,11 +152,24 @@ exports[`TmPage shows a page skeleton 1`] = `
         <router-link-stub
           class="app-menu-item-small"
           exact="exact"
-          title="About"
+          title="Privacy"
           to="/privacy"
         >
           
           Privacy Policy
+        
+        </router-link-stub>
+      </li>
+       
+      <li>
+        <router-link-stub
+          class="app-menu-item-small"
+          exact="exact"
+          title="Security"
+          to="/security"
+        >
+          
+          Security
         
         </router-link-stub>
       </li>

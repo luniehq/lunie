@@ -110,6 +110,7 @@ export const startApp = async (
   }
 
   store.dispatch(`showInitialScreen`)
+  store.dispatch(`loadLocalPreferences`)
   store
     .dispatch(`connect`)
     // wait for connected as the check for session will sign in directly and query account data
