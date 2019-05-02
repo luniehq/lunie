@@ -3,11 +3,13 @@ import TmModal from "common/TmModal"
 
 describe(`TmModal`, () => {
   let wrapper
+  let mockCloseFn
 
   beforeEach(() => {
+    mockCloseFn = jest.fn()
     wrapper = shallowMount(TmModal, {
       propsData: {
-        close: jest.fn()
+        close: mockCloseFn
       }
     })
   })
@@ -23,10 +25,15 @@ describe(`TmModal`, () => {
         footer: `<div class="world" />`
       },
       propsData: {
-        close: jest.fn()
+        close: mockCloseFn
       }
     })
     expect(wrapper.find(`custom-title`)).toBeDefined()
     expect(wrapper.find(`custom-footer`)).toBeDefined()
+  })
+
+  it(`should close with escape key`, () => {
+    wrapper.trigger("keyup.esc")
+    expect(mockCloseFn).toBeCalled()
   })
 })
