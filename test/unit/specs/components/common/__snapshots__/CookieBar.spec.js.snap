@@ -2,8 +2,39 @@
 
 exports[`CookieBar shows the cookie bar 1`] = `
 <div
-  class="cookieBar"
+  class="cookie-bar"
 >
+  <i
+    class="hide-on-mobile"
+  />
+   
+  <p>
+    <span
+      class="hide-on-mobile"
+    >
+      This site uses cookies to help improve the user experience.
+    </span>
+    
+    By using Lunie, you accept our
+    
+    <router-link
+      class="link"
+      to="/terms"
+    >
+      Terms of Service
+    </router-link>
+     and
+    
+    <router-link
+      class="link"
+      to="/privacy"
+    >
+      Privacy Policy
+    </router-link>
+    .
+  
+  </p>
+   
   <a
     class="close"
   >
@@ -12,15 +43,6 @@ exports[`CookieBar shows the cookie bar 1`] = `
     >
       close
     </i>
-  </a>
-  
-  Lunie uses cookies and remote error collection to improve the app.
-  By dismissing this notification, you consent to this policy.
-  
-  <a
-    href="/privacy-policy"
-  >
-    Click to learn more.
   </a>
 </div>
 `;

@@ -8,12 +8,13 @@ exports[`AppHeader should display the sidebar on desktop 1`] = `
     class="container"
   >
     <div
-      class="header-item header-item-logo"
+      class="header-item"
     >
       <router-link-stub
         to="/"
       >
         <img
+          class="header-item-logo"
           src="~assets/images/cosmos-wallet-logo.svg"
         />
       </router-link-stub>
@@ -34,12 +35,13 @@ exports[`AppHeader should show the sidebar as a menu on mobile 1`] = `
     class="container"
   >
     <div
-      class="header-item header-item-logo"
+      class="header-item"
     >
       <router-link-stub
         to="/"
       >
         <img
+          class="header-item-logo"
           src="~assets/images/cosmos-wallet-logo.svg"
         />
       </router-link-stub>

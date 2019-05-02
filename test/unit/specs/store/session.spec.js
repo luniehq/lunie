@@ -236,7 +236,9 @@ describe(`Module: Session`, () => {
       const localKeyPairName = `def`
       const commit = jest.fn()
       const dispatch = jest.fn()
-      await actions.signIn({ state, commit, dispatch }, { localKeyPairName })
+      const sessionType = `local`
+      const address = `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`
+      await actions.signIn({ state, commit, dispatch }, { localKeyPairName, address, sessionType })
       expect(commit).toHaveBeenCalledWith(
         `setUserAddress`,
         `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`
@@ -247,10 +249,10 @@ describe(`Module: Session`, () => {
       expect(dispatch).toHaveBeenCalledWith(`initializeWallet`, {
         address: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`
       })
-      expect(state.externals.track).toHaveBeenCalled()
+      expect(state.externals.track).toHaveBeenCalledWith(`event`, `session`, `sign-in`, `local`)
     })
 
-    it(`with Ledger Nano X`, async () => {
+    it(`with Ledger Nano S`, async () => {
       const address = `cosmos1qpd4xgtqmxyf9ktjh757nkdfnzpnkamny3cpzv`
       const commit = jest.fn()
       const dispatch = jest.fn()
@@ -263,7 +265,7 @@ describe(`Module: Session`, () => {
       expect(commit).toHaveBeenCalledWith(`setSessionType`, `ledger`)
       expect(dispatch).toHaveBeenCalledWith(`loadPersistedState`)
       expect(dispatch).toHaveBeenCalledWith(`initializeWallet`, { address })
-      expect(state.externals.track).toHaveBeenCalled()
+      expect(state.externals.track).toHaveBeenCalledWith(`event`, `session`, `sign-in`, `ledger`)
     })
 
     it(`in explore mode`, async () => {
@@ -279,8 +281,7 @@ describe(`Module: Session`, () => {
       expect(commit).toHaveBeenCalledWith(`setSessionType`, `explore`)
       expect(dispatch).toHaveBeenCalledWith(`loadPersistedState`)
       expect(dispatch).toHaveBeenCalledWith(`initializeWallet`, { address })
-      expect(dispatch).toHaveBeenCalledWith(`loadErrorCollection`, address)
-      expect(state.externals.track).toHaveBeenCalled()
+      expect(state.externals.track).toHaveBeenCalledWith(`event`, `session`, `sign-in`, `explore`)
     })
   })
 
