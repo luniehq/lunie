@@ -207,6 +207,10 @@ describe(`PageValidator`, () => {
       ).not.toBeNull()
     })
 
+    it('shows formatted validator website url', () => {
+      expect(wrapper.vm.$el).toMatchSnapshot()
+    })
+
     describe(`errors`, () => {
       it(`signing info is missing`, () => {
         $store.getters.delegates.delegates = [
