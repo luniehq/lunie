@@ -205,6 +205,11 @@ describe(`ActionModal`, () => {
       wrapper.vm.close()
       expect(wrapper.vm.step).toBe(`txDetails`)
     })
+
+    it(`should close on escape key press`, () => {
+      wrapper.trigger("keyup.esc")
+      expect(wrapper.isEmpty()).toBe(true)
+    })
   })
 
   describe(`validates child form`, () => {
