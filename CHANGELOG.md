@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [1.0.0-beta.58] - 2019-05-02
+
+### Fixed
+
+- [#2525](https://github.com/cosmos/lunie/pull/2525) Fix signin in with local account @faboweb
+
 ## [1.0.0-beta.57] - 2019-05-02
 
 ### Fixed
