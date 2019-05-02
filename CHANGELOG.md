@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [1.0.0-beta.55] - 2019-05-02
+
+### Fixed
+
+- [#2519](https://github.com/cosmos/lunie/pull/2519) Cover outage by moving to nylira nodes @faboweb
+
 ## [1.0.0-beta.54] - 2019-05-02
 
 ### Added
