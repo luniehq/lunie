@@ -1,7 +1,5 @@
 import * as Sentry from "@sentry/browser"
-import {
-  track, deanonymize, anonymize
-} from "scripts/google-analytics.js"
+import { track, deanonymize, anonymize } from "scripts/google-analytics.js"
 import config from "src/config"
 import { loadKeys, importKey, testPassword } from "../../scripts/keystore.js"
 import { generateSeed } from "../../scripts/wallet.js"
@@ -202,8 +200,9 @@ export default () => {
       }
       state.cookiesAccepted = true
 
-      const { errorCollection, analyticsCollection } =
-        JSON.parse(localPreferences)
+      const { errorCollection, analyticsCollection } = JSON.parse(
+        localPreferences
+      )
       if (state.errorCollection !== errorCollection)
         dispatch(`setErrorCollection`, errorCollection)
       if (state.analyticsCollection !== analyticsCollection)

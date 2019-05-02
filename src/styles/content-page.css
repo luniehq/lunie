@@ -6,8 +6,8 @@
 }
 
 h1 {
-	font-size: var(--xxl);
-	line-height: 36px;
+  font-size: var(--xxl);
+  line-height: 36px;
   color: var(--bright);
   margin-bottom: 1rem;
   font-weight: 500;
@@ -20,19 +20,18 @@ p {
 }
 
 h2 {
-	margin-bottom: 1rem;
+  margin-bottom: 1rem;
 }
 
 .c2 {
-	font-weight: 500;
+  font-weight: 500;
   font-size: var(--lg);
   line-height: var(--xl);
   padding: 2rem 0 0;
-  display: block;
-	color: var(--txt);
-	display: list-item;
-	margin-left: 0;
-	list-style-position: inside;
+  color: var(--txt);
+  display: list-item;
+  margin-left: 0;
+  list-style-position: inside;
 }
 
 .c4 {
@@ -54,30 +53,24 @@ h2 {
   color: var(--txt);
 }
 
+li {
+  margin-left: 1rem;
+  margin-bottom: 0.5rem;
+  font-size: 14px;
+  color: var(--bright);
+}
+
 ol li {
-	list-style-type: decimal;
+  list-style-type: decimal;
 }
 
 ul li {
   list-style-type: circle;
 }
 
-li {
-	margin-left: 1rem;
-  margin-bottom: 0.5rem;
-  font-size: 14px;
-  color: var(--bright);
-}
-
-ul, ol {
+ul,
+ol {
   margin-bottom: 1rem;
-}
-
-h1 {
-  font-size: var(--xxl);
-  color: var(--bright);
-  margin-bottom: 1rem;
-  font-weight: 500;
 }
 
 .container {

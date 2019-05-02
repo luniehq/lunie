@@ -1,13 +1,13 @@
 <template>
   <div>
-    <cookie-bar />
+    <CookieBar />
     <div id="app">
-      <session />
-      <app-header />
+      <Session />
+      <AppHeader />
       <div id="app-content">
         <router-view />
       </div>
-      <tm-notifications :notifications="notifications" />
+      <TmNotifications :notifications="notifications" />
     </div>
   </div>
 </template>

@@ -58,7 +58,7 @@ export const startApp = async (
   // directive to focus form fields
   /* istanbul ignore next */
   Vue.directive(`focus`, {
-    inserted: function (el) {
+    inserted: function(el) {
       el.focus()
     }
   })
@@ -76,11 +76,11 @@ export const startApp = async (
 
     // handle uncaught errors
     /* istanbul ignore next */
-    window.addEventListener(`unhandledrejection`, function (event) {
+    window.addEventListener(`unhandledrejection`, function(event) {
       Sentry.captureException(event.reason)
     })
     /* istanbul ignore next */
-    window.addEventListener(`error`, function (event) {
+    window.addEventListener(`error`, function(event) {
       Sentry.captureException(event.reason)
     })
 
@@ -108,7 +108,8 @@ export const startApp = async (
 
   store.dispatch(`showInitialScreen`)
   store.dispatch(`loadLocalPreferences`)
-  store.dispatch(`connect`)
+  store
+    .dispatch(`connect`)
     // wait for connected as the check for session will sign in directly and query account data
     .then(() => {
       store.dispatch(`checkForPersistedSession`)

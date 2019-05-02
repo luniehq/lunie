@@ -1026,7 +1026,7 @@
 
 <script>
 export default {
-  name: `page-privacy`,
+  name: `page-privacy`
 }
 </script>
 

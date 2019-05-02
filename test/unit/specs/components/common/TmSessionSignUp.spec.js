@@ -44,7 +44,7 @@ describe(`SessionSignUp`, () => {
         dispatch: jest.fn()
       },
       $v: {
-        $touch: () => { },
+        $touch: () => {},
         $error: false
       },
       fields: {
@@ -67,7 +67,7 @@ describe(`SessionSignUp`, () => {
         dispatch
       },
       $v: {
-        $touch: () => { },
+        $touch: () => {},
         $error: false
       },
       fields: {
@@ -180,7 +180,7 @@ describe(`SessionSignUp`, () => {
         signUpWarning: true
       },
       $v: {
-        $touch: () => { },
+        $touch: () => {},
         $error: false
       },
       $store

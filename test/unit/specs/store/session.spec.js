@@ -133,7 +133,7 @@ describe(`Module: Session`, () => {
   })
 
   it(`should show an error if loading accounts fails`, async () => {
-    jest.spyOn(console, `error`).mockImplementationOnce(() => { })
+    jest.spyOn(console, `error`).mockImplementationOnce(() => {})
 
     jest.resetModules()
     jest.doMock(`scripts/keystore.js`, () => ({
@@ -238,7 +238,10 @@ describe(`Module: Session`, () => {
       const dispatch = jest.fn()
       const sessionType = `local`
       const address = `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`
-      await actions.signIn({ state, commit, dispatch }, { localKeyPairName, address, sessionType })
+      await actions.signIn(
+        { state, commit, dispatch },
+        { localKeyPairName, address, sessionType }
+      )
       expect(commit).toHaveBeenCalledWith(
         `setUserAddress`,
         `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`
@@ -249,7 +252,12 @@ describe(`Module: Session`, () => {
       expect(dispatch).toHaveBeenCalledWith(`initializeWallet`, {
         address: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`
       })
-      expect(state.externals.track).toHaveBeenCalledWith(`event`, `session`, `sign-in`, `local`)
+      expect(state.externals.track).toHaveBeenCalledWith(
+        `event`,
+        `session`,
+        `sign-in`,
+        `local`
+      )
     })
 
     it(`with Ledger Nano S`, async () => {
@@ -265,7 +273,12 @@ describe(`Module: Session`, () => {
       expect(commit).toHaveBeenCalledWith(`setSessionType`, `ledger`)
       expect(dispatch).toHaveBeenCalledWith(`loadPersistedState`)
       expect(dispatch).toHaveBeenCalledWith(`initializeWallet`, { address })
-      expect(state.externals.track).toHaveBeenCalledWith(`event`, `session`, `sign-in`, `ledger`)
+      expect(state.externals.track).toHaveBeenCalledWith(
+        `event`,
+        `session`,
+        `sign-in`,
+        `ledger`
+      )
     })
 
     it(`in explore mode`, async () => {
@@ -281,7 +294,12 @@ describe(`Module: Session`, () => {
       expect(commit).toHaveBeenCalledWith(`setSessionType`, `explore`)
       expect(dispatch).toHaveBeenCalledWith(`loadPersistedState`)
       expect(dispatch).toHaveBeenCalledWith(`initializeWallet`, { address })
-      expect(state.externals.track).toHaveBeenCalledWith(`event`, `session`, `sign-in`, `explore`)
+      expect(state.externals.track).toHaveBeenCalledWith(
+        `event`,
+        `session`,
+        `sign-in`,
+        `explore`
+      )
     })
   })
 
@@ -298,7 +316,7 @@ describe(`Module: Session`, () => {
   })
 
   it(`should enable error collection`, async () => {
-    jest.spyOn(console, `log`).mockImplementationOnce(() => { })
+    jest.spyOn(console, `log`).mockImplementationOnce(() => {})
     const commit = jest.fn()
     const dispatch = jest.fn()
     await actions.setErrorCollection(
@@ -318,7 +336,7 @@ describe(`Module: Session`, () => {
   })
 
   it(`should disable error collection`, async () => {
-    jest.spyOn(console, `log`).mockImplementationOnce(() => { })
+    jest.spyOn(console, `log`).mockImplementationOnce(() => {})
     const commit = jest.fn()
     const dispatch = jest.fn()
     await actions.setErrorCollection(
@@ -335,7 +353,7 @@ describe(`Module: Session`, () => {
   })
 
   it(`should enable analytics collection`, async () => {
-    jest.spyOn(console, `log`).mockImplementationOnce(() => { })
+    jest.spyOn(console, `log`).mockImplementationOnce(() => {})
     const commit = jest.fn()
     const dispatch = jest.fn()
     await actions.setAnalyticsCollection(
@@ -352,7 +370,7 @@ describe(`Module: Session`, () => {
   })
 
   it(`should disable analytics collection`, async () => {
-    jest.spyOn(console, `log`).mockImplementationOnce(() => { })
+    jest.spyOn(console, `log`).mockImplementationOnce(() => {})
     const commit = jest.fn()
     const dispatch = jest.fn()
     await actions.setAnalyticsCollection(
@@ -371,44 +389,44 @@ describe(`Module: Session`, () => {
   it(`should load the persisted user preferences`, () => {
     localStorage.setItem(`lunie_user_preferences`, undefined)
     const dispatch = jest.fn()
-    actions.loadLocalPreferences(
-      {
-        state,
-        dispatch
-      }
-    )
+    actions.loadLocalPreferences({
+      state,
+      dispatch
+    })
     expect(state.cookiesAccepted).toBe(false)
 
-    localStorage.setItem(`lunie_user_preferences`, JSON.stringify({
-      errorCollection: true,
-      analyticsCollection: true
-    }))
+    localStorage.setItem(
+      `lunie_user_preferences`,
+      JSON.stringify({
+        errorCollection: true,
+        analyticsCollection: true
+      })
+    )
     state.errorCollection = false
     state.analyticsCollection = false
 
-    actions.loadLocalPreferences(
-      {
-        state,
-        dispatch
-      }
-    )
+    actions.loadLocalPreferences({
+      state,
+      dispatch
+    })
     expect(state.cookiesAccepted).toBe(true)
     expect(dispatch).toHaveBeenCalledWith(`setErrorCollection`, true)
 
-    localStorage.setItem(`lunie_user_preferences`, JSON.stringify({
-      errorCollection: false,
-      analyticsCollection: false
-    }))
+    localStorage.setItem(
+      `lunie_user_preferences`,
+      JSON.stringify({
+        errorCollection: false,
+        analyticsCollection: false
+      })
+    )
     state.errorCollection = true
     state.analyticsCollection = true
 
     dispatch.mockClear()
-    actions.loadLocalPreferences(
-      {
-        state,
-        dispatch
-      }
-    )
+    actions.loadLocalPreferences({
+      state,
+      dispatch
+    })
 
     expect(dispatch).toHaveBeenCalledWith(`setErrorCollection`, false)
     expect(dispatch).toHaveBeenCalledWith(`setAnalyticsCollection`, false)
@@ -419,13 +437,13 @@ describe(`Module: Session`, () => {
     state.errorCollection = true
     state.analyticsCollection = true
 
-    actions.storeLocalPreferences(
-      {
-        state
-      }
-    )
+    actions.storeLocalPreferences({
+      state
+    })
 
-    expect(localStorage.getItem(`lunie_user_preferences`)).toBe(`{"errorCollection":true,"analyticsCollection":true}`)
+    expect(localStorage.getItem(`lunie_user_preferences`)).toBe(
+      `{"errorCollection":true,"analyticsCollection":true}`
+    )
   })
 
   it(`should reload accounts on reconnect as this could be triggered by a switch from a mocked connection`, async () => {

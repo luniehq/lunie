@@ -92,11 +92,10 @@
 
 <script>
 export default {
-  name: `page-security`,
+  name: `page-security`
 }
 </script>
 
 <style scoped>
 @import "../../styles/content-page.css";
 </style>
-

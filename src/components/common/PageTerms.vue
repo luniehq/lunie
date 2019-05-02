@@ -608,7 +608,7 @@
           &#39;AS IS&#39; AND &#39;AS AVAILABLE&#39; BASIS WITHOUT WARRANTY OF
           ANY KIND.
         </p>
-        <p class="c3" id="h.1fob9te">
+        <p id="h.1fob9te" class="c3">
           TO THE MAXIMUM EXTENT PERMITTED BY LAW, WE, OUR OFFICERS, DIRECTORS,
           EMPLOYEES, AGENTS, SERVICE PROVIDERS, SUPPLIERS, DISTRIBUTORS AND
           LICENSORS (FOR PURPOSES OF THIS PARAGRAPH, THE &ldquo;LUNIE
@@ -671,7 +671,7 @@
           MAY NOT APPLY TO YOU.
         </p>
         <li class="c2">Indemnification</li>
-        <p class="c3" id="h.3znysh7">
+        <p id="h.3znysh7" class="c3">
           <span
             >You agree to indemnify, defend and hold Lunie and the Lunie
             Parties, and the directors, officers, agents and employees of each,
@@ -1173,7 +1173,7 @@
           counter-notice, at our sole discretion.
         </p>
         <li class="c2">Termination</li>
-        <p class="c3" id="h.tyjcwt">
+        <p id="h.tyjcwt" class="c3">
           This Agreement is effective until terminated by you or us. We may
           terminate your access and use of Lunie and/or Services and/or your
           Account if we determine that you have violated this Agreement or that
@@ -1299,11 +1299,10 @@
 
 <script>
 export default {
-  name: `page-terms`,
+  name: `page-terms`
 }
 </script>
 
 <style scoped>
 @import "../../styles/content-page.css";
 </style>
-
