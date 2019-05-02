@@ -1,6 +1,6 @@
-# Contributing to Voyager
+# Contributing to Lunie
 
-Thank you for your interest in contributing to Voyager. We've written up some guidelines to help you get your issues looked into faster, and pull requests merged in a timely manner.
+Thank you for your interest in contributing to Lunie. We've written up some guidelines to help you get your issues looked into faster, and pull requests merged in a timely manner.
 
 ## Issue Guidelines
 
@@ -17,7 +17,7 @@ Thank you for your interest in contributing to Voyager. We've written up some gu
 - Please make sure your code is properly tested, so that the code coverage is not decreasing.
 - Please write `closes #123` somewhere in the pull request. #123 is the issue number you are attempting to fix with this PR. This string will automatically close the issue when the PR is merged.
 - If this PR produces a visible change, please provide screenshots showing these changes.
-- If the change is difficult to understand, please provide a description on why and how the change helps Voyager.
+- If the change is difficult to understand, please provide a description on why and how the change helps Lunie.
 
 ## Release
 
