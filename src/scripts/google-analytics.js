@@ -16,14 +16,13 @@ module.exports.enableGoogleAnalytics = function enableGoogleAnalytics(gaUID) {
   ga(`create`, gaUID, `auto`)
 }
 
-module.exports.deanonymize = function deanonymize() {
-  ga(`set`, `allowAdFeatures`, true)
-  ga(`set`, `anonymizeIp`, false)
+module.exports.anonymize = function anonymize(anonymize = true) {
+  ga(`set`, `allowAdFeatures`, !anonymize)
+  ga(`set`, `anonymizeIp`, anonymize)
 }
 
-module.exports.anonymize = function anonymize() {
-  ga(`set`, `allowAdFeatures`, false)
-  ga(`set`, `anonymizeIp`, true)
+module.exports.deanonymize = function deanonymize() {
+  module.exports.anonymize(false)
 }
 
 module.exports.disableGoogleAnalytics = function disableGoogleAnalytics(gaUID) {
