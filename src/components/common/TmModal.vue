@@ -1,6 +1,6 @@
 <template>
   <div
-    v-focus
+    v-focus-last
     class="tm-modal"
     tabindex="0"
     @click.self="close()"

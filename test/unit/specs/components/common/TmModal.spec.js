@@ -1,9 +1,9 @@
 import { shallowMount, createLocalVue } from "@vue/test-utils"
 import TmModal from "common/TmModal"
-import { focusElement } from "directives"
+import { focusParentLast } from "directives"
 
 let localVue = createLocalVue()
-localVue.directive("focus", focusElement)
+localVue.directive("focus-last", focusParentLast)
 
 describe(`TmModal`, () => {
   let wrapper
