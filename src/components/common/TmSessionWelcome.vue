@@ -86,7 +86,6 @@ export default {
           title: ``,
           body: `Please use Chrome or Brave.`
         })
-        return
       }
     },
     closeSession() {
