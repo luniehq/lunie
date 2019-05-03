@@ -148,18 +148,25 @@ export default ({ node }) => {
       ]
 
       queries.forEach(query => {
-        node.rpc.subscribe(
-          {
-            query
-          },
-          onTx
-        )
+        node.rpc
+          .subscribe(
+            {
+              query
+            },
+            onTx
+          )
+          .catch(err => {
+            // TODO Output error like this to not trigger Sentry
+            console.error(err)
+          })
       })
     },
     async getMoney({ state }, address) {
-      return state.externals.axios.get(
-        `${state.externals.config.faucet}/${address}`
-      )
+      return state.externals.axios
+        .get(`${state.externals.config.faucet}/${address}`)
+        .catch(() => {
+          console.error("Requesting tokens from faucet failed.")
+        })
     }
   }
 
