@@ -208,13 +208,13 @@ exports[`PageValidator shows a validator profile information errors signing info
              
             <dd>
               <a
-                href="http://www.monty.ca"
+                href="https://www.monty.ca"
                 id="validator-website"
                 rel="nofollow noreferrer noopener"
                 target="_blank"
               >
                 
-                http://www.monty.ca
+                https://www.monty.ca
               
               </a>
             </dd>

@@ -225,6 +225,12 @@ describe(`PageValidator`, () => {
       expect(wrapper.vm.website).toBe(`http://www.monty.ca`)
     })
 
+    it(`already has https website url`, () => {
+      validator.description.website = `https://www.monty.ca`
+      wrapper.setData({ validator })
+      expect(wrapper.vm.website).toBe(`https://www.monty.ca`)
+    })
+
     describe(`errors`, () => {
       it(`signing info is missing`, () => {
         $store.getters.delegates.delegates = [
