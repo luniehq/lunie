@@ -92,6 +92,14 @@ describe(`Module: Wallet`, () => {
       )
     })
 
+    it(`should not throw if fetching money fails`, async () => {
+      jest.spyOn(console, "error").mockImplementationOnce(() => {})
+      const { state, actions } = instance
+      state.externals.axios.get = () => Promise.reject("Expected")
+      const address = `X`
+      expect(actions.getMoney({ state }, address)).resolves
+    })
+
     it(`should initialize wallet`, async () => {
       const { actions } = instance
 
