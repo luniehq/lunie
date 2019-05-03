@@ -104,9 +104,7 @@ describe(`TmSessionWelcome`, () => {
       Object.defineProperty(window.navigator, `userAgent`, {
         value: `xxx`
       })
-      expect(wrapper.find(`#explore-address`).exists()).toBe(true)
       wrapper.find(`#explore-address`).trigger(`click`)
-      expect(wrapper.find(`.tm-form-msg-error`)).toBeDefined()
       expect($store.commit).toHaveBeenCalledWith(`notifyError`, {
         body: "Please use Chrome or Brave.",
         title: ""
