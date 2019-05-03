@@ -80,13 +80,13 @@ export default {
   methods: {
     setState(value) {
       if (navigator.userAgent.includes(`Chrome`)) {
-        this.$store.commit(`setSessionModalView`, value) 
+        this.$store.commit(`setSessionModalView`, value)
       } else {
         this.$store.commit(`notifyError`, {
           title: ``,
           body: `Please use Chrome or Brave.`
         })
-        return 
+        return
       }
     },
     closeSession() {
