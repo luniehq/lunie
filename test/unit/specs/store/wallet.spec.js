@@ -231,11 +231,12 @@ describe(`Module: Wallet`, () => {
     })
 
     it(`should not error when subscribing with no address`, async () => {
-      const { actions, state } = instance
+      const { actions } = instance
       const dispatch = jest.fn()
-      state.address = null
-      state.decodedAddress = null
-      await actions.walletSubscribe({ state, dispatch })
+      await actions.walletSubscribe({
+        rootState: { session: { address: undefined } },
+        dispatch
+      })
     })
 
     it(`should query wallet on subscription txs`, async () => {
@@ -251,13 +252,15 @@ describe(`Module: Wallet`, () => {
           })
         }
       }
-      const { actions, state } = walletModule({
+      const { actions } = walletModule({
         node
       })
       const dispatch = jest.fn()
-      state.address = `x`
 
-      await actions.walletSubscribe({ state, dispatch })
+      await actions.walletSubscribe({
+        rootState: { session: { address: `x` } },
+        dispatch
+      })
 
       jest.runTimersToTime(30000)
       expect(dispatch).toHaveBeenCalledTimes(6)
@@ -274,13 +277,15 @@ describe(`Module: Wallet`, () => {
           })
         }
       }
-      const { actions, state } = walletModule({
+      const { actions } = walletModule({
         node
       })
       const dispatch = jest.fn()
-      state.address = `x`
 
-      await actions.walletSubscribe({ state, dispatch })
+      await actions.walletSubscribe({
+        rootState: { session: { address: `x` } },
+        dispatch
+      })
 
       jest.runTimersToTime(30000)
       expect(dispatch).toHaveBeenCalledTimes(0)
