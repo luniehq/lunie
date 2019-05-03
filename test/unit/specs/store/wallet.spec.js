@@ -238,6 +238,8 @@ describe(`Module: Wallet`, () => {
           subscribe: jest.fn((_, cb) => {
             //query is param
             cb({ TxResult: { height: -1 } })
+
+            return Promise.resolve()
           })
         }
       }
@@ -251,6 +253,31 @@ describe(`Module: Wallet`, () => {
 
       jest.runTimersToTime(30000)
       expect(dispatch).toHaveBeenCalledTimes(6)
+    })
+
+    it(`should catch errors from subscriptions`, async () => {
+      jest.useFakeTimers()
+      jest.spyOn(console, "error").mockImplementation(() => {})
+
+      const node = {
+        rpc: {
+          subscribe: jest.fn(() => {
+            return Promise.reject("Expected")
+          })
+        }
+      }
+      const { actions, state } = walletModule({
+        node
+      })
+      const dispatch = jest.fn()
+      state.address = `x`
+
+      await actions.walletSubscribe({ state, dispatch })
+
+      jest.runTimersToTime(30000)
+      expect(dispatch).toHaveBeenCalledTimes(0)
+
+      console.error.mockRestore()
     })
 
     it(`should store an error if failed to load balances`, async () => {
