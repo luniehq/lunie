@@ -110,7 +110,6 @@ export default function({ node }) {
       if (rootState.session.signedIn) {
         dispatch(`walletSubscribe`)
       }
-      // dispatch(`getDelegates`)
       dispatch(`checkNodeHalted`)
       dispatch(`pollRPCConnection`)
     },
