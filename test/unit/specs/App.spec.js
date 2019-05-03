@@ -89,7 +89,7 @@ describe(`App Start`, () => {
   it(`Check the calls on VUE`, async () => {
     const { Vue } = await start()
 
-    expect(Vue.directive).toHaveBeenCalledTimes(1)
+    expect(Vue.directive).toHaveBeenCalledTimes(2)
     expect(Vue.use).toHaveBeenCalledTimes(4)
   })
 
