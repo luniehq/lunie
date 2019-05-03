@@ -12,9 +12,17 @@ module.exports.enableGoogleAnalytics = function enableGoogleAnalytics(gaUID) {
       ;(ga.q = ga.q || []).push(arguments)
     }
   ga.l = +new Date()
-  ga(`set`, `allowAdFeatures`, false)
-  ga(`set`, `anonymizeIp`, true)
+  module.exports.anonymize()
   ga(`create`, gaUID, `auto`)
+}
+
+module.exports.anonymize = function anonymize(anonymize = true) {
+  ga(`set`, `allowAdFeatures`, !anonymize)
+  ga(`set`, `anonymizeIp`, anonymize)
+}
+
+module.exports.deanonymize = function deanonymize() {
+  module.exports.anonymize(false)
 }
 
 module.exports.disableGoogleAnalytics = function disableGoogleAnalytics(gaUID) {

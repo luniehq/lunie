@@ -221,7 +221,7 @@ exports[`PageGovernance disables proposal creation if not connected 1`] = `
         <router-link-stub
           class="app-menu-item-small"
           exact="exact"
-          title="About"
+          title="Terms"
           to="/terms"
         >
           
@@ -234,11 +234,24 @@ exports[`PageGovernance disables proposal creation if not connected 1`] = `
         <router-link-stub
           class="app-menu-item-small"
           exact="exact"
-          title="About"
+          title="Privacy"
           to="/privacy"
         >
           
           Privacy Policy
+        
+        </router-link-stub>
+      </li>
+       
+      <li>
+        <router-link-stub
+          class="app-menu-item-small"
+          exact="exact"
+          title="Security"
+          to="/security"
+        >
+          
+          Security
         
         </router-link-stub>
       </li>
@@ -467,7 +480,7 @@ exports[`PageGovernance has the expected html structure 1`] = `
         <router-link-stub
           class="app-menu-item-small"
           exact="exact"
-          title="About"
+          title="Terms"
           to="/terms"
         >
           
@@ -480,11 +493,24 @@ exports[`PageGovernance has the expected html structure 1`] = `
         <router-link-stub
           class="app-menu-item-small"
           exact="exact"
-          title="About"
+          title="Privacy"
           to="/privacy"
         >
           
           Privacy Policy
+        
+        </router-link-stub>
+      </li>
+       
+      <li>
+        <router-link-stub
+          class="app-menu-item-small"
+          exact="exact"
+          title="Security"
+          to="/security"
+        >
+          
+          Security
         
         </router-link-stub>
       </li>

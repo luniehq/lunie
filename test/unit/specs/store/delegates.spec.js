@@ -28,11 +28,9 @@ describe(`Module: Delegates`, () => {
     ])
     expect(state.delegates).toEqual([
       {
-        id: `foo`,
         operator_address: `foo`,
         percent_of_vote: `100.00%`,
-        tokens: `10`,
-        voting_power: BN(10)
+        tokens: `10`
       }
     ])
   })
@@ -48,33 +46,9 @@ describe(`Module: Delegates`, () => {
     ])
     expect(state.delegates).toEqual([
       {
-        id: `foo`,
         operator_address: `foo`,
-        percent_of_vote: `100.00%`,
         tokens: `12`,
-        updated: true,
-        voting_power: BN(12)
-      }
-    ])
-  })
-
-  it(`parses delegate tokens with fraction value`, () => {
-    const { mutations, state } = instance
-    mutations.setDelegates(state, [
-      {
-        operator_address: `foo`,
-        tokens: `4000/40`,
         updated: true
-      }
-    ])
-    expect(state.delegates).toEqual([
-      {
-        id: `foo`,
-        operator_address: `foo`,
-        percent_of_vote: `100.00%`,
-        tokens: `4000/40`,
-        updated: true,
-        voting_power: BN(100)
       }
     ])
   })
@@ -243,15 +217,17 @@ describe(`Module: Delegates`, () => {
   })
 
   it(`should query self bond of a validator`, async () => {
-    const { actions } = instance
+    const { actions, state } = instance
     const commit = jest.fn()
     const validator = {
       operator_address: nodeMock.validators[0],
       delegator_shares: `120`
     }
-    node.get.delegation = jest.fn(() => ({ shares: `12` }))
+    node.get.delegation = jest.fn(() => [
+      { shares: `12`, validator_address: nodeMock.validators[0] }
+    ])
 
-    await actions.getSelfBond({ commit }, validator)
+    await actions.getSelfBond({ commit, state }, validator)
     expect(commit).toHaveBeenCalledWith(`setSelfBond`, {
       validator,
       ratio: BN(0.1)
@@ -259,16 +235,16 @@ describe(`Module: Delegates`, () => {
   })
 
   it(`should not query self bond of a validator if already queried`, async () => {
-    const { actions } = instance
+    const { actions, state } = instance
     const commit = jest.fn()
     const validator = {
       operator_address: nodeMock.validators[0],
-      delegator_shares: `120`,
-      selfBond: BN(1)
+      delegator_shares: `120`
     }
-    node.get.delegation = jest.fn()
+    state.selfBond[nodeMock.validators[0]] = `0.1`
+    node.get.delegation = jest.fn(() => [])
 
-    await actions.getSelfBond({ commit }, validator)
+    await actions.getSelfBond({ commit, state }, validator)
     expect(node.get.delegation).not.toHaveBeenCalled()
   })
 
@@ -278,17 +254,12 @@ describe(`Module: Delegates`, () => {
       operator_address: nodeMock.validators[0],
       delegator_shares: `120`
     }
-    state.delegates = [validator]
 
     await mutations.setSelfBond(state, {
       validator,
       ratio: BN(0.1)
     })
-    expect(
-      state.delegates.find(
-        ({ operator_address }) => operator_address === nodeMock.validators[0]
-      )
-    ).toHaveProperty(`selfBond`, BN(0.1))
+    expect(state.selfBond[nodeMock.validators[0]]).toEqual(BN(0.1))
   })
 
   it(`should store an error if failed to load delegates`, async () => {

@@ -3,7 +3,7 @@
 const { cli, shell } = require(`@nodeguy/cli`)
 const fs = require(`fs`)
 const { join } = require(`path`)
-const _ = require(`lodash`)
+const groupBy = require(`lodash.groupby`)
 const octokit = require(`@octokit/rest`)()
 
 const changesPath = join(__dirname, `../changes`)
@@ -53,7 +53,7 @@ function beautifyChanges(changes) {
       content: matches[2]
     }
   })
-  const grouped = _.groupBy(categorized, `type`)
+  const grouped = groupBy(categorized, `type`)
 
   let output = ``
   output = addCategory(output, `Added`, grouped)

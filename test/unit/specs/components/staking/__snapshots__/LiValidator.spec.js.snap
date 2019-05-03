@@ -61,7 +61,7 @@ exports[`LiValidator has the expected html structure 1`] = `
     class="li-validator__voting-power"
   >
     
-    22.00%
+    1.40%
   
   </td>
    
@@ -144,7 +144,7 @@ exports[`LiValidator should display uptime as double-dash 1`] = `
     class="li-validator__voting-power"
   >
     
-    22.00%
+    1.40%
   
   </td>
    
@@ -227,7 +227,7 @@ exports[`LiValidator works if user is not signed in 1`] = `
     class="li-validator__voting-power"
   >
     
-    22.00%
+    1.40%
   
   </td>
    

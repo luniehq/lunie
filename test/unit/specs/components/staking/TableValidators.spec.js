@@ -25,7 +25,7 @@ describe(`TableValidators`, () => {
     keybase: { [validators[0].description.identity]: `keybase` },
     pool: {
       pool: {
-        bonded_tokens: 500001
+        bonded_tokens: 1000
       }
     },
     delegates: {
@@ -59,9 +59,7 @@ describe(`TableValidators`, () => {
 
   it(`should create an enriched validator object for a signed in user`, () => {
     expect(wrapper.vm.enrichedValidators[0].small_moniker).toBe(`mr_mounty`)
-    expect(wrapper.vm.enrichedValidators[0].percent_of_vote).toBe(
-      0.27999944000112
-    )
+    expect(wrapper.vm.enrichedValidators[0].voting_power).toBe(`0.0140000000`)
     expect(wrapper.vm.enrichedValidators[0].my_delegations).toBe(10)
     expect(wrapper.vm.enrichedValidators[0].commission).toBe(0)
     expect(wrapper.vm.enrichedValidators[0].keybase).toBe(`keybase`)
@@ -69,7 +67,7 @@ describe(`TableValidators`, () => {
     expect(wrapper.vm.enrichedValidators[0].uptime).toBe(0.9998)
   })
 
-  it(`should create an enriched validator object for a user who is not signed in`, () => {
+  it(`should create an enriched validator object for a user who is not signed in `, () => {
     wrapper.vm.session.signedIn = false
     expect(wrapper.vm.enrichedValidators[1].my_delegations).toBe(0)
     expect(wrapper.vm.enrichedValidators[1].rewards).toBe(0)

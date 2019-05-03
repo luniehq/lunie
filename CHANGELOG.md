@@ -7,6 +7,57 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [1.0.0-beta.58] - 2019-05-02
+
+### Fixed
+
+- [#2525](https://github.com/cosmos/lunie/pull/2525) Fix signin in with local account @faboweb
+
+## [1.0.0-beta.57] - 2019-05-02
+
+### Fixed
+
+- [#2523](https://github.com/cosmos/lunie/pull/2523) Move back to own servers after outage @faboweb
+
+## [1.0.0-beta.56] - 2019-05-02
+
+### Fixed
+
+- [#2521](https://github.com/cosmos/lunie/pull/2521) add nylira nodes to CSP @faboweb
+
+## [1.0.0-beta.55] - 2019-05-02
+
+### Fixed
+
+- [#2519](https://github.com/cosmos/lunie/pull/2519) Cover outage by moving to nylira nodes @faboweb
+
+## [1.0.0-beta.54] - 2019-05-02
+
+### Added
+
+- [#1797](https://github.com/cosmos/lunie/issues/1797) Added notification about cookies and error tracking @faboweb
+- [#2517](https://github.com/cosmos/lunie/pull/2517) Readded the insecure flag to allow users to access their local wallets @faboweb
+
+## [1.0.0-beta.53] - 2019-05-01
+
+### Changed
+
+- [#2509](https://github.com/cosmos/lunie/pull/2509) Switched to linting on push only @faboweb
+
+### Fixed
+
+- [#2513](https://github.com/cosmos/lunie/pull/2513) Remove local signer on mainnet @faboweb
+
+## [1.0.0-beta.52] - 2019-04-30
+
+### Fixed
+
+- [#2500](https://github.com/cosmos/lunie/issues/2500) Fixed displaying voting power @faboweb
+- [#2500](https://github.com/cosmos/lunie/issues/2500) Fixed displaying of self delegation ratio @faboweb
+- [#2502](https://github.com/cosmos/lunie/pulls/2502) Fixed redelegation @faboweb
+- [#2499](https://github.com/cosmos/lunie/pull/2499) Fix withdraw in europe number format @faboweb
+- [#2493](https://github.com/cosmos/lunie/pull/2493) Throws an error if Ledger Cosmos App is outdated @faboweb
+
 ## [1.0.0-beta.51] - 2019-04-28
 
 ### Added

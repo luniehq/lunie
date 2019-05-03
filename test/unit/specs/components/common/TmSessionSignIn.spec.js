@@ -62,7 +62,8 @@ describe(`TmSessionSignIn`, () => {
     await wrapper.vm.onSubmit()
     expect($store.dispatch).toHaveBeenCalledWith(`signIn`, {
       password: `1234567890`,
-      localKeyPairName: `default`
+      localKeyPairName: `default`,
+      sessionType: `local`
     })
   })
 
