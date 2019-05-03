@@ -1,5 +1,9 @@
-import { shallowMount } from "@vue/test-utils"
+import { shallowMount, createLocalVue } from "@vue/test-utils"
 import TmModal from "common/TmModal"
+import { focusElement } from "directives"
+
+let localVue = createLocalVue()
+localVue.directive("focus", focusElement)
 
 describe(`TmModal`, () => {
   let wrapper
@@ -8,6 +12,7 @@ describe(`TmModal`, () => {
   beforeEach(() => {
     mockCloseFn = jest.fn()
     wrapper = shallowMount(TmModal, {
+      localVue,
       propsData: {
         close: mockCloseFn
       }
@@ -20,6 +25,7 @@ describe(`TmModal`, () => {
 
   it(`should use slots`, () => {
     wrapper = shallowMount(TmModal, {
+      localVue,
       slots: {
         title: `<div class="hello" />`,
         footer: `<div class="world" />`

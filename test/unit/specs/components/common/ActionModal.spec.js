@@ -1,9 +1,11 @@
 import { shallowMount, createLocalVue } from "@vue/test-utils"
 import Vuelidate from "vuelidate"
 import ActionModal from "src/components/common/ActionModal"
+import { focusParentLast } from "directives"
 
 const localVue = createLocalVue()
 localVue.use(Vuelidate)
+localVue.directive("focus-last", focusParentLast)
 
 describe(`ActionModal`, () => {
   let wrapper, $store
