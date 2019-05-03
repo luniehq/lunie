@@ -1,6 +1,6 @@
 <template>
   <transition v-if="show" name="slide-fade">
-    <div class="action-modal" tabindex="0" @keyup.esc="close">
+    <div v-focus-last class="action-modal" tabindex="0" @keyup.esc="close">
       <div class="action-modal-header">
         <img
           class="icon action-modal-atom"
