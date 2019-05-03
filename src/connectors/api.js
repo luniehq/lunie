@@ -147,7 +147,14 @@ const Client = (axios, remoteLcdURL) => {
     // },
 
     // Get a list containing all the validator candidates
-    getValidators: req(`GET`, `/staking/validators`),
+    getValidators: async () =>
+      await Promise.all([
+        req(`GET`, `/staking/validators?status=bonded`)(),
+        req(`GET`, `/staking/validators?status=unbonded`)(),
+        req(`GET`, `/staking/validators?status=unbonding`)()
+      ]).then(([bondedValidators, unbondedValidators, unbondingValidators]) =>
+        [].concat(bondedValidators, unbondedValidators, unbondingValidators)
+      ),
     // Get information from a validator
     getValidator: function(addr) {
       return req(`GET`, `/staking/validators/${addr}`)()

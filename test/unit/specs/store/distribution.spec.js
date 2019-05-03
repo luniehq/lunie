@@ -107,6 +107,10 @@ describe(`Module: Fee Distribution`, () => {
     })
 
     describe(`getTotalRewards`, () => {
+      beforeEach(() => {
+        node.getDelegatorRewards.mockClear()
+      })
+
       it(`success`, async () => {
         await actions.getTotalRewards({ state, rootState, commit })
         expect(node.getDelegatorRewards).toHaveBeenCalledWith(
@@ -116,17 +120,22 @@ describe(`Module: Fee Distribution`, () => {
       })
 
       it(`fails`, async () => {
-        rootState = { session: { address: null } }
         node.getDelegatorRewards = jest.fn(async () =>
           Promise.reject(Error(`invalid address`))
         )
         await actions.getTotalRewards({ state, rootState, commit })
-        expect(node.getDelegatorRewards).toHaveBeenCalledWith(null)
+        expect(node.getDelegatorRewards).toHaveBeenCalledWith("cosmos1address")
         expect(commit).not.toHaveBeenCalledWith(`setTotalRewards`, rewards)
         expect(commit).toHaveBeenCalledWith(
           `setDistributionError`,
           Error(`invalid address`)
         )
+      })
+
+      it(`ignores calls if no address is present`, async () => {
+        rootState = { session: { address: null } }
+        await actions.getTotalRewards({ state, rootState, commit })
+        expect(node.getDelegatorRewards).not.toHaveBeenCalled()
       })
     })
 

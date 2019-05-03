@@ -7,6 +7,18 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [1.0.0-beta.59] - 2019-05-03
+
+### Added
+
+- [#2189](https://github.com/cosmos/lunie/issues/2189) Escape key will close modal @colw
+
+### Fixed
+
+- [#2515](https://github.com/cosmos/lunie/issues/2515) Typo and logo's path update @gin
+- [#2461](https://github.com/cosmos/lunie/issues/2461) Load all validators @faboweb
+- [#2506](https://github.com/cosmos/lunie/issues/2506) Prepends https:// to links that do not include https:// or http:// @migueog
+
 ## [1.0.0-beta.58] - 2019-05-02
 
 ### Fixed

@@ -71,6 +71,8 @@ export default ({ node }) => {
       rootState.distribution = JSON.parse(JSON.stringify(emptyState))
     },
     async getTotalRewards({ state, rootState: { session }, commit }) {
+      if (!session.address) return
+
       state.loading = true
       try {
         const rewardsArray = await node.getDelegatorRewards(session.address)
