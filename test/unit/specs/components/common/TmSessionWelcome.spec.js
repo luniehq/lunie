@@ -61,6 +61,15 @@ describe(`TmSessionWelcome`, () => {
       expect(wrapper.find(`#sign-in-with-account`).exists()).toBe(false)
     })
 
+    it(`should disable sign in if using unsupported browsers`, () => {
+      Object.defineProperty(window.navigator, `userAgent`, {
+        value: `Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/49.0.2454.85 Safari/537.36`
+      })
+      expect(wrapper.find(`#explore-address`).exists()).toBe(true)
+      wrapper.find(`#explore-address`).trigger(`click`)
+      expect(wrapper.find(`.tm-form-msg-error`)).toBeDefined()
+    })
+
     it(`has the expected html structure`, () => {
       expect(wrapper.vm.$el).toMatchSnapshot()
     })
