@@ -908,8 +908,22 @@ describe(`API`, () => {
         [
           {
             data: undefined,
-            method: `GET`,
-            url: `http://remotehost/staking/validators`
+            method: "GET",
+            url: "http://remotehost/staking/validators?status=bonded"
+          }
+        ],
+        [
+          {
+            data: undefined,
+            method: "GET",
+            url: "http://remotehost/staking/validators?status=unbonded"
+          }
+        ],
+        [
+          {
+            data: undefined,
+            method: "GET",
+            url: "http://remotehost/staking/validators?status=unbonding"
           }
         ]
       ])
