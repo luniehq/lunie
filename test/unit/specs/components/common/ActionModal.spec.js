@@ -63,6 +63,10 @@ describe(`ActionModal`, () => {
       submitFn,
       submissionErrorPrefix: `PREFIX`
     }
+    Object.defineProperty(window.navigator, `userAgent`, {
+      value: `Chrome`,
+      writable: true
+    })
     await ActionModal.methods.submit.call(self)
 
     expect(self.submissionError).toEqual(`PREFIX: some kind of error message.`)
@@ -130,6 +134,16 @@ describe(`ActionModal`, () => {
     const self = { $store }
     ActionModal.methods.connectLedger.call(self)
     expect($store.dispatch).toHaveBeenCalledWith(`connectLedgerApp`)
+  })
+
+  it(`should not dispatch connectLedgerApp if using incorrect browser`, () => {
+    const $store = { dispatch: jest.fn() }
+    const self = { $store }
+    Object.defineProperty(window.navigator, `userAgent`, {
+      value: `xxx`
+    })
+    ActionModal.methods.connectLedger.call(self)
+    expect($store.dispatch).not.toHaveBeenCalledWith(`connectLedgerApp`)
   })
 
   describe(`should show the action modal`, () => {

@@ -81,6 +81,10 @@ describe(`TmSessionHardware`, () => {
         setStatus: jest.fn(),
         setConnectionError: jest.fn(error => (self.connectionError = error))
       }
+      Object.defineProperty(window.navigator, `userAgent`, {
+        value: `Chrome`,
+        writable: true
+      })
       await TmSessionHardware.methods.connectLedger.call(self)
       expect(self.$store.dispatch).toHaveBeenCalledWith(`connectLedgerApp`)
       expect(self.connectionError).toBeNull()
@@ -103,6 +107,16 @@ describe(`TmSessionHardware`, () => {
       await TmSessionHardware.methods.connectLedger.call(self)
       expect(self.$store.dispatch).toHaveBeenCalledWith(`connectLedgerApp`)
       expect(self.connectionError).toBe(`No Ledger found`)
+    })
+
+    it(`should not dispatch connectLedgerApp if using incorrect browser`, () => {
+      const $store = { dispatch: jest.fn() }
+      const self = { $store }
+      Object.defineProperty(window.navigator, `userAgent`, {
+        value: `xxx`
+      })
+      TmSessionHardware.methods.connectLedger.call(self)
+      expect($store.dispatch).not.toHaveBeenCalledWith(`connectLedgerApp`)
     })
   })
 })
