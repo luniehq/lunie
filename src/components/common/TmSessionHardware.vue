@@ -58,7 +58,10 @@ export default {
       this.connectionError = error
     },
     async connectLedger() {
-      if (navigator.userAgent.includes(`Chrome`) || navigator.userAgent.includes(`Opera`)) {
+      if (
+        navigator.userAgent.includes(`Chrome`) ||
+        navigator.userAgent.includes(`Opera`)
+      ) {
         this.setStatus(`detect`)
         try {
           await this.$store.dispatch(`connectLedgerApp`)

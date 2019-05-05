@@ -374,12 +374,15 @@ export default {
       }
     },
     async connectLedger() {
-      if (navigator.userAgent.includes(`Chrome`) || navigator.userAgent.includes(`Opera`)) {
+      if (
+        navigator.userAgent.includes(`Chrome`) ||
+        navigator.userAgent.includes(`Opera`)
+      ) {
         try {
           await this.$store.dispatch(`connectLedgerApp`)
         } catch (error) {
           this.submissionError = `${this.submissionErrorPrefix}: ${error}.`
-        } 
+        }
       } else {
         this.submissionError(`Please use Chrome, Brave, or Opera`)
       }
