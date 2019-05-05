@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [1.0.0-beta.60] - 2019-05-05
+
+### Fixed
+
+- [#2539](https://github.com/cosmos/lunie/pull/2539) Delegations did not show on my delegations page @faboweb
+
 ## [1.0.0-beta.59] - 2019-05-03
 
 ### Added
