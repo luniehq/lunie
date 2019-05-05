@@ -220,7 +220,7 @@ export default () => {
       state.errorCollection = enabled
       dispatch(`storeLocalPreferences`)
 
-      if (state.errorCollection && process.env.NODE_ENV === "production") {
+      if (state.errorCollection && !state.externals.config.development) {
         state.externals.Sentry.init({
           dsn: state.externals.config.sentry_dsn,
           release: state.externals.config.version
