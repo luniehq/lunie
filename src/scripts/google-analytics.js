@@ -3,10 +3,6 @@
 "use strict"
 
 module.exports.enableGoogleAnalytics = function enableGoogleAnalytics(gaUID) {
-  if (process.env.NODE_ENV !== "production") {
-    return
-  }
-
   // if set to true disables google analytics
   window[`ga-disable-${gaUID}`] = false
 
@@ -21,19 +17,11 @@ module.exports.enableGoogleAnalytics = function enableGoogleAnalytics(gaUID) {
 }
 
 module.exports.anonymize = function anonymize(anonymize = true) {
-  if (process.env.NODE_ENV !== "production") {
-    return
-  }
-
   ga(`set`, `allowAdFeatures`, !anonymize)
   ga(`set`, `anonymizeIp`, anonymize)
 }
 
 module.exports.deanonymize = function deanonymize() {
-  if (process.env.NODE_ENV !== "production") {
-    return
-  }
-
   module.exports.anonymize(false)
 }
 
