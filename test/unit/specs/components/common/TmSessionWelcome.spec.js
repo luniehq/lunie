@@ -100,17 +100,6 @@ describe(`TmSessionWelcome`, () => {
       expect($store.commit).toHaveBeenCalledWith(`setSessionModalView`, `xxx`)
     })
 
-    it(`should disable sign in if using unsupported browsers`, () => {
-      Object.defineProperty(window.navigator, `userAgent`, {
-        value: `xxx`
-      })
-      wrapper.find(`#explore-address`).trigger(`click`)
-      expect($store.commit).toHaveBeenCalledWith(`notifyError`, {
-        body: "Please use Chrome or Brave.",
-        title: ""
-      })
-    })
-
     it(`has the expected html structure`, () => {
       expect(wrapper.vm.$el).toMatchSnapshot()
     })
