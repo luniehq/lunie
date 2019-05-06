@@ -1,5 +1,5 @@
 import { shallowMount } from "@vue/test-utils"
-import TabMyDelegations from "renderer/components/staking/TabMyDelegations"
+import TabMyDelegations from "src/components/staking/TabMyDelegations"
 import validators from "../../store/json/validators.js"
 import { stakingTxs } from "../../store/json/txs"
 
@@ -11,7 +11,6 @@ import { stakingTxs } from "../../store/json/txs"
 // })
 
 describe(`Component: TabMyDelegations`, () => {
-
   const getters = {
     transactions: {
       staking: []
@@ -20,12 +19,10 @@ describe(`Component: TabMyDelegations`, () => {
       delegates: validators
     },
     delegation: {
-      unbondingDelegations: {
-      },
+      unbondingDelegations: {},
       loaded: true
     },
-    committedDelegations: {
-    },
+    committedDelegations: {},
     connected: true,
     bondDenom: `uatom`,
     session: { signedIn: true },
@@ -62,15 +59,16 @@ describe(`Component: TabMyDelegations`, () => {
     })
 
     it(`should show unbonding validators and the current committed validator`, () => {
-
       const time = new Date(Date.now()).toISOString()
       const height = stakingTxs[3].height
       const address = stakingTxs[3].tx.value.msg[0].value.validator_address
       const ubds = {
-        [address]: [{
-          creation_height: height,
-          completion_time: time
-        }]
+        [address]: [
+          {
+            creation_height: height,
+            completion_time: time
+          }
+        ]
       }
 
       wrapper.vm.delegation.unbondingDelegations = ubds
@@ -166,7 +164,8 @@ describe(`Component: TabMyDelegations`, () => {
           const newHeader = { height: `30` }
           TabMyDelegations.watch.lastHeader.handler.call(
             { $store, yourValidators },
-            newHeader)
+            newHeader
+          )
           expect($store.dispatch).not.toHaveBeenCalledWith(
             `getRewardsFromMyValidators`,
             yourValidators
@@ -179,7 +178,8 @@ describe(`Component: TabMyDelegations`, () => {
           const newHeader = { height: `40` }
           TabMyDelegations.watch.lastHeader.handler.call(
             { $store, yourValidators },
-            newHeader)
+            newHeader
+          )
           expect($store.dispatch).not.toHaveBeenCalledWith(
             `getRewardsFromMyValidators`,
             yourValidators

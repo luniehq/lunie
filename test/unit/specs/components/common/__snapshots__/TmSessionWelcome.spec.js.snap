@@ -15,7 +15,7 @@ exports[`TmSessionWelcome with accounts has the expected html structure 1`] = `
         class="tm-session-title"
       >
         
-        Sign in to Cosmos Voyager
+        Sign in to Lunie
       
       </div>
        
@@ -31,26 +31,53 @@ exports[`TmSessionWelcome with accounts has the expected html structure 1`] = `
     <div
       class="tm-session-main"
     >
-      <li-session-stub
+      <lisession-stub
         icon="usb"
         subtitle="If you have a Ledger Wallet, choose this option."
         title="Sign in with Ledger Nano S"
       />
        
-      <li-session-stub
-        icon="lock"
-        id="sign-in-with-account"
-        subtitle="If you have an account, choose this option."
-        title="Sign in with password"
+      <lisession-stub
+        icon="search"
+        id="explore-address"
+        subtitle="If you want to use Lunie with an address
+          , choose this option."
+        title="Sign in with Address"
       />
        
-      <li-session-stub
-        icon="person_add"
-        subtitle="Generate a brand new seed and create a new account."
-        title="Create new account"
-      />
-       
-      <!---->
+      <div
+        class="danger-zone"
+      >
+        <div
+          class="header"
+        >
+          <h1>
+            DANGER ZONE
+          </h1>
+           
+          <p>
+            
+              Never use accounts created in the browser on a real network. You
+              could lose all your money.
+            
+          </p>
+        </div>
+         
+        <lisession-stub
+          icon="lock"
+          id="sign-in-with-account"
+          subtitle="If you have an account, choose this option."
+          title="Sign in with password"
+        />
+         
+        <lisession-stub
+          icon="person_add"
+          subtitle="Generate a brand new seed and create a new account."
+          title="Create new account"
+        />
+         
+        <!---->
+      </div>
     </div>
   </div>
 </div>
@@ -71,7 +98,7 @@ exports[`TmSessionWelcome without accounts has the expected html structure 1`] =
         class="tm-session-title"
       >
         
-        Sign in to Cosmos Voyager
+        Sign in to Lunie
       
       </div>
        
@@ -87,26 +114,53 @@ exports[`TmSessionWelcome without accounts has the expected html structure 1`] =
     <div
       class="tm-session-main"
     >
-      <li-session-stub
+      <lisession-stub
         icon="usb"
         subtitle="If you have a Ledger Wallet, choose this option."
         title="Sign in with Ledger Nano S"
       />
        
-      <!---->
-       
-      <li-session-stub
-        icon="person_add"
-        subtitle="Generate a brand new seed and create a new account."
-        title="Create new account"
+      <lisession-stub
+        icon="search"
+        id="explore-address"
+        subtitle="If you want to use Lunie with an address
+          , choose this option."
+        title="Sign in with Address"
       />
        
-      <li-session-stub
-        icon="settings_backup_restore"
-        id="import-seed"
-        subtitle="Use an existing seed phrase to create an account."
-        title="Import with seed"
-      />
+      <div
+        class="danger-zone"
+      >
+        <div
+          class="header"
+        >
+          <h1>
+            DANGER ZONE
+          </h1>
+           
+          <p>
+            
+              Never use accounts created in the browser on a real network. You
+              could lose all your money.
+            
+          </p>
+        </div>
+         
+        <!---->
+         
+        <lisession-stub
+          icon="person_add"
+          subtitle="Generate a brand new seed and create a new account."
+          title="Create new account"
+        />
+         
+        <lisession-stub
+          icon="settings_backup_restore"
+          id="import-seed"
+          subtitle="Use an existing seed phrase to create an account."
+          title="Import with seed"
+        />
+      </div>
     </div>
   </div>
 </div>

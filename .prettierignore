@@ -1,4 +1,4 @@
-/app/dist/
+/dist/
 /package.json
 /test/unit/coverage/
 /test/unit/tmp/

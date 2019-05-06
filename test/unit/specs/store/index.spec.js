@@ -1,4 +1,4 @@
-const Modules = require(`renderer/vuex/modules`).default
+const Modules = require(`src/vuex/modules`).default
 const node = require(`../../helpers/node_mock`)
 
 describe(`Module Index`, () => {

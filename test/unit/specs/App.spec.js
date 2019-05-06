@@ -1,4 +1,4 @@
-import { startApp, main, routeGuard } from "renderer/scripts/boot"
+import { startApp, main, routeGuard } from "scripts/boot"
 
 async function start(urlParams, environment) {
   const node = {
@@ -48,7 +48,7 @@ async function start(urlParams, environment) {
 describe(`App Start`, () => {
   // popper.js is used by tooltips and causes some errors if
   // not mocked because it requires a real DOM
-  jest.mock(`popper.js`, () => () => { })
+  jest.mock(`popper.js`, () => () => {})
 
   beforeEach(() => {
     document.body.innerHTML = `<div id="app"></div>`
@@ -76,17 +76,20 @@ describe(`App Start`, () => {
       config: `value`
     })
     expect(getURLParams).toHaveBeenCalled()
-    expect(startApp).toHaveBeenCalledWith({
-      x: 1
-    }, {
-      config: `value`
-    })
+    expect(startApp).toHaveBeenCalledWith(
+      {
+        x: 1
+      },
+      {
+        config: `value`
+      }
+    )
   })
 
   it(`Check the calls on VUE`, async () => {
     const { Vue } = await start()
 
-    expect(Vue.directive).toHaveBeenCalledTimes(1)
+    expect(Vue.directive).toHaveBeenCalledTimes(2)
     expect(Vue.use).toHaveBeenCalledTimes(4)
   })
 
@@ -186,27 +189,26 @@ describe(`App Start`, () => {
 
       expect(store.commit).toHaveBeenCalledWith(`setExperimentalMode`)
     })
-    it(`should set insecure mode`, async () => {
-      const { store } = await start({
-        insecure: true
-      })
-
-      expect(store.commit).toHaveBeenCalledWith(`setInsecureMode`)
-    })
 
     it(`should set rpc url`, async () => {
       const { store } = await start({
         rpc: `http://rpcurl.com`
       })
 
-      expect(store.commit).toHaveBeenCalledWith(`setRpcUrl`, `http://rpcurl.com`)
+      expect(store.commit).toHaveBeenCalledWith(
+        `setRpcUrl`,
+        `http://rpcurl.com`
+      )
     })
     it(`should set stargate url`, async () => {
       const { Node } = await start({
         stargate: `http://stargateurl.com`
       })
 
-      expect(Node).toHaveBeenCalledWith(expect.objectContaining({}), `http://stargateurl.com`)
+      expect(Node).toHaveBeenCalledWith(
+        expect.objectContaining({}),
+        `http://stargateurl.com`
+      )
     })
   })
 })

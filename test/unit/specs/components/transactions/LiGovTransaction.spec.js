@@ -14,13 +14,15 @@ describe(`LiGovTransaction`, () => {
     tx: {},
     txType: ``,
     time: new Date(Date.now()).toISOString(),
-    block: 500
+    block: 500,
+    memo: `TESTING (Sent via Lunie)`
   }
 
   beforeEach(() => {
-    wrapper = shallowMount(
-      LiGovTransaction, { propsData, stubs: [`router-link`] }
-    )
+    wrapper = shallowMount(LiGovTransaction, {
+      propsData,
+      stubs: [`router-link`]
+    })
   })
 
   it(`proposals`, () => {

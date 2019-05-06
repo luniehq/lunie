@@ -1,5 +1,5 @@
 import walletModule from "modules/wallet.js"
-import lcdClientMock from "renderer/connectors/lcdClientMock.js"
+import lcdClientMock from "src/connectors/lcdClientMock.js"
 
 const { stakingParameters } = lcdClientMock.state
 
@@ -87,7 +87,17 @@ describe(`Module: Wallet`, () => {
       const { state, actions } = instance
       const address = `X`
       await actions.getMoney({ state }, address)
-      expect(state.externals.axios.get).toHaveBeenCalledWith(`${faucet}/${address}`)
+      expect(state.externals.axios.get).toHaveBeenCalledWith(
+        `${faucet}/${address}`
+      )
+    })
+
+    it(`should not throw if fetching money fails`, async () => {
+      jest.spyOn(console, "error").mockImplementationOnce(() => {})
+      const { state, actions } = instance
+      state.externals.axios.get = () => Promise.reject("Expected")
+      const address = `X`
+      expect(actions.getMoney({ state }, address)).resolves
     })
 
     it(`should initialize wallet`, async () => {
@@ -96,10 +106,12 @@ describe(`Module: Wallet`, () => {
       const address = `cosmos1wdhk6e2pv3j8yetnwv0yr6s6`
       const commit = jest.fn()
       const dispatch = jest.fn(() => Promise.resolve())
-      state.balances = [{
-        denom: `stake`,
-        amount: `100`
-      }]
+      state.balances = [
+        {
+          denom: `stake`,
+          amount: `100`
+        }
+      ]
       await actions.initializeWallet({ state, commit, dispatch }, { address })
       expect(commit).toHaveBeenCalledWith(`setWalletAddress`, address)
       expect(dispatch.mock.calls).toEqual([
@@ -219,11 +231,12 @@ describe(`Module: Wallet`, () => {
     })
 
     it(`should not error when subscribing with no address`, async () => {
-      const { actions, state } = instance
+      const { actions } = instance
       const dispatch = jest.fn()
-      state.address = null
-      state.decodedAddress = null
-      await actions.walletSubscribe({ state, dispatch })
+      await actions.walletSubscribe({
+        rootState: { session: { address: undefined } },
+        dispatch
+      })
     })
 
     it(`should query wallet on subscription txs`, async () => {
@@ -234,19 +247,50 @@ describe(`Module: Wallet`, () => {
           subscribe: jest.fn((_, cb) => {
             //query is param
             cb({ TxResult: { height: -1 } })
+
+            return Promise.resolve()
           })
         }
       }
-      const { actions, state } = walletModule({
+      const { actions } = walletModule({
         node
       })
       const dispatch = jest.fn()
-      state.address = `x`
 
-      await actions.walletSubscribe({ state, dispatch })
+      await actions.walletSubscribe({
+        rootState: { session: { address: `x` } },
+        dispatch
+      })
 
       jest.runTimersToTime(30000)
       expect(dispatch).toHaveBeenCalledTimes(6)
+    })
+
+    it(`should catch errors from subscriptions`, async () => {
+      jest.useFakeTimers()
+      jest.spyOn(console, "error").mockImplementation(() => {})
+
+      const node = {
+        rpc: {
+          subscribe: jest.fn(() => {
+            return Promise.reject("Expected")
+          })
+        }
+      }
+      const { actions } = walletModule({
+        node
+      })
+      const dispatch = jest.fn()
+
+      await actions.walletSubscribe({
+        rootState: { session: { address: `x` } },
+        dispatch
+      })
+
+      jest.runTimersToTime(30000)
+      expect(dispatch).toHaveBeenCalledTimes(0)
+
+      console.error.mockRestore()
     })
 
     it(`should store an error if failed to load balances`, async () => {
@@ -277,7 +321,7 @@ describe(`Module: Wallet`, () => {
       const res = await actions.simulateSendCoins(self, {
         receiver: `cosmos1address1`,
         amount: 12,
-        denom: `uatom`,
+        denom: `uatom`
       })
 
       expect(self.dispatch).toHaveBeenCalledWith(`simulateTx`, {

@@ -40,22 +40,22 @@ exports[`TmOnboarding has the expected html structure 0 1`] = `
       }"
         />
          
-        <tm-bar-discrete-stub
+        <tmbardiscrete-stub
           active="0"
           clickfn="function () { [native code] }"
-          nodes="This is a quick tour of the primary features of Cosmos Voyager.,You can send and receive Cosmos tokens from anyone around the world.,You can delegate your stake to Cosmos Validators to earn even more stake.,Through governance, you can vote on the future of the Cosmos Network.,Start using Voyager to explore the Cosmos Network!"
+          nodes="This is a quick tour of the primary features of Cosmos Voyager.,You can send and receive Cosmos tokens from anyone around the world.,You can delegate your STAKE to Cosmos Validators to earn even more STAKE.,Through governance, you can vote on the future of the Cosmos Network.,Start using Voyager to explore the Cosmos Network!"
         />
       </div>
        
       <div
         class="tm-session-footer"
       >
-        <tm-btn-stub
+        <tmbtn-stub
           icon="close"
           value="Skip"
         />
          
-        <tm-btn-stub
+        <tmbtn-stub
           color="primary"
           icon="chevron_right"
           iconpos="right"

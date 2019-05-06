@@ -3,20 +3,18 @@
 module.exports = {
   testMatch: [`**/unit/specs/**/*spec.js`],
   moduleFileExtensions: [`js`, `vue`],
-  moduleDirectories: [`app/node_modules`, `node_modules`, `src`],
+  moduleDirectories: [`node_modules`, `src`],
   moduleNameMapper: {
-    "^src/(.*)$": `<rootDir>/app/src/$1`,
-    "^app/(.*)$": `<rootDir>/app/$1`,
-    "^renderer/(.*)$": `<rootDir>/app/src/renderer/$1`,
-    "^assets/(.*)$": `<rootDir>/app/src/renderer/assets/$1`,
-    "^common/(.*)$": `<rootDir>/app/src/renderer/components/common/$1`,
-    "^transactions/(.*)$": `<rootDir>/app/src/renderer/components/transactions/$1`,
-    "^governance/(.*)$": `<rootDir>/app/src/renderer/components/governance/$1`,
-    "^monitor/(.*)$": `<rootDir>/app/src/renderer/components/monitor/$1`,
-    "^staking/(.*)$": `<rootDir>/app/src/renderer/components/staking/$1`,
-    "^scripts/(.*)$": `<rootDir>/app/src/renderer/scripts/$1`,
-    "^wallet/(.*)$": `<rootDir>/app/src/renderer/components/wallet/$1`,
-    "^modules/(.*)$": `<rootDir>/app/src/renderer/vuex/modules/$1`
+    "^src/(.*)$": `<rootDir>/src/$1`,
+    "^assets/(.*)$": `<rootDir>/src/assets/$1`,
+    "^common/(.*)$": `<rootDir>/src/components/common/$1`,
+    "^transactions/(.*)$": `<rootDir>/src/components/transactions/$1`,
+    "^governance/(.*)$": `<rootDir>/src/components/governance/$1`,
+    "^monitor/(.*)$": `<rootDir>/src/components/monitor/$1`,
+    "^staking/(.*)$": `<rootDir>/src/components/staking/$1`,
+    "^scripts/(.*)$": `<rootDir>/src/scripts/$1`,
+    "^wallet/(.*)$": `<rootDir>/src/components/wallet/$1`,
+    "^modules/(.*)$": `<rootDir>/src/vuex/modules/$1`
   },
 
   transform: {
@@ -34,13 +32,12 @@ module.exports = {
     `/build/`,
     `/dist/`,
     `/test/`,
-    `/app/src/config.js`
+    `/src/config.js`
   ],
   testURL: `http://localhost`,
   setupFiles: [
     `./test/unit/helpers/fixed_time.js`,
-    `./test/unit/helpers/console_error_throw.js`,
-    `./test/unit/helpers/genesis_mock.js`,
+    // `./test/unit/helpers/console_error_throw.js`,
     `./test/unit/helpers/sentry_mock.js`,
     `./test/unit/helpers/mock_perfect-scrollbar.js`,
     `./test/unit/helpers/window_mock.js`,

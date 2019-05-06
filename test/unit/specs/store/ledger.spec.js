@@ -81,9 +81,9 @@ describe(`Module: Ledger`, () => {
       beforeEach(() => {
         state.cosmosApp = {
           get_version: jest.fn(async () => ({
-            major: `0`,
-            minor: `1`,
-            patch: `0`,
+            major: `1`,
+            minor: `0`,
+            patch: `1`,
             test_mode: false,
             error_message: `No errors`
           })),
@@ -219,20 +219,16 @@ describe(`Module: Ledger`, () => {
       describe(`get_version`, () => {
         it(`gets and sets the version success`, async () => {
           const version = {
-            major: `0`,
-            minor: `1`,
-            patch: `0`,
+            major: `1`,
+            minor: `0`,
+            patch: `1`,
             test_mode: false
           }
           await actions.getLedgerCosmosVersion({ commit, dispatch, state })
           expect(commit).toHaveBeenCalledWith(`setCosmosAppVersion`, version)
-          expect(commit).not.toHaveBeenCalledWith(
-            `setLedgerError`,
-            expect.anything()
-          )
         })
 
-        it(`sets an error on failure`, async () => {
+        it(`throws an error on failure`, async () => {
           const version = {
             major: undefined,
             minor: undefined,
@@ -242,14 +238,33 @@ describe(`Module: Ledger`, () => {
           state.cosmosApp.get_version = jest.fn(async () =>
             Promise.reject(new Error(`Execution Error`))
           )
-          await actions.getLedgerCosmosVersion({ commit, dispatch, state })
+          expect(
+            actions.getLedgerCosmosVersion({ commit, dispatch, state })
+          ).rejects.toThrow(`Execution Error`)
           expect(commit).not.toHaveBeenCalledWith(
             `setCosmosAppVersion`,
             version
           )
-          expect(commit).toHaveBeenCalledWith(
-            `setLedgerError`,
-            Error(`Execution Error`)
+        })
+
+        it(`throws an error if outdated`, async () => {
+          const version = {
+            major: 1,
+            minor: 0,
+            patch: 0,
+            test_mode: false,
+            error_message: `No errors`
+          }
+          state.cosmosApp.get_version = jest.fn(async () => version)
+          await expect(
+            actions.getLedgerCosmosVersion({ commit, dispatch, state })
+          ).rejects.toThrow(
+            `Comos Ledger App is outdated.` +
+              ` Please update it to the latest version`
+          )
+          expect(commit).not.toHaveBeenCalledWith(
+            `setCosmosAppVersion`,
+            version
           )
         })
       })

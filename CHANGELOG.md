@@ -7,6 +7,261 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [1.0.0-beta.60] - 2019-05-05
+
+### Fixed
+
+- [#2539](https://github.com/cosmos/lunie/pull/2539) Delegations did not show on my delegations page @faboweb
+
+## [1.0.0-beta.59] - 2019-05-03
+
+### Added
+
+- [#2189](https://github.com/cosmos/lunie/issues/2189) Escape key will close modal @colw
+
+### Fixed
+
+- [#2515](https://github.com/cosmos/lunie/issues/2515) Typo and logo's path update @gin
+- [#2461](https://github.com/cosmos/lunie/issues/2461) Load all validators @faboweb
+- [#2506](https://github.com/cosmos/lunie/issues/2506) Prepends https:// to links that do not include https:// or http:// @migueog
+
+## [1.0.0-beta.58] - 2019-05-02
+
+### Fixed
+
+- [#2525](https://github.com/cosmos/lunie/pull/2525) Fix signin in with local account @faboweb
+
+## [1.0.0-beta.57] - 2019-05-02
+
+### Fixed
+
+- [#2523](https://github.com/cosmos/lunie/pull/2523) Move back to own servers after outage @faboweb
+
+## [1.0.0-beta.56] - 2019-05-02
+
+### Fixed
+
+- [#2521](https://github.com/cosmos/lunie/pull/2521) add nylira nodes to CSP @faboweb
+
+## [1.0.0-beta.55] - 2019-05-02
+
+### Fixed
+
+- [#2519](https://github.com/cosmos/lunie/pull/2519) Cover outage by moving to nylira nodes @faboweb
+
+## [1.0.0-beta.54] - 2019-05-02
+
+### Added
+
+- [#1797](https://github.com/cosmos/lunie/issues/1797) Added notification about cookies and error tracking @faboweb
+- [#2517](https://github.com/cosmos/lunie/pull/2517) Readded the insecure flag to allow users to access their local wallets @faboweb
+
+## [1.0.0-beta.53] - 2019-05-01
+
+### Changed
+
+- [#2509](https://github.com/cosmos/lunie/pull/2509) Switched to linting on push only @faboweb
+
+### Fixed
+
+- [#2513](https://github.com/cosmos/lunie/pull/2513) Remove local signer on mainnet @faboweb
+
+## [1.0.0-beta.52] - 2019-04-30
+
+### Fixed
+
+- [#2500](https://github.com/cosmos/lunie/issues/2500) Fixed displaying voting power @faboweb
+- [#2500](https://github.com/cosmos/lunie/issues/2500) Fixed displaying of self delegation ratio @faboweb
+- [#2502](https://github.com/cosmos/lunie/pulls/2502) Fixed redelegation @faboweb
+- [#2499](https://github.com/cosmos/lunie/pull/2499) Fix withdraw in europe number format @faboweb
+- [#2493](https://github.com/cosmos/lunie/pull/2493) Throws an error if Ledger Cosmos App is outdated @faboweb
+
+## [1.0.0-beta.51] - 2019-04-28
+
+### Added
+
+- [#2265](https://github.com/cosmos/lunie/issues/2265) Added memo to transactions list and input to send modal (without forced memo suffix) @faboweb
+
+### Changed
+
+- [#2495](https://github.com/cosmos/lunie/pull/2495) Added prettier for simple code formating @faboweb
+
+## [1.0.0-beta.50] - 2019-04-28
+
+### Changed
+
+- [#2491](https://github.com/cosmos/lunie/pull/2491) Restructured the repository to simplify it @faboweb
+- [#2455](https://github.com/cosmos/lunie/issues/2455) standardized numbers throughout lunie and reduced to 3 decimal points @jbibla
+
+### Fixed
+
+- [#2487](https://github.com/cosmos/lunie/pull/2487) Removed rounding in small numbers @faboweb
+- [#2486](https://github.com/cosmos/lunie/issues/2486) transactions list items were broken @jbibla
+
+## [1.0.0-beta.49] - 2019-04-26
+
+### Fixed
+
+- [#2487](https://github.com/cosmos/lunie/pull/2487) Remove rounding in small numbers @faboweb
+
+## [1.0.0-beta.48] - 2019-04-25
+
+### Fixed
+
+- [#2475](https://github.com/cosmos/lunie/issues/2475) fixed delegation, redelegation, and undelegation issues @jbibla
+- [#2476](https://github.com/cosmos/lunie/issues/2476) fixed redelegation errors @jbibla
+
+### Security
+
+- [#2463](https://github.com/cosmos/lunie/pull/2463) Added a CSP header to limit source of JS and connections content of the website can do @faboweb
+
+## [1.0.0-beta.47] - 2019-04-24
+
+### Fixed
+
+- [#2475](https://github.com/cosmos/lunie/issues/2475) fixed delegation, redelegation, and undelegation issues @jbibla
+
+### Security
+
+- [#2463](https://github.com/cosmos/lunie/pull/2463) Added a CSP header to limit source of JS and connections content of the website can do @faboweb
+
+## [1.0.0-beta.46] - 2019-04-23
+
+### Fixed
+
+- [#2470](https://github.com/cosmos/lunie/pull/2470) Fixed proposal displaying due to SDK update @faboweb
+
+## [1.0.0-beta.45] - 2019-04-23
+
+### Fixed
+
+- [#2467](https://github.com/cosmos/lunie/pull/2467) Fixed sending by fixing the send body according to the SDK update @faboweb
+
+## [1.0.0-beta.44] - 2019-04-21
+
+### Fixed
+
+- [#2431](https://github.com/cosmos/lunie/issues/2431) check for ledger on submit to avoid action modal failures @jbibla
+- [#2413](https://github.com/cosmos/lunie/issues/2413) page validator uptime was not showing @jbibla
+
+## [1.0.0-beta.43] - 2019-04-16
+
+### Added
+
+- [#2449](https://github.com/cosmos/lunie/pull/2449) added new circle ci badge to readme @jbibla
+
+### Fixed
+
+- [#2431](https://github.com/cosmos/lunie/issues/2431) check for ledger on submit to avoid action modal failures @jbibla
+- [#2449](https://github.com/cosmos/lunie/issues/2449) explore mode should not ask for password in action modals @jbibla
+- [#0](https://github.com/cosmos/lunie/issues/0) tm connected network still included the word testnet in the language @jbibla
+- [#2445](https://github.com/cosmos/lunie/issues/2445) page validator label should be ATOM not uatom @jbibla
+- [#2448](https://github.com/cosmos/lunie/issues/2448) proposal description is awkward @jbibla
+
+## [1.0.0-beta.42] - 2019-04-08
+
+### Fixed
+
+- [#2435](https://github.com/cosmos/lunie/issues/2435) Fixed fee display for sending tokens @faboweb
+- [#2435](https://github.com/cosmos/lunie/issues/2435) Fixed fee denom not being correct and therefor sending not working @faboweb
+- [#2441](https://github.com/cosmos/lunie/pull/2441) Fixed account cache restoration @faboweb
+
+## [1.0.0-beta.41] - 2019-04-08
+
+### Fixed
+
+- [#2353](https://github.com/cosmos/lunie/issues/2353) cleaned up many styling issues and resolved scroll issue @jbibla
+
+## [1.0.0-beta.40] - 2019-04-06
+
+### Added
+
+- [#2434](https://github.com/cosmos/lunie/pull/2434) Automatic commit of changelog files to git @faboweb
+
+### Changed
+
+- [#2436](https://github.com/cosmos/lunie/pull/2436) Improved documentation on manual releases @faboweb
+- [#2433](https://github.com/cosmos/lunie/pull/2433) Switch servers to Lunie servers @faboweb
+
+## [1.0.0-beta.39] - 2019-04-06
+
+### Added
+
+- [#2424](https://github.com/cosmos/lunie/pull/2424) Lint files on every commit but only staged files @faboweb
+
+### Fixed
+
+- [#2427](https://github.com/cosmos/lunie/pull/2427) Fixed sign in with address not visible @faboweb
+
+## [1.0.0-beta.38] - 2019-04-05
+
+### Added
+
+- [#2393](https://github.com/cosmos/lunie/issues/2393) Sign in with just an address for exploration @faboweb
+- [#2419](https://github.com/cosmos/lunie/pull/2419) Merge master back to dev @faboweb
+
+### Changed
+
+- [#2423](https://github.com/cosmos/lunie/pull/2423) ActionModal doesn't close anymore when clicking outside @faboweb
+
+## [1.0.0-beta.37] - 2019-04-04
+
+### Changed
+
+- [#2402](https://github.com/cosmos/lunie/pull/2402) Updated several dependencies + removed some + slimmed down tendermint-js @faboweb
+
+### Fixed
+
+- [#2413](https://github.com/cosmos/lunie/issues/2413) Fix uptime not displaying @faboweb
+- [#2416](https://github.com/cosmos/lunie/pull/2416) Fixed stitching of changelog @faboweb
+
+## [1.0.0-beta.36] - 2019-04-03
+
+### Changed
+
+- [#2409](https://github.com/cosmos/lunie/pull/2409) Enable web accounts per default on a testnet @faboweb
+
+## [1.0.0-beta.35] - 2019-04-03
+
+### Added
+- [#2405](https://github.com/cosmos/lunie/pull/2405) Deploy master with testnet endpoints to the testnet bucket @faboweb
+- [#2394](https://github.com/cosmos/lunie/pull/2394) Bundle keybase profiles to provide a fallback to users in case of API throttling @faboweb 
+
+### Changed
+
+- [#2331](https://github.com/cosmos/lunie/issues/2331) change format proposal tally @fedekunze
+- [#2395](https://github.com/cosmos/lunie/pull/2395) Deployment configuration @mircea-c
+- [#2398](https://github.com/cosmos/lunie/pull/2398) Switch to code climate for coverage reports
+- [#2399](https://github.com/cosmos/lunie/pull/2399) Moved Sentry to own org @faboweb
+- [#2287](https://github.com/cosmos/lunie/pull/2287) Use tags instead of commit hash @sabau
+
+### Fixed
+
+- [#2391](https://github.com/cosmos/lunie/pull/2391) Catching potential error while sending transactions @faboweb  @faboweb
+- [#2400](https://github.com/cosmos/lunie/pull/2400) Fixed account creation with native crypto @faboweb
+- [#2404](https://github.com/cosmos/lunie/pull/2404) Fix createReleasePR test @faboweb 
+
+## [1.0.0-beta.34] - 2019-04-02
+
+### Added
+
+- [#2385](https://github.com/cosmos/lunie/pull/2385) Added a tool to handle changelog conflicts @faboweb
+
+## [1.0.0-beta.33] - 2019-03-31
+
+[Changed] [\#2288](https://github.com/cosmos/voyager/issues/2288) Poll for tx to be included in a block if it isn't right away @faboweb
+
+
+## [1.0.0-beta.32] - 2019-03-30
+
+[Changed] Naming of amount input to "Deposit" on ModalPropose @faboweb
+[Fixed] [\#2359](https://github.com/cosmos/lunie/pull/2359) fixed spacing on transactions @faboweb
+[Fixed] [\#2323](https://github.com/cosmos/lunie/issues/2323) fixed and added anchor to validator's website @fedekunze
+
+## [1.0.0-beta.31] - 2019-03-29
+
+[Fixed] [\#2375](https://github.com/cosmos/lunie/pull/2375) fixed predictable randomness on key generation @fedekunze
+
 ## [1.0.0-beta.30] - 2019-03-28
 
 [Fixed] [\#2370](https://github.com/cosmos/lunie/pull/2370) Better inplace updates to validators so the information (like signing info) never hides again once it was once loaded @faboweb
@@ -517,6 +772,21 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Fixed
 
+* Fixed gaia binary not be found on linux and windows in development @faboweb
+* [\#1419](https://github.com/cosmos/voyager/issues/1419) Restored "Amount" label to delegation modal. @NodeGuy
+* Fixed upstream cross compilation issue from SDK @faboweb
+* [\#1446](https://github.com/cosmos/voyager/issues/1446) and [\#1445](https://github.com/cosmos/voyager/issues/1445) Fixed sorting in validator tables. @NodeGuy
+* [\#1487](https://github.com/cosmos/voyager/issues/1487) Fixed running of local testnet. @NodeGuy
+* [\#1480](https://github.com/cosmos/voyager/issues/1480) Fixed "duplicate CONN" errors in E2E tests. @NodeGuy
+* [\#1480](https://github.com/cosmos/voyager/issues/1480) Fixed false detection of node crash in e2e test start. @faboweb
+* [\#1451](https://github.com/cosmos/voyager/issues/1451) Provide better sourcemaps to make debugging easier. @faboweb
+* [\#1409](https://github.com/cosmos/voyager/issues/1409) Fixed disabled unbond and redelegation button when delegation amount was less than 1 @fedekunze
+* [\#1500](https://github.com/cosmos/voyager/issues/1500) Fixed wrong optimistic updates to the atom balance after staking @faboweb @fedekunze
+* [\#1517](https://github.com/cosmos/voyager/issues/1517) Fixed wrong account format used for querying selfBond @faboweb
+* [\#1503](https://github.com/cosmos/voyager/issues/1503) Added e2e test for balance updates after delegation @faboweb
+* [\#1131](https://github.com/cosmos/voyager/issues/1131) Display only error message on notifications @fedekunze
+* [\#1440](https://github.com/cosmos/voyager/issues/1440) Fixed an error that prevented disconnecting from the RPC websocket if it wasn't defined @fedekunze
+* [\#1460](https://github.com/cosmos/voyager/issues/1460) Removing release-candidate tag when publishing @faboweb
 - Fixed gaia binary not be found on linux and windows in development @faboweb
 - [\#1419](https://github.com/cosmos/voyager/issues/1419) Restored "Amount" label to delegation modal. @NodeGuy
 - Fixed upstream cross compilation issue from SDK @faboweb

@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`ModalDeposit should display deposit modal form 1`] = `
-<action-modal-stub
+<actionmodal-stub
   amount="0"
   class="modal-deposit"
   id="modal-deposit"
@@ -11,7 +11,7 @@ exports[`ModalDeposit should display deposit modal form 1`] = `
   title="Deposit"
   validate="function () { [native code] }"
 >
-  <tm-form-group-stub
+  <tmformgroup-stub
     class="action-modal-form-group"
     fieldid="amount"
     fieldlabel="Amount"
@@ -19,16 +19,16 @@ exports[`ModalDeposit should display deposit modal form 1`] = `
     <span
       class="input-suffix"
     >
-      atom
+      ATOM
     </span>
      
-    <tm-field-stub
+    <tmfield-stub
       id="amount"
       type="number"
       value="0"
     />
      
     <!---->
-  </tm-form-group-stub>
-</action-modal-stub>
+  </tmformgroup-stub>
+</actionmodal-stub>
 `;

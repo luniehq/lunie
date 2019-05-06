@@ -1,27 +1,28 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`LiGovTransaction deposits 1`] = `
-<li-transaction-stub
+<litransaction-stub
   block="500"
   color="#15CFCC"
+  memo="TESTING (Sent via Lunie)"
   time="1970-01-01T00:00:42.000Z"
 >
   <div>
     
-      Deposit
+      Deposited
       
     <b>
-      1,000.000000
+      1,000
     </b>
      
     <span>
-      atoms
+      ATOM
     </span>
   </div>
    
   <div>
     
-      On
+      On 
       
     <router-link-stub
       to="/proposals/1"
@@ -35,40 +36,42 @@ exports[`LiGovTransaction deposits 1`] = `
   <div>
     
       Network Fee: 
-      
     <b>
-      0.003421
+      0.003
     </b>
      
     <span>
-      atoms
+      
+        ATOM
+      
     </span>
   </div>
-</li-transaction-stub>
+</litransaction-stub>
 `;
 
 exports[`LiGovTransaction proposals 1`] = `
-<li-transaction-stub
+<litransaction-stub
   block="500"
   color="#15CFCC"
+  memo="TESTING (Sent via Lunie)"
   time="1970-01-01T00:00:42.000Z"
 >
   <div>
     
-      Submit text proposal
+      Submitted text proposal
       
     <b>
-      1,000.000000
+      1,000
     </b>
      
     <span>
-      atoms
+      ATOM
     </span>
   </div>
    
   <div>
     
-      Title: 
+      Title: 
     <i>
       Test Proposal
     </i>
@@ -77,33 +80,33 @@ exports[`LiGovTransaction proposals 1`] = `
   <div>
     
       Network Fee: 
-      
     <b>
-      0.003421
+      0.003
     </b>
      
     <span>
-      atoms
+      
+        ATOM
+      
     </span>
   </div>
-</li-transaction-stub>
+</litransaction-stub>
 `;
 
 exports[`LiGovTransaction votes 1`] = `
-<li-transaction-stub
+<litransaction-stub
   block="500"
   color="#15CFCC"
+  memo="TESTING (Sent via Lunie)"
   time="1970-01-01T00:00:42.000Z"
 >
   <div>
-    
-      VoteYes
-    
+    Voted Yes
   </div>
    
   <div>
     
-      On
+      On 
       
     <router-link-stub
       to="/proposals/1"
@@ -117,14 +120,15 @@ exports[`LiGovTransaction votes 1`] = `
   <div>
     
       Network Fee: 
-      
     <b>
-      0.003421
+      0.003
     </b>
      
     <span>
-      atoms
+      
+        ATOM
+      
     </span>
   </div>
-</li-transaction-stub>
+</litransaction-stub>
 `;

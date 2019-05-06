@@ -44,7 +44,7 @@ describe(`SessionSignUp`, () => {
         dispatch: jest.fn()
       },
       $v: {
-        $touch: () => { },
+        $touch: () => {},
         $error: false
       },
       fields: {
@@ -67,7 +67,7 @@ describe(`SessionSignUp`, () => {
         dispatch
       },
       $v: {
-        $touch: () => { },
+        $touch: () => {},
         $error: false
       },
       fields: {
@@ -82,58 +82,6 @@ describe(`SessionSignUp`, () => {
     expect(dispatch).toHaveBeenCalledWith(`signIn`, {
       password: `1234567890`,
       localKeyPairName: `testaccount`
-    })
-  })
-
-  it(`should set error collection opt in state`, async () => {
-    const commit = jest.fn()
-    const dispatch = jest.fn()
-    await TmSessionSignUp.methods.onSubmit.call({
-      $store: {
-        commit,
-        dispatch
-      },
-      $v: {
-        $touch: () => { },
-        $error: false
-      },
-      fields: {
-        signUpPassword: `1234567890`,
-        signUpPasswordConfirm: `1234567890`,
-        signUpSeed: `bar`, // <-- doesn#t check for correctness of seed
-        signUpName: `testaccount`,
-        signUpWarning: true,
-        errorCollection: true
-      }
-    })
-    expect(dispatch).toHaveBeenCalledWith(`setErrorCollection`, {
-      account: `testaccount`,
-      optin: true
-    })
-
-    dispatch.mockClear()
-
-    await TmSessionSignUp.methods.onSubmit.call({
-      $store: {
-        commit,
-        dispatch
-      },
-      $v: {
-        $touch: () => { },
-        $error: false
-      },
-      fields: {
-        signUpPassword: `1234567890`,
-        signUpPasswordConfirm: `1234567890`,
-        signUpSeed: `bar`, // <-- doesn#t check for correctness of seed
-        signUpName: `testaccount`,
-        signUpWarning: false,
-        errorCollection: false
-      }
-    })
-    expect(dispatch).toHaveBeenCalledWith(`setErrorCollection`, {
-      account: `testaccount`,
-      optin: false
     })
   })
 
@@ -232,7 +180,7 @@ describe(`SessionSignUp`, () => {
         signUpWarning: true
       },
       $v: {
-        $touch: () => { },
+        $touch: () => {},
         $error: false
       },
       $store

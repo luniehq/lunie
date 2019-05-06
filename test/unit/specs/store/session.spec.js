@@ -1,4 +1,4 @@
-import sessionModule from "renderer/vuex/modules/session.js"
+import sessionModule from "src/vuex/modules/session.js"
 
 describe(`Module: Session`, () => {
   let module, state, actions, mutations, node
@@ -21,6 +21,8 @@ describe(`Module: Session`, () => {
         init: jest.fn()
       },
       track: jest.fn(),
+      anonymize: jest.fn(),
+      deanonymize: jest.fn(),
       config: {
         development: false,
         google_analytics_uid: `UA-123`,
@@ -47,6 +49,10 @@ describe(`Module: Session`, () => {
     expect(state.signedIn).toBe(false)
     expect(state.localKeyPairName).toBe(null)
     expect(state.address).toBe(null)
+  })
+
+  it("should always default to disable the local signer", () => {
+    expect(state.insecureMode).toBe(false)
   })
 
   describe(`mutations`, () => {
@@ -122,23 +128,25 @@ describe(`Module: Session`, () => {
     const commit = jest.fn()
     await actions.loadAccounts({ commit, state })
 
-    expect(commit).toHaveBeenCalledWith(`setAccounts`, [{
-      name: `def`,
-      address: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`
-    }])
+    expect(commit).toHaveBeenCalledWith(`setAccounts`, [
+      {
+        name: `def`,
+        address: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`
+      }
+    ])
   })
 
   it(`should show an error if loading accounts fails`, async () => {
-    jest.spyOn(console, `error`).mockImplementationOnce(() => { })
+    jest.spyOn(console, `error`).mockImplementationOnce(() => {})
 
     jest.resetModules()
-    jest.doMock(`renderer/scripts/keystore.js`, () => ({
+    jest.doMock(`scripts/keystore.js`, () => ({
       loadKeys: async () => {
         throw Error(`Error`)
       }
     }))
 
-    const sessionModule = require(`renderer/vuex/modules/session.js`).default
+    const sessionModule = require(`src/vuex/modules/session.js`).default
     module = sessionModule({ node })
     state = module.state
     actions = module.actions
@@ -173,14 +181,14 @@ describe(`Module: Session`, () => {
 
   it(`should test if the login works`, async () => {
     jest.resetModules()
-    jest.doMock(`renderer/scripts/keystore.js`, () => ({
+    jest.doMock(`scripts/keystore.js`, () => ({
       testPassword: jest
         .fn()
         .mockReturnValueOnce(true)
         .mockReturnValueOnce(false)
     }))
 
-    const sessionModule = require(`renderer/vuex/modules/session.js`).default
+    const sessionModule = require(`src/vuex/modules/session.js`).default
     module = sessionModule({ node })
     state = module.state
     actions = module.actions
@@ -232,7 +240,12 @@ describe(`Module: Session`, () => {
       const localKeyPairName = `def`
       const commit = jest.fn()
       const dispatch = jest.fn()
-      await actions.signIn({ state, commit, dispatch }, { localKeyPairName })
+      const sessionType = `local`
+      const address = `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`
+      await actions.signIn(
+        { state, commit, dispatch },
+        { localKeyPairName, address, sessionType }
+      )
       expect(commit).toHaveBeenCalledWith(
         `setUserAddress`,
         `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`
@@ -243,14 +256,15 @@ describe(`Module: Session`, () => {
       expect(dispatch).toHaveBeenCalledWith(`initializeWallet`, {
         address: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`
       })
-      expect(dispatch).toHaveBeenCalledWith(
-        `loadErrorCollection`,
-        `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`
+      expect(state.externals.track).toHaveBeenCalledWith(
+        `event`,
+        `session`,
+        `sign-in`,
+        `local`
       )
-      expect(state.externals.track).toHaveBeenCalled()
     })
 
-    it(`with Ledger Nano X`, async () => {
+    it(`with Ledger Nano S`, async () => {
       const address = `cosmos1qpd4xgtqmxyf9ktjh757nkdfnzpnkamny3cpzv`
       const commit = jest.fn()
       const dispatch = jest.fn()
@@ -263,8 +277,33 @@ describe(`Module: Session`, () => {
       expect(commit).toHaveBeenCalledWith(`setSessionType`, `ledger`)
       expect(dispatch).toHaveBeenCalledWith(`loadPersistedState`)
       expect(dispatch).toHaveBeenCalledWith(`initializeWallet`, { address })
-      expect(dispatch).toHaveBeenCalledWith(`loadErrorCollection`, address)
-      expect(state.externals.track).toHaveBeenCalled()
+      expect(state.externals.track).toHaveBeenCalledWith(
+        `event`,
+        `session`,
+        `sign-in`,
+        `ledger`
+      )
+    })
+
+    it(`in explore mode`, async () => {
+      const address = `cosmos1qpd4xgtqmxyf9ktjh757nkdfnzpnkamny3cpzv`
+      const commit = jest.fn()
+      const dispatch = jest.fn()
+      await actions.signIn(
+        { state, commit, dispatch },
+        { sessionType: `explore`, address }
+      )
+      expect(commit).toHaveBeenCalledWith(`setUserAddress`, address)
+      expect(commit).toHaveBeenCalledWith(`toggleSessionModal`, false)
+      expect(commit).toHaveBeenCalledWith(`setSessionType`, `explore`)
+      expect(dispatch).toHaveBeenCalledWith(`loadPersistedState`)
+      expect(dispatch).toHaveBeenCalledWith(`initializeWallet`, { address })
+      expect(state.externals.track).toHaveBeenCalledWith(
+        `event`,
+        `session`,
+        `sign-in`,
+        `explore`
+      )
     })
   })
 
@@ -281,21 +320,19 @@ describe(`Module: Session`, () => {
   })
 
   it(`should enable error collection`, async () => {
-    jest.spyOn(console, `log`).mockImplementationOnce(() => { })
+    jest.spyOn(console, `log`).mockImplementationOnce(() => {})
     const commit = jest.fn()
+    const dispatch = jest.fn()
     await actions.setErrorCollection(
       {
         state,
-        commit
+        commit,
+        dispatch
       },
-      { address: `abc`, optin: true }
+      true
     )
 
     expect(state.errorCollection).toBe(true)
-    expect(localStorage.getItem(`voyager_error_collection_abc`)).toBe(`true`)
-    expect(state.externals.track).toHaveBeenCalledWith(`pageview`, {
-      dl: `/`
-    })
     expect(state.externals.Sentry.init).toHaveBeenCalledWith({
       dsn: expect.stringMatching(`https://.*@sentry.io/.*`),
       release: `abcfdef`
@@ -303,76 +340,114 @@ describe(`Module: Session`, () => {
   })
 
   it(`should disable error collection`, async () => {
-    jest.spyOn(console, `log`).mockImplementationOnce(() => { })
+    jest.spyOn(console, `log`).mockImplementationOnce(() => {})
     const commit = jest.fn()
-    await actions.setErrorCollection(
-      {
-        state,
-        commit
-      },
-      { address: `abc`, optin: false }
-    )
-
-    expect(state.errorCollection).toBe(false)
-    expect(localStorage.getItem(`voyager_error_collection_abc`)).toBe(`false`)
-    expect(state.externals.Sentry.init).toHaveBeenCalledWith({})
-  })
-
-  it(`should not set error collection if in development mode`, async () => {
-    jest.spyOn(console, `log`).mockImplementationOnce(() => { })
-    const commit = jest.fn()
-    state.externals.config.development = true
-    await actions.setErrorCollection(
-      {
-        state,
-        commit
-      },
-      { account: `abc`, optin: true }
-    )
-
-    expect(commit).toHaveBeenCalledWith(`notifyError`, {
-      title: `Couldn't switch on error collection.`,
-      body: `Error collection is disabled during development.`
-    })
-    expect(state.errorCollection).toBe(false)
-    expect(localStorage.getItem(`voyager_error_collection_abc`)).toBe(`false`)
-    expect(state.externals.Sentry.init).toHaveBeenCalledWith({})
-  })
-
-  it(`should load the persisted error collection opt in`, () => {
-    localStorage.setItem(`voyager_error_collection_abc`, `true`)
-    state.errorCollection = false
-
     const dispatch = jest.fn()
-    actions.loadErrorCollection(
+    await actions.setErrorCollection(
       {
         state,
+        commit,
         dispatch
       },
-      `abc`
+      false
     )
 
-    expect(dispatch).toHaveBeenCalledWith(`setErrorCollection`, {
-      address: `abc`,
-      optin: true
-    })
+    expect(state.errorCollection).toBe(false)
+    expect(state.externals.Sentry.init).toHaveBeenCalledWith({})
+  })
 
-    localStorage.setItem(`voyager_error_collection_abc`, `false`)
+  it(`should enable analytics collection`, async () => {
+    jest.spyOn(console, `log`).mockImplementationOnce(() => {})
+    const commit = jest.fn()
+    const dispatch = jest.fn()
+    await actions.setAnalyticsCollection(
+      {
+        state,
+        commit,
+        dispatch
+      },
+      true
+    )
+
+    expect(state.analyticsCollection).toBe(true)
+    expect(state.externals.deanonymize).toHaveBeenCalled()
+  })
+
+  it(`should disable analytics collection`, async () => {
+    jest.spyOn(console, `log`).mockImplementationOnce(() => {})
+    const commit = jest.fn()
+    const dispatch = jest.fn()
+    await actions.setAnalyticsCollection(
+      {
+        state,
+        commit,
+        dispatch
+      },
+      false
+    )
+
+    expect(state.analyticsCollection).toBe(false)
+    expect(state.externals.anonymize).toHaveBeenCalled()
+  })
+
+  it(`should load the persisted user preferences`, () => {
+    localStorage.setItem(`lunie_user_preferences`, undefined)
+    const dispatch = jest.fn()
+    actions.loadLocalPreferences({
+      state,
+      dispatch
+    })
+    expect(state.cookiesAccepted).toBe(false)
+
+    localStorage.setItem(
+      `lunie_user_preferences`,
+      JSON.stringify({
+        errorCollection: true,
+        analyticsCollection: true
+      })
+    )
+    state.errorCollection = false
+    state.analyticsCollection = false
+
+    actions.loadLocalPreferences({
+      state,
+      dispatch
+    })
+    expect(state.cookiesAccepted).toBe(true)
+    expect(dispatch).toHaveBeenCalledWith(`setErrorCollection`, true)
+
+    localStorage.setItem(
+      `lunie_user_preferences`,
+      JSON.stringify({
+        errorCollection: false,
+        analyticsCollection: false
+      })
+    )
     state.errorCollection = true
+    state.analyticsCollection = true
 
     dispatch.mockClear()
-    actions.loadErrorCollection(
-      {
-        state,
-        dispatch
-      },
-      `abc`
-    )
-
-    expect(dispatch).toHaveBeenCalledWith(`setErrorCollection`, {
-      address: `abc`,
-      optin: false
+    actions.loadLocalPreferences({
+      state,
+      dispatch
     })
+
+    expect(dispatch).toHaveBeenCalledWith(`setErrorCollection`, false)
+    expect(dispatch).toHaveBeenCalledWith(`setAnalyticsCollection`, false)
+  })
+
+  it(`should store the persisted user preferences`, () => {
+    localStorage.setItem(`lunie_user_preferences`, ``)
+    state.errorCollection = true
+    state.analyticsCollection = true
+
+    actions.storeLocalPreferences({
+      state
+    })
+
+    expect(localStorage.getItem(`lunie_user_preferences`)).toBe(
+      `{"errorCollection":true,"analyticsCollection":true}`
+    )
   })
 
   it(`should reload accounts on reconnect as this could be triggered by a switch from a mocked connection`, async () => {
@@ -383,18 +458,40 @@ describe(`Module: Session`, () => {
 
   describe(`persistance`, () => {
     it(`persists the session in localstorage`, async () => {
-      await actions.persistSession({}, { localKeyPairName: `def`, address: `xxx`, sessionType: `local` })
-      expect(localStorage.getItem(`session`)).toEqual(JSON.stringify({ localKeyPairName: `def`, address: `xxx`, sessionType: `local` }))
+      await actions.persistSession(
+        {},
+        { localKeyPairName: `def`, address: `xxx`, sessionType: `local` }
+      )
+      expect(localStorage.getItem(`session`)).toEqual(
+        JSON.stringify({
+          localKeyPairName: `def`,
+          address: `xxx`,
+          sessionType: `local`
+        })
+      )
     })
 
     it(`persists the session on sign in`, async () => {
       const dispatch = jest.fn()
-      await actions.signIn({ state, commit: jest.fn(), dispatch }, { localKeyPairName: `def`, address: `xxx`, sessionType: `local` })
-      expect(dispatch).toHaveBeenCalledWith(`persistSession`, { localKeyPairName: `def`, address: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`, sessionType: `local` })
+      await actions.signIn(
+        { state, commit: jest.fn(), dispatch },
+        { localKeyPairName: `def`, address: `xxx`, sessionType: `local` }
+      )
+      expect(dispatch).toHaveBeenCalledWith(`persistSession`, {
+        localKeyPairName: `def`,
+        address: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
+        sessionType: `local`
+      })
 
       dispatch.mockClear()
-      await actions.signIn({ state, commit: jest.fn(), dispatch }, { address: `xxx`, sessionType: `ledger` })
-      expect(dispatch).toHaveBeenCalledWith(`persistSession`, { address: `xxx`, sessionType: `ledger` })
+      await actions.signIn(
+        { state, commit: jest.fn(), dispatch },
+        { address: `xxx`, sessionType: `ledger` }
+      )
+      expect(dispatch).toHaveBeenCalledWith(`persistSession`, {
+        address: `xxx`,
+        sessionType: `ledger`
+      })
     })
 
     it(`removes the persisted session on sign out`, async () => {
@@ -405,9 +502,20 @@ describe(`Module: Session`, () => {
 
     it(`signs the user in if a session was found`, async () => {
       const dispatch = jest.fn()
-      localStorage.setItem(`session`, JSON.stringify({ localKeyPairName: `def`, address: `xxx`, sessionType: `local` }))
+      localStorage.setItem(
+        `session`,
+        JSON.stringify({
+          localKeyPairName: `def`,
+          address: `xxx`,
+          sessionType: `local`
+        })
+      )
       await actions.checkForPersistedSession({ dispatch })
-      expect(dispatch).toHaveBeenCalledWith(`signIn`, { localKeyPairName: `def`, address: `xxx`, sessionType: `local` })
+      expect(dispatch).toHaveBeenCalledWith(`signIn`, {
+        localKeyPairName: `def`,
+        address: `xxx`,
+        sessionType: `local`
+      })
 
       dispatch.mockClear()
       localStorage.removeItem(`session`)

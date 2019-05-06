@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`PageTransactions displays the transaction page if user has signed in 1`] = `
-<tm-page-stub
+<tmpage-stub
   data-title="Transactions"
   loaded="true"
   managed="true"
@@ -10,10 +10,10 @@ exports[`PageTransactions displays the transaction page if user has signed in 1`
   subtitle=""
   title=""
 >
-  <data-empty-tx-stub />
+  <dataemptytx-stub />
    
   <template>
-    <li-any-transaction-stub
+    <lianytransaction-stub
       address="cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9"
       bondingdenom="STAKE"
       proposalsurl="/governance"
@@ -22,7 +22,7 @@ exports[`PageTransactions displays the transaction page if user has signed in 1`
       validators="[object Object],[object Object],[object Object]"
       validatorsurl="/staking/validators"
     />
-    <li-any-transaction-stub
+    <lianytransaction-stub
       address="cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9"
       bondingdenom="STAKE"
       proposalsurl="/governance"
@@ -31,7 +31,7 @@ exports[`PageTransactions displays the transaction page if user has signed in 1`
       validators="[object Object],[object Object],[object Object]"
       validatorsurl="/staking/validators"
     />
-    <li-any-transaction-stub
+    <lianytransaction-stub
       address="cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9"
       bondingdenom="STAKE"
       proposalsurl="/governance"
@@ -40,7 +40,7 @@ exports[`PageTransactions displays the transaction page if user has signed in 1`
       validators="[object Object],[object Object],[object Object]"
       validatorsurl="/staking/validators"
     />
-    <li-any-transaction-stub
+    <lianytransaction-stub
       address="cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9"
       bondingdenom="STAKE"
       proposalsurl="/governance"
@@ -49,7 +49,7 @@ exports[`PageTransactions displays the transaction page if user has signed in 1`
       validators="[object Object],[object Object],[object Object]"
       validatorsurl="/staking/validators"
     />
-    <li-any-transaction-stub
+    <lianytransaction-stub
       address="cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9"
       bondingdenom="STAKE"
       proposalsurl="/governance"
@@ -58,7 +58,7 @@ exports[`PageTransactions displays the transaction page if user has signed in 1`
       validators="[object Object],[object Object],[object Object]"
       validatorsurl="/staking/validators"
     />
-    <li-any-transaction-stub
+    <lianytransaction-stub
       address="cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9"
       bondingdenom="STAKE"
       proposalsurl="/governance"
@@ -70,11 +70,11 @@ exports[`PageTransactions displays the transaction page if user has signed in 1`
      
     <br />
   </template>
-</tm-page-stub>
+</tmpage-stub>
 `;
 
 exports[`PageTransactions displays the transaction page if user hasn't signed in 1`] = `
-<tm-page-stub
+<tmpage-stub
   data-title="Transactions"
   loaded="true"
   managed="true"
@@ -83,10 +83,10 @@ exports[`PageTransactions displays the transaction page if user hasn't signed in
   subtitle=""
   title=""
 >
-  <data-empty-tx-stub />
+  <dataemptytx-stub />
    
   <template>
-    <li-any-transaction-stub
+    <lianytransaction-stub
       address="cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9"
       bondingdenom="STAKE"
       proposalsurl="/governance"
@@ -95,7 +95,7 @@ exports[`PageTransactions displays the transaction page if user hasn't signed in
       validators="[object Object],[object Object],[object Object]"
       validatorsurl="/staking/validators"
     />
-    <li-any-transaction-stub
+    <lianytransaction-stub
       address="cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9"
       bondingdenom="STAKE"
       proposalsurl="/governance"
@@ -104,7 +104,7 @@ exports[`PageTransactions displays the transaction page if user hasn't signed in
       validators="[object Object],[object Object],[object Object]"
       validatorsurl="/staking/validators"
     />
-    <li-any-transaction-stub
+    <lianytransaction-stub
       address="cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9"
       bondingdenom="STAKE"
       proposalsurl="/governance"
@@ -113,7 +113,7 @@ exports[`PageTransactions displays the transaction page if user hasn't signed in
       validators="[object Object],[object Object],[object Object]"
       validatorsurl="/staking/validators"
     />
-    <li-any-transaction-stub
+    <lianytransaction-stub
       address="cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9"
       bondingdenom="STAKE"
       proposalsurl="/governance"
@@ -122,7 +122,7 @@ exports[`PageTransactions displays the transaction page if user hasn't signed in
       validators="[object Object],[object Object],[object Object]"
       validatorsurl="/staking/validators"
     />
-    <li-any-transaction-stub
+    <lianytransaction-stub
       address="cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9"
       bondingdenom="STAKE"
       proposalsurl="/governance"
@@ -131,7 +131,7 @@ exports[`PageTransactions displays the transaction page if user hasn't signed in
       validators="[object Object],[object Object],[object Object]"
       validatorsurl="/staking/validators"
     />
-    <li-any-transaction-stub
+    <lianytransaction-stub
       address="cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9"
       bondingdenom="STAKE"
       proposalsurl="/governance"
@@ -143,5 +143,5 @@ exports[`PageTransactions displays the transaction page if user hasn't signed in
      
     <br />
   </template>
-</tm-page-stub>
+</tmpage-stub>
 `;
