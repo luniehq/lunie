@@ -18,7 +18,7 @@ function versionString({ major, minor, patch }) {
   return `${major}.${minor}.${patch}`
 }
 
-const checkLedgerErrors = (
+export const checkLedgerErrors = (
   { error_message },
   timeoutMessag = "Connection timed out. Please try again."
 ) => {
@@ -67,7 +67,7 @@ export default () => {
   }
   const state = {
     ...emptyState,
-    externals: { App, comm_u2f, createCosmosAddress } // for testing
+    externals: { App, comm_u2f, createCosmosAddress, config } // for testing
   }
   const mutations = {
     setCosmosApp(state, app) {
@@ -81,9 +81,6 @@ export default () => {
     },
     setLedgerConnection(state, isConnected) {
       state.isConnected = isConnected
-    },
-    setLedgerError(state, error) {
-      state.error = error
     }
   }
 
@@ -112,12 +109,6 @@ export default () => {
 
       // check if the version is supported
       const version = await dispatch(`getLedgerCosmosVersion`, cosmosLedgerApp)
-      if (!semver.gt(version, config.requiredCosmosAppVersion)) {
-        const msg = `Outdated version: please update Cosmos app to ${
-          config.requiredCosmosAppVersion
-        }`
-        throw new Error(msg)
-      }
 
       // check if the device is connected or on screensaver mode
       if (semver.satisfies(version, ">=1.5.0")) {
@@ -162,6 +153,15 @@ export default () => {
       const version = versionString({ major, minor, patch })
       commit(`setCosmosAppVersion`, version)
 
+      if (
+        !semver.gt(version, state.externals.config.requiredCosmosAppVersion)
+      ) {
+        const msg = `Outdated version: please update Cosmos app to ${
+          state.externals.config.requiredCosmosAppVersion
+        }`
+        throw new Error(msg)
+      }
+
       return version
     },
     async getLedgerAddressAndPubKey({ commit, state }) {
@@ -179,10 +179,8 @@ export default () => {
       // }
       response = await state.cosmosApp.publicKey(HDPATH)
       if (!response) {
-        const leastVersion = config.requiredCosmosAppVersion
-        const msg = `Outdated version: please update Cosmos app to ${
-          leastVersion.full
-        }`
+        const leastVersion = state.externals.config.requiredCosmosAppVersion
+        const msg = `Outdated version: please update Cosmos app to ${leastVersion}`
         throw new Error(msg)
       }
       checkLedgerErrors(response)

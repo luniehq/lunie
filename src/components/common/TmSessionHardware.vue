@@ -43,7 +43,7 @@
         <tm-btn
           :value="submitCaption"
           :disabled="status === `connect` ? false : `disabled`"
-          @click.native="connectLedger()"
+          @click.native="signIn()"
         />
       </div>
     </div>
@@ -75,7 +75,7 @@ export default {
     setState(value) {
       this.$store.commit(`setSessionModalView`, value)
     },
-    async connectLedger() {
+    async signIn() {
       this.connectionError = null
       this.status = `detect`
       this.address = null
@@ -84,6 +84,7 @@ export default {
       } catch ({ message }) {
         this.status = `connect`
         this.connectionError = message
+        return
       }
 
       this.status = `confirmAddress`

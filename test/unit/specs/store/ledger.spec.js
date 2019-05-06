@@ -1,7 +1,15 @@
-import ledgerModule from "modules/ledger.js"
+import ledgerModule, { checkLedgerErrors } from "modules/ledger.js"
 
 describe(`Module: Ledger`, () => {
   let module, state, actions, mutations
+
+  const mockRootState = {
+    connection: {
+      lastHeader: {
+        chain_id: "cosmoshub-2"
+      }
+    }
+  }
 
   beforeEach(() => {
     module = ledgerModule()
@@ -37,12 +45,6 @@ describe(`Module: Ledger`, () => {
       mutations.setLedgerConnection(state, true)
       expect(state.isConnected).toBe(true)
     })
-
-    it(`sets an error`, () => {
-      const error = `Sign/verify error`
-      mutations.setLedgerError(state, error)
-      expect(state.error).toBe(error)
-    })
   })
 
   describe(`Actions`, () => {
@@ -56,21 +58,21 @@ describe(`Module: Ledger`, () => {
     describe(`checks for errors on Ledger actions`, () => {
       it(`throws with an error`, () => {
         const response = { error_message: `Sign/verify error` }
-        expect(() => actions.checkLedgerErrors(response)).toThrowError(
+        expect(() => checkLedgerErrors(response)).toThrowError(
           response.error_message
         )
       })
 
       it(`throws on rejected transaction`, () => {
         const response = { error_message: `Command not allowed` }
-        expect(() => actions.checkLedgerErrors(response)).toThrowError(
+        expect(() => checkLedgerErrors(response)).toThrowError(
           `Transaction rejected`
         )
       })
 
       it(`just returns on success`, () => {
         const response = { error_message: `No errors` }
-        expect(() => actions.checkLedgerErrors(response)).not.toThrow(
+        expect(() => checkLedgerErrors(response)).not.toThrow(
           response.error_message
         )
       })
@@ -106,11 +108,7 @@ describe(`Module: Ledger`, () => {
         }
         commit = jest.fn()
         dispatch = jest.fn(() => {
-          state.cosmosAppVersion = {
-            major: `0`,
-            minor: `1`,
-            patch: `0`
-          }
+          state.cosmosAppVersion = `0.1.0`
         })
       })
 
@@ -147,7 +145,7 @@ describe(`Module: Ledger`, () => {
               })
           })
           await expect(actions.pollLedgerDevice({ state })).rejects.toThrow(
-            `No Ledger found`
+            `Could not find a connected and unlocked Ledger device`
           )
         })
 
@@ -195,12 +193,7 @@ describe(`Module: Ledger`, () => {
           })
           expect(dispatch).toHaveBeenCalledWith(`pollLedgerDevice`)
           expect(dispatch).toHaveBeenCalledWith(`createLedgerAppInstance`)
-          expect(dispatch).toHaveBeenCalledWith(`getLedgerCosmosVersion`)
-          expect(dispatch).toHaveBeenCalledWith(`getLedgerPubKey`)
-          expect(dispatch).toHaveBeenCalledWith(`signIn`, {
-            sessionType: `ledger`,
-            address: `cosmos1address`
-          })
+          expect(dispatch).toHaveBeenCalledWith(`getLedgerAddressAndPubKey`)
           expect(commit).not.toHaveBeenCalledWith(
             `setLedgerError`,
             expect.anything()
@@ -212,42 +205,43 @@ describe(`Module: Ledger`, () => {
           await expect(
             actions.connectLedgerApp({ commit, dispatch, state })
           ).rejects.toThrowError(`error`)
-          expect(commit).toHaveBeenCalledWith(`setLedgerError`, Error(`error`))
         })
       })
 
       describe(`get_version`, () => {
         it(`gets and sets the version success`, async () => {
-          const version = {
-            major: `1`,
-            minor: `0`,
-            patch: `1`,
-            test_mode: false
+          state.externals.config = {
+            requiredCosmosAppVersion: "0.0.1"
           }
-          await actions.getLedgerCosmosVersion({ commit, dispatch, state })
-          expect(commit).toHaveBeenCalledWith(`setCosmosAppVersion`, version)
+
+          await actions.getLedgerCosmosVersion({
+            commit,
+            dispatch,
+            state,
+            rootState: mockRootState
+          })
+          expect(commit).toHaveBeenCalledWith(`setCosmosAppVersion`, "1.0.1")
         })
 
         it(`throws an error on failure`, async () => {
-          const version = {
-            major: undefined,
-            minor: undefined,
-            patch: undefined,
-            test_mode: false
-          }
           state.cosmosApp.get_version = jest.fn(async () =>
             Promise.reject(new Error(`Execution Error`))
           )
           expect(
-            actions.getLedgerCosmosVersion({ commit, dispatch, state })
+            actions.getLedgerCosmosVersion({
+              commit,
+              dispatch,
+              state,
+              rootState: mockRootState
+            })
           ).rejects.toThrow(`Execution Error`)
-          expect(commit).not.toHaveBeenCalledWith(
-            `setCosmosAppVersion`,
-            version
-          )
+          expect(commit).not.toHaveBeenCalled()
         })
 
         it(`throws an error if outdated`, async () => {
+          state.externals.config = {
+            requiredCosmosAppVersion: "2.0.1"
+          }
           const version = {
             major: 1,
             minor: 0,
@@ -257,10 +251,14 @@ describe(`Module: Ledger`, () => {
           }
           state.cosmosApp.get_version = jest.fn(async () => version)
           await expect(
-            actions.getLedgerCosmosVersion({ commit, dispatch, state })
+            actions.getLedgerCosmosVersion({
+              commit,
+              dispatch,
+              state,
+              rootState: mockRootState
+            })
           ).rejects.toThrow(
-            `Comos Ledger App is outdated.` +
-              ` Please update it to the latest version`
+            `Outdated version: please update Cosmos app to 2.0.1`
           )
           expect(commit).not.toHaveBeenCalledWith(
             `setCosmosAppVersion`,
@@ -272,12 +270,8 @@ describe(`Module: Ledger`, () => {
       describe(`publicKey`, () => {
         it(`gets and sets the account public Key on success`, async () => {
           const pubKey = Buffer.from([1])
-          await actions.getLedgerPubKey({ commit, dispatch, state })
+          await actions.getLedgerAddressAndPubKey({ commit, dispatch, state })
           expect(commit).toHaveBeenCalledWith(`setLedgerPubKey`, pubKey)
-          expect(commit).not.toHaveBeenCalledWith(
-            `setLedgerError`,
-            expect.anything()
-          )
         })
 
         it(`sets an error on failure`, async () => {
@@ -286,12 +280,10 @@ describe(`Module: Ledger`, () => {
             Promise.resolve({
               error_message: `Bad key handle`
             })
-          await actions.getLedgerPubKey({ commit, dispatch, state })
+          await expect(
+            actions.getLedgerAddressAndPubKey({ commit, dispatch, state })
+          ).rejects.toThrowError(`Bad key handle`)
           expect(commit).not.toHaveBeenCalledWith(`setLedgerPubKey`, pubKey)
-          expect(commit).toHaveBeenCalledWith(
-            `setLedgerError`,
-            Error(`Bad key handle`)
-          )
         })
       })
 
@@ -304,10 +296,6 @@ describe(`Module: Ledger`, () => {
             msg
           )
           expect(resSignature).toEqual(signature)
-          expect(commit).not.toHaveBeenCalledWith(
-            `setLedgerError`,
-            expect.anything()
-          )
         })
 
         it(`fails if message is not JSON`, async () => {
@@ -319,10 +307,6 @@ describe(`Module: Ledger`, () => {
           await expect(
             actions.signWithLedger({ commit, dispatch, state }, msg)
           ).rejects.toThrowError(`Bad key handle`)
-          expect(commit).toHaveBeenCalledWith(
-            `setLedgerError`,
-            Error(`Bad key handle`)
-          )
         })
 
         it(`fails if transaction is rejected`, async () => {
@@ -334,10 +318,6 @@ describe(`Module: Ledger`, () => {
           await expect(
             actions.signWithLedger({ commit, dispatch, state }, msg)
           ).rejects.toThrowError(`Transaction rejected`)
-          expect(commit).toHaveBeenCalledWith(
-            `setLedgerError`,
-            Error(`Transaction rejected`)
-          )
         })
       })
     })
