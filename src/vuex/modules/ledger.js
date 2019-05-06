@@ -18,10 +18,13 @@ function versionString({ major, minor, patch }) {
   return `${major}.${minor}.${patch}`
 }
 
-const checkLedgerErrors = ({ error_message }) => {
+const checkLedgerErrors = (
+  { error_message },
+  timeoutMessag = "Connection timed out. Please try again."
+) => {
   switch (error_message) {
     case `U2F: Timeout`:
-      throw new Error(`Connection timed out. Please try again.`)
+      throw new Error(timeoutMessag)
     case `Cosmos app does not seem to be open`:
       throw new Error(`Cosmos app is not open`)
     case `Command not allowed`:
@@ -100,6 +103,13 @@ export default () => {
       )
       const cosmosLedgerApp = new state.externals.App(communicationMethod)
 
+      // check if ledger is connected
+      const response = await cosmosLedgerApp.publicKey(HDPATH)
+      checkLedgerErrors(
+        response,
+        "Could not find a connected and unlocked Ledger device"
+      )
+
       // check if the version is supported
       const version = await dispatch(`getLedgerCosmosVersion`, cosmosLedgerApp)
       if (!semver.gt(version, config.requiredCosmosAppVersion)) {
@@ -113,12 +123,6 @@ export default () => {
       if (semver.satisfies(version, ">=1.5.0")) {
         // throws if not open
         await dispatch(`getOpenAppInfo`, cosmosLedgerApp)
-        return
-      }
-
-      if (semver.satisfies(version, "1.0.1")) {
-        const response = await cosmosLedgerApp.publicKey(HDPATH)
-        checkLedgerErrors(response)
         return
       }
     },
