@@ -20,7 +20,10 @@ function versionString({ major, minor, patch }) {
 
 export const checkLedgerErrors = (
   { error_message, device_locked },
-  timeoutMessag = "Connection timed out. Please try again."
+  {
+    timeoutMessag = "Connection timed out. Please try again.",
+    rejectionMessage = "User rejected the transaction"
+  } = {}
 ) => {
   if (device_locked) {
     throw new Error(`Ledger's screensaver mode is on`)
@@ -32,6 +35,8 @@ export const checkLedgerErrors = (
       throw new Error(`Cosmos app is not open`)
     case `Command not allowed`:
       throw new Error(`Transaction rejected`)
+    case `Transaction rejected`:
+      throw new Error(rejectionMessage)
     case `Unknown error code`:
       throw new Error(`Ledger's screensaver mode is on`)
     case `No errors`:
@@ -88,7 +93,7 @@ export default () => {
     },
     async pollLedgerDevice({ dispatch, state }) {
       // poll device with low timeout to check if the device is connected
-      const secondsTimeout = 3 // a lower value always timeouts
+      const secondsTimeout = 5 // a lower value always timeouts
       const communicationMethod = await state.externals.comm_u2f.create_async(
         secondsTimeout,
         true
@@ -97,10 +102,9 @@ export default () => {
 
       // check if ledger is connected
       const response = await cosmosLedgerApp.publicKey(HDPATH)
-      checkLedgerErrors(
-        response,
-        "Could not find a connected and unlocked Ledger device"
-      )
+      checkLedgerErrors(response, {
+        timeoutMessag: "Could not find a connected and unlocked Ledger device"
+      })
 
       // check if the version is supported
       const version = await dispatch(`getLedgerCosmosVersion`, cosmosLedgerApp)
@@ -177,8 +181,13 @@ export default () => {
       return address
     },
     async confirmLedgerAddress({ state }) {
-      const response = await state.cosmosApp.showAddress(BECH32PREFIX, HDPATH)
-      checkLedgerErrors(response)
+      const response = await state.cosmosApp.getAddressAndPubKey(
+        BECH32PREFIX,
+        HDPATH
+      )
+      checkLedgerErrors(response, {
+        rejectionMessage: "User rejected the displayed address"
+      })
     },
     async signWithLedger({ state }, message) {
       const response = await state.cosmosApp.sign(HDPATH, message)

@@ -345,6 +345,22 @@ describe(`Module: Ledger`, () => {
         })
       })
 
+      describe("confirmLedgerAddress", () => {
+        it("throws if not confirmed address", async () => {
+          await expect(
+            actions.confirmLedgerAddress({
+              state: {
+                cosmosApp: {
+                  getAddressAndPubKey: () => ({
+                    error_message: `Transaction rejected`
+                  })
+                }
+              }
+            })
+          ).rejects.toThrowError("User rejected the displayed address")
+        })
+      })
+
       describe(`publicKey`, () => {
         it(`gets and sets the account public Key on success`, async () => {
           const pubKey = Buffer.from([1])
