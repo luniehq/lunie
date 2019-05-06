@@ -202,7 +202,7 @@ jobs:
           NAME=testnet
           docker-compose -f ./tasks/local-testnet/docker-compose.yml up --no-start $NAME
           docker cp ./tasks/local-testnet/nodes/. $NAME:/nodes
-          docker-compose -f ./tasks/local-testnet/docker-compose.yml -f up --no-recreate $NAME
+          docker-compose -f ./tasks/local-testnet/docker-compose.yml up --no-recreate $NAME
           docker rm -f $NAME
       - run:
           name: Test
