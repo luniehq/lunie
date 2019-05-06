@@ -195,7 +195,7 @@ jobs:
       - yarn-install
       - run:
           name: Build for E2E test
-          command: yarn test:e2e:prepare
+          command: yarn test:e2e:build
       - setup_remote_docker
       - run:
           name: Test
