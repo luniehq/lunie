@@ -84,7 +84,7 @@ describe(`TmSessionHardware`, () => {
       })
     })
 
-    it(`doesn't connect otherwise`, async () => {
+    it(`doesn't sign in if ledger not connected`, async () => {
       const $store = {
         dispatch: jest.fn(async () =>
           Promise.reject(new Error(`No Ledger found`))
@@ -98,8 +98,31 @@ describe(`TmSessionHardware`, () => {
         setConnectionError: jest.fn(error => (self.connectionError = error))
       }
       await TmSessionHardware.methods.signIn.call(self)
-      expect(self.$store.dispatch).toHaveBeenCalledWith(`connectLedgerApp`)
       expect(self.connectionError).toBe(`No Ledger found`)
+      expect(self.$store.dispatch).not.toHaveBeenCalledWith(
+        `signIn`,
+        expect.objectContaining({})
+      )
+    })
+
+    it(`doesn't sign in if address not confirmed`, async () => {
+      const $store = {
+        dispatch: jest.fn(() => "cosmos1234")
+      }
+      const self = {
+        $store,
+        status: `connect`,
+        connectionError: null,
+        setStatus: jest.fn(),
+        setConnectionError: jest.fn(error => (self.connectionError = error)),
+        confirmAddress: jest.fn(() => false)
+      }
+      await TmSessionHardware.methods.signIn.call(self)
+      expect(self.$store.dispatch).not.toHaveBeenCalledWith(
+        `signIn`,
+        expect.objectContaining({})
+      )
+      expect(self.status).toBe("connect")
     })
   })
 
