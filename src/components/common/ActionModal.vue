@@ -79,23 +79,21 @@
           />
         </TmFormGroup>
         <HardwareState
-          v-if="checkBrowser"
+          v-if="selectedSignMethod === `ledger`"
           icon="usb"
           :loading="!!sending"
         >
-          {{`Please use Chrome, Brave, or Opera.`}}
-        </HardwareState>
-        <HardwareState
-          v-if="selectedSignMethod === `ledger` && !checkBrowser"
-          icon="usb"
-          :loading="!!sending"
-        >
-          {{
-            sending
-              ? `Please verify and sign the transaction on your Ledger`
-              : `Please plug in your Ledger&nbsp;Nano&nbsp;S and open
-          the Cosmos app`
-          }}
+          <div v-if="checkBrowser">
+            {{
+              sending
+                ? `Please verify and sign the transaction on your Ledger`
+                : `Please plug in your Ledger&nbsp;Nano&nbsp;S and open
+            the Cosmos app`
+            }}
+          </div>
+          <div v-if="!checkBrowser">
+            {{ `Please use Chrome, Brave, or Opera.` }}
+          </div>
         </HardwareState>
         <TmFormGroup
           v-else-if="selectedSignMethod === `local`"
@@ -271,7 +269,10 @@ export default {
       return signWithLocalKeystore
     },
     checkBrowser() {
-      if (navigator.userAgent.includes(`Chrome`) || navigator.userAgent.includes(`Opera`)) {
+      if (
+        navigator.userAgent.includes(`Chrome`) ||
+        navigator.userAgent.includes(`Opera`)
+      ) {
         return true
       } else {
         return false
