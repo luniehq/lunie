@@ -198,6 +198,12 @@ jobs:
           command: 
             STARGATE=http://localhost:9070 RPC=http://localhost:26657 CIRCLECI=true yarn build:ui
       - setup_remote_docker
+      - run: |
+          NAME=testnet
+          docker-compose -f ./tasks/local-testnet/docker-compose.yml -f docker/circle-dockup.yml up --no-start $NAME
+          docker cp ./tasks/local-testnet/nodes/. $NAME:/nodes
+          docker-compose -f docker-compose.yml -f docker/circle-dockup.yml up --no-recreate $NAME
+          docker rm -f $NAME
       - run:
           name: Test
           command: yarn serve & yarn run test:e2e & yarn testnet
