@@ -19,9 +19,12 @@ function versionString({ major, minor, patch }) {
 }
 
 export const checkLedgerErrors = (
-  { error_message },
+  { error_message, device_locked },
   timeoutMessag = "Connection timed out. Please try again."
 ) => {
+  if (device_locked) {
+    throw new Error(`Ledger's screensaver mode is on`)
+  }
   switch (error_message) {
     case `U2F: Timeout`:
       throw new Error(timeoutMessag)
@@ -39,21 +42,13 @@ export const checkLedgerErrors = (
   }
 }
 
-const checkAppMode = (rootState, response) => {
-  const { connection } = rootState
-  const { device_locked, test_mode } = response
+const checkAppMode = (chainId, response) => {
+  const { test_mode } = response
 
-  if (
-    test_mode &&
-    connection &&
-    connection.lastHeader &&
-    connection.lastHeader.chain_id.startsWith(`cosmoshub`)
-  ) {
+  if (test_mode && chainId.startsWith(`cosmoshub`)) {
     throw new Error(
-      `DANGER: Cosmos app on test mode shouldn't be used on mainnet!`
+      `DANGER: The Cosmos Ledger app in test mode shouldn't be used on mainnet!`
     )
-  } else if (response && device_locked) {
-    throw new Error(`Ledger's screensaver mode is on`)
   }
 }
 
@@ -143,13 +138,21 @@ export default () => {
       }
     },
     async getLedgerCosmosVersion(
-      { state, rootState, commit },
+      {
+        state,
+        rootState: {
+          connection: {
+            lastHeader: { chain_id }
+          }
+        },
+        commit
+      },
       app = state.cosmosApp
     ) {
       const response = await app.get_version()
       checkLedgerErrors(response)
       const { major, minor, patch } = response
-      checkAppMode(rootState, response)
+      checkAppMode(chain_id, response)
       const version = versionString({ major, minor, patch })
       commit(`setCosmosAppVersion`, version)
 
@@ -165,24 +168,7 @@ export default () => {
       return version
     },
     async getLedgerAddressAndPubKey({ commit, state }) {
-      let response
-      // TODO
-      // if (semver.satisfies(state.cosmosAppVersion, `>=1.5.0`)) {
-      //   response = await state.cosmosApp.getAddressAndPubKey(
-      //     BECH32PREFIX,
-      //     HDPATH
-      //   )
-      //   console.log(response)
-      // }
-      // if (semver.satisfies(state.cosmosAppVersion, `>=1.1.0 <1.5.0`)) {
-      //   response = await state.cosmosApp.publicKey(HDPATH)
-      // }
-      response = await state.cosmosApp.publicKey(HDPATH)
-      if (!response) {
-        const leastVersion = state.externals.config.requiredCosmosAppVersion
-        const msg = `Outdated version: please update Cosmos app to ${leastVersion}`
-        throw new Error(msg)
-      }
+      const response = await state.cosmosApp.publicKey(HDPATH)
       checkLedgerErrors(response)
       const { bech32_address, compressed_pk } = response
       const address =
@@ -191,14 +177,6 @@ export default () => {
       return address
     },
     async confirmLedgerAddress({ state }) {
-      const response = await state.cosmosApp.getAddressAndPubKey(
-        BECH32PREFIX,
-        HDPATH
-      )
-      checkLedgerErrors(response)
-    },
-    // TODO: add support on UI: https://github.com/cosmos/lunie/issues/1962
-    async showAddressOnLedger({ state }) {
       const response = await state.cosmosApp.showAddress(BECH32PREFIX, HDPATH)
       checkLedgerErrors(response)
     },

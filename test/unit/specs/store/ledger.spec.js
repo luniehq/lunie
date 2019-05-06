@@ -107,9 +107,7 @@ describe(`Module: Ledger`, () => {
           }
         }
         commit = jest.fn()
-        dispatch = jest.fn(() => {
-          state.cosmosAppVersion = `0.1.0`
-        })
+        dispatch = jest.fn()
       })
 
       describe(`poll Ledger device`, () => {
@@ -121,7 +119,7 @@ describe(`Module: Ledger`, () => {
               })
           })
           expect(
-            async () => await actions.pollLedgerDevice({ state })
+            async () => await actions.pollLedgerDevice({ state, dispatch })
           ).not.toThrow()
         })
 
@@ -132,9 +130,9 @@ describe(`Module: Ledger`, () => {
                 error_message: `Cosmos app does not seem to be open`
               })
           })
-          await expect(actions.pollLedgerDevice({ state })).rejects.toThrow(
-            `Cosmos app is not open`
-          )
+          await expect(
+            actions.pollLedgerDevice({ state, dispatch })
+          ).rejects.toThrow(`Cosmos app is not open`)
         })
 
         it(`when Ledger not connected`, async () => {
@@ -144,7 +142,9 @@ describe(`Module: Ledger`, () => {
                 error_message: `U2F: Timeout`
               })
           })
-          await expect(actions.pollLedgerDevice({ state })).rejects.toThrow(
+          await expect(
+            actions.pollLedgerDevice({ state, dispatch })
+          ).rejects.toThrow(
             `Could not find a connected and unlocked Ledger device`
           )
         })
@@ -156,9 +156,30 @@ describe(`Module: Ledger`, () => {
                 error_message: `Unknown error code`
               })
           })
-          await expect(actions.pollLedgerDevice({ state })).rejects.toThrow(
-            `Ledger's screensaver mode is on`
-          )
+          await expect(
+            actions.pollLedgerDevice({ state, dispatch })
+          ).rejects.toThrow(`Ledger's screensaver mode is on`)
+        })
+
+        it(`when Ledger is on another app`, async () => {
+          state.externals.App = () => ({
+            publicKey: () =>
+              Promise.resolve({
+                error_message: `No errors`
+              })
+          })
+          dispatch = action => {
+            if (action === "getLedgerCosmosVersion") {
+              return "1.5.0"
+            }
+            if (action === "getOpenAppInfo") {
+              throw new Error("Close Ethereum and open the Cosmos app")
+            }
+          }
+
+          await expect(
+            actions.pollLedgerDevice({ state, dispatch })
+          ).rejects.toThrow(`Close Ethereum and open the Cosmos app`)
         })
 
         it(`fails if publicKey throws`, async () => {
@@ -185,7 +206,7 @@ describe(`Module: Ledger`, () => {
 
       describe(`connect ledger`, () => {
         it(`successfully logs in with Ledger Nano S`, async () => {
-          dispatch = jest.fn(async () => Promise.resolve(``))
+          dispatch = jest.fn(async () => Promise.resolve(`1.5.0`))
           await actions.connectLedgerApp({
             commit,
             dispatch,
@@ -264,6 +285,56 @@ describe(`Module: Ledger`, () => {
             `setCosmosAppVersion`,
             version
           )
+        })
+
+        it("throws if using test version on mainnet", async () => {
+          state.externals.config = {
+            requiredCosmosAppVersion: "0.0.1"
+          }
+          const version = {
+            major: 1,
+            minor: 0,
+            patch: 0,
+            test_mode: true,
+            error_message: `No errors`
+          }
+          state.cosmosApp.get_version = jest.fn(async () => version)
+          await expect(
+            actions.getLedgerCosmosVersion({
+              commit,
+              dispatch,
+              state,
+              rootState: mockRootState
+            })
+          ).rejects.toThrow(
+            `DANGER: The Cosmos Ledger app in test mode shouldn't be used on mainnet!`
+          )
+          expect(commit).not.toHaveBeenCalledWith(
+            `setCosmosAppVersion`,
+            version
+          )
+        })
+      })
+
+      describe("getOpenAppInfo", () => {
+        it("throws if not on Cosmos app", async () => {
+          await expect(
+            actions.getOpenAppInfo(null, {
+              appInfo: () => ({
+                error_message: `No errors`,
+                appName: "Ethereum"
+              })
+            })
+          ).rejects.toThrowError("Close Ethereum and open the Cosmos app")
+
+          await expect(
+            actions.getOpenAppInfo(null, {
+              appInfo: () => ({
+                error_message: `No errors`,
+                appName: "Cosmos"
+              })
+            })
+          ).resolves
         })
       })
 

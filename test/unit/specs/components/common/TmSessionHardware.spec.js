@@ -139,7 +139,7 @@ describe(`TmSessionHardware`, () => {
       expect(result).toBe(true)
     })
 
-    it(`failure`, async () => {
+    it(`disapprove`, async () => {
       const $store = {
         dispatch: jest.fn(async () =>
           Promise.reject(new Error(`Transaction rejected`))
@@ -151,6 +151,19 @@ describe(`TmSessionHardware`, () => {
       const result = await TmSessionHardware.methods.confirmAddress.call(self)
       expect(self.$store.dispatch).toHaveBeenCalledWith(`confirmLedgerAddress`)
       expect(self.connectionError).toBe(`Account address rejected`)
+      expect(result).toBe(false)
+    })
+
+    it(`any error`, async () => {
+      const $store = {
+        dispatch: jest.fn(async () => Promise.reject(new Error(`Any Error`)))
+      }
+      const self = {
+        $store
+      }
+      const result = await TmSessionHardware.methods.confirmAddress.call(self)
+      expect(self.$store.dispatch).toHaveBeenCalledWith(`confirmLedgerAddress`)
+      expect(self.connectionError).toBe(`Any Error`)
       expect(result).toBe(false)
     })
   })
