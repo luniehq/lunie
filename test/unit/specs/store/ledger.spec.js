@@ -168,7 +168,7 @@ describe(`Module: Ledger`, () => {
           ).rejects.toThrow(`Ledger's screensaver mode is on`)
         })
 
-        it(`when Ledger is on another app`, async () => {
+        it(`fails when Ledger is on another app`, async () => {
           state.externals.App = () => ({
             publicKey: () =>
               Promise.resolve({
@@ -187,6 +187,17 @@ describe(`Module: Ledger`, () => {
           await expect(
             actions.pollLedgerDevice({ state, dispatch })
           ).rejects.toThrow(`Close Ethereum and open the Cosmos app`)
+
+          dispatch = action => {
+            if (action === "getLedgerCosmosVersion") {
+              return "1.5.0"
+            }
+            if (action === "getOpenAppInfo") {
+              return
+            }
+          }
+
+          await expect(actions.pollLedgerDevice({ state, dispatch })).resolves
         })
 
         it(`fails if publicKey throws`, async () => {
