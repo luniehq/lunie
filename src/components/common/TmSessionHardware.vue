@@ -19,13 +19,11 @@
           </template>
           <template v-if="status === `confirmAddress`">
             Signin in with the address
-            <span class="address">{{ address }}</span>.<br>
+            <span class="address">{{ address }}</span
+            >.<br />
             Please confirm on your Ledger.
           </template>
-          <p
-            v-if="connectionError"
-            class="error-message"
-          >
+          <p v-if="connectionError" class="error-message">
             {{ connectionError }}
           </p>
         </HardwareState>
@@ -38,9 +36,10 @@
             target="_blank"
             rel="noopener noreferrer"
           >
-            here </a>.
+            here </a
+          >.
         </p>
-        <tm-btn
+        <TmBtn
           :value="submitCaption"
           :disabled="status === `connect` ? false : `disabled`"
           @click.native="signIn()"
@@ -53,7 +52,6 @@
 <script>
 import TmBtn from "common/TmBtn"
 import HardwareState from "common/TmHardwareState"
-import ShortBech32 from "common/ShortBech32"
 export default {
   name: `tm-session-hardware`,
   components: { TmBtn, HardwareState, ShortBech32 },
