@@ -58,20 +58,8 @@ export default {
       this.connectionError = error
     },
     async connectLedger() {
-      if (
-        navigator.userAgent.includes(`Chrome`) ||
-        navigator.userAgent.includes(`Opera`)
-      ) {
-        this.setStatus(`detect`)
-        try {
-          await this.$store.dispatch(`connectLedgerApp`)
-        } catch (error) {
-          this.setStatus(`connect`)
-          this.setConnectionError(error.message)
-        }
-      } else {
-        this.setConnectionError(`Please use Chrome, Brave, or Opera`)
-      }
+      this.setStatus(`detect`)
+      await this.$store.dispatch(`connectLedgerApp`)
     }
   }
 }
