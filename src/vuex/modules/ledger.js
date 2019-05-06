@@ -1,7 +1,7 @@
-import * as Sentry from "@sentry/browser"
 import { App, comm_u2f } from "ledger-cosmos-js"
-import { createCosmosAddress } from "../../scripts/wallet.js"
-import config from "../../../config"
+import { createCosmosAddress } from "scripts/wallet.js"
+import config from "src/config"
+import semver from "semver"
 
 // TODO: discuss TIMEOUT value
 const TIMEOUT = 50 // seconds to wait for user action on Ledger
@@ -14,21 +14,14 @@ DerivationPath{44, 118, account, 0, index}
 const HDPATH = [44, 118, 0, 0, 0]
 const BECH32PREFIX = `cosmos`
 
-const isSupportedVersion = (leastSupportedVersion, cosmosAppVersion) => {
-  if (
-    leastSupportedVersion.major > cosmosAppVersion.major ||
-    leastSupportedVersion.minor > cosmosAppVersion.minor ||
-    leastSupportedVersion.patch > cosmosAppVersion.patch
-  ) {
-    return false
-  }
-  return true
+function versionString({ major, minor, patch }) {
+  return `${major}.${minor}.${patch}`
 }
 
 const checkLedgerErrors = ({ error_message }) => {
   switch (error_message) {
     case `U2F: Timeout`:
-      throw new Error(`No Ledger found`)
+      throw new Error(`Connection timed out. Please try again.`)
     case `Cosmos app does not seem to be open`:
       throw new Error(`Cosmos app is not open`)
     case `Command not allowed`:
@@ -53,7 +46,9 @@ const checkAppMode = (rootState, response) => {
     connection.lastHeader &&
     connection.lastHeader.chain_id.startsWith(`cosmoshub`)
   ) {
-    throw new Error(`DANGER: Cosmos app on test mode shouldn't be used on mainnet!`)
+    throw new Error(
+      `DANGER: Cosmos app on test mode shouldn't be used on mainnet!`
+    )
   } else if (response && device_locked) {
     throw new Error(`Ledger's screensaver mode is on`)
   }
@@ -106,22 +101,25 @@ export default () => {
       const cosmosLedgerApp = new state.externals.App(communicationMethod)
 
       // check if the version is supported
-      await dispatch(`getLedgerCosmosVersion`, cosmosLedgerApp)
-      const leastVersion = config.leastLedgerSupportedVersion
-      if (!isSupportedVersion(leastVersion, state.cosmosAppVersion)) {
-        const msg = `Outdated version: please update Cosmos app to ${leastVersion.full}`
+      const version = await dispatch(`getLedgerCosmosVersion`, cosmosLedgerApp)
+      if (!semver.gt(version, config.requiredCosmosAppVersion)) {
+        const msg = `Outdated version: please update Cosmos app to ${
+          config.requiredCosmosAppVersion
+        }`
         throw new Error(msg)
       }
 
       // check if the device is connected or on screensaver mode
-      let response
-      if (state.cosmosAppVersion && state.cosmosAppVersion.full === `v1.3.1`) {
+      if (semver.satisfies(version, ">=1.5.0")) {
+        // throws if not open
         await dispatch(`getOpenAppInfo`, cosmosLedgerApp)
-      } else if (
-        state.cosmosAppVersion && state.cosmosAppVersion.full.startsWith(`v1.1.`)
-      ) {
-        response = await cosmosLedgerApp.publicKey(HDPATH)
+        return
+      }
+
+      if (semver.satisfies(version, "1.0.1")) {
+        const response = await cosmosLedgerApp.publicKey(HDPATH)
         checkLedgerErrors(response)
+        return
       }
     },
     async createLedgerAppInstance({ commit, state }) {
@@ -133,17 +131,12 @@ export default () => {
       commit(`setCosmosApp`, cosmosLedgerApp)
     },
     async connectLedgerApp({ commit, dispatch }) {
-      try {
-        await dispatch(`pollLedgerDevice`)
-        await dispatch(`createLedgerAppInstance`)
-        const address = await dispatch(`getLedgerAddressAndPubKey`)
-        await dispatch(`signIn`, { sessionType: `ledger`, address })
-        commit(`setLedgerConnection`, true)
-      } catch (error) {
-        Sentry.captureException(error)
-        commit(`setLedgerError`, error)
-        throw error
-      }
+      await dispatch(`pollLedgerDevice`)
+      await dispatch(`createLedgerAppInstance`)
+      const address = await dispatch(`getLedgerAddressAndPubKey`)
+      commit(`setLedgerConnection`, true)
+
+      return address
     },
     async getOpenAppInfo(_, app) {
       const response = await app.appInfo()
@@ -158,67 +151,59 @@ export default () => {
       { state, rootState, commit },
       app = state.cosmosApp
     ) {
-      try {
-        const response = await app.get_version()
-        checkLedgerErrors(response)
-        const { major, minor, patch } = response
-        const full = major && minor && patch && `v${major}.${minor}.${patch}`
-        checkAppMode(rootState, response)
-        const version = { major, minor, patch, full }
-        commit(`setCosmosAppVersion`, version)
-      } catch (error) {
-        Sentry.captureException(error)
-        commit(`setLedgerError`, error)
-        throw error
-      }
+      const response = await app.get_version()
+      checkLedgerErrors(response)
+      const { major, minor, patch } = response
+      checkAppMode(rootState, response)
+      const version = versionString({ major, minor, patch })
+      commit(`setCosmosAppVersion`, version)
+
+      return version
     },
     async getLedgerAddressAndPubKey({ commit, state }) {
-      try {
-        let response
-        if (state.cosmosAppVersion.full === `v1.3.1`) {
-          response = await state.cosmosApp
-            .getAddressAndPubKey(BECH32PREFIX, HDPATH)
-        } else if (state.cosmosAppVersion.full.startsWith(`v1.1.`)) {
-          response = await state.cosmosApp.publicKey(HDPATH)
-          console.log(response)
-        } else {
-          const leastVersion = config.leastLedgerSupportedVersion
-          const msg = `Outdated version: please update Cosmos app to ${leastVersion.full}`
-          throw new Error(msg)
-        }
-        checkLedgerErrors(response)
-        const { bech32_address, compressed_pk } = response
-        const address = bech32_address ||
-          state.externals.createCosmosAddress(compressed_pk)
-        commit(`setLedgerPubKey`, compressed_pk)
-        return address
-      } catch (error) {
-        Sentry.captureException(error)
-        commit(`setLedgerError`, error)
-        throw error
+      let response
+      // TODO
+      // if (semver.satisfies(state.cosmosAppVersion, `>=1.5.0`)) {
+      //   response = await state.cosmosApp.getAddressAndPubKey(
+      //     BECH32PREFIX,
+      //     HDPATH
+      //   )
+      //   console.log(response)
+      // }
+      // if (semver.satisfies(state.cosmosAppVersion, `>=1.1.0 <1.5.0`)) {
+      //   response = await state.cosmosApp.publicKey(HDPATH)
+      // }
+      response = await state.cosmosApp.publicKey(HDPATH)
+      if (!response) {
+        const leastVersion = config.requiredCosmosAppVersion
+        const msg = `Outdated version: please update Cosmos app to ${
+          leastVersion.full
+        }`
+        throw new Error(msg)
       }
+      checkLedgerErrors(response)
+      const { bech32_address, compressed_pk } = response
+      const address =
+        bech32_address || state.externals.createCosmosAddress(compressed_pk)
+      commit(`setLedgerPubKey`, compressed_pk)
+      return address
+    },
+    async confirmLedgerAddress({ state }) {
+      const response = await state.cosmosApp.getAddressAndPubKey(
+        BECH32PREFIX,
+        HDPATH
+      )
+      checkLedgerErrors(response)
     },
     // TODO: add support on UI: https://github.com/cosmos/lunie/issues/1962
-    async showAddressOnLedger({ commit, state }) {
-      try {
-        const response = await state.cosmosApp.showAddress(BECH32PREFIX, HDPATH)
-        checkLedgerErrors(response)
-      } catch (error) {
-        Sentry.captureException(error)
-        commit(`setLedgerError`, error)
-        throw error
-      }
+    async showAddressOnLedger({ state }) {
+      const response = await state.cosmosApp.showAddress(BECH32PREFIX, HDPATH)
+      checkLedgerErrors(response)
     },
-    async signWithLedger({ commit, state }, message) {
-      try {
-        const response = await state.cosmosApp.sign(HDPATH, message)
-        checkLedgerErrors(response)
-        return response.signature
-      } catch (error) {
-        Sentry.captureException(error)
-        commit(`setLedgerError`, error)
-        throw error
-      }
+    async signWithLedger({ state }, message) {
+      const response = await state.cosmosApp.sign(HDPATH, message)
+      checkLedgerErrors(response)
+      return response.signature
     }
   }
   return {

@@ -125,6 +125,7 @@
     "perfect-scrollbar": "1.4.0",
     "pumpify": "1.5.1",
     "secp256k1": "3.6.2",
+    "semver": "6.0.0",
     "shortid": "2.2.14",
     "timezone-mock": "1.0.4",
     "vue": "2.6.10",

@@ -13,8 +13,15 @@
         </a>
       </div>
       <div class="tm-session-main">
-        <HardwareState :loading="status === `detect` ? true : false">
-          Please plug in your Ledger&nbsp;Nano&nbsp;S and open the Cosmos app
+        <HardwareState :loading="status === `connect` ? false : true">
+          <template v-if="status === `connect` || status === `detect`">
+            Please plug in your Ledger&nbsp;Nano&nbsp;S and open the Cosmos app
+          </template>
+          <template v-if="status === `confirmAddress`">
+            Signin in with the address
+            <span class="address">{{ address }}</span>.<br>
+            Please confirm on your Ledger.
+          </template>
           <p
             v-if="connectionError"
             class="error-message"
@@ -33,19 +40,11 @@
           >
             here </a>.
         </p>
-        <<<<<<<
-          HEAD:app/src/renderer/components/common/TmSessionHardware.vue
-          <tm-btn
-          :value="status === `connect` ? `Sign In` : `Waiting for Ledger`"
-          :disabled="status === `detect` ? `disabled` : false"
+        <tm-btn
+          :value="submitCaption"
+          :disabled="status === `connect` ? false : `disabled`"
           @click.native="connectLedger()"
         />
-        =======
-        <TmBtn
-          value="Sign In"
-          @click.native="connectLedger()"
-        />
-        >>>>>>> origin/develop:src/components/common/TmSessionHardware.vue
       </div>
     </div>
   </div>
@@ -54,42 +53,64 @@
 <script>
 import TmBtn from "common/TmBtn"
 import HardwareState from "common/TmHardwareState"
+import ShortBech32 from "common/ShortBech32"
 export default {
   name: `tm-session-hardware`,
-  components: { TmBtn, HardwareState },
+  components: { TmBtn, HardwareState, ShortBech32 },
   data: () => ({
     status: `connect`,
-    connectionError: null
+    connectionError: null,
+    address: null
   }),
+  computed: {
+    submitCaption() {
+      return {
+        connect: "Sign In",
+        detect: "Waiting for Ledger",
+        confirmAddress: "Cofirming Address"
+      }[this.status]
+    }
+  },
   methods: {
     setState(value) {
       this.$store.commit(`setSessionModalView`, value)
     },
-    setStatus(value) {
-      this.status = value
-    },
-    setConnectionError(error) {
-      this.connectionError = error
-
-      setTimeout(() => {
-        this.connectionError = null
-      }, 7500)
-    },
     async connectLedger() {
-      this.setStatus(`detect`)
+      this.connectionError = null
+      this.status = `detect`
+      this.address = null
       try {
-        await this.$store.dispatch(`connectLedgerApp`)
+        this.address = await this.$store.dispatch(`connectLedgerApp`)
       } catch ({ message }) {
-        this.setStatus(`connect`)
+        this.status = `connect`
+        this.connectionError = message
+      }
+
+      this.status = `confirmAddress`
+      if (await this.confirmAddress()) {
+        await this.$store.dispatch(`signIn`, {
+          sessionType: `ledger`,
+          address: this.address
+        })
+        return
+      }
+
+      this.status = `connect`
+    },
+    async confirmAddress() {
+      try {
+        await this.$store.dispatch("confirmLedgerAddress")
+        return true
+      } catch ({ message }) {
         switch (message) {
           case `Transaction rejected`:
-            this.setConnectionError(`Account address rejected`)
+            this.connectionError = `Account address rejected`
             break
           default:
-            this.setConnectionError(message)
-            break
+            this.connectionError = message
         }
       }
+      return false
     }
   }
 }
@@ -111,5 +132,11 @@ export default {
 .tm-session-footer {
   padding: 0 1rem;
   justify-content: space-between;
+}
+.address {
+  color: var(--link);
+  font-weight: 500;
+  font-size: 14px;
+  white-space: nowrap;
 }
 </style>
