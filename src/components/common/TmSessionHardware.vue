@@ -65,7 +65,7 @@ export default {
         this.setStatus(`connect`)
         this.setConnectionError(error.message)
       }
-    } 
+    }
   }
 }
 </script>
