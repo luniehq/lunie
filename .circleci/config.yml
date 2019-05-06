@@ -198,14 +198,6 @@ jobs:
           command: 
             STARGATE=http://localhost:9070 RPC=http://localhost:26657 CIRCLECI=true yarn build:ui
       - setup_remote_docker
-      - run: |
-          docker start tendermint/gaia:v0.34.1 
-          # create a dummy container which will hold a volume with config
-          docker create -v /nodes --name configs alpine:3.4 /bin/true
-          # copy a config file into this volume
-          docker cp ./tasks/local-testnet/nodes/. configs:/nodes
-          # start an application container using this volume
-          docker run -it --volumes-from configs -p 26657:26657 -p 9070:9070 tendermint/gaia:v0.34.1 /nodes/first.sh
       - run:
           name: Test
           command: yarn serve & yarn run test:e2e & yarn testnet
