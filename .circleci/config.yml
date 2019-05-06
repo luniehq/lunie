@@ -272,51 +272,51 @@ workflows:
   build-and-deploy:
     jobs:
       # Static checks before
-      # - pendingUpdated:
-      #     filters:
-      #       branches:
-      #         ignore: 
-      #           - release
-      #           - master
+      - pendingUpdated:
+          filters:
+            branches:
+              ignore: 
+                - release
+                - master
 
-      # - security:
-      #     filters:
-      #       branches:
-      #         ignore: release
+      - security:
+          filters:
+            branches:
+              ignore: release
 
-      # - lint:
-      #     filters:
-      #       branches:
-      #         ignore: release
+      - lint:
+          filters:
+            branches:
+              ignore: release
 
-      # - testUnit:
-      #     filters:
-      #       branches:
-      #         ignore: release
+      - testUnit:
+          filters:
+            branches:
+              ignore: release
 
-      # - build:
-      #     # no heavy lifting if other portion fails
-      #     requires:
-      #       - security
-      #       - lint
+      - build:
+          # no heavy lifting if other portion fails
+          requires:
+            - security
+            - lint
 
-      # - deploy2s3:
-      #     requires:
-      #       - testUnit
-      #       - build
-      #     filters:
-      #       branches:
-      #         only:
-      #           - develop
-      #           - master
-      # - sentry:
-      #     requires:
-      #       - testUnit
-      #     filters:
-      #       branches:
-      #         only:
-      #           - develop
-      #           - master
+      - deploy2s3:
+          requires:
+            - testUnit
+            - build
+          filters:
+            branches:
+              only:
+                - develop
+                - master
+      - sentry:
+          requires:
+            - testUnit
+          filters:
+            branches:
+              only:
+                - develop
+                - master
 
       - testE2e:
           filters:
@@ -325,15 +325,15 @@ workflows:
                 - release
                 - master
 
-      # - publish:
-      #     requires:
-      #       - pendingUpdated
-      #       - build
-      #       - testUnit
-      #       - testE2e
-      #     filters:
-      #       branches:
-      #         only: develop
+      - publish:
+          requires:
+            - pendingUpdated
+            - build
+            - testUnit
+            - testE2e
+          filters:
+            branches:
+              only: develop
 
   # Every UTC midnight we go on develop and release
   release:
