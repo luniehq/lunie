@@ -4,7 +4,7 @@ import config from "src/config"
 import semver from "semver"
 
 // TODO: discuss TIMEOUT value
-const TIMEOUT = 50 // seconds to wait for user action on Ledger
+const TIMEOUT = 60 // seconds to wait for user action on Ledger
 
 /*
 HD wallet derivation path (BIP44)
