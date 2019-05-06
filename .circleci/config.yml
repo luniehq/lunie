@@ -200,9 +200,9 @@ jobs:
       - setup_remote_docker
       - run: |
           NAME=testnet
-          docker-compose -f ./tasks/local-testnet/docker-compose.yml --no-start $NAME
+          docker-compose -f ./tasks/local-testnet/docker-compose.yml up --no-start $NAME
           docker cp ./tasks/local-testnet/nodes/. $NAME:/nodes
-          docker-compose -f docker-compose.yml --no-recreate $NAME
+          docker-compose -f ./tasks/local-testnet/docker-compose.yml -f up --no-recreate $NAME
           docker rm -f $NAME
       - run:
           name: Test
