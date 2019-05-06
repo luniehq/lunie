@@ -280,14 +280,14 @@ describe(`ActionModal`, () => {
     describe(`success`, () => {
       it(`when the total invoice amount is less than the balance`, () => {
         wrapper.setProps({ amount: 1210 })
-        expect(wrapper.vm.isValidInput(`totalInvoice`)).toBe(true)
+        expect(wrapper.vm.isValidInput(`invoiceTotal`)).toBe(true)
       })
     })
 
     describe(`fails`, () => {
       it(`when the total invoice amount is more than the balance`, () => {
         wrapper.setProps({ amount: 1211 })
-        expect(wrapper.vm.isValidInput(`totalInvoice`)).toBe(false)
+        expect(wrapper.vm.isValidInput(`invoiceTotal`)).toBe(false)
       })
     })
   })

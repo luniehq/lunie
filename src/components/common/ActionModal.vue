@@ -64,7 +64,7 @@
           :gas-price="Number(gasPrice)"
         />
         <TmFormMsg
-          v-if="$v.totalInvoice.$invalid"
+          v-if="$v.invoiceTotal.$invalid"
           name="Total"
           type="between"
           min="0"
@@ -147,7 +147,7 @@
                 v-else-if="step !== `sign`"
                 color="primary"
                 value="Next"
-                :disabled="step === `fees` && $v.totalInvoice.$invalid"
+                :disabled="step === `fees` && $v.invoiceTotal.$invalid"
                 @click.native="validateChangeStep"
               />
               <TmBtn
@@ -254,7 +254,7 @@ export default {
     balance() {
       return this.liquidAtoms
     },
-    totalInvoice() {
+    invoiceTotal() {
       return (
         Number(this.amount) + Number(this.gasPrice) * Number(this.gasEstimate)
       )
@@ -333,7 +333,7 @@ export default {
           if (!this.isValidInput(`gasPrice`)) {
             return
           }
-          if (!this.isValidInput(`totalInvoice`)) {
+          if (!this.isValidInput(`invoiceTotal`)) {
             return
           }
           this.step = signStep
@@ -414,7 +414,7 @@ export default {
         // min is 0 because we support sending 0 fees
         between: between(0, atoms(this.balance))
       },
-      totalInvoice: {
+      invoiceTotal: {
         between: between(0, atoms(this.balance))
       }
     }
