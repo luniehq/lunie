@@ -76,6 +76,13 @@ describe(`Module: Ledger`, () => {
           response.error_message
         )
       })
+
+      it(`checks if device is locked`, () => {
+        const response = { error_message: `No errors`, device_locked: true }
+        expect(() => checkLedgerErrors(response)).not.toThrow(
+          `Ledger's screensaver mode is on`
+        )
+      })
     })
 
     describe(`Ledger actions`, () => {

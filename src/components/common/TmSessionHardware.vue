@@ -132,6 +132,7 @@ export default {
   padding: 0 1rem;
   justify-content: space-between;
 }
+
 .address {
   color: var(--link);
   font-weight: 500;
