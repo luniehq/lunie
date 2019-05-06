@@ -79,7 +79,14 @@
           />
         </TmFormGroup>
         <HardwareState
-          v-if="selectedSignMethod === `ledger`"
+          v-if="checkBrowser"
+          icon="usb"
+          :loading="!!sending"
+        >
+          {{`Please use Chrome, Brave, or Opera.`}}
+        </HardwareState>
+        <HardwareState
+          v-if="selectedSignMethod === `ledger` && !checkBrowser"
           icon="usb"
           :loading="!!sending"
         >
@@ -146,6 +153,7 @@
                 v-else
                 color="primary"
                 value="Submit"
+                :disabled="checkBrowser"
                 @click.native="validateChangeStep"
               />
             </div>
@@ -261,6 +269,13 @@ export default {
         return signWithLedger
       }
       return signWithLocalKeystore
+    },
+    checkBrowser() {
+      if (navigator.userAgent.includes(`Chrome`) || navigator.userAgent.includes(`Opera`)) {
+        return true
+      } else {
+        return false
+      }
     },
     signMethods() {
       if (this.session.sessionType === `ledger`) {

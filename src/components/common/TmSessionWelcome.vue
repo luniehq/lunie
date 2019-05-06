@@ -12,6 +12,13 @@
 
       <div class="tm-session-main">
         <LiSession
+          v-if='!checkBrowser'
+          icon="usb"
+          title="Sign in with Ledger Nano S"
+          subtitle="Please use Chrome, Opera, or Brave."
+        />
+        <LiSession
+          v-if='checkBrowser'
           icon="usb"
           title="Sign in with Ledger Nano S"
           subtitle="If you have a Ledger Wallet, choose this option."
@@ -75,6 +82,13 @@ export default {
     ...mapGetters([`session`, `lastPage`]),
     accountExists() {
       return this.session.accounts.length > 0
+    },
+    checkBrowser() {
+      if (navigator.userAgent.includes(`Chrome`) || navigator.userAgent.includes(`Opera`)) {
+        return true
+      } else {
+        return false
+      }
     }
   },
   methods: {
