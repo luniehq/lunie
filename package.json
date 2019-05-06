@@ -26,6 +26,7 @@
     "test": "yarn run lint && yarn test:unit && yarn test:e2e",
     "test:unit": "cross-env NODE_ENV=testing jest --maxWorkers=2",
     "test:e2e": "nightwatch --config ./test/e2e/nightwatch.conf.js",
+    "test:e2e:ci": "concurrently --kill-others \"yarn run server\" \"yarn run testnet\" \"yarn run test:e2e\"",
     "test:exe": "node tasks/test-build.js",
     "test:coverage": "http-server test/unit/coverage/lcov-report",
     "release": "git checkout develop & git pull & git push origin develop:release",

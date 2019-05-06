@@ -200,7 +200,7 @@ jobs:
       - setup_remote_docker
       - run:
           name: Test
-          command: yarn serve & yarn run test:e2e & yarn testnet
+          command: yarn test:e2e:ci
           no_output_timeout: 120
       - store_artifacts:
           path: testArtifacts
