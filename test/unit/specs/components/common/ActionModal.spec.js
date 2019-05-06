@@ -136,34 +136,6 @@ describe(`ActionModal`, () => {
     expect($store.dispatch).toHaveBeenCalledWith(`connectLedgerApp`)
   })
 
-  it(`should throw error when connectLedgerApp is dispatched`, async () => {
-    const $store = { dispatch: jest.fn() }
-    const error = "some kind of error message"
-    $store.dispatch = jest.fn().mockRejectedValue(error)
-    const self = {
-      $store,
-      submissionErrorPrefix: `PREFIX`
-    }
-    Object.defineProperty(window.navigator, `userAgent`, {
-      value: `Chrome`,
-      writable: true
-    })
-
-    await ActionModal.methods.connectLedger.call(self)
-
-    expect(self.submissionError).toEqual(`PREFIX: some kind of error message.`)
-  })
-
-  it(`should not dispatch connectLedgerApp if using incorrect browser`, () => {
-    const $store = { dispatch: jest.fn() }
-    const self = { $store }
-    Object.defineProperty(window.navigator, `userAgent`, {
-      value: `xxx`
-    })
-    ActionModal.methods.connectLedger.call(self)
-    expect($store.dispatch).not.toHaveBeenCalledWith(`connectLedgerApp`)
-  })
-
   describe(`should show the action modal`, () => {
     describe(`when user has logged in`, () => {
       describe(`with local keystore`, () => {

@@ -164,10 +164,14 @@ exports[`ActionModal should show the action modal when user has logged in with l
     <hardwarestate-stub
       icon="usb"
     >
-      
-        Please plug in your Ledger Nano S and open
-        the Cosmos app
-      
+      <div>
+        
+          Please plug in your Ledger Nano S and open
+          the Cosmos app
+        
+      </div>
+       
+      <!---->
     </hardwarestate-stub>
   </div>
    
@@ -180,6 +184,7 @@ exports[`ActionModal should show the action modal when user has logged in with l
       <div>
         <tmbtn-stub
           color="primary"
+          disabled="true"
           value="Submit"
         />
       </div>
@@ -375,6 +380,7 @@ exports[`ActionModal should show the action modal when user has logged in with l
       <div>
         <tmbtn-stub
           color="primary"
+          disabled="true"
           value="Submit"
         />
       </div>

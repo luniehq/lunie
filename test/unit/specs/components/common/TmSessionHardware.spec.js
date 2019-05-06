@@ -81,10 +81,6 @@ describe(`TmSessionHardware`, () => {
         setStatus: jest.fn(),
         setConnectionError: jest.fn(error => (self.connectionError = error))
       }
-      Object.defineProperty(window.navigator, `userAgent`, {
-        value: `Chrome`,
-        writable: true
-      })
       await TmSessionHardware.methods.connectLedger.call(self)
       expect(self.$store.dispatch).toHaveBeenCalledWith(`connectLedgerApp`)
       expect(self.connectionError).toBeNull()

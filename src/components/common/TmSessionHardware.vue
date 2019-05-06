@@ -59,8 +59,13 @@ export default {
     },
     async connectLedger() {
       this.setStatus(`detect`)
-      await this.$store.dispatch(`connectLedgerApp`)
-    }
+      try {
+        await this.$store.dispatch(`connectLedgerApp`)
+      } catch (error) {
+        this.setStatus(`connect`)
+        this.setConnectionError(error.message)
+      }
+    } 
   }
 }
 </script>

@@ -31,6 +31,8 @@ exports[`TmSessionWelcome with accounts has the expected html structure 1`] = `
     <div
       class="tm-session-main"
     >
+      <!---->
+       
       <lisession-stub
         icon="usb"
         subtitle="If you have a Ledger Wallet, choose this option."
@@ -116,9 +118,11 @@ exports[`TmSessionWelcome without accounts has the expected html structure 1`] =
     >
       <lisession-stub
         icon="usb"
-        subtitle="If you have a Ledger Wallet, choose this option."
+        subtitle="Please use Chrome, Opera, or Brave."
         title="Sign in with Ledger Nano S"
       />
+       
+      <!---->
        
       <lisession-stub
         icon="search"
