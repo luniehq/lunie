@@ -197,9 +197,10 @@ jobs:
           name: Build for E2E test
           command: 
             STARGATE=http://localhost:9070 RPC=http://localhost:26657 CIRCLECI=true yarn build:ui
+      - setup_remote_docker
       - run:
           name: Test
-          command: yarn serve & yarn run test:e2e
+          command: yarn serve & yarn run test:e2e & yarn testnet
           no_output_timeout: 120
       - store_artifacts:
           path: testArtifacts
