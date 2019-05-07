@@ -7,7 +7,12 @@ describe(`TmSessionWelcome`, () => {
 
   beforeEach(() => {
     const getters = {
-      session: { accounts, insecureMode: true, developmentMode: true },
+      session: {
+        accounts,
+        insecureMode: true,
+        developmentMode: true,
+        browserWithLedgerSupport: null
+      },
       lastPage: `/`
     }
     $store = {
@@ -63,6 +68,21 @@ describe(`TmSessionWelcome`, () => {
 
     it(`has the expected html structure`, () => {
       expect(wrapper.vm.$el).toMatchSnapshot()
+    })
+
+    it(`should check for browser support if browser is Chrome`, () => {
+      $store.getters.session.browserWithLedgerSupport = true
+      expect(wrapper.vm.session.browserWithLedgerSupport).toBe(true)
+    })
+
+    it(`should check for browser support if browser is Opera`, () => {
+      $store.getters.session.browserWithLedgerSupport = true
+      expect(wrapper.vm.browserWithLedgerSupport).toBe(true)
+    })
+
+    it(`should check for invalid browser support`, () => {
+      $store.getters.session.browserWithLedgerSupport = false
+      expect(wrapper.vm.browserWithLedgerSupport).toBe(false)
     })
   })
 

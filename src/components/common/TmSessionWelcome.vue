@@ -84,14 +84,7 @@ export default {
       return this.session.accounts.length > 0
     },
     browserWithLedgerSupport() {
-      if (
-        navigator.userAgent.includes(`Chrome`) ||
-        navigator.userAgent.includes(`Opera`)
-      ) {
-        return true
-      } else {
-        return false
-      }
+      return this.session.browserWithLedgerSupport
     }
   },
   methods: {

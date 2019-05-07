@@ -10,11 +10,6 @@ localVue.directive("focus-last", focusParentLast)
 describe(`ActionModal`, () => {
   let wrapper, $store
 
-  Object.defineProperty(window.navigator, `userAgent`, {
-    value: `Chrome`,
-    writable: true
-  })
-
   beforeEach(() => {
     $store = {
       commit: jest.fn(),
@@ -25,7 +20,8 @@ describe(`ActionModal`, () => {
           signedIn: true,
           sessionType: `local`,
           gasPrice: 2.5e-8,
-          gasAdjustment: 1.5
+          gasAdjustment: 1.5,
+          browserWithLedgerSupport: null
         },
         bondDenom: `uatom`,
         wallet: {
@@ -68,9 +64,6 @@ describe(`ActionModal`, () => {
       submitFn,
       submissionErrorPrefix: `PREFIX`
     }
-    Object.defineProperty(window.navigator, `userAgent`, {
-      value: `Chrome`
-    })
     await ActionModal.methods.submit.call(self)
 
     expect(self.submissionError).toEqual(`PREFIX: some kind of error message.`)
@@ -141,20 +134,17 @@ describe(`ActionModal`, () => {
   })
 
   it(`should check for browser support if browser is Chrome`, () => {
-    expect(wrapper.vm.browserWithLedgerSupport).toBe(true)
+    $store.getters.session.browserWithLedgerSupport = true
+    expect(wrapper.vm.session.browserWithLedgerSupport).toBe(true)
   })
 
   it(`should check for browser support if browser is Opera`, () => {
-    Object.defineProperty(window.navigator, `userAgent`, {
-      value: `Opera`
-    })
+    $store.getters.session.browserWithLedgerSupport = true
     expect(wrapper.vm.browserWithLedgerSupport).toBe(true)
   })
 
   it(`should check for invalid browser support`, () => {
-    Object.defineProperty(window.navigator, `userAgent`, {
-      value: `xxx`
-    })
+    $store.getters.session.browserWithLedgerSupport = false
     expect(wrapper.vm.browserWithLedgerSupport).toBe(false)
   })
 

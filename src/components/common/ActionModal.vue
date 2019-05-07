@@ -269,14 +269,7 @@ export default {
       return signWithLocalKeystore
     },
     browserWithLedgerSupport() {
-      if (
-        navigator.userAgent.includes(`Chrome`) ||
-        navigator.userAgent.includes(`Opera`)
-      ) {
-        return true
-      } else {
-        return false
-      }
+      return this.session.browserWithLedgerSupport
     },
     signMethods() {
       if (this.session.sessionType === `ledger`) {
