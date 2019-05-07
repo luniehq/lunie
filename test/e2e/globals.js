@@ -21,7 +21,7 @@ module.exports = {
     }
   },
   async after() {
-    console.log('taring down testnet');
+    console.log("taring down testnet")
     await exec("npm run testnet:stop")
   },
 

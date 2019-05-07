@@ -213,11 +213,7 @@ if (process.env.NODE_ENV === `production`) {
         "object-src": `'none'`,
         "base-uri": `'self'`,
         "default-src": `'self'`,
-        "script-src": [
-          `'self'`,
-          `https://app.appzi.io/`,
-          `https://*.lunie.io`
-        ],
+        "script-src": [`'self'`, `https://app.appzi.io/`, `https://*.lunie.io`],
         "worker-src": `'none'`,
         // 'style-src': production ? `'self'` : `*`, // SECURITY Appzi is applying styles inline, inquired to them already
         "style-src": [`'self'`, `'unsafe-inline'`],

@@ -5,6 +5,9 @@ module.exports = {
       .url(browser.launch_url)
       .waitForElementVisible(`body`)
       .waitForElementVisible(`#app-content`)
-    browser.expect.element('.page-profile__title').text.to.contain('testnet').before(10*1000);
+    browser.expect
+      .element(".page-profile__title")
+      .text.to.contain("testnet")
+      .before(10 * 1000)
   }
 }
