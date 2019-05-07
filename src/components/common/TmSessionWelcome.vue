@@ -12,13 +12,13 @@
 
       <div class="tm-session-main">
         <LiSession
-          v-if="!checkBrowser"
+          v-if="!browserWithLedgerSupport"
           icon="usb"
           title="Sign in with Ledger Nano S"
           subtitle="Please use Chrome, Opera, or Brave."
         />
         <LiSession
-          v-if="checkBrowser"
+          v-if="browserWithLedgerSupport"
           icon="usb"
           title="Sign in with Ledger Nano S"
           subtitle="If you have a Ledger Wallet, choose this option."
@@ -83,7 +83,7 @@ export default {
     accountExists() {
       return this.session.accounts.length > 0
     },
-    checkBrowser() {
+    browserWithLedgerSupport() {
       if (
         navigator.userAgent.includes(`Chrome`) ||
         navigator.userAgent.includes(`Opera`)

@@ -83,7 +83,7 @@
           icon="usb"
           :loading="!!sending"
         >
-          <div v-if="checkBrowser">
+          <div v-if="browserWithLedgerSupport">
             {{
               sending
                 ? `Please verify and sign the transaction on your Ledger`
@@ -91,8 +91,8 @@
             the Cosmos app`
             }}
           </div>
-          <div v-if="!checkBrowser">
-            {{ `Please use Chrome, Brave, or Opera.` }}
+          <div v-if="!browserWithLedgerSupport">
+            `Please use Chrome, Brave, or Opera.`
           </div>
         </HardwareState>
         <TmFormGroup
@@ -151,7 +151,7 @@
                 v-else
                 color="primary"
                 value="Submit"
-                :disabled="checkBrowser"
+                :disabled="browserWithLedgerSupport"
                 @click.native="validateChangeStep"
               />
             </div>
@@ -268,7 +268,7 @@ export default {
       }
       return signWithLocalKeystore
     },
-    checkBrowser() {
+    browserWithLedgerSupport() {
       if (
         navigator.userAgent.includes(`Chrome`) ||
         navigator.userAgent.includes(`Opera`)
