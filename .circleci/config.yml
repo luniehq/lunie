@@ -199,7 +199,7 @@ jobs:
       - setup_remote_docker
       - run:
           name: Test
-          command: yarn test:e2e:ci
+          command: yarn test:e2e
           no_output_timeout: 120
       - store_artifacts:
           path: testArtifacts
