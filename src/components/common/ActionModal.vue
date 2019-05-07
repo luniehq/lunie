@@ -63,6 +63,13 @@
           :gas-estimate="Number(gasEstimate)"
           :gas-price="Number(gasPrice)"
         />
+        <TmFormMsg
+          v-if="$v.invoiceTotal.$invalid"
+          name="Total"
+          type="between"
+          min="0"
+          :max="atoms(balance)"
+        />
       </div>
       <div v-else-if="step === `sign`" class="action-modal-form">
         <TmFormGroup
@@ -140,6 +147,7 @@
                 v-else-if="step !== `sign`"
                 color="primary"
                 value="Next"
+                :disabled="step === `fees` && $v.invoiceTotal.$invalid"
                 @click.native="validateChangeStep"
               />
               <TmBtn
@@ -246,6 +254,11 @@ export default {
     balance() {
       return this.liquidAtoms
     },
+    invoiceTotal() {
+      return (
+        Number(this.amount) + Number(this.gasPrice) * Number(this.gasEstimate)
+      )
+    },
     isValidChildForm() {
       // here we trigger the validation of the child form
       if (this.validate) {
@@ -318,6 +331,9 @@ export default {
           return
         case feeStep:
           if (!this.isValidInput(`gasPrice`)) {
+            return
+          }
+          if (!this.isValidInput(`invoiceTotal`)) {
             return
           }
           this.step = signStep
@@ -396,6 +412,9 @@ export default {
         ),
         // we don't use SMALLEST as min gas price because it can be a fraction of uatom
         // min is 0 because we support sending 0 fees
+        between: between(0, atoms(this.balance))
+      },
+      invoiceTotal: {
         between: between(0, atoms(this.balance))
       }
     }

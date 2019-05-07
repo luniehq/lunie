@@ -271,6 +271,27 @@ describe(`ActionModal`, () => {
     })
   })
 
+  describe(`validates total price does not exceed available atoms`, () => {
+    beforeEach(() => {
+      wrapper.setData({ gasPrice: 10 })
+      wrapper.setData({ gasEstimate: 2 })
+    })
+
+    describe(`success`, () => {
+      it(`when the total invoice amount is less than the balance`, () => {
+        wrapper.setProps({ amount: 1210 })
+        expect(wrapper.vm.isValidInput(`invoiceTotal`)).toBe(true)
+      })
+    })
+
+    describe(`fails`, () => {
+      it(`when the total invoice amount is more than the balance`, () => {
+        wrapper.setProps({ amount: 1211 })
+        expect(wrapper.vm.isValidInput(`invoiceTotal`)).toBe(false)
+      })
+    })
+  })
+
   describe(`simulate`, () => {
     it(`should simulate transaction to get estimated gas`, async () => {
       const self = {

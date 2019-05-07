@@ -101,6 +101,8 @@ exports[`ActionModal should show the action modal when user has logged in with l
       gasestimate="0"
       gasprice="2.5e-8"
     />
+     
+    <!---->
   </div>
    
   <div
@@ -291,6 +293,8 @@ exports[`ActionModal should show the action modal when user has logged in with l
       gasestimate="0"
       gasprice="2.5e-8"
     />
+     
+    <!---->
   </div>
    
   <div

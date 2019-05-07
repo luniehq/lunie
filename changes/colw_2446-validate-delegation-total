@@ -1,0 +1,1 @@
+[Fixed] [#2446](https://github.com/cosmos/lunie/issues/2446) Validate total invoice amount, including network fees. @colw
