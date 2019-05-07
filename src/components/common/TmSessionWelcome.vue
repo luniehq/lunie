@@ -14,7 +14,7 @@
         <LiSession
           v-if="!browserWithLedgerSupport"
           icon="usb"
-          title="Sign in with Ledger Nano S"
+          title="Sign in with Ledger Nano nbsp; S"
           subtitle="Please use Chrome, Opera, or Brave."
         />
         <LiSession

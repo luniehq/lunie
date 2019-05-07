@@ -34,7 +34,7 @@ exports[`TmSessionWelcome with accounts has the expected html structure 1`] = `
       <lisession-stub
         icon="usb"
         subtitle="Please use Chrome, Opera, or Brave."
-        title="Sign in with Ledger Nano S"
+        title="Sign in with Ledger Nano nbsp; S"
       />
        
       <!---->
@@ -119,7 +119,7 @@ exports[`TmSessionWelcome without accounts has the expected html structure 1`] =
       <lisession-stub
         icon="usb"
         subtitle="Please use Chrome, Opera, or Brave."
-        title="Sign in with Ledger Nano S"
+        title="Sign in with Ledger Nano nbsp; S"
       />
        
       <!---->
