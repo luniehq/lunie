@@ -73,11 +73,6 @@ ol {
   margin-bottom: 1rem;
 }
 
-.container {
-  display: flex;
-  flex-direction: column;
-}
-
 i {
   font-style: italic;
 }

@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <TmPage data-title="About" hide-header>
     <div class="card">
       <h1>About</h1>
       <p>
@@ -89,12 +89,17 @@
         >, or click the <i>feedback</i> button on the left.
       </p>
     </div>
-  </div>
+  </TmPage>
 </template>
 
 <script>
+import TmPage from "common/TmPage"
+
 export default {
-  name: `page-about`
+  name: `page-about`,
+  components: {
+    TmPage
+  }
 }
 </script>
 
