@@ -39,6 +39,11 @@ export const checkLedgerErrors = (
       throw new Error(rejectionMessage)
     case `Unknown error code`:
       throw new Error(`Ledger's screensaver mode is on`)
+    case `Instruction no supported`:
+      throw new Error(
+        `Your Ledger Cosmos App is probably outdated. ` +
+          `Please update to version ${config.requiredCosmosAppVersion}.`
+      )
     case `No errors`:
       // do nothing
       break
@@ -113,7 +118,6 @@ export default () => {
       if (semver.satisfies(version, ">=1.5.0")) {
         // throws if not open
         await dispatch(`getOpenAppInfo`, cosmosLedgerApp)
-        return
       }
     },
     async createLedgerAppInstance({ commit, state }) {
@@ -129,6 +133,12 @@ export default () => {
       await dispatch(`createLedgerAppInstance`)
       const address = await dispatch(`getLedgerAddressAndPubKey`)
       commit(`setLedgerConnection`, true)
+      // DEPRECATION enable once 1.5.0 is available on Ledger Live
+      // commit("notifyWarn", {
+      //   title: "Ledger Cosmos App Outdated",
+      //   body:
+      //     "Your Ledger Cosmos App version is going to be deprecated. Please update to the lastest app version using Ledger Live."
+      // })
 
       return address
     },
@@ -181,6 +191,11 @@ export default () => {
       return address
     },
     async confirmLedgerAddress({ state }) {
+      if (semver.lt(state.cosmosAppVersion, "1.5.0")) {
+        // we can't check the address on an old cosmos app
+        return true
+      }
+
       const response = await state.cosmosApp.getAddressAndPubKey(
         BECH32PREFIX,
         HDPATH
