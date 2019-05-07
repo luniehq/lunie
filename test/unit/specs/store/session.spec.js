@@ -113,6 +113,11 @@ describe(`Module: Session`, () => {
       expect(state.modals.session.state).toBe(`xxxx`)
     })
 
+    it(`should set the browser with ledger support property`, () => {
+      mutations.setBrowserWithLedgerSupport(state, `xxxx`)
+      expect(state.browserWithLedgerSupport).toBe(`xxxx`)
+    })
+
     it(`should activate experimental mode`, () => {
       mutations.setExperimentalMode(state)
       expect(state.experimentalMode).toBe(true)
@@ -354,6 +359,35 @@ describe(`Module: Session`, () => {
 
     expect(state.errorCollection).toBe(false)
     expect(state.externals.Sentry.init).toHaveBeenCalledWith({})
+  })
+
+  it(`should return true if browser is Chrome`, async () => {
+    Object.defineProperty(window.navigator, `userAgent`, {
+      value: `Chrome`,
+      writable: true
+    })
+    const commit = jest.fn()
+    await actions.browserWithLedgerSupport({ commit })
+    expect(commit).toHaveBeenCalledWith(`setBrowserWithLedgerSupport`, true)
+  })
+
+  it(`should return true if browser is Opera`, async () => {
+    Object.defineProperty(window.navigator, `userAgent`, {
+      value: `Opera`,
+      writable: true
+    })
+    const commit = jest.fn()
+    await actions.browserWithLedgerSupport({ commit })
+    expect(commit).toHaveBeenCalledWith(`setBrowserWithLedgerSupport`, true)
+  })
+
+  it(`should return false if browser does not have ledger support`, async () => {
+    Object.defineProperty(window.navigator, `userAgent`, {
+      value: `xxx`
+    })
+    const commit = jest.fn()
+    await actions.browserWithLedgerSupport({ commit })
+    expect(commit).toHaveBeenCalledWith(`setBrowserWithLedgerSupport`, false)
   })
 
   it(`should enable analytics collection`, async () => {
