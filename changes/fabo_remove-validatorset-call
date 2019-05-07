@@ -1,0 +1,2 @@
+[Fixed] [#2551](https://github.com/cosmos/lunie/pull/2551) Removed validatorset calls as we don't need them and they caused issues @faboweb
+[Fixed] [#2551](https://github.com/cosmos/lunie/pull/2551) Removed keybase identities updates as they caused troubles and we deliver a cache with every release @faboweb

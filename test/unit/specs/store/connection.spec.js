@@ -61,25 +61,6 @@ describe(`Module: Connection`, () => {
       expect(state.nodeUrl).toBe(`https://voyager.lol`)
     })
 
-    it(`checks for new validators`, async () => {
-      const dispatch = jest.fn()
-      actions.setLastHeader(
-        {
-          state,
-          rootState: { session: { signedIn: true } },
-          dispatch
-        },
-        {
-          height: 5,
-          chain_id: `test-chain`
-        }
-      )
-      expect(dispatch).toHaveBeenCalledWith(`maybeUpdateValidators`, {
-        height: 5,
-        chain_id: `test-chain`
-      })
-    })
-
     it(`sets connection state`, () => {
       expect(state.connected).toBe(false)
       mutations.setConnected(state, true)
