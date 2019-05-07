@@ -41,7 +41,7 @@ import TmDataError from "common/TmDataError"
 import TmDataConnecting from "common/TmDataConnecting"
 import TmBalance from "common/TmBalance"
 import ToolBar from "common/ToolBar"
-import PageFooter from "common/TMPageFooter"
+import PageFooter from "common/TmPageFooter"
 
 export default {
   name: `tm-page`,
