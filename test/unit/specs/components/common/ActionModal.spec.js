@@ -271,7 +271,7 @@ describe(`ActionModal`, () => {
     })
   })
 
-  describe(`validates total price deos not exceed available atoms`, () => {
+  describe(`validates total price does not exceed available atoms`, () => {
     beforeEach(() => {
       wrapper.setData({ gasPrice: 10 })
       wrapper.setData({ gasEstimate: 2 })
