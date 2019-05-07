@@ -32,16 +32,16 @@
     </td>
     <td>{{ `#` + proposal.proposal_id }}</td>
     <td class="li-proposal__value yes">
-      {{ yesPercentage }}
+      {{ tally.yes | percentOrPending(totalVotes, isDepositPeriod) }}
     </td>
     <td class="li-proposal__value no">
-      {{ noPercentage }}
+      {{ tally.no | percentOrPending(totalVotes, isDepositPeriod) }}
     </td>
     <td class="li-proposal__value no_with_veto">
-      {{ noWithVetoPercentage }}
+      {{ tally.no_with_veto | percentOrPending(totalVotes, isDepositPeriod) }}
     </td>
     <td class="li-proposal__value abstain">
-      {{ abstainPercentage }}
+      {{ tally.abstain | percentOrPending(totalVotes, isDepositPeriod) }}
     </td>
   </tr>
 </template>
@@ -52,6 +52,13 @@ import { mapGetters } from "vuex"
 import { percentInt } from "../../scripts/num.js"
 export default {
   name: `li-proposal`,
+  filters: {
+    percentOrPending: function(value, totalValue, pending) {
+      return pending
+        ? `--`
+        : percentInt(totalValue === 0 ? 0 : value / totalValue)
+    }
+  },
   props: {
     proposal: {
       type: Object,
@@ -70,6 +77,9 @@ export default {
         no_with_veto: no_with_veto || BigNumber(0)
       }
     },
+    isDepositPeriod() {
+      return this.proposal.proposal_status === `DepositPeriod`
+    },
     totalVotes({ tally: { yes, no, no_with_veto, abstain } } = this) {
       return BigNumber(yes)
         .plus(no)
@@ -77,55 +87,32 @@ export default {
         .plus(abstain)
         .toNumber()
     },
-    yesPercentage({ tally, totalVotes } = this) {
-      if (this.proposal.proposal_status === `DepositPeriod`) {
-        return `--`
-      }
-      return percentInt(totalVotes === 0 ? 0 : tally.yes / totalVotes)
-    },
-    noPercentage({ tally, totalVotes } = this) {
-      if (this.proposal.proposal_status === `DepositPeriod`) {
-        return `--`
-      }
-      return percentInt(totalVotes === 0 ? 0 : tally.no / totalVotes)
-    },
-    noWithVetoPercentage({ tally, totalVotes } = this) {
-      if (this.proposal.proposal_status === `DepositPeriod`) {
-        return `--`
-      }
-      return percentInt(totalVotes === 0 ? 0 : tally.no_with_veto / totalVotes)
-    },
-    abstainPercentage({ tally, totalVotes } = this) {
-      if (this.proposal.proposal_status === `DepositPeriod`) {
-        return `--`
-      }
-      return percentInt(totalVotes === 0 ? 0 : tally.abstain / totalVotes)
-    },
     status() {
-      if (this.proposal.proposal_status === `Passed`) {
-        return {
-          message: `This proposal has passed`
-        }
-      } else if (this.proposal.proposal_status === `Rejected`) {
-        return {
-          message: `This proposal has been rejected and voting is closed`,
-          color: `red`
-        }
-      } else if (this.proposal.proposal_status === `DepositPeriod`) {
-        return {
-          message: `Deposits are open for this proposal`,
-          color: `yellow`
-        }
-      } else if (this.proposal.proposal_status === `VotingPeriod`) {
-        return {
-          message: `Voting for this proposal is open`,
-          color: `green`
-        }
-      } else {
-        return {
-          message: `There was an error determining the status of this proposal.`,
-          color: `grey`
-        }
+      switch (this.proposal.proposal_status) {
+        case `Passed`:
+          return {
+            message: `This proposal has passed`
+          }
+        case `Rejected`:
+          return {
+            message: `This proposal has been rejected and voting is closed`,
+            color: `red`
+          }
+        case `DepositPeriod`:
+          return {
+            message: `Deposits are open for this proposal`,
+            color: `yellow`
+          }
+        case `VotingPeriod`:
+          return {
+            message: `Voting for this proposal is open`,
+            color: `green`
+          }
+        default:
+          return {
+            message: `There was an error determining the status of this proposal.`,
+            color: `grey`
+          }
       }
     },
     description() {
