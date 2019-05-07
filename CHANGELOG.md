@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [1.0.0-beta.61] - 2019-05-07
+
+### Fixed
+
+- [#2542](https://github.com/cosmos/lunie/pull/2542) Do not run style lint on dist folder @colw
+- [#2543](https://github.com/cosmos/lunie/pull/2543) Switch code coverage to live-server @colw
+
 ## [1.0.0-beta.60] - 2019-05-05
 
 ### Fixed
