@@ -10,6 +10,11 @@ localVue.directive("focus-last", focusParentLast)
 describe(`ActionModal`, () => {
   let wrapper, $store
 
+  Object.defineProperty(window.navigator, `userAgent`, {
+    value: `Chrome`,
+    writable: true
+  })
+
   beforeEach(() => {
     $store = {
       commit: jest.fn(),
@@ -64,8 +69,7 @@ describe(`ActionModal`, () => {
       submissionErrorPrefix: `PREFIX`
     }
     Object.defineProperty(window.navigator, `userAgent`, {
-      value: `Chrome`,
-      writable: true
+      value: `Chrome`
     })
     await ActionModal.methods.submit.call(self)
 
@@ -134,6 +138,24 @@ describe(`ActionModal`, () => {
     const self = { $store }
     ActionModal.methods.connectLedger.call(self)
     expect($store.dispatch).toHaveBeenCalledWith(`connectLedgerApp`)
+  })
+
+  it(`should check for browser support if browser is Chrome`, () => {
+    expect(wrapper.vm.browserWithLedgerSupport).toBe(true)
+  })
+
+  it(`should check for browser support if browser is Opera`, () => {
+    Object.defineProperty(window.navigator, `userAgent`, {
+      value: `Opera`
+    })
+    expect(wrapper.vm.browserWithLedgerSupport).toBe(true)
+  })
+
+  it(`should check for invalid browser support`, () => {
+    Object.defineProperty(window.navigator, `userAgent`, {
+      value: `xxx`
+    })
+    expect(wrapper.vm.browserWithLedgerSupport).toBe(false)
   })
 
   describe(`should show the action modal`, () => {
