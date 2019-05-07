@@ -92,7 +92,7 @@
             }}
           </div>
           <div v-if="!browserWithLedgerSupport">
-            `Please use Chrome, Brave, or Opera.`
+            Please use Chrome, Brave, or Opera.
           </div>
         </HardwareState>
         <TmFormGroup
