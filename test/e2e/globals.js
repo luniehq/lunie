@@ -1,7 +1,29 @@
+const util = require("util")
+const exec = util.promisify(require("child_process").exec)
+const axios = require("axios")
+
 module.exports = {
   // controls the timeout time for async hooks. Expects the done() callback to be invoked within this time
   // or an error is thrown
   asyncHookTimeout: 30000,
+
+  async before() {
+    exec("npm run testnet:start")
+    let apiUp = false
+    while (!apiUp) {
+      try {
+        await axios("http://localhost:9070/node_version")
+        apiUp = true
+      } catch (err) {
+        await new Promise(resolve => setTimeout(resolve, 1000))
+        console.log("Waiting for node to be up")
+      }
+    }
+  },
+  async after() {
+    console.log('after global');
+    await exec("npm run testnet:stop")
+  },
 
   beforeEach(browser, done) {
     browser.url(browser.launch_url).execute(function() {
