@@ -31,7 +31,7 @@
     "test:coverage": "http-server test/unit/coverage/lcov-report",
     "release": "git checkout develop & git pull & git push origin develop:release",
     "watch": "tasks/watch.sh",
-    "testnet:start": "docker run --rm -p 26657:26657 --name testnet -p 9070:9070 lunieio/testnet:v0.34.3",
+    "testnet:start": "docker run --rm -p 26657:26657 --name testnet -p 9070:9070 --detach lunieio/testnet:v0.34.3",
     "testnet:stop": "docker stop testnet",
     "proxy": "node ./tasks/local-testnet/proxy.js",
     "certificates": "docker-compose -f tasks/certificates/docker-compose.yml up",
