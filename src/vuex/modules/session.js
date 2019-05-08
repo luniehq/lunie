@@ -33,7 +33,9 @@ export default () => {
         state: `welcome`
       }
     },
-    browserWithLedgerSupport: null,
+    browserWithLedgerSupport:
+      navigator.userAgent.includes(`Chrome`) ||
+      navigator.userAgent.includes(`Opera`),
 
     // import into state to be able to test easier
     externals: {
@@ -85,9 +87,6 @@ export default () => {
     },
     setSessionModalView(state, value) {
       state.modals.session.state = value
-    },
-    setBrowserWithLedgerSupport(state, value) {
-      state.browserWithLedgerSupport = value
     }
   }
 
@@ -245,16 +244,6 @@ export default () => {
       } else {
         state.externals.anonymize()
         console.log(`Analytics collection has been disabled`)
-      }
-    },
-    browserWithLedgerSupport({ commit }) {
-      if (
-        navigator.userAgent.includes(`Chrome`) ||
-        navigator.userAgent.includes(`Opera`)
-      ) {
-        commit(`setBrowserWithLedgerSupport`, true)
-      } else {
-        commit(`setBrowserWithLedgerSupport`, false)
       }
     }
   }
