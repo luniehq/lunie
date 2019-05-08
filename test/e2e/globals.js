@@ -5,7 +5,7 @@ const axios = require("axios")
 module.exports = {
   // controls the timeout time for async hooks. Expects the done() callback to be invoked within this time
   // or an error is thrown
-  asyncHookTimeout: 30000,
+  asyncHookTimeout: 120000, // very long because of the testnet setup on circle
 
   async before() {
     exec("npm run testnet:start")
