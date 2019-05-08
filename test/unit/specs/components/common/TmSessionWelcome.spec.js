@@ -75,11 +75,6 @@ describe(`TmSessionWelcome`, () => {
       expect(wrapper.vm.session.browserWithLedgerSupport).toBe(true)
     })
 
-    it(`should check for browser support if browser is Opera`, () => {
-      $store.getters.session.browserWithLedgerSupport = true
-      expect(wrapper.vm.browserWithLedgerSupport).toBe(true)
-    })
-
     it(`should check for invalid browser support`, () => {
       $store.getters.session.browserWithLedgerSupport = false
       expect(wrapper.vm.browserWithLedgerSupport).toBe(false)
