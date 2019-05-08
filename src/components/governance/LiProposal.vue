@@ -49,13 +49,11 @@
 <script>
 import BigNumber from "bignumber.js"
 import { mapGetters } from "vuex"
-import { percent } from "../../scripts/num.js"
+import { percentOrPending } from "../../filters"
 export default {
   name: `li-proposal`,
   filters: {
-    percentOrPending: function(value, totalValue, pending) {
-      return pending ? `--` : percent(totalValue === 0 ? 0 : value / totalValue)
-    }
+    percentOrPending
   },
   props: {
     proposal: {
