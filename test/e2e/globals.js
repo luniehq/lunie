@@ -1,5 +1,3 @@
-const util = require("util")
-const exec = util.promisify(require("child_process").exec)
 const axios = require("axios")
 
 module.exports = {
@@ -8,7 +6,6 @@ module.exports = {
   asyncHookTimeout: 120000, // very long because of the testnet setup on circle
 
   async before() {
-    exec("npm run testnet:start")
     let apiUp = false
     while (!apiUp) {
       try {
@@ -19,10 +16,6 @@ module.exports = {
         console.log("Waiting for node to be up")
       }
     }
-  },
-  async after() {
-    console.log("taring down testnet")
-    await exec("npm run testnet:stop")
   },
 
   beforeEach(browser, done) {

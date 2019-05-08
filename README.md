@@ -130,10 +130,22 @@ If you want to run them locally build the UI first:
 yarn test:e2e:build
 ```
 
+Now start a testnet:
+
+```bash
+yarn testnet:start
+```
+
 Then run the actual tests:
 
 ```bash
 yarn test:e2e
+```
+
+Finally stop the testnet:
+
+```bash
+yarn testnet:stop
 ```
 
 ### Code coverage

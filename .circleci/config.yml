@@ -198,9 +198,15 @@ jobs:
           command: yarn test:e2e:build
       - setup_remote_docker
       - run:
+          name: Testnet setup
+          command: yarn run testnet:start
+      - run:
           name: Test
           command: yarn test:e2e
           no_output_timeout: 120
+      - run:
+          name: Testnet tare down
+          command: yarn run testnet:stop
       - store_artifacts:
           path: testArtifacts
           when: on_fail
