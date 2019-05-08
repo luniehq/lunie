@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [1.0.0-beta.62] - 2019-05-08
+
+### Fixed
+
+- [#2446](https://github.com/cosmos/lunie/issues/2446) Validate total invoice amount, including network fees. @colw
+- [#2554](https://github.com/cosmos/lunie/issues/2554) Add missing footer to pages linked in footer @colw
+- [#2551](https://github.com/cosmos/lunie/pull/2551) Removed validatorset calls as we don't need them and they caused issues @faboweb
+- [#2551](https://github.com/cosmos/lunie/pull/2551) Removed keybase identities updates as they caused troubles and we deliver a cache with every release @faboweb
+
 ## [1.0.0-beta.61] - 2019-05-07
 
 ### Fixed
