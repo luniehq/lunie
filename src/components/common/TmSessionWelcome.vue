@@ -14,13 +14,13 @@
         <LiSession
           v-if="!browserWithLedgerSupport"
           icon="usb"
-          title="Sign in with Ledger Nano nbsp; S"
+          title="Sign in with Ledger Nano&#160;S"
           subtitle="Please use Chrome, Opera, or Brave."
         />
         <LiSession
           v-if="browserWithLedgerSupport"
           icon="usb"
-          title="Sign in with Ledger Nano S"
+          title="Sign in with Ledger Nano&#160;S"
           subtitle="If you have a Ledger Wallet, choose this option."
           @click.native="setState('hardware')"
         />
