@@ -1,9 +1,22 @@
 "use strict"
 
+const RETRIES = 4
+
 const Client = (axios, remoteLcdURL) => {
-  async function request(method, path, data) {
+  // request and retry
+  async function request(method, path, data, tries = RETRIES) {
     const url = remoteLcdURL
-    const result = await axios({ data, method, url: url + path })
+    let result
+    while (tries) {
+      try {
+        result = await axios({ data, method, url: url + path })
+        break
+      } catch (err) {
+        if (--tries == 0) {
+          throw err
+        }
+      }
+    }
     return result.data
   }
 
