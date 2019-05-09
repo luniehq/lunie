@@ -10,7 +10,7 @@ export default function(axios, stargateUrl, mocked = false) {
     // activate or deactivate the mocked lcdClient
     setup: mocked => {
       console.log(`Setting connector to state:` + (mocked ? `mocked` : `live`))
-      const newRestClient = new Cosmos(stargateUrl)
+      const newRestClient = new Cosmos(stargateUrl, "no_address")
       const newRpcClient = RpcWrapper(connector)
       Object.assign(connector, newRestClient, newRpcClient)
       // we can't assign class functions to an object so we need to iterate over the prototype

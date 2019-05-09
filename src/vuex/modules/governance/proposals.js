@@ -81,7 +81,7 @@ export default ({ node }) => {
       { title, description, type, initial_deposit }
     ) {
       return await dispatch(`simulateTx`, {
-        type: `postProposal`,
+        type: `MsgSubmitProposal`,
         proposer: wallet.address,
         proposal_type: type,
         proposal_content: {
@@ -112,7 +112,7 @@ export default ({ node }) => {
       }
     ) {
       await dispatch(`sendTx`, {
-        type: `postProposal`,
+        type: `MsgSubmitProposal`,
         proposer: wallet.address,
         proposal_type: type,
         proposal_content: {

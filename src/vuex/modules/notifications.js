@@ -53,6 +53,7 @@ export default () => {
       mutations.addNotification(state, note)
     },
     notifyError(state, data) {
+      throw new Error(data.body)
       const note = data
       note.icon = `error`
       note.time = Date.now()

@@ -187,12 +187,14 @@ export default {
       const amount = +this.amount
       const address = this.address
       const denom = this.denom
-      const type = `send`
+      const type = `MsgSend`
 
       return await this.$store.dispatch(`simulateTx`, {
         type,
-        to: address,
-        amount: [{ denom, amount: String(uatoms(amount)) }],
+        txArguments: {
+          toAddress: address,
+          amounts: [{ denom, amount: String(uatoms(amount)) }]
+        },
         memo: this.memo
       })
     },
@@ -200,10 +202,14 @@ export default {
       const amount = +this.amount
       const address = this.address
       const denom = this.denom
-      const type = `send`
+      const type = `MsgSend`
 
       await this.sendTx({
         type,
+        txArguments: {
+          toAddress: address,
+          amounts: [{ denom, amount: String(uatoms(amount)) }]
+        },
         gas: String(gasEstimate),
         gas_prices: [
           {
@@ -213,8 +219,6 @@ export default {
         ],
         submitType,
         password,
-        to: address,
-        amount: [{ denom, amount: String(uatoms(amount)) }],
         memo: this.memo
       })
 

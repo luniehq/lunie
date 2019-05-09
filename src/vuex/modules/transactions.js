@@ -102,7 +102,7 @@ export default ({ node }) => {
       const validatorAddress = address.replace(`cosmos`, `cosmosvaloper`)
       switch (type) {
         case TypeBank:
-          response = await node.txs(address)
+          response = await node.get.txs(address)
           break
         case TypeStaking:
           response = await node.get.stakingTxs(address, validatorAddress)

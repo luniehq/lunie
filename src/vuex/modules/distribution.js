@@ -85,22 +85,29 @@ export default ({ node }) => {
         commit(`setDistributionError`, error)
       }
     },
-    async simulateWithdrawAllRewards({ rootState: { wallet }, dispatch }) {
+    async simulateWithdrawAllRewards({ rootState: { session }, dispatch }) {
       return await dispatch(`simulateTx`, {
-        type: `postWithdrawDelegatorRewards`,
-        to: wallet.address
+        type: `MsgWithdrawDelegationReward`,
+        txArguments: {
+          toAddress: session.address,
+          validatorAddresses: []
+        }
       })
     },
     async withdrawAllRewards(
       {
-        rootState: { wallet },
+        rootState: { session },
+        state,
         dispatch
       },
       { gas, gas_prices, password, submitType }
     ) {
       await dispatch(`sendTx`, {
-        type: `postWithdrawDelegatorRewards`,
-        to: wallet.address,
+        type: `MsgWithdrawDelegationReward`,
+        txArguments: {
+          toAddress: session.address,
+          validatorAddresses: Object.keys(state.committedDelegates)
+        },
         gas,
         gas_prices,
         password,

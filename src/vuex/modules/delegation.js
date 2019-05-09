@@ -142,7 +142,7 @@ export default ({ node }) => {
         rootState: { stakingParameters, session },
         dispatch
       },
-      { validator_address, amount, password, submitType }
+      { validator_address, amount }
     ) {
       const denom = stakingParameters.parameters.bond_denom
       amount = {
@@ -151,13 +151,13 @@ export default ({ node }) => {
       }
 
       return await dispatch(`simulateTx`, {
-        type: `postDelegation`,
-        to: session.address, // TODO strange syntax
-        password,
-        submitType,
-        delegator_address: session.address,
-        validator_address,
-        amount
+        type: `MsgDelegate`,
+        txArguments: {
+          toAddress: session.address,
+          delegator_address: session.address,
+          validator_address,
+          amount
+        }
       })
     },
     async submitDelegation(
@@ -177,15 +177,17 @@ export default ({ node }) => {
       }
 
       await dispatch(`sendTx`, {
-        type: `postDelegation`,
-        to: session.address,
+        type: `MsgDelegate`,
+        txArguments: {
+          toAddress: session.address,
+          delegator_address: session.address,
+          validator_address,
+          amount
+        },
         gas,
         gas_prices,
         password,
-        submitType,
-        delegator_address: session.address,
-        validator_address,
-        amount
+        submitType
       })
 
       // optimistic update the atoms of the user before we get the new values from chain
@@ -217,11 +219,13 @@ export default ({ node }) => {
         amount: String(amount)
       }
       return await dispatch(`simulateTx`, {
-        type: `postUnbondingDelegation`,
-        to: session.address,
-        delegator_address: session.address,
-        validator_address: validator.operator_address,
-        amount
+        type: `MsgUndelegate`,
+        txArguments: {
+          toAddress: session.address,
+          delegator_address: session.address,
+          validator_address: validator.operator_address,
+          amount
+        }
       })
     },
     async submitUnbondingDelegation(
@@ -237,11 +241,13 @@ export default ({ node }) => {
         amount: String(amount)
       }
       await dispatch(`sendTx`, {
-        type: `postUnbondingDelegation`,
-        to: session.address,
-        delegator_address: session.address,
-        validator_address: validator.operator_address,
-        amount,
+        type: `MsgUndelegate`,
+        txArguments: {
+          toAddress: session.address,
+          delegator_address: session.address,
+          validator_address: validator.operator_address,
+          amount
+        },
         gas,
         gas_prices,
         password,
@@ -262,12 +268,14 @@ export default ({ node }) => {
         amount: String(amount)
       }
       return await dispatch(`simulateTx`, {
-        type: `postRedelegation`,
-        to: session.address,
-        delegator_address: session.address,
-        validator_src_address: validatorSrc.operator_address,
-        validator_dst_address: validatorDst.operator_address,
-        amount
+        type: `MsgRedelegate`,
+        txArguments: {
+          toAddress: session.address,
+          delegator_address: session.address,
+          validator_src_address: validatorSrc.operator_address,
+          validator_dst_address: validatorDst.operator_address,
+          amount
+        }
       })
     },
     async submitRedelegation(
@@ -292,12 +300,14 @@ export default ({ node }) => {
       }
 
       await dispatch(`sendTx`, {
-        type: `postRedelegation`,
-        to: session.address,
-        delegator_address: session.address,
-        validator_src_address: validatorSrc.operator_address,
-        validator_dst_address: validatorDst.operator_address,
-        amount,
+        type: `MsgRedelegate`,
+        txArguments: {
+          toAddress: session.address,
+          delegator_address: session.address,
+          validator_src_address: validatorSrc.operator_address,
+          validator_dst_address: validatorDst.operator_address,
+          amount
+        },
         gas,
         gas_prices,
         password,
