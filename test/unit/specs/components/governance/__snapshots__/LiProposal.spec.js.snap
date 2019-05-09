@@ -45,7 +45,7 @@ exports[`LiProposal has the expected html structure 1`] = `
     class="li-proposal__value yes"
   >
     
-    84.60%
+    84.6%
   
   </td>
    
@@ -120,7 +120,7 @@ exports[`LiProposal should survive the tally result not being present yet 1`] = 
     class="li-proposal__value yes"
   >
     
-    0.00%
+    0.01%
   
   </td>
    
@@ -128,7 +128,7 @@ exports[`LiProposal should survive the tally result not being present yet 1`] = 
     class="li-proposal__value no"
   >
     
-    0.00%
+    0.01%
   
   </td>
    
@@ -136,7 +136,7 @@ exports[`LiProposal should survive the tally result not being present yet 1`] = 
     class="li-proposal__value no_with_veto"
   >
     
-    0.00%
+    0.01%
   
   </td>
    
@@ -144,7 +144,7 @@ exports[`LiProposal should survive the tally result not being present yet 1`] = 
     class="li-proposal__value abstain"
   >
     
-    0.00%
+    0.01%
   
   </td>
 </tr>
