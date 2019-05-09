@@ -32,6 +32,8 @@
           the scope of our coordinated disclosure policy.</span
         >
       </p>
+    </div>
+    <div class="card">
       <h2 class="c5">Vulnerability Disclosure Process</h2>
       <p>
         Once we receive a vulnerability report, the Lunie will take these steps
@@ -78,6 +80,8 @@
           >
         </li>
       </ol>
+    </div>
+    <div class="card">
       <h2 class="c5">Contact Us</h2>
       <p>
         You can contact our team directly at security@lunie.io which is
