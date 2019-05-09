@@ -32,16 +32,16 @@
     </td>
     <td>{{ `#` + proposal.proposal_id }}</td>
     <td class="li-proposal__value yes">
-      {{ tally.yes | percentOrPending(totalVotes, isDepositPeriod) }}
+      {{ roundedPercentagesTally.yes | prettyDecimals }}%
     </td>
     <td class="li-proposal__value no">
-      {{ tally.no | percentOrPending(totalVotes, isDepositPeriod) }}
+      {{ roundedPercentagesTally.no | prettyDecimals }}%
     </td>
     <td class="li-proposal__value no_with_veto">
-      {{ tally.no_with_veto | percentOrPending(totalVotes, isDepositPeriod) }}
+      {{ roundedPercentagesTally.no_with_veto | prettyDecimals }}%
     </td>
     <td class="li-proposal__value abstain">
-      {{ tally.abstain | percentOrPending(totalVotes, isDepositPeriod) }}
+      {{ roundedPercentagesTally.abstain | prettyDecimals }}%
     </td>
   </tr>
 </template>
@@ -49,11 +49,12 @@
 <script>
 import BigNumber from "bignumber.js"
 import { mapGetters } from "vuex"
-import { percentOrPending } from "../../filters"
+import { roundObjectPercentages } from "../../utils"
+import { prettyDecimals } from "../../scripts/num"
 export default {
   name: `li-proposal`,
   filters: {
-    percentOrPending
+    prettyDecimals
   },
   props: {
     proposal: {
@@ -66,22 +67,25 @@ export default {
     tally() {
       const { yes, no, abstain, no_with_veto } =
         this.proposals.tallies[this.proposal.proposal_id] || {}
-      return {
-        yes: yes || BigNumber(0),
-        no: no || BigNumber(0),
-        abstain: abstain || BigNumber(0),
-        no_with_veto: no_with_veto || BigNumber(0)
-      }
-    },
-    isDepositPeriod() {
-      return this.proposal.proposal_status === `DepositPeriod`
-    },
-    totalVotes({ tally: { yes, no, no_with_veto, abstain } } = this) {
-      return BigNumber(yes)
+
+      const totalVotes = BigNumber(yes)
         .plus(no)
         .plus(no_with_veto)
         .plus(abstain)
         .toNumber()
+      const totalMult = totalVotes / 100
+      return {
+        yes: yes / totalMult || BigNumber(0),
+        no: no / totalMult || BigNumber(0),
+        abstain: abstain / totalMult || BigNumber(0),
+        no_with_veto: no_with_veto / totalMult || BigNumber(0)
+      }
+    },
+    roundedPercentagesTally() {
+      return roundObjectPercentages(this.tally)
+    },
+    isDepositPeriod() {
+      return this.proposal.proposal_status === `DepositPeriod`
     },
     status() {
       switch (this.proposal.proposal_status) {
