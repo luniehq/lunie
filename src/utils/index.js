@@ -1,11 +1,11 @@
 // This will take an object and for each (k,v) will return
 // v rounded such that the sum of all v is 100.
-export const roundObjectPercentages = o => {
+export const roundObjectPercentages = dataMap => {
   // This algorithm workson integers and we want 2 decimal places.
   // So round up first.
-  let asArray = Object.entries(o).map(v => {
-    v[1] = v[1] * 100
-    return v
+  let asArray = Object.entries(dataMap).map(keyValue => {
+    keyValue[1] = keyValue[1] * 100
+    return keyValue
   })
 
   // Calculate difference from 100%
