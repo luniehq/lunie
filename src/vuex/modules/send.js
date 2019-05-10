@@ -17,7 +17,7 @@ export default ({ node }) => {
   const mutations = {}
 
   const actions = {
-    async simulateTx({ state, rootState }, { type, txArguments, memo }) {
+    async simulateTx({ rootState }, { type, txArguments, memo }) {
       if (!rootState.connection.connected) {
         throw Error(
           `Currently not connected to a secure node. Please try again when Lunie has secured a connection.`
@@ -25,7 +25,7 @@ export default ({ node }) => {
       }
       const cosmos = new Cosmos(
         node.url,
-        rootState.connection.lastHeader.height
+        rootState.connection.lastHeader.chain_id
       )
 
       const gasEstimate = cosmos[type](
@@ -47,7 +47,7 @@ export default ({ node }) => {
 
       const cosmos = new Cosmos(
         node.url,
-        rootState.connection.lastHeader.height
+        rootState.connection.lastHeader.chain_id
       )
 
       const signer = getSigner(state, rootState, { submitType, password })
