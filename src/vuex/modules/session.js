@@ -193,7 +193,7 @@ export default () => {
       const localPreferences = localStorage.getItem(USER_PREFERENCES_KEY)
 
       // don't track in development
-      if (process.env.NODE_ENV !== "production") return
+      if (state.developmentMode) return
 
       if (!localPreferences) {
         state.cookiesAccepted = false
@@ -221,7 +221,7 @@ export default () => {
     },
     setErrorCollection({ state, dispatch }, enabled) {
       // don't track in development
-      if (process.env.NODE_ENV !== "production") return
+      if (state.developmentMode) return
 
       state.errorCollection = enabled
       dispatch(`storeLocalPreferences`)
@@ -239,7 +239,7 @@ export default () => {
     },
     setAnalyticsCollection({ state, dispatch }, enabled) {
       // don't track in development
-      if (process.env.NODE_ENV !== "production") return
+      if (state.developmentMode) return
 
       state.analyticsCollection = enabled
       dispatch(`storeLocalPreferences`)

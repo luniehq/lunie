@@ -17,13 +17,13 @@ export default ({ node }) => {
   const mutations = {}
 
   const actions = {
-    async simulateTx({ rootState }, { type, txArguments, memo }) {
+    async simulateTx({ state, rootState }, { type, txArguments, memo }) {
       if (!rootState.connection.connected) {
         throw Error(
           `Currently not connected to a secure node. Please try again when Lunie has secured a connection.`
         )
       }
-      const cosmos = new Cosmos(
+      const cosmos = new state.externals.Cosmos(
         node.url,
         rootState.connection.lastHeader.chain_id
       )
@@ -45,7 +45,7 @@ export default ({ node }) => {
         )
       }
 
-      const cosmos = new Cosmos(
+      const cosmos = new state.externals.Cosmos(
         node.url,
         rootState.connection.lastHeader.chain_id
       )
@@ -74,14 +74,14 @@ export default ({ node }) => {
   }
 }
 
-function getSigner(state, rootState, { submitType, password }) {
+export function getSigner(state, rootState, { submitType, password }) {
   if (submitType === `local`) {
     return signMessage => {
       const wallet = state.externals.getKey(
         rootState.session.localKeyPairName,
         password
       )
-      const signature = signWithPrivateKey(signMessage, wallet.privateKey)
+      const signature = state.externals.signWithPrivateKey(signMessage, wallet.privateKey)
 
       return {
         signature,
