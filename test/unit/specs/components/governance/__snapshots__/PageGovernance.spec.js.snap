@@ -198,12 +198,8 @@ exports[`PageGovernance disables proposal creation if not connected 1`] = `
     <router-view-stub />
   </main>
    
-  <footer
-    class="footer"
-  >
-    <ul
-      class="link-list"
-    >
+  <footer>
+    <ul>
       <li>
         <router-link-stub
           class="app-menu-item-small"
@@ -212,8 +208,8 @@ exports[`PageGovernance disables proposal creation if not connected 1`] = `
           to="/about"
         >
           
-          About
-        
+        About
+      
         </router-link-stub>
       </li>
        
@@ -225,8 +221,8 @@ exports[`PageGovernance disables proposal creation if not connected 1`] = `
           to="/terms"
         >
           
-          Terms of Service
-        
+        Terms of Service
+      
         </router-link-stub>
       </li>
        
@@ -238,8 +234,8 @@ exports[`PageGovernance disables proposal creation if not connected 1`] = `
           to="/privacy"
         >
           
-          Privacy Policy
-        
+        Privacy Policy
+      
         </router-link-stub>
       </li>
        
@@ -251,8 +247,8 @@ exports[`PageGovernance disables proposal creation if not connected 1`] = `
           to="/security"
         >
           
-          Security
-        
+        Security
+      
         </router-link-stub>
       </li>
     </ul>
@@ -457,12 +453,8 @@ exports[`PageGovernance has the expected html structure 1`] = `
     <router-view-stub />
   </main>
    
-  <footer
-    class="footer"
-  >
-    <ul
-      class="link-list"
-    >
+  <footer>
+    <ul>
       <li>
         <router-link-stub
           class="app-menu-item-small"
@@ -471,8 +463,8 @@ exports[`PageGovernance has the expected html structure 1`] = `
           to="/about"
         >
           
-          About
-        
+        About
+      
         </router-link-stub>
       </li>
        
@@ -484,8 +476,8 @@ exports[`PageGovernance has the expected html structure 1`] = `
           to="/terms"
         >
           
-          Terms of Service
-        
+        Terms of Service
+      
         </router-link-stub>
       </li>
        
@@ -497,8 +489,8 @@ exports[`PageGovernance has the expected html structure 1`] = `
           to="/privacy"
         >
           
-          Privacy Policy
-        
+        Privacy Policy
+      
         </router-link-stub>
       </li>
        
@@ -510,8 +502,8 @@ exports[`PageGovernance has the expected html structure 1`] = `
           to="/security"
         >
           
-          Security
-        
+        Security
+      
         </router-link-stub>
       </li>
     </ul>

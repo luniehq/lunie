@@ -1,6 +1,6 @@
 <template>
   <transition v-if="show" name="slide-fade">
-    <div class="action-modal">
+    <div v-focus-last class="action-modal" tabindex="0" @keyup.esc="close">
       <div class="action-modal-header">
         <img
           class="icon action-modal-atom"
@@ -63,6 +63,13 @@
           :gas-estimate="Number(gasEstimate)"
           :gas-price="Number(gasPrice)"
         />
+        <TmFormMsg
+          v-if="$v.invoiceTotal.$invalid"
+          name="Total"
+          type="between"
+          min="0"
+          :max="atoms(balance)"
+        />
       </div>
       <div v-else-if="step === `sign`" class="action-modal-form">
         <TmFormGroup
@@ -80,15 +87,21 @@
         </TmFormGroup>
         <HardwareState
           v-if="selectedSignMethod === `ledger`"
-          icon="usb"
+          :icon="session.browserWithLedgerSupport ? 'usb' : 'info'"
           :loading="!!sending"
         >
-          {{
-            sending
-              ? `Please verify and sign the transaction on your Ledger`
-              : `Please plug in your Ledger&nbsp;Nano&nbsp;S and open
-          the Cosmos app`
-          }}
+          <div v-if="session.browserWithLedgerSupport">
+            {{
+              sending
+                ? `Please verify and sign the transaction on your Ledger`
+                : `Please plug in your Ledger&nbsp;Nano&nbsp;S and open
+            the Cosmos app`
+            }}
+          </div>
+          <div v-else>
+            Please use Chrome, Brave, or Opera. Ledger is not supported in your
+            current browser.
+          </div>
         </HardwareState>
         <TmFormGroup
           v-else-if="selectedSignMethod === `local`"
@@ -140,12 +153,14 @@
                 v-else-if="step !== `sign`"
                 color="primary"
                 value="Next"
+                :disabled="step === `fees` && $v.invoiceTotal.$invalid"
                 @click.native="validateChangeStep"
               />
               <TmBtn
                 v-else
                 color="primary"
                 value="Submit"
+                :disabled="!browserWithLedgerSupport"
                 @click.native="validateChangeStep"
               />
             </div>
@@ -246,6 +261,11 @@ export default {
     balance() {
       return this.liquidAtoms
     },
+    invoiceTotal() {
+      return (
+        Number(this.amount) + Number(this.gasPrice) * Number(this.gasEstimate)
+      )
+    },
     isValidChildForm() {
       // here we trigger the validation of the child form
       if (this.validate) {
@@ -318,6 +338,9 @@ export default {
           return
         case feeStep:
           if (!this.isValidInput(`gasPrice`)) {
+            return
+          }
+          if (!this.isValidInput(`invoiceTotal`)) {
             return
           }
           this.step = signStep
@@ -396,6 +419,9 @@ export default {
         ),
         // we don't use SMALLEST as min gas price because it can be a fraction of uatom
         // min is 0 because we support sending 0 fees
+        between: between(0, atoms(this.balance))
+      },
+      invoiceTotal: {
         between: between(0, atoms(this.balance))
       }
     }

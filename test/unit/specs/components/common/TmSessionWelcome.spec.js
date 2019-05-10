@@ -7,7 +7,12 @@ describe(`TmSessionWelcome`, () => {
 
   beforeEach(() => {
     const getters = {
-      session: { accounts, insecureMode: true, developmentMode: true },
+      session: {
+        accounts,
+        insecureMode: true,
+        developmentMode: true,
+        browserWithLedgerSupport: null
+      },
       lastPage: `/`
     }
     $store = {
@@ -92,6 +97,10 @@ describe(`TmSessionWelcome`, () => {
     })
 
     it(`sets desired login method`, () => {
+      Object.defineProperty(window.navigator, `userAgent`, {
+        value: `Chrome`,
+        writable: true
+      })
       wrapper.vm.setState(`xxx`)
       expect($store.commit).toHaveBeenCalledWith(`setSessionModalView`, `xxx`)
     })

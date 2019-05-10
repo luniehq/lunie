@@ -4,6 +4,7 @@ exports[`ActionModal should show the action modal when user has logged in with l
 <div
   class="action-modal"
   name="slide-fade"
+  tabindex="0"
 >
   <div
     class="action-modal-header"
@@ -60,6 +61,7 @@ exports[`ActionModal should show the action modal when user has logged in with l
 <div
   class="action-modal"
   name="slide-fade"
+  tabindex="0"
 >
   <div
     class="action-modal-header"
@@ -99,6 +101,8 @@ exports[`ActionModal should show the action modal when user has logged in with l
       gasestimate="0"
       gasprice="2.5e-8"
     />
+     
+    <!---->
   </div>
    
   <div
@@ -124,6 +128,7 @@ exports[`ActionModal should show the action modal when user has logged in with l
 <div
   class="action-modal"
   name="slide-fade"
+  tabindex="0"
 >
   <div
     class="action-modal-header"
@@ -159,12 +164,14 @@ exports[`ActionModal should show the action modal when user has logged in with l
     <!---->
      
     <hardwarestate-stub
-      icon="usb"
+      icon="info"
     >
-      
-        Please plug in your Ledger Nano S and open
-        the Cosmos app
-      
+      <div>
+        
+          Please use Chrome, Brave, or Opera. Ledger is not supported in your
+          current browser.
+        
+      </div>
     </hardwarestate-stub>
   </div>
    
@@ -177,6 +184,7 @@ exports[`ActionModal should show the action modal when user has logged in with l
       <div>
         <tmbtn-stub
           color="primary"
+          disabled="true"
           value="Submit"
         />
       </div>
@@ -191,6 +199,7 @@ exports[`ActionModal should show the action modal when user has logged in with l
 <div
   class="action-modal"
   name="slide-fade"
+  tabindex="0"
 >
   <div
     class="action-modal-header"
@@ -247,6 +256,7 @@ exports[`ActionModal should show the action modal when user has logged in with l
 <div
   class="action-modal"
   name="slide-fade"
+  tabindex="0"
 >
   <div
     class="action-modal-header"
@@ -286,6 +296,8 @@ exports[`ActionModal should show the action modal when user has logged in with l
       gasestimate="0"
       gasprice="2.5e-8"
     />
+     
+    <!---->
   </div>
    
   <div
@@ -311,6 +323,7 @@ exports[`ActionModal should show the action modal when user has logged in with l
 <div
   class="action-modal"
   name="slide-fade"
+  tabindex="0"
 >
   <div
     class="action-modal-header"
@@ -369,6 +382,7 @@ exports[`ActionModal should show the action modal when user has logged in with l
       <div>
         <tmbtn-stub
           color="primary"
+          disabled="true"
           value="Submit"
         />
       </div>
@@ -383,6 +397,7 @@ exports[`ActionModal should show the action modal when user hasn't logged in 1`]
 <div
   class="action-modal"
   name="slide-fade"
+  tabindex="0"
 >
   <div
     class="action-modal-header"

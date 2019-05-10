@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <TmPage data-title="Security" hide-header>
     <div class="card">
       <h1>Security</h1>
       <h2 class="c5">Coordinated Vulnerability Disclosure Policy</h2>
@@ -87,12 +87,17 @@
         makes it difficult for us to reduce harm for our users and community.
       </p>
     </div>
-  </div>
+  </TmPage>
 </template>
 
 <script>
+import TmPage from "common/TmPage"
+
 export default {
-  name: `page-security`
+  name: `page-security`,
+  components: {
+    TmPage
+  }
 }
 </script>
 

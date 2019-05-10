@@ -1,9 +1,11 @@
 import { shallowMount, createLocalVue } from "@vue/test-utils"
 import Vuelidate from "vuelidate"
 import ActionModal from "src/components/common/ActionModal"
+import { focusParentLast } from "directives"
 
 const localVue = createLocalVue()
 localVue.use(Vuelidate)
+localVue.directive("focus-last", focusParentLast)
 
 describe(`ActionModal`, () => {
   let wrapper, $store
@@ -18,7 +20,8 @@ describe(`ActionModal`, () => {
           signedIn: true,
           sessionType: `local`,
           gasPrice: 2.5e-8,
-          gasAdjustment: 1.5
+          gasAdjustment: 1.5,
+          browserWithLedgerSupport: null
         },
         bondDenom: `uatom`,
         wallet: {
@@ -205,6 +208,11 @@ describe(`ActionModal`, () => {
       wrapper.vm.close()
       expect(wrapper.vm.step).toBe(`txDetails`)
     })
+
+    it(`should close on escape key press`, () => {
+      wrapper.trigger("keyup.esc")
+      expect(wrapper.isEmpty()).toBe(true)
+    })
   })
 
   describe(`validates child form`, () => {
@@ -260,6 +268,27 @@ describe(`ActionModal`, () => {
         wrapper.vm.session.experimentalMode = true
         wrapper.setData({ gasPrice: undefined })
         expect(wrapper.vm.isValidInput(`gasPrice`)).toBe(false)
+      })
+    })
+  })
+
+  describe(`validates total price does not exceed available atoms`, () => {
+    beforeEach(() => {
+      wrapper.setData({ gasPrice: 10 })
+      wrapper.setData({ gasEstimate: 2 })
+    })
+
+    describe(`success`, () => {
+      it(`when the total invoice amount is less than the balance`, () => {
+        wrapper.setProps({ amount: 1210 })
+        expect(wrapper.vm.isValidInput(`invoiceTotal`)).toBe(true)
+      })
+    })
+
+    describe(`fails`, () => {
+      it(`when the total invoice amount is more than the balance`, () => {
+        wrapper.setProps({ amount: 1211 })
+        expect(wrapper.vm.isValidInput(`invoiceTotal`)).toBe(false)
       })
     })
   })

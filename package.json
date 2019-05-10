@@ -1,7 +1,7 @@
 {
   "name": "lunie",
   "productName": "lunie",
-  "version": "1.0.0-beta.58",
+  "version": "1.0.0-beta.63",
   "description": "Lunie is the user interface for the Cosmos Hub.",
   "author": "Lunie International Software Systems Inc. <hello@lunie.io>",
   "license": "Apache-2.0",
@@ -27,7 +27,7 @@
     "test:unit": "cross-env NODE_ENV=testing jest --maxWorkers=2",
     "test:e2e": "nightwatch --config ./test/e2e/nightwatch.conf.js",
     "test:exe": "node tasks/test-build.js",
-    "test:coverage": "http-server test/unit/coverage/lcov-report",
+    "test:coverage": "live-server test/unit/coverage/lcov-report",
     "release": "git checkout develop & git pull & git push origin develop:release",
     "watch": "tasks/watch.sh",
     "testnet": "docker-compose -f ./tasks/local-testnet/docker-compose.yml up",
