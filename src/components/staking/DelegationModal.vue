@@ -6,7 +6,7 @@
     :simulate-fn="simulateForm"
     :validate="validateForm"
     :amount="amount"
-    title="Delegate"
+    :title="isRedelegation() ? 'Redelegate' : 'Delegate'"
     class="delegation-modal"
     submission-error-prefix="Delegating failed"
     @close="clear"
@@ -136,6 +136,9 @@ export default {
 
       this.selectedIndex = 0
       this.amount = null
+    },
+    isRedelegation() {
+      return this.from !== this.session.address
     },
     async simulateDelegation() {
       return await this.$store.dispatch(`simulateDelegation`, {
