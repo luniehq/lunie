@@ -86,7 +86,7 @@ const getters = {
 describe(`PageValidator`, () => {
   let wrapper, $store
   const localVue = createLocalVue()
-  localVue.directive(`tooltip`, () => {})
+  localVue.directive(`tooltip`, () => { })
 
   beforeEach(() => {
     $store = {
@@ -103,6 +103,16 @@ describe(`PageValidator`, () => {
         }
       }
     })
+  })
+
+  it("loads validators on mount", () => {
+    const self = {
+      $store: {
+        dispatch: jest.fn()
+      }
+    }
+    PageValidator.mounted.call(self)
+    expect($store.dispatch).toHaveBeenCalledWith("updateDelegates")
   })
 
   describe(`shows a validator profile information`, () => {
@@ -433,8 +443,8 @@ describe(`PageValidator`, () => {
     describe(`should update rewards `, () => {
       it(
         `if waited for 20 blocks, ` +
-          `user has signed in, ` +
-          `has delegations and is watching the validator page`,
+        `user has signed in, ` +
+        `has delegations and is watching the validator page`,
         () => {
           const $store = { dispatch: jest.fn() }
           const session = { signedIn: true }
