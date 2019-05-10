@@ -5,7 +5,7 @@
     </div>
     <div class="tm-li-session-text">
       <div class="tm-li-session-title">
-        <span v-html="title"></span>
+        <span>{{ title }}</span>
       </div>
       <div class="tm-li-session-subtitle">
         {{ subtitle }}
