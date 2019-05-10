@@ -18,21 +18,21 @@
         </div>
       </div>
       <div class="step--container">
-        <step-component
-          stepTitle="Details"
-          :step=step
-          stepName="txDetails"
-        ></step-component>
-        <step-component
-          stepTitle="Details"
-          :step=step
-          stepName="txDetails"
-        ></step-component>
-        <step-component
-          stepTitle="Details"
-          :step=step
-          stepName="txDetails"
-        ></step-component>
+        <StepComponent
+          step-title="Details"
+          :step="step"
+          step-name="txDetails"
+        ></StepComponent>
+        <StepComponent
+          step-title="Details"
+          :step="step"
+          step-name="txDetails"
+        ></StepComponent>
+        <StepComponent
+          step-title="Details"
+          :step="step"
+          step-name="txDetails"
+        ></StepComponent>
       </div>
       <div v-if="requiresSignIn" class="action-modal-form">
         <p>You need to sign in to submit a transaction.</p>
