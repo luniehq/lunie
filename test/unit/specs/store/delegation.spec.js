@@ -255,7 +255,7 @@ describe(`Module: Delegations`, () => {
       gas,
       gas_prices,
       submitType,
-      password,
+      password
     })
 
     expect(dispatch).toHaveBeenCalledWith(`getAllTxs`)
@@ -315,7 +315,7 @@ describe(`Module: Delegations`, () => {
         amount: {
           amount: `10`,
           denom: `STAKE`
-        },
+        }
       },
       password,
       submitType
@@ -508,7 +508,7 @@ describe(`Module: Delegations`, () => {
         getters: {
           liquidAtoms: 1000
         },
-        dispatch: () => { },
+        dispatch: () => {},
         commit
       },
       {

@@ -161,7 +161,9 @@ describe(`Module: Fee Distribution`, () => {
       it(`success withdrawal`, async () => {
         await actions.withdrawAllRewards(
           {
-            rootState, dispatch, getters: {
+            rootState,
+            dispatch,
+            getters: {
               committedDelegations: {
                 coolval1: {}
               }

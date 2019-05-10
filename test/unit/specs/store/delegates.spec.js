@@ -164,7 +164,7 @@ describe(`Module: Delegates`, () => {
   it(`throttles validator fetching to every 20 blocks`, async () => {
     let node = {
       get: {
-        validatorSigningInfo: jest.fn(() => { })
+        validatorSigningInfo: jest.fn(() => {})
       }
     }
     instance = delegatesModule({

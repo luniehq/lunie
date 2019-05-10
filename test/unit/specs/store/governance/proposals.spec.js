@@ -121,14 +121,13 @@ describe(`Module: Proposals`, () => {
         node: {
           get: {
             proposals: () => Promise.reject(new Error(`Error`))
-
           }
         }
       })
       const { actions, state } = moduleInstance
       await actions.getProposals({
         state,
-        commit: () => { },
+        commit: () => {},
         rootState: mockRootState
       })
       expect(state.error.message).toBe(`Error`)

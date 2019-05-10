@@ -5,7 +5,7 @@ import SendModal from "src/components/wallet/SendModal"
 describe(`SendModal`, () => {
   const localVue = createLocalVue()
   localVue.use(Vuelidate)
-  localVue.directive(`focus`, () => { })
+  localVue.directive(`focus`, () => {})
 
   let wrapper, $store
 
@@ -138,7 +138,7 @@ describe(`SendModal`, () => {
         type: `MsgSend`,
         txArguments: {
           toAddress: `cosmos1address`,
-          amounts: [{ amount: `10000000`, denom: `uatom` }],
+          amounts: [{ amount: `10000000`, denom: `uatom` }]
         },
         memo: `TESTING (Sent via Lunie)`
       })
@@ -174,7 +174,7 @@ describe(`SendModal`, () => {
         type: `MsgSend`,
         txArguments: {
           toAddress: `cosmos1address`,
-          amounts: [{ amount: `10000000`, denom: `uatom` }],
+          amounts: [{ amount: `10000000`, denom: `uatom` }]
         },
         gas,
         gas_prices,

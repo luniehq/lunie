@@ -81,7 +81,10 @@ export function getSigner(state, rootState, { submitType, password }) {
         rootState.session.localKeyPairName,
         password
       )
-      const signature = state.externals.signWithPrivateKey(signMessage, wallet.privateKey)
+      const signature = state.externals.signWithPrivateKey(
+        signMessage,
+        wallet.privateKey
+      )
 
       return {
         signature,

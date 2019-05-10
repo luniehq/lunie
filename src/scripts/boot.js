@@ -10,7 +10,6 @@ import Tooltip from "vue-directive-tooltip"
 import Vuelidate from "vuelidate"
 import VueClipboard from "vue-clipboard2"
 import * as _Sentry from "@sentry/browser"
-import axios from "axios"
 
 import App from "../App"
 import routes from "../routes"

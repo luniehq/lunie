@@ -15,7 +15,7 @@ const denoms = [`mycoin`, `fermion`, `STAKE`]
 const config = { faucet, denoms }
 
 describe(`Module: Wallet`, () => {
-  let instance, actions, state
+  let instance, state
 
   beforeEach(() => {
     instance = walletModule({
@@ -24,7 +24,6 @@ describe(`Module: Wallet`, () => {
       }
     })
     state = instance.state
-    actions = instance.actions
     state.externals = {
       config,
       axios: {
@@ -302,7 +301,6 @@ describe(`Module: Wallet`, () => {
       const node = {
         get: {
           account: jest.fn(() => Promise.reject(new Error(`Error`)))
-
         }
       }
       const { state, actions } = walletModule({

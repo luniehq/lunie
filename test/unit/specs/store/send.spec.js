@@ -61,7 +61,7 @@ const mockRootState = {
 }
 
 describe(`Module: Send`, () => {
-  let module, state, actions, mutations, node
+  let module, state, actions, node
   const gas_prices = [
     {
       amount: `0.025`, // recommended on Cosmos Docs
@@ -92,7 +92,6 @@ describe(`Module: Send`, () => {
       node
     })
     state = module.state
-    actions = module.actions
     mutations = module.mutations
   })
 
