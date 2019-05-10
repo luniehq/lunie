@@ -6,7 +6,6 @@ import Ledger from "scripts/ledger"
 export default ({ node }) => {
   const state = {
     node,
-    cosmos: new Cosmos(node.url),
     externals: {
       Cosmos,
       Ledger,
@@ -24,8 +23,12 @@ export default ({ node }) => {
           `Currently not connected to a secure node. Please try again when Lunie has secured a connection.`
         )
       }
+      const cosmos = new Cosmos(
+        node.url,
+        rootState.connection.lastHeader.height
+      )
 
-      const gasEstimate = state.cosmos[type](
+      const gasEstimate = cosmos[type](
         rootState.session.address,
         txArguments
       ).simulate({ memo: memo })
@@ -34,7 +37,7 @@ export default ({ node }) => {
     },
     async sendTx(
       { state, rootState },
-      { type, txArguments, gas, gasPrice, memo, submitType, password }
+      { type, txArguments, gas, gas_prices, memo, submitType, password }
     ) {
       if (!rootState.connection.connected) {
         throw Error(
@@ -42,12 +45,24 @@ export default ({ node }) => {
         )
       }
 
+      const cosmos = new Cosmos(
+        node.url,
+        rootState.connection.lastHeader.height
+      )
+
       const signer = getSigner(state, rootState, { submitType, password })
 
-      const { included } = await state.cosmos[type](
+      const { included } = await cosmos[type](
         rootState.session.address,
         txArguments
-      ).send({ gas, gasPrice, memo }, signer)
+      ).send(
+        {
+          gas,
+          gasPrices: gas_prices,
+          memo
+        },
+        signer
+      )
       await included()
     }
   }
@@ -76,9 +91,8 @@ function getSigner(state, rootState, { submitType, password }) {
   } else {
     return async signMessage => {
       const ledger = new state.externals.Ledger()
-      await ledger.connect()
-      const signature = await ledger.sign(signMessage)
       const publicKey = await ledger.getPubKey()
+      const signature = await ledger.sign(signMessage)
 
       return {
         signature,

@@ -17,8 +17,12 @@ export default class Ledger {
   async testLedgerDevice() {
     // poll device with low timeout to check if the device is connected
     const secondsTimeout = 3 // a lower value always timeouts
-    this.connect(secondsTimeout)
+    await this.connect(secondsTimeout)
+    await this.testConnection()
 
+    this.cosmosApp = null
+  }
+  async testConnection() {
     // check if the device is connected or on screensaver mode
     const response = await this.cosmosApp.publicKey(HDPATH)
 
@@ -35,24 +39,22 @@ export default class Ledger {
       default:
         throw new Error(response.error_message)
     }
-
-    this.cosmosApp = null
   }
   async connect(timeout = INTERACTION_TIMEOUT) {
     // do not reconnect if already connected
     if (this.cosmosApp) return this
-
-    await this.testLedgerDevice()
 
     const communicationMethod = await comm_u2f.create_async(timeout, true)
     const cosmosLedgerApp = new App(communicationMethod)
 
     this.cosmosApp = cosmosLedgerApp
 
+    await this.testConnection()
+
     return this
   }
   async getCosmosAppVersion() {
-    this.connect()
+    await this.connect()
 
     const response = await this.cosmosApp.get_version()
     checkLedgerErrors(response)
@@ -60,7 +62,7 @@ export default class Ledger {
     return { major, minor, patch, test_mode }
   }
   async getPubKey() {
-    this.connect()
+    await this.connect()
 
     const response = await this.cosmosApp.publicKey(HDPATH)
     checkLedgerErrors(response)
