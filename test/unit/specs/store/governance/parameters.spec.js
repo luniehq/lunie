@@ -13,11 +13,13 @@ describe(`Module: Governance Parameters`, () => {
 
   beforeEach(() => {
     node = {
-      getGovDepositParameters: () =>
-        Promise.resolve(governanceParameters.deposit),
-      getGovTallyingParameters: () =>
-        Promise.resolve(governanceParameters.tallying),
-      getGovVotingParameters: () => Promise.resolve(governanceParameters.voting)
+      get: {
+        govDepositParameters: () =>
+          Promise.resolve(governanceParameters.deposit),
+        govTallyingParameters: () =>
+          Promise.resolve(governanceParameters.tallying),
+        govVotingParameters: () => Promise.resolve(governanceParameters.voting)
+      }
     }
     module = parametersModule({
       node

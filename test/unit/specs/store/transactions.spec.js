@@ -17,10 +17,12 @@ describe(`Module: Transactions`, () => {
 
   beforeEach(async () => {
     node = {
-      txs: () => Promise.resolve([{ txhash: 2 }]),
-      getStakingTxs: () => Promise.resolve([{ txhash: 1 }]),
-      getGovernanceTxs: () => Promise.resolve([{ txhash: 3 }, { txhash: 3 }]),
-      getDistributionTxs: () => Promise.resolve([{ txhash: 4 }])
+      get: {
+        bankTxs: () => Promise.resolve([{ txhash: 2 }]),
+        stakingTxs: () => Promise.resolve([{ txhash: 1 }]),
+        governanceTxs: () => Promise.resolve([{ txhash: 3 }, { txhash: 3 }]),
+        distributionTxs: () => Promise.resolve([{ txhash: 4 }])
+      }
     }
     module = transactionsModule({ node })
     state = module.state
@@ -332,7 +334,9 @@ describe(`Module: Transactions`, () => {
 
       it(`should fetch txs with empty response`, async () => {
         node = {
-          getDistributionTxs: () => Promise.resolve(null)
+          get: {
+            distributionTxs: () => Promise.resolve(null)
+          }
         }
 
         const moduleInstance = transactionsModule({ node })

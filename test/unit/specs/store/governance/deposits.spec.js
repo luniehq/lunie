@@ -22,7 +22,7 @@ describe(`Module: Deposits`, () => {
   let module
 
   beforeEach(() => {
-    module = depositsModule({ node: {} })
+    module = depositsModule({ node: { get: {} } })
   })
 
   it(`adds deposits to state`, () => {
@@ -34,7 +34,9 @@ describe(`Module: Deposits`, () => {
   it(`fetches all deposits from a proposal`, async () => {
     module = depositsModule({
       node: {
-        getProposalDeposits: proposalId => Promise.resolve(deposits[proposalId])
+        get: {
+          proposalDeposits: proposalId => Promise.resolve(deposits[proposalId])
+        }
       }
     })
     const { actions, state } = module
@@ -65,7 +67,7 @@ describe(`Module: Deposits`, () => {
     })
 
     expect(self.dispatch).toHaveBeenCalledWith(`simulateTx`, {
-      type: `postProposalDeposit`,
+      type: `MsgDeposit`,
       to: `1`,
       proposal_id: `1`,
       depositor: mockRootState.wallet.address,
@@ -120,7 +122,9 @@ describe(`Module: Deposits`, () => {
   it(`should store an error if failed to load deposits`, async () => {
     module = depositsModule({
       node: {
-        getProposalDeposits: () => Promise.reject(new Error(`Error`))
+        get: {
+          proposalDeposits: () => Promise.reject(new Error(`Error`))
+        }
       }
     })
     const { actions, state } = module

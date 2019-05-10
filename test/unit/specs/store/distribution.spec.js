@@ -12,12 +12,12 @@ describe(`Module: Fee Distribution`, () => {
     community_tax: `15`
   }
   const node = {
-    getDelegatorRewards: jest.fn(async () => coinArray),
-    postWithdrawDelegatorRewards: jest.fn(),
-    getDelegatorRewardsFromValidator: jest.fn(async () => coinArray),
-    postWithdrawDelegatorRewardsFromValidator: jest.fn(),
-    getDistributionParameters: jest.fn(async () => parameters),
-    getDistributionOutstandingRewards: jest.fn(async () => coinArray)
+    get: {
+      delegatorRewards: jest.fn(async () => coinArray),
+      delegatorRewardsFromValidator: jest.fn(async () => coinArray),
+      distributionParameters: jest.fn(async () => parameters),
+      distributionOutstandingRewards: jest.fn(async () => coinArray)
+    }
   }
   const rewards = {
     stake: 100,
@@ -108,7 +108,7 @@ describe(`Module: Fee Distribution`, () => {
 
     describe(`getTotalRewards`, () => {
       beforeEach(() => {
-        node.getDelegatorRewards.mockClear()
+        node.get.delegatorRewards.mockClear()
       })
 
       it(`success`, async () => {
@@ -149,20 +149,32 @@ describe(`Module: Fee Distribution`, () => {
         const res = await actions.simulateWithdrawAllRewards(self)
 
         expect(self.dispatch).toHaveBeenCalledWith(`simulateTx`, {
-          type: `postWithdrawDelegatorRewards`,
-          to: `cosmos1address`
+          type: `MsgWithdrawDelegationReward`,
+          txArguments: {
+            toAddress: `cosmos1address`,
+            validatorAddresses: []
+          }
         })
         expect(res).toBe(123123)
       })
 
       it(`success withdrawal`, async () => {
         await actions.withdrawAllRewards(
-          { rootState, dispatch },
+          {
+            rootState, dispatch, getters: {
+              committedDelegations: {
+                coolval1: {}
+              }
+            }
+          },
           { password: ``, submitType: `ledger` }
         )
         expect(dispatch).toHaveBeenCalledWith(`sendTx`, {
-          to: `cosmos1address`,
-          type: `postWithdrawDelegatorRewards`,
+          type: `MsgWithdrawDelegationReward`,
+          txArguments: {
+            toAddress: `cosmos1address`,
+            validatorAddresses: [`coolval1`]
+          },
           password: ``,
           submitType: `ledger`
         })

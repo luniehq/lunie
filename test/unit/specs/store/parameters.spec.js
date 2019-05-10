@@ -13,7 +13,9 @@ describe(`Module: Staking Parameters`, () => {
 
   beforeEach(() => {
     node = {
-      getStakingParameters: () => Promise.resolve(stakingParameters.parameters)
+      get: {
+        stakingParameters: () => Promise.resolve(stakingParameters.parameters)
+      }
     }
     module = parametersModule({ node })
   })

@@ -72,11 +72,11 @@ export const startApp = async (
 
     // handle uncaught errors
     /* istanbul ignore next */
-    window.addEventListener(`unhandledrejection`, function(event) {
+    window.addEventListener(`unhandledrejection`, function (event) {
       Sentry.captureException(event.reason)
     })
     /* istanbul ignore next */
-    window.addEventListener(`error`, function(event) {
+    window.addEventListener(`error`, function (event) {
       Sentry.captureException(event.reason)
     })
 
@@ -86,7 +86,7 @@ export const startApp = async (
   const stargate = urlParams.stargate || config.stargate
   console.log(`Expecting stargate at: ${stargate}`)
 
-  const node = Node(axios, stargate)
+  const node = Node(stargate)
   const store = Store({ node })
   const router = new Router({
     scrollBehavior: () => ({ y: 0 }),

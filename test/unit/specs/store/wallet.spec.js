@@ -18,7 +18,11 @@ describe(`Module: Wallet`, () => {
   let instance, actions, state
 
   beforeEach(() => {
-    instance = walletModule({ node: {} })
+    instance = walletModule({
+      node: {
+        get: {}
+      }
+    })
     state = instance.state
     actions = instance.actions
     state.externals = {
@@ -93,7 +97,7 @@ describe(`Module: Wallet`, () => {
     })
 
     it(`should not throw if fetching money fails`, async () => {
-      jest.spyOn(console, "error").mockImplementationOnce(() => {})
+      jest.spyOn(console, "error").mockImplementationOnce(() => { })
       const { state, actions } = instance
       state.externals.axios.get = () => Promise.reject("Expected")
       const address = `X`
@@ -140,13 +144,15 @@ describe(`Module: Wallet`, () => {
         }
       ]
       const node = {
-        getAccount: jest.fn(() =>
-          Promise.resolve({
-            coins,
-            sequence: `1`,
-            account_number: `2`
-          })
-        )
+        get: {
+          account: jest.fn(() =>
+            Promise.resolve({
+              coins,
+              sequence: `1`,
+              account_number: `2`
+            })
+          )
+        }
       }
       instance = walletModule({
         node
@@ -160,7 +166,6 @@ describe(`Module: Wallet`, () => {
         commit
       })
       expect(commit.mock.calls).toEqual([
-        [`setNonce`, `1`],
         [`setAccountNumber`, `2`],
         [`setWalletBalances`, coins]
       ])
@@ -268,7 +273,7 @@ describe(`Module: Wallet`, () => {
 
     it(`should catch errors from subscriptions`, async () => {
       jest.useFakeTimers()
-      jest.spyOn(console, "error").mockImplementation(() => {})
+      jest.spyOn(console, "error").mockImplementation(() => { })
 
       const node = {
         rpc: {
@@ -295,7 +300,10 @@ describe(`Module: Wallet`, () => {
 
     it(`should store an error if failed to load balances`, async () => {
       const node = {
-        getAccount: jest.fn(() => Promise.reject(new Error(`Error`)))
+        get: {
+          account: jest.fn(() => Promise.reject(new Error(`Error`)))
+
+        }
       }
       const { state, actions } = walletModule({
         node
@@ -303,7 +311,7 @@ describe(`Module: Wallet`, () => {
       const commit = jest.fn()
       state.address = `x`
       jest
-        .spyOn(node, `getAccount`)
+        .spyOn(node.get, `account`)
         .mockImplementationOnce(() => Promise.reject(new Error(`Error`)))
       await actions.queryWalletBalances({
         state,
@@ -311,63 +319,6 @@ describe(`Module: Wallet`, () => {
         commit
       })
       expect(state.error.message).toBe(`Error`)
-    })
-
-    it(`should simulate a transfer transaction`, async () => {
-      const { actions } = instance
-      const self = {
-        dispatch: jest.fn(() => 123123)
-      }
-      const res = await actions.simulateSendCoins(self, {
-        receiver: `cosmos1address1`,
-        amount: 12,
-        denom: `uatom`
-      })
-
-      expect(self.dispatch).toHaveBeenCalledWith(`simulateTx`, {
-        type: `send`,
-        to: `cosmos1address1`,
-        amount: [{ denom: `uatom`, amount: `12` }]
-      })
-      expect(res).toBe(123123)
-    })
-    it(`should send coins`, async () => {
-      state.balances = [
-        {
-          denom: `uatom`,
-          amount: 1000
-        }
-      ]
-
-      const dispatch = jest.fn()
-      const commit = jest.fn()
-      await actions.sendCoins(
-        {
-          state,
-          rootState: mockRootState,
-          dispatch,
-          commit
-        },
-        {
-          receiver: `cosmos1xxx`,
-          amount: 12,
-          denom: `uatom`,
-          password: `1234567890`
-        }
-      )
-
-      expect(dispatch).toHaveBeenCalledWith(`sendTx`, {
-        type: `send`,
-        password: `1234567890`,
-        to: `cosmos1xxx`,
-        amount: [{ denom: `uatom`, amount: `12` }]
-      })
-
-      // should update the balance optimistically
-      expect(commit).toHaveBeenCalledWith(`updateWalletBalance`, {
-        denom: `uatom`,
-        amount: 988
-      })
     })
   })
 })

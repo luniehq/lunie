@@ -2,6 +2,8 @@ import uniqBy from "lodash.uniqby"
 import * as Sentry from "@sentry/browser"
 import Vue from "vue"
 
+// TODO simplify with one call
+
 export default ({ node }) => {
   const emptyState = {
     loading: false,
@@ -77,7 +79,10 @@ export default ({ node }) => {
       try {
         commit(`setHistoryLoading`, true)
 
-        if (!rootState.connection.connected) return
+        if (!rootState.connection.connected) {
+          return
+        }
+
         ;[TypeBank, TypeStaking, TypeGovernance, TypeDistribution].forEach(
           async txType => await dispatch(`parseAndSetTxs`, { txType })
         )
@@ -102,7 +107,7 @@ export default ({ node }) => {
       const validatorAddress = address.replace(`cosmos`, `cosmosvaloper`)
       switch (type) {
         case TypeBank:
-          response = await node.get.txs(address)
+          response = await node.get.bankTxs(address)
           break
         case TypeStaking:
           response = await node.get.stakingTxs(address, validatorAddress)

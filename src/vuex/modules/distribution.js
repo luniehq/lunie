@@ -97,7 +97,7 @@ export default ({ node }) => {
     async withdrawAllRewards(
       {
         rootState: { session },
-        state,
+        getters: { committedDelegations },
         dispatch
       },
       { gas, gas_prices, password, submitType }
@@ -106,7 +106,7 @@ export default ({ node }) => {
         type: `MsgWithdrawDelegationReward`,
         txArguments: {
           toAddress: session.address,
-          validatorAddresses: Object.keys(state.committedDelegates)
+          validatorAddresses: Object.keys(committedDelegations)
         },
         gas,
         gas_prices,

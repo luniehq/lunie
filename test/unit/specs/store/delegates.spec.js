@@ -13,8 +13,12 @@ describe(`Module: Delegates`, () => {
   let node
 
   beforeEach(() => {
-    node = Object.assign({}, nodeMock)
-    instance = delegatesModule({ node })
+    node = {
+      get: {}
+    }
+    instance = delegatesModule({
+      node
+    })
   })
 
   it(`adds delegate to state`, () => {
@@ -68,6 +72,7 @@ describe(`Module: Delegates`, () => {
   })
 
   it(`fetches all candidates`, async () => {
+    node.get.validators = () => []
     const { actions, state } = instance
     const commit = jest.fn()
     const dispatch = jest.fn()
@@ -108,6 +113,7 @@ describe(`Module: Delegates`, () => {
   })
 
   it(`should query further info for validators`, async () => {
+    node.get.validators = () => []
     const { actions, state } = instance
     const commit = jest.fn()
     const dispatch = jest.fn()
@@ -121,6 +127,13 @@ describe(`Module: Delegates`, () => {
   })
 
   it(`fetches the signing information from all delegates`, async () => {
+    node.get.validators = () => []
+    node.get.validatorSigningInfo = () => ({
+      index_offset: 1,
+      jailed_until: "1970-01-01T00:00:42.000Z",
+      missed_blocks_counter: 1,
+      start_height: 2
+    })
     const { actions, mutations, state } = instance
     const commit = jest.fn()
     mutations.setDelegates(state, [
@@ -149,10 +162,14 @@ describe(`Module: Delegates`, () => {
   })
 
   it(`throttles validator fetching to every 20 blocks`, async () => {
-    node = Object.assign({}, nodeMock, {
-      getValidatorSigningInfo: jest.fn()
+    let node = {
+      get: {
+        validatorSigningInfo: jest.fn(() => { })
+      }
+    }
+    instance = delegatesModule({
+      node
     })
-    instance = delegatesModule({ node })
     const { actions, state } = instance
     const commit = jest.fn()
     state.lastValidatorsUpdate = 0
