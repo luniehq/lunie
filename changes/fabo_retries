@@ -1,1 +1,0 @@
-[Changed] [#2565](https://github.com/cosmos/lunie/pull/2565) Requests now retry 3 times before they fail to accomodate stargate timeouts @faboweb
