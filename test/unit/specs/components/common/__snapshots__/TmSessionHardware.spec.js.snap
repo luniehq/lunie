@@ -35,7 +35,7 @@ exports[`TmSessionHardware should show a state indicator for different states of
         Don't have the Cosmos Ledger App yet? Install it
         <a href=\\"https://github.com/cosmos/voyager#ledger-cosmos-app\\" target=\\"_blank\\" rel=\\"noopener noreferrer\\">
           here </a>.
-      </p> <button class=\\"tm-btn\\" disabled=\\"disabled\\"><span class=\\"tm-btn__container\\"><!----><span class=\\"tm-btn__value\\">Cofirming Address</span></span></button></div></div></div>"
+      </p> <button class=\\"tm-btn\\" disabled=\\"disabled\\"><span class=\\"tm-btn__container\\"><!----><span class=\\"tm-btn__value\\">Confirming Address</span></span></button></div></div></div>"
 `;
 
 exports[`TmSessionHardware shows the ledger conection view when there're errors 1`] = `
