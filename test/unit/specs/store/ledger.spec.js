@@ -361,6 +361,7 @@ describe(`Module: Ledger`, () => {
           await expect(
             actions.confirmLedgerAddress({
               state: {
+                cosmosAppVersion: "1.5.0",
                 cosmosApp: {
                   getAddressAndPubKey: () => ({
                     error_message: `Transaction rejected`
