@@ -42,6 +42,16 @@
         type="number"
         placeholder="Amount"
       />
+      <span v-if="!isRedelegation()" class="form-message">
+        Available to Delegate:
+        {{ getFromBalance() }}
+        {{ num.viewDenom(denom) }}s
+      </span>
+      <span v-else-if="isRedelegation()" class="form-message">
+        Available to Redelegate:
+        {{ getFromBalance() }}
+        {{ num.viewDenom(denom) }}s
+      </span>
       <TmFormMsg
         v-if="balance === 0"
         :msg="`doesn't have any ${num.viewDenom(denom)}s`"
@@ -139,6 +149,9 @@ export default {
     },
     isRedelegation() {
       return this.from !== this.session.address
+    },
+    getFromBalance() {
+      return atoms(this.balance)
     },
     async simulateDelegation() {
       return await this.$store.dispatch(`simulateDelegation`, {
