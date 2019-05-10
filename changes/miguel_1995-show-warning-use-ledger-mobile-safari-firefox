@@ -1,0 +1,1 @@
+[Fixed] [#1995](https://github.com/cosmos/lunie/issues/1995) Prevent users from signing in or creating a new account if their user agent is not Chrome @migueog

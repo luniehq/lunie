@@ -87,15 +87,21 @@
         </TmFormGroup>
         <HardwareState
           v-if="selectedSignMethod === `ledger`"
-          icon="usb"
+          :icon="session.browserWithLedgerSupport ? 'usb' : 'info'"
           :loading="!!sending"
         >
-          {{
-            sending
-              ? `Please verify and sign the transaction on your Ledger`
-              : `Please plug in your Ledger&nbsp;Nano&nbsp;S and open
-          the Cosmos app`
-          }}
+          <div v-if="session.browserWithLedgerSupport">
+            {{
+              sending
+                ? `Please verify and sign the transaction on your Ledger`
+                : `Please plug in your Ledger&nbsp;Nano&nbsp;S and open
+            the Cosmos app`
+            }}
+          </div>
+          <div v-else>
+            Please use Chrome, Brave, or Opera. Ledger is not supported in your
+            current browser.
+          </div>
         </HardwareState>
         <TmFormGroup
           v-else-if="selectedSignMethod === `local`"
@@ -154,6 +160,7 @@
                 v-else
                 color="primary"
                 value="Submit"
+                :disabled="!browserWithLedgerSupport"
                 @click.native="validateChangeStep"
               />
             </div>
