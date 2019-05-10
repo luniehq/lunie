@@ -3,24 +3,25 @@
 export const roundObjectPercentages = dataMap => {
   // This algorithm workson integers and we want 2 decimal places.
   // So round up first.
-  let asArray = Object.entries(dataMap).map(keyValue => {
-    keyValue[1] = keyValue[1] * 100
-    return keyValue
+  let asArray = Object.entries(dataMap).map(([key, value]) => {
+    const newValue = value * 100
+    return [key, newValue]
   })
 
-  // Calculate difference from 100%
-  var margin =
-    10000 -
-    asArray.reduce(function(acc, x) {
-      return acc + Math.round(x[1])
-    }, 0)
+  const sumRounded = (acc, x) => {
+    return acc + Math.round(x[1])
+  }
 
-  const cmp = (a, b) => {
+  // Calculate difference from 100%
+  const scale = 100
+  var margin = scale * 100 - asArray.reduce(sumRounded, 0)
+
+  const cmpNumberValue = (a, b) => {
     return b[1] - Math.round(a[1]) - a[1]
   }
 
   // Sort and distribute difference amongst values
-  asArray.sort(cmp)
+  asArray.sort(cmpNumberValue)
   const result = asArray.map(function(x, i) {
     const rounded = [
       x[0],
