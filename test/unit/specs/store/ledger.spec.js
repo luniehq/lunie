@@ -395,6 +395,21 @@ describe(`Module: Ledger`, () => {
             })
           ).rejects.toThrowError("User rejected the displayed address")
         })
+
+        it("automatically passed on old Ledgers as they don't have this feature", async () => {
+          await expect(
+            actions.confirmLedgerAddress({
+              state: {
+                cosmosAppVersion: "1.1.1",
+                cosmosApp: {
+                  getAddressAndPubKey: () => ({
+                    error_message: `Transaction rejected`
+                  })
+                }
+              }
+            })
+          ).resolves
+        })
       })
 
       describe(`publicKey`, () => {
