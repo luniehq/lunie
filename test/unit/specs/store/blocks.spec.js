@@ -16,35 +16,37 @@ describe(`Module: Blocks`, () => {
       rpc: {
         status: () => Promise.resolve({ sync_info: {} })
       },
-      getBlock: () => ({
-        block_meta: {
-          block_id: {
-            hash: `ABCD1234`
+      get: {
+        block: () => ({
+          block_meta: {
+            block_id: {
+              hash: `ABCD1234`
+            }
+          },
+          block: {
+            data: {
+              txs: `txs`
+            },
+            header: {
+              height: `100`,
+              num_txs: 1200,
+              proposer_address: `ABCDEFG123456HIJKLMNOP`
+            },
+            evidence: {
+              evidence: `evidence`
+            },
+            last_commit: {
+              precommits: [
+                {
+                  validator_address: `validator address`,
+                  timestamp: `1990-10-19`,
+                  round: 0
+                }
+              ]
+            }
           }
-        },
-        block: {
-          data: {
-            txs: `txs`
-          },
-          header: {
-            height: `100`,
-            num_txs: 1200,
-            proposer_address: `ABCDEFG123456HIJKLMNOP`
-          },
-          evidence: {
-            evidence: `evidence`
-          },
-          last_commit: {
-            precommits: [
-              {
-                validator_address: `validator address`,
-                timestamp: `1990-10-19`,
-                round: 0
-              }
-            ]
-          }
-        }
-      })
+        })
+      }
     }
     module = blocks({
       node
@@ -135,7 +137,9 @@ describe(`Module: Blocks`, () => {
     const getBlock = jest.fn().mockRejectedValue(error)
     const commit = jest.fn()
     const node = {
-      getBlock
+      get: {
+        block: getBlock
+      }
     }
     const module = blocks({
       node

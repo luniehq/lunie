@@ -48,7 +48,7 @@ async function start(urlParams, environment) {
 describe(`App Start`, () => {
   // popper.js is used by tooltips and causes some errors if
   // not mocked because it requires a real DOM
-  jest.mock(`popper.js`, () => () => {})
+  jest.mock(`popper.js`, () => () => { })
 
   beforeEach(() => {
     document.body.innerHTML = `<div id="app"></div>`
@@ -206,7 +206,6 @@ describe(`App Start`, () => {
       })
 
       expect(Node).toHaveBeenCalledWith(
-        expect.objectContaining({}),
         `http://stargateurl.com`
       )
     })

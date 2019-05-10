@@ -75,8 +75,10 @@ describe(`Module: Proposals`, () => {
     it(`when the request is successful`, async () => {
       moduleInstance = proposalsModule({
         node: {
-          getProposals: () => Promise.resolve(Object.values(proposals)),
-          getProposalTally: proposal_id => Promise.resolve(tallies[proposal_id])
+          get: {
+            proposals: () => Promise.resolve(Object.values(proposals)),
+            proposalTally: proposal_id => Promise.resolve(tallies[proposal_id])
+          }
         }
       })
 
@@ -117,13 +119,16 @@ describe(`Module: Proposals`, () => {
     it(`throws and stores error if the request fails`, async () => {
       moduleInstance = proposalsModule({
         node: {
-          getProposals: () => Promise.reject(new Error(`Error`))
+          get: {
+            proposals: () => Promise.reject(new Error(`Error`))
+
+          }
         }
       })
       const { actions, state } = moduleInstance
       await actions.getProposals({
         state,
-        commit: () => {},
+        commit: () => { },
         rootState: mockRootState
       })
       expect(state.error.message).toBe(`Error`)
@@ -134,8 +139,10 @@ describe(`Module: Proposals`, () => {
     it(`when the request is successful`, async () => {
       moduleInstance = proposalsModule({
         node: {
-          getProposal: proposal_id => Promise.resolve(proposals[proposal_id]),
-          getProposalTally: proposal_id => Promise.resolve(tallies[proposal_id])
+          get: {
+            proposal: proposal_id => Promise.resolve(proposals[proposal_id]),
+            proposalTally: proposal_id => Promise.resolve(tallies[proposal_id])
+          }
         }
       })
 
@@ -172,7 +179,9 @@ describe(`Module: Proposals`, () => {
     it(`throws and stores error if the request fails`, async () => {
       moduleInstance = proposalsModule({
         node: {
-          getProposal: () => Promise.reject(new Error(`Error`))
+          get: {
+            proposal: () => Promise.reject(new Error(`Error`))
+          }
         }
       })
 
@@ -206,7 +215,7 @@ describe(`Module: Proposals`, () => {
     })
 
     expect(self.dispatch).toHaveBeenCalledWith(`simulateTx`, {
-      type: `postProposal`,
+      type: `MsgSubmitProposal`,
       proposal_type: proposal.proposal_type,
       initial_deposit: proposal.initial_deposit,
       proposer: mockRootState.wallet.address,
@@ -240,7 +249,7 @@ describe(`Module: Proposals`, () => {
         expect(dispatch.mock.calls[i]).toEqual([
           `sendTx`,
           {
-            type: `postProposal`,
+            type: `MsgSubmitProposal`,
             proposal_type: proposal.proposal_type,
             proposer: addresses[0],
             initial_deposit: proposal.initial_deposit,

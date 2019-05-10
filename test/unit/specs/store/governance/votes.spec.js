@@ -64,7 +64,7 @@ describe(`Module: Votes`, () => {
     })
 
     expect(self.dispatch).toHaveBeenCalledWith(`simulateTx`, {
-      type: `postProposalVote`,
+      type: `MsgVote`,
       to: `1`,
       proposal_id,
       option: `No`,
@@ -92,7 +92,7 @@ describe(`Module: Votes`, () => {
       expect(dispatch.mock.calls[i]).toEqual([
         `sendTx`,
         {
-          type: `postProposalVote`,
+          type: `MsgVote`,
           to: proposal_id,
           proposal_id,
           voter: addresses[0],
@@ -111,7 +111,9 @@ describe(`Module: Votes`, () => {
   it(`should store an error if failed to load proposals`, async () => {
     module = votesModule({
       node: {
-        getProposalVotes: () => Promise.reject(new Error(`Error`))
+        get: {
+          proposalVotes: () => Promise.reject(new Error(`Error`))
+        }
       }
     })
     const { actions, state } = module
