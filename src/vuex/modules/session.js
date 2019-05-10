@@ -33,6 +33,9 @@ export default () => {
         state: `welcome`
       }
     },
+    browserWithLedgerSupport:
+      navigator.userAgent.includes(`Chrome`) ||
+      navigator.userAgent.includes(`Opera`),
 
     // import into state to be able to test easier
     externals: {

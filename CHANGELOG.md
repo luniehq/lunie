@@ -7,6 +7,33 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [1.0.0-beta.63] - 2019-05-10
+
+### Changed
+
+- [#2565](https://github.com/cosmos/lunie/pull/2565) Requests now retry 3 times before they fail to accomodate stargate timeouts @faboweb
+
+### Fixed
+
+- [#2557](https://github.com/cosmos/lunie/pull/2557) Do not add undelegation amount to transaction subtotal @colw
+- [#2563](https://github.com/cosmos/lunie/pull/2563) Temporaryly switching to cosmos nodes @faboweb
+
+## [1.0.0-beta.62] - 2019-05-08
+
+### Fixed
+
+- [#2446](https://github.com/cosmos/lunie/issues/2446) Validate total invoice amount, including network fees. @colw
+- [#2554](https://github.com/cosmos/lunie/issues/2554) Add missing footer to pages linked in footer @colw
+- [#2551](https://github.com/cosmos/lunie/pull/2551) Removed validatorset calls as we don't need them and they caused issues @faboweb
+- [#2551](https://github.com/cosmos/lunie/pull/2551) Removed keybase identities updates as they caused troubles and we deliver a cache with every release @faboweb
+
+## [1.0.0-beta.61] - 2019-05-07
+
+### Fixed
+
+- [#2542](https://github.com/cosmos/lunie/pull/2542) Do not run style lint on dist folder @colw
+- [#2543](https://github.com/cosmos/lunie/pull/2543) Switch code coverage to live-server @colw
+
 ## [1.0.0-beta.60] - 2019-05-05
 
 ### Fixed
