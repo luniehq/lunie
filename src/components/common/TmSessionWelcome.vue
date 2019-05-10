@@ -1,5 +1,8 @@
 <template>
-  <div id="session-welcome" class="tm-session">
+  <div
+    id="session-welcome"
+    class="tm-session"
+  >
     <div class="tm-session-container">
       <div class="tm-session-header">
         <div class="tm-session-title">
@@ -12,17 +15,14 @@
 
       <div class="tm-session-main">
         <LiSession
-          v-if="!browserWithLedgerSupport"
           icon="usb"
           title="Sign in with Ledger Nano&#160;S"
-          subtitle="Please use Chrome, Opera, or Brave."
-        />
-        <LiSession
-          v-if="browserWithLedgerSupport"
-          icon="usb"
-          title="Sign in with Ledger Nano&#160;S"
-          subtitle="If you have a Ledger Wallet, choose this option."
-          @click.native="setState('hardware')"
+          :subtitle="
+          session.browserWithLedgerSupport
+          ? 'If you have a Ledger Wallet, choose this option.'
+          : 'Please use Chrome, Opera, or Brave. Ledger is not supported in your current browser.'"
+          @click.native="() => session.browserWithLedgerSupport && setState('hardware')"
+          :disabled="!session.browserWithLedgerSupport"
         />
         <LiSession
           id="explore-address"
@@ -37,7 +37,8 @@
             <div class="header">
               <h1>DANGER ZONE</h1>
               <p>
-                Never use accounts created in the browser on a real network. You
+                Never use accounts created in the browser on a real network.
+                You
                 could lose all your money.
               </p>
             </div>
@@ -82,9 +83,6 @@ export default {
     ...mapGetters([`session`, `lastPage`]),
     accountExists() {
       return this.session.accounts.length > 0
-    },
-    browserWithLedgerSupport() {
-      return this.session.browserWithLedgerSupport
     }
   },
   methods: {

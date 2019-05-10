@@ -162,13 +162,12 @@ exports[`ActionModal should show the action modal when user has logged in with l
     <!---->
      
     <hardwarestate-stub
-      icon="usb"
+      icon="info"
     >
-      <!---->
-       
       <div>
         
-          Please use Chrome, Brave, or Opera.
+          Please use Chrome, Brave, or Opera. Ledger is not supported in your
+          current browser.
         
       </div>
     </hardwarestate-stub>

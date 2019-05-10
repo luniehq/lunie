@@ -87,4 +87,11 @@ export default {
   color: var(--dim);
   font-size: var(--sm);
 }
+
+.tm-li-session[disabled] {
+  color: var(--dim, #666) !important;
+  user-select: none;
+  cursor: not-allowed;
+  opacity: 0.333;
+}
 </style>
