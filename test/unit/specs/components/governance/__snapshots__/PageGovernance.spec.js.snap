@@ -198,12 +198,8 @@ exports[`PageGovernance disables proposal creation if not connected 1`] = `
     <router-view-stub />
   </main>
    
-  <footer
-    class="footer"
-  >
-    <ul
-      class="link-list"
-    >
+  <footer>
+    <ul>
       <li>
         <router-link-stub
           class="app-menu-item-small"
@@ -212,8 +208,8 @@ exports[`PageGovernance disables proposal creation if not connected 1`] = `
           to="/about"
         >
           
-          About
-        
+        About
+      
         </router-link-stub>
       </li>
        
@@ -221,25 +217,12 @@ exports[`PageGovernance disables proposal creation if not connected 1`] = `
         <router-link-stub
           class="app-menu-item-small"
           exact="exact"
-          title="Terms"
-          to="/terms"
+          title="Careers"
+          to="/careers"
         >
           
-          Terms of Service
-        
-        </router-link-stub>
-      </li>
-       
-      <li>
-        <router-link-stub
-          class="app-menu-item-small"
-          exact="exact"
-          title="Privacy"
-          to="/privacy"
-        >
-          
-          Privacy Policy
-        
+        Careers
+      
         </router-link-stub>
       </li>
        
@@ -251,8 +234,34 @@ exports[`PageGovernance disables proposal creation if not connected 1`] = `
           to="/security"
         >
           
-          Security
-        
+        Security
+      
+        </router-link-stub>
+      </li>
+       
+      <li>
+        <router-link-stub
+          class="app-menu-item-small"
+          exact="exact"
+          title="Terms"
+          to="/terms"
+        >
+          
+        Terms of Service
+      
+        </router-link-stub>
+      </li>
+       
+      <li>
+        <router-link-stub
+          class="app-menu-item-small"
+          exact="exact"
+          title="Privacy"
+          to="/privacy"
+        >
+          
+        Privacy Policy
+      
         </router-link-stub>
       </li>
     </ul>
@@ -457,12 +466,8 @@ exports[`PageGovernance has the expected html structure 1`] = `
     <router-view-stub />
   </main>
    
-  <footer
-    class="footer"
-  >
-    <ul
-      class="link-list"
-    >
+  <footer>
+    <ul>
       <li>
         <router-link-stub
           class="app-menu-item-small"
@@ -471,8 +476,8 @@ exports[`PageGovernance has the expected html structure 1`] = `
           to="/about"
         >
           
-          About
-        
+        About
+      
         </router-link-stub>
       </li>
        
@@ -480,25 +485,12 @@ exports[`PageGovernance has the expected html structure 1`] = `
         <router-link-stub
           class="app-menu-item-small"
           exact="exact"
-          title="Terms"
-          to="/terms"
+          title="Careers"
+          to="/careers"
         >
           
-          Terms of Service
-        
-        </router-link-stub>
-      </li>
-       
-      <li>
-        <router-link-stub
-          class="app-menu-item-small"
-          exact="exact"
-          title="Privacy"
-          to="/privacy"
-        >
-          
-          Privacy Policy
-        
+        Careers
+      
         </router-link-stub>
       </li>
        
@@ -510,8 +502,34 @@ exports[`PageGovernance has the expected html structure 1`] = `
           to="/security"
         >
           
-          Security
-        
+        Security
+      
+        </router-link-stub>
+      </li>
+       
+      <li>
+        <router-link-stub
+          class="app-menu-item-small"
+          exact="exact"
+          title="Terms"
+          to="/terms"
+        >
+          
+        Terms of Service
+      
+        </router-link-stub>
+      </li>
+       
+      <li>
+        <router-link-stub
+          class="app-menu-item-small"
+          exact="exact"
+          title="Privacy"
+          to="/privacy"
+        >
+          
+        Privacy Policy
+      
         </router-link-stub>
       </li>
     </ul>

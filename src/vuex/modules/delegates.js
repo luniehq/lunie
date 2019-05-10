@@ -116,7 +116,6 @@ export default ({ node }) => {
 
         commit(`setDelegates`, validators)
         commit(`setDelegateLoading`, false)
-        dispatch(`getKeybaseIdentities`, validators)
         dispatch(`updateSigningInfo`, validators)
 
         return validators
