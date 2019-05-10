@@ -65,7 +65,7 @@ export default {
       return {
         connect: "Sign In",
         detect: "Waiting for Ledger",
-        confirmAddress: "Cofirming Address"
+        confirmAddress: "Confirming Address"
       }[this.status]
     }
   },
