@@ -58,28 +58,28 @@ describe(`Module: Ledger`, () => {
     describe(`checks for errors on Ledger actions`, () => {
       it(`throws with an error`, () => {
         const response = { error_message: `Sign/verify error` }
-        expect(() => checkLedgerErrors(response)).toThrowError(
+        expect(() => checkLedgerErrors({}, response)).toThrowError(
           response.error_message
         )
       })
 
       it(`throws on rejected transaction`, () => {
         const response = { error_message: `Command not allowed` }
-        expect(() => checkLedgerErrors(response)).toThrowError(
+        expect(() => checkLedgerErrors({}, response)).toThrowError(
           `Transaction rejected`
         )
       })
 
       it(`just returns on success`, () => {
         const response = { error_message: `No errors` }
-        expect(() => checkLedgerErrors(response)).not.toThrow(
+        expect(() => checkLedgerErrors({}, response)).not.toThrow(
           response.error_message
         )
       })
 
       it(`checks if device is locked`, () => {
         const response = { error_message: `No errors`, device_locked: true }
-        expect(() => checkLedgerErrors(response)).toThrow(
+        expect(() => checkLedgerErrors({}, response)).toThrow(
           `Ledger's screensaver mode is on`
         )
       })
@@ -111,6 +111,9 @@ describe(`Module: Ledger`, () => {
           App: jest.fn(),
           comm_u2f: {
             create_async: jest.fn(async () => true)
+          },
+          config: {
+            requiredCosmosAppVersion: "1.5.0"
           }
         }
         commit = jest.fn()
@@ -166,6 +169,19 @@ describe(`Module: Ledger`, () => {
           await expect(
             actions.pollLedgerDevice({ state, dispatch })
           ).rejects.toThrow(`Ledger's screensaver mode is on`)
+        })
+
+        it(`when Ledger is outdated`, async () => {
+          state.externals.App = () => ({
+            publicKey: () =>
+              Promise.resolve({
+                error_message: `Instruction no supported`
+              })
+          })
+          await expect(
+            actions.pollLedgerDevice({ state, dispatch })
+          ).rejects.toThrow(`Your Ledger Cosmos App is probably outdated. ` +
+            `Please update to version 1.5.0.`)
         })
 
         it(`fails when Ledger is on another app`, async () => {
@@ -337,7 +353,7 @@ describe(`Module: Ledger`, () => {
       describe("getOpenAppInfo", () => {
         it("throws if not on Cosmos app", async () => {
           await expect(
-            actions.getOpenAppInfo(null, {
+            actions.getOpenAppInfo({ state }, {
               appInfo: () => ({
                 error_message: `No errors`,
                 appName: "Ethereum"
@@ -346,7 +362,7 @@ describe(`Module: Ledger`, () => {
           ).rejects.toThrowError("Close Ethereum and open the Cosmos app")
 
           await expect(
-            actions.getOpenAppInfo(null, {
+            actions.getOpenAppInfo({ state }, {
               appInfo: () => ({
                 error_message: `No errors`,
                 appName: "Cosmos"

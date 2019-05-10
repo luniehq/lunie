@@ -19,6 +19,7 @@ function versionString({ major, minor, patch }) {
 }
 
 export const checkLedgerErrors = (
+  state,
   { error_message, device_locked },
   {
     timeoutMessag = "Connection timed out. Please try again.",
@@ -42,7 +43,7 @@ export const checkLedgerErrors = (
     case `Instruction no supported`:
       throw new Error(
         `Your Ledger Cosmos App is probably outdated. ` +
-          `Please update to version ${config.requiredCosmosAppVersion}.`
+        `Please update to version ${state.externals.config.requiredCosmosAppVersion}.`
       )
     case `No errors`:
       // do nothing
@@ -107,7 +108,7 @@ export default () => {
 
       // check if ledger is connected
       const response = await cosmosLedgerApp.publicKey(HDPATH)
-      checkLedgerErrors(response, {
+      checkLedgerErrors(state, response, {
         timeoutMessag: "Could not find a connected and unlocked Ledger device"
       })
 
@@ -142,9 +143,9 @@ export default () => {
 
       return address
     },
-    async getOpenAppInfo(_, app) {
+    async getOpenAppInfo({ state }, app) {
       const response = await app.appInfo()
-      checkLedgerErrors(response)
+      checkLedgerErrors(state, response)
       const { appName } = response
 
       if (appName !== `Cosmos`) {
@@ -164,7 +165,7 @@ export default () => {
       app = state.cosmosApp
     ) {
       const response = await app.get_version()
-      checkLedgerErrors(response)
+      checkLedgerErrors(state, response)
       const { major, minor, patch } = response
       checkAppMode(chain_id, response)
       const version = versionString({ major, minor, patch })
@@ -175,7 +176,7 @@ export default () => {
       ) {
         const msg = `Outdated version: please update Cosmos app to ${
           state.externals.config.requiredCosmosAppVersion
-        }`
+          }`
         throw new Error(msg)
       }
 
@@ -183,7 +184,7 @@ export default () => {
     },
     async getLedgerAddressAndPubKey({ commit, state }) {
       const response = await state.cosmosApp.publicKey(HDPATH)
-      checkLedgerErrors(response)
+      checkLedgerErrors(state, response)
       const { bech32_address, compressed_pk } = response
       const address =
         bech32_address || state.externals.createCosmosAddress(compressed_pk)
@@ -200,13 +201,13 @@ export default () => {
         BECH32PREFIX,
         HDPATH
       )
-      checkLedgerErrors(response, {
+      checkLedgerErrors(state, response, {
         rejectionMessage: "User rejected the displayed address"
       })
     },
     async signWithLedger({ state }, message) {
       const response = await state.cosmosApp.sign(HDPATH, message)
-      checkLedgerErrors(response)
+      checkLedgerErrors(state, response)
       return response.signature
     }
   }
