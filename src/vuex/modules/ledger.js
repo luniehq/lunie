@@ -43,7 +43,9 @@ export const checkLedgerErrors = (
     case `Instruction no supported`:
       throw new Error(
         `Your Ledger Cosmos App is probably outdated. ` +
-        `Please update to version ${state.externals.config.requiredCosmosAppVersion}.`
+          `Please update to version ${
+            state.externals.config.requiredCosmosAppVersion
+          }.`
       )
     case `No errors`:
       // do nothing
@@ -176,7 +178,7 @@ export default () => {
       ) {
         const msg = `Outdated version: please update Cosmos app to ${
           state.externals.config.requiredCosmosAppVersion
-          }`
+        }`
         throw new Error(msg)
       }
 

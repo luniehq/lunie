@@ -180,8 +180,10 @@ describe(`Module: Ledger`, () => {
           })
           await expect(
             actions.pollLedgerDevice({ state, dispatch })
-          ).rejects.toThrow(`Your Ledger Cosmos App is probably outdated. ` +
-            `Please update to version 1.5.0.`)
+          ).rejects.toThrow(
+            `Your Ledger Cosmos App is probably outdated. ` +
+              `Please update to version 1.5.0.`
+          )
         })
 
         it(`fails when Ledger is on another app`, async () => {
@@ -353,21 +355,27 @@ describe(`Module: Ledger`, () => {
       describe("getOpenAppInfo", () => {
         it("throws if not on Cosmos app", async () => {
           await expect(
-            actions.getOpenAppInfo({ state }, {
-              appInfo: () => ({
-                error_message: `No errors`,
-                appName: "Ethereum"
-              })
-            })
+            actions.getOpenAppInfo(
+              { state },
+              {
+                appInfo: () => ({
+                  error_message: `No errors`,
+                  appName: "Ethereum"
+                })
+              }
+            )
           ).rejects.toThrowError("Close Ethereum and open the Cosmos app")
 
           await expect(
-            actions.getOpenAppInfo({ state }, {
-              appInfo: () => ({
-                error_message: `No errors`,
-                appName: "Cosmos"
-              })
-            })
+            actions.getOpenAppInfo(
+              { state },
+              {
+                appInfo: () => ({
+                  error_message: `No errors`,
+                  appName: "Cosmos"
+                })
+              }
+            )
           ).resolves
         })
       })
