@@ -5,7 +5,7 @@
     :submit-fn="submitForm"
     :simulate-fn="simulateForm"
     :validate="validateForm"
-    :amount="amount"
+    :amount="isRedelegation() ? 0 : amount"
     :title="isRedelegation() ? 'Redelegate' : 'Delegate'"
     class="delegation-modal"
     submission-error-prefix="Delegating failed"
