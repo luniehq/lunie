@@ -17,7 +17,8 @@ describe(`CookieBar`, () => {
     wrapper = shallowMount(CookieBar, {
       mocks: {
         $store
-      }
+      },
+      stubs: [`router-link`]
     })
   })
 

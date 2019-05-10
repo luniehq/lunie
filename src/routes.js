@@ -99,5 +99,9 @@ export default [
     path: `/about`,
     component: require(`./components/common/PageAbout`).default
   },
+  {
+    path: `/careers`,
+    component: require(`./components/common/PageCareers`).default
+  },
   { path: `*`, component: require(`./components/common/Page404`).default }
 ]
