@@ -85,10 +85,6 @@ export default {
       type: Number,
       required: true
     },
-    fromOptions: {
-      type: Array,
-      required: true
-    },
     to: {
       type: String,
       required: true
