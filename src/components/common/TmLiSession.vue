@@ -88,7 +88,8 @@ export default {
   font-size: var(--sm);
 }
 
-.tm-li-session[disabled] {
+.tm-li-session[disabled] .tm-li-session-icon,
+.tm-li-session[disabled] .tm-li-session-title {
   color: var(--dim, #666) !important;
   user-select: none;
   cursor: not-allowed;
