@@ -21,7 +21,7 @@ describe(`TmSessionHardware`, () => {
     store.commit = jest.fn()
   })
 
-  describe(`has the expected html structure`, () => {
+  describe(`shows the ledger conection view`, () => {
     it(`with no errors`, () => {
       expect(wrapper.vm.$el).toMatchSnapshot()
     })
@@ -51,44 +51,41 @@ describe(`TmSessionHardware`, () => {
     expect(store.commit.mock.calls[0][1]).toBe(false)
   })
 
-  it(`sets the step status`, () => {
-    const self = { step: `connect` }
-    TmSessionHardware.methods.setStatus.call(self, `detect`)
-    expect(self.status).toBe(`detect`)
-  })
-
-  it(`sets a connection error`, () => {
-    const self = { connectionError: null }
-    TmSessionHardware.methods.setConnectionError.call(self, `No Ledger found`)
-    expect(self.connectionError).toBe(`No Ledger found`)
-  })
-
   it(`should show a state indicator for different states of the hardware connection`, () => {
     wrapper.setData({ status: `connect` })
     expect(wrapper.html()).toMatchSnapshot()
 
     wrapper.setData({ status: `detect` })
     expect(wrapper.html()).toMatchSnapshot()
+
+    wrapper.setData({ status: `confirmAddress` })
+    expect(wrapper.html()).toMatchSnapshot()
   })
 
-  describe(`tries connecting to Ledger`, () => {
-    it(`connects if Ledger is connected and app is open `, async () => {
-      const $store = { commit: jest.fn(), dispatch: jest.fn() }
+  describe(`sign in`, () => {
+    it(`signs in if Ledger is connected and app is open and address is confirmed`, async () => {
+      const $store = {
+        dispatch: jest.fn(() => "cosmos1234")
+      }
       const self = {
         $store,
         status: `connect`,
         connectionError: null,
         setStatus: jest.fn(),
-        setConnectionError: jest.fn(error => (self.connectionError = error))
+        setConnectionError: jest.fn(error => (self.connectionError = error)),
+        confirmAddress: jest.fn(() => true)
       }
-      await TmSessionHardware.methods.connectLedger.call(self)
+      await TmSessionHardware.methods.signIn.call(self)
       expect(self.$store.dispatch).toHaveBeenCalledWith(`connectLedgerApp`)
       expect(self.connectionError).toBeNull()
+      expect(self.$store.dispatch).toHaveBeenCalledWith(`signIn`, {
+        sessionType: `ledger`,
+        address: "cosmos1234"
+      })
     })
 
-    it(`doesn't connect otherwise`, async () => {
+    it(`doesn't sign in if ledger not connected`, async () => {
       const $store = {
-        commit: jest.fn(),
         dispatch: jest.fn(async () =>
           Promise.reject(new Error(`No Ledger found`))
         )
@@ -100,9 +97,74 @@ describe(`TmSessionHardware`, () => {
         setStatus: jest.fn(),
         setConnectionError: jest.fn(error => (self.connectionError = error))
       }
-      await TmSessionHardware.methods.connectLedger.call(self)
-      expect(self.$store.dispatch).toHaveBeenCalledWith(`connectLedgerApp`)
+      await TmSessionHardware.methods.signIn.call(self)
       expect(self.connectionError).toBe(`No Ledger found`)
+      expect(self.$store.dispatch).not.toHaveBeenCalledWith(
+        `signIn`,
+        expect.objectContaining({})
+      )
+    })
+
+    it(`doesn't sign in if address not confirmed`, async () => {
+      const $store = {
+        dispatch: jest.fn(() => "cosmos1234")
+      }
+      const self = {
+        $store,
+        status: `connect`,
+        connectionError: null,
+        setStatus: jest.fn(),
+        setConnectionError: jest.fn(error => (self.connectionError = error)),
+        confirmAddress: jest.fn(() => false)
+      }
+      await TmSessionHardware.methods.signIn.call(self)
+      expect(self.$store.dispatch).not.toHaveBeenCalledWith(
+        `signIn`,
+        expect.objectContaining({})
+      )
+      expect(self.status).toBe("connect")
+    })
+  })
+
+  describe(`confirmAddress`, () => {
+    it(`success`, async () => {
+      const $store = { dispatch: jest.fn() }
+      const self = {
+        $store,
+        connectionError: null
+      }
+      const result = await TmSessionHardware.methods.confirmAddress.call(self)
+      expect(self.$store.dispatch).toHaveBeenCalledWith(`confirmLedgerAddress`)
+      expect(self.connectionError).toBeNull()
+      expect(result).toBe(true)
+    })
+
+    it(`disapprove`, async () => {
+      const $store = {
+        dispatch: jest.fn(async () =>
+          Promise.reject(new Error(`Transaction rejected`))
+        )
+      }
+      const self = {
+        $store
+      }
+      const result = await TmSessionHardware.methods.confirmAddress.call(self)
+      expect(self.$store.dispatch).toHaveBeenCalledWith(`confirmLedgerAddress`)
+      expect(self.connectionError).toBe(`Account address rejected`)
+      expect(result).toBe(false)
+    })
+
+    it(`any error`, async () => {
+      const $store = {
+        dispatch: jest.fn(async () => Promise.reject(new Error(`Any Error`)))
+      }
+      const self = {
+        $store
+      }
+      const result = await TmSessionHardware.methods.confirmAddress.call(self)
+      expect(self.$store.dispatch).toHaveBeenCalledWith(`confirmLedgerAddress`)
+      expect(self.connectionError).toBe(`Any Error`)
+      expect(result).toBe(false)
     })
   })
 })

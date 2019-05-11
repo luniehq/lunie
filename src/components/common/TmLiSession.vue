@@ -5,7 +5,7 @@
     </div>
     <div class="tm-li-session-text">
       <div class="tm-li-session-title">
-        {{ title }}
+        <span>{{ title }}</span>
       </div>
       <div class="tm-li-session-subtitle">
         {{ subtitle }}
@@ -86,5 +86,13 @@ export default {
 .tm-li-session-subtitle {
   color: var(--dim);
   font-size: var(--sm);
+}
+
+.tm-li-session[disabled] .tm-li-session-icon,
+.tm-li-session[disabled] .tm-li-session-title {
+  color: var(--dim, #666) !important;
+  user-select: none;
+  cursor: not-allowed;
+  opacity: 0.333;
 }
 </style>
