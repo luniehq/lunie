@@ -18,7 +18,7 @@
             Please plug in your Ledger&nbsp;Nano&nbsp;S and open the Cosmos app
           </template>
           <template v-if="status === `confirmAddress`">
-            Signin in with the address
+            Sign in with the address
             <span class="address">{{ address }}</span
             >.<br />
             Please confirm on your Ledger.

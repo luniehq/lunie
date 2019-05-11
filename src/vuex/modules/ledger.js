@@ -40,9 +40,9 @@ export const checkLedgerErrors = (
       throw new Error(rejectionMessage)
     case `Unknown error code`:
       throw new Error(`Ledger's screensaver mode is on`)
-    case `Instruction no supported`:
+    case `Instruction not supported`:
       throw new Error(
-        `Your Ledger Cosmos App is probably outdated. ` +
+        `Your Cosmos Ledger App is not up to date. ` +
           `Please update to version ${
             state.externals.config.requiredCosmosAppVersion
           }.`
@@ -60,7 +60,7 @@ const checkAppMode = (chainId, response) => {
 
   if (test_mode && chainId.startsWith(`cosmoshub`)) {
     throw new Error(
-      `DANGER: The Cosmos Ledger app in test mode shouldn't be used on mainnet!`
+      `DANGER: The Cosmos Ledger app is in test mode and shouldn't be used on mainnet!`
     )
   }
 }
@@ -204,7 +204,7 @@ export default () => {
         HDPATH
       )
       checkLedgerErrors(state, response, {
-        rejectionMessage: "User rejected the displayed address"
+        rejectionMessage: "Displayed address was rejected"
       })
     },
     async signWithLedger({ state }, message) {
