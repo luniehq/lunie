@@ -1,12 +1,19 @@
 <template>
-  <div v-if="session.maintenanceBar && show" class="maintenance-bar">
+  <div
+    v-if="session.maintenanceBar && show"
+    class="maintenance-bar"
+  >
     <i></i>
     <p>
-      We've identified a bug in the Cosmos SDK that is causing issues for some
-      of our users. We apologize for the disruption and are working on a fix.
+      We've identified problems with our servers that are causing issues for
+      some of our users. We apologize for the disruption and are working on a
+      fix.
     </p>
     <a class="close">
-      <i class="material-icons" @click="close">close</i>
+      <i
+        class="material-icons"
+        @click="close"
+      >close</i>
     </a>
   </div>
 </template>
