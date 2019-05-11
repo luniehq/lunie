@@ -1,8 +1,5 @@
 <template>
-  <div
-    v-if="session.maintenanceBar && show"
-    class="maintenance-bar"
-  >
+  <div v-if="session.maintenanceBar && show" class="maintenance-bar">
     <i></i>
     <p>
       We've identified problems with our servers that are causing issues for
@@ -10,10 +7,7 @@
       fix.
     </p>
     <a class="close">
-      <i
-        class="material-icons"
-        @click="close"
-      >close</i>
+      <i class="material-icons" @click="close">close</i>
     </a>
   </div>
 </template>
