@@ -28,9 +28,9 @@ export const distribution = state => state.distribution
 export const yourValidators = (state, getters) =>
   state.session.signedIn
     ? getters.delegates.delegates.filter(
-        ({ operator_address }) =>
-          operator_address in getters.committedDelegations
-      )
+      ({ operator_address }) =>
+        operator_address in getters.committedDelegations
+    )
     : []
 
 // staking
@@ -80,7 +80,6 @@ export const oldUnbondingAtoms = state => {
 export const committedDelegations = state => state.delegation.committedDelegates
 export const delegates = state => state.delegates
 export const shoppingCart = state => state.delegation.delegates
-export const validators = state => state.validators.validators
 export const keybase = state => state.keybase.identities
 export const pool = state => state.pool
 export const stakingParameters = state => state.stakingParameters
@@ -96,7 +95,7 @@ export const deposits = state => state.deposits.deposits
 export const governanceParameters = state => state.governanceParameters
 export const depositDenom = getters =>
   getters.governanceParameters.loaded &&
-  getters.governanceParameters.parameters.deposit.min_deposit
+    getters.governanceParameters.parameters.deposit.min_deposit
     ? getters.governanceParameters.parameters.deposit.min_deposit[0].denom
     : `uatom`
 
