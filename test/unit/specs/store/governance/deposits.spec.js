@@ -99,7 +99,7 @@ describe(`Module: Deposits`, () => {
       expect(dispatch.mock.calls[i]).toEqual([
         `sendTx`,
         {
-          type: `postProposalDeposit`,
+          type: `MsgDeposit`,
           to: proposal_id,
           proposal_id,
           depositor: addresses[0],
