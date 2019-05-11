@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [1.0.0-beta.65] - 2019-05-11
+
+### Added
+
+- [#2561](https://github.com/cosmos/lunie/issues/2561) added a maintenance bar for when there are issues @jbibla
+
 ## [1.0.0-beta.64] - 2019-05-11
 
 ### Added
