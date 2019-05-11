@@ -13,7 +13,7 @@
       <div class="tm-session-main">
         <LiSession
           icon="usb"
-          title="Sign in with Ledger Nano&#160;S"
+          title="Sign in with Ledger Nano S"
           :subtitle="
             session.browserWithLedgerSupport
               ? 'If you have a Ledger Wallet, choose this option.'
