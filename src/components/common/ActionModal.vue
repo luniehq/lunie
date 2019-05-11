@@ -160,7 +160,7 @@
                 v-else
                 color="primary"
                 value="Submit"
-                :disabled="!browserWithLedgerSupport"
+                :disabled="!session.browserWithLedgerSupport"
                 @click.native="validateChangeStep"
               />
             </div>
