@@ -4,9 +4,7 @@ exports[`CookieBar shows the cookie bar 1`] = `
 <div
   class="cookie-bar"
 >
-  <i
-    class="hide-on-mobile"
-  />
+  <i />
    
   <p>
     <span
