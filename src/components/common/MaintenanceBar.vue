@@ -1,16 +1,13 @@
 <template>
-  <div v-if="!session.cookiesAccepted" class="cookie-bar">
+  <div v-if="session.maintenanceBar && show" class="maintenance-bar">
     <i></i>
     <p>
-      <span class="hide-on-mobile"
-        >This site uses cookies to help improve the user experience.</span
-      >
-      By using Lunie, you accept our
-      <router-link to="/terms" class="link">Terms of Service</router-link> and
-      <router-link to="/privacy" class="link">Privacy Policy</router-link>.
+      We've identified problems with our servers that are causing issues for
+      some of our users. We apologize for the disruption and are working on a
+      fix.
     </p>
     <a class="close">
-      <i class="material-icons" @click="accept">close</i>
+      <i class="material-icons" @click="close">close</i>
     </a>
   </div>
 </template>
@@ -18,29 +15,30 @@
 <script>
 import { mapGetters } from "vuex"
 export default {
-  name: `cookie-bar`,
+  name: `maintenance-bar`,
   computed: {
     ...mapGetters([`session`])
   },
+  data: () => ({
+    show: true
+  }),
   methods: {
-    accept() {
-      this.$store.dispatch(`setAnalyticsCollection`, true)
-      this.$store.dispatch(`setErrorCollection`, true)
-      this.$store.dispatch(`storeLocalPreferences`)
+    close() {
+      this.show = false
     }
   }
 }
 </script>
 
 <style scoped>
-.cookie-bar {
+.maintenance-bar {
   left: 0;
   right: 0;
   top: 0;
   width: 100%;
   padding: 1rem;
   font-family: var(--sans);
-  background-color: var(--primary);
+  background-color: #551f38;
   font-size: 14px;
   line-height: 20px;
   font-weight: 400;
@@ -51,12 +49,12 @@ export default {
   color: var(--bright);
 }
 
-.cookie-bar .link {
+.maintenance-bar .link {
   text-decoration: underline;
   color: var(--bright);
 }
 
-.cookie-bar .close {
+.maintenance-bar .close {
   cursor: pointer;
   height: 1rem;
   width: 1rem;
@@ -64,7 +62,7 @@ export default {
 }
 
 @media (max-width: 1024px) {
-  .cookie-bar {
+  .maintenance-bar {
     position: fixed;
     top: auto;
     bottom: 0;
