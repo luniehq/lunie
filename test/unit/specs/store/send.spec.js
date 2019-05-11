@@ -17,15 +17,15 @@ jest.mock(`scripts/wallet.js`, () => ({
   createBroadcastBody: jest.fn(() => ({
     broadcast: `body`
   })),
-  createSignedTx: jest.fn(() => { }),
-  createSignMessage: jest.fn(() => { })
+  createSignedTx: jest.fn(() => {}),
+  createSignMessage: jest.fn(() => {})
 }))
 
 jest.mock(
   `@lunie/cosmos-js`,
   () =>
     class MockCosmosJs {
-      constructor() { }
+      constructor() {}
 
       MsgSend() {
         return {
