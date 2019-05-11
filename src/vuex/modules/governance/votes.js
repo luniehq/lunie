@@ -36,8 +36,7 @@ export default ({ node }) => {
         to: proposal_id,
         type: `MsgVote`,
         proposal_id,
-        voter: rootState.wallet
-        .address,
+        voter: rootState.wallet.address,
         option
       })
     },

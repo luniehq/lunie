@@ -96,7 +96,7 @@ describe(`Module: Wallet`, () => {
     })
 
     it(`should not throw if fetching money fails`, async () => {
-      jest.spyOn(console, "error").mockImplementationOnce(() => { })
+      jest.spyOn(console, "error").mockImplementationOnce(() => {})
       const { state, actions } = instance
       state.externals.axios.get = () => Promise.reject("Expected")
       const address = `X`
@@ -272,7 +272,7 @@ describe(`Module: Wallet`, () => {
 
     it(`should catch errors from subscriptions`, async () => {
       jest.useFakeTimers()
-      jest.spyOn(console, "error").mockImplementation(() => { })
+      jest.spyOn(console, "error").mockImplementation(() => {})
 
       const node = {
         rpc: {

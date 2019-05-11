@@ -92,7 +92,7 @@ describe(`Module: Send`, () => {
       node
     })
     state = module.state
-    mutations = module.mutations
+    actions = module.actions
   })
 
   describe(`Actions`, () => {
@@ -146,12 +146,18 @@ describe(`Module: Send`, () => {
           privateKey: Buffer.alloc(0),
           publicKey: Buffer.alloc(0)
         })
-        const signer = getSigner(state, mockRootState, { submitType: "local", password: "1234567890" })
+        const signer = getSigner(state, mockRootState, {
+          submitType: "local",
+          password: "1234567890"
+        })
         expect(signer("message")).toEqual({
           signature: expect.any(Buffer),
           publicKey: expect.any(Buffer)
         })
-        expect(state.externals.signWithPrivateKey).toHaveBeenCalledWith("message", expect.any(Buffer))
+        expect(state.externals.signWithPrivateKey).toHaveBeenCalledWith(
+          "message",
+          expect.any(Buffer)
+        )
       })
 
       it("should pick a ledger signer", async () => {
@@ -236,17 +242,23 @@ describe(`Module: Send`, () => {
           args
         )
 
-        expect(messageSpy).toHaveBeenCalledWith("cosmos1superaddress", { "amounts": [{ "amount": 123, "denom": "uatom" }], "toAddress": "cosmos1234" })
-        expect(sendSpy).toHaveBeenCalledWith({
-          "gas": "1234567",
-          "gasPrices": [
-            {
-              "amount": "0.025",
-              "denom": "uatom",
-            }
-          ],
-          "memo": undefined
-        }, expect.any(Function))
+        expect(messageSpy).toHaveBeenCalledWith("cosmos1superaddress", {
+          amounts: [{ amount: 123, denom: "uatom" }],
+          toAddress: "cosmos1234"
+        })
+        expect(sendSpy).toHaveBeenCalledWith(
+          {
+            gas: "1234567",
+            gasPrices: [
+              {
+                amount: "0.025",
+                denom: "uatom"
+              }
+            ],
+            memo: undefined
+          },
+          expect.any(Function)
+        )
       })
     })
   })
