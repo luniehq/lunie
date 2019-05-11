@@ -28,7 +28,7 @@ exports[`TmSessionHardware should show a state indicator for different states of
 "<div class=\\"tm-session\\"><div class=\\"tm-session-container\\"><div class=\\"tm-session-header\\"><a><i class=\\"material-icons\\">arrow_back</i></a> <div class=\\"tm-session-title\\">
         Sign In
       </div> <a><i class=\\"material-icons\\">close</i></a></div> <div class=\\"tm-session-main\\"><div class=\\"tm-hardware-state\\"><div class=\\"tm-hardware-state-content\\"><!----> <div class=\\"tm-hardware-state__label\\"><!----> 
-          Signin in with the address
+          Sign in with the address
           <span class=\\"address\\"></span>.<br>
           Please confirm on your Ledger.
          <!----></div></div> <img src=\\"~assets/images/loader.svg\\" style=\\"\\"></div></div> <div class=\\"tm-session-footer\\"><p class=\\"ledger-install\\">

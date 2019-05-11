@@ -175,14 +175,14 @@ describe(`Module: Ledger`, () => {
           state.externals.App = () => ({
             publicKey: () =>
               Promise.resolve({
-                error_message: `Instruction no supported`
+                error_message: `Instruction not supported`
               })
           })
           await expect(
             actions.pollLedgerDevice({ state, dispatch })
           ).rejects.toThrow(
-            `Your Ledger Cosmos App is probably outdated. ` +
-              `Please update to version 1.5.0.`
+            `Your Cosmos Ledger App is not up to date. ` +
+            `Please update to version 1.5.0.`
           )
         })
 
@@ -343,7 +343,7 @@ describe(`Module: Ledger`, () => {
               rootState: mockRootState
             })
           ).rejects.toThrow(
-            `DANGER: The Cosmos Ledger app in test mode shouldn't be used on mainnet!`
+            `DANGER: The Cosmos Ledger app is in test mode and shouldn't be used on mainnet!`
           )
           expect(commit).not.toHaveBeenCalledWith(
             `setCosmosAppVersion`,
@@ -393,7 +393,7 @@ describe(`Module: Ledger`, () => {
                 }
               }
             })
-          ).rejects.toThrowError("User rejected the displayed address")
+          ).rejects.toThrowError("Displayed address was rejected")
         })
 
         it("automatically passed on old Ledgers as they don't have this feature", async () => {

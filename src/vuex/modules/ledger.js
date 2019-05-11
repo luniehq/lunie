@@ -136,12 +136,12 @@ export default () => {
       await dispatch(`createLedgerAppInstance`)
       const address = await dispatch(`getLedgerAddressAndPubKey`)
       commit(`setLedgerConnection`, true)
-      // DEPRECATION enable once 1.5.0 is available on Ledger Live
-      // commit("notifyWarn", {
-      //   title: "Ledger Cosmos App Outdated",
-      //   body:
-      //     "Your Ledger Cosmos App version is going to be deprecated. Please update to the lastest app version using Ledger Live."
-      // })
+      // DEPRECATION disable and turn into a block to use ledger around end of may
+      commit("notifyWarn", {
+        title: "Ledger Cosmos App Outdated",
+        body:
+          "Your Ledger Cosmos App version is going to be deprecated. Please update to the lastest app version using Ledger Live."
+      })
 
       return address
     },
