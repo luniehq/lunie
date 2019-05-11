@@ -175,7 +175,7 @@ export default () => {
       commit(`setCosmosAppVersion`, version)
 
       if (
-        !semver.gt(version, state.externals.config.requiredCosmosAppVersion)
+        !semver.gte(version, state.externals.config.requiredCosmosAppVersion)
       ) {
         const msg = `Outdated version: please update Cosmos app to ${
           state.externals.config.requiredCosmosAppVersion
