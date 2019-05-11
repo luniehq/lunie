@@ -182,7 +182,7 @@ describe(`Module: Ledger`, () => {
             actions.pollLedgerDevice({ state, dispatch })
           ).rejects.toThrow(
             `Your Cosmos Ledger App is not up to date. ` +
-            `Please update to version 1.5.0.`
+              `Please update to version 1.5.0.`
           )
         })
 
