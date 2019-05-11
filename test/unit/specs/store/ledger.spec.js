@@ -129,7 +129,8 @@ describe(`Module: Ledger`, () => {
               })
           })
           expect(
-            async () => await actions.pollLedgerDevice({ state, dispatch })
+            async () =>
+              await actions.pollLedgerDevice({ state, commit, dispatch })
           ).not.toThrow()
         })
 
@@ -141,7 +142,7 @@ describe(`Module: Ledger`, () => {
               })
           })
           await expect(
-            actions.pollLedgerDevice({ state, dispatch })
+            actions.pollLedgerDevice({ state, commit, dispatch })
           ).rejects.toThrow(`Cosmos app is not open`)
         })
 
@@ -153,7 +154,7 @@ describe(`Module: Ledger`, () => {
               })
           })
           await expect(
-            actions.pollLedgerDevice({ state, dispatch })
+            actions.pollLedgerDevice({ state, commit, dispatch })
           ).rejects.toThrow(
             `Could not find a connected and unlocked Ledger device`
           )
@@ -167,7 +168,7 @@ describe(`Module: Ledger`, () => {
               })
           })
           await expect(
-            actions.pollLedgerDevice({ state, dispatch })
+            actions.pollLedgerDevice({ state, commit, dispatch })
           ).rejects.toThrow(`Ledger's screensaver mode is on`)
         })
 
@@ -179,7 +180,7 @@ describe(`Module: Ledger`, () => {
               })
           })
           await expect(
-            actions.pollLedgerDevice({ state, dispatch })
+            actions.pollLedgerDevice({ state, commit, dispatch })
           ).rejects.toThrow(
             `Your Cosmos Ledger App is not up to date. ` +
               `Please update to version 1.5.0.`
@@ -203,7 +204,7 @@ describe(`Module: Ledger`, () => {
           }
 
           await expect(
-            actions.pollLedgerDevice({ state, dispatch })
+            actions.pollLedgerDevice({ state, commit, dispatch })
           ).rejects.toThrow(`Close Ethereum and open the Cosmos app`)
 
           dispatch = action => {
@@ -215,7 +216,8 @@ describe(`Module: Ledger`, () => {
             }
           }
 
-          await expect(actions.pollLedgerDevice({ state, dispatch })).resolves
+          // does not throw
+          await actions.pollLedgerDevice({ state, commit, dispatch })
         })
 
         it(`fails if publicKey throws`, async () => {
@@ -225,9 +227,33 @@ describe(`Module: Ledger`, () => {
                 error_message: `Execution Error`
               })
           })
-          await expect(actions.pollLedgerDevice({ state })).rejects.toThrow(
-            `Execution Error`
-          )
+          await expect(
+            actions.pollLedgerDevice({ state, commit, dispatch })
+          ).rejects.toThrow(`Execution Error`)
+        })
+
+        it(`shows a deprecation warning`, async () => {
+          state.externals.App = () => ({
+            publicKey: () =>
+              Promise.resolve({
+                error_message: `No errors`
+              })
+          })
+          dispatch = action => {
+            if (action === "getLedgerCosmosVersion") {
+              return "1.1.1"
+            }
+            if (action === "getOpenAppInfo") {
+              return
+            }
+          }
+
+          await actions.pollLedgerDevice({ state, commit, dispatch })
+          expect(commit).toHaveBeenCalledWith("notifyWarn", {
+            body:
+              "Your Ledger Cosmos App version is going to be deprecated. Please update to the lastest app version using Ledger Live.",
+            title: "Ledger Cosmos App Outdated"
+          })
         })
       })
 

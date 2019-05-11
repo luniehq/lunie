@@ -99,7 +99,7 @@ export default () => {
         externals: state.externals
       }
     },
-    async pollLedgerDevice({ dispatch, state }) {
+    async pollLedgerDevice({ dispatch, commit, state }) {
       // poll device with low timeout to check if the device is connected
       const secondsTimeout = 5 // a lower value always timeouts
       const communicationMethod = await state.externals.comm_u2f.create_async(
@@ -121,6 +121,13 @@ export default () => {
       if (semver.satisfies(version, ">=1.5.0")) {
         // throws if not open
         await dispatch(`getOpenAppInfo`, cosmosLedgerApp)
+      } else {
+        // DEPRECATION disable and turn into a block to use ledger around end of may
+        commit("notifyWarn", {
+          title: "Ledger Cosmos App Outdated",
+          body:
+            "Your Ledger Cosmos App version is going to be deprecated. Please update to the lastest app version using Ledger Live."
+        })
       }
     },
     async createLedgerAppInstance({ commit, state }) {
@@ -136,12 +143,6 @@ export default () => {
       await dispatch(`createLedgerAppInstance`)
       const address = await dispatch(`getLedgerAddressAndPubKey`)
       commit(`setLedgerConnection`, true)
-      // DEPRECATION disable and turn into a block to use ledger around end of may
-      commit("notifyWarn", {
-        title: "Ledger Cosmos App Outdated",
-        body:
-          "Your Ledger Cosmos App version is going to be deprecated. Please update to the lastest app version using Ledger Live."
-      })
 
       return address
     },
