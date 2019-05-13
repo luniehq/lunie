@@ -1,0 +1,127 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TmBtn has the expected html structure 1`] = `
+<div
+  class="stepItem"
+  value="button"
+>
+  <svg
+    height="30"
+    width="30"
+  >
+    <circle
+      class="circle--default active textActive"
+      cx="15"
+      cy="15"
+      r="14"
+    />
+     
+    <text
+      dy=".3em"
+      fill="white"
+      stroke="white"
+      stroke-width="1"
+      text-anchor="middle"
+      x="50%"
+      y="50%"
+    >
+      
+      
+    
+    </text>
+  </svg>
+  <!---->
+   
+  <p
+    class="text--default active textActive"
+  >
+    
+    
+  
+  </p>
+</div>
+`;
+
+exports[`TmBtn returns active class 1`] = `
+<div
+  class="stepItem"
+  value="button"
+>
+  <svg
+    height="30"
+    width="30"
+  >
+    <circle
+      class="circle--default active textActive"
+      cx="15"
+      cy="15"
+      r="14"
+    />
+     
+    <text
+      dy=".3em"
+      fill="white"
+      stroke="white"
+      stroke-width="1"
+      text-anchor="middle"
+      x="50%"
+      y="50%"
+    >
+      
+      
+    
+    </text>
+  </svg>
+  <!---->
+   
+  <p
+    class="text--default active textActive"
+  >
+    
+    
+  
+  </p>
+</div>
+`;
+
+exports[`TmBtn returns textActive class 1`] = `
+<div
+  class="stepItem"
+  value="button"
+>
+  <svg
+    height="30"
+    width="30"
+  >
+    <circle
+      class="circle--default active textActive"
+      cx="15"
+      cy="15"
+      r="14"
+    />
+     
+    <text
+      dy=".3em"
+      fill="white"
+      stroke="white"
+      stroke-width="1"
+      text-anchor="middle"
+      x="50%"
+      y="50%"
+    >
+      
+      
+    
+    </text>
+  </svg>
+  <!---->
+   
+  <p
+    class="text--default active textActive"
+  >
+    
+    
+  
+  </p>
+</div>
+`;
