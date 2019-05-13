@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [1.0.0-beta.66] - 2019-05-13
+
+### Changed
+
+- [#2577](https://github.com/cosmos/lunie/pull/2577) Build for mainnet always to enable easier previews on PRs (circleci artifacts) @faboweb
+
+### Fixed
+
+- [#2577](https://github.com/cosmos/lunie/pull/2577) Cachebust CircleCI dependencies to fix ledger lib issues @faboweb
+
 ## [1.0.0-beta.65] - 2019-05-11
 
 ### Added
