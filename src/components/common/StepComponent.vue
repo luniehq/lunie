@@ -51,9 +51,6 @@ export default {
         textActive: this.step === this.stepName
       }
     }
-  },
-  mounted() {
-    console.log(this.includeLine)
   }
 }
 </script>
