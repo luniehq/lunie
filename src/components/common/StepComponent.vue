@@ -25,7 +25,7 @@
         y1="15"
         x2="45"
         y2="15"
-        style="stroke:#979797; stroke-width:2;"
+        class="grey--line"
       />
     </svg>
     <p class="text--default" :class="isActive">
@@ -42,7 +42,10 @@ export default {
     step: String,
     stepName: String,
     stepNumber: String,
-    includeLine: Boolean
+    includeLine: {
+      type: Boolean,
+      default: true
+    }
   },
   computed: {
     isActive() {
@@ -82,6 +85,11 @@ svg {
 
   /* This needs to be improved */
   width: 30px;
+}
+
+.grey--line {
+  stroke: var(--grey);
+  stroke-width:2;
 }
 
 .textActive {

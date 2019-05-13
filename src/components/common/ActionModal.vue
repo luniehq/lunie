@@ -13,21 +13,18 @@
           <i class="material-icons">close</i>
         </div>
       </div>
-      <!-- This step stuff should be refactored into something smaller -->
       <div class="step--container">
         <StepComponent
           step-title="Details"
           :step="step"
           step-name="txDetails"
           step-number="1"
-          :include-line="true"
         ></StepComponent>
         <StepComponent
           step-title="Fees"
           :step="step"
           step-name="fees"
           step-number="2"
-          :include-line="true"
         ></StepComponent>
         <StepComponent
           step-title="Sign"
