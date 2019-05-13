@@ -2,10 +2,6 @@
   <transition v-if="show" name="slide-fade">
     <div v-focus-last class="action-modal" tabindex="0" @keyup.esc="close">
       <div class="action-modal-header">
-        <!-- <img
-          class="icon action-modal-atom"
-          src="~assets/images/cosmos-logo.png"
-        /> -->
         <span class="action-modal-title">
           {{ requiresSignIn ? `Sign in required` : title }}
         </span>
