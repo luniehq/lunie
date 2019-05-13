@@ -1,0 +1,2 @@
+[Fixed] [#2577](https://github.com/cosmos/lunie/pull/2577) Cachebust CircleCI dependencies to fix ledger lib issues @faboweb
+[Changed] [#2577](https://github.com/cosmos/lunie/pull/2577) Build for mainnet always to enable easier previews on PRs (circleci artifacts) @faboweb
