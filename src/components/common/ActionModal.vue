@@ -24,21 +24,21 @@
           :step="step"
           step-name="txDetails"
           step-number="1"
-          :includeLine=true
+          :include-line="true"
         ></StepComponent>
         <StepComponent
           step-title="Fees"
           :step="step"
           step-name="fees"
           step-number="2"
-          :includeLine=true
+          :include-line="true"
         ></StepComponent>
         <StepComponent
           step-title="Sign"
           :step="step"
           step-name="sign"
           step-number="3"
-          :includeLine=false
+          :include-line="false"
         ></StepComponent>
       </div>
       <div v-if="requiresSignIn" class="action-modal-form">

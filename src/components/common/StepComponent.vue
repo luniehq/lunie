@@ -18,9 +18,15 @@
         dy=".3em"
       >
         {{ stepNumber }}
-      </text>
-    </svg><svg height="30" width="30" v-if=includeLine>
-      <line x1="0" y1="15" x2="45" y2="15" style="stroke:#979797;stroke-width:2" />
+      </text></svg
+    ><svg v-if="includeLine" height="30" width="30">
+      <line
+        x1="0"
+        y1="15"
+        x2="45"
+        y2="15"
+        style="stroke:#979797; stroke-width:2;"
+      />
     </svg>
     <p class="text--default" :class="isActive">
       {{ stepTitle }}
@@ -38,9 +44,6 @@ export default {
     stepNumber: String,
     includeLine: Boolean
   },
-  mounted() {
-    console.log(this.includeLine)
-  },
   computed: {
     isActive() {
       return {
@@ -48,12 +51,14 @@ export default {
         textActive: this.step === this.stepName
       }
     }
+  },
+  mounted() {
+    console.log(this.includeLine)
   }
 }
 </script>
 
 <style>
-
 .circle--default {
   stroke: var(--grey);
   stroke-width: 2;
@@ -67,7 +72,7 @@ export default {
 }
 
 svg {
-    display: inline-block;
+  display: inline-block;
 }
 
 .text--default {
@@ -77,7 +82,8 @@ svg {
   line-height: normal;
   letter-spacing: normal;
   text-align: center;
-  /*This needs to be improved */
+
+  /* This needs to be improved */
   width: 30px;
 }
 
