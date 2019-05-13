@@ -17,21 +17,28 @@
           <i class="material-icons">close</i>
         </div>
       </div>
+      <!-- This step stuff should be refactored into something smaller -->
       <div class="step--container">
         <StepComponent
           step-title="Details"
           :step="step"
           step-name="txDetails"
+          step-number="1"
+          :includeLine=true
         ></StepComponent>
         <StepComponent
-          step-title="Details"
+          step-title="Fees"
           :step="step"
-          step-name="txDetails"
+          step-name="fees"
+          step-number="2"
+          :includeLine=true
         ></StepComponent>
         <StepComponent
-          step-title="Details"
+          step-title="Sign"
           :step="step"
-          step-name="txDetails"
+          step-name="sign"
+          step-number="3"
+          :includeLine=false
         ></StepComponent>
       </div>
       <div v-if="requiresSignIn" class="action-modal-form">

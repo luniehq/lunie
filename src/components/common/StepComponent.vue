@@ -1,9 +1,9 @@
 <template>
-  <div>
+  <div class="stepItem">
     <svg width="30" height="30">
       <circle
         class="circle--default"
-        r="12"
+        r="14"
         cx="15"
         cy="15"
         :class="isActive"
@@ -17,8 +17,10 @@
         stroke-width="1"
         dy=".3em"
       >
-        1
+        {{ stepNumber }}
       </text>
+    </svg><svg height="30" width="30" v-if=includeLine>
+      <line x1="0" y1="15" x2="45" y2="15" style="stroke:#979797;stroke-width:2" />
     </svg>
     <p class="text--default" :class="isActive">
       {{ stepTitle }}
@@ -27,19 +29,23 @@
 </template>
 
 <script>
-// If step === stepName then use select color else default color
 export default {
   name: "StepComponent",
   props: {
     stepTitle: String,
     step: String,
-    stepName: String
+    stepName: String,
+    stepNumber: String,
+    includeLine: Boolean
+  },
+  mounted() {
+    console.log(this.includeLine)
   },
   computed: {
     isActive() {
       return {
         active: this.step === this.stepName,
-        textActive: this.step === this.stepname
+        textActive: this.step === this.stepName
       }
     }
   }
@@ -47,23 +53,35 @@ export default {
 </script>
 
 <style>
+
 .circle--default {
-  stroke: #979797;
+  stroke: var(--grey);
   stroke-width: 2;
   fill: transparent;
 }
 
 .active {
-  stroke: #fc31a7;
+  stroke: var(--tertiary);
   stroke-width: 2;
-  fill: transparent;
+  fill: rgba(252, 49, 167, 0.25);
+}
+
+svg {
+    display: inline-block;
 }
 
 .text--default {
-  color: #979797;
+  color: var(--grey);
+  font-size: var(--xs);
+  font-weight: 500;
+  line-height: normal;
+  letter-spacing: normal;
+  text-align: center;
+  /*This needs to be improved */
+  width: 30px;
 }
 
 .textActive {
-  color: #fc31a7;
+  color: var(--tertiary);
 }
 </style>
