@@ -14,6 +14,26 @@
       <li>
         <router-link
           class="app-menu-item-small"
+          to="/careers"
+          exact="exact"
+          title="Careers"
+        >
+          Careers
+        </router-link>
+      </li>
+      <li>
+        <router-link
+          class="app-menu-item-small"
+          to="/security"
+          exact="exact"
+          title="Security"
+        >
+          Security
+        </router-link>
+      </li>
+      <li>
+        <router-link
+          class="app-menu-item-small"
           to="/terms"
           exact="exact"
           title="Terms"
@@ -29,16 +49,6 @@
           title="Privacy"
         >
           Privacy Policy
-        </router-link>
-      </li>
-      <li>
-        <router-link
-          class="app-menu-item-small"
-          to="/security"
-          exact="exact"
-          title="Security"
-        >
-          Security
         </router-link>
       </li>
     </ul>

@@ -93,7 +93,7 @@ export function getSigner(state, rootState, { submitType, password }) {
     }
   } else {
     return async signMessage => {
-      const ledger = new state.externals.Ledger()
+      const ledger = new state.externals.Ledger(state.externals.config)
       const publicKey = await ledger.getPubKey()
       const signature = await ledger.sign(signMessage)
 

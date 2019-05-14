@@ -18,7 +18,7 @@ describe(`CookieBar`, () => {
       mocks: {
         $store
       },
-      stubs: ["router-link"]
+      stubs: [`router-link`]
     })
   })
 
