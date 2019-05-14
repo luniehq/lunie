@@ -52,9 +52,10 @@ export default {
   border: 0.1rem var(--grey) solid;
   border-radius: 1rem;
   fill: transparent;
-  width: 1.75rem;
+  width: 1.3rem;
   margin: 0 auto;
   margin-bottom: 0.5rem;
+  font-size: var(--xs);
 }
 
 .active {
