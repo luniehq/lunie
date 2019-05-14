@@ -32,16 +32,16 @@
     </td>
     <td>{{ `#` + proposal.proposal_id }}</td>
     <td class="li-proposal__value yes">
-      {{ yesPercentage }}
+      {{ roundedPercentagesTally.yes | prettyDecimals }}%
     </td>
     <td class="li-proposal__value no">
-      {{ noPercentage }}
+      {{ roundedPercentagesTally.no | prettyDecimals }}%
     </td>
     <td class="li-proposal__value no_with_veto">
-      {{ noWithVetoPercentage }}
+      {{ roundedPercentagesTally.no_with_veto | prettyDecimals }}%
     </td>
     <td class="li-proposal__value abstain">
-      {{ abstainPercentage }}
+      {{ roundedPercentagesTally.abstain | prettyDecimals }}%
     </td>
   </tr>
 </template>
@@ -49,9 +49,13 @@
 <script>
 import BigNumber from "bignumber.js"
 import { mapGetters } from "vuex"
-import { percentInt } from "../../scripts/num.js"
+import { roundObjectPercentages } from "../../utils"
+import { prettyDecimals } from "../../scripts/num"
 export default {
   name: `li-proposal`,
+  filters: {
+    prettyDecimals
+  },
   props: {
     proposal: {
       type: Object,
@@ -63,69 +67,52 @@ export default {
     tally() {
       const { yes, no, abstain, no_with_veto } =
         this.proposals.tallies[this.proposal.proposal_id] || {}
-      return {
-        yes: yes || BigNumber(0),
-        no: no || BigNumber(0),
-        abstain: abstain || BigNumber(0),
-        no_with_veto: no_with_veto || BigNumber(0)
-      }
-    },
-    totalVotes({ tally: { yes, no, no_with_veto, abstain } } = this) {
-      return BigNumber(yes)
+
+      const totalVotes = BigNumber(yes)
         .plus(no)
         .plus(no_with_veto)
         .plus(abstain)
         .toNumber()
-    },
-    yesPercentage({ tally, totalVotes } = this) {
-      if (this.proposal.proposal_status === `DepositPeriod`) {
-        return `--`
+      const totalMult = totalVotes / 100
+      return {
+        yes: yes / totalMult || BigNumber(0),
+        no: no / totalMult || BigNumber(0),
+        abstain: abstain / totalMult || BigNumber(0),
+        no_with_veto: no_with_veto / totalMult || BigNumber(0)
       }
-      return percentInt(totalVotes === 0 ? 0 : tally.yes / totalVotes)
     },
-    noPercentage({ tally, totalVotes } = this) {
-      if (this.proposal.proposal_status === `DepositPeriod`) {
-        return `--`
-      }
-      return percentInt(totalVotes === 0 ? 0 : tally.no / totalVotes)
+    roundedPercentagesTally() {
+      return roundObjectPercentages(this.tally)
     },
-    noWithVetoPercentage({ tally, totalVotes } = this) {
-      if (this.proposal.proposal_status === `DepositPeriod`) {
-        return `--`
-      }
-      return percentInt(totalVotes === 0 ? 0 : tally.no_with_veto / totalVotes)
-    },
-    abstainPercentage({ tally, totalVotes } = this) {
-      if (this.proposal.proposal_status === `DepositPeriod`) {
-        return `--`
-      }
-      return percentInt(totalVotes === 0 ? 0 : tally.abstain / totalVotes)
+    isDepositPeriod() {
+      return this.proposal.proposal_status === `DepositPeriod`
     },
     status() {
-      if (this.proposal.proposal_status === `Passed`) {
-        return {
-          message: `This proposal has passed`
-        }
-      } else if (this.proposal.proposal_status === `Rejected`) {
-        return {
-          message: `This proposal has been rejected and voting is closed`,
-          color: `red`
-        }
-      } else if (this.proposal.proposal_status === `DepositPeriod`) {
-        return {
-          message: `Deposits are open for this proposal`,
-          color: `yellow`
-        }
-      } else if (this.proposal.proposal_status === `VotingPeriod`) {
-        return {
-          message: `Voting for this proposal is open`,
-          color: `green`
-        }
-      } else {
-        return {
-          message: `There was an error determining the status of this proposal.`,
-          color: `grey`
-        }
+      switch (this.proposal.proposal_status) {
+        case `Passed`:
+          return {
+            message: `This proposal has passed`
+          }
+        case `Rejected`:
+          return {
+            message: `This proposal has been rejected and voting is closed`,
+            color: `red`
+          }
+        case `DepositPeriod`:
+          return {
+            message: `Deposits are open for this proposal`,
+            color: `yellow`
+          }
+        case `VotingPeriod`:
+          return {
+            message: `Voting for this proposal is open`,
+            color: `green`
+          }
+        default:
+          return {
+            message: `There was an error determining the status of this proposal.`,
+            color: `grey`
+          }
       }
     },
     description() {

@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [1.0.0-beta.67] - 2019-05-14
+
+### Changed
+
+- [#2584](https://github.com/cosmos/lunie/pull/2584) Switched back to Lunie servers after fixing issues @faboweb
+
+### Fixed
+
+- [#2430](https://github.com/cosmos/lunie/issues/2430) Ensure proposal tallies sum to 100 percent @colw
+
 ## [1.0.0-beta.66] - 2019-05-13
 
 ### Changed
