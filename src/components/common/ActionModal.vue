@@ -482,7 +482,9 @@ export default {
   display: flex;
   flex-direction: row;
   text-align: center;
-  justify-content: center;
+  justify-content: space-between;
+  width: 13rem;
+  margin: 0 auto;
 }
 
 .action-modal-title {

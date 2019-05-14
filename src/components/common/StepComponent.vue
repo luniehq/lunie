@@ -1,30 +1,13 @@
 <template>
   <div class="stepItem">
-    <svg width="30" height="30">
-      <circle
-        class="circle--default"
-        r="14"
-        cx="15"
-        cy="15"
-        :class="isActive"
-      ></circle>
-      <text
-        x="50%"
-        y="50%"
-        text-anchor="middle"
-        stroke="white"
-        fill="white"
-        stroke-width="1"
-        dy=".3em"
-      >
+    <div class="circle--container">
+      <div class="circle--default">
         {{ stepNumber }}
-      </text></svg
-    ><svg v-if="includeLine" height="30" width="30">
-      <line x1="0" y1="15" x2="45" y2="15" class="grey--line" />
-    </svg>
-    <p class="text--default" :class="isActive">
-      {{ stepTitle }}
-    </p>
+      </div>
+      <p class="text--default" :class="isActive">
+        {{ stepTitle }}
+      </p>
+    </div>
   </div>
 </template>
 
@@ -53,10 +36,24 @@ export default {
 </script>
 
 <style>
+.stepItem {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+.circle--container{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
 .circle--default {
-  stroke: var(--grey);
-  stroke-width: 2;
+  border: .1rem var(--grey) solid;
+  border-radius: 1rem;
   fill: transparent;
+  width: 1.75rem;
+  margin: 0 auto;
+  margin-bottom: .5rem;
 }
 
 .active {
@@ -76,14 +73,13 @@ svg {
   line-height: normal;
   letter-spacing: normal;
   text-align: center;
-
-  /* This needs to be improved */
-  width: 30px;
+  margin: 0 auto;
 }
 
 .grey--line {
-  stroke: var(--grey);
-  stroke-width: 2;
+  height: 1px;
+  width: 20px;
+  border: solid var(--grey) 1px;
 }
 
 .textActive {
