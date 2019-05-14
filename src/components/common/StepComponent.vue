@@ -20,13 +20,7 @@
         {{ stepNumber }}
       </text></svg
     ><svg v-if="includeLine" height="30" width="30">
-      <line
-        x1="0"
-        y1="15"
-        x2="45"
-        y2="15"
-        class="grey--line"
-      />
+      <line x1="0" y1="15" x2="45" y2="15" class="grey--line" />
     </svg>
     <p class="text--default" :class="isActive">
       {{ stepTitle }}
@@ -89,7 +83,7 @@ svg {
 
 .grey--line {
   stroke: var(--grey);
-  stroke-width:2;
+  stroke-width: 2;
 }
 
 .textActive {

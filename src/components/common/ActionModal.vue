@@ -27,9 +27,9 @@
           step-number="2"
         ></StepComponent>
         <StepComponent
-          step-title="Sign"
+          step-title="Submit"
           :step="step"
-          step-name="sign"
+          step-name="submit"
           step-number="3"
           :include-line="false"
         ></StepComponent>
