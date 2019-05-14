@@ -50,9 +50,9 @@ exports[`ActionModal should show the action modal when user has logged in with l
      
     <stepcomponent-stub
       step="txDetails"
-      stepname="sign"
+      stepname="submit"
       stepnumber="3"
-      steptitle="Sign"
+      steptitle="Submit"
     />
   </div>
    
@@ -129,9 +129,9 @@ exports[`ActionModal should show the action modal when user has logged in with l
      
     <stepcomponent-stub
       step="fees"
-      stepname="sign"
+      stepname="submit"
       stepnumber="3"
-      steptitle="Sign"
+      steptitle="Submit"
     />
   </div>
    
@@ -218,9 +218,9 @@ exports[`ActionModal should show the action modal when user has logged in with l
      
     <stepcomponent-stub
       step="sign"
-      stepname="sign"
+      stepname="submit"
       stepnumber="3"
-      steptitle="Sign"
+      steptitle="Submit"
     />
   </div>
    
@@ -311,9 +311,9 @@ exports[`ActionModal should show the action modal when user has logged in with l
      
     <stepcomponent-stub
       step="txDetails"
-      stepname="sign"
+      stepname="submit"
       stepnumber="3"
-      steptitle="Sign"
+      steptitle="Submit"
     />
   </div>
    
@@ -390,9 +390,9 @@ exports[`ActionModal should show the action modal when user has logged in with l
      
     <stepcomponent-stub
       step="fees"
-      stepname="sign"
+      stepname="submit"
       stepnumber="3"
-      steptitle="Sign"
+      steptitle="Submit"
     />
   </div>
    
@@ -479,9 +479,9 @@ exports[`ActionModal should show the action modal when user has logged in with l
      
     <stepcomponent-stub
       step="sign"
-      stepname="sign"
+      stepname="submit"
       stepnumber="3"
-      steptitle="Sign"
+      steptitle="Submit"
     />
   </div>
    
@@ -575,9 +575,9 @@ exports[`ActionModal should show the action modal when user hasn't logged in 1`]
      
     <stepcomponent-stub
       step="txDetails"
-      stepname="sign"
+      stepname="submit"
       stepnumber="3"
-      steptitle="Sign"
+      steptitle="Submit"
     />
   </div>
    

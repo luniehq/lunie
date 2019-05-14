@@ -41,19 +41,20 @@ export default {
   flex-direction: row;
   justify-content: center;
 }
-.circle--container{
+
+.circle--container {
   display: flex;
   flex-direction: column;
   justify-content: center;
 }
 
 .circle--default {
-  border: .1rem var(--grey) solid;
+  border: 0.1rem var(--grey) solid;
   border-radius: 1rem;
   fill: transparent;
   width: 1.75rem;
   margin: 0 auto;
-  margin-bottom: .5rem;
+  margin-bottom: 0.5rem;
 }
 
 .active {

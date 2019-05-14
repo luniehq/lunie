@@ -5,40 +5,25 @@ exports[`TmBtn has the expected html structure 1`] = `
   class="stepItem"
   value="button"
 >
-  <svg
-    height="30"
-    width="30"
+  <div
+    class="circle--container"
   >
-    <circle
-      class="circle--default active textActive"
-      cx="15"
-      cy="15"
-      r="14"
-    />
-     
-    <text
-      dy=".3em"
-      fill="white"
-      stroke="white"
-      stroke-width="1"
-      text-anchor="middle"
-      x="50%"
-      y="50%"
+    <div
+      class="circle--default"
     >
       
       
     
-    </text>
-  </svg>
-  <!---->
-   
-  <p
-    class="text--default active textActive"
-  >
+    </div>
+     
+    <p
+      class="text--default active textActive"
+    >
+      
+      
     
-    
-  
-  </p>
+    </p>
+  </div>
 </div>
 `;
 
@@ -47,40 +32,25 @@ exports[`TmBtn returns active class 1`] = `
   class="stepItem"
   value="button"
 >
-  <svg
-    height="30"
-    width="30"
+  <div
+    class="circle--container"
   >
-    <circle
-      class="circle--default active textActive"
-      cx="15"
-      cy="15"
-      r="14"
-    />
-     
-    <text
-      dy=".3em"
-      fill="white"
-      stroke="white"
-      stroke-width="1"
-      text-anchor="middle"
-      x="50%"
-      y="50%"
+    <div
+      class="circle--default"
     >
       
       
     
-    </text>
-  </svg>
-  <!---->
-   
-  <p
-    class="text--default active textActive"
-  >
+    </div>
+     
+    <p
+      class="text--default active textActive"
+    >
+      
+      
     
-    
-  
-  </p>
+    </p>
+  </div>
 </div>
 `;
 
@@ -89,39 +59,24 @@ exports[`TmBtn returns textActive class 1`] = `
   class="stepItem"
   value="button"
 >
-  <svg
-    height="30"
-    width="30"
+  <div
+    class="circle--container"
   >
-    <circle
-      class="circle--default active textActive"
-      cx="15"
-      cy="15"
-      r="14"
-    />
-     
-    <text
-      dy=".3em"
-      fill="white"
-      stroke="white"
-      stroke-width="1"
-      text-anchor="middle"
-      x="50%"
-      y="50%"
+    <div
+      class="circle--default"
     >
       
       
     
-    </text>
-  </svg>
-  <!---->
-   
-  <p
-    class="text--default active textActive"
-  >
+    </div>
+     
+    <p
+      class="text--default active textActive"
+    >
+      
+      
     
-    
-  
-  </p>
+    </p>
+  </div>
 </div>
 `;
