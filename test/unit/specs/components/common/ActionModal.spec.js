@@ -59,7 +59,6 @@ describe(`ActionModal`, () => {
       $store,
       submitFn,
       submissionErrorPrefix: `PREFIX`,
-      connectLedger: () => {},
       connectLedger: () => {}
     }
     await ActionModal.methods.submit.call(self)
