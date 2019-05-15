@@ -32,9 +32,16 @@ gaiad start --home ${HOME} > /dev/null & (
   (
     gaiacli rest-server --home ${HOME} --chain-id ${NETWORK} --trust-node true --laddr tcp://0.0.0.0:${API_PORT} &
     sh /etc/nodes/faucet.sh $HOME &
-    sh /etc/nodes/secondary.sh $HOME 1 &
-    sh /etc/nodes/secondary.sh $HOME 2 &
-    sh /etc/nodes/secondary.sh $HOME 3
+
+    counter=1
+    max=$1
+    echo Starting $max nodes
+    while [ "$counter" -lt "$max" ]
+    do
+      sh /etc/nodes/secondary.sh "${HOME}" "$counter" &
+      counter=`expr "$counter" + 1`
+    done
+    sh /etc/nodes/secondary.sh "${HOME}" "$counter"
     wait
   )
 )
