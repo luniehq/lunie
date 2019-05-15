@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [1.0.0-beta.68] - 2019-05-15
+
+### Fixed
+
+- [#2587](https://github.com/cosmos/lunie/pull/2587) Keybase cache was not created @faboweb
+
 ## [1.0.0-beta.67] - 2019-05-14
 
 ### Changed
