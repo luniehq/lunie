@@ -3,7 +3,38 @@
 const axios = require(`axios`)
 const fs = require(`fs`)
 const path = require(`path`)
-const { lookupId } = require(`../src/vuex/modules/keybase.js`)
+
+const baseUrl = `https://keybase.io/_/api/1.0/user/lookup.json`
+const fieldsQuery = `fields=pictures,basics`
+
+export async function lookupId(state, keybaseId) {
+  const fullUrl = `${baseUrl}?key_suffix=${keybaseId}&${fieldsQuery}`
+  return query(state, fullUrl, keybaseId)
+}
+async function query(state, url, keybaseId) {
+  try {
+    const json = await state.externals.axios(url)
+    if (json.data.status.name === `OK`) {
+      const user = json.data.them[0]
+      if (user) {
+        return {
+          keybaseId,
+          avatarUrl:
+            user.pictures && user.pictures.primary
+              ? user.pictures.primary.url
+              : undefined,
+          userName: user.basics.username,
+          profileUrl: `https://keybase.io/` + user.basics.username,
+          lastUpdated: new Date(Date.now()).toUTCString()
+        }
+      }
+    }
+  } catch (error) {
+    return {
+      keybaseId
+    }
+  }
+}
 
 // This function creates a file with keybase profiles of all validators (as a fallback cache)
 // This should be created on every build
