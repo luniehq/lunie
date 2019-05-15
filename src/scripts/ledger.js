@@ -15,9 +15,13 @@ const BECH32PREFIX = `cosmos`
 
 export default class Ledger {
   constructor({ requiredCosmosAppVersion, testModeAllowed, onOutdated }) {
-    this.checkLedgerErrors = checkLedgerErrors.bind({
-      requiredCosmosAppVersion
-    })
+    this.checkLedgerErrors = (...args) =>
+      checkLedgerErrors(
+        {
+          requiredCosmosAppVersion
+        },
+        ...args
+      )
     this.testModeAllowed = testModeAllowed
     this.requiredCosmosAppVersion = requiredCosmosAppVersion
     this.onOutdated = onOutdated
@@ -50,6 +54,9 @@ export default class Ledger {
   }
   // connects to the device and checks for compatibility
   async connect(timeout = INTERACTION_TIMEOUT) {
+    // assume well connection if connected once
+    if (this.cosmosApp) return
+
     const communicationMethod = await comm_u2f.create_async(timeout, true)
     const cosmosLedgerApp = new App(communicationMethod)
 
