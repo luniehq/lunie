@@ -31,24 +31,25 @@ describe(`Module: Votes`, () => {
   it(`fetches all votes from a proposal`, async () => {
     module = votesModule({
       node: {
-        getProposalVotes: proposalId => Promise.resolve(votes[proposalId])
+        get: {
+          proposalVotes: proposalId => Promise.resolve(votes[proposalId])
+        }
       }
     })
     const { actions, state } = module
-    const commit = jest.fn()
-    Object.keys(proposals).forEach(async (proposalId, i) => {
-      await actions.getProposalVotes(
-        { state, commit, rootState: mockRootState },
-        proposalId
-      )
-      expect(commit.mock.calls[i]).toEqual([
-        `setProposalVotes`,
-        {
+    await Promise.all(
+      Object.keys(proposals).map(async proposalId => {
+        const commit = jest.fn()
+        await actions.getProposalVotes(
+          { state, commit, rootState: mockRootState },
+          proposalId
+        )
+        expect(commit).toHaveBeenCalledWith(`setProposalVotes`, {
           proposalId,
           votes: votes[proposalId]
-        }
-      ])
-    })
+        })
+      })
+    )
   })
 
   it(`should simulate a vote transaction`, async () => {
@@ -65,10 +66,11 @@ describe(`Module: Votes`, () => {
 
     expect(self.dispatch).toHaveBeenCalledWith(`simulateTx`, {
       type: `MsgVote`,
-      to: `1`,
-      proposal_id,
-      option: `No`,
-      voter: mockRootState.wallet.address
+      txArguments: {
+        proposal_id,
+        option: `No`,
+        voter: mockRootState.wallet.address
+      }
     })
     expect(res).toBe(123123)
   })
@@ -93,10 +95,11 @@ describe(`Module: Votes`, () => {
         `sendTx`,
         {
           type: `MsgVote`,
-          to: proposal_id,
-          proposal_id,
-          voter: addresses[0],
-          option: `Yes`
+          txArguments: {
+            proposal_id,
+            voter: addresses[0],
+            option: `Yes`
+          }
         }
       ])
 

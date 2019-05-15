@@ -40,10 +40,11 @@ export default ({ node }) => {
     ) {
       return await dispatch(`simulateTx`, {
         type: `MsgDeposit`,
-        to: proposal_id,
-        proposal_id,
-        depositor: wallet.address,
-        amount
+        txArguments: {
+          proposal_id,
+          depositor: wallet.address,
+          amount
+        }
       })
     },
     async submitDeposit(
@@ -56,10 +57,11 @@ export default ({ node }) => {
     ) {
       await dispatch(`sendTx`, {
         type: `MsgDeposit`,
-        to: proposal_id,
-        proposal_id,
-        depositor: wallet.address,
-        amount,
+        txArguments: {
+          proposal_id,
+          depositor: wallet.address,
+          amount,
+        },
         gas,
         gas_prices,
         password,

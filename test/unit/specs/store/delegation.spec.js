@@ -208,10 +208,8 @@ describe(`Module: Delegations`, () => {
         toAddress: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
         delegator_address: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
         validator_address,
-        amount: {
-          denom: `STAKE`,
-          amount: `10`
-        }
+        denom: `STAKE`,
+        amount: 10
       }
     })
 
@@ -247,10 +245,8 @@ describe(`Module: Delegations`, () => {
         toAddress: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
         delegator_address: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
         validator_address,
-        amount: {
-          denom: `STAKE`,
-          amount: `10`
-        }
+        denom: `STAKE`,
+        amount: 10
       },
       gas,
       gas_prices,
@@ -281,10 +277,8 @@ describe(`Module: Delegations`, () => {
         toAddress: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
         delegator_address: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
         validator_address: validator.operator_address,
-        amount: {
-          amount: `10`,
-          denom: `STAKE`
-        }
+        denom: `STAKE`,
+        amount: 10
       }
     })
     expect(res).toBe(123123)
@@ -312,10 +306,8 @@ describe(`Module: Delegations`, () => {
         toAddress: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
         delegator_address: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
         validator_address: validator.operator_address,
-        amount: {
-          amount: `10`,
-          denom: `STAKE`
-        }
+        amount: 10,
+        denom: `STAKE`
       },
       password,
       submitType
@@ -345,10 +337,8 @@ describe(`Module: Delegations`, () => {
         delegator_address: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
         validator_src_address: validatorSrc.operator_address,
         validator_dst_address: validatorDst.operator_address,
-        amount: {
-          amount: `10`,
-          denom: `STAKE`
-        }
+        amount: 10,
+        denom: `STAKE`
       }
     })
     expect(res).toBe(123123)
@@ -377,10 +367,8 @@ describe(`Module: Delegations`, () => {
         delegator_address: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
         validator_src_address: validatorSrc.operator_address,
         validator_dst_address: validatorDst.operator_address,
-        amount: {
-          amount: `10`,
-          denom: `STAKE`
-        }
+        amount: 10,
+        denom: `STAKE`
       },
       password,
       submitType

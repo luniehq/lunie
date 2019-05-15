@@ -215,13 +215,15 @@ describe(`Module: Proposals`, () => {
 
     expect(self.dispatch).toHaveBeenCalledWith(`simulateTx`, {
       type: `MsgSubmitProposal`,
-      proposal_type: proposal.proposal_type,
-      initial_deposit: proposal.initial_deposit,
-      proposer: mockRootState.wallet.address,
-      proposal_content: {
-        value: {
-          title: proposal.title,
-          description: proposal.description
+      txArguments: {
+        proposal_type: proposal.proposal_type,
+        initial_deposit: proposal.initial_deposit,
+        proposer: mockRootState.wallet.address,
+        proposal_content: {
+          value: {
+            title: proposal.title,
+            description: proposal.description
+          }
         }
       }
     })
@@ -249,10 +251,12 @@ describe(`Module: Proposals`, () => {
           `sendTx`,
           {
             type: `MsgSubmitProposal`,
-            proposal_type: proposal.proposal_type,
-            proposer: addresses[0],
-            initial_deposit: proposal.initial_deposit,
-            proposal_content: proposal.proposal_content
+            txArguments: {
+              proposal_type: proposal.proposal_type,
+              proposer: addresses[0],
+              initial_deposit: proposal.initial_deposit,
+              proposal_content: proposal.proposal_content
+            }
           }
         ])
 

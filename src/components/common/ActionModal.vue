@@ -258,7 +258,7 @@ export default {
     password: null,
     sending: false,
     gasEstimate: null,
-    gasPrice: 2.5e-8, // default: 0.025 uatom per gas
+    gasPrice: process.env.NODE_ENV === "development" ? 0 : 2.5e-8, // default: 0.025 uatom per gas
     submissionError: null,
     show: false,
     track,

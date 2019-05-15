@@ -68,10 +68,11 @@ describe(`Module: Deposits`, () => {
 
     expect(self.dispatch).toHaveBeenCalledWith(`simulateTx`, {
       type: `MsgDeposit`,
-      to: `1`,
-      proposal_id: `1`,
-      depositor: mockRootState.wallet.address,
-      amount
+      txArguments: {
+        proposal_id: `1`,
+        depositor: mockRootState.wallet.address,
+        amount
+      }
     })
     expect(res).toBe(123123)
   })
@@ -100,10 +101,11 @@ describe(`Module: Deposits`, () => {
         `sendTx`,
         {
           type: `MsgDeposit`,
-          to: proposal_id,
-          proposal_id,
-          depositor: addresses[0],
-          amount
+          txArguments: {
+            proposal_id,
+            depositor: addresses[0],
+            amount
+          }
         }
       ])
 

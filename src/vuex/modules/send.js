@@ -1,6 +1,6 @@
 import { getKey } from "scripts/keystore"
 import { signWithPrivateKey } from "scripts/wallet"
-import Cosmos from "@lunie/cosmos-js/src/index.js"
+import Cosmos from "@lunie/cosmos-js"
 import Ledger from "scripts/ledger"
 import config from "src/config"
 
@@ -9,7 +9,7 @@ export default ({ node }) => {
     node,
     externals: {
       Cosmos,
-      Ledger,
+      Ledger, node.get.delegations
       getKey,
       signWithPrivateKey,
       config
@@ -54,10 +54,19 @@ export default ({ node }) => {
 
       const signer = getSigner(state, rootState, { submitType, password })
 
-      const { included } = await cosmos[type](
-        rootState.session.address,
-        txArguments
-      ).send(
+      const senderAddress = rootState.session.address
+      let message
+      // withdrawing is a multi message for all validators you have bond with
+      if (type === "MsgWithdrawDelegationReward") {
+        const messages = txArguments.validatorAddresses.map(validatorAddress =>
+          cosmos[type](senderAddress, { validatorAddress })
+        )
+        message = cosmos.MultiMessage(senderAddress, messages)
+      } else {
+        message = cosmos[type](senderAddress, txArguments)
+      }
+
+      const { included } = await message.send(
         {
           gas,
           gasPrices: gas_prices,

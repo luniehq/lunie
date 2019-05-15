@@ -197,13 +197,12 @@ export default ({ node }) => {
       // optimistic update the atoms of the user before we get the new values from chain
       commit(`updateWalletBalance`, {
         denom,
-        amount: Number(liquidAtoms) - Number(amount.amount)
+        amount: Number(liquidAtoms) - Number(amount)
       })
       // optimistically update the committed delegations
       commit(`setCommittedDelegation`, {
         candidateId: validator_address,
-        value:
-          state.committedDelegates[validator_address] + Number(amount.amount)
+        value: state.committedDelegates[validator_address] + Number(amount)
       })
 
       await dispatch(`getAllTxs`)
@@ -218,16 +217,13 @@ export default ({ node }) => {
       { validator, amount }
     ) {
       const denom = stakingParameters.parameters.bond_denom
-      amount = {
-        denom,
-        amount: String(amount)
-      }
       return await dispatch(`simulateTx`, {
         type: `MsgUndelegate`,
         txArguments: {
           toAddress: session.address,
           delegator_address: session.address,
           validator_address: validator.operator_address,
+          denom,
           amount
         }
       })
@@ -240,17 +236,14 @@ export default ({ node }) => {
       { validator, amount, gas, gas_prices, password, submitType }
     ) {
       const denom = stakingParameters.parameters.bond_denom
-      amount = {
-        denom,
-        amount: String(amount)
-      }
       await dispatch(`sendTx`, {
         type: `MsgUndelegate`,
         txArguments: {
           toAddress: session.address,
           delegator_address: session.address,
           validator_address: validator.operator_address,
-          amount
+          amount,
+          denom
         },
         gas,
         gas_prices,
@@ -267,10 +260,6 @@ export default ({ node }) => {
       { validatorSrc, validatorDst, amount }
     ) {
       const denom = stakingParameters.parameters.bond_denom
-      amount = {
-        denom,
-        amount: String(amount)
-      }
       return await dispatch(`simulateTx`, {
         type: `MsgRedelegate`,
         txArguments: {
@@ -278,7 +267,8 @@ export default ({ node }) => {
           delegator_address: session.address,
           validator_src_address: validatorSrc.operator_address,
           validator_dst_address: validatorDst.operator_address,
-          amount
+          amount,
+          denom
         }
       })
     },
@@ -298,10 +288,6 @@ export default ({ node }) => {
       }
     ) {
       const denom = stakingParameters.parameters.bond_denom
-      amount = {
-        denom,
-        amount: String(amount)
-      }
 
       await dispatch(`sendTx`, {
         type: `MsgRedelegate`,
@@ -310,7 +296,8 @@ export default ({ node }) => {
           delegator_address: session.address,
           validator_src_address: validatorSrc.operator_address,
           validator_dst_address: validatorDst.operator_address,
-          amount
+          amount,
+          denom
         },
         gas,
         gas_prices,

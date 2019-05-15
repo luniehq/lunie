@@ -82,15 +82,17 @@ export default ({ node }) => {
     ) {
       return await dispatch(`simulateTx`, {
         type: `MsgSubmitProposal`,
-        proposer: wallet.address,
-        proposal_type: type,
-        proposal_content: {
-          value: {
-            title,
-            description
-          }
-        },
-        initial_deposit
+        txArguments: {
+          proposer: wallet.address,
+          proposal_type: type,
+          proposal_content: {
+            value: {
+              title,
+              description
+            }
+          },
+          initial_deposit
+        }
       })
     },
     async submitProposal(
@@ -113,15 +115,17 @@ export default ({ node }) => {
     ) {
       await dispatch(`sendTx`, {
         type: `MsgSubmitProposal`,
-        proposer: wallet.address,
-        proposal_type: type,
-        proposal_content: {
-          value: {
-            title,
-            description
-          }
+        txArguments: {
+          proposer: wallet.address,
+          proposal_type: type,
+          proposal_content: {
+            value: {
+              title,
+              description
+            }
+          },
+          initial_deposit,
         },
-        initial_deposit,
         gas,
         gas_prices,
         password,

@@ -237,7 +237,7 @@ describe(`Module: Delegates`, () => {
       operator_address: nodeMock.validators[0],
       delegator_shares: `120`
     }
-    node.get.delegation = jest.fn(() => [
+    node.get.delegations = jest.fn(() => [
       { shares: `12`, validator_address: nodeMock.validators[0] }
     ])
 
