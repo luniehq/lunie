@@ -74,24 +74,16 @@ export default ({ node }) => {
       return undefined
     },
     async simulateProposal(
-      {
-        rootState: { wallet },
-        dispatch
-      },
+      { dispatch },
       { title, description, type, initial_deposit }
     ) {
       return await dispatch(`simulateTx`, {
         type: `MsgSubmitProposal`,
         txArguments: {
-          proposer: wallet.address,
-          proposal_type: type,
-          proposal_content: {
-            value: {
-              title,
-              description
-            }
-          },
-          initial_deposit
+          proposalType: type,
+          title,
+          description,
+          initialDeposits: initial_deposit
         }
       })
     },
@@ -116,15 +108,10 @@ export default ({ node }) => {
       await dispatch(`sendTx`, {
         type: `MsgSubmitProposal`,
         txArguments: {
-          proposer: wallet.address,
-          proposal_type: type,
-          proposal_content: {
-            value: {
-              title,
-              description
-            }
-          },
-          initial_deposit,
+          proposalType: type,
+          title,
+          description,
+          initialDeposits: initial_deposit
         },
         gas,
         gas_prices,

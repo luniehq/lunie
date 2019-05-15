@@ -31,18 +31,11 @@ export default ({ node }) => {
         state.error = error
       }
     },
-    async simulateDeposit(
-      {
-        rootState: { wallet },
-        dispatch
-      },
-      { proposal_id, amount }
-    ) {
+    async simulateDeposit({ dispatch }, { proposal_id, amount }) {
       return await dispatch(`simulateTx`, {
         type: `MsgDeposit`,
         txArguments: {
-          proposal_id,
-          depositor: wallet.address,
+          proposalId: proposal_id,
           amount
         }
       })
@@ -58,9 +51,8 @@ export default ({ node }) => {
       await dispatch(`sendTx`, {
         type: `MsgDeposit`,
         txArguments: {
-          proposal_id,
-          depositor: wallet.address,
-          amount,
+          proposalId: proposal_id,
+          amount
         },
         gas,
         gas_prices,
