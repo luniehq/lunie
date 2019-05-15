@@ -9,7 +9,7 @@ export default ({ node }) => {
     node,
     externals: {
       Cosmos,
-      Ledger, node.get.delegations
+      Ledger,
       getKey,
       signWithPrivateKey,
       config
