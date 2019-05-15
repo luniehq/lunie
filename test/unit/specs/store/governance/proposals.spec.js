@@ -1,10 +1,8 @@
 import proposalsModule from "src/vuex/modules/governance/proposals.js"
 import { proposals, tallies } from "../json/proposals"
-import { addresses } from "../json/addresses"
 
 const mockRootState = {
   wallet: {
-    address: addresses[0],
     balances: [
       {
         denom: `stake`,
@@ -16,6 +14,10 @@ const mockRootState = {
     connected: true
   }
 }
+const gas = `1234567`
+const gas_prices = [{ denom: `uatom`, amount: `123` }]
+const password = ``
+const submitType = `ledger`
 
 describe(`Module: Proposals`, () => {
   let moduleInstance
@@ -216,15 +218,10 @@ describe(`Module: Proposals`, () => {
     expect(self.dispatch).toHaveBeenCalledWith(`simulateTx`, {
       type: `MsgSubmitProposal`,
       txArguments: {
-        proposal_type: proposal.proposal_type,
-        initial_deposit: proposal.initial_deposit,
-        proposer: mockRootState.wallet.address,
-        proposal_content: {
-          value: {
-            title: proposal.title,
-            description: proposal.description
-          }
-        }
+        proposalType: proposal.proposal_type,
+        initialDeposits: proposal.initial_deposit,
+        title: proposal.title,
+        description: proposal.description
       }
     })
     expect(res).toBe(123123)
@@ -244,7 +241,11 @@ describe(`Module: Proposals`, () => {
           {
             type: proposal.proposal_type,
             initial_deposit: proposal.initial_deposit,
-            proposal_content: proposal.proposal_content
+            proposal_content: proposal.proposal_content,
+            gas,
+            gas_prices,
+            submitType,
+            password
           }
         )
         expect(dispatch.mock.calls[i]).toEqual([
@@ -252,11 +253,15 @@ describe(`Module: Proposals`, () => {
           {
             type: `MsgSubmitProposal`,
             txArguments: {
-              proposal_type: proposal.proposal_type,
-              proposer: addresses[0],
-              initial_deposit: proposal.initial_deposit,
-              proposal_content: proposal.proposal_content
-            }
+              proposalType: proposal.proposal_type,
+              initialDeposits: proposal.initial_deposit,
+              title: proposal.proposal_content.value.title,
+              description: proposal.proposal_content.value.description
+            },
+            gas,
+            gas_prices,
+            submitType,
+            password
           }
         ])
 

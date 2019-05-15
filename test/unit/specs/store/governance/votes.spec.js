@@ -4,13 +4,14 @@ const { proposals, votes, stakingParameters } = lcdClientMock.state
 const addresses = lcdClientMock.addresses
 
 const mockRootState = {
-  wallet: {
-    address: addresses[0]
-  },
   connection: {
     connected: true
   }
 }
+const gas = `1234567`
+const gas_prices = [{ denom: `uatom`, amount: `123` }]
+const password = ``
+const submitType = `ledger`
 
 describe(`Module: Votes`, () => {
   let module
@@ -67,9 +68,8 @@ describe(`Module: Votes`, () => {
     expect(self.dispatch).toHaveBeenCalledWith(`simulateTx`, {
       type: `MsgVote`,
       txArguments: {
-        proposal_id,
-        option: `No`,
-        voter: mockRootState.wallet.address
+        proposalId: proposal_id,
+        option: `No`
       }
     })
     expect(res).toBe(123123)
@@ -79,36 +79,39 @@ describe(`Module: Votes`, () => {
     jest.useFakeTimers()
 
     const rootState = {
-      stakingParameters,
-      wallet: {
-        address: addresses[0]
-      }
+      stakingParameters
     }
-    const dispatch = jest.fn()
     const proposalIds = Object.keys(proposals)
-    proposalIds.forEach(async (proposal_id, i) => {
-      await actions.submitVote(
-        { rootState, dispatch },
-        { proposal_id, option: `Yes` }
-      )
-      expect(dispatch.mock.calls[i]).toEqual([
-        `sendTx`,
-        {
+    await Promise.all(
+      proposalIds.map(async proposal_id => {
+        const dispatch = jest.fn()
+        await actions.submitVote(
+          { rootState, dispatch },
+          {
+            proposal_id,
+            option: `Yes`,
+            gas,
+            gas_prices,
+            submitType,
+            password
+          }
+        )
+        expect(dispatch).toHaveBeenCalledWith(`sendTx`, {
           type: `MsgVote`,
           txArguments: {
-            proposal_id,
-            voter: addresses[0],
+            proposalId: proposal_id,
             option: `Yes`
-          }
-        }
-      ])
+          },
+          gas,
+          gas_prices,
+          submitType,
+          password
+        })
 
-      jest.runAllTimers()
-      expect(dispatch.mock.calls[i + proposalIds.length]).toEqual([
-        `getProposalVotes`,
-        proposal_id
-      ])
-    })
+        jest.runAllTimers()
+        expect(dispatch).toHaveBeenCalledWith(`getProposalVotes`, proposal_id)
+      })
+    )
   })
 
   it(`should store an error if failed to load proposals`, async () => {

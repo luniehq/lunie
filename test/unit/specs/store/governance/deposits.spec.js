@@ -1,11 +1,9 @@
 import depositsModule from "src/vuex/modules/governance/deposits.js"
 import lcdClientMock from "src/connectors/lcdClientMock.js"
 const { proposals, deposits } = lcdClientMock.state
-const addresses = lcdClientMock.addresses
 
 const mockRootState = {
   wallet: {
-    address: addresses[0],
     balances: [
       {
         denom: `stake`,
@@ -69,7 +67,7 @@ describe(`Module: Deposits`, () => {
     expect(self.dispatch).toHaveBeenCalledWith(`simulateTx`, {
       type: `MsgDeposit`,
       txArguments: {
-        proposal_id: `1`,
+        proposalId: `1`,
         depositor: mockRootState.wallet.address,
         amount
       }
@@ -102,8 +100,7 @@ describe(`Module: Deposits`, () => {
         {
           type: `MsgDeposit`,
           txArguments: {
-            proposal_id,
-            depositor: addresses[0],
+            proposalId: proposal_id,
             amount
           }
         }
