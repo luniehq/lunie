@@ -1,7 +1,7 @@
 <template>
   <div class="stepItem">
     <div class="circle--container">
-      <div class="circle--default">
+      <div class="circle--default" :class="isCircleActive">
         {{ stepNumber }}
       </div>
       <p class="text--default" :class="isActive">
@@ -27,8 +27,12 @@ export default {
   computed: {
     isActive() {
       return {
-        active: this.step === this.stepName,
         textActive: this.step === this.stepName
+      }
+    },
+    isCircleActive() {
+      return {
+        active: this.step === this.stepName
       }
     }
   }
@@ -52,16 +56,14 @@ export default {
   border: 0.1rem var(--grey) solid;
   border-radius: 1rem;
   fill: transparent;
-  width: 1.3rem;
+  width: 1.2rem;
   margin: 0 auto;
   margin-bottom: 0.5rem;
   font-size: var(--xs);
 }
 
 .active {
-  stroke: var(--tertiary);
-  stroke-width: 2;
-  fill: rgba(252, 49, 167, 0.25);
+  border-color: var(--tertiary);
 }
 
 svg {
