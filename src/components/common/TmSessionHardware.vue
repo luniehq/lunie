@@ -19,13 +19,11 @@
           </template>
           <template v-if="status === `confirmAddress`">
             Sign in with the address
-            <span class="address">{{ address }}</span>.<br />
+            <span class="address">{{ address }}</span
+            >.<br />
             Please confirm on your Ledger.
           </template>
-          <p
-            v-if="connectionError"
-            class="error-message"
-          >
+          <p v-if="connectionError" class="error-message">
             {{ connectionError }}
           </p>
         </HardwareState>
@@ -38,7 +36,8 @@
             target="_blank"
             rel="noopener noreferrer"
           >
-            here </a>.
+            here </a
+          >.
         </p>
         <TmBtn
           :value="submitCaption"

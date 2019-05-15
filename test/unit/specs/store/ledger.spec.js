@@ -1,15 +1,7 @@
-import ledgerModule, { checkLedgerErrors } from "modules/ledger.js"
+import ledgerModule from "modules/ledger.js"
 
 describe(`Module: Ledger`, () => {
   let module, state, actions
-
-  const mockRootState = {
-    connection: {
-      lastHeader: {
-        chain_id: "cosmoshub-2"
-      }
-    }
-  }
 
   beforeEach(() => {
     module = ledgerModule()
