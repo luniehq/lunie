@@ -13,25 +13,27 @@ export async function lookupId(state, keybaseId) {
 }
 async function query(state, url, keybaseId) {
   try {
-    const json = await state.externals.axios(url)
-    if (json.data.status.name === `OK`) {
-      const user = json.data.them[0]
-      if (user) {
-        return {
-          keybaseId,
-          avatarUrl:
-            user.pictures && user.pictures.primary
-              ? user.pictures.primary.url
-              : undefined,
-          userName: user.basics.username,
-          profileUrl: `https://keybase.io/` + user.basics.username,
-          lastUpdated: new Date(Date.now()).toUTCString()
-        }
-      }
-    }
+    const res = await state.externals.axios(url)
+    getKeybaseProfileFromResponse(keybaseId, res)
   } catch (error) {
     return {
       keybaseId
+    }
+  }
+}
+
+function getKeybaseProfileFromResponse(keybaseId, { data }) {
+  if (data.status.name === `OK` && data.them[0]) {
+    const user = data.them[0]
+    return {
+      keybaseId,
+      avatarUrl:
+        user.pictures && user.pictures.primary
+          ? user.pictures.primary.url
+          : undefined,
+      userName: user.basics.username,
+      profileUrl: `https://keybase.io/` + user.basics.username,
+      lastUpdated: new Date(Date.now()).toUTCString()
     }
   }
 }
