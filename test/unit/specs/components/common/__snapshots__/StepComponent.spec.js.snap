@@ -9,7 +9,7 @@ exports[`TmBtn has the expected html structure 1`] = `
     class="circle--container"
   >
     <div
-      class="circle--default"
+      class="circle--default active"
     >
       
       
@@ -17,7 +17,7 @@ exports[`TmBtn has the expected html structure 1`] = `
     </div>
      
     <p
-      class="text--default active textActive"
+      class="text--default textActive"
     >
       
       
@@ -36,7 +36,7 @@ exports[`TmBtn returns active class 1`] = `
     class="circle--container"
   >
     <div
-      class="circle--default"
+      class="circle--default active"
     >
       
       
@@ -44,7 +44,7 @@ exports[`TmBtn returns active class 1`] = `
     </div>
      
     <p
-      class="text--default active textActive"
+      class="text--default textActive"
     >
       
       
@@ -63,7 +63,7 @@ exports[`TmBtn returns textActive class 1`] = `
     class="circle--container"
   >
     <div
-      class="circle--default"
+      class="circle--default active"
     >
       
       
@@ -71,7 +71,7 @@ exports[`TmBtn returns textActive class 1`] = `
     </div>
      
     <p
-      class="text--default active textActive"
+      class="text--default textActive"
     >
       
       
