@@ -40,12 +40,12 @@ export default class Ledger {
       timeoutMessag: "Could not find a connected and unlocked Ledger device"
     })
   }
-  async isCompatible() {
+  async isReady() {
     // check if the version is supported
     const version = await this.getCosmosAppVersion()
 
     // check if the device is connected or on screensaver mode
-    if (semver.satisfies(version, ">=1.5.0")) {
+    if (semver.satisfies(version, `>=${this.requiredCosmosAppVersion}`)) {
       // throws if not open
       await this.isCosmosAppOpen()
     } else {
@@ -63,7 +63,7 @@ export default class Ledger {
     this.cosmosApp = cosmosLedgerApp
 
     await this.isSendingData()
-    await this.isCompatible()
+    await this.isReady()
   }
   async getCosmosAppVersion() {
     await this.connect()
@@ -84,6 +84,8 @@ export default class Ledger {
     return version
   }
   async isCosmosAppOpen() {
+    await this.connect()
+
     const response = await this.cosmosApp.appInfo()
     this.checkLedgerErrors(response)
     const { appName } = response
@@ -111,7 +113,7 @@ export default class Ledger {
 
     if (semver.lt(cosmosAppVersion, "1.5.0")) {
       // we can't check the address on an old cosmos app
-      return true
+      return
     }
 
     const response = await this.cosmosApp.getAddressAndPubKey(
