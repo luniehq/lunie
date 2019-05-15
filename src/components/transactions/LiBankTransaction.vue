@@ -56,7 +56,7 @@
         <span>{{ num.viewDenom(coins.denom) }}</span>
       </div>
       <span slot="details">
-        From
+        From &nbsp;
         <ShortBech32 :address="sender" />
       </span>
       <div slot="fees">
