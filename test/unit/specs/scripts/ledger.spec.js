@@ -1,4 +1,4 @@
-import Ledger from "scripts/ledger.js"
+import Ledger, { checkLedgerErrors } from "scripts/ledger.js"
 
 jest.mock("secp256k1", () => ({
   signatureImport: () => Buffer.from("1234")
@@ -207,6 +207,23 @@ describe(`Ledger`, () => {
     expect(res).toBe("cosmos1l4aqmqyen0kawmy6pq5q27qhl3synfg8uqcsa5")
   })
 
+  it("getPubKey", async () => {
+    const self = {
+      connect: jest.fn(),
+      checkLedgerErrors: jest.fn(),
+      cosmosApp: {
+        publicKey: () => ({
+          compressed_pk: Buffer.from("1234"),
+          error_message: "No errors"
+        })
+      }
+    }
+    const res = await ledger.getPubKey.call(self)
+    expect(self.connect).toHaveBeenCalled()
+    expect(self.checkLedgerErrors).toHaveBeenCalled()
+    expect(res instanceof Buffer).toBe(true)
+  })
+
   describe("confirmLedgerAddress", () => {
     it("new version", async () => {
       const self = {
@@ -263,5 +280,25 @@ describe(`Ledger`, () => {
       "message"
     )
     expect(res instanceof Buffer).toBe(true)
+  })
+
+  describe("checkLedgerErrors", () => {
+    it("throws an error if the device is locked", () => {
+      expect(() =>
+        checkLedgerErrors(
+          { requiredCosmosAppVersion: "1.1.1" },
+          { error_message: "", device_locked: true }
+        )
+      ).toThrow("Ledger's screensaver mode is on")
+    })
+
+    it("doesn't throw on no error message", () => {
+      expect(() =>
+        checkLedgerErrors(
+          { requiredCosmosAppVersion: "1.1.1" },
+          { error_message: "No errors", device_locked: false }
+        )
+      ).not.toThrow
+    })
   })
 })

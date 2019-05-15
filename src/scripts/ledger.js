@@ -139,6 +139,7 @@ function versionString({ major, minor, patch }) {
   return `${major}.${minor}.${patch}`
 }
 
+/* istanbul ignore next: maps a bunch of errors */
 export const checkLedgerErrors = (
   { requiredCosmosAppVersion },
   { error_message, device_locked },
