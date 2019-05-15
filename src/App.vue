@@ -1,6 +1,7 @@
 <template>
   <div>
     <CookieBar />
+    <MaintenanceBar />
     <div id="app">
       <Session />
       <AppHeader />
@@ -16,6 +17,7 @@
 import { mapGetters } from "vuex"
 import AppHeader from "common/AppHeader"
 import CookieBar from "common/CookieBar"
+import MaintenanceBar from "common/MaintenanceBar"
 import TmNotifications from "common/TmNotifications"
 import Session from "common/TmSession"
 import store from "./vuex/store"
@@ -26,7 +28,8 @@ export default {
     AppHeader,
     TmNotifications,
     Session,
-    CookieBar
+    CookieBar,
+    MaintenanceBar
   },
   computed: {
     ...mapGetters([`notifications`, `session`])

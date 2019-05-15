@@ -7,6 +7,56 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [1.0.0-beta.68] - 2019-05-15
+
+### Fixed
+
+- [#2587](https://github.com/cosmos/lunie/pull/2587) Keybase cache was not created @faboweb
+
+## [1.0.0-beta.67] - 2019-05-14
+
+### Changed
+
+- [#2584](https://github.com/cosmos/lunie/pull/2584) Switched back to Lunie servers after fixing issues @faboweb
+
+### Fixed
+
+- [#2430](https://github.com/cosmos/lunie/issues/2430) Ensure proposal tallies sum to 100 percent @colw
+
+## [1.0.0-beta.66] - 2019-05-13
+
+### Changed
+
+- [#2577](https://github.com/cosmos/lunie/pull/2577) Build for mainnet always to enable easier previews on PRs (circleci artifacts) @faboweb
+
+### Fixed
+
+- [#2577](https://github.com/cosmos/lunie/pull/2577) Cachebust CircleCI dependencies to fix ledger lib issues @faboweb
+
+## [1.0.0-beta.65] - 2019-05-11
+
+### Added
+
+- [#2561](https://github.com/cosmos/lunie/issues/2561) added a maintenance bar for when there are issues @jbibla
+
+## [1.0.0-beta.64] - 2019-05-11
+
+### Added
+
+- [#2382](https://github.com/cosmos/lunie/pull/2382) Compatibility with Ledger Cosmos App 1.5 @faboweb
+- [#1962 ](https://github.com/cosmos/lunie/issues/1962 ) Enforce approval of address for Ledger sign in @faboweb
+- [#2560](https://github.com/cosmos/lunie/issues/2560) Added careers page @jbibla
+
+### Changed
+
+- [#2568](https://github.com/cosmos/lunie/pull/2568) Show amount of source stake available to delegate or redelgate @colw
+
+### Fixed
+
+- [#2568](https://github.com/cosmos/lunie/pull/2568) Do not add stake to total when redelegating @colw
+- [#2570](https://github.com/cosmos/lunie/pull/2570) Load validators when linking to a validator directly @faboweb
+- [#1995](https://github.com/cosmos/lunie/issues/1995) Prevent users from signing in or creating a new account if their user agent is not Chrome @migueog
+
 ## [1.0.0-beta.63] - 2019-05-10
 
 ### Changed
