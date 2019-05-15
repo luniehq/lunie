@@ -1,7 +1,8 @@
 import { getKey } from "scripts/keystore"
 import { signWithPrivateKey } from "scripts/wallet"
-import Cosmos from "@lunie/cosmos-js"
+import Cosmos from "@lunie/cosmos-js/src/index.js"
 import Ledger from "scripts/ledger"
+import config from "src/config"
 
 export default ({ node }) => {
   const state = {
@@ -10,7 +11,8 @@ export default ({ node }) => {
       Cosmos,
       Ledger,
       getKey,
-      signWithPrivateKey
+      signWithPrivateKey,
+      config
     }
   }
 

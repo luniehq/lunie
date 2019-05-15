@@ -135,7 +135,7 @@ export default ({ node }) => {
       else {
         const hexAddr = b32.decode(validator.operator_address)
         const operatorCosmosAddr = b32.encode(hexAddr, `cosmos`)
-        const delegations = await node.get.delegation(operatorCosmosAddr)
+        const delegations = await node.get.delegations(operatorCosmosAddr)
         const delegation = delegations.filter(
           ({ validator_address }) =>
             validator.operator_address === validator_address

@@ -155,10 +155,6 @@ export default ({ node }) => {
       { validator_address, amount }
     ) {
       const denom = stakingParameters.parameters.bond_denom
-      amount = {
-        denom,
-        amount: String(amount)
-      }
 
       return await dispatch(`simulateTx`, {
         type: `MsgDelegate`,
@@ -166,7 +162,8 @@ export default ({ node }) => {
           toAddress: session.address,
           delegator_address: session.address,
           validator_address,
-          amount
+          amount,
+          denom
         }
       })
     },
@@ -181,10 +178,6 @@ export default ({ node }) => {
       { validator_address, amount, gas, gas_prices, password, submitType }
     ) {
       const denom = stakingParameters.parameters.bond_denom
-      amount = {
-        denom,
-        amount: String(amount)
-      }
 
       await dispatch(`sendTx`, {
         type: `MsgDelegate`,
@@ -192,7 +185,8 @@ export default ({ node }) => {
           toAddress: session.address,
           delegator_address: session.address,
           validator_address,
-          amount
+          amount,
+          denom
         },
         gas,
         gas_prices,
