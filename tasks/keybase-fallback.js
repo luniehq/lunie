@@ -65,6 +65,10 @@ async function main() {
     })
   )
 
+  if (Object.keys(validators).length === 0) {
+    throw new Error("Keybase cache creation failed")
+  }
+
   fs.writeFileSync(
     path.join(__dirname, `../src/keybase-cache.json`),
     JSON.stringify(cache),
