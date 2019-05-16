@@ -2,10 +2,6 @@
   <transition v-if="show" name="slide-fade">
     <div v-focus-last class="action-modal" tabindex="0" @keyup.esc="close">
       <div class="action-modal-header">
-        <img
-          class="icon action-modal-atom"
-          src="~assets/images/cosmos-logo.png"
-        />
         <span class="action-modal-title">
           {{ requiresSignIn ? `Sign in required` : title }}
         </span>
@@ -16,6 +12,27 @@
         >
           <i class="material-icons">close</i>
         </div>
+      </div>
+      <div class="step--container">
+        <StepComponent
+          step-title="Details"
+          :step="step"
+          step-name="txDetails"
+          step-number="1"
+        ></StepComponent>
+        <StepComponent
+          step-title="Fees"
+          :step="step"
+          step-name="fees"
+          step-number="2"
+        ></StepComponent>
+        <StepComponent
+          step-title="Submit"
+          :step="step"
+          step-name="submit"
+          step-number="3"
+          :include-line="false"
+        ></StepComponent>
       </div>
       <div v-if="requiresSignIn" class="action-modal-form">
         <p>You need to sign in to submit a transaction.</p>
@@ -184,6 +201,7 @@ import TmField from "common/TmField"
 import TmFormGroup from "common/TmFormGroup"
 import TmFormMsg from "common/TmFormMsg"
 import TableInvoice from "common/TableInvoice"
+import StepComponent from "common/StepComponent"
 import { mapGetters } from "vuex"
 import { uatoms, atoms, viewDenom } from "../../scripts/num.js"
 import { between, requiredIf } from "vuelidate/lib/validators"
@@ -204,7 +222,8 @@ export default {
     TmField,
     TmFormGroup,
     TmFormMsg,
-    TableInvoice
+    TableInvoice,
+    StepComponent
   },
   props: {
     title: {
@@ -449,6 +468,7 @@ export default {
 
 .action-modal-header {
   align-items: center;
+  text-align: center;
   display: flex;
   padding-bottom: 1.5rem;
 }
@@ -456,6 +476,15 @@ export default {
 .action-modal-atom {
   height: 3rem;
   width: 3rem;
+}
+
+.step--container {
+  display: flex;
+  flex-direction: row;
+  text-align: center;
+  justify-content: space-between;
+  width: 13rem;
+  margin: 0 auto;
 }
 
 .action-modal-title {
