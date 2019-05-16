@@ -1,7 +1,7 @@
 <template>
   <div class="stepItem">
     <div class="circle--container">
-      <div class="circle--default" :class="isCircleActive">
+      <div class="circle--default" :class="[isCircleActive, isLineIncluded]">
         {{ stepNumber }}
       </div>
       <p class="text--default" :class="isActive">
@@ -34,6 +34,11 @@ export default {
       return {
         active: this.step === this.stepName
       }
+    },
+    isLineIncluded() {
+      return {
+        circleLine: this.includeLine
+      }
     }
   }
 }
@@ -58,6 +63,7 @@ export default {
   border-radius: 1rem;
   fill: transparent;
   width: 1.2rem;
+  height: 1.2rem;
   margin: 0 auto;
   margin-bottom: 0.3rem;
   font-size: var(--xs);
@@ -85,6 +91,15 @@ svg {
   height: 1px;
   width: 20px;
   border: solid var(--grey) 1px;
+}
+
+.circleLine::after {
+  display: inline-block;
+  content: "";
+  border-top: .15rem solid var(--grey);
+  width: 3.12rem;
+  margin: 0 1.12rem;
+  transform: translateY(-1.15rem);
 }
 
 .textActive {
