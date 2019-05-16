@@ -181,8 +181,6 @@ export default () => {
       state.externals.track(`event`, `session`, `sign-out`)
 
       state.localKeyPairName = null
-      commit(`setLedgerConnection`, false)
-      commit(`setCosmosAppVersion`, {})
       dispatch(`resetSessionData`)
       commit(`addHistory`, `/`)
       commit(`setSignIn`, false)
