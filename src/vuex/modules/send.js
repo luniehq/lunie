@@ -55,16 +55,12 @@ export default ({ node }) => {
       const signer = getSigner(state, rootState, { submitType, password })
 
       const senderAddress = rootState.session.address
-      let message
-      // withdrawing is a multi message for all validators you have bond with
-      if (type === "MsgWithdrawDelegationReward") {
-        const messages = txArguments.validatorAddresses.map(validatorAddress =>
-          cosmos[type](senderAddress, { validatorAddress })
-        )
-        message = cosmos.MultiMessage(senderAddress, messages)
-      } else {
-        message = cosmos[type](senderAddress, txArguments)
-      }
+      const message = createSendMessage(
+        cosmos,
+        type,
+        senderAddress,
+        txArguments
+      )
 
       const { included } = await message.send(
         {
@@ -114,4 +110,17 @@ export function getSigner(state, rootState, { submitType, password }) {
       }
     }
   }
+}
+
+// create a message object which then can be signed and send
+function createSendMessage(cosmos, type, senderAddress, txArguments) {
+  // withdrawing is a multi message for all validators you have bond with
+  if (type === "MsgWithdrawDelegationReward") {
+    const messages = txArguments.validatorAddresses.map(validatorAddress =>
+      cosmos[type](senderAddress, { validatorAddress })
+    )
+    return cosmos.MultiMessage(senderAddress, messages)
+  }
+
+  return cosmos[type](senderAddress, txArguments)
 }
