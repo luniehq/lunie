@@ -1,4 +1,4 @@
-import Ledger, { checkLedgerErrors } from "scripts/ledger.js"
+import Ledger from "scripts/ledger.js"
 
 jest.mock("secp256k1", () => ({
   signatureImport: () => Buffer.from("1234")
