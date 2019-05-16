@@ -44,6 +44,7 @@ export default {
   display: flex;
   flex-direction: row;
   justify-content: center;
+  width: 33%;
 }
 
 .circle--container {
@@ -58,7 +59,7 @@ export default {
   fill: transparent;
   width: 1.2rem;
   margin: 0 auto;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.3rem;
   font-size: var(--xs);
 }
 
