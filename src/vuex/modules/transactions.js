@@ -83,8 +83,10 @@ export default ({ node }) => {
           return
         }
 
-        ;[TypeBank, TypeStaking, TypeGovernance, TypeDistribution].forEach(
-          async txType => await dispatch(`parseAndSetTxs`, { txType })
+        await Promise.all(
+          [TypeBank, TypeStaking, TypeGovernance, TypeDistribution].map(
+            txType => dispatch(`parseAndSetTxs`, { txType })
+          )
         )
 
         state.error = null

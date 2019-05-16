@@ -282,6 +282,7 @@ describe(`Module: Transactions`, () => {
           rootState: mockRootState
         })
 
+        expect(commit).toHaveBeenCalledWith(`setHistoryLoading`, true)
         expect(dispatch).toHaveBeenCalledTimes(4)
         expect(dispatch).toHaveBeenCalledWith(`parseAndSetTxs`, {
           txType: `bank`
@@ -296,6 +297,39 @@ describe(`Module: Transactions`, () => {
           txType: `distribution`
         })
         expect(state.error).toBeNull()
+        expect(commit).toHaveBeenCalledWith(`setHistoryLoading`, false)
+      })
+
+      it("should not load transactions if not connected", async () => {
+        const dispatch = jest.fn()
+        const commit = jest.fn()
+        await actions.getAllTxs({
+          commit,
+          dispatch,
+          state,
+          rootState: Object.assign({}, mockRootState, {
+            connection: {
+              connected: false
+            }
+          })
+        })
+        expect(commit).toHaveBeenCalledWith(`setHistoryLoading`, true)
+        expect(commit).not.toHaveBeenCalledWith(`setHistoryLoading`, false)
+        expect(dispatch).toHaveBeenCalledTimes(0)
+      })
+
+      it("should store an error if loading the transactions failed", async () => {
+        const dispatch = () => Promise.reject(new Error("Expected"))
+        const commit = jest.fn()
+        await actions.getAllTxs({
+          commit,
+          dispatch,
+          state,
+          rootState: mockRootState
+        })
+        expect(commit).toHaveBeenCalledWith(`setHistoryLoading`, true)
+        expect(commit).not.toHaveBeenCalledWith(`setHistoryLoading`, false)
+        expect(state.error).toEqual(new Error("Expected"))
       })
     })
 
