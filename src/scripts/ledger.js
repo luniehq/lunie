@@ -145,7 +145,7 @@ export default class Ledger {
       case `Instruction not supported`:
         throw new Error(
           `Your Cosmos Ledger App is not up to date. ` +
-          `Please update to version ${REQUIRED_COSMOS_APP_VERSION}.`
+            `Please update to version ${REQUIRED_COSMOS_APP_VERSION}.`
         )
       case `No errors`:
         // do nothing

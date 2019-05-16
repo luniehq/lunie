@@ -61,7 +61,7 @@ describe(`Ledger`, () => {
 
   describe("connect", () => {
     jest.doMock("ledger-cosmos-js", () => ({
-      App: class MockApp { },
+      App: class MockApp {},
       comm_u2f: {
         create_async: () => ({})
       }
