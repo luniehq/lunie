@@ -230,7 +230,6 @@ jobs:
     steps:
       - checkout
       - yarn-install
-      - run: simsala release --pending-path ./changes
       - run: simsala release-candidate --pending-path ./changes --owner luniehq --repository lunie --token ${GIT_BOT_TOKEN}
       
   # Push merges to master immediatly back to develop to stay in sync
