@@ -6,7 +6,12 @@ describe(`AppMenu`, () => {
 
   beforeEach(async () => {
     $store = {
-      commit: jest.fn()
+      commit: jest.fn(),
+      getters: {
+        session: {
+          signedIn: true
+        }
+      }
     }
 
     wrapper = shallowMount(AppMenu, {
@@ -24,5 +29,12 @@ describe(`AppMenu`, () => {
   it(`can close the app menu`, () => {
     wrapper.find(`#app-menu__wallet`).trigger(`click`)
     expect(wrapper.emitted().close).toBeTruthy()
+  })
+
+  it(`call dispatch to sign the user out`, () => {
+    const $store = { dispatch: jest.fn() }
+    const self = { $store, $router: { push: jest.fn() } }
+    AppMenu.methods.signOut.call(self)
+    expect($store.dispatch).toHaveBeenCalledWith(`signOut`)
   })
 })
