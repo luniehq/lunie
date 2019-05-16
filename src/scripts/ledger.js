@@ -15,6 +15,7 @@ const BECH32PREFIX = `cosmos`
 
 export default class Ledger {
   constructor({ requiredCosmosAppVersion, testModeAllowed, onOutdated }) {
+    /* istanbul ignore next */
     this.checkLedgerErrors = (...args) =>
       checkLedgerErrors(
         {
