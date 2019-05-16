@@ -5,6 +5,8 @@ import semver from "semver"
 
 // TODO: discuss TIMEOUT value
 const INTERACTION_TIMEOUT = 120 // seconds to wait for user action on Ledger, currently is always limited to 60
+const REQUIRED_COSMOS_APP_VERSION = "1.5.0"
+//const REQUIRED_LEDGER_FIRMWARE = "1.1.1"
 
 /*
 HD wallet derivation path (BIP44)
@@ -14,17 +16,8 @@ const HDPATH = [44, 118, 0, 0, 0]
 const BECH32PREFIX = `cosmos`
 
 export default class Ledger {
-  constructor({ requiredCosmosAppVersion, testModeAllowed, onOutdated }) {
-    /* istanbul ignore next */
-    this.checkLedgerErrors = (...args) =>
-      checkLedgerErrors(
-        {
-          requiredCosmosAppVersion
-        },
-        ...args
-      )
+  constructor({ testModeAllowed, onOutdated }) {
     this.testModeAllowed = testModeAllowed
-    this.requiredCosmosAppVersion = requiredCosmosAppVersion
     this.onOutdated = onOutdated
   }
 
@@ -46,11 +39,11 @@ export default class Ledger {
     const version = await this.getCosmosAppVersion()
 
     // check if the device is connected or on screensaver mode
-    if (semver.satisfies(version, `>=${this.requiredCosmosAppVersion}`)) {
+    if (semver.satisfies(version, `>=${REQUIRED_COSMOS_APP_VERSION}`)) {
       // throws if not open
       await this.isCosmosAppOpen()
     } else {
-      this.onOutdated && this.onOutdated(version, this.requiredCosmosAppVersion)
+      this.onOutdated && this.onOutdated(version, REQUIRED_COSMOS_APP_VERSION)
     }
   }
   // connects to the device and checks for compatibility
@@ -75,10 +68,8 @@ export default class Ledger {
     checkAppMode(this.testModeAllowed, test_mode)
     const version = versionString({ major, minor, patch })
 
-    if (!semver.gte(version, this.requiredCosmosAppVersion)) {
-      const msg = `Outdated version: please update Cosmos app to ${
-        this.requiredCosmosAppVersion
-      }`
+    if (!semver.gte(version, REQUIRED_COSMOS_APP_VERSION)) {
+      const msg = `Outdated version: please update Cosmos app to ${REQUIRED_COSMOS_APP_VERSION}`
       throw new Error(msg)
     }
 
@@ -134,49 +125,48 @@ export default class Ledger {
     const parsedSignature = signatureImport(response.signature)
     return parsedSignature
   }
+
+  /* istanbul ignore next: maps a bunch of errors */
+  checkLedgerErrors(
+    { error_message, device_locked },
+    {
+      timeoutMessag = "Connection timed out. Please try again.",
+      rejectionMessage = "User rejected the transaction"
+    } = {}
+  ) {
+    if (device_locked) {
+      throw new Error(`Ledger's screensaver mode is on`)
+    }
+    switch (error_message) {
+      case `U2F: Timeout`:
+        throw new Error(timeoutMessag)
+      case `Cosmos app does not seem to be open`:
+        throw new Error(`Cosmos app is not open`)
+      case `Command not allowed`:
+        throw new Error(`Transaction rejected`)
+      case `Transaction rejected`:
+        throw new Error(rejectionMessage)
+      case `Unknown error code`:
+        throw new Error(`Ledger's screensaver mode is on`)
+      case `Instruction not supported`:
+        throw new Error(
+          `Your Cosmos Ledger App is not up to date. ` +
+            `Please update to version ${REQUIRED_COSMOS_APP_VERSION}.`
+        )
+      case `No errors`:
+        // do nothing
+        break
+      default:
+        throw new Error(error_message)
+    }
+  }
 }
 
 function versionString({ major, minor, patch }) {
   return `${major}.${minor}.${patch}`
 }
 
-/* istanbul ignore next: maps a bunch of errors */
-export const checkLedgerErrors = (
-  { requiredCosmosAppVersion },
-  { error_message, device_locked },
-  {
-    timeoutMessag = "Connection timed out. Please try again.",
-    rejectionMessage = "User rejected the transaction"
-  } = {}
-) => {
-  if (device_locked) {
-    throw new Error(`Ledger's screensaver mode is on`)
-  }
-  switch (error_message) {
-    case `U2F: Timeout`:
-      throw new Error(timeoutMessag)
-    case `Cosmos app does not seem to be open`:
-      throw new Error(`Cosmos app is not open`)
-    case `Command not allowed`:
-      throw new Error(`Transaction rejected`)
-    case `Transaction rejected`:
-      throw new Error(rejectionMessage)
-    case `Unknown error code`:
-      throw new Error(`Ledger's screensaver mode is on`)
-    case `Instruction not supported`:
-      throw new Error(
-        `Your Cosmos Ledger App is not up to date. ` +
-          `Please update to version ${requiredCosmosAppVersion}.`
-      )
-    case `No errors`:
-      // do nothing
-      break
-    default:
-      throw new Error(error_message)
-  }
-}
-
-const checkAppMode = (testModeAllowed, testMode) => {
+export const checkAppMode = (testModeAllowed, testMode) => {
   if (testMode && !testModeAllowed) {
     throw new Error(
       `DANGER: The Cosmos Ledger app is in test mode and shouldn't be used on mainnet!`

@@ -27,7 +27,5 @@ export default {
   version: process.env.RELEASE,
 
   // Ledger
-  requiredCosmosAppVersion: "1.0.1",
-  requiredLedgerFirmwareVersion: "1.1.1",
   CosmosAppTestModeAllowed: false
 }

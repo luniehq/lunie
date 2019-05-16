@@ -5,7 +5,6 @@ jest.mock("secp256k1", () => ({
 }))
 
 const config = {
-  requiredCosmosAppVersion: "1.1.1",
   testModeAllowed: false,
   onOutdated: () => {}
 }
@@ -19,7 +18,6 @@ describe(`Ledger`, () => {
   it(`constructor`, () => {
     expect(ledger.checkLedgerErrors).toBeDefined()
     expect(ledger.testModeAllowed).toBe(false)
-    expect(ledger.requiredCosmosAppVersion).toBe("1.1.1")
     expect(ledger.onOutdated).toBeDefined()
   })
 
@@ -49,7 +47,6 @@ describe(`Ledger`, () => {
   describe("isReady", () => {
     it("oldVersion", async () => {
       const self = {
-        requiredCosmosAppVersion: "1.5.0",
         getCosmosAppVersion: () => "1.1.0",
         onOutdated: jest.fn()
       }
@@ -59,7 +56,6 @@ describe(`Ledger`, () => {
 
     it("newVersion", async () => {
       const self = {
-        requiredCosmosAppVersion: "1.5.0",
         getCosmosAppVersion: () => "1.5.0",
         isCosmosAppOpen: jest.fn()
       }
@@ -103,7 +99,6 @@ describe(`Ledger`, () => {
   describe("getCosmosAppVersion", () => {
     it("new version", async () => {
       const self = {
-        requiredCosmosAppVersion: "1.5.0",
         connect: jest.fn(),
         cosmosApp: {
           get_version: () => ({
@@ -123,7 +118,6 @@ describe(`Ledger`, () => {
 
     it("old version", async () => {
       const self = {
-        requiredCosmosAppVersion: "1.5.0",
         connect: jest.fn(),
         cosmosApp: {
           get_version: () => ({
@@ -143,7 +137,6 @@ describe(`Ledger`, () => {
 
     it("test mode", async () => {
       const self = {
-        requiredCosmosAppVersion: "1.5.0",
         connect: jest.fn(),
         cosmosApp: {
           get_version: () => ({
@@ -165,7 +158,6 @@ describe(`Ledger`, () => {
   describe("isCosmosAppOpen", () => {
     it("success", async () => {
       const self = {
-        requiredCosmosAppVersion: "1.5.0",
         connect: jest.fn(),
         cosmosApp: {
           appInfo: () => ({
@@ -285,19 +277,16 @@ describe(`Ledger`, () => {
   describe("checkLedgerErrors", () => {
     it("throws an error if the device is locked", () => {
       expect(() =>
-        checkLedgerErrors(
-          { requiredCosmosAppVersion: "1.1.1" },
-          { error_message: "", device_locked: true }
-        )
+        ledger.checkLedgerErrors({ error_message: "", device_locked: true })
       ).toThrow("Ledger's screensaver mode is on")
     })
 
     it("doesn't throw on no error message", () => {
       expect(() =>
-        checkLedgerErrors(
-          { requiredCosmosAppVersion: "1.1.1" },
-          { error_message: "No errors", device_locked: false }
-        )
+        ledger.checkLedgerErrors({
+          error_message: "No errors",
+          device_locked: false
+        })
       ).not.toThrow
     })
   })
