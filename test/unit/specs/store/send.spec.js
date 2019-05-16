@@ -260,6 +260,77 @@ describe(`Module: Send`, () => {
           expect.any(Function)
         )
       })
+
+      it(`special treatment for withdrawels`, async () => {
+        const args = {
+          type: `MsgWithdrawDelegationReward`,
+          password: `1234567890`,
+          txArguments: {
+            validatorAddresses: ["cosmosvaloper1567", "cosmosvaloper1234"]
+          },
+          gas: `1234567`,
+          gas_prices,
+          submitType: `local`
+        }
+
+        const sendSpy = jest.fn(() =>
+          Promise.resolve({
+            included: () => Promise.resolve()
+          })
+        )
+        const messageSpy = jest.fn(() => ({
+          message: {},
+          simulate: () => 123123,
+          send: sendSpy
+        }))
+        const multiMessageSpy = jest.fn(() => ({
+          simulate: () => 123123,
+          send: sendSpy
+        }))
+        state.externals.Cosmos = class MockCosmosJs {
+          constructor(...args) {
+            expect(args).toEqual(["https://lunie.io", "mock-chain"])
+            this.MsgWithdrawDelegationReward = messageSpy
+            this.MultiMessage = multiMessageSpy
+          }
+        }
+
+        await actions.sendTx(
+          {
+            state,
+            dispatch: jest.fn(),
+            commit: jest.fn(),
+            rootState: mockRootState
+          },
+          args
+        )
+
+        // it creates two withdraw messages, one for each validator
+        expect(messageSpy).toHaveBeenCalledWith("cosmos1superaddress", {
+          validatorAddress: "cosmosvaloper1567"
+        })
+        expect(messageSpy).toHaveBeenCalledWith("cosmos1superaddress", {
+          validatorAddress: "cosmosvaloper1234"
+        })
+        // it then aggregates both messages into one transaction
+        expect(multiMessageSpy).toHaveBeenCalledWith("cosmos1superaddress", [
+          expect.objectContaining({ message: {} }),
+          expect.objectContaining({ message: {} })
+        ])
+        expect(sendSpy).toHaveBeenCalledWith(
+          {
+            gas: "1234567",
+            gasPrices: [
+              {
+                amount: "0.025",
+                denom: "uatom"
+              }
+            ],
+            memo: undefined
+          },
+          expect.any(Function)
+        )
+      })
     })
   })
 })
