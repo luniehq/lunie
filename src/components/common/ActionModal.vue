@@ -1,6 +1,14 @@
 <template>
-  <transition v-if="show" name="slide-fade">
-    <div v-focus-last class="action-modal" tabindex="0" @keyup.esc="close">
+  <transition
+    v-if="show"
+    name="slide-fade"
+  >
+    <div
+      v-focus-last
+      class="action-modal"
+      tabindex="0"
+      @keyup.esc="close"
+    >
       <div class="action-modal-header">
         <img
           class="icon action-modal-atom"
@@ -17,13 +25,22 @@
           <i class="material-icons">close</i>
         </div>
       </div>
-      <div v-if="requiresSignIn" class="action-modal-form">
+      <div
+        v-if="requiresSignIn"
+        class="action-modal-form"
+      >
         <p>You need to sign in to submit a transaction.</p>
       </div>
-      <div v-else-if="step === `txDetails`" class="action-modal-form">
+      <div
+        v-else-if="step === `txDetails`"
+        class="action-modal-form"
+      >
         <slot />
       </div>
-      <div v-else-if="step === `fees`" class="action-modal-form">
+      <div
+        v-else-if="step === `fees`"
+        class="action-modal-form"
+      >
         <TmFormGroup
           v-if="session.experimentalMode"
           :error="$v.gasPrice.$error && $v.gasPrice.$invalid"
@@ -71,7 +88,10 @@
           :max="atoms(balance)"
         />
       </div>
-      <div v-else-if="step === `sign`" class="action-modal-form">
+      <div
+        v-else-if="step === `sign`"
+        class="action-modal-form"
+      >
         <TmFormGroup
           v-if="signMethods.length > 1"
           class="action-modal-form-group"
@@ -92,9 +112,9 @@
         >
           <div v-if="session.browserWithLedgerSupport">
             {{
-              sending
-                ? `Please verify and sign the transaction on your Ledger`
-                : `Please plug in your Ledger&nbsp;Nano&nbsp;S and open
+            sending
+            ? `Please verify and sign the transaction on your Ledger`
+            : `Please plug in your Ledger&nbsp;Nano&nbsp;S and open
             the Cosmos app`
             }}
           </div>
@@ -188,6 +208,7 @@ import { mapGetters } from "vuex"
 import { uatoms, atoms, viewDenom } from "../../scripts/num.js"
 import { between, requiredIf } from "vuelidate/lib/validators"
 import { track } from "scripts/google-analytics.js"
+import config from "src/config"
 
 const defaultStep = `txDetails`
 const feeStep = `fees`
@@ -238,7 +259,7 @@ export default {
     password: null,
     sending: false,
     gasEstimate: null,
-    gasPrice: process.env.NODE_ENV === "development" ? 0 : 2.5e-8, // default: 0.025 uatom per gas
+    gasPrice: config.default_gas_price.toFixed(9),
     submissionError: null,
     show: false,
     track,
@@ -302,7 +323,7 @@ export default {
   methods: {
     open() {
       this.track(`event`, `modal`, this.title)
-      this.gasPrice = (this.session.gasPrice || 2.5e-8).toFixed(9)
+      this.gasPrice = config.default_gas_price.toFixed(9)
       this.show = true
     },
     close() {

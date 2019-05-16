@@ -19,8 +19,6 @@ describe(`ActionModal`, () => {
         session: {
           signedIn: true,
           sessionType: `local`,
-          gasPrice: 2.5e-8,
-          gasAdjustment: 1.5,
           browserWithLedgerSupport: null
         },
         bondDenom: `uatom`,

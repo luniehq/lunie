@@ -42,8 +42,6 @@ jest.mock(
 const mockRootState = {
   session: {
     account: `default`,
-    gasPrice: 2.5e-8,
-    gasAdjustment: 1.5,
     address: `cosmos1superaddress`
   },
   wallet: {

@@ -8,10 +8,6 @@ describe(`TableInvoice`, () => {
 
   const $store = {
     getters: {
-      session: {
-        gasPrice: 2.5e-8,
-        gasAdjustment: 1.5
-      },
       bondDenom: `STAKE`
     }
   }
