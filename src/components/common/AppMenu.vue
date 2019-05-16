@@ -73,7 +73,7 @@
         <h2 class="app-menu-title">
           Sign out
         </h2>
-        <i v-tooltip.bottom.end="'Sign Out'" class="material-icons">
+        <i class="material-icons">
           exit_to_app
         </i>
       </a>
@@ -108,7 +108,6 @@ export default {
     },
     signOut() {
       this.$store.dispatch(`signOut`)
-      this.close()
       this.$router.push(`/`)
     }
   }
