@@ -64,6 +64,14 @@
         </h2>
         <i class="material-icons">chevron_right</i>
       </router-link>
+      <a v-if="session.signedIn" id="signOut-btn" class="app-menu-item" @click="signOut()">
+        <h2 class="app-menu-title">
+          Sign out
+        </h2>
+        <i v-tooltip.bottom.end="'Sign Out'" class="material-icons">
+          exit_to_app
+        </i>
+      </a>
     </div>
     <ConnectedNetwork />
   </menu>
@@ -73,21 +81,31 @@
 import PerfectScrollbar from "perfect-scrollbar"
 import noScroll from "no-scroll"
 import ConnectedNetwork from "common/TmConnectedNetwork"
+import { mapGetters } from "vuex"
 export default {
   name: `app-menu`,
   components: {
     ConnectedNetwork
   },
   data: () => ({
-    ps: {}
+    ps: {},
+    desktop: false
   }),
   mounted() {
     this.ps = new PerfectScrollbar(this.$el.querySelector(`.app-menu-main`))
+  },
+  computed: {
+    ...mapGetters([`session`])
   },
   methods: {
     close() {
       this.$emit(`close`)
       noScroll.off()
+    },
+    signOut() {
+      this.$store.dispatch(`signOut`)
+      this.close();
+      this.$router.push(`/`)
     }
   }
 }
@@ -175,6 +193,9 @@ export default {
 @media screen and (min-width: 1023px) {
   .app-menu {
     width: var(--width-side);
+  }
+  .app-menu #signOut-btn {
+    display: none;
   }
 }
 </style>
