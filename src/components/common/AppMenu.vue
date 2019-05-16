@@ -93,8 +93,7 @@ export default {
     ConnectedNetwork
   },
   data: () => ({
-    ps: {},
-    desktop: false
+    ps: {}
   }),
   computed: {
     ...mapGetters([`session`])
