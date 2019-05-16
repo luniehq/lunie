@@ -49,7 +49,7 @@ exports[`ActionModal should show the action modal when user has logged in with l
     />
      
     <stepcomponent-stub
-      step="txDetails"
+      step="submit"
       stepname="submit"
       stepnumber="3"
       steptitle="Submit"
@@ -128,7 +128,7 @@ exports[`ActionModal should show the action modal when user has logged in with l
     />
      
     <stepcomponent-stub
-      step="fees"
+      step="submit"
       stepname="submit"
       stepnumber="3"
       steptitle="Submit"
@@ -217,7 +217,7 @@ exports[`ActionModal should show the action modal when user has logged in with l
     />
      
     <stepcomponent-stub
-      step="sign"
+      step="submit"
       stepname="submit"
       stepnumber="3"
       steptitle="Submit"
@@ -310,7 +310,7 @@ exports[`ActionModal should show the action modal when user has logged in with l
     />
      
     <stepcomponent-stub
-      step="txDetails"
+      step="submit"
       stepname="submit"
       stepnumber="3"
       steptitle="Submit"
@@ -389,7 +389,7 @@ exports[`ActionModal should show the action modal when user has logged in with l
     />
      
     <stepcomponent-stub
-      step="fees"
+      step="submit"
       stepname="submit"
       stepnumber="3"
       steptitle="Submit"
@@ -478,7 +478,7 @@ exports[`ActionModal should show the action modal when user has logged in with l
     />
      
     <stepcomponent-stub
-      step="sign"
+      step="submit"
       stepname="submit"
       stepnumber="3"
       steptitle="Submit"
@@ -574,7 +574,7 @@ exports[`ActionModal should show the action modal when user hasn't logged in 1`]
     />
      
     <stepcomponent-stub
-      step="txDetails"
+      step="submit"
       stepname="submit"
       stepnumber="3"
       steptitle="Submit"
