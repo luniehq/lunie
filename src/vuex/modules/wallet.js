@@ -126,40 +126,22 @@ export default ({ node }) => {
         }, 1000)
       })
     },
-    walletSubscribe({ state, dispatch }) {
-      if (!state.address) return
+    walletSubscribe({ rootState, dispatch }) {
+      if (!rootState.session.address) return
       // check if we already subscribed to this rpc object
       // we need to resubscribe on rpc reconnections
       if (state.subscribedRPC === node.rpc) return
 
       state.subscribedRPC = node.rpc
 
-      function onTx(data) {
-        dispatch(`queryWalletStateAfterHeight`, data.TxResult.height + 1)
-      }
-
-      const queries = [
-        `tm.event = 'Tx' AND sender = '${state.address}'`,
-        `tm.event = 'Tx' AND recipient = '${state.address}'`,
-        `tm.event = 'Tx' AND proposer = '${state.address}'`,
-        `tm.event = 'Tx' AND depositor = '${state.address}'`,
-        `tm.event = 'Tx' AND delegator = '${state.address}'`,
-        `tm.event = 'Tx' AND voter = '${state.address}'`
-      ]
-
-      queries.forEach(query => {
-        node.rpc.subscribe(
-          {
-            query
-          },
-          onTx
-        )
-      })
+      subscribeToTxs(node.rpc, rootState.session, dispatch)
     },
     async getMoney({ state }, address) {
-      return state.externals.axios.get(
-        `${state.externals.config.faucet}/${address}`
-      )
+      return state.externals.axios
+        .get(`${state.externals.config.faucet}/${address}`)
+        .catch(() => {
+          console.error("Requesting tokens from faucet failed.")
+        })
     }
   }
 
@@ -168,4 +150,33 @@ export default ({ node }) => {
     mutations,
     actions
   }
+}
+
+function subscribeToTxs(rpcClient, address, dispatch) {
+  function onTx(data) {
+    dispatch(`queryWalletStateAfterHeight`, data.TxResult.height + 1)
+  }
+
+  const queries = [
+    `tm.event = 'Tx' AND sender = '${address}'`,
+    `tm.event = 'Tx' AND recipient = '${address}'`,
+    `tm.event = 'Tx' AND proposer = '${address}'`,
+    `tm.event = 'Tx' AND depositor = '${address}'`,
+    `tm.event = 'Tx' AND delegator = '${address}'`,
+    `tm.event = 'Tx' AND voter = '${address}'`
+  ]
+
+  queries.forEach(query => {
+    rpcClient
+      .subscribe(
+        {
+          query
+        },
+        onTx
+      )
+      .catch(err => {
+        // TODO Output error like this to not trigger Sentry
+        console.error(err)
+      })
+  })
 }

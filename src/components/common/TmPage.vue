@@ -26,40 +26,7 @@
       </template>
       <slot />
     </main>
-    <footer class="footer">
-      <ul class="link-list">
-        <li>
-          <router-link
-            class="app-menu-item-small"
-            to="/about"
-            exact="exact"
-            title="About"
-          >
-            About
-          </router-link>
-        </li>
-        <li>
-          <router-link
-            class="app-menu-item-small"
-            to="/terms"
-            exact="exact"
-            title="About"
-          >
-            Terms of Service
-          </router-link>
-        </li>
-        <li>
-          <router-link
-            class="app-menu-item-small"
-            to="/privacy"
-            exact="exact"
-            title="About"
-          >
-            Privacy Policy
-          </router-link>
-        </li>
-      </ul>
-    </footer>
+    <PageFooter />
   </div>
 </template>
 
@@ -74,6 +41,7 @@ import TmDataError from "common/TmDataError"
 import TmDataConnecting from "common/TmDataConnecting"
 import TmBalance from "common/TmBalance"
 import ToolBar from "common/ToolBar"
+import PageFooter from "common/TmPageFooter"
 
 export default {
   name: `tm-page`,
@@ -85,7 +53,8 @@ export default {
     TmDataLoading,
     TmDataError,
     TmDataConnecting,
-    CardSignInRequired
+    CardSignInRequired,
+    PageFooter
   },
   props: {
     hideHeader: {

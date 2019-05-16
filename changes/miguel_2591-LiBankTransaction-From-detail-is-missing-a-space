@@ -1,0 +1,1 @@
+[Fixed] [#2592](https://github.com/cosmos/lunie/issues/2592) Add a &nbsp; to LiBankTransaction so that there is a space between From and the address @migueog

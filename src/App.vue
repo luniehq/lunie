@@ -1,19 +1,23 @@
 <template>
-  <div id="app">
-    <Session />
-    <template>
+  <div>
+    <CookieBar />
+    <MaintenanceBar />
+    <div id="app">
+      <Session />
       <AppHeader />
       <div id="app-content">
         <router-view />
       </div>
-    </template>
-    <TmNotifications :notifications="notifications" />
+      <TmNotifications :notifications="notifications" />
+    </div>
   </div>
 </template>
 
 <script>
 import { mapGetters } from "vuex"
 import AppHeader from "common/AppHeader"
+import CookieBar from "common/CookieBar"
+import MaintenanceBar from "common/MaintenanceBar"
 import TmNotifications from "common/TmNotifications"
 import Session from "common/TmSession"
 import store from "./vuex/store"
@@ -23,7 +27,9 @@ export default {
   components: {
     AppHeader,
     TmNotifications,
-    Session
+    Session,
+    CookieBar,
+    MaintenanceBar
   },
   computed: {
     ...mapGetters([`notifications`, `session`])

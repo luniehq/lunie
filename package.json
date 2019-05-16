@@ -1,7 +1,7 @@
 {
   "name": "lunie",
   "productName": "lunie",
-  "version": "1.0.0-beta.51",
+  "version": "1.0.0-beta.68",
   "description": "Lunie is the user interface for the Cosmos Hub.",
   "author": "Lunie International Software Systems Inc. <hello@lunie.io>",
   "license": "Apache-2.0",
@@ -27,8 +27,7 @@
     "test:unit": "cross-env NODE_ENV=testing jest --maxWorkers=2",
     "test:e2e": "nightwatch --config ./test/e2e/nightwatch.conf.js",
     "test:exe": "node tasks/test-build.js",
-    "test:coverage": "http-server test/unit/coverage/lcov-report",
-    "postcheckout": "yarn",
+    "test:coverage": "live-server test/unit/coverage/lcov-report",
     "watch": "tasks/watch.sh",
     "testnet": "docker-compose -f ./tasks/local-testnet/docker-compose.yml up",
     "proxy": "node ./tasks/local-testnet/proxy.js",
@@ -38,9 +37,10 @@
     "release": "git checkout develop & git pull & git push origin develop:release"
   },
   "devDependencies": {
+    "@babel/core": "7.4.4",
     "@babel/node": "7.2.2",
     "@babel/plugin-transform-runtime": "7.4.0",
-    "@babel/preset-env": "7.4.2",
+    "@babel/preset-env": "7.4.4",
     "@babel/runtime": "7.4.2",
     "@nodeguy/cli": "0.2.3",
     "@octokit/rest": "16.23.1",
@@ -49,7 +49,7 @@
     "autoprefixer": "9.5.0",
     "babel-core": "^7.0.0-0",
     "babel-eslint": "10.0.1",
-    "babel-jest": "24.6.0",
+    "babel-jest": "24.7.1",
     "babel-loader": "8.0.5",
     "babel-plugin-istanbul": "5.1.1",
     "chromedriver": "2.46.0",
@@ -73,7 +73,7 @@
     "jest": "24.6.0",
     "jest-localstorage-mock": "2.4.0",
     "json-loader": "0.5.7",
-    "lint-staged": "8.1.5",
+    "lint-prepush": "0.3.1",
     "live-server": "1.2.1",
     "lodash.groupby": "4.6.0",
     "lodash.isempty": "4.4.0",
@@ -126,6 +126,7 @@
     "perfect-scrollbar": "1.4.0",
     "pumpify": "1.5.1",
     "secp256k1": "3.6.2",
+    "semver": "6.0.0",
     "shortid": "2.2.14",
     "timezone-mock": "1.0.4",
     "vue": "2.6.10",
@@ -138,17 +139,21 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged"
+      "pre-push": "lint-prepush"
     }
   },
-  "lint-staged": {
-    "*.{js,vue}": [
-      "eslint --fix",
-      "git add"
-    ],
-    "*.{css,vue}": [
-      "stylelint --fix",
-      "git add"
-    ]
+  "lint-prepush": {
+    "base": "develop",
+    "tasks": {
+      "*.{js,vue}": [
+        "eslint --fix",
+        "jest --bail --coverage --findRelatedTests",
+        "git add"
+      ],
+      "*.{css,vue}": [
+        "stylelint --fix",
+        "git add"
+      ]
+    }
   }
 }

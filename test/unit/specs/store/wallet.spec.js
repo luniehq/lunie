@@ -92,6 +92,14 @@ describe(`Module: Wallet`, () => {
       )
     })
 
+    it(`should not throw if fetching money fails`, async () => {
+      jest.spyOn(console, "error").mockImplementationOnce(() => {})
+      const { state, actions } = instance
+      state.externals.axios.get = () => Promise.reject("Expected")
+      const address = `X`
+      expect(actions.getMoney({ state }, address)).resolves
+    })
+
     it(`should initialize wallet`, async () => {
       const { actions } = instance
 
@@ -223,11 +231,12 @@ describe(`Module: Wallet`, () => {
     })
 
     it(`should not error when subscribing with no address`, async () => {
-      const { actions, state } = instance
+      const { actions } = instance
       const dispatch = jest.fn()
-      state.address = null
-      state.decodedAddress = null
-      await actions.walletSubscribe({ state, dispatch })
+      await actions.walletSubscribe({
+        rootState: { session: { address: undefined } },
+        dispatch
+      })
     })
 
     it(`should query wallet on subscription txs`, async () => {
@@ -238,19 +247,50 @@ describe(`Module: Wallet`, () => {
           subscribe: jest.fn((_, cb) => {
             //query is param
             cb({ TxResult: { height: -1 } })
+
+            return Promise.resolve()
           })
         }
       }
-      const { actions, state } = walletModule({
+      const { actions } = walletModule({
         node
       })
       const dispatch = jest.fn()
-      state.address = `x`
 
-      await actions.walletSubscribe({ state, dispatch })
+      await actions.walletSubscribe({
+        rootState: { session: { address: `x` } },
+        dispatch
+      })
 
       jest.runTimersToTime(30000)
       expect(dispatch).toHaveBeenCalledTimes(6)
+    })
+
+    it(`should catch errors from subscriptions`, async () => {
+      jest.useFakeTimers()
+      jest.spyOn(console, "error").mockImplementation(() => {})
+
+      const node = {
+        rpc: {
+          subscribe: jest.fn(() => {
+            return Promise.reject("Expected")
+          })
+        }
+      }
+      const { actions } = walletModule({
+        node
+      })
+      const dispatch = jest.fn()
+
+      await actions.walletSubscribe({
+        rootState: { session: { address: `x` } },
+        dispatch
+      })
+
+      jest.runTimersToTime(30000)
+      expect(dispatch).toHaveBeenCalledTimes(0)
+
+      console.error.mockRestore()
     })
 
     it(`should store an error if failed to load balances`, async () => {

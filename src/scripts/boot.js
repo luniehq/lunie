@@ -19,6 +19,7 @@ import _Store from "../vuex/store"
 import * as urlHelpers from "scripts/url.js"
 import _config from "src/config"
 import { enableGoogleAnalytics } from "scripts/google-analytics"
+import { focusElement, focusParentLast } from "../directives"
 const _enableGoogleAnalytics = enableGoogleAnalytics
 
 export const routeGuard = store => (to, from, next) => {
@@ -55,13 +56,8 @@ export const startApp = async (
   Vue.use(Vuelidate)
   Vue.use(VueClipboard)
 
-  // directive to focus form fields
-  /* istanbul ignore next */
-  Vue.directive(`focus`, {
-    inserted: function(el) {
-      el.focus()
-    }
-  })
+  Vue.directive(`focus`, focusElement)
+  Vue.directive(`focus-last`, focusParentLast)
 
   // add error handlers in production
   if (env.NODE_ENV === `production`) {
@@ -105,8 +101,12 @@ export const startApp = async (
   if (urlParams.rpc) {
     store.commit(`setRpcUrl`, urlParams.rpc)
   }
+  if (urlParams.insecure) {
+    store.commit(`setInsecureMode`)
+  }
 
   store.dispatch(`showInitialScreen`)
+  store.dispatch(`loadLocalPreferences`)
   store
     .dispatch(`connect`)
     // wait for connected as the check for session will sign in directly and query account data

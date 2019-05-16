@@ -12,6 +12,7 @@ services:
     entrypoint:
       - sh
       - /etc/nodes/first.sh
+      - "${MAX_NODES:-2}"
     ports:
       - "26657:26657"
       - "9070:9070"

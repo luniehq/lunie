@@ -14,8 +14,15 @@
         <LiSession
           icon="usb"
           title="Sign in with Ledger Nano S"
-          subtitle="If you have a Ledger Wallet, choose this option."
-          @click.native="setState('hardware')"
+          :subtitle="
+            session.browserWithLedgerSupport
+              ? 'If you have a Ledger Wallet, choose this option.'
+              : 'Please use Chrome, Opera, or Brave. Ledger is not supported in your current browser.'
+          "
+          :disabled="!session.browserWithLedgerSupport"
+          @click.native="
+            () => session.browserWithLedgerSupport && setState('hardware')
+          "
         />
         <LiSession
           id="explore-address"
@@ -31,7 +38,7 @@
               <h1>DANGER ZONE</h1>
               <p>
                 Never use accounts created in the browser on a real network. You
-                could loose all your money.
+                could lose all your money.
               </p>
             </div>
             <LiSession

@@ -1,9 +1,22 @@
 "use strict"
 
+const RETRIES = 4
+
 const Client = (axios, remoteLcdURL) => {
-  async function request(method, path, data) {
+  // request and retry
+  async function request(method, path, data, tries = RETRIES) {
     const url = remoteLcdURL
-    const result = await axios({ data, method, url: url + path })
+    let result
+    while (tries) {
+      try {
+        result = await axios({ data, method, url: url + path })
+        break
+      } catch (err) {
+        if (--tries == 0) {
+          throw err
+        }
+      }
+    }
     return result.data
   }
 
@@ -147,7 +160,14 @@ const Client = (axios, remoteLcdURL) => {
     // },
 
     // Get a list containing all the validator candidates
-    getValidators: req(`GET`, `/staking/validators`),
+    getValidators: async () =>
+      await Promise.all([
+        req(`GET`, `/staking/validators?status=bonded`)(),
+        req(`GET`, `/staking/validators?status=unbonded`)(),
+        req(`GET`, `/staking/validators?status=unbonding`)()
+      ]).then(([bondedValidators, unbondedValidators, unbondingValidators]) =>
+        [].concat(bondedValidators, unbondedValidators, unbondingValidators)
+      ),
     // Get information from a validator
     getValidator: function(addr) {
       return req(`GET`, `/staking/validators/${addr}`)()

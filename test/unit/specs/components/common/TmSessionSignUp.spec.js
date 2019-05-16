@@ -85,58 +85,6 @@ describe(`SessionSignUp`, () => {
     })
   })
 
-  it(`should set error collection opt in state`, async () => {
-    const commit = jest.fn()
-    const dispatch = jest.fn()
-    await TmSessionSignUp.methods.onSubmit.call({
-      $store: {
-        commit,
-        dispatch
-      },
-      $v: {
-        $touch: () => {},
-        $error: false
-      },
-      fields: {
-        signUpPassword: `1234567890`,
-        signUpPasswordConfirm: `1234567890`,
-        signUpSeed: `bar`, // <-- doesn#t check for correctness of seed
-        signUpName: `testaccount`,
-        signUpWarning: true,
-        errorCollection: true
-      }
-    })
-    expect(dispatch).toHaveBeenCalledWith(`setErrorCollection`, {
-      account: `testaccount`,
-      optin: true
-    })
-
-    dispatch.mockClear()
-
-    await TmSessionSignUp.methods.onSubmit.call({
-      $store: {
-        commit,
-        dispatch
-      },
-      $v: {
-        $touch: () => {},
-        $error: false
-      },
-      fields: {
-        signUpPassword: `1234567890`,
-        signUpPasswordConfirm: `1234567890`,
-        signUpSeed: `bar`, // <-- doesn#t check for correctness of seed
-        signUpName: `testaccount`,
-        signUpWarning: false,
-        errorCollection: false
-      }
-    })
-    expect(dispatch).toHaveBeenCalledWith(`setErrorCollection`, {
-      account: `testaccount`,
-      optin: false
-    })
-  })
-
   it(`should show error if warnings not acknowledged`, () => {
     wrapper.setData({
       fields: {

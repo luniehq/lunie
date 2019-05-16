@@ -1,6 +1,44 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`TmSessionHardware has the expected html structure when there're errors 1`] = `
+exports[`TmSessionHardware should show a state indicator for different states of the hardware connection 1`] = `
+"<div class=\\"tm-session\\"><div class=\\"tm-session-container\\"><div class=\\"tm-session-header\\"><a><i class=\\"material-icons\\">arrow_back</i></a> <div class=\\"tm-session-title\\">
+        Sign In
+      </div> <a><i class=\\"material-icons\\">close</i></a></div> <div class=\\"tm-session-main\\"><div class=\\"tm-hardware-state\\"><div class=\\"tm-hardware-state-content\\"><!----> <div class=\\"tm-hardware-state__label\\">
+          Please plug in your Ledger&nbsp;Nano&nbsp;S and open the Cosmos app
+         <!----> <!----></div></div> <img src=\\"~assets/images/loader.svg\\" style=\\"display: none;\\"></div></div> <div class=\\"tm-session-footer\\"><p class=\\"ledger-install\\">
+        Don't have the Cosmos Ledger App yet? Install it
+        <a href=\\"https://github.com/cosmos/voyager#ledger-cosmos-app\\" target=\\"_blank\\" rel=\\"noopener noreferrer\\">
+          here </a>.
+      </p> <button class=\\"tm-btn\\"><span class=\\"tm-btn__container\\"><!----><span class=\\"tm-btn__value\\">Sign In</span></span></button></div></div></div>"
+`;
+
+exports[`TmSessionHardware should show a state indicator for different states of the hardware connection 2`] = `
+"<div class=\\"tm-session\\"><div class=\\"tm-session-container\\"><div class=\\"tm-session-header\\"><a><i class=\\"material-icons\\">arrow_back</i></a> <div class=\\"tm-session-title\\">
+        Sign In
+      </div> <a><i class=\\"material-icons\\">close</i></a></div> <div class=\\"tm-session-main\\"><div class=\\"tm-hardware-state\\"><div class=\\"tm-hardware-state-content\\"><!----> <div class=\\"tm-hardware-state__label\\">
+          Please plug in your Ledger&nbsp;Nano&nbsp;S and open the Cosmos app
+         <!----> <!----></div></div> <img src=\\"~assets/images/loader.svg\\" style=\\"\\"></div></div> <div class=\\"tm-session-footer\\"><p class=\\"ledger-install\\">
+        Don't have the Cosmos Ledger App yet? Install it
+        <a href=\\"https://github.com/cosmos/voyager#ledger-cosmos-app\\" target=\\"_blank\\" rel=\\"noopener noreferrer\\">
+          here </a>.
+      </p> <button class=\\"tm-btn\\" disabled=\\"disabled\\"><span class=\\"tm-btn__container\\"><!----><span class=\\"tm-btn__value\\">Waiting for Ledger</span></span></button></div></div></div>"
+`;
+
+exports[`TmSessionHardware should show a state indicator for different states of the hardware connection 3`] = `
+"<div class=\\"tm-session\\"><div class=\\"tm-session-container\\"><div class=\\"tm-session-header\\"><a><i class=\\"material-icons\\">arrow_back</i></a> <div class=\\"tm-session-title\\">
+        Sign In
+      </div> <a><i class=\\"material-icons\\">close</i></a></div> <div class=\\"tm-session-main\\"><div class=\\"tm-hardware-state\\"><div class=\\"tm-hardware-state-content\\"><!----> <div class=\\"tm-hardware-state__label\\"><!----> 
+          Sign in with the address
+          <span class=\\"address\\"></span>.<br>
+          Please confirm on your Ledger.
+         <!----></div></div> <img src=\\"~assets/images/loader.svg\\" style=\\"\\"></div></div> <div class=\\"tm-session-footer\\"><p class=\\"ledger-install\\">
+        Don't have the Cosmos Ledger App yet? Install it
+        <a href=\\"https://github.com/cosmos/voyager#ledger-cosmos-app\\" target=\\"_blank\\" rel=\\"noopener noreferrer\\">
+          here </a>.
+      </p> <button class=\\"tm-btn\\" disabled=\\"disabled\\"><span class=\\"tm-btn__container\\"><!----><span class=\\"tm-btn__value\\">Confirming Address</span></span></button></div></div></div>"
+`;
+
+exports[`TmSessionHardware shows the ledger conection view when there're errors 1`] = `
 <div
   class="tm-session"
 >
@@ -50,8 +88,10 @@ exports[`TmSessionHardware has the expected html structure when there're errors 
             class="tm-hardware-state__label"
           >
             
-        Please plug in your Ledger Nano S and open the Cosmos app
-        
+          Please plug in your Ledger Nano S and open the Cosmos app
+         
+            <!---->
+             
             <p
               class="error-message"
             >
@@ -109,7 +149,7 @@ exports[`TmSessionHardware has the expected html structure when there're errors 
 </div>
 `;
 
-exports[`TmSessionHardware has the expected html structure with no errors 1`] = `
+exports[`TmSessionHardware shows the ledger conection view with no errors 1`] = `
 <div
   class="tm-session"
 >
@@ -159,8 +199,10 @@ exports[`TmSessionHardware has the expected html structure with no errors 1`] = 
             class="tm-hardware-state__label"
           >
             
-        Please plug in your Ledger Nano S and open the Cosmos app
-        
+          Please plug in your Ledger Nano S and open the Cosmos app
+         
+            <!---->
+             
             <!---->
           </div>
         </div>
@@ -210,28 +252,4 @@ exports[`TmSessionHardware has the expected html structure with no errors 1`] = 
     </div>
   </div>
 </div>
-`;
-
-exports[`TmSessionHardware should show a state indicator for different states of the hardware connection 1`] = `
-"<div class=\\"tm-session\\"><div class=\\"tm-session-container\\"><div class=\\"tm-session-header\\"><a><i class=\\"material-icons\\">arrow_back</i></a> <div class=\\"tm-session-title\\">
-        Sign In
-      </div> <a><i class=\\"material-icons\\">close</i></a></div> <div class=\\"tm-session-main\\"><div class=\\"tm-hardware-state\\"><div class=\\"tm-hardware-state-content\\"><!----> <div class=\\"tm-hardware-state__label\\">
-        Please plug in your Ledger&nbsp;Nano&nbsp;S and open the Cosmos app
-        <!----></div></div> <img src=\\"~assets/images/loader.svg\\" style=\\"display: none;\\"></div></div> <div class=\\"tm-session-footer\\"><p class=\\"ledger-install\\">
-        Don't have the Cosmos Ledger App yet? Install it
-        <a href=\\"https://github.com/cosmos/voyager#ledger-cosmos-app\\" target=\\"_blank\\" rel=\\"noopener noreferrer\\">
-          here </a>.
-      </p> <button class=\\"tm-btn\\"><span class=\\"tm-btn__container\\"><!----><span class=\\"tm-btn__value\\">Sign In</span></span></button></div></div></div>"
-`;
-
-exports[`TmSessionHardware should show a state indicator for different states of the hardware connection 2`] = `
-"<div class=\\"tm-session\\"><div class=\\"tm-session-container\\"><div class=\\"tm-session-header\\"><a><i class=\\"material-icons\\">arrow_back</i></a> <div class=\\"tm-session-title\\">
-        Sign In
-      </div> <a><i class=\\"material-icons\\">close</i></a></div> <div class=\\"tm-session-main\\"><div class=\\"tm-hardware-state\\"><div class=\\"tm-hardware-state-content\\"><!----> <div class=\\"tm-hardware-state__label\\">
-        Please plug in your Ledger&nbsp;Nano&nbsp;S and open the Cosmos app
-        <!----></div></div> <img src=\\"~assets/images/loader.svg\\" style=\\"\\"></div></div> <div class=\\"tm-session-footer\\"><p class=\\"ledger-install\\">
-        Don't have the Cosmos Ledger App yet? Install it
-        <a href=\\"https://github.com/cosmos/voyager#ledger-cosmos-app\\" target=\\"_blank\\" rel=\\"noopener noreferrer\\">
-          here </a>.
-      </p> <button class=\\"tm-btn\\"><span class=\\"tm-btn__container\\"><!----><span class=\\"tm-btn__value\\">Sign In</span></span></button></div></div></div>"
 `;

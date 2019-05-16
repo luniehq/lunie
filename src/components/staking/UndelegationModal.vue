@@ -5,7 +5,7 @@
     :submit-fn="submitForm"
     :simulate-fn="simulateForm"
     :validate="validateForm"
-    :amount="amount"
+    :amount="0"
     title="Undelegate"
     class="undelegation-modal"
     submission-error-prefix="Undelegating failed"
@@ -83,10 +83,6 @@ export default {
   props: {
     maximum: {
       type: Number,
-      required: true
-    },
-    fromOptions: {
-      type: Array,
       required: true
     },
     to: {

@@ -169,7 +169,6 @@
       <UndelegationModal
         ref="undelegationModal"
         :maximum="Number(myBond)"
-        :from-options="delegationTargetOptions()"
         :to="session.signedIn ? session.address : ``"
         :validator="validator"
         :denom="bondDenom"
@@ -301,8 +300,18 @@ export default {
     },
     // empty descriptions have a strange '[do-not-modify]' value which we don't want to show
     website() {
-      const url = this.validator.description.website
-      return this.translateEmptyDescription(url)
+      let url = this.validator.description.website
+      // Check if validator url is empty
+      if (url === ``) {
+        return this.translateEmptyDescription(url)
+
+        // Check if validator url does not contain either http or https
+      } else if (!url.includes(`https`) && !url.includes(`http`)) {
+        url = `https://` + url
+        return this.translateEmptyDescription(url)
+      } else {
+        return this.translateEmptyDescription(url)
+      }
     },
     rewards() {
       const { session, bondDenom, distribution, validator } = this
@@ -357,6 +366,9 @@ export default {
         }
       }
     }
+  },
+  mounted() {
+    this.$store.dispatch("updateDelegates")
   },
   methods: {
     onDelegation() {

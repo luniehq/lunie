@@ -1,4 +1,4 @@
-![Lunie logo — spaceship blasting off](/app/static/icons/png/128x128.png)
+![Lunie logo — spaceship blasting off](/src/assets/images/png/128x128.png)
 
 # Welcome to [Lunie.io](https://lunie.io)!
 
@@ -128,7 +128,7 @@ If you want to run them locally build the UI and serve the files so the E2E test
 
 ```bash
 yarn build:ui
-./node_modules/.bin/http-server /app/dist -p 8081
+./node_modules/.bin/live-server /app/dist -p 8081
 ```
 
 Then run the actual tests:

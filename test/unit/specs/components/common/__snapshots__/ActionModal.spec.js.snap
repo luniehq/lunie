@@ -4,15 +4,11 @@ exports[`ActionModal should show the action modal when user has logged in with l
 <div
   class="action-modal"
   name="slide-fade"
+  tabindex="0"
 >
   <div
     class="action-modal-header"
   >
-    <img
-      class="icon action-modal-atom"
-      src="~assets/images/cosmos-logo.png"
-    />
-     
     <span
       class="action-modal-title"
     >
@@ -31,6 +27,33 @@ exports[`ActionModal should show the action modal when user has logged in with l
         close
       </i>
     </div>
+  </div>
+   
+  <div
+    class="step--container"
+  >
+    <stepcomponent-stub
+      includeline="true"
+      step="txDetails"
+      stepname="txDetails"
+      stepnumber="1"
+      steptitle="Details"
+    />
+     
+    <stepcomponent-stub
+      includeline="true"
+      step="txDetails"
+      stepname="fees"
+      stepnumber="2"
+      steptitle="Fees"
+    />
+     
+    <stepcomponent-stub
+      step="txDetails"
+      stepname="submit"
+      stepnumber="3"
+      steptitle="Submit"
+    />
   </div>
    
   <div
@@ -60,15 +83,11 @@ exports[`ActionModal should show the action modal when user has logged in with l
 <div
   class="action-modal"
   name="slide-fade"
+  tabindex="0"
 >
   <div
     class="action-modal-header"
   >
-    <img
-      class="icon action-modal-atom"
-      src="~assets/images/cosmos-logo.png"
-    />
-     
     <span
       class="action-modal-title"
     >
@@ -90,6 +109,33 @@ exports[`ActionModal should show the action modal when user has logged in with l
   </div>
    
   <div
+    class="step--container"
+  >
+    <stepcomponent-stub
+      includeline="true"
+      step="fees"
+      stepname="txDetails"
+      stepnumber="1"
+      steptitle="Details"
+    />
+     
+    <stepcomponent-stub
+      includeline="true"
+      step="fees"
+      stepname="fees"
+      stepnumber="2"
+      steptitle="Fees"
+    />
+     
+    <stepcomponent-stub
+      step="fees"
+      stepname="submit"
+      stepnumber="3"
+      steptitle="Submit"
+    />
+  </div>
+   
+  <div
     class="action-modal-form"
   >
     <!---->
@@ -99,6 +145,8 @@ exports[`ActionModal should show the action modal when user has logged in with l
       gasestimate="0"
       gasprice="2.5e-8"
     />
+     
+    <!---->
   </div>
    
   <div
@@ -124,15 +172,11 @@ exports[`ActionModal should show the action modal when user has logged in with l
 <div
   class="action-modal"
   name="slide-fade"
+  tabindex="0"
 >
   <div
     class="action-modal-header"
   >
-    <img
-      class="icon action-modal-atom"
-      src="~assets/images/cosmos-logo.png"
-    />
-     
     <span
       class="action-modal-title"
     >
@@ -154,17 +198,46 @@ exports[`ActionModal should show the action modal when user has logged in with l
   </div>
    
   <div
+    class="step--container"
+  >
+    <stepcomponent-stub
+      includeline="true"
+      step="sign"
+      stepname="txDetails"
+      stepnumber="1"
+      steptitle="Details"
+    />
+     
+    <stepcomponent-stub
+      includeline="true"
+      step="sign"
+      stepname="fees"
+      stepnumber="2"
+      steptitle="Fees"
+    />
+     
+    <stepcomponent-stub
+      step="sign"
+      stepname="submit"
+      stepnumber="3"
+      steptitle="Submit"
+    />
+  </div>
+   
+  <div
     class="action-modal-form"
   >
     <!---->
      
     <hardwarestate-stub
-      icon="usb"
+      icon="info"
     >
-      
-        Please plug in your Ledger Nano S and open
-        the Cosmos app
-      
+      <div>
+        
+          Please use Chrome, Brave, or Opera. Ledger is not supported in your
+          current browser.
+        
+      </div>
     </hardwarestate-stub>
   </div>
    
@@ -177,6 +250,7 @@ exports[`ActionModal should show the action modal when user has logged in with l
       <div>
         <tmbtn-stub
           color="primary"
+          disabled="true"
           value="Submit"
         />
       </div>
@@ -191,15 +265,11 @@ exports[`ActionModal should show the action modal when user has logged in with l
 <div
   class="action-modal"
   name="slide-fade"
+  tabindex="0"
 >
   <div
     class="action-modal-header"
   >
-    <img
-      class="icon action-modal-atom"
-      src="~assets/images/cosmos-logo.png"
-    />
-     
     <span
       class="action-modal-title"
     >
@@ -218,6 +288,33 @@ exports[`ActionModal should show the action modal when user has logged in with l
         close
       </i>
     </div>
+  </div>
+   
+  <div
+    class="step--container"
+  >
+    <stepcomponent-stub
+      includeline="true"
+      step="txDetails"
+      stepname="txDetails"
+      stepnumber="1"
+      steptitle="Details"
+    />
+     
+    <stepcomponent-stub
+      includeline="true"
+      step="txDetails"
+      stepname="fees"
+      stepnumber="2"
+      steptitle="Fees"
+    />
+     
+    <stepcomponent-stub
+      step="txDetails"
+      stepname="submit"
+      stepnumber="3"
+      steptitle="Submit"
+    />
   </div>
    
   <div
@@ -247,15 +344,11 @@ exports[`ActionModal should show the action modal when user has logged in with l
 <div
   class="action-modal"
   name="slide-fade"
+  tabindex="0"
 >
   <div
     class="action-modal-header"
   >
-    <img
-      class="icon action-modal-atom"
-      src="~assets/images/cosmos-logo.png"
-    />
-     
     <span
       class="action-modal-title"
     >
@@ -277,6 +370,33 @@ exports[`ActionModal should show the action modal when user has logged in with l
   </div>
    
   <div
+    class="step--container"
+  >
+    <stepcomponent-stub
+      includeline="true"
+      step="fees"
+      stepname="txDetails"
+      stepnumber="1"
+      steptitle="Details"
+    />
+     
+    <stepcomponent-stub
+      includeline="true"
+      step="fees"
+      stepname="fees"
+      stepnumber="2"
+      steptitle="Fees"
+    />
+     
+    <stepcomponent-stub
+      step="fees"
+      stepname="submit"
+      stepnumber="3"
+      steptitle="Submit"
+    />
+  </div>
+   
+  <div
     class="action-modal-form"
   >
     <!---->
@@ -286,6 +406,8 @@ exports[`ActionModal should show the action modal when user has logged in with l
       gasestimate="0"
       gasprice="2.5e-8"
     />
+     
+    <!---->
   </div>
    
   <div
@@ -311,15 +433,11 @@ exports[`ActionModal should show the action modal when user has logged in with l
 <div
   class="action-modal"
   name="slide-fade"
+  tabindex="0"
 >
   <div
     class="action-modal-header"
   >
-    <img
-      class="icon action-modal-atom"
-      src="~assets/images/cosmos-logo.png"
-    />
-     
     <span
       class="action-modal-title"
     >
@@ -338,6 +456,33 @@ exports[`ActionModal should show the action modal when user has logged in with l
         close
       </i>
     </div>
+  </div>
+   
+  <div
+    class="step--container"
+  >
+    <stepcomponent-stub
+      includeline="true"
+      step="sign"
+      stepname="txDetails"
+      stepnumber="1"
+      steptitle="Details"
+    />
+     
+    <stepcomponent-stub
+      includeline="true"
+      step="sign"
+      stepname="fees"
+      stepnumber="2"
+      steptitle="Fees"
+    />
+     
+    <stepcomponent-stub
+      step="sign"
+      stepname="submit"
+      stepnumber="3"
+      steptitle="Submit"
+    />
   </div>
    
   <div
@@ -369,6 +514,7 @@ exports[`ActionModal should show the action modal when user has logged in with l
       <div>
         <tmbtn-stub
           color="primary"
+          disabled="true"
           value="Submit"
         />
       </div>
@@ -383,15 +529,11 @@ exports[`ActionModal should show the action modal when user hasn't logged in 1`]
 <div
   class="action-modal"
   name="slide-fade"
+  tabindex="0"
 >
   <div
     class="action-modal-header"
   >
-    <img
-      class="icon action-modal-atom"
-      src="~assets/images/cosmos-logo.png"
-    />
-     
     <span
       class="action-modal-title"
     >
@@ -410,6 +552,33 @@ exports[`ActionModal should show the action modal when user hasn't logged in 1`]
         close
       </i>
     </div>
+  </div>
+   
+  <div
+    class="step--container"
+  >
+    <stepcomponent-stub
+      includeline="true"
+      step="txDetails"
+      stepname="txDetails"
+      stepnumber="1"
+      steptitle="Details"
+    />
+     
+    <stepcomponent-stub
+      includeline="true"
+      step="txDetails"
+      stepname="fees"
+      stepnumber="2"
+      steptitle="Fees"
+    />
+     
+    <stepcomponent-stub
+      step="txDetails"
+      stepname="submit"
+      stepnumber="3"
+      steptitle="Submit"
+    />
   </div>
    
   <div

@@ -37,9 +37,8 @@ export default function({ node }) {
   }
 
   const actions = {
-    async setLastHeader({ state, dispatch }, header) {
+    async setLastHeader({ state }, header) {
       state.lastHeader = header
-      await dispatch(`maybeUpdateValidators`, header)
     },
     async connect({ state, commit, dispatch }) {
       const {
@@ -110,7 +109,6 @@ export default function({ node }) {
       if (rootState.session.signedIn) {
         dispatch(`walletSubscribe`)
       }
-      dispatch(`getDelegates`)
       dispatch(`checkNodeHalted`)
       dispatch(`pollRPCConnection`)
     },

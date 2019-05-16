@@ -1,5 +1,11 @@
 <template>
-  <div class="tm-modal" @click.self="close()">
+  <div
+    v-focus-last
+    class="tm-modal"
+    tabindex="0"
+    @click.self="close()"
+    @keyup.esc="close()"
+  >
     <main class="tm-modal-main">
       <slot name="main" />
     </main>

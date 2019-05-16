@@ -17,4 +17,5 @@ testArtifacts/*
 *.key
 chromedriver.log
 src/keybase-cache.json
-certs/*
+certs/
+.env

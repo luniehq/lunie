@@ -19,7 +19,7 @@ describe(`API`, () => {
     let client
 
     beforeEach(() => {
-      axios = jest.fn(() => new Promise())
+      axios = jest.fn(() => Promise.resolve({ data: { foo: `bar` } }))
       client = api(axios, `http://remotehost`)
     })
 
@@ -73,7 +73,7 @@ describe(`API`, () => {
       })
 
       it(`makes a GET request with an error`, async () => {
-        axios.mockReturnValueOnce(
+        axios.mockReturnValue(
           Promise.reject({
             response: {
               data: `foo`
@@ -87,6 +87,57 @@ describe(`API`, () => {
           expect(error.response.data).toBe(`foo`)
         }
         expect(axios.mock.calls).toEqual([
+          [
+            {
+              data: undefined,
+              method: `GET`,
+              url: `http://remotehost/node_version`
+            }
+          ],
+          [
+            {
+              data: undefined,
+              method: `GET`,
+              url: `http://remotehost/node_version`
+            }
+          ],
+          [
+            {
+              data: undefined,
+              method: `GET`,
+              url: `http://remotehost/node_version`
+            }
+          ],
+          [
+            {
+              data: undefined,
+              method: `GET`,
+              url: `http://remotehost/node_version`
+            }
+          ]
+        ])
+      })
+
+      it(`makes a GET request with an error and retrys`, async () => {
+        axios
+          .mockReturnValueOnce(
+            Promise.reject({
+              response: {
+                data: `foo`
+              }
+            })
+          )
+          .mockReturnValueOnce(Promise.resolve({ data: { foo: `bar` } }))
+
+        await await client.nodeVersion()
+        expect(axios.mock.calls).toEqual([
+          [
+            {
+              data: undefined,
+              method: `GET`,
+              url: `http://remotehost/node_version`
+            }
+          ],
           [
             {
               data: undefined,
@@ -656,7 +707,7 @@ describe(`API`, () => {
       })
 
       it(`throws error for error other than empty account`, async () => {
-        axios.mockReturnValueOnce(
+        axios.mockReturnValue(
           Promise.reject({
             response: {
               data: `something failed`
@@ -871,7 +922,7 @@ describe(`API`, () => {
       })
       expect(await client.lcdConnected()).toBeTruthy()
 
-      axios.mockReturnValueOnce(Promise.reject())
+      axios.mockReturnValue(Promise.reject())
       expect(await client.lcdConnected()).toBeFalsy()
     })
 
@@ -908,8 +959,22 @@ describe(`API`, () => {
         [
           {
             data: undefined,
-            method: `GET`,
-            url: `http://remotehost/staking/validators`
+            method: "GET",
+            url: "http://remotehost/staking/validators?status=bonded"
+          }
+        ],
+        [
+          {
+            data: undefined,
+            method: "GET",
+            url: "http://remotehost/staking/validators?status=unbonded"
+          }
+        ],
+        [
+          {
+            data: undefined,
+            method: "GET",
+            url: "http://remotehost/staking/validators?status=unbonding"
           }
         ]
       ])

@@ -70,8 +70,8 @@ export default {
         return Object.assign({}, v, {
           small_moniker: v.description.moniker.toLowerCase(),
           my_delegations:
-            session.signedIn && committedDelegations[v.id] > 0
-              ? committedDelegations[v.id]
+            session.signedIn && committedDelegations[v.operator_address] > 0
+              ? committedDelegations[v.operator_address]
               : 0,
           commission: v.commission.rate,
           voting_power: BN(v.tokens)

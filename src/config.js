@@ -24,5 +24,9 @@ export default {
   default_gas_price: 2.5e-8, // recommended from Cosmos Docs
   default_gas_adjustment: 1.5,
   faucet,
-  version: process.env.RELEASE
+  version: process.env.RELEASE,
+
+  // Ledger
+  requiredCosmosAppVersion: "1.0.1",
+  requiredLedgerFirmwareVersion: "1.1.1"
 }

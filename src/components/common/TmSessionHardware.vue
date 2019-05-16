@@ -13,8 +13,16 @@
         </a>
       </div>
       <div class="tm-session-main">
-        <HardwareState :loading="status === `detect` ? true : false">
-          Please plug in your Ledger&nbsp;Nano&nbsp;S and open the Cosmos app
+        <HardwareState :loading="status === `connect` ? false : true">
+          <template v-if="status === `connect` || status === `detect`">
+            Please plug in your Ledger&nbsp;Nano&nbsp;S and open the Cosmos app
+          </template>
+          <template v-if="status === `confirmAddress`">
+            Sign in with the address
+            <span class="address">{{ address }}</span
+            >.<br />
+            Please confirm on your Ledger.
+          </template>
           <p v-if="connectionError" class="error-message">
             {{ connectionError }}
           </p>
@@ -31,7 +39,11 @@
             here </a
           >.
         </p>
-        <TmBtn value="Sign In" @click.native="connectLedger()" />
+        <TmBtn
+          :value="submitCaption"
+          :disabled="status === `connect` ? false : `disabled`"
+          @click.native="signIn()"
+        />
       </div>
     </div>
   </div>
@@ -45,26 +57,59 @@ export default {
   components: { TmBtn, HardwareState },
   data: () => ({
     status: `connect`,
-    connectionError: null
+    connectionError: null,
+    address: null
   }),
+  computed: {
+    submitCaption() {
+      return {
+        connect: "Sign In",
+        detect: "Waiting for Ledger",
+        confirmAddress: "Confirming Address"
+      }[this.status]
+    }
+  },
   methods: {
     setState(value) {
       this.$store.commit(`setSessionModalView`, value)
     },
-    setStatus(value) {
-      this.status = value
-    },
-    setConnectionError(error) {
-      this.connectionError = error
-    },
-    async connectLedger() {
-      this.setStatus(`detect`)
+    async signIn() {
+      this.connectionError = null
+      this.status = `detect`
+      this.address = null
       try {
-        await this.$store.dispatch(`connectLedgerApp`)
-      } catch (error) {
-        this.setStatus(`connect`)
-        this.setConnectionError(error.message)
+        this.address = await this.$store.dispatch(`connectLedgerApp`)
+      } catch ({ message }) {
+        this.status = `connect`
+        this.connectionError = message
+        return
       }
+
+      this.status = `confirmAddress`
+      if (await this.confirmAddress()) {
+        await this.$store.dispatch(`signIn`, {
+          sessionType: `ledger`,
+          address: this.address
+        })
+        return
+      }
+
+      this.status = `connect`
+    },
+    async confirmAddress() {
+      try {
+        await this.$store.dispatch("confirmLedgerAddress")
+        return true
+      } catch ({ message }) {
+        switch (message) {
+          case `Transaction rejected`:
+            this.connectionError = `Account address rejected`
+            break
+          default:
+            this.connectionError = message
+        }
+      }
+      return false
     }
   }
 }
@@ -86,5 +131,12 @@ export default {
 .tm-session-footer {
   padding: 0 1rem;
   justify-content: space-between;
+}
+
+.address {
+  color: var(--link);
+  font-weight: 500;
+  font-size: 14px;
+  white-space: nowrap;
 }
 </style>

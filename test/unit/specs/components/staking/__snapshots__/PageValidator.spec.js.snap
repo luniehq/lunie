@@ -208,13 +208,13 @@ exports[`PageValidator shows a validator profile information errors signing info
              
             <dd>
               <a
-                href="www.monty.ca"
+                href="https://www.monty.ca"
                 id="validator-website"
                 rel="nofollow noreferrer noopener"
                 target="_blank"
               >
                 
-                www.monty.ca
+                https://www.monty.ca
               
               </a>
             </dd>
@@ -316,7 +316,6 @@ exports[`PageValidator shows a validator profile information errors signing info
      
     <undelegationmodal-stub
       denom="STAKE"
-      fromoptions="[object Object]"
       maximum="0"
       to="cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9"
       validator="[object Object]"
@@ -533,13 +532,13 @@ exports[`PageValidator shows a validator profile information if user has signed 
              
             <dd>
               <a
-                href="www.monty.ca"
+                href="https://www.monty.ca"
                 id="validator-website"
                 rel="nofollow noreferrer noopener"
                 target="_blank"
               >
                 
-                www.monty.ca
+                https://www.monty.ca
               
               </a>
             </dd>
@@ -641,7 +640,6 @@ exports[`PageValidator shows a validator profile information if user has signed 
      
     <undelegationmodal-stub
       denom="STAKE"
-      fromoptions="[object Object]"
       maximum="0"
       to="cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9"
       validator="[object Object]"
@@ -858,13 +856,13 @@ exports[`PageValidator shows a validator profile information if user hasn't sign
              
             <dd>
               <a
-                href="www.monty.ca"
+                href="https://www.monty.ca"
                 id="validator-website"
                 rel="nofollow noreferrer noopener"
                 target="_blank"
               >
                 
-                www.monty.ca
+                https://www.monty.ca
               
               </a>
             </dd>
@@ -966,7 +964,6 @@ exports[`PageValidator shows a validator profile information if user hasn't sign
      
     <undelegationmodal-stub
       denom="STAKE"
-      fromoptions=""
       maximum="0"
       to=""
       validator="[object Object]"

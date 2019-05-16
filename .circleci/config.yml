@@ -20,15 +20,15 @@ commands:
     steps:
       - restore_cache:
           keys:
-            - v3-dependencies-root-{{ checksum "package.json" }}
-            - v3-dependencies-root-
+            - v4-dependencies-root-{{ checksum "package.json" }}
+            - v4-dependencies-root-
 
       - run: yarn install
       - save_cache:
           paths:
             - yarn.lock
             - node_modules
-          key: v3-dependencies-root-{{ checksum "package.json" }}
+          key: v4-dependencies-root-{{ checksum "package.json" }}
 
   sync:
     parameters:
@@ -119,7 +119,7 @@ jobs:
             yarn build:ui --output-path $DIST_TESTNET
             STARGATE=https://stargate.lunie.io RPC=https://rpc.lunie.io:26657 CIRCLECI=true yarn build:ui
           else
-            CIRCLECI=true yarn build
+            STARGATE=https://stargate.lunie.io RPC=https://rpc.lunie.io:26657 CIRCLECI=true yarn build:ui
           fi
 
       - store_artifacts:

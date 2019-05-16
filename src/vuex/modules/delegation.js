@@ -9,6 +9,7 @@ export default ({ node }) => {
 
     // our delegations, maybe not yet committed
     delegates: [],
+    lastDelegatesUpdate: 0,
 
     // our delegations which are already on the blockchain
     committedDelegates: {},
@@ -130,7 +131,16 @@ export default ({ node }) => {
 
       state.loading = false
     },
-    async updateDelegates({ dispatch, rootState }) {
+    async updateDelegates({ dispatch, rootState, state }) {
+      // only update every 10 blocks
+      if (
+        Number(rootState.connection.lastHeader.height) -
+          state.lastDelegatesUpdate <
+        5
+      ) {
+        return
+      }
+      state.lastDelegatesUpdate = Number(rootState.connection.lastHeader.height)
       const candidates = await dispatch(`getDelegates`)
 
       if (rootState.session.signedIn) {

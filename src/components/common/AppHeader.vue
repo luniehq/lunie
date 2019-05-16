@@ -1,9 +1,12 @@
 <template>
   <nav class="app-header" :class="{ mobile: !desktop }">
     <div class="container">
-      <div class="header-item header-item-logo">
+      <div class="header-item">
         <router-link to="/">
-          <img src="~assets/images/cosmos-wallet-logo.svg" />
+          <img
+            class="header-item-logo"
+            src="~assets/images/cosmos-wallet-logo.svg"
+          />
         </router-link>
         <template v-if="!desktop">
           <div v-if="open" class="close-menu" @click="close()">
@@ -68,14 +71,13 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .app-header {
   z-index: var(--z-appHeader);
   position: relative;
   background: var(--app-nav);
-  display: flex;
-  flex: 0 0 var(--width-side);
-  min-width: 0;
+  min-height: 100vh;
+  width: var(--width-side);
 }
 
 .mobile-menu-action {
@@ -86,18 +88,19 @@ export default {
   flex: 1;
   display: flex;
   flex-flow: column nowrap;
+  position: fixed;
 }
 
-.app-header .header-item-logo {
+.app-header .header-item {
   padding: 1.25rem;
   font-size: 0;
 }
 
-.app-header .header-item-logo a {
+.app-header .header-item a {
   display: inline-block;
 }
 
-.app-header .header-item-logo img {
+.header-item-logo {
   height: 3rem;
 }
 
@@ -107,6 +110,12 @@ export default {
     top: 0;
     left: 0;
     width: 100%;
+    min-height: 0;
+  }
+
+  .container {
+    width: 100%;
+    background: var(--app-nav);
   }
 
   .app-header .header-item {
@@ -118,11 +127,7 @@ export default {
     cursor: pointer;
   }
 
-  .app-header .header-item-logo {
-    padding: 0.75rem 1rem;
-  }
-
-  .app-header .header-item-logo img {
+  .header-item-logo {
     height: 2rem;
   }
 }

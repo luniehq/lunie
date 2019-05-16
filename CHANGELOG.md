@@ -7,6 +7,152 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.0-beta.68] - 2019-05-15
+
+### Fixed
+
+- [#2587](https://github.com/cosmos/lunie/pull/2587) Keybase cache was not created @faboweb
+
+## [1.0.0-beta.67] - 2019-05-14
+
+### Changed
+
+- [#2584](https://github.com/cosmos/lunie/pull/2584) Switched back to Lunie servers after fixing issues @faboweb
+
+### Fixed
+
+- [#2430](https://github.com/cosmos/lunie/issues/2430) Ensure proposal tallies sum to 100 percent @colw
+
+## [1.0.0-beta.66] - 2019-05-13
+
+### Changed
+
+- [#2577](https://github.com/cosmos/lunie/pull/2577) Build for mainnet always to enable easier previews on PRs (circleci artifacts) @faboweb
+
+### Fixed
+
+- [#2577](https://github.com/cosmos/lunie/pull/2577) Cachebust CircleCI dependencies to fix ledger lib issues @faboweb
+
+## [1.0.0-beta.65] - 2019-05-11
+
+### Added
+
+- [#2561](https://github.com/cosmos/lunie/issues/2561) added a maintenance bar for when there are issues @jbibla
+
+## [1.0.0-beta.64] - 2019-05-11
+
+### Added
+
+- [#2382](https://github.com/cosmos/lunie/pull/2382) Compatibility with Ledger Cosmos App 1.5 @faboweb
+- [#1962 ](https://github.com/cosmos/lunie/issues/1962 ) Enforce approval of address for Ledger sign in @faboweb
+- [#2560](https://github.com/cosmos/lunie/issues/2560) Added careers page @jbibla
+
+### Changed
+
+- [#2568](https://github.com/cosmos/lunie/pull/2568) Show amount of source stake available to delegate or redelgate @colw
+
+### Fixed
+
+- [#2568](https://github.com/cosmos/lunie/pull/2568) Do not add stake to total when redelegating @colw
+- [#2570](https://github.com/cosmos/lunie/pull/2570) Load validators when linking to a validator directly @faboweb
+- [#1995](https://github.com/cosmos/lunie/issues/1995) Prevent users from signing in or creating a new account if their user agent is not Chrome @migueog
+
+## [1.0.0-beta.63] - 2019-05-10
+
+### Changed
+
+- [#2565](https://github.com/cosmos/lunie/pull/2565) Requests now retry 3 times before they fail to accomodate stargate timeouts @faboweb
+
+### Fixed
+
+- [#2557](https://github.com/cosmos/lunie/pull/2557) Do not add undelegation amount to transaction subtotal @colw
+- [#2563](https://github.com/cosmos/lunie/pull/2563) Temporaryly switching to cosmos nodes @faboweb
+
+## [1.0.0-beta.62] - 2019-05-08
+
+### Fixed
+
+- [#2446](https://github.com/cosmos/lunie/issues/2446) Validate total invoice amount, including network fees. @colw
+- [#2554](https://github.com/cosmos/lunie/issues/2554) Add missing footer to pages linked in footer @colw
+- [#2551](https://github.com/cosmos/lunie/pull/2551) Removed validatorset calls as we don't need them and they caused issues @faboweb
+- [#2551](https://github.com/cosmos/lunie/pull/2551) Removed keybase identities updates as they caused troubles and we deliver a cache with every release @faboweb
+
+## [1.0.0-beta.61] - 2019-05-07
+
+### Fixed
+
+- [#2542](https://github.com/cosmos/lunie/pull/2542) Do not run style lint on dist folder @colw
+- [#2543](https://github.com/cosmos/lunie/pull/2543) Switch code coverage to live-server @colw
+
+## [1.0.0-beta.60] - 2019-05-05
+
+### Fixed
+
+- [#2539](https://github.com/cosmos/lunie/pull/2539) Delegations did not show on my delegations page @faboweb
+
+## [1.0.0-beta.59] - 2019-05-03
+
+### Added
+
+- [#2189](https://github.com/cosmos/lunie/issues/2189) Escape key will close modal @colw
+
+### Fixed
+
+- [#2515](https://github.com/cosmos/lunie/issues/2515) Typo and logo's path update @gin
+- [#2461](https://github.com/cosmos/lunie/issues/2461) Load all validators @faboweb
+- [#2506](https://github.com/cosmos/lunie/issues/2506) Prepends https:// to links that do not include https:// or http:// @migueog
+
+## [1.0.0-beta.58] - 2019-05-02
+
+### Fixed
+
+- [#2525](https://github.com/cosmos/lunie/pull/2525) Fix signin in with local account @faboweb
+
+## [1.0.0-beta.57] - 2019-05-02
+
+### Fixed
+
+- [#2523](https://github.com/cosmos/lunie/pull/2523) Move back to own servers after outage @faboweb
+
+## [1.0.0-beta.56] - 2019-05-02
+
+### Fixed
+
+- [#2521](https://github.com/cosmos/lunie/pull/2521) add nylira nodes to CSP @faboweb
+
+## [1.0.0-beta.55] - 2019-05-02
+
+### Fixed
+
+- [#2519](https://github.com/cosmos/lunie/pull/2519) Cover outage by moving to nylira nodes @faboweb
+
+## [1.0.0-beta.54] - 2019-05-02
+
+### Added
+
+- [#1797](https://github.com/cosmos/lunie/issues/1797) Added notification about cookies and error tracking @faboweb
+- [#2517](https://github.com/cosmos/lunie/pull/2517) Readded the insecure flag to allow users to access their local wallets @faboweb
+
+## [1.0.0-beta.53] - 2019-05-01
+
+### Changed
+
+- [#2509](https://github.com/cosmos/lunie/pull/2509) Switched to linting on push only @faboweb
+
+### Fixed
+
+- [#2513](https://github.com/cosmos/lunie/pull/2513) Remove local signer on mainnet @faboweb
+
+## [1.0.0-beta.52] - 2019-04-30
+
+### Fixed
+
+- [#2500](https://github.com/cosmos/lunie/issues/2500) Fixed displaying voting power @faboweb
+- [#2500](https://github.com/cosmos/lunie/issues/2500) Fixed displaying of self delegation ratio @faboweb
+- [#2502](https://github.com/cosmos/lunie/pulls/2502) Fixed redelegation @faboweb
+- [#2499](https://github.com/cosmos/lunie/pull/2499) Fix withdraw in europe number format @faboweb
+- [#2493](https://github.com/cosmos/lunie/pull/2493) Throws an error if Ledger Cosmos App is outdated @faboweb
+
 ## [1.0.0-beta.51] - 2019-04-28
 
 ### Added

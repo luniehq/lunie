@@ -84,8 +84,24 @@ export default [
   },
   { path: `/404`, component: require(`./components/common/Page404`).default },
   {
+    path: `/privacy`,
+    component: require(`./components/common/PagePrivacy`).default
+  },
+  {
+    path: `/terms`,
+    component: require(`./components/common/PageTerms`).default
+  },
+  {
+    path: `/security`,
+    component: require(`./components/common/PageSecurity`).default
+  },
+  {
     path: `/about`,
     component: require(`./components/common/PageAbout`).default
+  },
+  {
+    path: `/careers`,
+    component: require(`./components/common/PageCareers`).default
   },
   { path: `*`, component: require(`./components/common/Page404`).default }
 ]

@@ -37,12 +37,8 @@ a:hover {
   line-height: 1.5;
   font-family: var(--sans);
   color: var(--txt);
-  padding-top: 56px;
-  height: 100vh;
-  width: 100vw;
-  max-width: 100%;
-  font-weight: var(--font-weight, 300);
   display: flex;
+  padding-top: 56px;
   flex-flow: column nowrap;
   min-width: 0;
   overflow: hidden;
