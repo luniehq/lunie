@@ -10,17 +10,9 @@ export default () => {
   const mutations = {}
 
   const actions = {
-    async connectLedgerApp({ state, commit }) {
+    async connectLedgerApp({ state }) {
       const ledger = new state.externals.Ledger({
-        ...state.externals.config,
-        onOutdated: () => {
-          // DEPRECATION disable and turn into a block to use ledger around end of may
-          commit("notifyWarn", {
-            title: "Ledger Cosmos App Outdated",
-            body:
-              "Your Ledger Cosmos App version is going to be deprecated. Please update to the lastest app version using Ledger Live."
-          })
-        }
+        testModeAllowed: state.externals.config.testModeAllowed
       })
 
       return await ledger.getCosmosAddress()

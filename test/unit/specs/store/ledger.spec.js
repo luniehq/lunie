@@ -25,21 +25,6 @@ describe(`Module: Ledger`, () => {
         expect(res).toBe("cosmos1")
       })
 
-      it(`shows an outdated warning if the Ledger script calls it`, async () => {
-        const commit = jest.fn()
-        state.externals.Ledger = class MockLedger {
-          constructor({ onOutdated }) {
-            this.onOutdated = onOutdated
-          }
-          getCosmosAddress() {
-            this.onOutdated()
-            return "cosmos1"
-          }
-        }
-        await expect(actions.connectLedgerApp({ commit, state }))
-        expect(commit).toHaveBeenCalledWith(`notifyWarn`, expect.any(Object))
-      })
-
       it(`start the Ledger address confirmation process`, async () => {
         const spy = jest.fn()
         state.externals.Ledger = class MockLedger {

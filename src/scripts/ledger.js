@@ -16,16 +16,15 @@ const HDPATH = [44, 118, 0, 0, 0]
 const BECH32PREFIX = `cosmos`
 
 export default class Ledger {
-  constructor({ testModeAllowed, onOutdated }) {
+  constructor({ testModeAllowed }) {
     this.testModeAllowed = testModeAllowed
-    this.onOutdated = onOutdated
   }
 
   // test connection and compatibility
-  async testDevice(outdated) {
+  async testDevice() {
     // poll device with low timeout to check if the device is connected
     const secondsTimeout = 3 // a lower value always timeouts
-    await this.connect(secondsTimeout, outdated)
+    await this.connect(secondsTimeout)
   }
   async isSendingData() {
     // check if the device is connected or on screensaver mode
@@ -38,13 +37,13 @@ export default class Ledger {
     // check if the version is supported
     const version = await this.getCosmosAppVersion()
 
-    // check if the device is connected or on screensaver mode
-    if (semver.satisfies(version, `>=${REQUIRED_COSMOS_APP_VERSION}`)) {
-      // throws if not open
-      await this.isCosmosAppOpen()
-    } else {
-      this.onOutdated && this.onOutdated(version, REQUIRED_COSMOS_APP_VERSION)
+    if (!semver.gte(version, REQUIRED_COSMOS_APP_VERSION)) {
+      const msg = `Outdated version: Please update Ledger Cosmos App to the latest version.`
+      throw new Error(msg)
     }
+
+    // throws if not open
+    await this.isCosmosAppOpen()
   }
   // connects to the device and checks for compatibility
   async connect(timeout = INTERACTION_TIMEOUT) {
@@ -68,11 +67,6 @@ export default class Ledger {
     checkAppMode(this.testModeAllowed, test_mode)
     const version = versionString({ major, minor, patch })
 
-    if (!semver.gte(version, REQUIRED_COSMOS_APP_VERSION)) {
-      const msg = `Outdated version: please update Cosmos app to ${REQUIRED_COSMOS_APP_VERSION}`
-      throw new Error(msg)
-    }
-
     return version
   }
   async isCosmosAppOpen() {
@@ -82,7 +76,7 @@ export default class Ledger {
     this.checkLedgerErrors(response)
     const { appName } = response
 
-    if (appName !== `Cosmos`) {
+    if (appName.toLowerCase() !== `cosmos`) {
       throw new Error(`Close ${appName} and open the Cosmos app`)
     }
   }
@@ -103,7 +97,7 @@ export default class Ledger {
     await this.connect()
     const cosmosAppVersion = await this.getCosmosAppVersion()
 
-    if (semver.lt(cosmosAppVersion, "1.5.0")) {
+    if (semver.lt(cosmosAppVersion, REQUIRED_COSMOS_APP_VERSION)) {
       // we can't check the address on an old cosmos app
       return
     }
@@ -151,7 +145,7 @@ export default class Ledger {
       case `Instruction not supported`:
         throw new Error(
           `Your Cosmos Ledger App is not up to date. ` +
-            `Please update to version ${REQUIRED_COSMOS_APP_VERSION}.`
+          `Please update to version ${REQUIRED_COSMOS_APP_VERSION}.`
         )
       case `No errors`:
         // do nothing

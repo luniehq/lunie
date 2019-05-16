@@ -5,8 +5,7 @@ jest.mock("secp256k1", () => ({
 }))
 
 const config = {
-  testModeAllowed: false,
-  onOutdated: () => {}
+  testModeAllowed: false
 }
 
 describe(`Ledger`, () => {
@@ -18,16 +17,14 @@ describe(`Ledger`, () => {
   it(`constructor`, () => {
     expect(ledger.checkLedgerErrors).toBeDefined()
     expect(ledger.testModeAllowed).toBe(false)
-    expect(ledger.onOutdated).toBeDefined()
   })
 
   it("testDevice", async () => {
     const self = {
       connect: jest.fn()
     }
-    const onOutdated = "1234"
-    await ledger.testDevice.call(self, onOutdated)
-    expect(self.connect).toHaveBeenCalledWith(3, onOutdated)
+    await ledger.testDevice.call(self)
+    expect(self.connect).toHaveBeenCalledWith(3)
   })
 
   it("isSendingData", async () => {
@@ -47,11 +44,9 @@ describe(`Ledger`, () => {
   describe("isReady", () => {
     it("oldVersion", async () => {
       const self = {
-        getCosmosAppVersion: () => "1.1.0",
-        onOutdated: jest.fn()
+        getCosmosAppVersion: () => "1.1.0"
       }
-      await ledger.isReady.call(self)
-      expect(self.onOutdated).toHaveBeenCalledWith("1.1.0", "1.5.0")
+      await expect(ledger.isReady.call(self)).rejects.toThrow("")
     })
 
     it("newVersion", async () => {
@@ -66,7 +61,7 @@ describe(`Ledger`, () => {
 
   describe("connect", () => {
     jest.doMock("ledger-cosmos-js", () => ({
-      App: class MockApp {},
+      App: class MockApp { },
       comm_u2f: {
         create_async: () => ({})
       }
@@ -130,7 +125,7 @@ describe(`Ledger`, () => {
         },
         checkLedgerErrors: jest.fn()
       }
-      await expect(ledger.getCosmosAppVersion.call(self)).rejects.toThrow()
+      expect(await ledger.getCosmosAppVersion.call(self)).toBe("1.1.0")
       expect(self.connect).toHaveBeenCalled()
       expect(self.checkLedgerErrors).toHaveBeenCalled()
     })
