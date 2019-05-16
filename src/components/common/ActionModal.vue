@@ -28,7 +28,7 @@
         ></StepComponent>
         <StepComponent
           step-title="Submit"
-          :step="step"
+          step="submit"
           step-name="submit"
           step-number="3"
           :include-line="false"
