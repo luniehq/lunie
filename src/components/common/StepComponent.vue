@@ -15,10 +15,22 @@
 export default {
   name: "StepComponent",
   props: {
-    stepTitle: String,
-    step: String,
-    stepName: String,
-    stepNumber: String,
+    stepTitle: {
+      type: String,
+      default: ""
+    },
+    step: {
+      type: String,
+      default: ""
+    },
+    stepName: {
+      type: String,
+      default: ""
+    },
+    stepNumber: {
+      type: String,
+      default: ""
+    },
     includeLine: {
       type: Boolean,
       default: true
@@ -96,7 +108,7 @@ svg {
 .circleLine::after {
   display: inline-block;
   content: "";
-  border-top: .15rem solid var(--grey);
+  border-top: 0.15rem solid var(--grey);
   width: 3.12rem;
   margin: 0 1.12rem;
   transform: translateY(-1.15rem);
