@@ -64,7 +64,12 @@
         </h2>
         <i class="material-icons">chevron_right</i>
       </router-link>
-      <a v-if="session.signedIn" id="signOut-btn" class="app-menu-item" @click="signOut()">
+      <a
+        v-if="session.signedIn"
+        id="signOut-btn"
+        class="app-menu-item"
+        @click="signOut()"
+      >
         <h2 class="app-menu-title">
           Sign out
         </h2>
@@ -91,11 +96,11 @@ export default {
     ps: {},
     desktop: false
   }),
-  mounted() {
-    this.ps = new PerfectScrollbar(this.$el.querySelector(`.app-menu-main`))
-  },
   computed: {
     ...mapGetters([`session`])
+  },
+  mounted() {
+    this.ps = new PerfectScrollbar(this.$el.querySelector(`.app-menu-main`))
   },
   methods: {
     close() {
@@ -104,7 +109,7 @@ export default {
     },
     signOut() {
       this.$store.dispatch(`signOut`)
-      this.close();
+      this.close()
       this.$router.push(`/`)
     }
   }
@@ -194,6 +199,7 @@ export default {
   .app-menu {
     width: var(--width-side);
   }
+
   .app-menu #signOut-btn {
     display: none;
   }
