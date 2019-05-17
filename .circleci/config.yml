@@ -348,10 +348,10 @@ workflows:
   releaseManually:
     jobs:
       - release:
-          filters:
-            branches:
-              only:
-                - release
+          # filters:
+          #   branches:
+          #     only:
+          #       - release
   mergeBack:
     jobs:
       - mergeBack:
