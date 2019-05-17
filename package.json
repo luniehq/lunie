@@ -89,7 +89,7 @@
     "postcss-preset-env": "6.6.0",
     "prettier": "1.17.0",
     "publish-release": "1.6.0",
-    "simsala": "0.0.11",
+    "simsala": "0.0.12",
     "style-loader": "0.23.1",
     "stylelint": "9.10.1",
     "stylelint-config-standard": "18.2.0",
