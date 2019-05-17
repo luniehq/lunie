@@ -379,7 +379,6 @@ workflows:
       - release:
           requires:
             - upload
-      - build
       - release:
           requires:
             - build
