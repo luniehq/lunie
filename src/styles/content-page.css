@@ -23,6 +23,11 @@ h2 {
   margin-bottom: 1rem;
 }
 
+b {
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
 .c2 {
   font-weight: 500;
   font-size: var(--lg);
@@ -48,7 +53,7 @@ h2 {
   font-weight: 500;
   font-size: var(--lg);
   line-height: var(--xl);
-  padding: 2rem 0 0;
+  padding: 0;
   display: block;
   color: var(--txt);
 }
@@ -71,11 +76,6 @@ ul li {
 ul,
 ol {
   margin-bottom: 1rem;
-}
-
-.container {
-  display: flex;
-  flex-direction: column;
 }
 
 i {

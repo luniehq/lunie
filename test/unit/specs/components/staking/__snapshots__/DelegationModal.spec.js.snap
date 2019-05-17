@@ -54,6 +54,16 @@ exports[`DelegationModal should display the delegation modal form 1`] = `
       type="number"
     />
      
+    <span
+      class="form-message"
+    >
+      
+      Available to Delegate:
+      1000
+      STAKEs
+    
+    </span>
+     
     <!---->
   </tmformgroup-stub>
 </actionmodal-stub>

@@ -4,9 +4,7 @@ exports[`CookieBar shows the cookie bar 1`] = `
 <div
   class="cookie-bar"
 >
-  <i
-    class="hide-on-mobile"
-  />
+  <i />
    
   <p>
     <span
@@ -17,20 +15,20 @@ exports[`CookieBar shows the cookie bar 1`] = `
     
     By using Lunie, you accept our
     
-    <router-link
+    <router-link-stub
       class="link"
       to="/terms"
     >
       Terms of Service
-    </router-link>
+    </router-link-stub>
      and
     
-    <router-link
+    <router-link-stub
       class="link"
       to="/privacy"
     >
       Privacy Policy
-    </router-link>
+    </router-link-stub>
     .
   
   </p>

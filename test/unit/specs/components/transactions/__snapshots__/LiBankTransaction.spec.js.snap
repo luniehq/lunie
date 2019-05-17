@@ -113,7 +113,7 @@ exports[`LiBankTransaction should show incoming transactions 1`] = `
    
   <span>
     
-      From
+      From  
       
     <shortbech32-stub
       address="A"

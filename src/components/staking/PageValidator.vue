@@ -169,7 +169,6 @@
       <UndelegationModal
         ref="undelegationModal"
         :maximum="Number(myBond)"
-        :from-options="delegationTargetOptions()"
         :to="session.signedIn ? session.address : ``"
         :validator="validator"
         :denom="bondDenom"
@@ -367,6 +366,9 @@ export default {
         }
       }
     }
+  },
+  mounted() {
+    this.$store.dispatch("updateDelegates")
   },
   methods: {
     onDelegation() {

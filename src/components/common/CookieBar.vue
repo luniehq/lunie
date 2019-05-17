@@ -1,6 +1,6 @@
 <template>
   <div v-if="!session.cookiesAccepted" class="cookie-bar">
-    <i class="hide-on-mobile"></i>
+    <i></i>
     <p>
       <span class="hide-on-mobile"
         >This site uses cookies to help improve the user experience.</span
@@ -42,6 +42,7 @@ export default {
   font-family: var(--sans);
   background-color: var(--primary);
   font-size: 14px;
+  line-height: 20px;
   font-weight: 400;
   text-align: center;
   display: flex;
@@ -62,7 +63,7 @@ export default {
   color: var(--bright);
 }
 
-@media (max-width: 767px) {
+@media (max-width: 1024px) {
   .cookie-bar {
     position: fixed;
     top: auto;

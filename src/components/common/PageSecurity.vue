@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <TmPage data-title="Security" hide-header>
     <div class="card">
       <h1>Security</h1>
       <h2 class="c5">Coordinated Vulnerability Disclosure Policy</h2>
@@ -32,6 +32,8 @@
           the scope of our coordinated disclosure policy.</span
         >
       </p>
+    </div>
+    <div class="card">
       <h2 class="c5">Vulnerability Disclosure Process</h2>
       <p>
         Once we receive a vulnerability report, the Lunie will take these steps
@@ -78,6 +80,8 @@
           >
         </li>
       </ol>
+    </div>
+    <div class="card">
       <h2 class="c5">Contact Us</h2>
       <p>
         You can contact our team directly at security@lunie.io which is
@@ -87,12 +91,17 @@
         makes it difficult for us to reduce harm for our users and community.
       </p>
     </div>
-  </div>
+  </TmPage>
 </template>
 
 <script>
+import TmPage from "common/TmPage"
+
 export default {
-  name: `page-security`
+  name: `page-security`,
+  components: {
+    TmPage
+  }
 }
 </script>
 

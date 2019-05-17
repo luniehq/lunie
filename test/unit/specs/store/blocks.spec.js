@@ -16,35 +16,37 @@ describe(`Module: Blocks`, () => {
       rpc: {
         status: () => Promise.resolve({ sync_info: {} })
       },
-      getBlock: () => ({
-        block_meta: {
-          block_id: {
-            hash: `ABCD1234`
+      get: {
+        block: () => ({
+          block_meta: {
+            block_id: {
+              hash: `ABCD1234`
+            }
+          },
+          block: {
+            data: {
+              txs: `txs`
+            },
+            header: {
+              height: `100`,
+              num_txs: 1200,
+              proposer_address: `ABCDEFG123456HIJKLMNOP`
+            },
+            evidence: {
+              evidence: `evidence`
+            },
+            last_commit: {
+              precommits: [
+                {
+                  validator_address: `validator address`,
+                  timestamp: `1990-10-19`,
+                  round: 0
+                }
+              ]
+            }
           }
-        },
-        block: {
-          data: {
-            txs: `txs`
-          },
-          header: {
-            height: `100`,
-            num_txs: 1200,
-            proposer_address: `ABCDEFG123456HIJKLMNOP`
-          },
-          evidence: {
-            evidence: `evidence`
-          },
-          last_commit: {
-            precommits: [
-              {
-                validator_address: `validator address`,
-                timestamp: `1990-10-19`,
-                round: 0
-              }
-            ]
-          }
-        }
-      })
+        })
+      }
     }
     module = blocks({
       node
@@ -60,7 +62,7 @@ describe(`Module: Blocks`, () => {
           [`5`]: { header: { time: 100 } }
         }
       }
-      node.getTxsByHeight = () =>
+      node.get.txsByHeight = () =>
         Promise.resolve([
           {
             hash: `abcdefghijklm`
@@ -80,7 +82,7 @@ describe(`Module: Blocks`, () => {
     })
 
     it(`should fail if request to full node fails`, async () => {
-      node.getTxsByHeight = () => Promise.reject(Error(`error`))
+      node.get.txsByHeight = () => Promise.reject(Error(`error`))
       const commit = jest.fn()
       await actions.getBlockTxs({ state, commit }, `5`)
       expect(commit).not.toHaveBeenCalledWith(`setBlockTransactions`, [
@@ -94,7 +96,7 @@ describe(`Module: Blocks`, () => {
 
   it(`should query block info`, async () => {
     state.blockMetas = {}
-    node.getBlock = () => ({
+    node.get.block = () => ({
       block_meta: blockMeta,
       block: {
         height: `42`
@@ -135,7 +137,9 @@ describe(`Module: Blocks`, () => {
     const getBlock = jest.fn().mockRejectedValue(error)
     const commit = jest.fn()
     const node = {
-      getBlock
+      get: {
+        block: getBlock
+      }
     }
     const module = blocks({
       node

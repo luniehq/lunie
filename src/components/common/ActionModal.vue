@@ -2,10 +2,6 @@
   <transition v-if="show" name="slide-fade">
     <div v-focus-last class="action-modal" tabindex="0" @keyup.esc="close">
       <div class="action-modal-header">
-        <img
-          class="icon action-modal-atom"
-          src="~assets/images/cosmos-logo.png"
-        />
         <span class="action-modal-title">
           {{ requiresSignIn ? `Sign in required` : title }}
         </span>
@@ -17,10 +13,11 @@
           <i class="material-icons">close</i>
         </div>
       </div>
+      <Steps :steps="['Details', 'Fees', 'Sign']" :active="step" />
       <div v-if="requiresSignIn" class="action-modal-form">
         <p>You need to sign in to submit a transaction.</p>
       </div>
-      <div v-else-if="step === `txDetails`" class="action-modal-form">
+      <div v-else-if="step === `details`" class="action-modal-form">
         <slot />
       </div>
       <div v-else-if="step === `fees`" class="action-modal-form">
@@ -63,6 +60,13 @@
           :gas-estimate="Number(gasEstimate)"
           :gas-price="Number(gasPrice)"
         />
+        <TmFormMsg
+          v-if="$v.invoiceTotal.$invalid"
+          name="Total"
+          type="between"
+          min="0"
+          :max="atoms(balance)"
+        />
       </div>
       <div v-else-if="step === `sign`" class="action-modal-form">
         <TmFormGroup
@@ -80,15 +84,21 @@
         </TmFormGroup>
         <HardwareState
           v-if="selectedSignMethod === `ledger`"
-          icon="usb"
+          :icon="session.browserWithLedgerSupport ? 'usb' : 'info'"
           :loading="!!sending"
         >
-          {{
-            sending
-              ? `Please verify and sign the transaction on your Ledger`
-              : `Please plug in your Ledger&nbsp;Nano&nbsp;S and open
-          the Cosmos app`
-          }}
+          <div v-if="session.browserWithLedgerSupport">
+            {{
+              sending
+                ? `Please verify and sign the transaction on your Ledger`
+                : `Please plug in your Ledger&nbsp;Nano&nbsp;S and open
+            the Cosmos app`
+            }}
+          </div>
+          <div v-else>
+            Please use Chrome, Brave, or Opera. Ledger is not supported in your
+            current browser.
+          </div>
         </HardwareState>
         <TmFormGroup
           v-else-if="selectedSignMethod === `local`"
@@ -140,12 +150,14 @@
                 v-else-if="step !== `sign`"
                 color="primary"
                 value="Next"
+                :disabled="step === `fees` && $v.invoiceTotal.$invalid"
                 @click.native="validateChangeStep"
               />
               <TmBtn
                 v-else
                 color="primary"
                 value="Submit"
+                :disabled="!session.browserWithLedgerSupport"
                 @click.native="validateChangeStep"
               />
             </div>
@@ -169,12 +181,14 @@ import TmField from "common/TmField"
 import TmFormGroup from "common/TmFormGroup"
 import TmFormMsg from "common/TmFormMsg"
 import TableInvoice from "common/TableInvoice"
+import Steps from "common/Steps"
 import { mapGetters } from "vuex"
 import { uatoms, atoms, viewDenom } from "../../scripts/num.js"
 import { between, requiredIf } from "vuelidate/lib/validators"
 import { track } from "scripts/google-analytics.js"
+import config from "src/config"
 
-const defaultStep = `txDetails`
+const defaultStep = `details`
 const feeStep = `fees`
 const signStep = `sign`
 
@@ -189,7 +203,8 @@ export default {
     TmField,
     TmFormGroup,
     TmFormMsg,
-    TableInvoice
+    TableInvoice,
+    Steps
   },
   props: {
     title: {
@@ -223,7 +238,7 @@ export default {
     password: null,
     sending: false,
     gasEstimate: null,
-    gasPrice: 2.5e-8, // default: 0.025 uatom per gas
+    gasPrice: config.default_gas_price.toFixed(9),
     submissionError: null,
     show: false,
     track,
@@ -245,6 +260,11 @@ export default {
     },
     balance() {
       return this.liquidAtoms
+    },
+    invoiceTotal() {
+      return (
+        Number(this.amount) + Number(this.gasPrice) * Number(this.gasEstimate)
+      )
     },
     isValidChildForm() {
       // here we trigger the validation of the child form
@@ -282,7 +302,7 @@ export default {
   methods: {
     open() {
       this.track(`event`, `modal`, this.title)
-      this.gasPrice = (this.session.gasPrice || 2.5e-8).toFixed(9)
+      this.gasPrice = config.default_gas_price.toFixed(9)
       this.show = true
     },
     close() {
@@ -320,6 +340,9 @@ export default {
           if (!this.isValidInput(`gasPrice`)) {
             return
           }
+          if (!this.isValidInput(`invoiceTotal`)) {
+            return
+          }
           this.step = signStep
           return
         case signStep:
@@ -352,9 +375,7 @@ export default {
       this.submissionError = null
       track(`event`, `submit`, this.title, this.selectedSignMethod)
 
-      if (!this.ledger.isConnected || !this.ledger.cosmosApp) {
-        await this.connectLedger()
-      }
+      await this.connectLedger()
 
       try {
         await this.submitFn(
@@ -397,6 +418,9 @@ export default {
         // we don't use SMALLEST as min gas price because it can be a fraction of uatom
         // min is 0 because we support sending 0 fees
         between: between(0, atoms(this.balance))
+      },
+      invoiceTotal: {
+        between: between(0, atoms(this.balance))
       }
     }
   }
@@ -423,6 +447,7 @@ export default {
 
 .action-modal-header {
   align-items: center;
+  text-align: center;
   display: flex;
   padding-bottom: 1.5rem;
 }

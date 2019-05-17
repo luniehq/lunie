@@ -133,7 +133,7 @@ yarn test:e2e:build
 Now start a testnet:
 
 ```bash
-yarn testnet:start
+MAX_NODES=4 yarn testnet:start
 ```
 
 Then run the actual tests:

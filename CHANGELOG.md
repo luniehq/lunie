@@ -7,6 +7,113 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [1.0.0-beta.69] - 2019-05-17
+
+### Added
+
+- [#1735](https://github.com/cosmos/lunie/issues/1735) implement multi step action modals @migueog
+- [#2589](https://github.com/cosmos/lunie/pull/2589) Set number of nodes run on local testnet via environment variable @colw
+
+### Changed
+
+- [#2579](https://github.com/cosmos/lunie/issues/2579) Move remaining Github specific files to .github folder @colw
+
+### Fixed
+
+- [#2378](https://github.com/cosmos/lunie/issues/2378) Do not show withdrawal button when user has no rewards avilable @colw
+- [#2601](https://github.com/cosmos/lunie/pull/2601) add missing step lines @migueog
+- [#2538](https://github.com/cosmos/lunie/issues/2538) Added sign out menu item to AppMenu.vue @migueog
+- [#2592](https://github.com/cosmos/lunie/issues/2592) Add a &nbsp; to LiBankTransaction so that there is a space between From and the address @migueog
+
+### Deprecated
+
+- [#2580](https://github.com/cosmos/lunie/issues/2580) Remove docs folder @colw
+- [#2582](https://github.com/cosmos/lunie/issues/2582) Remove unused theme JSON files @colw
+- [#2597](https://github.com/cosmos/lunie/pull/2597) Remvoe onboarding code and realted assets @colw
+
+## [1.0.0-beta.68] - 2019-05-15
+
+### Fixed
+
+- [#2587](https://github.com/cosmos/lunie/pull/2587) Keybase cache was not created @faboweb
+
+## [1.0.0-beta.67] - 2019-05-14
+
+### Changed
+
+- [#2584](https://github.com/cosmos/lunie/pull/2584) Switched back to Lunie servers after fixing issues @faboweb
+
+### Fixed
+
+- [#2430](https://github.com/cosmos/lunie/issues/2430) Ensure proposal tallies sum to 100 percent @colw
+
+## [1.0.0-beta.66] - 2019-05-13
+
+### Changed
+
+- [#2577](https://github.com/cosmos/lunie/pull/2577) Build for mainnet always to enable easier previews on PRs (circleci artifacts) @faboweb
+
+### Fixed
+
+- [#2577](https://github.com/cosmos/lunie/pull/2577) Cachebust CircleCI dependencies to fix ledger lib issues @faboweb
+
+## [1.0.0-beta.65] - 2019-05-11
+
+### Added
+
+- [#2561](https://github.com/cosmos/lunie/issues/2561) added a maintenance bar for when there are issues @jbibla
+
+## [1.0.0-beta.64] - 2019-05-11
+
+### Added
+
+- [#2382](https://github.com/cosmos/lunie/pull/2382) Compatibility with Ledger Cosmos App 1.5 @faboweb
+- [#1962 ](https://github.com/cosmos/lunie/issues/1962 ) Enforce approval of address for Ledger sign in @faboweb
+- [#2560](https://github.com/cosmos/lunie/issues/2560) Added careers page @jbibla
+
+### Changed
+
+- [#2568](https://github.com/cosmos/lunie/pull/2568) Show amount of source stake available to delegate or redelgate @colw
+
+### Fixed
+
+- [#2568](https://github.com/cosmos/lunie/pull/2568) Do not add stake to total when redelegating @colw
+- [#2570](https://github.com/cosmos/lunie/pull/2570) Load validators when linking to a validator directly @faboweb
+- [#1995](https://github.com/cosmos/lunie/issues/1995) Prevent users from signing in or creating a new account if their user agent is not Chrome @migueog
+
+## [1.0.0-beta.63] - 2019-05-10
+
+### Changed
+
+- [#2565](https://github.com/cosmos/lunie/pull/2565) Requests now retry 3 times before they fail to accomodate stargate timeouts @faboweb
+
+### Fixed
+
+- [#2557](https://github.com/cosmos/lunie/pull/2557) Do not add undelegation amount to transaction subtotal @colw
+- [#2563](https://github.com/cosmos/lunie/pull/2563) Temporaryly switching to cosmos nodes @faboweb
+
+## [1.0.0-beta.62] - 2019-05-08
+
+### Fixed
+
+- [#2446](https://github.com/cosmos/lunie/issues/2446) Validate total invoice amount, including network fees. @colw
+- [#2554](https://github.com/cosmos/lunie/issues/2554) Add missing footer to pages linked in footer @colw
+- [#2551](https://github.com/cosmos/lunie/pull/2551) Removed validatorset calls as we don't need them and they caused issues @faboweb
+- [#2551](https://github.com/cosmos/lunie/pull/2551) Removed keybase identities updates as they caused troubles and we deliver a cache with every release @faboweb
+
+## [1.0.0-beta.61] - 2019-05-07
+
+### Fixed
+
+- [#2542](https://github.com/cosmos/lunie/pull/2542) Do not run style lint on dist folder @colw
+- [#2543](https://github.com/cosmos/lunie/pull/2543) Switch code coverage to live-server @colw
+
+## [1.0.0-beta.60] - 2019-05-05
+
+### Fixed
+
+- [#2539](https://github.com/cosmos/lunie/pull/2539) Delegations did not show on my delegations page @faboweb
+
 ## [1.0.0-beta.59] - 2019-05-03
 
 ### Added

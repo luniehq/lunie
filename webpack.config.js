@@ -29,12 +29,12 @@ const commitHash = require(`child_process`)
 const devPlugins = process.env.CIRCLECI
   ? []
   : [
-      new CleanWebpackPlugin()
-      // new BundleAnalyzerPlugin({
-      //   analyzerMode: `static`,
-      //   openAnalyzer: false
-      // })
-    ]
+    new CleanWebpackPlugin()
+    // new BundleAnalyzerPlugin({
+    //   analyzerMode: `static`,
+    //   openAnalyzer: false
+    // })
+  ]
 
 const production = process.env.NODE_ENV === `production`
 
@@ -225,6 +225,8 @@ if (process.env.NODE_ENV === `production`) {
           // mainnet
           `https://stargate.lunie.io`,
           `wss://rpc.lunie.io:26657`,
+          `https://stargate.cosmos.network`,
+          `wss://rpc.cosmos.network:26657`,
           // testnet
           `https://sntajlxzsg.execute-api.eu-central-1.amazonaws.com/`,
           `wss://test.voyager.ninja:26657`

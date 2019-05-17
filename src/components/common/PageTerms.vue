@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <TmPage data-title="Terms" hide-header>
     <div class="card">
       <h1>Terms of Service</h1>
       <p class="c3">Effective Date: March 28, 2019</p>
@@ -1294,12 +1294,17 @@
       </p>
       <div></div>
     </div>
-  </div>
+  </TmPage>
 </template>
 
 <script>
+import TmPage from "common/TmPage"
+
 export default {
-  name: `page-terms`
+  name: `page-terms`,
+  components: {
+    TmPage
+  }
 }
 </script>
 

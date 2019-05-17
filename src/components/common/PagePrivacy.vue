@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <TmPage data-title="Privacy" hide-header>
     <div class="card">
       <h1>Privacy Policy</h1>
       <p class="c3">Effective Date: March 28, 2019</p>
@@ -1021,12 +1021,17 @@
         </span>
       </p>
     </div>
-  </div>
+  </TmPage>
 </template>
 
 <script>
+import TmPage from "common/TmPage"
+
 export default {
-  name: `page-privacy`
+  name: `page-privacy`,
+  components: {
+    TmPage
+  }
 }
 </script>
 

@@ -16,6 +16,7 @@
         <h3>Rewards</h3>
         <h2>{{ rewards }}</h2>
         <TmBtn
+          v-show="rewards > 0"
           id="withdraw-btn"
           class="withdraw-rewards"
           :value="connected ? 'Withdraw' : 'Connecting...'"
