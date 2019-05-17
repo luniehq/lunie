@@ -352,6 +352,7 @@ workflows:
       - release
   releaseManually:
     jobs:
+      - build
       - release:
           requires:
             - build
