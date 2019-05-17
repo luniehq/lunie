@@ -29,12 +29,12 @@ const commitHash = require(`child_process`)
 const devPlugins = process.env.CIRCLECI
   ? []
   : [
-    new CleanWebpackPlugin()
-    // new BundleAnalyzerPlugin({
-    //   analyzerMode: `static`,
-    //   openAnalyzer: false
-    // })
-  ]
+      new CleanWebpackPlugin()
+      // new BundleAnalyzerPlugin({
+      //   analyzerMode: `static`,
+      //   openAnalyzer: false
+      // })
+    ]
 
 const production = process.env.NODE_ENV === `production`
 
