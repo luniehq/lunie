@@ -230,7 +230,7 @@ jobs:
     steps:
       - checkout
       - yarn-install
-      - run: simsala release-candidate --pending-path ./changes --owner luniehq --repository lunie --token ${GIT_BOT_TOKEN} --message "#Release Candidate\n\nPlease manually test before merging this to master <a href='https://${BUILD_ID}-${REPO_ID}-gh.circle-artifacts.com/0/tmp/voyager/dist/index.html'>here</a>"
+      - run: node_modules/.bin/simsala release-candidate --pending-path ./changes --owner luniehq --repository lunie --token ${GIT_BOT_TOKEN} --message "#Release Candidate\n\nPlease manually test before merging this to master <a href='https://${BUILD_ID}-${REPO_ID}-gh.circle-artifacts.com/0/tmp/voyager/dist/index.html'>here</a>"
       
   # Push merges to master immediatly back to develop to stay in sync
   mergeBack:
