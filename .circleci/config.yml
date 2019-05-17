@@ -231,7 +231,7 @@ jobs:
           git config user.name "Lunie Bot"
           REPO_ID=99653950
           BUILD_NUM=`expr $CIRCLE_BUILD_NUM - 1` #hacky as it assumes the build step ran before this step
-          node node_modules/simsala/src/cli.js release-candidate --pending-path ./changes --owner luniehq --repository lunie --token ${GIT_BOT_TOKEN} --message "Please manually test before merging this to master <a href='https://${BUILD_NUM}-${REPO_ID}-gh.circle-artifacts.com/0/tmp/voyager/dist/index.html'>here</a>"
+          node node_modules/simsala/src/cli.js release-candidate --beta --pending-path ./changes --owner luniehq --repository lunie --token ${GIT_BOT_TOKEN} --message "Please manually test before merging this to master <a href='https://${BUILD_NUM}-${REPO_ID}-gh.circle-artifacts.com/0/tmp/voyager/dist/index.html'>here</a>"
       - store_artifacts:
           path: *DIST
       
