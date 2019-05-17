@@ -30,6 +30,30 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - [#2582](https://github.com/cosmos/lunie/issues/2582) Remove unused theme JSON files @colw
 - [#2597](https://github.com/cosmos/lunie/pull/2597) Remvoe onboarding code and realted assets @colw
 
+## [1.0.0-beta.69] - 2019-05-17
+
+### Added
+
+- [#1735](https://github.com/cosmos/lunie/issues/1735) implement multi step action modals @migueog
+- [#2589](https://github.com/cosmos/lunie/pull/2589) Set number of nodes run on local testnet via environment variable @colw
+
+### Changed
+
+- [#2579](https://github.com/cosmos/lunie/issues/2579) Move remaining Github specific files to .github folder @colw
+
+### Fixed
+
+- [#2378](https://github.com/cosmos/lunie/issues/2378) Do not show withdrawal button when user has no rewards avilable @colw
+- [#2601](https://github.com/cosmos/lunie/pull/2601) add missing step lines @migueog
+- [#2538](https://github.com/cosmos/lunie/issues/2538) Added sign out menu item to AppMenu.vue @migueog
+- [#2592](https://github.com/cosmos/lunie/issues/2592) Add a &nbsp; to LiBankTransaction so that there is a space between From and the address @migueog
+
+### Deprecated
+
+- [#2580](https://github.com/cosmos/lunie/issues/2580) Remove docs folder @colw
+- [#2582](https://github.com/cosmos/lunie/issues/2582) Remove unused theme JSON files @colw
+- [#2597](https://github.com/cosmos/lunie/pull/2597) Remvoe onboarding code and realted assets @colw
+
 ## [1.0.0-beta.68] - 2019-05-15
 
 ### Fixed

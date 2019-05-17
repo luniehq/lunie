@@ -13,31 +13,11 @@
           <i class="material-icons">close</i>
         </div>
       </div>
-      <div class="step--container">
-        <StepComponent
-          step-title="Details"
-          :step="step"
-          step-name="txDetails"
-          step-number="1"
-        ></StepComponent>
-        <StepComponent
-          step-title="Fees"
-          :step="step"
-          step-name="fees"
-          step-number="2"
-        ></StepComponent>
-        <StepComponent
-          step-title="Submit"
-          :step="step"
-          step-name="submit"
-          step-number="3"
-          :include-line="false"
-        ></StepComponent>
-      </div>
+      <Steps :steps="['Details', 'Fees', 'Sign']" :active="step" />
       <div v-if="requiresSignIn" class="action-modal-form">
         <p>You need to sign in to submit a transaction.</p>
       </div>
-      <div v-else-if="step === `txDetails`" class="action-modal-form">
+      <div v-else-if="step === `details`" class="action-modal-form">
         <slot />
       </div>
       <div v-else-if="step === `fees`" class="action-modal-form">
@@ -201,13 +181,13 @@ import TmField from "common/TmField"
 import TmFormGroup from "common/TmFormGroup"
 import TmFormMsg from "common/TmFormMsg"
 import TableInvoice from "common/TableInvoice"
-import StepComponent from "common/StepComponent"
+import Steps from "common/Steps"
 import { mapGetters } from "vuex"
 import { uatoms, atoms, viewDenom } from "../../scripts/num.js"
 import { between, requiredIf } from "vuelidate/lib/validators"
 import { track } from "scripts/google-analytics.js"
 
-const defaultStep = `txDetails`
+const defaultStep = `details`
 const feeStep = `fees`
 const signStep = `sign`
 
@@ -223,7 +203,7 @@ export default {
     TmFormGroup,
     TmFormMsg,
     TableInvoice,
-    StepComponent
+    Steps
   },
   props: {
     title: {
@@ -476,15 +456,6 @@ export default {
 .action-modal-atom {
   height: 3rem;
   width: 3rem;
-}
-
-.step--container {
-  display: flex;
-  flex-direction: row;
-  text-align: center;
-  justify-content: space-between;
-  width: 13rem;
-  margin: 0 auto;
 }
 
 .action-modal-title {
