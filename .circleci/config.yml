@@ -229,8 +229,6 @@ jobs:
   release:
     executor: node
     steps:
-      - attach_workspace:
-          at: *WORKSPACE
       - checkout
       - run: |
           yarn add simsala
@@ -353,7 +351,10 @@ workflows:
               only:
                 - develop
     jobs:
-      - release
+      - build
+      - release:
+          requires:
+            - build
   releaseManually:
     jobs:
       - build
