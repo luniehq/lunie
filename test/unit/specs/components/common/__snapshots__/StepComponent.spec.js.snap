@@ -1,0 +1,54 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Steps shows steps 1`] = `
+<div
+  class="step--container"
+>
+  <div
+    class="stepItem"
+  >
+    <div
+      class="circle--container"
+    >
+      <div
+        class="circle--default active includeLine"
+      >
+        
+      0
+    
+      </div>
+       
+      <p
+        class="text--default textActive"
+      >
+        
+      first
+    
+      </p>
+    </div>
+  </div>
+  <div
+    class="stepItem"
+  >
+    <div
+      class="circle--container"
+    >
+      <div
+        class="circle--default"
+      >
+        
+      1
+    
+      </div>
+       
+      <p
+        class="text--default"
+      >
+        
+      second
+    
+      </p>
+    </div>
+  </div>
+</div>
+`;

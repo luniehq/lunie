@@ -2,10 +2,6 @@
   <transition v-if="show" name="slide-fade">
     <div v-focus-last class="action-modal" tabindex="0" @keyup.esc="close">
       <div class="action-modal-header">
-        <img
-          class="icon action-modal-atom"
-          src="~assets/images/cosmos-logo.png"
-        />
         <span class="action-modal-title">
           {{ requiresSignIn ? `Sign in required` : title }}
         </span>
@@ -17,10 +13,11 @@
           <i class="material-icons">close</i>
         </div>
       </div>
+      <Steps :steps="['Details', 'Fees', 'Sign']" :active="step" />
       <div v-if="requiresSignIn" class="action-modal-form">
         <p>You need to sign in to submit a transaction.</p>
       </div>
-      <div v-else-if="step === `txDetails`" class="action-modal-form">
+      <div v-else-if="step === `details`" class="action-modal-form">
         <slot />
       </div>
       <div v-else-if="step === `fees`" class="action-modal-form">
@@ -184,12 +181,13 @@ import TmField from "common/TmField"
 import TmFormGroup from "common/TmFormGroup"
 import TmFormMsg from "common/TmFormMsg"
 import TableInvoice from "common/TableInvoice"
+import Steps from "common/Steps"
 import { mapGetters } from "vuex"
 import { uatoms, atoms, viewDenom } from "../../scripts/num.js"
 import { between, requiredIf } from "vuelidate/lib/validators"
 import { track } from "scripts/google-analytics.js"
 
-const defaultStep = `txDetails`
+const defaultStep = `details`
 const feeStep = `fees`
 const signStep = `sign`
 
@@ -204,7 +202,8 @@ export default {
     TmField,
     TmFormGroup,
     TmFormMsg,
-    TableInvoice
+    TableInvoice,
+    Steps
   },
   props: {
     title: {
@@ -449,6 +448,7 @@ export default {
 
 .action-modal-header {
   align-items: center;
+  text-align: center;
   display: flex;
   padding-bottom: 1.5rem;
 }

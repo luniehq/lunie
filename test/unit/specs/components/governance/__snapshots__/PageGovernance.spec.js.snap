@@ -96,6 +96,7 @@ exports[`PageGovernance disables proposal creation if not connected 1`] = `
                   class="withdraw-rewards"
                   exact="exact"
                   id="withdraw-btn"
+                  style="display: none;"
                   to=""
                 >
                   
@@ -365,6 +366,7 @@ exports[`PageGovernance has the expected html structure 1`] = `
                   class="withdraw-rewards"
                   exact="exact"
                   id="withdraw-btn"
+                  style="display: none;"
                   to=""
                 >
                   

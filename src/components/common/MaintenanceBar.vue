@@ -16,12 +16,12 @@
 import { mapGetters } from "vuex"
 export default {
   name: `maintenance-bar`,
-  computed: {
-    ...mapGetters([`session`])
-  },
   data: () => ({
     show: true
   }),
+  computed: {
+    ...mapGetters([`session`])
+  },
   methods: {
     close() {
       this.show = false

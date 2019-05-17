@@ -9,11 +9,6 @@ exports[`ActionModal should show the action modal when user has logged in with l
   <div
     class="action-modal-header"
   >
-    <img
-      class="icon action-modal-atom"
-      src="~assets/images/cosmos-logo.png"
-    />
-     
     <span
       class="action-modal-title"
     >
@@ -33,6 +28,11 @@ exports[`ActionModal should show the action modal when user has logged in with l
       </i>
     </div>
   </div>
+   
+  <steps-stub
+    active="details"
+    steps="Details,Fees,Sign"
+  />
    
   <div
     class="action-modal-form"
@@ -66,11 +66,6 @@ exports[`ActionModal should show the action modal when user has logged in with l
   <div
     class="action-modal-header"
   >
-    <img
-      class="icon action-modal-atom"
-      src="~assets/images/cosmos-logo.png"
-    />
-     
     <span
       class="action-modal-title"
     >
@@ -90,6 +85,11 @@ exports[`ActionModal should show the action modal when user has logged in with l
       </i>
     </div>
   </div>
+   
+  <steps-stub
+    active="fees"
+    steps="Details,Fees,Sign"
+  />
    
   <div
     class="action-modal-form"
@@ -133,11 +133,6 @@ exports[`ActionModal should show the action modal when user has logged in with l
   <div
     class="action-modal-header"
   >
-    <img
-      class="icon action-modal-atom"
-      src="~assets/images/cosmos-logo.png"
-    />
-     
     <span
       class="action-modal-title"
     >
@@ -157,6 +152,11 @@ exports[`ActionModal should show the action modal when user has logged in with l
       </i>
     </div>
   </div>
+   
+  <steps-stub
+    active="sign"
+    steps="Details,Fees,Sign"
+  />
    
   <div
     class="action-modal-form"
@@ -204,11 +204,6 @@ exports[`ActionModal should show the action modal when user has logged in with l
   <div
     class="action-modal-header"
   >
-    <img
-      class="icon action-modal-atom"
-      src="~assets/images/cosmos-logo.png"
-    />
-     
     <span
       class="action-modal-title"
     >
@@ -228,6 +223,11 @@ exports[`ActionModal should show the action modal when user has logged in with l
       </i>
     </div>
   </div>
+   
+  <steps-stub
+    active="details"
+    steps="Details,Fees,Sign"
+  />
    
   <div
     class="action-modal-form"
@@ -261,11 +261,6 @@ exports[`ActionModal should show the action modal when user has logged in with l
   <div
     class="action-modal-header"
   >
-    <img
-      class="icon action-modal-atom"
-      src="~assets/images/cosmos-logo.png"
-    />
-     
     <span
       class="action-modal-title"
     >
@@ -285,6 +280,11 @@ exports[`ActionModal should show the action modal when user has logged in with l
       </i>
     </div>
   </div>
+   
+  <steps-stub
+    active="fees"
+    steps="Details,Fees,Sign"
+  />
    
   <div
     class="action-modal-form"
@@ -328,11 +328,6 @@ exports[`ActionModal should show the action modal when user has logged in with l
   <div
     class="action-modal-header"
   >
-    <img
-      class="icon action-modal-atom"
-      src="~assets/images/cosmos-logo.png"
-    />
-     
     <span
       class="action-modal-title"
     >
@@ -352,6 +347,11 @@ exports[`ActionModal should show the action modal when user has logged in with l
       </i>
     </div>
   </div>
+   
+  <steps-stub
+    active="sign"
+    steps="Details,Fees,Sign"
+  />
    
   <div
     class="action-modal-form"
@@ -402,11 +402,6 @@ exports[`ActionModal should show the action modal when user hasn't logged in 1`]
   <div
     class="action-modal-header"
   >
-    <img
-      class="icon action-modal-atom"
-      src="~assets/images/cosmos-logo.png"
-    />
-     
     <span
       class="action-modal-title"
     >
@@ -426,6 +421,11 @@ exports[`ActionModal should show the action modal when user hasn't logged in 1`]
       </i>
     </div>
   </div>
+   
+  <steps-stub
+    active="details"
+    steps="Details,Fees,Sign"
+  />
    
   <div
     class="action-modal-form"
