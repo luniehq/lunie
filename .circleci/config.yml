@@ -136,7 +136,8 @@ jobs:
     executor: node
     steps:
       - checkout
-      - run: node_modules/.bin/simsala check --pending-path ./changes
+      - run: yarn i simsala
+      - run: node node_modules/simsala/src/cli.js check --pending-path ./changes
 
   lint:
     executor: node
@@ -229,8 +230,8 @@ jobs:
     executor: node
     steps:
       - checkout
-      - yarn-install
-      - run: node_modules/.bin/simsala release-candidate --pending-path ./changes --owner luniehq --repository lunie --token ${GIT_BOT_TOKEN} --message "#Release Candidate\n\nPlease manually test before merging this to master <a href='https://${BUILD_ID}-${REPO_ID}-gh.circle-artifacts.com/0/tmp/voyager/dist/index.html'>here</a>"
+      - run: yarn i simsala
+      - run: node node_modules/simsala/src/cli.js release-candidate --pending-path ./changes --owner luniehq --repository lunie --token ${GIT_BOT_TOKEN} --message "#Release Candidate\n\nPlease manually test before merging this to master <a href='https://${BUILD_ID}-${REPO_ID}-gh.circle-artifacts.com/0/tmp/voyager/dist/index.html'>here</a>"
       
   # Push merges to master immediatly back to develop to stay in sync
   mergeBack:
