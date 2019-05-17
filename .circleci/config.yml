@@ -352,7 +352,13 @@ workflows:
       - release
   releaseManually:
     jobs:
-      - release
+      - release:
+          requires:
+            - build
+          filters:
+            branches:
+              only:
+                - release
   mergeBack:
     jobs:
       - mergeBack:
