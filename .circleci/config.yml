@@ -270,6 +270,8 @@ jobs:
   upload:
     executor: node
     steps:
+      - attach_workspace:
+          at: *WORKSPACE
       - store_artifacts:
           path: *DIST
 
