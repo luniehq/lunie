@@ -8,7 +8,7 @@ aliases:
   - &DIST /tmp/voyager/dist
   - &DIST_TESTNET /tmp/voyager/dist_testnet
   # Pick docker versions here only, then use the aliases in the executors definition
-  - &docker-node circleci/node:10.15.3
+  - &docker-node tendermintdev/voyager_node
   - &docker-browsers tendermintdev/voyager_node_browser
   - &docker-go circleci/golang:1.11
   - &docker-deploy tendermintdev/website_deployment
@@ -136,7 +136,7 @@ jobs:
     executor: node
     steps:
       - checkout
-      - run: tasks/pending-changed-check.sh
+      - run: node_modules/.bin/simsala check --pending-path ./changes
 
   lint:
     executor: node
