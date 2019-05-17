@@ -115,7 +115,7 @@ export default {
     },
     fees: {
       type: Object,
-      default: null
+      required: true
     },
     validators: {
       type: Array,

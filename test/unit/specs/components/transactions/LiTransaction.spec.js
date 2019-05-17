@@ -36,6 +36,24 @@ describe(`LiTransaction`, () => {
     ).toEqual(`00:00:42`)
   })
 
+  it(`should show a network fee`, () => {
+    expect(wrapper.text()).toContain(`0.003`)
+    expect(wrapper.vm.$el).toMatchSnapshot()
+  })
+
+  it(`should show a network fee of 0`, () => {
+    wrapper.setProps({
+      fees: {
+        amount: "0",
+        denom: "uatom"
+      }
+    })
+    // Non breaking space present before fee value
+    // eslint-disable-next-line no-irregular-whitespace
+    expect(wrapper.text()).toContain(`Network Fee: 0 ATOM`)
+    expect(wrapper.vm.$el).toMatchSnapshot()
+  })
+
   it(`Should print the datetime if we are in a different day`, () => {
     expect(
       LiTransaction.computed.date({

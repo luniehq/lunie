@@ -67,7 +67,7 @@ export default {
     },
     fees: {
       type: Object,
-      default: null
+      required: true
     },
     address: {
       type: String,

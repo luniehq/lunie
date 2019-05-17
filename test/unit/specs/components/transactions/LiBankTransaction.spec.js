@@ -58,7 +58,10 @@ describe(`LiBankTransaction`, () => {
     wrapper.setProps({
       tx: bankTxs[2].tx.value.msg[0].value,
       address: `A`,
-      fees: null
+      fees: {
+        amount: "0",
+        denom: ""
+      }
     })
     expect(wrapper.vm.sentSelf).toBe(true)
     expect(wrapper.vm.$el).toMatchSnapshot()

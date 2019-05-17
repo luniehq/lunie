@@ -58,7 +58,10 @@ describe(`LiDistributionTransaction`, () => {
     wrapper.setProps({
       tx: distributionTxs[0].tx.value.msg[0].value,
       txType: `cosmos-sdk/MsgWithdrawDelegationReward`,
-      fees: null
+      fees: {
+        amount: "0",
+        denom: ""
+      }
     })
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
