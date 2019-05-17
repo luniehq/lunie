@@ -188,9 +188,9 @@ jobs:
 
   testE2e:
     docker:
-    # Primary container image where all steps run.
-     - image: &docker-node
-    # Secondary container image on common network. 
+      # Primary container image where all steps run.
+     - image: *docker-node
+      # Secondary container image on common network. 
      - image: lunieio/testnet:v0.34.3
     steps:
       - checkout
