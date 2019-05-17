@@ -48,6 +48,7 @@ export default {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  white-space: normal;
 }
 
 .circle--default {
