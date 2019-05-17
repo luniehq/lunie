@@ -6,7 +6,7 @@
       :title="step"
       :active="step.toLocaleLowerCase() === active.toLocaleLowerCase()"
       :number="i"
-      :include-line="i < (steps.length -1)"
+      :include-line="i < steps.length - 1"
     />
   </div>
 </template>

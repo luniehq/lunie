@@ -1,16 +1,10 @@
 <template>
   <div class="stepItem">
     <div class="circle--container">
-      <div
-        class="circle--default"
-        :class="{active, includeLine}"
-      >
+      <div class="circle--default" :class="{ active, includeLine }">
         {{ number }}
       </div>
-      <p
-        class="text--default"
-        :class="{textActive: active}"
-      >
+      <p class="text--default" :class="{ textActive: active }">
         {{ title }}
       </p>
     </div>

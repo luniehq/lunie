@@ -29,32 +29,10 @@ exports[`ActionModal should show the action modal when user has logged in with l
     </div>
   </div>
    
-  <div
-    class="step--container"
-  >
-    <stepcomponent-stub
-      includeline="true"
-      step="txDetails"
-      stepname="txDetails"
-      stepnumber="1"
-      steptitle="Details"
-    />
-     
-    <stepcomponent-stub
-      includeline="true"
-      step="txDetails"
-      stepname="fees"
-      stepnumber="2"
-      steptitle="Fees"
-    />
-     
-    <stepcomponent-stub
-      step="submit"
-      stepname="submit"
-      stepnumber="3"
-      steptitle="Submit"
-    />
-  </div>
+  <steps-stub
+    active="details"
+    steps="Details,Fees,Sign"
+  />
    
   <div
     class="action-modal-form"
@@ -108,32 +86,10 @@ exports[`ActionModal should show the action modal when user has logged in with l
     </div>
   </div>
    
-  <div
-    class="step--container"
-  >
-    <stepcomponent-stub
-      includeline="true"
-      step="fees"
-      stepname="txDetails"
-      stepnumber="1"
-      steptitle="Details"
-    />
-     
-    <stepcomponent-stub
-      includeline="true"
-      step="fees"
-      stepname="fees"
-      stepnumber="2"
-      steptitle="Fees"
-    />
-     
-    <stepcomponent-stub
-      step="submit"
-      stepname="submit"
-      stepnumber="3"
-      steptitle="Submit"
-    />
-  </div>
+  <steps-stub
+    active="fees"
+    steps="Details,Fees,Sign"
+  />
    
   <div
     class="action-modal-form"
@@ -197,32 +153,10 @@ exports[`ActionModal should show the action modal when user has logged in with l
     </div>
   </div>
    
-  <div
-    class="step--container"
-  >
-    <stepcomponent-stub
-      includeline="true"
-      step="sign"
-      stepname="txDetails"
-      stepnumber="1"
-      steptitle="Details"
-    />
-     
-    <stepcomponent-stub
-      includeline="true"
-      step="sign"
-      stepname="fees"
-      stepnumber="2"
-      steptitle="Fees"
-    />
-     
-    <stepcomponent-stub
-      step="submit"
-      stepname="submit"
-      stepnumber="3"
-      steptitle="Submit"
-    />
-  </div>
+  <steps-stub
+    active="sign"
+    steps="Details,Fees,Sign"
+  />
    
   <div
     class="action-modal-form"
@@ -290,32 +224,10 @@ exports[`ActionModal should show the action modal when user has logged in with l
     </div>
   </div>
    
-  <div
-    class="step--container"
-  >
-    <stepcomponent-stub
-      includeline="true"
-      step="txDetails"
-      stepname="txDetails"
-      stepnumber="1"
-      steptitle="Details"
-    />
-     
-    <stepcomponent-stub
-      includeline="true"
-      step="txDetails"
-      stepname="fees"
-      stepnumber="2"
-      steptitle="Fees"
-    />
-     
-    <stepcomponent-stub
-      step="submit"
-      stepname="submit"
-      stepnumber="3"
-      steptitle="Submit"
-    />
-  </div>
+  <steps-stub
+    active="details"
+    steps="Details,Fees,Sign"
+  />
    
   <div
     class="action-modal-form"
@@ -369,32 +281,10 @@ exports[`ActionModal should show the action modal when user has logged in with l
     </div>
   </div>
    
-  <div
-    class="step--container"
-  >
-    <stepcomponent-stub
-      includeline="true"
-      step="fees"
-      stepname="txDetails"
-      stepnumber="1"
-      steptitle="Details"
-    />
-     
-    <stepcomponent-stub
-      includeline="true"
-      step="fees"
-      stepname="fees"
-      stepnumber="2"
-      steptitle="Fees"
-    />
-     
-    <stepcomponent-stub
-      step="submit"
-      stepname="submit"
-      stepnumber="3"
-      steptitle="Submit"
-    />
-  </div>
+  <steps-stub
+    active="fees"
+    steps="Details,Fees,Sign"
+  />
    
   <div
     class="action-modal-form"
@@ -458,32 +348,10 @@ exports[`ActionModal should show the action modal when user has logged in with l
     </div>
   </div>
    
-  <div
-    class="step--container"
-  >
-    <stepcomponent-stub
-      includeline="true"
-      step="sign"
-      stepname="txDetails"
-      stepnumber="1"
-      steptitle="Details"
-    />
-     
-    <stepcomponent-stub
-      includeline="true"
-      step="sign"
-      stepname="fees"
-      stepnumber="2"
-      steptitle="Fees"
-    />
-     
-    <stepcomponent-stub
-      step="submit"
-      stepname="submit"
-      stepnumber="3"
-      steptitle="Submit"
-    />
-  </div>
+  <steps-stub
+    active="sign"
+    steps="Details,Fees,Sign"
+  />
    
   <div
     class="action-modal-form"
@@ -554,32 +422,10 @@ exports[`ActionModal should show the action modal when user hasn't logged in 1`]
     </div>
   </div>
    
-  <div
-    class="step--container"
-  >
-    <stepcomponent-stub
-      includeline="true"
-      step="txDetails"
-      stepname="txDetails"
-      stepnumber="1"
-      steptitle="Details"
-    />
-     
-    <stepcomponent-stub
-      includeline="true"
-      step="txDetails"
-      stepname="fees"
-      stepnumber="2"
-      steptitle="Fees"
-    />
-     
-    <stepcomponent-stub
-      step="submit"
-      stepname="submit"
-      stepnumber="3"
-      steptitle="Submit"
-    />
-  </div>
+  <steps-stub
+    active="details"
+    steps="Details,Fees,Sign"
+  />
    
   <div
     class="action-modal-form"
