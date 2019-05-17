@@ -1,5 +1,11 @@
 <template>
-  <LiTransaction :color="`#ED553B`" :time="time" :block="block" :memo="memo">
+  <LiTransaction
+    :color="`#ED553B`"
+    :time="time"
+    :block="block"
+    :memo="memo"
+    :fees="fees"
+  >
     <template v-if="address === ''">
       <div slot="caption">
         Sent <b>{{ txAmount | toAtoms | shortDecimals }}</b>
@@ -11,10 +17,6 @@
           <ShortBech32 :address="receiver" />
         </template>
       </span>
-      <div slot="fees">
-        Network Fee:&nbsp;<b>{{ feeAmount | toAtoms | shortDecimals }}</b>
-        <span>{{ feeDenom | viewDenom }}</span>
-      </div>
     </template>
     <template v-else-if="sent">
       <div slot="caption">
@@ -29,10 +31,6 @@
           To <ShortBech32 :address="receiver" />
         </template>
       </span>
-      <div slot="fees">
-        Network Fee:&nbsp;<b>{{ feeAmount | toAtoms | shortDecimals }}</b>
-        <span>{{ feeDenom | viewDenom }}</span>
-      </div>
     </template>
     <template v-else>
       <div slot="caption">
@@ -42,10 +40,6 @@
       <span slot="details">
         From &nbsp; <ShortBech32 :address="sender" />
       </span>
-      <div slot="fees">
-        Network Fee:&nbsp;<b>{{ feeAmount | toAtoms | shortDecimals }}</b>
-        <span>{{ feeDenom | viewDenom }}</span>
-      </div>
     </template>
   </LiTransaction>
 </template>
@@ -115,12 +109,6 @@ export default {
     },
     txDenom() {
       return this.tx.amount[0].denom
-    },
-    feeAmount() {
-      return this.fees ? this.fees.amount : 0
-    },
-    feeDenom() {
-      return this.fees ? this.fees.denom : this.txDenom
     }
   }
 }

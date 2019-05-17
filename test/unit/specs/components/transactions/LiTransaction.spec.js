@@ -7,7 +7,11 @@ describe(`LiTransaction`, () => {
     color: `#FFFFFF`,
     time: new Date(Date.now()).toISOString(),
     block: 500,
-    memo: `TESTING (Sent via Lunie)`
+    memo: `TESTING (Sent via Lunie)`,
+    fees: {
+      amount: `3421`,
+      denom: `uatom`
+    }
   }
   const day = 86400000
 

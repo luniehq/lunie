@@ -4,6 +4,7 @@ exports[`LiDistributionTransaction set withdraw address 1`] = `
 <litransaction-stub
   block="500"
   color="#F2B134"
+  fees="[object Object]"
   memo="TESTING (Sent via Lunie)"
   time="1970-01-01T00:00:42.000Z"
 >
@@ -15,20 +16,6 @@ exports[`LiDistributionTransaction set withdraw address 1`] = `
    
   <div>
     To cosmos18ymm350peujvq2xy9ymyqj4v34ekvnk3wydrs3
-  </div>
-   
-  <div>
-    
-      Network Fee: 
-    <b>
-      0.003
-    </b>
-     
-    <span>
-      
-        ATOM
-      
-    </span>
   </div>
 </litransaction-stub>
 `;
@@ -57,20 +44,6 @@ exports[`LiDistributionTransaction transaction without fees 1`] = `
       
     </router-link-stub>
   </div>
-   
-  <div>
-    
-      Network Fee: 
-    <b>
-      0
-    </b>
-     
-    <span>
-      
-        ATOM
-      
-    </span>
-  </div>
 </litransaction-stub>
 `;
 
@@ -78,6 +51,7 @@ exports[`LiDistributionTransaction withdraw delegation rewards 1`] = `
 <litransaction-stub
   block="500"
   color="#F2B134"
+  fees="[object Object]"
   memo="TESTING (Sent via Lunie)"
   time="1970-01-01T00:00:42.000Z"
 >
@@ -98,20 +72,6 @@ exports[`LiDistributionTransaction withdraw delegation rewards 1`] = `
       
     </router-link-stub>
   </div>
-   
-  <div>
-    
-      Network Fee: 
-    <b>
-      0.003
-    </b>
-     
-    <span>
-      
-        ATOM
-      
-    </span>
-  </div>
 </litransaction-stub>
 `;
 
@@ -119,6 +79,7 @@ exports[`LiDistributionTransaction withdraw validator commission 1`] = `
 <litransaction-stub
   block="500"
   color="#F2B134"
+  fees="[object Object]"
   memo="TESTING (Sent via Lunie)"
   time="1970-01-01T00:00:42.000Z"
 >
@@ -138,20 +99,6 @@ exports[`LiDistributionTransaction withdraw validator commission 1`] = `
         cosmos18ymm350peujvq2xy9ymyqj4v34ekvnk3wydrs3
       
     </router-link-stub>
-  </div>
-   
-  <div>
-    
-      Network Fee: 
-    <b>
-      0.003
-    </b>
-     
-    <span>
-      
-        ATOM
-      
-    </span>
   </div>
 </litransaction-stub>
 `;

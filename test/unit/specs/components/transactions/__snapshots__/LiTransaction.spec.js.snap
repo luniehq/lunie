@@ -47,6 +47,17 @@ exports[`LiTransaction should show a transaction item 1`] = `
     <div
       class="li-tx__content__right"
     >
+      <div>
+        
+        Network Fee: 
+        <b>
+          0.003
+        </b>
+         
+        <span>
+          ATOM
+        </span>
+      </div>
        
       <div
         class="li-tx__content__block"

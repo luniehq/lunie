@@ -1,5 +1,11 @@
 <template>
-  <LiTransaction :color="`#15CFCC`" :time="time" :block="block" :memo="memo">
+  <LiTransaction
+    :color="`#15CFCC`"
+    :time="time"
+    :block="block"
+    :memo="memo"
+    :fees="fees"
+  >
     <template v-if="txType === `cosmos-sdk/MsgSubmitProposal`">
       <div slot="caption">
         Submitted {{ tx.proposal_type.toLowerCase() }} proposal
@@ -8,16 +14,6 @@
       </div>
       <div slot="details">
         Title:&nbsp;<i>{{ tx.title }}</i>
-      </div>
-      <div slot="fees">
-        Network Fee:&nbsp;<b>{{ convertedFees ? convertedFees.amount : 0 }}</b>
-        <span>
-          {{
-            convertedFees
-              ? viewDenom(convertedFees.denom)
-              : viewDenom(bondingDenom)
-          }}
-        </span>
       </div>
     </template>
     <template v-else-if="txType === `cosmos-sdk/MsgDeposit`">
@@ -34,12 +30,6 @@
           Proposal &#35;{{ tx.proposal_id }}
         </router-link>
       </div>
-      <div slot="fees">
-        Network Fee:&nbsp;<b>{{ convertedFees ? convertedFees.amount : 0 }}</b>
-        <span>
-          {{ fees ? viewDenom(convertedFees.denom) : viewDenom(bondingDenom) }}
-        </span>
-      </div>
     </template>
     <template v-else-if="txType === `cosmos-sdk/MsgVote`">
       <div slot="caption">Voted&nbsp;{{ tx.option }}</div>
@@ -48,16 +38,6 @@
         <router-link :to="`${url}/${tx.proposal_id}`">
           Proposal &#35;{{ tx.proposal_id }}
         </router-link>
-      </div>
-      <div slot="fees">
-        Network Fee:&nbsp;<b>{{ convertedFees ? convertedFees.amount : 0 }}</b>
-        <span>
-          {{
-            convertedFees
-              ? viewDenom(convertedFees.denom)
-              : viewDenom(bondingDenom)
-          }}
-        </span>
       </div>
     </template>
   </LiTransaction>
@@ -114,9 +94,6 @@ export default {
     },
     deposit() {
       return num.createDisplayCoin(this.tx.amount[0])
-    },
-    convertedFees() {
-      return this.fees ? num.createDisplayCoin(this.fees) : undefined
     }
   }
 }

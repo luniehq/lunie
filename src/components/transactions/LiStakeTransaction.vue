@@ -1,5 +1,11 @@
 <template>
-  <LiTransaction color="#47AB6C" :time="time" :block="block" :memo="memo">
+  <LiTransaction
+    color="#47AB6C"
+    :time="time"
+    :block="block"
+    :memo="memo"
+    :fees="fees"
+  >
     <template v-if="txType === `cosmos-sdk/MsgCreateValidator`">
       <div slot="caption">
         Create validator
@@ -12,14 +18,6 @@
           {{ moniker(tx.validator_address) }}
         </router-link>
       </div>
-      <div slot="fees">
-        Network Fee:&nbsp;<b>{{ convertedFees ? convertedFees.amount : 0 }}</b>
-        <span>
-          {{
-            convertedFees ? convertedFees.denom : num.viewDenom(bondingDenom)
-          }}
-        </span>
-      </div>
     </template>
     <template v-else-if="txType === `cosmos-sdk/MsgEditValidator`">
       <div slot="caption">
@@ -30,14 +28,6 @@
         <router-link :to="`${url}/${tx.validator_address}`">
           {{ moniker(tx.validator_address) }}
         </router-link>
-      </div>
-      <div slot="fees">
-        Network Fee:&nbsp;<b>{{ convertedFees ? convertedFees.amount : 0 }}</b>
-        <span>
-          {{
-            convertedFees ? convertedFees.denom : num.viewDenom(bondingDenom)
-          }}
-        </span>
       </div>
     </template>
     <template v-else-if="txType === `cosmos-sdk/MsgDelegate`">
@@ -51,14 +41,6 @@
         <router-link :to="`${url}/${tx.validator_address}`">
           {{ moniker(tx.validator_address) }}
         </router-link>
-      </div>
-      <div slot="fees">
-        Network Fee:&nbsp;<b>{{ convertedFees ? convertedFees.amount : 0 }}</b>
-        <span>
-          {{
-            convertedFees ? convertedFees.denom : num.viewDenom(bondingDenom)
-          }}
-        </span>
       </div>
     </template>
     <template v-else-if="txType === `cosmos-sdk/MsgUndelegate`">
@@ -80,14 +62,6 @@
           {{ moniker(tx.validator_address) }}
         </router-link>
       </div>
-      <div slot="fees">
-        Network Fee:&nbsp;<b>{{ convertedFees ? convertedFees.amount : 0 }}</b>
-        <span>
-          {{
-            convertedFees ? convertedFees.denom : num.viewDenom(bondingDenom)
-          }}
-        </span>
-      </div>
     </template>
     <template v-else-if="txType === `cosmos-sdk/MsgBeginRedelegate`">
       <div slot="caption">
@@ -107,14 +81,6 @@
           {{ moniker(tx.validator_dst_address) }}
         </router-link>
       </div>
-      <div slot="fees">
-        Network Fee:&nbsp;<b>{{ convertedFees ? convertedFees.amount : 0 }}</b>
-        <span>
-          {{
-            convertedFees ? convertedFees.denom : num.viewDenom(bondingDenom)
-          }}
-        </span>
-      </div>
     </template>
     <template v-else-if="txType === `cosmos-sdk/MsgUnjail`">
       <div slot="caption">
@@ -125,14 +91,6 @@
         <router-link :to="`${url}/${tx.address}`">
           {{ moniker(tx.address) }}
         </router-link>
-      </div>
-      <div slot="fees">
-        Network Fee:&nbsp;<b>{{ convertedFees ? convertedFees.amount : 0 }}</b>
-        <span>
-          {{
-            convertedFees ? convertedFees.denom : num.viewDenom(bondingDenom)
-          }}
-        </span>
       </div>
     </template>
   </LiTransaction>
@@ -211,9 +169,6 @@ export default {
     },
     value() {
       return this.tx.value ? num.createDisplayCoin(this.tx.value) : {}
-    },
-    convertedFees() {
-      return this.fees ? num.createDisplayCoin(this.fees) : undefined
     }
   },
   methods: {

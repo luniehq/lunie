@@ -24,18 +24,6 @@ exports[`LiBankTransaction should show a bank transaction without fees 1`] = `
         To yourself!
       
   </span>
-   
-  <div>
-    
-      Network Fee: 
-    <b>
-      0
-    </b>
-     
-    <span>
-      ATOM
-    </span>
-  </div>
 </litransaction-stub>
 `;
 
@@ -43,6 +31,7 @@ exports[`LiBankTransaction should show bank transaction when user hasn't signed 
 <litransaction-stub
   block="500"
   color="#ED553B"
+  fees="[object Object]"
   memo="TESTING (Sent via Lunie)"
   time="1970-01-01T00:00:42.000Z"
 >
@@ -70,18 +59,6 @@ exports[`LiBankTransaction should show bank transaction when user hasn't signed 
       address="B"
     />
   </span>
-   
-  <div>
-    
-      Network Fee: 
-    <b>
-      0.003
-    </b>
-     
-    <span>
-      ATOM
-    </span>
-  </div>
 </litransaction-stub>
 `;
 
@@ -89,6 +66,7 @@ exports[`LiBankTransaction should show incoming transactions 1`] = `
 <litransaction-stub
   block="500"
   color="#ED553B"
+  fees="[object Object]"
   memo="TESTING (Sent via Lunie)"
   time="1970-01-01T00:00:42.000Z"
 >
@@ -111,18 +89,6 @@ exports[`LiBankTransaction should show incoming transactions 1`] = `
       address="A"
     />
   </span>
-   
-  <div>
-    
-      Network Fee: 
-    <b>
-      0.003
-    </b>
-     
-    <span>
-      ATOM
-    </span>
-  </div>
 </litransaction-stub>
 `;
 
@@ -130,6 +96,7 @@ exports[`LiBankTransaction should show outgoing transactions 1`] = `
 <litransaction-stub
   block="500"
   color="#ED553B"
+  fees="[object Object]"
   memo="TESTING (Sent via Lunie)"
   time="1970-01-01T00:00:42.000Z"
 >
@@ -152,18 +119,6 @@ exports[`LiBankTransaction should show outgoing transactions 1`] = `
       address="A"
     />
   </span>
-   
-  <div>
-    
-      Network Fee: 
-    <b>
-      0.003
-    </b>
-     
-    <span>
-      ATOM
-    </span>
-  </div>
 </litransaction-stub>
 `;
 
@@ -171,6 +126,7 @@ exports[`LiBankTransaction should show outgoing transactions send to herself 1`]
 <litransaction-stub
   block="500"
   color="#ED553B"
+  fees="[object Object]"
   memo="TESTING (Sent via Lunie)"
   time="1970-01-01T00:00:42.000Z"
 >
@@ -191,17 +147,5 @@ exports[`LiBankTransaction should show outgoing transactions send to herself 1`]
         To yourself!
       
   </span>
-   
-  <div>
-    
-      Network Fee: 
-    <b>
-      0.003
-    </b>
-     
-    <span>
-      ATOM
-    </span>
-  </div>
 </litransaction-stub>
 `;
