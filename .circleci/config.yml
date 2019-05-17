@@ -187,7 +187,11 @@ jobs:
             exit 0
 
   testE2e:
-    executor: web
+    docker:
+    # Primary container image where all steps run.
+     - image: &docker-node
+    # Secondary container image on common network. 
+     - image: lunieio/testnet:v0.34.3
     steps:
       - checkout
       - attach_workspace:
@@ -198,18 +202,9 @@ jobs:
           command: yarn test:e2e:build
       - setup_remote_docker
       - run:
-          name: Testnet setup
-          command: yarn run testnet:start
-      - run:
           name: Test
           command: yarn test:e2e
           no_output_timeout: 120
-      - run:
-          name: Testnet tare down
-          command: yarn run testnet:stop
-      - store_artifacts:
-          path: testArtifacts
-          when: on_fail
 
   deploy2s3:
     executor: web_deploy
