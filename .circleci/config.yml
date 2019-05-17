@@ -273,7 +273,7 @@ jobs:
     executor: node
     steps:
       - store_artifacts:
-        path: *DIST
+          path: *DIST
 
 
 workflows:
