@@ -9,8 +9,8 @@
     <template v-if="txType === `cosmos-sdk/MsgSubmitProposal`">
       <div slot="caption">
         Submitted {{ tx.proposal_type.toLowerCase() }} proposal
-        <b>{{ initialDeposit.amount }}</b>
-        <span>{{ viewDenom(initialDeposit.denom) }}</span>
+        <b>{{ initialDeposit.amount | toAtoms | shortDecimals }}</b>
+        <span>{{ initialDeposit.denom | viewDenom }}</span>
       </div>
       <div slot="details">
         Title:&nbsp;<i>{{ tx.title }}</i>
@@ -20,8 +20,8 @@
       <div slot="caption">
         Deposited
         <template>
-          <b>{{ deposit.amount }}</b>
-          <span>{{ viewDenom(deposit.denom) }}</span>
+          <b>{{ deposit.amount | toAtoms | shortDecimals }}</b>
+          <span>{{ deposit.denom | viewDenom }}</span>
         </template>
       </div>
       <div slot="details">
@@ -45,11 +45,16 @@
 
 <script>
 import LiTransaction from "./LiTransaction"
-import num, { atoms, viewDenom } from "../../scripts/num.js"
+import { atoms, viewDenom, shortDecimals } from "../../scripts/num.js"
 
 export default {
   name: `li-gov-transaction`,
   components: { LiTransaction },
+  filters: {
+    toAtoms: atoms,
+    viewDenom: viewDenom,
+    shortDecimals: shortDecimals
+  },
   props: {
     tx: {
       type: Object,
@@ -90,10 +95,10 @@ export default {
   }),
   computed: {
     initialDeposit() {
-      return num.createDisplayCoin(this.tx.initial_deposit[0])
+      return this.tx.initial_deposit[0]
     },
     deposit() {
-      return num.createDisplayCoin(this.tx.amount[0])
+      return this.tx.amount[0]
     }
   }
 }
