@@ -236,6 +236,8 @@ jobs:
           git config user.name "Lunie Bot"
           REPO_ID=99653950
           node node_modules/simsala/src/cli.js release-candidate --pending-path ./changes --owner luniehq --repository lunie --token ${GIT_BOT_TOKEN} --message "#Release Candidate\n\nPlease manually test before merging this to master <a href='https://${CIRCLE_BUILD_NUM}-${REPO_ID}-gh.circle-artifacts.com/0/tmp/voyager/dist/index.html'>here</a>"
+      - store_artifacts:
+          path: *DIST
       
   # Push merges to master immediatly back to develop to stay in sync
   mergeBack:
