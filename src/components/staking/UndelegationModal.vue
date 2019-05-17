@@ -18,6 +18,9 @@
     >
       <TmField id="from" v-model="validator.operator_address" readonly />
     </TmFormGroup>
+    <span class="form-message">
+      Note: Undelegated tokens will become available for use after 21 days.
+    </span>
     <TmFormGroup
       :error="$v.amount.$error && $v.amount.$invalid"
       class="action-modal-form-group"

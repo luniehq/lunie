@@ -25,6 +25,14 @@ exports[`UndelegationModal should display undelegation modal form 1`] = `
     />
   </tmformgroup-stub>
    
+  <span
+    class="form-message"
+  >
+    
+    Note: Undelegated tokens will become available for use after 21 days.
+  
+  </span>
+   
   <tmformgroup-stub
     class="action-modal-form-group"
     fieldid="amount"
