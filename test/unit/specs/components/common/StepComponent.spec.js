@@ -1,32 +1,34 @@
-import StepComponent from "common/StepComponent"
-import { shallowMount } from "@vue/test-utils"
+import Steps from "common/Steps"
+import { mount } from "@vue/test-utils"
 
-describe(`TmBtn`, () => {
+describe(`Steps`, () => {
   let wrapper
   beforeEach(async () => {
-    const value = `button`
-    wrapper = shallowMount(StepComponent, {
-      propsData: { value }
+    wrapper = mount(Steps, {
+      propsData: { steps: ["first", "second"], active: "first" }
     })
   })
 
-  it(`has the expected html structure`, () => {
+  it(`shows steps`, () => {
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
-  it(`returns active class`, () => {
-    wrapper.setProps({
-      step: `Details`,
-      stepName: `Details`
-    })
-    expect(wrapper.vm.$el).toMatchSnapshot()
+  it(`sets a step active active class`, () => {
+    expect(
+      wrapper.find(".stepItem:first-child .circle--default").classes()
+    ).toContain("active")
+    wrapper.setProps({ active: "second" })
+    expect(
+      wrapper.find(".stepItem:nth-child(2) .circle--default").classes()
+    ).toContain("active")
   })
 
-  it(`returns textActive class`, () => {
-    wrapper.setProps({
-      step: `Details`,
-      stepName: `Details`
-    })
-    expect(wrapper.vm.$el).toMatchSnapshot()
+  it(`doesn't add a line to the last circle`, () => {
+    expect(
+      wrapper.find(".stepItem:nth-child(1) .circle--default").classes()
+    ).toContain("includeLine")
+    expect(
+      wrapper.find(".stepItem:nth-child(2) .circle--default").classes()
+    ).not.toContain("includeLine")
   })
 })
