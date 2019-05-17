@@ -229,13 +229,15 @@ jobs:
   release:
     executor: node
     steps:
+      - attach_workspace:
+          at: *WORKSPACE
       - checkout
       - run: |
           yarn add simsala
           git config user.email "bot@lunie.io"
           git config user.name "Lunie Bot"
           REPO_ID=99653950
-          node node_modules/simsala/src/cli.js release-candidate --pending-path ./changes --owner luniehq --repository lunie --token ${GIT_BOT_TOKEN} --message "#Release Candidate\n\nPlease manually test before merging this to master <a href='https://${CIRCLE_BUILD_NUM}-${REPO_ID}-gh.circle-artifacts.com/0/tmp/voyager/dist/index.html'>here</a>"
+          node node_modules/simsala/src/cli.js release-candidate --pending-path ./changes --owner luniehq --repository lunie --token ${GIT_BOT_TOKEN} --message "Please manually test before merging this to master <a href='https://${CIRCLE_BUILD_NUM}-${REPO_ID}-gh.circle-artifacts.com/0/tmp/voyager/dist/index.html'>here</a>"
       - store_artifacts:
           path: *DIST
       
