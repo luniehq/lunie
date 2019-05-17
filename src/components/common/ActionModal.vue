@@ -186,6 +186,7 @@ import { mapGetters } from "vuex"
 import { uatoms, atoms, viewDenom } from "../../scripts/num.js"
 import { between, requiredIf } from "vuelidate/lib/validators"
 import { track } from "scripts/google-analytics.js"
+import config from "src/config"
 
 const defaultStep = `details`
 const feeStep = `fees`
@@ -237,7 +238,7 @@ export default {
     password: null,
     sending: false,
     gasEstimate: null,
-    gasPrice: 2.5e-8, // default: 0.025 uatom per gas
+    gasPrice: config.default_gas_price.toFixed(9),
     submissionError: null,
     show: false,
     track,
@@ -301,7 +302,7 @@ export default {
   methods: {
     open() {
       this.track(`event`, `modal`, this.title)
-      this.gasPrice = (this.session.gasPrice || 2.5e-8).toFixed(9)
+      this.gasPrice = config.default_gas_price.toFixed(9)
       this.show = true
     },
     close() {
@@ -374,9 +375,7 @@ export default {
       this.submissionError = null
       track(`event`, `submit`, this.title, this.selectedSignMethod)
 
-      if (!this.ledger.isConnected || !this.ledger.cosmosApp) {
-        await this.connectLedger()
-      }
+      await this.connectLedger()
 
       try {
         await this.submitFn(

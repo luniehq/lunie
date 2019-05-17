@@ -2,6 +2,8 @@ import uniqBy from "lodash.uniqby"
 import * as Sentry from "@sentry/browser"
 import Vue from "vue"
 
+// TODO simplify with one call
+
 export default ({ node }) => {
   const emptyState = {
     loading: false,
@@ -77,9 +79,14 @@ export default ({ node }) => {
       try {
         commit(`setHistoryLoading`, true)
 
-        if (!rootState.connection.connected) return
-        ;[TypeBank, TypeStaking, TypeGovernance, TypeDistribution].forEach(
-          async txType => await dispatch(`parseAndSetTxs`, { txType })
+        if (!rootState.connection.connected) {
+          return
+        }
+
+        await Promise.all(
+          [TypeBank, TypeStaking, TypeGovernance, TypeDistribution].map(
+            txType => dispatch(`parseAndSetTxs`, { txType })
+          )
         )
 
         state.error = null
@@ -102,16 +109,16 @@ export default ({ node }) => {
       const validatorAddress = address.replace(`cosmos`, `cosmosvaloper`)
       switch (type) {
         case TypeBank:
-          response = await node.txs(address)
+          response = await node.get.bankTxs(address)
           break
         case TypeStaking:
-          response = await node.getStakingTxs(address, validatorAddress)
+          response = await node.get.stakingTxs(address, validatorAddress)
           break
         case TypeGovernance:
-          response = await node.getGovernanceTxs(address)
+          response = await node.get.governanceTxs(address)
           break
         case TypeDistribution:
-          response = await node.getDistributionTxs(address, validatorAddress)
+          response = await node.get.distributionTxs(address, validatorAddress)
           break
         default:
           throw new Error(`Unknown transaction type: ${type}`)

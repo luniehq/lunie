@@ -106,6 +106,7 @@
     "webpack-dev-server": "3.2.1"
   },
   "dependencies": {
+    "@lunie/cosmos-js": "0.0.11",
     "@sentry/browser": "5.0.3",
     "autosize": "4.0.2",
     "axios": "0.18.0",
@@ -116,7 +117,7 @@
     "camelcase": "5.3.0",
     "crypto-js": "3.1.9-1",
     "js-beautify": "1.9.1",
-    "ledger-cosmos-js": "https://github.com/cosmos/ledger-cosmos-js",
+    "ledger-cosmos-js": "1.0.0",
     "moment": "2.24.0",
     "ndjson": "1.5.0",
     "nib": "1.1.2",

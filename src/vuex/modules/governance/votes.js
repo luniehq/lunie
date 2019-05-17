@@ -21,7 +21,7 @@ export default ({ node }) => {
       if (!rootState.connection.connected) return
 
       try {
-        const votes = await node.getProposalVotes(proposalId)
+        const votes = await node.get.proposalVotes(proposalId)
         commit(`setProposalVotes`, { proposalId, votes })
         state.error = null
         state.loading = false
@@ -31,25 +31,25 @@ export default ({ node }) => {
         state.error = error
       }
     },
-    async simulateVote({ rootState, dispatch }, { proposal_id, option }) {
+    async simulateVote({ dispatch }, { proposal_id, option }) {
       return await dispatch(`simulateTx`, {
-        to: proposal_id,
-        type: `postProposalVote`,
-        proposal_id,
-        voter: rootState.wallet.address,
-        option
+        type: `MsgVote`,
+        txArguments: {
+          proposalId: proposal_id,
+          option
+        }
       })
     },
     async submitVote(
-      { rootState, dispatch },
+      { dispatch },
       { proposal_id, option, gas, gas_prices, password, submitType }
     ) {
       await dispatch(`sendTx`, {
-        to: proposal_id,
-        type: `postProposalVote`,
-        proposal_id,
-        voter: rootState.wallet.address,
-        option,
+        type: `MsgVote`,
+        txArguments: {
+          proposalId: proposal_id,
+          option
+        },
         gas,
         gas_prices,
         password,

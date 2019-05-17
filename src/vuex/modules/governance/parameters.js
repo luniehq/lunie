@@ -30,9 +30,9 @@ export default ({ node }) => {
       if (!rootState.connection.connected) return
 
       try {
-        const deposit = await node.getGovDepositParameters()
-        const tallying = await node.getGovTallyingParameters()
-        const voting = await node.getGovVotingParameters()
+        const deposit = await node.get.govDepositParameters()
+        const tallying = await node.get.govTallyingParameters()
+        const voting = await node.get.govVotingParameters()
         state.error = null
         state.loading = false
         state.loaded = true

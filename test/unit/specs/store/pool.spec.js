@@ -15,7 +15,9 @@ describe(`Module: Pool`, () => {
   beforeEach(() => {
     moduleInstance = poolModule({
       node: {
-        getPool: jest.fn().mockResolvedValue(pool)
+        get: {
+          pool: jest.fn().mockResolvedValue(pool)
+        }
       }
     })
     state = moduleInstance.state
@@ -60,7 +62,9 @@ describe(`Module: Pool`, () => {
   it(`should store an error if failed to load pool information`, async () => {
     moduleInstance = poolModule({
       node: {
-        getPool: jest.fn().mockRejectedValue(`node.getPool failed`)
+        get: {
+          pool: jest.fn().mockRejectedValue(`node.get.pool failed`)
+        }
       }
     })
     state = moduleInstance.state
@@ -71,7 +75,7 @@ describe(`Module: Pool`, () => {
 
     await actions.getPool({ state, commit, rootState })
     expect(commit).not.toHaveBeenCalled()
-    expect(state.error).toBe(`node.getPool failed`)
+    expect(state.error).toBe(`node.get.pool failed`)
     expect(state.loading).toBe(false)
     expect(state.loaded).toBe(false)
   })

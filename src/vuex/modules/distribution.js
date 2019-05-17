@@ -75,7 +75,7 @@ export default ({ node }) => {
 
       state.loading = true
       try {
-        const rewardsArray = await node.getDelegatorRewards(session.address)
+        const rewardsArray = await node.get.delegatorRewards(session.address)
         const rewards = coinsToObject(rewardsArray)
         commit(`setTotalRewards`, rewards || {})
         commit(`setDistributionError`, null)
@@ -85,22 +85,29 @@ export default ({ node }) => {
         commit(`setDistributionError`, error)
       }
     },
-    async simulateWithdrawAllRewards({ rootState: { wallet }, dispatch }) {
+    async simulateWithdrawAllRewards({ rootState: { session }, dispatch }) {
       return await dispatch(`simulateTx`, {
-        type: `postWithdrawDelegatorRewards`,
-        to: wallet.address
+        type: `MsgWithdrawDelegationReward`,
+        txArguments: {
+          toAddress: session.address,
+          validatorAddresses: []
+        }
       })
     },
     async withdrawAllRewards(
       {
-        rootState: { wallet },
+        rootState: { session },
+        getters: { committedDelegations },
         dispatch
       },
       { gas, gas_prices, password, submitType }
     ) {
       await dispatch(`sendTx`, {
-        type: `postWithdrawDelegatorRewards`,
-        to: wallet.address,
+        type: `MsgWithdrawDelegationReward`,
+        txArguments: {
+          toAddress: session.address,
+          validatorAddresses: Object.keys(committedDelegations)
+        },
         gas,
         gas_prices,
         password,
@@ -144,7 +151,7 @@ export default ({ node }) => {
     ) {
       state.loading = true
       try {
-        const rewardsArray = await node.getDelegatorRewardsFromValidator(
+        const rewardsArray = await node.get.delegatorRewardsFromValidator(
           session.address,
           validatorAddr
         )
@@ -162,7 +169,7 @@ export default ({ node }) => {
     async getDistributionParameters({ commit }) {
       state.loading = true
       try {
-        const parameters = await node.getDistributionParameters()
+        const parameters = await node.get.distributionParameters()
         commit(`setDistributionParameters`, parameters)
         commit(`setDistributionError`, null)
         state.loaded = true
@@ -175,7 +182,7 @@ export default ({ node }) => {
     async getOutstandingRewards({ commit }) {
       state.loading = true
       try {
-        const oustandingRewardsArray = await node.getDistributionOutstandingRewards()
+        const oustandingRewardsArray = await node.get.distributionOutstandingRewards()
         const oustandingRewards = coinsToObject(oustandingRewardsArray)
         commit(`setOutstandingRewards`, oustandingRewards)
         commit(`setDistributionError`, null)
