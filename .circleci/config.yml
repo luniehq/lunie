@@ -121,11 +121,6 @@ jobs:
           else
             STARGATE=https://stargate.lunie.io RPC=https://rpc.lunie.io:26657 CIRCLECI=true yarn build:ui
           fi
-
-      - store_artifacts:
-          path: *DIST
-      - store_artifacts:
-          path: *DIST_TESTNET
       - persist_to_workspace:
           root: *WORKSPACE
           paths:
@@ -235,7 +230,8 @@ jobs:
           git config user.email "bot@lunie.io"
           git config user.name "Lunie Bot"
           REPO_ID=99653950
-          node node_modules/simsala/src/cli.js release-candidate --pending-path ./changes --owner luniehq --repository lunie --token ${GIT_BOT_TOKEN} --message "Please manually test before merging this to master <a href='https://${CIRCLE_BUILD_NUM}-${REPO_ID}-gh.circle-artifacts.com/0/tmp/voyager/dist/index.html'>here</a>"
+          BUILD_NUM=$CIRCLE_BUILD_NUM-1 #hacky as it assumes the build step ran before this step
+          node node_modules/simsala/src/cli.js release-candidate --pending-path ./changes --owner luniehq --repository lunie --token ${GIT_BOT_TOKEN} --message "Please manually test before merging this to master <a href='https://${BUILD_NUM}-${REPO_ID}-gh.circle-artifacts.com/0/tmp/voyager/dist/index.html'>here</a>"
       - store_artifacts:
           path: *DIST
       
@@ -272,6 +268,13 @@ jobs:
 
               node tasks/publish.js
 
+  # store artifacts to check a branch as a staging build
+  upload:
+    executor: node
+    steps:
+      - store_artifacts:
+        path: *DIST
+
 
 workflows:
   version: 2
@@ -305,6 +308,10 @@ workflows:
           requires:
             - security
             - lint
+
+      - upload:
+          requires:
+            - build
 
       - deploy2s3:
           requires:
