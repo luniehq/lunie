@@ -1,6 +1,6 @@
 const axios = require("axios")
 
-const HOST = process.env.CI ? "testnet" : "localhost"
+const HOST = "localhost"
 
 module.exports = {
   // controls the timeout time for async hooks. Expects the done() callback to be invoked within this time
@@ -21,7 +21,7 @@ module.exports = {
   },
 
   beforeEach(browser, done) {
-    browser.url(browser.launch_url).execute(function() {
+    browser.url(browser.launch_url).execute(function () {
       window.localStorage.setItem(
         `keys`,
         JSON.stringify([
@@ -57,7 +57,7 @@ module.exports = {
    *
    * @param results
    */
-  reporter: function(results) {
+  reporter: function (results) {
     if (
       (typeof results.failed === `undefined` || results.failed === 0) &&
       (typeof results.error === `undefined` || results.error === 0)
