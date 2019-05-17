@@ -37,7 +37,6 @@
 
 <script>
 import LiTransaction from "./LiTransaction"
-import num from "../../scripts/num.js"
 
 export default {
   name: `li-distribution-transaction`,
@@ -81,7 +80,6 @@ export default {
     }
   },
   data: () => ({
-    num,
     MsgWithdrawValidatorCommission: `cosmos-sdk/MsgWithdrawValidatorCommission`,
     MsgSetWithdrawAddress: `cosmos-sdk/MsgSetWithdrawAddress`,
     MsgWithdrawDelegationReward: `cosmos-sdk/MsgWithdrawDelegationReward`

@@ -9,8 +9,8 @@
     <template v-if="txType === `cosmos-sdk/MsgCreateValidator`">
       <div slot="caption">
         Create validator
-        <b>{{ num.atoms(tx.amount.amount) }}</b>
-        <span>{{ value && value.denom }}</span>
+        <b>{{ tx.amount.amount | toAtoms }}</b>
+        <span>{{ value | viewDenom }}</span>
       </div>
       <div slot="details">
         Moniker:
@@ -33,8 +33,8 @@
     <template v-else-if="txType === `cosmos-sdk/MsgDelegate`">
       <div slot="caption">
         Delegated
-        <b>{{ num.atoms(tx.amount.amount) }}</b>
-        <span>{{ num.viewDenom(tx.amount.denom) }}</span>
+        <b>{{ tx.amount.amount | toAtoms }}</b>
+        <span>{{ tx.amount.denom | viewDenom }}</span>
       </div>
       <div slot="details">
         To&nbsp;
@@ -47,9 +47,9 @@
       <div slot="caption">
         Undelegated
         <b>
-          {{ num.atoms(tx.amount.amount) }}
+          {{ tx.amount.amount | toAtoms }}
         </b>
-        <span>{{ num.viewDenom(bondingDenom) }}</span>
+        <span>{{ bondingDenom | viewDenom }}</span>
         <template v-if="timeDiff">
           <span class="tx-unbonding__time-diff">
             {{ timeDiff }}
@@ -67,9 +67,9 @@
       <div slot="caption">
         Redelegated
         <b>
-          {{ num.atoms(tx.amount.amount) }}
+          {{ tx.amount.amount | toAtoms }}
         </b>
-        <span>{{ num.viewDenom(bondingDenom) }}</span>
+        <span>{{ bondingDenom | viewDenom }}</span>
       </div>
       <div slot="details">
         From&nbsp;
@@ -98,7 +98,7 @@
 
 <script>
 import LiTransaction from "./LiTransaction"
-import num from "../../scripts/num.js"
+import { atoms, viewDenom } from "../../scripts/num.js"
 import moment from "moment"
 
 /*
@@ -108,6 +108,10 @@ import moment from "moment"
 export default {
   name: `li-stake-transaction`,
   components: { LiTransaction },
+  filters: {
+    toAtoms: atoms,
+    viewDenom: viewDenom
+  },
   props: {
     tx: {
       type: Object,
@@ -150,9 +154,6 @@ export default {
       default: null
     }
   },
-  data: () => ({
-    num
-  }),
   computed: {
     timeDiff() {
       // only show time diff if still waiting to be terminated
@@ -168,7 +169,7 @@ export default {
       return `locked`
     },
     value() {
-      return this.tx.value ? num.createDisplayCoin(this.tx.value) : {}
+      return (this.tx.value && this.tx.value.denom) || ""
     }
   },
   methods: {
