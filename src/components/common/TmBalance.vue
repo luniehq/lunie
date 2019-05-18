@@ -12,11 +12,14 @@
         <h3>Available {{ num.viewDenom(bondDenom) }}</h3>
         <h2>{{ unbondedAtoms }}</h2>
       </div>
-      <div v-if="rewards" class="top-section">
+      <div
+        v-if="rewards"
+        class="top-section"
+      >
         <h3>Rewards</h3>
         <h2>{{ rewards }}</h2>
         <TmBtn
-          v-show="rewards > 0"
+          v-show="totalRewards > 0"
           id="withdraw-btn"
           class="withdraw-rewards"
           :value="connected ? 'Withdraw' : 'Connecting...'"
@@ -75,11 +78,14 @@ export default {
         ? this.num.shortDecimals(this.num.atoms(this.liquidAtoms))
         : `--`
     },
+    totalRewards() {
+      return this.distribution.totalRewards[this.bondDenom]
+    },
     rewards() {
       if (!this.distribution.loaded) {
         return `--`
       }
-      const rewards = this.distribution.totalRewards[this.bondDenom]
+      const rewards = this.totalRewards
       return this.num.shortDecimals(
         this.num.atoms(rewards && rewards > 10 ? rewards : 0)
       )

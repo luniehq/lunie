@@ -54,7 +54,6 @@ exports[`TmBalance has the expected html structure before adding props 1`] = `
         class="withdraw-rewards"
         id="withdraw-btn"
         size="sm"
-        style="display: none;"
         to=""
         type="link"
         value="Withdraw"
