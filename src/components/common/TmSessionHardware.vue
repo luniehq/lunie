@@ -101,13 +101,7 @@ export default {
         await this.$store.dispatch("confirmLedgerAddress")
         return true
       } catch ({ message }) {
-        switch (message) {
-          case `Transaction rejected`:
-            this.connectionError = `Account address rejected`
-            break
-          default:
-            this.connectionError = message
-        }
+        this.connectionError = message
       }
       return false
     }

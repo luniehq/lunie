@@ -11,8 +11,6 @@ export default () => {
     developmentMode: config.development, // can't be set in browser
     experimentalMode: config.development, // development mode, can be set from browser
     insecureMode: false, // show the local signer
-    gasPrice: config.default_gas_price, // price per unit of gas
-    gasAdjustment: config.default_gas_adjustment, // default adjustment multiplier
     signedIn: false,
     sessionType: null, // local, ledger
     accounts: [],
@@ -181,8 +179,6 @@ export default () => {
       state.externals.track(`event`, `session`, `sign-out`)
 
       state.localKeyPairName = null
-      commit(`setLedgerConnection`, false)
-      commit(`setCosmosAppVersion`, {})
       dispatch(`resetSessionData`)
       commit(`addHistory`, `/`)
       commit(`setSignIn`, false)
@@ -195,6 +191,9 @@ export default () => {
     },
     loadLocalPreferences({ state, dispatch }) {
       const localPreferences = localStorage.getItem(USER_PREFERENCES_KEY)
+
+      // don't track in development
+      if (state.developmentMode) return
 
       if (!localPreferences) {
         state.cookiesAccepted = false
@@ -221,6 +220,9 @@ export default () => {
       )
     },
     setErrorCollection({ state, dispatch }, enabled) {
+      // don't track in development
+      if (state.developmentMode) return
+
       state.errorCollection = enabled
       dispatch(`storeLocalPreferences`)
 
@@ -236,6 +238,9 @@ export default () => {
       }
     },
     setAnalyticsCollection({ state, dispatch }, enabled) {
+      // don't track in development
+      if (state.developmentMode) return
+
       state.analyticsCollection = enabled
       dispatch(`storeLocalPreferences`)
 

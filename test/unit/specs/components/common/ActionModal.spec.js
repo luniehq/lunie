@@ -19,8 +19,6 @@ describe(`ActionModal`, () => {
         session: {
           signedIn: true,
           sessionType: `local`,
-          gasPrice: 2.5e-8,
-          gasAdjustment: 1.5,
           browserWithLedgerSupport: null
         },
         bondDenom: `uatom`,
@@ -57,12 +55,9 @@ describe(`ActionModal`, () => {
     const $store = { dispatch: jest.fn() }
     const self = {
       $store,
-      ledger: {
-        cosmosApp: {},
-        isConnected: true
-      },
       submitFn,
-      submissionErrorPrefix: `PREFIX`
+      submissionErrorPrefix: `PREFIX`,
+      connectLedger: () => {}
     }
     await ActionModal.methods.submit.call(self)
 
@@ -78,12 +73,9 @@ describe(`ActionModal`, () => {
     const $store = { dispatch: jest.fn() }
     const self = {
       $store,
-      ledger: {
-        cosmosApp: {},
-        isConnected: true
-      },
       submitFn,
-      submissionErrorPrefix: `PREFIX`
+      submissionErrorPrefix: `PREFIX`,
+      connectLedger: () => {}
     }
     await ActionModal.methods.submit.call(self)
 

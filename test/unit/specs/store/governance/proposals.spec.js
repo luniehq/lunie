@@ -1,10 +1,8 @@
 import proposalsModule from "src/vuex/modules/governance/proposals.js"
 import { proposals, tallies } from "../json/proposals"
-import { addresses } from "../json/addresses"
 
 const mockRootState = {
   wallet: {
-    address: addresses[0],
     balances: [
       {
         denom: `stake`,
@@ -16,6 +14,10 @@ const mockRootState = {
     connected: true
   }
 }
+const gas = `1234567`
+const gas_prices = [{ denom: `uatom`, amount: `123` }]
+const password = ``
+const submitType = `ledger`
 
 describe(`Module: Proposals`, () => {
   let moduleInstance
@@ -75,8 +77,10 @@ describe(`Module: Proposals`, () => {
     it(`when the request is successful`, async () => {
       moduleInstance = proposalsModule({
         node: {
-          getProposals: () => Promise.resolve(Object.values(proposals)),
-          getProposalTally: proposal_id => Promise.resolve(tallies[proposal_id])
+          get: {
+            proposals: () => Promise.resolve(Object.values(proposals)),
+            proposalTally: proposal_id => Promise.resolve(tallies[proposal_id])
+          }
         }
       })
 
@@ -117,7 +121,9 @@ describe(`Module: Proposals`, () => {
     it(`throws and stores error if the request fails`, async () => {
       moduleInstance = proposalsModule({
         node: {
-          getProposals: () => Promise.reject(new Error(`Error`))
+          get: {
+            proposals: () => Promise.reject(new Error(`Error`))
+          }
         }
       })
       const { actions, state } = moduleInstance
@@ -134,8 +140,10 @@ describe(`Module: Proposals`, () => {
     it(`when the request is successful`, async () => {
       moduleInstance = proposalsModule({
         node: {
-          getProposal: proposal_id => Promise.resolve(proposals[proposal_id]),
-          getProposalTally: proposal_id => Promise.resolve(tallies[proposal_id])
+          get: {
+            proposal: proposal_id => Promise.resolve(proposals[proposal_id]),
+            proposalTally: proposal_id => Promise.resolve(tallies[proposal_id])
+          }
         }
       })
 
@@ -172,7 +180,9 @@ describe(`Module: Proposals`, () => {
     it(`throws and stores error if the request fails`, async () => {
       moduleInstance = proposalsModule({
         node: {
-          getProposal: () => Promise.reject(new Error(`Error`))
+          get: {
+            proposal: () => Promise.reject(new Error(`Error`))
+          }
         }
       })
 
@@ -206,15 +216,12 @@ describe(`Module: Proposals`, () => {
     })
 
     expect(self.dispatch).toHaveBeenCalledWith(`simulateTx`, {
-      type: `postProposal`,
-      proposal_type: proposal.proposal_type,
-      initial_deposit: proposal.initial_deposit,
-      proposer: mockRootState.wallet.address,
-      proposal_content: {
-        value: {
-          title: proposal.title,
-          description: proposal.description
-        }
+      type: `MsgSubmitProposal`,
+      txArguments: {
+        proposalType: proposal.proposal_type,
+        initialDeposits: proposal.initial_deposit,
+        title: proposal.title,
+        description: proposal.description
       }
     })
     expect(res).toBe(123123)
@@ -234,17 +241,27 @@ describe(`Module: Proposals`, () => {
           {
             type: proposal.proposal_type,
             initial_deposit: proposal.initial_deposit,
-            proposal_content: proposal.proposal_content
+            proposal_content: proposal.proposal_content,
+            gas,
+            gas_prices,
+            submitType,
+            password
           }
         )
         expect(dispatch.mock.calls[i]).toEqual([
           `sendTx`,
           {
-            type: `postProposal`,
-            proposal_type: proposal.proposal_type,
-            proposer: addresses[0],
-            initial_deposit: proposal.initial_deposit,
-            proposal_content: proposal.proposal_content
+            type: `MsgSubmitProposal`,
+            txArguments: {
+              proposalType: proposal.proposal_type,
+              initialDeposits: proposal.initial_deposit,
+              title: proposal.proposal_content.value.title,
+              description: proposal.proposal_content.value.description
+            },
+            gas,
+            gas_prices,
+            submitType,
+            password
           }
         ])
 

@@ -9,8 +9,7 @@ exports[`LiBankTransaction should show a bank transaction without fees 1`] = `
 >
   <div>
     
-      Sent
-      
+      Sent 
     <b>
       12,340
     </b>
@@ -34,9 +33,7 @@ exports[`LiBankTransaction should show a bank transaction without fees 1`] = `
     </b>
      
     <span>
-      
-        ATOM
-      
+      ATOM
     </span>
   </div>
 </litransaction-stub>
@@ -51,7 +48,7 @@ exports[`LiBankTransaction should show bank transaction when user hasn't signed 
 >
   <div>
     
-      Sent
+      Sent 
     <b>
       12,340
     </b>
@@ -63,8 +60,7 @@ exports[`LiBankTransaction should show bank transaction when user hasn't signed 
    
   <span>
     
-        From
-        
+        From 
     <shortbech32-stub
       address="A"
     />
@@ -83,9 +79,7 @@ exports[`LiBankTransaction should show bank transaction when user hasn't signed 
     </b>
      
     <span>
-      
-        ATOM
-      
+      ATOM
     </span>
   </div>
 </litransaction-stub>
@@ -100,8 +94,7 @@ exports[`LiBankTransaction should show incoming transactions 1`] = `
 >
   <div>
     
-      Received
-      
+      Received 
     <b>
       12,340
     </b>
@@ -113,8 +106,7 @@ exports[`LiBankTransaction should show incoming transactions 1`] = `
    
   <span>
     
-      From  
-      
+      From   
     <shortbech32-stub
       address="A"
     />
@@ -128,9 +120,7 @@ exports[`LiBankTransaction should show incoming transactions 1`] = `
     </b>
      
     <span>
-      
-        ATOM
-      
+      ATOM
     </span>
   </div>
 </litransaction-stub>
@@ -145,8 +135,7 @@ exports[`LiBankTransaction should show outgoing transactions 1`] = `
 >
   <div>
     
-      Sent
-      
+      Sent 
     <b>
       12,340
     </b>
@@ -158,8 +147,7 @@ exports[`LiBankTransaction should show outgoing transactions 1`] = `
    
   <span>
     
-        To
-        
+        To 
     <shortbech32-stub
       address="A"
     />
@@ -173,9 +161,7 @@ exports[`LiBankTransaction should show outgoing transactions 1`] = `
     </b>
      
     <span>
-      
-        ATOM
-      
+      ATOM
     </span>
   </div>
 </litransaction-stub>
@@ -190,8 +176,7 @@ exports[`LiBankTransaction should show outgoing transactions send to herself 1`]
 >
   <div>
     
-      Sent
-      
+      Sent 
     <b>
       12,340
     </b>
@@ -215,9 +200,7 @@ exports[`LiBankTransaction should show outgoing transactions send to herself 1`]
     </b>
      
     <span>
-      
-        ATOM
-      
+      ATOM
     </span>
   </div>
 </litransaction-stub>

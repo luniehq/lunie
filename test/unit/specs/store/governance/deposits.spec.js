@@ -1,11 +1,9 @@
 import depositsModule from "src/vuex/modules/governance/deposits.js"
 import lcdClientMock from "src/connectors/lcdClientMock.js"
 const { proposals, deposits } = lcdClientMock.state
-const addresses = lcdClientMock.addresses
 
 const mockRootState = {
   wallet: {
-    address: addresses[0],
     balances: [
       {
         denom: `stake`,
@@ -22,7 +20,7 @@ describe(`Module: Deposits`, () => {
   let module
 
   beforeEach(() => {
-    module = depositsModule({ node: {} })
+    module = depositsModule({ node: { get: {} } })
   })
 
   it(`adds deposits to state`, () => {
@@ -34,7 +32,9 @@ describe(`Module: Deposits`, () => {
   it(`fetches all deposits from a proposal`, async () => {
     module = depositsModule({
       node: {
-        getProposalDeposits: proposalId => Promise.resolve(deposits[proposalId])
+        get: {
+          proposalDeposits: proposalId => Promise.resolve(deposits[proposalId])
+        }
       }
     })
     const { actions, state } = module
@@ -65,11 +65,12 @@ describe(`Module: Deposits`, () => {
     })
 
     expect(self.dispatch).toHaveBeenCalledWith(`simulateTx`, {
-      type: `postProposalDeposit`,
-      to: `1`,
-      proposal_id: `1`,
-      depositor: mockRootState.wallet.address,
-      amount
+      type: `MsgDeposit`,
+      txArguments: {
+        proposalId: `1`,
+        depositor: mockRootState.wallet.address,
+        amount
+      }
     })
     expect(res).toBe(123123)
   })
@@ -97,11 +98,11 @@ describe(`Module: Deposits`, () => {
       expect(dispatch.mock.calls[i]).toEqual([
         `sendTx`,
         {
-          type: `postProposalDeposit`,
-          to: proposal_id,
-          proposal_id,
-          depositor: addresses[0],
-          amount
+          type: `MsgDeposit`,
+          txArguments: {
+            proposalId: proposal_id,
+            amount
+          }
         }
       ])
 
@@ -120,7 +121,9 @@ describe(`Module: Deposits`, () => {
   it(`should store an error if failed to load deposits`, async () => {
     module = depositsModule({
       node: {
-        getProposalDeposits: () => Promise.reject(new Error(`Error`))
+        get: {
+          proposalDeposits: () => Promise.reject(new Error(`Error`))
+        }
       }
     })
     const { actions, state } = module

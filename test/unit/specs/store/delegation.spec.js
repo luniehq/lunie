@@ -16,7 +16,7 @@ describe(`Module: Delegations`, () => {
   let state, actions, mutations
 
   beforeEach(() => {
-    const instance = delegationModule({ node: {} })
+    const instance = delegationModule({ node: { get: {} } })
     state = instance.state
     actions = instance.actions
     mutations = instance.mutations
@@ -69,25 +69,28 @@ describe(`Module: Delegations`, () => {
     let node, commit
     beforeEach(async () => {
       node = {
-        getDelegations: jest.fn(
-          () =>
-            lcdClientMock.state.stake[lcdClientMock.addresses[0]].delegations
-        ),
-        getUndelegations: jest.fn(() => [
-          {
-            validator_address: lcdClientMock.validators[0],
-            entries: [
-              {
-                balance: `1`,
-                completion_time: new Date(Date.now()).toUTCString()
-              }
-            ]
-          }
-        ]),
-        getRedelegations: jest.fn(
-          () =>
-            lcdClientMock.state.stake[lcdClientMock.addresses[0]].redelegations
-        )
+        get: {
+          delegations: jest.fn(
+            () =>
+              lcdClientMock.state.stake[lcdClientMock.addresses[0]].delegations
+          ),
+          undelegations: jest.fn(() => [
+            {
+              validator_address: lcdClientMock.validators[0],
+              entries: [
+                {
+                  balance: `1`,
+                  completion_time: new Date(Date.now()).toUTCString()
+                }
+              ]
+            }
+          ]),
+          redelegations: jest.fn(
+            () =>
+              lcdClientMock.state.stake[lcdClientMock.addresses[0]]
+                .redelegations
+          )
+        }
       }
       const instance = delegationModule({
         node
@@ -109,7 +112,7 @@ describe(`Module: Delegations`, () => {
     })
 
     it(`fetches bonded delegates`, async () => {
-      expect(node.getDelegations).toHaveBeenCalled()
+      expect(node.get.delegations).toHaveBeenCalled()
       expect(commit).toHaveBeenCalledWith(`setCommittedDelegation`, {
         candidateId: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw`,
         value: 14
@@ -121,7 +124,7 @@ describe(`Module: Delegations`, () => {
     })
 
     it(`fetches current undelegations`, async () => {
-      expect(node.getUndelegations).toHaveBeenCalled()
+      expect(node.get.undelegations).toHaveBeenCalled()
       expect(commit).toHaveBeenCalledWith(`setUnbondingDelegations`, [
         {
           validator_address: lcdClientMock.validators[0],
@@ -200,13 +203,13 @@ describe(`Module: Delegations`, () => {
     )
 
     expect(dispatch).toHaveBeenCalledWith(`simulateTx`, {
-      type: `postDelegation`,
-      to: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
-      delegator_address: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
-      validator_address,
-      amount: {
+      type: `MsgDelegate`,
+      txArguments: {
+        toAddress: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
+        delegator_address: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
+        validator_address,
         denom: `STAKE`,
-        amount: `10`
+        amount: 10
       }
     })
 
@@ -237,18 +240,18 @@ describe(`Module: Delegations`, () => {
     )
 
     expect(dispatch).toHaveBeenCalledWith(`sendTx`, {
-      type: `postDelegation`,
-      to: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
-      delegator_address: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
-      validator_address,
+      type: `MsgDelegate`,
+      txArguments: {
+        toAddress: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
+        delegator_address: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
+        validator_address,
+        denom: `STAKE`,
+        amount: 10
+      },
       gas,
       gas_prices,
       submitType,
-      password,
-      amount: {
-        denom: `STAKE`,
-        amount: `10`
-      }
+      password
     })
 
     expect(dispatch).toHaveBeenCalledWith(`getAllTxs`)
@@ -269,13 +272,13 @@ describe(`Module: Delegations`, () => {
     )
 
     expect(dispatch).toHaveBeenCalledWith(`simulateTx`, {
-      type: `postUnbondingDelegation`,
-      to: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
-      delegator_address: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
-      validator_address: validator.operator_address,
-      amount: {
-        amount: `10`,
-        denom: `STAKE`
+      type: `MsgUndelegate`,
+      txArguments: {
+        toAddress: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
+        delegator_address: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
+        validator_address: validator.operator_address,
+        denom: `STAKE`,
+        amount: 10
       }
     })
     expect(res).toBe(123123)
@@ -298,12 +301,12 @@ describe(`Module: Delegations`, () => {
     )
 
     expect(dispatch).toHaveBeenCalledWith(`sendTx`, {
-      type: `postUnbondingDelegation`,
-      to: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
-      delegator_address: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
-      validator_address: validator.operator_address,
-      amount: {
-        amount: `10`,
+      type: `MsgUndelegate`,
+      txArguments: {
+        toAddress: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
+        delegator_address: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
+        validator_address: validator.operator_address,
+        amount: 10,
         denom: `STAKE`
       },
       password,
@@ -328,13 +331,13 @@ describe(`Module: Delegations`, () => {
     )
 
     expect(dispatch).toHaveBeenCalledWith(`simulateTx`, {
-      type: `postRedelegation`,
-      to: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
-      delegator_address: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
-      validator_src_address: validatorSrc.operator_address,
-      validator_dst_address: validatorDst.operator_address,
-      amount: {
-        amount: `10`,
+      type: `MsgRedelegate`,
+      txArguments: {
+        toAddress: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
+        delegator_address: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
+        validator_src_address: validatorSrc.operator_address,
+        validator_dst_address: validatorDst.operator_address,
+        amount: 10,
         denom: `STAKE`
       }
     })
@@ -358,13 +361,13 @@ describe(`Module: Delegations`, () => {
     )
 
     expect(dispatch).toHaveBeenCalledWith(`sendTx`, {
-      type: `postRedelegation`,
-      to: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
-      delegator_address: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
-      validator_src_address: validatorSrc.operator_address,
-      validator_dst_address: validatorDst.operator_address,
-      amount: {
-        amount: `10`,
+      type: `MsgRedelegate`,
+      txArguments: {
+        toAddress: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
+        delegator_address: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
+        validator_src_address: validatorSrc.operator_address,
+        validator_dst_address: validatorDst.operator_address,
+        amount: 10,
         denom: `STAKE`
       },
       password,
@@ -409,11 +412,13 @@ describe(`Module: Delegations`, () => {
     jest.useFakeTimers()
 
     const node = {
-      getDelegations: jest.fn(
-        () => new Promise(resolve => setTimeout(() => resolve([]), 10000))
-      ),
-      getUndelegations: jest.fn(() => []),
-      getRedelegations: jest.fn(() => [])
+      get: {
+        delegations: jest.fn(
+          () => new Promise(resolve => setTimeout(() => resolve([]), 10000))
+        ),
+        undelegations: jest.fn(() => []),
+        redelegations: jest.fn(() => [])
+      }
     }
     const instance = delegationModule({
       node
@@ -545,11 +550,15 @@ describe(`Module: Delegations`, () => {
   })
 
   it(`should store an error if failed to load delegations`, async () => {
-    const node = lcdClientMock
-    const { state, actions } = delegationModule({ node })
-    jest
-      .spyOn(node, `getDelegations`)
-      .mockImplementationOnce(async () => Promise.reject(`Error`))
+    const { state, actions } = delegationModule({
+      node: {
+        get: {
+          redelegations: () => [],
+          undelegations: () => [],
+          delegations: async () => Promise.reject(`Error`)
+        }
+      }
+    })
     await actions.getBondedDelegates({
       state,
       rootState: mockRootState,
@@ -560,11 +569,15 @@ describe(`Module: Delegations`, () => {
   })
 
   it(`should store an error if failed to load undelegations`, async () => {
-    const node = lcdClientMock
-    const { state, actions } = delegationModule({ node })
-    jest
-      .spyOn(node, `getUndelegations`)
-      .mockImplementationOnce(async () => Promise.reject(`Error`))
+    const { state, actions } = delegationModule({
+      node: {
+        get: {
+          delegations: () => [],
+          redelegations: () => [],
+          undelegations: async () => Promise.reject(`Error`)
+        }
+      }
+    })
     await actions.getBondedDelegates({
       state,
       rootState: mockRootState,
@@ -575,11 +588,15 @@ describe(`Module: Delegations`, () => {
   })
 
   it(`should store an error if failed to load redelegations`, async () => {
-    const node = lcdClientMock
-    const { state, actions } = delegationModule({ node })
-    jest
-      .spyOn(node, `getRedelegations`)
-      .mockImplementationOnce(async () => Promise.reject(`Error`))
+    const { state, actions } = delegationModule({
+      node: {
+        get: {
+          delegations: () => [],
+          undelegations: () => [],
+          redelegations: async () => Promise.reject(`Error`)
+        }
+      }
+    })
     await actions.getBondedDelegates({
       state,
       rootState: mockRootState,
@@ -590,8 +607,7 @@ describe(`Module: Delegations`, () => {
   })
 
   it(`should load delegates and delegations if signed in`, async () => {
-    const node = lcdClientMock
-    const { actions } = delegationModule({ node })
+    const { actions } = delegationModule({ node: { get: {} } })
 
     const dispatch = jest.fn(() => [])
 
@@ -617,8 +633,7 @@ describe(`Module: Delegations`, () => {
   })
 
   it(`should load delegates only every 5 blocks`, async () => {
-    const node = lcdClientMock
-    const { actions } = delegationModule({ node })
+    const { actions } = delegationModule({ node: { get: {} } })
 
     const dispatch = jest.fn(() => [])
 
@@ -644,7 +659,7 @@ describe(`Module: Delegations`, () => {
   })
 
   it(`should load delegations on sign in`, async () => {
-    const { actions } = delegationModule({ node: {} })
+    const { actions } = delegationModule({ node: { get: {} } })
 
     const dispatch = jest.fn(() => [])
 
