@@ -1,2 +1,0 @@
-[Fixed] [#2568](https://github.com/cosmos/lunie/pull/2568) Do not add stake to total when redelegating @colw
-[Changed] [#2568](https://github.com/cosmos/lunie/pull/2568) Show amount of source stake available to delegate or redelgate @colw
