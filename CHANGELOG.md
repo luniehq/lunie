@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [1.0.0-beta.71] - 2019-05-18
+
+### Fixed
+
+- [#2624](https://github.com/cosmos/lunie/pull/2624) Fix keybase cache creation @faboweb
+- [#2617](https://github.com/cosmos/lunie/pull/2617) Add white-space: normal to circle—default class @migueog
+
 ## [1.0.0-beta.70] - 2019-05-18
 
 ### Added
