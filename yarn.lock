@@ -951,10 +951,10 @@
     "@types/istanbul-reports" "^1.1.1"
     "@types/yargs" "^12.0.9"
 
-"@lunie/cosmos-js@0.0.12":
-  version "0.0.12"
-  resolved "https://registry.yarnpkg.com/@lunie/cosmos-js/-/cosmos-js-0.0.12.tgz#171f366f352fcb95f37ede198ecd57c9357f34ac"
-  integrity sha512-maewdBprYS8WFN8xDNbBcbWWoO1KYvFPreG4xNl1du4pOwMrUDjpsaisVWgnhUoEdGq1pi4vEGioAQtPAxjM4A==
+"@lunie/cosmos-js@0.0.13":
+  version "0.0.13"
+  resolved "https://registry.yarnpkg.com/@lunie/cosmos-js/-/cosmos-js-0.0.13.tgz#1a78102672d22327d24d3b8ed0504ccb1680920f"
+  integrity sha512-voEVI5KRswI1c9FyCntDnESdT5dBJwAaDQW5tI9z6fUHcY/J5Q0NAAOEDlvNGEjGTE81JTfhWcwa/ZOejOX5CA==
   dependencies:
     jest "^24.7.1"
 
