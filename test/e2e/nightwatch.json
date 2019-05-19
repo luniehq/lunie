@@ -6,7 +6,7 @@
     "globals_path": "./globals.js",
     "disable_colors": false,
     "test_workers": false,
-    "launch_url": "http://localhost:8081",
+    "launch_url": "https://localhost:8081",
     "webdriver": {
         "start_process": true,
         "port": 9515,
