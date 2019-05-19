@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [1.0.0-beta.73] - 2019-05-19
+
+### Fixed
+
+- [#2630](https://github.com/cosmos/lunie/pull/2630) Fix undelegation message formats being outdated @faboweb
+
 ## [1.0.0-beta.72] - 2019-05-19
 
 ### Fixed
