@@ -1,7 +1,7 @@
 {
   "name": "lunie",
   "productName": "lunie",
-  "version": "1.0.0-beta.71",
+  "version": "1.0.0-beta.72",
   "description": "Lunie is the user interface for the Cosmos Hub.",
   "author": "Lunie International Software Systems Inc. <hello@lunie.io>",
   "license": "Apache-2.0",
@@ -14,11 +14,11 @@
     "node": ">=10.13.0"
   },
   "scripts": {
-    "build": "yarn build:keybase-cache && yarn build:ui",
+    "build": "npm run build:keybase-cache && npm run build:ui",
     "build:keybase-cache": "babel-node --presets @babel/env tasks/keybase-fallback.js",
     "build:ui": "cross-env NODE_ENV=production webpack --colors --config webpack.renderer.config.js --mode=production",
     "start": "yarn frontend & yarn proxy & yarn testnet",
-    "serve": "live-server --port=8081 ./dist",
+    "serve": "live-server --https=node_modules/live-server-https --port=8081 ./dist",
     "lint": "yarn lint:eslint && yarn lint:css",
     "lint:eslint": "eslint -f ./node_modules/eslint-friendly-formatter \"{,**/}*.{js,vue}\"",
     "lint:css": "stylelint '**/*.{css,vue}'",
@@ -75,6 +75,7 @@
     "json-loader": "0.5.7",
     "lint-prepush": "0.3.1",
     "live-server": "1.2.1",
+    "live-server-https": "0.0.2",
     "lodash.groupby": "4.6.0",
     "lodash.isempty": "4.4.0",
     "lodash.merge": "4.6.1",
@@ -106,7 +107,7 @@
     "webpack-dev-server": "3.2.1"
   },
   "dependencies": {
-    "@lunie/cosmos-js": "0.0.11",
+    "@lunie/cosmos-js": "0.0.12",
     "@sentry/browser": "5.0.3",
     "autosize": "4.0.2",
     "axios": "0.18.0",

@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [1.0.0-beta.72] - 2019-05-19
+
+### Fixed
+
+- [#2628](https://github.com/cosmos/lunie/pull/2628) Fix issue with productive bundling in downstream cosmos-js library @faboweb
+
 ## [1.0.0-beta.71] - 2019-05-18
 
 ### Fixed
