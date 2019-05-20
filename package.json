@@ -29,14 +29,14 @@
     "test:e2e": "concurrently --kill-others --success first --names webserver,tests \"npm run serve -- --no-browser\" \"npm run test:e2e:run\"",
     "test:e2e:build": "cross-env E2E_TESTS=true STARGATE=http://localhost:9070 RPC=http://localhost:26657 CIRCLECI=true npm run build:ui",
     "test:coverage": "live-server test/unit/coverage/lcov-report",
-    "release": "git checkout develop & git pull & git push origin develop:release",
     "watch": "tasks/watch.sh",
     "testnet:start": "docker run --rm -p 26657:26657 --name testnet -p 9070:9070 --detach -e MAX_NODES=${MAX_NODES:-2} lunieio/testnet:v0.34.3",
     "testnet:stop": "docker stop testnet",
     "proxy": "node ./tasks/local-testnet/proxy.js",
     "certificates": "docker-compose -f tasks/certificates/docker-compose.yml up",
-    "frontend": "cross-env NODE_ENV=development webpack-dev-server --hot --colors --config webpack.config.js --port 9080 --content-base app/dist --https --mode=development --cert 'certs/dev.crt' --key 'certs/dev.key'",
-    "changelog": "node tasks/changelog.js"
+    "frontend": "cross-env NODE_ENV=development webpack-dev-server --hot --colors --config webpack.config.js --port 9080 --https --mode=development --cert 'certs/dev.crt' --key 'certs/dev.key'",
+    "changelog": "simsala log --pending-path ./changes",
+    "release": "git checkout develop & git pull & git push origin develop:release"
   },
   "devDependencies": {
     "@babel/core": "7.4.4",
@@ -92,6 +92,7 @@
     "postcss-preset-env": "6.6.0",
     "prettier": "1.17.0",
     "publish-release": "1.6.0",
+    "simsala": "0.0.12",
     "style-loader": "0.23.1",
     "stylelint": "9.10.1",
     "stylelint-config-standard": "18.2.0",
