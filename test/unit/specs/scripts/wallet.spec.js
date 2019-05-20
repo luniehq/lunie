@@ -1,6 +1,5 @@
 import {
   createCosmosAddress,
-  createSignMessage,
   generateWalletFromSeed,
   generateSeed,
   generateWallet,
@@ -72,56 +71,6 @@ describe(`Address generation`, () => {
 })
 
 describe(`Signing`, () => {
-  const tx = {
-    msg: [
-      {
-        type: `cosmos-sdk/Send`,
-        value: {
-          inputs: [
-            {
-              address: `cosmos1qperwt9wrnkg5k9e5gzfgjppzpqhyav5j24d66`,
-              coins: [{ denom: `STAKE`, amount: `1` }]
-            }
-          ],
-          outputs: [
-            {
-              address: `cosmos1yeckxz7tapz34kjwnjxvmxzurerquhtrmxmuxt`,
-              coins: [{ denom: `STAKE`, amount: `1` }]
-            }
-          ]
-        }
-      }
-    ],
-    fee: { amount: [{ denom: ``, amount: `0` }], gas: `21906` },
-    signatures: null,
-    memo: ``
-  }
-  const txWithNulls = {
-    msg: [
-      {
-        type: `cosmos-sdk/Send`,
-        value: {
-          inputs: [
-            {
-              address: `cosmos1qperwt9wrnkg5k9e5gzfgjppzpqhyav5j24d66`,
-              coins: [{ denom: `STAKE`, amount: `1` }]
-            }
-          ],
-          outputs: [
-            {
-              x: undefined,
-              address: `cosmos1yeckxz7tapz34kjwnjxvmxzurerquhtrmxmuxt`,
-              coins: [{ denom: `STAKE`, amount: `1` }]
-            }
-          ]
-        }
-      }
-    ],
-    fee: { amount: [{ denom: ``, amount: `0` }], gas: `21906` },
-    signatures: null,
-    memo: ``
-  }
-
   it(`should create a correct signature`, () => {
     const vectors = [
       {
@@ -132,11 +81,7 @@ describe(`Signing`, () => {
     ]
 
     vectors.forEach(
-      ({
-        privateKey,
-        signMessage,
-        signature: expectedSignature
-      }) => {
+      ({ privateKey, signMessage, signature: expectedSignature }) => {
         const signature = signWithPrivateKey(signMessage, privateKey)
         expect(signature.toString("base64")).toEqual(expectedSignature)
       }
