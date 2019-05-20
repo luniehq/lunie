@@ -1,74 +1,45 @@
 <template>
-  <LiTransaction :color="`#ED553B`" :time="time" :block="block" :memo="memo">
+  <LiTransaction
+    :color="`#ED553B`"
+    :time="time"
+    :block="block"
+    :memo="memo"
+    :fees="fees"
+  >
     <template v-if="address === ''">
       <div slot="caption">
-        Sent<b>{{ coins.amount }}</b>
-        <span>{{ num.viewDenom(coins.denom) }}</span>
+        Sent <b>{{ txAmount | toAtoms | shortDecimals }}</b>
+        <span>{{ txDenom | viewDenom }}</span>
       </div>
       <span slot="details">
         <template>
-          From
-          <ShortBech32 :address="sender" /> to
+          From <ShortBech32 :address="sender" /> to
           <ShortBech32 :address="receiver" />
         </template>
       </span>
-      <div slot="fees">
-        Network Fee:&nbsp;<b>{{ convertedFees ? convertedFees.amount : 0 }}</b>
-        <span>
-          {{
-            convertedFees
-              ? num.viewDenom(convertedFees.denom)
-              : num.viewDenom(bondingDenom)
-          }}
-        </span>
-      </div>
     </template>
     <template v-else-if="sent">
       <div slot="caption">
-        Sent
-        <b>{{ coins.amount }}</b>
-        <span>{{ num.viewDenom(coins.denom) }}</span>
+        Sent <b>{{ txAmount | toAtoms | shortDecimals }}</b>
+        <span>{{ txDenom | viewDenom }}</span>
       </div>
       <span slot="details">
         <template v-if="sentSelf">
           To yourself!
         </template>
         <template v-else>
-          To
-          <ShortBech32 :address="receiver" />
+          To <ShortBech32 :address="receiver" />
         </template>
       </span>
-      <div slot="fees">
-        Network Fee:&nbsp;<b>{{ convertedFees ? convertedFees.amount : 0 }}</b>
-        <span>
-          {{
-            convertedFees
-              ? num.viewDenom(convertedFees.denom)
-              : num.viewDenom(bondingDenom)
-          }}
-        </span>
-      </div>
     </template>
     <template v-else>
       <div slot="caption">
-        Received
-        <b>{{ coins.amount }}</b>
-        <span>{{ num.viewDenom(coins.denom) }}</span>
+        Received <b>{{ txAmount | toAtoms | shortDecimals }}</b>
+        <span>{{ txDenom | viewDenom }}</span>
       </div>
       <span slot="details">
-        From &nbsp;
-        <ShortBech32 :address="sender" />
+        From &nbsp; <ShortBech32 :address="sender" />
       </span>
-      <div slot="fees">
-        Network Fee:&nbsp;<b>{{ convertedFees ? convertedFees.amount : 0 }}</b>
-        <span>
-          {{
-            convertedFees
-              ? num.viewDenom(convertedFees.denom)
-              : num.viewDenom(bondingDenom)
-          }}
-        </span>
-      </div>
     </template>
   </LiTransaction>
 </template>
@@ -76,13 +47,22 @@
 <script>
 import ShortBech32 from "common/ShortBech32"
 import LiTransaction from "./LiTransaction"
-import num from "../../scripts/num.js"
+import {
+  atoms as toAtoms,
+  viewDenom,
+  shortDecimals
+} from "../../scripts/num.js"
 
 export default {
   name: `li-bank-transaction`,
   components: {
     ShortBech32,
     LiTransaction
+  },
+  filters: {
+    toAtoms,
+    viewDenom,
+    shortDecimals
   },
   props: {
     tx: {
@@ -91,7 +71,7 @@ export default {
     },
     fees: {
       type: Object,
-      default: null
+      required: true
     },
     address: {
       type: String,
@@ -114,9 +94,6 @@ export default {
       default: null
     }
   },
-  data: () => ({
-    num
-  }),
   computed: {
     // TODO: sum relevant inputs/outputs
     sentSelf() {
@@ -128,14 +105,14 @@ export default {
     sender() {
       return this.tx.from_address
     },
-    coins() {
-      return this.tx.amount.map(num.createDisplayCoin)[0]
-    },
-    convertedFees() {
-      return this.fees ? num.createDisplayCoin(this.fees) : undefined
-    },
     receiver() {
       return this.tx.to_address
+    },
+    txAmount() {
+      return this.tx.amount[0].amount
+    },
+    txDenom() {
+      return this.tx.amount[0].denom
     }
   }
 }

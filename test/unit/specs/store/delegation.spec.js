@@ -22,44 +22,12 @@ describe(`Module: Delegations`, () => {
     mutations = instance.mutations
   })
 
-  it(`adds delegate to cart`, () => {
-    mutations.addToCart(state, { id: `foo`, x: 1 })
-    expect(state.delegates[0]).toEqual({
-      id: `foo`,
-      delegate: { id: `foo`, x: 1 },
-      atoms: 0
-    })
-    expect(state.delegates.length).toBe(1)
-  })
-
-  it(`does not add delegate to cart if already exists`, () => {
-    mutations.addToCart(state, { id: `foo` })
-    mutations.addToCart(state, { id: `foo`, x: 1 })
-    expect(state.delegates[0].id).toBe(`foo`)
-    expect(state.delegates[0].x).toBe(undefined)
-    expect(state.delegates.length).toBe(1)
-  })
-
-  it(`removes delegate from cart`, () => {
-    mutations.addToCart(state, { id: `foo` })
-    mutations.addToCart(state, { id: `bar` })
-    mutations.removeFromCart(state, `foo`)
-    expect(state.delegates[0]).toEqual({
-      id: `bar`,
-      delegate: { id: `bar` },
-      atoms: 0
-    })
-    expect(state.delegates.length).toBe(1)
-  })
-
   it(`sets committed atoms for delegate`, () => {
-    mutations.addToCart(state, { id: `foo` })
     mutations.setCommittedDelegation(state, { candidateId: `foo`, value: 123 })
     expect(state.committedDelegates).toEqual({ foo: 123 })
   })
 
   it(`sets committed atoms for delegate to 0`, () => {
-    mutations.addToCart(state, { id: `foo` })
     mutations.setCommittedDelegation(state, { candidateId: `foo`, value: 123 })
     mutations.setCommittedDelegation(state, { candidateId: `foo`, value: 0 })
     expect(state.committedDelegates).toEqual({})
@@ -117,10 +85,6 @@ describe(`Module: Delegations`, () => {
         candidateId: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw`,
         value: 14
       })
-      expect(commit).toHaveBeenCalledWith(
-        `addToCart`,
-        lcdClientMock.state.candidates[0]
-      )
     })
 
     it(`fetches current undelegations`, async () => {

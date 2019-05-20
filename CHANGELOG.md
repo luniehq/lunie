@@ -7,6 +7,50 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [1.0.0-beta.74] - 2019-05-20
+
+### Fixed
+
+- [#2627](https://github.com/cosmos/lunie/issues/2627) Fix fee submission in cosmos-js @faboweb
+
+## [1.0.0-beta.73] - 2019-05-19
+
+### Fixed
+
+- [#2630](https://github.com/cosmos/lunie/pull/2630) Fix undelegation message formats being outdated @faboweb
+
+## [1.0.0-beta.72] - 2019-05-19
+
+### Fixed
+
+- [#2628](https://github.com/cosmos/lunie/pull/2628) Fix issue with productive bundling in downstream cosmos-js library @faboweb
+
+## [1.0.0-beta.71] - 2019-05-18
+
+### Fixed
+
+- [#2624](https://github.com/cosmos/lunie/pull/2624) Fix keybase cache creation @faboweb
+- [#2617](https://github.com/cosmos/lunie/pull/2617) Add white-space: normal to circle—default class @migueog
+
+## [1.0.0-beta.70] - 2019-05-18
+
+### Added
+
+- [#2382](https://github.com/cosmos/lunie/pull/2382) Compatibility with Ledger Cosmos App 1.5 @faboweb
+- [#1962 ](https://github.com/cosmos/lunie/issues/1962 ) Enforce approval of address for Ledger sign in @faboweb
+- [#2560](https://github.com/cosmos/lunie/issues/2560) Added careers page @jbibla
+
+### Changed
+
+- [#2568](https://github.com/cosmos/lunie/pull/2568) Show amount of source stake available to delegate or redelgate @colw
+
+### Fixed
+
+- [#2614](https://github.com/cosmos/lunie/pull/2614) Dispaly correct atom value for banking transactions @colw
+- [#2568](https://github.com/cosmos/lunie/pull/2568) Do not add stake to total when redelegating @colw
+- [#2621](https://github.com/cosmos/lunie/pull/2621) Bring back withdraw button on european browsers @faboweb
+- [#2570](https://github.com/cosmos/lunie/pull/2570) Load validators when linking to a validator directly @faboweb
+
 ## [1.0.0-beta.69] - 2019-05-17
 
 ### Added
