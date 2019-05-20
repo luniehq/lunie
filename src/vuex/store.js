@@ -130,7 +130,7 @@ export function getStorageKey(state) {
  * @param state
  * @param commit
  */
-export async function loadPersistedState({ state, commit, dispatch }) {
+export async function loadPersistedState({ state, dispatch }) {
   if (!state.connection.lastHeader || !state.connection.lastHeader.chain_id) {
     await new Promise(resolve => setTimeout(resolve, 500))
     dispatch(`loadPersistedState`)
@@ -185,12 +185,5 @@ export async function loadPersistedState({ state, commit, dispatch }) {
       }
     })
     this.replaceState(state)
-
-    // add all delegates the user has bond with already to the cart
-    state.delegates.delegates
-      .filter(d => state.delegation.committedDelegates[d.operator_address])
-      .forEach(d => {
-        commit(`addToCart`, d)
-      })
   }
 }

@@ -8,7 +8,6 @@ export default ({ node }) => {
     error: null,
 
     // our delegations, maybe not yet committed
-    delegates: [],
     lastDelegatesUpdate: 0,
 
     // our delegations which are already on the blockchain
@@ -18,21 +17,6 @@ export default ({ node }) => {
   const state = JSON.parse(JSON.stringify(emptyState))
 
   const mutations = {
-    addToCart(state, delegate) {
-      // don't add to cart if already in cart
-      for (const existingDelegate of state.delegates) {
-        if (delegate.id === existingDelegate.id) return
-      }
-
-      state.delegates.push({
-        id: delegate.id,
-        delegate: Object.assign({}, delegate),
-        atoms: 0
-      })
-    },
-    removeFromCart(state, delegate) {
-      state.delegates = state.delegates.filter(c => c.id !== delegate)
-    },
     setCommittedDelegation(state, { candidateId, value }) {
       Vue.set(state.committedDelegates, candidateId, value)
       if (value === 0) {
@@ -97,12 +81,6 @@ export default ({ node }) => {
               candidateId: validator_address,
               value: parseFloat(shares)
             })
-            if (shares > 0) {
-              const delegate = candidates.find(
-                ({ operator_address }) => operator_address === validator_address // this should change to address instead of operator_address
-              )
-              commit(`addToCart`, delegate)
-            }
           })
         }
         // delete delegations not present anymore
