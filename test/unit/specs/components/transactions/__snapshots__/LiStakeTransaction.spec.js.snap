@@ -4,6 +4,7 @@ exports[`LiStakeTransaction create validator with fees 1`] = `
 <litransaction-stub
   block="500"
   color="#47AB6C"
+  fees="[object Object]"
   memo="TESTING (Sent via Lunie)"
   time="1970-01-01T00:00:42.000Z"
 >
@@ -31,20 +32,6 @@ exports[`LiStakeTransaction create validator with fees 1`] = `
         cosmosvaloper1qecshyc40kshszkwrtscgmsdd8tz3n4hrj9yf2
       
     </router-link-stub>
-  </div>
-   
-  <div>
-    
-      Network Fee: 
-    <b>
-      0.003
-    </b>
-     
-    <span>
-      
-        ATOM
-      
-    </span>
   </div>
 </litransaction-stub>
 `;
@@ -81,20 +68,6 @@ exports[`LiStakeTransaction create validator without fees 1`] = `
       
     </router-link-stub>
   </div>
-   
-  <div>
-    
-      Network Fee: 
-    <b>
-      0
-    </b>
-     
-    <span>
-      
-        ATOM
-      
-    </span>
-  </div>
 </litransaction-stub>
 `;
 
@@ -102,6 +75,7 @@ exports[`LiStakeTransaction delegations with fees 1`] = `
 <litransaction-stub
   block="500"
   color="#47AB6C"
+  fees="[object Object]"
   memo="TESTING (Sent via Lunie)"
   time="1970-01-01T00:00:42.000Z"
 >
@@ -129,20 +103,6 @@ exports[`LiStakeTransaction delegations with fees 1`] = `
         mr_mounty
       
     </router-link-stub>
-  </div>
-   
-  <div>
-    
-      Network Fee: 
-    <b>
-      0.003
-    </b>
-     
-    <span>
-      
-        ATOM
-      
-    </span>
   </div>
 </litransaction-stub>
 `;
@@ -179,20 +139,6 @@ exports[`LiStakeTransaction delegations without fees 1`] = `
       
     </router-link-stub>
   </div>
-   
-  <div>
-    
-      Network Fee: 
-    <b>
-      0
-    </b>
-     
-    <span>
-      
-        ATOM
-      
-    </span>
-  </div>
 </litransaction-stub>
 `;
 
@@ -200,6 +146,7 @@ exports[`LiStakeTransaction edit validator with fees 1`] = `
 <litransaction-stub
   block="500"
   color="#47AB6C"
+  fees="[object Object]"
   memo="TESTING (Sent via Lunie)"
   time="1970-01-01T00:00:42.000Z"
 >
@@ -220,20 +167,6 @@ exports[`LiStakeTransaction edit validator with fees 1`] = `
         cosmosvaloper1qecshyc40kshszkwrtscgmsdd8tz3n4hrj9yf2
       
     </router-link-stub>
-  </div>
-   
-  <div>
-    
-      Network Fee: 
-    <b>
-      0.003
-    </b>
-     
-    <span>
-      
-        ATOM
-      
-    </span>
   </div>
 </litransaction-stub>
 `;
@@ -263,20 +196,6 @@ exports[`LiStakeTransaction edit validator without fees 1`] = `
       
     </router-link-stub>
   </div>
-   
-  <div>
-    
-      Network Fee: 
-    <b>
-      0
-    </b>
-     
-    <span>
-      
-        ATOM
-      
-    </span>
-  </div>
 </litransaction-stub>
 `;
 
@@ -284,6 +203,7 @@ exports[`LiStakeTransaction redelegations with fees 1`] = `
 <litransaction-stub
   block="500"
   color="#47AB6C"
+  fees="[object Object]"
   memo="TESTING (Sent via Lunie)"
   time="1970-01-01T00:00:42.000Z"
 >
@@ -323,20 +243,6 @@ exports[`LiStakeTransaction redelegations with fees 1`] = `
         good_greg
       
     </router-link-stub>
-  </div>
-   
-  <div>
-    
-      Network Fee: 
-    <b>
-      0.003
-    </b>
-     
-    <span>
-      
-        ATOM
-      
-    </span>
   </div>
 </litransaction-stub>
 `;
@@ -345,6 +251,7 @@ exports[`LiStakeTransaction redelegations without fees 1`] = `
 <litransaction-stub
   block="500"
   color="#47AB6C"
+  fees="[object Object]"
   memo="TESTING (Sent via Lunie)"
   time="1970-01-01T00:00:42.000Z"
 >
@@ -385,20 +292,6 @@ exports[`LiStakeTransaction redelegations without fees 1`] = `
       
     </router-link-stub>
   </div>
-   
-  <div>
-    
-      Network Fee: 
-    <b>
-      0
-    </b>
-     
-    <span>
-      
-        ATOM
-      
-    </span>
-  </div>
 </litransaction-stub>
 `;
 
@@ -406,6 +299,7 @@ exports[`LiStakeTransaction unbonding delegations should default to ended if no 
 <litransaction-stub
   block="500"
   color="#47AB6C"
+  fees="[object Object]"
   memo="TESTING (Sent via Lunie)"
   time="1970-01-01T00:00:42.000Z"
 >
@@ -437,20 +331,6 @@ exports[`LiStakeTransaction unbonding delegations should default to ended if no 
         mr_mounty
       
     </router-link-stub>
-  </div>
-   
-  <div>
-    
-      Network Fee: 
-    <b>
-      0.003
-    </b>
-     
-    <span>
-      
-        ATOM
-      
-    </span>
   </div>
 </litransaction-stub>
 `;
@@ -459,6 +339,7 @@ exports[`LiStakeTransaction unbonding delegations should show unbonding delegati
 <litransaction-stub
   block="500"
   color="#47AB6C"
+  fees="[object Object]"
   memo="TESTING (Sent via Lunie)"
   time="1970-01-01T00:00:42.000Z"
 >
@@ -491,20 +372,6 @@ exports[`LiStakeTransaction unbonding delegations should show unbonding delegati
       
     </router-link-stub>
   </div>
-   
-  <div>
-    
-      Network Fee: 
-    <b>
-      0.003
-    </b>
-     
-    <span>
-      
-        ATOM
-      
-    </span>
-  </div>
 </litransaction-stub>
 `;
 
@@ -512,6 +379,7 @@ exports[`LiStakeTransaction unbonding delegations with fees 1`] = `
 <litransaction-stub
   block="500"
   color="#47AB6C"
+  fees="[object Object]"
   memo="TESTING (Sent via Lunie)"
   time="1970-01-01T00:00:42.000Z"
 >
@@ -550,20 +418,6 @@ exports[`LiStakeTransaction unbonding delegations with fees 1`] = `
       
     </router-link-stub>
   </div>
-   
-  <div>
-    
-      Network Fee: 
-    <b>
-      0.003
-    </b>
-     
-    <span>
-      
-        ATOM
-      
-    </span>
-  </div>
 </litransaction-stub>
 `;
 
@@ -571,6 +425,7 @@ exports[`LiStakeTransaction unbonding delegations without fees 1`] = `
 <litransaction-stub
   block="500"
   color="#47AB6C"
+  fees="[object Object]"
   memo="TESTING (Sent via Lunie)"
   time="1970-01-01T00:00:42.000Z"
 >
@@ -603,20 +458,6 @@ exports[`LiStakeTransaction unbonding delegations without fees 1`] = `
       
     </router-link-stub>
   </div>
-   
-  <div>
-    
-      Network Fee: 
-    <b>
-      0
-    </b>
-     
-    <span>
-      
-        ATOM
-      
-    </span>
-  </div>
 </litransaction-stub>
 `;
 
@@ -624,6 +465,7 @@ exports[`LiStakeTransaction unjail with fees 1`] = `
 <litransaction-stub
   block="500"
   color="#47AB6C"
+  fees="[object Object]"
   memo="TESTING (Sent via Lunie)"
   time="1970-01-01T00:00:42.000Z"
 >
@@ -644,20 +486,6 @@ exports[`LiStakeTransaction unjail with fees 1`] = `
         cosmosvaloper1qecshyc40kshszkwrtscgmsdd8tz3n4hrj9yf2
       
     </router-link-stub>
-  </div>
-   
-  <div>
-    
-      Network Fee: 
-    <b>
-      0.003
-    </b>
-     
-    <span>
-      
-        ATOM
-      
-    </span>
   </div>
 </litransaction-stub>
 `;
@@ -686,20 +514,6 @@ exports[`LiStakeTransaction unjail without fees 1`] = `
         cosmosvaloper1qecshyc40kshszkwrtscgmsdd8tz3n4hrj9yf2
       
     </router-link-stub>
-  </div>
-   
-  <div>
-    
-      Network Fee: 
-    <b>
-      0
-    </b>
-     
-    <span>
-      
-        ATOM
-      
-    </span>
   </div>
 </litransaction-stub>
 `;

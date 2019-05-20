@@ -14,7 +14,7 @@ export async function lookupId(state, keybaseId) {
 async function query(state, url, keybaseId) {
   try {
     const res = await state.externals.axios(url)
-    getKeybaseProfileFromResponse(keybaseId, res)
+    return getKeybaseProfileFromResponse(keybaseId, res)
   } catch (error) {
     return {
       keybaseId

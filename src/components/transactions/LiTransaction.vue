@@ -19,7 +19,10 @@
         </div>
       </div>
       <div class="li-tx__content__right">
-        <slot name="fees" />
+        <div>
+          Network Fee:&nbsp;<b>{{ fees.amount | toAtoms | shortDecimals }}</b>
+          <span>{{ fees.denom | viewDenom }}</span>
+        </div>
         <div class="li-tx__content__block">
           <router-link :to="{ name: `block`, params: { height: block } }">
             Block #{{ block }}&nbsp; </router-link
@@ -32,9 +35,19 @@
 
 <script>
 import moment from "moment"
+import {
+  atoms as toAtoms,
+  viewDenom,
+  shortDecimals
+} from "../../scripts/num.js"
 
 export default {
   name: `li-transaction`,
+  filters: {
+    toAtoms,
+    viewDenom,
+    shortDecimals
+  },
   props: {
     color: {
       type: String,
@@ -51,6 +64,10 @@ export default {
     memo: {
       type: String,
       default: null
+    },
+    fees: {
+      type: Object,
+      required: true
     }
   },
   computed: {

@@ -89,17 +89,6 @@ describe(`Store`, () => {
     expect(replaceState).toHaveBeenCalled()
   })
 
-  it(`should restore delegates and put committed ones in the cart`, async () => {
-    localStorage.setItem(`store_test-net_xxx`, JSON.stringify(mockState))
-
-    const commit = jest.fn()
-    loadPersistedState.call(
-      { replaceState: jest.fn() },
-      { state: mockState, commit }
-    )
-    expect(commit).toHaveBeenCalledTimes(1)
-  })
-
   it(`should throttle updating the store cache`, async () => {
     jest.useFakeTimers()
 

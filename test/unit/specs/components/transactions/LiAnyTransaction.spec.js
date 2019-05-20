@@ -61,4 +61,45 @@ describe(`LiAnyTransaction`, () => {
     })
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
+
+  it(`returns default fee object when no fee present`, () => {
+    const propsNoFee = {
+      bondingDenom: "atom",
+      transaction: {
+        tx: {
+          value: {
+            fee: undefined
+          }
+        }
+      }
+    }
+    expect(LiAnyTransaction.computed.fees.call(propsNoFee)).toEqual({
+      amount: "0",
+      denom: "atom"
+    })
+  })
+
+  it(`returns correct fee object`, () => {
+    const propswithFee = {
+      bondingDenom: "othertype",
+      transaction: {
+        tx: {
+          value: {
+            fee: {
+              amount: [
+                {
+                  amount: "123",
+                  denom: "atom"
+                }
+              ]
+            }
+          }
+        }
+      }
+    }
+    expect(LiAnyTransaction.computed.fees.call(propswithFee)).toEqual({
+      amount: "123",
+      denom: "atom"
+    })
+  })
 })
