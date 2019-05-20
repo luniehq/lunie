@@ -66,8 +66,7 @@
       </router-link>
       <a
         v-if="session.signedIn"
-        id="signOut-btn"
-        class="app-menu-item"
+        class="app-menu-item sign-out-btn"
         @click="signOut()"
       >
         <h2 class="app-menu-title">
@@ -198,7 +197,7 @@ export default {
     width: var(--width-side);
   }
 
-  .app-menu #signOut-btn {
+  .app-menu .sign-out-btn {
     display: none;
   }
 }

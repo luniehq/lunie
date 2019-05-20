@@ -17,8 +17,10 @@ module.exports.enableGoogleAnalytics = function enableGoogleAnalytics(gaUID) {
 }
 
 module.exports.anonymize = function anonymize(anonymize = true) {
-  ga(`set`, `allowAdFeatures`, !anonymize)
-  ga(`set`, `anonymizeIp`, anonymize)
+  if (window.ga) {
+    ga(`set`, `allowAdFeatures`, !anonymize)
+    ga(`set`, `anonymizeIp`, anonymize)
+  }
 }
 
 module.exports.deanonymize = function deanonymize() {

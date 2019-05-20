@@ -6,7 +6,7 @@ export const setProposalTally = (commit, node) => async proposal => {
   commit(`setProposal`, proposal)
   const final_tally_result =
     proposal.proposal_status === `VotingPeriod`
-      ? await node.getProposalTally(proposal.proposal_id)
+      ? await node.get.proposalTally(proposal.proposal_id)
       : { ...proposal.final_tally_result }
   commit(`setProposalTally`, {
     proposal_id: proposal.proposal_id,
@@ -45,7 +45,7 @@ export default ({ node }) => {
       if (!rootState.connection.connected) return
 
       try {
-        const proposals = await node.getProposals()
+        const proposals = await node.get.proposals()
         if (proposals.length > 0) {
           await Promise.all(proposals.map(setProposalTally(commit, node)))
         }
@@ -61,7 +61,7 @@ export default ({ node }) => {
     async getProposal({ state, commit }, proposal_id) {
       state.loading = true
       try {
-        const proposal = await node.getProposal(proposal_id)
+        const proposal = await node.get.proposal(proposal_id)
         setProposalTally(commit, node)(proposal)
         state.error = null
         state.loaded = true
@@ -74,23 +74,17 @@ export default ({ node }) => {
       return undefined
     },
     async simulateProposal(
-      {
-        rootState: { wallet },
-        dispatch
-      },
+      { dispatch },
       { title, description, type, initial_deposit }
     ) {
       return await dispatch(`simulateTx`, {
-        type: `postProposal`,
-        proposer: wallet.address,
-        proposal_type: type,
-        proposal_content: {
-          value: {
-            title,
-            description
-          }
-        },
-        initial_deposit
+        type: `MsgSubmitProposal`,
+        txArguments: {
+          proposalType: type,
+          title,
+          description,
+          initialDeposits: initial_deposit
+        }
       })
     },
     async submitProposal(
@@ -112,16 +106,13 @@ export default ({ node }) => {
       }
     ) {
       await dispatch(`sendTx`, {
-        type: `postProposal`,
-        proposer: wallet.address,
-        proposal_type: type,
-        proposal_content: {
-          value: {
-            title,
-            description
-          }
+        type: `MsgSubmitProposal`,
+        txArguments: {
+          proposalType: type,
+          title,
+          description,
+          initialDeposits: initial_deposit
         },
-        initial_deposit,
         gas,
         gas_prices,
         password,

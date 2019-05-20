@@ -12,12 +12,12 @@ describe(`Module: Fee Distribution`, () => {
     community_tax: `15`
   }
   const node = {
-    getDelegatorRewards: jest.fn(async () => coinArray),
-    postWithdrawDelegatorRewards: jest.fn(),
-    getDelegatorRewardsFromValidator: jest.fn(async () => coinArray),
-    postWithdrawDelegatorRewardsFromValidator: jest.fn(),
-    getDistributionParameters: jest.fn(async () => parameters),
-    getDistributionOutstandingRewards: jest.fn(async () => coinArray)
+    get: {
+      delegatorRewards: jest.fn(async () => coinArray),
+      delegatorRewardsFromValidator: jest.fn(async () => coinArray),
+      distributionParameters: jest.fn(async () => parameters),
+      distributionOutstandingRewards: jest.fn(async () => coinArray)
+    }
   }
   const rewards = {
     stake: 100,
@@ -108,23 +108,23 @@ describe(`Module: Fee Distribution`, () => {
 
     describe(`getTotalRewards`, () => {
       beforeEach(() => {
-        node.getDelegatorRewards.mockClear()
+        node.get.delegatorRewards.mockClear()
       })
 
       it(`success`, async () => {
         await actions.getTotalRewards({ state, rootState, commit })
-        expect(node.getDelegatorRewards).toHaveBeenCalledWith(
+        expect(node.get.delegatorRewards).toHaveBeenCalledWith(
           rootState.session.address
         )
         expect(commit).toHaveBeenCalledWith(`setTotalRewards`, rewards)
       })
 
       it(`fails`, async () => {
-        node.getDelegatorRewards = jest.fn(async () =>
+        node.get.delegatorRewards = jest.fn(async () =>
           Promise.reject(Error(`invalid address`))
         )
         await actions.getTotalRewards({ state, rootState, commit })
-        expect(node.getDelegatorRewards).toHaveBeenCalledWith("cosmos1address")
+        expect(node.get.delegatorRewards).toHaveBeenCalledWith("cosmos1address")
         expect(commit).not.toHaveBeenCalledWith(`setTotalRewards`, rewards)
         expect(commit).toHaveBeenCalledWith(
           `setDistributionError`,
@@ -135,7 +135,7 @@ describe(`Module: Fee Distribution`, () => {
       it(`ignores calls if no address is present`, async () => {
         rootState = { session: { address: null } }
         await actions.getTotalRewards({ state, rootState, commit })
-        expect(node.getDelegatorRewards).not.toHaveBeenCalled()
+        expect(node.get.delegatorRewards).not.toHaveBeenCalled()
       })
     })
 
@@ -149,20 +149,34 @@ describe(`Module: Fee Distribution`, () => {
         const res = await actions.simulateWithdrawAllRewards(self)
 
         expect(self.dispatch).toHaveBeenCalledWith(`simulateTx`, {
-          type: `postWithdrawDelegatorRewards`,
-          to: `cosmos1address`
+          type: `MsgWithdrawDelegationReward`,
+          txArguments: {
+            toAddress: `cosmos1address`,
+            validatorAddresses: []
+          }
         })
         expect(res).toBe(123123)
       })
 
       it(`success withdrawal`, async () => {
         await actions.withdrawAllRewards(
-          { rootState, dispatch },
+          {
+            rootState,
+            dispatch,
+            getters: {
+              committedDelegations: {
+                coolval1: {}
+              }
+            }
+          },
           { password: ``, submitType: `ledger` }
         )
         expect(dispatch).toHaveBeenCalledWith(`sendTx`, {
-          to: `cosmos1address`,
-          type: `postWithdrawDelegatorRewards`,
+          type: `MsgWithdrawDelegationReward`,
+          txArguments: {
+            toAddress: `cosmos1address`,
+            validatorAddresses: [`coolval1`]
+          },
           password: ``,
           submitType: `ledger`
         })
@@ -239,7 +253,7 @@ describe(`Module: Fee Distribution`, () => {
           { state, rootState, commit },
           validatorAddr
         )
-        expect(node.getDelegatorRewardsFromValidator).toHaveBeenCalledWith(
+        expect(node.get.delegatorRewardsFromValidator).toHaveBeenCalledWith(
           rootState.session.address,
           validatorAddr
         )
@@ -251,14 +265,14 @@ describe(`Module: Fee Distribution`, () => {
 
       it(`fails`, async () => {
         const validatorAddr = null
-        node.getDelegatorRewardsFromValidator = jest.fn(async () =>
+        node.get.delegatorRewardsFromValidator = jest.fn(async () =>
           Promise.reject(Error(`invalid validator address`))
         )
         await actions.getRewardsFromValidator(
           { state, rootState, commit },
           validatorAddr
         )
-        expect(node.getDelegatorRewardsFromValidator).toHaveBeenCalledWith(
+        expect(node.get.delegatorRewardsFromValidator).toHaveBeenCalledWith(
           rootState.session.address,
           null
         )
@@ -276,7 +290,7 @@ describe(`Module: Fee Distribution`, () => {
     describe(`getDistributionParameters`, () => {
       it(`success`, async () => {
         await actions.getDistributionParameters({ state, rootState, commit })
-        expect(node.getDistributionParameters).toHaveBeenCalled()
+        expect(node.get.distributionParameters).toHaveBeenCalled()
         expect(commit).toHaveBeenCalledWith(
           `setDistributionParameters`,
           parameters
@@ -284,11 +298,11 @@ describe(`Module: Fee Distribution`, () => {
       })
 
       it(`fails`, async () => {
-        node.getDistributionParameters = jest.fn(async () =>
+        node.get.distributionParameters = jest.fn(async () =>
           Promise.reject(Error(`unexpected error`))
         )
         await actions.getDistributionParameters({ state, rootState, commit })
-        expect(node.getDistributionParameters).toHaveBeenCalled()
+        expect(node.get.distributionParameters).toHaveBeenCalled()
         expect(commit).not.toHaveBeenCalledWith(
           `setDistributionParameters`,
           parameters
@@ -303,16 +317,16 @@ describe(`Module: Fee Distribution`, () => {
     describe(`getOutstandingRewards`, () => {
       it(`success`, async () => {
         await actions.getOutstandingRewards({ state, rootState, commit })
-        expect(node.getDistributionOutstandingRewards).toHaveBeenCalled()
+        expect(node.get.distributionOutstandingRewards).toHaveBeenCalled()
         expect(commit).toHaveBeenCalledWith(`setOutstandingRewards`, rewards)
       })
 
       it(`fails`, async () => {
-        node.getDistributionOutstandingRewards = jest.fn(async () =>
+        node.get.distributionOutstandingRewards = jest.fn(async () =>
           Promise.reject(Error(`unexpected error`))
         )
         await actions.getOutstandingRewards({ state, rootState, commit })
-        expect(node.getDistributionOutstandingRewards).toHaveBeenCalled()
+        expect(node.get.distributionOutstandingRewards).toHaveBeenCalled()
         expect(commit).not.toHaveBeenCalledWith(
           `setOutstandingRewards`,
           rewards

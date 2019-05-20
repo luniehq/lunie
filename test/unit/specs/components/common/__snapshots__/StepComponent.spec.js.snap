@@ -1,82 +1,54 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`TmBtn has the expected html structure 1`] = `
+exports[`Steps shows steps 1`] = `
 <div
-  class="stepItem"
-  value="button"
+  class="step--container"
 >
   <div
-    class="circle--container"
+    class="stepItem"
   >
     <div
-      class="circle--default active"
+      class="circle--container"
     >
-      
-      
+      <div
+        class="circle--default active includeLine"
+      >
+        
+      0
     
+      </div>
+       
+      <p
+        class="text--default textActive"
+      >
+        
+      first
+    
+      </p>
     </div>
-     
-    <p
-      class="text--default textActive"
-    >
-      
-      
-    
-    </p>
   </div>
-</div>
-`;
-
-exports[`TmBtn returns active class 1`] = `
-<div
-  class="stepItem"
-  value="button"
->
   <div
-    class="circle--container"
+    class="stepItem"
   >
     <div
-      class="circle--default active"
+      class="circle--container"
     >
-      
-      
+      <div
+        class="circle--default"
+      >
+        
+      1
     
+      </div>
+       
+      <p
+        class="text--default"
+      >
+        
+      second
+    
+      </p>
     </div>
-     
-    <p
-      class="text--default textActive"
-    >
-      
-      
-    
-    </p>
-  </div>
-</div>
-`;
-
-exports[`TmBtn returns textActive class 1`] = `
-<div
-  class="stepItem"
-  value="button"
->
-  <div
-    class="circle--container"
-  >
-    <div
-      class="circle--default active"
-    >
-      
-      
-    
-    </div>
-     
-    <p
-      class="text--default textActive"
-    >
-      
-      
-    
-    </p>
   </div>
 </div>
 `;

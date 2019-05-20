@@ -19,8 +19,6 @@ describe(`ActionModal`, () => {
         session: {
           signedIn: true,
           sessionType: `local`,
-          gasPrice: 2.5e-8,
-          gasAdjustment: 1.5,
           browserWithLedgerSupport: null
         },
         bondDenom: `uatom`,
@@ -57,12 +55,9 @@ describe(`ActionModal`, () => {
     const $store = { dispatch: jest.fn() }
     const self = {
       $store,
-      ledger: {
-        cosmosApp: {},
-        isConnected: true
-      },
       submitFn,
-      submissionErrorPrefix: `PREFIX`
+      submissionErrorPrefix: `PREFIX`,
+      connectLedger: () => {}
     }
     await ActionModal.methods.submit.call(self)
 
@@ -78,12 +73,9 @@ describe(`ActionModal`, () => {
     const $store = { dispatch: jest.fn() }
     const self = {
       $store,
-      ledger: {
-        cosmosApp: {},
-        isConnected: true
-      },
       submitFn,
-      submissionErrorPrefix: `PREFIX`
+      submissionErrorPrefix: `PREFIX`,
+      connectLedger: () => {}
     }
     await ActionModal.methods.submit.call(self)
 
@@ -206,7 +198,7 @@ describe(`ActionModal`, () => {
     it(`should set the step to transaction details`, () => {
       wrapper.vm.step = `sign`
       wrapper.vm.close()
-      expect(wrapper.vm.step).toBe(`txDetails`)
+      expect(wrapper.vm.step).toBe(`details`)
     })
 
     it(`should close on escape key press`, () => {
@@ -296,7 +288,7 @@ describe(`ActionModal`, () => {
   describe(`simulate`, () => {
     it(`should simulate transaction to get estimated gas`, async () => {
       const self = {
-        step: `txDetails`,
+        step: `details`,
         gasEstimate: null,
         simulateFn: jest.fn(() => 123456),
         submissionError: null,
@@ -310,7 +302,7 @@ describe(`ActionModal`, () => {
 
     it(`should fail simulation if request fails`, async () => {
       const self = {
-        step: `txDetails`,
+        step: `details`,
         gasEstimate: null,
         simulateFn: jest.fn(() => Promise.reject(Error(`invalid request`))),
         submissionError: null,
@@ -319,7 +311,7 @@ describe(`ActionModal`, () => {
       jest.useFakeTimers()
       await ActionModal.methods.simulate.call(self)
       expect(self.gasEstimate).toBe(null)
-      expect(self.step).toBe(`txDetails`)
+      expect(self.step).toBe(`details`)
       expect(self.submissionError).toBe(`Error: invalid request.`)
 
       jest.runAllTimers()
@@ -339,7 +331,7 @@ describe(`ActionModal`, () => {
         isValidChildForm: true,
         isValidInput: jest.fn(() => true),
         selectedSignMethod: `local`,
-        step: `txDetails`
+        step: `details`
       }
     })
 
@@ -430,7 +422,7 @@ describe(`ActionModal`, () => {
         isValidChildForm: true,
         isValidInput: jest.fn(() => true),
         selectedSignMethod: `local`,
-        step: `txDetails`
+        step: `details`
       }
     })
 

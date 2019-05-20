@@ -69,10 +69,9 @@ export default ({ node }) => {
       if (!rootState.connection.connected) return
 
       try {
-        const res = await node.getAccount(state.address)
+        const res = await node.get.account(state.address)
         state.error = null
-        const { coins, sequence, account_number } = res || {}
-        commit(`setNonce`, sequence)
+        const { coins, account_number } = res || {}
         commit(`setAccountNumber`, account_number)
         commit(`setWalletBalances`, coins || [])
         state.loading = false
@@ -85,34 +84,6 @@ export default ({ node }) => {
         Sentry.captureException(error)
         state.error = error
       }
-    },
-    async simulateSendCoins({ dispatch }, { receiver, amount, denom }) {
-      return await dispatch(`simulateTx`, {
-        type: `send`,
-        to: receiver,
-        amount: [{ denom, amount: String(amount) }]
-      })
-    },
-    async sendCoins(
-      { dispatch, commit, state },
-      { receiver, amount, denom, gas, gas_prices, password, submitType }
-    ) {
-      await dispatch(`sendTx`, {
-        type: `send`,
-        gas,
-        gas_prices,
-        password,
-        submitType,
-        to: receiver,
-        amount: [{ denom, amount: String(amount) }]
-      })
-
-      const oldBalance = state.balances.find(balance => balance.denom === denom)
-      commit(`updateWalletBalance`, {
-        denom,
-        amount: oldBalance.amount - amount
-      })
-      await dispatch(`getAllTxs`)
     },
     queryWalletStateAfterHeight({ rootState, dispatch }, height) {
       return new Promise(resolve => {

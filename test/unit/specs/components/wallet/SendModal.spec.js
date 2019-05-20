@@ -135,9 +135,11 @@ describe(`SendModal`, () => {
       })
 
       expect($store.dispatch).toHaveBeenCalledWith(`simulateTx`, {
-        type: `send`,
-        to: `cosmos1address`,
-        amount: [{ amount: `10000000`, denom: `uatom` }],
+        type: `MsgSend`,
+        txArguments: {
+          toAddress: `cosmos1address`,
+          amounts: [{ amount: `10000000`, denom: `uatom` }]
+        },
         memo: `TESTING (Sent via Lunie)`
       })
       expect(res).toBe(estimate)
@@ -169,9 +171,11 @@ describe(`SendModal`, () => {
       )
 
       expect(sendTx).toHaveBeenCalledWith({
-        type: `send`,
-        to: `cosmos1address`,
-        amount: [{ amount: `10000000`, denom: `uatom` }],
+        type: `MsgSend`,
+        txArguments: {
+          toAddress: `cosmos1address`,
+          amounts: [{ amount: `10000000`, denom: `uatom` }]
+        },
         gas,
         gas_prices,
         submitType: `ledger`,

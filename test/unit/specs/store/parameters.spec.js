@@ -13,7 +13,9 @@ describe(`Module: Staking Parameters`, () => {
 
   beforeEach(() => {
     node = {
-      getStakingParameters: () => Promise.resolve(stakingParameters.parameters)
+      get: {
+        stakingParameters: () => Promise.resolve(stakingParameters.parameters)
+      }
     }
     module = parametersModule({ node })
   })
@@ -45,7 +47,7 @@ describe(`Module: Staking Parameters`, () => {
   })
 
   it(`should store an error if failed to load staking parameters`, async () => {
-    node.getStakingParameters = () => Promise.reject(new Error(`Error`))
+    node.get.stakingParameters = () => Promise.reject(new Error(`Error`))
     const { actions, state } = module
     await actions.getStakingParameters({
       state,

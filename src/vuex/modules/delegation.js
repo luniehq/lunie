@@ -8,7 +8,6 @@ export default ({ node }) => {
     error: null,
 
     // our delegations, maybe not yet committed
-    delegates: [],
     lastDelegatesUpdate: 0,
 
     // our delegations which are already on the blockchain
@@ -18,21 +17,6 @@ export default ({ node }) => {
   const state = JSON.parse(JSON.stringify(emptyState))
 
   const mutations = {
-    addToCart(state, delegate) {
-      // don't add to cart if already in cart
-      for (const existingDelegate of state.delegates) {
-        if (delegate.id === existingDelegate.id) return
-      }
-
-      state.delegates.push({
-        id: delegate.id,
-        delegate: Object.assign({}, delegate),
-        atoms: 0
-      })
-    },
-    removeFromCart(state, delegate) {
-      state.delegates = state.delegates.filter(c => c.id !== delegate)
-    },
     setCommittedDelegation(state, { candidateId, value }) {
       Vue.set(state.committedDelegates, candidateId, value)
       if (value === 0) {
@@ -74,9 +58,9 @@ export default ({ node }) => {
       const address = rootState.session.address
 
       try {
-        const delegations = await node.getDelegations(address)
-        const unbondingDelegations = await node.getUndelegations(address)
-        const redelegations = await node.getRedelegations(address)
+        const delegations = await node.get.delegations(address)
+        const unbondingDelegations = await node.get.undelegations(address)
+        const redelegations = await node.get.redelegations(address)
         const delegator = {
           delegations,
           unbondingDelegations,
@@ -97,12 +81,6 @@ export default ({ node }) => {
               candidateId: validator_address,
               value: parseFloat(shares)
             })
-            if (shares > 0) {
-              const delegate = candidates.find(
-                ({ operator_address }) => operator_address === validator_address // this should change to address instead of operator_address
-              )
-              commit(`addToCart`, delegate)
-            }
           })
         }
         // delete delegations not present anymore
@@ -152,22 +130,19 @@ export default ({ node }) => {
         rootState: { stakingParameters, session },
         dispatch
       },
-      { validator_address, amount, password, submitType }
+      { validator_address, amount }
     ) {
       const denom = stakingParameters.parameters.bond_denom
-      amount = {
-        denom,
-        amount: String(amount)
-      }
 
       return await dispatch(`simulateTx`, {
-        type: `postDelegation`,
-        to: session.address, // TODO strange syntax
-        password,
-        submitType,
-        delegator_address: session.address,
-        validator_address,
-        amount
+        type: `MsgDelegate`,
+        txArguments: {
+          toAddress: session.address,
+          delegator_address: session.address,
+          validator_address,
+          amount,
+          denom
+        }
       })
     },
     async submitDelegation(
@@ -181,33 +156,31 @@ export default ({ node }) => {
       { validator_address, amount, gas, gas_prices, password, submitType }
     ) {
       const denom = stakingParameters.parameters.bond_denom
-      amount = {
-        denom,
-        amount: String(amount)
-      }
 
       await dispatch(`sendTx`, {
-        type: `postDelegation`,
-        to: session.address,
+        type: `MsgDelegate`,
+        txArguments: {
+          toAddress: session.address,
+          delegator_address: session.address,
+          validator_address,
+          amount,
+          denom
+        },
         gas,
         gas_prices,
         password,
-        submitType,
-        delegator_address: session.address,
-        validator_address,
-        amount
+        submitType
       })
 
       // optimistic update the atoms of the user before we get the new values from chain
       commit(`updateWalletBalance`, {
         denom,
-        amount: Number(liquidAtoms) - Number(amount.amount)
+        amount: Number(liquidAtoms) - Number(amount)
       })
       // optimistically update the committed delegations
       commit(`setCommittedDelegation`, {
         candidateId: validator_address,
-        value:
-          state.committedDelegates[validator_address] + Number(amount.amount)
+        value: state.committedDelegates[validator_address] + Number(amount)
       })
 
       await dispatch(`getAllTxs`)
@@ -222,16 +195,15 @@ export default ({ node }) => {
       { validator, amount }
     ) {
       const denom = stakingParameters.parameters.bond_denom
-      amount = {
-        denom,
-        amount: String(amount)
-      }
       return await dispatch(`simulateTx`, {
-        type: `postUnbondingDelegation`,
-        to: session.address,
-        delegator_address: session.address,
-        validator_address: validator.operator_address,
-        amount
+        type: `MsgUndelegate`,
+        txArguments: {
+          toAddress: session.address,
+          delegator_address: session.address,
+          validator_address: validator.operator_address,
+          denom,
+          amount
+        }
       })
     },
     async submitUnbondingDelegation(
@@ -242,16 +214,15 @@ export default ({ node }) => {
       { validator, amount, gas, gas_prices, password, submitType }
     ) {
       const denom = stakingParameters.parameters.bond_denom
-      amount = {
-        denom,
-        amount: String(amount)
-      }
       await dispatch(`sendTx`, {
-        type: `postUnbondingDelegation`,
-        to: session.address,
-        delegator_address: session.address,
-        validator_address: validator.operator_address,
-        amount,
+        type: `MsgUndelegate`,
+        txArguments: {
+          toAddress: session.address,
+          delegator_address: session.address,
+          validator_address: validator.operator_address,
+          amount,
+          denom
+        },
         gas,
         gas_prices,
         password,
@@ -267,17 +238,16 @@ export default ({ node }) => {
       { validatorSrc, validatorDst, amount }
     ) {
       const denom = stakingParameters.parameters.bond_denom
-      amount = {
-        denom,
-        amount: String(amount)
-      }
       return await dispatch(`simulateTx`, {
-        type: `postRedelegation`,
-        to: session.address,
-        delegator_address: session.address,
-        validator_src_address: validatorSrc.operator_address,
-        validator_dst_address: validatorDst.operator_address,
-        amount
+        type: `MsgRedelegate`,
+        txArguments: {
+          toAddress: session.address,
+          delegator_address: session.address,
+          validator_src_address: validatorSrc.operator_address,
+          validator_dst_address: validatorDst.operator_address,
+          amount,
+          denom
+        }
       })
     },
     async submitRedelegation(
@@ -296,18 +266,17 @@ export default ({ node }) => {
       }
     ) {
       const denom = stakingParameters.parameters.bond_denom
-      amount = {
-        denom,
-        amount: String(amount)
-      }
 
       await dispatch(`sendTx`, {
-        type: `postRedelegation`,
-        to: session.address,
-        delegator_address: session.address,
-        validator_src_address: validatorSrc.operator_address,
-        validator_dst_address: validatorDst.operator_address,
-        amount,
+        type: `MsgRedelegate`,
+        txArguments: {
+          toAddress: session.address,
+          delegator_address: session.address,
+          validator_src_address: validatorSrc.operator_address,
+          validator_dst_address: validatorDst.operator_address,
+          amount,
+          denom
+        },
         gas,
         gas_prices,
         password,

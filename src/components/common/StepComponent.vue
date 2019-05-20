@@ -1,11 +1,11 @@
 <template>
   <div class="stepItem">
     <div class="circle--container">
-      <div class="circle--default" :class="isCircleActive">
-        {{ stepNumber }}
+      <div class="circle--default" :class="{ active, includeLine }">
+        {{ number }}
       </div>
-      <p class="text--default" :class="isActive">
-        {{ stepTitle }}
+      <p class="text--default" :class="{ textActive: active }">
+        {{ title }}
       </p>
     </div>
   </div>
@@ -15,25 +15,21 @@
 export default {
   name: "StepComponent",
   props: {
-    stepTitle: String,
-    step: String,
-    stepName: String,
-    stepNumber: String,
+    title: {
+      type: String,
+      required: true
+    },
+    active: {
+      type: Boolean,
+      required: true
+    },
+    number: {
+      type: Number,
+      required: true
+    },
     includeLine: {
       type: Boolean,
       default: true
-    }
-  },
-  computed: {
-    isActive() {
-      return {
-        textActive: this.step === this.stepName
-      }
-    },
-    isCircleActive() {
-      return {
-        active: this.step === this.stepName
-      }
     }
   }
 }
@@ -44,12 +40,15 @@ export default {
   display: flex;
   flex-direction: row;
   justify-content: center;
+  width: 33%;
+  cursor: default;
 }
 
 .circle--container {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  white-space: normal;
 }
 
 .circle--default {
@@ -57,8 +56,9 @@ export default {
   border-radius: 1rem;
   fill: transparent;
   width: 1.2rem;
+  height: 1.2rem;
   margin: 0 auto;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.3rem;
   font-size: var(--xs);
 }
 
@@ -84,6 +84,15 @@ svg {
   height: 1px;
   width: 20px;
   border: solid var(--grey) 1px;
+}
+
+.includeLine::after {
+  display: inline-block;
+  content: "";
+  border-top: 0.15rem solid var(--grey);
+  width: 3.12rem;
+  margin: 0 1.12rem;
+  transform: translateY(-1.15rem);
 }
 
 .textActive {

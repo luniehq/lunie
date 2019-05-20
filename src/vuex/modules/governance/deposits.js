@@ -21,7 +21,7 @@ export default ({ node }) => {
       if (!rootState.connection.connected) return
 
       try {
-        const deposits = await node.getProposalDeposits(proposalId)
+        const deposits = await node.get.proposalDeposits(proposalId)
         state.error = null
         state.loading = false
         state.loaded = true
@@ -31,19 +31,13 @@ export default ({ node }) => {
         state.error = error
       }
     },
-    async simulateDeposit(
-      {
-        rootState: { wallet },
-        dispatch
-      },
-      { proposal_id, amount }
-    ) {
+    async simulateDeposit({ dispatch }, { proposal_id, amount }) {
       return await dispatch(`simulateTx`, {
-        type: `postProposalDeposit`,
-        to: proposal_id,
-        proposal_id,
-        depositor: wallet.address,
-        amount
+        type: `MsgDeposit`,
+        txArguments: {
+          proposalId: proposal_id,
+          amount
+        }
       })
     },
     async submitDeposit(
@@ -55,11 +49,11 @@ export default ({ node }) => {
       { proposal_id, amount, gas, gas_prices, password, submitType }
     ) {
       await dispatch(`sendTx`, {
-        type: `postProposalDeposit`,
-        to: proposal_id,
-        proposal_id,
-        depositor: wallet.address,
-        amount,
+        type: `MsgDeposit`,
+        txArguments: {
+          proposalId: proposal_id,
+          amount
+        },
         gas,
         gas_prices,
         password,
