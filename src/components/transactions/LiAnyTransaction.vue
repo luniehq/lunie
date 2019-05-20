@@ -107,10 +107,16 @@ export default {
   },
   computed: {
     fees() {
-      return (
-        this.transaction.tx.value.fee.amount &&
-        this.transaction.tx.value.fee.amount[0]
-      )
+      if (
+        this.transaction.tx.value.fee &&
+        this.transaction.tx.value.fee.amount
+      ) {
+        return this.transaction.tx.value.fee.amount[0]
+      }
+      return {
+        amount: "0",
+        denom: this.bondingDenom
+      }
     }
   },
   methods: {

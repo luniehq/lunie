@@ -1,5 +1,157 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`LiTransaction should show a network fee 1`] = `
+<div
+  class="li-tx"
+>
+  <div
+    class="li-tx__icon"
+  >
+    <img
+      src="~assets/images/cosmos-logo.png"
+      style="border-color: #ffffff;"
+    />
+  </div>
+   
+  <div
+    class="li-tx__content"
+  >
+    <div
+      class="li-tx__content__left"
+    >
+      <div
+        class="li-tx__content__caption"
+      >
+        <p
+          class="li-tx__content__caption__title"
+        >
+          <span>
+            Some Caption
+          </span>
+        </p>
+      </div>
+       
+      <div
+        class="li-tx__content__information"
+      >
+        <span>
+          Some Details
+        </span>
+         
+        <span>
+            - TESTING (Sent via Lunie) 
+        </span>
+      </div>
+    </div>
+     
+    <div
+      class="li-tx__content__right"
+    >
+      <div>
+        
+        Network Fee: 
+        <b>
+          0.003
+        </b>
+         
+        <span>
+          ATOM
+        </span>
+      </div>
+       
+      <div
+        class="li-tx__content__block"
+      >
+        <router-link-stub
+          to="[object Object]"
+        >
+          
+          Block #500  
+        </router-link-stub>
+        @ 00:00:42
+      
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`LiTransaction should show a network fee of 0 1`] = `
+<div
+  class="li-tx"
+>
+  <div
+    class="li-tx__icon"
+  >
+    <img
+      src="~assets/images/cosmos-logo.png"
+      style="border-color: #ffffff;"
+    />
+  </div>
+   
+  <div
+    class="li-tx__content"
+  >
+    <div
+      class="li-tx__content__left"
+    >
+      <div
+        class="li-tx__content__caption"
+      >
+        <p
+          class="li-tx__content__caption__title"
+        >
+          <span>
+            Some Caption
+          </span>
+        </p>
+      </div>
+       
+      <div
+        class="li-tx__content__information"
+      >
+        <span>
+          Some Details
+        </span>
+         
+        <span>
+            - TESTING (Sent via Lunie) 
+        </span>
+      </div>
+    </div>
+     
+    <div
+      class="li-tx__content__right"
+    >
+      <div>
+        
+        Network Fee: 
+        <b>
+          0
+        </b>
+         
+        <span>
+          ATOM
+        </span>
+      </div>
+       
+      <div
+        class="li-tx__content__block"
+      >
+        <router-link-stub
+          to="[object Object]"
+        >
+          
+          Block #500  
+        </router-link-stub>
+        @ 00:00:42
+      
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
 exports[`LiTransaction should show a transaction item 1`] = `
 <div
   class="li-tx"
@@ -47,6 +199,17 @@ exports[`LiTransaction should show a transaction item 1`] = `
     <div
       class="li-tx__content__right"
     >
+      <div>
+        
+        Network Fee: 
+        <b>
+          0.003
+        </b>
+         
+        <span>
+          ATOM
+        </span>
+      </div>
        
       <div
         class="li-tx__content__block"
