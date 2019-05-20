@@ -1,7 +1,24 @@
+const axios = require("axios")
+
+const HOST = "localhost"
+
 module.exports = {
   // controls the timeout time for async hooks. Expects the done() callback to be invoked within this time
   // or an error is thrown
   asyncHookTimeout: 30000,
+
+  async before() {
+    let apiUp = false
+    while (!apiUp) {
+      try {
+        await axios(`http://${HOST}:9070/node_version`)
+        apiUp = true
+      } catch (err) {
+        await new Promise(resolve => setTimeout(resolve, 1000))
+        console.log("Waiting for node to be up")
+      }
+    }
+  },
 
   beforeEach(browser, done) {
     browser.url(browser.launch_url).execute(function() {
@@ -17,6 +34,20 @@ module.exports = {
       )
       return true
     }, [])
+
+    // sign in to rich account
+    browser
+      .url(browser.launch_url + "?insecure=true")
+      .waitForElementVisible(`body`)
+      .waitForElementVisible(`#app-content`)
+      .click(".sign-in-button")
+      .waitForElementVisible("#session-welcome")
+      .click("#sign-in-with-account")
+      .waitForElementVisible("#sign-in-name")
+      .click("#sign-in-name option[value=rich_account]")
+      .setValue("#sign-in-password", "1234567890")
+      .click(".tm-session-footer button")
+      .waitForElementVisible("#signOut-btn")
     done()
   },
   /**
