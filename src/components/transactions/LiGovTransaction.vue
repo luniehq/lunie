@@ -45,7 +45,11 @@
 
 <script>
 import LiTransaction from "./LiTransaction"
-import { atoms as toAtoms, viewDenom, shortDecimals } from "../../scripts/num.js"
+import {
+  atoms as toAtoms,
+  viewDenom,
+  shortDecimals
+} from "../../scripts/num.js"
 
 export default {
   name: `li-gov-transaction`,
@@ -89,10 +93,6 @@ export default {
       default: null
     }
   },
-  data: () => ({
-    atoms,
-    viewDenom
-  }),
   computed: {
     initialDeposit() {
       return this.tx.initial_deposit[0]

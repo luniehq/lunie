@@ -35,14 +35,18 @@
 
 <script>
 import moment from "moment"
-import { atoms as toAtoms, viewDenom, shortDecimals } from "../../scripts/num.js"
+import {
+  atoms as toAtoms,
+  viewDenom,
+  shortDecimals
+} from "../../scripts/num.js"
 
 export default {
   name: `li-transaction`,
   filters: {
     toAtoms,
     viewDenom,
-    shortDecimals,
+    shortDecimals
   },
   props: {
     color: {
