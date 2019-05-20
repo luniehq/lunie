@@ -1,6 +1,12 @@
 <template>
   <transition v-if="show" name="slide-fade">
-    <div v-focus-last class="action-modal" tabindex="0" @keyup.esc="close">
+    <div
+      v-focus-last
+      class="action-modal"
+      tabindex="0"
+      @keyup.esc="close"
+      @keyup.enter.prevent="validateChangeStep"
+    >
       <div class="action-modal-header">
         <span class="action-modal-title">
           {{ requiresSignIn ? `Sign in required` : title }}
@@ -30,6 +36,7 @@
         >
           <span class="input-suffix">{{ viewDenom(bondDenom) }}</span>
           <TmField
+            v-focus
             id="gas-price"
             v-model="gasPrice"
             step="0.000000001"
