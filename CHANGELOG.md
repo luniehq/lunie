@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [1.0.0-beta.74] - 2019-05-20
+
+### Fixed
+
+- [#2627](https://github.com/cosmos/lunie/issues/2627) Fix fee submission in cosmos-js @faboweb
+
 ## [1.0.0-beta.73] - 2019-05-19
 
 ### Fixed
