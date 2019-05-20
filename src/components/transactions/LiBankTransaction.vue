@@ -47,7 +47,7 @@
 <script>
 import ShortBech32 from "common/ShortBech32"
 import LiTransaction from "./LiTransaction"
-import { atoms, viewDenom, shortDecimals } from "../../scripts/num.js"
+import { atoms as toAtoms, viewDenom, shortDecimals } from "../../scripts/num.js"
 
 export default {
   name: `li-bank-transaction`,
@@ -56,9 +56,9 @@ export default {
     LiTransaction
   },
   filters: {
-    toAtoms: atoms,
-    viewDenom: viewDenom,
-    shortDecimals: shortDecimals
+    toAtoms,
+    viewDenom,
+    shortDecimals
   },
   props: {
     tx: {

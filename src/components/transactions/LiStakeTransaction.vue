@@ -98,7 +98,7 @@
 
 <script>
 import LiTransaction from "./LiTransaction"
-import { atoms, viewDenom } from "../../scripts/num.js"
+import { atoms as toAtoms, viewDenom } from "../../scripts/num.js"
 import moment from "moment"
 
 /*
@@ -109,8 +109,8 @@ export default {
   name: `li-stake-transaction`,
   components: { LiTransaction },
   filters: {
-    toAtoms: atoms,
-    viewDenom: viewDenom
+    toAtoms,
+    viewDenom
   },
   props: {
     tx: {
