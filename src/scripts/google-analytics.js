@@ -8,8 +8,8 @@ module.exports.enableGoogleAnalytics = function enableGoogleAnalytics(gaUID) {
 
   window.ga =
     window.ga ||
-    function () {
-      ; (ga.q = ga.q || []).push(arguments)
+    function() {
+      ;(ga.q = ga.q || []).push(arguments)
     }
   ga.l = +new Date()
   module.exports.anonymize()

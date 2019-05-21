@@ -17,7 +17,10 @@ import _Node from "../connectors/node"
 import _Store from "../vuex/store"
 import * as urlHelpers from "scripts/url.js"
 import _config from "src/config"
-import { enableGoogleAnalytics, setGoogleAnalyticsPage } from "scripts/google-analytics"
+import {
+  enableGoogleAnalytics,
+  setGoogleAnalyticsPage
+} from "scripts/google-analytics"
 import { focusElement, focusParentLast } from "../directives"
 const _enableGoogleAnalytics = enableGoogleAnalytics
 const _setGoogleAnalyticsPage = setGoogleAnalyticsPage
@@ -73,11 +76,11 @@ export const startApp = async (
 
     // handle uncaught errors
     /* istanbul ignore next */
-    window.addEventListener(`unhandledrejection`, function (event) {
+    window.addEventListener(`unhandledrejection`, function(event) {
       Sentry.captureException(event.reason)
     })
     /* istanbul ignore next */
-    window.addEventListener(`error`, function (event) {
+    window.addEventListener(`error`, function(event) {
       Sentry.captureException(event.reason)
     })
 
