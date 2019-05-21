@@ -1,2 +1,1 @@
-[Fixed] [#2638](https://github.com/cosmos/lunie/pull/2638) Fixed usage of local signer for testnet @faboweb
-[Fixed] [#2638](https://github.com/cosmos/lunie/pull/2638) Fixed proxy for local testnet frequently breaking @faboweb
+[Fixed] [#2643](https://github.com/cosmos/lunie/pull/2643) Don't query the ledger if using a local signer @faboweb
