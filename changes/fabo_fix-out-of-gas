@@ -1,0 +1,1 @@
+[Changed] [#2642](https://github.com/cosmos/lunie/pull/2642) We now increase the gas simulated by 1.2 as recommended by the SDK team to avoid out of gas exceptions @faboweb
