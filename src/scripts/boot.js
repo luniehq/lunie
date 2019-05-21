@@ -17,9 +17,10 @@ import _Node from "../connectors/node"
 import _Store from "../vuex/store"
 import * as urlHelpers from "scripts/url.js"
 import _config from "src/config"
-import { enableGoogleAnalytics } from "scripts/google-analytics"
+import { enableGoogleAnalytics, setGoogleAnalyticsPage } from "scripts/google-analytics"
 import { focusElement, focusParentLast } from "../directives"
 const _enableGoogleAnalytics = enableGoogleAnalytics
+const _setGoogleAnalyticsPage = setGoogleAnalyticsPage
 
 export const routeGuard = store => (to, from, next) => {
   if (from.fullPath !== to.fullPath && !store.getters.session.pauseHistory) {
@@ -48,7 +49,8 @@ export const startApp = async (
   env = process.env,
   Sentry = _Sentry,
   Vue = _Vue,
-  enableGoogleAnalytics = _enableGoogleAnalytics
+  enableGoogleAnalytics = _enableGoogleAnalytics,
+  setGoogleAnalyticsPage = _setGoogleAnalyticsPage
 ) => {
   Vue.use(Router)
   Vue.use(Tooltip, { delay: 1 })
@@ -71,11 +73,11 @@ export const startApp = async (
 
     // handle uncaught errors
     /* istanbul ignore next */
-    window.addEventListener(`unhandledrejection`, function(event) {
+    window.addEventListener(`unhandledrejection`, function (event) {
       Sentry.captureException(event.reason)
     })
     /* istanbul ignore next */
-    window.addEventListener(`error`, function(event) {
+    window.addEventListener(`error`, function (event) {
       Sentry.captureException(event.reason)
     })
 
@@ -92,7 +94,11 @@ export const startApp = async (
     routes
   })
 
+  setGoogleAnalyticsPage(router.currentRoute.path)
   router.beforeEach(routeGuard(store))
+  router.afterEach(to => {
+    setGoogleAnalyticsPage(to.path)
+  })
 
   if (urlParams.experimental) {
     store.commit(`setExperimentalMode`)
