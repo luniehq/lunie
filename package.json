@@ -110,7 +110,7 @@
     "webpack-dev-server": "3.2.1"
   },
   "dependencies": {
-    "@lunie/cosmos-js": "0.0.14",
+    "@lunie/cosmos-js": "0.0.15",
     "@sentry/browser": "5.0.3",
     "autosize": "4.0.2",
     "axios": "0.18.0",
