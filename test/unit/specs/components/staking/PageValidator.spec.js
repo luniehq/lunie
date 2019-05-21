@@ -293,14 +293,14 @@ describe(`PageValidator`, () => {
           }
         }
       }
-      const rewardsString = PageValidator.computed.rewards.call({
+      const rewardsValue = PageValidator.computed.rewards.call({
         session,
         bondDenom,
         distribution,
         validator,
         lastHeader
       })
-      expect(rewardsString).toBe(`100 STAKE`)
+      expect(rewardsValue).toBe(100000000)
     })
 
     it(`when validator rewards are 0`, () => {
@@ -312,26 +312,26 @@ describe(`PageValidator`, () => {
         }
       }
 
-      const rewardsString = PageValidator.computed.rewards.call({
+      const rewardsValue = PageValidator.computed.rewards.call({
         session,
         bondDenom,
         distribution,
         validator,
         lastHeader
       })
-      expect(rewardsString).toBe(`0 STAKE`)
+      expect(rewardsValue).toBe(0)
     })
 
     it(`when user doesn't have any delegations`, () => {
       const distribution = { rewards: {} }
-      const rewardsString = PageValidator.computed.rewards.call({
+      const rewardsValue = PageValidator.computed.rewards.call({
         session,
         bondDenom,
         distribution,
         validator,
         lastHeader
       })
-      expect(rewardsString).toBeNull()
+      expect(rewardsValue).toBe(0)
     })
   })
 
