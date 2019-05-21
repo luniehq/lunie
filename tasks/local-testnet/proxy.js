@@ -18,12 +18,11 @@ const httpProxy = require(`http-proxy`)
 
 // Create a proxy server with custom application logic
 const proxy = httpProxy.createProxyServer({})
-const sendError = function(res, err, x) {
-  console.log(res, err, x)
-  return res.status(500).send({
-    error: err,
-    message: `An error occured in the proxy`
-  })
+const sendError = function(res, err) {
+  console.error("Error:", err)
+  res.writeHead(500)
+  res.write("An error occurred in the proxy.")
+  res.end()
 }
 
 // error handling

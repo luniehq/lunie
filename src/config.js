@@ -6,10 +6,7 @@ const stargate =
 const rpc =
   process.env.RPC || (dev ? `localhost:26657` : `https://rpc.lunie.io:26657`)
 
-const faucet =
-  process.env.FAUCET !== undefined
-    ? process.env.FAUCET
-    : `https://faucet.voyager.ninja`
+const faucet = process.env.FAUCET
 
 export default {
   name: `Lunie`,
