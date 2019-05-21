@@ -100,13 +100,15 @@ export default ({ node }) => {
         getters: { committedDelegations },
         dispatch
       },
-      { gas, gas_prices, password, submitType }
+      { gas, gas_prices, password, submitType, validatorAddress }
     ) {
       await dispatch(`sendTx`, {
         type: `MsgWithdrawDelegationReward`,
         txArguments: {
           toAddress: session.address,
-          validatorAddresses: Object.keys(committedDelegations)
+          validatorAddresses: validatorAddress
+            ? [validatorAddress]
+            : Object.keys(committedDelegations)
         },
         gas,
         gas_prices,
