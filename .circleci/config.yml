@@ -369,11 +369,11 @@ workflows:
 
   releaseManually:
     jobs:
-      - build
-          # filters:
-          #   branches:
-          #     only:
-          #       - release
+      - build:
+          filters:
+            branches:
+              only:
+                - release
       - upload:
           requires:
             - build
