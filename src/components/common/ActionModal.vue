@@ -375,7 +375,9 @@ export default {
       this.submissionError = null
       track(`event`, `submit`, this.title, this.selectedSignMethod)
 
-      await this.connectLedger()
+      if (this.selectedSignMethod === signWithLedger) {
+        await this.connectLedger()
+      }
 
       try {
         await this.submitFn(

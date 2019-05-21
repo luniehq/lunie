@@ -9,6 +9,7 @@ ACCOUNT=main_account
 PASSWORD=1234567890
 NETWORK=testnet
 HOME=/var/nodes/faucet
+RICH_ADDRESS=${RICH_ADDRESS:="cosmos1ek9cd8ewgxg9w5xllq9um0uf4aaxaruvcw4v9e"}
 FIRSTHOME=$1
 PORT=26657
 MAINNODEIP=localhost

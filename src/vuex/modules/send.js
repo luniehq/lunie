@@ -95,7 +95,7 @@ export function getSigner(state, rootState, { submitType, password }) {
 
       return {
         signature,
-        publicKey: wallet.publicKey
+        publicKey: Buffer.from(wallet.publicKey, "hex")
       }
     }
   } else {

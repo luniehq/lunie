@@ -142,41 +142,6 @@ const rendererConfig = {
       styles: fs.readFileSync(`./src/styles/index.css`, `utf8`),
       favicon: `./src/assets/images/favicon.ico`
     }),
-    new CSPWebpackPlugin({
-      "object-src": `'none'`,
-      "base-uri": `'self'`,
-      "default-src": `'self'`,
-      "script-src": [
-        `'self'`,
-        `https://app.appzi.io/`,
-        production ? `https://*.lunie.io` : `https://Localhost:9080`
-      ],
-      "worker-src": `'none'`,
-      // 'style-src': production ? `'self'` : `*`, // SECURITY Appzi is applying styles inline, inquired to them already
-      "style-src": [`'self'`, `'unsafe-inline'`],
-      "connect-src": !production
-        ? `*`
-        : [
-            // third party tools
-            `https://sentry.io`,
-            `https://appzi-collector-b.azurewebsites.net`,
-            `https://keybase.io`,
-            // mainnet
-            `https://stargate.lunie.io`,
-            `wss://rpc.lunie.io:26657`,
-            `https://stargate.cosmos.network`,
-            `wss://rpc.cosmos.network:26657`,
-            // testnet
-            `https://sntajlxzsg.execute-api.eu-central-1.amazonaws.com/`,
-            `wss://test.voyager.ninja:26657`
-          ],
-      "frame-src": [`'self'`, `https://app.appzi.io/`],
-      "img-src": [
-        `'self'`,
-        `https://www.google-analytics.com/`,
-        `https://s3.amazonaws.com/keybase_processed_uploads/`
-      ]
-    }),
     // warnings caused by websocket-stream, which has a server-part that is unavailable on the the client
     new webpack.IgnorePlugin(/(bufferutil|utf-8-validate)/),
     ...devPlugins
@@ -239,6 +204,42 @@ if (process.env.NODE_ENV === `production`) {
       minimize: true
     })
   )
+
+  // don't set the content security policy in e2e tests as we need to connect to a testnet
+  if (!process.env.E2E_TESTS) {
+    // adds the content security policy to the index.html
+    rendererConfig.plugins.push(
+      new CSPWebpackPlugin({
+        "object-src": `'none'`,
+        "base-uri": `'self'`,
+        "default-src": `'self'`,
+        "script-src": [`'self'`, `https://app.appzi.io/`, `https://*.lunie.io`],
+        "worker-src": `'none'`,
+        // 'style-src': production ? `'self'` : `*`, // SECURITY Appzi is applying styles inline, inquired to them already
+        "style-src": [`'self'`, `'unsafe-inline'`],
+        "connect-src": [
+          // third party tools
+          `https://sentry.io`,
+          `https://appzi-collector-b.azurewebsites.net`,
+          `https://keybase.io`,
+          // mainnet
+          `https://stargate.lunie.io`,
+          `wss://rpc.lunie.io:26657`,
+          `https://stargate.cosmos.network`,
+          `wss://rpc.cosmos.network:26657`,
+          // testnet
+          `https://sntajlxzsg.execute-api.eu-central-1.amazonaws.com/`,
+          `wss://test.voyager.ninja:26657`
+        ],
+        "frame-src": [`'self'`, `https://app.appzi.io/`],
+        "img-src": [
+          `'self'`,
+          `https://www.google-analytics.com/`,
+          `https://s3.amazonaws.com/keybase_processed_uploads/`
+        ]
+      })
+    )
+  }
 }
 
 if (process.env.RELEASE) {

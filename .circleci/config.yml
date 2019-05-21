@@ -121,11 +121,6 @@ jobs:
           else
             STARGATE=https://stargate.lunie.io RPC=https://rpc.lunie.io:26657 CIRCLECI=true yarn build:ui
           fi
-
-      - store_artifacts:
-          path: *DIST
-      - store_artifacts:
-          path: *DIST_TESTNET
       - persist_to_workspace:
           root: *WORKSPACE
           paths:
@@ -136,7 +131,8 @@ jobs:
     executor: node
     steps:
       - checkout
-      - run: tasks/pending-changed-check.sh
+      - run: yarn add simsala
+      - run: node node_modules/simsala/src/cli.js check --pending-path ./changes
 
   lint:
     executor: node
@@ -187,7 +183,11 @@ jobs:
             exit 0
 
   testE2e:
-    executor: web
+    docker:
+      # Primary container image where all steps run.
+     - image: *docker-browsers
+      # Secondary container image on common network. 
+     - image: lunieio/testnet:v0.34.3
     steps:
       - checkout
       - attach_workspace:
@@ -195,15 +195,12 @@ jobs:
       - yarn-install
       - run:
           name: Build for E2E test
-          command: 
-            STARGATE=http://localhost:9070 RPC=http://localhost:26657 CIRCLECI=true yarn build:ui
+          command: yarn test:e2e:build
+      - setup_remote_docker
       - run:
           name: Test
-          command: yarn serve & yarn run test:e2e
+          command: yarn test:e2e
           no_output_timeout: 120
-      - store_artifacts:
-          path: testArtifacts
-          when: on_fail
 
   deploy2s3:
     executor: web_deploy
@@ -229,8 +226,26 @@ jobs:
     executor: node
     steps:
       - checkout
-      - yarn-install
-      - run: node tasks/createReleasePR.js
+      - run: |
+          yarn add simsala
+          git config user.email "bot@lunie.io"
+          git config user.name "Lunie Bot"
+          REPO_ID=99653950
+          BUILD_NUM=`expr $CIRCLE_BUILD_NUM - 1` #hacky as it assumes the build step ran before this step
+          node node_modules/simsala/src/cli.js release-candidate --semver prerelease --pending-path ./changes --owner luniehq --repository lunie --token $GIT_BOT_TOKEN --message "Please manually test before merging this to master <a href='https://${BUILD_NUM}-${REPO_ID}-gh.circle-artifacts.com/0/tmp/voyager/dist/index.html'>here</a>"
+      
+  # Push merges to master immediatly back to develop to stay in sync
+  mergeBack:
+    executor: node
+    steps:
+      - checkout
+      - run:
+          command: |
+            git remote add bot https://${GIT_BOT_TOKEN}@github.com/luniehq/lunie.git
+            git checkout develop
+            git pull
+            git merge origin/master
+            git push
 
   # Publish the release to GitHub.
   publish:
@@ -251,19 +266,15 @@ jobs:
               git push --delete bot release-candidate
 
               node tasks/publish.js
-            fi
-  # Push merges to master immediatly back to develop to stay in sync
-  mergeBack:
+
+  # store artifacts to check a branch as a staging build
+  upload:
     executor: node
     steps:
-      - checkout
-      - run:
-          command: |
-            git remote add bot https://${GIT_BOT_TOKEN}@github.com/luniehq/lunie.git
-            git checkout develop
-            git pull
-            git merge origin/master
-            git push
+      - attach_workspace:
+          at: *WORKSPACE
+      - store_artifacts:
+          path: *DIST
 
 
 workflows:
@@ -298,6 +309,10 @@ workflows:
           requires:
             - security
             - lint
+
+      - upload:
+          requires:
+            - build
 
       - deploy2s3:
           requires:
@@ -344,14 +359,27 @@ workflows:
               only:
                 - develop
     jobs:
-      - release
+      - build
+      - upload:
+          requires:
+            - build
+      - release:
+          requires:
+            - upload
+
   releaseManually:
     jobs:
-      - release:
+      - build:
           filters:
             branches:
               only:
                 - release
+      - upload:
+          requires:
+            - build
+      - release:
+          requires:
+            - upload
   mergeBack:
     jobs:
       - mergeBack:

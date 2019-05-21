@@ -1,31 +1,27 @@
 <template>
-  <LiTransaction :color="`#15CFCC`" :time="time" :block="block" :memo="memo">
+  <LiTransaction
+    :color="`#15CFCC`"
+    :time="time"
+    :block="block"
+    :memo="memo"
+    :fees="fees"
+  >
     <template v-if="txType === `cosmos-sdk/MsgSubmitProposal`">
       <div slot="caption">
         Submitted {{ tx.proposal_type.toLowerCase() }} proposal
-        <b>{{ initialDeposit.amount }}</b>
-        <span>{{ viewDenom(initialDeposit.denom) }}</span>
+        <b>{{ initialDeposit.amount | toAtoms | shortDecimals }}</b>
+        <span>{{ initialDeposit.denom | viewDenom }}</span>
       </div>
       <div slot="details">
         Title:&nbsp;<i>{{ tx.title }}</i>
-      </div>
-      <div slot="fees">
-        Network Fee:&nbsp;<b>{{ convertedFees ? convertedFees.amount : 0 }}</b>
-        <span>
-          {{
-            convertedFees
-              ? viewDenom(convertedFees.denom)
-              : viewDenom(bondingDenom)
-          }}
-        </span>
       </div>
     </template>
     <template v-else-if="txType === `cosmos-sdk/MsgDeposit`">
       <div slot="caption">
         Deposited
         <template>
-          <b>{{ deposit.amount }}</b>
-          <span>{{ viewDenom(deposit.denom) }}</span>
+          <b>{{ deposit.amount | toAtoms | shortDecimals }}</b>
+          <span>{{ deposit.denom | viewDenom }}</span>
         </template>
       </div>
       <div slot="details">
@@ -33,12 +29,6 @@
         <router-link :to="`${url}/${tx.proposal_id}`">
           Proposal &#35;{{ tx.proposal_id }}
         </router-link>
-      </div>
-      <div slot="fees">
-        Network Fee:&nbsp;<b>{{ convertedFees ? convertedFees.amount : 0 }}</b>
-        <span>
-          {{ fees ? viewDenom(convertedFees.denom) : viewDenom(bondingDenom) }}
-        </span>
       </div>
     </template>
     <template v-else-if="txType === `cosmos-sdk/MsgVote`">
@@ -49,27 +39,26 @@
           Proposal &#35;{{ tx.proposal_id }}
         </router-link>
       </div>
-      <div slot="fees">
-        Network Fee:&nbsp;<b>{{ convertedFees ? convertedFees.amount : 0 }}</b>
-        <span>
-          {{
-            convertedFees
-              ? viewDenom(convertedFees.denom)
-              : viewDenom(bondingDenom)
-          }}
-        </span>
-      </div>
     </template>
   </LiTransaction>
 </template>
 
 <script>
 import LiTransaction from "./LiTransaction"
-import num, { atoms, viewDenom } from "../../scripts/num.js"
+import {
+  atoms as toAtoms,
+  viewDenom,
+  shortDecimals
+} from "../../scripts/num.js"
 
 export default {
   name: `li-gov-transaction`,
   components: { LiTransaction },
+  filters: {
+    toAtoms,
+    viewDenom,
+    shortDecimals
+  },
   props: {
     tx: {
       type: Object,
@@ -77,7 +66,7 @@ export default {
     },
     fees: {
       type: Object,
-      default: null
+      required: true
     },
     url: {
       type: String,
@@ -104,19 +93,12 @@ export default {
       default: null
     }
   },
-  data: () => ({
-    atoms,
-    viewDenom
-  }),
   computed: {
     initialDeposit() {
-      return num.createDisplayCoin(this.tx.initial_deposit[0])
+      return this.tx.initial_deposit[0]
     },
     deposit() {
-      return num.createDisplayCoin(this.tx.amount[0])
-    },
-    convertedFees() {
-      return this.fees ? num.createDisplayCoin(this.fees) : undefined
+      return this.tx.amount[0]
     }
   }
 }

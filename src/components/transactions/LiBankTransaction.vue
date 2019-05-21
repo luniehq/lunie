@@ -1,5 +1,11 @@
 <template>
-  <LiTransaction :color="`#ED553B`" :time="time" :block="block" :memo="memo">
+  <LiTransaction
+    :color="`#ED553B`"
+    :time="time"
+    :block="block"
+    :memo="memo"
+    :fees="fees"
+  >
     <template v-if="address === ''">
       <div slot="caption">
         Sent <b>{{ txAmount | toAtoms | shortDecimals }}</b>
@@ -11,10 +17,6 @@
           <ShortBech32 :address="receiver" />
         </template>
       </span>
-      <div slot="fees">
-        Network Fee:&nbsp;<b>{{ feeAmount | toAtoms | shortDecimals }}</b>
-        <span>{{ feeDenom | viewDenom }}</span>
-      </div>
     </template>
     <template v-else-if="sent">
       <div slot="caption">
@@ -29,10 +31,6 @@
           To <ShortBech32 :address="receiver" />
         </template>
       </span>
-      <div slot="fees">
-        Network Fee:&nbsp;<b>{{ feeAmount | toAtoms | shortDecimals }}</b>
-        <span>{{ feeDenom | viewDenom }}</span>
-      </div>
     </template>
     <template v-else>
       <div slot="caption">
@@ -42,10 +40,6 @@
       <span slot="details">
         From &nbsp; <ShortBech32 :address="sender" />
       </span>
-      <div slot="fees">
-        Network Fee:&nbsp;<b>{{ feeAmount | toAtoms | shortDecimals }}</b>
-        <span>{{ feeDenom | viewDenom }}</span>
-      </div>
     </template>
   </LiTransaction>
 </template>
@@ -53,7 +47,11 @@
 <script>
 import ShortBech32 from "common/ShortBech32"
 import LiTransaction from "./LiTransaction"
-import { atoms, viewDenom, shortDecimals } from "../../scripts/num.js"
+import {
+  atoms as toAtoms,
+  viewDenom,
+  shortDecimals
+} from "../../scripts/num.js"
 
 export default {
   name: `li-bank-transaction`,
@@ -62,9 +60,9 @@ export default {
     LiTransaction
   },
   filters: {
-    toAtoms: atoms,
-    viewDenom: viewDenom,
-    shortDecimals: shortDecimals
+    toAtoms,
+    viewDenom,
+    shortDecimals
   },
   props: {
     tx: {
@@ -73,7 +71,7 @@ export default {
     },
     fees: {
       type: Object,
-      default: null
+      required: true
     },
     address: {
       type: String,
@@ -115,12 +113,6 @@ export default {
     },
     txDenom() {
       return this.tx.amount[0].denom
-    },
-    feeAmount() {
-      return this.fees ? this.fees.amount : 0
-    },
-    feeDenom() {
-      return this.fees ? this.fees.denom : this.txDenom
     }
   }
 }
