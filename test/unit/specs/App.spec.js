@@ -44,7 +44,14 @@ async function start(urlParams, environment) {
     setGoogleAnalyticsPage
   )
 
-  return { store, Vue, enableGoogleAnalytics, setGoogleAnalyticsPage, Sentry, Node }
+  return {
+    store,
+    Vue,
+    enableGoogleAnalytics,
+    setGoogleAnalyticsPage,
+    Sentry,
+    Node
+  }
 }
 
 describe(`App Start`, () => {
