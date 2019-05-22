@@ -20,7 +20,8 @@
 </template>
 
 <script>
-import { viewDenom, uatoms, atoms, fullDecimals } from "../../scripts/num.js"
+import { mapActions } from "vuex"
+import { viewDenom, atoms, fullDecimals } from "../../scripts/num.js"
 import ActionModal from "common/ActionModal"
 import TmField from "common/TmField"
 import TmFormGroup from "common/TmFormGroup"
@@ -40,7 +41,8 @@ export default {
   props: {
     validatorAddress: {
       type: String,
-      required: true
+      required: false,
+      default: null
     },
     rewards: {
       type: Number,
@@ -52,24 +54,21 @@ export default {
     }
   },
   methods: {
+    ...mapActions([`simulateWithdrawAllRewards`, `withdrawAllRewards`]),
     open() {
       this.$refs.actionModal.open()
     },
     async simulateForm() {
-      return await this.$store.dispatch(`simulateWithdrawAllRewards`)
+      return await this.simulateWithdrawAllRewards()
     },
     async submitForm(gasEstimate, gasPrice, password, submitType) {
-      await this.$store.dispatch(`withdrawAllRewards`, {
-        gas: String(gasEstimate),
-        gas_prices: [
-          {
-            amount: String(uatoms(gasPrice)),
-            denom: this.denom
-          }
-        ],
-        submitType,
+      await this.withdrawAllRewards({
+        gas: gasEstimate,
+        gasPrice,
+        denom: this.denom,
+        validatorAddress: this.validatorAddress,
         password,
-        validatorAddress: this.validatorAddress
+        submitType
       })
 
       this.$store.commit(`notify`, {
