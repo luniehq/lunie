@@ -99,13 +99,22 @@ export default ({ node }) => {
       { rootState, getters, dispatch },
       { gas, gasPrice, denom, validatorAddress, password, submitType }
     ) {
+      const cmpSharesDesc = (a, b) => {
+        return b[1] - a[1]
+      }
+      const topRewards = Object.entries(getters.committedDelegations)
+      topRewards.sort(cmpSharesDesc)
+      const top5Rewards = {}
+      topRewards.slice(0, 4).forEach(([add, val]) => {
+        top5Rewards[add] = val
+      })
       await dispatch(`sendTx`, {
         type: `MsgWithdrawDelegationReward`,
         txArguments: {
           toAddress: rootState.session.address,
           validatorAddresses: validatorAddress
             ? [validatorAddress]
-            : Object.keys(getters.committedDelegations)
+            : Object.keys(top5Rewards)
         },
         gas: String(gas),
         gas_prices: [
