@@ -1,16 +1,23 @@
-const { expect } = require("chai")
+const numeral = require("numeral")
+const { getBalance, awaitBalance } = require("./helpers.js")
 
 module.exports = {
   "Send Action": async function(browser) {
+    // move to according page
+    browser.url(browser.launch_url + "/#/wallet")
+
+    // remember balance to compare later if send got through
     browser
-      .url(browser.launch_url + "/#/wallet")
-      .waitForElementVisible(`body`)
-      .waitForElementVisible(`#app-content`)
+      .waitForElementVisible(`.total-atoms__value`)
+      .expect.element(".total-atoms__value")
+      .text.not.to.contain("--")
+      .before(10 * 1000)
     const balanceBefore = await getBalance(browser)
-    console.log(balanceBefore)
+
+    // open modal and enter amount
     browser
-      .waitForElementVisible(`.li-coin:first-child`)
-      .click(".li-coin:first-child button")
+      .waitForElementVisible(`#li-coin--stake`)
+      .click("#li-coin--stake button")
       .waitForElementVisible(`#send-modal`)
       .setValue(
         "#send-address",
@@ -19,45 +26,36 @@ module.exports = {
       .setValue("#amount", "1.3")
       .click(".action-modal-footer .tm-btn")
       .waitForElementVisible(`.table-invoice`)
+
+    // check invoice
     browser.expect
       .element(".table-invoice li:first-child span:last-child")
       .text.to.contain("1.3")
+
+    // remember fees
+    const fees = await new Promise(resolve =>
+      browser.getText(
+        ".table-invoice li:nth-child(2) span:last-child",
+        ({ value }) => resolve(numeral(value).value())
+      )
+    )
+
+    // submit
     browser
       .click(".action-modal-footer .tm-btn")
       .setValue("#password", "1234567890")
       .click(".action-modal-footer .tm-btn")
-    browser.waitForElementNotVisible(`#send-modal`)
-    await waitFor(async () => {
-      expect(await getBalance(browser)).to.be.lessThan(balanceBefore)
-    })
-  }
-}
 
-async function getBalance(browser) {
-  return await new Promise(resolve => {
-    // wait for balance to show
+    browser.expect.element("#send-modal").not.to.be.present.before(10 * 1000)
+
+    // check if balance header updates
+    await awaitBalance(browser, balanceBefore - 1.3 - fees)
+
+    // check if tx shows
     browser
-      .waitForElementVisible(`.total-atoms__value`)
-      .expect.element(".total-atoms__value")
-      .text.not.to.contain("--")
+      .url(browser.launch_url + "/#/transactions")
+      .expect.element(".li-tx__content__caption__title")
+      .text.to.contain("Sent 1.3 STAKE")
       .before(10 * 1000)
-    browser.getText(".total-atoms__value", ({ value }) =>
-      resolve(Number(value))
-    )
-  })
-}
-
-async function waitFor(fn, totalTimeout = 10 * 1000, timeout = 1000) {
-  const startTime = Date.now()
-  while (Date.now() - startTime < totalTimeout) {
-    try {
-      await fn()
-      return
-    } catch (err) {
-      console.error(err)
-      await new Promise(resolve => setTimeout(resolve, timeout))
-    }
   }
-
-  throw new Error("Condition was not meet in time")
 }

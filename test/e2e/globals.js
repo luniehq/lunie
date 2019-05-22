@@ -1,4 +1,6 @@
 const axios = require("axios")
+const chai = require("chai")
+chai.use(require("chai-string"))
 
 const HOST = "localhost"
 
