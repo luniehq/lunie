@@ -100,6 +100,7 @@ export const startApp = async (
   setGoogleAnalyticsPage(router.currentRoute.path)
   router.beforeEach(routeGuard(store))
   router.afterEach(to => {
+    /* istanbul ignore next */
     setGoogleAnalyticsPage(to.path)
   })
 
