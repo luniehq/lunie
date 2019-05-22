@@ -1,6 +1,14 @@
 <template>
-  <transition v-if="show" name="slide-fade">
-    <div v-focus-last class="action-modal" tabindex="0" @keyup.esc="close">
+  <transition
+    v-if="show"
+    name="slide-fade"
+  >
+    <div
+      v-focus-last
+      class="action-modal"
+      tabindex="0"
+      @keyup.esc="close"
+    >
       <div class="action-modal-header">
         <span class="action-modal-title">
           {{ requiresSignIn ? `Sign in required` : title }}
@@ -13,14 +21,26 @@
           <i class="material-icons">close</i>
         </div>
       </div>
-      <Steps :steps="['Details', 'Fees', 'Sign']" :active="step" />
-      <div v-if="requiresSignIn" class="action-modal-form">
+      <Steps
+        :steps="['Details', 'Fees', 'Sign']"
+        :active="step"
+      />
+      <div
+        v-if="requiresSignIn"
+        class="action-modal-form"
+      >
         <p>You need to sign in to submit a transaction.</p>
       </div>
-      <div v-else-if="step === `details`" class="action-modal-form">
+      <div
+        v-else-if="step === `details`"
+        class="action-modal-form"
+      >
         <slot />
       </div>
-      <div v-else-if="step === `fees`" class="action-modal-form">
+      <div
+        v-else-if="step === `fees`"
+        class="action-modal-form"
+      >
         <TmFormGroup
           v-if="session.experimentalMode"
           :error="$v.gasPrice.$error && $v.gasPrice.$invalid"
@@ -68,7 +88,10 @@
           :max="atoms(balance)"
         />
       </div>
-      <div v-else-if="step === `sign`" class="action-modal-form">
+      <div
+        v-else-if="step === `sign`"
+        class="action-modal-form"
+      >
         <TmFormGroup
           v-if="signMethods.length > 1"
           class="action-modal-form-group"
@@ -89,9 +112,9 @@
         >
           <div v-if="session.browserWithLedgerSupport">
             {{
-              sending
-                ? `Please verify and sign the transaction on your Ledger`
-                : `Please plug in your Ledger&nbsp;Nano&nbsp;S and open
+            sending
+            ? `Please verify and sign the transaction on your Ledger`
+            : `Please plug in your Ledger&nbsp;Nano&nbsp;S and open
             the Cosmos app`
             }}
           </div>
@@ -306,6 +329,7 @@ export default {
       this.show = true
     },
     close() {
+      this.submissionError = null
       this.password = null
       this.step = defaultStep
       this.show = false
@@ -365,10 +389,6 @@ export default {
         this.step = feeStep
       } catch ({ message }) {
         this.submissionError = `${this.submissionErrorPrefix}: ${message}.`
-
-        setTimeout(() => {
-          this.submissionError = null
-        }, 5000)
       }
     },
     async submit() {
