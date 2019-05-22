@@ -223,7 +223,6 @@ export default {
     shortDecimals
   },
   data: () => ({
-    showCannotModal: false,
     shortAddress,
     tabIndex: 1,
     moment,
