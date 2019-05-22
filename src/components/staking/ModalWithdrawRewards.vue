@@ -16,6 +16,9 @@
       <span class="input-suffix">{{ denom | viewDenom }}</span>
       <TmField id="amount" :value="rewards | atoms | fullDecimals" readonly />
     </TmFormGroup>
+    <span v-if="!validatorAddress" class="form-message">
+      Note: Lunie withdraws only the top 5 rewards from validators at a time.
+    </span>
   </ActionModal>
 </template>
 

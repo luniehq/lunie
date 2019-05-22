@@ -34,6 +34,19 @@ describe(`ModalWithdrawRewards`, () => {
     expect($refs.actionModal.open).toHaveBeenCalled()
   })
 
+  it(`should display message when withdrawing from multiple validators`, () => {
+    wrapper.setProps({
+      validatorAddress: null
+    })
+    expect(wrapper.find(`.form-message`).text()).toBe(
+      "Note: Lunie withdraws only the top 5 rewards from validators at a time."
+    )
+  })
+
+  it(`should not display message when withdrawing from single validators`, () => {
+    expect(wrapper.find(`.form-message`)).not.toBe()
+  })
+
   describe(`Withdraw`, () => {
     it(`should simulate transaction to estimate gas used`, async () => {
       const estimate = 1234567
