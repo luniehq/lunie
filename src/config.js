@@ -18,7 +18,7 @@ export default {
   sentry_dsn: `https://afb30cc1460e4464a98e89600bb0926e@sentry.io/1429416`,
   node_halted_timeout: 120000,
   block_timeout: 10000,
-  default_gas_price: dev ? 0 : 2.5e-8, // recommended from Cosmos Docs
+  default_gas_price: dev ? 1e-9 : 2.5e-8, // recommended from Cosmos Docs
   default_gas_adjustment: 1.5,
   faucet,
   version: process.env.RELEASE,
