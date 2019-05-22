@@ -29,7 +29,10 @@
             "args": [
                 "disable-web-security",
                 "ignore-certificate-errors"
-            ]
+            ],
+            "prefs": {
+                "intl.accept_languages": "en-US,en"
+            }
         }
     },
     "screenshots": {
