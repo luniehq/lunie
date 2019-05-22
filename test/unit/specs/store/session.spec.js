@@ -28,8 +28,7 @@ describe(`Module: Session`, () => {
         google_analytics_uid: `UA-123`,
         version: `abcfdef`,
         sentry_dsn: `https://1:1@sentry.io/1`,
-        default_gas_price: 2.5e-8,
-        default_gas_adjustment: 1.5
+        default_gas_price: 2.5e-8
       },
       loadKeys: () => [
         {
