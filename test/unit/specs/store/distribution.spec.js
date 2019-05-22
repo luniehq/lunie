@@ -169,7 +169,12 @@ describe(`Module: Fee Distribution`, () => {
               }
             }
           },
-          { password: ``, submitType: `ledger` }
+          {
+            gas: 456,
+            gasPrice: 123,
+            password: ``,
+            submitType: `ledger`
+          }
         )
         expect(dispatch).toHaveBeenCalledWith(`sendTx`, {
           type: `MsgWithdrawDelegationReward`,
@@ -178,7 +183,9 @@ describe(`Module: Fee Distribution`, () => {
             validatorAddresses: [`coolval1`]
           },
           password: ``,
-          submitType: `ledger`
+          submitType: `ledger`,
+          gas: "456",
+          gas_prices: [{ amount: "123000000", denom: undefined }]
         })
         expect(dispatch).toHaveBeenCalledWith(`getTotalRewards`)
       })

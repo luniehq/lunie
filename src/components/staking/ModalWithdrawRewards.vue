@@ -20,7 +20,6 @@
 </template>
 
 <script>
-import { mapActions } from "vuex"
 import { viewDenom, atoms, fullDecimals } from "../../scripts/num.js"
 import ActionModal from "common/ActionModal"
 import TmField from "common/TmField"
@@ -54,15 +53,14 @@ export default {
     }
   },
   methods: {
-    ...mapActions([`simulateWithdrawAllRewards`, `withdrawAllRewards`]),
     open() {
       this.$refs.actionModal.open()
     },
     async simulateForm() {
-      return await this.simulateWithdrawAllRewards()
+      return await this.$store.dispatch(`simulateWithdrawAllRewards`)
     },
     async submitForm(gasEstimate, gasPrice, password, submitType) {
-      await this.withdrawAllRewards({
+      await this.$store.dispatch(`withdrawAllRewards`, {
         gas: gasEstimate,
         gasPrice,
         denom: this.denom,

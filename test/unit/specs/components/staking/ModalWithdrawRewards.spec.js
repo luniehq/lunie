@@ -49,7 +49,6 @@ describe(`ModalWithdrawRewards`, () => {
     it(`submits withdrawal`, async () => {
       const gas = `1234567`
       const gasPrice = 2.5e-8
-      const gas_prices = [{ denom: wrapper.vm.denom, amount: `0.025` }]
 
       await ModalWithdrawRewards.methods.submitForm.call(
         { $store, ...propsData },
@@ -60,11 +59,12 @@ describe(`ModalWithdrawRewards`, () => {
       )
 
       expect($store.dispatch).toBeCalledWith(`withdrawAllRewards`, {
+        gasPrice,
         gas,
-        gas_prices,
+        validatorAddress: wrapper.vm.validatorAddress,
+        denom: wrapper.vm.denom,
         submitType: `ledger`,
-        password: ``,
-        validatorAddress: wrapper.vm.validatorAddress
+        password: ``
       })
 
       expect($store.commit).toBeCalledWith(`notify`, {
