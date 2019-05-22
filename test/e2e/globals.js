@@ -32,22 +32,20 @@ module.exports = {
           }
         ])
       )
+
+      // skip sign in
+      window.localStorage.setItem(
+        `session`,
+        JSON.stringify({
+          localKeyPairName: `rich_account`,
+          address: "cosmos1ek9cd8ewgxg9w5xllq9um0uf4aaxaruvcw4v9e",
+          sessionType: "local"
+        })
+      )
       return true
     }, [])
 
-    // sign in to rich account
-    browser
-      .url(browser.launch_url + "?insecure=true")
-      .waitForElementVisible(`body`)
-      .waitForElementVisible(`#app-content`)
-      .click(".sign-in-button")
-      .waitForElementVisible("#session-welcome")
-      .click("#sign-in-with-account")
-      .waitForElementVisible("#sign-in-name")
-      .click("#sign-in-name option[value=rich_account]")
-      .setValue("#sign-in-password", "1234567890")
-      .click(".tm-session-footer button")
-      .waitForElementVisible("#signOut-btn")
+    browser.refresh()
     done()
   },
   /**
