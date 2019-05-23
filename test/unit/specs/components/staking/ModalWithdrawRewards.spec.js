@@ -39,7 +39,7 @@ describe(`ModalWithdrawRewards`, () => {
       validatorAddress: null
     })
     expect(wrapper.find(`.form-message`).text()).toBe(
-      "Note: Lunie withdraws only the top 5 rewards from validators at a time."
+      "Note: Lunie withdraws only the top 5 rewards at a time."
     )
   })
 
