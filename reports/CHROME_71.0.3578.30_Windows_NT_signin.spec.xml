@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuites errors="0"
+            failures="1"
+            tests="1">
+
+  <testsuite name="signin.spec"
+    errors="0" failures="1" hostname="" id="" package="signin.spec" skipped="0"
+    tests="1" time="8.644" timestamp="">
+  
+    <testcase name="Sign in with local account" classname="signin.spec" time="8.644" assertions="2">
+
+      <failure message="Timed out while waiting for element &lt;#app-content&gt; to be present for 5000 milliseconds. - expected [0;32m&#34;visible&#34;[0m but got: [0;31m&#34;not found&#34;[0m">    at Object.Sign in with local account (C:\Users\Fabo\Documents\Entwicklung\voyager\test\e2e\signin.spec.js:6:8)
+    at process._tickCallback (internal/process/next_tick.js:68:7)</failure>
+
+    <failure message="    at Object.Sign in with local account (C:\Users\Fabo\Documents\Entwicklung\voyager\test\e2e\signin.spec.js:6:8)">    at process._tickCallback (internal/process/next_tick.js:68:7)</failure>
+    </testcase>
+  
+
+  
+
+  
+  </testsuite>
+</testsuites>

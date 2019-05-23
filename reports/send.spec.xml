@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuites errors="1"
+            failures="0"
+            tests="0">
+
+  <testsuite name="send.spec"
+    errors="1" failures="0" hostname="" id="" package="send.spec" skipped="1"
+    tests="0" time="0.000" timestamp="">
+  
+
+  
+
+  
+    
+    <testcase
+      name="Send Action" classname="send.spec">
+      <skipped />
+    </testcase>
+    
+  
+  </testsuite>
+</testsuites>

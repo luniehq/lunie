@@ -1,0 +1,77 @@
+{
+  "src_folders": [
+    "./test/e2e/"
+  ],
+  "output_folder": "reports",
+  "page_objects_path": "",
+  "globals_path": "",
+  "selenium": {
+    "start_process": false,
+    "server_path": "",
+    "log_path": "",
+    "host": "hub.lambdatest.com",
+    "port": 80,
+    "cli_args": {
+      "webdriver.chrome.driver": "",
+      "webdriver.ie.driver": "",
+      "webdriver.firefox.profile": ""
+    }
+  },
+  "test_workers": {
+    "enabled": true,
+    "workers": "auto"
+  },
+  "test_settings": {
+    "default": {
+      "filter": [
+        "*.spec.js"
+      ],
+      "launch_url": "https://localhost.lambdatest.com:9080",
+      "selenium_port": 80,
+      "selenium_host": "hub.lambdatest.com",
+      "silent": false,
+      "screenshots": {
+        "enabled": true,
+        "path": ""
+      },
+      "username": "",
+      "access_key": "",
+      "skip_testcases_on_fail": false,
+      "desiredCapabilities": {
+        "build": "Nightwatch-Selenium-Sample",
+        "visual": true,
+        "video": true,
+        "console": true,
+        "network": true
+      }
+    },
+    "chrome": {
+      "desiredCapabilities": {
+        "platform": "Windows 8",
+        "browserName": "chrome",
+        "version": "71.0"
+      }
+    },
+    "safari": {
+      "desiredCapabilities": {
+        "platform": "macos 10.13",
+        "browserName": "safari",
+        "version": "11.0"
+      }
+    },
+    "firefox": {
+      "desiredCapabilities": {
+        "platform": "win10",
+        "browserName": "firefox",
+        "version": "60"
+      }
+    },
+    "edge": {
+      "desiredCapabilities": {
+        "platform": "Windows 10",
+        "browserName": "MicrosoftEdge",
+        "version": "17.0"
+      }
+    }
+  }
+}
