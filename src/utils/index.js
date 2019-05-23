@@ -74,7 +74,7 @@ const cmpSecondElementDesc = (a, b) => {
 //   address9: 98,
 //   address10: 97
 // }
-export const getTopRewards = (num, dataObject) => {
+export const getTopDelegations = (num, dataObject) => {
   const dataListArray = Object.entries(dataObject)
   dataListArray.sort(cmpSecondElementDesc)
   const result = {}
@@ -84,4 +84,4 @@ export const getTopRewards = (num, dataObject) => {
   return result
 }
 
-export const getTop5Rewards = getTopRewards.bind(null, 5)
+export const getTop5Delegations = getTopDelegations.bind(null, 5)

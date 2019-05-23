@@ -1,4 +1,8 @@
-import { roundObjectPercentages, getTopRewards, getTop5Rewards } from "utils"
+import {
+  roundObjectPercentages,
+  getTopDelegations,
+  getTop5Delegations
+} from "utils"
 
 const tally = {
   yes: 13.626332,
@@ -58,7 +62,7 @@ describe(`getTopRewards`, () => {
   })
 
   it(`should return top 5 rewards`, () => {
-    const result = getTop5Rewards(list)
+    const result = getTop5Delegations(list)
     const expected = {
       address1: 100,
       // address2: 1,
@@ -75,7 +79,7 @@ describe(`getTopRewards`, () => {
   })
 
   it(`should return top 9 rewards`, () => {
-    const result = getTopRewards(9, list)
+    const result = getTopDelegations(9, list)
     const expected = {
       address1: 100,
       address2: 1,
