@@ -17,7 +17,8 @@
       <TmField id="amount" :value="rewards | atoms | fullDecimals" readonly />
     </TmFormGroup>
     <span v-if="!validatorAddress" class="form-message">
-      Note: Lunie withdraws only the top 5 rewards at a time.
+      Note: Lunie will withdraw only the top 5 rewards in a single transaction
+      due to a limitation in the Ledger Nano S.
     </span>
   </ActionModal>
 </template>
