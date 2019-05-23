@@ -39,7 +39,7 @@ describe(`ModalWithdrawRewards`, () => {
       validatorAddress: null
     })
     expect(wrapper.find(`.form-message`).text()).toBe(
-      "Note: Lunie withdraws only the top 5 rewards at a time."
+      "Note: Lunie will withdraw only the top 5 rewards in a single transaction due to a limitation in the Ledger Nano S."
     )
   })
 
