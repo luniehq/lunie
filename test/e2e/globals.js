@@ -23,6 +23,8 @@ module.exports = {
   },
 
   beforeEach(browser, done) {
+    browser.resizeWindow(1920, 1080, done)
+
     browser.url(browser.launch_url).execute(function() {
       window.localStorage.setItem(
         `keys`,
