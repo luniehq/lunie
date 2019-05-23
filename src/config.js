@@ -6,8 +6,6 @@ const stargate =
 const rpc =
   process.env.RPC || (dev ? `localhost:26657` : `https://rpc.lunie.io:26657`)
 
-const faucet = process.env.FAUCET
-
 export default {
   name: `Lunie`,
   development: dev,
@@ -19,7 +17,6 @@ export default {
   node_halted_timeout: 120000,
   block_timeout: 10000,
   default_gas_price: dev ? 0 : 2.5e-8, // recommended from Cosmos Docs
-  faucet,
   version: process.env.RELEASE,
 
   // Ledger
