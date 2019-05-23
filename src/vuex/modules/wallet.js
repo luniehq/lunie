@@ -46,14 +46,9 @@ export default ({ node }) => {
         await dispatch(`queryWalletBalances`)
       }
     },
-    async initializeWallet({ state, commit, dispatch }, { address }) {
+    async initializeWallet({ commit, dispatch }, { address }) {
       commit(`setWalletAddress`, address)
-      dispatch(`queryWalletBalances`).then(() => {
-        // if the account is empty and there is a faucet for that network, give the account some money
-        if (state.balances.length === 0 && state.externals.config.faucet) {
-          dispatch(`getMoney`, address)
-        }
-      })
+      dispatch(`queryWalletBalances`)
       dispatch(`getTotalRewards`)
       dispatch(`walletSubscribe`)
     },
@@ -106,13 +101,6 @@ export default ({ node }) => {
       state.subscribedRPC = node.rpc
 
       subscribeToTxs(node.rpc, rootState.session, dispatch)
-    },
-    async getMoney({ state }, address) {
-      return state.externals.axios
-        .get(`${state.externals.config.faucet}/${address}`)
-        .catch(() => {
-          console.error("Requesting tokens from faucet failed.")
-        })
     }
   }
 

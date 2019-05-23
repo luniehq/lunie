@@ -222,6 +222,12 @@ export default {
         memo: this.memo
       })
 
+      const fees = gasEstimate * gasPrice
+      this.$store.commit("updateWalletBalance", {
+        amount: this.balance - uatoms(amount + fees),
+        denom: this.denom
+      })
+
       this.$store.commit(`notify`, {
         title: `Successful Send`,
         body: `Successfully sent ${amount} ${num.viewDenom(

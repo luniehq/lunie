@@ -124,16 +124,16 @@ yarn watch PageValidator
 
 End to end testing will be soon restored thanks to: [Browserstack](https://www.browserstack.com/)
 
-If you want to run them locally build the UI first:
-
-```bash
-yarn test:e2e:build
-```
-
-Now start a testnet:
+If you want to run them locally first start a testnet:
 
 ```bash
 MAX_NODES=4 yarn testnet:start
+```
+
+Then serve Lunie in it's production format:
+
+```bash
+yarn test:e2e:live-serve
 ```
 
 Then run the actual tests:
@@ -142,7 +142,7 @@ Then run the actual tests:
 yarn test:e2e
 ```
 
-Finally stop the testnet:
+Finally stop the testnet when you are done:
 
 ```bash
 yarn testnet:stop
