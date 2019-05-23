@@ -52,27 +52,20 @@ const cmpSecondElementDesc = (a, b) => {
   return b[1] - a[1]
 }
 
-// Takes an object:
+// Takes a num and an object made of (key, number) pairs:
 // {
 //   address1: 100,
 //   address2: 1,
 //   address3: 5,
 //   address4: 3,
 //   address5: 0,
-//   address6: 99,
-//   address7: 9,
-//   address8: 96,
-//   address9: 98,
-//   address10: 97
 // }
-//
-// and returns a copy with the top n values:
+// …and returns a copy with the top num values:
+// getTopDelegations(3, object) =>
 // {
 //   address1: 100,
 //   address6: 99,
 //   address8: 96,
-//   address9: 98,
-//   address10: 97
 // }
 export const getTopDelegations = (num, dataObject) => {
   const dataListArray = Object.entries(dataObject)
