@@ -37,7 +37,9 @@
     },
     "screenshots": {
         "enabled": false,
-        "path": "./screenshots"
+        "path": "./screenshots",
+        "on_failure": true,
+        "on_error": true
     },
     "request_timeout_options": {
         "timeout": 60000,
