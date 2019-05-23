@@ -9,6 +9,7 @@ module.exports = {
       .click("#signOut-btn")
       // sign in
       .waitForElementVisible(".sign-in-button")
+      .pause(1000) // if not waiting here, the session modal closes immediatly // TODO
       .click(".sign-in-button")
       .waitForElementVisible("#session-welcome")
       .click("#sign-in-with-account")
