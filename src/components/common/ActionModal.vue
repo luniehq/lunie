@@ -306,6 +306,7 @@ export default {
       this.show = true
     },
     close() {
+      this.submissionError = null
       this.password = null
       this.step = defaultStep
       this.show = false
@@ -365,10 +366,6 @@ export default {
         this.step = feeStep
       } catch ({ message }) {
         this.submissionError = `${this.submissionErrorPrefix}: ${message}.`
-
-        setTimeout(() => {
-          this.submissionError = null
-        }, 5000)
       }
     },
     async submit() {

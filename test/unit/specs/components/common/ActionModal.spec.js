@@ -195,6 +195,12 @@ describe(`ActionModal`, () => {
       expect(wrapper.vm.password).toBeNull()
     })
 
+    it(`should clear error on close`, () => {
+      wrapper.vm.submissionError = `TRUMP`
+      wrapper.vm.close()
+      expect(wrapper.vm.submissionError).toBeNull()
+    })
+
     it(`should set the step to transaction details`, () => {
       wrapper.vm.step = `sign`
       wrapper.vm.close()
@@ -313,9 +319,6 @@ describe(`ActionModal`, () => {
       expect(self.gasEstimate).toBe(null)
       expect(self.step).toBe(`details`)
       expect(self.submissionError).toBe(`Error: invalid request.`)
-
-      jest.runAllTimers()
-      expect(self.submissionError).toBeNull()
     })
   })
 
