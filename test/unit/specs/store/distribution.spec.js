@@ -189,6 +189,95 @@ describe(`Module: Fee Distribution`, () => {
         })
         expect(dispatch).toHaveBeenCalledWith(`getTotalRewards`)
       })
+
+      it(`success withdrawal one address`, async () => {
+        await actions.withdrawAllRewards(
+          {
+            rootState,
+            dispatch,
+            getters: {
+              committedDelegations: {
+                address1: 100,
+                address2: 1,
+                address3: 5,
+                address4: 3,
+                address5: 0,
+                address6: 99,
+                address7: 9,
+                address8: 96,
+                address9: 98,
+                address10: 97
+              }
+            }
+          },
+          {
+            gas: 456,
+            gasPrice: 123,
+            password: ``,
+            submitType: `ledger`,
+            validatorAddress: `address4`
+          }
+        )
+        expect(dispatch).toHaveBeenCalledWith(`sendTx`, {
+          type: `MsgWithdrawDelegationReward`,
+          txArguments: {
+            toAddress: `cosmos1address`,
+            validatorAddresses: [`address4`]
+          },
+          password: ``,
+          submitType: `ledger`,
+          gas: "456",
+          gas_prices: [{ amount: "123000000", denom: undefined }]
+        })
+        expect(dispatch).toHaveBeenCalledWith(`getTotalRewards`)
+      })
+
+      it(`success withdrawal top 5`, async () => {
+        await actions.withdrawAllRewards(
+          {
+            rootState,
+            dispatch,
+            getters: {
+              committedDelegations: {
+                address1: 100,
+                address2: 1,
+                address3: 5,
+                address4: 3,
+                address5: 0,
+                address6: 99,
+                address7: 9,
+                address8: 96,
+                address9: 98,
+                address10: 97
+              }
+            }
+          },
+          {
+            gas: 456,
+            gasPrice: 123,
+            password: ``,
+            submitType: `ledger`
+          }
+        )
+        expect(dispatch).toHaveBeenCalledWith(`sendTx`, {
+          type: `MsgWithdrawDelegationReward`,
+          txArguments: {
+            toAddress: `cosmos1address`,
+            validatorAddresses: [
+              `address1`,
+              `address6`,
+              `address9`,
+              `address10`,
+              `address8`
+            ]
+          },
+          password: ``,
+          submitType: `ledger`,
+          gas: "456",
+          gas_prices: [{ amount: "123000000", denom: undefined }]
+        })
+        expect(dispatch).toHaveBeenCalledWith(`getTotalRewards`)
+      })
     })
 
     describe(`getRewardsFromMyValidators`, () => {

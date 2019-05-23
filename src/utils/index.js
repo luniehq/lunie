@@ -47,3 +47,41 @@ export const roundObjectPercentages = dataMap => {
 
   return resultObject
 }
+
+const cmpSecondElementDesc = (a, b) => {
+  return b[1] - a[1]
+}
+
+// Takes an object:
+// {
+//   address1: 100,
+//   address2: 1,
+//   address3: 5,
+//   address4: 3,
+//   address5: 0,
+//   address6: 99,
+//   address7: 9,
+//   address8: 96,
+//   address9: 98,
+//   address10: 97
+// }
+//
+// and returns a copy with the top n values:
+// {
+//   address1: 100,
+//   address6: 99,
+//   address8: 96,
+//   address9: 98,
+//   address10: 97
+// }
+export const getTopRewards = (num, dataObject) => {
+  const dataListArray = Object.entries(dataObject)
+  dataListArray.sort(cmpSecondElementDesc)
+  const result = {}
+  dataListArray.slice(0, num).forEach(([add, val]) => {
+    result[add] = val
+  })
+  return result
+}
+
+export const getTop5Rewards = getTopRewards.bind(null, 5)
