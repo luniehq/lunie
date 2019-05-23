@@ -1,10 +1,10 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`ModalWithdrawAllRewards should show the withdraw rewards modal 1`] = `
+exports[`ModalWithdrawRewards should show the withdraw rewards modal 1`] = `
 <actionmodal-stub
   amount="0"
   class="modal-withdraw-rewards"
-  id="modal-withdraw-all-rewards"
+  id="modal-withdraw-rewards"
   simulatefn="function () { [native code] }"
   submissionerrorprefix="Withdrawal failed"
   submitfn="function () { [native code] }"
@@ -23,10 +23,12 @@ exports[`ModalWithdrawAllRewards should show the withdraw rewards modal 1`] = `
      
     <tmfield-stub
       id="amount"
-      readonly="readonly"
+      readonly=""
       type="text"
-      value="10.000000"
+      value="0.000000"
     />
   </tmformgroup-stub>
+   
+  <!---->
 </actionmodal-stub>
 `;

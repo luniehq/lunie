@@ -28,21 +28,25 @@
       </div>
     </div>
     <slot />
-    <ModalWithdrawAllRewards ref="modalWithdrawAllRewards" />
+    <ModalWithdrawRewards
+      ref="ModalWithdrawRewards"
+      :rewards="totalRewards"
+      :denom="bondDenom"
+    />
   </div>
 </template>
 <script>
 import num from "scripts/num"
 import ShortBech32 from "common/ShortBech32"
 import TmBtn from "common/TmBtn"
-import ModalWithdrawAllRewards from "staking/ModalWithdrawAllRewards"
+import ModalWithdrawRewards from "staking/ModalWithdrawRewards"
 import { mapGetters } from "vuex"
 export default {
   name: `tm-balance`,
   components: {
     ShortBech32,
     TmBtn,
-    ModalWithdrawAllRewards
+    ModalWithdrawRewards
   },
   data() {
     return {
@@ -111,7 +115,7 @@ export default {
       this.$store.dispatch(`queryWalletBalances`)
     },
     onWithdrawal() {
-      this.$refs.modalWithdrawAllRewards.open()
+      this.$refs.ModalWithdrawRewards.open()
     }
   }
 }

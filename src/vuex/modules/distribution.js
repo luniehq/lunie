@@ -1,6 +1,8 @@
 import * as Sentry from "@sentry/browser"
 import Vue from "vue"
 import { coinsToObject } from "scripts/common.js"
+import { uatoms } from "../../scripts/num.js"
+import { getTop5Delegations } from "../../utils/"
 
 export default ({ node }) => {
   const emptyState = {
@@ -95,21 +97,28 @@ export default ({ node }) => {
       })
     },
     async withdrawAllRewards(
-      {
-        rootState: { session },
-        getters: { committedDelegations },
-        dispatch
-      },
-      { gas, gas_prices, password, submitType }
+      { rootState, getters, dispatch },
+      { gas, gasPrice, denom, validatorAddress, password, submitType }
     ) {
+      const top5Delegations = getTop5Delegations(getters.committedDelegations)
+
+      const validatorAddresses = validatorAddress
+        ? [validatorAddress]
+        : Object.keys(top5Delegations)
+
       await dispatch(`sendTx`, {
         type: `MsgWithdrawDelegationReward`,
         txArguments: {
-          toAddress: session.address,
-          validatorAddresses: Object.keys(committedDelegations)
+          toAddress: rootState.session.address,
+          validatorAddresses: validatorAddresses
         },
-        gas,
-        gas_prices,
+        gas: String(gas),
+        gas_prices: [
+          {
+            amount: String(uatoms(gasPrice)),
+            denom: denom
+          }
+        ],
         password,
         submitType
       })

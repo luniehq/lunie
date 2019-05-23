@@ -1,0 +1,2 @@
+[Added] [#2647](https://github.com/cosmos/lunie/pull/2647) Add option to withdraw from a single validator @colw
+[Changed] [#2647](https://github.com/cosmos/lunie/pull/2647) Global withdraw will select the top 5 rewards to withdraw @colw
