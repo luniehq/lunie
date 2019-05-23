@@ -37,3 +37,10 @@ module.exports.track = function track(...args) {
     window.ga(`send`, ...args)
   }
 }
+
+module.exports.setGoogleAnalyticsPage = function track(...args) {
+  if (window.ga) {
+    window.ga(`set`, `page`, ...args)
+    window.ga(`send`, `pageview`)
+  }
+}
