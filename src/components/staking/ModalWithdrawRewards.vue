@@ -17,7 +17,7 @@
       <TmField id="amount" :value="rewards | atoms | fullDecimals" readonly />
     </TmFormGroup>
     <span v-if="!validatorAddress" class="form-message">
-      Note: Lunie withdraws only the top 5 rewards from validators at a time.
+      Note: Lunie withdraws only the top 5 rewards at a time.
     </span>
   </ActionModal>
 </template>
