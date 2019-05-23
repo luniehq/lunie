@@ -117,7 +117,7 @@ jobs:
           yarn build:keybase-cache
           if [ "${CIRCLE_BRANCH}" = "master" ]; then
             yarn build:ui --output-path $DIST_TESTNET
-            STARGATE=https://stargate.lunie.io RPC=https://rpc.lunie.io:26657 CIRCLECI=true yarn build:ui
+            RELEASE=true STARGATE=https://stargate.lunie.io RPC=https://rpc.lunie.io:26657 CIRCLECI=true yarn build:ui
           else
             STARGATE=https://stargate.lunie.io RPC=https://rpc.lunie.io:26657 CIRCLECI=true yarn build:ui
           fi
@@ -210,16 +210,6 @@ jobs:
       - sync:
           dist_path: *DIST
           dist_path_testnet: *DIST_TESTNET
-
-  # Release code and sourcemaps to Sentry
-  sentry:
-    executor: web
-    steps:
-      - checkout
-      - yarn-install
-      - run: |
-          mkdir -p dist
-          CIRCLECI=true RELEASE=true yarn build:ui
 
   # Create release.
   release:
@@ -318,14 +308,6 @@ workflows:
           requires:
             - testUnit
             - build
-          filters:
-            branches:
-              only:
-                - develop
-                - master
-      - sentry:
-          requires:
-            - testUnit
           filters:
             branches:
               only:
