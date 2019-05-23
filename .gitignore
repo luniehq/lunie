@@ -19,3 +19,4 @@ chromedriver.log
 src/keybase-cache.json
 certs/
 .env
+screenshots
