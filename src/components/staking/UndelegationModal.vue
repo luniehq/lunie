@@ -11,6 +11,13 @@
     submission-error-prefix="Undelegating failed"
     @close="clear"
   >
+    <TmFormGroup class="action-modal-form-group">
+      <span class="form-message warning">
+        Note: Undelegated tokens will become available for use after 21 days.
+        The undelegated tokens are not usable and do not produce rewards in this
+        time.
+      </span>
+    </TmFormGroup>
     <TmFormGroup
       class="action-modal-form-group"
       field-id="from"
@@ -18,9 +25,6 @@
     >
       <TmField id="from" v-model="validator.operator_address" readonly />
     </TmFormGroup>
-    <span class="form-message">
-      Note: Undelegated tokens will become available for use after 21 days.
-    </span>
     <TmFormGroup
       :error="$v.amount.$error && $v.amount.$invalid"
       class="action-modal-form-group"
@@ -163,3 +167,9 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.form-message.warning {
+  color: var(--warning);
+}
+</style>
