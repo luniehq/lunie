@@ -38,13 +38,11 @@ describe(`ModalWithdrawRewards`, () => {
     wrapper.setProps({
       validatorAddress: null
     })
-    expect(wrapper.find(`.form-message`).text()).toBe(
-      "Note: Lunie will withdraw only the top 5 rewards in a single transaction due to a limitation in the Ledger Nano S."
-    )
+    expect(wrapper.find(`.withdraw-limit`).exists()).toBe(true)
   })
 
   it(`should not display message when withdrawing from single validators`, () => {
-    expect(wrapper.find(`.form-message`)).not.toBe()
+    expect(wrapper.find(`.withdraw-limit`).exists()).toBe(false)
   })
 
   describe(`Withdraw`, () => {

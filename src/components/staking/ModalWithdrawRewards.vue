@@ -16,8 +16,9 @@
       <span class="input-suffix">{{ denom | viewDenom }}</span>
       <TmField id="amount" :value="rewards | atoms | fullDecimals" readonly />
     </TmFormGroup>
-    <span v-if="!validatorAddress" class="form-message">
-      Note: Lunie will withdraw only the top 5 rewards in a single transaction due to a limitation in the Ledger Nano S.
+    <span v-if="!validatorAddress" class="form-message withdraw-limit">
+      Note: Lunie will withdraw only the top 5 rewards in a single transaction
+      due to a limitation in the Ledger Nano S.
     </span>
   </ActionModal>
 </template>
@@ -80,3 +81,9 @@ export default {
   }
 }
 </script>
+
+<style scope>
+.form-message.withdraw-limit {
+  white-space: normal;
+}
+</style>
