@@ -109,7 +109,6 @@
     "vue-template-compiler": "2.6.10",
     "vue-template-es2015-compiler": "1.9.1",
     "webpack": "4.29.6",
-    "webpack-bundle-analyzer": "3.1.0",
     "webpack-cli": "3.3.0",
     "webpack-dev-server": "3.2.1"
   },
