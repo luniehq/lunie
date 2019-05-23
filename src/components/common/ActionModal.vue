@@ -384,9 +384,11 @@ export default {
           this.selectedSignMethod
         )
 
+        track(`event`, `successful-submit`, this.title, this.selectedSignMethod)
         this.close()
       } catch ({ message }) {
         this.submissionError = `${this.submissionErrorPrefix}: ${message}.`
+        track(`event`, `failed-submit`, this.title, message)
 
         setTimeout(() => {
           this.submissionError = null

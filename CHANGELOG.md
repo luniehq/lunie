@@ -7,6 +7,26 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.0-beta.75] - 2019-05-21
+
+### Added
+
+- [#2532](https://github.com/cosmos/lunie/pull/2532) Added a sign in e2e test (to demo e2e tests) @faboweb
+
+### Changed
+
+- [#2618](https://github.com/cosmos/lunie/pull/2618) Refactor Transaction view to reduce code repetition @colw
+- [#2642](https://github.com/cosmos/lunie/pull/2642) We now increase the gas simulated by 1.2 as recommended by the SDK team to avoid out of gas exceptions @faboweb
+
+### Fixed
+
+- [#2640](https://github.com/cosmos/lunie/issues/2640) Fixed false positives on tx inclusion @faboweb
+- [#2643](https://github.com/cosmos/lunie/pull/2643) Don't query the ledger if using a local signer @faboweb
+
+### Deprecated
+
+- [#2626](https://github.com/cosmos/lunie/pull/2626) Removed delegation cart @faboweb
+
 ## [1.0.0-beta.74] - 2019-05-20
 
 ### Fixed

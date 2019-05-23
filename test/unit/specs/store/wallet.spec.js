@@ -86,23 +86,6 @@ describe(`Module: Wallet`, () => {
       expect(rootState).toHaveProperty(`wallet`)
     })
 
-    it(`should fetch money`, async () => {
-      const { state, actions } = instance
-      const address = `X`
-      await actions.getMoney({ state }, address)
-      expect(state.externals.axios.get).toHaveBeenCalledWith(
-        `${faucet}/${address}`
-      )
-    })
-
-    it(`should not throw if fetching money fails`, async () => {
-      jest.spyOn(console, "error").mockImplementationOnce(() => {})
-      const { state, actions } = instance
-      state.externals.axios.get = () => Promise.reject("Expected")
-      const address = `X`
-      expect(actions.getMoney({ state }, address)).resolves
-    })
-
     it(`should initialize wallet`, async () => {
       const { actions } = instance
 
@@ -122,17 +105,6 @@ describe(`Module: Wallet`, () => {
         [`getTotalRewards`],
         [`walletSubscribe`]
       ])
-    })
-
-    it(`should fund empty account if faucet is present`, async () => {
-      const { actions } = instance
-
-      const address = `cosmos1wdhk6e2pv3j8yetnwv0yr6s6`
-      const commit = jest.fn()
-      const dispatch = jest.fn(() => Promise.resolve())
-      state.balances = []
-      await actions.initializeWallet({ state, commit, dispatch }, { address })
-      expect(dispatch).toHaveBeenCalledWith(`getMoney`, address)
     })
 
     it(`should query wallet balances`, async () => {

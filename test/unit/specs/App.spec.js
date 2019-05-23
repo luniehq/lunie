@@ -25,6 +25,7 @@ async function start(urlParams, environment) {
     init: jest.fn()
   }
   const enableGoogleAnalytics = jest.fn()
+  const setGoogleAnalyticsPage = jest.fn()
 
   await startApp(
     urlParams || {},
@@ -39,10 +40,18 @@ async function start(urlParams, environment) {
     },
     Sentry,
     Vue,
-    enableGoogleAnalytics
+    enableGoogleAnalytics,
+    setGoogleAnalyticsPage
   )
 
-  return { store, Vue, enableGoogleAnalytics, Sentry, Node }
+  return {
+    store,
+    Vue,
+    enableGoogleAnalytics,
+    setGoogleAnalyticsPage,
+    Sentry,
+    Node
+  }
 }
 
 describe(`App Start`, () => {
@@ -181,6 +190,12 @@ describe(`App Start`, () => {
     expect(Sentry.init).toHaveBeenCalledWith({})
   })
 
+  it(`should set the current page in google analytics`, async () => {
+    const { setGoogleAnalyticsPage } = await start()
+
+    expect(setGoogleAnalyticsPage).toHaveBeenCalledWith(`/`)
+  })
+
   describe(`url parameters`, () => {
     it(`should set development mode`, async () => {
       const { store } = await start({
@@ -200,6 +215,7 @@ describe(`App Start`, () => {
         `http://rpcurl.com`
       )
     })
+
     it(`should set stargate url`, async () => {
       const { Node } = await start({
         stargate: `http://stargateurl.com`
