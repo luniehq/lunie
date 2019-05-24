@@ -35,10 +35,6 @@
             }
         }
     },
-    "screenshots": {
-        "enabled": false,
-        "path": ""
-    },
     "request_timeout_options": {
         "timeout": 60000,
         "retry_attempts": 5
@@ -50,5 +46,11 @@
                 "*.spec.js"
             ]
         }
+    },
+    "screenshots": {
+        "enabled": true,
+        "path": "./screenshots",
+        "on_failure": true,
+        "on_error": true
     }
 }
