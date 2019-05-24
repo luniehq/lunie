@@ -15,15 +15,15 @@ exports[`UndelegationModal should display undelegation modal form 1`] = `
   <tmformgroup-stub
     class="action-modal-form-group"
   >
-    <span
-      class="form-message warning"
+    <div
+      class="form-message notice"
     >
-      
-      Note: Undelegated tokens will become available for use after 21 days.
-      The undelegated tokens are not usable and do not produce rewards in this
-      time.
-    
-    </span>
+      <span>
+        
+        Undelegations take 21 days to complete and cannot be undone. Please
+        make sure you understand the rules of delegation.
+      </span>
+    </div>
   </tmformgroup-stub>
    
   <tmformgroup-stub

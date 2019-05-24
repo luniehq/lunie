@@ -12,11 +12,12 @@
     @close="clear"
   >
     <TmFormGroup class="action-modal-form-group">
-      <span class="form-message warning">
-        Note: Undelegated tokens will become available for use after 21 days.
-        The undelegated tokens are not usable and do not produce rewards in this
-        time.
-      </span>
+      <div class="form-message notice">
+        <span>
+          Undelegations take 21 days to complete and cannot be undone. Please
+          make sure you understand the rules of delegation.</span
+        >
+      </div>
     </TmFormGroup>
     <TmFormGroup
       class="action-modal-form-group"
@@ -169,7 +170,12 @@ export default {
 </script>
 
 <style scoped>
-.form-message.warning {
-  color: var(--warning);
+.form-message.notice {
+  border-radius: 2px;
+  background-color: #1c223e;
+  margin: 18px 0;
+  padding: 11px 16px;
+  font-size: var(--m);
+  font-style: normal;
 }
 </style>
