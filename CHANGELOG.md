@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.0-beta.77] - 2019-05-24
+
+### Fixed
+
+- [#2659](https://github.com/cosmos/lunie/issues/2659) Load all validators not just bonded once @faboweb
+
 ## [1.0.0-beta.76] - 2019-05-24
 
 ### Added
