@@ -7,6 +7,27 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.0-beta.76] - 2019-05-24
+
+### Added
+
+- [#2647](https://github.com/cosmos/lunie/pull/2647) Add option to withdraw from a single validator @colw
+
+### Changed
+
+- [#2647](https://github.com/cosmos/lunie/pull/2647) Global withdraw will select the top 5 rewards to withdraw @colw
+
+### Fixed
+
+- [#2654](https://github.com/cosmos/lunie/pull/2654) Fixed sign in e2e test not working because of a too fast click @faboweb
+- [#2650](https://github.com/cosmos/lunie/pull/2650) Fixes optimistic update for sending tokens @faboweb
+
+### Repository
+
+- [#2654](https://github.com/cosmos/lunie/pull/2654) Added screenshots if e2e tests fail @faboweb
+- [#2651](https://github.com/cosmos/lunie/pull/2651) Remove ga uid and sentry dsn from repo @faboweb
+- [#2231](https://github.com/cosmos/lunie/issues/2231) Added e2e test for sending tokens @faboweb
+
 ## [1.0.0-beta.75] - 2019-05-21
 
 ### Added
