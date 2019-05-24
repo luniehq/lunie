@@ -10,8 +10,6 @@ const HtmlWebpackPlugin = require(`html-webpack-plugin`)
 const CSPWebpackPlugin = require(`csp-webpack-plugin`)
 const VueLoaderPlugin = require(`vue-loader/lib/plugin`)
 const MiniCssExtractPlugin = require(`mini-css-extract-plugin`)
-// const BundleAnalyzerPlugin = require(`webpack-bundle-analyzer`)
-// .BundleAnalyzerPlugin
 const CleanWebpackPlugin = require(`clean-webpack-plugin`)
 const SentryPlugin = require(`@sentry/webpack-plugin`)
 
@@ -26,19 +24,11 @@ const commitHash = require(`child_process`)
   .toString()
   .trim()
 
-const devPlugins = process.env.CIRCLECI
-  ? []
-  : [
-      new CleanWebpackPlugin()
-      // new BundleAnalyzerPlugin({
-      //   analyzerMode: `static`,
-      //   openAnalyzer: false
-      // })
-    ]
+const devPlugins = process.env.CIRCLECI ? [] : [new CleanWebpackPlugin()]
 
 const production = process.env.NODE_ENV === `production`
 
-const rendererConfig = {
+const config = {
   devtool: production ? `#cheap-source-map` : `#inline-source-map`,
   entry: {
     renderer: path.join(__dirname, `src/main.js`)
@@ -133,7 +123,9 @@ const rendererConfig = {
         FAUCET: JSON.stringify(process.env.FAUCET),
         RPC: JSON.stringify(process.env.RPC),
         STARGATE: JSON.stringify(process.env.STARGATE),
-        RELEASE: JSON.stringify(commitHash)
+        RELEASE: JSON.stringify(commitHash),
+        GOOGLE_ANALYTICS_UID: JSON.stringify(process.env.GOOGLE_ANALYTICS_UID),
+        SENTRY_DSN: JSON.stringify(process.env.SENTRY_DSN)
       }
     }),
     new HtmlWebpackPlugin({
@@ -199,7 +191,7 @@ const rendererConfig = {
  * Adjust rendererConfig for production settings
  */
 if (process.env.NODE_ENV === `production`) {
-  rendererConfig.plugins.push(
+  config.plugins.push(
     new webpack.LoaderOptionsPlugin({
       minimize: true
     })
@@ -208,7 +200,7 @@ if (process.env.NODE_ENV === `production`) {
   // don't set the content security policy in e2e tests as we need to connect to a testnet
   if (!process.env.E2E_TESTS) {
     // adds the content security policy to the index.html
-    rendererConfig.plugins.push(
+    config.plugins.push(
       new CSPWebpackPlugin({
         "object-src": `'none'`,
         "base-uri": `'self'`,
@@ -244,7 +236,7 @@ if (process.env.NODE_ENV === `production`) {
 
 if (process.env.RELEASE) {
   console.log(`releasing to Sentry`)
-  rendererConfig.plugins.push(
+  config.plugins.push(
     new SentryPlugin({
       include: `./dist`,
       validate: true
@@ -252,4 +244,4 @@ if (process.env.RELEASE) {
   )
 }
 
-module.exports = rendererConfig
+module.exports = config

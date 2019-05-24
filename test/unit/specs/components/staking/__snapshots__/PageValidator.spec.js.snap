@@ -63,6 +63,12 @@ exports[`PageValidator shows a validator profile information errors signing info
               id="undelegation-btn"
               value="Undelegate"
             />
+             
+            <tmbtn-stub
+              id="withdraw-btn"
+              to=""
+              value="Withdraw"
+            />
           </div>
         </div>
       </div>
@@ -93,7 +99,7 @@ exports[`PageValidator shows a validator profile information errors signing info
             </dt>
              
             <dd>
-              0 STAKE
+              --
             </dd>
           </dl>
         </div>
@@ -319,6 +325,12 @@ exports[`PageValidator shows a validator profile information errors signing info
       maximum="0"
       to="cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9"
       validator="[object Object]"
+    />
+     
+    <modalwithdrawrewards-stub
+      denom="STAKE"
+      rewards="0"
+      validatoraddress="cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
     />
   </template>
 </tmpage-stub>
@@ -387,6 +399,12 @@ exports[`PageValidator shows a validator profile information if user has signed 
               id="undelegation-btn"
               value="Undelegate"
             />
+             
+            <tmbtn-stub
+              id="withdraw-btn"
+              to=""
+              value="Withdraw"
+            />
           </div>
         </div>
       </div>
@@ -417,7 +435,7 @@ exports[`PageValidator shows a validator profile information if user has signed 
             </dt>
              
             <dd>
-              0 STAKE
+              --
             </dd>
           </dl>
         </div>
@@ -644,6 +662,12 @@ exports[`PageValidator shows a validator profile information if user has signed 
       to="cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9"
       validator="[object Object]"
     />
+     
+    <modalwithdrawrewards-stub
+      denom="STAKE"
+      rewards="0"
+      validatoraddress="cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
+    />
   </template>
 </tmpage-stub>
 `;
@@ -710,6 +734,13 @@ exports[`PageValidator shows a validator profile information if user hasn't sign
               color="secondary"
               id="undelegation-btn"
               value="Undelegate"
+            />
+             
+            <tmbtn-stub
+              disabled="true"
+              id="withdraw-btn"
+              to=""
+              value="Withdraw"
             />
           </div>
         </div>
@@ -967,6 +998,11 @@ exports[`PageValidator shows a validator profile information if user hasn't sign
       maximum="0"
       to=""
       validator="[object Object]"
+    />
+     
+    <modalwithdrawrewards-stub
+      denom="STAKE"
+      validatoraddress="cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
     />
   </template>
 </tmpage-stub>

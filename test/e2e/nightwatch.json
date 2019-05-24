@@ -6,7 +6,7 @@
     "globals_path": "./globals.js",
     "disable_colors": false,
     "test_workers": false,
-    "launch_url": "https://localhost:8081",
+    "launch_url": "https://localhost:9080",
     "webdriver": {
         "start_process": true,
         "port": 9515,
@@ -29,12 +29,11 @@
             "args": [
                 "disable-web-security",
                 "ignore-certificate-errors"
-            ]
+            ],
+            "prefs": {
+                "intl.accept_languages": "en-US,en"
+            }
         }
-    },
-    "screenshots": {
-        "enabled": false,
-        "path": ""
     },
     "request_timeout_options": {
         "timeout": 60000,
@@ -47,5 +46,11 @@
                 "*.spec.js"
             ]
         }
+    },
+    "screenshots": {
+        "enabled": true,
+        "path": "./screenshots",
+        "on_failure": true,
+        "on_error": true
     }
 }

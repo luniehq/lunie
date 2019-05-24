@@ -1,6 +1,5 @@
 import { shallowMount, createLocalVue } from "@vue/test-utils"
 import PageValidator from "src/components/staking/PageValidator"
-import BigNumber from "bignumber.js"
 
 const stakingParameters = {
   unbonding_time: `259200000000000`,
@@ -293,14 +292,14 @@ describe(`PageValidator`, () => {
           }
         }
       }
-      const rewardsString = PageValidator.computed.rewards.call({
+      const rewardsValue = PageValidator.computed.rewards.call({
         session,
         bondDenom,
         distribution,
         validator,
         lastHeader
       })
-      expect(rewardsString).toBe(`100 STAKE`)
+      expect(rewardsValue).toBe(100000000)
     })
 
     it(`when validator rewards are 0`, () => {
@@ -312,26 +311,26 @@ describe(`PageValidator`, () => {
         }
       }
 
-      const rewardsString = PageValidator.computed.rewards.call({
+      const rewardsValue = PageValidator.computed.rewards.call({
         session,
         bondDenom,
         distribution,
         validator,
         lastHeader
       })
-      expect(rewardsString).toBe(`0 STAKE`)
+      expect(rewardsValue).toBe(0)
     })
 
     it(`when user doesn't have any delegations`, () => {
       const distribution = { rewards: {} }
-      const rewardsString = PageValidator.computed.rewards.call({
+      const rewardsValue = PageValidator.computed.rewards.call({
         session,
         bondDenom,
         distribution,
         validator,
         lastHeader
       })
-      expect(rewardsString).toBeNull()
+      expect(rewardsValue).toBe(0)
     })
   })
 
@@ -549,14 +548,11 @@ describe(`delegationTargetOptions`, () => {
     describe(`onDelegation`, () => {
       it(`should open delegation modal`, () => {
         const self = {
-          action: ``,
-          liquidAtoms: 42,
           $refs: {
             delegationModal: {
               open: jest.fn()
             }
-          },
-          showCannotModal: false
+          }
         }
         PageValidator.methods.onDelegation.call(self)
         expect(self.$refs.delegationModal.open).toHaveBeenCalled()
@@ -566,17 +562,41 @@ describe(`delegationTargetOptions`, () => {
     describe(`onUndelegation`, () => {
       it(`should open undelegation modal`, () => {
         const self = {
-          action: ``,
-          myBond: BigNumber(42),
           $refs: {
             undelegationModal: {
               open: jest.fn()
             }
-          },
-          showCannotModal: false
+          }
         }
         PageValidator.methods.onUndelegation.call(self)
         expect(self.$refs.undelegationModal.open).toHaveBeenCalled()
+      })
+    })
+
+    describe(`onWithdrawal`, () => {
+      it(`should open withdrawal modal when there are rewards`, () => {
+        const self = {
+          rewards: 1,
+          $refs: {
+            modalWithdrawRewards: {
+              open: jest.fn()
+            }
+          }
+        }
+        PageValidator.methods.onWithdrawal.call(self)
+        expect(self.$refs.modalWithdrawRewards.open).toHaveBeenCalled()
+      })
+      it(`should not open withdrawal modal when there are zero rewards`, () => {
+        const self = {
+          rewards: 0,
+          $refs: {
+            modalWithdrawRewards: {
+              open: jest.fn()
+            }
+          }
+        }
+        PageValidator.methods.onWithdrawal.call(self)
+        expect(self.$refs.modalWithdrawRewards.open).not.toHaveBeenCalled()
       })
     })
   })

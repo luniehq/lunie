@@ -53,6 +53,13 @@
                 color="secondary"
                 @click.native="onUndelegation"
               />
+              <TmBtn
+                id="withdraw-btn"
+                :disabled="rewards <= 0"
+                :value="connected ? 'Withdraw' : 'Connecting...'"
+                :to="''"
+                @click.native="onWithdrawal"
+              />
             </div>
           </div>
         </div>
@@ -65,7 +72,11 @@
             </dl>
             <dl class="info_dl colored_dl">
               <dt>My Rewards</dt>
-              <dd>{{ rewards || "--" }}</dd>
+              <dd v-if="rewards > 0">
+                {{ rewards | atoms | shortDecimals }}
+                {{ bondDenom | viewDenom }}
+              </dd>
+              <dd v-else>--</dd>
             </dl>
           </div>
 
@@ -173,6 +184,12 @@
         :validator="validator"
         :denom="bondDenom"
       />
+      <ModalWithdrawRewards
+        ref="modalWithdrawRewards"
+        :validator-address="validator.operator_address"
+        :rewards="rewards"
+        :denom="bondDenom"
+      />
     </template>
   </TmPage>
 </template>
@@ -181,11 +198,12 @@
 import moment from "moment"
 import { calculateTokens } from "scripts/common"
 import { mapGetters } from "vuex"
-import num from "scripts/num"
+import num, { atoms, viewDenom, shortDecimals } from "scripts/num"
 import TmBtn from "common/TmBtn"
 import { shortAddress, ratToBigNumber } from "scripts/common"
 import DelegationModal from "staking/DelegationModal"
 import UndelegationModal from "staking/UndelegationModal"
+import ModalWithdrawRewards from "staking/ModalWithdrawRewards"
 import ShortBech32 from "common/ShortBech32"
 import TmPage from "common/TmPage"
 import isEmpty from "lodash.isempty"
@@ -195,11 +213,16 @@ export default {
     ShortBech32,
     DelegationModal,
     UndelegationModal,
+    ModalWithdrawRewards,
     TmBtn,
     TmPage
   },
+  filters: {
+    atoms,
+    viewDenom,
+    shortDecimals
+  },
   data: () => ({
-    showCannotModal: false,
     shortAddress,
     tabIndex: 1,
     moment,
@@ -320,14 +343,7 @@ export default {
       }
 
       const validatorRewards = distribution.rewards[validator.operator_address]
-      const amount = validatorRewards
-        ? num.shortDecimals(num.atoms(validatorRewards[bondDenom])) || 0
-        : null
-
-      if (amount) {
-        return `${amount} ${num.viewDenom(bondDenom)}`
-      }
-      return null
+      return validatorRewards ? validatorRewards[bondDenom] : 0
     }
   },
   watch: {
@@ -376,6 +392,11 @@ export default {
     },
     onUndelegation() {
       this.$refs.undelegationModal.open()
+    },
+    onWithdrawal() {
+      if (this.rewards > 0) {
+        this.$refs.modalWithdrawRewards.open()
+      }
     },
     delegationTargetOptions(
       { session, liquidAtoms, committedDelegations, $route, delegates } = this

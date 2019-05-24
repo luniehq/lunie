@@ -72,9 +72,9 @@ describe(`TmBalance`, () => {
   })
 
   it(`opens withdraw modal`, () => {
-    const $refs = { modalWithdrawAllRewards: { open: jest.fn() } }
+    const $refs = { ModalWithdrawRewards: { open: jest.fn() } }
     TmBalance.methods.onWithdrawal.call({ $refs })
-    expect($refs.modalWithdrawAllRewards.open).toHaveBeenCalled()
+    expect($refs.ModalWithdrawRewards.open).toHaveBeenCalled()
   })
 
   describe(`update balance and total rewards on new blocks`, () => {

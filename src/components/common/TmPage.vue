@@ -231,8 +231,12 @@ export default {
   flex-direction: column;
 }
 
-.page-profile__header__actions button:first-child {
+.page-profile__header__actions button {
   margin-bottom: 0.5rem;
+}
+
+.page-profile__header__actions button:last-child {
+  margin-bottom: 0;
 }
 
 .page-profile__status.red {
