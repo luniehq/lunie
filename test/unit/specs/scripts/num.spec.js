@@ -21,6 +21,10 @@ describe(`number helper`, () => {
     expect(num.percentInt(0.2612)).toBe(`26%`)
   })
 
+  it(`should format numbers showing many decimals and separator`, () => {
+    expect(num.prettyLong(1001950.123456789)).toBe(`1,001,950.123456789`)
+  })
+
   it(`should format percent with decimals`, () => {
     expect(num.percent(0.2612)).toBe(`26.12%`)
   })

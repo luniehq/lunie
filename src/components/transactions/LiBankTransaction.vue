@@ -8,7 +8,7 @@
   >
     <template v-if="address === ''">
       <div slot="caption">
-        Sent <b>{{ txAmount | toAtoms | shortDecimals }}</b>
+        Sent <b>{{ txAmount | toAtoms | prettyLong }}</b>
         <span>{{ txDenom | viewDenom }}</span>
       </div>
       <span slot="details">
@@ -20,7 +20,7 @@
     </template>
     <template v-else-if="sent">
       <div slot="caption">
-        Sent <b>{{ txAmount | toAtoms | shortDecimals }}</b>
+        Sent <b>{{ txAmount | toAtoms | prettyLong }}</b>
         <span>{{ txDenom | viewDenom }}</span>
       </div>
       <span slot="details">
@@ -34,7 +34,7 @@
     </template>
     <template v-else>
       <div slot="caption">
-        Received <b>{{ txAmount | toAtoms | shortDecimals }}</b>
+        Received <b>{{ txAmount | toAtoms | prettyLong }}</b>
         <span>{{ txDenom | viewDenom }}</span>
       </div>
       <span slot="details">
@@ -47,11 +47,7 @@
 <script>
 import ShortBech32 from "common/ShortBech32"
 import LiTransaction from "./LiTransaction"
-import {
-  atoms as toAtoms,
-  viewDenom,
-  shortDecimals
-} from "../../scripts/num.js"
+import { atoms as toAtoms, viewDenom, prettyLong } from "../../scripts/num.js"
 
 export default {
   name: `li-bank-transaction`,
@@ -62,7 +58,7 @@ export default {
   filters: {
     toAtoms,
     viewDenom,
-    shortDecimals
+    prettyLong
   },
   props: {
     tx: {
