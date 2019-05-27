@@ -34,6 +34,13 @@ export function pretty(number = 0) {
   }).format(Math.round(number * 100) / 100)
 }
 
+export function prettyLong(number = 0) {
+  return new Intl.NumberFormat(language, {
+    maximumFractionDigits: 20,
+    useGrouping: true
+  }).format(number)
+}
+
 // pretty print long decimals not in scientific notation
 export function prettyDecimals(number = 0) {
   let longDecimals = new Intl.NumberFormat(language, {
@@ -108,6 +115,7 @@ export default {
   fullDecimals,
   pretty,
   prettyInt,
+  prettyLong,
   percent,
   percentInt,
   prettyDecimals
