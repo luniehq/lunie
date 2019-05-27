@@ -1,0 +1,1 @@
+[Fixed] [#2657](https://github.com/cosmos/lunie/issues/2657) Display full transaction value and network fee, do not truncate. @colw
