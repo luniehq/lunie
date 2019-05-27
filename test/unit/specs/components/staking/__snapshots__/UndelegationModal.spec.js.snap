@@ -14,6 +14,20 @@ exports[`UndelegationModal should display undelegation modal form 1`] = `
 >
   <tmformgroup-stub
     class="action-modal-form-group"
+  >
+    <div
+      class="form-message notice"
+    >
+      <span>
+        
+        Undelegations take 21 days to complete and cannot be undone. Please
+        make sure you understand the rules of delegation.
+      </span>
+    </div>
+  </tmformgroup-stub>
+   
+  <tmformgroup-stub
+    class="action-modal-form-group"
     fieldid="from"
     fieldlabel="From"
   >
