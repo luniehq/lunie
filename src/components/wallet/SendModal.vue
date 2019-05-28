@@ -269,5 +269,6 @@ export default {
   height: 58px;
   padding: 12px 0;
   box-sizing: content-box;
+  font-size: var(--sm);
 }
 </style>

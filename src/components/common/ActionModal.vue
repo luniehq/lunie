@@ -286,7 +286,7 @@ export default {
       if (this.session.sessionType === `ledger`) {
         return [
           {
-            key: `Ledger Nano S`,
+            key: `Ledger Nano`,
             value: signWithLedger
           }
         ]
@@ -445,14 +445,13 @@ export default {
   border-top-left-radius: 0.25rem;
   border-top-right-radius: 0.25rem;
   box-shadow: 0 2px 8px rgba(200, 200, 200, 0.1);
-  transition: all 1s ease;
 }
 
 .action-modal-header {
   align-items: center;
   text-align: center;
   display: flex;
-  padding-bottom: 1.5rem;
+  padding-bottom: 2rem;
 }
 
 .action-modal-atom {
@@ -462,8 +461,8 @@ export default {
 
 .action-modal-title {
   flex: 1;
-  font-size: var(--h3);
-  font-weight: 500;
+  font-size: var(--h2);
+  font-weight: 400;
   color: var(--bright);
   padding-left: 1rem;
 }
@@ -519,8 +518,8 @@ export default {
   border-radius: 2px;
   background-color: #1c223e;
   font-weight: 300;
-  margin: 1rem 0;
-  padding: 0.5rem 1rem;
+  margin: 2rem 0;
+  padding: 1rem 1rem;
   font-size: 14px;
   font-style: normal;
 }

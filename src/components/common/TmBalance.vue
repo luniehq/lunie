@@ -150,7 +150,6 @@ export default {
 }
 
 .header-balance .top h3 {
-  color: var(--dim);
   font-size: 14px;
   margin: 0;
   font-weight: 400;
