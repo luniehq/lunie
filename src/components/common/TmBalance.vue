@@ -154,6 +154,7 @@ export default {
   font-size: 14px;
   margin: 0;
   font-weight: 400;
+  white-space: nowrap;
 }
 
 .header-balance .top h2 {

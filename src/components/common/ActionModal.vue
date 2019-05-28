@@ -440,10 +440,12 @@ export default {
   bottom: 0;
   width: 100%;
   max-width: 564px;
+  min-height: 400px;
   z-index: var(--z-modal);
   border-top-left-radius: 0.25rem;
   border-top-right-radius: 0.25rem;
   box-shadow: 0 2px 8px rgba(200, 200, 200, 0.1);
+  transition: all 1s ease;
 }
 
 .action-modal-header {
@@ -510,6 +512,17 @@ export default {
   font-weight: 500;
   font-style: italic;
   color: var(--dim);
+  display: inline-block;
+}
+
+.form-message.notice {
+  border-radius: 2px;
+  background-color: #1c223e;
+  font-weight: 300;
+  margin: 1rem 0;
+  padding: 0.5rem 1rem;
+  font-size: 14px;
+  font-style: normal;
 }
 
 .slide-fade-enter-active {
