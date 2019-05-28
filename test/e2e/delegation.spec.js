@@ -48,12 +48,16 @@ module.exports = {
     // open modal and enter amount
     browser.waitForElementVisible(`#delegation-btn`).click("#delegation-btn")
 
-    const value = "1.53"
+    const value = "5.53"
     await actionModalCheckout(
       browser,
       // actions to do on details page
-      () => {
-        browser.click("#from option[value='1']").setValue("#amount", value)
+      async () => {
+        browser
+          .click("#from")
+          .click("#from option[value='1']")
+          .setValue("#amount", value)
+        await new Promise(resolve => setTimeout(resolve, 1000))
       },
       // expected subtotal
       value
@@ -82,11 +86,12 @@ module.exports = {
       .waitForElementVisible(`#undelegation-btn`)
       .click("#undelegation-btn")
 
+    const value = "4.2"
     await actionModalCheckout(
       browser,
       // actions to do on details page
       () => {
-        browser.setValue("#amount", "0.2")
+        browser.setValue("#amount", value)
       },
       // expected subtotal
       "0"
@@ -96,7 +101,7 @@ module.exports = {
     browser
       .url(browser.launch_url + "/#/transactions")
       .expect.element(".li-tx__content__caption__title")
-      .text.to.contain("Undelegated 0.2 STAKE")
+      .text.to.contain(`Undelegated ${value} STAKE`)
       .before(10 * 1000)
   }
 }

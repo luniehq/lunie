@@ -42,9 +42,9 @@ async function waitFor(check, iterations = 10, timeout = 1000) {
 async function actionModalCheckout(
   browser,
   detailsActionFn,
-  expectedSubtotal
-  // expectedLiquidityChange = 0,
-  // expectedAvailabilityChange = 0
+  expectedSubtotal,
+  expectedTotalChange = 0,
+  expectedAvailableTokensChange = 0
 ) {
   // remember balance to compare later if send got through
   browser
@@ -52,12 +52,12 @@ async function actionModalCheckout(
     .expect.element(".total-atoms__value")
     .text.not.to.contain("--")
     .before(10 * 1000)
-  // const balanceBefore = await getBalance(browser)
-  // const availableTokensBefore = await getAvailableTokens(browser)
+  const balanceBefore = await getBalance(browser)
+  const availableTokensBefore = await getAvailableTokens(browser)
 
   browser.waitForElementVisible(".action-modal")
 
-  detailsActionFn()
+  await detailsActionFn()
 
   // proceed to invoice step
   browser
@@ -70,16 +70,16 @@ async function actionModalCheckout(
     .text.to.contain(expectedSubtotal)
 
   // remember fees
-  // const fees = await new Promise(resolve =>
-  //   browser.getText(
-  //     ".table-invoice li:nth-child(2) span:last-child",
-  //     ({ value }) => resolve(numeral(value).value())
-  //   )
-  // )
+  const fees = await new Promise(resolve =>
+    browser.getText(
+      ".table-invoice li:nth-child(2) span:last-child",
+      ({ value }) => resolve(numeral(value).value())
+    )
+  )
 
   // await next block to be sure about the sequence number
   // TODO needs to be fixed and put into cosmos-js
-  await nextBlock(browser)
+  // await nextBlock(browser)
 
   // submit
   browser
@@ -93,17 +93,22 @@ async function actionModalCheckout(
   await nextBlock(browser)
 
   // check if balance header updates as expected
-  // TODO FIX
-  // await waitFor(async () => {
-  //   expect(
-  //     String(balanceBefore - expectedLiquidityChange - fees)
-  //   ).to.startsWith(String(await getBalance(browser)))
-  // })
-  // await waitFor(async () => {
-  //   expect(
-  //     String(availableTokensBefore - expectedAvailabilityChange - fees)
-  //   ).to.startsWith(String(await getAvailableTokens(browser)))
-  // })
+  // TODO find a way to know the rewards on an undelegation to know the final balance 100%
+  await waitFor(async () => {
+    const approximatedBalanceAfter = balanceBefore - expectedTotalChange - fees
+    expect(
+      Math.abs(approximatedBalanceAfter - (await getBalance(browser)))
+    ).to.be.lessThan(2) // acounting for rewards being withdrawn on an undelegation
+  })
+  await waitFor(async () => {
+    const approximatedAvailableBalanceAfter =
+      availableTokensBefore - expectedAvailableTokensChange - fees
+    expect(
+      Math.abs(
+        approximatedAvailableBalanceAfter - (await getAvailableTokens(browser))
+      )
+    ).to.be.lessThan(2) // acounting for rewards being withdrawn on an undelegation
+  })
 }
 async function nextBlock(browser) {
   const lastHeigth = await new Promise(resolve =>
