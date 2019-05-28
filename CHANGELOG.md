@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.0-beta.78] - 2019-05-28
+
+### Added
+
+- [#2619](https://github.com/cosmos/lunie/pull/2619) Warn user of pending period when undelegating tokens. @colw
+
+### Fixed
+
+- [#2657](https://github.com/cosmos/lunie/issues/2657) Display full transaction value and network fee, do not truncate. @colw
+
 ## [1.0.0-beta.77] - 2019-05-24
 
 ### Fixed
