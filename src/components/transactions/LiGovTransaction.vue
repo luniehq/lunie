@@ -9,7 +9,7 @@
     <template v-if="txType === `cosmos-sdk/MsgSubmitProposal`">
       <div slot="caption">
         Submitted {{ tx.proposal_type.toLowerCase() }} proposal
-        <b>{{ initialDeposit.amount | toAtoms | shortDecimals }}</b>
+        <b>{{ initialDeposit.amount | toAtoms | prettyLong }}</b>
         <span>{{ initialDeposit.denom | viewDenom }}</span>
       </div>
       <div slot="details">
@@ -20,7 +20,7 @@
       <div slot="caption">
         Deposited
         <template>
-          <b>{{ deposit.amount | toAtoms | shortDecimals }}</b>
+          <b>{{ deposit.amount | toAtoms | prettyLong }}</b>
           <span>{{ deposit.denom | viewDenom }}</span>
         </template>
       </div>
@@ -45,19 +45,15 @@
 
 <script>
 import LiTransaction from "./LiTransaction"
-import {
-  atoms as toAtoms,
-  viewDenom,
-  shortDecimals
-} from "../../scripts/num.js"
+import { atoms as toAtoms, prettyLong, viewDenom } from "../../scripts/num.js"
 
 export default {
   name: `li-gov-transaction`,
   components: { LiTransaction },
   filters: {
     toAtoms,
-    viewDenom,
-    shortDecimals
+    prettyLong,
+    viewDenom
   },
   props: {
     tx: {

@@ -11,6 +11,14 @@
     submission-error-prefix="Undelegating failed"
     @close="clear"
   >
+    <TmFormGroup class="action-modal-form-group">
+      <div class="form-message notice">
+        <span>
+          Undelegations take 21 days to complete and cannot be undone. Please
+          make sure you understand the rules of delegation.</span
+        >
+      </div>
+    </TmFormGroup>
     <TmFormGroup
       class="action-modal-form-group"
       field-id="from"
@@ -160,3 +168,14 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.form-message.notice {
+  border-radius: 2px;
+  background-color: #1c223e;
+  margin: 18px 0;
+  padding: 11px 16px;
+  font-size: var(--m);
+  font-style: normal;
+}
+</style>
