@@ -89,6 +89,9 @@ async function actionModalCheckout(
 
   browser.expect.element(".action-modal").not.to.be.present.before(10 * 1000)
 
+  // Wait for UI to be updated according to new state
+  await nextBlock(browser)
+
   // check if balance header updates as expected
   // TODO FIX
   // await waitFor(async () => {

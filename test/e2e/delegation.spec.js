@@ -15,7 +15,7 @@ module.exports = {
     // open modal and enter amount
     browser.waitForElementVisible(`#delegation-btn`).click("#delegation-btn")
 
-    const value = "1.42"
+    const value = "10.42"
     await actionModalCheckout(
       browser,
       // actions to do on details page
