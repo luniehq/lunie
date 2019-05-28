@@ -42,9 +42,9 @@ async function waitFor(check, iterations = 10, timeout = 1000) {
 async function actionModalCheckout(
   browser,
   detailsActionFn,
-  expectedSubtotal,
-  expectedLiquidityChange = 0,
-  expectedAvailabilityChange = 0
+  expectedSubtotal
+  // expectedLiquidityChange = 0,
+  // expectedAvailabilityChange = 0
 ) {
   // remember balance to compare later if send got through
   browser
@@ -52,8 +52,8 @@ async function actionModalCheckout(
     .expect.element(".total-atoms__value")
     .text.not.to.contain("--")
     .before(10 * 1000)
-  const balanceBefore = await getBalance(browser)
-  const availableTokensBefore = await getAvailableTokens(browser)
+  // const balanceBefore = await getBalance(browser)
+  // const availableTokensBefore = await getAvailableTokens(browser)
 
   browser.waitForElementVisible(".action-modal")
 
@@ -70,12 +70,12 @@ async function actionModalCheckout(
     .text.to.contain(expectedSubtotal)
 
   // remember fees
-  const fees = await new Promise(resolve =>
-    browser.getText(
-      ".table-invoice li:nth-child(2) span:last-child",
-      ({ value }) => resolve(numeral(value).value())
-    )
-  )
+  // const fees = await new Promise(resolve =>
+  //   browser.getText(
+  //     ".table-invoice li:nth-child(2) span:last-child",
+  //     ({ value }) => resolve(numeral(value).value())
+  //   )
+  // )
 
   // await next block to be sure about the sequence number
   // TODO needs to be fixed and put into cosmos-js
