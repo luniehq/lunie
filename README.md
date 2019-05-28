@@ -139,7 +139,13 @@ yarn test:e2e:live-serve
 Then run the actual tests:
 
 ```bash
-yarn test:e2e
+yarn test:e2e:run
+```
+
+Or run only some tests by providing a filter:
+
+```bash
+yarn test:e2e:run --filter send.spec.js
 ```
 
 Finally stop the testnet when you are done:
