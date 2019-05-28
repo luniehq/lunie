@@ -100,7 +100,7 @@ export default ({ node }) => {
 
       state.subscribedRPC = node.rpc
 
-      subscribeToTxs(node.rpc, rootState.session, dispatch)
+      subscribeToTxs(node.rpc, rootState.session.address, dispatch)
     }
   }
 
@@ -113,6 +113,7 @@ export default ({ node }) => {
 
 function subscribeToTxs(rpcClient, address, dispatch) {
   function onTx(data) {
+    console.log(data)
     dispatch(`queryWalletStateAfterHeight`, data.TxResult.height + 1)
   }
 
