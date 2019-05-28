@@ -53,13 +53,6 @@
                 color="secondary"
                 @click.native="onUndelegation"
               />
-              <TmBtn
-                id="withdraw-btn"
-                :disabled="rewards <= 0"
-                :value="connected ? 'Withdraw' : 'Connecting...'"
-                :to="''"
-                @click.native="onWithdrawal"
-              />
             </div>
           </div>
         </div>
