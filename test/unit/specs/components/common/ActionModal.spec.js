@@ -57,7 +57,7 @@ describe(`ActionModal`, () => {
       $store,
       submitFn,
       submissionErrorPrefix: `PREFIX`,
-      connectLedger: () => {}
+      connectLedger: () => { }
     }
     await ActionModal.methods.submit.call(self)
 
@@ -75,7 +75,7 @@ describe(`ActionModal`, () => {
       $store,
       submitFn,
       submissionErrorPrefix: `PREFIX`,
-      connectLedger: () => {}
+      connectLedger: () => { }
     }
     await ActionModal.methods.submit.call(self)
 
@@ -469,7 +469,7 @@ describe(`ActionModal`, () => {
       expect(wrapper.vm.selectedSignMethod).toBe(`ledger`)
       expect(wrapper.vm.signMethods).toEqual([
         {
-          key: `Ledger Nano S`,
+          key: `Ledger Nano`,
           value: `ledger`
         }
       ])

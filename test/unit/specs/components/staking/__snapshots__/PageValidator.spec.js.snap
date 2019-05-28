@@ -63,12 +63,6 @@ exports[`PageValidator shows a validator profile information errors signing info
               id="undelegation-btn"
               value="Undelegate"
             />
-             
-            <tmbtn-stub
-              id="withdraw-btn"
-              to=""
-              value="Withdraw"
-            />
           </div>
         </div>
       </div>
@@ -399,12 +393,6 @@ exports[`PageValidator shows a validator profile information if user has signed 
               id="undelegation-btn"
               value="Undelegate"
             />
-             
-            <tmbtn-stub
-              id="withdraw-btn"
-              to=""
-              value="Withdraw"
-            />
           </div>
         </div>
       </div>
@@ -734,13 +722,6 @@ exports[`PageValidator shows a validator profile information if user hasn't sign
               color="secondary"
               id="undelegation-btn"
               value="Undelegate"
-            />
-             
-            <tmbtn-stub
-              disabled="true"
-              id="withdraw-btn"
-              to=""
-              value="Withdraw"
             />
           </div>
         </div>
