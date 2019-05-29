@@ -5,11 +5,15 @@ exports[`TmSessionHardware should show a state indicator for different states of
         Sign In
       </div> <a><i class=\\"material-icons\\">close</i></a></div> <div class=\\"tm-session-main\\"><div class=\\"tm-hardware-state\\"><div class=\\"tm-hardware-state-content\\"><!----> <div class=\\"tm-hardware-state__label\\">
           Please plug in your Ledger&nbsp;Nano&nbsp;S and open the Cosmos app
-         <!----> <!----></div></div> <img src=\\"~assets/images/loader.svg\\" style=\\"display: none;\\"></div></div> <div class=\\"tm-session-footer\\"><p class=\\"ledger-install\\">
-        Don't have the Cosmos Ledger App yet? Install it
-        <a href=\\"https://github.com/cosmos/voyager#ledger-cosmos-app\\" target=\\"_blank\\" rel=\\"noopener noreferrer\\">
-          here </a>.
-      </p> <button class=\\"tm-btn\\"><span class=\\"tm-btn__container\\"><!----><span class=\\"tm-btn__value\\">Sign In</span></span></button></div></div></div>"
+         <!----> <!----></div></div> <img src=\\"~assets/images/loader.svg\\" style=\\"display: none;\\"></div></div> <div class=\\"tm-session-footer\\"><div class=\\"install-notes\\"><p class=\\"ledger-install\\">
+          Don't have the Cosmos Ledger App yet? Install it
+          <a href=\\"https://github.com/cosmos/voyager#ledger-cosmos-app\\" target=\\"_blank\\" rel=\\"noopener noreferrer\\">
+            here</a>.
+        </p> <p class=\\"ledger-install\\">
+          Don't have a Ledger yet?
+          <a href=\\"https://shop.ledger.com/?r=3dd204ef7508\\" target=\\"_blank\\" rel=\\"noopener noreferrer\\">
+            Get one here</a>.
+        </p></div> <button class=\\"tm-btn\\"><span class=\\"tm-btn__container\\"><!----><span class=\\"tm-btn__value\\">Sign In</span></span></button></div></div></div>"
 `;
 
 exports[`TmSessionHardware should show a state indicator for different states of the hardware connection 2`] = `
@@ -17,11 +21,15 @@ exports[`TmSessionHardware should show a state indicator for different states of
         Sign In
       </div> <a><i class=\\"material-icons\\">close</i></a></div> <div class=\\"tm-session-main\\"><div class=\\"tm-hardware-state\\"><div class=\\"tm-hardware-state-content\\"><!----> <div class=\\"tm-hardware-state__label\\">
           Please plug in your Ledger&nbsp;Nano&nbsp;S and open the Cosmos app
-         <!----> <!----></div></div> <img src=\\"~assets/images/loader.svg\\" style=\\"\\"></div></div> <div class=\\"tm-session-footer\\"><p class=\\"ledger-install\\">
-        Don't have the Cosmos Ledger App yet? Install it
-        <a href=\\"https://github.com/cosmos/voyager#ledger-cosmos-app\\" target=\\"_blank\\" rel=\\"noopener noreferrer\\">
-          here </a>.
-      </p> <button class=\\"tm-btn\\" disabled=\\"disabled\\"><span class=\\"tm-btn__container\\"><!----><span class=\\"tm-btn__value\\">Waiting for Ledger</span></span></button></div></div></div>"
+         <!----> <!----></div></div> <img src=\\"~assets/images/loader.svg\\" style=\\"\\"></div></div> <div class=\\"tm-session-footer\\"><div class=\\"install-notes\\"><p class=\\"ledger-install\\">
+          Don't have the Cosmos Ledger App yet? Install it
+          <a href=\\"https://github.com/cosmos/voyager#ledger-cosmos-app\\" target=\\"_blank\\" rel=\\"noopener noreferrer\\">
+            here</a>.
+        </p> <p class=\\"ledger-install\\">
+          Don't have a Ledger yet?
+          <a href=\\"https://shop.ledger.com/?r=3dd204ef7508\\" target=\\"_blank\\" rel=\\"noopener noreferrer\\">
+            Get one here</a>.
+        </p></div> <button class=\\"tm-btn\\" disabled=\\"disabled\\"><span class=\\"tm-btn__container\\"><!----><span class=\\"tm-btn__value\\">Waiting for Ledger</span></span></button></div></div></div>"
 `;
 
 exports[`TmSessionHardware should show a state indicator for different states of the hardware connection 3`] = `
@@ -31,11 +39,15 @@ exports[`TmSessionHardware should show a state indicator for different states of
           Sign in with the address
           <span class=\\"address\\"></span>.<br>
           Please confirm on your Ledger.
-         <!----></div></div> <img src=\\"~assets/images/loader.svg\\" style=\\"\\"></div></div> <div class=\\"tm-session-footer\\"><p class=\\"ledger-install\\">
-        Don't have the Cosmos Ledger App yet? Install it
-        <a href=\\"https://github.com/cosmos/voyager#ledger-cosmos-app\\" target=\\"_blank\\" rel=\\"noopener noreferrer\\">
-          here </a>.
-      </p> <button class=\\"tm-btn\\" disabled=\\"disabled\\"><span class=\\"tm-btn__container\\"><!----><span class=\\"tm-btn__value\\">Confirming Address</span></span></button></div></div></div>"
+         <!----></div></div> <img src=\\"~assets/images/loader.svg\\" style=\\"\\"></div></div> <div class=\\"tm-session-footer\\"><div class=\\"install-notes\\"><p class=\\"ledger-install\\">
+          Don't have the Cosmos Ledger App yet? Install it
+          <a href=\\"https://github.com/cosmos/voyager#ledger-cosmos-app\\" target=\\"_blank\\" rel=\\"noopener noreferrer\\">
+            here</a>.
+        </p> <p class=\\"ledger-install\\">
+          Don't have a Ledger yet?
+          <a href=\\"https://shop.ledger.com/?r=3dd204ef7508\\" target=\\"_blank\\" rel=\\"noopener noreferrer\\">
+            Get one here</a>.
+        </p></div> <button class=\\"tm-btn\\" disabled=\\"disabled\\"><span class=\\"tm-btn__container\\"><!----><span class=\\"tm-btn__value\\">Confirming Address</span></span></button></div></div></div>"
 `;
 
 exports[`TmSessionHardware shows the ledger conection view when there're errors 1`] = `
@@ -112,23 +124,45 @@ exports[`TmSessionHardware shows the ledger conection view when there're errors 
     <div
       class="tm-session-footer"
     >
-      <p
-        class="ledger-install"
+      <div
+        class="install-notes"
       >
-        
-        Don't have the Cosmos Ledger App yet? Install it
-        
-        <a
-          href="https://github.com/cosmos/voyager#ledger-cosmos-app"
-          rel="noopener noreferrer"
-          target="_blank"
+        <p
+          class="ledger-install"
         >
           
-          here 
-        </a>
-        .
-      
-      </p>
+          Don't have the Cosmos Ledger App yet? Install it
+          
+          <a
+            href="https://github.com/cosmos/voyager#ledger-cosmos-app"
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            
+            here
+          </a>
+          .
+        
+        </p>
+         
+        <p
+          class="ledger-install"
+        >
+          
+          Don't have a Ledger yet?
+          
+          <a
+            href="https://shop.ledger.com/?r=3dd204ef7508"
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            
+            Get one here
+          </a>
+          .
+        
+        </p>
+      </div>
        
       <button
         class="tm-btn"
@@ -217,23 +251,45 @@ exports[`TmSessionHardware shows the ledger conection view with no errors 1`] = 
     <div
       class="tm-session-footer"
     >
-      <p
-        class="ledger-install"
+      <div
+        class="install-notes"
       >
-        
-        Don't have the Cosmos Ledger App yet? Install it
-        
-        <a
-          href="https://github.com/cosmos/voyager#ledger-cosmos-app"
-          rel="noopener noreferrer"
-          target="_blank"
+        <p
+          class="ledger-install"
         >
           
-          here 
-        </a>
-        .
-      
-      </p>
+          Don't have the Cosmos Ledger App yet? Install it
+          
+          <a
+            href="https://github.com/cosmos/voyager#ledger-cosmos-app"
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            
+            here
+          </a>
+          .
+        
+        </p>
+         
+        <p
+          class="ledger-install"
+        >
+          
+          Don't have a Ledger yet?
+          
+          <a
+            href="https://shop.ledger.com/?r=3dd204ef7508"
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            
+            Get one here
+          </a>
+          .
+        
+        </p>
+      </div>
        
       <button
         class="tm-btn"
