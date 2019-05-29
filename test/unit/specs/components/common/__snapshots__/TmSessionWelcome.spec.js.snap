@@ -35,7 +35,7 @@ exports[`TmSessionWelcome with accounts has the expected html structure 1`] = `
         disabled="true"
         icon="usb"
         subtitle=""
-        title="Sign in with Ledger Nano S"
+        title="Sign in with Ledger Nano"
       >
         <!---->
          
@@ -128,7 +128,7 @@ exports[`TmSessionWelcome without accounts has the expected html structure 1`] =
         disabled="true"
         icon="usb"
         subtitle=""
-        title="Sign in with Ledger Nano S"
+        title="Sign in with Ledger Nano"
       >
         <!---->
          
