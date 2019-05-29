@@ -20,8 +20,8 @@
           "
         >
           <div
-            slot="li-session-subtitle"
             v-if="session.browserWithLedgerSupport"
+            slot="li-session-subtitle"
           >
             If you have a Ledger Wallet, choose this option.<br />
             Don't have a Ledger yet?
@@ -35,8 +35,8 @@
           </div>
 
           <div
-            slot="li-session-subtitle"
             v-if="!session.browserWithLedgerSupport"
+            slot="li-session-subtitle"
           >
             Please use Chrome, Opera, or Brave. Ledger is not supported in your
             current browser.
