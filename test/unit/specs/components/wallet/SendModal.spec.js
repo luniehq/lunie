@@ -26,7 +26,7 @@ describe(`SendModal`, () => {
       balances
     },
     connected: true,
-    session: { signedIn: true }
+    session: { signedIn: true, address: "cosmos1234" }
   }
 
   beforeEach(async () => {
@@ -162,7 +162,10 @@ describe(`SendModal`, () => {
           bondDenom: `uatom`,
           $store,
           sendTx,
-          memo: `TESTING (Sent via Lunie)`
+          memo: `TESTING (Sent via Lunie)`,
+          session: {
+            address: "cosmos1234"
+          }
         },
         gas,
         gasPrice,

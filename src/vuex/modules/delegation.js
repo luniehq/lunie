@@ -109,12 +109,13 @@ export default ({ node }) => {
 
       state.loading = false
     },
-    async updateDelegates({ dispatch, rootState, state }) {
+    async updateDelegates({ dispatch, rootState, state }, force = false) {
       // only update every 10 blocks
       if (
+        !force &&
         Number(rootState.connection.lastHeader.height) -
           state.lastDelegatesUpdate <
-        5
+          5
       ) {
         return
       }
@@ -148,10 +149,7 @@ export default ({ node }) => {
     async submitDelegation(
       {
         rootState: { stakingParameters, session },
-        getters: { liquidAtoms },
-        state,
-        dispatch,
-        commit
+        dispatch
       },
       { validator_address, amount, gas, gas_prices, password, submitType }
     ) {
@@ -171,21 +169,6 @@ export default ({ node }) => {
         password,
         submitType
       })
-
-      // optimistic update the atoms of the user before we get the new values from chain
-      commit(`updateWalletBalance`, {
-        denom,
-        amount: Number(liquidAtoms) - Number(amount)
-      })
-      // optimistically update the committed delegations
-      commit(`setCommittedDelegation`, {
-        candidateId: validator_address,
-        value: state.committedDelegates[validator_address] + Number(amount)
-      })
-
-      await dispatch(`getAllTxs`)
-      // load delegates after delegation to get new atom distribution on validators
-      dispatch(`updateDelegates`)
     },
     async simulateUnbondingDelegation(
       {
@@ -228,7 +211,6 @@ export default ({ node }) => {
         password,
         submitType
       })
-      await dispatch(`getAllTxs`)
     },
     async simulateRedelegation(
       {
@@ -282,8 +264,6 @@ export default ({ node }) => {
         password,
         submitType
       })
-
-      await dispatch(`getAllTxs`)
     }
   }
 

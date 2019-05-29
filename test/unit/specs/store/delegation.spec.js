@@ -217,8 +217,6 @@ describe(`Module: Delegations`, () => {
       submitType,
       password
     })
-
-    expect(dispatch).toHaveBeenCalledWith(`getAllTxs`)
   })
 
   it(`should simulate an undelegation transaction`, async () => {
@@ -276,7 +274,6 @@ describe(`Module: Delegations`, () => {
       password,
       submitType
     })
-    expect(dispatch).toHaveBeenCalledWith(`getAllTxs`)
   })
 
   it(`should simulate a redelegation transaction`, async () => {
@@ -337,7 +334,6 @@ describe(`Module: Delegations`, () => {
       password,
       submitType
     })
-    expect(dispatch).toHaveBeenCalledWith(`getAllTxs`)
   })
 
   describe(`queries the delegated atoms on reconnection`, () => {
@@ -431,86 +427,6 @@ describe(`Module: Delegations`, () => {
         completion_time: new Date().toUTCString()
       }
     ])
-  })
-
-  it(`should update the atoms on a delegation optimistically`, async () => {
-    const commit = jest.fn()
-    const delegates = lcdClientMock.state.candidates
-    const stakingTransactions = {}
-    stakingTransactions.delegations = [
-      {
-        validator: delegates[0],
-        atoms: 109
-      },
-      {
-        validator: delegates[1],
-        atoms: 456
-      }
-    ]
-    const committedDelegates = {
-      [delegates[0].operator_address]: 10
-    }
-
-    await actions.submitDelegation(
-      {
-        rootState: mockRootState,
-        state: {
-          committedDelegates
-        },
-        getters: {
-          liquidAtoms: 1000
-        },
-        dispatch: () => {},
-        commit
-      },
-      {
-        amount: `100`,
-        validator_address: delegates[0].operator_address,
-        password: `12345`
-      }
-    )
-    expect(commit).toHaveBeenCalledWith(`updateWalletBalance`, {
-      denom: `STAKE`,
-      amount: 900
-    })
-    expect(commit).toHaveBeenCalledWith(`setCommittedDelegation`, {
-      candidateId: delegates[0].operator_address,
-      value: 110
-    })
-  })
-
-  it(`should update delegates after delegation`, async () => {
-    jest.useFakeTimers()
-    const stakingTransactions = {}
-    stakingTransactions.unbondings = [
-      {
-        validator: {
-          operator_address: lcdClientMock.validators[0],
-          delegator_shares: `100`,
-          tokens: `100`
-        },
-        balance: {
-          amount: `100`
-        }
-      }
-    ]
-
-    const dispatch = jest.fn()
-    await actions.submitDelegation(
-      {
-        rootState: mockRootState,
-        getters: {
-          liquidAtoms: 1000
-        },
-        state,
-        dispatch,
-        commit: jest.fn()
-      },
-      { stakingTransactions }
-    )
-    jest.runAllTimers()
-    expect(dispatch).toHaveBeenCalledWith(`updateDelegates`)
-    expect(dispatch).toHaveBeenCalledWith(`getAllTxs`)
   })
 
   it(`should store an error if failed to load delegations`, async () => {

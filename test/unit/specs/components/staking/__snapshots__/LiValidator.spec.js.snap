@@ -3,6 +3,7 @@
 exports[`LiValidator has the expected html structure 1`] = `
 <tr
   class="data-table__row li-validator"
+  data-moniker="mr_mounty"
 >
   <td
     class="data-table__row__info"
@@ -86,6 +87,7 @@ exports[`LiValidator has the expected html structure 1`] = `
 exports[`LiValidator should display uptime as double-dash 1`] = `
 <tr
   class="data-table__row li-validator"
+  data-moniker="mr_mounty"
 >
   <td
     class="data-table__row__info"
@@ -169,6 +171,7 @@ exports[`LiValidator should display uptime as double-dash 1`] = `
 exports[`LiValidator works if user is not signed in 1`] = `
 <tr
   class="data-table__row li-validator"
+  data-moniker="mr_mounty"
 >
   <td
     class="data-table__row__info"
