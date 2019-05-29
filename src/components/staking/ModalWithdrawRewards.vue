@@ -18,7 +18,7 @@
     </TmFormGroup>
     <span v-if="!validatorAddress" class="form-message withdraw-limit">
       Note: Lunie will withdraw only the top 5 rewards in a single transaction
-      due to a limitation in the Ledger Nano S.
+      due to a limitation in the Ledger Nano.
     </span>
   </ActionModal>
 </template>
