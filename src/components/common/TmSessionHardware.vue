@@ -15,7 +15,7 @@
       <div class="tm-session-main">
         <HardwareState :loading="status === `connect` ? false : true">
           <template v-if="status === `connect` || status === `detect`">
-            Please plug in your Ledger&nbsp;Nano&nbsp;S and open the Cosmos app
+            Please plug in your Ledger&nbsp;Nano and open the Cosmos app
           </template>
           <template v-if="status === `confirmAddress`">
             Sign in with the address

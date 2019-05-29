@@ -13,7 +13,7 @@
       <div class="tm-session-main">
         <LiSession
           icon="usb"
-          title="Sign in with Ledger Nano S"
+          title="Sign in with Ledger Nano"
           :disabled="!session.browserWithLedgerSupport"
           @click.native="
             () => session.browserWithLedgerSupport && setState('hardware')
