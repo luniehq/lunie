@@ -29,16 +29,28 @@
         </HardwareState>
       </div>
       <div class="tm-session-footer">
-        <p class="ledger-install">
-          Don't have the Cosmos Ledger App yet? Install it
-          <a
-            href="https://github.com/cosmos/voyager#ledger-cosmos-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            here </a
-          >.
-        </p>
+        <div class="install-notes">
+          <p class="ledger-install">
+            Don't have the Cosmos Ledger App yet? Install it
+            <a
+              href="https://github.com/cosmos/voyager#ledger-cosmos-app"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              here</a
+            >.
+          </p>
+          <p class="ledger-install">
+            Don't have a Ledger yet?
+            <a
+              href="https://shop.ledger.com/?r=3dd204ef7508"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Get one here</a
+            >.
+          </p>
+        </div>
         <TmBtn
           :value="submitCaption"
           :disabled="status === `connect` ? false : `disabled`"
@@ -115,6 +127,10 @@ export default {
   font-style: italic;
   margin-bottom: 0;
   padding-top: 1rem;
+}
+
+.install-notes {
+  flex-direction: column;
 }
 
 .ledger-install {
