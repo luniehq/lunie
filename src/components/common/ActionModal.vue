@@ -1,19 +1,19 @@
 <template>
   <transition v-if="show" name="slide-fade">
     <div v-focus-last class="action-modal" tabindex="0" @keyup.esc="close">
+      <div
+        id="closeBtn"
+        class="action-modal-icon action-modal-close"
+        @click="close"
+      >
+        <i class="material-icons">close</i>
+      </div>
       <div class="action-modal-header">
         <span class="action-modal-title">
           {{ requiresSignIn ? `Sign in required` : title }}
         </span>
-        <div
-          id="closeBtn"
-          class="action-modal-icon action-modal-close"
-          @click="close"
-        >
-          <i class="material-icons">close</i>
-        </div>
+        <Steps :steps="['Details', 'Fees', 'Sign']" :active="step" />
       </div>
-      <Steps :steps="['Details', 'Fees', 'Sign']" :active="step" />
       <div v-if="requiresSignIn" class="action-modal-form">
         <p>You need to sign in to submit a transaction.</p>
       </div>
@@ -433,7 +433,6 @@ export default {
   background: var(--app-nav-light);
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
   right: 1rem;
   padding: 1.5rem 1.5rem 2rem 1.5rem;
   position: fixed;
@@ -449,14 +448,10 @@ export default {
 
 .action-modal-header {
   align-items: center;
+  flex-direction: column;
   text-align: center;
   display: flex;
   padding-bottom: 2rem;
-}
-
-.action-modal-atom {
-  height: 3rem;
-  width: 3rem;
 }
 
 .action-modal-title {
@@ -464,7 +459,7 @@ export default {
   font-size: var(--h2);
   font-weight: 400;
   color: var(--bright);
-  padding-left: 1rem;
+  padding-bottom: 2rem;
 }
 
 .action-modal-icon {
@@ -475,6 +470,12 @@ export default {
 
 .action-modal-icon i {
   font-size: var(--lg);
+}
+
+.action-modal-icon.action-modal-close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
 }
 
 .action-modal-icon.action-modal-close {
@@ -494,6 +495,11 @@ export default {
   display: flex;
   justify-content: flex-end;
   padding: 1.5rem 0 1rem;
+
+  /* keeps button in bottom right no matter the size of the action modal */
+  flex-grow: 1;
+  align-self: flex-end;
+  flex-direction: column;
 }
 
 .action-modal-footer .tm-form-group {
