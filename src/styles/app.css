@@ -44,31 +44,12 @@ a:hover {
   overflow: hidden;
 }
 
-.tm-field {
-  border-radius: 0.25rem !important;
-}
 
-input[readonly],
-input[disabled],
-textarea[readonly],
-textarea[disabled] {
-  background: var(--bc-dim) !important;
-  border-color: var(--bc) !important;
-}
-
-input[type="radio"] {
-  margin: 0;
-}
-
-input.tm-field {
-  height: inherit !important;
-}
-
-.tm-select .tm-field-select-addon {
+/* .tm-select .tm-field-select-addon {
   height: 100% !important;
   border-left: 1px solid var(--input-bc, #ccc);
   width: 29px !important;
-}
+} */
 
 .tm-li-container {
   margin-right: 1rem;

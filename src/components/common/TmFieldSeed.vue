@@ -38,11 +38,3 @@ export default {
   }
 }
 </script>
-<style>
-.tm-field:disabled.tm-field-seed {
-  border: 1px solid var(--bc);
-  line-height: 22px;
-  padding: 0.5rem;
-  min-height: 90px;
-}
-</style>

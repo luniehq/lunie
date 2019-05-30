@@ -34,7 +34,7 @@
   --red-fade-2: hsla(0, 100%, 40%, 0.15);
 
   /* don't change - should be consistent across themes */
-  --input-bg: transparent;
+  --input-bg: hsl(233, 38%, 11%);
   --success: hsl(120, 58%, 55%);
   --success-bc: hsl(120, 58%, 41%);
   --warning: hsl(35, 100%, 50%);

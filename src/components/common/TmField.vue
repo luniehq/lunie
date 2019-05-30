@@ -186,148 +186,38 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .tm-field {
-  background: var(--input-bg, #fff);
-  border: 1px solid var(--input-bc, #ccc);
-  border-radius: 0;
-  color: var(--txt, #333);
+  background: var(--input-bg);
+  border: 2px solid var(--bc);
+  color: var(--bright);
   display: block;
-  font-size: 16px;
-  line-height: 1.5rem;
+  font-size: 14px;
+  line-height: 2.25rem;
+  padding: 0 0.75rem;
   min-width: 0;
-  padding: 0.1875rem 0.5rem;
   width: 100%;
   -webkit-appearance: none;
+  font-family: var(--sans);
+  border-radius: 0.25rem;
 }
 
 .tm-field::placeholder {
-  color: var(--dim);
+  color: var(--txt);
 }
 
-.tm-field:disabled {
-  background: var(--app-fg, #eee);
-  border: var(--app-fg, #eee);
+/* .tm-field:disabled {
+  background: var(--app-fg);
+  border: var(--app-fg);
   box-shadow: none;
-  color: var(--dim, #666);
+  color: var(--dim);
   text-shadow: none;
-}
+} */
 
 .tm-field:focus {
-  border: 1px solid var(--link, #00f);
+  border: 2px solid var(--grey);
   box-shadow: none;
   outline: none;
-}
-
-input.tm-field {
-  height: 2rem;
-}
-
-textarea.tm-field {
-  height: 4rem;
-  resize: vertical;
-}
-
-.tm-toggle {
-  border: 1px solid var(--input-bc, #ccc);
-  border-radius: 1rem;
-  height: 2rem;
-  padding: 0 2px;
-}
-
-.tm-toggle * {
-  cursor: pointer;
-}
-
-.tm-toggle .tm-toggle-wrapper {
-  margin-left: calc((1.625rem / 2));
-  margin-right: calc((1.625rem / 2));
-  padding: 0 1.25rem;
-  transform: rotate(0deg);
-}
-
-.tm-toggle .tm-toggle-wrapper::before,
-.tm-toggle .tm-toggle-wrapper::after {
-  content: "";
-  height: 1.625rem;
-  position: absolute;
-  top: 2px;
-  width: 1.625rem;
-  z-index: 0;
-}
-
-.tm-toggle .tm-toggle-wrapper::before {
-  background: var(--success, #4acf4a);
-  border-radius: 1em 0 0 1em;
-  left: calc((-1.625rem / 2));
-}
-
-.tm-toggle .tm-toggle-wrapper::after {
-  background: var(--danger, #8c8fa6);
-  border-radius: 0 1em 1em 0;
-  right: calc((-1.625rem / 2));
-}
-
-.tm-toggle .tm-toggle-wrapper .toggle-option-checked,
-.tm-toggle .tm-toggle-wrapper .toggle-option-unchecked {
-  clip: rect(0, auto, auto, 0);
-  height: 1.625rem;
-  overflow: hidden;
-  position: absolute;
-  top: 2px;
-  transition: width 500ms ease;
-  z-index: 1;
-}
-
-.tm-toggle .tm-toggle-wrapper .toggle-option-checked > div,
-.tm-toggle .tm-toggle-wrapper .toggle-option-unchecked > div {
-  left: 0;
-  position: fixed;
-  text-align: center;
-  top: 2px;
-  width: 100%;
-}
-
-.tm-toggle .tm-toggle-wrapper .toggle-option-checked {
-  background: var(--success, #4acf4a);
-  left: 0;
-  width: 100%;
-}
-
-.tm-toggle .tm-toggle-wrapper .toggle-option-unchecked {
-  background: var(--danger, #8c8fa6);
-  right: 0;
-  width: 0%;
-}
-
-.tm-toggle .tm-toggle-wrapper .toggle-handle::after {
-  background: var(--grey, #d4d5de);
-  border-radius: 1rem;
-  content: "";
-  height: 1.625rem;
-  left: auto;
-  position: absolute;
-  right: calc((-1.65rem / 2));
-  top: 2px;
-  transition: right 500ms ease, left 500ms ease;
-  width: 1.625rem;
-  z-index: var(--z-listItem);
-}
-
-.tm-toggle .tm-toggle-wrapper input[type="checkbox"] {
-  display: none;
-}
-
-.tm-toggle.unchecked .toggle-option-checked {
-  width: 0;
-}
-
-.tm-toggle.unchecked .toggle-option-unchecked {
-  width: 100%;
-}
-
-.tm-toggle.unchecked .toggle-handle::after {
-  right: calc(100% - 0.75rem);
 }
 
 .tm-select {
@@ -336,7 +226,7 @@ textarea.tm-field {
 
 .tm-select select {
   appearance: none;
-  background: var(--input-bg, #fff);
+  background: var(--input-bg);
   border-radius: 0;
   color: var(--txt, #333);
   padding-right: 2rem;
@@ -348,22 +238,22 @@ textarea.tm-field {
 }
 
 .tm-select select option {
-  background: var(--input-bg, #fff);
+  background: var(--input-bg);
   color: txt;
   font-family: var(--sans);
 }
 
 .tm-select select option:checked {
-  background: var(--hover-bg, #ccf);
+  background: var(--hover-bg);
   color: var(--bright, #000);
 }
 
 .tm-select .tm-field-select-addon {
   align-items: center;
-  background: var(--input-bg, #fff);
-  border-left: 1px solid var(--input-bc, #ccc);
+  background: var(--input-bg);
+  border-left: 1px solid var(--bc);
   box-sizing: border-box;
-  color: var(--txt, #333);
+  color: var(--txt);
   display: flex;
   height: 2rem;
   justify-content: center;
@@ -376,32 +266,12 @@ textarea.tm-field {
 }
 
 .input-group-addon {
-  background: var(--input-bg, #fff);
-  border: 1px solid var(--input-bc, #ccc);
+  background: var(--input-bg);
+  border: 2px solid var(--bc);
   border-left: none;
-  color: var(--txt, #333);
+  color: var(--txt);
   font-size: 0.75rem;
   line-height: 1.875rem;
   padding: 0 0.5rem;
-}
-
-@media screen and (min-width: 360px) {
-  .input-group-addon {
-    font-size: 1rem;
-  }
-}
-
-.tm-field.tm-field-size-sm {
-  font-size: 0.75rem;
-  height: 1.5rem;
-  padding-left: 0.5rem;
-  padding-right: 0.5rem;
-}
-
-.tm-field.tm-field-size-lg {
-  font-size: 1.125rem;
-  height: 3rem;
-  padding-left: 0.75rem;
-  padding-right: 0.75rem;
 }
 </style>
