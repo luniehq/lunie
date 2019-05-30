@@ -7,8 +7,11 @@
       <div class="tm-li-session-title">
         <span>{{ title }}</span>
       </div>
-      <div class="tm-li-session-subtitle">
+      <div v-if="subtitle" class="tm-li-session-subtitle">
         {{ subtitle }}
+      </div>
+      <div v-else class="tm-li-session-subtitle">
+        <slot name="li-session-subtitle"></slot>
       </div>
     </div>
   </div>
@@ -28,7 +31,8 @@ export default {
     },
     subtitle: {
       type: String,
-      required: true
+      required: false,
+      default: ""
     }
   }
 }

@@ -91,7 +91,7 @@
             {{
               sending
                 ? `Please verify and sign the transaction on your Ledger`
-                : `Please plug in your Ledger&nbsp;Nano&nbsp;S and open
+                : `Please plug in your Ledger&nbsp;Nano and open
             the Cosmos app`
             }}
           </div>

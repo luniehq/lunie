@@ -1,0 +1,3 @@
+[Fixed] [#2665](https://github.com/cosmos/lunie/pull/2665) Correctly update wallet balance on send to self @faboweb
+[Code Improvements] [#2231](https://github.com/cosmos/lunie/issues/2231) Added e2e tests for delegation actions @faboweb
+[Deprecated] [#2665](https://github.com/cosmos/lunie/pull/2665) Removed optimistic updates for delegation actions (all actions anyway wait for the tx inclusion into a block) @faboweb
