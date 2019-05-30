@@ -19,7 +19,7 @@
       <div class="session-list">
         <LiSession
           icon="vpn_key"
-          title="Use Address on Ledger Nano"
+          title="Use Address From Ledger Nano"
           @click.native="() => setState('hardware')"
         />
         <LiSession

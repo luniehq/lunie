@@ -30,55 +30,20 @@
         title="Recover from Seed"
         @click.native="() => setState('import')"
       />
-      <!-- <h3>Use an Existing Address</h3>
-      <LiSession
-        icon="vpn_key"
-        title="Access Lunie with Ledger Nano S/X"
-        @click.native="() => setState('hardware')"
-      />
-      <LiSession
-        id="explore-address"
-        icon="search"
-        title="Access Lunie with Address"
-        @click.native="setState('explore')"
-      />
-      <LiSession
-        v-if="accountExists"
-        id="sign-in-with-account"
-        icon="lock"
-        title="Sign in with password"
-        subtitle="If you have an account, choose this option."
-        @click.native="setState('sign-in')"
-      /> -->
     </div>
     <!-- <template>
-        <div class="danger-zone">
-          <div class="header">
-            <h2>DANGER ZONE</h2>
-            <p>
-              Creating an address or entering a seed in the browser is
-              considered extremely unsafe. These features are only enabled in
-              insecure mode for testing purposes and should not be used on
-              mainnet or with real tokens.
-            </p>
-          </div> -->
-    <!-- <div class="session-list">
-      <h3>Create a New Address</h3>
-      <LiSession
-        icon="person_add"
-        title="Create new account"
-        @click.native="setState('sign-up')"
-      />
-      <LiSession
-        v-if="session.developmentMode"
-        id="import-seed"
-        icon="settings_backup_restore"
-        title="Generate from seed"
-        @click.native="setState('import')"
-      />
+      <div class="danger-zone">
+        <div class="header">
+          <h2>DANGER ZONE</h2>
+          <p>
+            Creating an address or entering a seed in the browser is considered
+            extremely unsafe. These features are only enabled in insecure mode
+            for testing purposes and should not be used on mainnet or with real
+            tokens.
+          </p>
+        </div>
       </div>
-      </template>
-    </div> -->
+    </template> -->
     <p class="footnote">
       By using Lunie, you accept our
       <router-link to="/terms" class="link">Terms of Service</router-link> and

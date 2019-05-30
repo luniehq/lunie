@@ -1,8 +1,26 @@
 <template>
   <div class="session">
     <div class="session-container">
+      <div class="session-header">
+        <a @click="setState('explore')">
+          <i class="material-icons session-back">arrow_back</i>
+        </a>
+        <h2 class="session-title">
+          Use Address From Ledger Nano
+        </h2>
+        <a @click="$store.commit(`toggleSessionModal`, false)">
+          <i class="material-icons session-close">close</i>
+        </a>
+        <p class="session-paragraph">
+          Lunie supports both the Ledger Nano S and Ledger Nano X. If you don't
+          have a Ledger Nano, you can support Lunie by
+          <a href="" target="_blank" rel="noopener norefferer"
+            >buying one here</a
+          >.
+        </p>
+      </div>
       <div class="session-main">
-        <HardwareState :loading="status === `connect` ? false : true">
+        <HardwareState :loading="status === `detect` ? false : true">
           <template v-if="status === `connect` || status === `detect`">
             Please plug in your Ledger&nbsp;Nano&nbsp;S and open the Cosmos app
           </template>

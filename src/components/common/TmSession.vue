@@ -57,6 +57,7 @@ export default {
 .session {
   background: var(--app-bg);
   max-width: 40rem;
+  width: 100%;
   border-radius: 2px;
   padding: 2rem;
   position: relative;

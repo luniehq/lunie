@@ -1,15 +1,21 @@
 <template>
   <div class="session">
     <div class="session-header">
-      <a @click="goToWelcome()">
-        <i class="material-icons">arrow_back</i>
+      <a @click="setState('explore')">
+        <i class="material-icons session-back">arrow_back</i>
       </a>
-      <div class="session-title">
-        Sign In
-      </div>
+      <h2 class="session-title">
+        Sign in with Password
+      </h2>
       <a @click="$store.commit(`toggleSessionModal`, false)">
-        <i class="material-icons">close</i>
+        <i class="material-icons session-close">close</i>
       </a>
+      <!-- <p class="session-paragraph">
+        Lunie supports both the Ledger Nano S and Ledger Nano X. If you don't
+        have a Ledger Nano, you can support Lunie by
+        <a href="" target="_blank" rel="noopener norefferer">buying one here</a
+        >.
+      </p> -->
     </div>
     <div class="session-main">
       <TmFormGroup field-id="sign-in-name" field-label="Select Account">
@@ -91,8 +97,8 @@ export default {
     this.setDefaultAccount(this.accounts)
   },
   methods: {
-    goToWelcome() {
-      this.$store.commit(`setSessionModalView`, `welcome`)
+    setState(value) {
+      this.$store.commit(`setSessionModalView`, value)
     },
     async onSubmit() {
       this.$v.$touch()
