@@ -1,15 +1,18 @@
 <template>
   <div class="tm-li-session">
     <div class="tm-li-session-icon">
-      <i class="material-icons">{{ icon }}</i>
+      <i class="material-icons circle">{{ icon }}</i>
     </div>
     <div class="tm-li-session-text">
       <div class="tm-li-session-title">
         <span>{{ title }}</span>
       </div>
       <div class="tm-li-session-subtitle">
-        {{ subtitle }}
+        <span>{{ subtitle }}</span>
       </div>
+    </div>
+    <div class="tm-li-session-icon">
+      <i class="material-icons">arrow_forward</i>
     </div>
   </div>
 </template>
@@ -28,22 +31,31 @@ export default {
     },
     subtitle: {
       type: String,
-      required: true
+      required: false
     }
   }
 }
 </script>
 
-<style>
+<style scoped>
 .tm-li-session {
   display: flex;
-  flex-flow: row nowrap;
-  user-select: none;
-  border-bottom: 2px solid var(--bc-dim);
+  padding: 1rem;
+  border-top: 2px solid var(--bc);
+  border-left: 2px solid var(--bc);
+  border-right: 2px solid var(--bc);
+  background-color: var(--app-fg);
+}
+
+.tm-li-session:first-child {
+  border-top-left-radius: 0.25rem;
+  border-top-right-radius: 0.25rem;
 }
 
 .tm-li-session:last-of-type {
-  border-bottom: none;
+  border-bottom: 2px solid var(--bc);
+  border-bottom-left-radius: 0.25rem;
+  border-bottom-right-radius: 0.25rem;
 }
 
 .tm-li-session:hover {
@@ -52,27 +64,19 @@ export default {
 }
 
 .tm-li-session-icon {
-  height: 5rem;
-  flex: 0 0 5rem;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
 .tm-li-session-icon i {
-  font-size: 2rem;
+  font-size: 1.25rem;
 }
 
 .tm-li-session-title {
   color: var(--txt);
-  font-size: var(--lg);
-  line-height: 1.25;
-  margin-bottom: 0.375rem;
-}
-
-.tm-li-session:hover .tm-li-session-icon i,
-.tm-li-session:hover .tm-li-session-title {
-  color: var(--txt);
+  font-size: var(--h4);
+  font-weight: 400;
 }
 
 .tm-li-session-text {
@@ -80,7 +84,7 @@ export default {
   display: flex;
   justify-content: center;
   flex-flow: column nowrap;
-  padding: 1rem 1rem;
+  padding: 0 1rem;
 }
 
 .tm-li-session-subtitle {
@@ -88,11 +92,17 @@ export default {
   font-size: var(--sm);
 }
 
-.tm-li-session[disabled] .tm-li-session-icon,
+/* .tm-li-session[disabled] .tm-li-session-icon,
 .tm-li-session[disabled] .tm-li-session-title {
   color: var(--dim, #666) !important;
   user-select: none;
   cursor: not-allowed;
   opacity: 0.333;
+} */
+
+.material-icons.circle {
+  border: 2px solid var(--dim);
+  border-radius: 50%;
+  padding: 0.5rem;
 }
 </style>

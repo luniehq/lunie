@@ -1,12 +1,12 @@
 <template>
-  <div class="tm-session">
+  <div class="session">
     <TmFormStruct :submit="onSubmit" class="tm-session-container">
       <div class="tm-session-header">
         <a @click="goToWelcome()">
           <i class="material-icons">arrow_back</i>
         </a>
         <div class="tm-session-title">
-          Explore
+          Sign in with Address
         </div>
         <a @click="$store.commit(`toggleSessionModal`, false)">
           <i class="material-icons">close</i>
@@ -33,7 +33,7 @@
         </TmFormGroup>
       </div>
       <div class="tm-session-footer">
-        <TmBtn value="Next" size="lg" />
+        <TmBtn value="Next" />
       </div>
     </TmFormStruct>
   </div>

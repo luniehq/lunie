@@ -1,18 +1,44 @@
 <template>
-  <div class="tm-session">
-    <div class="tm-session-container">
-      <div class="tm-session-header">
+  <div class="session">
+    <div class="session-container">
+      <div class="session-header">
         <a @click="setState('welcome')">
-          <i class="material-icons">arrow_back</i>
+          <i class="material-icons session-back">arrow_back</i>
         </a>
-        <div class="tm-session-title">
-          Sign In
-        </div>
+        <h2 class="session-title">
+          Use an Existing Address
+        </h2>
         <a @click="$store.commit(`toggleSessionModal`, false)">
-          <i class="material-icons">close</i>
+          <i class="material-icons session-close">close</i>
         </a>
+        <p class="session-paragraph">
+          Lunie is the cryptocurrency wallet for the new staking economy. Easily
+          stake your ATOMs, withdraw your rewards, and participate in
+          governance.
+        </p>
       </div>
-      <div class="tm-session-main">
+      <div class="session-list">
+        <LiSession
+          icon="vpn_key"
+          title="Access Lunie with Ledger Nano S/X"
+          @click.native="() => setState('hardware')"
+        />
+        <LiSession
+          id="explore-address"
+          icon="search"
+          title="Access Lunie with Address"
+          @click.native="setState('explore')"
+        />
+        <LiSession
+          v-if="accountExists"
+          id="sign-in-with-account"
+          icon="lock"
+          title="Sign in with password"
+          subtitle="If you have an account, choose this option."
+          @click.native="setState('sign-in')"
+        />
+      </div>
+      <!-- <div class="session-main">
         <HardwareState :loading="status === `connect` ? false : true">
           <template v-if="status === `connect` || status === `detect`">
             Please plug in your Ledger&nbsp;Nano&nbsp;S and open the Cosmos app
@@ -27,8 +53,8 @@
             {{ connectionError }}
           </p>
         </HardwareState>
-      </div>
-      <div class="tm-session-footer">
+      </div> -->
+      <div class="session-footer">
         <p class="ledger-install">
           Don't have the Cosmos Ledger App yet? Install it
           <a
@@ -50,11 +76,16 @@
 </template>
 
 <script>
+import LiSession from "common/TmLiSession"
 import TmBtn from "common/TmBtn"
 import HardwareState from "common/TmHardwareState"
 export default {
-  name: `tm-session-hardware`,
-  components: { TmBtn, HardwareState },
+  name: `session-hardware`,
+  components: {
+    TmBtn,
+    HardwareState,
+    LiSession
+  },
   data: () => ({
     status: `connect`,
     connectionError: null,
@@ -122,7 +153,7 @@ export default {
   margin-bottom: 0;
 }
 
-.tm-session-footer {
+.session-footer {
   padding: 0 1rem;
   justify-content: space-between;
 }

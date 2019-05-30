@@ -1,5 +1,5 @@
 <template>
-  <div class="tm-session">
+  <div class="session">
     <TmFormStruct :submit="onSubmit.bind(this)" class="tm-session-container">
       <div class="tm-session-header">
         <a @click="setState('welcome')">
@@ -136,8 +136,8 @@
         </TmFormGroup>
       </div>
       <div class="tm-session-footer">
-        <TmBtn v-if="connected" value="Next" size="lg" />
-        <TmBtn v-else value="Connecting..." size="lg" disabled="true" />
+        <TmBtn v-if="connected" value="Next" />
+        <TmBtn v-else value="Connecting..." disabled="true" />
       </div>
     </TmFormStruct>
   </div>
