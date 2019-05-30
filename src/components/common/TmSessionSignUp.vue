@@ -4,7 +4,7 @@
       <div class="session-header">
         <img
           v-if="!session.insecureMode"
-          class="mobile-hand"
+          class="session-image"
           src="~assets/images/mobile-hand.svg"
         />
         <a @click="setState('welcome')">
@@ -39,6 +39,7 @@
             v-model.trim="fields.signUpName"
             type="text"
             placeholder="Must be at least 5 characters"
+            vue-focus="vue-focus"
           />
           <TmFormMsg
             v-if="$v.fields.signUpName.$error && !$v.fields.signUpName.required"
@@ -216,7 +217,6 @@ export default {
     }
   }),
   mounted() {
-    this.$el.querySelector(`#sign-up-name`).focus()
     this.$store.dispatch(`createSeed`).then(seedPhrase => {
       this.creating = false
       this.fields.signUpSeed = seedPhrase
@@ -306,11 +306,5 @@ export default {
 
 .checkboxes {
   padding: 3rem 0 1rem;
-}
-
-.mobile-hand {
-  height: 6rem;
-  padding-left: 1rem;
-  margin: 0 auto 1rem;
 }
 </style>

@@ -60,6 +60,7 @@ export default {
   border-radius: 2px;
   padding: 2rem;
   position: relative;
+  border: 2px solid var(--bc-dim);
 }
 
 .session-header {
@@ -77,6 +78,15 @@ export default {
   margin-bottom: 1rem;
 }
 
+.session-image {
+  height: 6rem;
+  padding-left: 1rem;
+  margin: 0 auto 1rem;
+}
+
+.session-list {
+  padding: 1rem 0;
+}
 .session-list h3 {
   font-size: var(--h3);
   color: var(--bright);
@@ -106,6 +116,11 @@ export default {
 
 .session-footer {
   display: flex;
-  justify-content: end;
+  justify-content: flex-end;
+}
+
+.footnote {
+  padding: 2rem 1rem 0;
+  font-size: var(--sm);
 }
 </style>

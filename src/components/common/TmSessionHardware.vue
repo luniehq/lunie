@@ -1,44 +1,7 @@
 <template>
   <div class="session">
     <div class="session-container">
-      <div class="session-header">
-        <a @click="setState('welcome')">
-          <i class="material-icons session-back">arrow_back</i>
-        </a>
-        <h2 class="session-title">
-          Use an Existing Address
-        </h2>
-        <a @click="$store.commit(`toggleSessionModal`, false)">
-          <i class="material-icons session-close">close</i>
-        </a>
-        <p class="session-paragraph">
-          Lunie is the cryptocurrency wallet for the new staking economy. Easily
-          stake your ATOMs, withdraw your rewards, and participate in
-          governance.
-        </p>
-      </div>
-      <div class="session-list">
-        <LiSession
-          icon="vpn_key"
-          title="Access Lunie with Ledger Nano S/X"
-          @click.native="() => setState('hardware')"
-        />
-        <LiSession
-          id="explore-address"
-          icon="search"
-          title="Access Lunie with Address"
-          @click.native="setState('explore')"
-        />
-        <LiSession
-          v-if="accountExists"
-          id="sign-in-with-account"
-          icon="lock"
-          title="Sign in with password"
-          subtitle="If you have an account, choose this option."
-          @click.native="setState('sign-in')"
-        />
-      </div>
-      <!-- <div class="session-main">
+      <div class="session-main">
         <HardwareState :loading="status === `connect` ? false : true">
           <template v-if="status === `connect` || status === `detect`">
             Please plug in your Ledger&nbsp;Nano&nbsp;S and open the Cosmos app
@@ -53,9 +16,9 @@
             {{ connectionError }}
           </p>
         </HardwareState>
-      </div> -->
+      </div>
       <div class="session-footer">
-        <p class="ledger-install">
+        <p class="ledger-install footnote">
           Don't have the Cosmos Ledger App yet? Install it
           <a
             href="https://github.com/cosmos/voyager#ledger-cosmos-app"

@@ -1,18 +1,18 @@
 <template>
   <div class="session">
-    <TmFormStruct :submit="onSubmit.bind(this)" class="tm-session-container">
-      <div class="tm-session-header">
+    <TmFormStruct :submit="onSubmit.bind(this)" class="session-container">
+      <div class="session-header">
         <a @click="setState('welcome')">
-          <i class="material-icons">arrow_back</i>
+          <i class="material-icons session-back">arrow_back</i>
         </a>
-        <div class="tm-session-title">
-          Import with Seed
+        <div class="session-title">
+          Recover from Seed
         </div>
         <a @click="$store.commit(`toggleSessionModal`, false)">
-          <i class="material-icons">close</i>
+          <i class="material-icons session-close">close</i>
         </a>
       </div>
-      <div class="tm-session-main">
+      <div class="session-main">
         <TmFormGroup
           :error="$v.$error && $v.fields.importName.$invalid"
           field-id="import-name"
@@ -120,22 +120,22 @@
           field-id="error-collection"
           field-label
         >
-          <div class="tm-field-checkbox">
-            <div class="tm-field-checkbox-input">
+          <div class="field-checkbox">
+            <div class="field-checkbox-input">
               <input
                 id="error-collection"
                 v-model="fields.errorCollection"
                 type="checkbox"
               />
             </div>
-            <label class="tm-field-checkbox-label" for="error-collection">
+            <label class="field-checkbox-label" for="error-collection">
               I'd like to opt in for remote error tracking to help improve
               Voyager.
             </label>
           </div>
         </TmFormGroup>
       </div>
-      <div class="tm-session-footer">
+      <div class="session-footer">
         <TmBtn v-if="connected" value="Next" />
         <TmBtn v-else value="Connecting..." disabled="true" />
       </div>
@@ -153,7 +153,7 @@ import TmFormMsg from "common/TmFormMsg"
 import FieldSeed from "common/TmFieldSeed"
 import { mapGetters } from "vuex"
 export default {
-  name: `tm-session-import`,
+  name: `session-import`,
   components: {
     TmBtn,
     TmField,

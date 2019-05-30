@@ -70,7 +70,7 @@ export default {
   align-items: center;
   font-size: var(--m);
   margin-bottom: 0.5rem;
-  border: 1px solid var(--bc-dim);
+  border: 2px solid var(--bc-dim);
   background: var(--app-fg);
   padding: 1rem;
 }

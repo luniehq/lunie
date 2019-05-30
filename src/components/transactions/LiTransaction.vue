@@ -81,7 +81,7 @@ export default {
   display: flex;
   align-items: center;
   margin-bottom: 0.5rem;
-  border: 1px solid var(--bc-dim);
+  border: 2px solid var(--bc-dim);
   background: var(--app-fg);
   width: 100%;
   font-weight: 300;

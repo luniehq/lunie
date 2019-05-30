@@ -1,18 +1,36 @@
 <template>
   <div class="session">
-    <TmFormStruct :submit="onSubmit" class="tm-session-container">
-      <div class="tm-session-header">
+    <TmFormStruct :submit="onSubmit" class="session-container">
+      <div class="session-header">
         <a @click="goToWelcome()">
-          <i class="material-icons">arrow_back</i>
+          <i class="material-icons session-back">arrow_back</i>
         </a>
-        <div class="tm-session-title">
-          Sign in with Address
-        </div>
+        <h2 class="session-title">
+          Use an Existing Address
+        </h2>
         <a @click="$store.commit(`toggleSessionModal`, false)">
-          <i class="material-icons">close</i>
+          <i class="material-icons session-close">close</i>
         </a>
+        <p class="session-paragraph">
+          If you know your address, you can enter it here. You can also connect
+          your Ledger Nano to use the address associated with your device.
+        </p>
       </div>
-      <div class="tm-session-main">
+      <div class="session-list">
+        <LiSession
+          icon="vpn_key"
+          title="Use Address on Ledger Nano"
+          @click.native="() => setState('hardware')"
+        />
+        <LiSession
+          v-if="accountExists"
+          id="sign-in-with-account"
+          icon="lock"
+          title="Sign in with password"
+          @click.native="setState('sign-in')"
+        />
+      </div>
+      <div class="session-main">
         <TmFormGroup field-id="sign-in-name" field-label="Address">
           <TmField
             v-model="address"
@@ -32,7 +50,7 @@
           />
         </TmFormGroup>
       </div>
-      <div class="tm-session-footer">
+      <div class="session-footer">
         <TmBtn value="Next" />
       </div>
     </TmFormStruct>
@@ -41,6 +59,8 @@
 
 <script>
 import { required } from "vuelidate/lib/validators"
+import { mapGetters } from "vuex"
+import LiSession from "common/TmLiSession"
 import TmBtn from "common/TmBtn"
 import TmFormGroup from "common/TmFormGroup"
 import TmFormStruct from "common/TmFormStruct"
@@ -48,13 +68,20 @@ import TmField from "common/TmField"
 import TmFormMsg from "common/TmFormMsg"
 import bech32 from "bech32"
 export default {
-  name: `tm-session-explore`,
+  name: `session-explore`,
   components: {
+    LiSession,
     TmBtn,
     TmField,
     TmFormGroup,
     TmFormMsg,
     TmFormStruct
+  },
+  computed: {
+    ...mapGetters([`session`]),
+    accountExists() {
+      return this.session.accounts.length > 0
+    }
   },
   data: () => ({
     address: ``,
@@ -64,6 +91,9 @@ export default {
     this.address = localStorage.getItem(`prevAddress`)
   },
   methods: {
+    setState(value) {
+      this.$store.commit(`setSessionModalView`, value)
+    },
     goToWelcome() {
       this.$store.commit(`setSessionModalView`, `welcome`)
     },
@@ -96,7 +126,7 @@ export default {
 }
 </script>
 <style>
-.tm-form-group a {
+.form-group a {
   cursor: pointer;
 }
 </style>

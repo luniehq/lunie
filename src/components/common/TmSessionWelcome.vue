@@ -12,8 +12,6 @@
         Lunie is the cryptocurrency wallet for the new staking economy. Easily
         stake your ATOMs, withdraw your rewards, and participate in governance.
       </p>
-      <!-- <p>How would you like to access Lunie today?</p> -->
-      <!-- <p>Don't have a Cosmos address yet? <a href="">Create an address</a></p> -->
     </div>
 
     <div class="session-list">
@@ -25,7 +23,7 @@
       <LiSession
         icon="person"
         title="Use an Existing Address"
-        @click.native="() => setState('hardware')"
+        @click.native="() => setState('explore')"
       />
       <LiSession
         icon="settings_backup_restore"
@@ -81,7 +79,7 @@
       </div>
       </template>
     </div> -->
-    <p class="terms">
+    <p class="footnote">
       By using Lunie, you accept our
       <router-link to="/terms" class="link">Terms of Service</router-link> and
       <router-link to="/privacy" class="link">Privacy Policy</router-link>.
@@ -98,7 +96,7 @@ export default {
     LiSession
   },
   computed: {
-    ...mapGetters([`session`, `lastPage`]),
+    ...mapGetters([`session`]),
     accountExists() {
       return this.session.accounts.length > 0
     }
@@ -117,10 +115,5 @@ export default {
 .lunie-logo {
   height: 4rem;
   padding-left: 1rem;
-}
-
-.terms {
-  padding: 2rem 1rem 0;
-  font-size: var(--sm);
 }
 </style>
