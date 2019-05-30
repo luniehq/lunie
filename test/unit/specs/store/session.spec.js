@@ -136,7 +136,7 @@ describe(`Module: Session`, () => {
   })
 
   it(`should show an error if loading accounts fails`, async () => {
-    jest.spyOn(console, `error`).mockImplementationOnce(() => {})
+    jest.spyOn(console, `error`).mockImplementationOnce(() => { })
 
     jest.resetModules()
     jest.doMock(`scripts/keystore.js`, () => ({
@@ -263,7 +263,7 @@ describe(`Module: Session`, () => {
       )
     })
 
-    it(`with Ledger Nano S`, async () => {
+    it(`with Ledger Nano`, async () => {
       const address = `cosmos1qpd4xgtqmxyf9ktjh757nkdfnzpnkamny3cpzv`
       const commit = jest.fn()
       const dispatch = jest.fn()
@@ -319,7 +319,7 @@ describe(`Module: Session`, () => {
   })
 
   it(`should enable error collection`, async () => {
-    jest.spyOn(console, `log`).mockImplementationOnce(() => {})
+    jest.spyOn(console, `log`).mockImplementationOnce(() => { })
     const commit = jest.fn()
     const dispatch = jest.fn()
     await actions.setErrorCollection(
@@ -339,7 +339,7 @@ describe(`Module: Session`, () => {
   })
 
   it(`should disable error collection`, async () => {
-    jest.spyOn(console, `log`).mockImplementationOnce(() => {})
+    jest.spyOn(console, `log`).mockImplementationOnce(() => { })
     const commit = jest.fn()
     const dispatch = jest.fn()
     await actions.setErrorCollection(
@@ -356,7 +356,7 @@ describe(`Module: Session`, () => {
   })
 
   it(`should disable analytics collection`, async () => {
-    jest.spyOn(console, `log`).mockImplementationOnce(() => {})
+    jest.spyOn(console, `log`).mockImplementationOnce(() => { })
     const commit = jest.fn()
     const dispatch = jest.fn()
     await actions.setAnalyticsCollection(

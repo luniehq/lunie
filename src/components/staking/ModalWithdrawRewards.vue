@@ -10,7 +10,7 @@
   >
     <span v-if="!validatorAddress" class="form-message notice withdraw-limit">
       You can only withdraw rewards from your top 5 validators in a single
-      transaction. This is because of a limitation with the Ledger Nano S.
+      transaction. This is because of a limitation with the Ledger Nano.
     </span>
     <TmFormGroup
       class="action-modal-form-group"
