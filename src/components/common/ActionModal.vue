@@ -473,13 +473,10 @@ export default {
 }
 
 .action-modal-icon.action-modal-close {
+  cursor: pointer;
   position: absolute;
   top: 1rem;
   right: 1rem;
-}
-
-.action-modal-icon.action-modal-close {
-  cursor: pointer;
 }
 
 .action-modal-icon.action-modal-close:hover i {
