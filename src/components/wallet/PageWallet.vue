@@ -24,7 +24,7 @@
     <template slot="managed-body">
       <div class="card">
         <h3>Your Public Cosmos Address</h3>
-        <ShortBech32 :address="session.address || ''" />
+        <ShortBech32 :address="session.address || ''" long-form />
       </div>
       <LiCoin
         v-for="coin in filteredBalances"

@@ -38,6 +38,11 @@ describe(`ShortBech32`, () => {
     expect(wrapper.vm.shortBech32).toBe(`cosmosaddress…asdf`)
   })
 
+  it(`should return a long address when long-form set`, () => {
+    wrapper.setProps({ address: `cosmosaddress1asdfasdfasdf`, longForm: true })
+    expect(wrapper.find(".address").text()).toBe(`cosmosaddress1asdfasdfasdf`)
+  })
+
   describe(`onCopy`, () => {
     it(`should set and reset copySuccess`, () => {
       jest.useFakeTimers()

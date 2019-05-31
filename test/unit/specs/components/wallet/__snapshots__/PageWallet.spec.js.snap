@@ -36,6 +36,7 @@ exports[`PageWallet should display the wallet page 1`] = `
        
       <shortbech32-stub
         address=""
+        longform="true"
       />
     </div>
      
@@ -93,6 +94,7 @@ exports[`PageWallet should not show denoms or the faucet button for a user who i
        
       <shortbech32-stub
         address=""
+        longform="true"
       />
     </div>
      
@@ -150,6 +152,7 @@ exports[`PageWallet should show the sending modal 1`] = `
        
       <shortbech32-stub
         address=""
+        longform="true"
       />
     </div>
      

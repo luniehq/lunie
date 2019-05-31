@@ -2,12 +2,22 @@
   <div class="short-bech32">
     <div
       id="address"
+      v-if="!longForm"
       v-tooltip.top="address"
       v-clipboard:copy="address"
       v-clipboard:success="() => onCopy()"
       class="address"
     >
       {{ shortBech32 }}
+    </div>
+    <div
+      id="address"
+      v-else
+      v-clipboard:copy="address"
+      v-clipboard:success="() => onCopy()"
+      class="address"
+    >
+      {{ bech32 }}
     </div>
     <div :class="{ active: copySuccess }" class="copied">
       <i class="material-icons">check</i><span>Copied</span>
@@ -22,6 +32,11 @@ export default {
     address: {
       type: String,
       required: true
+    },
+    longForm: {
+      type: Boolean,
+      required: false,
+      default: false
     }
   },
   data: () => ({
@@ -34,6 +49,14 @@ export default {
         return `Not A Valid Bech32 Address`
       } else {
         return address.split(`1`)[0] + `…` + address.slice(-1 * length)
+      }
+    },
+    bech32({ address } = this) {
+      if (!address) return `Address Not Found`
+      if (address.indexOf(`1`) === -1) {
+        return `Not A Valid Bech32 Address`
+      } else {
+        return address
       }
     }
   },
