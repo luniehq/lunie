@@ -48,7 +48,7 @@ describe(`ShortBech32`, () => {
     expect(wrapper.vm.bech32).toBe(`cosmosaddress1asdfasdfasdf`)
   })
 
-  it(`should return 'address not found when invalid in long form'`, () => {
+  it(`should return 'address not found' when invalid in long form`, () => {
     wrapper.setProps({ address: null, longForm: true })
     expect(wrapper.vm.bech32).toBe(`Address Not Found`)
   })
