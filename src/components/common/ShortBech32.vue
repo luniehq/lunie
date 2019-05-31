@@ -1,8 +1,8 @@
 <template>
   <div class="short-bech32">
     <div
-      id="address"
       v-if="!longForm"
+      id="address"
       v-tooltip.top="address"
       v-clipboard:copy="address"
       v-clipboard:success="() => onCopy()"
@@ -11,8 +11,8 @@
       {{ shortBech32 }}
     </div>
     <div
-      id="address"
       v-else
+      id="address"
       v-clipboard:copy="address"
       v-clipboard:success="() => onCopy()"
       class="address"
