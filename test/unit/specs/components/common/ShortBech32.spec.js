@@ -48,6 +48,16 @@ describe(`ShortBech32`, () => {
     expect(wrapper.vm.bech32).toBe(`cosmosaddress1asdfasdfasdf`)
   })
 
+  it(`should return 'address not found'`, () => {
+    wrapper.setProps({ address: null, longForm: true })
+    expect(wrapper.vm.bech32).toBe(`Address Not Found`)
+  })
+
+  it(`should return a validation error message`, () => {
+    wrapper.setProps({ address: `cosmosaddress2asdfasdfasdf`, longForm: true })
+    expect(wrapper.vm.bech32).toBe(`Not A Valid Bech32 Address`)
+  })
+
   describe(`onCopy`, () => {
     it(`should set and reset copySuccess`, () => {
       jest.useFakeTimers()
