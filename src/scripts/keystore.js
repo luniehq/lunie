@@ -4,10 +4,10 @@ const keySize = 256
 const iterations = 100
 
 import {
-  generateWallet,
-  generateWalletFromSeed,
+  getWallet,
+  getWalletFromSeed,
   standardRandomBytesFunc
-} from "./wallet.js"
+} from "@lunie/cosmos-keys"
 
 export function storeKeys(keys) {
   localStorage.setItem(`keys`, JSON.stringify(keys))
@@ -65,13 +65,13 @@ export function addNewKey(
   password,
   randomBytesFunc = standardRandomBytesFunc
 ) {
-  const wallet = generateWallet(randomBytesFunc)
+  const wallet = getWallet(randomBytesFunc)
   addKey(wallet, name, password)
 
   return wallet
 }
 export function importKey(name, password, seed) {
-  const wallet = generateWalletFromSeed(seed)
+  const wallet = getWalletFromSeed(seed)
   addKey(wallet, name, password)
 
   return wallet

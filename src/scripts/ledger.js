@@ -1,5 +1,5 @@
 import { App, comm_u2f } from "ledger-cosmos-js"
-import { createCosmosAddress } from "scripts/wallet.js"
+import { createCosmosAddress } from "@lunie/cosmos-keys"
 import { signatureImport } from "secp256k1"
 import semver from "semver"
 
