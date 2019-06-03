@@ -24,7 +24,7 @@
     <template slot="managed-body">
       <div class="card">
         <h3>Your Public Cosmos Address</h3>
-        <ShortBech32 :address="session.address || ''" long-form />
+        <Bech32 :address="session.address || ''" long-form />
       </div>
       <LiCoin
         v-for="coin in filteredBalances"
@@ -44,7 +44,7 @@ import { mapGetters, mapActions } from "vuex"
 import orderBy from "lodash.orderby"
 import LiCoin from "./LiCoin"
 import SendModal from "wallet/SendModal"
-import ShortBech32 from "common/ShortBech32"
+import Bech32 from "common/Bech32"
 import TmPage from "common/TmPage"
 import TmDataMsg from "common/TmDataMsg"
 
@@ -55,7 +55,7 @@ export default {
     LiCoin,
     TmPage,
     SendModal,
-    ShortBech32
+    Bech32
   },
   data: () => ({ num, showSendModal: false }),
   computed: {

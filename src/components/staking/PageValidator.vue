@@ -34,7 +34,7 @@
                     {{ validator.description.moniker }}
                   </div>
                 </div>
-                <ShortBech32 :address="validator.operator_address" />
+                <Bech32 :address="validator.operator_address" />
               </div>
             </div>
 
@@ -197,13 +197,13 @@ import { shortAddress, ratToBigNumber } from "scripts/common"
 import DelegationModal from "staking/DelegationModal"
 import UndelegationModal from "staking/UndelegationModal"
 import ModalWithdrawRewards from "staking/ModalWithdrawRewards"
-import ShortBech32 from "common/ShortBech32"
+import Bech32 from "common/Bech32"
 import TmPage from "common/TmPage"
 import isEmpty from "lodash.isempty"
 export default {
   name: `page-validator`,
   components: {
-    ShortBech32,
+    Bech32,
     DelegationModal,
     UndelegationModal,
     ModalWithdrawRewards,

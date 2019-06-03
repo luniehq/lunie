@@ -34,7 +34,7 @@ exports[`PageWallet should display the wallet page 1`] = `
         Your Public Cosmos Address
       </h3>
        
-      <shortbech32-stub
+      <bech32-stub
         address=""
         longform="true"
       />
@@ -92,7 +92,7 @@ exports[`PageWallet should not show denoms or the faucet button for a user who i
         Your Public Cosmos Address
       </h3>
        
-      <shortbech32-stub
+      <bech32-stub
         address=""
         longform="true"
       />
@@ -150,7 +150,7 @@ exports[`PageWallet should show the sending modal 1`] = `
         Your Public Cosmos Address
       </h3>
        
-      <shortbech32-stub
+      <bech32-stub
         address=""
         longform="true"
       />

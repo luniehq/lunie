@@ -1,16 +1,18 @@
 import { shallowMount, createLocalVue } from "@vue/test-utils"
 import VueClipboard from "vue-clipboard2"
-import ShortBech32 from "src/components/common/ShortBech32"
+import Bech32 from "src/components/common/Bech32"
+import { formatBech32 } from "src/filters"
 
 const localVue = createLocalVue()
 localVue.directive(`clipboard`, VueClipboard)
 localVue.directive(`tooltip`, () => {})
+localVue.filter(`formatBech32`, formatBech32)
 
-describe(`ShortBech32`, () => {
+describe(`Bech32`, () => {
   let wrapper
 
   beforeEach(() => {
-    wrapper = shallowMount(ShortBech32, {
+    wrapper = shallowMount(Bech32, {
       localVue,
       propsData: { address: `cosmosftw123456789` },
       data: () => ({
@@ -23,39 +25,29 @@ describe(`ShortBech32`, () => {
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
+  it(`should show a long address`, () => {
+    wrapper.setProps({ longForm: true })
+    expect(wrapper.vm.$el).toMatchSnapshot()
+  })
+
   it(`should return 'address not found'`, () => {
     wrapper.setProps({ address: null })
-    expect(wrapper.vm.shortBech32).toBe(`Address Not Found`)
+    expect(wrapper.find(".address").text()).toBe(`Address Not Found`)
   })
 
   it(`should return a validation error message`, () => {
     wrapper.setProps({ address: `cosmosaddress2asdfasdfasdf` })
-    expect(wrapper.vm.shortBech32).toBe(`Not A Valid Bech32 Address`)
+    expect(wrapper.find(".address").text()).toBe(`Not A Valid Bech32 Address`)
   })
 
   it(`should return a short address with everything before the 1`, () => {
     wrapper.setProps({ address: `cosmosaddress1asdfasdfasdf` })
-    expect(wrapper.vm.shortBech32).toBe(`cosmosaddress…asdf`)
+    expect(wrapper.find(".address").text()).toBe(`cosmosaddress…asdf`)
   })
 
   it(`should return a long address when long-form set`, () => {
     wrapper.setProps({ address: `cosmosaddress1asdfasdfasdf`, longForm: true })
     expect(wrapper.find(".address").text()).toBe(`cosmosaddress1asdfasdfasdf`)
-  })
-
-  it(`should calculate a long address`, () => {
-    wrapper.setProps({ address: `cosmosaddress1asdfasdfasdf`, longForm: true })
-    expect(wrapper.vm.bech32).toBe(`cosmosaddress1asdfasdfasdf`)
-  })
-
-  it(`should return 'address not found when invalid in long form'`, () => {
-    wrapper.setProps({ address: null, longForm: true })
-    expect(wrapper.vm.bech32).toBe(`Address Not Found`)
-  })
-
-  it(`should return a validation error message when invalid in long form`, () => {
-    wrapper.setProps({ address: `cosmosaddress2asdfasdfasdf`, longForm: true })
-    expect(wrapper.vm.bech32).toBe(`Not A Valid Bech32 Address`)
   })
 
   describe(`onCopy`, () => {

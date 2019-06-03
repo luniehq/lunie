@@ -3,3 +3,15 @@ import { percent } from "../scripts/num.js"
 export const percentOrPending = function(value, totalValue, pending) {
   return pending ? `--` : percent(totalValue === 0 ? 0 : value / totalValue)
 }
+
+export const formatBech32 = (address, longForm, length = 4) => {
+  if (!address) {
+    return `Address Not Found`
+  } else if (address.indexOf(`1`) === -1) {
+    return `Not A Valid Bech32 Address`
+  } else if (longForm) {
+    return address
+  } else {
+    return address.split(`1`)[0] + `…` + address.slice(-1 * length)
+  }
+}

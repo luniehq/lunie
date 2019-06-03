@@ -43,7 +43,7 @@ exports[`PageValidator shows a validator profile information errors signing info
                 </div>
               </div>
                
-              <shortbech32-stub
+              <bech32-stub
                 address="cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
               />
             </div>
@@ -373,7 +373,7 @@ exports[`PageValidator shows a validator profile information if user has signed 
                 </div>
               </div>
                
-              <shortbech32-stub
+              <bech32-stub
                 address="cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
               />
             </div>
@@ -703,7 +703,7 @@ exports[`PageValidator shows a validator profile information if user hasn't sign
                 </div>
               </div>
                
-              <shortbech32-stub
+              <bech32-stub
                 address="cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
               />
             </div>
