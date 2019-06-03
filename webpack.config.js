@@ -172,7 +172,8 @@ const config = {
   },
   devServer: {
     contentBase: [path.join(__dirname, `dist`), path.join(__dirname, `app`)],
-    stats: `errors-only`
+    stats: `errors-only`,
+    disableHostCheck: true
   },
   optimization: {
     runtimeChunk: `single`,
