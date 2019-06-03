@@ -8,7 +8,7 @@
       v-clipboard:success="() => onCopy()"
       class="address"
     >
-      {{ address | formatBech32(longForm) }}
+      {{ address | formatBech32 }}
     </div>
     <div
       v-else
