@@ -1,18 +1,8 @@
 <template>
   <div class="bech32-address">
     <div
-      v-if="!longForm"
       id="address"
       v-tooltip.top="address"
-      v-clipboard:copy="address"
-      v-clipboard:success="() => onCopy()"
-      class="address"
-    >
-      {{ address | formatBech32 }}
-    </div>
-    <div
-      v-else
-      id="address"
       v-clipboard:copy="address"
       v-clipboard:success="() => onCopy()"
       class="address"
