@@ -23,7 +23,7 @@ describe(`formatBech32 Filter`, () => {
     expect(formatBech32(``)).toBe(`Address Not Found`)
   })
 
-  it(`should return 'Not A Valid Bech32 Address' when invalid`, () => {
+  it(`should return 'Not A Valid Bech32 Address' when no 1 is present`, () => {
     expect(formatBech32(`cosmosaddress2asdfasdfasdf`)).toBe(
       `Not A Valid Bech32 Address`
     )
