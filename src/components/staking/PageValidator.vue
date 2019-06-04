@@ -7,7 +7,10 @@
     :data-empty="!validator"
     data-title="Validator"
   >
-    <template v-if="validator" slot="managed-body">
+    <template
+      v-if="validator"
+      slot="managed-body"
+    >
       <!-- we need the v-if as the template somehow is rendered in any case -->
       <div class="page-profile__header page-profile__section">
         <div class="row">
@@ -192,8 +195,9 @@ import moment from "moment"
 import { calculateTokens } from "scripts/common"
 import { mapGetters } from "vuex"
 import num, { atoms, viewDenom, shortDecimals } from "scripts/num"
+import { formatBech32 } from "src/filters"
 import TmBtn from "common/TmBtn"
-import { shortAddress, ratToBigNumber } from "scripts/common"
+import { ratToBigNumber } from "scripts/common"
 import DelegationModal from "staking/DelegationModal"
 import UndelegationModal from "staking/UndelegationModal"
 import ModalWithdrawRewards from "staking/ModalWithdrawRewards"
@@ -213,10 +217,10 @@ export default {
   filters: {
     atoms,
     viewDenom,
-    shortDecimals
+    shortDecimals,
+    formatBech32
   },
   data: () => ({
-    shortAddress,
     tabIndex: 1,
     moment,
     num
@@ -401,7 +405,7 @@ export default {
         {
           address: session.address,
           maximum: Math.floor(liquidAtoms),
-          key: `My Wallet - ${shortAddress(session.address, 20)}`,
+          key: `My Wallet - ${formatBech32(session.address, false, 20)}`,
           value: 0
         }
       ]
@@ -420,8 +424,9 @@ export default {
           return {
             address: address,
             maximum: Math.floor(committedDelegations[address]),
-            key: `${delegate.description.moniker} - ${shortAddress(
+            key: `${delegate.description.moniker} - ${formatBech32(
               delegate.operator_address,
+              false,
               20
             )}`,
             value: index + 1
