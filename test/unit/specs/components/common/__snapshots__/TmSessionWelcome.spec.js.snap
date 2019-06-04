@@ -34,9 +34,18 @@ exports[`TmSessionWelcome with accounts has the expected html structure 1`] = `
       <lisession-stub
         disabled="true"
         icon="usb"
-        subtitle="Please use Chrome, Opera, or Brave. Ledger is not supported in your current browser."
-        title="Sign in with Ledger Nano S"
-      />
+        subtitle=""
+        title="Sign in with Ledger Nano"
+      >
+        <!---->
+         
+        <div>
+          
+          Please use Chrome, Opera, or Brave. Ledger is not supported in your
+          current browser.
+        
+        </div>
+      </lisession-stub>
        
       <lisession-stub
         icon="search"
@@ -118,9 +127,18 @@ exports[`TmSessionWelcome without accounts has the expected html structure 1`] =
       <lisession-stub
         disabled="true"
         icon="usb"
-        subtitle="Please use Chrome, Opera, or Brave. Ledger is not supported in your current browser."
-        title="Sign in with Ledger Nano S"
-      />
+        subtitle=""
+        title="Sign in with Ledger Nano"
+      >
+        <!---->
+         
+        <div>
+          
+          Please use Chrome, Opera, or Brave. Ledger is not supported in your
+          current browser.
+        
+        </div>
+      </lisession-stub>
        
       <lisession-stub
         icon="search"

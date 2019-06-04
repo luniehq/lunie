@@ -13,17 +13,35 @@
       <div class="tm-session-main">
         <LiSession
           icon="usb"
-          title="Sign in with Ledger Nano S"
-          :subtitle="
-            session.browserWithLedgerSupport
-              ? 'If you have a Ledger Wallet, choose this option.'
-              : 'Please use Chrome, Opera, or Brave. Ledger is not supported in your current browser.'
-          "
+          title="Sign in with Ledger Nano"
           :disabled="!session.browserWithLedgerSupport"
           @click.native="
             () => session.browserWithLedgerSupport && setState('hardware')
           "
-        />
+        >
+          <div
+            v-if="session.browserWithLedgerSupport"
+            slot="li-session-subtitle"
+          >
+            If you have a Ledger Wallet, choose this option.<br />
+            Don't have a Ledger yet?
+            <a
+              href="https://shop.ledger.com/?r=3dd204ef7508"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Get one here</a
+            >.
+          </div>
+
+          <div
+            v-if="!session.browserWithLedgerSupport"
+            slot="li-session-subtitle"
+          >
+            Please use Chrome, Opera, or Brave. Ledger is not supported in your
+            current browser.
+          </div>
+        </LiSession>
         <LiSession
           id="explore-address"
           icon="search"

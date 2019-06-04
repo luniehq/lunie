@@ -1,5 +1,8 @@
 <template>
-  <tr class="data-table__row li-validator">
+  <tr
+    class="data-table__row li-validator"
+    :data-moniker="validator.description.moniker"
+  >
     <td class="data-table__row__info">
       <img
         v-if="validator.keybase && validator.keybase.avatarUrl"
