@@ -58,6 +58,7 @@ describe(`App Start`, () => {
   // popper.js is used by tooltips and causes some errors if
   // not mocked because it requires a real DOM
   jest.mock(`popper.js`, () => () => {})
+  jest.mock("@lunie/cosmos-keys", () => ({}))
 
   beforeEach(() => {
     document.body.innerHTML = `<div id="app"></div>`

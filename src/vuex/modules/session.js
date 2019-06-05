@@ -2,7 +2,7 @@ import * as Sentry from "@sentry/browser"
 import { track, deanonymize, anonymize } from "scripts/google-analytics.js"
 import config from "src/config"
 import { loadKeys, importKey, testPassword } from "../../scripts/keystore.js"
-import { generateSeed } from "../../scripts/wallet.js"
+import { getSeed } from "@lunie/cosmos-keys"
 
 export default () => {
   const USER_PREFERENCES_KEY = `lunie_user_preferences`
@@ -42,7 +42,7 @@ export default () => {
       loadKeys,
       importKey,
       testPassword,
-      generateSeed,
+      getSeed,
       track,
       anonymize,
       deanonymize,
@@ -132,7 +132,7 @@ export default () => {
       return await testPassword(localKeyPairName, password)
     },
     createSeed() {
-      return state.externals.generateSeed()
+      return state.externals.getSeed()
     },
     async createKey({ dispatch, state }, { seedPhrase, password, name }) {
       state.externals.track(`event`, `session`, `create-keypair`)
