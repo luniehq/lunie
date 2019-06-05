@@ -7,10 +7,7 @@
     :data-empty="!validator"
     data-title="Validator"
   >
-    <template
-      v-if="validator"
-      slot="managed-body"
-    >
+    <template v-if="validator" slot="managed-body">
       <!-- we need the v-if as the template somehow is rendered in any case -->
       <div class="page-profile__header page-profile__section">
         <div class="row">
