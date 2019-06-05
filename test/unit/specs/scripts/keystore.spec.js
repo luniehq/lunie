@@ -10,7 +10,7 @@ import {
 // to test Web API Crypto
 import crypto from "crypto"
 
-const wallet = {
+const mockWallet = {
   cosmosAddress: `cosmos1r5v5srda7xfth3hn2s26txvrcrntldjumt8mhl`,
   mnemonic: `abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon art`,
   privateKey: `8088c2ed2149c34f6d6533b774da4e1692eb5cb426fdbaef6898eeda489630b7`,
@@ -18,6 +18,11 @@ const wallet = {
 }
 const accountName = `test`
 const password = `1234567890`
+
+jest.mock("@lunie/cosmos-keys", () => ({
+  getWallet: () => mockWallet,
+  getWalletFromSeed: () => mockWallet
+}))
 
 describe(`Keystore`, () => {
   beforeEach(() => {
@@ -35,7 +40,7 @@ describe(`Keystore`, () => {
   })
 
   it(`imports a key encrypted to localstorage`, () => {
-    importKey(accountName, password, wallet.mnemonic)
+    importKey(accountName, password, mockWallet.mnemonic)
     const keys = loadKeys()
     expect(keys).toEqual([
       {
