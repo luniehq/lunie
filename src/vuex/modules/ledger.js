@@ -1,5 +1,5 @@
 import config from "src/config"
-import Ledger from "scripts/ledger"
+import Ledger from "@lunie/cosmos-ledger"
 
 export default () => {
   const emptyState = {}

@@ -633,6 +633,13 @@
   dependencies:
     regenerator-runtime "^0.13.2"
 
+"@babel/runtime@^7.4.4":
+  version "7.4.5"
+  resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.4.5.tgz#582bb531f5f9dc67d2fcb682979894f75e253f12"
+  integrity sha512-TuI4qpWZP6lGOGIuGWtp9sPluqYICmbk8T/1vpSysqJxRPkudh/ofFWyqdcMsDf2s7KvDL4/YHgKyvcS3g9CJQ==
+  dependencies:
+    regenerator-runtime "^0.13.2"
+
 "@babel/template@^7.0.0", "@babel/template@^7.1.0", "@babel/template@^7.4.4":
   version "7.4.4"
   resolved "https://registry.yarnpkg.com/@babel/template/-/template-7.4.4.tgz#f4b88d1225689a08f5bc3a17483545be9e4ed237"
@@ -951,6 +958,54 @@
     "@types/istanbul-reports" "^1.1.1"
     "@types/yargs" "^12.0.9"
 
+"@ledgerhq/devices@^4.61.0":
+  version "4.61.0"
+  resolved "https://registry.yarnpkg.com/@ledgerhq/devices/-/devices-4.61.0.tgz#12045bb25ffdc43de5ce97770008a605675de246"
+  integrity sha512-ZBXtV4JFOSvxwfr9PwoAfOdh9Qb/nIPpMR69uG0BwCkz6KzFyJWinsJvf+wFBQmnxDJKcPz2eWrCEL/viQ0HOQ==
+  dependencies:
+    "@ledgerhq/errors" "^4.61.0"
+    "@ledgerhq/logs" "^4.61.0"
+    rxjs "^6.5.2"
+
+"@ledgerhq/errors@^4.61.0":
+  version "4.61.0"
+  resolved "https://registry.yarnpkg.com/@ledgerhq/errors/-/errors-4.61.0.tgz#dca01039453d2bf7b1e4fe866d55e82585b77567"
+  integrity sha512-sEbAF7H/0EL8WiQ+m2qaZFzIJjtrXUFaxHyI4J/FSgK3uszDAVcnXwetq7TFOswZtPS2u2g/5oa1/iuoNVKwXQ==
+
+"@ledgerhq/hw-transport-u2f@^4.61.0":
+  version "4.61.0"
+  resolved "https://registry.yarnpkg.com/@ledgerhq/hw-transport-u2f/-/hw-transport-u2f-4.61.0.tgz#791c1587ff2491442ad120249d5c802549ddb1d5"
+  integrity sha512-qQlELJcwdtheE2WmPPVZo43F+Pa1IppzsXID8j89VVjwAKk22uCI0a75pyPG3Of2H07BZVab+jqL3fxzPEMCPw==
+  dependencies:
+    "@ledgerhq/errors" "^4.61.0"
+    "@ledgerhq/hw-transport" "^4.61.0"
+    "@ledgerhq/logs" "^4.61.0"
+    u2f-api "0.2.7"
+
+"@ledgerhq/hw-transport-webusb@^4.61.0":
+  version "4.61.0"
+  resolved "https://registry.yarnpkg.com/@ledgerhq/hw-transport-webusb/-/hw-transport-webusb-4.61.0.tgz#18f579e995ce7b6ae023b5dc5ecd77b8683778af"
+  integrity sha512-PK7tj7qzw7MN4qwsMN34+na9dRzQIpMp0mskawNoZx1v+mTcIVoZ4ou0m662vk+XG5O/Xo5NDcdOdm9iBOoYQg==
+  dependencies:
+    "@ledgerhq/devices" "^4.61.0"
+    "@ledgerhq/errors" "^4.61.0"
+    "@ledgerhq/hw-transport" "^4.61.0"
+    "@ledgerhq/logs" "^4.61.0"
+
+"@ledgerhq/hw-transport@^4.35.0", "@ledgerhq/hw-transport@^4.61.0":
+  version "4.61.0"
+  resolved "https://registry.yarnpkg.com/@ledgerhq/hw-transport/-/hw-transport-4.61.0.tgz#709d9ec3c0c536181374a438db27e635059d3328"
+  integrity sha512-jsITF3HAttITBVKZOEASeTSBENbnrhcZmyxhiI1ijRFqDSEAPp7LuttNnI1d99301/4dWZV9NSe40naBsCJHXQ==
+  dependencies:
+    "@ledgerhq/devices" "^4.61.0"
+    "@ledgerhq/errors" "^4.61.0"
+    events "^3.0.0"
+
+"@ledgerhq/logs@^4.61.0":
+  version "4.61.0"
+  resolved "https://registry.yarnpkg.com/@ledgerhq/logs/-/logs-4.61.0.tgz#bbcba49d7a7a4e20d6584bbfc10ed93b212c804c"
+  integrity sha512-AObEnA+tgzKEwY306i6FOT/hlc+zjF817Bty/IxG3f2wPJFRK9cJuD3Ijl4pfJP2pt7KubN4YbRGXREXhEsknQ==
+
 "@lunie/cosmos-js@0.0.21":
   version "0.0.21"
   resolved "https://registry.yarnpkg.com/@lunie/cosmos-js/-/cosmos-js-0.0.21.tgz#89f16c9e2e5584419be3ffddf5527a042faaaa65"
@@ -958,7 +1013,7 @@
   dependencies:
     jest "^24.7.1"
 
-"@lunie/cosmos-keys@0.0.9":
+"@lunie/cosmos-keys@0.0.9", "@lunie/cosmos-keys@^0.0.9":
   version "0.0.9"
   resolved "https://registry.yarnpkg.com/@lunie/cosmos-keys/-/cosmos-keys-0.0.9.tgz#ca52af422a448462973dac4015ff76f9db87793d"
   integrity sha512-KPDcWHxt6VtcIwj0UdfJUU/FRfShCUglJWoZJmuxHwwjlikUSA4ZWvYFieW/xt45mpvqJQVvd5zVe3qBn5h/Gw==
@@ -968,6 +1023,18 @@
     bip39 "^3.0.1"
     crypto-js "^3.1.9-1"
     secp256k1 "^3.6.2"
+
+"@lunie/cosmos-ledger@0.0.3":
+  version "0.0.3"
+  resolved "https://registry.yarnpkg.com/@lunie/cosmos-ledger/-/cosmos-ledger-0.0.3.tgz#1621633805a94893aea08695b831d31518debba2"
+  integrity sha512-lbC28jiDfPVuwAr69/VyLteWxBf+bLFEqwKV3pREc7SnGS3jFYaXiQXAgiYMuHv+R3XvDV0mYRNTyuYa8nXdsQ==
+  dependencies:
+    "@ledgerhq/hw-transport-u2f" "^4.61.0"
+    "@ledgerhq/hw-transport-webusb" "^4.61.0"
+    "@lunie/cosmos-keys" "^0.0.9"
+    ledger-cosmos-js "^2.0.2"
+    secp256k1 "^3.7.0"
+    semver "^6.1.0"
 
 "@mrmlnc/readdir-enhanced@^2.2.1":
   version "2.2.1"
@@ -6943,6 +7010,16 @@ ledger-cosmos-js@1.0.0:
     q "^1.5.1"
     ripemd160 "^2.0.2"
 
+ledger-cosmos-js@^2.0.2:
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/ledger-cosmos-js/-/ledger-cosmos-js-2.0.2.tgz#642f8e98b81e18a81087cb91989a35131ab62587"
+  integrity sha512-VWm1U786kGIwMkCcuOLH1D/q4wqPdeUO6uMioBVSKrOO4hhIajYg4nmGvzgtXQH2I8ocUelNJcH7Wo1r1Esyew==
+  dependencies:
+    "@babel/runtime" "^7.4.4"
+    "@ledgerhq/hw-transport" "^4.35.0"
+    bech32 "^1.1.3"
+    ripemd160 "^2.0.2"
+
 left-pad@^1.3.0:
   version "1.3.0"
   resolved "https://registry.yarnpkg.com/left-pad/-/left-pad-1.3.0.tgz#5b8a3a7765dfe001261dde915589e782f8c94d1e"
@@ -10312,6 +10389,13 @@ rxjs@^6.3.3, rxjs@^6.4.0:
   dependencies:
     tslib "^1.9.0"
 
+rxjs@^6.5.2:
+  version "6.5.2"
+  resolved "https://registry.yarnpkg.com/rxjs/-/rxjs-6.5.2.tgz#2e35ce815cd46d84d02a209fb4e5921e051dbec7"
+  integrity sha512-HUb7j3kvb7p7eCUHE3FqjoDsC1xfZQ4AHFWfTKSpZ+sAhhz5X1WX0ZuUqWbzB2QhSLp3DoLUG+hMdEDKqWo2Zg==
+  dependencies:
+    tslib "^1.9.0"
+
 safe-buffer@5.1.2, safe-buffer@^5.0.1, safe-buffer@^5.1.0, safe-buffer@^5.1.1, safe-buffer@^5.1.2, safe-buffer@~5.1.0, safe-buffer@~5.1.1:
   version "5.1.2"
   resolved "https://registry.yarnpkg.com/safe-buffer/-/safe-buffer-5.1.2.tgz#991ec69d296e0313747d59bdfd2b745c35f8828d"
@@ -10377,7 +10461,7 @@ secp256k1@3.6.2:
     nan "^2.2.1"
     safe-buffer "^5.1.0"
 
-secp256k1@^3.6.2:
+secp256k1@^3.6.2, secp256k1@^3.7.0:
   version "3.7.1"
   resolved "https://registry.yarnpkg.com/secp256k1/-/secp256k1-3.7.1.tgz#12e473e0e9a7c2f2d4d4818e722ad0e14cc1e2f1"
   integrity sha512-1cf8sbnRreXrQFdH6qsg2H71Xw91fCCS9Yp021GnUNJzWJS/py96fS4lHbnTnouLp08Xj6jBoBB6V78Tdbdu5g==
@@ -10422,6 +10506,11 @@ semver@6.0.0, semver@^6.0.0:
   version "6.0.0"
   resolved "https://registry.yarnpkg.com/semver/-/semver-6.0.0.tgz#05e359ee571e5ad7ed641a6eec1e547ba52dea65"
   integrity sha512-0UewU+9rFapKFnlbirLi3byoOuhrSsli/z/ihNnvM24vgF+8sNBiI1LZPBSH9wJKUwaUbw+s3hToDLCXkrghrQ==
+
+semver@^6.1.0:
+  version "6.1.1"
+  resolved "https://registry.yarnpkg.com/semver/-/semver-6.1.1.tgz#53f53da9b30b2103cd4f15eab3a18ecbcb210c9b"
+  integrity sha512-rWYq2e5iYW+fFe/oPPtYJxYgjBm8sC4rmoGdUOgBB7VnwKt6HrL793l2voH1UlsyYZpJ4g0wfjnTEO1s1NP2eQ==
 
 send@0.16.2, send@latest:
   version "0.16.2"
@@ -10573,10 +10662,10 @@ simple-swizzle@^0.2.2:
   dependencies:
     is-arrayish "^0.3.1"
 
-simsala@0.0.13:
-  version "0.0.13"
-  resolved "https://registry.yarnpkg.com/simsala/-/simsala-0.0.13.tgz#320b7480ee0d5922c5abb71b9f47a49ad253e192"
-  integrity sha512-9qE+XDgJUOLt8KWuHfVDV73ZYNHhk+fSggfw277iKKekhcR1q/nm+eFkj7FC3jOKSXGZrRWh03aiLM0IIDux/A==
+simsala@0.0.14:
+  version "0.0.14"
+  resolved "https://registry.yarnpkg.com/simsala/-/simsala-0.0.14.tgz#e7ddb8ab8ae86f15e9278c63347140af2edfb38b"
+  integrity sha512-CNocwqmxCSStTquymMKTwM5AMFNg3PJROm1xJ8IIG4Rmoc5LRwWMN81Tg1jNu+zMGQ6P6hK0lUzegi8taGwebg==
   dependencies:
     axios "^0.18.0"
     commander "^2.20.0"
@@ -11606,6 +11695,11 @@ typeforce@^1.11.5:
   version "1.18.0"
   resolved "https://registry.yarnpkg.com/typeforce/-/typeforce-1.18.0.tgz#d7416a2c5845e085034d70fcc5b6cc4a90edbfdc"
   integrity sha512-7uc1O8h1M1g0rArakJdf0uLRSSgFcYexrVoKo+bzJd32gd4gDy2L/Z+8/FjPnU9ydY3pEnVPtr9FyscYY60K1g==
+
+u2f-api@0.2.7:
+  version "0.2.7"
+  resolved "https://registry.yarnpkg.com/u2f-api/-/u2f-api-0.2.7.tgz#17bf196b242f6bf72353d9858e6a7566cc192720"
+  integrity sha512-fqLNg8vpvLOD5J/z4B6wpPg4Lvowz1nJ9xdHcCzdUPKcFE/qNCceV2gNZxSJd5vhAZemHr/K/hbzVA0zxB5mkg==
 
 uglify-js@3.4.x:
   version "3.4.10"

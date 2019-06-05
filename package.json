@@ -115,6 +115,7 @@
   "dependencies": {
     "@lunie/cosmos-js": "0.0.21",
     "@lunie/cosmos-keys": "0.0.9",
+    "@lunie/cosmos-ledger": "0.0.3",
     "@sentry/browser": "5.0.3",
     "autosize": "4.0.2",
     "axios": "0.19.0",
