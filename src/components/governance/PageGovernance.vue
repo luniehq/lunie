@@ -61,7 +61,7 @@ export default {
       this.$refs.modalPropose.open()
     },
     onProposeLoggedOut() {
-      this.$store.commit(`toggleSessionModal`, true);
+      this.$store.commit(`toggleSessionModal`, true)
     }
   }
 }
