@@ -112,6 +112,7 @@
             v-model="password"
             type="password"
             placeholder="Password"
+            @keyup.enter.native="validateChangeStep"
           />
           <TmFormMsg
             v-if="$v.password.$error && !$v.password.required"
