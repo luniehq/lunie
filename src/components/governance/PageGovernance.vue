@@ -9,6 +9,15 @@
       color="primary"
       @click.native="onPropose"
     />
+    <TmBtn
+      v-else-if="!session.signedIn"
+      id="propose-btn"
+      slot="header-buttons"
+      :disabled="!connected"
+      :value="connected ? 'Create Proposal' : 'Connecting...'"
+      color="primary"
+      @click.native="onProposeLoggedOut"
+    />
     <ModalPropose ref="modalPropose" :denom="depositDenom" />
     <router-view />
   </TmPage>
@@ -50,6 +59,9 @@ export default {
   methods: {
     onPropose() {
       this.$refs.modalPropose.open()
+    },
+    onProposeLoggedOut() {
+      this.$store.commit(`toggleSessionModal`, true);
     }
   }
 }
