@@ -251,6 +251,11 @@ export default {
         validator.signing_info = this.delegates.signingInfos[
           validator.operator_address
         ]
+      } else {
+
+        //NOTE this is triggered before the data is fetched
+        this.$router.push("/404");
+        
       }
 
       return validator
