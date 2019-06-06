@@ -188,6 +188,9 @@ import { between, requiredIf } from "vuelidate/lib/validators"
 import { track } from "scripts/google-analytics.js"
 import config from "src/config"
 
+import ActionManager from "src/components/ActionManager/ActionManager.js"
+let actionManager
+
 const defaultStep = `details`
 const feeStep = `fees`
 const signStep = `sign`
@@ -253,7 +256,8 @@ export default {
       `bondDenom`,
       `wallet`,
       `ledger`,
-      `liquidAtoms`
+      `liquidAtoms`,
+      `modalContext`
     ]),
     requiresSignIn() {
       return !this.session.signedIn
@@ -298,6 +302,12 @@ export default {
         }
       ]
     }
+  },
+  mounted: function() {
+    actionManager = new ActionManager()
+  },
+  updated: function() {
+    actionManager.setContext(this.modalContext || {})
   },
   methods: {
     open() {

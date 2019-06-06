@@ -107,3 +107,12 @@ export const nodeUrl = state =>
 
 export const blocks = state => (state.blocks ? state.blocks.blocks : [])
 export const block = state => (state.blocks ? state.blocks.block : [])
+
+export const modalContext = state => ({
+  url: state.connection.externals.node.url,
+  chainId: state.connection.lastHeader.chain_id,
+  connected: state.connection.connected,
+  userAddress: state.session.address,
+  committedDelegations: state.delegation.committedDelegates,
+  localKeyPairName: state.session.localKeyPairName
+})
