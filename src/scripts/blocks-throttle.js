@@ -1,7 +1,7 @@
 // throttle updates of the store to reduce the amount of requests
 // initialised with a identifier to reuse the throttle function across multiple actions
 export const throttle = name => {
-  const throttleName = "throttle_" + name
+  const throttleName = "last_updated_" + name
 
   // takes a block height diff which should trigger a new update on the data
   // force will always trigger the callback

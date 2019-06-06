@@ -10,7 +10,7 @@ describe("throttle", () => {
 
   it("should not call if diff not hit", async () => {
     const state = {
-      throttle_test: 100
+      last_updated_test: 100
     }
     const spy = jest.fn()
     await throttle("test")(10)(state, 5, spy)
@@ -19,7 +19,7 @@ describe("throttle", () => {
 
   it("should call if diff hit", async () => {
     const state = {
-      throttle_test: 1
+      last_updated_test: 1
     }
     const spy = jest.fn()
     await throttle("test")(10)(state, 15, spy)
@@ -28,7 +28,7 @@ describe("throttle", () => {
 
   it("should not call if called repeatedly", async () => {
     const state = {
-      throttle_test: 1
+      last_updated_test: 1
     }
     const spy = jest.fn()
     await throttle("test")(10)(state, 15, spy)
@@ -38,7 +38,7 @@ describe("throttle", () => {
 
   it("should force callback if desired", async () => {
     const state = {
-      throttle_test: 100
+      last_updated_test: 100
     }
     const spy = jest.fn()
     await throttle("test")(10)(state, 5, spy, true)

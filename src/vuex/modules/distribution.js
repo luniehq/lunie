@@ -45,7 +45,7 @@ export default ({ node }) => {
     outstandingRewards: {}
   }
   const state = JSON.parse(JSON.stringify(emptyState))
-  const delegatesThrottle = throttle("delegates")(20)
+  const distributionsThrottle = throttle("distributions")(20)
 
   const mutations = {
     setTotalRewards(state, rewards) {
@@ -132,7 +132,7 @@ export default ({ node }) => {
       dispatch,
       getters: { lastHeader, yourValidators }
     }) {
-      await delegatesThrottle(state, Number(lastHeader.height), async () => {
+      await distributionsThrottle(state, Number(lastHeader.height), async () => {
         state.loading = true
         await Promise.all(
           yourValidators.map(validator =>

@@ -13,7 +13,7 @@ export default ({ node }) => {
     unbondingDelegations: {}
   }
   const state = JSON.parse(JSON.stringify(emptyState))
-  const delegatesThrottle = throttle("delegates")(5)
+  const delegationsThrottle = throttle("delegations")(5)
 
   const mutations = {
     setCommittedDelegation(state, { candidateId, value }) {
@@ -109,7 +109,7 @@ export default ({ node }) => {
       state.loading = false
     },
     async updateDelegates({ dispatch, rootState, state }, force = false) {
-      await delegatesThrottle(
+      await delegationsThrottle(
         state,
         Number(rootState.connection.lastHeader.height),
         async () => {
