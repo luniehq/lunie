@@ -95,14 +95,13 @@ export default ({ node }) => {
       },
       {
         type,
+        title,
+        description,
         gas,
         gas_prices,
         initial_deposit,
         password,
-        submitType,
-        proposal_content: {
-          value: { title, description }
-        }
+        submitType
       }
     ) {
       await dispatch(`sendTx`, {
