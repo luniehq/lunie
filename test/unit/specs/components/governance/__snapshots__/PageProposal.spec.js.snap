@@ -88,6 +88,22 @@ exports[`PageProposal renders votes in HTML when voting is open 1`] = `
         class="info_dl colored_dl"
       >
         <dt>
+          End Date
+        </dt>
+         
+        <dd>
+          January 5th 1970, 00:00
+        </dd>
+      </dl>
+    </div>
+     
+    <div
+      class="row"
+    >
+      <dl
+        class="info_dl colored_dl"
+      >
+        <dt>
           Deposit Count
         </dt>
          
@@ -299,6 +315,22 @@ exports[`PageProposal should display proposal page if user has signed in 1`] = `
         class="info_dl colored_dl"
       >
         <dt>
+          End Date
+        </dt>
+         
+        <dd>
+          January 5th 1970, 00:00
+        </dd>
+      </dl>
+    </div>
+     
+    <div
+      class="row"
+    >
+      <dl
+        class="info_dl colored_dl"
+      >
+        <dt>
           Deposit Count
         </dt>
          
@@ -506,6 +538,22 @@ exports[`PageProposal should display proposal page should default tally to 0 if 
         </dd>
       </dl>
        
+      <dl
+        class="info_dl colored_dl"
+      >
+        <dt>
+          End Date
+        </dt>
+         
+        <dd>
+          January 5th 1970, 00:00
+        </dd>
+      </dl>
+    </div>
+     
+    <div
+      class="row"
+    >
       <dl
         class="info_dl colored_dl"
       >

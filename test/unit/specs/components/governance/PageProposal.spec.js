@@ -113,6 +113,12 @@ describe(`PageProposal`, () => {
     )
   })
 
+  it(`should return the time the vote ends`, () => {
+    expect(wrapper.vm.endDate).toEqual(
+      moment(proposal.voting_end_time).format("MMMM Do YYYY, HH:mm")
+    )
+  })
+
   it(`should return the time when deposits end`, () => {
     expect(wrapper.vm.depositEndsIn).toEqual(
       moment(new Date(proposal.deposit_end_time)).fromNow()

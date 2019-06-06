@@ -57,12 +57,6 @@
           </dl>
 
           <dl class="info_dl colored_dl">
-            <dt>End Date</dt>
-            <dd>{{ endDate }}</dd>
-          </dl>
-        </div>
-        <div class="row">
-          <dl class="info_dl colored_dl">
             <dt>Proposal Status</dt>
             <dd>
               {{
@@ -73,6 +67,12 @@
             </dd>
           </dl>
 
+          <dl class="info_dl colored_dl">
+            <dt>End Date</dt>
+            <dd>{{ endDate }}</dd>
+          </dl>
+        </div>
+        <div class="row">
           <dl class="info_dl colored_dl">
             <dt>Deposit Count</dt>
             <dd>{{ `${totalDeposit.amount} ${totalDeposit.denom}` }}</dd>
@@ -197,7 +197,7 @@ export default {
       return moment(new Date(proposal.submit_time)).fromNow()
     },
     endDate({ proposal } = this) {
-      return moment(proposal.voting_end_time).format("MMMM Do YYYY, H:mm")
+      return moment(proposal.voting_end_time).format("MMMM Do YYYY, HH:mm")
     },
     votingStartedAgo({ proposal } = this) {
       return moment(new Date(proposal.voting_start_time)).fromNow()
