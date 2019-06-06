@@ -389,10 +389,6 @@ export default {
       } catch ({ message }) {
         this.submissionError = `${this.submissionErrorPrefix}: ${message}.`
         track(`event`, `failed-submit`, this.title, message)
-
-        setTimeout(() => {
-          this.submissionError = null
-        }, 5000)
       }
     },
     async connectLedger() {
