@@ -512,32 +512,6 @@ describe(`Module: Delegations`, () => {
     expect(dispatch).toHaveBeenCalledWith(`getBondedDelegates`, [])
   })
 
-  it(`should load delegates only every 5 blocks`, async () => {
-    const { actions } = delegationModule({ node: { get: {} } })
-
-    const dispatch = jest.fn(() => [])
-
-    await actions.updateDelegates({
-      dispatch,
-      rootState: {
-        session: {
-          signedIn: true
-        },
-        connection: {
-          lastHeader: {
-            height: "9"
-          }
-        }
-      },
-      state: {
-        lastDelegatesUpdate: 10
-      }
-    })
-
-    expect(dispatch).not.toHaveBeenCalledWith(`getDelegates`)
-    expect(dispatch).not.toHaveBeenCalledWith(`getBondedDelegates`, [])
-  })
-
   it(`should load delegations on sign in`, async () => {
     const { actions } = delegationModule({ node: { get: {} } })
 

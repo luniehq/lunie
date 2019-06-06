@@ -2,10 +2,11 @@
   <div>
     <TmDataConnecting v-if="!delegates.loaded && !connected" />
     <TmDataLoading v-else-if="!delegates.loaded && delegates.loading" />
-    <TmDataEmpty
-      v-else-if="delegates.loaded && delegates.delegates.length === 0"
+    <TmDataEmpty v-else-if="delegates.loaded && delegates.delegates.length === 0" />
+    <TableValidators
+      v-else
+      :validators="delegates.delegates"
     />
-    <TableValidators v-else :validators="delegates.delegates" />
   </div>
 </template>
 
@@ -38,9 +39,6 @@ export default {
     ])
   },
   watch: {
-    "session.signedIn": function(signedIn) {
-      signedIn && this.$store.dispatch(`updateDelegates`)
-    },
     lastHeader: {
       immediate: true,
       handler() {
@@ -49,7 +47,6 @@ export default {
     }
   },
   mounted() {
-    this.$store.dispatch(`updateDelegates`)
     if (this.yourValidators) {
       this.$store.dispatch(`getRewardsFromMyValidators`, this.yourValidators)
     }

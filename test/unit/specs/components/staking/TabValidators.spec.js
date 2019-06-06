@@ -129,29 +129,6 @@ describe(`TabValidators`, () => {
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
-  it(`queries for validators and delegations on mount`, () => {
-    const dispatch = jest.fn()
-    TabValidators.mounted.call({
-      $store: {
-        dispatch
-      }
-    })
-    expect(dispatch).toHaveBeenCalledWith(`updateDelegates`)
-  })
-
-  it(`queries for validators and delegations on sign in`, () => {
-    const dispatch = jest.fn()
-    TabValidators.watch[`session.signedIn`].call(
-      {
-        $store: {
-          dispatch
-        }
-      },
-      true
-    )
-    expect(dispatch).toHaveBeenCalledWith(`updateDelegates`)
-  })
-
   it(`should trigger reward updates on every block `, () => {
     const $store = { dispatch: jest.fn() }
     const newHeader = { height: `40` }
