@@ -1,4 +1,5 @@
 // throttle updates of the store to reduce the amount of requests
+// runs once in the beginning and then only runs every x blocks
 // initialised with a identifier to reuse the throttle function across multiple actions
 export const throttle = name => {
   const throttleName = "last_updated_" + name
