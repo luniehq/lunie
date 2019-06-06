@@ -51,10 +51,22 @@
           </div>
         </div>
         <div class="row">
+
+
+
+
           <dl class="info_dl colored_dl">
             <dt>Submitted</dt>
             <dd>{{ submittedAgo }}</dd>
           </dl>
+
+          <dl class="info_dl colored_dl">
+            <dt>End Date</dt>
+            <dd>{{ endDate }}</dd>
+          </dl>
+
+
+
           <dl class="info_dl colored_dl">
             <dt>Proposal Status</dt>
             <dd>
@@ -189,6 +201,16 @@ export default {
     submittedAgo({ proposal } = this) {
       return moment(new Date(proposal.submit_time)).fromNow()
     },
+
+
+
+    endDate({ proposal } = this) {
+      return moment(proposal.end_time).format("dddd, MMMM Do YYYY, h:mm:ss a")
+    },
+
+
+
+    
     votingStartedAgo({ proposal } = this) {
       return moment(new Date(proposal.voting_start_time)).fromNow()
     },
