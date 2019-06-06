@@ -5,10 +5,11 @@ exports[`ModalWithdrawRewards should show the withdraw rewards modal 1`] = `
   amount="0"
   class="modal-withdraw-rewards"
   id="modal-withdraw-rewards"
-  simulatefn="function () { [native code] }"
+  notifymessage="[object Object]"
+  postsubmit="function () { [native code] }"
   submissionerrorprefix="Withdrawal failed"
-  submitfn="function () { [native code] }"
   title="Withdraw"
+  transactiondata="[object Object]"
 >
   <tmformgroup-stub
     class="action-modal-form-group"
