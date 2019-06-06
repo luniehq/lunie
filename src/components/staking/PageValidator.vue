@@ -252,7 +252,7 @@ export default {
           validator.operator_address
         ]
       } else if (this.delegates.delegates.length > 0) {
-        this.$router.push("/404");
+        this.invalidAddress()
       }
 
       return validator
@@ -441,6 +441,9 @@ export default {
     translateEmptyDescription(value) {
       if (!value || value === `[do-not-modify]`) return `--`
       return value
+    },
+    invalidAddress() {
+      this.$router.push("/404")
     }
   }
 }
