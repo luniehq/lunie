@@ -189,7 +189,6 @@ import { track } from "scripts/google-analytics.js"
 import config from "src/config"
 
 import ActionManager from "src/components/ActionManager/ActionManager.js"
-let actionManager
 
 const defaultStep = `details`
 const feeStep = `fees`
@@ -214,14 +213,6 @@ export default {
       type: String,
       required: true
     },
-    simulateFn: {
-      type: Function,
-      required: true
-    },
-    submitFn: {
-      type: Function,
-      required: true
-    },
     validate: {
       type: Function,
       default: undefined
@@ -233,6 +224,19 @@ export default {
     amount: {
       type: [String, Number],
       default: `0`
+    },
+    transactionData: {
+      type: Object,
+      default: () => {}
+    },
+    notifyMessage: {
+      type: Object,
+      default: () => {}
+    },
+    postSubmit: {
+      type: Function,
+      required: false,
+      default: () => {}
     }
   },
   data: () => ({
@@ -244,6 +248,7 @@ export default {
     gasPrice: config.default_gas_price.toFixed(9),
     submissionError: null,
     show: false,
+    actionManager: new ActionManager(),
     track,
     atoms,
     uatoms,
@@ -303,11 +308,9 @@ export default {
       ]
     }
   },
-  mounted: function() {
-    actionManager = new ActionManager()
-  },
+  mounted: function() {},
   updated: function() {
-    actionManager.setContext(this.modalContext || {})
+    this.actionManager.setContext(this.modalContext || {})
   },
   methods: {
     open() {
@@ -371,8 +374,8 @@ export default {
     },
     async simulate() {
       try {
-        const gasEstimate = await this.simulateFn()
-        this.gasEstimate = gasEstimate
+        const { type, ...properties } = this.transactionData
+        this.gasEstimate = await this.actionManager.simulate(type, properties)
         this.step = feeStep
       } catch ({ message }) {
         this.submissionError = `${this.submissionErrorPrefix}: ${message}.`
@@ -386,15 +389,32 @@ export default {
         await this.connectLedger()
       }
 
-      try {
-        await this.submitFn(
-          this.gasEstimate,
-          this.gasPrice,
-          this.password,
-          this.selectedSignMethod
-        )
+      const { type, ...transactionProperties } = this.transactionData
 
+      const gasPrice = {
+        amount: this.gasPrice,
+        denom: this.bondDenom // TODO Use context
+      }
+
+      const feePropertiess = {
+        gasEstimate: this.gasEstimate,
+        gasPrice: gasPrice,
+        selectedSignMethod: this.selectedSignMethod,
+        password: this.password
+      }
+
+      try {
+        await this.actionManager.send(
+          type,
+          transactionProperties,
+          feePropertiess
+        )
         track(`event`, `successful-submit`, this.title, this.selectedSignMethod)
+        this.$store.commit(`notify`, this.notifyMessage)
+        this.postSubmit({
+          txProps: transactionProperties,
+          txMeta: feePropertiess
+        })
         this.close()
       } catch ({ message }) {
         this.submissionError = `${this.submissionErrorPrefix}: ${message}.`

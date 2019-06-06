@@ -2,11 +2,12 @@
   <ActionModal
     id="modal-withdraw-rewards"
     ref="actionModal"
-    :submit-fn="submitForm"
-    :simulate-fn="simulateForm"
+    :transaction-data="transactionData"
+    :notify-message="notifyMessage"
     title="Withdraw"
     class="modal-withdraw-rewards"
     submission-error-prefix="Withdrawal failed"
+    :post-submit="postSubmit"
   >
     <TmFormGroup
       class="action-modal-form-group"
@@ -28,6 +29,8 @@ import { viewDenom, atoms, fullDecimals } from "../../scripts/num.js"
 import ActionModal from "common/ActionModal"
 import TmField from "common/TmField"
 import TmFormGroup from "common/TmFormGroup"
+
+import transaction from "src/components/ActionManager/transactionTypes"
 
 export default {
   name: `modal-withdraw-rewards`,
@@ -56,27 +59,27 @@ export default {
       required: true
     }
   },
+  computed: {
+    transactionData() {
+      return {
+        type: transaction.WITHDRAW,
+        denom: this.denom, // TODO Use context
+        validatorAddress: this.validatorAddress
+      }
+    },
+    notifyMessage() {
+      return {
+        title: `Successful withdrawal!`,
+        body: `You have successfully withdrawn your rewards.`
+      }
+    }
+  },
   methods: {
     open() {
       this.$refs.actionModal.open()
     },
-    async simulateForm() {
-      return await this.$store.dispatch(`simulateWithdrawAllRewards`)
-    },
-    async submitForm(gasEstimate, gasPrice, password, submitType) {
-      await this.$store.dispatch(`withdrawAllRewards`, {
-        gas: gasEstimate,
-        gasPrice,
-        denom: this.denom,
-        validatorAddress: this.validatorAddress,
-        password,
-        submitType
-      })
-
-      this.$store.commit(`notify`, {
-        title: `Successful withdrawal!`,
-        body: `You have successfully withdrawn your rewards.`
-      })
+    postSubmit(txData) {
+      this.$store.dispatch("postWithdrawAllRewards", txData)
     }
   }
 }

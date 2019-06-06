@@ -1,8 +1,6 @@
 import * as Sentry from "@sentry/browser"
 import Vue from "vue"
 import { coinsToObject } from "scripts/common.js"
-import { uatoms } from "../../scripts/num.js"
-import { getTop5Delegations } from "../../utils/"
 
 export default ({ node }) => {
   const emptyState = {
@@ -87,41 +85,7 @@ export default ({ node }) => {
         commit(`setDistributionError`, error)
       }
     },
-    async simulateWithdrawAllRewards({ rootState: { session }, dispatch }) {
-      return await dispatch(`simulateTx`, {
-        type: `MsgWithdrawDelegationReward`,
-        txArguments: {
-          toAddress: session.address,
-          validatorAddresses: []
-        }
-      })
-    },
-    async withdrawAllRewards(
-      { rootState, getters, dispatch },
-      { gas, gasPrice, denom, validatorAddress, password, submitType }
-    ) {
-      const top5Delegations = getTop5Delegations(getters.committedDelegations)
-
-      const validatorAddresses = validatorAddress
-        ? [validatorAddress]
-        : Object.keys(top5Delegations)
-
-      await dispatch(`sendTx`, {
-        type: `MsgWithdrawDelegationReward`,
-        txArguments: {
-          toAddress: rootState.session.address,
-          validatorAddresses: validatorAddresses
-        },
-        gas: String(gas),
-        gas_prices: [
-          {
-            amount: String(uatoms(gasPrice)),
-            denom: denom
-          }
-        ],
-        password,
-        submitType
-      })
+    async postWithdrawAllRewards({ dispatch }) {
       await dispatch(`getTotalRewards`)
       await dispatch(`queryWalletBalances`)
       await dispatch(`getAllTxs`)
