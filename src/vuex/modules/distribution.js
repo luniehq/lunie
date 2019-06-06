@@ -132,16 +132,20 @@ export default ({ node }) => {
       dispatch,
       getters: { lastHeader, yourValidators }
     }) {
-      await distributionsThrottle(state, Number(lastHeader.height), async () => {
-        state.loading = true
-        await Promise.all(
-          yourValidators.map(validator =>
-            dispatch(`getRewardsFromValidator`, validator.operator_address)
+      await distributionsThrottle(
+        state,
+        Number(lastHeader.height),
+        async () => {
+          state.loading = true
+          await Promise.all(
+            yourValidators.map(validator =>
+              dispatch(`getRewardsFromValidator`, validator.operator_address)
+            )
           )
-        )
-        state.loading = false
-        state.loaded = true
-      })
+          state.loading = false
+          state.loaded = true
+        }
+      )
     },
     async getRewardsFromValidator(
       {
