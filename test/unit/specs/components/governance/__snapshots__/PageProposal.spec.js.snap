@@ -77,11 +77,17 @@ exports[`PageProposal renders votes in HTML when voting is open 1`] = `
           Proposal Status
         </dt>
          
+        <!---->
+         
         <dd>
           
             Voting started in 2 days.
           
         </dd>
+         
+        <!---->
+         
+        <!---->
       </dl>
        
       <dl
@@ -304,11 +310,17 @@ exports[`PageProposal should display proposal page if user has signed in 1`] = `
           Proposal Status
         </dt>
          
+        <!---->
+         
         <dd>
           
             Voting started in 2 days.
           
         </dd>
+         
+        <!---->
+         
+        <!---->
       </dl>
        
       <dl
@@ -531,11 +543,17 @@ exports[`PageProposal should display proposal page should default tally to 0 if 
           Proposal Status
         </dt>
          
+        <!---->
+         
         <dd>
           
             Voting started in 2 days.
           
         </dd>
+         
+        <!---->
+         
+        <!---->
       </dl>
        
       <dl

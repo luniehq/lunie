@@ -58,12 +58,17 @@
 
           <dl class="info_dl colored_dl">
             <dt>Proposal Status</dt>
-            <dd>
-              {{
-                proposal.proposal_status === `DepositPeriod`
-                  ? `Deposit period ends ${depositEndsIn}.`
-                  : `Voting started ${votingStartedAgo}.`
-              }}
+            <dd v-if="proposal.proposal_status === 'DepositPeriod'">
+              {{ `Deposit period ends ${depositEndsIn}.` }}
+            </dd>
+            <dd v-if="proposal.proposal_status === 'VotingPeriod'">
+              {{ `Voting started ${votingStartedAgo}.` }}
+            </dd>
+            <dd v-if="proposal.proposal_status === 'Rejected'">
+              Rejected
+            </dd>
+            <dd v-if="proposal.proposal_status === 'Passed'">
+              Passed
             </dd>
           </dl>
           <dl v-if="displayEndDate" class="info_dl colored_dl">
