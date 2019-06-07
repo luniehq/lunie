@@ -89,20 +89,20 @@ export default ({ node }) => {
     },
     async submitProposal(
       {
+        state,
         rootState: { wallet },
         dispatch,
         commit
       },
       {
         type,
+        title,
+        description,
         gas,
         gas_prices,
         initial_deposit,
         password,
-        submitType,
-        proposal_content: {
-          value: { title, description }
-        }
+        submitType
       }
     ) {
       await dispatch(`sendTx`, {
