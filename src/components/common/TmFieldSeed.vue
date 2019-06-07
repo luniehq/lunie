@@ -38,3 +38,8 @@ export default {
   }
 }
 </script>
+<style scoped>
+.tm-field-seed {
+  resize: none;
+}
+</style>

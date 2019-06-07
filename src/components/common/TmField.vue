@@ -1,30 +1,26 @@
 <template>
-  <div v-if="type === 'select'" class="tm-select">
-    <select
-      :class="css"
-      :value="value"
-      @input="updateValue($event.target.value)"
-      @change="onChange"
-      @keyup="onKeyup"
-      @keydown="onKeydown"
-    >
-      <option value="" disabled="disabled" selected="selected" hidden="hidden">
-        {{ selectPlaceholder }}
+  <select
+    v-if="type === 'select'"
+    :class="css"
+    :value="value"
+    @input="updateValue($event.target.value)"
+    @change="onChange"
+    @keyup="onKeyup"
+    @keydown="onKeydown"
+  >
+    <option value="" disabled="disabled" selected="selected" hidden="hidden">
+      {{ selectPlaceholder }}
+    </option>
+    <template>
+      <option
+        v-for="(option, index) in resolvedOptions"
+        :key="index"
+        :value="option.value"
+      >
+        {{ option.key }}
       </option>
-      <template>
-        <option
-          v-for="(option, index) in resolvedOptions"
-          :key="index"
-          :value="option.value"
-        >
-          {{ option.key }}
-        </option>
-      </template>
-    </select>
-    <div class="tm-field-select-addon">
-      <i class="material-icons">arrow_drop_down</i>
-    </div>
-  </div>
+    </template>
+  </select>
 
   <textarea
     v-else-if="type === 'textarea'"
@@ -188,22 +184,21 @@ export default {
 
 <style scoped>
 .tm-field {
-  background: var(--input-bg);
-  border: 2px solid var(--bc);
-  color: var(--bright);
   display: block;
   font-size: 14px;
+  background: var(--input-bg);
+  color: var(--bright);
+  border: 2px solid var(--bc);
   line-height: 2.25rem;
   padding: 0 0.75rem;
-  min-width: 0;
   width: 100%;
-  -webkit-appearance: none;
+  box-sizing: border-box;
   font-family: var(--sans);
   border-radius: 0.25rem;
 }
 
 .tm-field::placeholder {
-  color: var(--txt);
+  color: var(--dim);
 }
 
 /* .tm-field:disabled {
@@ -218,51 +213,6 @@ export default {
   border: 2px solid var(--grey);
   box-shadow: none;
   outline: none;
-}
-
-.tm-select {
-  position: relative;
-}
-
-.tm-select select {
-  appearance: none;
-  background: var(--input-bg);
-  border-radius: 0;
-  color: var(--txt, #333);
-  padding-right: 2rem;
-  width: 100%;
-}
-
-.tm-select select:invalid {
-  color: dim;
-}
-
-.tm-select select option {
-  background: var(--input-bg);
-  color: txt;
-  font-family: var(--sans);
-}
-
-.tm-select select option:checked {
-  background: var(--hover-bg);
-  color: var(--bright, #000);
-}
-
-.tm-select .tm-field-select-addon {
-  align-items: center;
-  background: var(--input-bg);
-  border-left: 1px solid var(--bc);
-  box-sizing: border-box;
-  color: var(--txt);
-  display: flex;
-  height: 2rem;
-  justify-content: center;
-  pointer-events: none;
-  position: absolute;
-  right: 0;
-  text-align: center;
-  top: 0;
-  width: 2rem;
 }
 
 .input-group-addon {

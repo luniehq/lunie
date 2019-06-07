@@ -44,13 +44,6 @@ a:hover {
   overflow: hidden;
 }
 
-
-/* .tm-select .tm-field-select-addon {
-  height: 100% !important;
-  border-left: 1px solid var(--input-bc, #ccc);
-  width: 29px !important;
-} */
-
 .tm-li-container {
   margin-right: 1rem;
 }

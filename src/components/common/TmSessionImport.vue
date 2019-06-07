@@ -2,12 +2,12 @@
   <div class="session">
     <TmFormStruct :submit="onSubmit.bind(this)" class="session-container">
       <div class="session-header">
-        <a @click="setState('welcome')">
+        <a @click="setState('existing')">
           <i class="material-icons session-back">arrow_back</i>
         </a>
-        <div class="session-title">
-          Recover from Seed
-        </div>
+        <h2 class="session-title">
+          Recover from seed
+        </h2>
         <a @click="$store.commit(`toggleSessionModal`, false)">
           <i class="material-icons session-close">close</i>
         </a>
@@ -23,6 +23,7 @@
             v-model.trim="fields.importName"
             type="text"
             placeholder="Must have at least 5 characters"
+            vue-focus="vue-focus"
           />
           <TmFormMsg
             v-if="$v.fields.importName.$error && !$v.fields.importName.required"
@@ -87,10 +88,6 @@
             type="match"
           />
         </TmFormGroup>
-        <p class="fundraiser-warning">
-          Warning – Do not enter your actual 12 or 24 word seed phrase. This
-          feature is intended for testing and is considered highly unsafe.
-        </p>
         <TmFormGroup
           :error="$v.$error && $v.fields.importSeed.$invalid"
           field-id="import-seed"
@@ -136,8 +133,7 @@
         </TmFormGroup>
       </div>
       <div class="session-footer">
-        <TmBtn v-if="connected" value="Next" />
-        <TmBtn v-else value="Connecting..." disabled="true" />
+        <TmBtn value="Next" />
       </div>
     </TmFormStruct>
   </div>
@@ -172,9 +168,6 @@ export default {
   }),
   computed: {
     ...mapGetters([`connected`])
-  },
-  mounted() {
-    this.$el.querySelector(`#import-name`).focus()
   },
   methods: {
     setState(value) {
@@ -226,5 +219,6 @@ const words24 = param => {
   color: var(--danger);
   font-size: var(--sm);
   font-weight: 500;
+  padding: 0 0.25rem;
 }
 </style>

@@ -1,11 +1,11 @@
 <template>
   <div class="session">
     <div class="session-header">
-      <a @click="setState('explore')">
+      <a @click="setState('existing')">
         <i class="material-icons session-back">arrow_back</i>
       </a>
       <h2 class="session-title">
-        Sign in with Password
+        Sign in with account
       </h2>
       <a @click="$store.commit(`toggleSessionModal`, false)">
         <i class="material-icons session-close">close</i>

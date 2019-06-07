@@ -1,12 +1,12 @@
 <template>
   <div id="session-welcome" class="session">
-    <img class="lunie-logo" src="~assets/images/cosmos-wallet-logo.svg" />
     <a @click="closeSession">
       <i class="material-icons session-close">close</i>
     </a>
     <div class="session-header">
+      <img class="lunie-logo" src="~assets/images/cosmos-wallet-logo.svg" />
       <h2 class="session-title">
-        Welcome To Lunie!
+        Welcome to Lunie!
       </h2>
       <p class="session-paragraph">
         Lunie is the cryptocurrency wallet for the new staking economy. Easily
@@ -17,18 +17,13 @@
     <div class="session-list">
       <LiSession
         icon="person_add"
-        title="Create a New Address"
+        title="Create a new address"
         @click.native="() => setState('sign-up')"
       />
       <LiSession
         icon="person"
-        title="Use an Existing Address"
-        @click.native="() => setState('explore')"
-      />
-      <LiSession
-        icon="settings_backup_restore"
-        title="Recover from Seed"
-        @click.native="() => setState('import')"
+        title="Use an existing address"
+        @click.native="() => setState('existing')"
       />
     </div>
     <!-- <template>
@@ -79,6 +74,6 @@ export default {
 <style scoped>
 .lunie-logo {
   height: 4rem;
-  padding-left: 1rem;
+  margin-bottom: 1rem;
 }
 </style>

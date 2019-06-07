@@ -1,41 +1,41 @@
 <template>
   <div class="session">
-    <TmFormStruct :submit="onSubmit" class="session-container">
-      <div class="session-header">
-        <a @click="goBack()">
-          <i class="material-icons session-back">arrow_back</i>
-        </a>
-        <h2 class="session-title">
-          Explore with any address
-        </h2>
-        <a @click="$store.commit(`toggleSessionModal`, false)">
-          <i class="material-icons session-close">close</i>
-        </a>
-      </div>
-      <div class="session-main">
-        <TmFormGroup field-id="sign-in-name" field-label="Your Cosmos Address">
-          <TmField
-            v-model="address"
-            type="text"
-            placeholder=""
-            vue-focus="vue-focus"
-          />
-          <TmFormMsg
-            v-if="$v.address.$error && !$v.address.required"
-            name="Name"
-            type="required"
-          />
-          <TmFormMsg
-            v-else-if="$v.address.$error && !$v.address.bech32Validate"
-            name="Your Cosmos Address"
-            type="bech32"
-          />
-        </TmFormGroup>
-      </div>
-      <div class="session-footer">
-        <TmBtn value="Next" />
-      </div>
-    </TmFormStruct>
+    <div class="session-header">
+      <a @click="goToWelcome()">
+        <i class="material-icons session-back">arrow_back</i>
+      </a>
+      <h2 class="session-title">
+        Use an existing address
+      </h2>
+      <a @click="$store.commit(`toggleSessionModal`, false)">
+        <i class="material-icons session-close">close</i>
+      </a>
+    </div>
+
+    <div class="session-list">
+      <LiSession
+        icon="language"
+        title="Explore with any address"
+        @click.native="() => setState('explore')"
+      />
+      <LiSession
+        icon="vpn_key"
+        title="Use my Ledger Nano"
+        @click.native="() => setState('hardware')"
+      />
+      <LiSession
+        icon="settings_backup_restore"
+        title="Recover from seed"
+        @click.native="() => setState('import')"
+      />
+      <LiSession
+        v-if="accountExists"
+        id="sign-in-with-account"
+        icon="lock"
+        title="Sign in with account"
+        @click.native="setState('sign-in')"
+      />
+    </div>
   </div>
 </template>
 
@@ -50,7 +50,7 @@ import TmField from "common/TmField"
 import TmFormMsg from "common/TmFormMsg"
 import bech32 from "bech32"
 export default {
-  name: `session-explore`,
+  name: `session-existing`,
   components: {
     LiSession,
     TmBtn,
@@ -76,8 +76,8 @@ export default {
     setState(value) {
       this.$store.commit(`setSessionModalView`, value)
     },
-    goBack() {
-      this.$store.commit(`setSessionModalView`, `existing`)
+    goToWelcome() {
+      this.$store.commit(`setSessionModalView`, `welcome`)
     },
     async onSubmit() {
       this.$v.$touch()

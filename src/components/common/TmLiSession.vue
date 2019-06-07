@@ -44,7 +44,7 @@ export default {
   border-top: 2px solid var(--bc);
   border-left: 2px solid var(--bc);
   border-right: 2px solid var(--bc);
-  background-color: var(--app-fg);
+  background-color: var(--app-nav-light);
 }
 
 .tm-li-session:first-child {
@@ -74,7 +74,7 @@ export default {
 }
 
 .tm-li-session-title {
-  color: var(--txt);
+  color: var(--bright);
   font-size: var(--h4);
   font-weight: 400;
 }
@@ -104,5 +104,7 @@ export default {
   border: 2px solid var(--dim);
   border-radius: 50%;
   padding: 0.5rem;
+  max-width: 39px;
+  height: 39px;
 }
 </style>

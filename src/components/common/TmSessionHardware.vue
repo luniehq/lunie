@@ -2,55 +2,57 @@
   <div class="session">
     <div class="session-container">
       <div class="session-header">
-        <a @click="setState('explore')">
+        <a @click="setState('existing')">
           <i class="material-icons session-back">arrow_back</i>
         </a>
         <h2 class="session-title">
-          Use Address From Ledger Nano
+          Use my Ledger Nano
         </h2>
         <a @click="$store.commit(`toggleSessionModal`, false)">
           <i class="material-icons session-close">close</i>
         </a>
-        <p class="session-paragraph">
-          Lunie supports both the Ledger Nano S and Ledger Nano X. If you don't
-          have a Ledger Nano, you can support Lunie by
-          <a href="" target="_blank" rel="noopener norefferer"
-            >buying one here</a
-          >.
+      </div>
+      <div v-if="!session.browserWithLedgerSupport" class="session-main">
+        <p>
+          Please use Chrome, Opera, or Brave. Ledger is not supported in this
+          browser.
         </p>
       </div>
-      <div class="session-main">
-        <HardwareState :loading="status === `detect` ? false : true">
-          <template v-if="status === `connect` || status === `detect`">
-            Please plug in your Ledger&nbsp;Nano&nbsp;S and open the Cosmos app
-          </template>
-          <template v-if="status === `confirmAddress`">
-            Sign in with the address
-            <span class="address">{{ address }}</span
-            >.<br />
-            Please confirm on your Ledger.
-          </template>
-          <p v-if="connectionError" class="error-message">
-            {{ connectionError }}
+      <div v-if="session.browserWithLedgerSupport">
+        <div class="session-main">
+          <HardwareState :loading="status === `connect` ? false : true">
+            <template v-if="status === `connect` || status === `detect`">
+              Please plug in your Ledger&nbsp;Nano&nbsp;S and open the Cosmos
+              app
+            </template>
+            <template v-if="status === `confirmAddress`">
+              Sign in with the address
+              <span class="address">{{ address }}</span
+              >.<br />
+              Please confirm on your Ledger.
+            </template>
+            <p v-if="connectionError" class="error-message">
+              {{ connectionError }}
+            </p>
+          </HardwareState>
+        </div>
+        <div class="session-footer">
+          <p class="ledger-install">
+            Don't have the Cosmos Ledger App yet? Install it
+            <a
+              href="https://github.com/cosmos/voyager#ledger-cosmos-app"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              here</a
+            >.
           </p>
-        </HardwareState>
-      </div>
-      <div class="session-footer">
-        <p class="ledger-install footnote">
-          Don't have the Cosmos Ledger App yet? Install it
-          <a
-            href="https://github.com/cosmos/voyager#ledger-cosmos-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            here </a
-          >.
-        </p>
-        <TmBtn
-          :value="submitCaption"
-          :disabled="status === `connect` ? false : `disabled`"
-          @click.native="signIn()"
-        />
+          <TmBtn
+            :value="submitCaption"
+            :disabled="status === `connect` ? false : `disabled`"
+            @click.native="signIn()"
+          />
+        </div>
       </div>
     </div>
   </div>
@@ -59,6 +61,7 @@
 <script>
 import LiSession from "common/TmLiSession"
 import TmBtn from "common/TmBtn"
+import { mapGetters } from "vuex"
 import HardwareState from "common/TmHardwareState"
 export default {
   name: `session-hardware`,
@@ -73,6 +76,7 @@ export default {
     address: null
   }),
   computed: {
+    ...mapGetters([`session`]),
     submitCaption() {
       return {
         connect: "Sign In",
@@ -135,7 +139,6 @@ export default {
 }
 
 .session-footer {
-  padding: 0 1rem;
   justify-content: space-between;
 }
 

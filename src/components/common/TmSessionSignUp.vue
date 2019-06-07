@@ -11,7 +11,7 @@
           <i class="material-icons session-back">arrow_back</i>
         </a>
         <h2 class="session-title">
-          Create a New Address
+          Create a new address
         </h2>
         <a @click="$store.commit(`toggleSessionModal`, false)">
           <i class="material-icons session-close">close</i>
@@ -19,116 +19,118 @@
       </div>
       <div v-if="session.insecureMode" class="session-main">
         <div class="danger-zone">
-          <div class="header">
-            <h2>DANGER ZONE</h2>
-            <p>
-              Creating an address or entering a seed in the browser is
-              considered extremely unsafe. These features are only enabled in
-              insecure mode for testing purposes and should not be used on
-              mainnet or with real tokens.
-            </p>
-          </div>
-        </div>
-        <TmFormGroup
-          :error="$v.fields.signUpName.$error"
-          field-id="sign-up-name"
-          field-label="Account Name"
-        >
-          <TmField
-            id="sign-up-name"
-            v-model.trim="fields.signUpName"
-            type="text"
-            placeholder="Must be at least 5 characters"
-            vue-focus="vue-focus"
-          />
-          <TmFormMsg
-            v-if="$v.fields.signUpName.$error && !$v.fields.signUpName.required"
-            name="Name"
-            type="required"
-          />
-          <TmFormMsg
-            v-if="
-              $v.fields.signUpName.$error && !$v.fields.signUpName.minLength
-            "
-            name="Name"
-            type="minLength"
-            min="5"
-          />
-        </TmFormGroup>
-        <TmFormGroup
-          :error="$v.fields.signUpPassword.$error"
-          field-id="sign-up-password"
-          field-label="Password"
-        >
-          <TmField
-            id="sign-up-password"
-            v-model="fields.signUpPassword"
-            type="password"
-            placeholder="Must be at least 10 characters"
-          />
-          <TmFormMsg
-            v-if="
-              $v.fields.signUpPassword.$error &&
-                !$v.fields.signUpPassword.required
-            "
-            name="Password"
-            type="required"
-          />
-          <TmFormMsg
-            v-if="
-              $v.fields.signUpPassword.$error &&
-                !$v.fields.signUpPassword.minLength
-            "
-            name="Password"
-            type="minLength"
-            min="10"
-          />
-        </TmFormGroup>
-        <TmFormGroup
-          :error="$v.fields.signUpPasswordConfirm.$error"
-          field-id="sign-up-password-confirm"
-          field-label="Confirm Password"
-        >
-          <TmField
-            id="sign-up-password-confirm"
-            v-model="fields.signUpPasswordConfirm"
-            type="password"
-            placeholder="Enter password again"
-          />
-          <TmFormMsg
-            v-if="
-              $v.fields.signUpPasswordConfirm.$error &&
-                !$v.fields.signUpPasswordConfirm.sameAsPassword
-            "
-            name="Password confirmation"
-            type="match"
-          />
-        </TmFormGroup>
-        <TmFormGroup
-          field-id="sign-up-seed"
-          class="sign-up-seed-group"
-          field-label="Seed Phrase"
-        >
-          <FieldSeed id="sign-up-seed" v-model="fields.signUpSeed" />
-          <TmFormMsg
-            type="custom"
-            msg="Please back up the seed phrase for this account.
-            This seed phrase cannot be recovered."
-          />
-        </TmFormGroup>
-        <div class="checkboxes">
+          <h2>DANGER ZONE</h2>
+          <p>
+            Creating an address or entering a seed phrase in the browser is
+            considered extremely unsafe. These features are only enabled in
+            insecure mode for testing purposes and should not be used on mainnet
+            or with real tokens.
+          </p>
           <TmFormGroup
+            :error="$v.fields.signUpName.$error"
+            field-id="sign-up-name"
+            field-label="Account Name"
+          >
+            <TmField
+              id="sign-up-name"
+              v-model.trim="fields.signUpName"
+              type="text"
+              placeholder="Must be at least 5 characters"
+              vue-focus="vue-focus"
+            />
+            <TmFormMsg
+              v-if="
+                $v.fields.signUpName.$error && !$v.fields.signUpName.required
+              "
+              name="Name"
+              type="required"
+            />
+            <TmFormMsg
+              v-if="
+                $v.fields.signUpName.$error && !$v.fields.signUpName.minLength
+              "
+              name="Name"
+              type="minLength"
+              min="5"
+            />
+          </TmFormGroup>
+          <TmFormGroup
+            :error="$v.fields.signUpPassword.$error"
+            field-id="sign-up-password"
+            field-label="Password"
+          >
+            <TmField
+              id="sign-up-password"
+              v-model="fields.signUpPassword"
+              type="password"
+              placeholder="Must be at least 10 characters"
+            />
+            <TmFormMsg
+              v-if="
+                $v.fields.signUpPassword.$error &&
+                  !$v.fields.signUpPassword.required
+              "
+              name="Password"
+              type="required"
+            />
+            <TmFormMsg
+              v-if="
+                $v.fields.signUpPassword.$error &&
+                  !$v.fields.signUpPassword.minLength
+              "
+              name="Password"
+              type="minLength"
+              min="10"
+            />
+          </TmFormGroup>
+          <TmFormGroup
+            :error="$v.fields.signUpPasswordConfirm.$error"
+            field-id="sign-up-password-confirm"
+            field-label="Confirm Password"
+          >
+            <TmField
+              id="sign-up-password-confirm"
+              v-model="fields.signUpPasswordConfirm"
+              type="password"
+              placeholder="Enter password again"
+            />
+            <TmFormMsg
+              v-if="
+                $v.fields.signUpPasswordConfirm.$error &&
+                  !$v.fields.signUpPasswordConfirm.sameAsPassword
+              "
+              name="Password confirmation"
+              type="match"
+            />
+          </TmFormGroup>
+          <TmFormGroup
+            field-id="sign-up-seed"
+            class="sign-up-seed-group"
+            field-label="Seed Phrase"
+          >
+            <FieldSeed
+              id="sign-up-seed"
+              class="field-seed"
+              v-model="fields.signUpSeed"
+            />
+            <TmFormMsg
+              type="custom"
+              msg="Please back up the seed phrase for this account."
+            />
+          </TmFormGroup>
+          <TmFormGroup
+            class="field-checkbox"
             :error="$v.fields.signUpWarning.$error"
             field-id="sign-up-warning"
             field-label
           >
-            <div class="tm-field-checkbox">
+            <div class="field-checkbox-input">
               <input
                 id="sign-up-warning"
                 v-model="fields.signUpWarning"
                 type="checkbox"
               />
-              <label class="tm-form-group__label" for="sign-up-warning">
+              <label class="field-checkbox-label" for="sign-up-warning">
                 I understand that lost seeds cannot be recovered.
               </label>
             </div>
@@ -142,17 +144,18 @@
             />
           </TmFormGroup>
           <TmFormGroup
+            class="field-checkbox"
             :error="$v.fields.errorCollection.$error"
             field-id="error-collection"
             field-label
           >
-            <div class="tm-field-checkbox">
+            <div class="field-checkbox-input">
               <input
                 id="error-collection"
                 v-model="fields.errorCollection"
                 type="checkbox"
               />
-              <label class="tm-form-group__label" for="error-collection">
+              <label class="field-checkbox-label" for="error-collection">
                 I'd like to opt in for remote error tracking to help improve
                 Voyager.
               </label>
@@ -166,17 +169,24 @@
       <div v-if="!session.insecureMode" class="session-main">
         <p>
           Creating an address in the browser is considered extremely unsafe. To
-          offer you a more secure option, we are actively developing native
-          mobile apps and a Chrome extension for more secure address creation.
+          offer you a more secure option we will be releasing a mobile app and a
+          Chrome extension in the coming months.
         </p>
         <p>
-          Let us know if you're interested in participating in the Beta program
-          for these products by <a href="">signing up</a> for early access.
-        </p>
-        <p>
-          You can create a new account outside of the browser by
-          <a href="">buying a Ledger Nano</a> or by downloading and using the
-          <a href="">gaiacli</a>.
+          You can create a new account outside of the browser with a
+          <a
+            href="https://shop.ledger.com/?r=3dd204ef7508"
+            target="_blank"
+            rel="noopener norefferer"
+            >Ledger Nano</a
+          >
+          or by using the
+          <a
+            href="https://hub.cosmos.network/docs/delegator-guide-cli.html#creating-an-account"
+            target="_blank"
+            rel="noopener norefferer"
+            >command line</a
+          >.
         </p>
       </div>
     </TmFormStruct>
@@ -268,43 +278,25 @@ export default {
 <style scoped>
 .danger-zone {
   border: 2px solid var(--danger-bc);
-  font-size: var(--sm);
   border-radius: 0.25rem;
   margin-bottom: 1rem;
+  padding: 1rem;
+}
+
+.danger-zone p {
+  font-size: var(--sm);
+  color: var(--danger);
 }
 
 .danger-zone h2 {
   font-weight: 700;
   font-size: var(--m);
-}
-
-.danger-zone .header {
   color: var(--danger);
-  padding: 1rem;
 }
 
-.tm-field-seed {
+.field-seed {
   line-height: var(--lg);
   padding: 0.75rem;
   resize: none;
-}
-
-.tm-field-checkbox {
-  display: flex;
-  align-items: center;
-}
-
-.tm-field-checkbox input,
-.tm-field-checkbox label {
-  display: inline;
-  line-height: normal;
-}
-
-.tm-field-checkbox input {
-  padding-right: 1rem;
-}
-
-.checkboxes {
-  padding: 3rem 0 1rem;
 }
 </style>

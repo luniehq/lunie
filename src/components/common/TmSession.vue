@@ -2,6 +2,7 @@
   <Modal v-if="active" :close="close">
     <div slot="main">
       <SessionWelcome v-if="session.modals.session.state == 'welcome'" />
+      <SessionExisting v-else-if="session.modals.session.state == 'existing'" />
       <SessionExplore v-else-if="session.modals.session.state == 'explore'" />
       <SessionSignUp v-else-if="session.modals.session.state == 'sign-up'" />
       <SessionSignIn v-else-if="session.modals.session.state == 'sign-in'" />
@@ -19,6 +20,7 @@
 import { mapGetters } from "vuex"
 import Modal from "common/TmModal"
 import SessionWelcome from "common/TmSessionWelcome"
+import SessionExisting from "common/TmSessionExisting"
 import SessionExplore from "common/TmSessionExplore"
 import SessionSignUp from "common/TmSessionSignUp"
 import SessionSignIn from "common/TmSessionSignIn"
@@ -32,6 +34,7 @@ export default {
   components: {
     Modal,
     SessionWelcome,
+    SessionExisting,
     SessionExplore,
     SessionSignUp,
     SessionSignIn,
@@ -56,8 +59,7 @@ export default {
 <style>
 .session {
   background: var(--app-bg);
-  max-width: 40rem;
-  width: 100%;
+  width: 40rem;
   border-radius: 2px;
   padding: 2rem;
   position: relative;
@@ -65,7 +67,11 @@ export default {
 }
 
 .session-header {
-  padding: 1rem 0;
+  padding: 1rem 1rem 0;
+}
+
+.session-main {
+  padding: 0 1rem;
 }
 
 .session-main p {
@@ -117,11 +123,29 @@ export default {
 
 .session-footer {
   display: flex;
+  padding: 2rem 1rem 0;
+  align-items: center;
   justify-content: flex-end;
 }
 
 .footnote {
-  padding: 2rem 1rem 0;
+  padding: 1rem 1rem 0;
   font-size: var(--sm);
+}
+
+.field-checkbox {
+  display: flex;
+  align-items: center;
+  padding: 1rem 0;
+}
+
+.field-checkbox-input,
+.field-checkbox-label {
+  display: inline;
+  line-height: normal;
+}
+
+.field-checkbox-input {
+  padding: 0 0.5rem;
 }
 </style>
