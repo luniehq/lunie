@@ -81,6 +81,7 @@ export default {
   margin: 0;
   display: inline-block;
   font-size: 16px;
+  height: 100%;
 }
 
 .tm-btn__container {

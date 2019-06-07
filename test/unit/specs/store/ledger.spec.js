@@ -11,7 +11,7 @@ describe(`Module: Ledger`, () => {
 
   describe(`Actions`, () => {
     describe(`connect ledger`, () => {
-      it(`successfully logs in with Ledger Nano S`, async () => {
+      it(`successfully logs in with Ledger Nano`, async () => {
         const commit = jest.fn()
         state.externals.Ledger = class MockLedger {
           getCosmosAddress() {
