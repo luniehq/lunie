@@ -68,7 +68,7 @@
           </dl>
 
           <dl class="info_dl colored_dl">
-            <dt>End Date</dt>
+            <dt>Voting End Date</dt>
             <dd>{{ endDate }}</dd>
           </dl>
         </div>

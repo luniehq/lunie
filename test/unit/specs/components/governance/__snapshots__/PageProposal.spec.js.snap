@@ -88,7 +88,7 @@ exports[`PageProposal renders votes in HTML when voting is open 1`] = `
         class="info_dl colored_dl"
       >
         <dt>
-          End Date
+          Voting End Date
         </dt>
          
         <dd>
@@ -315,7 +315,7 @@ exports[`PageProposal should display proposal page if user has signed in 1`] = `
         class="info_dl colored_dl"
       >
         <dt>
-          End Date
+          Voting End Date
         </dt>
          
         <dd>
@@ -542,7 +542,7 @@ exports[`PageProposal should display proposal page should default tally to 0 if 
         class="info_dl colored_dl"
       >
         <dt>
-          End Date
+          Voting End Date
         </dt>
          
         <dd>
