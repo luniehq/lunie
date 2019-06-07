@@ -2,12 +2,13 @@
   <ActionModal
     id="modal-vote"
     ref="actionModal"
-    :submit-fn="submitForm"
-    :simulate-fn="simulateForm"
     :validate="validateForm"
     title="Vote"
     class="modal-vote"
     submission-error-prefix="Voting failed"
+    :transaction-data="transactionData"
+    :notify-message="notifyMessage"
+    :post-submit="postSubmit"
     @close="clear"
   >
     <TmFormGroup class="action-modal-group vote-options">
@@ -59,11 +60,12 @@
 <script>
 import { mapGetters } from "vuex"
 import { required } from "vuelidate/lib/validators"
-import { uatoms } from "../../scripts/num.js"
 import ActionModal from "common/ActionModal"
 import TmBtn from "common/TmBtn"
 import TmFormGroup from "common/TmFormGroup"
 import TmFormMsg from "common/TmFormMsg"
+
+import transaction from "src/components/ActionManager/transactionTypes"
 
 const isValid = option =>
   option === `Yes` ||
@@ -97,7 +99,22 @@ export default {
     vote: null
   }),
   computed: {
-    ...mapGetters([`bondDenom`])
+    ...mapGetters([`bondDenom`]),
+    transactionData() {
+      return {
+        type: transaction.VOTE,
+        proposalId: this.proposalId,
+        option: this.vote
+      }
+    },
+    notifyMessage() {
+      return {
+        title: `Successful vote!`,
+        body: `You have successfully voted ${this.vote} on proposal #${
+          this.proposalId
+        }`
+      }
+    }
   },
   validations() {
     return {
@@ -121,33 +138,8 @@ export default {
 
       this.vote = null
     },
-    async simulateForm() {
-      return await this.$store.dispatch(`simulateVote`, {
-        proposal_id: this.proposalId,
-        option: this.vote
-      })
-    },
-    async submitForm(gasEstimate, gasPrice, password, submitType) {
-      await this.$store.dispatch(`submitVote`, {
-        proposal_id: this.proposalId,
-        option: this.vote,
-        gas: String(gasEstimate),
-        gas_prices: [
-          {
-            amount: String(uatoms(gasPrice)),
-            denom: this.bondDenom
-          }
-        ],
-        password,
-        submitType
-      })
-
-      this.$store.commit(`notify`, {
-        title: `Successful vote!`,
-        body: `You have successfully voted ${this.vote} on proposal #${
-          this.proposalId
-        }`
-      })
+    postSubmit(txData) {
+      this.$store.dispatch("postSubmitVote", txData)
     }
   }
 }
