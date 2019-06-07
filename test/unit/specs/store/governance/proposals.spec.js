@@ -224,7 +224,7 @@ describe(`Module: Proposals`, () => {
   })
 
   it(`submits a new proposal`, async () => {
-    const { actions } = moduleInstance
+    const { actions, state } = moduleInstance
     jest.useFakeTimers()
 
     const dispatch = jest.fn()
@@ -233,7 +233,7 @@ describe(`Module: Proposals`, () => {
     await Promise.all(
       proposalsArray.map(async (proposal, i) => {
         await actions.submitProposal(
-          { dispatch, rootState: mockRootState, commit },
+          { state, dispatch, rootState: mockRootState, commit },
           {
             type: proposal.proposal_type,
             initial_deposit: proposal.initial_deposit,

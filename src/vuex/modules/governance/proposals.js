@@ -89,6 +89,7 @@ export default ({ node }) => {
     },
     async submitProposal(
       {
+        state,
         rootState: { wallet },
         dispatch,
         commit
