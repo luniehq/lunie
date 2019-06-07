@@ -2,13 +2,14 @@
   <ActionModal
     id="modal-deposit"
     ref="actionModal"
-    :submit-fn="submitForm"
-    :simulate-fn="simulateForm"
     :validate="validateForm"
     :amount="amount"
     title="Deposit"
     class="modal-deposit"
     submission-error-prefix="Depositing failed"
+    :transaction-data="transactionData"
+    :notify-message="notifyMessage"
+    :post-submit="postSubmit"
     @close="clear"
   >
     <TmFormGroup
@@ -48,12 +49,13 @@
 
 <script>
 import { mapGetters } from "vuex"
-import num, { uatoms, atoms, SMALLEST } from "../../scripts/num.js"
+import num, { atoms, SMALLEST } from "../../scripts/num.js"
 import { between, decimal } from "vuelidate/lib/validators"
 import TmField from "common/TmField"
 import TmFormGroup from "common/TmFormGroup"
 import TmFormMsg from "common/TmFormMsg"
 import ActionModal from "common/ActionModal"
+import transaction from "src/components/ActionManager/transactionTypes"
 
 export default {
   name: `modal-deposit`,
@@ -92,6 +94,26 @@ export default {
         if (balance) return parseFloat(balance.amount)
       }
       return 0
+    },
+    transactionData() {
+      return {
+        type: transaction.DEPOSIT,
+        proposalId: this.proposalId,
+        amounts: [
+          {
+            amount: this.amount,
+            denom: this.denom
+          }
+        ]
+      }
+    },
+    notifyMessage() {
+      return {
+        title: `Successful deposit!`,
+        body: `You have successfully deposited your ${num.viewDenom(
+          this.denom
+        )}s on proposal #${this.proposalId}`
+      }
     }
   },
   validations() {
@@ -117,44 +139,8 @@ export default {
 
       this.amount = 0
     },
-    async simulateForm() {
-      return await this.$store.dispatch(`simulateDeposit`, {
-        proposal_id: this.proposalId,
-        amount: [
-          {
-            amount: String(uatoms(this.amount)),
-            denom: this.denom
-          }
-        ]
-      })
-    },
-    async submitForm(gasEstimate, gasPrice, password, submitType) {
-      // TODO: support multiple coins
-      await this.$store.dispatch(`submitDeposit`, {
-        submitType,
-        password,
-        proposal_id: this.proposalId,
-        amount: [
-          {
-            amount: String(uatoms(this.amount)),
-            denom: this.denom
-          }
-        ],
-        gas: String(gasEstimate),
-        gas_prices: [
-          {
-            amount: String(uatoms(gasPrice)),
-            denom: this.bondDenom
-          }
-        ]
-      })
-
-      this.$store.commit(`notify`, {
-        title: `Successful deposit!`,
-        body: `You have successfully deposited your ${num.viewDenom(
-          this.denom
-        )}s on proposal #${this.proposalId}`
-      })
+    postSubmit(txData) {
+      this.$store.dispatch("postSubmitDeposit", txData)
     }
   }
 }

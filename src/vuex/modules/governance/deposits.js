@@ -31,37 +31,18 @@ export default ({ node }) => {
         state.error = error
       }
     },
-    async simulateDeposit({ dispatch }, { proposal_id, amount }) {
-      return await dispatch(`simulateTx`, {
-        type: `MsgDeposit`,
-        txArguments: {
-          proposalId: proposal_id,
-          amount
-        }
-      })
-    },
     async submitDeposit(
       {
         rootState: { wallet },
         dispatch,
         commit
       },
-      { proposal_id, amount, gas, gas_prices, password, submitType }
+      {
+        txProps: { proposalId, amounts }
+      }
     ) {
-      await dispatch(`sendTx`, {
-        type: `MsgDeposit`,
-        txArguments: {
-          proposalId: proposal_id,
-          amount
-        },
-        gas,
-        gas_prices,
-        password,
-        submitType
-      })
-
       // optimistic update
-      amount.forEach(({ amount, denom }) => {
+      amounts.forEach(({ amount, denom }) => {
         const oldBalance = wallet.balances.find(
           balance => balance.denom === denom
         )
@@ -71,8 +52,8 @@ export default ({ node }) => {
         })
       })
 
-      await dispatch(`getProposalDeposits`, proposal_id)
-      await dispatch(`getProposal`, proposal_id)
+      await dispatch(`getProposalDeposits`, proposalId)
+      await dispatch(`getProposal`, proposalId)
       await dispatch(`getAllTxs`)
     }
   }
