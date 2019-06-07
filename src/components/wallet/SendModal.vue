@@ -2,12 +2,13 @@
   <ActionModal
     id="send-modal"
     ref="actionModal"
-    :submit-fn="submitForm"
-    :simulate-fn="simulateForm"
     :validate="validateForm"
     :amount="amount"
     title="Send"
     submission-error-prefix="Sending tokens failed"
+    :transaction-data="transactionData"
+    :notify-message="notifyMessage"
+    :post-submit="postSubmit"
     @close="clear"
   >
     <TmFormGroup
@@ -126,13 +127,14 @@
 <script>
 import b32 from "scripts/b32"
 import { required, between, decimal, maxLength } from "vuelidate/lib/validators"
-import num, { uatoms, atoms, SMALLEST } from "../../scripts/num.js"
+import num, { atoms, SMALLEST } from "../../scripts/num.js"
 import { mapActions, mapGetters } from "vuex"
 import TmFormGroup from "common/TmFormGroup"
 import TmField from "common/TmField"
 import TmFormMsg from "common/TmFormMsg"
 import TmBtn from "common/TmBtn"
 import ActionModal from "common/ActionModal"
+import transaction from "src/components/ActionManager/transactionTypes"
 
 export default {
   name: `send-modal`,
@@ -157,6 +159,23 @@ export default {
     balance() {
       const denom = this.wallet.balances.find(b => b.denom === this.denom)
       return (denom && denom.amount) || 0
+    },
+    transactionData() {
+      return {
+        type: transaction.SEND,
+        toAddress: this.address,
+        denom: this.denom,
+        amount: +this.amount,
+        memo: this.memo
+      }
+    },
+    notifyMessage() {
+      return {
+        title: `Successful Send`,
+        body: `Successfully sent ${+this.amount} ${num.viewDenom(
+          this.denom
+        )}s to ${this.address}`
+      }
     }
   },
   mounted() {
@@ -183,60 +202,6 @@ export default {
       this.editMemo = false
       this.memo = "(Sent via Lunie)"
     },
-    async simulateForm() {
-      const amount = +this.amount
-      const address = this.address
-      const denom = this.denom
-      const type = `MsgSend`
-
-      return await this.$store.dispatch(`simulateTx`, {
-        type,
-        txArguments: {
-          toAddress: address,
-          amounts: [{ denom, amount: String(uatoms(amount)) }]
-        },
-        memo: this.memo
-      })
-    },
-    async submitForm(gasEstimate, gasPrice, password, submitType) {
-      const amount = +this.amount
-      const address = this.address
-      const denom = this.denom
-      const type = `MsgSend`
-
-      await this.sendTx({
-        type,
-        txArguments: {
-          toAddress: address,
-          amounts: [{ denom, amount: String(uatoms(amount)) }]
-        },
-        gas: String(gasEstimate),
-        gas_prices: [
-          {
-            amount: String(uatoms(gasPrice)),
-            denom: this.denom // TODO: should always match staking denom
-          }
-        ],
-        submitType,
-        password,
-        memo: this.memo
-      })
-
-      const fees = gasEstimate * gasPrice
-      // if we send to ourselves, we don't loose tokens
-      let liquidityChangeAmount = address === this.session.address ? 0 : amount
-      this.$store.commit("updateWalletBalance", {
-        amount: this.balance - uatoms(liquidityChangeAmount + fees),
-        denom: this.denom
-      })
-
-      this.$store.commit(`notify`, {
-        title: `Successful Send`,
-        body: `Successfully sent ${amount} ${num.viewDenom(
-          denom
-        )}s to ${address}`
-      })
-    },
     bech32Validate(param) {
       try {
         b32.decode(param)
@@ -244,6 +209,10 @@ export default {
       } catch (error) {
         return false
       }
+    },
+    postSubmit(txData) {
+      console.log(`postSubmit`, txData)
+      this.$store.dispatch("postSubmitSend", txData)
     }
   },
   validations() {
