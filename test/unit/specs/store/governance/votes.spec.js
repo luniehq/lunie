@@ -52,7 +52,7 @@ describe(`Module: Votes`, () => {
     )
   })
 
-  it(`should simulate a vote transaction`, async () => {
+  xit(`should simulate a vote transaction`, async () => {
     const { actions } = module
     const self = {
       rootState: mockRootState,
@@ -73,7 +73,7 @@ describe(`Module: Votes`, () => {
     })
     expect(res).toBe(123123)
   })
-  it(`submits a vote on a proposal`, async () => {
+  xit(`submits a vote on a proposal`, async () => {
     const { actions } = module
     jest.useFakeTimers()
 

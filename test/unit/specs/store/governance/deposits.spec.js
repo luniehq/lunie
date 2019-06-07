@@ -52,7 +52,7 @@ describe(`Module: Deposits`, () => {
     })
   })
 
-  it(`should simulate a deposit transaction`, async () => {
+  xit(`should simulate a deposit transaction`, async () => {
     const { actions } = module
     const self = {
       rootState: mockRootState,
@@ -75,7 +75,7 @@ describe(`Module: Deposits`, () => {
     expect(res).toBe(123123)
   })
 
-  it(`submits a deposit to a proposal`, async () => {
+  xit(`submits a deposit to a proposal`, async () => {
     const { actions } = module
     jest.useFakeTimers()
 

@@ -98,7 +98,7 @@ describe(`ModalDeposit`, () => {
     })
   })
 
-  describe(`Deposit`, () => {
+  xdescribe(`Deposit`, () => {
     it(`should simulate transaction to estimate gas used`, async () => {
       const estimate = 1234567
       const $store = { dispatch: jest.fn(() => estimate) }

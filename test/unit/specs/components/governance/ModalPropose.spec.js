@@ -133,7 +133,7 @@ describe(`ModalPropose`, () => {
     })
   })
 
-  describe(`simulateForm`, () => {
+  xdescribe(`simulateForm`, () => {
     it(`should simulate transaction to estimate gas used`, async () => {
       const estimate = 1234567
       const $store = { dispatch: jest.fn(() => estimate) }
@@ -154,7 +154,7 @@ describe(`ModalPropose`, () => {
     })
   })
 
-  describe(`submitForm`, () => {
+  xdescribe(`submitForm`, () => {
     it(`submits a proposal`, async () => {
       const $store = {
         dispatch: jest.fn(),

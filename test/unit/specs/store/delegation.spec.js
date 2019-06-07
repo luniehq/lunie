@@ -148,7 +148,7 @@ describe(`Module: Delegations`, () => {
     })
   })
 
-  it(`should simulate a delegation transaction`, async () => {
+  xit(`should simulate a delegation transaction`, async () => {
     const validator_address = lcdClientMock.state.candidates[0].operator_address
     const amount = 10
     const dispatch = jest.fn(() => 123123)
@@ -180,7 +180,7 @@ describe(`Module: Delegations`, () => {
     expect(res).toBe(123123)
   })
 
-  it(`submits delegation transaction`, async () => {
+  xit(`submits delegation transaction`, async () => {
     const validator_address = lcdClientMock.state.candidates[0].operator_address
     const amount = 10
     const gas = `1234567`
@@ -219,7 +219,7 @@ describe(`Module: Delegations`, () => {
     })
   })
 
-  it(`should simulate an undelegation transaction`, async () => {
+  xit(`should simulate an undelegation transaction`, async () => {
     const validator = lcdClientMock.state.candidates[0]
     const amount = 10
     const dispatch = jest.fn(() => 123123)
@@ -246,7 +246,7 @@ describe(`Module: Delegations`, () => {
     expect(res).toBe(123123)
   })
 
-  it(`submits undelegation transaction`, async () => {
+  xit(`submits undelegation transaction`, async () => {
     const validator = lcdClientMock.state.candidates[0]
     const amount = 10
     const password = ``
@@ -276,7 +276,7 @@ describe(`Module: Delegations`, () => {
     })
   })
 
-  it(`should simulate a redelegation transaction`, async () => {
+  xit(`should simulate a redelegation transaction`, async () => {
     const validatorSrc = lcdClientMock.state.candidates[0]
     const validatorDst = lcdClientMock.state.candidates[1]
     const amount = 10
@@ -304,7 +304,7 @@ describe(`Module: Delegations`, () => {
     })
     expect(res).toBe(123123)
   })
-  it(`submits redelegation transaction`, async () => {
+  xit(`submits redelegation transaction`, async () => {
     const validatorSrc = lcdClientMock.state.candidates[0]
     const validatorDst = lcdClientMock.state.candidates[1]
     const amount = 10

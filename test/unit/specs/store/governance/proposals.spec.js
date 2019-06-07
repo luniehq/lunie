@@ -197,7 +197,7 @@ describe(`Module: Proposals`, () => {
     })
   })
 
-  it(`should simulate a proposal transaction`, async () => {
+  xit(`should simulate a proposal transaction`, async () => {
     const { actions } = moduleInstance
     const self = {
       rootState: mockRootState,
@@ -227,7 +227,7 @@ describe(`Module: Proposals`, () => {
     expect(res).toBe(123123)
   })
 
-  it(`submits a new proposal`, async () => {
+  xit(`submits a new proposal`, async () => {
     const { actions } = moduleInstance
     jest.useFakeTimers()
 
