@@ -5,9 +5,13 @@ exports[`ModalDeposit should display deposit modal form 1`] = `
   amount="0"
   class="modal-deposit"
   id="modal-deposit"
-  simulatefn="function () { [native code] }"
+  postsubmit="function _default() {
+          /* istanbul ignore next */
+          cov_2oojm0wq0i.f[3]++;
+        }"
+  simulate-fn="function () { [native code] }"
   submissionerrorprefix="Depositing failed"
-  submitfn="function () { [native code] }"
+  submit-fn="function () { [native code] }"
   title="Deposit"
   validate="function () { [native code] }"
 >

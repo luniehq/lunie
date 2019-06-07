@@ -6,9 +6,13 @@ exports[`UndelegationModal should display undelegation modal form 1`] = `
   class="undelegation-modal"
   fromoptions="[object Object]"
   id="undelegation-modal"
-  simulatefn="function () { [native code] }"
+  postsubmit="function _default() {
+          /* istanbul ignore next */
+          cov_2oojm0wq0i.f[3]++;
+        }"
+  simulate-fn="function () { [native code] }"
   submissionerrorprefix="Undelegating failed"
-  submitfn="function () { [native code] }"
+  submit-fn="function () { [native code] }"
   title="Undelegate"
   validate="function () { [native code] }"
 >

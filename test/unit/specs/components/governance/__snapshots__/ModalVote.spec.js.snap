@@ -5,9 +5,13 @@ exports[`ModalVote should display vote modal form 1`] = `
   amount="0"
   class="modal-vote"
   id="modal-vote"
-  simulatefn="function () { [native code] }"
+  postsubmit="function _default() {
+          /* istanbul ignore next */
+          cov_2oojm0wq0i.f[3]++;
+        }"
+  simulate-fn="function () { [native code] }"
   submissionerrorprefix="Voting failed"
-  submitfn="function () { [native code] }"
+  submit-fn="function () { [native code] }"
   title="Vote"
   validate="function () { [native code] }"
 >
