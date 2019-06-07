@@ -112,7 +112,8 @@ export const modalContext = state => ({
   url: state.connection.externals.node.url,
   chainId: state.connection.lastHeader.chain_id,
   connected: state.connection.connected,
+  localKeyPairName: state.session.localKeyPairName,
   userAddress: state.session.address,
   committedDelegations: state.delegation.committedDelegates,
-  localKeyPairName: state.session.localKeyPairName
+  delegates: state.delegates.delegates
 })
