@@ -96,7 +96,11 @@ exports[`PageProposal renders votes in HTML when voting is open 1`] = `
         </dd>
       </dl>
     </div>
-     
+  </div>
+   
+  <div
+    class="page-profile__section"
+  >
     <div
       class="row"
     >
@@ -124,11 +128,7 @@ exports[`PageProposal renders votes in HTML when voting is open 1`] = `
         </dd>
       </dl>
     </div>
-  </div>
-   
-  <div
-    class="page-profile__section"
-  >
+     
     <div
       class="row"
     >
@@ -323,7 +323,11 @@ exports[`PageProposal should display proposal page if user has signed in 1`] = `
         </dd>
       </dl>
     </div>
-     
+  </div>
+   
+  <div
+    class="page-profile__section"
+  >
     <div
       class="row"
     >
@@ -351,11 +355,7 @@ exports[`PageProposal should display proposal page if user has signed in 1`] = `
         </dd>
       </dl>
     </div>
-  </div>
-   
-  <div
-    class="page-profile__section"
-  >
+     
     <div
       class="row"
     >
@@ -550,7 +550,11 @@ exports[`PageProposal should display proposal page should default tally to 0 if 
         </dd>
       </dl>
     </div>
-     
+  </div>
+   
+  <div
+    class="page-profile__section"
+  >
     <div
       class="row"
     >
@@ -578,11 +582,7 @@ exports[`PageProposal should display proposal page should default tally to 0 if 
         </dd>
       </dl>
     </div>
-  </div>
-   
-  <div
-    class="page-profile__section"
-  >
+     
     <div
       class="row"
     >

@@ -66,17 +66,10 @@
               }}
             </dd>
           </dl>
-
           <dl v-if="displayEndDate" class="info_dl colored_dl">
             <dt>Voting End Date</dt>
             <dd>{{ endDate }}</dd>
           </dl>
-
-
-
-
-
-
         </div>
       </div>
 
@@ -206,10 +199,13 @@ export default {
       return moment(proposal.voting_end_time).format("MMMM Do YYYY, HH:mm")
     },
     displayEndDate({ proposal } = this) {
-      if (proposal.proposal_status !== "DepositPeriod" && proposal.total_deposit[0].amount >= 521000000) {
-        return true;
+      if (
+        proposal.proposal_status !== "DepositPeriod" &&
+        proposal.total_deposit[0].amount >= 521000000
+      ) {
+        return true
       } else {
-        return false;
+        return false
       }
     },
     votingStartedAgo({ proposal } = this) {
