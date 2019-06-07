@@ -1,0 +1,1 @@
+[Code Improvements] [#2164](https://github.com/cosmos/lunie/issues/2164) Changing how an invalid validators address is handled. Now a page informs users that it is invalid and has a link to view all validators @thebkr7
