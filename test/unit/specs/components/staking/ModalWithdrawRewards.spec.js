@@ -45,7 +45,7 @@ describe(`ModalWithdrawRewards`, () => {
     expect(wrapper.find(`.withdraw-limit`).exists()).toBe(false)
   })
 
-  describe(`Withdraw`, () => {
+  xdescribe(`Withdraw`, () => {
     it(`should simulate transaction to estimate gas used`, async () => {
       const estimate = 1234567
       const $store = { dispatch: jest.fn(() => estimate) }

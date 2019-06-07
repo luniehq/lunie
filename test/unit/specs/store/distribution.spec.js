@@ -139,7 +139,7 @@ describe(`Module: Fee Distribution`, () => {
       })
     })
 
-    describe(`withdrawAllRewards`, () => {
+    xdescribe(`withdrawAllRewards`, () => {
       it(`should simulate a withdrawal transaction`, async () => {
         const { actions } = module
         const self = {
