@@ -4,7 +4,7 @@
     :loading="delegates.loading"
     :loaded="delegates.loaded"
     :error="delegates.error"
-    :data-empty="!validator"
+    :not-found="!validator"
     data-title="Validator"
   >
     <template v-if="validator" slot="managed-body">
@@ -251,8 +251,6 @@ export default {
         validator.signing_info = this.delegates.signingInfos[
           validator.operator_address
         ]
-      } else if (this.delegates.delegates.length > 0) {
-        this.invalidAddress()
       }
 
       return validator
@@ -441,9 +439,6 @@ export default {
     translateEmptyDescription(value) {
       if (!value || value === `[do-not-modify]`) return `--`
       return value
-    },
-    invalidAddress() {
-      this.$router.push("/404")
     }
   }
 }

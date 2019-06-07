@@ -152,10 +152,10 @@ describe(`PageValidator`, () => {
       expect(wrapper.exists(`tm-data-error-stub`)).toBe(true)
     })
 
-    it(`shows 404 page if invalid validator address used`, () => {
+    it(`shows invalid validator address page if invalid validator address used`, () => {
       $store.getters.delegates.delegates = []
 
-      expect(wrapper.exists(`four-oh-four`)).toBe(true)
+      expect(wrapper.exists(`tm-data-msg`)).toBe(true)
     })
 
     it(`shows the selfBond`, () => {

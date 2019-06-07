@@ -22,6 +22,17 @@
         <slot v-else-if="dataEmpty" name="no-data">
           <TmDataEmpty />
         </slot>
+        <slot v-else-if="notFound" name="no-data">
+          <TmDataMsg title="Woops Validator Not Found">
+            <div slot="subtitle">
+              Please visit our
+              <a href="/#/staking/validators/">
+                Validators
+              </a>
+              page to view all validators
+            </div>
+          </TmDataMsg>
+        </slot>
         <slot v-else name="managed-body" />
       </template>
       <slot />
@@ -35,6 +46,7 @@ import PerfectScrollbar from "perfect-scrollbar"
 import TmPageHeader from "./TmPageHeader.vue"
 import TmDataLoading from "common/TmDataLoading"
 import TmDataEmpty from "common/TmDataEmpty"
+import TmDataMsg from "common/TmDataMsg"
 import CardSignInRequired from "common/CardSignInRequired"
 import { mapGetters } from "vuex"
 import TmDataError from "common/TmDataError"
@@ -50,6 +62,7 @@ export default {
     ToolBar,
     TmPageHeader,
     TmDataEmpty,
+    TmDataMsg,
     TmDataLoading,
     TmDataError,
     TmDataConnecting,
@@ -90,6 +103,10 @@ export default {
       default: undefined
     },
     dataEmpty: {
+      type: Boolean,
+      default: undefined
+    },
+    notFound: {
       type: Boolean,
       default: undefined
     },
