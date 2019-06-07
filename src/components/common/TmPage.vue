@@ -23,9 +23,9 @@
           <TmDataEmpty />
         </slot>
         <slot v-else-if="notFound" name="no-data">
-          <TmDataMsg title="Woops Validator Not Found">
+          <TmDataMsg title="Validator Not Found">
             <div slot="subtitle">
-              Please visit our
+              Please visit the
               <a href="/#/staking/validators/">
                 Validators
               </a>
