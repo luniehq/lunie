@@ -147,6 +147,9 @@ describe(`Store: getters`, () => {
       },
       delegation: {
         committedDelegates: []
+      },
+      delegates: {
+        delegates: []
       }
     }
 
@@ -156,6 +159,7 @@ describe(`Store: getters`, () => {
       connected: true,
       userAddress: "cosmos1abcdefghijklmop",
       committedDelegations: [],
+      delegates: [],
       localKeyPairName: "localKeyPairName"
     }
 
