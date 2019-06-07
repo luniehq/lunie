@@ -5,14 +5,11 @@ exports[`ModalVote should display vote modal form 1`] = `
   amount="0"
   class="modal-vote"
   id="modal-vote"
-  postsubmit="function _default() {
-          /* istanbul ignore next */
-          cov_2oojm0wq0i.f[3]++;
-        }"
-  simulate-fn="function () { [native code] }"
+  notifymessage="[object Object]"
+  postsubmit="function () { [native code] }"
   submissionerrorprefix="Voting failed"
-  submit-fn="function () { [native code] }"
   title="Vote"
+  transactiondata="[object Object]"
   validate="function () { [native code] }"
 >
   <tmformgroup-stub

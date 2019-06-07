@@ -4,14 +4,11 @@ exports[`SendModal should display send modal form 1`] = `
 <actionmodal-stub
   denom="STAKE"
   id="send-modal"
-  postsubmit="function _default() {
-          /* istanbul ignore next */
-          cov_2oojm0wq0i.f[3]++;
-        }"
-  simulate-fn="function () { [native code] }"
+  notifymessage="[object Object]"
+  postsubmit="function () { [native code] }"
   submissionerrorprefix="Sending tokens failed"
-  submit-fn="function () { [native code] }"
   title="Send"
+  transactiondata="[object Object]"
   validate="function () { [native code] }"
 >
   <tmformgroup-stub
@@ -80,14 +77,11 @@ exports[`SendModal validation should show address required error 1`] = `
   amount="2"
   denom="STAKE"
   id="send-modal"
-  postsubmit="function _default() {
-          /* istanbul ignore next */
-          cov_2oojm0wq0i.f[3]++;
-        }"
-  simulate-fn="function () { [native code] }"
+  notifymessage="[object Object]"
+  postsubmit="function () { [native code] }"
   submissionerrorprefix="Sending tokens failed"
-  submit-fn="function () { [native code] }"
   title="Send"
+  transactiondata="[object Object]"
   validate="function () { [native code] }"
 >
   <tmformgroup-stub
@@ -158,14 +152,11 @@ exports[`SendModal validation should show bech32 error when address length is to
   amount="2"
   denom="STAKE"
   id="send-modal"
-  postsubmit="function _default() {
-          /* istanbul ignore next */
-          cov_2oojm0wq0i.f[3]++;
-        }"
-  simulate-fn="function () { [native code] }"
+  notifymessage="[object Object]"
+  postsubmit="function () { [native code] }"
   submissionerrorprefix="Sending tokens failed"
-  submit-fn="function () { [native code] }"
   title="Send"
+  transactiondata="[object Object]"
   validate="function () { [native code] }"
 >
   <tmformgroup-stub
@@ -236,14 +227,11 @@ exports[`SendModal validation should show bech32 error when address length is to
   amount="2"
   denom="STAKE"
   id="send-modal"
-  postsubmit="function _default() {
-          /* istanbul ignore next */
-          cov_2oojm0wq0i.f[3]++;
-        }"
-  simulate-fn="function () { [native code] }"
+  notifymessage="[object Object]"
+  postsubmit="function () { [native code] }"
   submissionerrorprefix="Sending tokens failed"
-  submit-fn="function () { [native code] }"
   title="Send"
+  transactiondata="[object Object]"
   validate="function () { [native code] }"
 >
   <tmformgroup-stub
@@ -313,14 +301,11 @@ exports[`SendModal validation should show bech32 error when alphanumeric is wron
 <actionmodal-stub
   denom="STAKE"
   id="send-modal"
-  postsubmit="function _default() {
-          /* istanbul ignore next */
-          cov_2oojm0wq0i.f[3]++;
-        }"
-  simulate-fn="function () { [native code] }"
+  notifymessage="[object Object]"
+  postsubmit="function () { [native code] }"
   submissionerrorprefix="Sending tokens failed"
-  submit-fn="function () { [native code] }"
   title="Send"
+  transactiondata="[object Object]"
   validate="function () { [native code] }"
 >
   <tmformgroup-stub

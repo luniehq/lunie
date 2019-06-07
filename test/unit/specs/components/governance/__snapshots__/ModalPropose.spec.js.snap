@@ -4,14 +4,11 @@ exports[`ModalPropose should display proposal modal form 1`] = `
 <actionmodal-stub
   amount="0"
   id="modal-propose"
-  postsubmit="function _default() {
-          /* istanbul ignore next */
-          cov_2oojm0wq0i.f[3]++;
-        }"
-  simulate-fn="function () { [native code] }"
+  notifymessage="[object Object]"
+  postsubmit="function () { [native code] }"
   submissionerrorprefix="Submitting proposal failed"
-  submit-fn="function () { [native code] }"
   title="Proposal"
+  transactiondata="[object Object]"
   validate="function () { [native code] }"
 >
   <tmformgroup-stub

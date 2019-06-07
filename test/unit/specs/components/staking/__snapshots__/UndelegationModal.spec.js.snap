@@ -6,14 +6,11 @@ exports[`UndelegationModal should display undelegation modal form 1`] = `
   class="undelegation-modal"
   fromoptions="[object Object]"
   id="undelegation-modal"
-  postsubmit="function _default() {
-          /* istanbul ignore next */
-          cov_2oojm0wq0i.f[3]++;
-        }"
-  simulate-fn="function () { [native code] }"
+  notifymessage="[object Object]"
+  postsubmit="function () { [native code] }"
   submissionerrorprefix="Undelegating failed"
-  submit-fn="function () { [native code] }"
   title="Undelegate"
+  transactiondata="[object Object]"
   validate="function () { [native code] }"
 >
   <tmformgroup-stub

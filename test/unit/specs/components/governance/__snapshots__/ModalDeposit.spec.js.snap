@@ -5,14 +5,11 @@ exports[`ModalDeposit should display deposit modal form 1`] = `
   amount="0"
   class="modal-deposit"
   id="modal-deposit"
-  postsubmit="function _default() {
-          /* istanbul ignore next */
-          cov_2oojm0wq0i.f[3]++;
-        }"
-  simulate-fn="function () { [native code] }"
+  notifymessage="[object Object]"
+  postsubmit="function () { [native code] }"
   submissionerrorprefix="Depositing failed"
-  submit-fn="function () { [native code] }"
   title="Deposit"
+  transactiondata="[object Object]"
   validate="function () { [native code] }"
 >
   <tmformgroup-stub
