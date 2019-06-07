@@ -3,7 +3,8 @@ import {
   liquidAtoms,
   totalAtoms,
   oldUnbondingAtoms,
-  yourValidators
+  yourValidators,
+  modalContext
 } from "src/vuex/getters.js"
 import validators from "./json/validators.js"
 
@@ -125,5 +126,41 @@ describe(`Store: getters`, () => {
         )
       ).toEqual([])
     })
+  })
+
+  it(`modalContext`, () => {
+    let state = {
+      connection: {
+        externals: {
+          node: {
+            url: "http://lunie.io"
+          }
+        },
+        lastHeader: {
+          chain_id: "cosmoshub"
+        },
+        connected: true
+      },
+      session: {
+        address: "cosmos1abcdefghijklmop",
+        localKeyPairName: "localKeyPairName"
+      },
+      delegation: {
+        committedDelegates: []
+      }
+    }
+
+    const context = {
+      url: "http://lunie.io",
+      chainId: "cosmoshub",
+      connected: true,
+      userAddress: "cosmos1abcdefghijklmop",
+      committedDelegations: [],
+      localKeyPairName: "localKeyPairName"
+    }
+
+    const result = modalContext(state)
+
+    expect(result).toEqual(context)
   })
 })
