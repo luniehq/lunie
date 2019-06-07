@@ -4,7 +4,6 @@ exports[`PageWallet should display the wallet page 1`] = `
 <tmpage-stub
   data-title="Wallet"
   managed="true"
-  refresh="function () { [native code] }"
   signinrequired="true"
   subtitle=""
   title=""
@@ -62,7 +61,6 @@ exports[`PageWallet should not show denoms or the faucet button for a user who i
 <tmpage-stub
   data-title="Wallet"
   managed="true"
-  refresh="function () { [native code] }"
   signinrequired="true"
   subtitle=""
   title=""
@@ -120,7 +118,6 @@ exports[`PageWallet should show the sending modal 1`] = `
 <tmpage-stub
   data-title="Wallet"
   managed="true"
-  refresh="function () { [native code] }"
   signinrequired="true"
   subtitle=""
   title=""

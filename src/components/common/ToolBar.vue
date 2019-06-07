@@ -1,13 +1,5 @@
 <template>
   <div class="tool-bar">
-    <a
-      v-if="!!refresh"
-      :disabled="!refresh.connected"
-      class="refresh-button"
-      @click="refresh.connected && refresh.refresh()"
-    >
-      <i v-tooltip.bottom="'Refresh'" class="material-icons">refresh</i>
-    </a>
     <slot />
     <a v-if="session.signedIn" id="signOut-btn" @click="signOut()">
       <i v-tooltip.bottom.end="'Sign Out'" class="material-icons">
@@ -30,12 +22,6 @@ import TmBtn from "common/TmBtn"
 export default {
   name: `tool-bar`,
   components: { TmBtn },
-  props: {
-    refresh: {
-      type: Object,
-      default: undefined
-    }
-  },
   computed: {
     ...mapGetters([`session`])
   },
