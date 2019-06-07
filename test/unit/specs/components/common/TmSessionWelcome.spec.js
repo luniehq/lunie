@@ -23,7 +23,8 @@ describe(`TmSessionWelcome`, () => {
     wrapper = shallowMount(TmSessionWelcome, {
       mocks: {
         $store
-      }
+      },
+      stubs: [`router-link`]
     })
   })
 

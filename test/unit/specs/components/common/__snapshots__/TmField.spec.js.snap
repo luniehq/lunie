@@ -228,127 +228,85 @@ exports[`TmField displays a toggle 3`] = `
 `;
 
 exports[`TmField displays as a select 1`] = `
-<div
-  class="tm-select"
+<select
+  class="tm-field tm-field-select"
 >
-  <select
-    class="tm-field tm-field-select"
+  <option
+    disabled="disabled"
+    hidden="hidden"
+    selected="selected"
+    value=""
   >
-    <option
-      disabled="disabled"
-      hidden="hidden"
-      selected="selected"
-      value=""
-    >
-      
-      Select option...
     
-    </option>
-     
-  </select>
+    Select option...
+  
+  </option>
    
-  <div
-    class="tm-field-select-addon"
-  >
-    <i
-      class="material-icons"
-    >
-      arrow_drop_down
-    </i>
-  </div>
-</div>
+</select>
 `;
 
 exports[`TmField displays as a select 2`] = `
-<div
-  class="tm-select"
+<select
+  class="tm-field tm-field-select"
 >
-  <select
-    class="tm-field tm-field-select"
+  <option
+    disabled="disabled"
+    hidden="hidden"
+    selected="selected"
+    value=""
   >
-    <option
-      disabled="disabled"
-      hidden="hidden"
-      selected="selected"
-      value=""
-    >
-      
-      Select option...
     
-    </option>
-     
-    <option
-      value="1"
-    >
-      
-        1
-      
-    </option>
-    <option
-      value="2"
-    >
-      
-        2
-      
-    </option>
-  </select>
+    Select option...
+  
+  </option>
    
-  <div
-    class="tm-field-select-addon"
+  <option
+    value="1"
   >
-    <i
-      class="material-icons"
-    >
-      arrow_drop_down
-    </i>
-  </div>
-</div>
+    
+      1
+    
+  </option>
+  <option
+    value="2"
+  >
+    
+      2
+    
+  </option>
+</select>
 `;
 
 exports[`TmField displays as a select 3`] = `
-<div
-  class="tm-select"
+<select
+  class="tm-field tm-field-select"
 >
-  <select
-    class="tm-field tm-field-select"
+  <option
+    disabled="disabled"
+    hidden="hidden"
+    selected="selected"
+    value=""
   >
-    <option
-      disabled="disabled"
-      hidden="hidden"
-      selected="selected"
-      value=""
-    >
-      
-      Select a number...
     
-    </option>
-     
-    <option
-      value="1"
-    >
-      
-        1
-      
-    </option>
-    <option
-      value="2"
-    >
-      
-        2
-      
-    </option>
-  </select>
+    Select a number...
+  
+  </option>
    
-  <div
-    class="tm-field-select-addon"
+  <option
+    value="1"
   >
-    <i
-      class="material-icons"
-    >
-      arrow_drop_down
-    </i>
-  </div>
-</div>
+    
+      1
+    
+  </option>
+  <option
+    value="2"
+  >
+    
+      2
+    
+  </option>
+</select>
 `;
 
 exports[`TmField has the expected html structure 1`] = `

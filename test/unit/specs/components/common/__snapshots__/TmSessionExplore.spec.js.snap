@@ -2,35 +2,35 @@
 
 exports[`TmSessionExplore shows a form to sign in with an address 1`] = `
 <div
-  class="tm-session"
+  class="session"
 >
   <tmformstruct-stub
-    class="tm-session-container"
+    class="session-container"
     submit="function () { [native code] }"
     width=""
   >
     <div
-      class="tm-session-header"
+      class="session-header"
     >
       <a>
         <i
-          class="material-icons"
+          class="material-icons session-back"
         >
           arrow_back
         </i>
       </a>
        
-      <div
-        class="tm-session-title"
+      <h2
+        class="session-title"
       >
         
-        Explore
+        Explore with any address
       
-      </div>
+      </h2>
        
       <a>
         <i
-          class="material-icons"
+          class="material-icons session-close"
         >
           close
         </i>
@@ -38,14 +38,14 @@ exports[`TmSessionExplore shows a form to sign in with an address 1`] = `
     </div>
      
     <div
-      class="tm-session-main"
+      class="session-main"
     >
       <tmformgroup-stub
         fieldid="sign-in-name"
-        fieldlabel="Address"
+        fieldlabel="Your Cosmos Address"
       >
         <tmfield-stub
-          placeholder="Your Cosmos Address"
+          placeholder=""
           type="text"
           vue-focus="vue-focus"
         />
@@ -55,10 +55,9 @@ exports[`TmSessionExplore shows a form to sign in with an address 1`] = `
     </div>
      
     <div
-      class="tm-session-footer"
+      class="session-footer"
     >
       <tmbtn-stub
-        size="lg"
         value="Next"
       />
     </div>

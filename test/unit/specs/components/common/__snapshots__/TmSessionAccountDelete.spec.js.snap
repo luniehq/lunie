@@ -92,7 +92,6 @@ exports[`TmSessionAccountDelete has the expected html structure 1`] = `
     >
       <tmbtn-stub
         icon="exit_to_app"
-        size="lg"
         value="Sign Out and Remove Account"
       />
     </div>

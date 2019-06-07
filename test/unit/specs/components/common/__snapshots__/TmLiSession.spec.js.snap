@@ -8,7 +8,7 @@ exports[`TmLiSession has the expected html structure 1`] = `
     class="tm-li-session-icon"
   >
     <i
-      class="material-icons"
+      class="material-icons circle"
     >
       mood
     </i>
@@ -28,10 +28,20 @@ exports[`TmLiSession has the expected html structure 1`] = `
     <div
       class="tm-li-session-subtitle"
     >
-      
-      useful subtitle
-    
+      <span>
+        useful subtitle
+      </span>
     </div>
+  </div>
+   
+  <div
+    class="tm-li-session-icon"
+  >
+    <i
+      class="material-icons"
+    >
+      arrow_forward
+    </i>
   </div>
 </div>
 `;
