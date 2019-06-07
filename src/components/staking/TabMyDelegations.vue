@@ -137,7 +137,6 @@ export default {
     }
   },
   async mounted() {
-    this.$store.dispatch(`updateDelegates`)
     this.loadStakingTxs()
   },
   methods: {
