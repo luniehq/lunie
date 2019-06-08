@@ -1,2 +1,0 @@
-[Changed] [#2157](https://github.com/cosmos/lunie/issues/2157) Don't hide the create proposal button if signed out @thebkr7
-[Changed] [#2684](https://github.com/cosmos/lunie/pull/2684) Don't hide the error on action modals after a timeout @faboweb

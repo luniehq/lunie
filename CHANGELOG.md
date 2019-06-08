@@ -7,6 +7,21 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.0-beta.80] - 2019-06-08
+
+### Changed
+
+- [#2157](https://github.com/cosmos/lunie/issues/2157) Don't hide the create proposal button if signed out @thebkr7
+- [#2684](https://github.com/cosmos/lunie/pull/2684) Don't hide the error on action modals after a timeout @faboweb
+
+### Fixed
+
+- [#2687](https://github.com/cosmos/lunie/issues/2687) fixed proposal creation @faboweb
+
+### Code Improvements
+
+- [#2683](https://github.com/cosmos/lunie/issues/2683) Created a function to throttle updates in the store @faboweb
+
 ## [1.0.0-beta.79] - 2019-06-04
 
 ### Fixed
