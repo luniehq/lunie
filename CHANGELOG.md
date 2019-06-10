@@ -7,6 +7,26 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.0-beta.79] - 2019-06-04
+
+### Fixed
+
+- [#2663](https://github.com/cosmos/lunie/pull/2663) Add link to buy Ledger Nano S in about page. @colw
+- [#2665](https://github.com/cosmos/lunie/pull/2665) Correctly update wallet balance on send to self @faboweb
+- [#1234](https://github.com/cosmos/lunie/pull/1234) Keybase cache was not loaded for all validators @faboweb
+
+### Security
+
+- [#2676](https://github.com/cosmos/lunie/pull/2676) Update axios due to security issue @faboweb
+
+### Deprecated
+
+- [#2665](https://github.com/cosmos/lunie/pull/2665) Removed optimistic updates for delegation actions (all actions anyway wait for the tx inclusion into a block) @faboweb
+
+### Code Improvements
+
+- [#2231](https://github.com/cosmos/lunie/issues/2231) Added e2e tests for delegation actions @faboweb
+
 ## [1.0.0-beta.78] - 2019-05-28
 
 ### Added
