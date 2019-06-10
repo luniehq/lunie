@@ -4,7 +4,7 @@ jest.mock("secp256k1", () => ({
   signatureImport: () => Buffer.from("1234")
 }))
 jest.mock("@lunie/cosmos-keys", () => ({
-  createCosmosAddress: () => "cosmos1234"
+  getCosmosAddress: () => "cosmos1234"
 }))
 
 const config = {

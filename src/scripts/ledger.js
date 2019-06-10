@@ -1,5 +1,5 @@
 import { App, comm_u2f } from "ledger-cosmos-js"
-import { createCosmosAddress } from "@lunie/cosmos-keys"
+import { getCosmosAddress } from "@lunie/cosmos-keys"
 import { signatureImport } from "secp256k1"
 import semver from "semver"
 
@@ -91,7 +91,7 @@ export default class Ledger {
     await this.connect()
 
     const pubKey = await this.getPubKey(this.cosmosApp)
-    return createCosmosAddress(pubKey)
+    return getCosmosAddress(pubKey)
   }
   async confirmLedgerAddress() {
     await this.connect()
