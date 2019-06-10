@@ -10573,10 +10573,10 @@ simple-swizzle@^0.2.2:
   dependencies:
     is-arrayish "^0.3.1"
 
-simsala@0.0.13:
-  version "0.0.13"
-  resolved "https://registry.yarnpkg.com/simsala/-/simsala-0.0.13.tgz#320b7480ee0d5922c5abb71b9f47a49ad253e192"
-  integrity sha512-9qE+XDgJUOLt8KWuHfVDV73ZYNHhk+fSggfw277iKKekhcR1q/nm+eFkj7FC3jOKSXGZrRWh03aiLM0IIDux/A==
+simsala@0.0.14:
+  version "0.0.14"
+  resolved "https://registry.yarnpkg.com/simsala/-/simsala-0.0.14.tgz#e7ddb8ab8ae86f15e9278c63347140af2edfb38b"
+  integrity sha512-CNocwqmxCSStTquymMKTwM5AMFNg3PJROm1xJ8IIG4Rmoc5LRwWMN81Tg1jNu+zMGQ6P6hK0lUzegi8taGwebg==
   dependencies:
     axios "^0.18.0"
     commander "^2.20.0"

@@ -35,7 +35,7 @@ exports[`LiValidator has the expected html structure 1`] = `
       <div
         class="data-table__row__info__container__description"
       >
-        <shortbech32-stub
+        <bech32-stub
           address="cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au"
         />
       </div>
@@ -119,7 +119,7 @@ exports[`LiValidator should display uptime as double-dash 1`] = `
       <div
         class="data-table__row__info__container__description"
       >
-        <shortbech32-stub
+        <bech32-stub
           address="cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au"
         />
       </div>
@@ -203,7 +203,7 @@ exports[`LiValidator works if user is not signed in 1`] = `
       <div
         class="data-table__row__info__container__description"
       >
-        <shortbech32-stub
+        <bech32-stub
           address="cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au"
         />
       </div>
