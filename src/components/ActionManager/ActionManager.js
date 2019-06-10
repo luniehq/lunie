@@ -2,10 +2,15 @@ import Cosmos from "@lunie/cosmos-js"
 import config from "src/config"
 import { getSigner } from "./signer"
 import transaction from "./transactionTypes"
-
-import { formatCosmosArguments, convertCurrencyData } from "./cosmosMessages"
+import { getTop5Delegations } from "../../utils"
+import { uatoms } from "scripts/num.js"
 
 class ActionManager {
+  constructor() {
+    this.context = null
+    this.cosmos = null
+  }
+
   setContext(context) {
     if (!context) {
       return
@@ -14,9 +19,9 @@ class ActionManager {
     this.cosmos = new Cosmos(this.context.url || "", this.context.chainId || "")
   }
 
-  async simulate(type, transactionProperties) {
+  readyCheck() {
     if (!this.context) {
-      throw Error(`This modal has no context.`)
+      throw Error("This modal has no context.")
     }
 
     if (!this.context.connected) {
@@ -24,53 +29,41 @@ class ActionManager {
         `Currently not connected to a secure node. Please try again when Lunie has secured a connection.`
       )
     }
+  }
 
-    const txArguments = formatCosmosArguments(
-      this.context,
-      type,
-      transactionProperties,
-      true
-    )
-
-    if (txArguments === null) {
-      throw Error(
-        `Did not complete transaction simulation. Invalid message type: ${type}.`
-      )
+  messageTypeCheck(msgType) {
+    if (!msgType) {
+      if (!isKnownType) {
+        throw Error("No message type present.")
+      }
     }
 
-    const message = this.createCosmosMessage(
-      type,
-      this.context.userAddress,
-      txArguments
-    )
+    const isKnownType = Object.values(transaction).includes(msgType)
+    if (!isKnownType) {
+      throw Error(`Invalid message type: ${msgType}.`)
+    }
+  }
+
+  async simulate(type, memo, transactionProperties) {
+    this.messageTypeCheck(type)
+    this.readyCheck()
+
+    // When simulating a withdrawal, ignore validator addresses
+    let txArguments = transactionProperties
+    if (type === transaction.WITHDRAW) {
+      txArguments.validatorAddress = []
+    }
+
+    const message = this.cosmos[type](this.context.userAddress, txArguments)
     const gasEstimate = await message.simulate({
       memo: transactionProperties.memo
     })
     return gasEstimate
   }
 
-  async send(type, transactionProperties, txMetaData) {
-    if (!this.context) {
-      throw Error(`This modal has no context.`)
-    }
-
-    if (!this.context.connected) {
-      throw Error(
-        `Currently not connected to a secure node. Please try again when Lunie has secured a connection.`
-      )
-    }
-
-    const txArguments = formatCosmosArguments(
-      this.context,
-      type,
-      transactionProperties
-    )
-
-    if (txArguments === null) {
-      throw Error(
-        `Did not complete transaction. Invalid message type: ${type}.`
-      )
-    }
+  async send(type, memo, transactionProperties, txMetaData) {
+    this.messageTypeCheck(type)
+    this.readyCheck()
 
     const { gasEstimate, gasPrice, submitType, password } = txMetaData
 
@@ -79,16 +72,19 @@ class ActionManager {
 
     let message
     if (type === transaction.WITHDRAW) {
+      const newTxProps = this.formatWithdrawalProperties(
+        this.context,
+        transactionProperties
+      )
       message = this.createMultiMessage(
         type,
         this.context.userAddress,
-        txArguments
+        newTxProps
       )
     } else {
-      message = this.createCosmosMessage(
-        type,
+      message = this.cosmos[type](
         this.context.userAddress,
-        txArguments
+        transactionProperties
       )
     }
 
@@ -96,15 +92,24 @@ class ActionManager {
       {
         gas: String(gasEstimate),
         gas_prices: convertCurrencyData([gasPrice]),
-        memo: transactionProperties.memo
+        memo
       },
       signer
     )
     await included()
   }
 
-  createCosmosMessage(type, senderAddress, txArguments) {
-    return this.cosmos[type](senderAddress, txArguments)
+  // limitation of the block, so we pick the top 5 rewards and inform the user.
+  formatWithdrawalProperties(context, { validatorAddress }) {
+    let validatorAddresses
+    if (validatorAddress) {
+      validatorAddresses = [validatorAddress]
+    } else {
+      const top5Delegations = getTop5Delegations(context.committedDelegations)
+      validatorAddresses = Object.keys(top5Delegations)
+    }
+
+    return { validatorAddresses }
   }
 
   // Withdrawing is a multi message for all validators you have bonds with
@@ -117,3 +122,14 @@ class ActionManager {
 }
 
 export default ActionManager
+
+function convertCurrencyData(amounts) {
+  return amounts.map(({ amount, denom }) => ({
+    amount: toMicroAtomString(amount),
+    denom
+  }))
+}
+
+function toMicroAtomString(amount) {
+  return String(uatoms(amount))
+}

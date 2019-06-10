@@ -63,7 +63,6 @@ export default {
     transactionData() {
       return {
         type: transaction.WITHDRAW,
-        denom: this.denom, // TODO Use context
         validatorAddress: this.validatorAddress
       }
     },

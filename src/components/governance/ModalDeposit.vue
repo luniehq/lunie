@@ -49,7 +49,7 @@
 
 <script>
 import { mapGetters } from "vuex"
-import num, { atoms, SMALLEST } from "../../scripts/num.js"
+import num, { uatoms, atoms, SMALLEST } from "../../scripts/num.js"
 import { between, decimal } from "vuelidate/lib/validators"
 import TmField from "common/TmField"
 import TmFormGroup from "common/TmFormGroup"
@@ -101,7 +101,7 @@ export default {
         proposalId: this.proposalId,
         amounts: [
           {
-            amount: this.amount,
+            amount: uatoms(this.amount),
             denom: this.denom
           }
         ]

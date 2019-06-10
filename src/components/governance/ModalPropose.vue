@@ -110,7 +110,7 @@ import {
   between,
   decimal
 } from "vuelidate/lib/validators"
-import num, { atoms, SMALLEST } from "../../scripts/num.js"
+import num, { uatoms, atoms, SMALLEST } from "../../scripts/num.js"
 import isEmpty from "lodash.isempty"
 import trim from "lodash.trim"
 import TmField from "common/TmField"
@@ -166,8 +166,12 @@ export default {
         proposalType: this.type,
         title: this.title,
         description: this.description,
-        denom: this.denom,
-        amount: this.amount
+        initialDeposits: [
+          {
+            amount: uatoms(this.amount),
+            denom: this.denom
+          }
+        ]
       }
     },
     notifyMessage() {

@@ -74,7 +74,7 @@
 
 <script>
 import { mapGetters } from "vuex"
-import num, { atoms, SMALLEST } from "../../scripts/num.js"
+import num, { uatoms, atoms, SMALLEST } from "../../scripts/num.js"
 import { between, decimal } from "vuelidate/lib/validators"
 import ActionModal from "common/ActionModal"
 import TmField from "common/TmField"
@@ -118,9 +118,9 @@ export default {
     transactionData() {
       return {
         type: transaction.UNDELEGATE,
-        amount: this.amount,
-        denom: this.denom,
-        validatorAddress: this.validator.operator_address
+        validator_address: this.validator.operator_address,
+        amount: uatoms(this.amount),
+        denom: this.denom
       }
     },
     notifyMessage() {

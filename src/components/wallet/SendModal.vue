@@ -127,7 +127,7 @@
 <script>
 import b32 from "scripts/b32"
 import { required, between, decimal, maxLength } from "vuelidate/lib/validators"
-import num, { atoms, SMALLEST } from "../../scripts/num.js"
+import num, { uatoms, atoms, SMALLEST } from "../../scripts/num.js"
 import { mapActions, mapGetters } from "vuex"
 import TmFormGroup from "common/TmFormGroup"
 import TmField from "common/TmField"
@@ -164,8 +164,12 @@ export default {
       return {
         type: transaction.SEND,
         toAddress: this.address,
-        denom: this.denom,
-        amount: +this.amount,
+        amounts: [
+          {
+            amount: uatoms(+this.amount),
+            denom: this.denom
+          }
+        ],
         memo: this.memo
       }
     },
@@ -211,7 +215,6 @@ export default {
       }
     },
     postSubmit(txData) {
-      console.log(`postSubmit`, txData)
       this.$store.dispatch("postSubmitSend", txData)
     }
   },

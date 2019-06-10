@@ -83,7 +83,7 @@
 <script>
 import { mapGetters } from "vuex"
 import { between, decimal } from "vuelidate/lib/validators"
-import num, { atoms, SMALLEST } from "../../scripts/num.js"
+import num, { uatoms, atoms, SMALLEST } from "../../scripts/num.js"
 import TmField from "common/TmField"
 import TmFormGroup from "common/TmFormGroup"
 import TmFormMsg from "common/TmFormMsg"
@@ -134,12 +134,11 @@ export default {
       return this.fromOptions[this.selectedIndex].address
     },
     transactionData() {
-      console.log(this.from, this.modalContext.userAddress)
       if (this.from === this.modalContext.userAddress) {
         return {
           type: transaction.DELEGATE,
-          validatorAddress: this.validator.operator_address,
-          amount: this.amount,
+          validator_address: this.validator.operator_address,
+          amount: uatoms(this.amount),
           denom: this.denom
         }
       } else {
@@ -148,9 +147,9 @@ export default {
         )
         return {
           type: transaction.REDELEGATE,
-          validatorSrc: validatorSrc.operator_address,
-          validatorDst: this.validator.operator_address,
-          amount: this.amount,
+          validator_src_address: validatorSrc.operator_address,
+          validator_dst_address: this.validator.operator_address,
+          amount: uatoms(this.amount),
           denom: this.denom
         }
       }
