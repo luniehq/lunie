@@ -1,17 +1,19 @@
 <template>
   <TmDataMsg :icon="icon">
-    <h4 v-if="title" slot="title">
-      {{ title }}
-    </h4>
-    <h4 v-else slot="title">
-      N/A
-    </h4>
-    <h5 v-if="subtitle" slot="subtitle">
-      {{ subtitle }}
-    </h5>
-    <h5 v-else slot="subtitle">
-      No data available yet.
-    </h5>
+    <template slot="title">
+      <slot name="title">
+        <h4>
+          N/A
+        </h4>
+      </slot>
+    </template>
+    <template slot="subtitle">
+      <slot name="subtitle">
+        <h5>
+          No data available yet.
+        </h5>
+      </slot>
+    </template>
   </TmDataMsg>
 </template>
 
