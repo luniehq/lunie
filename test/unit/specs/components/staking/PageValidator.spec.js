@@ -10,7 +10,7 @@ const stakingParameters = {
 const validator = {
   operator_address: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw`,
   pub_key: `cosmosvalpub1234`,
-  revoked: false,
+  jailed: false,
   tokens: `14`,
   delegator_shares: `14`,
   description: {
@@ -161,7 +161,7 @@ describe(`PageValidator`, () => {
       // Jailed
       $store.getters.delegates.delegates = [
         Object.assign({}, validator, {
-          revoked: true
+          jailed: true
         })
       ]
       expect(wrapper.vm.status).toBe(
@@ -170,7 +170,7 @@ describe(`PageValidator`, () => {
       // Is not a validator
       $store.getters.delegates.delegates = [
         Object.assign({}, validator, {
-          voting_power: 0
+          status: 0
         })
       ]
       expect(wrapper.vm.status).toBe(
@@ -187,10 +187,10 @@ describe(`PageValidator`, () => {
       expect(wrapper.vm.status).toMatchSnapshot()
     })
 
-    it(`shows that a validator is revoked`, () => {
+    it(`shows that a validator is jailed`, () => {
       $store.getters.delegates.delegates = [
         Object.assign({}, validator, {
-          revoked: true
+          jailed: true
         })
       ]
       expect(wrapper.vm.status).toMatchSnapshot()
