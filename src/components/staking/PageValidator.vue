@@ -195,7 +195,6 @@
   <TmPage
     v-else
     :managed="true"
-    :error="delegates.error"
     :data-empty="!validator"
   >
     <template slot="title">
