@@ -198,7 +198,7 @@ jobs:
           command: yarn test:e2e:build
       - run:
           name: Test
-          command: yarn test:e2e
+          command: yarn test:e2e:browserstack
           no_output_timeout: 120
 
   deploy2s3:
