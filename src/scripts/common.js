@@ -2,13 +2,6 @@
 
 const BN = require(`bignumber.js`).BigNumber
 
-// returns the prefix of an address plus some parameter
-// length of the end.
-export const shortAddress = function(address, length = 4) {
-  if (length > address.split(`1`)[1].length) return address
-  return address.split(`1`)[0] + `…` + address.slice(-1 * length)
-}
-
 export const coinsToObject = function(coinArray) {
   return (
     coinArray &&

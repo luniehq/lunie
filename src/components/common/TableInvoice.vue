@@ -1,7 +1,7 @@
 <template>
   <div>
     <ul class="table-invoice">
-      <li>
+      <li v-if="subTotal > 0">
         <span>Subtotal</span>
         <span>
           {{ num.fullDecimals(subTotal) }} {{ num.viewDenom(bondDenom) }}

@@ -27,6 +27,19 @@ exports[`PageWallet should display the wallet page 1`] = `
   </tmdatamsg-stub>
    
   <template>
+    <div
+      class="card"
+    >
+      <h3>
+        Your Public Cosmos Address
+      </h3>
+       
+      <bech32-stub
+        address=""
+        longform="true"
+      />
+    </div>
+     
     <licoin-stub
       class="tm-li-balance"
       coin="[object Object]"
@@ -72,6 +85,19 @@ exports[`PageWallet should not show denoms or the faucet button for a user who i
   </tmdatamsg-stub>
    
   <template>
+    <div
+      class="card"
+    >
+      <h3>
+        Your Public Cosmos Address
+      </h3>
+       
+      <bech32-stub
+        address=""
+        longform="true"
+      />
+    </div>
+     
     <licoin-stub
       class="tm-li-balance"
       coin="[object Object]"
@@ -117,6 +143,19 @@ exports[`PageWallet should show the sending modal 1`] = `
   </tmdatamsg-stub>
    
   <template>
+    <div
+      class="card"
+    >
+      <h3>
+        Your Public Cosmos Address
+      </h3>
+       
+      <bech32-stub
+        address=""
+        longform="true"
+      />
+    </div>
+     
     <licoin-stub
       class="tm-li-balance"
       coin="[object Object]"

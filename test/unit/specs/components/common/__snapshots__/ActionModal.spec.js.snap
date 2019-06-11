@@ -7,6 +7,17 @@ exports[`ActionModal should show the action modal when user has logged in with l
   tabindex="0"
 >
   <div
+    class="action-modal-icon action-modal-close"
+    id="closeBtn"
+  >
+    <i
+      class="material-icons"
+    >
+      close
+    </i>
+  </div>
+   
+  <div
     class="action-modal-header"
   >
     <span
@@ -17,22 +28,11 @@ exports[`ActionModal should show the action modal when user has logged in with l
       
     </span>
      
-    <div
-      class="action-modal-icon action-modal-close"
-      id="closeBtn"
-    >
-      <i
-        class="material-icons"
-      >
-        close
-      </i>
-    </div>
+    <steps-stub
+      active="details"
+      steps="Details,Fees,Sign"
+    />
   </div>
-   
-  <steps-stub
-    active="details"
-    steps="Details,Fees,Sign"
-  />
    
   <div
     class="action-modal-form"
@@ -64,6 +64,17 @@ exports[`ActionModal should show the action modal when user has logged in with l
   tabindex="0"
 >
   <div
+    class="action-modal-icon action-modal-close"
+    id="closeBtn"
+  >
+    <i
+      class="material-icons"
+    >
+      close
+    </i>
+  </div>
+   
+  <div
     class="action-modal-header"
   >
     <span
@@ -74,22 +85,11 @@ exports[`ActionModal should show the action modal when user has logged in with l
       
     </span>
      
-    <div
-      class="action-modal-icon action-modal-close"
-      id="closeBtn"
-    >
-      <i
-        class="material-icons"
-      >
-        close
-      </i>
-    </div>
+    <steps-stub
+      active="fees"
+      steps="Details,Fees,Sign"
+    />
   </div>
-   
-  <steps-stub
-    active="fees"
-    steps="Details,Fees,Sign"
-  />
    
   <div
     class="action-modal-form"
@@ -131,6 +131,17 @@ exports[`ActionModal should show the action modal when user has logged in with l
   tabindex="0"
 >
   <div
+    class="action-modal-icon action-modal-close"
+    id="closeBtn"
+  >
+    <i
+      class="material-icons"
+    >
+      close
+    </i>
+  </div>
+   
+  <div
     class="action-modal-header"
   >
     <span
@@ -141,22 +152,11 @@ exports[`ActionModal should show the action modal when user has logged in with l
       
     </span>
      
-    <div
-      class="action-modal-icon action-modal-close"
-      id="closeBtn"
-    >
-      <i
-        class="material-icons"
-      >
-        close
-      </i>
-    </div>
+    <steps-stub
+      active="sign"
+      steps="Details,Fees,Sign"
+    />
   </div>
-   
-  <steps-stub
-    active="sign"
-    steps="Details,Fees,Sign"
-  />
    
   <div
     class="action-modal-form"
@@ -202,6 +202,17 @@ exports[`ActionModal should show the action modal when user has logged in with l
   tabindex="0"
 >
   <div
+    class="action-modal-icon action-modal-close"
+    id="closeBtn"
+  >
+    <i
+      class="material-icons"
+    >
+      close
+    </i>
+  </div>
+   
+  <div
     class="action-modal-header"
   >
     <span
@@ -212,22 +223,11 @@ exports[`ActionModal should show the action modal when user has logged in with l
       
     </span>
      
-    <div
-      class="action-modal-icon action-modal-close"
-      id="closeBtn"
-    >
-      <i
-        class="material-icons"
-      >
-        close
-      </i>
-    </div>
+    <steps-stub
+      active="details"
+      steps="Details,Fees,Sign"
+    />
   </div>
-   
-  <steps-stub
-    active="details"
-    steps="Details,Fees,Sign"
-  />
    
   <div
     class="action-modal-form"
@@ -259,6 +259,17 @@ exports[`ActionModal should show the action modal when user has logged in with l
   tabindex="0"
 >
   <div
+    class="action-modal-icon action-modal-close"
+    id="closeBtn"
+  >
+    <i
+      class="material-icons"
+    >
+      close
+    </i>
+  </div>
+   
+  <div
     class="action-modal-header"
   >
     <span
@@ -269,22 +280,11 @@ exports[`ActionModal should show the action modal when user has logged in with l
       
     </span>
      
-    <div
-      class="action-modal-icon action-modal-close"
-      id="closeBtn"
-    >
-      <i
-        class="material-icons"
-      >
-        close
-      </i>
-    </div>
+    <steps-stub
+      active="fees"
+      steps="Details,Fees,Sign"
+    />
   </div>
-   
-  <steps-stub
-    active="fees"
-    steps="Details,Fees,Sign"
-  />
    
   <div
     class="action-modal-form"
@@ -326,6 +326,17 @@ exports[`ActionModal should show the action modal when user has logged in with l
   tabindex="0"
 >
   <div
+    class="action-modal-icon action-modal-close"
+    id="closeBtn"
+  >
+    <i
+      class="material-icons"
+    >
+      close
+    </i>
+  </div>
+   
+  <div
     class="action-modal-header"
   >
     <span
@@ -336,22 +347,11 @@ exports[`ActionModal should show the action modal when user has logged in with l
       
     </span>
      
-    <div
-      class="action-modal-icon action-modal-close"
-      id="closeBtn"
-    >
-      <i
-        class="material-icons"
-      >
-        close
-      </i>
-    </div>
+    <steps-stub
+      active="sign"
+      steps="Details,Fees,Sign"
+    />
   </div>
-   
-  <steps-stub
-    active="sign"
-    steps="Details,Fees,Sign"
-  />
    
   <div
     class="action-modal-form"
@@ -400,6 +400,17 @@ exports[`ActionModal should show the action modal when user hasn't logged in 1`]
   tabindex="0"
 >
   <div
+    class="action-modal-icon action-modal-close"
+    id="closeBtn"
+  >
+    <i
+      class="material-icons"
+    >
+      close
+    </i>
+  </div>
+   
+  <div
     class="action-modal-header"
   >
     <span
@@ -410,22 +421,11 @@ exports[`ActionModal should show the action modal when user hasn't logged in 1`]
       
     </span>
      
-    <div
-      class="action-modal-icon action-modal-close"
-      id="closeBtn"
-    >
-      <i
-        class="material-icons"
-      >
-        close
-      </i>
-    </div>
+    <steps-stub
+      active="details"
+      steps="Details,Fees,Sign"
+    />
   </div>
-   
-  <steps-stub
-    active="details"
-    steps="Details,Fees,Sign"
-  />
    
   <div
     class="action-modal-form"
