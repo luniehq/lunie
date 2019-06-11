@@ -4,8 +4,8 @@
     :loading="delegates.loading"
     :loaded="delegates.loaded"
     :error="delegates.error"
-    :not-found="!validator"
     data-title="Validator"
+    v-if="validator"
   >
     <template v-if="validator" slot="managed-body">
       <!-- we need the v-if as the template somehow is rendered in any case -->
@@ -190,6 +190,25 @@
         :rewards="rewards"
         :denom="bondDenom"
       />
+    </template>
+  </TmPage>
+  <TmPage
+    v-else
+    :managed="true"
+    :error="delegates.error"
+    :data-empty="!validator"
+  >
+    <template slot="title">
+      Validator Not Found
+    </template>
+    <template slot="subtitle">
+      <div >
+        Please visit the
+        <a href="/#/staking/validators/">
+          Validators
+        </a>
+        page to view all validators
+      </div>
     </template>
   </TmPage>
 </template>
