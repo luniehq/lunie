@@ -20,18 +20,16 @@
         <TmDataLoading v-else-if="!loaded && loading" />
         <TmDataError v-else-if="error" />
         <slot v-else-if="dataEmpty" name="no-data">
-          <TmDataEmpty />
-        </slot>
-        <slot v-else-if="notFound" name="no-data">
-          <TmDataMsg title="Validator Not Found">
-            <div slot="subtitle">
-              Please visit the
-              <a href="/#/staking/validators/">
-                Validators
-              </a>
-              page to view all validators
-            </div>
-          </TmDataMsg>
+          <TmDataEmpty >
+            <template slot="title">
+              <slot name="title">
+              </slot>
+            </template>
+            <template slot="subtitle">
+              <slot name="subtitle">
+              </slot>
+            </template>
+          </TmDataEmpty>
         </slot>
         <slot v-else name="managed-body" />
       </template>
