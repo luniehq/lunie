@@ -26,7 +26,7 @@ module.exports = {
 
   collectCoverage: true,
   coverageDirectory: `./test/unit/coverage`,
-  coverageReporters: [`lcov`],
+  coverageReporters: [`lcov`, `text-summary`],
   coveragePathIgnorePatterns: [
     `/node_modules/`,
     `/build/`,
