@@ -1,11 +1,11 @@
 <template>
   <TmPage
+    v-if="validator"
     :managed="true"
     :loading="delegates.loading"
     :loaded="delegates.loaded"
     :error="delegates.error"
     data-title="Validator"
-    v-if="validator"
   >
     <template v-if="validator" slot="managed-body">
       <!-- we need the v-if as the template somehow is rendered in any case -->
@@ -202,7 +202,7 @@
       Validator Not Found
     </template>
     <template slot="subtitle">
-      <div >
+      <div>
         Please visit the
         <a href="/#/staking/validators/">
           Validators

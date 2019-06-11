@@ -20,14 +20,12 @@
         <TmDataLoading v-else-if="!loaded && loading" />
         <TmDataError v-else-if="error" />
         <slot v-else-if="dataEmpty" name="no-data">
-          <TmDataEmpty >
+          <TmDataEmpty>
             <template slot="title">
-              <slot name="title">
-              </slot>
+              <slot name="title" />
             </template>
             <template slot="subtitle">
-              <slot name="subtitle">
-              </slot>
+              <slot name="subtitle" />
             </template>
           </TmDataEmpty>
         </slot>
@@ -44,7 +42,6 @@ import PerfectScrollbar from "perfect-scrollbar"
 import TmPageHeader from "./TmPageHeader.vue"
 import TmDataLoading from "common/TmDataLoading"
 import TmDataEmpty from "common/TmDataEmpty"
-import TmDataMsg from "common/TmDataMsg"
 import CardSignInRequired from "common/CardSignInRequired"
 import { mapGetters } from "vuex"
 import TmDataError from "common/TmDataError"
@@ -60,7 +57,6 @@ export default {
     ToolBar,
     TmPageHeader,
     TmDataEmpty,
-    TmDataMsg,
     TmDataLoading,
     TmDataError,
     TmDataConnecting,
