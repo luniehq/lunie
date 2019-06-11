@@ -192,11 +192,7 @@
       />
     </template>
   </TmPage>
-  <TmPage
-    v-else
-    :managed="true"
-    :data-empty="!validator"
-  >
+  <TmPage v-else :managed="true" :data-empty="!validator">
     <template slot="title">
       Validator Not Found
     </template>
