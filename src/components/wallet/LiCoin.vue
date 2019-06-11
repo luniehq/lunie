@@ -75,10 +75,6 @@ export default {
   padding: 1rem;
 }
 
-.li-coin:hover {
-  background: var(--hover-bg);
-}
-
 .li-coin__icon img {
   max-height: 100%;
   max-width: 52px;
@@ -90,6 +86,7 @@ export default {
 .li-coin__content {
   display: flex;
   flex-direction: row;
+  align-items: center;
   justify-content: space-between;
   width: 100%;
   padding-left: 1rem;

@@ -6,7 +6,7 @@
         <h2 class="total-atoms__value">
           {{ totalAtomsDisplay }}
         </h2>
-        <ShortBech32 :address="session.address || ''" />
+        <Bech32 :address="session.address || ''" />
       </div>
       <div class="unbonded-atoms top-section">
         <h3>Available {{ num.viewDenom(bondDenom) }}</h3>
@@ -37,14 +37,14 @@
 </template>
 <script>
 import num from "scripts/num"
-import ShortBech32 from "common/ShortBech32"
+import Bech32 from "common/Bech32"
 import TmBtn from "common/TmBtn"
 import ModalWithdrawRewards from "staking/ModalWithdrawRewards"
 import { mapGetters } from "vuex"
 export default {
   name: `tm-balance`,
   components: {
-    ShortBech32,
+    Bech32,
     TmBtn,
     ModalWithdrawRewards
   },
@@ -126,7 +126,7 @@ export default {
   padding: 1rem 0 2.5rem 1rem;
 }
 
-.short-bech32 {
+.bech32-address {
   position: absolute;
 }
 
@@ -150,10 +150,10 @@ export default {
 }
 
 .header-balance .top h3 {
-  color: var(--dim);
   font-size: 14px;
   margin: 0;
   font-weight: 400;
+  white-space: nowrap;
 }
 
 .header-balance .top h2 {

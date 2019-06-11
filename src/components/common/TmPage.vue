@@ -276,7 +276,6 @@ export default {
   font-size: 1rem;
   line-height: 1.25rem;
   color: var(--bright);
-  word-break: break-all;
 }
 
 .footer {

@@ -168,14 +168,3 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-.form-message.notice {
-  border-radius: 2px;
-  background-color: #1c223e;
-  margin: 18px 0;
-  padding: 11px 16px;
-  font-size: var(--m);
-  font-style: normal;
-}
-</style>
