@@ -172,45 +172,10 @@ describe(`Module: Fee Distribution`, () => {
         expect(self.dispatch).toHaveBeenCalledWith(`simulateTx`, {
           type: `MsgWithdrawDelegationReward`,
           txArguments: {
-            toAddress: `cosmos1address`,
-            validatorAddresses: []
+            toAddress: `cosmos1address`
           }
         })
         expect(res).toBe(123123)
-      })
-
-      it(`success withdrawal one address`, async () => {
-        await actions.withdrawAllRewards(
-          {
-            rootState,
-            dispatch,
-            getters: {
-              distribution: {
-                rewards: validatorRewards
-              },
-              bondDenom: "uatom"
-            }
-          },
-          {
-            gas: 456,
-            gasPrice: 123,
-            password: ``,
-            submitType: `ledger`,
-            validatorAddress: `address4`
-          }
-        )
-        expect(dispatch).toHaveBeenCalledWith(`sendTx`, {
-          type: `MsgWithdrawDelegationReward`,
-          txArguments: {
-            toAddress: `cosmos1address`,
-            validatorAddresses: [`address4`]
-          },
-          password: ``,
-          submitType: `ledger`,
-          gas: "456",
-          gas_prices: [{ amount: "123000000", denom: undefined }]
-        })
-        expect(dispatch).toHaveBeenCalledWith(`getTotalRewards`)
       })
 
       it(`success withdrawal`, async () => {
