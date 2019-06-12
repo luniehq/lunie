@@ -5,7 +5,7 @@ import transaction from "./transactionTypes"
 import { getTop5Delegations } from "../../utils"
 import { uatoms } from "scripts/num.js"
 
-class ActionManager {
+export default class ActionManager {
   constructor() {
     this.context = null
     this.cosmos = null
@@ -33,9 +33,7 @@ class ActionManager {
 
   messageTypeCheck(msgType) {
     if (!msgType) {
-      if (!isKnownType) {
-        throw Error("No message type present.")
-      }
+      throw Error("No message type present.")
     }
 
     const isKnownType = Object.values(transaction).includes(msgType)
@@ -120,8 +118,6 @@ class ActionManager {
     return this.cosmos.MultiMessage(senderAddress, messages)
   }
 }
-
-export default ActionManager
 
 function convertCurrencyData(amounts) {
   return amounts.map(({ amount, denom }) => ({
