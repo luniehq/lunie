@@ -8,7 +8,7 @@
     class="modal-withdraw-rewards"
     submission-error-prefix="Withdrawal failed"
   >
-    <span v-if="!validatorAddress" class="form-message notice withdraw-limit">
+    <span class="form-message notice withdraw-limit">
       You can only withdraw rewards from your top 5 validators in a single
       transaction. This is because of a limitation with the Ledger Nano.
     </span>
@@ -42,11 +42,6 @@ export default {
     fullDecimals
   },
   props: {
-    validatorAddress: {
-      type: String,
-      required: false,
-      default: null
-    },
     rewards: {
       type: Number,
       default: 0
@@ -68,7 +63,6 @@ export default {
         gas: gasEstimate,
         gasPrice,
         denom: this.denom,
-        validatorAddress: this.validatorAddress,
         password,
         submitType
       })

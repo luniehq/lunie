@@ -91,24 +91,21 @@ export default ({ node }) => {
       return await dispatch(`simulateTx`, {
         type: `MsgWithdrawDelegationReward`,
         txArguments: {
-          toAddress: session.address,
-          validatorAddresses: []
+          toAddress: session.address
         }
       })
     },
     async withdrawAllRewards(
       { rootState, getters, dispatch },
-      { gas, gasPrice, denom, validatorAddress, password, submitType }
+      { gas, gasPrice, denom, password, submitType }
     ) {
       // Compares the amount in a [address1, {denom: amount}] array
       const byDenom = denom => (a, b) => b[1][denom] - a[1][denom]
-      let validatorList = [validatorAddress]
-      if (!validatorAddress) {
-        validatorList = Object.entries(getters.distribution.rewards)
-          .sort(byDenom(getters.bondDenom))
-          .slice(0, 5) // Just the top 5
-          .map(elt => elt[0]) // Return only the address
-      }
+
+      const validatorList = Object.entries(getters.distribution.rewards || [])
+        .sort(byDenom(getters.bondDenom))
+        .slice(0, 5) // Just the top 5
+        .map(elt => elt[0]) // Return only the address
 
       await dispatch(`sendTx`, {
         type: `MsgWithdrawDelegationReward`,

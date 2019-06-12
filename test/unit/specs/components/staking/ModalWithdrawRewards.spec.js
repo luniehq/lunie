@@ -72,7 +72,6 @@ describe(`ModalWithdrawRewards`, () => {
       expect($store.dispatch).toBeCalledWith(`withdrawAllRewards`, {
         gasPrice,
         gas,
-        validatorAddress: wrapper.vm.validatorAddress,
         denom: wrapper.vm.denom,
         submitType: `ledger`,
         password: ``
