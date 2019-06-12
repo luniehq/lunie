@@ -5,7 +5,6 @@
     :loaded="transactions.loaded"
     :error="transactions.error"
     :data-empty="dataEmpty"
-    :refresh="refreshTransactions"
     data-title="Transactions"
     :sign-in-required="true"
   >

@@ -5,7 +5,6 @@
     :loaded="wallet.loaded"
     :error="wallet.error"
     :data-empty="dataEmpty"
-    :refresh="queryWalletBalances"
     data-title="Wallet"
     :sign-in-required="true"
   >
