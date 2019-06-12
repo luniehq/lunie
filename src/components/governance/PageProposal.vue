@@ -58,17 +58,8 @@
 
           <dl class="info_dl colored_dl">
             <dt>Proposal Status</dt>
-            <dd v-if="proposal.proposal_status === 'DepositPeriod'">
-              {{ `Deposit period ends ${depositEndsIn}.` }}
-            </dd>
-            <dd v-if="proposal.proposal_status === 'VotingPeriod'">
-              {{ `Voting started ${votingStartedAgo}.` }}
-            </dd>
-            <dd v-if="proposal.proposal_status === 'Rejected'">
-              Rejected
-            </dd>
-            <dd v-if="proposal.proposal_status === 'Passed'">
-              Passed
+            <dd>
+              {{ proposalStatus }}
             </dd>
           </dl>
           <dl v-if="displayEndDate" class="info_dl colored_dl">
@@ -213,8 +204,19 @@ export default {
         return false
       }
     },
-    votingStartedAgo({ proposal } = this) {
+    votingStartedAgo({ proposal} = this) {
       return moment(new Date(proposal.voting_start_time)).fromNow()
+    },
+    proposalStatus({ proposal, depositEndsIn, votingStartedAgo } = this) {
+      if (proposal.proposal_status === 'DepositPeriod') {
+        return `Deposit period ends ${depositEndsIn}`
+      } else if (proposal.proposal_status === 'VotingPeriod') {
+        return `Voting started ${votingStartedAgo}`
+      } else if (proposal.proposal_status === 'Rejected') {
+        return 'Rejected'
+      } else if (proposal.proposal_status === 'Passed') {
+        return 'Passed'
+      }
     },
     depositEndsIn({ proposal } = this) {
       return moment(new Date(proposal.deposit_end_time)).fromNow()
