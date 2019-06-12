@@ -178,10 +178,10 @@ describe(`PageValidator`, () => {
       )
     })
 
-    it(`shows a validator as candidate if he has no voting_power`, () => {
+    it(`shows a validator as an inactive candidate if he has no voting_power`, () => {
       $store.getters.delegates.delegates = [
         Object.assign({}, validator, {
-          voting_power: 0
+          status: 0
         })
       ]
       expect(wrapper.vm.status).toMatchSnapshot()
