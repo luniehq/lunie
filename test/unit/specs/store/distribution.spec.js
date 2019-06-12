@@ -160,14 +160,14 @@ describe(`Module: Fee Distribution`, () => {
       })
     })
 
-    describe(`withdrawAllRewards`, () => {
+    describe(`withdrawRewards`, () => {
       it(`should simulate a withdrawal transaction`, async () => {
         const { actions } = module
         const self = {
           rootState,
           dispatch: jest.fn(() => 123123)
         }
-        const res = await actions.simulateWithdrawAllRewards(self)
+        const res = await actions.simulateWithdralRewards(self)
 
         expect(self.dispatch).toHaveBeenCalledWith(`simulateTx`, {
           type: `MsgWithdrawDelegationReward`,
@@ -214,7 +214,7 @@ describe(`Module: Fee Distribution`, () => {
       })
 
       it(`success withdrawal`, async () => {
-        await actions.withdrawAllRewards(
+        await actions.withdrawRewards(
           {
             rootState,
             dispatch,

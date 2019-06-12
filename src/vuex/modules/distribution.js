@@ -87,7 +87,7 @@ export default ({ node }) => {
         commit(`setDistributionError`, error)
       }
     },
-    async simulateWithdrawAllRewards({ rootState: { session }, dispatch }) {
+    async simulateWithdralRewards({ rootState: { session }, dispatch }) {
       return await dispatch(`simulateTx`, {
         type: `MsgWithdrawDelegationReward`,
         txArguments: {
@@ -95,7 +95,7 @@ export default ({ node }) => {
         }
       })
     },
-    async withdrawAllRewards(
+    async withdrawRewards(
       { rootState, getters, dispatch },
       { gas, gasPrice, denom, password, submitType }
     ) {

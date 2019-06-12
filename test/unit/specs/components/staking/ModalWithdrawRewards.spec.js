@@ -53,7 +53,7 @@ describe(`ModalWithdrawRewards`, () => {
         $store
       })
 
-      expect($store.dispatch).toHaveBeenCalledWith(`simulateWithdrawAllRewards`)
+      expect($store.dispatch).toHaveBeenCalledWith(`simulateWithdralRewards`)
       expect(res).toBe(estimate)
     })
 
@@ -69,7 +69,7 @@ describe(`ModalWithdrawRewards`, () => {
         `ledger`
       )
 
-      expect($store.dispatch).toBeCalledWith(`withdrawAllRewards`, {
+      expect($store.dispatch).toBeCalledWith(`withdrawRewards`, {
         gasPrice,
         gas,
         denom: wrapper.vm.denom,

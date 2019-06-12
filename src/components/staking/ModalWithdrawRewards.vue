@@ -56,10 +56,10 @@ export default {
       this.$refs.actionModal.open()
     },
     async simulateForm() {
-      return await this.$store.dispatch(`simulateWithdrawAllRewards`)
+      return await this.$store.dispatch(`simulateWithdralRewards`)
     },
     async submitForm(gasEstimate, gasPrice, password, submitType) {
-      await this.$store.dispatch(`withdrawAllRewards`, {
+      await this.$store.dispatch(`withdrawRewards`, {
         gas: gasEstimate,
         gasPrice,
         denom: this.denom,
