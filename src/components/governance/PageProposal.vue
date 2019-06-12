@@ -204,18 +204,20 @@ export default {
         return false
       }
     },
-    votingStartedAgo({ proposal} = this) {
+    votingStartedAgo({ proposal } = this) {
       return moment(new Date(proposal.voting_start_time)).fromNow()
     },
     proposalStatus({ proposal, depositEndsIn, votingStartedAgo } = this) {
-      if (proposal.proposal_status === 'DepositPeriod') {
+      if (proposal.proposal_status === "DepositPeriod") {
         return `Deposit period ends ${depositEndsIn}`
-      } else if (proposal.proposal_status === 'VotingPeriod') {
+      } else if (proposal.proposal_status === "VotingPeriod") {
         return `Voting started ${votingStartedAgo}`
-      } else if (proposal.proposal_status === 'Rejected') {
-        return 'Rejected'
-      } else if (proposal.proposal_status === 'Passed') {
-        return 'Passed'
+      } else if (proposal.proposal_status === "Rejected") {
+        return "Rejected"
+      } else if (proposal.proposal_status === "Passed") {
+        return "Passed"
+      } else {
+        return false
       }
     },
     depositEndsIn({ proposal } = this) {
