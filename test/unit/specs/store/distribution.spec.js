@@ -24,6 +24,27 @@ describe(`Module: Fee Distribution`, () => {
     photino: 15
   }
 
+  const validatorRewards = {
+    address1: {
+      uatom: 100
+    },
+    address2: {
+      uatom: 10
+    },
+    address3: {
+      uatom: 70
+    },
+    address4: {
+      uatom: 2
+    },
+    address5: {
+      uatom: 3
+    },
+    address6: {
+      uatom: 99
+    }
+  }
+
   beforeEach(() => {
     module = distributionModule({ node })
     state = module.state
@@ -158,56 +179,16 @@ describe(`Module: Fee Distribution`, () => {
         expect(res).toBe(123123)
       })
 
-      it(`success withdrawal`, async () => {
-        await actions.withdrawAllRewards(
-          {
-            rootState,
-            dispatch,
-            getters: {
-              committedDelegations: {
-                coolval1: {}
-              }
-            }
-          },
-          {
-            gas: 456,
-            gasPrice: 123,
-            password: ``,
-            submitType: `ledger`
-          }
-        )
-        expect(dispatch).toHaveBeenCalledWith(`sendTx`, {
-          type: `MsgWithdrawDelegationReward`,
-          txArguments: {
-            toAddress: `cosmos1address`,
-            validatorAddresses: [`coolval1`]
-          },
-          password: ``,
-          submitType: `ledger`,
-          gas: "456",
-          gas_prices: [{ amount: "123000000", denom: undefined }]
-        })
-        expect(dispatch).toHaveBeenCalledWith(`getTotalRewards`)
-      })
-
       it(`success withdrawal one address`, async () => {
         await actions.withdrawAllRewards(
           {
             rootState,
             dispatch,
             getters: {
-              committedDelegations: {
-                address1: 100,
-                address2: 1,
-                address3: 5,
-                address4: 3,
-                address5: 0,
-                address6: 99,
-                address7: 9,
-                address8: 96,
-                address9: 98,
-                address10: 97
-              }
+              distribution: {
+                rewards: validatorRewards
+              },
+              bondDenom: "uatom"
             }
           },
           {
@@ -232,24 +213,16 @@ describe(`Module: Fee Distribution`, () => {
         expect(dispatch).toHaveBeenCalledWith(`getTotalRewards`)
       })
 
-      it(`success withdrawal top 5`, async () => {
+      it(`success withdrawal`, async () => {
         await actions.withdrawAllRewards(
           {
             rootState,
             dispatch,
             getters: {
-              committedDelegations: {
-                address1: 100,
-                address2: 1,
-                address3: 5,
-                address4: 3,
-                address5: 0,
-                address6: 99,
-                address7: 9,
-                address8: 96,
-                address9: 98,
-                address10: 97
-              }
+              distribution: {
+                rewards: validatorRewards
+              },
+              bondDenom: "uatom"
             }
           },
           {
@@ -266,9 +239,9 @@ describe(`Module: Fee Distribution`, () => {
             validatorAddresses: [
               `address1`,
               `address6`,
-              `address9`,
-              `address10`,
-              `address8`
+              `address3`,
+              `address2`,
+              `address5`
             ]
           },
           password: ``,

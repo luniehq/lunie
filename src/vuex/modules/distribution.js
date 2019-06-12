@@ -2,7 +2,6 @@ import * as Sentry from "@sentry/browser"
 import Vue from "vue"
 import { coinsToObject } from "scripts/common.js"
 import { uatoms } from "../../scripts/num.js"
-import { getTop5Delegations } from "../../utils/"
 import { throttle } from "scripts/blocks-throttle"
 
 export default ({ node }) => {
@@ -101,17 +100,23 @@ export default ({ node }) => {
       { rootState, getters, dispatch },
       { gas, gasPrice, denom, validatorAddress, password, submitType }
     ) {
-      const top5Delegations = getTop5Delegations(getters.committedDelegations)
+      // Compares the {denom: value} portion of the array
+      const byDenom = denom => (a, b) => b[1][denom] - a[1][denom]
 
-      const validatorAddresses = validatorAddress
-        ? [validatorAddress]
-        : Object.keys(top5Delegations)
+      let validatorList = [validatorAddress]
+      if (!validatorAddress) {
+        const numRewards = 5
+        validatorList = Object.entries(getters.distribution.rewards)
+          .sort(byDenom(getters.bondDenom))
+          .slice(0, numRewards)
+          .map(elt => elt[0]) // Return only the address
+      }
 
       await dispatch(`sendTx`, {
         type: `MsgWithdrawDelegationReward`,
         txArguments: {
           toAddress: rootState.session.address,
-          validatorAddresses: validatorAddresses
+          validatorAddresses: validatorList
         },
         gas: String(gas),
         gas_prices: [
