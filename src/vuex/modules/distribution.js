@@ -100,15 +100,13 @@ export default ({ node }) => {
       { rootState, getters, dispatch },
       { gas, gasPrice, denom, validatorAddress, password, submitType }
     ) {
-      // Compares the {denom: value} portion of the array
+      // Compares the amount in a [address1, {denom: amount}] array
       const byDenom = denom => (a, b) => b[1][denom] - a[1][denom]
-
       let validatorList = [validatorAddress]
       if (!validatorAddress) {
-        const numRewards = 5
         validatorList = Object.entries(getters.distribution.rewards)
           .sort(byDenom(getters.bondDenom))
-          .slice(0, numRewards)
+          .slice(0, 5) // Just the top 5
           .map(elt => elt[0]) // Return only the address
       }
 
