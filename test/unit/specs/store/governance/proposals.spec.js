@@ -14,10 +14,6 @@ const mockRootState = {
     connected: true
   }
 }
-const gas = `1234567`
-const gas_prices = [{ denom: `uatom`, amount: `123` }]
-const password = ``
-const submitType = `ledger`
 
 describe(`Module: Proposals`, () => {
   let moduleInstance
@@ -194,101 +190,6 @@ describe(`Module: Proposals`, () => {
         `1`
       )
       expect(state.error.message).toBe(`Error`)
-    })
-  })
-
-  xit(`should simulate a proposal transaction`, async () => {
-    const { actions } = moduleInstance
-    const self = {
-      rootState: mockRootState,
-      dispatch: jest.fn(() => 123123)
-    }
-    const proposal = proposals[`1`]
-    const res = await actions.simulateProposal(self, {
-      type: proposal.proposal_type,
-      initial_deposit: proposal.initial_deposit,
-      title: proposal.title,
-      description: proposal.description
-    })
-
-    expect(self.dispatch).toHaveBeenCalledWith(`simulateTx`, {
-      type: `MsgSubmitProposal`,
-      txArguments: {
-        proposalType: proposal.proposal_type,
-        initialDeposits: proposal.initial_deposit,
-        title: proposal.title,
-        description: proposal.description
-      }
-    })
-    expect(res).toBe(123123)
-  })
-
-  xit(`submits a new proposal`, async () => {
-    const { actions } = moduleInstance
-    jest.useFakeTimers()
-
-    const dispatch = jest.fn()
-    const commit = jest.fn()
-    const proposalsArray = Object.values(proposals)
-    await Promise.all(
-      proposalsArray.map(async (proposal, i) => {
-        await actions.submitProposal(
-          { dispatch, rootState: mockRootState, commit },
-          {
-            type: proposal.proposal_type,
-            initial_deposit: proposal.initial_deposit,
-            ...proposal.proposal_content.value,
-            gas,
-            gas_prices,
-            submitType,
-            password
-          }
-        )
-        expect(dispatch.mock.calls[i]).toEqual([
-          `sendTx`,
-          {
-            type: `MsgSubmitProposal`,
-            txArguments: {
-              proposalType: proposal.proposal_type,
-              initialDeposits: proposal.initial_deposit,
-              title: proposal.proposal_content.value.title,
-              description: proposal.proposal_content.value.description
-            },
-            gas,
-            gas_prices,
-            submitType,
-            password
-          }
-        ])
-
-        jest.runAllTimers()
-        expect(dispatch.mock.calls[i + proposalsArray.length]).toEqual([
-          `getProposals`
-        ])
-
-        // optimistic update
-        expect(commit).toHaveBeenCalledWith(`updateWalletBalance`, {
-          denom: `stake`,
-          amount: 1000000000 - proposal.initial_deposit[0].amount
-        })
-      })
-    )
-
-    // optimistic update
-    expect(commit).toHaveBeenCalledWith(`setProposal`, {
-      initial_deposit: [
-        {
-          amount: `200000000`,
-          denom: `stake`
-        }
-      ],
-      proposal_id: `1`,
-      proposal_content: {
-        value: {
-          title: `Custom text proposal`,
-          description: `custom text proposal description`
-        }
-      }
     })
   })
 })

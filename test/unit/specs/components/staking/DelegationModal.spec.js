@@ -9,13 +9,13 @@ const context = {
   url: "http://lunie.io",
   chainId: "cosmoshub",
   connected: true,
-  userAddress: "cosmos1abcdefghijklmop",
+  userAddress: lcdClientMock.addresses[0],
   committedDelegations: [],
   delegates: [],
   localKeyPairName: "localKeyPairName"
 }
 
-xdescribe(`DelegationModal`, () => {
+describe(`DelegationModal`, () => {
   let wrapper
   const { stakingParameters } = lcdClientMock.state
   const localVue = createLocalVue()
