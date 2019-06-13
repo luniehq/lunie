@@ -324,7 +324,7 @@ exports[`PageValidator shows a validator profile information errors signing info
     <modalwithdrawrewards-stub
       denom="STAKE"
       rewards="0"
-      validatoraddress="cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
+      validator-address="cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
     />
   </template>
 </tmpage-stub>
@@ -654,7 +654,7 @@ exports[`PageValidator shows a validator profile information if user has signed 
     <modalwithdrawrewards-stub
       denom="STAKE"
       rewards="0"
-      validatoraddress="cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
+      validator-address="cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
     />
   </template>
 </tmpage-stub>
@@ -983,15 +983,15 @@ exports[`PageValidator shows a validator profile information if user hasn't sign
      
     <modalwithdrawrewards-stub
       denom="STAKE"
-      validatoraddress="cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
+      validator-address="cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
     />
   </template>
 </tmpage-stub>
 `;
 
-exports[`PageValidator shows a validator profile information shows a validator as candidate if he has no voting_power 1`] = `"This validator does not have enough voting power yet and is inactive"`;
+exports[`PageValidator shows a validator profile information shows a validator as an inactive candidate if he has no voting_power 1`] = `"This validator does not have enough voting power yet and is inactive"`;
 
-exports[`PageValidator shows a validator profile information shows that a validator is revoked 1`] = `"This validator has been jailed and is not currently validating"`;
+exports[`PageValidator shows a validator profile information shows that a validator is jailed 1`] = `"This validator has been jailed and is not currently validating"`;
 
 exports[`delegationTargetOptions always shows wallet in the first position 1`] = `
 Array [

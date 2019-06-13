@@ -1,10 +1,10 @@
 <template>
   <TmPage
+    v-if="validator"
     :managed="true"
     :loading="delegates.loading"
     :loaded="delegates.loaded"
     :error="delegates.error"
-    :data-empty="!validator"
     data-title="Validator"
   >
     <template v-if="validator" slot="managed-body">
@@ -185,6 +185,20 @@
       />
     </template>
   </TmPage>
+  <TmPage v-else :managed="true" :data-empty="!validator">
+    <template slot="title">
+      Validator Not Found
+    </template>
+    <template slot="subtitle">
+      <div>
+        Please visit the
+        <a href="/#/staking/validators/">
+          Validators
+        </a>
+        page to view all validators
+      </div>
+    </template>
+  </TmPage>
 </template>
 
 <script>
@@ -295,11 +309,11 @@ export default {
     },
     status() {
       // status: jailed
-      if (this.validator.revoked)
+      if (this.validator.jailed)
         return `This validator has been jailed and is not currently validating`
 
       // status: inactive
-      if (parseFloat(this.validator.voting_power) === 0)
+      if (parseFloat(this.validator.status) === 0)
         return `This validator does not have enough voting power yet and is inactive`
 
       // status: active
@@ -307,10 +321,10 @@ export default {
     },
     statusColor() {
       // status: jailed
-      if (this.validator.revoked) return `red`
+      if (this.validator.jailed) return `red`
 
       // status: inactive
-      if (parseFloat(this.validator.voting_power) === 0) return `yellow`
+      if (parseFloat(this.validator.status) === 0) return `yellow`
 
       // status: active
       return `green`
@@ -386,11 +400,6 @@ export default {
     },
     onUndelegation() {
       this.$refs.undelegationModal.open()
-    },
-    onWithdrawal() {
-      if (this.rewards > 0) {
-        this.$refs.modalWithdrawRewards.open()
-      }
     },
     delegationTargetOptions(
       { session, liquidAtoms, committedDelegations, $route, delegates } = this

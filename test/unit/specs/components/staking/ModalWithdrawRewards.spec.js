@@ -35,14 +35,7 @@ describe(`ModalWithdrawRewards`, () => {
   })
 
   it(`should display message when withdrawing from multiple validators`, () => {
-    wrapper.setProps({
-      validatorAddress: null
-    })
     expect(wrapper.find(`.withdraw-limit`).exists()).toBe(true)
-  })
-
-  it(`should not display message when withdrawing from single validators`, () => {
-    expect(wrapper.find(`.withdraw-limit`).exists()).toBe(false)
   })
 
   describe(`Withdraw`, () => {
@@ -53,7 +46,7 @@ describe(`ModalWithdrawRewards`, () => {
         $store
       })
 
-      expect($store.dispatch).toHaveBeenCalledWith(`simulateWithdrawAllRewards`)
+      expect($store.dispatch).toHaveBeenCalledWith(`simulateWithdralRewards`)
       expect(res).toBe(estimate)
     })
 
@@ -69,10 +62,9 @@ describe(`ModalWithdrawRewards`, () => {
         `ledger`
       )
 
-      expect($store.dispatch).toBeCalledWith(`withdrawAllRewards`, {
+      expect($store.dispatch).toBeCalledWith(`withdrawRewards`, {
         gasPrice,
         gas,
-        validatorAddress: wrapper.vm.validatorAddress,
         denom: wrapper.vm.denom,
         submitType: `ledger`,
         password: ``
