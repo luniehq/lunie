@@ -1,7 +1,7 @@
 {
   "name": "lunie",
   "productName": "lunie",
-  "version": "1.0.0-beta.79",
+  "version": "1.0.0-beta.80",
   "description": "Lunie is the user interface for the Cosmos Hub.",
   "author": "Lunie International Software Systems Inc. <hello@lunie.io>",
   "license": "Apache-2.0",
@@ -96,7 +96,7 @@
     "postcss-preset-env": "6.6.0",
     "prettier": "1.17.0",
     "publish-release": "1.6.0",
-    "simsala": "0.0.14",
+    "simsala": "0.0.15",
     "style-loader": "0.23.1",
     "stylelint": "9.10.1",
     "stylelint-config-standard": "18.2.0",
