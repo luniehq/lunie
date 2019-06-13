@@ -1,0 +1,1 @@
+[Fixed] [#2699](https://github.com/cosmos/lunie/issues/2699) Fixed the bug that was always displaying validators as active when expanded even if they were not @thebkr7
