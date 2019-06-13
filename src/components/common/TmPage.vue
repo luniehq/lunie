@@ -100,10 +100,6 @@ export default {
       type: Boolean,
       default: undefined
     },
-    notFound: {
-      type: Boolean,
-      default: undefined
-    },
     refresh: {
       type: Function,
       default: undefined
