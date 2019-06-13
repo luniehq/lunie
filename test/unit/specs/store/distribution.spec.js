@@ -319,27 +319,6 @@ describe(`Module: Fee Distribution`, () => {
           })
         ).rejects.toThrowError(`invalid address`)
       })
-
-      it(`throttle to every 20 blocks`, async () => {
-        const validators = [
-          { operator_address: `cosmosvaloper1address1` },
-          { operator_address: `cosmosvaloper1address2` }
-        ]
-        state.lastValidatorRewardsUpdate = 0
-        await actions.getRewardsFromMyValidators({
-          state,
-          dispatch,
-          getters: { lastHeader: { height: `43` }, yourValidators: validators }
-        })
-        expect(state.lastValidatorRewardsUpdate).toBe(43)
-        dispatch.mockClear()
-        await actions.getRewardsFromMyValidators({
-          state,
-          dispatch,
-          getters: { lastHeader: { height: `44` }, yourValidators: validators }
-        })
-        expect(dispatch).not.toHaveBeenCalled()
-      })
     })
 
     describe(`getRewardsFromValidator`, () => {

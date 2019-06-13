@@ -3,6 +3,9 @@ import Ledger from "scripts/ledger.js"
 jest.mock("secp256k1", () => ({
   signatureImport: () => Buffer.from("1234")
 }))
+jest.mock("@lunie/cosmos-keys", () => ({
+  getCosmosAddress: () => "cosmos1234"
+}))
 
 const config = {
   testModeAllowed: false
@@ -191,7 +194,7 @@ describe(`Ledger`, () => {
     }
     const res = await ledger.getCosmosAddress.call(self)
     expect(self.connect).toHaveBeenCalled()
-    expect(res).toBe("cosmos1l4aqmqyen0kawmy6pq5q27qhl3synfg8uqcsa5")
+    expect(res).toBe("cosmos1234")
   })
 
   it("getPubKey", async () => {

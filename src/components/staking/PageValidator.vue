@@ -34,7 +34,7 @@
                     {{ validator.description.moniker }}
                   </div>
                 </div>
-                <ShortBech32 :address="validator.operator_address" />
+                <Bech32 :address="validator.operator_address" />
               </div>
             </div>
 
@@ -52,13 +52,6 @@
                 :value="connected ? 'Undelegate' : 'Connecting...'"
                 color="secondary"
                 @click.native="onUndelegation"
-              />
-              <TmBtn
-                id="withdraw-btn"
-                :disabled="rewards <= 0"
-                :value="connected ? 'Withdraw' : 'Connecting...'"
-                :to="''"
-                @click.native="onWithdrawal"
               />
             </div>
           </div>
@@ -199,18 +192,19 @@ import moment from "moment"
 import { calculateTokens } from "scripts/common"
 import { mapGetters } from "vuex"
 import num, { atoms, viewDenom, shortDecimals } from "scripts/num"
+import { formatBech32 } from "src/filters"
 import TmBtn from "common/TmBtn"
-import { shortAddress, ratToBigNumber } from "scripts/common"
+import { ratToBigNumber } from "scripts/common"
 import DelegationModal from "staking/DelegationModal"
 import UndelegationModal from "staking/UndelegationModal"
 import ModalWithdrawRewards from "staking/ModalWithdrawRewards"
-import ShortBech32 from "common/ShortBech32"
+import Bech32 from "common/Bech32"
 import TmPage from "common/TmPage"
 import isEmpty from "lodash.isempty"
 export default {
   name: `page-validator`,
   components: {
-    ShortBech32,
+    Bech32,
     DelegationModal,
     UndelegationModal,
     ModalWithdrawRewards,
@@ -220,10 +214,10 @@ export default {
   filters: {
     atoms,
     viewDenom,
-    shortDecimals
+    shortDecimals,
+    formatBech32
   },
   data: () => ({
-    shortAddress,
     tabIndex: 1,
     moment,
     num
@@ -301,11 +295,11 @@ export default {
     },
     status() {
       // status: jailed
-      if (this.validator.revoked)
+      if (this.validator.jailed)
         return `This validator has been jailed and is not currently validating`
 
       // status: inactive
-      if (parseFloat(this.validator.voting_power) === 0)
+      if (parseFloat(this.validator.status) === 0)
         return `This validator does not have enough voting power yet and is inactive`
 
       // status: active
@@ -313,10 +307,10 @@ export default {
     },
     statusColor() {
       // status: jailed
-      if (this.validator.revoked) return `red`
+      if (this.validator.jailed) return `red`
 
       // status: inactive
-      if (parseFloat(this.validator.voting_power) === 0) return `yellow`
+      if (parseFloat(this.validator.status) === 0) return `yellow`
 
       // status: active
       return `green`
@@ -408,7 +402,7 @@ export default {
         {
           address: session.address,
           maximum: Math.floor(liquidAtoms),
-          key: `My Wallet - ${shortAddress(session.address, 20)}`,
+          key: `My Wallet - ${formatBech32(session.address, false, 20)}`,
           value: 0
         }
       ]
@@ -427,8 +421,9 @@ export default {
           return {
             address: address,
             maximum: Math.floor(committedDelegations[address]),
-            key: `${delegate.description.moniker} - ${shortAddress(
+            key: `${delegate.description.moniker} - ${formatBech32(
               delegate.operator_address,
+              false,
               20
             )}`,
             value: index + 1

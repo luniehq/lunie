@@ -1,0 +1,57 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Bech32 should show a long address 1`] = `
+<div
+  class="bech32-address"
+>
+  <div
+    class="address"
+    id="address"
+  >
+    
+    cosmosftw123456789
+  
+  </div>
+   
+  <div
+    class="copied"
+  >
+    <i
+      class="material-icons"
+    >
+      check
+    </i>
+    <span>
+      Copied
+    </span>
+  </div>
+</div>
+`;
+
+exports[`Bech32 should show a short address 1`] = `
+<div
+  class="bech32-address"
+>
+  <div
+    class="address"
+    id="address"
+  >
+    
+    cosmosftw…6789
+  
+  </div>
+   
+  <div
+    class="copied"
+  >
+    <i
+      class="material-icons"
+    >
+      check
+    </i>
+    <span>
+      Copied
+    </span>
+  </div>
+</div>
+`;

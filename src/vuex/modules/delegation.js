@@ -1,5 +1,6 @@
 import * as Sentry from "@sentry/browser"
 import Vue from "vue"
+import { throttle } from "scripts/blocks-throttle"
 
 export default ({ node }) => {
   const emptyState = {
@@ -7,14 +8,12 @@ export default ({ node }) => {
     loaded: false,
     error: null,
 
-    // our delegations, maybe not yet committed
-    lastDelegatesUpdate: 0,
-
     // our delegations which are already on the blockchain
     committedDelegates: {},
     unbondingDelegations: {}
   }
   const state = JSON.parse(JSON.stringify(emptyState))
+  const delegationsThrottle = throttle("delegations")(5)
 
   const mutations = {
     setCommittedDelegation(state, { candidateId, value }) {
@@ -110,21 +109,18 @@ export default ({ node }) => {
       state.loading = false
     },
     async updateDelegates({ dispatch, rootState, state }, force = false) {
-      // only update every 10 blocks
-      if (
-        !force &&
-        Number(rootState.connection.lastHeader.height) -
-          state.lastDelegatesUpdate <
-          5
-      ) {
-        return
-      }
-      state.lastDelegatesUpdate = Number(rootState.connection.lastHeader.height)
-      const candidates = await dispatch(`getDelegates`)
+      await delegationsThrottle(
+        state,
+        Number(rootState.connection.lastHeader.height),
+        async () => {
+          const candidates = await dispatch(`getDelegates`)
 
-      if (rootState.session.signedIn) {
-        dispatch(`getBondedDelegates`, candidates)
-      }
+          if (rootState.session.signedIn) {
+            dispatch(`getBondedDelegates`, candidates)
+          }
+        },
+        force
+      )
     },
     async postSubmitDelegation() {},
     async postSubmitUnbondingDelegation() {},

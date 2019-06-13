@@ -1,5 +1,9 @@
 import sessionModule from "src/vuex/modules/session.js"
 
+jest.mock("@lunie/cosmos-keys", () => ({
+  getSeed: () => "a b c"
+}))
+
 describe(`Module: Session`, () => {
   let module, state, actions, mutations, node
   const accounts = [
@@ -40,7 +44,7 @@ describe(`Module: Session`, () => {
         cosmosAddress: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`
       }),
       testPassword: () => true,
-      generateSeed: () => `xxx`
+      getSeed: () => `xxx`
     }
   })
 
@@ -263,7 +267,7 @@ describe(`Module: Session`, () => {
       )
     })
 
-    it(`with Ledger Nano S`, async () => {
+    it(`with Ledger Nano`, async () => {
       const address = `cosmos1qpd4xgtqmxyf9ktjh757nkdfnzpnkamny3cpzv`
       const commit = jest.fn()
       const dispatch = jest.fn()

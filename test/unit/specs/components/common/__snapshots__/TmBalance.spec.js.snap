@@ -22,7 +22,7 @@ exports[`TmBalance has the expected html structure before adding props 1`] = `
       
       </h2>
        
-      <shortbech32-stub
+      <bech32-stub
         address="cosmos1address"
       />
     </div>

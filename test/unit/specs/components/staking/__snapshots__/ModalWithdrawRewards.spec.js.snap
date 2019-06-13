@@ -11,6 +11,8 @@ exports[`ModalWithdrawRewards should show the withdraw rewards modal 1`] = `
   title="Withdraw"
   transactiondata="[object Object]"
 >
+  <!---->
+   
   <tmformgroup-stub
     class="action-modal-form-group"
     fieldid="amount"
@@ -29,7 +31,5 @@ exports[`ModalWithdrawRewards should show the withdraw rewards modal 1`] = `
       value="0.000000"
     />
   </tmformgroup-stub>
-   
-  <!---->
 </actionmodal-stub>
 `;

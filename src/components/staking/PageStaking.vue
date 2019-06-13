@@ -1,10 +1,5 @@
 <template>
-  <TmPage
-    :tabs="tabs"
-    :refresh="getDelegates"
-    class="staking"
-    data-title="Staking"
-  >
+  <TmPage :tabs="tabs" class="staking" data-title="Staking">
     <router-view />
   </TmPage>
 </template>

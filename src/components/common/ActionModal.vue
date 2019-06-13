@@ -1,19 +1,19 @@
 <template>
   <transition v-if="show" name="slide-fade">
     <div v-focus-last class="action-modal" tabindex="0" @keyup.esc="close">
+      <div
+        id="closeBtn"
+        class="action-modal-icon action-modal-close"
+        @click="close"
+      >
+        <i class="material-icons">close</i>
+      </div>
       <div class="action-modal-header">
         <span class="action-modal-title">
           {{ requiresSignIn ? `Sign in required` : title }}
         </span>
-        <div
-          id="closeBtn"
-          class="action-modal-icon action-modal-close"
-          @click="close"
-        >
-          <i class="material-icons">close</i>
-        </div>
+        <Steps :steps="['Details', 'Fees', 'Sign']" :active="step" />
       </div>
-      <Steps :steps="['Details', 'Fees', 'Sign']" :active="step" />
       <div v-if="requiresSignIn" class="action-modal-form">
         <p>You need to sign in to submit a transaction.</p>
       </div>
@@ -464,13 +464,13 @@ export default {
   background: var(--app-nav-light);
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
   right: 1rem;
   padding: 1.5rem 1.5rem 2rem 1.5rem;
   position: fixed;
   bottom: 0;
   width: 100%;
   max-width: 564px;
+  min-height: 400px;
   z-index: var(--z-modal);
   border-top-left-radius: 0.25rem;
   border-top-right-radius: 0.25rem;
@@ -479,22 +479,18 @@ export default {
 
 .action-modal-header {
   align-items: center;
+  flex-direction: column;
   text-align: center;
   display: flex;
-  padding-bottom: 1.5rem;
-}
-
-.action-modal-atom {
-  height: 3rem;
-  width: 3rem;
+  padding-bottom: 2rem;
 }
 
 .action-modal-title {
   flex: 1;
-  font-size: var(--h3);
-  font-weight: 500;
+  font-size: var(--h2);
+  font-weight: 400;
   color: var(--bright);
-  padding-left: 1rem;
+  padding-bottom: 2rem;
 }
 
 .action-modal-icon {
@@ -509,6 +505,9 @@ export default {
 
 .action-modal-icon.action-modal-close {
   cursor: pointer;
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
 }
 
 .action-modal-icon.action-modal-close:hover i {
@@ -524,6 +523,11 @@ export default {
   display: flex;
   justify-content: flex-end;
   padding: 1.5rem 0 1rem;
+
+  /* keeps button in bottom right no matter the size of the action modal */
+  flex-grow: 1;
+  align-self: flex-end;
+  flex-direction: column;
 }
 
 .action-modal-footer .tm-form-group {
@@ -541,6 +545,17 @@ export default {
   font-weight: 500;
   font-style: italic;
   color: var(--dim);
+  display: inline-block;
+}
+
+.form-message.notice {
+  border-radius: 2px;
+  background-color: #1c223e;
+  font-weight: 300;
+  margin: 2rem 0;
+  padding: 1rem 1rem;
+  font-size: 14px;
+  font-style: normal;
 }
 
 .slide-fade-enter-active {
