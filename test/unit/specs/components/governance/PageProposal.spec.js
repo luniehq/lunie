@@ -16,7 +16,7 @@ describe(`PageProposal`, () => {
   let wrapper, $store
 
   const getters = {
-    depositDenom: governanceParameters.deposit.min_deposit[0].denom,
+    depositDenom: governanceParameters.parameters.deposit.min_deposit[0].denom,
     proposals: { proposals, tallies },
     connected: true,
     governanceParameters: { ...governanceParameters, loaded: true },
