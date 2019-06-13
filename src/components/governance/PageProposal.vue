@@ -177,6 +177,7 @@ export default {
       `connected`,
       `wallet`,
       `votes`,
+      `governanceParameters`,
       `session`
     ]),
     proposal({ proposals, proposalId } = this) {
@@ -194,10 +195,11 @@ export default {
     endDate({ proposal } = this) {
       return moment(proposal.voting_end_time).format("MMMM Do YYYY, HH:mm")
     },
-    displayEndDate({ proposal } = this) {
+    displayEndDate({ proposal, governanceParameters } = this) {
       if (
         proposal.proposal_status !== "DepositPeriod" &&
-        proposal.total_deposit[0].amount >= 521000000
+        proposal.total_deposit[0].amount >=
+          Number(governanceParameters.parameters.deposit.min_deposit[0].amount)
       ) {
         return true
       } else {
