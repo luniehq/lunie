@@ -100,25 +100,29 @@
             current browser.
           </div>
         </HardwareState>
-        <TmFormGroup
+        <form
           v-else-if="selectedSignMethod === `local`"
-          :error="$v.password.$error && $v.password.$invalid"
-          class="action-modal-group"
-          field-id="password"
-          field-label="Password"
+          @submit.prevent="validateChangeStep"
         >
-          <TmField
-            id="password"
-            v-model="password"
-            type="password"
-            placeholder="Password"
-          />
-          <TmFormMsg
-            v-if="$v.password.$error && !$v.password.required"
-            name="Password"
-            type="required"
-          />
-        </TmFormGroup>
+          <TmFormGroup
+            :error="$v.password.$error && $v.password.$invalid"
+            class="action-modal-group"
+            field-id="password"
+            field-label="Password"
+          >
+            <TmField
+              id="password"
+              v-model="password"
+              type="password"
+              placeholder="Password"
+            />
+            <TmFormMsg
+              v-if="$v.password.$error && !$v.password.required"
+              name="Password"
+              type="required"
+            />
+          </TmFormGroup>
+        </form>
       </div>
       <div class="action-modal-footer">
         <slot name="action-modal-footer">
