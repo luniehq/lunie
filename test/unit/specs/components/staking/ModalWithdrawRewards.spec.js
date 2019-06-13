@@ -44,4 +44,20 @@ describe(`ModalWithdrawRewards`, () => {
   it(`should not display message when withdrawing from single validators`, () => {
     expect(wrapper.find(`.withdraw-limit`).exists()).toBe(false)
   })
+
+  describe("Submission Data for Delegating", () => {
+    it("should return correct transaction data for delegating", () => {
+      expect(wrapper.vm.transactionData).toEqual({
+        type: "MsgWithdrawDelegationReward",
+        validatorAddress: "cosmos1234567"
+      })
+    })
+
+    it("should return correct notification message for delegating", () => {
+      expect(wrapper.vm.notifyMessage).toEqual({
+        title: `Successful withdrawal!`,
+        body: `You have successfully withdrawn your rewards.`
+      })
+    })
+  })
 })

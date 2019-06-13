@@ -27,7 +27,6 @@ describe(`DelegationModal`, () => {
       signedIn: true,
       address: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw`
     },
-    delegates: { delegates: lcdClientMock.state.candidates },
     stakingParameters: { parameters: stakingParameters },
     modalContext: {
       ...context,
@@ -51,7 +50,7 @@ describe(`DelegationModal`, () => {
             value: 0
           },
           {
-            address: lcdClientMock.state.candidates[0].operator_address,
+            address: lcdClientMock.state.candidates[1].operator_address,
             key: `Billy the Bill - cosmos…psjr9565ef72pv9g20yx`,
             maximum: 23.0484375481,
             value: 1
@@ -107,6 +106,65 @@ describe(`DelegationModal`, () => {
       it(`if the amount is positive and the user has enough balance`, () => {
         wrapper.setData({ amount: 50 })
         expect(wrapper.vm.validateForm()).toBe(true)
+      })
+    })
+  })
+  describe("Submission Data for Delegating", () => {
+    beforeEach(() => {
+      wrapper.setData({
+        amount: 10,
+        selectedIndex: 0,
+        validator: lcdClientMock.state.candidates[1]
+      })
+    })
+
+    //lcdClientMock.state.candidates[0].operator_address
+    it("should return correct transaction data for delegating", () => {
+      expect(wrapper.vm.transactionData).toEqual({
+        type: "MsgDelegate",
+        validator_address: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au`,
+        amount: "10000000",
+        denom: "STAKE"
+      })
+    })
+
+    it("should return correct notification message for delegating", () => {
+      expect(wrapper.vm.notifyMessage).toEqual({
+        title: `Successful delegation!`,
+        body: `You have successfully delegated your STAKEs`
+      })
+    })
+  })
+
+  describe("Submission Data for Redelgating", () => {
+    beforeEach(() => {
+      wrapper.setData({
+        amount: 10,
+        selectedIndex: 1,
+        validator: {
+          operator_address: "cosmosDstAddress1"
+        }
+      })
+
+      console.log(wrapper.vm.modalContext.delegates[2].operator_address)
+    })
+
+    it("should return correct transaction data for delegating", () => {
+      expect(wrapper.vm.transactionData).toEqual({
+        type: "MsgRedelegate",
+        validator_src_address:
+          "cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au",
+        validator_dst_address: "cosmosDstAddress1",
+        amount: "10000000",
+        denom: "STAKE"
+      })
+      // expect(wrapper.vm.transactionData).toEqual()
+    })
+
+    it("should return correct notification message for delegating", () => {
+      expect(wrapper.vm.notifyMessage).toEqual({
+        title: `Successful redelegation!`,
+        body: `You have successfully redelegated your STAKEs`
       })
     })
   })

@@ -95,4 +95,25 @@ describe(`ModalVote`, () => {
       expect(voteBtn.html()).toContain(`disabled="true"`)
     })
   })
+
+  it("should return transaction data in correct form", () => {
+    wrapper.setData({
+      vote: "Yes"
+    })
+    expect(wrapper.vm.transactionData).toEqual({
+      type: "MsgVote",
+      proposalId: "1",
+      option: "Yes"
+    })
+  })
+
+  it("should return notification message", () => {
+    wrapper.setData({
+      vote: "Yes"
+    })
+    expect(wrapper.vm.notifyMessage).toEqual({
+      title: `Successful vote!`,
+      body: `You have successfully voted Yes on proposal #1`
+    })
+  })
 })

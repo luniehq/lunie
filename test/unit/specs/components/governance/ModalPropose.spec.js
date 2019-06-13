@@ -132,4 +132,37 @@ describe(`ModalPropose`, () => {
       })
     })
   })
+
+  describe("Submission Data for Delegating", () => {
+    beforeEach(() => {
+      wrapper.setData({
+        type: "Text",
+        title: "The Title",
+        description: "A long description…",
+        amount: 10
+      })
+    })
+
+    it("should return correct transaction data for delegating", () => {
+      expect(wrapper.vm.transactionData).toEqual({
+        type: "MsgSubmitProposal",
+        proposalType: "Text",
+        title: "The Title",
+        description: "A long description…",
+        initialDeposits: [
+          {
+            amount: "10000000",
+            denom: "uatom"
+          }
+        ]
+      })
+    })
+
+    it("should return correct notification message for delegating", () => {
+      expect(wrapper.vm.notifyMessage).toEqual({
+        title: `Successful proposal submission!`,
+        body: `You have successfully submitted a new text proposal`
+      })
+    })
+  })
 })

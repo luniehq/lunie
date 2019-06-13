@@ -89,4 +89,29 @@ describe(`UndelegationModal`, () => {
       })
     })
   })
+
+  describe("Submission Data", () => {
+    beforeEach(() => {
+      wrapper.setData({
+        amount: 10
+      })
+    })
+
+    it("should return correct transaction data", () => {
+      expect(wrapper.vm.transactionData).toEqual({
+        type: "MsgUndelegate",
+        validator_address:
+          "cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au",
+        amount: "10000000",
+        denom: "STAKE"
+      })
+    })
+
+    it("should return correct notification message", () => {
+      expect(wrapper.vm.notifyMessage).toEqual({
+        title: `Successful undelegation!`,
+        body: `You have successfully undelegated 10 STAKEs.`
+      })
+    })
+  })
 })

@@ -97,4 +97,30 @@ describe(`ModalDeposit`, () => {
       })
     })
   })
+
+  it("should return transaction data in correct form", () => {
+    wrapper.setData({
+      amount: 2
+    })
+    expect(wrapper.vm.transactionData).toEqual({
+      type: "MsgDeposit",
+      proposalId: "1",
+      amounts: [
+        {
+          amount: "2000000",
+          denom: "uatom"
+        }
+      ]
+    })
+  })
+
+  it("should return notification message", () => {
+    wrapper.setData({
+      amount: 2
+    })
+    expect(wrapper.vm.notifyMessage).toEqual({
+      title: `Successful deposit!`,
+      body: `You have successfully deposited your ATOMs on proposal #1`
+    })
+  })
 })
