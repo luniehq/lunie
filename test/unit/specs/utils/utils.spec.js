@@ -1,8 +1,4 @@
-import {
-  roundObjectPercentages,
-  getTopDelegations,
-  getTop5Delegations
-} from "utils"
+import { roundObjectPercentages } from "utils"
 
 const tally = {
   yes: 13.626332,
@@ -40,58 +36,5 @@ describe(`roundObjectPercentages`, () => {
 
   it(`should sum again to 100`, () => {
     expect(sumOfValues(roundObjectPercentages(tally3))).toBe(100)
-  })
-})
-
-describe(`getTopRewards`, () => {
-  let list
-
-  beforeEach(() => {
-    list = {
-      address1: 100,
-      address2: 1,
-      address3: 5,
-      address4: 3,
-      address5: 0,
-      address6: 99,
-      address7: 9,
-      address8: 96,
-      address9: 98,
-      address10: 97
-    }
-  })
-
-  it(`should return top 5 rewards`, () => {
-    const result = getTop5Delegations(list)
-    const expected = {
-      address1: 100,
-      // address2: 1,
-      // address3: 5,
-      // address4: 3,
-      // address5: 0,
-      address6: 99,
-      // address7: 9,
-      address8: 96,
-      address9: 98,
-      address10: 97
-    }
-    expect(result).toEqual(expected)
-  })
-
-  it(`should return top 9 rewards`, () => {
-    const result = getTopDelegations(9, list)
-    const expected = {
-      address1: 100,
-      address2: 1,
-      address3: 5,
-      address4: 3,
-      // address5: 0,
-      address6: 99,
-      address7: 9,
-      address8: 96,
-      address9: 98,
-      address10: 97
-    }
-    expect(result).toEqual(expected)
   })
 })

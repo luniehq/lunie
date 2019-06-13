@@ -572,32 +572,5 @@ describe(`delegationTargetOptions`, () => {
         expect(self.$refs.undelegationModal.open).toHaveBeenCalled()
       })
     })
-
-    describe(`onWithdrawal`, () => {
-      it(`should open withdrawal modal when there are rewards`, () => {
-        const self = {
-          rewards: 1,
-          $refs: {
-            modalWithdrawRewards: {
-              open: jest.fn()
-            }
-          }
-        }
-        PageValidator.methods.onWithdrawal.call(self)
-        expect(self.$refs.modalWithdrawRewards.open).toHaveBeenCalled()
-      })
-      it(`should not open withdrawal modal when there are zero rewards`, () => {
-        const self = {
-          rewards: 0,
-          $refs: {
-            modalWithdrawRewards: {
-              open: jest.fn()
-            }
-          }
-        }
-        PageValidator.methods.onWithdrawal.call(self)
-        expect(self.$refs.modalWithdrawRewards.open).not.toHaveBeenCalled()
-      })
-    })
   })
 })

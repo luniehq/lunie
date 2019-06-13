@@ -387,11 +387,6 @@ export default {
     onUndelegation() {
       this.$refs.undelegationModal.open()
     },
-    onWithdrawal() {
-      if (this.rewards > 0) {
-        this.$refs.modalWithdrawRewards.open()
-      }
-    },
     delegationTargetOptions(
       { session, liquidAtoms, committedDelegations, $route, delegates } = this
     ) {
