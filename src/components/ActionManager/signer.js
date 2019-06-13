@@ -1,6 +1,6 @@
 import Ledger from "scripts/ledger"
 import { getKey } from "scripts/keystore"
-import { signWithPrivateKey } from "scripts/wallet"
+import { signWithPrivateKey } from "@lunie/cosmos-keys"
 
 export function getSigner(
   config,
