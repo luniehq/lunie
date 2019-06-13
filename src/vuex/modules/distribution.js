@@ -100,12 +100,12 @@ export default ({ node }) => {
       { gas, gasPrice, denom, password, submitType }
     ) {
       // Compares the amount in a [address1, {denom: amount}] array
-      const byDenom = denom => (a, b) => b[1][denom] - a[1][denom]
+      const byBalanceOfDenom = denom => (a, b) => b[1][denom] - a[1][denom]
 
-      const validatorList = Object.entries(getters.distribution.rewards || [])
-        .sort(byDenom(getters.bondDenom))
+      const validatorList = Object.entries(getters.distribution.rewards)
+        .sort(byBalanceOfDenom(getters.bondDenom))
         .slice(0, 5) // Just the top 5
-        .map(elt => elt[0]) // Return only the address
+        .map(([address]) => address)
 
       await dispatch(`sendTx`, {
         type: `MsgWithdrawDelegationReward`,
