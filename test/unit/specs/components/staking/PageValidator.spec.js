@@ -152,6 +152,12 @@ describe(`PageValidator`, () => {
       expect(wrapper.exists(`tm-data-error-stub`)).toBe(true)
     })
 
+    it(`shows invalid validator address page if invalid validator address used`, () => {
+      $store.getters.delegates.delegates = []
+
+      expect(wrapper.exists(`tm-data-msg`)).toBe(true)
+    })
+
     it(`shows the selfBond`, () => {
       expect(wrapper.find(`#page-profile__self-bond`).text()).toBe(`1.00%`)
     })
