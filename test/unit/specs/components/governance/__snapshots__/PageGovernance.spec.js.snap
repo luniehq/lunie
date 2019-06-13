@@ -43,7 +43,7 @@ exports[`PageGovernance disables proposal creation if not connected 1`] = `
                 </h2>
                  
                 <div
-                  class="short-bech32"
+                  class="bech32-address"
                 >
                   <div
                     class="address"
@@ -112,8 +112,7 @@ exports[`PageGovernance disables proposal creation if not connected 1`] = `
           <div
             class="tool-bar"
           >
-            <!---->
-              
+             
             <a
               id="signOut-btn"
             >
@@ -313,7 +312,7 @@ exports[`PageGovernance has the expected html structure 1`] = `
                 </h2>
                  
                 <div
-                  class="short-bech32"
+                  class="bech32-address"
                 >
                   <div
                     class="address"
@@ -382,8 +381,7 @@ exports[`PageGovernance has the expected html structure 1`] = `
           <div
             class="tool-bar"
           >
-            <!---->
-              
+             
             <a
               id="signOut-btn"
             >

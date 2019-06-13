@@ -2,14 +2,13 @@ import * as Sentry from "@sentry/browser"
 import Vue from "vue"
 import { coinsToObject } from "scripts/common.js"
 import { uatoms } from "../../scripts/num.js"
-import { getTop5Delegations } from "../../utils/"
+import { throttle } from "scripts/blocks-throttle"
 
 export default ({ node }) => {
   const emptyState = {
     loading: false,
     loaded: false,
     error: null,
-    lastValidatorRewardsUpdate: 0, // keep track of last update so we can throttle the interval
     /* totalRewards use the following format:
         {
             denom1: amount1,
@@ -45,6 +44,7 @@ export default ({ node }) => {
     outstandingRewards: {}
   }
   const state = JSON.parse(JSON.stringify(emptyState))
+  const distributionsThrottle = throttle("distributions")(20)
 
   const mutations = {
     setTotalRewards(state, rewards) {
@@ -87,30 +87,31 @@ export default ({ node }) => {
         commit(`setDistributionError`, error)
       }
     },
-    async simulateWithdrawAllRewards({ rootState: { session }, dispatch }) {
+    async simulateWithdralRewards({ rootState: { session }, dispatch }) {
       return await dispatch(`simulateTx`, {
         type: `MsgWithdrawDelegationReward`,
         txArguments: {
-          toAddress: session.address,
-          validatorAddresses: []
+          toAddress: session.address
         }
       })
     },
-    async withdrawAllRewards(
+    async withdrawRewards(
       { rootState, getters, dispatch },
-      { gas, gasPrice, denom, validatorAddress, password, submitType }
+      { gas, gasPrice, denom, password, submitType }
     ) {
-      const top5Delegations = getTop5Delegations(getters.committedDelegations)
+      // Compares the amount in a [address1, {denom: amount}] array
+      const byBalanceOfDenom = denom => (a, b) => b[1][denom] - a[1][denom]
 
-      const validatorAddresses = validatorAddress
-        ? [validatorAddress]
-        : Object.keys(top5Delegations)
+      const validatorList = Object.entries(getters.distribution.rewards)
+        .sort(byBalanceOfDenom(getters.bondDenom))
+        .slice(0, 5) // Just the top 5
+        .map(([address]) => address)
 
       await dispatch(`sendTx`, {
         type: `MsgWithdrawDelegationReward`,
         txArguments: {
           toAddress: rootState.session.address,
-          validatorAddresses: validatorAddresses
+          validatorAddresses: validatorList
         },
         gas: String(gas),
         gas_prices: [
@@ -131,24 +132,20 @@ export default ({ node }) => {
       dispatch,
       getters: { lastHeader, yourValidators }
     }) {
-      // throttle the update of validator rewards to every 20 blocks
-      const waitedTwentyBlocks =
-        Number(lastHeader.height) - state.lastValidatorRewardsUpdate >= 20
-      if (
-        (state.lastValidatorRewardsUpdate === 0 || waitedTwentyBlocks) &&
-        yourValidators &&
-        yourValidators.length > 0
-      ) {
-        state.lastValidatorRewardsUpdate = Number(lastHeader.height)
-        state.loading = true
-        await Promise.all(
-          yourValidators.map(validator =>
-            dispatch(`getRewardsFromValidator`, validator.operator_address)
+      await distributionsThrottle(
+        state,
+        Number(lastHeader.height),
+        async () => {
+          state.loading = true
+          await Promise.all(
+            yourValidators.map(validator =>
+              dispatch(`getRewardsFromValidator`, validator.operator_address)
+            )
           )
-        )
-        state.loading = false
-        state.loaded = true
-      }
+          state.loading = false
+          state.loaded = true
+        }
+      )
     },
     async getRewardsFromValidator(
       {

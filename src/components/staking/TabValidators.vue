@@ -38,9 +38,6 @@ export default {
     ])
   },
   watch: {
-    "session.signedIn": function(signedIn) {
-      signedIn && this.$store.dispatch(`updateDelegates`)
-    },
     lastHeader: {
       immediate: true,
       handler() {
@@ -49,7 +46,6 @@ export default {
     }
   },
   mounted() {
-    this.$store.dispatch(`updateDelegates`)
     if (this.yourValidators) {
       this.$store.dispatch(`getRewardsFromMyValidators`, this.yourValidators)
     }

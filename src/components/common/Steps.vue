@@ -5,7 +5,7 @@
       :key="step"
       :title="step"
       :active="step.toLocaleLowerCase() === active.toLocaleLowerCase()"
-      :number="i"
+      :number="i + 1"
       :include-line="i < steps.length - 1"
     />
   </div>
@@ -38,7 +38,7 @@ export default {
   flex-direction: row;
   text-align: center;
   justify-content: space-between;
-  width: 13rem;
+  width: 14rem;
   margin: 0 auto;
 }
 </style>

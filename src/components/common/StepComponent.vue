@@ -49,25 +49,26 @@ export default {
   flex-direction: column;
   justify-content: center;
   white-space: normal;
+  position: relative;
+  align-items: center;
 }
 
 .circle--default {
   border: 0.1rem var(--grey) solid;
-  border-radius: 1rem;
-  fill: transparent;
-  width: 1.2rem;
-  height: 1.2rem;
-  margin: 0 auto;
-  margin-bottom: 0.3rem;
+  border-radius: 50%;
+  background: var(--app-nav-light);
+  width: 1.6rem;
+  height: 1.6rem;
+  margin-bottom: 0.75rem;
   font-size: var(--xs);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
 }
 
 .active {
   border-color: var(--tertiary);
-}
-
-svg {
-  display: inline-block;
 }
 
 .text--default {
@@ -80,19 +81,18 @@ svg {
   margin: 0 auto;
 }
 
-.grey--line {
-  height: 1px;
-  width: 20px;
-  border: solid var(--grey) 1px;
+.includeLine {
+  position: relative;
 }
 
 .includeLine::after {
   display: inline-block;
   content: "";
-  border-top: 0.15rem solid var(--grey);
-  width: 3.12rem;
-  margin: 0 1.12rem;
-  transform: translateY(-1.15rem);
+  background: var(--grey);
+  width: 4rem;
+  height: 2px;
+  position: absolute;
+  left: 24px;
 }
 
 .textActive {

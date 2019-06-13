@@ -33,7 +33,7 @@
           {{ validator.description.moniker }}
         </router-link>
         <div class="data-table__row__info__container__description">
-          <ShortBech32 :address="validator.operator_address" />
+          <Bech32 :address="validator.operator_address" />
         </div>
       </div>
     </td>
@@ -66,12 +66,12 @@
 <script>
 import { mapGetters } from "vuex"
 import num from "scripts/num"
-import ShortBech32 from "common/ShortBech32"
+import Bech32 from "common/Bech32"
 import BN from "bignumber.js"
 export default {
   name: `li-validator`,
   components: {
-    ShortBech32
+    Bech32
   },
   props: {
     validator: {

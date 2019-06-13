@@ -1,7 +1,6 @@
 <template>
   <TmPage :tabs="tabs" class="governance" data-title="Governance">
     <TmBtn
-      v-if="session.signedIn"
       id="propose-btn"
       slot="header-buttons"
       :disabled="!connected"
