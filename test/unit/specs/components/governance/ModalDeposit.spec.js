@@ -111,7 +111,7 @@ describe(`ModalDeposit`, () => {
       })
 
       expect($store.dispatch).toHaveBeenCalledWith(`simulateDeposit`, {
-        amount: [
+        amounts: [
           {
             amount: `10000000`,
             denom: `uatom`
@@ -146,7 +146,7 @@ describe(`ModalDeposit`, () => {
       )
 
       expect($store.dispatch).toHaveBeenCalledWith(`submitDeposit`, {
-        amount: [
+        amounts: [
           {
             amount: `10000000`,
             denom: `uatom`

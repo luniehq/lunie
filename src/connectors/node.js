@@ -1,6 +1,6 @@
 "use strict"
 
-import Cosmos from "@lunie/cosmos-js"
+import Cosmos from "@lunie/cosmos-js/src/index.js"
 import RpcWrapper from "./rpcWrapper.js"
 
 export default function Connector(stargateUrl) {
