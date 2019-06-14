@@ -59,16 +59,17 @@
             <dt>Proposal Status</dt>
             <dd>
               {{
-                proposal.proposal_status === `DepositPeriod`
-                  ? `Deposit period ends ${depositEndsIn}.`
-                  : `Voting started ${votingStartedAgo}.`
+              proposal.proposal_status === `DepositPeriod`
+              ? `Deposit period ends ${depositEndsIn}.`
+              : `Voting started ${votingStartedAgo}.`
               }}
             </dd>
           </dl>
 
           <dl class="info_dl colored_dl">
             <dt>Deposit Count</dt>
-            <dd>{{ `${totalDeposit.amount} ${totalDeposit.denom}` }}</dd>
+            <dd>{{ totalDeposit ? `${totalDeposit.amount}
+              ${totalDeposit.denom}` : `--` }}</dd>
           </dl>
           <dl
             v-if="proposal.proposal_status === 'VotingPeriod'"
@@ -81,7 +82,10 @@
       </div>
 
       <div class="page-profile__section">
-        <div v-if="proposal.proposal_status === 'VotingPeriod'" class="row">
+        <div
+          v-if="proposal.proposal_status === 'VotingPeriod'"
+          class="row"
+        >
           <dl class="info_dl colored_dl">
             <dt>Yes</dt>
             <dd>
@@ -253,7 +257,9 @@ export default {
         }
     },
     totalDeposit() {
-      return num.createDisplayCoin(this.proposal.total_deposit[0])
+      return this.proposal.total_deposit
+        ? num.createDisplayCoin(this.proposal.total_deposit[0])
+        : null
     }
   },
   async mounted({ proposals, proposalId, $store } = this) {

@@ -18,7 +18,11 @@
       field-label="Amount"
     >
       <span class="input-suffix">{{ num.viewDenom(denom) }}</span>
-      <TmField id="amount" v-model="amount" type="number" />
+      <TmField
+        id="amount"
+        v-model="amount"
+        type="number"
+      />
       <TmFormMsg
         v-if="balance === 0"
         :msg="`doesn't have any ${num.viewDenom(denom)}s`"
@@ -84,14 +88,8 @@ export default {
   computed: {
     ...mapGetters([`wallet`, `bondDenom`]),
     balance() {
-      // TODO: refactor to get the selected coin when multicoin deposit is enabled
-      if (!this.wallet.loading && !!this.wallet.balances.length) {
-        const balance = this.wallet.balances.find(
-          coin => coin.denom === this.denom
-        )
-        if (balance) return parseFloat(balance.amount)
-      }
-      return 0
+      const denom = this.wallet.balances.find(b => b.denom === this.denom)
+      return (denom && denom.amount) || 0
     }
   },
   validations() {
@@ -120,7 +118,7 @@ export default {
     async simulateForm() {
       return await this.$store.dispatch(`simulateDeposit`, {
         proposal_id: this.proposalId,
-        amount: [
+        amounts: [
           {
             amount: String(uatoms(this.amount)),
             denom: this.denom
@@ -134,7 +132,7 @@ export default {
         submitType,
         password,
         proposal_id: this.proposalId,
-        amount: [
+        amounts: [
           {
             amount: String(uatoms(this.amount)),
             denom: this.denom
