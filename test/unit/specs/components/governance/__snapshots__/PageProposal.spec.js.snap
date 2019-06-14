@@ -92,7 +92,10 @@ exports[`PageProposal renders votes in HTML when voting is open 1`] = `
         </dt>
          
         <dd>
-          2,000 STAKE
+          
+            2,000
+            STAKE
+          
         </dd>
       </dl>
        
@@ -303,7 +306,10 @@ exports[`PageProposal should display proposal page if user has signed in 1`] = `
         </dt>
          
         <dd>
-          2,000 STAKE
+          
+            2,000
+            STAKE
+          
         </dd>
       </dl>
        
@@ -514,7 +520,10 @@ exports[`PageProposal should display proposal page should default tally to 0 if 
         </dt>
          
         <dd>
-          2,000 STAKE
+          
+            2,000
+            STAKE
+          
         </dd>
       </dl>
        
