@@ -58,10 +58,10 @@ describe(`Module: Deposits`, () => {
       rootState: mockRootState,
       dispatch: jest.fn(() => 123123)
     }
-    const amount = [{ denom: `uatom`, amount: `10000000` }]
+    const amounts = [{ denom: `uatom`, amount: `10000000` }]
     const res = await actions.simulateDeposit(self, {
       proposal_id: `1`,
-      amount
+      amounts
     })
 
     expect(self.dispatch).toHaveBeenCalledWith(`simulateTx`, {
@@ -69,7 +69,7 @@ describe(`Module: Deposits`, () => {
       txArguments: {
         proposalId: `1`,
         depositor: mockRootState.wallet.address,
-        amount
+        amounts
       }
     })
     expect(res).toBe(123123)
