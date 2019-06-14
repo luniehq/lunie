@@ -100,6 +100,7 @@
 import LiTransaction from "./LiTransaction"
 import { atoms as toAtoms, viewDenom } from "../../scripts/num.js"
 import moment from "moment"
+import { formatBech32 } from "src/filters"
 
 /*
  * undelegation tx need a preprocessing, where shares are translated into transaction.balance: {amount, denom}
@@ -177,7 +178,9 @@ export default {
       const validator = this.validators.find(
         c => c.operator_address === validatorAddr
       )
-      return validator ? validator.description.moniker : validatorAddr
+      return validator
+        ? validator.description.moniker
+        : formatBech32(validatorAddr)
     }
   }
 }
