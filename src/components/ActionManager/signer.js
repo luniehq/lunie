@@ -8,8 +8,8 @@ export function getSigner(
   { localKeyPairName, password }
 ) {
   if (submitType === `local`) {
+    const wallet = getKey(localKeyPairName, password)
     return signMessage => {
-      const wallet = getKey(localKeyPairName, password)
       const signature = signWithPrivateKey(signMessage, wallet.privateKey)
 
       return {
