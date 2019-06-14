@@ -7,6 +7,20 @@ const localVue = createLocalVue()
 localVue.use(Vuelidate)
 localVue.directive("focus-last", focusParentLast)
 
+let mockSimulate = jest.fn(() => 123456)
+let mockSend = jest.fn()
+let mockSetContext = jest.fn()
+
+jest.mock(`src/components/ActionManager/ActionManager.js`, () => {
+  return jest.fn(() => {
+    return {
+      setContext: mockSetContext,
+      simulate: mockSimulate,
+      send: mockSend
+    }
+  })
+})
+
 const modalContext = {
   connection: {
     externals: {
@@ -59,11 +73,9 @@ describe(`ActionModal`, () => {
       localVue,
       propsData: {
         title: `Action Modal`,
-        submitFn: jest.fn(),
-        simulateFn: jest.fn(),
         validate: jest.fn(),
         transactionData: {
-          type: "TYPE",
+          type: "MsgSend",
           denom: "uatom",
           validatorAddress: "cosmos12345"
         },
@@ -204,7 +216,7 @@ describe(`ActionModal`, () => {
       expect(wrapper.isEmpty()).toBe(true)
     })
 
-    xit(`should close if submitted`, async () => {
+    it(`should close if submitted`, async () => {
       wrapper.vm.close = jest.fn()
       const submitFn = jest.fn()
       await wrapper.vm.submit(submitFn)
@@ -314,34 +326,70 @@ describe(`ActionModal`, () => {
   })
 
   describe(`simulate`, () => {
-    xit(`should simulate transaction to get estimated gas`, async () => {
-      const self = {
+    it(`should simulate transaction to get estimated gas`, async () => {
+      const transactionProperties = {
+        type: "MsgSend",
+        toAddress: "comsos12345",
+        amounts: [
+          {
+            amount: "100000",
+            denom: "uatoms"
+          }
+        ],
+        memo: "A memo"
+      }
+      const data = {
         step: `details`,
         gasEstimate: null,
-        simulateFn: jest.fn(() => 123456),
-        // actionManager: mockActionManager,
-        submissionError: null,
-        submissionErrorPrefix: null
+        submissionError: null
       }
-      await ActionModal.methods.simulate.call(self)
-      expect(self.gasEstimate).toBe(123456)
-      expect(self.step).toBe(`fees`)
-      expect(self.submissionError).toBeNull()
+
+      wrapper.setProps({ transactionProperties })
+      wrapper.setData(data)
+      wrapper.vm.simulate()
+      wrapper.vm.$nextTick(() => {
+        expect(wrapper.vm.gasEstimate).toBe(123456)
+        expect(wrapper.vm.submissionError).toBe(null)
+        expect(wrapper.vm.step).toBe("fees")
+      })
     })
 
-    xit(`should fail simulation if request fails`, async () => {
-      const self = {
+    it("should fail if simulation fails", () => {
+      const mockSimulateFail = jest.fn(() =>
+        Promise.reject(new Error(`invalid request`))
+      )
+
+      const data = {
         step: `details`,
         gasEstimate: null,
-        simulateFn: jest.fn(() => Promise.reject(Error(`invalid request`))),
         submissionError: null,
-        submissionErrorPrefix: `Error`
+        actionManager: {
+          simulate: mockSimulateFail
+        }
       }
-      jest.useFakeTimers()
-      await ActionModal.methods.simulate.call(self)
-      expect(self.gasEstimate).toBe(null)
-      expect(self.step).toBe(`details`)
-      expect(self.submissionError).toBe(`Error: invalid request.`)
+
+      const transactionProperties = {
+        type: "MsgSend",
+        toAddress: "comsos12345",
+        amounts: [
+          {
+            amount: "100000",
+            denom: "uatoms"
+          }
+        ],
+        memo: "A memo"
+      }
+
+      wrapper.setProps({ transactionProperties })
+      wrapper.setData(data)
+      wrapper.vm.simulate()
+      wrapper.vm.$nextTick(() => {
+        expect(wrapper.vm.gasEstimate).toBe(null)
+        expect(wrapper.vm.submissionError).toBe(
+          "Transaction failed: invalid request."
+        )
+        expect(wrapper.vm.step).toBe("details")
+      })
     })
   })
 

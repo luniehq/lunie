@@ -4,12 +4,6 @@ exports[`ActionModal should show the action modal when user has logged in with l
 <div
   class="action-modal"
   name="slide-fade"
-  simulatefn="function mockConstructor() {
-        return fn.apply(this, arguments);
-      }"
-  submitfn="function mockConstructor() {
-        return fn.apply(this, arguments);
-      }"
   tabindex="0"
 >
   <div
@@ -67,12 +61,6 @@ exports[`ActionModal should show the action modal when user has logged in with l
 <div
   class="action-modal"
   name="slide-fade"
-  simulatefn="function mockConstructor() {
-        return fn.apply(this, arguments);
-      }"
-  submitfn="function mockConstructor() {
-        return fn.apply(this, arguments);
-      }"
   tabindex="0"
 >
   <div
@@ -140,12 +128,6 @@ exports[`ActionModal should show the action modal when user has logged in with l
 <div
   class="action-modal"
   name="slide-fade"
-  simulatefn="function mockConstructor() {
-        return fn.apply(this, arguments);
-      }"
-  submitfn="function mockConstructor() {
-        return fn.apply(this, arguments);
-      }"
   tabindex="0"
 >
   <div
@@ -217,12 +199,6 @@ exports[`ActionModal should show the action modal when user has logged in with l
 <div
   class="action-modal"
   name="slide-fade"
-  simulatefn="function mockConstructor() {
-        return fn.apply(this, arguments);
-      }"
-  submitfn="function mockConstructor() {
-        return fn.apply(this, arguments);
-      }"
   tabindex="0"
 >
   <div
@@ -280,12 +256,6 @@ exports[`ActionModal should show the action modal when user has logged in with l
 <div
   class="action-modal"
   name="slide-fade"
-  simulatefn="function mockConstructor() {
-        return fn.apply(this, arguments);
-      }"
-  submitfn="function mockConstructor() {
-        return fn.apply(this, arguments);
-      }"
   tabindex="0"
 >
   <div
@@ -353,12 +323,6 @@ exports[`ActionModal should show the action modal when user has logged in with l
 <div
   class="action-modal"
   name="slide-fade"
-  simulatefn="function mockConstructor() {
-        return fn.apply(this, arguments);
-      }"
-  submitfn="function mockConstructor() {
-        return fn.apply(this, arguments);
-      }"
   tabindex="0"
 >
   <div
@@ -433,12 +397,6 @@ exports[`ActionModal should show the action modal when user hasn't logged in 1`]
 <div
   class="action-modal"
   name="slide-fade"
-  simulatefn="function mockConstructor() {
-        return fn.apply(this, arguments);
-      }"
-  submitfn="function mockConstructor() {
-        return fn.apply(this, arguments);
-      }"
   tabindex="0"
 >
   <div
