@@ -33,7 +33,8 @@
           </dl>
           <dl class="info_dl colored_dl">
             <dt>Transactions</dt>
-            <dd>{{ num.shortDecimals(lastHeader.total_txs) || `--` }}</dd>
+            <dd>{{ lastHeader.total_txs !== undefined ?
+              num.shortDecimals(lastHeader.total_txs) : `--` }}</dd>
           </dl>
           <dl class="info_dl colored_dl">
             <dt>Number of Validators</dt>
@@ -48,9 +49,9 @@
               <dt>Total Liquid {{ num.viewDenom(bondDenom) }}</dt>
               <dd id="loose_tokens">
                 {{
-                  pool.pool && pool.pool.not_bonded_tokens
-                    ? num.shortDecimals(num.atoms(pool.pool.not_bonded_tokens))
-                    : `--`
+                pool.pool && pool.pool.not_bonded_tokens
+                ? num.shortDecimals(num.atoms(pool.pool.not_bonded_tokens))
+                : `--`
                 }}
               </dd>
             </dl>
@@ -60,9 +61,9 @@
               <dt>Total Delegated {{ num.viewDenom(bondDenom) }}</dt>
               <dd id="bonded_tokens">
                 {{
-                  pool.pool && pool.pool.bonded_tokens
-                    ? num.shortDecimals(num.atoms(pool.pool.bonded_tokens))
-                    : `--`
+                pool.pool && pool.pool.bonded_tokens
+                ? num.shortDecimals(num.atoms(pool.pool.bonded_tokens))
+                : `--`
                 }}
               </dd>
             </dl>
@@ -74,12 +75,21 @@
           <PanelSort :properties="properties" />
         </thead>
         <tbody>
-          <tr v-if="blocks.length === 0" class="block data-table__row">
+          <tr
+            v-if="blocks.length === 0"
+            class="block data-table__row"
+          >
             <td>
-              <img class="loading-icon" src="~assets/images/loader.svg" />
+              <img
+                class="loading-icon"
+                src="~assets/images/loader.svg"
+              />
             </td>
             <td>
-              <img class="loading-icon" src="~assets/images/loader.svg" />
+              <img
+                class="loading-icon"
+                src="~assets/images/loader.svg"
+              />
             </td>
           </tr>
           <tr
@@ -88,12 +98,10 @@
             class="block data-table__row"
           >
             <td>
-              <router-link
-                :to="{
+              <router-link :to="{
                   name: `block`,
                   params: { height: block.header.height }
-                }"
-              >
+                }">
                 {{ `#` + num.prettyInt(block.header.height) }}
               </router-link>
             </td>
