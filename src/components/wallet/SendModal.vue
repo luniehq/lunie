@@ -68,7 +68,7 @@
         class="tm-field"
         placeholder="Amount"
         type="number"
-        @keyup.enter.native="enterReallyHitNow"
+        @keyup.enter.native="enterPressed"
       />
       <TmFormMsg
         v-if="balance === 0"
@@ -178,7 +178,7 @@ export default {
     passToParent(func) {
       this.validateChangeStep = func;
     },
-    enterReallyHitNow() {
+    enterPressed() {
       this.validateChangeStep()
     },
     refocusOn() {

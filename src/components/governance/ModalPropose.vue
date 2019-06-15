@@ -4,6 +4,7 @@
     ref="actionModal"
     :submit-fn="submitForm"
     :simulate-fn="simulateForm"
+    :pass-to-parent="passToParent"
     :validate="validateForm"
     :amount="amount"
     title="Proposal"
@@ -22,6 +23,7 @@
         v-focus
         type="text"
         placeholder="Proposal title"
+        @keyup.enter.native="refocusOn"
       />
       <TmFormMsg
         v-if="$v.title.$error && !$v.title.maxLength"
@@ -43,6 +45,7 @@
     >
       <TmField
         id="description"
+        ref="description"
         v-model.trim="description"
         type="textarea"
         class="textarea-large"
@@ -72,6 +75,7 @@
         v-model="amount"
         :value="Number(amount)"
         type="number"
+        @keyup.enter.native="enterPressed"
       />
       <TmFormMsg
         v-if="balance === 0"
@@ -143,7 +147,8 @@ export default {
     description: ``,
     type: `Text`,
     amount: 0,
-    num
+    num,
+    validateChangeStep: false
   }),
   computed: {
     ...mapGetters([`wallet`, `bondDenom`]),
@@ -186,10 +191,19 @@ export default {
     open() {
       this.$refs.actionModal.open()
     },
+    refocusOn() {
+      this.$refs.description.$el.focus()
+    },
     validateForm() {
       this.$v.$touch()
 
       return !this.$v.$invalid
+    },
+    passToParent(func) {
+      this.validateChangeStep = func;
+    },
+    enterPressed() {
+      this.validateChangeStep()
     },
     clear() {
       this.$v.$reset()

@@ -3,6 +3,7 @@
     id="delegation-modal"
     ref="actionModal"
     :submit-fn="submitForm"
+    :pass-to-parent="passToParent"
     :simulate-fn="simulateForm"
     :validate="validateForm"
     :amount="isRedelegation() ? 0 : amount"
@@ -41,6 +42,7 @@
         v-model="amount"
         type="number"
         placeholder="Amount"
+        @keyup.enter.native="enterPressed"
       />
       <span v-if="!isRedelegation()" class="form-message">
         Available to Delegate:
@@ -117,7 +119,8 @@ export default {
   data: () => ({
     amount: null,
     selectedIndex: 0,
-    num
+    num,
+    validateChangeStep: false
   }),
   computed: {
     ...mapGetters([`delegates`, `session`, `bondDenom`]),
@@ -140,6 +143,12 @@ export default {
       this.$v.$touch()
 
       return !this.$v.$invalid
+    },
+    passToParent(func) {
+      this.validateChangeStep = func;
+    },
+    enterPressed() {
+      this.validateChangeStep()
     },
     clear() {
       this.$v.$reset()
