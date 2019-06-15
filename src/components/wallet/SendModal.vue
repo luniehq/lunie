@@ -41,7 +41,7 @@
         v-focus
         type="text"
         placeholder="Address"
-        @keyup.enter.native="refocusOn()"
+        @keyup.enter.native="refocusOn"
       />
       <TmFormMsg
         v-if="$v.address.$error && !$v.address.required"
