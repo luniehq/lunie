@@ -78,7 +78,7 @@ async function actionModalCheckout(
   )
 
   // await next block to be sure about the sequence number
-  // TODO needs to be fixed and put into cosmos-js
+  // TODO needs to be fixed and put into cosmos-api
   // await nextBlock(browser)
 
   // submit
