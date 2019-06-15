@@ -41,6 +41,7 @@
         v-focus
         type="text"
         placeholder="Address"
+        @keyup.enter.native="refocusOn()"
       />
       <TmFormMsg
         v-if="$v.address.$error && !$v.address.required"
@@ -61,6 +62,7 @@
     >
       <TmField
         id="amount"
+        ref="amount"
         v-model="amount"
         class="tm-field"
         placeholder="Amount"
@@ -170,6 +172,14 @@ export default {
       this.denom = denom
       this.$refs.actionModal.open()
     },
+
+
+    refocusOn() {
+      this.$refs.amount.$el.focus()
+    },
+
+
+
     validateForm() {
       this.$v.$touch()
 
