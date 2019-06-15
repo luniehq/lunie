@@ -121,10 +121,7 @@ export default ({ node }) => {
         },
         force
       )
-    },
-    async postSubmitDelegation() {},
-    async postSubmitUnbondingDelegation() {},
-    async postSubmitRedelegation() {}
+    }
   }
 
   return {
