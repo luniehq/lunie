@@ -37,6 +37,7 @@
     >
       <TmField
         id="send-address"
+        ref="sendAddress"
         v-model.number="$v.address.$model"
         v-focus
         type="text"
@@ -165,6 +166,7 @@ export default {
     if (this.denom) {
       this.denom = this.denom
     }
+    this.$refs.sendAddress.$el.focus()
   },
   methods: {
     ...mapActions([`sendTx`]),
