@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.0-beta.82] - 2019-06-15
+
+### Added
+
+- [#2165](https://github.com/cosmos/lunie/issues/2165) Shows end date and time for Governance proposals @thebkr7
+
 ## [1.0.0-beta.81] - 2019-06-13
 
 ### Changed
