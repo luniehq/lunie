@@ -11,9 +11,9 @@ export default class ActionManager {
     this.cosmos = null
   }
 
-  setContext(context) {
+  setContext(context = null) {
     if (!context) {
-      return
+      throw Error("Context cannot be empty")
     }
     this.context = context
     this.cosmos = new Cosmos(this.context.url || "", this.context.chainId || "")

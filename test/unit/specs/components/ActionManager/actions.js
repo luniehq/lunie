@@ -32,3 +32,17 @@ export const withdrawTx = {
     password: ""
   }
 }
+
+export const withdrawManyTx = {
+  txProps: {
+    validatorAddress: undefined
+  },
+  txMetaData: {
+    gasPrice: {
+      amount: 2000,
+      denom: "uatom"
+    },
+    submitType: "",
+    password: ""
+  }
+}

@@ -1,5 +1,5 @@
 import ActionManager from "src/components/ActionManager/ActionManager.js"
-import { sendTx, withdrawTx } from "./actions"
+import { sendTx, withdrawTx, withdrawManyTx } from "./actions"
 
 let mockSimulate = jest.fn(() => 12345)
 const MsgSendFn = jest.fn(() => ({ included: () => async () => true }))
@@ -19,7 +19,8 @@ jest.mock(`@lunie/cosmos-js`, () => {
     return {
       get: mockGet,
       MsgSend: mockMsgSend,
-      MsgWithdrawDelegationReward: mockMsgWithdraw
+      MsgWithdrawDelegationReward: mockMsgWithdraw,
+      MultiMessage: mockMsgSend
     }
   })
 })
@@ -36,7 +37,19 @@ describe("ActionManager", () => {
       url: "blah",
       chainId: "cosmos",
       connected: true,
-      userAddress: "cosmos12345"
+      userAddress: "cosmos12345",
+      committedDelegations: {
+        address1: 100,
+        address2: 1,
+        address3: 5,
+        address4: 3,
+        address5: 0,
+        address6: 99,
+        address7: 9,
+        address8: 96,
+        address9: 98,
+        address10: 97
+      }
     })
   })
 
@@ -51,6 +64,47 @@ describe("ActionManager", () => {
       connected: true
     }
     expect(actionManager.setContext(context))
+    expect(actionManager.cosmos)
+    expect(actionManager.context).toEqual({
+      url: "blah",
+      chainId: "cosmos",
+      connected: true
+    })
+  })
+
+  it("should throw if setting empty context", () => {
+    try {
+      actionManager.setContext()
+    } catch (e) {
+      expect(e).toEqual(Error("Context cannot be empty"))
+    }
+  })
+
+  it("should throw if setting empty context", () => {
+    try {
+      actionManager = new ActionManager()
+      actionManager.readyCheck()
+    } catch (e) {
+      expect(e).toEqual(Error("This modal has no context."))
+    }
+  })
+
+  it("should throw if not connected", () => {
+    try {
+      actionManager = new ActionManager()
+      actionManager.setContext({
+        url: "blah",
+        chainId: "cosmos",
+        connected: false
+      })
+      actionManager.readyCheck()
+    } catch (e) {
+      expect(e).toEqual(
+        Error(
+          "Currently not connected to a secure node. Please try again when Lunie has secured a connection."
+        )
+      )
+    }
   })
 
   it("should throw if simulating without message type", async () => {
@@ -96,6 +150,54 @@ describe("ActionManager", () => {
       "memo",
       sendTx.txProps,
       sendTx.txMetaData
+    )
+    expect(result)
+
+    expect(mockMsgSend).toHaveBeenCalledWith("cosmos12345", {
+      amounts: [{ amount: "20000", denom: "uatom" }],
+      toAddress: "cosmos123"
+    })
+
+    expect(MsgSendFn).toHaveBeenCalledWith(
+      {
+        gas: "12335",
+        gas_prices: [{ amount: "2000000000", denom: "uatom" }],
+        memo: "memo"
+      },
+      "signer"
+    )
+  })
+
+  it("should create multimessage", async () => {
+    const result = await actionManager.send(
+      "MsgWithdrawDelegationReward",
+      "memo",
+      withdrawManyTx.txProps,
+      withdrawManyTx.txMetaData
+    )
+    expect(result)
+
+    expect(mockMsgSend).toHaveBeenCalledWith("cosmos12345", {
+      amounts: [{ amount: "20000", denom: "uatom" }],
+      toAddress: "cosmos123"
+    })
+
+    expect(MsgSendFn).toHaveBeenCalledWith(
+      {
+        gas: "12335",
+        gas_prices: [{ amount: "2000000000", denom: "uatom" }],
+        memo: "memo"
+      },
+      "signer"
+    )
+  })
+
+  it("should create single message when withdrawing from a single validator", async () => {
+    const result = await actionManager.send(
+      "MsgWithdrawDelegationReward",
+      "memo",
+      withdrawTx.txProps,
+      withdrawTx.txMetaData
     )
     expect(result)
 
