@@ -219,6 +219,15 @@ export default {
       type: Function,
       required: true
     },
+
+
+
+    passToParent: {
+      type: Function,
+    },
+
+
+
     submitFn: {
       type: Function,
       required: true
@@ -303,6 +312,16 @@ export default {
       ]
     }
   },
+
+
+  mounted() {
+    //passes submittion function to parent component so that pressing enter can submit forms
+    if (this.passToParent) {
+      this.passToParent(this.validateChangeStep)
+    }
+  },
+
+
   methods: {
     open() {
       this.track(`event`, `modal`, this.title)

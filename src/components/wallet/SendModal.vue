@@ -4,6 +4,7 @@
     ref="actionModal"
     :submit-fn="submitForm"
     :simulate-fn="simulateForm"
+    :pass-to-parent="passToParent"
     :validate="validateForm"
     :amount="amount"
     title="Send"
@@ -67,6 +68,7 @@
         class="tm-field"
         placeholder="Amount"
         type="number"
+        @keyup.enter.native="enterReallyHitNow"
       />
       <TmFormMsg
         v-if="balance === 0"
@@ -152,7 +154,8 @@ export default {
     num,
     memo: "(Sent via Lunie)",
     max_memo_characters: 256,
-    editMemo: false
+    editMemo: false,
+    validateChangeStep: false
   }),
   computed: {
     ...mapGetters([`wallet`, `session`]),
@@ -171,6 +174,12 @@ export default {
     open(denom) {
       this.denom = denom
       this.$refs.actionModal.open()
+    },
+    passToParent(func) {
+      this.validateChangeStep = func;
+    },
+    enterReallyHitNow() {
+      this.validateChangeStep()
     },
     refocusOn() {
       this.$refs.amount.$el.focus()
