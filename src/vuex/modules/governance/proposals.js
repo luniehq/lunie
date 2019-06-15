@@ -84,12 +84,7 @@ export default ({ node }) => {
         txProps: { amount, denom, title, description }
       }
     ) {
-      const initialDeposits = [
-        {
-          amount,
-          denom
-        }
-      ]
+      const initialDeposits = [{ amount, denom }]
 
       // optimistic updates
       initialDeposits.forEach(({ amount, denom }) => {
@@ -111,10 +106,7 @@ export default ({ node }) => {
       commit(`setProposal`, {
         proposal_id: String(latestId + 1),
         proposal_content: {
-          value: {
-            title,
-            description
-          }
+          value: { title, description }
         },
         initial_deposit: initialDeposits
       })
