@@ -62,23 +62,13 @@ export default class ActionManager {
   async send(type, memo, transactionProperties, txMetaData) {
     this.messageTypeCheck(type)
     this.readyCheck()
-
     const { gasEstimate, gasPrice, submitType, password } = txMetaData
-
     const localKeyPairName = this.context.localKeyPairName
     const signer = getSigner(config, submitType, { localKeyPairName, password })
 
     let message
     if (type === transaction.WITHDRAW) {
-      const newTxProps = this.formatWithdrawalProperties(
-        this.context,
-        transactionProperties
-      )
-      message = this.createMultiMessage(
-        type,
-        this.context.userAddress,
-        newTxProps
-      )
+      message = this.createWithDrawTransaction(type, transactionProperties)
     } else {
       message = this.cosmos[type](
         this.context.userAddress,
@@ -95,6 +85,18 @@ export default class ActionManager {
       signer
     )
     await included()
+  }
+
+  createWithDrawTransaction(transactionProperties) {
+    const newTxProps = this.formatWithdrawalProperties(
+      this.context,
+      transactionProperties
+    )
+    return this.createMultiMessage(
+      transaction.WITHDRAW,
+      this.context.userAddress,
+      newTxProps
+    )
   }
 
   // limitation of the block, so we pick the top 5 rewards and inform the user.
