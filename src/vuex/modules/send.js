@@ -1,6 +1,6 @@
 import { getKey } from "scripts/keystore"
 import { signWithPrivateKey } from "@lunie/cosmos-keys"
-import Cosmos from "@lunie/cosmos-js"
+import Cosmos from "@lunie/cosmos-api"
 import Ledger from "@lunie/cosmos-ledger"
 import config from "src/config"
 
