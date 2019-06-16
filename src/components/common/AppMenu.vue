@@ -64,18 +64,20 @@
         </h2>
         <i class="material-icons">chevron_right</i>
       </router-link>
-      <a
+      <button
         v-if="session.signedIn"
-        class="app-menu-item sign-out-btn"
+        class="tm-btn__container tm-btn--secondary sign-out-btn"
         @click="signOut()"
       >
-        <h2 class="app-menu-title">
-          Sign out
-        </h2>
-        <i class="material-icons">
-          exit_to_app
-        </i>
-      </a>
+        Sign out
+      </button>
+      <button
+        v-if="!session.signedIn"
+        class="tm-btn__container tm-btn--primary sign-in-btn"
+        @click="signIn()"
+      >
+        Sign in
+      </button>
     </div>
     <ConnectedNetwork />
   </menu>
@@ -107,6 +109,10 @@ export default {
     },
     signOut() {
       this.$store.dispatch(`signOut`)
+    },
+    signIn() {
+      this.$store.commit(`setSessionModalView`, `welcome`)
+      this.$store.commit(`toggleSessionModal`, true)
     }
   }
 }
@@ -170,6 +176,10 @@ export default {
 .app-menu .app-menu-item.router-link-active h2 {
   color: var(--bright);
   font-weight: 500;
+}
+
+.tm-btn__container {
+  margin: 1rem 0 0 1.25rem;
 }
 
 @media screen and (max-width: 1023px) {
