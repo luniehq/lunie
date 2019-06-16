@@ -1,10 +1,10 @@
 <template>
   <TmPage
-    v-if="validator"
     :managed="true"
     :loading="delegates.loading"
     :loaded="delegates.loaded"
     :error="delegates.error"
+    :data-empty="!validator"
     data-title="Validator"
   >
     <template v-if="validator" slot="managed-body">
@@ -184,19 +184,19 @@
         :denom="bondDenom"
       />
     </template>
-  </TmPage>
-  <TmPage v-else :managed="true" :data-empty="!validator">
-    <template slot="title">
-      Validator Not Found
-    </template>
-    <template slot="subtitle">
-      <div>
-        Please visit the
-        <a href="/#/staking/validators/">
-          Validators
-        </a>
-        page to view all validators
-      </div>
+    <template v-else>
+      <template slot="title">
+        Validator Not Found
+      </template>
+      <template slot="subtitle">
+        <div>
+          Please visit the
+          <router-link to="/staking/validators/">
+            Validators
+          </router-link>
+          page to view all validators
+        </div>
+      </template>
     </template>
   </TmPage>
 </template>
