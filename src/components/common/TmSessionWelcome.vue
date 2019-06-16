@@ -26,19 +26,7 @@
         @click.native="() => setState('existing')"
       />
     </div>
-    <!-- <template>
-      <div class="danger-zone">
-        <div class="header">
-          <h2>DANGER ZONE</h2>
-          <p>
-            Creating an address or entering a seed in the browser is considered
-            extremely unsafe. These features are only enabled in insecure mode
-            for testing purposes and should not be used on mainnet or with real
-            tokens.
-          </p>
-        </div>
-      </div>
-    </template> -->
+
     <p class="footnote">
       By using Lunie, you accept our
       <router-link to="/terms" class="link">Terms of Service</router-link> and

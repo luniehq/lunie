@@ -6,14 +6,18 @@ import TmSessionHardware from "common/TmSessionHardware"
 const localVue = createLocalVue()
 localVue.use(Vuex)
 localVue.use(Vuelidate)
-localVue.directive(`tooltip`, () => {})
-localVue.directive(`focus`, () => {})
+localVue.directive(`tooltip`, () => { })
+localVue.directive(`focus`, () => { })
 
 describe(`TmSessionHardware`, () => {
   let wrapper, store
 
   beforeEach(() => {
-    store = new Vuex.Store()
+    store = new Vuex.Store({
+      getters: {
+        session: () => ({ browserWithLedgerSupport: true })
+      }
+    })
     wrapper = mount(TmSessionHardware, {
       localVue,
       store
@@ -35,16 +39,16 @@ describe(`TmSessionHardware`, () => {
 
   it(`should go back to the welcome screen on click`, () => {
     wrapper
-      .findAll(`.tm-session-header a`)
+      .findAll(`.session-header a`)
       .at(0)
       .trigger(`click`)
     expect(store.commit.mock.calls[0][0]).toBe(`setSessionModalView`)
-    expect(store.commit.mock.calls[0][1]).toBe(`welcome`)
+    expect(store.commit.mock.calls[0][1]).toBe(`existing`)
   })
 
   it(`should close the session modal`, () => {
     wrapper
-      .findAll(`.tm-session-header a`)
+      .findAll(`.session-header a`)
       .at(1)
       .trigger(`click`)
     expect(store.commit.mock.calls[0][0]).toBe(`toggleSessionModal`)

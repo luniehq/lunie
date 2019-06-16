@@ -38,13 +38,8 @@
         </div>
         <div class="session-footer">
           <p class="ledger-install">
-            Don't have the Cosmos Ledger App yet? Install it
-            <a
-              href="https://github.com/cosmos/voyager#ledger-cosmos-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              here</a
+            If you don't have a Ledger Nano, you can
+            <a href="" target="_blank" rel="noopener norefferer">buy one here</a
             >.
           </p>
           <TmBtn

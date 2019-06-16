@@ -20,16 +20,17 @@
       />
       <LiSession
         icon="vpn_key"
-        title="Use my Ledger Nano"
+        title="Use Ledger Nano"
         @click.native="() => setState('hardware')"
       />
       <LiSession
+        v-if="session.insecureMode"
         icon="settings_backup_restore"
         title="Recover from seed"
         @click.native="() => setState('import')"
       />
       <LiSession
-        v-if="accountExists"
+        v-if="accountExists && session.insecureMode"
         id="sign-in-with-account"
         icon="lock"
         title="Sign in with account"

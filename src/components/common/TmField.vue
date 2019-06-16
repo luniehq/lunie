@@ -201,6 +201,14 @@ export default {
   color: var(--dim);
 }
 
+.tm-field-select {
+  height: 40px;
+}
+
+.tm-field-select option {
+  padding: 0 0.75rem;
+}
+
 /* .tm-field:disabled {
   background: var(--app-fg);
   border: var(--app-fg);
