@@ -2,89 +2,53 @@ import { shallowMount, createLocalVue } from "@vue/test-utils"
 import TmSessionExisting from "common/TmSessionExisting"
 
 describe(`TmSessionExisting`, () => {
-	const localVue = createLocalVue()
-
 	let wrapper, $store
 
 	beforeEach(() => {
-		$store = {
-			commit: jest.fn(),
-			dispatch: jest.fn(() => true),
-			getters: {
-				connected: true
-			}
+		const getters = {
+			session: {
+				accounts: [],
+				insecureMode: false,
+				browserWithLedgerSupport: null
+			},
+			lastPage: `/`
 		}
-
+		$store = {
+			getters,
+			commit: jest.fn(),
+			dispatch: jest.fn()
+		}
 		wrapper = shallowMount(TmSessionExisting, {
-			localVue,
 			mocks: {
-				$router: {
-					push: jest.fn()
-				},
 				$store
-			}
+			},
+			stubs: [`router-link`]
 		})
 	})
 
-	it(`shows a form to sign in with an address`, () => {
-		expect(wrapper.vm.$el).toMatchSnapshot()
-	})
-
-	describe(`with accounts`, () => {
-		beforeEach(() => {
-			const getters = {
-				session: { accounts: [`foo`, `bar`], insecureMode: true },
-				lastPage: `/`
-			}
-			$store = {
-				getters,
-				commit: jest.fn(),
-				dispatch: jest.fn()
-			}
-			wrapper = shallowMount(TmSessionWelcome, {
-				mocks: {
-					$store
-				}
-			})
+	describe(`default view in production`, () => {
+		it(`shows "Explore with any address"`, () => {
+			expect(wrapper.find(`#explore-with-address`).exists()).toBe(true)
 		})
 
-		it(`should show sign-in link since we have accounts`, () => {
-			wrapper.vm.setState = jest.fn()
+		it(`shows "Use Ledger Nano"`, () => {
+			expect(wrapper.find(`#use-ledger-nano`).exists()).toBe(true)
+		})
+	})
+
+	describe(`insecure mode in production`, () => {
+		it(`shows "Recover with backup code"`, () => {
+			wrapper.vm.session.insecureMode = true
+			expect(wrapper.find(`#recover-with-backup`).exists()).toBe(true)
+		})
+	})
+
+	describe(`insecure mode with an existing account`, () => {
+		it(`shows "Sign in with account"`, () => {
+			wrapper.vm.session.insecureMode = true
+			wrapper.vm.session.accounts = [`account1`]
+
 			expect(wrapper.find(`#sign-in-with-account`).exists()).toBe(true)
-			wrapper.find(`#sign-in-with-account`).trigger(`click`)
-			expect(wrapper.vm.setState).toHaveBeenCalledWith(`sign-in`)
-		})
-
-		it(`sets desired login method`, () => {
-			Object.defineProperty(window.navigator, `userAgent`, {
-				value: `Chrome`,
-				writable: true
-			})
-			wrapper.vm.setState(`xxx`)
-			expect($store.commit).toHaveBeenCalledWith(`setSessionModalView`, `xxx`)
-		})
-
-		it(`has the expected html structure`, () => {
-			expect(wrapper.vm.$el).toMatchSnapshot()
-		})
-	})
-
-	describe(`production`, () => {
-		it(`should hide sign in with account if users do not opt in`, () => {
-			wrapper.vm.session.accounts = [
-				{
-					name: `test`
-				}
-			]
-			expect(wrapper.find(`#sign-in-with-account`).exists()).toBe(true)
-			wrapper.vm.session.insecureMode = false
-			expect(wrapper.find(`#sign-in-with-account`).exists()).toBe(false)
-		})
-
-		it(`should hide seed import if not in development`, () => {
-			expect(wrapper.find(`#import-seed`).exists()).toBe(true)
-			wrapper.vm.session.developmentMode = false
-			expect(wrapper.find(`#import-seed`).exists()).toBe(false)
 		})
 	})
 })

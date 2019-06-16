@@ -14,19 +14,22 @@
 
     <div class="session-list">
       <LiSession
+        id="explore-with-address"
         icon="language"
         title="Explore with any address"
         @click.native="() => setState('explore')"
       />
       <LiSession
+        id="use-ledger-nano"
         icon="vpn_key"
         title="Use Ledger Nano"
         @click.native="() => setState('hardware')"
       />
       <LiSession
         v-if="session.insecureMode"
+        id="recover-with-backup"
         icon="settings_backup_restore"
-        title="Recover from seed"
+        title="Recover with backup code"
         @click.native="() => setState('import')"
       />
       <LiSession

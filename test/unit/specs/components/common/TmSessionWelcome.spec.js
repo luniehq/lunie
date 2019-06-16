@@ -10,7 +10,6 @@ describe(`TmSessionWelcome`, () => {
       session: {
         accounts,
         insecureMode: true,
-        developmentMode: true,
         browserWithLedgerSupport: null
       },
       lastPage: `/`
@@ -59,16 +58,6 @@ describe(`TmSessionWelcome`, () => {
         TmSessionWelcome.methods.closeSession.call(self)
         expect($store.commit).toHaveBeenCalledWith(`toggleSessionModal`, false)
       })
-    })
-  })
-
-  describe(`without accounts`, () => {
-    it(`should not show sign-in link since we have no accounts`, () => {
-      expect(wrapper.find(`#sign-in-with-account`).exists()).toBe(false)
-    })
-
-    it(`has the expected html structure`, () => {
-      expect(wrapper.vm.$el).toMatchSnapshot()
     })
   })
 })
