@@ -204,7 +204,7 @@ import TmField from "common/TmField"
 import TmFormMsg from "common/TmFormMsg"
 import FieldSeed from "common/TmFieldSeed"
 export default {
-  name: `session-sign-up`,
+  name: `tm-session-sign-up`,
   components: {
     TmBtn,
     TmField,
@@ -231,7 +231,6 @@ export default {
       this.creating = false
       this.fields.signUpSeed = seedPhrase
     })
-    new PerfectScrollbar(this.$el.querySelector(`.session-main`))
   },
   methods: {
     setState(value) {
