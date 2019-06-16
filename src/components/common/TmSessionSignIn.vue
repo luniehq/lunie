@@ -10,12 +10,6 @@
       <a @click="$store.commit(`toggleSessionModal`, false)">
         <i class="material-icons session-close">close</i>
       </a>
-      <!-- <p class="session-paragraph">
-        Lunie supports both the Ledger Nano S and Ledger Nano X. If you don't
-        have a Ledger Nano, you can support Lunie by
-        <a href="" target="_blank" rel="noopener norefferer">buying one here</a
-        >.
-      </p> -->
     </div>
     <div class="session-main">
       <TmFormGroup field-id="sign-in-name" field-label="Select Account">

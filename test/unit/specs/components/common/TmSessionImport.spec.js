@@ -2,13 +2,13 @@ import Vuex from "vuex"
 import Vuelidate from "vuelidate"
 import { mount, createLocalVue } from "@vue/test-utils"
 import TmSessionImport from "common/TmSessionImport"
-jest.mock(`scripts/google-analytics.js`, () => () => {})
+jest.mock(`scripts/google-analytics.js`, () => () => { })
 const seed = `goose toward escape engine wheel board help torch avocado educate rose rebel rigid side aspect abandon grace admit inherit female grant pledge shine inquiry`
 const localVue = createLocalVue()
 localVue.use(Vuex)
 localVue.use(Vuelidate)
-localVue.directive(`tooltip`, () => {})
-localVue.directive(`focus`, () => {})
+localVue.directive(`tooltip`, () => { })
+localVue.directive(`focus`, () => { })
 
 describe(`TmSessionImport`, () => {
   let wrapper, store
@@ -33,16 +33,16 @@ describe(`TmSessionImport`, () => {
 
   it(`should go back to the welcome screen on click`, () => {
     wrapper
-      .findAll(`.tm-session-header a`)
+      .findAll(`.session-header a`)
       .at(0)
       .trigger(`click`)
     expect(store.commit.mock.calls[0][0]).toBe(`setSessionModalView`)
-    expect(store.commit.mock.calls[0][1]).toBe(`welcome`)
+    expect(store.commit.mock.calls[0][1]).toBe(`existing`)
   })
 
   it(`should close the session modal`, () => {
     wrapper
-      .findAll(`.tm-session-header a`)
+      .findAll(`.session-header a`)
       .at(1)
       .trigger(`click`)
     expect(store.commit.mock.calls[0][0]).toBe(`toggleSessionModal`)
