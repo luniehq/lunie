@@ -22,7 +22,7 @@ jest.mock(`@lunie/cosmos-keys`, () => ({
 }))
 
 jest.mock(
-  `@lunie/cosmos-js`,
+  `@lunie/cosmos-api`,
   () =>
     class MockCosmosJs {
       constructor() {}

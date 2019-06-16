@@ -1,7 +1,7 @@
 {
   "name": "lunie",
   "productName": "lunie",
-  "version": "1.0.0-beta.80",
+  "version": "1.0.0-beta.82",
   "description": "Lunie is the user interface for the Cosmos Hub.",
   "author": "Lunie International Software Systems Inc. <hello@lunie.io>",
   "license": "Apache-2.0",
@@ -113,7 +113,7 @@
     "webpack-dev-server": "3.2.1"
   },
   "dependencies": {
-    "@lunie/cosmos-js": "0.0.21",
+    "@lunie/cosmos-api": "0.0.23",
     "@lunie/cosmos-keys": "0.0.9",
     "@lunie/cosmos-ledger": "0.0.5",
     "@sentry/browser": "5.0.3",

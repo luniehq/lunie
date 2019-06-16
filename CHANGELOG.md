@@ -7,6 +7,43 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.0-beta.82] - 2019-06-16
+
+### Added
+
+- [#2165](https://github.com/cosmos/lunie/issues/2165) Shows end date and time for Governance proposals @thebkr7
+
+### Fixed
+
+- [#2771](https://github.com/cosmos/lunie/pull/2771) Delegates were not loaded before attempting to calculate rewards @colw
+
+### Code Improvements
+
+- updated the cosmos-js module and renamed it to cosmos-api @faboweb
+
+## [1.0.0-beta.81] - 2019-06-13
+
+### Changed
+
+- [#2164](https://github.com/cosmos/lunie/issues/2164) When an invalid validators address is entered a component lets them know and gives them the link to view all validators. @thebkr7
+
+### Fixed
+
+- [#2699](https://github.com/cosmos/lunie/issues/2699) Fixed the bug that was always displaying validators as active when expanded even if they were not @thebkr7
+- [#2702](https://github.com/cosmos/lunie/pull/2702) Withdraw correctly from the top 5 rewards @colw
+
+### Code Improvements
+
+- [#2164](https://github.com/cosmos/lunie/issues/2164) Changing how an invalid validators address is handled. Now a page informs users that it is invalid and has a link to view all validators @thebkr7
+- [#2164](https://github.com/cosmos/lunie/issues/2164) Refactored Vue Slots in TmPage and TmDataEmpty @thebkr7
+- Extracted signer scripts into @lunie/cosmos-keys @faboweb
+- [#2681](https://github.com/cosmos/lunie/pull/2681) Extracted the Ledger wrapper into a library @faboweb
+- [#2666](https://github.com/cosmos/lunie/issues/2666) removed refresh buttons @jbibla
+
+### Repository
+
+- [#2347](https://github.com/cosmos/lunie/pull/2347) Updates Jest config so that the test coverage summary is printed out when run @thebkr7
+
 ## [1.0.0-beta.80] - 2019-06-11
 
 ### Changed
