@@ -38,7 +38,6 @@
 </template>
 
 <script>
-import PerfectScrollbar from "perfect-scrollbar"
 import TmPageHeader from "./TmPageHeader.vue"
 import TmDataLoading from "common/TmDataLoading"
 import TmDataEmpty from "common/TmDataEmpty"
@@ -105,20 +104,8 @@ export default {
       default: false
     }
   },
-  data: () => ({
-    perfectScrollbar: ``
-  }),
   computed: {
     ...mapGetters([`session`, `connected`])
-  },
-  watch: {
-    $route() {
-      this.scrollContainer.scrollTop = 0
-    }
-  },
-  mounted() {
-    this.scrollContainer = this.$el.querySelector(`.tm-page-main`)
-    this.perfectScrollbar = new PerfectScrollbar(this.scrollContainer)
   }
 }
 </script>
@@ -317,6 +304,12 @@ export default {
 
   .page-profile__header__actions {
     margin-right: 0;
+  }
+}
+
+@media screen and (max-width: 1023px) {
+  .tm-page-main {
+    min-height: 100vh;
   }
 }
 </style>

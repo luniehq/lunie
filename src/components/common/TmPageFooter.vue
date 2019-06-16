@@ -87,4 +87,20 @@ ul li {
   border-radius: 0.25rem;
   font-size: var(--sm);
 }
+
+@media screen and (max-width: 1023px) {
+  footer {
+    background: var(--app-fg);
+    padding: 2rem 0.5rem;
+    margin-top: 1rem;
+  }
+
+  ul {
+    display: block;
+  }
+
+  ul li {
+    display: block;
+  }
+}
 </style>

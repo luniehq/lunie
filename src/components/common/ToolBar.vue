@@ -78,8 +78,7 @@ export default {
   }
 
   .sign-in-button {
-    margin: 0;
-    width: 100%;
+    display: none;
   }
 }
 </style>
