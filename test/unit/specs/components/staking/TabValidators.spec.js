@@ -128,11 +128,4 @@ describe(`TabValidators`, () => {
 
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
-
-  it(`should trigger reward updates on every block `, () => {
-    const $store = { dispatch: jest.fn() }
-    const newHeader = { height: `40` }
-    TabValidators.watch.lastHeader.handler.call({ $store }, newHeader)
-    expect($store.dispatch).toHaveBeenCalledWith(`getRewardsFromMyValidators`)
-  })
 })

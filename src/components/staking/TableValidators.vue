@@ -2,10 +2,7 @@
   <div>
     <table class="data-table">
       <thead>
-        <PanelSort
-          :sort="sort"
-          :properties="properties"
-        />
+        <PanelSort :sort="sort" :properties="properties" />
       </thead>
       <tbody>
         <LiValidator

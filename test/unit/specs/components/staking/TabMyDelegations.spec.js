@@ -155,37 +155,5 @@ describe(`Component: TabMyDelegations`, () => {
         ).toBe(false)
       })
     })
-
-    describe(`update rewards on new blocks`, () => {
-      describe(`shouldn't update`, () => {
-        it(`if hasn't waited for 20 blocks `, () => {
-          const $store = { dispatch: jest.fn() }
-          const yourValidators = [{}]
-          const newHeader = { height: `30` }
-          TabMyDelegations.watch.lastHeader.handler.call(
-            { $store, yourValidators },
-            newHeader
-          )
-          expect($store.dispatch).not.toHaveBeenCalledWith(
-            `getRewardsFromMyValidators`,
-            yourValidators
-          )
-        })
-
-        it(`if user doesn't have any delegations `, () => {
-          const $store = { dispatch: jest.fn() }
-          const yourValidators = []
-          const newHeader = { height: `40` }
-          TabMyDelegations.watch.lastHeader.handler.call(
-            { $store, yourValidators },
-            newHeader
-          )
-          expect($store.dispatch).not.toHaveBeenCalledWith(
-            `getRewardsFromMyValidators`,
-            yourValidators
-          )
-        })
-      })
-    })
   })
 })
