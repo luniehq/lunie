@@ -64,20 +64,20 @@
         </h2>
         <i class="material-icons">chevron_right</i>
       </router-link>
-      <button
+      <a
         v-if="session.signedIn"
-        class="tm-btn__container tm-btn--secondary sign-out-btn"
+        class="button app-menu-item"
         @click="signOut()"
       >
         Sign out
-      </button>
-      <button
+      </a>
+      <a
         v-if="!session.signedIn"
-        class="tm-btn__container tm-btn--primary sign-in-btn"
+        class="button app-menu-item"
         @click="signIn()"
       >
         Sign in
-      </button>
+      </a>
     </div>
     <ConnectedNetwork />
   </menu>
@@ -178,8 +178,9 @@ export default {
   font-weight: 500;
 }
 
-.tm-btn__container {
-  margin: 1rem 0 0 1.25rem;
+.app-menu .button {
+  color: var(--link);
+  font-size: var(--lg);
 }
 
 @media screen and (max-width: 1023px) {
@@ -206,7 +207,7 @@ export default {
     width: var(--width-side);
   }
 
-  .app-menu .sign-out-btn {
+  .app-menu .button {
     display: none;
   }
 }

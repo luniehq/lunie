@@ -81,14 +81,13 @@ export default {
 }
 
 .mobile-menu-action {
-  font-size: 1.5rem !important;
+  font-size: 2rem !important;
 }
 
 .app-header > .container {
   flex: 1;
   display: flex;
   flex-flow: column nowrap;
-  position: fixed;
 }
 
 .app-header .header-item {
@@ -106,9 +105,6 @@ export default {
 
 @media screen and (max-width: 1023px) {
   .app-header {
-    position: fixed;
-    top: 0;
-    left: 0;
     width: 100%;
     min-height: 0;
   }
@@ -128,7 +124,7 @@ export default {
   }
 
   .header-item-logo {
-    height: 2rem;
+    height: 2.5rem;
   }
 }
 </style>
