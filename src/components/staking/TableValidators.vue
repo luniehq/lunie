@@ -2,7 +2,10 @@
   <div>
     <table class="data-table">
       <thead>
-        <PanelSort :sort="sort" :properties="properties" />
+        <PanelSort
+          :sort="sort"
+          :properties="properties"
+        />
       </thead>
       <tbody>
         <LiValidator
@@ -51,7 +54,8 @@ export default {
       `distribution`,
       `bondDenom`,
       `keybase`,
-      `pool`
+      `pool`,
+      `lastHeader`
     ]),
     enrichedValidators(
       {
@@ -145,11 +149,18 @@ export default {
   watch: {
     address: function() {
       this.session.address && this.$store.dispatch(`updateDelegates`)
+    },
+    lastHeader: {
+      immediate: true,
+      handler() {
+        this.$store.dispatch(`getRewardsFromMyValidators`)
+      }
     }
   },
   mounted() {
     this.$store.dispatch(`getPool`)
     this.$store.dispatch(`updateDelegates`)
+    this.$store.dispatch(`getRewardsFromMyValidators`)
   }
 }
 </script>

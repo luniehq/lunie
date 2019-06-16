@@ -124,14 +124,18 @@ export default ({ node }) => {
         submitType
       })
       await dispatch(`getTotalRewards`)
+      await dispatch(`getRewardsFromMyValidators`)
       await dispatch(`queryWalletBalances`)
       await dispatch(`getAllTxs`)
     },
-    async getRewardsFromMyValidators({
-      state,
-      dispatch,
-      getters: { lastHeader, yourValidators }
-    }) {
+    async getRewardsFromMyValidators(
+      {
+        state,
+        dispatch,
+        getters: { lastHeader, yourValidators }
+      },
+      force = false
+    ) {
       await distributionsThrottle(
         state,
         Number(lastHeader.height),
@@ -144,7 +148,8 @@ export default ({ node }) => {
           )
           state.loading = false
           state.loaded = true
-        }
+        },
+        force
       )
     },
     async getRewardsFromValidator(
