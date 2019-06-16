@@ -132,7 +132,9 @@
                 v-if="requiresSignIn"
                 value="Sign In"
                 color="primary"
+                v-focus
                 @click.native="goToSession"
+                @click.enter.native="goToSession"
               />
               <TmBtn
                 v-else-if="sending"
@@ -156,7 +158,12 @@
                 value="Next"
                 :disabled="step === `fees` && $v.invoiceTotal.$invalid"
                 @click.native="validateChangeStep"
+
               />
+    <!-- @click.enter.native="validateChangeStep" -->
+
+<!-- TODO: MAKE ABOVE WORK BY CLICKING ENTER ON THE GAS SCREEN -->
+
               <TmBtn
                 v-else
                 color="primary"
@@ -219,15 +226,9 @@ export default {
       type: Function,
       required: true
     },
-
-
-
     passToParent: {
       type: Function,
     },
-
-
-
     submitFn: {
       type: Function,
       required: true
@@ -312,16 +313,12 @@ export default {
       ]
     }
   },
-
-
   mounted() {
-    //passes submittion function to parent component so that pressing enter can submit forms
+    //Passes submittion function to parent component so that pressing enter can submit forms
     if (this.passToParent) {
       this.passToParent(this.validateChangeStep)
     }
   },
-
-
   methods: {
     open() {
       this.track(`event`, `modal`, this.title)

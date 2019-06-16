@@ -116,6 +116,7 @@
         v-model="memo"
         type="text"
         placeholder="Add a description..."
+        @keyup.enter.native="enterPressed"
       />
       <TmFormMsg
         v-if="$v.memo.$error && !$v.memo.maxLength"
