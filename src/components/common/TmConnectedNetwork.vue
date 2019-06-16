@@ -38,7 +38,7 @@
         tm-connected-network__string--connecting
       "
     >
-      Connecting to {{ lastHeader.chain_id }}…
+      Connecting…
     </div>
   </div>
 </template>
@@ -57,9 +57,7 @@ export default {
       if (connected) {
         return `You're connected to ${lastHeader.chain_id} via ${nodeUrl}.`
       }
-      return `We're pinging nodes to try to connect you to ${
-        lastHeader.chain_id
-      }.`
+      return `Seeking connection`
     },
     blockHeight({ num, lastHeader } = this) {
       return `#` + num.prettyInt(lastHeader.height)
