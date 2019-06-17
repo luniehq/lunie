@@ -14,6 +14,7 @@ export default opts => ({
   governanceParameters: require(`./governance/parameters.js`).default(opts),
   send: require(`./send.js`).default(opts),
   session: require(`./session.js`).default(opts),
+  keystore: require(`./keystore.js`).default(opts),
   ledger: require(`./ledger.js`).default(opts),
   wallet: require(`./wallet.js`).default(opts),
   keybase: require(`./keybase.js`).default(opts),

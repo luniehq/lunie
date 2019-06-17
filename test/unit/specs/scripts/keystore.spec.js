@@ -64,9 +64,13 @@ describe(`Keystore`, () => {
   })
 
   it(`tests if a password is correct for a locally stored key`, () => {
-    addNewKey(accountName, password, crypto.randomBytes)
-    expect(testPassword(accountName, password)).toBeTruthy()
-    expect(testPassword(accountName, `false`)).toBeFalsy()
+    const { cosmosAddress } = addNewKey(
+      accountName,
+      password,
+      crypto.randomBytes
+    )
+    expect(testPassword(cosmosAddress, password)).toBeTruthy()
+    expect(testPassword(cosmosAddress, `false`)).toBeFalsy()
   })
 
   it(`Prevents you from overriding existing key names`, () => {

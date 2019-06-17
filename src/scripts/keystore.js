@@ -46,10 +46,10 @@ function addKey(wallet, name, password) {
   localStorage.setItem(`keys`, JSON.stringify(keys))
 }
 
-export function testPassword(name, password) {
+export function testPassword(address, password) {
   const keys = loadKeys()
 
-  const key = keys.find(key => key.name === name)
+  const key = keys.find(key => key.address === address)
   try {
     // try to decode and check if is json format to proofs that decoding worked
     const decrypted = decrypt(key.wallet, password)

@@ -8,10 +8,12 @@ describe(`TmSessionWelcome`, () => {
   beforeEach(() => {
     const getters = {
       session: {
-        accounts,
         insecureMode: true,
         developmentMode: true,
         browserWithLedgerSupport: null
+      },
+      keystore: {
+        accounts
       },
       lastPage: `/`
     }
@@ -74,7 +76,8 @@ describe(`TmSessionWelcome`, () => {
   describe(`with accounts`, () => {
     beforeEach(() => {
       const getters = {
-        session: { accounts: [`foo`, `bar`], insecureMode: true },
+        session: { insecureMode: true },
+        keystore: { accounts: [`foo`, `bar`] },
         lastPage: `/`
       }
       $store = {
@@ -112,7 +115,7 @@ describe(`TmSessionWelcome`, () => {
 
   describe(`production`, () => {
     it(`should hide sign in with account if users do not opt in`, () => {
-      wrapper.vm.session.accounts = [
+      wrapper.vm.keystore.accounts = [
         {
           name: `test`
         }

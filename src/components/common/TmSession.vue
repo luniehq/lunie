@@ -55,5 +55,5 @@ export default {
 }
 </script>
 <style>
-@import "src/styles/session.css";
+@import "../../styles/session.css";
 </style>
