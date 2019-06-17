@@ -99,20 +99,17 @@ export default ({ node }) => {
       { rootState, getters, dispatch },
       { gas, gasPrice, denom, password, submitType }
     ) {
-      // Compares the amount in a [address1, {denom: amount}] array
-      const byBalanceOfDenom = denom => (a, b) => b[1][denom] - a[1][denom]
-
       const totalRewards = Number(
         getters.distribution.totalRewards[getters.bondDenom]
       )
 
-      const validatorList = Object.entries(getters.distribution.rewards)
-        .sort(byBalanceOfDenom(getters.bondDenom))
-        .slice(0, 5) // Just the top 5
-        .map(([address]) => address)
+      const topValidatorList = getTop5RewardsValidators(
+        getters.bondDenom,
+        getters.distribution.rewards
+      )
 
       // safety for a bug that happens if the individual validator rewards are not loaded yet
-      if (totalRewards > 0 && validatorList.length === 0) {
+      if (totalRewards > 0 && topValidatorList.length === 0) {
         await dispatch(`getRewardsFromMyValidators`, true)
         dispatch(`withdrawRewards`, {
           gas,
@@ -128,7 +125,7 @@ export default ({ node }) => {
         type: `MsgWithdrawDelegationReward`,
         txArguments: {
           toAddress: rootState.session.address,
-          validatorAddresses: validatorList
+          validatorAddresses: topValidatorList
         },
         gas: String(gas),
         gas_prices: [
@@ -233,4 +230,17 @@ export default ({ node }) => {
     mutations,
     actions
   }
+}
+
+// get top 5 validators for certain denom based on the rewards the delegator has with them right now
+function getTop5RewardsValidators(bondDenom, rewardsObject) {
+  // Compares the amount in a [address1, {denom: amount}] array
+  const byBalanceOfDenom = denom => (a, b) => b[1][denom] - a[1][denom]
+
+  const validatorList = Object.entries(rewardsObject)
+    .sort(byBalanceOfDenom(bondDenom))
+    .slice(0, 5) // Just the top 5
+    .map(([address]) => address)
+
+  return validatorList
 }
