@@ -29,7 +29,7 @@ exports[`LiStakeTransaction create validator with fees 1`] = `
       to="/validator/cosmosvaloper1qecshyc40kshszkwrtscgmsdd8tz3n4hrj9yf2"
     >
       
-        cosmosvaloper…9yf2
+        cosmosvaloper1qecshyc40kshszkwrtscgmsdd8tz3n4hrj9yf2
       
     </router-link-stub>
   </div>
@@ -64,7 +64,7 @@ exports[`LiStakeTransaction create validator without fees 1`] = `
       to="/validator/cosmosvaloper1qecshyc40kshszkwrtscgmsdd8tz3n4hrj9yf2"
     >
       
-        cosmosvaloper…9yf2
+        cosmosvaloper1qecshyc40kshszkwrtscgmsdd8tz3n4hrj9yf2
       
     </router-link-stub>
   </div>
@@ -164,7 +164,7 @@ exports[`LiStakeTransaction edit validator with fees 1`] = `
       to="/validator/cosmosvaloper1qecshyc40kshszkwrtscgmsdd8tz3n4hrj9yf2"
     >
       
-        cosmosvaloper…9yf2
+        cosmosvaloper1qecshyc40kshszkwrtscgmsdd8tz3n4hrj9yf2
       
     </router-link-stub>
   </div>
@@ -192,7 +192,7 @@ exports[`LiStakeTransaction edit validator without fees 1`] = `
       to="/validator/cosmosvaloper1qecshyc40kshszkwrtscgmsdd8tz3n4hrj9yf2"
     >
       
-        cosmosvaloper…9yf2
+        cosmosvaloper1qecshyc40kshszkwrtscgmsdd8tz3n4hrj9yf2
       
     </router-link-stub>
   </div>
@@ -483,7 +483,7 @@ exports[`LiStakeTransaction unjail with fees 1`] = `
       to="/validator/cosmosvaloper1qecshyc40kshszkwrtscgmsdd8tz3n4hrj9yf2"
     >
       
-        cosmosvaloper…9yf2
+        cosmosvaloper1qecshyc40kshszkwrtscgmsdd8tz3n4hrj9yf2
       
     </router-link-stub>
   </div>
@@ -511,7 +511,7 @@ exports[`LiStakeTransaction unjail without fees 1`] = `
       to="/validator/cosmosvaloper1qecshyc40kshszkwrtscgmsdd8tz3n4hrj9yf2"
     >
       
-        cosmosvaloper…9yf2
+        cosmosvaloper1qecshyc40kshszkwrtscgmsdd8tz3n4hrj9yf2
       
     </router-link-stub>
   </div>

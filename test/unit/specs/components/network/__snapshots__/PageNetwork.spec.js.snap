@@ -71,9 +71,7 @@ exports[`PageNetwork should display the network page with data and the blocks ta
           </dt>
            
           <dd>
-            
             108
-          
           </dd>
         </dl>
          
@@ -260,9 +258,7 @@ exports[`PageNetwork should display the network page with the blocks table in a 
           </dt>
            
           <dd>
-            
             108
-          
           </dd>
         </dl>
          

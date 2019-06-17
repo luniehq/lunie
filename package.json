@@ -31,7 +31,7 @@
     "test:e2e:build": "cross-env E2E_TESTS=true STARGATE=http://localhost:9070 RPC=http://localhost:26657 CIRCLECI=true npm run build:ui",
     "test:coverage": "live-server test/unit/coverage/lcov-report",
     "watch": "tasks/watch.sh",
-    "testnet:start": "docker run --rm -p 26657:26657 --name testnet -p 9070:9070 --detach -e MAX_NODES=${MAX_NODES:-2} lunieio/testnet:v0.34.7",
+    "testnet:start": "docker run --rm -p 26657:26657 --name testnet -p 9070:9070 --detach -e MAX_NODES=${MAX_NODES:-2} lunieio/testnet:v0.34.3",
     "testnet:stop": "docker stop testnet",
     "proxy": "node ./tasks/local-testnet/proxy.js",
     "certificates": "docker-compose -f tasks/certificates/docker-compose.yml up",

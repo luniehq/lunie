@@ -348,9 +348,14 @@ textarea.tm-field {
 }
 
 .tm-select select option {
-  background: var(--app-fg);
-  color: var(--txt);
-  padding: 0 4px;
+  background: var(--input-bg, #fff);
+  color: txt;
+  font-family: var(--sans);
+}
+
+.tm-select select option:checked {
+  background: var(--hover-bg, #ccf);
+  color: var(--bright, #000);
 }
 
 .tm-select .tm-field-select-addon {
