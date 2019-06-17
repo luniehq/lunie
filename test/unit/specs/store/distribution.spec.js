@@ -302,7 +302,7 @@ describe(`Module: Fee Distribution`, () => {
       it(`success`, async () => {
         const validatorAddr = `cosmosvaloper1address`
         await actions.getRewardsFromValidator(
-          { state, rootState, commit },
+          { state, rootState, commit, getters: { bondDenom: "stake" } },
           validatorAddr
         )
         expect(node.get.delegatorRewardsFromValidator).toHaveBeenCalledWith(
@@ -321,7 +321,7 @@ describe(`Module: Fee Distribution`, () => {
           Promise.reject(Error(`invalid validator address`))
         )
         await actions.getRewardsFromValidator(
-          { state, rootState, commit },
+          { state, rootState, commit, getters: { bondDenom: "stake" } },
           validatorAddr
         )
         expect(node.get.delegatorRewardsFromValidator).toHaveBeenCalledWith(
