@@ -8,6 +8,10 @@
     class="modal-withdraw-rewards"
     submission-error-prefix="Withdrawal failed"
   >
+    <span class="form-message notice withdraw-limit">
+      You can only withdraw rewards from your top 5 validators in a single
+      transaction. This is because of a limitation with the Ledger Nano.
+    </span>
     <TmFormGroup
       class="action-modal-form-group"
       field-id="amount"
@@ -16,10 +20,6 @@
       <span class="input-suffix">{{ denom | viewDenom }}</span>
       <TmField id="amount" :value="rewards | atoms | fullDecimals" readonly />
     </TmFormGroup>
-    <span v-if="!validatorAddress" class="form-message withdraw-limit">
-      Note: Lunie will withdraw only the top 5 rewards in a single transaction
-      due to a limitation in the Ledger Nano.
-    </span>
   </ActionModal>
 </template>
 
@@ -42,11 +42,6 @@ export default {
     fullDecimals
   },
   props: {
-    validatorAddress: {
-      type: String,
-      required: false,
-      default: null
-    },
     rewards: {
       type: Number,
       default: 0
@@ -61,14 +56,13 @@ export default {
       this.$refs.actionModal.open()
     },
     async simulateForm() {
-      return await this.$store.dispatch(`simulateWithdrawAllRewards`)
+      return await this.$store.dispatch(`simulateWithdralRewards`)
     },
     async submitForm(gasEstimate, gasPrice, password, submitType) {
-      await this.$store.dispatch(`withdrawAllRewards`, {
+      await this.$store.dispatch(`withdrawRewards`, {
         gas: gasEstimate,
         gasPrice,
         denom: this.denom,
-        validatorAddress: this.validatorAddress,
         password,
         submitType
       })

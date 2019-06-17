@@ -38,11 +38,24 @@ function getKeybaseProfileFromResponse(keybaseId, { data }) {
   }
 }
 
+function getValidators() {
+  return Promise.all([
+    axios(`https://stargate.lunie.io/staking/validators?status=unbonding`).then(
+      res => res.data
+    ),
+    axios(`https://stargate.lunie.io/staking/validators?status=bonded`).then(
+      res => res.data
+    ),
+    axios(`https://stargate.lunie.io/staking/validators?status=unbonded`).then(
+      res => res.data
+    )
+  ]).then(validatorGroups => [].concat(...validatorGroups))
+}
+
 // This function creates a file with keybase profiles of all validators (as a fallback cache)
 // This should be created on every build
 async function main() {
-  const validators = (await axios(`https://rpc.lunie.io/staking/validators`))
-    .data
+  const validators = await getValidators()
   const cache = {}
   await Promise.all(
     validators.map(async validator => {

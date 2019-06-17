@@ -24,6 +24,27 @@ describe(`Module: Fee Distribution`, () => {
     photino: 15
   }
 
+  const validatorRewards = {
+    address1: {
+      uatom: 100
+    },
+    address2: {
+      uatom: 10
+    },
+    address3: {
+      uatom: 70
+    },
+    address4: {
+      uatom: 2
+    },
+    address5: {
+      uatom: 3
+    },
+    address6: {
+      uatom: 99
+    }
+  }
+
   beforeEach(() => {
     module = distributionModule({ node })
     state = module.state
@@ -139,117 +160,37 @@ describe(`Module: Fee Distribution`, () => {
       })
     })
 
-    describe(`withdrawAllRewards`, () => {
+    describe(`withdrawRewards`, () => {
       it(`should simulate a withdrawal transaction`, async () => {
         const { actions } = module
         const self = {
           rootState,
           dispatch: jest.fn(() => 123123)
         }
-        const res = await actions.simulateWithdrawAllRewards(self)
+        const res = await actions.simulateWithdralRewards(self)
 
         expect(self.dispatch).toHaveBeenCalledWith(`simulateTx`, {
           type: `MsgWithdrawDelegationReward`,
           txArguments: {
-            toAddress: `cosmos1address`,
-            validatorAddresses: []
+            toAddress: `cosmos1address`
           }
         })
         expect(res).toBe(123123)
       })
 
       it(`success withdrawal`, async () => {
-        await actions.withdrawAllRewards(
+        await actions.withdrawRewards(
           {
             rootState,
             dispatch,
             getters: {
-              committedDelegations: {
-                coolval1: {}
-              }
-            }
-          },
-          {
-            gas: 456,
-            gasPrice: 123,
-            password: ``,
-            submitType: `ledger`
-          }
-        )
-        expect(dispatch).toHaveBeenCalledWith(`sendTx`, {
-          type: `MsgWithdrawDelegationReward`,
-          txArguments: {
-            toAddress: `cosmos1address`,
-            validatorAddresses: [`coolval1`]
-          },
-          password: ``,
-          submitType: `ledger`,
-          gas: "456",
-          gas_prices: [{ amount: "123000000", denom: undefined }]
-        })
-        expect(dispatch).toHaveBeenCalledWith(`getTotalRewards`)
-      })
-
-      it(`success withdrawal one address`, async () => {
-        await actions.withdrawAllRewards(
-          {
-            rootState,
-            dispatch,
-            getters: {
-              committedDelegations: {
-                address1: 100,
-                address2: 1,
-                address3: 5,
-                address4: 3,
-                address5: 0,
-                address6: 99,
-                address7: 9,
-                address8: 96,
-                address9: 98,
-                address10: 97
-              }
-            }
-          },
-          {
-            gas: 456,
-            gasPrice: 123,
-            password: ``,
-            submitType: `ledger`,
-            validatorAddress: `address4`
-          }
-        )
-        expect(dispatch).toHaveBeenCalledWith(`sendTx`, {
-          type: `MsgWithdrawDelegationReward`,
-          txArguments: {
-            toAddress: `cosmos1address`,
-            validatorAddresses: [`address4`]
-          },
-          password: ``,
-          submitType: `ledger`,
-          gas: "456",
-          gas_prices: [{ amount: "123000000", denom: undefined }]
-        })
-        expect(dispatch).toHaveBeenCalledWith(`getTotalRewards`)
-      })
-
-      it(`success withdrawal top 5`, async () => {
-        await actions.withdrawAllRewards(
-          {
-            rootState,
-            dispatch,
-            getters: {
-              committedDelegations: {
-                address1: 100,
-                address2: 1,
-                address3: 5,
-                address4: 3,
-                address5: 0,
-                address6: 99,
-                address7: 9,
-                address8: 96,
-                address9: 98,
-                address10: 97
-              }
+              distribution: {
+                rewards: validatorRewards,
+                totalRewards: {
+                  uatom: 10
+                }
+              },
+              bondDenom: "uatom"
             }
           },
           {
@@ -266,9 +207,9 @@ describe(`Module: Fee Distribution`, () => {
             validatorAddresses: [
               `address1`,
               `address6`,
-              `address9`,
-              `address10`,
-              `address8`
+              `address3`,
+              `address2`,
+              `address5`
             ]
           },
           password: ``,
@@ -276,7 +217,43 @@ describe(`Module: Fee Distribution`, () => {
           gas: "456",
           gas_prices: [{ amount: "123000000", denom: undefined }]
         })
-        expect(dispatch).toHaveBeenCalledWith(`getTotalRewards`)
+        expect(dispatch).toHaveBeenCalledWith(
+          `getRewardsFromMyValidators`,
+          true
+        )
+      })
+
+      it("should load the individual validator rewards if they haven't been loaded before", async () => {
+        await actions.withdrawRewards(
+          {
+            rootState,
+            dispatch,
+            getters: {
+              distribution: {
+                rewards: {},
+                totalRewards: {
+                  uatom: 10
+                }
+              },
+              bondDenom: "uatom"
+            }
+          },
+          {
+            gas: 456,
+            gasPrice: 123,
+            password: ``,
+            submitType: `ledger`
+          }
+        )
+        expect(dispatch).toHaveBeenCalledWith(
+          `getRewardsFromMyValidators`,
+          true
+        )
+        expect(dispatch).toHaveBeenCalledWith(
+          `getRewardsFromMyValidators`,
+          true
+        )
+        expect(dispatch).not.toHaveBeenCalledWith(`sendTx`, expect.any(Object))
       })
     })
 
@@ -319,34 +296,13 @@ describe(`Module: Fee Distribution`, () => {
           })
         ).rejects.toThrowError(`invalid address`)
       })
-
-      it(`throttle to every 20 blocks`, async () => {
-        const validators = [
-          { operator_address: `cosmosvaloper1address1` },
-          { operator_address: `cosmosvaloper1address2` }
-        ]
-        state.lastValidatorRewardsUpdate = 0
-        await actions.getRewardsFromMyValidators({
-          state,
-          dispatch,
-          getters: { lastHeader: { height: `43` }, yourValidators: validators }
-        })
-        expect(state.lastValidatorRewardsUpdate).toBe(43)
-        dispatch.mockClear()
-        await actions.getRewardsFromMyValidators({
-          state,
-          dispatch,
-          getters: { lastHeader: { height: `44` }, yourValidators: validators }
-        })
-        expect(dispatch).not.toHaveBeenCalled()
-      })
     })
 
     describe(`getRewardsFromValidator`, () => {
       it(`success`, async () => {
         const validatorAddr = `cosmosvaloper1address`
         await actions.getRewardsFromValidator(
-          { state, rootState, commit },
+          { state, rootState, commit, getters: { bondDenom: "stake" } },
           validatorAddr
         )
         expect(node.get.delegatorRewardsFromValidator).toHaveBeenCalledWith(
@@ -365,7 +321,7 @@ describe(`Module: Fee Distribution`, () => {
           Promise.reject(Error(`invalid validator address`))
         )
         await actions.getRewardsFromValidator(
-          { state, rootState, commit },
+          { state, rootState, commit, getters: { bondDenom: "stake" } },
           validatorAddr
         )
         expect(node.get.delegatorRewardsFromValidator).toHaveBeenCalledWith(

@@ -128,16 +128,9 @@ export default {
   watch: {
     "session.signedIn": function() {
       this.loadStakingTxs()
-    },
-    lastHeader: {
-      immediate: true,
-      handler() {
-        this.$store.dispatch(`getRewardsFromMyValidators`)
-      }
     }
   },
   async mounted() {
-    this.$store.dispatch(`updateDelegates`)
     this.loadStakingTxs()
   },
   methods: {

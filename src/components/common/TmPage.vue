@@ -9,7 +9,7 @@
       </h3>
       <slot slot="menu-body" name="menu-body">
         <TmBalance v-if="session.signedIn" />
-        <ToolBar :refresh="refreshable" />
+        <ToolBar />
       </slot>
       <slot slot="header-buttons" name="header-buttons" />
     </TmPageHeader>
@@ -20,7 +20,14 @@
         <TmDataLoading v-else-if="!loaded && loading" />
         <TmDataError v-else-if="error" />
         <slot v-else-if="dataEmpty" name="no-data">
-          <TmDataEmpty />
+          <TmDataEmpty>
+            <template slot="title">
+              <slot name="title" />
+            </template>
+            <template slot="subtitle">
+              <slot name="subtitle" />
+            </template>
+          </TmDataEmpty>
         </slot>
         <slot v-else name="managed-body" />
       </template>
@@ -93,10 +100,6 @@ export default {
       type: Boolean,
       default: undefined
     },
-    refresh: {
-      type: Function,
-      default: undefined
-    },
     signInRequired: {
       type: Boolean,
       default: false
@@ -106,10 +109,7 @@ export default {
     perfectScrollbar: ``
   }),
   computed: {
-    ...mapGetters([`session`, `connected`]),
-    refreshable({ connected, refresh } = this) {
-      return refresh ? { connected, refresh } : undefined
-    }
+    ...mapGetters([`session`, `connected`])
   },
   watch: {
     $route() {
@@ -276,7 +276,6 @@ export default {
   font-size: 1rem;
   line-height: 1.25rem;
   color: var(--bright);
-  word-break: break-all;
 }
 
 .footer {

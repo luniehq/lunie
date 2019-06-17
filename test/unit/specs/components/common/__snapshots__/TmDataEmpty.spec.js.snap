@@ -22,8 +22,8 @@ exports[`TmDataEmpty has the expected html structure 1`] = `
     >
       <h4>
         
-    N/A
-  
+        N/A
+      
       </h4>
     </h2>
      
@@ -32,8 +32,8 @@ exports[`TmDataEmpty has the expected html structure 1`] = `
     >
       <h5>
         
-    No data available yet.
-  
+        No data available yet.
+      
       </h5>
     </h3>
   </div>

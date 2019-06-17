@@ -10,7 +10,7 @@ const stakingParameters = {
 const validator = {
   operator_address: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw`,
   pub_key: `cosmosvalpub1234`,
-  revoked: false,
+  jailed: false,
   tokens: `14`,
   delegator_shares: `14`,
   description: {
@@ -152,6 +152,12 @@ describe(`PageValidator`, () => {
       expect(wrapper.exists(`tm-data-error-stub`)).toBe(true)
     })
 
+    it(`shows invalid validator address page if invalid validator address used`, () => {
+      $store.getters.delegates.delegates = []
+
+      expect(wrapper.exists(`tm-data-msg`)).toBe(true)
+    })
+
     it(`shows the selfBond`, () => {
       expect(wrapper.find(`#page-profile__self-bond`).text()).toBe(`1.00%`)
     })
@@ -161,7 +167,7 @@ describe(`PageValidator`, () => {
       // Jailed
       $store.getters.delegates.delegates = [
         Object.assign({}, validator, {
-          revoked: true
+          jailed: true
         })
       ]
       expect(wrapper.vm.status).toBe(
@@ -170,7 +176,7 @@ describe(`PageValidator`, () => {
       // Is not a validator
       $store.getters.delegates.delegates = [
         Object.assign({}, validator, {
-          voting_power: 0
+          status: 0
         })
       ]
       expect(wrapper.vm.status).toBe(
@@ -178,19 +184,19 @@ describe(`PageValidator`, () => {
       )
     })
 
-    it(`shows a validator as candidate if he has no voting_power`, () => {
+    it(`shows a validator as an inactive candidate if he has no voting_power`, () => {
       $store.getters.delegates.delegates = [
         Object.assign({}, validator, {
-          voting_power: 0
+          status: 0
         })
       ]
       expect(wrapper.vm.status).toMatchSnapshot()
     })
 
-    it(`shows that a validator is revoked`, () => {
+    it(`shows that a validator is jailed`, () => {
       $store.getters.delegates.delegates = [
         Object.assign({}, validator, {
-          revoked: true
+          jailed: true
         })
       ]
       expect(wrapper.vm.status).toMatchSnapshot()
@@ -570,33 +576,6 @@ describe(`delegationTargetOptions`, () => {
         }
         PageValidator.methods.onUndelegation.call(self)
         expect(self.$refs.undelegationModal.open).toHaveBeenCalled()
-      })
-    })
-
-    describe(`onWithdrawal`, () => {
-      it(`should open withdrawal modal when there are rewards`, () => {
-        const self = {
-          rewards: 1,
-          $refs: {
-            modalWithdrawRewards: {
-              open: jest.fn()
-            }
-          }
-        }
-        PageValidator.methods.onWithdrawal.call(self)
-        expect(self.$refs.modalWithdrawRewards.open).toHaveBeenCalled()
-      })
-      it(`should not open withdrawal modal when there are zero rewards`, () => {
-        const self = {
-          rewards: 0,
-          $refs: {
-            modalWithdrawRewards: {
-              open: jest.fn()
-            }
-          }
-        }
-        PageValidator.methods.onWithdrawal.call(self)
-        expect(self.$refs.modalWithdrawRewards.open).not.toHaveBeenCalled()
       })
     })
   })

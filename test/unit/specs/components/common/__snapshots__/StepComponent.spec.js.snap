@@ -14,7 +14,7 @@ exports[`Steps shows steps 1`] = `
         class="circle--default active includeLine"
       >
         
-      0
+      1
     
       </div>
        
@@ -37,7 +37,7 @@ exports[`Steps shows steps 1`] = `
         class="circle--default"
       >
         
-      1
+      2
     
       </div>
        

@@ -13,8 +13,8 @@
       </div>
       <span slot="details">
         <template>
-          From <ShortBech32 :address="sender" /> to
-          <ShortBech32 :address="receiver" />
+          From <Bech32 :address="sender" /> to
+          <Bech32 :address="receiver" />
         </template>
       </span>
     </template>
@@ -28,7 +28,7 @@
           To yourself!
         </template>
         <template v-else>
-          To <ShortBech32 :address="receiver" />
+          To <Bech32 :address="receiver" />
         </template>
       </span>
     </template>
@@ -37,22 +37,20 @@
         Received <b>{{ txAmount | toAtoms | prettyLong }}</b>
         <span>{{ txDenom | viewDenom }}</span>
       </div>
-      <span slot="details">
-        From &nbsp; <ShortBech32 :address="sender" />
-      </span>
+      <span slot="details"> From &nbsp; <Bech32 :address="sender" /> </span>
     </template>
   </LiTransaction>
 </template>
 
 <script>
-import ShortBech32 from "common/ShortBech32"
+import Bech32 from "common/Bech32"
 import LiTransaction from "./LiTransaction"
 import { atoms as toAtoms, viewDenom, prettyLong } from "../../scripts/num.js"
 
 export default {
   name: `li-bank-transaction`,
   components: {
-    ShortBech32,
+    Bech32,
     LiTransaction
   },
   filters: {
