@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.0-beta.83] - 2019-06-17
+
+### Fixed
+
+- Proper loading of validator rewards @faboweb
+
+### Repository
+
+- Added config for codeclimate increasing lines per method allowed to 35 @faboweb
+
 ## [1.0.0-beta.82] - 2019-06-16
 
 ### Added
