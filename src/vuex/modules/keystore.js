@@ -1,6 +1,5 @@
 import * as Sentry from "@sentry/browser"
 import { track } from "scripts/google-analytics.js"
-import config from "src/config"
 import { loadKeys, importKey, testPassword } from "../../scripts/keystore.js"
 import { getSeed } from "@lunie/cosmos-keys"
 
@@ -10,7 +9,6 @@ export default () => {
     error: null,
     // import into state to be able to test easier
     externals: {
-      config,
       loadKeys,
       importKey,
       testPassword,
