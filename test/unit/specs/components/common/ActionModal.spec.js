@@ -418,6 +418,15 @@ describe(`ActionModal`, () => {
       wrapper.vm.$nextTick(() => {
         expect(wrapper.vm.submissionError).toBe(null)
         // expect(postSubmit).toHaveBeenCalled()
+        expect($store.dispatch).toHaveBeenCalledWith(`postMsgSend`, {
+          txMeta: {
+            gasEstimate: 12345,
+            gasPrice: { amount: "0.000000025", denom: "uatom" },
+            password: null,
+            selectedSignMethod: "local"
+          },
+          txProps: { denom: "uatom", validatorAddress: "cosmos12345" }
+        })
         expect($store.commit).toHaveBeenCalledWith(`notify`, {
           title: `Successful transaction`,
           body: `You have successfully completed a transaction.`
