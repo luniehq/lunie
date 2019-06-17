@@ -123,10 +123,8 @@ export default ({ node }) => {
         password,
         submitType
       })
-      await dispatch(`getTotalRewards`)
-      await dispatch(`getRewardsFromMyValidators`)
-      await dispatch(`queryWalletBalances`)
-      await dispatch(`getAllTxs`)
+      dispatch(`getRewardsFromMyValidators`, true)
+      dispatch(`getAllTxs`)
     },
     async getRewardsFromMyValidators(
       {

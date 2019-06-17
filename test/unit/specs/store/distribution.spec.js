@@ -214,7 +214,10 @@ describe(`Module: Fee Distribution`, () => {
           gas: "456",
           gas_prices: [{ amount: "123000000", denom: undefined }]
         })
-        expect(dispatch).toHaveBeenCalledWith(`getTotalRewards`)
+        expect(dispatch).toHaveBeenCalledWith(
+          `getRewardsFromMyValidators`,
+          true
+        )
       })
     })
 
