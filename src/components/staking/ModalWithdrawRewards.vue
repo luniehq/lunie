@@ -7,7 +7,6 @@
     title="Withdraw"
     class="modal-withdraw-rewards"
     submission-error-prefix="Withdrawal failed"
-    :post-submit="postSubmit"
   >
     <span v-if="!validatorAddress" class="form-message notice withdraw-limit">
       You can only withdraw rewards from your top 5 validators in a single
@@ -75,9 +74,6 @@ export default {
   methods: {
     open() {
       this.$refs.actionModal.open()
-    },
-    postSubmit(txData) {
-      this.$store.dispatch("postWithdrawAllRewards", txData)
     }
   }
 }

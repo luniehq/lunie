@@ -73,7 +73,7 @@ export default ({ node }) => {
       }
       return undefined
     },
-    async postSubmitProposal(
+    async postMsgSubmitProposal(
       {
         state,
         rootState: { wallet },

@@ -8,7 +8,6 @@
     submission-error-prefix="Voting failed"
     :transaction-data="transactionData"
     :notify-message="notifyMessage"
-    :post-submit="postSubmit"
     @close="clear"
   >
     <TmFormGroup class="action-modal-group vote-options">
@@ -137,9 +136,6 @@ export default {
       this.$v.$reset()
 
       this.vote = null
-    },
-    postSubmit(txData) {
-      this.$store.dispatch("postSubmitVote", txData)
     }
   }
 }

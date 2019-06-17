@@ -52,20 +52,23 @@ describe(`Module: Send`, () => {
   })
 
   describe(`Actions`, () => {
-    it(`should postSubmitSend`, () => {
+    it(`should update optimistically`, () => {
       const commit = jest.fn()
       const getters = {
         liquidAtoms: 10000000
       }
 
-      actions.postSubmitSend(
+      actions.postMsgSend(
         { rootState: mockRootState, state: mockState, commit, getters },
         {
           txProps: {
             toAddress: "cosmos1234",
             amounts: [{ amount: 5000000, denom: "stake" }]
           },
-          txMeta: { gasEstimate: 100000, gasPrice: 10 }
+          txMeta: {
+            gasEstimate: 100000,
+            gasPrice: { amount: 10, denom: "uatom" }
+          }
         }
       )
 

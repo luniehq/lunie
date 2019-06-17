@@ -6,10 +6,10 @@ export default ({ node }) => {
   const mutations = {}
 
   const actions = {
-    postSubmitSend({ state, commit, rootState, getters }, { txProps, txMeta }) {
+    postMsgSend({ state, commit, rootState, getters }, { txProps, txMeta }) {
       const { toAddress } = txProps
       const { gasEstimate, gasPrice } = txMeta
-      const fees = gasEstimate * gasPrice
+      const fees = gasEstimate * Number(gasPrice.amount)
 
       // if we send to ourselves, we don't loose tokens
       const liquidityChangeAmount =

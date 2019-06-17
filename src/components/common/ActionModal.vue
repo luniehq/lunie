@@ -232,11 +232,6 @@ export default {
     notifyMessage: {
       type: Object,
       default: () => {}
-    },
-    postSubmit: {
-      type: Function,
-      required: false,
-      default: () => {}
     }
   },
   data: () => ({
@@ -390,7 +385,7 @@ export default {
         await this.connectLedger()
       }
 
-      const { memo, ...transactionProperties } = this.transactionData
+      const { type, memo, ...transactionProperties } = this.transactionData
 
       const gasPrice = {
         amount: this.gasPrice,
@@ -408,7 +403,7 @@ export default {
         await this.actionManager.send(memo, feeProperties)
         track(`event`, `successful-submit`, this.title, this.selectedSignMethod)
         this.$store.commit(`notify`, this.notifyMessage)
-        this.postSubmit({
+        this.$store.dispatch(`post${type}`, {
           txProps: transactionProperties,
           txMeta: feeProperties
         })

@@ -72,7 +72,7 @@ describe(`Module: Votes`, () => {
   it(`should run post submit actions`, async () => {
     const dispatch = jest.fn()
     const { actions } = module
-    await actions.postSubmitVote(
+    await actions.postMsgVote(
       { dispatch },
       {
         txProps: { proposalId: 99 }

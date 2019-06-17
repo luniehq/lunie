@@ -200,7 +200,7 @@ describe(`Module: Proposals`, () => {
     const dispatch = jest.fn()
     const commit = jest.fn()
     const proposal = proposals[1]
-    await actions.postSubmitProposal(
+    await actions.postMsgSubmitProposal(
       { state, dispatch, rootState: mockRootState, commit },
       {
         txProps: {

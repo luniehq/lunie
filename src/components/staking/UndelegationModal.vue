@@ -9,7 +9,6 @@
     submission-error-prefix="Undelegating failed"
     :transaction-data="transactionData"
     :notify-message="notifyMessage"
-    :post-submit="postSubmit"
     @close="clear"
   >
     <TmFormGroup class="action-modal-form-group">
@@ -154,9 +153,6 @@ export default {
       this.$v.$reset()
 
       this.amount = null
-    },
-    postSubmit(txData) {
-      this.$store.dispatch("postSubmitUnbondingDelegation", txData)
     }
   }
 }

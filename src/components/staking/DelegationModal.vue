@@ -9,7 +9,6 @@
     submission-error-prefix="Delegating failed"
     :transaction-data="transactionData"
     :notify-message="notifyMessage"
-    :post-submit="postSubmit"
     @close="clear"
   >
     <TmFormGroup class="action-modal-form-group" field-id="to" field-label="To">
@@ -192,13 +191,6 @@ export default {
     },
     getFromBalance() {
       return atoms(this.balance)
-    },
-    postSubmit(txData) {
-      if (this.from === this.modalContext.userAddress) {
-        this.$store.dispatch("postSubmitDelegation", txData)
-      } else {
-        this.$store.dispatch("postSubmitRedelegation", txData)
-      }
     }
   },
   validations() {

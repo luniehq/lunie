@@ -31,7 +31,7 @@ export default ({ node }) => {
         state.error = error
       }
     },
-    async postSubmitVote(
+    async postMsgVote(
       { dispatch },
       {
         txProps: { proposalId }

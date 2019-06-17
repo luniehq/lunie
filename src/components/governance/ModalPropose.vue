@@ -8,7 +8,6 @@
     submission-error-prefix="Submitting proposal failed"
     :transaction-data="transactionData"
     :notify-message="notifyMessage"
-    :post-submit="postSubmit"
     @close="clear"
   >
     <TmFormGroup
@@ -220,9 +219,6 @@ export default {
       this.title = ``
       this.description = ``
       this.amount = 0
-    },
-    postSubmit(txData) {
-      this.$store.dispatch("postSubmitProposal", txData)
     }
   }
 }

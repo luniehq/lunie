@@ -44,7 +44,7 @@ const modalContext = {
 }
 
 describe(`ActionModal`, () => {
-  let wrapper, $store, postSubmit
+  let wrapper, $store
 
   beforeEach(() => {
     $store = {
@@ -70,7 +70,6 @@ describe(`ActionModal`, () => {
       }
     }
 
-    postSubmit = jest.fn()
     wrapper = shallowMount(ActionModal, {
       localVue,
       propsData: {
@@ -84,8 +83,7 @@ describe(`ActionModal`, () => {
         notifyMessage: {
           title: `Successful transaction`,
           body: `You have successfully completed a transaction.`
-        },
-        postSubmit: postSubmit
+        }
       },
       mocks: {
         $store
@@ -419,7 +417,7 @@ describe(`ActionModal`, () => {
       wrapper.vm.submit()
       wrapper.vm.$nextTick(() => {
         expect(wrapper.vm.submissionError).toBe(null)
-        expect(postSubmit).toHaveBeenCalled()
+        // expect(postSubmit).toHaveBeenCalled()
         expect($store.commit).toHaveBeenCalledWith(`notify`, {
           title: `Successful transaction`,
           body: `You have successfully completed a transaction.`

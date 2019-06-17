@@ -86,7 +86,7 @@ export default ({ node }) => {
         commit(`setDistributionError`, error)
       }
     },
-    async postWithdrawAllRewards({ dispatch }) {
+    async postMsgWithdrawDelegationReward({ dispatch }) {
       await dispatch(`getTotalRewards`)
       await dispatch(`queryWalletBalances`)
       await dispatch(`getAllTxs`)

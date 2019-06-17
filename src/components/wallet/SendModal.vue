@@ -8,7 +8,6 @@
     submission-error-prefix="Sending tokens failed"
     :transaction-data="transactionData"
     :notify-message="notifyMessage"
-    :post-submit="postSubmit"
     @close="clear"
   >
     <TmFormGroup
@@ -213,9 +212,6 @@ export default {
       } catch (error) {
         return false
       }
-    },
-    postSubmit(txData) {
-      this.$store.dispatch("postSubmitSend", txData)
     }
   },
   validations() {

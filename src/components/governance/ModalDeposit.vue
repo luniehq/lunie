@@ -9,7 +9,6 @@
     submission-error-prefix="Depositing failed"
     :transaction-data="transactionData"
     :notify-message="notifyMessage"
-    :post-submit="postSubmit"
     @close="clear"
   >
     <TmFormGroup
@@ -138,9 +137,6 @@ export default {
       this.$v.$reset()
 
       this.amount = 0
-    },
-    postSubmit(txData) {
-      this.$store.dispatch("postSubmitDeposit", txData)
     }
   }
 }
