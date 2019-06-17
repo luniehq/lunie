@@ -33,7 +33,7 @@
         </TmFormGroup>
       </div>
       <div class="session-footer">
-        <TmBtn value="Next" />
+        <TmBtn value="Explore" />
       </div>
     </TmFormStruct>
   </div>

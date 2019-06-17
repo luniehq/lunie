@@ -162,7 +162,7 @@
             </div>
           </TmFormGroup>
           <div class="session-footer">
-            <TmBtn value="Next" />
+            <TmBtn value="Create Address" />
           </div>
         </div>
       </div>

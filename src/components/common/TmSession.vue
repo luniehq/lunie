@@ -133,20 +133,4 @@ export default {
   padding: 1rem 1rem 0;
   font-size: var(--sm);
 }
-
-.field-checkbox {
-  display: flex;
-  align-items: center;
-  padding: 1rem 0;
-}
-
-.field-checkbox-input,
-.field-checkbox-label {
-  display: inline;
-  line-height: normal;
-}
-
-.field-checkbox-input {
-  padding: 0 0.5rem;
-}
 </style>
