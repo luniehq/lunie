@@ -43,7 +43,7 @@ const modalContext = {
 }
 
 describe(`ActionModal`, () => {
-  let wrapper, $store
+  let wrapper, $store, postSubmit
 
   beforeEach(() => {
     $store = {
@@ -69,6 +69,7 @@ describe(`ActionModal`, () => {
       }
     }
 
+    postSubmit = jest.fn()
     wrapper = shallowMount(ActionModal, {
       localVue,
       propsData: {
@@ -80,10 +81,10 @@ describe(`ActionModal`, () => {
           validatorAddress: "cosmos12345"
         },
         notifyMessage: {
-          title: `Successful withdrawal!`,
-          body: `You have successfully withdrawn your rewards.`
+          title: `Successful transaction`,
+          body: `You have successfully completed a transaction.`
         },
-        postSubmit: jest.fn()
+        postSubmit: postSubmit
       },
       mocks: {
         $store
@@ -355,6 +356,78 @@ describe(`ActionModal`, () => {
     })
 
     it("should fail if simulation fails", () => {
+      const mockSimulateFail = jest.fn(() =>
+        Promise.reject(new Error(`invalid request`))
+      )
+
+      const data = {
+        step: `details`,
+        gasEstimate: null,
+        submissionError: null,
+        actionManager: {
+          simulate: mockSimulateFail
+        }
+      }
+
+      const transactionProperties = {
+        type: "MsgSend",
+        toAddress: "comsos12345",
+        amounts: [
+          {
+            amount: "100000",
+            denom: "uatoms"
+          }
+        ],
+        memo: "A memo"
+      }
+
+      wrapper.setProps({ transactionProperties })
+      wrapper.setData(data)
+      wrapper.vm.simulate()
+      wrapper.vm.$nextTick(() => {
+        expect(wrapper.vm.gasEstimate).toBe(null)
+        expect(wrapper.vm.submissionError).toBe(
+          "Transaction failed: invalid request."
+        )
+        expect(wrapper.vm.step).toBe("details")
+      })
+    })
+  })
+
+  describe(`submit`, () => {
+    it(`should submit transaction`, async () => {
+      const transactionProperties = {
+        type: "MsgSend",
+        toAddress: "comsos12345",
+        amounts: [
+          {
+            amount: "100000",
+            denom: "uatoms"
+          }
+        ],
+        memo: "A memo"
+      }
+      const data = {
+        step: `sign`,
+        gasEstimate: 12345,
+        submissionError: null
+      }
+
+      wrapper.setProps({ transactionProperties })
+      wrapper.setData(data)
+      wrapper.vm.submit()
+      wrapper.vm.$nextTick(() => {
+        expect(wrapper.vm.submissionError).toBe(null)
+        expect(postSubmit).toHaveBeenCalled()
+        expect($store.commit).toHaveBeenCalledWith(`notify`, {
+          title: `Successful transaction`,
+          body: `You have successfully completed a transaction.`
+        })
+        expect(wrapper.emitted(`close`)).toBeTruthy()
+      })
+    })
+
+    xit("should fail if simulation fails", () => {
       const mockSimulateFail = jest.fn(() =>
         Promise.reject(new Error(`invalid request`))
       )
