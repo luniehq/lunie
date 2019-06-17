@@ -1,177 +1,83 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`SessionSignUp has the expected html structure 1`] = `
+exports[`TmSessionSignUp has the expected html structure 1`] = `
 <div
-  class="tm-session"
+  class="session"
 >
   <tmformstruct-stub
-    class="tm-session-container"
     submit="function () { [native code] }"
     width=""
   >
     <div
-      class="tm-session-header"
+      class="session-header"
     >
+      <img
+        class="session-image"
+        src="~assets/images/mobile-hand.svg"
+      />
+       
       <a>
         <i
-          class="material-icons"
+          class="material-icons session-back"
         >
           arrow_back
         </i>
       </a>
        
-      <div
-        class="tm-session-title"
+      <h2
+        class="session-title"
       >
         
-        Create Account
+        Create a new address
       
-      </div>
+      </h2>
        
       <a>
         <i
-          class="material-icons"
+          class="material-icons session-close"
         >
           close
         </i>
       </a>
     </div>
      
-    <div
-      class="tm-session-main"
-    >
-      <tmformgroup-stub
-        fieldid="sign-up-name"
-        fieldlabel="Account Name"
-      >
-        <tmfield-stub
-          id="sign-up-name"
-          placeholder="Must be at least 5 characters"
-          type="text"
-          value=""
-        />
-         
-        <!---->
-         
-        <!---->
-      </tmformgroup-stub>
-       
-      <tmformgroup-stub
-        fieldid="sign-up-password"
-        fieldlabel="Password"
-      >
-        <tmfield-stub
-          id="sign-up-password"
-          placeholder="Must be at least 10 characters"
-          type="password"
-          value=""
-        />
-         
-        <!---->
-         
-        <!---->
-      </tmformgroup-stub>
-       
-      <tmformgroup-stub
-        fieldid="sign-up-password-confirm"
-        fieldlabel="Confirm Password"
-      >
-        <tmfield-stub
-          id="sign-up-password-confirm"
-          placeholder="Enter password again"
-          type="password"
-          value=""
-        />
-         
-        <!---->
-      </tmformgroup-stub>
-       
-      <tmformgroup-stub
-        class="sign-up-seed-group"
-        fieldid="sign-up-seed"
-        fieldlabel="Seed Phrase"
-      >
-        <fieldseed-stub
-          disabled="disabled"
-          id="sign-up-seed"
-          value="seed"
-        />
-         
-        <tmformmsg-stub
-          class="sm"
-          msg="Please back up the seed phrase for this account.
-          This seed phrase cannot be recovered."
-          name=""
-          type="custom"
-        />
-      </tmformgroup-stub>
-       
-      <tmformgroup-stub
-        fieldid="sign-up-warning"
-        fieldlabel=""
-      >
-        <div
-          class="tm-field-checkbox"
-        >
-          <div
-            class="tm-field-checkbox-input"
-          >
-            <input
-              id="sign-up-warning"
-              type="checkbox"
-            />
-          </div>
-           
-          <label
-            class="tm-field-checkbox-label"
-            for="sign-up-warning"
-          >
-            
-            I have securely written down my seed. I understand that lost seeds
-            cannot be recovered.
-          
-          </label>
-        </div>
-         
-        <!---->
-      </tmformgroup-stub>
-       
-      <tmformgroup-stub
-        fieldid="error-collection"
-        fieldlabel=""
-      >
-        <div
-          class="tm-field-checkbox"
-        >
-          <div
-            class="tm-field-checkbox-input"
-          >
-            <input
-              id="error-collection"
-              type="checkbox"
-            />
-          </div>
-           
-          <label
-            class="tm-field-checkbox-label"
-            for="error-collection"
-          >
-            
-            I'd like to opt in for remote error tracking to help improve
-            Voyager.
-          
-          </label>
-        </div>
-      </tmformgroup-stub>
-    </div>
+    <!---->
      
     <div
-      class="tm-session-footer"
+      class="session-main"
     >
-      <tmbtn-stub
-        size="lg"
-        value="Next"
-      />
+      <p>
+        
+        Creating an address in the browser is considered extremely unsafe. To
+        offer you a more secure option we will be releasing a mobile app and a
+        Chrome extension in the coming months.
+      
+      </p>
+       
+      <p>
+        
+        You can create a new account outside of the browser with a
+        
+        <a
+          href="https://shop.ledger.com/?r=3dd204ef7508"
+          rel="noopener norefferer"
+          target="_blank"
+        >
+          Ledger Nano
+        </a>
+        
+        or by using the
+        
+        <a
+          href="https://hub.cosmos.network/docs/delegator-guide-cli.html#creating-an-account"
+          rel="noopener norefferer"
+          target="_blank"
+        >
+          command line
+        </a>
+        .
+      
+      </p>
     </div>
   </tmformstruct-stub>
 </div>

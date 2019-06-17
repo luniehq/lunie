@@ -2,7 +2,7 @@
 
 exports[`TmSessionLoading has the expected html structure 1`] = `
 <div
-  class="tm-session"
+  class="session"
 >
   <div
     class="tm-session-container tm-session-loading"

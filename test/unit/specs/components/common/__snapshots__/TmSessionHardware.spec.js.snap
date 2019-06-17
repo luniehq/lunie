@@ -1,183 +1,152 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`TmSessionHardware should show a state indicator for different states of the hardware connection 1`] = `
-"<div class=\\"tm-session\\"><div class=\\"tm-session-container\\"><div class=\\"tm-session-header\\"><a><i class=\\"material-icons\\">arrow_back</i></a> <div class=\\"tm-session-title\\">
-        Sign In
-      </div> <a><i class=\\"material-icons\\">close</i></a></div> <div class=\\"tm-session-main\\"><div class=\\"tm-hardware-state\\"><div class=\\"tm-hardware-state-content\\"><!----> <div class=\\"tm-hardware-state__label\\">
-          Please plug in your Ledger&nbsp;Nano and open the Cosmos app
-         <!----> <!----></div></div> <img src=\\"~assets/images/loader.svg\\" style=\\"display: none;\\"></div></div> <div class=\\"tm-session-footer\\"><div class=\\"install-notes\\"><p class=\\"ledger-install\\">
-          Don't have the Cosmos Ledger App yet? Install it
-          <a href=\\"https://github.com/cosmos/voyager#ledger-cosmos-app\\" target=\\"_blank\\" rel=\\"noopener noreferrer\\">
-            here</a>.
-        </p> <p class=\\"ledger-install\\">
-          Don't have a Ledger yet?
-          <a href=\\"https://shop.ledger.com/?r=3dd204ef7508\\" target=\\"_blank\\" rel=\\"noopener noreferrer\\">
-            Get one here</a>.
-        </p></div> <button class=\\"tm-btn\\"><span class=\\"tm-btn__container\\"><!----><span class=\\"tm-btn__value\\">Sign In</span></span></button></div></div></div>"
+"<div class=\\"session\\"><div class=\\"session-container\\"><div class=\\"session-header\\"><a><i class=\\"material-icons session-back\\">arrow_back</i></a> <h2 class=\\"session-title\\">
+        Use my Ledger Nano
+      </h2> <a><i class=\\"material-icons session-close\\">close</i></a></div> <!----> <div><div class=\\"session-main\\"><div class=\\"tm-hardware-state\\"><div class=\\"tm-hardware-state-content\\"><!----> <div class=\\"tm-hardware-state__label\\">
+            Please plug in your Ledger&nbsp;Nano&nbsp;S and open the Cosmos
+            app
+           <!----> <!----></div></div> <img src=\\"~assets/images/loader.svg\\" style=\\"display: none;\\"></div></div> <div class=\\"session-footer\\"><p class=\\"ledger-install\\">
+          If you don't have a Ledger Nano, you can
+          <a href=\\"\\" target=\\"_blank\\" rel=\\"noopener norefferer\\">buy one here</a>.
+        </p> <button class=\\"tm-btn\\"><span class=\\"tm-btn__container\\"><!----><span class=\\"tm-btn__value\\">Sign In</span></span></button></div></div></div></div>"
 `;
 
 exports[`TmSessionHardware should show a state indicator for different states of the hardware connection 2`] = `
-"<div class=\\"tm-session\\"><div class=\\"tm-session-container\\"><div class=\\"tm-session-header\\"><a><i class=\\"material-icons\\">arrow_back</i></a> <div class=\\"tm-session-title\\">
-        Sign In
-      </div> <a><i class=\\"material-icons\\">close</i></a></div> <div class=\\"tm-session-main\\"><div class=\\"tm-hardware-state\\"><div class=\\"tm-hardware-state-content\\"><!----> <div class=\\"tm-hardware-state__label\\">
-          Please plug in your Ledger&nbsp;Nano and open the Cosmos app
-         <!----> <!----></div></div> <img src=\\"~assets/images/loader.svg\\" style=\\"\\"></div></div> <div class=\\"tm-session-footer\\"><div class=\\"install-notes\\"><p class=\\"ledger-install\\">
-          Don't have the Cosmos Ledger App yet? Install it
-          <a href=\\"https://github.com/cosmos/voyager#ledger-cosmos-app\\" target=\\"_blank\\" rel=\\"noopener noreferrer\\">
-            here</a>.
-        </p> <p class=\\"ledger-install\\">
-          Don't have a Ledger yet?
-          <a href=\\"https://shop.ledger.com/?r=3dd204ef7508\\" target=\\"_blank\\" rel=\\"noopener noreferrer\\">
-            Get one here</a>.
-        </p></div> <button class=\\"tm-btn\\" disabled=\\"disabled\\"><span class=\\"tm-btn__container\\"><!----><span class=\\"tm-btn__value\\">Waiting for Ledger</span></span></button></div></div></div>"
+"<div class=\\"session\\"><div class=\\"session-container\\"><div class=\\"session-header\\"><a><i class=\\"material-icons session-back\\">arrow_back</i></a> <h2 class=\\"session-title\\">
+        Use my Ledger Nano
+      </h2> <a><i class=\\"material-icons session-close\\">close</i></a></div> <!----> <div><div class=\\"session-main\\"><div class=\\"tm-hardware-state\\"><div class=\\"tm-hardware-state-content\\"><!----> <div class=\\"tm-hardware-state__label\\">
+            Please plug in your Ledger&nbsp;Nano&nbsp;S and open the Cosmos
+            app
+           <!----> <!----></div></div> <img src=\\"~assets/images/loader.svg\\" style=\\"\\"></div></div> <div class=\\"session-footer\\"><p class=\\"ledger-install\\">
+          If you don't have a Ledger Nano, you can
+          <a href=\\"\\" target=\\"_blank\\" rel=\\"noopener norefferer\\">buy one here</a>.
+        </p> <button class=\\"tm-btn\\" disabled=\\"disabled\\"><span class=\\"tm-btn__container\\"><!----><span class=\\"tm-btn__value\\">Waiting for Ledger</span></span></button></div></div></div></div>"
 `;
 
 exports[`TmSessionHardware should show a state indicator for different states of the hardware connection 3`] = `
-"<div class=\\"tm-session\\"><div class=\\"tm-session-container\\"><div class=\\"tm-session-header\\"><a><i class=\\"material-icons\\">arrow_back</i></a> <div class=\\"tm-session-title\\">
-        Sign In
-      </div> <a><i class=\\"material-icons\\">close</i></a></div> <div class=\\"tm-session-main\\"><div class=\\"tm-hardware-state\\"><div class=\\"tm-hardware-state-content\\"><!----> <div class=\\"tm-hardware-state__label\\"><!----> 
-          Sign in with the address
-          <span class=\\"address\\"></span>.<br>
-          Please confirm on your Ledger.
-         <!----></div></div> <img src=\\"~assets/images/loader.svg\\" style=\\"\\"></div></div> <div class=\\"tm-session-footer\\"><div class=\\"install-notes\\"><p class=\\"ledger-install\\">
-          Don't have the Cosmos Ledger App yet? Install it
-          <a href=\\"https://github.com/cosmos/voyager#ledger-cosmos-app\\" target=\\"_blank\\" rel=\\"noopener noreferrer\\">
-            here</a>.
-        </p> <p class=\\"ledger-install\\">
-          Don't have a Ledger yet?
-          <a href=\\"https://shop.ledger.com/?r=3dd204ef7508\\" target=\\"_blank\\" rel=\\"noopener noreferrer\\">
-            Get one here</a>.
-        </p></div> <button class=\\"tm-btn\\" disabled=\\"disabled\\"><span class=\\"tm-btn__container\\"><!----><span class=\\"tm-btn__value\\">Confirming Address</span></span></button></div></div></div>"
+"<div class=\\"session\\"><div class=\\"session-container\\"><div class=\\"session-header\\"><a><i class=\\"material-icons session-back\\">arrow_back</i></a> <h2 class=\\"session-title\\">
+        Use my Ledger Nano
+      </h2> <a><i class=\\"material-icons session-close\\">close</i></a></div> <!----> <div><div class=\\"session-main\\"><div class=\\"tm-hardware-state\\"><div class=\\"tm-hardware-state-content\\"><!----> <div class=\\"tm-hardware-state__label\\"><!----> 
+            Sign in with the address
+            <span class=\\"address\\"></span>.<br>
+            Please confirm on your Ledger.
+           <!----></div></div> <img src=\\"~assets/images/loader.svg\\" style=\\"\\"></div></div> <div class=\\"session-footer\\"><p class=\\"ledger-install\\">
+          If you don't have a Ledger Nano, you can
+          <a href=\\"\\" target=\\"_blank\\" rel=\\"noopener norefferer\\">buy one here</a>.
+        </p> <button class=\\"tm-btn\\" disabled=\\"disabled\\"><span class=\\"tm-btn__container\\"><!----><span class=\\"tm-btn__value\\">Confirming Address</span></span></button></div></div></div></div>"
 `;
 
 exports[`TmSessionHardware shows the ledger conection view when there're errors 1`] = `
 <div
-  class="tm-session"
+  class="session"
 >
   <div
-    class="tm-session-container"
+    class="session-container"
   >
     <div
-      class="tm-session-header"
+      class="session-header"
     >
       <a>
         <i
-          class="material-icons"
+          class="material-icons session-back"
         >
           arrow_back
         </i>
       </a>
        
-      <div
-        class="tm-session-title"
+      <h2
+        class="session-title"
       >
         
-        Sign In
+        Use my Ledger Nano
       
-      </div>
+      </h2>
        
       <a>
         <i
-          class="material-icons"
+          class="material-icons session-close"
         >
           close
         </i>
       </a>
     </div>
      
-    <div
-      class="tm-session-main"
-    >
+    <!---->
+     
+    <div>
       <div
-        class="tm-hardware-state"
+        class="session-main"
       >
         <div
-          class="tm-hardware-state-content"
+          class="tm-hardware-state"
         >
-          <!---->
-           
           <div
-            class="tm-hardware-state__label"
+            class="tm-hardware-state-content"
           >
-            
-          Please plug in your Ledger Nano and open the Cosmos app
-         
             <!---->
              
-            <p
-              class="error-message"
+            <div
+              class="tm-hardware-state__label"
             >
               
-          No Ledger found
-        
-            </p>
+            Please plug in your Ledger Nano S and open the Cosmos
+            app
+           
+              <!---->
+               
+              <p
+                class="error-message"
+              >
+                
+            No Ledger found
+          
+              </p>
+            </div>
           </div>
+           
+          <img
+            src="~assets/images/loader.svg"
+            style="display: none;"
+          />
         </div>
-         
-        <img
-          src="~assets/images/loader.svg"
-          style="display: none;"
-        />
-      </div>
-    </div>
-     
-    <div
-      class="tm-session-footer"
-    >
-      <div
-        class="install-notes"
-      >
-        <p
-          class="ledger-install"
-        >
-          
-          Don't have the Cosmos Ledger App yet? Install it
-          
-          <a
-            href="https://github.com/cosmos/voyager#ledger-cosmos-app"
-            rel="noopener noreferrer"
-            target="_blank"
-          >
-            
-            here
-          </a>
-          .
-        
-        </p>
-         
-        <p
-          class="ledger-install"
-        >
-          
-          Don't have a Ledger yet?
-          
-          <a
-            href="https://shop.ledger.com/?r=3dd204ef7508"
-            rel="noopener noreferrer"
-            target="_blank"
-          >
-            
-            Get one here
-          </a>
-          .
-        
-        </p>
       </div>
        
-      <button
-        class="tm-btn"
+      <div
+        class="session-footer"
       >
-        <span
-          class="tm-btn__container"
+        <p
+          class="ledger-install"
         >
-          <!---->
-          <span
-            class="tm-btn__value"
+          
+          If you don't have a Ledger Nano, you can
+          
+          <a
+            href=""
+            rel="noopener norefferer"
+            target="_blank"
           >
-            Sign In
+            buy one here
+          </a>
+          .
+        
+        </p>
+         
+        <button
+          class="tm-btn"
+        >
+          <span
+            class="tm-btn__container"
+          >
+            <!---->
+            <span
+              class="tm-btn__value"
+            >
+              Sign In
+            </span>
           </span>
-        </span>
-      </button>
+        </button>
+      </div>
     </div>
   </div>
 </div>
@@ -185,126 +154,108 @@ exports[`TmSessionHardware shows the ledger conection view when there're errors 
 
 exports[`TmSessionHardware shows the ledger conection view with no errors 1`] = `
 <div
-  class="tm-session"
+  class="session"
 >
   <div
-    class="tm-session-container"
+    class="session-container"
   >
     <div
-      class="tm-session-header"
+      class="session-header"
     >
       <a>
         <i
-          class="material-icons"
+          class="material-icons session-back"
         >
           arrow_back
         </i>
       </a>
        
-      <div
-        class="tm-session-title"
+      <h2
+        class="session-title"
       >
         
-        Sign In
+        Use my Ledger Nano
       
-      </div>
+      </h2>
        
       <a>
         <i
-          class="material-icons"
+          class="material-icons session-close"
         >
           close
         </i>
       </a>
     </div>
      
-    <div
-      class="tm-session-main"
-    >
+    <!---->
+     
+    <div>
       <div
-        class="tm-hardware-state"
+        class="session-main"
       >
         <div
-          class="tm-hardware-state-content"
+          class="tm-hardware-state"
         >
-          <!---->
-           
           <div
-            class="tm-hardware-state__label"
+            class="tm-hardware-state-content"
           >
-            
-          Please plug in your Ledger Nano and open the Cosmos app
-         
             <!---->
              
-            <!---->
+            <div
+              class="tm-hardware-state__label"
+            >
+              
+            Please plug in your Ledger Nano S and open the Cosmos
+            app
+           
+              <!---->
+               
+              <!---->
+            </div>
           </div>
+           
+          <img
+            src="~assets/images/loader.svg"
+            style="display: none;"
+          />
         </div>
-         
-        <img
-          src="~assets/images/loader.svg"
-          style="display: none;"
-        />
-      </div>
-    </div>
-     
-    <div
-      class="tm-session-footer"
-    >
-      <div
-        class="install-notes"
-      >
-        <p
-          class="ledger-install"
-        >
-          
-          Don't have the Cosmos Ledger App yet? Install it
-          
-          <a
-            href="https://github.com/cosmos/voyager#ledger-cosmos-app"
-            rel="noopener noreferrer"
-            target="_blank"
-          >
-            
-            here
-          </a>
-          .
-        
-        </p>
-         
-        <p
-          class="ledger-install"
-        >
-          
-          Don't have a Ledger yet?
-          
-          <a
-            href="https://shop.ledger.com/?r=3dd204ef7508"
-            rel="noopener noreferrer"
-            target="_blank"
-          >
-            
-            Get one here
-          </a>
-          .
-        
-        </p>
       </div>
        
-      <button
-        class="tm-btn"
+      <div
+        class="session-footer"
       >
-        <span
-          class="tm-btn__container"
+        <p
+          class="ledger-install"
         >
-          <!---->
-          <span
-            class="tm-btn__value"
+          
+          If you don't have a Ledger Nano, you can
+          
+          <a
+            href=""
+            rel="noopener norefferer"
+            target="_blank"
           >
-            Sign In
+            buy one here
+          </a>
+          .
+        
+        </p>
+         
+        <button
+          class="tm-btn"
+        >
+          <span
+            class="tm-btn__container"
+          >
+            <!---->
+            <span
+              class="tm-btn__value"
+            >
+              Sign In
+            </span>
           </span>
-        </span>
-      </button>
+        </button>
+      </div>
     </div>
   </div>
 </div>
