@@ -1,10 +1,15 @@
 import ActionManager from "src/components/ActionManager/ActionManager.js"
-import { sendTx, withdrawTx, withdrawManyTx } from "./actions"
+import { sendTx, withdrawTx } from "./actions"
 
 let mockSimulate = jest.fn(() => 12345)
 const MsgSendFn = jest.fn(() => ({ included: () => async () => true }))
 const mockGet = jest.fn()
 const mockMsgSend = jest.fn(() => ({
+  simulate: mockSimulate,
+  send: MsgSendFn
+}))
+
+const mockMultiMessage = jest.fn(() => ({
   simulate: mockSimulate,
   send: MsgSendFn
 }))
@@ -20,7 +25,7 @@ jest.mock(`@lunie/cosmos-js`, () => {
       get: mockGet,
       MsgSend: mockMsgSend,
       MsgWithdrawDelegationReward: mockMsgWithdraw,
-      MultiMessage: mockMsgSend
+      MultiMessage: mockMultiMessage
     }
   })
 })
@@ -38,17 +43,18 @@ describe("ActionManager", () => {
       chainId: "cosmos",
       connected: true,
       userAddress: "cosmos12345",
-      committedDelegations: {
-        address1: 100,
-        address2: 1,
-        address3: 5,
-        address4: 3,
-        address5: 0,
-        address6: 99,
-        address7: 9,
-        address8: 96,
-        address9: 98,
-        address10: 97
+      totalRewards: 1234,
+      rewards: {
+        address1: { uatom: 100 },
+        address2: { uatom: 1 },
+        address3: { uatom: 5 },
+        address4: { uatom: 3 },
+        address5: { uatom: 0 },
+        address6: { uatom: 99 },
+        address7: { uatom: 9 },
+        address8: { uatom: 96 },
+        address9: { uatom: 98 },
+        address10: { uatom: 97 }
       }
     })
   })
@@ -80,15 +86,6 @@ describe("ActionManager", () => {
     }
   })
 
-  it("should throw if setting empty context", () => {
-    try {
-      actionManager = new ActionManager()
-      actionManager.readyCheck()
-    } catch (e) {
-      expect(e).toEqual(Error("This modal has no context."))
-    }
-  })
-
   it("should throw if not connected", () => {
     try {
       actionManager = new ActionManager()
@@ -107,112 +104,128 @@ describe("ActionManager", () => {
     }
   })
 
-  it("should throw if simulating without message type", async () => {
-    expect.assertions(1)
+  it("should throw if no context", () => {
     try {
-      await actionManager.simulate()
+      actionManager = new ActionManager()
+      actionManager.readyCheck()
+    } catch (e) {
+      expect(e).toEqual(Error("This modal has no context."))
+    }
+  })
+
+  it("should throw if message type is empty", () => {
+    try {
+      actionManager = new ActionManager()
+      actionManager.messageTypeCheck()
     } catch (e) {
       expect(e).toEqual(Error("No message type present."))
     }
   })
 
-  it("should throw if simulating with incorrect message type", async () => {
-    expect.assertions(1)
+  it("should throw if message type is incorrect", () => {
     try {
-      await actionManager.simulate("xxxxx")
+      actionManager = new ActionManager()
+      actionManager.messageTypeCheck("invalid")
     } catch (e) {
-      expect(e).toEqual(Error("Invalid message type: xxxxx."))
+      expect(e).toEqual(Error(`Invalid message type: invalid.`))
     }
   })
 
-  it("should return gas estimate", async () => {
-    mockSimulate = jest.fn(() => 123)
-    const data = await actionManager.simulate("MsgSend", "memo", sendTx.txProps)
-    expect(data).toEqual(123)
+  it("should throw if setting message with empty context", () => {
+    try {
+      actionManager = new ActionManager()
+      actionManager.setMessage("MsgSend", sendTx.txProps)
+    } catch (e) {
+      expect(e).toEqual(Error("This modal has no context."))
+    }
   })
 
-  it("should set Withdraw type validatorAddress to empty array when simulating", async () => {
-    mockSimulate = jest.fn(() => 123)
-    const data = await actionManager.simulate(
-      "MsgWithdrawDelegationReward",
-      "memo",
-      withdrawTx.txProps
-    )
-    expect(data).toEqual(123)
-    expect(mockMsgWithdraw).toHaveBeenCalledWith("cosmos12345", {
-      validatorAddress: []
-    })
-  })
-
-  it("should send", async () => {
-    const result = await actionManager.send(
-      "MsgSend",
-      "memo",
-      sendTx.txProps,
-      sendTx.txMetaData
-    )
-    expect(result)
-
-    expect(mockMsgSend).toHaveBeenCalledWith("cosmos12345", {
-      amounts: [{ amount: "20000", denom: "uatom" }],
-      toAddress: "cosmos123"
-    })
-
-    expect(MsgSendFn).toHaveBeenCalledWith(
-      {
-        gas: "12335",
-        gas_prices: [{ amount: "2000000000", denom: "uatom" }],
-        memo: "memo"
-      },
-      "signer"
-    )
-  })
-
-  it("should create multimessage", async () => {
-    const result = await actionManager.send(
-      "MsgWithdrawDelegationReward",
-      "memo",
-      withdrawManyTx.txProps,
-      withdrawManyTx.txMetaData
-    )
-    expect(result)
-
-    expect(mockMsgSend).toHaveBeenCalledWith("cosmos12345", {
-      amounts: [{ amount: "20000", denom: "uatom" }],
-      toAddress: "cosmos123"
+  describe("simulating and sending", () => {
+    beforeEach(() => {
+      const context = {
+        url: "blah",
+        chainId: "cosmos",
+        connected: true,
+        userAddress: "cosmos12345",
+        totalRewards: 1234,
+        bondDenom: "uatom",
+        rewards: {
+          address1: { uatom: 100 },
+          address2: { uatom: 1 },
+          address3: { uatom: 5 },
+          address4: { uatom: 3 },
+          address5: { uatom: 0 },
+          address6: { uatom: 99 },
+          address7: { uatom: 9 },
+          address8: { uatom: 96 },
+          address9: { uatom: 98 },
+          address10: { uatom: 97 }
+        }
+      }
+      actionManager.setContext(context)
+      actionManager.setMessage("MsgSend", sendTx.txProps)
     })
 
-    expect(MsgSendFn).toHaveBeenCalledWith(
-      {
-        gas: "12335",
-        gas_prices: [{ amount: "2000000000", denom: "uatom" }],
-        memo: "memo"
-      },
-      "signer"
-    )
-  })
-
-  it("should create single message when withdrawing from a single validator", async () => {
-    const result = await actionManager.send(
-      "MsgWithdrawDelegationReward",
-      "memo",
-      withdrawTx.txProps,
-      withdrawTx.txMetaData
-    )
-    expect(result)
-
-    expect(mockMsgSend).toHaveBeenCalledWith("cosmos12345", {
-      amounts: [{ amount: "20000", denom: "uatom" }],
-      toAddress: "cosmos123"
+    it("should create message", () => {
+      actionManager.setMessage("MsgSend", sendTx.txProps)
+      expect(mockMsgSend).toHaveBeenCalledWith("cosmos12345", sendTx.txProps)
     })
 
-    expect(MsgSendFn).toHaveBeenCalledWith(
-      {
-        gas: "12335",
-        gas_prices: [{ amount: "2000000000", denom: "uatom" }],
-        memo: "memo"
-      },
-      "signer"
-    )
+    it("should return gas estimate", async () => {
+      mockSimulate = jest.fn(() => 123)
+      const data = await actionManager.simulate("memo")
+      expect(data).toEqual(12345)
+    })
+
+    it("should not send if no message", async () => {
+      actionManager = new ActionManager()
+      const context = {
+        url: "blah",
+        chainId: "cosmos",
+        connected: true
+      }
+      actionManager.setContext(context)
+      await expect(
+        actionManager.send("MsgSend", "memo", sendTx.txProps, sendTx.txMetaData)
+      ).rejects.toThrowError(`No message to send`)
+    })
+
+    it("should send", async () => {
+      const result = await actionManager.send("memo", sendTx.txMetaData)
+      expect(result)
+
+      expect(mockMsgSend).toHaveBeenCalledWith("cosmos12345", {
+        amounts: [{ amount: "20000", denom: "uatom" }],
+        toAddress: "cosmos123"
+      })
+
+      expect(MsgSendFn).toHaveBeenCalledWith(
+        {
+          gas: "12335",
+          gas_prices: [{ amount: "2000000000", denom: "uatom" }],
+          memo: "memo"
+        },
+        "signer"
+      )
+    })
+
+    it("should create multimessage", async () => {
+      actionManager.setMessage(
+        "MsgWithdrawDelegationReward",
+        withdrawTx.txProps
+      )
+      mockMsgWithdraw.mockClear()
+      await actionManager.send("memo", withdrawTx.txMetaData)
+      expect(mockMsgWithdraw).toBeCalledTimes(5)
+
+      expect(MsgSendFn).toHaveBeenCalledWith(
+        {
+          gas: "12335",
+          gas_prices: [{ amount: "2000000000", denom: "uatom" }],
+          memo: "memo"
+        },
+        "signer"
+      )
+    })
   })
 })

@@ -108,12 +108,14 @@ export const nodeUrl = state =>
 export const blocks = state => (state.blocks ? state.blocks.blocks : [])
 export const block = state => (state.blocks ? state.blocks.block : [])
 
-export const modalContext = state => ({
+export const modalContext = (state, getters) => ({
   url: state.connection.externals.node.url,
   chainId: state.connection.lastHeader.chain_id,
   connected: state.connection.connected,
   localKeyPairName: state.session.localKeyPairName,
   userAddress: state.session.address,
-  committedDelegations: state.delegation.committedDelegates,
-  delegates: state.delegates.delegates
+  totalRewards: Number(state.distribution.totalRewards[getters.bondDenom]),
+  rewards: state.distribution.rewards,
+  delegates: state.delegates.delegates,
+  bondDenom: getters.bondDenom
 })

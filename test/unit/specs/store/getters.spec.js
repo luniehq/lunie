@@ -145,12 +145,19 @@ describe(`Store: getters`, () => {
         address: "cosmos1abcdefghijklmop",
         localKeyPairName: "localKeyPairName"
       },
-      delegation: {
-        committedDelegates: []
+      distribution: {
+        rewards: [],
+        totalRewards: {
+          uatom: 123
+        }
       },
       delegates: {
         delegates: []
       }
+    }
+
+    const getters = {
+      bondDenom: "uatom"
     }
 
     const context = {
@@ -158,12 +165,14 @@ describe(`Store: getters`, () => {
       chainId: "cosmoshub",
       connected: true,
       userAddress: "cosmos1abcdefghijklmop",
-      committedDelegations: [],
+      rewards: [],
       delegates: [],
-      localKeyPairName: "localKeyPairName"
+      localKeyPairName: "localKeyPairName",
+      bondDenom: "uatom",
+      totalRewards: 123
     }
 
-    const result = modalContext(state)
+    const result = modalContext(state, getters)
 
     expect(result).toEqual(context)
   })

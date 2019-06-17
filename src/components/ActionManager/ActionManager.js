@@ -2,13 +2,13 @@ import Cosmos from "@lunie/cosmos-js"
 import config from "src/config"
 import { getSigner } from "./signer"
 import transaction from "./transactionTypes"
-import { getTop5Delegations } from "../../utils"
 import { uatoms } from "scripts/num.js"
 
 export default class ActionManager {
   constructor() {
     this.context = null
     this.cosmos = null
+    this.message = null
   }
 
   setContext(context = null) {
@@ -29,6 +29,10 @@ export default class ActionManager {
         `Currently not connected to a secure node. Please try again when Lunie has secured a connection.`
       )
     }
+
+    if (!this.message) {
+      throw Error(`No message to send.`)
+    }
   }
 
   messageTypeCheck(msgType) {
@@ -42,41 +46,39 @@ export default class ActionManager {
     }
   }
 
-  async simulate(type, memo, transactionProperties) {
-    this.messageTypeCheck(type)
-    this.readyCheck()
-
-    // When simulating a withdrawal, ignore validator addresses
-    let txArguments = transactionProperties
-    if (type === transaction.WITHDRAW) {
-      txArguments.validatorAddress = []
+  setMessage(type, transactionProperties) {
+    if (!this.context) {
+      throw Error("This modal has no context.")
     }
 
-    const message = this.cosmos[type](this.context.userAddress, txArguments)
-    const gasEstimate = await message.simulate({
-      memo: transactionProperties.memo
+    this.messageTypeCheck(type)
+    this.messageType = type
+    this.message = this.cosmos[type](
+      this.context.userAddress,
+      transactionProperties
+    )
+  }
+
+  async simulate(memo) {
+    this.readyCheck()
+    const gasEstimate = await this.message.simulate({
+      memo: memo
     })
     return gasEstimate
   }
 
-  async send(type, memo, transactionProperties, txMetaData) {
-    this.messageTypeCheck(type)
+  async send(memo, txMetaData) {
     this.readyCheck()
+
     const { gasEstimate, gasPrice, submitType, password } = txMetaData
     const localKeyPairName = this.context.localKeyPairName
     const signer = getSigner(config, submitType, { localKeyPairName, password })
 
-    let message
-    if (type === transaction.WITHDRAW) {
-      message = this.createWithDrawTransaction(type, transactionProperties)
-    } else {
-      message = this.cosmos[type](
-        this.context.userAddress,
-        transactionProperties
-      )
+    if (this.messageType === transaction.WITHDRAW) {
+      this.message = this.createWithdrawTransaction()
     }
 
-    const { included } = await message.send(
+    const { included } = await this.message.send(
       {
         gas: String(gasEstimate),
         gas_prices: convertCurrencyData([gasPrice]),
@@ -87,34 +89,21 @@ export default class ActionManager {
     await included()
   }
 
-  createWithDrawTransaction(transactionProperties) {
-    const newTxProps = this.formatWithdrawalProperties(
-      this.context,
-      transactionProperties
+  createWithdrawTransaction() {
+    const addresses = getTop5RewardsValidators(
+      this.context.bondDenom,
+      this.context.rewards
     )
     return this.createMultiMessage(
       transaction.WITHDRAW,
       this.context.userAddress,
-      newTxProps
+      { validatorAddresses: addresses }
     )
   }
 
-  // limitation of the block, so we pick the top 5 rewards and inform the user.
-  formatWithdrawalProperties(context, { validatorAddress }) {
-    let validatorAddresses
-    if (validatorAddress) {
-      validatorAddresses = [validatorAddress]
-    } else {
-      const top5Delegations = getTop5Delegations(context.committedDelegations)
-      validatorAddresses = Object.keys(top5Delegations)
-    }
-
-    return { validatorAddresses }
-  }
-
   // Withdrawing is a multi message for all validators you have bonds with
-  createMultiMessage(type, senderAddress, txArguments) {
-    const messages = txArguments.validatorAddresses.map(validatorAddress =>
+  createMultiMessage(type, senderAddress, { validatorAddresses }) {
+    const messages = validatorAddresses.map(validatorAddress =>
       this.cosmos[type](senderAddress, { validatorAddress })
     )
     return this.cosmos.MultiMessage(senderAddress, messages)
@@ -130,4 +119,16 @@ function convertCurrencyData(amounts) {
 
 function toMicroAtomString(amount) {
   return String(uatoms(amount))
+}
+
+// // limitation of the block, so we pick the top 5 rewards and inform the user.
+function getTop5RewardsValidators(bondDenom, rewardsObject) {
+  // Compares the amount in a [address1, {denom: amount}] array
+  const byBalanceOfDenom = denom => (a, b) => b[1][denom] - a[1][denom]
+  const validatorList = Object.entries(rewardsObject)
+    .sort(byBalanceOfDenom(bondDenom))
+    .slice(0, 5) // Just the top 5
+    .map(([address]) => address)
+
+  return validatorList
 }

@@ -14,6 +14,7 @@ let mockSetContext = jest.fn()
 jest.mock(`src/components/ActionManager/ActionManager.js`, () => {
   return jest.fn(() => {
     return {
+      setMessage: jest.fn(),
       setContext: mockSetContext,
       simulate: mockSimulate,
       send: mockSend
@@ -427,7 +428,7 @@ describe(`ActionModal`, () => {
       })
     })
 
-    xit("should fail if simulation fails", () => {
+    it("should fail if simulation fails", () => {
       const mockSimulateFail = jest.fn(() =>
         Promise.reject(new Error(`invalid request`))
       )

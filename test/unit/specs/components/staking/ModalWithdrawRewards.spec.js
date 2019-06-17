@@ -48,8 +48,7 @@ describe(`ModalWithdrawRewards`, () => {
   describe("Submission Data for Delegating", () => {
     it("should return correct transaction data for delegating", () => {
       expect(wrapper.vm.transactionData).toEqual({
-        type: "MsgWithdrawDelegationReward",
-        validatorAddress: "cosmos1234567"
+        type: "MsgWithdrawDelegationReward"
       })
     })
 

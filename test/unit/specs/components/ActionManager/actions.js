@@ -20,23 +20,7 @@ export const sendTx = {
 }
 
 export const withdrawTx = {
-  txProps: {
-    validatorAddress: "cosmos123"
-  },
-  txMetaData: {
-    gasPrice: {
-      amount: 2000,
-      denom: "uatom"
-    },
-    submitType: "",
-    password: ""
-  }
-}
-
-export const withdrawManyTx = {
-  txProps: {
-    validatorAddress: undefined
-  },
+  txProps: {},
   txMetaData: {
     gasPrice: {
       amount: 2000,

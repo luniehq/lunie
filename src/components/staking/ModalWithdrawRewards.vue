@@ -62,8 +62,7 @@ export default {
   computed: {
     transactionData() {
       return {
-        type: transaction.WITHDRAW,
-        validatorAddress: this.validatorAddress
+        type: transaction.WITHDRAW
       }
     },
     notifyMessage() {

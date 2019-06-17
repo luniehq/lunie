@@ -373,13 +373,10 @@ export default {
       }
     },
     async simulate() {
+      const { type, memo, ...properties } = this.transactionData
+      this.actionManager.setMessage(type, properties)
       try {
-        const { type, memo, ...properties } = this.transactionData
-        this.gasEstimate = await this.actionManager.simulate(
-          type,
-          memo,
-          properties
-        )
+        this.gasEstimate = await this.actionManager.simulate(memo)
         this.step = feeStep
       } catch ({ message }) {
         this.submissionError = `${this.submissionErrorPrefix}: ${message}.`
@@ -393,11 +390,11 @@ export default {
         await this.connectLedger()
       }
 
-      const { type, memo, ...transactionProperties } = this.transactionData
+      const { memo, ...transactionProperties } = this.transactionData
 
       const gasPrice = {
         amount: this.gasPrice,
-        denom: this.bondDenom // TODO Use context
+        denom: this.bondDenom
       }
 
       const feeProperties = {
@@ -408,12 +405,7 @@ export default {
       }
 
       try {
-        await this.actionManager.send(
-          type,
-          memo,
-          transactionProperties,
-          feeProperties
-        )
+        await this.actionManager.send(memo, feeProperties)
         track(`event`, `successful-submit`, this.title, this.selectedSignMethod)
         this.$store.commit(`notify`, this.notifyMessage)
         this.postSubmit({
