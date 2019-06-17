@@ -192,4 +192,41 @@ describe(`Module: Proposals`, () => {
       expect(state.error.message).toBe(`Error`)
     })
   })
+
+  it(`optimistic update after submission`, async () => {
+    const { actions, state } = moduleInstance
+    jest.useFakeTimers()
+
+    const dispatch = jest.fn()
+    const commit = jest.fn()
+    const proposal = proposals[1]
+    await actions.postSubmitProposal(
+      { state, dispatch, rootState: mockRootState, commit },
+      {
+        txProps: {
+          title: proposal.proposal_content.value.title,
+          description: proposal.proposal_content.value.description,
+          initialDeposits: proposal.initial_deposit
+        }
+      }
+    )
+    jest.runAllTimers()
+    expect(commit).toHaveBeenCalledWith(`setProposal`, {
+      proposal_id: `1`,
+      proposal_content: {
+        value: {
+          title: `Proposal Title`,
+          description: `Proposal description`
+        }
+      },
+      initial_deposit: [
+        {
+          amount: "1000000000",
+          denom: `stake`
+        }
+      ]
+    })
+    expect(dispatch.mock.calls[0]).toEqual([`getProposals`])
+    expect(dispatch.mock.calls[1]).toEqual([`getAllTxs`])
+  })
 })

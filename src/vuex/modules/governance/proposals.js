@@ -81,13 +81,12 @@ export default ({ node }) => {
         commit
       },
       {
-        txProps: { amount, denom, title, description }
+        txProps: { initialDeposits, title, description }
       }
     ) {
-      const initialDeposits = [{ amount, denom }]
-
       // optimistic updates
       initialDeposits.forEach(({ amount, denom }) => {
+        console.log(amount, denom, wallet)
         const oldBalance = wallet.balances.find(
           balance => balance.denom === denom
         )
