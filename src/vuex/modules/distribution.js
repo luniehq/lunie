@@ -171,6 +171,7 @@ export default ({ node }) => {
       {
         state,
         rootState: { session },
+        getters: { bondDenom },
         commit
       },
       validatorAddr
@@ -182,6 +183,12 @@ export default ({ node }) => {
           validatorAddr
         )
         const rewards = coinsToObject(rewardsArray)
+
+        // if the delegator has 0 rewards for a validator after a withdraw, this is trimmed
+        // to properly differentiate between 0 rewards and no delegation,
+        // we set the rewards to a 0 value on validators we know the delegator has bond with
+        rewards[bondDenom] = rewards[bondDenom] || 0
+
         commit(`setDelegationRewards`, { validatorAddr, rewards })
         commit(`setDistributionError`, null)
         state.loaded = true
