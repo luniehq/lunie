@@ -42,7 +42,10 @@ describe(`TmSessionExplore`, () => {
 
   it(`should go back to existing session component`, () => {
     wrapper.vm.goBack()
-    expect($store.commit).toHaveBeenCalledWith(`setSessionModalView`, `existing`)
+    expect($store.commit).toHaveBeenCalledWith(
+      `setSessionModalView`,
+      `existing`
+    )
   })
 
   it(`should signal signedin state on successful login`, async () => {

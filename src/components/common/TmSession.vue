@@ -94,6 +94,7 @@ export default {
 .session-list {
   padding: 1rem 0;
 }
+
 .session-list h3 {
   font-size: var(--h3);
   color: var(--bright);

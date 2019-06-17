@@ -5,7 +5,7 @@ describe(`TmLiSession`, () => {
   let wrapper
   const propsData = {
     icon: `mood`,
-    title: `useful title`,
+    title: `useful title`
   }
   beforeEach(() => {
     wrapper = shallowMount(TmLiSession, { propsData })

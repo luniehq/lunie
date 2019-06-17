@@ -110,8 +110,8 @@
           >
             <FieldSeed
               id="sign-up-seed"
-              class="field-seed"
               v-model="fields.signUpSeed"
+              class="field-seed"
             />
             <TmFormMsg
               type="custom"

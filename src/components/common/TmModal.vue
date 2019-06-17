@@ -36,6 +36,7 @@ export default {
   z-index: var(--z-modal);
   width: 100vw;
   height: 100vh;
+
   /* background: rgba(0, 0, 0, 0.5); */
   background: var(--app-fg);
   display: flex;
