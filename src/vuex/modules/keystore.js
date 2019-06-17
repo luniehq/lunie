@@ -62,10 +62,6 @@ export default () => {
       )
       await dispatch("signIn", { password, sessionType: "local" })
       return cosmosAddress
-    },
-    async getLocalAddress({ state }, localKeyPairName) {
-      return state.accounts.find(({ name }) => name === localKeyPairName)
-        .address
     }
   }
 
