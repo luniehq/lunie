@@ -271,5 +271,14 @@ describe(`Module: Fee Distribution`, () => {
         )
       })
     })
+
+    describe(`postWithdrawAllRewards`, () => {
+      it(`calls sub actions`, async () => {
+        await actions.postWithdrawAllRewards({ dispatch })
+        expect(dispatch).toHaveBeenCalledWith(`getTotalRewards`)
+        expect(dispatch).toHaveBeenCalledWith(`queryWalletBalances`)
+        expect(dispatch).toHaveBeenCalledWith(`getAllTxs`)
+      })
+    })
   })
 })
