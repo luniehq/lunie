@@ -68,4 +68,19 @@ describe(`Module: Votes`, () => {
     })
     expect(state.error.message).toBe(`Error`)
   })
+
+  it(`should run post submit actions`, async () => {
+    const dispatch = jest.fn()
+    const { actions } = module
+    await actions.postSubmitVote(
+      { dispatch },
+      {
+        txProps: { proposalId: 99 }
+      }
+    )
+
+    expect(dispatch.mock.calls[0]).toEqual([`getProposalVotes`, 99])
+    expect(dispatch.mock.calls[1]).toEqual([`getProposal`, 99])
+    expect(dispatch.mock.calls[2]).toEqual([`getAllTxs`])
+  })
 })
