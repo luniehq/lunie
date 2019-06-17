@@ -185,7 +185,10 @@ describe(`Module: Fee Distribution`, () => {
             dispatch,
             getters: {
               distribution: {
-                rewards: validatorRewards
+                rewards: validatorRewards,
+                totalRewards: {
+                  uatom: 10
+                }
               },
               bondDenom: "uatom"
             }
@@ -218,6 +221,39 @@ describe(`Module: Fee Distribution`, () => {
           `getRewardsFromMyValidators`,
           true
         )
+      })
+
+      it("should load the individual validator rewards if they haven't been loaded before", async () => {
+        await actions.withdrawRewards(
+          {
+            rootState,
+            dispatch,
+            getters: {
+              distribution: {
+                rewards: {},
+                totalRewards: {
+                  uatom: 10
+                }
+              },
+              bondDenom: "uatom"
+            }
+          },
+          {
+            gas: 456,
+            gasPrice: 123,
+            password: ``,
+            submitType: `ledger`
+          }
+        )
+        expect(dispatch).toHaveBeenCalledWith(
+          `getRewardsFromMyValidators`,
+          true
+        )
+        expect(dispatch).toHaveBeenCalledWith(
+          `getRewardsFromMyValidators`,
+          true
+        )
+        expect(dispatch).not.toHaveBeenCalledWith(`sendTx`, expect.any(Object))
       })
     })
 

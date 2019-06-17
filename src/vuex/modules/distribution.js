@@ -102,10 +102,27 @@ export default ({ node }) => {
       // Compares the amount in a [address1, {denom: amount}] array
       const byBalanceOfDenom = denom => (a, b) => b[1][denom] - a[1][denom]
 
+      const totalRewards = Number(
+        getters.distribution.totalRewards[getters.bondDenom]
+      )
+
       const validatorList = Object.entries(getters.distribution.rewards)
         .sort(byBalanceOfDenom(getters.bondDenom))
         .slice(0, 5) // Just the top 5
         .map(([address]) => address)
+
+      // safety for a bug that happens if the individual validator rewards are not loaded yet
+      if (totalRewards > 0 && validatorList.length === 0) {
+        await dispatch(`getRewardsFromMyValidators`, true)
+        dispatch(`withdrawRewards`, {
+          gas,
+          gasPrice,
+          denom,
+          password,
+          submitType
+        })
+        return
+      }
 
       await dispatch(`sendTx`, {
         type: `MsgWithdrawDelegationReward`,
