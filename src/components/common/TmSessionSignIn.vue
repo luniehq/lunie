@@ -62,7 +62,6 @@ import { mapGetters } from "vuex"
 import { required, minLength } from "vuelidate/lib/validators"
 import TmBtn from "common/TmBtn"
 import TmFormGroup from "common/TmFormGroup"
-import TmFormStruct from "common/TmFormStruct"
 import TmField from "common/TmField"
 import TmFormMsg from "common/TmFormMsg"
 export default {
@@ -71,8 +70,7 @@ export default {
     TmBtn,
     TmField,
     TmFormGroup,
-    TmFormMsg,
-    TmFormStruct
+    TmFormMsg
   },
   data: () => ({
     signInName: ``,

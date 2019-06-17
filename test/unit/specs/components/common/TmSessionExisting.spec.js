@@ -1,4 +1,4 @@
-import { shallowMount, createLocalVue } from "@vue/test-utils"
+import { shallowMount } from "@vue/test-utils"
 import TmSessionExisting from "common/TmSessionExisting"
 
 describe(`TmSessionExisting`, () => {

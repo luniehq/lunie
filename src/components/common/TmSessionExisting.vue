@@ -47,32 +47,22 @@
 import { required } from "vuelidate/lib/validators"
 import { mapGetters } from "vuex"
 import LiSession from "common/TmLiSession"
-import TmBtn from "common/TmBtn"
-import TmFormGroup from "common/TmFormGroup"
-import TmFormStruct from "common/TmFormStruct"
-import TmField from "common/TmField"
-import TmFormMsg from "common/TmFormMsg"
 import bech32 from "bech32"
 export default {
   name: `session-existing`,
   components: {
-    LiSession,
-    TmBtn,
-    TmField,
-    TmFormGroup,
-    TmFormMsg,
-    TmFormStruct
+    LiSession
   },
+  data: () => ({
+    address: ``,
+    error: ``
+  }),
   computed: {
     ...mapGetters([`session`]),
     accountExists() {
       return this.session.accounts.length > 0
     }
   },
-  data: () => ({
-    address: ``,
-    error: ``
-  }),
   mounted() {
     this.address = localStorage.getItem(`prevAddress`)
   },

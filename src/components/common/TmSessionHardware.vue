@@ -54,7 +54,6 @@
 </template>
 
 <script>
-import LiSession from "common/TmLiSession"
 import TmBtn from "common/TmBtn"
 import { mapGetters } from "vuex"
 import HardwareState from "common/TmHardwareState"
@@ -62,8 +61,7 @@ export default {
   name: `session-hardware`,
   components: {
     TmBtn,
-    HardwareState,
-    LiSession
+    HardwareState
   },
   data: () => ({
     status: `connect`,

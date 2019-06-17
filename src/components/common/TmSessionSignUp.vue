@@ -196,7 +196,6 @@
 <script>
 import { mapGetters } from "vuex"
 import { required, minLength, sameAs } from "vuelidate/lib/validators"
-import PerfectScrollbar from "perfect-scrollbar"
 import TmBtn from "common/TmBtn"
 import TmFormGroup from "common/TmFormGroup"
 import TmFormStruct from "common/TmFormStruct"
@@ -213,9 +212,6 @@ export default {
     TmFormMsg,
     TmFormStruct
   },
-  computed: {
-    ...mapGetters([`session`])
-  },
   data: () => ({
     creating: true,
     fields: {
@@ -226,6 +222,9 @@ export default {
       signUpWarning: false
     }
   }),
+  computed: {
+    ...mapGetters([`session`])
+  },
   mounted() {
     this.$store.dispatch(`createSeed`).then(seedPhrase => {
       this.creating = false

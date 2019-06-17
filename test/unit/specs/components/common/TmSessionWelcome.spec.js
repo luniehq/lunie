@@ -2,7 +2,7 @@ import { shallowMount } from "@vue/test-utils"
 import TmSessionWelcome from "common/TmSessionWelcome"
 
 describe(`TmSessionWelcome`, () => {
-  let wrapper, $store
+  let $store, wrapper
   const accounts = []
 
   beforeEach(() => {
@@ -25,6 +25,10 @@ describe(`TmSessionWelcome`, () => {
       },
       stubs: [`router-link`]
     })
+  })
+
+  it(`has the expected html structure`, async () => {
+    expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
   describe(`header buttons`, () => {
