@@ -1,14 +1,13 @@
 <template>
-  <Modal
-    v-if="active"
-    :close="close"
-  >
+  <Modal v-if="active" :close="close">
     <div slot="main">
       <SessionWelcome v-if="session.modals.session.state == 'welcome'" />
       <SessionExplore v-else-if="session.modals.session.state == 'explore'" />
       <SessionSignUp v-else-if="session.modals.session.state == 'sign-up'" />
       <SessionSignIn v-else-if="session.modals.session.state == 'sign-in'" />
-      <SessionAccountDelete v-else-if="session.modals.session.state == 'delete'" />
+      <SessionAccountDelete
+        v-else-if="session.modals.session.state == 'delete'"
+      />
       <SessionHardware v-else-if="session.modals.session.state == 'hardware'" />
       <SessionImport v-else-if="session.modals.session.state == 'import'" />
     </div>

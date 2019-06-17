@@ -1,9 +1,6 @@
 <template>
   <div class="tm-session">
-    <TmFormStruct
-      :submit="onSubmit"
-      class="tm-session-container"
-    >
+    <TmFormStruct :submit="onSubmit" class="tm-session-container">
       <div class="tm-session-header">
         <a @click="goToWelcome()">
           <i class="material-icons">arrow_back</i>
@@ -16,10 +13,7 @@
         </a>
       </div>
       <div class="tm-session-main">
-        <TmFormGroup
-          field-id="sign-in-name"
-          field-label="Select Account"
-        >
+        <TmFormGroup field-id="sign-in-name" field-label="Select Account">
           <TmField
             id="sign-in-name"
             v-model="signInAddress"
@@ -55,18 +49,11 @@
             type="minLength"
             min="10"
           />
-          <TmFormMsg
-            v-if="error"
-            type="custom"
-            :msg="error"
-          />
+          <TmFormMsg v-if="error" type="custom" :msg="error" />
         </TmFormGroup>
       </div>
       <div class="tm-session-footer">
-        <TmBtn
-          value="Next"
-          size="lg"
-        />
+        <TmBtn value="Next" size="lg" />
       </div>
     </TmFormStruct>
   </div>

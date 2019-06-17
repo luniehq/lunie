@@ -1,8 +1,5 @@
 <template>
-  <div
-    id="session-welcome"
-    class="tm-session"
-  >
+  <div id="session-welcome" class="tm-session">
     <div class="tm-session-container">
       <div class="tm-session-header">
         <div class="tm-session-title">
@@ -33,7 +30,8 @@
               target="_blank"
               rel="noopener noreferrer"
             >
-              Get one here</a>.
+              Get one here</a
+            >.
           </div>
 
           <div
@@ -57,8 +55,7 @@
             <div class="header">
               <h1>DANGER ZONE</h1>
               <p>
-                Never use accounts created in the browser on a real network.
-                You
+                Never use accounts created in the browser on a real network. You
                 could lose all your money.
               </p>
             </div>

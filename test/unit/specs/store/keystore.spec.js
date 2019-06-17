@@ -5,7 +5,7 @@ jest.mock("@lunie/cosmos-keys", () => ({
 }))
 
 describe(`Module: Keystore`, () => {
-  let module, state, actions, mutations, node
+  let module, state, actions, mutations
   const accounts = [
     {
       address: `tb1zg69v7yszg69v7yszg69v7yszg69v7ysd8ep6q`,

@@ -67,8 +67,7 @@ exports[`TmSessionWelcome with accounts has the expected html structure 1`] = `
            
           <p>
             
-              Never use accounts created in the browser on a real network.
-              You
+              Never use accounts created in the browser on a real network. You
               could lose all your money.
             
           </p>
@@ -161,8 +160,7 @@ exports[`TmSessionWelcome without accounts has the expected html structure 1`] =
            
           <p>
             
-              Never use accounts created in the browser on a real network.
-              You
+              Never use accounts created in the browser on a real network. You
               could lose all your money.
             
           </p>
