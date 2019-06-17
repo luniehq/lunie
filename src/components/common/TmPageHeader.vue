@@ -75,7 +75,6 @@ export default {
 }
 
 .tm-page-header-text > div {
-  white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }

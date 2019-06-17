@@ -146,7 +146,7 @@ describe(`Module: Session`, () => {
       )
     })
 
-    it(`with Ledger Nano S`, async () => {
+    it(`with Ledger Nano`, async () => {
       const address = `cosmos1qpd4xgtqmxyf9ktjh757nkdfnzpnkamny3cpzv`
       const commit = jest.fn()
       const dispatch = jest.fn()

@@ -7,6 +7,89 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.0-beta.83] - 2019-06-17
+
+### Fixed
+
+- Proper loading of validator rewards @faboweb
+
+### Repository
+
+- Added config for codeclimate increasing lines per method allowed to 35 @faboweb
+
+## [1.0.0-beta.82] - 2019-06-16
+
+### Added
+
+- [#2165](https://github.com/cosmos/lunie/issues/2165) Shows end date and time for Governance proposals @thebkr7
+
+### Fixed
+
+- [#2771](https://github.com/cosmos/lunie/pull/2771) Delegates were not loaded before attempting to calculate rewards @colw
+
+### Code Improvements
+
+- updated the cosmos-js module and renamed it to cosmos-api @faboweb
+
+## [1.0.0-beta.81] - 2019-06-13
+
+### Changed
+
+- [#2164](https://github.com/cosmos/lunie/issues/2164) When an invalid validators address is entered a component lets them know and gives them the link to view all validators. @thebkr7
+
+### Fixed
+
+- [#2699](https://github.com/cosmos/lunie/issues/2699) Fixed the bug that was always displaying validators as active when expanded even if they were not @thebkr7
+- [#2702](https://github.com/cosmos/lunie/pull/2702) Withdraw correctly from the top 5 rewards @colw
+
+### Code Improvements
+
+- [#2164](https://github.com/cosmos/lunie/issues/2164) Changing how an invalid validators address is handled. Now a page informs users that it is invalid and has a link to view all validators @thebkr7
+- [#2164](https://github.com/cosmos/lunie/issues/2164) Refactored Vue Slots in TmPage and TmDataEmpty @thebkr7
+- Extracted signer scripts into @lunie/cosmos-keys @faboweb
+- [#2681](https://github.com/cosmos/lunie/pull/2681) Extracted the Ledger wrapper into a library @faboweb
+- [#2666](https://github.com/cosmos/lunie/issues/2666) removed refresh buttons @jbibla
+
+### Repository
+
+- [#2347](https://github.com/cosmos/lunie/pull/2347) Updates Jest config so that the test coverage summary is printed out when run @thebkr7
+
+## [1.0.0-beta.80] - 2019-06-11
+
+### Changed
+
+- [#2157](https://github.com/cosmos/lunie/issues/2157) Don't hide the create proposal button if signed out @thebkr7
+- [#2684](https://github.com/cosmos/lunie/pull/2684) Don't hide the error on action modals after a timeout @faboweb
+- [#2694](https://github.com/cosmos/lunie/issues/2694) removed redirects to homepage @jbibla
+
+### Fixed
+
+- [#2687](https://github.com/cosmos/lunie/issues/2687) fixed proposal creation @faboweb
+
+### Code Improvements
+
+- [#2683](https://github.com/cosmos/lunie/issues/2683) Created a function to throttle updates in the store @faboweb
+
+## [1.0.0-beta.79] - 2019-06-04
+
+### Fixed
+
+- [#2663](https://github.com/cosmos/lunie/pull/2663) Add link to buy Ledger Nano S in about page. @colw
+- [#2665](https://github.com/cosmos/lunie/pull/2665) Correctly update wallet balance on send to self @faboweb
+- [#1234](https://github.com/cosmos/lunie/pull/1234) Keybase cache was not loaded for all validators @faboweb
+
+### Security
+
+- [#2676](https://github.com/cosmos/lunie/pull/2676) Update axios due to security issue @faboweb
+
+### Deprecated
+
+- [#2665](https://github.com/cosmos/lunie/pull/2665) Removed optimistic updates for delegation actions (all actions anyway wait for the tx inclusion into a block) @faboweb
+
+### Code Improvements
+
+- [#2231](https://github.com/cosmos/lunie/issues/2231) Added e2e tests for delegation actions @faboweb
+
 ## [1.0.0-beta.78] - 2019-05-28
 
 ### Added

@@ -123,7 +123,10 @@ describe(`Module: Delegates`, () => {
       dispatch,
       rootState: mockRootState
     })
-    expect(dispatch.mock.calls).toEqual([[`updateSigningInfo`, candidates]])
+    expect(dispatch.mock.calls).toEqual([
+      [`updateSigningInfo`, candidates],
+      [`getRewardsFromMyValidators`]
+    ])
   })
 
   it(`fetches the signing information from all delegates`, async () => {
@@ -159,51 +162,6 @@ describe(`Module: Delegates`, () => {
         start_height: 2
       }
     })
-  })
-
-  it(`throttles validator fetching to every 20 blocks`, async () => {
-    let node = {
-      get: {
-        validatorSigningInfo: jest.fn(() => {})
-      }
-    }
-    instance = delegatesModule({
-      node
-    })
-    const { actions, state } = instance
-    const commit = jest.fn()
-    state.lastValidatorsUpdate = 0
-    await actions.updateSigningInfo(
-      {
-        state,
-        commit,
-        getters: { lastHeader: { height: `43` } }
-      },
-      [
-        {
-          operator_address: `foo`,
-          consensus_pubkey: `bar`,
-          tokens: `10`
-        }
-      ]
-    )
-    expect(state.lastValidatorsUpdate).toBe(43)
-    node.get.validatorSigningInfo.mockClear()
-    await actions.updateSigningInfo(
-      {
-        state,
-        commit,
-        getters: { lastHeader: { height: `44` } }
-      },
-      [
-        {
-          operator_address: `foo`,
-          consensus_pubkey: `bar`,
-          tokens: `10`
-        }
-      ]
-    )
-    expect(node.get.validatorSigningInfo).not.toHaveBeenCalled()
   })
 
   it(`should query for delegates on reconnection if was loading before`, async () => {
