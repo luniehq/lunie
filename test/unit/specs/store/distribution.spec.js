@@ -185,7 +185,10 @@ describe(`Module: Fee Distribution`, () => {
             dispatch,
             getters: {
               distribution: {
-                rewards: validatorRewards
+                rewards: validatorRewards,
+                totalRewards: {
+                  uatom: 10
+                }
               },
               bondDenom: "uatom"
             }
@@ -214,7 +217,43 @@ describe(`Module: Fee Distribution`, () => {
           gas: "456",
           gas_prices: [{ amount: "123000000", denom: undefined }]
         })
-        expect(dispatch).toHaveBeenCalledWith(`getTotalRewards`)
+        expect(dispatch).toHaveBeenCalledWith(
+          `getRewardsFromMyValidators`,
+          true
+        )
+      })
+
+      it("should load the individual validator rewards if they haven't been loaded before", async () => {
+        await actions.withdrawRewards(
+          {
+            rootState,
+            dispatch,
+            getters: {
+              distribution: {
+                rewards: {},
+                totalRewards: {
+                  uatom: 10
+                }
+              },
+              bondDenom: "uatom"
+            }
+          },
+          {
+            gas: 456,
+            gasPrice: 123,
+            password: ``,
+            submitType: `ledger`
+          }
+        )
+        expect(dispatch).toHaveBeenCalledWith(
+          `getRewardsFromMyValidators`,
+          true
+        )
+        expect(dispatch).toHaveBeenCalledWith(
+          `getRewardsFromMyValidators`,
+          true
+        )
+        expect(dispatch).not.toHaveBeenCalledWith(`sendTx`, expect.any(Object))
       })
     })
 
@@ -263,7 +302,7 @@ describe(`Module: Fee Distribution`, () => {
       it(`success`, async () => {
         const validatorAddr = `cosmosvaloper1address`
         await actions.getRewardsFromValidator(
-          { state, rootState, commit },
+          { state, rootState, commit, getters: { bondDenom: "stake" } },
           validatorAddr
         )
         expect(node.get.delegatorRewardsFromValidator).toHaveBeenCalledWith(
@@ -282,7 +321,7 @@ describe(`Module: Fee Distribution`, () => {
           Promise.reject(Error(`invalid validator address`))
         )
         await actions.getRewardsFromValidator(
-          { state, rootState, commit },
+          { state, rootState, commit, getters: { bondDenom: "stake" } },
           validatorAddr
         )
         expect(node.get.delegatorRewardsFromValidator).toHaveBeenCalledWith(
