@@ -4,8 +4,7 @@ exports[`ToolBar has the expected html structure 1`] = `
 <div
   class="tool-bar"
 >
-  <!---->
-    
+   
   <a
     id="signOut-btn"
   >

@@ -2,6 +2,7 @@ import * as Sentry from "@sentry/browser"
 import BN from "bignumber.js"
 import b32 from "scripts/b32"
 import Vue from "vue"
+import { throttle } from "scripts/blocks-throttle"
 
 export default ({ node }) => {
   const emptyState = {
@@ -9,11 +10,11 @@ export default ({ node }) => {
     loading: false,
     loaded: false,
     error: null,
-    lastValidatorsUpdate: 0,
     signingInfos: {},
     selfBond: {}
   }
   const state = JSON.parse(JSON.stringify(emptyState))
+  const delegatesThrottle = throttle("delegates")(10)
 
   const mutations = {
     setDelegateLoading(state, loading) {
@@ -61,39 +62,33 @@ export default ({ node }) => {
       },
       validators
     ) {
-      // throttle the update for validators for every 10 blocks
-      const waited10Blocks =
-        Number(lastHeader.height) - state.lastDelegatesUpdate >= 10
-      if (state.lastValidatorsUpdate !== 0 && !waited10Blocks) {
-        return
-      }
-
-      state.lastValidatorsUpdate = Number(lastHeader.height)
-      const signingInfos = await Promise.all(
-        validators.map(async validator => {
-          if (validator.consensus_pubkey) {
-            const signing_info = await node.get.validatorSigningInfo(
-              validator.consensus_pubkey
-            )
-            return {
-              operator_address: validator.operator_address,
-              signing_info
+      await delegatesThrottle(state, Number(lastHeader.height), async () => {
+        const signingInfos = await Promise.all(
+          validators.map(async validator => {
+            if (validator.consensus_pubkey) {
+              const signing_info = await node.get.validatorSigningInfo(
+                validator.consensus_pubkey
+              )
+              return {
+                operator_address: validator.operator_address,
+                signing_info
+              }
             }
-          }
-        })
-      )
-      commit(
-        `setSigningInfos`,
-        signingInfos
-          .filter(x => !!x)
-          .reduce(
-            (signingInfos, { operator_address, signing_info }) => ({
-              ...signingInfos,
-              [operator_address]: signing_info
-            }),
-            {}
-          )
-      )
+          })
+        )
+        commit(
+          `setSigningInfos`,
+          signingInfos
+            .filter(x => !!x)
+            .reduce(
+              (signingInfos, { operator_address, signing_info }) => ({
+                ...signingInfos,
+                [operator_address]: signing_info
+              }),
+              {}
+            )
+        )
+      })
     },
     async getDelegates({ state, commit, dispatch, rootState }) {
       commit(`setDelegateLoading`, true)
@@ -117,6 +112,7 @@ export default ({ node }) => {
         commit(`setDelegates`, validators)
         commit(`setDelegateLoading`, false)
         dispatch(`updateSigningInfo`, validators)
+        dispatch(`getRewardsFromMyValidators`)
 
         return validators
       } catch (error) {

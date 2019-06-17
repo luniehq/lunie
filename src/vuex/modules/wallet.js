@@ -87,7 +87,7 @@ export default ({ node }) => {
           if (rootState.connection.lastHeader.height < height) return
           clearInterval(interval)
           dispatch(`queryWalletBalances`)
-          dispatch(`getBondedDelegates`)
+          dispatch(`updateDelegates`, true)
           resolve()
         }, 1000)
       })
@@ -100,7 +100,7 @@ export default ({ node }) => {
 
       state.subscribedRPC = node.rpc
 
-      subscribeToTxs(node.rpc, rootState.session, dispatch)
+      subscribeToTxs(node.rpc, rootState.session.address, dispatch)
     }
   }
 

@@ -88,7 +88,6 @@ export default {
         address: this.address
       })
       localStorage.setItem(`prevAddress`, this.address)
-      this.$router.push(`/`)
       this.$store.commit(`toggleSessionModal`, false)
     },
     bech32Validate(param) {

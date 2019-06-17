@@ -1,5 +1,6 @@
 import * as Sentry from "@sentry/browser"
 import Vue from "vue"
+import { throttle } from "scripts/blocks-throttle"
 
 export default ({ node }) => {
   const emptyState = {
@@ -7,14 +8,12 @@ export default ({ node }) => {
     loaded: false,
     error: null,
 
-    // our delegations, maybe not yet committed
-    lastDelegatesUpdate: 0,
-
     // our delegations which are already on the blockchain
     committedDelegates: {},
     unbondingDelegations: {}
   }
   const state = JSON.parse(JSON.stringify(emptyState))
+  const delegationsThrottle = throttle("delegations")(5)
 
   const mutations = {
     setCommittedDelegation(state, { candidateId, value }) {
@@ -109,21 +108,19 @@ export default ({ node }) => {
 
       state.loading = false
     },
-    async updateDelegates({ dispatch, rootState, state }) {
-      // only update every 10 blocks
-      if (
-        Number(rootState.connection.lastHeader.height) -
-          state.lastDelegatesUpdate <
-        5
-      ) {
-        return
-      }
-      state.lastDelegatesUpdate = Number(rootState.connection.lastHeader.height)
-      const candidates = await dispatch(`getDelegates`)
+    async updateDelegates({ dispatch, rootState, state }, force = false) {
+      await delegationsThrottle(
+        state,
+        Number(rootState.connection.lastHeader.height),
+        async () => {
+          const candidates = await dispatch(`getDelegates`)
 
-      if (rootState.session.signedIn) {
-        dispatch(`getBondedDelegates`, candidates)
-      }
+          if (rootState.session.signedIn) {
+            dispatch(`getBondedDelegates`, candidates)
+          }
+        },
+        force
+      )
     },
     async simulateDelegation(
       {
@@ -148,10 +145,7 @@ export default ({ node }) => {
     async submitDelegation(
       {
         rootState: { stakingParameters, session },
-        getters: { liquidAtoms },
-        state,
-        dispatch,
-        commit
+        dispatch
       },
       { validator_address, amount, gas, gas_prices, password, submitType }
     ) {
@@ -171,21 +165,6 @@ export default ({ node }) => {
         password,
         submitType
       })
-
-      // optimistic update the atoms of the user before we get the new values from chain
-      commit(`updateWalletBalance`, {
-        denom,
-        amount: Number(liquidAtoms) - Number(amount)
-      })
-      // optimistically update the committed delegations
-      commit(`setCommittedDelegation`, {
-        candidateId: validator_address,
-        value: state.committedDelegates[validator_address] + Number(amount)
-      })
-
-      await dispatch(`getAllTxs`)
-      // load delegates after delegation to get new atom distribution on validators
-      dispatch(`updateDelegates`)
     },
     async simulateUnbondingDelegation(
       {
@@ -228,7 +207,6 @@ export default ({ node }) => {
         password,
         submitType
       })
-      await dispatch(`getAllTxs`)
     },
     async simulateRedelegation(
       {
@@ -282,8 +260,6 @@ export default ({ node }) => {
         password,
         submitType
       })
-
-      await dispatch(`getAllTxs`)
     }
   }
 

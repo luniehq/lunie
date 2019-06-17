@@ -1,18 +1,4 @@
-import { shortAddress, coinsToObject, calculateShares } from "scripts/common"
-
-describe(`shortAddress`, () => {
-  const bech32ish = `asdf1asdfghjkl`
-
-  it(`should treat bech32ish like bech32`, () => {
-    const shortString = shortAddress(bech32ish)
-    expect(shortString.toLowerCase()).toBe(`asdf…hjkl`)
-  })
-  it(`should return short bech32ish `, () => {
-    const shortBech32ish = `as1d`
-    const shortString = shortAddress(shortBech32ish)
-    expect(shortString.toLowerCase()).toBe(`as1d`)
-  })
-})
+import { coinsToObject, calculateShares } from "scripts/common"
 
 describe(`calculateShares`, () => {
   it(`should calculates shares `, () => {

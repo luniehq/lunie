@@ -1,7 +1,7 @@
 import { getKey } from "scripts/keystore"
-import { signWithPrivateKey } from "scripts/wallet"
-import Cosmos from "@lunie/cosmos-js"
-import Ledger from "scripts/ledger"
+import { signWithPrivateKey } from "@lunie/cosmos-keys"
+import Cosmos from "@lunie/cosmos-api"
+import Ledger from "@lunie/cosmos-ledger"
 import config from "src/config"
 
 export default ({ node }) => {
@@ -90,7 +90,7 @@ export function getSigner(state, rootState, { submitType, password }) {
       )
       const signature = state.externals.signWithPrivateKey(
         signMessage,
-        wallet.privateKey
+        Buffer.from(wallet.privateKey, "hex")
       )
 
       return {

@@ -43,10 +43,6 @@
   border: 1px solid var(--bc-dim);
 }
 
-.data-table__row:hover {
-  background: var(--hover-bg);
-}
-
 .data-table__row__info {
   display: flex;
   align-items: center;

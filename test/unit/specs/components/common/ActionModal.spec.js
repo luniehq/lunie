@@ -64,25 +64,6 @@ describe(`ActionModal`, () => {
     expect(self.submissionError).toEqual(`PREFIX: some kind of error message.`)
   })
 
-  it(`should clear the submissionError after a timeout if the function is rejected`, async () => {
-    jest.useFakeTimers()
-
-    const submitFn = jest
-      .fn()
-      .mockRejectedValue(new Error(`some kind of error message`))
-    const $store = { dispatch: jest.fn() }
-    const self = {
-      $store,
-      submitFn,
-      submissionErrorPrefix: `PREFIX`,
-      connectLedger: () => {}
-    }
-    await ActionModal.methods.submit.call(self)
-
-    jest.runAllTimers()
-    expect(self.submissionError).toEqual(null)
-  })
-
   it(`should default to submissionError being null`, () => {
     expect(wrapper.vm.submissionError).toBe(null)
   })
@@ -469,7 +450,7 @@ describe(`ActionModal`, () => {
       expect(wrapper.vm.selectedSignMethod).toBe(`ledger`)
       expect(wrapper.vm.signMethods).toEqual([
         {
-          key: `Ledger Nano S`,
+          key: `Ledger Nano`,
           value: `ledger`
         }
       ])

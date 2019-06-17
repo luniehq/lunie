@@ -24,14 +24,6 @@ exports[`TmLiSession has the expected html structure 1`] = `
         useful title
       </span>
     </div>
-     
-    <div
-      class="tm-li-session-subtitle"
-    >
-      <span>
-        useful subtitle
-      </span>
-    </div>
   </div>
    
   <div

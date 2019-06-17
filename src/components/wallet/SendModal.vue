@@ -153,7 +153,7 @@ export default {
     editMemo: false
   }),
   computed: {
-    ...mapGetters([`wallet`]),
+    ...mapGetters([`wallet`, `session`]),
     balance() {
       const denom = this.wallet.balances.find(b => b.denom === this.denom)
       return (denom && denom.amount) || 0
@@ -223,8 +223,10 @@ export default {
       })
 
       const fees = gasEstimate * gasPrice
+      // if we send to ourselves, we don't loose tokens
+      let liquidityChangeAmount = address === this.session.address ? 0 : amount
       this.$store.commit("updateWalletBalance", {
-        amount: this.balance - uatoms(amount + fees),
+        amount: this.balance - uatoms(liquidityChangeAmount + fees),
         denom: this.denom
       })
 
@@ -269,5 +271,6 @@ export default {
   height: 58px;
   padding: 12px 0;
   box-sizing: content-box;
+  font-size: var(--sm);
 }
 </style>

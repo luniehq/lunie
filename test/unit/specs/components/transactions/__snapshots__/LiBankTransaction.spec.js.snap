@@ -51,12 +51,12 @@ exports[`LiBankTransaction should show bank transaction when user hasn't signed 
   <span>
     
         From 
-    <shortbech32-stub
+    <bech32-stub
       address="A"
     />
      to
         
-    <shortbech32-stub
+    <bech32-stub
       address="B"
     />
   </span>
@@ -84,9 +84,8 @@ exports[`LiBankTransaction should show incoming transactions 1`] = `
   </div>
    
   <span>
-    
-      From   
-    <shortbech32-stub
+     From   
+    <bech32-stub
       address="A"
     />
   </span>
@@ -116,7 +115,7 @@ exports[`LiBankTransaction should show outgoing transactions 1`] = `
   <span>
     
         To 
-    <shortbech32-stub
+    <bech32-stub
       address="A"
     />
   </span>

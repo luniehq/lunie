@@ -12,7 +12,7 @@ jest.mock(`src/config.js`, () => ({
   default_gas: 42
 }))
 
-jest.mock(`scripts/wallet.js`, () => ({
+jest.mock(`@lunie/cosmos-keys`, () => ({
   sign: jest.fn(() => []),
   createBroadcastBody: jest.fn(() => ({
     broadcast: `body`
@@ -22,7 +22,7 @@ jest.mock(`scripts/wallet.js`, () => ({
 }))
 
 jest.mock(
-  `@lunie/cosmos-js`,
+  `@lunie/cosmos-api`,
   () =>
     class MockCosmosJs {
       constructor() {}

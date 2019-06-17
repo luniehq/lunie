@@ -207,12 +207,8 @@ describe(`Module: Proposals`, () => {
     const res = await actions.simulateProposal(self, {
       type: proposal.proposal_type,
       initial_deposit: proposal.initial_deposit,
-      proposal_content: {
-        value: {
-          title: proposal.title,
-          description: proposal.description
-        }
-      }
+      title: proposal.title,
+      description: proposal.description
     })
 
     expect(self.dispatch).toHaveBeenCalledWith(`simulateTx`, {
@@ -228,7 +224,7 @@ describe(`Module: Proposals`, () => {
   })
 
   it(`submits a new proposal`, async () => {
-    const { actions } = moduleInstance
+    const { actions, state } = moduleInstance
     jest.useFakeTimers()
 
     const dispatch = jest.fn()
@@ -237,11 +233,11 @@ describe(`Module: Proposals`, () => {
     await Promise.all(
       proposalsArray.map(async (proposal, i) => {
         await actions.submitProposal(
-          { dispatch, rootState: mockRootState, commit },
+          { state, dispatch, rootState: mockRootState, commit },
           {
             type: proposal.proposal_type,
             initial_deposit: proposal.initial_deposit,
-            proposal_content: proposal.proposal_content,
+            ...proposal.proposal_content.value,
             gas,
             gas_prices,
             submitType,

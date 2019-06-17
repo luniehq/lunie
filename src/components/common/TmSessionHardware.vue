@@ -128,6 +128,10 @@ export default {
   padding-top: 1rem;
 }
 
+.install-notes {
+  flex-direction: column;
+}
+
 .ledger-install {
   font-size: var(--sm);
   margin-bottom: 0;

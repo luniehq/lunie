@@ -7,9 +7,6 @@
       <div class="tm-li-session-title">
         <span>{{ title }}</span>
       </div>
-      <div class="tm-li-session-subtitle">
-        <span>{{ subtitle }}</span>
-      </div>
     </div>
     <div class="tm-li-session-icon">
       <i class="material-icons">arrow_forward</i>
@@ -28,10 +25,6 @@ export default {
     title: {
       type: String,
       required: true
-    },
-    subtitle: {
-      type: String,
-      required: false
     }
   }
 }
@@ -86,19 +79,6 @@ export default {
   flex-flow: column nowrap;
   padding: 0 1rem;
 }
-
-.tm-li-session-subtitle {
-  color: var(--dim);
-  font-size: var(--sm);
-}
-
-/* .tm-li-session[disabled] .tm-li-session-icon,
-.tm-li-session[disabled] .tm-li-session-title {
-  color: var(--dim, #666) !important;
-  user-select: none;
-  cursor: not-allowed;
-  opacity: 0.333;
-} */
 
 .material-icons.circle {
   border: 2px solid var(--dim);
