@@ -1,5 +1,5 @@
 <template>
-  <div class="tm-session">
+  <div class="session">
     <div class="tm-session-container tm-session-loading">
       <div class="tm-session-header">
         <div class="tm-session-title">

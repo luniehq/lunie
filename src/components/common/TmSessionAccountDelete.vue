@@ -59,11 +59,7 @@
         </TmFormGroup>
       </div>
       <div class="tm-session-footer">
-        <TmBtn
-          icon="exit_to_app"
-          value="Sign Out and Remove Account"
-          size="lg"
-        />
+        <TmBtn icon="exit_to_app" value="Sign Out and Remove Account" />
       </div>
     </TmFormStruct>
   </div>

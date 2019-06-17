@@ -1,18 +1,18 @@
 <template>
-  <div class="tm-session">
-    <TmFormStruct :submit="onSubmit.bind(this)" class="tm-session-container">
-      <div class="tm-session-header">
-        <a @click="setState('welcome')">
-          <i class="material-icons">arrow_back</i>
+  <div class="session">
+    <TmFormStruct :submit="onSubmit.bind(this)" class="session-container">
+      <div class="session-header">
+        <a @click="setState('existing')">
+          <i class="material-icons session-back">arrow_back</i>
         </a>
-        <div class="tm-session-title">
-          Import with Seed
-        </div>
+        <h2 class="session-title">
+          Recover from seed
+        </h2>
         <a @click="$store.commit(`toggleSessionModal`, false)">
-          <i class="material-icons">close</i>
+          <i class="material-icons session-close">close</i>
         </a>
       </div>
-      <div class="tm-session-main">
+      <div class="session-main">
         <TmFormGroup
           :error="$v.$error && $v.fields.importName.$invalid"
           field-id="import-name"
@@ -23,6 +23,7 @@
             v-model.trim="fields.importName"
             type="text"
             placeholder="Must have at least 5 characters"
+            vue-focus="vue-focus"
           />
           <TmFormMsg
             v-if="$v.fields.importName.$error && !$v.fields.importName.required"
@@ -87,10 +88,6 @@
             type="match"
           />
         </TmFormGroup>
-        <p class="fundraiser-warning">
-          Warning – Do not enter your actual 12 or 24 word seed phrase. This
-          feature is intended for testing and is considered highly unsafe.
-        </p>
         <TmFormGroup
           :error="$v.$error && $v.fields.importSeed.$invalid"
           field-id="import-seed"
@@ -120,24 +117,23 @@
           field-id="error-collection"
           field-label
         >
-          <div class="tm-field-checkbox">
-            <div class="tm-field-checkbox-input">
+          <div class="field-checkbox">
+            <div class="field-checkbox-input">
               <input
                 id="error-collection"
                 v-model="fields.errorCollection"
                 type="checkbox"
               />
             </div>
-            <label class="tm-field-checkbox-label" for="error-collection">
+            <label class="field-checkbox-label" for="error-collection">
               I'd like to opt in for remote error tracking to help improve
               Voyager.
             </label>
           </div>
         </TmFormGroup>
       </div>
-      <div class="tm-session-footer">
-        <TmBtn v-if="connected" value="Next" size="lg" />
-        <TmBtn v-else value="Connecting..." size="lg" disabled="true" />
+      <div class="session-footer">
+        <TmBtn value="Next" />
       </div>
     </TmFormStruct>
   </div>
@@ -153,7 +149,7 @@ import TmFormMsg from "common/TmFormMsg"
 import FieldSeed from "common/TmFieldSeed"
 import { mapGetters } from "vuex"
 export default {
-  name: `tm-session-import`,
+  name: `session-import`,
   components: {
     TmBtn,
     TmField,
@@ -172,9 +168,6 @@ export default {
   }),
   computed: {
     ...mapGetters([`connected`])
-  },
-  mounted() {
-    this.$el.querySelector(`#import-name`).focus()
   },
   methods: {
     setState(value) {
@@ -226,5 +219,6 @@ const words24 = param => {
   color: var(--danger);
   font-size: var(--sm);
   font-weight: 500;
+  padding: 0 0.25rem;
 }
 </style>
