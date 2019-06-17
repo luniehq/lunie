@@ -34,6 +34,10 @@ describe(`TableValidators`, () => {
           missed_blocks_counter: 2
         }
       }
+    },
+    lastHeader: {
+      chain_id: `gaia-20k`,
+      height: `6001`
     }
   }
 
