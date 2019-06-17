@@ -31,7 +31,7 @@ export default ({ node }) => {
         state.error = error
       }
     },
-    async submitDeposit(
+    async postSubmitDeposit(
       {
         rootState: { wallet },
         dispatch,

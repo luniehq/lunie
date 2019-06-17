@@ -52,6 +52,47 @@ describe(`Module: Deposits`, () => {
     })
   })
 
+  it(`should execute post submit optimistic pdates`, async () => {
+    const { actions } = module
+    jest.useFakeTimers()
+
+    const dispatch = jest.fn()
+    const commit = jest.fn()
+    const amount = [
+      {
+        denom: `stake`,
+        amount: `15`
+      }
+    ]
+
+    const proposalIds = Object.keys(proposals)
+    const numProposals = proposalIds.length
+    console.log(proposalIds)
+    proposalIds.forEach(async (proposal_id, i) => {
+      await actions.postSubmitDeposit(
+        { rootState: mockRootState, dispatch, commit },
+        {
+          txProps: { proposalId: proposal_id, amounts: amount }
+        }
+      )
+
+      jest.runAllTimers()
+      expect(commit).toHaveBeenCalledWith(`updateWalletBalance`, {
+        denom: `stake`,
+        amount: 85
+      })
+      expect(dispatch.mock.calls[i]).toEqual([
+        `getProposalDeposits`,
+        proposal_id
+      ])
+      expect(dispatch.mock.calls[i + numProposals]).toEqual([
+        `getProposal`,
+        proposal_id
+      ])
+      expect(dispatch.mock.calls[i + numProposals * 2]).toEqual([`getAllTxs`])
+    })
+  })
+
   it(`should store an error if failed to load deposits`, async () => {
     module = depositsModule({
       node: {
