@@ -40,6 +40,14 @@ describe(`TmSessionExplore`, () => {
     expect($store.commit).toHaveBeenCalledWith(`toggleSessionModal`, false)
   })
 
+  it(`should set the current view to the state`, () => {
+    wrapper.vm.setState(`someState`)
+    expect($store.commit).toHaveBeenCalledWith(
+      `setSessionModalView`,
+      `someState`
+    )
+  })
+
   it(`should go back to existing session component`, () => {
     wrapper.vm.goBack()
     expect($store.commit).toHaveBeenCalledWith(

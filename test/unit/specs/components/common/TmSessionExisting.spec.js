@@ -26,6 +26,22 @@ describe(`TmSessionExisting`, () => {
     })
   })
 
+  it(`should set the current view to the state`, () => {
+    wrapper.vm.setState(`someState`)
+    expect($store.commit).toHaveBeenCalledWith(
+      `setSessionModalView`,
+      `someState`
+    )
+  })
+
+  it(`should go back to the welcome screen`, () => {
+    wrapper.vm.goToWelcome()
+    expect($store.commit).toHaveBeenCalledWith(
+      `setSessionModalView`,
+      `welcome`
+    )
+  })
+
   describe(`default view in production`, () => {
     it(`shows "Explore with any address"`, () => {
       expect(wrapper.find(`#explore-with-address`).exists()).toBe(true)

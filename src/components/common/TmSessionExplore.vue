@@ -41,7 +41,6 @@
 
 <script>
 import { required } from "vuelidate/lib/validators"
-import { mapGetters } from "vuex"
 import TmBtn from "common/TmBtn"
 import TmFormGroup from "common/TmFormGroup"
 import TmFormStruct from "common/TmFormStruct"
@@ -61,12 +60,6 @@ export default {
     address: ``,
     error: ``
   }),
-  computed: {
-    ...mapGetters([`session`]),
-    accountExists() {
-      return this.session.accounts.length > 0
-    }
-  },
   mounted() {
     this.address = localStorage.getItem(`prevAddress`)
   },
