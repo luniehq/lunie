@@ -423,7 +423,7 @@ describe(`ActionModal`, () => {
             gasEstimate: 12345,
             gasPrice: { amount: "0.000000025", denom: "uatom" },
             password: null,
-            selectedSignMethod: "local"
+            submitType: "local"
           },
           txProps: { denom: "uatom", validatorAddress: "cosmos12345" }
         })

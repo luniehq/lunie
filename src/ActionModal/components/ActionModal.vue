@@ -395,7 +395,7 @@ export default {
       const feeProperties = {
         gasEstimate: this.gasEstimate,
         gasPrice: gasPrice,
-        selectedSignMethod: this.selectedSignMethod,
+        submitType: this.selectedSignMethod,
         password: this.password
       }
 
