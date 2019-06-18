@@ -6,10 +6,10 @@ exports[`UndelegationModal should display undelegation modal form 1`] = `
   class="undelegation-modal"
   fromoptions="[object Object]"
   id="undelegation-modal"
-  simulatefn="function () { [native code] }"
+  notifymessage="[object Object]"
   submissionerrorprefix="Undelegating failed"
-  submitfn="function () { [native code] }"
   title="Undelegate"
+  transactiondata="[object Object]"
   validate="function () { [native code] }"
 >
   <tmformgroup-stub

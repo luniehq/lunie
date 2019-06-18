@@ -38,39 +38,15 @@ describe(`ModalWithdrawRewards`, () => {
     expect(wrapper.find(`.withdraw-limit`).exists()).toBe(true)
   })
 
-  describe(`Withdraw`, () => {
-    it(`should simulate transaction to estimate gas used`, async () => {
-      const estimate = 1234567
-      const $store = { dispatch: jest.fn(() => estimate) }
-      const res = await ModalWithdrawRewards.methods.simulateForm.call({
-        $store
+  describe("Submission Data for Delegating", () => {
+    it("should return correct transaction data for delegating", () => {
+      expect(wrapper.vm.transactionData).toEqual({
+        type: "MsgWithdrawDelegationReward"
       })
-
-      expect($store.dispatch).toHaveBeenCalledWith(`simulateWithdralRewards`)
-      expect(res).toBe(estimate)
     })
 
-    it(`submits withdrawal`, async () => {
-      const gas = `1234567`
-      const gasPrice = 2.5e-8
-
-      await ModalWithdrawRewards.methods.submitForm.call(
-        { $store, ...propsData },
-        gas,
-        gasPrice,
-        ``,
-        `ledger`
-      )
-
-      expect($store.dispatch).toBeCalledWith(`withdrawRewards`, {
-        gasPrice,
-        gas,
-        denom: wrapper.vm.denom,
-        submitType: `ledger`,
-        password: ``
-      })
-
-      expect($store.commit).toBeCalledWith(`notify`, {
+    it("should return correct notification message for delegating", () => {
+      expect(wrapper.vm.notifyMessage).toEqual({
         title: `Successful withdrawal!`,
         body: `You have successfully withdrawn your rewards.`
       })

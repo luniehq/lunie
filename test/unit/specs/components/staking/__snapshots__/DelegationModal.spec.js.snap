@@ -4,10 +4,10 @@ exports[`DelegationModal should display the delegation modal form 1`] = `
 <actionmodal-stub
   class="delegation-modal"
   id="delegation-modal"
-  simulatefn="function () { [native code] }"
+  notifymessage="[object Object]"
   submissionerrorprefix="Delegating failed"
-  submitfn="function () { [native code] }"
   title="Delegate"
+  transactiondata="[object Object]"
   validate="function () { [native code] }"
 >
   <tmformgroup-stub

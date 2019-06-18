@@ -5,10 +5,10 @@ exports[`ModalWithdrawRewards should show the withdraw rewards modal 1`] = `
   amount="0"
   class="modal-withdraw-rewards"
   id="modal-withdraw-rewards"
-  simulatefn="function () { [native code] }"
+  notifymessage="[object Object]"
   submissionerrorprefix="Withdrawal failed"
-  submitfn="function () { [native code] }"
   title="Withdraw"
+  transactiondata="[object Object]"
   validatoraddress="cosmos1234567"
 >
   <span

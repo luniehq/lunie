@@ -133,60 +133,35 @@ describe(`ModalPropose`, () => {
     })
   })
 
-  describe(`simulateForm`, () => {
-    it(`should simulate transaction to estimate gas used`, async () => {
-      const estimate = 1234567
-      const $store = { dispatch: jest.fn(() => estimate) }
-      const res = await ModalPropose.methods.simulateForm.call({
-        $store,
-        type: `Text`,
-        denom: `uatom`,
-        ...inputs
+  describe("Submission Data for Delegating", () => {
+    beforeEach(() => {
+      wrapper.setData({
+        type: "Text",
+        title: "The Title",
+        description: "A long description…",
+        amount: 10
       })
-
-      expect($store.dispatch).toHaveBeenCalledWith(`simulateProposal`, {
-        description: `a valid description for the proposal`,
-        initial_deposit: [{ amount: `15000000`, denom: `uatom` }],
-        title: `A new text proposal for Cosmos`,
-        type: `Text`
-      })
-      expect(res).toBe(estimate)
     })
-  })
 
-  describe(`submitForm`, () => {
-    it(`submits a proposal`, async () => {
-      const $store = {
-        dispatch: jest.fn(),
-        commit: jest.fn()
-      }
-
-      const gas = `1234567`
-      const gasPrice = 2.5e-8
-      const gas_prices = [{ denom: `uatom`, amount: `0.025` }]
-
-      await ModalPropose.methods.submitForm.call(
-        { ...inputs, type: `Text`, denom: `uatom`, bondDenom: `uatom`, $store },
-        gas,
-        gasPrice,
-        ``,
-        `ledger`
-      )
-
-      expect($store.dispatch).toHaveBeenCalledWith(`submitProposal`, {
-        description: `a valid description for the proposal`,
-        initial_deposit: [{ amount: `15000000`, denom: `uatom` }],
-        title: `A new text proposal for Cosmos`,
-        type: `Text`,
-        gas,
-        gas_prices,
-        submitType: `ledger`,
-        password: ``
+    it("should return correct transaction data for delegating", () => {
+      expect(wrapper.vm.transactionData).toEqual({
+        type: "MsgSubmitProposal",
+        proposalType: "Text",
+        title: "The Title",
+        description: "A long description…",
+        initialDeposits: [
+          {
+            amount: "10000000",
+            denom: "uatom"
+          }
+        ]
       })
+    })
 
-      expect($store.commit).toHaveBeenCalledWith(`notify`, {
-        body: `You have successfully submitted a new text proposal`,
-        title: `Successful proposal submission!`
+    it("should return correct notification message for delegating", () => {
+      expect(wrapper.vm.notifyMessage).toEqual({
+        title: `Successful proposal submission!`,
+        body: `You have successfully submitted a new text proposal`
       })
     })
   })

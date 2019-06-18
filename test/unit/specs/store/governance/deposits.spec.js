@@ -52,30 +52,7 @@ describe(`Module: Deposits`, () => {
     })
   })
 
-  it(`should simulate a deposit transaction`, async () => {
-    const { actions } = module
-    const self = {
-      rootState: mockRootState,
-      dispatch: jest.fn(() => 123123)
-    }
-    const amount = [{ denom: `uatom`, amount: `10000000` }]
-    const res = await actions.simulateDeposit(self, {
-      proposal_id: `1`,
-      amount
-    })
-
-    expect(self.dispatch).toHaveBeenCalledWith(`simulateTx`, {
-      type: `MsgDeposit`,
-      txArguments: {
-        proposalId: `1`,
-        depositor: mockRootState.wallet.address,
-        amount
-      }
-    })
-    expect(res).toBe(123123)
-  })
-
-  it(`submits a deposit to a proposal`, async () => {
+  it(`should execute post submit optimistic pdates`, async () => {
     const { actions } = module
     jest.useFakeTimers()
 
@@ -89,32 +66,30 @@ describe(`Module: Deposits`, () => {
     ]
 
     const proposalIds = Object.keys(proposals)
+    const numProposals = proposalIds.length
+    console.log(proposalIds)
     proposalIds.forEach(async (proposal_id, i) => {
-      await actions.submitDeposit(
+      await actions.postMsgDeposit(
         { rootState: mockRootState, dispatch, commit },
-        { proposal_id, amount }
+        {
+          txProps: { proposalId: proposal_id, amounts: amount }
+        }
       )
 
-      expect(dispatch.mock.calls[i]).toEqual([
-        `sendTx`,
-        {
-          type: `MsgDeposit`,
-          txArguments: {
-            proposalId: proposal_id,
-            amount
-          }
-        }
-      ])
-
       jest.runAllTimers()
-      expect(dispatch.mock.calls[i + proposalIds.length]).toEqual([
-        `getProposalDeposits`,
-        proposal_id
-      ])
       expect(commit).toHaveBeenCalledWith(`updateWalletBalance`, {
         denom: `stake`,
         amount: 85
       })
+      expect(dispatch.mock.calls[i]).toEqual([
+        `getProposalDeposits`,
+        proposal_id
+      ])
+      expect(dispatch.mock.calls[i + numProposals]).toEqual([
+        `getProposal`,
+        proposal_id
+      ])
+      expect(dispatch.mock.calls[i + numProposals * 2]).toEqual([`getAllTxs`])
     })
   })
 

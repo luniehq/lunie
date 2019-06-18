@@ -122,76 +122,6 @@ describe(`SendModal`, () => {
     })
   })
 
-  describe(`simulateForm`, () => {
-    it(`should simulate transaction to estimate gas used`, async () => {
-      const estimate = 1234567
-      const $store = { dispatch: jest.fn(() => estimate) }
-      const res = await SendModal.methods.simulateForm.call({
-        $store,
-        amount: 10,
-        address: `cosmos1address`,
-        denom: `uatom`,
-        memo: `TESTING (Sent via Lunie)`
-      })
-
-      expect($store.dispatch).toHaveBeenCalledWith(`simulateTx`, {
-        type: `MsgSend`,
-        txArguments: {
-          toAddress: `cosmos1address`,
-          amounts: [{ amount: `10000000`, denom: `uatom` }]
-        },
-        memo: `TESTING (Sent via Lunie)`
-      })
-      expect(res).toBe(estimate)
-    })
-  })
-
-  describe(`submitForm`, () => {
-    it(`submits a transfer transaction`, async () => {
-      const $store = { commit: jest.fn() }
-      const sendTx = jest.fn()
-      const gas = `1234567`
-      const gasPrice = 2.5e-8
-      const gas_prices = [{ denom: `uatom`, amount: `0.025` }]
-
-      await SendModal.methods.submitForm.call(
-        {
-          amount: 10,
-          address: `cosmos1address`,
-          denom: `uatom`,
-          bondDenom: `uatom`,
-          $store,
-          sendTx,
-          memo: `TESTING (Sent via Lunie)`,
-          session: {
-            address: "cosmos1234"
-          }
-        },
-        gas,
-        gasPrice,
-        ``,
-        `ledger`
-      )
-
-      expect(sendTx).toHaveBeenCalledWith({
-        type: `MsgSend`,
-        txArguments: {
-          toAddress: `cosmos1address`,
-          amounts: [{ amount: `10000000`, denom: `uatom` }]
-        },
-        gas,
-        gas_prices,
-        submitType: `ledger`,
-        password: ``,
-        memo: `TESTING (Sent via Lunie)`
-      })
-
-      expect($store.commit).toHaveBeenCalledWith(`notify`, {
-        body: `Successfully sent 10 ATOMs to cosmos1address`,
-        title: `Successful Send`
-      })
-    })
-  })
   it(`validates bech32 addresses`, () => {
     expect(
       wrapper.vm.bech32Validate(`cosmos1x7wzdumfj8pncd99mqc0mkqfrrps3l3pjz8tk6`)
@@ -199,5 +129,31 @@ describe(`SendModal`, () => {
     expect(
       wrapper.vm.bech32Validate(`cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`)
     ).toBe(false)
+  })
+
+  it("should return transaction data in correct form", () => {
+    wrapper.setData({
+      denom: `STAKE`,
+      address: `cosmos12345`,
+      amount: 2
+    })
+    expect(wrapper.vm.transactionData).toEqual({
+      type: "MsgSend",
+      toAddress: "cosmos12345",
+      amounts: [{ amount: "2000000", denom: "STAKE" }],
+      memo: "(Sent via Lunie)"
+    })
+  })
+
+  it("should return notification message", () => {
+    wrapper.setData({
+      denom: `STAKE`,
+      address: `cosmos12345`,
+      amount: 2
+    })
+    expect(wrapper.vm.notifyMessage).toEqual({
+      title: `Successful Send`,
+      body: `Successfully sent 2 STAKEs to cosmos12345`
+    })
   })
 })

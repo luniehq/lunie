@@ -2,13 +2,13 @@
   <ActionModal
     id="undelegation-modal"
     ref="actionModal"
-    :submit-fn="submitForm"
-    :simulate-fn="simulateForm"
     :validate="validateForm"
     :amount="0"
     title="Undelegate"
     class="undelegation-modal"
     submission-error-prefix="Undelegating failed"
+    :transaction-data="transactionData"
+    :notify-message="notifyMessage"
     @close="clear"
   >
     <TmFormGroup class="action-modal-form-group">
@@ -79,6 +79,7 @@ import ActionModal from "common/ActionModal"
 import TmField from "common/TmField"
 import TmFormGroup from "common/TmFormGroup"
 import TmFormMsg from "common/TmFormMsg"
+import transaction from "src/components/ActionManager/transactionTypes"
 
 export default {
   name: `undelegation-modal`,
@@ -112,7 +113,23 @@ export default {
     num
   }),
   computed: {
-    ...mapGetters([`liquidAtoms`])
+    ...mapGetters([`liquidAtoms`]),
+    transactionData() {
+      return {
+        type: transaction.UNDELEGATE,
+        validator_address: this.validator.operator_address,
+        amount: uatoms(this.amount),
+        denom: this.denom
+      }
+    },
+    notifyMessage() {
+      return {
+        title: `Successful undelegation!`,
+        body: `You have successfully undelegated ${this.amount} ${num.viewDenom(
+          this.denom
+        )}s.`
+      }
+    }
   },
   validations() {
     return {
@@ -136,34 +153,6 @@ export default {
       this.$v.$reset()
 
       this.amount = null
-    },
-    async simulateForm() {
-      return await this.$store.dispatch(`simulateUnbondingDelegation`, {
-        amount: uatoms(this.amount),
-        validator: this.validator
-      })
-    },
-    async submitForm(gasEstimate, gasPrice, password, submitType) {
-      await this.$store.dispatch(`submitUnbondingDelegation`, {
-        amount: uatoms(this.amount),
-        validator: this.validator,
-        gas: String(gasEstimate),
-        gas_prices: [
-          {
-            amount: String(uatoms(gasPrice)),
-            denom: this.denom
-          }
-        ],
-        submitType,
-        password
-      })
-
-      this.$store.commit(`notify`, {
-        title: `Successful undelegation!`,
-        body: `You have successfully undelegated ${this.amount} ${num.viewDenom(
-          this.denom
-        )}s.`
-      })
     }
   }
 }

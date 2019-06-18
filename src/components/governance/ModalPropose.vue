@@ -2,12 +2,12 @@
   <ActionModal
     id="modal-propose"
     ref="actionModal"
-    :submit-fn="submitForm"
-    :simulate-fn="simulateForm"
     :validate="validateForm"
     :amount="amount"
     title="Proposal"
     submission-error-prefix="Submitting proposal failed"
+    :transaction-data="transactionData"
+    :notify-message="notifyMessage"
     @close="clear"
   >
     <TmFormGroup
@@ -117,6 +117,8 @@ import TmFormGroup from "common/TmFormGroup"
 import TmFormMsg from "common/TmFormMsg"
 import ActionModal from "common/ActionModal"
 
+import transaction from "src/components/ActionManager/transactionTypes"
+
 const isValid = type =>
   type === `Text` || type === `ParameterChange` || type === `SoftwareUpgrade`
 
@@ -156,6 +158,26 @@ export default {
         if (balance) return parseFloat(balance.amount)
       }
       return 0
+    },
+    transactionData() {
+      return {
+        type: transaction.SUBMIT_PROPOSAL,
+        proposalType: this.type,
+        title: this.title,
+        description: this.description,
+        initialDeposits: [
+          {
+            amount: uatoms(this.amount),
+            denom: this.denom
+          }
+        ]
+      }
+    },
+    notifyMessage() {
+      return {
+        title: `Successful proposal submission!`,
+        body: `You have successfully submitted a new ${this.type.toLowerCase()} proposal`
+      }
     }
   },
   validations() {
@@ -197,45 +219,6 @@ export default {
       this.title = ``
       this.description = ``
       this.amount = 0
-    },
-    async simulateForm() {
-      return await this.$store.dispatch(`simulateProposal`, {
-        title: this.title,
-        description: this.description,
-        type: this.type,
-        initial_deposit: [
-          {
-            denom: this.denom,
-            amount: String(uatoms(this.amount))
-          }
-        ]
-      })
-    },
-    async submitForm(gasEstimate, gasPrice, password, submitType) {
-      await this.$store.dispatch(`submitProposal`, {
-        title: this.title,
-        description: this.description,
-        type: this.type,
-        initial_deposit: [
-          {
-            denom: this.denom,
-            amount: String(uatoms(this.amount))
-          }
-        ],
-        gas: String(gasEstimate),
-        gas_prices: [
-          {
-            amount: String(uatoms(gasPrice)),
-            denom: this.bondDenom
-          }
-        ],
-        submitType,
-        password
-      })
-      this.$store.commit(`notify`, {
-        title: `Successful proposal submission!`,
-        body: `You have successfully submitted a new ${this.type.toLowerCase()} proposal`
-      })
     }
   }
 }

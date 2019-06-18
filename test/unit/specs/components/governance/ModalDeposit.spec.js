@@ -98,71 +98,29 @@ describe(`ModalDeposit`, () => {
     })
   })
 
-  describe(`Deposit`, () => {
-    it(`should simulate transaction to estimate gas used`, async () => {
-      const estimate = 1234567
-      const $store = { dispatch: jest.fn(() => estimate) }
-      const res = await ModalDeposit.methods.simulateForm.call({
-        $store,
-        type: `Text`,
-        denom: `uatom`,
-        amount: 10,
-        proposalId: `1`
-      })
-
-      expect($store.dispatch).toHaveBeenCalledWith(`simulateDeposit`, {
-        amount: [
-          {
-            amount: `10000000`,
-            denom: `uatom`
-          }
-        ],
-        proposal_id: `1`
-      })
-      expect(res).toBe(estimate)
+  it("should return transaction data in correct form", () => {
+    wrapper.setData({
+      amount: 2
     })
-    it(`submits a deposit`, async () => {
-      const $store = {
-        dispatch: jest.fn(),
-        commit: jest.fn()
-      }
-
-      const gas = `1234567`
-      const gasPrice = 2.5e-8
-      const gas_prices = [{ denom: `uatom`, amount: `0.025` }]
-
-      await ModalDeposit.methods.submitForm.call(
+    expect(wrapper.vm.transactionData).toEqual({
+      type: "MsgDeposit",
+      proposalId: "1",
+      amounts: [
         {
-          denom: `uatom`,
-          bondDenom: `uatom`,
-          proposalId: `1`,
-          amount: 10,
-          $store
-        },
-        gas,
-        gasPrice,
-        ``,
-        `ledger`
-      )
+          amount: "2000000",
+          denom: "uatom"
+        }
+      ]
+    })
+  })
 
-      expect($store.dispatch).toHaveBeenCalledWith(`submitDeposit`, {
-        amount: [
-          {
-            amount: `10000000`,
-            denom: `uatom`
-          }
-        ],
-        proposal_id: `1`,
-        gas,
-        gas_prices,
-        password: ``,
-        submitType: `ledger`
-      })
-
-      expect($store.commit).toHaveBeenCalledWith(`notify`, {
-        body: `You have successfully deposited your ATOMs on proposal #1`,
-        title: `Successful deposit!`
-      })
+  it("should return notification message", () => {
+    wrapper.setData({
+      amount: 2
+    })
+    expect(wrapper.vm.notifyMessage).toEqual({
+      title: `Successful deposit!`,
+      body: `You have successfully deposited your ATOMs on proposal #1`
     })
   })
 })

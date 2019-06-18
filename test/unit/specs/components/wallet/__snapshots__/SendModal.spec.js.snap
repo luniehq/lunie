@@ -4,10 +4,10 @@ exports[`SendModal should display send modal form 1`] = `
 <actionmodal-stub
   denom="STAKE"
   id="send-modal"
-  simulatefn="function () { [native code] }"
+  notifymessage="[object Object]"
   submissionerrorprefix="Sending tokens failed"
-  submitfn="function () { [native code] }"
   title="Send"
+  transactiondata="[object Object]"
   validate="function () { [native code] }"
 >
   <tmformgroup-stub
@@ -76,10 +76,10 @@ exports[`SendModal validation should show address required error 1`] = `
   amount="2"
   denom="STAKE"
   id="send-modal"
-  simulatefn="function () { [native code] }"
+  notifymessage="[object Object]"
   submissionerrorprefix="Sending tokens failed"
-  submitfn="function () { [native code] }"
   title="Send"
+  transactiondata="[object Object]"
   validate="function () { [native code] }"
 >
   <tmformgroup-stub
@@ -150,10 +150,10 @@ exports[`SendModal validation should show bech32 error when address length is to
   amount="2"
   denom="STAKE"
   id="send-modal"
-  simulatefn="function () { [native code] }"
+  notifymessage="[object Object]"
   submissionerrorprefix="Sending tokens failed"
-  submitfn="function () { [native code] }"
   title="Send"
+  transactiondata="[object Object]"
   validate="function () { [native code] }"
 >
   <tmformgroup-stub
@@ -224,10 +224,10 @@ exports[`SendModal validation should show bech32 error when address length is to
   amount="2"
   denom="STAKE"
   id="send-modal"
-  simulatefn="function () { [native code] }"
+  notifymessage="[object Object]"
   submissionerrorprefix="Sending tokens failed"
-  submitfn="function () { [native code] }"
   title="Send"
+  transactiondata="[object Object]"
   validate="function () { [native code] }"
 >
   <tmformgroup-stub
@@ -297,10 +297,10 @@ exports[`SendModal validation should show bech32 error when alphanumeric is wron
 <actionmodal-stub
   denom="STAKE"
   id="send-modal"
-  simulatefn="function () { [native code] }"
+  notifymessage="[object Object]"
   submissionerrorprefix="Sending tokens failed"
-  submitfn="function () { [native code] }"
   title="Send"
+  transactiondata="[object Object]"
   validate="function () { [native code] }"
 >
   <tmformgroup-stub

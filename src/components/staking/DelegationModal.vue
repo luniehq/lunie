@@ -2,13 +2,13 @@
   <ActionModal
     id="delegation-modal"
     ref="actionModal"
-    :submit-fn="submitForm"
-    :simulate-fn="simulateForm"
     :validate="validateForm"
     :amount="isRedelegation() ? 0 : amount"
     :title="isRedelegation() ? 'Redelegate' : 'Delegate'"
     class="delegation-modal"
     submission-error-prefix="Delegating failed"
+    :transaction-data="transactionData"
+    :notify-message="notifyMessage"
     @close="clear"
   >
     <TmFormGroup class="action-modal-form-group" field-id="to" field-label="To">
@@ -87,6 +87,7 @@ import TmField from "common/TmField"
 import TmFormGroup from "common/TmFormGroup"
 import TmFormMsg from "common/TmFormMsg"
 import ActionModal from "common/ActionModal"
+import transaction from "src/components/ActionManager/transactionTypes"
 
 export default {
   name: `delegation-modal`,
@@ -120,7 +121,7 @@ export default {
     num
   }),
   computed: {
-    ...mapGetters([`delegates`, `session`, `bondDenom`]),
+    ...mapGetters([`delegates`, `session`, `bondDenom`, `modalContext`]),
     balance() {
       if (!this.session.signedIn) return 0
 
@@ -130,6 +131,44 @@ export default {
       if (!this.session.signedIn) return ``
 
       return this.fromOptions[this.selectedIndex].address
+    },
+    transactionData() {
+      if (this.from === this.modalContext.userAddress) {
+        return {
+          type: transaction.DELEGATE,
+          validator_address: this.validator.operator_address,
+          amount: uatoms(this.amount),
+          denom: this.denom
+        }
+      } else {
+        const validatorSrc = this.modalContext.delegates.find(
+          v => this.from === v.operator_address
+        )
+        return {
+          type: transaction.REDELEGATE,
+          validator_src_address: validatorSrc.operator_address,
+          validator_dst_address: this.validator.operator_address,
+          amount: uatoms(this.amount),
+          denom: this.denom
+        }
+      }
+    },
+    notifyMessage() {
+      if (this.from === this.modalContext.userAddress) {
+        return {
+          title: `Successful delegation!`,
+          body: `You have successfully delegated your ${num.viewDenom(
+            this.denom
+          )}s`
+        }
+      } else {
+        return {
+          title: `Successful redelegation!`,
+          body: `You have successfully redelegated your ${num.viewDenom(
+            this.denom
+          )}s`
+        }
+      }
     }
   },
   methods: {
@@ -148,93 +187,10 @@ export default {
       this.amount = null
     },
     isRedelegation() {
-      return this.from !== this.session.address
+      return this.from !== this.modalContext.userAddress
     },
     getFromBalance() {
       return atoms(this.balance)
-    },
-    async simulateDelegation() {
-      return await this.$store.dispatch(`simulateDelegation`, {
-        validator_address: this.validator.operator_address,
-        amount: String(uatoms(this.amount))
-      })
-    },
-    async submitDelegation(gasEstimate, gasPrice, password, submitType) {
-      await this.$store.dispatch(`submitDelegation`, {
-        validator_address: this.validator.operator_address,
-        amount: String(uatoms(this.amount)),
-        submitType,
-        password,
-        gas: String(gasEstimate),
-        gas_prices: [
-          {
-            amount: String(uatoms(gasPrice)),
-            denom: this.denom
-          }
-        ]
-      })
-
-      this.$store.commit(`notify`, {
-        title: `Successful delegation!`,
-        body: `You have successfully delegated your ${num.viewDenom(
-          this.denom
-        )}s`
-      })
-    },
-    async simulateRedelegation() {
-      const validatorSrc = this.delegates.delegates.find(
-        v => this.from === v.operator_address
-      )
-      return await this.$store.dispatch(`simulateRedelegation`, {
-        validatorSrc,
-        validatorDst: this.validator,
-        amount: String(uatoms(this.amount))
-      })
-    },
-    async submitRedelegation(gasEstimate, gasPrice, password, submitType) {
-      const validatorSrc = this.delegates.delegates.find(
-        v => this.from === v.operator_address
-      )
-      await this.$store.dispatch(`submitRedelegation`, {
-        validatorSrc,
-        validatorDst: this.validator,
-        amount: String(uatoms(this.amount)),
-        submitType,
-        password,
-        gas: String(gasEstimate),
-        gas_prices: [
-          {
-            amount: String(uatoms(gasPrice)),
-            denom: this.denom
-          }
-        ]
-      })
-
-      this.$store.commit(`notify`, {
-        title: `Successful redelegation!`,
-        body: `You have successfully redelegated your ${num.viewDenom(
-          this.denom
-        )}s`
-      })
-    },
-    async simulateForm() {
-      if (this.from === this.session.address) {
-        return await this.simulateDelegation()
-      } else {
-        return await this.simulateRedelegation()
-      }
-    },
-    async submitForm(gasEstimate, gasPrice, password, submitType) {
-      if (this.from === this.session.address) {
-        await this.submitDelegation(gasEstimate, gasPrice, password, submitType)
-      } else {
-        await this.submitRedelegation(
-          gasEstimate,
-          gasPrice,
-          password,
-          submitType
-        )
-      }
     }
   },
   validations() {

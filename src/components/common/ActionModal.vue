@@ -188,6 +188,8 @@ import { between, requiredIf } from "vuelidate/lib/validators"
 import { track } from "scripts/google-analytics.js"
 import config from "src/config"
 
+import ActionManager from "src/components/ActionManager/ActionManager.js"
+
 const defaultStep = `details`
 const feeStep = `fees`
 const signStep = `sign`
@@ -211,14 +213,6 @@ export default {
       type: String,
       required: true
     },
-    simulateFn: {
-      type: Function,
-      required: true
-    },
-    submitFn: {
-      type: Function,
-      required: true
-    },
     validate: {
       type: Function,
       default: undefined
@@ -230,6 +224,14 @@ export default {
     amount: {
       type: [String, Number],
       default: `0`
+    },
+    transactionData: {
+      type: Object,
+      default: () => {}
+    },
+    notifyMessage: {
+      type: Object,
+      default: () => {}
     }
   },
   data: () => ({
@@ -241,6 +243,7 @@ export default {
     gasPrice: config.default_gas_price.toFixed(9),
     submissionError: null,
     show: false,
+    actionManager: new ActionManager(),
     track,
     atoms,
     uatoms,
@@ -253,7 +256,8 @@ export default {
       `bondDenom`,
       `wallet`,
       `ledger`,
-      `liquidAtoms`
+      `liquidAtoms`,
+      `modalContext`
     ]),
     requiresSignIn() {
       return !this.session.signedIn
@@ -298,6 +302,10 @@ export default {
         }
       ]
     }
+  },
+  mounted: function() {},
+  updated: function() {
+    this.actionManager.setContext(this.modalContext || {})
   },
   methods: {
     open() {
@@ -360,9 +368,10 @@ export default {
       }
     },
     async simulate() {
+      const { type, memo, ...properties } = this.transactionData
+      this.actionManager.setMessage(type, properties)
       try {
-        const gasEstimate = await this.simulateFn()
-        this.gasEstimate = gasEstimate
+        this.gasEstimate = await this.actionManager.simulate(memo)
         this.step = feeStep
       } catch ({ message }) {
         this.submissionError = `${this.submissionErrorPrefix}: ${message}.`
@@ -376,15 +385,28 @@ export default {
         await this.connectLedger()
       }
 
-      try {
-        await this.submitFn(
-          this.gasEstimate,
-          this.gasPrice,
-          this.password,
-          this.selectedSignMethod
-        )
+      const { type, memo, ...transactionProperties } = this.transactionData
 
+      const gasPrice = {
+        amount: this.gasPrice,
+        denom: this.bondDenom
+      }
+
+      const feeProperties = {
+        gasEstimate: this.gasEstimate,
+        gasPrice: gasPrice,
+        submitType: this.selectedSignMethod,
+        password: this.password
+      }
+
+      try {
+        await this.actionManager.send(memo, feeProperties)
         track(`event`, `successful-submit`, this.title, this.selectedSignMethod)
+        this.$store.commit(`notify`, this.notifyMessage)
+        this.$store.dispatch(`post${type}`, {
+          txProps: transactionProperties,
+          txMeta: feeProperties
+        })
         this.close()
       } catch ({ message }) {
         this.submissionError = `${this.submissionErrorPrefix}: ${message}.`

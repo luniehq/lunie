@@ -5,10 +5,10 @@ exports[`ModalVote should display vote modal form 1`] = `
   amount="0"
   class="modal-vote"
   id="modal-vote"
-  simulatefn="function () { [native code] }"
+  notifymessage="[object Object]"
   submissionerrorprefix="Voting failed"
-  submitfn="function () { [native code] }"
   title="Vote"
+  transactiondata="[object Object]"
   validate="function () { [native code] }"
 >
   <tmformgroup-stub

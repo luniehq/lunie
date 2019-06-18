@@ -73,21 +73,7 @@ export default ({ node }) => {
       }
       return undefined
     },
-    async simulateProposal(
-      { dispatch },
-      { title, description, type, initial_deposit }
-    ) {
-      return await dispatch(`simulateTx`, {
-        type: `MsgSubmitProposal`,
-        txArguments: {
-          proposalType: type,
-          title,
-          description,
-          initialDeposits: initial_deposit
-        }
-      })
-    },
-    async submitProposal(
+    async postMsgSubmitProposal(
       {
         state,
         rootState: { wallet },
@@ -95,32 +81,12 @@ export default ({ node }) => {
         commit
       },
       {
-        type,
-        title,
-        description,
-        gas,
-        gas_prices,
-        initial_deposit,
-        password,
-        submitType
+        txProps: { initialDeposits, title, description }
       }
     ) {
-      await dispatch(`sendTx`, {
-        type: `MsgSubmitProposal`,
-        txArguments: {
-          proposalType: type,
-          title,
-          description,
-          initialDeposits: initial_deposit
-        },
-        gas,
-        gas_prices,
-        password,
-        submitType
-      })
-
       // optimistic updates
-      initial_deposit.forEach(({ amount, denom }) => {
+      initialDeposits.forEach(({ amount, denom }) => {
+        console.log(amount, denom, wallet)
         const oldBalance = wallet.balances.find(
           balance => balance.denom === denom
         )
@@ -135,15 +101,13 @@ export default ({ node }) => {
       const latestId = Object.keys(state.proposals).reduce((latest, id) => {
         return latest > Number(id) ? latest : Number(id)
       }, 0)
+
       commit(`setProposal`, {
         proposal_id: String(latestId + 1),
         proposal_content: {
-          value: {
-            title,
-            description
-          }
+          value: { title, description }
         },
-        initial_deposit
+        initial_deposit: initialDeposits
       })
 
       await dispatch(`getProposals`)

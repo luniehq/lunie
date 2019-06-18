@@ -4,6 +4,16 @@ import { shallowMount, createLocalVue } from "@vue/test-utils"
 import UndelegationModal from "staking/UndelegationModal"
 import Vuelidate from "vuelidate"
 
+const context = {
+  url: "http://lunie.io",
+  chainId: "cosmoshub",
+  connected: true,
+  userAddress: "cosmos1abcdefghijklmop",
+  committedDelegations: [],
+  delegates: [],
+  localKeyPairName: "localKeyPairName"
+}
+
 describe(`UndelegationModal`, () => {
   let wrapper, $store
   const stakingParameters = {
@@ -24,7 +34,8 @@ describe(`UndelegationModal`, () => {
       dispatch: jest.fn(),
       getters: {
         bondDenom: `stake`,
-        liquidAtoms: 1000042
+        liquidAtoms: 1000042,
+        modalContext: context
       }
     }
     wrapper = shallowMount(UndelegationModal, {
@@ -79,63 +90,27 @@ describe(`UndelegationModal`, () => {
     })
   })
 
-  describe(`simulateForm`, () => {
-    it(`should simulate transaction to estimate gas used`, async () => {
-      const estimate = 1234567
-      const validator = { operator_address: `cosmosvaloper1address` }
-      const self = {
-        $store: { dispatch: jest.fn(() => estimate) },
-        amount: 4.2,
-        validator
-      }
-      const res = await UndelegationModal.methods.simulateForm.call(self)
-
-      expect(self.$store.dispatch).toHaveBeenCalledWith(
-        `simulateUnbondingDelegation`,
-        {
-          amount: `4200000`,
-          validator
-        }
-      )
-      expect(res).toBe(estimate)
+  describe("Submission Data", () => {
+    beforeEach(() => {
+      wrapper.setData({
+        amount: 10
+      })
     })
-  })
 
-  describe(`submitForm`, () => {
-    it(`submits undelegation`, async () => {
-      const $store = {
-        dispatch: jest.fn(),
-        commit: jest.fn()
-      }
-      const validator = { operator_address: `cosmosvaloper1address` }
-      const gas = `1234567`
-      const gasPrice = 2.5e-8
-      const gas_prices = [{ denom: `uatom`, amount: `0.025` }]
+    it("should return correct transaction data", () => {
+      expect(wrapper.vm.transactionData).toEqual({
+        type: "MsgUndelegate",
+        validator_address:
+          "cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au",
+        amount: "10000000",
+        denom: "STAKE"
+      })
+    })
 
-      wrapper.setData({ amount: 4.2 })
-      await UndelegationModal.methods.submitForm.call(
-        { $store, amount: 4.2, denom: `uatom`, validator },
-        gas,
-        gasPrice,
-        `1234567890`,
-        `local`
-      )
-
-      expect($store.dispatch).toHaveBeenCalledWith(
-        `submitUnbondingDelegation`,
-        {
-          amount: `4200000`,
-          validator,
-          gas,
-          gas_prices,
-          submitType: `local`,
-          password: `1234567890`
-        }
-      )
-
-      expect($store.commit).toHaveBeenCalledWith(`notify`, {
-        body: `You have successfully undelegated 4.2 ATOMs.`,
-        title: `Successful undelegation!`
+    it("should return correct notification message", () => {
+      expect(wrapper.vm.notifyMessage).toEqual({
+        title: `Successful undelegation!`,
+        body: `You have successfully undelegated 10 STAKEs.`
       })
     })
   })

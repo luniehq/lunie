@@ -4,10 +4,10 @@ exports[`ModalPropose should display proposal modal form 1`] = `
 <actionmodal-stub
   amount="0"
   id="modal-propose"
-  simulatefn="function () { [native code] }"
+  notifymessage="[object Object]"
   submissionerrorprefix="Submitting proposal failed"
-  submitfn="function () { [native code] }"
   title="Proposal"
+  transactiondata="[object Object]"
   validate="function () { [native code] }"
 >
   <tmformgroup-stub

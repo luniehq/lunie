@@ -96,53 +96,24 @@ describe(`ModalVote`, () => {
     })
   })
 
-  describe(`Vote`, () => {
-    it(`should simulate transaction to estimate gas used`, async () => {
-      const estimate = 1234567
-      const $store = { dispatch: jest.fn(() => estimate) }
-      const res = await ModalVote.methods.simulateForm.call({
-        $store,
-        vote: `Yes`,
-        proposalId: `1`
-      })
-
-      expect($store.dispatch).toHaveBeenCalledWith(`simulateVote`, {
-        option: `Yes`,
-        proposal_id: `1`
-      })
-      expect(res).toBe(estimate)
+  it("should return transaction data in correct form", () => {
+    wrapper.setData({
+      vote: "Yes"
     })
-    it(`submits a vote on a proposal`, async () => {
-      const $store = {
-        dispatch: jest.fn(),
-        commit: jest.fn()
-      }
+    expect(wrapper.vm.transactionData).toEqual({
+      type: "MsgVote",
+      proposalId: "1",
+      option: "Yes"
+    })
+  })
 
-      const gas = `1234567`
-      const gasPrice = 2.5e-8
-      const gas_prices = [{ denom: `uatom`, amount: `0.025` }]
-
-      await ModalVote.methods.submitForm.call(
-        { proposalId: `1`, vote: `Yes`, bondDenom: `uatom`, $store },
-        gas,
-        gasPrice,
-        ``,
-        `ledger`
-      )
-
-      expect($store.dispatch).toHaveBeenCalledWith(`submitVote`, {
-        option: `Yes`,
-        proposal_id: `1`,
-        gas,
-        gas_prices,
-        password: ``,
-        submitType: `ledger`
-      })
-
-      expect($store.commit).toHaveBeenCalledWith(`notify`, {
-        body: `You have successfully voted Yes on proposal #1`,
-        title: `Successful vote!`
-      })
+  it("should return notification message", () => {
+    wrapper.setData({
+      vote: "Yes"
+    })
+    expect(wrapper.vm.notifyMessage).toEqual({
+      title: `Successful vote!`,
+      body: `You have successfully voted Yes on proposal #1`
     })
   })
 })
