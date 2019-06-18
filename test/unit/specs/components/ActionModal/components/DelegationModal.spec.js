@@ -145,8 +145,6 @@ describe(`DelegationModal`, () => {
           operator_address: "cosmosDstAddress1"
         }
       })
-
-      console.log(wrapper.vm.modalContext.delegates[2].operator_address)
     })
 
     it("should return correct transaction data for delegating", () => {
