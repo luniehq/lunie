@@ -18,5 +18,11 @@
     "page": "options/options.html",
     "chrome_style": true
   },
-  "web_accessible_resources": ["fonts/*.woff2"]
+  "web_accessible_resources": ["fonts/*.woff2"],
+  "content_scripts": [
+    {
+      "matches": ["*://lunie.io/*"],
+      "js": ["contentScript.js"]
+    }
+  ]
 }
