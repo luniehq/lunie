@@ -2,7 +2,7 @@
 
 import Vuelidate from "vuelidate"
 import { shallowMount, createLocalVue } from "@vue/test-utils"
-import ModalVote from "src/components/governance/ModalVote"
+import ModalVote from "src/ActionModal/components/ModalVote"
 import lcdClientMock from "src/connectors/lcdClientMock.js"
 
 describe(`ModalVote`, () => {

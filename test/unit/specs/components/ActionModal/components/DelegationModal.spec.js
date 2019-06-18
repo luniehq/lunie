@@ -1,7 +1,7 @@
 "use strict"
 
 import { shallowMount, createLocalVue } from "@vue/test-utils"
-import DelegationModal from "staking/DelegationModal"
+import DelegationModal from "src/ActionModal/components/DelegationModal"
 import Vuelidate from "vuelidate"
 import lcdClientMock from "src/connectors/lcdClientMock.js"
 

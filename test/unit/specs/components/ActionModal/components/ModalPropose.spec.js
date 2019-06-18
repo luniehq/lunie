@@ -2,7 +2,7 @@
 
 import Vuelidate from "vuelidate"
 import { shallowMount, createLocalVue } from "@vue/test-utils"
-import ModalPropose from "src/components/governance/ModalPropose"
+import ModalPropose from "src/ActionModal/components/ModalPropose"
 
 describe(`ModalPropose`, () => {
   let wrapper, $store

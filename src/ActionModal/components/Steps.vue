@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import Step from "common/StepComponent"
+import Step from "./StepComponent"
 export default {
   name: "Steps",
   components: {

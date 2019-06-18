@@ -126,14 +126,14 @@
 <script>
 import b32 from "scripts/b32"
 import { required, between, decimal, maxLength } from "vuelidate/lib/validators"
-import num, { uatoms, atoms, SMALLEST } from "../../scripts/num.js"
+import num, { uatoms, atoms, SMALLEST } from "src/scripts/num.js"
 import { mapGetters } from "vuex"
-import TmFormGroup from "common/TmFormGroup"
-import TmField from "common/TmField"
-import TmFormMsg from "common/TmFormMsg"
-import TmBtn from "common/TmBtn"
-import ActionModal from "common/ActionModal"
-import transaction from "src/components/ActionManager/transactionTypes"
+import TmFormGroup from "src/components/common/TmFormGroup"
+import TmField from "src/components/common/TmField"
+import TmFormMsg from "src/components/common/TmFormMsg"
+import TmBtn from "src/components/common/TmBtn"
+import ActionModal from "./ActionModal"
+import transaction from "../utils/transactionTypes"
 
 export default {
   name: `send-modal`,

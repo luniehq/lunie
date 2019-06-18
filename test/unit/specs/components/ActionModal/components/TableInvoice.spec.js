@@ -1,5 +1,5 @@
 import { shallowMount, createLocalVue } from "@vue/test-utils"
-import TableInvoice from "src/components/common/TableInvoice"
+import TableInvoice from "src/ActionModal/components/TableInvoice"
 
 describe(`TableInvoice`, () => {
   let wrapper

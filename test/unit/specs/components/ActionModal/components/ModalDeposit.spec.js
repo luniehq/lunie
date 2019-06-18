@@ -2,7 +2,7 @@
 
 import Vuelidate from "vuelidate"
 import { shallowMount, createLocalVue } from "@vue/test-utils"
-import ModalDeposit from "src/components/governance/ModalDeposit"
+import ModalDeposit from "src/ActionModal/components/ModalDeposit"
 import lcdClientMock from "src/connectors/lcdClientMock.js"
 
 describe(`ModalDeposit`, () => {

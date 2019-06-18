@@ -175,20 +175,20 @@
 </template>
 
 <script>
-import HardwareState from "common/TmHardwareState"
-import TmBtn from "common/TmBtn"
-import TmField from "common/TmField"
-import TmFormGroup from "common/TmFormGroup"
-import TmFormMsg from "common/TmFormMsg"
-import TableInvoice from "common/TableInvoice"
-import Steps from "common/Steps"
+import HardwareState from "src/components/common/TmHardwareState"
+import TmBtn from "src/components/common/TmBtn"
+import TmField from "src/components/common/TmField"
+import TmFormGroup from "src/components/common/TmFormGroup"
+import TmFormMsg from "src/components/common/TmFormMsg"
+import TableInvoice from "./TableInvoice"
+import Steps from "./Steps"
 import { mapGetters } from "vuex"
-import { uatoms, atoms, viewDenom } from "../../scripts/num.js"
+import { uatoms, atoms, viewDenom } from "src/scripts/num.js"
 import { between, requiredIf } from "vuelidate/lib/validators"
 import { track } from "scripts/google-analytics.js"
 import config from "src/config"
 
-import ActionManager from "src/components/ActionManager/ActionManager.js"
+import ActionManager from "../utils/ActionManager.js"
 
 const defaultStep = `details`
 const feeStep = `fees`

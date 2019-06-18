@@ -1,4 +1,4 @@
-import Steps from "common/Steps"
+import Steps from "src/ActionModal/components/Steps"
 import { mount } from "@vue/test-utils"
 
 describe(`Steps`, () => {
