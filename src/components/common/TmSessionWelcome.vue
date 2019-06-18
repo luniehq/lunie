@@ -50,6 +50,20 @@
             , choose this option."
           @click.native="setState('explore')"
         />
+        <LiSession
+          id="explore-address"
+          icon="laptop"
+          title="Sign in with the Lunie Chrome Extension"
+          :disabled="!extensionPresent"
+          @click.native="setState('extension')"
+        >
+          <div v-if="extensionPresent" slot="li-session-subtitle">
+            Select this option to use the Lunie Chrome Extension.
+          </div>
+          <div v-else slot="li-session-subtitle">
+            <a href="">Click here</a> to install the Lunie Extension.
+          </div>
+        </LiSession>
         <template v-if="session.insecureMode">
           <div class="danger-zone">
             <div class="header">
@@ -97,9 +111,12 @@ export default {
     LiSession
   },
   computed: {
-    ...mapGetters([`session`, `lastPage`]),
+    ...mapGetters([`session`, `lastPage`, `extension`]),
     accountExists() {
       return this.session.accounts.length > 0
+    },
+    extensionPresent() {
+      return this.extension.enabled
     }
   },
   methods: {

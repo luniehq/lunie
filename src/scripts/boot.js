@@ -123,6 +123,14 @@ export const startApp = async (
       store.dispatch(`checkForPersistedSession`)
     })
 
+  window.addEventListener("message", receiveMessage, false)
+  function receiveMessage({ data }) {
+    if (data.type === "LUNIE_EXTENSION") {
+      store.dispatch("extensionPresent", true)
+      console.log("Woah! You have the Lunie Extension installed!")
+    }
+  }
+
   return new Vue({
     router,
     ...App,
