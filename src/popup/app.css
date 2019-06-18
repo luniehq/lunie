@@ -1,0 +1,110 @@
+@import '../../lunie/src/styles/reset';
+@import '../../lunie/src/styles/variables';
+@import './material-icons.css';
+@import '../../lunie/src/styles/vendor/perfect-scrollbar.css';
+@import '../../lunie/src/styles/vendor/vue-directive-tooltip.css';
+
+/* global-reset() */
+
+/* reset-html5() */
+
+/* --- MODULES --- */
+@import '../../lunie/src/styles/table.css';
+
+/* --- BASICS --- */
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#app {
+  background: var(--app-bg);
+}
+
+a {
+  color: var(--link);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+a:hover {
+  color: var(--link-hover);
+}
+
+body {
+  font-size: var(--x);
+  line-height: 1.5;
+  font-family: var(--sans);
+  color: var(--txt);
+  display: flex;
+  flex-flow: column nowrap;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.tm-field {
+  border-radius: 0.25rem !important;
+}
+
+input[readonly],
+input[disabled],
+textarea[readonly],
+textarea[disabled] {
+  background: var(--bc-dim) !important;
+  border-color: var(--bc) !important;
+}
+
+input[type='radio'] {
+  margin: 0;
+}
+
+input.tm-field {
+  height: inherit !important;
+}
+
+.tm-select .tm-field-select-addon {
+  height: 100% !important;
+  border-left: 1px solid var(--input-bc, #ccc);
+  width: 29px !important;
+}
+
+.tm-li-container {
+  margin-right: 1rem;
+}
+
+.input-suffix {
+  background: var(--bc-dim);
+  display: inline-block;
+  position: absolute;
+  padding: 7px 8px;
+  font-size: var(--sm);
+  text-transform: uppercase;
+  right: 30px;
+  letter-spacing: 1px;
+  text-align: right;
+  font-weight: 500;
+  border-radius: 2px;
+}
+
+#app-content {
+  flex: 1;
+  display: flex;
+  flex-flow: column no-wrap;
+}
+
+#appzi-launch-button-cf1d801a-9653-4934-8a18-cea8c9e77495 {
+  z-index: var(--z-appHeader) !important;
+}
+
+@media screen and (min-width: 1023px) {
+  body {
+    padding-top: 0;
+    flex-flow: row nowrap;
+  }
+
+  #app-content {
+    display: flex;
+    min-width: 0;
+  }
+}
