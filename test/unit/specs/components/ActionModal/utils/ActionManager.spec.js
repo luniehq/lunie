@@ -1,4 +1,4 @@
-import ActionManager from "src/components/ActionManager/ActionManager.js"
+import ActionManager from "src/ActionModal/utils/ActionManager.js"
 import { sendTx, withdrawTx } from "./actions"
 
 let mockSimulate = jest.fn(() => 12345)
@@ -30,7 +30,7 @@ jest.mock(`@lunie/cosmos-api`, () => {
   })
 })
 
-jest.mock(`src/components/ActionManager/signer.js`, () => ({
+jest.mock(`src/ActionModal/utils/signer.js`, () => ({
   getSigner: jest.fn(() => "signer")
 }))
 

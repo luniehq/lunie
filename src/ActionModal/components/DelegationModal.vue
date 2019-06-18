@@ -82,12 +82,12 @@
 <script>
 import { mapGetters } from "vuex"
 import { between, decimal } from "vuelidate/lib/validators"
-import num, { uatoms, atoms, SMALLEST } from "../../scripts/num.js"
-import TmField from "common/TmField"
-import TmFormGroup from "common/TmFormGroup"
-import TmFormMsg from "common/TmFormMsg"
-import ActionModal from "common/ActionModal"
-import transaction from "src/components/ActionManager/transactionTypes"
+import num, { uatoms, atoms, SMALLEST } from "src/scripts/num.js"
+import TmField from "src/components/common/TmField"
+import TmFormGroup from "src/components/common/TmFormGroup"
+import TmFormMsg from "src/components/common/TmFormMsg"
+import ActionModal from "./ActionModal"
+import transaction from "../utils/transactionTypes"
 
 export default {
   name: `delegation-modal`,

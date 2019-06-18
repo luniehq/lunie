@@ -24,12 +24,12 @@
 </template>
 
 <script>
-import { viewDenom, atoms, fullDecimals } from "../../scripts/num.js"
-import ActionModal from "common/ActionModal"
-import TmField from "common/TmField"
-import TmFormGroup from "common/TmFormGroup"
+import { viewDenom, atoms, fullDecimals } from "src/scripts/num.js"
+import ActionModal from "./ActionModal"
+import TmField from "src/components/common/TmField"
+import TmFormGroup from "src/components/common/TmFormGroup"
 
-import transaction from "src/components/ActionManager/transactionTypes"
+import transaction from "../utils/transactionTypes"
 
 export default {
   name: `modal-withdraw-rewards`,

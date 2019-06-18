@@ -1,5 +1,5 @@
 import config from "src/config"
-import { getSigner } from "src/components/ActionManager/signer.js"
+import { getSigner } from "src/ActionModal/utils/signer.js"
 
 jest.mock(`scripts/keystore.js`, () => ({
   getKey: () => ({

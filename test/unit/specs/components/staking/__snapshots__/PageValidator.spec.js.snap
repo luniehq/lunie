@@ -320,12 +320,6 @@ exports[`PageValidator shows a validator profile information errors signing info
       to="cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9"
       validator="[object Object]"
     />
-     
-    <modalwithdrawrewards-stub
-      denom="STAKE"
-      rewards="0"
-      validator-address="cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
-    />
   </template>
 </tmpage-stub>
 `;
@@ -650,12 +644,6 @@ exports[`PageValidator shows a validator profile information if user has signed 
       to="cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9"
       validator="[object Object]"
     />
-     
-    <modalwithdrawrewards-stub
-      denom="STAKE"
-      rewards="0"
-      validator-address="cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
-    />
   </template>
 </tmpage-stub>
 `;
@@ -979,11 +967,6 @@ exports[`PageValidator shows a validator profile information if user hasn't sign
       maximum="0"
       to=""
       validator="[object Object]"
-    />
-     
-    <modalwithdrawrewards-stub
-      denom="STAKE"
-      validator-address="cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
     />
   </template>
 </tmpage-stub>

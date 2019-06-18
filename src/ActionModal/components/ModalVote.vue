@@ -59,12 +59,12 @@
 <script>
 import { mapGetters } from "vuex"
 import { required } from "vuelidate/lib/validators"
-import ActionModal from "common/ActionModal"
-import TmBtn from "common/TmBtn"
-import TmFormGroup from "common/TmFormGroup"
-import TmFormMsg from "common/TmFormMsg"
+import ActionModal from "./ActionModal"
+import TmBtn from "src/components/common/TmBtn"
+import TmFormGroup from "src/components/common/TmFormGroup"
+import TmFormMsg from "src/components/common/TmFormMsg"
 
-import transaction from "src/components/ActionManager/transactionTypes"
+import transaction from "../utils/transactionTypes"
 
 const isValid = option =>
   option === `Yes` ||

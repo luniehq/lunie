@@ -1,6 +1,6 @@
 import { shallowMount, createLocalVue } from "@vue/test-utils"
 import Vuelidate from "vuelidate"
-import ActionModal from "src/components/common/ActionModal"
+import ActionModal from "src/ActionModal/components/ActionModal"
 import { focusParentLast } from "directives"
 
 const localVue = createLocalVue()
@@ -11,7 +11,7 @@ let mockSimulate = jest.fn(() => 123456)
 let mockSend = jest.fn()
 let mockSetContext = jest.fn()
 
-jest.mock(`src/components/ActionManager/ActionManager.js`, () => {
+jest.mock(`src/ActionModal/utils/ActionManager.js`, () => {
   return jest.fn(() => {
     return {
       setMessage: jest.fn(),
@@ -423,7 +423,7 @@ describe(`ActionModal`, () => {
             gasEstimate: 12345,
             gasPrice: { amount: "0.000000025", denom: "uatom" },
             password: null,
-            selectedSignMethod: "local"
+            submitType: "local"
           },
           txProps: { denom: "uatom", validatorAddress: "cosmos12345" }
         })

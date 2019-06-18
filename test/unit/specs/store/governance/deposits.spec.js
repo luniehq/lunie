@@ -67,7 +67,6 @@ describe(`Module: Deposits`, () => {
 
     const proposalIds = Object.keys(proposals)
     const numProposals = proposalIds.length
-    console.log(proposalIds)
     proposalIds.forEach(async (proposal_id, i) => {
       await actions.postMsgDeposit(
         { rootState: mockRootState, dispatch, commit },
