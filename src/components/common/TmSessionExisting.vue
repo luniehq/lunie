@@ -44,27 +44,15 @@
 </template>
 
 <script>
-import { required } from "vuelidate/lib/validators"
 import { mapGetters } from "vuex"
 import LiSession from "common/TmLiSession"
-import bech32 from "bech32"
 export default {
   name: `session-existing`,
   components: {
     LiSession
   },
-  data: () => ({
-    address: ``,
-    error: ``
-  }),
   computed: {
-    ...mapGetters([`session`]),
-    accountExists() {
-      return this.session.accounts.length > 0
-    }
-  },
-  mounted() {
-    this.address = localStorage.getItem(`prevAddress`)
+    ...mapGetters([`session`])
   },
   methods: {
     setState(value) {
@@ -72,36 +60,11 @@ export default {
     },
     goToWelcome() {
       this.$store.commit(`setSessionModalView`, `welcome`)
-    },
-    async onSubmit() {
-      this.$v.$touch()
-      if (this.$v.$error) return
-
-      this.$store.dispatch(`signIn`, {
-        sessionType: `explore`,
-        address: this.address
-      })
-      localStorage.setItem(`prevAddress`, this.address)
-      this.$router.push(`/`)
-      this.$store.commit(`toggleSessionModal`, false)
-    },
-    bech32Validate(param) {
-      try {
-        bech32.decode(param)
-        return true
-      } catch (error) {
-        return false
-      }
-    }
-  },
-  validations() {
-    return {
-      address: { required, bech32Validate: this.bech32Validate }
     }
   }
 }
 </script>
-<style>
+<style scoped>
 .form-group a {
   cursor: pointer;
 }
