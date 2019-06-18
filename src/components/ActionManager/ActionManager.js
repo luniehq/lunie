@@ -1,4 +1,4 @@
-import Cosmos from "@lunie/cosmos-js"
+import Cosmos from "@lunie/cosmos-api"
 import config from "src/config"
 import { getSigner } from "./signer"
 import transaction from "./transactionTypes"
@@ -81,7 +81,7 @@ export default class ActionManager {
     const { included } = await this.message.send(
       {
         gas: String(gasEstimate),
-        gas_prices: convertCurrencyData([gasPrice]),
+        gasPrices: convertCurrencyData([gasPrice]),
         memo
       },
       signer

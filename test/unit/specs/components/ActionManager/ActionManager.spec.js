@@ -19,7 +19,7 @@ const mockMsgWithdraw = jest.fn(() => ({
   send: () => ({ included: () => async () => true })
 }))
 
-jest.mock(`@lunie/cosmos-js`, () => {
+jest.mock(`@lunie/cosmos-api`, () => {
   return jest.fn().mockImplementation(() => {
     return {
       get: mockGet,

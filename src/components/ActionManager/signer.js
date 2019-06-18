@@ -1,4 +1,4 @@
-import Ledger from "scripts/ledger"
+import Ledger from "@lunie/cosmos-ledger"
 import { getKey } from "scripts/keystore"
 import { signWithPrivateKey } from "@lunie/cosmos-keys"
 
@@ -10,7 +10,10 @@ export function getSigner(
   if (submitType === `local`) {
     const wallet = getKey(localKeyPairName, password)
     return signMessage => {
-      const signature = signWithPrivateKey(signMessage, wallet.privateKey)
+      const signature = signWithPrivateKey(
+        signMessage,
+        Buffer.from(wallet.privateKey, "hex")
+      )
 
       return {
         signature,

@@ -6,7 +6,7 @@ export default ({ node }) => {
   const mutations = {}
 
   const actions = {
-    postMsgSend({ state, commit, rootState, getters }, { txProps, txMeta }) {
+    postMsgSend({ commit, rootState, getters }, { txProps, txMeta }) {
       const { toAddress } = txProps
       const { gasEstimate, gasPrice } = txMeta
       const fees = gasEstimate * Number(gasPrice.amount)
@@ -17,7 +17,7 @@ export default ({ node }) => {
 
       commit("updateWalletBalance", {
         amount: getters.liquidAtoms - liquidityChangeAmount - fees,
-        denom: state.bondDenom
+        denom: getters.bondDenom
       })
     }
   }

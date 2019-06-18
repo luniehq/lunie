@@ -127,7 +127,7 @@
 import b32 from "scripts/b32"
 import { required, between, decimal, maxLength } from "vuelidate/lib/validators"
 import num, { uatoms, atoms, SMALLEST } from "../../scripts/num.js"
-import { mapActions, mapGetters } from "vuex"
+import { mapGetters } from "vuex"
 import TmFormGroup from "common/TmFormGroup"
 import TmField from "common/TmField"
 import TmFormMsg from "common/TmFormMsg"
@@ -187,7 +187,6 @@ export default {
     }
   },
   methods: {
-    ...mapActions([`sendTx`]),
     open(denom) {
       this.denom = denom
       this.$refs.actionModal.open()
