@@ -21,7 +21,7 @@
   "web_accessible_resources": ["fonts/*.woff2"],
   "content_scripts": [
     {
-      "matches": ["*://lunie.io/*"],
+      "matches": ["*://localhost/*"],
       "js": ["contentScript.js"]
     }
   ]

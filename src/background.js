@@ -10,5 +10,4 @@ global.browser = require('webextension-polyfill');
 // TODO handle requests from account-management-popup (create account | delete account | import account [| rename account])
 
 // open request popup
-// chrome.tabs.create({ url: chrome.extension.getURL('./request/request.html') }, function(tab) {
-// });
+// chrome.tabs.create({ url: chrome.extension.getURL('./request/request.html') }, function(tab) {});
