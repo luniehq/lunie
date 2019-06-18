@@ -32,7 +32,7 @@ describe(`TmSessionAccountDelete`, () => {
 
   it(`should go back to the login screen on click`, () => {
     wrapper
-      .findAll(`.tm-session-header a`)
+      .findAll(`.session-header a`)
       .at(0)
       .trigger(`click`)
     expect($store.commit.mock.calls[0]).toEqual([
@@ -60,7 +60,7 @@ describe(`TmSessionAccountDelete`, () => {
     })
     await wrapper.vm.onSubmit()
     expect($store.commit.mock.calls[0]).toBeUndefined()
-    expect(wrapper.find(`.tm-form-msg-error`)).toBeDefined()
+    expect(wrapper.find(`.form-msg-error`)).toBeDefined()
   })
 
   it(`should show error if deletionWarning is not acknowledged`, async () => {
@@ -70,7 +70,7 @@ describe(`TmSessionAccountDelete`, () => {
     })
     await wrapper.vm.onSubmit()
     expect($store.commit.mock.calls[0]).toBeUndefined()
-    expect(wrapper.find(`.tm-form-msg-error`)).toBeDefined()
+    expect(wrapper.find(`.form-msg-error`)).toBeDefined()
   })
 
   it(`should show a notification if deletion failed`, async () => {
