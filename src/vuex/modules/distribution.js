@@ -182,16 +182,3 @@ export default ({ node }) => {
     actions
   }
 }
-
-// get top 5 validators for certain denom based on the rewards the delegator has with them right now
-function getTop5RewardsValidators(bondDenom, rewardsObject) {
-  // Compares the amount in a [address1, {denom: amount}] array
-  const byBalanceOfDenom = denom => (a, b) => b[1][denom] - a[1][denom]
-
-  const validatorList = Object.entries(rewardsObject)
-    .sort(byBalanceOfDenom(bondDenom))
-    .slice(0, 5) // Just the top 5
-    .map(([address]) => address)
-
-  return validatorList
-}
