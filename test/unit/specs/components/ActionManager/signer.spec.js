@@ -13,7 +13,7 @@ jest.mock("@lunie/cosmos-keys", () => ({
   signWithPrivateKey: () => Buffer.alloc(0)
 }))
 
-jest.mock(`scripts/ledger.js`, () => {
+jest.mock(`@lunie/cosmos-ledger`, () => {
   return jest.fn().mockImplementation(() => {
     return {
       getKey: () => () => Buffer.alloc(0),

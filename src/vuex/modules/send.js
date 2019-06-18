@@ -11,6 +11,8 @@ export default ({ node }) => {
       const { gasEstimate, gasPrice } = txMeta
       const fees = gasEstimate * Number(gasPrice.amount)
 
+      // TODO implement for multiple coins
+
       // if we send to ourselves, we don't loose tokens
       const liquidityChangeAmount =
         toAddress === rootState.session.address ? 0 : txProps.amounts[0].amount

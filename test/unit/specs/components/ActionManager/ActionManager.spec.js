@@ -202,7 +202,7 @@ describe("ActionManager", () => {
       expect(MsgSendFn).toHaveBeenCalledWith(
         {
           gas: "12335",
-          gas_prices: [{ amount: "2000000000", denom: "uatom" }],
+          gasPrices: [{ amount: "2000000000", denom: "uatom" }],
           memo: "memo"
         },
         "signer"
@@ -221,7 +221,7 @@ describe("ActionManager", () => {
       expect(MsgSendFn).toHaveBeenCalledWith(
         {
           gas: "12335",
-          gas_prices: [{ amount: "2000000000", denom: "uatom" }],
+          gasPrices: [{ amount: "2000000000", denom: "uatom" }],
           memo: "memo"
         },
         "signer"

@@ -55,7 +55,8 @@ describe(`Module: Send`, () => {
     it(`should update optimistically`, () => {
       const commit = jest.fn()
       const getters = {
-        liquidAtoms: 10000000
+        liquidAtoms: 10000000,
+        bondDenom: `uatom`
       }
 
       actions.postMsgSend(

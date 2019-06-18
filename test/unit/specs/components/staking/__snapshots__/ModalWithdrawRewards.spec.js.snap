@@ -9,6 +9,7 @@ exports[`ModalWithdrawRewards should show the withdraw rewards modal 1`] = `
   submissionerrorprefix="Withdrawal failed"
   title="Withdraw"
   transactiondata="[object Object]"
+  validatoraddress="cosmos1234567"
 >
   <span
     class="form-message notice withdraw-limit"

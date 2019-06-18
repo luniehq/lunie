@@ -38,10 +38,6 @@ describe(`ModalWithdrawRewards`, () => {
     expect(wrapper.find(`.withdraw-limit`).exists()).toBe(true)
   })
 
-  it(`should not display message when withdrawing from single validators`, () => {
-    expect(wrapper.find(`.withdraw-limit`).exists()).toBe(false)
-  })
-
   describe("Submission Data for Delegating", () => {
     it("should return correct transaction data for delegating", () => {
       expect(wrapper.vm.transactionData).toEqual({
