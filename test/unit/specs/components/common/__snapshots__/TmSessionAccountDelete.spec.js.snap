@@ -2,15 +2,15 @@
 
 exports[`TmSessionAccountDelete has the expected html structure 1`] = `
 <div
-  class="tm-session"
+  class="session"
 >
   <tmformstruct-stub
-    class="tm-session-container"
+    class="session-container"
     submit="function () { [native code] }"
     width=""
   >
     <div
-      class="tm-session-header"
+      class="session-header"
     >
       <a>
         <i
@@ -21,7 +21,7 @@ exports[`TmSessionAccountDelete has the expected html structure 1`] = `
       </a>
        
       <div
-        class="tm-session-title"
+        class="session-title"
       >
         
         Remove Account
@@ -30,7 +30,7 @@ exports[`TmSessionAccountDelete has the expected html structure 1`] = `
     </div>
      
     <div
-      class="tm-session-main"
+      class="session-main"
     >
       <tmformgroup-stub
         fieldid="sign-in-password"
@@ -57,10 +57,10 @@ exports[`TmSessionAccountDelete has the expected html structure 1`] = `
         fieldlabel=" "
       >
         <div
-          class="tm-field-checkbox"
+          class="field-checkbox"
         >
           <div
-            class="tm-field-checkbox-input"
+            class="field-checkbox-input"
           >
             <input
               id="sign-up-warning"
@@ -69,7 +69,7 @@ exports[`TmSessionAccountDelete has the expected html structure 1`] = `
           </div>
            
           <label
-            class="tm-field-checkbox-label"
+            class="field-checkbox-label"
             for="sign-up-warning"
           >
             
@@ -88,7 +88,7 @@ exports[`TmSessionAccountDelete has the expected html structure 1`] = `
     </div>
      
     <div
-      class="tm-session-footer"
+      class="session-footer"
     >
       <tmbtn-stub
         icon="exit_to_app"

@@ -5,13 +5,13 @@ exports[`TmSessionLoading has the expected html structure 1`] = `
   class="session"
 >
   <div
-    class="tm-session-container tm-session-loading"
+    class="session-container session-loading"
   >
     <div
-      class="tm-session-header"
+      class="session-header"
     >
       <div
-        class="tm-session-title"
+        class="session-title"
       >
         
         Connecting to 'mock-net'…
@@ -20,7 +20,7 @@ exports[`TmSessionLoading has the expected html structure 1`] = `
     </div>
      
     <div
-      class="tm-session-main tm-session-main--loading"
+      class="session-main session-main--loading"
     >
       <img
         src="~assets/images/loader.svg"
@@ -31,7 +31,7 @@ exports[`TmSessionLoading has the expected html structure 1`] = `
     </div>
      
     <div
-      class="tm-session-footer"
+      class="session-footer"
     >
       
        
