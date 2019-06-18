@@ -324,7 +324,7 @@ exports[`PageValidator shows a validator profile information errors signing info
     <modalwithdrawrewards-stub
       denom="STAKE"
       rewards="0"
-      validatoraddress="cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
+      validator-address="cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
     />
   </template>
 </tmpage-stub>
@@ -654,7 +654,7 @@ exports[`PageValidator shows a validator profile information if user has signed 
     <modalwithdrawrewards-stub
       denom="STAKE"
       rewards="0"
-      validatoraddress="cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
+      validator-address="cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
     />
   </template>
 </tmpage-stub>
@@ -983,7 +983,7 @@ exports[`PageValidator shows a validator profile information if user hasn't sign
      
     <modalwithdrawrewards-stub
       denom="STAKE"
-      validatoraddress="cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
+      validator-address="cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
     />
   </template>
 </tmpage-stub>

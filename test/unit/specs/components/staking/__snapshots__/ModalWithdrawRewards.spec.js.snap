@@ -10,7 +10,14 @@ exports[`ModalWithdrawRewards should show the withdraw rewards modal 1`] = `
   title="Withdraw"
   transactiondata="[object Object]"
 >
-  <!---->
+  <span
+    class="form-message notice withdraw-limit"
+  >
+    
+    Lunie will only withdraw rewards from 5 validators at a time because of a
+    limitation with the Ledger Nano S.
+  
+  </span>
    
   <tmformgroup-stub
     class="action-modal-form-group"

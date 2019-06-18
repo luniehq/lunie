@@ -24,6 +24,27 @@ describe(`Module: Fee Distribution`, () => {
     photino: 15
   }
 
+  const validatorRewards = {
+    address1: {
+      uatom: 100
+    },
+    address2: {
+      uatom: 10
+    },
+    address3: {
+      uatom: 70
+    },
+    address4: {
+      uatom: 2
+    },
+    address5: {
+      uatom: 3
+    },
+    address6: {
+      uatom: 99
+    }
+  }
+
   beforeEach(() => {
     module = distributionModule({ node })
     state = module.state
@@ -184,7 +205,7 @@ describe(`Module: Fee Distribution`, () => {
       it(`success`, async () => {
         const validatorAddr = `cosmosvaloper1address`
         await actions.getRewardsFromValidator(
-          { state, rootState, commit },
+          { state, rootState, commit, getters: { bondDenom: "stake" } },
           validatorAddr
         )
         expect(node.get.delegatorRewardsFromValidator).toHaveBeenCalledWith(
@@ -203,7 +224,7 @@ describe(`Module: Fee Distribution`, () => {
           Promise.reject(Error(`invalid validator address`))
         )
         await actions.getRewardsFromValidator(
-          { state, rootState, commit },
+          { state, rootState, commit, getters: { bondDenom: "stake" } },
           validatorAddr
         )
         expect(node.get.delegatorRewardsFromValidator).toHaveBeenCalledWith(

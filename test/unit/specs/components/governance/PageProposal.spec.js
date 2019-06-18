@@ -16,7 +16,7 @@ describe(`PageProposal`, () => {
   let wrapper, $store
 
   const getters = {
-    depositDenom: governanceParameters.deposit.min_deposit[0].denom,
+    depositDenom: governanceParameters.parameters.deposit.min_deposit[0].denom,
     proposals: { proposals, tallies },
     connected: true,
     governanceParameters: { ...governanceParameters, loaded: true },
@@ -110,6 +110,12 @@ describe(`PageProposal`, () => {
   it(`should return the time that voting started`, () => {
     expect(wrapper.vm.votingStartedAgo).toEqual(
       moment(new Date(proposal.voting_start_time)).fromNow()
+    )
+  })
+
+  it(`should return the time the vote ends`, () => {
+    expect(wrapper.vm.endDate).toEqual(
+      moment(proposal.voting_end_time).format("MMMM Do YYYY, HH:mm")
     )
   })
 

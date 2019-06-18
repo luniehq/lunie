@@ -8,9 +8,9 @@
     class="modal-withdraw-rewards"
     submission-error-prefix="Withdrawal failed"
   >
-    <span v-if="!validatorAddress" class="form-message notice withdraw-limit">
-      You can only withdraw rewards from your top 5 validators in a single
-      transaction. This is because of a limitation with the Ledger Nano.
+    <span class="form-message notice withdraw-limit">
+      Lunie will only withdraw rewards from 5 validators at a time because of a
+      limitation with the Ledger Nano S.
     </span>
     <TmFormGroup
       class="action-modal-form-group"
@@ -18,7 +18,11 @@
       field-label="Amount"
     >
       <span class="input-suffix">{{ denom | viewDenom }}</span>
-      <TmField id="amount" :value="rewards | atoms | fullDecimals" readonly />
+      <TmField
+        id="amount"
+        :value="rewards | atoms | fullDecimals"
+        readonly
+      />
     </TmFormGroup>
   </ActionModal>
 </template>
@@ -44,11 +48,6 @@ export default {
     fullDecimals
   },
   props: {
-    validatorAddress: {
-      type: String,
-      required: false,
-      default: null
-    },
     rewards: {
       type: Number,
       default: 0

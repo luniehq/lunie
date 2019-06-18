@@ -1,7 +1,7 @@
 {
   "name": "lunie",
   "productName": "lunie",
-  "version": "1.0.0-beta.79",
+  "version": "1.0.0-beta.83",
   "description": "Lunie is the user interface for the Cosmos Hub.",
   "author": "Lunie International Software Systems Inc. <hello@lunie.io>",
   "license": "Apache-2.0",
@@ -96,7 +96,7 @@
     "postcss-preset-env": "6.6.0",
     "prettier": "1.17.0",
     "publish-release": "1.6.0",
-    "simsala": "0.0.14",
+    "simsala": "0.0.15",
     "style-loader": "0.23.1",
     "stylelint": "9.10.1",
     "stylelint-config-standard": "18.2.0",
@@ -115,6 +115,7 @@
   "dependencies": {
     "@lunie/cosmos-api": "0.0.23",
     "@lunie/cosmos-keys": "0.0.9",
+    "@lunie/cosmos-ledger": "0.0.5",
     "@sentry/browser": "5.0.3",
     "autosize": "4.0.2",
     "axios": "0.19.0",
@@ -123,7 +124,6 @@
     "camelcase": "5.3.0",
     "crypto-js": "3.1.9-1",
     "js-beautify": "1.9.1",
-    "ledger-cosmos-js": "1.0.0",
     "moment": "2.24.0",
     "ndjson": "1.5.0",
     "nib": "1.1.2",

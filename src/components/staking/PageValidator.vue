@@ -184,6 +184,20 @@
         :denom="bondDenom"
       />
     </template>
+    <template v-else>
+      <template slot="title">
+        Validator Not Found
+      </template>
+      <template slot="subtitle">
+        <div>
+          Please visit the
+          <router-link to="/staking/validators/">
+            Validators
+          </router-link>
+          page to view all validators
+        </div>
+      </template>
+    </template>
   </TmPage>
 </template>
 
@@ -386,11 +400,6 @@ export default {
     },
     onUndelegation() {
       this.$refs.undelegationModal.open()
-    },
-    onWithdrawal() {
-      if (this.rewards > 0) {
-        this.$refs.modalWithdrawRewards.open()
-      }
     },
     delegationTargetOptions(
       { session, liquidAtoms, committedDelegations, $route, delegates } = this

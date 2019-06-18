@@ -152,6 +152,12 @@ describe(`PageValidator`, () => {
       expect(wrapper.exists(`tm-data-error-stub`)).toBe(true)
     })
 
+    it(`shows invalid validator address page if invalid validator address used`, () => {
+      $store.getters.delegates.delegates = []
+
+      expect(wrapper.exists(`tm-data-msg`)).toBe(true)
+    })
+
     it(`shows the selfBond`, () => {
       expect(wrapper.find(`#page-profile__self-bond`).text()).toBe(`1.00%`)
     })
@@ -570,33 +576,6 @@ describe(`delegationTargetOptions`, () => {
         }
         PageValidator.methods.onUndelegation.call(self)
         expect(self.$refs.undelegationModal.open).toHaveBeenCalled()
-      })
-    })
-
-    describe(`onWithdrawal`, () => {
-      it(`should open withdrawal modal when there are rewards`, () => {
-        const self = {
-          rewards: 1,
-          $refs: {
-            modalWithdrawRewards: {
-              open: jest.fn()
-            }
-          }
-        }
-        PageValidator.methods.onWithdrawal.call(self)
-        expect(self.$refs.modalWithdrawRewards.open).toHaveBeenCalled()
-      })
-      it(`should not open withdrawal modal when there are zero rewards`, () => {
-        const self = {
-          rewards: 0,
-          $refs: {
-            modalWithdrawRewards: {
-              open: jest.fn()
-            }
-          }
-        }
-        PageValidator.methods.onWithdrawal.call(self)
-        expect(self.$refs.modalWithdrawRewards.open).not.toHaveBeenCalled()
       })
     })
   })

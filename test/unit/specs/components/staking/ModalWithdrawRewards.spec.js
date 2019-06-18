@@ -35,9 +35,6 @@ describe(`ModalWithdrawRewards`, () => {
   })
 
   it(`should display message when withdrawing from multiple validators`, () => {
-    wrapper.setProps({
-      validatorAddress: null
-    })
     expect(wrapper.find(`.withdraw-limit`).exists()).toBe(true)
   })
 

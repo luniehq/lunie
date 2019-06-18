@@ -20,7 +20,14 @@
         <TmDataLoading v-else-if="!loaded && loading" />
         <TmDataError v-else-if="error" />
         <slot v-else-if="dataEmpty" name="no-data">
-          <TmDataEmpty />
+          <TmDataEmpty>
+            <template slot="title">
+              <slot name="title" />
+            </template>
+            <template slot="subtitle">
+              <slot name="subtitle" />
+            </template>
+          </TmDataEmpty>
         </slot>
         <slot v-else name="managed-body" />
       </template>
