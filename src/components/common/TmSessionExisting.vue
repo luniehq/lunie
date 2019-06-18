@@ -52,7 +52,10 @@ export default {
     LiSession
   },
   computed: {
-    ...mapGetters([`session`])
+    ...mapGetters([`session`]),
+    accountExists() {
+      return this.session.accounts.length > 0
+    }
   },
   methods: {
     setState(value) {
@@ -64,7 +67,7 @@ export default {
   }
 }
 </script>
-<style scoped>
+<style>
 .form-group a {
   cursor: pointer;
 }
