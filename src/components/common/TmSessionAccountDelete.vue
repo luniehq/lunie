@@ -1,15 +1,15 @@
 <template>
-  <div class="tm-session">
-    <TmFormStruct :submit="onSubmit" class="tm-session-container">
-      <div class="tm-session-header">
+  <div class="session">
+    <TmFormStruct :submit="onSubmit" class="session-container">
+      <div class="session-header">
         <a @click="setState('sign-in')">
           <i class="material-icons">arrow_back</i>
         </a>
-        <div class="tm-session-title">
+        <div class="session-title">
           Remove Account
         </div>
       </div>
-      <div class="tm-session-main">
+      <div class="session-main">
         <TmFormGroup
           :error="$v.deletionPassword.$error"
           field-id="sign-in-password"
@@ -38,15 +38,15 @@
           field-id="sign-up-warning"
           field-label=" "
         >
-          <div class="tm-field-checkbox">
-            <div class="tm-field-checkbox-input">
+          <div class="field-checkbox">
+            <div class="field-checkbox-input">
               <input
                 id="sign-up-warning"
                 v-model="deletionWarning"
                 type="checkbox"
               />
             </div>
-            <label class="tm-field-checkbox-label" for="sign-up-warning">
+            <label class="field-checkbox-label" for="sign-up-warning">
               I understand that Cosmos cannot recover deleted accounts without
               the passphrase.
             </label>
@@ -58,7 +58,7 @@
           />
         </TmFormGroup>
       </div>
-      <div class="tm-session-footer">
+      <div class="session-footer">
         <TmBtn icon="exit_to_app" value="Sign Out and Remove Account" />
       </div>
     </TmFormStruct>
@@ -73,7 +73,7 @@ import TmFormStruct from "common/TmFormStruct"
 import TmField from "common/TmField"
 import TmFormMsg from "common/TmFormMsg"
 export default {
-  name: `tm-session-account-delete`,
+  name: `session-account-delete`,
   components: {
     TmBtn,
     TmField,

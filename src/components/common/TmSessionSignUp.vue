@@ -203,7 +203,7 @@ import TmField from "common/TmField"
 import TmFormMsg from "common/TmFormMsg"
 import FieldSeed from "common/TmFieldSeed"
 export default {
-  name: `tm-session-sign-up`,
+  name: `session-sign-up`,
   components: {
     TmBtn,
     TmField,
