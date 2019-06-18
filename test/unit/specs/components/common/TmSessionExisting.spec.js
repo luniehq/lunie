@@ -36,10 +36,7 @@ describe(`TmSessionExisting`, () => {
 
   it(`should go back to the welcome screen`, () => {
     wrapper.vm.goToWelcome()
-    expect($store.commit).toHaveBeenCalledWith(
-      `setSessionModalView`,
-      `welcome`
-    )
+    expect($store.commit).toHaveBeenCalledWith(`setSessionModalView`, `welcome`)
   })
 
   describe(`default view in production`, () => {
