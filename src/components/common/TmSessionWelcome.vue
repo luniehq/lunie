@@ -16,11 +16,13 @@
 
     <div class="session-list">
       <LiSession
+        id="creat-new-address"
         icon="person_add"
         title="Create a new address"
         @click.native="() => setState('sign-up')"
       />
       <LiSession
+        id="use-an-existing-address"
         icon="person"
         title="Use an existing address"
         @click.native="() => setState('existing')"
