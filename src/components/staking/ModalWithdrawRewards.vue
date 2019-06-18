@@ -9,8 +9,8 @@
     submission-error-prefix="Withdrawal failed"
   >
     <span class="form-message notice withdraw-limit">
-      You can only withdraw rewards from your top 5 validators in a single
-      transaction. This is because of a limitation with the Ledger Nano.
+      Lunie will only withdraw rewards from 5 validators at a time because of a
+      limitation with the Ledger Nano S.
     </span>
     <TmFormGroup
       class="action-modal-form-group"
