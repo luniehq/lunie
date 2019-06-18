@@ -44,11 +44,13 @@ exports[`TmSessionWelcome has the expected html structure 1`] = `
   >
     <lisession-stub
       icon="person_add"
+      id="creat-new-address"
       title="Create a new address"
     />
      
     <lisession-stub
       icon="person"
+      id="use-an-existing-address"
       title="Use an existing address"
     />
   </div>

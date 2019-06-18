@@ -1,5 +1,5 @@
 module.exports = {
-  "Sign in with local account": async function (browser) {
+  "Sign in with local account": async function(browser) {
     browser
       .url(browser.launch_url + "?insecure=true")
       .waitForElementVisible(`body`)
