@@ -1,8 +1,5 @@
 <template>
-  <div
-    v-if="type === 'select'"
-    class="tm-select"
-  >
+  <div v-if="type === 'select'" class="tm-select">
     <select
       :class="css"
       :value="value"
@@ -11,12 +8,7 @@
       @keyup="onKeyup"
       @keydown="onKeydown"
     >
-      <option
-        value=""
-        disabled="disabled"
-        selected="selected"
-        hidden="hidden"
-      >
+      <option value="" disabled="disabled" selected="selected" hidden="hidden">
         {{ selectPlaceholder }}
       </option>
       <template>

@@ -1,9 +1,6 @@
 <template>
   <div class="session">
-    <TmFormStruct
-      :submit="onSubmit.bind(this)"
-      class="session-container"
-    >
+    <TmFormStruct :submit="onSubmit.bind(this)" class="session-container">
       <div class="session-header">
         <a @click="setState('existing')">
           <i class="material-icons session-back">arrow_back</i>
@@ -128,10 +125,7 @@
                 type="checkbox"
               />
             </div>
-            <label
-              class="field-checkbox-label"
-              for="error-collection"
-            >
+            <label class="field-checkbox-label" for="error-collection">
               I'd like to opt in for remote error tracking to help improve
               Voyager.
             </label>
