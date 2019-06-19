@@ -885,10 +885,10 @@
   dependencies:
     axios "^0.19.0"
 
-"@lunie/cosmos-keys@0.0.10":
-  version "0.0.10"
-  resolved "https://registry.yarnpkg.com/@lunie/cosmos-keys/-/cosmos-keys-0.0.10.tgz#732fa6af34a0b2ef93c5fdb4035ca6e6e6fc64e1"
-  integrity sha512-ngX8pDXqFgEn3HV6i+Vtt4y4rImeDG/8jg6332T9+ZX1U9SLDTdtJILBfQ/662q+o/DXeiXsaFl5jXnjH6IZsg==
+"@lunie/cosmos-keys@0.1.0":
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/@lunie/cosmos-keys/-/cosmos-keys-0.1.0.tgz#f7c4beba376d90866291913a8a862b3f55673b38"
+  integrity sha512-Hbhh7KfRoC1U6G38UGUwh0UM8bbm+EE1U+w1BvyxOLZka6xmfKiffX7z3XEumlt0QPt9SezLYOHdYrH7XzeDZg==
   dependencies:
     bech32 "^1.1.3"
     bip32 "^1.0.4"
