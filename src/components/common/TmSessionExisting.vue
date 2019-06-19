@@ -1,5 +1,8 @@
 <template>
-  <div id="session-existing" class="session">
+  <div
+    id="session-existing"
+    class="session"
+  >
     <div class="session-header">
       <a @click="goToWelcome()">
         <i class="material-icons session-back">arrow_back</i>
@@ -52,9 +55,9 @@ export default {
     LiSession
   },
   computed: {
-    ...mapGetters([`session`]),
+    ...mapGetters([`session`, `keystore`]),
     accountExists() {
-      return this.session.accounts.length > 0
+      return this.keystore.accounts.length > 0
     }
   },
   methods: {
