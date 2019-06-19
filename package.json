@@ -20,7 +20,7 @@
     }
   },
   "dependencies": {
-    "@lunie/cosmos-keys": "^0.0.9",
+    "@lunie/cosmos-keys": "https://github.com/luniehq/cosmos-keys.git#fabo/keystore",
     "@sentry/browser": "^5.4.0",
     "autosize": "^4.0.2",
     "bech32": "^1.1.3",
