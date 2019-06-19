@@ -5,6 +5,10 @@ exports[`ModalWithdrawRewards should show the withdraw rewards modal 1`] = `
   amount="0"
   class="modal-withdraw-rewards"
   id="modal-withdraw-rewards"
+  passtoparent="function _default() {
+          /* istanbul ignore next */
+          cov_mc8qji05r.f[1]++;
+        }"
   simulatefn="function () { [native code] }"
   submissionerrorprefix="Withdrawal failed"
   submitfn="function () { [native code] }"

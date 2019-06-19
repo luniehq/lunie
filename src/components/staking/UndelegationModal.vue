@@ -3,6 +3,7 @@
     id="undelegation-modal"
     ref="actionModal"
     :submit-fn="submitForm"
+    :pass-to-parent="passToParent"
     :simulate-fn="simulateForm"
     :validate="validateForm"
     :amount="0"
@@ -36,8 +37,10 @@
       <TmField
         id="amount"
         v-model="amount"
+        v-focus
         type="number"
         placeholder="Amount"
+        @keyup.enter.native="enterPressed"
       />
       <span v-if="maximum > 0" class="form-message">
         Currently Delegated: {{ maximum }} {{ num.viewDenom(denom) }}s
@@ -109,7 +112,8 @@ export default {
   data: () => ({
     amount: null,
     atoms,
-    num
+    num,
+    validateChangeStep: false
   }),
   computed: {
     ...mapGetters([`liquidAtoms`])
@@ -131,6 +135,12 @@ export default {
       this.$v.$touch()
 
       return !this.$v.$invalid
+    },
+    passToParent(func) {
+      this.validateChangeStep = func
+    },
+    enterPressed() {
+      this.validateChangeStep()
     },
     clear() {
       this.$v.$reset()

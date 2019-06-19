@@ -4,6 +4,7 @@ exports[`ModalPropose should display proposal modal form 1`] = `
 <actionmodal-stub
   amount="0"
   id="modal-propose"
+  passtoparent="function () { [native code] }"
   simulatefn="function () { [native code] }"
   submissionerrorprefix="Submitting proposal failed"
   submitfn="function () { [native code] }"

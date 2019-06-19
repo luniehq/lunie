@@ -40,6 +40,7 @@
       <TmField
         id="amount"
         v-model="amount"
+        v-focus
         type="number"
         placeholder="Amount"
         @keyup.enter.native="enterPressed"
@@ -145,7 +146,7 @@ export default {
       return !this.$v.$invalid
     },
     passToParent(func) {
-      this.validateChangeStep = func;
+      this.validateChangeStep = func
     },
     enterPressed() {
       this.validateChangeStep()

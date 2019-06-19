@@ -42,7 +42,7 @@
         v-focus
         type="text"
         placeholder="Address"
-        @keyup.enter.native="refocusOn"
+        @keyup.enter.native="refocusOnAmount"
       />
       <TmFormMsg
         v-if="$v.address.$error && !$v.address.required"
@@ -177,12 +177,12 @@ export default {
       this.$refs.actionModal.open()
     },
     passToParent(func) {
-      this.validateChangeStep = func;
+      this.validateChangeStep = func
     },
     enterPressed() {
       this.validateChangeStep()
     },
-    refocusOn() {
+    refocusOnAmount() {
       this.$refs.amount.$el.focus()
     },
     validateForm() {

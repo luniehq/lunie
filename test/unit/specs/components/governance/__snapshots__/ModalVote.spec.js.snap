@@ -5,6 +5,10 @@ exports[`ModalVote should display vote modal form 1`] = `
   amount="0"
   class="modal-vote"
   id="modal-vote"
+  passtoparent="function _default() {
+          /* istanbul ignore next */
+          cov_mc8qji05r.f[1]++;
+        }"
   simulatefn="function () { [native code] }"
   submissionerrorprefix="Voting failed"
   submitfn="function () { [native code] }"

@@ -4,6 +4,7 @@ exports[`DelegationModal should display the delegation modal form 1`] = `
 <actionmodal-stub
   class="delegation-modal"
   id="delegation-modal"
+  passtoparent="function () { [native code] }"
   simulatefn="function () { [native code] }"
   submissionerrorprefix="Delegating failed"
   submitfn="function () { [native code] }"
