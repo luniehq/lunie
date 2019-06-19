@@ -18,11 +18,7 @@
       field-label="Amount"
     >
       <span class="input-suffix">{{ num.viewDenom(denom) }}</span>
-      <TmField
-        id="amount"
-        v-model="amount"
-        type="number"
-      />
+      <TmField id="amount" v-model="amount" type="number" />
       <TmFormMsg
         v-if="balance === 0"
         :msg="`doesn't have any ${num.viewDenom(denom)}s`"
