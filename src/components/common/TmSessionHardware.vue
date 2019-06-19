@@ -1,61 +1,53 @@
 <template>
-  <div class="tm-session">
-    <div class="tm-session-container">
-      <div class="tm-session-header">
-        <a @click="setState('welcome')">
-          <i class="material-icons">arrow_back</i>
+  <div class="session">
+    <div class="session-container">
+      <div class="session-header">
+        <a @click="setState('existing')">
+          <i class="material-icons session-back">arrow_back</i>
         </a>
-        <div class="tm-session-title">
-          Sign In
-        </div>
+        <h2 class="session-title">
+          Use my Ledger Nano
+        </h2>
         <a @click="$store.commit(`toggleSessionModal`, false)">
-          <i class="material-icons">close</i>
+          <i class="material-icons session-close">close</i>
         </a>
       </div>
-      <div class="tm-session-main">
-        <HardwareState :loading="status === `connect` ? false : true">
-          <template v-if="status === `connect` || status === `detect`">
-            Please plug in your Ledger&nbsp;Nano and open the Cosmos app
-          </template>
-          <template v-if="status === `confirmAddress`">
-            Sign in with the address
-            <span class="address">{{ address }}</span
-            >.<br />
-            Please confirm on your Ledger.
-          </template>
-          <p v-if="connectionError" class="error-message">
-            {{ connectionError }}
-          </p>
-        </HardwareState>
+      <div v-if="!session.browserWithLedgerSupport" class="session-main">
+        <p>
+          Please use Chrome, Opera, or Brave. Ledger is not supported in this
+          browser.
+        </p>
       </div>
-      <div class="tm-session-footer">
-        <div class="install-notes">
-          <p class="ledger-install">
-            Don't have the Cosmos Ledger App yet? Install it
-            <a
-              href="https://github.com/cosmos/voyager#ledger-cosmos-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              here</a
-            >.
-          </p>
-          <p class="ledger-install">
-            Don't have a Ledger yet?
-            <a
-              href="https://shop.ledger.com/?r=3dd204ef7508"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Get one here</a
-            >.
-          </p>
+      <div v-if="session.browserWithLedgerSupport">
+        <div class="session-main">
+          <HardwareState :loading="status === `connect` ? false : true">
+            <template v-if="status === `connect` || status === `detect`">
+              Please plug in your Ledger&nbsp;Nano&nbsp;S and open the Cosmos
+              app
+            </template>
+            <template v-if="status === `confirmAddress`">
+              Sign in with the address
+              <span class="address">{{ address }}</span
+              >.<br />
+              Please confirm on your Ledger.
+            </template>
+            <p v-if="connectionError" class="error-message">
+              {{ connectionError }}
+            </p>
+          </HardwareState>
         </div>
-        <TmBtn
-          :value="submitCaption"
-          :disabled="status === `connect` ? false : `disabled`"
-          @click.native="signIn()"
-        />
+        <div class="session-footer">
+          <p class="ledger-install">
+            If you don't have a Ledger Nano, you can
+            <a href="" target="_blank" rel="noopener norefferer">buy one here</a
+            >.
+          </p>
+          <TmBtn
+            :value="submitCaption"
+            :disabled="status === `connect` ? false : `disabled`"
+            @click.native="signIn()"
+          />
+        </div>
       </div>
     </div>
   </div>
@@ -63,16 +55,21 @@
 
 <script>
 import TmBtn from "common/TmBtn"
+import { mapGetters } from "vuex"
 import HardwareState from "common/TmHardwareState"
 export default {
-  name: `tm-session-hardware`,
-  components: { TmBtn, HardwareState },
+  name: `session-hardware`,
+  components: {
+    TmBtn,
+    HardwareState
+  },
   data: () => ({
     status: `connect`,
     connectionError: null,
     address: null
   }),
   computed: {
+    ...mapGetters([`session`]),
     submitCaption() {
       return {
         connect: "Sign In",
@@ -138,8 +135,7 @@ export default {
   margin-bottom: 0;
 }
 
-.tm-session-footer {
-  padding: 0 1rem;
+.session-footer {
   justify-content: space-between;
 }
 
