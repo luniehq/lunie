@@ -46,10 +46,7 @@ export default {
     LiSession
   },
   computed: {
-    ...mapGetters([`session`, `keystore`]),
-    accountExists() {
-      return this.keystore.accounts.length > 0
-    }
+    ...mapGetters([`session`])
   },
   methods: {
     setState(value) {
