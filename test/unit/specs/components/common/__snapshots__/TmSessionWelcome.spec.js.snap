@@ -1,187 +1,82 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`TmSessionWelcome with accounts has the expected html structure 1`] = `
+exports[`TmSessionWelcome has the expected html structure 1`] = `
 <div
-  class="tm-session"
+  class="session"
   id="session-welcome"
 >
+  <a>
+    <i
+      class="material-icons session-close"
+    >
+      close
+    </i>
+  </a>
+   
   <div
-    class="tm-session-container"
+    class="session-header"
   >
-    <div
-      class="tm-session-header"
-    >
-      <div
-        class="tm-session-title"
-      >
-        
-        Sign in to Lunie
-      
-      </div>
-       
-      <a>
-        <i
-          class="material-icons"
-        >
-          close
-        </i>
-      </a>
-    </div>
+    <img
+      class="lunie-logo"
+      src="~assets/images/cosmos-wallet-logo.svg"
+    />
      
-    <div
-      class="tm-session-main"
+    <h2
+      class="session-title"
     >
-      <lisession-stub
-        disabled="true"
-        icon="usb"
-        subtitle=""
-        title="Sign in with Ledger Nano"
-      >
-        <!---->
-         
-        <div>
-          
-          Please use Chrome, Opera, or Brave. Ledger is not supported in your
-          current browser.
-        
-        </div>
-      </lisession-stub>
-       
-      <lisession-stub
-        icon="search"
-        id="explore-address"
-        subtitle="If you want to use Lunie with an address
-          , choose this option."
-        title="Sign in with Address"
-      />
-       
-      <div
-        class="danger-zone"
-      >
-        <div
-          class="header"
-        >
-          <h1>
-            DANGER ZONE
-          </h1>
-           
-          <p>
-            
-              Never use accounts created in the browser on a real network. You
-              could lose all your money.
-            
-          </p>
-        </div>
-         
-        <lisession-stub
-          icon="lock"
-          id="sign-in-with-account"
-          subtitle="If you have an account, choose this option."
-          title="Sign in with password"
-        />
-         
-        <lisession-stub
-          icon="person_add"
-          subtitle="Generate a brand new seed and create a new account."
-          title="Create new account"
-        />
-         
-        <!---->
-      </div>
-    </div>
+      
+      Welcome to Lunie!
+    
+    </h2>
+     
+    <p
+      class="session-paragraph"
+    >
+      
+      Lunie is the cryptocurrency wallet for the new staking economy. Easily
+      stake your ATOMs, withdraw your rewards, and participate in governance.
+    
+    </p>
   </div>
-</div>
-`;
-
-exports[`TmSessionWelcome without accounts has the expected html structure 1`] = `
-<div
-  class="tm-session"
-  id="session-welcome"
->
+   
   <div
-    class="tm-session-container"
+    class="session-list"
   >
-    <div
-      class="tm-session-header"
-    >
-      <div
-        class="tm-session-title"
-      >
-        
-        Sign in to Lunie
-      
-      </div>
-       
-      <a>
-        <i
-          class="material-icons"
-        >
-          close
-        </i>
-      </a>
-    </div>
+    <lisession-stub
+      icon="person_add"
+      id="creat-new-address"
+      title="Create a new address"
+    />
      
-    <div
-      class="tm-session-main"
-    >
-      <lisession-stub
-        disabled="true"
-        icon="usb"
-        subtitle=""
-        title="Sign in with Ledger Nano"
-      >
-        <!---->
-         
-        <div>
-          
-          Please use Chrome, Opera, or Brave. Ledger is not supported in your
-          current browser.
-        
-        </div>
-      </lisession-stub>
-       
-      <lisession-stub
-        icon="search"
-        id="explore-address"
-        subtitle="If you want to use Lunie with an address
-          , choose this option."
-        title="Sign in with Address"
-      />
-       
-      <div
-        class="danger-zone"
-      >
-        <div
-          class="header"
-        >
-          <h1>
-            DANGER ZONE
-          </h1>
-           
-          <p>
-            
-              Never use accounts created in the browser on a real network. You
-              could lose all your money.
-            
-          </p>
-        </div>
-         
-        <!---->
-         
-        <lisession-stub
-          icon="person_add"
-          subtitle="Generate a brand new seed and create a new account."
-          title="Create new account"
-        />
-         
-        <lisession-stub
-          icon="settings_backup_restore"
-          id="import-seed"
-          subtitle="Use an existing seed phrase to create an account."
-          title="Import with seed"
-        />
-      </div>
-    </div>
+    <lisession-stub
+      icon="person"
+      id="use-an-existing-address"
+      title="Use an existing address"
+    />
   </div>
+   
+  <p
+    class="footnote"
+  >
+    
+    By using Lunie, you accept our
+    
+    <router-link-stub
+      class="link"
+      to="/terms"
+    >
+      Terms of Service
+    </router-link-stub>
+     and
+    
+    <router-link-stub
+      class="link"
+      to="/privacy"
+    >
+      Privacy Policy
+    </router-link-stub>
+    .
+  
+  </p>
 </div>
 `;

@@ -50,9 +50,13 @@ describe(`TmSessionSignIn`, () => {
     expect($store.commit).toHaveBeenCalledWith(`toggleSessionModal`, false)
   })
 
-  it(`should go back to welcome`, () => {
-    wrapper.vm.goToWelcome()
-    expect($store.commit).toHaveBeenCalledWith(`setSessionModalView`, `welcome`)
+  it(`should go back to existing`, () => {
+    wrapper
+      .findAll(`.session-header a`)
+      .at(0)
+      .trigger(`click`)
+    expect($store.commit.mock.calls[0][0]).toBe(`setSessionModalView`)
+    expect($store.commit.mock.calls[0][1]).toBe(`existing`)
   })
 
   it(`should signal signedin state on successful login`, async () => {

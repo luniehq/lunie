@@ -14,7 +14,6 @@
         <TmBtn
           id="tm-modal-error__btn-issue"
           :href="issueUrl"
-          size="lg"
           icon="bug_report"
           color="primary"
           value="Create an issue"

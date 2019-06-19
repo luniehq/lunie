@@ -73,7 +73,14 @@
         <div class="row">
           <dl class="info_dl colored_dl">
             <dt>Deposit Count</dt>
-            <dd>{{ `${totalDeposit.amount} ${totalDeposit.denom}` }}</dd>
+            <dd>
+              {{
+                totalDeposit
+                  ? `${totalDeposit.amount}
+              ${totalDeposit.denom}`
+                  : `--`
+              }}
+            </dd>
           </dl>
           <dl
             v-if="proposal.proposal_status === 'VotingPeriod'"
@@ -147,8 +154,8 @@ import num from "scripts/num"
 import TmBtn from "common/TmBtn"
 import TmDataError from "common/TmDataError"
 import TextBlock from "common/TextBlock"
-import ModalDeposit from "./ModalDeposit"
-import ModalVote from "./ModalVote"
+import ModalDeposit from "src/ActionModal/components/ModalDeposit"
+import ModalVote from "src/ActionModal/components/ModalVote"
 import TmPage from "common/TmPage"
 export default {
   name: `page-proposal`,
@@ -283,7 +290,9 @@ export default {
         }
     },
     totalDeposit() {
-      return num.createDisplayCoin(this.proposal.total_deposit[0])
+      return this.proposal.total_deposit
+        ? num.createDisplayCoin(this.proposal.total_deposit[0])
+        : null
     }
   },
   async mounted({ proposals, proposalId, $store } = this) {

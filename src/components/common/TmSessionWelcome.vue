@@ -1,90 +1,39 @@
 <template>
-  <div id="session-welcome" class="tm-session">
-    <div class="tm-session-container">
-      <div class="tm-session-header">
-        <div class="tm-session-title">
-          Sign in to Lunie
-        </div>
-        <a @click="closeSession">
-          <i class="material-icons">close</i>
-        </a>
-      </div>
-
-      <div class="tm-session-main">
-        <LiSession
-          icon="usb"
-          title="Sign in with Ledger Nano"
-          :disabled="!session.browserWithLedgerSupport"
-          @click.native="
-            () => session.browserWithLedgerSupport && setState('hardware')
-          "
-        >
-          <div
-            v-if="session.browserWithLedgerSupport"
-            slot="li-session-subtitle"
-          >
-            If you have a Ledger Wallet, choose this option.<br />
-            Don't have a Ledger yet?
-            <a
-              href="https://shop.ledger.com/?r=3dd204ef7508"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Get one here</a
-            >.
-          </div>
-
-          <div
-            v-if="!session.browserWithLedgerSupport"
-            slot="li-session-subtitle"
-          >
-            Please use Chrome, Opera, or Brave. Ledger is not supported in your
-            current browser.
-          </div>
-        </LiSession>
-        <LiSession
-          id="explore-address"
-          icon="search"
-          title="Sign in with Address"
-          subtitle="If you want to use Lunie with an address
-            , choose this option."
-          @click.native="setState('explore')"
-        />
-        <template v-if="session.insecureMode">
-          <div class="danger-zone">
-            <div class="header">
-              <h1>DANGER ZONE</h1>
-              <p>
-                Never use accounts created in the browser on a real network. You
-                could lose all your money.
-              </p>
-            </div>
-            <LiSession
-              v-if="accountExists"
-              id="sign-in-with-account"
-              icon="lock"
-              title="Sign in with password"
-              subtitle="If you have an account, choose this option."
-              @click.native="setState('sign-in')"
-            />
-            <LiSession
-              icon="person_add"
-              title="Create new account"
-              subtitle="Generate a brand new seed and create a new account."
-              @click.native="setState('sign-up')"
-            />
-            <LiSession
-              v-if="session.developmentMode"
-              id="import-seed"
-              icon="settings_backup_restore"
-              title="Import with seed"
-              subtitle="Use an existing seed phrase to create an account."
-              @click.native="setState('import')"
-            />
-          </div>
-        </template>
-      </div>
+  <div id="session-welcome" class="session">
+    <a @click="closeSession">
+      <i class="material-icons session-close">close</i>
+    </a>
+    <div class="session-header">
+      <img class="lunie-logo" src="~assets/images/cosmos-wallet-logo.svg" />
+      <h2 class="session-title">
+        Welcome to Lunie!
+      </h2>
+      <p class="session-paragraph">
+        Lunie is the cryptocurrency wallet for the new staking economy. Easily
+        stake your ATOMs, withdraw your rewards, and participate in governance.
+      </p>
     </div>
+
+    <div class="session-list">
+      <LiSession
+        id="creat-new-address"
+        icon="person_add"
+        title="Create a new address"
+        @click.native="() => setState('sign-up')"
+      />
+      <LiSession
+        id="use-an-existing-address"
+        icon="person"
+        title="Use an existing address"
+        @click.native="() => setState('existing')"
+      />
+    </div>
+
+    <p class="footnote">
+      By using Lunie, you accept our
+      <router-link to="/terms" class="link">Terms of Service</router-link> and
+      <router-link to="/privacy" class="link">Privacy Policy</router-link>.
+    </p>
   </div>
 </template>
 
@@ -92,12 +41,12 @@
 import { mapGetters } from "vuex"
 import LiSession from "common/TmLiSession"
 export default {
-  name: `tm-session-welcome`,
+  name: `session-welcome`,
   components: {
     LiSession
   },
   computed: {
-    ...mapGetters([`session`, `lastPage`, `keystore`]),
+    ...mapGetters([`session`, `keystore`]),
     accountExists() {
       return this.keystore.accounts.length > 0
     }
@@ -113,12 +62,8 @@ export default {
 }
 </script>
 <style scoped>
-.danger-zone {
-  border: 1px solid var(--danger);
-}
-
-.danger-zone .header {
-  color: var(--danger);
-  padding: 1rem 1rem 0 1rem;
+.lunie-logo {
+  height: 4rem;
+  margin-bottom: 1rem;
 }
 </style>

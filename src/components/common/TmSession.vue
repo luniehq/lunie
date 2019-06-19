@@ -2,6 +2,7 @@
   <Modal v-if="active" :close="close">
     <div slot="main">
       <SessionWelcome v-if="session.modals.session.state == 'welcome'" />
+      <SessionExisting v-else-if="session.modals.session.state == 'existing'" />
       <SessionExplore v-else-if="session.modals.session.state == 'explore'" />
       <SessionSignUp v-else-if="session.modals.session.state == 'sign-up'" />
       <SessionSignIn v-else-if="session.modals.session.state == 'sign-in'" />
@@ -19,6 +20,7 @@
 import { mapGetters } from "vuex"
 import Modal from "common/TmModal"
 import SessionWelcome from "common/TmSessionWelcome"
+import SessionExisting from "common/TmSessionExisting"
 import SessionExplore from "common/TmSessionExplore"
 import SessionSignUp from "common/TmSessionSignUp"
 import SessionSignIn from "common/TmSessionSignIn"
@@ -28,10 +30,11 @@ import SessionAccountDelete from "common/TmSessionAccountDelete"
 import ConnectedNetwork from "common/TmConnectedNetwork"
 
 export default {
-  name: `tm-session`,
+  name: `session`,
   components: {
     Modal,
     SessionWelcome,
+    SessionExisting,
     SessionExplore,
     SessionSignUp,
     SessionSignIn,
