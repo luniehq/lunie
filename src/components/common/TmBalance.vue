@@ -39,7 +39,7 @@
 import num from "scripts/num"
 import Bech32 from "common/Bech32"
 import TmBtn from "common/TmBtn"
-import ModalWithdrawRewards from "staking/ModalWithdrawRewards"
+import ModalWithdrawRewards from "src/ActionModal/components/ModalWithdrawRewards"
 import { mapGetters } from "vuex"
 export default {
   name: `tm-balance`,

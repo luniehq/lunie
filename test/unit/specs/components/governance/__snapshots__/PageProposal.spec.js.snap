@@ -79,11 +79,31 @@ exports[`PageProposal renders votes in HTML when voting is open 1`] = `
          
         <dd>
           
-            Voting started in 2 days.
+            Voting started in 2 days
           
         </dd>
       </dl>
        
+      <dl
+        class="info_dl colored_dl"
+      >
+        <dt>
+          Voting End Date
+        </dt>
+         
+        <dd>
+          January 5th 1970, 00:00
+        </dd>
+      </dl>
+    </div>
+  </div>
+   
+  <div
+    class="page-profile__section"
+  >
+    <div
+      class="row"
+    >
       <dl
         class="info_dl colored_dl"
       >
@@ -111,11 +131,7 @@ exports[`PageProposal renders votes in HTML when voting is open 1`] = `
         </dd>
       </dl>
     </div>
-  </div>
-   
-  <div
-    class="page-profile__section"
-  >
+     
     <div
       class="row"
     >
@@ -293,11 +309,31 @@ exports[`PageProposal should display proposal page if user has signed in 1`] = `
          
         <dd>
           
-            Voting started in 2 days.
+            Voting started in 2 days
           
         </dd>
       </dl>
        
+      <dl
+        class="info_dl colored_dl"
+      >
+        <dt>
+          Voting End Date
+        </dt>
+         
+        <dd>
+          January 5th 1970, 00:00
+        </dd>
+      </dl>
+    </div>
+  </div>
+   
+  <div
+    class="page-profile__section"
+  >
+    <div
+      class="row"
+    >
       <dl
         class="info_dl colored_dl"
       >
@@ -325,11 +361,7 @@ exports[`PageProposal should display proposal page if user has signed in 1`] = `
         </dd>
       </dl>
     </div>
-  </div>
-   
-  <div
-    class="page-profile__section"
-  >
+     
     <div
       class="row"
     >
@@ -507,11 +539,31 @@ exports[`PageProposal should display proposal page should default tally to 0 if 
          
         <dd>
           
-            Voting started in 2 days.
+            Voting started in 2 days
           
         </dd>
       </dl>
        
+      <dl
+        class="info_dl colored_dl"
+      >
+        <dt>
+          Voting End Date
+        </dt>
+         
+        <dd>
+          January 5th 1970, 00:00
+        </dd>
+      </dl>
+    </div>
+  </div>
+   
+  <div
+    class="page-profile__section"
+  >
+    <div
+      class="row"
+    >
       <dl
         class="info_dl colored_dl"
       >
@@ -539,11 +591,7 @@ exports[`PageProposal should display proposal page should default tally to 0 if 
         </dd>
       </dl>
     </div>
-  </div>
-   
-  <div
-    class="page-profile__section"
-  >
+     
     <div
       class="row"
     >

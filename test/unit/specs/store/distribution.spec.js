@@ -24,27 +24,6 @@ describe(`Module: Fee Distribution`, () => {
     photino: 15
   }
 
-  const validatorRewards = {
-    address1: {
-      uatom: 100
-    },
-    address2: {
-      uatom: 10
-    },
-    address3: {
-      uatom: 70
-    },
-    address4: {
-      uatom: 2
-    },
-    address5: {
-      uatom: 3
-    },
-    address6: {
-      uatom: 99
-    }
-  }
-
   beforeEach(() => {
     module = distributionModule({ node })
     state = module.state
@@ -160,64 +139,6 @@ describe(`Module: Fee Distribution`, () => {
       })
     })
 
-    describe(`withdrawRewards`, () => {
-      it(`should simulate a withdrawal transaction`, async () => {
-        const { actions } = module
-        const self = {
-          rootState,
-          dispatch: jest.fn(() => 123123)
-        }
-        const res = await actions.simulateWithdralRewards(self)
-
-        expect(self.dispatch).toHaveBeenCalledWith(`simulateTx`, {
-          type: `MsgWithdrawDelegationReward`,
-          txArguments: {
-            toAddress: `cosmos1address`
-          }
-        })
-        expect(res).toBe(123123)
-      })
-
-      it(`success withdrawal`, async () => {
-        await actions.withdrawRewards(
-          {
-            rootState,
-            dispatch,
-            getters: {
-              distribution: {
-                rewards: validatorRewards
-              },
-              bondDenom: "uatom"
-            }
-          },
-          {
-            gas: 456,
-            gasPrice: 123,
-            password: ``,
-            submitType: `ledger`
-          }
-        )
-        expect(dispatch).toHaveBeenCalledWith(`sendTx`, {
-          type: `MsgWithdrawDelegationReward`,
-          txArguments: {
-            toAddress: `cosmos1address`,
-            validatorAddresses: [
-              `address1`,
-              `address6`,
-              `address3`,
-              `address2`,
-              `address5`
-            ]
-          },
-          password: ``,
-          submitType: `ledger`,
-          gas: "456",
-          gas_prices: [{ amount: "123000000", denom: undefined }]
-        })
-        expect(dispatch).toHaveBeenCalledWith(`getTotalRewards`)
-      })
-    })
-
     describe(`getRewardsFromMyValidators`, () => {
       it(`success`, async () => {
         const validators = [
@@ -263,7 +184,7 @@ describe(`Module: Fee Distribution`, () => {
       it(`success`, async () => {
         const validatorAddr = `cosmosvaloper1address`
         await actions.getRewardsFromValidator(
-          { state, rootState, commit },
+          { state, rootState, commit, getters: { bondDenom: "stake" } },
           validatorAddr
         )
         expect(node.get.delegatorRewardsFromValidator).toHaveBeenCalledWith(
@@ -282,7 +203,7 @@ describe(`Module: Fee Distribution`, () => {
           Promise.reject(Error(`invalid validator address`))
         )
         await actions.getRewardsFromValidator(
-          { state, rootState, commit },
+          { state, rootState, commit, getters: { bondDenom: "stake" } },
           validatorAddr
         )
         expect(node.get.delegatorRewardsFromValidator).toHaveBeenCalledWith(
@@ -348,6 +269,15 @@ describe(`Module: Fee Distribution`, () => {
           `setDistributionError`,
           Error(`unexpected error`)
         )
+      })
+    })
+
+    describe(`postWithdrawAllRewards`, () => {
+      it(`calls sub actions`, async () => {
+        await actions.postMsgWithdrawDelegationReward({ dispatch })
+        expect(dispatch).toHaveBeenCalledWith(`getTotalRewards`)
+        expect(dispatch).toHaveBeenCalledWith(`queryWalletBalances`)
+        expect(dispatch).toHaveBeenCalledWith(`getAllTxs`)
       })
     })
   })

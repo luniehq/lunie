@@ -41,7 +41,6 @@ exports[`TmModalError has the expected html structure 1`] = `
         href="https://github.com/cosmos/voyager/issues"
         icon="bug_report"
         id="tm-modal-error__btn-issue"
-        size="lg"
         type="anchor"
         value="Create an issue"
       />

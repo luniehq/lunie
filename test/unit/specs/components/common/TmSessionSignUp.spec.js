@@ -2,22 +2,24 @@ import { createLocalVue, shallowMount } from "@vue/test-utils"
 import Vuelidate from "vuelidate"
 import TmSessionSignUp from "common/TmSessionSignUp"
 
-describe(`SessionSignUp`, () => {
+describe(`TmSessionSignUp`, () => {
   const localVue = createLocalVue()
   localVue.use(Vuelidate)
 
   let wrapper, $store
 
   beforeEach(() => {
+    const getters = {
+      connected: true,
+      session: { insecureMode: false }
+    }
     $store = {
+      getters,
       commit: jest.fn(),
       dispatch: jest.fn(() => Promise.resolve(`seed`))
     }
     wrapper = shallowMount(TmSessionSignUp, {
       localVue,
-      getters: {
-        connected: () => true
-      },
       mocks: {
         $store
       }
@@ -30,7 +32,7 @@ describe(`SessionSignUp`, () => {
 
   it(`should go back to the welcome screen on click`, () => {
     wrapper
-      .findAll(`.tm-session-header a`)
+      .findAll(`.session-header a`)
       .at(0)
       .trigger(`click`)
     expect($store.commit).toHaveBeenCalledWith(`setSessionModalView`, `welcome`)
@@ -97,7 +99,7 @@ describe(`SessionSignUp`, () => {
     })
     wrapper.vm.onSubmit()
     expect($store.commit).not.toHaveBeenCalled()
-    expect(wrapper.find(`.tm-form-msg-error`)).toBeDefined()
+    expect(wrapper.find(`.form-msg-error`)).toBeDefined()
   })
 
   it(`should show error if password is not 10 long`, async () => {
@@ -112,7 +114,7 @@ describe(`SessionSignUp`, () => {
     })
     await wrapper.vm.onSubmit()
     expect($store.commit.mock.calls[0]).toBeUndefined()
-    expect(wrapper.find(`.tm-form-msg-error`)).toBeDefined()
+    expect(wrapper.find(`.form-msg-error`)).toBeDefined()
   })
 
   it(`should show error if password is not confirmed`, async () => {
@@ -127,7 +129,7 @@ describe(`SessionSignUp`, () => {
     })
     await wrapper.vm.onSubmit()
     expect($store.commit.mock.calls[0]).toBeUndefined()
-    expect(wrapper.find(`.tm-form-msg-error`)).toBeDefined()
+    expect(wrapper.find(`.form-msg-error`)).toBeDefined()
   })
 
   it(`should show an error if account name is not 5 long`, async () => {
@@ -142,7 +144,7 @@ describe(`SessionSignUp`, () => {
     })
     await wrapper.vm.onSubmit()
     expect($store.commit.mock.calls[0]).toBeUndefined()
-    expect(wrapper.find(`.tm-form-msg-error`)).toBeDefined()
+    expect(wrapper.find(`.form-msg-error`)).toBeDefined()
   })
 
   it(`should not continue if creation failed`, async () => {

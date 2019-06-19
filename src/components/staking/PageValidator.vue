@@ -1,10 +1,10 @@
 <template>
   <TmPage
-    v-if="validator"
     :managed="true"
     :loading="delegates.loading"
     :loaded="delegates.loaded"
     :error="delegates.error"
+    :data-empty="!validator"
     data-title="Validator"
   >
     <template v-if="validator" slot="managed-body">
@@ -177,26 +177,20 @@
         :validator="validator"
         :denom="bondDenom"
       />
-      <ModalWithdrawRewards
-        ref="modalWithdrawRewards"
-        :validator-address="validator.operator_address"
-        :rewards="rewards"
-        :denom="bondDenom"
-      />
     </template>
-  </TmPage>
-  <TmPage v-else :managed="true" :data-empty="!validator">
-    <template slot="title">
-      Validator Not Found
-    </template>
-    <template slot="subtitle">
-      <div>
-        Please visit the
-        <a href="/#/staking/validators/">
-          Validators
-        </a>
-        page to view all validators
-      </div>
+    <template v-else>
+      <template slot="title">
+        Validator Not Found
+      </template>
+      <template slot="subtitle">
+        <div>
+          Please visit the
+          <router-link to="/staking/validators/">
+            Validators
+          </router-link>
+          page to view all validators
+        </div>
+      </template>
     </template>
   </TmPage>
 </template>
@@ -209,9 +203,8 @@ import num, { atoms, viewDenom, shortDecimals } from "scripts/num"
 import { formatBech32 } from "src/filters"
 import TmBtn from "common/TmBtn"
 import { ratToBigNumber } from "scripts/common"
-import DelegationModal from "staking/DelegationModal"
-import UndelegationModal from "staking/UndelegationModal"
-import ModalWithdrawRewards from "staking/ModalWithdrawRewards"
+import DelegationModal from "src/ActionModal/components/DelegationModal"
+import UndelegationModal from "src/ActionModal/components/UndelegationModal"
 import Bech32 from "common/Bech32"
 import TmPage from "common/TmPage"
 import isEmpty from "lodash.isempty"
@@ -221,7 +214,6 @@ export default {
     Bech32,
     DelegationModal,
     UndelegationModal,
-    ModalWithdrawRewards,
     TmBtn,
     TmPage
   },

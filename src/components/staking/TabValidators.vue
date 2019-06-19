@@ -36,19 +36,6 @@ export default {
       `session`,
       `yourValidators`
     ])
-  },
-  watch: {
-    lastHeader: {
-      immediate: true,
-      handler() {
-        this.$store.dispatch(`getRewardsFromMyValidators`)
-      }
-    }
-  },
-  mounted() {
-    if (this.yourValidators) {
-      this.$store.dispatch(`getRewardsFromMyValidators`, this.yourValidators)
-    }
   }
 }
 </script>

@@ -6,9 +6,7 @@ describe(`TmFormStruct`, () => {
 
   const propsData = {
     width: `narrow`,
-    submit: function() {
-      // console.log("form successfully submitted")
-    }
+    submit: function() {}
   }
 
   beforeEach(() => {

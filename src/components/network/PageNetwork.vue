@@ -33,7 +33,13 @@
           </dl>
           <dl class="info_dl colored_dl">
             <dt>Transactions</dt>
-            <dd>{{ num.shortDecimals(lastHeader.total_txs) || `--` }}</dd>
+            <dd>
+              {{
+                lastHeader.total_txs !== undefined
+                  ? num.shortDecimals(lastHeader.total_txs)
+                  : `--`
+              }}
+            </dd>
           </dl>
           <dl class="info_dl colored_dl">
             <dt>Number of Validators</dt>

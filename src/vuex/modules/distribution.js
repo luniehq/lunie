@@ -1,7 +1,6 @@
 import * as Sentry from "@sentry/browser"
 import Vue from "vue"
 import { coinsToObject } from "scripts/common.js"
-import { uatoms } from "../../scripts/num.js"
 import { throttle } from "scripts/blocks-throttle"
 
 export default ({ node }) => {
@@ -87,51 +86,19 @@ export default ({ node }) => {
         commit(`setDistributionError`, error)
       }
     },
-    async simulateWithdralRewards({ rootState: { session }, dispatch }) {
-      return await dispatch(`simulateTx`, {
-        type: `MsgWithdrawDelegationReward`,
-        txArguments: {
-          toAddress: session.address
-        }
-      })
-    },
-    async withdrawRewards(
-      { rootState, getters, dispatch },
-      { gas, gasPrice, denom, password, submitType }
-    ) {
-      // Compares the amount in a [address1, {denom: amount}] array
-      const byBalanceOfDenom = denom => (a, b) => b[1][denom] - a[1][denom]
-
-      const validatorList = Object.entries(getters.distribution.rewards)
-        .sort(byBalanceOfDenom(getters.bondDenom))
-        .slice(0, 5) // Just the top 5
-        .map(([address]) => address)
-
-      await dispatch(`sendTx`, {
-        type: `MsgWithdrawDelegationReward`,
-        txArguments: {
-          toAddress: rootState.session.address,
-          validatorAddresses: validatorList
-        },
-        gas: String(gas),
-        gas_prices: [
-          {
-            amount: String(uatoms(gasPrice)),
-            denom: denom
-          }
-        ],
-        password,
-        submitType
-      })
+    async postMsgWithdrawDelegationReward({ dispatch }) {
       await dispatch(`getTotalRewards`)
       await dispatch(`queryWalletBalances`)
       await dispatch(`getAllTxs`)
     },
-    async getRewardsFromMyValidators({
-      state,
-      dispatch,
-      getters: { lastHeader, yourValidators }
-    }) {
+    async getRewardsFromMyValidators(
+      {
+        state,
+        dispatch,
+        getters: { lastHeader, yourValidators }
+      },
+      force = false
+    ) {
       await distributionsThrottle(
         state,
         Number(lastHeader.height),
@@ -144,13 +111,15 @@ export default ({ node }) => {
           )
           state.loading = false
           state.loaded = true
-        }
+        },
+        force
       )
     },
     async getRewardsFromValidator(
       {
         state,
         rootState: { session },
+        getters: { bondDenom },
         commit
       },
       validatorAddr
@@ -162,6 +131,12 @@ export default ({ node }) => {
           validatorAddr
         )
         const rewards = coinsToObject(rewardsArray)
+
+        // if the delegator has 0 rewards for a validator after a withdraw, this is trimmed
+        // to properly differentiate between 0 rewards and no delegation,
+        // we set the rewards to a 0 value on validators we know the delegator has bond with
+        rewards[bondDenom] = rewards[bondDenom] || 0
+
         commit(`setDelegationRewards`, { validatorAddr, rewards })
         commit(`setDistributionError`, null)
         state.loaded = true

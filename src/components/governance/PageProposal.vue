@@ -55,17 +55,22 @@
             <dt>Submitted</dt>
             <dd>{{ submittedAgo }}</dd>
           </dl>
+
           <dl class="info_dl colored_dl">
             <dt>Proposal Status</dt>
             <dd>
-              {{
-                proposal.proposal_status === `DepositPeriod`
-                  ? `Deposit period ends ${depositEndsIn}.`
-                  : `Voting started ${votingStartedAgo}.`
-              }}
+              {{ proposalStatus }}
             </dd>
           </dl>
+          <dl v-if="displayEndDate" class="info_dl colored_dl">
+            <dt>Voting End Date</dt>
+            <dd>{{ endDate }}</dd>
+          </dl>
+        </div>
+      </div>
 
+      <div class="page-profile__section">
+        <div class="row">
           <dl class="info_dl colored_dl">
             <dt>Deposit Count</dt>
             <dd>
@@ -85,9 +90,6 @@
             <dd>{{ num.shortDecimals(num.atoms(totalVotes)) }}</dd>
           </dl>
         </div>
-      </div>
-
-      <div class="page-profile__section">
         <div v-if="proposal.proposal_status === 'VotingPeriod'" class="row">
           <dl class="info_dl colored_dl">
             <dt>Yes</dt>
@@ -152,8 +154,8 @@ import num from "scripts/num"
 import TmBtn from "common/TmBtn"
 import TmDataError from "common/TmDataError"
 import TextBlock from "common/TextBlock"
-import ModalDeposit from "./ModalDeposit"
-import ModalVote from "./ModalVote"
+import ModalDeposit from "src/ActionModal/components/ModalDeposit"
+import ModalVote from "src/ActionModal/components/ModalVote"
 import TmPage from "common/TmPage"
 export default {
   name: `page-proposal`,
@@ -182,6 +184,7 @@ export default {
       `connected`,
       `wallet`,
       `votes`,
+      `governanceParameters`,
       `session`
     ]),
     proposal({ proposals, proposalId } = this) {
@@ -196,8 +199,35 @@ export default {
     submittedAgo({ proposal } = this) {
       return moment(new Date(proposal.submit_time)).fromNow()
     },
+    endDate({ proposal } = this) {
+      return moment(proposal.voting_end_time).format("MMMM Do YYYY, HH:mm")
+    },
+    displayEndDate({ proposal, governanceParameters } = this) {
+      if (
+        proposal.proposal_status !== "DepositPeriod" &&
+        proposal.total_deposit[0].amount >=
+          Number(governanceParameters.parameters.deposit.min_deposit[0].amount)
+      ) {
+        return true
+      } else {
+        return false
+      }
+    },
     votingStartedAgo({ proposal } = this) {
       return moment(new Date(proposal.voting_start_time)).fromNow()
+    },
+    proposalStatus({ proposal, depositEndsIn, votingStartedAgo } = this) {
+      if (proposal.proposal_status === "DepositPeriod") {
+        return `Deposit period ends ${depositEndsIn}`
+      } else if (proposal.proposal_status === "VotingPeriod") {
+        return `Voting started ${votingStartedAgo}`
+      } else if (proposal.proposal_status === "Rejected") {
+        return "Rejected"
+      } else if (proposal.proposal_status === "Passed") {
+        return "Passed"
+      } else {
+        return false
+      }
     },
     depositEndsIn({ proposal } = this) {
       return moment(new Date(proposal.deposit_end_time)).fromNow()

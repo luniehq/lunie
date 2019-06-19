@@ -1,23 +1,23 @@
 <template>
-  <div class="tm-session">
-    <TmFormStruct :submit="onSubmit" class="tm-session-container">
-      <div class="tm-session-header">
-        <a @click="goToWelcome()">
-          <i class="material-icons">arrow_back</i>
+  <div class="session">
+    <TmFormStruct :submit="onSubmit" class="session-container">
+      <div class="session-header">
+        <a @click="goBack()">
+          <i class="material-icons session-back">arrow_back</i>
         </a>
-        <div class="tm-session-title">
-          Explore
-        </div>
+        <h2 class="session-title">
+          Explore with any address
+        </h2>
         <a @click="$store.commit(`toggleSessionModal`, false)">
-          <i class="material-icons">close</i>
+          <i class="material-icons session-close">close</i>
         </a>
       </div>
-      <div class="tm-session-main">
-        <TmFormGroup field-id="sign-in-name" field-label="Address">
+      <div class="session-main">
+        <TmFormGroup field-id="sign-in-name" field-label="Your Cosmos Address">
           <TmField
             v-model="address"
             type="text"
-            placeholder="Your Cosmos Address"
+            placeholder=""
             vue-focus="vue-focus"
           />
           <TmFormMsg
@@ -27,13 +27,13 @@
           />
           <TmFormMsg
             v-else-if="$v.address.$error && !$v.address.bech32Validate"
-            name="Address"
+            name="Your Cosmos Address"
             type="bech32"
           />
         </TmFormGroup>
       </div>
-      <div class="tm-session-footer">
-        <TmBtn value="Next" size="lg" />
+      <div class="session-footer">
+        <TmBtn value="Explore" />
       </div>
     </TmFormStruct>
   </div>
@@ -48,7 +48,7 @@ import TmField from "common/TmField"
 import TmFormMsg from "common/TmFormMsg"
 import bech32 from "bech32"
 export default {
-  name: `tm-session-explore`,
+  name: `session-explore`,
   components: {
     TmBtn,
     TmField,
@@ -64,8 +64,11 @@ export default {
     this.address = localStorage.getItem(`prevAddress`)
   },
   methods: {
-    goToWelcome() {
-      this.$store.commit(`setSessionModalView`, `welcome`)
+    setState(value) {
+      this.$store.commit(`setSessionModalView`, value)
+    },
+    goBack() {
+      this.$store.commit(`setSessionModalView`, `existing`)
     },
     async onSubmit() {
       this.$v.$touch()
@@ -95,7 +98,7 @@ export default {
 }
 </script>
 <style>
-.tm-form-group a {
+.form-group a {
   cursor: pointer;
 }
 </style>
