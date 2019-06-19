@@ -25,7 +25,7 @@ module.exports = {
   beforeEach(browser, done) {
     browser.url(browser.launch_url).execute(function() {
       window.localStorage.setItem(
-        `keys`,
+        `cosmos-wallets-cosmos1ek9cd8ewgxg9w5xllq9um0uf4aaxaruvcw4v9e`,
         JSON.stringify([
           {
             name: `rich_account`,
