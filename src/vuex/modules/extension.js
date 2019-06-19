@@ -16,8 +16,8 @@ export default () => {
   }
 
   const actions = {
-    async extensionPresent({ commit }, data) {
-      commit(`setExtensionAvailable`, data)
+    async checkForPresense() {
+      // TODO Check if extension still installed. User could have uninstalled it.
     }
   }
   return {

@@ -126,7 +126,7 @@ export const startApp = async (
   window.addEventListener("message", receiveMessage, false)
   function receiveMessage({ data }) {
     if (data.type === "LUNIE_EXTENSION") {
-      store.dispatch("extensionPresent", true)
+      store.dispatch("setExtensionStatus", true)
       console.log("Woah! You have the Lunie Extension installed!")
     }
   }

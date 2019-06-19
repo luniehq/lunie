@@ -13,6 +13,7 @@ export default () => {
     insecureMode: false, // show the local signer
     signedIn: false,
     sessionType: null, // local, ledger
+    extensionInstalled: false,
     accounts: [],
     localKeyPairName: null, // used for signing with a locally stored key; TODO: move into own module
     pauseHistory: false,
@@ -86,6 +87,9 @@ export default () => {
     },
     setSessionModalView(state, value) {
       state.modals.session.state = value
+    },
+    setExtensionInstalled(state, installed) {
+      state.extensionInstalled = installed
     }
   }
 
@@ -251,6 +255,9 @@ export default () => {
         state.externals.anonymize()
         console.log(`Analytics collection has been disabled`)
       }
+    },
+    setExtensionStatus({ commit }, status) {
+      commit(`setExtensionInstalled`, status)
     }
   }
 
