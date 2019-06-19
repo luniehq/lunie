@@ -20,6 +20,7 @@ describe(`DelegationModal`, () => {
   const { stakingParameters } = lcdClientMock.state
   const localVue = createLocalVue()
   localVue.use(Vuelidate)
+  localVue.directive("focus", () => {})
 
   const getters = {
     connection: { connected: true },
