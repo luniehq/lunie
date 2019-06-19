@@ -4,6 +4,7 @@
     ref="actionModal"
     :validate="validateForm"
     :amount="0"
+    :pass-to-parent="passToParent"
     title="Undelegate"
     class="undelegation-modal"
     submission-error-prefix="Undelegating failed"
@@ -36,8 +37,10 @@
       <TmField
         id="amount"
         v-model="amount"
+        v-focus
         type="number"
         placeholder="Amount"
+        @keyup.enter.native="enterPressed"
       />
       <span v-if="maximum > 0" class="form-message">
         Currently Delegated: {{ maximum }} {{ num.viewDenom(denom) }}s
@@ -110,7 +113,8 @@ export default {
   data: () => ({
     amount: null,
     atoms,
-    num
+    num,
+    validateChangeStep: false
   }),
   computed: {
     ...mapGetters([`liquidAtoms`]),
@@ -153,7 +157,13 @@ export default {
       this.$v.$reset()
 
       this.amount = null
-    }
+    },
+    passToParent(func) {
+      this.validateChangeStep = func
+    },
+    enterPressed() {
+      this.validateChangeStep()
+    },
   }
 }
 </script>

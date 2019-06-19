@@ -5,6 +5,7 @@
     :validate="validateForm"
     :amount="isRedelegation() ? 0 : amount"
     :title="isRedelegation() ? 'Redelegate' : 'Delegate'"
+    :pass-to-parent="passToParent"
     class="delegation-modal"
     submission-error-prefix="Delegating failed"
     :transaction-data="transactionData"
@@ -39,8 +40,10 @@
       <TmField
         id="amount"
         v-model="amount"
+        v-focus
         type="number"
         placeholder="Amount"
+        @keyup.enter.native="enterPressed"
       />
       <span v-if="!isRedelegation()" class="form-message">
         Available to Delegate:
@@ -118,7 +121,8 @@ export default {
   data: () => ({
     amount: null,
     selectedIndex: 0,
-    num
+    num,
+    validateChangeStep: false
   }),
   computed: {
     ...mapGetters([`delegates`, `session`, `bondDenom`, `modalContext`]),
@@ -185,6 +189,12 @@ export default {
 
       this.selectedIndex = 0
       this.amount = null
+    },
+    passToParent(func) {
+      this.validateChangeStep = func
+    },
+    enterPressed() {
+      this.validateChangeStep()
     },
     isRedelegation() {
       return this.from !== this.modalContext.userAddress
