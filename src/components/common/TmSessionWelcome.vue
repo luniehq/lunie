@@ -38,21 +38,11 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex"
 import LiSession from "common/TmLiSession"
 export default {
   name: `session-welcome`,
   components: {
     LiSession
-  },
-  computed: {
-    ...mapGetters([`session`]),
-    accountExists() {
-      return this.session.accounts.length > 0
-    },
-    extensionPresent() {
-      return this.extension.enabled
-    }
   },
   methods: {
     setState(value) {
