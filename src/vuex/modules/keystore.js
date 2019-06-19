@@ -40,9 +40,9 @@ export default () => {
       const keys = state.externals.getWalletIndex()
       commit(`setAccounts`, keys)
     },
-    async testLogin(store, { password, address }) {
+    async testLogin({ state }, { password, address }) {
       try {
-        testPassword(address, password)
+        state.externals.testPassword(address, password)
         return true
       } catch (err) {
         return false

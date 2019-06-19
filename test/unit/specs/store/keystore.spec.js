@@ -22,7 +22,9 @@ describe(`Module: Keystore`, () => {
       track: jest.fn(),
       testPassword: () => true,
       getSeed: () => `xxx`,
-      getNewWalletFromSeed: () => ({}),
+      getNewWalletFromSeed: () => ({
+        cosmosAddress: "cosmos1234"
+      }),
       getWalletIndex: () => [
         {
           name: `def`,
@@ -53,21 +55,14 @@ describe(`Module: Keystore`, () => {
   })
 
   it(`should test if the login works`, async () => {
-    jest.resetModules()
-    jest.doMock(`@lunie/cosmos-keys`, () => ({
-      testPassword: jest
-        .fn()
-        .mockReturnValueOnce(true)
-        .mockReturnValueOnce(false)
-    }))
-
-    const keystoreModule = require(`src/vuex/modules/keystore.js`).default
-    module = keystoreModule()
-    state = module.state
-    actions = module.actions
-
+    state.externals.testPassword = jest
+      .fn()
+      .mockImplementationOnce(() => {})
+      .mockImplementationOnce(() => {
+        throw new Error("Expected")
+      })
     let output = await actions.testLogin(
-      {},
+      { state },
       {
         address: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
         password: `1234567890`
@@ -75,7 +70,7 @@ describe(`Module: Keystore`, () => {
     )
     expect(output).toBe(true)
     output = await actions.testLogin(
-      {},
+      { state },
       {
         address: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
         password: `1234567890`
@@ -103,10 +98,45 @@ describe(`Module: Keystore`, () => {
       }
     )
     expect(dispatch).toHaveBeenCalledWith(`signIn`, {
-      password: "123",
+      address: "cosmos1234",
       sessionType: "local"
     })
     expect(state.externals.track).toHaveBeenCalled()
+  })
+
+  it(`should update the accounts after account creation`, async () => {
+    const seedPhrase = `abc`
+    const password = `123`
+    const name = `def`
+    const dispatch = jest.fn()
+    await actions.createKey(
+      { dispatch, state },
+      {
+        seedPhrase,
+        password,
+        name
+      }
+    )
+    expect(dispatch).toHaveBeenCalledWith(`loadAccounts`)
+  })
+
+  it(`should sign in after account creation`, async () => {
+    const seedPhrase = `abc`
+    const password = `123`
+    const name = `def`
+    const dispatch = jest.fn()
+    const address = await actions.createKey(
+      { dispatch, state },
+      {
+        seedPhrase,
+        password,
+        name
+      }
+    )
+    expect(dispatch).toHaveBeenCalledWith(`signIn`, {
+      address,
+      sessionType: "local"
+    })
   })
 
   it(`should load accounts on init`, async () => {
