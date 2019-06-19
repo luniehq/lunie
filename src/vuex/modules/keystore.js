@@ -41,7 +41,12 @@ export default () => {
       commit(`setAccounts`, keys)
     },
     async testLogin(store, { password, address }) {
-      return await testPassword(address, password)
+      try {
+        testPassword(address, password)
+        return true
+      } catch (err) {
+        return false
+      }
     },
     createSeed() {
       return state.externals.getSeed()
