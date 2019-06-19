@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.0-beta.84] - 2019-06-19
+
+### Changed
+
+- copy changes for withdrawal message @jbibla
+
+### Repository
+
+- Fixed the "npm run start" command @faboweb
+
 ## [1.0.0-beta.83] - 2019-06-17
 
 ### Fixed
