@@ -33,16 +33,16 @@ describe(`TmSessionImport`, () => {
 
   it(`should go back to the welcome screen on click`, () => {
     wrapper
-      .findAll(`.tm-session-header a`)
+      .findAll(`.session-header a`)
       .at(0)
       .trigger(`click`)
     expect(store.commit.mock.calls[0][0]).toBe(`setSessionModalView`)
-    expect(store.commit.mock.calls[0][1]).toBe(`welcome`)
+    expect(store.commit.mock.calls[0][1]).toBe(`existing`)
   })
 
   it(`should close the session modal`, () => {
     wrapper
-      .findAll(`.tm-session-header a`)
+      .findAll(`.session-header a`)
       .at(1)
       .trigger(`click`)
     expect(store.commit.mock.calls[0][0]).toBe(`toggleSessionModal`)

@@ -1,18 +1,18 @@
 <template>
-  <div class="tm-session">
-    <TmFormStruct :submit="onSubmit" class="tm-session-container">
-      <div class="tm-session-header">
-        <a @click="goToWelcome()">
-          <i class="material-icons">arrow_back</i>
+  <div class="session">
+    <TmFormStruct :submit="onSubmit" class="session-container">
+      <div class="session-header">
+        <a @click="setState('existing')">
+          <i class="material-icons session-back">arrow_back</i>
         </a>
-        <div class="tm-session-title">
-          Sign In
-        </div>
+        <h2 class="session-title">
+          Sign in with account
+        </h2>
         <a @click="$store.commit(`toggleSessionModal`, false)">
-          <i class="material-icons">close</i>
+          <i class="material-icons session-close">close</i>
         </a>
       </div>
-      <div class="tm-session-main">
+      <div class="session-main">
         <TmFormGroup field-id="sign-in-name" field-label="Select Account">
           <TmField
             id="sign-in-name"
@@ -52,8 +52,8 @@
           <TmFormMsg v-if="error" type="custom" :msg="error" />
         </TmFormGroup>
       </div>
-      <div class="tm-session-footer">
-        <TmBtn value="Next" size="lg" />
+      <div class="session-footer">
+        <TmBtn value="Sign In" />
       </div>
     </TmFormStruct>
   </div>
@@ -64,11 +64,11 @@ import { mapGetters } from "vuex"
 import { required, minLength } from "vuelidate/lib/validators"
 import TmBtn from "common/TmBtn"
 import TmFormGroup from "common/TmFormGroup"
-import TmFormStruct from "common/TmFormStruct"
 import TmField from "common/TmField"
 import TmFormMsg from "common/TmFormMsg"
+import TmFormStruct from "common/TmFormStruct"
 export default {
-  name: `tm-session-sign-in`,
+  name: `session-sign-in`,
   components: {
     TmBtn,
     TmField,
@@ -93,8 +93,8 @@ export default {
     this.setDefaultAccount(this.accounts)
   },
   methods: {
-    goToWelcome() {
-      this.$store.commit(`setSessionModalView`, `welcome`)
+    setState(value) {
+      this.$store.commit(`setSessionModalView`, value)
     },
     async onSubmit() {
       this.$v.$touch()
@@ -140,8 +140,3 @@ export default {
   })
 }
 </script>
-<style>
-.tm-form-group a {
-  cursor: pointer;
-}
-</style>

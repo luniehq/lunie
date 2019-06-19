@@ -12,11 +12,13 @@ module.exports = {
       .pause(1000) // if not waiting here, the session modal closes immediatly // TODO
       .click(".sign-in-button")
       .waitForElementVisible("#session-welcome")
+      .click("#use-an-existing-address")
+      .waitForElementVisible("#session-existing")
       .click("#sign-in-with-account")
       .waitForElementVisible("#sign-in-name")
       .click("#sign-in-name option[value=rich_account]")
       .setValue("#sign-in-password", "1234567890")
-      .click(".tm-session-footer button")
+      .click(".session-footer button")
       .waitForElementVisible("#signOut-btn")
   }
 }

@@ -2,10 +2,10 @@
 
 exports[`TmSessionImport has the expected html structure 1`] = `
 <div
-  class="tm-session"
+  class="session"
 >
   <form
-    class="tm-session-container tm-form"
+    class="session-container tm-form"
   >
     <div
       class="tm-form-container"
@@ -17,27 +17,27 @@ exports[`TmSessionImport has the expected html structure 1`] = `
         class="tm-form-main"
       >
         <div
-          class="tm-session-header"
+          class="session-header"
         >
           <a>
             <i
-              class="material-icons"
+              class="material-icons session-back"
             >
               arrow_back
             </i>
           </a>
            
-          <div
-            class="tm-session-title"
+          <h2
+            class="session-title"
           >
             
-        Import with Seed
+        Recover from seed
       
-          </div>
+          </h2>
            
           <a>
             <i
-              class="material-icons"
+              class="material-icons session-close"
             >
               close
             </i>
@@ -45,7 +45,7 @@ exports[`TmSessionImport has the expected html structure 1`] = `
         </div>
          
         <div
-          class="tm-session-main"
+          class="session-main"
         >
           <div
             class="tm-form-group"
@@ -69,6 +69,7 @@ exports[`TmSessionImport has the expected html structure 1`] = `
                 id="import-name"
                 placeholder="Must have at least 5 characters"
                 type="text"
+                vue-focus="vue-focus"
               />
                
               <!---->
@@ -135,15 +136,6 @@ exports[`TmSessionImport has the expected html structure 1`] = `
             </div>
           </div>
            
-          <p
-            class="fundraiser-warning"
-          >
-            
-        Warning – Do not enter your actual 12 or 24 word seed phrase. This
-        feature is intended for testing and is considered highly unsafe.
-      
-          </p>
-           
           <div
             class="tm-form-group"
           >
@@ -183,10 +175,10 @@ exports[`TmSessionImport has the expected html structure 1`] = `
               class="tm-form-group__field"
             >
               <div
-                class="tm-field-checkbox"
+                class="field-checkbox"
               >
                 <div
-                  class="tm-field-checkbox-input"
+                  class="field-checkbox-input"
                 >
                   <input
                     id="error-collection"
@@ -195,7 +187,7 @@ exports[`TmSessionImport has the expected html structure 1`] = `
                 </div>
                  
                 <label
-                  class="tm-field-checkbox-label"
+                  class="field-checkbox-label"
                   for="error-collection"
                 >
                   
@@ -209,19 +201,19 @@ exports[`TmSessionImport has the expected html structure 1`] = `
         </div>
          
         <div
-          class="tm-session-footer"
+          class="session-footer"
         >
           <button
             class="tm-btn"
           >
             <span
-              class="tm-btn__container tm-btn--size-lg"
+              class="tm-btn__container"
             >
               <!---->
               <span
                 class="tm-btn__value"
               >
-                Next
+                Recover
               </span>
             </span>
           </button>
