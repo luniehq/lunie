@@ -7,9 +7,11 @@ describe(`TmSessionExisting`, () => {
   beforeEach(() => {
     const getters = {
       session: {
-        accounts: [],
         insecureMode: false,
         browserWithLedgerSupport: null
+      },
+      keystore: {
+        accounts: []
       },
       lastPage: `/`
     }
@@ -59,7 +61,7 @@ describe(`TmSessionExisting`, () => {
   describe(`insecure mode with an existing account`, () => {
     it(`shows "Sign in with account"`, () => {
       wrapper.vm.session.insecureMode = true
-      wrapper.vm.session.accounts = [`account1`]
+      wrapper.vm.keystore.accounts = [`account1`]
 
       expect(wrapper.find(`#sign-in-with-account`).exists()).toBe(true)
     })
