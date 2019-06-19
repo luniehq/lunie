@@ -58,6 +58,10 @@ describe(`Module: Session`, () => {
     expect(state.insecureMode).toBe(false)
   })
 
+  it(`should default to extension not installed`, () => {
+    expect(state.extensionInstalled).toBe(false)
+  })
+
   describe(`mutations`, () => {
     it(`should set signin`, () => {
       expect(state.signedIn).toBe(false)
@@ -86,6 +90,14 @@ describe(`Module: Session`, () => {
     it(`should set the session type`, () => {
       mutations.setSessionType(state, `xxx`)
       expect(state.sessionType).toBe(`xxx`)
+    })
+
+    it(`should set extension`, () => {
+      expect(state.extensionInstalled).toBe(false)
+      mutations.setExtensionInstalled(state, true)
+      expect(state.extensionInstalled).toBe(true)
+      mutations.setExtensionInstalled(state, false)
+      expect(state.extensionInstalled).toBe(false)
     })
 
     it(`should set accounts`, () => {
@@ -170,6 +182,14 @@ describe(`Module: Session`, () => {
 
     expect(state.history).toEqual([])
     expect(state.localKeyPairName).toBeFalsy()
+  })
+
+  it(`should commit extension true`, () => {
+    const commit = jest.fn()
+    actions.setExtensionStatus({ commit }, true)
+    expect(commit).toHaveBeenCalledWith(`setExtensionInstalled`, true)
+    actions.setExtensionStatus({ commit }, false)
+    expect(commit).toHaveBeenCalledWith(`setExtensionInstalled`, false)
   })
 
   it(`should prepare the signin`, async () => {
