@@ -1,13 +1,5 @@
 import sendModule, { getSigner } from "modules/send.js"
 
-jest.mock(`scripts/keystore.js`, () => ({
-  getKey: () => ({
-    cosmosAddress: `cosmos1r5v5srda7xfth3hn2s26txvrcrntldjumt8mhl`,
-    privateKey: `8088c2ed2149c34f6d6533b774da4e1692eb5cb426fdbaef6898eeda489630b7`,
-    publicKey: `02ba66a84cf7839af172a13e7fc9f5e7008cb8bca1585f8f3bafb3039eda3c1fdd`
-  })
-}))
-
 jest.mock(`src/config.js`, () => ({
   default_gas: 42
 }))
@@ -18,7 +10,11 @@ jest.mock(`@lunie/cosmos-keys`, () => ({
     broadcast: `body`
   })),
   createSignedTx: jest.fn(() => {}),
-  createSignMessage: jest.fn(() => {})
+  createSignMessage: jest.fn(() => {}),
+  getStoredWallet: jest.fn(() => ({
+    privateKey: "1234",
+    publicKey: "1234"
+  }))
 }))
 
 jest.mock(

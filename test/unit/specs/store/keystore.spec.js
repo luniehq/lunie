@@ -1,9 +1,5 @@
 import keystoreModule from "src/vuex/modules/keystore.js"
 
-jest.mock("@lunie/cosmos-keys", () => ({
-  getSeed: () => "a b c"
-}))
-
 describe(`Module: Keystore`, () => {
   let module, state, actions, mutations
   const accounts = [
@@ -24,17 +20,16 @@ describe(`Module: Keystore`, () => {
         init: jest.fn()
       },
       track: jest.fn(),
-      loadKeys: () => [
+      testPassword: () => true,
+      getSeed: () => `xxx`,
+      getNewWalletFromSeed: () => ({}),
+      getWalletIndex: () => [
         {
           name: `def`,
           address: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`
         }
       ],
-      importKey: () => ({
-        cosmosAddress: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`
-      }),
-      testPassword: () => true,
-      getSeed: () => `xxx`
+      storeWallet: () => {}
     }
   })
 
@@ -57,32 +52,9 @@ describe(`Module: Keystore`, () => {
     ])
   })
 
-  it(`should show an error if loading accounts fails`, async () => {
-    jest.spyOn(console, `error`).mockImplementationOnce(() => {})
-
-    jest.resetModules()
-    jest.doMock(`scripts/keystore.js`, () => ({
-      loadKeys: async () => {
-        throw Error(`Error`)
-      }
-    }))
-
-    const keystoreModule = require(`src/vuex/modules/keystore.js`).default
-    module = keystoreModule()
-    state = module.state
-    actions = module.actions
-
-    const commit = jest.fn()
-    await actions.loadAccounts({ commit, state })
-    expect(commit).toHaveBeenCalledWith(`notifyError`, {
-      body: `Error`,
-      title: `Couldn't read keys`
-    })
-  })
-
   it(`should test if the login works`, async () => {
     jest.resetModules()
-    jest.doMock(`scripts/keystore.js`, () => ({
+    jest.doMock(`@lunie/cosmos-keys`, () => ({
       testPassword: jest
         .fn()
         .mockReturnValueOnce(true)

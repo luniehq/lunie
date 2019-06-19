@@ -1,7 +1,13 @@
 import * as Sentry from "@sentry/browser"
 import { track } from "scripts/google-analytics.js"
-import { loadKeys, importKey, testPassword } from "../../scripts/keystore.js"
-import { getSeed } from "@lunie/cosmos-keys"
+import {
+  getSeed,
+  getWalletIndex,
+  getStoredWallet,
+  getNewWalletFromSeed,
+  testPassword,
+  storeWallet
+} from "@lunie/cosmos-keys"
 
 export default () => {
   const state = {
@@ -9,9 +15,11 @@ export default () => {
     error: null,
     // import into state to be able to test easier
     externals: {
-      loadKeys,
-      importKey,
+      getWalletIndex,
+      getStoredWallet,
+      getNewWalletFromSeed,
       testPassword,
+      storeWallet,
       getSeed,
       track,
       Sentry
@@ -29,20 +37,8 @@ export default () => {
       dispatch("loadAccounts")
     },
     async loadAccounts({ commit, state }) {
-      state.loading = true
-      try {
-        const keys = await state.externals.loadKeys()
-        commit(`setAccounts`, keys)
-      } catch (error) {
-        state.externals.Sentry.captureException(error)
-        commit(`notifyError`, {
-          title: `Couldn't read keys`,
-          body: error.message
-        })
-        state.error = error
-      } finally {
-        state.loading = false
-      }
+      const keys = state.externals.getWalletIndex()
+      commit(`setAccounts`, keys)
     },
     async testLogin(store, { password, address }) {
       return await testPassword(address, password)
@@ -53,13 +49,12 @@ export default () => {
     async createKey({ dispatch, state }, { seedPhrase, password, name }) {
       state.externals.track(`event`, `session`, `create-keypair`)
 
-      const { cosmosAddress } = await state.externals.importKey(
-        name,
-        password,
-        seedPhrase
-      )
+      const wallet = state.externals.getNewWalletFromSeed(seedPhrase)
+      state.externals.storeWallet(wallet, name, password)
+
       await dispatch("signIn", { password, sessionType: "local" })
-      return cosmosAddress
+
+      return wallet.cosmosAddress
     }
   }
 
