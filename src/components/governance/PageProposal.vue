@@ -73,7 +73,14 @@
         <div class="row">
           <dl class="info_dl colored_dl">
             <dt>Deposit Count</dt>
-            <dd>{{ `${totalDeposit.amount} ${totalDeposit.denom}` }}</dd>
+            <dd>
+              {{
+                totalDeposit
+                  ? `${totalDeposit.amount}
+              ${totalDeposit.denom}`
+                  : `--`
+              }}
+            </dd>
           </dl>
           <dl
             v-if="proposal.proposal_status === 'VotingPeriod'"
@@ -283,7 +290,9 @@ export default {
         }
     },
     totalDeposit() {
-      return num.createDisplayCoin(this.proposal.total_deposit[0])
+      return this.proposal.total_deposit
+        ? num.createDisplayCoin(this.proposal.total_deposit[0])
+        : null
     }
   },
   async mounted({ proposals, proposalId, $store } = this) {
