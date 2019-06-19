@@ -52,7 +52,10 @@ export default () => {
       const wallet = state.externals.getNewWalletFromSeed(seedPhrase)
       state.externals.storeWallet(wallet, name, password)
 
-      await dispatch("signIn", { password, sessionType: "local" })
+      await dispatch("signIn", {
+        address: wallet.cosmosAddress,
+        sessionType: "local"
+      })
 
       return wallet.cosmosAddress
     }
