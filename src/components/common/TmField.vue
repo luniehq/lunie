@@ -1,5 +1,8 @@
 <template>
-  <div v-if="type === 'select'" class="tm-select">
+  <div
+    v-if="type === 'select'"
+    class="tm-select"
+  >
     <select
       :class="css"
       :value="value"
@@ -8,7 +11,12 @@
       @keyup="onKeyup"
       @keydown="onKeydown"
     >
-      <option value="" disabled="disabled" selected="selected" hidden="hidden">
+      <option
+        value=""
+        disabled="disabled"
+        selected="selected"
+        hidden="hidden"
+      >
         {{ selectPlaceholder }}
       </option>
       <template>
@@ -336,7 +344,7 @@ textarea.tm-field {
 
 .tm-select select {
   appearance: none;
-  background: var(--input-bg, #fff);
+  background: var(--input-bg);
   border-radius: 0;
   color: var(--txt, #333);
   padding-right: 2rem;
@@ -348,14 +356,9 @@ textarea.tm-field {
 }
 
 .tm-select select option {
-  background: var(--input-bg, #fff);
-  color: txt;
+  background: var(--app-bg);
+  color: var(--txt);
   font-family: var(--sans);
-}
-
-.tm-select select option:checked {
-  background: var(--hover-bg, #ccf);
-  color: var(--bright, #000);
 }
 
 .tm-select .tm-field-select-addon {
