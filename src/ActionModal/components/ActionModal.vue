@@ -323,7 +323,10 @@ export default {
   },
   updated: function() {
     this.actionManager.setContext(this.modalContext || {})
-    if ((this.title === "Withdraw" || this.step === "fees") && this.$refs.next) {
+    if (
+      (this.title === "Withdraw" || this.step === "fees") &&
+      this.$refs.next
+    ) {
       this.$refs.next.$el.focus()
     }
   },

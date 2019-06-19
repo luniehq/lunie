@@ -163,7 +163,7 @@ export default {
     },
     enterPressed() {
       this.validateChangeStep()
-    },
+    }
   }
 }
 </script>

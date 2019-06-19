@@ -6,6 +6,10 @@ exports[`ModalVote should display vote modal form 1`] = `
   class="modal-vote"
   id="modal-vote"
   notifymessage="[object Object]"
+  passtoparent="function _default() {
+          /* istanbul ignore next */
+          cov_3i2q7lvgo.f[1]++;
+        }"
   submissionerrorprefix="Voting failed"
   title="Vote"
   transactiondata="[object Object]"

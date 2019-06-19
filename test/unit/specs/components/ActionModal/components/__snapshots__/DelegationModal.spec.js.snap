@@ -5,6 +5,7 @@ exports[`DelegationModal should display the delegation modal form 1`] = `
   class="delegation-modal"
   id="delegation-modal"
   notifymessage="[object Object]"
+  passtoparent="function () { [native code] }"
   submissionerrorprefix="Delegating failed"
   title="Delegate"
   transactiondata="[object Object]"

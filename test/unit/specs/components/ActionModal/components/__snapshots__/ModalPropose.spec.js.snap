@@ -5,6 +5,7 @@ exports[`ModalPropose should display proposal modal form 1`] = `
   amount="0"
   id="modal-propose"
   notifymessage="[object Object]"
+  passtoparent="function () { [native code] }"
   submissionerrorprefix="Submitting proposal failed"
   title="Proposal"
   transactiondata="[object Object]"

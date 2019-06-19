@@ -6,6 +6,10 @@ exports[`ModalWithdrawRewards should show the withdraw rewards modal 1`] = `
   class="modal-withdraw-rewards"
   id="modal-withdraw-rewards"
   notifymessage="[object Object]"
+  passtoparent="function _default() {
+          /* istanbul ignore next */
+          cov_3i2q7lvgo.f[1]++;
+        }"
   submissionerrorprefix="Withdrawal failed"
   title="Withdraw"
   transactiondata="[object Object]"
