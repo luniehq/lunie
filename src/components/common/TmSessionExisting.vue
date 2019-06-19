@@ -29,7 +29,7 @@
         v-if="session.experimentalMode"
         id="use-extension"
         icon="laptop"
-        title="Sign in with the Lunie Chrome Extension"
+        title="Use Lunie Chrome extension"
         @click.native="setState('extension')"
       >
       </LiSession>
