@@ -51,6 +51,7 @@
           @click.native="setState('explore')"
         />
         <LiSession
+          v-if="session.experimentalMode"
           id="explore-address"
           icon="laptop"
           title="Sign in with the Lunie Chrome Extension"
