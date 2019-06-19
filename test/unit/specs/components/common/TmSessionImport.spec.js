@@ -49,28 +49,6 @@ describe(`TmSessionImport`, () => {
     expect(store.commit.mock.calls[0][1]).toBe(false)
   })
 
-  it(`should signal signed in state on successful login`, async () => {
-    wrapper.setData({
-      fields: {
-        importName: `foo123`,
-        importPassword: `1234567890`,
-        importPasswordConfirm: `1234567890`,
-        importSeed: seed
-      }
-    })
-    await wrapper.vm.onSubmit()
-    expect(store.commit).toHaveBeenCalledWith(`notify`, {
-      body: `Your account has been successfully imported.`,
-      title: `Welcome back!`
-    })
-    expect(store.dispatch).toHaveBeenCalledWith(`signIn`, {
-      errorCollection: undefined,
-      sessionType: `local`,
-      localKeyPairName: `foo123`,
-      password: `1234567890`
-    })
-  })
-
   it(`should show error if seed is not filled in`, async () => {
     wrapper.setData({ fields: { importSeed: `` } })
     await wrapper.vm.onSubmit()
