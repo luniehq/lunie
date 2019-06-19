@@ -1,0 +1,68 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ModalPropose should display proposal modal form 1`] = `
+<actionmodal-stub
+  amount="0"
+  id="modal-propose"
+  notifymessage="[object Object]"
+  submissionerrorprefix="Submitting proposal failed"
+  title="Proposal"
+  transactiondata="[object Object]"
+  validate="function () { [native code] }"
+>
+  <tmformgroup-stub
+    class="action-modal-form-group"
+    fieldid="title"
+    fieldlabel="Title"
+  >
+    <tmfield-stub
+      id="title"
+      placeholder="Proposal title"
+      type="text"
+      value=""
+    />
+     
+    <!---->
+     
+    <!---->
+  </tmformgroup-stub>
+   
+  <tmformgroup-stub
+    class="action-modal-form-group"
+    fieldid="description"
+    fieldlabel="Description"
+  >
+    <tmfield-stub
+      class="textarea-large"
+      id="description"
+      placeholder="Write your proposal here..."
+      type="textarea"
+      value=""
+    />
+     
+    <!---->
+     
+    <!---->
+  </tmformgroup-stub>
+   
+  <tmformgroup-stub
+    class="action-modal-form-group"
+    fieldid="amount"
+    fieldlabel="Deposit"
+  >
+    <span
+      class="input-suffix"
+    >
+      ATOM
+    </span>
+     
+    <tmfield-stub
+      id="amount"
+      type="number"
+      value="0"
+    />
+     
+    <!---->
+  </tmformgroup-stub>
+</actionmodal-stub>
+`;

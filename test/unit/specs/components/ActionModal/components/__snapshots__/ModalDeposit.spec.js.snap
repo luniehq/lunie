@@ -1,0 +1,34 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ModalDeposit should display deposit modal form 1`] = `
+<actionmodal-stub
+  amount="0"
+  class="modal-deposit"
+  id="modal-deposit"
+  notifymessage="[object Object]"
+  submissionerrorprefix="Depositing failed"
+  title="Deposit"
+  transactiondata="[object Object]"
+  validate="function () { [native code] }"
+>
+  <tmformgroup-stub
+    class="action-modal-form-group"
+    fieldid="amount"
+    fieldlabel="Amount"
+  >
+    <span
+      class="input-suffix"
+    >
+      ATOM
+    </span>
+     
+    <tmfield-stub
+      id="amount"
+      type="number"
+      value="0"
+    />
+     
+    <!---->
+  </tmformgroup-stub>
+</actionmodal-stub>
+`;

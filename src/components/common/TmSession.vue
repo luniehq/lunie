@@ -2,6 +2,7 @@
   <Modal v-if="active" :close="close">
     <div slot="main">
       <SessionWelcome v-if="session.modals.session.state == 'welcome'" />
+      <SessionExisting v-else-if="session.modals.session.state == 'existing'" />
       <SessionExplore v-else-if="session.modals.session.state == 'explore'" />
       <SessionSignUp v-else-if="session.modals.session.state == 'sign-up'" />
       <SessionSignIn v-else-if="session.modals.session.state == 'sign-in'" />
@@ -19,6 +20,7 @@
 import { mapGetters } from "vuex"
 import Modal from "common/TmModal"
 import SessionWelcome from "common/TmSessionWelcome"
+import SessionExisting from "common/TmSessionExisting"
 import SessionExplore from "common/TmSessionExplore"
 import SessionSignUp from "common/TmSessionSignUp"
 import SessionSignIn from "common/TmSessionSignIn"
@@ -28,10 +30,11 @@ import SessionAccountDelete from "common/TmSessionAccountDelete"
 import ConnectedNetwork from "common/TmConnectedNetwork"
 
 export default {
-  name: `tm-session`,
+  name: `session`,
   components: {
     Modal,
     SessionWelcome,
+    SessionExisting,
     SessionExplore,
     SessionSignUp,
     SessionSignIn,
@@ -54,169 +57,80 @@ export default {
 }
 </script>
 <style>
-.tm-session-wrapper {
-  position: relative;
-  z-index: var(--z-modal);
-}
-
-.tm-field-checkbox {
-  display: flex;
-  flex-flow: row nowrap;
-  align-items: center;
-}
-
-.tm-field-checkbox .tm-field-checkbox-input {
-  flex: 0 0 2rem;
-  height: 2rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: var(--app-fg);
-}
-
-.tm-field-checkbox .tm-field-checkbox-input input {
-  width: auto;
-  display: block;
-  padding: 0;
-  margin: 0;
-}
-
-.tm-field-checkbox .tm-field-checkbox-label {
-  flex: 1;
-  line-height: 1.375;
-  padding: 0.5rem 1rem;
-  font-size: 0.875rem;
-}
-
-.tm-session {
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: var(--z-default);
-}
-
-.tm-session-container:not(.tm-form) {
-  width: 100vw;
-  height: 100vh;
-  display: flex;
-  flex-flow: column nowrap;
-}
-
-.tm-session-container.tm-form .tm-form-main {
-  width: 100vw;
-  height: 100vh;
-  display: flex;
-  flex-flow: column nowrap;
-}
-
-.tm-session-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-top: 1.5rem;
-  padding: 0.5rem;
-}
-
-.tm-session-header a {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  padding: 0.5rem;
-}
-
-.tm-session-header a i {
-  font-size: var(--lg);
-}
-
-.tm-session-header .tm-session-title {
-  flex: 1;
-  padding: 0 1rem;
-  font-size: var(--xl);
-  text-align: center;
-  color: var(--txt);
-}
-
-.tm-session-main {
-  min-height: 0;
-  background: var(--app-fg);
-  overflow-y: auto;
-  position: relative;
+.session {
+  background: var(--app-bg);
+  width: 40rem;
   border-radius: 2px;
-  padding: 1rem;
+  padding: 2rem;
+  position: relative;
+  border: 2px solid var(--bc-dim);
 }
 
-.tm-session-main .tm-bar-discrete {
-  margin: 1rem auto;
+.session-header {
+  padding: 1rem 1rem 0;
 }
 
-.tm-session-label {
-  padding: 1rem;
-  background: var(--app-fg);
-  color: var(--txt);
-  text-align: center;
+.session-main {
+  padding: 0 1rem;
 }
 
-.tm-session-footer {
-  background: var(--app-fg);
-  flex: 0 0 calc(var(--px) + 5rem);
-  padding: 0 2rem;
+.session-main p {
+  margin-bottom: 1.5rem;
+}
+
+.session-title {
+  font-size: 38px;
+  color: var(--bright);
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.session-image {
+  height: 6rem;
+  padding-left: 1rem;
+  margin: 0 auto 1rem;
+}
+
+.session-list {
+  padding: 1rem 0;
+}
+
+.session-list h3 {
+  font-size: var(--h3);
+  color: var(--bright);
+  font-weight: 500;
+  padding: 1rem 1rem 0.5rem;
+}
+
+.session-paragraph {
+  margin-bottom: 1rem;
+}
+
+.material-icons.session-back,
+.material-icons.session-close {
+  font-size: var(--lg);
+  cursor: pointer;
+  position: absolute;
+  top: 1rem;
+}
+
+.session-back {
+  left: 1rem;
+}
+
+.session-close {
+  right: 1rem;
+}
+
+.session-footer {
   display: flex;
+  padding: 2rem 1rem 0;
   align-items: center;
   justify-content: flex-end;
 }
 
-.tm-session-footer button {
-  margin-left: 1rem;
-}
-
-.tm-session-footer:empty {
-  display: none;
-}
-
-.tm-form-group__label {
-  color: var(--txt);
+.footnote {
+  padding: 1rem 1rem 0;
   font-size: var(--sm);
-  line-height: var(--xl);
-  display: inline;
-}
-
-.tm-session-footer > div {
-  display: flex;
-  justify-content: space-between;
-}
-
-@media screen and (min-width: 768px) {
-  .tm-session-wrapper {
-    position: fixed;
-    top: 0;
-    left: 0;
-    background: var(--app-bg);
-    width: 100vw;
-    height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .tm-session {
-    position: static;
-  }
-
-  .tm-session-container:not(.tm-form),
-  .tm-session-container.tm-form .tm-form-main {
-    width: 32rem;
-    max-height: 100vh;
-    height: auto;
-  }
-
-  .tm-session-header {
-    background: var(--app-nav);
-    margin-top: 0;
-  }
-
-  .tm-session-main .tm-form-group {
-    display: block;
-  }
 }
 </style>

@@ -177,12 +177,6 @@
         :validator="validator"
         :denom="bondDenom"
       />
-      <ModalWithdrawRewards
-        ref="modalWithdrawRewards"
-        :validator-address="validator.operator_address"
-        :rewards="rewards"
-        :denom="bondDenom"
-      />
     </template>
     <template v-else>
       <template slot="title">
@@ -209,9 +203,8 @@ import num, { atoms, viewDenom, shortDecimals } from "scripts/num"
 import { formatBech32 } from "src/filters"
 import TmBtn from "common/TmBtn"
 import { ratToBigNumber } from "scripts/common"
-import DelegationModal from "staking/DelegationModal"
-import UndelegationModal from "staking/UndelegationModal"
-import ModalWithdrawRewards from "staking/ModalWithdrawRewards"
+import DelegationModal from "src/ActionModal/components/DelegationModal"
+import UndelegationModal from "src/ActionModal/components/UndelegationModal"
 import Bech32 from "common/Bech32"
 import TmPage from "common/TmPage"
 import isEmpty from "lodash.isempty"
@@ -221,7 +214,6 @@ export default {
     Bech32,
     DelegationModal,
     UndelegationModal,
-    ModalWithdrawRewards,
     TmBtn,
     TmPage
   },
