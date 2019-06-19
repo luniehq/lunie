@@ -55,6 +55,8 @@ exports[`TmSessionWelcome with accounts has the expected html structure 1`] = `
         title="Sign in with Address"
       />
        
+      <!---->
+       
       <div
         class="danger-zone"
       >
@@ -147,6 +149,8 @@ exports[`TmSessionWelcome without accounts has the expected html structure 1`] =
           , choose this option."
         title="Sign in with Address"
       />
+       
+      <!---->
        
       <div
         class="danger-zone"
