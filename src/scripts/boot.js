@@ -25,6 +25,8 @@ import { focusElement, focusParentLast } from "../directives"
 const _enableGoogleAnalytics = enableGoogleAnalytics
 const _setGoogleAnalyticsPage = setGoogleAnalyticsPage
 
+import { extensionListener } from "../vuex/modules/session"
+
 export const routeGuard = store => (to, from, next) => {
   if (from.fullPath !== to.fullPath && !store.getters.session.pauseHistory) {
     store.commit(`addHistory`, from.fullPath)
@@ -123,12 +125,7 @@ export const startApp = async (
       store.dispatch(`checkForPersistedSession`)
     })
 
-  window.addEventListener("message", function receiveMessage({ data }) {
-    if (data.type === "LUNIE_EXTENSION") {
-      store.dispatch("setExtensionStatus", true)
-      console.log("Woah! You have the Lunie Extension installed!")
-    }
-  })
+  window.addEventListener("message", extensionListener.bind(this, store))
 
   return new Vue({
     router,

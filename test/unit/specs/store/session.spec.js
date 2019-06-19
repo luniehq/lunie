@@ -1,4 +1,4 @@
-import sessionModule from "src/vuex/modules/session.js"
+import sessionModule, { extensionListener } from "src/vuex/modules/session.js"
 
 jest.mock("@lunie/cosmos-keys", () => ({
   getSeed: () => "a b c"
@@ -527,6 +527,25 @@ describe(`Module: Session`, () => {
       localStorage.removeItem(`session`)
       await actions.checkForPersistedSession({ dispatch })
       expect(dispatch).not.toHaveBeenCalled()
+    })
+  })
+
+  describe("Extension Lisener", () => {
+    it("should dispach when extension messages", () => {
+      const mockDispatch = jest.fn()
+      const state = {
+        dispatch: mockDispatch
+      }
+      extensionListener(state, { data: { type: "LUNIE_EXTENSION" } })
+      expect(mockDispatch).toHaveBeenCalledWith("setExtensionStatus", true)
+    })
+    it("should ignore messages not from the extension", () => {
+      const mockDispatch = jest.fn()
+      const state = {
+        dispatch: mockDispatch
+      }
+      extensionListener(state, { data: { type: "OTHER" } })
+      expect(mockDispatch).not.toHaveBeenCalled()
     })
   })
 })
