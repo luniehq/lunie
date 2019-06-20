@@ -6,8 +6,8 @@ import { getSeed } from "@lunie/cosmos-keys"
 
 export function extensionListener(store, { data }) {
   if (data.type === "LUNIE_EXTENSION") {
-    store.dispatch("setExtensionStatus", true)
     console.log("Woah! You have the Lunie Extension installed!")
+    store.dispatch("setExtensionStatus", true)
   }
 }
 
@@ -95,6 +95,7 @@ export default () => {
       state.modals.session.state = value
     },
     setExtensionInstalled(state, installed) {
+      console.log(installed && "Extension enabled")
       state.extensionInstalled = installed
     }
   }
