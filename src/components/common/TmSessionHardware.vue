@@ -2,13 +2,13 @@
   <div class="session">
     <div class="session-container">
       <div class="session-header">
-        <a @click="setState('existing')">
+        <a @click="goBack">
           <i class="material-icons session-back">arrow_back</i>
         </a>
         <h2 class="session-title">
           Use my Ledger Nano
         </h2>
-        <a @click="$store.commit(`toggleSessionModal`, false)">
+        <a @click="close">
           <i class="material-icons session-close">close</i>
         </a>
       </div>
@@ -80,7 +80,13 @@ export default {
   },
   methods: {
     setState(value) {
-      this.$store.commit(`setSessionModalView`, value)
+      this.$emit(`route-change`, value)
+    },
+    goBack() {
+      this.$emit(`route-change`, "existing")
+    },
+    close() {
+      this.$emit(`close`)
     },
     async signIn() {
       this.connectionError = null

@@ -36,8 +36,7 @@ export default () => {
       error: { active: false },
       help: { active: false },
       session: {
-        active: false,
-        state: `welcome`
+        active: false
       }
     },
     browserWithLedgerSupport:

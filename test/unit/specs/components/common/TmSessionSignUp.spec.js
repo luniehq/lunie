@@ -31,20 +31,37 @@ describe(`TmSessionSignUp`, () => {
   })
 
   it(`should go back to the welcome screen on click`, () => {
-    wrapper
-      .findAll(`.session-header a`)
-      .at(0)
-      .trigger(`click`)
-    expect($store.commit).toHaveBeenCalledWith(`setSessionModalView`, `welcome`)
+    const self = {
+      $emit: jest.fn()
+    }
+    TmSessionSignUp.methods.goBack.call(self)
+    expect(self.$emit).toHaveBeenCalledWith(`route-change`, `welcome`)
+  })
+
+  it(`should close`, () => {
+    const self = {
+      $emit: jest.fn()
+    }
+    TmSessionSignUp.methods.close.call(self)
+    expect(self.$emit).toHaveBeenCalledWith(`close`)
+  })
+
+  it("moves to other session pages", () => {
+    const self = {
+      $emit: jest.fn()
+    }
+    TmSessionSignUp.methods.setState.call(self, "welcome")
+    expect(self.$emit).toHaveBeenCalledWith("route-change", "welcome")
   })
 
   it(`should close the modal on successful login`, async () => {
-    const commit = jest.fn()
+    const emit = jest.fn()
     await TmSessionSignUp.methods.onSubmit.call({
       $store: {
-        commit,
+        commit: jest.fn(),
         dispatch: jest.fn()
       },
+      $emit: emit,
       $v: {
         $touch: () => {},
         $error: false
@@ -57,7 +74,7 @@ describe(`TmSessionSignUp`, () => {
         signUpWarning: true
       }
     })
-    expect(commit).toHaveBeenCalledWith(`toggleSessionModal`, false)
+    expect(emit).toHaveBeenCalledWith(`close`)
   })
 
   it(`should signal signedin state on successful login`, async () => {
@@ -68,6 +85,7 @@ describe(`TmSessionSignUp`, () => {
         commit,
         dispatch
       },
+      $emit: jest.fn(),
       $v: {
         $touch: () => {},
         $error: false

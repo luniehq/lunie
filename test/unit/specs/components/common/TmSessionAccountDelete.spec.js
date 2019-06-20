@@ -30,15 +30,12 @@ describe(`TmSessionAccountDelete`, () => {
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
-  it(`should go back to the login screen on click`, () => {
-    wrapper
-      .findAll(`.session-header a`)
-      .at(0)
-      .trigger(`click`)
-    expect($store.commit.mock.calls[0]).toEqual([
-      `setSessionModalView`,
-      `sign-in`
-    ])
+  it(`should set the current view to the state`, () => {
+    const self = {
+      $emit: jest.fn()
+    }
+    TmSessionAccountDelete.methods.setState.call(self, `someState`)
+    expect(self.$emit).toHaveBeenCalledWith(`route-change`, `someState`)
   })
 
   it(`should go back on successful deletion`, async () => {
@@ -46,11 +43,9 @@ describe(`TmSessionAccountDelete`, () => {
       deletionPassword: `1234567890`,
       deletionWarning: true
     })
+    wrapper.vm.$emit = jest.fn()
     await wrapper.vm.onSubmit()
-    expect($store.commit.mock.calls[0]).toEqual([
-      `setSessionModalView`,
-      `welcome`
-    ])
+    expect(wrapper.vm.$emit).toHaveBeenCalledWith(`route-change`, `welcome`)
   })
 
   it(`should show error if password not 10 long`, async () => {
