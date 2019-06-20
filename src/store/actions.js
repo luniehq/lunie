@@ -1,5 +1,7 @@
-import * as types from './mutation-types';
-
-export const setFoo = ({ commit }, payload) => {
-  commit(types.UPDATE_FOO, payload);
+export const createSeed = () => {
+  return new Promise(resolve => {
+    chrome.runtime.sendMessage({ type: 'GET_SEED' }, function(response) {
+      resolve(response);
+    });
+  });
 };

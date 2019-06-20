@@ -20,6 +20,15 @@ html,
 body,
 #app {
   background: var(--app-bg);
+  font-size: var(--x);
+  line-height: 1.5;
+  font-family: var(--sans);
+  color: var(--txt);
+  display: flex;
+  /* padding-top: 56px; */
+  flex-flow: column nowrap;
+  min-width: 0;
+  overflow: hidden;
 }
 
 a {
@@ -30,17 +39,6 @@ a {
 
 a:hover {
   color: var(--link-hover);
-}
-
-body {
-  font-size: var(--x);
-  line-height: 1.5;
-  font-family: var(--sans);
-  color: var(--txt);
-  display: flex;
-  flex-flow: column nowrap;
-  min-width: 0;
-  overflow: hidden;
 }
 
 .tm-field {
@@ -98,7 +96,7 @@ input.tm-field {
 }
 
 @media screen and (min-width: 1023px) {
-  body {
+  #app {
     padding-top: 0;
     flex-flow: row nowrap;
   }
@@ -107,4 +105,13 @@ input.tm-field {
     display: flex;
     min-width: 0;
   }
+}
+
+.danger-zone {
+  border: none !important;
+}
+
+.danger-zone > h2,
+.danger-zone > p {
+  display: none;
 }
