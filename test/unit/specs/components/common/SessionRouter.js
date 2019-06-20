@@ -69,4 +69,12 @@ describe(`SessionRouter`, () => {
     SessionRouter.methods.close.call(self)
     expect(self.$emit).toHaveBeenCalledWith(`close`)
   })
+
+  it(`should set the view`, () => {
+    const self = {
+      view: "none"
+    }
+    SessionRouter.methods.view.call(self, "welcome")
+    expect(self.view).toBe(`welcome`)
+  })
 })
