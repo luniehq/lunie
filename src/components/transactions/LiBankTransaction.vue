@@ -5,7 +5,7 @@
     :block="block"
     :memo="memo"
     :fees="fees"
-    :hideData="hideData"
+    :hide-data="hideData"
   >
     <template v-if="address === ''">
       <div slot="caption">

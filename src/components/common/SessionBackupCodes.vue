@@ -1,8 +1,5 @@
 <template>
-  <TmPage
-    class="backup-code"
-    hide-header
-  >
+  <TmPage class="backup-code" hide-header>
     <div class="backup-code-top">
       <h2>Use a backup code</h2>
     </div>
@@ -14,45 +11,37 @@
       </p>
     </div>
     <TmFormGroup field-id="to" field-label="Your address">
-      <TmField
-        id="to"
-        :placeholder="this.address"
-        type="text"
-        readonly
-      />
+      <TmField id="to" :placeholder="address" type="text" readonly />
       <div class="backup-code-footer">
-        <TmBtn
-          value="Next"
-          color="primary"
-        />
+        <TmBtn value="Next" color="primary" />
       </div>
     </TmFormGroup>
   </TmPage>
 </template>
 
 <script>
-  import TmPage from "common/TmPage"
-  import TmBtn from "common/TmBtn"
-  import TmFormGroup from "common/TmFormGroup"
-  import TmField from "common/TmField"
-  
-  export default {
-    name: `ext-backup-code`,
-    components: {
-      TmPage,
-      TmBtn,
-      TmFormGroup,
-      TmField
-    },
-    props: {
-      address: {
-        type: String,
-        //Remove Default
-        default: "cosmos1ek9cd8ewgxg9w5x3benji0uf4aaxaruvcw4v9e",
-        required: true
-      }
-    },
+import TmPage from "common/TmPage"
+import TmBtn from "common/TmBtn"
+import TmFormGroup from "common/TmFormGroup"
+import TmField from "common/TmField"
+
+export default {
+  name: `ext-backup-code`,
+  components: {
+    TmPage,
+    TmBtn,
+    TmFormGroup,
+    TmField
+  },
+  props: {
+    address: {
+      type: String,
+      //Remove Default
+      default: "cosmos1ek9cd8ewgxg9w5x3benji0uf4aaxaruvcw4v9e",
+      required: true
+    }
   }
+}
 </script>
 
 <style scoped>
@@ -97,5 +86,4 @@
   flex-grow: 1;
   align-self: flex-end;
 }
-
 </style>

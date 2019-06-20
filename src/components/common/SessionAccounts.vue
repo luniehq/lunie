@@ -1,54 +1,48 @@
 <template>
-  <TmPage
-    class="accounts"
-    :hide-header="true"
-  >
-    <ToolBar :display-text="true"/>
+  <TmPage class="accounts" :hide-header="true">
+    <ToolBar :display-text="true" />
     <div class="accounts-top">
       <h2>My accounts</h2>
       <p>
         You can use this account to explore
-          <router-link to="/wallet">
-            Lunie
-          </router-link>
+        <router-link to="/wallet">
+          Lunie
+        </router-link>
         and to approve transactions.
       </p>
     </div>
     <div class="card content">
       <div class="content-left">
         <h3>Thanos</h3>
-        <Bech32 :address="this.address" short-form />
+        <Bech32 :address="address" short-form />
       </div>
-      <TmBtn
-        value="Go to Lunie"
-        color="primary"
-      />
+      <TmBtn value="Go to Lunie" color="primary" />
     </div>
   </TmPage>
 </template>
 
 <script>
-  import TmPage from "common/TmPage"
-  import TmBtn from "common/TmBtn"
-  import ToolBar from "common/ToolBar"
-  import Bech32 from "common/Bech32"
-  export default {
-    name: `ext-accounts`,
-    components: {
-      TmPage,
-      TmBtn,
-      ToolBar,
-      Bech32
-    },
-    props: {
-      address: {
-        type: String,
-        //Remove Default
-        default: "cosmos1ek9cd8ewgxg9w5x3benji0uf4aaxaruvcw4v9e",
-        required: true
-      }
-    },
+import TmPage from "common/TmPage"
+import TmBtn from "common/TmBtn"
+import ToolBar from "common/ToolBar"
+import Bech32 from "common/Bech32"
+export default {
+  name: `ext-accounts`,
+  components: {
+    TmPage,
+    TmBtn,
+    ToolBar,
+    Bech32
+  },
+  props: {
+    address: {
+      type: String,
+      //Remove Default
+      default: "cosmos1ek9cd8ewgxg9w5x3benji0uf4aaxaruvcw4v9e",
+      required: true
+    }
   }
+}
 </script>
 
 <style scoped>
@@ -92,5 +86,4 @@
   display: flex;
   flex-direction: column;
 }
-
 </style>

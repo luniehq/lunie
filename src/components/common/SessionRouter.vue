@@ -39,6 +39,21 @@
     @route-change="goTo"
     @close="close"
   />
+  <SessionApprove
+    v-else-if="view == 'approve'"
+    @route-change="goTo"
+    @close="close"
+  />
+  <SessionBackupCodes
+    v-else-if="view == 'backupCodes'"
+    @route-change="goTo"
+    @close="close"
+  />
+  <SessionAccounts
+    v-else-if="view == 'accounts'"
+    @route-change="goTo"
+    @close="close"
+  />
 </template>
 
 <script>
@@ -50,6 +65,9 @@ import SessionSignIn from "common/TmSessionSignIn"
 import SessionHardware from "common/TmSessionHardware"
 import SessionImport from "common/TmSessionImport"
 import SessionAccountDelete from "common/TmSessionAccountDelete"
+import SessionApprove from "common/SessionApprove"
+import SessionBackupCodes from "common/SessionBackupCodes"
+import SessionAccounts from "common/SessionAccounts"
 
 export default {
   name: `session-router`,
@@ -61,7 +79,10 @@ export default {
     SessionSignIn,
     SessionHardware,
     SessionImport,
-    SessionAccountDelete
+    SessionAccountDelete,
+    SessionApprove,
+    SessionBackupCodes,
+    SessionAccounts
   },
   data: () => ({
     view: "welcome"
