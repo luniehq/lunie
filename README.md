@@ -1,4 +1,4 @@
-# Lunie signer chrome extension
+# Lunie browser extension
 
 ## Prepare
 
