@@ -1,4 +1,4 @@
-import { shallowMount, createLocalVue } from "@vue/test-utils"
+import { shallowMount } from "@vue/test-utils"
 import ModalSession from "common/ModalSession"
 
 describe(`TmSessionSignIn`, () => {

@@ -1,8 +1,5 @@
 <template>
-  <Modal
-    v-if="active"
-    :close="close"
-  >
+  <Modal v-if="active" :close="close">
     <div slot="main">
       <SessionRouter @close="close" />
     </div>
