@@ -3,7 +3,11 @@
   "version": "1.0.0",
   "description": "A Vue.js web extension",
   "author": "fabian@lunie.io",
-  "license": "Apache-2",
+  "licenses": [
+    {
+      "type": "Apache-2"
+    }
+  ],
   "scripts": {
     "lint": "eslint --ext .js,.vue src",
     "prettier": "prettier \"src/**/*.{js,vue}\"",
@@ -20,7 +24,7 @@
     }
   },
   "dependencies": {
-    "@lunie/cosmos-keys": "^0.0.9",
+    "@lunie/cosmos-keys": "^0.1.0",
     "@sentry/browser": "^5.4.0",
     "autosize": "^4.0.2",
     "bech32": "^1.1.3",

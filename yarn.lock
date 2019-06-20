@@ -641,10 +641,10 @@
     lodash "^4.17.11"
     to-fast-properties "^2.0.0"
 
-"@lunie/cosmos-keys@^0.0.9":
-  version "0.0.9"
-  resolved "https://registry.yarnpkg.com/@lunie/cosmos-keys/-/cosmos-keys-0.0.9.tgz#ca52af422a448462973dac4015ff76f9db87793d"
-  integrity sha512-KPDcWHxt6VtcIwj0UdfJUU/FRfShCUglJWoZJmuxHwwjlikUSA4ZWvYFieW/xt45mpvqJQVvd5zVe3qBn5h/Gw==
+"@lunie/cosmos-keys@^0.1.0":
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/@lunie/cosmos-keys/-/cosmos-keys-0.1.0.tgz#f7c4beba376d90866291913a8a862b3f55673b38"
+  integrity sha512-Hbhh7KfRoC1U6G38UGUwh0UM8bbm+EE1U+w1BvyxOLZka6xmfKiffX7z3XEumlt0QPt9SezLYOHdYrH7XzeDZg==
   dependencies:
     bech32 "^1.1.3"
     bip32 "^1.0.4"
