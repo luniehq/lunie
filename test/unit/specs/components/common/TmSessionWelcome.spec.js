@@ -31,6 +31,14 @@ describe(`TmSessionWelcome`, () => {
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
+  it("moves to other session pages", () => {
+    const self = {
+      $emit: jest.fn()
+    }
+    TmSessionWelcome.methods.setState.call(self, "welcome")
+    expect(self.$emit).toHaveBeenCalledWith("route-change", "welcome")
+  })
+
   describe(`header buttons`, () => {
     describe(`closes the session modal`, () => {
       it(`without going to prev page`, () => {

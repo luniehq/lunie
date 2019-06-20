@@ -40,6 +40,14 @@ describe(`TmSessionSignIn`, () => {
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
+  it(`should close`, () => {
+    const self = {
+      $emit: jest.fn()
+    }
+    TmSessionSignIn.methods.close.call(self)
+    expect(self.$emit).toHaveBeenCalledWith(`close`)
+  })
+
   it(`should close the modal on successful login`, async () => {
     wrapper.setData({
       signInPassword: `1234567890`,
@@ -58,12 +66,12 @@ describe(`TmSessionSignIn`, () => {
     expect(self.$emit).toHaveBeenCalledWith(`route-change`, `existing`)
   })
 
-  it(`should close`, () => {
+  it("moves to other session pages", () => {
     const self = {
       $emit: jest.fn()
     }
-    TmSessionSignIn.methods.close.call(self)
-    expect(self.$emit).toHaveBeenCalledWith(`close`)
+    TmSessionSignIn.methods.setState.call(self, "welcome")
+    expect(self.$emit).toHaveBeenCalledWith("route-change", "welcome")
   })
 
   it(`should signal signedin state on successful login`, async () => {

@@ -46,6 +46,14 @@ describe(`TmSessionSignUp`, () => {
     expect(self.$emit).toHaveBeenCalledWith(`close`)
   })
 
+  it("moves to other session pages", () => {
+    const self = {
+      $emit: jest.fn()
+    }
+    TmSessionSignUp.methods.setState.call(self, "welcome")
+    expect(self.$emit).toHaveBeenCalledWith("route-change", "welcome")
+  })
+
   it(`should close the modal on successful login`, async () => {
     const emit = jest.fn()
     await TmSessionSignUp.methods.onSubmit.call({
