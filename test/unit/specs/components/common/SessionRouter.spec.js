@@ -74,7 +74,7 @@ describe(`SessionRouter`, () => {
     const self = {
       view: "none"
     }
-    SessionRouter.methods.view.call(self, "welcome")
+    SessionRouter.methods.goTo.call(self, "welcome")
     expect(self.view).toBe(`welcome`)
   })
 })
