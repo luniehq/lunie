@@ -1,8 +1,5 @@
 <template>
-  <div
-    id="session-existing"
-    class="session"
-  >
+  <div id="session-existing" class="session">
     <div class="session-header">
       <a @click="goToWelcome()">
         <i class="material-icons session-back">arrow_back</i>

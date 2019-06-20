@@ -12,10 +12,7 @@
           <i class="material-icons session-close">close</i>
         </a>
       </div>
-      <div
-        v-if="!session.browserWithLedgerSupport"
-        class="session-main"
-      >
+      <div v-if="!session.browserWithLedgerSupport" class="session-main">
         <p>
           Please use Chrome, Opera, or Brave. Ledger is not supported in this
           browser.
@@ -30,13 +27,11 @@
             </template>
             <template v-if="status === `confirmAddress`">
               Sign in with the address
-              <span class="address">{{ address }}</span>.<br />
+              <span class="address">{{ address }}</span
+              >.<br />
               Please confirm on your Ledger.
             </template>
-            <p
-              v-if="connectionError"
-              class="error-message"
-            >
+            <p v-if="connectionError" class="error-message">
               {{ connectionError }}
             </p>
           </HardwareState>
@@ -44,11 +39,8 @@
         <div class="session-footer">
           <p class="ledger-install">
             If you don't have a Ledger Nano, you can
-            <a
-              href=""
-              target="_blank"
-              rel="noopener norefferer"
-            >buy one here</a>.
+            <a href="" target="_blank" rel="noopener norefferer">buy one here</a
+            >.
           </p>
           <TmBtn
             :value="submitCaption"
