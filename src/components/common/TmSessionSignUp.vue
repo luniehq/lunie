@@ -17,17 +17,13 @@
           <i class="material-icons session-close">close</i>
         </a>
       </div>
-      <div
-        v-if="session.insecureMode"
-        class="session-main"
-      >
+      <div v-if="session.insecureMode" class="session-main">
         <div class="danger-zone">
           <h2>DANGER ZONE</h2>
           <p>
             Creating an address or entering a seed phrase in the browser is
             considered extremely unsafe. These features are only enabled in
-            insecure mode for testing purposes and should not be used on
-            mainnet
+            insecure mode for testing purposes and should not be used on mainnet
             or with real tokens.
           </p>
           <TmFormGroup
@@ -134,10 +130,7 @@
                 v-model="fields.signUpWarning"
                 type="checkbox"
               />
-              <label
-                class="field-checkbox-label"
-                for="sign-up-warning"
-              >
+              <label class="field-checkbox-label" for="sign-up-warning">
                 I understand that lost seeds cannot be recovered.
               </label>
             </div>
@@ -162,10 +155,7 @@
                 v-model="fields.errorCollection"
                 type="checkbox"
               />
-              <label
-                class="field-checkbox-label"
-                for="error-collection"
-              >
+              <label class="field-checkbox-label" for="error-collection">
                 I'd like to opt in for remote error tracking to help improve
                 Voyager.
               </label>
@@ -176,14 +166,10 @@
           </div>
         </div>
       </div>
-      <div
-        v-if="!session.insecureMode"
-        class="session-main"
-      >
+      <div v-if="!session.insecureMode" class="session-main">
         <p>
           Creating an address in the browser is considered extremely unsafe. To
-          offer you a more secure option we will be releasing a mobile app and
-          a
+          offer you a more secure option we will be releasing a mobile app and a
           Chrome extension in the coming months.
         </p>
         <p>
@@ -192,13 +178,15 @@
             href="https://shop.ledger.com/?r=3dd204ef7508"
             target="_blank"
             rel="noopener norefferer"
-          >Ledger Nano</a>
+            >Ledger Nano</a
+          >
           or by using the
           <a
             href="https://hub.cosmos.network/docs/delegator-guide-cli.html#creating-an-account"
             target="_blank"
             rel="noopener norefferer"
-          >command line</a>.
+            >command line</a
+          >.
         </p>
       </div>
     </TmFormStruct>
