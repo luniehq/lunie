@@ -57,6 +57,14 @@ describe(`TmSessionExplore`, () => {
     expect(self.$emit).toHaveBeenCalledWith(`route-change`, `existing`)
   })
 
+  it(`should close`, () => {
+    const self = {
+      $emit: jest.fn()
+    }
+    TmSessionExplore.methods.close.call(self)
+    expect(self.$emit).toHaveBeenCalledWith(`close`)
+  })
+
   it(`should signal signedin state on successful login`, async () => {
     wrapper.setData({
       address: `cosmos1thyn8gfapk2d0zsp6dysn99ynhcs2y759kwznx`

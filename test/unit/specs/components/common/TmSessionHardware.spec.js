@@ -53,6 +53,14 @@ describe(`TmSessionHardware`, () => {
     expect(self.$emit).toHaveBeenCalledWith(`route-change`, `existing`)
   })
 
+  it(`should close`, () => {
+    const self = {
+      $emit: jest.fn()
+    }
+    TmSessionHardware.methods.close.call(self)
+    expect(self.$emit).toHaveBeenCalledWith(`close`)
+  })
+
   it(`should show a state indicator for different states of the hardware connection`, () => {
     wrapper.setData({ status: `connect` })
     expect(wrapper.html()).toMatchSnapshot()

@@ -1,6 +1,9 @@
 <template>
   <div class="session">
-    <TmFormStruct :submit="onSubmit.bind(this)" class="session-container">
+    <TmFormStruct
+      :submit="onSubmit.bind(this)"
+      class="session-container"
+    >
       <div class="session-header">
         <a @click="goBack">
           <i class="material-icons session-back">arrow_back</i>
@@ -8,7 +11,7 @@
         <h2 class="session-title">
           Recover from seed
         </h2>
-        <a @click="$emit('close')">
+        <a @click="close">
           <i class="material-icons session-close">close</i>
         </a>
       </div>
@@ -125,7 +128,10 @@
                 type="checkbox"
               />
             </div>
-            <label class="field-checkbox-label" for="error-collection">
+            <label
+              class="field-checkbox-label"
+              for="error-collection"
+            >
               I'd like to opt in for remote error tracking to help improve
               Voyager.
             </label>
@@ -175,6 +181,9 @@ export default {
     },
     goBack() {
       this.$emit(`route-change`, `existing`)
+    },
+    close() {
+      this.$emit(`close`)
     },
     async onSubmit() {
       this.$v.$touch()

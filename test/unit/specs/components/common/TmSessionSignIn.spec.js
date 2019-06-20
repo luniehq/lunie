@@ -58,6 +58,14 @@ describe(`TmSessionSignIn`, () => {
     expect(self.$emit).toHaveBeenCalledWith(`route-change`, `existing`)
   })
 
+  it(`should close`, () => {
+    const self = {
+      $emit: jest.fn()
+    }
+    TmSessionSignIn.methods.close.call(self)
+    expect(self.$emit).toHaveBeenCalledWith(`close`)
+  })
+
   it(`should signal signedin state on successful login`, async () => {
     wrapper.setData({
       signInPassword: `1234567890`,

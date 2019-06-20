@@ -42,6 +42,14 @@ describe(`TmSessionExisting`, () => {
     expect(self.$emit).toHaveBeenCalledWith(`route-change`, `welcome`)
   })
 
+  it(`should close`, () => {
+    const self = {
+      $emit: jest.fn()
+    }
+    TmSessionExisting.methods.close.call(self)
+    expect(self.$emit).toHaveBeenCalledWith(`close`)
+  })
+
   describe(`default view in production`, () => {
     it(`shows "Explore with any address"`, () => {
       expect(wrapper.find(`#explore-with-address`).exists()).toBe(true)

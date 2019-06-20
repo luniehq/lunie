@@ -100,6 +100,14 @@ describe(`TmSessionImport`, () => {
     expect(self.$emit).toHaveBeenCalledWith(`close`)
   })
 
+  it(`should close`, () => {
+    const self = {
+      $emit: jest.fn()
+    }
+    TmSessionImport.methods.close.call(self)
+    expect(self.$emit).toHaveBeenCalledWith(`close`)
+  })
+
   it(`should show error if seed is not filled in`, async () => {
     wrapper.setData({ fields: { importSeed: `` } })
     await wrapper.vm.onSubmit()

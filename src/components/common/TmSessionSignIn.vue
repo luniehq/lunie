@@ -1,6 +1,9 @@
 <template>
   <div class="session">
-    <TmFormStruct :submit="onSubmit" class="session-container">
+    <TmFormStruct
+      :submit="onSubmit"
+      class="session-container"
+    >
       <div class="session-header">
         <a @click="goBack">
           <i class="material-icons session-back">arrow_back</i>
@@ -8,12 +11,15 @@
         <h2 class="session-title">
           Sign in with account
         </h2>
-        <a @click="$emit('close')">
+        <a @click="close">
           <i class="material-icons session-close">close</i>
         </a>
       </div>
       <div class="session-main">
-        <TmFormGroup field-id="sign-in-name" field-label="Select Account">
+        <TmFormGroup
+          field-id="sign-in-name"
+          field-label="Select Account"
+        >
           <TmField
             id="sign-in-name"
             v-model="signInName"
@@ -49,7 +55,11 @@
             type="minLength"
             min="10"
           />
-          <TmFormMsg v-if="error" type="custom" :msg="error" />
+          <TmFormMsg
+            v-if="error"
+            type="custom"
+            :msg="error"
+          />
         </TmFormGroup>
       </div>
       <div class="session-footer">
@@ -98,6 +108,9 @@ export default {
     },
     goBack() {
       this.$emit("route-change", "existing")
+    },
+    close() {
+      this.$emit(`close`)
     },
     async onSubmit() {
       this.$v.$touch()
