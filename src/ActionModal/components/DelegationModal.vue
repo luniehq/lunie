@@ -12,17 +12,8 @@
     :notify-message="notifyMessage"
     @close="clear"
   >
-    <TmFormGroup
-      class="action-modal-form-group"
-      field-id="to"
-      field-label="To"
-    >
-      <TmField
-        id="to"
-        v-model="to"
-        type="text"
-        readonly
-      />
+    <TmFormGroup class="action-modal-form-group" field-id="to" field-label="To">
+      <TmField id="to" v-model="to" type="text" readonly />
     </TmFormGroup>
 
     <TmFormGroup
@@ -54,18 +45,12 @@
         placeholder="Amount"
         @keyup.enter.native="enterPressed"
       />
-      <span
-        v-if="!isRedelegation()"
-        class="form-message"
-      >
+      <span v-if="!isRedelegation()" class="form-message">
         Available to Delegate:
         {{ getFromBalance() }}
         {{ num.viewDenom(denom) }}s
       </span>
-      <span
-        v-else-if="isRedelegation()"
-        class="form-message"
-      >
+      <span v-else-if="isRedelegation()" class="form-message">
         Available to Redelegate:
         {{ getFromBalance() }}
         {{ num.viewDenom(denom) }}s
