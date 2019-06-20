@@ -28,7 +28,7 @@
           field-id="gasPrice"
           field-label="Gas Price"
         >
-          <span class="input-suffix">{{ viewDenom(bondDenom) }}</span>
+          <span class="input-suffix">{{ bondDenom | viewDenom }}</span>
           <TmField
             id="gas-price"
             v-model="gasPrice"
@@ -37,7 +37,7 @@
             min="0"
           />
           <TmFormMsg
-            v-if="balance === 0"
+            v-if="balanceInAtoms === 0"
             :msg="`doesn't have any ${bondDenom}s`"
             name="Wallet"
             type="custom"
@@ -65,7 +65,7 @@
           name="Total"
           type="between"
           min="0"
-          :max="atoms(balance)"
+          :max="balanceInAtoms"
         />
       </div>
       <div v-else-if="step === `sign`" class="action-modal-form">
@@ -183,7 +183,7 @@ import TmFormMsg from "src/components/common/TmFormMsg"
 import TableInvoice from "./TableInvoice"
 import Steps from "./Steps"
 import { mapGetters } from "vuex"
-import { uatoms, atoms, viewDenom } from "src/scripts/num.js"
+import { atoms, viewDenom } from "src/scripts/num.js"
 import { between, requiredIf } from "vuelidate/lib/validators"
 import { track } from "scripts/google-analytics.js"
 import config from "src/config"
@@ -207,6 +207,9 @@ export default {
     TmFormMsg,
     TableInvoice,
     Steps
+  },
+  filters: {
+    viewDenom
   },
   props: {
     title: {
@@ -243,11 +246,7 @@ export default {
     gasPrice: config.default_gas_price.toFixed(9),
     submissionError: null,
     show: false,
-    actionManager: new ActionManager(),
-    track,
-    atoms,
-    uatoms,
-    viewDenom
+    actionManager: new ActionManager()
   }),
   computed: {
     ...mapGetters([
@@ -262,8 +261,8 @@ export default {
     requiresSignIn() {
       return !this.session.signedIn
     },
-    balance() {
-      return this.liquidAtoms
+    balanceInAtoms() {
+      return atoms(this.liquidAtoms)
     },
     invoiceTotal() {
       return (
@@ -303,13 +302,12 @@ export default {
       ]
     }
   },
-  mounted: function() {},
   updated: function() {
     this.actionManager.setContext(this.modalContext || {})
   },
   methods: {
     open() {
-      this.track(`event`, `modal`, this.title)
+      this.trackEvent(`event`, `modal`, this.title)
       this.gasPrice = config.default_gas_price.toFixed(9)
       this.show = true
     },
@@ -322,6 +320,9 @@ export default {
       // reset form
       this.$v.$reset()
       this.$emit(`close`)
+    },
+    trackEvent(...args) {
+      track(...args)
     },
     goToSession() {
       this.close()
@@ -379,7 +380,7 @@ export default {
     },
     async submit() {
       this.submissionError = null
-      track(`event`, `submit`, this.title, this.selectedSignMethod)
+      this.trackEvent(`event`, `submit`, this.title, this.selectedSignMethod)
 
       if (this.selectedSignMethod === signWithLedger) {
         await this.connectLedger()
@@ -401,7 +402,12 @@ export default {
 
       try {
         await this.actionManager.send(memo, feeProperties)
-        track(`event`, `successful-submit`, this.title, this.selectedSignMethod)
+        this.trackEvent(
+          `event`,
+          `successful-submit`,
+          this.title,
+          this.selectedSignMethod
+        )
         this.$store.commit(`notify`, this.notifyMessage)
         this.$store.dispatch(`post${type}`, {
           txProps: transactionProperties,
@@ -410,7 +416,7 @@ export default {
         this.close()
       } catch ({ message }) {
         this.submissionError = `${this.submissionErrorPrefix}: ${message}.`
-        track(`event`, `failed-submit`, this.title, message)
+        this.trackEvent(`event`, `failed-submit`, this.title, message)
       }
     },
     async connectLedger() {
@@ -436,10 +442,10 @@ export default {
         ),
         // we don't use SMALLEST as min gas price because it can be a fraction of uatom
         // min is 0 because we support sending 0 fees
-        between: between(0, atoms(this.balance))
+        between: between(0, this.balanceInAtoms)
       },
       invoiceTotal: {
-        between: between(0, atoms(this.balance))
+        between: between(0, this.balanceInAtoms)
       }
     }
   }

@@ -110,6 +110,7 @@ describe(`ActionModal`, () => {
         validatorAddress: "cosmos12345"
       },
       submissionErrorPrefix: `PREFIX`,
+      trackEvent: jest.fn(),
       connectLedger: () => {}
     }
     await ActionModal.methods.submit.call(self)
@@ -122,11 +123,11 @@ describe(`ActionModal`, () => {
   })
 
   it(`opens`, () => {
-    wrapper.vm.track = jest.fn()
+    wrapper.vm.trackEvent = jest.fn()
     wrapper.vm.open()
 
     expect(wrapper.isEmpty()).not.toBe(true)
-    expect(wrapper.vm.track).toHaveBeenCalled()
+    expect(wrapper.vm.trackEvent).toHaveBeenCalled()
   })
 
   it(`opens session modal and closes itself`, () => {
