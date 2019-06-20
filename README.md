@@ -11,7 +11,7 @@ $ git submodule update
 
 Note: To reference components easily some aliases are set to the submodule in the webpack config.
 
-## Develope
+## Develop
 
 ```bash
 $ yarn watch:dev
