@@ -5,6 +5,7 @@
     :block="block"
     :memo="memo"
     :fees="fees"
+    :hideData="hideData"
   >
     <template v-if="address === ''">
       <div slot="caption">
@@ -86,6 +87,10 @@ export default {
     memo: {
       type: String,
       default: null
+    },
+    hideData: {
+      type: Boolean,
+      default: false
     }
   },
   computed: {

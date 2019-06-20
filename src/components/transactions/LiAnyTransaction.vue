@@ -10,6 +10,7 @@
         :time="transaction.time"
         :block="Number(transaction.height)"
         :memo="transaction.tx.value.memo"
+        :hide-data="hideData"
       />
       <LiStakeTransaction
         v-else-if="stakingTx(msg.type)"
@@ -23,6 +24,7 @@
         :time="transaction.time"
         :block="Number(transaction.height)"
         :memo="transaction.tx.value.memo"
+        :hide-data="hideData"
       />
       <LiGovTransaction
         v-else-if="governanceTx(msg.type)"
@@ -34,6 +36,7 @@
         :time="transaction.time"
         :block="Number(transaction.height)"
         :memo="transaction.tx.value.memo"
+        :hide-data="hideData"
       />
       <LiDistributionTransaction
         v-else-if="distributionTx(msg.type)"
@@ -46,12 +49,14 @@
         :time="transaction.time"
         :block="Number(transaction.height)"
         :memo="transaction.tx.value.memo"
+        :hide-data="hideData"
       />
       <LiTransaction
         v-else
         :time="transaction.time"
         :block="Number(transaction.height)"
         color="grey"
+        :hide-data="hideData"
       >
         <span slot="caption">Unknown Transaction Type</span>
       </LiTransaction>
@@ -103,6 +108,10 @@ export default {
     unbondingTime: {
       type: Number,
       default: null
+    },
+    hideData: {
+      type: Boolean,
+      default: false
     }
   },
   computed: {

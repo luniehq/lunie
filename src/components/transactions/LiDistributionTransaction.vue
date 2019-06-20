@@ -5,6 +5,7 @@
     :block="block"
     :memo="memo"
     :fees="fees"
+    :hideData="hideData"
   >
     <template v-if="txType === MsgWithdrawDelegationReward">
       <div slot="caption">
@@ -77,6 +78,10 @@ export default {
     memo: {
       type: String,
       default: null
+    },
+    hideData: {
+      type: Boolean,
+      default: false
     }
   },
   data: () => ({
