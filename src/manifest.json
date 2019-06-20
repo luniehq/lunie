@@ -1,11 +1,12 @@
 {
-  "name": "lunie-signer-x",
-  "description": "A Vue.js web extension",
+  "name": "Lunie Browser Extension",
+  "description": "A browser extension for Lunie.io",
   "version": null,
   "manifest_version": 2,
   "icons": {
-    "48": "icons/icon_48.png",
-    "128": "icons/icon_128.png"
+    "16": "icons/16x16.png",
+    "48": "icons/48x48.png",
+    "128": "icons/128x128.png"
   },
   "browser_action": {
     "default_title": "lunie-signer-x",
