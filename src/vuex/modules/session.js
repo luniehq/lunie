@@ -2,6 +2,13 @@ import * as Sentry from "@sentry/browser"
 import { track, deanonymize, anonymize } from "scripts/google-analytics.js"
 import config from "src/config"
 
+export function extensionListener(store, { data }) {
+  if (data.type === "LUNIE_EXTENSION") {
+    store.dispatch("setExtensionStatus", true)
+    console.log("Woah! You have the Lunie Extension installed!")
+  }
+}
+
 export default () => {
   const USER_PREFERENCES_KEY = `lunie_user_preferences`
 
@@ -11,6 +18,7 @@ export default () => {
     insecureMode: false, // show the local signer
     signedIn: false,
     sessionType: null, // local, ledger
+    extensionInstalled: false,
     pauseHistory: false,
     history: [],
     address: null,
@@ -75,6 +83,9 @@ export default () => {
     },
     setSessionModalView(state, value) {
       state.modals.session.state = value
+    },
+    setExtensionInstalled(state, installed) {
+      state.extensionInstalled = installed
     }
   }
 
@@ -189,6 +200,9 @@ export default () => {
         state.externals.anonymize()
         console.log(`Analytics collection has been disabled`)
       }
+    },
+    setExtensionStatus({ commit }, status) {
+      commit(`setExtensionInstalled`, status)
     }
   }
 

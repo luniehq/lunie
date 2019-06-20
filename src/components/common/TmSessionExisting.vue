@@ -26,6 +26,14 @@
         @click.native="() => setState('hardware')"
       />
       <LiSession
+        v-if="session.experimentalMode"
+        id="use-extension"
+        icon="laptop"
+        title="Use Lunie Chrome extension"
+        @click.native="setState('extension')"
+      >
+      </LiSession>
+      <LiSession
         v-if="session.insecureMode"
         id="recover-with-backup"
         icon="settings_backup_restore"
