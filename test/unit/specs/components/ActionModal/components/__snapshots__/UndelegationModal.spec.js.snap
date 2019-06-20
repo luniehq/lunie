@@ -7,7 +7,6 @@ exports[`UndelegationModal should display undelegation modal form 1`] = `
   fromoptions="[object Object]"
   id="undelegation-modal"
   notifymessage="[object Object]"
-  passtoparent="function () { [native code] }"
   submissionerrorprefix="Undelegating failed"
   title="Undelegate"
   transactiondata="[object Object]"

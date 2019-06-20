@@ -225,10 +225,6 @@ export default {
       type: Function,
       default: undefined
     },
-    passToParent: {
-      type: Function,
-      default: undefined
-    },
     submissionErrorPrefix: {
       type: String,
       default: `Transaction failed`
@@ -313,12 +309,6 @@ export default {
           value: signWithLocalKeystore
         }
       ]
-    }
-  },
-  mounted() {
-    //Passes submittion function to parent component so that pressing enter can submit forms
-    if (this.passToParent) {
-      this.passToParent(this.validateChangeStep)
     }
   },
   updated: function() {

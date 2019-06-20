@@ -4,7 +4,6 @@
     ref="actionModal"
     :validate="validateForm"
     :amount="amount"
-    :pass-to-parent="passToParent"
     title="Proposal"
     submission-error-prefix="Submitting proposal failed"
     :transaction-data="transactionData"
@@ -149,8 +148,7 @@ export default {
     description: ``,
     type: `Text`,
     amount: 0,
-    num,
-    validateChangeStep: false
+    num
   }),
   computed: {
     ...mapGetters([`wallet`, `bondDenom`]),
@@ -228,11 +226,8 @@ export default {
     refocusOn() {
       this.$refs.description.$el.focus()
     },
-    passToParent(func) {
-      this.validateChangeStep = func
-    },
     enterPressed() {
-      this.validateChangeStep()
+      this.$refs.actionModal.validateChangeStep()
     }
   }
 }

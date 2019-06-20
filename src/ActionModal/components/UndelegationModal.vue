@@ -4,7 +4,6 @@
     ref="actionModal"
     :validate="validateForm"
     :amount="0"
-    :pass-to-parent="passToParent"
     title="Undelegate"
     class="undelegation-modal"
     submission-error-prefix="Undelegating failed"
@@ -113,8 +112,7 @@ export default {
   data: () => ({
     amount: null,
     atoms,
-    num,
-    validateChangeStep: false
+    num
   }),
   computed: {
     ...mapGetters([`liquidAtoms`]),
@@ -158,11 +156,8 @@ export default {
 
       this.amount = null
     },
-    passToParent(func) {
-      this.validateChangeStep = func
-    },
     enterPressed() {
-      this.validateChangeStep()
+      this.$refs.actionModal.validateChangeStep()
     }
   }
 }

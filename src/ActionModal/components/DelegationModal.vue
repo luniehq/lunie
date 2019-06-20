@@ -5,7 +5,6 @@
     :validate="validateForm"
     :amount="isRedelegation() ? 0 : amount"
     :title="isRedelegation() ? 'Redelegate' : 'Delegate'"
-    :pass-to-parent="passToParent"
     class="delegation-modal"
     submission-error-prefix="Delegating failed"
     :transaction-data="transactionData"
@@ -121,8 +120,7 @@ export default {
   data: () => ({
     amount: null,
     selectedIndex: 0,
-    num,
-    validateChangeStep: false
+    num
   }),
   computed: {
     ...mapGetters([`delegates`, `session`, `bondDenom`, `modalContext`]),
@@ -189,9 +187,6 @@ export default {
 
       this.selectedIndex = 0
       this.amount = null
-    },
-    passToParent(func) {
-      this.validateChangeStep = func
     },
     enterPressed() {
       this.$refs.actionModal.validateChangeStep()

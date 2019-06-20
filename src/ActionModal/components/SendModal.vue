@@ -4,7 +4,6 @@
     ref="actionModal"
     :validate="validateForm"
     :amount="amount"
-    :pass-to-parent="passToParent"
     title="Send"
     submission-error-prefix="Sending tokens failed"
     :transaction-data="transactionData"
@@ -156,8 +155,7 @@ export default {
     num,
     memo: "(Sent via Lunie)",
     max_memo_characters: 256,
-    editMemo: false,
-    validateChangeStep: false
+    editMemo: false
   }),
   computed: {
     ...mapGetters([`wallet`, `session`]),
@@ -218,11 +216,8 @@ export default {
         return false
       }
     },
-    passToParent(func) {
-      this.validateChangeStep = func
-    },
     enterPressed() {
-      this.validateChangeStep()
+      this.$refs.actionModal.validateChangeStep()
     },
     refocusOnAmount() {
       this.$refs.amount.$el.focus()
