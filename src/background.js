@@ -1,4 +1,5 @@
-const { getWalletIndex, getStoredWallet, signWithPrivateKey, getNewWallet, storeWallet, getNewWalletFromSeed, removeWallet } = require('@lunie/cosmos-keys');
+import 'babel-polyfill';
+const { getWalletIndex, getStoredWallet, signWithPrivateKey, getNewWallet, storeWallet, getNewWalletFromSeed, removeWallet, getSeed } = require('@lunie/cosmos-keys');
 const { createSignMessage } = require('@lunie/cosmos-api');
 
 global.browser = require('webextension-polyfill');
@@ -8,16 +9,16 @@ global.browser = require('webextension-polyfill');
 // TODO handle requests from account-management-popup (create account | delete account | import account [| rename account])
 
 // main message handler
-chrome.runtime.onMessage.addListener((message, callback) => {
-  signMessageHandler(message, callback);
-  walletMessageHandler(message, callback);
+chrome.runtime.onMessage.addListener((message, sender, callback) => {
+  signMessageHandler(message, sender, callback);
+  walletMessageHandler(message, sender, callback);
 });
 
 // open request popup
 // chrome.tabs.create({ url: chrome.extension.getURL('./request/request.html') }, function(tab) {
 // });
 
-function signMessageHandler(message, callback) {
+function signMessageHandler(message, sender, callback) {
   switch (message.type) {
     case 'SIGN_REQUEST': {
       const { stdTx, senderAddress } = message.payload;
@@ -36,8 +37,12 @@ function signMessageHandler(message, callback) {
     }
   }
 }
-function walletMessageHandler(message, callback) {
+function walletMessageHandler(message, sender, callback) {
   switch (message.type) {
+    case 'GET_SEED': {
+      callback(getSeed());
+      break;
+    }
     case 'GET_WALLETS': {
       callback(getWalletIndex());
       break;

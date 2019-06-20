@@ -1,7 +1,4 @@
-import * as types from './mutation-types';
-
-export default {
-  [types.UPDATE_FOO](state, payload) {
-    state.foo = payload;
-  },
+export const setSessionModalView = (state, view) => {
+  console.log('view', view);
+  state.route = view;
 };

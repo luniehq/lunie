@@ -3,24 +3,20 @@ import Vuex from 'vuex';
 import Vuelidate from 'vuelidate';
 
 import * as getters from './getters';
+import * as mutations from './mutations';
+import * as actions from './actions';
 
 Vue.use(Vuex);
 Vue.use(Vuelidate);
 
 const modules = {
-  session: require('modules/session.js').default({}),
+  // session: require('modules/session.js').default({}),
 };
 
 export default new Vuex.Store({
-  state: {
-    route: 'welcome',
-  },
+  state: {},
   getters,
   modules,
-  mutations: {
-    setSessionModalView: (state, view) => {
-      console.log('view', view);
-      state.route = view;
-    },
-  },
+  actions,
+  mutations,
 });
