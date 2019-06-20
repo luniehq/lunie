@@ -1,5 +1,8 @@
 <template>
-  <div id="session-existing" class="session">
+  <div
+    id="session-existing"
+    class="session"
+  >
     <div class="session-header">
       <a @click="goToWelcome()">
         <i class="material-icons session-back">arrow_back</i>
@@ -7,7 +10,7 @@
       <h2 class="session-title">
         Use an existing address
       </h2>
-      <a @click="$store.commit(`toggleSessionModal`, false)">
+      <a @click="$emit('close')">
         <i class="material-icons session-close">close</i>
       </a>
     </div>

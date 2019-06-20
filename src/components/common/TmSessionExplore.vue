@@ -1,6 +1,9 @@
 <template>
   <div class="session">
-    <TmFormStruct :submit="onSubmit" class="session-container">
+    <TmFormStruct
+      :submit="onSubmit"
+      class="session-container"
+    >
       <div class="session-header">
         <a @click="goBack()">
           <i class="material-icons session-back">arrow_back</i>
@@ -8,12 +11,15 @@
         <h2 class="session-title">
           Explore with any address
         </h2>
-        <a @click="$store.commit(`toggleSessionModal`, false)">
+        <a @click="$emit('close')">
           <i class="material-icons session-close">close</i>
         </a>
       </div>
       <div class="session-main">
-        <TmFormGroup field-id="sign-in-name" field-label="Your Cosmos Address">
+        <TmFormGroup
+          field-id="sign-in-name"
+          field-label="Your Cosmos Address"
+        >
           <TmField
             v-model="address"
             type="text"

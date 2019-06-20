@@ -8,7 +8,7 @@
         <h2 class="session-title">
           Use my Ledger Nano
         </h2>
-        <a @click="$store.commit(`toggleSessionModal`, false)">
+        <a @click="$emit('close')">
           <i class="material-icons session-close">close</i>
         </a>
       </div>
