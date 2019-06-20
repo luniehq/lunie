@@ -16,6 +16,7 @@ const config = {
   context: resolve('src'),
   entry: {
     background: './background.js',
+    contentScript: './contentScript.js',
     'popup/popup': './popup/popup.js',
     'options/options': './options/options.js',
     'request/request': './request/request.js',
