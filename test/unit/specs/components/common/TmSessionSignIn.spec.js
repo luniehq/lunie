@@ -45,17 +45,17 @@ describe(`TmSessionSignIn`, () => {
       signInPassword: `1234567890`,
       signInName: `default`
     })
+    wrapper.vm.$emit = jest.fn()
     await wrapper.vm.onSubmit()
-    expect($store.commit).toHaveBeenCalledWith(`toggleSessionModal`, false)
+    expect(wrapper.vm.$emit).toHaveBeenCalledWith(`close`)
   })
 
   it(`should go back to existing`, () => {
-    wrapper
-      .findAll(`.session-header a`)
-      .at(0)
-      .trigger(`click`)
-    expect($store.commit.mock.calls[0][0]).toBe(`setSessionModalView`)
-    expect($store.commit.mock.calls[0][1]).toBe(`existing`)
+    const self = {
+      $emit: jest.fn()
+    }
+    TmSessionSignIn.methods.goBack.call(self)
+    expect(self.$emit).toHaveBeenCalledWith(`route-change`, `existing`)
   })
 
   it(`should signal signedin state on successful login`, async () => {

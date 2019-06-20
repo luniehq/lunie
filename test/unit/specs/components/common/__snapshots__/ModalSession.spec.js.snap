@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TmSessionSignIn shows a modal containing the session selector 1`] = `
+<modal-stub
+  close="function () { [native code] }"
+>
+  <div>
+    <sessionrouter-stub />
+  </div>
+   
+  <connectednetwork-stub />
+</modal-stub>
+`;

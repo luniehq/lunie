@@ -49,7 +49,8 @@ exports[`TmSessionSignUp has the expected html structure 1`] = `
       <p>
         
         Creating an address in the browser is considered extremely unsafe. To
-        offer you a more secure option we will be releasing a mobile app and a
+        offer you a more secure option we will be releasing a mobile app and
+        a
         Chrome extension in the coming months.
       
       </p>

@@ -1,6 +1,9 @@
 <template>
   <div class="session">
-    <TmFormStruct :submit="onSubmit" class="session-container">
+    <TmFormStruct
+      :submit="onSubmit"
+      class="session-container"
+    >
       <div class="session-header">
         <a @click="goBack()">
           <i class="material-icons session-back">arrow_back</i>
@@ -13,7 +16,10 @@
         </a>
       </div>
       <div class="session-main">
-        <TmFormGroup field-id="sign-in-name" field-label="Your Cosmos Address">
+        <TmFormGroup
+          field-id="sign-in-name"
+          field-label="Your Cosmos Address"
+        >
           <TmField
             v-model="address"
             type="text"
@@ -65,10 +71,10 @@ export default {
   },
   methods: {
     setState(value) {
-      this.$store.commit(`setSessionModalView`, value)
+      this.$emit(`route-change`, value)
     },
     goBack() {
-      this.$store.commit(`setSessionModalView`, `existing`)
+      this.$emit(`route-change`, `existing`)
     },
     async onSubmit() {
       this.$v.$touch()
@@ -79,7 +85,7 @@ export default {
         address: this.address
       })
       localStorage.setItem(`prevAddress`, this.address)
-      this.$store.commit(`toggleSessionModal`, false)
+      this.$emit(`close`)
     },
     bech32Validate(param) {
       try {

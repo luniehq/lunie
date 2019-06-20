@@ -1,24 +1,47 @@
 <template>
-  <Modal v-if="active" :close="close">
-    <div slot="main">
-      <SessionWelcome v-if="session.modals.session.state == 'welcome'" />
-      <SessionExisting v-else-if="session.modals.session.state == 'existing'" />
-      <SessionExplore v-else-if="session.modals.session.state == 'explore'" />
-      <SessionSignUp v-else-if="session.modals.session.state == 'sign-up'" />
-      <SessionSignIn v-else-if="session.modals.session.state == 'sign-in'" />
-      <SessionAccountDelete
-        v-else-if="session.modals.session.state == 'delete'"
-      />
-      <SessionHardware v-else-if="session.modals.session.state == 'hardware'" />
-      <SessionImport v-else-if="session.modals.session.state == 'import'" />
-    </div>
-    <ConnectedNetwork />
-  </Modal>
+  <SessionWelcome
+    v-if="view == 'welcome'"
+    @route-change="goTo"
+    @close="close"
+  />
+  <SessionExisting
+    v-else-if="view == 'existing'"
+    @route-change="goTo"
+    @close="close"
+  />
+  <SessionExplore
+    v-else-if="view == 'explore'"
+    @route-change="goTo"
+    @close="close"
+  />
+  <SessionSignUp
+    v-else-if="view == 'sign-up'"
+    @route-change="goTo"
+    @close="close"
+  />
+  <SessionSignIn
+    v-else-if="view == 'sign-in'"
+    @route-change="goTo"
+    @close="close"
+  />
+  <SessionAccountDelete
+    v-else-if="view == 'delete'"
+    @route-change="goTo"
+    @close="close"
+  />
+  <SessionHardware
+    v-else-if="view == 'hardware'"
+    @route-change="goTo"
+    @close="close"
+  />
+  <SessionImport
+    v-else-if="view == 'import'"
+    @route-change="goTo"
+    @close="close"
+  />
 </template>
 
 <script>
-import { mapGetters } from "vuex"
-import Modal from "common/TmModal"
 import SessionWelcome from "common/TmSessionWelcome"
 import SessionExisting from "common/TmSessionExisting"
 import SessionExplore from "common/TmSessionExplore"
@@ -27,12 +50,10 @@ import SessionSignIn from "common/TmSessionSignIn"
 import SessionHardware from "common/TmSessionHardware"
 import SessionImport from "common/TmSessionImport"
 import SessionAccountDelete from "common/TmSessionAccountDelete"
-import ConnectedNetwork from "common/TmConnectedNetwork"
 
 export default {
-  name: `session`,
+  name: `session-router`,
   components: {
-    Modal,
     SessionWelcome,
     SessionExisting,
     SessionExplore,
@@ -40,18 +61,17 @@ export default {
     SessionSignIn,
     SessionHardware,
     SessionImport,
-    SessionAccountDelete,
-    ConnectedNetwork
+    SessionAccountDelete
   },
-  computed: {
-    ...mapGetters([`session`]),
-    active() {
-      return this.session.modals.session.active
-    }
-  },
+  data: () => ({
+    view: "welcome"
+  }),
   methods: {
+    goTo(view) {
+      this.view = view
+    },
     close() {
-      this.$store.commit(`toggleSessionModal`, false)
+      this.$emit("close")
     }
   }
 }

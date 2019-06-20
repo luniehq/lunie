@@ -1,5 +1,8 @@
 <template>
-  <div id="session-existing" class="session">
+  <div
+    id="session-existing"
+    class="session"
+  >
     <div class="session-header">
       <a @click="goToWelcome()">
         <i class="material-icons session-back">arrow_back</i>
@@ -67,10 +70,10 @@ export default {
   },
   methods: {
     setState(value) {
-      this.$store.commit(`setSessionModalView`, value)
+      this.$emit(`route-change`, value)
     },
     goToWelcome() {
-      this.$store.commit(`setSessionModalView`, `welcome`)
+      this.$emit(`route-change`, `welcome`)
     }
   }
 }

@@ -27,16 +27,19 @@ describe(`TmSessionExisting`, () => {
   })
 
   it(`should set the current view to the state`, () => {
-    wrapper.vm.setState(`someState`)
-    expect($store.commit).toHaveBeenCalledWith(
-      `setSessionModalView`,
-      `someState`
-    )
+    const self = {
+      $emit: jest.fn()
+    }
+    TmSessionExisting.methods.setState.call(self, `someState`)
+    expect(self.$emit).toHaveBeenCalledWith(`route-change`, `someState`)
   })
 
   it(`should go back to the welcome screen`, () => {
-    wrapper.vm.goToWelcome()
-    expect($store.commit).toHaveBeenCalledWith(`setSessionModalView`, `welcome`)
+    const self = {
+      $emit: jest.fn()
+    }
+    TmSessionExisting.methods.goToWelcome.call(self)
+    expect(self.$emit).toHaveBeenCalledWith(`route-change`, `welcome`)
   })
 
   describe(`default view in production`, () => {

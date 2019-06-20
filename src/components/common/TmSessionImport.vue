@@ -1,8 +1,11 @@
 <template>
   <div class="session">
-    <TmFormStruct :submit="onSubmit.bind(this)" class="session-container">
+    <TmFormStruct
+      :submit="onSubmit.bind(this)"
+      class="session-container"
+    >
       <div class="session-header">
-        <a @click="setState('existing')">
+        <a @click="goBack">
           <i class="material-icons session-back">arrow_back</i>
         </a>
         <h2 class="session-title">
@@ -125,7 +128,10 @@
                 type="checkbox"
               />
             </div>
-            <label class="field-checkbox-label" for="error-collection">
+            <label
+              class="field-checkbox-label"
+              for="error-collection"
+            >
               I'd like to opt in for remote error tracking to help improve
               Voyager.
             </label>
@@ -171,7 +177,10 @@ export default {
   },
   methods: {
     setState(value) {
-      this.$store.commit(`setSessionModalView`, value)
+      this.$emit(`route-change`, value)
+    },
+    goBack() {
+      this.$emit(`route-change`, `existing`)
     },
     async onSubmit() {
       this.$v.$touch()
@@ -192,6 +201,7 @@ export default {
           title: `Welcome back!`,
           body: `Your account has been successfully imported.`
         })
+        this.$emit(`close`)
       } catch (error) {
         this.$store.commit(`notifyError`, {
           title: `Couldn't create account`,

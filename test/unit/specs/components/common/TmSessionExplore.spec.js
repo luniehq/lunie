@@ -36,24 +36,25 @@ describe(`TmSessionExplore`, () => {
     wrapper.setData({
       address: `cosmos1thyn8gfapk2d0zsp6dysn99ynhcs2y759kwznx`
     })
+    wrapper.vm.$emit = jest.fn()
     await wrapper.vm.onSubmit()
-    expect($store.commit).toHaveBeenCalledWith(`toggleSessionModal`, false)
+    expect(wrapper.vm.$emit).toHaveBeenCalledWith(`close`)
   })
 
   it(`should set the current view to the state`, () => {
-    wrapper.vm.setState(`someState`)
-    expect($store.commit).toHaveBeenCalledWith(
-      `setSessionModalView`,
-      `someState`
-    )
+    const self = {
+      $emit: jest.fn()
+    }
+    TmSessionExplore.methods.setState.call(self, `someState`)
+    expect(self.$emit).toHaveBeenCalledWith(`route-change`, `someState`)
   })
 
-  it(`should go back to existing session component`, () => {
-    wrapper.vm.goBack()
-    expect($store.commit).toHaveBeenCalledWith(
-      `setSessionModalView`,
-      `existing`
-    )
+  it(`should go back to the existing account screen`, () => {
+    const self = {
+      $emit: jest.fn()
+    }
+    TmSessionExplore.methods.goBack.call(self)
+    expect(self.$emit).toHaveBeenCalledWith(`route-change`, `existing`)
   })
 
   it(`should signal signedin state on successful login`, async () => {

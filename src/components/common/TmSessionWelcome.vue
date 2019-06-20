@@ -1,10 +1,16 @@
 <template>
-  <div id="session-welcome" class="session">
+  <div
+    id="session-welcome"
+    class="session"
+  >
     <a @click="closeSession">
       <i class="material-icons session-close">close</i>
     </a>
     <div class="session-header">
-      <img class="lunie-logo" src="~assets/images/cosmos-wallet-logo.svg" />
+      <img
+        class="lunie-logo"
+        src="~assets/images/cosmos-wallet-logo.svg"
+      />
       <h2 class="session-title">
         Welcome to Lunie!
       </h2>
@@ -31,8 +37,14 @@
 
     <p class="footnote">
       By using Lunie, you accept our
-      <router-link to="/terms" class="link">Terms of Service</router-link> and
-      <router-link to="/privacy" class="link">Privacy Policy</router-link>.
+      <router-link
+        to="/terms"
+        class="link"
+      >Terms of Service</router-link> and
+      <router-link
+        to="/privacy"
+        class="link"
+      >Privacy Policy</router-link>.
     </p>
   </div>
 </template>
@@ -46,10 +58,10 @@ export default {
   },
   methods: {
     setState(value) {
-      this.$store.commit(`setSessionModalView`, value)
+      this.$emit(`route-change`, value)
     },
     closeSession() {
-      this.$store.commit(`toggleSessionModal`, false)
+      this.$emit(`close`)
     }
   }
 }

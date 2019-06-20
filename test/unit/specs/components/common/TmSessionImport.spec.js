@@ -31,44 +31,73 @@ describe(`TmSessionImport`, () => {
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
-  it(`should go back to the welcome screen on click`, () => {
-    wrapper
-      .findAll(`.session-header a`)
-      .at(0)
-      .trigger(`click`)
-    expect(store.commit.mock.calls[0][0]).toBe(`setSessionModalView`)
-    expect(store.commit.mock.calls[0][1]).toBe(`existing`)
+  it(`should set the current view to the state`, () => {
+    const self = {
+      $emit: jest.fn()
+    }
+    TmSessionImport.methods.setState.call(self, `someState`)
+    expect(self.$emit).toHaveBeenCalledWith(`route-change`, `someState`)
   })
 
-  it(`should close the session modal`, () => {
-    wrapper
-      .findAll(`.session-header a`)
-      .at(1)
-      .trigger(`click`)
-    expect(store.commit.mock.calls[0][0]).toBe(`toggleSessionModal`)
-    expect(store.commit.mock.calls[0][1]).toBe(false)
+  it(`should go back to the exiting account screen`, () => {
+    const self = {
+      $emit: jest.fn()
+    }
+    TmSessionImport.methods.goBack.call(self)
+    expect(self.$emit).toHaveBeenCalledWith(`route-change`, `existing`)
   })
 
   it(`should signal signed in state on successful login`, async () => {
-    wrapper.setData({
+    const self = {
+      $store: {
+        dispatch: jest.fn(),
+        commit: jest.fn()
+      },
+      $emit: jest.fn(),
       fields: {
         importName: `foo123`,
         importPassword: `1234567890`,
         importPasswordConfirm: `1234567890`,
         importSeed: seed
+      },
+      $v: {
+        $touch: () => {},
+        $error: false
       }
-    })
-    await wrapper.vm.onSubmit()
-    expect(store.commit).toHaveBeenCalledWith(`notify`, {
+    }
+    await TmSessionImport.methods.onSubmit.call(self)
+    expect(self.$store.commit).toHaveBeenCalledWith(`notify`, {
       body: `Your account has been successfully imported.`,
       title: `Welcome back!`
     })
-    expect(store.dispatch).toHaveBeenCalledWith(`signIn`, {
+    expect(self.$store.dispatch).toHaveBeenCalledWith(`signIn`, {
       errorCollection: undefined,
       sessionType: `local`,
       localKeyPairName: `foo123`,
       password: `1234567890`
     })
+  })
+
+  it(`should close the modal on successful login`, async () => {
+    const self = {
+      $store: {
+        dispatch: jest.fn(),
+        commit: jest.fn()
+      },
+      $emit: jest.fn(),
+      fields: {
+        importName: `foo123`,
+        importPassword: `1234567890`,
+        importPasswordConfirm: `1234567890`,
+        importSeed: seed
+      },
+      $v: {
+        $touch: () => {},
+        $error: false
+      }
+    }
+    await TmSessionImport.methods.onSubmit.call(self)
+    expect(self.$emit).toHaveBeenCalledWith(`close`)
   })
 
   it(`should show error if seed is not filled in`, async () => {
