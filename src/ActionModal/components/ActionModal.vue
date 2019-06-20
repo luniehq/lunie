@@ -253,8 +253,6 @@ export default {
       `connected`,
       `session`,
       `bondDenom`,
-      `wallet`,
-      `ledger`,
       `liquidAtoms`,
       `modalContext`
     ]),
