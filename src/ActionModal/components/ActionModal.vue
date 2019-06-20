@@ -307,7 +307,7 @@ export default {
   },
   methods: {
     open() {
-      this.track(`event`, `modal`, this.title)
+      this.trackEvent(`event`, `modal`, this.title)
       this.gasPrice = config.default_gas_price.toFixed(9)
       this.show = true
     },
@@ -320,6 +320,9 @@ export default {
       // reset form
       this.$v.$reset()
       this.$emit(`close`)
+    },
+    trackEvent(...args) {
+      track(...args)
     },
     goToSession() {
       this.close()
@@ -377,7 +380,7 @@ export default {
     },
     async submit() {
       this.submissionError = null
-      track(`event`, `submit`, this.title, this.selectedSignMethod)
+      this.trackEvent(`event`, `submit`, this.title, this.selectedSignMethod)
 
       if (this.selectedSignMethod === signWithLedger) {
         await this.connectLedger()
@@ -399,7 +402,12 @@ export default {
 
       try {
         await this.actionManager.send(memo, feeProperties)
-        track(`event`, `successful-submit`, this.title, this.selectedSignMethod)
+        this.trackEvent(
+          `event`,
+          `successful-submit`,
+          this.title,
+          this.selectedSignMethod
+        )
         this.$store.commit(`notify`, this.notifyMessage)
         this.$store.dispatch(`post${type}`, {
           txProps: transactionProperties,
@@ -408,7 +416,7 @@ export default {
         this.close()
       } catch ({ message }) {
         this.submissionError = `${this.submissionErrorPrefix}: ${message}.`
-        track(`event`, `failed-submit`, this.title, message)
+        this.trackEvent(`event`, `failed-submit`, this.title, message)
       }
     },
     async connectLedger() {
