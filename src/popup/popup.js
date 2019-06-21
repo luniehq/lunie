@@ -6,7 +6,7 @@ import router from './router';
 global.browser = require('webextension-polyfill');
 Vue.prototype.$browser = global.browser;
 
-store.commit('setInsecureMode');
+store.dispatch('loadAccounts');
 
 /* eslint-disable no-new */
 new Vue({

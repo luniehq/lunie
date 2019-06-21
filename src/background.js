@@ -1,5 +1,5 @@
 import 'babel-polyfill';
-const { getWalletIndex, getStoredWallet, signWithPrivateKey, getNewWallet, storeWallet, getNewWalletFromSeed, removeWallet, getSeed } = require('@lunie/cosmos-keys');
+const { getWalletIndex, getStoredWallet, signWithPrivateKey, testPassword, storeWallet, getNewWalletFromSeed, removeWallet, getSeed } = require('@lunie/cosmos-keys');
 const { createSignMessage } = require('@lunie/cosmos-api');
 
 global.browser = require('webextension-polyfill');
@@ -9,16 +9,16 @@ global.browser = require('webextension-polyfill');
 // TODO handle requests from account-management-popup (create account | delete account | import account [| rename account])
 
 // main message handler
-chrome.runtime.onMessage.addListener((message, sender, callback) => {
-  signMessageHandler(message, sender, callback);
-  walletMessageHandler(message, sender, callback);
+chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+  signMessageHandler(message, sender, sendResponse);
+  walletMessageHandler(message, sender, sendResponse);
 });
 
 // open request popup
 // chrome.tabs.create({ url: chrome.extension.getURL('./request/request.html') }, function(tab) {
 // });
 
-function signMessageHandler(message, sender, callback) {
+function signMessageHandler(message, sender, sendResponse) {
   switch (message.type) {
     case 'SIGN_REQUEST': {
       const { stdTx, senderAddress } = message.payload;
@@ -37,34 +37,37 @@ function signMessageHandler(message, sender, callback) {
     }
   }
 }
-function walletMessageHandler(message, sender, callback) {
+function walletMessageHandler(message, sender, sendResponse) {
   switch (message.type) {
     case 'GET_SEED': {
-      callback(getSeed());
+      sendResponse(getSeed());
       break;
     }
     case 'GET_WALLETS': {
-      callback(getWalletIndex());
-      break;
-    }
-    case 'CREATE_WALLET': {
-      const { name, password } = message.payload;
-      const wallet = getNewWallet();
-      storeWallet(wallet, name, password);
-      callback();
+      sendResponse(getWalletIndex());
       break;
     }
     case 'IMPORT_WALLET': {
       const { name, password, mnemonic } = message.payload;
       const wallet = getNewWalletFromSeed(mnemonic);
       storeWallet(wallet, name, password);
-      callback();
+      sendResponse();
       break;
     }
     case 'DELETE_WALLET': {
       const { address, password } = message.payload;
       removeWallet(address, password);
-      callback();
+      sendResponse();
+      break;
+    }
+    case 'TEST_PASSWORD': {
+      const { address, password } = message.payload;
+      try {
+        testPassword(address, password);
+        sendResponse(true);
+      } catch (error) {
+        sendResponse(false);
+      }
       break;
     }
   }

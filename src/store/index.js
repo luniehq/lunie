@@ -14,7 +14,9 @@ const modules = {
 };
 
 export default new Vuex.Store({
-  state: {},
+  state: {
+    accounts: [],
+  },
   getters,
   modules,
   actions,

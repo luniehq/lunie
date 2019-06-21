@@ -1,6 +1,6 @@
 <template>
   <div>
-    <SessionRouter @close="close" />
+    <SessionRouter ref="router" @close="close" />
   </div>
 </template>
 
@@ -11,8 +11,8 @@ export default {
     SessionRouter,
   },
   methods: {
-    close: () => {
-      window.close();
+    close() {
+      this.$refs.router.goTo('welcome');
     },
   },
 };
