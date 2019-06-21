@@ -58,9 +58,7 @@ export const getSignRequest = ({ commit }) => {
       },
       function(response) {
         commit('setSignRequest', response);
-        if (response) {
-          commit('setSessionModalView', 'approve');
-        }
+        resolve(response);
       }
     );
   });

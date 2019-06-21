@@ -5,6 +5,7 @@
 </template>
 
 <script>
+import 'babel-polyfill';
 import SessionRouter from 'common/SessionRouter';
 
 // DEMO
@@ -24,6 +25,12 @@ export default {
     close() {
       this.$refs.router.goTo('welcome');
     },
+  },
+  mounted() {
+    const signRequest = this.$store.dispatch('getSignRequest');
+    if (signRequest) {
+      this.$refs.router.goTo('approve');
+    }
   },
 };
 </script>
