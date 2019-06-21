@@ -91,6 +91,14 @@ describe(`UndelegationModal`, () => {
     })
   })
 
+  it(`should submit when enterPressed is called`, async () => {
+    const self = {
+      $refs: { actionModal: { validateChangeStep: jest.fn() } }
+    }
+    UndelegationModal.methods.enterPressed.call(self)
+    expect(self.$refs.actionModal.validateChangeStep).toHaveBeenCalled()
+  })
+
   describe("Submission Data", () => {
     beforeEach(() => {
       wrapper.setData({

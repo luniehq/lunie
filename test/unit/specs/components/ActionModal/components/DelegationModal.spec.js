@@ -73,6 +73,14 @@ describe(`DelegationModal`, () => {
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
+  it(`should submit when enterPressed is called`, async () => {
+    const self = {
+      $refs: { actionModal: { validateChangeStep: jest.fn() } }
+    }
+    DelegationModal.methods.enterPressed.call(self)
+    expect(self.$refs.actionModal.validateChangeStep).toHaveBeenCalled()
+  })
+
   it(`opens`, () => {
     const $refs = { actionModal: { open: jest.fn() } }
     DelegationModal.methods.open.call({ $refs })
