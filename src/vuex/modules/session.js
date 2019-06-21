@@ -4,13 +4,6 @@ import config from "src/config"
 import { loadKeys, importKey, testPassword } from "../../scripts/keystore.js"
 import { getSeed } from "@lunie/cosmos-keys"
 
-export function extensionListener(store, { data }) {
-  if (data.type === "LUNIE_EXTENSION") {
-    store.dispatch("setExtensionStatus", true)
-    console.log("Woah! You have the Lunie Extension installed!")
-  }
-}
-
 export default () => {
   const USER_PREFERENCES_KEY = `lunie_user_preferences`
 
@@ -19,7 +12,7 @@ export default () => {
     experimentalMode: config.development, // development mode, can be set from browser
     insecureMode: false, // show the local signer
     signedIn: false,
-    sessionType: null, // local, ledger
+    sessionType: null, // local, ledger, extension
     extensionInstalled: false,
     accounts: [],
     localKeyPairName: null, // used for signing with a locally stored key; TODO: move into own module
@@ -94,7 +87,8 @@ export default () => {
     setSessionModalView(state, value) {
       state.modals.session.state = value
     },
-    setExtensionInstalled(state, installed) {
+    setExtensionInstalled(state, installed = true) {
+      installed && console.log("Ext. Enabled")
       state.extensionInstalled = installed
     }
   }
@@ -262,8 +256,9 @@ export default () => {
         console.log(`Analytics collection has been disabled`)
       }
     },
-    setExtensionStatus({ commit }, status) {
-      commit(`setExtensionInstalled`, status)
+    setExtensionEnabled({ commit }) {
+      console.log("Ext. enabling extension")
+      commit(`setExtensionInstalled`)
     }
   }
 
