@@ -88,13 +88,13 @@ describe(`TmBalance`, () => {
         stake: 0
       }
     }
-    expect(wrapper.vm.ready).toBe(false)
+    expect(wrapper.vm.readyToWithdraw).toBe(false)
     wrapper.vm.distribution.rewards = {
       validatorX: {
         stake: 50000
       }
     }
-    expect(wrapper.vm.ready).toBe(true)
+    expect(wrapper.vm.readyToWithdraw).toBe(true)
   })
 
   describe(`update balance and total rewards on new blocks`, () => {

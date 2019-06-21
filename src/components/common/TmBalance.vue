@@ -12,12 +12,15 @@
         <h3>Available {{ num.viewDenom(bondDenom) }}</h3>
         <h2>{{ unbondedAtoms }}</h2>
       </div>
-      <div v-if="rewards" class="top-section">
+      <div
+        v-if="rewards"
+        class="top-section"
+      >
         <h3>Rewards</h3>
         <h2>{{ rewards }}</h2>
         <TmBtn
           id="withdraw-btn"
-          :disabled="!ready"
+          :disabled="!readyToWithdraw"
           class="withdraw-rewards"
           :value="connected ? 'Withdraw' : 'Connecting...'"
           :to="''"
@@ -82,7 +85,9 @@ export default {
     totalRewards() {
       return this.distribution.totalRewards[this.bondDenom]
     },
-    ready() {
+    // only be ready to withdraw of the validator rewards are loaded and the user has rewards to withdraw
+    // the validator rewards are needed to filter the top 5 validators to withdraw from
+    readyToWithdraw() {
       return (
         Object.values(this.distribution.rewards)
           .map(rewards => rewards[this.bondDenom])
