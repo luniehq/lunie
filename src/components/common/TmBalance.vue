@@ -12,7 +12,10 @@
         <h3>Available {{ num.viewDenom(bondDenom) }}</h3>
         <h2>{{ unbondedAtoms }}</h2>
       </div>
-      <div v-if="rewards" class="top-section">
+      <div
+        v-if="rewards"
+        class="top-section"
+      >
         <h3>Rewards</h3>
         <h2>{{ rewards }}</h2>
         <TmBtn
@@ -64,7 +67,8 @@ export default {
       `lastHeader`,
       `totalAtoms`,
       `bondDenom`,
-      `distribution`
+      `distribution`,
+      `validatorsWithRewards`
     ]),
     loaded() {
       return this.wallet.loaded && this.delegation.loaded
@@ -85,12 +89,7 @@ export default {
     // only be ready to withdraw of the validator rewards are loaded and the user has rewards to withdraw
     // the validator rewards are needed to filter the top 5 validators to withdraw from
     readyToWithdraw() {
-      return (
-        Object.values(this.distribution.rewards)
-          .map(rewards => rewards[this.bondDenom])
-          .filter(bondDenomRewards => bondDenomRewards > 0).length > 0 &&
-        this.totalRewards > 0
-      )
+      return this.validatorsWithRewards.length > 0 && this.totalRewards > 0
     },
     rewards() {
       if (!this.distribution.loaded) {

@@ -19,11 +19,6 @@ describe(`TmBalance`, () => {
           loaded: true,
           totalRewards: {
             stake: 1000450000000
-          },
-          rewards: {
-            validatorX: {
-              stake: 1000450000000
-            }
           }
         },
         delegation: {
@@ -32,7 +27,8 @@ describe(`TmBalance`, () => {
         wallet: {
           loaded: true
         },
-        lastHeader: { height: `10` }
+        lastHeader: { height: `10` },
+        validatorsWithRewards: ["validatorX"]
       },
       dispatch: jest.fn()
     }
@@ -83,18 +79,12 @@ describe(`TmBalance`, () => {
   })
 
   it(`doesn't open withdraw modal if validator rewards are not loaded yet`, () => {
-    wrapper.vm.distribution.rewards = {
-      validatorX: {
-        stake: 0
-      }
-    }
-    expect(wrapper.vm.readyToWithdraw).toBe(false)
-    wrapper.vm.distribution.rewards = {
-      validatorX: {
-        stake: 50000
-      }
-    }
-    expect(wrapper.vm.readyToWithdraw).toBe(true)
+    expect(
+      TmBalance.computed.readyToWithdraw.call({
+        validatorsWithRewards: [],
+        totalRewards: 1000
+      })
+    ).toBe(false)
   })
 
   describe(`update balance and total rewards on new blocks`, () => {
