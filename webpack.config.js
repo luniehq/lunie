@@ -29,6 +29,7 @@ const config = {
     alias: {
       assets: resolve('lunie/src/assets'),
       common: resolve('lunie/src/components/common'),
+      transactions: resolve('lunie/src/components/transactions'),
       modules: resolve('lunie/src/vuex/modules'),
       'src/config': resolve('config.js'),
       src: resolve('lunie/src'),

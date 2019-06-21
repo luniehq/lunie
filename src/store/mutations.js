@@ -1,6 +1,9 @@
 export const setSessionModalView = (state, view) => {
-  console.log('view', view);
   state.route = view;
+};
+
+export const setSignRequest = (state, signRequest) => {
+  state.signRequest = setSignRequest;
 };
 
 export const setInsecureMode = () => {};

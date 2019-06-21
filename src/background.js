@@ -4,35 +4,42 @@ const { createSignMessage } = require('@lunie/cosmos-api');
 
 global.browser = require('webextension-polyfill');
 
-// TODO handle requests from sign-request-popup (message, password)
-
-// TODO handle requests from account-management-popup (create account | delete account | import account [| rename account])
-
 // main message handler
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   signMessageHandler(message, sender, sendResponse);
   walletMessageHandler(message, sender, sendResponse);
 });
 
-// open request popup
-// chrome.tabs.create({ url: chrome.extension.getURL('./request/request.html') }, function(tab) {
-// });
+let signRequestQueue = [];
 
 function signMessageHandler(message, sender, sendResponse) {
   switch (message.type) {
     case 'SIGN_REQUEST': {
       const { stdTx, senderAddress } = message.payload;
       const wallet = getWalletFromIndex(getWalletIndex(), senderAddress);
-      // ... Open or signal sign request
+      if (!wallet) {
+        throw new Error('No wallet found matching the sender address.');
+      }
+      queueSignRequest({ stdTx, senderAddress });
       break;
     }
     case 'SIGN': {
-      const { stdTx, senderAddress, password, chainId, sequence, accountNumber } = message.payload;
+      const { stdTx, senderAddress, password, chainId, sequence, accountNumber, id } = message.payload;
       const wallet = getStoredWallet(senderAddress, password);
 
       const signMessage = createSignMessage(stdTx, { sequence, accountNumber, chainId });
       const signature = signWithPrivateKey(signMessage, Buffer.from(wallet.privateKey, 'hex'));
-      // ... Send back to Lunie
+      sendResponse(signature);
+      unqueueSignRequest(id);
+      break;
+    }
+    case 'GET_SIGN_REQUEST': {
+      sendResponse(signRequestQueue.length > 0 ? signRequestQueue[0] : undefined);
+      break;
+    }
+    case 'DISAPPROVE_SIGN_REQUEST': {
+      const { id } = message.payload;
+      unqueueSignRequest(id);
       break;
     }
   }
@@ -75,4 +82,16 @@ function walletMessageHandler(message, sender, sendResponse) {
 
 function getWalletFromIndex(walletIndex, address) {
   return walletIndex.find(({ address: storedAddress }) => storedAddress === address);
+}
+
+function queueSignRequest({ stdTx, senderAddress }) {
+  signRequestQueue.push({ stdTx, senderAddress, id: Date.now() });
+  chrome.browserAction.setIcon({ path: 'icons/icon-alert-128x128.png' });
+}
+
+function unqueueSignRequest(id) {
+  signRequestQueue = signRequestQueue.filter(({ id: storedId }) => storedId !== id);
+  if (signRequestQueue.length === 0) {
+    chrome.browserAction.setIcon({ path: 'icons/128x128.png' });
+  }
 }
