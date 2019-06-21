@@ -15,6 +15,7 @@ import SessionExplore from "common/TmSessionExplore"
 import SessionSignUp from "common/TmSessionSignUp"
 import SessionSignIn from "common/TmSessionSignIn"
 import SessionHardware from "common/TmSessionHardware"
+import SessionExtension from "common/TmSessionExtension"
 import SessionImport from "common/TmSessionImport"
 import SessionAccountDelete from "common/TmSessionAccountDelete"
 import SessionApprove from "common/SessionApprove"
@@ -30,6 +31,7 @@ export default {
     SessionSignUp,
     SessionSignIn,
     SessionHardware,
+    SessionExtension,
     SessionImport,
     SessionAccountDelete,
     SessionApprove,
