@@ -29,7 +29,7 @@ exports[`ActionModal should show the action modal when user has logged in with l
     </span>
      
     <steps-stub
-      active="details"
+      activestep="details"
       steps="Details,Fees,Sign"
     />
   </div>
@@ -86,7 +86,7 @@ exports[`ActionModal should show the action modal when user has logged in with l
     </span>
      
     <steps-stub
-      active="fees"
+      activestep="fees"
       steps="Details,Fees,Sign"
     />
   </div>
@@ -153,7 +153,7 @@ exports[`ActionModal should show the action modal when user has logged in with l
     </span>
      
     <steps-stub
-      active="sign"
+      activestep="sign"
       steps="Details,Fees,Sign"
     />
   </div>
@@ -224,7 +224,7 @@ exports[`ActionModal should show the action modal when user has logged in with l
     </span>
      
     <steps-stub
-      active="details"
+      activestep="details"
       steps="Details,Fees,Sign"
     />
   </div>
@@ -281,7 +281,7 @@ exports[`ActionModal should show the action modal when user has logged in with l
     </span>
      
     <steps-stub
-      active="fees"
+      activestep="fees"
       steps="Details,Fees,Sign"
     />
   </div>
@@ -348,7 +348,7 @@ exports[`ActionModal should show the action modal when user has logged in with l
     </span>
      
     <steps-stub
-      active="sign"
+      activestep="sign"
       steps="Details,Fees,Sign"
     />
   </div>
@@ -422,7 +422,7 @@ exports[`ActionModal should show the action modal when user hasn't logged in 1`]
     </span>
      
     <steps-stub
-      active="details"
+      activestep="details"
       steps="Details,Fees,Sign"
     />
   </div>

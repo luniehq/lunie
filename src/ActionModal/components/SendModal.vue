@@ -18,7 +18,7 @@
     >
       <TmField
         id="send-denomination"
-        :value="num.viewDenom($v.denom.$model)"
+        :value="viewDenom($v.denom.$model)"
         type="text"
         readonly
       />
@@ -68,7 +68,7 @@
       />
       <TmFormMsg
         v-if="balance === 0"
-        :msg="`doesn't have any ${num.viewDenom(denom)}s`"
+        :msg="`doesn't have any ${viewDenom(denom)}s`"
         name="Wallet"
         type="custom"
       />
@@ -126,7 +126,7 @@
 <script>
 import b32 from "scripts/b32"
 import { required, between, decimal, maxLength } from "vuelidate/lib/validators"
-import num, { uatoms, atoms, SMALLEST } from "src/scripts/num.js"
+import { uatoms, atoms, viewDenom, SMALLEST } from "src/scripts/num.js"
 import { mapGetters } from "vuex"
 import TmFormGroup from "src/components/common/TmFormGroup"
 import TmField from "src/components/common/TmField"
@@ -148,13 +148,12 @@ export default {
     address: ``,
     amount: null,
     denom: ``,
-    num,
     memo: "(Sent via Lunie)",
     max_memo_characters: 256,
     editMemo: false
   }),
   computed: {
-    ...mapGetters([`wallet`, `session`]),
+    ...mapGetters([`wallet`]),
     balance() {
       const denom = this.wallet.balances.find(b => b.denom === this.denom)
       return (denom && denom.amount) || 0
@@ -175,9 +174,9 @@ export default {
     notifyMessage() {
       return {
         title: `Successful Send`,
-        body: `Successfully sent ${+this.amount} ${num.viewDenom(
-          this.denom
-        )}s to ${this.address}`
+        body: `Successfully sent ${+this.amount} ${viewDenom(this.denom)}s to ${
+          this.address
+        }`
       }
     }
   },
@@ -187,6 +186,7 @@ export default {
     }
   },
   methods: {
+    viewDenom,
     open(denom) {
       this.denom = denom
       this.$refs.actionModal.open()

@@ -12,7 +12,7 @@
         <span class="action-modal-title">
           {{ requiresSignIn ? `Sign in required` : title }}
         </span>
-        <Steps :steps="['Details', 'Fees', 'Sign']" :active="step" />
+        <Steps :steps="['Details', 'Fees', 'Sign']" :active-step="step" />
       </div>
       <div v-if="requiresSignIn" class="action-modal-form">
         <p>You need to sign in to submit a transaction.</p>
@@ -253,8 +253,6 @@ export default {
       `connected`,
       `session`,
       `bondDenom`,
-      `wallet`,
-      `ledger`,
       `liquidAtoms`,
       `modalContext`
     ]),

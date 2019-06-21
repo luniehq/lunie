@@ -3,32 +3,32 @@
     <ul class="table-invoice">
       <li v-if="subTotal > 0">
         <span>Subtotal</span>
-        <span>
-          {{ num.fullDecimals(subTotal) }} {{ num.viewDenom(bondDenom) }}
-        </span>
+        <span> {{ subTotal | fullDecimals }} {{ bondDenom | viewDenom }} </span>
       </li>
       <li>
         <span>Network Fee</span>
         <span>
-          {{ num.fullDecimals(estimatedFee) }}
-          {{ num.viewDenom(bondDenom) }}
+          {{ estimatedFee | fullDecimals }}
+          {{ bondDenom | viewDenom }}
         </span>
       </li>
       <li class="total-row">
         <span>Total</span>
-        <span>
-          {{ num.fullDecimals(total) }} {{ num.viewDenom(bondDenom) }}
-        </span>
+        <span> {{ total | fullDecimals }} {{ bondDenom | viewDenom }} </span>
       </li>
     </ul>
   </div>
 </template>
 <script>
-import num from "../../scripts/num.js"
+import { fullDecimals, viewDenom } from "../../scripts/num.js"
 import { mapGetters } from "vuex"
 
 export default {
   name: `table-invoice`,
+  filters: {
+    fullDecimals,
+    viewDenom
+  },
   props: {
     amount: {
       type: Number,
@@ -44,7 +44,6 @@ export default {
     }
   },
   data: () => ({
-    num,
     info: `Estimated network fees based on simulation.`
   }),
   computed: {

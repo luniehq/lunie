@@ -66,7 +66,7 @@
       field-id="amount"
       field-label="Deposit"
     >
-      <span class="input-suffix">{{ num.viewDenom(denom) }}</span>
+      <span class="input-suffix">{{ denom | viewDenom }}</span>
       <TmField
         id="amount"
         v-model="amount"
@@ -75,7 +75,7 @@
       />
       <TmFormMsg
         v-if="balance === 0"
-        :msg="`doesn't have any ${num.viewDenom(denom)}s`"
+        :msg="`doesn't have any ${viewDenom(denom)}s`"
         name="Wallet"
         type="custom"
       />
@@ -109,7 +109,7 @@ import {
   between,
   decimal
 } from "vuelidate/lib/validators"
-import num, { uatoms, atoms, SMALLEST } from "src/scripts/num.js"
+import { uatoms, atoms, viewDenom, SMALLEST } from "src/scripts/num.js"
 import isEmpty from "lodash.isempty"
 import trim from "lodash.trim"
 import TmField from "src/components/common/TmField"
@@ -132,6 +132,9 @@ export default {
     TmFormGroup,
     TmFormMsg
   },
+  filters: {
+    viewDenom
+  },
   props: {
     denom: {
       type: String,
@@ -144,11 +147,10 @@ export default {
     title: ``,
     description: ``,
     type: `Text`,
-    amount: 0,
-    num
+    amount: 0
   }),
   computed: {
-    ...mapGetters([`wallet`, `bondDenom`]),
+    ...mapGetters([`wallet`]),
     balance() {
       // TODO: refactor to get the selected coin when multicoin deposit is enabled
       if (!this.wallet.loading && !!this.wallet.balances.length) {
@@ -205,6 +207,7 @@ export default {
     }
   },
   methods: {
+    viewDenom,
     open() {
       this.$refs.actionModal.open()
     },
