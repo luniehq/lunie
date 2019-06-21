@@ -1,5 +1,5 @@
 <template>
-  <TmPage class="approve-tran" hide-header>
+  <div class="approve-tran" hide-header>
     <h2>Approve Transaction</h2>
     <div>
       <p>Verify the transaction details below.</p>
@@ -24,11 +24,10 @@
         <TmBtn value="Next" color="primary" />
       </div>
     </TmFormGroup>
-  </TmPage>
+  </div>
 </template>
 
 <script>
-import TmPage from "common/TmPage"
 import TmBtn from "common/TmBtn"
 import TmFormGroup from "common/TmFormGroup"
 import LiAnyTransaction from "transactions/LiAnyTransaction"
@@ -37,7 +36,6 @@ import TableInvoice from "src/ActionModal/components/TableInvoice"
 export default {
   name: `ext-approve-tran`,
   components: {
-    TmPage,
     TmBtn,
     TmFormGroup,
     LiAnyTransaction,
