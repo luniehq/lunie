@@ -11,13 +11,13 @@
         :validators="deligates"
         :transaction="tx"
         :hide-right-side="true"
+        validators-url="/"
+        proposals-url="/"
         bonding-denom="Atoms"
       />
 
       <!-- Going to take some more logic based on how transactions are passed in -->
-      <div>
-        From <Bech32 :address="currentAccount.address" />
-      </div>
+      <div>From <Bech32 :address="currentAccount.address" /></div>
 
       <TableInvoice
         :amount="12"
