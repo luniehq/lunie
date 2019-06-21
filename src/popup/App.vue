@@ -6,6 +6,16 @@
 
 <script>
 import SessionRouter from 'common/SessionRouter';
+
+// DEMO
+chrome.runtime.sendMessage({
+  type: 'SIGN_REQUEST',
+  payload: {
+    stdTx: {},
+    senderAddress: 'cosmos15dmhvlgge2ylgshk8k0chveez8c6qeng226jtl',
+  },
+});
+
 export default {
   components: {
     SessionRouter,

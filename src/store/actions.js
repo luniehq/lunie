@@ -50,4 +50,20 @@ export const testLogin = (store, { address, password }) => {
   });
 };
 
+export const getSignRequest = ({ commit }) => {
+  return new Promise(resolve => {
+    chrome.runtime.sendMessage(
+      {
+        type: 'GET_SIGN_REQUEST',
+      },
+      function(response) {
+        commit('setSignRequest', response);
+        if (response) {
+          commit('setSessionModalView', 'approve');
+        }
+      }
+    );
+  });
+};
+
 export const signIn = () => {};
