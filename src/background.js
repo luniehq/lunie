@@ -11,6 +11,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 });
 
 let signRequestQueue = [];
+unqueueSignRequest(''); // restart icons on restart
 
 function signMessageHandler(message, sender, sendResponse) {
   switch (message.type) {
