@@ -14,6 +14,11 @@
         bonding-denom="Atoms"
       />
 
+      <!-- Going to take some more logic based on how transactions are passed in -->
+      <div>
+        From <Bech32 :address="currentAccount.address" />
+      </div>
+
       <TableInvoice
         :amount="12"
         :gas-estimate="Number(obj[0].gas_wanted)"
@@ -21,7 +26,8 @@
       />
 
       <div class="approve-tran-footer">
-        <TmBtn value="Next" color="primary" />
+        <TmBtn value="Reject" class="left-button" color="secondary" />
+        <TmBtn value="Approve" class="right-button" color="primary" />
       </div>
     </TmFormGroup>
   </div>
@@ -32,6 +38,7 @@ import TmBtn from "common/TmBtn"
 import TmFormGroup from "common/TmFormGroup"
 import LiAnyTransaction from "transactions/LiAnyTransaction"
 import TableInvoice from "src/ActionModal/components/TableInvoice"
+import Bech32 from "common/Bech32"
 
 export default {
   name: `ext-approve-tran`,
@@ -39,7 +46,8 @@ export default {
     TmBtn,
     TmFormGroup,
     LiAnyTransaction,
-    TableInvoice
+    TableInvoice,
+    Bech32
   },
   data: () => ({
     obj: [
@@ -157,7 +165,10 @@ export default {
           missed_blocks_counter: "0"
         }
       }
-    ]
+    ],
+    currentAccount: {
+      address: "cosmos1vgkesh3z4wuglzjf9fjvcvkcxhp22rqx3sd5zr"
+    }
   })
 }
 </script>
@@ -197,7 +208,7 @@ export default {
 
 .approve-tran-footer {
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-around;
   padding: 1.5rem 0 1rem;
 
   /* keeps button in bottom right no matter the size of the action modal */
