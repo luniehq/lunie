@@ -2,9 +2,13 @@
   <div class="tool-bar">
     <slot />
     <a v-if="session.signedIn" id="signOut-btn" @click="signOut()">
-      <i v-tooltip.bottom.end="'Sign Out'" class="material-icons">
+      
+      <i v-if="!displayText" v-tooltip.bottom.end="'Sign Out'" class="material-icons">
         exit_to_app
       </i>
+      <template v-else>
+        Sign Out
+      </template>
     </a>
     <TmBtn
       v-if="!session.signedIn"
@@ -22,6 +26,12 @@ import TmBtn from "common/TmBtn"
 export default {
   name: `tool-bar`,
   components: { TmBtn },
+  props: {
+    displayText: {
+      type: Boolean,
+      default: false
+    },
+  },
   computed: {
     ...mapGetters([`session`])
   },

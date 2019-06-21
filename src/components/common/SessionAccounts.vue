@@ -11,12 +11,14 @@
         and to approve transactions.
       </p>
     </div>
-    <div class="card content">
-      <div class="content-left">
-        <h3>Thanos</h3>
-        <Bech32 :address="address" short-form />
+    <div v-for="account in accounts" :key="account.address">
+      <div class="card content">
+        <div class="content-left">
+          <h3>{{ account.name }}</h3>
+          <Bech32 :address="account.address" short-form />
+        </div>
+        <TmBtn value="Go to Lunie" color="primary" />
       </div>
-      <TmBtn value="Go to Lunie" color="primary" />
     </div>
   </TmPage>
 </template>
@@ -34,21 +36,21 @@ export default {
     ToolBar,
     Bech32
   },
-  props: {
-    address: {
-      type: String,
-      //Remove Default
-      default: "cosmos1ek9cd8ewgxg9w5x3benji0uf4aaxaruvcw4v9e",
-      required: true
-    }
-  }
+  data: () => ({
+    accounts: [
+      {
+        address: "cosmos1ek9cd8ewgxg9w5x3benji0uf4aaxaruvcw4v9e",
+        name: "Account 1"
+      }
+    ]
+  })
 }
 </script>
 
 <style scoped>
 .accounts {
   padding: 2rem;
-  background: var(--app-fg);
+  background: var(--fg);
   border-left: 1px solid var(--bc-dim);
 }
 

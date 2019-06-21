@@ -47,7 +47,7 @@ export default {
 <style scoped>
 .backup-code {
   padding: 2rem;
-  background: var(--app-fg);
+  background: var(--fg);
   border-left: 1px solid var(--bc-dim);
 }
 
