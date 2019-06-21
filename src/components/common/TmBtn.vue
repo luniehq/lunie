@@ -1,23 +1,49 @@
 <template>
-  <router-link v-if="type === 'link'" :to="to" exact="exact">
+  <router-link
+    v-if="type === 'link'"
+    :to="to"
+    exact="exact"
+    :disabled="disabled"
+  >
     {{ value }}
   </router-link>
-  <a v-else-if="type === 'anchor'" class="tm-btn">
+  <a
+    v-else-if="type === 'anchor'"
+    :disabled="disabled"
+  >
     <span :class="btnClass">
-      <i v-if="icon" :class="'tm-btn__icon material-icons'" aria-hidden="true">
-        {{ icon }} </i
-      ><span v-if="value" class="tm-btn__value">{{ value }}</span>
-    </span> </a
-  ><button v-else :type="type" class="tm-btn">
+      <i
+        v-if="icon"
+        :class="'tm-btn__icon material-icons'"
+        aria-hidden="true"
+      >
+        {{ icon }} </i><span
+        v-if="value"
+        class="tm-btn__value"
+      >{{ value }}</span>
+    </span>
+  </a>
+  <button
+    v-else
+    :type="type"
+    class="tm-btn"
+    :disabled="disabled"
+  >
     <span :class="btnClass">
-      <i v-if="icon" :class="'tm-btn__icon material-icons'" aria-hidden="true">
-        {{ icon }} </i
-      ><img
+      <i
+        v-if="icon"
+        :class="'tm-btn__icon material-icons'"
+        aria-hidden="true"
+      >
+        {{ icon }} </i><img
         v-else-if="img"
         :src="img"
         :class="'tm-btn__img'"
         aria-hidden="true"
-      /><span v-if="value" class="tm-btn__value">{{ value }}</span>
+      /><span
+        v-if="value"
+        class="tm-btn__value"
+      >{{ value }}</span>
     </span>
   </button>
 </template>
@@ -58,6 +84,10 @@ export default {
     color: {
       type: String,
       default: null
+    },
+    disabled: {
+      type: Boolean,
+      default: false
     }
   },
   computed: {
@@ -72,7 +102,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .tm-btn {
   padding: 0;
   border: none;
@@ -84,7 +114,15 @@ export default {
   height: 100%;
 }
 
-.tm-btn__container {
+a {
+  cursor: pointer;
+}
+
+[disabled] * {
+  opacity: 0.7;
+}
+
+.tm-btn .tm-btn__container {
   font-family: var(--sans);
   font-size: 1rem !important;
   font-weight: 400;
@@ -103,24 +141,24 @@ export default {
   align-items: center;
 }
 
-.tm-btn--secondary {
+.tm-btn .tm-btn--secondary {
   background: var(--app-bg, #fff);
 }
 
-.tm-btn__container::before,
-.tm-btn__container::after {
+.tm-btn .tm-btn__container::before,
+.tm-btn .tm-btn__container::after {
   content: "";
   flex: 1 0 auto;
 }
 
-.tm-btn__container:hover:enabled {
+.tm-btn .tm-btn__container:hover:enabled {
   color: var(--txt, #333);
   text-decoration: none;
   border-color: var(--bc, #ddd);
   background: var(--app-fg, #eee);
 }
 
-.tm-btn__value {
+.tm-btn .tm-btn__value {
   line-height: 1.5;
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -144,18 +182,18 @@ export default {
   cursor: not-allowed;
 }
 
-.tm-btn__container.tm-btn--size-sm {
+.tm-btn .tm-btn__container.tm-btn--size-sm {
   font-size: 0.75em;
   height: 1.5rem;
   line-height: 1rem;
   padding: 0 1rem;
 }
 
-.tm-btn__container.tm-btn--size-sm .tm-btn__value {
+.tm-btn .tm-btn__container.tm-btn--size-sm .tm-btn__value {
   font-size: 0.75rem;
 }
 
-.tm-btn__container.tm-btn--size-lg {
+.tm-btn .tm-btn__container.tm-btn--size-lg {
   font-size: 1.125em !important;
   height: 3rem;
   font-weight: normal;
