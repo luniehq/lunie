@@ -12,15 +12,12 @@
         <h3>Available {{ num.viewDenom(bondDenom) }}</h3>
         <h2>{{ unbondedAtoms }}</h2>
       </div>
-      <div
-        v-if="rewards"
-        class="top-section"
-      >
+      <div v-if="rewards" class="top-section">
         <h3>Rewards</h3>
         <h2>{{ rewards }}</h2>
         <TmBtn
-          :disabled="!ready"
           id="withdraw-btn"
+          :disabled="!ready"
           class="withdraw-rewards"
           :value="connected ? 'Withdraw' : 'Connecting...'"
           :to="''"
@@ -87,8 +84,8 @@ export default {
     },
     ready() {
       return (
-        Object.entries(this.distribution.rewards)
-          .map(([validator, rewards]) => rewards[this.bondDenom])
+        Object.values(this.distribution.rewards)
+          .map(rewards => rewards[this.bondDenom])
           .filter(bondDenomRewards => bondDenomRewards > 0).length > 0 &&
         this.totalRewards > 0
       )

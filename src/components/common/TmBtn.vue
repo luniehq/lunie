@@ -7,43 +7,23 @@
   >
     {{ value }}
   </router-link>
-  <a
-    v-else-if="type === 'anchor'"
-    :disabled="disabled"
-  >
+  <a v-else-if="type === 'anchor'" :disabled="disabled">
     <span :class="btnClass">
-      <i
-        v-if="icon"
-        :class="'tm-btn__icon material-icons'"
-        aria-hidden="true"
-      >
-        {{ icon }} </i><span
-        v-if="value"
-        class="tm-btn__value"
-      >{{ value }}</span>
+      <i v-if="icon" :class="'tm-btn__icon material-icons'" aria-hidden="true">
+        {{ icon }} </i
+      ><span v-if="value" class="tm-btn__value">{{ value }}</span>
     </span>
   </a>
-  <button
-    v-else
-    :type="type"
-    class="tm-btn"
-    :disabled="disabled"
-  >
+  <button v-else :type="type" class="tm-btn" :disabled="disabled">
     <span :class="btnClass">
-      <i
-        v-if="icon"
-        :class="'tm-btn__icon material-icons'"
-        aria-hidden="true"
-      >
-        {{ icon }} </i><img
+      <i v-if="icon" :class="'tm-btn__icon material-icons'" aria-hidden="true">
+        {{ icon }} </i
+      ><img
         v-else-if="img"
         :src="img"
         :class="'tm-btn__img'"
         aria-hidden="true"
-      /><span
-        v-if="value"
-        class="tm-btn__value"
-      >{{ value }}</span>
+      /><span v-if="value" class="tm-btn__value">{{ value }}</span>
     </span>
   </button>
 </template>
@@ -120,6 +100,7 @@ a {
 
 [disabled] * {
   opacity: 0.7;
+  cursor: not-allowed;
 }
 
 .tm-btn .tm-btn__container {
@@ -175,11 +156,6 @@ a {
 .tm-btn.disabled:focus:enabled,
 .tm-btn[disabled]:focus:enabled {
   outline: none;
-}
-
-.tm-btn.disabled .tm-btn__container,
-.tm-btn[disabled] .tm-btn__container {
-  cursor: not-allowed;
 }
 
 .tm-btn .tm-btn__container.tm-btn--size-sm {
