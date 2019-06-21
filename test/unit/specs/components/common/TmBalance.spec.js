@@ -19,6 +19,11 @@ describe(`TmBalance`, () => {
           loaded: true,
           totalRewards: {
             stake: 1000450000000
+          },
+          rewards: {
+            validatorX: {
+              stake: 1000450000000
+            }
           }
         },
         delegation: {
@@ -42,7 +47,7 @@ describe(`TmBalance`, () => {
     })
   })
 
-  it(`has the expected html structure before adding props`, () => {
+  it(`show the balance header`, () => {
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
@@ -75,6 +80,21 @@ describe(`TmBalance`, () => {
     const $refs = { ModalWithdrawRewards: { open: jest.fn() } }
     TmBalance.methods.onWithdrawal.call({ $refs })
     expect($refs.ModalWithdrawRewards.open).toHaveBeenCalled()
+  })
+
+  it(`doesn't open withdraw modal if validator rewards are not loaded yet`, () => {
+    wrapper.vm.distribution.rewards = {
+      validatorX: {
+        stake: 0
+      }
+    }
+    expect(wrapper.vm.ready).toBe(false)
+    wrapper.vm.distribution.rewards = {
+      validatorX: {
+        stake: 50000
+      }
+    }
+    expect(wrapper.vm.ready).toBe(true)
   })
 
   describe(`update balance and total rewards on new blocks`, () => {

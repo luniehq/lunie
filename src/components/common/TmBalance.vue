@@ -12,18 +12,21 @@
         <h3>Available {{ num.viewDenom(bondDenom) }}</h3>
         <h2>{{ unbondedAtoms }}</h2>
       </div>
-      <div v-if="rewards" class="top-section">
+      <div
+        v-if="rewards"
+        class="top-section"
+      >
         <h3>Rewards</h3>
         <h2>{{ rewards }}</h2>
         <TmBtn
-          v-show="totalRewards > 0"
+          :disabled="!ready"
           id="withdraw-btn"
           class="withdraw-rewards"
           :value="connected ? 'Withdraw' : 'Connecting...'"
           :to="''"
-          type="link"
+          type="anchor"
           size="sm"
-          @click.native="onWithdrawal"
+          @click.native="ready && onWithdrawal()"
         />
       </div>
     </div>
@@ -81,6 +84,14 @@ export default {
     },
     totalRewards() {
       return this.distribution.totalRewards[this.bondDenom]
+    },
+    ready() {
+      return (
+        Object.entries(this.distribution.rewards)
+          .map(([validator, rewards]) => rewards[this.bondDenom])
+          .filter(bondDenomRewards => bondDenomRewards > 0).length > 0 &&
+        this.totalRewards > 0
+      )
     },
     rewards() {
       if (!this.distribution.loaded) {
