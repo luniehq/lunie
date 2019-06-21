@@ -35,7 +35,7 @@ import LiAnyTransaction from "transactions/LiAnyTransaction"
 import TableInvoice from "src/ActionModal/components/TableInvoice"
 
 export default {
-  name: `ext-approve-tran`,
+  name: `session-ext-approve-tran`,
   components: {
     TmPage,
     TmBtn,
