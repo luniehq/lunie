@@ -10,7 +10,7 @@
         :key="tx.txhash"
         :validators="deligates"
         :transaction="tx"
-        :hide-data="true"
+        :hide-right-side="true"
         bonding-denom="Atoms"
       />
 

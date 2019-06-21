@@ -5,7 +5,7 @@
     :block="block"
     :memo="memo"
     :fees="fees"
-    :hide-data="hideData"
+    :hide-right-side="hideRightSide"
   >
     <template v-if="address === ''">
       <div slot="caption">
@@ -88,7 +88,7 @@ export default {
       type: String,
       default: null
     },
-    hideData: {
+    hideRightSide: {
       type: Boolean,
       default: false
     }
