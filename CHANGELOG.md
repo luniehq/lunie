@@ -7,6 +7,24 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.0-beta.86] - 2019-06-22
+
+### Changed
+
+- [#2234](https://github.com/cosmos/lunie/issues/2234) In forms pressing enter either submits or takes you to the next form element @thebkr7
+
+### Fixed
+
+- [#2743](https://github.com/cosmos/lunie/pull/2743) Fixes potential test failure when comparing dates @colw
+- added git config to circleci config to stop failing mergebacks @jbibla
+- [#2738](https://github.com/cosmos/lunie/issues/2738) Load rewards of validators after withdraw @faboweb
+
+### Code Improvements
+
+- [#2735](https://github.com/cosmos/lunie/pull/2735) Refactored the previous commits to use Refs rather than passing functions for submiting forms @thebkr7
+- [#2745](https://github.com/cosmos/lunie/pull/2745) Clean action modal template syntax @colw
+- [#2741](https://github.com/cosmos/lunie/pull/2741) Refactored session views to be more independent @faboweb
+
 ## [1.0.0-beta.85] - 2019-06-19
 
 ### Changed
