@@ -39,8 +39,10 @@
       <TmField
         id="amount"
         v-model="amount"
+        v-focus
         type="number"
         placeholder="Amount"
+        @keyup.enter.native="enterPressed"
       />
       <span v-if="!isRedelegation()" class="form-message">
         Available to Delegate:
@@ -186,6 +188,9 @@ export default {
 
       this.selectedIndex = 0
       this.amount = null
+    },
+    enterPressed() {
+      this.$refs.actionModal.validateChangeStep()
     },
     isRedelegation() {
       return this.from !== this.modalContext.userAddress

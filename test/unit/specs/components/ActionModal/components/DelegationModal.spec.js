@@ -20,6 +20,7 @@ describe(`DelegationModal`, () => {
   const { stakingParameters } = lcdClientMock.state
   const localVue = createLocalVue()
   localVue.use(Vuelidate)
+  localVue.directive("focus", () => {})
 
   const getters = {
     connection: { connected: true },
@@ -70,6 +71,14 @@ describe(`DelegationModal`, () => {
 
   it(`should display the delegation modal form`, async () => {
     expect(wrapper.vm.$el).toMatchSnapshot()
+  })
+
+  it(`should submit when enterPressed is called`, async () => {
+    const self = {
+      $refs: { actionModal: { validateChangeStep: jest.fn() } }
+    }
+    DelegationModal.methods.enterPressed.call(self)
+    expect(self.$refs.actionModal.validateChangeStep).toHaveBeenCalled()
   })
 
   it(`opens`, () => {

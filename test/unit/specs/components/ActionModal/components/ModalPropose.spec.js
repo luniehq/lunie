@@ -133,6 +133,22 @@ describe(`ModalPropose`, () => {
     })
   })
 
+  it(`should submit when enterPressed is called`, async () => {
+    const self = {
+      $refs: { actionModal: { validateChangeStep: jest.fn() } }
+    }
+    ModalPropose.methods.enterPressed.call(self)
+    expect(self.$refs.actionModal.validateChangeStep).toHaveBeenCalled()
+  })
+
+  it(`should refocus on description when refocusOn is called`, async () => {
+    const self = {
+      $refs: { description: { $el: { focus: jest.fn() } } }
+    }
+    ModalPropose.methods.refocusOn.call(self)
+    expect(self.$refs.description.$el.focus).toHaveBeenCalled()
+  })
+
   describe("Submission Data for Delegating", () => {
     beforeEach(() => {
       wrapper.setData({

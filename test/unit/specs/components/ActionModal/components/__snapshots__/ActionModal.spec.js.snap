@@ -358,19 +358,21 @@ exports[`ActionModal should show the action modal when user has logged in with l
   >
     <!---->
      
-    <tmformgroup-stub
-      class="action-modal-group"
-      fieldid="password"
-      fieldlabel="Password"
-    >
-      <tmfield-stub
-        id="password"
-        placeholder="Password"
-        type="password"
-      />
-       
-      <!---->
-    </tmformgroup-stub>
+    <form>
+      <tmformgroup-stub
+        class="action-modal-group"
+        fieldid="password"
+        fieldlabel="Password"
+      >
+        <tmfield-stub
+          id="password"
+          placeholder="Password"
+          type="password"
+        />
+         
+        <!---->
+      </tmformgroup-stub>
+    </form>
   </div>
    
   <div

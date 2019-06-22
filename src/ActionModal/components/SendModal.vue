@@ -41,6 +41,7 @@
         v-focus
         type="text"
         placeholder="Address"
+        @keyup.enter.native="refocusOnAmount"
       />
       <TmFormMsg
         v-if="$v.address.$error && !$v.address.required"
@@ -61,10 +62,12 @@
     >
       <TmField
         id="amount"
+        ref="amount"
         v-model="amount"
         class="tm-field"
         placeholder="Amount"
         type="number"
+        @keyup.enter.native="enterPressed"
       />
       <TmFormMsg
         v-if="balance === 0"
@@ -112,6 +115,7 @@
         v-model="memo"
         type="text"
         placeholder="Add a description..."
+        @keyup.enter.native="enterPressed"
       />
       <TmFormMsg
         v-if="$v.memo.$error && !$v.memo.maxLength"
@@ -211,6 +215,12 @@ export default {
       } catch (error) {
         return false
       }
+    },
+    enterPressed() {
+      this.$refs.actionModal.validateChangeStep()
+    },
+    refocusOnAmount() {
+      this.$refs.amount.$el.focus()
     }
   },
   validations() {

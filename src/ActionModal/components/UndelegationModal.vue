@@ -36,8 +36,10 @@
       <TmField
         id="amount"
         v-model="amount"
+        v-focus
         type="number"
         placeholder="Amount"
+        @keyup.enter.native="enterPressed"
       />
       <span v-if="maximum > 0" class="form-message">
         Currently Delegated: {{ maximum }} {{ num.viewDenom(denom) }}s
@@ -153,6 +155,9 @@ export default {
       this.$v.$reset()
 
       this.amount = null
+    },
+    enterPressed() {
+      this.$refs.actionModal.validateChangeStep()
     }
   }
 }
