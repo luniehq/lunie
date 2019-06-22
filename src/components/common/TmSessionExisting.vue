@@ -7,7 +7,7 @@
       <h2 class="session-title">
         Use an existing address
       </h2>
-      <a @click="$store.commit(`toggleSessionModal`, false)">
+      <a @click="close">
         <i class="material-icons session-close">close</i>
       </a>
     </div>
@@ -25,6 +25,14 @@
         title="Use Ledger Nano"
         @click.native="() => setState('hardware')"
       />
+      <LiSession
+        v-if="session.experimentalMode"
+        id="use-extension"
+        icon="laptop"
+        title="Use Lunie Chrome extension"
+        @click.native="setState('extension')"
+      >
+      </LiSession>
       <LiSession
         v-if="session.insecureMode"
         id="recover-with-backup"
@@ -59,10 +67,13 @@ export default {
   },
   methods: {
     setState(value) {
-      this.$store.commit(`setSessionModalView`, value)
+      this.$emit(`route-change`, value)
     },
     goToWelcome() {
-      this.$store.commit(`setSessionModalView`, `welcome`)
+      this.$emit(`route-change`, `welcome`)
+    },
+    close() {
+      this.$emit(`close`)
     }
   }
 }

@@ -22,6 +22,7 @@ export const allTransactions = state =>
   )
 export const ledger = state => state.ledger
 export const wallet = state => state.wallet
+export const extension = state => state.extension
 
 // fee distribution
 export const distribution = state => state.distribution

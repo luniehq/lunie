@@ -11,7 +11,7 @@ const mockRootState = {
   },
   stakingParameters: lcdClientMock.state.stakingParameters
 }
-
+let staticDateNow
 describe(`Module: Delegations`, () => {
   let state, actions, mutations
 
@@ -20,6 +20,7 @@ describe(`Module: Delegations`, () => {
     state = instance.state
     actions = instance.actions
     mutations = instance.mutations
+    staticDateNow = new Date(Date.now()).toUTCString()
   })
 
   it(`sets committed atoms for delegate`, () => {
@@ -48,7 +49,7 @@ describe(`Module: Delegations`, () => {
               entries: [
                 {
                   balance: `1`,
-                  completion_time: new Date(Date.now()).toUTCString()
+                  completion_time: staticDateNow
                 }
               ]
             }
@@ -95,7 +96,7 @@ describe(`Module: Delegations`, () => {
           entries: [
             {
               balance: `1`,
-              completion_time: new Date(Date.now()).toUTCString()
+              completion_time: staticDateNow
             }
           ]
         }
@@ -226,7 +227,7 @@ describe(`Module: Delegations`, () => {
           {
             balance: `100`,
             creation_height: `12`,
-            completion_time: new Date().toUTCString()
+            completion_time: staticDateNow
           }
         ]
       }
@@ -236,7 +237,7 @@ describe(`Module: Delegations`, () => {
       {
         balance: `100`,
         creation_height: `12`,
-        completion_time: new Date().toUTCString()
+        completion_time: staticDateNow
       }
     ])
   })

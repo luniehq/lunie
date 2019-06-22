@@ -88,6 +88,7 @@ export default ({ node }) => {
     },
     async postMsgWithdrawDelegationReward({ dispatch }) {
       await dispatch(`getTotalRewards`)
+      await dispatch(`getRewardsFromMyValidators`)
       await dispatch(`queryWalletBalances`)
       await dispatch(`getAllTxs`)
     },
