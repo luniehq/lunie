@@ -34,9 +34,9 @@ export const yourValidators = (state, getters) =>
       )
     : []
 export const validatorsWithRewards = (state, getters) =>
-  Object.entries(state.distribution.rewards)
-    .filter(([, rewards]) => rewards[getters.bondDenom] > 0)
-    .map(([validator]) => validator)
+  Object.entries(state.distribution.rewards).filter(
+    ([, rewards]) => rewards[getters.bondDenom] > 0
+  )
 
 // staking
 export const liquidAtoms = state =>

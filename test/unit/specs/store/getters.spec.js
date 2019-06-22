@@ -151,7 +151,20 @@ describe(`Store: getters`, () => {
           bondDenom: "stake"
         }
       )
-    ).toEqual(["validator1", "validator2"])
+    ).toEqual([
+      [
+        "validator1",
+        {
+          stake: 10000
+        }
+      ],
+      [
+        "validator2",
+        {
+          stake: 5000
+        }
+      ]
+    ])
   })
 
   it(`modalContext`, () => {
