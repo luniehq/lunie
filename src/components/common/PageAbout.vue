@@ -52,7 +52,7 @@
       </p>
       <p>
         To learn more about our security policies on Lunie.io, please visit our
-        <router-link to="careers">security page</router-link>.
+        <router-link to="security">security page</router-link>.
       </p>
     </div>
 
