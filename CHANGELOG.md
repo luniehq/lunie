@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.0-beta.86] - 2019-06-20
+
+### Fixed
+
+- added git config to circleci config to stop failing mergebacks @jbibla
+
 ## [1.0.0-beta.85] - 2019-06-19
 
 ### Changed
