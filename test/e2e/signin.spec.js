@@ -62,6 +62,48 @@ module.exports = {
     next(browser)
     // signs in
     browser.waitForElementVisible("#signOut-btn")
+  },
+  "Import local account": async function(browser) {
+    browser.url(browser.launch_url + "?insecure=true")
+    browser.waitForElementVisible(`body`)
+    browser.waitForElementVisible(`#app-content`)
+    // we are by default signed in so we first need to sign out
+    browser.waitForElementVisible("#signOut-btn")
+    browser.click("#signOut-btn")
+    // sign in
+    browser.waitForElementVisible(".sign-in-button")
+    browser.pause(1000) // if not waiting here, the session modal closes immediatly // TODO
+    browser.click(".sign-in-button")
+    browser.waitForElementVisible("#session-welcome")
+    browser.click("#use-an-existing-address")
+    browser.click("#recover-with-backup")
+    browser.waitForElementVisible("#import-seed")
+
+    next(browser)
+    browser.expect.elements(".tm-form-msg--error").count.to.equal(3)
+
+    browser.setValue("#import-name", "demo-account-imported")
+    next(browser)
+    browser.expect.elements(".tm-form-msg--error").count.to.equal(2)
+
+    browser.setValue("#import-password", "1234567890")
+    next(browser)
+    browser.expect
+      .elements(".tm-form-msg--error")
+      // the error on the initial password vanishes but the password confirmation appears
+      .count.to.equal(2)
+
+    browser.setValue("#import-password-confirmation", "1234567890")
+    next(browser)
+    browser.expect.elements(".tm-form-msg--error").count.to.equal(1)
+
+    browser.setValue(
+      "#import-seed",
+      `release endorse scale across absurd trouble climb unaware actor elite fantasy chair license word rare length business kiss smoke tackle report february bid ginger`
+    )
+    next(browser)
+    // signs in
+    browser.waitForElementVisible("#signOut-btn")
   }
 }
 
