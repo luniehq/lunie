@@ -40,8 +40,7 @@ describe(`Module: Delegations`, () => {
       node = {
         get: {
           delegations: jest.fn(
-            () =>
-              mockValues.state.stake[mockValues.addresses[0]].delegations
+            () => mockValues.state.stake[mockValues.addresses[0]].delegations
           ),
           undelegations: jest.fn(() => [
             {
@@ -55,9 +54,7 @@ describe(`Module: Delegations`, () => {
             }
           ]),
           redelegations: jest.fn(
-            () =>
-              mockValues.state.stake[mockValues.addresses[0]]
-                .redelegations
+            () => mockValues.state.stake[mockValues.addresses[0]].redelegations
           )
         }
       }
@@ -119,9 +116,7 @@ describe(`Module: Delegations`, () => {
         }
       ])
       expect(state.committedDelegates[mockValues.validators[2]]).toBeTruthy()
-      expect(
-        state.unbondingDelegations[mockValues.validators[2]]
-      ).toBeTruthy()
+      expect(state.unbondingDelegations[mockValues.validators[2]]).toBeTruthy()
 
       const commit = jest.fn()
       await actions.getBondedDelegates(
