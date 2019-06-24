@@ -77,34 +77,6 @@ describe(`TmSessionSignUp`, () => {
     expect(emit).toHaveBeenCalledWith(`close`)
   })
 
-  it(`should signal signedin state on successful login`, async () => {
-    const commit = jest.fn()
-    const dispatch = jest.fn()
-    await TmSessionSignUp.methods.onSubmit.call({
-      $store: {
-        commit,
-        dispatch
-      },
-      $emit: jest.fn(),
-      $v: {
-        $touch: () => {},
-        $error: false
-      },
-      fields: {
-        signUpPassword: `1234567890`,
-        signUpPasswordConfirm: `1234567890`,
-        signUpSeed: `bar`, // <-- doesn#t check for correctness of seed
-        signUpName: `testaccount`,
-        signUpWarning: true
-      }
-    })
-    expect(commit).toHaveBeenCalledWith(`notify`, expect.any(Object))
-    expect(dispatch).toHaveBeenCalledWith(`signIn`, {
-      password: `1234567890`,
-      localKeyPairName: `testaccount`
-    })
-  })
-
   it(`should show error if warnings not acknowledged`, () => {
     wrapper.setData({
       fields: {

@@ -10,6 +10,7 @@ describe(`ModalDeposit`, () => {
 
   const localVue = createLocalVue()
   localVue.use(Vuelidate)
+  localVue.directive("focus", () => {})
 
   beforeEach(async () => {
     $store = {

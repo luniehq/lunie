@@ -122,6 +122,22 @@ describe(`SendModal`, () => {
     })
   })
 
+  it(`should submit when enterPressed is called`, async () => {
+    const self = {
+      $refs: { actionModal: { validateChangeStep: jest.fn() } }
+    }
+    SendModal.methods.enterPressed.call(self)
+    expect(self.$refs.actionModal.validateChangeStep).toHaveBeenCalled()
+  })
+
+  it(`should refocus on amount when focusOnAmount is called`, async () => {
+    const self = {
+      $refs: { amount: { $el: { focus: jest.fn() } } }
+    }
+    SendModal.methods.refocusOnAmount.call(self)
+    expect(self.$refs.amount.$el.focus).toHaveBeenCalled()
+  })
+
   it(`validates bech32 addresses`, () => {
     expect(
       wrapper.vm.bech32Validate(`cosmos1x7wzdumfj8pncd99mqc0mkqfrrps3l3pjz8tk6`)

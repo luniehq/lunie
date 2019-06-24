@@ -47,67 +47,6 @@ describe(`TmSessionImport`, () => {
     expect(self.$emit).toHaveBeenCalledWith(`route-change`, `existing`)
   })
 
-  it(`should signal signed in state on successful login`, async () => {
-    const self = {
-      $store: {
-        dispatch: jest.fn(),
-        commit: jest.fn()
-      },
-      $emit: jest.fn(),
-      fields: {
-        importName: `foo123`,
-        importPassword: `1234567890`,
-        importPasswordConfirm: `1234567890`,
-        importSeed: seed
-      },
-      $v: {
-        $touch: () => {},
-        $error: false
-      }
-    }
-    await TmSessionImport.methods.onSubmit.call(self)
-    expect(self.$store.commit).toHaveBeenCalledWith(`notify`, {
-      body: `Your account has been successfully imported.`,
-      title: `Welcome back!`
-    })
-    expect(self.$store.dispatch).toHaveBeenCalledWith(`signIn`, {
-      errorCollection: undefined,
-      sessionType: `local`,
-      localKeyPairName: `foo123`,
-      password: `1234567890`
-    })
-  })
-
-  it(`should close the modal on successful login`, async () => {
-    const self = {
-      $store: {
-        dispatch: jest.fn(),
-        commit: jest.fn()
-      },
-      $emit: jest.fn(),
-      fields: {
-        importName: `foo123`,
-        importPassword: `1234567890`,
-        importPasswordConfirm: `1234567890`,
-        importSeed: seed
-      },
-      $v: {
-        $touch: () => {},
-        $error: false
-      }
-    }
-    await TmSessionImport.methods.onSubmit.call(self)
-    expect(self.$emit).toHaveBeenCalledWith(`close`)
-  })
-
-  it(`should close`, () => {
-    const self = {
-      $emit: jest.fn()
-    }
-    TmSessionImport.methods.close.call(self)
-    expect(self.$emit).toHaveBeenCalledWith(`close`)
-  })
-
   it(`should show error if seed is not filled in`, async () => {
     wrapper.setData({ fields: { importSeed: `` } })
     await wrapper.vm.onSubmit()

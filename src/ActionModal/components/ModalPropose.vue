@@ -22,6 +22,7 @@
         v-focus
         type="text"
         placeholder="Proposal title"
+        @keyup.enter.native="refocusOn"
       />
       <TmFormMsg
         v-if="$v.title.$error && !$v.title.maxLength"
@@ -43,6 +44,7 @@
     >
       <TmField
         id="description"
+        ref="description"
         v-model.trim="description"
         type="textarea"
         class="textarea-large"
@@ -72,6 +74,7 @@
         v-model="amount"
         :value="Number(amount)"
         type="number"
+        @keyup.enter.native="enterPressed"
       />
       <TmFormMsg
         v-if="balance === 0"
@@ -222,6 +225,12 @@ export default {
       this.title = ``
       this.description = ``
       this.amount = 0
+    },
+    refocusOn() {
+      this.$refs.description.$el.focus()
+    },
+    enterPressed() {
+      this.$refs.actionModal.validateChangeStep()
     }
   }
 }

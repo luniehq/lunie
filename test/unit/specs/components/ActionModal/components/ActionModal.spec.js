@@ -6,6 +6,7 @@ import { focusParentLast } from "directives"
 const localVue = createLocalVue()
 localVue.use(Vuelidate)
 localVue.directive("focus-last", focusParentLast)
+localVue.directive("focus", () => {})
 
 let mockSimulate = jest.fn(() => 123456)
 let mockSend = jest.fn()

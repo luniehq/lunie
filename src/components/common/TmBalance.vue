@@ -16,14 +16,14 @@
         <h3>Rewards</h3>
         <h2>{{ rewards }}</h2>
         <TmBtn
-          v-show="totalRewards > 0"
           id="withdraw-btn"
+          :disabled="!readyToWithdraw"
           class="withdraw-rewards"
           :value="connected ? 'Withdraw' : 'Connecting...'"
           :to="''"
-          type="link"
+          type="anchor"
           size="sm"
-          @click.native="onWithdrawal"
+          @click.native="readyToWithdraw && onWithdrawal()"
         />
       </div>
     </div>
@@ -64,7 +64,8 @@ export default {
       `lastHeader`,
       `totalAtoms`,
       `bondDenom`,
-      `distribution`
+      `distribution`,
+      `validatorsWithRewards`
     ]),
     loaded() {
       return this.wallet.loaded && this.delegation.loaded
@@ -81,6 +82,11 @@ export default {
     },
     totalRewards() {
       return this.distribution.totalRewards[this.bondDenom]
+    },
+    // only be ready to withdraw of the validator rewards are loaded and the user has rewards to withdraw
+    // the validator rewards are needed to filter the top 5 validators to withdraw from
+    readyToWithdraw() {
+      return this.validatorsWithRewards.length > 0 && this.totalRewards > 0
     },
     rewards() {
       if (!this.distribution.loaded) {
