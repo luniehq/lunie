@@ -79,15 +79,17 @@ export default {
 <style>
 .session {
   background: var(--app-bg);
-  width: 40rem;
+  max-width: 40rem;
   border-radius: 2px;
   padding: 2rem;
   position: relative;
   border: 2px solid var(--bc-dim);
+  overflow: auto;
 }
 
 .session-header {
   padding: 1rem 1rem 0;
+  display: block;
 }
 
 .session-main {
@@ -100,15 +102,16 @@ export default {
 
 .session-title {
   font-size: 38px;
+  line-height: 44px;
   color: var(--bright);
   font-weight: 600;
-  margin-bottom: 1rem;
+  padding: 1rem 1rem 1.5rem;
 }
 
 .session-image {
   height: 6rem;
   padding-left: 1rem;
-  margin: 0 auto 1rem;
+  margin: 1rem auto;
 }
 
 .session-list {
@@ -144,13 +147,28 @@ export default {
 
 .session-footer {
   display: flex;
-  padding: 2rem 1rem 0;
-  align-items: center;
-  justify-content: flex-end;
+  padding: 2rem 1rem;
+  align-self: flex-end;
+  flex-direction: column;
 }
 
 .footnote {
   padding: 1rem 1rem 0;
   font-size: var(--sm);
+}
+
+@media screen and (max-width: 1023px) {
+  .session {
+    height: 100vh;
+    padding: 1rem;
+  }
+
+  .session-header,
+  .session-title,
+  .session-main,
+  .session-footer {
+    padding-left: 0;
+    padding-right: 0;
+  }
 }
 </style>
