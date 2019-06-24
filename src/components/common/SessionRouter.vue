@@ -1,11 +1,11 @@
 <template>
-  <div>
+  <transition name="component-fade" mode="out-in">
     <component
       :is="currentSessionComponent"
       @route-change="goTo"
       @close="close"
     ></component>
-  </div>
+  </transition>
 </template>
 
 <script>
@@ -60,4 +60,13 @@ export default {
 </script>
 <style>
 @import "../../styles/session.css";
+
+.component-fade-enter-active,
+.component-fade-leave-active {
+  transition: opacity 0.2s ease;
+}
+.component-fade-enter, .component-fade-leave-to
+/* .component-fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
+}
 </style>
