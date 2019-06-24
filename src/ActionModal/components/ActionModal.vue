@@ -12,7 +12,7 @@
         <span class="action-modal-title">
           {{ requiresSignIn ? `Sign in required` : title }}
         </span>
-        <Steps :steps="['Details', 'Fees', 'Sign']" :active="step" />
+        <Steps :steps="['Details', 'Fees', 'Sign']" :active-step="step" />
       </div>
       <div v-if="requiresSignIn" class="action-modal-form">
         <p>You need to sign in to submit a transaction.</p>
@@ -100,25 +100,30 @@
             current browser.
           </div>
         </HardwareState>
-        <TmFormGroup
+        <form
           v-else-if="selectedSignMethod === `local`"
-          :error="$v.password.$error && $v.password.$invalid"
-          class="action-modal-group"
-          field-id="password"
-          field-label="Password"
+          @submit.prevent="validateChangeStep"
         >
-          <TmField
-            id="password"
-            v-model="password"
-            type="password"
-            placeholder="Password"
-          />
-          <TmFormMsg
-            v-if="$v.password.$error && !$v.password.required"
-            name="Password"
-            type="required"
-          />
-        </TmFormGroup>
+          <TmFormGroup
+            :error="$v.password.$error && $v.password.$invalid"
+            class="action-modal-group"
+            field-id="password"
+            field-label="Password"
+          >
+            <TmField
+              id="password"
+              v-model="password"
+              v-focus
+              type="password"
+              placeholder="Password"
+            />
+            <TmFormMsg
+              v-if="$v.password.$error && !$v.password.required"
+              name="Password"
+              type="required"
+            />
+          </TmFormGroup>
+        </form>
       </div>
       <div class="action-modal-footer">
         <slot name="action-modal-footer">
@@ -126,9 +131,11 @@
             <div>
               <TmBtn
                 v-if="requiresSignIn"
+                v-focus
                 value="Sign In"
                 color="primary"
                 @click.native="goToSession"
+                @click.enter.native="goToSession"
               />
               <TmBtn
                 v-else-if="sending"
@@ -148,6 +155,7 @@
               />
               <TmBtn
                 v-else-if="step !== `sign`"
+                ref="next"
                 color="primary"
                 value="Next"
                 :disabled="step === `fees` && $v.invoiceTotal.$invalid"
@@ -253,8 +261,6 @@ export default {
       `connected`,
       `session`,
       `bondDenom`,
-      `wallet`,
-      `ledger`,
       `liquidAtoms`,
       `modalContext`
     ]),
@@ -304,6 +310,12 @@ export default {
   },
   updated: function() {
     this.actionManager.setContext(this.modalContext || {})
+    if (
+      (this.title === "Withdraw" || this.step === "fees") &&
+      this.$refs.next
+    ) {
+      this.$refs.next.$el.focus()
+    }
   },
   methods: {
     open() {

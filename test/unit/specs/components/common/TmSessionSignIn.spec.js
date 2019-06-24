@@ -14,9 +14,10 @@ describe(`TmSessionSignIn`, () => {
       dispatch: jest.fn(() => true),
       getters: {
         connected: true,
-        session: {
+        keystore: {
           accounts: [
             {
+              address: `cosmos1234`,
               name: `my_account`
             }
           ]
@@ -51,7 +52,7 @@ describe(`TmSessionSignIn`, () => {
   it(`should close the modal on successful login`, async () => {
     wrapper.setData({
       signInPassword: `1234567890`,
-      signInName: `default`
+      signInAddress: `default`
     })
     wrapper.vm.$emit = jest.fn()
     await wrapper.vm.onSubmit()
@@ -77,12 +78,12 @@ describe(`TmSessionSignIn`, () => {
   it(`should signal signedin state on successful login`, async () => {
     wrapper.setData({
       signInPassword: `1234567890`,
-      signInName: `default`
+      signInAddress: `default`
     })
     await wrapper.vm.onSubmit()
     expect($store.dispatch).toHaveBeenCalledWith(`signIn`, {
       password: `1234567890`,
-      localKeyPairName: `default`,
+      address: "default",
       sessionType: `local`
     })
   })
@@ -98,7 +99,7 @@ describe(`TmSessionSignIn`, () => {
     $store.dispatch = jest.fn().mockResolvedValueOnce(false)
     wrapper.setData({
       signInPassword: `1234567890`,
-      signInName: `default`
+      signInAddress: `default`
     })
     await wrapper.vm.onSubmit()
     expect(wrapper.vm.error).toBe(`The provided username or password is wrong.`)
@@ -108,7 +109,7 @@ describe(`TmSessionSignIn`, () => {
     const self = {
       accounts: [
         {
-          key: `default`
+          value: `default`
         }
       ],
       $el: {
@@ -119,7 +120,7 @@ describe(`TmSessionSignIn`, () => {
     }
     TmSessionSignIn.methods.setDefaultAccount.call(self)
 
-    expect(self.signInName).toBe(`default`)
+    expect(self.signInAddress).toBe(`default`)
     expect(self.$el.querySelector).toHaveBeenCalledWith(`#sign-in-password`)
   })
 
@@ -129,10 +130,10 @@ describe(`TmSessionSignIn`, () => {
     const self = {
       accounts: [
         {
-          key: `default`
+          value: `default`
         },
         {
-          key: `lastUsed`
+          value: `lastUsed`
         }
       ],
       $el: {
@@ -143,7 +144,7 @@ describe(`TmSessionSignIn`, () => {
     }
     TmSessionSignIn.methods.setDefaultAccount.call(self)
 
-    expect(self.signInName).toBe(`lastUsed`)
+    expect(self.signInAddress).toBe(`lastUsed`)
     expect(self.$el.querySelector).toHaveBeenCalledWith(`#sign-in-password`)
   })
 
@@ -158,7 +159,7 @@ describe(`TmSessionSignIn`, () => {
     }
     TmSessionSignIn.methods.setDefaultAccount.call(self)
 
-    expect(self.signInName).toBe(undefined)
+    expect(self.signInAddress).toBe(undefined)
     expect(self.$el.querySelector).toHaveBeenCalledWith(`#sign-in-name`)
   })
 })

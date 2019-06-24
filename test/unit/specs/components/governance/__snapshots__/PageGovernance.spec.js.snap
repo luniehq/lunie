@@ -92,17 +92,22 @@ exports[`PageGovernance disables proposal creation if not connected 1`] = `
                   --
                 </h2>
                  
-                <router-link-stub
+                <a
                   class="withdraw-rewards"
-                  exact="exact"
+                  disabled="disabled"
                   id="withdraw-btn"
-                  style="display: none;"
-                  to=""
                 >
-                  
-  Connecting...
-
-                </router-link-stub>
+                  <span
+                    class="tm-btn__container tm-btn--size-sm"
+                  >
+                    <!---->
+                    <span
+                      class="tm-btn__value"
+                    >
+                      Connecting...
+                    </span>
+                  </span>
+                </a>
               </div>
             </div>
               
@@ -361,17 +366,22 @@ exports[`PageGovernance has the expected html structure 1`] = `
                   --
                 </h2>
                  
-                <router-link-stub
+                <a
                   class="withdraw-rewards"
-                  exact="exact"
+                  disabled="disabled"
                   id="withdraw-btn"
-                  style="display: none;"
-                  to=""
                 >
-                  
-  Withdraw
-
-                </router-link-stub>
+                  <span
+                    class="tm-btn__container tm-btn--size-sm"
+                  >
+                    <!---->
+                    <span
+                      class="tm-btn__value"
+                    >
+                      Withdraw
+                    </span>
+                  </span>
+                </a>
               </div>
             </div>
               

@@ -27,7 +27,8 @@ describe(`TmBalance`, () => {
         wallet: {
           loaded: true
         },
-        lastHeader: { height: `10` }
+        lastHeader: { height: `10` },
+        validatorsWithRewards: ["validatorX"]
       },
       dispatch: jest.fn()
     }
@@ -42,7 +43,7 @@ describe(`TmBalance`, () => {
     })
   })
 
-  it(`has the expected html structure before adding props`, () => {
+  it(`show the balance header`, () => {
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
@@ -75,6 +76,15 @@ describe(`TmBalance`, () => {
     const $refs = { ModalWithdrawRewards: { open: jest.fn() } }
     TmBalance.methods.onWithdrawal.call({ $refs })
     expect($refs.ModalWithdrawRewards.open).toHaveBeenCalled()
+  })
+
+  it(`doesn't open withdraw modal if validator rewards are not loaded yet`, () => {
+    expect(
+      TmBalance.computed.readyToWithdraw.call({
+        validatorsWithRewards: [],
+        totalRewards: 1000
+      })
+    ).toBe(false)
   })
 
   describe(`update balance and total rewards on new blocks`, () => {

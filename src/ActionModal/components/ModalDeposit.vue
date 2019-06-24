@@ -17,11 +17,11 @@
       field-id="amount"
       field-label="Amount"
     >
-      <span class="input-suffix">{{ num.viewDenom(denom) }}</span>
+      <span class="input-suffix">{{ denom | viewDenom }}</span>
       <TmField id="amount" v-model="amount" type="number" />
       <TmFormMsg
         v-if="balance === 0"
-        :msg="`doesn't have any ${num.viewDenom(denom)}s`"
+        :msg="`doesn't have any ${viewDenom(denom)}s`"
         name="Wallet"
         type="custom"
       />
@@ -48,7 +48,7 @@
 
 <script>
 import { mapGetters } from "vuex"
-import num, { uatoms, atoms, SMALLEST } from "src/scripts/num.js"
+import { uatoms, atoms, viewDenom, SMALLEST } from "src/scripts/num.js"
 import { between, decimal } from "vuelidate/lib/validators"
 import TmField from "src/components/common/TmField"
 import TmFormGroup from "src/components/common/TmFormGroup"
@@ -63,6 +63,9 @@ export default {
     TmField,
     TmFormGroup,
     TmFormMsg
+  },
+  filters: {
+    viewDenom
   },
   props: {
     proposalId: {
@@ -79,11 +82,10 @@ export default {
     }
   },
   data: () => ({
-    num,
     amount: 0
   }),
   computed: {
-    ...mapGetters([`wallet`, `bondDenom`]),
+    ...mapGetters([`wallet`]),
     balance() {
       const denom = this.wallet.balances.find(b => b.denom === this.denom)
       return (denom && denom.amount) || 0
@@ -103,7 +105,7 @@ export default {
     notifyMessage() {
       return {
         title: `Successful deposit!`,
-        body: `You have successfully deposited your ${num.viewDenom(
+        body: `You have successfully deposited your ${viewDenom(
           this.denom
         )}s on proposal #${this.proposalId}`
       }
@@ -119,6 +121,7 @@ export default {
     }
   },
   methods: {
+    viewDenom,
     open() {
       this.$refs.actionModal.open()
     },

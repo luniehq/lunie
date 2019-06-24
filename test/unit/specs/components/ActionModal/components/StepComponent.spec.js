@@ -5,7 +5,7 @@ describe(`Steps`, () => {
   let wrapper
   beforeEach(async () => {
     wrapper = mount(Steps, {
-      propsData: { steps: ["first", "second"], active: "first" }
+      propsData: { steps: ["first", "second"], activeStep: "first" }
     })
   })
 
@@ -17,7 +17,7 @@ describe(`Steps`, () => {
     expect(
       wrapper.find(".stepItem:first-child .circle--default").classes()
     ).toContain("active")
-    wrapper.setProps({ active: "second" })
+    wrapper.setProps({ activeStep: "second" })
     expect(
       wrapper.find(".stepItem:nth-child(2) .circle--default").classes()
     ).toContain("active")

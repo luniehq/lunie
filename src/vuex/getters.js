@@ -11,6 +11,7 @@ export const lastPage = state => {
     state.session.history[state.session.history.length - 1]
   )
 }
+export const keystore = state => state.keystore
 
 // wallet
 export const transactions = state => state.transactions
@@ -33,6 +34,10 @@ export const yourValidators = (state, getters) =>
           operator_address in getters.committedDelegations
       )
     : []
+export const validatorsWithRewards = (state, getters) =>
+  Object.entries(state.distribution.rewards).filter(
+    ([, rewards]) => rewards[getters.bondDenom] > 0
+  )
 
 // staking
 export const liquidAtoms = state =>
