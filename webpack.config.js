@@ -18,8 +18,6 @@ const config = {
     background: './background.js',
     contentScript: './contentScript.js',
     'popup/popup': './popup/popup.js',
-    'options/options': './options/options.js',
-    'request/request': './request/request.js',
   },
   output: {
     path: resolve('dist'),
@@ -95,8 +93,6 @@ const config = {
     new CopyWebpackPlugin([
       { from: 'icons', to: 'icons', ignore: ['icon.xcf'] },
       { from: 'popup/popup.html', to: 'popup/popup.html', transform: transformHtml },
-      { from: 'options/options.html', to: 'options/options.html', transform: transformHtml },
-      { from: 'request/request.html', to: 'request/request.html', transform: transformHtml },
       {
         from: 'manifest.json',
         to: 'manifest.json',
