@@ -88,7 +88,6 @@ export default {
   border: none;
   background: transparent;
   text-decoration: none !important;
-  margin: 0;
   display: inline-block;
   font-size: 16px;
   height: 100%;
