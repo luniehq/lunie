@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.0-beta.88] - 2019-06-24
+
+### Fixed
+
+- [#2713](https://github.com/cosmos/lunie/issues/2713) Disabling the withdraw button until the necessary validator rewards have been loaded @faboweb
+
+### Repository
+
+- Skip pending check on the develop branch @faboweb
+
 ## [1.0.0-beta.87] - 2019-06-22
 
 ### Changed
