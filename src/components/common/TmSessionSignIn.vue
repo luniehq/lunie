@@ -2,13 +2,13 @@
   <div class="session">
     <TmFormStruct :submit="onSubmit" class="session-container">
       <div class="session-header">
-        <a @click="setState('existing')">
+        <a @click="goBack">
           <i class="material-icons session-back">arrow_back</i>
         </a>
         <h2 class="session-title">
           Sign in with account
         </h2>
-        <a @click="$store.commit(`toggleSessionModal`, false)">
+        <a @click="close">
           <i class="material-icons session-close">close</i>
         </a>
       </div>
@@ -96,7 +96,13 @@ export default {
   },
   methods: {
     setState(value) {
-      this.$store.commit(`setSessionModalView`, value)
+      this.$emit(`route-change`, value)
+    },
+    goBack() {
+      this.$emit("route-change", "existing")
+    },
+    close() {
+      this.$emit(`close`)
     },
     async onSubmit() {
       this.$v.$touch()
@@ -112,7 +118,7 @@ export default {
           sessionType: "local"
         })
         localStorage.setItem(`prevAccountKey`, this.signInAddress)
-        this.$store.commit(`toggleSessionModal`, false)
+        this.$emit(`close`)
       } else {
         this.error = `The provided username or password is wrong.`
       }

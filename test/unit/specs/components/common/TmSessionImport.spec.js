@@ -31,22 +31,20 @@ describe(`TmSessionImport`, () => {
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
-  it(`should go back to the welcome screen on click`, () => {
-    wrapper
-      .findAll(`.session-header a`)
-      .at(0)
-      .trigger(`click`)
-    expect(store.commit.mock.calls[0][0]).toBe(`setSessionModalView`)
-    expect(store.commit.mock.calls[0][1]).toBe(`existing`)
+  it(`should set the current view to the state`, () => {
+    const self = {
+      $emit: jest.fn()
+    }
+    TmSessionImport.methods.setState.call(self, `someState`)
+    expect(self.$emit).toHaveBeenCalledWith(`route-change`, `someState`)
   })
 
-  it(`should close the session modal`, () => {
-    wrapper
-      .findAll(`.session-header a`)
-      .at(1)
-      .trigger(`click`)
-    expect(store.commit.mock.calls[0][0]).toBe(`toggleSessionModal`)
-    expect(store.commit.mock.calls[0][1]).toBe(false)
+  it(`should go back to the exiting account screen`, () => {
+    const self = {
+      $emit: jest.fn()
+    }
+    TmSessionImport.methods.goBack.call(self)
+    expect(self.$emit).toHaveBeenCalledWith(`route-change`, `existing`)
   })
 
   it(`should show error if seed is not filled in`, async () => {

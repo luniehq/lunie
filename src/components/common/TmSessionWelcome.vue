@@ -46,10 +46,10 @@ export default {
   },
   methods: {
     setState(value) {
-      this.$store.commit(`setSessionModalView`, value)
+      this.$emit(`route-change`, value)
     },
     closeSession() {
-      this.$store.commit(`toggleSessionModal`, false)
+      this.$emit(`close`)
     }
   }
 }

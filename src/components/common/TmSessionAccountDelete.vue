@@ -90,7 +90,7 @@ export default {
   },
   methods: {
     setState(value) {
-      this.$store.commit(`setSessionModalView`, value)
+      this.$emit(`route-change`, value)
     },
     async onSubmit() {
       this.$v.$touch()

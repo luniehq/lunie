@@ -8,7 +8,7 @@
         <h2 class="session-title">
           Explore with any address
         </h2>
-        <a @click="$store.commit(`toggleSessionModal`, false)">
+        <a @click="close">
           <i class="material-icons session-close">close</i>
         </a>
       </div>
@@ -65,10 +65,13 @@ export default {
   },
   methods: {
     setState(value) {
-      this.$store.commit(`setSessionModalView`, value)
+      this.$emit(`route-change`, value)
     },
     goBack() {
-      this.$store.commit(`setSessionModalView`, `existing`)
+      this.$emit(`route-change`, `existing`)
+    },
+    close() {
+      this.$emit(`close`)
     },
     async onSubmit() {
       this.$v.$touch()
@@ -79,7 +82,7 @@ export default {
         address: this.address
       })
       localStorage.setItem(`prevAddress`, this.address)
-      this.$store.commit(`toggleSessionModal`, false)
+      this.$emit(`close`)
     },
     bech32Validate(param) {
       try {

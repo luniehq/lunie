@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`TmBalance has the expected html structure before adding props 1`] = `
+exports[`TmBalance show the balance header 1`] = `
 <div
   class="header-balance"
 >
@@ -55,7 +55,7 @@ exports[`TmBalance has the expected html structure before adding props 1`] = `
         id="withdraw-btn"
         size="sm"
         to=""
-        type="link"
+        type="anchor"
         value="Withdraw"
       />
     </div>

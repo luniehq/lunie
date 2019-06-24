@@ -7,13 +7,13 @@
           class="session-image"
           src="~assets/images/mobile-hand.svg"
         />
-        <a @click="setState('welcome')">
+        <a @click="goBack">
           <i class="material-icons session-back">arrow_back</i>
         </a>
         <h2 class="session-title">
           Create a new address
         </h2>
-        <a @click="$store.commit(`toggleSessionModal`, false)">
+        <a @click="close">
           <i class="material-icons session-close">close</i>
         </a>
       </div>
@@ -233,7 +233,13 @@ export default {
   },
   methods: {
     setState(value) {
-      this.$store.commit(`setSessionModalView`, value)
+      this.$emit(`route-change`, value)
+    },
+    goBack() {
+      this.$emit(`route-change`, "welcome")
+    },
+    close() {
+      this.$emit(`close`)
     },
     async onSubmit() {
       this.$v.$touch()
@@ -244,7 +250,7 @@ export default {
           password: this.fields.signUpPassword,
           name: this.fields.signUpName
         })
-        this.$store.commit(`toggleSessionModal`, false)
+        this.$emit(`close`)
         this.$store.commit(`notify`, {
           title: `Signed Up`,
           body: `Your account has been created.`

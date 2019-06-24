@@ -27,6 +27,7 @@ describe(`UndelegationModal`, () => {
   }
   const localVue = createLocalVue()
   localVue.use(Vuelidate)
+  localVue.directive("focus", () => {})
 
   beforeEach(() => {
     $store = {
@@ -88,6 +89,14 @@ describe(`UndelegationModal`, () => {
         expect(wrapper.vm.validateForm()).toBe(true)
       })
     })
+  })
+
+  it(`should submit when enterPressed is called`, async () => {
+    const self = {
+      $refs: { actionModal: { validateChangeStep: jest.fn() } }
+    }
+    UndelegationModal.methods.enterPressed.call(self)
+    expect(self.$refs.actionModal.validateChangeStep).toHaveBeenCalled()
   })
 
   describe("Submission Data", () => {

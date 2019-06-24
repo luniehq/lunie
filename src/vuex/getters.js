@@ -34,6 +34,10 @@ export const yourValidators = (state, getters) =>
           operator_address in getters.committedDelegations
       )
     : []
+export const validatorsWithRewards = (state, getters) =>
+  Object.entries(state.distribution.rewards).filter(
+    ([, rewards]) => rewards[getters.bondDenom] > 0
+  )
 
 // staking
 export const liquidAtoms = state =>

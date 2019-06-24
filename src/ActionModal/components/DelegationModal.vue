@@ -35,26 +35,28 @@
       field-id="amount"
       field-label="Amount"
     >
-      <span class="input-suffix">{{ num.viewDenom(denom) }}</span>
+      <span class="input-suffix">{{ denom | viewDenom }}</span>
       <TmField
         id="amount"
         v-model="amount"
+        v-focus
         type="number"
         placeholder="Amount"
+        @keyup.enter.native="enterPressed"
       />
       <span v-if="!isRedelegation()" class="form-message">
         Available to Delegate:
         {{ getFromBalance() }}
-        {{ num.viewDenom(denom) }}s
+        {{ denom | viewDenom }}s
       </span>
       <span v-else-if="isRedelegation()" class="form-message">
         Available to Redelegate:
         {{ getFromBalance() }}
-        {{ num.viewDenom(denom) }}s
+        {{ denom | viewDenom }}s
       </span>
       <TmFormMsg
         v-if="balance === 0"
-        :msg="`doesn't have any ${num.viewDenom(denom)}s`"
+        :msg="`doesn't have any ${viewDenom(denom)}s`"
         name="Wallet"
         type="custom"
       />
@@ -82,7 +84,7 @@
 <script>
 import { mapGetters } from "vuex"
 import { between, decimal } from "vuelidate/lib/validators"
-import num, { uatoms, atoms, SMALLEST } from "src/scripts/num.js"
+import { uatoms, atoms, viewDenom, SMALLEST } from "src/scripts/num.js"
 import TmField from "src/components/common/TmField"
 import TmFormGroup from "src/components/common/TmFormGroup"
 import TmFormMsg from "src/components/common/TmFormMsg"
@@ -96,6 +98,9 @@ export default {
     TmFormGroup,
     TmFormMsg,
     ActionModal
+  },
+  filters: {
+    viewDenom
   },
   props: {
     fromOptions: {
@@ -117,11 +122,10 @@ export default {
   },
   data: () => ({
     amount: null,
-    selectedIndex: 0,
-    num
+    selectedIndex: 0
   }),
   computed: {
-    ...mapGetters([`delegates`, `session`, `bondDenom`, `modalContext`]),
+    ...mapGetters([`session`, `modalContext`]),
     balance() {
       if (!this.session.signedIn) return 0
 
@@ -157,14 +161,12 @@ export default {
       if (this.from === this.modalContext.userAddress) {
         return {
           title: `Successful delegation!`,
-          body: `You have successfully delegated your ${num.viewDenom(
-            this.denom
-          )}s`
+          body: `You have successfully delegated your ${viewDenom(this.denom)}s`
         }
       } else {
         return {
           title: `Successful redelegation!`,
-          body: `You have successfully redelegated your ${num.viewDenom(
+          body: `You have successfully redelegated your ${viewDenom(
             this.denom
           )}s`
         }
@@ -172,6 +174,7 @@ export default {
     }
   },
   methods: {
+    viewDenom,
     open() {
       this.$refs.actionModal.open()
     },
@@ -185,6 +188,9 @@ export default {
 
       this.selectedIndex = 0
       this.amount = null
+    },
+    enterPressed() {
+      this.$refs.actionModal.validateChangeStep()
     },
     isRedelegation() {
       return this.from !== this.modalContext.userAddress

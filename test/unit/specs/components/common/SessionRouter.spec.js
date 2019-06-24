@@ -1,7 +1,7 @@
 import { shallowMount } from "@vue/test-utils"
-import TmSession from "common/TmSession"
+import SessionRouter from "common/SessionRouter"
 
-describe(`TmSession`, () => {
+describe(`SessionRouter`, () => {
   let wrapper, $store
 
   beforeEach(() => {
@@ -21,7 +21,7 @@ describe(`TmSession`, () => {
       dispatch: jest.fn(),
       getters
     }
-    wrapper = shallowMount(TmSession, {
+    wrapper = shallowMount(SessionRouter, {
       mocks: {
         $store
       }
@@ -33,41 +33,48 @@ describe(`TmSession`, () => {
   })
 
   it(`should show a welcome screen if selected`, () => {
-    wrapper.vm.session.modals.session.state = `welcome`
+    wrapper.setData({ view: `welcome` })
     expect(wrapper.contains(`SessionWelcome-stub`)).toBe(true)
   })
 
   it(`should show a signup screen if selected`, () => {
-    wrapper.vm.session.modals.session.state = `sign-up`
+    wrapper.setData({ view: `sign-up` })
     expect(wrapper.contains(`SessionSignUp-stub`)).toBe(true)
   })
 
   it(`should show a signin screen if selected`, () => {
-    wrapper.vm.session.modals.session.state = `sign-in`
+    wrapper.setData({ view: `sign-in` })
     expect(wrapper.contains(`SessionSignIn-stub`)).toBe(true)
   })
 
   it(`should show a hardware signin screen if selected`, () => {
-    wrapper.vm.session.modals.session.state = `hardware`
+    wrapper.setData({ view: `hardware` })
     expect(wrapper.contains(`SessionHardware-stub`)).toBe(true)
   })
 
   it(`should show a import screen if selected`, () => {
-    wrapper.vm.session.modals.session.state = `import`
+    wrapper.setData({ view: `import` })
     expect(wrapper.contains(`SessionImport-stub`)).toBe(true)
   })
 
   it(`should show a import screen if selected`, () => {
-    wrapper.vm.session.modals.session.state = `delete`
+    wrapper.setData({ view: `delete` })
     expect(wrapper.contains(`SessionAccountDelete-stub`)).toBe(true)
   })
 
-  it(`should show a the connected network indicator`, () => {
-    expect(wrapper.contains(`ConnectedNetwork-stub`)).toBe(true)
+  it(`should close the session modal`, () => {
+    const self = {
+      $emit: jest.fn()
+    }
+    SessionRouter.methods.close.call(self)
+    expect(self.$emit).toHaveBeenCalledWith(`close`)
   })
 
-  it(`should close the session modal`, () => {
-    wrapper.vm.close()
-    expect($store.commit).toHaveBeenCalledWith(`toggleSessionModal`, false)
+  it(`should set the view`, () => {
+    const self = {
+      view: "none"
+    }
+    SessionRouter.methods.goTo.call(self, "welcome")
+    expect(self.view).toBe(`welcome`)
   })
 })

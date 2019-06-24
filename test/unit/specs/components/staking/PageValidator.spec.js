@@ -100,7 +100,8 @@ describe(`PageValidator`, () => {
         $route: {
           params: { validator: validator.operator_address }
         }
-      }
+      },
+      stubs: [`router-link`]
     })
   })
 
