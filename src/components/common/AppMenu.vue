@@ -109,9 +109,11 @@ export default {
     },
     signOut() {
       this.$store.dispatch(`signOut`)
+      this.$emit(`close`)
     },
     signIn() {
       this.$store.commit(`setSessionModalView`, `welcome`)
+      this.$emit(`close`)
       this.$store.commit(`toggleSessionModal`, true)
     }
   }
