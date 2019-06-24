@@ -1,6 +1,14 @@
 <template>
-  <transition v-if="show" name="slide-fade">
-    <div v-focus-last class="action-modal" tabindex="0" @keyup.esc="close">
+  <transition
+    v-if="show"
+    name="slide-fade"
+  >
+    <div
+      v-focus-last
+      class="action-modal"
+      tabindex="0"
+      @keyup.esc="close"
+    >
       <div
         id="closeBtn"
         class="action-modal-icon action-modal-close"
@@ -12,15 +20,27 @@
         <span class="action-modal-title">
           {{ requiresSignIn ? `Sign in required` : title }}
         </span>
-        <Steps :steps="['Details', 'Fees', 'Sign']" :active-step="step" />
+        <Steps
+          :steps="['Details', 'Fees', 'Sign']"
+          :active-step="step"
+        />
       </div>
-      <div v-if="requiresSignIn" class="action-modal-form">
+      <div
+        v-if="requiresSignIn"
+        class="action-modal-form"
+      >
         <p>You need to sign in to submit a transaction.</p>
       </div>
-      <div v-else-if="step === `details`" class="action-modal-form">
+      <div
+        v-else-if="step === `details`"
+        class="action-modal-form"
+      >
         <slot />
       </div>
-      <div v-else-if="step === `fees`" class="action-modal-form">
+      <div
+        v-else-if="step === `fees`"
+        class="action-modal-form"
+      >
         <TmFormGroup
           v-if="session.experimentalMode"
           :error="$v.gasPrice.$error && $v.gasPrice.$invalid"
@@ -68,7 +88,10 @@
           :max="balanceInAtoms"
         />
       </div>
-      <div v-else-if="step === `sign`" class="action-modal-form">
+      <div
+        v-else-if="step === `sign`"
+        class="action-modal-form"
+      >
         <TmFormGroup
           v-if="signMethods.length > 1"
           class="action-modal-form-group"
@@ -89,9 +112,9 @@
         >
           <div v-if="session.browserWithLedgerSupport">
             {{
-              sending
-                ? `Please verify and sign the transaction on your Ledger`
-                : `Please plug in your Ledger&nbsp;Nano and open
+            sending
+            ? `Please verify and sign the transaction on your Ledger`
+            : `Please plug in your Ledger&nbsp;Nano and open
             the Cosmos app`
             }}
           </div>
@@ -124,6 +147,11 @@
             />
           </TmFormGroup>
         </form>
+        <p v-else-if="selectedSignMethod === `extension`">
+          After submitting please click on the Lunie Browser Extension and
+          approve the
+          transaction.
+        </p>
       </div>
       <div class="action-modal-footer">
         <slot name="action-modal-footer">
@@ -140,9 +168,7 @@
               <TmBtn
                 v-else-if="sending"
                 :value="
-                  step === `sign` && selectedSignMethod === `ledger`
-                    ? `Waiting for Ledger`
-                    : `Sending...`
+                  step === `sign` ? submitButtonCaption : ``
                 "
                 disabled="disabled"
                 color="primary"
@@ -204,6 +230,7 @@ const signStep = `sign`
 
 const signWithLedger = `ledger`
 const signWithLocalKeystore = `local`
+const signWithExtension = `extension`
 
 export default {
   name: `action-modal`,
@@ -289,6 +316,9 @@ export default {
       ) {
         return signWithLedger
       }
+      if ((this.session.sessionType = "extension")) {
+        return signWithExtension
+      }
       return signWithLocalKeystore
     },
     signMethods() {
@@ -300,12 +330,32 @@ export default {
           }
         ]
       }
+      if (this.session.sessionType === `extension`) {
+        return [
+          {
+            key: `Lunie Chrome Extension`,
+            value: signWithExtension
+          }
+        ]
+      }
       return [
         {
           key: `(Unsafe) Local Account`,
           value: signWithLocalKeystore
         }
       ]
+    },
+    submitButtonCaption() {
+      return (() => {
+        switch (this.selectedSignMethod) {
+          case "ledger":
+            return `Waiting for Ledger`
+          case "extension":
+            return `Waiting for Extension`
+          default:
+            return "Sending..."
+        }
+      })()
     }
   },
   updated: function() {

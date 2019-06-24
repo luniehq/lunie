@@ -18,7 +18,8 @@ export default () => {
   const actions = {
     async checkForPresense() {
       // TODO Check if extension still installed. User could have uninstalled it.
-    }
+    },
+    async signWithExtension(store, { stdTx, senderAddress }) {}
   }
   return {
     state,

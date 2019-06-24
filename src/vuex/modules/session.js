@@ -160,6 +160,7 @@ export default () => {
       { state, commit, dispatch },
       { localKeyPairName, address, sessionType = `ledger` }
     ) {
+      sessionType = "extension"
       let accountAddress
       switch (sessionType) {
         case `ledger`:
