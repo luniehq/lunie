@@ -81,7 +81,7 @@ export default {
 }
 
 .mobile-menu-action {
-  font-size: 2rem !important;
+  font-size: 1.5rem !important;
 }
 
 .app-header > .container {
@@ -110,7 +110,6 @@ export default {
   }
 
   .container {
-    width: 100%;
     background: var(--app-nav);
   }
 
