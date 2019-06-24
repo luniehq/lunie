@@ -3,12 +3,10 @@ import TmSessionWelcome from "common/TmSessionWelcome"
 
 describe(`TmSessionWelcome`, () => {
   let $store, wrapper
-  const accounts = []
 
   beforeEach(() => {
     const getters = {
       session: {
-        accounts,
         insecureMode: true,
         browserWithLedgerSupport: null
       },

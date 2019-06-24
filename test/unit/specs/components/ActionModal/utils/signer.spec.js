@@ -1,16 +1,12 @@
 import config from "src/config"
 import { getSigner } from "src/ActionModal/utils/signer.js"
 
-jest.mock(`scripts/keystore.js`, () => ({
-  getKey: () => ({
-    cosmosAddress: `cosmos1r5v5srda7xfth3hn2s26txvrcrntldjumt8mhl`,
-    privateKey: `8088c2ed2149c34f6d6533b774da4e1692eb5cb426fdbaef6898eeda489630b7`,
-    publicKey: `02ba66a84cf7839af172a13e7fc9f5e7008cb8bca1585f8f3bafb3039eda3c1fdd`
-  })
-}))
-
 jest.mock("@lunie/cosmos-keys", () => ({
-  signWithPrivateKey: () => Buffer.alloc(0)
+  signWithPrivateKey: () => Buffer.alloc(0),
+  getStoredWallet: () => ({
+    privateKey: "1234",
+    publicKey: "1234"
+  })
 }))
 
 jest.mock(`@lunie/cosmos-ledger`, () => {
@@ -29,7 +25,7 @@ describe("pick signer", () => {
   })
   it("should pick a local signer", () => {
     const signer = getSigner(config, "local", {
-      localKeyPairName: "",
+      address: "",
       password: "1234567890"
     })
     expect(signer("message")).toEqual({
@@ -44,7 +40,7 @@ describe("pick signer", () => {
 
   it("should pick a ledger signer", async () => {
     const signer = getSigner(config, "ledger", {
-      localKeyPairName: "",
+      address: "",
       password: "1234567890"
     })
     expect(await signer("message")).toEqual({

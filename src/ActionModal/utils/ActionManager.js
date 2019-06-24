@@ -71,8 +71,11 @@ export default class ActionManager {
     this.readyCheck()
 
     const { gasEstimate, gasPrice, submitType, password } = txMetaData
-    const localKeyPairName = this.context.localKeyPairName
-    const signer = getSigner(config, submitType, { localKeyPairName, password })
+    const userAddress = this.context.userAddress
+    const signer = getSigner(config, submitType, {
+      address: userAddress,
+      password
+    })
 
     if (this.messageType === transaction.WITHDRAW) {
       this.message = this.createWithdrawTransaction()

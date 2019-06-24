@@ -114,7 +114,7 @@
   },
   "dependencies": {
     "@lunie/cosmos-api": "0.0.23",
-    "@lunie/cosmos-keys": "0.0.9",
+    "@lunie/cosmos-keys": "0.1.0",
     "@lunie/cosmos-ledger": "0.0.5",
     "@sentry/browser": "5.0.3",
     "autosize": "4.0.2",
