@@ -8,23 +8,25 @@
         </h2>
         <Bech32 :address="session.address || ''" />
       </div>
-      <div class="unbonded-atoms top-section">
-        <h3>Liquid {{ num.viewDenom(bondDenom) }}</h3>
-        <h2>{{ unbondedAtoms }}</h2>
-      </div>
-      <div v-if="rewards" class="top-section">
-        <h3>Available Rewards</h3>
-        <h2>{{ rewards }}</h2>
-        <TmBtn
-          id="withdraw-btn"
-          :disabled="!readyToWithdraw"
-          class="withdraw-rewards"
-          :value="'Withdraw'"
-          :to="''"
-          type="anchor"
-          size="sm"
-          @click.native="readyToWithdraw && onWithdrawal()"
-        />
+      <div class="second-row">
+        <div class="unbonded-atoms top-section">
+          <h3>Liquid {{ num.viewDenom(bondDenom) }}</h3>
+          <h2>{{ unbondedAtoms }}</h2>
+        </div>
+        <div v-if="rewards" class="top-section">
+          <h3>Available Rewards</h3>
+          <h2>{{ rewards }}</h2>
+          <TmBtn
+            id="withdraw-btn"
+            :disabled="!readyToWithdraw"
+            class="withdraw-rewards"
+            :value="'Withdraw'"
+            :to="''"
+            type="anchor"
+            size="sm"
+            @click.native="readyToWithdraw && onWithdrawal()"
+          />
+        </div>
       </div>
     </div>
     <slot />
@@ -165,9 +167,14 @@ export default {
   font-weight: 500;
 }
 
+.second-row {
+  flex-direction: row;
+  display: flex;
+}
+
 @media screen and (max-width: 767px) {
   .header-balance {
-    padding: 0 0 1.5rem 0;
+    padding: 0;
   }
 
   .top-section {
@@ -176,10 +183,12 @@ export default {
 
   .header-balance .top {
     flex-direction: column;
+    width: 100%;
   }
 
-  /* .top-section:nth-child(2) {
-    display: none;
-  } */
+  .second-row {
+    width: 100%;
+    justify-content: space-between;
+  }
 }
 </style>
