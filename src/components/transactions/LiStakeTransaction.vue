@@ -177,7 +177,11 @@ export default {
       const validator = this.validators.find(
         c => c.operator_address === validatorAddr
       )
-      const shortenedAdd = validatorAddr.slice(0, 6) + '...' + validatorAddr.slice(-4)
+      let shortenedAdd = validatorAddr
+      if (validatorAddr) {
+        shortenedAdd =
+          validatorAddr.slice(0, 6) + "..." + validatorAddr.slice(-4)
+      }
       return validator ? validator.description.moniker : shortenedAdd
     }
   }
