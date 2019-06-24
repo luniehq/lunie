@@ -1,9 +1,9 @@
 import Vuelidate from "vuelidate"
 import { shallowMount, createLocalVue } from "@vue/test-utils"
 import TabParameters from "src/components/governance/TabParameters"
-import lcdClientMock from "src/connectors/lcdClientMock.js"
+import mockValues from "test/unit/helpers/mockValues.js"
 
-const { governanceParameters } = lcdClientMock.state
+const { governanceParameters } = mockValues.state
 
 describe(`TabParameters`, () => {
   let wrapper, $store
