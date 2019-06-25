@@ -31,10 +31,17 @@ describe(`AppMenu`, () => {
     expect(wrapper.emitted().close).toBeTruthy()
   })
 
-  xit(`call dispatch to sign the user out`, () => {
+  it(`call dispatch to sign the user out`, () => {
     const $store = { dispatch: jest.fn() }
-    const self = { $store, $router: { push: jest.fn() } }
+    const self = { $store, $router: { push: jest.fn() }, $emit: jest.fn() }
     AppMenu.methods.signOut.call(self)
     expect($store.dispatch).toHaveBeenCalledWith(`signOut`)
+  })
+
+  it(`closes menu on sign out`, () => {
+    const $store = { dispatch: jest.fn() }
+    const self = { $store, $router: { push: jest.fn() }, $emit: jest.fn() }
+    AppMenu.methods.signOut.call(self)
+    expect(self.$emit).toHaveBeenCalledWith(`close`)
   })
 })
