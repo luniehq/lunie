@@ -1,0 +1,61 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SessionApprove has the expected html structure 1`] = `
+<div
+  class="approve-tran"
+  hide-header=""
+>
+  <h2>
+    Approve Transaction
+  </h2>
+   
+  <div>
+    <p>
+      Verify the transaction details below.
+    </p>
+  </div>
+   
+  <tmformgroup-stub
+    fieldid="to"
+    fieldlabel="Your address"
+  >
+    <lianytransaction-stub
+      bondingdenom="Atoms"
+      hiderightside="true"
+      proposalsurl="/"
+      transaction="[object Object]"
+      validators="[object Object]"
+      validatorsurl="/"
+    />
+     
+    <div>
+      From 
+      <bech32-stub
+        address="cosmos1vgkesh3z4wuglzjf9fjvcvkcxhp22rqx3sd5zr"
+      />
+    </div>
+     
+    <tableinvoice-stub
+      amount="12"
+      gasestimate="162302"
+      gasprice="0.000004"
+    />
+     
+    <div
+      class="approve-tran-footer"
+    >
+      <tmbtn-stub
+        class="left-button"
+        color="secondary"
+        value="Reject"
+      />
+       
+      <tmbtn-stub
+        class="right-button"
+        color="primary"
+        value="Approve"
+      />
+    </div>
+  </tmformgroup-stub>
+</div>
+`;

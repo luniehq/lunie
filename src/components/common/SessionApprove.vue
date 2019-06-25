@@ -169,7 +169,15 @@ export default {
     currentAccount: {
       address: "cosmos1vgkesh3z4wuglzjf9fjvcvkcxhp22rqx3sd5zr"
     }
-  })
+  }),
+  methods: {
+    setState(value) {
+      this.$emit(`route-change`, value)
+    },
+    close() {
+      this.$emit(`close`)
+    }
+  }
 }
 </script>
 
