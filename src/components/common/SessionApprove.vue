@@ -41,7 +41,7 @@ import TableInvoice from "src/ActionModal/components/TableInvoice"
 import Bech32 from "common/Bech32"
 
 export default {
-  name: `ext-approve-tran`,
+  name: `session-ext-approve-tran`,
   components: {
     TmBtn,
     TmFormGroup,

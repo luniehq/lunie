@@ -28,7 +28,7 @@ import TmBtn from "common/TmBtn"
 import ToolBar from "common/ToolBar"
 import Bech32 from "common/Bech32"
 export default {
-  name: `ext-accounts`,
+  name: `session-ext-accounts`,
   components: {
     TmBtn,
     ToolBar,

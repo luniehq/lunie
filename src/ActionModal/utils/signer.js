@@ -15,11 +15,21 @@ export function getSigner(config, submitType = "", { address, password }) {
         publicKey: Buffer.from(wallet.publicKey, "hex")
       }
     }
-  } else {
+  } else if (submitType === `ledger`) {
     return async signMessage => {
       const ledger = new Ledger(config)
       const publicKey = await ledger.getPubKey()
       const signature = await ledger.sign(signMessage)
+
+      return {
+        signature,
+        publicKey
+      }
+    }
+  } else if (submitType === `extension`) {
+    return async signMessage => {
+      const publicKey = "" // Get from extension
+      const signature = () => String(signMessage) // Faux func. Get from extension
 
       return {
         signature,

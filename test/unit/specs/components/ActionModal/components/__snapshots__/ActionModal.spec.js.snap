@@ -163,16 +163,9 @@ exports[`ActionModal should show the action modal when user has logged in with l
   >
     <!---->
      
-    <hardwarestate-stub
-      icon="info"
-    >
-      <div>
-        
-          Please use Chrome, Brave, or Opera. Ledger is not supported in your
-          current browser.
-        
-      </div>
-    </hardwarestate-stub>
+    <!---->
+     
+    <!---->
   </div>
    
   <div
@@ -358,21 +351,9 @@ exports[`ActionModal should show the action modal when user has logged in with l
   >
     <!---->
      
-    <form>
-      <tmformgroup-stub
-        class="action-modal-group"
-        fieldid="password"
-        fieldlabel="Password"
-      >
-        <tmfield-stub
-          id="password"
-          placeholder="Password"
-          type="password"
-        />
-         
-        <!---->
-      </tmformgroup-stub>
-    </form>
+    <!---->
+     
+    <!---->
   </div>
    
   <div
