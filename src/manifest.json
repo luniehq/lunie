@@ -15,10 +15,6 @@
   "background": {
     "scripts": ["background.js"]
   },
-  "options_ui": {
-    "page": "options/options.html",
-    "chrome_style": true
-  },
   "web_accessible_resources": ["fonts/*.woff2"],
   "content_scripts": [
     {
