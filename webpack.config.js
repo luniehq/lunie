@@ -72,7 +72,7 @@ const config = {
           {
             loader: `file-loader`,
             query: {
-              name: `fonts/[name].[ext]`,
+              name: `/fonts/[name].[ext]`,
             },
           },
         ],
