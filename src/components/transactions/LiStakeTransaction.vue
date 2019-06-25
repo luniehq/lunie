@@ -99,6 +99,7 @@
 <script>
 import LiTransaction from "./LiTransaction"
 import { atoms as toAtoms, viewDenom } from "../../scripts/num.js"
+import { formatBech32 } from "src/filters"
 import moment from "moment"
 
 /*
@@ -107,7 +108,9 @@ import moment from "moment"
 
 export default {
   name: `li-stake-transaction`,
-  components: { LiTransaction },
+  components: {
+    LiTransaction
+  },
   filters: {
     toAtoms,
     viewDenom
@@ -177,7 +180,8 @@ export default {
       const validator = this.validators.find(
         c => c.operator_address === validatorAddr
       )
-      return validator ? validator.description.moniker : validatorAddr
+      let shortenedAddress = formatBech32(validatorAddr)
+      return validator ? validator.description.moniker : shortenedAddress
     }
   }
 }
