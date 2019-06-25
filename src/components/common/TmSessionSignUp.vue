@@ -1,22 +1,23 @@
 <template>
   <div class="session">
     <TmFormStruct :submit="onSubmit.bind(this)">
-      <div class="session-header">
-        <img
-          v-if="!session.insecureMode"
-          class="session-image"
-          src="~assets/images/mobile-hand.svg"
-        />
-        <a @click="goBack">
-          <i class="material-icons session-back">arrow_back</i>
-        </a>
-        <h2 class="session-title">
+      <SessionFrame>
+        <template v-slot:image>
+          <img
+            v-if="!session.insecureMode"
+            class="session-image"
+            src="~assets/images/mobile-hand.svg"
+          />
+        </template>
+        <template v-slot:title>
           Create a new address
-        </h2>
-        <a @click="close">
-          <i class="material-icons session-close">close</i>
-        </a>
-      </div>
+        </template>
+        <template v-slot:paragraph>
+          Lunie is the cryptocurrency wallet for the new staking economy. Easily
+          stake your ATOMs, withdraw your rewards, and participate in
+          governance.
+        </template>
+      </SessionFrame>
       <div v-if="session.insecureMode" class="session-main">
         <div class="danger-zone">
           <h2>DANGER ZONE</h2>
@@ -202,6 +203,7 @@ import TmFormStruct from "common/TmFormStruct"
 import TmField from "common/TmField"
 import TmFormMsg from "common/TmFormMsg"
 import FieldSeed from "common/TmFieldSeed"
+import SessionFrame from "common/SessionFrame"
 export default {
   name: `session-sign-up`,
   components: {
@@ -210,7 +212,8 @@ export default {
     FieldSeed,
     TmFormGroup,
     TmFormMsg,
-    TmFormStruct
+    TmFormStruct,
+    SessionFrame
   },
   data: () => ({
     creating: true,
@@ -234,12 +237,6 @@ export default {
   methods: {
     setState(value) {
       this.$emit(`route-change`, value)
-    },
-    goBack() {
-      this.$emit(`route-change`, "welcome")
-    },
-    close() {
-      this.$emit(`close`)
     },
     async onSubmit() {
       this.$v.$touch()

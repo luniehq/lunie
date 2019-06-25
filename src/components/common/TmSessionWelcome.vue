@@ -1,6 +1,6 @@
 <template>
   <div id="session-welcome" class="session">
-    <SessionFrame>
+    <SessionFrame :display-back="false">
       <template v-slot:image>
         <img class="lunie-logo" src="~assets/images/cosmos-wallet-logo.svg" />
       </template>

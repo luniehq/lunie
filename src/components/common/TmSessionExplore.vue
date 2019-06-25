@@ -1,17 +1,11 @@
 <template>
   <div class="session">
     <TmFormStruct :submit="onSubmit" class="session-container">
-      <div class="session-header">
-        <a @click="goBack()">
-          <i class="material-icons session-back">arrow_back</i>
-        </a>
-        <h2 class="session-title">
+      <SessionFrame previous-route="existing">
+        <template v-slot:title>
           Explore with any address
-        </h2>
-        <a @click="close">
-          <i class="material-icons session-close">close</i>
-        </a>
-      </div>
+        </template>
+      </SessionFrame>
       <div class="session-main">
         <TmFormGroup field-id="sign-in-name" field-label="Your Cosmos Address">
           <TmField
@@ -46,6 +40,7 @@ import TmFormGroup from "common/TmFormGroup"
 import TmFormStruct from "common/TmFormStruct"
 import TmField from "common/TmField"
 import TmFormMsg from "common/TmFormMsg"
+import SessionFrame from "common/SessionFrame"
 import bech32 from "bech32"
 export default {
   name: `session-explore`,
@@ -54,7 +49,8 @@ export default {
     TmField,
     TmFormGroup,
     TmFormMsg,
-    TmFormStruct
+    TmFormStruct,
+    SessionFrame
   },
   data: () => ({
     address: ``,
@@ -66,12 +62,6 @@ export default {
   methods: {
     setState(value) {
       this.$emit(`route-change`, value)
-    },
-    goBack() {
-      this.$emit(`route-change`, `existing`)
-    },
-    close() {
-      this.$emit(`close`)
     },
     async onSubmit() {
       this.$v.$touch()

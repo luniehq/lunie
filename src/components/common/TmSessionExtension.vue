@@ -1,17 +1,11 @@
 <template>
   <div class="session">
     <div class="session-container">
-      <div class="session-header">
-        <a @click="goBack">
-          <i class="material-icons session-back">arrow_back</i>
-        </a>
-        <h2 class="session-title">
+      <SessionFrame previous-route="existing" :nested-back="false">
+        <template v-slot:title>
           Use Lunie Chrome extension
-        </h2>
-        <a @click="close">
-          <i class="material-icons session-close">close</i>
-        </a>
-      </div>
+        </template>
+      </SessionFrame>
       <div v-if="!session.extensionInstalled" class="session-main">
         <p>
           Please install the Lunie Extension for Chrome from the Google Play
@@ -50,11 +44,13 @@
 import TmBtn from "common/TmBtn"
 import { mapGetters } from "vuex"
 import HardwareState from "common/TmHardwareState"
+import SessionFrame from "common/SessionFrame"
 export default {
   name: `session-extension`,
   components: {
     TmBtn,
-    HardwareState
+    HardwareState,
+    SessionFrame
   },
   data: () => ({
     status: `connect`,
@@ -74,12 +70,6 @@ export default {
   methods: {
     setState(value) {
       this.$emit(`route-change`, value)
-    },
-    goBack() {
-      this.$emit(`route-change`, "existing")
-    },
-    close() {
-      this.$emit(`close`)
     },
     async signIn() {
       this.connectionError = null
