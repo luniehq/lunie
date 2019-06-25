@@ -419,6 +419,12 @@ export default {
       } catch ({ message }) {
         this.submissionError = `${this.submissionErrorPrefix}: ${message}.`
       }
+
+      // limit fees to the maximum the user has
+      if (this.invoiceTotal > this.balanceInAtoms) {
+        this.gasPrice =
+          (this.balanceInAtoms - Number(this.amount)) / this.gasEstimate
+      }
     },
     async submit() {
       this.submissionError = null

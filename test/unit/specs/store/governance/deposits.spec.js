@@ -1,6 +1,6 @@
 import depositsModule from "src/vuex/modules/governance/deposits.js"
-import lcdClientMock from "src/connectors/lcdClientMock.js"
-const { proposals, deposits } = lcdClientMock.state
+import mockValues from "test/unit/helpers/mockValues.js"
+const { proposals, deposits } = mockValues.state
 
 const mockRootState = {
   wallet: {

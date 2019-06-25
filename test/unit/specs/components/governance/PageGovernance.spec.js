@@ -1,37 +1,34 @@
-import setup from "../../../helpers/vuex-setup"
+import { shallowMount, createLocalVue } from "@vue/test-utils"
 import Vuelidate from "vuelidate"
 import PageGovernance from "src/components/governance/PageGovernance"
 import ModalPropose from "src/ActionModal/components/ModalPropose"
-import lcdClientMock from "src/connectors/lcdClientMock.js"
-
-const { governanceParameters, stakingParameters } = lcdClientMock.state
 
 // TODO: refactor according to new unit test standard
 describe(`PageGovernance`, () => {
-  let wrapper, store
-  const { mount, localVue } = setup()
+  let wrapper, $store
+  const localVue = createLocalVue()
   localVue.use(Vuelidate)
   localVue.directive(`tooltip`, () => {})
   localVue.directive(`focus`, () => {})
   localVue.directive(`clipboard`, () => {})
 
   beforeEach(() => {
-    const instance = mount(PageGovernance, {
-      doBefore: ({ store }) => {
-        store.commit(`setGovParameters`, governanceParameters)
-        store.state.governanceParameters.loaded = true
-        store.commit(`setStakingParameters`, stakingParameters.parameters)
-        store.commit(`setConnected`, true)
-        store.commit(`setSignIn`, true)
-      },
-      stubs: {
-        "tm-balance": true
+    $store = {
+      commit: jest.fn(),
+      dispatch: jest.fn(),
+      getters: {
+        proposals: {},
+        depositDenom: `stake`,
+        connected: true,
+        session: {}
+      }
+    }
+    wrapper = shallowMount(PageGovernance, {
+      stubs: ["tm-balance", "router-view"],
+      mocks: {
+        $store
       }
     })
-    wrapper = instance.wrapper
-    store = instance.store
-    store.state.session.address = lcdClientMock.addresses[0]
-    store.dispatch(`updateDelegates`)
 
     wrapper.vm.$refs.modalPropose = { open: () => {} }
   })
@@ -46,7 +43,22 @@ describe(`PageGovernance`, () => {
     expect(
       wrapper.vm.$el.querySelector(`#propose-btn`).getAttribute(`disabled`)
     ).toBeNull()
-    store.commit(`setConnected`, false)
+    $store = {
+      commit: jest.fn(),
+      dispatch: jest.fn(),
+      getters: {
+        proposals: {},
+        depositDenom: `stake`,
+        connected: false,
+        session: {}
+      }
+    }
+    wrapper = shallowMount(PageGovernance, {
+      stubs: ["tm-balance", "router-view"],
+      mocks: {
+        $store
+      }
+    })
     expect(
       wrapper.vm.$el.querySelector(`#propose-btn`).getAttribute(`disabled`)
     ).not.toBeNull()

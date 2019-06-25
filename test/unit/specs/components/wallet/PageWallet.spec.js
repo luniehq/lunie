@@ -1,5 +1,5 @@
 import { shallowMount, createLocalVue } from "@vue/test-utils"
-import lcdClientMock from "src/connectors/lcdClientMock.js"
+import mockValues from "test/unit/helpers/mockValues.js"
 import PageWallet from "src/components/wallet/PageWallet"
 
 describe(`PageWallet`, () => {
@@ -10,7 +10,7 @@ describe(`PageWallet`, () => {
   const getters = {
     wallet: {
       loading: false,
-      balances: lcdClientMock.state.accounts[lcdClientMock.addresses[0]].coins,
+      balances: mockValues.state.accounts[mockValues.addresses[0]].coins,
       externals: { config: { faucet: `yo` } }
     },
     lastHeader: { height: `20` },

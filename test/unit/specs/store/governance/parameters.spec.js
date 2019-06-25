@@ -1,6 +1,6 @@
 import parametersModule from "src/vuex/modules/governance/parameters.js"
-import lcdClientMock from "src/connectors/lcdClientMock.js"
-const { governanceParameters } = lcdClientMock.state
+import mockValues from "test/unit/helpers/mockValues.js"
+const { governanceParameters } = mockValues.state
 
 const mockRootState = {
   connection: {

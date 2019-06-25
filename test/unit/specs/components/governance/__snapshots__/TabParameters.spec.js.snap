@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`TabParameters has the expected html structure 1`] = `
+exports[`TabParameters shows the governance parameters 1`] = `
 <div>
   <div
     class="parameters__details parameters__section"
