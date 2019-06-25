@@ -155,7 +155,8 @@ const config = {
       transactions: resolve(`src/components/transactions`),
       govern: resolve(`src/components/govern`),
       staking: resolve(`src/components/staking`),
-      wallet: resolve(`src/components/wallet`)
+      wallet: resolve(`src/components/wallet`),
+      test: resolve(`test`)
     },
     extensions: [`.js`, `.vue`, `.json`, `.css`, `.node`],
     modules: [path.join(__dirname, `node_modules`)]
