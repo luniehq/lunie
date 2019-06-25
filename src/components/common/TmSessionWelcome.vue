@@ -1,19 +1,17 @@
 <template>
   <div id="session-welcome" class="session">
-    <a @click="closeSession">
-      <i class="material-icons session-close">close</i>
-    </a>
-    <div class="session-header">
-      <img class="lunie-logo" src="~assets/images/cosmos-wallet-logo.svg" />
-      <h2 class="session-title">
+    <SessionFrame>
+      <template v-slot:image>
+        <img class="lunie-logo" src="~assets/images/cosmos-wallet-logo.svg" />
+      </template>
+      <template v-slot:title>
         Welcome to Lunie!
-      </h2>
-      <p class="session-paragraph">
+      </template>
+      <template v-slot:paragraph>
         Lunie is the cryptocurrency wallet for the new staking economy. Easily
         stake your ATOMs, withdraw your rewards, and participate in governance.
-      </p>
-    </div>
-
+      </template>
+    </SessionFrame>
     <div class="session-list">
       <LiSession
         id="creat-new-address"
@@ -39,17 +37,17 @@
 
 <script>
 import LiSession from "common/TmLiSession"
+import SessionFrame from "common/SessionFrame"
+
 export default {
   name: `session-welcome`,
   components: {
-    LiSession
+    LiSession,
+    SessionFrame
   },
   methods: {
     setState(value) {
       this.$emit(`route-change`, value)
-    },
-    closeSession() {
-      this.$emit(`close`)
     }
   }
 }
