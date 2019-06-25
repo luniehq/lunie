@@ -85,6 +85,8 @@ export default {
   position: relative;
   border: 2px solid var(--bc-dim);
   overflow: auto;
+  display: flex;
+  flex-flow: column;
 }
 
 .session-header {
@@ -93,6 +95,7 @@ export default {
 }
 
 .session-main {
+  flex: 1;
   padding: 0 1rem;
 }
 
@@ -148,7 +151,6 @@ export default {
 .session-footer {
   display: flex;
   padding: 2rem 1rem;
-  align-self: flex-end;
   flex-direction: column;
 }
 

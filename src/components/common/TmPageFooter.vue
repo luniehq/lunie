@@ -91,7 +91,7 @@ ul li {
 @media screen and (max-width: 1023px) {
   footer {
     background: var(--app-fg);
-    padding: 2rem 0.5rem;
+    padding: 2rem 1.5rem;
     margin-top: 1rem;
   }
 

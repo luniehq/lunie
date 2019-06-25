@@ -174,4 +174,10 @@ a {
   font-weight: normal;
   padding: 0 1rem;
 }
+
+@media screen and (max-width: 1023px) {
+  .tm-btn .tm-btn__container {
+    width: 100%;
+  }
+}
 </style>
