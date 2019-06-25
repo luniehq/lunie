@@ -1,4 +1,4 @@
-import lcdClientMock from "src/connectors/lcdClientMock.js"
+import mockValues from "test/unit/helpers/mockValues.js"
 import delegationModule from "src/vuex/modules/delegation.js"
 
 const mockRootState = {
@@ -9,7 +9,7 @@ const mockRootState = {
     address: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
     signedIn: true
   },
-  stakingParameters: lcdClientMock.state.stakingParameters
+  stakingParameters: mockValues.state.stakingParameters
 }
 let staticDateNow
 describe(`Module: Delegations`, () => {
@@ -40,12 +40,11 @@ describe(`Module: Delegations`, () => {
       node = {
         get: {
           delegations: jest.fn(
-            () =>
-              lcdClientMock.state.stake[lcdClientMock.addresses[0]].delegations
+            () => mockValues.state.stake[mockValues.addresses[0]].delegations
           ),
           undelegations: jest.fn(() => [
             {
-              validator_address: lcdClientMock.validators[0],
+              validator_address: mockValues.validators[0],
               entries: [
                 {
                   balance: `1`,
@@ -55,9 +54,7 @@ describe(`Module: Delegations`, () => {
             }
           ]),
           redelegations: jest.fn(
-            () =>
-              lcdClientMock.state.stake[lcdClientMock.addresses[0]]
-                .redelegations
+            () => mockValues.state.stake[mockValues.addresses[0]].redelegations
           )
         }
       }
@@ -76,7 +73,7 @@ describe(`Module: Delegations`, () => {
           commit,
           dispatch: jest.fn()
         },
-        lcdClientMock.state.candidates
+        mockValues.state.candidates
       )
     })
 
@@ -92,7 +89,7 @@ describe(`Module: Delegations`, () => {
       expect(node.get.undelegations).toHaveBeenCalled()
       expect(commit).toHaveBeenCalledWith(`setUnbondingDelegations`, [
         {
-          validator_address: lcdClientMock.validators[0],
+          validator_address: mockValues.validators[0],
           entries: [
             {
               balance: `1`,
@@ -105,12 +102,12 @@ describe(`Module: Delegations`, () => {
 
     it(`should remove dead delegations and undelegations`, async () => {
       mutations.setCommittedDelegation(state, {
-        candidateId: lcdClientMock.validators[2],
+        candidateId: mockValues.validators[2],
         value: 1
       })
       mutations.setUnbondingDelegations(state, [
         {
-          validator_address: lcdClientMock.validators[2],
+          validator_address: mockValues.validators[2],
           entries: [
             {
               balance: 1
@@ -118,10 +115,8 @@ describe(`Module: Delegations`, () => {
           ]
         }
       ])
-      expect(state.committedDelegates[lcdClientMock.validators[2]]).toBeTruthy()
-      expect(
-        state.unbondingDelegations[lcdClientMock.validators[2]]
-      ).toBeTruthy()
+      expect(state.committedDelegates[mockValues.validators[2]]).toBeTruthy()
+      expect(state.unbondingDelegations[mockValues.validators[2]]).toBeTruthy()
 
       const commit = jest.fn()
       await actions.getBondedDelegates(
@@ -131,16 +126,16 @@ describe(`Module: Delegations`, () => {
           commit,
           dispatch: jest.fn()
         },
-        lcdClientMock.state.candidates
+        mockValues.state.candidates
       )
 
       expect(commit).toHaveBeenCalledWith(`setCommittedDelegation`, {
-        candidateId: lcdClientMock.validators[2],
+        candidateId: mockValues.validators[2],
         value: 0
       })
       expect(commit).toHaveBeenCalledWith(`setUnbondingDelegations`, [
         {
-          validator_address: lcdClientMock.validators[0],
+          validator_address: mockValues.validators[0],
           entries: [
             { balance: `1`, completion_time: `Thu, 01 Jan 1970 00:00:42 GMT` }
           ]
@@ -209,7 +204,7 @@ describe(`Module: Delegations`, () => {
         commit,
         dispatch: jest.fn()
       },
-      lcdClientMock.state.candidates
+      mockValues.state.candidates
     )
 
     rootState.session.address = `other_address`
@@ -222,7 +217,7 @@ describe(`Module: Delegations`, () => {
   it(`should store a undelegation`, async () => {
     mutations.setUnbondingDelegations(state, [
       {
-        validator_address: lcdClientMock.validators[0],
+        validator_address: mockValues.validators[0],
         entries: [
           {
             balance: `100`,
@@ -233,7 +228,7 @@ describe(`Module: Delegations`, () => {
       }
     ])
 
-    expect(state.unbondingDelegations[lcdClientMock.validators[0]]).toEqual([
+    expect(state.unbondingDelegations[mockValues.validators[0]]).toEqual([
       {
         balance: `100`,
         creation_height: `12`,

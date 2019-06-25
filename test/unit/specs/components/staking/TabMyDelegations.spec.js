@@ -5,7 +5,7 @@ import { stakingTxs } from "../../store/json/txs"
 
 // TODO: remove this dirty addition: the real cleanup will be done in a separate PR
 // the problem is mock VS real implementation have different keys: shares in mock, shares_amount in SDK
-// const unbondingTransactions = lcdClientMock.state.txs.slice(5).map(t => {
+// const unbondingTransactions = mockValues.state.txs.slice(5).map(t => {
 //   t.tx.value.msg[0].value.shares_amount = t.tx.value.msg[0].value.shares
 //   return t
 // })
