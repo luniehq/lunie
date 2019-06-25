@@ -186,12 +186,6 @@ export default {
           password: this.fields.importPassword,
           name: this.fields.importName
         })
-        await this.$store.dispatch(`signIn`, {
-          localKeyPairName: this.fields.importName,
-          password: this.fields.importPassword,
-          sessionType: `local`,
-          errorCollection: this.fields.errorCollection
-        })
         this.$store.commit(`notify`, {
           title: `Welcome back!`,
           body: `Your account has been successfully imported.`

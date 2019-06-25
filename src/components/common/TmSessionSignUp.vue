@@ -245,10 +245,6 @@ export default {
           title: `Signed Up`,
           body: `Your account has been created.`
         })
-        this.$store.dispatch(`signIn`, {
-          password: this.fields.signUpPassword,
-          localKeyPairName: this.fields.signUpName
-        })
       } catch (error) {
         this.$store.commit(`notifyError`, {
           title: `Couldn't create account`,

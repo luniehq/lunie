@@ -18,10 +18,6 @@ Vue.use(Vuex)
  * @returns {Vuex.Store}
  */
 export default (opts = {}) => {
-  // provide commit and dispatch to tests
-  opts.commit = (...args) => store.commit(...args)
-  opts.dispatch = (...args) => store.dispatch(...args)
-
   const store = new Vuex.Store({
     getters,
     // strict: true,
@@ -36,6 +32,8 @@ export default (opts = {}) => {
     /* istanbul ignore next */
     pending = storeUpdateHandler(mutation, state, pending)
   })
+
+  store.dispatch("init")
 
   return store
 }

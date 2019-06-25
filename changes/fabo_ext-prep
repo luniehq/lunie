@@ -1,0 +1,2 @@
+[Code Improvements] Extracted local keystore from session module @faboweb
+[Code Improvements] Extracted session styles from session parent component @faboweb
