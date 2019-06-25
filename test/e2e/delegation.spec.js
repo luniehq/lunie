@@ -53,10 +53,9 @@ module.exports = {
       browser,
       // actions to do on details page
       async () => {
-        browser
-          .click("#from")
-          .click("#from option[value='1']")
-          .setValue("#amount", value)
+        browser.click("#from")
+        browser.click("#from option[value='1']")
+        browser.setValue("#amount", value)
         await new Promise(resolve => setTimeout(resolve, 1000))
       },
       // expected subtotal
@@ -64,9 +63,9 @@ module.exports = {
     )
 
     // check if tx shows
-    browser
-      .url(browser.launch_url + "/#/transactions")
-      .expect.element(".li-tx__content__caption__title")
+    browser.url(browser.launch_url + "/#/transactions")
+    browser.expect
+      .element(".li-tx__content__caption__title")
       .text.to.contain(`Delegated ${value} STAKE`)
       .before(10 * 1000)
   },
@@ -96,9 +95,9 @@ module.exports = {
     )
 
     // check if tx shows
-    browser
-      .url(browser.launch_url + "/#/transactions")
-      .expect.element(".li-tx__content__caption__title")
+    browser.url(browser.launch_url + "/#/transactions")
+    browser.expect
+      .element(".li-tx__content__caption__title")
       .text.to.contain(`Undelegated ${value} STAKE`)
       .before(10 * 1000)
   }
