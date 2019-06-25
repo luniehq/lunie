@@ -113,7 +113,6 @@ export default {
     },
     signIn() {
       this.$emit(`close`)
-      this.$store.commit(`setSessionModalView`, `welcome`)
       this.$store.commit(`toggleSessionModal`, true)
     }
   }
