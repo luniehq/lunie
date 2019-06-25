@@ -1,0 +1,1 @@
+[Code Improvements] [#2774](https://github.com/cosmos/lunie/issues/2774) Removing duplicate code from certain TmSession components and using a single component for them all @thebkr7
