@@ -64,6 +64,7 @@ export default {
 .lunie-logo {
   height: 4rem;
   margin: 0 0 1rem 1rem;
+  align-self: flex-start;
 }
 
 .session-paragraph {

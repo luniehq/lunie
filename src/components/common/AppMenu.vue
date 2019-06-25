@@ -108,12 +108,12 @@ export default {
       noScroll.off()
     },
     signOut() {
-      this.$store.dispatch(`signOut`)
       this.$emit(`close`)
+      this.$store.dispatch(`signOut`)
     },
     signIn() {
-      this.$store.commit(`setSessionModalView`, `welcome`)
       this.$emit(`close`)
+      this.$store.commit(`setSessionModalView`, `welcome`)
       this.$store.commit(`toggleSessionModal`, true)
     }
   }

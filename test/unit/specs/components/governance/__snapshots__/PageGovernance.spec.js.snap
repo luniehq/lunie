@@ -70,44 +70,48 @@ exports[`PageGovernance disables proposal creation if not connected 1`] = `
               </div>
                
               <div
-                class="unbonded-atoms top-section"
+                class="second-row"
               >
-                <h3>
-                  Available STAKE
-                </h3>
-                 
-                <h2>
-                  --
-                </h2>
-              </div>
-               
-              <div
-                class="top-section"
-              >
-                <h3>
-                  Rewards
-                </h3>
-                 
-                <h2>
-                  --
-                </h2>
-                 
-                <a
-                  class="withdraw-rewards"
-                  disabled="disabled"
-                  id="withdraw-btn"
+                <div
+                  class="unbonded-atoms top-section"
                 >
-                  <span
-                    class="tm-btn__container tm-btn--size-sm"
+                  <h3>
+                    Liquid STAKE
+                  </h3>
+                   
+                  <h2>
+                    --
+                  </h2>
+                </div>
+                 
+                <div
+                  class="top-section"
+                >
+                  <h3>
+                    Available Rewards
+                  </h3>
+                   
+                  <h2>
+                    --
+                  </h2>
+                   
+                  <a
+                    class="withdraw-rewards"
+                    disabled="disabled"
+                    id="withdraw-btn"
                   >
-                    <!---->
                     <span
-                      class="tm-btn__value"
+                      class="tm-btn__container tm-btn--size-sm"
                     >
-                      Connecting...
+                      <!---->
+                      <span
+                        class="tm-btn__value"
+                      >
+                        Withdraw
+                      </span>
                     </span>
-                  </span>
-                </a>
+                  </a>
+                </div>
               </div>
             </div>
               
@@ -344,44 +348,48 @@ exports[`PageGovernance has the expected html structure 1`] = `
               </div>
                
               <div
-                class="unbonded-atoms top-section"
+                class="second-row"
               >
-                <h3>
-                  Available STAKE
-                </h3>
-                 
-                <h2>
-                  --
-                </h2>
-              </div>
-               
-              <div
-                class="top-section"
-              >
-                <h3>
-                  Rewards
-                </h3>
-                 
-                <h2>
-                  --
-                </h2>
-                 
-                <a
-                  class="withdraw-rewards"
-                  disabled="disabled"
-                  id="withdraw-btn"
+                <div
+                  class="unbonded-atoms top-section"
                 >
-                  <span
-                    class="tm-btn__container tm-btn--size-sm"
+                  <h3>
+                    Liquid STAKE
+                  </h3>
+                   
+                  <h2>
+                    --
+                  </h2>
+                </div>
+                 
+                <div
+                  class="top-section"
+                >
+                  <h3>
+                    Available Rewards
+                  </h3>
+                   
+                  <h2>
+                    --
+                  </h2>
+                   
+                  <a
+                    class="withdraw-rewards"
+                    disabled="disabled"
+                    id="withdraw-btn"
                   >
-                    <!---->
                     <span
-                      class="tm-btn__value"
+                      class="tm-btn__container tm-btn--size-sm"
                     >
-                      Withdraw
+                      <!---->
+                      <span
+                        class="tm-btn__value"
+                      >
+                        Withdraw
+                      </span>
                     </span>
-                  </span>
-                </a>
+                  </a>
+                </div>
               </div>
             </div>
               

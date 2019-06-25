@@ -106,6 +106,14 @@ export default {
   },
   computed: {
     ...mapGetters([`session`, `connected`])
+  },
+  watch: {
+    $route() {
+      this.scrollContainer.scrollTop = 0
+    }
+  },
+  mounted() {
+    this.scrollContainer = this.$el.querySelector(`.tm-page-main`)
   }
 }
 </script>
