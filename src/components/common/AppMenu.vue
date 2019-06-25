@@ -73,8 +73,8 @@
         Sign out
       </a>
       <a
-        id="mobile-sign-in"
         v-if="!session.signedIn"
+        id="mobile-sign-in"
         class="button app-menu-item"
         @click="signIn()"
       >
