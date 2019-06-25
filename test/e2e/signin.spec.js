@@ -1,12 +1,7 @@
 module.exports = {
   "Sign in with local account": async function(browser) {
-    browser.url(browser.launch_url + "?insecure=true")
-    browser.waitForElementVisible(`body`)
-    browser.waitForElementVisible(`#app-content`)
-    signOut(browser)
-    // sign in
-    signIn(browser)
-    browser.waitForElementVisible("#session-welcome")
+    prepare(browser)
+
     browser.click("#use-an-existing-address")
     browser.waitForElementVisible("#session-existing")
     browser.click("#sign-in-with-account")
@@ -20,13 +15,8 @@ module.exports = {
     browser.waitForElementVisible("#mobile-sign-out")
   },
   "Create local account": async function(browser) {
-    browser.url(browser.launch_url + "?insecure=true")
-    browser.waitForElementVisible(`body`)
-    browser.waitForElementVisible(`#app-content`)
-    signOut(browser)
-    // sign in
-    signIn(browser)
-    browser.waitForElementVisible("#session-welcome")
+    prepare(browser)
+
     browser.click("#creat-new-address")
     browser.waitForElementVisible("#sign-up-seed")
     browser.expect
@@ -34,73 +24,76 @@ module.exports = {
       .value.to.match(/\w+( \w+){23}/)
       .before(10000)
 
-    next(browser)
+    await next(browser)
     browser.expect.elements(".tm-form-msg--error").count.to.equal(4)
 
     browser.setValue("#sign-up-name", "demo-account")
-    next(browser)
+    await next(browser)
     browser.expect.elements(".tm-form-msg--error").count.to.equal(3)
 
     browser.setValue("#sign-up-password", "1234567890")
-    next(browser)
+    await next(browser)
     browser.expect
       .elements(".tm-form-msg--error")
       // the error on the initial password vanishes but the password confirmation appears
       .count.to.equal(3)
 
     browser.setValue("#sign-up-password-confirm", "1234567890")
-    next(browser)
+    await next(browser)
     browser.expect.elements(".tm-form-msg--error").count.to.equal(2)
 
     browser.click("#sign-up-warning")
-    next(browser)
+    await next(browser)
     // signs in
     openMenu(browser)
     browser.waitForElementVisible("#mobile-sign-out")
   },
   "Import local account": async function(browser) {
-    browser.url(browser.launch_url + "?insecure=true")
-    browser.waitForElementVisible(`body`)
-    browser.waitForElementVisible(`#app-content`)
-    signOut(browser)
-    // sign in
-    signIn(browser)
-    browser.waitForElementVisible("#session-welcome")
+    prepare(browser)
+
     browser.click("#use-an-existing-address")
     browser.click("#recover-with-backup")
     browser.waitForElementVisible("#import-seed")
 
-    next(browser)
+    await next(browser)
     browser.expect.elements(".tm-form-msg--error").count.to.equal(3)
 
     browser.setValue("#import-name", "demo-account-imported")
-    next(browser)
+    await next(browser)
     browser.expect.elements(".tm-form-msg--error").count.to.equal(2)
 
     browser.setValue("#import-password", "1234567890")
-    next(browser)
+    await next(browser)
     browser.expect
       .elements(".tm-form-msg--error")
       // the error on the initial password vanishes but the password confirmation appears
       .count.to.equal(2)
 
     browser.setValue("#import-password-confirmation", "1234567890")
-    next(browser)
+    await next(browser)
     browser.expect.elements(".tm-form-msg--error").count.to.equal(1)
 
     browser.setValue(
       "#import-seed",
-      `release endorse scale across absurd trouble climb unaware actor elite fantasy chair license word rare length business kiss smoke tackle report february bid ginger`
+      `lab stable vessel rose donkey panel slim assault cause tenant level yellow sport argue rural pizza supply idea detect brass shift aunt matrix simple`
     )
-    next(browser)
+    await next(browser)
     // signs in
     openMenu(browser)
     browser.waitForElementVisible("#mobile-sign-out")
   }
 }
 
-function next(browser) {
-  return browser.click(".session-footer button")
+async function next(browser) {
+  browser.execute(
+    function(selector, scrollX, scrollY) {
+      var elem = document.querySelector(selector)
+      elem.scrollLeft = scrollX
+      elem.scrollTop = scrollY
+    },
+    [".session", 0, 300]
+  )
+  return browser.click(".session-footer .tm-btn")
 }
 
 function openMenu(browser) {
@@ -117,4 +110,15 @@ function signIn(browser) {
   openMenu(browser)
   browser.waitForElementVisible("#mobile-sign-in")
   browser.click("#mobile-sign-in")
+}
+
+function prepare(browser) {
+  browser.resizeWindow(400, 1024) // force mobile screen to be able to click some out of screen buttons
+  browser.url(browser.launch_url + "?insecure=true")
+  browser.waitForElementVisible(`body`)
+  browser.waitForElementVisible(`#app-content`)
+  signOut(browser)
+  signIn(browser)
+
+  browser.waitForElementVisible("#session-welcome")
 }

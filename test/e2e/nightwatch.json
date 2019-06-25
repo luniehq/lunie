@@ -28,8 +28,7 @@
         "chromeOptions": {
             "args": [
                 "disable-web-security",
-                "ignore-certificate-errors",
-                "window-size=600,800"
+                "ignore-certificate-errors"
             ],
             "prefs": {
                 "intl.accept_languages": "en-US,en"
