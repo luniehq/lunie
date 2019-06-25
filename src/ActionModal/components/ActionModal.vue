@@ -96,8 +96,8 @@
             }}
           </div>
           <div v-else>
-            Please use Chrome, Brave, or Opera. Ledger is not supported in your
-            current browser.
+            Please use Chrome, Brave, or Opera. Ledger is not supported in this
+            browser.
           </div>
         </HardwareState>
         <form
@@ -575,6 +575,12 @@ export default {
 .slide-fade-leave-to {
   transform: translateX(2rem);
   opacity: 0;
+}
+
+@media screen and (max-width: 767px) {
+  .tm-form-group__field {
+    width: 100%;
+  }
 }
 
 @media screen and (max-width: 1023px) {

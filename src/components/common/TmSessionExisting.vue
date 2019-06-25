@@ -4,13 +4,14 @@
       <a @click="goToWelcome()">
         <i class="material-icons session-back">arrow_back</i>
       </a>
-      <h2 class="session-title">
-        Use an existing address
-      </h2>
       <a @click="close">
         <i class="material-icons session-close">close</i>
       </a>
     </div>
+
+    <h2 class="session-title">
+      Use an existing address
+    </h2>
 
     <div class="session-list">
       <LiSession
@@ -60,9 +61,9 @@ export default {
     LiSession
   },
   computed: {
-    ...mapGetters([`session`]),
+    ...mapGetters([`session`, `keystore`]),
     accountExists() {
-      return this.session.accounts.length > 0
+      return this.keystore.accounts.length > 0
     }
   },
   methods: {
@@ -78,8 +79,12 @@ export default {
   }
 }
 </script>
-<style>
+<style scoped>
 .form-group a {
   cursor: pointer;
+}
+
+.session-title {
+  padding-left: 1rem;
 }
 </style>

@@ -1,17 +1,17 @@
 <template>
   <div class="session">
-    <TmFormStruct :submit="onSubmit.bind(this)" class="session-container">
-      <div class="session-header">
-        <a @click="goBack">
-          <i class="material-icons session-back">arrow_back</i>
-        </a>
-        <h2 class="session-title">
-          Recover from seed
-        </h2>
-        <a @click="close">
-          <i class="material-icons session-close">close</i>
-        </a>
-      </div>
+    <div class="session-header">
+      <a @click="goBack">
+        <i class="material-icons session-back">arrow_back</i>
+      </a>
+      <a @click="close">
+        <i class="material-icons session-close">close</i>
+      </a>
+    </div>
+    <TmFormStruct :submit="onSubmit.bind(this)">
+      <h2 class="session-title">
+        Recover from seed
+      </h2>
       <div class="session-main">
         <TmFormGroup
           :error="$v.$error && $v.fields.importName.$invalid"
@@ -118,14 +118,12 @@
           field-label
         >
           <div class="field-checkbox">
-            <div class="field-checkbox-input">
+            <label class="field-checkbox-label" for="error-collection">
               <input
                 id="error-collection"
                 v-model="fields.errorCollection"
                 type="checkbox"
               />
-            </div>
-            <label class="field-checkbox-label" for="error-collection">
               I'd like to opt in for remote error tracking to help improve
               Voyager.
             </label>
@@ -187,12 +185,6 @@ export default {
           seedPhrase: this.fields.importSeed,
           password: this.fields.importPassword,
           name: this.fields.importName
-        })
-        await this.$store.dispatch(`signIn`, {
-          localKeyPairName: this.fields.importName,
-          password: this.fields.importPassword,
-          sessionType: `local`,
-          errorCollection: this.fields.errorCollection
         })
         this.$store.commit(`notify`, {
           title: `Welcome back!`,

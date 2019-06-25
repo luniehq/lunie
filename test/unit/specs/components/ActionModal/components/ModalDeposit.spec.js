@@ -3,7 +3,7 @@
 import Vuelidate from "vuelidate"
 import { shallowMount, createLocalVue } from "@vue/test-utils"
 import ModalDeposit from "src/ActionModal/components/ModalDeposit"
-import lcdClientMock from "src/connectors/lcdClientMock.js"
+import mockValues from "test/unit/helpers/mockValues.js"
 
 describe(`ModalDeposit`, () => {
   let wrapper, $store
@@ -35,7 +35,7 @@ describe(`ModalDeposit`, () => {
       },
       propsData: {
         proposalId: `1`,
-        proposalTitle: lcdClientMock.state.proposals[`1`].title,
+        proposalTitle: mockValues.state.proposals[`1`].title,
         denom: `uatom`
       },
       sync: false

@@ -28,36 +28,40 @@ exports[`TmBalance show the balance header 1`] = `
     </div>
      
     <div
-      class="unbonded-atoms top-section"
+      class="second-row"
     >
-      <h3>
-        Available STAKE
-      </h3>
+      <div
+        class="unbonded-atoms top-section"
+      >
+        <h3>
+          Liquid STAKE
+        </h3>
+         
+        <h2>
+          1,230
+        </h2>
+      </div>
        
-      <h2>
-        1,230
-      </h2>
-    </div>
-     
-    <div
-      class="top-section"
-    >
-      <h3>
-        Rewards
-      </h3>
-       
-      <h2>
-        1,000,450
-      </h2>
-       
-      <tmbtn-stub
-        class="withdraw-rewards"
-        id="withdraw-btn"
-        size="sm"
-        to=""
-        type="anchor"
-        value="Withdraw"
-      />
+      <div
+        class="top-section"
+      >
+        <h3>
+          Available Rewards
+        </h3>
+         
+        <h2>
+          1,000,450
+        </h2>
+         
+        <tmbtn-stub
+          class="withdraw-rewards"
+          id="withdraw-btn"
+          size="sm"
+          to=""
+          type="anchor"
+          value="Withdraw"
+        />
+      </div>
     </div>
   </div>
     

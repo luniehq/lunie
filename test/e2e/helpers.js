@@ -36,6 +36,7 @@ async function waitFor(check, iterations = 10, timeout = 1000) {
 
   throw new Error("Condition was not meet in time")
 }
+
 // performs some details actions and handles checking of the invoice step + signing
 async function actionModalCheckout(
   browser,

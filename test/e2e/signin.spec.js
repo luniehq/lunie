@@ -3,35 +3,29 @@ module.exports = {
     browser.url(browser.launch_url + "?insecure=true")
     browser.waitForElementVisible(`body`)
     browser.waitForElementVisible(`#app-content`)
-    browser
-      // we are by default signed in so we first need to sign out
-      .waitForElementVisible("#signOut-btn")
-    browser.click("#signOut-btn")
+    signOut(browser)
     // sign in
-    browser.waitForElementVisible(".sign-in-button")
-    browser.pause(1000) // if not waiting here, the session modal closes immediatly // TODO
-    browser.click(".sign-in-button")
+    signIn(browser)
     browser.waitForElementVisible("#session-welcome")
     browser.click("#use-an-existing-address")
     browser.waitForElementVisible("#session-existing")
     browser.click("#sign-in-with-account")
     browser.waitForElementVisible("#sign-in-name")
-    browser.click("#sign-in-name option[value=rich_account]")
+    browser.click(
+      "#sign-in-name option[value=cosmos1ek9cd8ewgxg9w5xllq9um0uf4aaxaruvcw4v9e]"
+    )
     browser.setValue("#sign-in-password", "1234567890")
     browser.click(".session-footer button")
-    browser.waitForElementVisible("#signOut-btn")
+    openMenu(browser)
+    browser.waitForElementVisible("#mobile-sign-out")
   },
   "Create local account": async function(browser) {
     browser.url(browser.launch_url + "?insecure=true")
     browser.waitForElementVisible(`body`)
     browser.waitForElementVisible(`#app-content`)
-    // we are by default signed in so we first need to sign out
-    browser.waitForElementVisible("#signOut-btn")
-    browser.click("#signOut-btn")
+    signOut(browser)
     // sign in
-    browser.waitForElementVisible(".sign-in-button")
-    browser.pause(1000) // if not waiting here, the session modal closes immediatly // TODO
-    browser.click(".sign-in-button")
+    signIn(browser)
     browser.waitForElementVisible("#session-welcome")
     browser.click("#creat-new-address")
     browser.waitForElementVisible("#sign-up-seed")
@@ -58,22 +52,19 @@ module.exports = {
     next(browser)
     browser.expect.elements(".tm-form-msg--error").count.to.equal(2)
 
-    browser.setValue("#sign-up-warning", true)
+    browser.click("#sign-up-warning")
     next(browser)
     // signs in
-    browser.waitForElementVisible("#signOut-btn")
+    openMenu(browser)
+    browser.waitForElementVisible("#mobile-sign-out")
   },
   "Import local account": async function(browser) {
     browser.url(browser.launch_url + "?insecure=true")
     browser.waitForElementVisible(`body`)
     browser.waitForElementVisible(`#app-content`)
-    // we are by default signed in so we first need to sign out
-    browser.waitForElementVisible("#signOut-btn")
-    browser.click("#signOut-btn")
+    signOut(browser)
     // sign in
-    browser.waitForElementVisible(".sign-in-button")
-    browser.pause(1000) // if not waiting here, the session modal closes immediatly // TODO
-    browser.click(".sign-in-button")
+    signIn(browser)
     browser.waitForElementVisible("#session-welcome")
     browser.click("#use-an-existing-address")
     browser.click("#recover-with-backup")
@@ -103,10 +94,27 @@ module.exports = {
     )
     next(browser)
     // signs in
-    browser.waitForElementVisible("#signOut-btn")
+    openMenu(browser)
+    browser.waitForElementVisible("#mobile-sign-out")
   }
 }
 
 function next(browser) {
   return browser.click(".session-footer button")
+}
+
+function openMenu(browser) {
+  browser.click(".open-menu")
+}
+
+function signOut(browser) {
+  openMenu(browser)
+  browser.waitForElementVisible("#mobile-sign-out")
+  browser.click("#mobile-sign-out")
+}
+
+function signIn(browser) {
+  openMenu(browser)
+  browser.waitForElementVisible("#mobile-sign-in")
+  browser.click("#mobile-sign-in")
 }

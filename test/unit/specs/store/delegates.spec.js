@@ -1,5 +1,5 @@
 import delegatesModule from "src/vuex/modules/delegates.js"
-import nodeMock from "../../helpers/node_mock.js"
+const mockValues = require(`test/unit/helpers/mockValues.js`)
 import BN from "bignumber.js"
 
 const mockRootState = {
@@ -192,11 +192,11 @@ describe(`Module: Delegates`, () => {
     const { actions, state } = instance
     const commit = jest.fn()
     const validator = {
-      operator_address: nodeMock.validators[0],
+      operator_address: mockValues.validators[0],
       delegator_shares: `120`
     }
     node.get.delegations = jest.fn(() => [
-      { shares: `12`, validator_address: nodeMock.validators[0] }
+      { shares: `12`, validator_address: mockValues.validators[0] }
     ])
 
     await actions.getSelfBond({ commit, state }, validator)
@@ -210,10 +210,10 @@ describe(`Module: Delegates`, () => {
     const { actions, state } = instance
     const commit = jest.fn()
     const validator = {
-      operator_address: nodeMock.validators[0],
+      operator_address: mockValues.validators[0],
       delegator_shares: `120`
     }
-    state.selfBond[nodeMock.validators[0]] = `0.1`
+    state.selfBond[mockValues.validators[0]] = `0.1`
     node.get.delegation = jest.fn(() => [])
 
     await actions.getSelfBond({ commit, state }, validator)
@@ -223,7 +223,7 @@ describe(`Module: Delegates`, () => {
   it(`should set self bond of a validator`, async () => {
     const { state, mutations } = instance
     const validator = {
-      operator_address: nodeMock.validators[0],
+      operator_address: mockValues.validators[0],
       delegator_shares: `120`
     }
 
@@ -231,7 +231,7 @@ describe(`Module: Delegates`, () => {
       validator,
       ratio: BN(0.1)
     })
-    expect(state.selfBond[nodeMock.validators[0]]).toEqual(BN(0.1))
+    expect(state.selfBond[mockValues.validators[0]]).toEqual(BN(0.1))
   })
 
   it(`should store an error if failed to load delegates`, async () => {

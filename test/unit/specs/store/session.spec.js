@@ -1,17 +1,7 @@
 import sessionModule, { extensionListener } from "src/vuex/modules/session.js"
 
-jest.mock("@lunie/cosmos-keys", () => ({
-  getSeed: () => "a b c"
-}))
-
 describe(`Module: Session`, () => {
   let module, state, actions, mutations, node
-  const accounts = [
-    {
-      address: `tb1zg69v7yszg69v7yszg69v7yszg69v7ysd8ep6q`,
-      name: `ACTIVE_ACCOUNT`
-    }
-  ]
 
   beforeEach(() => {
     node = {}
@@ -33,24 +23,12 @@ describe(`Module: Session`, () => {
         version: `abcfdef`,
         sentry_dsn: `https://1:1@sentry.io/1`,
         default_gas_price: 2.5e-8
-      },
-      loadKeys: () => [
-        {
-          name: `def`,
-          address: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`
-        }
-      ],
-      importKey: () => ({
-        cosmosAddress: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`
-      }),
-      testPassword: () => true,
-      getSeed: () => `xxx`
+      }
     }
   })
 
   it(`should default to signed out state`, () => {
     expect(state.signedIn).toBe(false)
-    expect(state.localKeyPairName).toBe(null)
     expect(state.address).toBe(null)
   })
 
@@ -100,11 +78,6 @@ describe(`Module: Session`, () => {
       expect(state.extensionInstalled).toBe(false)
     })
 
-    it(`should set accounts`, () => {
-      mutations.setAccounts(state, accounts)
-      expect(state.accounts).toEqual(accounts)
-    })
-
     it(`should set user address`, () => {
       mutations.setUserAddress(
         state,
@@ -139,49 +112,12 @@ describe(`Module: Session`, () => {
     })
   })
 
-  it(`should load accounts`, async () => {
-    const commit = jest.fn()
-    await actions.loadAccounts({ commit, state })
-
-    expect(commit).toHaveBeenCalledWith(`setAccounts`, [
-      {
-        name: `def`,
-        address: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`
-      }
-    ])
-  })
-
-  it(`should show an error if loading accounts fails`, async () => {
-    jest.spyOn(console, `error`).mockImplementationOnce(() => {})
-
-    jest.resetModules()
-    jest.doMock(`scripts/keystore.js`, () => ({
-      loadKeys: async () => {
-        throw Error(`Error`)
-      }
-    }))
-
-    const sessionModule = require(`src/vuex/modules/session.js`).default
-    module = sessionModule({ node })
-    state = module.state
-    actions = module.actions
-
-    const commit = jest.fn()
-    await actions.loadAccounts({ commit, state })
-    expect(commit).toHaveBeenCalledWith(`notifyError`, {
-      body: `Error`,
-      title: `Couldn't read keys`
-    })
-  })
-
   it(`should clear all session related data`, () => {
     state.history = [`x`]
-    state.localKeyPairName = `abc`
     const commit = jest.fn()
     actions.resetSessionData({ state, commit })
 
     expect(state.history).toEqual([])
-    expect(state.localKeyPairName).toBeFalsy()
   })
 
   it(`should commit extension true`, () => {
@@ -202,72 +138,15 @@ describe(`Module: Session`, () => {
     expect(dispatch).toHaveBeenCalledWith(`resetSessionData`)
   })
 
-  it(`should test if the login works`, async () => {
-    jest.resetModules()
-    jest.doMock(`scripts/keystore.js`, () => ({
-      testPassword: jest
-        .fn()
-        .mockReturnValueOnce(true)
-        .mockReturnValueOnce(false)
-    }))
-
-    const sessionModule = require(`src/vuex/modules/session.js`).default
-    module = sessionModule({ node })
-    state = module.state
-    actions = module.actions
-
-    let output = await actions.testLogin(
-      {},
-      {
-        localKeyPairName: `default`,
-        password: `1234567890`
-      }
-    )
-    expect(output).toBe(true)
-    output = await actions.testLogin(
-      {},
-      {
-        localKeyPairName: `default`,
-        password: `1234567890`
-      }
-    )
-    expect(output).toBe(false)
-  })
-
-  it(`should create a seed phrase`, async () => {
-    const seed = await actions.createSeed()
-    expect(seed).toBe(`xxx`)
-  })
-
-  it(`should create a key from a seed phrase`, async () => {
-    const seedPhrase = `abc`
-    const password = `123`
-    const name = `def`
-    const dispatch = jest.fn()
-    await actions.createKey(
-      { dispatch, state },
-      {
-        seedPhrase,
-        password,
-        name
-      }
-    )
-    expect(dispatch).toHaveBeenCalledWith(`initializeWallet`, {
-      address: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`
-    })
-    expect(state.externals.track).toHaveBeenCalled()
-  })
-
   describe(`Signs in`, () => {
     it(`with local keystore`, async () => {
-      const localKeyPairName = `def`
       const commit = jest.fn()
       const dispatch = jest.fn()
       const sessionType = `local`
       const address = `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`
       await actions.signIn(
         { state, commit, dispatch },
-        { localKeyPairName, address, sessionType }
+        { address, sessionType }
       )
       expect(commit).toHaveBeenCalledWith(
         `setUserAddress`,
@@ -338,7 +217,6 @@ describe(`Module: Session`, () => {
     expect(dispatch).toHaveBeenCalledWith(`resetSessionData`)
     expect(commit).toHaveBeenCalledWith(`addHistory`, `/`)
     expect(commit).toHaveBeenCalledWith(`setSignIn`, false)
-    expect(state.localKeyPairName).toBeNull()
     expect(state.externals.track).toHaveBeenCalled()
   })
 
@@ -456,21 +334,11 @@ describe(`Module: Session`, () => {
     )
   })
 
-  it(`should reload accounts on reconnect as this could be triggered by a switch from a mocked connection`, async () => {
-    const dispatch = jest.fn()
-    await actions.reconnected({ state, dispatch })
-    expect(dispatch).toHaveBeenCalledWith(`loadAccounts`)
-  })
-
   describe(`persistance`, () => {
     it(`persists the session in localstorage`, async () => {
-      await actions.persistSession(
-        {},
-        { localKeyPairName: `def`, address: `xxx`, sessionType: `local` }
-      )
+      await actions.persistSession({}, { address: `xxx`, sessionType: `local` })
       expect(localStorage.getItem(`session`)).toEqual(
         JSON.stringify({
-          localKeyPairName: `def`,
           address: `xxx`,
           sessionType: `local`
         })
@@ -481,10 +349,12 @@ describe(`Module: Session`, () => {
       const dispatch = jest.fn()
       await actions.signIn(
         { state, commit: jest.fn(), dispatch },
-        { localKeyPairName: `def`, address: `xxx`, sessionType: `local` }
+        {
+          address: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
+          sessionType: `local`
+        }
       )
       expect(dispatch).toHaveBeenCalledWith(`persistSession`, {
-        localKeyPairName: `def`,
         address: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
         sessionType: `local`
       })
@@ -492,10 +362,13 @@ describe(`Module: Session`, () => {
       dispatch.mockClear()
       await actions.signIn(
         { state, commit: jest.fn(), dispatch },
-        { address: `xxx`, sessionType: `ledger` }
+        {
+          address: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
+          sessionType: `ledger`
+        }
       )
       expect(dispatch).toHaveBeenCalledWith(`persistSession`, {
-        address: `xxx`,
+        address: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
         sessionType: `ledger`
       })
     })
@@ -511,14 +384,12 @@ describe(`Module: Session`, () => {
       localStorage.setItem(
         `session`,
         JSON.stringify({
-          localKeyPairName: `def`,
           address: `xxx`,
           sessionType: `local`
         })
       )
       await actions.checkForPersistedSession({ dispatch })
       expect(dispatch).toHaveBeenCalledWith(`signIn`, {
-        localKeyPairName: `def`,
         address: `xxx`,
         sessionType: `local`
       })

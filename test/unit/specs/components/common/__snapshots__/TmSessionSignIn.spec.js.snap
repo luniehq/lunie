@@ -49,7 +49,7 @@ exports[`TmSessionSignIn has the expected html structure 1`] = `
           options="[object Object]"
           placeholder="Select account…"
           type="select"
-          value="my_account"
+          value="cosmos1234"
           vue-focus="vue-focus"
         />
          

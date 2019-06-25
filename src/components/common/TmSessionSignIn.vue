@@ -16,14 +16,14 @@
         <TmFormGroup field-id="sign-in-name" field-label="Select Account">
           <TmField
             id="sign-in-name"
-            v-model="signInName"
+            v-model="signInAddress"
             :options="accounts"
             type="select"
             placeholder="Select account…"
             vue-focus="vue-focus"
           />
           <TmFormMsg
-            v-if="$v.signInName.$error && !$v.signInName.required"
+            v-if="$v.signInAddress.$error && !$v.signInAddress.required"
             name="Name"
             type="required"
           />
@@ -77,16 +77,18 @@ export default {
     TmFormStruct
   },
   data: () => ({
-    signInName: ``,
+    signInAddress: ``,
     signInPassword: ``,
     error: ``
   }),
   computed: {
-    ...mapGetters([`session`]),
+    ...mapGetters([`keystore`]),
     accounts() {
-      let accounts = this.session.accounts
-      accounts = accounts.filter(({ name }) => name !== `trunk`)
-      return accounts.map(({ name }) => ({ key: name, value: name }))
+      let accounts = this.keystore.accounts
+      return accounts.map(({ name, address }) => ({
+        value: address,
+        key: name
+      }))
     }
   },
   mounted() {
@@ -107,15 +109,15 @@ export default {
       if (this.$v.$error) return
       const sessionCorrect = await this.$store.dispatch(`testLogin`, {
         password: this.signInPassword,
-        localKeyPairName: this.signInName
+        address: this.signInAddress
       })
       if (sessionCorrect) {
         this.$store.dispatch(`signIn`, {
           password: this.signInPassword,
-          localKeyPairName: this.signInName,
+          address: this.signInAddress,
           sessionType: "local"
         })
-        localStorage.setItem(`prevAccountKey`, this.signInName)
+        localStorage.setItem(`prevAccountKey`, this.signInAddress)
         this.$emit(`close`)
       } else {
         this.error = `The provided username or password is wrong.`
@@ -124,16 +126,16 @@ export default {
     setDefaultAccount() {
       const prevAccountKey = localStorage.getItem(`prevAccountKey`)
       const prevAccountExists = this.accounts.find(
-        a => a.key === prevAccountKey
+        a => a.value === prevAccountKey
       )
 
       if (this.accounts.length === 1) {
-        this.signInName = this.accounts[0].key
+        this.signInAddress = this.accounts[0].value
       } else if (prevAccountExists) {
-        this.signInName = prevAccountKey
+        this.signInAddress = prevAccountKey
       }
 
-      if (this.signInName) {
+      if (this.signInAddress) {
         this.$el.querySelector(`#sign-in-password`).focus()
       } else {
         this.$el.querySelector(`#sign-in-name`).focus()
@@ -141,7 +143,7 @@ export default {
     }
   },
   validations: () => ({
-    signInName: { required },
+    signInAddress: { required },
     signInPassword: { required, minLength: minLength(10) }
   })
 }

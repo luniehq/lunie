@@ -3,7 +3,7 @@
 import Vuelidate from "vuelidate"
 import { shallowMount, createLocalVue } from "@vue/test-utils"
 import ModalVote from "src/ActionModal/components/ModalVote"
-import lcdClientMock from "src/connectors/lcdClientMock.js"
+import mockValues from "test/unit/helpers/mockValues.js"
 
 describe(`ModalVote`, () => {
   let wrapper, $store
@@ -26,7 +26,7 @@ describe(`ModalVote`, () => {
       localVue,
       propsData: {
         proposalId: `1`,
-        proposalTitle: lcdClientMock.state.proposals[`1`].title
+        proposalTitle: mockValues.state.proposals[`1`].title
       },
       mocks: {
         $store

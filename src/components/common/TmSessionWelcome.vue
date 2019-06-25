@@ -1,18 +1,20 @@
 <template>
   <div id="session-welcome" class="session">
-    <a @click="closeSession">
-      <i class="material-icons session-close">close</i>
-    </a>
     <div class="session-header">
-      <img class="lunie-logo" src="~assets/images/cosmos-wallet-logo.svg" />
-      <h2 class="session-title">
-        Welcome to Lunie!
-      </h2>
-      <p class="session-paragraph">
-        Lunie is the cryptocurrency wallet for the new staking economy. Easily
-        stake your ATOMs, withdraw your rewards, and participate in governance.
-      </p>
+      <a @click="closeSession">
+        <i class="material-icons session-close">close</i>
+      </a>
     </div>
+
+    <img class="lunie-logo" src="~assets/images/cosmos-wallet-logo.svg" />
+
+    <h2 class="session-title">
+      Welcome to Lunie
+    </h2>
+
+    <p class="session-paragraph">
+      The easiest way to send, stake, and vote on the Cosmos Hub.
+    </p>
 
     <div class="session-list">
       <LiSession
@@ -55,8 +57,17 @@ export default {
 }
 </script>
 <style scoped>
+.session-title {
+  padding-left: 1rem;
+}
+
 .lunie-logo {
   height: 4rem;
-  margin-bottom: 1rem;
+  margin: 0 0 1rem 1rem;
+  align-self: flex-start;
+}
+
+.session-paragraph {
+  padding: 0 1rem;
 }
 </style>
