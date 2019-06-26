@@ -40,21 +40,21 @@ jobs:
     steps:
       - checkout
       - yarn-install
-      - run:
-          name: Setup Code Climate test-reporter
-          command: |
-            # download test reporter as a static binary
-            curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
-            chmod +x ./cc-test-reporter
+      # - run:
+      #     name: Setup Code Climate test-reporter
+      #     command: |
+      #       # download test reporter as a static binary
+      #       curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+      #       chmod +x ./cc-test-reporter
       - run:
           name: Test
           command: |
             # notify Code Climate of a pending test report using `before-build`
-            ./cc-test-reporter before-build
+            # ./cc-test-reporter before-build
             yarn run test
             # upload test report to Code Climate
-            ./cc-test-reporter format-coverage -t lcov ./coverage/lcov.info
-            ./cc-test-reporter upload-coverage
+            # ./cc-test-reporter format-coverage -t lcov ./coverage/lcov.info
+            # ./cc-test-reporter upload-coverage
           no_output_timeout: 120
 
   security:
