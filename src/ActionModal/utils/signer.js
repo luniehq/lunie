@@ -27,14 +27,35 @@ export function getSigner(config, submitType = "", { address, password }) {
       }
     }
   } else if (submitType === `extension`) {
-    return async signMessage => {
-      const publicKey = "" // Get from extension
-      const signature = () => String(signMessage) // Faux func. Get from extension
+    return signMessage => {
+      console.log("REQUEST")
+      window.postMessage(
+        {
+          type: "LUNIE_SIGN_REQUEST",
+          payload: {
+            signMessage,
+            address
+          }
+        },
+        "*"
+      )
 
-      return {
-        signature,
-        publicKey
-      }
+      return new Promise((resolve, reject) => {
+        window.addEventListener("LUNIE_SIGN_REQUEST_ANSWER", function({
+          signature,
+          publicKey,
+          denied
+        }) {
+          if (denied) {
+            reject()
+            return
+          }
+          resolve({
+            signature: Buffer.from(signature, "hex"),
+            publicKey: Buffer.from(publicKey, "hex")
+          })
+        })
+      })
     }
   }
 }
