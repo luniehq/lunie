@@ -22,21 +22,25 @@
         <div class="session-main">
           <div :icon="session.extensionInstalled ? 'laptop' : 'info'">
             <div v-if="session.extensionInstalled">
-              Click below to open the Lunie Chrome Extension, or use one of the existing address.
+              Click below to open the Lunie Chrome Extension, or use one of the
+              existing address.
               <ul>
-                <li
-                  v-for="address in Object.keys(extension.wallets)"
-                  :key="address"
-                >
+                <li v-for="wallet in extension.wallets" :key="wallet.name">
                   <div class="extension-address-item">
                     <div>
-                      {{ address | formatBech32 }}
+                      {{ wallet.name }}<br />
+                      <TmBtn
+                        type="anchor"
+                        :value="wallet.address | formatBech32"
+                        color="primary"
+                        @click.native="onSubmit(wallet.address)"
+                      />
                     </div>
                     <div>
                       <TmBtn
                         value="Use Address"
                         color="primary"
-                        @click.native="onSubmit(address)"
+                        @click.native="onSubmit(address[1])"
                       />
                     </div>
                   </div>
