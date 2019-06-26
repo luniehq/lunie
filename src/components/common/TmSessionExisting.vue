@@ -62,7 +62,7 @@ export default {
   computed: {
     ...mapGetters([`session`, `keystore`]),
     accountExists() {
-      return this.keystore.accounts.length > 0
+      return this.keystore && this.keystore.accounts.length > 0
     }
   },
   methods: {
