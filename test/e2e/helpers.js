@@ -84,7 +84,7 @@ async function actionModalCheckout(
   browser.setValue("#password", "1234567890")
   browser.click(".action-modal-footer .tm-btn")
 
-  browser.expect.element(".action-modal").not.to.be.present.before(10 * 1000)
+  browser.expect.element(".action-modal").not.to.be.present.before(20 * 1000)
 
   // Wait for UI to be updated according to new state
   await nextBlock(browser)
