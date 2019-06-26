@@ -16,12 +16,19 @@
     "build:dev": "cross-env NODE_ENV=development webpack --hide-modules",
     "build-zip": "node scripts/build-zip.js",
     "watch": "npm run build -- --watch",
-    "watch:dev": "cross-env HMR=true npm run build:dev -- --watch"
+    "watch:dev": "cross-env HMR=true npm run build:dev -- --watch",
+    "test:unit": "jest --coverage",
+    "test": "npm run lint && npm run test:unit"
   },
   "husky": {
     "hooks": {
       "pre-commit": "pretty-quick --staged"
     }
+  },
+  "jest": {
+    "testMatch": [
+      "<rootDir>/test/unit/**/*spec.js"
+    ]
   },
   "dependencies": {
     "@lunie/cosmos-api": "^0.0.23",
@@ -64,6 +71,7 @@
     "eslint-plugin-vue": "^5.2.2",
     "file-loader": "^1.1.11",
     "husky": "^2.4.0",
+    "jest": "^24.8.0",
     "mini-css-extract-plugin": "^0.4.4",
     "node-sass": "^4.9.3",
     "prettier": "^1.17.1",

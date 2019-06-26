@@ -1,14 +1,8 @@
-import SessionWelcome from 'common/TmSessionWelcome';
-import SessionExplore from 'common/TmSessionExplore';
-import SessionSignUp from 'common/TmSessionSignUp';
-import SessionSignIn from 'common/TmSessionSignIn';
-import SessionHardware from 'common/TmSessionHardware';
-import SessionImport from 'common/TmSessionImport';
-import SessionAccountDelete from 'common/TmSessionAccountDelete';
+import App from '../App';
 
 export default [
   {
     path: '/',
-    component: SessionWelcome,
+    component: App,
   },
 ];
