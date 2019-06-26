@@ -4,11 +4,7 @@ import { signMessageHandler, walletMessageHandler } from './messageHandlers';
 global.browser = require('webextension-polyfill');
 
 // DEBUG
-const wallets = {
-  cosmos1: 100,
-  cosmos2: 90,
-  cosmos3: 80,
-};
+const wallets = [{ name: 'foo', address: 'cosmos1234567890' }, { name: 'bar', address: 'cosmos2345678901' }, { name: 'baz', address: 'cosmos3456789012' }];
 
 // main message handler
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
