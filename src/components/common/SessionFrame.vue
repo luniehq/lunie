@@ -19,6 +19,7 @@
 <script>
 export default {
   name: `session-frame`,
+  //All props will be able to be removed with router-link
   props: {
     previousRoute: {
       type: String,
@@ -38,9 +39,11 @@ export default {
       this.$parent.$parent.$emit(`route-change`, value)
     },
     close() {
+      //Change to router-link in html and delete
       this.$parent.$parent.$emit(`close`)
     },
     goBack() {
+      //Change to router-link in html and delete
       let shortenedKey = this.$parent
       if (this.nestedBack) {
         shortenedKey = this.$parent.$parent

@@ -9,33 +9,11 @@ exports[`TmSessionExplore shows a form to sign in with an address 1`] = `
     submit="function () { [native code] }"
     width=""
   >
-    <div
-      class="session-header"
-    >
-      <a>
-        <i
-          class="material-icons session-back"
-        >
-          arrow_back
-        </i>
-      </a>
-       
-      <h2
-        class="session-title"
-      >
-        
-        Explore with any address
-      
-      </h2>
-       
-      <a>
-        <i
-          class="material-icons session-close"
-        >
-          close
-        </i>
-      </a>
-    </div>
+    <sessionframe-stub
+      displayback="true"
+      nestedback="true"
+      previousroute="existing"
+    />
      
     <div
       class="session-main"

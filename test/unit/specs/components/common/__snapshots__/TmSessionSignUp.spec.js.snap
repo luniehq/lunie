@@ -8,38 +8,11 @@ exports[`TmSessionSignUp has the expected html structure 1`] = `
     submit="function () { [native code] }"
     width=""
   >
-    <div
-      class="session-header"
-    >
-      <img
-        class="session-image"
-        src="~assets/images/mobile-hand.svg"
-      />
-       
-      <a>
-        <i
-          class="material-icons session-back"
-        >
-          arrow_back
-        </i>
-      </a>
-       
-      <h2
-        class="session-title"
-      >
-        
-        Create a new address
-      
-      </h2>
-       
-      <a>
-        <i
-          class="material-icons session-close"
-        >
-          close
-        </i>
-      </a>
-    </div>
+    <sessionframe-stub
+      displayback="true"
+      nestedback="true"
+      previousroute="welcome"
+    />
      
     <!---->
      
