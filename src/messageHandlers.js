@@ -78,7 +78,7 @@ function getWalletFromIndex(walletIndex, address) {
 
 function queueSignRequest({ stdTx, senderAddress }) {
   signRequestQueue.push({ stdTx, senderAddress, id: Date.now() });
-  chrome.browserAction.setIcon({ path: 'icons/icon-alert-128x128.png' });
+  chrome.browserAction.setIcon({ path: 'icons/128x128-alert.png' });
 }
 
 function unqueueSignRequest(id) {
