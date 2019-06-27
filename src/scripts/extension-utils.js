@@ -47,3 +47,30 @@ export const sendMessageToContentScript = payload => {
 export const getWallets = () => {
   sendMessageToContentScript({ type: "GET_WALLETS" })
 }
+
+export const sign = (signMessage, senderAddress) => {
+  sendMessageToContentScript({
+    type: "LUNIE_SIGN_REQUEST",
+    payload: {
+      signMessage,
+      senderAddress
+    }
+  })
+
+  return new Promise((resolve, reject) => {
+    window.addEventListener("LUNIE_SIGN_REQUEST_RESPONSE", function({
+      signature,
+      publicKey,
+      denied
+    }) {
+      if (denied) {
+        reject()
+        return
+      }
+      resolve({
+        signature: Buffer.from(signature, "hex"),
+        publicKey: Buffer.from(publicKey, "hex")
+      })
+    })
+  })
+}

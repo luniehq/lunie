@@ -1,10 +1,16 @@
 <template>
-  <div class="approve-tran" hide-header>
+  <div
+    class="approve-tran"
+    hide-header
+  >
     <h2>Approve Transaction</h2>
     <div>
       <p>Verify the transaction details below.</p>
     </div>
-    <TmFormGroup field-id="to" field-label="Your address">
+    <TmFormGroup
+      field-id="to"
+      field-label="Your address"
+    >
       <LiAnyTransaction
         v-if="tx"
         :validators="deligates"
@@ -46,12 +52,12 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-import TmBtn from 'common/TmBtn'
-import TmFormGroup from 'common/TmFormGroup'
-import LiAnyTransaction from 'transactions/LiAnyTransaction'
-import TableInvoice from 'src/ActionModal/components/TableInvoice'
-import Bech32 from 'common/Bech32'
+import { mapGetters } from "vuex"
+import TmBtn from "common/TmBtn"
+import TmFormGroup from "common/TmFormGroup"
+import LiAnyTransaction from "transactions/LiAnyTransaction"
+import TableInvoice from "src/ActionModal/components/TableInvoice"
+import Bech32 from "common/Bech32"
 
 // Parse StdTx from signMessage to display tx properly
 function getStdTx(signMessage) {
@@ -59,13 +65,13 @@ function getStdTx(signMessage) {
 
   return {
     tx: {
-      type: 'auth/StdTx',
+      type: "auth/StdTx",
       value: {
         msg: msgs,
         fee,
-        memo,
-      },
-    },
+        memo
+      }
+    }
   }
 }
 
@@ -76,20 +82,23 @@ export default {
     TmFormGroup,
     LiAnyTransaction,
     TableInvoice,
-    Bech32,
+    Bech32
   },
   data: () => ({
-    deligates: [],
+    deligates: []
   }),
   computed: {
-    ...mapGetters(['signRequest']),
+    ...mapGetters(["signRequest"]),
     tx() {
-      console.log(getStdTx(this.signRequest.signMessage), this.signRequest.signMessage)
+      console.log(
+        getStdTx(this.signRequest.signMessage),
+        this.signRequest.signMessage
+      )
       return this.signRequest ? getStdTx(this.signRequest.signMessage) : null
     },
     senderAddress() {
       return this.signRequest ? this.signRequest.senderAddress : null
-    },
+    }
   },
   methods: {
     setState(value) {
@@ -99,12 +108,12 @@ export default {
       this.$emit(`close`)
     },
     approve() {
-      this.$store.dispatch('approveSignRequest')
+      this.$store.dispatch("approveSignRequest")
     },
     reject() {
-      this.$store.dispatch('rejectSignRequest')
-    },
-  },
+      this.$store.dispatch("rejectSignRequest")
+    }
+  }
 }
 </script>
 

@@ -79,8 +79,7 @@ export default {
     },
     time: {
       type: String,
-      required: true
-    },
+      default:null    },
     block: {
       type: Number,
       required: true
