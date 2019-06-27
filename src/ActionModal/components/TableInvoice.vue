@@ -34,13 +34,9 @@ export default {
       type: Number,
       required: true
     },
-    gasEstimate: {
+    estimatedFee: {
       type: Number,
       required: true
-    },
-    gasPrice: {
-      type: Number,
-      default: 2.5e-8 // 0.025 uatoms
     }
   },
   data: () => ({
@@ -48,9 +44,6 @@ export default {
   }),
   computed: {
     ...mapGetters([`bondDenom`]),
-    estimatedFee() {
-      return Number(this.gasPrice) * Number(this.gasEstimate) // already in atoms
-    },
     subTotal() {
       return Number(this.amount) // already in atoms
     },

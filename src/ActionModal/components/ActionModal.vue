@@ -55,11 +55,7 @@
             type="between"
           />
         </TmFormGroup>
-        <TableInvoice
-          :amount="Number(amount)"
-          :gas-estimate="Number(gasEstimate)"
-          :gas-price="Number(gasPrice)"
-        />
+        <TableInvoice :amount="Number(amount)" :estimated-fee="estimatedFee" />
         <TmFormMsg
           v-if="$v.invoiceTotal.$invalid"
           name="Total"
@@ -334,6 +330,9 @@ export default {
         this.selectedSignMethod = signMethods[0].value
       }
       return signMethods
+    },
+    estimatedFee() {
+      return Number(this.gasPrice) * Number(this.gasEstimate) // already in atoms
     }
   },
   updated: function() {
