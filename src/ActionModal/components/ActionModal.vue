@@ -329,6 +329,10 @@ export default {
       } else {
         signMethods.push(signMethodOptions.LOCAL)
       }
+
+      if (signMethods.length === 1) {
+        this.selectedSignMethod = signMethods[0].value
+      }
       return signMethods
     }
   },

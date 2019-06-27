@@ -72,7 +72,7 @@ export default class ActionManager {
 
     const { gasEstimate, gasPrice, submitType, password } = txMetaData
     const signer = getSigner(config, submitType, {
-      senderAddress: this.context.userAddress,
+      address: this.context.userAddress,
       password
     })
 
