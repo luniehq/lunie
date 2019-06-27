@@ -1,0 +1,144 @@
+version: 2.1
+
+# reusable commands
+commands:
+  yarn-install:
+    description: '[YARN] update and install'
+    steps:
+      - restore_cache:
+          keys:
+            - v4-dependencies-root-{{ checksum "package.json" }}
+            - v4-dependencies-root-
+
+      - run: yarn install
+      - save_cache:
+          paths:
+            - yarn.lock
+            - node_modules
+          key: v4-dependencies-root-{{ checksum "package.json" }}
+
+jobs:
+  pendingUpdated:
+    docker:
+      - image: circleci/node:10.15.3
+    steps:
+      - checkout
+      - run: yarn add simsala
+      - run: node node_modules/simsala/src/cli.js check
+
+  lint:
+    docker:
+      - image: circleci/node:10.15.3
+    steps:
+      - checkout
+      - yarn-install
+      - run: yarn run lint
+
+  testUnit:
+    docker:
+      - image: circleci/node:10.15.3
+    steps:
+      - checkout
+      - yarn-install
+      # - run:
+      #     name: Setup Code Climate test-reporter
+      #     command: |
+      #       # download test reporter as a static binary
+      #       curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+      #       chmod +x ./cc-test-reporter
+      - run:
+          name: Test
+          command: |
+            # notify Code Climate of a pending test report using `before-build`
+            # ./cc-test-reporter before-build
+            yarn run test
+            # upload test report to Code Climate
+            # ./cc-test-reporter format-coverage -t lcov ./coverage/lcov.info
+            # ./cc-test-reporter upload-coverage
+          no_output_timeout: 120
+
+  security:
+    docker:
+      - image: circleci/node:10.15.3
+    steps:
+      - checkout
+      - run:
+          name: Audit
+          command: |
+            set +e
+
+            SUMMARY="$(yarn audit | grep Severity)"
+            VULNERABILITIES=".*(High|Critical).*"
+
+            if [[ $SUMMARY =~ $VULNERABILITIES ]]; then
+              echo "Unsafe dependencies found: $SUMMARY" >&2
+              exit 1
+            fi
+            echo "Your dependencies are secure enough: $SUMMARY"
+            exit 0
+
+  # Create release.
+  release:
+    docker:
+      - image: circleci/node:10.15.3
+    steps:
+      - checkout
+      - run: |
+          yarn add simsala
+          git config user.email "bot@lunie.io"
+          git config user.name "Lunie Bot"
+          node node_modules/simsala/src/cli.js release-candidate --semver prerelease --owner luniehq --repository cosmos-js --token $GIT_BOT_TOKEN
+
+  # Push merges to master immediatly back to develop to stay in sync
+  mergeBack:
+    docker:
+      - image: circleci/node:10.15.3
+    steps:
+      - checkout
+      - run:
+          command: |
+            git remote add bot https://${GIT_BOT_TOKEN}@github.com/luniehq/lunie.git
+            git checkout develop
+            git pull
+            git merge origin/master
+            git push
+
+workflows:
+  version: 2
+  build-and-deploy:
+    jobs:
+      # Static checks before
+      - pendingUpdated:
+          filters:
+            branches:
+              ignore:
+                - release
+                - master
+
+      - security:
+          filters:
+            branches:
+              ignore: release
+
+      - lint:
+          filters:
+            branches:
+              ignore: release
+
+      - testUnit:
+          filters:
+            branches:
+              ignore: release
+  releaseManually:
+    jobs:
+      - release:
+          filters:
+            branches:
+              only:
+                - release
+  mergeBack:
+    jobs:
+      - mergeBack:
+          filters:
+            branches:
+              only: master
