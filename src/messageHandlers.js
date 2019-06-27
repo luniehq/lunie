@@ -16,10 +16,9 @@ export function signMessageHandler(message, sender, sendResponse) {
       break;
     }
     case 'SIGN': {
-      const { stdTx, senderAddress, password, chainId, sequence, accountNumber, id } = message.payload;
+      const { signMessage, senderAddress, password, id } = message.payload;
       const wallet = getStoredWallet(senderAddress, password);
 
-      const signMessage = createSignMessage(stdTx, { sequence, accountNumber, chainId });
       const signature = signWithPrivateKey(signMessage, Buffer.from(wallet.privateKey, 'hex'));
       sendResponse(signature);
       unqueueSignRequest(id);
