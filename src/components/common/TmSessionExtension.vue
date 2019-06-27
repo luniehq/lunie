@@ -72,13 +72,11 @@
 <script>
 import TmBtn from "common/TmBtn"
 import { mapGetters } from "vuex"
-import HardwareState from "common/TmHardwareState"
 import { formatBech32 } from "src/filters"
 export default {
   name: `session-extension`,
   components: {
-    TmBtn,
-    HardwareState
+    TmBtn
   },
   filters: {
     formatBech32

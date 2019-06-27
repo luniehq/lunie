@@ -18,7 +18,7 @@
           <span v-if="memo"> &nbsp;- {{ memo }} </span>
         </div>
       </div>
-      <div v-if="!hideData" class="li-tx__content__right">
+      <div v-if="!hideMetaData" class="li-tx__content__right">
         <div>
           Network Fee:&nbsp;<b>{{ fees.amount | toAtoms }}</b>
           <span>{{ fees.denom | viewDenom }}</span>
@@ -64,7 +64,7 @@ export default {
       type: Object,
       required: true
     },
-    hideData: {
+    hideMetaData: {
       type: Boolean,
       default: false
     }

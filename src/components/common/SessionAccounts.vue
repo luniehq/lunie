@@ -1,5 +1,5 @@
 <template>
-  <TmPage class="accounts" :hide-header="true">
+  <div class="accounts" :hide-header="true">
     <ToolBar :display-text="true" />
     <div class="accounts-top">
       <h2>My accounts</h2>
@@ -20,18 +20,16 @@
         <TmBtn value="Go to Lunie" color="primary" />
       </div>
     </div>
-  </TmPage>
+  </div>
 </template>
 
 <script>
-import TmPage from "common/TmPage"
 import TmBtn from "common/TmBtn"
 import ToolBar from "common/ToolBar"
 import Bech32 from "common/Bech32"
 export default {
   name: `session-ext-accounts`,
   components: {
-    TmPage,
     TmBtn,
     ToolBar,
     Bech32
@@ -43,7 +41,15 @@ export default {
         name: "Account 1"
       }
     ]
-  })
+  }),
+  methods: {
+    setState(value) {
+      this.$emit(`route-change`, value)
+    },
+    close() {
+      this.$emit(`close`)
+    }
+  }
 }
 </script>
 

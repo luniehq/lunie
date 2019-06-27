@@ -5,7 +5,7 @@
     :block="block"
     :memo="memo"
     :fees="fees"
-    :hide-data="hideData"
+    :hide-meta-data="hideMetaData"
   >
     <template v-if="address === ''">
       <div slot="caption">
@@ -14,7 +14,8 @@
       </div>
       <span slot="details">
         <template>
-          From <Bech32 :address="sender" /> to
+          From
+          <Bech32 :address="sender" /> to
           <Bech32 :address="receiver" />
         </template>
       </span>
@@ -29,7 +30,8 @@
           To yourself!
         </template>
         <template v-else>
-          To <Bech32 :address="receiver" />
+          To
+          <Bech32 :address="receiver" />
         </template>
       </span>
     </template>
@@ -88,7 +90,7 @@ export default {
       type: String,
       default: null
     },
-    hideData: {
+    hideMetaData: {
       type: Boolean,
       default: false
     }

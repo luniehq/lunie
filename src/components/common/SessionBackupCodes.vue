@@ -1,5 +1,5 @@
 <template>
-  <TmPage class="backup-code" hide-header>
+  <div class="backup-code" hide-header>
     <div class="backup-code-top">
       <h2>Use a backup code</h2>
     </div>
@@ -16,11 +16,10 @@
         <TmBtn value="Next" color="primary" />
       </div>
     </TmFormGroup>
-  </TmPage>
+  </div>
 </template>
 
 <script>
-import TmPage from "common/TmPage"
 import TmBtn from "common/TmBtn"
 import TmFormGroup from "common/TmFormGroup"
 import TmField from "common/TmField"
@@ -28,7 +27,6 @@ import TmField from "common/TmField"
 export default {
   name: `ext-backup-code`,
   components: {
-    TmPage,
     TmBtn,
     TmFormGroup,
     TmField
@@ -39,6 +37,14 @@ export default {
       //Remove Default
       default: "cosmos1ek9cd8ewgxg9w5x3benji0uf4aaxaruvcw4v9e",
       required: true
+    }
+  },
+  methods: {
+    setState(value) {
+      this.$emit(`route-change`, value)
+    },
+    close() {
+      this.$emit(`close`)
     }
   }
 }
