@@ -1,4 +1,3 @@
-const { createSignMessage } = require('@lunie/cosmos-api');
 const { getWalletIndex, getStoredWallet, signWithPrivateKey, testPassword, storeWallet, getNewWalletFromSeed, removeWallet, getSeed } = require('@lunie/cosmos-keys');
 
 let signRequestQueue = [];

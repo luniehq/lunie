@@ -46,7 +46,7 @@ window.addEventListener(
     if (event.source !== window) return;
 
     if (event.data.type && event.data.type === LUNIE_WEBSITE_TYPE) {
-      const { type, payload } = event.data;
+      const { payload } = event.data;
 
       // Forward request to backgroud
       chrome.runtime.sendMessage(payload, function(response) {
