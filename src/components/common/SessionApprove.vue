@@ -1,10 +1,16 @@
 <template>
-  <div class="approve-tran" hide-header>
+  <div
+    class="approve-tran"
+    hide-header
+  >
     <h2>Approve Transaction</h2>
     <div>
       <p>Verify the transaction details below.</p>
     </div>
-    <TmFormGroup field-id="to" field-label="Your address">
+    <TmFormGroup
+      field-id="to"
+      field-label="Your address"
+    >
       <LiAnyTransaction
         v-if="tx"
         :validators="deligates"
@@ -21,11 +27,27 @@
         <Bech32 :address="senderAddress" />
       </div>
 
-      <TableInvoice
-        :amount="12"
-        :gas-estimate="Number(tx.gas_wanted)"
-        :gas-price="0.000004"
-      />
+      <!-- <TableInvoice :fees="fees" /> -->
+
+      <TmFormGroup
+        :error="$v.password.$error && $v.password.$invalid"
+        class="action-modal-group"
+        field-id="password"
+        field-label="Password"
+      >
+        <TmField
+          id="password"
+          v-model="password"
+          v-focus
+          type="password"
+          placeholder="Password"
+        />
+        <TmFormMsg
+          v-if="$v.password.$error && !$v.password.required"
+          name="Password"
+          type="required"
+        />
+      </TmFormGroup>
 
       <div class="approve-tran-footer">
         <TmBtn
@@ -49,12 +71,16 @@
 import { mapGetters } from "vuex"
 import TmBtn from "common/TmBtn"
 import TmFormGroup from "common/TmFormGroup"
+import TmField from "common/TmField"
+import TmFormMsg from "common/TmFormMsg"
 import LiAnyTransaction from "transactions/LiAnyTransaction"
 import TableInvoice from "src/ActionModal/components/TableInvoice"
 import Bech32 from "common/Bech32"
+import { required } from "vuelidate/lib/validators"
 
-// Parse StdTx from signMessage to display tx properly
-function getStdTx(signMessage) {
+// TODO move into own helper file
+// Parse into Lunie tx format from signMessage to display tx properly
+function parseTx(signMessage) {
   const { msgs, fee, memo } = JSON.parse(signMessage)
 
   return {
@@ -76,19 +102,21 @@ export default {
     TmFormGroup,
     LiAnyTransaction,
     TableInvoice,
-    Bech32
+    Bech32,
+    TmField,
+    TmFormMsg
   },
   data: () => ({
-    deligates: []
+    deligates: [],
+    password: null
   }),
   computed: {
     ...mapGetters(["signRequest"]),
     tx() {
-      console.log(
-        getStdTx(this.signRequest.signMessage),
-        this.signRequest.signMessage
-      )
-      return this.signRequest ? getStdTx(this.signRequest.signMessage) : null
+      return this.signRequest ? parseTx(this.signRequest.signMessage) : null
+    },
+    fees() {
+      return this.tx ? this.tx.tx.value.fee.amount : null
     },
     senderAddress() {
       return this.signRequest ? this.signRequest.senderAddress : null
@@ -101,11 +129,30 @@ export default {
     close() {
       this.$emit(`close`)
     },
+    isValidInput(property) {
+      this.$v[property].$touch()
+
+      return !this.$v[property].$invalid
+    },
     approve() {
-      this.$store.dispatch("approveSignRequest")
+      if (this.isValidInput("password")) {
+        this.$store.dispatch("approveSignRequest", {
+          ...this.signRequest,
+          password: this.password
+        })
+      }
     },
     reject() {
-      this.$store.dispatch("rejectSignRequest")
+      this.$store.dispatch("rejectSignRequest", {
+        ...this.signRequest
+      })
+    }
+  },
+  validations() {
+    return {
+      password: {
+        required
+      }
     }
   }
 }
