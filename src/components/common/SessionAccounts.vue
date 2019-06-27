@@ -20,7 +20,11 @@
       </div>
     </div>
     <div class="button-add-account">
-      <TmBtn @click.native="goTo('welcome')" value="Add Account" color="primary" />
+      <TmBtn
+        value="Add Account"
+        color="primary"
+        @click.native="goTo('welcome')"
+      />
     </div>
   </div>
 </template>

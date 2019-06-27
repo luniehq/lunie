@@ -2,9 +2,9 @@
   <transition name="component-fade" mode="out-in">
     <component
       :is="currentSessionComponent"
+      :go-to="goTo"
       @route-change="goTo"
       @close="close"
-      :go-to="goTo"
     ></component>
   </transition>
 </template>
