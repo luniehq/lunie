@@ -97,4 +97,10 @@ export default {
   font-size: 14px;
   font-weight: 400;
 }
+
+@media screen and (max-width: 767px) {
+  .card {
+    display: none;
+  }
+}
 </style>
