@@ -2,7 +2,7 @@
   <div class="accounts" :hide-header="true">
     <ToolBar :display-text="true" />
     <div class="accounts-top">
-      <h2>My accounts</h2>
+      <h2 @click="logState">My accounts</h2>
       <p>
         You can use this account to explore
         <router-link to="/wallet">
@@ -14,16 +14,17 @@
     <div v-for="account in accounts" :key="account.address">
       <div class="card content">
         <div class="content-left">
-          <h3>{{ account.name }}</h3>
-          <Bech32 :address="account.address" short-form />
+          <h3>{{ account.key }}</h3>
+          <Bech32 :address="account.value" short-form />
         </div>
-        <TmBtn value="Go to Lunie" color="primary" />
+        <!-- <TmBtn value="Go to Lunie" color="primary" /> -->
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import { mapGetters } from "vuex"
 import TmBtn from "common/TmBtn"
 import ToolBar from "common/ToolBar"
 import Bech32 from "common/Bech32"
@@ -34,15 +35,22 @@ export default {
     ToolBar,
     Bech32
   },
-  data: () => ({
-    accounts: [
-      {
-        address: "cosmos1ek9cd8ewgxg9w5x3benji0uf4aaxaruvcw4v9e",
-        name: "Account 1"
-      }
-    ]
-  }),
+  computed: {
+    // ...mapGetters([`keystore`]),
+    accounts() {
+      // let accounts = this.keystore.accounts
+      let accounts = this.$store.getters.keystore.accounts
+      return accounts.map(({ name, address }) => ({
+        value: address,
+        key: name
+      }))
+    }
+  },
   methods: {
+
+    logState() {
+      console.log('State ======', this)
+    },
     setState(value) {
       this.$emit(`route-change`, value)
     },
