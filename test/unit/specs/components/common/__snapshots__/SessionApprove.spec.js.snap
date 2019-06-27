@@ -21,7 +21,7 @@ exports[`SessionApprove has the expected html structure 1`] = `
   >
     <lianytransaction-stub
       bondingdenom="Atoms"
-      hiderightside="true"
+      hidemetadata="true"
       proposalsurl="/"
       transaction="[object Object]"
       validators="[object Object]"
@@ -29,7 +29,8 @@ exports[`SessionApprove has the expected html structure 1`] = `
     />
      
     <div>
-      From 
+      From
+      
       <bech32-stub
         address="cosmos1vgkesh3z4wuglzjf9fjvcvkcxhp22rqx3sd5zr"
       />

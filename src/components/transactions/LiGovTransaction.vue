@@ -5,7 +5,7 @@
     :block="block"
     :memo="memo"
     :fees="fees"
-    :hide-right-side="hideRightSide"
+    :hide-meta-data="hideMetaData"
   >
     <template v-if="txType === `cosmos-sdk/MsgSubmitProposal`">
       <div slot="caption">
@@ -89,7 +89,7 @@ export default {
       type: String,
       default: null
     },
-    hideRightSide: {
+    hideMetaData: {
       type: Boolean,
       default: false
     }

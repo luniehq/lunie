@@ -1,6 +1,9 @@
 <template>
   <div>
-    <div v-for="(msg, index) in transaction.tx.value.msg" :key="index">
+    <div
+      v-for="(msg, index) in transaction.tx.value.msg"
+      :key="index"
+    >
       <LiBankTransaction
         v-if="bankTx(msg.type)"
         :tx="msg.value"
@@ -10,7 +13,7 @@
         :time="transaction.time"
         :block="Number(transaction.height)"
         :memo="transaction.tx.value.memo"
-        :hide-right-side="hideRightSide"
+        :hide-meta-data="hideMetaData"
       />
       <LiStakeTransaction
         v-else-if="stakingTx(msg.type)"
@@ -24,7 +27,7 @@
         :time="transaction.time"
         :block="Number(transaction.height)"
         :memo="transaction.tx.value.memo"
-        :hide-right-side="hideRightSide"
+        :hide-meta-data="hideMetaData"
       />
       <LiGovTransaction
         v-else-if="governanceTx(msg.type)"
@@ -36,7 +39,7 @@
         :time="transaction.time"
         :block="Number(transaction.height)"
         :memo="transaction.tx.value.memo"
-        :hide-right-side="hideRightSide"
+        :hide-meta-data="hideMetaData"
       />
       <LiDistributionTransaction
         v-else-if="distributionTx(msg.type)"
@@ -49,14 +52,14 @@
         :time="transaction.time"
         :block="Number(transaction.height)"
         :memo="transaction.tx.value.memo"
-        :hide-right-side="hideRightSide"
+        :hide-meta-data="hideMetaData"
       />
       <LiTransaction
         v-else
         :time="transaction.time"
         :block="Number(transaction.height)"
         color="grey"
-        :hide-right-side="hideRightSide"
+        :hide-meta-data="hideMetaData"
       >
         <span slot="caption">Unknown Transaction Type</span>
       </LiTransaction>
@@ -109,7 +112,7 @@ export default {
       type: Number,
       default: null
     },
-    hideRightSide: {
+    hideMetaData: {
       type: Boolean,
       default: false
     }

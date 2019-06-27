@@ -18,15 +18,17 @@
           <span v-if="memo"> &nbsp;- {{ memo }} </span>
         </div>
       </div>
-      <div v-if="!hideRightSide" class="li-tx__content__right">
+      <div
+        v-if="!hideMetaData"
+        class="li-tx__content__right"
+      >
         <div>
           Network Fee:&nbsp;<b>{{ fees.amount | toAtoms }}</b>
           <span>{{ fees.denom | viewDenom }}</span>
         </div>
         <div class="li-tx__content__block">
           <router-link :to="{ name: `block`, params: { height: block } }">
-            Block #{{ block }}&nbsp; </router-link
-          >@&nbsp;{{ date }}
+            Block #{{ block }}&nbsp; </router-link>@&nbsp;{{ date }}
         </div>
       </div>
     </div>
@@ -64,7 +66,7 @@ export default {
       type: Object,
       required: true
     },
-    hideRightSide: {
+    hideMetaData: {
       type: Boolean,
       default: false
     }
