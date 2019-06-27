@@ -20,7 +20,8 @@
     "watch": "npm run build -- --watch",
     "watch:dev": "cross-env HMR=true npm run build:dev -- --watch",
     "test:unit": "jest --coverage",
-    "test": "npm run lint && npm run test:unit"
+    "test": "npm run lint && npm run test:unit",
+    "log": "simsala log"
   },
   "husky": {
     "hooks": {
@@ -93,6 +94,7 @@
     "node-sass": "^4.9.3",
     "prettier": "^1.17.1",
     "sass-loader": "^7.1.0",
+    "simsala": "^0.0.16",
     "stylelint": "^10.1.0",
     "stylelint-config-standard": "^18.3.0",
     "vue-loader": "^15.4.2",
