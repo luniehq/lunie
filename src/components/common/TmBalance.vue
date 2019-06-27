@@ -13,10 +13,7 @@
           <h3>Liquid {{ num.viewDenom(bondDenom) }}</h3>
           <h2>{{ unbondedAtoms }}</h2>
         </div>
-        <div
-          v-if="rewards"
-          class="top-section"
-        >
+        <div v-if="rewards" class="top-section">
           <h3>Available Rewards</h3>
           <h2>{{ rewards }}</h2>
           <TmBtn
