@@ -8464,10 +8464,10 @@ vue-clipboard2@^0.3.0:
   dependencies:
     clipboard "^2.0.0"
 
-vue-directive-tooltip@^1.5.1:
-  version "1.5.1"
-  resolved "https://registry.yarnpkg.com/vue-directive-tooltip/-/vue-directive-tooltip-1.5.1.tgz#bbec1f856ba4af84e6e44db4355b59cc9f3a4b4f"
-  integrity sha512-2v16flWOSM2gp/pNLje29lJXmWq4ib0NjoAn4wY5R1pYzy0S9a/q3dhQ7dgoqQ1ePXYOj3EpZxMVO8AQ1Zod/A==
+vue-directive-tooltip@1.4.5:
+  version "1.4.5"
+  resolved "https://registry.yarnpkg.com/vue-directive-tooltip/-/vue-directive-tooltip-1.4.5.tgz#d55519132cd7d405d4e941d6bea0a0da01ef6278"
+  integrity sha512-uC+Y+Qs+FeXu/Xpn6rSitafSvgXfgO1GyL4QOEC9GYeuxovnmDzxWRFETbh3CoSwS0tky9zft1Zt3/3PMdSU9Q==
   dependencies:
     popper.js "1.12.5"
 
