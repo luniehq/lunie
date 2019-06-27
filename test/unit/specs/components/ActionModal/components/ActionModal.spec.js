@@ -356,6 +356,34 @@ describe(`ActionModal`, () => {
       })
     })
 
+    it(`should max fees to the available amount`, async () => {
+      const transactionProperties = {
+        type: "MsgSend",
+        toAddress: "comsos12345",
+        amounts: [
+          {
+            amount: "1230000000",
+            denom: "uatoms"
+          }
+        ],
+        memo: "A memo"
+      }
+      const data = {
+        step: `details`,
+        gasEstimate: null,
+        submissionError: null
+      }
+
+      wrapper.setProps({ transactionProperties, amount: 1230 })
+      wrapper.setData(data)
+      wrapper.vm.simulate()
+      wrapper.vm.$nextTick(() => {
+        expect(wrapper.vm.submissionError).toBe(null)
+        expect(wrapper.vm.step).toBe("fees")
+        expect(wrapper.vm.gasPrice).toBe(0)
+      })
+    })
+
     it("should fail if simulation fails", () => {
       const mockSimulateFail = jest.fn(() =>
         Promise.reject(new Error(`invalid request`))

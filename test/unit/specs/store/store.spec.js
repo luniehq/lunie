@@ -3,7 +3,7 @@ import store, {
   storeUpdateHandler,
   loadPersistedState
 } from "src/vuex/store"
-import lcdClientMock from "src/connectors/lcdClientMock.js"
+import mockValues from "test/unit/helpers/mockValues.js"
 import { Store } from "vuex"
 
 jest.mock(`src/vuex/modules/index.js`, () => () => ({}))
@@ -27,8 +27,8 @@ const mockState = {
   delegation: {
     loaded: true,
     committedDelegates: {
-      [lcdClientMock.validators[1]]: {
-        validator_address: lcdClientMock.validators[1],
+      [mockValues.validators[1]]: {
+        validator_address: mockValues.validators[1],
         balance: { amount: 1 },
         min_time: new Date().toUTCString()
       }
@@ -36,7 +36,7 @@ const mockState = {
     unbondingDelegations: {}
   },
   delegates: {
-    delegates: lcdClientMock.state.candidates
+    delegates: mockValues.state.candidates
   },
   keybase: {
     identities: {}

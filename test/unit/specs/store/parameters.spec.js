@@ -1,6 +1,6 @@
 import parametersModule from "src/vuex/modules/parameters.js"
-import lcdClientMock from "src/connectors/lcdClientMock.js"
-const { stakingParameters } = lcdClientMock.state
+import mockValues from "test/unit/helpers/mockValues.js"
+const { stakingParameters } = mockValues.state
 
 const mockRootState = {
   connection: {

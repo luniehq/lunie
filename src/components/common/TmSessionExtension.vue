@@ -20,15 +20,38 @@
       </div>
       <div v-if="session.extensionInstalled">
         <div class="session-main">
-          <HardwareState :icon="session.extensionInstalled ? 'laptop' : 'info'">
-            <div v-if="!session.extensionInstalled">
-              Click below to open the Lunie Chrome Extension
+          <div :icon="session.extensionInstalled ? 'laptop' : 'info'">
+            <div v-if="session.extensionInstalled">
+              Click below to open the Lunie Chrome Extension, or use one of the
+              existing address.
+              <ul>
+                <li v-for="wallet in extension.wallets" :key="wallet.name">
+                  <div class="extension-address-item">
+                    <div>
+                      {{ wallet.name }}<br />
+                      <TmBtn
+                        type="anchor"
+                        :value="wallet.address | formatBech32"
+                        color="primary"
+                        @click.native="onSubmit(wallet.address)"
+                      />
+                    </div>
+                    <div>
+                      <TmBtn
+                        value="Use Address"
+                        color="primary"
+                        @click.native="onSubmit(address[1])"
+                      />
+                    </div>
+                  </div>
+                </li>
+              </ul>
             </div>
             <div v-else>
               Use the Lunie Chrome extension to securely store your keys, and
               safely perform transactions.
             </div>
-          </HardwareState>
+          </div>
         </div>
         <div class="session-footer">
           <p class="ledger-install">
@@ -50,11 +73,15 @@
 import TmBtn from "common/TmBtn"
 import { mapGetters } from "vuex"
 import HardwareState from "common/TmHardwareState"
+import { formatBech32 } from "src/filters"
 export default {
   name: `session-extension`,
   components: {
     TmBtn,
     HardwareState
+  },
+  filters: {
+    formatBech32
   },
   data: () => ({
     status: `connect`,
@@ -62,7 +89,7 @@ export default {
     address: null
   }),
   computed: {
-    ...mapGetters([`session`]),
+    ...mapGetters([`session`, `extension`]),
     submitCaption() {
       return {
         connect: "Sign In",
@@ -70,6 +97,9 @@ export default {
         confirmAddress: "Confirming Address"
       }[this.status]
     }
+  },
+  mounted() {
+    this.getAddressesFromExtension()
   },
   methods: {
     setState(value) {
@@ -79,6 +109,15 @@ export default {
       this.$emit(`route-change`, "existing")
     },
     close() {
+      this.$emit(`close`)
+    },
+    async onSubmit(address) {
+      console.log("clicked", address)
+
+      this.$store.dispatch(`signIn`, {
+        sessionType: `extension`,
+        address: address
+      })
       this.$emit(`close`)
     },
     async signIn() {
@@ -112,6 +151,9 @@ export default {
         this.connectionError = message
       }
       return false
+    },
+    getAddressesFromExtension() {
+      this.$store.dispatch("getWallet")
     }
   }
 }
@@ -143,5 +185,11 @@ export default {
   font-weight: 500;
   font-size: 14px;
   white-space: nowrap;
+}
+
+.extension-address-item {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
 }
 </style>

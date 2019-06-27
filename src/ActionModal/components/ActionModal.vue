@@ -153,13 +153,7 @@
               />
               <TmBtn
                 v-else-if="sending"
-                :value="
-                  step === `sign` &&
-                  (selectedSignMethod === `ledger` ||
-                    selectedSignMethod === `extension`)
-                    ? `Waiting for Confirmation`
-                    : `Sending...`
-                "
+                :value="step === `sign` && submitButtonCaption"
                 disabled="disabled"
                 color="primary"
               />
@@ -377,6 +371,16 @@ export default {
 
       return !this.$v[property].$invalid
     },
+    submitButtonCaption() {
+      switch (this.selectedSignMethod) {
+        case "ledger":
+          return `Waiting for Ledger`
+        case "extension":
+          return `Waiting for Extension`
+        default:
+          return "Sending..."
+      }
+    },
     async validateChangeStep() {
       // An ActionModal is only the prototype of a parent modal
       switch (this.step) {
@@ -418,6 +422,12 @@ export default {
         this.step = feeStep
       } catch ({ message }) {
         this.submissionError = `${this.submissionErrorPrefix}: ${message}.`
+      }
+
+      // limit fees to the maximum the user has
+      if (this.invoiceTotal > this.balanceInAtoms) {
+        this.gasPrice =
+          (this.balanceInAtoms - Number(this.amount)) / this.gasEstimate
       }
     },
     async submit() {

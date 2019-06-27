@@ -14,7 +14,8 @@ module.exports = {
     "^staking/(.*)$": `<rootDir>/src/components/staking/$1`,
     "^scripts/(.*)$": `<rootDir>/src/scripts/$1`,
     "^wallet/(.*)$": `<rootDir>/src/components/wallet/$1`,
-    "^modules/(.*)$": `<rootDir>/src/vuex/modules/$1`
+    "^modules/(.*)$": `<rootDir>/src/vuex/modules/$1`,
+    "^test/(.*)$": `<rootDir>/test/$1`
   },
 
   transform: {
