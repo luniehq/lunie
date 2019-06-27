@@ -20,7 +20,7 @@ const processMessage = (store, type, payload) => {
       store.dispatch("getWallet")
       break
     case "GET_WALLETS_RESPONSE":
-      store.commit("setWallets", payload.wallets)
+      store.commit("setWallets", payload)
       break
     default:
       return

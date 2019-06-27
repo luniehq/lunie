@@ -8,7 +8,7 @@ export default () => {
   }
   const state = {
     ...emptyState,
-    wallets: {},
+    wallets: [],
     externals: { config } // for testing
   }
   const mutations = {
