@@ -56,6 +56,8 @@ async function actionModalCheckout(
 
   browser.expect.element(".action-modal").to.be.visible.before(10000)
 
+  browser.pause(500)
+
   await detailsActionFn()
 
   // proceed to invoice step
