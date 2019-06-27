@@ -1,4 +1,5 @@
 console.log('EXT Content Script Loaded');
+// As we use the `window` object as a message broker, we need to differentiate between targets of the messages we send via the broker.
 
 const LUNIE_EXT_TYPE = 'FROM_LUNIE_EXTENSION';
 const LUNIE_WEBSITE_TYPE = 'FROM_LUNIE_IO';
