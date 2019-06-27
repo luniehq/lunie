@@ -16,6 +16,7 @@ const modules = {
 export default new Vuex.Store({
   state: {
     accounts: [],
+    signRequest: null,
   },
   getters,
   modules,

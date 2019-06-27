@@ -64,4 +64,32 @@ export const getSignRequest = ({ commit }) => {
   });
 };
 
+export const approveSignRequest = ({ commit }) => {
+  console.log('approve sign request');
+  return new Promise(resolve => {
+    chrome.runtime.sendMessage(
+      {
+        type: 'SIGN',
+      },
+      function(response) {
+        commit('setSignRequest', null);
+      }
+    );
+  });
+};
+
+export const rejectSignRequest = ({ commit }) => {
+  return new Promise(resolve => {
+    console.log('reject sign request');
+    chrome.runtime.sendMessage(
+      {
+        type: 'APPROVE_SIGN_REQUEST',
+      },
+      function(response) {
+        commit('setSignRequest', null);
+      }
+    );
+  });
+};
+
 export const signIn = () => {};
