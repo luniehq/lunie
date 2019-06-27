@@ -1,6 +1,6 @@
 import votesModule from "src/vuex/modules/governance/votes.js"
-import lcdClientMock from "src/connectors/lcdClientMock.js"
-const { proposals, votes /*stakingParameters*/ } = lcdClientMock.state
+import mockValues from "test/unit/helpers/mockValues.js"
+const { proposals, votes /*stakingParameters*/ } = mockValues.state
 
 const mockRootState = {
   connection: {

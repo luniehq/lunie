@@ -283,7 +283,7 @@ workflows:
                 - release
                 - master
                 - develop
-                - /release-candidate*/
+                - /release-candidate.*/
 
       - security:
           filters:

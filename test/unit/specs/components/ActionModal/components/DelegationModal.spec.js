@@ -3,13 +3,13 @@
 import { shallowMount, createLocalVue } from "@vue/test-utils"
 import DelegationModal from "src/ActionModal/components/DelegationModal"
 import Vuelidate from "vuelidate"
-import lcdClientMock from "src/connectors/lcdClientMock.js"
+import mockValues from "test/unit/helpers/mockValues.js"
 
 const context = {
   url: "http://lunie.io",
   chainId: "cosmoshub",
   connected: true,
-  userAddress: lcdClientMock.addresses[0],
+  userAddress: mockValues.addresses[0],
   committedDelegations: [],
   delegates: [],
   localKeyPairName: "localKeyPairName"
@@ -17,7 +17,7 @@ const context = {
 
 describe(`DelegationModal`, () => {
   let wrapper
-  const { stakingParameters } = lcdClientMock.state
+  const { stakingParameters } = mockValues.state
   const localVue = createLocalVue()
   localVue.use(Vuelidate)
   localVue.directive("focus", () => {})
@@ -31,7 +31,7 @@ describe(`DelegationModal`, () => {
     stakingParameters: { parameters: stakingParameters },
     modalContext: {
       ...context,
-      delegates: lcdClientMock.state.candidates
+      delegates: mockValues.state.candidates
     }
   }
 
@@ -42,7 +42,7 @@ describe(`DelegationModal`, () => {
         $store: { getters }
       },
       propsData: {
-        validator: lcdClientMock.state.candidates[0],
+        validator: mockValues.state.candidates[0],
         fromOptions: [
           {
             address: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
@@ -51,7 +51,7 @@ describe(`DelegationModal`, () => {
             value: 0
           },
           {
-            address: lcdClientMock.state.candidates[1].operator_address,
+            address: mockValues.state.candidates[1].operator_address,
             key: `Billy the Bill - cosmos…psjr9565ef72pv9g20yx`,
             maximum: 23.0484375481,
             value: 1
@@ -123,11 +123,11 @@ describe(`DelegationModal`, () => {
       wrapper.setData({
         amount: 10,
         selectedIndex: 0,
-        validator: lcdClientMock.state.candidates[1]
+        validator: mockValues.state.candidates[1]
       })
     })
 
-    //lcdClientMock.state.candidates[0].operator_address
+    //mockValues.state.candidates[0].operator_address
     it("should return correct transaction data for delegating", () => {
       expect(wrapper.vm.transactionData).toEqual({
         type: "MsgDelegate",
