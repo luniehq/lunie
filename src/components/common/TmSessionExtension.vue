@@ -12,10 +12,7 @@
           <i class="material-icons session-close">close</i>
         </a>
       </div>
-      <div
-        v-if="!session.extensionInstalled"
-        class="session-main"
-      >
+      <div v-if="!session.extensionInstalled" class="session-main">
         <p>
           Please install the Lunie Extension for Chrome from the Google Play
           Store.
@@ -28,10 +25,7 @@
               Click below to open the Lunie Chrome Extension, or use one of the
               existing address.
               <ul>
-                <li
-                  v-for="wallet in extension.wallets"
-                  :key="wallet.name"
-                >
+                <li v-for="wallet in extension.wallets" :key="wallet.name">
                   <div class="extension-address-item">
                     <div>
                       {{ wallet.name }}<br />
@@ -82,8 +76,7 @@ import { formatBech32 } from "src/filters"
 export default {
   name: `session-extension`,
   components: {
-    TmBtn,
-    HardwareState
+    TmBtn
   },
   filters: {
     formatBech32
