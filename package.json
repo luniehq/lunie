@@ -9,7 +9,9 @@
     }
   ],
   "scripts": {
-    "lint": "eslint --ext .js,.vue src",
+    "lint": "npm run lint:js && npm run lint:css",
+    "lint:js": "eslint --ext .js,.vue src",
+    "lint:css": "stylelint \"src/**/*.{css,vue}\"",
     "prettier": "prettier \"src/**/*.{js,vue}\"",
     "prettier:write": "npm run prettier -- --write",
     "build": "cross-env NODE_ENV=production webpack --hide-modules",
@@ -22,7 +24,21 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "pretty-quick --staged"
+      "pre-push": "lint-prepush"
+    }
+  },
+  "lint-prepush": {
+    "base": "develop",
+    "tasks": {
+      "*.{js,vue}": [
+        "eslint --fix",
+        "jest --bail --coverage --findRelatedTests",
+        "git add"
+      ],
+      "*.{css,vue}": [
+        "stylelint --fix",
+        "git add"
+      ]
     }
   },
   "jest": {
@@ -72,11 +88,13 @@
     "file-loader": "^1.1.11",
     "husky": "^2.4.0",
     "jest": "^24.8.0",
+    "lint-prepush": "^0.4.1",
     "mini-css-extract-plugin": "^0.4.4",
     "node-sass": "^4.9.3",
     "prettier": "^1.17.1",
-    "pretty-quick": "^1.8.0",
     "sass-loader": "^7.1.0",
+    "stylelint": "^10.1.0",
+    "stylelint-config-standard": "^18.3.0",
     "vue-loader": "^15.4.2",
     "vue-template-compiler": "^2.6.10",
     "web-ext-types": "^2.1.0",
