@@ -2,7 +2,7 @@
   <div class="accounts" :hide-header="true">
     <ToolBar :display-text="true" />
     <div class="accounts-top">
-      <h2 @click="logState">My accounts</h2>
+      <h2>My accounts</h2>
       <p>
         You can use this account to explore
         <router-link to="/wallet">
@@ -17,45 +17,38 @@
           <h3>{{ account.key }}</h3>
           <Bech32 :address="account.value" short-form />
         </div>
-        <!-- <TmBtn value="Go to Lunie" color="primary" /> -->
       </div>
+    </div>
+    <div class="button-add-account">
+      <TmBtn @click.native="goTo('welcome')" value="Add Account" color="primary" />
     </div>
   </div>
 </template>
 
 <script>
-import { mapGetters } from "vuex"
-import TmBtn from "common/TmBtn"
 import ToolBar from "common/ToolBar"
+import TmBtn from "common/TmBtn"
 import Bech32 from "common/Bech32"
 export default {
-  name: `session-ext-accounts`,
+  name: `session-accounts`,
   components: {
-    TmBtn,
     ToolBar,
-    Bech32
+    Bech32,
+    TmBtn
+  },
+  props: {
+    goTo: {
+      type: Function,
+      required: true
+    }
   },
   computed: {
-    // ...mapGetters([`keystore`]),
     accounts() {
-      // let accounts = this.keystore.accounts
-      let accounts = this.$store.getters.keystore.accounts
+      let accounts = this.$store.state.accounts
       return accounts.map(({ name, address }) => ({
         value: address,
         key: name
       }))
-    }
-  },
-  methods: {
-
-    logState() {
-      console.log('State ======', this)
-    },
-    setState(value) {
-      this.$emit(`route-change`, value)
-    },
-    close() {
-      this.$emit(`close`)
     }
   }
 }
@@ -101,5 +94,15 @@ export default {
 .content-left {
   display: flex;
   flex-direction: column;
+}
+
+.button-add-account {
+  display: flex;
+  justify-content: flex-end;
+  padding: 1.5rem 0 1rem;
+
+  /* keeps button in bottom right no matter the size of the action modal */
+  flex-grow: 1;
+  align-self: flex-end;
 }
 </style>

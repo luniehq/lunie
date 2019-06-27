@@ -4,6 +4,7 @@
       :is="currentSessionComponent"
       @route-change="goTo"
       @close="close"
+      :go-to="goTo"
     ></component>
   </transition>
 </template>
