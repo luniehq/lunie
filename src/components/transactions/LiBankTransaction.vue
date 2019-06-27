@@ -40,8 +40,7 @@
         Received <b>{{ txAmount | toAtoms | prettyLong }}</b>
         <span>{{ txDenom | viewDenom }}</span>
       </div>
-      <span slot="details"> From &nbsp;
-        <Bech32 :address="sender" /> </span>
+      <span slot="details"> From &nbsp; <Bech32 :address="sender" /> </span>
     </template>
   </LiTransaction>
 </template>
