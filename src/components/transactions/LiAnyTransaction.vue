@@ -1,9 +1,6 @@
 <template>
   <div>
-    <div
-      v-for="(msg, index) in transaction.tx.value.msg"
-      :key="index"
-    >
+    <div v-for="(msg, index) in transaction.tx.value.msg" :key="index">
       <LiBankTransaction
         v-if="bankTx(msg.type)"
         :tx="msg.value"

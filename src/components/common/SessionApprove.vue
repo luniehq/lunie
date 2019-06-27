@@ -1,16 +1,10 @@
 <template>
-  <div
-    class="approve-tran"
-    hide-header
-  >
+  <div class="approve-tran" hide-header>
     <h2>Approve Transaction</h2>
     <div>
       <p>Verify the transaction details below.</p>
     </div>
-    <TmFormGroup
-      field-id="to"
-      field-label="Your address"
-    >
+    <TmFormGroup field-id="to" field-label="Your address">
       <LiAnyTransaction
         v-for="tx in obj"
         :key="tx.txhash"
@@ -23,7 +17,8 @@
       />
 
       <!-- Going to take some more logic based on how transactions are passed in -->
-      <div>From
+      <div>
+        From
         <Bech32 :address="currentAccount.address" />
       </div>
 
@@ -34,16 +29,8 @@
       />
 
       <div class="approve-tran-footer">
-        <TmBtn
-          value="Reject"
-          class="left-button"
-          color="secondary"
-        />
-        <TmBtn
-          value="Approve"
-          class="right-button"
-          color="primary"
-        />
+        <TmBtn value="Reject" class="left-button" color="secondary" />
+        <TmBtn value="Approve" class="right-button" color="primary" />
       </div>
     </TmFormGroup>
   </div>
