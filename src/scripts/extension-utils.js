@@ -17,7 +17,7 @@ const processMessage = (store, type, payload) => {
   switch (type) {
     case "INIT_EXTENSION":
       store.dispatch("setExtensionEnabled")
-      store.dispatch("getWallet")
+      store.dispatch("getAddressesFromExtension")
       break
     case "GET_WALLETS_RESPONSE":
       store.commit("setWallets", payload)

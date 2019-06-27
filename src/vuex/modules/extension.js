@@ -27,7 +27,7 @@ export default () => {
     async signWithExtension({ state, commit }, { stdTx, senderAddress }) {
       // TODO
     },
-    async getWallet({ commit }) {
+    async getAddressesFromExtension() {
       getWallets()
     }
   }

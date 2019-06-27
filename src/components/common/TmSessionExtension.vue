@@ -12,7 +12,10 @@
           <i class="material-icons session-close">close</i>
         </a>
       </div>
-      <div v-if="!session.extensionInstalled" class="session-main">
+      <div
+        v-if="!session.extensionInstalled"
+        class="session-main"
+      >
         <p>
           Please install the Lunie Extension for Chrome from the Google Play
           Store.
@@ -25,7 +28,10 @@
               Click below to open the Lunie Chrome Extension, or use one of the
               existing address.
               <ul>
-                <li v-for="wallet in extension.wallets" :key="wallet.name">
+                <li
+                  v-for="wallet in extension.wallets"
+                  :key="wallet.name"
+                >
                   <div class="extension-address-item">
                     <div>
                       {{ wallet.name }}<br />
@@ -91,6 +97,9 @@ export default {
       }[this.status]
     }
   },
+  mounted() {
+    this.$store.dispatch(`getAddressesFromExtension`)
+  },
   methods: {
     setState(value) {
       this.$emit(`route-change`, value)
@@ -102,8 +111,6 @@ export default {
       this.$emit(`close`)
     },
     async signIn(address) {
-      console.log("clicked", address)
-
       this.$store.dispatch(`signIn`, {
         sessionType: `extension`,
         address: address
