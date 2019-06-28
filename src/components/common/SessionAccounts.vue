@@ -1,6 +1,5 @@
 <template>
   <div class="accounts" :hide-header="true">
-    <ToolBar :display-text="true" />
     <div class="accounts-top">
       <h2>My accounts</h2>
       <p>
@@ -30,13 +29,11 @@
 </template>
 
 <script>
-import ToolBar from "common/ToolBar"
 import TmBtn from "common/TmBtn"
 import Bech32 from "common/Bech32"
 export default {
   name: `session-accounts`,
   components: {
-    ToolBar,
     Bech32,
     TmBtn
   },
