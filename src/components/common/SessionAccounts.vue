@@ -14,8 +14,8 @@
     <div v-for="account in accounts" :key="account.address">
       <div class="card content">
         <div class="content-left">
-          <h3>{{ account.key }}</h3>
-          <Bech32 :address="account.value" short-form />
+          <h3>{{ account.name }}</h3>
+          <Bech32 :address="account.address" short-form />
         </div>
       </div>
     </div>
@@ -50,8 +50,8 @@ export default {
     accounts() {
       let accounts = this.$store.state.accounts
       return accounts.map(({ name, address }) => ({
-        value: address,
-        key: name
+        address,
+        name
       }))
     }
   }
