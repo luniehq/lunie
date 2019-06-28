@@ -2,7 +2,11 @@ import Ledger from "@lunie/cosmos-ledger"
 import { signWithPrivateKey, getStoredWallet } from "@lunie/cosmos-keys"
 import { sign } from "src/scripts/extension-utils"
 
-export function getSigner(config, submitType = "", { address, password, delegates }) {
+export function getSigner(
+  config,
+  submitType = "",
+  { address, password, delegates }
+) {
   if (submitType === `local`) {
     const wallet = getStoredWallet(address, password)
     return signMessage => {

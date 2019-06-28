@@ -124,7 +124,8 @@ export default {
     amount: null,
     selectedIndex: 0
   }),
-  computed: {...mapGetters([`session`, `modalContext`, `delegates`]),
+  computed: {
+    ...mapGetters([`session`, `modalContext`, `delegates`]),
     balance() {
       if (!this.session.signedIn) return 0
 
