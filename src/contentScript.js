@@ -4,23 +4,6 @@ console.log('EXT Content Script Loaded');
 const LUNIE_EXT_TYPE = 'FROM_LUNIE_EXTENSION';
 const LUNIE_WEBSITE_TYPE = 'FROM_LUNIE_IO';
 
-// var port = chrome.runtime.connect();
-// port.postMessage({ type: 'LUNIE_EXTENSION', text: 'hello' }, '*');
-
-// const msg = {
-//   type: LUNIE_EXT_TYPE,
-//   message: {
-//     type: 'GET_WALLETS_RESPONSE',
-//     payload: {
-//       wallets: {
-//         cosmos1: 100,
-//         cosmos2: 90,
-//         cosmos3: 80,
-//       },
-//     },
-//   },
-// };
-
 const wrapMessageForLunie = (type, payload) => {
   return {
     type: LUNIE_EXT_TYPE,
@@ -38,6 +21,14 @@ function enableExtension() {
 
 enableExtension();
 
+// Listen to messages from the extension
+chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+  const wrappedMessage = wrapMessageForLunie(message.type, message.payload);
+
+  // Post reply to Lunie.io
+  window.postMessage(wrappedMessage, '*');
+});
+
 // Listen to Lunie.io
 window.addEventListener(
   'message',
@@ -46,16 +37,24 @@ window.addEventListener(
     if (event.source !== window) return;
 
     if (event.data.type && event.data.type === LUNIE_WEBSITE_TYPE) {
-      const { payload } = event.data;
+      const { payload, skipResponse } = event.data;
+
+      // on async responses we don't want to wait for a response right away
+      // waiting causes console errors
+      const responseHandler = skipResponse
+        ? undefined
+        : function(response) {
+            if (skipResponse) return;
+
+            const data = { responseType: `${payload.type}_RESPONSE`, payload: response };
+            const wrappedMessage = wrapMessageForLunie(data.responseType, data.payload);
+
+            // Post reply to Lunie.io
+            window.postMessage(wrappedMessage, '*');
+          };
 
       // Forward request to backgroud
-      chrome.runtime.sendMessage(payload, function(response) {
-        const data = { responseType: `${payload.type}_RESPONSE`, payload: response };
-        const wrappedMessage = wrapMessageForLunie(data.responseType, data.payload);
-
-        // Post reply to Lunie.io
-        window.postMessage(wrappedMessage, '*');
-      });
+      chrome.runtime.sendMessage(payload, responseHandler);
     }
   },
   false

@@ -78,20 +78,24 @@ export const approveSignRequest = ({ commit }, { signMessage, senderAddress, pas
         },
       },
       function(response) {
+        resolve();
         commit('setSignRequest', null);
       }
     );
   });
 };
 
-export const rejectSignRequest = ({ commit }) => {
+export const rejectSignRequest = ({ commit }, signRequest) => {
+  console.log('Rejected', signRequest);
   return new Promise(resolve => {
     console.log('reject sign request');
     chrome.runtime.sendMessage(
       {
         type: 'REJECT_SIGN_REQUEST',
+        payload: signRequest,
       },
       function(response) {
+        resolve();
         commit('setSignRequest', null);
       }
     );
