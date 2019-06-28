@@ -134,18 +134,20 @@ export default {
 
       return !this.$v[property].$invalid
     },
-    approve() {
+    async approve() {
       if (this.isValidInput("password")) {
-        this.$store.dispatch("approveSignRequest", {
+        await this.$store.dispatch("approveSignRequest", {
           ...this.signRequest,
           password: this.password
         })
+        this.close()
       }
     },
-    reject() {
-      this.$store.dispatch("rejectSignRequest", {
+    async reject() {
+      await this.$store.dispatch("rejectSignRequest", {
         ...this.signRequest
       })
+      this.close()
     }
   },
   validations() {

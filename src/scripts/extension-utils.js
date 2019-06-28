@@ -17,10 +17,10 @@ const processMessage = (store, type, payload) => {
   switch (type) {
     case "INIT_EXTENSION":
       store.dispatch("setExtensionEnabled")
-      store.dispatch("getWallet")
+      store.dispatch("getAddressesFromExtension")
       break
     case "GET_WALLETS_RESPONSE":
-      store.commit("setWallets", payload.wallets)
+      store.commit("setWallets", payload)
       break
     default:
       return
@@ -61,9 +61,9 @@ export const sign = (signMessage, senderAddress) => {
     window.addEventListener("LUNIE_SIGN_REQUEST_RESPONSE", function({
       signature,
       publicKey,
-      denied
+      rejected
     }) {
-      if (denied) {
+      if (rejected) {
         reject()
         return
       }
