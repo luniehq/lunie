@@ -48,13 +48,14 @@ export const getWallets = () => {
   sendMessageToContentScript({ type: "GET_WALLETS" })
 }
 
-export const sign = (signMessage, senderAddress) => {
+export const sign = (signMessage, senderAddress, delegates) => {
   sendMessageToContentScript(
     {
       type: "LUNIE_SIGN_REQUEST",
       payload: {
         signMessage,
-        senderAddress
+        senderAddress,
+        delegates
       }
     },
     true

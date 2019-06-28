@@ -457,7 +457,7 @@ export default {
       }
 
       try {
-        await this.actionManager.send(memo, feeProperties)
+        await this.actionManager.send(memo, feeProperties, this.transactionData.valdiators)        
         this.trackEvent(
           `event`,
           `successful-submit`,

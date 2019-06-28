@@ -115,13 +115,14 @@ export default {
     num
   }),
   computed: {
-    ...mapGetters([`liquidAtoms`]),
+    ...mapGetters([`liquidAtoms`, `delegates`]),
     transactionData() {
       return {
         type: transaction.UNDELEGATE,
         validator_address: this.validator.operator_address,
         amount: uatoms(this.amount),
-        denom: this.denom
+        denom: this.denom,
+        valdiators: this.delegates.delegates
       }
     },
     notifyMessage() {

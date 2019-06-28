@@ -75,7 +75,7 @@ import { required } from "vuelidate/lib/validators"
 // TODO move into own helper file
 // Parse into Lunie tx format from signMessage to display tx properly
 function parseTx(signMessage) {
-  const { msgs, fee, memo } = JSON.parse(signMessage)
+  const { msgs, fee, memo, delegates } = JSON.parse(signMessage)
 
   return {
     tx: {
@@ -83,7 +83,8 @@ function parseTx(signMessage) {
       value: {
         msg: msgs,
         fee,
-        memo
+        memo,
+        delegates
       }
     }
   }
@@ -101,7 +102,6 @@ export default {
     TmFormMsg
   },
   data: () => ({
-    deligates: [],
     password: null
   }),
   computed: {
@@ -114,6 +114,9 @@ export default {
     },
     senderAddress() {
       return this.signRequest ? this.signRequest.senderAddress : null
+    },
+    deligates() {
+      return this.tx ? this.tx.tx.value.delegates : null
     }
   },
   methods: {

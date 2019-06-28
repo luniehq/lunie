@@ -124,8 +124,7 @@ export default {
     amount: null,
     selectedIndex: 0
   }),
-  computed: {
-    ...mapGetters([`session`, `modalContext`]),
+  computed: {...mapGetters([`session`, `modalContext`, `delegates`]),
     balance() {
       if (!this.session.signedIn) return 0
 
@@ -142,7 +141,8 @@ export default {
           type: transaction.DELEGATE,
           validator_address: this.validator.operator_address,
           amount: uatoms(this.amount),
-          denom: this.denom
+          denom: this.denom,
+          valdiators: this.delegates.delegates
         }
       } else {
         const validatorSrc = this.modalContext.delegates.find(
@@ -153,7 +153,8 @@ export default {
           validator_src_address: validatorSrc.operator_address,
           validator_dst_address: this.validator.operator_address,
           amount: uatoms(this.amount),
-          denom: this.denom
+          denom: this.denom,
+          valdiators: this.delegates.delegates
         }
       }
     },

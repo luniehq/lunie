@@ -67,13 +67,14 @@ export default class ActionManager {
     return gasEstimate
   }
 
-  async send(memo, txMetaData) {
+  async send(memo, txMetaData, delegates) {
     this.readyCheck()
 
     const { gasEstimate, gasPrice, submitType, password } = txMetaData
     const signer = getSigner(config, submitType, {
       address: this.context.userAddress,
-      password
+      password,
+      delegates: delegates
     })
 
     if (this.messageType === transaction.WITHDRAW) {
