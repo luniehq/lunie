@@ -1,0 +1,1 @@
+[Fixed] [#Ext:30](https://github.com/cosmos/lunie/issues/Ext:30) Passes delegates to chrome extension components so that SessionApprove can access the Moniker.  @thebkr7
