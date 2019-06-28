@@ -40,7 +40,7 @@
                       <TmBtn
                         value="Use Address"
                         color="primary"
-                        @click.native="onSubmit(address[1])"
+                        @click.native="onSubmit(wallet.address)"
                       />
                     </div>
                   </div>
@@ -151,7 +151,7 @@ export default {
       return false
     },
     getAddressesFromExtension() {
-      this.$store.dispatch("getWallet")
+      this.$store.dispatch("getAddressesFromExtension")
     }
   }
 }

@@ -17,10 +17,10 @@ const processMessage = (store, type, payload) => {
   switch (type) {
     case "INIT_EXTENSION":
       store.dispatch("setExtensionEnabled")
-      store.dispatch("getWallet")
+      store.dispatch("getAddressesFromExtension")
       break
     case "GET_WALLETS_RESPONSE":
-      store.commit("setWallets", payload.wallets)
+      store.commit("setWallets", payload)
       break
     default:
       return
@@ -39,9 +39,9 @@ export const processLunieExtensionMessages = store => {
   }
 }
 
-export const sendMessageToContentScript = payload => {
+export const sendMessageToContentScript = (payload, skipResponse = false) => {
   console.log("Ext. Sending message to content script", payload)
-  window.postMessage({ type: LUNIE_WEBSITE_TYPE, payload }, "*")
+  window.postMessage({ type: LUNIE_WEBSITE_TYPE, payload, skipResponse }, "*")
 }
 
 export const getWallets = () => {
@@ -49,21 +49,24 @@ export const getWallets = () => {
 }
 
 export const sign = (signMessage, senderAddress) => {
-  sendMessageToContentScript({
-    type: "LUNIE_SIGN_REQUEST",
-    payload: {
-      signMessage,
-      senderAddress
-    }
-  })
+  sendMessageToContentScript(
+    {
+      type: "LUNIE_SIGN_REQUEST",
+      payload: {
+        signMessage,
+        senderAddress
+      }
+    },
+    true
+  )
 
   return new Promise((resolve, reject) => {
     window.addEventListener("LUNIE_SIGN_REQUEST_RESPONSE", function({
       signature,
       publicKey,
-      denied
+      rejected
     }) {
-      if (denied) {
+      if (rejected) {
         reject()
         return
       }

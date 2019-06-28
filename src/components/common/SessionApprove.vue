@@ -1,16 +1,10 @@
 <template>
-  <div
-    class="approve-tran"
-    hide-header
-  >
+  <div class="approve-tran" hide-header>
     <h2>Approve Transaction</h2>
     <div>
       <p>Verify the transaction details below.</p>
     </div>
-    <TmFormGroup
-      field-id="to"
-      field-label="Your address"
-    >
+    <TmFormGroup field-id="to" field-label="Your address">
       <LiAnyTransaction
         v-if="tx"
         :validators="deligates"
@@ -58,13 +52,13 @@
           value="Reject"
           class="left-button"
           color="secondary"
-          @click="reject"
+          @click.native="reject"
         />
         <TmBtn
           value="Approve"
           class="right-button"
           color="primary"
-          @click="approve"
+          @click.native="approve"
         />
       </div>
     </TmFormGroup>
@@ -138,18 +132,20 @@ export default {
 
       return !this.$v[property].$invalid
     },
-    approve() {
+    async approve() {
       if (this.isValidInput("password")) {
-        this.$store.dispatch("approveSignRequest", {
+        await this.$store.dispatch("approveSignRequest", {
           ...this.signRequest,
           password: this.password
         })
+        this.close()
       }
     },
-    reject() {
-      this.$store.dispatch("rejectSignRequest", {
+    async reject() {
+      await this.$store.dispatch("rejectSignRequest", {
         ...this.signRequest
       })
+      this.close()
     }
   },
   validations() {
