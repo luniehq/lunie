@@ -20,13 +20,7 @@
         From
         <Bech32 :address="senderAddress" />
       </div>
-
-
-
-      <TableInvoice :amount="Number(this.tx.tx.value.msg)" :estimated-fee="fees" />
-
-
-
+      <TableInvoice :amount="amount" :estimated-fee="fees" />
       <TmFormGroup
         :error="$v.password.$error && $v.password.$invalid"
         class="action-modal-group"
@@ -118,6 +112,10 @@ export default {
     },
     senderAddress() {
       return this.signRequest ? this.signRequest.senderAddress : null
+    },
+    amount() {
+      //Unable to test wit real transaction, may be: this.tx.tx.value.msg.value
+      return Number(this.tx.tx.value.msg)
     }
   },
   methods: {
