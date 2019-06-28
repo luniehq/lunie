@@ -27,7 +27,11 @@
         <Bech32 :address="senderAddress" />
       </div>
 
-      <!-- <TableInvoice :fees="fees" /> -->
+
+
+      <TableInvoice :amount="Number(this.tx.tx.value.msg)" :estimated-fee="fees" />
+
+
 
       <TmFormGroup
         :error="$v.password.$error && $v.password.$invalid"
