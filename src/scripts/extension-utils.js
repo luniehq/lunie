@@ -39,9 +39,9 @@ export const processLunieExtensionMessages = store => {
   }
 }
 
-export const sendMessageToContentScript = payload => {
+export const sendMessageToContentScript = (payload, skipResponse = false) => {
   console.log("Ext. Sending message to content script", payload)
-  window.postMessage({ type: LUNIE_WEBSITE_TYPE, payload }, "*")
+  window.postMessage({ type: LUNIE_WEBSITE_TYPE, payload, skipResponse }, "*")
 }
 
 export const getWallets = () => {
@@ -49,13 +49,16 @@ export const getWallets = () => {
 }
 
 export const sign = (signMessage, senderAddress) => {
-  sendMessageToContentScript({
-    type: "LUNIE_SIGN_REQUEST",
-    payload: {
-      signMessage,
-      senderAddress
-    }
-  })
+  sendMessageToContentScript(
+    {
+      type: "LUNIE_SIGN_REQUEST",
+      payload: {
+        signMessage,
+        senderAddress
+      }
+    },
+    true
+  )
 
   return new Promise((resolve, reject) => {
     window.addEventListener("LUNIE_SIGN_REQUEST_RESPONSE", function({

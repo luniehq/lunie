@@ -54,13 +54,13 @@
           value="Reject"
           class="left-button"
           color="secondary"
-          @click="reject"
+          @click.native="reject"
         />
         <TmBtn
           value="Approve"
           class="right-button"
           color="primary"
-          @click="approve"
+          @click.native="approve"
         />
       </div>
     </TmFormGroup>
