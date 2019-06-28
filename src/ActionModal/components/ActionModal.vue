@@ -153,7 +153,7 @@
               />
               <TmBtn
                 v-else-if="sending"
-                :value="step === `sign` && submitButtonCaption"
+                :value="submitButtonCaption"
                 disabled="disabled"
                 color="primary"
               />
@@ -334,6 +334,16 @@ export default {
         this.selectedSignMethod = signMethods[0].value
       }
       return signMethods
+    },
+    submitButtonCaption() {
+      switch (this.selectedSignMethod) {
+        case "ledger":
+          return `Waiting for Ledger`
+        case "extension":
+          return `Waiting for Extension`
+        default:
+          return "Sending..."
+      }
     }
   },
   updated: function() {
@@ -374,16 +384,6 @@ export default {
       this.$v[property].$touch()
 
       return !this.$v[property].$invalid
-    },
-    submitButtonCaption() {
-      switch (this.selectedSignMethod) {
-        case "ledger":
-          return `Waiting for Ledger`
-        case "extension":
-          return `Waiting for Extension`
-        default:
-          return "Sending..."
-      }
     },
     async validateChangeStep() {
       // An ActionModal is only the prototype of a parent modal
