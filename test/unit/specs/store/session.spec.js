@@ -120,14 +120,6 @@ describe(`Module: Session`, () => {
     expect(state.history).toEqual([])
   })
 
-  it(`should commit extension true`, () => {
-    const commit = jest.fn()
-    actions.setExtensionInstalled({ commit }, true)
-    expect(commit).toHaveBeenCalledWith(`setExtensionInstalled`, true)
-    actions.setExtensionInstalled({ commit }, false)
-    expect(commit).toHaveBeenCalledWith(`setExtensionInstalled`, false)
-  })
-
   it(`should prepare the signin`, async () => {
     const dispatch = jest.fn()
     state.accounts = [{}]
