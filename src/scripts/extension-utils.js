@@ -8,7 +8,7 @@ const unWrapMessageFromContentScript = data => data.message
 const processMessage = (store, type, payload) => {
   switch (type) {
     case "INIT_EXTENSION":
-      store.dispatch("setExtensionEnabled")
+      store.commit("setExtensionInstalled")
       store.dispatch("getAddressesFromExtension")
       break
     case "GET_WALLETS_RESPONSE":

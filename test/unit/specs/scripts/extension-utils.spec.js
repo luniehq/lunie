@@ -27,7 +27,7 @@ describe(`Extension Utils`, () => {
         }
       })
 
-      expect(store.dispatch).toHaveBeenCalledWith("setExtensionEnabled")
+      expect(store.commit).toHaveBeenCalledWith("setExtensionInstalled")
       expect(store.dispatch).toHaveBeenCalledWith("getAddressesFromExtension")
     })
 
@@ -42,7 +42,7 @@ describe(`Extension Utils`, () => {
         }
       })
 
-      expect(store.dispatch).not.toHaveBeenCalledWith("setExtensionEnabled")
+      expect(store.commit).not.toHaveBeenCalledWith("setExtensionInstalled")
     })
 
     it("should react to query wallet responsesn", () => {

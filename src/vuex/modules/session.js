@@ -193,10 +193,6 @@ export default () => {
         state.externals.anonymize()
         console.log(`Analytics collection has been disabled`)
       }
-    },
-    setExtensionEnabled({ commit }) {
-      console.log("Ext. enabling extension")
-      commit(`setExtensionInstalled`)
     }
   }
 
