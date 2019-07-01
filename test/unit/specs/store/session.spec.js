@@ -1,4 +1,4 @@
-import sessionModule, { extensionListener } from "src/vuex/modules/session.js"
+import sessionModule from "src/vuex/modules/session.js"
 
 describe(`Module: Session`, () => {
   let module, state, actions, mutations, node
