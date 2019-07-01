@@ -741,8 +741,8 @@ exports[`ActionModal should show the action modal when user has logged in with l
     >
       <div>
         
-          Please use Chrome, Brave, or Opera. Ledger is not supported in your
-          current browser.
+          Please use Chrome, Brave, or Opera. Ledger is not supported in this
+          browser.
         
       </div>
     </hardwarestate-stub>
@@ -815,8 +815,8 @@ exports[`ActionModal should show the action modal when user has logged in with l
     >
       <div>
         
-          Please use Chrome, Brave, or Opera. Ledger is not supported in your
-          current browser.
+          Please use Chrome, Brave, or Opera. Ledger is not supported in this
+          browser.
         
       </div>
     </hardwarestate-stub>

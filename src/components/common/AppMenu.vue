@@ -66,15 +66,19 @@
       </router-link>
       <a
         v-if="session.signedIn"
-        class="app-menu-item sign-out-btn"
+        id="mobile-sign-out"
+        class="button app-menu-item"
         @click="signOut()"
       >
-        <h2 class="app-menu-title">
-          Sign out
-        </h2>
-        <i class="material-icons">
-          exit_to_app
-        </i>
+        Sign out
+      </a>
+      <a
+        v-if="!session.signedIn"
+        id="mobile-sign-in"
+        class="button app-menu-item"
+        @click="signIn()"
+      >
+        Sign in
       </a>
     </div>
     <ConnectedNetwork />
@@ -106,7 +110,12 @@ export default {
       noScroll.off()
     },
     signOut() {
+      this.$emit(`close`)
       this.$store.dispatch(`signOut`)
+    },
+    signIn() {
+      this.$emit(`close`)
+      this.$store.commit(`toggleSessionModal`, true)
     }
   }
 }
@@ -172,6 +181,11 @@ export default {
   font-weight: 500;
 }
 
+.app-menu .button {
+  color: var(--link);
+  font-size: var(--lg);
+}
+
 @media screen and (max-width: 1023px) {
   .app-menu {
     background: var(--app-nav);
@@ -196,7 +210,7 @@ export default {
     width: var(--width-side);
   }
 
-  .app-menu .sign-out-btn {
+  .app-menu .button {
     display: none;
   }
 }

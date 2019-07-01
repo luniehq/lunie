@@ -88,7 +88,6 @@ export default {
   flex: 1;
   display: flex;
   flex-flow: column nowrap;
-  position: fixed;
 }
 
 .app-header .header-item {
@@ -106,15 +105,11 @@ export default {
 
 @media screen and (max-width: 1023px) {
   .app-header {
-    position: fixed;
-    top: 0;
-    left: 0;
     width: 100%;
     min-height: 0;
   }
 
   .container {
-    width: 100%;
     background: var(--app-nav);
   }
 
@@ -128,7 +123,7 @@ export default {
   }
 
   .header-item-logo {
-    height: 2rem;
+    height: 2.5rem;
   }
 }
 </style>
