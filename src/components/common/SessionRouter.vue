@@ -1,5 +1,8 @@
 <template>
-  <transition name="component-fade" mode="out-in">
+  <transition
+    name="component-fade"
+    mode="out-in"
+  >
     <component
       :is="currentSessionComponent"
       @route-change="goTo"
