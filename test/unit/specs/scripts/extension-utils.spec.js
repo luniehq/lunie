@@ -1,7 +1,7 @@
 import {
   processLunieExtensionMessages,
   getWallets,
-  sign
+  signWithExtension
 } from "scripts/extension-utils.js"
 
 describe(`Extension Utils`, () => {
@@ -112,7 +112,7 @@ describe(`Extension Utils`, () => {
       })
 
       it("should request a signature", () => {
-        sign("abc", "cosmos1234")
+        signWithExtension("abc", "cosmos1234")
         expect(global.postMessage.mock.calls).toEqual([
           [
             {
@@ -137,13 +137,13 @@ describe(`Extension Utils`, () => {
             rejected: true
           })
         })
-        expect(sign("abc")).rejects.toThrow(
+        expect(signWithExtension("abc")).rejects.toThrow(
           "User rejected action in extension."
         )
       })
 
       it("should react to signature disapproval", async () => {
-        const result = await sign("abc")
+        const result = await signWithExtension("abc")
         expect(result).toEqual({
           signature: expect.any(Buffer),
           publicKey: expect.any(Buffer)
