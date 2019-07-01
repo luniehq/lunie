@@ -122,7 +122,7 @@ export default {
         validator_address: this.validator.operator_address,
         amount: uatoms(this.amount),
         denom: this.denom,
-        valdiators: this.delegates.delegates
+        validators: this.delegates.delegates
       }
     },
     notifyMessage() {

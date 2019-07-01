@@ -7,7 +7,7 @@
     <TmFormGroup field-id="to" field-label="Your address">
       <LiAnyTransaction
         v-if="tx"
-        :validators="deligates"
+        :validators="delegates"
         :transaction="tx"
         :hide-meta-data="true"
         validators-url="/"
