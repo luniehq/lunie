@@ -97,7 +97,7 @@ describe(`PageNetwork`, () => {
 
     expect(wrapper.vm.status).toEqual({
       color: `red`,
-      message: `Network is down`
+      message: `Not connected to a node`
     })
   })
 

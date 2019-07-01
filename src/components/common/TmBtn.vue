@@ -88,7 +88,6 @@ export default {
   border: none;
   background: transparent;
   text-decoration: none !important;
-  margin: 0;
   display: inline-block;
   font-size: 16px;
   height: 100%;
@@ -174,5 +173,11 @@ a {
   height: 3rem;
   font-weight: normal;
   padding: 0 1rem;
+}
+
+@media screen and (max-width: 1023px) {
+  .tm-btn .tm-btn__container {
+    width: 100%;
+  }
 }
 </style>

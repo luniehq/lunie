@@ -105,7 +105,7 @@
             </dl>
             <dl class="info_dl">
               <dt>Full Operator Address</dt>
-              <dd>{{ validator.operator_address }}</dd>
+              <dd class="address">{{ validator.operator_address }}</dd>
             </dl>
             <dl class="info_dl">
               <dt>Keybase ID</dt>
@@ -440,6 +440,10 @@ export default {
 }
 </script>
 <style scoped>
+.address {
+  word-break: break-word;
+}
+
 @media screen and (max-width: 425px) {
   .page-profile__header__actions {
     width: 100%;
