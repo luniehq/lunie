@@ -9,8 +9,7 @@ import * as actions from './actions';
 Vue.use(Vuex);
 Vue.use(Vuelidate);
 
-const modules = {
-};
+const modules = {};
 
 export default new Vuex.Store({
   state: {
