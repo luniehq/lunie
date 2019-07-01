@@ -241,26 +241,6 @@ jobs:
             git merge origin/master
             git push
 
-  # Publish the release to GitHub.
-  publish:
-    executor: node
-    steps:
-      - checkout
-      - yarn-install
-      - run:
-          command: |
-            mostRecentTag=$(git describe --abbrev=0 --tags)
-
-            if [ $mostRecentTag = release-candidate ]; then
-              set -o verbose
-
-              # Delete the tag before testing the build in case it fails.
-              git remote add bot https://${GIT_BOT_TOKEN}@github.com/cosmos/voyager.git
-              git tag -d release-candidate
-              git push --delete bot release-candidate
-
-              node tasks/publish.js
-
   # store artifacts to check a branch as a staging build
   upload:
     executor: node
@@ -326,16 +306,6 @@ workflows:
               ignore:
                 - release
                 - master
-
-      - publish:
-          requires:
-            - pendingUpdated
-            - build
-            - testUnit
-            - testE2e
-          filters:
-            branches:
-              only: develop
 
   # Every UTC midnight we go on develop and release
   release:
