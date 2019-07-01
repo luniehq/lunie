@@ -115,7 +115,7 @@ export default {
     senderAddress() {
       return this.signRequest ? this.signRequest.senderAddress : null
     },
-    deligates() {
+    delegates() {
       return this.tx ? this.tx.tx.value.delegates : null
     }
   },
