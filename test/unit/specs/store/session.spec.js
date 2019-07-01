@@ -122,9 +122,9 @@ describe(`Module: Session`, () => {
 
   it(`should commit extension true`, () => {
     const commit = jest.fn()
-    actions.setExtensionStatus({ commit }, true)
+    actions.setExtensionInstalled({ commit }, true)
     expect(commit).toHaveBeenCalledWith(`setExtensionInstalled`, true)
-    actions.setExtensionStatus({ commit }, false)
+    actions.setExtensionInstalled({ commit }, false)
     expect(commit).toHaveBeenCalledWith(`setExtensionInstalled`, false)
   })
 
@@ -398,25 +398,6 @@ describe(`Module: Session`, () => {
       localStorage.removeItem(`session`)
       await actions.checkForPersistedSession({ dispatch })
       expect(dispatch).not.toHaveBeenCalled()
-    })
-  })
-
-  describe("Extension Lisener", () => {
-    it("should dispach when extension messages", () => {
-      const mockDispatch = jest.fn()
-      const state = {
-        dispatch: mockDispatch
-      }
-      extensionListener(state, { data: { type: "LUNIE_EXTENSION" } })
-      expect(mockDispatch).toHaveBeenCalledWith("setExtensionStatus", true)
-    })
-    it("should ignore messages not from the extension", () => {
-      const mockDispatch = jest.fn()
-      const state = {
-        dispatch: mockDispatch
-      }
-      extensionListener(state, { data: { type: "OTHER" } })
-      expect(mockDispatch).not.toHaveBeenCalled()
     })
   })
 })

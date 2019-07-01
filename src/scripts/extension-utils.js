@@ -3,14 +3,6 @@
 const LUNIE_EXT_TYPE = "FROM_LUNIE_EXTENSION"
 const LUNIE_WEBSITE_TYPE = "FROM_LUNIE_IO"
 
-// old bind usage
-export function listenForExtension(store, { data }) {
-  if (data.type === "INIT_EXTENSION") {
-    console.log("Woah! You have the Lunie Extension installed!")
-    store.dispatch("setExtensionStatus", true)
-  }
-}
-
 const unWrapMessageFromContentScript = data => data.message
 
 const processMessage = (store, type, payload) => {
@@ -39,41 +31,43 @@ export const processLunieExtensionMessages = store => {
   }
 }
 
-export const sendMessageToContentScript = (payload, skipResponse = false) => {
-  console.log("Ext. Sending message to content script", payload)
-  window.postMessage({ type: LUNIE_WEBSITE_TYPE, payload, skipResponse }, "*")
+const sendMessageToContentScript = payload => {
+  window.postMessage(
+    { type: LUNIE_WEBSITE_TYPE, payload, skipResponse: false },
+    "*"
+  )
+}
+
+const sendAsyncMessageToContentScript = payload => {
+  sendMessageToContentScript(payload)
+
+  // await async response
+  return new Promise((resolve, reject) => {
+    window.addEventListener(`${payload.type}_RESPONSE`, function(payload) {
+      if (payload.rejected) {
+        reject("User rejected action in extension.")
+        return
+      }
+      resolve(payload)
+    })
+  })
 }
 
 export const getWallets = () => {
   sendMessageToContentScript({ type: "GET_WALLETS" })
 }
 
-export const sign = (signMessage, senderAddress) => {
-  sendMessageToContentScript(
-    {
-      type: "LUNIE_SIGN_REQUEST",
-      payload: {
-        signMessage,
-        senderAddress
-      }
-    },
-    true
-  )
-
-  return new Promise((resolve, reject) => {
-    window.addEventListener("LUNIE_SIGN_REQUEST_RESPONSE", function({
-      signature,
-      publicKey,
-      rejected
-    }) {
-      if (rejected) {
-        reject()
-        return
-      }
-      resolve({
-        signature: Buffer.from(signature, "hex"),
-        publicKey: Buffer.from(publicKey, "hex")
-      })
-    })
+export const sign = async (signMessage, senderAddress) => {
+  const { signature, publicKey } = await sendAsyncMessageToContentScript({
+    type: "LUNIE_SIGN_REQUEST",
+    payload: {
+      signMessage,
+      senderAddress
+    }
   })
+
+  return {
+    signature: Buffer.from(signature, "hex"),
+    publicKey: Buffer.from(publicKey, "hex")
+  }
 }
