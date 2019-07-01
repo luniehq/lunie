@@ -24,9 +24,6 @@ export default () => {
     async checkForPresense() {
       // TODO Check if extension still installed. User could have uninstalled it.
     },
-    async signWithExtension({ state, commit }, { stdTx, senderAddress }) {
-      // TODO
-    },
     async getAddressesFromExtension() {
       getWallets()
     }

@@ -21,7 +21,7 @@ import {
   enableGoogleAnalytics,
   setGoogleAnalyticsPage
 } from "scripts/google-analytics"
-import { focusElement, focusParentLast } from "../directives"
+import { focusElement, focusParentLast } from "src/directives"
 const _enableGoogleAnalytics = enableGoogleAnalytics
 const _setGoogleAnalyticsPage = setGoogleAnalyticsPage
 
