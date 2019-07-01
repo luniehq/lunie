@@ -460,7 +460,7 @@ export default {
         await this.actionManager.send(
           memo,
           feeProperties,
-          this.transactionData.valdiators
+          this.transactionData.validators
         )
         this.trackEvent(
           `event`,
