@@ -241,10 +241,6 @@ export default {
           name: this.fields.signUpName
         })
         this.$emit(`close`)
-        // this.$store.commit(`notify`, {
-        //   title: `Signed Up`,
-        //   body: `Your account has been created.`
-        // })
       } catch (error) {
         this.$store.commit(`notifyError`, {
           title: `Couldn't create account`,
