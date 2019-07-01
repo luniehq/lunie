@@ -8,15 +8,6 @@
 import 'babel-polyfill';
 import SessionRouter from 'common/SessionRouter';
 
-// DEMO, uncomment to mimic sign request, replace address with one of your addresses
-// chrome.runtime.sendMessage({
-//   type: 'SIGN_REQUEST',
-//   payload: {
-//     stdTx: {},
-//     senderAddress: 'cosmos15dmhvlgge2ylgshk8k0chveez8c6qeng226jtl',
-//   },
-// });
-
 export default {
   components: {
     SessionRouter,

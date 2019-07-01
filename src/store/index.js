@@ -10,7 +10,6 @@ Vue.use(Vuex);
 Vue.use(Vuelidate);
 
 const modules = {
-  // session: require('modules/session.js').default({}),
 };
 
 export default new Vuex.Store({

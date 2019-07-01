@@ -53,7 +53,7 @@ window.addEventListener(
             window.postMessage(wrappedMessage, '*');
           };
 
-      // Forward request to backgroud
+      // Forward request to backgroud and handle responses to those requests
       chrome.runtime.sendMessage(payload, responseHandler);
     }
   },
