@@ -9,7 +9,7 @@ export default () => {
   const state = {
     ...emptyState,
     wallets: [],
-    externals: { config } // for testing
+    externals: { config, getWallets } // for testing
   }
   const mutations = {
     setExtensionAvailable(state, enabled) {
@@ -21,10 +21,11 @@ export default () => {
   }
 
   const actions = {
-    async checkForPresense() {
-      // TODO Check if extension still installed. User could have uninstalled it.
-    },
-    async getAddressesFromExtension() {
+    async getAddressesFromExtension({
+      state: {
+        externals: { getWallets }
+      }
+    }) {
       getWallets()
     }
   }

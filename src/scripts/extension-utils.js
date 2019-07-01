@@ -14,8 +14,6 @@ const processMessage = (store, type, payload) => {
     case "GET_WALLETS_RESPONSE":
       store.commit("setWallets", payload)
       break
-    default:
-      return
   }
 }
 
