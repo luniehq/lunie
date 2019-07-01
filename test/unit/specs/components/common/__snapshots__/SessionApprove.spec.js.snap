@@ -57,12 +57,14 @@ exports[`SessionApprove shows the approval modal with the transaction and an inv
       <tmbtn-stub
         class="left-button"
         color="secondary"
+        id="reject-btn"
         value="Reject"
       />
        
       <tmbtn-stub
         class="right-button"
         color="primary"
+        id="approve-btn"
         value="Approve"
       />
     </div>
