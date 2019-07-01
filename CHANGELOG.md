@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.0-beta.90] - 2019-07-01
+
+### Fixed
+
+- [#2766](https://github.com/cosmos/lunie/issues/2766) mobile improvements for session flow @jbibla
+
+### Repository
+
+- Removed publish step as not working and security critical @faboweb
+
 ## [1.0.0-beta.89] - 2019-06-27
 
 ### Changed
