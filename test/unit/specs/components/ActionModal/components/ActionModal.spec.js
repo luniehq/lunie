@@ -202,29 +202,52 @@ describe(`ActionModal`, () => {
           expect(wrapper.vm.$el).toMatchSnapshot()
         })
       })
+
+      describe(`with extension`, () => {
+        it(`on default step`, async () => {
+          wrapper.vm.session.sessionType = `extension`
+          await wrapper.vm.$nextTick()
+          expect(wrapper.vm.$el).toMatchSnapshot()
+        })
+  
+        it(`on fees step`, async () => {
+          wrapper.vm.session.sessionType = `extension`
+          wrapper.vm.step = `fees`
+          await wrapper.vm.$nextTick()
+          expect(wrapper.vm.$el).toMatchSnapshot()
+        })
+  
+        it(`on sign step`, async () => {
+          wrapper.vm.session.sessionType = `extension`
+          wrapper.vm.step = `sign`
+          await wrapper.vm.$nextTick()
+          expect(wrapper.vm.$el).toMatchSnapshot()
+        })
+      })
+      
+      describe(`with exploration mode`, () => {
+        it(`on default step`, async () => {
+          wrapper.vm.session.sessionType = `explore`
+          await wrapper.vm.$nextTick()
+          expect(wrapper.vm.$el).toMatchSnapshot()
+        })
+  
+        it(`on fees step`, async () => {
+          wrapper.vm.session.sessionType = `explore`
+          wrapper.vm.step = `fees`
+          await wrapper.vm.$nextTick()
+          expect(wrapper.vm.$el).toMatchSnapshot()
+        })
+  
+        it(`on sign step`, async () => {
+          wrapper.vm.session.sessionType = `explore`
+          wrapper.vm.step = `sign`
+          await wrapper.vm.$nextTick()
+          expect(wrapper.vm.$el).toMatchSnapshot()
+        })
+      })
     })
 
-    describe(`with extension`, () => {
-      it(`on default step`, async () => {
-        wrapper.vm.session.sessionType = `extension`
-        await wrapper.vm.$nextTick()
-        expect(wrapper.vm.$el).toMatchSnapshot()
-      })
-
-      it(`on fees step`, async () => {
-        wrapper.vm.session.sessionType = `extension`
-        wrapper.vm.step = `fees`
-        await wrapper.vm.$nextTick()
-        expect(wrapper.vm.$el).toMatchSnapshot()
-      })
-
-      it(`on sign step`, async () => {
-        wrapper.vm.session.sessionType = `extension`
-        wrapper.vm.step = `sign`
-        await wrapper.vm.$nextTick()
-        expect(wrapper.vm.$el).toMatchSnapshot()
-      })
-    })
 
     it(`when user hasn't logged in`, async () => {
       wrapper.vm.session.signedIn = false
