@@ -1,10 +1,16 @@
 <template>
-  <div class="approve-tran" hide-header>
+  <div
+    class="approve-tran"
+    hide-header
+  >
     <h2>Approve Transaction</h2>
     <div>
       <p>Verify the transaction details below.</p>
     </div>
-    <TmFormGroup field-id="to" field-label="Your address">
+    <TmFormGroup
+      field-id="to"
+      field-label="Your address"
+    >
       <LiAnyTransaction
         v-if="tx"
         :validators="deligates"
@@ -68,7 +74,7 @@ import TmFormGroup from "common/TmFormGroup"
 import TmField from "common/TmField"
 import TmFormMsg from "common/TmFormMsg"
 import LiAnyTransaction from "transactions/LiAnyTransaction"
-import TableInvoice from "src/ActionModal/components/TableInvoice"
+// import TableInvoice from "src/ActionModal/components/TableInvoice"
 import Bech32 from "common/Bech32"
 import { required } from "vuelidate/lib/validators"
 
@@ -95,7 +101,7 @@ export default {
     TmBtn,
     TmFormGroup,
     LiAnyTransaction,
-    TableInvoice,
+    // TableInvoice,
     Bech32,
     TmField,
     TmFormMsg
