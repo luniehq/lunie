@@ -114,25 +114,5 @@ describe(`TmSessionHardware`, () => {
         expect.objectContaining({})
       )
     })
-
-    it(`doesn't sign in if address not confirmed`, async () => {
-      const $store = {
-        dispatch: jest.fn(() => "cosmos1234")
-      }
-      const self = {
-        $store,
-        status: `connect`,
-        connectionError: null,
-        setStatus: jest.fn(),
-        setConnectionError: jest.fn(error => (self.connectionError = error)),
-        confirmAddress: jest.fn(() => false)
-      }
-      await TmSessionHardware.methods.signIn.call(self)
-      expect(self.$store.dispatch).not.toHaveBeenCalledWith(
-        `signIn`,
-        expect.objectContaining({})
-      )
-      expect(self.status).toBe("connect")
-    })
   })
 })
