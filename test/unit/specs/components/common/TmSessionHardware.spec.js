@@ -135,33 +135,4 @@ describe(`TmSessionHardware`, () => {
       expect(self.status).toBe("connect")
     })
   })
-
-  describe(`confirmAddress`, () => {
-    it(`success`, async () => {
-      const $store = { dispatch: jest.fn() }
-      const self = {
-        $store,
-        connectionError: null
-      }
-      const result = await TmSessionHardware.methods.confirmAddress.call(self)
-      expect(self.$store.dispatch).toHaveBeenCalledWith(`confirmLedgerAddress`)
-      expect(self.connectionError).toBeNull()
-      expect(result).toBe(true)
-    })
-
-    it(`disapprove`, async () => {
-      const $store = {
-        dispatch: jest.fn(async () =>
-          Promise.reject(new Error(`Displayed address was rejected`))
-        )
-      }
-      const self = {
-        $store
-      }
-      const result = await TmSessionHardware.methods.confirmAddress.call(self)
-      expect(self.$store.dispatch).toHaveBeenCalledWith(`confirmLedgerAddress`)
-      expect(self.connectionError).toBe(`Displayed address was rejected`)
-      expect(result).toBe(false)
-    })
-  })
 })
