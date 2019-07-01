@@ -10,13 +10,16 @@ describe(`SessionApprove`, () => {
         extensionInstalled: true
       },
       extension: {
-        wallets: [{
-          address: "cosmos1234",
-          name: "TEST_WALLET"
-        },{
-          address: "cosmos15678",
-          name: "TEST_WALLET_2"
-        }]
+        wallets: [
+          {
+            address: "cosmos1234",
+            name: "TEST_WALLET"
+          },
+          {
+            address: "cosmos15678",
+            name: "TEST_WALLET_2"
+          }
+        ]
       }
     }
 

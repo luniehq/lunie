@@ -44,11 +44,13 @@ describe(`Module: Extension`, () => {
   describe("actions", () => {
     it("getAddressesFromExtension", async () => {
       const getWallets = jest.fn()
-      await actions.getAddressesFromExtension({ state: {
-        externals: {
-          getWallets
+      await actions.getAddressesFromExtension({
+        state: {
+          externals: {
+            getWallets
+          }
         }
-      } })
+      })
       expect(getWallets).toHaveBeenCalled()
     })
   })

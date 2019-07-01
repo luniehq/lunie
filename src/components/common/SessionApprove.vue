@@ -1,16 +1,10 @@
 <template>
-  <div
-    class="approve-tran"
-    hide-header
-  >
+  <div class="approve-tran" hide-header>
     <h2>Approve Transaction</h2>
     <div>
       <p>Verify the transaction details below.</p>
     </div>
-    <TmFormGroup
-      field-id="to"
-      field-label="Your address"
-    >
+    <TmFormGroup field-id="to" field-label="Your address">
       <LiAnyTransaction
         v-if="tx"
         :validators="deligates"

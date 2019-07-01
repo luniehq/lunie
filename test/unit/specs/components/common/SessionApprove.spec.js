@@ -65,7 +65,10 @@ describe(`SessionApprove`, () => {
       wrapper.vm.password = "1234"
       wrapper.find("#approve-btn").trigger("click")
       await wrapper.vm.$nextTick()
-      expect(wrapper.vm.$store.dispatch).toHaveBeenCalledWith("approveSignRequest", {"password": "1234", "senderAddress": "cosmos1234", "signMessage": "{}"})
+      expect(wrapper.vm.$store.dispatch).toHaveBeenCalledWith(
+        "approveSignRequest",
+        { password: "1234", senderAddress: "cosmos1234", signMessage: "{}" }
+      )
       expect(wrapper.vm.close).toHaveBeenCalled()
     })
   })
@@ -74,7 +77,10 @@ describe(`SessionApprove`, () => {
     wrapper.vm.close = jest.fn()
     wrapper.find("#reject-btn").trigger("click")
     await wrapper.vm.$nextTick()
-    expect(wrapper.vm.$store.dispatch).toHaveBeenCalledWith("rejectSignRequest", {"senderAddress": "cosmos1234", "signMessage": "{}"})
+    expect(wrapper.vm.$store.dispatch).toHaveBeenCalledWith(
+      "rejectSignRequest",
+      { senderAddress: "cosmos1234", signMessage: "{}" }
+    )
     expect(wrapper.vm.close).toHaveBeenCalled()
   })
 })
