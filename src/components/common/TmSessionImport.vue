@@ -186,10 +186,6 @@ export default {
           password: this.fields.importPassword,
           name: this.fields.importName
         })
-        this.$store.commit(`notify`, {
-          title: `Welcome back!`,
-          body: `Your account has been successfully imported.`
-        })
         this.$emit(`close`)
       } catch (error) {
         this.$store.commit(`notifyError`, {

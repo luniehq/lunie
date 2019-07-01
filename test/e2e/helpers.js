@@ -3,20 +3,18 @@ const { expect } = require("chai")
 
 async function getBalance(browser) {
   return new Promise(resolve => {
-    browser
-      .waitForElementVisible(`.total-atoms__value`)
-      .getText(".total-atoms__value", ({ value }) => {
-        resolve(numeral(value).value())
-      })
+    browser.expect.element(`.total-atoms__value`).to.be.visible.before(10000)
+    browser.getText(".total-atoms__value", ({ value }) => {
+      resolve(numeral(value).value())
+    })
   })
 }
 async function getAvailableTokens(browser) {
   return new Promise(resolve => {
-    browser
-      .waitForElementVisible(`.unbonded-atoms h2`)
-      .getText(".unbonded-atoms h2", ({ value }) => {
-        resolve(numeral(value).value())
-      })
+    browser.expect.element(`.unbonded-atoms h2`).to.be.visible.before(10000)
+    browser.getText(".unbonded-atoms h2", ({ value }) => {
+      resolve(numeral(value).value())
+    })
   })
 }
 async function awaitBalance(browser, balance) {
@@ -38,6 +36,7 @@ async function waitFor(check, iterations = 10, timeout = 1000) {
 
   throw new Error("Condition was not meet in time")
 }
+
 // performs some details actions and handles checking of the invoice step + signing
 async function actionModalCheckout(
   browser,
@@ -47,24 +46,23 @@ async function actionModalCheckout(
   expectedAvailableTokensChange = 0
 ) {
   // remember balance to compare later if send got through
-  browser
-    .waitForElementVisible(`.total-atoms__value`)
-    .expect.element(".total-atoms__value")
+  browser.expect.element(`.total-atoms__value`).to.be.visible.before(10000)
+  browser.expect
+    .element(".total-atoms__value")
     .text.not.to.contain("--")
     .before(10 * 1000)
   const balanceBefore = await getBalance(browser)
   const availableTokensBefore = await getAvailableTokens(browser)
 
-  browser.waitForElementVisible(".action-modal")
+  browser.expect.element(".action-modal").to.be.visible.before(10000)
 
   browser.pause(500)
 
   await detailsActionFn()
 
   // proceed to invoice step
-  browser
-    .click(".action-modal-footer .tm-btn")
-    .waitForElementVisible(`.table-invoice`)
+  browser.click(".action-modal-footer .tm-btn")
+  browser.expect.element(`.table-invoice`).to.be.visible.before(10000)
 
   // check invoice
   browser.expect
@@ -84,12 +82,11 @@ async function actionModalCheckout(
   // await nextBlock(browser)
 
   // submit
-  browser
-    .click(".action-modal-footer .tm-btn")
-    .setValue("#password", "1234567890")
-    .click(".action-modal-footer .tm-btn")
+  browser.click(".action-modal-footer .tm-btn")
+  browser.setValue("#password", "1234567890")
+  browser.click(".action-modal-footer .tm-btn")
 
-  browser.expect.element(".action-modal").not.to.be.present.before(10 * 1000)
+  browser.expect.element(".action-modal").not.to.be.present.before(20 * 1000)
 
   // Wait for UI to be updated according to new state
   await nextBlock(browser)

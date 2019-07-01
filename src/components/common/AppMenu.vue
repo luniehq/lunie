@@ -66,6 +66,7 @@
       </router-link>
       <a
         v-if="session.signedIn"
+        id="mobile-sign-out"
         class="button app-menu-item"
         @click="signOut()"
       >
@@ -73,6 +74,7 @@
       </a>
       <a
         v-if="!session.signedIn"
+        id="mobile-sign-in"
         class="button app-menu-item"
         @click="signIn()"
       >
