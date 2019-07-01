@@ -204,6 +204,28 @@ describe(`ActionModal`, () => {
       })
     })
 
+    describe(`with extension`, () => {
+      it(`on default step`, async () => {
+        wrapper.vm.session.sessionType = `extension`
+        await wrapper.vm.$nextTick()
+        expect(wrapper.vm.$el).toMatchSnapshot()
+      })
+
+      it(`on fees step`, async () => {
+        wrapper.vm.session.sessionType = `extension`
+        wrapper.vm.step = `fees`
+        await wrapper.vm.$nextTick()
+        expect(wrapper.vm.$el).toMatchSnapshot()
+      })
+
+      it(`on sign step`, async () => {
+        wrapper.vm.session.sessionType = `extension`
+        wrapper.vm.step = `sign`
+        await wrapper.vm.$nextTick()
+        expect(wrapper.vm.$el).toMatchSnapshot()
+      })
+    })
+
     it(`when user hasn't logged in`, async () => {
       wrapper.vm.session.signedIn = false
       await wrapper.vm.$nextTick()
@@ -573,6 +595,14 @@ describe(`ActionModal`, () => {
       it(`when using ledger`, async () => {
         self.session.sessionType = `ledger`
         self.selectedSignMethod = `ledger`
+
+        await ActionModal.methods.validateChangeStep.call(self)
+        expect(self.submit).toHaveBeenCalled()
+      })
+
+      it(`when using extension`, async () => {
+        self.session.sessionType = `extension`
+        self.selectedSignMethod = `extension`
 
         await ActionModal.methods.validateChangeStep.call(self)
         expect(self.submit).toHaveBeenCalled()
