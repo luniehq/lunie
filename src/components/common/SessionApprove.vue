@@ -68,7 +68,7 @@ import TmFormGroup from "common/TmFormGroup"
 import TmField from "common/TmField"
 import TmFormMsg from "common/TmFormMsg"
 import LiAnyTransaction from "transactions/LiAnyTransaction"
-import TableInvoice from "src/ActionModal/components/TableInvoice"
+// import TableInvoice from "src/ActionModal/components/TableInvoice"
 import Bech32 from "common/Bech32"
 import { required } from "vuelidate/lib/validators"
 
@@ -95,7 +95,7 @@ export default {
     TmBtn,
     TmFormGroup,
     LiAnyTransaction,
-    TableInvoice,
+    // TableInvoice,
     Bech32,
     TmField,
     TmFormMsg

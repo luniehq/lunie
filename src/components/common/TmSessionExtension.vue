@@ -33,14 +33,14 @@
                         type="anchor"
                         :value="wallet.address | formatBech32"
                         color="primary"
-                        @click.native="onSubmit(wallet.address)"
+                        @click.native="signIn(wallet.address)"
                       />
                     </div>
                     <div>
                       <TmBtn
                         value="Use Address"
                         color="primary"
-                        @click.native="onSubmit(wallet.address)"
+                        @click.native="signIn(wallet.address)"
                       />
                     </div>
                   </div>
@@ -58,11 +58,6 @@
             You can find the Lunie Chrome extension on the
             <a href="">Google Play Store</a>.
           </p>
-          <TmBtn
-            :value="submitCaption"
-            :disabled="!session.extensionInstalled"
-            @click.native="signIn()"
-          />
         </div>
       </div>
     </div>
@@ -97,7 +92,7 @@ export default {
     }
   },
   mounted() {
-    this.getAddressesFromExtension()
+    this.$store.dispatch(`getAddressesFromExtension`)
   },
   methods: {
     setState(value) {
@@ -109,46 +104,12 @@ export default {
     close() {
       this.$emit(`close`)
     },
-    async onSubmit(address) {
-      console.log("clicked", address)
-
+    async signIn(address) {
       this.$store.dispatch(`signIn`, {
         sessionType: `extension`,
         address: address
       })
       this.$emit(`close`)
-    },
-    async signIn() {
-      this.connectionError = null
-      this.status = `detect`
-      this.address = null
-      try {
-        this.address = await this.$store.dispatch(`connectLedgerApp`)
-      } catch ({ message }) {
-        this.status = `connect`
-        this.connectionError = message
-        return
-      }
-
-      this.status = `confirmAddress`
-      if (await this.confirmAddress()) {
-        await this.$store.dispatch(`signIn`, {
-          sessionType: `extension`,
-          address: this.address
-        })
-        return
-      }
-
-      this.status = `connect`
-    },
-    async confirmAddress() {
-      try {
-        await this.$store.dispatch("confirmLedgerAddress")
-        return true
-      } catch ({ message }) {
-        this.connectionError = message
-      }
-      return false
     },
     getAddressesFromExtension() {
       this.$store.dispatch("getAddressesFromExtension")

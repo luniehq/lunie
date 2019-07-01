@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`SessionApprove has the expected html structure 1`] = `
+exports[`SessionApprove shows the approval modal with the transaction and an invoice table 1`] = `
 <div
   class="approve-tran"
   hide-header=""
@@ -24,23 +24,32 @@ exports[`SessionApprove has the expected html structure 1`] = `
       hidemetadata="true"
       proposalsurl="/"
       transaction="[object Object]"
-      validators="[object Object]"
+      validators=""
       validatorsurl="/"
     />
      
     <div>
+      
       From
       
       <bech32-stub
-        address="cosmos1vgkesh3z4wuglzjf9fjvcvkcxhp22rqx3sd5zr"
+        address="cosmos1234"
       />
     </div>
      
-    <tableinvoice-stub
-      amount="12"
-      gasestimate="162302"
-      gasprice="0.000004"
-    />
+    <tmformgroup-stub
+      class="action-modal-group"
+      fieldid="password"
+      fieldlabel="Password"
+    >
+      <tmfield-stub
+        id="password"
+        placeholder="Password"
+        type="password"
+      />
+       
+      <!---->
+    </tmformgroup-stub>
      
     <div
       class="approve-tran-footer"

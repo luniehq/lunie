@@ -329,10 +329,6 @@ export default {
       } else {
         signMethods.push(signMethodOptions.LOCAL)
       }
-
-      if (signMethods.length === 1) {
-        this.selectedSignMethod = signMethods[0].value
-      }
       return signMethods
     },
     submitButtonCaption() {
@@ -343,6 +339,17 @@ export default {
           return `Waiting for Extension`
         default:
           return "Sending..."
+      }
+    }
+  },
+  watch: {
+    // if there is only one sign method, preselect it
+    signMethods: {
+      immediate: true,
+      handler(signMethods) {
+        if (signMethods.length === 1) {
+          this.selectedSignMethod = signMethods[0].value
+        }
       }
     }
   },

@@ -1,4 +1,4 @@
-import sessionModule, { extensionListener } from "src/vuex/modules/session.js"
+import sessionModule from "src/vuex/modules/session.js"
 
 describe(`Module: Session`, () => {
   let module, state, actions, mutations, node
@@ -118,14 +118,6 @@ describe(`Module: Session`, () => {
     actions.resetSessionData({ state, commit })
 
     expect(state.history).toEqual([])
-  })
-
-  it(`should commit extension true`, () => {
-    const commit = jest.fn()
-    actions.setExtensionStatus({ commit }, true)
-    expect(commit).toHaveBeenCalledWith(`setExtensionInstalled`, true)
-    actions.setExtensionStatus({ commit }, false)
-    expect(commit).toHaveBeenCalledWith(`setExtensionInstalled`, false)
   })
 
   it(`should prepare the signin`, async () => {
@@ -398,25 +390,6 @@ describe(`Module: Session`, () => {
       localStorage.removeItem(`session`)
       await actions.checkForPersistedSession({ dispatch })
       expect(dispatch).not.toHaveBeenCalled()
-    })
-  })
-
-  describe("Extension Lisener", () => {
-    it("should dispach when extension messages", () => {
-      const mockDispatch = jest.fn()
-      const state = {
-        dispatch: mockDispatch
-      }
-      extensionListener(state, { data: { type: "LUNIE_EXTENSION" } })
-      expect(mockDispatch).toHaveBeenCalledWith("setExtensionStatus", true)
-    })
-    it("should ignore messages not from the extension", () => {
-      const mockDispatch = jest.fn()
-      const state = {
-        dispatch: mockDispatch
-      }
-      extensionListener(state, { data: { type: "OTHER" } })
-      expect(mockDispatch).not.toHaveBeenCalled()
     })
   })
 })

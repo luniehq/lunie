@@ -5,16 +5,32 @@ import SessionApprove from "common/SessionApprove"
 describe(`SessionApprove`, () => {
   const localVue = createLocalVue()
   localVue.use(Vuelidate)
+  localVue.directive("focus", () => {})
 
-  let wrapper
+  let wrapper, $store
 
   beforeEach(() => {
+    const getters = {
+      signRequest: {
+        senderAddress: "cosmos1234",
+        signMessage: "{}"
+      }
+    }
+
+    $store = {
+      commit: jest.fn(),
+      dispatch: jest.fn(),
+      getters
+    }
     wrapper = shallowMount(SessionApprove, {
-      localVue
+      localVue,
+      mocks: {
+        $store
+      }
     })
   })
 
-  it(`has the expected html structure`, () => {
+  it(`shows the approval modal with the transaction and an invoice table`, () => {
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
