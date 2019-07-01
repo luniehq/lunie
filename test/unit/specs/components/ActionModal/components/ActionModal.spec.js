@@ -179,6 +179,13 @@ describe(`ActionModal`, () => {
           await wrapper.vm.$nextTick()
           expect(wrapper.vm.$el).toMatchSnapshot()
         })
+  
+        it(`sending`, async () => {
+          wrapper.vm.step = `sign`
+          wrapper.vm.sending = true
+          await wrapper.vm.$nextTick()
+          expect(wrapper.vm.$el).toMatchSnapshot()
+        })
       })
 
       describe(`with ledger`, () => {
@@ -198,6 +205,14 @@ describe(`ActionModal`, () => {
         it(`on sign step`, async () => {
           wrapper.vm.session.sessionType = `ledger`
           wrapper.vm.step = `sign`
+          await wrapper.vm.$nextTick()
+          expect(wrapper.vm.$el).toMatchSnapshot()
+        })
+  
+        it(`sending`, async () => {
+          wrapper.vm.session.sessionType = `ledger`
+          wrapper.vm.step = `sign`
+          wrapper.vm.sending = true
           await wrapper.vm.$nextTick()
           expect(wrapper.vm.$el).toMatchSnapshot()
         })
@@ -223,6 +238,14 @@ describe(`ActionModal`, () => {
           await wrapper.vm.$nextTick()
           expect(wrapper.vm.$el).toMatchSnapshot()
         })
+  
+        it(`sending`, async () => {
+          wrapper.vm.session.sessionType = `extension`
+          wrapper.vm.step = `sign`
+          wrapper.vm.sending = true
+          await wrapper.vm.$nextTick()
+          expect(wrapper.vm.$el).toMatchSnapshot()
+        })
       })
       
       describe(`with exploration mode`, () => {
@@ -242,6 +265,14 @@ describe(`ActionModal`, () => {
         it(`on sign step`, async () => {
           wrapper.vm.session.sessionType = `explore`
           wrapper.vm.step = `sign`
+          await wrapper.vm.$nextTick()
+          expect(wrapper.vm.$el).toMatchSnapshot()
+        })
+  
+        it(`sending`, async () => {
+          wrapper.vm.session.sessionType = `explore`
+          wrapper.vm.step = `sign`
+          wrapper.vm.sending = true
           await wrapper.vm.$nextTick()
           expect(wrapper.vm.$el).toMatchSnapshot()
         })
