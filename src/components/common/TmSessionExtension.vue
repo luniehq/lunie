@@ -12,7 +12,10 @@
           <i class="material-icons session-close">close</i>
         </a>
       </div>
-      <div v-if="!session.extensionInstalled" class="session-main">
+      <div
+        v-if="!session.extensionInstalled"
+        class="session-main"
+      >
         <p>
           Please install the Lunie Extension for Chrome from the Google Play
           Store.
@@ -25,7 +28,10 @@
               Click below to open the Lunie Chrome Extension, or use one of the
               existing address.
               <ul>
-                <li v-for="wallet in extension.wallets" :key="wallet.name">
+                <li
+                  v-for="wallet in extension.wallets"
+                  :key="wallet.name"
+                >
                   <div class="extension-address-item">
                     <div>
                       {{ wallet.name }}<br />
@@ -77,22 +83,17 @@ export default {
     formatBech32
   },
   data: () => ({
-    status: `connect`,
     connectionError: null,
     address: null
   }),
   computed: {
     ...mapGetters([`session`, `extension`]),
     submitCaption() {
-      return {
-        connect: "Sign In",
-        detect: "Opening Extension",
-        confirmAddress: "Confirming Address"
-      }[this.status]
+      return "Sign In"
     }
   },
   mounted() {
-    this.$store.dispatch(`getAddressesFromExtension`)
+    this.getAddressesFromExtension()
   },
   methods: {
     setState(value) {
