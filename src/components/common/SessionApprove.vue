@@ -87,6 +87,11 @@ function parseTx(signMessage) {
   }
 }
 
+function parseFee(message) {
+  const { fee } = JSON.parse(message)
+  return Number(fee.amount[0].amount)
+}
+
 export default {
   name: `session-ext-approve-tran`,
   components: {
@@ -108,13 +113,14 @@ export default {
       return this.signRequest ? parseTx(this.signRequest.signMessage) : null
     },
     fees() {
-      return this.tx ? this.tx.tx.value.fee.amount : null
+      return this.signRequest ? parseFee(this.signRequest.signMessage) : null
     },
     senderAddress() {
       return this.signRequest ? this.signRequest.senderAddress : null
     },
     amount() {
       //Unable to test wit real transaction, may be: this.tx.tx.value.msg.value
+      console.log('this.tx.tx.value.msg', this.tx.tx.value.msg)
       return Number(this.tx.tx.value.msg)
     }
   },
