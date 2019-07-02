@@ -119,9 +119,7 @@ export default {
       return this.signRequest ? this.signRequest.senderAddress : null
     },
     amount() {
-      //Unable to test wit real transaction, may be: this.tx.tx.value.msg.value
-      console.log('this.tx.tx.value.msg', this.tx.tx.value.msg)
-      return Number(this.tx.tx.value.msg)
+      return Number(this.tx.tx.value.msg[0].value.amount[0].amount)
     }
   },
   methods: {
