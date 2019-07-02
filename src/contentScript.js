@@ -4,6 +4,7 @@ console.log('EXT Content Script Loaded');
 const LUNIE_EXT_TYPE = 'FROM_LUNIE_EXTENSION';
 const LUNIE_WEBSITE_TYPE = 'FROM_LUNIE_IO';
 
+// we wrap messages in a format to identify who messaged who
 const wrapMessageForLunie = (type, payload) => {
   return {
     type: LUNIE_EXT_TYPE,
@@ -14,48 +15,64 @@ const wrapMessageForLunie = (type, payload) => {
   };
 };
 
+// signal extension availability to Lunie.io
 function enableExtension() {
   const message = wrapMessageForLunie('INIT_EXTENSION', { extension_enabled: true });
   window.postMessage(message, '*');
 }
 
-enableExtension();
-
-// Listen to messages from the extension
-chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-  const wrappedMessage = wrapMessageForLunie(message.type, message.payload);
+// handles syncronous responses from extension
+const responseHandler = type => response => {
+  const data = { responseType: `${type}_RESPONSE`, payload: response };
+  const wrappedMessage = wrapMessageForLunie(data.responseType, data.payload);
 
   // Post reply to Lunie.io
   window.postMessage(wrappedMessage, '*');
-});
+};
 
-// Listen to Lunie.io
-window.addEventListener(
-  'message',
-  function(event) {
-    // We only accept messages from ourselves
-    if (event.source !== window) return;
+// We only accept messages from ourselves
+const filterMessages = callback => event => {
+  if (event.source !== window) return;
 
-    if (event.data.type && event.data.type === LUNIE_WEBSITE_TYPE) {
-      const { payload, skipResponse } = event.data;
+  if (event.data.type && event.data.type === LUNIE_WEBSITE_TYPE) {
+    callback(event.data);
+  }
+};
 
-      // on async responses we don't want to wait for a response right away
-      // waiting causes console errors
-      const responseHandler = skipResponse
-        ? undefined
-        : function(response) {
-            if (skipResponse) return;
+// Forward request to backgroud and handle responses to those requests
+// on async responses we don't want to wait for a response right away
+// waiting causes console errors
+function executeRequestToExtension({ payload, skipResponse }) {
+  chrome.runtime.sendMessage(payload, skipResponse ? undefined : responseHandler(payload.type));
+}
 
-            const data = { responseType: `${payload.type}_RESPONSE`, payload: response };
-            const wrappedMessage = wrapMessageForLunie(data.responseType, data.payload);
+// Listen to messages from the extension
+function listenToExtensionMessages() {
+  chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+    const wrappedMessage = wrapMessageForLunie(message.type, message.payload);
 
-            // Post reply to Lunie.io
-            window.postMessage(wrappedMessage, '*');
-          };
+    // Post reply to Lunie.io
+    window.postMessage(wrappedMessage, '*');
+  });
+}
 
-      // Forward request to backgroud and handle responses to those requests
-      chrome.runtime.sendMessage(payload, responseHandler);
-    }
-  },
-  false
-);
+// Listen to messages from Lunie.io
+function listenToWebsiteMessages() {
+  window.addEventListener('message', event => filterMessages(executeRequestToExtension)(event), false);
+}
+
+function main() {
+  enableExtension();
+  listenToExtensionMessages();
+  listenToWebsiteMessages();
+}
+
+if (typeof module !== 'undefined' && module.exports) {
+  module.exports = {
+    enableExtension,
+    listenToExtensionMessages,
+    listenToWebsiteMessages,
+  };
+} else {
+  main();
+}
