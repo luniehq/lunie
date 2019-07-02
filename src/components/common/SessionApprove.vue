@@ -69,28 +69,7 @@ import LiAnyTransaction from "transactions/LiAnyTransaction"
 import TableInvoice from "src/ActionModal/components/TableInvoice"
 import Bech32 from "common/Bech32"
 import { required } from "vuelidate/lib/validators"
-
-// TODO move into own helper file
-// Parse into Lunie tx format from signMessage to display tx properly
-function parseTx(signMessage) {
-  const { msgs, fee, memo } = JSON.parse(signMessage)
-
-  return {
-    tx: {
-      type: "auth/StdTx",
-      value: {
-        msg: msgs,
-        fee,
-        memo
-      }
-    }
-  }
-}
-
-function parseFee(message) {
-  const { fee } = JSON.parse(message)
-  return Number(fee.amount[0].amount)
-}
+import { parseTx, parseFee } from "../../scripts/parsers.js"
 
 export default {
   name: `session-approve-tran`,
