@@ -93,7 +93,7 @@ function parseFee(message) {
 }
 
 export default {
-  name: `session-ext-approve-tran`,
+  name: `session-approve-tran`,
   components: {
     TmBtn,
     TmFormGroup,
@@ -119,7 +119,7 @@ export default {
       return this.signRequest ? this.signRequest.senderAddress : null
     },
     amount() {
-      return Number(this.tx.tx.value.msg[0].value.amount[0].amount)
+      return Number(this.tx.tx.value.msg[0].value.amount.amount)
     }
   },
   methods: {
