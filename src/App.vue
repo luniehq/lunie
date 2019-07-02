@@ -3,7 +3,7 @@
     <CookieBar />
     <MaintenanceBar />
     <div id="app">
-      <ModalSession />
+      <router-view name="session" />
       <AppHeader />
       <div id="app-content">
         <router-view />
