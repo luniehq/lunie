@@ -1,14 +1,6 @@
 <template>
   <session-frame>
     <div id="session-welcome" class="session">
-      <div class="session-header">
-        <a @click="closeSession">
-          <i class="material-icons session-close">close</i>
-        </a>
-      </div>
-
-      <img class="lunie-logo" src="~assets/images/cosmos-wallet-logo.svg" />
-
       <h2 class="session-title">
         Welcome to Lunie
       </h2>
@@ -22,13 +14,13 @@
           id="creat-new-address"
           icon="person_add"
           title="Create a new address"
-          @click.native="() => setState('sign-up')"
+          route="create"
         />
         <LiSession
           id="use-an-existing-address"
           icon="person"
           title="Use an existing address"
-          @click.native="() => setState('existing')"
+          route="explore"
         />
       </div>
 
