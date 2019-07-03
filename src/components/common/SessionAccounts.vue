@@ -22,7 +22,7 @@
       <TmBtn
         value="Add Account"
         color="primary"
-        @click.native="goTo('welcome')"
+        @click.native="redirectAddAccount"
       />
     </div>
   </div>
@@ -37,12 +37,6 @@ export default {
     Bech32,
     TmBtn
   },
-  props: {
-    goTo: {
-      type: Function,
-      required: true
-    }
-  },
   computed: {
     accounts() {
       let accounts = this.$store.state.accounts
@@ -50,6 +44,11 @@ export default {
         address,
         name
       }))
+    }
+  },
+  methods: {
+    redirectAddAccount() {
+      this.$router.push(`welcome`)
     }
   }
 }

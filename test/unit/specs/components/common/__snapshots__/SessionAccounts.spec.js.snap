@@ -5,10 +5,6 @@ exports[`SessionAccounts has the expected html structure 1`] = `
   class="accounts"
   hide-header="true"
 >
-  <toolbar-stub
-    displaytext="true"
-  />
-   
   <div
     class="accounts-top"
   >
@@ -41,20 +37,24 @@ exports[`SessionAccounts has the expected html structure 1`] = `
         class="content-left"
       >
         <h3>
-          Account 1
+          accountName
         </h3>
          
         <bech32-stub
-          address="cosmos1ek9cd8ewgxg9w5x3benji0uf4aaxaruvcw4v9e"
+          address="cosmos1ek9cd8ewgxg9w5xllq9um0uf4aaxaruvcw4v9e"
           short-form=""
         />
       </div>
-       
-      <tmbtn-stub
-        color="primary"
-        value="Go to Lunie"
-      />
     </div>
+  </div>
+   
+  <div
+    class="button-add-account"
+  >
+    <tmbtn-stub
+      color="primary"
+      value="Add Account"
+    />
   </div>
 </div>
 `;

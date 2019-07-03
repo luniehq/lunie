@@ -6,12 +6,25 @@ describe(`SessionAccounts`, () => {
   const localVue = createLocalVue()
   localVue.use(Vuelidate)
 
-  let wrapper
+  let wrapper, $store
 
   beforeEach(() => {
+    $store = {
+      state: {
+        accounts: [
+          {
+            name: "accountName",
+            address: "cosmos1ek9cd8ewgxg9w5xllq9um0uf4aaxaruvcw4v9e"
+          }
+        ]
+      }
+    }
     wrapper = shallowMount(SessionAccounts, {
       localVue,
-      stubs: [`router-link`]
+      stubs: [`router-link`],
+      mocks: {
+        $store
+      }
     })
   })
 
@@ -19,19 +32,11 @@ describe(`SessionAccounts`, () => {
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
-  it(`should close`, () => {
-    const self = {
-      $emit: jest.fn()
-    }
-    SessionAccounts.methods.close.call(self)
-    expect(self.$emit).toHaveBeenCalledWith(`close`)
+  it(`renders the correct account`, () => {
+    expect(wrapper.html()).toContain("<h3>accountName</h3>")
   })
 
-  it("moves to other session pages", () => {
-    const self = {
-      $emit: jest.fn()
-    }
-    SessionAccounts.methods.setState.call(self, "welcome")
-    expect(self.$emit).toHaveBeenCalledWith("route-change", "welcome")
+  it(`should show an account`, () => {
+    expect(wrapper.find(`.card-content`)).toBeDefined()
   })
 })
