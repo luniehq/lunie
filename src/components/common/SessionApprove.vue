@@ -45,12 +45,14 @@
 
       <div class="approve-tran-footer">
         <TmBtn
+          id="reject-btn"
           value="Reject"
           class="left-button"
           color="secondary"
           @click.native="reject"
         />
         <TmBtn
+          id="approve-btn"
           value="Approve"
           class="right-button"
           color="primary"
@@ -68,7 +70,7 @@ import TmFormGroup from "common/TmFormGroup"
 import TmField from "common/TmField"
 import TmFormMsg from "common/TmFormMsg"
 import LiAnyTransaction from "transactions/LiAnyTransaction"
-import TableInvoice from "src/ActionModal/components/TableInvoice"
+// import TableInvoice from "src/ActionModal/components/TableInvoice"
 import Bech32 from "common/Bech32"
 import { required } from "vuelidate/lib/validators"
 
@@ -95,7 +97,7 @@ export default {
     TmBtn,
     TmFormGroup,
     LiAnyTransaction,
-    TableInvoice,
+    // TableInvoice,
     Bech32,
     TmField,
     TmFormMsg
@@ -109,9 +111,9 @@ export default {
     tx() {
       return this.signRequest ? parseTx(this.signRequest.signMessage) : null
     },
-    fees() {
-      return this.tx ? this.tx.tx.value.fee.amount : null
-    },
+    // fees() {
+    //   return this.tx ? this.tx.tx.value.fee.amount : null
+    // },
     senderAddress() {
       return this.signRequest ? this.signRequest.senderAddress : null
     }

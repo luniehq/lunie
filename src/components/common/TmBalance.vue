@@ -8,23 +8,25 @@
         </h2>
         <Bech32 :address="session.address || ''" />
       </div>
-      <div class="unbonded-atoms top-section">
-        <h3>Available {{ num.viewDenom(bondDenom) }}</h3>
-        <h2>{{ unbondedAtoms }}</h2>
-      </div>
-      <div v-if="rewards" class="top-section">
-        <h3>Rewards</h3>
-        <h2>{{ rewards }}</h2>
-        <TmBtn
-          id="withdraw-btn"
-          :disabled="!readyToWithdraw"
-          class="withdraw-rewards"
-          :value="connected ? 'Withdraw' : 'Connecting...'"
-          :to="''"
-          type="anchor"
-          size="sm"
-          @click.native="readyToWithdraw && onWithdrawal()"
-        />
+      <div class="second-row">
+        <div class="unbonded-atoms top-section">
+          <h3>Liquid {{ num.viewDenom(bondDenom) }}</h3>
+          <h2>{{ unbondedAtoms }}</h2>
+        </div>
+        <div v-if="rewards" class="top-section">
+          <h3>Available Rewards</h3>
+          <h2>{{ rewards }}</h2>
+          <TmBtn
+            id="withdraw-btn"
+            :disabled="!readyToWithdraw"
+            class="withdraw-rewards"
+            :value="'Withdraw'"
+            :to="''"
+            type="anchor"
+            size="sm"
+            @click.native="readyToWithdraw && onWithdrawal()"
+          />
+        </div>
       </div>
     </div>
     <slot />
@@ -132,10 +134,6 @@ export default {
   padding: 1rem 0 2.5rem 1rem;
 }
 
-.bech32-address {
-  position: absolute;
-}
-
 .total-atoms.top-section {
   padding-left: 0;
 }
@@ -146,13 +144,8 @@ export default {
 }
 
 .top-section {
-  border-right: var(--bc-dim) 2px solid;
   position: relative;
   padding: 0 2rem;
-}
-
-.top-section:last-of-type {
-  border-right: none;
 }
 
 .header-balance .top h3 {
@@ -171,26 +164,32 @@ export default {
 
 .withdraw-rewards {
   font-size: var(--sm);
-  position: absolute;
   font-weight: 500;
 }
 
-@media screen and (max-width: 767px) {
+.second-row {
+  flex-direction: row;
+  display: flex;
+}
+
+/* TODO fix scaling on medium sized screens and pick proper break point */
+@media screen and (max-width: 550px) {
   .header-balance {
-    padding: 0 0 1.5rem 0;
+    padding: 0;
   }
 
   .top-section {
     padding: 0.5rem 0 1rem;
-    border-right: none;
   }
 
-  .top-section:not(:first-child) {
-    margin-left: 2rem;
+  .header-balance .top {
+    flex-direction: column;
+    width: 100%;
   }
 
-  .top-section:nth-child(2) {
-    display: none;
+  .second-row {
+    width: 100%;
+    justify-content: space-between;
   }
 }
 </style>

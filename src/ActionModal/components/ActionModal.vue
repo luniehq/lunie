@@ -96,8 +96,8 @@
             }}
           </div>
           <div v-else>
-            Please use Chrome, Brave, or Opera. Ledger is not supported in your
-            current browser.
+            Please use Chrome, Brave, or Opera. Ledger is not supported in this
+            browser.
           </div>
         </HardwareState>
         <HardwareState
@@ -105,7 +105,7 @@
           :icon="session.browserWithLedgerSupport ? 'laptop' : 'info'"
           :loading="!!sending"
         >
-          <div v-if="session.extensionInstalled">
+          <div v-if="extension.enabled">
             Please verify and sign the transaction in the Lunie Chrome
             Extension.
           </div>
@@ -297,7 +297,8 @@ export default {
       `session`,
       `bondDenom`,
       `liquidAtoms`,
-      `modalContext`
+      `modalContext`,
+      `extension`
     ]),
     requiresSignIn() {
       return !this.session.signedIn
@@ -329,10 +330,6 @@ export default {
       } else {
         signMethods.push(signMethodOptions.LOCAL)
       }
-
-      if (signMethods.length === 1) {
-        this.selectedSignMethod = signMethods[0].value
-      }
       return signMethods
     },
     submitButtonCaption() {
@@ -343,6 +340,17 @@ export default {
           return `Waiting for Extension`
         default:
           return "Sending..."
+      }
+    }
+  },
+  watch: {
+    // if there is only one sign method, preselect it
+    signMethods: {
+      immediate: true,
+      handler(signMethods) {
+        if (signMethods.length === 1) {
+          this.selectedSignMethod = signMethods[0].value
+        }
       }
     }
   },
@@ -619,6 +627,12 @@ export default {
 .slide-fade-leave-to {
   transform: translateX(2rem);
   opacity: 0;
+}
+
+@media screen and (max-width: 767px) {
+  .tm-form-group__field {
+    width: 100%;
+  }
 }
 
 @media screen and (max-width: 1023px) {

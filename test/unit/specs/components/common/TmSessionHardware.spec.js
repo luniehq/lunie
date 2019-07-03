@@ -114,54 +114,5 @@ describe(`TmSessionHardware`, () => {
         expect.objectContaining({})
       )
     })
-
-    it(`doesn't sign in if address not confirmed`, async () => {
-      const $store = {
-        dispatch: jest.fn(() => "cosmos1234")
-      }
-      const self = {
-        $store,
-        status: `connect`,
-        connectionError: null,
-        setStatus: jest.fn(),
-        setConnectionError: jest.fn(error => (self.connectionError = error)),
-        confirmAddress: jest.fn(() => false)
-      }
-      await TmSessionHardware.methods.signIn.call(self)
-      expect(self.$store.dispatch).not.toHaveBeenCalledWith(
-        `signIn`,
-        expect.objectContaining({})
-      )
-      expect(self.status).toBe("connect")
-    })
-  })
-
-  describe(`confirmAddress`, () => {
-    it(`success`, async () => {
-      const $store = { dispatch: jest.fn() }
-      const self = {
-        $store,
-        connectionError: null
-      }
-      const result = await TmSessionHardware.methods.confirmAddress.call(self)
-      expect(self.$store.dispatch).toHaveBeenCalledWith(`confirmLedgerAddress`)
-      expect(self.connectionError).toBeNull()
-      expect(result).toBe(true)
-    })
-
-    it(`disapprove`, async () => {
-      const $store = {
-        dispatch: jest.fn(async () =>
-          Promise.reject(new Error(`Displayed address was rejected`))
-        )
-      }
-      const self = {
-        $store
-      }
-      const result = await TmSessionHardware.methods.confirmAddress.call(self)
-      expect(self.$store.dispatch).toHaveBeenCalledWith(`confirmLedgerAddress`)
-      expect(self.connectionError).toBe(`Displayed address was rejected`)
-      expect(result).toBe(false)
-    })
   })
 })

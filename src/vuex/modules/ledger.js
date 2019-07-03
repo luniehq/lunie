@@ -16,10 +16,6 @@ export default () => {
       })
 
       return await ledger.getCosmosAddress()
-    },
-    async confirmLedgerAddress({ state }) {
-      const ledger = new state.externals.Ledger(state.externals.config)
-      await ledger.confirmLedgerAddress()
     }
   }
   return {
