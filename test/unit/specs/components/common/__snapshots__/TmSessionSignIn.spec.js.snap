@@ -1,25 +1,15 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`TmSessionSignIn has the expected html structure 1`] = `
-<div
-  class="session"
->
-  <tmformstruct-stub
-    class="session-container"
-    submit="function () { [native code] }"
-    width=""
+<session-frame-stub>
+  <div
+    class="session"
   >
-    <div
-      class="session-header"
+    <tmformstruct-stub
+      class="session-container"
+      submit="function () { [native code] }"
+      width=""
     >
-      <a>
-        <i
-          class="material-icons session-back"
-        >
-          arrow_back
-        </i>
-      </a>
-       
       <h2
         class="session-title"
       >
@@ -28,59 +18,51 @@ exports[`TmSessionSignIn has the expected html structure 1`] = `
       
       </h2>
        
-      <a>
-        <i
-          class="material-icons session-close"
+      <div
+        class="session-main"
+      >
+        <tmformgroup-stub
+          fieldid="sign-in-name"
+          fieldlabel="Select Account"
         >
-          close
-        </i>
-      </a>
-    </div>
-     
-    <div
-      class="session-main"
-    >
-      <tmformgroup-stub
-        fieldid="sign-in-name"
-        fieldlabel="Select Account"
-      >
-        <tmfield-stub
-          id="sign-in-name"
-          options="[object Object]"
-          placeholder="Select account…"
-          type="select"
-          value="cosmos1234"
-          vue-focus="vue-focus"
-        />
+          <tmfield-stub
+            id="sign-in-name"
+            options="[object Object]"
+            placeholder="Select account…"
+            type="select"
+            value="cosmos1234"
+            vue-focus="vue-focus"
+          />
+           
+          <!---->
+        </tmformgroup-stub>
          
-        <!---->
-      </tmformgroup-stub>
+        <tmformgroup-stub
+          fieldid="sign-in-password"
+          fieldlabel="Password"
+        >
+          <tmfield-stub
+            id="sign-in-password"
+            type="password"
+            value=""
+          />
+           
+          <!---->
+           
+          <!---->
+           
+          <!---->
+        </tmformgroup-stub>
+      </div>
        
-      <tmformgroup-stub
-        fieldid="sign-in-password"
-        fieldlabel="Password"
+      <div
+        class="session-footer"
       >
-        <tmfield-stub
-          id="sign-in-password"
-          type="password"
-          value=""
+        <tmbtn-stub
+          value="Sign In"
         />
-         
-        <!---->
-         
-        <!---->
-         
-        <!---->
-      </tmformgroup-stub>
-    </div>
-     
-    <div
-      class="session-footer"
-    >
-      <tmbtn-stub
-        value="Sign In"
-      />
-    </div>
-  </tmformstruct-stub>
-</div>
+      </div>
+    </tmformstruct-stub>
+  </div>
+</session-frame-stub>
 `;

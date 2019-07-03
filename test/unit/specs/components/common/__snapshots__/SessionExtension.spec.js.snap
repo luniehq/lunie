@@ -1,94 +1,64 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`SessionApprove shows a guide to install the extension if no extension installed 1`] = `
-<div
-  class="session"
->
+<session-frame-stub>
   <div
-    class="session-container"
+    class="session"
   >
     <div
-      class="session-header"
+      class="session-container"
     >
-      <a>
-        <i
-          class="material-icons session-back"
-        >
-          arrow_back
-        </i>
-      </a>
-       
       <h2
         class="session-title"
       >
         
-        Use Lunie Chrome extension
+        Use Lunie Browser extension
       
       </h2>
        
-      <a>
-        <i
-          class="material-icons session-close"
-        >
-          close
-        </i>
-      </a>
-    </div>
-     
-    <div
-      class="session-main"
-    >
-      <p>
+      <div
+        class="session-main"
+      >
+        <p>
+          
+          Please install the Lunie Browser Extension from the
+          
+          <a
+            href="https://chrome.google.com/webstore/category/extensions"
+            rel="noopener norefferer"
+            target="_blank"
+          >
+            Chrome Web Store
+          </a>
+          .
         
-        Please install the Lunie Extension for Chrome from the Google Play
-        Store.
-      
-      </p>
+        </p>
+      </div>
+       
+      <!---->
     </div>
-     
-    <!---->
   </div>
-</div>
+</session-frame-stub>
 `;
 
 exports[`SessionApprove shows an overview of all wallets to sign in with from the extension 1`] = `
-<div
-  class="session"
->
+<session-frame-stub>
   <div
-    class="session-container"
+    class="session"
   >
     <div
-      class="session-header"
+      class="session-container"
     >
-      <a>
-        <i
-          class="material-icons session-back"
-        >
-          arrow_back
-        </i>
-      </a>
-       
       <h2
         class="session-title"
       >
         
-        Use Lunie Chrome extension
+        Use Lunie Browser extension
       
       </h2>
        
-      <a>
-        <i
-          class="material-icons session-close"
-        >
-          close
-        </i>
-      </a>
-    </div>
-     
-    <!---->
-     
-    <div>
+      <!---->
+       
       <div
         class="session-main"
       >
@@ -97,7 +67,7 @@ exports[`SessionApprove shows an overview of all wallets to sign in with from th
         >
           <div>
             
-            Click below to open the Lunie Chrome Extension, or use one of the
+            Click below to open the Lunie Browser Extension, or use one of the
             existing address.
             
             <ul>
@@ -152,27 +122,27 @@ exports[`SessionApprove shows an overview of all wallets to sign in with from th
             </ul>
           </div>
         </div>
-      </div>
-       
-      <div
-        class="session-footer"
-      >
-        <p
-          class="ledger-install"
+         
+        <div
+          class="session-footer"
         >
-          
-          You can find the Lunie Chrome extension on the
-          
-          <a
-            href=""
+          <p
+            class="ledger-install"
           >
-            Google Play Store
-          </a>
-          .
-        
-        </p>
+            
+            You can find the Lunie Browser Extension in the
+            
+            <a
+              href="https://chrome.google.com/webstore/category/extensions"
+              rel="noopener norefferer"
+              target="_blank"
+            >
+              Chrome Web Store
+            </a>
+          </p>
+        </div>
       </div>
     </div>
   </div>
-</div>
+</session-frame-stub>
 `;

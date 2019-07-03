@@ -9,25 +9,13 @@ exports[`TmSessionAccountDelete has the expected html structure 1`] = `
     submit="function () { [native code] }"
     width=""
   >
-    <div
-      class="session-header"
+    <h2
+      class="session-title"
     >
-      <a>
-        <i
-          class="material-icons"
-        >
-          arrow_back
-        </i>
-      </a>
-       
-      <div
-        class="session-title"
-      >
-        
-        Remove Account
       
-      </div>
-    </div>
+      Remove Account
+    
+    </h2>
      
     <div
       class="session-main"
