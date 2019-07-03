@@ -1,7 +1,10 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`TableInvoice should show the transaction invoice summary 1`] = `
-<div>
+<div
+  gasestimate="1234567"
+  gasprice="2.5e-8"
+>
   <ul
     class="table-invoice"
   >
@@ -22,7 +25,7 @@ exports[`TableInvoice should show the transaction invoice summary 1`] = `
        
       <span>
         
-        0.030864
+        NaN
         STAKE
       
       </span>
@@ -36,7 +39,7 @@ exports[`TableInvoice should show the transaction invoice summary 1`] = `
       </span>
        
       <span>
-         1.030864 STAKE 
+         NaN STAKE 
       </span>
     </li>
   </ul>
