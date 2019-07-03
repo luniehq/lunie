@@ -1,0 +1,1 @@
+[Code Improvements] [#2801](https://github.com/cosmos/lunie/issues/2801) Refactors TableInvoice to receive bondDenom as props and updates tests @thebkr7
