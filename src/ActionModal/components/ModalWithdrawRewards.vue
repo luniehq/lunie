@@ -7,6 +7,7 @@
     title="Withdraw"
     class="modal-withdraw-rewards"
     submission-error-prefix="Withdrawal failed"
+    :disable="validatorsWithRewards"
   >
     <span class="form-message notice withdraw-limit">
       Lunie will only withdraw rewards from 5 validators at a time because of a
@@ -18,7 +19,11 @@
       field-label="Amount"
     >
       <span class="input-suffix">{{ denom | viewDenom }}</span>
-      <TmField id="amount" :value="rewards | atoms | fullDecimals" readonly />
+      <TmField
+        id="amount"
+        :value="rewards | atoms | fullDecimals"
+        readonly
+      />
     </TmFormGroup>
   </ActionModal>
 </template>
@@ -64,6 +69,12 @@ export default {
         title: `Successful withdrawal!`,
         body: `You have successfully withdrawn your rewards.`
       }
+    },
+    validatorsWithRewards() {
+      return (
+        this.$refs.actionModal &&
+        this.$refs.actionModal.context.validatorsWithRewards.length > 0
+      )
     }
   },
   methods: {

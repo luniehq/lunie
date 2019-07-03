@@ -1,6 +1,14 @@
 <template>
-  <transition v-if="show" name="slide-fade">
-    <div v-focus-last class="action-modal" tabindex="0" @keyup.esc="close">
+  <transition
+    v-if="show"
+    name="slide-fade"
+  >
+    <div
+      v-focus-last
+      class="action-modal"
+      tabindex="0"
+      @keyup.esc="close"
+    >
       <div
         id="closeBtn"
         class="action-modal-icon action-modal-close"
@@ -12,15 +20,27 @@
         <span class="action-modal-title">
           {{ requiresSignIn ? `Sign in required` : title }}
         </span>
-        <Steps :steps="['Details', 'Fees', 'Sign']" :active-step="step" />
+        <Steps
+          :steps="['Details', 'Fees', 'Sign']"
+          :active-step="step"
+        />
       </div>
-      <div v-if="requiresSignIn" class="action-modal-form">
+      <div
+        v-if="requiresSignIn"
+        class="action-modal-form"
+      >
         <p>You need to sign in to submit a transaction.</p>
       </div>
-      <div v-else-if="step === `details`" class="action-modal-form">
+      <div
+        v-else-if="step === `details`"
+        class="action-modal-form"
+      >
         <slot />
       </div>
-      <div v-else-if="step === `fees`" class="action-modal-form">
+      <div
+        v-else-if="step === `fees`"
+        class="action-modal-form"
+      >
         <TmFormGroup
           v-if="session.experimentalMode"
           :error="$v.gasPrice.$error && $v.gasPrice.$invalid"
@@ -68,7 +88,10 @@
           :max="balanceInAtoms"
         />
       </div>
-      <div v-else-if="step === `sign`" class="action-modal-form">
+      <div
+        v-else-if="step === `sign`"
+        class="action-modal-form"
+      >
         <TmFormGroup
           v-if="signMethods.length > 1"
           class="action-modal-form-group"
@@ -89,9 +112,9 @@
         >
           <div v-if="session.browserWithLedgerSupport">
             {{
-              sending
-                ? `Please verify and sign the transaction on your Ledger`
-                : `Please plug in your Ledger&nbsp;Nano and open
+            sending
+            ? `Please verify and sign the transaction on your Ledger`
+            : `Please plug in your Ledger&nbsp;Nano and open
             the Cosmos app`
             }}
           </div>
@@ -158,7 +181,7 @@
                 ref="next"
                 color="primary"
                 value="Next"
-                :disabled="step === `fees` && $v.invoiceTotal.$invalid"
+                :disabled="disabled || (step === `fees` && $v.invoiceTotal.$invalid)"
                 @click.native="validateChangeStep"
               />
               <TmBtn
@@ -243,6 +266,11 @@ export default {
     notifyMessage: {
       type: Object,
       default: () => {}
+    },
+    // disable proceeding from the first page
+    disabled: {
+      type: Boolean,
+      default: false
     }
   },
   data: () => ({
@@ -348,6 +376,8 @@ export default {
       return !this.$v[property].$invalid
     },
     async validateChangeStep() {
+      if (this.disabled) return
+
       // An ActionModal is only the prototype of a parent modal
       switch (this.step) {
         case defaultStep:

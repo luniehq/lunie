@@ -38,6 +38,10 @@ export const validatorsWithRewards = (state, getters) =>
   Object.entries(state.distribution.rewards).filter(
     ([, rewards]) => rewards[getters.bondDenom] > 0
   )
+export const totalRewards = (state, getters) => validatorsWithRewards.reduce(
+  (sum, [, rewards]) => sum + rewards[getters.bondDenom],
+  0
+)
 
 // staking
 export const liquidAtoms = state =>
@@ -120,8 +124,8 @@ export const modalContext = (state, getters) => ({
   connected: state.connection.connected,
   localKeyPairName: state.session.localKeyPairName,
   userAddress: state.session.address,
-  totalRewards: Number(state.distribution.totalRewards[getters.bondDenom]),
   rewards: state.distribution.rewards,
+  totalRewards: getters.totalRewards,
   delegates: state.delegates.delegates,
   bondDenom: getters.bondDenom
 })

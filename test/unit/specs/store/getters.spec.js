@@ -185,9 +185,10 @@ describe(`Store: getters`, () => {
         localKeyPairName: "localKeyPairName"
       },
       distribution: {
-        rewards: [],
-        totalRewards: {
-          uatom: 123
+        rewards: {
+          validatorX: {
+            uatom: 123
+          }
         }
       },
       delegates: {
@@ -196,7 +197,8 @@ describe(`Store: getters`, () => {
     }
 
     const getters = {
-      bondDenom: "uatom"
+      bondDenom: "uatom",
+      totalRewards: 123
     }
 
     const context = {
@@ -204,7 +206,12 @@ describe(`Store: getters`, () => {
       chainId: "cosmoshub",
       connected: true,
       userAddress: "cosmos1abcdefghijklmop",
-      rewards: [],
+      rewards: 
+         {
+           "validatorX": {
+             "uatom": 123,
+           },
+         },
       delegates: [],
       localKeyPairName: "localKeyPairName",
       bondDenom: "uatom",

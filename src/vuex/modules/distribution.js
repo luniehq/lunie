@@ -8,14 +8,6 @@ export default ({ node }) => {
     loading: false,
     loaded: false,
     error: null,
-    /* totalRewards use the following format:
-        {
-            denom1: amount1,
-            ... ,
-            denomN: amountN
-        }
-    */
-    totalRewards: {},
     /* rewards use the following format:
         {
             validatorAddr1: {
@@ -43,12 +35,8 @@ export default ({ node }) => {
     outstandingRewards: {}
   }
   const state = JSON.parse(JSON.stringify(emptyState))
-  const distributionsThrottle = throttle("distributions")(20)
 
   const mutations = {
-    setTotalRewards(state, rewards) {
-      state.totalRewards = rewards
-    },
     setDelegationRewards(state, { validatorAddr, rewards }) {
       Vue.set(state.rewards, validatorAddr, rewards)
     },
@@ -65,33 +53,15 @@ export default ({ node }) => {
   const actions = {
     async reconnected({ rootState, state, dispatch }) {
       if (state.loading && rootState.session.signedIn) {
-        await dispatch(`getTotalRewards`)
+        await dispatch(`getRewardsFromMyValidators`)
       }
     },
     resetSessionData({ rootState }) {
       rootState.distribution = JSON.parse(JSON.stringify(emptyState))
     },
-    async getTotalRewards({ state, rootState: { session }, commit }) {
-      if (!session.address) return
-
-      state.loading = true
-      try {
-        // TODO move array fallback into cosmos-api
-        const rewardsArray =
-          (await node.get.delegatorRewards(session.address)) || []
-        const rewards = coinsToObject(rewardsArray)
-        commit(`setTotalRewards`, rewards || {})
-        commit(`setDistributionError`, null)
-        state.loaded = true
-      } catch (error) {
-        Sentry.captureException(error)
-        commit(`setDistributionError`, error)
-      }
-    },
     async postMsgWithdrawDelegationReward({ dispatch }) {
       return Promise.all([
-        dispatch(`getTotalRewards`),
-        dispatch(`getRewardsFromMyValidators`, true),
+        dispatch(`getRewardsFromMyValidators`),
         dispatch(`queryWalletBalances`),
         dispatch(`getAllTxs`)
       ])
@@ -100,25 +70,17 @@ export default ({ node }) => {
       {
         state,
         dispatch,
-        getters: { lastHeader, yourValidators }
-      },
-      force = false
+        getters: { yourValidators }
+      }
     ) {
-      await distributionsThrottle(
-        state,
-        Number(lastHeader.height),
-        async () => {
-          state.loading = true
-          await Promise.all(
-            yourValidators.map(validator =>
-              dispatch(`getRewardsFromValidator`, validator.operator_address)
-            )
-          )
-          state.loading = false
-          state.loaded = true
-        },
-        force
+      state.loading = true
+      await Promise.all(
+        yourValidators.map(validator =>
+          dispatch(`getRewardsFromValidator`, validator.operator_address)
+        )
       )
+      state.loading = false
+      state.loaded = true
     },
     async getRewardsFromValidator(
       {
