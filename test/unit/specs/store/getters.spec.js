@@ -5,7 +5,8 @@ import {
   oldUnbondingAtoms,
   yourValidators,
   modalContext,
-  validatorsWithRewards
+  validatorsWithRewards,
+  totalRewards
 } from "src/vuex/getters.js"
 import validators from "./json/validators.js"
 
@@ -165,6 +166,24 @@ describe(`Store: getters`, () => {
         }
       ]
     ])
+  })
+
+  it("totalRewards", () => {
+    expect(totalRewards(null, {
+      bondDenom: "stake",
+      validatorsWithRewards: [[
+        "validator1",
+        {
+          stake: 10000
+        }
+      ],
+      [
+        "validator2",
+        {
+          stake: 5000
+        }
+      ]]
+    })).toBe(15000)
   })
 
   it(`modalContext`, () => {

@@ -39,7 +39,7 @@ export const validatorsWithRewards = (state, getters) =>
     ([, rewards]) => rewards[getters.bondDenom] > 0
   )
 export const totalRewards = (state, getters) =>
-  validatorsWithRewards.reduce(
+  getters.validatorsWithRewards.reduce(
     (sum, [, rewards]) => sum + rewards[getters.bondDenom],
     0
   )
