@@ -1,7 +1,7 @@
 <template>
   <TmPage data-title="Proposal">
-    <TmDataError v-if="!proposal" />
-
+    <TmDataLoading v-if="!proposals.loaded || !governanceParameters.loaded" />
+    <TmDataError v-else-if="!proposal" />
     <template v-else>
       <div class="page-profile__header page-profile__section proposal">
         <div class="row">
@@ -62,7 +62,10 @@
               {{ proposalStatus }}
             </dd>
           </dl>
-          <dl v-if="displayEndDate" class="info_dl colored_dl">
+          <dl
+            v-if="displayEndDate"
+            class="info_dl colored_dl"
+          >
             <dt>Voting End Date</dt>
             <dd>{{ endDate }}</dd>
           </dl>
@@ -75,10 +78,10 @@
             <dt>Deposit Count</dt>
             <dd>
               {{
-                totalDeposit
-                  ? `${totalDeposit.amount}
+              totalDeposit
+              ? `${totalDeposit.amount}
               ${totalDeposit.denom}`
-                  : `--`
+              : `--`
               }}
             </dd>
           </dl>
@@ -90,7 +93,10 @@
             <dd>{{ num.shortDecimals(num.atoms(totalVotes)) }}</dd>
           </dl>
         </div>
-        <div v-if="proposal.proposal_status === 'VotingPeriod'" class="row">
+        <div
+          v-if="proposal.proposal_status === 'VotingPeriod'"
+          class="row"
+        >
           <dl class="info_dl colored_dl">
             <dt>Yes</dt>
             <dd>
@@ -153,6 +159,7 @@ import { mapGetters } from "vuex"
 import num from "scripts/num"
 import TmBtn from "common/TmBtn"
 import TmDataError from "common/TmDataError"
+import TmDataLoading from "common/TmDataLoading"
 import TextBlock from "common/TextBlock"
 import ModalDeposit from "src/ActionModal/components/ModalDeposit"
 import ModalVote from "src/ActionModal/components/ModalVote"
@@ -164,6 +171,7 @@ export default {
     ModalDeposit,
     ModalVote,
     TmDataError,
+    TmDataLoading,
     TmPage,
     TextBlock
   },
