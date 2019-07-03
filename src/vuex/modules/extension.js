@@ -11,8 +11,8 @@ export default () => {
     externals: { config, getAccounts } // for testing
   }
   const mutations = {
-    setExtensionAvailable(state, enabled) {
-      state.enabled = enabled
+    setExtensionAvailable(state) {
+      state.enabled = true
     },
     setExtensionAccounts(state, accounts) {
       state.accounts = accounts

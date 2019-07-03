@@ -26,12 +26,10 @@ describe(`Module: Extension`, () => {
   })
 
   describe(`mutations`, () => {
-    it(`should set extension`, () => {
+    it(`should set extension available`, () => {
       expect(state.enabled).toBe(false)
-      mutations.setExtensionAvailable(state, true)
+      mutations.setExtensionAvailable(state)
       expect(state.enabled).toBe(true)
-      mutations.setExtensionAvailable(state, false)
-      expect(state.enabled).toBe(false)
     })
 
     it(`should set wallets`, () => {
