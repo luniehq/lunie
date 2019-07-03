@@ -19,7 +19,6 @@ import AppHeader from "common/AppHeader"
 import CookieBar from "common/CookieBar"
 import MaintenanceBar from "common/MaintenanceBar"
 import TmNotifications from "common/TmNotifications"
-import ModalSession from "common/ModalSession"
 import store from "./vuex/store"
 
 export default {
@@ -27,7 +26,6 @@ export default {
   components: {
     AppHeader,
     TmNotifications,
-    ModalSession,
     CookieBar,
     MaintenanceBar
   },
