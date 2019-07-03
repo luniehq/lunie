@@ -385,8 +385,7 @@ export default {
     goToSession() {
       this.close()
 
-      this.$store.commit(`setSessionModalView`, `welcome`)
-      this.$store.commit(`toggleSessionModal`, true)
+      this.$router.push(`/welcome`)
     },
     isValidInput(property) {
       this.$v[property].$touch()

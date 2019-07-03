@@ -33,8 +33,7 @@ export default {
   },
   methods: {
     signIn() {
-      this.$store.commit(`setSessionModalView`, `welcome`)
-      this.$store.commit(`toggleSessionModal`, true)
+      this.$router.push(`welcome`)
     },
     signOut() {
       this.$store.dispatch(`signOut`)
