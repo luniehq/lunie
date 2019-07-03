@@ -53,20 +53,16 @@
   margin-bottom: 1rem;
 }
 
-.material-icons.session-back,
-.material-icons.session-close {
-  font-size: var(--lg);
-  cursor: pointer;
-  position: absolute;
-  top: 1rem;
-}
-
 .session-back {
-  left: 1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
 }
 
 .session-close {
-  right: 1rem;
+  position: absolute;
+  right: 1.25rem;
+  top: 1.5rem;
 }
 
 .session-footer {

@@ -1,20 +1,34 @@
 <template>
   <transition name="component-fade" mode="out-in">
     <div class="session-modal">
-      <slot></slot>
-      <ConnectedNetwork />
+      <router-link to="/">
+        <img class="logo" src="~assets/images/cosmos-wallet-logo.svg" />
+      </router-link>
+      <div class="session-outer-container">
+        <!-- <a class="session-back" @click="$router.back()">
+          <i class="material-icons">arrow_back</i>
+          Back
+        </a> -->
+        <slot></slot>
+      </div>
+      <TmBtn
+        class="session-close"
+        value="Back to Lunie"
+        color="secondary"
+        @click.native="$router.push(`/`)"
+      />
     </div>
   </transition>
 </template>
 
 <script>
 import { mapGetters } from "vuex"
-import ConnectedNetwork from "common/TmConnectedNetwork"
+import TmBtn from "common/TmBtn"
 
 export default {
   name: `session-frame`,
   components: {
-    ConnectedNetwork
+    TmBtn
   },
   computed: {
     ...mapGetters([`session`])
@@ -25,6 +39,31 @@ export default {
 <style>
 @import "../../styles/session.css";
 
+.session-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: var(--z-modal);
+  width: 100vw;
+  height: 100vh;
+  background: var(--app-nav-light);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.session-outer-container {
+  position: relative;
+  padding: 3rem 0;
+}
+
+.logo {
+  height: 3rem;
+  position: absolute;
+  top: 1.25rem;
+  left: 1.25rem;
+}
+
 .component-fade-enter-active,
 .component-fade-leave-active {
   transition: opacity 0.2s ease;
@@ -33,19 +72,6 @@ export default {
 .component-fade-enter,
 .component-fade-leave-to .component-fade-leave-active {
   opacity: 0;
-}
-
-.session-modal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: var(--z-modal);
-  width: 100vw;
-  height: 100vh;
-  background: var(--app-fg);
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }
 </style>
 
