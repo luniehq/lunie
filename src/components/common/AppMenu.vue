@@ -76,7 +76,7 @@
         v-if="!session.signedIn"
         id="mobile-sign-in"
         class="button app-menu-item"
-        @click="$router.push(`welcome`)"
+        @click="signIn()"
       >
         Sign in
       </a>
@@ -113,7 +113,7 @@ export default {
       this.$emit(`close`)
       this.$store.dispatch(`signOut`)
     },
-    signIn() {
+    signIn($router) {
       this.$emit(`close`)
       $router.push(`/welcome`)
     }
