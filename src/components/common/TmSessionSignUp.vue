@@ -228,7 +228,7 @@ export default {
           password: this.fields.signUpPassword,
           name: this.fields.signUpName
         })
-        this.$emit(`close`)
+        this.$router.push(`/`)
       } catch (error) {
         this.$store.commit(`notifyError`, {
           title: `Couldn't create account`,

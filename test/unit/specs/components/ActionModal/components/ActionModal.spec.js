@@ -6,7 +6,7 @@ import { focusParentLast } from "directives"
 const localVue = createLocalVue()
 localVue.use(Vuelidate)
 localVue.directive("focus-last", focusParentLast)
-localVue.directive("focus", () => {})
+localVue.directive("focus", () => { })
 
 let mockSimulate = jest.fn(() => 123456)
 let mockSend = jest.fn()
@@ -90,7 +90,10 @@ describe(`ActionModal`, () => {
         }
       },
       mocks: {
-        $store
+        $store,
+        $router: {
+          push: jest.fn()
+        },
       }
     })
     wrapper.vm.open()
@@ -104,7 +107,7 @@ describe(`ActionModal`, () => {
     const self = {
       $store,
       actionManager: {
-        setContext: () => {},
+        setContext: () => { },
         simulate: () => 12345,
         send: ActionManagerSend
       },
@@ -115,7 +118,7 @@ describe(`ActionModal`, () => {
       },
       submissionErrorPrefix: `PREFIX`,
       trackEvent: jest.fn(),
-      connectLedger: () => {}
+      connectLedger: () => { }
     }
     await ActionModal.methods.submit.call(self)
 
@@ -136,11 +139,10 @@ describe(`ActionModal`, () => {
 
   it(`opens session modal and closes itself`, () => {
     const $store = { commit: jest.fn() }
-    const self = { $store, close: jest.fn() }
+    const self = { $store, close: jest.fn(), $router: { push: jest.fn() } }
     ActionModal.methods.goToSession.call(self)
     expect(self.close).toHaveBeenCalled()
-    expect($store.commit).toHaveBeenCalledWith(`setSessionModalView`, `welcome`)
-    expect($store.commit).toHaveBeenCalledWith(`toggleSessionModal`, true)
+    expect(self.$router.push).toHaveBeenCalledWith(`welcome`)
   })
 
   it(`shows a password input for local signing`, async () => {

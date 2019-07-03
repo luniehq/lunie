@@ -76,19 +76,6 @@ describe(`Module: Session`, () => {
       )
     })
 
-    it(`should toggle the signin modal`, () => {
-      mutations.toggleSessionModal(state, true)
-      expect(state.modals.session.active).toBe(true)
-
-      mutations.toggleSessionModal(state, false)
-      expect(state.modals.session.active).toBe(false)
-    })
-
-    it(`should set the active signin modal view`, () => {
-      mutations.setSessionModalView(state, `xxxx`)
-      expect(state.modals.session.state).toBe(`xxxx`)
-    })
-
     it(`should activate experimental mode`, () => {
       mutations.setExperimentalMode(state)
       expect(state.experimentalMode).toBe(true)
@@ -132,7 +119,6 @@ describe(`Module: Session`, () => {
         `setUserAddress`,
         `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`
       )
-      expect(commit).toHaveBeenCalledWith(`toggleSessionModal`, false)
       expect(commit).toHaveBeenCalledWith(`setSessionType`, `local`)
       expect(dispatch).toHaveBeenCalledWith(`loadPersistedState`)
       expect(dispatch).toHaveBeenCalledWith(`initializeWallet`, {
@@ -155,7 +141,6 @@ describe(`Module: Session`, () => {
         { sessionType: `ledger`, address }
       )
       expect(commit).toHaveBeenCalledWith(`setUserAddress`, address)
-      expect(commit).toHaveBeenCalledWith(`toggleSessionModal`, false)
       expect(commit).toHaveBeenCalledWith(`setSessionType`, `ledger`)
       expect(dispatch).toHaveBeenCalledWith(`loadPersistedState`)
       expect(dispatch).toHaveBeenCalledWith(`initializeWallet`, { address })
@@ -176,7 +161,6 @@ describe(`Module: Session`, () => {
         { sessionType: `explore`, address }
       )
       expect(commit).toHaveBeenCalledWith(`setUserAddress`, address)
-      expect(commit).toHaveBeenCalledWith(`toggleSessionModal`, false)
       expect(commit).toHaveBeenCalledWith(`setSessionType`, `explore`)
       expect(dispatch).toHaveBeenCalledWith(`loadPersistedState`)
       expect(dispatch).toHaveBeenCalledWith(`initializeWallet`, { address })
@@ -201,7 +185,7 @@ describe(`Module: Session`, () => {
   })
 
   it(`should enable error collection`, async () => {
-    jest.spyOn(console, `log`).mockImplementationOnce(() => {})
+    jest.spyOn(console, `log`).mockImplementationOnce(() => { })
     const commit = jest.fn()
     const dispatch = jest.fn()
     await actions.setErrorCollection(
@@ -221,7 +205,7 @@ describe(`Module: Session`, () => {
   })
 
   it(`should disable error collection`, async () => {
-    jest.spyOn(console, `log`).mockImplementationOnce(() => {})
+    jest.spyOn(console, `log`).mockImplementationOnce(() => { })
     const commit = jest.fn()
     const dispatch = jest.fn()
     await actions.setErrorCollection(
@@ -238,7 +222,7 @@ describe(`Module: Session`, () => {
   })
 
   it(`should disable analytics collection`, async () => {
-    jest.spyOn(console, `log`).mockImplementationOnce(() => {})
+    jest.spyOn(console, `log`).mockImplementationOnce(() => { })
     const commit = jest.fn()
     const dispatch = jest.fn()
     await actions.setAnalyticsCollection(

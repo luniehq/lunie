@@ -130,12 +130,14 @@ export default {
           ...this.signRequest,
           password: this.password
         })
+        this.$router.push(`approved`)
       }
     },
     async reject() {
       await this.$store.dispatch("rejectSignRequest", {
         ...this.signRequest
       })
+      this.$router.push(`/`)
     }
   },
   validations() {

@@ -30,53 +30,6 @@ describe(`TmSessionSignUp`, () => {
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
-  it(`should go back to the welcome screen on click`, () => {
-    const self = {
-      $emit: jest.fn()
-    }
-    TmSessionSignUp.methods.goBack.call(self)
-    expect(self.$emit).toHaveBeenCalledWith(`route-change`, `welcome`)
-  })
-
-  it(`should close`, () => {
-    const self = {
-      $emit: jest.fn()
-    }
-    TmSessionSignUp.methods.close.call(self)
-    expect(self.$emit).toHaveBeenCalledWith(`close`)
-  })
-
-  it("moves to other session pages", () => {
-    const self = {
-      $emit: jest.fn()
-    }
-    TmSessionSignUp.methods.setState.call(self, "welcome")
-    expect(self.$emit).toHaveBeenCalledWith("route-change", "welcome")
-  })
-
-  it(`should close the modal on successful login`, async () => {
-    const emit = jest.fn()
-    await TmSessionSignUp.methods.onSubmit.call({
-      $store: {
-        commit: jest.fn(),
-        dispatch: jest.fn()
-      },
-      $emit: emit,
-      $v: {
-        $touch: () => {},
-        $error: false
-      },
-      fields: {
-        signUpPassword: `1234567890`,
-        signUpPasswordConfirm: `1234567890`,
-        signUpSeed: `bar`, // <-- doesn#t check for correctness of seed
-        signUpName: `testaccount`,
-        signUpWarning: true
-      }
-    })
-    expect(emit).toHaveBeenCalledWith(`close`)
-  })
-
   it(`should show error if warnings not acknowledged`, () => {
     wrapper.setData({
       fields: {
@@ -172,7 +125,7 @@ describe(`TmSessionSignUp`, () => {
         signUpWarning: true
       },
       $v: {
-        $touch: () => {},
+        $touch: () => { },
         $error: false
       },
       $store

@@ -30,24 +30,6 @@ describe(`TmSessionAccountDelete`, () => {
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
-  it(`should set the current view to the state`, () => {
-    const self = {
-      $emit: jest.fn()
-    }
-    TmSessionAccountDelete.methods.setState.call(self, `someState`)
-    expect(self.$emit).toHaveBeenCalledWith(`route-change`, `someState`)
-  })
-
-  it(`should go back on successful deletion`, async () => {
-    wrapper.setData({
-      deletionPassword: `1234567890`,
-      deletionWarning: true
-    })
-    wrapper.vm.$emit = jest.fn()
-    await wrapper.vm.onSubmit()
-    expect(wrapper.vm.$emit).toHaveBeenCalledWith(`route-change`, `welcome`)
-  })
-
   it(`should show error if password not 10 long`, async () => {
     wrapper.setData({
       deletionPassword: `123`,

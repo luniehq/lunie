@@ -105,7 +105,7 @@ export default {
           sessionType: "local"
         })
         localStorage.setItem(`prevAccountKey`, this.signInAddress)
-        this.$emit(`close`)
+        this.$router.push(`/`)
       } else {
         this.error = `The provided username or password is wrong.`
       }

@@ -67,6 +67,7 @@ export default {
       this.address = null
       try {
         this.address = await this.$store.dispatch(`connectLedgerApp`)
+        this.$router.push(`/`)
       } catch ({ message }) {
         this.status = `connect`
         this.connectionError = message

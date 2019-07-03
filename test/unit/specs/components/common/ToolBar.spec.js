@@ -3,7 +3,7 @@ import ToolBar from "common/ToolBar"
 
 describe(`ToolBar`, () => {
   const localVue = createLocalVue()
-  localVue.directive(`tooltip`, () => {})
+  localVue.directive(`tooltip`, () => { })
 
   let wrapper, $store
 
@@ -20,7 +20,10 @@ describe(`ToolBar`, () => {
     wrapper = shallowMount(ToolBar, {
       localVue,
       mocks: {
-        $store
+        $store,
+        $router: {
+          push: jest.fn()
+        }
       },
       stubs: [`router-link`]
     })
@@ -39,9 +42,8 @@ describe(`ToolBar`, () => {
 
   it(`opens session modal`, () => {
     const $store = { commit: jest.fn() }
-    const self = { $store }
+    const self = { $store, $router: { push: jest.fn() } }
     ToolBar.methods.signIn.call(self)
-    expect($store.commit).toHaveBeenCalledWith(`setSessionModalView`, `welcome`)
-    expect($store.commit).toHaveBeenCalledWith(`toggleSessionModal`, true)
+    expect(self.$router.push).toHaveBeenCalledWith(`welcome`)
   })
 })

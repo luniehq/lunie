@@ -18,20 +18,4 @@ describe(`SessionBackupCodes`, () => {
   it(`has the expected html structure`, () => {
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
-
-  it(`should close`, () => {
-    const self = {
-      $emit: jest.fn()
-    }
-    SessionBackupCodes.methods.close.call(self)
-    expect(self.$emit).toHaveBeenCalledWith(`close`)
-  })
-
-  it("moves to other session pages", () => {
-    const self = {
-      $emit: jest.fn()
-    }
-    SessionBackupCodes.methods.setState.call(self, "welcome")
-    expect(self.$emit).toHaveBeenCalledWith("route-change", "welcome")
-  })
 })

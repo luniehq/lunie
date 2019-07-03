@@ -2,13 +2,13 @@ import Vuex from "vuex"
 import Vuelidate from "vuelidate"
 import { mount, createLocalVue } from "@vue/test-utils"
 import TmSessionImport from "common/TmSessionImport"
-jest.mock(`scripts/google-analytics.js`, () => () => {})
+jest.mock(`scripts/google-analytics.js`, () => () => { })
 const seed = `goose toward escape engine wheel board help torch avocado educate rose rebel rigid side aspect abandon grace admit inherit female grant pledge shine inquiry`
 const localVue = createLocalVue()
 localVue.use(Vuex)
 localVue.use(Vuelidate)
-localVue.directive(`tooltip`, () => {})
-localVue.directive(`focus`, () => {})
+localVue.directive(`tooltip`, () => { })
+localVue.directive(`focus`, () => { })
 
 describe(`TmSessionImport`, () => {
   let wrapper, store
@@ -21,7 +21,11 @@ describe(`TmSessionImport`, () => {
     })
     wrapper = mount(TmSessionImport, {
       localVue,
-      store
+      store,
+      $router: {
+        push: jest.fn()
+      },
+      stubs: [`router-link`]
     })
     store.commit = jest.fn()
     store.dispatch = jest.fn(async () => true)
@@ -29,22 +33,6 @@ describe(`TmSessionImport`, () => {
 
   it(`has the expected html structure`, () => {
     expect(wrapper.vm.$el).toMatchSnapshot()
-  })
-
-  it(`should set the current view to the state`, () => {
-    const self = {
-      $emit: jest.fn()
-    }
-    TmSessionImport.methods.setState.call(self, `someState`)
-    expect(self.$emit).toHaveBeenCalledWith(`route-change`, `someState`)
-  })
-
-  it(`should go back to the exiting account screen`, () => {
-    const self = {
-      $emit: jest.fn()
-    }
-    TmSessionImport.methods.goBack.call(self)
-    expect(self.$emit).toHaveBeenCalledWith(`route-change`, `existing`)
   })
 
   it(`should show error if seed is not filled in`, async () => {

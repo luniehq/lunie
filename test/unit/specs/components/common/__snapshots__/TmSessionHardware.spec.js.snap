@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`TmSessionHardware should show a state indicator for different states of the hardware connection 1`] = `
-"<div class=\\"session-frame\\" name=\\"component-fade\\" mode=\\"out-in\\"><router-link to=\\"/\\"><img src=\\"~assets/images/cosmos-wallet-logo.svg\\" class=\\"session-logo\\"></router-link> <div class=\\"session-outer-container\\"><div class=\\"session\\"><h2 class=\\"session-title\\">
+"<div class=\\"session-frame\\" name=\\"component-fade\\" mode=\\"out-in\\"><router-link-stub to=\\"/\\"><img src=\\"~assets/images/cosmos-wallet-logo.svg\\" class=\\"session-logo\\"></router-link-stub> <div class=\\"session-outer-container\\"><div class=\\"session\\"><h2 class=\\"session-title\\">
       Use my Ledger Nano
     </h2> <div class=\\"session-main\\"><div class=\\"tm-hardware-state\\"><div class=\\"tm-hardware-state-content\\"><!----> <div class=\\"tm-hardware-state__label\\">
             Please plug in your Ledger&nbsp;Nano&nbsp;S and open the Cosmos
@@ -10,7 +10,7 @@ exports[`TmSessionHardware should show a state indicator for different states of
 `;
 
 exports[`TmSessionHardware should show a state indicator for different states of the hardware connection 2`] = `
-"<div class=\\"session-frame\\" name=\\"component-fade\\" mode=\\"out-in\\"><router-link to=\\"/\\"><img src=\\"~assets/images/cosmos-wallet-logo.svg\\" class=\\"session-logo\\"></router-link> <div class=\\"session-outer-container\\"><div class=\\"session\\"><h2 class=\\"session-title\\">
+"<div class=\\"session-frame\\" name=\\"component-fade\\" mode=\\"out-in\\"><router-link-stub to=\\"/\\"><img src=\\"~assets/images/cosmos-wallet-logo.svg\\" class=\\"session-logo\\"></router-link-stub> <div class=\\"session-outer-container\\"><div class=\\"session\\"><h2 class=\\"session-title\\">
       Use my Ledger Nano
     </h2> <div class=\\"session-main\\"><div class=\\"tm-hardware-state\\"><div class=\\"tm-hardware-state-content\\"><!----> <div class=\\"tm-hardware-state__label\\">
             Please plug in your Ledger&nbsp;Nano&nbsp;S and open the Cosmos
@@ -19,7 +19,7 @@ exports[`TmSessionHardware should show a state indicator for different states of
 `;
 
 exports[`TmSessionHardware should show a state indicator for different states of the hardware connection 3`] = `
-"<div class=\\"session-frame\\" name=\\"component-fade\\" mode=\\"out-in\\"><router-link to=\\"/\\"><img src=\\"~assets/images/cosmos-wallet-logo.svg\\" class=\\"session-logo\\"></router-link> <div class=\\"session-outer-container\\"><div class=\\"session\\"><h2 class=\\"session-title\\">
+"<div class=\\"session-frame\\" name=\\"component-fade\\" mode=\\"out-in\\"><router-link-stub to=\\"/\\"><img src=\\"~assets/images/cosmos-wallet-logo.svg\\" class=\\"session-logo\\"></router-link-stub> <div class=\\"session-outer-container\\"><div class=\\"session\\"><h2 class=\\"session-title\\">
       Use my Ledger Nano
     </h2> <div class=\\"session-main\\"><div class=\\"tm-hardware-state\\"><div class=\\"tm-hardware-state-content\\"><!----> <div class=\\"tm-hardware-state__label\\"><!----> <!----> <button class=\\"tm-btn\\" disabled=\\"disabled\\"><span class=\\"tm-btn__container\\"><!----><!----></span></button></div></div> <img src=\\"~assets/images/loader.svg\\" style=\\"\\"></div></div></div></div> <button class=\\"tm-btn session-close\\"><span class=\\"tm-btn__container tm-btn--secondary\\"><!----><span class=\\"tm-btn__value\\">Back to Lunie</span></span></button></div>"
 `;
@@ -30,14 +30,14 @@ exports[`TmSessionHardware shows the ledger conection view when there're errors 
   mode="out-in"
   name="component-fade"
 >
-  <router-link
+  <router-link-stub
     to="/"
   >
     <img
       class="session-logo"
       src="~assets/images/cosmos-wallet-logo.svg"
     />
-  </router-link>
+  </router-link-stub>
    
   <div
     class="session-outer-container"
@@ -128,14 +128,14 @@ exports[`TmSessionHardware shows the ledger conection view with no errors 1`] = 
   mode="out-in"
   name="component-fade"
 >
-  <router-link
+  <router-link-stub
     to="/"
   >
     <img
       class="session-logo"
       src="~assets/images/cosmos-wallet-logo.svg"
     />
-  </router-link>
+  </router-link-stub>
    
   <div
     class="session-outer-container"

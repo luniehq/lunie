@@ -8,7 +8,7 @@ describe(`TmLiSession`, () => {
     title: `useful title`
   }
   beforeEach(() => {
-    wrapper = shallowMount(TmLiSession, { propsData })
+    wrapper = shallowMount(TmLiSession, { propsData, stubs: [`router-link`] })
   })
 
   it(`has the expected html structure`, () => {

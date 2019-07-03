@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`SessionApprove shows a guide to install the extension if no extension installed 1`] = `
+exports[`SessionExtension shows a guide to install the extension if no extension installed 1`] = `
 <session-frame-stub>
   <div
     class="session"
@@ -41,7 +41,7 @@ exports[`SessionApprove shows a guide to install the extension if no extension i
 </session-frame-stub>
 `;
 
-exports[`SessionApprove shows an overview of all wallets to sign in with from the extension 1`] = `
+exports[`SessionExtension shows an overview of all wallets to sign in with from the extension 1`] = `
 <session-frame-stub>
   <div
     class="session"
