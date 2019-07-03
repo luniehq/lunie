@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`TmSessionSignUp has the expected html structure 1`] = `
-<session-frame-stub>
+<sessionframe-stub>
   <div
     class="session"
   >
@@ -58,5 +58,5 @@ exports[`TmSessionSignUp has the expected html structure 1`] = `
       </div>
     </tmformstruct-stub>
   </div>
-</session-frame-stub>
+</sessionframe-stub>
 `;
