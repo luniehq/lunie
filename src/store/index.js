@@ -9,13 +9,12 @@ import * as actions from './actions';
 Vue.use(Vuex);
 Vue.use(Vuelidate);
 
-const modules = {
-  // session: require('modules/session.js').default({}),
-};
+const modules = {};
 
 export default new Vuex.Store({
   state: {
     accounts: [],
+    signRequest: null,
   },
   getters,
   modules,

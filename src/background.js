@@ -9,6 +9,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     signMessageHandler(message, sender, sendResponse);
     walletMessageHandler(message, sender, sendResponse);
   } catch (e) {
+    // Return this as rejected
     console.error('Error with request', e);
   }
 });

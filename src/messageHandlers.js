@@ -1,4 +1,3 @@
-const { createSignMessage } = require('@lunie/cosmos-api');
 const { getWalletIndex, getStoredWallet, signWithPrivateKey, testPassword, storeWallet, getNewWalletFromSeed, removeWallet, getSeed } = require('@lunie/cosmos-keys');
 
 let signRequestQueue = [];
@@ -6,32 +5,34 @@ unqueueSignRequest(''); // restart icons on restart
 
 export function signMessageHandler(message, sender, sendResponse) {
   switch (message.type) {
-    case 'SIGN_REQUEST': {
-      const { stdTx, senderAddress } = message.payload;
+    case 'LUNIE_SIGN_REQUEST': {
+      const { signMessage, senderAddress } = message.payload;
       const wallet = getWalletFromIndex(getWalletIndex(), senderAddress);
       if (!wallet) {
         throw new Error('No wallet found matching the sender address.');
       }
-      queueSignRequest({ stdTx, senderAddress });
+      queueSignRequest({ signMessage, senderAddress, tabID: sender.tab.id });
       break;
     }
     case 'SIGN': {
-      const { stdTx, senderAddress, password, chainId, sequence, accountNumber, id } = message.payload;
+      const { signMessage, senderAddress, password, id } = message.payload;
       const wallet = getStoredWallet(senderAddress, password);
 
-      const signMessage = createSignMessage(stdTx, { sequence, accountNumber, chainId });
+      const { tabID } = unqueueSignRequest(id);
       const signature = signWithPrivateKey(signMessage, Buffer.from(wallet.privateKey, 'hex'));
-      sendResponse(signature);
-      unqueueSignRequest(id);
+      sendAsyncResponseToLunie(tabID, { type: 'LUNIE_SIGN_REQUEST_RESPONSE', payload: { signature: signature.toString('hex'), publicKey: wallet.publicKey } });
+      sendResponse(); // to popup
       break;
     }
     case 'GET_SIGN_REQUEST': {
       sendResponse(signRequestQueue.length > 0 ? signRequestQueue[0] : undefined);
       break;
     }
-    case 'DISAPPROVE_SIGN_REQUEST': {
-      const { id } = message.payload;
+    case 'REJECT_SIGN_REQUEST': {
+      const { id, tabID } = message.payload;
+      sendAsyncResponseToLunie(tabID, { type: 'LUNIE_SIGN_REQUEST_RESPONSE', payload: { rejected: true } });
       unqueueSignRequest(id);
+      sendResponse(); // to popup
       break;
     }
   }
@@ -72,18 +73,26 @@ export function walletMessageHandler(message, sender, sendResponse) {
   }
 }
 
+// for responses that take some time like for a sign request we can't use simple responses
+// we instead send a messsage to the sending tab
+function sendAsyncResponseToLunie(tabId, { type, payload }) {
+  chrome.tabs.sendMessage(tabId, { type, payload });
+}
+
 function getWalletFromIndex(walletIndex, address) {
   return walletIndex.find(({ address: storedAddress }) => storedAddress === address);
 }
 
-function queueSignRequest({ stdTx, senderAddress }) {
-  signRequestQueue.push({ stdTx, senderAddress, id: Date.now() });
+function queueSignRequest({ signMessage, senderAddress, tabID }) {
+  signRequestQueue.push({ signMessage, senderAddress, id: Date.now(), tabID });
   chrome.browserAction.setIcon({ path: 'icons/128x128-alert.png' });
 }
 
 function unqueueSignRequest(id) {
+  const signRequest = signRequestQueue.find(({ id: storedId }) => storedId === id);
   signRequestQueue = signRequestQueue.filter(({ id: storedId }) => storedId !== id);
   if (signRequestQueue.length === 0) {
     chrome.browserAction.setIcon({ path: 'icons/128x128.png' });
   }
+  return signRequest;
 }
