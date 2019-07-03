@@ -1,5 +1,5 @@
 <template>
-  <div class="accounts" :hide-header="true">
+  <div class="accounts">
     <div class="accounts-top">
       <h2>My accounts</h2>
       <p>
