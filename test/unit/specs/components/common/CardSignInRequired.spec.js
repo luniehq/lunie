@@ -3,6 +3,7 @@ import CardSignInRequired from "common/CardSignInRequired"
 
 describe(`CardSignInRequired`, () => {
   let wrapper
+
   beforeEach(() => {
     wrapper = shallowMount(CardSignInRequired)
   })

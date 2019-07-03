@@ -5,7 +5,7 @@
     </div>
     <div slot="subtitle">
       This page shows data for a specific address. To access the page, please
-      <a @click="goToSession">sign&nbsp;in</a>.
+      <a @click="$router.push(`welcome`)">sign&nbsp;in</a>.
     </div>
   </TmDataMsg>
 </template>
@@ -14,12 +14,7 @@
 import TmDataMsg from "common/TmDataMsg"
 export default {
   name: `card-sign-in-required`,
-  components: { TmDataMsg },
-  methods: {
-    goToSession() {
-      this.$router.push(`welcome`)
-    }
-  }
+  components: { TmDataMsg }
 }
 </script>
 <style scoped>
