@@ -17,7 +17,7 @@ describe(`PageProposal`, () => {
 
   const getters = {
     depositDenom: governanceParameters.parameters.deposit.min_deposit[0].denom,
-    proposals: { proposals, tallies },
+    proposals: { proposals, tallies, loaded: true },
     connected: true,
     governanceParameters: { ...governanceParameters, loaded: true },
     wallet: {
@@ -68,6 +68,14 @@ describe(`PageProposal`, () => {
       wrapper.vm.proposals.tallies = {}
       expect(wrapper.vm.$el).toMatchSnapshot()
     })
+
+    it("should show a loader if the necessary data hasen't been loaded", () => {
+      wrapper.vm.governanceParameters.loaded = false
+      expect(wrapper.vm.$el).toMatchSnapshot()
+
+      // needed to reset as somehow this causes sideeffects
+      wrapper.vm.governanceParameters.loaded = true
+    })
   })
 
   it(`renders votes in HTML when voting is open`, async () => {
@@ -85,7 +93,12 @@ describe(`PageProposal`, () => {
               no_with_veto: 30 * multiplier,
               abstain: 40 * multiplier
             }
-          }
+          },
+          loaded: true
+        },
+        governanceParameters: {
+          loaded: true,
+          ...governanceParameters
         }
       }
     }
