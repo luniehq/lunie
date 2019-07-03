@@ -59,6 +59,7 @@
           :amount="Number(amount)"
           :gas-estimate="Number(gasEstimate)"
           :gas-price="Number(gasPrice)"
+          :bond-denom="bondDenom"
         />
         <TmFormMsg
           v-if="$v.invoiceTotal.$invalid"

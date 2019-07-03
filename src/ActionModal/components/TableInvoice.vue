@@ -21,7 +21,6 @@
 </template>
 <script>
 import { fullDecimals, viewDenom } from "../../scripts/num.js"
-import { mapGetters } from "vuex"
 
 export default {
   name: `table-invoice`,
@@ -41,13 +40,16 @@ export default {
     gasPrice: {
       type: Number,
       default: 2.5e-8 // 0.025 uatoms
+    },
+    bondDenom: {
+      type: String,
+      required: true
     }
   },
   data: () => ({
     info: `Estimated network fees based on simulation.`
   }),
   computed: {
-    ...mapGetters([`bondDenom`]),
     estimatedFee() {
       return Number(this.gasPrice) * Number(this.gasEstimate) // already in atoms
     },
