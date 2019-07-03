@@ -91,15 +91,6 @@ export default {
     this.setDefaultAccount(this.accounts)
   },
   methods: {
-    setState(value) {
-      this.$emit(`route-change`, value)
-    },
-    goBack() {
-      this.$emit("route-change", "existing")
-    },
-    close() {
-      this.$emit(`close`)
-    },
     async onSubmit() {
       this.$v.$touch()
       if (this.$v.$error) return

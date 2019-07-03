@@ -11,7 +11,7 @@
       class="sign-in-button"
       value="Sign In"
       color="primary"
-      @click.native="$router.push(`/welcome`)"
+      @click.native="signIn()"
     />
   </div>
 </template>

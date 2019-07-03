@@ -219,15 +219,6 @@ export default {
     })
   },
   methods: {
-    setState(value) {
-      this.$emit(`route-change`, value)
-    },
-    goBack() {
-      this.$emit(`route-change`, "welcome")
-    },
-    close() {
-      this.$emit(`close`)
-    },
     async onSubmit() {
       this.$v.$touch()
       if (this.$v.$error) return

@@ -113,9 +113,9 @@ export default {
       this.$emit(`close`)
       this.$store.dispatch(`signOut`)
     },
-    signIn($router) {
+    signIn() {
+      this.$router.push(`/welcome`)
       this.$emit(`close`)
-      $router.push(`/welcome`)
     }
   }
 }

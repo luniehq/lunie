@@ -93,21 +93,12 @@ export default {
     this.getAddressesFromExtension()
   },
   methods: {
-    setState(value) {
-      this.$emit(`route-change`, value)
-    },
-    goBack() {
-      this.$emit(`route-change`, "existing")
-    },
-    close() {
-      this.$emit(`close`)
-    },
     async signIn(address) {
       this.$store.dispatch(`signIn`, {
         sessionType: `extension`,
         address: address
       })
-      this.close()
+      this.$router.push(`/`)
     },
     getAddressesFromExtension() {
       this.$store.dispatch("getAddressesFromExtension")

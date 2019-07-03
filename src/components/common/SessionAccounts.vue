@@ -41,15 +41,7 @@ export default {
         name: "Account 1"
       }
     ]
-  }),
-  methods: {
-    setState(value) {
-      this.$emit(`route-change`, value)
-    },
-    close() {
-      this.$emit(`close`)
-    }
-  }
+  })
 }
 </script>
 

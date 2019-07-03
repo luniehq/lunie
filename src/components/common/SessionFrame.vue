@@ -5,10 +5,6 @@
         <img class="logo" src="~assets/images/cosmos-wallet-logo.svg" />
       </router-link>
       <div class="session-outer-container">
-        <!-- <a class="session-back" @click="$router.back()">
-          <i class="material-icons">arrow_back</i>
-          Back
-        </a> -->
         <slot></slot>
       </div>
       <TmBtn

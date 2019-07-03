@@ -9,20 +9,20 @@
         id="explore-with-address"
         icon="language"
         title="Explore with any address"
-        @click.native="() => setState('explore')"
+        route="explore"
       />
       <LiSession
         id="use-ledger-nano"
         icon="vpn_key"
         title="Use Ledger Nano"
-        @click.native="() => setState('hardware')"
+        route="ledger"
       />
       <LiSession
         v-if="session.experimentalMode"
         id="use-extension"
         icon="laptop"
         title="Use Lunie Chrome extension"
-        @click.native="setState('extension')"
+        route="extension"
       >
       </LiSession>
       <LiSession
@@ -30,14 +30,14 @@
         id="recover-with-backup"
         icon="settings_backup_restore"
         title="Recover with backup code"
-        @click.native="() => setState('import')"
+        route="recover"
       />
       <LiSession
         v-if="accountExists && session.insecureMode"
         id="sign-in-with-account"
         icon="lock"
         title="Sign in with account"
-        @click.native="setState('sign-in')"
+        route="login"
       />
     </div>
   </div>
@@ -55,17 +55,6 @@ export default {
     ...mapGetters([`session`, `keystore`]),
     accountExists() {
       return this.keystore && this.keystore.accounts.length > 0
-    }
-  },
-  methods: {
-    setState(value) {
-      this.$emit(`route-change`, value)
-    },
-    goToWelcome() {
-      this.$emit(`route-change`, `welcome`)
-    },
-    close() {
-      this.$emit(`close`)
     }
   }
 }

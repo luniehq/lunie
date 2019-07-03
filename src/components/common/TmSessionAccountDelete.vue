@@ -1,14 +1,9 @@
 <template>
   <div class="session">
     <TmFormStruct :submit="onSubmit" class="session-container">
-      <div class="session-header">
-        <a @click="setState('sign-in')">
-          <i class="material-icons">arrow_back</i>
-        </a>
-        <div class="session-title">
-          Remove Account
-        </div>
-      </div>
+      <h2 class="session-title">
+        Remove Account
+      </h2>
       <div class="session-main">
         <TmFormGroup
           :error="$v.deletionPassword.$error"
@@ -89,9 +84,6 @@ export default {
     this.$el.querySelector(`#sign-in-password`).focus()
   },
   methods: {
-    setState(value) {
-      this.$emit(`route-change`, value)
-    },
     async onSubmit() {
       this.$v.$touch()
       if (this.$v.$error) return
@@ -100,7 +92,6 @@ export default {
           password: this.deletionPassword
         })
         if (success) {
-          this.setState(`welcome`)
           this.$store.commit(`notify`, {
             title: `Account Deleted`,
             body: `You have successfully deleted the account 'default'`

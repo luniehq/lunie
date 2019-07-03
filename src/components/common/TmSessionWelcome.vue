@@ -41,14 +41,6 @@ export default {
   components: {
     SessionFrame,
     LiSession
-  },
-  methods: {
-    setState(value) {
-      this.$emit(`route-change`, value)
-    },
-    closeSession() {
-      this.$emit(`close`)
-    }
   }
 }
 </script>
