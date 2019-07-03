@@ -8,7 +8,7 @@
       <li>
         <span>Network Fee</span>
         <span>
-          {{ estimatedFee | fullDecimals }}
+          {{ networkFee | fullDecimals }}
           {{ bondDenom | viewDenom }}
         </span>
       </li>
@@ -50,14 +50,14 @@ export default {
     info: `Estimated network fees based on simulation.`
   }),
   computed: {
-    estimatedFee() {
-      return Number(this.gasPrice) * Number(this.gasEstimate) // already in atoms
-    },
     subTotal() {
-      return Number(this.amount) // already in atoms
+      return this.amount
+    },
+    networkFee() {
+      return this.gasPrice * this.gasEstimate
     },
     total() {
-      return this.estimatedFee + this.subTotal // already in atoms
+      return this.networkFee + this.subTotal
     }
   }
 }
