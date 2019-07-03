@@ -50,7 +50,8 @@ exports[`LiBankTransaction should show bank transaction when user hasn't signed 
    
   <span>
     
-        From 
+        From
+        
     <bech32-stub
       address="A"
     />
@@ -114,7 +115,8 @@ exports[`LiBankTransaction should show outgoing transactions 1`] = `
    
   <span>
     
-        To 
+        To
+        
     <bech32-stub
       address="A"
     />

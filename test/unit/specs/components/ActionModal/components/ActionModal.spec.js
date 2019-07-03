@@ -58,6 +58,9 @@ describe(`ActionModal`, () => {
           sessionType: `local`,
           browserWithLedgerSupport: null
         },
+        extension: {
+          enabled: true
+        },
         bondDenom: `uatom`,
         wallet: {
           loading: false
@@ -179,6 +182,13 @@ describe(`ActionModal`, () => {
           await wrapper.vm.$nextTick()
           expect(wrapper.vm.$el).toMatchSnapshot()
         })
+
+        it(`sending`, async () => {
+          wrapper.vm.step = `sign`
+          wrapper.vm.sending = true
+          await wrapper.vm.$nextTick()
+          expect(wrapper.vm.$el).toMatchSnapshot()
+        })
       })
 
       describe(`with ledger`, () => {
@@ -198,6 +208,82 @@ describe(`ActionModal`, () => {
         it(`on sign step`, async () => {
           wrapper.vm.session.sessionType = `ledger`
           wrapper.vm.step = `sign`
+          await wrapper.vm.$nextTick()
+          expect(wrapper.vm.$el).toMatchSnapshot()
+        })
+
+        it(`sending`, async () => {
+          wrapper.vm.session.sessionType = `ledger`
+          wrapper.vm.step = `sign`
+          wrapper.vm.sending = true
+          await wrapper.vm.$nextTick()
+          expect(wrapper.vm.$el).toMatchSnapshot()
+        })
+      })
+
+      describe(`with extension`, () => {
+        it(`on default step`, async () => {
+          wrapper.vm.session.sessionType = `extension`
+          await wrapper.vm.$nextTick()
+          expect(wrapper.vm.$el).toMatchSnapshot()
+        })
+
+        it(`on fees step`, async () => {
+          wrapper.vm.session.sessionType = `extension`
+          wrapper.vm.step = `fees`
+          await wrapper.vm.$nextTick()
+          expect(wrapper.vm.$el).toMatchSnapshot()
+        })
+
+        it(`on sign step`, async () => {
+          wrapper.vm.session.sessionType = `extension`
+          wrapper.vm.step = `sign`
+          await wrapper.vm.$nextTick()
+          expect(wrapper.vm.$el).toMatchSnapshot()
+        })
+
+        it(`on sign step without extension installed`, async () => {
+          wrapper.vm.session.sessionType = `extension`
+          wrapper.vm.extension.enabled = false
+          wrapper.vm.step = `sign`
+          await wrapper.vm.$nextTick()
+          expect(wrapper.vm.$el).toMatchSnapshot()
+        })
+
+        it(`sending`, async () => {
+          wrapper.vm.session.sessionType = `extension`
+          wrapper.vm.step = `sign`
+          wrapper.vm.sending = true
+          await wrapper.vm.$nextTick()
+          expect(wrapper.vm.$el).toMatchSnapshot()
+        })
+      })
+
+      describe(`with exploration mode`, () => {
+        it(`on default step`, async () => {
+          wrapper.vm.session.sessionType = `explore`
+          await wrapper.vm.$nextTick()
+          expect(wrapper.vm.$el).toMatchSnapshot()
+        })
+
+        it(`on fees step`, async () => {
+          wrapper.vm.session.sessionType = `explore`
+          wrapper.vm.step = `fees`
+          await wrapper.vm.$nextTick()
+          expect(wrapper.vm.$el).toMatchSnapshot()
+        })
+
+        it(`on sign step`, async () => {
+          wrapper.vm.session.sessionType = `explore`
+          wrapper.vm.step = `sign`
+          await wrapper.vm.$nextTick()
+          expect(wrapper.vm.$el).toMatchSnapshot()
+        })
+
+        it(`sending`, async () => {
+          wrapper.vm.session.sessionType = `explore`
+          wrapper.vm.step = `sign`
+          wrapper.vm.sending = true
           await wrapper.vm.$nextTick()
           expect(wrapper.vm.$el).toMatchSnapshot()
         })
@@ -573,6 +659,14 @@ describe(`ActionModal`, () => {
       it(`when using ledger`, async () => {
         self.session.sessionType = `ledger`
         self.selectedSignMethod = `ledger`
+
+        await ActionModal.methods.validateChangeStep.call(self)
+        expect(self.submit).toHaveBeenCalled()
+      })
+
+      it(`when using extension`, async () => {
+        self.session.sessionType = `extension`
+        self.selectedSignMethod = `extension`
 
         await ActionModal.methods.validateChangeStep.call(self)
         expect(self.submit).toHaveBeenCalled()

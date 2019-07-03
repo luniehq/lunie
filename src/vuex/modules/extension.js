@@ -1,5 +1,5 @@
-import Vue from "vue"
 import config from "src/config"
+import { getAccounts } from "src/scripts/extension-utils"
 
 export default () => {
   const emptyState = {
@@ -7,17 +7,25 @@ export default () => {
   }
   const state = {
     ...emptyState,
-    externals: { config } // for testing
+    accounts: [],
+    externals: { config, getAccounts } // for testing
   }
   const mutations = {
-    setExtensionAvailable(state, enabled) {
-      Vue.set(state, "enabled", enabled)
+    setExtensionAvailable(state) {
+      state.enabled = true
+    },
+    setExtensionAccounts(state, accounts) {
+      state.accounts = accounts
     }
   }
 
   const actions = {
-    async checkForPresense() {
-      // TODO Check if extension still installed. User could have uninstalled it.
+    async getAddressesFromExtension({
+      state: {
+        externals: { getAccounts }
+      }
+    }) {
+      getAccounts() // response will be handled by extension message listener
     }
   }
   return {
