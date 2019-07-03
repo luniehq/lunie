@@ -20,7 +20,11 @@
         From
         <Bech32 :address="senderAddress" />
       </div>
-      <TableInvoice :amount="amount" :estimated-fee="fees" />
+      <TableInvoice
+        :amount="amount"
+        :estimated-fee="fees"
+        :bond-denom="bondDenom"
+      />
       <TmFormGroup
         :error="$v.password.$error && $v.password.$invalid"
         class="action-modal-group"
@@ -68,18 +72,18 @@ import TmFormGroup from "common/TmFormGroup"
 import TmField from "common/TmField"
 import TmFormMsg from "common/TmFormMsg"
 import LiAnyTransaction from "transactions/LiAnyTransaction"
-// import TableInvoice from "src/ActionModal/components/TableInvoice"
+import TableInvoice from "src/ActionModal/components/TableInvoice"
 import Bech32 from "common/Bech32"
 import { required } from "vuelidate/lib/validators"
-import { parseTx, parseFee } from "../../scripts/parsers.js"
+import { parseTx, parseFee, parseValueObj } from "../../scripts/parsers.js"
 
 export default {
-  name: `session-approve-tran`,
+  name: `session-approve`,
   components: {
     TmBtn,
     TmFormGroup,
     LiAnyTransaction,
-    // TableInvoice,
+    TableInvoice,
     Bech32,
     TmField,
     TmFormMsg
@@ -100,7 +104,14 @@ export default {
       return this.signRequest ? this.signRequest.senderAddress : null
     },
     amount() {
-      return Number(this.tx.tx.value.msg[0].value.amount.amount)
+      return this.signRequest
+        ? Number(parseValueObj(this.signRequest.signMessage).amount)
+        : null
+    },
+    bondDenom() {
+      return this.signRequest
+        ? parseValueObj(this.signRequest.signMessage).denom
+        : null
     }
   },
   methods: {
