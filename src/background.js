@@ -25,6 +25,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 
 // only allow whitelisted websites to send us messages
 function senderAllowed(sender) {
+  // if sender.tab is not defined, the message comes from the extension
   if (sender.tab && !whitelisted.find(url => sender.tab.url.startsWith(url))) {
     return false;
   }
