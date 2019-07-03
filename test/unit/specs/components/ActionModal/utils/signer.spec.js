@@ -19,6 +19,13 @@ jest.mock(`@lunie/cosmos-ledger`, () => {
   })
 })
 
+jest.mock(`scripts/extension-utils`, () => ({
+  signWithExtension: jest.fn(() => ({
+    signature: Buffer.alloc(0),
+    publicKey: Buffer.alloc(0)
+  }))
+}))
+
 describe("pick signer", () => {
   it("should should exist", () => {
     expect(getSigner).toBeDefined()
@@ -48,5 +55,17 @@ describe("pick signer", () => {
       publicKey: expect.any(Buffer)
     })
     // expect(ledgerMock.sign).toHaveBeenCalledWith("message")
+  })
+
+  it("should pick the extension signer", async () => {
+    const signer = getSigner(config, "extension", {
+      address: ""
+    })
+    const { signWithExtension } = require(`scripts/extension-utils`)
+    expect(await signer("message")).toEqual({
+      signature: expect.any(Buffer),
+      publicKey: expect.any(Buffer)
+    })
+    expect(signWithExtension).toHaveBeenCalled()
   })
 })

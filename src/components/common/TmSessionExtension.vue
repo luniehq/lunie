@@ -12,35 +12,35 @@
           <i class="material-icons session-close">close</i>
         </a>
       </div>
-      <div v-if="!session.extensionInstalled" class="session-main">
+      <div v-if="!extension.enabled" class="session-main">
         <p>
           Please install the Lunie Extension for Chrome from the Google Play
           Store.
         </p>
       </div>
-      <div v-if="session.extensionInstalled">
+      <div v-if="extension.enabled">
         <div class="session-main">
-          <div :icon="session.extensionInstalled ? 'laptop' : 'info'">
-            <div v-if="session.extensionInstalled">
+          <div :icon="extension.enabled ? 'laptop' : 'info'">
+            <div v-if="extension.enabled">
               Click below to open the Lunie Chrome Extension, or use one of the
               existing address.
               <ul>
-                <li v-for="wallet in extension.wallets" :key="wallet.name">
+                <li v-for="account in extension.accounts" :key="account.name">
                   <div class="extension-address-item">
                     <div>
-                      {{ wallet.name }}<br />
+                      {{ account.name }}<br />
                       <TmBtn
                         type="anchor"
-                        :value="wallet.address | formatBech32"
+                        :value="account.address | formatBech32"
                         color="primary"
-                        @click.native="onSubmit(wallet.address)"
+                        @click.native="signIn(account.address)"
                       />
                     </div>
                     <div>
                       <TmBtn
                         value="Use Address"
                         color="primary"
-                        @click.native="onSubmit(wallet.address)"
+                        @click.native="signIn(account.address)"
                       />
                     </div>
                   </div>
@@ -58,11 +58,6 @@
             You can find the Lunie Chrome extension on the
             <a href="">Google Play Store</a>.
           </p>
-          <TmBtn
-            :value="submitCaption"
-            :disabled="!session.extensionInstalled"
-            @click.native="signIn()"
-          />
         </div>
       </div>
     </div>
@@ -82,19 +77,11 @@ export default {
     formatBech32
   },
   data: () => ({
-    status: `connect`,
     connectionError: null,
     address: null
   }),
   computed: {
-    ...mapGetters([`session`, `extension`]),
-    submitCaption() {
-      return {
-        connect: "Sign In",
-        detect: "Opening Extension",
-        confirmAddress: "Confirming Address"
-      }[this.status]
-    }
+    ...mapGetters([`extension`])
   },
   mounted() {
     this.getAddressesFromExtension()
@@ -109,46 +96,12 @@ export default {
     close() {
       this.$emit(`close`)
     },
-    async onSubmit(address) {
-      console.log("clicked", address)
-
+    async signIn(address) {
       this.$store.dispatch(`signIn`, {
         sessionType: `extension`,
         address: address
       })
-      this.$emit(`close`)
-    },
-    async signIn() {
-      this.connectionError = null
-      this.status = `detect`
-      this.address = null
-      try {
-        this.address = await this.$store.dispatch(`connectLedgerApp`)
-      } catch ({ message }) {
-        this.status = `connect`
-        this.connectionError = message
-        return
-      }
-
-      this.status = `confirmAddress`
-      if (await this.confirmAddress()) {
-        await this.$store.dispatch(`signIn`, {
-          sessionType: `extension`,
-          address: this.address
-        })
-        return
-      }
-
-      this.status = `connect`
-    },
-    async confirmAddress() {
-      try {
-        await this.$store.dispatch("confirmLedgerAddress")
-        return true
-      } catch ({ message }) {
-        this.connectionError = message
-      }
-      return false
+      this.close()
     },
     getAddressesFromExtension() {
       this.$store.dispatch("getAddressesFromExtension")

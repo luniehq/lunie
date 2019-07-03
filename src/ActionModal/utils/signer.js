@@ -1,6 +1,6 @@
 import Ledger from "@lunie/cosmos-ledger"
 import { signWithPrivateKey, getStoredWallet } from "@lunie/cosmos-keys"
-import { sign } from "src/scripts/extension-utils"
+import { signWithExtension } from "src/scripts/extension-utils"
 
 export function getSigner(config, submitType = "", { address, password }) {
   if (submitType === `local`) {
@@ -29,7 +29,7 @@ export function getSigner(config, submitType = "", { address, password }) {
     }
   } else if (submitType === `extension`) {
     return signMessage => {
-      return sign(signMessage, address)
+      return signWithExtension(signMessage, address)
     }
   }
 }

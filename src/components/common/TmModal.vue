@@ -97,11 +97,10 @@ export default {
 }
 
 .tm-modal-main {
-  padding: 1rem 1.5rem;
   display: flex;
   flex-flow: column;
   justify-content: center;
-  min-height: 600;
+  min-height: 600px;
 }
 
 .tm-modal-main .ps-scrollbar-y-rail {

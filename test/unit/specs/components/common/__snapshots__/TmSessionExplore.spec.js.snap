@@ -4,38 +4,37 @@ exports[`TmSessionExplore shows a form to sign in with an address 1`] = `
 <div
   class="session"
 >
+  <div
+    class="session-header"
+  >
+    <a>
+      <i
+        class="material-icons session-back"
+      >
+        arrow_back
+      </i>
+    </a>
+     
+    <a>
+      <i
+        class="material-icons session-close"
+      >
+        close
+      </i>
+    </a>
+  </div>
+   
   <tmformstruct-stub
-    class="session-container"
     submit="function () { [native code] }"
     width=""
   >
-    <div
-      class="session-header"
+    <h2
+      class="session-title"
     >
-      <a>
-        <i
-          class="material-icons session-back"
-        >
-          arrow_back
-        </i>
-      </a>
-       
-      <h2
-        class="session-title"
-      >
-        
-        Explore with any address
       
-      </h2>
-       
-      <a>
-        <i
-          class="material-icons session-close"
-        >
-          close
-        </i>
-      </a>
-    </div>
+      Explore with any address
+    
+    </h2>
      
     <div
       class="session-main"

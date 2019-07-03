@@ -1,6 +1,5 @@
-import Vue from "vue"
 import config from "src/config"
-import { getWallets } from "src/scripts/extension-utils"
+import { getAccounts } from "src/scripts/extension-utils"
 
 export default () => {
   const emptyState = {
@@ -8,24 +7,25 @@ export default () => {
   }
   const state = {
     ...emptyState,
-    wallets: {},
-    externals: { config } // for testing
+    accounts: [],
+    externals: { config, getAccounts } // for testing
   }
   const mutations = {
-    setExtensionAvailable(state, enabled) {
-      Vue.set(state, "enabled", enabled)
+    setExtensionAvailable(state) {
+      state.enabled = true
     },
-    setWallets(state, wallets) {
-      Vue.set(state, "wallets", wallets)
+    setExtensionAccounts(state, accounts) {
+      state.accounts = accounts
     }
   }
 
   const actions = {
-    async checkForPresense() {
-      // TODO Check if extension still installed. User could have uninstalled it.
-    },
-    async getAddressesFromExtension() {
-      getWallets()
+    async getAddressesFromExtension({
+      state: {
+        externals: { getAccounts }
+      }
+    }) {
+      getAccounts() // response will be handled by extension message listener
     }
   }
   return {

@@ -2,16 +2,9 @@
   <div class="tool-bar">
     <slot />
     <a v-if="session.signedIn" id="signOut-btn" @click="signOut()">
-      <i
-        v-if="!displayText"
-        v-tooltip.bottom.end="'Sign Out'"
-        class="material-icons"
-      >
+      <i v-tooltip.bottom.end="'Sign Out'" class="material-icons">
         exit_to_app
       </i>
-      <template v-else>
-        Sign Out
-      </template>
     </a>
     <TmBtn
       v-if="!session.signedIn"
@@ -91,8 +84,7 @@ export default {
   }
 
   .sign-in-button {
-    margin: 0;
-    width: 100%;
+    display: none;
   }
 }
 </style>
