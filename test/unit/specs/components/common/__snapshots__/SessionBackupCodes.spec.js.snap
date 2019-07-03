@@ -3,7 +3,6 @@
 exports[`SessionBackupCodes has the expected html structure 1`] = `
 <div
   class="backup-code"
-  hide-header=""
 >
   <div
     class="backup-code-top"

@@ -3,7 +3,6 @@
 exports[`SessionAccounts has the expected html structure 1`] = `
 <div
   class="accounts"
-  hide-header="true"
 >
   <div
     class="accounts-top"

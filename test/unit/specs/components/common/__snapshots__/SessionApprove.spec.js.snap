@@ -3,7 +3,6 @@
 exports[`SessionApprove shows the approval modal with the transaction and an invoice table 1`] = `
 <div
   class="approve-tran"
-  hide-header=""
 >
   <h2>
     Approve Transaction

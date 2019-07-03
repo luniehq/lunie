@@ -19,10 +19,7 @@
       </div>
     </div>
     <div class="button-add-account">
-      <TmBtn
-        value="Add Account"
-        color="primary"
-      />
+      <TmBtn value="Add Account" color="primary" />
     </div>
   </div>
 </template>
