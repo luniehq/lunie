@@ -3,7 +3,6 @@
     <component
       :is="currentSessionComponent"
       :go-to="goTo"
-      @route-change="goTo"
       @close="close"
     ></component>
   </transition>

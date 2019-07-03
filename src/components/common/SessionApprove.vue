@@ -1,5 +1,5 @@
 <template>
-  <div class="approve-tran" hide-header>
+  <div class="approve-tran">
     <h2>Approve Transaction</h2>
     <div>
       <p>Verify the transaction details below.</p>

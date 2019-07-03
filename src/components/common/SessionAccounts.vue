@@ -22,7 +22,6 @@
       <TmBtn
         value="Add Account"
         color="primary"
-        @click.native="redirectAddAccount"
       />
     </div>
   </div>
@@ -44,11 +43,6 @@ export default {
         address,
         name
       }))
-    }
-  },
-  methods: {
-    redirectAddAccount() {
-      this.$router.push(`welcome`)
     }
   }
 }
