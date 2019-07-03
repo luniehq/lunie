@@ -472,6 +472,79 @@ exports[`ActionModal should show the action modal when user has logged in with e
     >
       <div>
         
+          Please verify and sign the transaction in the Lunie Chrome
+          Extension.
+        
+      </div>
+    </hardwarestate-stub>
+  </div>
+   
+  <div
+    class="action-modal-footer"
+  >
+    <tmformgroup-stub
+      class="action-modal-group"
+    >
+      <div>
+        <tmbtn-stub
+          color="primary"
+          disabled="true"
+          value="Submit"
+        />
+      </div>
+    </tmformgroup-stub>
+     
+    <!---->
+  </div>
+</div>
+`;
+
+exports[`ActionModal should show the action modal when user has logged in with extension on sign step without extension installed 1`] = `
+<div
+  class="action-modal"
+  name="slide-fade"
+  tabindex="0"
+>
+  <div
+    class="action-modal-icon action-modal-close"
+    id="closeBtn"
+  >
+    <i
+      class="material-icons"
+    >
+      close
+    </i>
+  </div>
+   
+  <div
+    class="action-modal-header"
+  >
+    <span
+      class="action-modal-title"
+    >
+      
+        Action Modal
+      
+    </span>
+     
+    <steps-stub
+      activestep="sign"
+      steps="Details,Fees,Sign"
+    />
+  </div>
+   
+  <div
+    class="action-modal-form"
+  >
+    <!---->
+     
+    <!---->
+     
+    <hardwarestate-stub
+      icon="info"
+    >
+      <div>
+        
           Please install the Lunie Chrome Extension from the Google Chrome
           store.
         
@@ -546,8 +619,8 @@ exports[`ActionModal should show the action modal when user has logged in with e
     >
       <div>
         
-          Please install the Lunie Chrome Extension from the Google Chrome
-          store.
+          Please verify and sign the transaction in the Lunie Chrome
+          Extension.
         
       </div>
     </hardwarestate-stub>

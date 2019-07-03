@@ -58,6 +58,9 @@ describe(`ActionModal`, () => {
           sessionType: `local`,
           browserWithLedgerSupport: null
         },
+        extension: {
+          enabled: true
+        },
         bondDenom: `uatom`,
         wallet: {
           loading: false
@@ -234,6 +237,14 @@ describe(`ActionModal`, () => {
 
         it(`on sign step`, async () => {
           wrapper.vm.session.sessionType = `extension`
+          wrapper.vm.step = `sign`
+          await wrapper.vm.$nextTick()
+          expect(wrapper.vm.$el).toMatchSnapshot()
+        })
+
+        it(`on sign step without extension installed`, async () => {
+          wrapper.vm.session.sessionType = `extension`
+          wrapper.vm.extension.enabled = false
           wrapper.vm.step = `sign`
           await wrapper.vm.$nextTick()
           expect(wrapper.vm.$el).toMatchSnapshot()

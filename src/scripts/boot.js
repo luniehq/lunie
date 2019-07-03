@@ -25,7 +25,7 @@ import { focusElement, focusParentLast } from "src/directives"
 const _enableGoogleAnalytics = enableGoogleAnalytics
 const _setGoogleAnalyticsPage = setGoogleAnalyticsPage
 
-import { processLunieExtensionMessages } from "scripts/extension-utils"
+import { listenToExtensionMessages } from "scripts/extension-utils"
 
 export const routeGuard = store => (to, from, next) => {
   if (from.fullPath !== to.fullPath && !store.getters.session.pauseHistory) {
@@ -125,7 +125,7 @@ export const startApp = async (
       store.dispatch(`checkForPersistedSession`)
     })
 
-  window.addEventListener("message", processLunieExtensionMessages(store))
+  listenToExtensionMessages(store)
 
   return new Vue({
     router,

@@ -1,23 +1,29 @@
 import {
+  listenToExtensionMessages,
   processLunieExtensionMessages,
-  getWallets,
+  getAccounts,
   signWithExtension
 } from "scripts/extension-utils.js"
 
 describe(`Extension Utils`, () => {
-  describe("processLunieExtensionMessages", () => {
-    let store, handler
+  describe("listenToExtensionMessages", () => {
+    let store
 
     beforeEach(() => {
       store = {
         commit: jest.fn(),
         dispatch: jest.fn()
       }
-      handler = processLunieExtensionMessages(store)
+    })
+
+    it("listens for extension messages", () => {
+      const spy = jest.spyOn(global, "addEventListener")
+      listenToExtensionMessages(store)
+      expect(spy).toHaveBeenCalledWith("message", expect.any(Function))
     })
 
     it("should signal that the extension is enabled", () => {
-      handler({
+      processLunieExtensionMessages(store)({
         source: global,
         data: {
           type: "FROM_LUNIE_EXTENSION",
@@ -27,12 +33,12 @@ describe(`Extension Utils`, () => {
         }
       })
 
-      expect(store.commit).toHaveBeenCalledWith("setExtensionInstalled")
+      expect(store.commit).toHaveBeenCalledWith("setExtensionAvailable")
       expect(store.dispatch).toHaveBeenCalledWith("getAddressesFromExtension")
     })
 
     it("should ignore messages not from the extension", () => {
-      handler({
+      processLunieExtensionMessages(store)({
         source: global,
         data: {
           type: "NOT_FROM_LUNIE_EXTENSION",
@@ -42,11 +48,11 @@ describe(`Extension Utils`, () => {
         }
       })
 
-      expect(store.commit).not.toHaveBeenCalledWith("setExtensionInstalled")
+      expect(store.commit).not.toHaveBeenCalledWith("setExtensionAvailable")
     })
 
     it("should react to query wallet responsesn", () => {
-      handler({
+      processLunieExtensionMessages(store)({
         source: global,
         data: {
           type: "FROM_LUNIE_EXTENSION",
@@ -62,7 +68,7 @@ describe(`Extension Utils`, () => {
         }
       })
 
-      expect(store.commit).toHaveBeenCalledWith("setWallets", [
+      expect(store.commit).toHaveBeenCalledWith("setExtensionAccounts", [
         {
           address: "cosmos1234",
           name: "TEST_ADDRESS"
@@ -80,8 +86,10 @@ describe(`Extension Utils`, () => {
       global.postMessage.mockReset()
     })
 
-    it("should request wallets", () => {
-      getWallets()
+    it("should request wallets", async () => {
+      global.postMessage.mockClear()
+
+      getAccounts()
       expect(global.postMessage.mock.calls).toEqual([
         [
           {

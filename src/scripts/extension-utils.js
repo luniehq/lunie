@@ -5,29 +5,44 @@ const LUNIE_WEBSITE_TYPE = "FROM_LUNIE_IO"
 
 const unWrapMessageFromContentScript = data => data.message
 
+// ---- Incoming messages -----
+
+// processes incoming messages from the browser extension
+// eslint-disable-next-line no-unused-vars
 const processMessage = (store, type, payload) => {
   switch (type) {
     case "INIT_EXTENSION":
-      store.commit("setExtensionInstalled")
+      store.commit("setExtensionAvailable")
       store.dispatch("getAddressesFromExtension")
       break
     case "GET_WALLETS_RESPONSE":
-      store.commit("setWallets", payload)
+      store.commit("setExtensionAccounts", payload)
       break
   }
 }
 
-export const processLunieExtensionMessages = store => {
-  return message => {
-    if (message.source !== window) return
-    const { data } = message
-    if (data.type && data.type === LUNIE_EXT_TYPE) {
-      const message = unWrapMessageFromContentScript(data)
-      console.log("Ext. Received from content script:", message)
-      processMessage(store, message.type, message.payload)
-    }
+const filterExtensionMessage = (store, callback) => message => {
+  if (message.source !== window) return
+  const { data } = message
+  if (data.type && data.type === LUNIE_EXT_TYPE) {
+    callback(data)
   }
 }
+
+// exported for easyier testing
+export const processLunieExtensionMessages = store =>
+  filterExtensionMessage(store, data => {
+    const message = unWrapMessageFromContentScript(data)
+    processMessage(store, message.type, message.payload)
+  })
+
+// listen to incoming events
+export const listenToExtensionMessages = store => {
+  const handler = processLunieExtensionMessages(store)
+  window.addEventListener("message", handler)
+}
+
+// ---- Querying -----
 
 const sendMessageToContentScript = payload => {
   window.postMessage(
@@ -51,8 +66,10 @@ const sendAsyncMessageToContentScript = payload => {
   })
 }
 
-export const getWallets = () => {
-  sendMessageToContentScript({ type: "GET_WALLETS" })
+export const getAccounts = () => {
+  sendMessageToContentScript({
+    type: "GET_WALLETS"
+  })
 }
 
 export const signWithExtension = async (signMessage, senderAddress) => {

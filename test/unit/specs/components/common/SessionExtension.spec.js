@@ -6,11 +6,9 @@ describe(`SessionApprove`, () => {
 
   beforeEach(() => {
     const getters = {
-      session: {
-        extensionInstalled: true
-      },
       extension: {
-        wallets: [
+        enabled: true,
+        accounts: [
           {
             address: "cosmos1234",
             name: "TEST_WALLET"
@@ -40,7 +38,7 @@ describe(`SessionApprove`, () => {
   })
 
   it(`shows a guide to install the extension if no extension installed`, () => {
-    wrapper.vm.session.extensionInstalled = false
+    wrapper.vm.extension.enabled = false
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 

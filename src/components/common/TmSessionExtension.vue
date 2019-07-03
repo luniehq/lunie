@@ -12,35 +12,41 @@
           <i class="material-icons session-close">close</i>
         </a>
       </div>
-      <div v-if="!session.extensionInstalled" class="session-main">
+      <div
+        v-if="!extension.enabled"
+        class="session-main"
+      >
         <p>
           Please install the Lunie Extension for Chrome from the Google Play
           Store.
         </p>
       </div>
-      <div v-if="session.extensionInstalled">
+      <div v-if="extension.enabled">
         <div class="session-main">
-          <div :icon="session.extensionInstalled ? 'laptop' : 'info'">
-            <div v-if="session.extensionInstalled">
+          <div :icon="extension.enabled ? 'laptop' : 'info'">
+            <div v-if="extension.enabled">
               Click below to open the Lunie Chrome Extension, or use one of the
               existing address.
               <ul>
-                <li v-for="wallet in extension.wallets" :key="wallet.name">
+                <li
+                  v-for="account in extension.accounts"
+                  :key="account.name"
+                >
                   <div class="extension-address-item">
                     <div>
-                      {{ wallet.name }}<br />
+                      {{ account.name }}<br />
                       <TmBtn
                         type="anchor"
-                        :value="wallet.address | formatBech32"
+                        :value="account.address | formatBech32"
                         color="primary"
-                        @click.native="signIn(wallet.address)"
+                        @click.native="signIn(account.address)"
                       />
                     </div>
                     <div>
                       <TmBtn
                         value="Use Address"
                         color="primary"
-                        @click.native="signIn(wallet.address)"
+                        @click.native="signIn(account.address)"
                       />
                     </div>
                   </div>
@@ -81,7 +87,7 @@ export default {
     address: null
   }),
   computed: {
-    ...mapGetters([`session`, `extension`])
+    ...mapGetters([`extension`])
   },
   mounted() {
     this.getAddressesFromExtension()

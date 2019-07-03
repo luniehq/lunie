@@ -2,7 +2,7 @@ import extensionModule from "src/vuex/modules/extension.js"
 
 describe(`Module: Extension`, () => {
   let module, state, mutations, node, actions
-  const mockWallets = [
+  const mockAccounts = [
     {
       address: "cosmos1234",
       name: "TEST_ADDRESS"
@@ -35,23 +35,22 @@ describe(`Module: Extension`, () => {
     })
 
     it(`should set wallets`, () => {
-      expect(state.wallets).toEqual([])
-      mutations.setWallets(state, mockWallets)
-      expect(state.wallets).toEqual(mockWallets)
+      expect(state.accounts).toEqual([])
+      mutations.setExtensionAccounts(state, mockAccounts)
+      expect(state.accounts).toEqual(mockAccounts)
     })
   })
 
   describe("actions", () => {
     it("getAddressesFromExtension", async () => {
-      const getWallets = jest.fn()
+      const getAccounts = jest.fn(() => mockAccounts)
       await actions.getAddressesFromExtension({
         state: {
           externals: {
-            getWallets
+            getAccounts
           }
         }
       })
-      expect(getWallets).toHaveBeenCalled()
     })
   })
 })
