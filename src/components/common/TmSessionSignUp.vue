@@ -1,5 +1,5 @@
 <template>
-  <session-frame>
+  <SessionFrame>
     <div class="session">
       <TmFormStruct :submit="onSubmit.bind(this)">
         <h2 class="session-title">
@@ -175,7 +175,7 @@
         </div>
       </TmFormStruct>
     </div>
-  </session-frame>
+  </SessionFrame>
 </template>
 
 <script>

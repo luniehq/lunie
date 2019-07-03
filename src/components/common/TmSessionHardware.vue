@@ -1,5 +1,5 @@
 <template>
-  <session-frame>
+  <SessionFrame>
     <div class="session">
       <h2 class="session-title">
         Use my Ledger Nano
@@ -31,7 +31,7 @@
         </p>
       </div>
     </div>
-  </session-frame>
+  </SessionFrame>
 </template>
 
 <script>

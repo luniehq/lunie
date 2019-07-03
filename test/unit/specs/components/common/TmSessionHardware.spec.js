@@ -6,8 +6,8 @@ import TmSessionHardware from "common/TmSessionHardware"
 const localVue = createLocalVue()
 localVue.use(Vuex)
 localVue.use(Vuelidate)
-localVue.directive(`tooltip`, () => { })
-localVue.directive(`focus`, () => { })
+localVue.directive(`tooltip`, () => {})
+localVue.directive(`focus`, () => {})
 
 describe(`TmSessionHardware`, () => {
   let wrapper, store
@@ -25,7 +25,7 @@ describe(`TmSessionHardware`, () => {
       mocks: {
         router: {
           push: jest.fn()
-        },
+        }
       },
       stubs: [`router-link`]
     })

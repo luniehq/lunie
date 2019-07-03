@@ -5,7 +5,7 @@ import SessionApprove from "common/SessionApprove"
 describe(`SessionApprove`, () => {
   const localVue = createLocalVue()
   localVue.use(Vuelidate)
-  localVue.directive("focus", () => { })
+  localVue.directive("focus", () => {})
 
   let wrapper, $store
 

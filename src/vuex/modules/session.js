@@ -22,7 +22,7 @@ export default () => {
     maintenanceBar: false,
     modals: {
       error: { active: false },
-      help: { active: false },
+      help: { active: false }
     },
     browserWithLedgerSupport:
       navigator.userAgent.includes(`Chrome`) ||

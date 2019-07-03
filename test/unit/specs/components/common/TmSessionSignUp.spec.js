@@ -125,7 +125,7 @@ describe(`TmSessionSignUp`, () => {
         signUpWarning: true
       },
       $v: {
-        $touch: () => { },
+        $touch: () => {},
         $error: false
       },
       $store

@@ -16,7 +16,7 @@ describe(`AppMenu`, () => {
 
     wrapper = shallowMount(AppMenu, {
       mocks: {
-        $store,
+        $store
       },
       stubs: [`router-link`]
     })

@@ -1,5 +1,5 @@
 <template>
-  <session-frame>
+  <SessionFrame>
     <div class="session">
       <div class="session-container">
         <h2 class="session-title">
@@ -65,7 +65,7 @@
         </div>
       </div>
     </div>
-  </session-frame>
+  </SessionFrame>
 </template>
 
 <script>
