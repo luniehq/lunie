@@ -1,5 +1,5 @@
 <template>
-  <session-frame>
+  <SessionFrame>
     <div id="session-welcome" class="session">
       <h2 class="session-title">
         Welcome to Lunie
@@ -30,7 +30,7 @@
         <router-link to="/privacy" class="link">Privacy Policy</router-link>.
       </p>
     </div>
-  </session-frame>
+  </SessionFrame>
 </template>
 
 <script>
