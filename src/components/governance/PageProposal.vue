@@ -62,10 +62,7 @@
               {{ proposalStatus }}
             </dd>
           </dl>
-          <dl
-            v-if="displayEndDate"
-            class="info_dl colored_dl"
-          >
+          <dl v-if="displayEndDate" class="info_dl colored_dl">
             <dt>Voting End Date</dt>
             <dd>{{ endDate }}</dd>
           </dl>
@@ -78,10 +75,10 @@
             <dt>Deposit Count</dt>
             <dd>
               {{
-              totalDeposit
-              ? `${totalDeposit.amount}
+                totalDeposit
+                  ? `${totalDeposit.amount}
               ${totalDeposit.denom}`
-              : `--`
+                  : `--`
               }}
             </dd>
           </dl>
@@ -93,10 +90,7 @@
             <dd>{{ num.shortDecimals(num.atoms(totalVotes)) }}</dd>
           </dl>
         </div>
-        <div
-          v-if="proposal.proposal_status === 'VotingPeriod'"
-          class="row"
-        >
+        <div v-if="proposal.proposal_status === 'VotingPeriod'" class="row">
           <dl class="info_dl colored_dl">
             <dt>Yes</dt>
             <dd>
