@@ -76,7 +76,9 @@ export default ({ node }) => {
 
       state.loading = true
       try {
-        const rewardsArray = await node.get.delegatorRewards(session.address)
+        // TODO move array fallback into cosmos-api
+        const rewardsArray =
+          (await node.get.delegatorRewards(session.address)) || []
         const rewards = coinsToObject(rewardsArray)
         commit(`setTotalRewards`, rewards || {})
         commit(`setDistributionError`, null)
@@ -87,10 +89,12 @@ export default ({ node }) => {
       }
     },
     async postMsgWithdrawDelegationReward({ dispatch }) {
-      await dispatch(`getTotalRewards`)
-      await dispatch(`getRewardsFromMyValidators`)
-      await dispatch(`queryWalletBalances`)
-      await dispatch(`getAllTxs`)
+      return Promise.all([
+        dispatch(`getTotalRewards`),
+        dispatch(`getRewardsFromMyValidators`, true),
+        dispatch(`queryWalletBalances`),
+        dispatch(`getAllTxs`)
+      ])
     },
     async getRewardsFromMyValidators(
       {
@@ -127,10 +131,12 @@ export default ({ node }) => {
     ) {
       state.loading = true
       try {
-        const rewardsArray = await node.get.delegatorRewardsFromValidator(
-          session.address,
-          validatorAddr
-        )
+        // TODO move array fallback into cosmos-api
+        const rewardsArray =
+          (await node.get.delegatorRewardsFromValidator(
+            session.address,
+            validatorAddr
+          )) || []
         const rewards = coinsToObject(rewardsArray)
 
         // if the delegator has 0 rewards for a validator after a withdraw, this is trimmed

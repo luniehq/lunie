@@ -276,7 +276,10 @@ describe(`Module: Fee Distribution`, () => {
       it(`calls sub actions`, async () => {
         await actions.postMsgWithdrawDelegationReward({ dispatch })
         expect(dispatch).toHaveBeenCalledWith(`getTotalRewards`)
-        expect(dispatch).toHaveBeenCalledWith(`getRewardsFromMyValidators`)
+        expect(dispatch).toHaveBeenCalledWith(
+          `getRewardsFromMyValidators`,
+          true
+        )
         expect(dispatch).toHaveBeenCalledWith(`queryWalletBalances`)
         expect(dispatch).toHaveBeenCalledWith(`getAllTxs`)
       })
