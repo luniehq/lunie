@@ -169,21 +169,25 @@ describe(`Store: getters`, () => {
   })
 
   it("totalRewards", () => {
-    expect(totalRewards(null, {
-      bondDenom: "stake",
-      validatorsWithRewards: [[
-        "validator1",
-        {
-          stake: 10000
-        }
-      ],
-      [
-        "validator2",
-        {
-          stake: 5000
-        }
-      ]]
-    })).toBe(15000)
+    expect(
+      totalRewards(null, {
+        bondDenom: "stake",
+        validatorsWithRewards: [
+          [
+            "validator1",
+            {
+              stake: 10000
+            }
+          ],
+          [
+            "validator2",
+            {
+              stake: 5000
+            }
+          ]
+        ]
+      })
+    ).toBe(15000)
   })
 
   it(`modalContext`, () => {
