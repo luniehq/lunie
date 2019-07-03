@@ -19,11 +19,7 @@
       field-label="Amount"
     >
       <span class="input-suffix">{{ denom | viewDenom }}</span>
-      <TmField
-        id="amount"
-        :value="rewards | atoms | fullDecimals"
-        readonly
-      />
+      <TmField id="amount" :value="rewards | atoms | fullDecimals" readonly />
     </TmFormGroup>
   </ActionModal>
 </template>

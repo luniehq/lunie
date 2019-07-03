@@ -138,7 +138,9 @@ describe(`TmBalance`, () => {
           lastUpdate: 0
         }
         TmBalance.methods.update.call(self, 10)
-        expect($store.dispatch).toHaveBeenCalledWith(`getRewardsFromMyValidators`)
+        expect($store.dispatch).toHaveBeenCalledWith(
+          `getRewardsFromMyValidators`
+        )
         expect($store.dispatch).toHaveBeenCalledWith(`queryWalletBalances`)
         expect(self.lastUpdate).toBe(10)
       })

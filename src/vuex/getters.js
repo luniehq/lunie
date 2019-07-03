@@ -38,10 +38,11 @@ export const validatorsWithRewards = (state, getters) =>
   Object.entries(state.distribution.rewards).filter(
     ([, rewards]) => rewards[getters.bondDenom] > 0
   )
-export const totalRewards = (state, getters) => validatorsWithRewards.reduce(
-  (sum, [, rewards]) => sum + rewards[getters.bondDenom],
-  0
-)
+export const totalRewards = (state, getters) =>
+  validatorsWithRewards.reduce(
+    (sum, [, rewards]) => sum + rewards[getters.bondDenom],
+    0
+  )
 
 // staking
 export const liquidAtoms = state =>

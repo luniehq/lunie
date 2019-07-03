@@ -206,12 +206,11 @@ describe(`Store: getters`, () => {
       chainId: "cosmoshub",
       connected: true,
       userAddress: "cosmos1abcdefghijklmop",
-      rewards: 
-         {
-           "validatorX": {
-             "uatom": 123,
-           },
-         },
+      rewards: {
+        validatorX: {
+          uatom: 123
+        }
+      },
       delegates: [],
       localKeyPairName: "localKeyPairName",
       bondDenom: "uatom",

@@ -95,7 +95,7 @@ describe(`Module: Fee Distribution`, () => {
 
     describe(`resetSessionData`, () => {
       it(`should clear all distribution data`, () => {
-        state.rewards = {validatorX: { stake: 10 }}
+        state.rewards = { validatorX: { stake: 10 } }
         actions.resetSessionData({ rootState })
         expect(rootState.distribution.rewards).toEqual({})
       })
@@ -237,9 +237,7 @@ describe(`Module: Fee Distribution`, () => {
     describe(`postWithdrawAllRewards`, () => {
       it(`calls sub actions`, async () => {
         await actions.postMsgWithdrawDelegationReward({ dispatch })
-        expect(dispatch).toHaveBeenCalledWith(
-          `getRewardsFromMyValidators`
-        )
+        expect(dispatch).toHaveBeenCalledWith(`getRewardsFromMyValidators`)
         expect(dispatch).toHaveBeenCalledWith(`queryWalletBalances`)
         expect(dispatch).toHaveBeenCalledWith(`getAllTxs`)
       })

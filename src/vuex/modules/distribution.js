@@ -1,7 +1,6 @@
 import * as Sentry from "@sentry/browser"
 import Vue from "vue"
 import { coinsToObject } from "scripts/common.js"
-import { throttle } from "scripts/blocks-throttle"
 
 export default ({ node }) => {
   const emptyState = {
@@ -66,13 +65,11 @@ export default ({ node }) => {
         dispatch(`getAllTxs`)
       ])
     },
-    async getRewardsFromMyValidators(
-      {
-        state,
-        dispatch,
-        getters: { yourValidators }
-      }
-    ) {
+    async getRewardsFromMyValidators({
+      state,
+      dispatch,
+      getters: { yourValidators }
+    }) {
       state.loading = true
       await Promise.all(
         yourValidators.map(validator =>
