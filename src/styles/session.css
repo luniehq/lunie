@@ -1,3 +1,28 @@
+.session-frame {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: var(--z-modal);
+  width: 100vw;
+  height: 100vh;
+  background: var(--app-nav-light);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.session-outer-container {
+  position: relative;
+  padding: 3rem 0;
+}
+
+.session-logo {
+  height: 3rem;
+  position: absolute;
+  top: 1.25rem;
+  left: 1.25rem;
+}
+
 .session {
   background: var(--app-bg);
   max-width: 40rem;
@@ -74,6 +99,16 @@
 .footnote {
   padding: 1rem 1rem 0;
   font-size: var(--sm);
+}
+
+.component-fade-enter-active,
+.component-fade-leave-active {
+  transition: opacity 0.2s ease;
+}
+
+.component-fade-enter,
+.component-fade-leave-to .component-fade-leave-active {
+  opacity: 0;
 }
 
 @media screen and (max-width: 1023px) {
