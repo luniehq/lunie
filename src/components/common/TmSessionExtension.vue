@@ -12,10 +12,7 @@
           <i class="material-icons session-close">close</i>
         </a>
       </div>
-      <div
-        v-if="!extension.enabled"
-        class="session-main"
-      >
+      <div v-if="!extension.enabled" class="session-main">
         <p>
           Please install the Lunie Extension for Chrome from the Google Play
           Store.
@@ -28,10 +25,7 @@
               Click below to open the Lunie Chrome Extension, or use one of the
               existing address.
               <ul>
-                <li
-                  v-for="account in extension.accounts"
-                  :key="account.name"
-                >
+                <li v-for="account in extension.accounts" :key="account.name">
                   <div class="extension-address-item">
                     <div>
                       {{ account.name }}<br />
