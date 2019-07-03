@@ -1,47 +1,45 @@
 <template>
-  <div class="session">
-    <div class="session-header">
-      <a @click="goBack()">
-        <i class="material-icons session-back">arrow_back</i>
-      </a>
-      <a @click="close">
-        <i class="material-icons session-close">close</i>
-      </a>
+  <session-frame>
+    <div class="session">
+      <TmFormStruct :submit="onSubmit">
+        <h2 class="session-title">
+          Explore with any address
+        </h2>
+        <div class="session-main">
+          <TmFormGroup
+            field-id="sign-in-name"
+            field-label="Your Cosmos Address"
+          >
+            <TmField
+              v-model="address"
+              type="text"
+              placeholder=""
+              vue-focus="vue-focus"
+            />
+            <TmFormMsg
+              v-if="$v.address.$error && !$v.address.required"
+              name="Name"
+              type="required"
+            />
+            <TmFormMsg
+              v-else-if="$v.address.$error && !$v.address.bech32Validate"
+              name="Your Cosmos Address"
+              type="bech32"
+            />
+          </TmFormGroup>
+        </div>
+        <div class="session-footer">
+          <TmBtn value="Explore" />
+        </div>
+      </TmFormStruct>
     </div>
-    <TmFormStruct :submit="onSubmit">
-      <h2 class="session-title">
-        Explore with any address
-      </h2>
-      <div class="session-main">
-        <TmFormGroup field-id="sign-in-name" field-label="Your Cosmos Address">
-          <TmField
-            v-model="address"
-            type="text"
-            placeholder=""
-            vue-focus="vue-focus"
-          />
-          <TmFormMsg
-            v-if="$v.address.$error && !$v.address.required"
-            name="Name"
-            type="required"
-          />
-          <TmFormMsg
-            v-else-if="$v.address.$error && !$v.address.bech32Validate"
-            name="Your Cosmos Address"
-            type="bech32"
-          />
-        </TmFormGroup>
-      </div>
-      <div class="session-footer">
-        <TmBtn value="Explore" />
-      </div>
-    </TmFormStruct>
-  </div>
+  </session-frame>
 </template>
 
 <script>
 import { required } from "vuelidate/lib/validators"
 import TmBtn from "common/TmBtn"
+import SessionFrame from "common/SessionFrame"
 import TmFormGroup from "common/TmFormGroup"
 import TmFormStruct from "common/TmFormStruct"
 import TmField from "common/TmField"
@@ -50,6 +48,7 @@ import bech32 from "bech32"
 export default {
   name: `session-explore`,
   components: {
+    SessionFrame,
     TmBtn,
     TmField,
     TmFormGroup,

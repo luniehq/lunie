@@ -1,62 +1,56 @@
 <template>
-  <div class="session">
-    <TmFormStruct :submit="onSubmit" class="session-container">
-      <div class="session-header">
-        <a @click="goBack">
-          <i class="material-icons session-back">arrow_back</i>
-        </a>
+  <session-frame>
+    <div class="session">
+      <TmFormStruct :submit="onSubmit" class="session-container">
         <h2 class="session-title">
           Sign in with account
         </h2>
-        <a @click="close">
-          <i class="material-icons session-close">close</i>
-        </a>
-      </div>
-      <div class="session-main">
-        <TmFormGroup field-id="sign-in-name" field-label="Select Account">
-          <TmField
-            id="sign-in-name"
-            v-model="signInAddress"
-            :options="accounts"
-            type="select"
-            placeholder="Select account…"
-            vue-focus="vue-focus"
-          />
-          <TmFormMsg
-            v-if="$v.signInAddress.$error && !$v.signInAddress.required"
-            name="Name"
-            type="required"
-          />
-        </TmFormGroup>
-        <TmFormGroup
-          :error="$v.signInPassword.$error"
-          field-id="sign-in-password"
-          field-label="Password"
-        >
-          <TmField
-            id="sign-in-password"
-            v-model="signInPassword"
-            type="password"
-          />
-          <TmFormMsg
-            v-if="$v.signInPassword.$error && !$v.signInPassword.required"
-            name="Password"
-            type="required"
-          />
-          <TmFormMsg
-            v-if="$v.signInPassword.$error && !$v.signInPassword.minLength"
-            name="Password"
-            type="minLength"
-            min="10"
-          />
-          <TmFormMsg v-if="error" type="custom" :msg="error" />
-        </TmFormGroup>
-      </div>
-      <div class="session-footer">
-        <TmBtn value="Sign In" />
-      </div>
-    </TmFormStruct>
-  </div>
+        <div class="session-main">
+          <TmFormGroup field-id="sign-in-name" field-label="Select Account">
+            <TmField
+              id="sign-in-name"
+              v-model="signInAddress"
+              :options="accounts"
+              type="select"
+              placeholder="Select account…"
+              vue-focus="vue-focus"
+            />
+            <TmFormMsg
+              v-if="$v.signInAddress.$error && !$v.signInAddress.required"
+              name="Name"
+              type="required"
+            />
+          </TmFormGroup>
+          <TmFormGroup
+            :error="$v.signInPassword.$error"
+            field-id="sign-in-password"
+            field-label="Password"
+          >
+            <TmField
+              id="sign-in-password"
+              v-model="signInPassword"
+              type="password"
+            />
+            <TmFormMsg
+              v-if="$v.signInPassword.$error && !$v.signInPassword.required"
+              name="Password"
+              type="required"
+            />
+            <TmFormMsg
+              v-if="$v.signInPassword.$error && !$v.signInPassword.minLength"
+              name="Password"
+              type="minLength"
+              min="10"
+            />
+            <TmFormMsg v-if="error" type="custom" :msg="error" />
+          </TmFormGroup>
+        </div>
+        <div class="session-footer">
+          <TmBtn value="Sign In" />
+        </div>
+      </TmFormStruct>
+    </div>
+  </session-frame>
 </template>
 
 <script>
@@ -67,6 +61,7 @@ import TmFormGroup from "common/TmFormGroup"
 import TmField from "common/TmField"
 import TmFormMsg from "common/TmFormMsg"
 import TmFormStruct from "common/TmFormStruct"
+import SessionFrame from "common/SessionFrame"
 export default {
   name: `session-sign-in`,
   components: {
@@ -74,6 +69,7 @@ export default {
     TmField,
     TmFormGroup,
     TmFormMsg,
+    SessionFrame,
     TmFormStruct
   },
   data: () => ({
