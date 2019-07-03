@@ -180,7 +180,9 @@ exports[`PageValidator shows a validator profile information errors signing info
               Full Operator Address
             </dt>
              
-            <dd>
+            <dd
+              class="address"
+            >
               cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw
             </dd>
           </dl>
@@ -504,7 +506,9 @@ exports[`PageValidator shows a validator profile information if user has signed 
               Full Operator Address
             </dt>
              
-            <dd>
+            <dd
+              class="address"
+            >
               cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw
             </dd>
           </dl>
@@ -828,7 +832,9 @@ exports[`PageValidator shows a validator profile information if user hasn't sign
               Full Operator Address
             </dt>
              
-            <dd>
+            <dd
+              class="address"
+            >
               cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw
             </dd>
           </dl>

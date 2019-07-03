@@ -92,8 +92,8 @@
             }}
           </div>
           <div v-else>
-            Please use Chrome, Brave, or Opera. Ledger is not supported in your
-            current browser.
+            Please use Chrome, Brave, or Opera. Ledger is not supported in this
+            browser.
           </div>
         </HardwareState>
         <HardwareState
@@ -101,7 +101,7 @@
           :icon="session.browserWithLedgerSupport ? 'laptop' : 'info'"
           :loading="!!sending"
         >
-          <div v-if="session.extensionInstalled">
+          <div v-if="extension.enabled">
             Please verify and sign the transaction in the Lunie Chrome
             Extension.
           </div>
@@ -149,7 +149,7 @@
               />
               <TmBtn
                 v-else-if="sending"
-                :value="step === `sign` && submitButtonCaption"
+                :value="submitButtonCaption"
                 disabled="disabled"
                 color="primary"
               />
@@ -293,13 +293,17 @@ export default {
       `session`,
       `bondDenom`,
       `liquidAtoms`,
-      `modalContext`
+      `modalContext`,
+      `extension`
     ]),
     requiresSignIn() {
       return !this.session.signedIn
     },
     balanceInAtoms() {
       return atoms(this.liquidAtoms)
+    },
+    estimatedFee() {
+      return Number(this.gasPrice) * Number(this.gasEstimate) // already in atoms
     },
     invoiceTotal() {
       return (
@@ -325,14 +329,28 @@ export default {
       } else {
         signMethods.push(signMethodOptions.LOCAL)
       }
-
-      if (signMethods.length === 1) {
-        this.selectedSignMethod = signMethods[0].value
-      }
       return signMethods
     },
-    estimatedFee() {
-      return Number(this.gasPrice) * Number(this.gasEstimate) // already in atoms
+    submitButtonCaption() {
+      switch (this.selectedSignMethod) {
+        case "ledger":
+          return `Waiting for Ledger`
+        case "extension":
+          return `Waiting for Extension`
+        default:
+          return "Sending..."
+      }
+    }
+  },
+  watch: {
+    // if there is only one sign method, preselect it
+    signMethods: {
+      immediate: true,
+      handler(signMethods) {
+        if (signMethods.length === 1) {
+          this.selectedSignMethod = signMethods[0].value
+        }
+      }
     }
   },
   updated: function() {
@@ -373,16 +391,6 @@ export default {
       this.$v[property].$touch()
 
       return !this.$v[property].$invalid
-    },
-    submitButtonCaption() {
-      switch (this.selectedSignMethod) {
-        case "ledger":
-          return `Waiting for Ledger`
-        case "extension":
-          return `Waiting for Extension`
-        default:
-          return "Sending..."
-      }
     },
     async validateChangeStep() {
       // An ActionModal is only the prototype of a parent modal
@@ -618,6 +626,12 @@ export default {
 .slide-fade-leave-to {
   transform: translateX(2rem);
   opacity: 0;
+}
+
+@media screen and (max-width: 767px) {
+  .tm-form-group__field {
+    width: 100%;
+  }
 }
 
 @media screen and (max-width: 1023px) {

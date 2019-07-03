@@ -1,54 +1,46 @@
 <template>
   <div class="session">
-    <div class="session-container">
-      <div class="session-header">
-        <a @click="goBack">
-          <i class="material-icons session-back">arrow_back</i>
-        </a>
-        <h2 class="session-title">
-          Use my Ledger Nano
-        </h2>
-        <a @click="close">
-          <i class="material-icons session-close">close</i>
-        </a>
-      </div>
-      <div v-if="!session.browserWithLedgerSupport" class="session-main">
-        <p>
-          Please use Chrome, Opera, or Brave. Ledger is not supported in this
-          browser.
-        </p>
-      </div>
-      <div v-if="session.browserWithLedgerSupport">
-        <div class="session-main">
-          <HardwareState :loading="status === `connect` ? false : true">
-            <template v-if="status === `connect` || status === `detect`">
-              Please plug in your Ledger&nbsp;Nano&nbsp;S and open the Cosmos
-              app
-            </template>
-            <template v-if="status === `confirmAddress`">
-              Sign in with the address
-              <span class="address">{{ address }}</span
-              >.<br />
-              Please confirm on your Ledger.
-            </template>
-            <p v-if="connectionError" class="error-message">
-              {{ connectionError }}
-            </p>
-          </HardwareState>
-        </div>
-        <div class="session-footer">
-          <p class="ledger-install">
-            If you don't have a Ledger Nano, you can
-            <a href="" target="_blank" rel="noopener norefferer">buy one here</a
-            >.
+    <div class="session-header">
+      <a @click="goBack">
+        <i class="material-icons session-back">arrow_back</i>
+      </a>
+      <a @click="close">
+        <i class="material-icons session-close">close</i>
+      </a>
+    </div>
+    <h2 class="session-title">
+      Use my Ledger Nano
+    </h2>
+
+    <template v-if="session.browserWithLedgerSupport">
+      <div class="session-main">
+        <HardwareState :loading="status === `connect` ? false : true">
+          <template v-if="status === `connect` || status === `detect`">
+            Please plug in your Ledger&nbsp;Nano&nbsp;S and open the Cosmos app
+          </template>
+          <p v-if="connectionError" class="error-message">
+            {{ connectionError }}
           </p>
-          <TmBtn
-            :value="submitCaption"
-            :disabled="status === `connect` ? false : `disabled`"
-            @click.native="signIn()"
-          />
-        </div>
+        </HardwareState>
       </div>
+      <div class="session-footer">
+        <p class="ledger-install">
+          If you don't have a Ledger Nano, you can
+          <a href="" target="_blank" rel="noopener norefferer">buy one here</a>.
+        </p>
+        <TmBtn
+          :value="submitCaption"
+          :disabled="status === `connect` ? false : `disabled`"
+          @click.native="signIn()"
+        />
+      </div>
+    </template>
+
+    <div v-else class="session-main">
+      <p>
+        Please use Chrome, Opera, or Brave. Ledger is not supported in this
+        browser.
+      </p>
     </div>
   </div>
 </template>
@@ -73,8 +65,7 @@ export default {
     submitCaption() {
       return {
         connect: "Sign In",
-        detect: "Waiting for Ledger",
-        confirmAddress: "Confirming Address"
+        detect: "Waiting for Ledger"
       }[this.status]
     }
   },
@@ -100,25 +91,10 @@ export default {
         return
       }
 
-      this.status = `confirmAddress`
-      if (await this.confirmAddress()) {
-        await this.$store.dispatch(`signIn`, {
-          sessionType: `ledger`,
-          address: this.address
-        })
-        return
-      }
-
-      this.status = `connect`
-    },
-    async confirmAddress() {
-      try {
-        await this.$store.dispatch("confirmLedgerAddress")
-        return true
-      } catch ({ message }) {
-        this.connectionError = message
-      }
-      return false
+      await this.$store.dispatch(`signIn`, {
+        sessionType: `ledger`,
+        address: this.address
+      })
     }
   }
 }

@@ -11,7 +11,6 @@ export default () => {
     insecureMode: false, // show the local signer
     signedIn: false,
     sessionType: null, // local, ledger, extension
-    extensionInstalled: false,
     pauseHistory: false,
     history: [],
     address: null,
@@ -75,10 +74,6 @@ export default () => {
     },
     setSessionModalView(state, value) {
       state.modals.session.state = value
-    },
-    setExtensionInstalled(state, installed = true) {
-      installed && console.log("Ext. Enabled")
-      state.extensionInstalled = installed
     }
   }
 
@@ -193,10 +188,6 @@ export default () => {
         state.externals.anonymize()
         console.log(`Analytics collection has been disabled`)
       }
-    },
-    setExtensionEnabled({ commit }) {
-      console.log("Ext. enabling extension")
-      commit(`setExtensionInstalled`)
     }
   }
 

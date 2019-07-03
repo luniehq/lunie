@@ -7,6 +7,49 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.0-beta.91] - 2019-07-02
+
+### Fixed
+
+- [#2793](https://github.com/cosmos/lunie/issues/2793) Removed address confirmation for Ledger Nano @faboweb
+
+## [1.0.0-beta.90] - 2019-07-01
+
+### Fixed
+
+- [#2766](https://github.com/cosmos/lunie/issues/2766) mobile improvements for session flow @jbibla
+
+### Repository
+
+- Removed publish step as not working and security critical @faboweb
+
+## [1.0.0-beta.89] - 2019-06-27
+
+### Changed
+
+- [#2749](https://github.com/cosmos/lunie/issues/2749) Updated how delegation transactions addresses appear in the Transactions screen. Shortened address to match @thebkr7
+- [#2674](https://github.com/cosmos/lunie/issues/2674) Max the fees to the available balance @faboweb
+
+### Code Improvements
+
+- Extracted local keystore from session module @faboweb
+- Extracted session styles from session parent component @faboweb
+- [#1742](https://github.com/cosmos/lunie/issues/1742) Removed old node mocks @faboweb
+
+### Repository
+
+- Disable indexing in testnet in secondary nodes as not needed to improve performance @faboweb
+
+## [1.0.0-beta.88] - 2019-06-22
+
+### Fixed
+
+- [#2713](https://github.com/cosmos/lunie/issues/2713) Disabling the withdraw button until the necessary validator rewards have been loaded @faboweb
+
+### Repository
+
+- Skip pending check on the develop branch @faboweb
+
 ## [1.0.0-beta.87] - 2019-06-22
 
 ### Changed

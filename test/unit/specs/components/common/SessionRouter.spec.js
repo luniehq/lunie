@@ -34,32 +34,32 @@ describe(`SessionRouter`, () => {
 
   it(`should show a welcome screen if selected`, () => {
     wrapper.setData({ view: `welcome` })
-    expect(wrapper.contains(`SessionWelcome-stub`)).toBe(true)
+    expect(wrapper.contains(`session-welcome-stub`)).toBe(true)
   })
 
   it(`should show a signup screen if selected`, () => {
     wrapper.setData({ view: `sign-up` })
-    expect(wrapper.contains(`SessionSignUp-stub`)).toBe(true)
+    expect(wrapper.contains(`session-sign-up-stub`)).toBe(true)
   })
 
   it(`should show a signin screen if selected`, () => {
     wrapper.setData({ view: `sign-in` })
-    expect(wrapper.contains(`SessionSignIn-stub`)).toBe(true)
+    expect(wrapper.contains(`session-sign-in-stub`)).toBe(true)
   })
 
   it(`should show a hardware signin screen if selected`, () => {
     wrapper.setData({ view: `hardware` })
-    expect(wrapper.contains(`SessionHardware-stub`)).toBe(true)
+    expect(wrapper.contains(`session-hardware-stub`)).toBe(true)
   })
 
   it(`should show a import screen if selected`, () => {
     wrapper.setData({ view: `import` })
-    expect(wrapper.contains(`SessionImport-stub`)).toBe(true)
+    expect(wrapper.contains(`session-import-stub`)).toBe(true)
   })
 
   it(`should show a import screen if selected`, () => {
-    wrapper.setData({ view: `delete` })
-    expect(wrapper.contains(`SessionAccountDelete-stub`)).toBe(true)
+    wrapper.setData({ view: `account-delete` })
+    expect(wrapper.contains(`session-account-delete-stub`)).toBe(true)
   })
 
   it(`should close the session modal`, () => {

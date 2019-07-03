@@ -26,20 +26,6 @@ describe(`Module: Ledger`, () => {
         })
         expect(res).toBe("cosmos1")
       })
-
-      it(`start the Ledger address confirmation process`, async () => {
-        const spy = jest.fn()
-        state.externals.Ledger = class MockLedger {
-          async confirmLedgerAddress() {
-            spy()
-          }
-        }
-        // does not throw
-        await actions.confirmLedgerAddress({
-          state
-        })
-        expect(spy).toHaveBeenCalled()
-      })
     })
   })
 })

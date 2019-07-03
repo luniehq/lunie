@@ -17,7 +17,7 @@
                 class="page-profile__status"
               />
               <h2 class="page-profile__title">
-                {{ lastHeader.chain_id || `--` }}
+                {{ lastHeader.chain_id || `Not connected to a node` }}
               </h2>
             </div>
           </div>
@@ -25,11 +25,17 @@
         <div class="row">
           <dl class="info_dl colored_dl">
             <dt>Block Height</dt>
-            <dd>{{ `#` + num.prettyInt(lastHeader.height) || `--` }}</dd>
+            <dd>
+              {{
+                lastHeader.height
+                  ? `#` + num.prettyInt(lastHeader.height)
+                  : `--`
+              }}
+            </dd>
           </dl>
           <dl class="info_dl colored_dl">
             <dt>Last Block</dt>
-            <dd>{{ lastBlock || `--` }}</dd>
+            <dd>{{ connected ? lastBlock : `--` }}</dd>
           </dl>
           <dl class="info_dl colored_dl">
             <dt>Transactions</dt>
@@ -44,7 +50,11 @@
           <dl class="info_dl colored_dl">
             <dt>Number of Validators</dt>
             <dd>
-              {{ num.shortDecimals(delegates.delegates.length) || `--` }}
+              {{
+                delegates.delegates.length > 0
+                  ? num.shortDecimals(delegates.delegates.length)
+                  : `--`
+              }}
             </dd>
           </dl>
         </div>
@@ -75,7 +85,7 @@
           </div>
         </div>
       </div>
-      <table class="blocks data-table">
+      <table v-if="connected" class="blocks data-table">
         <thead>
           <PanelSort :properties="properties" />
         </thead>
@@ -139,7 +149,7 @@ export default {
       const color = this.connected ? `green` : `red`
       const message = this.connected
         ? `Network is up and running`
-        : `Network is down`
+        : `Not connected to a node`
       return { color, message }
     },
     lastBlock() {

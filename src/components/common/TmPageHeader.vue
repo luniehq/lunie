@@ -105,5 +105,9 @@ export default {
     padding: 1rem;
     background: var(--app-bg);
   }
+
+  .tm-page-header-text .tm-page-header-body {
+    display: block;
+  }
 }
 </style>
