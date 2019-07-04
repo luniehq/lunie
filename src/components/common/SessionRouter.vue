@@ -2,7 +2,7 @@
   <transition name="component-fade" mode="out-in">
     <component
       :is="currentSessionComponent"
-      @route-change="goTo"
+      :go-to="goTo"
       @close="close"
     ></component>
   </transition>

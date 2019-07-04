@@ -1,5 +1,5 @@
 <template>
-  <div class="approve-tran" hide-header>
+  <div class="session-approve">
     <h2>Approve Transaction</h2>
     <div>
       <p>Verify the transaction details below.</p>
@@ -43,7 +43,7 @@
         />
       </TmFormGroup>
 
-      <div class="approve-tran-footer">
+      <div class="session-approve-footer">
         <TmBtn
           id="reject-btn"
           value="Reject"
@@ -92,7 +92,7 @@ function parseTx(signMessage) {
 }
 
 export default {
-  name: `session-ext-approve-tran`,
+  name: `session-approve`,
   components: {
     TmBtn,
     TmFormGroup,
@@ -157,13 +157,13 @@ export default {
 </script>
 
 <style scoped>
-.approve-tran {
+.session-approve {
   padding: 2rem;
   background: var(--fg);
   border-left: 1px solid var(--bc-dim);
 }
 
-.approve-tran h2 {
+.session-approve h2 {
   color: var(--bright);
   font-size: var(--h1);
   font-weight: 500;
@@ -189,7 +189,7 @@ export default {
   flex-direction: column;
 }
 
-.approve-tran-footer {
+.session-approve-footer {
   display: flex;
   justify-content: space-around;
   padding: 1.5rem 0 1rem;

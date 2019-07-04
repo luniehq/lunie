@@ -1,5 +1,5 @@
 <template>
-  <div class="backup-code" hide-header>
+  <div class="backup-code">
     <div class="backup-code-top">
       <h2>Use a backup code</h2>
     </div>
