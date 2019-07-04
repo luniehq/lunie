@@ -172,6 +172,9 @@
               >command line</a
             >.
           </p>
+          <router-link to="existing"
+            >Want to use an existing address?</router-link
+          >
         </div>
       </TmFormStruct>
     </div>

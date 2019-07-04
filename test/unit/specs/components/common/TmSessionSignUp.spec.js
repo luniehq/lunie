@@ -25,7 +25,8 @@ describe(`TmSessionSignUp`, () => {
         $router: {
           push: jest.fn()
         }
-      }
+      },
+      stubs: [`router-link`]
     })
   })
 
@@ -128,7 +129,7 @@ describe(`TmSessionSignUp`, () => {
         signUpWarning: true
       },
       $v: {
-        $touch: () => {},
+        $touch: () => { },
         $error: false
       },
       $store

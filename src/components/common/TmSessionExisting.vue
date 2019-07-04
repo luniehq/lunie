@@ -41,6 +41,7 @@
           route="login"
         />
       </div>
+      <router-link to="create">Want to create a new address?</router-link>
     </div>
   </SessionFrame>
 </template>

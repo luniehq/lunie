@@ -55,6 +55,12 @@ exports[`TmSessionSignUp has the expected html structure 1`] = `
           .
         
         </p>
+         
+        <router-link-stub
+          to="existing"
+        >
+          Want to use an existing address?
+        </router-link-stub>
       </div>
     </tmformstruct-stub>
   </div>
