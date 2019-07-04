@@ -1,0 +1,178 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SessionApprove shows a guide to install the extension if no extension installed 1`] = `
+<div
+  class="session"
+>
+  <div
+    class="session-container"
+  >
+    <div
+      class="session-header"
+    >
+      <a>
+        <i
+          class="material-icons session-back"
+        >
+          arrow_back
+        </i>
+      </a>
+       
+      <h2
+        class="session-title"
+      >
+        
+        Use Lunie Chrome extension
+      
+      </h2>
+       
+      <a>
+        <i
+          class="material-icons session-close"
+        >
+          close
+        </i>
+      </a>
+    </div>
+     
+    <div
+      class="session-main"
+    >
+      <p>
+        
+        Please install the Lunie Extension for Chrome from the Google Play
+        Store.
+      
+      </p>
+    </div>
+     
+    <!---->
+  </div>
+</div>
+`;
+
+exports[`SessionApprove shows an overview of all wallets to sign in with from the extension 1`] = `
+<div
+  class="session"
+>
+  <div
+    class="session-container"
+  >
+    <div
+      class="session-header"
+    >
+      <a>
+        <i
+          class="material-icons session-back"
+        >
+          arrow_back
+        </i>
+      </a>
+       
+      <h2
+        class="session-title"
+      >
+        
+        Use Lunie Chrome extension
+      
+      </h2>
+       
+      <a>
+        <i
+          class="material-icons session-close"
+        >
+          close
+        </i>
+      </a>
+    </div>
+     
+    <!---->
+     
+    <div>
+      <div
+        class="session-main"
+      >
+        <div
+          icon="laptop"
+        >
+          <div>
+            
+            Click below to open the Lunie Chrome Extension, or use one of the
+            existing address.
+            
+            <ul>
+              <li>
+                <div
+                  class="extension-address-item"
+                >
+                  <div>
+                    
+                    TEST_WALLET
+                    <br />
+                     
+                    <tmbtn-stub
+                      color="primary"
+                      type="anchor"
+                      value="cosmos…1234"
+                    />
+                  </div>
+                   
+                  <div>
+                    <tmbtn-stub
+                      color="primary"
+                      value="Use Address"
+                    />
+                  </div>
+                </div>
+              </li>
+              <li>
+                <div
+                  class="extension-address-item"
+                >
+                  <div>
+                    
+                    TEST_WALLET_2
+                    <br />
+                     
+                    <tmbtn-stub
+                      color="primary"
+                      type="anchor"
+                      value="cosmos…5678"
+                    />
+                  </div>
+                   
+                  <div>
+                    <tmbtn-stub
+                      color="primary"
+                      value="Use Address"
+                    />
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+       
+      <div
+        class="session-footer"
+      >
+        <p
+          class="ledger-install"
+        >
+          
+          You can find the Lunie Chrome extension on the
+          
+          <a
+            href=""
+          >
+            Google Play Store
+          </a>
+          .
+        
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+`;

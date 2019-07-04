@@ -5,7 +5,8 @@ import {
   oldUnbondingAtoms,
   yourValidators,
   modalContext,
-  validatorsWithRewards
+  validatorsWithRewards,
+  totalRewards
 } from "src/vuex/getters.js"
 import validators from "./json/validators.js"
 
@@ -167,6 +168,28 @@ describe(`Store: getters`, () => {
     ])
   })
 
+  it("totalRewards", () => {
+    expect(
+      totalRewards(null, {
+        bondDenom: "stake",
+        validatorsWithRewards: [
+          [
+            "validator1",
+            {
+              stake: 10000
+            }
+          ],
+          [
+            "validator2",
+            {
+              stake: 5000
+            }
+          ]
+        ]
+      })
+    ).toBe(15000)
+  })
+
   it(`modalContext`, () => {
     let state = {
       connection: {
@@ -185,9 +208,10 @@ describe(`Store: getters`, () => {
         localKeyPairName: "localKeyPairName"
       },
       distribution: {
-        rewards: [],
-        totalRewards: {
-          uatom: 123
+        rewards: {
+          validatorX: {
+            uatom: 123
+          }
         }
       },
       delegates: {
@@ -196,7 +220,8 @@ describe(`Store: getters`, () => {
     }
 
     const getters = {
-      bondDenom: "uatom"
+      bondDenom: "uatom",
+      totalRewards: 123
     }
 
     const context = {
@@ -204,7 +229,11 @@ describe(`Store: getters`, () => {
       chainId: "cosmoshub",
       connected: true,
       userAddress: "cosmos1abcdefghijklmop",
-      rewards: [],
+      rewards: {
+        validatorX: {
+          uatom: 123
+        }
+      },
       delegates: [],
       localKeyPairName: "localKeyPairName",
       bondDenom: "uatom",

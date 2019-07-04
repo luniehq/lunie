@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.0-beta.91] - 2019-07-02
+
+### Fixed
+
+- [#2793](https://github.com/cosmos/lunie/issues/2793) Removed address confirmation for Ledger Nano @faboweb
+
 ## [1.0.0-beta.90] - 2019-07-01
 
 ### Fixed

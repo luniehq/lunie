@@ -1,0 +1,60 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SessionAccounts has the expected html structure 1`] = `
+<div
+  class="accounts"
+  hide-header="true"
+>
+  <toolbar-stub
+    displaytext="true"
+  />
+   
+  <div
+    class="accounts-top"
+  >
+    <h2>
+      My accounts
+    </h2>
+     
+    <p>
+      
+      You can use this account to explore
+      
+      <router-link-stub
+        to="/wallet"
+      >
+        
+        Lunie
+      
+      </router-link-stub>
+      
+      and to approve transactions.
+    
+    </p>
+  </div>
+   
+  <div>
+    <div
+      class="card content"
+    >
+      <div
+        class="content-left"
+      >
+        <h3>
+          Account 1
+        </h3>
+         
+        <bech32-stub
+          address="cosmos1ek9cd8ewgxg9w5x3benji0uf4aaxaruvcw4v9e"
+          short-form=""
+        />
+      </div>
+       
+      <tmbtn-stub
+        color="primary"
+        value="Go to Lunie"
+      />
+    </div>
+  </div>
+</div>
+`;

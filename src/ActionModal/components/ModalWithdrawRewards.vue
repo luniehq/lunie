@@ -7,6 +7,7 @@
     title="Withdraw"
     class="modal-withdraw-rewards"
     submission-error-prefix="Withdrawal failed"
+    :disable="validatorsWithRewards"
   >
     <span class="form-message notice withdraw-limit">
       Lunie will only withdraw rewards from 5 validators at a time because of a
@@ -64,6 +65,12 @@ export default {
         title: `Successful withdrawal!`,
         body: `You have successfully withdrawn your rewards.`
       }
+    },
+    validatorsWithRewards() {
+      return (
+        this.$refs.actionModal &&
+        this.$refs.actionModal.context.validatorsWithRewards.length > 0
+      )
     }
   },
   methods: {

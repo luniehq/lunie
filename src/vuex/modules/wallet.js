@@ -49,7 +49,7 @@ export default ({ node }) => {
     async initializeWallet({ commit, dispatch }, { address }) {
       commit(`setWalletAddress`, address)
       dispatch(`queryWalletBalances`)
-      dispatch(`getTotalRewards`)
+      dispatch(`getRewardsFromMyValidators`)
       dispatch(`walletSubscribe`)
     },
     resetSessionData({ rootState }) {

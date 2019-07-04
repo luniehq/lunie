@@ -1,44 +1,11 @@
 <template>
-  <SessionWelcome
-    v-if="view == 'welcome'"
-    @route-change="goTo"
-    @close="close"
-  />
-  <SessionExisting
-    v-else-if="view == 'existing'"
-    @route-change="goTo"
-    @close="close"
-  />
-  <SessionExplore
-    v-else-if="view == 'explore'"
-    @route-change="goTo"
-    @close="close"
-  />
-  <SessionSignUp
-    v-else-if="view == 'sign-up'"
-    @route-change="goTo"
-    @close="close"
-  />
-  <SessionSignIn
-    v-else-if="view == 'sign-in'"
-    @route-change="goTo"
-    @close="close"
-  />
-  <SessionAccountDelete
-    v-else-if="view == 'delete'"
-    @route-change="goTo"
-    @close="close"
-  />
-  <SessionHardware
-    v-else-if="view == 'hardware'"
-    @route-change="goTo"
-    @close="close"
-  />
-  <SessionImport
-    v-else-if="view == 'import'"
-    @route-change="goTo"
-    @close="close"
-  />
+  <transition name="component-fade" mode="out-in">
+    <component
+      :is="currentSessionComponent"
+      @route-change="goTo"
+      @close="close"
+    ></component>
+  </transition>
 </template>
 
 <script>
@@ -48,8 +15,12 @@ import SessionExplore from "common/TmSessionExplore"
 import SessionSignUp from "common/TmSessionSignUp"
 import SessionSignIn from "common/TmSessionSignIn"
 import SessionHardware from "common/TmSessionHardware"
+import SessionExtension from "common/TmSessionExtension"
 import SessionImport from "common/TmSessionImport"
 import SessionAccountDelete from "common/TmSessionAccountDelete"
+import SessionApprove from "common/SessionApprove"
+import SessionBackupCodes from "common/SessionBackupCodes"
+import SessionAccounts from "common/SessionAccounts"
 
 export default {
   name: `session-router`,
@@ -60,14 +31,25 @@ export default {
     SessionSignUp,
     SessionSignIn,
     SessionHardware,
+    SessionExtension,
     SessionImport,
-    SessionAccountDelete
+    SessionAccountDelete,
+    SessionApprove,
+    SessionBackupCodes,
+    SessionAccounts
   },
   data: () => ({
     view: "welcome"
   }),
+  computed: {
+    currentSessionComponent: function() {
+      // Refers to the name property of the component.
+      return "session-" + this.view.toLowerCase()
+    }
+  },
   methods: {
     goTo(view) {
+      console.log("view change", view)
       this.view = view
     },
     close() {
@@ -78,4 +60,14 @@ export default {
 </script>
 <style>
 @import "../../styles/session.css";
+
+.component-fade-enter-active,
+.component-fade-leave-active {
+  transition: opacity 0.2s ease;
+}
+
+.component-fade-enter,
+.component-fade-leave-to .component-fade-leave-active {
+  opacity: 0;
+}
 </style>
