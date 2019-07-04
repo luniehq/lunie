@@ -114,8 +114,8 @@ export default {
       this.$store.dispatch(`signOut`)
     },
     signIn() {
+      this.$router.push(`/welcome`)
       this.$emit(`close`)
-      this.$store.commit(`toggleSessionModal`, true)
     }
   }
 }

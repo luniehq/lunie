@@ -1,81 +1,77 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`TmSessionWelcome has the expected html structure 1`] = `
-<div
-  class="session"
-  id="session-welcome"
->
+<sessionframe-stub>
   <div
-    class="session-header"
+    class="session"
+    id="session-welcome"
   >
-    <a>
-      <i
-        class="material-icons session-close"
-      >
-        close
-      </i>
-    </a>
-  </div>
-   
-  <img
-    class="lunie-logo"
-    src="~assets/images/cosmos-wallet-logo.svg"
-  />
-   
-  <h2
-    class="session-title"
-  >
-    
-    Welcome to Lunie
-  
-  </h2>
-   
-  <p
-    class="session-paragraph"
-  >
-    
-    The easiest way to send, stake, and vote on the Cosmos Hub.
-  
-  </p>
-   
-  <div
-    class="session-list"
-  >
-    <lisession-stub
-      icon="person_add"
-      id="creat-new-address"
-      title="Create a new address"
-    />
+    <router-link-stub
+      to="/"
+    >
+      <img
+        class="session-logo-mobile"
+        src="~assets/images/cosmos-wallet-logo.svg"
+      />
+    </router-link-stub>
      
-    <lisession-stub
-      icon="person"
-      id="use-an-existing-address"
-      title="Use an existing address"
-    />
+    <h2
+      class="session-title"
+    >
+      
+      Welcome to Lunie
+    
+    </h2>
+     
+    <p
+      class="session-paragraph"
+    >
+      
+      The easiest way to send, stake, and vote on the Cosmos Hub.
+    
+    </p>
+     
+    <div
+      class="session-list"
+    >
+      <lisession-stub
+        icon="person_add"
+        id="creat-new-address"
+        route="create"
+        title="Create a new address"
+      />
+       
+      <lisession-stub
+        icon="person"
+        id="use-an-existing-address"
+        route="existing"
+        title="Use an existing address"
+      />
+    </div>
+     
+    <p
+      class="footnote"
+    >
+      
+      By using Lunie, you accept our
+      
+      <router-link-stub
+        class="link"
+        to="/terms"
+      >
+        Terms of Service
+      </router-link-stub>
+       and
+      
+      <router-link-stub
+        class="link"
+        to="/privacy"
+      >
+        Privacy Policy
+      </router-link-stub>
+      .
+    
+    </p>
   </div>
-   
-  <p
-    class="footnote"
-  >
-    
-    By using Lunie, you accept our
-    
-    <router-link-stub
-      class="link"
-      to="/terms"
-    >
-      Terms of Service
-    </router-link-stub>
-     and
-    
-    <router-link-stub
-      class="link"
-      to="/privacy"
-    >
-      Privacy Policy
-    </router-link-stub>
-    .
-  
-  </p>
-</div>
+</sessionframe-stub>
 `;

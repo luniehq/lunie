@@ -114,12 +114,6 @@ export default {
     }
   },
   methods: {
-    setState(value) {
-      this.$emit(`route-change`, value)
-    },
-    close() {
-      this.$emit(`close`)
-    },
     isValidInput(property) {
       this.$v[property].$touch()
 
@@ -131,14 +125,14 @@ export default {
           ...this.signRequest,
           password: this.password
         })
-        this.close()
+        this.$router.push(`/approved`)
       }
     },
     async reject() {
       await this.$store.dispatch("rejectSignRequest", {
         ...this.signRequest
       })
-      this.close()
+      this.$router.push(`/`)
     }
   },
   validations() {

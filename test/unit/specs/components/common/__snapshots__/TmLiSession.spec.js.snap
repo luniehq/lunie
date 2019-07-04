@@ -1,8 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`TmLiSession has the expected html structure 1`] = `
-<div
+<router-link-stub
   class="tm-li-session"
+  to=""
 >
   <div
     class="tm-li-session-icon"
@@ -35,5 +36,5 @@ exports[`TmLiSession has the expected html structure 1`] = `
       arrow_forward
     </i>
   </div>
-</div>
+</router-link-stub>
 `;

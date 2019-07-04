@@ -1,5 +1,5 @@
 <template>
-  <div class="tm-li-session">
+  <router-link :to="route" class="tm-li-session">
     <div class="tm-li-session-icon">
       <i class="material-icons circle">{{ icon }}</i>
     </div>
@@ -11,7 +11,7 @@
     <div class="tm-li-session-icon">
       <i class="material-icons">arrow_forward</i>
     </div>
-  </div>
+  </router-link>
 </template>
 
 <script>
@@ -25,6 +25,10 @@ export default {
     title: {
       type: String,
       required: true
+    },
+    route: {
+      type: String,
+      default: ``
     }
   }
 }
@@ -34,21 +38,10 @@ export default {
 .tm-li-session {
   display: flex;
   padding: 1rem;
-  border-top: 2px solid var(--bc);
-  border-left: 2px solid var(--bc);
-  border-right: 2px solid var(--bc);
-  background-color: var(--app-nav-light);
-}
-
-.tm-li-session:first-child {
-  border-top-left-radius: 0.25rem;
-  border-top-right-radius: 0.25rem;
-}
-
-.tm-li-session:last-of-type {
-  border-bottom: 2px solid var(--bc);
-  border-bottom-left-radius: 0.25rem;
-  border-bottom-right-radius: 0.25rem;
+  margin-bottom: 0.25rem;
+  border: 2px solid var(--bc);
+  background-color: var(--app-fg);
+  border-radius: 0.25rem;
 }
 
 .tm-li-session:hover {
@@ -84,7 +77,5 @@ export default {
   border: 2px solid var(--dim);
   border-radius: 50%;
   padding: 0.5rem;
-  max-width: 39px;
-  height: 39px;
 }
 </style>

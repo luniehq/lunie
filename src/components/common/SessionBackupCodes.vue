@@ -38,14 +38,6 @@ export default {
       default: "cosmos1ek9cd8ewgxg9w5x3benji0uf4aaxaruvcw4v9e",
       required: true
     }
-  },
-  methods: {
-    setState(value) {
-      this.$emit(`route-change`, value)
-    },
-    close() {
-      this.$emit(`close`)
-    }
   }
 }
 </script>

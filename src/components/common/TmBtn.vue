@@ -90,7 +90,6 @@ export default {
   text-decoration: none !important;
   display: inline-block;
   font-size: 16px;
-  height: 100%;
 }
 
 a {

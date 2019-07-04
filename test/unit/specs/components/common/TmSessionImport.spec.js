@@ -21,7 +21,13 @@ describe(`TmSessionImport`, () => {
     })
     wrapper = mount(TmSessionImport, {
       localVue,
-      store
+      store,
+      mocks: {
+        $router: {
+          push: jest.fn()
+        }
+      },
+      stubs: [`router-link`]
     })
     store.commit = jest.fn()
     store.dispatch = jest.fn(async () => true)
@@ -29,22 +35,6 @@ describe(`TmSessionImport`, () => {
 
   it(`has the expected html structure`, () => {
     expect(wrapper.vm.$el).toMatchSnapshot()
-  })
-
-  it(`should set the current view to the state`, () => {
-    const self = {
-      $emit: jest.fn()
-    }
-    TmSessionImport.methods.setState.call(self, `someState`)
-    expect(self.$emit).toHaveBeenCalledWith(`route-change`, `someState`)
-  })
-
-  it(`should go back to the exiting account screen`, () => {
-    const self = {
-      $emit: jest.fn()
-    }
-    TmSessionImport.methods.goBack.call(self)
-    expect(self.$emit).toHaveBeenCalledWith(`route-change`, `existing`)
   })
 
   it(`should show error if seed is not filled in`, async () => {
@@ -109,5 +99,20 @@ describe(`TmSessionImport`, () => {
     await wrapper.vm.onSubmit()
     expect(store.commit.mock.calls[0][0]).toEqual(`notifyError`)
     expect(store.commit.mock.calls[0][1].body).toEqual(`test`)
+  })
+
+  it(`should go to the home page if recovering is successful`, async () => {
+    wrapper.setData({
+      fields: {
+        importName: `foo123`,
+        importPassword: `1234567890`,
+        importPasswordConfirm: `1234567890`,
+        importSeed: seed
+      }
+    })
+    store.dispatch = jest.fn(() => Promise.resolve())
+    await wrapper.vm.onSubmit()
+    expect(store.dispatch.mock.calls[0][0]).toEqual(`createKey`)
+    expect(wrapper.vm.$router.push).toHaveBeenCalledWith(`/`)
   })
 })

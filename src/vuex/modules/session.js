@@ -22,10 +22,7 @@ export default () => {
     maintenanceBar: false,
     modals: {
       error: { active: false },
-      help: { active: false },
-      session: {
-        active: false
-      }
+      help: { active: false }
     },
     browserWithLedgerSupport:
       navigator.userAgent.includes(`Chrome`) ||
@@ -68,12 +65,6 @@ export default () => {
     },
     pauseHistory(state, paused) {
       state.pauseHistory = paused
-    },
-    toggleSessionModal(state, value) {
-      state.modals.session.active = value
-    },
-    setSessionModalView(state, value) {
-      state.modals.session.state = value
     }
   }
 
@@ -105,7 +96,6 @@ export default () => {
       commit(`setSessionType`, sessionType)
       commit(`setUserAddress`, address)
       await dispatch(`loadPersistedState`)
-      commit(`toggleSessionModal`, false)
       await dispatch(`initializeWallet`, { address })
       dispatch(`persistSession`, {
         address,

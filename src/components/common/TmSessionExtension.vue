@@ -1,28 +1,26 @@
 <template>
-  <div class="session">
-    <div class="session-container">
-      <div class="session-header">
-        <a @click="goBack">
-          <i class="material-icons session-back">arrow_back</i>
-        </a>
+  <SessionFrame>
+    <div class="session">
+      <div class="session-container">
         <h2 class="session-title">
-          Use Lunie Chrome extension
+          Use Lunie Browser extension
         </h2>
-        <a @click="close">
-          <i class="material-icons session-close">close</i>
-        </a>
-      </div>
-      <div v-if="!extension.enabled" class="session-main">
-        <p>
-          Please install the Lunie Extension for Chrome from the Google Play
-          Store.
-        </p>
-      </div>
-      <div v-if="extension.enabled">
-        <div class="session-main">
+        <div v-if="!extension.enabled" class="session-main">
+          <p>
+            Please install the Lunie Browser Extension from the
+            <a
+              href="https://chrome.google.com/webstore/category/extensions"
+              target="_blank"
+              rel="noopener norefferer"
+              >Chrome Web Store</a
+            >.
+          </p>
+        </div>
+
+        <div v-if="extension.enabled" class="session-main">
           <div :icon="extension.enabled ? 'laptop' : 'info'">
             <div v-if="extension.enabled">
-              Click below to open the Lunie Chrome Extension, or use one of the
+              Click below to open the Lunie Browser Extension, or use one of the
               existing address.
               <ul>
                 <li v-for="account in extension.accounts" :key="account.name">
@@ -48,29 +46,37 @@
               </ul>
             </div>
             <div v-else>
-              Use the Lunie Chrome extension to securely store your keys, and
+              Use the Lunie Browser Extension to securely store your keys, and
               safely perform transactions.
             </div>
           </div>
-        </div>
-        <div class="session-footer">
-          <p class="ledger-install">
-            You can find the Lunie Chrome extension on the
-            <a href="">Google Play Store</a>.
-          </p>
+
+          <div class="session-footer">
+            <p class="ledger-install">
+              You can find the Lunie Browser Extension in the
+              <a
+                href="https://chrome.google.com/webstore/category/extensions"
+                target="_blank"
+                rel="noopener norefferer"
+                >Chrome Web Store</a
+              >
+            </p>
+          </div>
         </div>
       </div>
     </div>
-  </div>
+  </SessionFrame>
 </template>
 
 <script>
 import TmBtn from "common/TmBtn"
+import SessionFrame from "common/SessionFrame"
 import { mapGetters } from "vuex"
 import { formatBech32 } from "src/filters"
 export default {
   name: `session-extension`,
   components: {
+    SessionFrame,
     TmBtn
   },
   filters: {
@@ -87,21 +93,12 @@ export default {
     this.getAddressesFromExtension()
   },
   methods: {
-    setState(value) {
-      this.$emit(`route-change`, value)
-    },
-    goBack() {
-      this.$emit(`route-change`, "existing")
-    },
-    close() {
-      this.$emit(`close`)
-    },
     async signIn(address) {
       this.$store.dispatch(`signIn`, {
         sessionType: `extension`,
         address: address
       })
-      this.close()
+      this.$router.push(`/`)
     },
     getAddressesFromExtension() {
       this.$store.dispatch("getAddressesFromExtension")

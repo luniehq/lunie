@@ -27,29 +27,16 @@ describe(`SessionApprove`, () => {
     wrapper = shallowMount(SessionApprove, {
       localVue,
       mocks: {
-        $store
+        $store,
+        $router: {
+          push: jest.fn()
+        }
       }
     })
   })
 
   it(`shows the approval modal with the transaction and an invoice table`, () => {
     expect(wrapper.vm.$el).toMatchSnapshot()
-  })
-
-  it(`should close`, () => {
-    const self = {
-      $emit: jest.fn()
-    }
-    SessionApprove.methods.close.call(self)
-    expect(self.$emit).toHaveBeenCalledWith(`close`)
-  })
-
-  it("moves to other session pages", () => {
-    const self = {
-      $emit: jest.fn()
-    }
-    SessionApprove.methods.setState.call(self, "welcome")
-    expect(self.$emit).toHaveBeenCalledWith("route-change", "welcome")
   })
 
   describe("approve", () => {
@@ -71,7 +58,7 @@ describe(`SessionApprove`, () => {
         "approveSignRequest",
         { password: "1234", senderAddress: "cosmos1234", signMessage }
       )
-      expect(wrapper.vm.close).toHaveBeenCalled()
+      expect(wrapper.vm.$router.push).toHaveBeenCalledWith(`/approved`)
     })
   })
 
@@ -83,6 +70,6 @@ describe(`SessionApprove`, () => {
       "rejectSignRequest",
       { signMessage, senderAddress: "cosmos1234" }
     )
-    expect(wrapper.vm.close).toHaveBeenCalled()
+    expect(wrapper.vm.$router.push).toHaveBeenCalledWith(`/`)
   })
 })

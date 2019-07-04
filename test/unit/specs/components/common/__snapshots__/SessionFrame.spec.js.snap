@@ -1,0 +1,28 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SessionFrame shows an overview of all wallets to sign in with from the extension 1`] = `
+<div
+  class="session-frame"
+  mode="out-in"
+  name="component-fade"
+>
+  <router-link-stub
+    to="/"
+  >
+    <img
+      class="session-logo"
+      src="~assets/images/cosmos-wallet-logo.svg"
+    />
+  </router-link-stub>
+   
+  <div
+    class="session-outer-container"
+  />
+   
+  <tmbtn-stub
+    class="session-close"
+    color="secondary"
+    value="Back to Lunie"
+  />
+</div>
+`;

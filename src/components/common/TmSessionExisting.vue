@@ -1,80 +1,65 @@
 <template>
-  <div id="session-existing" class="session">
-    <div class="session-header">
-      <a @click="goToWelcome()">
-        <i class="material-icons session-back">arrow_back</i>
-      </a>
-      <a @click="close">
-        <i class="material-icons session-close">close</i>
-      </a>
-    </div>
+  <SessionFrame>
+    <div id="session-existing" class="session">
+      <h2 class="session-title">
+        Use an existing address
+      </h2>
 
-    <h2 class="session-title">
-      Use an existing address
-    </h2>
-
-    <div class="session-list">
-      <LiSession
-        id="explore-with-address"
-        icon="language"
-        title="Explore with any address"
-        @click.native="() => setState('explore')"
-      />
-      <LiSession
-        id="use-ledger-nano"
-        icon="vpn_key"
-        title="Use Ledger Nano"
-        @click.native="() => setState('hardware')"
-      />
-      <LiSession
-        v-if="session.experimentalMode"
-        id="use-extension"
-        icon="laptop"
-        title="Use Lunie Chrome extension"
-        @click.native="setState('extension')"
-      >
-      </LiSession>
-      <LiSession
-        v-if="session.insecureMode"
-        id="recover-with-backup"
-        icon="settings_backup_restore"
-        title="Recover with backup code"
-        @click.native="() => setState('import')"
-      />
-      <LiSession
-        v-if="accountExists && session.insecureMode"
-        id="sign-in-with-account"
-        icon="lock"
-        title="Sign in with account"
-        @click.native="setState('sign-in')"
-      />
+      <div class="session-list">
+        <LiSession
+          id="explore-with-address"
+          icon="language"
+          title="Explore with any address"
+          route="explore"
+        />
+        <LiSession
+          id="use-ledger-nano"
+          icon="vpn_key"
+          title="Use Ledger Nano"
+          route="ledger"
+        />
+        <LiSession
+          v-if="session.experimentalMode"
+          id="use-extension"
+          icon="laptop"
+          title="Use Lunie Chrome extension"
+          route="extension"
+        >
+        </LiSession>
+        <LiSession
+          v-if="session.insecureMode"
+          id="recover-with-backup"
+          icon="settings_backup_restore"
+          title="Recover with backup code"
+          route="recover"
+        />
+        <LiSession
+          v-if="accountExists && session.insecureMode"
+          id="sign-in-with-account"
+          icon="lock"
+          title="Sign in with account"
+          route="login"
+        />
+      </div>
+      <router-link to="create">Want to create a new address?</router-link>
     </div>
-  </div>
+  </SessionFrame>
 </template>
 
 <script>
 import { mapGetters } from "vuex"
 import LiSession from "common/TmLiSession"
+import SessionFrame from "common/SessionFrame"
 export default {
   name: `session-existing`,
   components: {
+    SessionFrame,
     LiSession
   },
   computed: {
     ...mapGetters([`session`, `keystore`]),
     accountExists() {
       return this.keystore && this.keystore.accounts.length > 0
-    }
-  },
-  methods: {
-    setState(value) {
-      this.$emit(`route-change`, value)
-    },
-    goToWelcome() {
-      this.$emit(`route-change`, `welcome`)
-    },
-    close() {
-      this.$emit(`close`)
     }
   }
 }
