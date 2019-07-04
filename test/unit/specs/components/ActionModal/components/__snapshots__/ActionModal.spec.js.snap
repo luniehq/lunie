@@ -98,6 +98,7 @@ exports[`ActionModal should show the action modal when user has logged in with e
      
     <tableinvoice-stub
       amount="0"
+      bonddenom="uatom"
       estimatedfee="0"
     />
      
@@ -399,6 +400,7 @@ exports[`ActionModal should show the action modal when user has logged in with e
      
     <tableinvoice-stub
       amount="0"
+      bonddenom="uatom"
       estimatedfee="0"
     />
      
@@ -742,6 +744,7 @@ exports[`ActionModal should show the action modal when user has logged in with l
      
     <tableinvoice-stub
       amount="0"
+      bonddenom="uatom"
       estimatedfee="0"
     />
      
@@ -1012,6 +1015,7 @@ exports[`ActionModal should show the action modal when user has logged in with l
      
     <tableinvoice-stub
       amount="0"
+      bonddenom="uatom"
       estimatedfee="0"
     />
      

@@ -55,7 +55,11 @@
             type="between"
           />
         </TmFormGroup>
-        <TableInvoice :amount="Number(amount)" :estimated-fee="estimatedFee" />
+        <TableInvoice
+          :amount="Number(amount)"
+          :estimated-fee="estimatedFee"
+          :bond-denom="bondDenom"
+        />
         <TmFormMsg
           v-if="$v.invoiceTotal.$invalid"
           name="Total"
