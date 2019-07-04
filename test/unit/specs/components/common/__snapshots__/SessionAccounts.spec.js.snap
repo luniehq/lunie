@@ -2,10 +2,10 @@
 
 exports[`SessionAccounts has the expected html structure 1`] = `
 <div
-  class="accounts"
+  class="session-accounts"
 >
   <div
-    class="accounts-top"
+    class="session-accounts-top"
   >
     <h2>
       My accounts
@@ -36,7 +36,7 @@ exports[`SessionAccounts has the expected html structure 1`] = `
         class="content-left"
       >
         <h3>
-          accountName
+          Benjis account
         </h3>
          
         <bech32-stub
@@ -45,15 +45,6 @@ exports[`SessionAccounts has the expected html structure 1`] = `
         />
       </div>
     </div>
-  </div>
-   
-  <div
-    class="button-add-account"
-  >
-    <tmbtn-stub
-      color="primary"
-      value="Add Account"
-    />
   </div>
 </div>
 `;

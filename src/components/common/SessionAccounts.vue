@@ -1,6 +1,6 @@
 <template>
-  <div class="accounts">
-    <div class="accounts-top">
+  <div class="session-accounts">
+    <div class="session-accounts-top">
       <h2>My accounts</h2>
       <p>
         You can use this account to explore
@@ -18,20 +18,20 @@
         </div>
       </div>
     </div>
-    <div class="button-add-account">
+    <!-- <div class="button-add-account">
       <TmBtn value="Add Account" color="primary" />
-    </div>
+    </div> -->
   </div>
 </template>
 
 <script>
-import TmBtn from "common/TmBtn"
+// import TmBtn from "common/TmBtn"
 import Bech32 from "common/Bech32"
 export default {
   name: `session-accounts`,
   components: {
-    Bech32,
-    TmBtn
+    Bech32
+    // TmBtn
   },
   computed: {
     accounts() {
@@ -46,13 +46,13 @@ export default {
 </script>
 
 <style scoped>
-.accounts {
+.session-accounts {
   padding: 2rem;
   background: var(--fg);
   border-left: 1px solid var(--bc-dim);
 }
 
-.accounts h2 {
+.session-accounts h2 {
   color: var(--bright);
   font-size: var(--h1);
   font-weight: 500;

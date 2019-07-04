@@ -13,7 +13,7 @@ describe(`SessionAccounts`, () => {
       state: {
         accounts: [
           {
-            name: "accountName",
+            name: "Benjis account",
             address: "cosmos1ek9cd8ewgxg9w5xllq9um0uf4aaxaruvcw4v9e"
           }
         ]
@@ -33,10 +33,6 @@ describe(`SessionAccounts`, () => {
   })
 
   it(`renders the correct account`, () => {
-    expect(wrapper.html()).toContain("<h3>accountName</h3>")
-  })
-
-  it(`should show an account`, () => {
-    expect(wrapper.find(`.card-content`)).toBeDefined()
+    expect(wrapper.html()).toContain("Benjis account")
   })
 })
