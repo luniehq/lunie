@@ -6,6 +6,15 @@ exports[`TmSessionWelcome has the expected html structure 1`] = `
     class="session"
     id="session-welcome"
   >
+    <router-link-stub
+      to="/"
+    >
+      <img
+        class="session-logo-mobile"
+        src="~assets/images/cosmos-wallet-logo.svg"
+      />
+    </router-link-stub>
+     
     <h2
       class="session-title"
     >
@@ -35,7 +44,7 @@ exports[`TmSessionWelcome has the expected html structure 1`] = `
       <lisession-stub
         icon="person"
         id="use-an-existing-address"
-        route="explore"
+        route="existing"
         title="Use an existing address"
       />
     </div>
