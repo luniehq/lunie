@@ -22,7 +22,7 @@ exports[`TableInvoice should show the transaction invoice summary 1`] = `
        
       <span>
         
-        0.030864
+        0.000308
         STAKE
       
       </span>
@@ -36,7 +36,7 @@ exports[`TableInvoice should show the transaction invoice summary 1`] = `
       </span>
        
       <span>
-         1.030864 STAKE 
+         1.000308 STAKE 
       </span>
     </li>
   </ul>

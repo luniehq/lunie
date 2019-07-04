@@ -1,0 +1,1 @@
+[Code Improvements] [#ext-28](https://github.com/cosmos/lunie/issues/ext-28) Refactors so TableInvoice takes the total fee rather than taking two numbers as props and calculating it there. @thebkr7
