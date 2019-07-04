@@ -25,11 +25,10 @@ body,
   font-family: var(--sans);
   color: var(--txt);
   display: flex;
-
-  /* padding-top: 56px; */
   flex-flow: column nowrap;
-  min-width: 0;
   overflow: hidden;
+  min-width: 564px;
+  min-height: 564px;
 }
 
 a {
