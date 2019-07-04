@@ -111,17 +111,41 @@
   opacity: 0;
 }
 
-@media screen and (max-width: 1023px) {
+.session-logo-mobile {
+  display: none;
+}
+
+@media screen and (max-width: 667px) {
   .session {
     height: 100vh;
     padding: 1rem;
   }
 
+  .session-outer-container {
+    width: 100%;
+  }
+
+  .session-logo {
+    display: none;
+  }
+
+  .session-logo-mobile {
+    display: block;
+    height: 3rem;
+    margin: 1rem;
+  }
+}
+
+@media screen and (max-width: 1023px) {
   .session-header,
   .session-title,
   .session-main,
   .session-footer {
     padding-left: 0;
     padding-right: 0;
+  }
+
+  .session-frame .session-close {
+    display: none;
   }
 }

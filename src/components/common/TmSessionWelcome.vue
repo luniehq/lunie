@@ -1,6 +1,13 @@
 <template>
   <SessionFrame>
     <div id="session-welcome" class="session">
+      <router-link to="/">
+        <img
+          class="session-logo-mobile"
+          src="~assets/images/cosmos-wallet-logo.svg"
+        />
+      </router-link>
+
       <h2 class="session-title">
         Welcome to Lunie
       </h2>

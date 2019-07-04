@@ -39,21 +39,9 @@ export default {
   display: flex;
   padding: 1rem;
   margin-bottom: 0.25rem;
-  border-top: 2px solid var(--bc);
-  border-left: 2px solid var(--bc);
-  border-right: 2px solid var(--bc);
+  border: 2px solid var(--bc);
   background-color: var(--app-fg);
-}
-
-.tm-li-session:first-child {
-  border-top-left-radius: 0.25rem;
-  border-top-right-radius: 0.25rem;
-}
-
-.tm-li-session:last-of-type {
-  border-bottom: 2px solid var(--bc);
-  border-bottom-left-radius: 0.25rem;
-  border-bottom-right-radius: 0.25rem;
+  border-radius: 0.25rem;
 }
 
 .tm-li-session:hover {
@@ -89,7 +77,5 @@ export default {
   border: 2px solid var(--dim);
   border-radius: 50%;
   padding: 0.5rem;
-  max-width: 39px;
-  height: 39px;
 }
 </style>
