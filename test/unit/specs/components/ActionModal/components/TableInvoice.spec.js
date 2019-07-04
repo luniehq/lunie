@@ -18,8 +18,7 @@ describe(`TableInvoice`, () => {
       mocks: { $store },
       propsData: {
         amount: 1,
-        gasEstimate: 1234567,
-        gasPrice: 2.5e-8
+        estimatedFee: 0.00030864
       }
     })
   })
