@@ -15,6 +15,12 @@ const multiplier = 100000000
 describe(`PageProposal`, () => {
   let wrapper, $store
 
+  const localVue = createLocalVue()
+  localVue.use(Vuex)
+  localVue.use(Vuelidate)
+  localVue.directive(`tooltip`, () => {})
+  localVue.directive(`focus`, () => {})
+
   const getters = {
     depositDenom: governanceParameters.parameters.deposit.min_deposit[0].denom,
     proposals: { proposals, tallies, loaded: true },
@@ -30,12 +36,6 @@ describe(`PageProposal`, () => {
   let args
 
   beforeEach(() => {
-    const localVue = createLocalVue()
-    localVue.use(Vuex)
-    localVue.use(Vuelidate)
-    localVue.directive(`tooltip`, () => {})
-    localVue.directive(`focus`, () => {})
-
     $store = {
       commit: jest.fn(),
       dispatch: jest.fn(),
@@ -48,11 +48,6 @@ describe(`PageProposal`, () => {
       },
       mocks: {
         $store
-      },
-      stubs: {
-        "modal-deposit": true,
-        "modal-vote": true,
-        "short-bech32": true
       }
     }
     wrapper = shallowMount(PageProposal, args)
@@ -75,6 +70,29 @@ describe(`PageProposal`, () => {
 
       // needed to reset as somehow this causes sideeffects
       wrapper.vm.governanceParameters.loaded = true
+    })
+
+    it("loads data if not available", () => {
+      $store = {
+        commit: jest.fn(),
+        dispatch: jest.fn(),
+        getters: JSON.parse(JSON.stringify(getters))
+      }
+      $store.getters.governanceParameters.loaded = false
+      args = {
+        localVue,
+        propsData: {
+          proposalId: `666`
+        },
+        mocks: {
+          $store
+        }
+      }
+
+      wrapper = shallowMount(PageProposal, args)
+      
+      expect($store.dispatch).toHaveBeenCalledWith("getProposal", "666")
+      expect($store.dispatch).toHaveBeenCalledWith("getGovParameters")
     })
   })
 
