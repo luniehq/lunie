@@ -20,9 +20,11 @@
         From
         <Bech32 :address="senderAddress" />
       </div>
-
-      <!-- <TableInvoice :fees="fees" /> -->
-
+      <TableInvoice
+        :amount="amount"
+        :estimated-fee="fees"
+        :bond-denom="bondDenom"
+      />
       <TmFormGroup
         :error="$v.password.$error && $v.password.$invalid"
         class="action-modal-group"
@@ -70,26 +72,10 @@ import TmFormGroup from "common/TmFormGroup"
 import TmField from "common/TmField"
 import TmFormMsg from "common/TmFormMsg"
 import LiAnyTransaction from "transactions/LiAnyTransaction"
-// import TableInvoice from "src/ActionModal/components/TableInvoice"
+import TableInvoice from "src/ActionModal/components/TableInvoice"
 import Bech32 from "common/Bech32"
 import { required } from "vuelidate/lib/validators"
-
-// TODO move into own helper file
-// Parse into Lunie tx format from signMessage to display tx properly
-function parseTx(signMessage) {
-  const { msgs, fee, memo } = JSON.parse(signMessage)
-
-  return {
-    tx: {
-      type: "auth/StdTx",
-      value: {
-        msg: msgs,
-        fee,
-        memo
-      }
-    }
-  }
-}
+import { parseTx, parseFee, parseValueObj } from "../../scripts/parsers.js"
 
 export default {
   name: `session-approve`,
@@ -97,7 +83,7 @@ export default {
     TmBtn,
     TmFormGroup,
     LiAnyTransaction,
-    // TableInvoice,
+    TableInvoice,
     Bech32,
     TmField,
     TmFormMsg
@@ -111,11 +97,20 @@ export default {
     tx() {
       return this.signRequest ? parseTx(this.signRequest.signMessage) : null
     },
-    // fees() {
-    //   return this.tx ? this.tx.tx.value.fee.amount : null
-    // },
+    fees() {
+      return this.tx ? parseFee(this.tx.tx) : null
+    },
     senderAddress() {
       return this.signRequest ? this.signRequest.senderAddress : null
+    },
+    amountCoin() {
+      return this.tx ? parseValueObj(this.tx.tx) : null
+    },
+    amount() {
+      return this.amountCoin ? Number(this.amountCoin.amount) : null
+    },
+    bondDenom() {
+      return this.amountCoin ? this.amountCoin.denom : null
     }
   },
   methods: {
