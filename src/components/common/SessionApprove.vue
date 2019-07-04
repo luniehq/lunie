@@ -1,10 +1,16 @@
 <template>
-  <div class="approve-tran" hide-header>
+  <div
+    class="approve-tran"
+    hide-header
+  >
     <h2>Approve Transaction</h2>
     <div>
       <p>Verify the transaction details below.</p>
     </div>
-    <TmFormGroup field-id="to" field-label="Your address">
+    <TmFormGroup
+      field-id="to"
+      field-label="Your address"
+    >
       <LiAnyTransaction
         v-if="tx"
         :validators="deligates"
@@ -98,20 +104,19 @@ export default {
       return this.signRequest ? parseTx(this.signRequest.signMessage) : null
     },
     fees() {
-      return this.signRequest ? parseFee(this.signRequest.signMessage) : null
+      return this.tx ? parseFee(this.tx.tx) : null
     },
     senderAddress() {
       return this.signRequest ? this.signRequest.senderAddress : null
     },
+    amountCoin() {
+      return this.tx ? parseValueObj(this.tx.tx) : null
+    },
     amount() {
-      return this.signRequest
-        ? Number(parseValueObj(this.signRequest.signMessage).amount)
-        : null
+      return this.amountCoin ? Number(this.amountCoin.amount) : null
     },
     bondDenom() {
-      return this.signRequest
-        ? parseValueObj(this.signRequest.signMessage).denom
-        : null
+      return this.amountCoin ? this.amountCoin.denom : null
     }
   },
   methods: {

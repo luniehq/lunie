@@ -15,16 +15,16 @@ export const parseTx = signMessage => {
   }
 }
 
-export const parseFee = signMessage => {
-  const { fee } = JSON.parse(signMessage)
+export const parseFee = stdTx => {
+  const { value: { fee } } = stdTx
   return Number(fee.amount[0].amount)
 }
 
-export const parseValueObj = signMessage => {
-  const { msgs } = JSON.parse(signMessage)
-  if (msgs[0].type === "cosmos-sdk/MsgSend") {
-    return Number(msgs[0].value.amount[0])
+export const parseValueObj = stdTx => {
+  const { value: { msg } } = stdTx
+  if (msg[0].type === "cosmos-sdk/MsgSend") {
+    return msg[0].value.amount[0]
   } else {
-    return Number(msgs[0].value.amount)
+    return msg[0].value.amount
   }
 }
