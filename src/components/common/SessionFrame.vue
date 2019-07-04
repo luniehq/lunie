@@ -18,16 +18,12 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex"
 import TmBtn from "common/TmBtn"
 
 export default {
   name: `session-frame`,
   components: {
     TmBtn
-  },
-  computed: {
-    ...mapGetters([`session`])
   }
 }
 </script>
