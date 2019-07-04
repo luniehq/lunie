@@ -14,6 +14,7 @@ describe(`SessionApprove`, () => {
   beforeEach(() => {
     const getters = {
       signRequest: {
+        senderAddress: "cosmos1234",
         signMessage
       }
     }
@@ -80,7 +81,7 @@ describe(`SessionApprove`, () => {
     await wrapper.vm.$nextTick()
     expect(wrapper.vm.$store.dispatch).toHaveBeenCalledWith(
       "rejectSignRequest",
-      { signMessage }
+      { signMessage, senderAddress: "cosmos1234" }
     )
     expect(wrapper.vm.close).toHaveBeenCalled()
   })

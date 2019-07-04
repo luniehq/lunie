@@ -16,12 +16,16 @@ export const parseTx = signMessage => {
 }
 
 export const parseFee = stdTx => {
-  const { value: { fee } } = stdTx
+  const {
+    value: { fee }
+  } = stdTx
   return Number(fee.amount[0].amount)
 }
 
 export const parseValueObj = stdTx => {
-  const { value: { msg } } = stdTx
+  const {
+    value: { msg }
+  } = stdTx
   if (msg[0].type === "cosmos-sdk/MsgSend") {
     return msg[0].value.amount[0]
   } else {
