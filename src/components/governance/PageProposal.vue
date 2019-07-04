@@ -297,9 +297,14 @@ export default {
         : null
     }
   },
-  async mounted({ proposals, proposalId, $store } = this) {
+  async mounted(
+    { proposals, proposalId, governanceParameters, $store } = this
+  ) {
     if (!proposals[proposalId]) {
-      await $store.dispatch(`getProposal`, proposalId)
+      $store.dispatch(`getProposal`, proposalId)
+    }
+    if (!governanceParameters.loaded) {
+      $store.dispatch(`getGovParameters`)
     }
   },
   methods: {
