@@ -35,7 +35,7 @@ describe(`AppMenu`, () => {
     const $store = { commit: jest.fn(), $emit: jest.fn() }
     const self = { $store, $router: { push: jest.fn() }, $emit: jest.fn() }
     AppMenu.methods.signIn.call(self)
-    expect(self.$router.push).toHaveBeenCalledWith(`welcome`)
+    expect(self.$router.push).toHaveBeenCalledWith(`/welcome`)
   })
 
   it(`call dispatch to sign the user out`, () => {

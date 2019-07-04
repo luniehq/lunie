@@ -142,7 +142,7 @@ describe(`ActionModal`, () => {
     const self = { $store, close: jest.fn(), $router: { push: jest.fn() } }
     ActionModal.methods.goToSession.call(self)
     expect(self.close).toHaveBeenCalled()
-    expect(self.$router.push).toHaveBeenCalledWith(`welcome`)
+    expect(self.$router.push).toHaveBeenCalledWith(`/welcome`)
   })
 
   it(`shows a password input for local signing`, async () => {

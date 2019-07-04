@@ -56,7 +56,7 @@ describe(`SessionApprove`, () => {
         "approveSignRequest",
         { password: "1234", senderAddress: "cosmos1234", signMessage: "{}" }
       )
-      expect(wrapper.vm.$router.push).toHaveBeenCalledWith(`approved`)
+      expect(wrapper.vm.$router.push).toHaveBeenCalledWith(`/approved`)
     })
   })
 

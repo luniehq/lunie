@@ -33,7 +33,7 @@ export default {
   },
   methods: {
     signIn() {
-      this.$router.push(`welcome`)
+      this.$router.push(`/welcome`)
     },
     signOut() {
       this.$store.dispatch(`signOut`)

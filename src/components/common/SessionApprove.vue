@@ -130,7 +130,7 @@ export default {
           ...this.signRequest,
           password: this.password
         })
-        this.$router.push(`approved`)
+        this.$router.push(`/approved`)
       }
     },
     async reject() {

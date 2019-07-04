@@ -5,7 +5,7 @@
     </div>
     <div slot="subtitle">
       This page shows data for a specific address. To access the page, please
-      <a @click="$router.push(`welcome`)">sign&nbsp;in</a>.
+      <a @click="$router.push(`/welcome`)">sign&nbsp;in</a>.
     </div>
   </TmDataMsg>
 </template>

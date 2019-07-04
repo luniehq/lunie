@@ -44,6 +44,6 @@ describe(`ToolBar`, () => {
     const $store = { commit: jest.fn() }
     const self = { $store, $router: { push: jest.fn() } }
     ToolBar.methods.signIn.call(self)
-    expect(self.$router.push).toHaveBeenCalledWith(`welcome`)
+    expect(self.$router.push).toHaveBeenCalledWith(`/welcome`)
   })
 })
