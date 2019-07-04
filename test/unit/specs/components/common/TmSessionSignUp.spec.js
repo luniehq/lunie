@@ -21,7 +21,10 @@ describe(`TmSessionSignUp`, () => {
     wrapper = shallowMount(TmSessionSignUp, {
       localVue,
       mocks: {
-        $store
+        $store,
+        $router: {
+          push: jest.fn()
+        }
       }
     })
   })
@@ -135,5 +138,21 @@ describe(`TmSessionSignUp`, () => {
       title: `Couldn't create account`,
       body: expect.stringContaining(`reason`)
     })
+  })
+
+  it(`should go to the home page if creating is successful`, async () => {
+    wrapper.setData({
+      fields: {
+        signUpPassword: `1234567890`,
+        signUpPasswordConfirm: `1234567890`,
+        signUpSeed: `bar`,
+        signUpName: `testaccount`,
+        signUpWarning: true
+      }
+    })
+    $store.dispatch = jest.fn(() => Promise.resolve())
+    await wrapper.vm.onSubmit()
+    expect($store.dispatch.mock.calls[0][0]).toEqual(`createKey`)
+    expect(wrapper.vm.$router.push).toHaveBeenCalledWith(`/`)
   })
 })

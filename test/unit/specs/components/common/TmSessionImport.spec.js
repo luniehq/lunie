@@ -22,8 +22,10 @@ describe(`TmSessionImport`, () => {
     wrapper = mount(TmSessionImport, {
       localVue,
       store,
-      $router: {
-        push: jest.fn()
+      mocks: {
+        $router: {
+          push: jest.fn()
+        }
       },
       stubs: [`router-link`]
     })
@@ -97,5 +99,20 @@ describe(`TmSessionImport`, () => {
     await wrapper.vm.onSubmit()
     expect(store.commit.mock.calls[0][0]).toEqual(`notifyError`)
     expect(store.commit.mock.calls[0][1].body).toEqual(`test`)
+  })
+
+  it(`should go to the home page if recovering is successful`, async () => {
+    wrapper.setData({
+      fields: {
+        importName: `foo123`,
+        importPassword: `1234567890`,
+        importPasswordConfirm: `1234567890`,
+        importSeed: seed
+      }
+    })
+    store.dispatch = jest.fn(() => Promise.resolve())
+    await wrapper.vm.onSubmit()
+    expect(store.dispatch.mock.calls[0][0]).toEqual(`createKey`)
+    expect(wrapper.vm.$router.push).toHaveBeenCalledWith(`/`)
   })
 })
