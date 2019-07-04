@@ -100,6 +100,20 @@
             browser.
           </div>
         </HardwareState>
+        <HardwareState
+          v-if="selectedSignMethod === `extension`"
+          :icon="session.browserWithLedgerSupport ? 'laptop' : 'info'"
+          :loading="!!sending"
+        >
+          <div v-if="extension.enabled">
+            Please verify and sign the transaction in the Lunie Chrome
+            Extension.
+          </div>
+          <div v-else>
+            Please install the Lunie Chrome Extension from the Google Chrome
+            store.
+          </div>
+        </HardwareState>
         <form
           v-else-if="selectedSignMethod === `local`"
           @submit.prevent="validateChangeStep"
@@ -139,11 +153,7 @@
               />
               <TmBtn
                 v-else-if="sending"
-                :value="
-                  step === `sign` && selectedSignMethod === `ledger`
-                    ? `Waiting for Ledger`
-                    : `Sending...`
-                "
+                :value="submitButtonCaption"
                 disabled="disabled"
                 color="primary"
               />
@@ -158,7 +168,9 @@
                 ref="next"
                 color="primary"
                 value="Next"
-                :disabled="step === `fees` && $v.invoiceTotal.$invalid"
+                :disabled="
+                  disabled || (step === `fees` && $v.invoiceTotal.$invalid)
+                "
                 @click.native="validateChangeStep"
               />
               <TmBtn
@@ -202,8 +214,33 @@ const defaultStep = `details`
 const feeStep = `fees`
 const signStep = `sign`
 
-const signWithLedger = `ledger`
-const signWithLocalKeystore = `local`
+const signMethods = {
+  LOCAL: `local`,
+  LEDGER: `ledger`,
+  EXTENSION: `extension`
+}
+
+const signMethodOptions = {
+  LEDGER: {
+    key: `Ledger Nano`,
+    value: signMethods.LEDGER
+  },
+  EXTENSION: {
+    key: `Lunie Chrome Extension`,
+    value: signMethods.EXTENSION
+  },
+  LOCAL: {
+    key: `(Unsafe) Local Account`,
+    value: signMethods.LOCAL
+  }
+}
+
+const sessionType = {
+  EXPLORE: "explore",
+  LOCAL: signMethods.LOCAL,
+  LEDGER: signMethods.LEDGER,
+  EXTENSION: signMethods.EXTENSION
+}
 
 export default {
   name: `action-modal`,
@@ -243,11 +280,16 @@ export default {
     notifyMessage: {
       type: Object,
       default: () => {}
+    },
+    // disable proceeding from the first page
+    disabled: {
+      type: Boolean,
+      default: false
     }
   },
   data: () => ({
     step: defaultStep,
-    signMethod: null,
+    selectedSignMethod: null,
     password: null,
     sending: false,
     gasEstimate: null,
@@ -262,7 +304,8 @@ export default {
       `session`,
       `bondDenom`,
       `liquidAtoms`,
-      `modalContext`
+      `modalContext`,
+      `extension`
     ]),
     requiresSignIn() {
       return !this.session.signedIn
@@ -282,30 +325,40 @@ export default {
       }
       return true
     },
-    selectedSignMethod() {
-      if (
-        this.session.sessionType === `ledger` ||
-        this.session.sessionType === `explore`
-      ) {
-        return signWithLedger
-      }
-      return signWithLocalKeystore
-    },
     signMethods() {
-      if (this.session.sessionType === `ledger`) {
-        return [
-          {
-            key: `Ledger Nano`,
-            value: signWithLedger
-          }
-        ]
+      let signMethods = []
+      if (this.session.sessionType === sessionType.EXPLORE) {
+        signMethods.push(signMethodOptions.LEDGER)
+        signMethods.push(signMethodOptions.EXTENSION)
+      } else if (this.session.sessionType === sessionType.LEDGER) {
+        signMethods.push(signMethodOptions.LEDGER)
+      } else if (this.session.sessionType === sessionType.EXTENSION) {
+        signMethods.push(signMethodOptions.EXTENSION)
+      } else {
+        signMethods.push(signMethodOptions.LOCAL)
       }
-      return [
-        {
-          key: `(Unsafe) Local Account`,
-          value: signWithLocalKeystore
+      return signMethods
+    },
+    submitButtonCaption() {
+      switch (this.selectedSignMethod) {
+        case "ledger":
+          return `Waiting for Ledger`
+        case "extension":
+          return `Waiting for Extension`
+        default:
+          return "Sending..."
+      }
+    }
+  },
+  watch: {
+    // if there is only one sign method, preselect it
+    signMethods: {
+      immediate: true,
+      handler(signMethods) {
+        if (signMethods.length === 1) {
+          this.selectedSignMethod = signMethods[0].value
         }
-      ]
+      }
     }
   },
   updated: function() {
@@ -348,6 +401,8 @@ export default {
       return !this.$v[property].$invalid
     },
     async validateChangeStep() {
+      if (this.disabled) return
+
       // An ActionModal is only the prototype of a parent modal
       switch (this.step) {
         case defaultStep:
@@ -400,7 +455,7 @@ export default {
       this.submissionError = null
       this.trackEvent(`event`, `submit`, this.title, this.selectedSignMethod)
 
-      if (this.selectedSignMethod === signWithLedger) {
+      if (this.selectedSignMethod === signMethods.LEDGER) {
         await this.connectLedger()
       }
 
@@ -450,7 +505,7 @@ export default {
       password: {
         required: requiredIf(
           () =>
-            this.selectedSignMethod === signWithLocalKeystore &&
+            this.selectedSignMethod === signMethods.LOCAL &&
             this.step === signStep
         )
       },

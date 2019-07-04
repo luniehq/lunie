@@ -22,6 +22,12 @@ import TmBtn from "common/TmBtn"
 export default {
   name: `tool-bar`,
   components: { TmBtn },
+  props: {
+    displayText: {
+      type: Boolean,
+      default: false
+    }
+  },
   computed: {
     ...mapGetters([`session`])
   },
