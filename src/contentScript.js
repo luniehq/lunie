@@ -16,7 +16,7 @@ const wrapMessageForLunie = (type, payload) => {
 };
 
 // signal extension availability to Lunie.io
-function enableExtension() {
+export function enableExtension() {
   const message = wrapMessageForLunie('INIT_EXTENSION', { extension_enabled: true });
   window.postMessage(message, '*');
 }
@@ -47,7 +47,7 @@ function executeRequestToExtension({ payload, skipResponse }) {
 }
 
 // Listen to messages from the extension
-function listenToExtensionMessages() {
+export function listenToExtensionMessages() {
   chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     const wrappedMessage = wrapMessageForLunie(message.type, message.payload);
 
@@ -57,7 +57,7 @@ function listenToExtensionMessages() {
 }
 
 // Listen to messages from Lunie.io
-function listenToWebsiteMessages() {
+export function listenToWebsiteMessages() {
   window.addEventListener('message', event => filterMessages(executeRequestToExtension)(event), false);
 }
 
@@ -67,12 +67,4 @@ function main() {
   listenToWebsiteMessages();
 }
 
-if (typeof module !== 'undefined' && module.exports) {
-  module.exports = {
-    enableExtension,
-    listenToExtensionMessages,
-    listenToWebsiteMessages,
-  };
-} else {
-  main();
-}
+main();
