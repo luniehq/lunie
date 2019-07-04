@@ -57,8 +57,7 @@
         </TmFormGroup>
         <TableInvoice
           :amount="Number(amount)"
-          :gas-estimate="Number(gasEstimate)"
-          :gas-price="Number(gasPrice)"
+          :estimated-fee="estimatedFee"
           :bond-denom="bondDenom"
         />
         <TmFormMsg
@@ -169,7 +168,9 @@
                 ref="next"
                 color="primary"
                 value="Next"
-                :disabled="step === `fees` && $v.invoiceTotal.$invalid"
+                :disabled="
+                  disabled || (step === `fees` && $v.invoiceTotal.$invalid)
+                "
                 @click.native="validateChangeStep"
               />
               <TmBtn
@@ -279,6 +280,11 @@ export default {
     notifyMessage: {
       type: Object,
       default: () => {}
+    },
+    // disable proceeding from the first page
+    disabled: {
+      type: Boolean,
+      default: false
     }
   },
   data: () => ({
@@ -306,6 +312,9 @@ export default {
     },
     balanceInAtoms() {
       return atoms(this.liquidAtoms)
+    },
+    estimatedFee() {
+      return Number(this.gasPrice) * Number(this.gasEstimate) // already in atoms
     },
     invoiceTotal() {
       return (
@@ -395,6 +404,8 @@ export default {
       return !this.$v[property].$invalid
     },
     async validateChangeStep() {
+      if (this.disabled) return
+
       // An ActionModal is only the prototype of a parent modal
       switch (this.step) {
         case defaultStep:

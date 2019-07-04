@@ -102,7 +102,7 @@ describe(`Module: Wallet`, () => {
       expect(commit).toHaveBeenCalledWith(`setWalletAddress`, address)
       expect(dispatch.mock.calls).toEqual([
         [`queryWalletBalances`],
-        [`getTotalRewards`],
+        [`getRewardsFromMyValidators`],
         [`walletSubscribe`]
       ])
     })

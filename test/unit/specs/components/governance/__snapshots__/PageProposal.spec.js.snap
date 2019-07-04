@@ -690,6 +690,18 @@ exports[`PageProposal should display proposal page should default tally to 0 if 
 </tmpage-stub>
 `;
 
+exports[`PageProposal should display proposal page should show a loader if the necessary data hasen't been loaded 1`] = `
+<tmpage-stub
+  data-title="Proposal"
+  subtitle=""
+  title=""
+>
+  <tmdataloading-stub
+    title="Data is loading…"
+  />
+</tmpage-stub>
+`;
+
 exports[`PageProposal shows an error if the proposal couldn't be found 1`] = `
 <tmpage-stub
   data-title="Proposal"

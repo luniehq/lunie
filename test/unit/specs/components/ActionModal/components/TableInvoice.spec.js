@@ -11,8 +11,7 @@ describe(`TableInvoice`, () => {
       localVue,
       propsData: {
         amount: 17.2,
-        gasEstimate: 1234567,
-        gasPrice: 2.5e-8,
+        estimatedFee: 0.030864,
         bondDenom: `STAKE`
       }
     })

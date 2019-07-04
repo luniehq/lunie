@@ -619,6 +619,14 @@ describe(`ActionModal`, () => {
         await ActionModal.methods.validateChangeStep.call(self)
         expect(self.simulate).toHaveBeenCalled()
       })
+
+      it(`stops the user from proceeding if disabled`, async () => {
+        self.disabled = true
+
+        await ActionModal.methods.validateChangeStep.call(self)
+        expect(self.simulate).not.toHaveBeenCalled()
+        expect(self.step).toBe("details")
+      })
     })
 
     describe(`on fees step`, () => {

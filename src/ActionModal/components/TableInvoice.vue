@@ -8,7 +8,7 @@
       <li>
         <span>Network Fee</span>
         <span>
-          {{ networkFee | fullDecimals }}
+          {{ estimatedFee | fullDecimals }}
           {{ bondDenom | viewDenom }}
         </span>
       </li>
@@ -33,13 +33,9 @@ export default {
       type: Number,
       required: true
     },
-    gasEstimate: {
+    estimatedFee: {
       type: Number,
       required: true
-    },
-    gasPrice: {
-      type: Number,
-      default: 2.5e-8 // 0.025 uatoms
     },
     bondDenom: {
       type: String,
@@ -53,11 +49,8 @@ export default {
     subTotal() {
       return this.amount
     },
-    networkFee() {
-      return this.gasPrice * this.gasEstimate
-    },
     total() {
-      return this.networkFee + this.subTotal
+      return this.estimatedFee + this.subTotal
     }
   }
 }
