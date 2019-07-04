@@ -21,7 +21,7 @@ const processMessage = (store, type, payload) => {
   }
 }
 
-const filterExtensionMessage = (store, callback) => message => {
+const filterExtensionMessage = callback => message => {
   if (message.source !== window) return
   const { data } = message
   if (data.type && data.type === LUNIE_EXT_TYPE) {
@@ -31,7 +31,7 @@ const filterExtensionMessage = (store, callback) => message => {
 
 // exported for easyier testing
 export const processLunieExtensionMessages = store =>
-  filterExtensionMessage(store, data => {
+  filterExtensionMessage(data => {
     const message = unWrapMessageFromContentScript(data)
     processMessage(store, message.type, message.payload)
   })
@@ -44,26 +44,32 @@ export const listenToExtensionMessages = store => {
 
 // ---- Querying -----
 
-const sendMessageToContentScript = payload => {
-  window.postMessage(
-    { type: LUNIE_WEBSITE_TYPE, payload, skipResponse: false },
-    "*"
-  )
+const sendMessageToContentScript = (payload, skipResponse = false) => {
+  window.postMessage({ type: LUNIE_WEBSITE_TYPE, payload, skipResponse }, "*")
 }
 
-const sendAsyncMessageToContentScript = payload => {
-  sendMessageToContentScript(payload)
+// react to certain response type
+function waitForResponse(type) {
+  return new Promise(resolve => {
+    const handler = filterExtensionMessage(data => {
+      const message = unWrapMessageFromContentScript(data)
+      if (message.type === type) {
+        resolve(message.payload)
+      }
+    })
+    window.addEventListener("message", handler)
+  })
+}
+
+const sendAsyncMessageToContentScript = async payload => {
+  sendMessageToContentScript(payload, true)
 
   // await async response
-  return new Promise((resolve, reject) => {
-    window.addEventListener(`${payload.type}_RESPONSE`, function(payload) {
-      if (payload.rejected) {
-        reject("User rejected action in extension.")
-        return
-      }
-      resolve(payload)
-    })
-  })
+  const response = await waitForResponse(`${payload.type}_RESPONSE`)
+  if (response.rejected) {
+    throw new Error("User rejected action in extension.")
+  }
+  return response
 }
 
 export const getAccounts = () => {

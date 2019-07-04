@@ -1,7 +1,6 @@
 <template>
-  <div class="accounts" :hide-header="true">
-    <ToolBar :display-text="true" />
-    <div class="accounts-top">
+  <div class="session-accounts">
+    <div class="session-accounts-top">
       <h2>My accounts</h2>
       <p>
         You can use this account to explore
@@ -17,42 +16,43 @@
           <h3>{{ account.name }}</h3>
           <Bech32 :address="account.address" short-form />
         </div>
-        <TmBtn value="Go to Lunie" color="primary" />
       </div>
     </div>
+    <!-- <div class="button-add-account">
+      <TmBtn value="Add Account" color="primary" />
+    </div> -->
   </div>
 </template>
 
 <script>
-import TmBtn from "common/TmBtn"
-import ToolBar from "common/ToolBar"
+// import TmBtn from "common/TmBtn"
 import Bech32 from "common/Bech32"
 export default {
-  name: `session-ext-accounts`,
+  name: `session-accounts`,
   components: {
-    TmBtn,
-    ToolBar,
     Bech32
+    // TmBtn
   },
-  data: () => ({
-    accounts: [
-      {
-        address: "cosmos1ek9cd8ewgxg9w5x3benji0uf4aaxaruvcw4v9e",
-        name: "Account 1"
-      }
-    ]
-  })
+  computed: {
+    accounts() {
+      let accounts = this.$store.state.accounts
+      return accounts.map(({ name, address }) => ({
+        address,
+        name
+      }))
+    }
+  }
 }
 </script>
 
 <style scoped>
-.accounts {
+.session-accounts {
   padding: 2rem;
   background: var(--fg);
   border-left: 1px solid var(--bc-dim);
 }
 
-.accounts h2 {
+.session-accounts h2 {
   color: var(--bright);
   font-size: var(--h1);
   font-weight: 500;
@@ -85,5 +85,15 @@ export default {
 .content-left {
   display: flex;
   flex-direction: column;
+}
+
+.button-add-account {
+  display: flex;
+  justify-content: flex-end;
+  padding: 1.5rem 0 1rem;
+
+  /* keeps button in bottom right no matter the size of the action modal */
+  flex-grow: 1;
+  align-self: flex-end;
 }
 </style>

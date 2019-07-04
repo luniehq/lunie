@@ -1,7 +1,7 @@
 <template>
   <TmPage data-title="Proposal">
-    <TmDataError v-if="!proposal" />
-
+    <TmDataLoading v-if="!proposals.loaded || !governanceParameters.loaded" />
+    <TmDataError v-else-if="!proposal" />
     <template v-else>
       <div class="page-profile__header page-profile__section proposal">
         <div class="row">
@@ -153,6 +153,7 @@ import { mapGetters } from "vuex"
 import num from "scripts/num"
 import TmBtn from "common/TmBtn"
 import TmDataError from "common/TmDataError"
+import TmDataLoading from "common/TmDataLoading"
 import TextBlock from "common/TextBlock"
 import ModalDeposit from "src/ActionModal/components/ModalDeposit"
 import ModalVote from "src/ActionModal/components/ModalVote"
@@ -164,6 +165,7 @@ export default {
     ModalDeposit,
     ModalVote,
     TmDataError,
+    TmDataLoading,
     TmPage,
     TextBlock
   },
@@ -295,9 +297,14 @@ export default {
         : null
     }
   },
-  async mounted({ proposals, proposalId, $store } = this) {
+  async mounted(
+    { proposals, proposalId, governanceParameters, $store } = this
+  ) {
     if (!proposals[proposalId]) {
-      await $store.dispatch(`getProposal`, proposalId)
+      $store.dispatch(`getProposal`, proposalId)
+    }
+    if (!governanceParameters.loaded) {
+      $store.dispatch(`getGovParameters`)
     }
   },
   methods: {

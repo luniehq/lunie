@@ -104,14 +104,7 @@ describe(`Extension Utils`, () => {
 
     describe("sign", () => {
       beforeEach(() => {
-        jest
-          .spyOn(global, "addEventListener")
-          .mockImplementation((type, callback) => {
-            callback({
-              signature: "abcd",
-              publicKey: "1234"
-            })
-          })
+        jest.spyOn(global, "addEventListener")
         global.postMessage.mockClear()
       })
 
@@ -131,7 +124,7 @@ describe(`Extension Utils`, () => {
                 },
                 type: "LUNIE_SIGN_REQUEST"
               },
-              skipResponse: false,
+              skipResponse: true,
               type: "FROM_LUNIE_IO"
             },
             "*"
@@ -139,10 +132,19 @@ describe(`Extension Utils`, () => {
         ])
       })
 
-      it("should react to signature approval", () => {
-        global.addEventListener.mockImplementation((type, callback) => {
+      it("should react to signature rejection", () => {
+        global.addEventListener.mockImplementationOnce((type, callback) => {
           callback({
-            rejected: true
+            source: global,
+            data: {
+              message: {
+                payload: {
+                  rejected: true
+                },
+                type: "LUNIE_SIGN_REQUEST_RESPONSE"
+              },
+              type: "FROM_LUNIE_EXTENSION"
+            }
           })
         })
         expect(signWithExtension("abc")).rejects.toThrow(
@@ -150,7 +152,22 @@ describe(`Extension Utils`, () => {
         )
       })
 
-      it("should react to signature disapproval", async () => {
+      it("should react to signature approval", async () => {
+        global.addEventListener.mockImplementationOnce((type, callback) => {
+          callback({
+            source: global,
+            data: {
+              message: {
+                payload: {
+                  signature: "abcd",
+                  publicKey: "1234"
+                },
+                type: "LUNIE_SIGN_REQUEST_RESPONSE"
+              },
+              type: "FROM_LUNIE_EXTENSION"
+            }
+          })
+        })
         const result = await signWithExtension("abc")
         expect(result).toEqual({
           signature: expect.any(Buffer),
