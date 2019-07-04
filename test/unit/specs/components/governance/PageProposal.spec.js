@@ -90,7 +90,7 @@ describe(`PageProposal`, () => {
       }
 
       wrapper = shallowMount(PageProposal, args)
-      
+
       expect($store.dispatch).toHaveBeenCalledWith("getProposal", "666")
       expect($store.dispatch).toHaveBeenCalledWith("getGovParameters")
     })
