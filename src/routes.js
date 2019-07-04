@@ -131,6 +131,13 @@ export default [
       session: require(`./components/common/TmSessionExtension`).default
     }
   },
+  {
+    path: `/existing`,
+    name: `existing`,
+    components: {
+      session: require(`./components/common/TmSessionExisting`).default
+    }
+  },
   { path: `/404`, component: require(`./components/common/Page404`).default },
   {
     path: `/privacy`,

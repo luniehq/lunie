@@ -20,7 +20,7 @@
           id="use-an-existing-address"
           icon="person"
           title="Use an existing address"
-          route="explore"
+          route="existing"
         />
       </div>
 
