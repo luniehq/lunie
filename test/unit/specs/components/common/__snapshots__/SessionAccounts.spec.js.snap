@@ -46,5 +46,14 @@ exports[`SessionAccounts has the expected html structure 1`] = `
       </div>
     </div>
   </div>
+   
+  <div
+    class="button-add-account"
+  >
+    <tmbtn-stub
+      color="primary"
+      value="Add Account"
+    />
+  </div>
 </div>
 `;

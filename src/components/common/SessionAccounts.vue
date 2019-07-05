@@ -18,20 +18,20 @@
         </div>
       </div>
     </div>
-    <!-- <div class="button-add-account">
-      <TmBtn value="Add Account" color="primary" />
-    </div> -->
+    <div class="button-add-account">
+      <TmBtn value="Add Account" color="primary" @click.native="addAccount" />
+    </div>
   </div>
 </template>
 
 <script>
-// import TmBtn from "common/TmBtn"
+import TmBtn from "common/TmBtn"
 import Bech32 from "common/Bech32"
 export default {
   name: `session-accounts`,
   components: {
-    Bech32
-    // TmBtn
+    Bech32,
+    TmBtn
   },
   computed: {
     accounts() {
@@ -40,6 +40,11 @@ export default {
         address,
         name
       }))
+    }
+  },
+  methods: {
+    addAccount() {
+      this.$router.push(`/welcome`)
     }
   }
 }
