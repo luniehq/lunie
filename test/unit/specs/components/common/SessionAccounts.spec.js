@@ -1,4 +1,4 @@
-import { createLocalVue, shallowMount } from "@vue/test-utils"
+import { createLocalVue, mount } from "@vue/test-utils"
 import Vuelidate from "vuelidate"
 import SessionAccounts from "common/SessionAccounts"
 
@@ -19,7 +19,7 @@ describe(`SessionAccounts`, () => {
         ]
       }
     }
-    wrapper = shallowMount(SessionAccounts, {
+    wrapper = mount(SessionAccounts, {
       localVue,
       stubs: [`router-link`],
       mocks: {

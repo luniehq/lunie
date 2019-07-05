@@ -48,18 +48,4 @@ describe(`SessionExtension`, () => {
   it("loads addresses on mount", () => {
     expect($store.dispatch).toHaveBeenCalledWith("getAddressesFromExtension")
   })
-
-  it("triggers sign in", () => {
-    wrapper.find(".extension-address-item tmbtn-stub").trigger("click")
-    expect($store.dispatch).toHaveBeenCalledWith("signIn", {
-      sessionType: `extension`,
-      address: "cosmos1234"
-    })
-  })
-
-  it("closes session after sign in", () => {
-    wrapper.vm.$emit = jest.fn()
-    wrapper.find(".extension-address-item tmbtn-stub").trigger("click")
-    expect(wrapper.vm.$router.push).toHaveBeenCalledWith(`/`)
-  })
 })

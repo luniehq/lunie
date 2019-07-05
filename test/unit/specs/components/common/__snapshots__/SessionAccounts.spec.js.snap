@@ -2,49 +2,146 @@
 
 exports[`SessionAccounts has the expected html structure 1`] = `
 <div
-  class="session-accounts"
+  class="session-frame"
+  mode="out-in"
+  name="component-fade"
 >
-  <div
-    class="session-accounts-top"
+  <router-link-stub
+    to="/"
   >
-    <h2>
-      My accounts
-    </h2>
-     
-    <p>
-      
-      You can use this account to explore
-      
-      <router-link-stub
-        to="/wallet"
-      >
-        
-        Lunie
-      
-      </router-link-stub>
-      
-      and to approve transactions.
-    
-    </p>
-  </div>
+    <img
+      class="session-logo"
+      src="~assets/images/cosmos-wallet-logo.svg"
+    />
+  </router-link-stub>
    
-  <div>
+  <div
+    class="session-outer-container"
+  >
     <div
-      class="card content"
+      class="session"
     >
       <div
-        class="content-left"
+        class="session-container"
       >
-        <h3>
-          Benjis account
-        </h3>
+        <h2
+          class="session-title"
+        >
+          My accounts
+        </h2>
          
-        <bech32-stub
-          address="cosmos1ek9cd8ewgxg9w5xllq9um0uf4aaxaruvcw4v9e"
-          short-form=""
-        />
+        <div
+          class="session-main"
+        >
+          <p>
+            
+          You can use the accounts below to explore
+          
+            <router-link-stub
+              to="/wallet"
+            >
+              
+            Lunie
+          
+            </router-link-stub>
+            
+          and to approve transactions.
+        
+          </p>
+           
+          <ul
+            class="account-list"
+          >
+            <li
+              class="account"
+            >
+              <div
+                class="account-info"
+              >
+                <h3>
+                  Benjis account
+                </h3>
+                 
+                <div
+                  class="bech32-address"
+                >
+                  <div
+                    class="address"
+                    id="address"
+                  >
+                    
+    cosmos…4v9e
+  
+                  </div>
+                   
+                  <div
+                    class="copied"
+                  >
+                    <i
+                      class="material-icons"
+                    >
+                      check
+                    </i>
+                    <span>
+                      Copied
+                    </span>
+                  </div>
+                </div>
+              </div>
+               
+              <button
+                class="tm-btn account-button"
+              >
+                <span
+                  class="tm-btn__container tm-btn--primary"
+                >
+                  <!---->
+                  <span
+                    class="tm-btn__value"
+                  >
+                    Use Account
+                  </span>
+                </span>
+              </button>
+            </li>
+          </ul>
+           
+          <div
+            class="button-add-account"
+          >
+            <button
+              class="tm-btn"
+            >
+              <span
+                class="tm-btn__container tm-btn--primary"
+              >
+                <!---->
+                <span
+                  class="tm-btn__value"
+                >
+                  Add Another Account
+                </span>
+              </span>
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   </div>
+   
+  <button
+    class="tm-btn session-close"
+  >
+    <span
+      class="tm-btn__container tm-btn--secondary"
+    >
+      <!---->
+      <span
+        class="tm-btn__value"
+      >
+        Back to Lunie
+      </span>
+    </span>
+  </button>
 </div>
 `;
