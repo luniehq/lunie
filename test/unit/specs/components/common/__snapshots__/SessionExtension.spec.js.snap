@@ -39,7 +39,7 @@ exports[`SessionExtension shows a guide to install the extension if no extension
 </sessionframe-stub>
 `;
 
-exports[`SessionExtension shows an overview of all wallets to sign in with from the extension 1`] = `
+exports[`SessionExtension shows a list of all accounts in the extension 1`] = `
 <sessionframe-stub>
   <div
     class="session"

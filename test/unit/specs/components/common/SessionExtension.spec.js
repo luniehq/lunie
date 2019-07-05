@@ -36,7 +36,7 @@ describe(`SessionExtension`, () => {
     })
   })
 
-  it(`shows an overview of all wallets to sign in with from the extension`, () => {
+  it(`shows a list of all accounts in the extension`, () => {
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
