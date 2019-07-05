@@ -3,7 +3,7 @@
     <div class="session-accounts-top">
       <h2>My accounts</h2>
       <p>
-        You can use this account to explore
+        You can use the accounts below to explore
         <router-link to="/wallet">
           Lunie
         </router-link>
@@ -25,13 +25,13 @@
 </template>
 
 <script>
-// import TmBtn from "common/TmBtn"
+import TmBtn from "common/TmBtn"
 import Bech32 from "common/Bech32"
 export default {
   name: `session-accounts`,
   components: {
-    Bech32
-    // TmBtn
+    Bech32,
+    TmBtn
   },
   computed: {
     accounts() {

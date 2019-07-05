@@ -3,11 +3,11 @@
     <div class="session">
       <div class="session-container">
         <h2 class="session-title">
-          Use Lunie Browser extension
+          Use Lunie browser extension
         </h2>
         <div v-if="!extension.enabled" class="session-main">
           <p>
-            Please install the Lunie Browser Extension from the
+            Please install the Lunie browser extension from the
             <a
               href="https://chrome.google.com/webstore/category/extensions"
               target="_blank"
@@ -17,51 +17,27 @@
           </p>
         </div>
 
-        <div v-if="extension.enabled" class="session-main">
-          <div :icon="extension.enabled ? 'laptop' : 'info'">
-            <div v-if="extension.enabled">
-              Click below to open the Lunie Browser Extension, or use one of the
-              existing address.
-              <ul>
-                <li v-for="account in extension.accounts" :key="account.name">
-                  <div class="extension-address-item">
-                    <div>
-                      {{ account.name }}<br />
-                      <TmBtn
-                        type="anchor"
-                        :value="account.address | formatBech32"
-                        color="primary"
-                        @click.native="signIn(account.address)"
-                      />
-                    </div>
-                    <div>
-                      <TmBtn
-                        value="Use Address"
-                        color="primary"
-                        @click.native="signIn(account.address)"
-                      />
-                    </div>
-                  </div>
-                </li>
-              </ul>
-            </div>
-            <div v-else>
-              Use the Lunie Browser Extension to securely store your keys, and
-              safely perform transactions.
-            </div>
-          </div>
-
-          <div class="session-footer">
-            <p class="ledger-install">
-              You can find the Lunie Browser Extension in the
-              <a
-                href="https://chrome.google.com/webstore/category/extensions"
-                target="_blank"
-                rel="noopener norefferer"
-                >Chrome Web Store</a
-              >
-            </p>
-          </div>
+        <div v-else class="session-main">
+          Below is a list of accounts we received from the Lunie browser
+          extension.
+          <ul class="account-list">
+            <li
+              v-for="account in extension.accounts"
+              :key="account.name"
+              class="account"
+            >
+              <div class="account-info">
+                <h3>{{ account.name }}</h3>
+                <Bech32 :address="account.address || ''" />
+              </div>
+              <TmBtn
+                class="account-button"
+                value="Use Address"
+                color="primary"
+                @click.native="signIn(account.address)"
+              />
+            </li>
+          </ul>
         </div>
       </div>
     </div>
@@ -69,6 +45,7 @@
 </template>
 
 <script>
+import Bech32 from "common/Bech32"
 import TmBtn from "common/TmBtn"
 import SessionFrame from "common/SessionFrame"
 import { mapGetters } from "vuex"
@@ -76,8 +53,9 @@ import { formatBech32 } from "src/filters"
 export default {
   name: `session-extension`,
   components: {
-    SessionFrame,
-    TmBtn
+    Bech32,
+    TmBtn,
+    SessionFrame
   },
   filters: {
     formatBech32
@@ -107,37 +85,26 @@ export default {
 }
 </script>
 <style scoped>
-.error-message {
-  color: var(--danger);
-  font-size: var(--sm);
-  font-style: italic;
-  margin-bottom: 0;
-  padding-top: 1rem;
+.account-list {
+  padding: 2rem 0;
 }
 
-.install-notes {
-  flex-direction: column;
-}
-
-.ledger-install {
-  font-size: var(--sm);
-  margin-bottom: 0;
-}
-
-.session-footer {
-  justify-content: space-between;
-}
-
-.address {
-  color: var(--link);
-  font-weight: 500;
-  font-size: 14px;
-  white-space: nowrap;
-}
-
-.extension-address-item {
+.account {
   display: flex;
-  flex-flow: row nowrap;
+  flex-flow: row;
   justify-content: space-between;
+  padding: 0.5rem 1rem;
+  background: var(--app-fg);
+  border-radius: 0.25rem;
+  border: 2px solid var(--bc-dim);
+}
+
+.account h3 {
+  color: var(--bright);
+}
+
+.account-info {
+  display: flex;
+  flex-direction: column;
 }
 </style>
