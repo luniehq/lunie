@@ -1,10 +1,10 @@
 export const createSeed = () => {
   return new Promise(resolve => {
     chrome.runtime.sendMessage({ type: 'GET_SEED' }, function(seed) {
-      resolve(seed);
-    });
-  });
-};
+      resolve(seed)
+    })
+  })
+}
 
 export const createKey = ({ dispatch }, { seedPhrase, password, name }) => {
   return new Promise(resolve => {
@@ -14,57 +14,60 @@ export const createKey = ({ dispatch }, { seedPhrase, password, name }) => {
         payload: {
           password,
           name,
-          mnemonic: seedPhrase,
-        },
+          mnemonic: seedPhrase
+        }
       },
       function() {
-        resolve();
-        dispatch('loadAccounts');
+        resolve()
+        dispatch('loadAccounts')
       }
-    );
-  });
-};
+    )
+  })
+}
 
 export const loadAccounts = ({ state }) => {
   chrome.runtime.sendMessage(
     {
-      type: 'GET_WALLETS',
+      type: 'GET_WALLETS'
     },
     function(response) {
-      state.accounts = response;
+      state.accounts = response
     }
-  );
-};
+  )
+}
 
 export const testLogin = (store, { address, password }) => {
   return new Promise(resolve => {
     chrome.runtime.sendMessage(
       {
         type: 'TEST_PASSWORD',
-        payload: { address, password },
+        payload: { address, password }
       },
       function(response) {
-        resolve(response);
+        resolve(response)
       }
-    );
-  });
-};
+    )
+  })
+}
 
 export const getSignRequest = ({ commit }) => {
   return new Promise(resolve => {
     chrome.runtime.sendMessage(
       {
-        type: 'GET_SIGN_REQUEST',
+        type: 'GET_SIGN_REQUEST'
       },
       function(response) {
-        commit('setSignRequest', response);
-        resolve(response);
+        commit('setSignRequest', response)
+        resolve(response)
       }
-    );
-  });
-};
+    )
+  })
+}
 
-export const approveSignRequest = ({ commit }, { signMessage, senderAddress, password, id }) => {
+export const approveSignRequest = (
+  { commit },
+  { signMessage, senderAddress, password, id }
+) => {
   return new Promise(resolve => {
     chrome.runtime.sendMessage(
       {
@@ -73,31 +76,31 @@ export const approveSignRequest = ({ commit }, { signMessage, senderAddress, pas
           signMessage,
           senderAddress,
           password,
-          id,
-        },
+          id
+        }
       },
-      function(response) {
+      function(_response) {
         // TODO missing rejection on wrong password?
-        resolve();
-        commit('setSignRequest', null);
+        resolve()
+        commit('setSignRequest', null)
       }
-    );
-  });
-};
+    )
+  })
+}
 
 export const rejectSignRequest = ({ commit }, signRequest) => {
   return new Promise(resolve => {
     chrome.runtime.sendMessage(
       {
         type: 'REJECT_SIGN_REQUEST',
-        payload: signRequest,
+        payload: signRequest
       },
-      function(response) {
-        resolve();
-        commit('setSignRequest', null);
+      function(_response) {
+        resolve()
+        commit('setSignRequest', null)
       }
-    );
-  });
-};
+    )
+  })
+}
 
-export const signIn = () => {};
+export const signIn = () => {}

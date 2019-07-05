@@ -12,7 +12,7 @@ export default [
   {
     path: '/existing',
     name: 'existing',
-    component: require('common/TmSessionExisting').default,
+    component: require('common/TmSessionExisting').default
   },
   {
     path: `/create`,
@@ -23,5 +23,5 @@ export default [
     path: `/recover`,
     name: `recover`,
     component: require('common/TmSessionImport').default
-  },
-];
+  }
+]
