@@ -1,1 +1,0 @@
-[Code Improvements] [#2785](https://github.com/cosmos/lunie/pull/2785) Refactors SessionApprove to pass TableInvoice the subtotal fee and amount of the transaction. TableInvoice was refactored in PR #2785 @thebkr7
