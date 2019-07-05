@@ -37,10 +37,8 @@ describe(`SessionAccounts`, () => {
   })
 
   it(`opens session modal and closes itself`, () => {
-    const $store = { commit: jest.fn() }
     const self = { $store, $router: { push: jest.fn() } }
     SessionAccounts.methods.addAccount.call(self)
-    // expect(self.close).toHaveBeenCalled()
     expect(self.$router.push).toHaveBeenCalledWith(`/welcome`)
   })
 })
