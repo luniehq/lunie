@@ -7,6 +7,21 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.0-beta.92] - 2019-07-04
+
+### Added
+
+- 3 components for the Chrome Extension: Approve Transaction, Account, Backup Codes @thebkr7
+
+### Fixed
+
+- [#2636](https://github.com/cosmos/lunie/issues/2636) Handle bad API response for empty rewards and force update of rewards after withdraw @faboweb
+- [#2800](https://github.com/cosmos/lunie/issues/2800) Fix PageProposal crashing if deep linked @faboweb
+
+### Code Improvements
+
+- Removed querying for totalRewards in favor of calculating those from validator rewards @faboweb
+
 ## [1.0.0-beta.91] - 2019-07-02
 
 ### Fixed
