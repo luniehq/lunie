@@ -10,6 +10,7 @@
   ],
   "scripts": {
     "lint": "npm run lint:js && npm run lint:css",
+    "lint:fix": "eslint --ext .js,.vue src --fix && stylelint \"src/**/*.{css,vue}\" --fix",
     "lint:js": "eslint --ext .js,.vue src",
     "lint:css": "stylelint \"src/**/*.{css,vue}\"",
     "prettier": "prettier \"src/**/*.{js,vue}\"",
