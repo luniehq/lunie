@@ -20,7 +20,7 @@
         <div v-else class="session-main">
           Below is a list of accounts we received from the Lunie browser
           extension.
-          <AccountList :accounts="extension.accounts" />
+          <AccountList :accounts="accounts" />
         </div>
       </div>
     </div>
@@ -44,7 +44,7 @@ export default {
   computed: {
     ...mapGetters([`extension`]),
     accounts() {
-      return extension.accounts
+      return this.extension.accounts
     }
   },
   mounted() {

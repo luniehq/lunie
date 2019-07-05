@@ -25,14 +25,12 @@
 
 <script>
 import AccountList from "common/AccountList"
-import Bech32 from "common/Bech32"
 import SessionFrame from "common/SessionFrame"
 import TmBtn from "common/TmBtn"
 export default {
   name: `session-accounts`,
   components: {
     AccountList,
-    Bech32,
     SessionFrame,
     TmBtn
   },
