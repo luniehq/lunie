@@ -36,7 +36,7 @@ describe(`SessionAccounts`, () => {
     expect(wrapper.html()).toContain("Benjis account")
   })
 
-  it(`opens session modal and closes itself`, () => {
+  it(`links to the welcome screen`, () => {
     const self = { $store, $router: { push: jest.fn() } }
     SessionAccounts.methods.addAccount.call(self)
     expect(self.$router.push).toHaveBeenCalledWith(`/welcome`)
