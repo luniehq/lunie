@@ -1,5 +1,5 @@
 <template>
-  <div class="backup-code" hide-header>
+  <div class="backup-code">
     <div class="backup-code-top">
       <h2>Use a backup code</h2>
     </div>
@@ -37,14 +37,6 @@ export default {
       //Remove Default
       default: "cosmos1ek9cd8ewgxg9w5x3benji0uf4aaxaruvcw4v9e",
       required: true
-    }
-  },
-  methods: {
-    setState(value) {
-      this.$emit(`route-change`, value)
-    },
-    close() {
-      this.$emit(`close`)
     }
   }
 }

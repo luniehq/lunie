@@ -28,30 +28,6 @@ describe(`TmSessionExisting`, () => {
     })
   })
 
-  it(`should set the current view to the state`, () => {
-    const self = {
-      $emit: jest.fn()
-    }
-    TmSessionExisting.methods.setState.call(self, `someState`)
-    expect(self.$emit).toHaveBeenCalledWith(`route-change`, `someState`)
-  })
-
-  it(`should go back to the welcome screen`, () => {
-    const self = {
-      $emit: jest.fn()
-    }
-    TmSessionExisting.methods.goToWelcome.call(self)
-    expect(self.$emit).toHaveBeenCalledWith(`route-change`, `welcome`)
-  })
-
-  it(`should close`, () => {
-    const self = {
-      $emit: jest.fn()
-    }
-    TmSessionExisting.methods.close.call(self)
-    expect(self.$emit).toHaveBeenCalledWith(`close`)
-  })
-
   describe(`default view in production`, () => {
     it(`shows "Explore with any address"`, () => {
       expect(wrapper.find(`#explore-with-address`).exists()).toBe(true)

@@ -1,7 +1,7 @@
 import { shallowMount } from "@vue/test-utils"
 import TmSessionExtension from "common/TmSessionExtension"
 
-describe(`SessionApprove`, () => {
+describe(`SessionExtension`, () => {
   let wrapper, $store
 
   beforeEach(() => {
@@ -28,7 +28,10 @@ describe(`SessionApprove`, () => {
     }
     wrapper = shallowMount(TmSessionExtension, {
       mocks: {
-        $store
+        $store,
+        $router: {
+          push: jest.fn()
+        }
       }
     })
   })
@@ -57,22 +60,6 @@ describe(`SessionApprove`, () => {
   it("closes session after sign in", () => {
     wrapper.vm.$emit = jest.fn()
     wrapper.find(".extension-address-item tmbtn-stub").trigger("click")
-    expect(wrapper.vm.$emit).toHaveBeenCalledWith("close")
-  })
-
-  it(`should set the current view to the state`, () => {
-    const self = {
-      $emit: jest.fn()
-    }
-    TmSessionExtension.methods.setState.call(self, `someState`)
-    expect(self.$emit).toHaveBeenCalledWith(`route-change`, `someState`)
-  })
-
-  it(`should go back to the existing account screen`, () => {
-    const self = {
-      $emit: jest.fn()
-    }
-    TmSessionExtension.methods.goBack.call(self)
-    expect(self.$emit).toHaveBeenCalledWith(`route-change`, `existing`)
+    expect(wrapper.vm.$router.push).toHaveBeenCalledWith(`/`)
   })
 })

@@ -57,8 +57,8 @@
         </TmFormGroup>
         <TableInvoice
           :amount="Number(amount)"
-          :gas-estimate="Number(gasEstimate)"
-          :gas-price="Number(gasPrice)"
+          :estimated-fee="estimatedFee"
+          :bond-denom="bondDenom"
         />
         <TmFormMsg
           v-if="$v.invoiceTotal.$invalid"
@@ -313,6 +313,9 @@ export default {
     balanceInAtoms() {
       return atoms(this.liquidAtoms)
     },
+    estimatedFee() {
+      return Number(this.gasPrice) * Number(this.gasEstimate) // already in atoms
+    },
     invoiceTotal() {
       return (
         Number(this.amount) + Number(this.gasPrice) * Number(this.gasEstimate)
@@ -392,8 +395,7 @@ export default {
     goToSession() {
       this.close()
 
-      this.$store.commit(`setSessionModalView`, `welcome`)
-      this.$store.commit(`toggleSessionModal`, true)
+      this.$router.push(`/welcome`)
     },
     isValidInput(property) {
       this.$v[property].$touch()

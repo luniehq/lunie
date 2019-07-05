@@ -35,14 +35,7 @@ describe(`AppMenu`, () => {
     const $store = { commit: jest.fn(), $emit: jest.fn() }
     const self = { $store, $router: { push: jest.fn() }, $emit: jest.fn() }
     AppMenu.methods.signIn.call(self)
-    expect($store.commit).toHaveBeenCalledWith(`toggleSessionModal`, true)
-  })
-
-  it(`closes the menu on a sign in attempt`, () => {
-    const $store = { commit: jest.fn(), $emit: jest.fn() }
-    const self = { $store, $router: { push: jest.fn() }, $emit: jest.fn() }
-    AppMenu.methods.signIn.call(self)
-    expect(self.$emit).toHaveBeenCalledWith(`close`)
+    expect(self.$router.push).toHaveBeenCalledWith(`/welcome`)
   })
 
   it(`call dispatch to sign the user out`, () => {

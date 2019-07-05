@@ -2,8 +2,7 @@
 
 exports[`SessionApprove shows the approval modal with the transaction and an invoice table 1`] = `
 <div
-  class="approve-tran"
-  hide-header=""
+  class="session-approve"
 >
   <h2>
     Approve Transaction
@@ -37,6 +36,12 @@ exports[`SessionApprove shows the approval modal with the transaction and an inv
       />
     </div>
      
+    <tableinvoice-stub
+      amount="12000000"
+      bonddenom="stake"
+      estimatedfee="40"
+    />
+     
     <tmformgroup-stub
       class="action-modal-group"
       fieldid="password"
@@ -52,7 +57,7 @@ exports[`SessionApprove shows the approval modal with the transaction and an inv
     </tmformgroup-stub>
      
     <div
-      class="approve-tran-footer"
+      class="session-approve-footer"
     >
       <tmbtn-stub
         class="left-button"

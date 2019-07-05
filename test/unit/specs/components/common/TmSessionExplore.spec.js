@@ -38,31 +38,7 @@ describe(`TmSessionExplore`, () => {
     })
     wrapper.vm.$emit = jest.fn()
     await wrapper.vm.onSubmit()
-    expect(wrapper.vm.$emit).toHaveBeenCalledWith(`close`)
-  })
-
-  it(`should set the current view to the state`, () => {
-    const self = {
-      $emit: jest.fn()
-    }
-    TmSessionExplore.methods.setState.call(self, `someState`)
-    expect(self.$emit).toHaveBeenCalledWith(`route-change`, `someState`)
-  })
-
-  it(`should go back to the existing account screen`, () => {
-    const self = {
-      $emit: jest.fn()
-    }
-    TmSessionExplore.methods.goBack.call(self)
-    expect(self.$emit).toHaveBeenCalledWith(`route-change`, `existing`)
-  })
-
-  it(`should close`, () => {
-    const self = {
-      $emit: jest.fn()
-    }
-    TmSessionExplore.methods.close.call(self)
-    expect(self.$emit).toHaveBeenCalledWith(`close`)
+    expect(wrapper.vm.$router.push).toHaveBeenCalledWith(`/`)
   })
 
   it(`should signal signedin state on successful login`, async () => {

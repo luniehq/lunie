@@ -2,217 +2,231 @@
 
 exports[`TmSessionImport has the expected html structure 1`] = `
 <div
-  class="session"
+  class="session-frame"
+  mode="out-in"
+  name="component-fade"
 >
-  <div
-    class="session-header"
+  <router-link-stub
+    to="/"
   >
-    <a>
-      <i
-        class="material-icons session-back"
-      >
-        arrow_back
-      </i>
-    </a>
-     
-    <a>
-      <i
-        class="material-icons session-close"
-      >
-        close
-      </i>
-    </a>
-  </div>
+    <img
+      class="session-logo"
+      src="~assets/images/cosmos-wallet-logo.svg"
+    />
+  </router-link-stub>
    
-  <form
-    class="form"
+  <div
+    class="session-outer-container"
   >
-     
-    <!---->
-     
-    <main
-      class="form-main"
+    <div
+      class="session"
     >
-      <h2
-        class="session-title"
+      <form
+        class="form"
       >
-        
-      Recover from seed
-    
-      </h2>
-       
-      <div
-        class="session-main"
-      >
-        <div
-          class="tm-form-group"
+         
+        <!---->
+         
+        <main
+          class="form-main"
         >
-          <!---->
-           
-          <label
-            class="tm-form-group__label"
-            for="import-name"
+          <h2
+            class="session-title"
           >
             
-    Account Name
-  
-          </label>
+        Recover from seed
+      
+          </h2>
            
           <div
-            class="tm-form-group__field"
-          >
-            <input
-              class="tm-field"
-              id="import-name"
-              placeholder="Must have at least 5 characters"
-              type="text"
-              vue-focus="vue-focus"
-            />
-             
-            <!---->
-             
-            <!---->
-          </div>
-        </div>
-         
-        <div
-          class="tm-form-group"
-        >
-          <!---->
-           
-          <label
-            class="tm-form-group__label"
-            for="import-password"
-          >
-            
-    Password
-  
-          </label>
-           
-          <div
-            class="tm-form-group__field"
-          >
-            <input
-              class="tm-field"
-              id="import-password"
-              placeholder="Must be at least 10 characters"
-              type="password"
-            />
-             
-            <!---->
-             
-            <!---->
-          </div>
-        </div>
-         
-        <div
-          class="tm-form-group"
-        >
-          <!---->
-           
-          <label
-            class="tm-form-group__label"
-            for="import-password-confirmation"
-          >
-            
-    Confirm Password
-  
-          </label>
-           
-          <div
-            class="tm-form-group__field"
-          >
-            <input
-              class="tm-field"
-              id="import-password-confirmation"
-              placeholder="Enter password again"
-              type="password"
-            />
-             
-            <!---->
-          </div>
-        </div>
-         
-        <div
-          class="tm-form-group"
-        >
-          <!---->
-           
-          <label
-            class="tm-form-group__label"
-            for="import-seed"
-          >
-            
-    Seed Phrase
-  
-          </label>
-           
-          <div
-            class="tm-form-group__field"
-          >
-            <textarea
-              class="tm-field-seed tm-field"
-              id="import-seed"
-              placeholder="Must be exactly 24 words"
-              style="overflow-x: hidden; word-wrap: break-word; overflow-y: hidden;"
-            />
-             
-            <!---->
-          </div>
-        </div>
-         
-        <div
-          class="tm-form-group"
-        >
-          <!---->
-           
-          <!---->
-           
-          <div
-            class="tm-form-group__field"
+            class="session-main"
           >
             <div
-              class="field-checkbox"
+              class="tm-form-group"
             >
+              <!---->
+               
               <label
-                class="field-checkbox-label"
-                for="error-collection"
+                class="tm-form-group__label"
+                for="import-name"
+              >
+                
+    Account Name
+  
+              </label>
+               
+              <div
+                class="tm-form-group__field"
               >
                 <input
-                  id="error-collection"
-                  type="checkbox"
+                  class="tm-field"
+                  id="import-name"
+                  placeholder="Must have at least 5 characters"
+                  type="text"
+                  vue-focus="vue-focus"
                 />
+                 
+                <!---->
+                 
+                <!---->
+              </div>
+            </div>
+             
+            <div
+              class="tm-form-group"
+            >
+              <!---->
+               
+              <label
+                class="tm-form-group__label"
+                for="import-password"
+              >
                 
-            I'd like to opt in for remote error tracking to help improve
-            Voyager.
-          
+    Password
+  
               </label>
+               
+              <div
+                class="tm-form-group__field"
+              >
+                <input
+                  class="tm-field"
+                  id="import-password"
+                  placeholder="Must be at least 10 characters"
+                  type="password"
+                />
+                 
+                <!---->
+                 
+                <!---->
+              </div>
+            </div>
+             
+            <div
+              class="tm-form-group"
+            >
+              <!---->
+               
+              <label
+                class="tm-form-group__label"
+                for="import-password-confirmation"
+              >
+                
+    Confirm Password
+  
+              </label>
+               
+              <div
+                class="tm-form-group__field"
+              >
+                <input
+                  class="tm-field"
+                  id="import-password-confirmation"
+                  placeholder="Enter password again"
+                  type="password"
+                />
+                 
+                <!---->
+              </div>
+            </div>
+             
+            <div
+              class="tm-form-group"
+            >
+              <!---->
+               
+              <label
+                class="tm-form-group__label"
+                for="import-seed"
+              >
+                
+    Seed Phrase
+  
+              </label>
+               
+              <div
+                class="tm-form-group__field"
+              >
+                <textarea
+                  class="tm-field-seed tm-field"
+                  id="import-seed"
+                  placeholder="Must be exactly 24 words"
+                  style="overflow-x: hidden; word-wrap: break-word; overflow-y: hidden;"
+                />
+                 
+                <!---->
+              </div>
+            </div>
+             
+            <div
+              class="tm-form-group"
+            >
+              <!---->
+               
+              <!---->
+               
+              <div
+                class="tm-form-group__field"
+              >
+                <div
+                  class="field-checkbox"
+                >
+                  <label
+                    class="field-checkbox-label"
+                    for="error-collection"
+                  >
+                    <input
+                      id="error-collection"
+                      type="checkbox"
+                    />
+                    
+              I'd like to opt in for remote error tracking to help improve
+              Voyager.
+            
+                  </label>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-      </div>
-       
-      <div
-        class="session-footer"
-      >
-        <button
-          class="tm-btn"
-        >
-          <span
-            class="tm-btn__container"
+           
+          <div
+            class="session-footer"
           >
-            <!---->
-            <span
-              class="tm-btn__value"
+            <button
+              class="tm-btn"
             >
-              Recover
-            </span>
-          </span>
-        </button>
-      </div>
-    </main>
-     
-    <!---->
-  </form>
+              <span
+                class="tm-btn__container"
+              >
+                <!---->
+                <span
+                  class="tm-btn__value"
+                >
+                  Recover
+                </span>
+              </span>
+            </button>
+          </div>
+        </main>
+         
+        <!---->
+      </form>
+    </div>
+  </div>
+   
+  <button
+    class="tm-btn session-close"
+  >
+    <span
+      class="tm-btn__container tm-btn--secondary"
+    >
+      <!---->
+      <span
+        class="tm-btn__value"
+      >
+        Back to Lunie
+      </span>
+    </span>
+  </button>
 </div>
 `;

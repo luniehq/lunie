@@ -18,9 +18,16 @@ describe(`TmSessionHardware`, () => {
         session: () => ({ browserWithLedgerSupport: true })
       }
     })
+
     wrapper = mount(TmSessionHardware, {
       localVue,
-      store
+      store,
+      mocks: {
+        router: {
+          push: jest.fn()
+        }
+      },
+      stubs: [`router-link`]
     })
     store.commit = jest.fn()
   })
@@ -35,30 +42,6 @@ describe(`TmSessionHardware`, () => {
       await wrapper.vm.$nextTick()
       expect(wrapper.vm.$el).toMatchSnapshot()
     })
-  })
-
-  it(`should set the current view to the state`, () => {
-    const self = {
-      $emit: jest.fn()
-    }
-    TmSessionHardware.methods.setState.call(self, `someState`)
-    expect(self.$emit).toHaveBeenCalledWith(`route-change`, `someState`)
-  })
-
-  it(`should go back to the existing account screen`, () => {
-    const self = {
-      $emit: jest.fn()
-    }
-    TmSessionHardware.methods.goBack.call(self)
-    expect(self.$emit).toHaveBeenCalledWith(`route-change`, `existing`)
-  })
-
-  it(`should close`, () => {
-    const self = {
-      $emit: jest.fn()
-    }
-    TmSessionHardware.methods.close.call(self)
-    expect(self.$emit).toHaveBeenCalledWith(`close`)
   })
 
   it(`should show a state indicator for different states of the hardware connection`, () => {
@@ -77,8 +60,12 @@ describe(`TmSessionHardware`, () => {
       const $store = {
         dispatch: jest.fn(() => "cosmos1234")
       }
+      const $router = {
+        push: jest.fn()
+      }
       const self = {
         $store,
+        $router,
         status: `connect`,
         connectionError: null,
         setStatus: jest.fn(),
