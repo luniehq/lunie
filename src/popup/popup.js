@@ -17,14 +17,6 @@ Vue.use(Vuelidate)
 Vue.use(VueClipboard)
 Vue.directive(`focus`, focusElement)
 
-// router.beforeEach((to, from, next) => {
-//   if (to.name === 'accounts' && store.state.accounts.length === 0) {
-//     next({ path: '/welcome' })
-//   } else {
-//     next()
-//   }
-// })
-
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

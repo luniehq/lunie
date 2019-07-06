@@ -1,8 +1,17 @@
+import store from '../../store'
+
 export default [
   {
     path: `/`,
     name: `accounts`,
-    component: require('common/SessionAccounts').default
+    component: require('common/SessionAccounts').default,
+    beforeEnter: (to, from, next) => {
+      if (!store.state.accounts) {
+        next({ path: '/welcome' })
+      } else {
+        next()
+      }
+    }
   },
   {
     path: '/welcome',
