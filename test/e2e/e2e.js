@@ -12,7 +12,6 @@ const signupData = {
   seedPhrase: "release endorse scale across absurd trouble climb unaware actor elite fantasy chair license word rare length business kiss smoke tackle report february bid ginger"
 }
 
-
 before(async () => {
   const launchOptions = { 
     headless: false,
@@ -52,6 +51,8 @@ it('Restores an account with backup codes', async () => {
   await page.type('textarea[placeholder="Must be exactly 24 words"]', signupData.seedPhrase)
   await page.click('div.session-footer')
 
+  //Todo: check more precisely that the final account has been loaded.
+  
   expect(await page.$('body')).to.be.ok
   // await page.screenshot({ path: '.screenshots/landing_page.png' })
 })
