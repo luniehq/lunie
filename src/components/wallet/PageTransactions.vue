@@ -32,10 +32,23 @@
 import shortid from "shortid"
 import { mapGetters } from "vuex"
 import orderBy from "lodash.orderby"
+import moment from "moment"
+import sortby from "lodash.sortby"
 import DataEmptyTx from "common/TmDataEmptyTx"
 import TmPage from "common/TmPage"
 import LiAnyTransaction from "transactions/LiAnyTransaction"
 import time from "scripts/time"
+
+const reduceTransactionMsgs = (acc, curTxList) => {
+  const newVals = curTxList.tx.value.msg.map(x => {
+    return {
+      ...x,
+      height: curTxList.height,
+      time: new moment(curTxList.time)
+    }
+  })
+  return acc.concat(newVals)
+}
 
 export default {
   name: `page-transactions`,
@@ -53,6 +66,8 @@ export default {
     validatorURL: `/staking/validators`,
     governanceURL: `/governance`,
     time
+    time,
+    allTx: []
   }),
   computed: {
     ...mapGetters([
@@ -84,6 +99,12 @@ export default {
         this.refreshTransactions()
       }
     }
+  },
+  beforeUpdate: function() {
+    this.allTx = this.allTransactions.reduce(reduceTransactionMsgs, [])
+    sortby(this.allTx, ["height", "time"])
+    this.allTx.reverse()
+    console.log("allTxs", this.allTx)
   },
   methods: {
     async refreshTransactions({ $store, session } = this) {
