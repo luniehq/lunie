@@ -18,30 +18,29 @@
           <span v-if="memo"> &nbsp;- {{ memo }} </span>
         </div>
       </div>
-      <div v-if="!hideMetaData" class="li-tx__content__right">
-        <div>
-          Network Fee:&nbsp;<b>{{ fees.amount | toAtoms }}</b>
-          <span>{{ fees.denom | viewDenom }}</span>
-        </div>
-        <div class="li-tx__content__block">
-          <router-link :to="{ name: `block`, params: { height: block } }">
-            Block #{{ block }}&nbsp; </router-link
-          >@&nbsp;{{ date }}
-        </div>
-      </div>
+      <NetworkFeeMetaData
+        v-if="!hideMetaData"
+        class="li-tx__content__right"
+        :block="block"
+        :fees="fees"
+        :time="time"
+      ></NetworkFeeMetaData>
     </div>
   </div>
 </template>
 
 <script>
-import moment from "moment"
 import { atoms as toAtoms, viewDenom } from "../../scripts/num.js"
+import NetworkFeeMetaData from "./NetworkFeeMetaData"
 
 export default {
   name: `li-transaction`,
   filters: {
     toAtoms,
     viewDenom
+  },
+  components: {
+    NetworkFeeMetaData: NetworkFeeMetaData
   },
   props: {
     color: {
@@ -67,14 +66,6 @@ export default {
     hideMetaData: {
       type: Boolean,
       default: false
-    }
-  },
-  computed: {
-    date({ time } = this) {
-      const momentTime = moment(time)
-      return momentTime.format(
-        `${moment().isSame(momentTime, `day`) ? `` : `MMM Do YYYY `}HH:mm:ss`
-      )
     }
   }
 }
