@@ -58,6 +58,7 @@ const flattenTransactionMsgs = (acc, curTxList) => {
 export const flatOrderedTransactionList = (state, getters) => {
   let allTx = [...getters.allTransactions.reduce(flattenTransactionMsgs, [])]
   allTx.sort(compareBlockTimeDesc)
+  console.log("allTxs sort rev", allTx)
   return allTx
 }
 
