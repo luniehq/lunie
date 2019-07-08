@@ -15,9 +15,6 @@ const processMessage = (store, type, payload) => {
       store.commit("setExtensionAvailable")
       store.dispatch("getAddressesFromExtension")
       break
-    case "GET_WALLETS_RESPONSE":
-      store.commit("setExtensionAccounts", payload)
-      break
   }
 }
 
@@ -62,7 +59,8 @@ function waitForResponse(type) {
 }
 
 const sendAsyncMessageToContentScript = async payload => {
-  sendMessageToContentScript(payload, true)
+  // I think we can deal with async console errors problems by returning true
+  sendMessageToContentScript(payload, false)
 
   // await async response
   const response = await waitForResponse(`${payload.type}_RESPONSE`)
@@ -72,10 +70,11 @@ const sendAsyncMessageToContentScript = async payload => {
   return response
 }
 
-export const getAccounts = () => {
-  sendMessageToContentScript({
+export const getWalletsFromExtension = async () => {
+  const wallets = await sendAsyncMessageToContentScript({
     type: "GET_WALLETS"
   })
+  return wallets
 }
 
 export const signWithExtension = async (signMessage, senderAddress) => {

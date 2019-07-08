@@ -1,5 +1,5 @@
 import config from "src/config"
-import { getAccounts } from "src/scripts/extension-utils"
+import { getWalletsFromExtension } from "src/scripts/extension-utils"
 
 export default () => {
   const emptyState = {
@@ -8,7 +8,7 @@ export default () => {
   const state = {
     ...emptyState,
     accounts: [],
-    externals: { config, getAccounts } // for testing
+    externals: { config, getWalletsFromExtension } // for testing
   }
   const mutations = {
     setExtensionAvailable(state) {
@@ -22,10 +22,12 @@ export default () => {
   const actions = {
     async getAddressesFromExtension({
       state: {
-        externals: { getAccounts }
-      }
+        externals: { getWalletsFromExtension }
+      },
+      commit
     }) {
-      getAccounts() // response will be handled by extension message listener
+      const wallets = await getWalletsFromExtension() // response will be handled by extension message listener
+      commit("setExtensionAccounts", wallets)
     }
   }
   return {
