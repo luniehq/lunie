@@ -62,9 +62,9 @@ describe(`Extension Utils`, () => {
     })
 
     it("should request wallets", async () => {
-      global.postMessage.mockClear()
-
+      const spy = jest.spyOn(global, "addEventListener")
       getWalletsFromExtension()
+      expect(spy).toHaveBeenCalledWith("message", expect.any(Function))
       expect(global.postMessage.mock.calls).toEqual([
         [
           {
