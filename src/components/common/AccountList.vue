@@ -3,13 +3,14 @@
     <li v-for="account in accounts" :key="account.name" class="account">
       <div class="account-info">
         <h3>{{ account.name }}</h3>
-        <Bech32 :address="account.address || ''" />
+        <Bech32 :address="account.address" />
       </div>
       <TmBtn
+        v-if="buttonAction"
         class="account-button"
-        value="Use Account"
+        :value="buttonText"
         color="primary"
-        @click.native="signIn(account.address)"
+        @click.native="buttonAction(account.address)"
       />
     </li>
   </ul>
@@ -28,15 +29,14 @@ export default {
     accounts: {
       type: Array,
       required: true
-    }
-  },
-  methods: {
-    async signIn(address) {
-      this.$store.dispatch(`signIn`, {
-        sessionType: `extension`,
-        address: address
-      })
-      this.$router.push(`/`)
+    },
+    buttonAction: {
+      type: Function,
+      required: true
+    },
+    buttonText: {
+      type: String,
+      required: true
     }
   }
 }

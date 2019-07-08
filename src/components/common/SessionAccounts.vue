@@ -12,13 +12,17 @@
             and to approve transactions.
           </p>
 
-          <AccountList :accounts="accounts" />
+          <AccountList
+            :accounts="accounts"
+            :button-action="goToLunie"
+            :button-text="`Go to Lunie`"
+          />
 
           <div class="button-add-account">
             <TmBtn
               value="Add Another Account"
               color="primary"
-              @click.native="addAccount"
+              @click.native="goToWelcome"
             />
           </div>
         </div>
@@ -40,16 +44,19 @@ export default {
   },
   computed: {
     accounts() {
-      let accounts = this.$store.state.accounts
-      return accounts.map(({ name, address }) => ({
-        address,
-        name
-      }))
+      return this.$store.state.accounts
     }
   },
   methods: {
-    addAccount() {
+    goToWelcome() {
       this.$router.push(`/welcome`)
+    },
+    goToLunie() {
+      window.open(
+        "https://lunie.io/extension",
+        "_blank",
+        "nofollow noreferrer noopener"
+      )
     }
   }
 }
@@ -60,8 +67,6 @@ export default {
   display: flex;
   justify-content: flex-end;
   padding: 1.5rem 0 1rem;
-
-  /* keeps button in bottom right no matter the size of the action modal */
   flex-grow: 1;
   align-self: flex-end;
 }

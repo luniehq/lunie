@@ -36,16 +36,26 @@ describe(`SessionExtension`, () => {
     })
   })
 
-  it(`shows a list of all accounts in the extension`, () => {
+  it(`should show a list of all accounts in the extension`, () => {
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
-  it(`shows a guide to install the extension if no extension installed`, () => {
+  it(`should show a guide to install the extension if no extension is installed`, () => {
     wrapper.vm.extension.enabled = false
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
-  it("loads addresses on mount", () => {
+  it("should load addresses on mount", () => {
     expect($store.dispatch).toHaveBeenCalledWith("getAddressesFromExtension")
   })
+
+  it("should trigger sign in call and route the user to the homepage", () => {
+    wrapper.vm.signIn(`cosmosaddress123`)
+    expect($store.dispatch).toHaveBeenCalledWith("signIn", {
+      sessionType: `extension`,
+      address: "cosmosaddress123"
+    })
+    expect(wrapper.vm.$router.push).toHaveBeenCalledWith(`/`)
+  })
+
 })

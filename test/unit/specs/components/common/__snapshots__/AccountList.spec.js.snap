@@ -22,7 +22,7 @@ exports[`AccountList has the expected html structure 1`] = `
     <tmbtn-stub
       class="account-button"
       color="primary"
-      value="Use Account"
+      value="Button Text"
     />
   </li>
   <li
@@ -43,7 +43,7 @@ exports[`AccountList has the expected html structure 1`] = `
     <tmbtn-stub
       class="account-button"
       color="primary"
-      value="Use Account"
+      value="Button Text"
     />
   </li>
 </ul>

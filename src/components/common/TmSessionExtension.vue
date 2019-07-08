@@ -20,7 +20,11 @@
         <div v-else class="session-main">
           Below is a list of accounts we received from the Lunie browser
           extension.
-          <AccountList :accounts="accounts" />
+          <AccountList
+            :accounts="accounts"
+            :button-action="signIn"
+            :button-text="`Use Account`"
+          />
         </div>
       </div>
     </div>
@@ -53,6 +57,13 @@ export default {
   methods: {
     getAddressesFromExtension() {
       this.$store.dispatch("getAddressesFromExtension")
+    },
+    async signIn(address) {
+      this.$store.dispatch(`signIn`, {
+        sessionType: `extension`,
+        address: address
+      })
+      this.$router.push(`/`)
     }
   }
 }

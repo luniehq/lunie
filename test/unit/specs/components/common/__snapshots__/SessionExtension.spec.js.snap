@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`SessionExtension shows a guide to install the extension if no extension installed 1`] = `
+exports[`SessionExtension should show a guide to install the extension if no extension is installed 1`] = `
 <sessionframe-stub>
   <div
     class="session"
@@ -39,7 +39,7 @@ exports[`SessionExtension shows a guide to install the extension if no extension
 </sessionframe-stub>
 `;
 
-exports[`SessionExtension shows a list of all accounts in the extension 1`] = `
+exports[`SessionExtension should show a list of all accounts in the extension 1`] = `
 <sessionframe-stub>
   <div
     class="session"
@@ -64,6 +64,8 @@ exports[`SessionExtension shows a list of all accounts in the extension 1`] = `
         
         <accountlist-stub
           accounts="[object Object],[object Object]"
+          buttonaction="function () { [native code] }"
+          buttontext="Use Account"
         />
       </div>
     </div>

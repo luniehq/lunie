@@ -26,7 +26,9 @@ describe(`AccountList`, () => {
             name: "Colins account",
             address: "cosmos1ek9cd8ewgxgyoyocolinyo4aaxaruvcw4v9e"
           }
-        ]
+        ],
+        buttonAction: jest.fn(),
+        buttonText: `Button Text`
       }
     })
   })
@@ -38,14 +40,5 @@ describe(`AccountList`, () => {
   it(`renders the correct accounts`, () => {
     expect(wrapper.html()).toContain("Benjis account")
     expect(wrapper.html()).toContain("Colins account")
-  })
-
-  it("triggers sign in call and routes user to homepage", () => {
-    wrapper.find(".account-button").trigger("click")
-    expect($store.dispatch).toHaveBeenCalledWith("signIn", {
-      sessionType: `extension`,
-      address: "cosmos1ek9cd8ewgxg9w5xllq9um0uf4aaxaruvcw4v9e"
-    })
-    expect(wrapper.vm.$router.push).toHaveBeenCalledWith(`/`)
   })
 })
