@@ -7,6 +7,35 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.0-beta.93] - 2019-07-05
+
+### Fixed
+
+- Fix response handling of extension sign request @faboweb
+
+### Code Improvements
+
+- [#2801](https://github.com/cosmos/lunie/issues/2801) Refactors TableInvoice to receive bondDenom as props and updates tests @thebkr7
+- [#ext-28](https://github.com/cosmos/lunie/issues/ext-28) Refactors so TableInvoice takes the total fee rather than taking two numbers as props and calculating it there. @thebkr7
+- [#2785](https://github.com/cosmos/lunie/pull/2785) Refactors SessionApprove to pass TableInvoice the subtotal fee and amount of the transaction. TableInvoice was refactored in PR #2785 @thebkr7
+- [#2784](https://github.com/cosmos/lunie/pull/2784) extension SessionAccounts displays real accounts and has Add Account button @thebkr7
+- refactored session modals to use vue-router @jbibla
+
+## [1.0.0-beta.92] - 2019-07-04
+
+### Added
+
+- 3 components for the Chrome Extension: Approve Transaction, Account, Backup Codes @thebkr7
+
+### Fixed
+
+- [#2636](https://github.com/cosmos/lunie/issues/2636) Handle bad API response for empty rewards and force update of rewards after withdraw @faboweb
+- [#2800](https://github.com/cosmos/lunie/issues/2800) Fix PageProposal crashing if deep linked @faboweb
+
+### Code Improvements
+
+- Removed querying for totalRewards in favor of calculating those from validator rewards @faboweb
+
 ## [1.0.0-beta.91] - 2019-07-02
 
 ### Fixed

@@ -15,7 +15,11 @@
           <AccountList :accounts="accounts" />
 
           <div class="button-add-account">
-            <TmBtn value="Add Another Account" to="/accounts" color="primary" />
+            <TmBtn
+              value="Add Another Account"
+              color="primary"
+              @click.native="addAccount"
+            />
           </div>
         </div>
       </div>
@@ -41,6 +45,11 @@ export default {
         address,
         name
       }))
+    }
+  },
+  methods: {
+    addAccount() {
+      this.$router.push(`/welcome`)
     }
   }
 }
