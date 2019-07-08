@@ -35,4 +35,10 @@ describe(`SessionAccounts`, () => {
   it(`renders the correct account`, () => {
     expect(wrapper.html()).toContain("Benjis account")
   })
+
+  it(`links to the welcome screen`, () => {
+    const self = { $store, $router: { push: jest.fn() } }
+    SessionAccounts.methods.addAccount.call(self)
+    expect(self.$router.push).toHaveBeenCalledWith(`/welcome`)
+  })
 })
