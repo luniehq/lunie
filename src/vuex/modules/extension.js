@@ -26,7 +26,7 @@ export default () => {
       },
       commit
     }) {
-      const wallets = await getWalletsFromExtension() // response will be handled by extension message listener
+      const wallets = await getWalletsFromExtension()
       commit("setExtensionAccounts", wallets)
     }
   }

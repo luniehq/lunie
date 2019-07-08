@@ -41,14 +41,22 @@ describe(`Module: Extension`, () => {
 
   describe("actions", () => {
     it("getAddressesFromExtension", async () => {
-      const getAccounts = jest.fn(() => mockAccounts)
+      const getWalletsFromExtension = jest.fn(() => mockAccounts)
+      const mockCommit = jest.fn()
       await actions.getAddressesFromExtension({
         state: {
           externals: {
-            getAccounts
+            getWalletsFromExtension
           }
-        }
+        },
+        commit: mockCommit
       })
+
+      expect(getWalletsFromExtension).toHaveBeenCalled()
+      expect(mockCommit).toHaveBeenCalledWith("setExtensionAccounts", [
+        { address: "cosmos1234", name: "TEST_ADDRESS" },
+        { address: "cosmos1567", name: "TEST_ADDRESS_2" }
+      ])
     })
   })
 })
