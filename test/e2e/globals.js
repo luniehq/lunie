@@ -4,11 +4,12 @@ module.exports = {
   CRX_PATH: CRX_PATH,
   EXTENSION_ID: 'cklkpejioojjeiigffappdlcmnonmjek',
   signupData: {
-    name: "Thanos Account",
-    password: "Gamora1234",
-    seedPhrase: "release endorse scale across absurd trouble climb unaware actor elite fantasy chair license word rare length business kiss smoke tackle report february bid ginger"
+    name: 'Thanos Account',
+    password: 'Gamora1234',
+    seedPhrase:
+      'release endorse scale across absurd trouble climb unaware actor elite fantasy chair license word rare length business kiss smoke tackle report february bid ginger'
   },
-  launchOptions: { 
+  launchOptions: {
     headless: false,
     slowMo: 5,
     args: [
@@ -16,5 +17,4 @@ module.exports = {
       `--load-extension=${CRX_PATH}`
     ]
   }
-
 }
