@@ -41,6 +41,10 @@ describe(`SessionAccounts`, () => {
   it(`should direct user to the extension screen on Lunie`, () => {
     const self = { $store, $router: { push: jest.fn() } }
     SessionAccounts.methods.goToLunie.call(self)
-    expect(window.open).toHaveBeenCalledWith(`https://lunie.io/extension`, `_blank`, `nofollow noreferrer noopener`)
+    expect(window.open).toHaveBeenCalledWith(
+      `https://lunie.io/extension`,
+      `_blank`,
+      `nofollow noreferrer noopener`
+    )
   })
 })

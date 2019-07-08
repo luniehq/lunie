@@ -57,5 +57,4 @@ describe(`SessionExtension`, () => {
     })
     expect(wrapper.vm.$router.push).toHaveBeenCalledWith(`/`)
   })
-
 })
