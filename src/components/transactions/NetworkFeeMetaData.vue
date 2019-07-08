@@ -24,7 +24,7 @@ export default {
   },
   props: {
     time: {
-      type: String,
+      type: Date,
       required: true
     },
     block: {

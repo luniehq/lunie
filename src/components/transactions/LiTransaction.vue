@@ -48,7 +48,7 @@ export default {
       default: null
     },
     time: {
-      type: String,
+      type: Date,
       default: null
     },
     block: {

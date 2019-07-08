@@ -78,7 +78,7 @@ export default {
       required: true
     },
     time: {
-      type: String,
+      type: Date,
       default: null
     },
     block: {

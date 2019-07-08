@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 <template>
   <TmPage
     :managed="true"
@@ -10,18 +11,14 @@
   >
     <DataEmptyTx slot="no-data" />
     <template slot="managed-body">
-      <LiAnyTransaction
-        v-for="tx in orderedTransactions"
-        :key="tx.txhash"
-        :validators="delegates.delegates"
-        :validators-url="validatorURL"
-        :proposals-url="governanceURL"
-        :transaction="tx"
+      <TransactionList
+        validators-url="/staking/validators"
+        proposals-url="/governance"
+        :transactions="flatOrderedTransactionList"
         :address="session.address"
         :bonding-denom="bondDenom"
-        :unbonding-time="
-          time.getUnbondingTime(tx, delegation.unbondingDelegations)
-        "
+        :validators="delegates.delegates"
+        :unbonding-delegations="delegation.unbondingDelegations"
       />
       <br />
     </template>
@@ -31,65 +28,31 @@
 <script>
 import shortid from "shortid"
 import { mapGetters } from "vuex"
-import orderBy from "lodash.orderby"
-import moment from "moment"
-import sortby from "lodash.sortby"
 import DataEmptyTx from "common/TmDataEmptyTx"
 import TmPage from "common/TmPage"
-import LiAnyTransaction from "transactions/LiAnyTransaction"
-import time from "scripts/time"
-
-const reduceTransactionMsgs = (acc, curTxList) => {
-  const newVals = curTxList.tx.value.msg.map(x => {
-    return {
-      ...x,
-      height: curTxList.height,
-      time: new moment(curTxList.time)
-    }
-  })
-  return acc.concat(newVals)
-}
+import TransactionList from "../transactions/TransactionList"
 
 export default {
   name: `page-transactions`,
   components: {
-    LiAnyTransaction,
+    TransactionList,
     DataEmptyTx,
     TmPage
   },
   data: () => ({
-    shortid: shortid,
-    sort: {
-      property: `height`,
-      order: `desc`
-    },
-    validatorURL: `/staking/validators`,
-    governanceURL: `/governance`,
-    time
-    time,
-    allTx: []
+    shortid: shortid
   }),
   computed: {
     ...mapGetters([
       `transactions`,
-      `allTransactions`,
+      `flatOrderedTransactionList`,
       `session`,
       `bondDenom`,
       `delegation`,
       `delegates`
     ]),
-    orderedTransactions() {
-      return orderBy(
-        this.allTransactions.map(t => {
-          t.height = parseInt(t.height)
-          return t // TODO what happens if block height is bigger then int?
-        }),
-        [this.sort.property],
-        [this.sort.order]
-      )
-    },
     dataEmpty() {
-      return this.orderedTransactions.length === 0
+      return this.flatOrderedTransactionList.length === 0
     }
   },
   watch: {
@@ -100,12 +63,7 @@ export default {
       }
     }
   },
-  beforeUpdate: function() {
-    this.allTx = this.allTransactions.reduce(reduceTransactionMsgs, [])
-    sortby(this.allTx, ["height", "time"])
-    this.allTx.reverse()
-    console.log("allTxs", this.allTx)
-  },
+
   methods: {
     async refreshTransactions({ $store, session } = this) {
       if (session.signedIn) {
