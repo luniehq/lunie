@@ -4,11 +4,7 @@
 */
 const puppeteer = require('puppeteer')
 const expect = require('chai').expect
-const {
-  EXTENSION_ID,
-  signupData,
-  launchOptions
-} = require('./globals.js')
+const { EXTENSION_ID, signupData, launchOptions } = require('./globals.js')
 
 let browser = null
 let page = null
