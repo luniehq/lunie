@@ -21,7 +21,10 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   } catch (e) {
     // Return this as rejected
     console.error('Error with request', e)
+    return true
   }
+
+  return true
 })
 
 // only allow whitelisted websites to send us messages

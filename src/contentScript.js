@@ -44,11 +44,11 @@ const filterMessages = callback => event => {
 // Forward request to backgroud and handle responses to those requests
 // on async responses we don't want to wait for a response right away
 // waiting causes console errors
-function executeRequestToExtension({ payload, skipResponse }) {
-  chrome.runtime.sendMessage(
-    payload,
-    skipResponse ? undefined : responseHandler(payload.type)
-  )
+
+// Note: I think we can deal with async stuff by returinig true in the bg script.
+// Will test
+function executeRequestToExtension({ payload, _skipResponse }) {
+  chrome.runtime.sendMessage(payload, responseHandler(payload.type))
 }
 
 // Listen to messages from the extension
