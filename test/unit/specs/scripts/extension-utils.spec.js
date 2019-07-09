@@ -1,7 +1,7 @@
 import {
   listenToExtensionMessages,
   processLunieExtensionMessages,
-  getWalletsFromExtension,
+  getAccountsFromExtension,
   signWithExtension
 } from "scripts/extension-utils.js"
 
@@ -50,6 +50,31 @@ describe(`Extension Utils`, () => {
 
       expect(store.commit).not.toHaveBeenCalledWith("setExtensionAvailable")
     })
+
+    it("should react to query wallet responses", () => {
+      processLunieExtensionMessages(store)({
+        source: global,
+        data: {
+          type: "FROM_LUNIE_EXTENSION",
+          message: {
+            type: "GET_WALLETS_RESPONSE",
+            payload: [
+              {
+                address: "cosmos1234",
+                name: "TEST_ADDRESS"
+              }
+            ]
+          }
+        }
+      })
+
+      expect(store.commit).toHaveBeenCalledWith("setExtensionAccounts", [
+        {
+          address: "cosmos1234",
+          name: "TEST_ADDRESS"
+        }
+      ])
+    })
   })
 
   describe("messages", () => {
@@ -62,9 +87,9 @@ describe(`Extension Utils`, () => {
     })
 
     it("should request wallets", async () => {
-      const spy = jest.spyOn(global, "addEventListener")
-      getWalletsFromExtension()
-      expect(spy).toHaveBeenCalledWith("message", expect.any(Function))
+      global.postMessage.mockClear()
+
+      getAccountsFromExtension()
       expect(global.postMessage.mock.calls).toEqual([
         [
           {
@@ -75,27 +100,6 @@ describe(`Extension Utils`, () => {
           "*"
         ]
       ])
-    })
-
-    it("should receive wallets", async () => {
-      global.addEventListener.mockImplementationOnce((type, callback) => {
-        callback({
-          source: global,
-          data: {
-            message: {
-              payload: {
-                wallets: [{ name: "Baz", address: "cosmos1" }]
-              },
-              type: "GET_WALLETS_RESPONSE"
-            },
-            type: "FROM_LUNIE_EXTENSION"
-          }
-        })
-      })
-      const result = await getWalletsFromExtension("abc")
-      expect(result).toEqual({
-        wallets: [{ name: "Baz", address: "cosmos1" }]
-      })
     })
 
     describe("sign", () => {
