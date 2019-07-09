@@ -15,6 +15,11 @@ const processMessage = (store, type, payload) => {
       store.commit("setExtensionAvailable")
       store.dispatch("getAddressesFromExtension")
       break
+    case "GET_WALLETS_RESPONSE":
+      store.commit("setExtensionAccounts", payload)
+      break
+    default:
+      return
   }
 }
 
@@ -70,11 +75,8 @@ const sendAsyncMessageToContentScript = async payload => {
   return response
 }
 
-export const getWalletsFromExtension = async () => {
-  const wallets = await sendAsyncMessageToContentScript({
-    type: "GET_WALLETS"
-  })
-  return wallets
+export const getAccountsFromExtension = () => {
+  sendMessageToContentScript({ type: "GET_WALLETS" })
 }
 
 export const signWithExtension = async (signMessage, senderAddress) => {
