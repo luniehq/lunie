@@ -82,7 +82,7 @@ jobs:
             echo "Your dependencies are secure enough: $SUMMARY"
             exit 0
   
-  testE2e:
+  testE2E:
     docker:
       # Primary container image where all steps run.
      - image: *docker-browsers
@@ -158,7 +158,7 @@ workflows:
           filters:
             branches:
               ignore: release
-              
+
   releaseManually:
     jobs:
       - release:
