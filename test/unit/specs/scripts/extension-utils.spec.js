@@ -75,6 +75,20 @@ describe(`Extension Utils`, () => {
         }
       ])
     })
+
+    it("should do nothing with no message type", () => {
+      const result = processLunieExtensionMessages(store)({
+        source: global,
+        data: {
+          type: "NOT_FROM_LUNIE_EXTENSION",
+          message: {
+            type: "IN CORRECT TYPE"
+          }
+        }
+      })
+
+      expect(result).toBeFalsy()
+    })
   })
 
   describe("messages", () => {
