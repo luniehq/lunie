@@ -24,7 +24,7 @@ router.beforeEach(async (to, from, next) => {
 
   console.log('pendingSignRequests', pendingSignRequests, store.state)
 
-  if (pendingSignRequests) {
+  if (pendingSignRequests && to.name !== 'approve') {
     next('/approve')
   } else {
     next()
