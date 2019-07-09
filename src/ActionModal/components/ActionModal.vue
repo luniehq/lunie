@@ -12,7 +12,10 @@
         <span class="action-modal-title">
           {{ requiresSignIn ? `Sign in required` : title }}
         </span>
-        <Steps :steps="['Details', 'Fees', 'Sign']" :active-step="step" />
+        <Steps
+          :steps="['Details', 'Fees', 'Sign', 'Send']"
+          :active-step="step"
+        />
       </div>
       <div v-if="requiresSignIn" class="action-modal-form">
         <p>You need to sign in to submit a transaction.</p>
@@ -139,6 +142,19 @@
           </TmFormGroup>
         </form>
       </div>
+      <div v-else-if="step === `send`" class="action-modal-form">
+        <TmDataMsg icon="hourglass_empty">
+          <div slot="title">
+            Sent and confirming
+          </div>
+          <div slot="subtitle">
+            The transaction
+            <!--with the hash {{ txHash }}-->
+            was successfully signed and sent the network. Waiting for it to be
+            confirmed.
+          </div>
+        </TmDataMsg>
+      </div>
       <div class="action-modal-footer">
         <slot name="action-modal-footer">
           <TmFormGroup class="action-modal-group">
@@ -200,6 +216,7 @@ import TmBtn from "src/components/common/TmBtn"
 import TmField from "src/components/common/TmField"
 import TmFormGroup from "src/components/common/TmFormGroup"
 import TmFormMsg from "src/components/common/TmFormMsg"
+import TmDataMsg from "common/TmDataMsg"
 import TableInvoice from "./TableInvoice"
 import Steps from "./Steps"
 import { mapGetters } from "vuex"
@@ -213,6 +230,7 @@ import ActionManager from "../utils/ActionManager.js"
 const defaultStep = `details`
 const feeStep = `fees`
 const signStep = `sign`
+const inclusionStep = `send`
 
 const signMethods = {
   LOCAL: `local`,
@@ -250,6 +268,7 @@ export default {
     TmField,
     TmFormGroup,
     TmFormMsg,
+    TmDataMsg,
     TableInvoice,
     Steps
   },
@@ -296,7 +315,8 @@ export default {
     gasPrice: config.default_gas_price.toFixed(9),
     submissionError: null,
     show: false,
-    actionManager: new ActionManager()
+    actionManager: new ActionManager(),
+    txHash: null
   }),
   computed: {
     ...mapGetters([
@@ -343,6 +363,9 @@ export default {
       return signMethods
     },
     submitButtonCaption() {
+      if (this.step === inclusionStep) {
+        return "Confirming..."
+      }
       switch (this.selectedSignMethod) {
         case "ledger":
           return `Waiting for Ledger`
@@ -476,23 +499,42 @@ export default {
       }
 
       try {
-        await this.actionManager.send(memo, feeProperties)
-        this.trackEvent(
-          `event`,
-          `successful-submit`,
-          this.title,
-          this.selectedSignMethod
+        const { included, hash } = await this.actionManager.send(
+          memo,
+          feeProperties
         )
-        this.$store.commit(`notify`, this.notifyMessage)
-        this.$store.dispatch(`post${type}`, {
-          txProps: transactionProperties,
-          txMeta: feeProperties
-        })
-        this.close()
+        this.txHash = hash
+        await this.waitForInclusion(included)
+        this.onTxIncluded(type, transactionProperties, feeProperties)
       } catch ({ message }) {
-        this.submissionError = `${this.submissionErrorPrefix}: ${message}.`
-        this.trackEvent(`event`, `failed-submit`, this.title, message)
+        this.onSendingFailed(message)
+      } finally {
+        this.txHash = null
       }
+    },
+    async waitForInclusion(includedFn) {
+      this.step = inclusionStep
+      await includedFn()
+    },
+    onTxIncluded(txType, transactionProperties, feeProperties) {
+      // this.step = successStep
+      this.trackEvent(
+        `event`,
+        `successful-submit`,
+        this.title,
+        this.selectedSignMethod
+      )
+      this.$store.commit(`notify`, this.notifyMessage)
+      this.$store.dispatch(`post${txType}`, {
+        txProps: transactionProperties,
+        txMeta: feeProperties
+      })
+      this.close()
+    },
+    onSendingFailed(message) {
+      this.step = signStep
+      this.submissionError = `${this.submissionErrorPrefix}: ${message}.`
+      this.trackEvent(`event`, `failed-submit`, this.title, message)
     },
     async connectLedger() {
       try {

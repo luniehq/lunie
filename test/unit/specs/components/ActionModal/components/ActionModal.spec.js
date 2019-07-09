@@ -9,7 +9,10 @@ localVue.directive("focus-last", focusParentLast)
 localVue.directive("focus", () => {})
 
 let mockSimulate = jest.fn(() => 123456)
-let mockSend = jest.fn()
+let mockSend = jest.fn(() => ({
+  included: () => Promise.resolve(),
+  hash: "HASH1234HASH"
+}))
 let mockSetContext = jest.fn()
 
 jest.mock(`src/ActionModal/utils/ActionManager.js`, () => {
@@ -168,126 +171,36 @@ describe(`ActionModal`, () => {
 
   describe(`should show the action modal`, () => {
     describe(`when user has logged in`, () => {
-      describe(`with local keystore`, () => {
-        it(`on default step`, () => {
-          expect(wrapper.vm.$el).toMatchSnapshot()
-        })
+      const signMethods = ["local", "ledger", "extension", "explore"]
+      const steps = [
+        {
+          name: "on fees step",
+          step: "fees"
+        },
+        {
+          name: "on sign step",
+          step: "sign"
+        },
+        {
+          name: "sending",
+          step: "sign",
+          sending: true
+        },
+        {
+          name: "waiting for inclusion",
+          step: "send"
+        }
+      ]
 
-        it(`on fees step`, async () => {
-          wrapper.vm.step = `fees`
-          await wrapper.vm.$nextTick()
-          expect(wrapper.vm.$el).toMatchSnapshot()
-        })
-
-        it(`on sign step`, async () => {
-          wrapper.vm.step = `sign`
-          await wrapper.vm.$nextTick()
-          expect(wrapper.vm.$el).toMatchSnapshot()
-        })
-
-        it(`sending`, async () => {
-          wrapper.vm.step = `sign`
-          wrapper.vm.sending = true
-          await wrapper.vm.$nextTick()
-          expect(wrapper.vm.$el).toMatchSnapshot()
-        })
-      })
-
-      describe(`with ledger`, () => {
-        it(`on default step`, async () => {
-          wrapper.vm.session.sessionType = `ledger`
-          await wrapper.vm.$nextTick()
-          expect(wrapper.vm.$el).toMatchSnapshot()
-        })
-
-        it(`on fees step`, async () => {
-          wrapper.vm.session.sessionType = `ledger`
-          wrapper.vm.step = `fees`
-          await wrapper.vm.$nextTick()
-          expect(wrapper.vm.$el).toMatchSnapshot()
-        })
-
-        it(`on sign step`, async () => {
-          wrapper.vm.session.sessionType = `ledger`
-          wrapper.vm.step = `sign`
-          await wrapper.vm.$nextTick()
-          expect(wrapper.vm.$el).toMatchSnapshot()
-        })
-
-        it(`sending`, async () => {
-          wrapper.vm.session.sessionType = `ledger`
-          wrapper.vm.step = `sign`
-          wrapper.vm.sending = true
-          await wrapper.vm.$nextTick()
-          expect(wrapper.vm.$el).toMatchSnapshot()
-        })
-      })
-
-      describe(`with extension`, () => {
-        it(`on default step`, async () => {
-          wrapper.vm.session.sessionType = `extension`
-          await wrapper.vm.$nextTick()
-          expect(wrapper.vm.$el).toMatchSnapshot()
-        })
-
-        it(`on fees step`, async () => {
-          wrapper.vm.session.sessionType = `extension`
-          wrapper.vm.step = `fees`
-          await wrapper.vm.$nextTick()
-          expect(wrapper.vm.$el).toMatchSnapshot()
-        })
-
-        it(`on sign step`, async () => {
-          wrapper.vm.session.sessionType = `extension`
-          wrapper.vm.step = `sign`
-          await wrapper.vm.$nextTick()
-          expect(wrapper.vm.$el).toMatchSnapshot()
-        })
-
-        it(`on sign step without extension installed`, async () => {
-          wrapper.vm.session.sessionType = `extension`
-          wrapper.vm.extension.enabled = false
-          wrapper.vm.step = `sign`
-          await wrapper.vm.$nextTick()
-          expect(wrapper.vm.$el).toMatchSnapshot()
-        })
-
-        it(`sending`, async () => {
-          wrapper.vm.session.sessionType = `extension`
-          wrapper.vm.step = `sign`
-          wrapper.vm.sending = true
-          await wrapper.vm.$nextTick()
-          expect(wrapper.vm.$el).toMatchSnapshot()
-        })
-      })
-
-      describe(`with exploration mode`, () => {
-        it(`on default step`, async () => {
-          wrapper.vm.session.sessionType = `explore`
-          await wrapper.vm.$nextTick()
-          expect(wrapper.vm.$el).toMatchSnapshot()
-        })
-
-        it(`on fees step`, async () => {
-          wrapper.vm.session.sessionType = `explore`
-          wrapper.vm.step = `fees`
-          await wrapper.vm.$nextTick()
-          expect(wrapper.vm.$el).toMatchSnapshot()
-        })
-
-        it(`on sign step`, async () => {
-          wrapper.vm.session.sessionType = `explore`
-          wrapper.vm.step = `sign`
-          await wrapper.vm.$nextTick()
-          expect(wrapper.vm.$el).toMatchSnapshot()
-        })
-
-        it(`sending`, async () => {
-          wrapper.vm.session.sessionType = `explore`
-          wrapper.vm.step = `sign`
-          wrapper.vm.sending = true
-          await wrapper.vm.$nextTick()
-          expect(wrapper.vm.$el).toMatchSnapshot()
+      signMethods.forEach(method => {
+        describe(`with local ${method}`, () => {
+          steps.forEach(async ({ name, step, sending }) => {
+            it(name, async () => {
+              Object.assign(wrapper.vm, { step, sending })
+              await wrapper.vm.$nextTick()
+              expect(wrapper.vm.$el).toMatchSnapshot()
+            })
+          })
         })
       })
     })
@@ -533,24 +446,23 @@ describe(`ActionModal`, () => {
       wrapper.setProps({ transactionProperties })
       wrapper.setData(data)
       wrapper.vm.submit()
-      wrapper.vm.$nextTick(() => {
-        expect(wrapper.vm.submissionError).toBe(null)
-        // expect(postSubmit).toHaveBeenCalled()
-        expect($store.dispatch).toHaveBeenCalledWith(`postMsgSend`, {
-          txMeta: {
-            gasEstimate: 12345,
-            gasPrice: { amount: "0.000000025", denom: "uatom" },
-            password: null,
-            submitType: "local"
-          },
-          txProps: { denom: "uatom", validatorAddress: "cosmos12345" }
-        })
-        expect($store.commit).toHaveBeenCalledWith(`notify`, {
-          title: `Successful transaction`,
-          body: `You have successfully completed a transaction.`
-        })
-        expect(wrapper.emitted(`close`)).toBeTruthy()
+      await wrapper.vm.$nextTick()
+      expect(wrapper.vm.submissionError).toBe(null)
+      // expect(postSubmit).toHaveBeenCalled()
+      expect($store.dispatch).toHaveBeenCalledWith(`postMsgSend`, {
+        txMeta: {
+          gasEstimate: 12345,
+          gasPrice: { amount: "0.000000025", denom: "uatom" },
+          password: null,
+          submitType: "local"
+        },
+        txProps: { denom: "uatom", validatorAddress: "cosmos12345" }
       })
+      expect($store.commit).toHaveBeenCalledWith(`notify`, {
+        title: `Successful transaction`,
+        body: `You have successfully completed a transaction.`
+      })
+      expect(wrapper.emitted(`close`)).toBeTruthy()
     })
 
     it("should fail if simulation fails", () => {
