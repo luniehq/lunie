@@ -20,9 +20,9 @@
     "build-zip": "node scripts/build-zip.js",
     "watch": "npm run build -- --watch",
     "watch:dev": "cross-env HMR=true npm run build:dev -- --watch",
-    "test:unit": "jest --coverage",
+    "test:unit": "jest --coverage ./test/unit/*spec.js ./test/unit/**/*spec.js",
     "test": "npm run lint && npm run test:unit",
-    "test:e2e": "npm run test:e2e:build && jest ./test/e2e/create-account.spec.js",
+    "test:e2e": "npm run test:e2e:build && jest ./test/e2e/*spec.js",
     "test:e2e:build": "node ./scripts/add-pem-key.js",
     "log": "simsala log"
   },
@@ -44,11 +44,6 @@
         "git add"
       ]
     }
-  },
-  "jest": {
-    "testMatch": [
-      "<rootDir>/test/**/**/*spec.js"
-    ]
   },
   "dependencies": {
     "@lunie/cosmos-api": "^0.0.23",
