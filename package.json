@@ -22,7 +22,7 @@
     "watch:dev": "cross-env HMR=true npm run build:dev -- --watch",
     "test:unit": "jest --coverage",
     "test": "npm run lint && npm run test:unit",
-    "test:e2e": "mocha --timeout 30000 ./test/e2e/create-account.spec.js",
+    "test:e2e": "jest ./test/e2e/create-account.spec.js",
     "log": "simsala log"
   },
   "husky": {
@@ -46,7 +46,7 @@
   },
   "jest": {
     "testMatch": [
-      "<rootDir>/test/unit/**/*spec.js"
+      "<rootDir>/test/**/**/*spec.js"
     ]
   },
   "dependencies": {

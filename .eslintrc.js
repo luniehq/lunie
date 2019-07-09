@@ -10,7 +10,7 @@ module.exports = {
     browser: true,
     webextensions: true,
     node: true,
-    mocha: true
+    jest: true
   },
   extends: [
     'plugin:vue/recommended',
