@@ -7,7 +7,7 @@
 
       <div class="session-list">
         <LiSession
-          id="creat-new-address"
+          id="create-new-address"
           icon="person_add"
           title="Create a new address"
           route="create"
