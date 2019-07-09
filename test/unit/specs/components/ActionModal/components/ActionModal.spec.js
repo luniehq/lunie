@@ -121,10 +121,15 @@ describe(`ActionModal`, () => {
       },
       submissionErrorPrefix: `PREFIX`,
       trackEvent: jest.fn(),
-      connectLedger: () => {}
+      connectLedger: () => {},
+      onSendingFailed: jest.fn()
     }
     await ActionModal.methods.submit.call(self)
+    expect(self.onSendingFailed).toHaveBeenCalledWith(
+      "some kind of error message"
+    )
 
+    ActionModal.methods.onSendingFailed.call(self, "some kind of error message")
     expect(self.submissionError).toEqual(`PREFIX: some kind of error message.`)
   })
 
@@ -445,8 +450,7 @@ describe(`ActionModal`, () => {
 
       wrapper.setProps({ transactionProperties })
       wrapper.setData(data)
-      wrapper.vm.submit()
-      await wrapper.vm.$nextTick()
+      await wrapper.vm.submit()
       expect(wrapper.vm.submissionError).toBe(null)
       // expect(postSubmit).toHaveBeenCalled()
       expect($store.dispatch).toHaveBeenCalledWith(`postMsgSend`, {
@@ -465,17 +469,17 @@ describe(`ActionModal`, () => {
       expect(wrapper.emitted(`close`)).toBeTruthy()
     })
 
-    it("should fail if simulation fails", () => {
-      const mockSimulateFail = jest.fn(() =>
+    it("should fail if submitting fails", async () => {
+      const mockSubmitFail = jest.fn(() =>
         Promise.reject(new Error(`invalid request`))
       )
 
       const data = {
-        step: `details`,
+        step: `fees`,
         gasEstimate: null,
         submissionError: null,
         actionManager: {
-          simulate: mockSimulateFail
+          send: mockSubmitFail
         }
       }
 
@@ -493,14 +497,11 @@ describe(`ActionModal`, () => {
 
       wrapper.setProps({ transactionProperties })
       wrapper.setData(data)
-      wrapper.vm.simulate()
-      wrapper.vm.$nextTick(() => {
-        expect(wrapper.vm.gasEstimate).toBe(null)
-        expect(wrapper.vm.submissionError).toBe(
-          "Transaction failed: invalid request."
-        )
-        expect(wrapper.vm.step).toBe("details")
-      })
+      wrapper.vm.submit()
+      await wrapper.vm.$nextTick()
+
+      expect(wrapper.html()).toContain("Transaction failed: invalid request.")
+      expect(wrapper.vm.step).toBe("sign")
     })
   })
 
