@@ -153,6 +153,12 @@ workflows:
           filters:
             branches:
               ignore: release
+
+      - testE2E:
+          filters:
+            branches:
+              ignore: release
+              
   releaseManually:
     jobs:
       - release:
