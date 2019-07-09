@@ -4,7 +4,7 @@ export default [
   {
     path: `/`,
     name: `accounts`,
-    component: require('common/SessionAccounts').default,
+    component: require('../../components/SessionAccounts').default,
     beforeEnter: (to, from, next) => {
       if (!store.state.accounts) {
         next({ path: '/welcome' })
@@ -16,7 +16,7 @@ export default [
   {
     path: '/welcome',
     name: 'welcome',
-    component: require('common/TmSessionWelcome').default
+    component: require('../../components/SessionWelcome').default
   },
   {
     path: '/existing',
