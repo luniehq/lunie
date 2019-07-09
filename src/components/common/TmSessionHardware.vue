@@ -9,8 +9,10 @@
         <div class="session-main">
           <HardwareState :loading="status === `connect` ? false : true">
             <template v-if="status === `connect` || status === `detect`">
-              Please plug in your Ledger&nbsp;Nano&nbsp;S and open the Cosmos
-              app
+              <p>
+                Please plug in your Ledger&nbsp;Nano and open the Cosmos Ledger
+                app
+              </p>
             </template>
             <p v-if="connectionError" class="error-message">
               {{ connectionError }}
