@@ -13,7 +13,7 @@
           <AccountList
             :accounts="accounts"
             :button-action="goToLunie"
-            :button-text="`Go to Lunie`"
+            button-text="Go to Lunie"
           />
         </div>
         <div class="session-footer">
