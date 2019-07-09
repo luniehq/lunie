@@ -36,14 +36,6 @@ export default [
   {
     path: `/approve`,
     name: `approve`,
-    component: require('common/SessionApprove').default,
-    beforeEnter: (to, from, next) => {
-      const pendingTransactions = true // TODO Obtain this
-      if (pendingTransactions) {
-        next({ path: '/welcome' })
-      } else {
-        next()
-      }
-    }
+    component: require('common/SessionApprove').default
   }
 ]
