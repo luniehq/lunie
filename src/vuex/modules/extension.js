@@ -23,11 +23,9 @@ export default () => {
     async getAddressesFromExtension({
       state: {
         externals: { getAccountsFromExtension }
-      },
-      commit
+      }
     }) {
-      const wallets = await getAccountsFromExtension()
-      commit("setExtensionAccounts", wallets)
+      getAccountsFromExtension()
     }
   }
   return {
