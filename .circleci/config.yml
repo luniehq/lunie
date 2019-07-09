@@ -2,7 +2,7 @@ version: 2.1
 
 aliases:
   # Define paths and never think about them again
-  - &WORKSPACE /tmp/voyager
+  - &WORKSPACE /tmp/lunie
   - &docker-browsers tendermintdev/voyager_node_browser
 
 # reusable commands
@@ -86,8 +86,6 @@ jobs:
     docker:
       # Primary container image where all steps run.
      - image: *docker-browsers
-      # Secondary container image on common network. 
-     - image: lunieio/testnet:v0.34.3
     steps:
       - checkout
       - attach_workspace:
