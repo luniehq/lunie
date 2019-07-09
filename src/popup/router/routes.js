@@ -32,5 +32,18 @@ export default [
     path: `/recover`,
     name: `recover`,
     component: require('common/TmSessionImport').default
+  },
+  {
+    path: `/approve`,
+    name: `approve`,
+    component: require('common/SessionApprove').default,
+    beforeEnter: (to, from, next) => {
+      const pendingTransactions = true // TODO Obtain this
+      if (pendingTransactions) {
+        next({ path: '/welcome' })
+      } else {
+        next()
+      }
+    }
   }
 ]

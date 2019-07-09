@@ -11,7 +11,7 @@ export default {
   async mounted() {
     const signRequest = await this.$store.dispatch('getSignRequest')
     if (signRequest) {
-      this.$refs.router.goTo('approve')
+      this.$router.push('approve')
     }
   }
 }
