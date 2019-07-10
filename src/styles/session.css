@@ -31,8 +31,6 @@
   position: relative;
   border: 2px solid var(--bc-dim);
   overflow: auto;
-  display: flex;
-  flex-flow: column;
 }
 
 .session-header {
