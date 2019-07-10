@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.0-beta.94] - 2019-07-09
+
+### Added
+
+- Adds a button to SessionAccounts to Add Account and includes a test @thebkr7
+
+### Code Improvements
+
+- refactored AccountList for consistency across uses @jbibla
+
 ## [1.0.0-beta.93] - 2019-07-05
 
 ### Fixed

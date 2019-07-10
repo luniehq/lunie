@@ -41,14 +41,16 @@ describe(`Module: Extension`, () => {
 
   describe("actions", () => {
     it("getAddressesFromExtension", async () => {
-      const getAccounts = jest.fn(() => mockAccounts)
+      const getAccountsFromExtension = jest.fn(() => mockAccounts)
       await actions.getAddressesFromExtension({
         state: {
           externals: {
-            getAccounts
+            getAccountsFromExtension
           }
         }
       })
+
+      expect(getAccountsFromExtension).toHaveBeenCalled()
     })
   })
 })
