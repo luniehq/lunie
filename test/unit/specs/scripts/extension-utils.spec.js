@@ -80,7 +80,7 @@ describe(`Extension Utils`, () => {
       const result = processLunieExtensionMessages(store)({
         source: global,
         data: {
-          type: "NOT_FROM_LUNIE_EXTENSION",
+          type: "FROM_LUNIE_EXTENSION",
           message: {
             type: "IN CORRECT TYPE"
           }
