@@ -110,11 +110,10 @@
           :loading="!!sending"
         >
           <div v-if="extension.enabled">
-            Please verify and sign the transaction in the Lunie Chrome
-            Extension.
+            Please approve the transaction in the Lunie Browser Extension.
           </div>
           <div v-else>
-            Please install the Lunie Chrome Extension from the Google Chrome
+            Please install the Lunie Browser Extension from the Google Chrome
             store.
           </div>
         </HardwareState>
@@ -248,11 +247,11 @@ const signMethodOptions = {
     value: SIGN_METHODS.LEDGER
   },
   EXTENSION: {
-    key: `Lunie Chrome Extension`,
+    key: `Lunie Browser Extension`,
     value: SIGN_METHODS.EXTENSION
   },
   LOCAL: {
-    key: `(Unsafe) Local Account`,
+    key: `Local Account (Unsafe)`,
     value: SIGN_METHODS.LOCAL
   }
 }
