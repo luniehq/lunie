@@ -76,6 +76,7 @@ import TableInvoice from "src/ActionModal/components/TableInvoice"
 import Bech32 from "common/Bech32"
 import { required } from "vuelidate/lib/validators"
 import { parseTx, parseFee, parseValueObj } from "../../scripts/parsers.js"
+import { atoms } from "scripts/num.js"
 
 export default {
   name: `session-approve`,
@@ -98,7 +99,7 @@ export default {
       return this.signRequest ? parseTx(this.signRequest.signMessage) : null
     },
     fees() {
-      return this.tx ? parseFee(this.tx.tx) : null
+      return this.tx ? atoms(parseFee(this.tx.tx)) : null
     },
     senderAddress() {
       return this.signRequest ? this.signRequest.senderAddress : null
@@ -107,7 +108,7 @@ export default {
       return this.tx ? parseValueObj(this.tx.tx) : null
     },
     amount() {
-      return this.amountCoin ? Number(this.amountCoin.amount) : null
+      return this.amountCoin ? atoms(Number(this.amountCoin.amount)) : null
     },
     bondDenom() {
       return this.amountCoin ? this.amountCoin.denom : null
