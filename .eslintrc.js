@@ -9,7 +9,8 @@ module.exports = {
   env: {
     browser: true,
     webextensions: true,
-    node: true
+    node: true,
+    jest: true
   },
   extends: [
     'plugin:vue/recommended',
