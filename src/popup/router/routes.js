@@ -19,6 +19,10 @@ export default [
     component: require('../../components/SessionWelcome').default
   },
   {
+    path: '/approved',
+    redirect: { name: 'welcome' }
+  },
+  {
     path: '/existing',
     name: 'existing',
     component: require('common/TmSessionExisting').default
