@@ -178,34 +178,18 @@ describe(`ActionModal`, () => {
     describe(`when user has logged in`, () => {
       const signMethods = ["local", "ledger", "extension", "explore"]
       const steps = [
-        {
-          name: "on fees step",
-          step: "fees"
-        },
-        {
-          name: "on sign step",
-          step: "sign"
-        },
-        {
-          name: "sending",
-          step: "sign",
-          sending: true
-        },
-        {
-          name: "waiting for inclusion",
-          step: "send"
-        }
+        ["on fees step", "fees", false],
+        ["on sign step", "sign", false],
+        ["sending", "sign", true],
+        ["waiting for inclusion", "send", true]
       ]
 
-      signMethods.forEach(method => {
-        describe(`with local ${method}`, () => {
-          steps.forEach(async ({ name, step, sending }) => {
-            it(name, async () => {
-              Object.assign(wrapper.vm, { step, sending })
-              await wrapper.vm.$nextTick()
-              expect(wrapper.vm.$el).toMatchSnapshot()
-            })
-          })
+      describe.each(signMethods)(`with %s`, signMethod => {
+        it.each(steps)(`%s`, async (name, step, sending) => {
+          wrapper.vm.session.sessionType = signMethod
+          wrapper.vm.step = step
+          wrapper.vm.sending = sending
+          expect(wrapper.vm.$el).toMatchSnapshot()
         })
       })
     })
@@ -503,6 +487,42 @@ describe(`ActionModal`, () => {
       expect(wrapper.html()).toContain("Transaction failed: invalid request.")
       expect(wrapper.vm.step).toBe("sign")
     })
+
+    it("should fail if can't connect to Ledger", async () => {
+      $store.dispatch = jest.fn(() =>
+        Promise.reject(new Error(`couldn't find Ledger`))
+      )
+
+      const data = {
+        step: `sign`,
+        gasEstimate: null,
+        submissionError: null,
+        actionManager: {},
+        selectedSignMethod: "ledger"
+      }
+
+      const transactionProperties = {
+        type: "MsgSend",
+        toAddress: "comsos12345",
+        amounts: [
+          {
+            amount: "100000",
+            denom: "uatoms"
+          }
+        ],
+        memo: "A memo"
+      }
+
+      wrapper.setProps({ transactionProperties })
+      wrapper.setData(data)
+      wrapper.vm.submit()
+      await wrapper.vm.$nextTick()
+
+      expect(wrapper.html()).toContain(
+        "Transaction failed: couldn't find Ledger."
+      )
+      expect(wrapper.vm.step).toBe("sign")
+    })
   })
 
   describe(`runs validation and changes step`, () => {
@@ -517,7 +537,8 @@ describe(`ActionModal`, () => {
         isValidChildForm: true,
         isValidInput: jest.fn(() => true),
         selectedSignMethod: `local`,
-        step: `details`
+        step: `details`,
+        validateChangeStep: jest.fn(() => {})
       }
     })
 
@@ -533,14 +554,6 @@ describe(`ActionModal`, () => {
 
         await ActionModal.methods.validateChangeStep.call(self)
         expect(self.simulate).toHaveBeenCalled()
-      })
-
-      it(`stops the user from proceeding if disabled`, async () => {
-        self.disabled = true
-
-        await ActionModal.methods.validateChangeStep.call(self)
-        expect(self.simulate).not.toHaveBeenCalled()
-        expect(self.step).toBe("details")
       })
     })
 

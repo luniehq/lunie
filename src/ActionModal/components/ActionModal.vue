@@ -407,6 +407,7 @@ export default {
       this.password = null
       this.step = defaultStep
       this.show = false
+      this.sending = false
 
       // reset form
       this.$v.$reset()
@@ -481,7 +482,14 @@ export default {
       this.trackEvent(`event`, `submit`, this.title, this.selectedSignMethod)
 
       if (this.selectedSignMethod === signMethods.LEDGER) {
-        await this.connectLedger()
+        try {
+          await this.connectLedger()
+        } catch (error) {
+          this.submissionError = `${this.submissionErrorPrefix}: ${
+            error.message
+          }.`
+          return
+        }
       }
 
       const { type, memo, ...transactionProperties } = this.transactionData
@@ -513,8 +521,13 @@ export default {
       }
     },
     async waitForInclusion(includedFn) {
+      this.sending = true
       this.step = inclusionStep
-      await includedFn()
+      try {
+        await includedFn()
+      } finally {
+        this.sending = false
+      }
     },
     onTxIncluded(txType, transactionProperties, feeProperties) {
       // this.step = successStep
@@ -537,11 +550,7 @@ export default {
       this.trackEvent(`event`, `failed-submit`, this.title, message)
     },
     async connectLedger() {
-      try {
-        await this.$store.dispatch(`connectLedgerApp`)
-      } catch (error) {
-        this.submissionError = `${this.submissionErrorPrefix}: ${error}.`
-      }
+      await this.$store.dispatch(`connectLedgerApp`)
     }
   },
   validations() {

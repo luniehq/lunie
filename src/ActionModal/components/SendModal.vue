@@ -203,8 +203,8 @@ export default {
     clear() {
       this.$v.$reset()
 
-      this.address = ``
-      this.amount = 0
+      this.address = undefined
+      this.amount = undefined
       this.editMemo = false
       this.memo = "(Sent via Lunie)"
     },
