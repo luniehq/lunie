@@ -30,7 +30,7 @@ exports[`ActionModal should show the action modal when user has logged in with e
      
     <steps-stub
       activestep="fees"
-      steps="Details,Fees,Sign,Send"
+      steps="Details,Fees,Sign"
     />
   </div>
    
@@ -97,7 +97,7 @@ exports[`ActionModal should show the action modal when user has logged in with e
      
     <steps-stub
       activestep="sign"
-      steps="Details,Fees,Sign,Send"
+      steps="Details,Fees,Sign"
     />
   </div>
    
@@ -186,7 +186,7 @@ exports[`ActionModal should show the action modal when user has logged in with e
      
     <steps-stub
       activestep="sign"
-      steps="Details,Fees,Sign,Send"
+      steps="Details,Fees,Sign"
     />
   </div>
    
@@ -273,10 +273,7 @@ exports[`ActionModal should show the action modal when user has logged in with e
       
     </span>
      
-    <steps-stub
-      activestep="send"
-      steps="Details,Fees,Sign,Send"
-    />
+    <!---->
   </div>
    
   <div
@@ -305,17 +302,7 @@ exports[`ActionModal should show the action modal when user has logged in with e
   <div
     class="action-modal-footer"
   >
-    <tmformgroup-stub
-      class="action-modal-group"
-    >
-      <div>
-        <tmbtn-stub
-          color="primary"
-          disabled="true"
-          value="Confirming..."
-        />
-      </div>
-    </tmformgroup-stub>
+    <!---->
      
     <!---->
   </div>
@@ -352,7 +339,7 @@ exports[`ActionModal should show the action modal when user has logged in with e
      
     <steps-stub
       activestep="fees"
-      steps="Details,Fees,Sign,Send"
+      steps="Details,Fees,Sign"
     />
   </div>
    
@@ -419,7 +406,7 @@ exports[`ActionModal should show the action modal when user has logged in with e
      
     <steps-stub
       activestep="sign"
-      steps="Details,Fees,Sign,Send"
+      steps="Details,Fees,Sign"
     />
   </div>
    
@@ -492,7 +479,7 @@ exports[`ActionModal should show the action modal when user has logged in with e
      
     <steps-stub
       activestep="sign"
-      steps="Details,Fees,Sign,Send"
+      steps="Details,Fees,Sign"
     />
   </div>
    
@@ -564,10 +551,7 @@ exports[`ActionModal should show the action modal when user has logged in with e
       
     </span>
      
-    <steps-stub
-      activestep="send"
-      steps="Details,Fees,Sign,Send"
-    />
+    <!---->
   </div>
    
   <div
@@ -596,17 +580,7 @@ exports[`ActionModal should show the action modal when user has logged in with e
   <div
     class="action-modal-footer"
   >
-    <tmformgroup-stub
-      class="action-modal-group"
-    >
-      <div>
-        <tmbtn-stub
-          color="primary"
-          disabled="true"
-          value="Confirming..."
-        />
-      </div>
-    </tmformgroup-stub>
+    <!---->
      
     <!---->
   </div>
@@ -643,7 +617,7 @@ exports[`ActionModal should show the action modal when user has logged in with l
      
     <steps-stub
       activestep="fees"
-      steps="Details,Fees,Sign,Send"
+      steps="Details,Fees,Sign"
     />
   </div>
    
@@ -710,7 +684,7 @@ exports[`ActionModal should show the action modal when user has logged in with l
      
     <steps-stub
       activestep="sign"
-      steps="Details,Fees,Sign,Send"
+      steps="Details,Fees,Sign"
     />
   </div>
    
@@ -783,7 +757,7 @@ exports[`ActionModal should show the action modal when user has logged in with l
      
     <steps-stub
       activestep="sign"
-      steps="Details,Fees,Sign,Send"
+      steps="Details,Fees,Sign"
     />
   </div>
    
@@ -855,10 +829,7 @@ exports[`ActionModal should show the action modal when user has logged in with l
       
     </span>
      
-    <steps-stub
-      activestep="send"
-      steps="Details,Fees,Sign,Send"
-    />
+    <!---->
   </div>
    
   <div
@@ -887,17 +858,7 @@ exports[`ActionModal should show the action modal when user has logged in with l
   <div
     class="action-modal-footer"
   >
-    <tmformgroup-stub
-      class="action-modal-group"
-    >
-      <div>
-        <tmbtn-stub
-          color="primary"
-          disabled="true"
-          value="Confirming..."
-        />
-      </div>
-    </tmformgroup-stub>
+    <!---->
      
     <!---->
   </div>
@@ -934,7 +895,7 @@ exports[`ActionModal should show the action modal when user has logged in with l
      
     <steps-stub
       activestep="fees"
-      steps="Details,Fees,Sign,Send"
+      steps="Details,Fees,Sign"
     />
   </div>
    
@@ -1001,7 +962,7 @@ exports[`ActionModal should show the action modal when user has logged in with l
      
     <steps-stub
       activestep="sign"
-      steps="Details,Fees,Sign,Send"
+      steps="Details,Fees,Sign"
     />
   </div>
    
@@ -1079,7 +1040,7 @@ exports[`ActionModal should show the action modal when user has logged in with l
      
     <steps-stub
       activestep="sign"
-      steps="Details,Fees,Sign,Send"
+      steps="Details,Fees,Sign"
     />
   </div>
    
@@ -1155,10 +1116,7 @@ exports[`ActionModal should show the action modal when user has logged in with l
       
     </span>
      
-    <steps-stub
-      activestep="send"
-      steps="Details,Fees,Sign,Send"
-    />
+    <!---->
   </div>
    
   <div
@@ -1187,17 +1145,7 @@ exports[`ActionModal should show the action modal when user has logged in with l
   <div
     class="action-modal-footer"
   >
-    <tmformgroup-stub
-      class="action-modal-group"
-    >
-      <div>
-        <tmbtn-stub
-          color="primary"
-          disabled="true"
-          value="Confirming..."
-        />
-      </div>
-    </tmformgroup-stub>
+    <!---->
      
     <!---->
   </div>
@@ -1234,7 +1182,7 @@ exports[`ActionModal should show the action modal when user hasn't logged in 1`]
      
     <steps-stub
       activestep="details"
-      steps="Details,Fees,Sign,Send"
+      steps="Details,Fees,Sign"
     />
   </div>
    
