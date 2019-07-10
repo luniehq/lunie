@@ -51,9 +51,11 @@ module.exports = {
           sessionType: "local"
         })
       )
+
       return true
     }, [])
 
+    browser.resizeWindow(1920, 1080)
     browser.refresh()
     done()
   },

@@ -25,22 +25,22 @@ module.exports = {
       .before(10000)
 
     await next(browser)
-    browser.expect.elements(".tm-form-msg--error").count.to.equal(4)
+    browser.expect.elements(".tm-form-msg--error").count.to.equal(3)
 
     browser.setValue("#sign-up-name", "demo-account")
     await next(browser)
-    browser.expect.elements(".tm-form-msg--error").count.to.equal(3)
+    browser.expect.elements(".tm-form-msg--error").count.to.equal(2)
 
     browser.setValue("#sign-up-password", "1234567890")
     await next(browser)
     browser.expect
       .elements(".tm-form-msg--error")
       // the error on the initial password vanishes but the password confirmation appears
-      .count.to.equal(3)
+      .count.to.equal(2)
 
     browser.setValue("#sign-up-password-confirm", "1234567890")
     await next(browser)
-    browser.expect.elements(".tm-form-msg--error").count.to.equal(2)
+    browser.expect.elements(".tm-form-msg--error").count.to.equal(1)
 
     browser.click("#sign-up-warning")
     await next(browser)
