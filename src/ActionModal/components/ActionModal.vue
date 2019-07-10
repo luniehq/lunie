@@ -159,8 +159,8 @@
       <div class="action-modal-footer">
         <slot name="action-modal-footer">
           <TmFormGroup
-            class="action-modal-group"
             v-if="[defaultStep, feeStep, signStep].includes(step)"
+            class="action-modal-group"
           >
             <div>
               <TmBtn
