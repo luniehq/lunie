@@ -20,9 +20,6 @@ Vue.directive(`focus`, focusElement)
 router.beforeEach(async (to, from, next) => {
   const pendingSignRequests = !!(await store.dispatch('getSignRequest'))
 
-  console.log('pendingSignRequests', pendingSignRequests, store.state)
-  console.log('beforeEnter', to, from)
-
   if (pendingSignRequests && to.name !== 'approve') {
     next('/approve')
   } else {
