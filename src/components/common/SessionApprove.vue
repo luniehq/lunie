@@ -66,17 +66,17 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex"
-import TmBtn from "common/TmBtn"
-import TmFormGroup from "common/TmFormGroup"
-import TmField from "common/TmField"
-import TmFormMsg from "common/TmFormMsg"
-import LiAnyTransaction from "transactions/LiAnyTransaction"
-import TableInvoice from "src/ActionModal/components/TableInvoice"
-import Bech32 from "common/Bech32"
-import { required } from "vuelidate/lib/validators"
-import { parseTx, parseFee, parseValueObj } from "../../scripts/parsers.js"
-import { atoms } from "scripts/num.js"
+import { mapGetters } from 'vuex'
+import TmBtn from 'common/TmBtn'
+import TmFormGroup from 'common/TmFormGroup'
+import TmField from 'common/TmField'
+import TmFormMsg from 'common/TmFormMsg'
+import LiAnyTransaction from 'transactions/LiAnyTransaction'
+import TableInvoice from 'src/ActionModal/components/TableInvoice'
+import Bech32 from 'common/Bech32'
+import { required } from 'vuelidate/lib/validators'
+import { parseTx, parseFee, parseValueObj } from '../../scripts/parsers.js'
+import { atoms } from 'scripts/num.js'
 
 export default {
   name: `session-approve`,
@@ -94,7 +94,7 @@ export default {
     password: null
   }),
   computed: {
-    ...mapGetters(["signRequest"]),
+    ...mapGetters(['signRequest']),
     tx() {
       return this.signRequest ? parseTx(this.signRequest.signMessage) : null
     },
@@ -105,10 +105,10 @@ export default {
       return this.signRequest ? this.signRequest.senderAddress : null
     },
     amountCoin() {
-      return this.tx ? atoms(parseValueObj(this.tx.tx)) : null
+      return this.tx ? parseValueObj(this.tx.tx) : null
     },
     amount() {
-      return this.amountCoin ? Number(this.amountCoin.amount) : null
+      return this.amountCoin ? atoms(Number(this.amountCoin.amount)) : null
     },
     bondDenom() {
       return this.amountCoin ? this.amountCoin.denom : null
@@ -121,8 +121,8 @@ export default {
       return !this.$v[property].$invalid
     },
     async approve() {
-      if (this.isValidInput("password")) {
-        await this.$store.dispatch("approveSignRequest", {
+      if (this.isValidInput('password')) {
+        await this.$store.dispatch('approveSignRequest', {
           ...this.signRequest,
           password: this.password
         })
@@ -130,7 +130,7 @@ export default {
       }
     },
     async reject() {
-      await this.$store.dispatch("rejectSignRequest", {
+      await this.$store.dispatch('rejectSignRequest', {
         ...this.signRequest
       })
       this.$router.push(`/`)
