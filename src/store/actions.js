@@ -25,13 +25,13 @@ export const createKey = ({ dispatch }, { seedPhrase, password, name }) => {
   })
 }
 
-export const loadAccounts = ({ state }) => {
+export const loadAccounts = ({ commit }) => {
   chrome.runtime.sendMessage(
     {
       type: 'GET_WALLETS'
     },
     function(response) {
-      state.accounts = response
+      commit('setAccounts', response)
     }
   )
 }

@@ -17,6 +17,16 @@ Vue.use(Vuelidate)
 Vue.use(VueClipboard)
 Vue.directive(`focus`, focusElement)
 
+router.beforeEach(async (to, from, next) => {
+  const pendingSignRequests = !!(await store.dispatch('getSignRequest'))
+
+  if (pendingSignRequests && to.name !== 'approve') {
+    next('/approve')
+  } else {
+    next()
+  }
+})
+
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
