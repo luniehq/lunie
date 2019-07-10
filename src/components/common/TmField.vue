@@ -187,6 +187,10 @@ export default {
 </script>
 
 <style>
+input[type="checkbox"] {
+  margin: 0.5rem 0.5rem 0.5rem 0;
+}
+
 .tm-field {
   background: var(--input-bg, #fff);
   border: 1px solid var(--input-bc, #ccc);
@@ -378,10 +382,6 @@ textarea.tm-field {
   font-size: 0.75rem;
   line-height: 1.875rem;
   padding: 0 0.5rem;
-}
-
-input[type="checkbox"] {
-  margin: 0.5rem 0.5rem 0.5rem 0;
 }
 
 @media screen and (min-width: 360px) {
