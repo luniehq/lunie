@@ -380,6 +380,10 @@ textarea.tm-field {
   padding: 0 0.5rem;
 }
 
+input[type="checkbox"] {
+  margin: 0.5rem 0.5rem 0.5rem 0;
+}
+
 @media screen and (min-width: 360px) {
   .input-group-addon {
     font-size: 1rem;

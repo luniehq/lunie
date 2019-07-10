@@ -96,11 +96,7 @@
             class="sign-up-seed-group"
             field-label="Seed Phrase"
           >
-            <FieldSeed
-              id="sign-up-seed"
-              v-model="fields.signUpSeed"
-              class="field-seed"
-            />
+            <FieldSeed id="sign-up-seed" v-model="fields.signUpSeed" />
           </TmFormGroup>
           <TmFormGroup
             class="field-checkbox"
@@ -271,15 +267,5 @@ export default {
   font-size: var(--m);
   color: var(--danger);
   padding-bottom: 0.25rem;
-}
-
-.field-seed {
-  line-height: var(--lg);
-  padding: 0.75rem;
-  resize: none;
-}
-
-input[type="checkbox"] {
-  margin: 0.5rem 0.5rem 0.5rem 0;
 }
 </style>
