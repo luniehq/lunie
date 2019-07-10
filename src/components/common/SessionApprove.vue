@@ -4,7 +4,7 @@
     <div>
       <p>Verify the transaction details below.</p>
     </div>
-    <TmFormGroup field-id="to" field-label="Your address">
+    <TmFormGroup v-if="signRequest" field-id="to" field-label="Your address">
       <LiAnyTransaction
         v-if="tx"
         :validators="deligates"
