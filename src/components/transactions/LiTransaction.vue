@@ -18,9 +18,9 @@
           <span v-if="memo"> &nbsp;- {{ memo }} </span>
         </div>
       </div>
-      <div class="li-tx__content__right">
+      <div v-if="!hideMetaData" class="li-tx__content__right">
         <div>
-          Network Fee:&nbsp;<b>{{ fees.amount | toAtoms | shortDecimals }}</b>
+          Network Fee:&nbsp;<b>{{ fees.amount | toAtoms }}</b>
           <span>{{ fees.denom | viewDenom }}</span>
         </div>
         <div class="li-tx__content__block">
@@ -35,18 +35,13 @@
 
 <script>
 import moment from "moment"
-import {
-  atoms as toAtoms,
-  viewDenom,
-  shortDecimals
-} from "../../scripts/num.js"
+import { atoms as toAtoms, viewDenom } from "../../scripts/num.js"
 
 export default {
   name: `li-transaction`,
   filters: {
     toAtoms,
-    viewDenom,
-    shortDecimals
+    viewDenom
   },
   props: {
     color: {
@@ -55,7 +50,7 @@ export default {
     },
     time: {
       type: String,
-      required: true
+      default: null
     },
     block: {
       type: Number,
@@ -68,6 +63,10 @@ export default {
     fees: {
       type: Object,
       required: true
+    },
+    hideMetaData: {
+      type: Boolean,
+      default: false
     }
   },
   computed: {

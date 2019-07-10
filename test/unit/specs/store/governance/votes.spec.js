@@ -1,16 +1,16 @@
 import votesModule from "src/vuex/modules/governance/votes.js"
-import lcdClientMock from "src/connectors/lcdClientMock.js"
-const { proposals, votes, stakingParameters } = lcdClientMock.state
+import mockValues from "test/unit/helpers/mockValues.js"
+const { proposals, votes /*stakingParameters*/ } = mockValues.state
 
 const mockRootState = {
   connection: {
     connected: true
   }
 }
-const gas = `1234567`
-const gas_prices = [{ denom: `uatom`, amount: `123` }]
-const password = ``
-const submitType = `ledger`
+// const gas = `1234567`
+// const gas_prices = [{ denom: `uatom`, amount: `123` }]
+// const password = ``
+// const submitType = `ledger`
 
 describe(`Module: Votes`, () => {
   let module
@@ -52,67 +52,6 @@ describe(`Module: Votes`, () => {
     )
   })
 
-  it(`should simulate a vote transaction`, async () => {
-    const { actions } = module
-    const self = {
-      rootState: mockRootState,
-      dispatch: jest.fn(() => 123123)
-    }
-    const proposal_id = `1`
-    const res = await actions.simulateVote(self, {
-      proposal_id,
-      option: `No`
-    })
-
-    expect(self.dispatch).toHaveBeenCalledWith(`simulateTx`, {
-      type: `MsgVote`,
-      txArguments: {
-        proposalId: proposal_id,
-        option: `No`
-      }
-    })
-    expect(res).toBe(123123)
-  })
-  it(`submits a vote on a proposal`, async () => {
-    const { actions } = module
-    jest.useFakeTimers()
-
-    const rootState = {
-      stakingParameters
-    }
-    const proposalIds = Object.keys(proposals)
-    await Promise.all(
-      proposalIds.map(async proposal_id => {
-        const dispatch = jest.fn()
-        await actions.submitVote(
-          { rootState, dispatch },
-          {
-            proposal_id,
-            option: `Yes`,
-            gas,
-            gas_prices,
-            submitType,
-            password
-          }
-        )
-        expect(dispatch).toHaveBeenCalledWith(`sendTx`, {
-          type: `MsgVote`,
-          txArguments: {
-            proposalId: proposal_id,
-            option: `Yes`
-          },
-          gas,
-          gas_prices,
-          submitType,
-          password
-        })
-
-        jest.runAllTimers()
-        expect(dispatch).toHaveBeenCalledWith(`getProposalVotes`, proposal_id)
-      })
-    )
-  })
-
   it(`should store an error if failed to load proposals`, async () => {
     module = votesModule({
       node: {
@@ -128,5 +67,20 @@ describe(`Module: Votes`, () => {
       rootState: mockRootState
     })
     expect(state.error.message).toBe(`Error`)
+  })
+
+  it(`should run post submit actions`, async () => {
+    const dispatch = jest.fn()
+    const { actions } = module
+    await actions.postMsgVote(
+      { dispatch },
+      {
+        txProps: { proposalId: 99 }
+      }
+    )
+
+    expect(dispatch.mock.calls[0]).toEqual([`getProposalVotes`, 99])
+    expect(dispatch.mock.calls[1]).toEqual([`getProposal`, 99])
+    expect(dispatch.mock.calls[2]).toEqual([`getAllTxs`])
   })
 })

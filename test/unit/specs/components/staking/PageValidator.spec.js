@@ -1,6 +1,5 @@
 import { shallowMount, createLocalVue } from "@vue/test-utils"
 import PageValidator from "src/components/staking/PageValidator"
-import BigNumber from "bignumber.js"
 
 const stakingParameters = {
   unbonding_time: `259200000000000`,
@@ -11,7 +10,7 @@ const stakingParameters = {
 const validator = {
   operator_address: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw`,
   pub_key: `cosmosvalpub1234`,
-  revoked: false,
+  jailed: false,
   tokens: `14`,
   delegator_shares: `14`,
   description: {
@@ -101,7 +100,8 @@ describe(`PageValidator`, () => {
         $route: {
           params: { validator: validator.operator_address }
         }
-      }
+      },
+      stubs: [`router-link`]
     })
   })
 
@@ -153,6 +153,12 @@ describe(`PageValidator`, () => {
       expect(wrapper.exists(`tm-data-error-stub`)).toBe(true)
     })
 
+    it(`shows invalid validator address page if invalid validator address used`, () => {
+      $store.getters.delegates.delegates = []
+
+      expect(wrapper.exists(`tm-data-msg`)).toBe(true)
+    })
+
     it(`shows the selfBond`, () => {
       expect(wrapper.find(`#page-profile__self-bond`).text()).toBe(`1.00%`)
     })
@@ -162,7 +168,7 @@ describe(`PageValidator`, () => {
       // Jailed
       $store.getters.delegates.delegates = [
         Object.assign({}, validator, {
-          revoked: true
+          jailed: true
         })
       ]
       expect(wrapper.vm.status).toBe(
@@ -171,7 +177,7 @@ describe(`PageValidator`, () => {
       // Is not a validator
       $store.getters.delegates.delegates = [
         Object.assign({}, validator, {
-          voting_power: 0
+          status: 0
         })
       ]
       expect(wrapper.vm.status).toBe(
@@ -179,19 +185,19 @@ describe(`PageValidator`, () => {
       )
     })
 
-    it(`shows a validator as candidate if he has no voting_power`, () => {
+    it(`shows a validator as an inactive candidate if he has no voting_power`, () => {
       $store.getters.delegates.delegates = [
         Object.assign({}, validator, {
-          voting_power: 0
+          status: 0
         })
       ]
       expect(wrapper.vm.status).toMatchSnapshot()
     })
 
-    it(`shows that a validator is revoked`, () => {
+    it(`shows that a validator is jailed`, () => {
       $store.getters.delegates.delegates = [
         Object.assign({}, validator, {
-          revoked: true
+          jailed: true
         })
       ]
       expect(wrapper.vm.status).toMatchSnapshot()
@@ -293,14 +299,14 @@ describe(`PageValidator`, () => {
           }
         }
       }
-      const rewardsString = PageValidator.computed.rewards.call({
+      const rewardsValue = PageValidator.computed.rewards.call({
         session,
         bondDenom,
         distribution,
         validator,
         lastHeader
       })
-      expect(rewardsString).toBe(`100 STAKE`)
+      expect(rewardsValue).toBe(100000000)
     })
 
     it(`when validator rewards are 0`, () => {
@@ -312,26 +318,26 @@ describe(`PageValidator`, () => {
         }
       }
 
-      const rewardsString = PageValidator.computed.rewards.call({
+      const rewardsValue = PageValidator.computed.rewards.call({
         session,
         bondDenom,
         distribution,
         validator,
         lastHeader
       })
-      expect(rewardsString).toBe(`0 STAKE`)
+      expect(rewardsValue).toBe(0)
     })
 
     it(`when user doesn't have any delegations`, () => {
       const distribution = { rewards: {} }
-      const rewardsString = PageValidator.computed.rewards.call({
+      const rewardsValue = PageValidator.computed.rewards.call({
         session,
         bondDenom,
         distribution,
         validator,
         lastHeader
       })
-      expect(rewardsString).toBeNull()
+      expect(rewardsValue).toBe(0)
     })
   })
 
@@ -549,14 +555,11 @@ describe(`delegationTargetOptions`, () => {
     describe(`onDelegation`, () => {
       it(`should open delegation modal`, () => {
         const self = {
-          action: ``,
-          liquidAtoms: 42,
           $refs: {
             delegationModal: {
               open: jest.fn()
             }
-          },
-          showCannotModal: false
+          }
         }
         PageValidator.methods.onDelegation.call(self)
         expect(self.$refs.delegationModal.open).toHaveBeenCalled()
@@ -566,14 +569,11 @@ describe(`delegationTargetOptions`, () => {
     describe(`onUndelegation`, () => {
       it(`should open undelegation modal`, () => {
         const self = {
-          action: ``,
-          myBond: BigNumber(42),
           $refs: {
             undelegationModal: {
               open: jest.fn()
             }
-          },
-          showCannotModal: false
+          }
         }
         PageValidator.methods.onUndelegation.call(self)
         expect(self.$refs.undelegationModal.open).toHaveBeenCalled()

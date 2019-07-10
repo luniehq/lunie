@@ -3,7 +3,10 @@ import {
   liquidAtoms,
   totalAtoms,
   oldUnbondingAtoms,
-  yourValidators
+  yourValidators,
+  modalContext,
+  validatorsWithRewards,
+  totalRewards
 } from "src/vuex/getters.js"
 import validators from "./json/validators.js"
 
@@ -125,5 +128,120 @@ describe(`Store: getters`, () => {
         )
       ).toEqual([])
     })
+  })
+
+  it("validatorsWithRewards", () => {
+    expect(
+      validatorsWithRewards(
+        {
+          distribution: {
+            rewards: {
+              validator1: {
+                stake: 10000
+              },
+              validator2: {
+                stake: 5000
+              },
+              validator3: {
+                stake: 0
+              }
+            }
+          }
+        },
+        {
+          bondDenom: "stake"
+        }
+      )
+    ).toEqual([
+      [
+        "validator1",
+        {
+          stake: 10000
+        }
+      ],
+      [
+        "validator2",
+        {
+          stake: 5000
+        }
+      ]
+    ])
+  })
+
+  it("totalRewards", () => {
+    expect(
+      totalRewards(null, {
+        bondDenom: "stake",
+        validatorsWithRewards: [
+          [
+            "validator1",
+            {
+              stake: 10000
+            }
+          ],
+          [
+            "validator2",
+            {
+              stake: 5000
+            }
+          ]
+        ]
+      })
+    ).toBe(15000)
+  })
+
+  it(`modalContext`, () => {
+    let state = {
+      connection: {
+        externals: {
+          node: {
+            url: "http://lunie.io"
+          }
+        },
+        lastHeader: {
+          chain_id: "cosmoshub"
+        },
+        connected: true
+      },
+      session: {
+        address: "cosmos1abcdefghijklmop",
+        localKeyPairName: "localKeyPairName"
+      },
+      distribution: {
+        rewards: {
+          validatorX: {
+            uatom: 123
+          }
+        }
+      },
+      delegates: {
+        delegates: []
+      }
+    }
+
+    const getters = {
+      bondDenom: "uatom",
+      totalRewards: 123
+    }
+
+    const context = {
+      url: "http://lunie.io",
+      chainId: "cosmoshub",
+      connected: true,
+      userAddress: "cosmos1abcdefghijklmop",
+      rewards: {
+        validatorX: {
+          uatom: 123
+        }
+      },
+      delegates: [],
+      localKeyPairName: "localKeyPairName",
+      bondDenom: "uatom",
+      totalRewards: 123
+    }
+
+    const result = modalContext(state, getters)
+
+    expect(result).toEqual(context)
   })
 })

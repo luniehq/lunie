@@ -42,12 +42,17 @@
       </p>
       <p>
         To send transactions with Lunie, you'll have to sign them with your
-        Ledger Nano&nbsp;S. If you don't have a Ledger Nano S, you can
-        <a href="" target="_blank" rel="noopener norefferer">buy one here</a>.
+        Ledger Nano. If you don't have a Ledger Nano, you can
+        <a
+          href="https://shop.ledger.com/?r=3dd204ef7508"
+          target="_blank"
+          rel="noopener norefferer"
+          >buy one here</a
+        >.
       </p>
       <p>
         To learn more about our security policies on Lunie.io, please visit our
-        <router-link to="careers">security page</router-link>.
+        <router-link to="security">security page</router-link>.
       </p>
     </div>
 

@@ -1,87 +1,68 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`TmSessionSignIn has the expected html structure 1`] = `
-<div
-  class="tm-session"
->
-  <tmformstruct-stub
-    class="tm-session-container"
-    submit="function () { [native code] }"
-    width=""
+<sessionframe-stub>
+  <div
+    class="session"
   >
-    <div
-      class="tm-session-header"
+    <tmformstruct-stub
+      class="session-container"
+      submit="function () { [native code] }"
+      width=""
     >
-      <a>
-        <i
-          class="material-icons"
-        >
-          arrow_back
-        </i>
-      </a>
-       
-      <div
-        class="tm-session-title"
+      <h2
+        class="session-title"
       >
         
-        Sign In
+        Sign in with account
       
+      </h2>
+       
+      <div
+        class="session-main"
+      >
+        <tmformgroup-stub
+          fieldid="sign-in-name"
+          fieldlabel="Select Account"
+        >
+          <tmfield-stub
+            id="sign-in-name"
+            options="[object Object]"
+            placeholder="Select account…"
+            type="select"
+            value="cosmos1234"
+            vue-focus="vue-focus"
+          />
+           
+          <!---->
+        </tmformgroup-stub>
+         
+        <tmformgroup-stub
+          fieldid="sign-in-password"
+          fieldlabel="Password"
+        >
+          <tmfield-stub
+            id="sign-in-password"
+            type="password"
+            value=""
+          />
+           
+          <!---->
+           
+          <!---->
+           
+          <!---->
+        </tmformgroup-stub>
       </div>
        
-      <a>
-        <i
-          class="material-icons"
-        >
-          close
-        </i>
-      </a>
-    </div>
-     
-    <div
-      class="tm-session-main"
-    >
-      <tmformgroup-stub
-        fieldid="sign-in-name"
-        fieldlabel="Select Account"
+      <div
+        class="session-footer"
       >
-        <tmfield-stub
-          id="sign-in-name"
-          options="[object Object]"
-          placeholder="Select account…"
-          type="select"
-          value="my_account"
-          vue-focus="vue-focus"
+        <tmbtn-stub
+          value="Sign In"
         />
-         
-        <!---->
-      </tmformgroup-stub>
-       
-      <tmformgroup-stub
-        fieldid="sign-in-password"
-        fieldlabel="Password"
-      >
-        <tmfield-stub
-          id="sign-in-password"
-          type="password"
-          value=""
-        />
-         
-        <!---->
-         
-        <!---->
-         
-        <!---->
-      </tmformgroup-stub>
-    </div>
-     
-    <div
-      class="tm-session-footer"
-    >
-      <tmbtn-stub
-        size="lg"
-        value="Next"
-      />
-    </div>
-  </tmformstruct-stub>
-</div>
+      </div>
+    </tmformstruct-stub>
+  </div>
+</sessionframe-stub>
 `;

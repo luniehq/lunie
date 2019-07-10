@@ -28,7 +28,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .tm-modal {
   position: fixed;
   top: 0;
@@ -36,7 +36,9 @@ export default {
   z-index: var(--z-modal);
   width: 100vw;
   height: 100vh;
-  background: rgba(0, 0, 0, 0.5);
+
+  /* background: rgba(0, 0, 0, 0.5); */
+  background: var(--app-fg);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -95,10 +97,10 @@ export default {
 }
 
 .tm-modal-main {
-  padding: 1rem 1.5rem;
   display: flex;
   flex-flow: column;
   justify-content: center;
+  min-height: 600px;
 }
 
 .tm-modal-main .ps-scrollbar-y-rail {

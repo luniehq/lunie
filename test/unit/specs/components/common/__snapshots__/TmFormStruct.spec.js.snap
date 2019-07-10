@@ -2,53 +2,49 @@
 
 exports[`TmFormStruct has the expected html structure 1`] = `
 <form
-  class="tm-form tm-form-narrow"
+  class="form"
 >
-  <div
-    class="tm-form-container"
+   
+  <header
+    class="form-header"
   >
-     
-    <header
-      class="tm-form-header"
+    <div
+      class="form-title"
     >
       <div
-        class="tm-form-title"
+        class="fake-title"
       >
-        <div
-          class="fake-title"
-        >
-          Fake Title
-        </div>
+        Fake Title
       </div>
-       
-      <div
-        class="tm-form-subtitle"
-      >
-        <div
-          class="fake-subtitle"
-        >
-          Fake Subtitle
-        </div>
-      </div>
-    </header>
+    </div>
      
-    <main
-      class="tm-form-main"
+    <div
+      class="form-subtitle"
     >
       <div
-        class="fake-fields"
-      />
-    </main>
-     
-    <footer
-      class="tm-form-footer"
-    >
-      <div
-        class="fake-footer"
+        class="fake-subtitle"
       >
-        Fake Footer
+        Fake Subtitle
       </div>
-    </footer>
-  </div>
+    </div>
+  </header>
+   
+  <main
+    class="form-main"
+  >
+    <div
+      class="fake-fields"
+    />
+  </main>
+   
+  <footer
+    class="form-footer"
+  >
+    <div
+      class="fake-footer"
+    >
+      Fake Footer
+    </div>
+  </footer>
 </form>
 `;

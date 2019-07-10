@@ -25,7 +25,6 @@ body,
 a {
   color: var(--link);
   text-decoration: none;
-  font-weight: 500;
 }
 
 a:hover {
@@ -38,7 +37,6 @@ a:hover {
   font-family: var(--sans);
   color: var(--txt);
   display: flex;
-  padding-top: 56px;
   flex-flow: column nowrap;
   min-width: 0;
   overflow: hidden;
@@ -86,6 +84,13 @@ input.tm-field {
   text-align: right;
   font-weight: 500;
   border-radius: 2px;
+}
+
+.field-checkbox-label {
+  display: block;
+  padding-left: 1.5rem;
+  text-indent: -1.5rem;
+  line-height: 14px;
 }
 
 #app-content {

@@ -79,7 +79,7 @@ exports[`PageProposal renders votes in HTML when voting is open 1`] = `
          
         <dd>
           
-            Voting started in 2 days.
+            Voting started in 2 days
           
         </dd>
       </dl>
@@ -88,11 +88,34 @@ exports[`PageProposal renders votes in HTML when voting is open 1`] = `
         class="info_dl colored_dl"
       >
         <dt>
+          Voting End Date
+        </dt>
+         
+        <dd>
+          January 5th 1970, 00:00
+        </dd>
+      </dl>
+    </div>
+  </div>
+   
+  <div
+    class="page-profile__section"
+  >
+    <div
+      class="row"
+    >
+      <dl
+        class="info_dl colored_dl"
+      >
+        <dt>
           Deposit Count
         </dt>
          
         <dd>
-          2,000 STAKE
+          
+            2,000
+            STAKE
+          
         </dd>
       </dl>
        
@@ -108,11 +131,7 @@ exports[`PageProposal renders votes in HTML when voting is open 1`] = `
         </dd>
       </dl>
     </div>
-  </div>
-   
-  <div
-    class="page-profile__section"
-  >
+     
     <div
       class="row"
     >
@@ -290,7 +309,7 @@ exports[`PageProposal should display proposal page if user has signed in 1`] = `
          
         <dd>
           
-            Voting started in 2 days.
+            Voting started in 2 days
           
         </dd>
       </dl>
@@ -299,11 +318,34 @@ exports[`PageProposal should display proposal page if user has signed in 1`] = `
         class="info_dl colored_dl"
       >
         <dt>
+          Voting End Date
+        </dt>
+         
+        <dd>
+          January 5th 1970, 00:00
+        </dd>
+      </dl>
+    </div>
+  </div>
+   
+  <div
+    class="page-profile__section"
+  >
+    <div
+      class="row"
+    >
+      <dl
+        class="info_dl colored_dl"
+      >
+        <dt>
           Deposit Count
         </dt>
          
         <dd>
-          2,000 STAKE
+          
+            2,000
+            STAKE
+          
         </dd>
       </dl>
        
@@ -319,11 +361,7 @@ exports[`PageProposal should display proposal page if user has signed in 1`] = `
         </dd>
       </dl>
     </div>
-  </div>
-   
-  <div
-    class="page-profile__section"
-  >
+     
     <div
       class="row"
     >
@@ -501,7 +539,7 @@ exports[`PageProposal should display proposal page should default tally to 0 if 
          
         <dd>
           
-            Voting started in 2 days.
+            Voting started in 2 days
           
         </dd>
       </dl>
@@ -510,11 +548,34 @@ exports[`PageProposal should display proposal page should default tally to 0 if 
         class="info_dl colored_dl"
       >
         <dt>
+          Voting End Date
+        </dt>
+         
+        <dd>
+          January 5th 1970, 00:00
+        </dd>
+      </dl>
+    </div>
+  </div>
+   
+  <div
+    class="page-profile__section"
+  >
+    <div
+      class="row"
+    >
+      <dl
+        class="info_dl colored_dl"
+      >
+        <dt>
           Deposit Count
         </dt>
          
         <dd>
-          2,000 STAKE
+          
+            2,000
+            STAKE
+          
         </dd>
       </dl>
        
@@ -530,11 +591,7 @@ exports[`PageProposal should display proposal page should default tally to 0 if 
         </dd>
       </dl>
     </div>
-  </div>
-   
-  <div
-    class="page-profile__section"
-  >
+     
     <div
       class="row"
     >
@@ -629,6 +686,18 @@ exports[`PageProposal should display proposal page should default tally to 0 if 
   <modalvote-stub
     proposalid="2"
     proposaltitle="VotingPeriod proposal"
+  />
+</tmpage-stub>
+`;
+
+exports[`PageProposal should display proposal page should show a loader if the necessary data hasen't been loaded 1`] = `
+<tmpage-stub
+  data-title="Proposal"
+  subtitle=""
+  title=""
+>
+  <tmdataloading-stub
+    title="Data is loading…"
   />
 </tmpage-stub>
 `;

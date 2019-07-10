@@ -34,7 +34,7 @@
                     {{ validator.description.moniker }}
                   </div>
                 </div>
-                <ShortBech32 :address="validator.operator_address" />
+                <Bech32 :address="validator.operator_address" />
               </div>
             </div>
 
@@ -65,7 +65,11 @@
             </dl>
             <dl class="info_dl colored_dl">
               <dt>My Rewards</dt>
-              <dd>{{ rewards || "--" }}</dd>
+              <dd v-if="rewards > 0">
+                {{ rewards | atoms | shortDecimals }}
+                {{ bondDenom | viewDenom }}
+              </dd>
+              <dd v-else>--</dd>
             </dl>
           </div>
 
@@ -101,7 +105,7 @@
             </dl>
             <dl class="info_dl">
               <dt>Full Operator Address</dt>
-              <dd>{{ validator.operator_address }}</dd>
+              <dd class="address">{{ validator.operator_address }}</dd>
             </dl>
             <dl class="info_dl">
               <dt>Keybase ID</dt>
@@ -174,6 +178,20 @@
         :denom="bondDenom"
       />
     </template>
+    <template v-else>
+      <template slot="title">
+        Validator Not Found
+      </template>
+      <template slot="subtitle">
+        <div>
+          Please visit the
+          <router-link to="/staking/validators/">
+            Validators
+          </router-link>
+          page to view all validators
+        </div>
+      </template>
+    </template>
   </TmPage>
 </template>
 
@@ -181,26 +199,31 @@
 import moment from "moment"
 import { calculateTokens } from "scripts/common"
 import { mapGetters } from "vuex"
-import num from "scripts/num"
+import num, { atoms, viewDenom, shortDecimals } from "scripts/num"
+import { formatBech32 } from "src/filters"
 import TmBtn from "common/TmBtn"
-import { shortAddress, ratToBigNumber } from "scripts/common"
-import DelegationModal from "staking/DelegationModal"
-import UndelegationModal from "staking/UndelegationModal"
-import ShortBech32 from "common/ShortBech32"
+import { ratToBigNumber } from "scripts/common"
+import DelegationModal from "src/ActionModal/components/DelegationModal"
+import UndelegationModal from "src/ActionModal/components/UndelegationModal"
+import Bech32 from "common/Bech32"
 import TmPage from "common/TmPage"
 import isEmpty from "lodash.isempty"
 export default {
   name: `page-validator`,
   components: {
-    ShortBech32,
+    Bech32,
     DelegationModal,
     UndelegationModal,
     TmBtn,
     TmPage
   },
+  filters: {
+    atoms,
+    viewDenom,
+    shortDecimals,
+    formatBech32
+  },
   data: () => ({
-    showCannotModal: false,
-    shortAddress,
     tabIndex: 1,
     moment,
     num
@@ -278,11 +301,11 @@ export default {
     },
     status() {
       // status: jailed
-      if (this.validator.revoked)
+      if (this.validator.jailed)
         return `This validator has been jailed and is not currently validating`
 
       // status: inactive
-      if (parseFloat(this.validator.voting_power) === 0)
+      if (parseFloat(this.validator.status) === 0)
         return `This validator does not have enough voting power yet and is inactive`
 
       // status: active
@@ -290,10 +313,10 @@ export default {
     },
     statusColor() {
       // status: jailed
-      if (this.validator.revoked) return `red`
+      if (this.validator.jailed) return `red`
 
       // status: inactive
-      if (parseFloat(this.validator.voting_power) === 0) return `yellow`
+      if (parseFloat(this.validator.status) === 0) return `yellow`
 
       // status: active
       return `green`
@@ -320,14 +343,7 @@ export default {
       }
 
       const validatorRewards = distribution.rewards[validator.operator_address]
-      const amount = validatorRewards
-        ? num.shortDecimals(num.atoms(validatorRewards[bondDenom])) || 0
-        : null
-
-      if (amount) {
-        return `${amount} ${num.viewDenom(bondDenom)}`
-      }
-      return null
+      return validatorRewards ? validatorRewards[bondDenom] : 0
     }
   },
   watch: {
@@ -387,7 +403,7 @@ export default {
         {
           address: session.address,
           maximum: Math.floor(liquidAtoms),
-          key: `My Wallet - ${shortAddress(session.address, 20)}`,
+          key: `My Wallet - ${formatBech32(session.address, false, 20)}`,
           value: 0
         }
       ]
@@ -406,8 +422,9 @@ export default {
           return {
             address: address,
             maximum: Math.floor(committedDelegations[address]),
-            key: `${delegate.description.moniker} - ${shortAddress(
+            key: `${delegate.description.moniker} - ${formatBech32(
               delegate.operator_address,
+              false,
               20
             )}`,
             value: index + 1
@@ -423,6 +440,10 @@ export default {
 }
 </script>
 <style scoped>
+.address {
+  word-break: break-word;
+}
+
 @media screen and (max-width: 425px) {
   .page-profile__header__actions {
     width: 100%;

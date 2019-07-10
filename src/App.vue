@@ -3,7 +3,7 @@
     <CookieBar />
     <MaintenanceBar />
     <div id="app">
-      <Session />
+      <router-view name="session" />
       <AppHeader />
       <div id="app-content">
         <router-view />
@@ -19,7 +19,6 @@ import AppHeader from "common/AppHeader"
 import CookieBar from "common/CookieBar"
 import MaintenanceBar from "common/MaintenanceBar"
 import TmNotifications from "common/TmNotifications"
-import Session from "common/TmSession"
 import store from "./vuex/store"
 
 export default {
@@ -27,7 +26,6 @@ export default {
   components: {
     AppHeader,
     TmNotifications,
-    Session,
     CookieBar,
     MaintenanceBar
   },

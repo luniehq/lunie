@@ -10,8 +10,6 @@ const HtmlWebpackPlugin = require(`html-webpack-plugin`)
 const CSPWebpackPlugin = require(`csp-webpack-plugin`)
 const VueLoaderPlugin = require(`vue-loader/lib/plugin`)
 const MiniCssExtractPlugin = require(`mini-css-extract-plugin`)
-// const BundleAnalyzerPlugin = require(`webpack-bundle-analyzer`)
-// .BundleAnalyzerPlugin
 const CleanWebpackPlugin = require(`clean-webpack-plugin`)
 const SentryPlugin = require(`@sentry/webpack-plugin`)
 
@@ -26,15 +24,7 @@ const commitHash = require(`child_process`)
   .toString()
   .trim()
 
-const devPlugins = process.env.CIRCLECI
-  ? []
-  : [
-      new CleanWebpackPlugin()
-      // new BundleAnalyzerPlugin({
-      //   analyzerMode: `static`,
-      //   openAnalyzer: false
-      // })
-    ]
+const devPlugins = process.env.CIRCLECI ? [] : [new CleanWebpackPlugin()]
 
 const production = process.env.NODE_ENV === `production`
 
@@ -165,7 +155,8 @@ const config = {
       transactions: resolve(`src/components/transactions`),
       govern: resolve(`src/components/govern`),
       staking: resolve(`src/components/staking`),
-      wallet: resolve(`src/components/wallet`)
+      wallet: resolve(`src/components/wallet`),
+      test: resolve(`test`)
     },
     extensions: [`.js`, `.vue`, `.json`, `.css`, `.node`],
     modules: [path.join(__dirname, `node_modules`)]

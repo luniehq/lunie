@@ -36,13 +36,9 @@ describe(`TmSessionExplore`, () => {
     wrapper.setData({
       address: `cosmos1thyn8gfapk2d0zsp6dysn99ynhcs2y759kwznx`
     })
+    wrapper.vm.$emit = jest.fn()
     await wrapper.vm.onSubmit()
-    expect($store.commit).toHaveBeenCalledWith(`toggleSessionModal`, false)
-  })
-
-  it(`should go back to welcome`, () => {
-    wrapper.vm.goToWelcome()
-    expect($store.commit).toHaveBeenCalledWith(`setSessionModalView`, `welcome`)
+    expect(wrapper.vm.$router.push).toHaveBeenCalledWith(`/`)
   })
 
   it(`should signal signedin state on successful login`, async () => {

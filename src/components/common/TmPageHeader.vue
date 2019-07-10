@@ -75,7 +75,6 @@ export default {
 }
 
 .tm-page-header-text > div {
-  white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
@@ -105,6 +104,10 @@ export default {
     width: 100%;
     padding: 1rem;
     background: var(--app-bg);
+  }
+
+  .tm-page-header-text .tm-page-header-body {
+    display: block;
   }
 }
 </style>

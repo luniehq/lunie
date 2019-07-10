@@ -49,16 +49,12 @@ export default {
 
 <style>
 .tm-form-group {
-  padding: 0.5rem 1rem;
+  padding: 0.75rem 0;
   position: relative;
 }
 
 .tm-form-group:last-child {
   border-bottom: none;
-}
-
-.tm-form-group input {
-  width: 100%;
 }
 
 .tm-form-group__sub-label {
@@ -84,25 +80,5 @@ export default {
 .tm-form-group--error .tm-field,
 .tm-form-group--error .tm-select {
   border-color: var(--danger);
-}
-
-@media (min-width: 768px) {
-  .tm-form-group {
-    display: flex;
-  }
-
-  .tm-form-group__label {
-    flex: 0 0 16rem;
-  }
-
-  .tm-form-group__field {
-    flex: 1;
-    position: relative;
-  }
-
-  .tm-form-group__field > .tm-field,
-  .tm-form-group__field > .tm-field-group {
-    width: 100%;
-  }
 }
 </style>

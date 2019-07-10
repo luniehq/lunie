@@ -21,7 +21,13 @@ describe(`TmSessionImport`, () => {
     })
     wrapper = mount(TmSessionImport, {
       localVue,
-      store
+      store,
+      mocks: {
+        $router: {
+          push: jest.fn()
+        }
+      },
+      stubs: [`router-link`]
     })
     store.commit = jest.fn()
     store.dispatch = jest.fn(async () => true)
@@ -29,46 +35,6 @@ describe(`TmSessionImport`, () => {
 
   it(`has the expected html structure`, () => {
     expect(wrapper.vm.$el).toMatchSnapshot()
-  })
-
-  it(`should go back to the welcome screen on click`, () => {
-    wrapper
-      .findAll(`.tm-session-header a`)
-      .at(0)
-      .trigger(`click`)
-    expect(store.commit.mock.calls[0][0]).toBe(`setSessionModalView`)
-    expect(store.commit.mock.calls[0][1]).toBe(`welcome`)
-  })
-
-  it(`should close the session modal`, () => {
-    wrapper
-      .findAll(`.tm-session-header a`)
-      .at(1)
-      .trigger(`click`)
-    expect(store.commit.mock.calls[0][0]).toBe(`toggleSessionModal`)
-    expect(store.commit.mock.calls[0][1]).toBe(false)
-  })
-
-  it(`should signal signed in state on successful login`, async () => {
-    wrapper.setData({
-      fields: {
-        importName: `foo123`,
-        importPassword: `1234567890`,
-        importPasswordConfirm: `1234567890`,
-        importSeed: seed
-      }
-    })
-    await wrapper.vm.onSubmit()
-    expect(store.commit).toHaveBeenCalledWith(`notify`, {
-      body: `Your account has been successfully imported.`,
-      title: `Welcome back!`
-    })
-    expect(store.dispatch).toHaveBeenCalledWith(`signIn`, {
-      errorCollection: undefined,
-      sessionType: `local`,
-      localKeyPairName: `foo123`,
-      password: `1234567890`
-    })
   })
 
   it(`should show error if seed is not filled in`, async () => {
@@ -133,5 +99,20 @@ describe(`TmSessionImport`, () => {
     await wrapper.vm.onSubmit()
     expect(store.commit.mock.calls[0][0]).toEqual(`notifyError`)
     expect(store.commit.mock.calls[0][1].body).toEqual(`test`)
+  })
+
+  it(`should go to the home page if recovering is successful`, async () => {
+    wrapper.setData({
+      fields: {
+        importName: `foo123`,
+        importPassword: `1234567890`,
+        importPasswordConfirm: `1234567890`,
+        importSeed: seed
+      }
+    })
+    store.dispatch = jest.fn(() => Promise.resolve())
+    await wrapper.vm.onSubmit()
+    expect(store.dispatch.mock.calls[0][0]).toEqual(`createKey`)
+    expect(wrapper.vm.$router.push).toHaveBeenCalledWith(`/`)
   })
 })

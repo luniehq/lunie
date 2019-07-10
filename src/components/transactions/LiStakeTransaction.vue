@@ -5,6 +5,7 @@
     :block="block"
     :memo="memo"
     :fees="fees"
+    :hide-meta-data="hideMetaData"
   >
     <template v-if="txType === `cosmos-sdk/MsgCreateValidator`">
       <div slot="caption">
@@ -99,6 +100,7 @@
 <script>
 import LiTransaction from "./LiTransaction"
 import { atoms as toAtoms, viewDenom } from "../../scripts/num.js"
+import { formatBech32 } from "src/filters"
 import moment from "moment"
 
 /*
@@ -107,7 +109,9 @@ import moment from "moment"
 
 export default {
   name: `li-stake-transaction`,
-  components: { LiTransaction },
+  components: {
+    LiTransaction
+  },
   filters: {
     toAtoms,
     viewDenom
@@ -143,7 +147,7 @@ export default {
     },
     time: {
       type: String,
-      required: true
+      default: null
     },
     block: {
       type: Number,
@@ -152,6 +156,10 @@ export default {
     memo: {
       type: String,
       default: null
+    },
+    hideMetaData: {
+      type: Boolean,
+      default: false
     }
   },
   computed: {
@@ -177,7 +185,8 @@ export default {
       const validator = this.validators.find(
         c => c.operator_address === validatorAddr
       )
-      return validator ? validator.description.moniker : validatorAddr
+      let shortenedAddress = formatBech32(validatorAddr)
+      return validator ? validator.description.moniker : shortenedAddress
     }
   }
 }

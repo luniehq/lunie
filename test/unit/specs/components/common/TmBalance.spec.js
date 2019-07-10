@@ -16,10 +16,7 @@ describe(`TmBalance`, () => {
         totalAtoms: 3210000000,
         bondDenom: `stake`,
         distribution: {
-          loaded: true,
-          totalRewards: {
-            stake: 1000450000000
-          }
+          loaded: true
         },
         delegation: {
           loaded: true
@@ -27,7 +24,9 @@ describe(`TmBalance`, () => {
         wallet: {
           loaded: true
         },
-        lastHeader: { height: `10` }
+        lastHeader: { height: `10` },
+        validatorsWithRewards: ["validatorX"],
+        totalRewards: 1000450000000
       },
       dispatch: jest.fn()
     }
@@ -42,7 +41,7 @@ describe(`TmBalance`, () => {
     })
   })
 
-  it(`has the expected html structure before adding props`, () => {
+  it(`show the balance header`, () => {
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
@@ -67,14 +66,14 @@ describe(`TmBalance`, () => {
   })
 
   it(`shows 0 if user doesn't have rewards`, () => {
-    wrapper.vm.$store.getters.distribution.totalRewards = {}
+    wrapper.vm.$store.getters.totalRewards = 0
     expect(wrapper.vm.rewards).toBe(`0`)
   })
 
   it(`opens withdraw modal`, () => {
-    const $refs = { modalWithdrawAllRewards: { open: jest.fn() } }
+    const $refs = { ModalWithdrawRewards: { open: jest.fn() } }
     TmBalance.methods.onWithdrawal.call({ $refs })
-    expect($refs.modalWithdrawAllRewards.open).toHaveBeenCalled()
+    expect($refs.ModalWithdrawRewards.open).toHaveBeenCalled()
   })
 
   describe(`update balance and total rewards on new blocks`, () => {
@@ -139,7 +138,9 @@ describe(`TmBalance`, () => {
           lastUpdate: 0
         }
         TmBalance.methods.update.call(self, 10)
-        expect($store.dispatch).toHaveBeenCalledWith(`getTotalRewards`)
+        expect($store.dispatch).toHaveBeenCalledWith(
+          `getRewardsFromMyValidators`
+        )
         expect($store.dispatch).toHaveBeenCalledWith(`queryWalletBalances`)
         expect(self.lastUpdate).toBe(10)
       })

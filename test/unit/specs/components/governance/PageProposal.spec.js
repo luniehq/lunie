@@ -15,9 +15,15 @@ const multiplier = 100000000
 describe(`PageProposal`, () => {
   let wrapper, $store
 
+  const localVue = createLocalVue()
+  localVue.use(Vuex)
+  localVue.use(Vuelidate)
+  localVue.directive(`tooltip`, () => {})
+  localVue.directive(`focus`, () => {})
+
   const getters = {
-    depositDenom: governanceParameters.deposit.min_deposit[0].denom,
-    proposals: { proposals, tallies },
+    depositDenom: governanceParameters.parameters.deposit.min_deposit[0].denom,
+    proposals: { proposals, tallies, loaded: true },
     connected: true,
     governanceParameters: { ...governanceParameters, loaded: true },
     wallet: {
@@ -30,12 +36,6 @@ describe(`PageProposal`, () => {
   let args
 
   beforeEach(() => {
-    const localVue = createLocalVue()
-    localVue.use(Vuex)
-    localVue.use(Vuelidate)
-    localVue.directive(`tooltip`, () => {})
-    localVue.directive(`focus`, () => {})
-
     $store = {
       commit: jest.fn(),
       dispatch: jest.fn(),
@@ -48,11 +48,6 @@ describe(`PageProposal`, () => {
       },
       mocks: {
         $store
-      },
-      stubs: {
-        "modal-deposit": true,
-        "modal-vote": true,
-        "short-bech32": true
       }
     }
     wrapper = shallowMount(PageProposal, args)
@@ -67,6 +62,37 @@ describe(`PageProposal`, () => {
     it(`should default tally to 0 if it's not yet present `, () => {
       wrapper.vm.proposals.tallies = {}
       expect(wrapper.vm.$el).toMatchSnapshot()
+    })
+
+    it("should show a loader if the necessary data hasen't been loaded", () => {
+      wrapper.vm.governanceParameters.loaded = false
+      expect(wrapper.vm.$el).toMatchSnapshot()
+
+      // needed to reset as somehow this causes sideeffects
+      wrapper.vm.governanceParameters.loaded = true
+    })
+
+    it("loads data if not available", () => {
+      $store = {
+        commit: jest.fn(),
+        dispatch: jest.fn(),
+        getters: JSON.parse(JSON.stringify(getters))
+      }
+      $store.getters.governanceParameters.loaded = false
+      args = {
+        localVue,
+        propsData: {
+          proposalId: `666`
+        },
+        mocks: {
+          $store
+        }
+      }
+
+      wrapper = shallowMount(PageProposal, args)
+
+      expect($store.dispatch).toHaveBeenCalledWith("getProposal", "666")
+      expect($store.dispatch).toHaveBeenCalledWith("getGovParameters")
     })
   })
 
@@ -85,7 +111,12 @@ describe(`PageProposal`, () => {
               no_with_veto: 30 * multiplier,
               abstain: 40 * multiplier
             }
-          }
+          },
+          loaded: true
+        },
+        governanceParameters: {
+          loaded: true,
+          ...governanceParameters
         }
       }
     }
@@ -110,6 +141,12 @@ describe(`PageProposal`, () => {
   it(`should return the time that voting started`, () => {
     expect(wrapper.vm.votingStartedAgo).toEqual(
       moment(new Date(proposal.voting_start_time)).fromNow()
+    )
+  })
+
+  it(`should return the time the vote ends`, () => {
+    expect(wrapper.vm.endDate).toEqual(
+      moment(proposal.voting_end_time).format("MMMM Do YYYY, HH:mm")
     )
   })
 

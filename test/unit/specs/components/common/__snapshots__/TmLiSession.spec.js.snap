@@ -1,14 +1,15 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`TmLiSession has the expected html structure 1`] = `
-<div
+<router-link-stub
   class="tm-li-session"
+  to=""
 >
   <div
     class="tm-li-session-icon"
   >
     <i
-      class="material-icons"
+      class="material-icons circle"
     >
       mood
     </i>
@@ -24,14 +25,16 @@ exports[`TmLiSession has the expected html structure 1`] = `
         useful title
       </span>
     </div>
-     
-    <div
-      class="tm-li-session-subtitle"
-    >
-      
-      useful subtitle
-    
-    </div>
   </div>
-</div>
+   
+  <div
+    class="tm-li-session-icon"
+  >
+    <i
+      class="material-icons"
+    >
+      arrow_forward
+    </i>
+  </div>
+</router-link-stub>
 `;

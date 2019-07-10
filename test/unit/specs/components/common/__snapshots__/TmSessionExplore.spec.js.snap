@@ -1,67 +1,47 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`TmSessionExplore shows a form to sign in with an address 1`] = `
-<div
-  class="tm-session"
->
-  <tmformstruct-stub
-    class="tm-session-container"
-    submit="function () { [native code] }"
-    width=""
+<sessionframe-stub>
+  <div
+    class="session"
   >
-    <div
-      class="tm-session-header"
+    <tmformstruct-stub
+      submit="function () { [native code] }"
+      width=""
     >
-      <a>
-        <i
-          class="material-icons"
-        >
-          arrow_back
-        </i>
-      </a>
-       
-      <div
-        class="tm-session-title"
+      <h2
+        class="session-title"
       >
         
-        Explore
+        Explore with any address
       
+      </h2>
+       
+      <div
+        class="session-main"
+      >
+        <tmformgroup-stub
+          fieldid="sign-in-name"
+          fieldlabel="Your Cosmos Address"
+        >
+          <tmfield-stub
+            placeholder=""
+            type="text"
+            vue-focus="vue-focus"
+          />
+           
+          <!---->
+        </tmformgroup-stub>
       </div>
        
-      <a>
-        <i
-          class="material-icons"
-        >
-          close
-        </i>
-      </a>
-    </div>
-     
-    <div
-      class="tm-session-main"
-    >
-      <tmformgroup-stub
-        fieldid="sign-in-name"
-        fieldlabel="Address"
+      <div
+        class="session-footer"
       >
-        <tmfield-stub
-          placeholder="Your Cosmos Address"
-          type="text"
-          vue-focus="vue-focus"
+        <tmbtn-stub
+          value="Explore"
         />
-         
-        <!---->
-      </tmformgroup-stub>
-    </div>
-     
-    <div
-      class="tm-session-footer"
-    >
-      <tmbtn-stub
-        size="lg"
-        value="Next"
-      />
-    </div>
-  </tmformstruct-stub>
-</div>
+      </div>
+    </tmformstruct-stub>
+  </div>
+</sessionframe-stub>
 `;

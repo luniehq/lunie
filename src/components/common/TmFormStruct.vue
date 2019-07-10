@@ -1,22 +1,20 @@
 <template>
-  <form :class="cssClass" @submit.prevent="submit">
-    <div class="tm-form-container">
-      <slot name="overlay" />
-      <header v-if="hasHeader" class="tm-form-header">
-        <div class="tm-form-title">
-          <slot name="title" />
-        </div>
-        <div class="tm-form-subtitle">
-          <slot name="subtitle" />
-        </div>
-      </header>
-      <main class="tm-form-main">
-        <slot />
-      </main>
-      <footer v-if="hasFooter" class="tm-form-footer">
-        <slot name="footer" />
-      </footer>
-    </div>
+  <form class="form" @submit.prevent="submit">
+    <slot name="overlay" />
+    <header v-if="hasHeader" class="form-header">
+      <div class="form-title">
+        <slot name="title" />
+      </div>
+      <div class="form-subtitle">
+        <slot name="subtitle" />
+      </div>
+    </header>
+    <main class="form-main">
+      <slot />
+    </main>
+    <footer v-if="hasFooter" class="form-footer">
+      <slot name="footer" />
+    </footer>
   </form>
 </template>
 
@@ -25,7 +23,7 @@
 // Remember that v-on:submit will NOT work on this component
 // Use :submit="onSubmit on the parent component and it'll save you headaches
 export default {
-  name: `tm-form-struct`,
+  name: `form-struct`,
   props: {
     width: {
       type: String,
@@ -37,11 +35,6 @@ export default {
     }
   },
   computed: {
-    cssClass() {
-      let value = `tm-form`
-      if (this.width === `narrow`) value += ` tm-form-narrow`
-      return value
-    },
     hasHeader() {
       return this.$slots[`title`] || this.$slots[`subtitle`]
     },
@@ -52,74 +45,17 @@ export default {
 }
 </script>
 
-<style>
-.tm-form {
-  display: flex;
+<style scoped>
+.form {
   position: relative;
   width: var(--width-main);
+  display: flex;
+  height: 100%;
 }
 
-.tm-form-container {
-  flex: 1;
+.form-main {
   display: flex;
   flex-flow: column;
-  position: relative;
-}
-
-.tm-form-main {
-  flex: 1;
-}
-
-.tm-form-header {
-  display: flex;
-  flex-flow: column nowrap;
-  border-bottom: var(--px) solid var(--bc);
-  position: relative;
-  padding: 1rem 0;
-}
-
-.tm-form-title {
-  line-height: 1rem;
-  color: var(--bright);
-}
-
-.tm-form-subtitle {
-  color: var(--dim);
-  font-size: var(--sm);
-  line-height: 1rem;
-}
-
-.tm-form-header:empty,
-.tm-form-title:empty,
-.tm-form-subtitle:empty,
-.tm-form-main:empty,
-.tm-form-footer:empty {
-  display: none;
-}
-
-.tm-form-footer > div {
-  padding: 1rem 1rem calc(1rem - var(--px));
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.tm-form-footer > div > *:not(:last-child) {
-  margin-right: 1rem;
-}
-
-@media screen and (min-width: 480px) {
-  .tm-form-title {
-    line-height: 1.5rem;
-    margin-bottom: 0.5rem;
-  }
-
-  .tm-form-subtitle {
-    font-size: var(--m);
-  }
-
-  .tm-form-main p {
-    margin: 1rem 1rem 0;
-  }
+  width: 100%;
 }
 </style>

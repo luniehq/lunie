@@ -5,11 +5,10 @@ describe(`TmLiSession`, () => {
   let wrapper
   const propsData = {
     icon: `mood`,
-    title: `useful title`,
-    subtitle: `useful subtitle`
+    title: `useful title`
   }
   beforeEach(() => {
-    wrapper = shallowMount(TmLiSession, { propsData })
+    wrapper = shallowMount(TmLiSession, { propsData, stubs: [`router-link`] })
   })
 
   it(`has the expected html structure`, () => {
@@ -25,12 +24,6 @@ describe(`TmLiSession`, () => {
   it(`should have a title`, () => {
     expect(wrapper.find(`.tm-li-session-title`).html()).toContain(
       `useful title`
-    )
-  })
-
-  it(`should have a subtitle`, () => {
-    expect(wrapper.find(`.tm-li-session-subtitle`).html()).toContain(
-      `useful subtitle`
     )
   })
 })

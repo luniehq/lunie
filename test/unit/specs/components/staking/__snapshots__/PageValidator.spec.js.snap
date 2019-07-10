@@ -43,7 +43,7 @@ exports[`PageValidator shows a validator profile information errors signing info
                 </div>
               </div>
                
-              <shortbech32-stub
+              <bech32-stub
                 address="cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
               />
             </div>
@@ -93,7 +93,7 @@ exports[`PageValidator shows a validator profile information errors signing info
             </dt>
              
             <dd>
-              0 STAKE
+              --
             </dd>
           </dl>
         </div>
@@ -180,7 +180,9 @@ exports[`PageValidator shows a validator profile information errors signing info
               Full Operator Address
             </dt>
              
-            <dd>
+            <dd
+              class="address"
+            >
               cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw
             </dd>
           </dl>
@@ -367,7 +369,7 @@ exports[`PageValidator shows a validator profile information if user has signed 
                 </div>
               </div>
                
-              <shortbech32-stub
+              <bech32-stub
                 address="cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
               />
             </div>
@@ -417,7 +419,7 @@ exports[`PageValidator shows a validator profile information if user has signed 
             </dt>
              
             <dd>
-              0 STAKE
+              --
             </dd>
           </dl>
         </div>
@@ -504,7 +506,9 @@ exports[`PageValidator shows a validator profile information if user has signed 
               Full Operator Address
             </dt>
              
-            <dd>
+            <dd
+              class="address"
+            >
               cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw
             </dd>
           </dl>
@@ -691,7 +695,7 @@ exports[`PageValidator shows a validator profile information if user hasn't sign
                 </div>
               </div>
                
-              <shortbech32-stub
+              <bech32-stub
                 address="cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
               />
             </div>
@@ -828,7 +832,9 @@ exports[`PageValidator shows a validator profile information if user hasn't sign
               Full Operator Address
             </dt>
              
-            <dd>
+            <dd
+              class="address"
+            >
               cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw
             </dd>
           </dl>
@@ -972,9 +978,9 @@ exports[`PageValidator shows a validator profile information if user hasn't sign
 </tmpage-stub>
 `;
 
-exports[`PageValidator shows a validator profile information shows a validator as candidate if he has no voting_power 1`] = `"This validator does not have enough voting power yet and is inactive"`;
+exports[`PageValidator shows a validator profile information shows a validator as an inactive candidate if he has no voting_power 1`] = `"This validator does not have enough voting power yet and is inactive"`;
 
-exports[`PageValidator shows a validator profile information shows that a validator is revoked 1`] = `"This validator has been jailed and is not currently validating"`;
+exports[`PageValidator shows a validator profile information shows that a validator is jailed 1`] = `"This validator has been jailed and is not currently validating"`;
 
 exports[`delegationTargetOptions always shows wallet in the first position 1`] = `
 Array [

@@ -14,7 +14,8 @@ module.exports = {
     "^staking/(.*)$": `<rootDir>/src/components/staking/$1`,
     "^scripts/(.*)$": `<rootDir>/src/scripts/$1`,
     "^wallet/(.*)$": `<rootDir>/src/components/wallet/$1`,
-    "^modules/(.*)$": `<rootDir>/src/vuex/modules/$1`
+    "^modules/(.*)$": `<rootDir>/src/vuex/modules/$1`,
+    "^test/(.*)$": `<rootDir>/test/$1`
   },
 
   transform: {
@@ -26,7 +27,7 @@ module.exports = {
 
   collectCoverage: true,
   coverageDirectory: `./test/unit/coverage`,
-  coverageReporters: [`lcov`],
+  coverageReporters: [`lcov`, `text-summary`],
   coveragePathIgnorePatterns: [
     `/node_modules/`,
     `/build/`,
@@ -41,6 +42,7 @@ module.exports = {
     `./test/unit/helpers/sentry_mock.js`,
     `./test/unit/helpers/mock_perfect-scrollbar.js`,
     `./test/unit/helpers/window_mock.js`,
+    `./test/unit/helpers/libs_mock.js`,
     `jest-localstorage-mock`
   ]
 }

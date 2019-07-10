@@ -5,7 +5,6 @@
     :loaded="wallet.loaded"
     :error="wallet.error"
     :data-empty="dataEmpty"
-    :refresh="queryWalletBalances"
     data-title="Wallet"
     :sign-in-required="true"
   >
@@ -22,6 +21,10 @@
       </div>
     </TmDataMsg>
     <template slot="managed-body">
+      <div class="card">
+        <h3>Your Public Cosmos Address</h3>
+        <Bech32 :address="session.address || ''" long-form />
+      </div>
       <LiCoin
         v-for="coin in filteredBalances"
         :key="coin.denom"
@@ -39,7 +42,8 @@ import num from "scripts/num"
 import { mapGetters, mapActions } from "vuex"
 import orderBy from "lodash.orderby"
 import LiCoin from "./LiCoin"
-import SendModal from "wallet/SendModal"
+import SendModal from "src/ActionModal/components/SendModal"
+import Bech32 from "common/Bech32"
 import TmPage from "common/TmPage"
 import TmDataMsg from "common/TmDataMsg"
 
@@ -49,7 +53,8 @@ export default {
     TmDataMsg,
     LiCoin,
     TmPage,
-    SendModal
+    SendModal,
+    Bech32
   },
   data: () => ({ num, showSendModal: false }),
   computed: {
@@ -77,3 +82,25 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.card {
+  background: var(--app-fg);
+  border-radius: 2px;
+  padding: 1rem;
+  font-size: var(--m);
+  margin-bottom: 0.5rem;
+  border: 1px solid var(--bc-dim);
+}
+
+.card h3 {
+  font-size: 14px;
+  font-weight: 400;
+}
+
+@media screen and (max-width: 767px) {
+  .card {
+    display: none;
+  }
+}
+</style>

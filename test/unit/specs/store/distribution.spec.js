@@ -40,11 +40,6 @@ describe(`Module: Fee Distribution`, () => {
   })
 
   describe(`Mutations`, () => {
-    it(`sets the total delegator rewards earned from all delegations`, async () => {
-      mutations.setTotalRewards(state, rewards)
-      expect(state.totalRewards).toMatchObject(rewards)
-    })
-
     it(`sets the delegation rewards from a `, () => {
       const validatorAddr = `cosmosvalopr1address`
       mutations.setDelegationRewards(state, { validatorAddr, rewards })
@@ -76,7 +71,7 @@ describe(`Module: Fee Distribution`, () => {
           dispatch,
           rootState: { session: { signedIn: true } }
         })
-        expect(dispatch).toHaveBeenCalledWith(`getTotalRewards`)
+        expect(dispatch).toHaveBeenCalledWith(`getRewardsFromMyValidators`)
       })
 
       it(`fails getting total rewards if it's not loading`, async () => {
@@ -85,7 +80,7 @@ describe(`Module: Fee Distribution`, () => {
           dispatch,
           rootState: { session: { signedIn: true } }
         })
-        expect(dispatch).not.toHaveBeenCalledWith(`getTotalRewards`)
+        expect(dispatch).not.toHaveBeenCalledWith(`getRewardsFromMyValidators`)
       })
 
       it(`fails getting total rewards if the user hasn't logged in`, async () => {
@@ -94,93 +89,15 @@ describe(`Module: Fee Distribution`, () => {
           dispatch,
           rootState: { session: { signedIn: false } }
         })
-        expect(dispatch).not.toHaveBeenCalledWith(`getTotalRewards`)
+        expect(dispatch).not.toHaveBeenCalledWith(`getRewardsFromMyValidators`)
       })
     })
 
     describe(`resetSessionData`, () => {
       it(`should clear all distribution data`, () => {
-        state.totalRewards = { stake: 10 }
+        state.rewards = { validatorX: { stake: 10 } }
         actions.resetSessionData({ rootState })
-        expect(rootState.distribution.totalRewards).toEqual({})
-      })
-    })
-
-    describe(`getTotalRewards`, () => {
-      beforeEach(() => {
-        node.get.delegatorRewards.mockClear()
-      })
-
-      it(`success`, async () => {
-        await actions.getTotalRewards({ state, rootState, commit })
-        expect(node.get.delegatorRewards).toHaveBeenCalledWith(
-          rootState.session.address
-        )
-        expect(commit).toHaveBeenCalledWith(`setTotalRewards`, rewards)
-      })
-
-      it(`fails`, async () => {
-        node.get.delegatorRewards = jest.fn(async () =>
-          Promise.reject(Error(`invalid address`))
-        )
-        await actions.getTotalRewards({ state, rootState, commit })
-        expect(node.get.delegatorRewards).toHaveBeenCalledWith("cosmos1address")
-        expect(commit).not.toHaveBeenCalledWith(`setTotalRewards`, rewards)
-        expect(commit).toHaveBeenCalledWith(
-          `setDistributionError`,
-          Error(`invalid address`)
-        )
-      })
-
-      it(`ignores calls if no address is present`, async () => {
-        rootState = { session: { address: null } }
-        await actions.getTotalRewards({ state, rootState, commit })
-        expect(node.get.delegatorRewards).not.toHaveBeenCalled()
-      })
-    })
-
-    describe(`withdrawAllRewards`, () => {
-      it(`should simulate a withdrawal transaction`, async () => {
-        const { actions } = module
-        const self = {
-          rootState,
-          dispatch: jest.fn(() => 123123)
-        }
-        const res = await actions.simulateWithdrawAllRewards(self)
-
-        expect(self.dispatch).toHaveBeenCalledWith(`simulateTx`, {
-          type: `MsgWithdrawDelegationReward`,
-          txArguments: {
-            toAddress: `cosmos1address`,
-            validatorAddresses: []
-          }
-        })
-        expect(res).toBe(123123)
-      })
-
-      it(`success withdrawal`, async () => {
-        await actions.withdrawAllRewards(
-          {
-            rootState,
-            dispatch,
-            getters: {
-              committedDelegations: {
-                coolval1: {}
-              }
-            }
-          },
-          { password: ``, submitType: `ledger` }
-        )
-        expect(dispatch).toHaveBeenCalledWith(`sendTx`, {
-          type: `MsgWithdrawDelegationReward`,
-          txArguments: {
-            toAddress: `cosmos1address`,
-            validatorAddresses: [`coolval1`]
-          },
-          password: ``,
-          submitType: `ledger`
-        })
-        expect(dispatch).toHaveBeenCalledWith(`getTotalRewards`)
+        expect(rootState.distribution.rewards).toEqual({})
       })
     })
 
@@ -223,34 +140,13 @@ describe(`Module: Fee Distribution`, () => {
           })
         ).rejects.toThrowError(`invalid address`)
       })
-
-      it(`throttle to every 20 blocks`, async () => {
-        const validators = [
-          { operator_address: `cosmosvaloper1address1` },
-          { operator_address: `cosmosvaloper1address2` }
-        ]
-        state.lastValidatorRewardsUpdate = 0
-        await actions.getRewardsFromMyValidators({
-          state,
-          dispatch,
-          getters: { lastHeader: { height: `43` }, yourValidators: validators }
-        })
-        expect(state.lastValidatorRewardsUpdate).toBe(43)
-        dispatch.mockClear()
-        await actions.getRewardsFromMyValidators({
-          state,
-          dispatch,
-          getters: { lastHeader: { height: `44` }, yourValidators: validators }
-        })
-        expect(dispatch).not.toHaveBeenCalled()
-      })
     })
 
     describe(`getRewardsFromValidator`, () => {
       it(`success`, async () => {
         const validatorAddr = `cosmosvaloper1address`
         await actions.getRewardsFromValidator(
-          { state, rootState, commit },
+          { state, rootState, commit, getters: { bondDenom: "stake" } },
           validatorAddr
         )
         expect(node.get.delegatorRewardsFromValidator).toHaveBeenCalledWith(
@@ -269,7 +165,7 @@ describe(`Module: Fee Distribution`, () => {
           Promise.reject(Error(`invalid validator address`))
         )
         await actions.getRewardsFromValidator(
-          { state, rootState, commit },
+          { state, rootState, commit, getters: { bondDenom: "stake" } },
           validatorAddr
         )
         expect(node.get.delegatorRewardsFromValidator).toHaveBeenCalledWith(
@@ -335,6 +231,15 @@ describe(`Module: Fee Distribution`, () => {
           `setDistributionError`,
           Error(`unexpected error`)
         )
+      })
+    })
+
+    describe(`postWithdrawAllRewards`, () => {
+      it(`calls sub actions`, async () => {
+        await actions.postMsgWithdrawDelegationReward({ dispatch })
+        expect(dispatch).toHaveBeenCalledWith(`getRewardsFromMyValidators`)
+        expect(dispatch).toHaveBeenCalledWith(`queryWalletBalances`)
+        expect(dispatch).toHaveBeenCalledWith(`getAllTxs`)
       })
     })
   })

@@ -1,13 +1,5 @@
 <template>
   <div class="tool-bar">
-    <a
-      v-if="!!refresh"
-      :disabled="!refresh.connected"
-      class="refresh-button"
-      @click="refresh.connected && refresh.refresh()"
-    >
-      <i v-tooltip.bottom="'Refresh'" class="material-icons">refresh</i>
-    </a>
     <slot />
     <a v-if="session.signedIn" id="signOut-btn" @click="signOut()">
       <i v-tooltip.bottom.end="'Sign Out'" class="material-icons">
@@ -31,9 +23,9 @@ export default {
   name: `tool-bar`,
   components: { TmBtn },
   props: {
-    refresh: {
-      type: Object,
-      default: undefined
+    displayText: {
+      type: Boolean,
+      default: false
     }
   },
   computed: {
@@ -41,12 +33,10 @@ export default {
   },
   methods: {
     signIn() {
-      this.$store.commit(`setSessionModalView`, `welcome`)
-      this.$store.commit(`toggleSessionModal`, true)
+      this.$router.push(`/welcome`)
     },
     signOut() {
       this.$store.dispatch(`signOut`)
-      this.$router.push(`/`)
     }
   }
 }
@@ -93,8 +83,7 @@ export default {
   }
 
   .sign-in-button {
-    margin: 0;
-    width: 100%;
+    display: none;
   }
 }
 </style>

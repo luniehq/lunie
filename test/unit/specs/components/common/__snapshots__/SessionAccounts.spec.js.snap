@@ -1,0 +1,54 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SessionAccounts has the expected html structure 1`] = `
+<sessionframe-stub>
+  <div
+    class="session"
+  >
+    <div
+      class="session-container"
+    >
+      <h2
+        class="session-title"
+      >
+        My accounts
+      </h2>
+       
+      <div
+        class="session-main"
+      >
+        <p>
+          
+          You can use the accounts below to explore
+          
+          <router-link-stub
+            to="/wallet"
+          >
+            
+            Lunie
+          
+          </router-link-stub>
+          
+          and to approve transactions.
+        
+        </p>
+         
+        <accountlist-stub
+          accounts="[object Object]"
+          buttonaction="function () { [native code] }"
+          buttontext="Go to Lunie"
+        />
+         
+        <div
+          class="button-add-account"
+        >
+          <tmbtn-stub
+            color="primary"
+            value="Add Another Account"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</sessionframe-stub>
+`;

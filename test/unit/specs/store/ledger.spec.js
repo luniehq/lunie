@@ -1,5 +1,7 @@
 import ledgerModule from "modules/ledger.js"
 
+jest.mock("@lunie/cosmos-keys", () => ({}))
+
 describe(`Module: Ledger`, () => {
   let module, state, actions
 
@@ -11,7 +13,7 @@ describe(`Module: Ledger`, () => {
 
   describe(`Actions`, () => {
     describe(`connect ledger`, () => {
-      it(`successfully logs in with Ledger Nano S`, async () => {
+      it(`successfully logs in with Ledger Nano`, async () => {
         const commit = jest.fn()
         state.externals.Ledger = class MockLedger {
           getCosmosAddress() {
@@ -23,20 +25,6 @@ describe(`Module: Ledger`, () => {
           state
         })
         expect(res).toBe("cosmos1")
-      })
-
-      it(`start the Ledger address confirmation process`, async () => {
-        const spy = jest.fn()
-        state.externals.Ledger = class MockLedger {
-          async confirmLedgerAddress() {
-            spy()
-          }
-        }
-        // does not throw
-        await actions.confirmLedgerAddress({
-          state
-        })
-        expect(spy).toHaveBeenCalled()
       })
     })
   })

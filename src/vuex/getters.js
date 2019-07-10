@@ -11,6 +11,7 @@ export const lastPage = state => {
     state.session.history[state.session.history.length - 1]
   )
 }
+export const keystore = state => state.keystore
 
 // wallet
 export const transactions = state => state.transactions
@@ -22,6 +23,7 @@ export const allTransactions = state =>
   )
 export const ledger = state => state.ledger
 export const wallet = state => state.wallet
+export const extension = state => state.extension
 
 // fee distribution
 export const distribution = state => state.distribution
@@ -32,6 +34,15 @@ export const yourValidators = (state, getters) =>
           operator_address in getters.committedDelegations
       )
     : []
+export const validatorsWithRewards = (state, getters) =>
+  Object.entries(state.distribution.rewards).filter(
+    ([, rewards]) => rewards[getters.bondDenom] > 0
+  )
+export const totalRewards = (state, getters) =>
+  getters.validatorsWithRewards.reduce(
+    (sum, [, rewards]) => sum + rewards[getters.bondDenom],
+    0
+  )
 
 // staking
 export const liquidAtoms = state =>
@@ -107,3 +118,15 @@ export const nodeUrl = state =>
 
 export const blocks = state => (state.blocks ? state.blocks.blocks : [])
 export const block = state => (state.blocks ? state.blocks.block : [])
+
+export const modalContext = (state, getters) => ({
+  url: state.connection.externals.node.url,
+  chainId: state.connection.lastHeader.chain_id,
+  connected: state.connection.connected,
+  localKeyPairName: state.session.localKeyPairName,
+  userAddress: state.session.address,
+  rewards: state.distribution.rewards,
+  totalRewards: getters.totalRewards,
+  delegates: state.delegates.delegates,
+  bondDenom: getters.bondDenom
+})

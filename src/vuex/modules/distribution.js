@@ -7,15 +7,6 @@ export default ({ node }) => {
     loading: false,
     loaded: false,
     error: null,
-    lastValidatorRewardsUpdate: 0, // keep track of last update so we can throttle the interval
-    /* totalRewards use the following format:
-        {
-            denom1: amount1,
-            ... ,
-            denomN: amountN
-        }
-    */
-    totalRewards: {},
     /* rewards use the following format:
         {
             validatorAddr1: {
@@ -45,9 +36,6 @@ export default ({ node }) => {
   const state = JSON.parse(JSON.stringify(emptyState))
 
   const mutations = {
-    setTotalRewards(state, rewards) {
-      state.totalRewards = rewards
-    },
     setDelegationRewards(state, { validatorAddr, rewards }) {
       Vue.set(state.rewards, validatorAddr, rewards)
     },
@@ -64,98 +52,57 @@ export default ({ node }) => {
   const actions = {
     async reconnected({ rootState, state, dispatch }) {
       if (state.loading && rootState.session.signedIn) {
-        await dispatch(`getTotalRewards`)
+        await dispatch(`getRewardsFromMyValidators`)
       }
     },
     resetSessionData({ rootState }) {
       rootState.distribution = JSON.parse(JSON.stringify(emptyState))
     },
-    async getTotalRewards({ state, rootState: { session }, commit }) {
-      if (!session.address) return
-
-      state.loading = true
-      try {
-        const rewardsArray = await node.get.delegatorRewards(session.address)
-        const rewards = coinsToObject(rewardsArray)
-        commit(`setTotalRewards`, rewards || {})
-        commit(`setDistributionError`, null)
-        state.loaded = true
-      } catch (error) {
-        Sentry.captureException(error)
-        commit(`setDistributionError`, error)
-      }
-    },
-    async simulateWithdrawAllRewards({ rootState: { session }, dispatch }) {
-      return await dispatch(`simulateTx`, {
-        type: `MsgWithdrawDelegationReward`,
-        txArguments: {
-          toAddress: session.address,
-          validatorAddresses: []
-        }
-      })
-    },
-    async withdrawAllRewards(
-      {
-        rootState: { session },
-        getters: { committedDelegations },
-        dispatch
-      },
-      { gas, gas_prices, password, submitType }
-    ) {
-      await dispatch(`sendTx`, {
-        type: `MsgWithdrawDelegationReward`,
-        txArguments: {
-          toAddress: session.address,
-          validatorAddresses: Object.keys(committedDelegations)
-        },
-        gas,
-        gas_prices,
-        password,
-        submitType
-      })
-      await dispatch(`getTotalRewards`)
-      await dispatch(`queryWalletBalances`)
-      await dispatch(`getAllTxs`)
+    async postMsgWithdrawDelegationReward({ dispatch }) {
+      return Promise.all([
+        dispatch(`getRewardsFromMyValidators`),
+        dispatch(`queryWalletBalances`),
+        dispatch(`getAllTxs`)
+      ])
     },
     async getRewardsFromMyValidators({
       state,
       dispatch,
-      getters: { lastHeader, yourValidators }
+      getters: { yourValidators }
     }) {
-      // throttle the update of validator rewards to every 20 blocks
-      const waitedTwentyBlocks =
-        Number(lastHeader.height) - state.lastValidatorRewardsUpdate >= 20
-      if (
-        (state.lastValidatorRewardsUpdate === 0 || waitedTwentyBlocks) &&
-        yourValidators &&
-        yourValidators.length > 0
-      ) {
-        state.lastValidatorRewardsUpdate = Number(lastHeader.height)
-        state.loading = true
-        await Promise.all(
-          yourValidators.map(validator =>
-            dispatch(`getRewardsFromValidator`, validator.operator_address)
-          )
+      state.loading = true
+      await Promise.all(
+        yourValidators.map(validator =>
+          dispatch(`getRewardsFromValidator`, validator.operator_address)
         )
-        state.loading = false
-        state.loaded = true
-      }
+      )
+      state.loading = false
+      state.loaded = true
     },
     async getRewardsFromValidator(
       {
         state,
         rootState: { session },
+        getters: { bondDenom },
         commit
       },
       validatorAddr
     ) {
       state.loading = true
       try {
-        const rewardsArray = await node.get.delegatorRewardsFromValidator(
-          session.address,
-          validatorAddr
-        )
+        // TODO move array fallback into cosmos-api
+        const rewardsArray =
+          (await node.get.delegatorRewardsFromValidator(
+            session.address,
+            validatorAddr
+          )) || []
         const rewards = coinsToObject(rewardsArray)
+
+        // if the delegator has 0 rewards for a validator after a withdraw, this is trimmed
+        // to properly differentiate between 0 rewards and no delegation,
+        // we set the rewards to a 0 value on validators we know the delegator has bond with
+        rewards[bondDenom] = rewards[bondDenom] || 0
+
         commit(`setDelegationRewards`, { validatorAddr, rewards })
         commit(`setDistributionError`, null)
         state.loaded = true

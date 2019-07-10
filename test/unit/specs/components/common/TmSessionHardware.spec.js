@@ -13,10 +13,21 @@ describe(`TmSessionHardware`, () => {
   let wrapper, store
 
   beforeEach(() => {
-    store = new Vuex.Store()
+    store = new Vuex.Store({
+      getters: {
+        session: () => ({ browserWithLedgerSupport: true })
+      }
+    })
+
     wrapper = mount(TmSessionHardware, {
       localVue,
-      store
+      store,
+      mocks: {
+        router: {
+          push: jest.fn()
+        }
+      },
+      stubs: [`router-link`]
     })
     store.commit = jest.fn()
   })
@@ -31,24 +42,6 @@ describe(`TmSessionHardware`, () => {
       await wrapper.vm.$nextTick()
       expect(wrapper.vm.$el).toMatchSnapshot()
     })
-  })
-
-  it(`should go back to the welcome screen on click`, () => {
-    wrapper
-      .findAll(`.tm-session-header a`)
-      .at(0)
-      .trigger(`click`)
-    expect(store.commit.mock.calls[0][0]).toBe(`setSessionModalView`)
-    expect(store.commit.mock.calls[0][1]).toBe(`welcome`)
-  })
-
-  it(`should close the session modal`, () => {
-    wrapper
-      .findAll(`.tm-session-header a`)
-      .at(1)
-      .trigger(`click`)
-    expect(store.commit.mock.calls[0][0]).toBe(`toggleSessionModal`)
-    expect(store.commit.mock.calls[0][1]).toBe(false)
   })
 
   it(`should show a state indicator for different states of the hardware connection`, () => {
@@ -67,8 +60,12 @@ describe(`TmSessionHardware`, () => {
       const $store = {
         dispatch: jest.fn(() => "cosmos1234")
       }
+      const $router = {
+        push: jest.fn()
+      }
       const self = {
         $store,
+        $router,
         status: `connect`,
         connectionError: null,
         setStatus: jest.fn(),
@@ -103,55 +100,6 @@ describe(`TmSessionHardware`, () => {
         `signIn`,
         expect.objectContaining({})
       )
-    })
-
-    it(`doesn't sign in if address not confirmed`, async () => {
-      const $store = {
-        dispatch: jest.fn(() => "cosmos1234")
-      }
-      const self = {
-        $store,
-        status: `connect`,
-        connectionError: null,
-        setStatus: jest.fn(),
-        setConnectionError: jest.fn(error => (self.connectionError = error)),
-        confirmAddress: jest.fn(() => false)
-      }
-      await TmSessionHardware.methods.signIn.call(self)
-      expect(self.$store.dispatch).not.toHaveBeenCalledWith(
-        `signIn`,
-        expect.objectContaining({})
-      )
-      expect(self.status).toBe("connect")
-    })
-  })
-
-  describe(`confirmAddress`, () => {
-    it(`success`, async () => {
-      const $store = { dispatch: jest.fn() }
-      const self = {
-        $store,
-        connectionError: null
-      }
-      const result = await TmSessionHardware.methods.confirmAddress.call(self)
-      expect(self.$store.dispatch).toHaveBeenCalledWith(`confirmLedgerAddress`)
-      expect(self.connectionError).toBeNull()
-      expect(result).toBe(true)
-    })
-
-    it(`disapprove`, async () => {
-      const $store = {
-        dispatch: jest.fn(async () =>
-          Promise.reject(new Error(`Displayed address was rejected`))
-        )
-      }
-      const self = {
-        $store
-      }
-      const result = await TmSessionHardware.methods.confirmAddress.call(self)
-      expect(self.$store.dispatch).toHaveBeenCalledWith(`confirmLedgerAddress`)
-      expect(self.connectionError).toBe(`Displayed address was rejected`)
-      expect(result).toBe(false)
     })
   })
 })

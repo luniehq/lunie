@@ -51,7 +51,7 @@ exports[`LiTransaction should show a network fee 1`] = `
         
         Network Fee: 
         <b>
-          0.003
+          0.003421
         </b>
          
         <span>
@@ -203,7 +203,7 @@ exports[`LiTransaction should show a transaction item 1`] = `
         
         Network Fee: 
         <b>
-          0.003
+          0.003421
         </b>
          
         <span>

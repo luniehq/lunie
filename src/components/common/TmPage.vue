@@ -9,7 +9,7 @@
       </h3>
       <slot slot="menu-body" name="menu-body">
         <TmBalance v-if="session.signedIn" />
-        <ToolBar :refresh="refreshable" />
+        <ToolBar />
       </slot>
       <slot slot="header-buttons" name="header-buttons" />
     </TmPageHeader>
@@ -20,7 +20,14 @@
         <TmDataLoading v-else-if="!loaded && loading" />
         <TmDataError v-else-if="error" />
         <slot v-else-if="dataEmpty" name="no-data">
-          <TmDataEmpty />
+          <TmDataEmpty>
+            <template slot="title">
+              <slot name="title" />
+            </template>
+            <template slot="subtitle">
+              <slot name="subtitle" />
+            </template>
+          </TmDataEmpty>
         </slot>
         <slot v-else name="managed-body" />
       </template>
@@ -31,7 +38,6 @@
 </template>
 
 <script>
-import PerfectScrollbar from "perfect-scrollbar"
 import TmPageHeader from "./TmPageHeader.vue"
 import TmDataLoading from "common/TmDataLoading"
 import TmDataEmpty from "common/TmDataEmpty"
@@ -93,23 +99,13 @@ export default {
       type: Boolean,
       default: undefined
     },
-    refresh: {
-      type: Function,
-      default: undefined
-    },
     signInRequired: {
       type: Boolean,
       default: false
     }
   },
-  data: () => ({
-    perfectScrollbar: ``
-  }),
   computed: {
-    ...mapGetters([`session`, `connected`]),
-    refreshable({ connected, refresh } = this) {
-      return refresh ? { connected, refresh } : undefined
-    }
+    ...mapGetters([`session`, `connected`])
   },
   watch: {
     $route() {
@@ -118,7 +114,6 @@ export default {
   },
   mounted() {
     this.scrollContainer = this.$el.querySelector(`.tm-page-main`)
-    this.perfectScrollbar = new PerfectScrollbar(this.scrollContainer)
   }
 }
 </script>
@@ -231,8 +226,12 @@ export default {
   flex-direction: column;
 }
 
-.page-profile__header__actions button:first-child {
+.page-profile__header__actions button {
   margin-bottom: 0.5rem;
+}
+
+.page-profile__header__actions button:last-child {
+  margin-bottom: 0;
 }
 
 .page-profile__status.red {
@@ -272,7 +271,6 @@ export default {
   font-size: 1rem;
   line-height: 1.25rem;
   color: var(--bright);
-  word-break: break-all;
 }
 
 .footer {
@@ -305,7 +303,7 @@ export default {
 
 @media screen and (max-width: 767px) {
   .tm-page-main {
-    padding: 1rem 0;
+    padding: 2rem 0;
   }
 
   .row {
@@ -314,6 +312,12 @@ export default {
 
   .page-profile__header__actions {
     margin-right: 0;
+  }
+}
+
+@media screen and (max-width: 1023px) {
+  .tm-page-main {
+    min-height: 100vh;
   }
 }
 </style>

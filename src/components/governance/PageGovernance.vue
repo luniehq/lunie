@@ -1,7 +1,6 @@
 <template>
   <TmPage :tabs="tabs" class="governance" data-title="Governance">
     <TmBtn
-      v-if="session.signedIn"
       id="propose-btn"
       slot="header-buttons"
       :disabled="!connected"
@@ -17,7 +16,7 @@
 <script>
 import { mapGetters } from "vuex"
 import PerfectScrollbar from "perfect-scrollbar"
-import ModalPropose from "./ModalPropose"
+import ModalPropose from "src/ActionModal/components/ModalPropose"
 import TmBtn from "common/TmBtn"
 import TmPage from "common/TmPage"
 

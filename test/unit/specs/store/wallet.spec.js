@@ -1,7 +1,7 @@
 import walletModule from "modules/wallet.js"
-import lcdClientMock from "src/connectors/lcdClientMock.js"
+import mockValues from "test/unit/helpers/mockValues.js"
 
-const { stakingParameters } = lcdClientMock.state
+const { stakingParameters } = mockValues.state
 
 const mockRootState = {
   stakingParameters,
@@ -102,7 +102,7 @@ describe(`Module: Wallet`, () => {
       expect(commit).toHaveBeenCalledWith(`setWalletAddress`, address)
       expect(dispatch.mock.calls).toEqual([
         [`queryWalletBalances`],
-        [`getTotalRewards`],
+        [`getRewardsFromMyValidators`],
         [`walletSubscribe`]
       ])
     })

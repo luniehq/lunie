@@ -1,55 +1,54 @@
 <template>
-  <div class="tm-session">
-    <TmFormStruct :submit="onSubmit" class="tm-session-container">
-      <div class="tm-session-header">
-        <a @click="goToWelcome()">
-          <i class="material-icons">arrow_back</i>
-        </a>
-        <div class="tm-session-title">
-          Explore
+  <SessionFrame>
+    <div class="session">
+      <TmFormStruct :submit="onSubmit">
+        <h2 class="session-title">
+          Explore with any address
+        </h2>
+        <div class="session-main">
+          <TmFormGroup
+            field-id="sign-in-name"
+            field-label="Your Cosmos Address"
+          >
+            <TmField
+              v-model="address"
+              type="text"
+              placeholder=""
+              vue-focus="vue-focus"
+            />
+            <TmFormMsg
+              v-if="$v.address.$error && !$v.address.required"
+              name="Name"
+              type="required"
+            />
+            <TmFormMsg
+              v-else-if="$v.address.$error && !$v.address.bech32Validate"
+              name="Your Cosmos Address"
+              type="bech32"
+            />
+          </TmFormGroup>
         </div>
-        <a @click="$store.commit(`toggleSessionModal`, false)">
-          <i class="material-icons">close</i>
-        </a>
-      </div>
-      <div class="tm-session-main">
-        <TmFormGroup field-id="sign-in-name" field-label="Address">
-          <TmField
-            v-model="address"
-            type="text"
-            placeholder="Your Cosmos Address"
-            vue-focus="vue-focus"
-          />
-          <TmFormMsg
-            v-if="$v.address.$error && !$v.address.required"
-            name="Name"
-            type="required"
-          />
-          <TmFormMsg
-            v-else-if="$v.address.$error && !$v.address.bech32Validate"
-            name="Address"
-            type="bech32"
-          />
-        </TmFormGroup>
-      </div>
-      <div class="tm-session-footer">
-        <TmBtn value="Next" size="lg" />
-      </div>
-    </TmFormStruct>
-  </div>
+        <div class="session-footer">
+          <TmBtn value="Explore" />
+        </div>
+      </TmFormStruct>
+    </div>
+  </SessionFrame>
 </template>
 
 <script>
 import { required } from "vuelidate/lib/validators"
 import TmBtn from "common/TmBtn"
+import SessionFrame from "common/SessionFrame"
 import TmFormGroup from "common/TmFormGroup"
 import TmFormStruct from "common/TmFormStruct"
 import TmField from "common/TmField"
 import TmFormMsg from "common/TmFormMsg"
 import bech32 from "bech32"
 export default {
-  name: `tm-session-explore`,
+  name: `session-explore`,
   components: {
+    SessionFrame,
     TmBtn,
     TmField,
     TmFormGroup,
@@ -64,9 +63,6 @@ export default {
     this.address = localStorage.getItem(`prevAddress`)
   },
   methods: {
-    goToWelcome() {
-      this.$store.commit(`setSessionModalView`, `welcome`)
-    },
     async onSubmit() {
       this.$v.$touch()
       if (this.$v.$error) return
@@ -77,7 +73,6 @@ export default {
       })
       localStorage.setItem(`prevAddress`, this.address)
       this.$router.push(`/`)
-      this.$store.commit(`toggleSessionModal`, false)
     },
     bech32Validate(param) {
       try {
@@ -96,7 +91,7 @@ export default {
 }
 </script>
 <style>
-.tm-form-group a {
+.form-group a {
   cursor: pointer;
 }
 </style>
