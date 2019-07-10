@@ -18,13 +18,13 @@
     "build": "cross-env NODE_ENV=production webpack --hide-modules",
     "build:dev": "cross-env NODE_ENV=development webpack --hide-modules",
     "build-zip": "node scripts/build-zip.js",
-    "build:initiate": "git submodule init && git submodule update && cd ./lunie && git checkout develop && cd .. && npm run build",
+    "initiate-submodule": "git submodule init && git submodule update && cd ./lunie && git checkout develop && cd ..",
     "watch": "npm run build -- --watch",
     "watch:dev": "cross-env HMR=true npm run build:dev -- --watch",
     "test:unit": "jest --coverage ./test/unit/*spec.js ./test/unit/**/*spec.js",
     "test": "npm run lint && npm run test:unit",
-    "test:e2e": "npm run build:initiate && npm run test:e2e:build && jest ./test/e2e/*spec.js",
-    "test:e2e:build": "node ./scripts/add-pem-key.js",
+    "test:e2e": "jest ./test/e2e/*spec.js",
+    "test:e2e:build": "npm run build && node ./scripts/add-pem-key.js",
     "log": "simsala log"
   },
   "husky": {

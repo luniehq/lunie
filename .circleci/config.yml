@@ -92,6 +92,11 @@ jobs:
           at: *WORKSPACE
       - yarn-install
       - run:
+          name: Build
+          command: |
+            npm run initiate-submodule
+            npm run test:e2e:build
+      - run:
           name: Test
           command: yarn test:e2e
           no_output_timeout: 120
