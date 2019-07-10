@@ -3,11 +3,11 @@
     <div class="session">
       <div class="session-container">
         <h2 class="session-title">
-          Use Lunie browser extension
+          Use Lunie Browser Extension
         </h2>
         <div v-if="!extension.enabled" class="session-main">
           <p>
-            Please install the Lunie browser extension from the
+            Please install the Lunie Browser Extension from the
             <a
               href="https://chrome.google.com/webstore/category/extensions"
               target="_blank"

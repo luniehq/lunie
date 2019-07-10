@@ -9,7 +9,10 @@ localVue.directive("focus-last", focusParentLast)
 localVue.directive("focus", () => {})
 
 let mockSimulate = jest.fn(() => 123456)
-let mockSend = jest.fn()
+let mockSend = jest.fn(() => ({
+  included: () => Promise.resolve(),
+  hash: "HASH1234HASH"
+}))
 let mockSetContext = jest.fn()
 
 jest.mock(`src/ActionModal/utils/ActionManager.js`, () => {
@@ -118,10 +121,15 @@ describe(`ActionModal`, () => {
       },
       submissionErrorPrefix: `PREFIX`,
       trackEvent: jest.fn(),
-      connectLedger: () => {}
+      connectLedger: () => {},
+      onSendingFailed: jest.fn()
     }
     await ActionModal.methods.submit.call(self)
+    expect(self.onSendingFailed).toHaveBeenCalledWith(
+      "some kind of error message"
+    )
 
+    ActionModal.methods.onSendingFailed.call(self, "some kind of error message")
     expect(self.submissionError).toEqual(`PREFIX: some kind of error message.`)
   })
 
@@ -168,125 +176,19 @@ describe(`ActionModal`, () => {
 
   describe(`should show the action modal`, () => {
     describe(`when user has logged in`, () => {
-      describe(`with local keystore`, () => {
-        it(`on default step`, () => {
-          expect(wrapper.vm.$el).toMatchSnapshot()
-        })
+      const signMethods = ["local", "ledger", "extension", "explore"]
+      const steps = [
+        ["on fees step", "fees", false],
+        ["on sign step", "sign", false],
+        ["sending", "sign", true],
+        ["waiting for inclusion", "send", true]
+      ]
 
-        it(`on fees step`, async () => {
-          wrapper.vm.step = `fees`
-          await wrapper.vm.$nextTick()
-          expect(wrapper.vm.$el).toMatchSnapshot()
-        })
-
-        it(`on sign step`, async () => {
-          wrapper.vm.step = `sign`
-          await wrapper.vm.$nextTick()
-          expect(wrapper.vm.$el).toMatchSnapshot()
-        })
-
-        it(`sending`, async () => {
-          wrapper.vm.step = `sign`
-          wrapper.vm.sending = true
-          await wrapper.vm.$nextTick()
-          expect(wrapper.vm.$el).toMatchSnapshot()
-        })
-      })
-
-      describe(`with ledger`, () => {
-        it(`on default step`, async () => {
-          wrapper.vm.session.sessionType = `ledger`
-          await wrapper.vm.$nextTick()
-          expect(wrapper.vm.$el).toMatchSnapshot()
-        })
-
-        it(`on fees step`, async () => {
-          wrapper.vm.session.sessionType = `ledger`
-          wrapper.vm.step = `fees`
-          await wrapper.vm.$nextTick()
-          expect(wrapper.vm.$el).toMatchSnapshot()
-        })
-
-        it(`on sign step`, async () => {
-          wrapper.vm.session.sessionType = `ledger`
-          wrapper.vm.step = `sign`
-          await wrapper.vm.$nextTick()
-          expect(wrapper.vm.$el).toMatchSnapshot()
-        })
-
-        it(`sending`, async () => {
-          wrapper.vm.session.sessionType = `ledger`
-          wrapper.vm.step = `sign`
-          wrapper.vm.sending = true
-          await wrapper.vm.$nextTick()
-          expect(wrapper.vm.$el).toMatchSnapshot()
-        })
-      })
-
-      describe(`with extension`, () => {
-        it(`on default step`, async () => {
-          wrapper.vm.session.sessionType = `extension`
-          await wrapper.vm.$nextTick()
-          expect(wrapper.vm.$el).toMatchSnapshot()
-        })
-
-        it(`on fees step`, async () => {
-          wrapper.vm.session.sessionType = `extension`
-          wrapper.vm.step = `fees`
-          await wrapper.vm.$nextTick()
-          expect(wrapper.vm.$el).toMatchSnapshot()
-        })
-
-        it(`on sign step`, async () => {
-          wrapper.vm.session.sessionType = `extension`
-          wrapper.vm.step = `sign`
-          await wrapper.vm.$nextTick()
-          expect(wrapper.vm.$el).toMatchSnapshot()
-        })
-
-        it(`on sign step without extension installed`, async () => {
-          wrapper.vm.session.sessionType = `extension`
-          wrapper.vm.extension.enabled = false
-          wrapper.vm.step = `sign`
-          await wrapper.vm.$nextTick()
-          expect(wrapper.vm.$el).toMatchSnapshot()
-        })
-
-        it(`sending`, async () => {
-          wrapper.vm.session.sessionType = `extension`
-          wrapper.vm.step = `sign`
-          wrapper.vm.sending = true
-          await wrapper.vm.$nextTick()
-          expect(wrapper.vm.$el).toMatchSnapshot()
-        })
-      })
-
-      describe(`with exploration mode`, () => {
-        it(`on default step`, async () => {
-          wrapper.vm.session.sessionType = `explore`
-          await wrapper.vm.$nextTick()
-          expect(wrapper.vm.$el).toMatchSnapshot()
-        })
-
-        it(`on fees step`, async () => {
-          wrapper.vm.session.sessionType = `explore`
-          wrapper.vm.step = `fees`
-          await wrapper.vm.$nextTick()
-          expect(wrapper.vm.$el).toMatchSnapshot()
-        })
-
-        it(`on sign step`, async () => {
-          wrapper.vm.session.sessionType = `explore`
-          wrapper.vm.step = `sign`
-          await wrapper.vm.$nextTick()
-          expect(wrapper.vm.$el).toMatchSnapshot()
-        })
-
-        it(`sending`, async () => {
-          wrapper.vm.session.sessionType = `explore`
-          wrapper.vm.step = `sign`
-          wrapper.vm.sending = true
-          await wrapper.vm.$nextTick()
+      describe.each(signMethods)(`with %s`, signMethod => {
+        it.each(steps)(`%s`, async (name, step, sending) => {
+          wrapper.vm.session.sessionType = signMethod
+          wrapper.vm.step = step
+          wrapper.vm.sending = sending
           expect(wrapper.vm.$el).toMatchSnapshot()
         })
       })
@@ -532,38 +434,36 @@ describe(`ActionModal`, () => {
 
       wrapper.setProps({ transactionProperties })
       wrapper.setData(data)
-      wrapper.vm.submit()
-      wrapper.vm.$nextTick(() => {
-        expect(wrapper.vm.submissionError).toBe(null)
-        // expect(postSubmit).toHaveBeenCalled()
-        expect($store.dispatch).toHaveBeenCalledWith(`postMsgSend`, {
-          txMeta: {
-            gasEstimate: 12345,
-            gasPrice: { amount: "0.000000025", denom: "uatom" },
-            password: null,
-            submitType: "local"
-          },
-          txProps: { denom: "uatom", validatorAddress: "cosmos12345" }
-        })
-        expect($store.commit).toHaveBeenCalledWith(`notify`, {
-          title: `Successful transaction`,
-          body: `You have successfully completed a transaction.`
-        })
-        expect(wrapper.emitted(`close`)).toBeTruthy()
+      await wrapper.vm.submit()
+      expect(wrapper.vm.submissionError).toBe(null)
+      // expect(postSubmit).toHaveBeenCalled()
+      expect($store.dispatch).toHaveBeenCalledWith(`postMsgSend`, {
+        txMeta: {
+          gasEstimate: 12345,
+          gasPrice: { amount: "0.000000025", denom: "uatom" },
+          password: null,
+          submitType: "local"
+        },
+        txProps: { denom: "uatom", validatorAddress: "cosmos12345" }
       })
+      expect($store.commit).toHaveBeenCalledWith(`notify`, {
+        title: `Successful transaction`,
+        body: `You have successfully completed a transaction.`
+      })
+      expect(wrapper.emitted(`close`)).toBeTruthy()
     })
 
-    it("should fail if simulation fails", () => {
-      const mockSimulateFail = jest.fn(() =>
+    it("should fail if submitting fails", async () => {
+      const mockSubmitFail = jest.fn(() =>
         Promise.reject(new Error(`invalid request`))
       )
 
       const data = {
-        step: `details`,
+        step: `fees`,
         gasEstimate: null,
         submissionError: null,
         actionManager: {
-          simulate: mockSimulateFail
+          send: mockSubmitFail
         }
       }
 
@@ -581,14 +481,47 @@ describe(`ActionModal`, () => {
 
       wrapper.setProps({ transactionProperties })
       wrapper.setData(data)
-      wrapper.vm.simulate()
-      wrapper.vm.$nextTick(() => {
-        expect(wrapper.vm.gasEstimate).toBe(null)
-        expect(wrapper.vm.submissionError).toBe(
-          "Transaction failed: invalid request."
-        )
-        expect(wrapper.vm.step).toBe("details")
-      })
+      wrapper.vm.submit()
+      await wrapper.vm.$nextTick()
+
+      expect(wrapper.html()).toContain("Transaction failed: invalid request.")
+      expect(wrapper.vm.step).toBe("sign")
+    })
+
+    it("should fail if can't connect to Ledger", async () => {
+      $store.dispatch = jest.fn(() =>
+        Promise.reject(new Error(`couldn't find Ledger`))
+      )
+
+      const data = {
+        step: `sign`,
+        gasEstimate: null,
+        submissionError: null,
+        actionManager: {},
+        selectedSignMethod: "ledger"
+      }
+
+      const transactionProperties = {
+        type: "MsgSend",
+        toAddress: "comsos12345",
+        amounts: [
+          {
+            amount: "100000",
+            denom: "uatoms"
+          }
+        ],
+        memo: "A memo"
+      }
+
+      wrapper.setProps({ transactionProperties })
+      wrapper.setData(data)
+      wrapper.vm.submit()
+      await wrapper.vm.$nextTick()
+
+      expect(wrapper.html()).toContain(
+        "Transaction failed: couldn't find Ledger."
+      )
+      expect(wrapper.vm.step).toBe("sign")
     })
   })
 
@@ -604,7 +537,8 @@ describe(`ActionModal`, () => {
         isValidChildForm: true,
         isValidInput: jest.fn(() => true),
         selectedSignMethod: `local`,
-        step: `details`
+        step: `details`,
+        validateChangeStep: jest.fn(() => {})
       }
     })
 
@@ -620,14 +554,6 @@ describe(`ActionModal`, () => {
 
         await ActionModal.methods.validateChangeStep.call(self)
         expect(self.simulate).toHaveBeenCalled()
-      })
-
-      it(`stops the user from proceeding if disabled`, async () => {
-        self.disabled = true
-
-        await ActionModal.methods.validateChangeStep.call(self)
-        expect(self.simulate).not.toHaveBeenCalled()
-        expect(self.step).toBe("details")
       })
     })
 
@@ -744,7 +670,7 @@ describe(`ActionModal`, () => {
       expect(wrapper.vm.selectedSignMethod).toBe(`local`)
       expect(wrapper.vm.signMethods).toEqual([
         {
-          key: `(Unsafe) Local Account`,
+          key: `Local Account (Unsafe)`,
           value: `local`
         }
       ])

@@ -80,7 +80,7 @@ export default class ActionManager {
       this.message = this.createWithdrawTransaction()
     }
 
-    const { included } = await this.message.send(
+    const { included, hash } = await this.message.send(
       {
         gas: String(gasEstimate),
         gasPrices: convertCurrencyData([gasPrice]),
@@ -88,7 +88,8 @@ export default class ActionManager {
       },
       signer
     )
-    await included()
+
+    return { included, hash }
   }
 
   createWithdrawTransaction() {
