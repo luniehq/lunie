@@ -21,3 +21,4 @@ certs/
 .env
 screenshots
 android
+local.log
