@@ -86,10 +86,6 @@ describe(`ActionModal`, () => {
           type: "MsgSend",
           denom: "uatom",
           validatorAddress: "cosmos12345"
-        },
-        notifyMessage: {
-          title: `Successful transaction`,
-          body: `You have successfully completed a transaction.`
         }
       },
       mocks: {
