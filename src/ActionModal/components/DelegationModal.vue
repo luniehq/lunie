@@ -141,6 +141,7 @@ export default {
         return {
           type: transaction.DELEGATE,
           validator_address: this.validator.operator_address,
+          validator_moniker: this.validator.description.moniker,
           amount: uatoms(this.amount),
           denom: this.denom
         }
@@ -152,6 +153,7 @@ export default {
           type: transaction.REDELEGATE,
           validator_src_address: validatorSrc.operator_address,
           validator_dst_address: this.validator.operator_address,
+          validator_moniker: this.validator.description.moniker,
           amount: uatoms(this.amount),
           denom: this.denom
         }

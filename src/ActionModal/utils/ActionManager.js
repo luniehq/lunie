@@ -57,6 +57,15 @@ export default class ActionManager {
       this.context.userAddress,
       transactionProperties
     )
+
+    if (
+      this.messageType === transaction.DELEGATE ||
+      this.messageType === transaction.UNDELEGATE ||
+      this.messageType === transaction.REDELEGATE
+    ) {
+      this.message.message.value["validator_moniker"] =
+        transactionProperties["validator_moniker"]
+    }
   }
 
   async simulate(memo) {

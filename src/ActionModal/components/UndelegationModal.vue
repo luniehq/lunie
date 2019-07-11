@@ -120,6 +120,7 @@ export default {
       return {
         type: transaction.UNDELEGATE,
         validator_address: this.validator.operator_address,
+        validator_moniker: this.validator.description.moniker,
         amount: uatoms(this.amount),
         denom: this.denom
       }
@@ -148,12 +149,10 @@ export default {
     },
     validateForm() {
       this.$v.$touch()
-
       return !this.$v.$invalid
     },
     clear() {
       this.$v.$reset()
-
       this.amount = null
     },
     enterPressed() {
