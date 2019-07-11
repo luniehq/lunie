@@ -32,13 +32,19 @@ describe(`SessionAccounts`, () => {
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
-  it(`renders the correct account`, () => {
-    expect(wrapper.html()).toContain("Benjis account")
+  it(`should direct user to the welcome screen`, () => {
+    const self = { $store, $router: { push: jest.fn() } }
+    SessionAccounts.methods.goToWelcome.call(self)
+    expect(self.$router.push).toHaveBeenCalledWith(`/welcome`)
   })
 
-  it(`links to the welcome screen`, () => {
+  it(`should direct user to the extension screen on Lunie`, () => {
     const self = { $store, $router: { push: jest.fn() } }
-    SessionAccounts.methods.addAccount.call(self)
-    expect(self.$router.push).toHaveBeenCalledWith(`/welcome`)
+    SessionAccounts.methods.goToLunie.call(self)
+    expect(window.open).toHaveBeenCalledWith(
+      `https://lunie.io/extension`,
+      `_blank`,
+      `nofollow noreferrer noopener`
+    )
   })
 })

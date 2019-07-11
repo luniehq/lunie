@@ -20,10 +20,10 @@ exports[`TmHardwareState has the expected html structure 1`] = `
     >
       Detecting your Ledger Wallet
     </div>
+     
+    <img
+      src="~assets/images/loader.svg"
+    />
   </div>
-   
-  <img
-    src="~assets/images/loader.svg"
-  />
 </div>
 `;

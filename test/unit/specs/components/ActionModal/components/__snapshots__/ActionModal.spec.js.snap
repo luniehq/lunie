@@ -261,7 +261,7 @@ exports[`ActionModal should show the action modal when user has logged in with e
         <tmbtn-stub
           color="primary"
           disabled="true"
-          value="Submit"
+          value="Send"
         />
       </div>
     </tmformgroup-stub>
@@ -473,10 +473,14 @@ exports[`ActionModal should show the action modal when user has logged in with e
     >
       <div>
         
-          Please verify and sign the transaction in the Lunie Chrome
+          Please send the transaction to be signed in the Lunie Browser
           Extension.
         
       </div>
+       
+      <!---->
+       
+      <!---->
     </hardwarestate-stub>
   </div>
    
@@ -490,7 +494,7 @@ exports[`ActionModal should show the action modal when user has logged in with e
         <tmbtn-stub
           color="primary"
           disabled="true"
-          value="Submit"
+          value="Send"
         />
       </div>
     </tmformgroup-stub>
@@ -545,12 +549,16 @@ exports[`ActionModal should show the action modal when user has logged in with e
       icon="info"
       loading="true"
     >
+      <!---->
+       
       <div>
         
-          Please verify and sign the transaction in the Lunie Chrome
-          Extension.
+          Please open the Lunie Browser Extension, review the details, and
+          approve the transaction.
         
       </div>
+       
+      <!---->
     </hardwarestate-stub>
   </div>
    
@@ -704,7 +712,7 @@ exports[`ActionModal should show the action modal when user has logged in with l
         <tmbtn-stub
           color="primary"
           disabled="true"
-          value="Submit"
+          value="Send"
         />
       </div>
     </tmformgroup-stub>
@@ -923,7 +931,7 @@ exports[`ActionModal should show the action modal when user has logged in with l
         <tmbtn-stub
           color="primary"
           disabled="true"
-          value="Submit"
+          value="Send"
         />
       </div>
     </tmformgroup-stub>
@@ -1048,8 +1056,12 @@ exports[`ActionModal should show the action modal when user hasn't logged in 1`]
   <div
     class="action-modal-form"
   >
-    <p>
-      You need to sign in to submit a transaction.
+    <p
+      class="form-message notice"
+    >
+      
+        You need to sign in to submit a transaction.
+      
     </p>
   </div>
    

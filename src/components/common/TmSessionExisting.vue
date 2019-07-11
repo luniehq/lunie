@@ -22,7 +22,7 @@
           v-if="session.experimentalMode"
           id="use-extension"
           icon="laptop"
-          title="Use Lunie Chrome extension"
+          title="Use Lunie Browser Extension"
           route="extension"
         >
         </LiSession>

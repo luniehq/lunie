@@ -19,7 +19,9 @@
         />
       </div>
       <div v-if="requiresSignIn" class="action-modal-form">
-        <p>You need to sign in to submit a transaction.</p>
+        <p class="form-message notice">
+          You need to sign in to submit a transaction.
+        </p>
       </div>
       <div v-else-if="step === defaultStep" class="action-modal-form">
         <slot />
@@ -109,13 +111,22 @@
           :icon="session.browserWithLedgerSupport ? 'laptop' : 'info'"
           :loading="!!sending"
         >
-          <div v-if="extension.enabled">
-            Please verify and sign the transaction in the Lunie Chrome
+          <div v-if="extension.enabled && !sending">
+            Please send the transaction to be signed in the Lunie Browser
             Extension.
           </div>
-          <div v-else>
-            Please install the Lunie Chrome Extension from the Google Chrome
-            store.
+          <div v-if="extension.enabled && sending">
+            Please open the Lunie Browser Extension, review the details, and
+            approve the transaction.
+          </div>
+          <div v-if="!extension.enabled">
+            Please install the Lunie Browser Extension from the
+            <a
+              href="https://chrome.google.com/webstore/category/extensions"
+              target="_blank"
+              rel="noopener norefferer"
+              >Chrome Web Store</a
+            >.
           </div>
         </HardwareState>
         <form
@@ -213,7 +224,7 @@
               <TmBtn
                 v-else
                 color="primary"
-                value="Submit"
+                value="Send"
                 :disabled="!session.browserWithLedgerSupport"
                 @click.native="validateChangeStep"
               />
@@ -266,11 +277,11 @@ const signMethodOptions = {
     value: SIGN_METHODS.LEDGER
   },
   EXTENSION: {
-    key: `Lunie Chrome Extension`,
+    key: `Lunie Browser Extension`,
     value: SIGN_METHODS.EXTENSION
   },
   LOCAL: {
-    key: `(Unsafe) Local Account`,
+    key: `Local Account (Unsafe)`,
     value: SIGN_METHODS.LOCAL
   }
 }
@@ -698,6 +709,7 @@ export default {
   padding: 1rem 1rem;
   font-size: 14px;
   font-style: normal;
+  width: 100%;
 }
 
 .slide-fade-enter-active {

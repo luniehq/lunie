@@ -668,7 +668,7 @@ describe(`ActionModal`, () => {
       expect(wrapper.vm.selectedSignMethod).toBe(`local`)
       expect(wrapper.vm.signMethods).toEqual([
         {
-          key: `(Unsafe) Local Account`,
+          key: `Local Account (Unsafe)`,
           value: `local`
         }
       ])
