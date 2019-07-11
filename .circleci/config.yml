@@ -194,11 +194,8 @@ jobs:
           at: *WORKSPACE
       - yarn-install
       - run:
-          name: Build for E2E test
-          command: yarn test:e2e:build
-      - run:
           name: Test
-          command: yarn test:e2e:browserstack
+          command: yarn test:e2e:serve & yarn test:e2e:browserstack
           no_output_timeout: 120
       - store_artifacts:
           path: ./screenshots

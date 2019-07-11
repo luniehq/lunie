@@ -3,7 +3,8 @@ module.exports = {
     prepare(browser)
 
     browser.click("#use-an-existing-address")
-    browser.waitForElementVisible("#session-existing")
+    browser.waitForElementVisible("#sign-in-with-account")
+    browser.pause(500)
     browser.click("#sign-in-with-account")
     browser.waitForElementVisible("#sign-in-name")
     browser.click(
@@ -52,6 +53,8 @@ module.exports = {
     prepare(browser)
 
     browser.click("#use-an-existing-address")
+    browser.waitForElementVisible("#recover-with-backup")
+    browser.pause(500)
     browser.click("#recover-with-backup")
     browser.waitForElementVisible("#import-seed")
 
@@ -91,12 +94,15 @@ async function next(browser) {
       elem.scrollLeft = scrollX
       elem.scrollTop = scrollY
     },
-    [".session", 0, 300]
+    [".session", 0, 500]
   )
+  browser.pause(200)
   return browser.click(".session-footer .tm-btn")
 }
 
 function openMenu(browser) {
+  browser.waitForElementVisible(".open-menu")
+  browser.pause(500)
   browser.click(".open-menu")
 }
 

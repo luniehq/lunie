@@ -130,7 +130,8 @@ const config = {
       filename: `index.html`,
       template: `./src/index.ejs`,
       styles: fs.readFileSync(`./src/styles/index.css`, `utf8`),
-      favicon: `./src/assets/images/favicon.ico`
+      favicon: `./src/assets/images/favicon.ico`,
+      e2e: !!process.env.E2E_TESTS
     }),
     // warnings caused by websocket-stream, which has a server-part that is unavailable on the the client
     new webpack.IgnorePlugin(/(bufferutil|utf-8-validate)/),

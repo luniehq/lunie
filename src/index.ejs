@@ -25,7 +25,7 @@
 </head>
 
 <body style="background: #15182d">
-  <% if (process.env.E2E_TESTS) { %>
+  <% if (!htmlWebpackPlugin.options.e2e) { %>
   <script async src='https://www.google-analytics.com/analytics.js'></script>
   <!-- Appzi: Capture Insightful Feedback -->
   <script async
