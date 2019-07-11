@@ -6,7 +6,7 @@ export default [
     name: `accounts`,
     component: require('../../components/SessionAccounts').default,
     beforeEnter: (to, from, next) => {
-      if (!store.state.accounts) {
+      if (!store.state.accounts.length) {
         next({ path: '/welcome' })
       } else {
         next()
@@ -17,6 +17,11 @@ export default [
     path: '/welcome',
     name: 'welcome',
     component: require('../../components/SessionWelcome').default
+  },
+  {
+    path: '/success',
+    name: 'success',
+    component: require('../../components/SessionSuccess').default
   },
   {
     path: '/existing',
