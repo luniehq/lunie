@@ -315,13 +315,13 @@ export default {
       type: Object,
       default: () => {}
     },
-    notifyMessage: {
+    notifyMessage: () => ({
       type: Object,
       default: {
         title: `Transaction Confirmed`,
         body: `The transaction was successfully included in a block`
       }
-    },
+    }),
     // disable proceeding from the first page
     disabled: {
       type: Boolean,
