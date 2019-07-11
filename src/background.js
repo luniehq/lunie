@@ -27,7 +27,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   } catch (e) {
     // Return this as rejected
     console.error('Error with request', e)
-    sendResponse({ error: 'Incorrect password' })
+    sendResponse({ error: error.message })
   }
 
   return true
