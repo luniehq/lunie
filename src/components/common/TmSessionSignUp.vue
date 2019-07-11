@@ -152,8 +152,8 @@
         <div v-if="!session.insecureMode" class="session-main">
           <p>
             Creating an address in the browser is unsafe. To offer you a secure
-            alternative we will be releasing a Chrome extension and a mobile app
-            soon.
+            alternative we will be releasing a browser extension and a mobile
+            app soon.
           </p>
           <p>
             In the meantime, you can create a new account outside of the browser

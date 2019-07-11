@@ -1,7 +1,7 @@
 import {
   listenToExtensionMessages,
   processLunieExtensionMessages,
-  getAccounts,
+  getAccountsFromExtension,
   signWithExtension
 } from "scripts/extension-utils.js"
 
@@ -51,7 +51,7 @@ describe(`Extension Utils`, () => {
       expect(store.commit).not.toHaveBeenCalledWith("setExtensionAvailable")
     })
 
-    it("should react to query wallet responsesn", () => {
+    it("should react to query wallet responses", () => {
       processLunieExtensionMessages(store)({
         source: global,
         data: {
@@ -75,6 +75,20 @@ describe(`Extension Utils`, () => {
         }
       ])
     })
+
+    it("should do nothing with no message type", () => {
+      const result = processLunieExtensionMessages(store)({
+        source: global,
+        data: {
+          type: "FROM_LUNIE_EXTENSION",
+          message: {
+            type: "IN CORRECT TYPE"
+          }
+        }
+      })
+
+      expect(result).toBeFalsy()
+    })
   })
 
   describe("messages", () => {
@@ -89,7 +103,7 @@ describe(`Extension Utils`, () => {
     it("should request wallets", async () => {
       global.postMessage.mockClear()
 
-      getAccounts()
+      getAccountsFromExtension()
       expect(global.postMessage.mock.calls).toEqual([
         [
           {
@@ -124,7 +138,7 @@ describe(`Extension Utils`, () => {
                 },
                 type: "LUNIE_SIGN_REQUEST"
               },
-              skipResponse: true,
+              skipResponse: false,
               type: "FROM_LUNIE_IO"
             },
             "*"

@@ -65,8 +65,8 @@ describe(`SendModal`, () => {
     }
     SendModal.methods.clear.call(self)
     expect(self.$v.$reset).toHaveBeenCalled()
-    expect(self.address).toBe(``)
-    expect(self.amount).toBe(0)
+    expect(self.address).toBe(undefined)
+    expect(self.amount).toBe(undefined)
   })
 
   it(`shows the memo input if desired`, () => {

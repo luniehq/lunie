@@ -12,15 +12,21 @@
         <span class="action-modal-title">
           {{ requiresSignIn ? `Sign in required` : title }}
         </span>
-        <Steps :steps="['Details', 'Fees', 'Sign']" :active-step="step" />
+        <Steps
+          v-if="[defaultStep, feeStep, signStep].includes(step)"
+          :steps="['Details', 'Fees', 'Sign']"
+          :active-step="step"
+        />
       </div>
       <div v-if="requiresSignIn" class="action-modal-form">
-        <p>You need to sign in to submit a transaction.</p>
+        <p class="form-message notice">
+          You need to sign in to submit a transaction.
+        </p>
       </div>
-      <div v-else-if="step === `details`" class="action-modal-form">
+      <div v-else-if="step === defaultStep" class="action-modal-form">
         <slot />
       </div>
-      <div v-else-if="step === `fees`" class="action-modal-form">
+      <div v-else-if="step === feeStep" class="action-modal-form">
         <TmFormGroup
           v-if="session.experimentalMode"
           :error="$v.gasPrice.$error && $v.gasPrice.$invalid"
@@ -68,7 +74,7 @@
           :max="balanceInAtoms"
         />
       </div>
-      <div v-else-if="step === `sign`" class="action-modal-form">
+      <div v-else-if="step === signStep" class="action-modal-form">
         <TmFormGroup
           v-if="signMethods.length > 1"
           class="action-modal-form-group"
@@ -83,7 +89,7 @@
           />
         </TmFormGroup>
         <HardwareState
-          v-if="selectedSignMethod === `ledger`"
+          v-if="selectedSignMethod === SIGN_METHODS.LEDGER"
           :icon="session.browserWithLedgerSupport ? 'usb' : 'info'"
           :loading="!!sending"
         >
@@ -101,21 +107,30 @@
           </div>
         </HardwareState>
         <HardwareState
-          v-if="selectedSignMethod === `extension`"
+          v-if="selectedSignMethod === SIGN_METHODS.EXTENSION"
           :icon="session.browserWithLedgerSupport ? 'laptop' : 'info'"
           :loading="!!sending"
         >
-          <div v-if="extension.enabled">
-            Please verify and sign the transaction in the Lunie Chrome
+          <div v-if="extension.enabled && !sending">
+            Please send the transaction to be signed in the Lunie Browser
             Extension.
           </div>
-          <div v-else>
-            Please install the Lunie Chrome Extension from the Google Chrome
-            store.
+          <div v-if="extension.enabled && sending">
+            Please open the Lunie Browser Extension, review the details, and
+            approve the transaction.
+          </div>
+          <div v-if="!extension.enabled">
+            Please install the Lunie Browser Extension from the
+            <a
+              href="https://chrome.google.com/webstore/category/extensions"
+              target="_blank"
+              rel="noopener norefferer"
+              >Chrome Web Store</a
+            >.
           </div>
         </HardwareState>
         <form
-          v-else-if="selectedSignMethod === `local`"
+          v-else-if="selectedSignMethod === SIGN_METHODS.LOCAL"
           @submit.prevent="validateChangeStep"
         >
           <TmFormGroup
@@ -139,9 +154,25 @@
           </TmFormGroup>
         </form>
       </div>
+      <div v-else-if="step === inclusionStep" class="action-modal-form">
+        <TmDataMsg icon="hourglass_empty">
+          <div slot="title">
+            Sent and confirming
+          </div>
+          <div slot="subtitle">
+            The transaction
+            <!--with the hash {{ txHash }}-->
+            was successfully signed and sent the network. Waiting for it to be
+            confirmed.
+          </div>
+        </TmDataMsg>
+      </div>
       <div class="action-modal-footer">
         <slot name="action-modal-footer">
-          <TmFormGroup class="action-modal-group">
+          <TmFormGroup
+            v-if="[defaultStep, feeStep, signStep].includes(step)"
+            class="action-modal-group"
+          >
             <div>
               <TmBtn
                 v-if="requiresSignIn"
@@ -164,19 +195,19 @@
                 color="primary"
               />
               <TmBtn
-                v-else-if="step !== `sign`"
+                v-else-if="step !== signStep"
                 ref="next"
                 color="primary"
                 value="Next"
                 :disabled="
-                  disabled || (step === `fees` && $v.invoiceTotal.$invalid)
+                  disabled || (step === feeStep && $v.invoiceTotal.$invalid)
                 "
                 @click.native="validateChangeStep"
               />
               <TmBtn
                 v-else
                 color="primary"
-                value="Submit"
+                value="Send"
                 :disabled="!session.browserWithLedgerSupport"
                 @click.native="validateChangeStep"
               />
@@ -200,6 +231,7 @@ import TmBtn from "src/components/common/TmBtn"
 import TmField from "src/components/common/TmField"
 import TmFormGroup from "src/components/common/TmFormGroup"
 import TmFormMsg from "src/components/common/TmFormMsg"
+import TmDataMsg from "common/TmDataMsg"
 import TableInvoice from "./TableInvoice"
 import Steps from "./Steps"
 import { mapGetters } from "vuex"
@@ -213,8 +245,9 @@ import ActionManager from "../utils/ActionManager.js"
 const defaultStep = `details`
 const feeStep = `fees`
 const signStep = `sign`
+const inclusionStep = `send`
 
-const signMethods = {
+const SIGN_METHODS = {
   LOCAL: `local`,
   LEDGER: `ledger`,
   EXTENSION: `extension`
@@ -223,23 +256,23 @@ const signMethods = {
 const signMethodOptions = {
   LEDGER: {
     key: `Ledger Nano`,
-    value: signMethods.LEDGER
+    value: SIGN_METHODS.LEDGER
   },
   EXTENSION: {
-    key: `Lunie Chrome Extension`,
-    value: signMethods.EXTENSION
+    key: `Lunie Browser Extension`,
+    value: SIGN_METHODS.EXTENSION
   },
   LOCAL: {
-    key: `(Unsafe) Local Account`,
-    value: signMethods.LOCAL
+    key: `Local Account (Unsafe)`,
+    value: SIGN_METHODS.LOCAL
   }
 }
 
 const sessionType = {
   EXPLORE: "explore",
-  LOCAL: signMethods.LOCAL,
-  LEDGER: signMethods.LEDGER,
-  EXTENSION: signMethods.EXTENSION
+  LOCAL: SIGN_METHODS.LOCAL,
+  LEDGER: SIGN_METHODS.LEDGER,
+  EXTENSION: SIGN_METHODS.EXTENSION
 }
 
 export default {
@@ -250,6 +283,7 @@ export default {
     TmField,
     TmFormGroup,
     TmFormMsg,
+    TmDataMsg,
     TableInvoice,
     Steps
   },
@@ -296,7 +330,13 @@ export default {
     gasPrice: config.default_gas_price.toFixed(9),
     submissionError: null,
     show: false,
-    actionManager: new ActionManager()
+    actionManager: new ActionManager(),
+    txHash: null,
+    defaultStep,
+    feeStep,
+    signStep,
+    inclusionStep,
+    SIGN_METHODS
   }),
   computed: {
     ...mapGetters([
@@ -384,6 +424,7 @@ export default {
       this.password = null
       this.step = defaultStep
       this.show = false
+      this.sending = false
 
       // reset form
       this.$v.$reset()
@@ -457,8 +498,15 @@ export default {
       this.submissionError = null
       this.trackEvent(`event`, `submit`, this.title, this.selectedSignMethod)
 
-      if (this.selectedSignMethod === signMethods.LEDGER) {
-        await this.connectLedger()
+      if (this.selectedSignMethod === SIGN_METHODS.LEDGER) {
+        try {
+          await this.connectLedger()
+        } catch (error) {
+          this.submissionError = `${this.submissionErrorPrefix}: ${
+            error.message
+          }.`
+          return
+        }
       }
 
       const { type, memo, ...transactionProperties } = this.transactionData
@@ -476,30 +524,45 @@ export default {
       }
 
       try {
-        await this.actionManager.send(memo, feeProperties)
-        this.trackEvent(
-          `event`,
-          `successful-submit`,
-          this.title,
-          this.selectedSignMethod
+        const { included, hash } = await this.actionManager.send(
+          memo,
+          feeProperties
         )
-        this.$store.commit(`notify`, this.notifyMessage)
-        this.$store.dispatch(`post${type}`, {
-          txProps: transactionProperties,
-          txMeta: feeProperties
-        })
-        this.close()
+        this.txHash = hash
+        await this.waitForInclusion(included)
+        this.onTxIncluded(type, transactionProperties, feeProperties)
       } catch ({ message }) {
-        this.submissionError = `${this.submissionErrorPrefix}: ${message}.`
-        this.trackEvent(`event`, `failed-submit`, this.title, message)
+        this.onSendingFailed(message)
+      } finally {
+        this.txHash = null
       }
     },
+    async waitForInclusion(includedFn) {
+      this.step = inclusionStep
+      await includedFn()
+    },
+    onTxIncluded(txType, transactionProperties, feeProperties) {
+      // this.step = successStep
+      this.trackEvent(
+        `event`,
+        `successful-submit`,
+        this.title,
+        this.selectedSignMethod
+      )
+      this.$store.commit(`notify`, this.notifyMessage)
+      this.$store.dispatch(`post${txType}`, {
+        txProps: transactionProperties,
+        txMeta: feeProperties
+      })
+      this.close()
+    },
+    onSendingFailed(message) {
+      this.step = signStep
+      this.submissionError = `${this.submissionErrorPrefix}: ${message}.`
+      this.trackEvent(`event`, `failed-submit`, this.title, message)
+    },
     async connectLedger() {
-      try {
-        await this.$store.dispatch(`connectLedgerApp`)
-      } catch (error) {
-        this.submissionError = `${this.submissionErrorPrefix}: ${error}.`
-      }
+      await this.$store.dispatch(`connectLedgerApp`)
     }
   },
   validations() {
@@ -507,7 +570,7 @@ export default {
       password: {
         required: requiredIf(
           () =>
-            this.selectedSignMethod === signMethods.LOCAL &&
+            this.selectedSignMethod === SIGN_METHODS.LOCAL &&
             this.step === signStep
         )
       },
@@ -624,6 +687,7 @@ export default {
   padding: 1rem 1rem;
   font-size: 14px;
   font-style: normal;
+  width: 100%;
 }
 
 .slide-fade-enter-active {
