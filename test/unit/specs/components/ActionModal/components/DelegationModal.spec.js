@@ -159,9 +159,9 @@ describe(`DelegationModal`, () => {
     it("should return correct transaction data for delegating", () => {
       expect(wrapper.vm.transactionData).toEqual({
         type: "MsgRedelegate",
-        validator_src_address:
+        validatorSourceAddress:
           "cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au",
-        validator_dst_address: "cosmosDstAddress1",
+        validatorDestincationAddress: "cosmosDstAddress1",
         amount: "10000000",
         denom: "STAKE"
       })
