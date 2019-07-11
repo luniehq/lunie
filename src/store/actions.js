@@ -81,7 +81,7 @@ export const approveSignRequest = (
       },
       function(response) {
         if (response && response.error) {
-          reject(response.error)
+          return reject(response.error)
         }
         resolve()
         commit('setSignRequest', null)
