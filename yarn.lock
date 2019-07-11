@@ -660,6 +660,13 @@
   dependencies:
     regenerator-runtime "^0.13.2"
 
+"@babel/runtime@^7.5.4":
+  version "7.5.4"
+  resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.5.4.tgz#cb7d1ad7c6d65676e66b47186577930465b5271b"
+  integrity sha512-Na84uwyImZZc3FKf4aUF1tysApzwf3p2yuFBIyBfbzT5glzKTdvYI4KVW4kcgjrzoGUjC7w3YyCHcJKaRxsr2Q==
+  dependencies:
+    regenerator-runtime "^0.13.2"
+
 "@babel/template@^7.1.0", "@babel/template@^7.4.0", "@babel/template@^7.4.4":
   version "7.4.4"
   resolved "https://registry.yarnpkg.com/@babel/template/-/template-7.4.4.tgz#f4b88d1225689a08f5bc3a17483545be9e4ed237"
@@ -900,11 +907,12 @@
   resolved "https://registry.yarnpkg.com/@ledgerhq/logs/-/logs-4.62.0.tgz#6696e6d74576e09d72bc1d7a8fcff76cd190461e"
   integrity sha512-f/XtWHzHxE4AJlB53vZllH/4gY3t7n1vNoGkjHFfu3keLmbyHWC1sGdG+lW9FRlToSLQuVotGIbm04SBn0vSIQ==
 
-"@lunie/cosmos-api@0.0.23":
-  version "0.0.23"
-  resolved "https://registry.yarnpkg.com/@lunie/cosmos-api/-/cosmos-api-0.0.23.tgz#ffa04e5b9b786495540684ff3815d7319d87a112"
-  integrity sha512-51YLxgW6pr1N4qR2UbJ9hv0lXzl5qXVQCIXN//jW9jnYDCdHvPBw/qU/CKnePk3YUS8+yn8POwk24kPsVbPxFg==
+"@lunie/cosmos-api@0.1.1":
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/@lunie/cosmos-api/-/cosmos-api-0.1.1.tgz#ac53dd4dafe03397c86b0412bc97c04b2dcdf7ba"
+  integrity sha512-rldxk5dpDdJyqyYy9h8hBfM2M5g6lrR99GKqFAz1xkYkicjZXyFNVjYZedwIw35kGyLmp/4RrZpwhXuFAHjoVg==
   dependencies:
+    "@babel/runtime" "^7.5.4"
     axios "^0.19.0"
 
 "@lunie/cosmos-keys@0.1.0":

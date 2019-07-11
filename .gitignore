@@ -9,7 +9,7 @@ npm-debug.log.*
 /package-lock.json
 thumbs.db
 !.gitkeep
-.vscode/*
+.vscode/launch.json
 yarn-error.log
 testArtifacts/*
 .idea/*

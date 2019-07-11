@@ -1,5 +1,5 @@
 import config from "src/config"
-import { getAccounts } from "src/scripts/extension-utils"
+import { getAccountsFromExtension } from "src/scripts/extension-utils"
 
 export default () => {
   const emptyState = {
@@ -8,7 +8,7 @@ export default () => {
   const state = {
     ...emptyState,
     accounts: [],
-    externals: { config, getAccounts } // for testing
+    externals: { config, getAccountsFromExtension } // for testing
   }
   const mutations = {
     setExtensionAvailable(state) {
@@ -22,10 +22,10 @@ export default () => {
   const actions = {
     async getAddressesFromExtension({
       state: {
-        externals: { getAccounts }
+        externals: { getAccountsFromExtension }
       }
     }) {
-      getAccounts() // response will be handled by extension message listener
+      getAccountsFromExtension()
     }
   }
   return {

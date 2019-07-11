@@ -139,6 +139,8 @@ import TmBtn from "src/components/common/TmBtn"
 import ActionModal from "./ActionModal"
 import transaction from "../utils/transactionTypes"
 
+const defaultMemo = "(Sent via Lunie)"
+
 export default {
   name: `send-modal`,
   components: {
@@ -152,7 +154,7 @@ export default {
     address: ``,
     amount: null,
     denom: ``,
-    memo: "(Sent via Lunie)",
+    memo: defaultMemo,
     max_memo_characters: 256,
     editMemo: false
   }),
@@ -203,10 +205,11 @@ export default {
     clear() {
       this.$v.$reset()
 
-      this.address = ``
-      this.amount = 0
+      this.address = undefined
+      this.amount = undefined
       this.editMemo = false
-      this.memo = "(Sent via Lunie)"
+      this.memo = defaultMemo
+      this.sending = false
     },
     bech32Validate(param) {
       try {

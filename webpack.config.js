@@ -68,9 +68,7 @@ const config = {
                 require(`postcss-import`)({
                   root: loader.resourcePath
                 }),
-                require(`postcss-preset-env`)({
-                  browsers: `last 3 versions`
-                }),
+                require(`postcss-preset-env`)(),
                 require(`cssnano`)()
               ]
             }
