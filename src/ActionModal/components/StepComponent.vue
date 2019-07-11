@@ -89,7 +89,7 @@ export default {
   display: inline-block;
   content: "";
   background: var(--grey);
-  width: 4rem;
+  width: 3rem;
   height: 2px;
   position: absolute;
   left: 24px;

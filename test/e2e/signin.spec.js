@@ -3,7 +3,8 @@ module.exports = {
     prepare(browser)
 
     browser.click("#use-an-existing-address")
-    browser.waitForElementVisible("#session-existing")
+    browser.waitForElementVisible("#sign-in-with-account")
+    browser.pause(500)
     browser.click("#sign-in-with-account")
     browser.waitForElementVisible("#sign-in-name")
     browser.click(
@@ -25,22 +26,22 @@ module.exports = {
       .before(10000)
 
     await next(browser)
-    browser.expect.elements(".tm-form-msg--error").count.to.equal(4)
+    browser.expect.elements(".tm-form-msg--error").count.to.equal(3)
 
     browser.setValue("#sign-up-name", "demo-account")
     await next(browser)
-    browser.expect.elements(".tm-form-msg--error").count.to.equal(3)
+    browser.expect.elements(".tm-form-msg--error").count.to.equal(2)
 
     browser.setValue("#sign-up-password", "1234567890")
     await next(browser)
     browser.expect
       .elements(".tm-form-msg--error")
       // the error on the initial password vanishes but the password confirmation appears
-      .count.to.equal(3)
+      .count.to.equal(2)
 
     browser.setValue("#sign-up-password-confirm", "1234567890")
     await next(browser)
-    browser.expect.elements(".tm-form-msg--error").count.to.equal(2)
+    browser.expect.elements(".tm-form-msg--error").count.to.equal(1)
 
     browser.click("#sign-up-warning")
     await next(browser)
@@ -52,6 +53,8 @@ module.exports = {
     prepare(browser)
 
     browser.click("#use-an-existing-address")
+    browser.waitForElementVisible("#recover-with-backup")
+    browser.pause(500)
     browser.click("#recover-with-backup")
     browser.waitForElementVisible("#import-seed")
 
@@ -91,12 +94,15 @@ async function next(browser) {
       elem.scrollLeft = scrollX
       elem.scrollTop = scrollY
     },
-    [".session", 0, 300]
+    [".session", 0, 500]
   )
+  browser.pause(200)
   return browser.click(".session-footer .tm-btn")
 }
 
 function openMenu(browser) {
+  browser.waitForElementVisible(".open-menu")
+  browser.pause(500)
   browser.click(".open-menu")
 }
 

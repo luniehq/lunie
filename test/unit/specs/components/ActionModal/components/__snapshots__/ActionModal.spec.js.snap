@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`ActionModal should show the action modal when user has logged in with exploration mode on default step 1`] = `
+exports[`ActionModal should show the action modal on success 1`] = `
 <div
   class="action-modal"
   name="slide-fade"
@@ -28,36 +28,94 @@ exports[`ActionModal should show the action modal when user has logged in with e
       
     </span>
      
-    <steps-stub
-      activestep="details"
-      steps="Details,Fees,Sign"
-    />
+    <!---->
   </div>
    
   <div
-    class="action-modal-form"
-  />
+    class="action-modal-form success-step"
+  >
+    <tmdatamsg-stub
+      icon="check"
+    >
+      <div>
+        
+          Successful transaction
+        
+      </div>
+       
+      <div>
+        
+          You have successfully completed a transaction. 
+        <br />
+        <br />
+        
+          Block
+          
+        <router-link-stub
+          to="/blocks/undefined"
+        >
+          #
+        </router-link-stub>
+        .
+        
+      </div>
+    </tmdatamsg-stub>
+  </div>
    
   <div
     class="action-modal-footer"
   >
-    <tmformgroup-stub
-      class="action-modal-group"
-    >
-      <div>
-        <tmbtn-stub
-          color="primary"
-          value="Next"
-        />
-      </div>
-    </tmformgroup-stub>
+    <!---->
      
     <!---->
   </div>
 </div>
 `;
 
-exports[`ActionModal should show the action modal when user has logged in with exploration mode on fees step 1`] = `
+exports[`ActionModal should show the action modal waiting on inclusion 1`] = `
+<div
+  class="action-modal"
+  name="slide-fade"
+  tabindex="0"
+>
+  <div
+    class="action-modal-icon action-modal-close"
+    id="closeBtn"
+  >
+    <i
+      class="material-icons"
+    >
+      close
+    </i>
+  </div>
+   
+  <div
+    class="action-modal-header"
+  >
+    <span
+      class="action-modal-title"
+    >
+      
+        Action Modal
+      
+    </span>
+     
+    <!---->
+  </div>
+   
+  <!---->
+   
+  <div
+    class="action-modal-footer"
+  >
+    <!---->
+     
+    <!---->
+  </div>
+</div>
+`;
+
+exports[`ActionModal should show the action modal when user has logged in with explore on fees step 1`] = `
 <div
   class="action-modal"
   name="slide-fade"
@@ -124,7 +182,7 @@ exports[`ActionModal should show the action modal when user has logged in with e
 </div>
 `;
 
-exports[`ActionModal should show the action modal when user has logged in with exploration mode on sign step 1`] = `
+exports[`ActionModal should show the action modal when user has logged in with explore on sign step 1`] = `
 <div
   class="action-modal"
   name="slide-fade"
@@ -203,7 +261,7 @@ exports[`ActionModal should show the action modal when user has logged in with e
         <tmbtn-stub
           color="primary"
           disabled="true"
-          value="Submit"
+          value="Send"
         />
       </div>
     </tmformgroup-stub>
@@ -213,7 +271,7 @@ exports[`ActionModal should show the action modal when user has logged in with e
 </div>
 `;
 
-exports[`ActionModal should show the action modal when user has logged in with exploration mode sending 1`] = `
+exports[`ActionModal should show the action modal when user has logged in with explore sending 1`] = `
 <div
   class="action-modal"
   name="slide-fade"
@@ -293,63 +351,6 @@ exports[`ActionModal should show the action modal when user has logged in with e
           color="primary"
           disabled="true"
           value="Sending..."
-        />
-      </div>
-    </tmformgroup-stub>
-     
-    <!---->
-  </div>
-</div>
-`;
-
-exports[`ActionModal should show the action modal when user has logged in with extension on default step 1`] = `
-<div
-  class="action-modal"
-  name="slide-fade"
-  tabindex="0"
->
-  <div
-    class="action-modal-icon action-modal-close"
-    id="closeBtn"
-  >
-    <i
-      class="material-icons"
-    >
-      close
-    </i>
-  </div>
-   
-  <div
-    class="action-modal-header"
-  >
-    <span
-      class="action-modal-title"
-    >
-      
-        Action Modal
-      
-    </span>
-     
-    <steps-stub
-      activestep="details"
-      steps="Details,Fees,Sign"
-    />
-  </div>
-   
-  <div
-    class="action-modal-form"
-  />
-   
-  <div
-    class="action-modal-footer"
-  >
-    <tmformgroup-stub
-      class="action-modal-group"
-    >
-      <div>
-        <tmbtn-stub
-          color="primary"
-          value="Next"
         />
       </div>
     </tmformgroup-stub>
@@ -472,10 +473,14 @@ exports[`ActionModal should show the action modal when user has logged in with e
     >
       <div>
         
-          Please verify and sign the transaction in the Lunie Chrome
+          Please send the transaction to be signed in the Lunie Browser
           Extension.
         
       </div>
+       
+      <!---->
+       
+      <!---->
     </hardwarestate-stub>
   </div>
    
@@ -489,80 +494,7 @@ exports[`ActionModal should show the action modal when user has logged in with e
         <tmbtn-stub
           color="primary"
           disabled="true"
-          value="Submit"
-        />
-      </div>
-    </tmformgroup-stub>
-     
-    <!---->
-  </div>
-</div>
-`;
-
-exports[`ActionModal should show the action modal when user has logged in with extension on sign step without extension installed 1`] = `
-<div
-  class="action-modal"
-  name="slide-fade"
-  tabindex="0"
->
-  <div
-    class="action-modal-icon action-modal-close"
-    id="closeBtn"
-  >
-    <i
-      class="material-icons"
-    >
-      close
-    </i>
-  </div>
-   
-  <div
-    class="action-modal-header"
-  >
-    <span
-      class="action-modal-title"
-    >
-      
-        Action Modal
-      
-    </span>
-     
-    <steps-stub
-      activestep="sign"
-      steps="Details,Fees,Sign"
-    />
-  </div>
-   
-  <div
-    class="action-modal-form"
-  >
-    <!---->
-     
-    <!---->
-     
-    <hardwarestate-stub
-      icon="info"
-    >
-      <div>
-        
-          Please install the Lunie Chrome Extension from the Google Chrome
-          store.
-        
-      </div>
-    </hardwarestate-stub>
-  </div>
-   
-  <div
-    class="action-modal-footer"
-  >
-    <tmformgroup-stub
-      class="action-modal-group"
-    >
-      <div>
-        <tmbtn-stub
-          color="primary"
-          disabled="true"
-          value="Submit"
+          value="Send"
         />
       </div>
     </tmformgroup-stub>
@@ -617,12 +549,16 @@ exports[`ActionModal should show the action modal when user has logged in with e
       icon="info"
       loading="true"
     >
+      <!---->
+       
       <div>
         
-          Please verify and sign the transaction in the Lunie Chrome
-          Extension.
+          Please open the Lunie Browser Extension, review the details, and
+          approve the transaction.
         
       </div>
+       
+      <!---->
     </hardwarestate-stub>
   </div>
    
@@ -637,63 +573,6 @@ exports[`ActionModal should show the action modal when user has logged in with e
           color="primary"
           disabled="true"
           value="Waiting for Extension"
-        />
-      </div>
-    </tmformgroup-stub>
-     
-    <!---->
-  </div>
-</div>
-`;
-
-exports[`ActionModal should show the action modal when user has logged in with ledger on default step 1`] = `
-<div
-  class="action-modal"
-  name="slide-fade"
-  tabindex="0"
->
-  <div
-    class="action-modal-icon action-modal-close"
-    id="closeBtn"
-  >
-    <i
-      class="material-icons"
-    >
-      close
-    </i>
-  </div>
-   
-  <div
-    class="action-modal-header"
-  >
-    <span
-      class="action-modal-title"
-    >
-      
-        Action Modal
-      
-    </span>
-     
-    <steps-stub
-      activestep="details"
-      steps="Details,Fees,Sign"
-    />
-  </div>
-   
-  <div
-    class="action-modal-form"
-  />
-   
-  <div
-    class="action-modal-footer"
-  >
-    <tmformgroup-stub
-      class="action-modal-group"
-    >
-      <div>
-        <tmbtn-stub
-          color="primary"
-          value="Next"
         />
       </div>
     </tmformgroup-stub>
@@ -833,7 +712,7 @@ exports[`ActionModal should show the action modal when user has logged in with l
         <tmbtn-stub
           color="primary"
           disabled="true"
-          value="Submit"
+          value="Send"
         />
       </div>
     </tmformgroup-stub>
@@ -917,64 +796,7 @@ exports[`ActionModal should show the action modal when user has logged in with l
 </div>
 `;
 
-exports[`ActionModal should show the action modal when user has logged in with local keystore on default step 1`] = `
-<div
-  class="action-modal"
-  name="slide-fade"
-  tabindex="0"
->
-  <div
-    class="action-modal-icon action-modal-close"
-    id="closeBtn"
-  >
-    <i
-      class="material-icons"
-    >
-      close
-    </i>
-  </div>
-   
-  <div
-    class="action-modal-header"
-  >
-    <span
-      class="action-modal-title"
-    >
-      
-        Action Modal
-      
-    </span>
-     
-    <steps-stub
-      activestep="details"
-      steps="Details,Fees,Sign"
-    />
-  </div>
-   
-  <div
-    class="action-modal-form"
-  />
-   
-  <div
-    class="action-modal-footer"
-  >
-    <tmformgroup-stub
-      class="action-modal-group"
-    >
-      <div>
-        <tmbtn-stub
-          color="primary"
-          value="Next"
-        />
-      </div>
-    </tmformgroup-stub>
-     
-    <!---->
-  </div>
-</div>
-`;
-
-exports[`ActionModal should show the action modal when user has logged in with local keystore on fees step 1`] = `
+exports[`ActionModal should show the action modal when user has logged in with local on fees step 1`] = `
 <div
   class="action-modal"
   name="slide-fade"
@@ -1041,7 +863,7 @@ exports[`ActionModal should show the action modal when user has logged in with l
 </div>
 `;
 
-exports[`ActionModal should show the action modal when user has logged in with local keystore on sign step 1`] = `
+exports[`ActionModal should show the action modal when user has logged in with local on sign step 1`] = `
 <div
   class="action-modal"
   name="slide-fade"
@@ -1109,7 +931,7 @@ exports[`ActionModal should show the action modal when user has logged in with l
         <tmbtn-stub
           color="primary"
           disabled="true"
-          value="Submit"
+          value="Send"
         />
       </div>
     </tmformgroup-stub>
@@ -1119,7 +941,7 @@ exports[`ActionModal should show the action modal when user has logged in with l
 </div>
 `;
 
-exports[`ActionModal should show the action modal when user has logged in with local keystore sending 1`] = `
+exports[`ActionModal should show the action modal when user has logged in with local sending 1`] = `
 <div
   class="action-modal"
   name="slide-fade"
@@ -1234,8 +1056,12 @@ exports[`ActionModal should show the action modal when user hasn't logged in 1`]
   <div
     class="action-modal-form"
   >
-    <p>
-      You need to sign in to submit a transaction.
+    <p
+      class="form-message notice"
+    >
+      
+        You need to sign in to submit a transaction.
+      
     </p>
   </div>
    

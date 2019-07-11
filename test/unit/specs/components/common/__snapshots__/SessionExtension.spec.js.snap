@@ -12,7 +12,7 @@ exports[`SessionExtension should show a guide to install the extension if no ext
         class="session-title"
       >
         
-        Use Lunie browser extension
+        Use Lunie Browser Extension
       
       </h2>
        
@@ -21,7 +21,7 @@ exports[`SessionExtension should show a guide to install the extension if no ext
       >
         <p>
           
-          Please install the Lunie browser extension from the
+          Please install the Lunie Browser Extension from the
           
           <a
             href="https://chrome.google.com/webstore/category/extensions"
@@ -51,7 +51,7 @@ exports[`SessionExtension should show a list of all accounts in the extension 1`
         class="session-title"
       >
         
-        Use Lunie browser extension
+        Use Lunie Browser Extension
       
       </h2>
        
