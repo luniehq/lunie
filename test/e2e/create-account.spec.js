@@ -17,16 +17,7 @@ afterAll(async () => {
   await browser.close()
 })
 
-test('Restores an account with backup codes', async () => {
-  //click "Add Account"
-  await page.waitForSelector('button')
-  await page.click('button')
-
-  //click "Use an Existing Address"
-  await page.waitForSelector("a[href='#/existing']")
-  await page.waitFor(300)
-  await page.click("a[href='#/existing']")
-
+test('Restores an account with backup code when has no accounts', async () => {
   //click "Recover with backup code"
   await page.waitForSelector("a[href='#/recover']")
   await page.waitFor(300)
@@ -53,6 +44,9 @@ test('Restores an account with backup codes', async () => {
     signupData.seedPhrase
   )
   await page.click('div.session-footer')
+
+  const accountRenders = await page.$eval('h3', el => el.textContent)
+  expect(accountRenders).toEqual(signupData.name)
 
   //needs better check once account is accessible
   expect(await page.$('body')).toBeTruthy()
