@@ -19,8 +19,9 @@ export default [
     component: require('../../components/SessionWelcome').default
   },
   {
-    path: '/approved',
-    redirect: { name: 'welcome' }
+    path: '/success',
+    name: 'success',
+    component: require('../../components/SessionSuccess').default
   },
   {
     path: '/existing',
