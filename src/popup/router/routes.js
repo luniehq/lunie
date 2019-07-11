@@ -41,7 +41,7 @@ export default [
   {
     path: `/approve`,
     name: `approve`,
-    component: require('common/SessionApprove').default,
+    component: require('../../components/SessionApprove').default,
     beforeEnter: (to, from, next) => {
       if (!store.state.signRequest) {
         next({ path: '/accounts' })

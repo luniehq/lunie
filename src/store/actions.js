@@ -68,7 +68,7 @@ export const approveSignRequest = (
   { commit },
   { signMessage, senderAddress, password, id }
 ) => {
-  return new Promise(resolve => {
+  return new Promise((resolve, reject) => {
     chrome.runtime.sendMessage(
       {
         type: 'SIGN',
@@ -79,8 +79,10 @@ export const approveSignRequest = (
           id
         }
       },
-      function(_response) {
-        // TODO missing rejection on wrong password?
+      function(response) {
+        if (response && response.error) {
+          reject(response.error)
+        }
         resolve()
         commit('setSignRequest', null)
       }
