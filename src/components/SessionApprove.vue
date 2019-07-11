@@ -43,6 +43,12 @@
           name="Password"
           type="required"
         />
+        <TmFormMsg
+          v-if="$v.password.$error && !$v.password.passwordCorrect"
+          name="Password"
+          type="custom"
+          msg="is incorrect"
+        />
       </TmFormGroup>
 
       <div class="session-approve-footer">
@@ -91,7 +97,8 @@ export default {
   },
   data: () => ({
     deligates: [],
-    password: null
+    password: null,
+    passwordError: false
   }),
   computed: {
     ...mapGetters(['signRequest']),
@@ -114,6 +121,11 @@ export default {
       return this.amountCoin ? this.amountCoin.denom : null
     }
   },
+  watch: {
+    password: function() {
+      this.passwordError = false
+    }
+  },
   methods: {
     isValidInput(property) {
       this.$v[property].$touch()
@@ -122,11 +134,18 @@ export default {
     },
     async approve() {
       if (this.isValidInput('password')) {
-        await this.$store.dispatch('approveSignRequest', {
-          ...this.signRequest,
-          password: this.password
-        })
-        this.$router.push(`/approved`)
+        await this.$store
+          .dispatch('approveSignRequest', {
+            ...this.signRequest,
+            password: this.password
+          })
+          .catch(e => {
+            if (e === 'Incorrect password') {
+              this.passwordError = true
+            }
+            return
+          })
+        this.$router.push(`/success`)
       }
     },
     async reject() {
@@ -134,12 +153,17 @@ export default {
         ...this.signRequest
       })
       this.$router.push(`/`)
+    },
+    correctPassword() {
+      return !this.passwordError
     }
   },
   validations() {
+    const passwordCorrect = this.correctPassword
     return {
       password: {
-        required
+        required,
+        passwordCorrect
       }
     }
   }
