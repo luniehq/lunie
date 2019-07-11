@@ -22,7 +22,10 @@ describe(`UndelegationModal`, () => {
     bond_denom: `STAKE`
   }
   const validator = {
-    operator_address: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au`
+    operator_address: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au`,
+    description: {
+      moniker: "good_greg"
+    }
     // we don't need other props in this component
   }
   const localVue = createLocalVue()
@@ -112,7 +115,8 @@ describe(`UndelegationModal`, () => {
         validator_address:
           "cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au",
         amount: "10000000",
-        denom: "STAKE"
+        denom: "STAKE",
+        validator_moniker: "good_greg"
       })
     })
 
