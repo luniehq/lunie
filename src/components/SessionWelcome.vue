@@ -1,9 +1,7 @@
 <template>
   <SessionFrame>
     <div id="session-welcome" class="session">
-      <router-link to="/">
-        <img class="lunie-logo" src="../images/extension-logo.svg" />
-      </router-link>
+      <img class="lunie-logo" src="../images/extension-logo.svg" />
 
       <div class="session-list">
         <LiSession
