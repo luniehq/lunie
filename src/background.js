@@ -3,7 +3,8 @@ import { signMessageHandler, walletMessageHandler } from './messageHandlers'
 
 global.browser = require('webextension-polyfill')
 
-const whitelisted = ['https://lunie.io', 'https://www.lunie.io']
+const extensionHost = location.origin
+const whitelisted = ['https://lunie.io', 'https://www.lunie.io', extensionHost]
 if (process.env.NODE_ENV === 'development') {
   whitelisted.push('https://localhost')
 }

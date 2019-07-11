@@ -18,7 +18,7 @@
     "build": "cross-env NODE_ENV=production webpack --hide-modules",
     "build:dev": "cross-env NODE_ENV=development webpack --hide-modules",
     "build-zip": "node scripts/build-zip.js",
-    "initiate-submodule": "git submodule init && git submodule update && cd ./lunie && git checkout develop && cd ..",
+    "initiate-submodule": "git submodule init && git submodule update && cd ./lunie && git checkout develop && yarn install && cd ..",
     "watch": "npm run build -- --watch",
     "watch:dev": "cross-env HMR=true npm run build:dev -- --watch",
     "test:unit": "jest --coverage ./test/unit/*spec.js ./test/unit/**/*spec.js",
