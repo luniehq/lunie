@@ -332,8 +332,8 @@ export default {
     notifyMessage: {
       type: Object,
       default: () => ({
-        title: `Transaction Confirmed`,
-        body: `The transaction was successfully included in a block`
+        title: `Successful transaction`,
+        body: `You have successfully completed a transaction.`
       })
     },
     // disable proceeding from the first page
