@@ -10,7 +10,7 @@ localVue.directive("focus", () => {})
 
 let mockSimulate = jest.fn(() => 123456)
 let mockSend = jest.fn(() => ({
-  included: () => Promise.resolve(),
+  included: () => Promise.resolve({ height: 42 }),
   hash: "HASH1234HASH"
 }))
 let mockSetContext = jest.fn()
@@ -97,7 +97,8 @@ describe(`ActionModal`, () => {
         $router: {
           push: jest.fn()
         }
-      }
+      },
+      stubs: ["router-link"]
     })
     wrapper.vm.open()
   })
@@ -180,8 +181,7 @@ describe(`ActionModal`, () => {
       const steps = [
         ["on fees step", "fees", false],
         ["on sign step", "sign", false],
-        ["sending", "sign", true],
-        ["waiting for inclusion", "send", true]
+        ["sending", "sign", true]
       ]
 
       describe.each(signMethods)(`with %s`, signMethod => {
@@ -199,6 +199,16 @@ describe(`ActionModal`, () => {
       await wrapper.vm.$nextTick()
       expect(wrapper.vm.$el).toMatchSnapshot()
     })
+
+    it(`waiting on inclusion`, async () => {
+      wrapper.vm.step = "inclusion"
+      expect(wrapper.vm.$el).toMatchSnapshot()
+    })
+
+    it(`on success`, async () => {
+      wrapper.vm.step = "success"
+      expect(wrapper.vm.$el).toMatchSnapshot()
+    })
   })
 
   describe(`close modal`, () => {
@@ -206,13 +216,6 @@ describe(`ActionModal`, () => {
       wrapper.vm.open()
       wrapper.vm.close()
       expect(wrapper.isEmpty()).toBe(true)
-    })
-
-    it(`should close if submitted`, async () => {
-      wrapper.vm.close = jest.fn()
-      const submitFn = jest.fn()
-      await wrapper.vm.submit(submitFn)
-      expect(wrapper.vm.close).toHaveBeenCalled()
     })
 
     it(`should erase password on close`, () => {
@@ -446,11 +449,6 @@ describe(`ActionModal`, () => {
         },
         txProps: { denom: "uatom", validatorAddress: "cosmos12345" }
       })
-      expect($store.commit).toHaveBeenCalledWith(`notify`, {
-        title: `Successful transaction`,
-        body: `You have successfully completed a transaction.`
-      })
-      expect(wrapper.emitted(`close`)).toBeTruthy()
     })
 
     it("should fail if submitting fails", async () => {

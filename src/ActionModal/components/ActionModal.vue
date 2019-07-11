@@ -159,10 +159,11 @@
       <div v-else-if="step === successStep" class="action-modal-form">
         <TmDataMsg icon="check">
           <div slot="title">
-            Transaction Confirmed
+            {{ notifyMessage.title }}
           </div>
           <div slot="subtitle">
-            The transaction was successfully included in block
+            {{ notifyMessage.body }} <br /><br />
+            Block
             <router-link :to="`/blocks/${includedHeight}`"
               >#{{ includedHeight }}</router-link
             >.
@@ -313,6 +314,13 @@ export default {
     transactionData: {
       type: Object,
       default: () => {}
+    },
+    notifyMessage: {
+      type: Object,
+      default: {
+        title: `Transaction Confirmed`,
+        body: `The transaction was successfully included in a block`
+      }
     },
     // disable proceeding from the first page
     disabled: {
