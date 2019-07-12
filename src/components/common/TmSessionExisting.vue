@@ -64,12 +64,3 @@ export default {
   }
 }
 </script>
-<style scoped>
-.form-group a {
-  cursor: pointer;
-}
-
-.session-title {
-  padding-left: 1rem;
-}
-</style>
