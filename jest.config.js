@@ -17,5 +17,6 @@ module.exports = {
     `<rootDir>/lunie/src/utils`
   ],
   transformIgnorePatterns: [`node_modules`],
-  testPathIgnorePatterns: [`/node_modules/`, `<rootDir>/lunie`]
+  testPathIgnorePatterns: [`/node_modules/`, `<rootDir>/lunie`],
+  verbose: true
 }
