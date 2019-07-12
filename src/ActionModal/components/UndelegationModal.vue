@@ -120,7 +120,7 @@ export default {
       return {
         type: transaction.UNDELEGATE,
         validatorAddress: this.validator.operator_address,
-        validator_moniker: this.validator.description.moniker,
+        validatorMoniker: this.validator.description.moniker,
         amount: uatoms(this.amount),
         denom: this.denom
       }

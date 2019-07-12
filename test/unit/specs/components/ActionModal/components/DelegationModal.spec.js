@@ -134,7 +134,7 @@ describe(`DelegationModal`, () => {
         validatorAddress: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au`,
         amount: "10000000",
         denom: "STAKE",
-        validator_moniker: "good_greg"
+        validatorMoniker: "good_greg"
       })
     })
 
@@ -165,7 +165,7 @@ describe(`DelegationModal`, () => {
         validatorDestinationAddress: "cosmosDstAddress1",
         amount: "10000000",
         denom: "STAKE",
-        validator_moniker: "good_greg"
+        validatorMoniker: "good_greg"
       })
       // expect(wrapper.vm.transactionData).toEqual()
     })

@@ -63,8 +63,8 @@ export default class ActionManager {
       this.messageType === transaction.UNDELEGATE ||
       this.messageType === transaction.REDELEGATE
     ) {
-      this.message.message.value["validator_moniker"] =
-        transactionProperties["validator_moniker"]
+      this.message.message.value["validatorMoniker"] =
+        transactionProperties["validatorMoniker"]
     }
   }
 
