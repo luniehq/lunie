@@ -25,10 +25,10 @@
     "lint:fix": "eslint --fix -f ./node_modules/eslint-friendly-formatter \"{,**/}*.{js,vue}\" && stylelint \"**/*.{css,vue}\" --fix",
     "test": "npm run lint && npm run test:unit && npm run test:e2e",
     "test:unit": "cross-env NODE_ENV=testing jest --maxWorkers=2",
-    "test:e2e:live-serve": "cross-env E2E_TESTS=true STARGATE=http://localhost:9070 RPC=http://localhost:26657 NODE_ENV=production webpack-dev-server --colors --config webpack.config.js --port 9080 --https --mode=production --cert 'certs/dev.crt' --key 'certs/dev.key'",
-    "test:e2e:run": "nightwatch --config ./test/e2e/nightwatch.conf.js",
-    "test:e2e": "concurrently --kill-others --success first --names webserver,tests \"npm run serve -- --no-browser\" \"npm run test:e2e:run\"",
     "test:e2e:build": "cross-env E2E_TESTS=true STARGATE=http://localhost:9070 RPC=http://localhost:26657 CIRCLECI=true npm run build:ui",
+    "test:e2e:serve": "cross-env E2E_TESTS=true STARGATE=http://localhost:9070 RPC=http://localhost:26657 NODE_ENV=production webpack-dev-server --colors --config webpack.config.js --port 9080 --https --mode=production --cert 'certs/dev.crt' --key 'certs/dev.key'",
+    "test:e2e:run": "nightwatch --config ./test/e2e/nightwatch.conf.js",
+    "test:e2e": "npm run test:e2e:serve & npm run test:e2e:run",
     "test:coverage": "live-server test/unit/coverage/lcov-report",
     "watch": "tasks/watch.sh",
     "testnet:start": "docker run --rm -p 26657:26657 --name testnet -p 9070:9070 --detach -e MAX_NODES=${MAX_NODES:-2} lunieio/testnet:v0.34.7",
@@ -111,7 +111,7 @@
     "webpack-dev-server": "3.2.1"
   },
   "dependencies": {
-    "@lunie/cosmos-api": "0.0.23",
+    "@lunie/cosmos-api": "0.1.1",
     "@lunie/cosmos-keys": "0.1.0",
     "@lunie/cosmos-ledger": "0.0.5",
     "@sentry/browser": "5.0.3",

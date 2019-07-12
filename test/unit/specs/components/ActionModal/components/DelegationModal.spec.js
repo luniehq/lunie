@@ -131,7 +131,7 @@ describe(`DelegationModal`, () => {
     it("should return correct transaction data for delegating", () => {
       expect(wrapper.vm.transactionData).toEqual({
         type: "MsgDelegate",
-        validator_address: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au`,
+        validatorAddress: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au`,
         amount: "10000000",
         denom: "STAKE",
         validator_moniker: "good_greg"
@@ -160,9 +160,9 @@ describe(`DelegationModal`, () => {
     it("should return correct transaction data for delegating", () => {
       expect(wrapper.vm.transactionData).toEqual({
         type: "MsgRedelegate",
-        validator_src_address:
+        validatorSourceAddress:
           "cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au",
-        validator_dst_address: "cosmosDstAddress1",
+        validatorDestinationAddress: "cosmosDstAddress1",
         amount: "10000000",
         denom: "STAKE",
         validator_moniker: "good_greg"

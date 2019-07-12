@@ -102,10 +102,6 @@ export default {
   margin-bottom: 0;
 }
 
-.session-footer {
-  justify-content: space-between;
-}
-
 .address {
   color: var(--link);
   font-weight: 500;

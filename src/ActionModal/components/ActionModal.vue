@@ -167,6 +167,23 @@
           </div>
         </TmDataMsg>
       </div>
+      <div
+        v-else-if="step === successStep"
+        class="action-modal-form success-step"
+      >
+        <TmDataMsg icon="check">
+          <div slot="title">
+            {{ notifyMessage.title }}
+          </div>
+          <div slot="subtitle">
+            {{ notifyMessage.body }} <br /><br />
+            Block
+            <router-link :to="`/blocks/${includedHeight}`"
+              >#{{ includedHeight }}</router-link
+            >.
+          </div>
+        </TmDataMsg>
+      </div>
       <div class="action-modal-footer">
         <slot name="action-modal-footer">
           <TmFormGroup
@@ -246,6 +263,7 @@ const defaultStep = `details`
 const feeStep = `fees`
 const signStep = `sign`
 const inclusionStep = `send`
+const successStep = `success`
 
 const SIGN_METHODS = {
   LOCAL: `local`,
@@ -313,7 +331,10 @@ export default {
     },
     notifyMessage: {
       type: Object,
-      default: () => {}
+      default: () => ({
+        title: `Successful transaction`,
+        body: `You have successfully completed a transaction.`
+      })
     },
     // disable proceeding from the first page
     disabled: {
@@ -336,6 +357,7 @@ export default {
     feeStep,
     signStep,
     inclusionStep,
+    successStep,
     SIGN_METHODS
   }),
   computed: {
@@ -425,6 +447,7 @@ export default {
       this.step = defaultStep
       this.show = false
       this.sending = false
+      this.includedHeight = undefined
 
       // reset form
       this.$v.$reset()
@@ -505,6 +528,7 @@ export default {
           this.submissionError = `${this.submissionErrorPrefix}: ${
             error.message
           }.`
+          this.sending = false
           return
         }
       }
@@ -539,22 +563,21 @@ export default {
     },
     async waitForInclusion(includedFn) {
       this.step = inclusionStep
-      await includedFn()
+      const { height } = await includedFn()
+      this.includedHeight = height
     },
     onTxIncluded(txType, transactionProperties, feeProperties) {
-      // this.step = successStep
+      this.step = successStep
       this.trackEvent(
         `event`,
         `successful-submit`,
         this.title,
         this.selectedSignMethod
       )
-      this.$store.commit(`notify`, this.notifyMessage)
       this.$store.dispatch(`post${txType}`, {
         txProps: transactionProperties,
         txMeta: feeProperties
       })
-      this.close()
     },
     onSendingFailed(message) {
       this.step = signStep

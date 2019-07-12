@@ -194,11 +194,12 @@ jobs:
           at: *WORKSPACE
       - yarn-install
       - run:
+          # needs to be done in CI to be sure it is build once we start the tests
           name: Build for E2E test
           command: yarn test:e2e:build
       - run:
           name: Test
-          command: yarn test:e2e
+          command: yarn serve --no-browser & yarn test:e2e:run
           no_output_timeout: 120
       - store_artifacts:
           path: ./screenshots

@@ -1,5 +1,120 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`ActionModal should show the action modal on success 1`] = `
+<div
+  class="action-modal"
+  name="slide-fade"
+  tabindex="0"
+>
+  <div
+    class="action-modal-icon action-modal-close"
+    id="closeBtn"
+  >
+    <i
+      class="material-icons"
+    >
+      close
+    </i>
+  </div>
+   
+  <div
+    class="action-modal-header"
+  >
+    <span
+      class="action-modal-title"
+    >
+      
+        Action Modal
+      
+    </span>
+     
+    <!---->
+  </div>
+   
+  <div
+    class="action-modal-form success-step"
+  >
+    <tmdatamsg-stub
+      icon="check"
+    >
+      <div>
+        
+          Successful transaction
+        
+      </div>
+       
+      <div>
+        
+          You have successfully completed a transaction. 
+        <br />
+        <br />
+        
+          Block
+          
+        <router-link-stub
+          to="/blocks/undefined"
+        >
+          #
+        </router-link-stub>
+        .
+        
+      </div>
+    </tmdatamsg-stub>
+  </div>
+   
+  <div
+    class="action-modal-footer"
+  >
+    <!---->
+     
+    <!---->
+  </div>
+</div>
+`;
+
+exports[`ActionModal should show the action modal waiting on inclusion 1`] = `
+<div
+  class="action-modal"
+  name="slide-fade"
+  tabindex="0"
+>
+  <div
+    class="action-modal-icon action-modal-close"
+    id="closeBtn"
+  >
+    <i
+      class="material-icons"
+    >
+      close
+    </i>
+  </div>
+   
+  <div
+    class="action-modal-header"
+  >
+    <span
+      class="action-modal-title"
+    >
+      
+        Action Modal
+      
+    </span>
+     
+    <!---->
+  </div>
+   
+  <!---->
+   
+  <div
+    class="action-modal-footer"
+  >
+    <!---->
+     
+    <!---->
+  </div>
+</div>
+`;
+
 exports[`ActionModal should show the action modal when user has logged in with explore on fees step 1`] = `
 <div
   class="action-modal"
@@ -245,70 +360,6 @@ exports[`ActionModal should show the action modal when user has logged in with e
 </div>
 `;
 
-exports[`ActionModal should show the action modal when user has logged in with explore waiting for inclusion 1`] = `
-<div
-  class="action-modal"
-  name="slide-fade"
-  tabindex="0"
->
-  <div
-    class="action-modal-icon action-modal-close"
-    id="closeBtn"
-  >
-    <i
-      class="material-icons"
-    >
-      close
-    </i>
-  </div>
-   
-  <div
-    class="action-modal-header"
-  >
-    <span
-      class="action-modal-title"
-    >
-      
-        Action Modal
-      
-    </span>
-     
-    <!---->
-  </div>
-   
-  <div
-    class="action-modal-form"
-  >
-    <tmdatamsg-stub
-      icon="hourglass_empty"
-    >
-      <div>
-        
-          Sent and confirming
-        
-      </div>
-       
-      <div>
-        
-          The transaction
-          
-          was successfully signed and sent the network. Waiting for it to be
-          confirmed.
-        
-      </div>
-    </tmdatamsg-stub>
-  </div>
-   
-  <div
-    class="action-modal-footer"
-  >
-    <!---->
-     
-    <!---->
-  </div>
-</div>
-`;
-
 exports[`ActionModal should show the action modal when user has logged in with extension on fees step 1`] = `
 <div
   class="action-modal"
@@ -531,70 +582,6 @@ exports[`ActionModal should show the action modal when user has logged in with e
 </div>
 `;
 
-exports[`ActionModal should show the action modal when user has logged in with extension waiting for inclusion 1`] = `
-<div
-  class="action-modal"
-  name="slide-fade"
-  tabindex="0"
->
-  <div
-    class="action-modal-icon action-modal-close"
-    id="closeBtn"
-  >
-    <i
-      class="material-icons"
-    >
-      close
-    </i>
-  </div>
-   
-  <div
-    class="action-modal-header"
-  >
-    <span
-      class="action-modal-title"
-    >
-      
-        Action Modal
-      
-    </span>
-     
-    <!---->
-  </div>
-   
-  <div
-    class="action-modal-form"
-  >
-    <tmdatamsg-stub
-      icon="hourglass_empty"
-    >
-      <div>
-        
-          Sent and confirming
-        
-      </div>
-       
-      <div>
-        
-          The transaction
-          
-          was successfully signed and sent the network. Waiting for it to be
-          confirmed.
-        
-      </div>
-    </tmdatamsg-stub>
-  </div>
-   
-  <div
-    class="action-modal-footer"
-  >
-    <!---->
-     
-    <!---->
-  </div>
-</div>
-`;
-
 exports[`ActionModal should show the action modal when user has logged in with ledger on fees step 1`] = `
 <div
   class="action-modal"
@@ -803,70 +790,6 @@ exports[`ActionModal should show the action modal when user has logged in with l
         />
       </div>
     </tmformgroup-stub>
-     
-    <!---->
-  </div>
-</div>
-`;
-
-exports[`ActionModal should show the action modal when user has logged in with ledger waiting for inclusion 1`] = `
-<div
-  class="action-modal"
-  name="slide-fade"
-  tabindex="0"
->
-  <div
-    class="action-modal-icon action-modal-close"
-    id="closeBtn"
-  >
-    <i
-      class="material-icons"
-    >
-      close
-    </i>
-  </div>
-   
-  <div
-    class="action-modal-header"
-  >
-    <span
-      class="action-modal-title"
-    >
-      
-        Action Modal
-      
-    </span>
-     
-    <!---->
-  </div>
-   
-  <div
-    class="action-modal-form"
-  >
-    <tmdatamsg-stub
-      icon="hourglass_empty"
-    >
-      <div>
-        
-          Sent and confirming
-        
-      </div>
-       
-      <div>
-        
-          The transaction
-          
-          was successfully signed and sent the network. Waiting for it to be
-          confirmed.
-        
-      </div>
-    </tmdatamsg-stub>
-  </div>
-   
-  <div
-    class="action-modal-footer"
-  >
-    <!---->
      
     <!---->
   </div>
@@ -1090,70 +1013,6 @@ exports[`ActionModal should show the action modal when user has logged in with l
         />
       </div>
     </tmformgroup-stub>
-     
-    <!---->
-  </div>
-</div>
-`;
-
-exports[`ActionModal should show the action modal when user has logged in with local waiting for inclusion 1`] = `
-<div
-  class="action-modal"
-  name="slide-fade"
-  tabindex="0"
->
-  <div
-    class="action-modal-icon action-modal-close"
-    id="closeBtn"
-  >
-    <i
-      class="material-icons"
-    >
-      close
-    </i>
-  </div>
-   
-  <div
-    class="action-modal-header"
-  >
-    <span
-      class="action-modal-title"
-    >
-      
-        Action Modal
-      
-    </span>
-     
-    <!---->
-  </div>
-   
-  <div
-    class="action-modal-form"
-  >
-    <tmdatamsg-stub
-      icon="hourglass_empty"
-    >
-      <div>
-        
-          Sent and confirming
-        
-      </div>
-       
-      <div>
-        
-          The transaction
-          
-          was successfully signed and sent the network. Waiting for it to be
-          confirmed.
-        
-      </div>
-    </tmdatamsg-stub>
-  </div>
-   
-  <div
-    class="action-modal-footer"
-  >
-    <!---->
      
     <!---->
   </div>
