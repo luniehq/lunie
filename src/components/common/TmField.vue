@@ -187,6 +187,10 @@ export default {
 </script>
 
 <style>
+input[type="checkbox"] {
+  margin: 0.5rem 0.5rem 0.5rem 0;
+}
+
 .tm-field {
   background: var(--input-bg, #fff);
   border: 1px solid var(--input-bc, #ccc);

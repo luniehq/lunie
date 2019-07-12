@@ -51,18 +51,3 @@ export default {
   }
 }
 </script>
-<style scoped>
-.session-title {
-  padding-left: 1rem;
-}
-
-.lunie-logo {
-  height: 4rem;
-  margin: 0 0 1rem 1rem;
-  align-self: flex-start;
-}
-
-.session-paragraph {
-  padding: 0 1rem;
-}
-</style>
