@@ -1,6 +1,9 @@
 <template>
   <SessionFrame>
     <div class="session">
+      <a v-if="inExtension" @click="goBack">
+        <i class="material-icons session-back">arrow_back</i>
+      </a>
       <TmFormStruct :submit="onSubmit.bind(this)">
         <h2 class="session-title">
           Recover from seed
@@ -165,9 +168,19 @@ export default {
     }
   }),
   computed: {
-    ...mapGetters([`connected`])
+    ...mapGetters([`connected`]),
+    inExtension() {
+      if (!this.$store.getters.extension) {
+        return true
+      } else {
+        return false
+      }
+    }
   },
   methods: {
+    goBack() {
+      this.$router.push(`/welcome`)
+    },
     async onSubmit() {
       this.$v.$touch()
       if (this.$v.$error) return

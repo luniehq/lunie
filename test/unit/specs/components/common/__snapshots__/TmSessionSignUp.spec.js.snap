@@ -5,6 +5,14 @@ exports[`TmSessionSignUp has the expected html structure 1`] = `
   <div
     class="session"
   >
+    <a>
+      <i
+        class="material-icons session-back"
+      >
+        arrow_back
+      </i>
+    </a>
+     
     <tmformstruct-stub
       submit="function () { [native code] }"
       width=""
