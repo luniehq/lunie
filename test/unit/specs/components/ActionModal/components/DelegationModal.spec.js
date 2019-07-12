@@ -133,8 +133,7 @@ describe(`DelegationModal`, () => {
         type: "MsgDelegate",
         validatorAddress: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au`,
         amount: "10000000",
-        denom: "STAKE",
-        validatorMoniker: "good_greg"
+        denom: "STAKE"
       })
     })
 
@@ -164,8 +163,7 @@ describe(`DelegationModal`, () => {
           "cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au",
         validatorDestinationAddress: "cosmosDstAddress1",
         amount: "10000000",
-        denom: "STAKE",
-        validatorMoniker: "good_greg"
+        denom: "STAKE"
       })
       // expect(wrapper.vm.transactionData).toEqual()
     })

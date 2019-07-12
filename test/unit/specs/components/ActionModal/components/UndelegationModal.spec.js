@@ -115,8 +115,7 @@ describe(`UndelegationModal`, () => {
         validatorAddress:
           "cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au",
         amount: "10000000",
-        denom: "STAKE",
-        validatorMoniker: "good_greg"
+        denom: "STAKE"
       })
     })
 

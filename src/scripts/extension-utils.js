@@ -79,12 +79,17 @@ export const getAccountsFromExtension = () => {
   sendMessageToContentScript({ type: "GET_WALLETS" })
 }
 
-export const signWithExtension = async (signMessage, senderAddress) => {
+export const signWithExtension = async (
+  signMessage,
+  senderAddress,
+  txMetaData
+) => {
   const { signature, publicKey } = await sendAsyncMessageToContentScript({
     type: "LUNIE_SIGN_REQUEST",
     payload: {
       signMessage,
-      senderAddress
+      senderAddress,
+      txMetaData
     }
   })
 

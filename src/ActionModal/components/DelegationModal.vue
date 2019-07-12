@@ -8,6 +8,7 @@
     class="delegation-modal"
     submission-error-prefix="Delegating failed"
     :transaction-data="transactionData"
+    :validator-moniker="validatorMoniker"
     :notify-message="notifyMessage"
     @close="clear"
   >
@@ -136,12 +137,14 @@ export default {
 
       return this.fromOptions[this.selectedIndex].address
     },
+    validatorMoniker() {
+      return this.validator.description.moniker
+    },
     transactionData() {
       if (this.from === this.modalContext.userAddress) {
         return {
           type: transaction.DELEGATE,
           validatorAddress: this.validator.operator_address,
-          validatorMoniker: this.validator.description.moniker,
           amount: uatoms(this.amount),
           denom: this.denom
         }
@@ -153,7 +156,6 @@ export default {
           type: transaction.REDELEGATE,
           validatorSourceAddress: validatorSrc.operator_address,
           validatorDestinationAddress: this.validator.operator_address,
-          validatorMoniker: this.validator.description.moniker,
           amount: uatoms(this.amount),
           denom: this.denom
         }

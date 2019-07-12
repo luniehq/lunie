@@ -317,6 +317,10 @@ export default {
       type: Function,
       default: undefined
     },
+    validatorMoniker: {
+      type: String,
+      default: undefined
+    },
     submissionErrorPrefix: {
       type: String,
       default: `Transaction failed`
@@ -550,7 +554,8 @@ export default {
       try {
         const { included, hash } = await this.actionManager.send(
           memo,
-          feeProperties
+          feeProperties,
+          this.validatorMoniker
         )
         this.txHash = hash
         await this.waitForInclusion(included)

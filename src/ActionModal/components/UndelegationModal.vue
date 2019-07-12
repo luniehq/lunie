@@ -8,6 +8,7 @@
     class="undelegation-modal"
     submission-error-prefix="Undelegating failed"
     :transaction-data="transactionData"
+    :validator-moniker="validatorMoniker"
     :notify-message="notifyMessage"
     @close="clear"
   >
@@ -120,10 +121,12 @@ export default {
       return {
         type: transaction.UNDELEGATE,
         validatorAddress: this.validator.operator_address,
-        validatorMoniker: this.validator.description.moniker,
         amount: uatoms(this.amount),
         denom: this.denom
       }
+    },
+    validatorMoniker() {
+      return this.validator.description.moniker
     },
     notifyMessage() {
       return {
