@@ -19,10 +19,10 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   try {
     signMessageHandler(message, sender, sendResponse)
     walletMessageHandler(message, sender, sendResponse)
-  } catch (e) {
+  } catch (error) {
     // Return this as rejected
-    console.error('Error with request', e)
-    return true
+    console.error('Error with request', error)
+    sendResponse({ error: error.message })
   }
 
   return true
