@@ -24,6 +24,9 @@ jest.mock(`@lunie/cosmos-api`, () => {
     return {
       get: mockGet,
       MsgSend: mockMsgSend,
+      MsgDelegate: (input, otherInput) => {
+        return otherInput
+      },
       MsgWithdrawDelegationReward: mockMsgWithdraw,
       MultiMessage: mockMultiMessage
     }
@@ -168,6 +171,11 @@ describe("ActionManager", () => {
 
     it("should create message", () => {
       actionManager.setMessage("MsgSend", sendTx.txProps)
+      expect(mockMsgSend).toHaveBeenCalledWith("cosmos12345", sendTx.txProps)
+    })
+
+    it("should create message for deligation", () => {
+      actionManager.setMessage("MsgDelegate", sendTx.txDelProps)
       expect(mockMsgSend).toHaveBeenCalledWith("cosmos12345", sendTx.txProps)
     })
 
