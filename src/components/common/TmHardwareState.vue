@@ -7,8 +7,8 @@
       <div class="tm-hardware-state__label">
         <slot />
       </div>
+      <img v-show="loading" src="~assets/images/loader.svg" />
     </div>
-    <img v-show="loading" src="~assets/images/loader.svg" />
   </div>
 </template>
 
@@ -27,7 +27,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .tm-hardware-state {
   display: flex;
   align-items: center;
@@ -45,14 +45,13 @@ export default {
   align-items: center;
 }
 
-.tm-hardware-state .tm-hardware-state__icon {
+.tm-hardware-state__icon {
   font-size: 1.5rem;
   padding-right: 1rem;
   color: var(--dim);
 }
 
-.tm-hardware-state .tm-hardware-state__label {
+.tm-hardware-state__label {
   color: var(--bright);
-  max-width: 320px;
 }
 </style>

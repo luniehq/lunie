@@ -1,0 +1,50 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AccountList has the expected html structure 1`] = `
+<ul
+  class="account-list"
+>
+  <li
+    class="account"
+  >
+    <div
+      class="account-info"
+    >
+      <h3>
+        Benjis account
+      </h3>
+       
+      <bech32-stub
+        address="cosmos1ek9cd8ewgxg9w5xllq9um0uf4aaxaruvcw4v9e"
+      />
+    </div>
+     
+    <tmbtn-stub
+      class="account-button"
+      color="primary"
+      value="Button Text"
+    />
+  </li>
+  <li
+    class="account"
+  >
+    <div
+      class="account-info"
+    >
+      <h3>
+        Colins account
+      </h3>
+       
+      <bech32-stub
+        address="cosmos1ek9cd8ewgxgyoyocolinyo4aaxaruvcw4v9e"
+      />
+    </div>
+     
+    <tmbtn-stub
+      class="account-button"
+      color="primary"
+      value="Button Text"
+    />
+  </li>
+</ul>
+`;

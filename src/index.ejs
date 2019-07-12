@@ -25,11 +25,13 @@
 </head>
 
 <body style="background: #15182d">
+  <% if (!htmlWebpackPlugin.options.e2e) { %>
   <script async src='https://www.google-analytics.com/analytics.js'></script>
   <!-- Appzi: Capture Insightful Feedback -->
   <script async
     src="https://app.appzi.io/bootstrap/bundle.js?token=LWNp0"></script>
   <!-- End Appzi -->
+  <% } %>
 
   <div id="app" style="background: #15182d"></div>
 </body>

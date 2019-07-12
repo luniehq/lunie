@@ -130,21 +130,16 @@ If you want to run them locally first start a testnet:
 MAX_NODES=4 yarn testnet:start
 ```
 
-Then serve Lunie in it's production format:
+Then run the tests:
 
 ```bash
-yarn test:e2e:live-serve
+yarn test:e2e
 ```
 
-Then run the actual tests:
+To run only some tests, provide a filter:
 
 ```bash
-yarn test:e2e:run
-```
-
-Or run only some tests by providing a filter:
-
-```bash
+yarn test:e2e:serve
 yarn test:e2e:run --filter send.spec.js
 ```
 
