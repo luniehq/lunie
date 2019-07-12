@@ -13,13 +13,23 @@
     "default_popup": "popup/popup.html"
   },
   "background": {
-    "scripts": ["background.js"]
+    "scripts": [
+      "background.js"
+    ]
   },
-  "web_accessible_resources": ["fonts/*.woff2"],
+  "web_accessible_resources": [
+    "fonts/*.woff2"
+  ],
   "content_scripts": [
     {
-      "matches": ["https://localhost/*"],
-      "js": ["contentScript.js"]
+      "matches": [
+        "https://localhost/*",
+        "https://lunie.io/*",
+        "https://www.lunie.io/*"
+      ],
+      "js": [
+        "contentScript.js"
+      ]
     }
   ]
 }
