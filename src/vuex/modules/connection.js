@@ -3,6 +3,7 @@ import Vue from "vue"
 import config from "src/config"
 
 const NODE_HALTED_TIMEOUT = config.node_halted_timeout
+const MAX_CONNECTION_ATTEMPTS = 5
 
 export default function({ node }) {
   // get tendermint RPC client from basecoin client
@@ -14,7 +15,7 @@ export default function({ node }) {
       height: 0,
       chain_id: ``
     },
-    approvalRequired: null,
+    connectionAttempts: 0,
     mocked: node.mocked,
     nodeUrl: config.stargate,
     rpcUrl: config.rpc,
@@ -25,11 +26,20 @@ export default function({ node }) {
   }
 
   const mutations = {
-    stopConnecting(state, stop) {
+    stopConnecting(state, stop = true) {
       Vue.set(state, `stopConnecting`, stop)
     },
     setConnected(state, connected) {
+      if (connected) {
+        state.connectionAttempts = 0
+      }
       Vue.set(state, `connected`, connected)
+    },
+    increaseConnectionAttempts(state) {
+      state.connectionAttempts = state.connectionAttempts + 1
+    },
+    resetConnectionAttempts(state) {
+      state.connectionAttempts = 0
     },
     setRpcUrl(state, rpcUrl) {
       state.rpcUrl = rpcUrl
@@ -40,12 +50,21 @@ export default function({ node }) {
     async setLastHeader({ state }, header) {
       state.lastHeader = header
     },
+    reconnect({ commit, dispatch }) {
+      commit("resetConnectionAttempts")
+      commit("stopConnecting", false)
+      dispatch("connect")
+    },
     async connect({ state, commit, dispatch }) {
       const {
         externals: { node },
         rpcUrl
       } = state
 
+      if (state.connectionAttempts === MAX_CONNECTION_ATTEMPTS) {
+        commit("stopConnecting")
+        return
+      }
       if (state.stopConnecting) return
 
       commit(`setConnected`, false)
@@ -57,6 +76,7 @@ export default function({ node }) {
         dispatch(`subscribeToBlocks`)
       } catch (err) {
         console.log(`Failed reconnect attempt`)
+        commit("increaseConnectionAttempts")
         setTimeout(() => {
           dispatch(`connect`)
         }, 1000)
