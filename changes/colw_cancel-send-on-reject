@@ -1,2 +1,0 @@
-[Fixed] [#2825](https://github.com/cosmos/lunie/pull/2825) Cancel send afer user rejects transaction @colw
-[Code Improvements] [#2825](https://github.com/cosmos/lunie/pull/2825) Remove SessionApproval view, move to Extension @colw
