@@ -8,11 +8,12 @@
     <TmFormGroup v-if="signRequest">
       <LiAnyTransaction
         v-if="tx"
-        :validators="deligates"
+        :address="senderAddress"
+        :validators="delegates"
         :transaction="tx"
         :hide-meta-data="true"
-        validators-url="/"
-        proposals-url="/"
+        validators-url="https://lunie.io/#/staking/validators/"
+        proposals-url="https://lunie.io/#/governance/proposals/"
         bonding-denom="Atoms"
       />
 
@@ -82,7 +83,7 @@ import LiAnyTransaction from 'transactions/LiAnyTransaction'
 import TableInvoice from 'src/ActionModal/components/TableInvoice'
 import Bech32 from 'common/Bech32'
 import { required } from 'vuelidate/lib/validators'
-import { parseTx, parseFee, parseValueObj } from 'scripts/parsers.js'
+import { parseTx, parseFee, parseValueObj } from '../scripts/parsers.js'
 import { atoms } from 'scripts/num.js'
 
 export default {
@@ -97,7 +98,7 @@ export default {
     TmFormMsg
   },
   data: () => ({
-    deligates: [],
+    delegates: [],
     password: null,
     passwordError: false
   }),
