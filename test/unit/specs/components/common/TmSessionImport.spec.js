@@ -16,7 +16,8 @@ describe(`TmSessionImport`, () => {
   beforeEach(() => {
     store = new Vuex.Store({
       getters: {
-        connected: () => true
+        connected: () => true,
+        extension: () => true
       }
     })
     wrapper = mount(TmSessionImport, {
@@ -34,6 +35,23 @@ describe(`TmSessionImport`, () => {
   })
 
   it(`has the expected html structure`, () => {
+    expect(wrapper.vm.$el).toMatchSnapshot()
+  })
+
+  it(`should not show back button if in website`, () => {
+    expect(wrapper.vm.$el).toMatchSnapshot()
+  })
+
+  it(`should show back button if in extension`, () => {
+    store.hotUpdate({
+      getters: {
+        extension: () => false
+      }
+    })
+    const wrapper = mount(TmSessionImport, {
+      localVue,
+      store
+    })
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 

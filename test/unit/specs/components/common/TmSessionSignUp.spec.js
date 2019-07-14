@@ -11,7 +11,8 @@ describe(`TmSessionSignUp`, () => {
   beforeEach(() => {
     const getters = {
       connected: true,
-      session: { insecureMode: false }
+      session: { insecureMode: false },
+      extension: () => true
     }
     $store = {
       getters,
@@ -31,6 +32,32 @@ describe(`TmSessionSignUp`, () => {
   })
 
   it(`has the expected html structure`, () => {
+    expect(wrapper.vm.$el).toMatchSnapshot()
+  })
+
+  it(`should not show back button if in website`, () => {
+    expect(wrapper.vm.$el).toMatchSnapshot()
+  })
+
+  it(`should show back button if in extension`, () => {
+    // $store.getters = { extension: () => false }
+
+    wrapper = shallowMount(TmSessionSignUp, {
+      localVue,
+      mocks: {
+        $store: {
+          getters: {
+            extension: false,
+            connected: true,
+            session: { insecureMode: false }
+          },
+          commit: jest.fn(),
+          dispatch: jest.fn(() => Promise.resolve(`seed`))
+        }
+      },
+      stubs: [`router-link`]
+    })
+
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 

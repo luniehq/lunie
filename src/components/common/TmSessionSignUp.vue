@@ -214,10 +214,10 @@ export default {
   computed: {
     ...mapGetters([`session`]),
     inExtension() {
-      if (!this.$store.getters.extension) {
-        return true
-      } else {
+      if (this.$store.getters.extension) {
         return false
+      } else {
+        return true
       }
     }
   },
