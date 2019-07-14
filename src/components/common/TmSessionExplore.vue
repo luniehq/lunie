@@ -90,8 +90,3 @@ export default {
   }
 }
 </script>
-<style>
-.form-group a {
-  cursor: pointer;
-}
-</style>

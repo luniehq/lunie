@@ -200,11 +200,3 @@ const words24 = param => {
   return param && param.split(` `).length === 24
 }
 </script>
-<style>
-.fundraiser-warning {
-  color: var(--danger);
-  font-size: var(--sm);
-  font-weight: 500;
-  padding: 0 0.25rem;
-}
-</style>
