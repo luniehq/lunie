@@ -138,7 +138,17 @@ export default {
       return this.fromOptions[this.selectedIndex].address
     },
     validatorMoniker() {
-      return this.validator.description.moniker
+      if (this.from === this.modalContext.userAddress) {
+        return this.validator.description.moniker
+      } else {
+        const validatorSrc = this.modalContext.delegates.find(
+          v => this.from === v.operator_address
+        )
+        return {
+          from: validatorSrc.description.moniker,
+          to: this.validator.description.moniker
+        }
+      }
     },
     transactionData() {
       if (this.from === this.modalContext.userAddress) {

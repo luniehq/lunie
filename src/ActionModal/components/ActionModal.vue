@@ -318,7 +318,7 @@ export default {
       default: undefined
     },
     validatorMoniker: {
-      type: String,
+      type: [String, Object],
       default: undefined
     },
     submissionErrorPrefix: {
