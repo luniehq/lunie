@@ -139,7 +139,9 @@ export default {
     },
     validatorMoniker() {
       if (this.from === this.modalContext.userAddress) {
-        return this.validator.description.moniker
+        return {
+          from: this.validator.description.moniker
+        }
       } else {
         const validatorSrc = this.modalContext.delegates.find(
           v => this.from === v.operator_address
