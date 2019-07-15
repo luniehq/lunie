@@ -9,7 +9,7 @@ exports[`DelegationModal should display the delegation modal form 1`] = `
   title="Delegate"
   transactiondata="[object Object]"
   validate="function () { [native code] }"
-  validatormoniker="mr_mounty"
+  validatormoniker="[object Object]"
 >
   <tmformgroup-stub
     class="action-modal-form-group"
