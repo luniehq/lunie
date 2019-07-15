@@ -39,7 +39,7 @@ describe(`TmSessionImport`, () => {
   })
 
   it(`should not show back button if in website`, () => {
-    expect(wrapper.vm.$el).toMatchSnapshot()
+    expect(wrapper.contains(".session-back")).toBe(false)
   })
 
   it(`should show back button if in extension`, () => {
@@ -52,7 +52,7 @@ describe(`TmSessionImport`, () => {
       localVue,
       store
     })
-    expect(wrapper.vm.$el).toMatchSnapshot()
+    expect(wrapper.contains(".session-back")).toBe(true)
   })
 
   it(`should show error if seed is not filled in`, async () => {

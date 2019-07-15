@@ -36,12 +36,10 @@ describe(`TmSessionSignUp`, () => {
   })
 
   it(`should not show back button if in website`, () => {
-    expect(wrapper.vm.$el).toMatchSnapshot()
+    expect(wrapper.contains(".session-back")).toBe(false)
   })
 
   it(`should show back button if in extension`, () => {
-    // $store.getters = { extension: () => false }
-
     wrapper = shallowMount(TmSessionSignUp, {
       localVue,
       mocks: {
@@ -57,8 +55,7 @@ describe(`TmSessionSignUp`, () => {
       },
       stubs: [`router-link`]
     })
-
-    expect(wrapper.vm.$el).toMatchSnapshot()
+    expect(wrapper.contains(".session-back")).toBe(true)
   })
 
   it(`should show error if warnings not acknowledged`, () => {
