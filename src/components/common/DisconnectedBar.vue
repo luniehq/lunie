@@ -1,8 +1,9 @@
 <template>
-  <div v-if="connection.stopConnecting" class="disconnected-bar">
+  <div v-if="stopConnecting" class="disconnected-bar">
     <i></i>
     <p>
-      You are currently not connected to a node. Retry?
+      You are currently not connected to a node.
+      <a class="link" @click="reconnect">Retry</a>?
     </p>
     <a class="close">
       <i class="material-icons" @click="reconnect">refresh</i>
@@ -11,11 +12,13 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex"
+import { mapState } from "vuex"
 export default {
   name: `disconnected-bar`,
   computed: {
-    ...mapGetters([`connection`])
+    ...mapState({
+      stopConnecting: state => state.connection.stopConnecting
+    })
   },
   methods: {
     reconnect() {
@@ -47,6 +50,7 @@ export default {
 .disconnected-bar .link {
   text-decoration: underline;
   color: var(--bright);
+  cursor: pointer;
 }
 
 .disconnected-bar .close {
