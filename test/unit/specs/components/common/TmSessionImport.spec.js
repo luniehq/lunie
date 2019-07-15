@@ -42,6 +42,11 @@ describe(`TmSessionImport`, () => {
     expect(wrapper.contains(".session-back")).toBe(false)
   })
 
+  it(`should go back to Welcome when back arrow is clicked`, () => {
+    wrapper.vm.goBack()
+    expect(wrapper.vm.$router.push).toHaveBeenCalledWith(`/welcome`)
+  })
+
   it(`should show back button if in extension`, () => {
     store.hotUpdate({
       getters: {

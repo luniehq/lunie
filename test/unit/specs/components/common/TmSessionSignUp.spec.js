@@ -58,6 +58,11 @@ describe(`TmSessionSignUp`, () => {
     expect(wrapper.contains(".session-back")).toBe(true)
   })
 
+  it(`should go back to Welcome when back arrow is clicked`, () => {
+    wrapper.vm.goBack()
+    expect(wrapper.vm.$router.push).toHaveBeenCalledWith(`/welcome`)
+  })
+
   it(`should show error if warnings not acknowledged`, () => {
     wrapper.setData({
       fields: {
