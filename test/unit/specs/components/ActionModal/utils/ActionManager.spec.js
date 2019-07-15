@@ -174,11 +174,6 @@ describe("ActionManager", () => {
       expect(mockMsgSend).toHaveBeenCalledWith("cosmos12345", sendTx.txProps)
     })
 
-    it("should create message for deligation", () => {
-      actionManager.setMessage("MsgDelegate", sendTx.txDelProps)
-      expect(mockMsgSend).toHaveBeenCalledWith("cosmos12345", sendTx.txProps)
-    })
-
     it("should return gas estimate", async () => {
       mockSimulate = jest.fn(() => 123)
       const data = await actionManager.simulate("memo")
