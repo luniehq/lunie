@@ -7,6 +7,56 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.0-beta.97] - 2019-07-14
+
+### Fixed
+
+- [#2825](https://github.com/cosmos/lunie/pull/2825) Cancel send afer user rejects transaction @colw
+
+### Security
+
+- [#2829](https://github.com/cosmos/lunie/pull/2829) Updated lodash dependencies @faboweb
+
+### Deprecated
+
+- deleted a bunch of unused session code @jbibla
+
+### Code Improvements
+
+- [#2825](https://github.com/cosmos/lunie/pull/2825) Remove SessionApproval view, move to Extension @colw
+
+## [1.0.0-beta.96] - 2019-07-12
+
+### Added
+
+- [#2807](https://github.com/cosmos/lunie/pull/2807) Include visual studio code config @colw
+- [#2788](https://github.com/cosmos/lunie/issues/2788) Added success step to ActionModal @faboweb
+
+### Repository
+
+- Fixed postcss browserlist warning @faboweb
+
+## [1.0.0-beta.95] - 2019-07-11
+
+### Added
+
+- [#2814](https://github.com/cosmos/lunie/pull/2814) Display accounts in sign on screen @colw
+- [#2512](https://github.com/cosmos/lunie/issues/2512) Added step to actionmodal to show that Lunie has sent the tx and is waiting for confirmation @faboweb
+
+### Fixed
+
+- Fixed amounts in approval screen @faboweb
+
+## [1.0.0-beta.94] - 2019-07-09
+
+### Added
+
+- Adds a button to SessionAccounts to Add Account and includes a test @thebkr7
+
+### Code Improvements
+
+- refactored AccountList for consistency across uses @jbibla
+
 ## [1.0.0-beta.93] - 2019-07-05
 
 ### Fixed

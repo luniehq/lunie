@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`SessionExtension shows a guide to install the extension if no extension installed 1`] = `
+exports[`SessionExtension should show a guide to install the extension if no extension is installed 1`] = `
 <sessionframe-stub>
   <div
     class="session"
@@ -12,7 +12,7 @@ exports[`SessionExtension shows a guide to install the extension if no extension
         class="session-title"
       >
         
-        Use Lunie Browser extension
+        Use Lunie Browser Extension
       
       </h2>
        
@@ -34,14 +34,12 @@ exports[`SessionExtension shows a guide to install the extension if no extension
         
         </p>
       </div>
-       
-      <!---->
     </div>
   </div>
 </sessionframe-stub>
 `;
 
-exports[`SessionExtension shows an overview of all wallets to sign in with from the extension 1`] = `
+exports[`SessionExtension should show a list of all accounts in the extension 1`] = `
 <sessionframe-stub>
   <div
     class="session"
@@ -53,94 +51,22 @@ exports[`SessionExtension shows an overview of all wallets to sign in with from 
         class="session-title"
       >
         
-        Use Lunie Browser extension
+        Use Lunie Browser Extension
       
       </h2>
-       
-      <!---->
        
       <div
         class="session-main"
       >
-        <div
-          icon="laptop"
-        >
-          <div>
-            
-            Click below to open the Lunie Browser Extension, or use one of the
-            existing address.
-            
-            <ul>
-              <li>
-                <div
-                  class="extension-address-item"
-                >
-                  <div>
-                    
-                    TEST_WALLET
-                    <br />
-                     
-                    <tmbtn-stub
-                      color="primary"
-                      type="anchor"
-                      value="cosmos…1234"
-                    />
-                  </div>
-                   
-                  <div>
-                    <tmbtn-stub
-                      color="primary"
-                      value="Use Address"
-                    />
-                  </div>
-                </div>
-              </li>
-              <li>
-                <div
-                  class="extension-address-item"
-                >
-                  <div>
-                    
-                    TEST_WALLET_2
-                    <br />
-                     
-                    <tmbtn-stub
-                      color="primary"
-                      type="anchor"
-                      value="cosmos…5678"
-                    />
-                  </div>
-                   
-                  <div>
-                    <tmbtn-stub
-                      color="primary"
-                      value="Use Address"
-                    />
-                  </div>
-                </div>
-              </li>
-            </ul>
-          </div>
-        </div>
-         
-        <div
-          class="session-footer"
-        >
-          <p
-            class="ledger-install"
-          >
-            
-            You can find the Lunie Browser Extension in the
-            
-            <a
-              href="https://chrome.google.com/webstore/category/extensions"
-              rel="noopener norefferer"
-              target="_blank"
-            >
-              Chrome Web Store
-            </a>
-          </p>
-        </div>
+        
+        Below is a list of accounts we received from the Lunie browser
+        extension.
+        
+        <accountlist-stub
+          accounts="[object Object],[object Object]"
+          buttonaction="function () { [native code] }"
+          buttontext="Use Account"
+        />
       </div>
     </div>
   </div>

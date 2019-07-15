@@ -96,11 +96,7 @@
             class="sign-up-seed-group"
             field-label="Seed Phrase"
           >
-            <FieldSeed
-              id="sign-up-seed"
-              v-model="fields.signUpSeed"
-              class="field-seed"
-            />
+            <FieldSeed id="sign-up-seed" v-model="fields.signUpSeed" />
           </TmFormGroup>
           <TmFormGroup
             class="field-checkbox"
@@ -152,8 +148,8 @@
         <div v-if="!session.insecureMode" class="session-main">
           <p>
             Creating an address in the browser is unsafe. To offer you a secure
-            alternative we will be releasing a Chrome extension and a mobile app
-            soon.
+            alternative we will be releasing a browser extension and a mobile
+            app soon.
           </p>
           <p>
             In the meantime, you can create a new account outside of the browser
@@ -271,15 +267,5 @@ export default {
   font-size: var(--m);
   color: var(--danger);
   padding-bottom: 0.25rem;
-}
-
-.field-seed {
-  line-height: var(--lg);
-  padding: 0.75rem;
-  resize: none;
-}
-
-input[type="checkbox"] {
-  margin: 0.5rem 0.5rem 0.5rem 0;
 }
 </style>

@@ -25,14 +25,12 @@
 
 .session {
   background: var(--app-bg);
-  max-width: 40rem;
+  max-width: 560px;
   border-radius: 2px;
   padding: 2rem;
   position: relative;
   border: 2px solid var(--bc-dim);
   overflow: auto;
-  display: flex;
-  flex-flow: column;
 }
 
 .session-header {
@@ -76,6 +74,7 @@
 
 .session-paragraph {
   margin-bottom: 1rem;
+  padding: 0 1rem;
 }
 
 .session-back {
@@ -94,6 +93,7 @@
   display: flex;
   padding: 2rem 1rem;
   flex-direction: column;
+  justify-content: space-between;
 }
 
 .footnote {
@@ -113,6 +113,13 @@
 
 .session-logo-mobile {
   display: none;
+}
+
+@media screen and (min-width: 667px) {
+  .session {
+    width: 100%;
+    min-width: 560px;
+  }
 }
 
 @media screen and (max-width: 667px) {

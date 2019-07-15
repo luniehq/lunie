@@ -22,7 +22,7 @@
           v-if="session.experimentalMode"
           id="use-extension"
           icon="laptop"
-          title="Use Lunie Chrome extension"
+          title="Use Lunie Browser Extension"
           route="extension"
         >
         </LiSession>
@@ -64,12 +64,3 @@ export default {
   }
 }
 </script>
-<style scoped>
-.form-group a {
-  cursor: pointer;
-}
-
-.session-title {
-  padding-left: 1rem;
-}
-</style>
