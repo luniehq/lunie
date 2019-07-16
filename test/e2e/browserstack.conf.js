@@ -22,6 +22,7 @@ const nightwatch_config = {
         "browserstack.debug": true,
         "browserstack.local": true,
         browser: "chrome",
+        resolution: "1920x1080",
         javascriptEnabled: true,
         acceptSslCerts: true,
         loggingPrefs: {

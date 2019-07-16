@@ -1,4 +1,4 @@
-const { actionModalCheckout, waitFor } = require("./helpers.js")
+const { actionModalCheckout, nextBlock, waitFor } = require("./helpers.js")
 
 module.exports = {
   "Delegate Action": async function(browser) {
@@ -36,6 +36,8 @@ module.exports = {
     })
   },
   "Redelegate Action": async function(browser) {
+    browser.pause(500)
+
     // move to according page
     browser.url(browser.launch_url + "/#/staking/validators")
 
@@ -72,6 +74,9 @@ module.exports = {
     })
   },
   "Undelegate Action": async function(browser) {
+    // be sure that the balance has updated, if we don't wait, the baseline (balance) shifts
+    await nextBlock(browser)
+
     // move to according page
     browser.url(browser.launch_url + "/#/staking/validators")
 
