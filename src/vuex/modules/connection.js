@@ -58,14 +58,16 @@ export default function({ node }) {
     async connect({ state, commit, dispatch }) {
       const {
         externals: { node },
-        rpcUrl
+        rpcUrl,
+        connectionAttempts,
+        stopConnecting
       } = state
 
-      if (state.connectionAttempts === MAX_CONNECTION_ATTEMPTS) {
+      if (connectionAttempts >= MAX_CONNECTION_ATTEMPTS) {
         commit("stopConnecting")
         return
       }
-      if (state.stopConnecting) return
+      if (stopConnecting) return
 
       commit(`setConnected`, false)
       try {
