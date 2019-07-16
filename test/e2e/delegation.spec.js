@@ -1,4 +1,4 @@
-const { actionModalCheckout } = require("./helpers.js")
+const { actionModalCheckout, nextBlock, waitFor } = require("./helpers.js")
 
 module.exports = {
   "Delegate Action": async function(browser) {
@@ -29,10 +29,11 @@ module.exports = {
 
     // check if tx shows
     browser.url(browser.launch_url + "/#/transactions")
-    browser.expect
-      .element(".li-tx__content__caption__title")
-      .text.to.contain(`Delegated ${value} STAKE`)
-      .before(10 * 1000)
+    await waitFor(() => {
+      browser.expect
+        .element(".li-tx__content__caption__title")
+        .text.to.contain(`Delegated ${value} STAKE`)
+    })
   },
   "Redelegate Action": async function(browser) {
     // move to according page
@@ -55,8 +56,8 @@ module.exports = {
       async () => {
         browser.click("#from")
         browser.click("#from option[value='1']")
+        browser.pause(500)
         browser.setValue("#amount", value)
-        await new Promise(resolve => setTimeout(resolve, 1000))
       },
       // expected subtotal
       value
@@ -64,12 +65,15 @@ module.exports = {
 
     // check if tx shows
     browser.url(browser.launch_url + "/#/transactions")
-    browser.expect
-      .element(".li-tx__content__caption__title")
-      .text.to.contain(`Delegated ${value} STAKE`)
-      .before(10 * 1000)
+    await waitFor(() => {
+      browser.expect
+        .element(".li-tx__content__caption__title")
+        .text.to.contain(`Delegated ${value} STAKE`)
+    })
   },
   "Undelegate Action": async function(browser) {
+    await nextBlock(browser)
+
     // move to according page
     browser.url(browser.launch_url + "/#/staking/validators")
 
@@ -96,9 +100,10 @@ module.exports = {
 
     // check if tx shows
     browser.url(browser.launch_url + "/#/transactions")
-    browser.expect
-      .element(".li-tx__content__caption__title")
-      .text.to.contain(`Undelegated ${value} STAKE`)
-      .before(10 * 1000)
+    await waitFor(() => {
+      browser.expect
+        .element(".li-tx__content__caption__title")
+        .text.to.contain(`Undelegated ${value} STAKE`)
+    })
   }
 }
