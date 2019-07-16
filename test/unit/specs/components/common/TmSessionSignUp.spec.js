@@ -11,8 +11,7 @@ describe(`TmSessionSignUp`, () => {
   beforeEach(() => {
     const getters = {
       connected: true,
-      session: { insecureMode: false },
-      extension: () => true
+      session: { insecureMode: false }
     }
     $store = {
       getters,
@@ -33,34 +32,6 @@ describe(`TmSessionSignUp`, () => {
 
   it(`has the expected html structure`, () => {
     expect(wrapper.vm.$el).toMatchSnapshot()
-  })
-
-  it(`should not show back button if in website`, () => {
-    expect(wrapper.contains(".session-back")).toBe(false)
-  })
-
-  it(`should show back button if in extension`, () => {
-    wrapper = shallowMount(TmSessionSignUp, {
-      localVue,
-      mocks: {
-        $store: {
-          getters: {
-            extension: false,
-            connected: true,
-            session: { insecureMode: false }
-          },
-          commit: jest.fn(),
-          dispatch: jest.fn(() => Promise.resolve(`seed`))
-        }
-      },
-      stubs: [`router-link`]
-    })
-    expect(wrapper.contains(".session-back")).toBe(true)
-  })
-
-  it(`should go back to Welcome when back arrow is clicked`, () => {
-    wrapper.vm.goBack()
-    expect(wrapper.vm.$router.push).toHaveBeenCalledWith(`/welcome`)
   })
 
   it(`should show error if warnings not acknowledged`, () => {

@@ -15,8 +15,7 @@ describe(`TmSessionImport`, () => {
 
   beforeEach(() => {
     const getters = {
-      connected: () => true,
-      extension: () => true
+      connected: () => true
     }
     $store = {
       getters,
@@ -37,29 +36,6 @@ describe(`TmSessionImport`, () => {
 
   it(`has the expected html structure`, () => {
     expect(wrapper.vm.$el).toMatchSnapshot()
-  })
-
-  it(`should not show back button if in website`, () => {
-    expect(wrapper.contains(".session-back")).toBe(false)
-  })
-
-  it(`should go back to Welcome when back arrow is clicked`, () => {
-    wrapper.vm.goBack()
-    expect(wrapper.vm.$router.push).toHaveBeenCalledWith(`/welcome`)
-  })
-
-  it(`should show back button if in extension`, () => {
-    wrapper = shallowMount(TmSessionImport, {
-      localVue,
-      mocks: {
-        $store: {
-          getters: {
-            extension: false
-          }
-        }
-      }
-    })
-    expect(wrapper.contains(".session-back")).toBe(true)
   })
 
   it(`should show error if seed is not filled in`, async () => {

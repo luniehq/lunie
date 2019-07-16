@@ -2,69 +2,63 @@
 
 exports[`TmSessionSignUp has the expected html structure 1`] = `
 <sessionframe-stub>
-  <div
-    class="session"
+  <tmformstruct-stub
+    submit="function () { [native code] }"
+    width=""
   >
+    <h2
+      class="session-title"
+    >
+      
+      Create a new address
+    
+    </h2>
+     
     <!---->
      
-    <tmformstruct-stub
-      submit="function () { [native code] }"
-      width=""
+    <div
+      class="session-main"
     >
-      <h2
-        class="session-title"
-      >
+      <p>
         
-        Create a new address
+        Creating an address in the browser is unsafe. To offer you a secure
+        alternative we will be releasing a browser extension and a mobile app
+        soon.
       
-      </h2>
+      </p>
        
-      <!---->
-       
-      <div
-        class="session-main"
-      >
-        <p>
-          
-          Creating an address in the browser is unsafe. To offer you a secure
-          alternative we will be releasing a browser extension and a mobile
-          app soon.
+      <p>
         
-        </p>
-         
-        <p>
-          
-          In the meantime, you can create a new account outside of the browser
-          by using a
-          
-          <a
-            href="https://shop.ledger.com/?r=3dd204ef7508"
-            rel="noopener norefferer"
-            target="_blank"
-          >
-            Ledger Nano
-          </a>
-          
-          or the
-          
-          <a
-            href="https://hub.cosmos.network/docs/delegator-guide-cli.html#creating-an-account"
-            rel="noopener norefferer"
-            target="_blank"
-          >
-            command line
-          </a>
-          .
+        In the meantime, you can create a new account outside of the browser
+        by using a
         
-        </p>
-         
-        <router-link-stub
-          to="existing"
+        <a
+          href="https://shop.ledger.com/?r=3dd204ef7508"
+          rel="noopener norefferer"
+          target="_blank"
         >
-          Want to use an existing address?
-        </router-link-stub>
-      </div>
-    </tmformstruct-stub>
-  </div>
+          Ledger Nano
+        </a>
+        
+        or the
+        
+        <a
+          href="https://hub.cosmos.network/docs/delegator-guide-cli.html#creating-an-account"
+          rel="noopener norefferer"
+          target="_blank"
+        >
+          command line
+        </a>
+        .
+      
+      </p>
+       
+      <router-link-stub
+        to="existing"
+      >
+        Want to use an existing address?
+      </router-link-stub>
+    </div>
+  </tmformstruct-stub>
 </sessionframe-stub>
 `;
