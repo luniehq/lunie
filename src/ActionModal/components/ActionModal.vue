@@ -528,6 +528,7 @@ export default {
           this.submissionError = `${this.submissionErrorPrefix}: ${
             error.message
           }.`
+          this.sending = false
           return
         }
       }
