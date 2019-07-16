@@ -1,4 +1,4 @@
-const { actionModalCheckout, nextBlock, waitFor } = require("./helpers.js")
+const { actionModalCheckout, waitFor } = require("./helpers.js")
 
 module.exports = {
   "Delegate Action": async function(browser) {
@@ -72,8 +72,6 @@ module.exports = {
     })
   },
   "Undelegate Action": async function(browser) {
-    await nextBlock(browser)
-
     // move to according page
     browser.url(browser.launch_url + "/#/staking/validators")
 
