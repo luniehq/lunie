@@ -11,7 +11,7 @@ exports[`UndelegationModal should display undelegation modal form 1`] = `
   title="Undelegate"
   transactiondata="[object Object]"
   validate="function () { [native code] }"
-  validatormoniker="good_greg"
+  validatormoniker="[object Object]"
 >
   <tmformgroup-stub
     class="action-modal-form-group"

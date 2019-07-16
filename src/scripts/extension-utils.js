@@ -82,14 +82,14 @@ export const getAccountsFromExtension = () => {
 export const signWithExtension = async (
   signMessage,
   senderAddress,
-  txMetaData
+  delegationObject
 ) => {
   const { signature, publicKey } = await sendAsyncMessageToContentScript({
     type: "LUNIE_SIGN_REQUEST",
     payload: {
       signMessage,
       senderAddress,
-      txMetaData
+      delegationObject
     }
   })
 

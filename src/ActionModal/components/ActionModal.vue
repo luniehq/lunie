@@ -548,14 +548,14 @@ export default {
         gasEstimate: this.gasEstimate,
         gasPrice: gasPrice,
         submitType: this.selectedSignMethod,
-        password: this.password
+        password: this.password,
+        delegationObject: this.validatorMoniker
       }
 
       try {
         const { included, hash } = await this.actionManager.send(
           memo,
-          feeProperties,
-          this.validatorMoniker
+          feeProperties
         )
         this.txHash = hash
         await this.waitForInclusion(included)

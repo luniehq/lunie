@@ -5,7 +5,7 @@ import { signWithExtension } from "src/scripts/extension-utils"
 export function getSigner(
   config,
   submitType = "",
-  { address, password, subData }
+  { address, password, delegationObject }
 ) {
   if (submitType === `local`) {
     const wallet = getStoredWallet(address, password)
@@ -33,7 +33,7 @@ export function getSigner(
     }
   } else if (submitType === `extension`) {
     return signMessage => {
-      return signWithExtension(signMessage, address, subData)
+      return signWithExtension(signMessage, address, delegationObject)
     }
   }
 }

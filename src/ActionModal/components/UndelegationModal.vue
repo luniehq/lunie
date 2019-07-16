@@ -126,7 +126,9 @@ export default {
       }
     },
     validatorMoniker() {
-      return this.validator.description.moniker
+      return {
+        from: this.validator.description.moniker
+      }
     },
     notifyMessage() {
       return {
