@@ -1,5 +1,10 @@
 version: 2.1
 
+aliases:
+  # Define paths and never think about them again
+  - &WORKSPACE /tmp/lunie
+  - &docker-browsers tendermintdev/voyager_node_browser
+
 # reusable commands
 commands:
   yarn-install:
@@ -76,6 +81,28 @@ jobs:
             fi
             echo "Your dependencies are secure enough: $SUMMARY"
             exit 0
+  
+  testE2E:
+    docker:
+      # Primary container image where all steps run.
+     - image: *docker-browsers
+    steps:
+      - checkout
+      - attach_workspace:
+          at: *WORKSPACE
+      - yarn-install
+      - run:
+          name: Build
+          command: |
+            npm run initiate-submodule
+            npm run test:e2e:build
+      - run:
+          name: Test
+          command: yarn test:e2e
+          no_output_timeout: 120
+      - store_artifacts:
+          path: ./screenshots
+          when: on_fail
 
   # Create release.
   release:
@@ -129,6 +156,12 @@ workflows:
           filters:
             branches:
               ignore: release
+
+      - testE2E:
+          filters:
+            branches:
+              ignore: release
+
   releaseManually:
     jobs:
       - release:

@@ -4,7 +4,8 @@ import { signMessageHandler, walletMessageHandler } from './messageHandlers'
 
 global.browser = require('webextension-polyfill')
 
-const whitelisted = ['https://lunie.io', 'https://www.lunie.io']
+const extensionHost = location.origin
+const whitelisted = ['https://lunie.io', 'https://www.lunie.io', extensionHost]
 if (process.env.NODE_ENV === 'development') {
   whitelisted.push('https://localhost')
 }
@@ -19,10 +20,10 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   try {
     signMessageHandler(message, sender, sendResponse)
     walletMessageHandler(message, sender, sendResponse)
-  } catch (e) {
+  } catch (error) {
     // Return this as rejected
-    console.error('Error with request', e)
-    return true
+    console.error('Error with request', error)
+    sendResponse({ error: error.message })
   }
 
   return true
