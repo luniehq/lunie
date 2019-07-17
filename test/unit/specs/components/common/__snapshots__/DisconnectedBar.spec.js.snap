@@ -8,12 +8,12 @@ exports[`DisconnectedBar shows the disconnected bar 1`] = `
    
   <p>
     
-    You are currently not connected to a node.
+    You are currently not connected.
     
     <a
       class="link"
     >
-      Retry
+      Try Reconnecting
     </a>
     ?
   

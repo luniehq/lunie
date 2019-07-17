@@ -2,8 +2,8 @@
   <div v-if="stopConnecting" class="disconnected-bar">
     <i></i>
     <p>
-      You are currently not connected to a node.
-      <a class="link" @click="reconnect">Retry</a>?
+      You are currently not connected.
+      <a class="link" @click="reconnect">Try Reconnecting</a>?
     </p>
     <a class="close">
       <i class="material-icons" @click="reconnect">refresh</i>
