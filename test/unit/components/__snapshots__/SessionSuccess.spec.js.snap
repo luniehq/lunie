@@ -1,0 +1,49 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SessionSuccess renders correctly 1`] = `
+<div
+  class="session-success"
+>
+  <h2>
+    Transaction Complete
+  </h2>
+   
+  <div>
+    <p>
+      You successfully signed the transaction.
+    </p>
+  </div>
+   
+  <div
+    class="session-footer"
+  >
+    <a>
+      View Accounts
+    </a>
+  </div>
+</div>
+`;
+
+exports[`SessionSuccess shows the approval modal with the transaction and an invoice table 1`] = `
+<div
+  class="session-success"
+>
+  <h2>
+    Transaction Complete
+  </h2>
+   
+  <div>
+    <p>
+      You successfully signed the transaction.
+    </p>
+  </div>
+   
+  <div
+    class="session-footer"
+  >
+    <a>
+      View Accounts
+    </a>
+  </div>
+</div>
+`;
