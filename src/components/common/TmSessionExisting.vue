@@ -1,6 +1,6 @@
 <template>
   <SessionFrame>
-    <div id="session-existing" class="session">
+    <div id="session-existing">
       <h2 class="session-title">
         Use an existing address
       </h2>

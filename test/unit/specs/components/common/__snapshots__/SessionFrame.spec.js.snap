@@ -17,7 +17,20 @@ exports[`SessionFrame shows an overview of all wallets to sign in with from the 
    
   <div
     class="session-outer-container"
-  />
+  >
+    <div
+      class="session"
+    >
+      <a>
+        <i
+          class="material-icons session-back"
+        >
+          arrow_back
+        </i>
+      </a>
+       
+    </div>
+  </div>
    
   <tmbtn-stub
     class="session-close"
