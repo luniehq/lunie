@@ -49,9 +49,7 @@ export function signMessageHandler(
       break
     }
     case 'GET_SIGN_REQUEST': {
-      sendResponse(
-        signRequestQueue.length > 0 ? signRequestQueue[0] : undefined
-      )
+      sendResponse(signRequestQueue.getSignRequest())
       break
     }
     case 'REJECT_SIGN_REQUEST': {

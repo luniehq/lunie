@@ -25,4 +25,8 @@ export default class SignRequestQueue {
         this.unqueueSignRequest(id)
       })
   }
+
+  getSignRequest() {
+    return this.queue.length > 0 ? this.queue[0] : undefined
+  }
 }
