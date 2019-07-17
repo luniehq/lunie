@@ -1,5 +1,9 @@
 import 'babel-polyfill'
-import { signMessageHandler, walletMessageHandler } from './messageHandlers'
+import {
+  signMessageHandler,
+  walletMessageHandler,
+  bindRequestsToTabs
+} from './messageHandlers'
 
 global.browser = require('webextension-polyfill')
 
@@ -27,6 +31,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 
   return true
 })
+bindRequestsToTabs(whitelisted)
 
 // only allow whitelisted websites to send us messages
 function senderAllowed(sender) {
