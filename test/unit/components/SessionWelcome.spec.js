@@ -1,10 +1,15 @@
 import { shallowMount } from '@vue/test-utils'
 import SessionWelcome from '../../../src/components/SessionWelcome.vue'
 
-xdescribe(`SessionWelcome`, () => {
+describe(`SessionWelcome`, () => {
   let $store, wrapper
 
   beforeEach(() => {
+    const accounts = [
+      { name: `accountname1`, address: 'cosmos1' },
+      { name: `accountname2`, address: 'cosmos2' },
+      { name: `accountname3`, address: 'cosmos3' }
+    ]
     const getters = {
       session: {
         insecureMode: true,
@@ -15,7 +20,10 @@ xdescribe(`SessionWelcome`, () => {
     $store = {
       getters,
       commit: jest.fn(),
-      dispatch: jest.fn()
+      dispatch: jest.fn(),
+      state: {
+        accounts
+      }
     }
     wrapper = shallowMount(SessionWelcome, {
       mocks: {
@@ -25,7 +33,7 @@ xdescribe(`SessionWelcome`, () => {
     })
   })
 
-  it(`has the expected html structure`, async () => {
-    expect(wrapper.vm.$el).toMatchSnapshot()
+  it(`has the expected html structure`, () => {
+    expect(wrapper.element).toMatchSnapshot()
   })
 })
