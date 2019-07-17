@@ -2,7 +2,7 @@ import { createLocalVue, shallowMount } from '@vue/test-utils'
 import Vuelidate from 'vuelidate'
 import SessionApprove from '../../../src/components/SessionApprove'
 
-xdescribe(`SessionApprove`, () => {
+describe(`SessionApprove`, () => {
   const localVue = createLocalVue()
   localVue.use(Vuelidate)
   localVue.directive('focus', () => {})
@@ -21,11 +21,23 @@ xdescribe(`SessionApprove`, () => {
 
     $store = {
       commit: jest.fn(),
-      dispatch: jest.fn(),
+      dispatch: jest
+        .fn()
+        .mockResolvedValueOnce('approved')
+        .mockRejectedValueOnce('rejected'),
       getters
     }
+
+    // const BTN = {
+    //   render: h => h('div'),
+    //   // template: `<div @click.native="approve">Hello</div>`,
+    //   name: 'TmBtn'
+    // }
     wrapper = shallowMount(SessionApprove, {
       localVue,
+      // stubs: {
+      //   BTN
+      // },
       mocks: {
         $store,
         $router: {
@@ -36,7 +48,7 @@ xdescribe(`SessionApprove`, () => {
   })
 
   it(`shows the approval modal with the transaction and an invoice table`, () => {
-    expect(wrapper.vm.$el).toMatchSnapshot()
+    expect(wrapper.element).toMatchSnapshot()
   })
 
   describe('approve', () => {
@@ -53,23 +65,31 @@ xdescribe(`SessionApprove`, () => {
       wrapper.vm.close = jest.fn()
       wrapper.vm.password = '1234'
       wrapper.find('#approve-btn').trigger('click')
-      await wrapper.vm.$nextTick()
       expect(wrapper.vm.$store.dispatch).toHaveBeenCalledWith(
         'approveSignRequest',
         { password: '1234', senderAddress: 'cosmos1234', signMessage }
       )
-      expect(wrapper.vm.$router.push).toHaveBeenCalledWith(`/approved`)
+      await wrapper.vm.$nextTick()
+      await wrapper.vm.$nextTick()
+      expect(wrapper.vm.$router.push).toHaveBeenCalledWith(`/success`)
     })
   })
 
-  it('rejects', async () => {
-    wrapper.vm.close = jest.fn()
-    wrapper.find('#reject-btn').trigger('click')
-    await wrapper.vm.$nextTick()
-    expect(wrapper.vm.$store.dispatch).toHaveBeenCalledWith(
-      'rejectSignRequest',
-      { signMessage, senderAddress: 'cosmos1234' }
-    )
-    expect(wrapper.vm.$router.push).toHaveBeenCalledWith(`/`)
+  describe('rejects', () => {
+    it('rejects', async () => {
+      wrapper.vm.close = jest.fn()
+      wrapper.find('#reject-btn').trigger('click')
+      await wrapper.vm.$nextTick()
+      expect(wrapper.vm.$store.dispatch).toHaveBeenCalledWith(
+        'rejectSignRequest',
+        {
+          signMessage,
+          senderAddress: 'cosmos1234'
+        }
+      )
+      await wrapper.vm.$nextTick()
+      await wrapper.vm.$nextTick()
+      expect(wrapper.vm.$router.push).toHaveBeenCalledWith(`/`)
+    })
   })
 })
