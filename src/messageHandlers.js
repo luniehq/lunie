@@ -9,10 +9,12 @@ const {
   getSeed
 } = require('@lunie/cosmos-keys')
 
-let signRequestQueue = []
-unqueueSignRequest('') // restart icons on restart
-
-export function signMessageHandler(message, sender, sendResponse) {
+export function signMessageHandler(
+  signRequestQueue,
+  message,
+  sender,
+  sendResponse
+) {
   switch (message.type) {
     case 'LUNIE_SIGN_REQUEST': {
       const { signMessage, senderAddress } = message.payload
@@ -20,14 +22,18 @@ export function signMessageHandler(message, sender, sendResponse) {
       if (!wallet) {
         throw new Error('No wallet found matching the sender address.')
       }
-      queueSignRequest({ signMessage, senderAddress, tabID: sender.tab.id })
+      signRequestQueue.queueSignRequest({
+        signMessage,
+        senderAddress,
+        tabID: sender.tab.id
+      })
       break
     }
     case 'SIGN': {
       const { signMessage, senderAddress, password, id } = message.payload
       const wallet = getStoredWallet(senderAddress, password)
 
-      const { tabID } = unqueueSignRequest(id)
+      const { tabID } = signRequestQueue.unqueueSignRequest(id)
       const signature = signWithPrivateKey(
         signMessage,
         Buffer.from(wallet.privateKey, 'hex')
@@ -54,7 +60,7 @@ export function signMessageHandler(message, sender, sendResponse) {
         type: 'LUNIE_SIGN_REQUEST_RESPONSE',
         payload: { rejected: true }
       })
-      unqueueSignRequest(id)
+      signRequestQueue.unqueueSignRequest(id)
       sendResponse() // to popup
       break
     }
@@ -106,53 +112,4 @@ function getWalletFromIndex(walletIndex, address) {
   return walletIndex.find(
     ({ address: storedAddress }) => storedAddress === address
   )
-}
-
-function queueSignRequest({ signMessage, senderAddress, tabID }) {
-  signRequestQueue.push({ signMessage, senderAddress, id: Date.now(), tabID })
-  chrome.browserAction.setIcon({ path: 'icons/128x128-alert.png' })
-}
-
-function unqueueSignRequest(id) {
-  const signRequest = signRequestQueue.find(
-    ({ id: storedId }) => storedId === id
-  )
-  signRequestQueue = signRequestQueue.filter(
-    ({ id: storedId }) => storedId !== id
-  )
-  if (signRequestQueue.length === 0) {
-    chrome.browserAction.setIcon({ path: 'icons/128x128.png' })
-  }
-  return signRequest
-}
-
-function removeSignRequestForTab(tabID) {
-  signRequestQueue
-    .filter(({ tabID: storedtabID }) => storedtabID === tabID)
-    .map(({ id }) => {
-      unqueueSignRequest(id)
-    })
-}
-
-// requests always reference a tab so that a response finds the right listener
-// if a tab is killed or it's url changes the request is not useful anymore
-export function bindRequestsToTabs(whitelisted) {
-  // check if tab got removed
-  chrome.tabs.onRemoved.addListener(function(tabID) {
-    removeSignRequestForTab(tabID)
-  })
-  // check if url changed
-  chrome.tabs.onUpdated.addListener(function(tabID, changeInfo) {
-    // if the url doesn't change, ignore the update
-    if (!changeInfo.url) {
-      return
-    }
-    if (
-      !whitelisted.find(whitelistedUrl =>
-        changeInfo.url.startsWith(whitelistedUrl)
-      )
-    ) {
-      removeSignRequestForTab(tabID)
-    }
-  })
 }
