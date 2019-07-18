@@ -138,6 +138,7 @@ jobs:
       - checkout
       - yarn-install
       - run: |
+          npm run initiate-submodule
           npm run build
           npm run build-zip
           ./scripts/publish.sh ./dist-zip/lunie-browser-extension.zip
