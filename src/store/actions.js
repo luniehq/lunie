@@ -1,3 +1,5 @@
+import config from '../../config.js'
+
 export const createSeed = () => {
   return new Promise(resolve => {
     chrome.runtime.sendMessage({ type: 'GET_SEED' }, function(seed) {
@@ -62,6 +64,63 @@ export const getSignRequest = ({ commit }) => {
       }
     )
   })
+}
+
+export const getValidatorsData = async validatorAddress => {
+  const txMessage = validatorAddress.value.msg[0]
+  if (
+    txMessage.type === 'cosmos-sdk/MsgDelegate' ||
+    txMessage.type === 'cosmos-sdk/MsgUndelegate'
+  ) {
+    const validatorAddress = txMessage.value.validator_address
+    const validatorToMoniker = await fetchValidatorData(validatorAddress)
+
+    return [
+      {
+        operator_address: validatorAddress,
+        description: {
+          moniker: validatorToMoniker
+        }
+      }
+    ]
+  }
+  if (txMessage.type === 'cosmos-sdk/MsgBeginRedelegate') {
+    const validator_src_address = txMessage.value.validator_src_address
+    const validator_src_moniker = await fetchValidatorData(
+      validator_src_address
+    )
+    const validator_dst_address = txMessage.value.validator_dst_address
+    const validator_dst_moniker = await fetchValidatorData(
+      validator_dst_address
+    )
+
+    return [
+      {
+        operator_address: validator_src_address,
+        description: {
+          moniker: validator_src_moniker
+        }
+      },
+      {
+        operator_address: validator_dst_address,
+        description: {
+          moniker: validator_dst_moniker
+        }
+      }
+    ]
+  }
+  return []
+}
+
+const fetchValidatorData = async validatorAddress => {
+  return fetch(`${config.stargate}/staking/validators/${validatorAddress}`)
+    .then(async function(response) {
+      const validatorObject = await response.json()
+      return validatorObject.description.moniker
+    })
+    .catch(function(error) {
+      console.log('Error: ', error)
+    })
 }
 
 export const approveSignRequest = (

@@ -44,7 +44,6 @@ test('Restores an account with backup code when has no accounts', async () => {
     signupData.seedPhrase
   )
   await page.click('div.session-footer button')
-
   const accountRenders = await page.$eval('h3', el => el.textContent)
   expect(accountRenders).toEqual(signupData.name)
 
