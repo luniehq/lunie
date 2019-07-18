@@ -188,4 +188,4 @@ workflows:
               only: master
   publish:
     jobs:
-      - publish:
+      - publish
