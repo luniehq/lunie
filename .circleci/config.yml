@@ -129,7 +129,10 @@ jobs:
             git pull
             git merge origin/master
             git push
+  # publish to the Chrome Web Store
   publish:
+    docker:
+      - image: circleci/node:10.15.3
     steps:
       - run:
         command: |
