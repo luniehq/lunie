@@ -9,7 +9,7 @@
       <LiAnyTransaction
         v-if="tx"
         :address="senderAddress"
-        :validators="delegates"
+        :validators="validators"
         :transaction="tx"
         :hide-meta-data="true"
         validators-url="https://lunie.io/#/staking/validators/"
@@ -85,6 +85,7 @@ import Bech32 from 'common/Bech32'
 import { required } from 'vuelidate/lib/validators'
 import { parseTx, parseFee, parseValueObj } from '../scripts/parsers.js'
 import { atoms } from 'scripts/num.js'
+import { getValidatorsData } from '../store/actions.js'
 
 export default {
   name: `session-approve`,
@@ -98,10 +99,14 @@ export default {
     TmFormMsg
   },
   data: () => ({
-    delegates: [],
+    validators: [],
     password: null,
     passwordError: false
   }),
+  async mounted() {
+    const validatorsObject = await getValidatorsData(this.tx.tx)
+    this.validators = validatorsObject
+  },
   computed: {
     ...mapGetters(['signRequest']),
     tx() {
