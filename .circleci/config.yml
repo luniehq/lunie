@@ -125,9 +125,9 @@ jobs:
       - run:
           command: |
             git remote add bot https://${GIT_BOT_TOKEN}@github.com/luniehq/lunie.git
-            git checkout develop
-            git pull
-            git merge origin/master
+            git checkout develop -f
+            git pull -f --no-edit
+            git merge origin/master --no-edit
             git push
 
   # publish to the Chrome Web Store
