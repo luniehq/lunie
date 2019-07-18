@@ -144,35 +144,35 @@ jobs:
 
 workflows:
   version: 2
-  build-and-deploy:
-    jobs:
-      # Static checks before
-      - pendingUpdated:
-          filters:
-            branches:
-              ignore:
-                - release
-                - master
+  # build-and-deploy:
+  #   jobs:
+  #     # Static checks before
+  #     - pendingUpdated:
+  #         filters:
+  #           branches:
+  #             ignore:
+  #               - release
+  #               - master
 
-      - security:
-          filters:
-            branches:
-              ignore: release
+  #     - security:
+  #         filters:
+  #           branches:
+  #             ignore: release
 
-      - lint:
-          filters:
-            branches:
-              ignore: release
+  #     - lint:
+  #         filters:
+  #           branches:
+  #             ignore: release
 
-      - testUnit:
-          filters:
-            branches:
-              ignore: release
+  #     - testUnit:
+  #         filters:
+  #           branches:
+  #             ignore: release
 
-      - testE2E:
-          filters:
-            branches:
-              ignore: release
+  #     - testE2E:
+  #         filters:
+  #           branches:
+  #             ignore: release
 
   releaseManually:
     jobs:
