@@ -1,8 +1,8 @@
 {
   "name": "lunie-browser-extension",
-  "version": "1.0.0",
-  "description": "A browser extensio to manage keys and sign online",
-  "author": "fabian@lunie.io",
+  "version": "1.0.1",
+  "description": "A browser extension to securely manage accounts and addresses, for use with Lunie.io.",
+  "author": "Lunie <hello@lunie.io> (https://lunie.io)",
   "licenses": [
     {
       "type": "Apache-2"
@@ -15,7 +15,7 @@
     "lint:css": "stylelint \"src/**/*.{css,vue}\"",
     "prettier": "prettier \"src/**/*.{js,vue}\"",
     "prettier:write": "npm run prettier -- --write",
-    "build": "cross-env NODE_ENV=production webpack --hide-modules",
+    "build": "cross-env NODE_ENV=production webpack --hide-modules && node ./scripts/remove-localhost.js",
     "build:dev": "cross-env NODE_ENV=development webpack --hide-modules",
     "build-zip": "node scripts/build-zip.js",
     "initiate-submodule": "git submodule init && git submodule update && cd ./lunie && git checkout develop && cd ..",
