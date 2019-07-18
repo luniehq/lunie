@@ -11,7 +11,7 @@ module.exports = {
       "#sign-in-name option[value=cosmos1ek9cd8ewgxg9w5xllq9um0uf4aaxaruvcw4v9e]"
     )
     browser.setValue("#sign-in-password", "1234567890")
-    browser.click(".session-footer button")
+    await next(browser)
     openMenu(browser)
     browser.waitForElementVisible("#mobile-sign-out")
   },

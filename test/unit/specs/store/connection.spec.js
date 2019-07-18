@@ -72,9 +72,29 @@ describe(`Module: Connection`, () => {
       mutations.setRpcUrl(state, `https://big.lol`)
       expect(state.rpcUrl).toBe(`https://big.lol`)
     })
+
+    it(`increaseConnectionAttempts`, () => {
+      mutations.increaseConnectionAttempts(state)
+      expect(state.connectionAttempts).toBe(1)
+    })
+
+    it(`resetConnectionAttempts`, () => {
+      state.connectionAttempts = 10
+      mutations.resetConnectionAttempts(state)
+      expect(state.connectionAttempts).toBe(0)
+    })
   })
 
-  it(`triggers a reconnect`, async () => {
+  it(`reconnects`, () => {
+    const commit = jest.fn()
+    const dispatch = jest.fn()
+    actions.reconnect({ commit, dispatch })
+    expect(commit).toHaveBeenCalledWith("resetConnectionAttempts")
+    expect(commit).toHaveBeenCalledWith("stopConnecting", false)
+    expect(dispatch).toHaveBeenCalledWith("connect")
+  })
+
+  it(`triggers a connection`, async () => {
     const commit = jest.fn()
     const dispatch = jest.fn()
     await actions.connect({
@@ -92,9 +112,9 @@ describe(`Module: Connection`, () => {
     expect(dispatch).toHaveBeenCalledWith(`subscribeToBlocks`)
   })
 
-  it(`should not reconnect if stop reconnecting is set`, () => {
+  it(`should not connect if stop reconnecting is set`, async () => {
     const commit = jest.fn()
-    actions.connect({
+    await actions.connect({
       state: Object.assign({}, state, {
         stopConnecting: true
       }),
@@ -102,6 +122,38 @@ describe(`Module: Connection`, () => {
     })
 
     expect(commit).not.toHaveBeenCalledWith(`setConnected`, false)
+    expect(node.rpcConnect).not.toHaveBeenCalled()
+  })
+
+  it(`should try to connect if an attempt failed`, async () => {
+    jest.useFakeTimers()
+
+    const commit = jest.fn()
+    const dispatch = jest.fn()
+    node.rpcConnect = () => Promise.reject("Expected")
+    await actions.connect({
+      state,
+      commit,
+      dispatch
+    })
+
+    jest.runAllTimers()
+
+    expect(commit).not.toHaveBeenCalledWith(`setConnected`, true)
+    expect(commit).toHaveBeenCalledWith(`increaseConnectionAttempts`)
+    expect(dispatch).toHaveBeenCalledWith(`connect`)
+  })
+
+  it(`should stop connecting after some attempts`, () => {
+    const commit = jest.fn()
+    actions.connect({
+      state: Object.assign({}, state, {
+        connectionAttempts: 10
+      }),
+      commit
+    })
+
+    expect(commit).toHaveBeenCalledWith(`stopConnecting`)
     expect(node.rpcConnect).not.toHaveBeenCalled()
   })
 

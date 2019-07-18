@@ -1,37 +1,35 @@
 <template>
   <SessionFrame>
-    <div class="session">
-      <h2 class="session-title">
-        Use my Ledger Nano
-      </h2>
+    <h2 class="session-title">
+      Use my Ledger Nano
+    </h2>
 
-      <template v-if="session.browserWithLedgerSupport">
-        <div class="session-main">
-          <HardwareState :loading="status === `connect` ? false : true">
-            <template v-if="status === `connect` || status === `detect`">
-              <p>
-                Please plug in your Ledger&nbsp;Nano and open the Cosmos Ledger
-                app
-              </p>
-            </template>
-            <p v-if="connectionError" class="error-message">
-              {{ connectionError }}
+    <template v-if="session.browserWithLedgerSupport">
+      <div class="session-main">
+        <HardwareState :loading="status === `connect` ? false : true">
+          <template v-if="status === `connect` || status === `detect`">
+            <p>
+              Please plug in your Ledger&nbsp;Nano and open the Cosmos Ledger
+              app
             </p>
-            <TmBtn
-              :value="submitCaption"
-              :disabled="status === `connect` ? false : `disabled`"
-              @click.native="signIn()"
-            />
-          </HardwareState>
-        </div>
-      </template>
-
-      <div v-else class="session-main">
-        <p>
-          Please use Chrome, Opera, or Brave. Ledger is not supported in this
-          browser.
-        </p>
+          </template>
+          <p v-if="connectionError" class="error-message">
+            {{ connectionError }}
+          </p>
+          <TmBtn
+            :value="submitCaption"
+            :disabled="status === `connect` ? false : `disabled`"
+            @click.native="signIn()"
+          />
+        </HardwareState>
       </div>
+    </template>
+
+    <div v-else class="session-main">
+      <p>
+        Please use Chrome, Opera, or Brave. Ledger is not supported in this
+        browser.
+      </p>
     </div>
   </SessionFrame>
 </template>

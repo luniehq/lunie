@@ -1,31 +1,29 @@
 <template>
   <SessionFrame>
-    <div class="session">
-      <div class="session-container">
-        <h2 class="session-title">
-          Use Lunie Browser Extension
-        </h2>
-        <div v-if="!extension.enabled" class="session-main">
-          <p>
-            Please install the Lunie Browser Extension from the
-            <a
-              href="https://chrome.google.com/webstore/category/extensions"
-              target="_blank"
-              rel="noopener norefferer"
-              >Chrome Web Store</a
-            >.
-          </p>
-        </div>
+    <div class="session-container">
+      <h2 class="session-title">
+        Use Lunie Browser Extension
+      </h2>
+      <div v-if="!extension.enabled" class="session-main">
+        <p>
+          Please install the Lunie Browser Extension from the
+          <a
+            href="https://chrome.google.com/webstore/category/extensions"
+            target="_blank"
+            rel="noopener norefferer"
+            >Chrome Web Store</a
+          >.
+        </p>
+      </div>
 
-        <div v-else class="session-main">
-          Below is a list of accounts we received from the Lunie browser
-          extension.
-          <AccountList
-            :accounts="accounts"
-            :button-action="signIn"
-            :button-text="`Use Account`"
-          />
-        </div>
+      <div v-else class="session-main">
+        Below is a list of accounts we received from the Lunie browser
+        extension.
+        <AccountList
+          :accounts="accounts"
+          :button-action="signIn"
+          :button-text="`Use Account`"
+        />
       </div>
     </div>
   </SessionFrame>

@@ -1,6 +1,6 @@
 <template>
   <SessionFrame>
-    <div id="session-welcome" class="session">
+    <div id="session-welcome">
       <router-link to="/">
         <img
           class="session-logo-mobile"
