@@ -40,7 +40,7 @@ const buildZip = (src, dist, zipFilename) => {
 }
 
 const main = () => {
-  const { name, version } = extractExtensionData()
+  const { name } = extractExtensionData()
   const zipFilename = `${name}.zip`
 
   makeDestZipDirIfNotExists()
