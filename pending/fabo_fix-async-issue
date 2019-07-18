@@ -1,0 +1,1 @@
+[Fixed] [#64](https://github.com/cosmos/lunie/issues/64) Fix failures if the popup opens and closes (due to async response handling) @faboweb
