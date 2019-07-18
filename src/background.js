@@ -1,5 +1,7 @@
 import 'babel-polyfill'
 import { signMessageHandler, walletMessageHandler } from './messageHandlers'
+import SignRequestQueue from './requests'
+import { bindRequestsToTabs } from './tabsHandler'
 
 global.browser = require('webextension-polyfill')
 
@@ -9,6 +11,9 @@ if (process.env.NODE_ENV === 'development') {
   whitelisted.push('https://localhost')
 }
 
+const signRequestQueue = new SignRequestQueue()
+signRequestQueue.unqueueSignRequest('')
+
 // main message handler
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   if (!senderAllowed(sender)) {
@@ -17,7 +22,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   }
 
   try {
-    signMessageHandler(message, sender, sendResponse)
+    signMessageHandler(signRequestQueue, message, sender, sendResponse)
     walletMessageHandler(message, sender, sendResponse)
   } catch (error) {
     // Return this as rejected
@@ -27,6 +32,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 
   return true
 })
+bindRequestsToTabs(signRequestQueue, whitelisted)
 
 // only allow whitelisted websites to send us messages
 function senderAllowed(sender) {
