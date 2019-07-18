@@ -9,7 +9,7 @@
       <LiAnyTransaction
         v-if="tx"
         :address="senderAddress"
-        :validators="delegates"
+        :validators="validators"
         :transaction="tx"
         :hide-meta-data="true"
         validators-url="https://lunie.io/#/staking/validators/"
@@ -85,7 +85,7 @@ import Bech32 from 'common/Bech32'
 import { required } from 'vuelidate/lib/validators'
 import { parseTx, parseFee, parseValueObj } from '../scripts/parsers.js'
 import { atoms } from 'scripts/num.js'
-import { getValidatorData } from '../store/actions.js'
+import { getValidatorsData } from '../store/actions.js'
 
 export default {
   name: `session-approve`,
@@ -99,53 +99,13 @@ export default {
     TmFormMsg
   },
   data: () => ({
-    delegates: [],
+    validators: [],
     password: null,
     passwordError: false
   }),
   async mounted() {
-    const txMessage = this.tx.tx.value.msg[0]
-    if (
-      txMessage.type === 'cosmos-sdk/MsgDelegate' ||
-      txMessage.type === 'cosmos-sdk/MsgUndelegate'
-    ) {
-      const validatorAddress = txMessage.value.validator_address
-      const validatorToMoniker = await getValidatorData(validatorAddress)
-
-      this.delegates = [
-        {
-          operator_address: validatorAddress,
-          description: {
-            moniker: validatorToMoniker
-          }
-        }
-      ]
-    }
-    if (txMessage.type === 'cosmos-sdk/MsgBeginRedelegate') {
-      const validator_src_address = txMessage.value.validator_src_address
-      const validator_src_moniker = await getValidatorData(
-        validator_src_address
-      )
-      const validator_dst_address = txMessage.value.validator_dst_address
-      const validator_dst_moniker = await getValidatorData(
-        validator_dst_address
-      )
-
-      this.delegates = [
-        {
-          operator_address: validator_src_address,
-          description: {
-            moniker: validator_src_moniker
-          }
-        },
-        {
-          operator_address: validator_dst_address,
-          description: {
-            moniker: validator_dst_moniker
-          }
-        }
-      ]
-    }
+    const validatorsObject = await getValidatorsData(this.tx.tx)
+    this.validators = validatorsObject
   },
   computed: {
     ...mapGetters(['signRequest']),
