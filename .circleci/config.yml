@@ -237,8 +237,7 @@ jobs:
             git config user.email "bot@lunie.io"
             git config user.name "Lunie Bot"
             git remote add bot https://${GIT_BOT_TOKEN}@github.com/luniehq/lunie.git
-            git checkout develop -f
-            git pull
+            git checkout origin/develop -f
             git merge origin/master
             git push
 
