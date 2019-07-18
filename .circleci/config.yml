@@ -29,7 +29,7 @@ jobs:
     steps:
       - checkout
       - run: yarn add simsala
-      - run: node node_modules/simsala/src/cli.js check
+      - run: node node_modules/simsala/src/cli.js check 
 
   lint:
     docker:
@@ -129,6 +129,13 @@ jobs:
             git pull
             git merge origin/master
             git push
+  publish:
+    steps:
+      - run:
+        command: |
+          npm run build
+          npm run build-zip
+          ./scripts/publish.sh ./dist-zip/lunie-browser-extension.zip
 
 workflows:
   version: 2
@@ -172,6 +179,12 @@ workflows:
   mergeBack:
     jobs:
       - mergeBack:
+          filters:
+            branches:
+              only: master
+  publish:
+    jobs:
+      - publish:
           filters:
             branches:
               only: master

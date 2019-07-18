@@ -1,7 +1,7 @@
 {
-  "name": "lunie-signer-x",
+  "name": "lunie-browser-extension",
   "version": "1.0.0",
-  "description": "A Vue.js web extension",
+  "description": "A browser extensio to manage keys and sign online",
   "author": "fabian@lunie.io",
   "licenses": [
     {
