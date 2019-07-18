@@ -138,7 +138,7 @@ describe(`Extension Utils`, () => {
                 },
                 type: "LUNIE_SIGN_REQUEST"
               },
-              skipResponse: false,
+              skipResponse: true,
               type: "FROM_LUNIE_IO"
             },
             "*"
@@ -164,6 +164,24 @@ describe(`Extension Utils`, () => {
         expect(signWithExtension("abc")).rejects.toThrow(
           "User rejected action in extension."
         )
+      })
+
+      it("should react to errors in extension", () => {
+        global.addEventListener.mockImplementationOnce((type, callback) => {
+          callback({
+            source: global,
+            data: {
+              message: {
+                payload: {
+                  error: "Expected"
+                },
+                type: "LUNIE_SIGN_REQUEST_RESPONSE"
+              },
+              type: "FROM_LUNIE_EXTENSION"
+            }
+          })
+        })
+        expect(signWithExtension("abc")).rejects.toThrow("Expected")
       })
 
       it("should react to signature approval", async () => {
