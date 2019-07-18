@@ -136,8 +136,7 @@ jobs:
       - image: circleci/node:10.15.3
     steps:
       - checkout
-      - run:
-        command: |
+      - run: |
           npm run build
           npm run build-zip
           ./scripts/publish.sh ./dist-zip/lunie-browser-extension.zip
