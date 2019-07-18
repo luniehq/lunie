@@ -1,3 +1,5 @@
+import config from '../../config.js'
+
 export const createSeed = () => {
   return new Promise(resolve => {
     chrome.runtime.sendMessage({ type: 'GET_SEED' }, function(seed) {
@@ -62,6 +64,17 @@ export const getSignRequest = ({ commit }) => {
       }
     )
   })
+}
+
+export const getValidatorData = async validatorAddress => {
+  return fetch(`${config.stargate}/staking/validators/${validatorAddress}`)
+    .then(async function(response) {
+      const validatorObject = await response.json()
+      return validatorObject.description.moniker
+    })
+    .catch(function(error) {
+      console.log('Error: ', error)
+    })
 }
 
 export const approveSignRequest = (
