@@ -103,10 +103,6 @@ export default {
     password: null,
     passwordError: false
   }),
-  async mounted() {
-    const validatorsObject = await getValidatorsData(this.tx.tx)
-    this.validators = validatorsObject
-  },
   computed: {
     ...mapGetters(['signRequest']),
     tx() {
@@ -132,6 +128,10 @@ export default {
     password: function() {
       this.passwordError = false
     }
+  },
+  async mounted() {
+    const validatorsObject = await getValidatorsData(this.tx.tx)
+    this.validators = validatorsObject
   },
   methods: {
     isValidInput(property) {

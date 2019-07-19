@@ -1,5 +1,5 @@
 <template>
-  <SessionFrame :hide-back='true' >
+  <SessionFrame :hide-back="true">
     <div class="session-container">
       <div class="session-header">
         <h2 class="session-title">My accounts</h2>
