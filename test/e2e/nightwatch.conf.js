@@ -4,7 +4,7 @@ const chromedriver = require('chromedriver')
 module.exports = {
   src_folders: ['test/e2e'],
   output_folder: './output',
-  filter: ['*.spec.js'],
+  filter: ['*.js'],
   test_settings: {
     default: {
       webdriver: {
