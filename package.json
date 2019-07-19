@@ -1,6 +1,6 @@
 {
   "name": "lunie-browser-extension",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "A browser extension to securely manage accounts and addresses, for use with Lunie.io.",
   "author": "Lunie <hello@lunie.io> (https://lunie.io)",
   "licenses": [
