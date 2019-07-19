@@ -3,7 +3,7 @@ const chromedriver = require('chromedriver')
 
 module.exports = {
   src_folders: ['test/e2e'],
-  output_folder: './reports',
+  output_folder: './output',
   filter: ['*.spec.js'],
   test_settings: {
     default: {
@@ -20,8 +20,8 @@ module.exports = {
         chromeOptions: {
           args: [
             `--load-extension=${CRX_PATH}`,
-            "window-position=2560,0",
-            "window-size=1000,700"
+            'window-position=2560,0',
+            'window-size=1000,700'
           ]
         }
       }

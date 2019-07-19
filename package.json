@@ -37,7 +37,7 @@
     "tasks": {
       "*.{js,vue}": [
         "eslint --fix",
-        "jest --bail --coverage --findRelatedTests",
+        "jest --bail --coverage --findRelatedTests --collectCoverageFrom=!test/e2e/*",
         "git add"
       ],
       "*.{css,vue}": [
