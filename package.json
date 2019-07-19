@@ -23,8 +23,7 @@
     "watch:dev": "cross-env HMR=true npm run build:dev -- --watch",
     "test:unit": "jest --coverage ./test/unit/*spec.js ./test/unit/**/*spec.js",
     "test": "npm run lint && npm run test:unit",
-    "test:e2e": "jest ./test/e2e/*spec.js",
-    "test:e2e:local": "nightwatch --config ./test/e2e/nightwatch.conf.js",
+    "test:e2e": "nightwatch --config ./test/e2e/nightwatch.conf.js",
     "test:e2e:build": "npm run build && node ./scripts/add-pem-key.js",
     "log": "simsala log"
   },
@@ -59,12 +58,6 @@
     "moment": "^2.24.0",
     "nightwatch": "^1.1.13",
     "perfect-scrollbar": "^1.4.0",
-    "selenium-server": "^3.141.59",
-
-
-    "selenium-webdriver": "^4.0.0-alpha.4",
-
-    
     "vue": "^2.6.10",
     "vue-clipboard2": "^0.3.0",
     "vue-directive-tooltip": "1.4.5",
@@ -104,7 +97,6 @@
     "mini-css-extract-plugin": "^0.4.4",
     "node-sass": "^4.9.3",
     "prettier": "^1.17.1",
-    "puppeteer": "^1.18.1",
     "sass-loader": "^7.1.0",
     "simsala": "^0.0.16",
     "stylelint": "^10.1.0",
