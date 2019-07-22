@@ -2,15 +2,15 @@ var { globals } = require('./nightwatch.conf.js')
 const signupData = require('./globals.json')
 
 module.exports = {
-  'Import Account': function(browser) {
+  'Create Account': function(browser) {
     browser
       .url(`chrome-extension://${globals.EXTENSION_ID}/popup/popup.html`)
-      .waitForElementVisible('.tm-li-session-title')
-      .click('a[href="#/recover"]')
+      .waitForElementVisible('a[href="#/create"]')
+      .click('a[href="#/create"]')
       .pause(500)
       .setValue(
-        "input[placeholder='Must have at least 5 characters']",
-        signupData.name
+        "input[placeholder='Must be at least 5 characters']",
+        signupData.name2
       )
       .setValue(
         "input[placeholder='Must be at least 10 characters']",
@@ -20,11 +20,8 @@ module.exports = {
         "input[placeholder='Enter password again']",
         signupData.password
       )
-      .setValue(
-        "textarea[placeholder='Must be exactly 24 words']",
-        signupData.seedPhrase
-      )
+      .click('div.field-checkbox-input label')
       .click('div.session-footer button')
-      .assert.containsText('body', signupData.name)
+      .assert.containsText('body', signupData.name2)
   }
 }
