@@ -4,6 +4,8 @@ const signupData = require('./globals.json')
 module.exports = {
   'Create Account': function(browser) {
     browser
+      .pause(3000) //Wait for Lunie to spin up
+
       .url(`chrome-extension://${globals.EXTENSION_ID}/popup/popup.html`)
       .waitForElementVisible('a[href="#/create"]')
       .click('a[href="#/create"]')
