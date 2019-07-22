@@ -1,24 +1,22 @@
 <template>
-  <SessionFrame>
-    <div class="session">
-      <div class="session-container">
-        <div class="session-header">
-          <h2 class="session-title">My accounts</h2>
-          <p>
-            You can use the accounts below to explore Lunie.io and to approve
-            transactions.
-          </p>
-        </div>
-        <div class="session-main">
-          <AccountList
-            :accounts="accounts"
-            :button-action="goToLunie"
-            button-text="Go to Lunie"
-          />
-        </div>
-        <div class="session-footer">
-          <router-link to="/welcome">Want to add another account?</router-link>
-        </div>
+  <SessionFrame :hide-back="true">
+    <div class="session-container">
+      <div class="session-header">
+        <h2 class="session-title">My accounts</h2>
+        <p>
+          You can use the accounts below to explore Lunie.io and to approve
+          transactions.
+        </p>
+      </div>
+      <div class="session-main">
+        <AccountList
+          :accounts="accounts"
+          :button-action="goToLunie"
+          button-text="Go to Lunie"
+        />
+      </div>
+      <div class="session-footer">
+        <router-link to="/welcome">Want to add another account?</router-link>
       </div>
     </div>
   </SessionFrame>
