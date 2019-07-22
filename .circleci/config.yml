@@ -100,6 +100,11 @@ jobs:
           name: Test
           command: yarn test:e2e
           no_output_timeout: 120
+      - run:
+          name: Update Chromedriver
+          command: |
+            sudo apt-get update
+            sudo apt-get install chromedriver
       - store_artifacts:
           path: ./screenshots
           when: on_fail
