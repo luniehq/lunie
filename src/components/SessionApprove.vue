@@ -159,7 +159,7 @@ export default {
       await this.$store.dispatch('rejectSignRequest', {
         ...this.signRequest
       })
-      this.$router.push(`/`)
+      window.close()
     },
     correctPassword() {
       return !this.passwordError
