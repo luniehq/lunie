@@ -21,6 +21,7 @@ module.exports = {
         enabled: true,
         path: './screenshots'
       },
+      filter: ['*.spec.js'],
       globals: {
         waitForConditionTimeout: 5000
       },
