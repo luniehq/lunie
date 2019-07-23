@@ -1,5 +1,5 @@
 var { globals } = require('./nightwatch.conf.js')
-const signupData = require('./globals.json')
+const formData = require('./formData.json')
 
 module.exports = {
   'Create Account': function(browser) {
@@ -12,18 +12,15 @@ module.exports = {
       .pause(500)
       .setValue(
         "input[placeholder='Must be at least 5 characters']",
-        signupData.name2
+        formData.name2
       )
       .setValue(
         "input[placeholder='Must be at least 10 characters']",
-        signupData.password
+        formData.password
       )
-      .setValue(
-        "input[placeholder='Enter password again']",
-        signupData.password
-      )
+      .setValue("input[placeholder='Enter password again']", formData.password)
       .click('div.field-checkbox-input label')
       .click('div.session-footer button')
-      .assert.containsText('body', signupData.name2)
+      .assert.containsText('body', formData.name2)
   }
 }

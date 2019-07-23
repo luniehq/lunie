@@ -1,5 +1,5 @@
 var { globals } = require('./nightwatch.conf.js')
-const signupData = require('./globals.json')
+const formData = require('./formData.json')
 
 module.exports = {
   'Import Account': function(browser) {
@@ -10,21 +10,18 @@ module.exports = {
       .pause(500)
       .setValue(
         "input[placeholder='Must have at least 5 characters']",
-        signupData.name
+        formData.name
       )
       .setValue(
         "input[placeholder='Must be at least 10 characters']",
-        signupData.password
+        formData.password
       )
-      .setValue(
-        "input[placeholder='Enter password again']",
-        signupData.password
-      )
+      .setValue("input[placeholder='Enter password again']", formData.password)
       .setValue(
         "textarea[placeholder='Must be exactly 24 words']",
-        signupData.seedPhrase
+        formData.seedPhrase
       )
       .click('div.session-footer button')
-      .assert.containsText('body', signupData.name)
+      .assert.containsText('body', formData.name)
   }
 }
