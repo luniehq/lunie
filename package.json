@@ -1,6 +1,6 @@
 {
   "name": "lunie-browser-extension",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "A browser extension to securely manage accounts and addresses, for use with Lunie.io.",
   "author": "Lunie <hello@lunie.io> (https://lunie.io)",
   "licenses": [
@@ -18,12 +18,12 @@
     "build": "cross-env NODE_ENV=production webpack --hide-modules && node ./scripts/remove-localhost.js",
     "build:dev": "cross-env NODE_ENV=development webpack --hide-modules",
     "build-zip": "node scripts/build-zip.js",
-    "initiate-submodule": "git submodule init && git submodule update && cd ./lunie && git checkout develop && cd ..",
+    "initiate-submodule": "git submodule init && git submodule update",
     "watch": "npm run build -- --watch",
     "watch:dev": "cross-env HMR=true npm run build:dev -- --watch",
     "test:unit": "jest --coverage ./test/unit/*spec.js ./test/unit/**/*spec.js",
     "test": "npm run lint && npm run test:unit",
-    "test:e2e": "jest ./test/e2e/*spec.js",
+    "test:e2e": "nightwatch --config ./test/e2e/nightwatch.conf.js",
     "test:e2e:build": "npm run build && node ./scripts/add-pem-key.js",
     "log": "simsala log",
     "release": "git checkout develop & git pull & git push origin develop:release"
@@ -36,7 +36,7 @@
   "lint-prepush": {
     "base": "develop",
     "tasks": {
-      "*.{js,vue}": [
+      "*.{spec.js,vue}": [
         "eslint --fix",
         "jest --bail --coverage --findRelatedTests",
         "git add"
@@ -55,8 +55,10 @@
     "babel-polyfill": "^6.26.0",
     "bech32": "^1.1.3",
     "bignumber.js": "^9.0.0",
+    "concurrently": "^4.1.1",
     "moment": "^2.24.0",
     "perfect-scrollbar": "^1.4.0",
+    "selenium-server": "^3.141.59",
     "vue": "^2.6.10",
     "vue-clipboard2": "^0.3.0",
     "vue-directive-tooltip": "1.4.5",
@@ -73,6 +75,7 @@
     "archiver": "^3.0.0",
     "babel-eslint": "^10.0.1",
     "babel-loader": "^8.0.2",
+    "chromedriver": "2.46",
     "copy-webpack-plugin": "^4.5.3",
     "core-js": "^3.0.1",
     "cross-env": "^5.2.0",
@@ -94,10 +97,11 @@
     "jest": "^24.8.0",
     "lint-prepush": "^0.4.1",
     "mini-css-extract-plugin": "^0.4.4",
+    "nightwatch": "^1.1.13",
     "node-sass": "^4.9.3",
     "prettier": "^1.17.1",
-    "puppeteer": "^1.18.1",
     "sass-loader": "^7.1.0",
+    "selenium-server": "^3.141.59",
     "simsala": "^0.0.16",
     "stylelint": "^10.1.0",
     "stylelint-config-standard": "^18.3.0",
