@@ -1,6 +1,6 @@
 {
   "name": "lunie-browser-extension",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "A browser extension to securely manage accounts and addresses, for use with Lunie.io.",
   "author": "Lunie <hello@lunie.io> (https://lunie.io)",
   "licenses": [
@@ -18,7 +18,7 @@
     "build": "cross-env NODE_ENV=production webpack --hide-modules && node ./scripts/remove-localhost.js",
     "build:dev": "cross-env NODE_ENV=development webpack --hide-modules",
     "build-zip": "node scripts/build-zip.js",
-    "initiate-submodule": "git submodule init && git submodule update && cd ./lunie && git checkout develop && cd ..",
+    "initiate-submodule": "git submodule init && git submodule update",
     "watch": "npm run build -- --watch",
     "watch:dev": "cross-env HMR=true npm run build:dev -- --watch",
     "test:unit": "jest --coverage ./test/unit/*spec.js ./test/unit/**/*spec.js",
