@@ -36,7 +36,7 @@
   "lint-prepush": {
     "base": "develop",
     "tasks": {
-      "*.{spec.js,vue}": [
+      "*.{js,vue}": [
         "eslint --fix",
         "jest --bail --coverage --findRelatedTests",
         "git add"
