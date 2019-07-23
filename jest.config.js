@@ -19,5 +19,12 @@ module.exports = {
   ],
   transformIgnorePatterns: [`node_modules`],
   testPathIgnorePatterns: [`/node_modules/`, `<rootDir>/lunie`],
-  coveragePathIgnorePatterns: [`/node_modules/`, `<rootDir>/lunie`]
+  coverageDirectory: `./test/unit/coverage`,
+  coverageReporters: [`lcov`, `text-summary`],
+  coveragePathIgnorePatterns: [
+    `<rootDir>/node_modules/`,
+    `<rootDir>/dist/`,
+    `<rootDir>/test/`,
+    `<rootDir>/lunie`
+  ]
 }
