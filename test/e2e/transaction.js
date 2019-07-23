@@ -55,10 +55,7 @@ module.exports = {
             "input[placeholder='Address']",
             'cosmos1324vt5j3wzx0xsc32mjhkrvy5gn5ef2hrwcg29'
           )
-          .setValue(
-            "input[placeholder='Amount']",
-            '1'
-          )
+          .setValue("input[placeholder='Amount']", '1')
           .click('div.action-modal-footer button')
           .click('div.action-modal-footer button')
           .click('div.action-modal-footer button')
@@ -67,7 +64,6 @@ module.exports = {
           .switchWindow(result.value[0])
 
           .pause(20000)
-
       })
   }
 }
