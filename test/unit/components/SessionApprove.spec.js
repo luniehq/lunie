@@ -79,6 +79,7 @@ describe(`SessionApprove`, () => {
     it('rejects', async () => {
       wrapper.vm.close = jest.fn()
       wrapper.find('#reject-btn').trigger('click')
+      const windowSpy = jest.spyOn(window, 'close')
       await wrapper.vm.$nextTick()
       expect(wrapper.vm.$store.dispatch).toHaveBeenCalledWith(
         'rejectSignRequest',
@@ -87,9 +88,9 @@ describe(`SessionApprove`, () => {
           senderAddress: 'cosmos1234'
         }
       )
+      // await wrapper.vm.$nextTick()
       await wrapper.vm.$nextTick()
-      await wrapper.vm.$nextTick()
-      expect(wrapper.vm.$router.push).toHaveBeenCalledWith(`/`)
+      expect(windowSpy).toHaveBeenCalled()
     })
   })
 })
