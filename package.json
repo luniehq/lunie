@@ -23,7 +23,7 @@
     "watch:dev": "cross-env HMR=true npm run build:dev -- --watch",
     "test:unit": "jest --coverage ./test/unit/*spec.js ./test/unit/**/*spec.js",
     "test": "npm run lint && npm run test:unit",
-    "test:e2e": "jest ./test/e2e/*spec.js",
+    "test:e2e": "nightwatch --config ./test/e2e/nightwatch.conf.js",
     "test:e2e:build": "npm run build && node ./scripts/add-pem-key.js",
     "test:coverage": "live-server test/unit/coverage/lcov-report",
     "log": "simsala log"
@@ -36,7 +36,7 @@
   "lint-prepush": {
     "base": "develop",
     "tasks": {
-      "*.{js,vue}": [
+      "*.{spec.js,vue}": [
         "eslint --fix",
         "jest --bail --coverage --findRelatedTests",
         "git add"
@@ -56,9 +56,11 @@
     "bignumber.js": "^9.0.0",
     "core-js": "^3.1.4",
     "live-server": "^1.2.1",
+    "regenerator-runtime": "^0.13.2",
+    "concurrently": "^4.1.1",
     "moment": "^2.24.0",
     "perfect-scrollbar": "^1.4.0",
-    "regenerator-runtime": "^0.13.2",
+    "selenium-server": "^3.141.59",
     "vue": "^2.6.10",
     "vue-clipboard2": "^0.3.0",
     "vue-directive-tooltip": "1.4.5",
@@ -80,6 +82,7 @@
     "babel-eslint": "^10.0.1",
     "babel-jest": "^24.8.0",
     "babel-loader": "^8.0.2",
+    "chromedriver": "2.46",
     "copy-webpack-plugin": "^4.5.3",
     "cross-env": "^5.2.0",
     "css-loader": "^2.1.1",
@@ -100,10 +103,11 @@
     "jest": "^24.8.0",
     "lint-prepush": "^0.4.1",
     "mini-css-extract-plugin": "^0.4.4",
+    "nightwatch": "^1.1.13",
     "node-sass": "^4.9.3",
     "prettier": "^1.17.1",
-    "puppeteer": "^1.18.1",
     "sass-loader": "^7.1.0",
+    "selenium-server": "^3.141.59",
     "simsala": "^0.0.16",
     "stylelint": "^10.1.0",
     "stylelint-config-standard": "^18.3.0",
