@@ -3,7 +3,6 @@
 exports[`SessionWelcome has the expected html structure 1`] = `
 <sessionframe-stub>
   <div
-    class="session"
     id="session-welcome"
   >
     <img

@@ -1,49 +1,47 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`SessionAccounts has the expected html structure 1`] = `
-<sessionframe-stub>
+<sessionframe-stub
+  hideback="true"
+>
   <div
-    class="session"
+    class="session-container"
   >
     <div
-      class="session-container"
+      class="session-header"
     >
-      <div
-        class="session-header"
+      <h2
+        class="session-title"
       >
-        <h2
-          class="session-title"
-        >
-          My accounts
-        </h2>
-         
-        <p>
-          
-          You can use the accounts below to explore Lunie.io and to approve
-          transactions.
+        My accounts
+      </h2>
+       
+      <p>
         
-        </p>
-      </div>
-       
-      <div
-        class="session-main"
+        You can use the accounts below to explore Lunie.io and to approve
+        transactions.
+      
+      </p>
+    </div>
+     
+    <div
+      class="session-main"
+    >
+      <accountlist-stub
+        accounts="[object Object],[object Object],[object Object]"
+        buttonaction="function () { [native code] }"
+        buttontext="Go to Lunie"
+      />
+    </div>
+     
+    <div
+      class="session-footer"
+    >
+      <router-link-stub
+        to="/welcome"
       >
-        <accountlist-stub
-          accounts="[object Object],[object Object],[object Object]"
-          buttonaction="function () { [native code] }"
-          buttontext="Go to Lunie"
-        />
-      </div>
-       
-      <div
-        class="session-footer"
-      >
-        <router-link-stub
-          to="/welcome"
-        >
-          Want to add another account?
-        </router-link-stub>
-      </div>
+        Want to add another account?
+      </router-link-stub>
     </div>
   </div>
 </sessionframe-stub>
