@@ -1,6 +1,7 @@
 import {
   createSeed,
   createKey,
+  loadAccounts,
   testLogin,
   getSignRequest,
   approveSignRequest,
@@ -49,6 +50,15 @@ describe('actions', () => {
           mnemonic: 'seed words'
         }
       },
+      expect.any(Function)
+    )
+  })
+
+  it('loadAccounts', async () => {
+    const commit = jest.fn()
+    loadAccounts({ commit })
+    expect(window.chrome.runtime.sendMessage).toHaveBeenCalledWith(
+      { type: 'GET_WALLETS' },
       expect.any(Function)
     )
   })
