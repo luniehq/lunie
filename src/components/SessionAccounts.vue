@@ -37,9 +37,6 @@ export default {
     }
   },
   methods: {
-    goToWelcome() {
-      this.$router.push(`/welcome`)
-    },
     goToLunie() {
       window.open(
         'https://lunie.io/#/extension',
