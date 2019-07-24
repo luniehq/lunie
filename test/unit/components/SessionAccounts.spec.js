@@ -1,5 +1,5 @@
 import { shallowMount } from '@vue/test-utils'
-import SessionAccounts from '../../../src/components/SessionAccounts.vue'
+import SessionAccounts from 'components/SessionAccounts.vue'
 
 describe(`SessionAccounts`, () => {
   let $store, wrapper

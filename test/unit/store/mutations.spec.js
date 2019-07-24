@@ -1,4 +1,4 @@
-import { setSignRequest, setAccounts } from '../../../src/store/mutations'
+import { setSignRequest, setAccounts } from 'store/mutations'
 
 describe('mutations', () => {
   it('setSignRequest', () => {

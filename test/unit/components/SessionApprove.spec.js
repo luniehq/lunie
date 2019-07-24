@@ -1,6 +1,6 @@
 import { createLocalVue, shallowMount } from '@vue/test-utils'
 import Vuelidate from 'vuelidate'
-import SessionApprove from '../../../src/components/SessionApprove'
+import SessionApprove from 'components/SessionApprove'
 
 describe(`SessionApprove`, () => {
   const localVue = createLocalVue()
@@ -28,16 +28,8 @@ describe(`SessionApprove`, () => {
       getters
     }
 
-    // const BTN = {
-    //   render: h => h('div'),
-    //   // template: `<div @click.native="approve">Hello</div>`,
-    //   name: 'TmBtn'
-    // }
     wrapper = shallowMount(SessionApprove, {
       localVue,
-      // stubs: {
-      //   BTN
-      // },
       mocks: {
         $store,
         $router: {
@@ -88,7 +80,6 @@ describe(`SessionApprove`, () => {
           senderAddress: 'cosmos1234'
         }
       )
-      // await wrapper.vm.$nextTick()
       await wrapper.vm.$nextTick()
       expect(windowSpy).toHaveBeenCalled()
     })

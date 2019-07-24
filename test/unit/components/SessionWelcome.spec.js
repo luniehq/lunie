@@ -1,5 +1,5 @@
 import { shallowMount } from '@vue/test-utils'
-import SessionWelcome from '../../../src/components/SessionWelcome.vue'
+import SessionWelcome from 'components/SessionWelcome.vue'
 
 describe(`SessionWelcome`, () => {
   let $store, wrapper

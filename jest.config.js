@@ -7,6 +7,7 @@ module.exports = {
     '.*\\.vue$': `<rootDir>/node_modules/vue-jest`
   },
   moduleFileExtensions: [`js`, `vue`],
+  moduleDirectories: ['node_modules', 'src'],
   modulePaths: [
     `<rootDir>/lunie`,
     `<rootDir>/lunie/src`,

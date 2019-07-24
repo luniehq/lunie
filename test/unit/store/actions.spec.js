@@ -7,7 +7,7 @@ import {
   approveSignRequest,
   rejectSignRequest,
   getValidatorsData
-} from '../../../src/store/actions'
+} from 'store/actions'
 
 describe('actions', () => {
   beforeEach(() => {

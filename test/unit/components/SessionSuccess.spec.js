@@ -1,6 +1,6 @@
 import { createLocalVue, shallowMount, RouterLinkStub } from '@vue/test-utils'
 import Vuelidate from 'vuelidate'
-import SessionSuccess from '../../../src/components/SessionSuccess'
+import SessionSuccess from 'components/SessionSuccess'
 
 describe(`SessionSuccess`, () => {
   const localVue = createLocalVue()
