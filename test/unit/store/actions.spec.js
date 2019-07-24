@@ -20,7 +20,7 @@ describe('actions', () => {
     }
   })
 
-  it('createSeed', async () => {
+  it('Create Seed', async () => {
     window.chrome.runtime.sendMessage.mockImplementation((args, callback) =>
       callback('seed words')
     )
@@ -31,7 +31,7 @@ describe('actions', () => {
     )
   })
 
-  it('createKey', async () => {
+  it('Create key from existing seed', async () => {
     const dispatch = jest.fn()
     window.chrome.runtime.sendMessage.mockImplementation((args, callback) =>
       callback()
@@ -54,7 +54,7 @@ describe('actions', () => {
     )
   })
 
-  it('loadAccounts', async () => {
+  it('Request wallets from extension', async () => {
     const commit = jest.fn()
     loadAccounts({ commit })
     expect(window.chrome.runtime.sendMessage).toHaveBeenCalledWith(
@@ -63,7 +63,7 @@ describe('actions', () => {
     )
   })
 
-  it('testLogin', () => {
+  it('Test Login', () => {
     window.chrome.runtime.sendMessage
       .mockImplementationOnce((args, callback) => callback(true))
       .mockImplementationOnce((args, callback) => callback(false))
@@ -82,7 +82,7 @@ describe('actions', () => {
     )
   })
 
-  it('getSignRequest', () => {
+  it('Get Sign Request', () => {
     const signRequest = {
       signMessage: '',
       id: 12345,
@@ -103,7 +103,7 @@ describe('actions', () => {
     expect(commit).toHaveBeenCalledWith('setSignRequest', signRequest)
   })
 
-  it('approveSignRequest', async () => {
+  it('Approve Sign Request', async () => {
     const signRequest = {
       signMessage: '',
       id: 12345,
@@ -133,7 +133,7 @@ describe('actions', () => {
     expect(commit).toHaveBeenCalledWith('setSignRequest', null)
   })
 
-  it('approveSignRequest Fail', async () => {
+  it('Approve Sign Request Fail', async () => {
     const signRequest = {
       signMessage: '',
       id: 12345,
@@ -149,7 +149,7 @@ describe('actions', () => {
     ).rejects.toBe('fail')
   })
 
-  it('rejectSignRequest', async () => {
+  it('Reject Sign Request', async () => {
     const signRequest = {
       signMessage: '',
       id: 12345,
@@ -171,7 +171,7 @@ describe('actions', () => {
     expect(commit).toHaveBeenCalledWith('setSignRequest', null)
   })
 
-  it('getValidatorsData Un/Delegate', async () => {
+  it('Get Validators Name when Un/Delegating', async () => {
     const mockSuccessResponse = { description: { moniker: 'name1' } }
     const mockJsonPromise = Promise.resolve(mockSuccessResponse)
     const mockFetchPromise = Promise.resolve({
@@ -197,7 +197,7 @@ describe('actions', () => {
     ])
   })
 
-  it('getValidatorsData Redelegate', async () => {
+  it('Get Validators Name when Redelegating', async () => {
     const mockFetchPromise = Promise.resolve({
       json: () => Promise.resolve({ description: { moniker: 'src' } })
     })
@@ -231,7 +231,7 @@ describe('actions', () => {
     ])
   })
 
-  it('getValidatorsData Wrong message type', async () => {
+  it('Get Validators Name with incorrect message type', async () => {
     const validatorAddress = {
       value: {
         msg: [
