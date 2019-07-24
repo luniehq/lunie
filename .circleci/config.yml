@@ -86,6 +86,8 @@ jobs:
     docker:
       # Primary container image where all steps run.
      - image: *docker-browsers
+      # Secondary container image on common network. 
+     - image: lunieio/testnet:v0.34.3
     steps:
       - checkout
       - attach_workspace:

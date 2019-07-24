@@ -27,9 +27,6 @@
     "test:e2e:start-lunie": "cd ./lunie && yarn start",
     "test:e2e:build": "npm run build:dev && node ./scripts/add-pem-key.js",
     "test:e2e:nightwatch": "nightwatch --config ./test/e2e/nightwatch.conf.js",
-
-
-
     "log": "simsala log",
     "release": "git checkout develop & git pull & git push origin develop:release"
   },
