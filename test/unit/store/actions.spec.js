@@ -5,7 +5,8 @@ import {
   testLogin,
   getSignRequest,
   approveSignRequest,
-  rejectSignRequest
+  rejectSignRequest,
+  getValidatorsData
 } from '../../../src/store/actions'
 
 describe('actions', () => {
@@ -173,5 +174,83 @@ describe('actions', () => {
       expect.any(Function)
     )
     expect(commit).toHaveBeenCalledWith('setSignRequest', null)
+  })
+
+  it('getValidatorsData Un/Delegate', async () => {
+    const mockSuccessResponse = { description: { moniker: 'name1' } }
+    const mockJsonPromise = Promise.resolve(mockSuccessResponse)
+    const mockFetchPromise = Promise.resolve({
+      json: () => mockJsonPromise
+    })
+    window.fetch = jest.fn(() => mockFetchPromise)
+
+    const v1 = {
+      value: {
+        msg: [
+          {
+            type: 'cosmos-sdk/MsgDelegate',
+            value: {
+              validator_address: 'address1'
+            }
+          }
+        ]
+      }
+    }
+
+    await expect(getValidatorsData(v1)).resolves.toEqual([
+      { description: { moniker: 'name1' }, operator_address: 'address1' }
+    ])
+  })
+
+  it('getValidatorsData Redelegate', async () => {
+    const mockFetchPromise = Promise.resolve({
+      json: () => Promise.resolve({ description: { moniker: 'src' } })
+    })
+
+    const mockFetchPromise2 = Promise.resolve({
+      json: () => Promise.resolve({ description: { moniker: 'dst' } })
+    })
+
+    window.fetch = jest
+      .fn()
+      .mockImplementationOnce(() => mockFetchPromise)
+      .mockImplementationOnce(() => mockFetchPromise2)
+
+    const validatorAddress = {
+      value: {
+        msg: [
+          {
+            type: 'cosmos-sdk/MsgBeginRedelegate',
+            value: {
+              validator_src_address: 'srcaddress1',
+              validator_dst_address: 'dstaddress1'
+            }
+          }
+        ]
+      }
+    }
+
+    await expect(getValidatorsData(validatorAddress)).resolves.toEqual([
+      { operator_address: 'srcaddress1', description: { moniker: 'src' } },
+      { operator_address: 'dstaddress1', description: { moniker: 'dst' } }
+    ])
+  })
+
+  it('getValidatorsData Wrong message type', async () => {
+    const validatorAddress = {
+      value: {
+        msg: [
+          {
+            type: 'WRONG',
+            value: {
+              validator_src_address: 'srcaddress1',
+              validator_dst_address: 'dstaddress1'
+            }
+          }
+        ]
+      }
+    }
+
+    await expect(getValidatorsData(validatorAddress)).resolves.toEqual([])
   })
 })
