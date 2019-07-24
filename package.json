@@ -24,7 +24,12 @@
     "test:unit": "jest --coverage ./test/unit/*spec.js ./test/unit/**/*spec.js",
     "test": "npm run lint && npm run test:unit",
     "test:e2e": "nightwatch --config ./test/e2e/nightwatch.conf.js",
-    "test:e2e:build": "npm run build && node ./scripts/add-pem-key.js",
+    "test:e2e:build": "npm run build:dev && node ./scripts/add-pem-key.js",
+
+    "testStart": "concurrently --names start,teste2e \"npm run fullTest\" \"npm run test:e2e\"",
+    "fullTest": "cd ./lunie && yarn start",
+
+
     "log": "simsala log",
     "release": "git checkout develop & git pull & git push origin develop:release"
   },
@@ -58,7 +63,6 @@
     "concurrently": "^4.1.1",
     "moment": "^2.24.0",
     "perfect-scrollbar": "^1.4.0",
-    "selenium-server": "^3.141.59",
     "vue": "^2.6.10",
     "vue-clipboard2": "^0.3.0",
     "vue-directive-tooltip": "1.4.5",
