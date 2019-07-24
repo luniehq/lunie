@@ -29,41 +29,56 @@ module.exports = {
         .assert.containsText('body', formData.name)
       
       //Send transaction on Lunie to extension
-      .pause(5000) //Wait for Lunie to spin up
+      .pause(1000) //Wait for Lunie to spin up
       .execute(function() {
         window.open('https://localhost:9080/?#/transactions')
       })
       // .url(`https://localhost:9080/?#/transactions`)
-      .pause(2000)
+      .pause(500)
 
       .windowHandles(function(result) {
         browser
           .switchWindow(result.value[1])
           .assert.urlContains('https://localhost:9080/?#/transactions')
-          .waitForElementVisible('body', 2000)
-          // .switchWindow(result.value[0])
+          .waitForElementVisible('body', 500)
           .click('div.tool-bar button')
-          .pause(2000)
+          .pause(500)
           .click('a[href="#/existing"]')
-          .pause(2000)
+          .pause(500)
           .click('a[href="#/extension"]')
-          .pause(2000)
+          .pause(500)
           .click('li.account button')
-          .click('a[href="#/wallet"]')
-          .click('li.li-coin__content button')
-          .setValue(
-            "input[placeholder='Address']",
-            'cosmos1324vt5j3wzx0xsc32mjhkrvy5gn5ef2hrwcg29'
+          .pause(500)
+          .click('a[href="#/staking"]')
+          .pause(500)
+          .click('a[href="#/staking/validators"]')
+          .pause(500)
+          .click(
+            'a[href="#/staking/validators/cosmosvaloper1malpqc24jdcqr92m2n4x5j8mcnrwt0chp32yu5"]'
           )
+          .pause(500)
+          .click('#delegation-btn')
+          .pause(500)
           .setValue("input[placeholder='Amount']", '1')
+          .pause(500)
           .click('div.action-modal-footer button')
+          .pause(500)
           .click('div.action-modal-footer button')
+          .pause(500)
           .click('div.action-modal-footer button')
-          .pause(2000)
+          .pause(500)
 
           .switchWindow(result.value[0])
 
-          .pause(20000)
+          //Back to extension to approve
+          .refresh()
+          .pause(500)
+          .setValue("input[placeholder='Password']", formData.password)
+          .click('#approve-btn')
+          .assert.containsText('body', 'Transaction Complete')
+          .switchWindow(result.value[1])
+          .pause(8000)
+          .assert.containsText('body', 'Successful delegation!')
       })
   }
 }
