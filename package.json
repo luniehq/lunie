@@ -26,7 +26,8 @@
     "test:e2e": "nightwatch --config ./test/e2e/nightwatch.conf.js",
     "test:e2e:build": "npm run build && node ./scripts/add-pem-key.js",
     "test:coverage": "live-server test/unit/coverage/lcov-report",
-    "log": "simsala log"
+    "log": "simsala log",
+    "release": "git checkout develop & git pull & git push origin develop:release"
   },
   "husky": {
     "hooks": {
