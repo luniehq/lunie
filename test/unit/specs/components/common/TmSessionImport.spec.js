@@ -1,6 +1,6 @@
 import Vuex from "vuex"
 import Vuelidate from "vuelidate"
-import { mount, createLocalVue } from "@vue/test-utils"
+import { shallowMount, createLocalVue } from "@vue/test-utils"
 import TmSessionImport from "common/TmSessionImport"
 jest.mock(`scripts/google-analytics.js`, () => () => {})
 const seed = `goose toward escape engine wheel board help torch avocado educate rose rebel rigid side aspect abandon grace admit inherit female grant pledge shine inquiry`
@@ -11,26 +11,27 @@ localVue.directive(`tooltip`, () => {})
 localVue.directive(`focus`, () => {})
 
 describe(`TmSessionImport`, () => {
-  let wrapper, store
+  let wrapper, $store
 
   beforeEach(() => {
-    store = new Vuex.Store({
-      getters: {
-        connected: () => true
-      }
-    })
-    wrapper = mount(TmSessionImport, {
+    const getters = {
+      connected: () => true
+    }
+    $store = {
+      getters,
+      commit: jest.fn(),
+      dispatch: jest.fn(async () => true)
+    }
+    wrapper = shallowMount(TmSessionImport, {
       localVue,
-      store,
       mocks: {
+        $store,
         $router: {
           push: jest.fn()
         }
       },
       stubs: [`router-link`]
     })
-    store.commit = jest.fn()
-    store.dispatch = jest.fn(async () => true)
   })
 
   it(`has the expected html structure`, () => {
@@ -40,7 +41,7 @@ describe(`TmSessionImport`, () => {
   it(`should show error if seed is not filled in`, async () => {
     wrapper.setData({ fields: { importSeed: `` } })
     await wrapper.vm.onSubmit()
-    expect(store.commit.mock.calls[0]).toBeUndefined()
+    expect($store.commit.mock.calls[0]).toBeUndefined()
     expect(wrapper.find(`.tm-form-msg-error`)).toBeDefined()
   })
 
@@ -51,7 +52,7 @@ describe(`TmSessionImport`, () => {
       }
     })
     await wrapper.vm.onSubmit()
-    expect(store.commit.mock.calls[0]).toBeUndefined()
+    expect($store.commit.mock.calls[0]).toBeUndefined()
     expect(wrapper.find(`.tm-form-msg-error`)).toBeDefined()
   })
 
@@ -65,12 +66,12 @@ describe(`TmSessionImport`, () => {
       }
     })
     await wrapper.vm.onSubmit()
-    expect(store.commit.mock.calls[0]).toBeUndefined()
+    expect($store.commit.mock.calls[0]).toBeUndefined()
     expect(wrapper.find(`.tm-form-msg-error`)).toBeDefined()
   })
 
   it(`should not continue if creation failed`, async () => {
-    store.dispatch = jest.fn(() => Promise.reject(new Error(`Wrong password`)))
+    $store.dispatch = jest.fn(() => Promise.reject(new Error(`Wrong password`)))
     wrapper.setData({
       fields: {
         importName: `foo123`,
@@ -80,14 +81,14 @@ describe(`TmSessionImport`, () => {
       }
     })
     await wrapper.vm.onSubmit()
-    expect(store.commit).toHaveBeenCalledWith(`notifyError`, {
+    expect($store.commit).toHaveBeenCalledWith(`notifyError`, {
       title: `Couldn't create account`,
       body: expect.stringContaining(`Wrong password`)
     })
   })
 
   it(`should show a notification if creation failed`, async () => {
-    store.dispatch = jest.fn(() => Promise.reject({ message: `test` }))
+    $store.dispatch = jest.fn(() => Promise.reject({ message: `test` }))
     wrapper.setData({
       fields: {
         importName: `foo123`,
@@ -97,8 +98,8 @@ describe(`TmSessionImport`, () => {
       }
     })
     await wrapper.vm.onSubmit()
-    expect(store.commit.mock.calls[0][0]).toEqual(`notifyError`)
-    expect(store.commit.mock.calls[0][1].body).toEqual(`test`)
+    expect($store.commit.mock.calls[0][0]).toEqual(`notifyError`)
+    expect($store.commit.mock.calls[0][1].body).toEqual(`test`)
   })
 
   it(`should go to the home page if recovering is successful`, async () => {
@@ -110,9 +111,9 @@ describe(`TmSessionImport`, () => {
         importSeed: seed
       }
     })
-    store.dispatch = jest.fn(() => Promise.resolve())
+    $store.dispatch = jest.fn(() => Promise.resolve())
     await wrapper.vm.onSubmit()
-    expect(store.dispatch.mock.calls[0][0]).toEqual(`createKey`)
+    expect($store.dispatch.mock.calls[0][0]).toEqual(`createKey`)
     expect(wrapper.vm.$router.push).toHaveBeenCalledWith(`/`)
   })
 })

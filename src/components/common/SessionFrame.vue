@@ -5,7 +5,12 @@
         <img class="session-logo" src="~assets/images/cosmos-wallet-logo.svg" />
       </router-link>
       <div class="session-outer-container">
-        <slot></slot>
+        <div class="session">
+          <a v-if="!hideBack" @click="goBack">
+            <i class="material-icons session-back">arrow_back</i>
+          </a>
+          <slot></slot>
+        </div>
       </div>
       <TmBtn
         class="session-close"
@@ -24,6 +29,17 @@ export default {
   name: `session-frame`,
   components: {
     TmBtn
+  },
+  props: {
+    hideBack: {
+      type: Boolean,
+      default: false
+    }
+  },
+  methods: {
+    goBack() {
+      this.$router.go(`-1`)
+    }
   }
 }
 </script>

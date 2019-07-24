@@ -151,7 +151,6 @@ export const depositDenom = getters =>
     : `uatom`
 
 // connection
-export const approvalRequired = state => state.connection.approvalRequired
 export const connected = state => state.connection.connected
 export const lastHeader = state => state.connection.lastHeader
 export const nodeUrl = state =>

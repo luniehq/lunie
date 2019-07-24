@@ -2,46 +2,42 @@
 
 exports[`TmSessionExplore shows a form to sign in with an address 1`] = `
 <sessionframe-stub>
-  <div
-    class="session"
+  <tmformstruct-stub
+    submit="function () { [native code] }"
+    width=""
   >
-    <tmformstruct-stub
-      submit="function () { [native code] }"
-      width=""
+    <h2
+      class="session-title"
     >
-      <h2
-        class="session-title"
-      >
-        
-        Explore with any address
       
-      </h2>
-       
-      <div
-        class="session-main"
+      Explore with any address
+    
+    </h2>
+     
+    <div
+      class="session-main"
+    >
+      <tmformgroup-stub
+        fieldid="sign-in-name"
+        fieldlabel="Your Cosmos Address"
       >
-        <tmformgroup-stub
-          fieldid="sign-in-name"
-          fieldlabel="Your Cosmos Address"
-        >
-          <tmfield-stub
-            placeholder=""
-            type="text"
-            vue-focus="vue-focus"
-          />
-           
-          <!---->
-        </tmformgroup-stub>
-      </div>
-       
-      <div
-        class="session-footer"
-      >
-        <tmbtn-stub
-          value="Explore"
+        <tmfield-stub
+          placeholder=""
+          type="text"
+          vue-focus="vue-focus"
         />
-      </div>
-    </tmformstruct-stub>
-  </div>
+         
+        <!---->
+      </tmformgroup-stub>
+    </div>
+     
+    <div
+      class="session-footer"
+    >
+      <tmbtn-stub
+        value="Explore"
+      />
+    </div>
+  </tmformstruct-stub>
 </sessionframe-stub>
 `;

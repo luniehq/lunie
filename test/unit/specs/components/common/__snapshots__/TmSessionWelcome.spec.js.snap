@@ -3,7 +3,6 @@
 exports[`TmSessionWelcome has the expected html structure 1`] = `
 <sessionframe-stub>
   <div
-    class="session"
     id="session-welcome"
   >
     <router-link-stub
