@@ -136,6 +136,22 @@ describe('actions', () => {
     expect(commit).toHaveBeenCalledWith('setSignRequest', null)
   })
 
+  it('approveSignRequest Fail', async () => {
+    const signRequest = {
+      signMessage: '',
+      id: 12345,
+      senderAddress: 'cosmos1234',
+      tabId: 123
+    }
+    const commit = jest.fn()
+    window.chrome.runtime.sendMessage.mockImplementationOnce((args, callback) =>
+      callback({ error: 'fail' })
+    )
+    await expect(
+      approveSignRequest({ commit }, { ...signRequest, password: '1234567890' })
+    ).rejects.toBe('fail')
+  })
+
   it('rejectSignRequest', async () => {
     const signRequest = {
       signMessage: '',
