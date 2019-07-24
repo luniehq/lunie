@@ -36,4 +36,15 @@ describe(`SessionAccounts`, () => {
   it(`has the expected html structure`, () => {
     expect(wrapper.element).toMatchSnapshot()
   })
+
+  it(`has correct go to lunie method`, () => {
+    const openFn = jest.fn()
+    window.open = openFn
+    wrapper.vm.goToLunie()
+    expect(openFn).toHaveBeenCalledWith(
+      'https://lunie.io/#/extension',
+      '_blank',
+      'noreferrer noopener'
+    )
+  })
 })
