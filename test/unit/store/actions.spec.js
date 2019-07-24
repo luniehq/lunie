@@ -21,7 +21,6 @@ describe('actions', () => {
   })
 
   it('createSeed', async () => {
-    // eslint-disable-next-line standard/no-callback-literal
     window.chrome.runtime.sendMessage.mockImplementation((args, callback) =>
       callback('seed words')
     )
@@ -65,7 +64,6 @@ describe('actions', () => {
   })
 
   it('testLogin', () => {
-    // eslint-disable-next-line standard/no-callback-literal
     window.chrome.runtime.sendMessage
       .mockImplementationOnce((args, callback) => callback(true))
       .mockImplementationOnce((args, callback) => callback(false))
@@ -92,7 +90,6 @@ describe('actions', () => {
       tabId: 123
     }
     const commit = jest.fn()
-    // eslint-disable-next-line standard/no-callback-literal
     window.chrome.runtime.sendMessage.mockImplementationOnce((args, callback) =>
       callback(signRequest)
     )
@@ -114,7 +111,6 @@ describe('actions', () => {
       tabId: 123
     }
     const commit = jest.fn()
-    // eslint-disable-next-line standard/no-callback-literal
     window.chrome.runtime.sendMessage.mockImplementationOnce((args, callback) =>
       callback()
     )
@@ -161,7 +157,6 @@ describe('actions', () => {
       tabId: 123
     }
     const commit = jest.fn()
-    // eslint-disable-next-line standard/no-callback-literal
     window.chrome.runtime.sendMessage.mockImplementationOnce((args, callback) =>
       callback()
     )
