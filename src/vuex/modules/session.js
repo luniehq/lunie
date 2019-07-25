@@ -92,6 +92,8 @@ export default () => {
       { state, commit, dispatch },
       { address, sessionType = `ledger` }
     ) {
+      await dispatch(`signOut`)
+
       commit(`setSignIn`, true)
       commit(`setSessionType`, sessionType)
       commit(`setUserAddress`, address)
