@@ -93,6 +93,7 @@ jobs:
       - attach_workspace:
           at: *WORKSPACE
       - yarn-install
+      - setup_remote_docker
       - run:
           name: Build
           command: |
