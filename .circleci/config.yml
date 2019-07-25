@@ -98,6 +98,7 @@ jobs:
           command: |
             npm run initiate-submodule
             npm run test:e2e:build
+            npm run test:e2e:start-lunie
       - run:
           name: Test
           command: yarn test:e2e
