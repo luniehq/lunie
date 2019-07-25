@@ -22,8 +22,7 @@ module.exports = {
         path: './screenshots'
       },
       globals: {
-        waitForConditionTimeout: 5000,
-        lunieLink: 'http://localhost:9080/?experimental=false/#/'
+        waitForConditionTimeout: 5000
       },
       desiredCapabilities: {
         browserName: 'chrome',
@@ -36,6 +35,7 @@ module.exports = {
     }
   },
   globals: {
-    EXTENSION_ID: 'cklkpejioojjeiigffappdlcmnonmjek'
+    EXTENSION_ID: 'cklkpejioojjeiigffappdlcmnonmjek',
+    lunieLink: 'http://localhost:9080/?experimental=false/#/'
   }
 }
