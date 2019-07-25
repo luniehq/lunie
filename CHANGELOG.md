@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.0-beta.100] - 2019-07-25
+
+### Deprecated
+
+- [#2840](https://github.com/cosmos/lunie/pull/2840) Remove file and spec since it is for the extension @colw
+
 ## [1.0.0-beta.99] - 2019-07-22
 
 ### Added
