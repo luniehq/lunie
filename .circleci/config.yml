@@ -56,6 +56,7 @@ jobs:
           command: |
             # notify Code Climate of a pending test report using `before-build`
             # ./cc-test-reporter before-build
+            yarn run initiate-submodule
             yarn run test
             # upload test report to Code Climate
             # ./cc-test-reporter format-coverage -t lcov ./coverage/lcov.info

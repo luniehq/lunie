@@ -1,4 +1,5 @@
-import 'babel-polyfill'
+import 'core-js/stable'
+import 'regenerator-runtime/runtime'
 import { signMessageHandler, walletMessageHandler } from './messageHandlers'
 import SignRequestQueue from './requests'
 import { bindRequestsToTabs } from './tabsHandler'
