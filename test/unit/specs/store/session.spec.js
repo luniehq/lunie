@@ -171,6 +171,18 @@ describe(`Module: Session`, () => {
         `explore`
       )
     })
+
+    it("should sign out before signing in to bust caches", async () => {
+      const address = `cosmos1qpd4xgtqmxyf9ktjh757nkdfnzpnkamny3cpzv`
+      const commit = jest.fn()
+      const dispatch = jest.fn()
+      await actions.signIn(
+        { state, commit, dispatch },
+        { sessionType: `explore`, address }
+      )
+
+      expect(dispatch).toHaveBeenCalledWith("signOut")
+    })
   })
 
   it(`should sign out`, async () => {
