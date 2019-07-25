@@ -67,21 +67,19 @@ describe(`SessionApprove`, () => {
     })
   })
 
-  describe('rejects', () => {
-    it('rejects', async () => {
-      wrapper.vm.close = jest.fn()
-      wrapper.find('#reject-btn').trigger('click')
-      const windowSpy = jest.spyOn(window, 'close')
-      await wrapper.vm.$nextTick()
-      expect(wrapper.vm.$store.dispatch).toHaveBeenCalledWith(
-        'rejectSignRequest',
-        {
-          signMessage,
-          senderAddress: 'cosmos1234'
-        }
-      )
-      await wrapper.vm.$nextTick()
-      expect(windowSpy).toHaveBeenCalled()
-    })
+  it('reject and close window', async () => {
+    wrapper.vm.close = jest.fn()
+    wrapper.find('#reject-btn').trigger('click')
+    const windowSpy = jest.spyOn(window, 'close')
+    await wrapper.vm.$nextTick()
+    expect(wrapper.vm.$store.dispatch).toHaveBeenCalledWith(
+      'rejectSignRequest',
+      {
+        signMessage,
+        senderAddress: 'cosmos1234'
+      }
+    )
+    await wrapper.vm.$nextTick()
+    expect(windowSpy).toHaveBeenCalled()
   })
 })
