@@ -24,7 +24,7 @@
     "test:unit": "jest --coverage ./test/unit/*spec.js ./test/unit/**/*spec.js",
     "test": "npm run lint && npm run test:unit",
     "test:e2e:build": "npm run build:dev && node ./scripts/add-pem-key.js && cd ./lunie && yarn install",
-    "test:e2e": "npm run test:e2e:start-lunie & npm run test:e2e:nightwatch",
+    "test:e2e": "concurrently --names start,teste2e \"npm run test:e2e:start-lunie\" \"npm run test:e2e:nightwatch\"",
     "test:e2e:start-lunie": "cd ./lunie && npm run test:e2e:serve",
     "test:e2e:nightwatch": "nightwatch --config ./test/e2e/nightwatch.conf.js",
     "log": "simsala log",
