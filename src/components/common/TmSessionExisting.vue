@@ -19,7 +19,7 @@
           route="ledger"
         />
         <LiSession
-          v-if="session.experimentalMode"
+          v-if="session.experimentalMode || extension.enabled"
           id="use-extension"
           icon="laptop"
           title="Use Lunie Browser Extension"
@@ -57,7 +57,7 @@ export default {
     LiSession
   },
   computed: {
-    ...mapGetters([`session`, `keystore`]),
+    ...mapGetters([`session`, `keystore`, `extension`]),
     accountExists() {
       return this.keystore && this.keystore.accounts.length > 0
     }
