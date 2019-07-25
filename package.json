@@ -25,7 +25,7 @@
     "test": "npm run lint && npm run test:unit",
     "test:e2e:build": "npm run build:dev && node ./scripts/add-pem-key.js && cd ./lunie && yarn install && npm run test:e2e:build",
     "test:e2e": "npm run test:e2e:nightwatch",
-    "test:e2e:start-lunie": "cd ./lunie && npm run test:e2e:serve",
+    "test:e2e:start-lunie": "cd ./lunie && && npm run certificates npm run test:e2e:serve",
     "test:e2e:nightwatch": "nightwatch --config ./test/e2e/nightwatch.conf.js",
     "log": "simsala log",
     "release": "git checkout develop & git pull & git push origin develop:release"
