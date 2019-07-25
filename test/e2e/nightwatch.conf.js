@@ -22,7 +22,8 @@ module.exports = {
         path: './screenshots'
       },
       globals: {
-        waitForConditionTimeout: 5000
+        waitForConditionTimeout: 5000,
+        lunieLink: 'http://localhost:9080/?experimental=false/#/'
       },
       desiredCapabilities: {
         browserName: 'chrome',

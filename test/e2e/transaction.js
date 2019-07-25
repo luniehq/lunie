@@ -27,7 +27,7 @@ module.exports = {
 
       //Send transaction on Lunie to extension
       .execute(function() {
-        window.open('http://localhost:9080/?experimental=false/#/')
+        window.open(globals.lunieLink)
       })
       .pause(500)
 
@@ -36,7 +36,7 @@ module.exports = {
         browser
           .switchWindow(result.value[1])
           .pause(3000)
-          .assert.urlContains('http://localhost:9080/?experimental=false/#/')
+          .assert.urlContains(globals.lunieLink)
           .waitForElementVisible('body', 3000)
           .click('div.tool-bar button')
           .pause(750)
