@@ -19,7 +19,7 @@ import moment from "moment"
 import { atoms as toAtoms, viewDenom } from "scripts/num.js"
 
 export default {
-  name: `li-transaction`,
+  name: `transaction-fees`,
   filters: {
     toAtoms,
     viewDenom

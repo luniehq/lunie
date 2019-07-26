@@ -2,26 +2,18 @@
   <div class="li-tx">
     <TransactionIcon :transaction-type="transaction.type"></TransactionIcon>
     <TransactionDetails :transaction="transaction"></TransactionDetails>
-    <TransactionFees
-      class="li-tx__content__right"
-      :fees="transaction.fees"
-      :block="transaction.blockNumber"
-      :time="transaction.time"
-    ></TransactionFees>
   </div>
 </template>
 
 <script>
 import TransactionIcon from "./TransactionIcon"
 import TransactionDetails from "./TransactionDetails"
-import TransactionFees from "./TransactionFees"
 
 export default {
-  name: `tx`,
+  name: `tx-item`,
   components: {
     TransactionIcon,
-    TransactionDetails,
-    TransactionFees
+    TransactionDetails
   },
   props: {
     transaction: {

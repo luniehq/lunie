@@ -1,5 +1,5 @@
 <template>
-  <div class="li-tx__content">
+  <div>
     <div class="li-tx__content__caption">
       <p class="li-tx__content__caption__title">
         Sent
@@ -33,11 +33,11 @@ export default {
     },
     coin: {
       type: Object,
-      require: false,
-      default: function() {
-        return { amount: 0, denom: "" }
-      }
+      required: true
     }
+  },
+  mounted() {
+    console.log('transaction', this.transaction)
   }
 }
 </script>

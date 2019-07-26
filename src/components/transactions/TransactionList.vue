@@ -10,7 +10,7 @@ import Tx from "./Tx"
 import { getUnbondTimeFromTX } from "scripts/time"
 
 export default {
-  name: `li-any-transaction`,
+  name: `transaction-list`,
   components: {
     // TransactionItem,
     Tx

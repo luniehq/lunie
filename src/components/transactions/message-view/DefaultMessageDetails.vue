@@ -1,15 +1,17 @@
-<template>
+<template functional>
   <div>
     <div class="li-tx__content__caption">
       <p class="li-tx__content__caption__title">
-        Delegated
-        <b>{{ coin.amount | atoms | prettyLong }}</b>
-        <span>{{ coin.denom | viewDenom }}</span>
+        Default
+        <b v-if="coin">{{ coin.amount | atoms | prettyLong }}</b>
+        <span v-if="coin">{{ coin.denom | viewDenom }}</span>
       </p>
     </div>
     <div class="li-tx__content__information">
-      <!-- To
+      <!-- From
+      <Bech32 :address="sender" />to
       <Bech32 :address="receiver" />-->
+      <!-- <span v-if="transaction.memo">&nbsp;- {{ transaction.memo }}</span> -->
     </div>
   </div>
 </template>
@@ -18,7 +20,7 @@
 import { atoms, viewDenom, prettyLong } from "scripts/num.js"
 
 export default {
-  name: `delegate-message-details`,
+  name: `default-message-details`,
   filters: {
     atoms,
     viewDenom,
@@ -26,10 +28,6 @@ export default {
   },
   props: {
     transaction: {
-      type: Object,
-      required: true
-    },
-    coin: {
       type: Object,
       required: true
     }

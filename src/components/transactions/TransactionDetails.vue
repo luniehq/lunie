@@ -4,22 +4,34 @@
       :is="msgTypeComponent"
       :transaction="transaction"
       :coin="coin"
-    ></component>
+      class="li-tx__content__left"
+    />
+    <TransactionFees
+      :fees="transaction.fees"
+      :block="transaction.blockNumber"
+      :time="transaction.time"
+      class="li-tx__content__right"
+    />
   </div>
 </template>
 
 <script>
 import msgType from "./messageTypes.js"
+import TransactionFees from "./TransactionFees"
+
 import SendMessageDetails from "./message-view/SendMessageDetails"
 import DelegateMessageDetails from "./message-view/DelegateMessageDetails"
+import DefaultMessageDetails from "./message-view/DefaultMessageDetails"
 import Bech32 from "common/Bech32"
 
 export default {
   name: `transaction-details`,
   components: {
+    TransactionFees,
     Bech32,
     SendMessageDetails,
-    DelegateMessageDetails
+    DelegateMessageDetails,
+    DefaultMessageDetails
   },
   props: {
     transaction: {
@@ -36,14 +48,13 @@ export default {
       }
     },
     msgTypeComponent: function() {
-      console.log(this.transaction.type)
       switch (this.transaction.type) {
         case msgType.SEND:
           return `send-message-details`
-        case msgType.CREATE_VALIDATOR:
-        case msgType.EDIT_VALIDATOR:
         case msgType.DELEGATE:
           return `delegate-message-details`
+        case msgType.CREATE_VALIDATOR:
+        case msgType.EDIT_VALIDATOR:
         case msgType.UNDELEGATE:
         case msgType.BEGIN_REDELEGATE:
         case msgType.UNJAIL:
@@ -54,10 +65,11 @@ export default {
         case msgType.WITHDRAW_DELEGATION_REWARD:
         case msgType.WITHDRAW_VALIDATOR_COMMISSION:
         default:
-          return `send-message-details`
+          return `default-message-details`
       }
     }
-  }
+  },
+
 }
 </script>
 
