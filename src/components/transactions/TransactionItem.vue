@@ -1,33 +1,29 @@
 <template>
-  <div class="li-tx">
-    <div class="li-tx__icon">
-      <img :style="{ borderColor: color }" src="~assets/images/cosmos-logo.png" />
-    </div>
-    <div class="li-tx__content">
-      <div class="li-tx__content__left">
-        <div class="li-tx__content__caption">
-          <p class="li-tx__content__caption__title">
-            <slot name="caption" />
-          </p>
+  <BankingTransactionProperties>
+    <div class="li-tx">
+      <TransactionIcon :transaction-type="transaction.type"></TransactionIcon>
+      <div class="li-tx__content">
+        <div class="li-tx__content__left">
+          <TransactionCaption :transaction="transaction"></TransactionCaption>
+          <TransactionDetails :transaction="transaction"></TransactionDetails>
         </div>
-        <div class="li-tx__content__information">
-          <slot name="details" />
-          <span v-if="memo">&nbsp;- {{ memo }}</span>
-        </div>
+        <NetworkFeeMetaData
+          class="li-tx__content__right"
+          :block="transaction.blockNumber"
+          :fees="transaction.fees"
+          :time="transaction.time"
+        ></NetworkFeeMetaData>
       </div>
-      <NetworkFeeMetaData
-        v-if="!hideMetaData"
-        class="li-tx__content__right"
-        :block="block"
-        :fees="fees"
-        :time="time"
-      ></NetworkFeeMetaData>
     </div>
-  </div>
+  </BankingTransactionProperties>
 </template>
 
 <script>
 import { atoms as toAtoms, viewDenom } from "../../scripts/num.js"
+import BankingTransactionProperties from "./BankingTransactionProperties"
+import TransactionIcon from "./TransactionIcon"
+import TransactionCaption from "./TransactionCaption"
+import TransactionDetails from "./TransactionDetails"
 import NetworkFeeMetaData from "./NetworkFeeMetaData"
 
 export default {
@@ -37,32 +33,16 @@ export default {
     viewDenom
   },
   components: {
-    NetworkFeeMetaData: NetworkFeeMetaData
+    TransactionIcon: TransactionIcon,
+    TransactionCaption: TransactionCaption,
+    TransactionDetails: TransactionDetails,
+    NetworkFeeMetaData: NetworkFeeMetaData,
+    BankingTransactionProperties: BankingTransactionProperties
   },
   props: {
-    color: {
-      type: String,
-      default: null
-    },
-    time: {
-      type: Date,
-      default: null
-    },
-    block: {
-      type: Number,
-      required: true
-    },
-    memo: {
-      type: String,
-      default: null
-    },
-    fees: {
+    transaction: {
       type: Object,
       required: true
-    },
-    hideMetaData: {
-      type: Boolean,
-      default: false
     }
   }
 }

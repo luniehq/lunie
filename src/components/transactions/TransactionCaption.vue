@@ -1,23 +1,125 @@
 <template>
-  <div>Caption: {{ JSON.stringify(transaction) }}</div>
+  <div class="li-tx__content__caption">
+    <p class="li-tx__content__caption__title">
+      <caption-component :coin="coin"></caption-component>
+    </p>
+  </div>
 </template>
 
 <script>
-import { atoms as toAtoms, viewDenom } from "../../scripts/num.js"
+import { atoms as toAtoms, viewDenom, prettyLong } from "../../scripts/num.js"
+import Send from "./Send"
 
 export default {
   name: `transaction-caption`,
   filters: {
     toAtoms,
-    viewDenom
+    viewDenom,
+    prettyLong
+  },
+  components: {
+    Send
   },
   props: {
     transaction: {
       type: Object,
       required: true
     }
+  },
+  computed: {
+    coin() {
+      if (Array.isArray(this.transaction.value.amount)) {
+        return this.transaction.value.amount[0]
+      } else {
+        return this.transaction.value.amount
+      }
+    },
+    captionComponent() {
+      return "send-caption-component"
+    }
   }
 }
 </script>
 
-<style></style>
+<style>
+.li-tx {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.5rem;
+  border: 1px solid var(--bc-dim);
+  background: var(--app-fg);
+  width: 100%;
+  font-weight: 300;
+  position: relative;
+}
+
+.li-tx .copied {
+  position: absolute;
+  bottom: 0;
+}
+
+.li-tx b {
+  font-weight: 500;
+}
+
+.li-tx__icon {
+  padding: 12px 0 12px 1rem;
+}
+
+.li-tx__icon img {
+  max-height: 100%;
+  max-width: 52px;
+  border: 2px solid;
+  border-radius: 50%;
+  display: block;
+}
+
+.li-tx__content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 1rem;
+}
+
+.li-tx__content__left,
+.li-tx__content__right {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.li-tx__content__right {
+  text-align: right;
+}
+
+.li-tx__content__information,
+.li-tx__content__information > * {
+  display: flex;
+  flex-direction: row;
+}
+
+.li-tx__content__information,
+.li-tx__content__right {
+  font-size: 14px;
+  color: var(--dim);
+}
+
+.li-tx__content__caption {
+  line-height: 18px;
+  font-size: 18px;
+  color: var(--bright);
+}
+
+@media screen and (max-width: 767px) {
+  .li-tx__content {
+    flex-direction: column;
+    text-align: left;
+  }
+
+  .li-tx__content__right {
+    text-align: left;
+    padding-top: 0.5rem;
+  }
+}
+</style>

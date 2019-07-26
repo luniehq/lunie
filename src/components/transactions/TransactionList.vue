@@ -1,85 +1,19 @@
 <template>
   <div>
-    <div v-for="msg in transactions" :key="msg.key">
-      <LiBankTransaction
-        v-if="isBankTx(msg.type)"
-        :tx="msg.value"
-        :bonding-denom="bondingDenom"
-        :address="address"
-        :fees="msg.fees"
-        :time="msg.time"
-        :block="Number(msg.blockNumber)"
-        :memo="msg.memo"
-        :hide-meta-data="false"
-      />
-      <LiStakeTransaction
-        v-else-if="isStakingTx(msg.type)"
-        :tx="msg.value"
-        :validators="validators"
-        :url="validatorsUrl"
-        :unbonding-time="getUnbondTimeFromTX(msg, unbondingDelegations)"
-        :bonding-denom="bondingDenom"
-        :tx-type="msg.type"
-        :fees="msg.fees"
-        :time="msg.time"
-        :block="Number(msg.blockNumber)"
-        :memo="msg.memo"
-        :hide-meta-data="false"
-      />
-      <LiGovTransaction
-        v-else-if="isGovernanceTx(msg.type)"
-        :tx="msg.value"
-        :bonding-denom="bondingDenom"
-        :url="proposalsUrl"
-        :tx-type="msg.type"
-        :fees="msg.fees"
-        :time="msg.time"
-        :block="Number(msg.blockNumber)"
-        :memo="msg.memo"
-        :hide-meta-data="false"
-      />
-      <LiDistributionTransaction
-        v-else-if="isDistributionTx(msg.type)"
-        :tx="msg.value"
-        :url="validatorsUrl"
-        :bonding-denom="bondingDenom"
-        :tx-type="msg.type"
-        :validators="validators"
-        :fees="msg.fees"
-        :time="msg.time"
-        :block="Number(msg.blockNumber)"
-        :memo="msg.memo"
-        :hide-meta-data="false"
-      />
-      <LiTransaction
-        v-else
-        :time="msg.time"
-        :block="Number(msg.blockNumber)"
-        color="grey"
-        :hide-meta-data="false"
-      >
-        <span slot="caption">Unknown Transaction Type</span>
-      </LiTransaction>
-    </div>
+    <Tx v-for="msg in transactions" :key="msg.key" :transaction="msg" />
   </div>
 </template>
 
 <script>
-import LiBankTransaction from "./LiBankTransaction"
-import LiStakeTransaction from "./LiStakeTransaction"
-import LiGovTransaction from "./LiGovTransaction"
-import LiDistributionTransaction from "./LiDistributionTransaction"
-import LiTransaction from "./LiTransaction"
+// import TransactionItem from "./TransactionItem"
+import Tx from "./Tx"
 import { getUnbondTimeFromTX } from "scripts/time"
 
 export default {
   name: `li-any-transaction`,
   components: {
-    LiBankTransaction,
-    LiGovTransaction,
-    LiStakeTransaction,
-    LiDistributionTransaction,
-    LiTransaction
+    // TransactionItem,
+    Tx
   },
   props: {
     validatorsUrl: {

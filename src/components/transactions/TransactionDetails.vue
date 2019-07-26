@@ -1,79 +1,58 @@
 <template>
-  <div class="li-tx">
-    <div class="li-tx__icon">
-      <img
-        :style="{ borderColor: color }"
-        src="~assets/images/cosmos-logo.png"
-      />
-    </div>
-    <div class="li-tx__content">
-      <div class="li-tx__content__left">
-        <div class="li-tx__content__caption">
-          <p>
-            <TransactionCaption :details="transaction"></TransactionCaption>
-          </p>
-        </div>
-        <div class="li-tx__content__information">
-          <TransactionHeader :details="transaction"></TransactionHeader>
-          <span v-if="memo"> &nbsp;- {{ memo }} </span>
-        </div>
-      </div>
-      <NetworkFeeMetaData
-        v-if="!hideMetaData"
-        class="li-tx__content__right"
-        :block="block"
-        :fees="fees"
-        :time="time"
-      ></NetworkFeeMetaData>
-    </div>
+  <div class="li-tx__content__information">
+    <!-- From
+    <Bech32 :address="transaction.value.from_address" />to
+    <Bech32 :address="transaction.value.to_address" />
+    <span v-if="transaction.memo">&nbsp;- {{ transaction.memo }}</span>-->
+    <component :is="msgTypeComponent"></component>
   </div>
 </template>
 
 <script>
+import Vue from "vue"
 import { atoms as toAtoms, viewDenom } from "../../scripts/num.js"
-import TransactionHeader from "./TransactionHeader"
-import TransactionCaption from "./TransactionCaption"
-import NetworkFeeMetaData from "./NetworkFeeMetaData"
+import Bech32 from "common/Bech32"
+
+// Vue.component("transaction-send-component", {
+//   template: `From
+//     <Bech32 :address="transaction.value.from_address" />to
+//     <Bech32 :address="transaction.value.to_address" />
+//     <span v-if="transaction.memo">&nbsp;- {{ transaction.memo }}</span>`
+// })
+
+// Vue.component("transaction-send-component", {
+//   template: `<div>hello</div>`
+// })
+
+const sendTemplate = {
+  template: `<div>hello</div>`
+}
 
 export default {
-  name: `li-transaction`,
+  name: `transaction-details`,
+  components: {
+    Bech32
+  },
   filters: {
     toAtoms,
     viewDenom
-  },
-  components: {
-    TransactionHeader: TransactionHeader,
-    TransactionCaption: TransactionCaption,
-    NetworkFeeMetaData: NetworkFeeMetaData
   },
   props: {
     transaction: {
       type: Object,
       required: true
+    }
+  },
+  computed: {
+    coin() {
+      if (Array.isArray(this.transaction.value.amount)) {
+        return this.transaction.value.amount[0]
+      } else {
+        return this.transaction.value.amount
+      }
     },
-    color: {
-      type: String,
-      default: null
-    },
-    time: {
-      type: String,
-      default: null
-    },
-    block: {
-      type: Number,
-      required: true
-    },
-    memo: {
-      type: String,
-      default: null
-    },
-    fees: {
-      type: Object,
-      required: true
-    },
-    hideMetaData: {
-      type: Boolean,
-      default: false
+    msgTypeComponent: function() {
+      return Vue.compile(sendTemplate.template)
     }
   }
 }
