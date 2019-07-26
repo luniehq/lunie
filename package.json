@@ -27,7 +27,7 @@
     "test:e2e": "npm run test:e2e:nightwatch",
 
 
-    "test:e2e:start-lunie": "cd ./lunie && npm run serve --no-browser",
+    "test:e2e:start-lunie": "cd ./lunie && npm run serve --no-browser & node ./lunie/tasks/local-testnet/proxy.js",
 
 
     "test:e2e:nightwatch": "nightwatch --config ./test/e2e/nightwatch.conf.js",
