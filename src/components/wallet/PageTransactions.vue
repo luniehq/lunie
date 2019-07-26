@@ -17,7 +17,7 @@
         :transactions="flatOrderedTransactionList"
         :address="session.address"
         :bonding-denom="bondDenom"
-        :validators="delegates.delegates"
+        :validators="validators"
         :unbonding-delegations="delegation.unbondingDelegations"
       />
       <br />
@@ -49,7 +49,8 @@ export default {
       `session`,
       `bondDenom`,
       `delegation`,
-      `delegates`
+      `delegates`,
+      `validators`
     ]),
     dataEmpty() {
       return this.flatOrderedTransactionList.length === 0

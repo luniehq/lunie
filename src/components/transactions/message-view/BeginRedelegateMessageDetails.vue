@@ -2,18 +2,26 @@
   <div>
     <div class="li-tx__content__caption">
       <p class="li-tx__content__caption__title">
-        Delegated
+        Redelegated
         <b>{{ coin.amount | atoms | prettyLong }}</b>
         <span>{{ coin.denom | viewDenom }}</span>
       </p>
     </div>
     <div class="li-tx__content__information">
-      To&nbsp;
+      From&nbsp;
       <router-link
-        :to="`staking/validators/${transaction.value.validator_address}`"
+        :to="`staking/validators/${transaction.value.validator_src_address}`"
       >
         {{
-          validators[transaction.value.validator_address].description.moniker
+          validators[transaction.value.validator_src_address].description.moniker
+        }}
+      </router-link>
+      To&nbsp;
+      <router-link
+        :to="`staking/validators/${transaction.value.validator_dst_address}`"
+      >
+        {{
+          validators[transaction.value.validator_dst_address].description.moniker
         }}
       </router-link>
     </div>
@@ -24,7 +32,7 @@
 import { atoms, viewDenom, prettyLong } from "scripts/num.js"
 
 export default {
-  name: `delegate-message-details`,
+  name: `begin-redelegate-message-details`,
   filters: {
     atoms,
     viewDenom,

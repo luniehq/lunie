@@ -2,19 +2,15 @@
   <div>
     <div class="li-tx__content__caption">
       <p class="li-tx__content__caption__title">
-        Delegated
-        <b>{{ coin.amount | atoms | prettyLong }}</b>
+        Deposited
+        <b>{{ coin.amount | toAtoms | prettyLong }}</b>
         <span>{{ coin.denom | viewDenom }}</span>
       </p>
     </div>
     <div class="li-tx__content__information">
-      To&nbsp;
-      <router-link
-        :to="`staking/validators/${transaction.value.validator_address}`"
-      >
-        {{
-          validators[transaction.value.validator_address].description.moniker
-        }}
+      On
+      <router-link :to="`/governance/${ransaction.value.proposal_id}`">
+        Proposal &#35;{{ transaction.value.proposal_id }}
       </router-link>
     </div>
   </div>
@@ -22,13 +18,15 @@
 
 <script>
 import { atoms, viewDenom, prettyLong } from "scripts/num.js"
+import { formatBech32 } from "src/filters"
 
 export default {
-  name: `delegate-message-details`,
+  name: `deposit-message-details`,
   filters: {
     atoms,
     viewDenom,
-    prettyLong
+    prettyLong,
+    formatBech32
   },
   props: {
     transaction: {

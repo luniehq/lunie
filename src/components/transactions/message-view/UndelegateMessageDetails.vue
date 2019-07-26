@@ -2,13 +2,14 @@
   <div>
     <div class="li-tx__content__caption">
       <p class="li-tx__content__caption__title">
-        Delegated
+        Undelegated
         <b>{{ coin.amount | atoms | prettyLong }}</b>
         <span>{{ coin.denom | viewDenom }}</span>
+        <span class="tx-unbonding__time-diff">{{ timeDiff }}</span>
       </p>
     </div>
     <div class="li-tx__content__information">
-      To&nbsp;
+      Monikor&nbsp;
       <router-link
         :to="`staking/validators/${transaction.value.validator_address}`"
       >
@@ -21,10 +22,11 @@
 </template>
 
 <script>
+import moment from "moment"
 import { atoms, viewDenom, prettyLong } from "scripts/num.js"
 
 export default {
-  name: `delegate-message-details`,
+  name: `undelegate-message-details`,
   filters: {
     atoms,
     viewDenom,
@@ -42,6 +44,12 @@ export default {
     validators: {
       type: Object,
       required: true
+    }
+  },
+  methods: {
+    timeDiff() {
+      // TODO
+      return `(liquid ${moment().fromNow()})`
     }
   }
 }

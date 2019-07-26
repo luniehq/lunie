@@ -1,46 +1,38 @@
 <template>
-  <BankingTransactionProperties>
-    <div class="li-tx">
-      <TransactionIcon :transaction-type="transaction.type"></TransactionIcon>
-      <div class="li-tx__content">
-        <div class="li-tx__content__left">
-          <TransactionCaption :transaction="transaction"></TransactionCaption>
-          <TransactionDetails :transaction="transaction"></TransactionDetails>
-        </div>
-        <TransactionFees
-          class="li-tx__content__right"
-          :block="transaction.blockNumber"
-          :fees="transaction.fees"
-          :time="transaction.time"
-        ></TransactionFees>
-      </div>
+  <div>
+    <div class="li-tx__content__caption">
+      <p class="li-tx__content__caption__title">
+        Withdraw validator commission
+      </p>
     </div>
-  </BankingTransactionProperties>
+    <div class="li-tx__content__information">
+      From&nbsp;<router-link :to="`staking/validators/${transaction.value.validator_address}`">
+        {{ validators[transaction.value.validator_address].description.moniker }}
+      </router-link>
+    </div>
+  </div>
 </template>
 
 <script>
-import { atoms as toAtoms, viewDenom } from "../../scripts/num.js"
-import BankingTransactionProperties from "./BankingTransactionProperties"
-import TransactionIcon from "./TransactionIcon"
-import TransactionCaption from "./TransactionCaption"
-import TransactionDetails from "./TransactionDetails"
-import TransactionFees from "./TransactionFees"
+import { atoms, viewDenom, prettyLong } from "scripts/num.js"
 
 export default {
-  name: `li-transaction`,
+  name: `withdraw-validator-commission-message-details`,
   filters: {
-    toAtoms,
-    viewDenom
-  },
-  components: {
-    TransactionIcon: TransactionIcon,
-    TransactionCaption: TransactionCaption,
-    TransactionDetails: TransactionDetails,
-    TransactionFees: TransactionFees,
-    BankingTransactionProperties: BankingTransactionProperties
+    atoms,
+    viewDenom,
+    prettyLong
   },
   props: {
     transaction: {
+      type: Object,
+      required: true
+    },
+    coin: {
+      type: Object,
+      required: true
+    },
+    validators: {
       type: Object,
       required: true
     }

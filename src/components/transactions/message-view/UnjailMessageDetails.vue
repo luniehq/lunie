@@ -2,33 +2,25 @@
   <div>
     <div class="li-tx__content__caption">
       <p class="li-tx__content__caption__title">
-        Delegated
-        <b>{{ coin.amount | atoms | prettyLong }}</b>
-        <span>{{ coin.denom | viewDenom }}</span>
+        Unjail
       </p>
     </div>
     <div class="li-tx__content__information">
-      To&nbsp;
-      <router-link
-        :to="`staking/validators/${transaction.value.validator_address}`"
-      >
-        {{
-          validators[transaction.value.validator_address].description.moniker
-        }}
+      Moniker:
+      <router-link :to="`staking/validators/${transaction.value.address}`">
+        {{ transaction.value.address | formatBech32 }}
       </router-link>
     </div>
   </div>
 </template>
 
 <script>
-import { atoms, viewDenom, prettyLong } from "scripts/num.js"
+import { formatBech32 } from "src/filters"
 
 export default {
-  name: `delegate-message-details`,
+  name: `unjail-message-details`,
   filters: {
-    atoms,
-    viewDenom,
-    prettyLong
+    formatBech32
   },
   props: {
     transaction: {

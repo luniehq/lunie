@@ -62,6 +62,14 @@ export const flatOrderedTransactionList = (state, getters) => {
   return allTx
 }
 
+export const validators = state => {
+  const names = {}
+  state.delegates.delegates.forEach(item => {
+    names[item.operator_address] = item
+  })
+  return names
+}
+
 export const ledger = state => state.ledger
 export const wallet = state => state.wallet
 export const extension = state => state.extension

@@ -4,6 +4,7 @@
       :is="msgTypeComponent"
       :transaction="transaction"
       :coin="coin"
+      :validators="validators"
       class="li-tx__content__left"
     />
     <TransactionFees
@@ -19,9 +20,21 @@
 import msgType from "./messageTypes.js"
 import TransactionFees from "./TransactionFees"
 
+import DefaultMessageDetails from "./message-view/DefaultMessageDetails"
 import SendMessageDetails from "./message-view/SendMessageDetails"
 import DelegateMessageDetails from "./message-view/DelegateMessageDetails"
-import DefaultMessageDetails from "./message-view/DefaultMessageDetails"
+import DepositMessageDetails from "./message-view/DepositMessageDetails"
+import EditValidatorMessageDetails from "./message-view/EditValidatorMessageDetails"
+import SubmitProposalMessageDetails from "./message-view/SubmitProposalMessageDetails"
+import UndelegateMessageDetails from "./message-view/UndelegateMessageDetails"
+import UnjailMessageDetails from "./message-view/UnjailMessageDetails"
+import CreateValidatorMessageDetails from "./message-view/CreateValidatorMessageDetails"
+import VoteMessageDetails from "./message-view/VoteMessageDetails"
+import BeginRedelegateMessageDetails from "./message-view/BeginRedelegateMessageDetails"
+import SetWithdrawAddressMessageDetails from "./message-view/SetWithdrawAddressMessageDetails"
+import WithdrawDelegationRewardMessageDetails from "./message-view/WithdrawDelegationRewardMessageDetails"
+import WithdrawValidatorCommissionMessageDetails from "./message-view/WithdrawValidatorCommissionMessageDetails"
+
 import Bech32 from "common/Bech32"
 
 export default {
@@ -31,10 +44,25 @@ export default {
     Bech32,
     SendMessageDetails,
     DelegateMessageDetails,
-    DefaultMessageDetails
+    DefaultMessageDetails,
+    DepositMessageDetails,
+    EditValidatorMessageDetails,
+    SubmitProposalMessageDetails,
+    UndelegateMessageDetails,
+    UnjailMessageDetails,
+    CreateValidatorMessageDetails,
+    VoteMessageDetails,
+    BeginRedelegateMessageDetails,
+    SetWithdrawAddressMessageDetails,
+    WithdrawDelegationRewardMessageDetails,
+    WithdrawValidatorCommissionMessageDetails
   },
   props: {
     transaction: {
+      type: Object,
+      required: true
+    },
+    validators: {
       type: Object,
       required: true
     }
@@ -48,22 +76,34 @@ export default {
       }
     },
     msgTypeComponent: function() {
+      // TODO This could be better
       switch (this.transaction.type) {
         case msgType.SEND:
           return `send-message-details`
         case msgType.DELEGATE:
           return `delegate-message-details`
         case msgType.CREATE_VALIDATOR:
+          return `create-validator-message-details`
         case msgType.EDIT_VALIDATOR:
+          return `edit-validator-message-details`
         case msgType.UNDELEGATE:
+          return `undelegate-message-details`
         case msgType.BEGIN_REDELEGATE:
+          return `begin-redelegate-message-details`
         case msgType.UNJAIL:
+          return `unjail-message-details`
         case msgType.SUBMIT_PROPOSAL:
+          return `submit-proposal-message-details`
         case msgType.DEPOSIT:
+          return `deposit-message-details`
         case msgType.VOTE:
+          return `vote-message-details`
         case msgType.SET_WITHDRAW_ADDRESS:
+          return `set-withdraw-address-message-details`
         case msgType.WITHDRAW_DELEGATION_REWARD:
+          return `withdraw-delegation-reward-message-details`
         case msgType.WITHDRAW_VALIDATOR_COMMISSION:
+          return `withdraw-validator-commission-message-details`
         default:
           return `default-message-details`
       }

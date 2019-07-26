@@ -1,6 +1,11 @@
 <template>
   <div>
-    <Tx v-for="msg in transactions" :key="msg.key" :transaction="msg" />
+    <Tx
+      v-for="msg in transactions"
+      :key="msg.key"
+      :transaction="msg"
+      :validators="validators"
+    />
   </div>
 </template>
 
@@ -37,7 +42,7 @@ export default {
       required: true
     },
     validators: {
-      type: Array,
+      type: Object,
       required: true
     },
     unbondingDelegations: {

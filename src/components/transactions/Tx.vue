@@ -1,7 +1,8 @@
 <template>
   <div class="li-tx">
     <TransactionIcon :transaction-type="transaction.type"></TransactionIcon>
-    <TransactionDetails :transaction="transaction"></TransactionDetails>
+    <TransactionDetails :transaction="transaction" :validators="validators">
+    </TransactionDetails>
   </div>
 </template>
 
@@ -17,6 +18,10 @@ export default {
   },
   props: {
     transaction: {
+      type: Object,
+      required: true
+    },
+    validators: {
       type: Object,
       required: true
     }

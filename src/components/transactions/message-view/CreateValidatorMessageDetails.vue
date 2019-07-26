@@ -2,13 +2,13 @@
   <div>
     <div class="li-tx__content__caption">
       <p class="li-tx__content__caption__title">
-        Delegated
+        Create validator
         <b>{{ coin.amount | atoms | prettyLong }}</b>
         <span>{{ coin.denom | viewDenom }}</span>
       </p>
     </div>
     <div class="li-tx__content__information">
-      To&nbsp;
+      Monikor&nbsp;
       <router-link
         :to="`staking/validators/${transaction.value.validator_address}`"
       >
@@ -24,7 +24,7 @@
 import { atoms, viewDenom, prettyLong } from "scripts/num.js"
 
 export default {
-  name: `delegate-message-details`,
+  name: `create-validator-message-details`,
   filters: {
     atoms,
     viewDenom,
