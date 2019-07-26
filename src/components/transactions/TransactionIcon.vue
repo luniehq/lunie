@@ -1,6 +1,6 @@
 <template>
   <div class="li-tx__icon">
-    <img :style="{ borderColor: colour }" src="~assets/images/cosmos-logo.png" />
+    <img :class="group" src="~assets/images/cosmos-logo.png" />
   </div>
 </template>
 
@@ -16,27 +16,27 @@ export default {
     }
   },
   computed: {
-    colour() {
+    group() {
       switch (this.transactionType) {
         case msgType.SEND:
-          return `#ED553B`
+          return `banking`
         case msgType.CREATE_VALIDATOR:
         case msgType.EDIT_VALIDATOR:
         case msgType.DELEGATE:
         case msgType.UNDELEGATE:
         case msgType.BEGIN_REDELEGATE:
         case msgType.UNJAIL:
-          return `#47AB6C`
+          return `staking`
         case msgType.SUBMIT_PROPOSAL:
         case msgType.DEPOSIT:
         case msgType.VOTE:
-          return `#15CFCC`
+          return `governance`
         case msgType.SET_WITHDRAW_ADDRESS:
         case msgType.WITHDRAW_DELEGATION_REWARD:
         case msgType.WITHDRAW_VALIDATOR_COMMISSION:
-          return `#F2B134`
+          return `distribution`
         default:
-          return `grey`
+          return ``
       }
     }
   }
@@ -54,5 +54,22 @@ export default {
   border: 2px solid;
   border-radius: 50%;
   display: block;
+  border-color: grey;
+}
+
+.li-tx__icon img.banking {
+  border-color: #ed553b;
+}
+
+.li-tx__icon img.staking {
+  border-color: #47ab6c;
+}
+
+.li-tx__icon img.governance {
+  border-color: #15cfcc;
+}
+
+.li-tx__icon img.distribution {
+  border-color: #f2b134;
 }
 </style>

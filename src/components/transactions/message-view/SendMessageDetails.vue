@@ -1,60 +1,41 @@
 <template>
   <div class="li-tx__content">
-    <component
-      :is="msgTypeComponent"
-      :transaction="transaction"
-      :coin="coin"
-    ></component>
+    <div class="li-tx__content__caption">
+      <p class="li-tx__content__caption__title">
+        Sent
+        <b>{{ coin.amount | atoms | prettyLong }}</b>
+        <span>{{ coin.denom | viewDenom }}</span>
+      </p>
+    </div>
+    <div class="li-tx__content__information">
+      <!-- From
+      <Bech32 :address="sender" />to
+      <Bech32 :address="receiver" />-->
+      <span v-if="transaction.memo">&nbsp;- {{ transaction.memo }}</span>
+    </div>
   </div>
 </template>
 
 <script>
-import msgType from "./messageTypes.js"
-import SendMessageDetails from "./message-view/SendMessageDetails"
-import DelegateMessageDetails from "./message-view/DelegateMessageDetails"
-import Bech32 from "common/Bech32"
+import { atoms, viewDenom, prettyLong } from "scripts/num.js"
 
 export default {
-  name: `transaction-details`,
-  components: {
-    Bech32,
-    SendMessageDetails,
-    DelegateMessageDetails
+  name: `send-message-details`,
+  filters: {
+    atoms,
+    viewDenom,
+    prettyLong
   },
   props: {
     transaction: {
       type: Object,
       required: true
-    }
-  },
-  computed: {
-    coin() {
-      if (Array.isArray(this.transaction.value.amount)) {
-        return this.transaction.value.amount[0]
-      } else {
-        return this.transaction.value.amount
-      }
     },
-    msgTypeComponent: function() {
-      console.log(this.transaction.type)
-      switch (this.transaction.type) {
-        case msgType.SEND:
-          return `send-message-details`
-        case msgType.CREATE_VALIDATOR:
-        case msgType.EDIT_VALIDATOR:
-        case msgType.DELEGATE:
-          return `delegate-message-details`
-        case msgType.UNDELEGATE:
-        case msgType.BEGIN_REDELEGATE:
-        case msgType.UNJAIL:
-        case msgType.SUBMIT_PROPOSAL:
-        case msgType.DEPOSIT:
-        case msgType.VOTE:
-        case msgType.SET_WITHDRAW_ADDRESS:
-        case msgType.WITHDRAW_DELEGATION_REWARD:
-        case msgType.WITHDRAW_VALIDATOR_COMMISSION:
-        default:
-          return `send-message-details`
+    coin: {
+      type: Object,
+      require: false,
+      default: function() {
+        return { amount: 0, denom: "" }
       }
     }
   }

@@ -1,7 +1,10 @@
 <template>
   <div class="li-tx">
     <div class="li-tx__icon">
-      <img :style="{ borderColor: color }" src="~assets/images/cosmos-logo.png" />
+      <img
+        :style="{ borderColor: color }"
+        src="~assets/images/cosmos-logo.png"
+      />
     </div>
     <div class="li-tx__content">
       <div class="li-tx__content__left">

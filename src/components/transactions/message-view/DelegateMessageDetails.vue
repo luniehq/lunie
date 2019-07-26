@@ -2,10 +2,14 @@
   <div class="li-tx__content">
     <div class="li-tx__content__caption">
       <p class="li-tx__content__caption__title">
-        Sent
+        Delegated
         <b>{{ coin.amount | atoms | prettyLong }}</b>
         <span>{{ coin.denom | viewDenom }}</span>
       </p>
+    </div>
+    <div class="li-tx__content__information">
+      <!-- To
+      <Bech32 :address="receiver" />-->
     </div>
   </div>
 </template>
@@ -14,7 +18,7 @@
 import { atoms, viewDenom, prettyLong } from "scripts/num.js"
 
 export default {
-  name: `send-message-details`,
+  name: `delegate-message-details`,
   filters: {
     atoms,
     viewDenom,

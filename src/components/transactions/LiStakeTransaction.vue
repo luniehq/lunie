@@ -15,20 +15,18 @@
       </div>
       <div slot="details">
         Moniker:
-        <router-link :to="`${url}/${tx.validator_address}`">
-          {{ moniker(tx.validator_address) }}
-        </router-link>
+        <router-link :to="`${url}/${tx.validator_address}`">{{
+          moniker(tx.validator_address)
+        }}</router-link>
       </div>
     </template>
     <template v-else-if="txType === `cosmos-sdk/MsgEditValidator`">
-      <div slot="caption">
-        Edit validator
-      </div>
+      <div slot="caption">Edit validator</div>
       <div slot="details">
         Moniker:
-        <router-link :to="`${url}/${tx.validator_address}`">
-          {{ moniker(tx.validator_address) }}
-        </router-link>
+        <router-link :to="`${url}/${tx.validator_address}`">{{
+          moniker(tx.validator_address)
+        }}</router-link>
       </div>
     </template>
     <template v-else-if="txType === `cosmos-sdk/MsgDelegate`">
@@ -39,59 +37,51 @@
       </div>
       <div slot="details">
         To&nbsp;
-        <router-link :to="`${url}/${tx.validator_address}`">
-          {{ moniker(tx.validator_address) }}
-        </router-link>
+        <router-link :to="`${url}/${tx.validator_address}`">{{
+          moniker(tx.validator_address)
+        }}</router-link>
       </div>
     </template>
     <template v-else-if="txType === `cosmos-sdk/MsgUndelegate`">
       <div slot="caption">
         Undelegated
-        <b>
-          {{ tx.amount.amount | toAtoms }}
-        </b>
+        <b>{{ tx.amount.amount | toAtoms }}</b>
         <span>{{ bondingDenom | viewDenom }}</span>
         <template v-if="timeDiff">
-          <span class="tx-unbonding__time-diff">
-            {{ timeDiff }}
-          </span>
+          <span class="tx-unbonding__time-diff">{{ timeDiff }}</span>
         </template>
       </div>
       <div slot="details">
         From&nbsp;
-        <router-link :to="`${url}/${tx.validator_address}`">
-          {{ moniker(tx.validator_address) }}
-        </router-link>
+        <router-link :to="`${url}/${tx.validator_address}`">{{
+          moniker(tx.validator_address)
+        }}</router-link>
       </div>
     </template>
     <template v-else-if="txType === `cosmos-sdk/MsgBeginRedelegate`">
       <div slot="caption">
         Redelegated
-        <b>
-          {{ tx.amount.amount | toAtoms }}
-        </b>
+        <b>{{ tx.amount.amount | toAtoms }}</b>
         <span>{{ bondingDenom | viewDenom }}</span>
       </div>
       <div slot="details">
         From&nbsp;
-        <router-link :to="`${url}/${tx.validator_src_address}`">
-          {{ moniker(tx.validator_src_address) }}
-        </router-link>
-        &nbsp;to&nbsp;
-        <router-link :to="`${url}/${tx.validator_dst_address}`">
-          {{ moniker(tx.validator_dst_address) }}
-        </router-link>
+        <router-link :to="`${url}/${tx.validator_src_address}`">{{
+          moniker(tx.validator_src_address)
+        }}</router-link
+        >&nbsp;to&nbsp;
+        <router-link :to="`${url}/${tx.validator_dst_address}`">{{
+          moniker(tx.validator_dst_address)
+        }}</router-link>
       </div>
     </template>
     <template v-else-if="txType === `cosmos-sdk/MsgUnjail`">
-      <div slot="caption">
-        Unjail
-      </div>
+      <div slot="caption">Unjail</div>
       <div slot="details">
         Moniker:
-        <router-link :to="`${url}/${tx.address}`">
-          {{ moniker(tx.address) }}
-        </router-link>
+        <router-link :to="`${url}/${tx.address}`">{{
+          moniker(tx.address)
+        }}</router-link>
       </div>
     </template>
   </LiTransaction>

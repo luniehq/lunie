@@ -14,7 +14,8 @@
         <span>{{ initialDeposit.denom | viewDenom }}</span>
       </div>
       <div slot="details">
-        Title:&nbsp;<i>{{ tx.title }}</i>
+        Title:&nbsp;
+        <i>{{ tx.title }}</i>
       </div>
     </template>
     <template v-else-if="txType === `cosmos-sdk/MsgDeposit`">
@@ -27,18 +28,18 @@
       </div>
       <div slot="details">
         On&nbsp;
-        <router-link :to="`${url}/${tx.proposal_id}`">
-          Proposal &#35;{{ tx.proposal_id }}
-        </router-link>
+        <router-link :to="`${url}/${tx.proposal_id}`"
+          >Proposal &#35;{{ tx.proposal_id }}</router-link
+        >
       </div>
     </template>
     <template v-else-if="txType === `cosmos-sdk/MsgVote`">
       <div slot="caption">Voted&nbsp;{{ tx.option }}</div>
       <div slot="details">
         On&nbsp;
-        <router-link :to="`${url}/${tx.proposal_id}`">
-          Proposal &#35;{{ tx.proposal_id }}
-        </router-link>
+        <router-link :to="`${url}/${tx.proposal_id}`"
+          >Proposal &#35;{{ tx.proposal_id }}</router-link
+        >
       </div>
     </template>
   </LiTransaction>
