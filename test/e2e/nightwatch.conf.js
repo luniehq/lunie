@@ -28,7 +28,7 @@ module.exports = {
         browserName: 'chrome',
         javascriptEnabled: true,
         chromeOptions: {
-          args: [`--load-extension=${CRX_PATH}`],
+          args: [`--load-extension=${CRX_PATH}`, `--disable-web-security`],
           w3c: false
         }
       }
