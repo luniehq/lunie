@@ -1,41 +1,34 @@
 <template>
-  <div class="li-tx__content__caption">
-    <p class="li-tx__content__caption__title">
-      <caption-component :coin="coin"></caption-component>
-    </p>
+  <div class="li-tx__content">
+    <div class="li-tx__content__caption">
+      <p class="li-tx__content__caption__title">
+        Sent
+        <b>{{ coin.amount | atoms | prettyLong }}</b>
+        <span>{{ coin.denom | viewDenom }}</span>
+      </p>
+    </div>
   </div>
 </template>
 
 <script>
-import { atoms as toAtoms, viewDenom, prettyLong } from "../../scripts/num.js"
-import Send from "./Send"
+import { atoms, viewDenom, prettyLong } from "scripts/num.js"
 
 export default {
-  name: `transaction-caption`,
+  name: `send-message-details`,
   filters: {
-    toAtoms,
+    atoms,
     viewDenom,
     prettyLong
-  },
-  components: {
-    Send
   },
   props: {
     transaction: {
       type: Object,
       required: true
-    }
-  },
-  computed: {
-    coin() {
-      if (Array.isArray(this.transaction.value.amount)) {
-        return this.transaction.value.amount[0]
-      } else {
-        return this.transaction.value.amount
-      }
     },
-    captionComponent() {
-      return "send-caption-component"
+    coin: {
+      type: Object,
+      require: false,
+      default: function() {}
     }
   }
 }

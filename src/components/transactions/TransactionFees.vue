@@ -1,13 +1,13 @@
 <template>
   <div>
     <div>
-      Network Fee:&nbsp;<b>{{ fees.amount | toAtoms }}</b>
+      Network Fee:&nbsp;
+      <b>{{ fees.amount | toAtoms }}</b>
       <span>{{ fees.denom | viewDenom }}</span>
     </div>
     <div>
-      <router-link :to="{ name: `block`, params: { height: block } }">
-        Block #{{ block }}&nbsp; </router-link
-      >@&nbsp;{{ date }}
+      <router-link :to="{ name: `block`, params: { height: block } }">Block #{{ block }}&nbsp;</router-link>
+      @&nbsp;{{ date }}
     </div>
   </div>
 </template>
@@ -30,10 +30,6 @@ export default {
     block: {
       type: Number,
       required: true
-    },
-    memo: {
-      type: String,
-      default: null
     },
     fees: {
       type: Object,

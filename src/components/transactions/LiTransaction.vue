@@ -15,20 +15,20 @@
           <span v-if="memo">&nbsp;- {{ memo }}</span>
         </div>
       </div>
-      <NetworkFeeMetaData
+      <TransactionFees
         v-if="!hideMetaData"
         class="li-tx__content__right"
         :block="block"
         :fees="fees"
         :time="time"
-      ></NetworkFeeMetaData>
+      ></TransactionFees>
     </div>
   </div>
 </template>
 
 <script>
 import { atoms as toAtoms, viewDenom } from "../../scripts/num.js"
-import NetworkFeeMetaData from "./NetworkFeeMetaData"
+import TransactionFees from "./TransactionFees"
 
 export default {
   name: `li-transaction`,
@@ -37,7 +37,7 @@ export default {
     viewDenom
   },
   components: {
-    NetworkFeeMetaData: NetworkFeeMetaData
+    TransactionFees: TransactionFees
   },
   props: {
     color: {

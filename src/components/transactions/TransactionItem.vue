@@ -7,12 +7,12 @@
           <TransactionCaption :transaction="transaction"></TransactionCaption>
           <TransactionDetails :transaction="transaction"></TransactionDetails>
         </div>
-        <NetworkFeeMetaData
+        <TransactionFees
           class="li-tx__content__right"
           :block="transaction.blockNumber"
           :fees="transaction.fees"
           :time="transaction.time"
-        ></NetworkFeeMetaData>
+        ></TransactionFees>
       </div>
     </div>
   </BankingTransactionProperties>
@@ -24,7 +24,7 @@ import BankingTransactionProperties from "./BankingTransactionProperties"
 import TransactionIcon from "./TransactionIcon"
 import TransactionCaption from "./TransactionCaption"
 import TransactionDetails from "./TransactionDetails"
-import NetworkFeeMetaData from "./NetworkFeeMetaData"
+import TransactionFees from "./TransactionFees"
 
 export default {
   name: `li-transaction`,
@@ -36,7 +36,7 @@ export default {
     TransactionIcon: TransactionIcon,
     TransactionCaption: TransactionCaption,
     TransactionDetails: TransactionDetails,
-    NetworkFeeMetaData: NetworkFeeMetaData,
+    TransactionFees: TransactionFees,
     BankingTransactionProperties: BankingTransactionProperties
   },
   props: {

@@ -1,41 +1,19 @@
 <template>
-  <div class="li-tx__content__information">
-    <!-- From
-    <Bech32 :address="transaction.value.from_address" />to
-    <Bech32 :address="transaction.value.to_address" />
-    <span v-if="transaction.memo">&nbsp;- {{ transaction.memo }}</span>-->
-    <component :is="msgTypeComponent"></component>
+  <div class="li-tx__content">
+    <component :is="msgTypeComponent" :transaction="transaction" :coin="coin"></component>
   </div>
 </template>
 
 <script>
-import Vue from "vue"
-import { atoms as toAtoms, viewDenom } from "../../scripts/num.js"
+import msgType from "./messageTypes.js"
+import SendMessageDetails from "./message-view/SendMessage"
 import Bech32 from "common/Bech32"
-
-// Vue.component("transaction-send-component", {
-//   template: `From
-//     <Bech32 :address="transaction.value.from_address" />to
-//     <Bech32 :address="transaction.value.to_address" />
-//     <span v-if="transaction.memo">&nbsp;- {{ transaction.memo }}</span>`
-// })
-
-// Vue.component("transaction-send-component", {
-//   template: `<div>hello</div>`
-// })
-
-const sendTemplate = {
-  template: `<div>hello</div>`
-}
 
 export default {
   name: `transaction-details`,
   components: {
-    Bech32
-  },
-  filters: {
-    toAtoms,
-    viewDenom
+    Bech32,
+    SendMessageDetails
   },
   props: {
     transaction: {
@@ -52,7 +30,24 @@ export default {
       }
     },
     msgTypeComponent: function() {
-      return Vue.compile(sendTemplate.template)
+      switch (this.transactionType) {
+        case msgType.SEND:
+          return `send-message-details`
+        case msgType.CREATE_VALIDATOR:
+        case msgType.EDIT_VALIDATOR:
+        case msgType.DELEGATE:
+        case msgType.UNDELEGATE:
+        case msgType.BEGIN_REDELEGATE:
+        case msgType.UNJAIL:
+        case msgType.SUBMIT_PROPOSAL:
+        case msgType.DEPOSIT:
+        case msgType.VOTE:
+        case msgType.SET_WITHDRAW_ADDRESS:
+        case msgType.WITHDRAW_DELEGATION_REWARD:
+        case msgType.WITHDRAW_VALIDATOR_COMMISSION:
+        default:
+          return `send-message-details`
+      }
     }
   }
 }

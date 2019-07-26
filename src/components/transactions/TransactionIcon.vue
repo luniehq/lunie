@@ -35,8 +35,9 @@ export default {
         case msgType.WITHDRAW_DELEGATION_REWARD:
         case msgType.WITHDRAW_VALIDATOR_COMMISSION:
           return `#F2B134`
+        default:
+          return `grey`
       }
-      return "grey"
     }
   }
 }
