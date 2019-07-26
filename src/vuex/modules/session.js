@@ -69,15 +69,6 @@ export default () => {
   }
 
   const actions = {
-    async reconnected({ dispatch }) {
-      // reload available accounts as the reconnect could be a result of a switch from a mocked connection with mocked accounts
-      await dispatch(`loadAccounts`)
-    },
-    async showInitialScreen({ state, dispatch }) {
-      dispatch(`resetSessionData`)
-      await dispatch(`loadAccounts`)
-      state.externals.track(`pageview`, { dl: `/` })
-    },
     async checkForPersistedSession({ dispatch }) {
       const session = localStorage.getItem(`session`)
       if (session) {

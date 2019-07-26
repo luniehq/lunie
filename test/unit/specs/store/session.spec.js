@@ -96,16 +96,6 @@ describe(`Module: Session`, () => {
     expect(localStorage.getItem(`session`)).toBeNull()
   })
 
-  it(`should prepare the signin`, async () => {
-    const dispatch = jest.fn()
-    state.accounts = [{}]
-    await actions.showInitialScreen({
-      state,
-      dispatch
-    })
-    expect(dispatch).toHaveBeenCalledWith(`resetSessionData`)
-  })
-
   describe(`Signs in`, () => {
     it(`with local keystore`, async () => {
       const commit = jest.fn()
