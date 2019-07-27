@@ -23,22 +23,13 @@ exports[`LiValidator has the expected html structure 1`] = `
         class="data-table__row__info__container__status green"
       />
        
-      <router-link-stub
+      <span
         class="data-table__row__info__container__name"
-        to="[object Object]"
       >
         
         mr_mounty
       
-      </router-link-stub>
-       
-      <div
-        class="data-table__row__info__container__description"
-      >
-        <bech32-stub
-          address="cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au"
-        />
-      </div>
+      </span>
     </div>
   </td>
    
@@ -115,22 +106,13 @@ exports[`LiValidator should display uptime as double-dash 1`] = `
         class="data-table__row__info__container__status green"
       />
        
-      <router-link-stub
+      <span
         class="data-table__row__info__container__name"
-        to="[object Object]"
       >
         
         mr_mounty
       
-      </router-link-stub>
-       
-      <div
-        class="data-table__row__info__container__description"
-      >
-        <bech32-stub
-          address="cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au"
-        />
-      </div>
+      </span>
     </div>
   </td>
    
@@ -207,22 +189,13 @@ exports[`LiValidator works if user is not signed in 1`] = `
         class="data-table__row__info__container__status green"
       />
        
-      <router-link-stub
+      <span
         class="data-table__row__info__container__name"
-        to="[object Object]"
       >
         
         mr_mounty
       
-      </router-link-stub>
-       
-      <div
-        class="data-table__row__info__container__description"
-      >
-        <bech32-stub
-          address="cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au"
-        />
-      </div>
+      </span>
     </div>
   </td>
    

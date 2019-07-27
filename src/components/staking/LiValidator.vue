@@ -2,6 +2,11 @@
   <tr
     class="data-table__row li-validator"
     :data-moniker="validator.description.moniker"
+    @click="
+    $router.push({
+      name: 'validator',
+      params: { validator: validator.operator_address }
+    })"
   >
     <td class="data-table__row__info">
       <img
@@ -23,18 +28,9 @@
           :class="statusColor"
           class="data-table__row__info__container__status"
         />
-        <router-link
-          :to="{
-            name: 'validator',
-            params: { validator: validator.operator_address }
-          }"
-          class="data-table__row__info__container__name"
-        >
+        <span class="data-table__row__info__container__name">
           {{ validator.description.moniker }}
-        </router-link>
-        <div class="data-table__row__info__container__description">
-          <Bech32 :address="validator.operator_address" />
-        </div>
+        </span>
       </div>
     </td>
     <td class="li-validator__delegated-steak">
@@ -123,3 +119,8 @@ export default {
   }
 }
 </script>
+<style scoped>
+.data-table__row {
+  cursor: pointer;
+}
+</style>
