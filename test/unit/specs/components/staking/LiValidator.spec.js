@@ -32,7 +32,7 @@ describe(`LiValidator`, () => {
       missed_blocks_counter: 122
     },
     uptime: 0.98778883,
-    yield: 0.13
+    expectedReturns: 0.13
   }
 
   beforeEach(() => {

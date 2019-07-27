@@ -61,7 +61,7 @@
       {{ validator.uptime ? num.percent(validator.uptime) : `--` }}
     </td>
     <td class="li-validator__yield">
-      {{ validator.yield ? num.percent(validator.yield) : `--` }}
+      {{ validator.expectedReturns ? num.percent(validator.expectedReturns) : `--` }}
     </td>
   </tr>
 </template>
