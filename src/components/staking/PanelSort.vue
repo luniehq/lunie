@@ -3,7 +3,7 @@
     <th
       v-for="property in properties"
       :key="property.value"
-      :class="{ 'sort-by': sort }"
+      :class="{ 'sort-by': sort, 'hide-xs': (property.value !== xsProp && property.value !== 'small_moniker') }"
       class="panel-sort-table-header"
     >
       <a
@@ -29,6 +29,10 @@ export default {
     },
     properties: {
       type: Array,
+      required: true
+    },
+    xsProp: {
+      type: String,
       required: true
     }
   },
@@ -92,5 +96,11 @@ export default {
 .sort-by.desc i {
   transform: rotate(180deg);
   color: var(--tertiary);
+}
+
+@media screen and (max-width: 550px) {
+  .hide-xs {
+    display: none;
+  }
 }
 </style>

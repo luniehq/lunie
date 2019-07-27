@@ -37,30 +37,30 @@
         </div>
       </div>
     </td>
-    <td class="li-validator__delegated-steak">
+    <td class="li-validator__delegated-steak" :class="{'hide-xs': xsProp !== 'my_delegations'}">
       {{
         validator.my_delegations
           ? num.shortDecimals(num.atoms(validator.my_delegations))
           : `--`
       }}
     </td>
-    <td class="li-validator__rewards">
+    <td class="li-validator__rewards" :class="{'hide-xs': xsProp !== 'rewards'}">
       {{
         validator.rewards
           ? num.shortDecimals(num.atoms(validator.rewards))
           : `--`
       }}
     </td>
-    <td class="li-validator__voting-power">
+    <td class="li-validator__voting-power" :class="{'hide-xs': xsProp !== 'voting-power'}">
       {{ validator.tokens ? percentOfVotingPower : `--` }}
     </td>
-    <td class="li-validator__commission">
+    <td class="li-validator__commission" :class="{'hide-xs': xsProp !== 'commission'}">
       {{ validator.commission ? num.percent(validator.commission) : `--` }}
     </td>
-    <td class="li-validator__uptime">
+    <td class="li-validator__uptime" :class="{'hide-xs': xsProp !== 'uptime'}">
       {{ validator.uptime ? num.percent(validator.uptime) : `--` }}
     </td>
-    <td class="li-validator__yield">
+    <td class="li-validator__returns" :class="{'hide-xs': xsProp !== 'expectedReturns'}">
       {{
         validator.expectedReturns
           ? num.percent(validator.expectedReturns)
@@ -84,6 +84,10 @@ export default {
     validator: {
       type: Object,
       required: true
+    },
+    xsProp: {
+      type: String,
+      default: () => "returns"
     }
   },
   data: () => ({ num }),
@@ -130,5 +134,16 @@ export default {
 <style scoped>
 .data-table__row {
   cursor: pointer;
+}
+
+@media screen and (max-width: 550px) {
+  .hide-xs {
+    display: none;
+  }
+  .data-table__row {
+    width: calc(100vw - 2px);
+    display: flex;
+    padding: 0;
+  }
 }
 </style>

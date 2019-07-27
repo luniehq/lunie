@@ -2,13 +2,14 @@
   <div>
     <table class="data-table">
       <thead>
-        <PanelSort :sort="sort" :properties="properties" />
+        <PanelSort :sort="sort" :properties="properties" :xs-prop="xsProp" />
       </thead>
       <tbody>
         <LiValidator
           v-for="validator in sortedEnrichedValidators"
           :key="validator.operator_address"
           :validator="validator"
+          :xs-prop="xsProp"
         />
       </tbody>
     </table>
@@ -33,6 +34,10 @@ export default {
     validators: {
       type: Array,
       required: true
+    },
+    xsProp: {
+      type: String,
+      default: () => "returns"
     }
   },
   data: () => ({
@@ -142,7 +147,7 @@ export default {
           tooltip: `Ratio of blocks signed within the last 10k blocks`
         },
         {
-          title: `Expected Returns`,
+          title: `Returns`,
           value: `expectedReturns`,
           tooltip: `Potential return of investment per token if validator is never punished`
         }
@@ -177,3 +182,13 @@ export default {
   }
 }
 </script>
+<style scoped>
+@media screen and (max-width: 550px) {
+  .data-table td {
+    overflow: hidden;
+  }
+  .data-table__row__info {
+    max-width: 22rem;
+  }
+}
+</style>
