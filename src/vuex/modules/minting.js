@@ -28,7 +28,7 @@ export default ({ node }) => {
         ])
         state.loaded = true
       } catch (error) {
-        state.error = error
+        state.error = error.message
       }
       state.loading = false
     }

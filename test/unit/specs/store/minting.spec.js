@@ -34,4 +34,22 @@ describe(`Module: Minting Parameters`, () => {
     })
     expect(commit.mock.calls).toEqual([[`setAnnualProvision`, 100000]])
   })
+
+  it(`should set an error if loading parameters fails`, async () => {
+    node = {
+      get: {
+        annualProvisionedTokens: () => Promise.reject(new Error("Expected"))
+      }
+    }
+    module = mintingModule({ node })
+
+    const { actions, state } = module
+    const commit = jest.fn()
+    await actions.getMintingParameters({
+      state,
+      commit,
+      rootState: mockRootState
+    })
+    expect(state.error).toBe("Expected")
+  })
 })
