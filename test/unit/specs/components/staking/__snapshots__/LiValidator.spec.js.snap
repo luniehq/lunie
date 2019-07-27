@@ -30,6 +30,14 @@ exports[`LiValidator has the expected html structure 1`] = `
         mr_mounty
       
       </span>
+       
+      <div
+        class="data-table__row__info__container__description"
+      >
+        <bech32-stub
+          address="cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au"
+        />
+      </div>
     </div>
   </td>
    
@@ -113,6 +121,14 @@ exports[`LiValidator should display uptime as double-dash 1`] = `
         mr_mounty
       
       </span>
+       
+      <div
+        class="data-table__row__info__container__description"
+      >
+        <bech32-stub
+          address="cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au"
+        />
+      </div>
     </div>
   </td>
    
@@ -196,6 +212,14 @@ exports[`LiValidator works if user is not signed in 1`] = `
         mr_mounty
       
       </span>
+       
+      <div
+        class="data-table__row__info__container__description"
+      >
+        <bech32-stub
+          address="cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au"
+        />
+      </div>
     </div>
   </td>
    

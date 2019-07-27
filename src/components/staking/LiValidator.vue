@@ -31,6 +31,9 @@
         <span class="data-table__row__info__container__name">
           {{ validator.description.moniker }}
         </span>
+        <div class="data-table__row__info__container__description">
+          <Bech32 :address="validator.operator_address" />
+        </div>
       </div>
     </td>
     <td class="li-validator__delegated-steak">
