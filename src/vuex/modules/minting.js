@@ -9,31 +9,18 @@ export default ({ node }) => {
     ...emptyState
   }
   const mutations = {
-    setInflation(state, inflation) {
-      state.inflation = inflation
-    },
     setAnnualProvision(state, annualProvision) {
       state.annualProvision = annualProvision
-    },
-    setMintingParameters(state, parameters) {
-      state.parameters = parameters
     }
   }
 
   const actions = {
-    async getMintingParameters({ state, commit }) {
-      if (state.loaded) return
+    async getMintingParameters({ state, commit, rootState }) {
+      if (!rootState.connection.connected || state.loaded) return
 
       state.loading = true
       try {
         await Promise.all([
-          node.get
-            .mintingParameters()
-            .then(parameters => commit("setMintingParameters", parameters)),
-          node.get
-            .inflation()
-            .then(parseFloat)
-            .then(inflation => commit("setInflation", inflation)),
           node.get
             .annualProvisionedTokens()
             .then(parseFloat)
