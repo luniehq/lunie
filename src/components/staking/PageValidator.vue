@@ -306,10 +306,10 @@ export default {
     },
     returns() {
       return extrapolatedYield(
-          this.validator,
-          parseInt(this.pool.pool.bonded_tokens),
-          parseFloat(this.minting.annualProvision)
-        )
+        this.validator,
+        parseInt(this.pool.pool.bonded_tokens),
+        parseFloat(this.minting.annualProvision)
+      )
     },
     status() {
       // status: jailed

@@ -90,11 +90,13 @@ export default {
             ? (rollingWindow - signingInfo.missed_blocks_counter) /
               rollingWindow
             : 0,
-          yield: minting.annualProvision ? extrapolatedYield(
-              v,
-              parseInt(pool.pool.bonded_tokens),
-              parseFloat(minting.annualProvision)
-            ) : undefined
+          yield: minting.annualProvision
+            ? extrapolatedYield(
+                v,
+                parseInt(pool.pool.bonded_tokens),
+                parseFloat(minting.annualProvision)
+              )
+            : undefined
         })
       })
     },
