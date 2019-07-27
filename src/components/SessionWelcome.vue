@@ -1,5 +1,5 @@
 <template>
-  <SessionFrame>
+  <SessionFrame :hide-back="true">
     <div id="session-welcome">
       <img class="lunie-logo" src="../images/extension-logo.svg" />
 
