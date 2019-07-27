@@ -1,7 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`SessionWelcome has the expected html structure 1`] = `
-<sessionframe-stub>
+<sessionframe-stub
+  hideback="true"
+>
   <div
     id="session-welcome"
   >
