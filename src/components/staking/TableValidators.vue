@@ -22,7 +22,7 @@ import orderBy from "lodash.orderby"
 import LiValidator from "staking/LiValidator"
 import PanelSort from "staking/PanelSort"
 import BN from "bignumber.js"
-import { extrapolatedYield } from "../../filters"
+import { extrapolatedYield } from "src/filters"
 export default {
   name: `table-validators`,
   components: {

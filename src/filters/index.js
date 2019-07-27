@@ -25,8 +25,7 @@ export const provisionShare = (validator, totalStakedTokens) => {
   return delegatorProvisionShare
 }
 
-// ;(totalTokens * (1 - validator.commission.rate) * 100) / totalStakedTokens
-
+// expected rewards if delegator stakes x tokens
 export const expectedRewards = (
   validator,
   totalStakedTokens,
@@ -41,6 +40,7 @@ export const expectedRewards = (
   return annualDelegatorRewards
 }
 
+// simplified expected rewards with a fixed token amount
 export const extrapolatedYield = (
   validator,
   totalStakedTokens,
