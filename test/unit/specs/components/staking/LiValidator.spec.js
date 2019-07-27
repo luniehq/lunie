@@ -31,7 +31,8 @@ describe(`LiValidator`, () => {
       jailed_until: `1970-01-01T00:00:00Z`,
       missed_blocks_counter: 122
     },
-    uptime: 0.98778883
+    uptime: 0.98778883,
+    yield: 0.13
   }
 
   beforeEach(() => {

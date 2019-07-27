@@ -38,6 +38,9 @@ describe(`TableValidators`, () => {
     lastHeader: {
       chain_id: `gaia-20k`,
       height: `6001`
+    },
+    minting: {
+      annualProvision: "100"
     }
   }
 
@@ -57,7 +60,7 @@ describe(`TableValidators`, () => {
     wrapper.setData({ rollingWindow: 10000 })
   })
 
-  it(`has the expected html structure`, async () => {
+  it(`shows a validator table`, async () => {
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
@@ -69,6 +72,7 @@ describe(`TableValidators`, () => {
     expect(wrapper.vm.enrichedValidators[0].keybase).toBe(`keybase`)
     expect(wrapper.vm.enrichedValidators[0].rewards).toBe(1000)
     expect(wrapper.vm.enrichedValidators[0].uptime).toBe(0.9998)
+    expect(wrapper.vm.enrichedValidators[0].yield).toBe(0.1)
   })
 
   it(`should create an enriched validator object for a user who is not signed in `, () => {
