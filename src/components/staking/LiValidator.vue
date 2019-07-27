@@ -3,10 +3,11 @@
     class="data-table__row li-validator"
     :data-moniker="validator.description.moniker"
     @click="
-    $router.push({
-      name: 'validator',
-      params: { validator: validator.operator_address }
-    })"
+      $router.push({
+        name: 'validator',
+        params: { validator: validator.operator_address }
+      })
+    "
   >
     <td class="data-table__row__info">
       <img
@@ -60,7 +61,11 @@
       {{ validator.uptime ? num.percent(validator.uptime) : `--` }}
     </td>
     <td class="li-validator__yield">
-      {{ validator.expectedReturns ? num.percent(validator.expectedReturns) : `--` }}
+      {{
+        validator.expectedReturns
+          ? num.percent(validator.expectedReturns)
+          : `--`
+      }}
     </td>
   </tr>
 </template>
