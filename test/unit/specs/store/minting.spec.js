@@ -18,6 +18,12 @@ describe(`Module: Minting Parameters`, () => {
     module = mintingModule({ node })
   })
 
+  it("should set annual provisioned tokens", () => {
+    const { mutations, state } = module
+    mutations.setAnnualProvision(state, 100000)
+    state.anannualProvision = 100000
+  })
+
   it(`should fetch annual provisioned tokens`, async () => {
     const { actions, state } = module
     const commit = jest.fn()
