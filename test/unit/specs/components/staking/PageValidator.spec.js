@@ -79,6 +79,9 @@ const getters = {
     pool: {
       bonded_tokens: 4200
     }
+  },
+  minting: {
+    annualProvision: 10000
   }
 }
 
