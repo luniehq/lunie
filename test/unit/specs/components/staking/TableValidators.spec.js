@@ -72,7 +72,7 @@ describe(`TableValidators`, () => {
     expect(wrapper.vm.enrichedValidators[0].keybase).toBe(`keybase`)
     expect(wrapper.vm.enrichedValidators[0].rewards).toBe(1000)
     expect(wrapper.vm.enrichedValidators[0].uptime).toBe(0.9998)
-    expect(wrapper.vm.enrichedValidators[0].yield).toBe(0.1)
+    expect(wrapper.vm.enrichedValidators[0].expectedReturns).toBe(0.1)
   })
 
   it(`should create an enriched validator object for a user who is not signed in `, () => {

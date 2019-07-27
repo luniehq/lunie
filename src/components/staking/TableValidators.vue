@@ -90,7 +90,7 @@ export default {
             ? (rollingWindow - signingInfo.missed_blocks_counter) /
               rollingWindow
             : 0,
-          yield: minting.annualProvision
+          expectedReturns: minting.annualProvision
             ? extrapolatedYield(
                 v,
                 parseInt(pool.pool.bonded_tokens),
@@ -142,8 +142,8 @@ export default {
           tooltip: `Ratio of blocks signed within the last 10k blocks`
         },
         {
-          title: `Returns`,
-          value: `yield`,
+          title: `Expected Returns`,
+          value: `expectedReturns`,
           tooltip: `Potential return of investment per token if validator is never punished`
         }
       ]
