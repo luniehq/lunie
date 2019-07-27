@@ -1,6 +1,6 @@
 <template>
   <SessionFrame>
-    <div id="session-welcome" class="session">
+    <div id="session-welcome">
       <img class="lunie-logo" src="../images/extension-logo.svg" />
 
       <div class="session-list">

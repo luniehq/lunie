@@ -1,0 +1,66 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SessionWelcome has the expected html structure 1`] = `
+<sessionframe-stub>
+  <div
+    id="session-welcome"
+  >
+    <img
+      class="lunie-logo"
+      src="../images/extension-logo.svg"
+    />
+     
+    <div
+      class="session-list"
+    >
+      <lisession-stub
+        icon="person_add"
+        id="create-new-address"
+        route="create"
+        title="Create a new address"
+      />
+       
+      <lisession-stub
+        icon="settings_backup_restore"
+        id="recover-with-backup"
+        route="recover"
+        title="Recover with backup code"
+      />
+       
+      <lisession-stub
+        icon="person"
+        id="see-accounts"
+        route="/"
+        title="See existing accounts"
+      />
+    </div>
+     
+    <p
+      class="footnote"
+    >
+      
+      By using Lunie, you accept our
+      
+      <a
+        href="https://lunie.io/#/terms"
+        rel="nofollow noreferrer noopener"
+        target="_blank"
+      >
+        Terms of Service
+      </a>
+      
+      and
+      
+      <a
+        href="https://lunie.io/#/privacy"
+        rel="nofollow noreferrer noopener"
+        target="_blank"
+      >
+        Privacy Policy
+      </a>
+      .
+    
+    </p>
+  </div>
+</sessionframe-stub>
+`;

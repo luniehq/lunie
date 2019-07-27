@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.2] - 2019-07-19
+
+### Repository
+
+- Fixed unpredictable build by not updating submodule on init @faboweb
+
 ## [1.0.1] - 2019-07-18
 
 ### Added
