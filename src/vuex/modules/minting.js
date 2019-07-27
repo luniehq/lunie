@@ -21,7 +21,9 @@ export default ({ node }) => {
   }
 
   const actions = {
-    async getMintingParameters({ commit }) {
+    async getMintingParameters({ state, commit }) {
+      if (state.loaded) return
+
       state.loading = true
       try {
         await Promise.all([
