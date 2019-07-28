@@ -142,8 +142,10 @@ export default {
   }
   .data-table__row {
     width: calc(100vw - 2px);
-    display: flex;
     padding: 0;
+  }
+  .data-table__row__info {
+    max-width: calc(100vw - 6rem);
   }
 }
 </style>
