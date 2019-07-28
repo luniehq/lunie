@@ -42,7 +42,7 @@ exports[`LiValidator has the expected html structure 1`] = `
   </td>
    
   <td
-    class="li-validator__delegated-steak"
+    class="li-validator__delegated-steak hide-xs"
   >
     
     --
@@ -50,7 +50,7 @@ exports[`LiValidator has the expected html structure 1`] = `
   </td>
    
   <td
-    class="li-validator__rewards"
+    class="li-validator__rewards hide-xs"
   >
     
     --
@@ -58,7 +58,7 @@ exports[`LiValidator has the expected html structure 1`] = `
   </td>
    
   <td
-    class="li-validator__voting-power"
+    class="li-validator__voting-power hide-xs"
   >
     
     1.40%
@@ -66,7 +66,7 @@ exports[`LiValidator has the expected html structure 1`] = `
   </td>
    
   <td
-    class="li-validator__commission"
+    class="li-validator__commission hide-xs"
   >
     
     5.00%
@@ -74,7 +74,7 @@ exports[`LiValidator has the expected html structure 1`] = `
   </td>
    
   <td
-    class="li-validator__uptime"
+    class="li-validator__uptime hide-xs"
   >
     
     98.78%
@@ -82,7 +82,7 @@ exports[`LiValidator has the expected html structure 1`] = `
   </td>
    
   <td
-    class="li-validator__yield"
+    class="li-validator__returns hide-xs"
   >
     
     13.00%
@@ -133,7 +133,7 @@ exports[`LiValidator should display uptime as double-dash 1`] = `
   </td>
    
   <td
-    class="li-validator__delegated-steak"
+    class="li-validator__delegated-steak hide-xs"
   >
     
     --
@@ -141,7 +141,7 @@ exports[`LiValidator should display uptime as double-dash 1`] = `
   </td>
    
   <td
-    class="li-validator__rewards"
+    class="li-validator__rewards hide-xs"
   >
     
     --
@@ -149,7 +149,7 @@ exports[`LiValidator should display uptime as double-dash 1`] = `
   </td>
    
   <td
-    class="li-validator__voting-power"
+    class="li-validator__voting-power hide-xs"
   >
     
     1.40%
@@ -157,7 +157,7 @@ exports[`LiValidator should display uptime as double-dash 1`] = `
   </td>
    
   <td
-    class="li-validator__commission"
+    class="li-validator__commission hide-xs"
   >
     
     5.00%
@@ -165,7 +165,7 @@ exports[`LiValidator should display uptime as double-dash 1`] = `
   </td>
    
   <td
-    class="li-validator__uptime"
+    class="li-validator__uptime hide-xs"
   >
     
     --
@@ -173,7 +173,7 @@ exports[`LiValidator should display uptime as double-dash 1`] = `
   </td>
    
   <td
-    class="li-validator__yield"
+    class="li-validator__returns hide-xs"
   >
     
     13.00%
@@ -224,7 +224,7 @@ exports[`LiValidator works if user is not signed in 1`] = `
   </td>
    
   <td
-    class="li-validator__delegated-steak"
+    class="li-validator__delegated-steak hide-xs"
   >
     
     --
@@ -232,7 +232,7 @@ exports[`LiValidator works if user is not signed in 1`] = `
   </td>
    
   <td
-    class="li-validator__rewards"
+    class="li-validator__rewards hide-xs"
   >
     
     --
@@ -240,7 +240,7 @@ exports[`LiValidator works if user is not signed in 1`] = `
   </td>
    
   <td
-    class="li-validator__voting-power"
+    class="li-validator__voting-power hide-xs"
   >
     
     1.40%
@@ -248,7 +248,7 @@ exports[`LiValidator works if user is not signed in 1`] = `
   </td>
    
   <td
-    class="li-validator__commission"
+    class="li-validator__commission hide-xs"
   >
     
     5.00%
@@ -256,7 +256,7 @@ exports[`LiValidator works if user is not signed in 1`] = `
   </td>
    
   <td
-    class="li-validator__uptime"
+    class="li-validator__uptime hide-xs"
   >
     
     98.78%
@@ -264,7 +264,7 @@ exports[`LiValidator works if user is not signed in 1`] = `
   </td>
    
   <td
-    class="li-validator__yield"
+    class="li-validator__returns hide-xs"
   >
     
     13.00%
