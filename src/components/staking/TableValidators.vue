@@ -187,6 +187,7 @@ export default {
   .data-table td {
     overflow: hidden;
   }
+
   .data-table__row__info {
     max-width: 22rem;
   }

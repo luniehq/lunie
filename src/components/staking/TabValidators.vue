@@ -5,7 +5,11 @@
     <TmDataEmpty
       v-else-if="delegates.loaded && delegates.delegates.length === 0"
     />
-    <TableValidators v-else :validators="delegates.delegates" xs-prop="expectedReturns" />
+    <TableValidators
+      v-else
+      :validators="delegates.delegates"
+      xs-prop="expectedReturns"
+    />
   </div>
 </template>
 
