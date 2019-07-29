@@ -29,12 +29,13 @@ module.exports = {
       .execute(function() {
         window.open('https://localhost:9080/?experimental=true/#/wallet')
       })
+      .pause(500)
 
       //Switch to Localhost
       .windowHandles(function(result) {
         browser
           .switchWindow(result.value[1])
-          .waitForElementVisible('body', 10 * 1000)
+          .pause(3000)
           .assert.urlContains(
             'https://localhost:9080/?experimental=true/#/wallet'
           )
