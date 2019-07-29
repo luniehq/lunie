@@ -26,6 +26,7 @@
     "test:e2e:build": "npm run build:dev && node ./scripts/add-pem-key.js && cd ./lunie && yarn install && npm run test:e2e:build",
     "test:e2e:start-lunie": "cd ./lunie && npm run serve --no-browser",
     "test:e2e": "nightwatch --config ./test/e2e/nightwatch.conf.js",
+    "test:coverage": "live-server test/unit/coverage/lcov-report",
     "log": "simsala log",
     "release": "git checkout develop & git pull & git push origin develop:release"
   },
@@ -37,7 +38,7 @@
   "lint-prepush": {
     "base": "develop",
     "tasks": {
-      "*.{spec.js,vue}": [
+      "*.{js,vue}": [
         "eslint --fix",
         "jest --bail --coverage --findRelatedTests",
         "git add"
@@ -49,16 +50,19 @@
     }
   },
   "dependencies": {
+    "@babel/runtime": "^7.5.4",
+    "@babel/runtime-corejs3": "^7.4.0",
     "@lunie/cosmos-api": "^0.0.23",
     "@lunie/cosmos-keys": "^0.1.0",
     "@sentry/browser": "^5.4.0",
     "autosize": "^4.0.2",
-    "babel-polyfill": "^6.26.0",
     "bech32": "^1.1.3",
     "bignumber.js": "^9.0.0",
     "concurrently": "^4.1.1",
+    "core-js": "^3.1.4",
     "moment": "^2.24.0",
     "perfect-scrollbar": "^1.4.0",
+    "regenerator-runtime": "^0.13.2",
     "vue": "^2.6.10",
     "vue-clipboard2": "^0.3.0",
     "vue-directive-tooltip": "1.4.5",
@@ -70,14 +74,16 @@
   "devDependencies": {
     "@babel/core": "^7.1.2",
     "@babel/plugin-proposal-optional-chaining": "^7.0.0",
+    "@babel/plugin-transform-runtime": "^7.5.0",
     "@babel/preset-env": "^7.1.0",
-    "@babel/runtime-corejs3": "^7.4.0",
+    "@vue/test-utils": "^1.0.0-beta.29",
     "archiver": "^3.0.0",
+    "babel-core": "7.0.0-bridge.0",
     "babel-eslint": "^10.0.1",
+    "babel-jest": "^24.8.0",
     "babel-loader": "^8.0.2",
     "chromedriver": "2.46",
     "copy-webpack-plugin": "^4.5.3",
-    "core-js": "^3.0.1",
     "cross-env": "^5.2.0",
     "css-loader": "^2.1.1",
     "ejs": "^2.6.1",
@@ -96,6 +102,7 @@
     "husky": "^2.4.0",
     "jest": "^24.8.0",
     "lint-prepush": "^0.4.1",
+    "live-server": "^1.2.1",
     "mini-css-extract-plugin": "^0.4.4",
     "nightwatch": "^1.1.13",
     "node-sass": "^4.9.3",
@@ -105,6 +112,7 @@
     "simsala": "^0.0.16",
     "stylelint": "^10.1.0",
     "stylelint-config-standard": "^18.3.0",
+    "vue-jest": "^3.0.4",
     "vue-loader": "^15.4.2",
     "vue-template-compiler": "^2.6.10",
     "web-ext-types": "^2.1.0",
