@@ -19,14 +19,16 @@ Vue.use(Vuelidate)
 Vue.use(VueClipboard)
 Vue.directive(`focus`, focusElement)
 
-Vue.use(VueAnalytics, {
-  id: config.google_analytics_uid,
-  router,
-  debug: {
-    enable: config.development,
-    sendHitTask: !config.development
-  }
-})
+if (config.google_analytics_uid !== '') {
+  Vue.use(VueAnalytics, {
+    id: config.google_analytics_uid,
+    router,
+    debug: {
+      enable: config.development,
+      sendHitTask: !config.development
+    }
+  })
+}
 
 router.beforeEach(async (to, from, next) => {
   const pendingSignRequests = !!(await store.dispatch('getSignRequest'))

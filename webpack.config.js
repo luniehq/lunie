@@ -35,7 +35,6 @@ const config = {
     },
     extensions: ['.js', '.vue', '.css']
   },
-  devtool: 'cheap-module-source-map',
   module: {
     rules: [
       {
