@@ -34,6 +34,7 @@ module.exports = {
       .windowHandles(function(result) {
         browser
           .switchWindow(result.value[1])
+          .waitForElementVisible('body', 10 * 1000)
           .assert.urlContains(
             'https://localhost:9080/?experimental=true/#/wallet'
           )
