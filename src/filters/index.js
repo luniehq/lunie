@@ -41,7 +41,7 @@ export const expectedRewards = (
 }
 
 // simplified expected rewards with a fixed token amount
-export const extrapolatedReturns = (
+export const expectedReturns = (
   validator,
   totalStakedTokens,
   annualProvision
