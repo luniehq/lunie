@@ -117,7 +117,6 @@ export const startApp = async (
     store.commit(`setInsecureMode`)
   }
 
-  store.dispatch(`showInitialScreen`)
   store.dispatch(`loadLocalPreferences`)
   store
     .dispatch(`connect`)
