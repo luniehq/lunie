@@ -144,7 +144,7 @@ export default {
         {
           title: `Expected Returns`,
           value: `expectedReturns`,
-          tooltip: `Potential return of investment per token if validator is never punished`
+          tooltip: `Approximate annualized return if validator is never punished`
         }
       ]
     },
