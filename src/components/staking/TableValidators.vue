@@ -22,7 +22,7 @@ import orderBy from "lodash.orderby"
 import LiValidator from "staking/LiValidator"
 import PanelSort from "staking/PanelSort"
 import BN from "bignumber.js"
-import { extrapolatedYield } from "src/filters"
+import { extrapolatedReturns } from "src/filters"
 export default {
   name: `table-validators`,
   components: {
@@ -91,7 +91,7 @@ export default {
               rollingWindow
             : 0,
           expectedReturns: minting.annualProvision
-            ? extrapolatedYield(
+            ? extrapolatedReturns(
                 v,
                 parseInt(pool.pool.bonded_tokens),
                 parseFloat(minting.annualProvision)

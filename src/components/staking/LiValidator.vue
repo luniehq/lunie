@@ -127,8 +127,3 @@ export default {
   }
 }
 </script>
-<style scoped>
-.data-table__row {
-  cursor: pointer;
-}
-</style>
