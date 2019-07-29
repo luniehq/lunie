@@ -27,19 +27,19 @@ module.exports = {
 
       //Send transaction on Lunie to extension
       .execute(function() {
-        window.open('https://localhost:9080/?experimental=t/#/wallet')
+        window.open('https://localhost:9080/?experimental=true/#/wallet')
       })
-      .pause(500)
 
       //Switch to Localhost
       .windowHandles(function(result) {
         browser
           .switchWindow(result.value[1])
-          .pause(3000)
-          .assert.urlContains('https://localhost:9080/?experimental=t/#/wallet')
-          .waitForElementVisible('body', 3000)
+          .assert.urlContains(
+            'https://localhost:9080/?experimental=true/#/wallet'
+          )
+          .waitForElementVisible('div.tool-bar', 10 * 1000)
           .click('div.tool-bar button')
-          .pause(300)
+          .waitForElementVisible('a[href="#/existing"]', 300)
           .click('a[href="#/existing"]')
           .pause(300)
           .click('a[href="#/extension"]')
@@ -47,30 +47,22 @@ module.exports = {
           .click('li.account button')
           .pause(300)
           .click('a[href="#/staking"]')
-          .pause(300)
           .click('a[href="#/staking/validators"]')
-          .pause(500)
           .click('a.data-table__row__info__container__name')
-          .pause(500)
           .click('#delegation-btn')
-          .pause(500)
           .setValue("input[placeholder='Amount']", '1')
           .click('div.action-modal-footer button')
-          .pause(500)
           .click('div.action-modal-footer button')
-          .pause(500)
           .click('div.action-modal-footer button')
-          .pause(500)
 
           //Back to extension to approve
           .switchWindow(result.value[0])
           .refresh()
-          .pause(500)
           .setValue("input[placeholder='Password']", formData.password)
           .click('#approve-btn')
           .assert.containsText('body', 'Transaction Complete')
           .switchWindow(result.value[1])
-          .pause(6000)
+          .pause(6 * 1000)
           .assert.containsText('body', 'Successful delegation!')
           .end()
       })
