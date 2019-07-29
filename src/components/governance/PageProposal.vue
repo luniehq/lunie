@@ -1,5 +1,5 @@
 <template>
-  <TmPage data-title="Proposal">
+  <TmPage data-title="Proposal" :hide-header="true">
     <TmDataLoading v-if="!proposals.loaded || !governanceParameters.loaded" />
     <TmDataError v-else-if="!proposal" />
     <template v-else>

@@ -5,6 +5,7 @@
     :loaded="!!lastHeader"
     :error="blocks.error"
     data-title="Network"
+    :hide-header="true"
   >
     <template slot="managed-body">
       <div class="page-profile__header page-profile__section network">

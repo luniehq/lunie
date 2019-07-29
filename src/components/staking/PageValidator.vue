@@ -6,6 +6,7 @@
     :error="delegates.error"
     :data-empty="!validator"
     data-title="Validator"
+    :hide-header="true"
   >
     <template v-if="validator" slot="managed-body">
       <!-- we need the v-if as the template somehow is rendered in any case -->

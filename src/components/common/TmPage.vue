@@ -302,10 +302,6 @@ export default {
 }
 
 @media screen and (max-width: 767px) {
-  .tm-page-main {
-    padding: 2rem 0;
-  }
-
   .row {
     flex-direction: column;
   }

@@ -1,5 +1,5 @@
 <template>
-  <TmPage :tabs="tabs" class="staking" data-title="Staking">
+  <TmPage :tabs="tabs" class="staking" data-title="Staking" :hide-header="true">
     <router-view />
   </TmPage>
 </template>
