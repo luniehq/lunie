@@ -35,6 +35,7 @@ const config = {
     },
     extensions: ['.js', '.vue', '.css'],
   },
+  devtool: 'cheap-module-source-map',
   module: {
     rules: [
       {
@@ -100,7 +101,8 @@ const config = {
           jsonContent.version = version;
 
           if (config.mode === 'development') {
-            jsonContent['content_security_policy'] = "script-src 'self' 'unsafe-eval'; object-src 'self'";
+            jsonContent['content_security_policy'] =
+              "script-src 'self' 'unsafe-eval' https://www.google-analytics.com/analytics.js; object-src 'self'"
           }
 
           return JSON.stringify(jsonContent, null, 2);

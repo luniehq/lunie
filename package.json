@@ -63,6 +63,7 @@
     "perfect-scrollbar": "^1.4.0",
     "regenerator-runtime": "^0.13.2",
     "vue": "^2.6.10",
+    "vue-analytics": "^5.17.0",
     "vue-clipboard2": "^0.3.0",
     "vue-directive-tooltip": "1.4.5",
     "vue-router": "^3.0.1",
