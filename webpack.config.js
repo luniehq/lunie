@@ -12,6 +12,7 @@ const VueLoaderPlugin = require(`vue-loader/lib/plugin`)
 const MiniCssExtractPlugin = require(`mini-css-extract-plugin`)
 const CleanWebpackPlugin = require(`clean-webpack-plugin`)
 const SentryPlugin = require(`@sentry/webpack-plugin`)
+const VuetifyLoaderPlugin = require("vuetify-loader/lib/plugin")
 
 function resolve(dir) {
   return path.join(__dirname, dir)
@@ -76,6 +77,21 @@ const config = {
         ]
       },
       {
+        test: /\.s(c|a)ss$/,
+        use: [
+          "vue-style-loader",
+          "css-loader",
+          {
+            loader: "sass-loader",
+            options: {
+              implementation: require("sass"),
+              fiber: require("fibers"),
+              indentedSyntax: true // optional
+            }
+          }
+        ]
+      },
+      {
         test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
         use: [
           {
@@ -105,6 +121,7 @@ const config = {
     fs: `empty`
   },
   plugins: [
+    new VuetifyLoaderPlugin(),
     new VueLoaderPlugin(),
     new MiniCssExtractPlugin({
       filename: `style.css`

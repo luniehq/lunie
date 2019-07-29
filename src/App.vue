@@ -1,22 +1,35 @@
 <template>
-  <div>
-    <CookieBar />
-    <MaintenanceBar />
-    <DisconnectedBar />
-    <div id="app">
+  <v-app>
+    <Menu />
+
+    <!-- <v-app-bar app>
+  </v-app-bar> -->
+
+    <!-- Sizes your content based upon application components -->
+    <v-content>
+      <CookieBar />
+      <MaintenanceBar />
+      <DisconnectedBar />
+
       <router-view name="session" />
-      <AppHeader />
-      <div id="app-content">
-        <router-view />
-      </div>
-      <TmNotifications :notifications="notifications" />
-    </div>
-  </div>
+
+      <!-- Provides the application the proper gutter -->
+      <v-container>
+        <!-- If using vue-router -->
+        <router-view></router-view>
+      </v-container>
+    </v-content>
+
+    <v-footer app>
+      <!-- -->
+    </v-footer>
+    <TmNotifications :notifications="notifications" />
+  </v-app>
 </template>
 
 <script>
 import { mapGetters } from "vuex"
-import AppHeader from "common/AppHeader"
+import Menu from "common/Menu"
 import CookieBar from "common/CookieBar"
 import MaintenanceBar from "common/MaintenanceBar"
 import DisconnectedBar from "common/DisconnectedBar"
@@ -26,14 +39,19 @@ import store from "./vuex/store"
 export default {
   name: `app`,
   components: {
-    AppHeader,
+    Menu,
     TmNotifications,
     CookieBar,
     MaintenanceBar,
     DisconnectedBar
   },
   computed: {
-    ...mapGetters([`notifications`, `session`])
+    ...mapGetters([`notifications`])
+  },
+  methods: {
+    signOut() {
+      this.$store.dispatch("signOut")
+    }
   },
   store
 }

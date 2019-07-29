@@ -33,7 +33,6 @@
       </template>
       <slot />
     </main>
-    <PageFooter />
   </div>
 </template>
 
@@ -314,6 +313,7 @@ export default {
 @media screen and (max-width: 1023px) {
   .tm-page-main {
     min-height: 100vh;
+    padding: 0;
   }
 }
 </style>

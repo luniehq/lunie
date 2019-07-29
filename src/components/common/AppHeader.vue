@@ -17,56 +17,19 @@
           </div>
         </template>
       </div>
-      <AppMenu v-if="open || desktop" @close="close" />
+      <DesktopMenu id="desktop-menu" />
     </div>
   </nav>
 </template>
 
 <script>
 import { mapGetters } from "vuex"
-import noScroll from "no-scroll"
-import AppMenu from "common/AppMenu"
+import DesktopMenu from "common/DesktopMenu"
 export default {
   name: `app-header`,
-  components: { AppMenu },
-  data: () => ({
-    open: false,
-    desktop: false
-  }),
+  components: { DesktopMenu },
   computed: {
     ...mapGetters([`session`])
-  },
-  mounted() {
-    this.watchWindowSize()
-    window.onresize = this.watchWindowSize
-  },
-  updated() {
-    this.watchWindowSize()
-    window.onresize = this.watchWindowSize
-  },
-  methods: {
-    close() {
-      this.open = false
-      noScroll.off()
-    },
-    show() {
-      this.open = true
-      noScroll.on()
-    },
-    watchWindowSize() {
-      const w = Math.max(
-        document.documentElement.clientWidth,
-        window.innerWidth || 0
-      )
-
-      if (w >= 1024) {
-        this.close()
-        this.desktop = true
-        return
-      } else {
-        this.desktop = false
-      }
-    }
   }
 }
 </script>
@@ -104,6 +67,10 @@ export default {
 }
 
 @media screen and (max-width: 1023px) {
+  #desktop-menu {
+    display: none;
+  }
+
   .app-header {
     width: 100%;
     min-height: 0;

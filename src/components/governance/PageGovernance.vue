@@ -1,5 +1,10 @@
 <template>
-  <TmPage :tabs="tabs" class="governance" data-title="Governance" :hide-header="true">
+  <TmPage
+    :tabs="tabs"
+    class="governance"
+    data-title="Governance"
+    :hide-header="true"
+  >
     <TmBtn
       id="propose-btn"
       slot="header-buttons"

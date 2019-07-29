@@ -10,6 +10,7 @@ import Tooltip from "vue-directive-tooltip"
 import Vuelidate from "vuelidate"
 import VueClipboard from "vue-clipboard2"
 import * as _Sentry from "@sentry/browser"
+import vuetify from "./vuetify"
 
 import App from "../App"
 import routes from "../routes"
@@ -128,6 +129,7 @@ export const startApp = async (
   listenToExtensionMessages(store)
 
   return new Vue({
+    vuetify,
     router,
     ...App,
     store
