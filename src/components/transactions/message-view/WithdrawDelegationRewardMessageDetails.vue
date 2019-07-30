@@ -28,10 +28,6 @@ export default {
       type: Object,
       required: true
     },
-    coin: {
-      type: Object,
-      required: true
-    },
     validators: {
       type: Object,
       required: true
