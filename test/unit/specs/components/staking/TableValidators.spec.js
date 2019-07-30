@@ -38,9 +38,6 @@ describe(`TableValidators`, () => {
     lastHeader: {
       chain_id: `gaia-20k`,
       height: `6001`
-    },
-    minting: {
-      annualProvision: "100"
     }
   }
 
@@ -48,6 +45,11 @@ describe(`TableValidators`, () => {
     $store = {
       commit: jest.fn(),
       dispatch: jest.fn(),
+      state: {
+        minting: {
+          annualProvision: "100"
+        }
+      },
       getters: JSON.parse(JSON.stringify(getters)) // clone so we don't overwrite by accident
     }
 

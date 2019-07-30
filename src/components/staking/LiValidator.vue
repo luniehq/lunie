@@ -37,30 +37,30 @@
         </div>
       </div>
     </td>
-    <td class="li-validator__delegated-steak">
+    <td :class="{ 'hide-xs': showOnMobile !== 'my_delegations' }">
       {{
         validator.my_delegations
           ? num.shortDecimals(num.atoms(validator.my_delegations))
           : `--`
       }}
     </td>
-    <td class="li-validator__rewards">
+    <td :class="{ 'hide-xs': showOnMobile !== 'rewards' }">
       {{
         validator.rewards
           ? num.shortDecimals(num.atoms(validator.rewards))
           : `--`
       }}
     </td>
-    <td class="li-validator__voting-power">
+    <td :class="{ 'hide-xs': showOnMobile !== 'voting-power' }">
       {{ validator.tokens ? percentOfVotingPower : `--` }}
     </td>
-    <td class="li-validator__commission">
+    <td :class="{ 'hide-xs': showOnMobile !== 'commission' }">
       {{ validator.commission ? num.percent(validator.commission) : `--` }}
     </td>
-    <td class="li-validator__uptime">
+    <td :class="{ 'hide-xs': showOnMobile !== 'uptime' }">
       {{ validator.uptime ? num.percent(validator.uptime) : `--` }}
     </td>
-    <td class="li-validator__yield">
+    <td :class="{ 'hide-xs': showOnMobile !== 'expectedReturns' }">
       {{
         validator.expectedReturns
           ? num.percent(validator.expectedReturns)
@@ -84,6 +84,10 @@ export default {
     validator: {
       type: Object,
       required: true
+    },
+    showOnMobile: {
+      type: String,
+      default: () => "returns"
     }
   },
   data: () => ({ num }),
@@ -127,3 +131,23 @@ export default {
   }
 }
 </script>
+<style scoped>
+.data-table__row {
+  cursor: pointer;
+}
+
+@media screen and (max-width: 550px) {
+  .hide-xs {
+    display: none;
+  }
+
+  .data-table__row {
+    max-width: calc(100vw - 2px);
+    padding: 0;
+  }
+
+  .data-table__row__info {
+    max-width: calc(100vw - 6rem);
+  }
+}
+</style>
