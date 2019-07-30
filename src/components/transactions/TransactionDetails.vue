@@ -114,8 +114,7 @@ export default {
           return `default-message-details`
       }
     }
-  },
-
+  }
 }
 </script>
 

@@ -8,12 +8,7 @@
       </p>
     </div>
     <div class="li-tx__content__information">
-      <template v-if="other">
-        From&nbsp;
-        <Bech32 :address="transaction.value.from_address" />&nbsp;to&nbsp;
-        <Bech32 :address="transaction.value.to_address" />
-      </template>
-      <template v-else-if="toYourself">To yourself!</template>
+      <template v-if="toYourself">To yourself!</template>
       <template v-else-if="sentFromSessionAddress">
         To&nbsp;
         <Bech32 :address="transaction.value.to_address" />
@@ -21,6 +16,11 @@
       <template v-else-if="receivedToSessionAddress">
         From&nbsp;
         <Bech32 :address="transaction.value.from_address" />
+      </template>
+      <template v-else>
+        From&nbsp;
+        <Bech32 :address="transaction.value.from_address" />&nbsp;to&nbsp;
+        <Bech32 :address="transaction.value.to_address" />
       </template>
       <span v-if="transaction.memo">&nbsp;- {{ transaction.memo }}</span>
     </div>

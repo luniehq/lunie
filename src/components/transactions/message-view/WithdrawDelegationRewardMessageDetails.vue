@@ -1,13 +1,14 @@
 <template>
   <div>
     <div class="li-tx__content__caption">
-      <p class="li-tx__content__caption__title">
-        Update withdraw address
-      </p>
+      <p class="li-tx__content__caption__title">Update withdraw address</p>
     </div>
     <div class="li-tx__content__information">
-      From&nbsp;<router-link :to="`staking/validators/${transaction.value.validator_address}`">
-        {{ validators[transaction.value.validator_address].description.moniker }}
+      From&nbsp;
+      <router-link :to="`staking/validators/${transaction.value.validator_address}`">
+        {{
+        validators[transaction.value.validator_address].description.moniker
+        }}
       </router-link>
     </div>
   </div>
