@@ -99,7 +99,6 @@ export default {
 }
 
 .coin-denom {
-  font-size: var(--lg);
   color: var(--bright);
   font-weight: 500;
 }
@@ -112,5 +111,9 @@ export default {
   .li-coin__content-left {
     padding-bottom: 0.5rem;
   }
+}
+
+.v-application p {
+  margin-bottom: 0;
 }
 </style>

@@ -110,5 +110,21 @@ export default {
   }
 }
 </script>
+<style scoped>
+  #desktop-menu {
+    width: 80px;
+    position: fixed;
+    background: var(--app-nav);
+    color: var(--bright);
+  }
 
-<style scoped></style>
+  .theme--dark.v-list-item--active::before:not(:hover) {
+    opacity: 0;
+  }
+</style>
+<style>
+  #desktop-menu:not(:hover) .tm-connected-network__string {
+    display: none;
+  }
+</style>
+
