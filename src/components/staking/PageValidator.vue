@@ -204,7 +204,7 @@ import moment from "moment"
 import { calculateTokens } from "scripts/common"
 import { mapGetters } from "vuex"
 import num, { atoms, viewDenom, shortDecimals } from "scripts/num"
-import { formatBech32, extrapolatedYield } from "src/filters"
+import { formatBech32, expectedReturns } from "src/filters"
 import TmBtn from "common/TmBtn"
 import { ratToBigNumber } from "scripts/common"
 import DelegationModal from "src/ActionModal/components/DelegationModal"
@@ -305,7 +305,7 @@ export default {
         : moment(dateTime).fromNow()
     },
     returns() {
-      return extrapolatedYield(
+      return expectedReturns(
         this.validator,
         parseInt(this.pool.pool.bonded_tokens),
         parseFloat(this.minting.annualProvision)

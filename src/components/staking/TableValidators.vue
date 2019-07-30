@@ -23,7 +23,7 @@ import orderBy from "lodash.orderby"
 import LiValidator from "staking/LiValidator"
 import PanelSort from "staking/PanelSort"
 import BN from "bignumber.js"
-import { extrapolatedYield } from "src/filters"
+import { expectedReturns } from "src/filters"
 export default {
   name: `table-validators`,
   components: {
@@ -96,7 +96,7 @@ export default {
               rollingWindow
             : 0,
           expectedReturns: minting.annualProvision
-            ? extrapolatedYield(
+            ? expectedReturns(
                 v,
                 parseInt(pool.pool.bonded_tokens),
                 parseFloat(minting.annualProvision)
@@ -149,7 +149,7 @@ export default {
         {
           title: `Returns`,
           value: `expectedReturns`,
-          tooltip: `Potential return of investment per token if validator is never punished`
+          tooltip: `Approximate annualized return if validator is never punished`
         }
       ]
     },

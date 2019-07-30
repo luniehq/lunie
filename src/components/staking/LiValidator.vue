@@ -160,7 +160,7 @@ export default {
   }
 
   .data-table__row {
-    width: calc(100vw - 2px);
+    max-width: calc(100vw - 2px);
     padding: 0;
   }
 
