@@ -1,7 +1,11 @@
 <template>
   <div class="li-tx">
     <TransactionIcon :transaction-type="transaction.type"></TransactionIcon>
-    <TransactionDetails :transaction="transaction" :validators="validators">
+    <TransactionDetails
+      :transaction="transaction"
+      :validators="validators"
+      :address="address"
+    >
     </TransactionDetails>
   </div>
 </template>
@@ -24,6 +28,10 @@ export default {
     validators: {
       type: Object,
       required: true
+    },
+    address: {
+      type: String,
+      default: null
     }
   }
 }

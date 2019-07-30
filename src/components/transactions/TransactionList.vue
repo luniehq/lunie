@@ -5,6 +5,7 @@
       :key="msg.key"
       :transaction="msg"
       :validators="validators"
+      :address="address"
     />
   </div>
 </template>

@@ -2,15 +2,26 @@
   <div>
     <div class="li-tx__content__caption">
       <p class="li-tx__content__caption__title">
-        Sent
+        {{ caption }}
         <b>{{ coin.amount | atoms | prettyLong }}</b>
         <span>{{ coin.denom | viewDenom }}</span>
       </p>
     </div>
     <div class="li-tx__content__information">
-      <!-- From
-      <Bech32 :address="sender" />to
-      <Bech32 :address="receiver" />-->
+      <template v-if="other">
+        From&nbsp;
+        <Bech32 :address="transaction.value.from_address" />&nbsp;to&nbsp;
+        <Bech32 :address="transaction.value.to_address" />
+      </template>
+      <template v-else-if="toYourself">To yourself!</template>
+      <template v-else-if="sentFromSessionAddress">
+        To&nbsp;
+        <Bech32 :address="transaction.value.to_address" />
+      </template>
+      <template v-else-if="receivedToSessionAddress">
+        From&nbsp;
+        <Bech32 :address="transaction.value.from_address" />
+      </template>
       <span v-if="transaction.memo">&nbsp;- {{ transaction.memo }}</span>
     </div>
   </div>
@@ -18,6 +29,7 @@
 
 <script>
 import { atoms, viewDenom, prettyLong } from "scripts/num.js"
+import Bech32 from "common/Bech32"
 
 export default {
   name: `send-message-details`,
@@ -25,6 +37,9 @@ export default {
     atoms,
     viewDenom,
     prettyLong
+  },
+  components: {
+    Bech32
   },
   props: {
     transaction: {
@@ -34,6 +49,49 @@ export default {
     coin: {
       type: Object,
       required: true
+    },
+    sessionAddress: {
+      type: String,
+      required: false,
+      default: null
+    }
+  },
+  computed: {
+    toYourself() {
+      const value = this.transaction.value
+      return (
+        value.from_address === this.sessionAddress &&
+        value.to_address === this.sessionAddress
+      )
+    },
+    other() {
+      const value = this.transaction.value
+      return (
+        this.sessionAddress !== value.from_address &&
+        this.sessionAddress !== value.to_address
+      )
+    },
+    sentFromSessionAddress() {
+      const value = this.transaction.value
+      return (
+        this.sessionAddress === value.from_address &&
+        this.sessionAddress !== value.to_address
+      )
+    },
+    receivedToSessionAddress() {
+      const value = this.transaction.value
+      return (
+        this.sessionAddress === value.to_address &&
+        this.sessionAddress !== value.from_address
+      )
+    },
+    caption() {
+      const value = this.transaction.value
+      if (value.from_address == this.sessionAddress) {
+        return "Sent"
+      } else {
+        return "Received"
+      }
     }
   }
 }

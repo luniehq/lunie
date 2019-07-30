@@ -5,6 +5,7 @@
       :transaction="transaction"
       :coin="coin"
       :validators="validators"
+      :session-address="address"
       class="li-tx__content__left"
     />
     <TransactionFees
@@ -65,6 +66,11 @@ export default {
     validators: {
       type: Object,
       required: true
+    },
+    address: {
+      type: String,
+      required: false,
+      default: ""
     }
   },
   computed: {
