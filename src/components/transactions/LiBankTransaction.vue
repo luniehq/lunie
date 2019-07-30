@@ -28,7 +28,9 @@
         <span>{{ txDenom | viewDenom }}</span>
       </div>
       <span slot="details">
-        <template v-if="sentSelf">To yourself!</template>
+        <template v-if="sentSelf"
+          >To yourself!</template
+        >
         <template v-else>
           To
           <Bech32 :address="receiver" />

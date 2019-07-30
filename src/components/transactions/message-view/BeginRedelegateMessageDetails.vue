@@ -9,14 +9,20 @@
     </div>
     <div class="li-tx__content__information">
       From&nbsp;
-      <router-link :to="`staking/validators/${transaction.value.validator_src_address}`">
+      <router-link
+        :to="`staking/validators/${transaction.value.validator_src_address}`"
+      >
         {{
-        validators[transaction.value.validator_src_address].description.moniker
-        }}
-      </router-link>To&nbsp;
-      <router-link :to="`staking/validators/${transaction.value.validator_dst_address}`">
+          validators[transaction.value.validator_src_address].description
+            .moniker
+        }} </router-link
+      >To&nbsp;
+      <router-link
+        :to="`staking/validators/${transaction.value.validator_dst_address}`"
+      >
         {{
-        validators[transaction.value.validator_dst_address].description.moniker
+          validators[transaction.value.validator_dst_address].description
+            .moniker
         }}
       </router-link>
     </div>

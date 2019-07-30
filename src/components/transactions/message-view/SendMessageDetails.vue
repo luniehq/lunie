@@ -8,7 +8,9 @@
       </p>
     </div>
     <div class="li-tx__content__information">
-      <template v-if="toYourself">To yourself!</template>
+      <template v-if="toYourself"
+        >To yourself!</template
+      >
       <template v-else-if="sentFromSessionAddress">
         To&nbsp;
         <Bech32 :address="transaction.value.to_address" />

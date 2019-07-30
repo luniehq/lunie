@@ -12,8 +12,6 @@
     <DataEmptyTx slot="no-data" />
     <template slot="managed-body">
       <TransactionList
-        validators-url="/staking/validators"
-        proposals-url="/governance"
         :transactions="flatOrderedTransactionList"
         :address="session.address"
         :bonding-denom="bondDenom"

@@ -6,12 +6,16 @@
     </div>
     <TmDataConnecting v-else-if="!delegation.loaded && !connected" />
     <TmDataLoading v-else-if="!delegation.loaded && delegation.loading" />
-    <TmDataMsg v-else-if="yourValidators.length === 0" icon="sentiment_dissatisfied">
+    <TmDataMsg
+      v-else-if="yourValidators.length === 0"
+      icon="sentiment_dissatisfied"
+    >
       <div slot="title">No Active Delegations</div>
       <div slot="subtitle">
-        Looks like you haven't delegated any {{ bondDenom || viewDenom }}s
-        yet. Head over to the
-        <router-link :to="{ name: 'Validators' }">validator list</router-link>to make your first delegation!
+        Looks like you haven't delegated any {{ bondDenom || viewDenom }}s yet.
+        Head over to the
+        <router-link :to="{ name: 'Validators' }">validator list</router-link>to
+        make your first delegation!
       </div>
     </TmDataMsg>
     <div v-if="delegation.loaded && unbondingTransactions.length > 0">

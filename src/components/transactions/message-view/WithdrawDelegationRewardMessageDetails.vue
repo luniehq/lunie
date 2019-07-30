@@ -5,9 +5,11 @@
     </div>
     <div class="li-tx__content__information">
       From&nbsp;
-      <router-link :to="`staking/validators/${transaction.value.validator_address}`">
+      <router-link
+        :to="`staking/validators/${transaction.value.validator_address}`"
+      >
         {{
-        validators[transaction.value.validator_address].description.moniker
+          validators[transaction.value.validator_address].description.moniker
         }}
       </router-link>
     </div>
