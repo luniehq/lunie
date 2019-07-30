@@ -39,27 +39,40 @@ function compareBlockTimeDesc(a, b) {
   return b.blockNumber - a.blockNumber
 }
 
+const makeTxObject = (x, fees, memo, time, height) => {
+  return {
+    ...x,
+    key: `${x.type}_${time}_${JSON.stringify(x.value)}`,
+    blockNumber: Number(height),
+    time: new Date(time),
+    memo,
+    fees
+  }
+}
+
 const flattenTransactionMsgs = (acc, curTxList) => {
   const fees = getFees(curTxList)
   const memo = curTxList.tx.value.memo
-  const newVals = curTxList.tx.value.msg.map(x => {
-    return {
-      ...x,
-      key: `${x.type}_${curTxList.time}_${JSON.stringify(x.value)}`,
-      blockNumber: Number(curTxList.height),
-      time: new Date(curTxList.time),
-      memo,
-      fees
-    }
-  })
+  const newVals = curTxList.tx.value.msg.map(x =>
+    makeTxObject(x, fees, memo, curTxList.time, curTxList.height)
+  )
   return acc.concat(newVals)
 }
 
 export const flatOrderedTransactionList = (state, getters) => {
-  let allTx = [...getters.allTransactions.reduce(flattenTransactionMsgs, [])]
+  let allTx = getters.allTransactions.reduce(flattenTransactionMsgs, [])
   allTx.sort(compareBlockTimeDesc)
   console.log("allTxs sort rev", allTx)
   return allTx
+}
+
+export const blockTransactions = state => {
+  let blockTx = state.blocks.block.transactions.reduce(
+    flattenTransactionMsgs,
+    []
+  )
+  console.log("blockTransactions", blockTx)
+  return blockTx
 }
 
 export const validators = state => {

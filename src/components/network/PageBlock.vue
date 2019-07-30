@@ -6,9 +6,7 @@
         <div class="row">
           <div class="page-profile__header__info">
             <div class="page-profile__status-and-title">
-              <h2 class="page-profile__title">
-                Block {{ blockTitle || `--` }}
-              </h2>
+              <h2 class="page-profile__title">Block {{ blockTitle || `--` }}</h2>
             </div>
           </div>
         </div>
@@ -24,34 +22,20 @@
       <div class="page-profile__section block">
         <div class="row">
           <div class="column">
-            <h3 v-if="block.transactions" class="page-profile__section-title">
-              Transactions
-            </h3>
+            <h3 v-if="block.transactions" class="page-profile__section-title">Transactions</h3>
             <TmDataMsg
               v-if="block.transactions && block.transactions.length === 0"
               icon="info_outline"
             >
-              <div slot="title">
-                No Transactions
-              </div>
-              <div slot="subtitle">
-                This block doesn't contain any transactions.
-              </div>
+              <div slot="title">No Transactions</div>
+              <div slot="subtitle">This block doesn't contain any transactions.</div>
             </TmDataMsg>
-            <LiAnyTransaction
-              v-for="tx in block.transactions"
-              :key="tx.txhash"
-              :validators="delegates.delegates"
-              validators-url="/staking/validators"
-              proposals-url="/governance"
-              :transaction="tx"
-              :address="session.address || ``"
+            <TransactionList
+              :transactions="blockTransactions"
+              :address="session.address"
               :bonding-denom="bondDenom"
-              :height="block.block.header.height"
-              :time="block.block.header.time"
-              :unbonding-time="
-                getUnbondingTime(tx, delegation.unbondingDelegations)
-              "
+              :validators="validators"
+              :unbonding-delegations="delegation.unbondingDelegations"
             />
             <br />
           </div>
@@ -64,11 +48,11 @@
 <script>
 import moment from "moment"
 import { mapGetters } from "vuex"
-import num from "scripts/num"
+import { prettyInt } from "scripts/num"
 import { getUnbondingTime } from "scripts/time"
 import TmDataError from "common/TmDataError"
 import TmPage from "common/TmPage"
-import LiAnyTransaction from "transactions/LiAnyTransaction"
+import TransactionList from "transactions/TransactionList"
 import TmDataMsg from "common/TmDataMsg"
 export default {
   name: `page-block`,
@@ -76,13 +60,8 @@ export default {
     TmDataError,
     TmDataMsg,
     TmPage,
-    LiAnyTransaction
+    TransactionList
   },
-  data: () => ({
-    num,
-    moment,
-    getUnbondingTime
-  }),
   computed: {
     ...mapGetters([
       `connected`,
@@ -91,26 +70,17 @@ export default {
       `lastHeader`,
       `delegates`,
       `delegation`,
-      `session`
+      `session`,
+      `validators`,
+      `blockTransactions`
     ]),
-    properties() {
-      return [
-        {
-          title: `Proposer`
-        },
-        {
-          title: `Time`
-        },
-        {
-          title: `Round`
-        }
-      ]
-    },
-    blockTitle({ num, block } = this) {
+    blockTitle() {
+      const block = this.block
       if (!block.block) return `--`
-      return `#` + num.prettyInt(block.block.header.height)
+      return `#` + prettyInt(block.block.header.height)
     },
-    blockTime({ moment, block } = this) {
+    blockTime() {
+      const block = this.block
       if (!block.block) return `--`
       return moment(block.block.header.time).format(`MMM Do YYYY, HH:mm:ss`)
     }
@@ -120,10 +90,11 @@ export default {
       await this.getBlock()
     }
   },
-  async mounted() {
+  async created() {
     await this.getBlock()
   },
   methods: {
+    getUnbondingTime,
     async getBlock({ $store, $route, $router, lastHeader } = this) {
       // query first for the block so we don't fail if the user started from this route and hasn't received any lastHeader yet
       await $store.dispatch(`queryBlockInfo`, $route.params.height)

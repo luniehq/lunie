@@ -89,10 +89,13 @@ export default {
     },
     caption() {
       const value = this.transaction.value
-      if (value.from_address == this.sessionAddress) {
-        return "Sent"
-      } else {
+      if (
+        value.to_address === this.sessionAddress &&
+        value.from_address !== this.sessionAddress
+      ) {
         return "Received"
+      } else {
+        return "Sent"
       }
     }
   }
