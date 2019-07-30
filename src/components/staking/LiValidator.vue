@@ -2,6 +2,12 @@
   <tr
     class="data-table__row li-validator"
     :data-moniker="validator.description.moniker"
+    @click="
+      $router.push({
+        name: 'validator',
+        params: { validator: validator.operator_address }
+      })
+    "
   >
     <td class="data-table__row__info">
       <img
@@ -23,15 +29,9 @@
           :class="statusColor"
           class="data-table__row__info__container__status"
         />
-        <router-link
-          :to="{
-            name: 'validator',
-            params: { validator: validator.operator_address }
-          }"
-          class="data-table__row__info__container__name"
-        >
+        <span class="data-table__row__info__container__name">
           {{ validator.description.moniker }}
-        </router-link>
+        </span>
         <div class="data-table__row__info__container__description">
           <Bech32 :address="validator.operator_address" />
         </div>
@@ -59,6 +59,13 @@
     </td>
     <td class="li-validator__uptime">
       {{ validator.uptime ? num.percent(validator.uptime) : `--` }}
+    </td>
+    <td class="li-validator__yield">
+      {{
+        validator.expectedReturns
+          ? num.percent(validator.expectedReturns)
+          : `--`
+      }}
     </td>
   </tr>
 </template>

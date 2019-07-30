@@ -41,6 +41,7 @@
   background-color: var(--app-fg);
   border-radius: 0.25rem;
   border: 1px solid var(--bc-dim);
+  cursor: pointer; /* assumes all rows are clickable */
 }
 
 .data-table__row__info {
