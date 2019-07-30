@@ -7,6 +7,39 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.0-beta.100] - 2019-07-30
+
+### Added
+
+- [#2847](https://github.com/cosmos/lunie/pull/2847) Added expected returns calculation to validators @faboweb
+
+### Changed
+
+- Show signin with extension if user has extension @faboweb
+- [#2847](https://github.com/cosmos/lunie/pull/2847) Make validator row item clickable @faboweb
+
+### Fixed
+
+- [#2843](https://github.com/cosmos/lunie/issues/2843) The cache was not cleared on a sign in if already signed in @faboweb
+
+### Deprecated
+
+- [#2840](https://github.com/cosmos/lunie/pull/2840) Remove file and spec since it is for the extension @colw
+
+## [1.0.0-beta.99] - 2019-07-22
+
+### Added
+
+- [#ext 76](https://github.com/cosmos/lunie/pull/ext 76) Adds conditional rendering to the back button is SessionFrame so that it can not show in the extension on certain pages @thebkr7
+
+### Changed
+
+- [#2839](https://github.com/cosmos/lunie/pull/2839) Add provided RPC and STARGATE URL's to Content-Security-Policy connect-src list @asoltys
+
+### Fixed
+
+- [#2835](https://github.com/cosmos/lunie/pull/2835) Errors from extension were not handled in async requests @faboweb
+
 ## [1.0.0-beta.98] - 2019-07-18
 
 ### Added

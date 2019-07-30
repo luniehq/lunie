@@ -6,7 +6,7 @@
       </router-link>
       <div class="session-outer-container">
         <div class="session">
-          <a @click="goBack">
+          <a v-if="!hideBack" @click="goBack">
             <i class="material-icons session-back">arrow_back</i>
           </a>
           <slot></slot>
@@ -29,6 +29,12 @@ export default {
   name: `session-frame`,
   components: {
     TmBtn
+  },
+  props: {
+    hideBack: {
+      type: Boolean,
+      default: false
+    }
   },
   methods: {
     goBack() {

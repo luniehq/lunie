@@ -22,6 +22,7 @@ import orderBy from "lodash.orderby"
 import LiValidator from "staking/LiValidator"
 import PanelSort from "staking/PanelSort"
 import BN from "bignumber.js"
+import { expectedReturns } from "src/filters"
 export default {
   name: `table-validators`,
   components: {
@@ -52,6 +53,7 @@ export default {
       `bondDenom`,
       `keybase`,
       `pool`,
+      `minting`,
       `lastHeader`
     ]),
     enrichedValidators(
@@ -59,6 +61,7 @@ export default {
         validators,
         delegates: { signingInfos },
         pool,
+        minting,
         committedDelegations,
         keybase,
         session,
@@ -86,7 +89,14 @@ export default {
           uptime: signingInfo
             ? (rollingWindow - signingInfo.missed_blocks_counter) /
               rollingWindow
-            : 0
+            : 0,
+          expectedReturns: minting.annualProvision
+            ? expectedReturns(
+                v,
+                parseInt(pool.pool.bonded_tokens),
+                parseFloat(minting.annualProvision)
+              )
+            : undefined
         })
       })
     },
@@ -130,6 +140,11 @@ export default {
           title: `Uptime`,
           value: `uptime`,
           tooltip: `Ratio of blocks signed within the last 10k blocks`
+        },
+        {
+          title: `Expected Returns`,
+          value: `expectedReturns`,
+          tooltip: `Approximate annualized return if validator is never punished`
         }
       ]
     },
@@ -158,6 +173,7 @@ export default {
     this.$store.dispatch(`getPool`)
     this.$store.dispatch(`updateDelegates`)
     this.$store.dispatch(`getRewardsFromMyValidators`)
+    this.$store.dispatch(`getMintingParameters`)
   }
 }
 </script>
