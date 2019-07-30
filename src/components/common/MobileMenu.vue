@@ -31,14 +31,17 @@ export default {
 </script>
 
 <style scoped>
-.v-footer, .v-card {
-    background: var(--app-nav);
-    color: var(--bright);
+.v-footer,
+.v-card {
+  background: var(--app-nav);
+  color: var(--bright);
   text-align: center;
 }
+
 .v-card__text {
   padding: 0.5rem;
 }
+
 .v-btn:not(:last-child) {
   margin-right: 1.5rem;
 }

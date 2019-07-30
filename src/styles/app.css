@@ -103,12 +103,14 @@ input.tm-field {
 }
 
 #desktop-menu {
-  display: none ;
+  display: none;
 }
+
 @media screen and (min-width: 1023px) {
   #desktop-menu {
     display: block;
   }
+
   #mobile-footer-menu {
     display: none;
   }

@@ -90,7 +90,13 @@ export default {
   },
   data: () => ({ num, showSendModal: false }),
   computed: {
-    ...mapGetters([`wallet`, `connected`, `session`, `delegation`, `transactions`]),
+    ...mapGetters([
+      `wallet`,
+      `connected`,
+      `session`,
+      `delegation`,
+      `transactions`
+    ]),
     dataEmpty() {
       return this.wallet.balances.length === 0
     },

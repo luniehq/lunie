@@ -41,11 +41,7 @@ export default {
     num
   }),
   computed: {
-    ...mapGetters([
-      `delegation`,
-      `bondDenom`,
-      `yourValidators`
-    ])
+    ...mapGetters([`delegation`, `bondDenom`, `yourValidators`])
   }
 }
 </script>
@@ -56,6 +52,7 @@ export default {
   font-weight: 500;
   margin: 1.5rem 0.5rem 0.5rem;
 }
+
 @media screen and (min-width: 1023) {
   .tab-header {
     margin: 3rem 0.5rem 0.5rem;

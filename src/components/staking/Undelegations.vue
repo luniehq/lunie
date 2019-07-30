@@ -8,9 +8,7 @@
     :transaction="tx"
     :address="session.address"
     :bonding-denom="bondDenom"
-    :unbonding-time="
-      time.getUnbondingTime(tx, delegation.unbondingDelegations)
-    "
+    :unbonding-time="time.getUnbondingTime(tx, delegation.unbondingDelegations)"
   />
 </template>
 
