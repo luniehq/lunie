@@ -1,47 +1,23 @@
 <template>
-  <tr class="data-table__row li-proposal">
-    <td class="data-table__row__info">
-      <div class="data-table__row__info__container">
-        <span
-          v-if="proposal.proposal_status === `Passed`"
-          v-tooltip.top="status.message"
-          :class="status.color"
-          class="data-table__row__info__container__status material-icons"
-        >
-          checkmark
-        </span>
-        <span
-          v-else
-          v-tooltip.top="status.message"
-          :class="status.color"
-          class="data-table__row__info__container__status"
-        />
-        <router-link
-          :to="{
-            name: 'Proposal',
-            params: { proposalId: proposal.proposal_id }
-          }"
-          class="data-table__row__info__container__name"
-        >
-          {{ proposal.proposal_content.value.title }}
-        </router-link>
-        <p class="data-table__row__info__container__description">
-          {{ description }}
-        </p>
-      </div>
-    </td>
-    <td>{{ `#` + proposal.proposal_id }}</td>
-    <td class="li-proposal__value yes">
-      {{ roundedPercentagesTally.yes | prettyDecimals }}%
-    </td>
-    <td class="li-proposal__value no">
-      {{ roundedPercentagesTally.no | prettyDecimals }}%
-    </td>
-    <td class="li-proposal__value no_with_veto">
-      {{ roundedPercentagesTally.no_with_veto | prettyDecimals }}%
-    </td>
-    <td class="li-proposal__value abstain">
-      {{ roundedPercentagesTally.abstain | prettyDecimals }}%
+  <tr
+    class="li-proposal"
+    @click="
+      $router.push({
+        name: 'Proposal',
+        params: { proposalId: proposal.proposal_id }
+      })
+    "
+  >
+    <td>
+      <span :class="status.color" class="proposal-status">{{
+        status.badge
+      }}</span>
+      <h3 class="li-proposal-title">
+        {{ proposal.proposal_content.value.title }}
+      </h3>
+      <p class="li-proposal-description">
+        {{ description }}
+      </p>
     </td>
   </tr>
 </template>
@@ -91,48 +67,93 @@ export default {
       switch (this.proposal.proposal_status) {
         case `Passed`:
           return {
-            message: `This proposal has passed`
+            badge: `Passed`,
+            color: `green`
           }
         case `Rejected`:
           return {
-            message: `This proposal has been rejected and voting is closed`,
+            badge: `Rejected`,
             color: `red`
           }
         case `DepositPeriod`:
           return {
-            message: `Deposits are open for this proposal`,
-            color: `yellow`
+            badge: `Deposit Period`,
+            color: `orange`
           }
         case `VotingPeriod`:
           return {
-            message: `Voting for this proposal is open`,
-            color: `green`
+            badge: `Voting Period`,
+            color: `pink`
           }
         default:
           return {
-            message: `There was an error determining the status of this proposal.`,
+            badge: `Error`,
             color: `grey`
           }
       }
     },
     description() {
       const { description } = this.proposal.proposal_content.value
-      return description.length > 100
-        ? description.substring(0, 100) + `…`
-        : description.substring(0, 100)
+      return description.length > 200
+        ? description.substring(0, 200) + `…`
+        : description.substring(0, 200)
     }
   }
 }
 </script>
+<style scoped>
+.li-proposal {
+  margin: 0 0 1rem;
+  padding: 1rem;
+  display: block;
+  cursor: pointer;
+  max-width: 680px;
+  background-color: var(--app-fg);
+  border-radius: 0.25rem;
+  border: 1px solid var(--bc-dim);
+}
 
-<style>
-.data-table__row__info__container__status.material-icons {
-  width: 1rem;
-  height: 1rem;
-  overflow: hidden;
-  top: 4px;
-  left: -4px;
-  color: var(--success);
-  background: none;
+.li-proposal-title {
+  font-size: var(--lg);
+  line-height: 26px;
+  font-weight: 500;
+  display: block;
+  padding: 1rem 0 0.25rem 0;
+}
+
+.li-proposal-description {
+  word-break: break-word;
+  color: var(--txt);
 }
 </style>
+<style>
+.proposal-status {
+  text-transform: uppercase;
+  font-size: 10px;
+  font-weight: 600;
+  border: 2px solid;
+  padding: 2px 4px;
+  border-radius: 0.25rem;
+}
+
+.proposal-status.red {
+  color: var(--danger);
+  border-color: var(--danger);
+}
+
+.proposal-status.orange {
+  color: var(--warning);
+  border-color: var(--warning);
+}
+
+.proposal-status.green {
+  color: var(--success);
+  border-color: var(--success);
+}
+
+.proposal-status.pink {
+  color: var(--tertiary);
+  border-color: var(--tertiary);
+}
+</style>
+
