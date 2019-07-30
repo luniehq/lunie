@@ -2,7 +2,11 @@
   <div>
     <table class="data-table">
       <thead>
-        <PanelSort :sort="sort" :properties="properties" :show-on-mobile="showOnMobile" />
+        <PanelSort
+          :sort="sort"
+          :properties="properties"
+          :show-on-mobile="showOnMobile"
+        />
       </thead>
       <tbody>
         <LiValidator

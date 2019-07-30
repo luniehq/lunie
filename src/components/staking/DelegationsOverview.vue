@@ -1,7 +1,10 @@
 <template>
   <div>
     <div v-if="delegation.loaded && yourValidators.length > 0">
-      <TableValidators :validators="yourValidators" show-on-mobile="my_delegations" />
+      <TableValidators
+        :validators="yourValidators"
+        show-on-mobile="my_delegations"
+      />
     </div>
     <TmDataMsg
       v-else-if="yourValidators.length === 0"
