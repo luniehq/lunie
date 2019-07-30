@@ -30,17 +30,17 @@
         </p>
       </div>
     </td>
-    <td>{{ `#` + proposal.proposal_id }}</td>
-    <td class="li-proposal__value yes">
+    <td class="hide-xs">{{ `#` + proposal.proposal_id }}</td>
+    <td class="li-proposal__value yes hide-xs">
       {{ roundedPercentagesTally.yes | prettyDecimals }}%
     </td>
-    <td class="li-proposal__value no">
+    <td class="li-proposal__value no hide-xs">
       {{ roundedPercentagesTally.no | prettyDecimals }}%
     </td>
-    <td class="li-proposal__value no_with_veto">
+    <td class="li-proposal__value no_with_veto hide-xs">
       {{ roundedPercentagesTally.no_with_veto | prettyDecimals }}%
     </td>
-    <td class="li-proposal__value abstain">
+    <td class="li-proposal__value abstain hide-xs">
       {{ roundedPercentagesTally.abstain | prettyDecimals }}%
     </td>
   </tr>
@@ -134,5 +134,11 @@ export default {
   left: -4px;
   color: var(--success);
   background: none;
+}
+
+@media screen and (max-width: 550px) {
+  .hide-xs {
+    display: none;
+  }
 }
 </style>
