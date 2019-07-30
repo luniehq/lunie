@@ -3,8 +3,8 @@
 exports[`TabValidators shows a list of validators 1`] = `
 <div>
   <tablevalidators-stub
+    showonmobile="expectedReturns"
     validators="[object Object],[object Object],[object Object]"
-    showOnMobile="expectedReturns"
   />
 </div>
 `;
