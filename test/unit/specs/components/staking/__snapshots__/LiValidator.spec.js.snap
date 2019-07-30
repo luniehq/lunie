@@ -23,14 +23,13 @@ exports[`LiValidator has the expected html structure 1`] = `
         class="data-table__row__info__container__status green"
       />
        
-      <router-link-stub
+      <span
         class="data-table__row__info__container__name"
-        to="[object Object]"
       >
         
         mr_mounty
       
-      </router-link-stub>
+      </span>
        
       <div
         class="data-table__row__info__container__description"
@@ -79,6 +78,14 @@ exports[`LiValidator has the expected html structure 1`] = `
   >
     
     98.78%
+  
+  </td>
+   
+  <td
+    class="li-validator__yield"
+  >
+    
+    13.00%
   
   </td>
 </tr>
@@ -107,14 +114,13 @@ exports[`LiValidator should display uptime as double-dash 1`] = `
         class="data-table__row__info__container__status green"
       />
        
-      <router-link-stub
+      <span
         class="data-table__row__info__container__name"
-        to="[object Object]"
       >
         
         mr_mounty
       
-      </router-link-stub>
+      </span>
        
       <div
         class="data-table__row__info__container__description"
@@ -165,6 +171,14 @@ exports[`LiValidator should display uptime as double-dash 1`] = `
     --
   
   </td>
+   
+  <td
+    class="li-validator__yield"
+  >
+    
+    13.00%
+  
+  </td>
 </tr>
 `;
 
@@ -191,14 +205,13 @@ exports[`LiValidator works if user is not signed in 1`] = `
         class="data-table__row__info__container__status green"
       />
        
-      <router-link-stub
+      <span
         class="data-table__row__info__container__name"
-        to="[object Object]"
       >
         
         mr_mounty
       
-      </router-link-stub>
+      </span>
        
       <div
         class="data-table__row__info__container__description"
@@ -247,6 +260,14 @@ exports[`LiValidator works if user is not signed in 1`] = `
   >
     
     98.78%
+  
+  </td>
+   
+  <td
+    class="li-validator__yield"
+  >
+    
+    13.00%
   
   </td>
 </tr>
