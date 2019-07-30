@@ -6,26 +6,16 @@
     </div>
     <TmDataConnecting v-else-if="!delegation.loaded && !connected" />
     <TmDataLoading v-else-if="!delegation.loaded && delegation.loading" />
-    <TmDataMsg
-      v-else-if="yourValidators.length === 0"
-      icon="sentiment_dissatisfied"
-    >
-      <div slot="title">
-        No Active Delegations
-      </div>
+    <TmDataMsg v-else-if="yourValidators.length === 0" icon="sentiment_dissatisfied">
+      <div slot="title">No Active Delegations</div>
       <div slot="subtitle">
-        Looks like you haven't delegated any {{ num.viewDenom(bondDenom) }}s
+        Looks like you haven't delegated any {{ bondDenom || viewDenom }}s
         yet. Head over to the
-        <router-link :to="{ name: 'Validators' }">
-          validator list
-        </router-link>
-        to make your first delegation!
+        <router-link :to="{ name: 'Validators' }">validator list</router-link>to make your first delegation!
       </div>
     </TmDataMsg>
     <div v-if="delegation.loaded && unbondingTransactions.length > 0">
-      <h3 class="tab-header transactions">
-        Pending Undelegations
-      </h3>
+      <h3 class="tab-header transactions">Pending Undelegations</h3>
       <div class="unbonding-transactions">
         <template>
           <LiAnyTransaction
@@ -38,7 +28,7 @@
             :address="session.address"
             :bonding-denom="bondDenom"
             :unbonding-time="
-              time.getUnbondingTime(tx, delegation.unbondingDelegations)
+              getUnbondingTime(tx, delegation.unbondingDelegations)
             "
           />
           <br />
@@ -50,14 +40,14 @@
 
 <script>
 import { mapGetters } from "vuex"
-import num from "scripts/num"
+import { viewDenom } from "scripts/num"
 import LiAnyTransaction from "../transactions/LiAnyTransaction"
 import TmDataMsg from "common/TmDataMsg"
 import CardSignInRequired from "common/CardSignInRequired"
 import TmDataLoading from "common/TmDataLoading"
 import TableValidators from "staking/TableValidators"
 import TmDataConnecting from "common/TmDataConnecting"
-import time from "scripts/time"
+import { getUnbondingTime } from "scripts/time"
 
 export default {
   name: `tab-my-delegations`,
@@ -69,12 +59,11 @@ export default {
     LiAnyTransaction,
     CardSignInRequired
   },
+  filters: {
+    viewDenom
+  },
   data: () => ({
-    unbondTransactions: `Transactions currently in the undelegation period`,
-    validatorURL: `/staking/validators`,
-    time,
-    num,
-    lastUpdate: 0
+    unbondTransactions: `Transactions currently in the undelegation period`
   }),
   computed: {
     ...mapGetters([
@@ -110,7 +99,7 @@ export default {
             return false
 
           // getting the unbonding time and checking if it has passed already
-          const unbondingEndTime = time.getUnbondingTime(
+          const unbondingEndTime = getUnbondingTime(
             transaction,
             delegation.unbondingDelegations
           )
@@ -134,6 +123,7 @@ export default {
     this.loadStakingTxs()
   },
   methods: {
+    getUnbondingTime,
     async loadStakingTxs() {
       if (this.session.signedIn) {
         await this.$store.dispatch(`getAllTxs`)

@@ -52,7 +52,7 @@
 <script>
 import Bech32 from "common/Bech32"
 import LiTransaction from "./LiTransaction"
-import { atoms as toAtoms, viewDenom, prettyLong } from "../. ./scripts/num.js"
+import { atoms as toAtoms, viewDenom, prettyLong } from "scripts/num.js"
 
 export default {
   name: `li-bank-transaction`,
