@@ -1,5 +1,5 @@
 <template>
-  <TmPage :tabs="tabs" class="governance" data-title="Governance">
+  <TmPage class="governance" data-title="Governance" hide-header>
     <TmBtn
       id="propose-btn"
       slot="header-buttons"
@@ -41,7 +41,7 @@ export default {
     ]
   }),
   computed: {
-    ...mapGetters([`proposals`, `depositDenom`, `connected`, `session`])
+    ...mapGetters([`depositDenom`, `connected`])
   },
   mounted() {
     this.ps = new PerfectScrollbar(this.$el.querySelector(`.tm-page-main`))
