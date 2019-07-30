@@ -1,68 +1,34 @@
 <template>
-  <TmPage data-title="Proposal">
+  <TmPage data-title="Proposal" hide-header>
     <TmDataLoading v-if="!proposals.loaded || !governanceParameters.loaded" />
     <TmDataError v-else-if="!proposal" />
     <template v-else>
       <div class="page-profile__header page-profile__section proposal">
         <div class="row">
-          <h2 class="proposal-id">#{{ proposalId }}</h2>
           <div class="page-profile__header__info">
+            <span :class="status.color" class="proposal-status">{{
+              status.badge
+            }}</span>
             <div class="page-profile__status-and-title">
-              <span
-                v-tooltip.top="status.message"
-                :class="status.color"
-                class="page-profile__status"
-              />
               <h2 class="page-profile__title">
                 {{ title }}
               </h2>
             </div>
-
-            <div class="page-profile__header__actions">
-              <TmBtn
-                v-if="proposal.proposal_status === 'VotingPeriod'"
-                id="vote-btn"
-                :value="connected ? 'Vote' : 'Connecting...'"
-                :disabled="!connected"
-                color="primary"
-                @click.native="() => onVote()"
-              />
-              <TmBtn
-                v-if="proposal.proposal_status === 'DepositPeriod'"
-                id="deposit-btn"
-                :value="connected ? 'Deposit' : 'Connecting...'"
-                :disabled="!connected"
-                color="primary"
-                @click.native="onDeposit"
-              />
-              <TmBtn
-                v-if="proposal.proposal_status === 'Passed'"
-                value="Vote Passed"
-                disabled="disabled"
-                color="primary"
-              />
-              <TmBtn
-                v-if="proposal.proposal_status === 'Rejected'"
-                value="Vote Rejected"
-                disabled="disabled"
-                color="primary"
-              />
-            </div>
           </div>
         </div>
         <div class="row">
-          <dl class="info_dl colored_dl">
+          <dl>
             <dt>Submitted</dt>
             <dd>{{ submittedAgo }}</dd>
           </dl>
 
-          <dl class="info_dl colored_dl">
-            <dt>Proposal Status</dt>
+          <dl>
+            <dt>Voting Start Date</dt>
             <dd>
-              {{ proposalStatus }}
+              {{ votingStartedAgo }}
             </dd>
           </dl>
-          <dl v-if="displayEndDate" class="info_dl colored_dl">
+          <dl v-if="displayEndDate">
             <dt>Voting End Date</dt>
             <dd>{{ endDate }}</dd>
           </dl>
@@ -71,58 +37,89 @@
 
       <div class="page-profile__section">
         <div class="row">
-          <dl class="info_dl colored_dl">
+          <dl v-if="proposal.proposal_status === 'DepositPeriod'">
             <dt>Deposit Count</dt>
             <dd>
+              {{ totalDeposit ? totalDeposit.amount : `0` }}
+              /
               {{
-                totalDeposit
-                  ? `${totalDeposit.amount}
-              ${totalDeposit.denom}`
-                  : `--`
+                num.atoms(
+                  governanceParameters.parameters.deposit.min_deposit[0].amount
+                )
               }}
+              {{ totalDeposit.denom }}
             </dd>
           </dl>
-          <dl
-            v-if="proposal.proposal_status === 'VotingPeriod'"
-            class="info_dl colored_dl"
-          >
+          <dl v-if="proposal.proposal_status !== `DepositPeriod`">
             <dt>Total Vote Count</dt>
-            <dd>{{ num.shortDecimals(num.atoms(totalVotes)) }}</dd>
+            <dd>
+              {{ num.shortDecimals(num.atoms(totalVotes)) }}
+            </dd>
+          </dl>
+          <dl>
+            <TmBtn
+              v-if="proposal.proposal_status === 'VotingPeriod'"
+              id="vote-btn"
+              :value="connected ? 'Vote' : 'Connecting...'"
+              :disabled="!connected"
+              color="primary"
+              @click.native="() => onVote()"
+            />
+            <TmBtn
+              v-if="proposal.proposal_status === 'DepositPeriod'"
+              id="deposit-btn"
+              :value="connected ? 'Deposit' : 'Connecting...'"
+              :disabled="!connected"
+              color="primary"
+              @click.native="onDeposit"
+            />
+            <TmBtn
+              v-if="proposal.proposal_status === 'Passed'"
+              value="Vote Passed"
+              disabled="disabled"
+              color="primary"
+            />
+            <TmBtn
+              v-if="proposal.proposal_status === 'Rejected'"
+              value="Vote Rejected"
+              disabled="disabled"
+              color="primary"
+            />
           </dl>
         </div>
-        <div v-if="proposal.proposal_status === 'VotingPeriod'" class="row">
-          <dl class="info_dl colored_dl">
+        <div class="row" v-if="proposal.proposal_status !== `DepositPeriod`">
+          <dl>
             <dt>Yes</dt>
             <dd>
-              {{ num.shortDecimals(num.atoms(tally.yes)) }} /
-              {{ yesPercentage }}
+              {{ num.shortDecimals(num.atoms(tally.yes)) }}
+              ({{ yesPercentage }})
             </dd>
           </dl>
-          <dl class="info_dl colored_dl">
+          <dl>
             <dt>No</dt>
             <dd>
-              {{ num.shortDecimals(num.atoms(tally.no)) }} /
-              {{ noPercentage }}
+              {{ num.shortDecimals(num.atoms(tally.no)) }}
+              ({{ noPercentage }})
             </dd>
           </dl>
-          <dl class="info_dl colored_dl">
+          <dl>
             <dt>No with Veto</dt>
             <dd>
-              {{ num.shortDecimals(num.atoms(tally.no_with_veto)) }} /
-              {{ noWithVetoPercentage }}
+              {{ num.shortDecimals(num.atoms(tally.no_with_veto)) }}
+              ({{ noWithVetoPercentage }})
             </dd>
           </dl>
-          <dl class="info_dl colored_dl">
+          <dl>
             <dt>Abstain</dt>
             <dd>
-              {{ num.shortDecimals(num.atoms(tally.abstain)) }} /
-              {{ abstainPercentage }}
+              {{ num.shortDecimals(num.atoms(tally.abstain)) }}
+              ({{ abstainPercentage }})
             </dd>
           </dl>
         </div>
         <div class="row">
           <div class="column">
-            <dl class="info_dl colored_dl">
+            <dl>
               <dt>Description</dt>
               <TextBlock :content="description" />
             </dl>
@@ -187,7 +184,8 @@ export default {
       `wallet`,
       `votes`,
       `governanceParameters`,
-      `session`
+      `session`,
+      `pool`
     ]),
     proposal({ proposals, proposalId } = this) {
       return proposals.proposals[proposalId]
@@ -199,7 +197,7 @@ export default {
       return proposal.proposal_content.value.description
     },
     submittedAgo({ proposal } = this) {
-      return moment(new Date(proposal.submit_time)).fromNow()
+      return moment(proposal.submit_time).format("MMMM Do YYYY, HH:mm")
     },
     endDate({ proposal } = this) {
       return moment(proposal.voting_end_time).format("MMMM Do YYYY, HH:mm")
@@ -216,20 +214,7 @@ export default {
       }
     },
     votingStartedAgo({ proposal } = this) {
-      return moment(new Date(proposal.voting_start_time)).fromNow()
-    },
-    proposalStatus({ proposal, depositEndsIn, votingStartedAgo } = this) {
-      if (proposal.proposal_status === "DepositPeriod") {
-        return `Deposit period ends ${depositEndsIn}`
-      } else if (proposal.proposal_status === "VotingPeriod") {
-        return `Voting started ${votingStartedAgo}`
-      } else if (proposal.proposal_status === "Rejected") {
-        return "Rejected"
-      } else if (proposal.proposal_status === "Passed") {
-        return "Passed"
-      } else {
-        return false
-      }
+      return moment(proposal.voting_start_time).format("MMMM Do YYYY, HH:mm")
     },
     depositEndsIn({ proposal } = this) {
       return moment(new Date(proposal.deposit_end_time)).fromNow()
@@ -265,31 +250,34 @@ export default {
         no_with_veto: no_with_veto || BigNumber(0)
       }
     },
-    status({ proposal } = this) {
-      if (proposal.proposal_status === `Passed`)
-        return {
-          message: `This proposal has passed`
-        }
-      if (proposal.proposal_status === `Rejected`)
-        return {
-          message: `This proposal has been rejected and voting is closed`,
-          color: `red`
-        }
-      if (proposal.proposal_status === `DepositPeriod`)
-        return {
-          message: `Deposits are open for this proposal`,
-          color: `yellow`
-        }
-      if (proposal.proposal_status === `VotingPeriod`)
-        return {
-          message: `Voting for this proposal is open`,
-          color: `green`
-        }
-      else
-        return {
-          message: `There was an error determining the status of this proposal.`,
-          color: `grey`
-        }
+    status() {
+      switch (this.proposal.proposal_status) {
+        case `Passed`:
+          return {
+            badge: `Passed`,
+            color: `green`
+          }
+        case `Rejected`:
+          return {
+            badge: `Rejected`,
+            color: `red`
+          }
+        case `DepositPeriod`:
+          return {
+            badge: `Deposit Period`,
+            color: `orange`
+          }
+        case `VotingPeriod`:
+          return {
+            badge: `Voting Period`,
+            color: `pink`
+          }
+        default:
+          return {
+            badge: `Error`,
+            color: `grey`
+          }
+      }
     },
     totalDeposit() {
       return this.proposal.total_deposit
@@ -322,14 +310,3 @@ export default {
   }
 }
 </script>
-<style>
-.proposal-id {
-  display: block;
-  background: var(--app-nav);
-  height: 8rem;
-  width: 9rem;
-  margin: 1rem 2rem 1rem 1rem;
-  padding: 1rem;
-  font-style: italic;
-}
-</style>
