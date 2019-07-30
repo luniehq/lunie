@@ -38,7 +38,6 @@
       </div>
     </td>
     <td
-      class="li-validator__delegated-steak"
       :class="{ 'hide-xs': xsProp !== 'my_delegations' }"
     >
       {{
@@ -48,7 +47,6 @@
       }}
     </td>
     <td
-      class="li-validator__rewards"
       :class="{ 'hide-xs': xsProp !== 'rewards' }"
     >
       {{
@@ -58,25 +56,21 @@
       }}
     </td>
     <td
-      class="li-validator__voting-power"
       :class="{ 'hide-xs': xsProp !== 'voting-power' }"
     >
       {{ validator.tokens ? percentOfVotingPower : `--` }}
     </td>
     <td
-      class="li-validator__commission"
       :class="{ 'hide-xs': xsProp !== 'commission' }"
     >
       {{ validator.commission ? num.percent(validator.commission) : `--` }}
     </td>
     <td
-      class="li-validator__uptime"
       :class="{ 'hide-xs': xsProp !== 'uptime' }"
     >
       {{ validator.uptime ? num.percent(validator.uptime) : `--` }}
     </td>
     <td
-      class="li-validator__returns"
       :class="{ 'hide-xs': xsProp !== 'expectedReturns' }"
     >
       {{

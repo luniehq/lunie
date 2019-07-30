@@ -17,7 +17,7 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex"
+import { mapGetters, mapState } from "vuex"
 import num from "scripts/num"
 import orderBy from "lodash.orderby"
 import LiValidator from "staking/LiValidator"
@@ -58,15 +58,17 @@ export default {
       `bondDenom`,
       `keybase`,
       `pool`,
-      `minting`,
       `lastHeader`
     ]),
+    ...mapState({
+      annualProvision: state => state.minting.annualProvision
+    }),
     enrichedValidators(
       {
         validators,
         delegates: { signingInfos },
         pool,
-        minting,
+        annualProvision,
         committedDelegations,
         keybase,
         session,
@@ -95,11 +97,11 @@ export default {
             ? (rollingWindow - signingInfo.missed_blocks_counter) /
               rollingWindow
             : 0,
-          expectedReturns: minting.annualProvision
+          expectedReturns: annualProvision
             ? expectedReturns(
                 v,
                 parseInt(pool.pool.bonded_tokens),
-                parseFloat(minting.annualProvision)
+                parseFloat(annualProvision)
               )
             : undefined
         })
