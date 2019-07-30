@@ -1,1 +1,0 @@
-[Fixed] [#2843](https://github.com/cosmos/lunie/issues/2843) The cache was not cleared on a sign in if already signed in @faboweb
