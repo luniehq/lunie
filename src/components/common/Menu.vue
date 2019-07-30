@@ -19,12 +19,12 @@ export default {
     links: [
       {
         icon: "account_balance_wallet",
-        route: "/staking/my-delegations",
+        route: "/portfolio",
         title: "Portfolio"
       },
       {
         icon: "add_box",
-        route: "/staking/validators",
+        route: "/validators",
         title: "Validators"
       },
       {
@@ -34,7 +34,7 @@ export default {
       },
       {
         icon: "how_to_vote",
-        route: "/governance/proposals",
+        route: "/proposals",
         title: "Proposals"
       }
     ]

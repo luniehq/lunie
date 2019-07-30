@@ -1,5 +1,5 @@
 <template>
-  <v-footer :padless="true" :fixed="true">
+  <v-footer :padless="true" :fixed="true" dark>
     <v-card flat tile width="100%" class="text-center">
       <v-card-text>
         <v-btn

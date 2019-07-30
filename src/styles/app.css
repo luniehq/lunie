@@ -122,4 +122,12 @@ input.tm-field {
     display: flex;
     min-width: 0;
   }
+
+  .v-content {
+    margin-bottom: 0;
+  }
+}
+
+.v-content {
+  margin-bottom: 3rem;
 }

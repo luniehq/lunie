@@ -19,10 +19,6 @@
         <router-view></router-view>
       </v-container>
     </v-content>
-
-    <v-footer app>
-      <!-- -->
-    </v-footer>
     <TmNotifications :notifications="notifications" />
   </v-app>
 </template>
