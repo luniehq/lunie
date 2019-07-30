@@ -10,11 +10,9 @@
     </div>
     <div class="li-tx__content__information">
       Monikor&nbsp;
-      <router-link
-        :to="`staking/validators/${transaction.value.validator_address}`"
-      >
+      <router-link :to="`staking/validators/${transaction.value.validator_address}`">
         {{
-          validators[transaction.value.validator_address].description.moniker
+        validators[transaction.value.validator_address].description.moniker
         }}
       </router-link>
     </div>
@@ -46,7 +44,7 @@ export default {
       required: true
     }
   },
-  methods: {
+  computed: {
     timeDiff() {
       // TODO
       return `(liquid ${moment().fromNow()})`
