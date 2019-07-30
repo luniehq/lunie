@@ -137,6 +137,8 @@ export default {
       return this.fromOptions[this.selectedIndex].address
     },
     transactionData() {
+      if (!this.from) return {}
+
       if (this.from === this.modalContext.userAddress) {
         return {
           type: transaction.DELEGATE,

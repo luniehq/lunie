@@ -2,13 +2,14 @@
   <div>
     <table class="data-table">
       <thead>
-        <PanelSort :sort="sort" :properties="properties" />
+        <PanelSort :sort="sort" :properties="properties" :xs-prop="xsProp" />
       </thead>
       <tbody>
         <LiValidator
           v-for="validator in sortedEnrichedValidators"
           :key="validator.operator_address"
           :validator="validator"
+          :xs-prop="xsProp"
         />
       </tbody>
     </table>
@@ -22,6 +23,7 @@ import orderBy from "lodash.orderby"
 import LiValidator from "staking/LiValidator"
 import PanelSort from "staking/PanelSort"
 import BN from "bignumber.js"
+import { expectedReturns } from "src/filters"
 export default {
   name: `table-validators`,
   components: {
@@ -32,6 +34,10 @@ export default {
     validators: {
       type: Array,
       required: true
+    },
+    xsProp: {
+      type: String,
+      default: () => "returns"
     }
   },
   data: () => ({
@@ -52,6 +58,7 @@ export default {
       `bondDenom`,
       `keybase`,
       `pool`,
+      `minting`,
       `lastHeader`
     ]),
     enrichedValidators(
@@ -59,6 +66,7 @@ export default {
         validators,
         delegates: { signingInfos },
         pool,
+        minting,
         committedDelegations,
         keybase,
         session,
@@ -86,7 +94,14 @@ export default {
           uptime: signingInfo
             ? (rollingWindow - signingInfo.missed_blocks_counter) /
               rollingWindow
-            : 0
+            : 0,
+          expectedReturns: minting.annualProvision
+            ? expectedReturns(
+                v,
+                parseInt(pool.pool.bonded_tokens),
+                parseFloat(minting.annualProvision)
+              )
+            : undefined
         })
       })
     },
@@ -130,6 +145,11 @@ export default {
           title: `Uptime`,
           value: `uptime`,
           tooltip: `Ratio of blocks signed within the last 10k blocks`
+        },
+        {
+          title: `Returns`,
+          value: `expectedReturns`,
+          tooltip: `Approximate annualized return if validator is never punished`
         }
       ]
     },
@@ -158,6 +178,18 @@ export default {
     this.$store.dispatch(`getPool`)
     this.$store.dispatch(`updateDelegates`)
     this.$store.dispatch(`getRewardsFromMyValidators`)
+    this.$store.dispatch(`getMintingParameters`)
   }
 }
 </script>
+<style scoped>
+@media screen and (max-width: 550px) {
+  .data-table td {
+    overflow: hidden;
+  }
+
+  .data-table__row__info {
+    max-width: 22rem;
+  }
+}
+</style>

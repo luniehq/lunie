@@ -72,6 +72,10 @@
               </dd>
               <dd v-else>--</dd>
             </dl>
+            <dl class="info_dl colored_dl">
+              <dt>Expected Returns</dt>
+              <dd>{{ num.percent(returns) }}</dd>
+            </dl>
           </div>
 
           <div class="row row-unjustified">
@@ -201,7 +205,7 @@ import moment from "moment"
 import { calculateTokens } from "scripts/common"
 import { mapGetters } from "vuex"
 import num, { atoms, viewDenom, shortDecimals } from "scripts/num"
-import { formatBech32 } from "src/filters"
+import { formatBech32, expectedReturns } from "src/filters"
 import TmBtn from "common/TmBtn"
 import { ratToBigNumber } from "scripts/common"
 import DelegationModal from "src/ActionModal/components/DelegationModal"
@@ -241,7 +245,8 @@ export default {
       `liquidAtoms`,
       `session`,
       `connected`,
-      `pool`
+      `pool`,
+      `minting`
     ]),
     validator() {
       const validator = this.delegates.delegates.find(
@@ -299,6 +304,13 @@ export default {
       return neverHappened || updateTime === `0001-01-01T00:00:00Z`
         ? `--`
         : moment(dateTime).fromNow()
+    },
+    returns() {
+      return expectedReturns(
+        this.validator,
+        parseInt(this.pool.pool.bonded_tokens),
+        parseFloat(this.minting.annualProvision)
+      )
     },
     status() {
       // status: jailed

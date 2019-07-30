@@ -10,7 +10,7 @@ exports[`TableProposals has the expected html structure 1`] = `
         class="panel-sort-container"
       >
         <th
-          class="panel-sort-table-header sort-by"
+          class="panel-sort-table-header sort-by hide-xs"
         >
           <a
             class="sort-by-link"
@@ -25,7 +25,7 @@ exports[`TableProposals has the expected html structure 1`] = `
           </a>
         </th>
         <th
-          class="panel-sort-table-header sort-by"
+          class="panel-sort-table-header sort-by hide-xs"
         >
           <a
             class="sort-by-link"
@@ -40,7 +40,7 @@ exports[`TableProposals has the expected html structure 1`] = `
           </a>
         </th>
         <th
-          class="panel-sort-table-header sort-by"
+          class="panel-sort-table-header sort-by hide-xs"
         >
           <a
             class="sort-by-link"
@@ -55,7 +55,7 @@ exports[`TableProposals has the expected html structure 1`] = `
           </a>
         </th>
         <th
-          class="panel-sort-table-header sort-by"
+          class="panel-sort-table-header sort-by hide-xs"
         >
           <a
             class="sort-by-link"
@@ -70,7 +70,7 @@ exports[`TableProposals has the expected html structure 1`] = `
           </a>
         </th>
         <th
-          class="panel-sort-table-header sort-by"
+          class="panel-sort-table-header sort-by hide-xs"
         >
           <a
             class="sort-by-link"
@@ -85,7 +85,7 @@ exports[`TableProposals has the expected html structure 1`] = `
           </a>
         </th>
         <th
-          class="panel-sort-table-header sort-by"
+          class="panel-sort-table-header sort-by hide-xs"
         >
           <a
             class="sort-by-link"
@@ -394,7 +394,7 @@ exports[`TableProposals should filter the proposals 1`] = `
         class="panel-sort-container"
       >
         <th
-          class="panel-sort-table-header sort-by"
+          class="panel-sort-table-header sort-by hide-xs"
         >
           <a
             class="sort-by-link"
@@ -409,7 +409,7 @@ exports[`TableProposals should filter the proposals 1`] = `
           </a>
         </th>
         <th
-          class="panel-sort-table-header sort-by"
+          class="panel-sort-table-header sort-by hide-xs"
         >
           <a
             class="sort-by-link"
@@ -424,7 +424,7 @@ exports[`TableProposals should filter the proposals 1`] = `
           </a>
         </th>
         <th
-          class="panel-sort-table-header sort-by"
+          class="panel-sort-table-header sort-by hide-xs"
         >
           <a
             class="sort-by-link"
@@ -439,7 +439,7 @@ exports[`TableProposals should filter the proposals 1`] = `
           </a>
         </th>
         <th
-          class="panel-sort-table-header sort-by"
+          class="panel-sort-table-header sort-by hide-xs"
         >
           <a
             class="sort-by-link"
@@ -454,7 +454,7 @@ exports[`TableProposals should filter the proposals 1`] = `
           </a>
         </th>
         <th
-          class="panel-sort-table-header sort-by"
+          class="panel-sort-table-header sort-by hide-xs"
         >
           <a
             class="sort-by-link"
@@ -469,7 +469,7 @@ exports[`TableProposals should filter the proposals 1`] = `
           </a>
         </th>
         <th
-          class="panel-sort-table-header sort-by"
+          class="panel-sort-table-header sort-by hide-xs"
         >
           <a
             class="sort-by-link"

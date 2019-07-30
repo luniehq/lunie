@@ -101,14 +101,6 @@ export default ({ node }) => {
         state.loading = false
         state.loaded = true
 
-        // the tokens and shares are currently served in a weird format that is a amino representation of a float value
-        validators = validators.map(validator => {
-          return Object.assign(JSON.parse(JSON.stringify(validator)), {
-            tokens: validator.tokens,
-            delegator_shares: validator.delegator_shares
-          })
-        })
-
         commit(`setDelegates`, validators)
         commit(`setDelegateLoading`, false)
         dispatch(`updateSigningInfo`, validators)

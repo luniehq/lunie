@@ -1,7 +1,7 @@
 <template>
   <div>
     <div v-if="delegation.loaded && yourValidators.length > 0">
-      <TableValidators :validators="yourValidators" />
+      <TableValidators :validators="yourValidators" xs-prop="my_delegations" />
     </div>
     <TmDataMsg
       v-else-if="yourValidators.length === 0"

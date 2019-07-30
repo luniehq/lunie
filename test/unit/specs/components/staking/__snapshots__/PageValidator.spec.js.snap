@@ -96,6 +96,18 @@ exports[`PageValidator shows a validator profile information errors signing info
               --
             </dd>
           </dl>
+           
+          <dl
+            class="info_dl colored_dl"
+          >
+            <dt>
+              Expected Returns
+            </dt>
+             
+            <dd>
+              226.19%
+            </dd>
+          </dl>
         </div>
          
         <div
@@ -422,6 +434,18 @@ exports[`PageValidator shows a validator profile information if user has signed 
               --
             </dd>
           </dl>
+           
+          <dl
+            class="info_dl colored_dl"
+          >
+            <dt>
+              Expected Returns
+            </dt>
+             
+            <dd>
+              226.19%
+            </dd>
+          </dl>
         </div>
          
         <div
@@ -746,6 +770,18 @@ exports[`PageValidator shows a validator profile information if user hasn't sign
              
             <dd>
               --
+            </dd>
+          </dl>
+           
+          <dl
+            class="info_dl colored_dl"
+          >
+            <dt>
+              Expected Returns
+            </dt>
+             
+            <dd>
+              226.19%
             </dd>
           </dl>
         </div>

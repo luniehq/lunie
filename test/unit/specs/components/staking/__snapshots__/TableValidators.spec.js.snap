@@ -1,26 +1,30 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`TableValidators has the expected html structure 1`] = `
+exports[`TableValidators shows a validator table 1`] = `
 <div>
   <table
     class="data-table"
   >
     <thead>
       <panelsort-stub
-        properties="[object Object],[object Object],[object Object],[object Object],[object Object],[object Object]"
+        properties="[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object]"
         sort="[object Object]"
+        xsprop="returns"
       />
     </thead>
      
     <tbody>
       <livalidator-stub
         validator="[object Object]"
+        xsprop="returns"
       />
       <livalidator-stub
         validator="[object Object]"
+        xsprop="returns"
       />
       <livalidator-stub
         validator="[object Object]"
+        xsprop="returns"
       />
     </tbody>
   </table>
