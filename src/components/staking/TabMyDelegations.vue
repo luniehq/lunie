@@ -2,7 +2,7 @@
   <div>
     <CardSignInRequired v-if="!session.signedIn" />
     <div v-else-if="delegation.loaded && yourValidators.length > 0">
-      <TableValidators :validators="yourValidators" xs-prop="my_delegations" />
+      <TableValidators :validators="yourValidators" show-on-mobile="my_delegations" />
     </div>
     <TmDataConnecting v-else-if="!delegation.loaded && !connected" />
     <TmDataLoading v-else-if="!delegation.loaded && delegation.loading" />

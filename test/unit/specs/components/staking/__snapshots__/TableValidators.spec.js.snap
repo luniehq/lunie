@@ -9,22 +9,22 @@ exports[`TableValidators shows a validator table 1`] = `
       <panelsort-stub
         properties="[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object]"
         sort="[object Object]"
-        xsprop="returns"
+        showOnMobile="returns"
       />
     </thead>
      
     <tbody>
       <livalidator-stub
         validator="[object Object]"
-        xsprop="returns"
+        showOnMobile="returns"
       />
       <livalidator-stub
         validator="[object Object]"
-        xsprop="returns"
+        showOnMobile="returns"
       />
       <livalidator-stub
         validator="[object Object]"
-        xsprop="returns"
+        showOnMobile="returns"
       />
     </tbody>
   </table>

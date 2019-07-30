@@ -2,14 +2,14 @@
   <div>
     <table class="data-table">
       <thead>
-        <PanelSort :sort="sort" :properties="properties" :xs-prop="xsProp" />
+        <PanelSort :sort="sort" :properties="properties" :show-on-mobile="showOnMobile" />
       </thead>
       <tbody>
         <LiValidator
           v-for="validator in sortedEnrichedValidators"
           :key="validator.operator_address"
           :validator="validator"
-          :xs-prop="xsProp"
+          :show-on-mobile="showOnMobile"
         />
       </tbody>
     </table>
@@ -35,7 +35,7 @@ export default {
       type: Array,
       required: true
     },
-    xsProp: {
+    showOnMobile: {
       type: String,
       default: () => "returns"
     }

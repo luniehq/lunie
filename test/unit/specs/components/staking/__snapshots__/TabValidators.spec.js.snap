@@ -4,7 +4,7 @@ exports[`TabValidators shows a list of validators 1`] = `
 <div>
   <tablevalidators-stub
     validators="[object Object],[object Object],[object Object]"
-    xsprop="expectedReturns"
+    showOnMobile="expectedReturns"
   />
 </div>
 `;
