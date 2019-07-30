@@ -23,7 +23,7 @@ import orderBy from "lodash.orderby"
 import LiValidator from "staking/LiValidator"
 import PanelSort from "staking/PanelSort"
 import BN from "bignumber.js"
-import { expectedReturns } from "src/filters"
+import { expectedReturns } from "scripts/returns"
 export default {
   name: `table-validators`,
   components: {
