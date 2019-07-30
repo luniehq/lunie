@@ -105,7 +105,7 @@ export default {
 
 @media screen and (max-width: 425px) {
   .li-coin {
-    padding: .5rem;
+    padding: 0.5rem;
   }
 
   .li-coin__icon {
