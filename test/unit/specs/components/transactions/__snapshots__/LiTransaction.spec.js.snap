@@ -39,7 +39,7 @@ exports[`LiTransaction should show a network fee 1`] = `
         </span>
          
         <span>
-            - TESTING (Sent via Lunie) 
+           - TESTING (Sent via Lunie)
         </span>
       </div>
     </div>
@@ -49,7 +49,8 @@ exports[`LiTransaction should show a network fee 1`] = `
     >
       <div>
         
-        Network Fee: 
+    Network Fee: 
+    
         <b>
           0.003421
         </b>
@@ -59,17 +60,15 @@ exports[`LiTransaction should show a network fee 1`] = `
         </span>
       </div>
        
-      <div
-        class="li-tx__content__block"
-      >
+      <div>
         <router-link-stub
           to="[object Object]"
         >
-          
-          Block #500  
+          Block #500 
         </router-link-stub>
-        @ 00:00:42
-      
+        
+    @ 00:00:42
+  
       </div>
     </div>
   </div>
@@ -191,7 +190,7 @@ exports[`LiTransaction should show a transaction item 1`] = `
         </span>
          
         <span>
-            - TESTING (Sent via Lunie) 
+           - TESTING (Sent via Lunie)
         </span>
       </div>
     </div>
@@ -201,7 +200,8 @@ exports[`LiTransaction should show a transaction item 1`] = `
     >
       <div>
         
-        Network Fee: 
+    Network Fee: 
+    
         <b>
           0.003421
         </b>
@@ -211,17 +211,15 @@ exports[`LiTransaction should show a transaction item 1`] = `
         </span>
       </div>
        
-      <div
-        class="li-tx__content__block"
-      >
+      <div>
         <router-link-stub
           to="[object Object]"
         >
-          
-          Block #500  
+          Block #500 
         </router-link-stub>
-        @ 00:00:42
-      
+        
+    @ 00:00:42
+  
       </div>
     </div>
   </div>

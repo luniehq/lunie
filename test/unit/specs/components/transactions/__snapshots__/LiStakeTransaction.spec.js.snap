@@ -28,9 +28,7 @@ exports[`LiStakeTransaction create validator with fees 1`] = `
     <router-link-stub
       to="/validator/cosmosvaloper1qecshyc40kshszkwrtscgmsdd8tz3n4hrj9yf2"
     >
-      
-        cosmosvaloper…9yf2
-      
+      cosmosvaloper…9yf2
     </router-link-stub>
   </div>
 </litransaction-stub>
@@ -63,9 +61,7 @@ exports[`LiStakeTransaction create validator without fees 1`] = `
     <router-link-stub
       to="/validator/cosmosvaloper1qecshyc40kshszkwrtscgmsdd8tz3n4hrj9yf2"
     >
-      
-        cosmosvaloper…9yf2
-      
+      cosmosvaloper…9yf2
     </router-link-stub>
   </div>
 </litransaction-stub>
@@ -99,9 +95,7 @@ exports[`LiStakeTransaction delegations with fees 1`] = `
     <router-link-stub
       to="/validator/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
     >
-      
-        mr_mounty
-      
+      mr_mounty
     </router-link-stub>
   </div>
 </litransaction-stub>
@@ -134,9 +128,7 @@ exports[`LiStakeTransaction delegations without fees 1`] = `
     <router-link-stub
       to="/validator/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
     >
-      
-        mr_mounty
-      
+      mr_mounty
     </router-link-stub>
   </div>
 </litransaction-stub>
@@ -151,9 +143,7 @@ exports[`LiStakeTransaction edit validator with fees 1`] = `
   time="1970-01-01T00:00:42.000Z"
 >
   <div>
-    
-      Edit validator
-    
+    Edit validator
   </div>
    
   <div>
@@ -163,9 +153,7 @@ exports[`LiStakeTransaction edit validator with fees 1`] = `
     <router-link-stub
       to="/validator/cosmosvaloper1qecshyc40kshszkwrtscgmsdd8tz3n4hrj9yf2"
     >
-      
-        cosmosvaloper…9yf2
-      
+      cosmosvaloper…9yf2
     </router-link-stub>
   </div>
 </litransaction-stub>
@@ -179,9 +167,7 @@ exports[`LiStakeTransaction edit validator without fees 1`] = `
   time="1970-01-01T00:00:42.000Z"
 >
   <div>
-    
-      Edit validator
-    
+    Edit validator
   </div>
    
   <div>
@@ -191,9 +177,7 @@ exports[`LiStakeTransaction edit validator without fees 1`] = `
     <router-link-stub
       to="/validator/cosmosvaloper1qecshyc40kshszkwrtscgmsdd8tz3n4hrj9yf2"
     >
-      
-        cosmosvaloper…9yf2
-      
+      cosmosvaloper…9yf2
     </router-link-stub>
   </div>
 </litransaction-stub>
@@ -212,9 +196,7 @@ exports[`LiStakeTransaction redelegations with fees 1`] = `
       Redelegated
       
     <b>
-      
-        1
-      
+      1
     </b>
      
     <span>
@@ -229,19 +211,14 @@ exports[`LiStakeTransaction redelegations with fees 1`] = `
     <router-link-stub
       to="/validator/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
     >
-      
-        mr_mounty
-      
+      mr_mounty
     </router-link-stub>
-    
-       to 
+     to 
       
     <router-link-stub
       to="/validator/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au"
     >
-      
-        good_greg
-      
+      good_greg
     </router-link-stub>
   </div>
 </litransaction-stub>
@@ -260,9 +237,7 @@ exports[`LiStakeTransaction redelegations without fees 1`] = `
       Redelegated
       
     <b>
-      
-        1
-      
+      1
     </b>
      
     <span>
@@ -277,19 +252,14 @@ exports[`LiStakeTransaction redelegations without fees 1`] = `
     <router-link-stub
       to="/validator/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
     >
-      
-        mr_mounty
-      
+      mr_mounty
     </router-link-stub>
-    
-       to 
+     to 
       
     <router-link-stub
       to="/validator/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au"
     >
-      
-        good_greg
-      
+      good_greg
     </router-link-stub>
   </div>
 </litransaction-stub>
@@ -308,9 +278,7 @@ exports[`LiStakeTransaction unbonding delegations should default to ended if no 
       Undelegated
       
     <b>
-      
-        1
-      
+      1
     </b>
      
     <span>
@@ -327,9 +295,7 @@ exports[`LiStakeTransaction unbonding delegations should default to ended if no 
     <router-link-stub
       to="/validator/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
     >
-      
-        mr_mounty
-      
+      mr_mounty
     </router-link-stub>
   </div>
 </litransaction-stub>
@@ -348,9 +314,7 @@ exports[`LiStakeTransaction unbonding delegations should show unbonding delegati
       Undelegated
       
     <b>
-      
-        1
-      
+      1
     </b>
      
     <span>
@@ -367,9 +331,7 @@ exports[`LiStakeTransaction unbonding delegations should show unbonding delegati
     <router-link-stub
       to="/validator/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
     >
-      
-        mr_mounty
-      
+      mr_mounty
     </router-link-stub>
   </div>
 </litransaction-stub>
@@ -388,9 +350,7 @@ exports[`LiStakeTransaction unbonding delegations with fees 1`] = `
       Undelegated
       
     <b>
-      
-        1
-      
+      1
     </b>
      
     <span>
@@ -400,9 +360,7 @@ exports[`LiStakeTransaction unbonding delegations with fees 1`] = `
     <span
       class="tx-unbonding__time-diff"
     >
-      
-          (liquid in a few seconds)
-        
+      (liquid in a few seconds)
     </span>
   </div>
    
@@ -413,9 +371,7 @@ exports[`LiStakeTransaction unbonding delegations with fees 1`] = `
     <router-link-stub
       to="/validator/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
     >
-      
-        mr_mounty
-      
+      mr_mounty
     </router-link-stub>
   </div>
 </litransaction-stub>
@@ -434,9 +390,7 @@ exports[`LiStakeTransaction unbonding delegations without fees 1`] = `
       Undelegated
       
     <b>
-      
-        1
-      
+      1
     </b>
      
     <span>
@@ -453,9 +407,7 @@ exports[`LiStakeTransaction unbonding delegations without fees 1`] = `
     <router-link-stub
       to="/validator/cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
     >
-      
-        mr_mounty
-      
+      mr_mounty
     </router-link-stub>
   </div>
 </litransaction-stub>
@@ -470,9 +422,7 @@ exports[`LiStakeTransaction unjail with fees 1`] = `
   time="1970-01-01T00:00:42.000Z"
 >
   <div>
-    
-      Unjail
-    
+    Unjail
   </div>
    
   <div>
@@ -482,9 +432,7 @@ exports[`LiStakeTransaction unjail with fees 1`] = `
     <router-link-stub
       to="/validator/cosmosvaloper1qecshyc40kshszkwrtscgmsdd8tz3n4hrj9yf2"
     >
-      
-        cosmosvaloper…9yf2
-      
+      cosmosvaloper…9yf2
     </router-link-stub>
   </div>
 </litransaction-stub>
@@ -498,9 +446,7 @@ exports[`LiStakeTransaction unjail without fees 1`] = `
   time="1970-01-01T00:00:42.000Z"
 >
   <div>
-    
-      Unjail
-    
+    Unjail
   </div>
    
   <div>
@@ -510,9 +456,7 @@ exports[`LiStakeTransaction unjail without fees 1`] = `
     <router-link-stub
       to="/validator/cosmosvaloper1qecshyc40kshszkwrtscgmsdd8tz3n4hrj9yf2"
     >
-      
-        cosmosvaloper…9yf2
-      
+      cosmosvaloper…9yf2
     </router-link-stub>
   </div>
 </litransaction-stub>
