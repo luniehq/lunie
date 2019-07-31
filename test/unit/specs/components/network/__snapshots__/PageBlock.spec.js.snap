@@ -67,7 +67,6 @@ exports[`PageBlock shows a page with information about a certain block 1`] = `
          
         <transactionlist-stub
           address=""
-          bondingdenom="atom"
         />
          
         <br />
@@ -224,7 +223,6 @@ exports[`PageBlock shows the page when the block hasn't been loaded yet 1`] = `
          
         <transactionlist-stub
           address=""
-          bondingdenom="atom"
         />
          
         <br />
