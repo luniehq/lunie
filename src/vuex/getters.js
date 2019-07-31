@@ -97,7 +97,6 @@ export const bondDenom = getters =>
   (getters.stakingParameters.parameters &&
     getters.stakingParameters.parameters.bond_denom) ||
   `uatom`
-export const minting = state => state.minting
 
 // governance
 export const proposals = state => state.proposals

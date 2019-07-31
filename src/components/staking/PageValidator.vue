@@ -202,9 +202,10 @@
 <script>
 import moment from "moment"
 import { calculateTokens } from "scripts/common"
-import { mapGetters } from "vuex"
+import { mapGetters, mapState } from "vuex"
 import num, { atoms, viewDenom, shortDecimals } from "scripts/num"
-import { formatBech32, expectedReturns } from "src/filters"
+import { formatBech32 } from "src/filters"
+import { expectedReturns } from "scripts/returns"
 import TmBtn from "common/TmBtn"
 import { ratToBigNumber } from "scripts/common"
 import DelegationModal from "src/ActionModal/components/DelegationModal"
@@ -244,9 +245,11 @@ export default {
       `liquidAtoms`,
       `session`,
       `connected`,
-      `pool`,
-      `minting`
+      `pool`
     ]),
+    ...mapState({
+      annualProvision: state => state.minting.annualProvision
+    }),
     validator() {
       const validator = this.delegates.delegates.find(
         v => this.$route.params.validator === v.operator_address
@@ -308,7 +311,7 @@ export default {
       return expectedReturns(
         this.validator,
         parseInt(this.pool.pool.bonded_tokens),
-        parseFloat(this.minting.annualProvision)
+        parseFloat(this.annualProvision)
       )
     },
     status() {

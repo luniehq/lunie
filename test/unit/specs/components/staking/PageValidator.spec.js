@@ -79,9 +79,6 @@ const getters = {
     pool: {
       bonded_tokens: 4200
     }
-  },
-  minting: {
-    annualProvision: 10000
   }
 }
 
@@ -94,6 +91,11 @@ describe(`PageValidator`, () => {
     $store = {
       commit: jest.fn(),
       dispatch: jest.fn(),
+      state: {
+        minting: {
+          annualProvision: "100"
+        }
+      },
       getters: JSON.parse(JSON.stringify(getters)) // clone to be safe we don't overwrite
     }
     wrapper = shallowMount(PageValidator, {
