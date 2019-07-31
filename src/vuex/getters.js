@@ -89,9 +89,12 @@ export const blockTransactions = state => {
   return blockTx
 }
 
+const isPendingUndelegation = tx =>
+  !isNaN(tx.timeDiff) && tx.type === messageTypes.UNDELEGAET
+
 export const pendingUndelegations = (state, getters) => {
   const allTx = getters.flatOrderedTransactionList
-  const pendingTx = allTx.filter(tx => !isNaN(tx.timeDiff))
+  const pendingTx = allTx.filter(isPendingUndelegation)
   console.log(pendingTx)
   return pendingTx
 }

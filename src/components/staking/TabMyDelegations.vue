@@ -34,7 +34,6 @@
 <script>
 import { mapGetters } from "vuex"
 import { viewDenom } from "scripts/num"
-import LiAnyTransaction from "../transactions/LiAnyTransaction"
 import TmDataMsg from "common/TmDataMsg"
 import CardSignInRequired from "common/CardSignInRequired"
 import TmDataLoading from "common/TmDataLoading"
