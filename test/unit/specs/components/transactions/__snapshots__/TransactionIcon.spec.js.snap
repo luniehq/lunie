@@ -1,0 +1,22 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TransactionIcon has the expected html structure 1`] = `
+<div
+  class="li-tx__icon"
+  group="banking"
+>
+  <img
+    src="~assets/images/cosmos-logo.png"
+  />
+</div>
+`;
+
+exports[`TransactionList has the expected html structure 1`] = `
+<div>
+  <transactionitem-stub
+    address="cosmos1"
+    transaction="[object Object]"
+    validators="[object Object]"
+  />
+</div>
+`;
