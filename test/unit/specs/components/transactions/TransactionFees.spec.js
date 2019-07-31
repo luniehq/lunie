@@ -7,8 +7,7 @@ describe(`TransactionFees`, () => {
   beforeEach(() => {
     wrapper = shallowMount(TransactionFees, {
       propsData: {
-        time:
-          "Thu Jul 18 2019 12:03:11 GMT+0200 (Central European Summer Time)",
+        time: new Date("2019-07-31"),
         block: 1234567,
         fees: {
           amount: "1234",
