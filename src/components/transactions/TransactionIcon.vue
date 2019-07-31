@@ -1,43 +1,16 @@
 <template>
   <div class="li-tx__icon">
-    <img :class="group" src="~assets/images/cosmos-logo.png" />
+    <img :class="transactionGroup" src="~assets/images/cosmos-logo.png" />
   </div>
 </template>
 
 <script>
-import msgType from "./messageTypes.js"
-
 export default {
   name: `transaction-icon`,
   props: {
-    transactionType: {
+    transactionGroup: {
       type: String,
       required: true
-    }
-  },
-  computed: {
-    group() {
-      switch (this.transactionType) {
-        case msgType.SEND:
-          return `banking`
-        case msgType.CREATE_VALIDATOR:
-        case msgType.EDIT_VALIDATOR:
-        case msgType.DELEGATE:
-        case msgType.UNDELEGATE:
-        case msgType.BEGIN_REDELEGATE:
-        case msgType.UNJAIL:
-          return `staking`
-        case msgType.SUBMIT_PROPOSAL:
-        case msgType.DEPOSIT:
-        case msgType.VOTE:
-          return `governance`
-        case msgType.SET_WITHDRAW_ADDRESS:
-        case msgType.WITHDRAW_DELEGATION_REWARD:
-        case msgType.WITHDRAW_VALIDATOR_COMMISSION:
-          return `distribution`
-        default:
-          return ``
-      }
     }
   }
 }

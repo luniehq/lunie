@@ -1,12 +1,7 @@
 <template>
   <div class="li-tx">
-    <TransactionIcon :transaction-type="transaction.type"></TransactionIcon>
-    <TransactionDetails
-      :transaction="transaction"
-      :validators="validators"
-      :address="address"
-    >
-    </TransactionDetails>
+    <TransactionIcon :transaction-group="transaction.group"></TransactionIcon>
+    <TransactionDetails :transaction="transaction" :validators="validators" :address="address"></TransactionDetails>
   </div>
 </template>
 

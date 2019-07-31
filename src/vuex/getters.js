@@ -1,5 +1,7 @@
 import BN from "bignumber.js"
 import { calculateTokens } from "scripts/common"
+import { getUnbondTimeFromTX } from "scripts/time"
+import { transactionGroup } from "src/components/transactions/messageTypes"
 
 // ui
 export const filters = state => state.filters
@@ -50,6 +52,14 @@ const makeTxObject = (x, fees, memo, time, height) => {
   }
 }
 
+const addTransactionTypeData = state => tx => {
+  return {
+    ...tx,
+    group: transactionGroup[tx.type],
+    timeDiff: getUnbondTimeFromTX(tx, state.delegation.unbondingDelegations)
+  }
+}
+
 const flattenTransactionMsgs = (acc, curTxList) => {
   const fees = getFees(curTxList)
   const memo = curTxList.tx.value.memo
@@ -61,6 +71,7 @@ const flattenTransactionMsgs = (acc, curTxList) => {
 
 export const flatOrderedTransactionList = (state, getters) => {
   let allTx = getters.allTransactions.reduce(flattenTransactionMsgs, [])
+  allTx = allTx.map(addTransactionTypeData(state))
   allTx.sort(compareBlockTimeDesc)
   console.log("allTxs sort rev", allTx)
   return allTx
@@ -71,6 +82,7 @@ export const blockTransactions = state => {
     flattenTransactionMsgs,
     []
   )
+  blockTx = blockTx.map(addTransactionTypeData(state))
   console.log("blockTransactions", blockTx)
   return blockTx
 }

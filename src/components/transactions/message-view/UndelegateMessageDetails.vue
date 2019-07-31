@@ -5,16 +5,14 @@
         Undelegated
         <b>{{ coin.amount | atoms | prettyLong }}</b>
         <span>{{ coin.denom | viewDenom }}</span>
-        <span class="tx-unbonding__time-diff">{{ timeDiff }}</span>
+        <span v-if="transaction.timeDiff" class="tx-unbonding__time-diff">{{ transaction.timeDiff }}</span>
       </p>
     </div>
     <div class="li-tx__content__information">
       Monikor&nbsp;
-      <router-link
-        :to="`staking/validators/${transaction.value.validator_address}`"
-      >
+      <router-link :to="`staking/validators/${transaction.value.validator_address}`">
         {{
-          validators[transaction.value.validator_address].description.moniker
+        validators[transaction.value.validator_address].description.moniker
         }}
       </router-link>
     </div>

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Tx
+    <TransactionItem
       v-for="msg in transactions"
       :key="msg.key"
       :transaction="msg"
@@ -12,14 +12,13 @@
 
 <script>
 // import TransactionItem from "./TransactionItem"
-import Tx from "./Tx"
+import TransactionItem from "./TransactionItem"
 import { getUnbondTimeFromTX } from "scripts/time"
 
 export default {
   name: `transaction-list`,
   components: {
-    // TransactionItem,
-    Tx
+    TransactionItem
   },
   props: {
     validatorsUrl: {
