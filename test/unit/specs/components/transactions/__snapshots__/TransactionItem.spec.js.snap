@@ -2,7 +2,7 @@
 
 exports[`TransactionItem has the expected html structure 1`] = `
 <div
-  class="li-tx"
+  class="tx"
 >
   <transactionicon-stub
     transactiongroup="banking"
