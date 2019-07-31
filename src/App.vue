@@ -48,11 +48,6 @@ export default {
   computed: {
     ...mapGetters([`notifications`])
   },
-  methods: {
-    signOut() {
-      this.$store.dispatch("signOut")
-    }
-  },
   store
 }
 </script>

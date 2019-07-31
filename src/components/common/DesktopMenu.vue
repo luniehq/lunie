@@ -111,10 +111,6 @@ export default {
           const delegator = this.delegates.delegates.find(
             d => d.operator_address === delegatorAddress
           )
-          if (!delegator) {
-            // should not happen
-            return total
-          }
           return total.plus(calculateTokens(delegator, shares))
         },
         BN(0)

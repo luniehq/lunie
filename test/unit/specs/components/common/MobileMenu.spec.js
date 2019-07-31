@@ -22,7 +22,10 @@ describe(`MobileMenu`, () => {
       },
       stubs: [
         `router-link`,
+        `v-footer`,
         `v-divider`,
+        `v-card`,
+        `v-card-text`,
         `v-navigation-drawer`,
         `v-list`,
         `v-list-item`,
