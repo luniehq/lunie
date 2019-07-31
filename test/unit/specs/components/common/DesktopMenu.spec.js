@@ -53,7 +53,18 @@ describe(`DesktopMenu`, () => {
 
     wrapper = shallowMount(DesktopMenu, {
       props: {
-        links: []
+        links: [
+          {
+            icon: "account_balance_wallet",
+            route: "/portfolio",
+            title: "Portfolio"
+          },
+          {
+            icon: "add_box",
+            route: "/validators",
+            title: "Validators"
+          }
+        ]
       },
       mocks: {
         $store

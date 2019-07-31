@@ -1,0 +1,18 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`MobileMenu should show a mobile menu 1`] = `
+<v-footer
+  dark=""
+  fixed="true"
+  padless="true"
+>
+  <v-card
+    class="text-center"
+    flat=""
+    tile=""
+    width="100%"
+  >
+    <v-card-text />
+  </v-card>
+</v-footer>
+`;
