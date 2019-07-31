@@ -10,6 +10,9 @@ describe(`TmSessionExisting`, () => {
         insecureMode: false,
         browserWithLedgerSupport: null
       },
+      extension: {
+        enabled: true
+      },
       keystore: {
         accounts: []
       },

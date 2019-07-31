@@ -88,21 +88,12 @@ describe(`Module: Session`, () => {
   })
 
   it(`should clear all session related data`, () => {
-    state.history = [`x`]
+    state.history = [`/x`]
     const commit = jest.fn()
     actions.resetSessionData({ state, commit })
 
-    expect(state.history).toEqual([])
-  })
-
-  it(`should prepare the signin`, async () => {
-    const dispatch = jest.fn()
-    state.accounts = [{}]
-    await actions.showInitialScreen({
-      state,
-      dispatch
-    })
-    expect(dispatch).toHaveBeenCalledWith(`resetSessionData`)
+    expect(state.history).toEqual(["/"])
+    expect(localStorage.getItem(`session`)).toBeNull()
   })
 
   describe(`Signs in`, () => {
@@ -171,6 +162,19 @@ describe(`Module: Session`, () => {
         `explore`
       )
     })
+
+    it("should sign out before signing in to bust caches", async () => {
+      const address = `cosmos1qpd4xgtqmxyf9ktjh757nkdfnzpnkamny3cpzv`
+      const commit = jest.fn()
+      const dispatch = jest.fn()
+      state.signedIn = true
+      await actions.signIn(
+        { state, commit, dispatch },
+        { sessionType: `explore`, address }
+      )
+
+      expect(dispatch).toHaveBeenCalledWith("resetSessionData")
+    })
   })
 
   it(`should sign out`, async () => {
@@ -179,7 +183,6 @@ describe(`Module: Session`, () => {
     await actions.signOut({ state, commit, dispatch })
 
     expect(dispatch).toHaveBeenCalledWith(`resetSessionData`)
-    expect(commit).toHaveBeenCalledWith(`addHistory`, `/`)
     expect(commit).toHaveBeenCalledWith(`setSignIn`, false)
     expect(state.externals.track).toHaveBeenCalled()
   })
@@ -335,12 +338,6 @@ describe(`Module: Session`, () => {
         address: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
         sessionType: `ledger`
       })
-    })
-
-    it(`removes the persisted session on sign out`, async () => {
-      localStorage.setItem(`session`, `xxx`)
-      await actions.signOut({ state, commit: jest.fn(), dispatch: jest.fn() })
-      expect(localStorage.getItem(`session`)).toBeNull()
     })
 
     it(`signs the user in if a session was found`, async () => {
