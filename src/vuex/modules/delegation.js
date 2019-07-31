@@ -72,7 +72,7 @@ export default ({ node }) => {
         // here we check if the user is still the same
         if (rootState.session.address !== address) return
 
-        if (!rootState.delegates.delegates.loaded) {
+        if (!rootState.delegates.loaded) {
           await dispatch("getDelegates")
         }
 

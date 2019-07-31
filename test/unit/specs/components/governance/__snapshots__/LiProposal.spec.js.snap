@@ -37,12 +37,14 @@ exports[`LiProposal has the expected html structure 1`] = `
     </div>
   </td>
    
-  <td>
+  <td
+    class="hide-xs"
+  >
     #1
   </td>
    
   <td
-    class="li-proposal__value yes"
+    class="li-proposal__value yes hide-xs"
   >
     
     84.6%
@@ -50,7 +52,7 @@ exports[`LiProposal has the expected html structure 1`] = `
   </td>
    
   <td
-    class="li-proposal__value no"
+    class="li-proposal__value no hide-xs"
   >
     
     4.23%
@@ -58,7 +60,7 @@ exports[`LiProposal has the expected html structure 1`] = `
   </td>
    
   <td
-    class="li-proposal__value no_with_veto"
+    class="li-proposal__value no_with_veto hide-xs"
   >
     
     1.69%
@@ -66,7 +68,7 @@ exports[`LiProposal has the expected html structure 1`] = `
   </td>
    
   <td
-    class="li-proposal__value abstain"
+    class="li-proposal__value abstain hide-xs"
   >
     
     9.48%
@@ -112,12 +114,14 @@ exports[`LiProposal should survive the tally result not being present yet 1`] = 
     </div>
   </td>
    
-  <td>
+  <td
+    class="hide-xs"
+  >
     #1
   </td>
    
   <td
-    class="li-proposal__value yes"
+    class="li-proposal__value yes hide-xs"
   >
     
     0.01%
@@ -125,7 +129,7 @@ exports[`LiProposal should survive the tally result not being present yet 1`] = 
   </td>
    
   <td
-    class="li-proposal__value no"
+    class="li-proposal__value no hide-xs"
   >
     
     0.01%
@@ -133,7 +137,7 @@ exports[`LiProposal should survive the tally result not being present yet 1`] = 
   </td>
    
   <td
-    class="li-proposal__value no_with_veto"
+    class="li-proposal__value no_with_veto hide-xs"
   >
     
     0.01%
@@ -141,7 +145,7 @@ exports[`LiProposal should survive the tally result not being present yet 1`] = 
   </td>
    
   <td
-    class="li-proposal__value abstain"
+    class="li-proposal__value abstain hide-xs"
   >
     
     0.01%

@@ -3,6 +3,7 @@
 exports[`PageValidator shows a validator profile information errors signing info is missing 1`] = `
 <tmpage-stub
   data-title="Validator"
+  hideheader="true"
   loaded="true"
   managed="true"
   subtitle=""
@@ -13,7 +14,7 @@ exports[`PageValidator shows a validator profile information errors signing info
       class="page-profile__header page-profile__section"
     >
       <div
-        class="row"
+        class="lunie-row"
       >
         <img
           class="avatar"
@@ -68,10 +69,10 @@ exports[`PageValidator shows a validator profile information errors signing info
       </div>
        
       <div
-        class="row"
+        class="lunie-row"
       >
         <div
-          class="row row-unjustified"
+          class="lunie-row lunie-row-unjustified"
         >
           <dl
             class="info_dl colored_dl"
@@ -111,7 +112,7 @@ exports[`PageValidator shows a validator profile information errors signing info
         </div>
          
         <div
-          class="row row-unjustified"
+          class="lunie-row lunie-row-unjustified"
         >
           <dl
             class="info_dl colored_dl"
@@ -168,10 +169,10 @@ exports[`PageValidator shows a validator profile information errors signing info
       class="page-profile__section"
     >
       <div
-        class="row"
+        class="lunie-row"
       >
         <div
-          class="column"
+          class="lunie-column"
         >
           <dl
             class="info_dl"
@@ -252,7 +253,7 @@ exports[`PageValidator shows a validator profile information errors signing info
         </div>
          
         <div
-          class="column"
+          class="lunie-column"
         >
           <dl
             class="info_dl"
@@ -341,6 +342,7 @@ exports[`PageValidator shows a validator profile information errors signing info
 exports[`PageValidator shows a validator profile information if user has signed in 1`] = `
 <tmpage-stub
   data-title="Validator"
+  hideheader="true"
   loaded="true"
   managed="true"
   subtitle=""
@@ -351,7 +353,7 @@ exports[`PageValidator shows a validator profile information if user has signed 
       class="page-profile__header page-profile__section"
     >
       <div
-        class="row"
+        class="lunie-row"
       >
         <img
           class="avatar"
@@ -406,10 +408,10 @@ exports[`PageValidator shows a validator profile information if user has signed 
       </div>
        
       <div
-        class="row"
+        class="lunie-row"
       >
         <div
-          class="row row-unjustified"
+          class="lunie-row lunie-row-unjustified"
         >
           <dl
             class="info_dl colored_dl"
@@ -449,7 +451,7 @@ exports[`PageValidator shows a validator profile information if user has signed 
         </div>
          
         <div
-          class="row row-unjustified"
+          class="lunie-row lunie-row-unjustified"
         >
           <dl
             class="info_dl colored_dl"
@@ -506,10 +508,10 @@ exports[`PageValidator shows a validator profile information if user has signed 
       class="page-profile__section"
     >
       <div
-        class="row"
+        class="lunie-row"
       >
         <div
-          class="column"
+          class="lunie-column"
         >
           <dl
             class="info_dl"
@@ -590,7 +592,7 @@ exports[`PageValidator shows a validator profile information if user has signed 
         </div>
          
         <div
-          class="column"
+          class="lunie-column"
         >
           <dl
             class="info_dl"
@@ -679,6 +681,7 @@ exports[`PageValidator shows a validator profile information if user has signed 
 exports[`PageValidator shows a validator profile information if user hasn't signed in 1`] = `
 <tmpage-stub
   data-title="Validator"
+  hideheader="true"
   loaded="true"
   managed="true"
   subtitle=""
@@ -689,7 +692,7 @@ exports[`PageValidator shows a validator profile information if user hasn't sign
       class="page-profile__header page-profile__section"
     >
       <div
-        class="row"
+        class="lunie-row"
       >
         <img
           class="avatar"
@@ -744,10 +747,10 @@ exports[`PageValidator shows a validator profile information if user hasn't sign
       </div>
        
       <div
-        class="row"
+        class="lunie-row"
       >
         <div
-          class="row row-unjustified"
+          class="lunie-row lunie-row-unjustified"
         >
           <dl
             class="info_dl colored_dl"
@@ -787,7 +790,7 @@ exports[`PageValidator shows a validator profile information if user hasn't sign
         </div>
          
         <div
-          class="row row-unjustified"
+          class="lunie-row lunie-row-unjustified"
         >
           <dl
             class="info_dl colored_dl"
@@ -844,10 +847,10 @@ exports[`PageValidator shows a validator profile information if user hasn't sign
       class="page-profile__section"
     >
       <div
-        class="row"
+        class="lunie-row"
       >
         <div
-          class="column"
+          class="lunie-column"
         >
           <dl
             class="info_dl"
@@ -928,7 +931,7 @@ exports[`PageValidator shows a validator profile information if user hasn't sign
         </div>
          
         <div
-          class="column"
+          class="lunie-column"
         >
           <dl
             class="info_dl"

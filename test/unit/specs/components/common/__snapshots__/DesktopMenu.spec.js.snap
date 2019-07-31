@@ -1,0 +1,59 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`DesktopMenu should show a desktop menu 1`] = `
+<v-navigation-drawer-stub
+  absolute=""
+  dark=""
+  expand-on-hover="true"
+>
+  <v-list-stub
+    class="py-0"
+    dense=""
+    nav=""
+  >
+    <v-list-item-stub
+      two-line=""
+    >
+      <v-list-item-avatar-stub>
+        <v-icon-stub>
+          account_circle
+        </v-icon-stub>
+      </v-list-item-avatar-stub>
+       
+      <v-list-item-content-stub>
+        <v-list-item-title-stub>
+          0.001
+            STAKE
+        </v-list-item-title-stub>
+         
+        <v-list-item-subtitle-stub>
+          0.001
+            STAKE
+        </v-list-item-subtitle-stub>
+      </v-list-item-content-stub>
+    </v-list-item-stub>
+     
+    <v-divider-stub />
+      
+    <v-divider-stub />
+     
+    <v-list-item-stub
+      link=""
+    >
+      <v-list-item-icon-stub>
+        <v-icon-stub>
+          power_settings_new
+        </v-icon-stub>
+      </v-list-item-icon-stub>
+       
+      <v-list-item-content-stub>
+        <v-list-item-title-stub>
+          Sign Out
+        </v-list-item-title-stub>
+      </v-list-item-content-stub>
+    </v-list-item-stub>
+     
+    <connectednetwork-stub />
+  </v-list-stub>
+</v-navigation-drawer-stub>
+`;

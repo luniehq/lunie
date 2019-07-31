@@ -110,16 +110,6 @@ describe(`PageValidator`, () => {
     })
   })
 
-  it("loads validators on mount", () => {
-    const self = {
-      $store: {
-        dispatch: jest.fn()
-      }
-    }
-    PageValidator.mounted.call(self)
-    expect($store.dispatch).toHaveBeenCalledWith("updateDelegates")
-  })
-
   describe(`shows a validator profile information`, () => {
     it(`if user has signed in`, () => {
       expect(wrapper.vm.$el).toMatchSnapshot()

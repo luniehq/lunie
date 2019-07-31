@@ -27,14 +27,3 @@ export default (opts = {}) => {
 
   return store
 }
-
-/**
- * Get a storage key
- * @param state
- * @returns {string}
- */
-export function getStorageKey(state) {
-  const chainId = state.connection.lastHeader.chain_id
-  const address = state.session.address
-  return `store_${chainId}_${address}`
-}

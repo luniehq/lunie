@@ -10,25 +10,72 @@ describe(`DesktopMenu`, () => {
       getters: {
         session: {
           signedIn: true
+        },
+        liquidAtoms: 1000,
+        bondDenom: "stake",
+        committedDelegations: {
+          validator1: 42,
+          validator2: 9
+        },
+        delegation: {
+          unbondingDelegations: {
+            validator1: [
+              {
+                balance: `42`
+              }
+            ],
+            validator2: [
+              {
+                balance: `9`
+              },
+              {
+                balance: `12`
+              }
+            ]
+          }
+        },
+        delegates: {
+          delegates: [
+            {
+              operator_address: `validator1`,
+              delegator_shares: `1000`,
+              tokens: `1000`
+            },
+            {
+              operator_address: `validator2`,
+              delegator_shares: `1000`,
+              tokens: `100`
+            }
+          ]
         }
       }
     }
 
     wrapper = shallowMount(DesktopMenu, {
+      props: {
+        links: []
+      },
       mocks: {
         $store
       },
-      stubs: [`router-link`]
+      stubs: [
+        `router-link`,
+        `v-divider`,
+        `v-navigation-drawer`,
+        `v-list`,
+        `v-list-item`,
+        `v-list-item-title`,
+        `v-list-item-subtitle`,
+        `v-list-item-content`,
+        `v-list-item-avatar`,
+        `v-icon`,
+        `v-list-item-icon`
+      ]
     })
   })
 
-  it(`has a perfect scrollbar`, () => {
-    expect(wrapper.vm.ps).toBeDefined()
-  })
-
-  it(`can close the app menu`, () => {
-    wrapper.find(`#app-menu__wallet`).trigger(`click`)
-    expect(wrapper.emitted().close).toBeTruthy()
+  it("should show a desktop menu", () => {
+    expect(wrapper.element).toMatchSnapshot()
   })
 
   it(`opens the session modal for a sign in`, () => {
@@ -45,10 +92,62 @@ describe(`DesktopMenu`, () => {
     expect($store.dispatch).toHaveBeenCalledWith(`signOut`)
   })
 
-  it(`closes menu on sign out`, () => {
-    const $store = { dispatch: jest.fn() }
-    const self = { $store, $router: { push: jest.fn() }, $emit: jest.fn() }
-    DesktopMenu.methods.signOut.call(self)
-    expect(self.$emit).toHaveBeenCalledWith(`close`)
+  it(`totalAtoms`, () => {
+    const result = DesktopMenu.computed.totalAtoms.call({
+      liquidAtoms: 2,
+      bondedAtoms: `42`,
+      unbondingAtoms: 9
+    })
+
+    expect(result).toBe(`53`)
+  })
+
+  it(`bondedAtoms`, () => {
+    const result = DesktopMenu.computed.bondedAtoms.call({
+      committedDelegations: {
+        validator1: 42,
+        validator2: 9
+      },
+      delegates: {
+        delegates: [
+          {
+            operator_address: `validator1`,
+            delegator_shares: `1000`,
+            tokens: `1000`
+          },
+          {
+            operator_address: `validator2`,
+            delegator_shares: `1000`,
+            tokens: `100`
+          }
+        ]
+      }
+    })
+
+    expect(result.toNumber()).toBe(42.9)
+  })
+
+  it(`unbondingAtoms`, () => {
+    const result = DesktopMenu.computed.unbondingAtoms.call({
+      delegation: {
+        unbondingDelegations: {
+          validator1: [
+            {
+              balance: `42`
+            }
+          ],
+          validator2: [
+            {
+              balance: `9`
+            },
+            {
+              balance: `12`
+            }
+          ]
+        }
+      }
+    })
+
+    expect(result.toNumber()).toBe(63)
   })
 })

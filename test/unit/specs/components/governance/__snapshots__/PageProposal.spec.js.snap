@@ -3,6 +3,7 @@
 exports[`PageProposal renders votes in HTML when voting is open 1`] = `
 <tmpage-stub
   data-title="Proposal"
+  hideheader="true"
   subtitle=""
   title=""
 >
@@ -233,6 +234,7 @@ exports[`PageProposal renders votes in HTML when voting is open 1`] = `
 exports[`PageProposal should display proposal page if user has signed in 1`] = `
 <tmpage-stub
   data-title="Proposal"
+  hideheader="true"
   subtitle=""
   title=""
 >
@@ -463,6 +465,7 @@ exports[`PageProposal should display proposal page if user has signed in 1`] = `
 exports[`PageProposal should display proposal page should default tally to 0 if it's not yet present  1`] = `
 <tmpage-stub
   data-title="Proposal"
+  hideheader="true"
   subtitle=""
   title=""
 >
@@ -693,6 +696,7 @@ exports[`PageProposal should display proposal page should default tally to 0 if 
 exports[`PageProposal should display proposal page should show a loader if the necessary data hasen't been loaded 1`] = `
 <tmpage-stub
   data-title="Proposal"
+  hideheader="true"
   subtitle=""
   title=""
 >
@@ -705,6 +709,7 @@ exports[`PageProposal should display proposal page should show a loader if the n
 exports[`PageProposal shows an error if the proposal couldn't be found 1`] = `
 <tmpage-stub
   data-title="Proposal"
+  hideheader="true"
   subtitle=""
   title=""
 >

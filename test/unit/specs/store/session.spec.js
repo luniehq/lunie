@@ -111,7 +111,6 @@ describe(`Module: Session`, () => {
         `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`
       )
       expect(commit).toHaveBeenCalledWith(`setSessionType`, `local`)
-      expect(dispatch).toHaveBeenCalledWith(`loadPersistedState`)
       expect(dispatch).toHaveBeenCalledWith(`initializeWallet`, {
         address: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`
       })
@@ -133,7 +132,6 @@ describe(`Module: Session`, () => {
       )
       expect(commit).toHaveBeenCalledWith(`setUserAddress`, address)
       expect(commit).toHaveBeenCalledWith(`setSessionType`, `ledger`)
-      expect(dispatch).toHaveBeenCalledWith(`loadPersistedState`)
       expect(dispatch).toHaveBeenCalledWith(`initializeWallet`, { address })
       expect(state.externals.track).toHaveBeenCalledWith(
         `event`,
@@ -153,7 +151,6 @@ describe(`Module: Session`, () => {
       )
       expect(commit).toHaveBeenCalledWith(`setUserAddress`, address)
       expect(commit).toHaveBeenCalledWith(`setSessionType`, `explore`)
-      expect(dispatch).toHaveBeenCalledWith(`loadPersistedState`)
       expect(dispatch).toHaveBeenCalledWith(`initializeWallet`, { address })
       expect(state.externals.track).toHaveBeenCalledWith(
         `event`,

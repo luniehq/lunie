@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`TabValidators shows a list of validators 1`] = `
+exports[`Validators shows a list of validators 1`] = `
 <div>
   <tablevalidators-stub
     showonmobile="expectedReturns"
@@ -9,13 +9,13 @@ exports[`TabValidators shows a list of validators 1`] = `
 </div>
 `;
 
-exports[`TabValidators shows a message if still connecting 1`] = `
+exports[`Validators shows a message if still connecting 1`] = `
 <div>
   <tmdataconnecting-stub />
 </div>
 `;
 
-exports[`TabValidators shows a message if still loading 1`] = `
+exports[`Validators shows a message if still loading 1`] = `
 <div>
   <tmdataloading-stub
     title="Data is loading…"
@@ -23,7 +23,7 @@ exports[`TabValidators shows a message if still loading 1`] = `
 </div>
 `;
 
-exports[`TabValidators shows a message if there is nothing to display 1`] = `
+exports[`Validators shows a message if there is nothing to display 1`] = `
 <div>
   <tmdataempty-stub
     icon="info_outline"

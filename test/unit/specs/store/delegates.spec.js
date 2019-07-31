@@ -123,10 +123,7 @@ describe(`Module: Delegates`, () => {
       dispatch,
       rootState: mockRootState
     })
-    expect(dispatch.mock.calls).toEqual([
-      [`updateSigningInfo`, candidates],
-      [`getRewardsFromMyValidators`]
-    ])
+    expect(dispatch.mock.calls).toEqual([[`updateSigningInfo`, candidates]])
   })
 
   it(`fetches the signing information from all delegates`, async () => {
