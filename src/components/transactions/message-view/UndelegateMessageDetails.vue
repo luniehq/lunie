@@ -1,7 +1,7 @@
 <template>
   <div>
-    <div class="li-tx__content__caption">
-      <p class="li-tx__content__caption__title">
+    <div class="tx__content__caption">
+      <p class="tx__content__caption__title">
         Undelegated
         <b>{{ coin.amount | atoms | prettyLong }}</b>
         <span>{{ coin.denom | viewDenom }}</span>
@@ -10,7 +10,7 @@
         }}</span>
       </p>
     </div>
-    <div class="li-tx__content__information">
+    <div class="tx__content__information">
       Monikor&nbsp;
       <router-link
         :to="`staking/validators/${transaction.value.validator_address}`"
@@ -58,7 +58,7 @@ export default {
 </script>
 
 <style>
-.li-tx {
+.tx {
   display: flex;
   align-items: center;
   margin-bottom: 0.5rem;
@@ -69,20 +69,20 @@ export default {
   position: relative;
 }
 
-.li-tx .copied {
+.tx .copied {
   position: absolute;
   bottom: 0;
 }
 
-.li-tx b {
+.tx b {
   font-weight: 500;
 }
 
-.li-tx__icon {
+.tx__icon {
   padding: 12px 0 12px 1rem;
 }
 
-.li-tx__icon img {
+.tx__icon img {
   max-height: 100%;
   max-width: 52px;
   border: 2px solid;
@@ -90,7 +90,7 @@ export default {
   display: block;
 }
 
-.li-tx__content {
+.tx__content {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -98,42 +98,42 @@ export default {
   padding: 1rem;
 }
 
-.li-tx__content__left,
-.li-tx__content__right {
+.tx__content__left,
+.tx__content__right {
   display: flex;
   flex-direction: column;
   width: 100%;
 }
 
-.li-tx__content__right {
+.tx__content__right {
   text-align: right;
 }
 
-.li-tx__content__information,
-.li-tx__content__information > * {
+.tx__content__information,
+.tx__content__information > * {
   display: flex;
   flex-direction: row;
 }
 
-.li-tx__content__information,
-.li-tx__content__right {
+.tx__content__information,
+.tx__content__right {
   font-size: 14px;
   color: var(--dim);
 }
 
-.li-tx__content__caption {
+.tx__content__caption {
   line-height: 18px;
   font-size: 18px;
   color: var(--bright);
 }
 
 @media screen and (max-width: 767px) {
-  .li-tx__content {
+  .tx__content {
     flex-direction: column;
     text-align: left;
   }
 
-  .li-tx__content__right {
+  .tx__content__right {
     text-align: left;
     padding-top: 0.5rem;
   }
