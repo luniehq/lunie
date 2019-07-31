@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="parameters__details parameters__section">
-      <div class="row">
+      <div class="lunie-row">
         <div class="column">
           <dl class="info_dl">
             <dt>
@@ -46,7 +46,7 @@
     </div>
 
     <div class="parameters__details parameters__section">
-      <div class="row">
+      <div class="lunie-row">
         <div class="column">
           <dl class="info_dl">
             <dt>
@@ -187,7 +187,7 @@ export default {
 }
 </script>
 <style>
-.parameters__details > .row > .column {
+.parameters__details > .lunie-row > .lunie-column {
   flex: 1;
 }
 

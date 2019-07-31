@@ -137,20 +137,20 @@ export default {
   font-size: var(--sm);
 }
 
-.column {
+.lunie-column {
   display: flex;
   flex-direction: column;
   position: relative;
   width: 100%;
 }
 
-.row {
+.lunie-row {
   display: flex;
   flex-direction: row;
   width: 100%;
 }
 
-.row-unjustified {
+.lunie-row-unjustified {
   display: flex;
   flex-direction: row;
   width: 100%;
@@ -167,7 +167,7 @@ export default {
   font-weight: 500;
 }
 
-.page-profile__section--between > .row {
+.page-profile__section--between > .lunie-row {
   justify-content: space-between;
 }
 
@@ -175,7 +175,7 @@ export default {
   background-color: var(--app-fg);
 }
 
-.page-profile__header .row:first-child {
+.page-profile__header .lunie-ow:first-child {
   border: 1px solid var(--bc-dim);
 }
 
@@ -296,7 +296,7 @@ export default {
 }
 
 @media screen and (max-width: 767px) {
-  .row {
+  .lunie-row {
     flex-direction: column;
   }
 
