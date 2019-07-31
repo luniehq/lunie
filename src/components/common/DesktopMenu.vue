@@ -69,11 +69,18 @@
 <script>
 import ConnectedNetwork from "common/TmConnectedNetwork"
 import { atoms, viewDenom, shortDecimals } from "scripts/num.js"
+import BN from "bignumber.js"
+import { calculateTokens } from "scripts/common"
 import { mapGetters } from "vuex"
 export default {
   name: `app-menu`,
   components: {
     ConnectedNetwork
+  },
+  filters: {
+    atoms,
+    viewDenom,
+    shortDecimals
   },
   props: {
     links: {
@@ -86,17 +93,45 @@ export default {
       `session`,
       `totalAtoms`,
       `liquidAtoms`,
+      `committedDelegations`,
+      `delegates`,
+      `delegation`,
       `bondDenom`,
       `wallet`
-    ])
-  },
-  filters: {
-    atoms,
-    viewDenom,
-    shortDecimals
-  },
-  mounted() {
-    // this.ps = new PerfectScrollbar(this.$el.querySelector(`.app-menu-main`))
+    ]),
+    totalAtoms() {
+      return new BN(this.liquidAtoms)
+        .plus(this.bondedAtoms)
+        .plus(this.unbondingAtoms)
+        .toString()
+    },
+    bondedAtoms() {
+      return Object.entries(this.committedDelegations).reduce(
+        (total, [delegatorAddress, shares]) => {
+          const delegator = this.delegates.delegates.find(
+            d => d.operator_address === delegatorAddress
+          )
+          if (!delegator) {
+            // should not happen
+            return total
+          }
+          return total.plus(calculateTokens(delegator, shares))
+        },
+        BN(0)
+      )
+    },
+
+    unbondingAtoms() {
+      return Object.values(this.delegation.unbondingDelegations).reduce(
+        // unbondingDelegations can have several active undelegations per validator (key)
+        (atoms, entries) => {
+          return BN(atoms).plus(
+            entries.reduce((sum, { balance }) => sum.plus(balance), BN(0))
+          )
+        },
+        BN(0)
+      )
+    }
   },
   methods: {
     signOut() {

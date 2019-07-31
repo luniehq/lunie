@@ -1,8 +1,8 @@
 import {
-  oldBondedAtoms,
+  bondedAtoms,
   liquidAtoms,
   totalAtoms,
-  oldUnbondingAtoms,
+  unbondingAtoms,
   yourValidators,
   modalContext,
   validatorsWithRewards,
@@ -32,16 +32,16 @@ describe(`Store: getters`, () => {
       {},
       {
         liquidAtoms: 2,
-        oldBondedAtoms: `42`,
-        oldUnbondingAtoms: 9
+        bondedAtoms: `42`,
+        unbondingAtoms: 9
       }
     )
 
     expect(result).toBe(`53`)
   })
 
-  it(`oldBondedAtoms`, () => {
-    const result = oldBondedAtoms(
+  it(`bondedAtoms`, () => {
+    const result = bondedAtoms(
       {},
       {
         delegation: {
@@ -70,8 +70,8 @@ describe(`Store: getters`, () => {
     expect(result.toNumber()).toBe(42.9)
   })
 
-  it(`oldUnbondingAtoms`, () => {
-    const result = oldUnbondingAtoms({
+  it(`unbondingAtoms`, () => {
+    const result = unbondingAtoms({
       delegation: {
         unbondingDelegations: {
           validator1: [

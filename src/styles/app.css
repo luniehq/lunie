@@ -106,6 +106,10 @@ input.tm-field {
   display: none;
 }
 
+.v-content {
+  margin-bottom: 3rem;
+}
+
 @media screen and (min-width: 1023px) {
   #desktop-menu {
     display: block;
@@ -128,8 +132,4 @@ input.tm-field {
   .v-content {
     margin-bottom: 0;
   }
-}
-
-.v-content {
-  margin-bottom: 3rem;
 }

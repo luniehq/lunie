@@ -64,7 +64,6 @@ export default {
   .disconnected-bar {
     position: fixed;
     top: auto;
-    bottom: 0;
     z-index: 99;
     padding: 0.5rem;
     justify-content: space-around;

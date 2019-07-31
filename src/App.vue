@@ -18,6 +18,8 @@
         <!-- If using vue-router -->
         <router-view></router-view>
       </v-container>
+
+      <PageFooter />
     </v-content>
     <TmNotifications :notifications="notifications" />
   </v-app>
@@ -30,6 +32,7 @@ import CookieBar from "common/CookieBar"
 import MaintenanceBar from "common/MaintenanceBar"
 import DisconnectedBar from "common/DisconnectedBar"
 import TmNotifications from "common/TmNotifications"
+import PageFooter from "common/TmPageFooter"
 import store from "./vuex/store"
 
 export default {
@@ -39,7 +42,8 @@ export default {
     TmNotifications,
     CookieBar,
     MaintenanceBar,
-    DisconnectedBar
+    DisconnectedBar,
+    PageFooter
   },
   computed: {
     ...mapGetters([`notifications`])

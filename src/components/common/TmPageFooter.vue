@@ -1,15 +1,5 @@
 <template>
-  <v-footer :padless="true">
-    <v-card flat tile width="100%" class="red lighten-1 text-center">
-      <v-card-text>
-        <v-btn v-for="link in links" :key="link.icon" class="mx-4" icon>
-          <v-icon size="24px">{{ link.icon }}</v-icon>
-        </v-btn>
-      </v-card-text>
-    </v-card>
-
-    <v-divider></v-divider>
-
+  <footer>
     <ul>
       <li>
         <router-link
@@ -62,26 +52,11 @@
         </router-link>
       </li>
     </ul>
-  </v-footer>
+  </footer>
 </template>
 
 <script>
-export default {
-  name: `tm-page-footer`,
-  data: () => ({
-    links: [
-      {
-        icon: "home"
-      },
-      {
-        icon: "mail"
-      },
-      {
-        icon: "event"
-      }
-    ]
-  })
-}
+export default { name: `tm-page-footer` }
 </script>
 
 <style scoped>

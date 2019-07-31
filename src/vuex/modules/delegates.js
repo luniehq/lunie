@@ -104,7 +104,6 @@ export default ({ node }) => {
         commit(`setDelegates`, validators)
         commit(`setDelegateLoading`, false)
         dispatch(`updateSigningInfo`, validators)
-        dispatch(`getRewardsFromMyValidators`)
 
         return validators
       } catch (error) {

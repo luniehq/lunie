@@ -4,22 +4,9 @@
     :loading="wallet.loading && delegation.loading"
     :loaded="wallet.loaded && delegation.loaded"
     :error="wallet.error || delegation.error"
-    :data-empty="dataEmpty"
     :sign-in-required="true"
     :hide-header="true"
   >
-    <TmDataMsg
-      id="account_empty_msg"
-      slot="no-data"
-      icon="account_balance_wallet"
-    >
-      <div slot="title">
-        Account empty
-      </div>
-      <div slot="subtitle">
-        This account doesn't have anything in it&nbsp;yet.
-      </div>
-    </TmDataMsg>
     <template slot="managed-body">
       <div class="card">
         <h3>Your Public Cosmos Address</h3>
@@ -28,8 +15,22 @@
       <h3 class="tab-header transactions">
         Balances
       </h3>
+      <TmDataMsg
+        v-if="wallet.balances.length === 0"
+        id="account_empty_msg"
+        slot="no-data"
+        icon="account_balance_wallet"
+      >
+        <div slot="title">
+          Account empty
+        </div>
+        <div slot="subtitle">
+          This account doesn't have anything in it&nbsp;yet.
+        </div>
+      </TmDataMsg>
       <LiCoin
         v-for="coin in filteredBalances"
+        v-else
         :key="coin.denom"
         :coin="coin"
         class="tm-li-balance"
@@ -131,12 +132,7 @@ export default {
             ]
         }))
   },
-  async mounted() {
-    this.updateDelegates()
-    await this.queryWalletBalances()
-  },
   methods: {
-    ...mapActions([`updateDelegates`, `queryWalletBalances`]),
     showModal(denomination) {
       this.$refs.sendModal.open(denomination)
     }

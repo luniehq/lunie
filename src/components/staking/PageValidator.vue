@@ -396,9 +396,6 @@ export default {
       }
     }
   },
-  mounted() {
-    this.$store.dispatch("updateDelegates")
-  },
   methods: {
     onDelegation() {
       this.$refs.delegationModal.open()
