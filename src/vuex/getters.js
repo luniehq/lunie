@@ -1,7 +1,9 @@
 import BN from "bignumber.js"
 import { calculateTokens } from "scripts/common"
-import { getUnbondTimeFromTX } from "scripts/time"
-import { transactionGroup } from "src/components/transactions/messageTypes"
+import { getUnbondTimeFromTX, getUnbondingTime } from "scripts/time"
+import messageTypes, {
+  transactionGroup
+} from "src/components/transactions/messageTypes"
 
 // ui
 export const filters = state => state.filters
@@ -85,6 +87,44 @@ export const blockTransactions = state => {
   blockTx = blockTx.map(addTransactionTypeData(state))
   console.log("blockTransactions", blockTx)
   return blockTx
+}
+
+export const pendingUndelegations = (state, getters) => {
+  const allTx = getters.flatOrderedTransactionList
+  const pendingTx = allTx.filter(tx => !isNaN(tx.timeDiff))
+  console.log(pendingTx)
+  return pendingTx
+}
+
+// Not currently used, but kept as reference before merging.
+export const unbondingTransactions = state => {
+  const transactions = state.transactions.staking
+  const delegation = state.delegation
+
+  return (
+    transactions.staking &&
+    transactions.staking
+      .filter(transaction => {
+        // Checking the type of transaction
+        if (transaction.tx.value.msg[0].type !== `cosmos-sdk/MsgUndelegate`)
+          return false
+
+        // getting the unbonding time and checking if it has passed already
+        const unbondingEndTime = getUnbondingTime(
+          transaction,
+          delegation.unbondingDelegations
+        )
+
+        if (unbondingEndTime && unbondingEndTime >= Date.now()) return true
+      })
+      .map(transaction => ({
+        ...transaction,
+        unbondingDelegation:
+          delegation.unbondingDelegations[
+            transaction.tx.value.msg[0].value.validator_address
+          ]
+      }))
+  )
 }
 
 export const validators = state => {

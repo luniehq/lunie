@@ -14,9 +14,7 @@
       <TransactionList
         :transactions="flatOrderedTransactionList"
         :address="session.address"
-        :bonding-denom="bondDenom"
         :validators="validators"
-        :unbonding-delegations="delegation.unbondingDelegations"
       />
       <br />
     </template>

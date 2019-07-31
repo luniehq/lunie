@@ -6,10 +6,7 @@
     </div>
     <TmDataConnecting v-else-if="!delegation.loaded && !connected" />
     <TmDataLoading v-else-if="!delegation.loaded && delegation.loading" />
-    <TmDataMsg
-      v-else-if="yourValidators.length === 0"
-      icon="sentiment_dissatisfied"
-    >
+    <TmDataMsg v-else-if="yourValidators.length === 0" icon="sentiment_dissatisfied">
       <div slot="title">No Active Delegations</div>
       <div slot="subtitle">
         Looks like you haven't delegated any {{ bondDenom | viewDenom }}s yet.
@@ -18,22 +15,14 @@
         make your first delegation!
       </div>
     </TmDataMsg>
-    <div v-if="delegation.loaded && unbondingTransactions.length > 0">
+    <div v-if="delegation.loaded && pendingUndelegations.length > 0">
       <h3 class="tab-header transactions">Pending Undelegations</h3>
       <div class="unbonding-transactions">
         <template>
-          <LiAnyTransaction
-            v-for="tx in unbondingTransactions"
-            :key="tx.txhash"
-            :validators="yourValidators"
-            :validators-url="`/staking/validators`"
-            :proposals-url="`/governance`"
-            :transaction="tx"
+          <TransactionList
+            :transactions="pendingUndelegations"
             :address="session.address"
-            :bonding-denom="bondDenom"
-            :unbonding-time="
-              getUnbondingTime(tx, delegation.unbondingDelegations)
-            "
+            :validators="validators"
           />
           <br />
         </template>
@@ -52,6 +41,7 @@ import TmDataLoading from "common/TmDataLoading"
 import TableValidators from "staking/TableValidators"
 import TmDataConnecting from "common/TmDataConnecting"
 import { getUnbondingTime } from "scripts/time"
+import TransactionList from "transactions/TransactionList"
 
 export default {
   name: `tab-my-delegations`,
@@ -60,8 +50,8 @@ export default {
     TmDataMsg,
     TmDataConnecting,
     TmDataLoading,
-    LiAnyTransaction,
-    CardSignInRequired
+    CardSignInRequired,
+    TransactionList
   },
   filters: {
     viewDenom
@@ -75,55 +65,29 @@ export default {
       `delegates`,
       `delegation`,
       `committedDelegations`,
+      `unbondingTransactions`,
+      `pendingUndelegations`,
       `bondDenom`,
       `connected`,
       `session`,
       `lastHeader`
     ]),
-    yourValidators(
-      {
-        committedDelegations,
-        delegates: { delegates },
-        session: { signedIn }
-      } = this
-    ) {
+    yourValidators() {
       return (
-        signedIn &&
-        delegates.filter(
-          ({ operator_address }) => operator_address in committedDelegations
+        this.session.signedIn &&
+        this.delegates.delegates.filter(
+          ({ operator_address }) =>
+            operator_address in this.committedDelegations
         )
       )
-    },
-    unbondingTransactions: ({ transactions, delegation } = this) =>
-      transactions.staking &&
-      transactions.staking
-        .filter(transaction => {
-          // Checking the type of transaction
-          if (transaction.tx.value.msg[0].type !== `cosmos-sdk/MsgUndelegate`)
-            return false
-
-          // getting the unbonding time and checking if it has passed already
-          const unbondingEndTime = getUnbondingTime(
-            transaction,
-            delegation.unbondingDelegations
-          )
-
-          if (unbondingEndTime && unbondingEndTime >= Date.now()) return true
-        })
-        .map(transaction => ({
-          ...transaction,
-          unbondingDelegation:
-            delegation.unbondingDelegations[
-              transaction.tx.value.msg[0].value.validator_address
-            ]
-        }))
+    }
   },
   watch: {
     "session.signedIn": function() {
       this.loadStakingTxs()
     }
   },
-  async mounted() {
+  async created() {
     this.loadStakingTxs()
   },
   methods: {
