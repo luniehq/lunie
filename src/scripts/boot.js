@@ -123,6 +123,9 @@ export const startApp = async (
     // wait for connected as the check for session will sign in directly and query account data
     .then(() => {
       store.dispatch(`checkForPersistedSession`)
+      store.dispatch("getDelegates")
+      store.dispatch(`getPool`)
+      store.dispatch(`getMintingParameters`)
     })
 
   listenToExtensionMessages(store)

@@ -154,10 +154,6 @@ export default {
         }
       ]
     }
-  },
-  mounted() {
-    this.$store.dispatch(`getPool`)
-    this.$store.dispatch(`getMintingParameters`)
   }
 }
 </script>
