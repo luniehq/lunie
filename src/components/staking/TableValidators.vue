@@ -2,14 +2,18 @@
   <div>
     <table class="data-table">
       <thead>
-        <PanelSort :sort="sort" :properties="properties" :xs-prop="xsProp" />
+        <PanelSort
+          :sort="sort"
+          :properties="properties"
+          :show-on-mobile="showOnMobile"
+        />
       </thead>
       <tbody>
         <LiValidator
           v-for="validator in sortedEnrichedValidators"
           :key="validator.operator_address"
           :validator="validator"
-          :xs-prop="xsProp"
+          :show-on-mobile="showOnMobile"
         />
       </tbody>
     </table>
@@ -17,13 +21,13 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex"
+import { mapGetters, mapState } from "vuex"
 import num from "scripts/num"
 import orderBy from "lodash.orderby"
 import LiValidator from "staking/LiValidator"
 import PanelSort from "staking/PanelSort"
 import BN from "bignumber.js"
-import { expectedReturns } from "src/filters"
+import { expectedReturns } from "scripts/returns"
 export default {
   name: `table-validators`,
   components: {
@@ -35,7 +39,7 @@ export default {
       type: Array,
       required: true
     },
-    xsProp: {
+    showOnMobile: {
       type: String,
       default: () => "returns"
     }
@@ -58,16 +62,17 @@ export default {
       `bondDenom`,
       `keybase`,
       `pool`,
-      `minting`,
-      `lastHeader`,
-      `yourValidators`
+      `lastHeader`
     ]),
+    ...mapState({
+      annualProvision: state => state.minting.annualProvision
+    }),
     enrichedValidators(
       {
         validators,
         delegates: { signingInfos },
         pool,
-        minting,
+        annualProvision,
         committedDelegations,
         keybase,
         session,
@@ -96,11 +101,11 @@ export default {
             ? (rollingWindow - signingInfo.missed_blocks_counter) /
               rollingWindow
             : 0,
-          expectedReturns: minting.annualProvision
+          expectedReturns: annualProvision
             ? expectedReturns(
                 v,
                 parseInt(pool.pool.bonded_tokens),
-                parseFloat(minting.annualProvision)
+                parseFloat(annualProvision)
               )
             : undefined
         })

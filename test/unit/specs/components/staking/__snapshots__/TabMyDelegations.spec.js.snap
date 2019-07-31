@@ -37,8 +37,8 @@ exports[`Component: TabMyDelegations view should show committed validators 1`] =
 <div>
   <div>
     <tablevalidators-stub
+      showonmobile="my_delegations"
       validators="[object Object]"
-      xsprop="my_delegations"
     />
   </div>
    

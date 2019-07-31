@@ -6,7 +6,7 @@
       :class="{
         'sort-by': sort,
         'hide-xs':
-          property.value !== xsProp && property.value !== 'small_moniker'
+          property.value !== showOnMobile && property.value !== 'small_moniker'
       }"
       class="panel-sort-table-header"
     >
@@ -35,7 +35,7 @@ export default {
       type: Array,
       required: true
     },
-    xsProp: {
+    showOnMobile: {
       type: String,
       required: true
     }

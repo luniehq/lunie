@@ -8,7 +8,7 @@
     <TableValidators
       v-else
       :validators="delegates.delegates"
-      xs-prop="expectedReturns"
+      show-on-mobile="expectedReturns"
     />
   </div>
 </template>
