@@ -67,7 +67,7 @@
 
 <script>
 import num from "scripts/num"
-import { mapGetters, mapActions } from "vuex"
+import { mapGetters } from "vuex"
 import orderBy from "lodash.orderby"
 import LiCoin from "./LiCoin"
 import SendModal from "src/ActionModal/components/SendModal"

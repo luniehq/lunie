@@ -1,15 +1,19 @@
 <template>
-  <LiAnyTransaction
-    v-for="tx in unbondingTransactions"
-    :key="tx.txhash"
-    :validators="yourValidators"
-    :validators-url="`/staking/validators`"
-    :proposals-url="`/governance`"
-    :transaction="tx"
-    :address="session.address"
-    :bonding-denom="bondDenom"
-    :unbonding-time="time.getUnbondingTime(tx, delegation.unbondingDelegations)"
-  />
+  <div>
+    <LiAnyTransaction
+      v-for="tx in unbondingTransactions"
+      :key="tx.txhash"
+      :validators="yourValidators"
+      :validators-url="`/staking/validators`"
+      :proposals-url="`/governance`"
+      :transaction="tx"
+      :address="session.address"
+      :bonding-denom="bondDenom"
+      :unbonding-time="
+        time.getUnbondingTime(tx, delegation.unbondingDelegations)
+      "
+    />
+  </div>
 </template>
 
 <script>
