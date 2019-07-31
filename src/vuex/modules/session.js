@@ -90,7 +90,6 @@ export default () => {
       commit(`setSignIn`, true)
       commit(`setSessionType`, sessionType)
       commit(`setUserAddress`, address)
-      // await dispatch(`loadPersistedState`)
       await dispatch(`initializeWallet`, { address })
       dispatch(`persistSession`, {
         address,
