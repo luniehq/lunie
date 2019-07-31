@@ -58,7 +58,7 @@ const addTransactionTypeData = state => tx => {
   return {
     ...tx,
     group: transactionGroup[tx.type],
-    timeDiff: getUnbondTimeFromTX(tx, state.delegation.unbondingDelegations)
+    liquidDate: getUnbondTimeFromTX(tx, state.delegation.unbondingDelegations)
   }
 }
 
@@ -90,7 +90,7 @@ export const blockTransactions = state => {
 }
 
 const isPendingUndelegation = tx =>
-  !isNaN(tx.timeDiff) && tx.type === messageTypes.UNDELEGAET
+  !isNaN(tx.liquidDate) && tx.type === messageTypes.UNDELEGAET
 
 export const pendingUndelegations = (state, getters) => {
   const allTx = getters.flatOrderedTransactionList

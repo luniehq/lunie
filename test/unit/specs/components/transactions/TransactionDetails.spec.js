@@ -14,7 +14,7 @@ describe(`TransactionDetails`, () => {
     key: "keyhash",
     memo: "(Sent via Lunie)",
     time: "Thu Jul 18 2019 12:03:11 GMT+0200 (Central European Summer Time)",
-    timeDiff: NaN,
+    liquidDate: NaN,
     type: "cosmos-sdk/MsgSend"
   }
 
