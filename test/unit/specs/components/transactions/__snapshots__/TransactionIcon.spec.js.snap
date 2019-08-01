@@ -3,9 +3,9 @@
 exports[`TransactionIcon has the expected html structure 1`] = `
 <div
   class="tx__icon"
-  group="banking"
 >
   <img
+    class="banking"
     src="~assets/images/cosmos-logo.png"
   />
 </div>

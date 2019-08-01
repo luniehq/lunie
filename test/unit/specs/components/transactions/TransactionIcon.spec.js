@@ -7,7 +7,7 @@ describe(`TransactionIcon`, () => {
   beforeEach(() => {
     wrapper = shallowMount(TransactionIcon, {
       propsData: {
-        group: "banking"
+        transactionGroup: "banking"
       }
     })
   })

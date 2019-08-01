@@ -13,7 +13,8 @@ describe(`TransactionFees`, () => {
           amount: "1234",
           denom: "uatom"
         }
-      }
+      },
+      stubs: [`router-link`]
     })
   })
 
