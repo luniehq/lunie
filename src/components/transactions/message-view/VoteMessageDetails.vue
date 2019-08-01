@@ -5,9 +5,9 @@
     </div>
     <div class="tx__content__information">
       On
-      <router-link
-        :to="`/governance/${ransaction.value.proposal_id}`"
-      >Proposal &#35;{{ transaction.value.proposal_id }}</router-link>
+      <router-link :to="`/governance/${ransaction.value.proposal_id}`"
+        >Proposal &#35;{{ transaction.value.proposal_id }}</router-link
+      >
     </div>
   </div>
 </template>

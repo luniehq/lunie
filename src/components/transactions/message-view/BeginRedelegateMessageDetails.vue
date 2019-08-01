@@ -11,10 +11,16 @@
       From&nbsp;
       <router-link
         :to="`staking/validators/${transaction.value.validator_src_address}`"
-      >{{ validatorReference(transaction.value.validator_src_address) }}</router-link>To&nbsp;
+        >{{
+          validatorReference(transaction.value.validator_src_address)
+        }}</router-link
+      >To&nbsp;
       <router-link
         :to="`staking/validators/${transaction.value.validator_dst_address}`"
-      >{{ validatorReference(transaction.value.validator_dst_address) }}</router-link>
+        >{{
+          validatorReference(transaction.value.validator_dst_address)
+        }}</router-link
+      >
     </div>
   </div>
 </template>

@@ -1,7 +1,11 @@
 <template>
   <div class="tx">
     <TransactionIcon :transaction-group="transaction.group"></TransactionIcon>
-    <TransactionDetails :transaction="transaction" :validators="validators" :address="address" />
+    <TransactionDetails
+      :transaction="transaction"
+      :validators="validators"
+      :address="address"
+    />
   </div>
 </template>
 

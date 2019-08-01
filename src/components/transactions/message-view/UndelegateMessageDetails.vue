@@ -5,14 +5,17 @@
         Undelegated
         <b>{{ coin.amount | atoms | prettyLong }}</b>
         <span>{{ coin.denom | viewDenom }}</span>
-        <span v-if="transaction.liquidDate" class="tx-unbonding__time-diff">{{ liquidDateCaption }}</span>
+        <span v-if="transaction.liquidDate" class="tx-unbonding__time-diff">{{
+          liquidDateCaption
+        }}</span>
       </p>
     </div>
     <div class="tx__content__information">
       From&nbsp;
       <router-link
         :to="`staking/validators/${transaction.value.validator_address}`"
-      >{{ validatorReference }}</router-link>
+        >{{ validatorReference }}</router-link
+      >
     </div>
   </div>
 </template>
