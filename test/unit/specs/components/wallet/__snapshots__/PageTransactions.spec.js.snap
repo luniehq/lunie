@@ -13,7 +13,7 @@ exports[`PageTransactions Renders correctly and does not load transactions if th
    
   <template>
     <transactionlist-stub
-      transactions="[object Object],[object Object],[object Object],[object Object],[object Object],[object Object]"
+      transactions="[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object]"
       validators="[object Object]"
     />
      
@@ -36,7 +36,7 @@ exports[`PageTransactions Renders correctly and loads transactions 1`] = `
   <template>
     <transactionlist-stub
       address="cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9"
-      transactions="[object Object],[object Object],[object Object],[object Object],[object Object],[object Object]"
+      transactions="[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object]"
       validators="[object Object]"
     />
      

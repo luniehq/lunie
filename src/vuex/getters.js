@@ -3,8 +3,7 @@ import { calculateTokens } from "scripts/common"
 import {
   addTransactionTypeData,
   compareBlockTimeDesc,
-  flattenTransactionMsgs,
-  isPendingUndelegation
+  flattenTransactionMsgs
 } from "scripts/transaction-utils"
 
 // import x from "../txflat"
@@ -38,15 +37,6 @@ export const flatOrderedTransactionList = (state, getters) => {
   console.log("flatOrderedTransactionList", allTx)
   return allTx
 }
-
-export const pendingUndelegations = (state, getters) => {
-  const allTx = getters.flatOrderedTransactionList
-  const pendingTx = allTx.filter(isPendingUndelegation)
-  console.log("pendingUndelegations", pendingTx)
-  return pendingTx
-}
-
-// Not currently used, but kept as reference before merging.
 
 export const validators = state => {
   const names = {}

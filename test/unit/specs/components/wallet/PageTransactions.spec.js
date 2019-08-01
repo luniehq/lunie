@@ -86,6 +86,21 @@ describe(`PageTransactions`, () => {
 
   const flatOrderedTransactionList = [
     {
+      type: "cosmos-sdk/MsgUndelegate",
+      value: {
+        delegator_address: "cosmos3",
+        validator_address: "cosmos4",
+        amount: { denom: "uatom", amount: "50000" }
+      },
+      key:
+        'cosmos-sdk/MsgUndelegate_2019-07-31T09:22:23.054Z_{"delegator_address":"cosmos1jq9mc3kp4nnxwryr09fpqjtrwya8q5q480zu0e","validator_address":"cosmosvaloper1vrg6ruw00lhszl4sjgwt5ldvl8z0f7pfp5va85","amount":{"denom":"uatom","amount":"50000"}}',
+      blockNumber: 1248479,
+      time: "2019-07-31T09:22:23.054Z",
+      memo: "",
+      fees: { denom: "uatom", amount: "4141" },
+      group: "staking"
+    },
+    {
       type: "cosmos-sdk/MsgSubmitProposal",
       value: {
         proposer: "cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9",

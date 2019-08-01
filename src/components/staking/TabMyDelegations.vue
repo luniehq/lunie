@@ -22,7 +22,7 @@
           <TransactionList
             :transactions="pendingUndelegations"
             :address="session.address"
-            :validators="validators"
+            :validators="yourValidatorsAddressMap"
           />
           <br />
         </template>
@@ -34,6 +34,8 @@
 <script>
 import { mapGetters } from "vuex"
 import { viewDenom } from "scripts/num"
+import { isPendingUndelegation } from "scripts/transaction-utils"
+
 import TmDataMsg from "common/TmDataMsg"
 import CardSignInRequired from "common/CardSignInRequired"
 import TmDataLoading from "common/TmDataLoading"
@@ -59,19 +61,17 @@ export default {
   }),
   computed: {
     ...mapGetters([
-      `transactions`,
       `delegates`,
       `delegation`,
       `committedDelegations`,
-      `unbondingTransactions`,
-      `pendingUndelegations`,
       `bondDenom`,
       `connected`,
       `session`,
-      `lastHeader`,
-      `validators`
+      `flatOrderedTransactionList`,
+      `yourValidators`
     ]),
     yourValidators() {
+      if (!this.session.signedIn) return []
       return (
         this.session.signedIn &&
         this.delegates.delegates.filter(
@@ -79,6 +79,16 @@ export default {
             operator_address in this.committedDelegations
         )
       )
+    },
+    yourValidatorsAddressMap() {
+      const names = {}
+      this.yourValidators.forEach(item => {
+        names[item.operator_address] = item
+      })
+      return names
+    },
+    pendingUndelegations() {
+      return this.flatOrderedTransactionList.filter(isPendingUndelegation)
     }
   },
   watch: {
