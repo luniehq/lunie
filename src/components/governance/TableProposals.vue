@@ -13,15 +13,12 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex"
 import orderBy from "lodash.orderby"
 import LiProposal from "./LiProposal"
-import PanelSort from "staking/PanelSort"
 export default {
   name: `table-proposals`,
   components: {
-    LiProposal,
-    PanelSort
+    LiProposal
   },
   props: {
     proposals: {

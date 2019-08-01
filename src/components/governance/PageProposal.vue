@@ -87,7 +87,7 @@
             />
           </dl>
         </div>
-        <div class="row" v-if="proposal.proposal_status !== `DepositPeriod`">
+        <div v-if="proposal.proposal_status !== `DepositPeriod`" class="row">
           <dl>
             <dt>Yes</dt>
             <dd>

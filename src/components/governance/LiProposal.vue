@@ -156,4 +156,3 @@ export default {
   border-color: var(--tertiary);
 }
 </style>
-
