@@ -39,7 +39,7 @@ module.exports = {
     browser.pause(500)
 
     // move to according page
-    browser.url(browser.launch_url + "/#/staking/validators")
+    browser.url(browser.launch_url + "/#/validators")
 
     // move to validator page
     browser.expect.element(".li-validator").to.be.visible.before(10000)

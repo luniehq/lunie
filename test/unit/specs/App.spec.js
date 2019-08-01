@@ -172,8 +172,8 @@ describe(`App Start`, () => {
       }
       const to = {
         redirectedFrom: `/staking`,
-        fullPath: `/staking/validators`,
-        path: `/staking/validators`,
+        fullPath: `/validators`,
+        path: `/validators`,
         name: `Validators`
       }
       const next = jest.fn()

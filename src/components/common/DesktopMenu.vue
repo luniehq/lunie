@@ -9,11 +9,11 @@
 
           <v-list-item-content>
             <v-list-item-title
-              >{{ totalTokens | atoms | shortDecimals }}
+              ><span class="total-atoms">{{ totalTokens | atoms | shortDecimals }}</span>
               {{ bondDenom | viewDenom }}</v-list-item-title
             >
             <v-list-item-subtitle
-              >{{ liquidTokens | atoms | shortDecimals }}
+              ><span class="liquid-atoms">{{ liquidTokens | atoms | shortDecimals }}</span>
               {{ bondDenom | viewDenom }}</v-list-item-subtitle
             >
           </v-list-item-content>

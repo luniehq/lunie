@@ -3,16 +3,16 @@ const { expect } = require("chai")
 
 async function getBalance(browser) {
   return new Promise(resolve => {
-    browser.expect.element(`.total-atoms__value`).to.be.visible.before(10000)
-    browser.getText(".total-atoms__value", ({ value }) => {
+    browser.expect.element(`.total-atoms`).to.be.visible.before(10000)
+    browser.getText(".total-atoms", ({ value }) => {
       resolve(numeral(value).value())
     })
   })
 }
 async function getAvailableTokens(browser) {
   return new Promise(resolve => {
-    browser.expect.element(`.unbonded-atoms h2`).to.be.visible.before(10000)
-    browser.getText(".unbonded-atoms h2", ({ value }) => {
+    browser.expect.element(`.liquid-atoms`).to.be.visible.before(10000)
+    browser.getText(".liquid-atoms", ({ value }) => {
       resolve(numeral(value).value())
     })
   })
@@ -45,10 +45,12 @@ async function actionModalCheckout(
   expectedTotalChange = 0,
   expectedAvailableTokensChange = 0
 ) {
+  openMenu(browser)
+
   // remember balance to compare later if send got through
-  browser.expect.element(`.total-atoms__value`).to.be.visible.before(10000)
+  browser.expect.element(`.total-atoms`).to.be.visible.before(10000)
   browser.expect
-    .element(".total-atoms__value")
+    .element(".total-atoms")
     .text.not.to.contain("--")
     .before(10 * 1000)
   const balanceBefore = await getBalance(browser)
@@ -57,6 +59,8 @@ async function actionModalCheckout(
   browser.expect.element(".action-modal").to.be.visible.before(10000)
 
   browser.pause(500)
+
+  browser.waitForElementNotPresent(".tm-form-msg--error")
 
   await detailsActionFn()
 
@@ -91,6 +95,7 @@ async function actionModalCheckout(
 
   // Wait for UI to be updated according to new state
   await nextBlock(browser)
+  openMenu(browser)
 
   // check if balance header updates as expected
   // TODO find a way to know the rewards on an undelegation to know the final balance 100%
@@ -109,8 +114,11 @@ async function actionModalCheckout(
       )
     ).to.be.lessThan(2) // acounting for rewards being withdrawn on an undelegation
   })
+
+  closeMenu(browser)
 }
 async function nextBlock(browser) {
+  openMenu(browser)
   const lastHeigth = await new Promise(resolve =>
     browser.getText("#tm-connected-network__block", ({ value }) =>
       resolve(value)
@@ -120,6 +128,16 @@ async function nextBlock(browser) {
     .element("#tm-connected-network__block")
     .text.not.to.equal(lastHeigth)
     .before(10 * 1000)
+
+  closeMenu(browser)
+}
+
+function openMenu(browser) {
+  browser.moveToElement(".v-navigation-drawer", 10, 10)
+}
+
+function closeMenu(browser) {
+  browser.moveToElement(".v-navigation-drawer", 900, 10)
 }
 
 module.exports = {
@@ -128,5 +146,7 @@ module.exports = {
   awaitBalance,
   waitFor,
   actionModalCheckout,
-  nextBlock
+  nextBlock,
+  openMenu,
+  closeMenu
 }

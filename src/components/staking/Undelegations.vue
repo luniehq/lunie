@@ -4,7 +4,7 @@
       v-for="tx in unbondingTransactions"
       :key="tx.txhash"
       :validators="yourValidators"
-      :validators-url="`/staking/validators`"
+      :validators-url="`/validators`"
       :proposals-url="`/governance`"
       :transaction="tx"
       :address="session.address"

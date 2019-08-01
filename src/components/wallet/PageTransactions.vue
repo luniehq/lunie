@@ -51,7 +51,7 @@ export default {
       property: `height`,
       order: `desc`
     },
-    validatorURL: `/staking/validators`,
+    validatorURL: `/validators`,
     governanceURL: `/governance`,
     time
   }),
