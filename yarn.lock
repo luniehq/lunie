@@ -903,10 +903,10 @@
   resolved "https://registry.yarnpkg.com/@ledgerhq/logs/-/logs-4.64.0.tgz#19a335e3f2d9188188437f8dabb06e0fd45b0052"
   integrity sha512-NwgA7q1CXWMkqxoHVaSTk0gJUGbiBbWTM7Uod/Zz8EWNa1Ns0yHthCcSS279htP6oQplEaSppzsie5bcbwNApg==
 
-"@lunie/cosmos-api@0.1.1":
-  version "0.1.1"
-  resolved "https://registry.yarnpkg.com/@lunie/cosmos-api/-/cosmos-api-0.1.1.tgz#ac53dd4dafe03397c86b0412bc97c04b2dcdf7ba"
-  integrity sha512-rldxk5dpDdJyqyYy9h8hBfM2M5g6lrR99GKqFAz1xkYkicjZXyFNVjYZedwIw35kGyLmp/4RrZpwhXuFAHjoVg==
+"@lunie/cosmos-api@0.1.2":
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/@lunie/cosmos-api/-/cosmos-api-0.1.2.tgz#09aa13097f980e91c5ecaa0fd11ade504c2fdaaf"
+  integrity sha512-DHr4Jcg+Y1Er4L+44/af5BpW81Mwowu9TqQgSTd9jgG4aAwZAy43KydsoJFt/NMPWx6ZjpREhCIwuqONV2hBKQ==
   dependencies:
     "@babel/runtime" "^7.5.4"
     axios "^0.19.0"
@@ -9844,10 +9844,10 @@ simple-swizzle@^0.2.2:
   dependencies:
     is-arrayish "^0.3.1"
 
-simsala@0.0.16:
-  version "0.0.16"
-  resolved "https://registry.yarnpkg.com/simsala/-/simsala-0.0.16.tgz#169c086494df379f53e21bd8678c920b318fda6d"
-  integrity sha512-HV4qbwbWh36ex1mbi8ZXaxcUwTS83qKpxL6a/N45w3eyBWjwGKcnc+nUFmBi1XXLrmR3ru6omB8y5h3eYXCXuw==
+simsala@0.0.18:
+  version "0.0.18"
+  resolved "https://registry.yarnpkg.com/simsala/-/simsala-0.0.18.tgz#441f5e6799a896016216f07bbbc0ddf2b5a6e421"
+  integrity sha512-gB3ehpGxigdZ2+riCznVHZk4cQdqFs2c6d+p2UKZJun5KuCoEggG4WcJMGm6iF72q3nx5R8NB3OQWay4XKPN1A==
   dependencies:
     axios "^0.18.0"
     commander "^2.20.0"
