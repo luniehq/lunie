@@ -72,7 +72,8 @@ export default {
       `bondDenom`,
       `connected`,
       `session`,
-      `lastHeader`
+      `lastHeader`,
+      `validators`
     ]),
     yourValidators() {
       return (
