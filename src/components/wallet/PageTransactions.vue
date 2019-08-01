@@ -22,7 +22,6 @@
 </template>
 
 <script>
-import shortid from "shortid"
 import { mapGetters } from "vuex"
 import DataEmptyTx from "common/TmDataEmptyTx"
 import TmPage from "common/TmPage"
@@ -35,17 +34,11 @@ export default {
     DataEmptyTx,
     TmPage
   },
-  data: () => ({
-    shortid: shortid
-  }),
   computed: {
     ...mapGetters([
+      `session`,
       `transactions`,
       `flatOrderedTransactionList`,
-      `session`,
-      `bondDenom`,
-      `delegation`,
-      `delegates`,
       `validators`
     ]),
     dataEmpty() {
@@ -53,18 +46,17 @@ export default {
     }
   },
   watch: {
-    "session.signedIn": {
-      immediate: true,
-      handler() {
-        this.refreshTransactions()
-      }
+    "session.signedIn": function() {
+      this.refreshTransactions()
     }
   },
-
+  created() {
+    this.refreshTransactions()
+  },
   methods: {
-    async refreshTransactions({ $store, session } = this) {
-      if (session.signedIn) {
-        await $store.dispatch(`getAllTxs`)
+    async refreshTransactions() {
+      if (this.session.signedIn) {
+        await this.$store.dispatch(`getAllTxs`)
       }
     }
   }

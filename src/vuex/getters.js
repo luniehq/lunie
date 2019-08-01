@@ -1,9 +1,14 @@
 import BN from "bignumber.js"
 import { calculateTokens } from "scripts/common"
-import { getUnbondTimeFromTX, getUnbondingTime } from "scripts/time"
-import messageTypes, {
-  transactionGroup
-} from "src/components/transactions/messageTypes"
+import {
+  addTransactionTypeData,
+  compareBlockTimeDesc,
+  flattenTransactionMsgs,
+  isPendingUndelegation
+} from "scripts/transaction-utils"
+
+// import x from "../txflat"
+// console.log(JSON.stringify(x))
 
 // ui
 export const filters = state => state.filters
@@ -26,51 +31,6 @@ export const allTransactions = state =>
     state.transactions.distribution
   )
 
-const getFees = (transaction, defaultDenom = "ATOM") => {
-  if (transaction.tx.value.fee && transaction.tx.value.fee.amount) {
-    return transaction.tx.value.fee.amount[0]
-  }
-  return {
-    amount: "0",
-    denom: defaultDenom
-  }
-}
-
-function compareBlockTimeDesc(a, b) {
-  if (b.blockNumber === a.blockNumber) {
-    return b.time - a.time
-  }
-  return b.blockNumber - a.blockNumber
-}
-
-const makeTxObject = (x, fees, memo, time, height) => {
-  return {
-    ...x,
-    key: `${x.type}_${time}_${JSON.stringify(x.value)}`,
-    blockNumber: Number(height),
-    time: new Date(time),
-    memo,
-    fees
-  }
-}
-
-const addTransactionTypeData = state => tx => {
-  return {
-    ...tx,
-    group: transactionGroup[tx.type],
-    liquidDate: getUnbondTimeFromTX(tx, state.delegation.unbondingDelegations)
-  }
-}
-
-const flattenTransactionMsgs = (acc, curTxList) => {
-  const fees = getFees(curTxList)
-  const memo = curTxList.tx.value.memo
-  const newVals = curTxList.tx.value.msg.map(x =>
-    makeTxObject(x, fees, memo, curTxList.time, curTxList.height)
-  )
-  return acc.concat(newVals)
-}
-
 export const flatOrderedTransactionList = (state, getters) => {
   let allTx = getters.allTransactions.reduce(flattenTransactionMsgs, [])
   allTx = allTx.map(addTransactionTypeData(state))
@@ -89,9 +49,6 @@ export const blockTransactions = state => {
   return blockTx
 }
 
-const isPendingUndelegation = tx =>
-  !isNaN(tx.liquidDate) && tx.type === messageTypes.UNDELEGAET
-
 export const pendingUndelegations = (state, getters) => {
   const allTx = getters.flatOrderedTransactionList
   const pendingTx = allTx.filter(isPendingUndelegation)
@@ -100,35 +57,6 @@ export const pendingUndelegations = (state, getters) => {
 }
 
 // Not currently used, but kept as reference before merging.
-export const unbondingTransactions = state => {
-  const transactions = state.transactions.staking
-  const delegation = state.delegation
-
-  return (
-    transactions.staking &&
-    transactions.staking
-      .filter(transaction => {
-        // Checking the type of transaction
-        if (transaction.tx.value.msg[0].type !== `cosmos-sdk/MsgUndelegate`)
-          return false
-
-        // getting the unbonding time and checking if it has passed already
-        const unbondingEndTime = getUnbondingTime(
-          transaction,
-          delegation.unbondingDelegations
-        )
-
-        if (unbondingEndTime && unbondingEndTime >= Date.now()) return true
-      })
-      .map(transaction => ({
-        ...transaction,
-        unbondingDelegation:
-          delegation.unbondingDelegations[
-            transaction.tx.value.msg[0].value.validator_address
-          ]
-      }))
-  )
-}
 
 export const validators = state => {
   const names = {}

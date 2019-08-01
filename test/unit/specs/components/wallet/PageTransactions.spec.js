@@ -9,141 +9,9 @@ describe(`PageTransactions`, () => {
     `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
     `cosmos1pxdf0lvq5jvl9uxznklgc5gxuwzpdy5ynem546`
   ]
-  const validatorAddresses = [
-    `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw`,
-    `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au`,
-    `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctgurrg7n`
-  ]
-  const allTransactions = [
-    {
-      tx: {
-        value: {
-          msg: [
-            {
-              type: `cosmos-sdk/MsgSend`,
-              value: {
-                from_address: addresses[1],
-                to_address: addresses[0],
-                amount: [{ denom: `jbcoins`, amount: `1234` }]
-              }
-            }
-          ]
-        }
-      },
-      hash: `999ADECC2DE8C3AC2FD4F45E5E1081747BBE504A`,
-      height: 1
-    },
-    {
-      tx: {
-        value: {
-          msg: [
-            {
-              type: `cosmos-sdk/MsgSend`,
-              value: {
-                from_address: addresses[0],
-                to_address: addresses[1],
-                amount: [{ denom: `fabocoins`, amount: `1234` }]
-              }
-            }
-          ]
-        }
-      },
-      hash: `A7C6DE5CA923AF08E6088F1348047F16BABB9F48`,
-      height: 150
-    },
-    {
-      hash: `QSDFGE5CA923AF08E6088F1348047F16BAHH8K31`,
-      height: 56673,
-      tx: {
-        type: `8EFE47F0625DE8`,
-        value: {
-          msg: [
-            {
-              type: `cosmos-sdk/MsgSubmitProposal`,
-              value: {
-                proposer: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
-                proposal_type: `Text`,
-                title: `Test Proposal`,
-                description: `This is a test proposal`,
-                initial_deposit: [
-                  {
-                    denom: `STAKE`,
-                    amount: `100`
-                  }
-                ]
-              }
-            }
-          ]
-        }
-      }
-    },
-    {
-      hash: `QASDE5CA923AF08EEE38F1348047F16BAHH8K31`,
-      height: 213,
-      tx: {
-        type: `8EFE47F0625DE8`,
-        value: {
-          msg: [
-            {
-              type: `cosmos-sdk/MsgDeposit`,
-              value: {
-                depositor: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
-                proposal_id: `1`,
-                amount: [
-                  {
-                    denom: `STAKE`,
-                    amount: `100`
-                  }
-                ]
-              }
-            }
-          ]
-        }
-      }
-    },
-    {
-      tx: {
-        value: {
-          msg: [
-            {
-              type: `cosmos-sdk/MsgDelegate`,
-              value: {
-                validator_address: validatorAddresses[0],
-                delegator_address: addresses[0],
-                delegation: {
-                  amount: `24`,
-                  denom: `STAKE`
-                }
-              }
-            }
-          ]
-        }
-      },
-      hash: `A7C6DE5CB923AF08E6088F1348047F16BABB9F48`,
-      height: 160
-    },
-    {
-      tx: {
-        value: {
-          msg: [
-            {
-              type: `cosmos-sdk/BeginUnbonding`,
-              value: {
-                validator_address: validatorAddresses[0],
-                delegator_address: addresses[0],
-                shares: `5`
-              }
-            }
-          ]
-        }
-      },
-      hash: `A7C6FDE5CA923AF08E6088F1348047F16BABB9F48`,
-      height: 170
-    }
-  ]
-  const validators = [
-    {
-      operator_address: validatorAddresses[0],
+  const validators = {
+    cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw: {
+      operator_address: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw`,
       pub_key: `cosmosvalpub1234`,
       revoked: false,
       tokens: `14`,
@@ -166,8 +34,8 @@ describe(`PageTransactions`, () => {
       },
       prev_bonded_shares: `0`
     },
-    {
-      operator_address: validatorAddresses[1],
+    cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au: {
+      operator_address: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au`,
       pub_key: `cosmosvalpub5678`,
       revoked: false,
       tokens: `0`,
@@ -190,8 +58,8 @@ describe(`PageTransactions`, () => {
       },
       prev_bonded_shares: `0`
     },
-    {
-      operator_address: validatorAddresses[2],
+    cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctgurrg7n: {
+      operator_address: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctgurrg7n`,
       pub_key: `cosmosvalpub8910`,
       tokens: `19`,
       delegator_shares: `19`,
@@ -214,37 +82,118 @@ describe(`PageTransactions`, () => {
       },
       prev_bonded_shares: `0`
     }
+  }
+
+  const flatOrderedTransactionList = [
+    {
+      type: "cosmos-sdk/MsgSubmitProposal",
+      value: {
+        proposer: "cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9",
+        proposal_type: "Text",
+        title: "Test Proposal",
+        description: "This is a test proposal",
+        initial_deposit: [{ denom: "STAKE", amount: "100" }]
+      },
+      key:
+        'cosmos-sdk/MsgSubmitProposal_undefined_{"proposer":"cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9","proposal_type":"Text","title":"Test Proposal","description":"This is a test proposal","initial_deposit":[{"denom":"STAKE","amount":"100"}]}',
+      blockNumber: 56673,
+      time: null,
+      fees: { amount: "0", denom: "ATOM" },
+      group: "governance",
+      liquidDate: null
+    },
+    {
+      type: "cosmos-sdk/MsgDeposit",
+      value: {
+        depositor: "cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9",
+        proposal_id: "1",
+        amount: [{ denom: "STAKE", amount: "100" }]
+      },
+      key:
+        'cosmos-sdk/MsgDeposit_undefined_{"depositor":"cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9","proposal_id":"1","amount":[{"denom":"STAKE","amount":"100"}]}',
+      blockNumber: 213,
+      time: null,
+      fees: { amount: "0", denom: "ATOM" },
+      group: "governance",
+      liquidDate: null
+    },
+    {
+      type: "cosmos-sdk/BeginUnbonding",
+      value: {
+        validator_address:
+          "cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw",
+        delegator_address: "cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9",
+        shares: "5"
+      },
+      key:
+        'cosmos-sdk/BeginUnbonding_undefined_{"validator_address":"cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw","delegator_address":"cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9","shares":"5"}',
+      blockNumber: 170,
+      time: null,
+      fees: { amount: "0", denom: "ATOM" },
+      liquidDate: null
+    },
+    {
+      type: "cosmos-sdk/MsgDelegate",
+      value: {
+        validator_address:
+          "cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw",
+        delegator_address: "cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9",
+        delegation: { amount: "24", denom: "STAKE" }
+      },
+      key:
+        'cosmos-sdk/MsgDelegate_undefined_{"validator_address":"cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw","delegator_address":"cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9","delegation":{"amount":"24","denom":"STAKE"}}',
+      blockNumber: 160,
+      time: null,
+      fees: { amount: "0", denom: "ATOM" },
+      group: "staking",
+      liquidDate: null
+    },
+    {
+      type: "cosmos-sdk/MsgSend",
+      value: {
+        from_address: "cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9",
+        to_address: "cosmos1pxdf0lvq5jvl9uxznklgc5gxuwzpdy5ynem546",
+        amount: [{ denom: "fabocoins", amount: "1234" }]
+      },
+      key:
+        'cosmos-sdk/MsgSend_undefined_{"from_address":"cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9","to_address":"cosmos1pxdf0lvq5jvl9uxznklgc5gxuwzpdy5ynem546","amount":[{"denom":"fabocoins","amount":"1234"}]}',
+      blockNumber: 150,
+      time: null,
+      fees: { amount: "0", denom: "ATOM" },
+      group: "banking",
+      liquidDate: null
+    },
+    {
+      type: "cosmos-sdk/MsgSend",
+      value: {
+        from_address: "cosmos1pxdf0lvq5jvl9uxznklgc5gxuwzpdy5ynem546",
+        to_address: "cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9",
+        amount: [{ denom: "jbcoins", amount: "1234" }]
+      },
+      key:
+        'cosmos-sdk/MsgSend_undefined_{"from_address":"cosmos1pxdf0lvq5jvl9uxznklgc5gxuwzpdy5ynem546","to_address":"cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9","amount":[{"denom":"jbcoins","amount":"1234"}]}',
+      blockNumber: 1,
+      time: null,
+      fees: { amount: "0", denom: "ATOM" },
+      group: "banking",
+      liquidDate: null
+    }
   ]
 
   let wrapper, $store
 
   const getters = {
-    filters: {
-      transactions: {
-        search: {
-          query: ``,
-          visible: false
-        }
-      }
-    },
-    bondDenom: `STAKE`,
     session: {
-      address: addresses[0]
+      address: addresses[0],
+      signedIn: true
     },
     transactions: {
       loading: false,
       loaded: true,
       error: undefined
     },
-    delegation: {
-      unbondingDelegations: {} // TODO: add some
-    },
-    delegates: {
-      delegates: validators
-    },
-    allTransactions,
-    connected: true,
-    lastHeader: ``
+    flatOrderedTransactionList,
+    validators
   }
 
   beforeEach(() => {
@@ -253,27 +202,23 @@ describe(`PageTransactions`, () => {
       dispatch: jest.fn(),
       getters: JSON.parse(JSON.stringify(getters)) // clone so we don't overwrite by accident
     }
-
-    wrapper = shallowMount(PageTransactions, {
-      localVue,
-      mocks: {
-        $store
-      }
-    })
   })
 
-  describe(`displays the transaction page`, () => {
-    it(`if user has signed in`, async () => {
-      expect(wrapper.vm.$el).toMatchSnapshot()
+  describe(`Renders correctly`, () => {
+    it(`and loads transactions`, async () => {
+      wrapper = shallowMount(PageTransactions, {
+        localVue,
+        mocks: {
+          $store
+        }
+      })
+      expect(wrapper.element).toMatchSnapshot()
+      expect($store.dispatch).toHaveBeenCalledWith(`getAllTxs`)
     })
 
-    it(`if user hasn't signed in`, async () => {
+    it(`and does not load transactions if the user has not signed in`, async () => {
+      $store.getters.session.signedIn = false
       $store.getters.session.address = undefined
-      $store = {
-        commit: jest.fn(),
-        dispatch: jest.fn(),
-        getters
-      }
 
       wrapper = shallowMount(PageTransactions, {
         localVue,
@@ -281,49 +226,24 @@ describe(`PageTransactions`, () => {
           $store
         }
       })
-      expect(wrapper.vm.$el).toMatchSnapshot()
+      expect(wrapper.element).toMatchSnapshot()
+      expect($store.dispatch).not.toHaveBeenCalledWith()
     })
   })
 
-  it(`should refresh the transaction history`, async () => {
-    await PageTransactions.methods.refreshTransactions.call({
-      $store,
-      session: {
-        signedIn: true
-      }
-    })
-    expect($store.dispatch).toHaveBeenCalledWith(`getAllTxs`)
+  it(`should refresh the transaction history when signed in`, async () => {
+    $store.getters.session.signedIn = false
+    $store.getters.session.address = undefined
 
-    $store.dispatch.mockClear()
-    await PageTransactions.methods.refreshTransactions.call({
-      $store,
-      session: {
-        signedIn: false
+    wrapper = shallowMount(PageTransactions, {
+      localVue,
+      mocks: {
+        $store
       }
     })
     expect($store.dispatch).not.toHaveBeenCalledWith(`getAllTxs`)
-  })
-
-  it(`should load transactions when signing in`, () => {
-    const refreshTransactions = jest.fn()
-    PageTransactions.watch[`session.signedIn`].handler.call({
-      refreshTransactions
-    })
-    expect(refreshTransactions).toHaveBeenCalled()
-  })
-
-  it(`should show transactions`, async () => {
-    expect(wrapper.findAll(`LiAnyTransaction-stub`).length).toBe(6)
-  })
-
-  it(`should sort the transaction by time`, () => {
-    expect(wrapper.vm.orderedTransactions.map(x => x.height)).toEqual([
-      56673,
-      213,
-      170,
-      160,
-      150,
-      1
-    ])
+    $store.getters.session.signedIn = true
+    $store.getters.session.address = undefined
+    expect($store.dispatch).toHaveBeenCalledWith(`getAllTxs`)
   })
 })
