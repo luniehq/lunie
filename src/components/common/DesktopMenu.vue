@@ -1,7 +1,7 @@
 <template>
   <v-navigation-drawer :expand-on-hover="true" absolute dark>
     <v-list dense nav class="py-0">
-      <template v-if="session.signedIn">
+      <template v-if="signedIn">
         <v-list-item two-line>
           <v-list-item-avatar>
             <v-icon>account_circle</v-icon>
@@ -9,11 +9,11 @@
 
           <v-list-item-content>
             <v-list-item-title
-              >{{ totalAtoms | atoms | shortDecimals }}
+              >{{ totalTokens | atoms | shortDecimals }}
               {{ bondDenom | viewDenom }}</v-list-item-title
             >
             <v-list-item-subtitle
-              >{{ liquidAtoms | atoms | shortDecimals }}
+              >{{ liquidTokens | atoms | shortDecimals }}
               {{ bondDenom | viewDenom }}</v-list-item-subtitle
             >
           </v-list-item-content>
@@ -48,7 +48,7 @@
         </v-list-item-content>
       </v-list-item>
 
-      <template v-if="session.signedIn">
+      <template v-if="signedIn">
         <v-divider></v-divider>
 
         <v-list-item link @click.native="signOut">
@@ -69,9 +69,6 @@
 <script>
 import ConnectedNetwork from "common/TmConnectedNetwork"
 import { atoms, viewDenom, shortDecimals } from "scripts/num.js"
-import BN from "bignumber.js"
-import { calculateTokens } from "scripts/common"
-import { mapGetters } from "vuex"
 export default {
   name: `app-menu`,
   components: {
@@ -86,57 +83,30 @@ export default {
     links: {
       type: Array,
       required: true
-    }
-  },
-  computed: {
-    ...mapGetters([
-      `session`,
-      `totalAtoms`,
-      `liquidAtoms`,
-      `committedDelegations`,
-      `delegates`,
-      `delegation`,
-      `bondDenom`,
-      `wallet`
-    ]),
-    totalAtoms() {
-      return new BN(this.liquidAtoms)
-        .plus(this.bondedAtoms)
-        .plus(this.unbondingAtoms)
-        .toString()
     },
-    bondedAtoms() {
-      return Object.entries(this.committedDelegations).reduce(
-        (total, [delegatorAddress, shares]) => {
-          const delegator = this.delegates.delegates.find(
-            d => d.operator_address === delegatorAddress
-          )
-          return total.plus(calculateTokens(delegator, shares))
-        },
-        BN(0)
-      )
+    totalTokens: {
+      type: String,
+      required: true
     },
-
-    unbondingAtoms() {
-      return Object.values(this.delegation.unbondingDelegations).reduce(
-        // unbondingDelegations can have several active undelegations per validator (key)
-        (atoms, entries) => {
-          return BN(atoms).plus(
-            entries.reduce((sum, { balance }) => sum.plus(balance), BN(0))
-          )
-        },
-        BN(0)
-      )
+    liquidTokens: {
+      type: String,
+      required: true
+    },
+    signedIn: {
+      type: Boolean,
+      required: true
+    },
+    bondDenom: {
+      type: String,
+      required: true
     }
   },
   methods: {
     signOut() {
-      this.$emit(`close`)
-      this.$store.dispatch(`signOut`)
+      this.$emit(`signOut`)
     },
     signIn() {
-      this.$router.push(`/welcome`)
-      this.$emit(`close`)
+      this.$emit(`signIn`)
     }
   }
 }

@@ -2,7 +2,7 @@
   <div>
     <table class="data-table">
       <thead>
-        <PanelSort :sort="sort" :properties="properties" xs-prop="" />
+        <PanelSort :sort="sort" :properties="properties" show-on-mobile="" />
       </thead>
       <tbody>
         <LiProposal
