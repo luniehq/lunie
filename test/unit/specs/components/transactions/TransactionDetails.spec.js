@@ -5,17 +5,19 @@ describe(`TransactionDetails`, () => {
   let wrapper
 
   const tx = {
-    blockNumber: 1086769,
-    fees: {
-      amount: "37",
-      denom: "uatom"
+    type: "cosmos-sdk/MsgSend",
+    value: {
+      from_address: "cosmos1",
+      to_address: "cosmos2",
+      amount: [{ denom: "fabocoins", amount: "1234" }]
     },
+    key:
+      'cosmos-sdk/MsgSend_undefined_{"from_address":"cosmos1","to_address":"cosmos2","amount":[{"denom":"fabocoins","amount":"1234"}]}',
+    blockNumber: 150,
+    time: new Date("2018-07-01"),
+    fees: { amount: "0", denom: "ATOM" },
     group: "banking",
-    key: "keyhash",
-    memo: "(Sent via Lunie)",
-    time: new Date("2019-07-31"),
-    liquidDate: NaN,
-    type: "cosmos-sdk/MsgSend"
+    liquidDate: null
   }
 
   beforeEach(() => {
