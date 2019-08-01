@@ -2,10 +2,7 @@
   <div>
     <CardSignInRequired v-if="!session.signedIn" />
     <div v-else-if="delegation.loaded && yourValidators.length > 0">
-      <TableValidators
-        :validators="yourValidators"
-        show-on-mobile="my_delegations"
-      />
+      <TableValidators :validators="yourValidators" show-on-mobile="my_delegations" />
     </div>
     <TmDataConnecting v-else-if="!delegation.loaded && !connected" />
     <TmDataLoading v-else-if="!delegation.loaded && delegation.loading" />
@@ -42,7 +39,6 @@ import CardSignInRequired from "common/CardSignInRequired"
 import TmDataLoading from "common/TmDataLoading"
 import TableValidators from "staking/TableValidators"
 import TmDataConnecting from "common/TmDataConnecting"
-import { getUnbondingTime } from "scripts/time"
 import TransactionList from "transactions/TransactionList"
 
 export default {
@@ -94,7 +90,6 @@ export default {
     this.loadStakingTxs()
   },
   methods: {
-    getUnbondingTime,
     async loadStakingTxs() {
       if (this.session.signedIn) {
         await this.$store.dispatch(`getAllTxs`)

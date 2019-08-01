@@ -44,7 +44,6 @@
 import moment from "moment"
 import { mapGetters } from "vuex"
 import { prettyInt } from "scripts/num"
-import { getUnbondingTime } from "scripts/time"
 import {
   flattenTransactionMsgs,
   addTransactionTypeData
@@ -103,7 +102,6 @@ export default {
     this.getBlock()
   },
   methods: {
-    getUnbondingTime,
     async getBlock({ $store, $route, $router, lastHeader } = this) {
       // query first for the block so we don't fail if the user started from this route and hasn't received any lastHeader yet
       await $store.dispatch(`queryBlockInfo`, $route.params.height)
