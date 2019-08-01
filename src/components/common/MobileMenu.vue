@@ -9,10 +9,10 @@
 
       <v-spacer></v-spacer>
 
-      <v-btn v-if="signedIn" icon @click.native="signOut" id="mobile-sign-in">
+      <v-btn v-if="signedIn" icon @click.native="signOut" id="mobile-sign-out">
         <v-icon>power_settings_new</v-icon>
       </v-btn>
-      <v-btn v-else icon @click.native="signIn" id="mobile-sign-out">
+      <v-btn v-else icon @click.native="signIn" id="mobile-sign-in">
         <v-icon>power_settings_new</v-icon>
       </v-btn>
     </v-app-bar>

@@ -6,7 +6,7 @@
   </v-app-bar> -->
 
     <!-- Sizes your content based upon application components -->
-    <v-content>
+    <v-content id="app-content">
       <CookieBar />
       <MaintenanceBar />
       <DisconnectedBar />

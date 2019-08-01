@@ -12,7 +12,6 @@ module.exports = {
     )
     browser.setValue("#sign-in-password", "1234567890")
     await next(browser)
-    signOut(browser)
   },
   "Create local account": async function(browser) {
     prepare(browser)
@@ -44,8 +43,6 @@ module.exports = {
 
     browser.click("#sign-up-warning")
     await next(browser)
-    // signs in
-    signOut(browser)
   },
   "Import local account": async function(browser) {
     prepare(browser)
@@ -79,8 +76,6 @@ module.exports = {
       `lab stable vessel rose donkey panel slim assault cause tenant level yellow sport argue rural pizza supply idea detect brass shift aunt matrix simple`
     )
     await next(browser)
-    // signs in
-    signOut(browser)
   }
 }
 
@@ -98,6 +93,7 @@ async function next(browser) {
 }
 
 function signOut(browser) {
+  browser.pause(200)
   browser.waitForElementVisible("#mobile-sign-out")
   browser.click("#mobile-sign-out")
 }
