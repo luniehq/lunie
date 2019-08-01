@@ -2,9 +2,6 @@
   <v-app>
     <Menu />
 
-    <!-- <v-app-bar app>
-  </v-app-bar> -->
-
     <!-- Sizes your content based upon application components -->
     <v-content id="app-content">
       <CookieBar />
