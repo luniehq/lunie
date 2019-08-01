@@ -21,7 +21,9 @@ exports[`PageBlock shows a page with information about a certain block 1`] = `
           <h2
             class="page-profile__title"
           >
-            Block #100
+            
+              Block #100
+            
           </h2>
         </div>
       </div>
@@ -56,7 +58,9 @@ exports[`PageBlock shows a page with information about a certain block 1`] = `
         <h3
           class="page-profile__section-title"
         >
-          Transactions
+          
+            Transactions
+          
         </h3>
          
         <!---->
@@ -95,7 +99,9 @@ exports[`PageBlock shows the block page with no txs 1`] = `
           <h2
             class="page-profile__title"
           >
-            Block #100
+            
+              Block #100
+            
           </h2>
         </div>
       </div>
@@ -130,7 +136,9 @@ exports[`PageBlock shows the block page with no txs 1`] = `
         <h3
           class="page-profile__section-title"
         >
-          Transactions
+          
+            Transactions
+          
         </h3>
          
         <tmdatamsg-stub
@@ -141,7 +149,9 @@ exports[`PageBlock shows the block page with no txs 1`] = `
           </div>
            
           <div>
-            This block doesn't contain any transactions.
+            
+              This block doesn't contain any transactions.
+            
           </div>
         </tmdatamsg-stub>
          
@@ -179,7 +189,9 @@ exports[`PageBlock shows the page when the block hasn't been loaded yet 1`] = `
           <h2
             class="page-profile__title"
           >
-            Block --
+            
+              Block --
+            
           </h2>
         </div>
       </div>
@@ -214,7 +226,9 @@ exports[`PageBlock shows the page when the block hasn't been loaded yet 1`] = `
         <h3
           class="page-profile__section-title"
         >
-          Transactions
+          
+            Transactions
+          
         </h3>
          
         <tmdatamsg-stub
@@ -225,7 +239,9 @@ exports[`PageBlock shows the page when the block hasn't been loaded yet 1`] = `
           </div>
            
           <div>
-            This block doesn't contain any transactions.
+            
+              This block doesn't contain any transactions.
+            
           </div>
         </tmdatamsg-stub>
          
