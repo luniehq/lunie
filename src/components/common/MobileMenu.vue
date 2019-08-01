@@ -2,7 +2,10 @@
   <div>
     <v-app-bar dark>
       <v-icon v-if="signedIn">account_circle</v-icon>
-      <v-toolbar-title v-if="signedIn">{{ totalTokens | atoms | shortDecimals }} {{ bondDenom | viewDenom }}</v-toolbar-title>
+      <v-toolbar-title v-if="signedIn"
+        >{{ totalTokens | atoms | shortDecimals }}
+        {{ bondDenom | viewDenom }}</v-toolbar-title
+      >
 
       <v-spacer></v-spacer>
 
@@ -96,7 +99,7 @@ export default {
 }
 
 .v-toolbar__title {
-    margin-left: 1rem;
+  margin-left: 1rem;
 }
 
 .v-footer .theme--dark.v-btn--active {

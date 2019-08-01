@@ -8,7 +8,6 @@ exports[`TableProposals has the expected html structure 1`] = `
     <thead>
       <tr
         class="panel-sort-container"
-        xs-prop=""
       >
         <th
           class="panel-sort-table-header sort-by hide-xs"
@@ -401,7 +400,6 @@ exports[`TableProposals should filter the proposals 1`] = `
     <thead>
       <tr
         class="panel-sort-container"
-        xs-prop=""
       >
         <th
           class="panel-sort-table-header sort-by hide-xs"
