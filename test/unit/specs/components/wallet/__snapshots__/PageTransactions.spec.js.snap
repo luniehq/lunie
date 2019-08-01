@@ -44,25 +44,3 @@ exports[`PageTransactions Renders correctly and loads transactions 1`] = `
   </template>
 </tmpage-stub>
 `;
-
-exports[`PageTransactions Renders correctly if user hasn't signed in, and does not load transactions 1`] = `
-<tmpage-stub
-  data-title="Transactions"
-  loaded="true"
-  managed="true"
-  signinrequired="true"
-  subtitle=""
-  title=""
->
-  <dataemptytx-stub />
-   
-  <template>
-    <transactionlist-stub
-      transactions="[object Object],[object Object],[object Object],[object Object],[object Object],[object Object]"
-      validators="[object Object]"
-    />
-     
-    <br />
-  </template>
-</tmpage-stub>
-`;

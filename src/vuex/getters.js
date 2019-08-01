@@ -35,24 +35,14 @@ export const flatOrderedTransactionList = (state, getters) => {
   let allTx = getters.allTransactions.reduce(flattenTransactionMsgs, [])
   allTx = allTx.map(addTransactionTypeData(state))
   allTx.sort(compareBlockTimeDesc)
-  console.log("allTxs sort rev", allTx)
+  console.log("flatOrderedTransactionList", allTx)
   return allTx
-}
-
-export const blockTransactions = state => {
-  let blockTx = state.blocks.block.transactions.reduce(
-    flattenTransactionMsgs,
-    []
-  )
-  blockTx = blockTx.map(addTransactionTypeData(state))
-  console.log("blockTransactions", blockTx)
-  return blockTx
 }
 
 export const pendingUndelegations = (state, getters) => {
   const allTx = getters.flatOrderedTransactionList
   const pendingTx = allTx.filter(isPendingUndelegation)
-  console.log(pendingTx)
+  console.log("pendingUndelegations", pendingTx)
   return pendingTx
 }
 
