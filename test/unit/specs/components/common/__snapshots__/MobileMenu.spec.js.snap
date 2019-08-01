@@ -13,6 +13,7 @@ exports[`MobileMenu should show a mobile menu 1`] = `
      
     <v-btn-stub
       icon=""
+      id="mobile-sign-out"
     >
       <v-icon-stub>
         power_settings_new

@@ -12,8 +12,7 @@ module.exports = {
     )
     browser.setValue("#sign-in-password", "1234567890")
     await next(browser)
-    openMenu(browser)
-    browser.waitForElementVisible("#mobile-sign-out")
+    signOut(browser)
   },
   "Create local account": async function(browser) {
     prepare(browser)
@@ -46,8 +45,7 @@ module.exports = {
     browser.click("#sign-up-warning")
     await next(browser)
     // signs in
-    openMenu(browser)
-    browser.waitForElementVisible("#mobile-sign-out")
+    signOut(browser)
   },
   "Import local account": async function(browser) {
     prepare(browser)
@@ -82,8 +80,7 @@ module.exports = {
     )
     await next(browser)
     // signs in
-    openMenu(browser)
-    browser.waitForElementVisible("#mobile-sign-out")
+    signOut(browser)
   }
 }
 
@@ -100,20 +97,12 @@ async function next(browser) {
   return browser.click(".session-footer .tm-btn")
 }
 
-function openMenu(browser) {
-  browser.waitForElementVisible(".open-menu")
-  browser.pause(500)
-  browser.click(".open-menu")
-}
-
 function signOut(browser) {
-  openMenu(browser)
   browser.waitForElementVisible("#mobile-sign-out")
   browser.click("#mobile-sign-out")
 }
 
 function signIn(browser) {
-  openMenu(browser)
   browser.waitForElementVisible("#mobile-sign-in")
   browser.click("#mobile-sign-in")
 }
