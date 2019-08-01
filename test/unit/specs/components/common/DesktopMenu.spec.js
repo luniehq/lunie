@@ -2,55 +2,9 @@ import { shallowMount } from "@vue/test-utils"
 import DesktopMenu from "common/DesktopMenu"
 
 describe(`DesktopMenu`, () => {
-  let wrapper, $store
+  let wrapper
 
   beforeEach(async () => {
-    $store = {
-      commit: jest.fn(),
-      getters: {
-        session: {
-          signedIn: true
-        },
-        liquidAtoms: 1000,
-        bondDenom: "stake",
-        committedDelegations: {
-          validator1: 42,
-          validator2: 9
-        },
-        delegation: {
-          unbondingDelegations: {
-            validator1: [
-              {
-                balance: `42`
-              }
-            ],
-            validator2: [
-              {
-                balance: `9`
-              },
-              {
-                balance: `12`
-              }
-            ]
-          }
-        },
-        delegates: {
-          delegates: [
-            {
-              operator_address: `validator1`,
-              delegator_shares: `1000`,
-              tokens: `1000`
-            },
-            {
-              operator_address: `validator2`,
-              delegator_shares: `1000`,
-              tokens: `100`
-            }
-          ]
-        }
-      }
-    }
-
     wrapper = shallowMount(DesktopMenu, {
       props: {
         links: [
@@ -64,10 +18,11 @@ describe(`DesktopMenu`, () => {
             route: "/validators",
             title: "Validators"
           }
-        ]
-      },
-      mocks: {
-        $store
+        ],
+        totalTokens: "1000",
+        liquidTokens: "100",
+        bondDenom: "stake",
+        signedIn: true
       },
       stubs: [
         `router-link`,
@@ -89,76 +44,15 @@ describe(`DesktopMenu`, () => {
     expect(wrapper.element).toMatchSnapshot()
   })
 
-  it(`opens the session modal for a sign in`, () => {
-    const $store = { commit: jest.fn(), $emit: jest.fn() }
-    const self = { $store, $router: { push: jest.fn() }, $emit: jest.fn() }
+  it(`signals sign in`, () => {
+    const self = { $emit: jest.fn() }
     DesktopMenu.methods.signIn.call(self)
-    expect(self.$router.push).toHaveBeenCalledWith(`/welcome`)
+    expect(self.$emit).toHaveBeenCalledWith(`signIn`)
   })
 
-  it(`call dispatch to sign the user out`, () => {
-    const $store = { dispatch: jest.fn() }
-    const self = { $store, $router: { push: jest.fn() }, $emit: jest.fn() }
+  it(`signals sign out`, () => {
+    const self = { $emit: jest.fn() }
     DesktopMenu.methods.signOut.call(self)
-    expect($store.dispatch).toHaveBeenCalledWith(`signOut`)
-  })
-
-  it(`totalAtoms`, () => {
-    const result = DesktopMenu.computed.totalAtoms.call({
-      liquidAtoms: 2,
-      bondedAtoms: `42`,
-      unbondingAtoms: 9
-    })
-
-    expect(result).toBe(`53`)
-  })
-
-  it(`bondedAtoms`, () => {
-    const result = DesktopMenu.computed.bondedAtoms.call({
-      committedDelegations: {
-        validator1: 42,
-        validator2: 9
-      },
-      delegates: {
-        delegates: [
-          {
-            operator_address: `validator1`,
-            delegator_shares: `1000`,
-            tokens: `1000`
-          },
-          {
-            operator_address: `validator2`,
-            delegator_shares: `1000`,
-            tokens: `100`
-          }
-        ]
-      }
-    })
-
-    expect(result.toNumber()).toBe(42.9)
-  })
-
-  it(`unbondingAtoms`, () => {
-    const result = DesktopMenu.computed.unbondingAtoms.call({
-      delegation: {
-        unbondingDelegations: {
-          validator1: [
-            {
-              balance: `42`
-            }
-          ],
-          validator2: [
-            {
-              balance: `9`
-            },
-            {
-              balance: `12`
-            }
-          ]
-        }
-      }
-    })
-
-    expect(result.toNumber()).toBe(63)
+    expect(self.$emit).toHaveBeenCalledWith(`signOut`)
   })
 })

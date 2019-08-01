@@ -1,18 +1,38 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`MobileMenu should show a mobile menu 1`] = `
-<v-footer-stub
-  dark=""
-  fixed="true"
-  padless="true"
->
-  <v-card-stub
-    class="text-center"
-    flat=""
-    tile=""
-    width="100%"
+<div>
+  <v-app-bar-stub
+    dark=""
   >
-    <v-card-text-stub />
-  </v-card-stub>
-</v-footer-stub>
+    <!---->
+     
+    <!---->
+     
+    <v-spacer-stub />
+     
+    <v-btn-stub
+      icon=""
+    >
+      <v-icon-stub>
+        power_settings_new
+      </v-icon-stub>
+    </v-btn-stub>
+  </v-app-bar-stub>
+   
+  <v-footer-stub
+    dark=""
+    fixed="true"
+    padless="true"
+  >
+    <v-card-stub
+      class="text-center"
+      flat=""
+      tile=""
+      width="100%"
+    >
+      <v-card-text-stub />
+    </v-card-stub>
+  </v-footer-stub>
+</div>
 `;

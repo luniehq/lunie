@@ -18,7 +18,11 @@ describe(`MobileMenu`, () => {
             route: "/validators",
             title: "Validators"
           }
-        ]
+        ],
+        totalTokens: "1000",
+        liquidTokens: "100",
+        bondDenom: "stake",
+        signedIn: true
       },
       stubs: [
         `router-link`,
@@ -34,12 +38,27 @@ describe(`MobileMenu`, () => {
         `v-list-item-content`,
         `v-list-item-avatar`,
         `v-icon`,
-        `v-list-item-icon`
+        `v-list-item-icon`,
+        `v-spacer`,
+        `v-app-bar`,
+        `v-btn`
       ]
     })
   })
 
   it("should show a mobile menu", () => {
     expect(wrapper.element).toMatchSnapshot()
+  })
+
+  it(`signals sign in`, () => {
+    const self = { $emit: jest.fn() }
+    MobileMenu.methods.signIn.call(self)
+    expect(self.$emit).toHaveBeenCalledWith(`signIn`)
+  })
+
+  it(`signals sign out`, () => {
+    const self = { $emit: jest.fn() }
+    MobileMenu.methods.signOut.call(self)
+    expect(self.$emit).toHaveBeenCalledWith(`signOut`)
   })
 })
