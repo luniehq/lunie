@@ -7,6 +7,31 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.0-beta.101] - 2019-07-31
+
+### Changed
+
+- [#2848](https://github.com/cosmos/lunie/pull/2848) Only show one attribute on mobile list of validators @faboweb
+
+## [1.0.0-beta.100] - 2019-07-30
+
+### Added
+
+- [#2847](https://github.com/cosmos/lunie/pull/2847) Added expected returns calculation to validators @faboweb
+
+### Changed
+
+- Show signin with extension if user has extension @faboweb
+- [#2847](https://github.com/cosmos/lunie/pull/2847) Make validator row item clickable @faboweb
+
+### Fixed
+
+- [#2843](https://github.com/cosmos/lunie/issues/2843) The cache was not cleared on a sign in if already signed in @faboweb
+
+### Deprecated
+
+- [#2840](https://github.com/cosmos/lunie/pull/2840) Remove file and spec since it is for the extension @colw
+
 ## [1.0.0-beta.99] - 2019-07-22
 
 ### Added

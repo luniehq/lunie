@@ -23,14 +23,13 @@ exports[`LiValidator has the expected html structure 1`] = `
         class="data-table__row__info__container__status green"
       />
        
-      <router-link-stub
+      <span
         class="data-table__row__info__container__name"
-        to="[object Object]"
       >
         
         mr_mounty
       
-      </router-link-stub>
+      </span>
        
       <div
         class="data-table__row__info__container__description"
@@ -43,7 +42,7 @@ exports[`LiValidator has the expected html structure 1`] = `
   </td>
    
   <td
-    class="li-validator__delegated-steak"
+    class="hide-xs"
   >
     
     --
@@ -51,7 +50,7 @@ exports[`LiValidator has the expected html structure 1`] = `
   </td>
    
   <td
-    class="li-validator__rewards"
+    class="hide-xs"
   >
     
     --
@@ -59,7 +58,7 @@ exports[`LiValidator has the expected html structure 1`] = `
   </td>
    
   <td
-    class="li-validator__voting-power"
+    class="hide-xs"
   >
     
     1.40%
@@ -67,7 +66,7 @@ exports[`LiValidator has the expected html structure 1`] = `
   </td>
    
   <td
-    class="li-validator__commission"
+    class="hide-xs"
   >
     
     5.00%
@@ -75,10 +74,18 @@ exports[`LiValidator has the expected html structure 1`] = `
   </td>
    
   <td
-    class="li-validator__uptime"
+    class="hide-xs"
   >
     
     98.78%
+  
+  </td>
+   
+  <td
+    class="hide-xs"
+  >
+    
+    13.00%
   
   </td>
 </tr>
@@ -107,14 +114,13 @@ exports[`LiValidator should display uptime as double-dash 1`] = `
         class="data-table__row__info__container__status green"
       />
        
-      <router-link-stub
+      <span
         class="data-table__row__info__container__name"
-        to="[object Object]"
       >
         
         mr_mounty
       
-      </router-link-stub>
+      </span>
        
       <div
         class="data-table__row__info__container__description"
@@ -127,7 +133,7 @@ exports[`LiValidator should display uptime as double-dash 1`] = `
   </td>
    
   <td
-    class="li-validator__delegated-steak"
+    class="hide-xs"
   >
     
     --
@@ -135,7 +141,7 @@ exports[`LiValidator should display uptime as double-dash 1`] = `
   </td>
    
   <td
-    class="li-validator__rewards"
+    class="hide-xs"
   >
     
     --
@@ -143,7 +149,7 @@ exports[`LiValidator should display uptime as double-dash 1`] = `
   </td>
    
   <td
-    class="li-validator__voting-power"
+    class="hide-xs"
   >
     
     1.40%
@@ -151,7 +157,7 @@ exports[`LiValidator should display uptime as double-dash 1`] = `
   </td>
    
   <td
-    class="li-validator__commission"
+    class="hide-xs"
   >
     
     5.00%
@@ -159,10 +165,18 @@ exports[`LiValidator should display uptime as double-dash 1`] = `
   </td>
    
   <td
-    class="li-validator__uptime"
+    class="hide-xs"
   >
     
     --
+  
+  </td>
+   
+  <td
+    class="hide-xs"
+  >
+    
+    13.00%
   
   </td>
 </tr>
@@ -191,14 +205,13 @@ exports[`LiValidator works if user is not signed in 1`] = `
         class="data-table__row__info__container__status green"
       />
        
-      <router-link-stub
+      <span
         class="data-table__row__info__container__name"
-        to="[object Object]"
       >
         
         mr_mounty
       
-      </router-link-stub>
+      </span>
        
       <div
         class="data-table__row__info__container__description"
@@ -211,7 +224,7 @@ exports[`LiValidator works if user is not signed in 1`] = `
   </td>
    
   <td
-    class="li-validator__delegated-steak"
+    class="hide-xs"
   >
     
     --
@@ -219,7 +232,7 @@ exports[`LiValidator works if user is not signed in 1`] = `
   </td>
    
   <td
-    class="li-validator__rewards"
+    class="hide-xs"
   >
     
     --
@@ -227,7 +240,7 @@ exports[`LiValidator works if user is not signed in 1`] = `
   </td>
    
   <td
-    class="li-validator__voting-power"
+    class="hide-xs"
   >
     
     1.40%
@@ -235,7 +248,7 @@ exports[`LiValidator works if user is not signed in 1`] = `
   </td>
    
   <td
-    class="li-validator__commission"
+    class="hide-xs"
   >
     
     5.00%
@@ -243,10 +256,18 @@ exports[`LiValidator works if user is not signed in 1`] = `
   </td>
    
   <td
-    class="li-validator__uptime"
+    class="hide-xs"
   >
     
     98.78%
+  
+  </td>
+   
+  <td
+    class="hide-xs"
+  >
+    
+    13.00%
   
   </td>
 </tr>
