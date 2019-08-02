@@ -36,6 +36,30 @@ export default {
     DesktopMenu,
     MobileMenu
   },
+  data: () => ({
+    links: [
+      {
+        icon: "account_balance_wallet",
+        route: "/portfolio",
+        title: "Portfolio"
+      },
+      {
+        icon: "add_box",
+        route: "/validators",
+        title: "Validators"
+      },
+      {
+        icon: "swap_horiz",
+        route: "/transactions",
+        title: "Activity"
+      },
+      {
+        icon: "how_to_vote",
+        route: "/proposals",
+        title: "Proposals"
+      }
+    ]
+  }),
   computed: {
     ...mapGetters([
       `session`,
@@ -86,30 +110,6 @@ export default {
       this.$router.push(`/welcome`)
       this.$emit(`close`)
     }
-  },
-  data: () => ({
-    links: [
-      {
-        icon: "account_balance_wallet",
-        route: "/portfolio",
-        title: "Portfolio"
-      },
-      {
-        icon: "add_box",
-        route: "/validators",
-        title: "Validators"
-      },
-      {
-        icon: "swap_horiz",
-        route: "/transactions",
-        title: "Activity"
-      },
-      {
-        icon: "how_to_vote",
-        route: "/proposals",
-        title: "Proposals"
-      }
-    ]
-  })
+  }
 }
 </script>

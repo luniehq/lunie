@@ -22,7 +22,7 @@ import LiAnyTransaction from "../transactions/LiAnyTransaction"
 import time from "scripts/time"
 
 export default {
-  name: `delegations-overview`,
+  name: `undelegations`,
   components: {
     LiAnyTransaction
   },
@@ -66,7 +66,7 @@ export default {
       this.loadStakingTxs()
     }
   },
-  async mounted() {
+  async created() {
     this.loadStakingTxs()
   },
   methods: {

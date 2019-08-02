@@ -1,0 +1,72 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Undelegations should show unbonding validators and the current committed validator 1`] = `
+Array [
+  Object {
+    "hash": "not a real hash 6",
+    "height": "569",
+    "time": "1970-01-01T00:00:04.200Z",
+    "tx": Object {
+      "result": Object {
+        "gasUsed": "3324",
+        "tags": Array [
+          Object {
+            "key": "action",
+            "value": "",
+          },
+          Object {
+            "key": "cmVjaXBpZW50",
+            "value": "N0ZFQzVEREE0NDA3RDVBRUQ5OTlFMTM3QjYxQTQ2QTEzQTc2MkJCNg==",
+          },
+        ],
+      },
+      "type": "8EFE47F0625DE8",
+      "value": Object {
+        "fee": Object {
+          "amount": Array [
+            Object {
+              "amount": "3421",
+              "denom": "uatom",
+            },
+          ],
+          "gas": "500000",
+        },
+        "memo": "TESTING (Sent via Lunie)",
+        "msg": Array [
+          Object {
+            "type": "cosmos-sdk/MsgUndelegate",
+            "value": Object {
+              "amount": Object {
+                "amount": "1000000",
+                "denom": "uatom",
+              },
+              "delegator_address": "cosmos1ek9cd8ewgxg9w5xllq9um0uf4aaxaruvcw4v9e",
+              "shares_amount": "323.000000000000000000",
+              "validator_address": "cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw",
+            },
+          },
+        ],
+      },
+    },
+    "unbondingDelegation": Array [
+      Object {
+        "completion_time": "1970-01-01T00:00:42.000Z",
+        "creation_height": "569",
+      },
+    ],
+  },
+]
+`;
+
+exports[`Undelegations should show unbonding validators and the current committed validator 2`] = `
+<div>
+  <lianytransaction-stub
+    bondingdenom="stake"
+    proposalsurl="/governance"
+    transaction="[object Object]"
+    unbondingtime="42000"
+    validators="[object Object],[object Object],[object Object]"
+    validatorsurl="/validators"
+  />
+</div>
+`;
