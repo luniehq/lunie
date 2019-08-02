@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 <template>
   <TmPage
     :managed="true"

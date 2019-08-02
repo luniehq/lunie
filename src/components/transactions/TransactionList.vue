@@ -11,7 +11,6 @@
 </template>
 
 <script>
-// import TransactionItem from "./TransactionItem"
 import TransactionItem from "./TransactionItem"
 
 export default {
