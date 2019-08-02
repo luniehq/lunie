@@ -35,7 +35,7 @@ const unbondingTransaction = {
 const constantDate = new Date()
 
 describe(`time helper`, () => {
-  describe(`getUnbondingTime`, () => {
+  describe(`getUnbondTimeFromTX`, () => {
     it(`should return NaN with wrong transactions`, () => {
       expect(
         getUnbondTimeFromTX(wrongTransactionType, {
