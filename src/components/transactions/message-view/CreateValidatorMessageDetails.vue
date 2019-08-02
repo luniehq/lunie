@@ -11,7 +11,10 @@
       Monikor&nbsp;
       <router-link
         :to="`staking/validators/${transaction.value.validator_address}`"
-      >{{ ransaction.value.validator_address | resolveValidatorName(validators) }}</router-link>
+        >{{
+          ransaction.value.validator_address | resolveValidatorName(validators)
+        }}</router-link
+      >
     </div>
   </div>
 </template>

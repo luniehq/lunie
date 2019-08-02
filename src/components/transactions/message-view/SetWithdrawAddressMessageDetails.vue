@@ -3,7 +3,9 @@
     <div class="tx__content__caption">
       <p>Update withdraw address</p>
     </div>
-    <div class="tx__content__information">To {{ transaction.value.withdraw_address }}</div>
+    <div class="tx__content__information">
+      To {{ transaction.value.withdraw_address }}
+    </div>
   </div>
 </template>
 
@@ -33,4 +35,3 @@ export default {
   }
 }
 </script>
-

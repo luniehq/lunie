@@ -7,7 +7,10 @@
       From&nbsp;
       <router-link
         :to="`staking/validators/${transaction.value.validator_address}`"
-      >{{ transaction.value.validator_address | resolveValidatorName(validators) }}</router-link>
+        >{{
+          transaction.value.validator_address | resolveValidatorName(validators)
+        }}</router-link
+      >
     </div>
   </div>
 </template>
