@@ -44,7 +44,8 @@ describe(`LiProposal`, () => {
       }
     })
     expect(wrapper.vm.status).toEqual({
-      message: `This proposal has passed`
+      badge: `Passed`,
+      color: `green`
     })
   })
 
@@ -56,7 +57,7 @@ describe(`LiProposal`, () => {
       }
     })
     expect(wrapper.vm.status).toEqual({
-      message: `This proposal has been rejected and voting is closed`,
+      badge: `Rejected`,
       color: `red`
     })
   })
@@ -69,8 +70,8 @@ describe(`LiProposal`, () => {
       }
     })
     expect(wrapper.vm.status).toEqual({
-      message: `Voting for this proposal is open`,
-      color: `green`
+      badge: `Voting Period`,
+      color: `pink`
     })
   })
 
@@ -82,8 +83,8 @@ describe(`LiProposal`, () => {
       }
     })
     expect(wrapper.vm.status).toEqual({
-      message: `Deposits are open for this proposal`,
-      color: `yellow`
+      badge: `Deposit Period`,
+      color: `orange`
     })
   })
 
@@ -95,7 +96,7 @@ describe(`LiProposal`, () => {
       }
     })
     expect(wrapper.vm.status).toEqual({
-      message: `There was an error determining the status of this proposal.`,
+      badge: `Error`,
       color: `grey`
     })
   })
@@ -132,13 +133,13 @@ describe(`LiProposal`, () => {
         ...proposal,
         proposal_content: {
           value: {
-            description: `This is some kind of long description. longer than 100 characters for optimum-maximum-ideal truncation.`
+            description: `This is some kind of long description. longer than 200 characters for optimum-maximum-ideal truncation. This is some kind of long description. longer than 200 characters for optimum-maximum-ideal truncation.`
           }
         }
       }
     })
     expect(wrapper.vm.description).toEqual(
-      `This is some kind of long description. longer than 100 characters for optimum-maximum-ideal truncati…`
+      `This is some kind of long description. longer than 200 characters for optimum-maximum-ideal truncation. This is some kind of long description. longer than 200 characters for optimum-maximum-ideal trun…`
     )
   })
 

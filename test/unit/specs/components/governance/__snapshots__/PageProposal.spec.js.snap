@@ -13,22 +13,18 @@ exports[`PageProposal renders votes in HTML when voting is open 1`] = `
     <div
       class="row"
     >
-      <h2
-        class="proposal-id"
-      >
-        #2
-      </h2>
-       
       <div
         class="page-profile__header__info"
       >
+        <span
+          class="proposal-status pink"
+        >
+          Voting Period
+        </span>
+         
         <div
           class="page-profile__status-and-title"
         >
-          <span
-            class="page-profile__status green"
-          />
-           
           <h2
             class="page-profile__title"
           >
@@ -37,57 +33,35 @@ exports[`PageProposal renders votes in HTML when voting is open 1`] = `
             
           </h2>
         </div>
-         
-        <div
-          class="page-profile__header__actions"
-        >
-          <tmbtn-stub
-            color="primary"
-            id="vote-btn"
-            value="Vote"
-          />
-           
-          <!---->
-           
-          <!---->
-           
-          <!---->
-        </div>
       </div>
     </div>
      
     <div
       class="row"
     >
-      <dl
-        class="info_dl colored_dl"
-      >
+      <dl>
         <dt>
           Submitted
         </dt>
          
         <dd>
-          a few seconds ago
+          January 1st 1970, 00:00
         </dd>
       </dl>
        
-      <dl
-        class="info_dl colored_dl"
-      >
+      <dl>
         <dt>
-          Proposal Status
+          Voting Start Date
         </dt>
          
         <dd>
           
-            Voting started in 2 days
+            January 3rd 1970, 00:00
           
         </dd>
       </dl>
        
-      <dl
-        class="info_dl colored_dl"
-      >
+      <dl>
         <dt>
           Voting End Date
         </dt>
@@ -105,93 +79,86 @@ exports[`PageProposal renders votes in HTML when voting is open 1`] = `
     <div
       class="row"
     >
-      <dl
-        class="info_dl colored_dl"
-      >
-        <dt>
-          Deposit Count
-        </dt>
-         
-        <dd>
-          
-            2,000
-            STAKE
-          
-        </dd>
-      </dl>
+      <!---->
        
-      <dl
-        class="info_dl colored_dl"
-      >
+      <dl>
         <dt>
           Total Vote Count
         </dt>
          
         <dd>
-          10,000
+          
+            10,000
+          
         </dd>
+      </dl>
+       
+      <dl>
+        <tmbtn-stub
+          color="primary"
+          id="vote-btn"
+          value="Vote"
+        />
+         
+        <!---->
+         
+        <!---->
+         
+        <!---->
       </dl>
     </div>
      
     <div
       class="row"
     >
-      <dl
-        class="info_dl colored_dl"
-      >
+      <dl>
         <dt>
           Yes
         </dt>
          
         <dd>
           
-            1,000 /
-            10%
+            1,000
+            (10%)
           
         </dd>
       </dl>
        
-      <dl
-        class="info_dl colored_dl"
-      >
+      <dl>
         <dt>
           No
         </dt>
          
         <dd>
           
-            2,000 /
-            20%
+            2,000
+            (20%)
           
         </dd>
       </dl>
        
-      <dl
-        class="info_dl colored_dl"
-      >
+      <dl>
         <dt>
           No with Veto
         </dt>
          
         <dd>
           
-            3,000 /
-            30%
+            3,000
+            (30%)
           
         </dd>
       </dl>
        
-      <dl
-        class="info_dl colored_dl"
-      >
+      <dl>
         <dt>
           Abstain
         </dt>
          
         <dd>
           
-            4,000 /
-            40%
+            4,000
+            (40%)
           
         </dd>
       </dl>
@@ -203,9 +170,7 @@ exports[`PageProposal renders votes in HTML when voting is open 1`] = `
       <div
         class="column"
       >
-        <dl
-          class="info_dl colored_dl"
-        >
+        <dl>
           <dt>
             Description
           </dt>
@@ -244,22 +209,18 @@ exports[`PageProposal should display proposal page if user has signed in 1`] = `
     <div
       class="row"
     >
-      <h2
-        class="proposal-id"
-      >
-        #2
-      </h2>
-       
       <div
         class="page-profile__header__info"
       >
+        <span
+          class="proposal-status pink"
+        >
+          Voting Period
+        </span>
+         
         <div
           class="page-profile__status-and-title"
         >
-          <span
-            class="page-profile__status green"
-          />
-           
           <h2
             class="page-profile__title"
           >
@@ -268,57 +229,35 @@ exports[`PageProposal should display proposal page if user has signed in 1`] = `
             
           </h2>
         </div>
-         
-        <div
-          class="page-profile__header__actions"
-        >
-          <tmbtn-stub
-            color="primary"
-            id="vote-btn"
-            value="Vote"
-          />
-           
-          <!---->
-           
-          <!---->
-           
-          <!---->
-        </div>
       </div>
     </div>
      
     <div
       class="row"
     >
-      <dl
-        class="info_dl colored_dl"
-      >
+      <dl>
         <dt>
           Submitted
         </dt>
          
         <dd>
-          a few seconds ago
+          January 1st 1970, 00:00
         </dd>
       </dl>
        
-      <dl
-        class="info_dl colored_dl"
-      >
+      <dl>
         <dt>
-          Proposal Status
+          Voting Start Date
         </dt>
          
         <dd>
           
-            Voting started in 2 days
+            January 3rd 1970, 00:00
           
         </dd>
       </dl>
        
-      <dl
-        class="info_dl colored_dl"
-      >
+      <dl>
         <dt>
           Voting End Date
         </dt>
@@ -336,93 +275,86 @@ exports[`PageProposal should display proposal page if user has signed in 1`] = `
     <div
       class="row"
     >
-      <dl
-        class="info_dl colored_dl"
-      >
-        <dt>
-          Deposit Count
-        </dt>
-         
-        <dd>
-          
-            2,000
-            STAKE
-          
-        </dd>
-      </dl>
+      <!---->
        
-      <dl
-        class="info_dl colored_dl"
-      >
+      <dl>
         <dt>
           Total Vote Count
         </dt>
          
         <dd>
-          0
+          
+            0
+          
         </dd>
+      </dl>
+       
+      <dl>
+        <tmbtn-stub
+          color="primary"
+          id="vote-btn"
+          value="Vote"
+        />
+         
+        <!---->
+         
+        <!---->
+         
+        <!---->
       </dl>
     </div>
      
     <div
       class="row"
     >
-      <dl
-        class="info_dl colored_dl"
-      >
+      <dl>
         <dt>
           Yes
         </dt>
          
         <dd>
           
-            0 /
-            0%
+            0
+            (0%)
           
         </dd>
       </dl>
        
-      <dl
-        class="info_dl colored_dl"
-      >
+      <dl>
         <dt>
           No
         </dt>
          
         <dd>
           
-            0 /
-            0%
+            0
+            (0%)
           
         </dd>
       </dl>
        
-      <dl
-        class="info_dl colored_dl"
-      >
+      <dl>
         <dt>
           No with Veto
         </dt>
          
         <dd>
           
-            0 /
-            0%
+            0
+            (0%)
           
         </dd>
       </dl>
        
-      <dl
-        class="info_dl colored_dl"
-      >
+      <dl>
         <dt>
           Abstain
         </dt>
          
         <dd>
           
-            0 /
-            0%
+            0
+            (0%)
           
         </dd>
       </dl>
@@ -434,9 +366,7 @@ exports[`PageProposal should display proposal page if user has signed in 1`] = `
       <div
         class="column"
       >
-        <dl
-          class="info_dl colored_dl"
-        >
+        <dl>
           <dt>
             Description
           </dt>
@@ -475,22 +405,18 @@ exports[`PageProposal should display proposal page should default tally to 0 if 
     <div
       class="row"
     >
-      <h2
-        class="proposal-id"
-      >
-        #2
-      </h2>
-       
       <div
         class="page-profile__header__info"
       >
+        <span
+          class="proposal-status pink"
+        >
+          Voting Period
+        </span>
+         
         <div
           class="page-profile__status-and-title"
         >
-          <span
-            class="page-profile__status green"
-          />
-           
           <h2
             class="page-profile__title"
           >
@@ -499,57 +425,35 @@ exports[`PageProposal should display proposal page should default tally to 0 if 
             
           </h2>
         </div>
-         
-        <div
-          class="page-profile__header__actions"
-        >
-          <tmbtn-stub
-            color="primary"
-            id="vote-btn"
-            value="Vote"
-          />
-           
-          <!---->
-           
-          <!---->
-           
-          <!---->
-        </div>
       </div>
     </div>
      
     <div
       class="row"
     >
-      <dl
-        class="info_dl colored_dl"
-      >
+      <dl>
         <dt>
           Submitted
         </dt>
          
         <dd>
-          a few seconds ago
+          January 1st 1970, 00:00
         </dd>
       </dl>
        
-      <dl
-        class="info_dl colored_dl"
-      >
+      <dl>
         <dt>
-          Proposal Status
+          Voting Start Date
         </dt>
          
         <dd>
           
-            Voting started in 2 days
+            January 3rd 1970, 00:00
           
         </dd>
       </dl>
        
-      <dl
-        class="info_dl colored_dl"
-      >
+      <dl>
         <dt>
           Voting End Date
         </dt>
@@ -567,93 +471,86 @@ exports[`PageProposal should display proposal page should default tally to 0 if 
     <div
       class="row"
     >
-      <dl
-        class="info_dl colored_dl"
-      >
-        <dt>
-          Deposit Count
-        </dt>
-         
-        <dd>
-          
-            2,000
-            STAKE
-          
-        </dd>
-      </dl>
+      <!---->
        
-      <dl
-        class="info_dl colored_dl"
-      >
+      <dl>
         <dt>
           Total Vote Count
         </dt>
          
         <dd>
-          0
+          
+            0
+          
         </dd>
+      </dl>
+       
+      <dl>
+        <tmbtn-stub
+          color="primary"
+          id="vote-btn"
+          value="Vote"
+        />
+         
+        <!---->
+         
+        <!---->
+         
+        <!---->
       </dl>
     </div>
      
     <div
       class="row"
     >
-      <dl
-        class="info_dl colored_dl"
-      >
+      <dl>
         <dt>
           Yes
         </dt>
          
         <dd>
           
-            0 /
-            0%
+            0
+            (0%)
           
         </dd>
       </dl>
        
-      <dl
-        class="info_dl colored_dl"
-      >
+      <dl>
         <dt>
           No
         </dt>
          
         <dd>
           
-            0 /
-            0%
+            0
+            (0%)
           
         </dd>
       </dl>
        
-      <dl
-        class="info_dl colored_dl"
-      >
+      <dl>
         <dt>
           No with Veto
         </dt>
          
         <dd>
           
-            0 /
-            0%
+            0
+            (0%)
           
         </dd>
       </dl>
        
-      <dl
-        class="info_dl colored_dl"
-      >
+      <dl>
         <dt>
           Abstain
         </dt>
          
         <dd>
           
-            0 /
-            0%
+            0
+            (0%)
           
         </dd>
       </dl>
@@ -665,9 +562,7 @@ exports[`PageProposal should display proposal page should default tally to 0 if 
       <div
         class="column"
       >
-        <dl
-          class="info_dl colored_dl"
-        >
+        <dl>
           <dt>
             Description
           </dt>

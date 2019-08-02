@@ -6,7 +6,6 @@ exports[`PageGovernance disables proposal creation if not connected 1`] = `
   data-title="Governance"
   hideheader="true"
   subtitle=""
-  tabs="[object Object],[object Object]"
   title=""
 >
   <tmbtn-stub
@@ -30,7 +29,6 @@ exports[`PageGovernance has the expected html structure 1`] = `
   data-title="Governance"
   hideheader="true"
   subtitle=""
-  tabs="[object Object],[object Object]"
   title=""
 >
   <tmbtn-stub

@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.0-beta.101] - 2019-07-31
+
+### Changed
+
+- [#2848](https://github.com/cosmos/lunie/pull/2848) Only show one attribute on mobile list of validators @faboweb
+
 ## [1.0.0-beta.100] - 2019-07-30
 
 ### Added
