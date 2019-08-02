@@ -5,378 +5,113 @@ exports[`TableProposals has the expected html structure 1`] = `
   <table
     class="data-table"
   >
-    <thead>
-      <tr
-        class="panel-sort-container"
-      >
-        <th
-          class="panel-sort-table-header sort-by hide-xs"
-        >
-          <a
-            class="sort-by-link"
-          >
-            
-      Title
-            <i
-              class="material-icons"
-            >
-              arrow_drop_up
-            </i>
-          </a>
-        </th>
-        <th
-          class="panel-sort-table-header sort-by hide-xs"
-        >
-          <a
-            class="sort-by-link"
-          >
-            
-      Proposal Id
-            <i
-              class="material-icons"
-            >
-              arrow_drop_up
-            </i>
-          </a>
-        </th>
-        <th
-          class="panel-sort-table-header sort-by hide-xs"
-        >
-          <a
-            class="sort-by-link"
-          >
-            
-      Yes
-            <i
-              class="material-icons"
-            >
-              arrow_drop_up
-            </i>
-          </a>
-        </th>
-        <th
-          class="panel-sort-table-header sort-by hide-xs"
-        >
-          <a
-            class="sort-by-link"
-          >
-            
-      No
-            <i
-              class="material-icons"
-            >
-              arrow_drop_up
-            </i>
-          </a>
-        </th>
-        <th
-          class="panel-sort-table-header sort-by hide-xs"
-        >
-          <a
-            class="sort-by-link"
-          >
-            
-      No with Veto
-            <i
-              class="material-icons"
-            >
-              arrow_drop_up
-            </i>
-          </a>
-        </th>
-        <th
-          class="panel-sort-table-header sort-by hide-xs"
-        >
-          <a
-            class="sort-by-link"
-          >
-            
-      Abstain
-            <i
-              class="material-icons"
-            >
-              arrow_drop_up
-            </i>
-          </a>
-        </th>
-      </tr>
-    </thead>
-     
     <tbody>
       <tr
-        class="data-table__row li-proposal"
+        class="li-proposal"
       >
-        <td
-          class="data-table__row__info"
-        >
-          <div
-            class="data-table__row__info__container"
-          >
-            <span
-              class="data-table__row__info__container__status red"
-            />
-             
-            <router-link-stub
-              class="data-table__row__info__container__name"
-              to="[object Object]"
-            >
-              
-        Rejected proposal
-      
-            </router-link-stub>
-             
-            <p
-              class="data-table__row__info__container__description"
-            >
-              
-        this proposal was rejected
-      
-            </p>
-          </div>
-        </td>
-         
         <td>
-          #6
-        </td>
-         
-        <td
-          class="li-proposal__value yes"
-        >
-          
-    6.25%
-  
-        </td>
-         
-        <td
-          class="li-proposal__value no"
-        >
-          
-    18.75%
-  
-        </td>
-         
-        <td
-          class="li-proposal__value no_with_veto"
-        >
-          
-    62.5%
-  
-        </td>
-         
-        <td
-          class="li-proposal__value abstain"
-        >
-          
-    12.5%
-  
+          <span
+            class="proposal-status red"
+          >
+            Rejected
+          </span>
+           
+          <h3
+            class="li-proposal-title"
+          >
+            
+      Rejected proposal
+    
+          </h3>
+           
+          <p
+            class="li-proposal-description"
+          >
+            
+      this proposal was rejected
+    
+          </p>
         </td>
       </tr>
       <tr
-        class="data-table__row li-proposal"
+        class="li-proposal"
       >
-        <td
-          class="data-table__row__info"
-        >
-          <div
-            class="data-table__row__info__container"
-          >
-            <span
-              class="data-table__row__info__container__status yellow"
-            />
-             
-            <router-link-stub
-              class="data-table__row__info__container__name"
-              to="[object Object]"
-            >
-              
-        Custom text proposal
-      
-            </router-link-stub>
-             
-            <p
-              class="data-table__row__info__container__description"
-            >
-              
-        custom text proposal description
-      
-            </p>
-          </div>
-        </td>
-         
         <td>
-          #5
-        </td>
-         
-        <td
-          class="li-proposal__value yes"
-        >
-          
-    0.01%
-  
-        </td>
-         
-        <td
-          class="li-proposal__value no"
-        >
-          
-    0.01%
-  
-        </td>
-         
-        <td
-          class="li-proposal__value no_with_veto"
-        >
-          
-    0.01%
-  
-        </td>
-         
-        <td
-          class="li-proposal__value abstain"
-        >
-          
-    0.01%
-  
+          <span
+            class="proposal-status orange"
+          >
+            Deposit Period
+          </span>
+           
+          <h3
+            class="li-proposal-title"
+          >
+            
+      Custom text proposal
+    
+          </h3>
+           
+          <p
+            class="li-proposal-description"
+          >
+            
+      custom text proposal description
+    
+          </p>
         </td>
       </tr>
       <tr
-        class="data-table__row li-proposal"
+        class="li-proposal"
       >
-        <td
-          class="data-table__row__info"
-        >
-          <div
-            class="data-table__row__info__container"
-          >
-            <span
-              class="data-table__row__info__container__status green"
-            />
-             
-            <router-link-stub
-              class="data-table__row__info__container__name"
-              to="[object Object]"
-            >
-              
-        VotingPeriod proposal
-      
-            </router-link-stub>
-             
-            <p
-              class="data-table__row__info__container__description"
-            >
-              
-        custom text proposal description
-      
-            </p>
-          </div>
-        </td>
-         
         <td>
-          #2
-        </td>
-         
-        <td
-          class="li-proposal__value yes"
-        >
-          
-    0.01%
-  
-        </td>
-         
-        <td
-          class="li-proposal__value no"
-        >
-          
-    0.01%
-  
-        </td>
-         
-        <td
-          class="li-proposal__value no_with_veto"
-        >
-          
-    0.01%
-  
-        </td>
-         
-        <td
-          class="li-proposal__value abstain"
-        >
-          
-    0.01%
-  
+          <span
+            class="proposal-status pink"
+          >
+            Voting Period
+          </span>
+           
+          <h3
+            class="li-proposal-title"
+          >
+            
+      VotingPeriod proposal
+    
+          </h3>
+           
+          <p
+            class="li-proposal-description"
+          >
+            
+      custom text proposal description
+    
+          </p>
         </td>
       </tr>
       <tr
-        class="data-table__row li-proposal"
+        class="li-proposal"
       >
-        <td
-          class="data-table__row__info"
-        >
-          <div
-            class="data-table__row__info__container"
-          >
-            <span
-              class="data-table__row__info__container__status material-icons"
-            >
-              
-        checkmark
-      
-            </span>
-             
-            <router-link-stub
-              class="data-table__row__info__container__name"
-              to="[object Object]"
-            >
-              
-        Proposal Title
-      
-            </router-link-stub>
-             
-            <p
-              class="data-table__row__info__container__description"
-            >
-              
-        Proposal description
-      
-            </p>
-          </div>
-        </td>
-         
         <td>
-          #1
-        </td>
-         
-        <td
-          class="li-proposal__value yes"
-        >
-          
-    84.6%
-  
-        </td>
-         
-        <td
-          class="li-proposal__value no"
-        >
-          
-    4.23%
-  
-        </td>
-         
-        <td
-          class="li-proposal__value no_with_veto"
-        >
-          
-    1.69%
-  
-        </td>
-         
-        <td
-          class="li-proposal__value abstain"
-        >
-          
-    9.48%
-  
+          <span
+            class="proposal-status green"
+          >
+            Passed
+          </span>
+           
+          <h3
+            class="li-proposal-title"
+          >
+            
+      Proposal Title
+    
+          </h3>
+           
+          <p
+            class="li-proposal-description"
+          >
+            
+      Proposal description
+    
+          </p>
         </td>
       </tr>
     </tbody>
@@ -389,378 +124,113 @@ exports[`TableProposals should filter the proposals 1`] = `
   <table
     class="data-table"
   >
-    <thead>
-      <tr
-        class="panel-sort-container"
-      >
-        <th
-          class="panel-sort-table-header sort-by hide-xs"
-        >
-          <a
-            class="sort-by-link"
-          >
-            
-      Title
-            <i
-              class="material-icons"
-            >
-              arrow_drop_up
-            </i>
-          </a>
-        </th>
-        <th
-          class="panel-sort-table-header sort-by hide-xs"
-        >
-          <a
-            class="sort-by-link"
-          >
-            
-      Proposal Id
-            <i
-              class="material-icons"
-            >
-              arrow_drop_up
-            </i>
-          </a>
-        </th>
-        <th
-          class="panel-sort-table-header sort-by hide-xs"
-        >
-          <a
-            class="sort-by-link"
-          >
-            
-      Yes
-            <i
-              class="material-icons"
-            >
-              arrow_drop_up
-            </i>
-          </a>
-        </th>
-        <th
-          class="panel-sort-table-header sort-by hide-xs"
-        >
-          <a
-            class="sort-by-link"
-          >
-            
-      No
-            <i
-              class="material-icons"
-            >
-              arrow_drop_up
-            </i>
-          </a>
-        </th>
-        <th
-          class="panel-sort-table-header sort-by hide-xs"
-        >
-          <a
-            class="sort-by-link"
-          >
-            
-      No with Veto
-            <i
-              class="material-icons"
-            >
-              arrow_drop_up
-            </i>
-          </a>
-        </th>
-        <th
-          class="panel-sort-table-header sort-by hide-xs"
-        >
-          <a
-            class="sort-by-link"
-          >
-            
-      Abstain
-            <i
-              class="material-icons"
-            >
-              arrow_drop_up
-            </i>
-          </a>
-        </th>
-      </tr>
-    </thead>
-     
     <tbody>
       <tr
-        class="data-table__row li-proposal"
+        class="li-proposal"
       >
-        <td
-          class="data-table__row__info"
-        >
-          <div
-            class="data-table__row__info__container"
-          >
-            <span
-              class="data-table__row__info__container__status red"
-            />
-             
-            <router-link-stub
-              class="data-table__row__info__container__name"
-              to="[object Object]"
-            >
-              
-        Rejected proposal
-      
-            </router-link-stub>
-             
-            <p
-              class="data-table__row__info__container__description"
-            >
-              
-        this proposal was rejected
-      
-            </p>
-          </div>
-        </td>
-         
         <td>
-          #6
-        </td>
-         
-        <td
-          class="li-proposal__value yes"
-        >
-          
-    6.25%
-  
-        </td>
-         
-        <td
-          class="li-proposal__value no"
-        >
-          
-    18.75%
-  
-        </td>
-         
-        <td
-          class="li-proposal__value no_with_veto"
-        >
-          
-    62.5%
-  
-        </td>
-         
-        <td
-          class="li-proposal__value abstain"
-        >
-          
-    12.5%
-  
+          <span
+            class="proposal-status red"
+          >
+            Rejected
+          </span>
+           
+          <h3
+            class="li-proposal-title"
+          >
+            
+      Rejected proposal
+    
+          </h3>
+           
+          <p
+            class="li-proposal-description"
+          >
+            
+      this proposal was rejected
+    
+          </p>
         </td>
       </tr>
       <tr
-        class="data-table__row li-proposal"
+        class="li-proposal"
       >
-        <td
-          class="data-table__row__info"
-        >
-          <div
-            class="data-table__row__info__container"
-          >
-            <span
-              class="data-table__row__info__container__status yellow"
-            />
-             
-            <router-link-stub
-              class="data-table__row__info__container__name"
-              to="[object Object]"
-            >
-              
-        Custom text proposal
-      
-            </router-link-stub>
-             
-            <p
-              class="data-table__row__info__container__description"
-            >
-              
-        custom text proposal description
-      
-            </p>
-          </div>
-        </td>
-         
         <td>
-          #5
-        </td>
-         
-        <td
-          class="li-proposal__value yes"
-        >
-          
-    0.01%
-  
-        </td>
-         
-        <td
-          class="li-proposal__value no"
-        >
-          
-    0.01%
-  
-        </td>
-         
-        <td
-          class="li-proposal__value no_with_veto"
-        >
-          
-    0.01%
-  
-        </td>
-         
-        <td
-          class="li-proposal__value abstain"
-        >
-          
-    0.01%
-  
+          <span
+            class="proposal-status orange"
+          >
+            Deposit Period
+          </span>
+           
+          <h3
+            class="li-proposal-title"
+          >
+            
+      Custom text proposal
+    
+          </h3>
+           
+          <p
+            class="li-proposal-description"
+          >
+            
+      custom text proposal description
+    
+          </p>
         </td>
       </tr>
       <tr
-        class="data-table__row li-proposal"
+        class="li-proposal"
       >
-        <td
-          class="data-table__row__info"
-        >
-          <div
-            class="data-table__row__info__container"
-          >
-            <span
-              class="data-table__row__info__container__status green"
-            />
-             
-            <router-link-stub
-              class="data-table__row__info__container__name"
-              to="[object Object]"
-            >
-              
-        VotingPeriod proposal
-      
-            </router-link-stub>
-             
-            <p
-              class="data-table__row__info__container__description"
-            >
-              
-        custom text proposal description
-      
-            </p>
-          </div>
-        </td>
-         
         <td>
-          #2
-        </td>
-         
-        <td
-          class="li-proposal__value yes"
-        >
-          
-    0.01%
-  
-        </td>
-         
-        <td
-          class="li-proposal__value no"
-        >
-          
-    0.01%
-  
-        </td>
-         
-        <td
-          class="li-proposal__value no_with_veto"
-        >
-          
-    0.01%
-  
-        </td>
-         
-        <td
-          class="li-proposal__value abstain"
-        >
-          
-    0.01%
-  
+          <span
+            class="proposal-status pink"
+          >
+            Voting Period
+          </span>
+           
+          <h3
+            class="li-proposal-title"
+          >
+            
+      VotingPeriod proposal
+    
+          </h3>
+           
+          <p
+            class="li-proposal-description"
+          >
+            
+      custom text proposal description
+    
+          </p>
         </td>
       </tr>
       <tr
-        class="data-table__row li-proposal"
+        class="li-proposal"
       >
-        <td
-          class="data-table__row__info"
-        >
-          <div
-            class="data-table__row__info__container"
-          >
-            <span
-              class="data-table__row__info__container__status material-icons"
-            >
-              
-        checkmark
-      
-            </span>
-             
-            <router-link-stub
-              class="data-table__row__info__container__name"
-              to="[object Object]"
-            >
-              
-        Proposal Title
-      
-            </router-link-stub>
-             
-            <p
-              class="data-table__row__info__container__description"
-            >
-              
-        Proposal description
-      
-            </p>
-          </div>
-        </td>
-         
         <td>
-          #1
-        </td>
-         
-        <td
-          class="li-proposal__value yes"
-        >
-          
-    84.6%
-  
-        </td>
-         
-        <td
-          class="li-proposal__value no"
-        >
-          
-    4.23%
-  
-        </td>
-         
-        <td
-          class="li-proposal__value no_with_veto"
-        >
-          
-    1.69%
-  
-        </td>
-         
-        <td
-          class="li-proposal__value abstain"
-        >
-          
-    9.48%
-  
+          <span
+            class="proposal-status green"
+          >
+            Passed
+          </span>
+           
+          <h3
+            class="li-proposal-title"
+          >
+            
+      Proposal Title
+    
+          </h3>
+           
+          <p
+            class="li-proposal-description"
+          >
+            
+      Proposal description
+    
+          </p>
         </td>
       </tr>
     </tbody>
