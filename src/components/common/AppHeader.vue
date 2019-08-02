@@ -8,6 +8,7 @@
             src="~assets/images/cosmos-wallet-logo.svg"
             alt="Lunie spaceship accelerating into a colourful space sky"
           />
+          Lunie
         </router-link>
         <template v-if="!desktop">
           <div v-if="open" class="close-menu" @click="close()">
