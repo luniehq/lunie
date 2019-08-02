@@ -37,9 +37,6 @@ export default ({ node }) => {
         await dispatch(`getProposals`)
       }
     },
-    resetSessionData({ rootState }) {
-      rootState.proposals = JSON.parse(JSON.stringify(emptyState))
-    },
     async getProposals({ state, commit, rootState }) {
       state.loading = true
       if (!rootState.connection.connected) return
