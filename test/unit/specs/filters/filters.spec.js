@@ -1,4 +1,4 @@
-import { percentOrPending, formatBech32 } from "filters"
+import { percentOrPending, formatBech32, resolveValidatorName } from "filters"
 
 describe(`PercentOrPending Filter`, () => {
   it(`should return '--' when pending is true`, () => {
@@ -38,6 +38,32 @@ describe(`formatBech32 Filter`, () => {
   it(`should format a longform address address by default`, () => {
     expect(formatBech32(`cosmosaddress1asdfasdfasdf`, true)).toBe(
       `cosmosaddress1asdfasdfasdf`
+    )
+  })
+})
+
+describe(`resolveValidatorName Filter`, () => {
+  let validators
+
+  beforeEach(() => {
+    validators = {
+      cosmosvaloper1xyz: {
+        description: {
+          moniker: "Big Val"
+        }
+      }
+    }
+  })
+
+  it(`should return validator name`, () => {
+    expect(resolveValidatorName(`cosmosvaloper1xyz`, validators)).toBe(
+      `Big Val`
+    )
+  })
+
+  it(`should return short address when name not found`, () => {
+    expect(resolveValidatorName(`cosmosvaloper1abc`, validators)).toBe(
+      `cosmosvaloper…1abc`
     )
   })
 })

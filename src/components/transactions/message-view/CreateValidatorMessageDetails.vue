@@ -11,22 +11,22 @@
       Monikor&nbsp;
       <router-link
         :to="`staking/validators/${transaction.value.validator_address}`"
-        >{{ validatorReference }}</router-link
-      >
+      >{{ ransaction.value.validator_address | resolveValidatorName(validators) }}</router-link>
     </div>
   </div>
 </template>
 
 <script>
 import { atoms, viewDenom, prettyLong } from "scripts/num.js"
-import { formatBech32 } from "src/filters"
+import { resolveValidatorName } from "src/filters"
 
 export default {
   name: `create-validator-message-details`,
   filters: {
     atoms,
     viewDenom,
-    prettyLong
+    prettyLong,
+    resolveValidatorName
   },
   props: {
     transaction: {
@@ -40,15 +40,6 @@ export default {
     validators: {
       type: Object,
       required: true
-    }
-  },
-  computed: {
-    validatorReference() {
-      if (this.validators[this.transaction.value.validator_address]) {
-        return this.validators[this.transaction.value.validator_address]
-          .description.moniker
-      }
-      return formatBech32(this.transaction.value.validator_address)
     }
   }
 }
