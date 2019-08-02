@@ -1,4 +1,3 @@
-import DefaultMessageDetails from "./DefaultMessageDetails"
 import SendMessageDetails from "./SendMessageDetails"
 import DelegateMessageDetails from "./DelegateMessageDetails"
 import DepositMessageDetails from "./DepositMessageDetails"
@@ -14,7 +13,6 @@ import WithdrawDelegationRewardMessageDetails from "./WithdrawDelegationRewardMe
 import WithdrawValidatorCommissionMessageDetails from "./WithdrawValidatorCommissionMessageDetails"
 
 export {
-  DefaultMessageDetails,
   SendMessageDetails,
   DelegateMessageDetails,
   DepositMessageDetails,
