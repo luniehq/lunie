@@ -1,7 +1,7 @@
 <template>
   <li :id="`li-coin--` + denomination.toLowerCase()" class="li-coin">
     <div class="li-coin__icon">
-      <img src="~assets/images/cosmos-logo.png" />
+      <img src="~assets/images/cosmos-logo.png" alt="cosmic atom token" />
     </div>
     <div class="li-coin__content">
       <div class="li-coin__content-left">

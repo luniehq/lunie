@@ -18,12 +18,7 @@
     <span :class="btnClass">
       <i v-if="icon" :class="'tm-btn__icon material-icons'" aria-hidden="true">
         {{ icon }} </i
-      ><img
-        v-else-if="img"
-        :src="img"
-        :class="'tm-btn__img'"
-        aria-hidden="true"
-      /><span v-if="value" class="tm-btn__value">{{ value }}</span>
+      ><span v-if="value" class="tm-btn__value">{{ value }}</span>
     </span>
   </button>
 </template>
@@ -46,10 +41,6 @@ export default {
       default: null
     },
     iconPos: {
-      type: String,
-      default: null
-    },
-    img: {
       type: String,
       default: null
     },

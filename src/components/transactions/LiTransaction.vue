@@ -4,6 +4,7 @@
       <img
         :style="{ borderColor: color }"
         src="~assets/images/cosmos-logo.png"
+        alt="cosmic atom token"
       />
     </div>
     <div class="li-tx__content">

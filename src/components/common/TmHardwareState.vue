@@ -7,7 +7,11 @@
       <div class="tm-hardware-state__label">
         <slot />
       </div>
-      <img v-show="loading" src="~assets/images/loader.svg" />
+      <img
+        v-show="loading"
+        src="~assets/images/loader.svg"
+        alt="a small spinning circle to display loading"
+      />
     </div>
   </div>
 </template>

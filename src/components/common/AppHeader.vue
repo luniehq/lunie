@@ -6,6 +6,7 @@
           <img
             class="header-item-logo"
             src="~assets/images/cosmos-wallet-logo.svg"
+            alt="Lunie spaceship accelerating into a colourful space sky"
           />
         </router-link>
         <template v-if="!desktop">
