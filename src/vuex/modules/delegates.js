@@ -52,9 +52,6 @@ export default ({ node }) => {
         dispatch(`getDelegates`)
       }
     },
-    resetSessionData({ rootState }) {
-      rootState.delegates = JSON.parse(JSON.stringify(emptyState))
-    },
     async updateSigningInfo(
       {
         commit,
