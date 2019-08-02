@@ -22,6 +22,7 @@ const makeTxObject = (x, fees, memo, time, height) => {
     key: `${x.type}_${time}_${JSON.stringify(x.value)}`,
     blockNumber: Number(height),
     time: new Date(time),
+    group: transactionGroup[x.type],
     memo,
     fees
   }
