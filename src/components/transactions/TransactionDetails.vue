@@ -22,7 +22,6 @@ import { messageType } from "./messageTypes.js"
 import TransactionFees from "./TransactionFees"
 
 import {
-  DefaultMessageDetails,
   SendMessageDetails,
   DelegateMessageDetails,
   DepositMessageDetails,
@@ -47,7 +46,6 @@ export default {
     Bech32,
     SendMessageDetails,
     DelegateMessageDetails,
-    DefaultMessageDetails,
     DepositMessageDetails,
     EditValidatorMessageDetails,
     SubmitProposalMessageDetails,
@@ -113,7 +111,7 @@ export default {
         case messageType.WITHDRAW_VALIDATOR_COMMISSION:
           return `withdraw-validator-commission-message-details`
         default:
-          return `default-message-details`
+          return ``
       }
     }
   }
