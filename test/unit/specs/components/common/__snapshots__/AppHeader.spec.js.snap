@@ -18,6 +18,9 @@ exports[`AppHeader should display the sidebar on desktop 1`] = `
           class="header-item-logo"
           src="~assets/images/cosmos-wallet-logo.svg"
         />
+        
+        Lunie
+      
       </router-link-stub>
        
       <!---->
@@ -46,6 +49,9 @@ exports[`AppHeader should show the sidebar as a menu on mobile 1`] = `
           class="header-item-logo"
           src="~assets/images/cosmos-wallet-logo.svg"
         />
+        
+        Lunie
+      
       </router-link-stub>
        
       <div
