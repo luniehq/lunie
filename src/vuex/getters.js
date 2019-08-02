@@ -6,9 +6,6 @@ import {
   flattenTransactionMsgs
 } from "scripts/transaction-utils"
 
-// import x from "../txflat"
-// console.log(JSON.stringify(x))
-
 // ui
 export const filters = state => state.filters
 export const notifications = state => state.notifications
