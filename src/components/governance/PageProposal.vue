@@ -155,6 +155,7 @@ import TextBlock from "common/TextBlock"
 import ModalDeposit from "src/ActionModal/components/ModalDeposit"
 import ModalVote from "src/ActionModal/components/ModalVote"
 import TmPage from "common/TmPage"
+import { getProposalStatus } from "scripts/proposal-status"
 export default {
   name: `page-proposal`,
   components: {
@@ -251,33 +252,7 @@ export default {
       }
     },
     status() {
-      switch (this.proposal.proposal_status) {
-        case `Passed`:
-          return {
-            badge: `Passed`,
-            color: `green`
-          }
-        case `Rejected`:
-          return {
-            badge: `Rejected`,
-            color: `red`
-          }
-        case `DepositPeriod`:
-          return {
-            badge: `Deposit Period`,
-            color: `orange`
-          }
-        case `VotingPeriod`:
-          return {
-            badge: `Voting Period`,
-            color: `pink`
-          }
-        default:
-          return {
-            badge: `Error`,
-            color: `grey`
-          }
-      }
+      return getProposalStatus(this.proposal)
     },
     totalDeposit() {
       return this.proposal.total_deposit

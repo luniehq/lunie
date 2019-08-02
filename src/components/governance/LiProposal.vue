@@ -27,6 +27,7 @@ import BigNumber from "bignumber.js"
 import { mapGetters } from "vuex"
 import { roundObjectPercentages } from "../../utils"
 import { prettyDecimals } from "../../scripts/num"
+import { getProposalStatus } from "scripts/proposal-status"
 export default {
   name: `li-proposal`,
   filters: {
@@ -64,33 +65,7 @@ export default {
       return this.proposal.proposal_status === `DepositPeriod`
     },
     status() {
-      switch (this.proposal.proposal_status) {
-        case `Passed`:
-          return {
-            badge: `Passed`,
-            color: `green`
-          }
-        case `Rejected`:
-          return {
-            badge: `Rejected`,
-            color: `red`
-          }
-        case `DepositPeriod`:
-          return {
-            badge: `Deposit Period`,
-            color: `orange`
-          }
-        case `VotingPeriod`:
-          return {
-            badge: `Voting Period`,
-            color: `pink`
-          }
-        default:
-          return {
-            badge: `Error`,
-            color: `grey`
-          }
-      }
+      return getProposalStatus(this.proposal)
     },
     description() {
       const { description } = this.proposal.proposal_content.value
