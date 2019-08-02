@@ -29,7 +29,7 @@ export const getUnbondTimeFromTX = (tx, unbondingDelegations) => {
         ({ creation_height }) => creation_height === String(blockNumber)
       )
     if (unbondingDelegation) {
-      return new Date(unbondingDelegation.completion_time).getTime()
+      return new Date(unbondingDelegation.completion_time)
     }
   }
   return NaN

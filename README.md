@@ -122,8 +122,6 @@ yarn watch PageValidator
 
 ### End to end tests
 
-End to end testing will be soon restored thanks to: [Browserstack](https://www.browserstack.com/)
-
 If you want to run them locally first start a testnet:
 
 ```bash
@@ -140,7 +138,14 @@ To run only some tests, provide a filter:
 
 ```bash
 yarn test:e2e:serve
-yarn test:e2e:run --filter send.spec.js
+yarn test:e2e:local --filter send.spec.js
+```
+
+To run the e2e tests on multiple browsers use [Browserstack](https://www.browserstack.com/). You must set the environment variables `BROWSERSTACK_USERNAME` and `BROWSERSTACK_ACCESS_KEY` aquired from Browserstack first.
+
+```bash
+yarn test:e2e:serve
+yarn test:e2e:browserstack
 ```
 
 Finally stop the testnet when you are done:

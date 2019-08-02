@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TransactionItem has the expected html structure 1`] = `
+<div
+  class="tx"
+>
+  <transactionicon-stub
+    transactiongroup="banking"
+  />
+   
+  <transactiondetails-stub
+    address="cosmos1"
+    transaction="[object Object]"
+    validators="[object Object]"
+  />
+</div>
+`;

@@ -1,5 +1,13 @@
 import BN from "bignumber.js"
 import { calculateTokens } from "scripts/common"
+import {
+  addTransactionTypeData,
+  compareBlockTimeDesc,
+  flattenTransactionMsgs
+} from "scripts/transaction-utils"
+
+// import x from "../txflat"
+// console.log(JSON.stringify(x))
 
 // ui
 export const filters = state => state.filters
@@ -22,44 +30,20 @@ export const allTransactions = state =>
     state.transactions.distribution
   )
 
-const getFees = (transaction, defaultDenom = "ATOM") => {
-  if (transaction.tx.value.fee && transaction.tx.value.fee.amount) {
-    return transaction.tx.value.fee.amount[0]
-  }
-  return {
-    amount: "0",
-    denom: defaultDenom
-  }
-}
-
-function compareBlockTimeDesc(a, b) {
-  if (b.blockNumber === a.blockNumber) {
-    return b.time - a.time
-  }
-  return b.blockNumber - a.blockNumber
-}
-
-const flattenTransactionMsgs = (acc, curTxList) => {
-  const fees = getFees(curTxList)
-  const memo = curTxList.tx.value.memo
-  const newVals = curTxList.tx.value.msg.map(x => {
-    return {
-      ...x,
-      key: `${x.type}_${curTxList.time}_${JSON.stringify(x.value)}`,
-      blockNumber: Number(curTxList.height),
-      time: new Date(curTxList.time),
-      memo,
-      fees
-    }
-  })
-  return acc.concat(newVals)
-}
-
 export const flatOrderedTransactionList = (state, getters) => {
-  let allTx = [...getters.allTransactions.reduce(flattenTransactionMsgs, [])]
+  let allTx = getters.allTransactions.reduce(flattenTransactionMsgs, [])
+  allTx = allTx.map(addTransactionTypeData(state))
   allTx.sort(compareBlockTimeDesc)
-  console.log("allTxs sort rev", allTx)
+  console.log("flatOrderedTransactionList", allTx)
   return allTx
+}
+
+export const validators = state => {
+  const names = {}
+  state.delegates.delegates.forEach(item => {
+    names[item.operator_address] = item
+  })
+  return names
 }
 
 export const ledger = state => state.ledger
@@ -151,7 +135,6 @@ export const depositDenom = getters =>
     : `uatom`
 
 // connection
-export const approvalRequired = state => state.connection.approvalRequired
 export const connected = state => state.connection.connected
 export const lastHeader = state => state.connection.lastHeader
 export const nodeUrl = state =>

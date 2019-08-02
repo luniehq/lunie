@@ -45,6 +45,11 @@ describe(`TableValidators`, () => {
     $store = {
       commit: jest.fn(),
       dispatch: jest.fn(),
+      state: {
+        minting: {
+          annualProvision: "100"
+        }
+      },
       getters: JSON.parse(JSON.stringify(getters)) // clone so we don't overwrite by accident
     }
 
@@ -57,7 +62,7 @@ describe(`TableValidators`, () => {
     wrapper.setData({ rollingWindow: 10000 })
   })
 
-  it(`has the expected html structure`, async () => {
+  it(`shows a validator table`, async () => {
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
@@ -69,6 +74,7 @@ describe(`TableValidators`, () => {
     expect(wrapper.vm.enrichedValidators[0].keybase).toBe(`keybase`)
     expect(wrapper.vm.enrichedValidators[0].rewards).toBe(1000)
     expect(wrapper.vm.enrichedValidators[0].uptime).toBe(0.9998)
+    expect(wrapper.vm.enrichedValidators[0].expectedReturns).toBe(0.1)
   })
 
   it(`should create an enriched validator object for a user who is not signed in `, () => {

@@ -1,0 +1,12 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TransactionIcon has the expected html structure 1`] = `
+<div
+  class="tx__icon"
+>
+  <img
+    class="banking"
+    src="~assets/images/cosmos-logo.png"
+  />
+</div>
+`;

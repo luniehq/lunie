@@ -181,7 +181,7 @@ export default {
       )
     }
   },
-  async mounted() {
+  async created() {
     this.$store.dispatch(`getGovParameters`)
   }
 }

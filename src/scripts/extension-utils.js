@@ -58,6 +58,9 @@ function waitForResponse(type) {
       if (message.type === type) {
         resolve(message.payload)
       }
+
+      // cleanup
+      window.removeEventListener("message", handler)
     })
     window.addEventListener("message", handler)
   })
@@ -65,12 +68,15 @@ function waitForResponse(type) {
 
 const sendAsyncMessageToContentScript = async payload => {
   // I think we can deal with async console errors problems by returning true
-  sendMessageToContentScript(payload, false)
+  sendMessageToContentScript(payload, true)
 
   // await async response
   const response = await waitForResponse(`${payload.type}_RESPONSE`)
   if (response.rejected) {
     throw new Error("User rejected action in extension.")
+  }
+  if (response.error) {
+    throw new Error(response.error)
   }
   return response
 }

@@ -1,0 +1,22 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TransactionDetails has the expected html structure 1`] = `
+<div
+  class="tx__content"
+>
+  <send-message-details-stub
+    class="tx__content__left"
+    coin="[object Object]"
+    sessionaddress="cosmos1"
+    transaction="[object Object]"
+    validators="[object Object]"
+  />
+   
+  <transactionfees-stub
+    block="150"
+    class="tx__content__right"
+    fees="[object Object]"
+    time="Mockday 2018-07-01T00:00:00.000Z GMT-0000 (MockDate)"
+  />
+</div>
+`;

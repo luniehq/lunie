@@ -162,7 +162,8 @@ const config = {
   },
   devServer: {
     contentBase: [path.join(__dirname, `dist`), path.join(__dirname, `app`)],
-    stats: `errors-only`
+    stats: `errors-only`,
+    disableHostCheck: true
   },
   optimization: {
     runtimeChunk: `single`,
@@ -221,7 +222,11 @@ if (process.env.NODE_ENV === `production`) {
           `wss://rpc.cosmos.network:26657`,
           // testnet
           `https://sntajlxzsg.execute-api.eu-central-1.amazonaws.com/`,
-          `wss://test.voyager.ninja:26657`
+          `wss://test.voyager.ninja:26657`,
+          ...[process.env.STARGATE].filter(x => x !== undefined),
+          ...[process.env.RPC]
+            .filter(x => x !== undefined)
+            .map(x => x.replace("https", "wss"))
         ],
         "frame-src": [`'self'`, `https://app.appzi.io/`],
         "img-src": [
