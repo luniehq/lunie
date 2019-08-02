@@ -21,20 +21,22 @@
 import { messageType } from "./messageTypes.js"
 import TransactionFees from "./TransactionFees"
 
-import DefaultMessageDetails from "./message-view/DefaultMessageDetails"
-import SendMessageDetails from "./message-view/SendMessageDetails"
-import DelegateMessageDetails from "./message-view/DelegateMessageDetails"
-import DepositMessageDetails from "./message-view/DepositMessageDetails"
-import EditValidatorMessageDetails from "./message-view/EditValidatorMessageDetails"
-import SubmitProposalMessageDetails from "./message-view/SubmitProposalMessageDetails"
-import UndelegateMessageDetails from "./message-view/UndelegateMessageDetails"
-import UnjailMessageDetails from "./message-view/UnjailMessageDetails"
-import CreateValidatorMessageDetails from "./message-view/CreateValidatorMessageDetails"
-import VoteMessageDetails from "./message-view/VoteMessageDetails"
-import BeginRedelegateMessageDetails from "./message-view/BeginRedelegateMessageDetails"
-import SetWithdrawAddressMessageDetails from "./message-view/SetWithdrawAddressMessageDetails"
-import WithdrawDelegationRewardMessageDetails from "./message-view/WithdrawDelegationRewardMessageDetails"
-import WithdrawValidatorCommissionMessageDetails from "./message-view/WithdrawValidatorCommissionMessageDetails"
+import {
+  DefaultMessageDetails,
+  SendMessageDetails,
+  DelegateMessageDetails,
+  DepositMessageDetails,
+  EditValidatorMessageDetails,
+  SubmitProposalMessageDetails,
+  UndelegateMessageDetails,
+  UnjailMessageDetails,
+  CreateValidatorMessageDetails,
+  VoteMessageDetails,
+  BeginRedelegateMessageDetails,
+  SetWithdrawAddressMessageDetails,
+  WithdrawDelegationRewardMessageDetails,
+  WithdrawValidatorCommissionMessageDetails
+} from "./message-view"
 
 import Bech32 from "common/Bech32"
 
