@@ -30,6 +30,9 @@ describe(`SessionApprove`, () => {
 
     wrapper = shallowMount(SessionApprove, {
       localVue,
+      propsData: {
+        validators: []
+      },
       mocks: {
         $store,
         $router: {

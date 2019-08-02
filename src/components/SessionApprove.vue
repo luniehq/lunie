@@ -19,24 +19,14 @@
         From
         <Bech32 :address="senderAddress" />
       </div>
-      <TableInvoice
-        :amount="amount"
-        :estimated-fee="fees"
-        :bond-denom="bondDenom"
-      />
+      <TableInvoice :amount="amount" :estimated-fee="fees" :bond-denom="bondDenom" />
       <TmFormGroup
         :error="$v.password.$error && $v.password.$invalid"
         class="action-modal-group"
         field-id="password"
         field-label="Password"
       >
-        <TmField
-          id="password"
-          v-model="password"
-          v-focus
-          type="password"
-          placeholder="Password"
-        />
+        <TmField id="password" v-model="password" v-focus type="password" placeholder="Password" />
         <TmFormMsg
           v-if="$v.password.$error && !$v.password.required"
           name="Password"
@@ -124,6 +114,13 @@ export default {
     },
     bondDenom() {
       return this.amountCoin ? this.amountCoin.denom : null
+    },
+    validatorsAddressMap() {
+      const names = {}
+      this.validators.forEach(item => {
+        names[item.operator_address] = item
+      })
+      return names
     }
   },
   watch: {
@@ -136,14 +133,6 @@ export default {
     this.validators = validatorsObject
   },
   methods: {
-    validatorsAddressMap() {
-      const names = {}
-      this.validators.forEach(item => {
-        names[item.operator_address] = item
-      })
-      console.log('names', names)
-      return names
-    },
     isValidInput(property) {
       this.$v[property].$touch()
 

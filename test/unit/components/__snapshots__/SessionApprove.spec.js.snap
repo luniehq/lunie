@@ -3,6 +3,7 @@
 exports[`SessionApprove shows the approval modal with the transaction and an invoice table 1`] = `
 <div
   class="session-approve"
+  validators=""
 >
   <h2>
     Approve Transaction
@@ -21,7 +22,7 @@ exports[`SessionApprove shows the approval modal with the transaction and an inv
       address="cosmos1234"
       hidemetadata="true"
       transaction="[object Object]"
-      validators="function () { [native code] }"
+      validators="[object Object]"
     />
      
     <div>
