@@ -9,6 +9,7 @@
       class="tx__content__left"
     />
     <TransactionFees
+      v-if="!hideMetaData"
       :fees="transaction.fees"
       :block="transaction.blockNumber"
       :time="transaction.time"
@@ -71,6 +72,10 @@ export default {
       type: String,
       required: false,
       default: ""
+    },
+    hideMetaData: {
+      type: Boolean,
+      default: false
     }
   },
   computed: {
