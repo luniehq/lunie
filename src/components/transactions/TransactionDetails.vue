@@ -118,39 +118,7 @@ export default {
 }
 </script>
 
-<style>
-.tx {
-  display: flex;
-  align-items: center;
-  margin-bottom: 0.5rem;
-  border: 1px solid var(--bc-dim);
-  background: var(--app-fg);
-  width: 100%;
-  font-weight: 300;
-  position: relative;
-}
-
-.tx .copied {
-  position: absolute;
-  bottom: 0;
-}
-
-.tx b {
-  font-weight: 500;
-}
-
-.tx__icon {
-  padding: 12px 0 12px 1rem;
-}
-
-.tx__icon img {
-  max-height: 100%;
-  max-width: 52px;
-  border: 2px solid;
-  border-radius: 50%;
-  display: block;
-}
-
+<style scoped>
 .tx__content {
   display: flex;
   align-items: center;

@@ -49,22 +49,3 @@ export default {
   }
 }
 </script>
-
-<style>
-.tx__content__information,
-.tx__content__information > * {
-  display: flex;
-  flex-direction: row;
-}
-
-.tx__content__information {
-  font-size: 14px;
-  color: var(--dim);
-}
-
-.tx__content__caption {
-  line-height: 18px;
-  font-size: 18px;
-  color: var(--bright);
-}
-</style>
