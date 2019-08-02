@@ -17,6 +17,8 @@ export default {
 </script>
 
 <style>
+@import "../../styles/variables.css";
+
 .tx__icon {
   padding: 12px 0 12px 1rem;
 }
@@ -31,18 +33,18 @@ export default {
 }
 
 .tx__icon img.banking {
-  border-color: #ed553b;
+  border-color: var(--tx-banking);
 }
 
 .tx__icon img.staking {
-  border-color: #47ab6c;
+  border-color: var(--tx-staking);
 }
 
 .tx__icon img.governance {
-  border-color: #15cfcc;
+  border-color: var(--tx-governance);
 }
 
 .tx__icon img.distribution {
-  border-color: #f2b134;
+  border-color: var(--tx-distribution);
 }
 </style>
