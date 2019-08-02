@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Undelegations should show unbonding validators and the current committed validator 1`] = `
+exports[`Undelegations should show unbonding validators 1`] = `
 Array [
   Object {
     "hash": "not a real hash 6",
@@ -58,7 +58,7 @@ Array [
 ]
 `;
 
-exports[`Undelegations should show unbonding validators and the current committed validator 2`] = `
+exports[`Undelegations should show unbonding validators 2`] = `
 <div>
   <lianytransaction-stub
     bondingdenom="stake"
