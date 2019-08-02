@@ -77,6 +77,9 @@ describe(`App Start`, () => {
     const { store } = await start()
 
     expect(store.dispatch).toHaveBeenCalledWith(`checkForPersistedSession`)
+    expect(store.dispatch).toHaveBeenCalledWith(`getDelegates`)
+    expect(store.dispatch).toHaveBeenCalledWith(`getPool`)
+    expect(store.dispatch).toHaveBeenCalledWith(`getMintingParameters`)
   })
 
   it(`gathers url parameters to overwrite the app config before starting the app`, () => {

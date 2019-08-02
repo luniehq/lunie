@@ -199,7 +199,12 @@ describe(`Module: Wallet`, () => {
       const dispatch = jest.fn()
       actions
         .queryWalletStateAfterHeight({ rootState, dispatch }, 11)
-        .then(() => done())
+        .then(() => {
+          expect(dispatch).toHaveBeenCalledWith("queryWalletBalances")
+          expect(dispatch).toHaveBeenCalledWith("getBondedDelegates")
+          expect(dispatch).toHaveBeenCalledWith("getRewardsFromMyValidators")
+          done()
+        })
       rootState.connection.lastHeader.height++
       jest.runAllTimers()
       jest.useRealTimers()

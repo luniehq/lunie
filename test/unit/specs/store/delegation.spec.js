@@ -306,4 +306,16 @@ describe(`Module: Delegations`, () => {
 
     expect(dispatch).toHaveBeenCalledWith(`getBondedDelegates`)
   })
+
+  it("should reset the data on a new session", () => {
+    const { actions } = delegationModule({ node: { get: {} } })
+
+    const rootState = {
+      delegation: {
+        loaded: true
+      }
+    }
+    actions.resetSessionData({ rootState })
+    expect(rootState.delegation.loaded).toBe(false)
+  })
 })
