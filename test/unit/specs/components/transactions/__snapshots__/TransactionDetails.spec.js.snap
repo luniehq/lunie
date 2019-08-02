@@ -21,7 +21,70 @@ exports[`TransactionDetails MsgBeginRedelegate has the expected html structure 1
 </div>
 `;
 
-exports[`TransactionDetails MsgSend has the expected html structure 1`] = `
+exports[`TransactionDetails MsgSend 1 has the expected html structure 1`] = `
+<div
+  class="tx__content"
+>
+  <send-message-details-stub
+    class="tx__content__left"
+    coin="[object Object]"
+    sessionaddress="cosmos1"
+    transaction="[object Object]"
+    validators="[object Object]"
+  />
+   
+  <transactionfees-stub
+    block="1086769"
+    class="tx__content__right"
+    fees="[object Object]"
+    time="Mockday 2019-07-31T09:22:23.054Z GMT-0000 (MockDate)"
+  />
+</div>
+`;
+
+exports[`TransactionDetails MsgSend 2 has the expected html structure 1`] = `
+<div
+  class="tx__content"
+>
+  <send-message-details-stub
+    class="tx__content__left"
+    coin="[object Object]"
+    sessionaddress="cosmos1"
+    transaction="[object Object]"
+    validators="[object Object]"
+  />
+   
+  <transactionfees-stub
+    block="1086769"
+    class="tx__content__right"
+    fees="[object Object]"
+    time="Mockday 2019-07-31T09:22:23.054Z GMT-0000 (MockDate)"
+  />
+</div>
+`;
+
+exports[`TransactionDetails MsgSend 3 has the expected html structure 1`] = `
+<div
+  class="tx__content"
+>
+  <send-message-details-stub
+    class="tx__content__left"
+    coin="[object Object]"
+    sessionaddress="cosmos1"
+    transaction="[object Object]"
+    validators="[object Object]"
+  />
+   
+  <transactionfees-stub
+    block="1086769"
+    class="tx__content__right"
+    fees="[object Object]"
+    time="Mockday 2019-07-31T09:22:23.054Z GMT-0000 (MockDate)"
+  />
+</div>
+`;
+
+exports[`TransactionDetails MsgSend 4 has the expected html structure 1`] = `
 <div
   class="tx__content"
 >

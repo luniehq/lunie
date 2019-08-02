@@ -16,6 +16,54 @@ const testTransactionObjects = [
     liquidDate: null
   },
   {
+    type: "cosmos-sdk/MsgSend",
+    value: {
+      from_address: "cosmos1",
+      to_address: "cosmos1alkjdbasdlkhasldjnasldkjasndlkjansdlasndlkasdas",
+      amount: [{ denom: "uatom", amount: "234500" }]
+    },
+    key:
+      'cosmos-sdk/MsgSend_2019-07-18T10:03:11.624Z_{"from_address":"cosmos1alkjdbasdlkhasldjnasldkjasndlkjansdlasndlkj","to_address":"cosmos1alkjdbasdlkhasldjnasldkjasndlkjansdlasndlkj","amount":[{"denom":"uatom","amount":"234500"}]}',
+    blockNumber: 1086769,
+    time: new Date("2019-07-31T09:22:23.054Z"),
+    group: "banking",
+    memo: "(Sent via Lunie)",
+    fees: { denom: "uatom", amount: "37" },
+    liquidDate: null
+  },
+  {
+    type: "cosmos-sdk/MsgSend",
+    value: {
+      from_address: "cosmos1",
+      to_address: "cosmos1",
+      amount: [{ denom: "uatom", amount: "234500" }]
+    },
+    key:
+      'cosmos-sdk/MsgSend_2019-07-18T10:03:11.624Z_{"from_address":"cosmos1alkjdbasdlkhasldjnasldkjasndlkjansdlasndlkj","to_address":"cosmos1alkjdbasdlkhasldjnasldkjasndlkjansdlasndlkj","amount":[{"denom":"uatom","amount":"234500"}]}',
+    blockNumber: 1086769,
+    time: new Date("2019-07-31T09:22:23.054Z"),
+    group: "banking",
+    memo: "(Sent via Lunie)",
+    fees: { denom: "uatom", amount: "37" },
+    liquidDate: null
+  },
+  {
+    type: "cosmos-sdk/MsgSend",
+    value: {
+      from_address: "cosmos11231212",
+      to_address: "cosmos1",
+      amount: [{ denom: "uatom", amount: "234500" }]
+    },
+    key:
+      'cosmos-sdk/MsgSend_2019-07-18T10:03:11.624Z_{"from_address":"cosmos1alkjdbasdlkhasldjnasldkjasndlkjansdlasndlkj","to_address":"cosmos1alkjdbasdlkhasldjnasldkjasndlkjansdlasndlkj","amount":[{"denom":"uatom","amount":"234500"}]}',
+    blockNumber: 1086769,
+    time: new Date("2019-07-31T09:22:23.054Z"),
+    group: "banking",
+    memo: "(Sent via Lunie)",
+    fees: { denom: "uatom", amount: "37" },
+    liquidDate: null
+  },
+  {
     type: "cosmos-sdk/MsgUndelegate",
     value: {
       delegator_address: "cosmos1askldjbasldkhasdlkasbndlkasjda",

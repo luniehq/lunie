@@ -14,23 +14,35 @@ describe(`TransactionDetails`, () => {
     })
   })
 
-  it(`MsgSend has the expected html structure`, () => {
+  it(`MsgSend 1 has the expected html structure`, () => {
     expect(wrapper.element).toMatchSnapshot()
   })
-  it(`MsgUndelegate has the expected html structure`, () => {
+  it(`MsgSend 2 has the expected html structure`, () => {
     wrapper.setProps({ transaction: testTransactionObjects[1] })
     expect(wrapper.element).toMatchSnapshot()
   })
-  it(`MsgBeginRedelegate has the expected html structure`, () => {
+  it(`MsgSend 3 has the expected html structure`, () => {
     wrapper.setProps({ transaction: testTransactionObjects[2] })
     expect(wrapper.element).toMatchSnapshot()
   })
-  it(`MsgUndelegate has the expected html structure`, () => {
+  it(`MsgSend 4 has the expected html structure`, () => {
     wrapper.setProps({ transaction: testTransactionObjects[3] })
     expect(wrapper.element).toMatchSnapshot()
   })
   it(`MsgUndelegate has the expected html structure`, () => {
     wrapper.setProps({ transaction: testTransactionObjects[4] })
+    expect(wrapper.element).toMatchSnapshot()
+  })
+  it(`MsgBeginRedelegate has the expected html structure`, () => {
+    wrapper.setProps({ transaction: testTransactionObjects[5] })
+    expect(wrapper.element).toMatchSnapshot()
+  })
+  it(`MsgUndelegate has the expected html structure`, () => {
+    wrapper.setProps({ transaction: testTransactionObjects[6] })
+    expect(wrapper.element).toMatchSnapshot()
+  })
+  it(`MsgUndelegate has the expected html structure`, () => {
+    wrapper.setProps({ transaction: testTransactionObjects[7] })
     expect(wrapper.element).toMatchSnapshot()
   })
 })

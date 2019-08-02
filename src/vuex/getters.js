@@ -28,9 +28,13 @@ export const allTransactions = state =>
   )
 
 export const flatOrderedTransactionList = (state, getters) => {
-  let allTx = getters.allTransactions.reduce(flattenTransactionMsgs, [])
+  let allTx = getters.allTransactions
+    .slice(0, 1)
+    .reduce(flattenTransactionMsgs, [])
   allTx = allTx.map(addTransactionTypeData(state))
   allTx.sort(compareBlockTimeDesc)
+  // console.log("a", JSON.stringify(getters.allTransactions.slice(0, 1)))
+  // console.log("b", JSON.stringify(allTx))
   return allTx
 }
 
