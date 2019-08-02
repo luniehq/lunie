@@ -65,7 +65,6 @@ describe(`Component: TabMyDelegations`, () => {
         },
         stubs: [`router-link`]
       })
-      console.log(wrapper.vm.yourValidators)
       expect(wrapper.find("cardsigninrequired-stub").exists()).toBe(true)
       expect(wrapper.element).toMatchSnapshot()
     })

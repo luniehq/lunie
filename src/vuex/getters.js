@@ -31,7 +31,6 @@ export const flatOrderedTransactionList = (state, getters) => {
   let allTx = getters.allTransactions.reduce(flattenTransactionMsgs, [])
   allTx = allTx.map(addTransactionTypeData(state))
   allTx.sort(compareBlockTimeDesc)
-  console.log("flatOrderedTransactionList", allTx)
   return allTx
 }
 

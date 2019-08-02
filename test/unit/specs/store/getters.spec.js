@@ -246,7 +246,11 @@ describe(`Store: getters`, () => {
 
     expect(result).toEqual(context)
   })
-  // it("flattens transaction list", () => {
+
+  // Jest doesn't mock Joi correctly and the test run fails.
+  // Enable this once it can be fixed.
+
+  // it("flattens transaction list into valid transaction elements", () => {
   //   const valueSchema = Joi.object().keys({
   //     from_address: Joi.string(),
   //     to_address: Joi.string(),
