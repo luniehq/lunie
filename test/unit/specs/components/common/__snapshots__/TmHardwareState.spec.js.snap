@@ -22,6 +22,7 @@ exports[`TmHardwareState has the expected html structure 1`] = `
     </div>
      
     <img
+      alt="a small spinning circle to display loading"
       src="~assets/images/loader.svg"
     />
   </div>
