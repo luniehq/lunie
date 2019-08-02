@@ -255,7 +255,7 @@ describe(`PageProposal`, () => {
         $refs: { modalDeposit: { open: jest.fn() } }
       }
 
-      await PageProposal.methods.onVote.call(self)
+      await PageProposal.methods.onDeposit.call(self)
 
       expect(self.$refs.modalDeposit.open).toHaveBeenCalled()
     })

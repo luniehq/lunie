@@ -101,28 +101,6 @@ describe(`LiProposal`, () => {
     })
   })
 
-  describe(`DepositPeriod`, () => {
-    it(`should return true when status is DepositPeriod`, () => {
-      wrapper.setProps({
-        proposal: {
-          ...proposal,
-          proposal_status: `DepositPeriod`
-        }
-      })
-      expect(wrapper.vm.isDepositPeriod).toEqual(true)
-    })
-
-    it(`should return false when status is not DepositPeriod`, () => {
-      wrapper.setProps({
-        proposal: {
-          ...proposal,
-          proposal_status: `anything else`
-        }
-      })
-      expect(wrapper.vm.isDepositPeriod).toEqual(false)
-    })
-  })
-
   it(`should not truncate the description or add an ellipsis`, () => {
     expect(wrapper.vm.description).toEqual(`Proposal description`)
   })

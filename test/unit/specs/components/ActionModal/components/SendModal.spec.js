@@ -38,9 +38,6 @@ describe(`SendModal`, () => {
 
     wrapper = shallowMount(SendModal, {
       localVue,
-      propsData: {
-        denom: `STAKE`
-      },
       mocks: {
         $store
       },
@@ -51,6 +48,7 @@ describe(`SendModal`, () => {
       submit: cb => cb(),
       open: jest.fn()
     }
+    wrapper.vm.open("stake")
   })
 
   it(`should display send modal form`, async () => {
