@@ -221,6 +221,23 @@ describe(`Module: Session`, () => {
     expect(state.externals.Sentry.init).toHaveBeenCalledWith({})
   })
 
+  it(`should enable analytics collection`, async () => {
+    jest.spyOn(console, `log`).mockImplementationOnce(() => {})
+    const commit = jest.fn()
+    const dispatch = jest.fn()
+    await actions.setAnalyticsCollection(
+      {
+        state,
+        commit,
+        dispatch
+      },
+      true
+    )
+
+    expect(state.analyticsCollection).toBe(true)
+    expect(state.externals.deanonymize).toHaveBeenCalled()
+  })
+
   it(`should disable analytics collection`, async () => {
     jest.spyOn(console, `log`).mockImplementationOnce(() => {})
     const commit = jest.fn()
