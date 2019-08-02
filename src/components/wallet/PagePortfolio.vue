@@ -75,12 +75,7 @@ export default {
     DelegationsOverview
   },
   computed: {
-    ...mapGetters([
-      `wallet`,
-      `connected`,
-      `session`,
-      `delegation`
-    ]),
+    ...mapGetters([`wallet`, `connected`, `session`, `delegation`]),
     filteredBalances() {
       return orderBy(
         this.wallet.balances,

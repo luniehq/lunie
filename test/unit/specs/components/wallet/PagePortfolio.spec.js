@@ -2,28 +2,27 @@ import PagePortfolio from "src/components/wallet/PagePortfolio"
 import { shallowMount } from "@vue/test-utils"
 
 describe(`PagePortfolio`, () => {
-    let wrapper, $store
+  let wrapper, $store
 
   const getters = {
     wallet: {
-        balances: [
-          {
-            denom: `stake`,
-            amount: 42
-          },
-          {
-            denom: `photon`,
-            amount: 150
-          }
-        ]
-      },
+      balances: [
+        {
+          denom: `stake`,
+          amount: 42
+        },
+        {
+          denom: `photon`,
+          amount: 150
+        }
+      ]
+    },
     session: {
-        address: "cosmos1234",
+      address: "cosmos1234",
       signedIn: true
     },
     delegation: {
-        unbondingDelegations: {
-        }
+      unbondingDelegations: {}
     },
     connected: true
   }
