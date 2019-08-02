@@ -248,4 +248,16 @@ describe(`PageProposal`, () => {
       expect(wrapper.find(`#vote-btn`).exists()).toEqual(false)
     })
   })
+
+  describe(`Modal onDeposit`, () => {
+    it(`opens deposit modal`, async () => {
+      const self = {
+        $refs: { modalDeposit: { open: jest.fn() } }
+      }
+
+      await PageProposal.methods.onVote.call(self)
+
+      expect(self.$refs.modalDeposit.open).toHaveBeenCalled()
+    })
+  })
 })
