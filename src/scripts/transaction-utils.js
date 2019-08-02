@@ -1,7 +1,8 @@
 "use strict"
 
 import { getUnbondTimeFromTX } from "scripts/time"
-import messageTypes, {
+import {
+  messageType,
   transactionGroup
 } from "src/components/transactions/messageTypes"
 
@@ -51,4 +52,4 @@ export const flattenTransactionMsgs = (acc, curTxList) => {
 }
 
 export const isPendingUndelegation = tx =>
-  !isNaN(tx.liquidDate) && tx.type === messageTypes.UNDELEGATE
+  !isNaN(tx.liquidDate) && tx.type === messageType.UNDELEGATE

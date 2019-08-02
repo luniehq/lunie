@@ -1,7 +1,7 @@
 <template>
   <div class="tx__content">
     <component
-      :is="msgTypeComponent"
+      :is="messageTypeComponent"
       :transaction="transaction"
       :coin="coin"
       :validators="validators"
@@ -18,7 +18,7 @@
 </template>
 
 <script>
-import msgType from "./messageTypes.js"
+import { messageType } from "./messageTypes.js"
 import TransactionFees from "./TransactionFees"
 
 import DefaultMessageDetails from "./message-view/DefaultMessageDetails"
@@ -81,34 +81,34 @@ export default {
         return this.transaction.value.amount
       }
     },
-    msgTypeComponent: function() {
-      // TODO This could be better
+    messageTypeComponent: function() {
+      // TODO Could improve this using dynamic loading.
       switch (this.transaction.type) {
-        case msgType.SEND:
+        case messageType.SEND:
           return `send-message-details`
-        case msgType.DELEGATE:
+        case messageType.DELEGATE:
           return `delegate-message-details`
-        case msgType.CREATE_VALIDATOR:
+        case messageType.CREATE_VALIDATOR:
           return `create-validator-message-details`
-        case msgType.EDIT_VALIDATOR:
+        case messageType.EDIT_VALIDATOR:
           return `edit-validator-message-details`
-        case msgType.UNDELEGATE:
+        case messageType.UNDELEGATE:
           return `undelegate-message-details`
-        case msgType.BEGIN_REDELEGATE:
+        case messageType.BEGIN_REDELEGATE:
           return `begin-redelegate-message-details`
-        case msgType.UNJAIL:
+        case messageType.UNJAIL:
           return `unjail-message-details`
-        case msgType.SUBMIT_PROPOSAL:
+        case messageType.SUBMIT_PROPOSAL:
           return `submit-proposal-message-details`
-        case msgType.DEPOSIT:
+        case messageType.DEPOSIT:
           return `deposit-message-details`
-        case msgType.VOTE:
+        case messageType.VOTE:
           return `vote-message-details`
-        case msgType.SET_WITHDRAW_ADDRESS:
+        case messageType.SET_WITHDRAW_ADDRESS:
           return `set-withdraw-address-message-details`
-        case msgType.WITHDRAW_DELEGATION_REWARD:
+        case messageType.WITHDRAW_DELEGATION_REWARD:
           return `withdraw-delegation-reward-message-details`
-        case msgType.WITHDRAW_VALIDATOR_COMMISSION:
+        case messageType.WITHDRAW_VALIDATOR_COMMISSION:
           return `withdraw-validator-commission-message-details`
         default:
           return `default-message-details`

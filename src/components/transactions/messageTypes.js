@@ -1,4 +1,4 @@
-const messageTypes = {
+const messageType = {
   SEND: "cosmos-sdk/MsgSend",
   CREATE_VALIDATOR: "cosmos-sdk/MsgCreateValidator",
   EDIT_VALIDATOR: "cosmos-sdk/MsgEditValidator",
@@ -14,20 +14,20 @@ const messageTypes = {
   WITHDRAW_VALIDATOR_COMMISSION: "cosmos-sdk/MsgWithdrawValidatorCommission"
 }
 
-export const transactionGroup = {
-  "cosmos-sdk/MsgSend": "banking",
-  "cosmos-sdk/MsgCreateValidator": "staking",
-  "cosmos-sdk/MsgEditValidator": "staking",
-  "cosmos-sdk/MsgDelegate": "staking",
-  "cosmos-sdk/MsgUndelegate": "staking",
-  "cosmos-sdk/MsgBeginRedelegate": "staking",
-  "cosmos-sdk/MsgUnjail": "staking",
-  "cosmos-sdk/MsgSubmitProposal": "governance",
-  "cosmos-sdk/MsgDeposit": "governance",
-  "cosmos-sdk/MsgVote": "governance",
-  "cosmos-sdk/MsgSetWithdrawAddress": "distribution",
-  "cosmos-sdk/MsgWithdrawDelegationReward": "distribution",
-  "cosmos-sdk/MsgWithdrawValidatorCommission": "distribution"
+const transactionGroup = {
+  [messageType.SEND]: "banking",
+  [messageType.CREATE_VALIDATOR]: "staking",
+  [messageType.EDIT_VALIDATOR]: "staking",
+  [messageType.DELEGATE]: "staking",
+  [messageType.UNDELEGATE]: "staking",
+  [messageType.BEGIN_REDELEGATE]: "staking",
+  [messageType.UNJAIL]: "staking",
+  [messageType.SUBMIT_PROPOSAL]: "governance",
+  [messageType.DEPOSIT]: "governance",
+  [messageType.VOTE]: "governance",
+  [messageType.SET_WITHDRAW_ADDRESS]: "distribution",
+  [messageType.WITHDRAW_DELEGATION_REWARD]: "distribution",
+  [messageType.WITHDRAW_VALIDATOR_COMMISSION]: "distribution"
 }
 
-export default messageTypes
+export { messageType, transactionGroup }
