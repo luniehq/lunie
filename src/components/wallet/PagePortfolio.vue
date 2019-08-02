@@ -44,21 +44,7 @@
         <h3 class="tab-header transactions">
           Pending Undelegations
         </h3>
-        <div class="unbonding-transactions">
-          <LiAnyTransaction
-            v-for="tx in unbondingTransactions"
-            :key="tx.txhash"
-            :validators="yourValidators"
-            :validators-url="`/validators`"
-            :proposals-url="`/governance`"
-            :transaction="tx"
-            :address="session.address"
-            :bonding-denom="bondDenom"
-            :unbonding-time="
-              time.getUnbondingTime(tx, delegation.unbondingDelegations)
-            "
-          />
-        </div>
+        <Undelegations />
       </template>
     </template>
     <SendModal ref="sendModal" />
@@ -75,7 +61,7 @@ import Bech32 from "common/Bech32"
 import TmPage from "common/TmPage"
 import TmDataMsg from "common/TmDataMsg"
 import DelegationsOverview from "staking/DelegationsOverview"
-import LiAnyTransaction from "../transactions/LiAnyTransaction"
+import Undelegations from "staking/Undelegations"
 import time from "scripts/time"
 
 export default {
@@ -86,7 +72,7 @@ export default {
     TmPage,
     SendModal,
     Bech32,
-    LiAnyTransaction,
+    Undelegations,
     DelegationsOverview
   },
   data: () => ({ num, showSendModal: false }),

@@ -146,6 +146,7 @@ exports[`PageNetwork should display the network page with data and the blocks ta
       <thead>
         <panelsort-stub
           properties="[object Object],[object Object]"
+          showonmobile="transactions"
         />
       </thead>
        
@@ -338,6 +339,7 @@ exports[`PageNetwork should display the network page with the blocks table in a 
       <thead>
         <panelsort-stub
           properties="[object Object],[object Object]"
+          showonmobile="transactions"
         />
       </thead>
        

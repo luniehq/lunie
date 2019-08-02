@@ -27,9 +27,7 @@ export default {
     LiAnyTransaction
   },
   data: () => ({
-    unbondTransactions: [],
-    time,
-    lastUpdate: 0
+    time
   }),
   computed: {
     ...mapGetters([
