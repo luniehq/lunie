@@ -60,21 +60,6 @@ export default {
               transaction.tx.value.msg[0].value.validator_address
             ]
         }))
-  },
-  watch: {
-    "session.signedIn": function() {
-      this.loadStakingTxs()
-    }
-  },
-  async created() {
-    this.loadStakingTxs()
-  },
-  methods: {
-    async loadStakingTxs() {
-      if (this.session.signedIn) {
-        await this.$store.dispatch(`getAllTxs`)
-      }
-    }
   }
 }
 </script>
