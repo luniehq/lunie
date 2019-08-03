@@ -194,9 +194,6 @@ export default {
 }
 
 .page-profile__header__info {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
   width: 100%;
   padding: 1rem;
 }
@@ -217,8 +214,9 @@ export default {
   color: #fff;
   display: inline-block;
   font-size: var(--h1);
-  font-weight: 400;
-  padding: 0 0.5rem;
+  line-height: 2.25rem;
+  font-weight: 500;
+  padding: 1rem 0 0.25rem;
 }
 
 .page-profile__header__actions {
@@ -250,24 +248,21 @@ export default {
   background: var(--primary);
 }
 
-.colored_dl {
+dl {
   width: 100%;
-}
-
-.info_dl {
   padding: 1rem;
   border: 1px solid var(--bc-dim);
   background-color: var(--app-fg);
 }
 
-.info_dl dt {
+dt {
   color: var(--dim);
   font-size: var(--sm);
   margin-bottom: 2px;
   font-weight: 500;
 }
 
-.info_dl dd {
+dd {
   font-size: 1rem;
   line-height: 1.25rem;
   color: var(--bright);

@@ -133,15 +133,11 @@ describe(`PageProposal`, () => {
   })
 
   it(`should return the time of submission `, () => {
-    expect(wrapper.vm.submittedAgo).toEqual(
-      moment(new Date(proposal.submit_time)).fromNow()
-    )
+    expect(wrapper.vm.submittedAgo).toEqual(`January 1st 1970, 00:00`)
   })
 
   it(`should return the time that voting started`, () => {
-    expect(wrapper.vm.votingStartedAgo).toEqual(
-      moment(new Date(proposal.voting_start_time)).fromNow()
-    )
+    expect(wrapper.vm.votingStartedAgo).toEqual(`January 3rd 1970, 00:00`)
   })
 
   it(`should return the time the vote ends`, () => {
@@ -160,14 +156,15 @@ describe(`PageProposal`, () => {
     it(`displays correctly a proposal that 'Passed'`, () => {
       wrapper.vm.proposal.proposal_status = `Passed`
       expect(wrapper.vm.status).toMatchObject({
-        message: `This proposal has passed`
+        badge: `Passed`,
+        color: `green`
       })
     })
 
     it(`displays correctly a 'Rejected' proposal`, () => {
       wrapper.vm.proposal.proposal_status = `Rejected`
       expect(wrapper.vm.status).toMatchObject({
-        message: `This proposal has been rejected and voting is closed`,
+        badge: `Rejected`,
         color: `red`
       })
     })
@@ -175,23 +172,23 @@ describe(`PageProposal`, () => {
     it(`displays correctly a proposal on 'DepositPeriod'`, () => {
       wrapper.vm.proposal.proposal_status = `DepositPeriod`
       expect(wrapper.vm.status).toMatchObject({
-        message: `Deposits are open for this proposal`,
-        color: `yellow`
+        badge: `Deposit Period`,
+        color: `orange`
       })
     })
 
     it(`displays correctly a proposal on 'VotingPeriod'`, () => {
       wrapper.vm.proposal.proposal_status = `VotingPeriod`
       expect(wrapper.vm.status).toMatchObject({
-        message: `Voting for this proposal is open`,
-        color: `green`
+        badge: `Voting Period`,
+        color: `pink`
       })
     })
 
     it(`shows error status`, () => {
       wrapper.vm.proposal.proposal_status = ``
       expect(wrapper.vm.status).toMatchObject({
-        message: `There was an error determining the status of this proposal.`,
+        badge: `Error`,
         color: `grey`
       })
     })
