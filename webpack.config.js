@@ -11,7 +11,7 @@ const CSPWebpackPlugin = require(`csp-webpack-plugin`)
 const VueLoaderPlugin = require(`vue-loader/lib/plugin`)
 const MiniCssExtractPlugin = require(`mini-css-extract-plugin`)
 const CleanWebpackPlugin = require(`clean-webpack-plugin`)
-const CopyPlugin = require('copy-webpack-plugin')
+const CopyPlugin = require("copy-webpack-plugin")
 const SentryPlugin = require(`@sentry/webpack-plugin`)
 
 function resolve(dir) {
@@ -134,11 +134,13 @@ const config = {
       favicon: `./src/assets/images/favicon.ico`,
       e2e: !!process.env.E2E_TESTS
     }),
-    new CopyPlugin([{
-      from: './src/robots.txt',
-      to: './robots.txt',
-      toType: 'file',
-    }]),
+    new CopyPlugin([
+      {
+        from: "./src/robots.txt",
+        to: "./robots.txt",
+        toType: "file"
+      }
+    ]),
     // warnings caused by websocket-stream, which has a server-part that is unavailable on the the client
     new webpack.IgnorePlugin(/(bufferutil|utf-8-validate)/),
     ...devPlugins
