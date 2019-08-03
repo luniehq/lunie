@@ -5,6 +5,7 @@
         <img
           class="session-logo-mobile"
           src="~assets/images/cosmos-wallet-logo.svg"
+          alt="a small spinning circle to display loading"
         />
       </router-link>
 

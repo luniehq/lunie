@@ -60,14 +60,20 @@
       <h2 class="c5">Team</h2>
       <div class="flex-row">
         <div class="profile">
-          <img src="~assets/images/team/fabo.jpg" />
+          <img
+            src="~assets/images/team/fabo.jpg"
+            alt="Profile photo for Fabian Weber"
+          />
           <div class="profile-info">
             <span>Fabian Weber</span>
             <span class="flag">🇩🇪</span>
           </div>
         </div>
         <div class="profile">
-          <img src="~assets/images/team/jordan.jpg" />
+          <img
+            src="~assets/images/team/jordan.jpg"
+            alt="Profile photo for Jordan Bibla"
+          />
           <div class="profile-info">
             <span>Jordan Bibla</span>
             <span class="flag">🇨🇦</span>

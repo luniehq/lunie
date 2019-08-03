@@ -5,6 +5,7 @@ exports[`TmDataLoading has the expected html structure 1`] = `
   class="tm-data-msg"
 >
   <img
+    alt="a small spinning circle to display loading"
     class="tm-data-msg__icon"
     src="~assets/images/loader.svg"
   />

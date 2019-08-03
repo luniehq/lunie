@@ -1,6 +1,10 @@
 <template>
   <div class="tm-data-msg">
-    <img class="tm-data-msg__icon" src="~assets/images/loader.svg" />
+    <img
+      class="tm-data-msg__icon"
+      src="~assets/images/loader.svg"
+      alt="a small spinning circle to display loading"
+    />
     <div class="tm-data-msg__text">
       <div slot="title" class="tm-data-msg__title">
         Finding connection

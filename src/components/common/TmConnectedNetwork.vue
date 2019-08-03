@@ -30,7 +30,11 @@
     id="tm-disconnected-network"
     class="tm-connected-network tm-disconnected-network"
   >
-    <img class="tm-connected-network-loader" src="~assets/images/loader.svg" />
+    <img
+      class="tm-connected-network-loader"
+      src="~assets/images/loader.svg"
+      alt="a small spinning circle to display loading"
+    />
     <div
       v-tooltip.top="networkTooltip"
       class="

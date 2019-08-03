@@ -8,6 +8,7 @@ exports[`LiTransaction should show a network fee 1`] = `
     class="li-tx__icon"
   >
     <img
+      alt="cosmic atom token"
       src="~assets/images/cosmos-logo.png"
       style="border-color: #ffffff;"
     />
@@ -84,6 +85,7 @@ exports[`LiTransaction should show a network fee of 0 1`] = `
     class="li-tx__icon"
   >
     <img
+      alt="cosmic atom token"
       src="~assets/images/cosmos-logo.png"
       style="border-color: #ffffff;"
     />
@@ -160,6 +162,7 @@ exports[`LiTransaction should show a transaction item 1`] = `
     class="li-tx__icon"
   >
     <img
+      alt="cosmic atom token"
       src="~assets/images/cosmos-logo.png"
       style="border-color: #ffffff;"
     />
