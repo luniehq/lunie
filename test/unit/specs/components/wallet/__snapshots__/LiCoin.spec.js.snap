@@ -9,6 +9,7 @@ exports[`LiCoin has the expected html structure 1`] = `
     class="li-coin__icon"
   >
     <img
+      alt="cosmic atom token"
       src="~assets/images/cosmos-logo.png"
     />
   </div>

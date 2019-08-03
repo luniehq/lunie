@@ -15,11 +15,13 @@
           <img
             v-if="validator.keybase && validator.keybase.avatarUrl"
             :src="validator.keybase.avatarUrl"
+            :alt="`validator logo for ` + validator.description.moniker"
             class="avatar"
           /><img
             v-else
             class="avatar"
             src="~assets/images/validator-icon.svg"
+            alt="generic validator logo - graphic triangle supporting atom token"
           />
 
           <div class="page-profile__header__info">

@@ -14,6 +14,7 @@
         v-if="validator.keybase && validator.keybase.avatarUrl"
         :src="validator.keybase.avatarUrl"
         class="data-table__row__info__image"
+        :alt="`validator logo for ` + validator.description.moniker"
       />
       <img
         v-else
@@ -22,6 +23,7 @@
           data-table__row__info__image--no-img
         "
         src="~assets/images/validator-icon.svg"
+        alt="generic validator logo - graphic triangle supporting atom token"
       />
       <div class="data-table__row__info__container">
         <span

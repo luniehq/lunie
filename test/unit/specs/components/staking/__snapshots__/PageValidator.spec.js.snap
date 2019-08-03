@@ -17,6 +17,7 @@ exports[`PageValidator shows a validator profile information errors signing info
         class="lunie-row"
       >
         <img
+          alt="generic validator logo - graphic triangle supporting atom token"
           class="avatar"
           src="~assets/images/validator-icon.svg"
         />
@@ -356,6 +357,7 @@ exports[`PageValidator shows a validator profile information if user has signed 
         class="lunie-row"
       >
         <img
+          alt="generic validator logo - graphic triangle supporting atom token"
           class="avatar"
           src="~assets/images/validator-icon.svg"
         />
@@ -695,6 +697,7 @@ exports[`PageValidator shows a validator profile information if user hasn't sign
         class="lunie-row"
       >
         <img
+          alt="generic validator logo - graphic triangle supporting atom token"
           class="avatar"
           src="~assets/images/validator-icon.svg"
         />

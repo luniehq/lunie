@@ -349,6 +349,7 @@ exports[`PageNetwork should display the network page with the blocks table in a 
         >
           <td>
             <img
+              alt="a small spinning circle to display loading"
               class="loading-icon"
               src="~assets/images/loader.svg"
             />
@@ -356,6 +357,7 @@ exports[`PageNetwork should display the network page with the blocks table in a 
            
           <td>
             <img
+              alt="a small spinning circle to display loading"
               class="loading-icon"
               src="~assets/images/loader.svg"
             />
