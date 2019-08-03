@@ -7,6 +7,19 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.0-beta.103] - 2019-08-03
+
+### Changed
+
+- Show 0 returns for non validating validators @faboweb
+- improved proposal list and page proposal @jbibla
+
+## [1.0.0-beta.102] - 2019-08-02
+
+### Fixed
+
+- Updated cosmos-api to include minting endpoints @faboweb
+
 ## [1.0.0-beta.101] - 2019-07-31
 
 ### Changed
