@@ -217,6 +217,37 @@ describe(`Module: Delegations`, () => {
     expect(commit).not.toHaveBeenCalled()
   })
 
+  it(`should load delegtes if they are not loaded already`, async () => {
+    const node = {
+      get: {
+        delegations: jest.fn(() => []),
+        undelegations: jest.fn(() => []),
+        redelegations: jest.fn(() => [])
+      }
+    }
+    const instance = delegationModule({
+      node
+    })
+    state = instance.state
+    actions = instance.actions
+    mutations = instance.mutations
+    const dispatch = jest.fn()
+
+    const rootState = JSON.parse(JSON.stringify(mockRootState))
+    rootState.delegates.loaded = false
+    await actions.getBondedDelegates(
+      {
+        state,
+        rootState,
+        commit: jest.fn(),
+        dispatch
+      },
+      mockValues.state.candidates
+    )
+
+    expect(dispatch).toHaveBeenCalledWith("getDelegates")
+  })
+
   it(`should store a undelegation`, async () => {
     mutations.setUnbondingDelegations(state, [
       {
