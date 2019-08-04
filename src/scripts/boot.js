@@ -29,8 +29,6 @@ const _setGoogleAnalyticsPage = setGoogleAnalyticsPage
 import "../registerServiceWorker"
 import vuetify from "../plugins/vuetify"
 import "@babel/polyfill"
-import "roboto-fontface/css/roboto/roboto-fontface.css"
-import "@mdi/font/css/materialdesignicons.css"
 
 _Vue.config.productionTip = false
 

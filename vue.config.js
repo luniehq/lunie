@@ -1,4 +1,5 @@
 const path = require(`path`)
+const fs = require(`fs`)
 const webpack = require(`webpack`)
 const CSPWebpackPlugin = require(`csp-webpack-plugin`)
 
@@ -12,6 +13,12 @@ const commitHash = require(`child_process`)
   .trim()
 
 module.exports = {
+  devServer: {
+    https: {
+      key: fs.readFileSync('./certs/dev.key'),
+      cert: fs.readFileSync('./certs/dev.crt')
+    },
+  },
   configureWebpack: () => {
     const config = {
       resolve: {

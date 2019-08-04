@@ -1,20 +1,19 @@
 {
-  "name": "lunie3",
-  "short_name": "lunie3",
+  "name": "Lunie",
+  "short_name": "Lunie",
   "icons": [
     {
-      "src": "./img/icons/android-chrome-192x192.png",
+      "src": "/static/icons/android-chrome-192x192.png",
       "sizes": "192x192",
       "type": "image/png"
     },
     {
-      "src": "./img/icons/android-chrome-512x512.png",
+      "src": "/static/icons/android-chrome-512x512.png",
       "sizes": "512x512",
       "type": "image/png"
     }
   ],
-  "start_url": "./index.html",
+  "background_color": "#15182d",
   "display": "standalone",
-  "background_color": "#000000",
-  "theme_color": "#4DBA87"
+  "description": "The official wallet of the Cosmos Hub."
 }
