@@ -180,7 +180,7 @@ jobs:
           command: yarn test:e2e:build
       - run:
           name: Test
-          command: yarn serve --no-browser & yarn test:e2e:browserstack
+          command: yarn serve:dist & yarn test:e2e:browserstack
           no_output_timeout: 120
       - store_artifacts:
           path: ./screenshots
