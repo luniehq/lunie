@@ -138,9 +138,9 @@ jobs:
           command: |
             # notify Code Climate of a pending test report using `before-build`
             ./cc-test-reporter before-build
-            yarn run test:unit
+            yarn run test:unit --coverage --maxWorkers=2
             # upload test report to Code Climate
-            ./cc-test-reporter format-coverage -t lcov ./tests/unit/coverage/lcov.info
+            ./cc-test-reporter format-coverage -t lcov ./coverage/lcov.info
             ./cc-test-reporter upload-coverage
           no_output_timeout: 120
 
