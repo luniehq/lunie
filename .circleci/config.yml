@@ -140,7 +140,7 @@ jobs:
             ./cc-test-reporter before-build
             yarn run test:unit
             # upload test report to Code Climate
-            ./cc-test-reporter format-coverage -t lcov ./test/unit/coverage/lcov.info
+            ./cc-test-reporter format-coverage -t lcov ./tests/unit/coverage/lcov.info
             ./cc-test-reporter upload-coverage
           no_output_timeout: 120
 
