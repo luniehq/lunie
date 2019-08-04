@@ -20,7 +20,7 @@
     "test:e2e:local": "kill-port 9515 && nightwatch --config ./tests/e2e/local-chrome.conf.js",
     "test:e2e:build": "cross-env E2E_TESTS=true STARGATE=http://localhost:9070 RPC=http://localhost:26657 vue-cli-service build --mode production",
     "test:e2e:serve": "kill-port 9080 && cross-env E2E_TESTS=true STARGATE=http://localhost:9070 RPC=http://localhost:26657 vue-cli-service serve --mode production --port 9080 --https",
-    "test:unit": "jest",
+    "test:unit": "vue-cli-service test:unit",
     "testnet:start": "npm run testnet:start:container && npm run proxy",
     "testnet:start:container": "docker run --rm -p 26657:26657 --name testnet -p 9070:9070 --detach -e MAX_NODES=${MAX_NODES:-2} lunieio/testnet:v0.34.7",
     "testnet:stop": "docker stop testnet"
