@@ -8,7 +8,7 @@
     "serve": "kill-port 9080 && vue-cli-service serve --port 9080 --https",
     "serve:dist": "live-server --https=node_modules/live-server-https --port=9080 --no-browser ./dist",
     "build": "vue-cli-service build",
-    "build:keybase-cache": "babel-node --presets @babel/env tasks/keybase-fallback.js",
+    "build:keybase-cache": "node ./tasks/keybase-fallback.es5.js",
     "lint": "vue-cli-service lint",
     "certificates": "docker-compose -f tasks/certificates/docker-compose.yml up",
     "changelog": "simsala log --pending-path ./changes",
