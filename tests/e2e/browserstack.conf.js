@@ -1,7 +1,7 @@
 require("browserstack-local")
 
 const nightwatch_config = {
-  src_folders: ["test/e2e"],
+  src_folders: ["tests/e2e"],
   globals_path: "./globals.js",
   output_folder: "./output",
   launch_url: "https://127.0.0.1:9080",
