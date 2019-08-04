@@ -6,6 +6,7 @@ exports[`TmConnectedNetwork has a connecting state 1`] = `
   id="tm-disconnected-network"
 >
   <img
+    alt="a small spinning circle to display loading"
     class="tm-connected-network-loader"
     src="~assets/images/loader.svg"
   />

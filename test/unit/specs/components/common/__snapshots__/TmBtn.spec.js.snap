@@ -73,11 +73,7 @@ exports[`TmBtn displays as an img as an icon 1`] = `
   <span
     class="tm-btn__container"
   >
-    <img
-      aria-hidden="true"
-      class="tm-btn__img"
-      src="./icon.png"
-    />
+    <!---->
     <span
       class="tm-btn__value"
     >
