@@ -1,0 +1,1064 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`PageValidator shows a validator profile information errors signing info is missing 1`] = `
+<tmpage-stub
+  data-title="Validator"
+  hideheader="true"
+  loaded="true"
+  managed="true"
+  subtitle=""
+  title=""
+>
+  <template>
+    <div
+      class="page-profile__header page-profile__section"
+    >
+      <div
+        class="lunie-row"
+      >
+        <img
+          alt="generic validator logo - graphic triangle supporting atom token"
+          class="avatar"
+          src="~assets/images/validator-icon.svg"
+        />
+         
+        <div
+          class="page-profile__header__info"
+        >
+          <div>
+            <div
+              class="validator-name-and-address"
+            >
+              <div
+                class="page-profile__status-and-title"
+              >
+                <span
+                  class="page-profile__status green"
+                />
+                 
+                <div
+                  class="page-profile__title"
+                >
+                  
+                  mr_mounty
+                
+                </div>
+              </div>
+               
+              <bech32-stub
+                address="cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
+              />
+            </div>
+          </div>
+           
+          <div
+            class="page-profile__header__actions"
+          >
+            <tmbtn-stub
+              color="primary"
+              id="delegation-btn"
+              value="Delegate"
+            />
+             
+            <tmbtn-stub
+              color="secondary"
+              id="undelegation-btn"
+              value="Undelegate"
+            />
+          </div>
+        </div>
+      </div>
+       
+      <div
+        class="lunie-row"
+      >
+        <div
+          class="lunie-row lunie-row-unjustified"
+        >
+          <dl
+            class="info_dl colored_dl"
+          >
+            <dt>
+              My Delegation
+            </dt>
+             
+            <dd>
+              --
+            </dd>
+          </dl>
+           
+          <dl
+            class="info_dl colored_dl"
+          >
+            <dt>
+              My Rewards
+            </dt>
+             
+            <dd>
+              --
+            </dd>
+          </dl>
+           
+          <dl
+            class="info_dl colored_dl"
+          >
+            <dt>
+              Expected Returns
+            </dt>
+             
+            <dd>
+              2.26%
+            </dd>
+          </dl>
+        </div>
+         
+        <div
+          class="lunie-row lunie-row-unjustified"
+        >
+          <dl
+            class="info_dl colored_dl"
+          >
+            <dt>
+              Voting Power
+            </dt>
+             
+            <dd
+              id="page-profile__power"
+            >
+              
+              0.33%
+            
+            </dd>
+          </dl>
+           
+          <dl
+            class="info_dl colored_dl"
+          >
+            <dt>
+              Uptime
+            </dt>
+             
+            <dd
+              id="page-profile__uptime"
+            >
+              
+              99.6%
+            
+            </dd>
+          </dl>
+           
+          <dl
+            class="info_dl colored_dl"
+          >
+            <dt>
+              Commission
+            </dt>
+             
+            <dd
+              id="page-profile__commission"
+            >
+              
+              5.00%
+            
+            </dd>
+          </dl>
+        </div>
+      </div>
+    </div>
+     
+    <div
+      class="page-profile__section"
+    >
+      <div
+        class="lunie-row"
+      >
+        <div
+          class="lunie-column"
+        >
+          <dl
+            class="info_dl"
+          >
+            <dt>
+              First Seen
+            </dt>
+             
+            <dd>
+              Block #0
+            </dd>
+          </dl>
+           
+          <dl
+            class="info_dl"
+          >
+            <dt>
+              Full Operator Address
+            </dt>
+             
+            <dd
+              class="address"
+            >
+              cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw
+            </dd>
+          </dl>
+           
+          <dl
+            class="info_dl"
+          >
+            <dt>
+              Keybase ID
+            </dt>
+             
+            <dd>
+              
+              --
+            
+            </dd>
+          </dl>
+           
+          <dl
+            class="info_dl"
+          >
+            <dt>
+              Website
+            </dt>
+             
+            <dd>
+              <a
+                href="https://www.monty.ca"
+                id="validator-website"
+                rel="nofollow noreferrer noopener"
+                target="_blank"
+              >
+                
+                https://www.monty.ca
+              
+              </a>
+            </dd>
+          </dl>
+           
+          <dl
+            class="info_dl"
+          >
+            <dt>
+              Description
+            </dt>
+             
+            <dd
+              class="info_dl__text-box"
+            >
+              
+              Mr Mounty
+            
+            </dd>
+          </dl>
+        </div>
+         
+        <div
+          class="lunie-column"
+        >
+          <dl
+            class="info_dl"
+          >
+            <dt>
+              Current Commission Rate
+            </dt>
+             
+            <dd>
+              5.00%
+            </dd>
+          </dl>
+           
+          <dl
+            class="info_dl"
+          >
+            <dt>
+              Max Commission Rate
+            </dt>
+             
+            <dd>
+              10.00%
+            </dd>
+          </dl>
+           
+          <dl
+            class="info_dl"
+          >
+            <dt>
+              Max Daily Commission Change
+            </dt>
+             
+            <dd>
+              0.50%
+            </dd>
+          </dl>
+           
+          <dl
+            class="info_dl"
+          >
+            <dt>
+              Last Commission Change
+            </dt>
+             
+            <dd>
+              a few seconds ago
+            </dd>
+          </dl>
+           
+          <dl
+            class="info_dl"
+          >
+            <dt>
+              Self Delegation
+            </dt>
+             
+            <dd
+              id="page-profile__self-bond"
+            >
+              
+              1.00%
+            
+            </dd>
+          </dl>
+        </div>
+      </div>
+    </div>
+     
+    <delegationmodal-stub
+      denom="STAKE"
+      fromoptions="[object Object]"
+      to="cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
+      validator="[object Object]"
+    />
+     
+    <undelegationmodal-stub
+      denom="STAKE"
+      maximum="0"
+      to="cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9"
+      validator="[object Object]"
+    />
+  </template>
+</tmpage-stub>
+`;
+
+exports[`PageValidator shows a validator profile information if user has signed in 1`] = `
+<tmpage-stub
+  data-title="Validator"
+  hideheader="true"
+  loaded="true"
+  managed="true"
+  subtitle=""
+  title=""
+>
+  <template>
+    <div
+      class="page-profile__header page-profile__section"
+    >
+      <div
+        class="lunie-row"
+      >
+        <img
+          alt="generic validator logo - graphic triangle supporting atom token"
+          class="avatar"
+          src="~assets/images/validator-icon.svg"
+        />
+         
+        <div
+          class="page-profile__header__info"
+        >
+          <div>
+            <div
+              class="validator-name-and-address"
+            >
+              <div
+                class="page-profile__status-and-title"
+              >
+                <span
+                  class="page-profile__status green"
+                />
+                 
+                <div
+                  class="page-profile__title"
+                >
+                  
+                  mr_mounty
+                
+                </div>
+              </div>
+               
+              <bech32-stub
+                address="cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
+              />
+            </div>
+          </div>
+           
+          <div
+            class="page-profile__header__actions"
+          >
+            <tmbtn-stub
+              color="primary"
+              id="delegation-btn"
+              value="Delegate"
+            />
+             
+            <tmbtn-stub
+              color="secondary"
+              id="undelegation-btn"
+              value="Undelegate"
+            />
+          </div>
+        </div>
+      </div>
+       
+      <div
+        class="lunie-row"
+      >
+        <div
+          class="lunie-row lunie-row-unjustified"
+        >
+          <dl
+            class="info_dl colored_dl"
+          >
+            <dt>
+              My Delegation
+            </dt>
+             
+            <dd>
+              --
+            </dd>
+          </dl>
+           
+          <dl
+            class="info_dl colored_dl"
+          >
+            <dt>
+              My Rewards
+            </dt>
+             
+            <dd>
+              --
+            </dd>
+          </dl>
+           
+          <dl
+            class="info_dl colored_dl"
+          >
+            <dt>
+              Expected Returns
+            </dt>
+             
+            <dd>
+              2.26%
+            </dd>
+          </dl>
+        </div>
+         
+        <div
+          class="lunie-row lunie-row-unjustified"
+        >
+          <dl
+            class="info_dl colored_dl"
+          >
+            <dt>
+              Voting Power
+            </dt>
+             
+            <dd
+              id="page-profile__power"
+            >
+              
+              0.33%
+            
+            </dd>
+          </dl>
+           
+          <dl
+            class="info_dl colored_dl"
+          >
+            <dt>
+              Uptime
+            </dt>
+             
+            <dd
+              id="page-profile__uptime"
+            >
+              
+              99.6%
+            
+            </dd>
+          </dl>
+           
+          <dl
+            class="info_dl colored_dl"
+          >
+            <dt>
+              Commission
+            </dt>
+             
+            <dd
+              id="page-profile__commission"
+            >
+              
+              5.00%
+            
+            </dd>
+          </dl>
+        </div>
+      </div>
+    </div>
+     
+    <div
+      class="page-profile__section"
+    >
+      <div
+        class="lunie-row"
+      >
+        <div
+          class="lunie-column"
+        >
+          <dl
+            class="info_dl"
+          >
+            <dt>
+              First Seen
+            </dt>
+             
+            <dd>
+              Block #0
+            </dd>
+          </dl>
+           
+          <dl
+            class="info_dl"
+          >
+            <dt>
+              Full Operator Address
+            </dt>
+             
+            <dd
+              class="address"
+            >
+              cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw
+            </dd>
+          </dl>
+           
+          <dl
+            class="info_dl"
+          >
+            <dt>
+              Keybase ID
+            </dt>
+             
+            <dd>
+              
+              --
+            
+            </dd>
+          </dl>
+           
+          <dl
+            class="info_dl"
+          >
+            <dt>
+              Website
+            </dt>
+             
+            <dd>
+              <a
+                href="https://www.monty.ca"
+                id="validator-website"
+                rel="nofollow noreferrer noopener"
+                target="_blank"
+              >
+                
+                https://www.monty.ca
+              
+              </a>
+            </dd>
+          </dl>
+           
+          <dl
+            class="info_dl"
+          >
+            <dt>
+              Description
+            </dt>
+             
+            <dd
+              class="info_dl__text-box"
+            >
+              
+              Mr Mounty
+            
+            </dd>
+          </dl>
+        </div>
+         
+        <div
+          class="lunie-column"
+        >
+          <dl
+            class="info_dl"
+          >
+            <dt>
+              Current Commission Rate
+            </dt>
+             
+            <dd>
+              5.00%
+            </dd>
+          </dl>
+           
+          <dl
+            class="info_dl"
+          >
+            <dt>
+              Max Commission Rate
+            </dt>
+             
+            <dd>
+              10.00%
+            </dd>
+          </dl>
+           
+          <dl
+            class="info_dl"
+          >
+            <dt>
+              Max Daily Commission Change
+            </dt>
+             
+            <dd>
+              0.50%
+            </dd>
+          </dl>
+           
+          <dl
+            class="info_dl"
+          >
+            <dt>
+              Last Commission Change
+            </dt>
+             
+            <dd>
+              a few seconds ago
+            </dd>
+          </dl>
+           
+          <dl
+            class="info_dl"
+          >
+            <dt>
+              Self Delegation
+            </dt>
+             
+            <dd
+              id="page-profile__self-bond"
+            >
+              
+              1.00%
+            
+            </dd>
+          </dl>
+        </div>
+      </div>
+    </div>
+     
+    <delegationmodal-stub
+      denom="STAKE"
+      fromoptions="[object Object]"
+      to="cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
+      validator="[object Object]"
+    />
+     
+    <undelegationmodal-stub
+      denom="STAKE"
+      maximum="0"
+      to="cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9"
+      validator="[object Object]"
+    />
+  </template>
+</tmpage-stub>
+`;
+
+exports[`PageValidator shows a validator profile information if user hasn't signed in 1`] = `
+<tmpage-stub
+  data-title="Validator"
+  hideheader="true"
+  loaded="true"
+  managed="true"
+  subtitle=""
+  title=""
+>
+  <template>
+    <div
+      class="page-profile__header page-profile__section"
+    >
+      <div
+        class="lunie-row"
+      >
+        <img
+          alt="generic validator logo - graphic triangle supporting atom token"
+          class="avatar"
+          src="~assets/images/validator-icon.svg"
+        />
+         
+        <div
+          class="page-profile__header__info"
+        >
+          <div>
+            <div
+              class="validator-name-and-address"
+            >
+              <div
+                class="page-profile__status-and-title"
+              >
+                <span
+                  class="page-profile__status green"
+                />
+                 
+                <div
+                  class="page-profile__title"
+                >
+                  
+                  mr_mounty
+                
+                </div>
+              </div>
+               
+              <bech32-stub
+                address="cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
+              />
+            </div>
+          </div>
+           
+          <div
+            class="page-profile__header__actions"
+          >
+            <tmbtn-stub
+              color="primary"
+              id="delegation-btn"
+              value="Delegate"
+            />
+             
+            <tmbtn-stub
+              color="secondary"
+              id="undelegation-btn"
+              value="Undelegate"
+            />
+          </div>
+        </div>
+      </div>
+       
+      <div
+        class="lunie-row"
+      >
+        <div
+          class="lunie-row lunie-row-unjustified"
+        >
+          <dl
+            class="info_dl colored_dl"
+          >
+            <dt>
+              My Delegation
+            </dt>
+             
+            <dd>
+              --
+            </dd>
+          </dl>
+           
+          <dl
+            class="info_dl colored_dl"
+          >
+            <dt>
+              My Rewards
+            </dt>
+             
+            <dd>
+              --
+            </dd>
+          </dl>
+           
+          <dl
+            class="info_dl colored_dl"
+          >
+            <dt>
+              Expected Returns
+            </dt>
+             
+            <dd>
+              2.26%
+            </dd>
+          </dl>
+        </div>
+         
+        <div
+          class="lunie-row lunie-row-unjustified"
+        >
+          <dl
+            class="info_dl colored_dl"
+          >
+            <dt>
+              Voting Power
+            </dt>
+             
+            <dd
+              id="page-profile__power"
+            >
+              
+              0.33%
+            
+            </dd>
+          </dl>
+           
+          <dl
+            class="info_dl colored_dl"
+          >
+            <dt>
+              Uptime
+            </dt>
+             
+            <dd
+              id="page-profile__uptime"
+            >
+              
+              99.6%
+            
+            </dd>
+          </dl>
+           
+          <dl
+            class="info_dl colored_dl"
+          >
+            <dt>
+              Commission
+            </dt>
+             
+            <dd
+              id="page-profile__commission"
+            >
+              
+              5.00%
+            
+            </dd>
+          </dl>
+        </div>
+      </div>
+    </div>
+     
+    <div
+      class="page-profile__section"
+    >
+      <div
+        class="lunie-row"
+      >
+        <div
+          class="lunie-column"
+        >
+          <dl
+            class="info_dl"
+          >
+            <dt>
+              First Seen
+            </dt>
+             
+            <dd>
+              Block #0
+            </dd>
+          </dl>
+           
+          <dl
+            class="info_dl"
+          >
+            <dt>
+              Full Operator Address
+            </dt>
+             
+            <dd
+              class="address"
+            >
+              cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw
+            </dd>
+          </dl>
+           
+          <dl
+            class="info_dl"
+          >
+            <dt>
+              Keybase ID
+            </dt>
+             
+            <dd>
+              
+              --
+            
+            </dd>
+          </dl>
+           
+          <dl
+            class="info_dl"
+          >
+            <dt>
+              Website
+            </dt>
+             
+            <dd>
+              <a
+                href="https://www.monty.ca"
+                id="validator-website"
+                rel="nofollow noreferrer noopener"
+                target="_blank"
+              >
+                
+                https://www.monty.ca
+              
+              </a>
+            </dd>
+          </dl>
+           
+          <dl
+            class="info_dl"
+          >
+            <dt>
+              Description
+            </dt>
+             
+            <dd
+              class="info_dl__text-box"
+            >
+              
+              Mr Mounty
+            
+            </dd>
+          </dl>
+        </div>
+         
+        <div
+          class="lunie-column"
+        >
+          <dl
+            class="info_dl"
+          >
+            <dt>
+              Current Commission Rate
+            </dt>
+             
+            <dd>
+              5.00%
+            </dd>
+          </dl>
+           
+          <dl
+            class="info_dl"
+          >
+            <dt>
+              Max Commission Rate
+            </dt>
+             
+            <dd>
+              10.00%
+            </dd>
+          </dl>
+           
+          <dl
+            class="info_dl"
+          >
+            <dt>
+              Max Daily Commission Change
+            </dt>
+             
+            <dd>
+              0.50%
+            </dd>
+          </dl>
+           
+          <dl
+            class="info_dl"
+          >
+            <dt>
+              Last Commission Change
+            </dt>
+             
+            <dd>
+              a few seconds ago
+            </dd>
+          </dl>
+           
+          <dl
+            class="info_dl"
+          >
+            <dt>
+              Self Delegation
+            </dt>
+             
+            <dd
+              id="page-profile__self-bond"
+            >
+              
+              1.00%
+            
+            </dd>
+          </dl>
+        </div>
+      </div>
+    </div>
+     
+    <delegationmodal-stub
+      denom="STAKE"
+      fromoptions=""
+      to="cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
+      validator="[object Object]"
+    />
+     
+    <undelegationmodal-stub
+      denom="STAKE"
+      maximum="0"
+      to=""
+      validator="[object Object]"
+    />
+  </template>
+</tmpage-stub>
+`;
+
+exports[`PageValidator shows a validator profile information shows a validator as an inactive candidate if he has no voting_power 1`] = `"This validator does not have enough voting power yet and is inactive"`;
+
+exports[`PageValidator shows a validator profile information shows that a validator is jailed 1`] = `"This validator has been jailed and is not currently validating"`;
+
+exports[`delegationTargetOptions always shows wallet in the first position 1`] = `
+Array [
+  Object {
+    "address": "cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9",
+    "key": "My Wallet - cosmos…3p4mqpjyrm5ctpesxxn9",
+    "maximum": 1337,
+    "value": 0,
+  },
+]
+`;
+
+exports[`delegationTargetOptions hides displayed validator if bonded 1`] = `
+Array [
+  Object {
+    "address": "cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9",
+    "key": "My Wallet - cosmos…3p4mqpjyrm5ctpesxxn9",
+    "maximum": 1337,
+    "value": 0,
+  },
+]
+`;
+
+exports[`delegationTargetOptions shows bonded validators for redelegation options 1`] = `
+Array [
+  Object {
+    "address": "cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9",
+    "key": "My Wallet - cosmos…3p4mqpjyrm5ctpesxxn9",
+    "maximum": 1337,
+    "value": 0,
+  },
+  Object {
+    "address": "cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au",
+    "key": "good_greg - cosmosvaladdr…3p4mqpjyrm5ctplpn3au",
+    "maximum": 5,
+    "value": 1,
+  },
+]
+`;

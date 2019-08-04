@@ -6,11 +6,12 @@
     :error="delegates.error"
     :data-empty="!validator"
     data-title="Validator"
+    :hide-header="true"
   >
     <template v-if="validator" slot="managed-body">
       <!-- we need the v-if as the template somehow is rendered in any case -->
       <div class="page-profile__header page-profile__section">
-        <div class="row">
+        <div class="lunie-row">
           <img
             v-if="validator.keybase && validator.keybase.avatarUrl"
             :src="validator.keybase.avatarUrl"
@@ -59,8 +60,8 @@
           </div>
         </div>
 
-        <div class="row">
-          <div class="row row-unjustified">
+        <div class="lunie-row">
+          <div class="lunie-row lunie-row-unjustified">
             <dl class="info_dl colored_dl">
               <dt>My Delegation</dt>
               <dd>{{ myDelegation }}</dd>
@@ -79,7 +80,7 @@
             </dl>
           </div>
 
-          <div class="row row-unjustified">
+          <div class="lunie-row lunie-row-unjustified">
             <dl class="info_dl colored_dl">
               <dt>Voting Power</dt>
               <dd id="page-profile__power">
@@ -103,8 +104,8 @@
       </div>
 
       <div class="page-profile__section">
-        <div class="row">
-          <div class="column">
+        <div class="lunie-row">
+          <div class="lunie-column">
             <dl class="info_dl">
               <dt>First Seen</dt>
               <dd>Block #{{ validator.bond_height }}</dd>
@@ -142,7 +143,7 @@
               </dd>
             </dl>
           </div>
-          <div class="column">
+          <div class="lunie-column">
             <dl class="info_dl">
               <dt>Current Commission Rate</dt>
               <dd>{{ num.percent(validator.commission.rate) }}</dd>
@@ -191,7 +192,7 @@
       <template slot="subtitle">
         <div>
           Please visit the
-          <router-link to="/staking/validators/">
+          <router-link to="/validators/">
             Validators
           </router-link>
           page to view all validators
@@ -399,9 +400,6 @@ export default {
         }
       }
     }
-  },
-  mounted() {
-    this.$store.dispatch("updateDelegates")
   },
   methods: {
     onDelegation() {

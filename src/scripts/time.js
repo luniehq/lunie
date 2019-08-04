@@ -1,6 +1,6 @@
 "use strict"
 
-const getUnbondingTime = ({ height, tx }, unbondingDelegations) => {
+export const getUnbondingTime = ({ height, tx }, unbondingDelegations) => {
   const { type, value } = tx.value && tx.value.msg && tx.value.msg[0]
   if (type === `cosmos-sdk/MsgUndelegate`) {
     const validatorUnbondingDelegation =
@@ -16,6 +16,6 @@ const getUnbondingTime = ({ height, tx }, unbondingDelegations) => {
   }
   return NaN
 }
-module.exports = {
+export default {
   getUnbondingTime
 }

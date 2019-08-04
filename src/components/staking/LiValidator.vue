@@ -133,23 +133,3 @@ export default {
   }
 }
 </script>
-<style scoped>
-.data-table__row {
-  cursor: pointer;
-}
-
-@media screen and (max-width: 550px) {
-  .hide-xs {
-    display: none;
-  }
-
-  .data-table__row {
-    max-width: calc(100vw - 2px);
-    padding: 0;
-  }
-
-  .data-table__row__info {
-    max-width: calc(100vw - 6rem);
-  }
-}
-</style>

@@ -525,9 +525,7 @@ export default {
         try {
           await this.connectLedger()
         } catch (error) {
-          this.submissionError = `${this.submissionErrorPrefix}: ${
-            error.message
-          }.`
+          this.submissionError = `${this.submissionErrorPrefix}: ${error.message}.`
           this.sending = false
           return
         }
@@ -734,7 +732,7 @@ export default {
 }
 
 @media screen and (max-width: 1023px) {
-  .row {
+  .lunie-row {
     flex-direction: column;
   }
 

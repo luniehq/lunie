@@ -1,9 +1,12 @@
-"use strict"
-
 module.exports = {
-  testMatch: [`**/unit/specs/**/*spec.js`],
-  moduleFileExtensions: [`js`, `vue`],
-  moduleDirectories: [`node_modules`, `src`],
+  moduleFileExtensions: ["js", "jsx", "json", "vue"],
+  transform: {
+    "^.+\\.vue$": "vue-jest",
+    ".+\\.(css|styl|less|sass|scss|svg|png|jpg|ttf|woff|woff2)$":
+      "jest-transform-stub",
+    "^.+\\.jsx?$": "babel-jest"
+  },
+  transformIgnorePatterns: ["/node_modules/"],
   moduleNameMapper: {
     "^src/(.*)$": `<rootDir>/src/$1`,
     "^assets/(.*)$": `<rootDir>/src/assets/$1`,
@@ -15,34 +18,17 @@ module.exports = {
     "^scripts/(.*)$": `<rootDir>/src/scripts/$1`,
     "^wallet/(.*)$": `<rootDir>/src/components/wallet/$1`,
     "^modules/(.*)$": `<rootDir>/src/vuex/modules/$1`,
-    "^test/(.*)$": `<rootDir>/test/$1`
+    "^tests/(.*)$": `<rootDir>/tests/$1`,
+    "^.+\\.(css)$": "<rootDir>/tests/unit/helpers/emptyModule.js"
   },
-
-  transform: {
-    ".*\\.js$": `<rootDir>/node_modules/babel-jest`,
-    ".*\\.vue$": `<rootDir>/node_modules/vue-jest`
-  },
-
-  transformIgnorePatterns: [`node_modules`],
-
-  collectCoverage: true,
-  coverageDirectory: `./test/unit/coverage`,
-  coverageReporters: [`lcov`, `text-summary`],
-  coveragePathIgnorePatterns: [
-    `/node_modules/`,
-    `/build/`,
-    `/dist/`,
-    `/test/`,
-    `/src/config.js`
+  snapshotSerializers: ["jest-serializer-vue"],
+  testMatch: [
+    "**/tests/unit/**/*.spec.(js|jsx|ts|tsx)|**/__tests__/*.(js|jsx|ts|tsx)"
   ],
-  testURL: `http://localhost`,
-  setupFiles: [
-    `./test/unit/helpers/fixed_time.js`,
-    // `./test/unit/helpers/console_error_throw.js`,
-    `./test/unit/helpers/sentry_mock.js`,
-    `./test/unit/helpers/mock_perfect-scrollbar.js`,
-    `./test/unit/helpers/window_mock.js`,
-    `./test/unit/helpers/libs_mock.js`,
-    `jest-localstorage-mock`
-  ]
+  testURL: "http://localhost/",
+  watchPlugins: [
+    "jest-watch-typeahead/filename",
+    "jest-watch-typeahead/testname"
+  ],
+  setupFiles: [`./tests/unit/helpers/fixed_time.js`, `jest-localstorage-mock`]
 }

@@ -1,39 +1,49 @@
 <template>
-  <div>
-    <CookieBar />
-    <MaintenanceBar />
-    <DisconnectedBar />
-    <div id="app">
+  <v-app>
+    <Menu />
+
+    <!-- Sizes your content based upon application components -->
+    <v-content id="app-content">
+      <CookieBar />
+      <MaintenanceBar />
+      <DisconnectedBar />
+
       <router-view name="session" />
-      <AppHeader />
-      <div id="app-content">
-        <router-view />
-      </div>
-      <TmNotifications :notifications="notifications" />
-    </div>
-  </div>
+
+      <!-- Provides the application the proper gutter -->
+      <v-container>
+        <!-- If using vue-router -->
+        <router-view></router-view>
+      </v-container>
+
+      <PageFooter />
+    </v-content>
+    <TmNotifications :notifications="notifications" />
+  </v-app>
 </template>
 
 <script>
 import { mapGetters } from "vuex"
-import AppHeader from "common/AppHeader"
+import Menu from "common/Menu"
 import CookieBar from "common/CookieBar"
 import MaintenanceBar from "common/MaintenanceBar"
 import DisconnectedBar from "common/DisconnectedBar"
 import TmNotifications from "common/TmNotifications"
+import PageFooter from "common/TmPageFooter"
 import store from "./vuex/store"
 
 export default {
   name: `app`,
   components: {
-    AppHeader,
+    Menu,
     TmNotifications,
     CookieBar,
     MaintenanceBar,
-    DisconnectedBar
+    DisconnectedBar,
+    PageFooter
   },
   computed: {
-    ...mapGetters([`notifications`, `session`])
+    ...mapGetters([`notifications`])
   },
   store
 }

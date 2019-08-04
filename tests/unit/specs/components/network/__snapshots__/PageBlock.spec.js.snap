@@ -1,0 +1,259 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`PageBlock shows a page with information about a certain block 1`] = `
+<tmpage-stub
+  data-title="Block"
+  subtitle=""
+  title=""
+>
+  <div
+    class="page-profile__header page-profile__section block"
+  >
+    <div
+      class="row"
+    >
+      <div
+        class="page-profile__header__info"
+      >
+        <div
+          class="page-profile__status-and-title"
+        >
+          <h2
+            class="page-profile__title"
+          >
+            
+              Block #100
+            
+          </h2>
+        </div>
+      </div>
+    </div>
+     
+    <div
+      class="row"
+    >
+      <dl
+        class="info_dl colored_dl"
+      >
+        <dt>
+          Time
+        </dt>
+         
+        <dd>
+          Jan 1st 1970, 00:00:42
+        </dd>
+      </dl>
+    </div>
+  </div>
+   
+  <div
+    class="page-profile__section block"
+  >
+    <div
+      class="row"
+    >
+      <div
+        class="column"
+      >
+        <h3
+          class="page-profile__section-title"
+        >
+          
+            Transactions
+          
+        </h3>
+         
+        <!---->
+         
+        <lianytransaction-stub
+          address=""
+          bondingdenom="atom"
+          height="100"
+          proposalsurl="/governance"
+          time="42000"
+          transaction="[object Object]"
+          unbondingtime="NaN"
+          validators="[object Object],[object Object],[object Object]"
+          validatorsurl="/validators"
+        />
+        <lianytransaction-stub
+          address=""
+          bondingdenom="atom"
+          height="100"
+          proposalsurl="/governance"
+          time="42000"
+          transaction="[object Object]"
+          unbondingtime="NaN"
+          validators="[object Object],[object Object],[object Object]"
+          validatorsurl="/validators"
+        />
+        <lianytransaction-stub
+          address=""
+          bondingdenom="atom"
+          height="100"
+          proposalsurl="/governance"
+          time="42000"
+          transaction="[object Object]"
+          unbondingtime="NaN"
+          validators="[object Object],[object Object],[object Object]"
+          validatorsurl="/validators"
+        />
+         
+        <br />
+      </div>
+    </div>
+  </div>
+</tmpage-stub>
+`;
+
+exports[`PageBlock shows the block page with no txs 1`] = `
+<tmpage-stub
+  data-title="Block"
+  subtitle=""
+  title=""
+>
+  <div
+    class="page-profile__header page-profile__section block"
+  >
+    <div
+      class="row"
+    >
+      <div
+        class="page-profile__header__info"
+      >
+        <div
+          class="page-profile__status-and-title"
+        >
+          <h2
+            class="page-profile__title"
+          >
+            
+              Block #100
+            
+          </h2>
+        </div>
+      </div>
+    </div>
+     
+    <div
+      class="row"
+    >
+      <dl
+        class="info_dl colored_dl"
+      >
+        <dt>
+          Time
+        </dt>
+         
+        <dd>
+          Jan 1st 1970, 00:00:42
+        </dd>
+      </dl>
+    </div>
+  </div>
+   
+  <div
+    class="page-profile__section block"
+  >
+    <div
+      class="row"
+    >
+      <div
+        class="column"
+      >
+        <h3
+          class="page-profile__section-title"
+        >
+          
+            Transactions
+          
+        </h3>
+         
+        <tmdatamsg-stub
+          icon="info_outline"
+        >
+          <div>
+            
+              No Transactions
+            
+          </div>
+           
+          <div>
+            
+              This block doesn't contain any transactions.
+            
+          </div>
+        </tmdatamsg-stub>
+          
+        <br />
+      </div>
+    </div>
+  </div>
+</tmpage-stub>
+`;
+
+exports[`PageBlock shows the page when the block hasn't been loaded yet 1`] = `
+<tmpage-stub
+  data-title="Block"
+  subtitle=""
+  title=""
+>
+  <div
+    class="page-profile__header page-profile__section block"
+  >
+    <div
+      class="row"
+    >
+      <div
+        class="page-profile__header__info"
+      >
+        <div
+          class="page-profile__status-and-title"
+        >
+          <h2
+            class="page-profile__title"
+          >
+            
+              Block --
+            
+          </h2>
+        </div>
+      </div>
+    </div>
+     
+    <div
+      class="row"
+    >
+      <dl
+        class="info_dl colored_dl"
+      >
+        <dt>
+          Time
+        </dt>
+         
+        <dd>
+          --
+        </dd>
+      </dl>
+    </div>
+  </div>
+   
+  <div
+    class="page-profile__section block"
+  >
+    <div
+      class="row"
+    >
+      <div
+        class="column"
+      >
+        <!---->
+         
+        <!---->
+          
+        <br />
+      </div>
+    </div>
+  </div>
+</tmpage-stub>
+`;

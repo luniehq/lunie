@@ -1,0 +1,147 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`PageTransactions displays the transaction page if user has signed in 1`] = `
+<tmpage-stub
+  data-title="Transactions"
+  hideheader="true"
+  loaded="true"
+  managed="true"
+  signinrequired="true"
+  subtitle=""
+  title=""
+>
+  <dataemptytx-stub />
+   
+  <template>
+    <lianytransaction-stub
+      address="cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9"
+      bondingdenom="STAKE"
+      proposalsurl="/governance"
+      transaction="[object Object]"
+      unbondingtime="NaN"
+      validators="[object Object],[object Object],[object Object]"
+      validatorsurl="/validators"
+    />
+    <lianytransaction-stub
+      address="cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9"
+      bondingdenom="STAKE"
+      proposalsurl="/governance"
+      transaction="[object Object]"
+      unbondingtime="NaN"
+      validators="[object Object],[object Object],[object Object]"
+      validatorsurl="/validators"
+    />
+    <lianytransaction-stub
+      address="cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9"
+      bondingdenom="STAKE"
+      proposalsurl="/governance"
+      transaction="[object Object]"
+      unbondingtime="NaN"
+      validators="[object Object],[object Object],[object Object]"
+      validatorsurl="/validators"
+    />
+    <lianytransaction-stub
+      address="cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9"
+      bondingdenom="STAKE"
+      proposalsurl="/governance"
+      transaction="[object Object]"
+      unbondingtime="NaN"
+      validators="[object Object],[object Object],[object Object]"
+      validatorsurl="/validators"
+    />
+    <lianytransaction-stub
+      address="cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9"
+      bondingdenom="STAKE"
+      proposalsurl="/governance"
+      transaction="[object Object]"
+      unbondingtime="NaN"
+      validators="[object Object],[object Object],[object Object]"
+      validatorsurl="/validators"
+    />
+    <lianytransaction-stub
+      address="cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9"
+      bondingdenom="STAKE"
+      proposalsurl="/governance"
+      transaction="[object Object]"
+      unbondingtime="NaN"
+      validators="[object Object],[object Object],[object Object]"
+      validatorsurl="/validators"
+    />
+     
+    <br />
+  </template>
+</tmpage-stub>
+`;
+
+exports[`PageTransactions displays the transaction page if user hasn't signed in 1`] = `
+<tmpage-stub
+  data-title="Transactions"
+  hideheader="true"
+  loaded="true"
+  managed="true"
+  signinrequired="true"
+  subtitle=""
+  title=""
+>
+  <dataemptytx-stub />
+   
+  <template>
+    <lianytransaction-stub
+      address="cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9"
+      bondingdenom="STAKE"
+      proposalsurl="/governance"
+      transaction="[object Object]"
+      unbondingtime="NaN"
+      validators="[object Object],[object Object],[object Object]"
+      validatorsurl="/validators"
+    />
+    <lianytransaction-stub
+      address="cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9"
+      bondingdenom="STAKE"
+      proposalsurl="/governance"
+      transaction="[object Object]"
+      unbondingtime="NaN"
+      validators="[object Object],[object Object],[object Object]"
+      validatorsurl="/validators"
+    />
+    <lianytransaction-stub
+      address="cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9"
+      bondingdenom="STAKE"
+      proposalsurl="/governance"
+      transaction="[object Object]"
+      unbondingtime="NaN"
+      validators="[object Object],[object Object],[object Object]"
+      validatorsurl="/validators"
+    />
+    <lianytransaction-stub
+      address="cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9"
+      bondingdenom="STAKE"
+      proposalsurl="/governance"
+      transaction="[object Object]"
+      unbondingtime="NaN"
+      validators="[object Object],[object Object],[object Object]"
+      validatorsurl="/validators"
+    />
+    <lianytransaction-stub
+      address="cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9"
+      bondingdenom="STAKE"
+      proposalsurl="/governance"
+      transaction="[object Object]"
+      unbondingtime="NaN"
+      validators="[object Object],[object Object],[object Object]"
+      validatorsurl="/validators"
+    />
+    <lianytransaction-stub
+      address="cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9"
+      bondingdenom="STAKE"
+      proposalsurl="/governance"
+      transaction="[object Object]"
+      unbondingtime="NaN"
+      validators="[object Object],[object Object],[object Object]"
+      validatorsurl="/validators"
+    />
+     
+    <br />
+  </template>
+</tmpage-stub>
+`;

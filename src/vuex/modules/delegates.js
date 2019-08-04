@@ -1,6 +1,6 @@
 import * as Sentry from "@sentry/browser"
 import BN from "bignumber.js"
-import b32 from "scripts/b32"
+import b32 from "scripts/b32.js"
 import Vue from "vue"
 import { throttle } from "scripts/blocks-throttle"
 
@@ -52,9 +52,6 @@ export default ({ node }) => {
         dispatch(`getDelegates`)
       }
     },
-    resetSessionData({ rootState }) {
-      rootState.delegates = JSON.parse(JSON.stringify(emptyState))
-    },
     async updateSigningInfo(
       {
         commit,
@@ -104,7 +101,6 @@ export default ({ node }) => {
         commit(`setDelegates`, validators)
         commit(`setDelegateLoading`, false)
         dispatch(`updateSigningInfo`, validators)
-        dispatch(`getRewardsFromMyValidators`)
 
         return validators
       } catch (error) {

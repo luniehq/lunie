@@ -1,3 +1,5 @@
+// TODO needs a cleanup, needs to be merged into main.js as vue-cli is oppinionated about that file
+
 "use strict"
 /**
  * Main module
@@ -24,6 +26,13 @@ import {
 import { focusElement, focusParentLast } from "src/directives"
 const _enableGoogleAnalytics = enableGoogleAnalytics
 const _setGoogleAnalyticsPage = setGoogleAnalyticsPage
+import "../registerServiceWorker"
+import vuetify from "../plugins/vuetify"
+import "@babel/polyfill"
+import "roboto-fontface/css/roboto/roboto-fontface.css"
+import "@mdi/font/css/materialdesignicons.css"
+
+_Vue.config.productionTip = false
 
 import { listenToExtensionMessages } from "scripts/extension-utils"
 
@@ -122,11 +131,15 @@ export const startApp = async (
     // wait for connected as the check for session will sign in directly and query account data
     .then(() => {
       store.dispatch(`checkForPersistedSession`)
+      store.dispatch("getDelegates")
+      store.dispatch(`getPool`)
+      store.dispatch(`getMintingParameters`)
     })
 
   listenToExtensionMessages(store)
 
   return new Vue({
+    vuetify,
     router,
     ...App,
     store

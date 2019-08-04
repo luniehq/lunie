@@ -186,11 +186,6 @@ export default {
       }
     }
   },
-  mounted() {
-    if (this.denom) {
-      this.denom = this.denom
-    }
-  },
   methods: {
     viewDenom,
     open(denom) {

@@ -7,6 +7,7 @@
     :data-empty="dataEmpty"
     data-title="Transactions"
     :sign-in-required="true"
+    :hide-header="true"
   >
     <DataEmptyTx slot="no-data" />
     <template slot="managed-body">
@@ -50,7 +51,7 @@ export default {
       property: `height`,
       order: `desc`
     },
-    validatorURL: `/staking/validators`,
+    validatorURL: `/validators`,
     governanceURL: `/governance`,
     time
   }),
