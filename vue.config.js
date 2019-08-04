@@ -13,12 +13,6 @@ const commitHash = require(`child_process`)
   .trim()
 
 module.exports = {
-  devServer: {
-    https: {
-      key: fs.readFileSync('./certs/dev.key'),
-      cert: fs.readFileSync('./certs/dev.crt')
-    },
-  },
   configureWebpack: () => {
     const config = {
       resolve: {
@@ -50,6 +44,15 @@ module.exports = {
           }
         })
       ]
+    }
+
+    if (!process.env.CI) {
+      config.devServer = {
+        https: {
+          key: fs.readFileSync('./certs/dev.key'),
+          cert: fs.readFileSync('./certs/dev.crt')
+        },
+      }
     }
 
     if (process.env.NODE_ENV === `production` && !process.env.E2E_TESTS) {
