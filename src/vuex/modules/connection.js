@@ -16,7 +16,6 @@ export default function({ node }) {
       chain_id: ``
     },
     connectionAttempts: 0,
-    mocked: node.mocked,
     nodeUrl: config.stargate,
     rpcUrl: config.rpc,
     externals: {

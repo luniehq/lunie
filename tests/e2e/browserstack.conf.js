@@ -11,7 +11,7 @@ const nightwatch_config = {
     host: "hub-cloud.browserstack.com",
     port: 80
   },
-  
+
   request_timeout_options: {
     timeout: 60000,
     retry_attempts: 5

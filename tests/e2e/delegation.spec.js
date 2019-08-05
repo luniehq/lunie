@@ -7,9 +7,7 @@ module.exports = {
 
     // move to validator page
     browser.expect.element(".li-validator").to.be.visible.before(10000)
-    browser.click(
-      ".li-validator[data-moniker=main_account]"
-    )
+    browser.click(".li-validator[data-moniker=main_account]")
 
     // open modal and enter amount
     browser.expect.element(`#delegation-btn`).to.be.visible.before(10000)
@@ -43,9 +41,7 @@ module.exports = {
 
     // move to validator page
     browser.expect.element(".li-validator").to.be.visible.before(10000)
-    browser.click(
-      ".li-validator[data-moniker=operator_account_1]"
-    )
+    browser.click(".li-validator[data-moniker=operator_account_1]")
 
     // open modal and enter amount
     browser.expect.element(`#delegation-btn`).to.be.visible.before(10000)
@@ -82,9 +78,7 @@ module.exports = {
 
     // move to validator page
     browser.expect.element(".li-validator").to.be.visible.before(10000)
-    browser.click(
-      ".li-validator[data-moniker=operator_account_1]"
-    )
+    browser.click(".li-validator[data-moniker=operator_account_1]")
 
     // open modal and enter amount
     browser.expect.element(`#undelegation-btn`).to.be.visible.before(10000)

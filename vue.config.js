@@ -49,9 +49,9 @@ module.exports = {
     if (!process.env.CI) {
       config.devServer = {
         https: {
-          key: fs.readFileSync('./certs/dev.key'),
-          cert: fs.readFileSync('./certs/dev.crt')
-        },
+          key: fs.readFileSync("./certs/dev.key"),
+          cert: fs.readFileSync("./certs/dev.crt")
+        }
       }
     }
 
