@@ -3,7 +3,7 @@ const { actionModalCheckout, nextBlock, waitFor } = require("./helpers.js")
 module.exports = {
   "Delegate Action": async function(browser) {
     // move to according page
-    browser.url(browser.launch_url + "/#/staking/validators")
+    browser.url(browser.launch_url + "/#/validators")
 
     // move to validator page
     browser.expect.element(".li-validator").to.be.visible.before(10000)
@@ -39,7 +39,7 @@ module.exports = {
     browser.pause(500)
 
     // move to according page
-    browser.url(browser.launch_url + "/#/staking/validators")
+    browser.url(browser.launch_url + "/#/validators")
 
     // move to validator page
     browser.expect.element(".li-validator").to.be.visible.before(10000)
@@ -78,7 +78,7 @@ module.exports = {
     await nextBlock(browser)
 
     // move to according page
-    browser.url(browser.launch_url + "/#/staking/validators")
+    browser.url(browser.launch_url + "/#/validators")
 
     // move to validator page
     browser.expect.element(".li-validator").to.be.visible.before(10000)

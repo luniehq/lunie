@@ -9,7 +9,8 @@
   >
     <template v-if="address === ''">
       <div slot="caption">
-        Sent <b>{{ txAmount | toAtoms | prettyLong }}</b>
+        Sent
+        <b>{{ txAmount | toAtoms | prettyLong }}</b>
         <span>{{ txDenom | viewDenom }}</span>
       </div>
       <span slot="details">
@@ -22,7 +23,8 @@
     </template>
     <template v-else-if="sent">
       <div slot="caption">
-        Sent <b>{{ txAmount | toAtoms | prettyLong }}</b>
+        Sent
+        <b>{{ txAmount | toAtoms | prettyLong }}</b>
         <span>{{ txDenom | viewDenom }}</span>
       </div>
       <span slot="details">
@@ -30,7 +32,7 @@
           To yourself!
         </template>
         <template v-else>
-          To
+          To&nbsp;
           <Bech32 :address="receiver" />
         </template>
       </span>

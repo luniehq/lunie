@@ -3,7 +3,7 @@ const { actionModalCheckout } = require("./helpers.js")
 module.exports = {
   "Send Action": async function(browser) {
     // move to according page
-    browser.url(browser.launch_url + "/#/wallet")
+    browser.url(browser.launch_url + "/#/portfolio")
 
     // open modal and enter amount
     browser.expect.element(`#li-coin--stake`).to.be.visible.before(10000)

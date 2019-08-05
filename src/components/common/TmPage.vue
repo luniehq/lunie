@@ -32,6 +32,7 @@
       </template>
       <slot />
     </main>
+    <PageFooter />
   </div>
 </template>
 
@@ -44,6 +45,7 @@ import { mapGetters } from "vuex"
 import TmDataError from "common/TmDataError"
 import TmDataConnecting from "common/TmDataConnecting"
 import ToolBar from "common/ToolBar"
+import PageFooter from "common/TmPageFooter"
 
 export default {
   name: `tm-page`,
@@ -54,7 +56,8 @@ export default {
     TmDataLoading,
     TmDataError,
     TmDataConnecting,
-    CardSignInRequired
+    CardSignInRequired,
+    PageFooter
   },
   props: {
     hideHeader: {
