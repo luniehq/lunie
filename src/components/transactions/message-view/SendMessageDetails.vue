@@ -8,9 +8,7 @@
       </p>
     </div>
     <div class="tx__content__information">
-      <template v-if="toYourself"
-        >To yourself!</template
-      >
+      <template v-if="toYourself">To yourself!</template>
       <template v-else-if="sentFromSessionAddress">
         To&nbsp;
         <Bech32 :address="transaction.value.to_address" />
@@ -64,13 +62,6 @@ export default {
       return (
         value.from_address === this.sessionAddress &&
         value.to_address === this.sessionAddress
-      )
-    },
-    other() {
-      const value = this.transaction.value
-      return (
-        this.sessionAddress !== value.from_address &&
-        this.sessionAddress !== value.to_address
       )
     },
     sentFromSessionAddress() {
