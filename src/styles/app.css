@@ -1,5 +1,6 @@
 @import "reset";
 @import "variables";
+@import "vendor/material-icons.css";
 @import "vendor/perfect-scrollbar.css";
 @import "vendor/vue-directive-tooltip.css";
 
@@ -35,10 +36,10 @@ a:hover {
   line-height: 1.5;
   font-family: var(--sans);
   color: var(--txt);
+  display: flex;
   flex-flow: column nowrap;
   min-width: 0;
   overflow: hidden;
-  display: flex;
 }
 
 .tm-field {
@@ -102,23 +103,7 @@ input.tm-field {
   z-index: var(--z-appHeader) !important;
 }
 
-#desktop-menu {
-  display: none;
-}
-
-.v-content {
-  margin-bottom: 3rem;
-}
-
 @media screen and (min-width: 1023px) {
-  #desktop-menu {
-    display: block;
-  }
-
-  #mobile-footer-menu {
-    display: none;
-  }
-
   #app {
     padding-top: 0;
     flex-flow: row nowrap;
@@ -127,9 +112,5 @@ input.tm-field {
   #app-content {
     display: flex;
     min-width: 0;
-  }
-
-  .v-content {
-    margin-bottom: 0;
   }
 }
