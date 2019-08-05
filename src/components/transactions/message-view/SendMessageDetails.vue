@@ -8,9 +8,7 @@
       </p>
     </div>
     <div class="tx__content__information">
-      <template v-if="toYourself"
-        >To yourself!</template
-      >
+      <template v-if="toYourself">To yourself!</template>
       <template v-else-if="sentFromSessionAddress">
         To&nbsp;
         <Bech32 :address="transaction.value.to_address" />
@@ -32,6 +30,7 @@
 <script>
 import { atoms, viewDenom, prettyLong } from "scripts/num.js"
 import Bech32 from "common/Bech32"
+import { getCoin } from "scripts/transaction-utils"
 
 export default {
   name: `send-message-details`,
@@ -48,10 +47,6 @@ export default {
       type: Object,
       required: true
     },
-    coin: {
-      type: Object,
-      required: true
-    },
     sessionAddress: {
       type: String,
       required: false,
@@ -59,6 +54,9 @@ export default {
     }
   },
   computed: {
+    coin() {
+      return getCoin(this.transaction)
+    },
     toYourself() {
       const value = this.transaction.value
       return (

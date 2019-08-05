@@ -54,3 +54,11 @@ export const flattenTransactionMsgs = (acc, curTxList) => {
 
 export const isPendingUndelegation = tx =>
   !isNaN(tx.liquidDate) && tx.type === messageType.UNDELEGATE
+
+export const getCoin = transaction => {
+  if (Array.isArray(transaction.value.amount)) {
+    return transaction.value.amount[0]
+  } else {
+    return transaction.value.amount
+  }
+}

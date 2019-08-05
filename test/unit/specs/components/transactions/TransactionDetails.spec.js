@@ -1,11 +1,11 @@
-import { shallowMount } from "@vue/test-utils"
+import { mount } from "@vue/test-utils"
 import TransactionDetails from "src/components/transactions/TransactionDetails"
 import { testTransactionObjects } from "test/unit/helpers/testValues"
 describe(`TransactionDetails`, () => {
   let wrapper
 
   beforeEach(() => {
-    wrapper = shallowMount(TransactionDetails, {
+    wrapper = mount(TransactionDetails, {
       propsData: {
         transaction: testTransactionObjects[0],
         validators: {},

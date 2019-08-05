@@ -3,7 +3,6 @@
     <component
       :is="messageTypeComponent"
       :transaction="transaction"
-      :coin="coin"
       :validators="validators"
       :session-address="address"
       class="tx__content__left"
@@ -79,13 +78,6 @@ export default {
     }
   },
   computed: {
-    coin() {
-      if (Array.isArray(this.transaction.value.amount)) {
-        return this.transaction.value.amount[0]
-      } else {
-        return this.transaction.value.amount
-      }
-    },
     messageTypeComponent: function() {
       // TODO Could improve this using dynamic loading.
       switch (this.transaction.type) {

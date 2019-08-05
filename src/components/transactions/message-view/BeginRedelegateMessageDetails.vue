@@ -9,20 +9,16 @@
     </div>
     <div class="tx__content__information">
       From&nbsp;
-      <router-link
-        :to="`staking/validators/${transaction.value.validator_src_address}`"
-      >
+      <router-link :to="`staking/validators/${transaction.value.validator_src_address}`">
         {{
-          transaction.value.validator_src_address
-            | resolveValidatorName(validators)
-        }} </router-link
-      >To&nbsp;
-      <router-link
-        :to="`staking/validators/${transaction.value.validator_dst_address}`"
-      >
+        transaction.value.validator_src_address
+        | resolveValidatorName(validators)
+        }}
+      </router-link>To&nbsp;
+      <router-link :to="`staking/validators/${transaction.value.validator_dst_address}`">
         {{
-          transaction.value.validator_dst_address
-            | resolveValidatorName(validators)
+        transaction.value.validator_dst_address
+        | resolveValidatorName(validators)
         }}
       </router-link>
     </div>
@@ -32,6 +28,7 @@
 <script>
 import { atoms, viewDenom, prettyLong } from "scripts/num.js"
 import { resolveValidatorName } from "src/filters"
+import { getCoin } from "scripts/transaction-utils"
 
 export default {
   name: `begin-redelegate-message-details`,
@@ -46,13 +43,14 @@ export default {
       type: Object,
       required: true
     },
-    coin: {
-      type: Object,
-      required: true
-    },
     validators: {
       type: Object,
       required: true
+    }
+  },
+  computed: {
+    coin() {
+      return getCoin(this.transaction)
     }
   }
 }

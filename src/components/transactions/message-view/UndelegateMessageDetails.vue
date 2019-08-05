@@ -5,19 +5,20 @@
         Undelegated
         <b>{{ coin.amount | atoms | prettyLong }}</b>
         <span>{{ coin.denom | viewDenom }}</span>
-        <span v-if="transaction.liquidDate" class="tx-unbonding__time-diff">{{
+        <span v-if="transaction.liquidDate" class="tx-unbonding__time-diff">
+          {{
           liquidDateCaption
-        }}</span>
+          }}
+        </span>
       </p>
     </div>
     <div class="tx__content__information">
       From&nbsp;
-      <router-link
-        :to="`staking/validators/${transaction.value.validator_address}`"
-        >{{
-          transaction.value.validator_address | resolveValidatorName(validators)
-        }}</router-link
-      >
+      <router-link :to="`staking/validators/${transaction.value.validator_address}`">
+        {{
+        transaction.value.validator_address | resolveValidatorName(validators)
+        }}
+      </router-link>
     </div>
   </div>
 </template>
@@ -26,6 +27,7 @@
 import moment from "moment"
 import { atoms, viewDenom, prettyLong } from "scripts/num.js"
 import { resolveValidatorName } from "src/filters"
+import { getCoin } from "scripts/transaction-utils"
 
 export default {
   name: `undelegate-message-details`,
@@ -40,10 +42,6 @@ export default {
       type: Object,
       required: true
     },
-    coin: {
-      type: Object,
-      required: true
-    },
     validators: {
       type: Object,
       required: true
@@ -52,6 +50,9 @@ export default {
   computed: {
     liquidDateCaption() {
       return `(liquid ${moment(this.transaction.liquidDate).fromNow()})`
+    },
+    coin() {
+      return getCoin(this.transaction)
     }
   }
 }
