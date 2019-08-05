@@ -1,4 +1,4 @@
-import { getTxHash } from "scripts/tx-utils.js"
+import { getTxHash } from "scripts/transaction-utils.js"
 import blocks, { cache } from "src/vuex/modules/blocks.js"
 
 describe(`Module: Blocks`, () => {
