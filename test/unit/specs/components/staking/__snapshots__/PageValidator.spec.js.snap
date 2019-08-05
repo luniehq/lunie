@@ -16,6 +16,7 @@ exports[`PageValidator shows a validator profile information errors signing info
         class="row"
       >
         <img
+          alt="generic validator logo - graphic triangle supporting atom token"
           class="avatar"
           src="~assets/images/validator-icon.svg"
         />
@@ -354,6 +355,7 @@ exports[`PageValidator shows a validator profile information if user has signed 
         class="row"
       >
         <img
+          alt="generic validator logo - graphic triangle supporting atom token"
           class="avatar"
           src="~assets/images/validator-icon.svg"
         />
@@ -692,6 +694,7 @@ exports[`PageValidator shows a validator profile information if user hasn't sign
         class="row"
       >
         <img
+          alt="generic validator logo - graphic triangle supporting atom token"
           class="avatar"
           src="~assets/images/validator-icon.svg"
         />

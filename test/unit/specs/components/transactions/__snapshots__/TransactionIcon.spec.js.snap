@@ -5,6 +5,7 @@ exports[`TransactionIcon has the expected html structure 1`] = `
   class="tx__icon"
 >
   <img
+    alt="cosmic atom token"
     class="banking"
     src="~assets/images/cosmos-logo.png"
   />

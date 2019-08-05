@@ -1,6 +1,10 @@
 <template>
   <div class="tx__icon">
-    <img :class="transactionGroup" src="~assets/images/cosmos-logo.png" />
+    <img
+      :class="transactionGroup"
+      src="~assets/images/cosmos-logo.png"
+      alt="cosmic atom token"
+    />
   </div>
 </template>
 

@@ -92,10 +92,18 @@
         <tbody>
           <tr v-if="blocks.length === 0" class="block data-table__row">
             <td>
-              <img class="loading-icon" src="~assets/images/loader.svg" />
+              <img
+                class="loading-icon"
+                src="~assets/images/loader.svg"
+                alt="a small spinning circle to display loading"
+              />
             </td>
             <td>
-              <img class="loading-icon" src="~assets/images/loader.svg" />
+              <img
+                class="loading-icon"
+                src="~assets/images/loader.svg"
+                alt="a small spinning circle to display loading"
+              />
             </td>
           </tr>
           <tr

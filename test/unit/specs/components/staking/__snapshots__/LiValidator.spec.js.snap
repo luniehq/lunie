@@ -9,6 +9,7 @@ exports[`LiValidator has the expected html structure 1`] = `
     class="data-table__row__info"
   >
     <img
+      alt="generic validator logo - graphic triangle supporting atom token"
       class="
         data-table__row__info__image
         data-table__row__info__image--no-img
@@ -100,6 +101,7 @@ exports[`LiValidator should display uptime as double-dash 1`] = `
     class="data-table__row__info"
   >
     <img
+      alt="generic validator logo - graphic triangle supporting atom token"
       class="
         data-table__row__info__image
         data-table__row__info__image--no-img
@@ -191,6 +193,7 @@ exports[`LiValidator works if user is not signed in 1`] = `
     class="data-table__row__info"
   >
     <img
+      alt="generic validator logo - graphic triangle supporting atom token"
       class="
         data-table__row__info__image
         data-table__row__info__image--no-img
