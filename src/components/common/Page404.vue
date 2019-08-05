@@ -8,23 +8,18 @@
       <p>Here are some helpful links to get you out of here:</p>
       <ul>
         <li>
-          <router-link to="/">
-            Network
-          </router-link>
-        </li>
-        <li>
           <router-link to="/portfolio">
             Portfolio
           </router-link>
         </li>
         <li>
-          <router-link to="/transactions">
-            Transactions
+          <router-link to="/validators">
+            Validators
           </router-link>
         </li>
         <li>
-          <router-link to="/validators">
-            Validators
+          <router-link to="/transactions">
+            Transactions
           </router-link>
         </li>
         <li>

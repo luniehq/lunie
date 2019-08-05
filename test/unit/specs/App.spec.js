@@ -1,7 +1,5 @@
 import { startApp, main, routeGuard } from "scripts/boot"
 
-jest.mock("scripts/vuetify.js", () => ({}))
-
 async function start(urlParams, environment) {
   const node = {
     rpcConnect: jest.fn(),

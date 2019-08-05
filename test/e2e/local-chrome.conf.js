@@ -32,7 +32,7 @@ const nightwatch_config = {
   },
   screenshots: {
     enabled: false,
-    path: "screenshots"
+    path: ""
   },
   request_timeout_options: {
     timeout: 60000,

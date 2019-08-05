@@ -28,16 +28,6 @@ exports[`Page404 should show the 404 page 1`] = `
     <ul>
       <li>
         <router-link-stub
-          to="/"
-        >
-          
-          Network
-        
-        </router-link-stub>
-      </li>
-       
-      <li>
-        <router-link-stub
           to="/portfolio"
         >
           
@@ -48,20 +38,20 @@ exports[`Page404 should show the 404 page 1`] = `
        
       <li>
         <router-link-stub
-          to="/transactions"
+          to="/validators"
         >
           
-          Transactions
+          Validators
         
         </router-link-stub>
       </li>
        
       <li>
         <router-link-stub
-          to="/validators"
+          to="/transactions"
         >
           
-          Validators
+          Transactions
         
         </router-link-stub>
       </li>

@@ -4,13 +4,25 @@
       <router-link
         id="app-menu__wallet"
         class="app-menu-item"
-        to="/wallet"
+        to="/portfolio"
         exact="exact"
-        title="Wallet"
+        title="Portfolio"
         @click.native="close"
       >
         <h2 class="app-menu-title">
-          Wallet
+          Portfolio
+        </h2>
+        <i class="material-icons">chevron_right</i>
+      </router-link>
+      <router-link
+        id="app-menu__staking"
+        class="app-menu-item"
+        to="/validators"
+        title="Validators"
+        @click.native="close"
+      >
+        <h2 class="app-menu-title">
+          Validators
         </h2>
         <i class="material-icons">chevron_right</i>
       </router-link>
@@ -28,39 +40,14 @@
         <i class="material-icons">chevron_right</i>
       </router-link>
       <router-link
-        id="app-menu__staking"
-        class="app-menu-item"
-        to="/staking"
-        title="Staking"
-        @click.native="close"
-      >
-        <h2 class="app-menu-title">
-          Staking
-        </h2>
-        <i class="material-icons">chevron_right</i>
-      </router-link>
-      <router-link
         id="app-menu__proposals"
         class="app-menu-item"
-        to="/governance"
-        title="Governance"
+        to="/proposals"
+        title="Proposals"
         @click.native="close"
       >
         <h2 class="app-menu-title">
-          Governance
-        </h2>
-        <i class="material-icons">chevron_right</i>
-      </router-link>
-      <router-link
-        id="app-menu__network"
-        class="app-menu-item"
-        to="/"
-        exact="exact"
-        title="Network"
-        @click.native="close"
-      >
-        <h2 class="app-menu-title">
-          Network
+          Proposals
         </h2>
         <i class="material-icons">chevron_right</i>
       </router-link>
