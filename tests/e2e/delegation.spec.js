@@ -3,11 +3,13 @@ const { actionModalCheckout, nextBlock, waitFor } = require("./helpers.js")
 module.exports = {
   "Delegate Action": async function(browser) {
     // move to according page
-    browser.url(browser.launch_url + "/#/validators")
+    browser.url(browser.launch_url + "/#/staking/validators")
 
     // move to validator page
     browser.expect.element(".li-validator").to.be.visible.before(10000)
-    browser.click(".li-validator[data-moniker=main_account]")
+    browser.click(
+      ".li-validator[data-moniker=main_account] .data-table__row__info__container__name"
+    )
 
     // open modal and enter amount
     browser.expect.element(`#delegation-btn`).to.be.visible.before(10000)
@@ -37,11 +39,13 @@ module.exports = {
     browser.pause(500)
 
     // move to according page
-    browser.url(browser.launch_url + "/#/validators")
+    browser.url(browser.launch_url + "/#/staking/validators")
 
     // move to validator page
     browser.expect.element(".li-validator").to.be.visible.before(10000)
-    browser.click(".li-validator[data-moniker=operator_account_1]")
+    browser.click(
+      ".li-validator[data-moniker=operator_account_1] .data-table__row__info__container__name"
+    )
 
     // open modal and enter amount
     browser.expect.element(`#delegation-btn`).to.be.visible.before(10000)
@@ -74,11 +78,13 @@ module.exports = {
     await nextBlock(browser)
 
     // move to according page
-    browser.url(browser.launch_url + "/#/validators")
+    browser.url(browser.launch_url + "/#/staking/validators")
 
     // move to validator page
     browser.expect.element(".li-validator").to.be.visible.before(10000)
-    browser.click(".li-validator[data-moniker=operator_account_1]")
+    browser.click(
+      ".li-validator[data-moniker=operator_account_1] .data-table__row__info__container__name"
+    )
 
     // open modal and enter amount
     browser.expect.element(`#undelegation-btn`).to.be.visible.before(10000)

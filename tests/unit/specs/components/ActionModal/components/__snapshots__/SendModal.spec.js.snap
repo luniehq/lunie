@@ -2,6 +2,7 @@
 
 exports[`SendModal should display send modal form 1`] = `
 <actionmodal-stub
+  denom="STAKE"
   id="send-modal"
   notifymessage="[object Object]"
   submissionerrorprefix="Sending tokens failed"
@@ -18,7 +19,7 @@ exports[`SendModal should display send modal form 1`] = `
       id="send-denomination"
       readonly=""
       type="text"
-      value="STAKE"
+      value=""
     />
      
     <!---->
@@ -52,7 +53,7 @@ exports[`SendModal should display send modal form 1`] = `
     />
      
     <tmformmsg-stub
-      msg="doesn't have any STAKEs"
+      msg="doesn't have any s"
       name="Wallet"
       type="custom"
     />
@@ -73,6 +74,7 @@ exports[`SendModal should display send modal form 1`] = `
 exports[`SendModal validation should show address required error 1`] = `
 <actionmodal-stub
   amount="2"
+  denom="STAKE"
   id="send-modal"
   notifymessage="[object Object]"
   submissionerrorprefix="Sending tokens failed"
@@ -146,6 +148,7 @@ exports[`SendModal validation should show address required error 1`] = `
 exports[`SendModal validation should show bech32 error when address length is too long 1`] = `
 <actionmodal-stub
   amount="2"
+  denom="STAKE"
   id="send-modal"
   notifymessage="[object Object]"
   submissionerrorprefix="Sending tokens failed"
@@ -219,6 +222,7 @@ exports[`SendModal validation should show bech32 error when address length is to
 exports[`SendModal validation should show bech32 error when address length is too short 1`] = `
 <actionmodal-stub
   amount="2"
+  denom="STAKE"
   id="send-modal"
   notifymessage="[object Object]"
   submissionerrorprefix="Sending tokens failed"
@@ -291,6 +295,7 @@ exports[`SendModal validation should show bech32 error when address length is to
 
 exports[`SendModal validation should show bech32 error when alphanumeric is wrong 1`] = `
 <actionmodal-stub
+  denom="STAKE"
   id="send-modal"
   notifymessage="[object Object]"
   submissionerrorprefix="Sending tokens failed"
@@ -300,6 +305,7 @@ exports[`SendModal validation should show bech32 error when alphanumeric is wron
 >
   <tmformgroup-stub
     class="action-modal-form-group"
+    error="true"
     fieldid="send-denomination"
     fieldlabel="Denomination"
   >
@@ -307,10 +313,14 @@ exports[`SendModal validation should show bech32 error when alphanumeric is wron
       id="send-denomination"
       readonly=""
       type="text"
-      value="STAKE"
+      value=""
     />
      
-    <!---->
+    <tmformmsg-stub
+      msg=""
+      name="Denomination"
+      type="required"
+    />
   </tmformgroup-stub>
    
   <tmformgroup-stub
@@ -347,7 +357,7 @@ exports[`SendModal validation should show bech32 error when alphanumeric is wron
     />
      
     <tmformmsg-stub
-      msg="doesn't have any STAKEs"
+      msg="doesn't have any s"
       name="Wallet"
       type="custom"
     />

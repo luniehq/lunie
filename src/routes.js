@@ -8,34 +8,62 @@
  */
 export default [
   {
-    path: `/`,
-    redirect: `/validators`
+    path: `/governance`,
+    name: `Governance`,
+    component: require(`./components/governance/PageGovernance`).default,
+    redirect: `/governance/proposals`,
+    children: [
+      {
+        path: `proposals`,
+        name: `Proposals`,
+        component: require(`./components/governance/TabProposals`).default
+      },
+      {
+        path: `governance-parameters`,
+        name: `Governance Parameters`,
+        component: require(`./components/governance/TabParameters`).default
+      }
+    ]
   },
   {
-    path: `/proposals`,
-    name: `Proposals`,
-    component: require(`./components/governance/TabProposals`).default
-  },
-  {
-    path: `/proposals/:proposalId`,
+    path: `/governance/:proposalId`,
     name: `Proposal`,
     component: require(`./components/governance/PageProposal`).default,
     props: true
   },
   {
-    path: `/validators`,
-    name: `Validators`,
-    component: require(`./components/staking/Validators`).default
+    path: `/staking`,
+    name: `Staking`,
+    component: require(`./components/staking/PageStaking`).default,
+    redirect: `/staking/validators/`,
+    children: [
+      {
+        path: `my-delegations`,
+        name: `My Delegations`,
+        component: require(`./components/staking/TabMyDelegations`).default,
+        meta: { requiresAuth: true }
+      },
+      {
+        path: `validators`,
+        name: `Validators`,
+        component: require(`./components/staking/TabValidators`).default
+      },
+      {
+        path: `staking-parameters`,
+        name: `Staking Parameters`,
+        component: require(`./components/staking/TabStakingParameters`).default
+      }
+    ]
   },
   {
-    path: `/validators/:validator`,
+    path: `/staking/validators/:validator`,
     name: `validator`,
     component: require(`./components/staking/PageValidator`).default
   },
   {
-    path: `/portfolio`,
-    name: `portfolio`,
-    component: require(`./components/wallet/PagePortfolio`).default,
+    path: `/wallet`,
+    name: `wallet`,
+    component: require(`./components/wallet/PageWallet`).default,
     meta: { requiresAuth: true }
   },
   {
@@ -45,7 +73,7 @@ export default [
     meta: { requiresAuth: true }
   },
   {
-    path: `/network`,
+    path: `/`,
     name: `network`,
     component: require(`./components/network/PageNetwork`).default
   },

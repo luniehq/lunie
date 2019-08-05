@@ -509,7 +509,8 @@ describe(`ActionModal`, () => {
 
       wrapper.setProps({ transactionProperties })
       wrapper.setData(data)
-      await wrapper.vm.submit()
+      wrapper.vm.submit()
+      await wrapper.vm.$nextTick()
 
       expect(wrapper.html()).toContain(
         "Transaction failed: couldn't find Ledger."

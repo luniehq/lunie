@@ -42,7 +42,7 @@
               v-for="tx in block.transactions"
               :key="tx.txhash"
               :validators="delegates.delegates"
-              validators-url="/validators"
+              validators-url="/staking/validators"
               proposals-url="/governance"
               :transaction="tx"
               :address="session.address || ``"

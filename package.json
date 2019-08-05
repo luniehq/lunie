@@ -5,7 +5,7 @@
   "author": "Lunie International Software Systems Inc. <hello@lunie.io>",
   "scripts": {
     "start": "npm run testnet:start & npm run serve",
-    "serve": "kill-port 9080 && vue-cli-service serve --port 9080 --https",
+    "serve": "kill-port 9080 && vue-cli-service serve --port 9080",
     "serve:dist": "live-server --https=node_modules/live-server-https --port=9080 --no-browser ./dist",
     "build": "vue-cli-service build",
     "build:keybase-cache": "node ./tasks/keybase-fallback.es5.js",
@@ -54,13 +54,12 @@
     "semver": "6.0.0",
     "shortid": "2.2.14",
     "timezone-mock": "^1.0.8",
-    "vue": "^2.6.10",
+    "vue": "2.6.10",
     "vue-clipboard2": "0.3.0",
     "vue-directive-tooltip": "1.4.5",
     "vue-router": "^3.0.3",
     "vuelidate": "0.7.4",
-    "vuetify": "2.0.2",
-    "vuex": "^3.0.1",
+    "vuex": "3.1.1",
     "websocket-stream": "5.3.0"
   },
   "devDependencies": {
@@ -98,7 +97,6 @@
     "sass-loader": "^7.1.0",
     "simsala": "^0.0.18",
     "stylelint-config-standard": "^18.2.0",
-    "vue-cli-plugin-vuetify": "^0.6.1",
     "vue-template-compiler": "^2.6.10"
   },
   "resolutions": {

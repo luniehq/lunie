@@ -1,5 +1,6 @@
 import * as Sentry from "@sentry/browser"
 import Vue from "vue"
+import { throttle } from "scripts/blocks-throttle"
 
 export default ({ node }) => {
   const emptyState = {
@@ -12,6 +13,7 @@ export default ({ node }) => {
     unbondingDelegations: {}
   }
   const state = JSON.parse(JSON.stringify(emptyState))
+  const delegationsThrottle = throttle("delegations")(5)
 
   const mutations = {
     setCommittedDelegation(state, { candidateId, value }) {
@@ -44,10 +46,10 @@ export default ({ node }) => {
       rootState.delegation = JSON.parse(JSON.stringify(emptyState))
     },
     async initializeWallet({ dispatch }) {
-      await dispatch(`getBondedDelegates`)
+      await dispatch(`updateDelegates`)
     },
     // load committed delegations from LCD
-    async getBondedDelegates({ state, rootState, commit, dispatch }) {
+    async getBondedDelegates({ state, rootState, commit }, candidates) {
       state.loading = true
 
       if (!rootState.connection.connected) return
@@ -72,11 +74,7 @@ export default ({ node }) => {
         // here we check if the user is still the same
         if (rootState.session.address !== address) return
 
-        if (!rootState.delegates.loaded) {
-          await dispatch("getDelegates")
-        }
-
-        if (delegator.delegations) {
+        if (delegator.delegations && candidates) {
           delegator.delegations.forEach(({ validator_address, shares }) => {
             commit(`setCommittedDelegation`, {
               candidateId: validator_address,
@@ -109,6 +107,20 @@ export default ({ node }) => {
       }
 
       state.loading = false
+    },
+    async updateDelegates({ dispatch, rootState, state }, force = false) {
+      await delegationsThrottle(
+        state,
+        Number(rootState.connection.lastHeader.height),
+        async () => {
+          const candidates = await dispatch(`getDelegates`)
+
+          if (rootState.session.signedIn) {
+            dispatch(`getBondedDelegates`, candidates)
+          }
+        },
+        force
+      )
     }
   }
 

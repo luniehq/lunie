@@ -74,7 +74,7 @@ exports[`PageBlock shows a page with information about a certain block 1`] = `
           transaction="[object Object]"
           unbondingtime="NaN"
           validators="[object Object],[object Object],[object Object]"
-          validatorsurl="/validators"
+          validatorsurl="/staking/validators"
         />
         <lianytransaction-stub
           address=""
@@ -85,7 +85,7 @@ exports[`PageBlock shows a page with information about a certain block 1`] = `
           transaction="[object Object]"
           unbondingtime="NaN"
           validators="[object Object],[object Object],[object Object]"
-          validatorsurl="/validators"
+          validatorsurl="/staking/validators"
         />
         <lianytransaction-stub
           address=""
@@ -96,7 +96,7 @@ exports[`PageBlock shows a page with information about a certain block 1`] = `
           transaction="[object Object]"
           unbondingtime="NaN"
           validators="[object Object],[object Object],[object Object]"
-          validatorsurl="/validators"
+          validatorsurl="/staking/validators"
         />
          
         <br />

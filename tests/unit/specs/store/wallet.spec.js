@@ -102,6 +102,7 @@ describe(`Module: Wallet`, () => {
       expect(commit).toHaveBeenCalledWith(`setWalletAddress`, address)
       expect(dispatch.mock.calls).toEqual([
         [`queryWalletBalances`],
+        [`getRewardsFromMyValidators`],
         [`walletSubscribe`]
       ])
     })
@@ -199,12 +200,7 @@ describe(`Module: Wallet`, () => {
       const dispatch = jest.fn()
       actions
         .queryWalletStateAfterHeight({ rootState, dispatch }, 11)
-        .then(() => {
-          expect(dispatch).toHaveBeenCalledWith("queryWalletBalances")
-          expect(dispatch).toHaveBeenCalledWith("getBondedDelegates")
-          expect(dispatch).toHaveBeenCalledWith("getRewardsFromMyValidators")
-          done()
-        })
+        .then(() => done())
       rootState.connection.lastHeader.height++
       jest.runAllTimers()
       jest.useRealTimers()

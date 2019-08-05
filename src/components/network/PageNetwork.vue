@@ -5,7 +5,6 @@
     :loaded="!!lastHeader"
     :error="blocks.error"
     data-title="Network"
-    :hide-header="true"
   >
     <template slot="managed-body">
       <div class="page-profile__header page-profile__section network">
@@ -88,7 +87,7 @@
       </div>
       <table v-if="connected" class="blocks data-table">
         <thead>
-          <PanelSort :properties="properties" show-on-mobile="transactions" />
+          <PanelSort :properties="properties" />
         </thead>
         <tbody>
           <tr v-if="blocks.length === 0" class="block data-table__row">

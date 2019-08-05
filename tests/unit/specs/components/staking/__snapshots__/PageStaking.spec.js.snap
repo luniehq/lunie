@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`PageStaking has the expected html structure 1`] = `
+<tmpage-stub
+  class="staking"
+  data-title="Staking"
+  subtitle=""
+  tabs="[object Object],[object Object],[object Object]"
+  title=""
+>
+  <router-view-stub />
+</tmpage-stub>
+`;

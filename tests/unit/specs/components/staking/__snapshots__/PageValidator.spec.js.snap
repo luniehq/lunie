@@ -3,7 +3,6 @@
 exports[`PageValidator shows a validator profile information errors signing info is missing 1`] = `
 <tmpage-stub
   data-title="Validator"
-  hideheader="true"
   loaded="true"
   managed="true"
   subtitle=""
@@ -14,7 +13,7 @@ exports[`PageValidator shows a validator profile information errors signing info
       class="page-profile__header page-profile__section"
     >
       <div
-        class="lunie-row"
+        class="row"
       >
         <img
           alt="generic validator logo - graphic triangle supporting atom token"
@@ -70,10 +69,10 @@ exports[`PageValidator shows a validator profile information errors signing info
       </div>
        
       <div
-        class="lunie-row"
+        class="row"
       >
         <div
-          class="lunie-row lunie-row-unjustified"
+          class="row row-unjustified"
         >
           <dl
             class="info_dl colored_dl"
@@ -113,7 +112,7 @@ exports[`PageValidator shows a validator profile information errors signing info
         </div>
          
         <div
-          class="lunie-row lunie-row-unjustified"
+          class="row row-unjustified"
         >
           <dl
             class="info_dl colored_dl"
@@ -170,10 +169,10 @@ exports[`PageValidator shows a validator profile information errors signing info
       class="page-profile__section"
     >
       <div
-        class="lunie-row"
+        class="row"
       >
         <div
-          class="lunie-column"
+          class="column"
         >
           <dl
             class="info_dl"
@@ -254,7 +253,7 @@ exports[`PageValidator shows a validator profile information errors signing info
         </div>
          
         <div
-          class="lunie-column"
+          class="column"
         >
           <dl
             class="info_dl"
@@ -343,7 +342,6 @@ exports[`PageValidator shows a validator profile information errors signing info
 exports[`PageValidator shows a validator profile information if user has signed in 1`] = `
 <tmpage-stub
   data-title="Validator"
-  hideheader="true"
   loaded="true"
   managed="true"
   subtitle=""
@@ -354,7 +352,7 @@ exports[`PageValidator shows a validator profile information if user has signed 
       class="page-profile__header page-profile__section"
     >
       <div
-        class="lunie-row"
+        class="row"
       >
         <img
           alt="generic validator logo - graphic triangle supporting atom token"
@@ -410,10 +408,10 @@ exports[`PageValidator shows a validator profile information if user has signed 
       </div>
        
       <div
-        class="lunie-row"
+        class="row"
       >
         <div
-          class="lunie-row lunie-row-unjustified"
+          class="row row-unjustified"
         >
           <dl
             class="info_dl colored_dl"
@@ -453,7 +451,7 @@ exports[`PageValidator shows a validator profile information if user has signed 
         </div>
          
         <div
-          class="lunie-row lunie-row-unjustified"
+          class="row row-unjustified"
         >
           <dl
             class="info_dl colored_dl"
@@ -510,10 +508,10 @@ exports[`PageValidator shows a validator profile information if user has signed 
       class="page-profile__section"
     >
       <div
-        class="lunie-row"
+        class="row"
       >
         <div
-          class="lunie-column"
+          class="column"
         >
           <dl
             class="info_dl"
@@ -594,7 +592,7 @@ exports[`PageValidator shows a validator profile information if user has signed 
         </div>
          
         <div
-          class="lunie-column"
+          class="column"
         >
           <dl
             class="info_dl"
@@ -683,7 +681,6 @@ exports[`PageValidator shows a validator profile information if user has signed 
 exports[`PageValidator shows a validator profile information if user hasn't signed in 1`] = `
 <tmpage-stub
   data-title="Validator"
-  hideheader="true"
   loaded="true"
   managed="true"
   subtitle=""
@@ -694,7 +691,7 @@ exports[`PageValidator shows a validator profile information if user hasn't sign
       class="page-profile__header page-profile__section"
     >
       <div
-        class="lunie-row"
+        class="row"
       >
         <img
           alt="generic validator logo - graphic triangle supporting atom token"
@@ -750,10 +747,10 @@ exports[`PageValidator shows a validator profile information if user hasn't sign
       </div>
        
       <div
-        class="lunie-row"
+        class="row"
       >
         <div
-          class="lunie-row lunie-row-unjustified"
+          class="row row-unjustified"
         >
           <dl
             class="info_dl colored_dl"
@@ -793,7 +790,7 @@ exports[`PageValidator shows a validator profile information if user hasn't sign
         </div>
          
         <div
-          class="lunie-row lunie-row-unjustified"
+          class="row row-unjustified"
         >
           <dl
             class="info_dl colored_dl"
@@ -850,10 +847,10 @@ exports[`PageValidator shows a validator profile information if user hasn't sign
       class="page-profile__section"
     >
       <div
-        class="lunie-row"
+        class="row"
       >
         <div
-          class="lunie-column"
+          class="column"
         >
           <dl
             class="info_dl"
@@ -934,7 +931,7 @@ exports[`PageValidator shows a validator profile information if user hasn't sign
         </div>
          
         <div
-          class="lunie-column"
+          class="column"
         >
           <dl
             class="info_dl"

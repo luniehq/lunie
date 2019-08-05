@@ -1,0 +1,103 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Component: TabMyDelegations view should show a message if not staked yet to any validator 1`] = `
+<div>
+  <tmdatamsg-stub
+    icon="sentiment_dissatisfied"
+  >
+    <div>
+      
+      No Active Delegations
+    
+    </div>
+     
+    <div>
+      
+      Looks like you haven't delegated any ATOMs
+      yet. Head over to the
+      
+      <router-link-stub
+        to="[object Object]"
+      >
+        
+        validator list
+      
+      </router-link-stub>
+      
+      to make your first delegation!
+    
+    </div>
+  </tmdatamsg-stub>
+   
+  <!---->
+</div>
+`;
+
+exports[`Component: TabMyDelegations view should show committed validators 1`] = `
+<div>
+  <div>
+    <tablevalidators-stub
+      showonmobile="my_delegations"
+      validators="[object Object]"
+    />
+  </div>
+   
+  <!---->
+</div>
+`;
+
+exports[`Component: TabMyDelegations view should show unbonding validators and the current committed validator 1`] = `
+<div>
+  <tmdatamsg-stub
+    icon="sentiment_dissatisfied"
+  >
+    <div>
+      
+      No Active Delegations
+    
+    </div>
+     
+    <div>
+      
+      Looks like you haven't delegated any ATOMs
+      yet. Head over to the
+      
+      <router-link-stub
+        to="[object Object]"
+      >
+        
+        validator list
+      
+      </router-link-stub>
+      
+      to make your first delegation!
+    
+    </div>
+  </tmdatamsg-stub>
+   
+  <div>
+    <h3
+      class="tab-header transactions"
+    >
+      
+      Pending Undelegations
+    
+    </h3>
+     
+    <div
+      class="unbonding-transactions"
+    >
+      <lianytransaction-stub
+        bondingdenom="uatom"
+        proposalsurl="/governance"
+        transaction="[object Object]"
+        unbondingtime="42000"
+        validators=""
+        validatorsurl="/staking/validators"
+      />
+       
+      <br />
+    </div>
+  </div>
+</div>
+`;

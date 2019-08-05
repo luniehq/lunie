@@ -109,14 +109,6 @@ describe(`Module: Transactions`, () => {
       })
     })
 
-    it("load transactions on sign in", async () => {
-      const dispatch = jest.fn()
-      await actions.initializeWallet({
-        dispatch
-      })
-      expect(dispatch).toHaveBeenCalledWith(`getAllTxs`)
-    })
-
     describe(`parseAndSetTxs`, () => {
       describe(`should parse and set new txs`, () => {
         it(`bank`, async () => {

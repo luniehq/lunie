@@ -1,51 +1,37 @@
 <template>
   <TmPage
     :managed="true"
-    :loading="wallet.loading && delegation.loading"
-    :loaded="wallet.loaded && delegation.loaded"
-    :error="wallet.error || delegation.error"
+    :loading="wallet.loading"
+    :loaded="wallet.loaded"
+    :error="wallet.error"
+    :data-empty="dataEmpty"
+    data-title="Wallet"
     :sign-in-required="true"
-    :hide-header="true"
   >
+    <TmDataMsg
+      id="account_empty_msg"
+      slot="no-data"
+      icon="account_balance_wallet"
+    >
+      <div slot="title">
+        Account empty
+      </div>
+      <div slot="subtitle">
+        This account doesn't have anything in it&nbsp;yet.
+      </div>
+    </TmDataMsg>
     <template slot="managed-body">
       <div class="card">
         <h3>Your Public Cosmos Address</h3>
         <Bech32 :address="session.address || ''" long-form />
       </div>
-      <h3 class="tab-header">
-        Balances
-      </h3>
-      <TmDataMsg
-        v-if="wallet.balances.length === 0"
-        id="account_empty_msg"
-        slot="no-data"
-        icon="account_balance_wallet"
-      >
-        <div slot="title">
-          Account empty
-        </div>
-        <div slot="subtitle">
-          This account doesn't have anything in it&nbsp;yet.
-        </div>
-      </TmDataMsg>
       <LiCoin
         v-for="coin in filteredBalances"
-        v-else
         :key="coin.denom"
         :coin="coin"
         class="tm-li-balance"
         @show-modal="showModal"
       />
-      <h3 class="tab-header">
-        Delegations
-      </h3>
-      <DelegationsOverview />
-      <template v-if="Object.keys(delegation.unbondingDelegations).length">
-        <h3 class="tab-header">
-          Pending Undelegations
-        </h3>
-        <Undelegations />
-      </template>
     </template>
     <SendModal ref="sendModal" />
   </TmPage>
@@ -53,29 +39,29 @@
 
 <script>
 import num from "scripts/num"
-import { mapGetters } from "vuex"
+import { mapGetters, mapActions } from "vuex"
 import orderBy from "lodash.orderby"
 import LiCoin from "./LiCoin"
 import SendModal from "src/ActionModal/components/SendModal"
 import Bech32 from "common/Bech32"
 import TmPage from "common/TmPage"
 import TmDataMsg from "common/TmDataMsg"
-import DelegationsOverview from "staking/DelegationsOverview"
-import Undelegations from "staking/Undelegations"
 
 export default {
-  name: `page-portfolio`,
+  name: `page-wallet`,
   components: {
     TmDataMsg,
     LiCoin,
     TmPage,
     SendModal,
-    Bech32,
-    Undelegations,
-    DelegationsOverview
+    Bech32
   },
+  data: () => ({ num, showSendModal: false }),
   computed: {
-    ...mapGetters([`wallet`, `connected`, `session`, `delegation`]),
+    ...mapGetters([`wallet`, `connected`, `session`]),
+    dataEmpty() {
+      return this.wallet.balances.length === 0
+    },
     filteredBalances() {
       return orderBy(
         this.wallet.balances,
@@ -84,7 +70,12 @@ export default {
       )
     }
   },
+  async mounted() {
+    this.updateDelegates()
+    await this.queryWalletBalances()
+  },
   methods: {
+    ...mapActions([`updateDelegates`, `queryWalletBalances`]),
     showModal(denomination) {
       this.$refs.sendModal.open(denomination)
     }
@@ -105,5 +96,11 @@ export default {
 .card h3 {
   font-size: 14px;
   font-weight: 400;
+}
+
+@media screen and (max-width: 767px) {
+  .card {
+    display: none;
+  }
 }
 </style>

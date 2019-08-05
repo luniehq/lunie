@@ -21,13 +21,6 @@ describe(`Module: Delegates`, () => {
     })
   })
 
-  it(`sets the loading state`, () => {
-    const { mutations, state } = instance
-    expect(state.loading).toBe(false)
-    mutations.setDelegateLoading(state, true)
-    expect(state.loading).toBe(true)
-  })
-
   it(`adds delegate to state`, () => {
     const { mutations, state } = instance
     mutations.setDelegates(state, [
@@ -130,7 +123,9 @@ describe(`Module: Delegates`, () => {
       dispatch,
       rootState: mockRootState
     })
-    expect(dispatch.mock.calls).toEqual([[`updateSigningInfo`, candidates]])
+    expect(dispatch.mock.calls).toEqual([
+      [`updateSigningInfo`, candidates]
+    ])
   })
 
   it(`fetches the signing information from all delegates`, async () => {

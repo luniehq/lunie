@@ -158,7 +158,33 @@ export default {
           tooltip: `Approximate annualized return if validator is never punished`
         }
       ]
+    },
+    yourValidators({ committedDelegations, validators, session } = this) {
+      if (!session.signedIn) {
+        return
+      }
+
+      return validators.filter(
+        ({ operator_address }) => operator_address in committedDelegations
+      )
     }
+  },
+  watch: {
+    address: function() {
+      this.session.address && this.$store.dispatch(`updateDelegates`)
+    },
+    lastHeader: {
+      immediate: true,
+      handler() {
+        this.$store.dispatch(`getRewardsFromMyValidators`)
+      }
+    }
+  },
+  mounted() {
+    this.$store.dispatch(`getPool`)
+    this.$store.dispatch(`updateDelegates`)
+    this.$store.dispatch(`getRewardsFromMyValidators`)
+    this.$store.dispatch(`getMintingParameters`)
   }
 }
 </script>

@@ -1,7 +1,7 @@
 require("browserstack-local")
 
 const nightwatch_config = {
-  src_folders: ["tests/e2e"],
+  src_folders: ["test/e2e"],
   globals_path: "./globals.js",
   output_folder: "./output",
   launch_url: "https://127.0.0.1:9080",
@@ -10,11 +10,6 @@ const nightwatch_config = {
     start_process: false,
     host: "hub-cloud.browserstack.com",
     port: 80
-  },
-
-  request_timeout_options: {
-    timeout: 60000,
-    retry_attempts: 5
   },
 
   test_settings: {

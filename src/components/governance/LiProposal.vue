@@ -23,7 +23,9 @@
 </template>
 
 <script>
+import BigNumber from "bignumber.js"
 import { mapGetters } from "vuex"
+import { roundObjectPercentages } from "../../utils"
 import { prettyDecimals } from "../../scripts/num"
 import { getProposalStatus } from "scripts/proposal-status"
 export default {
@@ -39,6 +41,29 @@ export default {
   },
   computed: {
     ...mapGetters([`proposals`]),
+    tally() {
+      const { yes, no, abstain, no_with_veto } =
+        this.proposals.tallies[this.proposal.proposal_id] || {}
+
+      const totalVotes = BigNumber(yes)
+        .plus(no)
+        .plus(no_with_veto)
+        .plus(abstain)
+        .toNumber()
+      const totalMult = totalVotes / 100
+      return {
+        yes: yes / totalMult || BigNumber(0),
+        no: no / totalMult || BigNumber(0),
+        abstain: abstain / totalMult || BigNumber(0),
+        no_with_veto: no_with_veto / totalMult || BigNumber(0)
+      }
+    },
+    roundedPercentagesTally() {
+      return roundObjectPercentages(this.tally)
+    },
+    isDepositPeriod() {
+      return this.proposal.proposal_status === `DepositPeriod`
+    },
     status() {
       return getProposalStatus(this.proposal)
     },
@@ -104,11 +129,5 @@ export default {
 .proposal-status.pink {
   color: var(--tertiary);
   border-color: var(--tertiary);
-}
-
-@media screen and (max-width: 550px) {
-  .hide-xs {
-    display: none;
-  }
 }
 </style>

@@ -6,7 +6,6 @@ import Vuelidate from "vuelidate"
 import VueClipboard from "vue-clipboard2"
 import { focusElement, focusParentLast } from "src/directives"
 import App from "./App.vue"
-import vuetify from "./plugins/vuetify"
 import init from "./initializeApp"
 import { getURLParams } from "scripts/url.js"
 import "./registerServiceWorker"
@@ -25,7 +24,6 @@ const urlParams = getURLParams(window)
 const { store, router } = init(urlParams)
 
 new Vue({
-  vuetify,
   router,
   store,
   render: h => h(App)

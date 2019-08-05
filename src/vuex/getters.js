@@ -1,3 +1,6 @@
+import BN from "bignumber.js"
+import { calculateTokens } from "scripts/common"
+
 // ui
 export const filters = state => state.filters
 export const notifications = state => state.notifications
@@ -49,6 +52,42 @@ export const liquidAtoms = state =>
     ) || { amount: 0 }
   ).amount
 export const delegation = state => state.delegation
+export const totalAtoms = (state, getters) => {
+  return new BN(getters.liquidAtoms)
+    .plus(getters.oldBondedAtoms)
+    .plus(getters.oldUnbondingAtoms)
+    .toString()
+}
+export const oldBondedAtoms = (state, getters) => {
+  let totalOldBondedAtoms = new BN(0)
+  Object.keys(getters.delegation.committedDelegates).forEach(
+    delegatorAddress => {
+      const shares = getters.delegation.committedDelegates[delegatorAddress]
+      const delegator = getters.delegates.delegates.find(
+        d => d.operator_address === delegatorAddress
+      )
+      if (!delegator) {
+        return
+      }
+      totalOldBondedAtoms = totalOldBondedAtoms.plus(
+        calculateTokens(delegator, shares)
+      )
+    }
+  )
+  return totalOldBondedAtoms
+}
+
+export const oldUnbondingAtoms = state => {
+  return Object.values(state.delegation.unbondingDelegations).reduce(
+    // unbondingDelegations can have several active undelegations per validator (key)
+    (atoms, entries) => {
+      return BN(atoms).plus(
+        entries.reduce((sum, { balance }) => sum.plus(balance), BN(0))
+      )
+    },
+    BN(0)
+  )
+}
 export const committedDelegations = state => state.delegation.committedDelegates
 export const delegates = state => state.delegates
 export const keybase = state => state.keybase.identities

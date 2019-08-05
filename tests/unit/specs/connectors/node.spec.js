@@ -7,15 +7,9 @@ describe(`Connector`, () => {
     jest.mock(`src/connectors/rpcWrapper`, () => () => ({
       fooRpc: `rpcBar`
     }))
-    jest.mock(
-      `@lunie/cosmos-api`,
-      () =>
-        class mockAPI {
-          constructor() {
-            this.get = {}
-          }
-        }
-    )
+    jest.mock(`@lunie/cosmos-api`, () => () => ({
+      get: {}
+    }))
 
     Node = require(`src/connectors/node`).default
   })

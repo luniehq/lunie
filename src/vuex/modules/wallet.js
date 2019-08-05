@@ -49,6 +49,7 @@ export default ({ node }) => {
     async initializeWallet({ commit, dispatch }, { address }) {
       commit(`setWalletAddress`, address)
       dispatch(`queryWalletBalances`)
+      dispatch(`getRewardsFromMyValidators`)
       dispatch(`walletSubscribe`)
     },
     resetSessionData({ rootState }) {
@@ -86,8 +87,7 @@ export default ({ node }) => {
           if (rootState.connection.lastHeader.height < height) return
           clearInterval(interval)
           dispatch(`queryWalletBalances`)
-          dispatch(`getBondedDelegates`) // TODO move away
-          dispatch(`getRewardsFromMyValidators`) // TODO move away
+          dispatch(`updateDelegates`, true)
           resolve()
         }, 1000)
       })

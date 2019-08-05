@@ -8,6 +8,7 @@
         {{ subtitle }}
       </h3>
       <slot slot="menu-body" name="menu-body">
+        <TmBalance v-if="session.signedIn" />
         <ToolBar />
       </slot>
       <slot slot="header-buttons" name="header-buttons" />
@@ -32,6 +33,7 @@
       </template>
       <slot />
     </main>
+    <PageFooter />
   </div>
 </template>
 
@@ -43,18 +45,22 @@ import CardSignInRequired from "common/CardSignInRequired"
 import { mapGetters } from "vuex"
 import TmDataError from "common/TmDataError"
 import TmDataConnecting from "common/TmDataConnecting"
+import TmBalance from "common/TmBalance"
 import ToolBar from "common/ToolBar"
+import PageFooter from "common/TmPageFooter"
 
 export default {
   name: `tm-page`,
   components: {
+    TmBalance,
     ToolBar,
     TmPageHeader,
     TmDataEmpty,
     TmDataLoading,
     TmDataError,
     TmDataConnecting,
-    CardSignInRequired
+    CardSignInRequired,
+    PageFooter
   },
   props: {
     hideHeader: {
@@ -137,20 +143,20 @@ export default {
   font-size: var(--sm);
 }
 
-.lunie-column {
+.column {
   display: flex;
   flex-direction: column;
   position: relative;
   width: 100%;
 }
 
-.lunie-row {
+.row {
   display: flex;
   flex-direction: row;
   width: 100%;
 }
 
-.lunie-row-unjustified {
+.row-unjustified {
   display: flex;
   flex-direction: row;
   width: 100%;
@@ -167,7 +173,7 @@ export default {
   font-weight: 500;
 }
 
-.page-profile__section--between > .lunie-row {
+.page-profile__section--between > .row {
   justify-content: space-between;
 }
 
@@ -175,7 +181,7 @@ export default {
   background-color: var(--app-fg);
 }
 
-.page-profile__header .lunie-ow:first-child {
+.page-profile__header .row:first-child {
   border: 1px solid var(--bc-dim);
 }
 
@@ -291,7 +297,11 @@ dd {
 }
 
 @media screen and (max-width: 767px) {
-  .lunie-row {
+  .tm-page-main {
+    padding: 2rem 0;
+  }
+
+  .row {
     flex-direction: column;
   }
 
@@ -303,7 +313,6 @@ dd {
 @media screen and (max-width: 1023px) {
   .tm-page-main {
     min-height: 100vh;
-    padding: 0;
   }
 }
 </style>

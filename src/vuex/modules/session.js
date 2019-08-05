@@ -73,7 +73,7 @@ export default () => {
       const session = localStorage.getItem(`session`)
       if (session) {
         const { address, sessionType } = JSON.parse(session)
-        await dispatch(`signIn`, { address, sessionType })
+        dispatch(`signIn`, { address, sessionType })
       }
     },
     async persistSession(store, { address, sessionType }) {
@@ -90,6 +90,7 @@ export default () => {
       commit(`setSignIn`, true)
       commit(`setSessionType`, sessionType)
       commit(`setUserAddress`, address)
+      await dispatch(`loadPersistedState`)
       await dispatch(`initializeWallet`, { address })
       dispatch(`persistSession`, {
         address,

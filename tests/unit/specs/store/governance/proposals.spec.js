@@ -1,5 +1,5 @@
 import proposalsModule from "src/vuex/modules/governance/proposals.js"
-import { proposals, tallies } from "../json/proposals.js"
+import { proposals, tallies } from "../json/proposals"
 
 const mockRootState = {
   wallet: {
@@ -159,14 +159,12 @@ describe(`Module: Proposals`, () => {
         ]
       ])
 
-      commit.mockReset()
-
       // on VotingPeriod
       await actions.getProposal(
         { state, commit, rootState: mockRootState },
         `2`
       )
-      expect(commit.mock.calls).toEqual([
+      expect(commit.mock.calls.slice(2)).toEqual([
         [`setProposal`, proposals[`2`]],
         [
           `setProposalTally`,

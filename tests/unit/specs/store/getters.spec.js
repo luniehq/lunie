@@ -1,5 +1,8 @@
 import {
+  oldBondedAtoms,
   liquidAtoms,
+  totalAtoms,
+  oldUnbondingAtoms,
   yourValidators,
   modalContext,
   validatorsWithRewards,
@@ -22,6 +25,73 @@ describe(`Store: getters`, () => {
     })
 
     expect(result).toBe(42)
+  })
+
+  it(`totalAtoms`, () => {
+    const result = totalAtoms(
+      {},
+      {
+        liquidAtoms: 2,
+        oldBondedAtoms: `42`,
+        oldUnbondingAtoms: 9
+      }
+    )
+
+    expect(result).toBe(`53`)
+  })
+
+  it(`oldBondedAtoms`, () => {
+    const result = oldBondedAtoms(
+      {},
+      {
+        delegation: {
+          committedDelegates: {
+            validator1: 42,
+            validator2: 9
+          }
+        },
+        delegates: {
+          delegates: [
+            {
+              operator_address: `validator1`,
+              delegator_shares: `1000`,
+              tokens: `1000`
+            },
+            {
+              operator_address: `validator2`,
+              delegator_shares: `1000`,
+              tokens: `100`
+            }
+          ]
+        }
+      }
+    )
+
+    expect(result.toNumber()).toBe(42.9)
+  })
+
+  it(`oldUnbondingAtoms`, () => {
+    const result = oldUnbondingAtoms({
+      delegation: {
+        unbondingDelegations: {
+          validator1: [
+            {
+              balance: `42`
+            }
+          ],
+          validator2: [
+            {
+              balance: `9`
+            },
+            {
+              balance: `12`
+            }
+          ]
+        }
+      }
+    })
+
+    expect(result.toNumber()).toBe(63)
   })
 
   describe(`yourValidators`, () => {

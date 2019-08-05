@@ -3,7 +3,6 @@
 exports[`PageTransactions displays the transaction page if user has signed in 1`] = `
 <tmpage-stub
   data-title="Transactions"
-  hideheader="true"
   loaded="true"
   managed="true"
   signinrequired="true"
@@ -20,7 +19,7 @@ exports[`PageTransactions displays the transaction page if user has signed in 1`
       transaction="[object Object]"
       unbondingtime="NaN"
       validators="[object Object],[object Object],[object Object]"
-      validatorsurl="/validators"
+      validatorsurl="/staking/validators"
     />
     <lianytransaction-stub
       address="cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9"
@@ -29,7 +28,7 @@ exports[`PageTransactions displays the transaction page if user has signed in 1`
       transaction="[object Object]"
       unbondingtime="NaN"
       validators="[object Object],[object Object],[object Object]"
-      validatorsurl="/validators"
+      validatorsurl="/staking/validators"
     />
     <lianytransaction-stub
       address="cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9"
@@ -38,7 +37,7 @@ exports[`PageTransactions displays the transaction page if user has signed in 1`
       transaction="[object Object]"
       unbondingtime="NaN"
       validators="[object Object],[object Object],[object Object]"
-      validatorsurl="/validators"
+      validatorsurl="/staking/validators"
     />
     <lianytransaction-stub
       address="cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9"
@@ -47,7 +46,7 @@ exports[`PageTransactions displays the transaction page if user has signed in 1`
       transaction="[object Object]"
       unbondingtime="NaN"
       validators="[object Object],[object Object],[object Object]"
-      validatorsurl="/validators"
+      validatorsurl="/staking/validators"
     />
     <lianytransaction-stub
       address="cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9"
@@ -56,7 +55,7 @@ exports[`PageTransactions displays the transaction page if user has signed in 1`
       transaction="[object Object]"
       unbondingtime="NaN"
       validators="[object Object],[object Object],[object Object]"
-      validatorsurl="/validators"
+      validatorsurl="/staking/validators"
     />
     <lianytransaction-stub
       address="cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9"
@@ -65,7 +64,7 @@ exports[`PageTransactions displays the transaction page if user has signed in 1`
       transaction="[object Object]"
       unbondingtime="NaN"
       validators="[object Object],[object Object],[object Object]"
-      validatorsurl="/validators"
+      validatorsurl="/staking/validators"
     />
      
     <br />
@@ -76,7 +75,6 @@ exports[`PageTransactions displays the transaction page if user has signed in 1`
 exports[`PageTransactions displays the transaction page if user hasn't signed in 1`] = `
 <tmpage-stub
   data-title="Transactions"
-  hideheader="true"
   loaded="true"
   managed="true"
   signinrequired="true"
@@ -93,7 +91,7 @@ exports[`PageTransactions displays the transaction page if user hasn't signed in
       transaction="[object Object]"
       unbondingtime="NaN"
       validators="[object Object],[object Object],[object Object]"
-      validatorsurl="/validators"
+      validatorsurl="/staking/validators"
     />
     <lianytransaction-stub
       address="cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9"
@@ -102,7 +100,7 @@ exports[`PageTransactions displays the transaction page if user hasn't signed in
       transaction="[object Object]"
       unbondingtime="NaN"
       validators="[object Object],[object Object],[object Object]"
-      validatorsurl="/validators"
+      validatorsurl="/staking/validators"
     />
     <lianytransaction-stub
       address="cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9"
@@ -111,7 +109,7 @@ exports[`PageTransactions displays the transaction page if user hasn't signed in
       transaction="[object Object]"
       unbondingtime="NaN"
       validators="[object Object],[object Object],[object Object]"
-      validatorsurl="/validators"
+      validatorsurl="/staking/validators"
     />
     <lianytransaction-stub
       address="cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9"
@@ -120,7 +118,7 @@ exports[`PageTransactions displays the transaction page if user hasn't signed in
       transaction="[object Object]"
       unbondingtime="NaN"
       validators="[object Object],[object Object],[object Object]"
-      validatorsurl="/validators"
+      validatorsurl="/staking/validators"
     />
     <lianytransaction-stub
       address="cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9"
@@ -129,7 +127,7 @@ exports[`PageTransactions displays the transaction page if user hasn't signed in
       transaction="[object Object]"
       unbondingtime="NaN"
       validators="[object Object],[object Object],[object Object]"
-      validatorsurl="/validators"
+      validatorsurl="/staking/validators"
     />
     <lianytransaction-stub
       address="cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9"
@@ -138,7 +136,7 @@ exports[`PageTransactions displays the transaction page if user hasn't signed in
       transaction="[object Object]"
       unbondingtime="NaN"
       validators="[object Object],[object Object],[object Object]"
-      validatorsurl="/validators"
+      validatorsurl="/staking/validators"
     />
      
     <br />

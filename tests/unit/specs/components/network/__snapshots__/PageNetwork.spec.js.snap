@@ -3,7 +3,6 @@
 exports[`PageNetwork should display the network page with data and the blocks table 1`] = `
 <tmpage-stub
   data-title="Network"
-  hideheader="true"
   loaded="true"
   managed="true"
   subtitle=""
@@ -146,7 +145,6 @@ exports[`PageNetwork should display the network page with data and the blocks ta
       <thead>
         <panelsort-stub
           properties="[object Object],[object Object]"
-          showonmobile="transactions"
         />
       </thead>
        
@@ -196,7 +194,6 @@ exports[`PageNetwork should display the network page with data and the blocks ta
 exports[`PageNetwork should display the network page with the blocks table in a loading state 1`] = `
 <tmpage-stub
   data-title="Network"
-  hideheader="true"
   loaded="true"
   managed="true"
   subtitle=""
@@ -339,7 +336,6 @@ exports[`PageNetwork should display the network page with the blocks table in a 
       <thead>
         <panelsort-stub
           properties="[object Object],[object Object]"
-          showonmobile="transactions"
         />
       </thead>
        

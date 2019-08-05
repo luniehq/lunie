@@ -1,8 +1,8 @@
 import { shallowMount } from "@vue/test-utils"
-import Validators from "src/components/staking/Validators"
+import TabValidators from "src/components/staking/TabValidators"
 import validators from "../../store/json/validators.js"
 
-describe(`Validators`, () => {
+describe(`TabValidators`, () => {
   let wrapper, $store
 
   const getters = {
@@ -28,7 +28,7 @@ describe(`Validators`, () => {
       getters
     }
 
-    wrapper = shallowMount(Validators, {
+    wrapper = shallowMount(TabValidators, {
       mocks: {
         $store
       }
@@ -60,7 +60,7 @@ describe(`Validators`, () => {
       }
     }
 
-    wrapper = shallowMount(Validators, {
+    wrapper = shallowMount(TabValidators, {
       mocks: {
         $store
       }
@@ -90,7 +90,7 @@ describe(`Validators`, () => {
       }
     }
 
-    wrapper = shallowMount(Validators, {
+    wrapper = shallowMount(TabValidators, {
       mocks: {
         $store
       }
@@ -120,7 +120,7 @@ describe(`Validators`, () => {
       }
     }
 
-    wrapper = shallowMount(Validators, {
+    wrapper = shallowMount(TabValidators, {
       mocks: {
         $store
       }

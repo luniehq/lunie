@@ -2,7 +2,7 @@
 
 const bech32 = require(`bech32`)
 
-export default {
+module.exports = {
   decode(value) {
     const words = bech32.decode(value)
     return Buffer.from(bech32.fromWords(words.words)).toString(`hex`)

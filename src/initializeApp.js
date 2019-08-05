@@ -38,7 +38,6 @@ export default function init(urlParams, env = process.env) {
   console.log(`Expecting stargate at: ${stargate}`)
 
   const node = Node(stargate)
-  console.log(node)
   const store = Store({ node })
 
   setGoogleAnalyticsPage(router.currentRoute.path)

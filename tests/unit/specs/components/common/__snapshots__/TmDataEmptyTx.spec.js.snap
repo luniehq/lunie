@@ -39,7 +39,7 @@ exports[`TmDataEmptyTx has the expected html structure 1`] = `
           to="[object Object]"
         >
           
-      Portfolio
+      Wallet
     
         </router-link-stub>
         

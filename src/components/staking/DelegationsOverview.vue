@@ -39,7 +39,7 @@ export default {
     TmDataMsg
   },
   data: () => ({
-    validatorURL: `/validators`,
+    validatorURL: `/staking/validators`,
     time,
     num
   }),

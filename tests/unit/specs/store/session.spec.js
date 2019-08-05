@@ -111,6 +111,7 @@ describe(`Module: Session`, () => {
         `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`
       )
       expect(commit).toHaveBeenCalledWith(`setSessionType`, `local`)
+      expect(dispatch).toHaveBeenCalledWith(`loadPersistedState`)
       expect(dispatch).toHaveBeenCalledWith(`initializeWallet`, {
         address: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`
       })
@@ -132,6 +133,7 @@ describe(`Module: Session`, () => {
       )
       expect(commit).toHaveBeenCalledWith(`setUserAddress`, address)
       expect(commit).toHaveBeenCalledWith(`setSessionType`, `ledger`)
+      expect(dispatch).toHaveBeenCalledWith(`loadPersistedState`)
       expect(dispatch).toHaveBeenCalledWith(`initializeWallet`, { address })
       expect(state.externals.track).toHaveBeenCalledWith(
         `event`,
@@ -151,6 +153,7 @@ describe(`Module: Session`, () => {
       )
       expect(commit).toHaveBeenCalledWith(`setUserAddress`, address)
       expect(commit).toHaveBeenCalledWith(`setSessionType`, `explore`)
+      expect(dispatch).toHaveBeenCalledWith(`loadPersistedState`)
       expect(dispatch).toHaveBeenCalledWith(`initializeWallet`, { address })
       expect(state.externals.track).toHaveBeenCalledWith(
         `event`,
@@ -219,23 +222,6 @@ describe(`Module: Session`, () => {
 
     expect(state.errorCollection).toBe(false)
     expect(state.externals.Sentry.init).toHaveBeenCalledWith({})
-  })
-
-  it(`should enable analytics collection`, async () => {
-    jest.spyOn(console, `log`).mockImplementationOnce(() => {})
-    const commit = jest.fn()
-    const dispatch = jest.fn()
-    await actions.setAnalyticsCollection(
-      {
-        state,
-        commit,
-        dispatch
-      },
-      true
-    )
-
-    expect(state.analyticsCollection).toBe(true)
-    expect(state.externals.deanonymize).toHaveBeenCalled()
   })
 
   it(`should disable analytics collection`, async () => {

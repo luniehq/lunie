@@ -13,8 +13,8 @@
           </router-link>
         </li>
         <li>
-          <router-link to="/portfolio">
-            Portfolio
+          <router-link to="/wallet">
+            Wallet
           </router-link>
         </li>
         <li>
@@ -23,13 +23,13 @@
           </router-link>
         </li>
         <li>
-          <router-link to="/validators">
-            Validators
+          <router-link to="/staking">
+            Staking
           </router-link>
         </li>
         <li>
-          <router-link to="/proposals">
-            Proposals
+          <router-link to="/governance">
+            Governance
           </router-link>
         </li>
       </ul>

@@ -1,0 +1,175 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TabParameters shows the governance parameters 1`] = `
+<div>
+  <div
+    class="parameters__details parameters__section"
+  >
+    <div
+      class="row"
+    >
+      <div
+        class="column"
+      >
+        <dl
+          class="info_dl"
+        >
+          <dt>
+            
+            Minimum Deposit
+            
+            <i
+              class="material-icons info-button"
+            >
+              
+              info_outline
+            
+            </i>
+          </dt>
+           
+          <dd>
+            
+            100 STAKEs
+          
+          </dd>
+        </dl>
+      </div>
+       
+      <div
+        class="column"
+      >
+        <dl
+          class="info_dl"
+        >
+          <dt>
+            
+            Maximum Deposit Period
+            
+            <i
+              class="material-icons info-button"
+            >
+              
+              info_outline
+            
+            </i>
+          </dt>
+           
+          <dd>
+            
+            1 days
+          
+          </dd>
+        </dl>
+      </div>
+    </div>
+  </div>
+   
+  <div
+    class="parameters__details parameters__section"
+  >
+    <div
+      class="row"
+    >
+      <div
+        class="column"
+      >
+        <dl
+          class="info_dl"
+        >
+          <dt>
+            
+            Threshold
+            
+            <i
+              class="material-icons info-button"
+            >
+              
+              info_outline
+            
+            </i>
+          </dt>
+           
+          <dd>
+            
+            50 %
+          
+          </dd>
+        </dl>
+         
+        <dl
+          class="info_dl"
+        >
+          <dt>
+            
+            Veto
+            
+            <i
+              class="material-icons info-button"
+            >
+              
+              info_outline
+            
+            </i>
+          </dt>
+           
+          <dd>
+            
+            33.4 %
+          
+          </dd>
+        </dl>
+      </div>
+       
+      <div
+        class="column"
+      >
+        <dl
+          class="info_dl"
+        >
+          <dt>
+            
+            Quorum
+            
+            <i
+              class="material-icons info-button"
+            >
+              
+              info_outline
+            
+            </i>
+          </dt>
+           
+          <dd>
+            
+            33.4 %
+          
+          </dd>
+        </dl>
+         
+        <dl
+          class="info_dl"
+        >
+          <dt>
+            
+            Voting Period
+            
+            <i
+              class="material-icons info-button"
+            >
+              
+              info_outline
+            
+            </i>
+          </dt>
+           
+          <dd>
+            
+            1 days
+          
+          </dd>
+        </dl>
+      </div>
+    </div>
+  </div>
+</div>
+`;
