@@ -3,15 +3,15 @@
     <div class="tx__content__caption">
       <p class="tx__content__caption__title">
         Deposited
-        <b>{{ coin.amount | toAtoms | prettyLong }}</b>
-        <span>{{ coin.denom | viewDenom }}</span>
+        <b>{{ deposit.amount | atoms | prettyLong }}</b>
+        <span>{{ deposit.denom | viewDenom }}</span>
       </p>
     </div>
     <div class="tx__content__information">
       On
-      <router-link :to="`/governance/${ransaction.value.proposal_id}`"
-        >Proposal &#35;{{ transaction.value.proposal_id }}</router-link
-      >
+      <router-link
+        :to="`/governance/${transaction.value.proposal_id}`"
+      >Proposal &#35;{{ transaction.value.proposal_id }}</router-link>
     </div>
   </div>
 </template>
@@ -33,13 +33,14 @@ export default {
       type: Object,
       required: true
     },
-    coin: {
-      type: Object,
-      required: true
-    },
     validators: {
       type: Object,
       required: true
+    }
+  },
+  computed: {
+    deposit() {
+      return this.transaction.value.amount[0]
     }
   }
 }

@@ -5,12 +5,11 @@
     </div>
     <div class="tx__content__information">
       Monikor&nbsp;
-      <router-link
-        :to="`staking/validators/${transaction.value.validator_address}`"
-        >{{
-          transaction.value.validator_address | resolveValidatorName(validators)
-        }}</router-link
-      >
+      <router-link :to="`staking/validators/${transaction.value.validator_address}`">
+        {{
+        transaction.value.validator_address | resolveValidatorName(validators)
+        }}
+      </router-link>
     </div>
   </div>
 </template>
@@ -29,10 +28,6 @@ export default {
   },
   props: {
     transaction: {
-      type: Object,
-      required: true
-    },
-    coin: {
       type: Object,
       required: true
     },

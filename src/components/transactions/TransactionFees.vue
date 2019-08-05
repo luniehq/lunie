@@ -2,13 +2,11 @@
   <div>
     <div>
       Network Fee:&nbsp;
-      <b>{{ fees.amount | toAtoms }}</b>
+      <b>{{ fees.amount | atoms }}</b>
       <span>{{ fees.denom | viewDenom }}</span>
     </div>
     <div>
-      <router-link :to="{ name: `block`, params: { height: block } }"
-        >Block #{{ block }}&nbsp;</router-link
-      >
+      <router-link :to="{ name: `block`, params: { height: block } }">Block #{{ block }}&nbsp;</router-link>
       @&nbsp;{{ date }}
     </div>
   </div>
@@ -16,12 +14,12 @@
 
 <script>
 import moment from "moment"
-import { atoms as toAtoms, viewDenom } from "scripts/num.js"
+import { atoms, viewDenom } from "scripts/num.js"
 
 export default {
   name: `transaction-fees`,
   filters: {
-    toAtoms,
+    atoms,
     viewDenom
   },
   props: {

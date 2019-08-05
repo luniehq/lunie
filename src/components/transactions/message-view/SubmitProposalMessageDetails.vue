@@ -3,8 +3,8 @@
     <div class="tx__content__caption">
       <p>
         Submitted {{ transaction.value.proposal_type.toLowerCase() }} proposal
-        <b>{{ coin.amount | toAtoms | prettyLong }}</b>
-        <span>{{ coin.denom | viewDenom }}</span>
+        <b>{{ initialDeposit.amount | atoms | prettyLong }}</b>
+        <span>{{ initialDeposit.denom | viewDenom }}</span>
       </p>
     </div>
     <div class="tx__content__information">
@@ -31,13 +31,14 @@ export default {
       type: Object,
       required: true
     },
-    coin: {
-      type: Object,
-      required: true
-    },
     validators: {
       type: Object,
       required: true
+    }
+  },
+  computed: {
+    initialDeposit() {
+      return this.transaction.value.initial_deposit[0]
     }
   }
 }

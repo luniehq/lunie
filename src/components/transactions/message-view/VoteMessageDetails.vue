@@ -4,10 +4,10 @@
       <p>Voted&nbsp;{{ transaction.value.option }}</p>
     </div>
     <div class="tx__content__information">
-      On
-      <router-link :to="`/governance/${ransaction.value.proposal_id}`"
-        >Proposal &#35;{{ transaction.value.proposal_id }}</router-link
-      >
+      On&nbsp;
+      <router-link
+        :to="`/governance/${transaction.value.proposal_id}`"
+      >Proposal &#35;{{ transaction.value.proposal_id }}</router-link>
     </div>
   </div>
 </template>
@@ -22,10 +22,6 @@ export default {
   },
   props: {
     transaction: {
-      type: Object,
-      required: true
-    },
-    coin: {
       type: Object,
       required: true
     },

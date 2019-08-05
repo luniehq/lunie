@@ -126,6 +126,126 @@ const testTransactionObjects = [
     memo: "",
     fees: { amount: "0", denom: "ATOM" },
     liquidDate: null
+  },
+  {
+    type: "cosmos-sdk/MsgSubmitProposal",
+    value: {
+      description: "description text",
+      initial_deposit: [{ amount: "200000", denom: "uatom" }],
+      proposal_type: "Text",
+      proposer: "cosmos1jq9mc3kp4nnxwryr09fpqjtrwya8q5q480zu0e",
+      title: "Test title"
+    },
+    key:
+      'cosmos-sdk/cosmos-sdk/MsgSubmitProposal_2019-06-11T13:47:45.425Z_{"delegator_address":"cosmos1alkjdbasdlkhasldjnasldkjasndlkjansdlasndlkj","validator_address":"cosmosvaloper1sjllsnasdmasakjshdlkdhjasldnasdnadn"}',
+    blockNumber: 626102,
+    time: "2019-06-11T13:47:45.425Z",
+    group: "governance",
+    memo: "",
+    fees: { amount: "69", denom: "ATOM" },
+    liquidDate: null
+  },
+  {
+    type: "cosmos-sdk/MsgVote",
+    value: {
+      option: "NoWithVeto",
+      proposal_id: "13",
+      voter: "cosmos1jq9mc3kp4nnxwrasdadasdasdasd5q480zu0z"
+    },
+    key:
+      'cosmos-sdk/cosmos-sdk/MsgVote_2019-06-11T13:47:45.425Z_{"delegator_address":"cosmos1asdkjadkajsdkasdadadh","validator_address":"cosmosvaloper1sjllsnjhagsdhgajshdasjhdgajsdhgjas"}',
+    blockNumber: 626103,
+    time: "2019-06-11T13:47:45.425Z",
+    group: "governance",
+    memo: "",
+    fees: { amount: "69", denom: "ATOM" },
+    liquidDate: null
+  },
+  {
+    type: "cosmos-sdk/MsgDeposit",
+    value: {
+      depositer: `cosmos1asdadasdasdasds`,
+      proposal_id: 2,
+      amount: [{ denom: "uatom", amount: "234500" }]
+    },
+    key:
+      'cosmos-sdk/cosmos-sdk/MsgDeposit_2019-06-11T13:47:45.425Z_{"delegator_address":"cosmos1asdkjadkajsdkasdadadh","validator_address":"cosmosvaloper1sjllsnjhagsdhgajshdasjhdgajsdhgjas"}',
+    blockNumber: 626103,
+    time: "2019-06-11T13:47:45.425Z",
+    group: "governance",
+    memo: "",
+    fees: { amount: "69", denom: "ATOM" },
+    liquidDate: null
+  },
+  {
+    type: "cosmos-sdk/MsgSetWithdrawAddress",
+    value: {
+      withdraw_address: "cosmos1alkjdbasdlkhasldjnasldkjasndlkjansdlasndlkj"
+    },
+    key:
+      'cosmos-sdk/MsgSetWithdrawAddress_2019-06-11T13:47:45.425Z_{"delegator_address":"cosmos1alkjdbasdlkhasldjnasldkjasndlkjansdlasndlkj","validator_address":"cosmosvaloper1sjllsnasdmasakjshdlkdhjasldnasdnadn"}',
+    blockNumber: 626102,
+    time: "2019-06-11T13:47:45.425Z",
+    group: "distribution",
+    memo: "",
+    fees: { amount: "0", denom: "ATOM" },
+    liquidDate: null
+  },
+  {
+    type: "cosmos-sdk/MsgWithdrawValidatorCommission",
+    value: {
+      validator_address: "cosmos1alkjdbasdlkhasldjnasldkjasndlkjansdlasndlkj"
+    },
+    key:
+      'cosmos-sdk/MsgWithdrawValidatorCommission_2019-06-11T13:47:45.425Z_{"delegator_address":"cosmos1alkjdbasdlkhasldjnasldkjasndlkjansdlasndlkj","validator_address":"cosmosvaloper1sjllsnasdmasakjshdlkdhjasldnasdnadn"}',
+    blockNumber: 626102,
+    time: "2019-06-11T13:47:45.425Z",
+    group: "distribution",
+    memo: "",
+    fees: { amount: "0", denom: "ATOM" },
+    liquidDate: null
+  },
+  {
+    type: "cosmos-sdk/MsgUnjail",
+    value: {
+      address: "cosmos1alkjdbasdlkhasldjnasldkjasndlkjansdlasndlkj"
+    },
+    key:
+      'cosmos-sdk/MsgUnjail_2019-06-11T13:47:45.425Z_{"delegator_address":"cosmos1alkjdbasdlkhasldjnasldkjasndlkjansdlasndlkj","validator_address":"cosmosvaloper1sjllsnasdmasakjshdlkdhjasldnasdnadn"}',
+    blockNumber: 626102,
+    time: "2019-06-11T13:47:45.425Z",
+    group: "distribution",
+    memo: "",
+    fees: { amount: "0", denom: "ATOM" },
+    liquidDate: null
+  },
+  {
+    type: "cosmos-sdk/MsgCreateValidator",
+    value: {
+      validator_address: "cosmos1alkjdbasdlkhasldjnasldkjasndlkjansdlasndlkj"
+    },
+    key:
+      'cosmos-sdk/MsgCreateValidator_2019-06-11T13:47:45.425Z_{"delegator_address":"cosmos1alkjdbasdlkhasldjnasldkjasndlkjansdlasndlkj","validator_address":"cosmosvaloper1sjllsnasdmasakjshdlkdhjasldnasdnadn"}',
+    blockNumber: 626102,
+    time: "2019-06-11T13:47:45.425Z",
+    group: "distribution",
+    memo: "",
+    fees: { amount: "0", denom: "ATOM" },
+    liquidDate: null
+  },
+  {
+    type: "cosmos-sdk/MsgEditValidator",
+    value: {
+      validator_address: "cosmos1alkjdbasdlkhasldjnasldkjasndlkjansdlasndlkj"
+    },
+    key:
+      'cosmos-sdk/MsgEditValidator_2019-06-11T13:47:45.425Z_{"delegator_address":"cosmos1alkjdbasdlkhasldjnasldkjasndlkjansdlasndlkj","validator_address":"cosmosvaloper1sjllsnasdmasakjshdlkdhjasldnasdnadn"}',
+    blockNumber: 626102,
+    time: "2019-06-11T13:47:45.425Z",
+    group: "distribution",
+    memo: "",
+    fees: { amount: "0", denom: "ATOM" },
+    liquidDate: null
   }
 ]
 
