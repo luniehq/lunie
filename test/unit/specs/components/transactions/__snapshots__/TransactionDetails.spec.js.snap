@@ -35,8 +35,7 @@ exports[`TransactionDetails MsgBeginRedelegate has the expected html structure 1
         to="staking/validators/cosmosvaloper1sjllsnasdmasakjshdlkdhjasldnasd"
       >
         
-      cosmosvaloper…nasd
-    
+      cosmosvaloper…nasd 
       </router-link>
       To 
     
