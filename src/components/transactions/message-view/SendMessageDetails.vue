@@ -3,8 +3,8 @@
     <div class="tx__content__caption">
       <p>
         {{ caption }}
-        <b>{{ coin.amount | atoms | prettyLong }}</b>
-        <span>{{ coin.denom | viewDenom }}</span>
+        <b> {{ coin.amount | atoms | prettyLong }}</b>
+        <span> {{ coin.denom | viewDenom }}</span>
       </p>
     </div>
     <div class="tx__content__information">

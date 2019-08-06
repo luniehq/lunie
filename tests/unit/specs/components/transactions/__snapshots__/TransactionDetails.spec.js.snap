@@ -373,11 +373,11 @@ exports[`TransactionDetails renders MsgSend transaction item from other to you 1
       Received
       
         <b>
-          0.2345
+           0.2345
         </b>
          
         <span>
-          ATOM
+           ATOM
         </span>
       </p>
     </div>
@@ -466,11 +466,11 @@ exports[`TransactionDetails renders MsgSend transaction item from session user t
       Sent
       
         <b>
-          0.2345
+           0.2345
         </b>
          
         <span>
-          ATOM
+           ATOM
         </span>
       </p>
     </div>
@@ -559,11 +559,11 @@ exports[`TransactionDetails renders MsgSend transaction item to yourself 1`] = `
       Sent
       
         <b>
-          0.2345
+           0.2345
         </b>
          
         <span>
-          ATOM
+           ATOM
         </span>
       </p>
     </div>
@@ -624,11 +624,11 @@ exports[`TransactionDetails renders MsgSend transaction item unrelated to sessio
       Sent
       
         <b>
-          0.2345
+           0.2345
         </b>
          
         <span>
-          ATOM
+           ATOM
         </span>
       </p>
     </div>
