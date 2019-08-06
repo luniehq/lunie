@@ -1,32 +1,64 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Validators shows a list of validators 1`] = `
-<div>
-  <tablevalidators-stub
-    showonmobile="expectedReturns"
-    validators="[object Object],[object Object],[object Object]"
-  />
-</div>
+<tmpage-stub
+  loaded="true"
+  managed="true"
+  subtitle=""
+  title=""
+>
+  <template>
+    <tablevalidators-stub
+      showonmobile="expectedReturns"
+      validators="[object Object],[object Object],[object Object]"
+    />
+  </template>
+</tmpage-stub>
 `;
 
 exports[`Validators shows a message if still connecting 1`] = `
-<div>
-  <tmdataconnecting-stub />
-</div>
+<tmpage-stub
+  managed="true"
+  subtitle=""
+  title=""
+>
+  <template>
+    <tablevalidators-stub
+      showonmobile="expectedReturns"
+      validators="[object Object],[object Object],[object Object]"
+    />
+  </template>
+</tmpage-stub>
 `;
 
 exports[`Validators shows a message if still loading 1`] = `
-<div>
-  <tmdataloading-stub
-    title="Data is loading…"
-  />
-</div>
+<tmpage-stub
+  loading="true"
+  managed="true"
+  subtitle=""
+  title=""
+>
+  <template>
+    <tablevalidators-stub
+      showonmobile="expectedReturns"
+      validators="[object Object],[object Object],[object Object]"
+    />
+  </template>
+</tmpage-stub>
 `;
 
 exports[`Validators shows a message if there is nothing to display 1`] = `
-<div>
-  <tmdataempty-stub
-    icon="info_outline"
-  />
-</div>
+<tmpage-stub
+  loaded="true"
+  managed="true"
+  subtitle=""
+  title=""
+>
+  <template>
+    <tablevalidators-stub
+      showonmobile="expectedReturns"
+      validators=""
+    />
+  </template>
+</tmpage-stub>
 `;

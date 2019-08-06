@@ -2,7 +2,6 @@
 
 exports[`PagePortfolio should display the portfolio page 1`] = `
 <tmpage-stub
-  hideheader="true"
   managed="true"
   signinrequired="true"
   subtitle=""

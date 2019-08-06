@@ -1,32 +1,30 @@
 <template>
-  <div>
-    <TmDataConnecting v-if="!delegates.loaded && !connected" />
-    <TmDataLoading v-else-if="!delegates.loaded && delegates.loading" />
-    <TmDataEmpty
-      v-else-if="delegates.loaded && delegates.delegates.length === 0"
-    />
-    <TableValidators
-      v-else
-      :validators="delegates.delegates"
-      show-on-mobile="expectedReturns"
-    />
-  </div>
+  <TmPage
+    :managed="true"
+    :loading="delegates.loading"
+    :loaded="delegates.loaded"
+    :error="delegates.error"
+    :data-empty="delegates.length === 0"
+  >
+    <template slot="managed-body">
+      <TableValidators
+        :validators="delegates.delegates"
+        show-on-mobile="expectedReturns"
+      />
+    </template>
+  </TmPage>
 </template>
 
 <script>
 import TableValidators from "staking/TableValidators"
-import TmDataEmpty from "common/TmDataEmpty"
-import TmDataLoading from "common/TmDataLoading"
-import TmDataConnecting from "common/TmDataConnecting"
+import TmPage from "common/TmPage"
 import { mapGetters } from "vuex"
 
 export default {
   name: `tab-validators`,
   components: {
     TableValidators,
-    TmDataEmpty,
-    TmDataLoading,
-    TmDataConnecting
+    TmPage
   },
   data: () => ({
     lastUpdate: 0
