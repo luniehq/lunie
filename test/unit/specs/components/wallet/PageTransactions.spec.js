@@ -256,10 +256,14 @@ describe(`PageTransactions`, () => {
 
     wrapper = shallowMount(PageTransactions, {
       localVue,
+      directives: {
+        infiniteScroll: () => {}
+      },
       mocks: {
         $store
       }
     })
+    wrapper.setData({ showing: 2 })
   })
 
   describe(`displays the transaction page`, () => {
@@ -277,6 +281,9 @@ describe(`PageTransactions`, () => {
 
       wrapper = shallowMount(PageTransactions, {
         localVue,
+        directives: {
+          infiniteScroll: () => {}
+        },
         mocks: {
           $store
         }
@@ -313,7 +320,13 @@ describe(`PageTransactions`, () => {
   })
 
   it(`should show transactions`, async () => {
-    expect(wrapper.findAll(`LiAnyTransaction-stub`).length).toBe(6)
+    expect(wrapper.findAll(`LiAnyTransaction-stub`).length).toBe(2)
+  })
+
+  it("should load more findAll (on infinite scroll)", () => {
+    expect(wrapper.findAll("LiAnyTransaction-stub").length).toBe(2)
+    wrapper.vm.loadMore()
+    expect(wrapper.findAll("LiAnyTransaction-stub").length).toBe(6)
   })
 
   it(`should sort the transaction by time`, () => {

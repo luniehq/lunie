@@ -24,10 +24,6 @@ exports[`TableValidators shows a validator table 1`] = `
         showonmobile="returns"
         validator="[object Object]"
       />
-      <livalidator-stub
-        showonmobile="returns"
-        validator="[object Object]"
-      />
     </tbody>
   </table>
 </div>

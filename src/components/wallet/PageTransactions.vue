@@ -54,7 +54,8 @@ export default {
     },
     validatorURL: `/staking/validators`,
     governanceURL: `/governance`,
-    time
+    time,
+    showing: 20
   }),
   computed: {
     ...mapGetters([
