@@ -50,6 +50,8 @@ export default ({ node }) => {
       commit(`setWalletAddress`, address)
       dispatch(`queryWalletBalances`)
       dispatch(`walletSubscribe`)
+      await dispatch(`getBondedDelegates`) // TODO move away
+      dispatch(`getRewardsFromMyValidators`) // TODO move away
     },
     resetSessionData({ rootState }) {
       // clear previous account state

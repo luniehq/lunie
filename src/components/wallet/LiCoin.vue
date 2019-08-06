@@ -12,21 +12,23 @@
           {{ amount }}
         </p>
       </div>
-      <!-- disable send on the hub until send is enabled -->
-      <TmBtn
-        v-if="!lastHeader || lastHeader.chain_id === 'cosmoshub-1'"
-        v-tooltip.left="tooltip"
-        value="Send"
-        color="primary"
-      />
-      <!-- here we use the unconverted denom, as the SendModal
-      checks for balances based on the actual denom -->
-      <TmBtn
-        v-else
-        value="Send"
-        color="primary"
-        @click.native="$emit(`show-modal`, coin.denom)"
-      />
+      <slot>
+        <!-- disable send on the hub until send is enabled -->
+        <TmBtn
+          v-if="!lastHeader || lastHeader.chain_id === 'cosmoshub-1'"
+          v-tooltip.left="tooltip"
+          value="Send"
+          color="primary"
+        />
+        <!-- here we use the unconverted denom, as the SendModal
+        checks for balances based on the actual denom -->
+        <TmBtn
+          v-else
+          value="Send"
+          color="primary"
+          @click.native="$emit(`show-modal`, coin.denom)"
+        />
+      </slot>
     </div>
   </li>
 </template>

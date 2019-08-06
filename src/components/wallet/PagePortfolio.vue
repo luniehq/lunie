@@ -13,6 +13,17 @@
         <Bech32 :address="session.address || ''" long-form />
       </div>
       <h3 class="tab-header">
+        Rewards
+      </h3>
+      <LiCoin
+        :coin="{ amount: totalRewards, denom: bondDenom }"
+        class="tm-li-balance"
+        :disabled="!readyToWithdraw"
+        @show-modal="onWithdrawal"
+      >
+        <TmBtn value="Withdraw" color="primary" @click.native="onWithdrawal" />
+      </LiCoin>
+      <h3 class="tab-header">
         Balances
       </h3>
       <TmDataMsg
@@ -48,6 +59,11 @@
       </template>
     </template>
     <SendModal ref="sendModal" />
+    <ModalWithdrawRewards
+      ref="ModalWithdrawRewards"
+      :rewards="totalRewards"
+      :denom="bondDenom"
+    />
   </TmPage>
 </template>
 
@@ -60,8 +76,10 @@ import SendModal from "src/ActionModal/components/SendModal"
 import Bech32 from "common/Bech32"
 import TmPage from "common/TmPage"
 import TmDataMsg from "common/TmDataMsg"
+import TmBtn from "common/TmBtn"
 import DelegationsOverview from "staking/DelegationsOverview"
 import Undelegations from "staking/Undelegations"
+import ModalWithdrawRewards from "src/ActionModal/components/ModalWithdrawRewards"
 
 export default {
   name: `page-portfolio`,
@@ -72,21 +90,65 @@ export default {
     SendModal,
     Bech32,
     Undelegations,
-    DelegationsOverview
+    DelegationsOverview,
+    ModalWithdrawRewards,
+    TmBtn
   },
+  data: () => ({
+    lastUpdate: 0
+  }),
   computed: {
-    ...mapGetters([`wallet`, `connected`, `session`, `delegation`]),
+    ...mapGetters([
+      `wallet`,
+      `connected`,
+      `session`,
+      `delegation`,
+      `distribution`,
+      `totalRewards`,
+      `bondDenom`,
+      `lastHeader`
+    ]),
     filteredBalances() {
       return orderBy(
         this.wallet.balances,
         [`amount`, balance => num.viewDenom(balance.denom).toLowerCase()],
         [`desc`, `asc`]
       )
+    },
+    // only be ready to withdraw of the validator rewards are loaded and the user has rewards to withdraw
+    // the validator rewards are needed to filter the top 5 validators to withdraw from
+    readyToWithdraw() {
+      return this.totalRewards > 0
+    }
+  },
+  watch: {
+    lastHeader: {
+      immediate: true,
+      handler(newHeader) {
+        const height = Number(newHeader.height)
+        // run the update queries the first time and after every 10 blocks
+        const waitedTenBlocks = height - this.lastUpdate >= 10
+        if (
+          this.session.signedIn &&
+          (this.lastUpdate === 0 || waitedTenBlocks)
+        ) {
+          this.update(height)
+        }
+      }
     }
   },
   methods: {
+    update(height) {
+      this.lastUpdate = height
+      this.$store.dispatch(`getRewardsFromMyValidators`)
+    },
     showModal(denomination) {
       this.$refs.sendModal.open(denomination)
+    },
+    onWithdrawal() {
+      if (!this.readyToWithdraw) return
+
+      this.$refs.ModalWithdrawRewards.open()
     }
   }
 }
