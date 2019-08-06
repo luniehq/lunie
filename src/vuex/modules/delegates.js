@@ -1,6 +1,6 @@
 import * as Sentry from "@sentry/browser"
 import BN from "bignumber.js"
-import b32 from "scripts/b32.js"
+import b32 from "scripts/b32"
 import Vue from "vue"
 import { throttle } from "scripts/blocks-throttle"
 

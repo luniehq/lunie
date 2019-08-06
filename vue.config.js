@@ -74,15 +74,11 @@ module.exports = {
             // third party tools
             `https://sentry.io`,
             `https://appzi-collector-b.azurewebsites.net`,
-            `https://keybase.io`,
             // mainnet
             `https://stargate.lunie.io`,
             `wss://rpc.lunie.io:26657`,
             `https://stargate.cosmos.network`,
             `wss://rpc.cosmos.network:26657`,
-            // testnet
-            `https://sntajlxzsg.execute-api.eu-central-1.amazonaws.com/`,
-            `wss://test.voyager.ninja:26657`,
             ...[process.env.STARGATE].filter(x => x !== undefined),
             ...[process.env.RPC]
               .filter(x => x !== undefined)
