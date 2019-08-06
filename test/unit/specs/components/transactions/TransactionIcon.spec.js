@@ -12,7 +12,7 @@ describe(`TransactionIcon`, () => {
     })
   })
 
-  it(`has the expected html structure`, () => {
+  it(`renders a banking coloured icon`, () => {
     expect(wrapper.element).toMatchSnapshot()
   })
 })

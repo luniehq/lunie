@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`TransactionList has the expected html structure 1`] = `
+exports[`TransactionList renders a list of TransactionItems 1`] = `
 <div>
   <transactionitem-stub
     address="cosmos1"

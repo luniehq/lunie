@@ -28,7 +28,7 @@ describe(`TransactionItem`, () => {
     })
   })
 
-  it(`has the expected html structure`, () => {
+  it(`renders a transaction item`, () => {
     expect(wrapper.element).toMatchSnapshot()
   })
 })

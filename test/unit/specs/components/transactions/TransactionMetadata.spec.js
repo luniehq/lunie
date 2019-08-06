@@ -18,7 +18,7 @@ describe(`TransactionMetadata`, () => {
     })
   })
 
-  it(`has the expected html structure`, () => {
+  it(`renders correct fee and block transaction data`, () => {
     expect(wrapper.element).toMatchSnapshot()
   })
 })

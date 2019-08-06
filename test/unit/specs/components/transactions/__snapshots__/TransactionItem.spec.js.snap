@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`TransactionItem has the expected html structure 1`] = `
+exports[`TransactionItem renders a transaction item 1`] = `
 <div
   class="tx"
 >

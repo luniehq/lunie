@@ -1,6 +1,42 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`TransactionDetails MsgBeginRedelegate has the expected html structure 1`] = `
+exports[`TransactionDetails Unknown transaction returns empty string 1`] = `
+<div
+  class="tx__content"
+>
+  <!---->
+   
+  <div
+    class="tx__content__right"
+  >
+    <div>
+      
+    Network Fee: 
+    
+      <b>
+        0.000037
+      </b>
+       
+      <span>
+        ATOM
+      </span>
+    </div>
+     
+    <div>
+      <router-link
+        to="[object Object]"
+      >
+        Block #1086769 
+      </router-link>
+      
+    @ Jul 31st 2019 09:22:23
+  
+    </div>
+  </div>
+</div>
+`;
+
+exports[`TransactionDetails renders MsgBeginRedelegate transaction item 1`] = `
 <div
   class="tx__content"
 >
@@ -79,7 +115,7 @@ exports[`TransactionDetails MsgBeginRedelegate has the expected html structure 1
 </div>
 `;
 
-exports[`TransactionDetails MsgCreateValidator has the expected html structure 1`] = `
+exports[`TransactionDetails renders MsgCreateValidator transaction item 1`] = `
 <div
   class="tx__content"
 >
@@ -115,7 +151,80 @@ exports[`TransactionDetails MsgCreateValidator has the expected html structure 1
 </div>
 `;
 
-exports[`TransactionDetails MsgDeposit has the expected html structure 1`] = `
+exports[`TransactionDetails renders MsgDelegate transaction item 1`] = `
+<div
+  class="tx__content"
+>
+  <div
+    class="tx__content__left"
+    session-address="cosmos1"
+  >
+    <div
+      class="tx__content__caption"
+    >
+      <p
+        class="tx__content__caption__title"
+      >
+        
+      Delegated
+      
+        <b>
+          0.05
+        </b>
+         
+        <span>
+          ATOM
+        </span>
+      </p>
+    </div>
+     
+    <div
+      class="tx__content__information"
+    >
+      
+    To 
+    
+      <router-link
+        to="staking/validators/cosmosvaloper1uaisjdnidjnlaskjdnlkjasndlkadjn"
+      >
+        
+      cosmosvaloper…adjn
+    
+      </router-link>
+    </div>
+  </div>
+   
+  <div
+    class="tx__content__right"
+  >
+    <div>
+      
+    Network Fee: 
+    
+      <b>
+        0.000166
+      </b>
+       
+      <span>
+        ATOM
+      </span>
+    </div>
+     
+    <div>
+      <router-link
+        to="[object Object]"
+      >
+        Block #726599 
+      </router-link>
+      
+    @ Jun 19th 2019 14:43:45
+  
+    </div>
+  </div>
+</div>
+`;
+
+exports[`TransactionDetails renders MsgDeposit transaction item 1`] = `
 <div
   class="tx__content"
 >
@@ -186,7 +295,7 @@ exports[`TransactionDetails MsgDeposit has the expected html structure 1`] = `
 </div>
 `;
 
-exports[`TransactionDetails MsgEditValidator has the expected html structure 1`] = `
+exports[`TransactionDetails renders MsgEditValidator transaction item 1`] = `
 <div
   class="tx__content"
 >
@@ -248,7 +357,258 @@ exports[`TransactionDetails MsgEditValidator has the expected html structure 1`]
 </div>
 `;
 
-exports[`TransactionDetails MsgSend 1 has the expected html structure 1`] = `
+exports[`TransactionDetails renders MsgSend transaction item from other to you 1`] = `
+<div
+  class="tx__content"
+>
+  <div
+    class="tx__content__left"
+    validators="[object Object]"
+  >
+    <div
+      class="tx__content__caption"
+    >
+      <p>
+        
+      Received
+      
+        <b>
+          0.2345
+        </b>
+         
+        <span>
+          ATOM
+        </span>
+      </p>
+    </div>
+     
+    <div
+      class="tx__content__information"
+    >
+      
+      From 
+      
+      <div
+        class="bech32-address"
+      >
+        <div
+          class="address"
+          id="address"
+        >
+          
+    cosmos…1212
+  
+        </div>
+         
+        <div
+          class="copied"
+        >
+          <i
+            class="material-icons"
+          >
+            check
+          </i>
+          <span>
+            Copied
+          </span>
+        </div>
+      </div>
+       
+      <span>
+         - (Sent via Lunie)
+      </span>
+    </div>
+  </div>
+   
+  <div
+    class="tx__content__right"
+  >
+    <div>
+      
+    Network Fee: 
+    
+      <b>
+        0.000037
+      </b>
+       
+      <span>
+        ATOM
+      </span>
+    </div>
+     
+    <div>
+      <router-link
+        to="[object Object]"
+      >
+        Block #1086769 
+      </router-link>
+      
+    @ Jul 31st 2019 09:22:23
+  
+    </div>
+  </div>
+</div>
+`;
+
+exports[`TransactionDetails renders MsgSend transaction item from session user to other 1`] = `
+<div
+  class="tx__content"
+>
+  <div
+    class="tx__content__left"
+    validators="[object Object]"
+  >
+    <div
+      class="tx__content__caption"
+    >
+      <p>
+        
+      Sent
+      
+        <b>
+          0.2345
+        </b>
+         
+        <span>
+          ATOM
+        </span>
+      </p>
+    </div>
+     
+    <div
+      class="tx__content__information"
+    >
+      
+      To 
+      
+      <div
+        class="bech32-address"
+      >
+        <div
+          class="address"
+          id="address"
+        >
+          
+    cosmos…sdas
+  
+        </div>
+         
+        <div
+          class="copied"
+        >
+          <i
+            class="material-icons"
+          >
+            check
+          </i>
+          <span>
+            Copied
+          </span>
+        </div>
+      </div>
+       
+      <span>
+         - (Sent via Lunie)
+      </span>
+    </div>
+  </div>
+   
+  <div
+    class="tx__content__right"
+  >
+    <div>
+      
+    Network Fee: 
+    
+      <b>
+        0.000037
+      </b>
+       
+      <span>
+        ATOM
+      </span>
+    </div>
+     
+    <div>
+      <router-link
+        to="[object Object]"
+      >
+        Block #1086769 
+      </router-link>
+      
+    @ Jul 31st 2019 09:22:23
+  
+    </div>
+  </div>
+</div>
+`;
+
+exports[`TransactionDetails renders MsgSend transaction item to yourself 1`] = `
+<div
+  class="tx__content"
+>
+  <div
+    class="tx__content__left"
+    validators="[object Object]"
+  >
+    <div
+      class="tx__content__caption"
+    >
+      <p>
+        
+      Sent
+      
+        <b>
+          0.2345
+        </b>
+         
+        <span>
+          ATOM
+        </span>
+      </p>
+    </div>
+     
+    <div
+      class="tx__content__information"
+    >
+      To yourself! 
+      <span>
+         - (Sent via Lunie)
+      </span>
+    </div>
+  </div>
+   
+  <div
+    class="tx__content__right"
+  >
+    <div>
+      
+    Network Fee: 
+    
+      <b>
+        0.000037
+      </b>
+       
+      <span>
+        ATOM
+      </span>
+    </div>
+     
+    <div>
+      <router-link
+        to="[object Object]"
+      >
+        Block #1086769 
+      </router-link>
+      
+    @ Jul 31st 2019 09:22:23
+  
+    </div>
+  </div>
+</div>
+`;
+
+exports[`TransactionDetails renders MsgSend transaction item unrelated to session user 1`] = `
 <div
   class="tx__content"
 >
@@ -368,258 +728,7 @@ exports[`TransactionDetails MsgSend 1 has the expected html structure 1`] = `
 </div>
 `;
 
-exports[`TransactionDetails MsgSend 2 has the expected html structure 1`] = `
-<div
-  class="tx__content"
->
-  <div
-    class="tx__content__left"
-    validators="[object Object]"
-  >
-    <div
-      class="tx__content__caption"
-    >
-      <p>
-        
-      Sent
-      
-        <b>
-          0.2345
-        </b>
-         
-        <span>
-          ATOM
-        </span>
-      </p>
-    </div>
-     
-    <div
-      class="tx__content__information"
-    >
-      
-      To 
-      
-      <div
-        class="bech32-address"
-      >
-        <div
-          class="address"
-          id="address"
-        >
-          
-    cosmos…sdas
-  
-        </div>
-         
-        <div
-          class="copied"
-        >
-          <i
-            class="material-icons"
-          >
-            check
-          </i>
-          <span>
-            Copied
-          </span>
-        </div>
-      </div>
-       
-      <span>
-         - (Sent via Lunie)
-      </span>
-    </div>
-  </div>
-   
-  <div
-    class="tx__content__right"
-  >
-    <div>
-      
-    Network Fee: 
-    
-      <b>
-        0.000037
-      </b>
-       
-      <span>
-        ATOM
-      </span>
-    </div>
-     
-    <div>
-      <router-link
-        to="[object Object]"
-      >
-        Block #1086769 
-      </router-link>
-      
-    @ Jul 31st 2019 09:22:23
-  
-    </div>
-  </div>
-</div>
-`;
-
-exports[`TransactionDetails MsgSend 3 has the expected html structure 1`] = `
-<div
-  class="tx__content"
->
-  <div
-    class="tx__content__left"
-    validators="[object Object]"
-  >
-    <div
-      class="tx__content__caption"
-    >
-      <p>
-        
-      Sent
-      
-        <b>
-          0.2345
-        </b>
-         
-        <span>
-          ATOM
-        </span>
-      </p>
-    </div>
-     
-    <div
-      class="tx__content__information"
-    >
-      To yourself! 
-      <span>
-         - (Sent via Lunie)
-      </span>
-    </div>
-  </div>
-   
-  <div
-    class="tx__content__right"
-  >
-    <div>
-      
-    Network Fee: 
-    
-      <b>
-        0.000037
-      </b>
-       
-      <span>
-        ATOM
-      </span>
-    </div>
-     
-    <div>
-      <router-link
-        to="[object Object]"
-      >
-        Block #1086769 
-      </router-link>
-      
-    @ Jul 31st 2019 09:22:23
-  
-    </div>
-  </div>
-</div>
-`;
-
-exports[`TransactionDetails MsgSend 4 has the expected html structure 1`] = `
-<div
-  class="tx__content"
->
-  <div
-    class="tx__content__left"
-    validators="[object Object]"
-  >
-    <div
-      class="tx__content__caption"
-    >
-      <p>
-        
-      Received
-      
-        <b>
-          0.2345
-        </b>
-         
-        <span>
-          ATOM
-        </span>
-      </p>
-    </div>
-     
-    <div
-      class="tx__content__information"
-    >
-      
-      From 
-      
-      <div
-        class="bech32-address"
-      >
-        <div
-          class="address"
-          id="address"
-        >
-          
-    cosmos…1212
-  
-        </div>
-         
-        <div
-          class="copied"
-        >
-          <i
-            class="material-icons"
-          >
-            check
-          </i>
-          <span>
-            Copied
-          </span>
-        </div>
-      </div>
-       
-      <span>
-         - (Sent via Lunie)
-      </span>
-    </div>
-  </div>
-   
-  <div
-    class="tx__content__right"
-  >
-    <div>
-      
-    Network Fee: 
-    
-      <b>
-        0.000037
-      </b>
-       
-      <span>
-        ATOM
-      </span>
-    </div>
-     
-    <div>
-      <router-link
-        to="[object Object]"
-      >
-        Block #1086769 
-      </router-link>
-      
-    @ Jul 31st 2019 09:22:23
-  
-    </div>
-  </div>
-</div>
-`;
-
-exports[`TransactionDetails MsgSetWithdrawAddress has the expected html structure 1`] = `
+exports[`TransactionDetails renders MsgSetWithdrawAddress transaction item 1`] = `
 <div
   class="tx__content"
 >
@@ -674,7 +783,7 @@ exports[`TransactionDetails MsgSetWithdrawAddress has the expected html structur
 </div>
 `;
 
-exports[`TransactionDetails MsgSetWithdrawValidatorCommission has the expected html structure 1`] = `
+exports[`TransactionDetails renders MsgSetWithdrawValidatorCommission transaction item 1`] = `
 <div
   class="tx__content"
 >
@@ -734,7 +843,74 @@ exports[`TransactionDetails MsgSetWithdrawValidatorCommission has the expected h
 </div>
 `;
 
-exports[`TransactionDetails MsgUndelegate has the expected html structure 1`] = `
+exports[`TransactionDetails renders MsgSubmitProposal transaction item 1`] = `
+<div
+  class="tx__content"
+>
+  <div
+    class="tx__content__left"
+    session-address="cosmos1"
+  >
+    <div
+      class="tx__content__caption"
+    >
+      <p>
+        
+      Submitted text proposal
+      
+        <b>
+          0.2
+        </b>
+         
+        <span>
+          ATOM
+        </span>
+      </p>
+    </div>
+     
+    <div
+      class="tx__content__information"
+    >
+      
+    Title
+    
+      <i>
+        Test title
+      </i>
+    </div>
+  </div>
+   
+  <div
+    class="tx__content__right"
+  >
+    <div>
+      
+    Network Fee: 
+    
+      <b>
+        0.000069
+      </b>
+       
+      <span>
+        ATOM
+      </span>
+    </div>
+     
+    <div>
+      <router-link
+        to="[object Object]"
+      >
+        Block #626102 
+      </router-link>
+      
+    @ Jun 11th 2019 13:47:45
+  
+    </div>
+  </div>
+</div>
+`;
+
+exports[`TransactionDetails renders MsgUndelegate transaction item 1`] = `
 <div
   class="tx__content"
 >
@@ -813,207 +989,7 @@ exports[`TransactionDetails MsgUndelegate has the expected html structure 1`] = 
 </div>
 `;
 
-exports[`TransactionDetails MsgUndelegate has the expected html structure 2`] = `
-<div
-  class="tx__content"
->
-  <div
-    class="tx__content__left"
-    session-address="cosmos1"
-  >
-    <div
-      class="tx__content__caption"
-    >
-      <p
-        class="tx__content__caption__title"
-      >
-        
-      Delegated
-      
-        <b>
-          0.05
-        </b>
-         
-        <span>
-          ATOM
-        </span>
-      </p>
-    </div>
-     
-    <div
-      class="tx__content__information"
-    >
-      
-    To 
-    
-      <router-link
-        to="staking/validators/cosmosvaloper1uaisjdnidjnlaskjdnlkjasndlkadjn"
-      >
-        
-      cosmosvaloper…adjn
-    
-      </router-link>
-    </div>
-  </div>
-   
-  <div
-    class="tx__content__right"
-  >
-    <div>
-      
-    Network Fee: 
-    
-      <b>
-        0.000166
-      </b>
-       
-      <span>
-        ATOM
-      </span>
-    </div>
-     
-    <div>
-      <router-link
-        to="[object Object]"
-      >
-        Block #726599 
-      </router-link>
-      
-    @ Jun 19th 2019 14:43:45
-  
-    </div>
-  </div>
-</div>
-`;
-
-exports[`TransactionDetails MsgUndelegate has the expected html structure 3`] = `
-<div
-  class="tx__content"
->
-  <div
-    class="tx__content__left"
-    session-address="cosmos1"
-  >
-    <div
-      class="tx__content__caption"
-    >
-      <p>
-        Withdrawal
-      </p>
-    </div>
-     
-    <div
-      class="tx__content__information"
-    >
-      
-    From 
-    
-      <router-link
-        to="staking/validators/cosmosvaloper1sjllsnasdmasakjshdlkdhjasldnasdnadn"
-      >
-        cosmosvaloper…nadn
-      </router-link>
-    </div>
-  </div>
-   
-  <div
-    class="tx__content__right"
-  >
-    <div>
-      
-    Network Fee: 
-    
-      <b>
-        0
-      </b>
-       
-      <span>
-        ATOM
-      </span>
-    </div>
-     
-    <div>
-      <router-link
-        to="[object Object]"
-      >
-        Block #626102 
-      </router-link>
-      
-    @ Jun 11th 2019 13:47:45
-  
-    </div>
-  </div>
-</div>
-`;
-
-exports[`TransactionDetails MsgUndelegate has the expected html structure 4`] = `
-<div
-  class="tx__content"
->
-  <div
-    class="tx__content__left"
-    session-address="cosmos1"
-  >
-    <div
-      class="tx__content__caption"
-    >
-      <p>
-        
-      Submitted text proposal
-      
-        <b>
-          0.2
-        </b>
-         
-        <span>
-          ATOM
-        </span>
-      </p>
-    </div>
-     
-    <div
-      class="tx__content__information"
-    >
-      
-    Title
-    
-      <i>
-        Test title
-      </i>
-    </div>
-  </div>
-   
-  <div
-    class="tx__content__right"
-  >
-    <div>
-      
-    Network Fee: 
-    
-      <b>
-        0.000069
-      </b>
-       
-      <span>
-        ATOM
-      </span>
-    </div>
-     
-    <div>
-      <router-link
-        to="[object Object]"
-      >
-        Block #626102 
-      </router-link>
-      
-    @ Jun 11th 2019 13:47:45
-  
-    </div>
-  </div>
-</div>
-`;
-
-exports[`TransactionDetails MsgUnjail has the expected html structure 1`] = `
+exports[`TransactionDetails renders MsgUnjail transaction item 1`] = `
 <div
   class="tx__content"
 >
@@ -1073,7 +1049,7 @@ exports[`TransactionDetails MsgUnjail has the expected html structure 1`] = `
 </div>
 `;
 
-exports[`TransactionDetails MsgVote has the expected html structure 1`] = `
+exports[`TransactionDetails renders MsgVote transaction item 1`] = `
 <div
   class="tx__content"
 >
@@ -1133,11 +1109,35 @@ exports[`TransactionDetails MsgVote has the expected html structure 1`] = `
 </div>
 `;
 
-exports[`TransactionDetails Unknown transaction returns empty string 1`] = `
+exports[`TransactionDetails renders MsgWithdrawDelegationReward transaction item 1`] = `
 <div
   class="tx__content"
 >
-  <!---->
+  <div
+    class="tx__content__left"
+    session-address="cosmos1"
+  >
+    <div
+      class="tx__content__caption"
+    >
+      <p>
+        Withdrawal
+      </p>
+    </div>
+     
+    <div
+      class="tx__content__information"
+    >
+      
+    From 
+    
+      <router-link
+        to="staking/validators/cosmosvaloper1sjllsnasdmasakjshdlkdhjasldnasdnadn"
+      >
+        cosmosvaloper…nadn
+      </router-link>
+    </div>
+  </div>
    
   <div
     class="tx__content__right"
@@ -1147,7 +1147,7 @@ exports[`TransactionDetails Unknown transaction returns empty string 1`] = `
     Network Fee: 
     
       <b>
-        0.000037
+        0
       </b>
        
       <span>
@@ -1159,10 +1159,10 @@ exports[`TransactionDetails Unknown transaction returns empty string 1`] = `
       <router-link
         to="[object Object]"
       >
-        Block #1086769 
+        Block #626102 
       </router-link>
       
-    @ Jul 31st 2019 09:22:23
+    @ Jun 11th 2019 13:47:45
   
     </div>
   </div>

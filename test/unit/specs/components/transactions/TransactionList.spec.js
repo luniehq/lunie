@@ -30,7 +30,7 @@ describe(`TransactionList`, () => {
     })
   })
 
-  it(`has the expected html structure`, () => {
+  it(`renders a list of TransactionItems`, () => {
     expect(wrapper.element).toMatchSnapshot()
   })
 })
