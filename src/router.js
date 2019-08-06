@@ -10,14 +10,6 @@ export const routeGuard = store => (to, from, next) => {
     store.commit(`addHistory`, from.fullPath)
   }
 
-  if (to.redirectedFrom == `/staking` && store.state.session.signedIn) {
-    to = Object.assign({}, to, {
-      path: `/staking/my-delegations`,
-      fullPath: `/staking/my-delegations`,
-      name: `My Delegations`
-    })
-    next(to.path)
-  }
   next()
 }
 
