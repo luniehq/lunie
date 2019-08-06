@@ -310,6 +310,7 @@ dd {
   .tm-page-main {
     min-height: 100vh;
     padding: 0;
+    padding-bottom: 5rem;
   }
 }
 </style>
