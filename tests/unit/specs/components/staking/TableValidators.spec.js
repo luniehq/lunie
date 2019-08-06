@@ -106,6 +106,13 @@ describe(`TableValidators`, () => {
     ).toEqual(validators.map(x => x.operator_address).reverse())
   })
 
+  it(`should load more validators (infinite scrolling)`, async () => {
+    wrapper.setData({ showing: 2 })
+    expect(wrapper.findAll("livalidator-stub").length).toBe(2)
+    wrapper.vm.loadMore()
+    expect(wrapper.findAll("livalidator-stub").length).toBe(3)
+  })
+
   it(`queries delegations on signin`, () => {
     const session = { address: `cosmos1address` }
     const $store = { dispatch: jest.fn() }

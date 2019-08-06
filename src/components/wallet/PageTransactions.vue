@@ -12,7 +12,7 @@
     <template slot="managed-body">
       <div v-infinite-scroll="loadMore" infinite-scroll-distance="80">
         <TransactionList
-          :transactions="flatOrderedTransactionList"
+          :transactions="showingTransactions"
           :address="session.address"
           :validators="validators"
         />

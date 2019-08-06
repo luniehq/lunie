@@ -270,4 +270,20 @@ describe(`PageTransactions`, () => {
     $store.getters.session.address = undefined
     expect($store.dispatch).toHaveBeenCalledWith(`getAllTxs`)
   })
+
+  it(`should load more transactions (infinite scrolling)`, async () => {
+    wrapper = shallowMount(PageTransactions, {
+      localVue,
+      mocks: {
+        $store
+      },
+      directives: {
+        infiniteScroll: () => {}
+      }
+    })
+    wrapper.setData({ showing: 2 })
+    expect(wrapper.vm.showingTransactions.length).toBe(2)
+    wrapper.vm.loadMore()
+    expect(wrapper.vm.showingTransactions.length).toBe(7)
+  })
 })
