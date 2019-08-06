@@ -11,7 +11,6 @@ import {
   validators as validatorsAddressMap
 } from "src/vuex/getters.js"
 import validators from "./json/validators.js"
-// import { testTransactions } from "test/unit/helpers/testTransactions"
 
 describe(`Store: getters`, () => {
   it(`liquidAtoms`, () => {
@@ -262,48 +261,6 @@ describe(`Store: getters`, () => {
 
     expect(result).toEqual(context)
   })
-
-  // Jest doesn't mock Joi correctly and the test run fails.
-  // Enable this once it can be fixed.
-
-  // it("flattens transaction list into valid transaction elements", () => {
-  //   const valueSchema = Joi.object().keys({
-  //     from_address: Joi.string(),
-  //     to_address: Joi.string(),
-  //     amount: Joi.array()
-  //   })
-
-  //   const feesSchema = Joi.object().keys({
-  //     amount: Joi.number(),
-  //     denom: Joi.string()
-  //   })
-
-  //   const schema = Joi.object().keys({
-  //     type: Joi.string().required(),
-  //     value: valueSchema,
-  //     key: Joi.string(),
-  //     blockNumber: Joi.number()
-  //       .integer()
-  //       .min(0),
-  //     time: Joi.date(),
-  //     group: Joi.string(),
-  //     memo: Joi.string().allow(""),
-  //     fees: feesSchema,
-  //     liquidDate: [Joi.date(), Joi.any().allow(NaN)]
-  //   })
-
-  //   const state = {
-  //     delegation: { unbondingDelegations: [] }
-  //   }
-
-  //   const getters = {
-  //     allTransactions: testTransactions
-  //   }
-
-  //   const r = flatOrderedTransactionList(state, getters)
-
-  //   r.forEach(t => expect(schema.validate(t).error).toBeFalsy())
-  // })
 
   it("Flattens transactions into new format", () => {
     // global.Date = () => "2019-05-17T07:44:10Z"
