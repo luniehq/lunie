@@ -45,10 +45,6 @@
 }
 
 @media screen and (max-width: 550px) {
-  .hide-xs {
-    display: none;
-  }
-
   .data-table__row {
     max-width: calc(100vw - 2px);
     padding: 0;

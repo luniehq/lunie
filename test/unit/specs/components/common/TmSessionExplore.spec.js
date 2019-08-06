@@ -38,7 +38,7 @@ describe(`TmSessionExplore`, () => {
     })
     wrapper.vm.$emit = jest.fn()
     await wrapper.vm.onSubmit()
-    expect(wrapper.vm.$router.push).toHaveBeenCalledWith(`/`)
+    expect(wrapper.vm.$router.push).toHaveBeenCalledWith(`/portfolio`)
   })
 
   it(`should signal signedin state on successful login`, async () => {

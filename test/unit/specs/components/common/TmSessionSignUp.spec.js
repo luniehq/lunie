@@ -154,6 +154,6 @@ describe(`TmSessionSignUp`, () => {
     $store.dispatch = jest.fn(() => Promise.resolve())
     await wrapper.vm.onSubmit()
     expect($store.dispatch.mock.calls[0][0]).toEqual(`createKey`)
-    expect(wrapper.vm.$router.push).toHaveBeenCalledWith(`/`)
+    expect(wrapper.vm.$router.push).toHaveBeenCalledWith(`/portfolio`)
   })
 })

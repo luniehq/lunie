@@ -61,7 +61,7 @@ export default {
         sessionType: `extension`,
         address: address
       })
-      this.$router.push(`/`)
+      this.$router.push(`/portfolio`)
     }
   }
 }

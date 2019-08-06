@@ -1,9 +1,24 @@
 <template>
   <menu class="app-menu">
     <div class="app-menu-main">
-      <router-link
-        id="app-menu__wallet"
+      <!-- <div
         class="app-menu-item"
+      >
+        <div class="total-atoms">
+        Total <span class="total-atoms__value">{{
+                totalAtoms | atoms | shortDecimals
+              }}</span>
+              {{ bondDenom | viewDenom }}
+        </div>
+        <div class="liquid-atoms">
+        Liquid <span class="liquid-atoms__value">{{
+                liquidAtoms | atoms | shortDecimals
+              }}</span>
+              {{ bondDenom | viewDenom }}
+        </div>
+      </div> -->
+      <router-link
+        class="app-menu-item hide-xs"
         to="/portfolio"
         exact="exact"
         title="Portfolio"
@@ -15,8 +30,7 @@
         <i class="material-icons">chevron_right</i>
       </router-link>
       <router-link
-        id="app-menu__staking"
-        class="app-menu-item"
+        class="app-menu-item hide-xs"
         to="/validators"
         title="Validators"
         @click.native="close"
@@ -27,8 +41,7 @@
         <i class="material-icons">chevron_right</i>
       </router-link>
       <router-link
-        id="app-menu__transactions"
-        class="app-menu-item"
+        class="app-menu-item hide-xs"
         to="/transactions"
         exact="exact"
         title="Transactions"
@@ -40,8 +53,7 @@
         <i class="material-icons">chevron_right</i>
       </router-link>
       <router-link
-        id="app-menu__proposals"
-        class="app-menu-item"
+        class="app-menu-item hide-xs"
         to="/proposals"
         title="Proposals"
         @click.native="close"
@@ -51,6 +63,73 @@
         </h2>
         <i class="material-icons">chevron_right</i>
       </router-link>
+
+
+      
+        <router-link
+          class="app-menu-item hide-m"
+          to="/about"
+          exact="exact"
+          title="About"
+        @click.native="close"
+        >
+        <h2 class="app-menu-title">
+          About
+          </h2>
+        </router-link>
+      
+      
+        <router-link
+          class="app-menu-item hide-m"
+          to="/careers"
+          exact="exact"
+          title="Careers"
+        @click.native="close"
+        >
+        <h2 class="app-menu-title">
+          Careers
+          </h2>
+        </router-link>
+      
+      
+        <router-link
+          class="app-menu-item hide-m"
+          to="/security"
+          exact="exact"
+          title="Security"
+        @click.native="close"
+        >
+        <h2 class="app-menu-title">
+          Security
+        </h2>
+        </router-link>
+      
+      
+        <router-link
+          class="app-menu-item hide-m"
+          to="/terms"
+          exact="exact"
+          title="Terms"
+        @click.native="close"
+        >
+        <h2 class="app-menu-title">
+          Terms of Service
+        </h2>
+        </router-link>
+      
+      
+        <router-link
+          class="app-menu-item hide-m"
+          to="/privacy"
+          exact="exact"
+          title="Privacy"
+        @click.native="close"
+        >
+        <h2 class="app-menu-title">
+          Privacy Policy
+        </h2>
+        </router-link>
+
       <a
         v-if="session.signedIn"
         id="mobile-sign-out"
@@ -67,29 +146,29 @@
       >
         Sign in
       </a>
+      
     </div>
     <ConnectedNetwork />
   </menu>
 </template>
 
 <script>
-import PerfectScrollbar from "perfect-scrollbar"
 import noScroll from "no-scroll"
 import ConnectedNetwork from "common/TmConnectedNetwork"
 import { mapGetters } from "vuex"
+import { atoms, viewDenom, shortDecimals } from "scripts/num.js"
 export default {
   name: `app-menu`,
   components: {
     ConnectedNetwork
   },
-  data: () => ({
-    ps: {}
-  }),
-  computed: {
-    ...mapGetters([`session`])
+  filters: {
+    atoms,
+    viewDenom,
+    shortDecimals
   },
-  mounted() {
-    this.ps = new PerfectScrollbar(this.$el.querySelector(`.app-menu-main`))
+  computed: {
+    ...mapGetters([`session`, `liquidAtoms`, `totalAtoms`, `bondDenom`])
   },
   methods: {
     close() {

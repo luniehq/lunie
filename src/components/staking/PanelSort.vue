@@ -101,10 +101,4 @@ export default {
   transform: rotate(180deg);
   color: var(--tertiary);
 }
-
-@media screen and (max-width: 550px) {
-  .hide-xs {
-    display: none;
-  }
-}
 </style>

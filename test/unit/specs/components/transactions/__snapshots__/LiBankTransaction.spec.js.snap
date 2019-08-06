@@ -10,7 +10,8 @@ exports[`LiBankTransaction should show a bank transaction without fees 1`] = `
 >
   <div>
     
-      Sent 
+      Sent
+      
     <b>
       12,340
     </b>
@@ -38,7 +39,8 @@ exports[`LiBankTransaction should show bank transaction when user hasn't signed 
 >
   <div>
     
-      Sent 
+      Sent
+      
     <b>
       12,340
     </b>
@@ -103,7 +105,8 @@ exports[`LiBankTransaction should show outgoing transactions 1`] = `
 >
   <div>
     
-      Sent 
+      Sent
+      
     <b>
       12,340
     </b>
@@ -115,7 +118,7 @@ exports[`LiBankTransaction should show outgoing transactions 1`] = `
    
   <span>
     
-        To
+        To 
         
     <bech32-stub
       address="A"
@@ -134,7 +137,8 @@ exports[`LiBankTransaction should show outgoing transactions send to herself 1`]
 >
   <div>
     
-      Sent 
+      Sent
+      
     <b>
       12,340
     </b>

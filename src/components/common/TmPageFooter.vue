@@ -1,5 +1,5 @@
 <template>
-  <footer>
+  <footer class="hide-xs">
     <ul>
       <li>
         <router-link

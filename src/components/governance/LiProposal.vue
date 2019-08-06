@@ -105,10 +105,4 @@ export default {
   color: var(--tertiary);
   border-color: var(--tertiary);
 }
-
-@media screen and (max-width: 550px) {
-  .hide-xs {
-    display: none;
-  }
-}
 </style>
