@@ -52,7 +52,6 @@ export default {
       order: `asc`
     },
     showing: 20,
-    scrollDistance: 10,
     rollingWindow: 10000 // param of slashing period
   }),
   computed: {
@@ -199,7 +198,7 @@ export default {
   },
   methods: {
     loadMore() {
-      this.showing += this.scrollDistance
+      this.showing += 10
     }
   }
 }

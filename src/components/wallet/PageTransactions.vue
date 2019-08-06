@@ -10,19 +10,21 @@
   >
     <DataEmptyTx slot="no-data" />
     <template slot="managed-body">
-      <LiAnyTransaction
-        v-for="tx in orderedTransactions"
-        :key="tx.txhash"
-        :validators="delegates.delegates"
-        :validators-url="validatorURL"
-        :proposals-url="governanceURL"
-        :transaction="tx"
-        :address="session.address"
-        :bonding-denom="bondDenom"
-        :unbonding-time="
-          time.getUnbondingTime(tx, delegation.unbondingDelegations)
-        "
-      />
+      <div v-infinite-scroll="loadMore" infinite-scroll-distance="10">
+        <LiAnyTransaction
+          v-for="tx in showingTransactions"
+          :key="tx.txhash"
+          :validators="delegates.delegates"
+          :validators-url="validatorURL"
+          :proposals-url="governanceURL"
+          :transaction="tx"
+          :address="session.address"
+          :bonding-denom="bondDenom"
+          :unbonding-time="
+            time.getUnbondingTime(tx, delegation.unbondingDelegations)
+          "
+        />
+      </div>
       <br />
     </template>
   </TmPage>
@@ -73,6 +75,9 @@ export default {
         [this.sort.order]
       )
     },
+    showingTransactions() {
+      return this.orderedTransactions.slice(0, this.showing)
+    },
     dataEmpty() {
       return this.orderedTransactions.length === 0
     }
@@ -90,6 +95,9 @@ export default {
       if (session.signedIn) {
         await $store.dispatch(`getAllTxs`)
       }
+    },
+    loadMore() {
+      this.showing += 10
     }
   }
 }
