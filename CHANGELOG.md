@@ -7,6 +7,29 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.3] - 2019-08-06
+
+### Added
+
+- [#58](https://github.com/cosmos/lunie/issues/58) Clicking Reject closes extension via Window.clow() @thebkr7
+- [#59](https://github.com/cosmos/lunie/issues/59) Addition of Google Analytics' @thebkr7
+- [#78](https://github.com/cosmos/lunie/issues/78) E2E tests and scripts to test a full delegation from the extension @thebkr7
+- [#48](https://github.com/cosmos/lunie/pull/48) Add testing for Vue files @colw
+
+### Fixed
+
+- [#76](https://github.com/cosmos/lunie/pull/76) Ui bug showing duplicate session class for SessionFrame in extension @thebkr7
+- Updated to latest Lunie hiding backbutton on welcome screen @faboweb
+
+### Code Improvements
+
+- [#77](https://github.com/cosmos/lunie/pull/77) Changing from e2e testing with puppeteer to using nightwatch @thebkr7
+
+### Repository
+
+- Added release helper to npm scripts @faboweb
+- Publish the extension right away @faboweb
+
 ## [1.0.2] - 2019-07-19
 
 ### Repository
