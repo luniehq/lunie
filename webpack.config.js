@@ -13,7 +13,6 @@ const MiniCssExtractPlugin = require(`mini-css-extract-plugin`)
 const CleanWebpackPlugin = require(`clean-webpack-plugin`)
 const CopyPlugin = require("copy-webpack-plugin")
 const SentryPlugin = require(`@sentry/webpack-plugin`)
-const VuetifyLoaderPlugin = require("vuetify-loader/lib/plugin")
 
 function resolve(dir) {
   return path.join(__dirname, dir)
@@ -122,7 +121,6 @@ const config = {
     fs: `empty`
   },
   plugins: [
-    new VuetifyLoaderPlugin(),
     new VueLoaderPlugin(),
     new MiniCssExtractPlugin({
       filename: `style.css`

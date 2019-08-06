@@ -734,7 +734,7 @@ export default {
 }
 
 @media screen and (max-width: 1023px) {
-  .lunie-row {
+  .row {
     flex-direction: column;
   }
 

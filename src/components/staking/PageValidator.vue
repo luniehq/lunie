@@ -11,7 +11,7 @@
     <template v-if="validator" slot="managed-body">
       <!-- we need the v-if as the template somehow is rendered in any case -->
       <div class="page-profile__header page-profile__section">
-        <div class="lunie-row">
+        <div class="row">
           <img
             v-if="validator.keybase && validator.keybase.avatarUrl"
             :src="validator.keybase.avatarUrl"
@@ -60,8 +60,8 @@
           </div>
         </div>
 
-        <div class="lunie-row">
-          <div class="lunie-row lunie-row-unjustified">
+        <div class="row">
+          <div class="row row-unjustified">
             <dl class="info_dl colored_dl">
               <dt>My Delegation</dt>
               <dd>{{ myDelegation }}</dd>
@@ -80,7 +80,7 @@
             </dl>
           </div>
 
-          <div class="lunie-row lunie-row-unjustified">
+          <div class="row row-unjustified">
             <dl class="info_dl colored_dl">
               <dt>Voting Power</dt>
               <dd id="page-profile__power">
@@ -104,8 +104,8 @@
       </div>
 
       <div class="page-profile__section">
-        <div class="lunie-row">
-          <div class="lunie-column">
+        <div class="row">
+          <div class="column">
             <dl class="info_dl">
               <dt>First Seen</dt>
               <dd>Block #{{ validator.bond_height }}</dd>
@@ -143,7 +143,7 @@
               </dd>
             </dl>
           </div>
-          <div class="lunie-column">
+          <div class="column">
             <dl class="info_dl">
               <dt>Current Commission Rate</dt>
               <dd>{{ num.percent(validator.commission.rate) }}</dd>

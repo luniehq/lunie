@@ -143,20 +143,20 @@ export default {
   font-size: var(--sm);
 }
 
-.lunie-column {
+.column {
   display: flex;
   flex-direction: column;
   position: relative;
   width: 100%;
 }
 
-.lunie-row {
+.row {
   display: flex;
   flex-direction: row;
   width: 100%;
 }
 
-.lunie-row-unjustified {
+.row-unjustified {
   display: flex;
   flex-direction: row;
   width: 100%;
@@ -173,7 +173,7 @@ export default {
   font-weight: 500;
 }
 
-.page-profile__section--between > .lunie-row {
+.page-profile__section--between > .row {
   justify-content: space-between;
 }
 
@@ -297,7 +297,7 @@ dd {
 }
 
 @media screen and (max-width: 767px) {
-  .lunie-row {
+  .row {
     flex-direction: column;
   }
 
