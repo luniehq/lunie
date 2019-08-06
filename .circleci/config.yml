@@ -194,4 +194,7 @@ workflows:
               only: master
   publish:
     jobs:
-      - publish
+      - publish:
+          filters:	
+            branches:	
+              only: master
