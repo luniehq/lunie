@@ -1,5 +1,10 @@
 import BN from "bignumber.js"
 import { calculateTokens } from "scripts/common"
+import {
+  addTransactionTypeData,
+  compareBlockTimeDesc,
+  flattenTransactionMsgs
+} from "scripts/transaction-utils"
 
 // ui
 export const filters = state => state.filters
@@ -21,6 +26,22 @@ export const allTransactions = state =>
     state.transactions.governance,
     state.transactions.distribution
   )
+
+export const flatOrderedTransactionList = (state, getters) => {
+  let allTx = getters.allTransactions.reduce(flattenTransactionMsgs, [])
+  allTx = allTx.map(addTransactionTypeData(state))
+  allTx.sort(compareBlockTimeDesc)
+  return allTx
+}
+
+export const validators = state => {
+  const names = {}
+  state.delegates.delegates.forEach(item => {
+    names[item.operator_address] = item
+  })
+  return names
+}
+
 export const ledger = state => state.ledger
 export const wallet = state => state.wallet
 export const extension = state => state.extension

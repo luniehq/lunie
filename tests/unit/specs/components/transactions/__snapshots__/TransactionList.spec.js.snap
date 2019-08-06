@@ -1,0 +1,12 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TransactionList renders a list of TransactionItems 1`] = `
+<div>
+  <transactionitem-stub
+    address="cosmos1"
+    showmetadata="true"
+    transaction="[object Object]"
+    validators="[object Object]"
+  />
+</div>
+`;

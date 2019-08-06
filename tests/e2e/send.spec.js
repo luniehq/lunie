@@ -27,7 +27,7 @@ module.exports = {
     // check if tx shows
     browser.url(browser.launch_url + "/#/transactions")
     browser.expect
-      .element(".li-tx__content__caption__title")
+      .element(".tx__content__caption")
       .text.to.contain("Sent 1.3 STAKE")
       .before(10 * 1000)
   }

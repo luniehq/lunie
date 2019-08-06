@@ -654,3 +654,113 @@ export const distributionTxs = [
   }
 ]
 export const allTxs = bankTxs.concat(stakingTxs, governanceTxs, distributionTxs)
+
+export const flatOrderedTransactionList = [
+  {
+    type: "cosmos-sdk/MsgUndelegate",
+    value: {
+      delegator_address: "cosmos3",
+      validator_address: "cosmos4",
+      amount: { denom: "uatom", amount: "50000" }
+    },
+    key:
+      'cosmos-sdk/MsgUndelegate_2019-07-31T09:22:23.054Z_{"delegator_address":"cosmos1jq9mc3kp4nnxwryr09fpqjtrwya8q5q480zu0e","validator_address":"cosmosvaloper1vrg6ruw00lhszl4sjgwt5ldvl8z0f7pfp5va85","amount":{"denom":"uatom","amount":"50000"}}',
+    blockNumber: 1248479,
+    time: "2019-07-31T09:22:23.054Z",
+    memo: "",
+    fees: { denom: "uatom", amount: "4141" },
+    group: "staking",
+    liquidDate: 12345
+  },
+  {
+    type: "cosmos-sdk/MsgSubmitProposal",
+    value: {
+      proposer: "cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9",
+      proposal_type: "Text",
+      title: "Test Proposal",
+      description: "This is a test proposal",
+      initial_deposit: [{ denom: "STAKE", amount: "100" }]
+    },
+    key:
+      'cosmos-sdk/MsgSubmitProposal_undefined_{"proposer":"cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9","proposal_type":"Text","title":"Test Proposal","description":"This is a test proposal","initial_deposit":[{"denom":"STAKE","amount":"100"}]}',
+    blockNumber: 56673,
+    time: null,
+    fees: { amount: "0", denom: "ATOM" },
+    group: "governance",
+    liquidDate: null
+  },
+  {
+    type: "cosmos-sdk/MsgDeposit",
+    value: {
+      depositor: "cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9",
+      proposal_id: "1",
+      amount: [{ denom: "STAKE", amount: "100" }]
+    },
+    key:
+      'cosmos-sdk/MsgDeposit_undefined_{"depositor":"cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9","proposal_id":"1","amount":[{"denom":"STAKE","amount":"100"}]}',
+    blockNumber: 213,
+    time: null,
+    fees: { amount: "0", denom: "ATOM" },
+    group: "governance",
+    liquidDate: null
+  },
+  {
+    type: "cosmos-sdk/BeginUnbonding",
+    value: {
+      validator_address: "cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw",
+      delegator_address: "cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9",
+      shares: "5"
+    },
+    key:
+      'cosmos-sdk/BeginUnbonding_undefined_{"validator_address":"cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw","delegator_address":"cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9","shares":"5"}',
+    blockNumber: 170,
+    time: null,
+    fees: { amount: "0", denom: "ATOM" },
+    liquidDate: null
+  },
+  {
+    type: "cosmos-sdk/MsgDelegate",
+    value: {
+      validator_address: "cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw",
+      delegator_address: "cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9",
+      delegation: { amount: "24", denom: "STAKE" }
+    },
+    key:
+      'cosmos-sdk/MsgDelegate_undefined_{"validator_address":"cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw","delegator_address":"cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9","delegation":{"amount":"24","denom":"STAKE"}}',
+    blockNumber: 160,
+    time: null,
+    fees: { amount: "0", denom: "ATOM" },
+    group: "staking",
+    liquidDate: null
+  },
+  {
+    type: "cosmos-sdk/MsgSend",
+    value: {
+      from_address: "cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9",
+      to_address: "cosmos1pxdf0lvq5jvl9uxznklgc5gxuwzpdy5ynem546",
+      amount: [{ denom: "fabocoins", amount: "1234" }]
+    },
+    key:
+      'cosmos-sdk/MsgSend_undefined_{"from_address":"cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9","to_address":"cosmos1pxdf0lvq5jvl9uxznklgc5gxuwzpdy5ynem546","amount":[{"denom":"fabocoins","amount":"1234"}]}',
+    blockNumber: 150,
+    time: null,
+    fees: { amount: "0", denom: "ATOM" },
+    group: "banking",
+    liquidDate: null
+  },
+  {
+    type: "cosmos-sdk/MsgSend",
+    value: {
+      from_address: "cosmos1pxdf0lvq5jvl9uxznklgc5gxuwzpdy5ynem546",
+      to_address: "cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9",
+      amount: [{ denom: "jbcoins", amount: "1234" }]
+    },
+    key:
+      'cosmos-sdk/MsgSend_undefined_{"from_address":"cosmos1pxdf0lvq5jvl9uxznklgc5gxuwzpdy5ynem546","to_address":"cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9","amount":[{"denom":"jbcoins","amount":"1234"}]}',
+    blockNumber: 1,
+    time: null,
+    fees: { amount: "0", denom: "ATOM" },
+    group: "banking",
+    liquidDate: null
+  }
+]
