@@ -4,6 +4,7 @@ exports[`TransactionList has the expected html structure 1`] = `
 <div>
   <transactionitem-stub
     address="cosmos1"
+    showmetadata="true"
     transaction="[object Object]"
     validators="[object Object]"
   />

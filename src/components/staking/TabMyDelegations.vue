@@ -2,11 +2,17 @@
   <div>
     <CardSignInRequired v-if="!session.signedIn" />
     <div v-else-if="delegation.loaded && yourValidators.length > 0">
-      <TableValidators :validators="yourValidators" show-on-mobile="my_delegations" />
+      <TableValidators
+        :validators="yourValidators"
+        show-on-mobile="my_delegations"
+      />
     </div>
     <TmDataConnecting v-else-if="!delegation.loaded && !connected" />
     <TmDataLoading v-else-if="!delegation.loaded && delegation.loading" />
-    <TmDataMsg v-else-if="yourValidators.length === 0" icon="sentiment_dissatisfied">
+    <TmDataMsg
+      v-else-if="yourValidators.length === 0"
+      icon="sentiment_dissatisfied"
+    >
       <div slot="title">No Active Delegations</div>
       <div slot="subtitle">
         Looks like you haven't delegated any {{ bondDenom | viewDenom }}s yet.

@@ -10,6 +10,7 @@ exports[`TransactionItem has the expected html structure 1`] = `
    
   <transactiondetails-stub
     address="cosmos1"
+    showmetadata="true"
     transaction="[object Object]"
     validators="[object Object]"
   />
