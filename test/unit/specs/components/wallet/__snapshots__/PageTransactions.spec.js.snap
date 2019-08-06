@@ -13,7 +13,7 @@ exports[`PageTransactions displays the transaction page if user has signed in 1`
    
   <template>
     <div
-      infinite-scroll-distance="10"
+      infinite-scroll-distance="80"
     >
       <lianytransaction-stub
         address="cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9"
@@ -53,7 +53,7 @@ exports[`PageTransactions displays the transaction page if user hasn't signed in
    
   <template>
     <div
-      infinite-scroll-distance="10"
+      infinite-scroll-distance="80"
     >
       <lianytransaction-stub
         address="cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9"

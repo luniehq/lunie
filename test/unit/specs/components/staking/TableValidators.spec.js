@@ -120,69 +120,16 @@ describe(`TableValidators`, () => {
     expect($store.dispatch).not.toHaveBeenCalledWith(`updateDelegates`)
   })
 
-  it(`should filter the validators for your delegations`, () => {
-    const session = { signedIn: true }
-    expect(
-      TableValidators.computed.yourValidators({
-        committedDelegations: {
-          [validators[0].operator_address]: 1,
-          [validators[2].operator_address]: 2
-        },
-        validators,
-        session
-      })
-    ).toEqual([validators[0], validators[2]])
-  })
-
-  it(`should not filter the validators if you're not signed in`, () => {
-    const session = { signedIn: false }
-    expect(
-      TableValidators.computed.yourValidators({
-        committedDelegations: {
-          [validators[0].operator_address]: 1,
-          [validators[2].operator_address]: 2
-        },
-        validators,
-        session
-      })
-    ).not.toBeDefined()
-  })
-
   it("should load more validators (on infinite scroll)", () => {
     expect(wrapper.findAll("livalidator-stub").length).toBe(2)
     wrapper.vm.loadMore()
     expect(wrapper.findAll("livalidator-stub").length).toBe(3)
   })
 
-  describe(`update rewards on new blocks`, () => {
-    describe(`shouldn't update`, () => {
-      it(`if hasn't waited for 20 blocks `, () => {
-        const $store = { dispatch: jest.fn() }
-        const yourValidators = [{}]
-        const newHeader = { height: `30` }
-        TableValidators.watch.lastHeader.handler.call(
-          { $store, yourValidators },
-          newHeader
-        )
-        expect($store.dispatch).not.toHaveBeenCalledWith(
-          `getRewardsFromMyValidators`,
-          yourValidators
-        )
-      })
-
-      it(`if user doesn't have any delegations `, () => {
-        const $store = { dispatch: jest.fn() }
-        const yourValidators = []
-        const newHeader = { height: `40` }
-        TableValidators.watch.lastHeader.handler.call(
-          { $store, yourValidators },
-          newHeader
-        )
-        expect($store.dispatch).not.toHaveBeenCalledWith(
-          `getRewardsFromMyValidators`,
-          yourValidators
-        )
-      })
-    })
+  it(`should update rewards on new blocks`, () => {
+    const $store = { dispatch: jest.fn() }
+    const newHeader = { height: `30` }
+    TableValidators.watch.lastHeader.handler.call({ $store }, newHeader)
+    expect($store.dispatch).toHaveBeenCalledWith(`getRewardsFromMyValidators`)
   })
 })

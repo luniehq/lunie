@@ -162,15 +162,6 @@ export default {
           tooltip: `Approximate annualized return if validator is never punished`
         }
       ]
-    },
-    yourValidators({ committedDelegations, validators, session } = this) {
-      if (!session.signedIn) {
-        return
-      }
-
-      return validators.filter(
-        ({ operator_address }) => operator_address in committedDelegations
-      )
     }
   },
   watch: {
