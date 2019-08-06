@@ -2,7 +2,7 @@
   <div class="tx">
     <TransactionIcon :transaction-group="transaction.group"></TransactionIcon>
     <TransactionDetails
-      :hide-meta-data="hideMetaData"
+      :show-meta-data="showMetaData"
       :transaction="transaction"
       :validators="validators"
       :address="address"
@@ -33,9 +33,9 @@ export default {
       type: String,
       default: null
     },
-    hideMetaData: {
+    showMetaData: {
       type: Boolean,
-      default: false
+      default: true
     }
   }
 }
