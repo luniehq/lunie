@@ -10,7 +10,7 @@ module.exports = {
     start_process: true,
     server_path: seleniumServer.path,
     host: '127.0.0.1',
-    port: 4444,
+    port: 4445,
     cli_args: {
       'webdriver.chrome.driver': chromedriver.path
     }
@@ -29,13 +29,14 @@ module.exports = {
         browserName: 'chrome',
         javascriptEnabled: true,
         chromeOptions: {
-          args: [`--load-extension=${CRX_PATH}`],
+          args: [`--load-extension=${CRX_PATH}`, `--disable-web-security`],
           w3c: false
         }
       }
     }
   },
   globals: {
-    EXTENSION_ID: 'cklkpejioojjeiigffappdlcmnonmjek'
+    EXTENSION_ID: 'cklkpejioojjeiigffappdlcmnonmjek',
+    lunieLink: 'https://localhost:9080/?experimental=true/#/'
   }
 }

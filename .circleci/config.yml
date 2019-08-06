@@ -87,11 +87,14 @@ jobs:
     docker:
       # Primary container image where all steps run.
      - image: *docker-browsers
+      # Secondary container image on common network which runs the testnet
+     - image: lunieio/testnet:v0.34.3
     steps:
       - checkout
       - attach_workspace:
           at: *WORKSPACE
       - yarn-install
+      - setup_remote_docker
       - run:
           name: Build
           command: |
@@ -99,7 +102,7 @@ jobs:
             npm run test:e2e:build
       - run:
           name: Test
-          command: yarn test:e2e
+          command: npm run test:e2e:start-lunie & yarn test:e2e
           no_output_timeout: 120
       - store_artifacts:
           path: ./screenshots
