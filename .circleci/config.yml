@@ -195,6 +195,6 @@ workflows:
   publish:
     jobs:
       - publish:
-          filters:	
+          filters:
             branches:	
               only: master
