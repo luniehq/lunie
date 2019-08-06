@@ -118,7 +118,7 @@ jobs:
           yarn add simsala
           git config user.email "bot@lunie.io"
           git config user.name "Lunie Bot"
-          node node_modules/simsala/src/cli.js release-candidate --semver prerelease --owner luniehq --repository cosmos-js --token $GIT_BOT_TOKEN
+          node node_modules/simsala/src/cli.js release-candidate --semver prerelease --owner luniehq --repository lunie-browser-extension --token $GIT_BOT_TOKEN
 
   # Push merges to master immediatly back to develop to stay in sync
   mergeBack:
@@ -195,6 +195,6 @@ workflows:
   publish:
     jobs:
       - publish:
-          filters:
-            branches:
+          filters:	
+            branches:	
               only: master
