@@ -1,0 +1,29 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TransactionMetadata has the expected html structure 1`] = `
+<div>
+  <div>
+    
+    Network Fee: 
+    
+    <b>
+      0.001234
+    </b>
+     
+    <span>
+      ATOM
+    </span>
+  </div>
+   
+  <div>
+    <router-link-stub
+      to="[object Object]"
+    >
+      Block #1234567 
+    </router-link-stub>
+    
+    @ Jul 31st 2019 00:00:00
+  
+  </div>
+</div>
+`;
