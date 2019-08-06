@@ -1,6 +1,6 @@
 import * as Sentry from "@sentry/browser"
 import Vue from "vue"
-import { coinsToObject } from "scripts/common.js"
+import { coinsToObject } from "scripts/common"
 
 export default ({ node }) => {
   const emptyState = {
@@ -57,6 +57,9 @@ export default ({ node }) => {
     },
     resetSessionData({ rootState }) {
       rootState.distribution = JSON.parse(JSON.stringify(emptyState))
+    },
+    async initializeWallet({ dispatch }) {
+      dispatch(`getRewardsFromMyValidators`)
     },
     async postMsgWithdrawDelegationReward({ dispatch }) {
       return Promise.all([

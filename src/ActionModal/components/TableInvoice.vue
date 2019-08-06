@@ -20,7 +20,7 @@
   </div>
 </template>
 <script>
-import { fullDecimals, viewDenom } from "../../scripts/num.js"
+import { fullDecimals, viewDenom } from "../../scripts/num"
 
 export default {
   name: `table-invoice`,

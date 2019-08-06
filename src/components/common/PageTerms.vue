@@ -1308,6 +1308,4 @@ export default {
 }
 </script>
 
-<style scoped>
-@import "../../styles/content-page.css";
-</style>
+<style scoped src="../../styles/content-page.css"></style>

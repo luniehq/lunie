@@ -7,11 +7,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
-## [1.0.0-beta.104] - 2019-08-04
+## [1.0.0-beta.104] - 2019-08-04	
 
-### Changed
+ ### Changed	
 
-- SEO improvements, accessibility fixes, etc. @jbibla
+ - SEO improvements, accessibility fixes, etc. @jbibla
 
 ## [1.0.0-beta.103] - 2019-08-03
 

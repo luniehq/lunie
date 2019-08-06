@@ -1,0 +1,292 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TmSessionHardware should show a state indicator for different states of the hardware connection 1`] = `
+<div class="session-frame" name="component-fade" mode="out-in">
+  <router-link-stub to="/"><img src="~assets/images/cosmos-wallet-logo.svg" class="session-logo"></router-link-stub>
+  <div class="session-outer-container">
+    <div class="session"><a><i class="material-icons session-back">arrow_back</i></a>
+      <h2 class="session-title">
+        Use my Ledger Nano
+      </h2>
+      <div class="session-main">
+        <div class="tm-hardware-state">
+          <div class="tm-hardware-state-content">
+            <!---->
+            <div class="tm-hardware-state__label">
+              <p>
+                Please plug in your Ledger&nbsp;Nano and open the Cosmos Ledger
+                app
+              </p>
+              <!----> <button class="tm-btn"><span class="tm-btn__container"><!----><span class="tm-btn__value">Sign In</span></span></button>
+            </div> <img src="~assets/images/loader.svg" alt="a small spinning circle to display loading" style="display: none;">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div> <button class="tm-btn session-close"><span class="tm-btn__container tm-btn--secondary"><!----><span class="tm-btn__value">Back to Lunie</span></span></button>
+</div>
+`;
+
+exports[`TmSessionHardware should show a state indicator for different states of the hardware connection 2`] = `
+<div class="session-frame" name="component-fade" mode="out-in">
+  <router-link-stub to="/"><img src="~assets/images/cosmos-wallet-logo.svg" class="session-logo"></router-link-stub>
+  <div class="session-outer-container">
+    <div class="session"><a><i class="material-icons session-back">arrow_back</i></a>
+      <h2 class="session-title">
+        Use my Ledger Nano
+      </h2>
+      <div class="session-main">
+        <div class="tm-hardware-state">
+          <div class="tm-hardware-state-content">
+            <!---->
+            <div class="tm-hardware-state__label">
+              <p>
+                Please plug in your Ledger&nbsp;Nano and open the Cosmos Ledger
+                app
+              </p>
+              <!----> <button class="tm-btn" disabled="disabled"><span class="tm-btn__container"><!----><span class="tm-btn__value">Waiting for Ledger</span></span></button>
+            </div> <img src="~assets/images/loader.svg" alt="a small spinning circle to display loading" style="">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div> <button class="tm-btn session-close"><span class="tm-btn__container tm-btn--secondary"><!----><span class="tm-btn__value">Back to Lunie</span></span></button>
+</div>
+`;
+
+exports[`TmSessionHardware should show a state indicator for different states of the hardware connection 3`] = `
+<div class="session-frame" name="component-fade" mode="out-in">
+  <router-link-stub to="/"><img src="~assets/images/cosmos-wallet-logo.svg" class="session-logo"></router-link-stub>
+  <div class="session-outer-container">
+    <div class="session"><a><i class="material-icons session-back">arrow_back</i></a>
+      <h2 class="session-title">
+        Use my Ledger Nano
+      </h2>
+      <div class="session-main">
+        <div class="tm-hardware-state">
+          <div class="tm-hardware-state-content">
+            <!---->
+            <div class="tm-hardware-state__label">
+              <!---->
+              <!----> <button class="tm-btn" disabled="disabled"><span class="tm-btn__container"><!----><!----></span></button></div> <img src="~assets/images/loader.svg" alt="a small spinning circle to display loading" style="">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div> <button class="tm-btn session-close"><span class="tm-btn__container tm-btn--secondary"><!----><span class="tm-btn__value">Back to Lunie</span></span></button>
+</div>
+`;
+
+exports[`TmSessionHardware shows the ledger conection view when there're errors 1`] = `
+<div
+  class="session-frame"
+  mode="out-in"
+  name="component-fade"
+>
+  <router-link-stub
+    to="/"
+  >
+    <img
+      class="session-logo"
+      src="~assets/images/cosmos-wallet-logo.svg"
+    />
+  </router-link-stub>
+   
+  <div
+    class="session-outer-container"
+  >
+    <div
+      class="session"
+    >
+      <a>
+        <i
+          class="material-icons session-back"
+        >
+          arrow_back
+        </i>
+      </a>
+       
+      <h2
+        class="session-title"
+      >
+        
+    Use my Ledger Nano
+  
+      </h2>
+       
+      <div
+        class="session-main"
+      >
+        <div
+          class="tm-hardware-state"
+        >
+          <div
+            class="tm-hardware-state-content"
+          >
+            <!---->
+             
+            <div
+              class="tm-hardware-state__label"
+            >
+              <p>
+                
+            Please plug in your Ledger Nano and open the Cosmos Ledger
+            app
+          
+              </p>
+               
+              <p
+                class="error-message"
+              >
+                
+          No Ledger found
+        
+              </p>
+               
+              <button
+                class="tm-btn"
+              >
+                <span
+                  class="tm-btn__container"
+                >
+                  <!---->
+                  <span
+                    class="tm-btn__value"
+                  >
+                    Sign In
+                  </span>
+                </span>
+              </button>
+            </div>
+             
+            <img
+              alt="a small spinning circle to display loading"
+              src="~assets/images/loader.svg"
+              style="display: none;"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+   
+  <button
+    class="tm-btn session-close"
+  >
+    <span
+      class="tm-btn__container tm-btn--secondary"
+    >
+      <!---->
+      <span
+        class="tm-btn__value"
+      >
+        Back to Lunie
+      </span>
+    </span>
+  </button>
+</div>
+`;
+
+exports[`TmSessionHardware shows the ledger conection view with no errors 1`] = `
+<div
+  class="session-frame"
+  mode="out-in"
+  name="component-fade"
+>
+  <router-link-stub
+    to="/"
+  >
+    <img
+      class="session-logo"
+      src="~assets/images/cosmos-wallet-logo.svg"
+    />
+  </router-link-stub>
+   
+  <div
+    class="session-outer-container"
+  >
+    <div
+      class="session"
+    >
+      <a>
+        <i
+          class="material-icons session-back"
+        >
+          arrow_back
+        </i>
+      </a>
+       
+      <h2
+        class="session-title"
+      >
+        
+    Use my Ledger Nano
+  
+      </h2>
+       
+      <div
+        class="session-main"
+      >
+        <div
+          class="tm-hardware-state"
+        >
+          <div
+            class="tm-hardware-state-content"
+          >
+            <!---->
+             
+            <div
+              class="tm-hardware-state__label"
+            >
+              <p>
+                
+            Please plug in your Ledger Nano and open the Cosmos Ledger
+            app
+          
+              </p>
+               
+              <!---->
+               
+              <button
+                class="tm-btn"
+              >
+                <span
+                  class="tm-btn__container"
+                >
+                  <!---->
+                  <span
+                    class="tm-btn__value"
+                  >
+                    Sign In
+                  </span>
+                </span>
+              </button>
+            </div>
+             
+            <img
+              alt="a small spinning circle to display loading"
+              src="~assets/images/loader.svg"
+              style="display: none;"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+   
+  <button
+    class="tm-btn session-close"
+  >
+    <span
+      class="tm-btn__container tm-btn--secondary"
+    >
+      <!---->
+      <span
+        class="tm-btn__value"
+      >
+        Back to Lunie
+      </span>
+    </span>
+  </button>
+</div>
+`;

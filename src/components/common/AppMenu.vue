@@ -86,7 +86,6 @@
 </template>
 
 <script>
-import PerfectScrollbar from "perfect-scrollbar"
 import noScroll from "no-scroll"
 import ConnectedNetwork from "common/TmConnectedNetwork"
 import { mapGetters } from "vuex"
@@ -100,9 +99,6 @@ export default {
   }),
   computed: {
     ...mapGetters([`session`])
-  },
-  mounted() {
-    this.ps = new PerfectScrollbar(this.$el.querySelector(`.app-menu-main`))
   },
   methods: {
     close() {
