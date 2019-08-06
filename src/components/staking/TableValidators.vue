@@ -8,9 +8,9 @@
           :show-on-mobile="showOnMobile"
         />
       </thead>
-      <tbody>
+      <tbody v-infinite-scroll="loadMore" infinite-scroll-distance="10">
         <LiValidator
-          v-for="validator in sortedEnrichedValidators"
+          v-for="validator in showingValidators"
           :key="validator.operator_address"
           :validator="validator"
           :show-on-mobile="showOnMobile"
@@ -51,6 +51,8 @@ export default {
       property: `commission`,
       order: `asc`
     },
+    showing: 20,
+    scrollDistance: 10,
     rollingWindow: 10000 // param of slashing period
   }),
   computed: {
@@ -118,6 +120,9 @@ export default {
         [this.sort.order]
       )
     },
+    showingValidators() {
+      return this.sortedEnrichedValidators.slice(0, this.showing)
+    },
     properties() {
       return [
         {
@@ -178,6 +183,12 @@ export default {
       handler() {
         this.$store.dispatch(`getRewardsFromMyValidators`)
       }
+    },
+    "sort.property": function() {
+      this.showing = 20
+    },
+    "sort.order": function() {
+      this.showing = 20
     }
   },
   mounted() {
@@ -185,6 +196,11 @@ export default {
     this.$store.dispatch(`updateDelegates`)
     this.$store.dispatch(`getRewardsFromMyValidators`)
     this.$store.dispatch(`getMintingParameters`)
+  },
+  methods: {
+    loadMore() {
+      this.showing += this.scrollDistance
+    }
   }
 }
 </script>
