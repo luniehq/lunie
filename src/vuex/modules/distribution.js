@@ -58,6 +58,9 @@ export default ({ node }) => {
     resetSessionData({ rootState }) {
       rootState.distribution = JSON.parse(JSON.stringify(emptyState))
     },
+    async initializeWallet({ dispatch }) {
+      dispatch(`getRewardsFromMyValidators`)
+    },
     async postMsgWithdrawDelegationReward({ dispatch }) {
       return Promise.all([
         dispatch(`getRewardsFromMyValidators`),

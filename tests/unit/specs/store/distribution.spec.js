@@ -101,6 +101,11 @@ describe(`Module: Fee Distribution`, () => {
       })
     })
 
+    it("loads rewards on signin", async () => {
+      await actions.initializeWallet({ dispatch })
+      expect(dispatch).toHaveBeenCalledWith("getRewardsFromMyValidators")
+    })
+
     describe(`getRewardsFromMyValidators`, () => {
       it(`success`, async () => {
         const validators = [
