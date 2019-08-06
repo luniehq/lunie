@@ -1,49 +1,100 @@
-import num from "scripts/num"
+import {
+  fullDecimals,
+  shortDecimals,
+  prettyLong,
+  pretty,
+  prettyInt,
+  percent,
+  percentInt,
+  createDisplayCoin,
+  prettyDecimals,
+  viewDenom,
+  roundObjectPercentages
+} from "scripts/num"
+
+const tally = {
+  yes: 13.626332,
+  no: 47.989636,
+  abstain: 9.596008,
+  no_with_veto: 28.788024
+}
+
+const tally2 = {
+  yes: 96.11111,
+  no: 1.3224,
+  abstain: 1.2555,
+  no_with_veto: 1.31099
+}
+
+const tally3 = {
+  yes: 95.12123,
+  no: 0,
+  abstain: 0,
+  no_with_veto: 4.87877
+}
+
+const sum = (a, b) => a + b
+const getValues = dataMap => Object.values(dataMap)
+const sumOfValues = x => getValues(x).reduce(sum, 0)
+
+describe(`roundObjectPercentages`, () => {
+  it(`should sum to 100`, () => {
+    expect(sumOfValues(roundObjectPercentages(tally))).toBe(100)
+  })
+
+  it(`should sum another to 100`, () => {
+    expect(sumOfValues(roundObjectPercentages(tally2))).toBe(100)
+  })
+
+  it(`should sum again to 100`, () => {
+    expect(sumOfValues(roundObjectPercentages(tally3))).toBe(100)
+  })
+})
 
 describe(`number helper`, () => {
   it(`should format numbers showing many decimals`, () => {
-    expect(num.fullDecimals(1001950.123456)).toBe(`1,001,950.123456`)
+    expect(fullDecimals(1001950.123456)).toBe(`1,001,950.123456`)
   })
 
   it(`should format numbers showing many decimals`, () => {
-    expect(num.shortDecimals(1.123456789)).toBe(`1.123`)
+    expect(shortDecimals(1.123456789)).toBe(`1.123`)
   })
 
   it(`should format numbers showing few decimals`, () => {
-    expect(num.pretty(1001950.123456)).toBe(`1,001,950.12`)
+    expect(pretty(1001950.123456)).toBe(`1,001,950.12`)
   })
 
   it(`should format numbers showing no decimals`, () => {
-    expect(num.prettyInt(1001950.123456)).toBe(`1,001,950`)
+    expect(prettyInt(1001950.123456)).toBe(`1,001,950`)
   })
 
   it(`should format percent without decimals`, () => {
-    expect(num.percentInt(0.2612)).toBe(`26%`)
+    expect(percentInt(0.2612)).toBe(`26%`)
   })
 
   it(`should format numbers showing many decimals and separator`, () => {
-    expect(num.prettyLong(1001950.123456789)).toBe(`1,001,950.123456789`)
+    expect(prettyLong(1001950.123456789)).toBe(`1,001,950.123456789`)
   })
 
   it(`should format percent with decimals`, () => {
-    expect(num.percent(0.2612)).toBe(`26.12%`)
+    expect(percent(0.2612)).toBe(`26.12%`)
   })
 
   it(`should format long decimals well`, () => {
-    expect(num.prettyDecimals(1e-8)).toBe(`0.00000001`)
+    expect(prettyDecimals(1e-8)).toBe(`0.00000001`)
   })
 
   it(`should format long decimals well if whole number`, () => {
-    expect(num.prettyDecimals(12)).toBe(`12`)
+    expect(prettyDecimals(12)).toBe(`12`)
   })
 
   it(`should convert utam denom to atom denom`, () => {
-    expect(num.viewDenom(`uatom`)).toBe(`ATOM`)
+    expect(viewDenom(`uatom`)).toBe(`ATOM`)
   })
 
   it(`should convert SDK coins to view coins with 6 decimal points`, () => {
     expect(
-      num.createDisplayCoin(
+      createDisplayCoin(
         {
           denom: `uatom`,
           amount: 1000000
@@ -58,7 +109,7 @@ describe(`number helper`, () => {
 
   it(`should convert SDK coins to view coins with 3 decimal points`, () => {
     expect(
-      num.createDisplayCoin({
+      createDisplayCoin({
         denom: `uatom`,
         amount: 1000000
       })
