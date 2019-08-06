@@ -7,7 +7,7 @@
       :session-address="address"
       class="tx__content__left"
     />
-    <TransactionFees
+    <TransactionMetadata
       v-if="!hideMetaData"
       :fees="transaction.fees"
       :block="transaction.blockNumber"
@@ -19,7 +19,7 @@
 
 <script>
 import { messageType } from "./messageTypes.js"
-import TransactionFees from "./TransactionFees"
+import TransactionMetadata from "./TransactionMetadata"
 
 import {
   SendMessageDetails,
@@ -42,7 +42,7 @@ import Bech32 from "common/Bech32"
 export default {
   name: `transaction-details`,
   components: {
-    TransactionFees,
+    TransactionMetadata,
     Bech32,
     SendMessageDetails,
     DelegateMessageDetails,

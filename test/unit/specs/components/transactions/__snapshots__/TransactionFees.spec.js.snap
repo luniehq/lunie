@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`TransactionFees has the expected html structure 1`] = `
+exports[`TransactionMetadata has the expected html structure 1`] = `
 <div>
   <div>
     

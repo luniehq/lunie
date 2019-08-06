@@ -1,11 +1,11 @@
 import { shallowMount } from "@vue/test-utils"
-import TransactionFees from "src/components/transactions/TransactionFees"
+import TransactionMetadata from "src/components/transactions/TransactionMetadata"
 
-describe(`TransactionFees`, () => {
+describe(`TransactionMetadata`, () => {
   let wrapper
 
   beforeEach(() => {
-    wrapper = shallowMount(TransactionFees, {
+    wrapper = shallowMount(TransactionMetadata, {
       propsData: {
         time: new Date("2019-07-31"),
         block: 1234567,
