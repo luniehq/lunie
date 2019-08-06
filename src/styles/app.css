@@ -101,23 +101,7 @@ input.tm-field {
   z-index: var(--z-appHeader) !important;
 }
 
-#desktop-menu {
-  display: none;
-}
-
-.v-content {
-  margin-bottom: 3rem;
-}
-
 @media screen and (min-width: 1023px) {
-  #desktop-menu {
-    display: block;
-  }
-
-  #mobile-footer-menu {
-    display: none;
-  }
-
   #app {
     padding-top: 0;
     flex-flow: row nowrap;
@@ -126,9 +110,5 @@ input.tm-field {
   #app-content {
     display: flex;
     min-width: 0;
-  }
-
-  .v-content {
-    margin-bottom: 0;
   }
 }

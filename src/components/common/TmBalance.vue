@@ -129,7 +129,7 @@ export default {
 <style scoped>
 .header-balance {
   display: flex;
-  padding: 1rem 0 2.5rem 1rem;
+  padding-left: 1rem;
 }
 
 .total-atoms.top-section {
