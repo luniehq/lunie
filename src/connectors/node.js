@@ -1,7 +1,7 @@
 "use strict"
 
 import Cosmos from "@lunie/cosmos-api"
-import RpcWrapper from "./rpcWrapper.js"
+import RpcWrapper from "./rpcWrapper"
 
 export default function Connector(stargateUrl) {
   const cosmosClient = new Cosmos(stargateUrl, "no_address")

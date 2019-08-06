@@ -78,10 +78,8 @@ export default {
   }
 }
 </script>
-
+<style scoped src="../../styles/content-page.css"></style>
 <style scoped>
-@import "../../styles/content-page.css";
-
 .jobs-list li {
   padding: 0.5rem 0;
   line-height: 22px;

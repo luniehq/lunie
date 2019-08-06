@@ -137,7 +137,7 @@
 
 <script>
 import { mapGetters } from "vuex"
-import num, { atoms } from "../../scripts/num.js"
+import num, { atoms } from "../../scripts/num"
 export default {
   name: `tab-staking-parameters`,
   data: () => ({
@@ -181,7 +181,7 @@ export default {
       )
     }
   },
-  async mounted() {
+  async created() {
     this.$store.dispatch(`getGovParameters`)
   }
 }

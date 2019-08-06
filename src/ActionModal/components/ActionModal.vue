@@ -252,12 +252,12 @@ import TmDataMsg from "common/TmDataMsg"
 import TableInvoice from "./TableInvoice"
 import Steps from "./Steps"
 import { mapGetters } from "vuex"
-import { atoms, viewDenom } from "src/scripts/num.js"
+import { atoms, viewDenom } from "src/scripts/num"
 import { between, requiredIf } from "vuelidate/lib/validators"
-import { track } from "scripts/google-analytics.js"
+import { track } from "scripts/google-analytics"
 import config from "src/config"
 
-import ActionManager from "../utils/ActionManager.js"
+import ActionManager from "../utils/ActionManager"
 
 const defaultStep = `details`
 const feeStep = `fees`
@@ -525,9 +525,7 @@ export default {
         try {
           await this.connectLedger()
         } catch (error) {
-          this.submissionError = `${this.submissionErrorPrefix}: ${
-            error.message
-          }.`
+          this.submissionError = `${this.submissionErrorPrefix}: ${error.message}.`
           this.sending = false
           return
         }

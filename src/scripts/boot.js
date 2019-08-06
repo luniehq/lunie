@@ -16,7 +16,7 @@ import App from "../App"
 import routes from "../routes"
 import _Node from "../connectors/node"
 import _Store from "../vuex/store"
-import * as urlHelpers from "scripts/url.js"
+import * as urlHelpers from "scripts/url"
 import _config from "src/config"
 import {
   enableGoogleAnalytics,

@@ -6,7 +6,6 @@ aliases:
   - &GAIA /tmp/gaia
   - &WORKSPACE /tmp/voyager
   - &DIST /tmp/voyager/dist
-  - &DIST_TESTNET /tmp/voyager/dist_testnet
   # Pick docker versions here only, then use the aliases in the executors definition
   - &docker-node tendermintdev/voyager_node
   - &docker-browsers tendermintdev/voyager_node_browser
@@ -34,8 +33,6 @@ commands:
     parameters:
       dist_path:
         type: string
-      dist_path_testnet:
-        type: string
     steps:
       - run:
           name: Set default environment variables
@@ -44,10 +41,8 @@ commands:
 
             if [ "${CIRCLE_BRANCH}" = "master" ]; then
               echo 'export DISTRIBUTION_ID=E3NNXI2PHNC362' >> $BASH_ENV
-              echo 'export DIST_ID_TESTNET=E27N83VZ9QZFET' >> $BASH_ENV
 
               echo 'export BUCKET_NAME=lunie.io' >> $BASH_ENV
-              echo 'export BUCKET_NAME_TESTNET=test.lunie.io ' >> $BASH_ENV
             else
               echo 'export DISTRIBUTION_ID=E1KBKFOGFYCD32' >> $BASH_ENV
               echo 'export BUCKET_NAME=staging.lunie.io' >> $BASH_ENV
@@ -62,22 +57,12 @@ commands:
             echo "deployment job URL = $CIRCLE_BUILD_URL<br>" >> version.html
 
             aws s3 sync . s3://$BUCKET_NAME --delete
-
-            if [[ ! -z "${BUCKET_NAME_TESTNET}" ]]; then
-              cd ..
-              cd << parameters.dist_path_testnet >>
-              aws s3 sync . s3://$BUCKET_NAME_TESTNET --delete
-            fi
       - run:
           name: Invalidate the cloudfront distribution
           command: |
             source $BASH_ENV
 
             aws cloudfront create-invalidation --distribution-id $DISTRIBUTION_ID --path "/*"
-
-            if [[ ! -z "${DIST_ID_TESTNET}" ]]; then
-              aws cloudfront create-invalidation --distribution-id $DIST_ID_TESTNET --path "/*"
-            fi
 
 # a reusable executor
 executors:
@@ -105,8 +90,6 @@ executors:
 
 jobs:
   build:
-    environment:
-      DIST_TESTNET: *DIST_TESTNET
     executor: web
     steps:
       - checkout
@@ -116,16 +99,14 @@ jobs:
 
           yarn build:keybase-cache
           if [ "${CIRCLE_BRANCH}" = "master" ]; then
-            yarn build:ui --output-path $DIST_TESTNET
-            RELEASE=true CIRCLECI=true yarn build:ui
+            RELEASE=true CIRCLECI=true yarn build
           else
-            CIRCLECI=true yarn build:ui
+            CIRCLECI=true yarn build
           fi
       - persist_to_workspace:
           root: *WORKSPACE
           paths:
             - dist
-            - dist_testnet
 
   pendingUpdated:
     executor: node
@@ -157,9 +138,9 @@ jobs:
           command: |
             # notify Code Climate of a pending test report using `before-build`
             ./cc-test-reporter before-build
-            yarn run test:unit
+            yarn run test:unit --coverage --maxWorkers=2
             # upload test report to Code Climate
-            ./cc-test-reporter format-coverage -t lcov ./test/unit/coverage/lcov.info
+            ./cc-test-reporter format-coverage -t lcov ./coverage/lcov.info
             ./cc-test-reporter upload-coverage
           no_output_timeout: 120
 
@@ -187,7 +168,7 @@ jobs:
       # Primary container image where all steps run.
      - image: *docker-browsers
       # Secondary container image on common network. 
-     - image: lunieio/testnet:v0.34.3
+     - image: lunieio/testnet:v0.34.7
     steps:
       - checkout
       - attach_workspace:
@@ -199,7 +180,7 @@ jobs:
           command: yarn test:e2e:build
       - run:
           name: Test
-          command: yarn serve --no-browser & yarn test:e2e:browserstack
+          command: yarn serve:dist & yarn test:e2e:browserstack
           no_output_timeout: 120
       - store_artifacts:
           path: ./screenshots
@@ -212,7 +193,6 @@ jobs:
           at: *WORKSPACE
       - sync:
           dist_path: *DIST
-          dist_path_testnet: *DIST_TESTNET
 
   # Create release.
   release:
