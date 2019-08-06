@@ -24,7 +24,12 @@ describe(`PagePortfolio`, () => {
     delegation: {
       unbondingDelegations: {}
     },
-    connected: true
+    connected: true,
+    lastHeader: {
+      height: 10
+    },
+    bondDenom: "stake",
+    totalRewards: 1000000
   }
 
   beforeEach(() => {

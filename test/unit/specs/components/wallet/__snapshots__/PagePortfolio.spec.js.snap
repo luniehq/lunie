@@ -2,6 +2,7 @@
 
 exports[`PagePortfolio should display the portfolio page 1`] = `
 <tmpage-stub
+  hideheader="true"
   managed="true"
   signinrequired="true"
   subtitle=""
@@ -20,6 +21,24 @@ exports[`PagePortfolio should display the portfolio page 1`] = `
         longform="true"
       />
     </div>
+     
+    <h3
+      class="tab-header"
+    >
+      
+      Rewards
+    
+    </h3>
+     
+    <licoin-stub
+      class="tm-li-balance"
+      coin="[object Object]"
+    >
+      <tmbtn-stub
+        color="primary"
+        value="Withdraw"
+      />
+    </licoin-stub>
      
     <h3
       class="tab-header"
@@ -52,5 +71,10 @@ exports[`PagePortfolio should display the portfolio page 1`] = `
   </template>
    
   <sendmodal-stub />
+   
+  <modalwithdrawrewards-stub
+    denom="stake"
+    rewards="1000000"
+  />
 </tmpage-stub>
 `;
