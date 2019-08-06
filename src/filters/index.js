@@ -15,3 +15,10 @@ export const formatBech32 = (address, longForm = false, length = 4) => {
     return address.split(`1`)[0] + `…` + address.slice(-1 * length)
   }
 }
+
+export const resolveValidatorName = (address, validators) => {
+  if (validators[address]) {
+    return validators[address].description.moniker
+  }
+  return formatBech32(address)
+}

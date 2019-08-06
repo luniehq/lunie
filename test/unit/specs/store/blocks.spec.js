@@ -1,4 +1,3 @@
-import { getTxHash } from "scripts/tx-utils.js"
 import blocks, { cache } from "src/vuex/modules/blocks.js"
 
 describe(`Module: Blocks`, () => {
@@ -218,13 +217,6 @@ describe(`Module: Blocks`, () => {
       dispatch: jest.fn()
     })
     expect(node.rpc.subscribe.mock.calls.length).toBe(1)
-  })
-
-  it(`should convert tx strings correctly`, async () => {
-    const expectedHash = `0a31fba9f6d7403b41f5e52c12b98246c7c649af`
-    const txString = `4wHwYl3uCloqLIf6CikKFIPMHcOoYjqQbmtzFFdU3g967Y0/EhEKCmxvY2FsVG9rZW4SAzEwMBIpChSDzB3DqGI6kG5rcxRXVN4Peu2NPxIRCgpsb2NhbFRva2VuEgMxMDASCQoDEgEwEMCEPRp2CibrWumHIQLUKUS5mPDRAdBIB5lAw9AIh/aaAL9PTqArOWGO5fpsphJMf8SklUcwRQIhAM9qzjJSTxzXatI3ncHcb1cwIdCTU+oVP4V8RO6lzjcXAiAoS9XZ4e3I/1e/HonfHucRNYE65ioGk88q4dWPs9Z5LA==`
-    const hash = await getTxHash(txString)
-    expect(hash).toBe(expectedHash)
   })
 
   it(`should dispatch successful subscription only if the subscription is inactive`, async () => {

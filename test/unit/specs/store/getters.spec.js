@@ -6,7 +6,9 @@ import {
   yourValidators,
   modalContext,
   validatorsWithRewards,
-  totalRewards
+  totalRewards,
+  flatOrderedTransactionList,
+  validators as validatorsAddressMap
 } from "src/vuex/getters.js"
 import validators from "./json/validators.js"
 
@@ -92,6 +94,21 @@ describe(`Store: getters`, () => {
     })
 
     expect(result.toNumber()).toBe(63)
+  })
+
+  describe(`validators`, () => {
+    it("should return a map from address to validator", () => {
+      const stateWithValidators = {
+        delegates: {
+          delegates: validators
+        }
+      }
+      const resultMap = validatorsAddressMap(stateWithValidators)
+
+      expect(resultMap[validators[0].operator_address]).toBe(validators[0])
+      expect(resultMap[validators[1].operator_address]).toBe(validators[1])
+      expect(resultMap[validators[2].operator_address]).toBe(validators[2])
+    })
   })
 
   describe(`yourValidators`, () => {
@@ -243,5 +260,90 @@ describe(`Store: getters`, () => {
     const result = modalContext(state, getters)
 
     expect(result).toEqual(context)
+  })
+
+  it("Flattens transactions into new format", () => {
+    // global.Date = () => "2019-05-17T07:44:10Z"
+    const original = [
+      {
+        height: "123456",
+        txhash: "345768MBNVMNBVMNBV",
+        raw_log: '[{"msg_index":"0","success":true,"log":""}]',
+        logs: [{ msg_index: "0", success: true, log: "" }],
+        gas_wanted: "24352",
+        gas_used: "24292",
+        tags: [
+          { key: "action", value: "send" },
+          {
+            key: "sender",
+            value: "cosmos1askljdhaslkdhaskldhasdlkjahlkajsh"
+          },
+          {
+            key: "recipient",
+            value: "cosmos1askljdhaslkdhaskldhasdlkjahlkajsh"
+          }
+        ],
+        tx: {
+          type: "auth/StdTx",
+          value: {
+            msg: [
+              {
+                type: "cosmos-sdk/MsgSend",
+                value: {
+                  from_address: "cosmos1askljdhaslkdhaskldhasdlkjahlkajsh",
+                  to_address: "cosmos1askljdhaslkdhaskldhasdlkjahlkajsh",
+                  amount: [{ denom: "uatom", amount: "50000" }]
+                }
+              }
+            ],
+            fee: { amount: null, gas: "24352" },
+            signatures: [
+              {
+                pub_key: {
+                  type: "tendermint/PubKeySecp256k1",
+                  value: "KJHSADKJHSAjhlkjhaslkdhjKJHALSKDJH"
+                },
+                signature: "asdadasdasdasafafa/dadsadadasdasdasdas/JHG65876=="
+              }
+            ],
+            memo: "(Sent via Lunie)"
+          }
+        },
+        timestamp: "2019-05-17T07:44:10Z",
+        type: "bank",
+        time: "2019-05-17T07:44:10Z"
+      }
+    ]
+
+    const state = {
+      delegation: { unbondingDelegations: [] }
+    }
+
+    const getters = {
+      allTransactions: original
+    }
+
+    const result = flatOrderedTransactionList(state, getters)
+
+    const expected = [
+      {
+        type: "cosmos-sdk/MsgSend",
+        value: {
+          from_address: "cosmos1askljdhaslkdhaskldhasdlkjahlkajsh",
+          to_address: "cosmos1askljdhaslkdhaskldhasdlkjahlkajsh",
+          amount: [{ denom: "uatom", amount: "50000" }]
+        },
+        key:
+          'cosmos-sdk/MsgSend_2019-05-17T07:44:10Z_{"from_address":"cosmos1askljdhaslkdhaskldhasdlkjahlkajsh","to_address":"cosmos1askljdhaslkdhaskldhasdlkjahlkajsh","amount":[{"denom":"uatom","amount":"50000"}]}',
+        blockNumber: 123456,
+        time: "2019-05-17T07:44:10.000Z",
+        group: "banking",
+        memo: "(Sent via Lunie)",
+        fees: { amount: "0", denom: "ATOM" },
+        liquidDate: NaN
+      }
+    ]
+
+    expect(JSON.stringify(result)).toBe(JSON.stringify(expected))
   })
 })
