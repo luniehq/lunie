@@ -5,6 +5,7 @@
     :loaded="delegates.loaded"
     :error="delegates.error"
     :data-empty="delegates.length === 0"
+    hide-header
   >
     <template slot="managed-body">
       <TableValidators

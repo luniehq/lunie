@@ -5,6 +5,7 @@
     :loaded="wallet.loaded && delegation.loaded"
     :error="wallet.error || delegation.error"
     :sign-in-required="true"
+    hide-header
   >
     <template slot="managed-body">
       <div class="card">
