@@ -112,7 +112,7 @@ import {
   between,
   decimal
 } from "vuelidate/lib/validators"
-import { uatoms, atoms, viewDenom, SMALLEST } from "src/scripts/num.js"
+import { uatoms, atoms, viewDenom, SMALLEST } from "src/scripts/num"
 import isEmpty from "lodash.isempty"
 import trim from "lodash.trim"
 import TmField from "src/components/common/TmField"

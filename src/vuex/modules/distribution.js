@@ -1,6 +1,6 @@
 import * as Sentry from "@sentry/browser"
 import Vue from "vue"
-import { coinsToObject } from "scripts/common.js"
+import { coinsToObject } from "scripts/common"
 
 export default ({ node }) => {
   const emptyState = {

@@ -7,7 +7,7 @@ import VueClipboard from "vue-clipboard2"
 import { focusElement, focusParentLast } from "src/directives"
 import App from "./App.vue"
 import init from "./initializeApp"
-import { getURLParams } from "scripts/url.js"
+import { getURLParams } from "scripts/url"
 import "./registerServiceWorker"
 import "@babel/polyfill"
 

@@ -1,6 +1,6 @@
 "use strict"
 
-import RpcClient from "./tendermint-ws.js"
+import RpcClient from "./tendermint-ws"
 
 export default function setRpcWrapper(container) {
   const rpcWrapper = {

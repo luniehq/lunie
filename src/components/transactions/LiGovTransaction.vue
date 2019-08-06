@@ -46,7 +46,7 @@
 
 <script>
 import LiTransaction from "./LiTransaction"
-import { atoms as toAtoms, prettyLong, viewDenom } from "../../scripts/num.js"
+import { atoms as toAtoms, prettyLong, viewDenom } from "../../scripts/num"
 
 export default {
   name: `li-gov-transaction`,

@@ -2,7 +2,7 @@ import Cosmos from "@lunie/cosmos-api"
 import config from "src/config"
 import { getSigner } from "./signer"
 import transaction from "./transactionTypes"
-import { uatoms } from "scripts/num.js"
+import { uatoms } from "scripts/num"
 
 export default class ActionManager {
   constructor() {

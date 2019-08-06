@@ -36,7 +36,7 @@
 
 <script>
 import moment from "moment"
-import { atoms as toAtoms, viewDenom } from "../../scripts/num.js"
+import { atoms as toAtoms, viewDenom } from "../../scripts/num"
 
 export default {
   name: `li-transaction`,

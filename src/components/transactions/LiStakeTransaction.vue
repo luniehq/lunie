@@ -99,7 +99,7 @@
 
 <script>
 import LiTransaction from "./LiTransaction"
-import { atoms as toAtoms, viewDenom } from "../../scripts/num.js"
+import { atoms as toAtoms, viewDenom } from "../../scripts/num"
 import { formatBech32 } from "src/filters"
 import moment from "moment"
 
