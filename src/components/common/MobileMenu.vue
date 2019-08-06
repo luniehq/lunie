@@ -11,11 +11,7 @@
         Portfolio
       </h2>
     </router-link>
-    <router-link
-      class="mobile-menu-item"
-      to="/validators"
-      title="Validators"
-    >
+    <router-link class="mobile-menu-item" to="/validators" title="Validators">
       <i class="material-icons">add_box</i>
       <h2 class="app-menu-title">
         Validators
@@ -32,11 +28,7 @@
         Transactions
       </h2>
     </router-link>
-    <router-link
-      class="mobile-menu-item"
-      to="/proposals"
-      title="Proposals"
-    >
+    <router-link class="mobile-menu-item" to="/proposals" title="Proposals">
       <i class="material-icons">how_to_vote</i>
       <h2 class="app-menu-title">
         Proposals
@@ -54,15 +46,15 @@ export default {
 <style scoped>
 menu {
   position: fixed;
-    bottom: 0;
-    height: 4rem;
-    width: 100vw;
-    display: flex;
+  bottom: 0;
+  height: 4rem;
+  width: 100vw;
+  display: flex;
   z-index: calc(var(--z-appHeader) - 1);
   background: var(--app-nav);
   flex-flow: row;
-    align-items: center;
-    justify-content: center;
+  align-items: center;
+  justify-content: center;
 }
 
 menu a {

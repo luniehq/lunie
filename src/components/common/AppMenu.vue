@@ -64,71 +64,65 @@
         <i class="material-icons">chevron_right</i>
       </router-link>
 
-
-      
-        <router-link
-          class="app-menu-item hide-m"
-          to="/about"
-          exact="exact"
-          title="About"
+      <router-link
+        class="app-menu-item hide-m"
+        to="/about"
+        exact="exact"
+        title="About"
         @click.native="close"
-        >
+      >
         <h2 class="app-menu-title">
           About
-          </h2>
-        </router-link>
-      
-      
-        <router-link
-          class="app-menu-item hide-m"
-          to="/careers"
-          exact="exact"
-          title="Careers"
+        </h2>
+      </router-link>
+
+      <router-link
+        class="app-menu-item hide-m"
+        to="/careers"
+        exact="exact"
+        title="Careers"
         @click.native="close"
-        >
+      >
         <h2 class="app-menu-title">
           Careers
-          </h2>
-        </router-link>
-      
-      
-        <router-link
-          class="app-menu-item hide-m"
-          to="/security"
-          exact="exact"
-          title="Security"
+        </h2>
+      </router-link>
+
+      <router-link
+        class="app-menu-item hide-m"
+        to="/security"
+        exact="exact"
+        title="Security"
         @click.native="close"
-        >
+      >
         <h2 class="app-menu-title">
           Security
         </h2>
-        </router-link>
-      
-      
-        <router-link
-          class="app-menu-item hide-m"
-          to="/terms"
-          exact="exact"
-          title="Terms"
+      </router-link>
+
+      <router-link
+        class="app-menu-item hide-m"
+        to="/terms"
+        exact="exact"
+        title="Terms"
         @click.native="close"
-        >
+      >
         <h2 class="app-menu-title">
           Terms of Service
         </h2>
-        </router-link>
-      
-      
-        <router-link
-          class="app-menu-item hide-m"
-          to="/privacy"
-          exact="exact"
-          title="Privacy"
+      </router-link>
+
+      <router-link
+        class="app-menu-item hide-m"
+        to="/privacy"
+        exact="exact"
+        title="Privacy"
         @click.native="close"
-        >
+      >
         <h2 class="app-menu-title">
           Privacy Policy
         </h2>
-        </router-link>
+      </router-link>
 
       <a
         v-if="session.signedIn"
@@ -146,7 +140,6 @@
       >
         Sign in
       </a>
-      
     </div>
     <ConnectedNetwork />
   </menu>
