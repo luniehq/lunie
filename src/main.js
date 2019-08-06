@@ -25,6 +25,6 @@ const { store, router } = init(urlParams)
 
 new Vue({
   router,
-  store,
-  render: h => h(App)
+  ...App,
+  store
 }).$mount("#app")
