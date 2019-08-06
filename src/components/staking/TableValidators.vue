@@ -8,7 +8,7 @@
           :show-on-mobile="showOnMobile"
         />
       </thead>
-      <tbody v-infinite-scroll="loadMore" infinite-scroll-distance="10">
+      <tbody v-infinite-scroll="loadMore" infinite-scroll-distance="80">
         <LiValidator
           v-for="validator in showingValidators"
           :key="validator.operator_address"
@@ -51,7 +51,7 @@ export default {
       property: `commission`,
       order: `asc`
     },
-    showing: 20,
+    showing: 15,
     rollingWindow: 10000 // param of slashing period
   }),
   computed: {
@@ -184,10 +184,10 @@ export default {
       }
     },
     "sort.property": function() {
-      this.showing = 20
+      this.showing = 15
     },
     "sort.order": function() {
-      this.showing = 20
+      this.showing = 15
     }
   },
   mounted() {

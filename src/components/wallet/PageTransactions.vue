@@ -10,7 +10,7 @@
   >
     <DataEmptyTx slot="no-data" />
     <template slot="managed-body">
-      <div v-infinite-scroll="loadMore" infinite-scroll-distance="10">
+      <div v-infinite-scroll="loadMore" infinite-scroll-distance="80">
         <LiAnyTransaction
           v-for="tx in showingTransactions"
           :key="tx.txhash"
@@ -55,7 +55,7 @@ export default {
     validatorURL: `/staking/validators`,
     governanceURL: `/governance`,
     time,
-    showing: 20
+    showing: 15
   }),
   computed: {
     ...mapGetters([
