@@ -12,7 +12,7 @@
         :transaction="transaction"
         :validators="validatorsAddressMap"
         :address="senderAddress"
-        :hide-meta-data="true"
+        :show-meta-data="false"
       />
       <!-- Going to take some more logic based on how transactions are passed in -->
       <div>
