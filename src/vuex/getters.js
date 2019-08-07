@@ -98,7 +98,6 @@ export const bondDenom = state =>
 
 // governance
 export const votes = state => state.votes.votes
-export const deposits = state => state.deposits.deposits
 export const depositDenom = state =>
   state.governanceParameters.loaded &&
   state.governanceParameters.parameters.deposit.min_deposit
