@@ -1,38 +1,20 @@
 <template>
   <menu>
-    <router-link
-      class="mobile-menu-item"
-      to="/portfolio"
-      exact="exact"
-      title="Portfolio"
-    >
-      <i class="material-icons">account_balance_wallet</i>
-      <h2 class="app-menu-title">
-        Portfolio
-      </h2>
+    <router-link class="mobile-menu-item" to="/portfolio" exact="exact" title="Portfolio">
+      <i class="material-icons">star</i>
+      <h2 class="app-menu-title">Portfolio</h2>
     </router-link>
     <router-link class="mobile-menu-item" to="/validators" title="Validators">
-      <i class="material-icons">add_box</i>
-      <h2 class="app-menu-title">
-        Validators
-      </h2>
-    </router-link>
-    <router-link
-      class="mobile-menu-item"
-      to="/transactions"
-      exact="exact"
-      title="Transactions"
-    >
-      <i class="material-icons">swap_horiz</i>
-      <h2 class="app-menu-title">
-        Transactions
-      </h2>
+      <i class="material-icons">sort</i>
+      <h2 class="app-menu-title">Validators</h2>
     </router-link>
     <router-link class="mobile-menu-item" to="/proposals" title="Proposals">
-      <i class="material-icons">how_to_vote</i>
-      <h2 class="app-menu-title">
-        Proposals
-      </h2>
+      <i class="material-icons">add_circle_outline</i>
+      <h2 class="app-menu-title">Proposals</h2>
+    </router-link>
+    <router-link class="mobile-menu-item" to="/transactions" exact="exact" title="Transactions">
+      <i class="material-icons">show_chart</i>
+      <h2 class="app-menu-title">Activity</h2>
     </router-link>
   </menu>
 </template>
@@ -47,7 +29,6 @@ export default {
 menu {
   position: fixed;
   bottom: 0;
-  height: 4rem;
   width: 100vw;
   display: flex;
   z-index: calc(var(--z-appHeader) - 1);
@@ -61,22 +42,29 @@ menu a {
   display: flex;
   flex-direction: column;
   text-align: center;
-  padding: 0.5rem;
+  padding: 0.4rem;
+  width: 25%;
+}
+
+menu a i {
+  font-size: 18px;
+}
+
+.mobile-menu-item.router-link-active {
+  color: var(--tertiary);
 }
 
 menu a:not(.router-link-active) {
   color: var(--bright);
 }
 
-menu a:not(:last-child) {
-  margin-right: 1rem;
-}
-
 menu a h2 {
-  font-size: 12px;
+  padding-top: 2px;
+  font-size: 8px;
+  font-weight: 500;
 }
 
-@media screen and (min-width: 1023px) {
+@media screen and (min-width: 667px) {
   menu {
     display: none;
   }
