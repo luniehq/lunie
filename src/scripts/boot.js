@@ -29,7 +29,7 @@ const _setGoogleAnalyticsPage = setGoogleAnalyticsPage
 import { listenToExtensionMessages } from "scripts/extension-utils"
 
 export const routeGuard = store => (to, from, next) => {
-  if (from.fullPath !== to.fullPath && !store.getters.session.pauseHistory) {
+  if (from.fullPath !== to.fullPath && !store.state.session.pauseHistory) {
     store.commit(`addHistory`, from.fullPath)
   }
 

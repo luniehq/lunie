@@ -32,7 +32,7 @@ export const validators = state => {
 // fee distribution
 export const yourValidators = (state, getters) =>
   state.session.signedIn
-    ? getters.delegates.delegates.filter(
+    ? state.delegates.delegates.filter(
         ({ operator_address }) =>
           operator_address in getters.committedDelegations
       )
@@ -61,22 +61,20 @@ export const totalAtoms = (state, getters) => {
     .plus(getters.oldUnbondingAtoms)
     .toString()
 }
-export const oldBondedAtoms = (state, getters) => {
+export const oldBondedAtoms = state => {
   let totalOldBondedAtoms = new BN(0)
-  Object.keys(getters.delegation.committedDelegates).forEach(
-    delegatorAddress => {
-      const shares = getters.delegation.committedDelegates[delegatorAddress]
-      const delegator = getters.delegates.delegates.find(
-        d => d.operator_address === delegatorAddress
-      )
-      if (!delegator) {
-        return
-      }
-      totalOldBondedAtoms = totalOldBondedAtoms.plus(
-        calculateTokens(delegator, shares)
-      )
+  Object.keys(state.delegation.committedDelegates).forEach(delegatorAddress => {
+    const shares = state.delegation.committedDelegates[delegatorAddress]
+    const delegator = state.delegates.delegates.find(
+      d => d.operator_address === delegatorAddress
+    )
+    if (!delegator) {
+      return
     }
-  )
+    totalOldBondedAtoms = totalOldBondedAtoms.plus(
+      calculateTokens(delegator, shares)
+    )
+  })
   return totalOldBondedAtoms
 }
 
@@ -93,18 +91,18 @@ export const oldUnbondingAtoms = state => {
 }
 export const committedDelegations = state => state.delegation.committedDelegates
 export const keybase = state => state.keybase.identities
-export const bondDenom = getters =>
-  (getters.stakingParameters.parameters &&
-    getters.stakingParameters.parameters.bond_denom) ||
+export const bondDenom = state =>
+  (state.stakingParameters.parameters &&
+    state.stakingParameters.parameters.bond_denom) ||
   `uatom`
 
 // governance
 export const votes = state => state.votes.votes
 export const deposits = state => state.deposits.deposits
-export const depositDenom = getters =>
-  getters.governanceParameters.loaded &&
-  getters.governanceParameters.parameters.deposit.min_deposit
-    ? getters.governanceParameters.parameters.deposit.min_deposit[0].denom
+export const depositDenom = state =>
+  state.governanceParameters.loaded &&
+  state.governanceParameters.parameters.deposit.min_deposit
+    ? state.governanceParameters.parameters.deposit.min_deposit[0].denom
     : `uatom`
 
 // connection
