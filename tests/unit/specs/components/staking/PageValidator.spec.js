@@ -41,45 +41,26 @@ const validatorTo = {
   }
 }
 
-const getters = {
+const state = {
   session: {
     experimentalMode: true,
     signedIn: true,
     address: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`
-  },
-  delegates: {
-    selfBond: {
-      [validator.operator_address]: 0.01
-    },
-    delegates: [validator, validatorTo],
-    loaded: true,
-    signingInfos: {
-      cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw: {
-        missed_blocks_counter: 2
-      }
-    }
-  },
-  delegation: { loaded: true },
+  }
+}
+
+const getters = {
   committedDelegations: {
     [validator.operator_address]: 0
   },
   lastHeader: {
     height: `500`
   },
-  distribution: {
-    rewards: {
-      [validator.operator_address]: 10
-    }
-  },
+
   keybase: `keybase`,
   liquidAtoms: 1337,
   connected: true,
-  bondDenom: stakingParameters.bond_denom,
-  pool: {
-    pool: {
-      bonded_tokens: 4200
-    }
-  }
+  bondDenom: stakingParameters.bond_denom
 }
 
 describe(`PageValidator`, () => {
@@ -92,8 +73,36 @@ describe(`PageValidator`, () => {
       commit: jest.fn(),
       dispatch: jest.fn(),
       state: {
+        session: {
+          experimentalMode: true,
+          signedIn: true,
+          address: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`
+        },
         minting: {
           annualProvision: "100"
+        },
+        distribution: {
+          rewards: {
+            [validator.operator_address]: 10
+          }
+        },
+        pool: {
+          pool: {
+            bonded_tokens: 4200
+          }
+        },
+        delegation: { loaded: true },
+        delegates: {
+          selfBond: {
+            [validator.operator_address]: 0.01
+          },
+          delegates: [validator, validatorTo],
+          loaded: true,
+          signingInfos: {
+            cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw: {
+              missed_blocks_counter: 2
+            }
+          }
         }
       },
       getters: JSON.parse(JSON.stringify(getters)) // clone to be safe we don't overwrite
@@ -126,7 +135,7 @@ describe(`PageValidator`, () => {
     })
 
     it(`if user hasn't signed in`, () => {
-      $store.getters.session.signedIn = false
+      $store.state.session.signedIn = false
 
       expect(wrapper.vm.$el).toMatchSnapshot()
     })
@@ -153,13 +162,13 @@ describe(`PageValidator`, () => {
     })
 
     it(`shows an error if the validator couldn't be found`, () => {
-      $store.getters.delegates.delegates = []
+      $store.state.delegates.delegates = []
 
       expect(wrapper.exists(`tm-data-error-stub`)).toBe(true)
     })
 
     it(`shows invalid validator address page if invalid validator address used`, () => {
-      $store.getters.delegates.delegates = []
+      $store.state.delegates.delegates = []
 
       expect(wrapper.exists(`tm-data-msg`)).toBe(true)
     })
@@ -171,7 +180,7 @@ describe(`PageValidator`, () => {
     it(`should show the validator status`, () => {
       expect(wrapper.vm.status).toBe(`This validator is actively validating`)
       // Jailed
-      $store.getters.delegates.delegates = [
+      $store.state.delegates.delegates = [
         Object.assign({}, validator, {
           jailed: true
         })
@@ -180,7 +189,7 @@ describe(`PageValidator`, () => {
         `This validator has been jailed and is not currently validating`
       )
       // Is not a validator
-      $store.getters.delegates.delegates = [
+      $store.state.delegates.delegates = [
         Object.assign({}, validator, {
           status: 0
         })
@@ -191,7 +200,7 @@ describe(`PageValidator`, () => {
     })
 
     it(`shows a validator as an inactive candidate if he has no voting_power`, () => {
-      $store.getters.delegates.delegates = [
+      $store.state.delegates.delegates = [
         Object.assign({}, validator, {
           status: 0
         })
@@ -200,7 +209,7 @@ describe(`PageValidator`, () => {
     })
 
     it(`shows that a validator is jailed`, () => {
-      $store.getters.delegates.delegates = [
+      $store.state.delegates.delegates = [
         Object.assign({}, validator, {
           jailed: true
         })
@@ -254,7 +263,7 @@ describe(`PageValidator`, () => {
 
     describe(`errors`, () => {
       it(`signing info is missing`, () => {
-        $store.getters.delegates.delegates = [
+        $store.state.delegates.delegates = [
           Object.assign({}, validator, {
             signing_info: undefined
           })
@@ -489,6 +498,7 @@ describe(`delegationTargetOptions`, () => {
 
     const options = PageValidator.methods.delegationTargetOptions.call({
       ...getters,
+      ...state,
       committedDelegations: {},
       $store,
       $route: {
@@ -496,7 +506,7 @@ describe(`delegationTargetOptions`, () => {
       }
     })
     expect(options).toHaveLength(1)
-    expect(options[0].address).toEqual(getters.session.address)
+    expect(options[0].address).toEqual(state.session.address)
 
     expect(options).toMatchSnapshot()
   })
@@ -509,6 +519,7 @@ describe(`delegationTargetOptions`, () => {
 
     const options = PageValidator.methods.delegationTargetOptions({
       ...getters,
+      ...state,
       committedDelegations: {
         [validator.operator_address]: 10
       },
@@ -521,7 +532,7 @@ describe(`delegationTargetOptions`, () => {
     expect(options).not.toContainEqual(
       expect.objectContaining({ address: validator.operator_address })
     )
-    expect(options[0].address).toEqual(getters.session.address)
+    expect(options[0].address).toEqual(state.session.address)
 
     expect(options).toMatchSnapshot()
   })
@@ -532,8 +543,29 @@ describe(`delegationTargetOptions`, () => {
       dispatch: jest.fn()
     }
 
+    const state = {
+      delegates: {
+        selfBond: {
+          [validator.operator_address]: 0.01
+        },
+        delegates: [validator, validatorTo],
+        loaded: true,
+        signingInfos: {
+          cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw: {
+            missed_blocks_counter: 2
+          }
+        }
+      },
+      session: {
+        experimentalMode: true,
+        signedIn: true,
+        address: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`
+      }
+    }
+
     const options = PageValidator.methods.delegationTargetOptions.call({
       ...getters,
+      ...state,
       committedDelegations: {
         [validator.operator_address]: 10,
         cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au: 5
@@ -548,7 +580,7 @@ describe(`delegationTargetOptions`, () => {
     expect(options).not.toContainEqual(
       expect.objectContaining({ address: validator.operator_address })
     )
-    expect(options[0].address).toEqual(getters.session.address)
+    expect(options[0].address).toEqual(state.session.address)
     expect(options).toContainEqual(
       expect.objectContaining({ address: validatorTo.operator_address })
     )

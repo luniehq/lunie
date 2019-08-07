@@ -88,7 +88,7 @@
 <script>
 import noScroll from "no-scroll"
 import ConnectedNetwork from "common/TmConnectedNetwork"
-import { mapGetters } from "vuex"
+import { mapState } from "vuex"
 export default {
   name: `app-menu`,
   components: {
@@ -98,7 +98,7 @@ export default {
     ps: {}
   }),
   computed: {
-    ...mapGetters([`session`])
+    ...mapState([`session`])
   },
   methods: {
     close() {

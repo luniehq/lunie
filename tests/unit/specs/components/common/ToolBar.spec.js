@@ -10,7 +10,7 @@ describe(`ToolBar`, () => {
   beforeEach(() => {
     $store = {
       commit: jest.fn(),
-      getters: {
+      state: {
         session: {
           signedIn: true
         }

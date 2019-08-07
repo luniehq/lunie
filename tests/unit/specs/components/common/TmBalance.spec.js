@@ -8,25 +8,28 @@ describe(`TmBalance`, () => {
     $store = {
       getters: {
         connected: true,
-        session: {
-          address: `cosmos1address`,
-          signedIn: true
-        },
         liquidAtoms: 1230000000,
         totalAtoms: 3210000000,
         bondDenom: `stake`,
+
+        lastHeader: { height: `10` },
+        validatorsWithRewards: ["validatorX"],
+        totalRewards: 1000450000000
+      },
+      state: {
+        wallet: {
+          loaded: true
+        },
         distribution: {
           loaded: true
         },
         delegation: {
           loaded: true
         },
-        wallet: {
-          loaded: true
-        },
-        lastHeader: { height: `10` },
-        validatorsWithRewards: ["validatorX"],
-        totalRewards: 1000450000000
+        session: {
+          address: `cosmos1address`,
+          signedIn: true
+        }
       },
       dispatch: jest.fn()
     }

@@ -17,7 +17,7 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex"
+import { mapState } from "vuex"
 import TmBtn from "common/TmBtn"
 export default {
   name: `tool-bar`,
@@ -29,7 +29,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters([`session`])
+    ...mapState([`session`])
   },
   methods: {
     signIn() {

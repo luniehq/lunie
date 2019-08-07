@@ -15,7 +15,7 @@ describe(`LiProposal`, () => {
     const $store = {
       commit: jest.fn(),
       dispatch: jest.fn(),
-      getters: {
+      state: {
         proposals: {
           tallies
         }
@@ -147,7 +147,7 @@ describe(`LiProposal`, () => {
     const $store = {
       commit: jest.fn(),
       dispatch: jest.fn(),
-      getters: {
+      state: {
         proposals: {
           tallies: {}
         }

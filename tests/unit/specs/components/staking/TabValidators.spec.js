@@ -5,18 +5,22 @@ import validators from "../../store/json/validators.js"
 describe(`TabValidators`, () => {
   let wrapper, $store
 
-  const getters = {
+  const state = {
+    session: {
+      signedIn: true
+    },
     delegates: {
       delegates: validators,
       loading: false,
       loaded: true
-    },
+    }
+  }
+
+  const getters = {
     committedDelegations: {
       [validators[0].operator_address]: 42
     },
-    session: {
-      signedIn: true
-    },
+
     connected: true,
     lastHeader: { height: 20 },
     yourValidators: validators
@@ -25,7 +29,8 @@ describe(`TabValidators`, () => {
   beforeEach(async () => {
     $store = {
       dispatch: jest.fn(),
-      getters
+      getters,
+      state
     }
 
     wrapper = shallowMount(TabValidators, {
@@ -42,17 +47,19 @@ describe(`TabValidators`, () => {
   it(`shows a message if still connecting`, async () => {
     $store = {
       dispatch: jest.fn(),
-      getters: {
+      state: {
+        session: {
+          signedIn: true
+        },
         delegates: {
           delegates: validators,
           loading: false,
           loaded: false
-        },
+        }
+      },
+      getters: {
         committedDelegations: {
           [validators[0].operator_address]: 42
-        },
-        session: {
-          signedIn: true
         },
         connected: false,
         lastHeader: { height: 20 },
@@ -72,17 +79,19 @@ describe(`TabValidators`, () => {
   it(`shows a message if still loading`, async () => {
     $store = {
       dispatch: jest.fn(),
-      getters: {
+      state: {
+        session: {
+          signedIn: true
+        },
         delegates: {
           delegates: validators,
           loading: true,
           loaded: false
-        },
+        }
+      },
+      getters: {
         committedDelegations: {
           [validators[0].operator_address]: 42
-        },
-        session: {
-          signedIn: true
         },
         connected: true,
         lastHeader: { height: 20 },
@@ -102,17 +111,19 @@ describe(`TabValidators`, () => {
   it(`shows a message if there is nothing to display`, async () => {
     $store = {
       dispatch: jest.fn(),
-      getters: {
+      state: {
+        session: {
+          signedIn: true
+        },
         delegates: {
           delegates: [],
           loading: false,
           loaded: true
-        },
+        }
+      },
+      getters: {
         committedDelegations: {
           [validators[0].operator_address]: 42
-        },
-        session: {
-          signedIn: true
         },
         connected: true,
         lastHeader: { height: 20 },

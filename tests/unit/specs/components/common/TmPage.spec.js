@@ -13,7 +13,6 @@ describe(`TmPage`, () => {
 
   beforeEach(() => {
     getters = {
-      session: () => ({ address: `cosmos`, atoms: 1 }),
       connected: () => true
     }
     actions = {
@@ -21,7 +20,9 @@ describe(`TmPage`, () => {
       actionInput: jest.fn()
     }
     store = new Vuex.Store({
-      state: {},
+      state: {
+        session: () => ({ address: `cosmos`, atoms: 1 })
+      },
       actions,
       getters
     })

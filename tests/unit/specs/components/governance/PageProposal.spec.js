@@ -21,17 +21,20 @@ describe(`PageProposal`, () => {
   localVue.directive(`tooltip`, () => {})
   localVue.directive(`focus`, () => {})
 
-  const getters = {
-    depositDenom: governanceParameters.parameters.deposit.min_deposit[0].denom,
-    proposals: { proposals, tallies, loaded: true },
-    connected: true,
+  const state = {
     governanceParameters: { ...governanceParameters, loaded: true },
-    wallet: {
-      address: `X`
-    },
+    proposals: { proposals, tallies, loaded: true },
     session: {
       signedIn: true
+    },
+    wallet: {
+      address: `X`
     }
+  }
+
+  const getters = {
+    depositDenom: governanceParameters.parameters.deposit.min_deposit[0].denom,
+    connected: true
   }
   let args
 
@@ -39,7 +42,8 @@ describe(`PageProposal`, () => {
     $store = {
       commit: jest.fn(),
       dispatch: jest.fn(),
-      getters
+      getters,
+      state
     }
     args = {
       localVue,
@@ -76,9 +80,10 @@ describe(`PageProposal`, () => {
       $store = {
         commit: jest.fn(),
         dispatch: jest.fn(),
+        state,
         getters: JSON.parse(JSON.stringify(getters))
       }
-      $store.getters.governanceParameters.loaded = false
+      $store.state.governanceParameters.loaded = false
       args = {
         localVue,
         propsData: {
@@ -100,8 +105,7 @@ describe(`PageProposal`, () => {
     $store = {
       commit: jest.fn(),
       dispatch: jest.fn(),
-      getters: {
-        ...getters,
+      state: {
         proposals: {
           proposals,
           tallies: {
@@ -118,6 +122,9 @@ describe(`PageProposal`, () => {
           loaded: true,
           ...governanceParameters
         }
+      },
+      getters: {
+        ...getters
       }
     }
     wrapper = shallowMount(PageProposal, { ...args, mocks: { $store } })
@@ -129,6 +136,7 @@ describe(`PageProposal`, () => {
       ...args,
       propsData: { proposalId: `666` }
     })
+    wrapper.setData({ governanceParameters: { loaded: true } })
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 

@@ -16,11 +16,11 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex"
+import { mapState } from "vuex"
 export default {
   name: `cookie-bar`,
   computed: {
-    ...mapGetters([`session`])
+    ...mapState([`session`])
   },
   methods: {
     accept() {

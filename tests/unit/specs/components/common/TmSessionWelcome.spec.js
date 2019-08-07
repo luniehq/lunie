@@ -9,8 +9,7 @@ describe(`TmSessionWelcome`, () => {
       session: {
         insecureMode: true,
         browserWithLedgerSupport: null
-      },
-      lastPage: `/`
+      }
     }
     $store = {
       getters,

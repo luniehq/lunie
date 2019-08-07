@@ -38,7 +38,7 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex"
+import { mapState, mapGetters } from "vuex"
 import { viewDenom } from "scripts/num"
 import { isPendingUndelegation } from "scripts/transaction-utils"
 
@@ -63,13 +63,11 @@ export default {
     viewDenom
   },
   computed: {
+    ...mapState([`delegates`, `delegation`, `session`]),
     ...mapGetters([
-      `delegates`,
-      `delegation`,
       `committedDelegations`,
       `bondDenom`,
       `connected`,
-      `session`,
       `flatOrderedTransactionList`,
       `yourValidators`
     ]),

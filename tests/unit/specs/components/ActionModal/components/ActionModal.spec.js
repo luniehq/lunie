@@ -54,16 +54,18 @@ describe(`ActionModal`, () => {
     $store = {
       commit: jest.fn(),
       dispatch: jest.fn(),
-      getters: {
-        connected: true,
+      state: {
+        extension: {
+          enabled: true
+        },
         session: {
           signedIn: true,
           sessionType: `local`,
           browserWithLedgerSupport: null
-        },
-        extension: {
-          enabled: true
-        },
+        }
+      },
+      getters: {
+        connected: true,
         bondDenom: `uatom`,
         wallet: {
           loading: false
@@ -671,7 +673,7 @@ describe(`ActionModal`, () => {
     })
 
     it(`selects ledger if device is connected`, () => {
-      $store.getters.session.sessionType = `ledger`
+      $store.state.session.sessionType = `ledger`
       expect(wrapper.vm.selectedSignMethod).toBe(`ledger`)
       expect(wrapper.vm.signMethods).toEqual([
         {
