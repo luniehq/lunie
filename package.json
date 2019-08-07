@@ -23,7 +23,8 @@
     "test:unit": "vue-cli-service test:unit",
     "testnet:start": "npm run testnet:start:container && npm run proxy",
     "testnet:start:container": "docker run --rm -p 26657:26657 --name testnet -p 9070:9070 --detach -e MAX_NODES=${MAX_NODES:-2} lunieio/testnet:v0.34.7",
-    "testnet:stop": "docker stop testnet"
+    "testnet:stop": "docker stop testnet",
+    "release:android": "node ./tasks/bump-android-version.js && git commit android/app/build.gradle -m 'updated android app version' && git push origin release-android"
   },
   "dependencies": {
     "@babel/polyfill": "^7.4.4",
@@ -65,6 +66,9 @@
   "devDependencies": {
     "@ascendancyy/vue-cli-plugin-stylelint": "^1.1.2",
     "@babel/plugin-transform-runtime": "^7.5.5",
+    "@capacitor/android": "1.1.1",
+    "@capacitor/cli": "1.1.1",
+    "@capacitor/core": "1.1.1",
     "@vue/cli-plugin-babel": "^3.10.0",
     "@vue/cli-plugin-eslint": "^3.10.0",
     "@vue/cli-plugin-pwa": "^3.10.0",
