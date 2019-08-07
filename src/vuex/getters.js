@@ -97,7 +97,6 @@ export const bondDenom = state =>
   `uatom`
 
 // governance
-export const votes = state => state.votes.votes
 export const depositDenom = state =>
   state.governanceParameters.loaded &&
   state.governanceParameters.parameters.deposit.min_deposit

@@ -185,7 +185,8 @@ export default {
       `session`,
       `wallet`
     ]),
-    ...mapGetters([`depositDenom`, `connected`, `votes`]),
+    ...mapState({ votes: state => state.votes.votes }),
+    ...mapGetters([`depositDenom`, `connected`]),
     proposal() {
       return this.proposals.proposals[this.proposalId]
     },
