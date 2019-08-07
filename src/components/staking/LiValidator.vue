@@ -94,8 +94,7 @@ export default {
   },
   data: () => ({ num }),
   computed: {
-    ...mapState([`distribution`]),
-    ...mapGetters([`delegates`, `session`, `lastHeader`, `pool`]),
+    ...mapState([`pool`]),
     status() {
       // status: jailed
       if (this.validator.jailed)

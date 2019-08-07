@@ -69,12 +69,7 @@ const getters = {
   keybase: `keybase`,
   liquidAtoms: 1337,
   connected: true,
-  bondDenom: stakingParameters.bond_denom,
-  pool: {
-    pool: {
-      bonded_tokens: 4200
-    }
-  }
+  bondDenom: stakingParameters.bond_denom
 }
 
 describe(`PageValidator`, () => {
@@ -93,6 +88,11 @@ describe(`PageValidator`, () => {
         distribution: {
           rewards: {
             [validator.operator_address]: 10
+          }
+        },
+        pool: {
+          pool: {
+            bonded_tokens: 4200
           }
         },
         delegation: { loaded: true }

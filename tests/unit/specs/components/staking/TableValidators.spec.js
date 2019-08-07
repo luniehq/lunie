@@ -15,11 +15,7 @@ describe(`TableValidators`, () => {
     },
     bondDenom: `stake`,
     keybase: { [validators[0].description.identity]: `keybase` },
-    pool: {
-      pool: {
-        bonded_tokens: 1000
-      }
-    },
+
     delegates: {
       signingInfos: {
         cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw: {
@@ -47,6 +43,11 @@ describe(`TableValidators`, () => {
             cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw: {
               stake: 1000
             }
+          }
+        },
+        pool: {
+          pool: {
+            bonded_tokens: 1000
           }
         }
       },

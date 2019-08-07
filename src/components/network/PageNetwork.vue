@@ -131,7 +131,7 @@
 
 <script>
 import moment from "moment"
-import { mapGetters } from "vuex"
+import { mapState, mapGetters } from "vuex"
 import num from "scripts/num"
 import PanelSort from "staking/PanelSort"
 import TmPage from "common/TmPage"
@@ -145,11 +145,12 @@ export default {
     num
   }),
   computed: {
+    ...mapState([`pool`]),
     ...mapGetters([
       `connected`,
       `lastHeader`,
       `delegates`,
-      `pool`,
+      ,
       `bondDenom`,
       `blocks`
     ]),

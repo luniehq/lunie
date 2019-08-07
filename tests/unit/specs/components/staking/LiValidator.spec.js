@@ -40,23 +40,16 @@ describe(`LiValidator`, () => {
       commit: jest.fn(),
       dispatch: jest.fn(),
       state: {
-        distribution: {
-          rewards: {}
-        }
-      },
-      getters: {
-        delegates: { delegates: [] },
-        committedDelegations: {},
-        session: {
-          signedIn: true
-        },
-        bondDenom: `stake`,
-        lastHeader: ``,
         pool: {
           pool: {
             bonded_tokens: 1000
           }
         }
+      },
+      getters: {
+        delegates: { delegates: [] },
+        committedDelegations: {},
+        bondDenom: `stake`
       }
     }
 
@@ -144,11 +137,5 @@ describe(`LiValidator`, () => {
 
   it(`should show the validator's commission`, () => {
     expect(wrapper.html()).toContain(`5.00%`)
-  })
-
-  it(`works if user is not signed in`, () => {
-    $store.getters.session.signedIn = false
-
-    expect(wrapper.vm.$el).toMatchSnapshot()
   })
 })

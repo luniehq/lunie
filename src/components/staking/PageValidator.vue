@@ -236,7 +236,7 @@ export default {
     num
   }),
   computed: {
-    ...mapState([`delegation`, `distribution`]),
+    ...mapState([`delegation`, `distribution`, `pool`]),
     ...mapState({
       annualProvision: state => state.minting.annualProvision
     }),
@@ -248,8 +248,7 @@ export default {
       `keybase`,
       `liquidAtoms`,
       `session`,
-      `connected`,
-      `pool`
+      `connected`
     ]),
     validator() {
       const validator = this.delegates.delegates.find(

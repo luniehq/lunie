@@ -7,6 +7,14 @@ localVue.directive(`tooltip`, () => {})
 describe(`PageNetwork`, () => {
   let wrapper
   const $store = {
+    state: {
+      pool: {
+        pool: {
+          bonded_tokens: 18056799300.444444,
+          not_bonded_tokens: 9008256400.444444
+        }
+      }
+    },
     getters: {
       connected: true,
       lastHeader: {
@@ -23,12 +31,6 @@ describe(`PageNetwork`, () => {
             c: `d`
           }
         ]
-      },
-      pool: {
-        pool: {
-          bonded_tokens: 18056799300.444444,
-          not_bonded_tokens: 9008256400.444444
-        }
       },
       bondDenom: `stake`,
       blocks: [
