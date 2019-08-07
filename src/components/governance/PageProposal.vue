@@ -178,10 +178,9 @@ export default {
     lastVote: undefined
   }),
   computed: {
-    ...mapState([`pool`, `wallet`]),
+    ...mapState([`pool`, `proposals`, `wallet`]),
     ...mapGetters([
       `depositDenom`,
-      `proposals`,
       `connected`,
       `votes`,
       `governanceParameters`,

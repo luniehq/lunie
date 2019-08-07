@@ -23,7 +23,6 @@ describe(`PageProposal`, () => {
 
   const getters = {
     depositDenom: governanceParameters.parameters.deposit.min_deposit[0].denom,
-    proposals: { proposals, tallies, loaded: true },
     connected: true,
     governanceParameters: { ...governanceParameters, loaded: true },
     session: {
@@ -31,6 +30,7 @@ describe(`PageProposal`, () => {
     }
   }
   const state = {
+    proposals: { proposals, tallies, loaded: true },
     wallet: {
       address: `X`
     }
@@ -79,6 +79,7 @@ describe(`PageProposal`, () => {
       $store = {
         commit: jest.fn(),
         dispatch: jest.fn(),
+        state,
         getters: JSON.parse(JSON.stringify(getters))
       }
       $store.getters.governanceParameters.loaded = false
@@ -103,8 +104,7 @@ describe(`PageProposal`, () => {
     $store = {
       commit: jest.fn(),
       dispatch: jest.fn(),
-      getters: {
-        ...getters,
+      state: {
         proposals: {
           proposals,
           tallies: {
@@ -116,7 +116,10 @@ describe(`PageProposal`, () => {
             }
           },
           loaded: true
-        },
+        }
+      },
+      getters: {
+        ...getters,
         governanceParameters: {
           loaded: true,
           ...governanceParameters

@@ -104,7 +104,6 @@ export const bondDenom = getters =>
   `uatom`
 
 // governance
-export const proposals = state => state.proposals
 export const votes = state => state.votes.votes
 export const deposits = state => state.deposits.deposits
 export const governanceParameters = state => state.governanceParameters
