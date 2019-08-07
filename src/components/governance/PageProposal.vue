@@ -146,7 +146,7 @@
 <script>
 import moment from "moment"
 import BigNumber from "bignumber.js"
-import { mapGetters } from "vuex"
+import { mapState, mapGetters } from "vuex"
 import num from "scripts/num"
 import TmBtn from "common/TmBtn"
 import TmDataError from "common/TmDataError"
@@ -178,11 +178,11 @@ export default {
     lastVote: undefined
   }),
   computed: {
+    ...mapState([`wallet`]),
     ...mapGetters([
       `depositDenom`,
       `proposals`,
       `connected`,
-      `wallet`,
       `votes`,
       `governanceParameters`,
       `session`,

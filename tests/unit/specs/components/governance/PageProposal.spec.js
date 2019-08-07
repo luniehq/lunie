@@ -26,11 +26,13 @@ describe(`PageProposal`, () => {
     proposals: { proposals, tallies, loaded: true },
     connected: true,
     governanceParameters: { ...governanceParameters, loaded: true },
-    wallet: {
-      address: `X`
-    },
     session: {
       signedIn: true
+    }
+  }
+  const state = {
+    wallet: {
+      address: `X`
     }
   }
   let args
@@ -39,7 +41,8 @@ describe(`PageProposal`, () => {
     $store = {
       commit: jest.fn(),
       dispatch: jest.fn(),
-      getters
+      getters,
+      state
     }
     args = {
       localVue,

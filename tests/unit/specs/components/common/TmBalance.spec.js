@@ -21,12 +21,15 @@ describe(`TmBalance`, () => {
         delegation: {
           loaded: true
         },
-        wallet: {
-          loaded: true
-        },
+
         lastHeader: { height: `10` },
         validatorsWithRewards: ["validatorX"],
         totalRewards: 1000450000000
+      },
+      state: {
+        wallet: {
+          loaded: true
+        }
       },
       dispatch: jest.fn()
     }

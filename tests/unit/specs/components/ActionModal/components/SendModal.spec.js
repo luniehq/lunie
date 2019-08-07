@@ -20,20 +20,24 @@ describe(`SendModal`, () => {
     }
   ]
   const getters = {
+    connected: true,
+    session: { signedIn: true, address: "cosmos1234" }
+  }
+
+  const state = {
     wallet: {
       loading: false,
       denoms: [`fermion`, `gregcoin`, `mycoin`, `STAKE`],
       balances
-    },
-    connected: true,
-    session: { signedIn: true, address: "cosmos1234" }
+    }
   }
 
   beforeEach(async () => {
     $store = {
       commit: jest.fn(),
       dispatch: jest.fn(),
-      getters
+      getters,
+      state
     }
 
     wrapper = shallowMount(SendModal, {

@@ -104,7 +104,7 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex"
+import { mapState } from "vuex"
 import {
   minLength,
   maxLength,
@@ -153,7 +153,7 @@ export default {
     amount: 0
   }),
   computed: {
-    ...mapGetters([`wallet`]),
+    ...mapState([`wallet`]),
     balance() {
       // TODO: refactor to get the selected coin when multicoin deposit is enabled
       if (!this.wallet.loading && !!this.wallet.balances.length) {
