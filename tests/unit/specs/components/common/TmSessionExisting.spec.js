@@ -5,7 +5,7 @@ describe(`TmSessionExisting`, () => {
   let wrapper, $store
 
   beforeEach(() => {
-    const getters = {
+    const state = {
       session: {
         insecureMode: false,
         browserWithLedgerSupport: null
@@ -18,7 +18,7 @@ describe(`TmSessionExisting`, () => {
       }
     }
     $store = {
-      getters,
+      state,
       commit: jest.fn(),
       dispatch: jest.fn()
     }

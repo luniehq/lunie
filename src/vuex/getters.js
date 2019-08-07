@@ -8,7 +8,6 @@ import {
 
 // ui
 export const session = state => state.session
-export const keystore = state => state.keystore
 
 // wallet
 export const transactions = state => state.transactions
