@@ -54,15 +54,17 @@ describe(`ActionModal`, () => {
     $store = {
       commit: jest.fn(),
       dispatch: jest.fn(),
+      state: {
+        extension: {
+          enabled: true
+        }
+      },
       getters: {
         connected: true,
         session: {
           signedIn: true,
           sessionType: `local`,
           browserWithLedgerSupport: null
-        },
-        extension: {
-          enabled: true
         },
         bondDenom: `uatom`,
         wallet: {

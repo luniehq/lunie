@@ -32,8 +32,6 @@ export const validators = state => {
   return names
 }
 
-export const extension = state => state.extension
-
 // fee distribution
 export const distribution = state => state.distribution
 export const yourValidators = (state, getters) =>
