@@ -10,7 +10,6 @@ import {
 export const session = state => state.session
 
 // wallet
-export const transactions = state => state.transactions
 export const allTransactions = state =>
   state.transactions.bank.concat(
     state.transactions.staking,

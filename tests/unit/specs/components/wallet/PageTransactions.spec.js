@@ -198,23 +198,27 @@ describe(`PageTransactions`, () => {
   let wrapper, $store
 
   const getters = {
-    session: {
-      address: addresses[0],
-      signedIn: true
-    },
+    validators
+  }
+
+  const state = {
     transactions: {
       loading: false,
       loaded: true,
       error: undefined
     },
-    flatOrderedTransactionList,
-    validators
+    session: {
+      address: addresses[0],
+      signedIn: true
+    },
+    flatOrderedTransactionList
   }
 
   beforeEach(() => {
     $store = {
       commit: jest.fn(),
       dispatch: jest.fn(),
+      state,
       getters: JSON.parse(JSON.stringify(getters)) // clone so we don't overwrite by accident
     }
   })
@@ -232,8 +236,8 @@ describe(`PageTransactions`, () => {
     })
 
     it(`and does not load transactions if the user has not signed in`, async () => {
-      $store.getters.session.signedIn = false
-      $store.getters.session.address = undefined
+      $store.state.session.signedIn = false
+      $store.state.session.address = undefined
 
       wrapper = shallowMount(PageTransactions, {
         localVue,
@@ -247,8 +251,8 @@ describe(`PageTransactions`, () => {
   })
 
   it(`should refresh the transaction history when signed in`, async () => {
-    $store.getters.session.signedIn = false
-    $store.getters.session.address = undefined
+    $store.state.session.signedIn = false
+    $store.state.session.address = undefined
 
     wrapper = shallowMount(PageTransactions, {
       localVue,
@@ -257,8 +261,8 @@ describe(`PageTransactions`, () => {
       }
     })
     expect($store.dispatch).not.toHaveBeenCalledWith(`getAllTxs`)
-    $store.getters.session.signedIn = true
-    $store.getters.session.address = undefined
+    $store.state.session.signedIn = true
+    $store.state.session.address = undefined
     expect($store.dispatch).toHaveBeenCalledWith(`getAllTxs`)
   })
 })
