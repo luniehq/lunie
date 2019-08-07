@@ -7,7 +7,6 @@ import {
 } from "scripts/transaction-utils"
 
 // ui
-export const filters = state => state.filters
 export const notifications = state => state.notifications
 export const session = state => state.session
 export const lastPage = state => {
