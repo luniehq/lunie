@@ -1,40 +1,31 @@
 <template>
   <div class="header-balance">
-    <div class="top">
-      <div class="total-atoms top-section">
-        <h3>Total {{ num.viewDenom(bondDenom) }}</h3>
-        <h2 class="total-atoms__value">
-          {{ totalAtomsDisplay }}
-        </h2>
-        <Bech32 :address="session.address || ''" />
-      </div>
-      <div class="second-row">
-        <div class="unbonded-atoms top-section">
-          <h3>Liquid {{ num.viewDenom(bondDenom) }}</h3>
-          <h2>{{ unbondedAtoms }}</h2>
-        </div>
-        <div v-if="rewards" class="top-section">
-          <h3>Available Rewards</h3>
-          <h2>{{ rewards }}</h2>
-          <TmBtn
-            id="withdraw-btn"
-            :disabled="!readyToWithdraw"
-            class="withdraw-rewards"
-            :value="'Withdraw'"
-            :to="''"
-            type="anchor"
-            size="sm"
-            @click.native="readyToWithdraw && onWithdrawal()"
-          />
-        </div>
-      </div>
+    <div class="total-atoms">
+      <h3>Total {{ num.viewDenom(bondDenom) }}</h3>
+      <h2 class="total-atoms__value">{{ totalAtomsDisplay }}</h2>
+    </div>
+
+    <div class="available-atoms">
+      <h3>Available {{ num.viewDenom(bondDenom) }}</h3>
+      <h2>{{ unbondedAtoms }}</h2>
+    </div>
+
+    <div v-if="rewards" class="rewards">
+      <h3>Rewards</h3>
+      <h2>{{ rewards }}</h2>
+    </div>
+    <div v-if="rewards" class="rewards-button">
+      <TmBtn
+        id="withdraw-btn"
+        :disabled="!readyToWithdraw"
+        class="withdraw-rewards"
+        :value="'Withdraw'"
+        size="sm"
+        @click.native="readyToWithdraw && onWithdrawal()"
+      />
     </div>
     <slot />
-    <ModalWithdrawRewards
-      ref="ModalWithdrawRewards"
-      :rewards="totalRewards"
-      :denom="bondDenom"
-    />
+    <ModalWithdrawRewards ref="ModalWithdrawRewards" :rewards="totalRewards" :denom="bondDenom" />
   </div>
 </template>
 <script>
@@ -129,65 +120,67 @@ export default {
 <style scoped>
 .header-balance {
   display: flex;
-  padding: 0 1rem;
-}
-
-.total-atoms.top-section {
-  padding-left: 0;
-}
-
-.header-balance .top {
-  display: flex;
-  flex-direction: row;
-}
-
-.top-section {
   position: relative;
-  padding: 0 2rem;
+  width: 100%;
+  padding: 1rem;
 }
 
-.header-balance .top h3 {
-  font-size: 14px;
-  margin: 0;
+.header-balance h3 {
+  font-size: var(--sm);
   font-weight: 400;
   white-space: nowrap;
 }
 
-.header-balance .top h2 {
-  color: var(--bright);
-  font-size: 1.75rem;
+.header-balance h2 {
+  font-size: 24px;
   font-weight: 500;
-  line-height: 40px;
+  line-height: 24px;
+  color: var(--bright);
+}
+
+.total-atoms,
+.available-atoms,
+.rewards {
+  padding-right: 2.5rem;
+  width: 100%;
+}
+
+.rewards-button {
+  display: flex;
+  align-items: flex-end;
 }
 
 .withdraw-rewards {
   font-size: var(--sm);
   font-weight: 500;
+  top: 1rem;
+  right: 1rem;
 }
 
-.second-row {
-  flex-direction: row;
-  display: flex;
-}
-
-/* TODO fix scaling on medium sized screens and pick proper break point */
-@media screen and (max-width: 550px) {
+@media screen and (max-width: 667px) {
   .header-balance {
+    flex-direction: column;
+    width: 100%;
     padding: 0;
   }
 
-  .top-section {
-    padding: 0.5rem 0 1rem;
+  .available-atoms {
+    padding: 1rem 0;
   }
 
-  .header-balance .top {
-    flex-direction: column;
-    width: 100%;
+  .available-atoms h2 {
+    font-size: var(--m);
+    line-height: 20px;
   }
 
-  .second-row {
-    width: 100%;
-    justify-content: space-between;
+  .rewards {
+    display: none;
+  }
+
+  .rewards-button {
+    position: absolute;
+    right: 2px;
+    top: 0;
   }
 }
 </style>

@@ -56,7 +56,7 @@ export default {
 }
 
 .tm-page-header-body {
-  padding: 1rem;
+  padding: 0.5rem 1rem;
 }
 
 .tm-page-header-container {
