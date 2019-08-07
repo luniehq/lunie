@@ -15,8 +15,7 @@ describe(`TmSessionExisting`, () => {
       },
       keystore: {
         accounts: []
-      },
-      lastPage: `/`
+      }
     }
     $store = {
       getters,

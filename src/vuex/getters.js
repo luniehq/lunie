@@ -8,12 +8,6 @@ import {
 
 // ui
 export const session = state => state.session
-export const lastPage = state => {
-  return (
-    state.session.history.length &&
-    state.session.history[state.session.history.length - 1]
-  )
-}
 export const keystore = state => state.keystore
 
 // wallet
