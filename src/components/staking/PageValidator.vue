@@ -236,7 +236,7 @@ export default {
     num
   }),
   computed: {
-    ...mapState([`distribution`]),
+    ...mapState([`delegation`, `distribution`]),
     ...mapState({
       annualProvision: state => state.minting.annualProvision
     }),
@@ -244,7 +244,6 @@ export default {
       `lastHeader`,
       `bondDenom`,
       `delegates`,
-      `delegation`,
       `committedDelegations`,
       `keybase`,
       `liquidAtoms`,

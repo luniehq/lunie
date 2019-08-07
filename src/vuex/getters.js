@@ -57,7 +57,7 @@ export const liquidAtoms = state =>
       balance => balance.denom === state.stakingParameters.parameters.bond_denom
     ) || { amount: 0 }
   ).amount
-export const delegation = state => state.delegation
+
 export const totalAtoms = (state, getters) => {
   return new BN(getters.liquidAtoms)
     .plus(getters.oldBondedAtoms)

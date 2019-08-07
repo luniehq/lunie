@@ -16,10 +16,6 @@ describe(`TmBalance`, () => {
         totalAtoms: 3210000000,
         bondDenom: `stake`,
 
-        delegation: {
-          loaded: true
-        },
-
         lastHeader: { height: `10` },
         validatorsWithRewards: ["validatorX"],
         totalRewards: 1000450000000
@@ -29,6 +25,9 @@ describe(`TmBalance`, () => {
           loaded: true
         },
         distribution: {
+          loaded: true
+        },
+        delegation: {
           loaded: true
         }
       },

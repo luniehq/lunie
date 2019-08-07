@@ -59,7 +59,6 @@ const getters = {
       }
     }
   },
-  delegation: { loaded: true },
   committedDelegations: {
     [validator.operator_address]: 0
   },
@@ -95,7 +94,8 @@ describe(`PageValidator`, () => {
           rewards: {
             [validator.operator_address]: 10
           }
-        }
+        },
+        delegation: { loaded: true }
       },
       getters: JSON.parse(JSON.stringify(getters)) // clone to be safe we don't overwrite
     }

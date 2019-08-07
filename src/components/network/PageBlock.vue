@@ -51,7 +51,7 @@
 
 <script>
 import moment from "moment"
-import { mapGetters } from "vuex"
+import { mapState, mapGetters } from "vuex"
 import { prettyInt } from "scripts/num"
 import {
   flattenTransactionMsgs,
@@ -71,13 +71,13 @@ export default {
     TransactionList
   },
   computed: {
+    ...mapState([`delegation`]),
     ...mapGetters([
       `connected`,
       `block`,
       `lastHeader`,
       `session`,
-      `validators`,
-      `delegation`
+      `validators`
     ]),
     transactions() {
       const unbondingInfo = {
