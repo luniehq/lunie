@@ -150,7 +150,6 @@ export default {
       `connected`,
       `lastHeader`,
       `delegates`,
-      ,
       `bondDenom`,
       `blocks`
     ]),

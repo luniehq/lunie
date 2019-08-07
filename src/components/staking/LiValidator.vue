@@ -73,7 +73,7 @@
 </template>
 
 <script>
-import { mapState, mapGetters } from "vuex"
+import { mapState } from "vuex"
 import num from "scripts/num"
 import Bech32 from "common/Bech32"
 import BN from "bignumber.js"
