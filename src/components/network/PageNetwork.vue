@@ -145,14 +145,8 @@ export default {
     num
   }),
   computed: {
-    ...mapState([`pool`]),
-    ...mapGetters([
-      `connected`,
-      `lastHeader`,
-      `delegates`,
-      `bondDenom`,
-      `blocks`
-    ]),
+    ...mapState([`pool`, `delegates`]),
+    ...mapGetters([`connected`, `lastHeader`, `bondDenom`, `blocks`]),
     status() {
       const color = this.connected ? `green` : `red`
       const message = this.connected

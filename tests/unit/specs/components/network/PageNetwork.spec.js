@@ -13,6 +13,14 @@ describe(`PageNetwork`, () => {
           bonded_tokens: 18056799300.444444,
           not_bonded_tokens: 9008256400.444444
         }
+      },
+      delegates: {
+        delegates: [
+          {
+            a: `b`,
+            c: `d`
+          }
+        ]
       }
     },
     getters: {
@@ -23,14 +31,6 @@ describe(`PageNetwork`, () => {
         height: `6001`,
         total_txs: `108`,
         time: Date.now()
-      },
-      delegates: {
-        delegates: [
-          {
-            a: `b`,
-            c: `d`
-          }
-        ]
       },
       bondDenom: `stake`,
       blocks: [
