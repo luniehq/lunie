@@ -39,12 +39,14 @@ describe(`LiValidator`, () => {
     $store = {
       commit: jest.fn(),
       dispatch: jest.fn(),
+      state: {
+        distribution: {
+          rewards: {}
+        }
+      },
       getters: {
         delegates: { delegates: [] },
         committedDelegations: {},
-        distribution: {
-          rewards: {}
-        },
         session: {
           signedIn: true
         },

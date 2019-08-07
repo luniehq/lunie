@@ -15,9 +15,7 @@ describe(`TmBalance`, () => {
         liquidAtoms: 1230000000,
         totalAtoms: 3210000000,
         bondDenom: `stake`,
-        distribution: {
-          loaded: true
-        },
+
         delegation: {
           loaded: true
         },
@@ -28,6 +26,9 @@ describe(`TmBalance`, () => {
       },
       state: {
         wallet: {
+          loaded: true
+        },
+        distribution: {
           loaded: true
         }
       },

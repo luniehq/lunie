@@ -33,7 +33,6 @@ export const validators = state => {
 }
 
 // fee distribution
-export const distribution = state => state.distribution
 export const yourValidators = (state, getters) =>
   state.session.signedIn
     ? getters.delegates.delegates.filter(

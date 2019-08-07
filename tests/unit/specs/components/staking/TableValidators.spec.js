@@ -13,14 +13,6 @@ describe(`TableValidators`, () => {
       address: `address1234`,
       signedIn: true
     },
-    distribution: {
-      loaded: true,
-      rewards: {
-        cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw: {
-          stake: 1000
-        }
-      }
-    },
     bondDenom: `stake`,
     keybase: { [validators[0].description.identity]: `keybase` },
     pool: {
@@ -48,6 +40,14 @@ describe(`TableValidators`, () => {
       state: {
         minting: {
           annualProvision: "100"
+        },
+        distribution: {
+          loaded: true,
+          rewards: {
+            cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw: {
+              stake: 1000
+            }
+          }
         }
       },
       getters: JSON.parse(JSON.stringify(getters)) // clone so we don't overwrite by accident

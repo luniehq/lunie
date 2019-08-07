@@ -204,7 +204,7 @@
 <script>
 import moment from "moment"
 import { calculateTokens } from "scripts/common"
-import { mapGetters, mapState } from "vuex"
+import { mapState, mapGetters } from "vuex"
 import num, { atoms, viewDenom, shortDecimals } from "scripts/num"
 import { formatBech32 } from "src/filters"
 import { expectedReturns } from "scripts/returns"
@@ -236,12 +236,15 @@ export default {
     num
   }),
   computed: {
+    ...mapState([`distribution`]),
+    ...mapState({
+      annualProvision: state => state.minting.annualProvision
+    }),
     ...mapGetters([
       `lastHeader`,
       `bondDenom`,
       `delegates`,
       `delegation`,
-      `distribution`,
       `committedDelegations`,
       `keybase`,
       `liquidAtoms`,
@@ -249,9 +252,6 @@ export default {
       `connected`,
       `pool`
     ]),
-    ...mapState({
-      annualProvision: state => state.minting.annualProvision
-    }),
     validator() {
       const validator = this.delegates.delegates.find(
         v => this.$route.params.validator === v.operator_address

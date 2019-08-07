@@ -57,7 +57,7 @@ export default {
     }
   },
   computed: {
-    ...mapState([`wallet`]),
+    ...mapState([`wallet`, `distribution`]),
     ...mapGetters([
       `connected`,
       `session`,
@@ -66,7 +66,6 @@ export default {
       `lastHeader`,
       `totalAtoms`,
       `bondDenom`,
-      `distribution`,
       `validatorsWithRewards`,
       `totalRewards`
     ]),

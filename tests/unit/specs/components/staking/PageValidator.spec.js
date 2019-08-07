@@ -66,11 +66,7 @@ const getters = {
   lastHeader: {
     height: `500`
   },
-  distribution: {
-    rewards: {
-      [validator.operator_address]: 10
-    }
-  },
+
   keybase: `keybase`,
   liquidAtoms: 1337,
   connected: true,
@@ -94,6 +90,11 @@ describe(`PageValidator`, () => {
       state: {
         minting: {
           annualProvision: "100"
+        },
+        distribution: {
+          rewards: {
+            [validator.operator_address]: 10
+          }
         }
       },
       getters: JSON.parse(JSON.stringify(getters)) // clone to be safe we don't overwrite
