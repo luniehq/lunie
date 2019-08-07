@@ -34,8 +34,8 @@ export default {
     TmPage
   },
   computed: {
-    ...mapState([`session`, `transactions`, `flatOrderedTransactionList`]),
-    ...mapGetters([`validators`]),
+    ...mapState([`session`, `transactions`]),
+    ...mapGetters([`validators`, `flatOrderedTransactionList`]),
     dataEmpty() {
       return this.flatOrderedTransactionList.length === 0
     }

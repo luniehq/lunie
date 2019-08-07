@@ -198,6 +198,7 @@ describe(`PageTransactions`, () => {
   let wrapper, $store
 
   const getters = {
+    flatOrderedTransactionList,
     validators
   }
 
@@ -210,8 +211,7 @@ describe(`PageTransactions`, () => {
     session: {
       address: addresses[0],
       signedIn: true
-    },
-    flatOrderedTransactionList
+    }
   }
 
   beforeEach(() => {
