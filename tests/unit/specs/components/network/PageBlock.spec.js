@@ -88,7 +88,6 @@ describe(`PageBlock`, () => {
     lastHeader: {
       height: `1000`
     },
-    session: { address: `` },
     block: {
       block: {
         header: {
@@ -117,7 +116,8 @@ describe(`PageBlock`, () => {
           getters,
           dispatch: jest.fn(),
           state: {
-            delegation: {}
+            delegation: {},
+            session: { address: `` }
           }
         },
         $route: {
@@ -141,7 +141,8 @@ describe(`PageBlock`, () => {
       $store: {
         getters,
         state: {
-          delegation: {}
+          delegation: {},
+          session: { address: `` }
         },
         dispatch: jest.fn()
       },
@@ -178,7 +179,8 @@ describe(`PageBlock`, () => {
             block: {}
           }),
           state: {
-            delegation: {}
+            delegation: {},
+            session: { address: `` }
           },
           dispatch: jest.fn()
         },

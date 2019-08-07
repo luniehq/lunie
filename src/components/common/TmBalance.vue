@@ -57,10 +57,9 @@ export default {
     }
   },
   computed: {
-    ...mapState([`wallet`, `distribution`, `delegation`]),
+    ...mapState([`wallet`, `distribution`, `delegation`, `session`]),
     ...mapGetters([
       `connected`,
-      `session`,
       `liquidAtoms`,
       `lastHeader`,
       `totalAtoms`,

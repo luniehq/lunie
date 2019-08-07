@@ -22,12 +22,15 @@ describe(`DelegationModal`, () => {
   localVue.use(Vuelidate)
   localVue.directive("focus", () => {})
 
-  const getters = {
-    connection: { connected: true },
+  const state = {
     session: {
       signedIn: true,
       address: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw`
-    },
+    }
+  }
+
+  const getters = {
+    connection: { connected: true },
     stakingParameters: { parameters: stakingParameters },
     modalContext: {
       ...context,
@@ -39,7 +42,7 @@ describe(`DelegationModal`, () => {
     wrapper = shallowMount(DelegationModal, {
       localVue,
       mocks: {
-        $store: { getters }
+        $store: { getters, state }
       },
       propsData: {
         validator: mockValues.state.candidates[0],

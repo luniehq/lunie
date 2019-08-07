@@ -71,14 +71,8 @@ export default {
     TransactionList
   },
   computed: {
-    ...mapState([`delegation`]),
-    ...mapGetters([
-      `connected`,
-      `block`,
-      `lastHeader`,
-      `session`,
-      `validators`
-    ]),
+    ...mapState([`delegation`, `session`]),
+    ...mapGetters([`connected`, `block`, `lastHeader`, `validators`]),
     transactions() {
       const unbondingInfo = {
         delegation: this.delegation

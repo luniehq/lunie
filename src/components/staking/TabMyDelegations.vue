@@ -63,12 +63,11 @@ export default {
     viewDenom
   },
   computed: {
-    ...mapState([`delegates`, `delegation`]),
+    ...mapState([`delegates`, `delegation`, `session`]),
     ...mapGetters([
       `committedDelegations`,
       `bondDenom`,
       `connected`,
-      `session`,
       `flatOrderedTransactionList`,
       `yourValidators`
     ]),

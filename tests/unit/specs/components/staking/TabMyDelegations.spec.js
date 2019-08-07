@@ -11,13 +11,13 @@ describe(`Component: TabMyDelegations`, () => {
     delegation: {
       unbondingDelegations: {},
       loaded: true
-    }
+    },
+    session: { signedIn: true }
   }
   const getters = {
     committedDelegations: {},
     connected: true,
     bondDenom: `uatom`,
-    session: { signedIn: true },
     flatOrderedTransactionList
   }
 
@@ -63,11 +63,11 @@ describe(`Component: TabMyDelegations`, () => {
           delegation: {
             unbondingDelegations: {},
             loaded: true
-          }
+          },
+          session: { signedIn: false }
         },
         getters: JSON.parse(JSON.stringify(getters))
       }
-      $store.getters.session.signedIn = false
       wrapper = shallowMount(TabMyDelegations, {
         mocks: {
           $store
@@ -86,7 +86,8 @@ describe(`Component: TabMyDelegations`, () => {
           delegation: {
             unbondingDelegations: {},
             loaded: true
-          }
+          },
+          session: { signedIn: true }
         },
         getters: JSON.parse(JSON.stringify(getters))
       }
@@ -110,7 +111,8 @@ describe(`Component: TabMyDelegations`, () => {
           delegation: {
             unbondingDelegations: {},
             loaded: true
-          }
+          },
+          session: { signedIn: true }
         },
         getters: JSON.parse(JSON.stringify(getters))
       }
@@ -137,7 +139,8 @@ describe(`Component: TabMyDelegations`, () => {
           delegation: {
             unbondingDelegations: {},
             loaded: true
-          }
+          },
+          session: { signedIn: true }
         },
         getters: JSON.parse(JSON.stringify(getters))
       }

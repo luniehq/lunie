@@ -5,6 +5,12 @@ import validators from "../../store/json/validators.js"
 describe(`TabValidators`, () => {
   let wrapper, $store
 
+  const state = {
+    session: {
+      signedIn: true
+    }
+  }
+
   const getters = {
     delegates: {
       delegates: validators,
@@ -14,9 +20,7 @@ describe(`TabValidators`, () => {
     committedDelegations: {
       [validators[0].operator_address]: 42
     },
-    session: {
-      signedIn: true
-    },
+
     connected: true,
     lastHeader: { height: 20 },
     yourValidators: validators
@@ -42,6 +46,7 @@ describe(`TabValidators`, () => {
   it(`shows a message if still connecting`, async () => {
     $store = {
       dispatch: jest.fn(),
+      state,
       getters: {
         delegates: {
           delegates: validators,
@@ -50,9 +55,6 @@ describe(`TabValidators`, () => {
         },
         committedDelegations: {
           [validators[0].operator_address]: 42
-        },
-        session: {
-          signedIn: true
         },
         connected: false,
         lastHeader: { height: 20 },
@@ -72,6 +74,7 @@ describe(`TabValidators`, () => {
   it(`shows a message if still loading`, async () => {
     $store = {
       dispatch: jest.fn(),
+      state,
       getters: {
         delegates: {
           delegates: validators,
@@ -80,9 +83,6 @@ describe(`TabValidators`, () => {
         },
         committedDelegations: {
           [validators[0].operator_address]: 42
-        },
-        session: {
-          signedIn: true
         },
         connected: true,
         lastHeader: { height: 20 },
@@ -102,6 +102,7 @@ describe(`TabValidators`, () => {
   it(`shows a message if there is nothing to display`, async () => {
     $store = {
       dispatch: jest.fn(),
+      state,
       getters: {
         delegates: {
           delegates: [],
@@ -110,9 +111,6 @@ describe(`TabValidators`, () => {
         },
         committedDelegations: {
           [validators[0].operator_address]: 42
-        },
-        session: {
-          signedIn: true
         },
         connected: true,
         lastHeader: { height: 20 },

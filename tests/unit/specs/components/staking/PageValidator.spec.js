@@ -41,13 +41,15 @@ const validatorTo = {
   }
 }
 
-const getters = {
+const state = {
   session: {
     experimentalMode: true,
     signedIn: true,
     address: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`
-  },
+  }
+}
 
+const getters = {
   committedDelegations: {
     [validator.operator_address]: 0
   },
@@ -71,6 +73,11 @@ describe(`PageValidator`, () => {
       commit: jest.fn(),
       dispatch: jest.fn(),
       state: {
+        session: {
+          experimentalMode: true,
+          signedIn: true,
+          address: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`
+        },
         minting: {
           annualProvision: "100"
         },
@@ -128,7 +135,7 @@ describe(`PageValidator`, () => {
     })
 
     it(`if user hasn't signed in`, () => {
-      $store.getters.session.signedIn = false
+      $store.state.session.signedIn = false
 
       expect(wrapper.vm.$el).toMatchSnapshot()
     })
@@ -491,6 +498,7 @@ describe(`delegationTargetOptions`, () => {
 
     const options = PageValidator.methods.delegationTargetOptions.call({
       ...getters,
+      ...state,
       committedDelegations: {},
       $store,
       $route: {
@@ -498,7 +506,7 @@ describe(`delegationTargetOptions`, () => {
       }
     })
     expect(options).toHaveLength(1)
-    expect(options[0].address).toEqual(getters.session.address)
+    expect(options[0].address).toEqual(state.session.address)
 
     expect(options).toMatchSnapshot()
   })
@@ -511,6 +519,7 @@ describe(`delegationTargetOptions`, () => {
 
     const options = PageValidator.methods.delegationTargetOptions({
       ...getters,
+      ...state,
       committedDelegations: {
         [validator.operator_address]: 10
       },
@@ -523,7 +532,7 @@ describe(`delegationTargetOptions`, () => {
     expect(options).not.toContainEqual(
       expect.objectContaining({ address: validator.operator_address })
     )
-    expect(options[0].address).toEqual(getters.session.address)
+    expect(options[0].address).toEqual(state.session.address)
 
     expect(options).toMatchSnapshot()
   })
@@ -546,6 +555,11 @@ describe(`delegationTargetOptions`, () => {
             missed_blocks_counter: 2
           }
         }
+      },
+      session: {
+        experimentalMode: true,
+        signedIn: true,
+        address: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`
       }
     }
 
@@ -566,7 +580,7 @@ describe(`delegationTargetOptions`, () => {
     expect(options).not.toContainEqual(
       expect.objectContaining({ address: validator.operator_address })
     )
-    expect(options[0].address).toEqual(getters.session.address)
+    expect(options[0].address).toEqual(state.session.address)
     expect(options).toContainEqual(
       expect.objectContaining({ address: validatorTo.operator_address })
     )

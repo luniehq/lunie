@@ -236,7 +236,7 @@ export default {
     num
   }),
   computed: {
-    ...mapState([`delegates`, `delegation`, `distribution`, `pool`]),
+    ...mapState([`delegates`, `delegation`, `distribution`, `pool`, `session`]),
     ...mapState({
       annualProvision: state => state.minting.annualProvision
     }),
@@ -246,7 +246,6 @@ export default {
       `committedDelegations`,
       `keybase`,
       `liquidAtoms`,
-      `session`,
       `connected`
     ]),
     validator() {

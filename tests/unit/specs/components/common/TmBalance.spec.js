@@ -8,10 +8,6 @@ describe(`TmBalance`, () => {
     $store = {
       getters: {
         connected: true,
-        session: {
-          address: `cosmos1address`,
-          signedIn: true
-        },
         liquidAtoms: 1230000000,
         totalAtoms: 3210000000,
         bondDenom: `stake`,
@@ -29,6 +25,10 @@ describe(`TmBalance`, () => {
         },
         delegation: {
           loaded: true
+        },
+        session: {
+          address: `cosmos1address`,
+          signedIn: true
         }
       },
       dispatch: jest.fn()

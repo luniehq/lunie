@@ -58,8 +58,8 @@ export default {
   },
   data: () => ({ num, showSendModal: false }),
   computed: {
-    ...mapState([`wallet`]),
-    ...mapGetters([`connected`, `session`]),
+    ...mapState([`session`, `wallet`]),
+    ...mapGetters([`connected`]),
     dataEmpty() {
       return this.wallet.balances.length === 0
     },

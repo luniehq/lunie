@@ -25,7 +25,7 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex"
+import { mapState, mapGetters } from "vuex"
 import TmBtn from "common/TmBtn"
 export default {
   name: `tm-modal-error`,
@@ -49,7 +49,8 @@ export default {
     issueUrl: `https://github.com/cosmos/voyager/issues`
   }),
   computed: {
-    ...mapGetters([`session`, `lastHeader`])
+    ...mapState([`session`]),
+    ...mapGetters([`lastHeader`])
   }
 }
 </script>

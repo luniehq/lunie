@@ -361,14 +361,8 @@ export default {
     SIGN_METHODS
   }),
   computed: {
-    ...mapState([`extension`]),
-    ...mapGetters([
-      `connected`,
-      `session`,
-      `bondDenom`,
-      `liquidAtoms`,
-      `modalContext`
-    ]),
+    ...mapState([`extension`, `session`]),
+    ...mapGetters([`connected`, `bondDenom`, `liquidAtoms`, `modalContext`]),
     requiresSignIn() {
       return !this.session.signedIn
     },

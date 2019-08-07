@@ -14,8 +14,8 @@ describe(`TmSessionHardware`, () => {
 
   beforeEach(() => {
     store = new Vuex.Store({
-      getters: {
-        session: () => ({ browserWithLedgerSupport: true })
+      state: {
+        session: { browserWithLedgerSupport: true }
       }
     })
 

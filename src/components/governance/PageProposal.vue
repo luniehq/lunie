@@ -178,8 +178,14 @@ export default {
     lastVote: undefined
   }),
   computed: {
-    ...mapState([`governanceParameters`, `pool`, `proposals`, `wallet`]),
-    ...mapGetters([`depositDenom`, `connected`, `votes`, `session`]),
+    ...mapState([
+      `governanceParameters`,
+      `pool`,
+      `proposals`,
+      `session`,
+      `wallet`
+    ]),
+    ...mapGetters([`depositDenom`, `connected`, `votes`]),
     proposal() {
       return this.proposals.proposals[this.proposalId]
     },

@@ -18,7 +18,7 @@ import TableValidators from "staking/TableValidators"
 import TmDataEmpty from "common/TmDataEmpty"
 import TmDataLoading from "common/TmDataLoading"
 import TmDataConnecting from "common/TmDataConnecting"
-import { mapGetters } from "vuex"
+import { mapState, mapGetters } from "vuex"
 
 export default {
   name: `tab-validators`,
@@ -32,12 +32,12 @@ export default {
     lastUpdate: 0
   }),
   computed: {
+    ...mapState([`session`]),
     ...mapGetters([
       `lastHeader`,
       `delegates`,
       `committedDelegations`,
       `connected`,
-      `session`,
       `yourValidators`
     ])
   }

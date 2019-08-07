@@ -6,9 +6,6 @@ import {
   flattenTransactionMsgs
 } from "scripts/transaction-utils"
 
-// ui
-export const session = state => state.session
-
 // wallet
 export const allTransactions = state =>
   state.transactions.bank.concat(

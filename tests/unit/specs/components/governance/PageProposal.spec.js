@@ -24,6 +24,9 @@ describe(`PageProposal`, () => {
   const state = {
     governanceParameters: { ...governanceParameters, loaded: true },
     proposals: { proposals, tallies, loaded: true },
+    session: {
+      signedIn: true
+    },
     wallet: {
       address: `X`
     }
@@ -31,10 +34,7 @@ describe(`PageProposal`, () => {
 
   const getters = {
     depositDenom: governanceParameters.parameters.deposit.min_deposit[0].denom,
-    connected: true,
-    session: {
-      signedIn: true
-    }
+    connected: true
   }
   let args
 

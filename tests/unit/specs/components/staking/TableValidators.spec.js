@@ -9,10 +9,7 @@ describe(`TableValidators`, () => {
     committedDelegations: {
       [validators[0].operator_address]: 10
     },
-    session: {
-      address: `address1234`,
-      signedIn: true
-    },
+
     bondDenom: `stake`,
     keybase: { [validators[0].description.identity]: `keybase` },
 
@@ -49,6 +46,10 @@ describe(`TableValidators`, () => {
               missed_blocks_counter: 2
             }
           }
+        },
+        session: {
+          address: `address1234`,
+          signedIn: true
         }
       },
       getters: JSON.parse(JSON.stringify(getters)) // clone so we don't overwrite by accident

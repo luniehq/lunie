@@ -42,7 +42,7 @@ import TmPageHeader from "./TmPageHeader.vue"
 import TmDataLoading from "common/TmDataLoading"
 import TmDataEmpty from "common/TmDataEmpty"
 import CardSignInRequired from "common/CardSignInRequired"
-import { mapGetters } from "vuex"
+import { mapState, mapGetters } from "vuex"
 import TmDataError from "common/TmDataError"
 import TmDataConnecting from "common/TmDataConnecting"
 import TmBalance from "common/TmBalance"
@@ -105,7 +105,8 @@ export default {
     }
   },
   computed: {
-    ...mapGetters([`session`, `connected`])
+    ...mapState([`session`]),
+    ...mapGetters([`connected`])
   },
   watch: {
     $route() {
