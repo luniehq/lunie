@@ -12,10 +12,14 @@ exports[`PageTransactions Renders correctly and does not load transactions if th
   <dataemptytx-stub />
    
   <template>
-    <transactionlist-stub
-      transactions="[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object]"
-      validators="[object Object]"
-    />
+    <div
+      infinite-scroll-distance="80"
+    >
+      <transactionlist-stub
+        transactions="[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object]"
+        validators="[object Object]"
+      />
+    </div>
      
     <br />
   </template>
@@ -34,11 +38,15 @@ exports[`PageTransactions Renders correctly and loads transactions 1`] = `
   <dataemptytx-stub />
    
   <template>
-    <transactionlist-stub
-      address="cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9"
-      transactions="[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object]"
-      validators="[object Object]"
-    />
+    <div
+      infinite-scroll-distance="80"
+    >
+      <transactionlist-stub
+        address="cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9"
+        transactions="[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object]"
+        validators="[object Object]"
+      />
+    </div>
      
     <br />
   </template>

@@ -3,6 +3,7 @@
 import Vue from "vue"
 import Tooltip from "vue-directive-tooltip"
 import Vuelidate from "vuelidate"
+import InfiniteScroll from "vue-infinite-scroll"
 import VueClipboard from "vue-clipboard2"
 import { focusElement, focusParentLast } from "src/directives"
 import App from "./App.vue"
@@ -16,6 +17,7 @@ Vue.config.productionTip = false
 Vue.use(Tooltip, { delay: 1 })
 Vue.use(Vuelidate)
 Vue.use(VueClipboard)
+Vue.use(InfiniteScroll)
 
 Vue.directive(`focus`, focusElement)
 Vue.directive(`focus-last`, focusParentLast)
