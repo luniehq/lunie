@@ -95,7 +95,6 @@ export const oldUnbondingAtoms = state => {
   )
 }
 export const committedDelegations = state => state.delegation.committedDelegates
-export const delegates = state => state.delegates
 export const keybase = state => state.keybase.identities
 export const bondDenom = getters =>
   (getters.stakingParameters.parameters &&

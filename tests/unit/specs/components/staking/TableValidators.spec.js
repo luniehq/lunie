@@ -16,13 +16,6 @@ describe(`TableValidators`, () => {
     bondDenom: `stake`,
     keybase: { [validators[0].description.identity]: `keybase` },
 
-    delegates: {
-      signingInfos: {
-        cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw: {
-          missed_blocks_counter: 2
-        }
-      }
-    },
     lastHeader: {
       chain_id: `gaia-20k`,
       height: `6001`
@@ -48,6 +41,13 @@ describe(`TableValidators`, () => {
         pool: {
           pool: {
             bonded_tokens: 1000
+          }
+        },
+        delegates: {
+          signingInfos: {
+            cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw: {
+              missed_blocks_counter: 2
+            }
           }
         }
       },

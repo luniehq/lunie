@@ -47,18 +47,7 @@ const getters = {
     signedIn: true,
     address: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`
   },
-  delegates: {
-    selfBond: {
-      [validator.operator_address]: 0.01
-    },
-    delegates: [validator, validatorTo],
-    loaded: true,
-    signingInfos: {
-      cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw: {
-        missed_blocks_counter: 2
-      }
-    }
-  },
+
   committedDelegations: {
     [validator.operator_address]: 0
   },
@@ -95,7 +84,19 @@ describe(`PageValidator`, () => {
             bonded_tokens: 4200
           }
         },
-        delegation: { loaded: true }
+        delegation: { loaded: true },
+        delegates: {
+          selfBond: {
+            [validator.operator_address]: 0.01
+          },
+          delegates: [validator, validatorTo],
+          loaded: true,
+          signingInfos: {
+            cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw: {
+              missed_blocks_counter: 2
+            }
+          }
+        }
       },
       getters: JSON.parse(JSON.stringify(getters)) // clone to be safe we don't overwrite
     }
@@ -154,13 +155,13 @@ describe(`PageValidator`, () => {
     })
 
     it(`shows an error if the validator couldn't be found`, () => {
-      $store.getters.delegates.delegates = []
+      $store.state.delegates.delegates = []
 
       expect(wrapper.exists(`tm-data-error-stub`)).toBe(true)
     })
 
     it(`shows invalid validator address page if invalid validator address used`, () => {
-      $store.getters.delegates.delegates = []
+      $store.state.delegates.delegates = []
 
       expect(wrapper.exists(`tm-data-msg`)).toBe(true)
     })
@@ -172,7 +173,7 @@ describe(`PageValidator`, () => {
     it(`should show the validator status`, () => {
       expect(wrapper.vm.status).toBe(`This validator is actively validating`)
       // Jailed
-      $store.getters.delegates.delegates = [
+      $store.state.delegates.delegates = [
         Object.assign({}, validator, {
           jailed: true
         })
@@ -181,7 +182,7 @@ describe(`PageValidator`, () => {
         `This validator has been jailed and is not currently validating`
       )
       // Is not a validator
-      $store.getters.delegates.delegates = [
+      $store.state.delegates.delegates = [
         Object.assign({}, validator, {
           status: 0
         })
@@ -192,7 +193,7 @@ describe(`PageValidator`, () => {
     })
 
     it(`shows a validator as an inactive candidate if he has no voting_power`, () => {
-      $store.getters.delegates.delegates = [
+      $store.state.delegates.delegates = [
         Object.assign({}, validator, {
           status: 0
         })
@@ -201,7 +202,7 @@ describe(`PageValidator`, () => {
     })
 
     it(`shows that a validator is jailed`, () => {
-      $store.getters.delegates.delegates = [
+      $store.state.delegates.delegates = [
         Object.assign({}, validator, {
           jailed: true
         })
@@ -255,7 +256,7 @@ describe(`PageValidator`, () => {
 
     describe(`errors`, () => {
       it(`signing info is missing`, () => {
-        $store.getters.delegates.delegates = [
+        $store.state.delegates.delegates = [
           Object.assign({}, validator, {
             signing_info: undefined
           })
@@ -533,8 +534,24 @@ describe(`delegationTargetOptions`, () => {
       dispatch: jest.fn()
     }
 
+    const state = {
+      delegates: {
+        selfBond: {
+          [validator.operator_address]: 0.01
+        },
+        delegates: [validator, validatorTo],
+        loaded: true,
+        signingInfos: {
+          cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw: {
+            missed_blocks_counter: 2
+          }
+        }
+      }
+    }
+
     const options = PageValidator.methods.delegationTargetOptions.call({
       ...getters,
+      ...state,
       committedDelegations: {
         [validator.operator_address]: 10,
         cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au: 5

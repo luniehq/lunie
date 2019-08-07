@@ -4,10 +4,16 @@ import validators from "../../store/json/validators.js"
 import { flatOrderedTransactionList } from "../../store/json/txs"
 
 describe(`Component: TabMyDelegations`, () => {
-  const getters = {
+  const state = {
     delegates: {
       delegates: validators
     },
+    delegation: {
+      unbondingDelegations: {},
+      loaded: true
+    }
+  }
+  const getters = {
     committedDelegations: {},
     connected: true,
     bondDenom: `uatom`,
@@ -22,12 +28,7 @@ describe(`Component: TabMyDelegations`, () => {
       $store = {
         commit: jest.fn(),
         dispatch: jest.fn(),
-        state: {
-          delegation: {
-            unbondingDelegations: {},
-            loaded: true
-          }
-        },
+        state,
         getters: JSON.parse(JSON.stringify(getters)) // clone so we don't overwrite by accident
       }
 
@@ -130,6 +131,9 @@ describe(`Component: TabMyDelegations`, () => {
         commit: jest.fn(),
         dispatch: jest.fn(),
         state: {
+          delegates: {
+            delegates: validators
+          },
           delegation: {
             unbondingDelegations: {},
             loaded: true
@@ -143,7 +147,7 @@ describe(`Component: TabMyDelegations`, () => {
       $store.getters.committedDelegations = {
         [`cosmos1`]: 42
       }
-      $store.getters.delegates.delegates = [{ operator_address: `cosmos1` }]
+      $store.state.delegates.delegates = [{ operator_address: `cosmos1` }]
 
       wrapper = shallowMount(TabMyDelegations, {
         mocks: {

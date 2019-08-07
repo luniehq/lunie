@@ -63,9 +63,8 @@ export default {
     viewDenom
   },
   computed: {
-    ...mapState([`delegation`]),
+    ...mapState([`delegates`, `delegation`]),
     ...mapGetters([
-      `delegates`,
       `committedDelegations`,
       `bondDenom`,
       `connected`,
