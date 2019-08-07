@@ -11,13 +11,9 @@
   >
     <span class="form-message notice withdraw-limit">
       Lunie will only withdraw rewards from 5 validators at a time because of a
-      limitation with the Ledger Nano S.
+      limitation with the Ledger Nano&nbsp;S.
     </span>
-    <TmFormGroup
-      class="action-modal-form-group"
-      field-id="amount"
-      field-label="Amount"
-    >
+    <TmFormGroup class="action-modal-form-group" field-id="amount" field-label="Amount">
       <span class="input-suffix">{{ denom | viewDenom }}</span>
       <TmField id="amount" :value="rewards | atoms | fullDecimals" readonly />
     </TmFormGroup>
