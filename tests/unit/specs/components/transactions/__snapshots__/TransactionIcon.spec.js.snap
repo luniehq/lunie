@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TransactionIcon renders a banking coloured icon 1`] = `
+<div
+  class="tx__icon"
+>
+  <img
+    alt="cosmic atom token"
+    class="banking"
+    src="~assets/images/cosmos-logo.png"
+  />
+</div>
+`;

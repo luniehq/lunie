@@ -25,8 +25,7 @@
 <script>
 import BigNumber from "bignumber.js"
 import { mapGetters } from "vuex"
-import { roundObjectPercentages } from "../../utils"
-import { prettyDecimals } from "../../scripts/num"
+import { prettyDecimals, roundObjectPercentages } from "../../scripts/num"
 import { getProposalStatus } from "scripts/proposal-status"
 export default {
   name: `li-proposal`,

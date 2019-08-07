@@ -1,5 +1,5 @@
 import * as Sentry from "@sentry/browser"
-import { track } from "scripts/google-analytics.js"
+import { track } from "scripts/google-analytics"
 import {
   getSeed,
   getWalletIndex,

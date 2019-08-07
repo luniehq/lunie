@@ -1,0 +1,46 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`PageTransactions Renders correctly and does not load transactions if the user has not signed in 1`] = `
+<tmpage-stub
+  data-title="Transactions"
+  loaded="true"
+  managed="true"
+  signinrequired="true"
+  subtitle=""
+  title=""
+>
+  <dataemptytx-stub />
+   
+  <template>
+    <transactionlist-stub
+      transactions="[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object]"
+      validators="[object Object]"
+    />
+     
+    <br />
+  </template>
+</tmpage-stub>
+`;
+
+exports[`PageTransactions Renders correctly and loads transactions 1`] = `
+<tmpage-stub
+  data-title="Transactions"
+  loaded="true"
+  managed="true"
+  signinrequired="true"
+  subtitle=""
+  title=""
+>
+  <dataemptytx-stub />
+   
+  <template>
+    <transactionlist-stub
+      address="cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9"
+      transactions="[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object]"
+      validators="[object Object]"
+    />
+     
+    <br />
+  </template>
+</tmpage-stub>
+`;

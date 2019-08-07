@@ -1,6 +1,6 @@
 import { shallowMount } from "@vue/test-utils"
 import TableValidators from "src/components/staking/TableValidators"
-import validators from "../../store/json/validators.js"
+import validators from "../../store/json/validators"
 
 describe(`TableValidators`, () => {
   let wrapper, $store
@@ -57,9 +57,12 @@ describe(`TableValidators`, () => {
       mocks: {
         $store
       },
+      directives: {
+        infiniteScroll: () => {}
+      },
       propsData: { validators }
     })
-    wrapper.setData({ rollingWindow: 10000 })
+    wrapper.setData({ rollingWindow: 10000, showing: 2 })
   })
 
   it(`shows a validator table`, async () => {
@@ -143,6 +146,12 @@ describe(`TableValidators`, () => {
         session
       })
     ).not.toBeDefined()
+  })
+
+  it("should load more validators (on infinite scroll)", () => {
+    expect(wrapper.findAll("livalidator-stub").length).toBe(2)
+    wrapper.vm.loadMore()
+    expect(wrapper.findAll("livalidator-stub").length).toBe(3)
   })
 
   describe(`update rewards on new blocks`, () => {

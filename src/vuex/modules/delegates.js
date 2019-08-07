@@ -52,9 +52,6 @@ export default ({ node }) => {
         dispatch(`getDelegates`)
       }
     },
-    resetSessionData({ rootState }) {
-      rootState.delegates = JSON.parse(JSON.stringify(emptyState))
-    },
     async updateSigningInfo(
       {
         commit,
@@ -104,7 +101,6 @@ export default ({ node }) => {
         commit(`setDelegates`, validators)
         commit(`setDelegateLoading`, false)
         dispatch(`updateSigningInfo`, validators)
-        dispatch(`getRewardsFromMyValidators`)
 
         return validators
       } catch (error) {

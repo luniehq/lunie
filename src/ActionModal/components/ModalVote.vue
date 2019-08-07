@@ -109,9 +109,7 @@ export default {
     notifyMessage() {
       return {
         title: `Successful vote!`,
-        body: `You have successfully voted ${this.vote} on proposal #${
-          this.proposalId
-        }`
+        body: `You have successfully voted ${this.vote} on proposal #${this.proposalId}`
       }
     }
   },

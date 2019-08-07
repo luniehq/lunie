@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import { prettyDecimals } from "../../scripts/num.js"
+import { prettyDecimals } from "../../scripts/num"
 export default {
   props: {
     type: {

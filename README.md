@@ -81,13 +81,13 @@ You should now have a bunch of stake to play with.
 Create the bundle to deploy Lunie you can run:
 
 ```bash
-yarn build:ui
+yarn build
 ```
 
 If you want to set a particular `Stargate` (Cosmos SDK REST API) or Tendermint's `RPC` endpoints:
 
 ```bash
-STARGATE=<https://StargateAddress:port> RPC=<https://RPCAddress:port> yarn build:ui
+STARGATE=<https://StargateAddress:port> RPC=<https://RPCAddress:port> yarn build
 ```
 
 ## Release

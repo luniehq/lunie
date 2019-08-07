@@ -1,5 +1,5 @@
 import * as Sentry from "@sentry/browser"
-import { track, deanonymize, anonymize } from "scripts/google-analytics.js"
+import { track, deanonymize, anonymize } from "scripts/google-analytics"
 import config from "src/config"
 
 export default () => {

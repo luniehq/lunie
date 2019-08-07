@@ -10,12 +10,13 @@ import Tooltip from "vue-directive-tooltip"
 import Vuelidate from "vuelidate"
 import VueClipboard from "vue-clipboard2"
 import * as _Sentry from "@sentry/browser"
+import infiniteScroll from "vue-infinite-scroll"
 
 import App from "../App"
 import routes from "../routes"
 import _Node from "../connectors/node"
 import _Store from "../vuex/store"
-import * as urlHelpers from "scripts/url.js"
+import * as urlHelpers from "scripts/url"
 import _config from "src/config"
 import {
   enableGoogleAnalytics,
@@ -61,6 +62,7 @@ export const startApp = async (
   Vue.use(Tooltip, { delay: 1 })
   Vue.use(Vuelidate)
   Vue.use(VueClipboard)
+  Vue.use(infiniteScroll)
 
   Vue.directive(`focus`, focusElement)
   Vue.directive(`focus-last`, focusParentLast)

@@ -7,11 +7,21 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
-## [1.0.0-beta.104] - 2019-08-04
+## [1.0.0-beta.105] - 2019-08-07
 
-### Changed
+### Code Improvements
 
-- SEO improvements, accessibility fixes, etc. @jbibla
+- [#2846](https://github.com/cosmos/lunie/pull/2846) Refactor Transaction types and component rendering @colw
+
+### Repository
+
+- [#2860](https://github.com/cosmos/lunie/pull/2860) Switched to vue-cli-3 @faboweb
+
+## [1.0.0-beta.104] - 2019-08-04	
+
+ ### Changed	
+
+ - SEO improvements, accessibility fixes, etc. @jbibla
 
 ## [1.0.0-beta.103] - 2019-08-03
 
