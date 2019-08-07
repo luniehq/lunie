@@ -105,7 +105,6 @@ export const bondDenom = getters =>
 // governance
 export const votes = state => state.votes.votes
 export const deposits = state => state.deposits.deposits
-export const governanceParameters = state => state.governanceParameters
 export const depositDenom = getters =>
   getters.governanceParameters.loaded &&
   getters.governanceParameters.parameters.deposit.min_deposit

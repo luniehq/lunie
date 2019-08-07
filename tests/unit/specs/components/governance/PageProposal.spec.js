@@ -21,18 +21,19 @@ describe(`PageProposal`, () => {
   localVue.directive(`tooltip`, () => {})
   localVue.directive(`focus`, () => {})
 
-  const getters = {
-    depositDenom: governanceParameters.parameters.deposit.min_deposit[0].denom,
-    connected: true,
-    governanceParameters: { ...governanceParameters, loaded: true },
-    session: {
-      signedIn: true
-    }
-  }
   const state = {
+    governanceParameters: { ...governanceParameters, loaded: true },
     proposals: { proposals, tallies, loaded: true },
     wallet: {
       address: `X`
+    }
+  }
+
+  const getters = {
+    depositDenom: governanceParameters.parameters.deposit.min_deposit[0].denom,
+    connected: true,
+    session: {
+      signedIn: true
     }
   }
   let args
@@ -82,7 +83,7 @@ describe(`PageProposal`, () => {
         state,
         getters: JSON.parse(JSON.stringify(getters))
       }
-      $store.getters.governanceParameters.loaded = false
+      $store.state.governanceParameters.loaded = false
       args = {
         localVue,
         propsData: {
@@ -116,14 +117,14 @@ describe(`PageProposal`, () => {
             }
           },
           loaded: true
-        }
-      },
-      getters: {
-        ...getters,
+        },
         governanceParameters: {
           loaded: true,
           ...governanceParameters
         }
+      },
+      getters: {
+        ...getters
       }
     }
     wrapper = shallowMount(PageProposal, { ...args, mocks: { $store } })
@@ -135,6 +136,7 @@ describe(`PageProposal`, () => {
       ...args,
       propsData: { proposalId: `666` }
     })
+    wrapper.setData({ governanceParameters: { loaded: true } })
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
