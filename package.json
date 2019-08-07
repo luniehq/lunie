@@ -23,9 +23,7 @@
     "test:unit": "vue-cli-service test:unit",
     "testnet:start": "npm run testnet:start:container && npm run proxy",
     "testnet:start:container": "docker run --rm -p 26657:26657 --name testnet -p 9070:9070 --detach -e MAX_NODES=${MAX_NODES:-2} lunieio/testnet:v0.34.7",
-    "testnet:stop": "docker stop testnet",
-    "android:sync": "npx cap sync android",
-    "ios:sync": "npx cap sync ios"
+    "testnet:stop": "docker stop testnet"
   },
   "dependencies": {
     "@babel/polyfill": "^7.4.4",
