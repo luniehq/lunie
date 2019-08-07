@@ -23,7 +23,7 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex"
+import { mapState, mapGetters } from "vuex"
 import DataEmptyTx from "common/TmDataEmptyTx"
 import TmPage from "common/TmPage"
 import TransactionList from "../transactions/TransactionList"
@@ -39,12 +39,8 @@ export default {
     showing: 15
   }),
   computed: {
-    ...mapGetters([
-      `session`,
-      `transactions`,
-      `flatOrderedTransactionList`,
-      `validators`
-    ]),
+    ...mapState([`session`, `transactions`]),
+    ...mapGetters([`validators`, `flatOrderedTransactionList`]),
     showingTransactions() {
       return this.flatOrderedTransactionList.slice(0, this.showing)
     },

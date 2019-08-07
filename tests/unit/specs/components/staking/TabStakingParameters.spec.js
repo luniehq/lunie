@@ -13,6 +13,13 @@ describe(`TabStakingParameters`, () => {
   const localVue = createLocalVue()
   localVue.directive(`tooltip`, () => {})
 
+  const state = {
+    stakingParameters: {
+      parameters: stakingParameters,
+      loaded: true
+    }
+  }
+
   const getters = {
     connected: true,
     stakingParameters: {
@@ -26,6 +33,7 @@ describe(`TabStakingParameters`, () => {
     $store = {
       commit: jest.fn(),
       dispatch: jest.fn(),
+      state,
       getters
     }
 
@@ -49,13 +57,15 @@ describe(`TabStakingParameters`, () => {
     $store = {
       commit: jest.fn(),
       dispatch: jest.fn(),
-      getters: {
-        connected: false,
+      state: {
         stakingParameters: {
           parameters: stakingParameters,
           loaded: false,
           loading: false
-        },
+        }
+      },
+      getters: {
+        connected: false,
         bondDenom: `stake`
       }
     }
@@ -73,13 +83,15 @@ describe(`TabStakingParameters`, () => {
     $store = {
       commit: jest.fn(),
       dispatch: jest.fn(),
-      getters: {
-        connected: true,
+      state: {
         stakingParameters: {
           parameters: stakingParameters,
           loaded: false,
           loading: false
-        },
+        }
+      },
+      getters: {
+        connected: true,
         bondDenom: `stake`
       }
     }
@@ -99,13 +111,15 @@ describe(`TabStakingParameters`, () => {
     $store = {
       commit: jest.fn(),
       dispatch: jest.fn(),
-      getters: {
-        connected: true,
+      state: {
         stakingParameters: {
           parameters: stakingParameters,
           loaded: false,
           loading: true
-        },
+        }
+      },
+      getters: {
+        connected: true,
         bondDenom: `stake`
       }
     }
@@ -123,13 +137,15 @@ describe(`TabStakingParameters`, () => {
     $store = {
       commit: jest.fn(),
       dispatch: jest.fn(),
-      getters: {
-        connected: true,
+      state: {
         stakingParameters: {
           parameters: stakingParameters,
           loaded: false,
           loading: false
-        },
+        }
+      },
+      getters: {
+        connected: true,
         bondDenom: `stake`
       }
     }

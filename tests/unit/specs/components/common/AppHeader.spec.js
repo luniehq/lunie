@@ -6,7 +6,7 @@ describe(`AppHeader`, () => {
 
   beforeEach(() => {
     $store = {
-      getters: {
+      state: {
         session: {
           experimentalMode: false,
           insecureMode: true

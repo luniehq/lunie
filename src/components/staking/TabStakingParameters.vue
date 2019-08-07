@@ -52,7 +52,7 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex"
+import { mapState, mapGetters } from "vuex"
 import num from "scripts/num"
 import TmDataConnecting from "common/TmDataConnecting"
 import TmDataLoading from "common/TmDataLoading"
@@ -72,7 +72,8 @@ export default {
     }
   }),
   computed: {
-    ...mapGetters([`stakingParameters`, `connected`, `bondDenom`]),
+    ...mapState([`stakingParameters`]),
+    ...mapGetters([`connected`, `bondDenom`]),
     unbondingTimeInDays() {
       return (
         parseInt(this.stakingParameters.parameters.unbonding_time) /

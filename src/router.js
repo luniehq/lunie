@@ -6,7 +6,7 @@ import Vue from "vue"
 Vue.use(Router)
 
 export const routeGuard = store => (to, from, next) => {
-  if (from.fullPath !== to.fullPath && !store.getters.session.pauseHistory) {
+  if (from.fullPath !== to.fullPath && !store.state.session.pauseHistory) {
     store.commit(`addHistory`, from.fullPath)
   }
 

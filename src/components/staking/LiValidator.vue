@@ -73,7 +73,7 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex"
+import { mapState } from "vuex"
 import num from "scripts/num"
 import Bech32 from "common/Bech32"
 import BN from "bignumber.js"
@@ -94,13 +94,7 @@ export default {
   },
   data: () => ({ num }),
   computed: {
-    ...mapGetters([
-      `delegates`,
-      `distribution`,
-      `session`,
-      `lastHeader`,
-      `pool`
-    ]),
+    ...mapState([`pool`]),
     status() {
       // status: jailed
       if (this.validator.jailed)

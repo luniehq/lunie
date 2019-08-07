@@ -4,7 +4,7 @@ import validators from "../../store/json/validators.js"
 import { flatOrderedTransactionList } from "../../store/json/txs"
 
 describe(`Component: TabMyDelegations`, () => {
-  const getters = {
+  const state = {
     delegates: {
       delegates: validators
     },
@@ -12,10 +12,12 @@ describe(`Component: TabMyDelegations`, () => {
       unbondingDelegations: {},
       loaded: true
     },
+    session: { signedIn: true }
+  }
+  const getters = {
     committedDelegations: {},
     connected: true,
     bondDenom: `uatom`,
-    session: { signedIn: true },
     flatOrderedTransactionList
   }
 
@@ -26,6 +28,7 @@ describe(`Component: TabMyDelegations`, () => {
       $store = {
         commit: jest.fn(),
         dispatch: jest.fn(),
+        state,
         getters: JSON.parse(JSON.stringify(getters)) // clone so we don't overwrite by accident
       }
 
@@ -56,9 +59,15 @@ describe(`Component: TabMyDelegations`, () => {
       $store = {
         commit: jest.fn(),
         dispatch: jest.fn(),
+        state: {
+          delegation: {
+            unbondingDelegations: {},
+            loaded: true
+          },
+          session: { signedIn: false }
+        },
         getters: JSON.parse(JSON.stringify(getters))
       }
-      $store.getters.session.signedIn = false
       wrapper = shallowMount(TabMyDelegations, {
         mocks: {
           $store
@@ -73,9 +82,16 @@ describe(`Component: TabMyDelegations`, () => {
       $store = {
         commit: jest.fn(),
         dispatch: jest.fn(),
+        state: {
+          delegation: {
+            unbondingDelegations: {},
+            loaded: true
+          },
+          session: { signedIn: true }
+        },
         getters: JSON.parse(JSON.stringify(getters))
       }
-      $store.getters.delegation.loaded = false
+      $store.state.delegation.loaded = false
       $store.getters.connected = false
       wrapper = shallowMount(TabMyDelegations, {
         mocks: {
@@ -91,10 +107,17 @@ describe(`Component: TabMyDelegations`, () => {
       $store = {
         commit: jest.fn(),
         dispatch: jest.fn(),
+        state: {
+          delegation: {
+            unbondingDelegations: {},
+            loaded: true
+          },
+          session: { signedIn: true }
+        },
         getters: JSON.parse(JSON.stringify(getters))
       }
-      $store.getters.delegation.loaded = false
-      $store.getters.delegation.loading = true
+      $store.state.delegation.loaded = false
+      $store.state.delegation.loading = true
       wrapper = shallowMount(TabMyDelegations, {
         mocks: {
           $store
@@ -109,15 +132,25 @@ describe(`Component: TabMyDelegations`, () => {
       $store = {
         commit: jest.fn(),
         dispatch: jest.fn(),
+        state: {
+          delegates: {
+            delegates: validators
+          },
+          delegation: {
+            unbondingDelegations: {},
+            loaded: true
+          },
+          session: { signedIn: true }
+        },
         getters: JSON.parse(JSON.stringify(getters))
       }
 
-      $store.getters.delegation.loaded = true
-      $store.getters.delegation.loading = false
+      $store.state.delegation.loaded = true
+      $store.state.delegation.loading = false
       $store.getters.committedDelegations = {
         [`cosmos1`]: 42
       }
-      $store.getters.delegates.delegates = [{ operator_address: `cosmos1` }]
+      $store.state.delegates.delegates = [{ operator_address: `cosmos1` }]
 
       wrapper = shallowMount(TabMyDelegations, {
         mocks: {

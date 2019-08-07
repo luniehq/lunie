@@ -24,7 +24,7 @@
 
 <script>
 import BigNumber from "bignumber.js"
-import { mapGetters } from "vuex"
+import { mapState } from "vuex"
 import { prettyDecimals, roundObjectPercentages } from "../../scripts/num"
 import { getProposalStatus } from "scripts/proposal-status"
 export default {
@@ -39,7 +39,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters([`proposals`]),
+    ...mapState([`proposals`]),
     tally() {
       const { yes, no, abstain, no_with_veto } =
         this.proposals.tallies[this.proposal.proposal_id] || {}

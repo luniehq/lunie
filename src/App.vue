@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex"
+import { mapState } from "vuex"
 import AppHeader from "common/AppHeader"
 import CookieBar from "common/CookieBar"
 import MaintenanceBar from "common/MaintenanceBar"
@@ -33,7 +33,7 @@ export default {
     DisconnectedBar
   },
   computed: {
-    ...mapGetters([`notifications`, `session`])
+    ...mapState([`notifications`, `session`])
   },
   store
 }

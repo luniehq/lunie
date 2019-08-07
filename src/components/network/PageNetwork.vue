@@ -131,7 +131,7 @@
 
 <script>
 import moment from "moment"
-import { mapGetters } from "vuex"
+import { mapState, mapGetters } from "vuex"
 import num from "scripts/num"
 import PanelSort from "staking/PanelSort"
 import TmPage from "common/TmPage"
@@ -145,14 +145,8 @@ export default {
     num
   }),
   computed: {
-    ...mapGetters([
-      `connected`,
-      `lastHeader`,
-      `delegates`,
-      `pool`,
-      `bondDenom`,
-      `blocks`
-    ]),
+    ...mapState([`pool`, `delegates`]),
+    ...mapGetters([`connected`, `lastHeader`, `bondDenom`, `blocks`]),
     status() {
       const color = this.connected ? `green` : `red`
       const message = this.connected

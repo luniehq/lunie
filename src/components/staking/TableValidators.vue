@@ -55,19 +55,17 @@ export default {
     rollingWindow: 10000 // param of slashing period
   }),
   computed: {
-    ...mapGetters([
-      `committedDelegations`,
-      `delegates`,
-      `session`,
-      `distribution`,
-      `bondDenom`,
-      `keybase`,
-      `pool`,
-      `lastHeader`
-    ]),
+    ...mapState([`delegates`, `distribution`, `pool`, `session`]),
     ...mapState({
       annualProvision: state => state.minting.annualProvision
     }),
+    ...mapGetters([
+      `committedDelegations`,
+      `bondDenom`,
+      `keybase`,
+
+      `lastHeader`
+    ]),
     enrichedValidators(
       {
         validators,

@@ -10,10 +10,12 @@ describe(`TmSessionSignUp`, () => {
 
   beforeEach(() => {
     const getters = {
-      connected: true,
-      session: { insecureMode: false }
+      connected: true
     }
     $store = {
+      state: {
+        session: { insecureMode: false }
+      },
       getters,
       commit: jest.fn(),
       dispatch: jest.fn(() => Promise.resolve(`seed`))

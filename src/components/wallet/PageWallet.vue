@@ -39,7 +39,7 @@
 
 <script>
 import num from "scripts/num"
-import { mapGetters, mapActions } from "vuex"
+import { mapState, mapGetters, mapActions } from "vuex"
 import orderBy from "lodash.orderby"
 import LiCoin from "./LiCoin"
 import SendModal from "src/ActionModal/components/SendModal"
@@ -58,7 +58,8 @@ export default {
   },
   data: () => ({ num, showSendModal: false }),
   computed: {
-    ...mapGetters([`wallet`, `connected`, `session`]),
+    ...mapState([`session`, `wallet`]),
+    ...mapGetters([`connected`]),
     dataEmpty() {
       return this.wallet.balances.length === 0
     },
