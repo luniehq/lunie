@@ -32,7 +32,6 @@ export const validators = state => {
   return names
 }
 
-export const ledger = state => state.ledger
 export const wallet = state => state.wallet
 export const extension = state => state.extension
 
