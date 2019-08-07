@@ -461,13 +461,26 @@ export default {
   word-break: break-word;
 }
 
-@media screen and (max-width: 425px) {
-  .page-profile__header__actions {
-    width: 100%;
-  }
+.page-profile__header__info {
+  display: flex;
+}
+
+.page-profile__status {
+  margin-left: -0.5rem;
+  transform: translateX(-0.5rem);
+}
+
+.page-profile__header__actions {
+  flex-direction: column;
+  justify-content: center;
+  margin-left: auto;
 }
 
 @media screen and (max-width: 525px) {
+  .page-profile__header__actions {
+    width: 100%;
+  }
+
   .page-profile__header__info {
     align-items: center;
     flex-direction: column;
@@ -475,6 +488,7 @@ export default {
 
   .validator-name-and-address {
     padding-bottom: 2rem;
+    margin-left: 4rem;
   }
 
   .page-profile__header .avatar {
