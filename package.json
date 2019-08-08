@@ -24,7 +24,8 @@
     "testnet:start": "npm run testnet:start:container && npm run proxy",
     "testnet:start:container": "docker run --rm -p 26657:26657 --name testnet -p 9070:9070 --detach -e MAX_NODES=${MAX_NODES:-2} lunieio/testnet:v0.34.7",
     "testnet:stop": "docker stop testnet",
-    "release:android": "git checkout develop && node ./tasks/bump-android-version.js && git commit android/app/build.gradle -m 'updated android app version' && git push origin develop:release-android"
+    "release:android": "git checkout develop && node ./tasks/bump-android-version.js && git commit android/app/build.gradle -m 'updated android app version' && git push origin develop:release-android",
+    "release:ios": "git checkout develop && node ./tasks/bump-ios-version.js && git commit android/app/build.gradle -m 'updated ios app version' && git push origin develop:release-ios"
   },
   "dependencies": {
     "@babel/polyfill": "^7.4.4",
