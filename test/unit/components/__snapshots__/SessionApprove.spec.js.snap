@@ -20,7 +20,6 @@ exports[`SessionApprove shows the approval modal with the transaction and an inv
   <tmformgroup-stub>
     <transactionitem-stub
       address="cosmos1234"
-      hidemetadata="true"
       transaction="[object Object]"
       validators="[object Object]"
     />
