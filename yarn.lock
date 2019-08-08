@@ -723,6 +723,11 @@
   dependencies:
     tslib "^1.9.0"
 
+"@capacitor/ios@1.1.1":
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/@capacitor/ios/-/ios-1.1.1.tgz#db1419114e610b8c60513151f57e6f14e7912bac"
+  integrity sha512-6JCNWDY7E+Tt9mkzflwlK9tHl2qcPUgazZC0/aBte9lBEDpmzGPbTlHoiYeKTIqfhQeU7Qk8g6QabCx6vNzJpQ==
+
 "@hapi/address@2.x.x":
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/@hapi/address/-/address-2.0.0.tgz#9f05469c88cb2fd3dcd624776b54ee95c312126a"
