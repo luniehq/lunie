@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.0-beta.106] - 2019-08-08
+
+### Added
+
+- Added infinite scroll to validator list @faboweb
+
+### Code Improvements
+
+- [#2867](https://github.com/cosmos/lunie/pull/2867) Remove some getters and convert to mapState @colw
+
 ## [1.0.0-beta.105] - 2019-08-07
 
 ### Code Improvements
