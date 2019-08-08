@@ -205,7 +205,7 @@ import UndelegationModal from "src/ActionModal/components/UndelegationModal"
 import Bech32 from "common/Bech32"
 import TmPage from "common/TmPage"
 import isEmpty from "lodash.isempty"
-import { ValidatorKeybaseInfo } from "src/gql"
+import { ValidatorProfile } from "src/gql"
 
 export default {
   name: `page-validator`,
@@ -441,7 +441,7 @@ export default {
   },
   apollo: {
     keybase: {
-      query: ValidatorKeybaseInfo,
+      query: ValidatorProfile,
       variables() {
         if (this.validator && this.validator.description.identity) {
           return {

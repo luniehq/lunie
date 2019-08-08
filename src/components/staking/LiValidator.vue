@@ -28,9 +28,9 @@
           :class="statusColor"
           class="data-table__row__info__container__status"
         />
-        <span class="data-table__row__info__container__name">{{
-          validator.description.moniker
-        }}</span>
+        <span class="data-table__row__info__container__name">
+          {{ validator.description.moniker }}
+        </span>
         <div class="data-table__row__info__container__description">
           <Bech32 :address="validator.operator_address" />
         </div>
@@ -68,7 +68,7 @@ import { mapState } from "vuex"
 import { percent, shortDecimals, atoms } from "scripts/num"
 import Bech32 from "common/Bech32"
 import BN from "bignumber.js"
-import { ValidatorKeybaseInfo } from "src/gql"
+import { ValidatorProfile } from "src/gql"
 
 export default {
   name: `li-validator`,
@@ -128,7 +128,7 @@ export default {
   },
   apollo: {
     keybase: {
-      query: ValidatorKeybaseInfo,
+      query: ValidatorProfile,
       variables() {
         if (this.validator && this.validator.description.identity) {
           return {

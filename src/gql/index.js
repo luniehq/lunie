@@ -1,6 +1,6 @@
 import gql from "graphql-tag"
 
-export const ValidatorKeybaseInfo = gql`
+export const ValidatorProfile = gql`
   query KeybaseInfo($keybaseId: String) {
     keybase: validatorList(where: { keybaseId: { _eq: $keybaseId } }) {
       keybaseId
