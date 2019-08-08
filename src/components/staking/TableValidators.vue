@@ -59,13 +59,7 @@ export default {
     ...mapState({
       annualProvision: state => state.minting.annualProvision
     }),
-    ...mapGetters([
-      `committedDelegations`,
-      `bondDenom`,
-      `keybase`,
-
-      `lastHeader`
-    ]),
+    ...mapGetters([`committedDelegations`, `bondDenom`, `lastHeader`]),
     enrichedValidators(
       {
         validators,
@@ -73,7 +67,6 @@ export default {
         pool,
         annualProvision,
         committedDelegations,
-        keybase,
         session,
         distribution,
         rollingWindow
@@ -91,7 +84,6 @@ export default {
           voting_power: BN(v.tokens)
             .div(pool.pool.bonded_tokens)
             .toFixed(10),
-          keybase: keybase[v.description.identity],
           rewards:
             session.signedIn && distribution.rewards[v.operator_address]
               ? distribution.rewards[v.operator_address][this.bondDenom]

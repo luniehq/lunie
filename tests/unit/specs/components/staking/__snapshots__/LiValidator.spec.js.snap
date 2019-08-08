@@ -10,10 +10,7 @@ exports[`LiValidator has the expected html structure 1`] = `
   >
     <img
       alt="generic validator logo - graphic triangle supporting atom token"
-      class="
-        data-table__row__info__image
-        data-table__row__info__image--no-img
-      "
+      class="data-table__row__info__image data-table__row__info__image--no-img"
       src="~assets/images/validator-icon.svg"
     />
      
@@ -27,9 +24,7 @@ exports[`LiValidator has the expected html structure 1`] = `
       <span
         class="data-table__row__info__container__name"
       >
-        
         mr_mounty
-      
       </span>
        
       <div
@@ -61,25 +56,19 @@ exports[`LiValidator has the expected html structure 1`] = `
   <td
     class="hide-xs"
   >
-    
     1.40%
-  
   </td>
    
   <td
     class="hide-xs"
   >
-    
     5.00%
-  
   </td>
    
   <td
     class="hide-xs"
   >
-    
     98.78%
-  
   </td>
    
   <td
@@ -102,10 +91,7 @@ exports[`LiValidator should display uptime as double-dash 1`] = `
   >
     <img
       alt="generic validator logo - graphic triangle supporting atom token"
-      class="
-        data-table__row__info__image
-        data-table__row__info__image--no-img
-      "
+      class="data-table__row__info__image data-table__row__info__image--no-img"
       src="~assets/images/validator-icon.svg"
     />
      
@@ -119,9 +105,7 @@ exports[`LiValidator should display uptime as double-dash 1`] = `
       <span
         class="data-table__row__info__container__name"
       >
-        
         mr_mounty
-      
       </span>
        
       <div
@@ -153,25 +137,19 @@ exports[`LiValidator should display uptime as double-dash 1`] = `
   <td
     class="hide-xs"
   >
-    
     1.40%
-  
   </td>
    
   <td
     class="hide-xs"
   >
-    
     5.00%
-  
   </td>
    
   <td
     class="hide-xs"
   >
-    
     --
-  
   </td>
    
   <td
