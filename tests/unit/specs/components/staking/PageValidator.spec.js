@@ -57,7 +57,6 @@ const getters = {
     height: `500`
   },
 
-  keybase: `keybase`,
   liquidAtoms: 1337,
   connected: true,
   bondDenom: stakingParameters.bond_denom
