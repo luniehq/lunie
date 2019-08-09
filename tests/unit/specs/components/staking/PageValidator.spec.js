@@ -114,7 +114,7 @@ describe(`PageValidator`, () => {
           params: { validator: validator.operator_address }
         }
       },
-      stubs: [`router-link`]
+      stubs: [`router-link`, `apolloquery`]
     })
   })
 
