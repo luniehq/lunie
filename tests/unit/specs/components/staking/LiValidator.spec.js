@@ -64,7 +64,7 @@ describe(`LiValidator`, () => {
       mocks: {
         $store
       },
-      stubs: [`router-link`]
+      stubs: [`router-link`, `apolloquery`]
     })
   })
 
