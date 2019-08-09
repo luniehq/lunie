@@ -10,18 +10,25 @@
     "
   >
     <td class="data-table__row__info">
-      <img
-        v-if="keybase && keybase.avatarUrl"
-        :src="keybase.avatarUrl"
-        class="data-table__row__info__image"
-        :alt="`validator logo for ` + validator.description.moniker"
-      />
-      <img
-        v-else
-        class="data-table__row__info__image data-table__row__info__image--no-img"
-        src="~assets/images/validator-icon.svg"
-        alt="generic validator logo - graphic triangle supporting atom token"
-      />
+      <ApolloQuery
+        :query="ValidatorProfile"
+        :variables="{ keybaseId: validator.description.identity }"
+      >
+        <template v-slot="{ result: { loading, error, data: { keybase: [keybase] } } }">
+          <img
+            v-if="!keybase || loading || error"
+            class="data-table__row__info__image data-table__row__info__image--no-img"
+            src="~assets/images/validator-icon.svg"
+            alt="generic validator logo - graphic triangle supporting atom token"
+          />
+          <img
+            v-else-if="keybase && keybase.avatarUrl"
+            :src="keybase.avatarUrl"
+            class="data-table__row__info__image"
+            :alt="`validator logo for ` + validator.description.moniker"
+          />
+        </template>
+      </ApolloQuery>
       <div class="data-table__row__info__container">
         <span
           v-tooltip.top="status"
@@ -86,8 +93,7 @@ export default {
     }
   },
   data: () => ({
-    keybase: {},
-    ping: {}
+    ValidatorProfile
   }),
   computed: {
     ...mapState([`pool`]),
@@ -125,23 +131,6 @@ export default {
     shortDecimals,
     atoms,
     percent
-  },
-  apollo: {
-    keybase: {
-      query: ValidatorProfile,
-      variables() {
-        if (this.validator && this.validator.description.identity) {
-          return {
-            keybaseId: this.validator.description.identity
-          }
-        }
-      },
-      result({ data }) {
-        if (data.keybase) {
-          this.keybase = data.keybase[0]
-        }
-      }
-    }
   }
 }
 </script>
