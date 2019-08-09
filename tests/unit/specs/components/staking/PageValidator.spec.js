@@ -145,12 +145,6 @@ describe(`PageValidator`, () => {
       )
     })
 
-    it(`shows a default avatar`, () => {
-      expect(wrapper.find(`.page-profile__header`).html()).toContain(
-        `validator-icon.svg`
-      )
-    })
-
     it(`should return the self bond based on the validator`, () => {
       wrapper.setData({ validator })
       expect(wrapper.vm.selfBond).toBe(`1.00%`)
