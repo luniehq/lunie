@@ -12,3 +12,5 @@ export const ValidatorProfile = gql`
     }
   }
 `
+
+export const validatorProfileResultUpdate = data => data.keybase[0]

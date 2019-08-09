@@ -14,7 +14,7 @@
           <ApolloQuery
             :query="ValidatorProfile"
             :variables="{ keybaseId: validator.description.identity }"
-            :update="data => data.keybase[0]"
+            :update="validatorProfileResultUpdate"
           >
             <template v-slot="{ result: { loading, error, data: keybase } }">
               <img
@@ -35,14 +35,8 @@
             <div>
               <div class="validator-name-and-address">
                 <div class="page-profile__status-and-title">
-                  <span
-                    v-tooltip.top="status"
-                    :class="statusColor"
-                    class="page-profile__status"
-                  />
-                  <div class="page-profile__title">
-                    {{ validator.description.moniker }}
-                  </div>
+                  <span v-tooltip.top="status" :class="statusColor" class="page-profile__status" />
+                  <div class="page-profile__title">{{ validator.description.moniker }}</div>
                 </div>
                 <Bech32 :address="validator.operator_address" />
               </div>
@@ -98,9 +92,7 @@
             </dl>
             <dl class="info_dl colored_dl">
               <dt>Commission</dt>
-              <dd id="page-profile__commission">
-                {{ percent(validator.commission.rate) }}
-              </dd>
+              <dd id="page-profile__commission">{{ percent(validator.commission.rate) }}</dd>
             </dl>
           </div>
         </div>
@@ -119,9 +111,7 @@
             </dl>
             <dl class="info_dl">
               <dt>Keybase ID</dt>
-              <dd>
-                {{ translateEmptyDescription(validator.description.identity) }}
-              </dd>
+              <dd>{{ translateEmptyDescription(validator.description.identity) }}</dd>
             </dl>
             <dl class="info_dl">
               <dt>Website</dt>
@@ -131,16 +121,15 @@
                   :href="website"
                   target="_blank"
                   rel="nofollow noreferrer noopener"
-                  >{{ website }}</a
-                >
+                >{{ website }}</a>
               </dd>
               <dd v-else>{{ website }}</dd>
             </dl>
             <dl class="info_dl">
               <dt>Description</dt>
-              <dd class="info_dl__text-box">
-                {{ translateEmptyDescription(validator.description.details) }}
-              </dd>
+              <dd
+                class="info_dl__text-box"
+              >{{ translateEmptyDescription(validator.description.details) }}</dd>
             </dl>
           </div>
           <div class="column">
@@ -184,9 +173,7 @@
       />
     </template>
     <template v-else>
-      <template slot="title"
-        >Validator Not Found</template
-      >
+      <template slot="title">Validator Not Found</template>
       <template slot="subtitle">
         <div>
           Please visit the
@@ -212,7 +199,7 @@ import UndelegationModal from "src/ActionModal/components/UndelegationModal"
 import Bech32 from "common/Bech32"
 import TmPage from "common/TmPage"
 import isEmpty from "lodash.isempty"
-import { ValidatorProfile } from "src/gql"
+import { ValidatorProfile, validatorProfileResultUpdate } from "src/gql"
 
 export default {
   name: `page-validator`,
@@ -396,6 +383,7 @@ export default {
   methods: {
     percent,
     moment,
+    validatorProfileResultUpdate,
     onDelegation() {
       this.$refs.delegationModal.open()
     },
