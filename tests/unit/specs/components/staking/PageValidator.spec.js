@@ -1,4 +1,5 @@
 import { shallowMount, createLocalVue } from "@vue/test-utils"
+import VueApollo from "vue-apollo"
 import PageValidator from "src/components/staking/PageValidator"
 
 const stakingParameters = {
@@ -66,6 +67,7 @@ describe(`PageValidator`, () => {
   let wrapper, $store
   const localVue = createLocalVue()
   localVue.directive(`tooltip`, () => {})
+  localVue.use(VueApollo)
 
   beforeEach(() => {
     $store = {
@@ -114,7 +116,7 @@ describe(`PageValidator`, () => {
           params: { validator: validator.operator_address }
         }
       },
-      stubs: [`router-link`, `apollo-query`]
+      stubs: [`router-link`]
     })
   })
 

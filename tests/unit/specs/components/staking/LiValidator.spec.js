@@ -1,8 +1,10 @@
 import { shallowMount, createLocalVue } from "@vue/test-utils"
+import VueApollo from "vue-apollo"
 import LiValidator from "src/components/staking/LiValidator"
 
 const localVue = createLocalVue()
 localVue.directive(`tooltip`, () => {})
+localVue.use(VueApollo)
 
 describe(`LiValidator`, () => {
   let wrapper, $store
@@ -62,7 +64,7 @@ describe(`LiValidator`, () => {
       mocks: {
         $store
       },
-      stubs: [`router-link`, `apollo-query`]
+      stubs: [`router-link`]
     })
   })
 

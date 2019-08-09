@@ -15,8 +15,13 @@ exports[`PageValidator shows a validator profile information errors signing info
       <div
         class="row"
       >
-        <apolloquery
+        <apolloquery-stub
+          debounce="0"
+          options="[object Object]"
+          prefetch="true"
           query="[object Object]"
+          tag="div"
+          throttle="0"
           update="function (data) { return data.keybase[0]; }"
           variables="[object Object]"
         />
@@ -346,8 +351,13 @@ exports[`PageValidator shows a validator profile information if user has signed 
       <div
         class="row"
       >
-        <apolloquery
+        <apolloquery-stub
+          debounce="0"
+          options="[object Object]"
+          prefetch="true"
           query="[object Object]"
+          tag="div"
+          throttle="0"
           update="function (data) { return data.keybase[0]; }"
           variables="[object Object]"
         />
@@ -677,8 +687,13 @@ exports[`PageValidator shows a validator profile information if user hasn't sign
       <div
         class="row"
       >
-        <apolloquery
+        <apolloquery-stub
+          debounce="0"
+          options="[object Object]"
+          prefetch="true"
           query="[object Object]"
+          tag="div"
+          throttle="0"
           update="function (data) { return data.keybase[0]; }"
           variables="[object Object]"
         />

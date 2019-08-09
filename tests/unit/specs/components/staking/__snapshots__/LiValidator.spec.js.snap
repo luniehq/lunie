@@ -8,8 +8,13 @@ exports[`LiValidator has the expected html structure 1`] = `
   <td
     class="data-table__row__info"
   >
-    <apolloquery
+    <apolloquery-stub
+      debounce="0"
+      options="[object Object]"
+      prefetch="true"
       query="[object Object]"
+      tag="div"
+      throttle="0"
       update="function (data) { return data.keybase[0]; }"
       variables="[object Object]"
     />
@@ -97,8 +102,13 @@ exports[`LiValidator should display uptime as double-dash 1`] = `
   <td
     class="data-table__row__info"
   >
-    <apolloquery
+    <apolloquery-stub
+      debounce="0"
+      options="[object Object]"
+      prefetch="true"
       query="[object Object]"
+      tag="div"
+      throttle="0"
       update="function (data) { return data.keybase[0]; }"
       variables="[object Object]"
     />
