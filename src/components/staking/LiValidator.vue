@@ -14,7 +14,9 @@
         :query="ValidatorProfile"
         :variables="{ keybaseId: validator.description.identity }"
       >
-        <template v-slot="{ result: { loading, error, data: { keybase: [keybase] } } }">
+        <template
+          v-slot="{ result: { loading, error, data: { keybase: [keybase] } } }"
+        >
           <img
             v-if="!keybase || loading || error"
             class="data-table__row__info__image data-table__row__info__image--no-img"
