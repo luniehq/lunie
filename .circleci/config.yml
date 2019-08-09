@@ -97,7 +97,6 @@ jobs:
       - run: |
           mkdir -p dist
 
-          yarn build:keybase-cache
           if [ "${CIRCLE_BRANCH}" = "master" ]; then
             RELEASE=true CIRCLECI=true yarn build
           else

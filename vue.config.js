@@ -88,7 +88,6 @@ module.exports = {
           "img-src": [
             `'self'`,
             `https://www.google-analytics.com/`,
-            `https://s3.amazonaws.com/keybase_processed_uploads/`
           ]
         })
       )
