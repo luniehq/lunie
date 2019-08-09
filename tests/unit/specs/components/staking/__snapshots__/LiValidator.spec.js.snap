@@ -8,10 +8,9 @@ exports[`LiValidator has the expected html structure 1`] = `
   <td
     class="data-table__row__info"
   >
-    <img
-      alt="generic validator logo - graphic triangle supporting atom token"
-      class="data-table__row__info__image data-table__row__info__image--no-img"
-      src="~assets/images/validator-icon.svg"
+    <apolloquery
+      query="[object Object]"
+      variables="[object Object]"
     />
      
     <div
@@ -97,10 +96,9 @@ exports[`LiValidator should display uptime as double-dash 1`] = `
   <td
     class="data-table__row__info"
   >
-    <img
-      alt="generic validator logo - graphic triangle supporting atom token"
-      class="data-table__row__info__image data-table__row__info__image--no-img"
-      src="~assets/images/validator-icon.svg"
+    <apolloquery
+      query="[object Object]"
+      variables="[object Object]"
     />
      
     <div
