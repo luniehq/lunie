@@ -10,6 +10,7 @@ exports[`LiValidator has the expected html structure 1`] = `
   >
     <apolloquery
       query="[object Object]"
+      update="function (data) { return data.keybase[0]; }"
       variables="[object Object]"
     />
      
@@ -98,6 +99,7 @@ exports[`LiValidator should display uptime as double-dash 1`] = `
   >
     <apolloquery
       query="[object Object]"
+      update="function (data) { return data.keybase[0]; }"
       variables="[object Object]"
     />
      

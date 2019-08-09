@@ -13,10 +13,9 @@
       <ApolloQuery
         :query="ValidatorProfile"
         :variables="{ keybaseId: validator.description.identity }"
+        :update="data => data.keybase[0]"
       >
-        <template
-          v-slot="{ result: { loading, error, data: { keybase: [keybase] } } }"
-        >
+        <template v-slot="{ result: { loading, error, data: keybase } }">
           <img
             v-if="!keybase || loading || error"
             class="data-table__row__info__image data-table__row__info__image--no-img"

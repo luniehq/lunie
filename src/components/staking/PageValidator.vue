@@ -9,169 +9,164 @@
   >
     <template v-if="validator" slot="managed-body">
       <!-- we need the v-if as the template somehow is rendered in any case -->
-      <ApolloQuery
-        :key="validator.operator_address"
-        :query="ValidatorProfile"
-        :variables="{ keybaseId: validator.description.identity }"
-      >
-        <template v-slot="{ result: { data: { keybase: [keybase] } } }">
-          <div class="page-profile__header page-profile__section">
-            <div class="row">
+      <div class="page-profile__header page-profile__section">
+        <div class="row">
+          <ApolloQuery
+            :query="ValidatorProfile"
+            :variables="{ keybaseId: validator.description.identity }"
+            :update="data => data.keybase[0]"
+          >
+            <template v-slot="{ result: { loading, error, data: keybase } }">
               <img
-                v-if="keybase && keybase.avatarUrl"
-                :src="keybase.avatarUrl"
-                :alt="`validator logo for ` + validator.description.moniker"
-                class="avatar"
-              />
-              <img
-                v-else
+                v-if="!keybase || loading || error"
                 class="avatar"
                 src="~assets/images/validator-icon.svg"
                 alt="generic validator logo - graphic triangle supporting atom token"
               />
-
-              <div class="page-profile__header__info">
-                <div>
-                  <div class="validator-name-and-address">
-                    <div class="page-profile__status-and-title">
-                      <span
-                        v-tooltip.top="status"
-                        :class="statusColor"
-                        class="page-profile__status"
-                      />
-                      <div class="page-profile__title">
-                        {{ validator.description.moniker }}
-                      </div>
-                    </div>
-                    <Bech32 :address="validator.operator_address" />
+              <img
+                v-else-if="keybase && keybase.avatarUrl"
+                :src="keybase.avatarUrl"
+                :alt="`validator logo for ` + validator.description.moniker"
+                class="avatar"
+              />
+            </template>
+          </ApolloQuery>
+          <div class="page-profile__header__info">
+            <div>
+              <div class="validator-name-and-address">
+                <div class="page-profile__status-and-title">
+                  <span
+                    v-tooltip.top="status"
+                    :class="statusColor"
+                    class="page-profile__status"
+                  />
+                  <div class="page-profile__title">
+                    {{ validator.description.moniker }}
                   </div>
                 </div>
-
-                <div class="page-profile__header__actions">
-                  <TmBtn
-                    id="delegation-btn"
-                    :disabled="!connected"
-                    :value="connected ? 'Delegate' : 'Connecting...'"
-                    color="primary"
-                    @click.native="onDelegation"
-                  />
-                  <TmBtn
-                    id="undelegation-btn"
-                    :disabled="!connected"
-                    :value="connected ? 'Undelegate' : 'Connecting...'"
-                    color="secondary"
-                    @click.native="onUndelegation"
-                  />
-                </div>
+                <Bech32 :address="validator.operator_address" />
               </div>
             </div>
 
-            <div class="row">
-              <div class="row row-unjustified">
-                <dl class="info_dl colored_dl">
-                  <dt>My Delegation</dt>
-                  <dd>{{ myDelegation }}</dd>
-                </dl>
-                <dl class="info_dl colored_dl">
-                  <dt>My Rewards</dt>
-                  <dd v-if="rewards > 0">
-                    {{ rewards | atoms | shortDecimals }}
-                    {{ bondDenom | viewDenom }}
-                  </dd>
-                  <dd v-else>--</dd>
-                </dl>
-                <dl class="info_dl colored_dl">
-                  <dt>Expected Returns</dt>
-                  <dd>{{ percent(returns) }}</dd>
-                </dl>
-              </div>
-
-              <div class="row row-unjustified">
-                <dl class="info_dl colored_dl">
-                  <dt>Voting Power</dt>
-                  <dd id="page-profile__power">{{ percent(powerRatio) }}</dd>
-                </dl>
-                <dl class="info_dl colored_dl">
-                  <dt>Uptime</dt>
-                  <dd id="page-profile__uptime">{{ uptime }}</dd>
-                </dl>
-                <dl class="info_dl colored_dl">
-                  <dt>Commission</dt>
-                  <dd id="page-profile__commission">
-                    {{ percent(validator.commission.rate) }}
-                  </dd>
-                </dl>
-              </div>
+            <div class="page-profile__header__actions">
+              <TmBtn
+                id="delegation-btn"
+                :disabled="!connected"
+                :value="connected ? 'Delegate' : 'Connecting...'"
+                color="primary"
+                @click.native="onDelegation"
+              />
+              <TmBtn
+                id="undelegation-btn"
+                :disabled="!connected"
+                :value="connected ? 'Undelegate' : 'Connecting...'"
+                color="secondary"
+                @click.native="onUndelegation"
+              />
             </div>
           </div>
+        </div>
 
-          <div class="page-profile__section">
-            <div class="row">
-              <div class="column">
-                <dl class="info_dl">
-                  <dt>First Seen</dt>
-                  <dd>Block #{{ validator.bond_height }}</dd>
-                </dl>
-                <dl class="info_dl">
-                  <dt>Full Operator Address</dt>
-                  <dd class="address">{{ validator.operator_address }}</dd>
-                </dl>
-                <dl class="info_dl">
-                  <dt>Keybase ID</dt>
-                  <dd>
-                    {{
-                      translateEmptyDescription(validator.description.identity)
-                    }}
-                  </dd>
-                </dl>
-                <dl class="info_dl">
-                  <dt>Website</dt>
-                  <dd v-if="website !== `--`">
-                    <a
-                      id="validator-website"
-                      :href="website"
-                      target="_blank"
-                      rel="nofollow noreferrer noopener"
-                      >{{ website }}</a
-                    >
-                  </dd>
-                  <dd v-else>{{ website }}</dd>
-                </dl>
-                <dl class="info_dl">
-                  <dt>Description</dt>
-                  <dd class="info_dl__text-box">
-                    {{
-                      translateEmptyDescription(validator.description.details)
-                    }}
-                  </dd>
-                </dl>
-              </div>
-              <div class="column">
-                <dl class="info_dl">
-                  <dt>Current Commission Rate</dt>
-                  <dd>{{ percent(validator.commission.rate) }}</dd>
-                </dl>
-                <dl class="info_dl">
-                  <dt>Max Commission Rate</dt>
-                  <dd>{{ percent(validator.commission.max_rate) }}</dd>
-                </dl>
-                <dl class="info_dl">
-                  <dt>Max Daily Commission Change</dt>
-                  <dd>{{ percent(validator.commission.max_change_rate) }}</dd>
-                </dl>
-                <dl class="info_dl">
-                  <dt>Last Commission Change</dt>
-                  <dd>{{ lastCommissionChange }}</dd>
-                </dl>
-                <dl class="info_dl">
-                  <dt>Self Delegation</dt>
-                  <dd id="page-profile__self-bond">{{ selfBond }}</dd>
-                </dl>
-              </div>
-            </div>
+        <div class="row">
+          <div class="row row-unjustified">
+            <dl class="info_dl colored_dl">
+              <dt>My Delegation</dt>
+              <dd>{{ myDelegation }}</dd>
+            </dl>
+            <dl class="info_dl colored_dl">
+              <dt>My Rewards</dt>
+              <dd v-if="rewards > 0">
+                {{ rewards | atoms | shortDecimals }}
+                {{ bondDenom | viewDenom }}
+              </dd>
+              <dd v-else>--</dd>
+            </dl>
+            <dl class="info_dl colored_dl">
+              <dt>Expected Returns</dt>
+              <dd>{{ percent(returns) }}</dd>
+            </dl>
           </div>
-        </template>
-      </ApolloQuery>
+
+          <div class="row row-unjustified">
+            <dl class="info_dl colored_dl">
+              <dt>Voting Power</dt>
+              <dd id="page-profile__power">{{ percent(powerRatio) }}</dd>
+            </dl>
+            <dl class="info_dl colored_dl">
+              <dt>Uptime</dt>
+              <dd id="page-profile__uptime">{{ uptime }}</dd>
+            </dl>
+            <dl class="info_dl colored_dl">
+              <dt>Commission</dt>
+              <dd id="page-profile__commission">
+                {{ percent(validator.commission.rate) }}
+              </dd>
+            </dl>
+          </div>
+        </div>
+      </div>
+
+      <div class="page-profile__section">
+        <div class="row">
+          <div class="column">
+            <dl class="info_dl">
+              <dt>First Seen</dt>
+              <dd>Block #{{ validator.bond_height }}</dd>
+            </dl>
+            <dl class="info_dl">
+              <dt>Full Operator Address</dt>
+              <dd class="address">{{ validator.operator_address }}</dd>
+            </dl>
+            <dl class="info_dl">
+              <dt>Keybase ID</dt>
+              <dd>
+                {{ translateEmptyDescription(validator.description.identity) }}
+              </dd>
+            </dl>
+            <dl class="info_dl">
+              <dt>Website</dt>
+              <dd v-if="website !== `--`">
+                <a
+                  id="validator-website"
+                  :href="website"
+                  target="_blank"
+                  rel="nofollow noreferrer noopener"
+                  >{{ website }}</a
+                >
+              </dd>
+              <dd v-else>{{ website }}</dd>
+            </dl>
+            <dl class="info_dl">
+              <dt>Description</dt>
+              <dd class="info_dl__text-box">
+                {{ translateEmptyDescription(validator.description.details) }}
+              </dd>
+            </dl>
+          </div>
+          <div class="column">
+            <dl class="info_dl">
+              <dt>Current Commission Rate</dt>
+              <dd>{{ percent(validator.commission.rate) }}</dd>
+            </dl>
+            <dl class="info_dl">
+              <dt>Max Commission Rate</dt>
+              <dd>{{ percent(validator.commission.max_rate) }}</dd>
+            </dl>
+            <dl class="info_dl">
+              <dt>Max Daily Commission Change</dt>
+              <dd>{{ percent(validator.commission.max_change_rate) }}</dd>
+            </dl>
+            <dl class="info_dl">
+              <dt>Last Commission Change</dt>
+              <dd>{{ lastCommissionChange }}</dd>
+            </dl>
+            <dl class="info_dl">
+              <dt>Self Delegation</dt>
+              <dd id="page-profile__self-bond">{{ selfBond }}</dd>
+            </dl>
+          </div>
+        </div>
+      </div>
 
       <DelegationModal
         ref="delegationModal"
