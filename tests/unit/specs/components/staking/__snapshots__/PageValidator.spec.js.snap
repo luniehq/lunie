@@ -22,7 +22,7 @@ exports[`PageValidator shows a validator profile information errors signing info
           query="[object Object]"
           tag="div"
           throttle="0"
-          update="function (data) { return data.keybase[0]; }"
+          update="function () { [native code] }"
           variables="[object Object]"
         />
          
@@ -43,9 +43,7 @@ exports[`PageValidator shows a validator profile information errors signing info
                 <div
                   class="page-profile__title"
                 >
-                  
                   mr_mounty
-                
                 </div>
               </div>
                
@@ -157,9 +155,7 @@ exports[`PageValidator shows a validator profile information errors signing info
             <dd
               id="page-profile__commission"
             >
-              
               5.00%
-            
             </dd>
           </dl>
         </div>
@@ -209,9 +205,7 @@ exports[`PageValidator shows a validator profile information errors signing info
             </dt>
              
             <dd>
-              
               --
-            
             </dd>
           </dl>
            
@@ -244,9 +238,7 @@ exports[`PageValidator shows a validator profile information errors signing info
             <dd
               class="info_dl__text-box"
             >
-              
               Mr Mounty
-            
             </dd>
           </dl>
         </div>
@@ -358,7 +350,7 @@ exports[`PageValidator shows a validator profile information if user has signed 
           query="[object Object]"
           tag="div"
           throttle="0"
-          update="function (data) { return data.keybase[0]; }"
+          update="function () { [native code] }"
           variables="[object Object]"
         />
          
@@ -379,9 +371,7 @@ exports[`PageValidator shows a validator profile information if user has signed 
                 <div
                   class="page-profile__title"
                 >
-                  
                   mr_mounty
-                
                 </div>
               </div>
                
@@ -493,9 +483,7 @@ exports[`PageValidator shows a validator profile information if user has signed 
             <dd
               id="page-profile__commission"
             >
-              
               5.00%
-            
             </dd>
           </dl>
         </div>
@@ -545,9 +533,7 @@ exports[`PageValidator shows a validator profile information if user has signed 
             </dt>
              
             <dd>
-              
               --
-            
             </dd>
           </dl>
            
@@ -580,9 +566,7 @@ exports[`PageValidator shows a validator profile information if user has signed 
             <dd
               class="info_dl__text-box"
             >
-              
               Mr Mounty
-            
             </dd>
           </dl>
         </div>
@@ -694,7 +678,7 @@ exports[`PageValidator shows a validator profile information if user hasn't sign
           query="[object Object]"
           tag="div"
           throttle="0"
-          update="function (data) { return data.keybase[0]; }"
+          update="function () { [native code] }"
           variables="[object Object]"
         />
          
@@ -715,9 +699,7 @@ exports[`PageValidator shows a validator profile information if user hasn't sign
                 <div
                   class="page-profile__title"
                 >
-                  
                   mr_mounty
-                
                 </div>
               </div>
                
@@ -829,9 +811,7 @@ exports[`PageValidator shows a validator profile information if user hasn't sign
             <dd
               id="page-profile__commission"
             >
-              
               5.00%
-            
             </dd>
           </dl>
         </div>
@@ -881,9 +861,7 @@ exports[`PageValidator shows a validator profile information if user hasn't sign
             </dt>
              
             <dd>
-              
               --
-            
             </dd>
           </dl>
            
@@ -916,9 +894,7 @@ exports[`PageValidator shows a validator profile information if user hasn't sign
             <dd
               class="info_dl__text-box"
             >
-              
               Mr Mounty
-            
             </dd>
           </dl>
         </div>
