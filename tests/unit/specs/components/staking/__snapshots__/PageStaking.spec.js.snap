@@ -8,6 +8,8 @@ exports[`PageStaking has the expected html structure 1`] = `
   tabs="[object Object],[object Object],[object Object]"
   title=""
 >
-  <router-view-stub />
+  <keep-alive-stub>
+    <router-view-stub />
+  </keep-alive-stub>
 </tmpage-stub>
 `;
