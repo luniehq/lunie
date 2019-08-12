@@ -1,4 +1,3 @@
-import * as Sentry from "@sentry/browser"
 import BN from "bignumber.js"
 import b32 from "scripts/b32"
 import Vue from "vue"
@@ -108,7 +107,6 @@ export default ({ node }) => {
           title: `Error fetching validators`,
           body: error.message
         })
-        Sentry.captureException(error)
         state.error = error
         return []
       }

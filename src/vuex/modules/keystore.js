@@ -1,4 +1,3 @@
-import * as Sentry from "@sentry/browser"
 import { track } from "scripts/google-analytics"
 import {
   getSeed,
@@ -21,8 +20,7 @@ export default () => {
       testPassword,
       storeWallet,
       getSeed,
-      track,
-      Sentry
+      track
     }
   }
 

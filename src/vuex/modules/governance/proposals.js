@@ -1,4 +1,3 @@
-import * as Sentry from "@sentry/browser"
 import Vue from "vue"
 import BigNumber from "bignumber.js"
 
@@ -54,7 +53,6 @@ export default ({ node }) => {
         state.loaded = true
         state.loading = false
       } catch (error) {
-        Sentry.captureException(error)
         state.error = error
       }
     },
@@ -68,7 +66,6 @@ export default ({ node }) => {
         state.loading = false
         return proposal
       } catch (error) {
-        Sentry.captureException(error)
         state.error = error
       }
       return undefined
