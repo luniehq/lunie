@@ -1,5 +1,3 @@
-import * as Sentry from "@sentry/browser"
-
 export default ({ node }) => {
   const emptyState = {
     parameters: {},
@@ -36,7 +34,6 @@ export default ({ node }) => {
           title: `Error fetching staking parameters`,
           body: error.message
         })
-        Sentry.captureException(error)
         state.error = error
       }
     }

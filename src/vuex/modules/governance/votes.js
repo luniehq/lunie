@@ -1,5 +1,4 @@
 import Vue from "vue"
-import * as Sentry from "@sentry/browser"
 
 export default ({ node }) => {
   const state = {
@@ -27,7 +26,6 @@ export default ({ node }) => {
         state.loading = false
         state.loaded = true
       } catch (error) {
-        Sentry.captureException(error)
         state.error = error
       }
     },
