@@ -19,7 +19,7 @@
           <Avatar
             v-if="!keybase || !keybase.avatarUrl || loading || error"
             class="data-table__row__info__image data-table__row__info__image--no-img"
-            alt="generic validator logo - graphic triangle supporting atom token"
+            alt="generic validator logo - generated avatar from address"
             :address="validator.operator_address"
           />
           <img
@@ -36,9 +36,11 @@
           :class="statusColor"
           class="data-table__row__info__container__status"
         />
-        <span class="data-table__row__info__container__name">{{
+        <span class="data-table__row__info__container__name">
+          {{
           validator.description.moniker
-        }}</span>
+          }}
+        </span>
         <div class="data-table__row__info__container__description">
           <Bech32 :address="validator.operator_address" />
         </div>
@@ -46,26 +48,26 @@
     </td>
     <td :class="{ 'hide-xs': showOnMobile !== 'my_delegations' }">
       {{
-        validator.my_delegations
-          ? shortDecimals(atoms(validator.my_delegations))
-          : `--`
+      validator.my_delegations
+      ? shortDecimals(atoms(validator.my_delegations))
+      : `--`
       }}
     </td>
-    <td :class="{ 'hide-xs': showOnMobile !== 'rewards' }">
-      {{ validator.rewards ? shortDecimals(atoms(validator.rewards)) : `--` }}
-    </td>
-    <td :class="{ 'hide-xs': showOnMobile !== 'voting-power' }">
-      {{ validator.tokens ? percentOfVotingPower : `--` }}
-    </td>
-    <td :class="{ 'hide-xs': showOnMobile !== 'commission' }">
-      {{ validator.commission ? percent(validator.commission) : `--` }}
-    </td>
-    <td :class="{ 'hide-xs': showOnMobile !== 'uptime' }">
-      {{ validator.uptime ? percent(validator.uptime) : `--` }}
-    </td>
+    <td
+      :class="{ 'hide-xs': showOnMobile !== 'rewards' }"
+    >{{ validator.rewards ? shortDecimals(atoms(validator.rewards)) : `--` }}</td>
+    <td
+      :class="{ 'hide-xs': showOnMobile !== 'voting-power' }"
+    >{{ validator.tokens ? percentOfVotingPower : `--` }}</td>
+    <td
+      :class="{ 'hide-xs': showOnMobile !== 'commission' }"
+    >{{ validator.commission ? percent(validator.commission) : `--` }}</td>
+    <td
+      :class="{ 'hide-xs': showOnMobile !== 'uptime' }"
+    >{{ validator.uptime ? percent(validator.uptime) : `--` }}</td>
     <td :class="{ 'hide-xs': showOnMobile !== 'expectedReturns' }">
       {{
-        validator.expectedReturns ? percent(validator.expectedReturns) : `--`
+      validator.expectedReturns ? percent(validator.expectedReturns) : `--`
       }}
     </td>
   </tr>

@@ -29,7 +29,9 @@ exports[`LiValidator has the expected html structure 1`] = `
       <span
         class="data-table__row__info__container__name"
       >
+        
         mr_mounty
+      
       </span>
        
       <div
@@ -113,7 +115,9 @@ exports[`LiValidator should display uptime as double-dash 1`] = `
       <span
         class="data-table__row__info__container__name"
       >
+        
         mr_mounty
+      
       </span>
        
       <div
