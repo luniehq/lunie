@@ -40,14 +40,12 @@ import CardSignInRequired from "common/CardSignInRequired"
 import { mapGetters } from "vuex"
 import TmDataError from "common/TmDataError"
 import TmDataConnecting from "common/TmDataConnecting"
-import ToolBar from "common/ToolBar"
 import TmBalance from "common/TmBalance"
 import PageFooter from "common/TmPageFooter"
 
 export default {
   name: `tm-page`,
   components: {
-    ToolBar,
     TmBalance,
     TmPageHeader,
     TmDataEmpty,

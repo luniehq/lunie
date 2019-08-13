@@ -17,9 +17,17 @@
     />
     <template slot="managed-body">
       <div class="button-container">
-        <TmBtn id="propose-btn" value="Create Proposal" type="secondary" @click.native="onPropose" />
+        <TmBtn
+          id="propose-btn"
+          value="Create Proposal"
+          type="secondary"
+          @click.native="onPropose"
+        />
       </div>
-      <TableProposals :proposals="proposals.proposals" :loading="proposals.loading" />
+      <TableProposals
+        :proposals="proposals.proposals"
+        :loading="proposals.loading"
+      />
     </template>
 
     <ModalPropose ref="modalPropose" :denom="depositDenom" />
@@ -76,4 +84,3 @@ export default {
   }
 }
 </style>
-

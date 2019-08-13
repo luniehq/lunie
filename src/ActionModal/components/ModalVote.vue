@@ -51,7 +51,11 @@
           @click.native="vote = 'Abstain'"
         />
       </div>
-      <TmFormMsg v-if="$v.vote.$error && !$v.vote.required" name="Vote" type="required" />
+      <TmFormMsg
+        v-if="$v.vote.$error && !$v.vote.required"
+        name="Vote"
+        type="required"
+      />
     </div>
   </ActionModal>
 </template>
@@ -61,7 +65,6 @@ import { mapGetters } from "vuex"
 import { required } from "vuelidate/lib/validators"
 import ActionModal from "./ActionModal"
 import TmBtn from "src/components/common/TmBtn"
-import TmFormGroup from "src/components/common/TmFormGroup"
 import TmFormMsg from "src/components/common/TmFormMsg"
 
 import transaction from "../utils/transactionTypes"
@@ -77,7 +80,6 @@ export default {
   components: {
     ActionModal,
     TmBtn,
-    TmFormGroup,
     TmFormMsg
   },
   props: {

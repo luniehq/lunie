@@ -85,7 +85,7 @@ const getters = {
 describe(`PageValidator`, () => {
   let wrapper, $store
   const localVue = createLocalVue()
-  localVue.directive(`tooltip`, () => { })
+  localVue.directive(`tooltip`, () => {})
 
   beforeEach(() => {
     $store = {
@@ -155,7 +155,9 @@ describe(`PageValidator`, () => {
     })
 
     it(`shows the selfBond`, () => {
-      expect(wrapper.find(`#page-profile__self-bond`).text()).toBe(`1.00% / 10,000`)
+      expect(wrapper.find(`#page-profile__self-bond`).text()).toBe(
+        `1.00% / 10,000`
+      )
     })
 
     it(`should show the validator status`, () => {
@@ -166,18 +168,14 @@ describe(`PageValidator`, () => {
           jailed: true
         })
       ]
-      expect(wrapper.vm.status).toBe(
-        `Jailed`
-      )
+      expect(wrapper.vm.status).toBe(`Jailed`)
       // Is not a validator
       $store.getters.delegates.delegates = [
         Object.assign({}, validator, {
           status: 0
         })
       ]
-      expect(wrapper.vm.status).toBe(
-        `Inactive`
-      )
+      expect(wrapper.vm.status).toBe(`Inactive`)
     })
 
     it(`shows a validator as an inactive candidate if he has no voting_power`, () => {
@@ -424,8 +422,8 @@ describe(`PageValidator`, () => {
     describe(`should update rewards `, () => {
       it(
         `if waited for 20 blocks, ` +
-        `user has signed in, ` +
-        `has delegations and is watching the validator page`,
+          `user has signed in, ` +
+          `has delegations and is watching the validator page`,
         () => {
           const $store = { dispatch: jest.fn() }
           const session = { signedIn: true }

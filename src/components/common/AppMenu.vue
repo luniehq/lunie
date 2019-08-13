@@ -97,13 +97,15 @@
         id="mobile-sign-out"
         class="button app-menu-item"
         @click="signOut()"
-      >Sign out</a>
+        >Sign out</a
+      >
       <a
         v-if="!session.signedIn"
         id="mobile-sign-in"
         class="button app-menu-item"
         @click="signIn()"
-      >Sign in</a>
+        >Sign in</a
+      >
     </div>
     <ConnectedNetwork />
   </menu>
@@ -233,8 +235,8 @@ export default {
     width: var(--width-side);
   }
 
-  .app-menu .button {
+  /* .app-menu .button {
     display: none;
-  }
+  } */
 }
 </style>

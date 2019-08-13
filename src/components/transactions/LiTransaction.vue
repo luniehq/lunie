@@ -26,7 +26,9 @@
           <span>{{ fees.denom | viewDenom }}</span>
         </div>
         <div class="li-tx__content__block">
-          <router-link :to="{ name: `block`, params: { height: block } }">Block #{{ block }}&nbsp;</router-link>
+          <router-link :to="{ name: `block`, params: { height: block } }"
+            >Block #{{ block }}&nbsp;</router-link
+          >
           @&nbsp;{{ date }}
         </div>
       </div>

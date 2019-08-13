@@ -19,7 +19,12 @@
       </div>
     </div>
     <div class="button-container">
-      <TmBtn class="send" value="Send" type="secondary" @click.native="onSend()" />
+      <TmBtn
+        class="send"
+        value="Send"
+        type="secondary"
+        @click.native="onSend()"
+      />
       <TmBtn
         id="withdraw-btn"
         :disabled="!readyToWithdraw"
@@ -30,12 +35,15 @@
     </div>
 
     <SendModal ref="SendModal" />
-    <ModalWithdrawRewards ref="ModalWithdrawRewards" :rewards="totalRewards" :denom="bondDenom" />
+    <ModalWithdrawRewards
+      ref="ModalWithdrawRewards"
+      :rewards="totalRewards"
+      :denom="bondDenom"
+    />
   </div>
 </template>
 <script>
 import num from "scripts/num"
-import Bech32 from "common/Bech32"
 import TmBtn from "common/TmBtn"
 import SendModal from "src/ActionModal/components/SendModal"
 import ModalWithdrawRewards from "src/ActionModal/components/ModalWithdrawRewards"
@@ -43,7 +51,6 @@ import { mapGetters } from "vuex"
 export default {
   name: `tm-balance`,
   components: {
-    Bech32,
     TmBtn,
     SendModal,
     ModalWithdrawRewards

@@ -5,7 +5,9 @@
     <template v-else>
       <div class="page-profile__header page-profile__section proposal">
         <div class="page-profile__header__info">
-          <span :class="status.color" class="proposal-status">{{ status.badge }}</span>
+          <span :class="status.color" class="proposal-status">
+            {{ status.badge }}
+          </span>
           <div class="page-profile__status-and-title">
             <h2 class="proposal-title">{{ title }}</h2>
           </div>
@@ -43,19 +45,25 @@
               {{ totalDeposit ? totalDeposit.amount : `0` }}
               /
               {{
-              num.atoms(
-              governanceParameters.parameters.deposit.min_deposit[0].amount
-              )
+                num.atoms(
+                  governanceParameters.parameters.deposit.min_deposit[0].amount
+                )
               }}
               {{ totalDeposit.denom }}
             </dd>
           </dl>
         </div>
 
-        <div v-if="proposal.proposal_status !== `DepositPeriod`" class="row row-condensed">
+        <div
+          v-if="proposal.proposal_status !== `DepositPeriod`"
+          class="row row-condensed"
+        >
           <dl>
             <dt>Total Vote Count</dt>
-            <dd>{{ totalVotePercentage }} / {{ num.shortDecimals(num.atoms(totalVotes)) }}</dd>
+            <dd>
+              {{ totalVotePercentage }} /
+              {{ num.shortDecimals(num.atoms(totalVotes)) }}
+            </dd>
           </dl>
           <dl>
             <dt>Yes</dt>
@@ -206,11 +214,9 @@ export default {
         .plus(abstain)
         .toNumber()
     },
-    totalVotePercentage(
-      { tally: { yes, no, no_with_veto, abstain }, pool } = this
-    ) {
+    totalVotePercentage({ pool, totalVotes }) {
       const totalPossibleVotes = pool.pool.bonded_tokens
-      return num.percentInt(this.totalVotes / totalPossibleVotes)
+      return num.percentInt(totalVotes / totalPossibleVotes)
     },
     yesPercentage({ tally, totalVotes } = this) {
       return num.percentInt(totalVotes === 0 ? 0 : tally.yes / totalVotes)
@@ -310,4 +316,3 @@ export default {
   }
 }
 </style>
-

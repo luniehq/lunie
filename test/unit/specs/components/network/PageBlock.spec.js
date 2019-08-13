@@ -4,7 +4,7 @@ import { bankTxs } from "../../store/json/txs"
 import { state } from "test/unit/helpers/mockValues.js"
 
 const localVue = createLocalVue()
-localVue.directive(`tooltip`, () => { })
+localVue.directive(`tooltip`, () => {})
 
 describe(`PageBlock`, () => {
   let wrapper
@@ -78,7 +78,7 @@ describe(`PageBlock`, () => {
                   height: `100`,
                   num_txs: 0,
                   proposer_address: `ABCDEFG123456HIJKLMNOP`,
-                  time: Date.now(),
+                  time: Date.now()
                 }
               },
               block_meta: {

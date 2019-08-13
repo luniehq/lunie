@@ -3,7 +3,9 @@
     class="button"
     :class="{ secondary: type === `secondary` }"
     :disabled="disabled"
-  >{{ value }}</button>
+  >
+    {{ value }}
+  </button>
 </template>
 
 <script>
@@ -43,6 +45,11 @@ export default {
   white-space: nowrap;
 }
 
+.button:hover {
+  background: var(--primary-dark);
+  border-color: var(--primary-dark);
+}
+
 .button:disabled {
   opacity: 0.5;
   background: var(--bc);
@@ -57,10 +64,5 @@ export default {
 
 .button.secondary {
   background: var(--primary-alpha);
-}
-
-.button:hover {
-  background: var(--primary-dark);
-  border-color: var(--primary-dark);
 }
 </style>

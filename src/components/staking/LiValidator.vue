@@ -27,16 +27,16 @@
         <div v-if="validator.my_delegations > 0">
           <h4>
             {{
-            validator.my_delegations
-            ? num.shortDecimals(num.atoms(validator.my_delegations))
-            : null
+              validator.my_delegations
+                ? num.shortDecimals(num.atoms(validator.my_delegations))
+                : null
             }}
           </h4>
           <h5 v-if="validator.rewards > 0">
             {{
-            validator.rewards
-            ? `+` + num.shortDecimals(num.atoms(validator.rewards))
-            : `--`
+              validator.rewards
+                ? `+` + num.shortDecimals(num.atoms(validator.rewards))
+                : `--`
             }}
           </h5>
         </div>
@@ -44,27 +44,23 @@
     </td>
     <td :class="{ 'hide-xs': showOnMobile !== 'expectedReturns' }">
       {{
-      validator.expectedReturns
-      ? num.percent(validator.expectedReturns)
-      : `--`
+        validator.expectedReturns
+          ? num.percent(validator.expectedReturns)
+          : `--`
       }}
     </td>
-    <td
-      :class="{ 'hide-xs': showOnMobile !== 'voting-power' }"
-    >{{ validator.tokens ? percentOfVotingPower : `--` }}</td>
+    <td :class="{ 'hide-xs': showOnMobile !== 'voting-power' }">
+      {{ validator.tokens ? percentOfVotingPower : `--` }}
+    </td>
   </tr>
 </template>
 
 <script>
 import { mapGetters } from "vuex"
 import num from "scripts/num"
-import Bech32 from "common/Bech32"
 import BN from "bignumber.js"
 export default {
   name: `li-validator`,
-  components: {
-    Bech32
-  },
   props: {
     validator: {
       type: Object,

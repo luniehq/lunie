@@ -1,13 +1,20 @@
 <template>
   <div>
     <div v-if="delegation.loaded && yourValidators.length > 0">
-      <TableValidators :validators="yourValidators" show-on-mobile="expectedReturns" />
+      <TableValidators
+        :validators="yourValidators"
+        show-on-mobile="expectedReturns"
+      />
     </div>
-    <TmDataMsg v-else-if="yourValidators.length === 0" icon="sentiment_dissatisfied">
+    <TmDataMsg
+      v-else-if="yourValidators.length === 0"
+      icon="sentiment_dissatisfied"
+    >
       <div slot="title">No validators in your portfolio</div>
       <div slot="subtitle">
         Head over to the
-        <router-link :to="{ name: 'Validators' }">validator list</router-link>&nbsp;to get staking!
+        <router-link :to="{ name: 'Validators' }">validator list</router-link
+        >&nbsp;to get staking!
       </div>
     </TmDataMsg>
   </div>

@@ -2,17 +2,17 @@
   <div class="tool-bar">
     <slot />
     <a v-if="session.signedIn" id="signOut-btn" @click="signOut()">
-      <i v-tooltip.bottom.end="'Sign Out'" class="material-icons">exit_to_app</i>
+      <i v-tooltip.bottom.end="'Sign Out'" class="material-icons"
+        >exit_to_app</i
+      >
     </a>
   </div>
 </template>
 
 <script>
 import { mapGetters } from "vuex"
-import TmBtn from "common/TmBtn"
 export default {
   name: `tool-bar`,
-  components: { TmBtn },
   props: {
     displayText: {
       type: Boolean,

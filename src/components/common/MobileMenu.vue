@@ -1,6 +1,11 @@
 <template>
   <menu>
-    <router-link class="mobile-menu-item" to="/portfolio" exact="exact" title="Portfolio">
+    <router-link
+      class="mobile-menu-item"
+      to="/portfolio"
+      exact="exact"
+      title="Portfolio"
+    >
       <i class="material-icons">star</i>
       <h2 class="app-menu-title">Portfolio</h2>
     </router-link>
@@ -12,7 +17,12 @@
       <i class="material-icons">add_circle_outline</i>
       <h2 class="app-menu-title">Proposals</h2>
     </router-link>
-    <router-link class="mobile-menu-item" to="/transactions" exact="exact" title="Transactions">
+    <router-link
+      class="mobile-menu-item"
+      to="/transactions"
+      exact="exact"
+      title="Transactions"
+    >
       <i class="material-icons">show_chart</i>
       <h2 class="app-menu-title">Activity</h2>
     </router-link>

@@ -6,7 +6,9 @@
         <div class="row">
           <div class="page-profile__header__info">
             <div class="page-profile__status-and-title">
-              <h2 class="page-profile__title">Block {{ blockTitle || `--` }}</h2>
+              <h2 class="page-profile__title">
+                Block {{ blockTitle || `--` }}
+              </h2>
             </div>
           </div>
         </div>
@@ -26,16 +28,17 @@
       <div class="page-profile__section block">
         <div class="row">
           <div class="column">
-            <h3
-              v-if="block.transactions"
-              class="page-profile__section-title"
-            >Transactions ({{ block.block_meta.header.num_txs }})</h3>
+            <h3 v-if="block.transactions" class="page-profile__section-title">
+              Transactions ({{ block.block_meta.header.num_txs }})
+            </h3>
             <TmDataMsg
               v-if="block.transactions && block.transactions.length === 0"
               icon="info_outline"
             >
               <div slot="title">No Transactions</div>
-              <div slot="subtitle">This block doesn't contain any transactions.</div>
+              <div slot="subtitle">
+                This block doesn't contain any transactions.
+              </div>
             </TmDataMsg>
             <LiAnyTransaction
               v-for="tx in block.transactions"
@@ -157,4 +160,3 @@ export default {
   padding-top: 2rem;
 }
 </style>
-

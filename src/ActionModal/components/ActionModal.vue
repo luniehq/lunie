@@ -1,11 +1,17 @@
 <template>
   <transition v-if="show" name="slide-fade">
     <div v-focus-last class="action-modal" tabindex="0" @keyup.esc="close">
-      <div id="closeBtn" class="action-modal-icon action-modal-close" @click="close">
+      <div
+        id="closeBtn"
+        class="action-modal-icon action-modal-close"
+        @click="close"
+      >
         <i class="material-icons">close</i>
       </div>
       <div class="action-modal-header">
-        <span class="action-modal-title">{{ requiresSignIn ? `Sign in required` : title }}</span>
+        <span class="action-modal-title">{{
+          requiresSignIn ? `Sign in required` : title
+        }}</span>
         <Steps
           v-if="[defaultStep, feeStep, signStep].includes(step)"
           :steps="['Details', 'Fees', 'Sign']"
@@ -13,7 +19,9 @@
         />
       </div>
       <div v-if="requiresSignIn" class="action-modal-form">
-        <p class="form-message notice">You need to sign in to submit a transaction.</p>
+        <p class="form-message notice">
+          You need to sign in to submit a transaction.
+        </p>
       </div>
       <div v-else-if="step === defaultStep" class="action-modal-form">
         <slot />
@@ -27,7 +35,13 @@
           field-label="Gas Price"
         >
           <span class="input-suffix">{{ bondDenom | viewDenom }}</span>
-          <TmField id="gas-price" v-model="gasPrice" step="0.000000001" type="number" min="0" />
+          <TmField
+            id="gas-price"
+            v-model="gasPrice"
+            step="0.000000001"
+            type="number"
+            min="0"
+          />
           <TmFormMsg
             v-if="balanceInAtoms === 0"
             :msg="`doesn't have any ${bondDenom}s`"
@@ -81,9 +95,9 @@
         >
           <div v-if="session.browserWithLedgerSupport">
             {{
-            sending
-            ? `Please verify and sign the transaction on your Ledger`
-            : `Please plug in your Ledger&nbsp;Nano and open
+              sending
+                ? `Please verify and sign the transaction on your Ledger`
+                : `Please plug in your Ledger&nbsp;Nano and open
             the Cosmos app`
             }}
           </div>
@@ -111,7 +125,8 @@
               href="https://chrome.google.com/webstore/category/extensions"
               target="_blank"
               rel="noopener norefferer"
-            >Chrome Web Store</a>.
+              >Chrome Web Store</a
+            >.
           </div>
         </HardwareState>
         <form
@@ -150,14 +165,19 @@
           </div>
         </TmDataMsg>
       </div>
-      <div v-else-if="step === successStep" class="action-modal-form success-step">
+      <div
+        v-else-if="step === successStep"
+        class="action-modal-form success-step"
+      >
         <TmDataMsg icon="check">
           <div slot="title">{{ notifyMessage.title }}</div>
           <div slot="subtitle">
             {{ notifyMessage.body }}
             <br />
             <br />Block
-            <router-link :to="`/blocks/${includedHeight}`">#{{ includedHeight }}</router-link>.
+            <router-link :to="`/blocks/${includedHeight}`"
+              >#{{ includedHeight }}</router-link
+            >.
           </div>
         </TmDataMsg>
       </div>
@@ -211,7 +231,9 @@
         <p
           v-if="submissionError"
           class="tm-form-msg sm tm-form-msg--error submission-error"
-        >{{ submissionError }}</p>
+        >
+          {{ submissionError }}
+        </p>
       </div>
     </div>
   </transition>

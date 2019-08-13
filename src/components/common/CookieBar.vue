@@ -2,9 +2,12 @@
   <div v-if="!session.cookiesAccepted" class="cookie-bar">
     <i></i>
     <p>
-      <span class="hide-on-mobile">This site uses cookies to help improve your experience.</span>
+      <span class="hide-on-mobile"
+        >This site uses cookies to help improve your experience.</span
+      >
       By using Lunie, you accept our
-      <router-link to="/terms" class="link">Terms of Service</router-link>&nbsp;and
+      <router-link to="/terms" class="link">Terms of Service</router-link
+      >&nbsp;and
       <router-link to="/privacy" class="link">Privacy Policy</router-link>.
     </p>
     <a class="close">

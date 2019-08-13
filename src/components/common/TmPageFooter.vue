@@ -2,10 +2,22 @@
   <footer class="hide-xs">
     <ul>
       <li>
-        <router-link class="app-menu-item-small" to="/about" exact="exact" title="About">About</router-link>
+        <router-link
+          class="app-menu-item-small"
+          to="/about"
+          exact="exact"
+          title="About"
+          >About</router-link
+        >
       </li>
       <li>
-        <router-link class="app-menu-item-small" to="/careers" exact="exact" title="Careers">Careers</router-link>
+        <router-link
+          class="app-menu-item-small"
+          to="/careers"
+          exact="exact"
+          title="Careers"
+          >Careers</router-link
+        >
       </li>
       <li>
         <router-link
@@ -13,7 +25,8 @@
           to="/security"
           exact="exact"
           title="Security"
-        >Security</router-link>
+          >Security</router-link
+        >
       </li>
       <li>
         <router-link
@@ -21,7 +34,8 @@
           to="/terms"
           exact="exact"
           title="Terms"
-        >Terms of Service</router-link>
+          >Terms of Service</router-link
+        >
       </li>
       <li>
         <router-link
@@ -29,7 +43,8 @@
           to="/privacy"
           exact="exact"
           title="Privacy"
-        >Privacy Policy</router-link>
+          >Privacy Policy</router-link
+        >
       </li>
     </ul>
   </footer>

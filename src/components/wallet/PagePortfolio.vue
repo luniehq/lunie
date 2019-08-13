@@ -20,24 +20,16 @@
 import num from "scripts/num"
 import { mapGetters } from "vuex"
 import orderBy from "lodash.orderby"
-import LiCoin from "./LiCoin"
-import Bech32 from "common/Bech32"
 import TmPage from "common/TmPage"
-import TmDataMsg from "common/TmDataMsg"
-import TmBtn from "common/TmBtn"
 import DelegationsOverview from "staking/DelegationsOverview"
 import Undelegations from "staking/Undelegations"
 
 export default {
   name: `page-portfolio`,
   components: {
-    TmDataMsg,
-    LiCoin,
     TmPage,
-    Bech32,
     Undelegations,
-    DelegationsOverview,
-    TmBtn
+    DelegationsOverview
   },
   data: () => ({
     lastUpdate: 0

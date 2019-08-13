@@ -29,18 +29,16 @@
             alt="generic validator logo - graphic triangle supporting atom token"
           />
           <div class="validator-info">
-            <h3 class="li-validator-name">{{ validator.description.moniker }}</h3>
+            <h3 class="li-validator-name">
+              {{ validator.description.moniker }}
+            </h3>
             <div v-if="myDelegation">
               <h4>
-                {{
-                myDelegation
-                }}
+                {{ myDelegation }}
               </h4>
               <h5 v-if="rewards">
                 {{
-                rewards
-                ? `+` + num.shortDecimals(num.atoms(rewards))
-                : `--`
+                  rewards ? `+` + num.shortDecimals(num.atoms(rewards)) : `--`
                 }}
               </h5>
             </div>
@@ -67,9 +65,9 @@
       <div class="row">
         <dl class="info_dl">
           <dt>Description</dt>
-          <dd
-            class="info_dl__text-box"
-          >{{ translateEmptyDescription(validator.description.details) }}</dd>
+          <dd class="info_dl__text-box">
+            {{ translateEmptyDescription(validator.description.details) }}
+          </dd>
         </dl>
         <dl class="info_dl">
           <dt>Website</dt>
@@ -79,7 +77,8 @@
               :href="website"
               target="_blank"
               rel="nofollow noreferrer noopener"
-            >{{ website }}</a>
+              >{{ website }}</a
+            >
           </dd>
           <dd v-else>{{ website }}</dd>
         </dl>
@@ -94,13 +93,16 @@
       <div class="row row-condensed">
         <dl class="info_dl">
           <dt>Voting Power / Total Stake</dt>
-          <dd
-            id="page-profile__power"
-          >{{ num.percent(powerRatio) }} / {{ num.shortDecimals(num.atoms(validator.tokens)) }}</dd>
+          <dd id="page-profile__power">
+            {{ num.percent(powerRatio) }} /
+            {{ num.shortDecimals(num.atoms(validator.tokens)) }}
+          </dd>
         </dl>
         <dl class="info_dl">
           <dt>Self Stake</dt>
-          <dd id="page-profile__self-bond">{{ selfBond }} / {{ selfBondAmount }}</dd>
+          <dd id="page-profile__self-bond">
+            {{ selfBond }} / {{ selfBondAmount }}
+          </dd>
         </dl>
         <dl class="info_dl">
           <dt>Validator Since</dt>
@@ -108,9 +110,9 @@
         </dl>
         <dl class="info_dl">
           <dt>Uptime / Missed Blocks</dt>
-          <dd
-            id="page-profile__uptime"
-          >{{ uptime }} / {{ validator.signing_info.missed_blocks_counter }}</dd>
+          <dd id="page-profile__uptime">
+            {{ uptime }} / {{ validator.signing_info.missed_blocks_counter }}
+          </dd>
         </dl>
         <dl class="info_dl">
           <dt>Current Commission Rate</dt>
@@ -146,11 +148,14 @@
       />
     </template>
     <template v-else>
-      <template slot="title">Validator Not Found</template>
+      <template slot="title"
+        >Validator Not Found</template
+      >
       <template slot="subtitle">
         <div>
           Please visit the
-          <router-link to="/validators/">Validators</router-link>page to view all validators
+          <router-link to="/validators/">Validators</router-link>page to view
+          all validators
         </div>
       </template>
     </template>
