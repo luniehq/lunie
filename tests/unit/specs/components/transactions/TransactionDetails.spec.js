@@ -1,16 +1,22 @@
-import { mount } from "@vue/test-utils"
+import { mount, createLocalVue } from "@vue/test-utils"
 import TransactionDetails from "src/components/transactions/TransactionDetails"
 import { testTransactionObjects } from "tests/unit/helpers/testValues"
 describe(`TransactionDetails`, () => {
   let wrapper
 
+  const localVue = createLocalVue()
+  localVue.directive(`tooltip`, () => {})
+  localVue.directive(`clipboard`, () => {})
+
   beforeEach(() => {
     wrapper = mount(TransactionDetails, {
+      localVue,
       propsData: {
         transaction: testTransactionObjects[0],
         validators: {},
         address: "cosmos1"
-      }
+      },
+      stubs: ["router-link"]
     })
   })
   it(`renders MsgSend transaction item unrelated to session user`, () => {
@@ -77,7 +83,9 @@ describe(`TransactionDetails`, () => {
     expect(wrapper.element).toMatchSnapshot()
   })
   it(`Unknown transaction returns empty string`, () => {
-    wrapper.setProps({ transaction: { type: "Unknown" } })
+    wrapper.setProps({
+      transaction: { ...testTransactionObjects[15], type: "Unknown" }
+    })
     expect(wrapper.element).toMatchSnapshot()
   })
 })
