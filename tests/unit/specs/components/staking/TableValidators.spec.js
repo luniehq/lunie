@@ -11,7 +11,6 @@ describe(`TableValidators`, () => {
     },
 
     bondDenom: `stake`,
-    keybase: { [validators[0].description.identity]: `keybase` },
 
     lastHeader: {
       chain_id: `gaia-20k`,
@@ -76,7 +75,6 @@ describe(`TableValidators`, () => {
     expect(wrapper.vm.enrichedValidators[0].voting_power).toBe(`0.0140000000`)
     expect(wrapper.vm.enrichedValidators[0].my_delegations).toBe(10)
     expect(wrapper.vm.enrichedValidators[0].commission).toBe(0)
-    expect(wrapper.vm.enrichedValidators[0].keybase).toBe(`keybase`)
     expect(wrapper.vm.enrichedValidators[0].rewards).toBe(1000)
     expect(wrapper.vm.enrichedValidators[0].uptime).toBe(0.9998)
     expect(wrapper.vm.enrichedValidators[0].expectedReturns).toBe(0.1)

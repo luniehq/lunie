@@ -38,9 +38,6 @@ const mockState = {
   delegates: {
     delegates: mockValues.state.candidates
   },
-  keybase: {
-    identities: {}
-  },
   stakingParameters: {},
   pool: {},
   proposals: {},

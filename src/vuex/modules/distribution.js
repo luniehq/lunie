@@ -1,4 +1,3 @@
-import * as Sentry from "@sentry/browser"
 import Vue from "vue"
 import { coinsToObject } from "scripts/common"
 
@@ -110,7 +109,6 @@ export default ({ node }) => {
         commit(`setDistributionError`, null)
         state.loaded = true
       } catch (error) {
-        Sentry.captureException(error)
         commit(`setDistributionError`, error)
       }
       state.loading = false
@@ -124,7 +122,6 @@ export default ({ node }) => {
         commit(`setDistributionError`, null)
         state.loaded = true
       } catch (error) {
-        Sentry.captureException(error)
         commit(`setDistributionError`, error)
       }
       state.loading = false
@@ -138,7 +135,6 @@ export default ({ node }) => {
         commit(`setDistributionError`, null)
         state.loaded = true
       } catch (error) {
-        Sentry.captureException(error)
         commit(`setDistributionError`, error)
       }
       state.loading = false

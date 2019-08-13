@@ -10,30 +10,33 @@
     "
   >
     <td class="data-table__row__info">
-      <img
-        v-if="validator.keybase && validator.keybase.avatarUrl"
-        :src="validator.keybase.avatarUrl"
-        class="data-table__row__info__image"
-        :alt="`validator logo for ` + validator.description.moniker"
-      />
-      <img
-        v-else
-        class="
-          data-table__row__info__image
-          data-table__row__info__image--no-img
-        "
-        src="~assets/images/validator-icon.svg"
-        alt="generic validator logo - graphic triangle supporting atom token"
-      />
+      <ApolloQuery
+        :query="ValidatorProfile"
+        :variables="{ address: validator.operator_address }"
+        :update="validatorProfileResultUpdate"
+      >
+        <template v-slot="{ result: { loading, error, data: keybase } }">
+          <img
+            v-if="!keybase || loading || error"
+            class="data-table__row__info__image data-table__row__info__image--no-img"
+            src="~assets/images/validator-icon.svg"
+            alt="generic validator logo - graphic triangle supporting atom token"
+          />
+          <img
+            v-else-if="keybase && keybase.avatarUrl"
+            :src="keybase.avatarUrl"
+            class="data-table__row__info__image"
+            :alt="`validator logo for ` + validator.description.moniker"
+          />
+        </template>
+      </ApolloQuery>
       <div class="data-table__row__info__container">
         <span
           v-tooltip.top="status"
           :class="statusColor"
           class="data-table__row__info__container__status"
         />
-        <span class="data-table__row__info__container__name">
-          {{ validator.description.moniker }}
-        </span>
+        <span class="data-table__row__info__container__name">{{ validator.description.moniker }}</span>
         <div class="data-table__row__info__container__description">
           <Bech32 :address="validator.operator_address" />
         </div>
@@ -41,32 +44,26 @@
     </td>
     <td :class="{ 'hide-xs': showOnMobile !== 'my_delegations' }">
       {{
-        validator.my_delegations
-          ? num.shortDecimals(num.atoms(validator.my_delegations))
-          : `--`
+      validator.my_delegations
+      ? shortDecimals(atoms(validator.my_delegations))
+      : `--`
       }}
     </td>
-    <td :class="{ 'hide-xs': showOnMobile !== 'rewards' }">
-      {{
-        validator.rewards
-          ? num.shortDecimals(num.atoms(validator.rewards))
-          : `--`
-      }}
-    </td>
-    <td :class="{ 'hide-xs': showOnMobile !== 'voting-power' }">
-      {{ validator.tokens ? percentOfVotingPower : `--` }}
-    </td>
-    <td :class="{ 'hide-xs': showOnMobile !== 'commission' }">
-      {{ validator.commission ? num.percent(validator.commission) : `--` }}
-    </td>
-    <td :class="{ 'hide-xs': showOnMobile !== 'uptime' }">
-      {{ validator.uptime ? num.percent(validator.uptime) : `--` }}
-    </td>
+    <td
+      :class="{ 'hide-xs': showOnMobile !== 'rewards' }"
+    >{{ validator.rewards ? shortDecimals(atoms(validator.rewards)) : `--` }}</td>
+    <td
+      :class="{ 'hide-xs': showOnMobile !== 'voting-power' }"
+    >{{ validator.tokens ? percentOfVotingPower : `--` }}</td>
+    <td
+      :class="{ 'hide-xs': showOnMobile !== 'commission' }"
+    >{{ validator.commission ? percent(validator.commission) : `--` }}</td>
+    <td
+      :class="{ 'hide-xs': showOnMobile !== 'uptime' }"
+    >{{ validator.uptime ? percent(validator.uptime) : `--` }}</td>
     <td :class="{ 'hide-xs': showOnMobile !== 'expectedReturns' }">
       {{
-        validator.expectedReturns
-          ? num.percent(validator.expectedReturns)
-          : `--`
+      validator.expectedReturns ? percent(validator.expectedReturns) : `--`
       }}
     </td>
   </tr>
@@ -74,9 +71,11 @@
 
 <script>
 import { mapState } from "vuex"
-import num from "scripts/num"
+import { percent, shortDecimals, atoms } from "scripts/num"
 import Bech32 from "common/Bech32"
 import BN from "bignumber.js"
+import { ValidatorProfile, validatorProfileResultUpdate } from "src/gql"
+
 export default {
   name: `li-validator`,
   components: {
@@ -92,7 +91,9 @@ export default {
       default: () => "returns"
     }
   },
-  data: () => ({ num }),
+  data: () => ({
+    ValidatorProfile
+  }),
   computed: {
     ...mapState([`pool`]),
     status() {
@@ -118,12 +119,18 @@ export default {
       return `green`
     },
     percentOfVotingPower() {
-      return num.percent(
+      return percent(
         BN(this.validator.tokens)
           .div(this.pool.pool.bonded_tokens)
           .toFixed(4)
       )
     }
+  },
+  methods: {
+    shortDecimals,
+    atoms,
+    percent,
+    validatorProfileResultUpdate
   }
 }
 </script>

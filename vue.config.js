@@ -39,8 +39,7 @@ module.exports = {
             RELEASE: JSON.stringify(commitHash),
             GOOGLE_ANALYTICS_UID: JSON.stringify(
               process.env.GOOGLE_ANALYTICS_UID
-            ),
-            SENTRY_DSN: JSON.stringify(process.env.SENTRY_DSN)
+            )
           }
         })
       ]
@@ -72,7 +71,6 @@ module.exports = {
           "style-src": [`'self'`, `'unsafe-inline'`],
           "connect-src": [
             // third party tools
-            `https://sentry.io`,
             `https://appzi-collector-b.azurewebsites.net`,
             // mainnet
             `https://stargate.lunie.io`,
@@ -85,11 +83,7 @@ module.exports = {
               .map(x => x.replace("https", "wss"))
           ],
           "frame-src": [`'self'`, `https://app.appzi.io/`],
-          "img-src": [
-            `'self'`,
-            `https://www.google-analytics.com/`,
-            `https://s3.amazonaws.com/keybase_processed_uploads/`
-          ]
+          "img-src": [`'self'`, `https://www.google-analytics.com/`]
         })
       )
     }

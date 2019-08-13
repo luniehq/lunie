@@ -1,5 +1,3 @@
-import * as Sentry from "@sentry/browser"
-
 export default ({ node }) => {
   const emptyState = {
     pool: {},
@@ -34,8 +32,6 @@ export default ({ node }) => {
         state.loading = false
         state.loaded = true
       } catch (error) {
-        Sentry.captureException(error)
-
         state.error = error
         state.loading = false
         state.loaded = false

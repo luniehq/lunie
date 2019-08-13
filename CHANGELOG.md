@@ -7,6 +7,20 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.0-beta.107] - 2019-08-13
+
+### Added
+
+- [#2869](https://github.com/cosmos/lunie/pull/2869) Fetch validator info using GraphQL @colw
+
+### Security
+
+- [#2875](https://github.com/cosmos/lunie/pull/2875) Allow minor upgrades in package.json @colw
+
+### Deprecated
+
+- [#2865](https://github.com/cosmos/lunie/issues/2865) Remove Sentry @colw
+
 ## [1.0.0-beta.106] - 2019-08-13
 
 ### Added

@@ -1,4 +1,3 @@
-import * as Sentry from "@sentry/browser"
 import Vue from "vue"
 
 export const cache = (list, element, maxSize = 100) => {
@@ -70,7 +69,6 @@ export default ({ node }) => {
         commit(`setBlockTransactions`, txs)
         commit(`setBlocksLoaded`, true)
       } catch (error) {
-        Sentry.captureException(error)
         commit(`setBlockError`, error)
       }
       commit(`setBlocksLoading`, false)
@@ -96,7 +94,6 @@ export default ({ node }) => {
         commit(`setBlocksLoaded`, true)
         return blockMetaInfo
       } catch (error) {
-        Sentry.captureException(error)
         commit(`setBlocksLoading`, false)
         commit(`setBlockError`, error)
         return null
