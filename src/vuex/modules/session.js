@@ -1,4 +1,3 @@
-import * as Sentry from "@sentry/browser"
 import { track, deanonymize, anonymize } from "scripts/google-analytics"
 import config from "src/config"
 
@@ -33,8 +32,7 @@ export default () => {
       config,
       track,
       anonymize,
-      deanonymize,
-      Sentry
+      deanonymize
     }
   }
 
@@ -146,17 +144,6 @@ export default () => {
 
       state.errorCollection = enabled
       dispatch(`storeLocalPreferences`)
-
-      if (state.errorCollection && !state.externals.config.development) {
-        state.externals.Sentry.init({
-          dsn: state.externals.config.sentry_dsn,
-          release: state.externals.config.version
-        })
-        console.log(`Error collection has been enabled`)
-      } else {
-        console.log(`Error collection has been disabled`)
-        state.externals.Sentry.init({})
-      }
     },
     setAnalyticsCollection({ state, dispatch }, enabled) {
       // don't track in development

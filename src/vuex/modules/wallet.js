@@ -1,4 +1,3 @@
-import * as Sentry from "@sentry/browser"
 import Vue from "vue"
 import config from "src/config"
 import axios from "axios"
@@ -75,7 +74,6 @@ export default ({ node }) => {
           title: `Error fetching balances`,
           body: error.message
         })
-        Sentry.captureException(error)
         state.error = error
       }
     },
@@ -133,7 +131,6 @@ function subscribeToTxs(rpcClient, address, dispatch) {
         onTx
       )
       .catch(err => {
-        // TODO Output error like this to not trigger Sentry
         console.error(err)
       })
   })

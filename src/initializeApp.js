@@ -5,7 +5,6 @@ import {
   enableGoogleAnalytics,
   setGoogleAnalyticsPage
 } from "scripts/google-analytics"
-import * as Sentry from "@sentry/browser"
 import config from "src/config"
 import Node from "./connectors/node"
 import router, { routeGuard } from "./router"
@@ -14,23 +13,6 @@ import Store from "./vuex/store"
 export default function init(urlParams, env = process.env) {
   // add error handlers in production
   if (env.NODE_ENV === `production`) {
-    // Sentry is used for automatic error reporting. It is turned off by default.
-    Sentry.init({})
-
-    // this will pass the state to Sentry when errors are sent.
-    // this would also sent passwords...
-    // Sentry.configureScope(scope => {
-    //   scope.setExtra(_Store.state)
-    // })
-
-    // handle uncaught errors
-    window.addEventListener(`unhandledrejection`, function(event) {
-      Sentry.captureException(event.reason)
-    })
-    window.addEventListener(`error`, function(event) {
-      Sentry.captureException(event.reason)
-    })
-
     enableGoogleAnalytics(config.google_analytics_uid)
   }
 
