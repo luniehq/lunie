@@ -1,5 +1,21 @@
 import keystoreModule from "src/vuex/modules/keystore.js"
 
+const mockKeysLib = {
+  testPassword: () => true,
+  getSeed: () => `xxx`,
+  getNewWalletFromSeed: () => ({
+    cosmosAddress: "cosmos1234"
+  }),
+  getWalletIndex: () => [
+    {
+      name: `def`,
+      address: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`
+    }
+  ],
+  storeWallet: () => {}
+}
+jest.mock("@lunie/cosmos-keys", () => mockKeysLib)
+
 describe(`Module: Keystore`, () => {
   let module, state, actions, mutations
   const accounts = [
@@ -16,19 +32,7 @@ describe(`Module: Keystore`, () => {
     mutations = module.mutations
 
     state.externals = {
-      track: jest.fn(),
-      testPassword: () => true,
-      getSeed: () => `xxx`,
-      getNewWalletFromSeed: () => ({
-        cosmosAddress: "cosmos1234"
-      }),
-      getWalletIndex: () => [
-        {
-          name: `def`,
-          address: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`
-        }
-      ],
-      storeWallet: () => {}
+      track: jest.fn()
     }
   })
 
@@ -52,12 +56,10 @@ describe(`Module: Keystore`, () => {
   })
 
   it(`should test if the login works`, async () => {
-    state.externals.testPassword = jest
-      .fn()
-      .mockImplementationOnce(() => {})
-      .mockImplementationOnce(() => {
-        throw new Error("Expected")
-      })
+    jest.doMock("@lunie/cosmos-keys", () => ({
+      ...mockKeysLib,
+      testPassword: () => {}
+    }))
     let output = await actions.testLogin(
       { state },
       {
@@ -66,6 +68,14 @@ describe(`Module: Keystore`, () => {
       }
     )
     expect(output).toBe(true)
+
+    jest.resetModules()
+    jest.doMock("@lunie/cosmos-keys", () => ({
+      ...mockKeysLib,
+      testPassword: () => {
+        throw new Error("Expected")
+      }
+    }))
     output = await actions.testLogin(
       { state },
       {
@@ -134,11 +144,5 @@ describe(`Module: Keystore`, () => {
       address,
       sessionType: "local"
     })
-  })
-
-  it(`should load accounts on init`, async () => {
-    const dispatch = jest.fn()
-    await actions.init({ dispatch })
-    expect(dispatch).toHaveBeenCalledWith(`loadAccounts`)
   })
 })

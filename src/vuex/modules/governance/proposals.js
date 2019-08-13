@@ -60,7 +60,7 @@ export default ({ node }) => {
       state.loading = true
       try {
         const proposal = await node.get.proposal(proposal_id)
-        setProposalTally(commit, node)(proposal)
+        await setProposalTally(commit, node)(proposal)
         state.error = null
         state.loaded = true
         state.loading = false

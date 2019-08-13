@@ -3,8 +3,6 @@
     <div class="tx__content__caption">
       <p>
         Create validator
-        <b>{{ coin.amount | atoms | prettyLong }}</b>
-        <span>{{ coin.denom | viewDenom }}</span>
       </p>
     </div>
     <div class="tx__content__information">
@@ -13,7 +11,7 @@
         :to="`staking/validators/${transaction.value.validator_address}`"
       >
         {{
-          ransaction.value.validator_address | resolveValidatorName(validators)
+          transaction.value.validator_address | resolveValidatorName(validators)
         }}
       </router-link>
     </div>
@@ -23,7 +21,6 @@
 <script>
 import { atoms, viewDenom, prettyLong } from "scripts/num.js"
 import { resolveValidatorName } from "src/filters"
-import { getCoin } from "scripts/transaction-utils"
 
 export default {
   name: `create-validator-message-details`,
@@ -41,11 +38,6 @@ export default {
     validators: {
       type: Object,
       required: true
-    }
-  },
-  computed: {
-    coin() {
-      return getCoin(this.transaction)
     }
   }
 }
