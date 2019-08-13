@@ -1,6 +1,8 @@
 <template>
   <TmPage :tabs="tabs" class="staking" data-title="Staking">
-    <router-view />
+    <keep-alive>
+      <router-view />
+    </keep-alive>
   </TmPage>
 </template>
 

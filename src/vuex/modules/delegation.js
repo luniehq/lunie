@@ -1,4 +1,3 @@
-import * as Sentry from "@sentry/browser"
 import Vue from "vue"
 import { throttle } from "scripts/blocks-throttle"
 
@@ -102,7 +101,6 @@ export default ({ node }) => {
           title: `Error fetching delegations`,
           body: error.message
         })
-        Sentry.captureException(error)
         state.error = error
       }
 
