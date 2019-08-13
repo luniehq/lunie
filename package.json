@@ -30,7 +30,6 @@
     "@lunie/cosmos-api": "0.1.2",
     "@lunie/cosmos-keys": "0.1.0",
     "@lunie/cosmos-ledger": "0.0.5",
-    "@sentry/browser": "5.0.3",
     "autosize": "4.0.2",
     "axios": "0.19.0",
     "bech32": "1.1.3",

@@ -1,4 +1,3 @@
-import * as Sentry from "@sentry/browser"
 import Vue from "vue"
 
 export default ({ node }) => {
@@ -27,7 +26,6 @@ export default ({ node }) => {
         state.loaded = true
         commit(`setProposalDeposits`, proposalId, deposits)
       } catch (error) {
-        Sentry.captureException(error)
         state.error = error
       }
     },

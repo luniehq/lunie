@@ -16,9 +16,6 @@ describe(`Module: Keystore`, () => {
     mutations = module.mutations
 
     state.externals = {
-      Sentry: {
-        init: jest.fn()
-      },
       track: jest.fn(),
       testPassword: () => true,
       getSeed: () => `xxx`,

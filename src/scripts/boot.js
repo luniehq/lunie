@@ -9,7 +9,6 @@ import Router from "vue-router"
 import Tooltip from "vue-directive-tooltip"
 import Vuelidate from "vuelidate"
 import VueClipboard from "vue-clipboard2"
-import * as _Sentry from "@sentry/browser"
 import infiniteScroll from "vue-infinite-scroll"
 
 import App from "../App"
@@ -53,7 +52,6 @@ export const startApp = async (
   Node = _Node,
   Store = _Store,
   env = process.env,
-  Sentry = _Sentry,
   Vue = _Vue,
   enableGoogleAnalytics = _enableGoogleAnalytics,
   setGoogleAnalyticsPage = _setGoogleAnalyticsPage
@@ -69,25 +67,6 @@ export const startApp = async (
 
   // add error handlers in production
   if (env.NODE_ENV === `production`) {
-    // Sentry is used for automatic error reporting. It is turned off by default.
-    Sentry.init({})
-
-    // this will pass the state to Sentry when errors are sent.
-    // this would also sent passwords...
-    // Sentry.configureScope(scope => {
-    //   scope.setExtra(_Store.state)
-    // })
-
-    // handle uncaught errors
-    /* istanbul ignore next */
-    window.addEventListener(`unhandledrejection`, function(event) {
-      Sentry.captureException(event.reason)
-    })
-    /* istanbul ignore next */
-    window.addEventListener(`error`, function(event) {
-      Sentry.captureException(event.reason)
-    })
-
     enableGoogleAnalytics(config.google_analytics_uid)
   }
 
