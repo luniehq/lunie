@@ -20,14 +20,6 @@
             <dt>Time</dt>
             <dd>{{ blockTime }}</dd>
           </dl>
-          <!-- <dl class="info_dl">
-            <dt>Block Hash</dt>
-            <dd>{{ block.block_meta.block_id.hash }}</dd>
-          </dl>
-          <dl class="info_dl">
-            <dt>Block Proposer</dt>
-            <dd>{{ block.block_meta.header.proposer_address }}</dd>
-          </dl>-->
         </div>
       </div>
 

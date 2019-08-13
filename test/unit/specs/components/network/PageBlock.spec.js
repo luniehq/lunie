@@ -4,7 +4,7 @@ import { bankTxs } from "../../store/json/txs"
 import { state } from "test/unit/helpers/mockValues.js"
 
 const localVue = createLocalVue()
-localVue.directive(`tooltip`, () => {})
+localVue.directive(`tooltip`, () => { })
 
 describe(`PageBlock`, () => {
   let wrapper
@@ -27,8 +27,10 @@ describe(`PageBlock`, () => {
           time: Date.now()
         }
       },
-
       block_meta: {
+        header: {
+          chain_id: `chain-1`
+        },
         block_id: {
           hash: `ABCD1234`
         }
@@ -76,11 +78,13 @@ describe(`PageBlock`, () => {
                   height: `100`,
                   num_txs: 0,
                   proposer_address: `ABCDEFG123456HIJKLMNOP`,
-                  time: Date.now()
+                  time: Date.now(),
                 }
               },
-
               block_meta: {
+                header: {
+                  chain_id: `chain-1`
+                },
                 block_id: {
                   hash: `ABCD1234`
                 }
@@ -130,7 +134,11 @@ describe(`PageBlock`, () => {
       mocks: {
         $store: {
           getters: Object.assign({}, getters, {
-            block: {}
+            block: {
+              block_meta: {
+                header: {}
+              }
+            }
           }),
           dispatch: jest.fn()
         },

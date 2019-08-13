@@ -18,8 +18,8 @@ describe(`PageProposal`, () => {
   const localVue = createLocalVue()
   localVue.use(Vuex)
   localVue.use(Vuelidate)
-  localVue.directive(`tooltip`, () => {})
-  localVue.directive(`focus`, () => {})
+  localVue.directive(`tooltip`, () => { })
+  localVue.directive(`focus`, () => { })
 
   const getters = {
     depositDenom: governanceParameters.parameters.deposit.min_deposit[0].denom,
@@ -31,6 +31,11 @@ describe(`PageProposal`, () => {
     },
     session: {
       signedIn: true
+    },
+    pool: {
+      pool: {
+        bonded_tokens: 10000
+      }
     }
   }
   let args
@@ -199,7 +204,7 @@ describe(`PageProposal`, () => {
       $store = { dispatch: jest.fn() }
 
       const thisIs = {
-        $refs: { modalVote: { open: () => {} } },
+        $refs: { modalVote: { open: () => { } } },
         $store,
         votes: {},
         proposalId: `2`,
@@ -219,7 +224,7 @@ describe(`PageProposal`, () => {
       $store = { dispatch: jest.fn() }
 
       const thisIs = {
-        $refs: { modalVote: { open: () => {} } },
+        $refs: { modalVote: { open: () => { } } },
         $store,
         votes: {
           2: [
@@ -241,11 +246,6 @@ describe(`PageProposal`, () => {
         [`getProposalVotes`, thisIs.proposalId]
       ])
       expect(thisIs.lastVote).toEqual({ voter: `X`, vote: `yes` })
-    })
-
-    it(`disables voting if the proposal is on the 'DepositPeriod'`, () => {
-      wrapper.setProps({ proposalId: `5` })
-      expect(wrapper.find(`#vote-btn`).exists()).toEqual(false)
     })
   })
 

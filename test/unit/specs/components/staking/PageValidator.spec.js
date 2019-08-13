@@ -85,7 +85,7 @@ const getters = {
 describe(`PageValidator`, () => {
   let wrapper, $store
   const localVue = createLocalVue()
-  localVue.directive(`tooltip`, () => {})
+  localVue.directive(`tooltip`, () => { })
 
   beforeEach(() => {
     $store = {
@@ -128,7 +128,7 @@ describe(`PageValidator`, () => {
     })
 
     it(`shows a default avatar`, () => {
-      expect(wrapper.find(`.page-profile__header`).html()).toContain(
+      expect(wrapper.find(`.li-validator-image`).html()).toContain(
         `validator-icon.svg`
       )
     })
@@ -155,11 +155,11 @@ describe(`PageValidator`, () => {
     })
 
     it(`shows the selfBond`, () => {
-      expect(wrapper.find(`#page-profile__self-bond`).text()).toBe(`1.00%`)
+      expect(wrapper.find(`#page-profile__self-bond`).text()).toBe(`1.00% / 10,000`)
     })
 
     it(`should show the validator status`, () => {
-      expect(wrapper.vm.status).toBe(`This validator is actively validating`)
+      expect(wrapper.vm.status).toBe(`Active`)
       // Jailed
       $store.getters.delegates.delegates = [
         Object.assign({}, validator, {
@@ -167,7 +167,7 @@ describe(`PageValidator`, () => {
         })
       ]
       expect(wrapper.vm.status).toBe(
-        `This validator has been jailed and is not currently validating`
+        `Jailed`
       )
       // Is not a validator
       $store.getters.delegates.delegates = [
@@ -176,7 +176,7 @@ describe(`PageValidator`, () => {
         })
       ]
       expect(wrapper.vm.status).toBe(
-        `This validator does not have enough voting power yet and is inactive`
+        `Inactive`
       )
     })
 
@@ -196,26 +196,6 @@ describe(`PageValidator`, () => {
         })
       ]
       expect(wrapper.vm.status).toMatchSnapshot()
-    })
-
-    it(`disables delegation and undelegation buttons if not connected`, () => {
-      expect(
-        wrapper.vm.$el.querySelector(`#delegation-btn`).getAttribute(`disabled`)
-      ).toBeNull()
-      expect(
-        wrapper.vm.$el
-          .querySelector(`#undelegation-btn`)
-          .getAttribute(`disabled`)
-      ).toBeNull()
-      $store.getters.connected = false
-      expect(
-        wrapper.vm.$el.querySelector(`#delegation-btn`).getAttribute(`disabled`)
-      ).not.toBeNull()
-      expect(
-        wrapper.vm.$el
-          .querySelector(`#undelegation-btn`)
-          .getAttribute(`disabled`)
-      ).not.toBeNull()
     })
 
     it(`shows empty website url`, () => {
@@ -273,7 +253,7 @@ describe(`PageValidator`, () => {
         bondDenom,
         myBond
       })
-      expect(delegationString).toBe(`--`)
+      expect(delegationString).toBe(null)
     })
   })
 
@@ -444,8 +424,8 @@ describe(`PageValidator`, () => {
     describe(`should update rewards `, () => {
       it(
         `if waited for 20 blocks, ` +
-          `user has signed in, ` +
-          `has delegations and is watching the validator page`,
+        `user has signed in, ` +
+        `has delegations and is watching the validator page`,
         () => {
           const $store = { dispatch: jest.fn() }
           const session = { signedIn: true }

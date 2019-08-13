@@ -2,6 +2,7 @@
 
 exports[`PageBlock shows a page with information about a certain block 1`] = `
 <tmpage-stub
+  class="small"
   data-title="Block"
   hideheader="true"
   subtitle=""
@@ -29,17 +30,29 @@ exports[`PageBlock shows a page with information about a certain block 1`] = `
     </div>
      
     <div
-      class="row"
+      class="row row-condensed"
     >
       <dl
-        class="info_dl colored_dl"
+        class="info_dl"
+      >
+        <dt>
+          Chain ID
+        </dt>
+         
+        <dd>
+          chain-1
+        </dd>
+      </dl>
+       
+      <dl
+        class="info_dl"
       >
         <dt>
           Time
         </dt>
          
         <dd>
-          Jan 1st 1970, 00:00:42
+          January 1st 1970, 00:00
         </dd>
       </dl>
     </div>
@@ -57,7 +70,7 @@ exports[`PageBlock shows a page with information about a certain block 1`] = `
         <h3
           class="page-profile__section-title"
         >
-          Transactions
+          Transactions ()
         </h3>
          
         <!---->
@@ -105,6 +118,7 @@ exports[`PageBlock shows a page with information about a certain block 1`] = `
 
 exports[`PageBlock shows the block page with no txs 1`] = `
 <tmpage-stub
+  class="small"
   data-title="Block"
   hideheader="true"
   subtitle=""
@@ -132,17 +146,29 @@ exports[`PageBlock shows the block page with no txs 1`] = `
     </div>
      
     <div
-      class="row"
+      class="row row-condensed"
     >
       <dl
-        class="info_dl colored_dl"
+        class="info_dl"
+      >
+        <dt>
+          Chain ID
+        </dt>
+         
+        <dd>
+          chain-1
+        </dd>
+      </dl>
+       
+      <dl
+        class="info_dl"
       >
         <dt>
           Time
         </dt>
          
         <dd>
-          Jan 1st 1970, 00:00:42
+          January 1st 1970, 00:00
         </dd>
       </dl>
     </div>
@@ -160,7 +186,7 @@ exports[`PageBlock shows the block page with no txs 1`] = `
         <h3
           class="page-profile__section-title"
         >
-          Transactions
+          Transactions ()
         </h3>
          
         <tmdatamsg-stub
@@ -184,6 +210,7 @@ exports[`PageBlock shows the block page with no txs 1`] = `
 
 exports[`PageBlock shows the page when the block hasn't been loaded yet 1`] = `
 <tmpage-stub
+  class="small"
   data-title="Block"
   hideheader="true"
   subtitle=""
@@ -211,10 +238,22 @@ exports[`PageBlock shows the page when the block hasn't been loaded yet 1`] = `
     </div>
      
     <div
-      class="row"
+      class="row row-condensed"
     >
       <dl
-        class="info_dl colored_dl"
+        class="info_dl"
+      >
+        <dt>
+          Chain ID
+        </dt>
+         
+        <dd>
+          
+        </dd>
+      </dl>
+       
+      <dl
+        class="info_dl"
       >
         <dt>
           Time

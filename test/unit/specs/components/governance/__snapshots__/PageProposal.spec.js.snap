@@ -2,6 +2,7 @@
 
 exports[`PageProposal renders votes in HTML when voting is open 1`] = `
 <tmpage-stub
+  class="small"
   data-title="Proposal"
   hideheader="true"
   subtitle=""
@@ -11,34 +12,145 @@ exports[`PageProposal renders votes in HTML when voting is open 1`] = `
     class="page-profile__header page-profile__section proposal"
   >
     <div
-      class="row"
+      class="page-profile__header__info"
     >
-      <div
-        class="page-profile__header__info"
+      <span
+        class="proposal-status pink"
       >
-        <span
-          class="proposal-status pink"
+        Voting Period
+      </span>
+       
+      <div
+        class="page-profile__status-and-title"
+      >
+        <h2
+          class="proposal-title"
         >
-          
-            Voting Period
-          
-        </span>
-         
-        <div
-          class="page-profile__status-and-title"
-        >
-          <h2
-            class="proposal-title"
-          >
-            VotingPeriod proposal
-          </h2>
-        </div>
+          VotingPeriod proposal
+        </h2>
       </div>
+    </div>
+     
+    <div
+      class="button-container"
+    >
+      <tmbtn-stub
+        color="primary"
+        disabled="true"
+        id="deposit-btn"
+        value="Deposit"
+      />
+       
+      <tmbtn-stub
+        color="primary"
+        id="vote-btn"
+        value="Vote"
+      />
     </div>
      
     <div
       class="row"
     >
+      <div
+        class="column"
+      >
+        <dl>
+          <textblock-stub
+            content="custom text proposal description"
+          />
+        </dl>
+      </div>
+    </div>
+  </div>
+   
+  <div
+    class="page-profile__section"
+  >
+    <div
+      class="row row-condensed"
+    >
+      <!---->
+    </div>
+     
+    <div
+      class="row row-condensed"
+    >
+      <dl>
+        <dt>
+          Total Vote Count
+        </dt>
+         
+        <dd>
+          100,000,000% / 10,000
+        </dd>
+      </dl>
+       
+      <dl>
+        <dt>
+          Yes
+        </dt>
+         
+        <dd>
+          
+            10% /
+            1,000
+          
+        </dd>
+      </dl>
+       
+      <dl>
+        <dt>
+          No
+        </dt>
+         
+        <dd>
+          
+            20% /
+            2,000
+          
+        </dd>
+      </dl>
+       
+      <dl>
+        <dt>
+          No with Veto
+        </dt>
+         
+        <dd>
+          
+            30% /
+            3,000
+          
+        </dd>
+      </dl>
+       
+      <dl>
+        <dt>
+          Abstain
+        </dt>
+         
+        <dd>
+          
+            40% /
+            4,000
+          
+        </dd>
+      </dl>
+    </div>
+     
+    <div
+      class="row row-condensed"
+    >
+      <dl>
+        <dt>
+          Proposal ID
+        </dt>
+         
+        <dd>
+          2
+        </dd>
+      </dl>
+       
       <dl>
         <dt>
           Submitted
@@ -68,114 +180,6 @@ exports[`PageProposal renders votes in HTML when voting is open 1`] = `
           January 5th 1970, 00:00
         </dd>
       </dl>
-    </div>
-  </div>
-   
-  <div
-    class="page-profile__section"
-  >
-    <div
-      class="row"
-    >
-      <!---->
-       
-      <dl>
-        <dt>
-          Total Vote Count
-        </dt>
-         
-        <dd>
-          10,000
-        </dd>
-      </dl>
-       
-      <dl>
-        <tmbtn-stub
-          color="primary"
-          id="vote-btn"
-          value="Vote"
-        />
-         
-        <!---->
-         
-        <!---->
-         
-        <!---->
-      </dl>
-    </div>
-     
-    <div
-      class="row"
-    >
-      <dl>
-        <dt>
-          Yes
-        </dt>
-         
-        <dd>
-          
-            1,000
-            (10%)
-          
-        </dd>
-      </dl>
-       
-      <dl>
-        <dt>
-          No
-        </dt>
-         
-        <dd>
-          
-            2,000
-            (20%)
-          
-        </dd>
-      </dl>
-       
-      <dl>
-        <dt>
-          No with Veto
-        </dt>
-         
-        <dd>
-          
-            3,000
-            (30%)
-          
-        </dd>
-      </dl>
-       
-      <dl>
-        <dt>
-          Abstain
-        </dt>
-         
-        <dd>
-          
-            4,000
-            (40%)
-          
-        </dd>
-      </dl>
-    </div>
-     
-    <div
-      class="row"
-    >
-      <div
-        class="column"
-      >
-        <dl>
-          <dt>
-            Description
-          </dt>
-           
-          <textblock-stub
-            content="custom text proposal description"
-          />
-        </dl>
-      </div>
     </div>
   </div>
    
@@ -194,6 +198,7 @@ exports[`PageProposal renders votes in HTML when voting is open 1`] = `
 
 exports[`PageProposal should display proposal page if user has signed in 1`] = `
 <tmpage-stub
+  class="small"
   data-title="Proposal"
   hideheader="true"
   subtitle=""
@@ -203,34 +208,145 @@ exports[`PageProposal should display proposal page if user has signed in 1`] = `
     class="page-profile__header page-profile__section proposal"
   >
     <div
-      class="row"
+      class="page-profile__header__info"
     >
-      <div
-        class="page-profile__header__info"
+      <span
+        class="proposal-status pink"
       >
-        <span
-          class="proposal-status pink"
+        Voting Period
+      </span>
+       
+      <div
+        class="page-profile__status-and-title"
+      >
+        <h2
+          class="proposal-title"
         >
-          
-            Voting Period
-          
-        </span>
-         
-        <div
-          class="page-profile__status-and-title"
-        >
-          <h2
-            class="proposal-title"
-          >
-            VotingPeriod proposal
-          </h2>
-        </div>
+          VotingPeriod proposal
+        </h2>
       </div>
+    </div>
+     
+    <div
+      class="button-container"
+    >
+      <tmbtn-stub
+        color="primary"
+        disabled="true"
+        id="deposit-btn"
+        value="Deposit"
+      />
+       
+      <tmbtn-stub
+        color="primary"
+        id="vote-btn"
+        value="Vote"
+      />
     </div>
      
     <div
       class="row"
     >
+      <div
+        class="column"
+      >
+        <dl>
+          <textblock-stub
+            content="custom text proposal description"
+          />
+        </dl>
+      </div>
+    </div>
+  </div>
+   
+  <div
+    class="page-profile__section"
+  >
+    <div
+      class="row row-condensed"
+    >
+      <!---->
+    </div>
+     
+    <div
+      class="row row-condensed"
+    >
+      <dl>
+        <dt>
+          Total Vote Count
+        </dt>
+         
+        <dd>
+          0% / 0
+        </dd>
+      </dl>
+       
+      <dl>
+        <dt>
+          Yes
+        </dt>
+         
+        <dd>
+          
+            0% /
+            0
+          
+        </dd>
+      </dl>
+       
+      <dl>
+        <dt>
+          No
+        </dt>
+         
+        <dd>
+          
+            0% /
+            0
+          
+        </dd>
+      </dl>
+       
+      <dl>
+        <dt>
+          No with Veto
+        </dt>
+         
+        <dd>
+          
+            0% /
+            0
+          
+        </dd>
+      </dl>
+       
+      <dl>
+        <dt>
+          Abstain
+        </dt>
+         
+        <dd>
+          
+            0% /
+            0
+          
+        </dd>
+      </dl>
+    </div>
+     
+    <div
+      class="row row-condensed"
+    >
+      <dl>
+        <dt>
+          Proposal ID
+        </dt>
+         
+        <dd>
+          2
+        </dd>
+      </dl>
+       
       <dl>
         <dt>
           Submitted
@@ -260,114 +376,6 @@ exports[`PageProposal should display proposal page if user has signed in 1`] = `
           January 5th 1970, 00:00
         </dd>
       </dl>
-    </div>
-  </div>
-   
-  <div
-    class="page-profile__section"
-  >
-    <div
-      class="row"
-    >
-      <!---->
-       
-      <dl>
-        <dt>
-          Total Vote Count
-        </dt>
-         
-        <dd>
-          0
-        </dd>
-      </dl>
-       
-      <dl>
-        <tmbtn-stub
-          color="primary"
-          id="vote-btn"
-          value="Vote"
-        />
-         
-        <!---->
-         
-        <!---->
-         
-        <!---->
-      </dl>
-    </div>
-     
-    <div
-      class="row"
-    >
-      <dl>
-        <dt>
-          Yes
-        </dt>
-         
-        <dd>
-          
-            0
-            (0%)
-          
-        </dd>
-      </dl>
-       
-      <dl>
-        <dt>
-          No
-        </dt>
-         
-        <dd>
-          
-            0
-            (0%)
-          
-        </dd>
-      </dl>
-       
-      <dl>
-        <dt>
-          No with Veto
-        </dt>
-         
-        <dd>
-          
-            0
-            (0%)
-          
-        </dd>
-      </dl>
-       
-      <dl>
-        <dt>
-          Abstain
-        </dt>
-         
-        <dd>
-          
-            0
-            (0%)
-          
-        </dd>
-      </dl>
-    </div>
-     
-    <div
-      class="row"
-    >
-      <div
-        class="column"
-      >
-        <dl>
-          <dt>
-            Description
-          </dt>
-           
-          <textblock-stub
-            content="custom text proposal description"
-          />
-        </dl>
-      </div>
     </div>
   </div>
    
@@ -386,6 +394,7 @@ exports[`PageProposal should display proposal page if user has signed in 1`] = `
 
 exports[`PageProposal should display proposal page should default tally to 0 if it's not yet present  1`] = `
 <tmpage-stub
+  class="small"
   data-title="Proposal"
   hideheader="true"
   subtitle=""
@@ -395,34 +404,145 @@ exports[`PageProposal should display proposal page should default tally to 0 if 
     class="page-profile__header page-profile__section proposal"
   >
     <div
-      class="row"
+      class="page-profile__header__info"
     >
-      <div
-        class="page-profile__header__info"
+      <span
+        class="proposal-status pink"
       >
-        <span
-          class="proposal-status pink"
+        Voting Period
+      </span>
+       
+      <div
+        class="page-profile__status-and-title"
+      >
+        <h2
+          class="proposal-title"
         >
-          
-            Voting Period
-          
-        </span>
-         
-        <div
-          class="page-profile__status-and-title"
-        >
-          <h2
-            class="proposal-title"
-          >
-            VotingPeriod proposal
-          </h2>
-        </div>
+          VotingPeriod proposal
+        </h2>
       </div>
+    </div>
+     
+    <div
+      class="button-container"
+    >
+      <tmbtn-stub
+        color="primary"
+        disabled="true"
+        id="deposit-btn"
+        value="Deposit"
+      />
+       
+      <tmbtn-stub
+        color="primary"
+        id="vote-btn"
+        value="Vote"
+      />
     </div>
      
     <div
       class="row"
     >
+      <div
+        class="column"
+      >
+        <dl>
+          <textblock-stub
+            content="custom text proposal description"
+          />
+        </dl>
+      </div>
+    </div>
+  </div>
+   
+  <div
+    class="page-profile__section"
+  >
+    <div
+      class="row row-condensed"
+    >
+      <!---->
+    </div>
+     
+    <div
+      class="row row-condensed"
+    >
+      <dl>
+        <dt>
+          Total Vote Count
+        </dt>
+         
+        <dd>
+          0% / 0
+        </dd>
+      </dl>
+       
+      <dl>
+        <dt>
+          Yes
+        </dt>
+         
+        <dd>
+          
+            0% /
+            0
+          
+        </dd>
+      </dl>
+       
+      <dl>
+        <dt>
+          No
+        </dt>
+         
+        <dd>
+          
+            0% /
+            0
+          
+        </dd>
+      </dl>
+       
+      <dl>
+        <dt>
+          No with Veto
+        </dt>
+         
+        <dd>
+          
+            0% /
+            0
+          
+        </dd>
+      </dl>
+       
+      <dl>
+        <dt>
+          Abstain
+        </dt>
+         
+        <dd>
+          
+            0% /
+            0
+          
+        </dd>
+      </dl>
+    </div>
+     
+    <div
+      class="row row-condensed"
+    >
+      <dl>
+        <dt>
+          Proposal ID
+        </dt>
+         
+        <dd>
+          2
+        </dd>
+      </dl>
+       
       <dl>
         <dt>
           Submitted
@@ -455,114 +575,6 @@ exports[`PageProposal should display proposal page should default tally to 0 if 
     </div>
   </div>
    
-  <div
-    class="page-profile__section"
-  >
-    <div
-      class="row"
-    >
-      <!---->
-       
-      <dl>
-        <dt>
-          Total Vote Count
-        </dt>
-         
-        <dd>
-          0
-        </dd>
-      </dl>
-       
-      <dl>
-        <tmbtn-stub
-          color="primary"
-          id="vote-btn"
-          value="Vote"
-        />
-         
-        <!---->
-         
-        <!---->
-         
-        <!---->
-      </dl>
-    </div>
-     
-    <div
-      class="row"
-    >
-      <dl>
-        <dt>
-          Yes
-        </dt>
-         
-        <dd>
-          
-            0
-            (0%)
-          
-        </dd>
-      </dl>
-       
-      <dl>
-        <dt>
-          No
-        </dt>
-         
-        <dd>
-          
-            0
-            (0%)
-          
-        </dd>
-      </dl>
-       
-      <dl>
-        <dt>
-          No with Veto
-        </dt>
-         
-        <dd>
-          
-            0
-            (0%)
-          
-        </dd>
-      </dl>
-       
-      <dl>
-        <dt>
-          Abstain
-        </dt>
-         
-        <dd>
-          
-            0
-            (0%)
-          
-        </dd>
-      </dl>
-    </div>
-     
-    <div
-      class="row"
-    >
-      <div
-        class="column"
-      >
-        <dl>
-          <dt>
-            Description
-          </dt>
-           
-          <textblock-stub
-            content="custom text proposal description"
-          />
-        </dl>
-      </div>
-    </div>
-  </div>
-   
   <modaldeposit-stub
     denom="STAKE"
     proposalid="2"
@@ -578,6 +590,7 @@ exports[`PageProposal should display proposal page should default tally to 0 if 
 
 exports[`PageProposal should display proposal page should show a loader if the necessary data hasen't been loaded 1`] = `
 <tmpage-stub
+  class="small"
   data-title="Proposal"
   hideheader="true"
   subtitle=""
