@@ -512,6 +512,7 @@ describe(`ActionModal`, () => {
       wrapper.setData(data)
       wrapper.vm.submit()
       await wrapper.vm.$nextTick()
+      await wrapper.vm.$nextTick()
 
       expect(wrapper.html()).toContain(
         "Transaction failed: couldn't find Ledger."
