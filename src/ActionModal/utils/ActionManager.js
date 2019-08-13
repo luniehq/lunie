@@ -71,7 +71,7 @@ export default class ActionManager {
     this.readyCheck()
 
     const { gasEstimate, gasPrice, submitType, password } = txMetaData
-    const signer = getSigner(config, submitType, {
+    const signer = await getSigner(config, submitType, {
       address: this.context.userAddress,
       password
     })

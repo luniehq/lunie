@@ -61,6 +61,9 @@ export default {
     accountExists() {
       return this.keystore && this.keystore.accounts.length > 0
     }
+  },
+  created() {
+    this.$store.dispatch("loadAccounts")
   }
 }
 </script>

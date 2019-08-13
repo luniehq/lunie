@@ -1,17 +1,18 @@
 import config from "src/config"
-import Ledger from "@lunie/cosmos-ledger"
 
 export default () => {
   const emptyState = {}
   const state = {
     ...emptyState,
-    externals: { config, Ledger } // for testing
+    externals: { config } // for testing
   }
   const mutations = {}
 
   const actions = {
     async connectLedgerApp({ state }) {
-      const ledger = new state.externals.Ledger({
+      const Ledger = await import("@lunie/cosmos-ledger")
+
+      const ledger = new Ledger({
         testModeAllowed: state.externals.config.testModeAllowed
       })
 
