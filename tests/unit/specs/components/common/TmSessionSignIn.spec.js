@@ -12,8 +12,7 @@ describe(`TmSessionSignIn`, () => {
     $store = {
       commit: jest.fn(),
       dispatch: jest.fn(() => true),
-      getters: {
-        connected: true,
+      state: {
         keystore: {
           accounts: [
             {
@@ -21,8 +20,7 @@ describe(`TmSessionSignIn`, () => {
               name: `my_account`
             }
           ]
-        },
-        mockedConnector: false
+        }
       }
     }
 

@@ -87,7 +87,7 @@
       </div>
       <table v-if="connected" class="blocks data-table">
         <thead>
-          <PanelSort :properties="properties" />
+          <PanelSort :properties="properties" show-on-mobile="transactions" />
         </thead>
         <tbody>
           <tr v-if="blocks.length === 0" class="block data-table__row">
@@ -131,7 +131,7 @@
 
 <script>
 import moment from "moment"
-import { mapGetters } from "vuex"
+import { mapState, mapGetters } from "vuex"
 import num from "scripts/num"
 import PanelSort from "staking/PanelSort"
 import TmPage from "common/TmPage"
@@ -145,14 +145,8 @@ export default {
     num
   }),
   computed: {
-    ...mapGetters([
-      `connected`,
-      `lastHeader`,
-      `delegates`,
-      `pool`,
-      `bondDenom`,
-      `blocks`
-    ]),
+    ...mapState([`pool`, `delegates`]),
+    ...mapGetters([`connected`, `lastHeader`, `bondDenom`, `blocks`]),
     status() {
       const color = this.connected ? `green` : `red`
       const message = this.connected

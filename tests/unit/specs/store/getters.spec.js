@@ -43,31 +43,28 @@ describe(`Store: getters`, () => {
   })
 
   it(`oldBondedAtoms`, () => {
-    const result = oldBondedAtoms(
-      {},
-      {
-        delegation: {
-          committedDelegates: {
-            validator1: 42,
-            validator2: 9
-          }
-        },
-        delegates: {
-          delegates: [
-            {
-              operator_address: `validator1`,
-              delegator_shares: `1000`,
-              tokens: `1000`
-            },
-            {
-              operator_address: `validator2`,
-              delegator_shares: `1000`,
-              tokens: `100`
-            }
-          ]
+    const result = oldBondedAtoms({
+      delegation: {
+        committedDelegates: {
+          validator1: 42,
+          validator2: 9
         }
+      },
+      delegates: {
+        delegates: [
+          {
+            operator_address: `validator1`,
+            delegator_shares: `1000`,
+            tokens: `1000`
+          },
+          {
+            operator_address: `validator2`,
+            delegator_shares: `1000`,
+            tokens: `100`
+          }
+        ]
       }
-    )
+    })
 
     expect(result.toNumber()).toBe(42.9)
   })
@@ -116,14 +113,14 @@ describe(`Store: getters`, () => {
       expect(
         yourValidators(
           {
-            session: { signedIn: true }
+            session: { signedIn: true },
+            delegates: { delegates: validators }
           },
           {
             committedDelegations: {
               [validators[0].operator_address]: 1,
               [validators[2].operator_address]: 2
-            },
-            delegates: { delegates: validators }
+            }
           }
         )
       ).toEqual([validators[0], validators[2]])

@@ -20,7 +20,7 @@ import TableProposals from "./TableProposals"
 import TmDataConnecting from "common/TmDataConnecting"
 import TmDataEmpty from "common/TmDataEmpty"
 import TmDataLoading from "common/TmDataLoading"
-import { mapGetters } from "vuex"
+import { mapState, mapGetters } from "vuex"
 export default {
   name: `tab-proposals`,
   components: {
@@ -30,7 +30,8 @@ export default {
     TmDataEmpty
   },
   computed: {
-    ...mapGetters([`proposals`, `connected`])
+    ...mapState([`proposals`]),
+    ...mapGetters([`connected`])
   },
   mounted() {
     this.$store.dispatch(`getProposals`)

@@ -20,7 +20,7 @@ exports[`PanelSort has the expected html structure 1`] = `
     </a>
   </th>
   <th
-    class="panel-sort-table-header sort-by hide-xs"
+    class="panel-sort-table-header sort-by"
   >
     <a
       class="sort-by-link"

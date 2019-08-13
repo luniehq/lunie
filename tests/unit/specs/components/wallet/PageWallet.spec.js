@@ -8,21 +8,25 @@ describe(`PageWallet`, () => {
 
   let wrapper, $store
   const getters = {
+    lastHeader: { height: `20` },
+    connected: true
+  }
+
+  const state = {
+    session: { signedIn: true },
     wallet: {
       loading: false,
       balances: mockValues.state.accounts[mockValues.addresses[0]].coins,
       externals: { config: { faucet: `yo` } }
-    },
-    lastHeader: { height: `20` },
-    connected: true,
-    session: { signedIn: true }
+    }
   }
 
   beforeEach(() => {
     $store = {
       commit: jest.fn(),
       dispatch: jest.fn(),
-      getters
+      getters,
+      state
     }
 
     wrapper = shallowMount(PageWallet, {
@@ -45,7 +49,7 @@ describe(`PageWallet`, () => {
   })
 
   it(`should not show denoms or the faucet button for a user who is not signed in`, () => {
-    $store.getters.session.signedIn = false
+    $store.state.session.signedIn = false
     wrapper = shallowMount(PageWallet, {
       localVue,
       mocks: {
@@ -81,15 +85,17 @@ describe(`PageWallet`, () => {
       commit: jest.fn(),
       dispatch: jest.fn(),
       getters: Object.assign({}, getters, {
+        connected: false,
+        lastHeader: ``
+      }),
+      state: {
+        session: { signedIn: true },
         wallet: {
           loaded: false,
           balances: [],
           externals: { config: {} }
-        },
-        connected: false,
-        lastHeader: ``,
-        session: { signedIn: true }
-      })
+        }
+      }
     }
 
     wrapper = shallowMount(PageWallet, {
@@ -107,16 +113,17 @@ describe(`PageWallet`, () => {
       commit: jest.fn(),
       dispatch: jest.fn(),
       getters: Object.assign({}, getters, {
+        connected: true,
+        lastHeader: ``
+      }),
+      state: {
+        session: { signedIn: true },
         wallet: {
-          loading: true,
           loaded: false,
           balances: [],
           externals: { config: {} }
-        },
-        connected: true,
-        lastHeader: ``,
-        session: { signedIn: true }
-      })
+        }
+      }
     }
 
     wrapper = shallowMount(PageWallet, {

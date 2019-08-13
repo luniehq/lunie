@@ -9,18 +9,22 @@ describe(`TabProposals`, () => {
     $store = {
       commit: jest.fn(),
       dispatch: jest.fn(),
+      state: {},
       getters: {}
     }
   })
 
   it(`shows a proposals table`, async () => {
-    $store.getters = {
+    $store.state = {
       proposals: {
         loading: false,
         loaded: false,
         proposals,
         tallies
-      },
+      }
+    }
+
+    $store.getters = {
       connected: true
     }
 
@@ -33,13 +37,16 @@ describe(`TabProposals`, () => {
   })
 
   it(`shows a message if still connecting`, async () => {
-    $store.getters = {
+    $store.state = {
       proposals: {
         loading: false,
         loaded: false,
         proposals: {},
         tallies: {}
-      },
+      }
+    }
+
+    $store.getters = {
       connected: false
     }
 
@@ -52,13 +59,17 @@ describe(`TabProposals`, () => {
   })
 
   it(`shows a message if still loading`, async () => {
-    $store.getters = {
+    $store.state = {
       proposals: {
         loading: true,
         loaded: false,
         proposals: {},
         tallies: {}
       },
+      connected: true
+    }
+
+    $store.getters = {
       connected: true
     }
 
@@ -71,13 +82,16 @@ describe(`TabProposals`, () => {
   })
 
   it(`shows a message if there is nothing to display`, async () => {
-    $store.getters = {
+    $store.state = {
       proposals: {
         loading: false,
         loaded: false,
         tallies: {},
         proposals: {}
-      },
+      }
+    }
+
+    $store.getters = {
       connected: true
     }
 

@@ -23,7 +23,8 @@ describe(`PanelSort`, () => {
             value: `amount`,
             title: `AMOUNT`
           }
-        ]
+        ],
+        showOnMobile: "amount"
       }
     })
   })
@@ -57,5 +58,41 @@ describe(`PanelSort`, () => {
     secondLink.click()
     expect(firstCol.className.split(` `)).not.toContain(`asc`)
     expect(secondCol.className.split(` `)).toContain(`asc`)
+  })
+
+  describe("showOnMobile", () => {
+    beforeEach(() => {
+      wrapper = shallowMount(PanelSort, {
+        localVue,
+        propsData: {
+          sort: {
+            property: `block_number`,
+            order: `asc`
+          },
+          properties: [
+            {
+              value: `block_number`,
+              title: `Block Number`
+            },
+            {
+              value: `amount`,
+              title: `Amount`
+            },
+            {
+              value: `other`,
+              title: `Other`
+            }
+          ],
+          showOnMobile: "amount"
+        }
+      })
+    })
+
+    it(`should show mobile field correctly`, () => {
+      wrapper.setProps({ showOnMobile: "amount" })
+      const numHidden = wrapper.findAll("th").filter(w => w.classes("hide-xs"))
+        .length
+      expect(numHidden).toBe(1)
+    })
   })
 })

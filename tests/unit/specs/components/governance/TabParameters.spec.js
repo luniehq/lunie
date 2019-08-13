@@ -16,10 +16,12 @@ describe(`TabParameters`, () => {
     $store = {
       commit: jest.fn(),
       dispatch: jest.fn(),
-      getters: {
+      state: {
         governanceParameters: {
           parameters: governanceParameters
-        },
+        }
+      },
+      getters: {
         totalAtoms: 1000000000,
         session: { atoms: 42 }
       }

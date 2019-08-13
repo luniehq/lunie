@@ -10,18 +10,20 @@
   >
     <DataEmptyTx slot="no-data" />
     <template slot="managed-body">
-      <TransactionList
-        :transactions="flatOrderedTransactionList"
-        :address="session.address"
-        :validators="validators"
-      />
+      <div v-infinite-scroll="loadMore" infinite-scroll-distance="80">
+        <TransactionList
+          :transactions="showingTransactions"
+          :address="session.address"
+          :validators="validators"
+        />
+      </div>
       <br />
     </template>
   </TmPage>
 </template>
 
 <script>
-import { mapGetters } from "vuex"
+import { mapState, mapGetters } from "vuex"
 import DataEmptyTx from "common/TmDataEmptyTx"
 import TmPage from "common/TmPage"
 import TransactionList from "../transactions/TransactionList"
@@ -33,13 +35,15 @@ export default {
     DataEmptyTx,
     TmPage
   },
+  data: () => ({
+    showing: 15
+  }),
   computed: {
-    ...mapGetters([
-      `session`,
-      `transactions`,
-      `flatOrderedTransactionList`,
-      `validators`
-    ]),
+    ...mapState([`session`, `transactions`]),
+    ...mapGetters([`validators`, `flatOrderedTransactionList`]),
+    showingTransactions() {
+      return this.flatOrderedTransactionList.slice(0, this.showing)
+    },
     dataEmpty() {
       return this.flatOrderedTransactionList.length === 0
     }
@@ -57,6 +61,9 @@ export default {
       if (this.session.signedIn) {
         await this.$store.dispatch(`getAllTxs`)
       }
+    },
+    loadMore() {
+      this.showing += 10
     }
   }
 }

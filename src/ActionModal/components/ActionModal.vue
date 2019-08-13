@@ -251,7 +251,7 @@ import TmFormMsg from "src/components/common/TmFormMsg"
 import TmDataMsg from "common/TmDataMsg"
 import TableInvoice from "./TableInvoice"
 import Steps from "./Steps"
-import { mapGetters } from "vuex"
+import { mapState, mapGetters } from "vuex"
 import { atoms, viewDenom } from "src/scripts/num"
 import { between, requiredIf } from "vuelidate/lib/validators"
 import { track } from "scripts/google-analytics"
@@ -361,14 +361,8 @@ export default {
     SIGN_METHODS
   }),
   computed: {
-    ...mapGetters([
-      `connected`,
-      `session`,
-      `bondDenom`,
-      `liquidAtoms`,
-      `modalContext`,
-      `extension`
-    ]),
+    ...mapState([`extension`, `session`]),
+    ...mapGetters([`connected`, `bondDenom`, `liquidAtoms`, `modalContext`]),
     requiresSignIn() {
       return !this.session.signedIn
     },

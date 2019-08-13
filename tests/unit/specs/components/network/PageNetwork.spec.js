@@ -7,14 +7,12 @@ localVue.directive(`tooltip`, () => {})
 describe(`PageNetwork`, () => {
   let wrapper
   const $store = {
-    getters: {
-      connected: true,
-      lastHeader: {
-        chain_id: `gaia-20k`,
-        proposer_address: `EFH47FH723HDHSH`,
-        height: `6001`,
-        total_txs: `108`,
-        time: Date.now()
+    state: {
+      pool: {
+        pool: {
+          bonded_tokens: 18056799300.444444,
+          not_bonded_tokens: 9008256400.444444
+        }
       },
       delegates: {
         delegates: [
@@ -23,12 +21,16 @@ describe(`PageNetwork`, () => {
             c: `d`
           }
         ]
-      },
-      pool: {
-        pool: {
-          bonded_tokens: 18056799300.444444,
-          not_bonded_tokens: 9008256400.444444
-        }
+      }
+    },
+    getters: {
+      connected: true,
+      lastHeader: {
+        chain_id: `gaia-20k`,
+        proposer_address: `EFH47FH723HDHSH`,
+        height: `6001`,
+        total_txs: `108`,
+        time: Date.now()
       },
       bondDenom: `stake`,
       blocks: [

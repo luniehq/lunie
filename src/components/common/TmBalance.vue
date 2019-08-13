@@ -42,7 +42,7 @@ import num from "scripts/num"
 import Bech32 from "common/Bech32"
 import TmBtn from "common/TmBtn"
 import ModalWithdrawRewards from "src/ActionModal/components/ModalWithdrawRewards"
-import { mapGetters } from "vuex"
+import { mapState, mapGetters } from "vuex"
 export default {
   name: `tm-balance`,
   components: {
@@ -57,16 +57,13 @@ export default {
     }
   },
   computed: {
+    ...mapState([`wallet`, `distribution`, `delegation`, `session`]),
     ...mapGetters([
       `connected`,
-      `session`,
-      `wallet`,
-      `delegation`,
       `liquidAtoms`,
       `lastHeader`,
       `totalAtoms`,
       `bondDenom`,
-      `distribution`,
       `validatorsWithRewards`,
       `totalRewards`
     ]),

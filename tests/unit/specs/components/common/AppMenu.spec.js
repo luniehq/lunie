@@ -7,7 +7,7 @@ describe(`AppMenu`, () => {
   beforeEach(async () => {
     $store = {
       commit: jest.fn(),
-      getters: {
+      state: {
         session: {
           signedIn: true
         }

@@ -5,7 +5,7 @@ describe(`SessionExtension`, () => {
   let wrapper, $store
 
   beforeEach(() => {
-    const getters = {
+    const state = {
       extension: {
         enabled: true,
         accounts: [
@@ -24,7 +24,7 @@ describe(`SessionExtension`, () => {
     $store = {
       commit: jest.fn(),
       dispatch: jest.fn(),
-      getters
+      state
     }
     wrapper = shallowMount(TmSessionExtension, {
       mocks: {

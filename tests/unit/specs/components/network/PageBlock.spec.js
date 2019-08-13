@@ -85,11 +85,9 @@ describe(`PageBlock`, () => {
 
   const getters = {
     connected: true,
-    delegation: {},
     lastHeader: {
       height: `1000`
     },
-    session: { address: `` },
     block: {
       block: {
         header: {
@@ -116,7 +114,11 @@ describe(`PageBlock`, () => {
       mocks: {
         $store: {
           getters,
-          dispatch: jest.fn()
+          dispatch: jest.fn(),
+          state: {
+            delegation: {},
+            session: { address: `` }
+          }
         },
         $route: {
           params: { height: `100` }
@@ -138,6 +140,10 @@ describe(`PageBlock`, () => {
     const mocks = {
       $store: {
         getters,
+        state: {
+          delegation: {},
+          session: { address: `` }
+        },
         dispatch: jest.fn()
       },
       $route: {
@@ -172,6 +178,10 @@ describe(`PageBlock`, () => {
           getters: Object.assign({}, getters, {
             block: {}
           }),
+          state: {
+            delegation: {},
+            session: { address: `` }
+          },
           dispatch: jest.fn()
         },
         $route: {

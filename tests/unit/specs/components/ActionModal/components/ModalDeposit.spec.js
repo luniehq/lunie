@@ -20,7 +20,9 @@ describe(`ModalDeposit`, () => {
         session: { signedIn: true },
         connection: { connected: true },
         bondDenom: `uatom`,
-        liquidAtoms: 1000000,
+        liquidAtoms: 1000000
+      },
+      state: {
         wallet: {
           balances: [{ denom: `uatom`, amount: `10` }],
           loading: false
