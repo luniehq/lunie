@@ -23,7 +23,8 @@ export async function getSigner(
       }
     }
   } else if (submitType === `ledger`) {
-    const Ledger = await import("@lunie/cosmos-ledger")
+    // immporting default here to be comptabile with Jest
+    const { default: Ledger } = await import("@lunie/cosmos-ledger")
 
     return async signMessage => {
       const ledger = new Ledger(config)

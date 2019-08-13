@@ -10,7 +10,7 @@ export default () => {
 
   const actions = {
     async connectLedgerApp({ state }) {
-      const Ledger = await import("@lunie/cosmos-ledger")
+      const { default: Ledger } = await import("@lunie/cosmos-ledger")
 
       const ledger = new Ledger({
         testModeAllowed: state.externals.config.testModeAllowed

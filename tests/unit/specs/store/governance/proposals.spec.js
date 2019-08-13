@@ -159,12 +159,13 @@ describe(`Module: Proposals`, () => {
         ]
       ])
 
+      commit.mockClear()
       // on VotingPeriod
       await actions.getProposal(
         { state, commit, rootState: mockRootState },
         `2`
       )
-      expect(commit.mock.calls.slice(2)).toEqual([
+      expect(commit.mock.calls).toEqual([
         [`setProposal`, proposals[`2`]],
         [
           `setProposalTally`,
