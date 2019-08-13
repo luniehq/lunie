@@ -1,8 +1,10 @@
 import gql from "graphql-tag"
 
 export const ValidatorProfile = gql`
-  query KeybaseInfo($keybaseId: String) {
-    keybase: validatorList(where: { keybaseId: { _eq: $keybaseId } }) {
+  query validatorProfile($address: String) {
+    validatorProfiles: validatorList(
+      where: { operator_address: { _eq: $address } }
+    ) {
       keybaseId
       lastUpdated
       profileUrl
@@ -13,4 +15,4 @@ export const ValidatorProfile = gql`
   }
 `
 
-export const validatorProfileResultUpdate = data => data.keybase[0]
+export const validatorProfileResultUpdate = data => data.validatorProfiles[0]

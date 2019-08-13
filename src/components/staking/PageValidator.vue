@@ -13,7 +13,7 @@
         <div class="row">
           <ApolloQuery
             :query="ValidatorProfile"
-            :variables="{ keybaseId: validator.description.identity }"
+            :variables="{ address: validator.operator_address }"
             :update="validatorProfileResultUpdate"
           >
             <template v-slot="{ result: { loading, error, data: keybase } }">
