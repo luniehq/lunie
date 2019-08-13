@@ -1,6 +1,6 @@
 <template>
   <tr
-    class="data-table__row li-validator"
+    class="li-validator"
     :data-moniker="validator.description.moniker"
     @click="
       $router.push({
@@ -13,62 +13,45 @@
       <img
         v-if="validator.keybase && validator.keybase.avatarUrl"
         :src="validator.keybase.avatarUrl"
-        class="data-table__row__info__image"
+        class="li-validator-image"
         :alt="`validator logo for ` + validator.description.moniker"
       />
       <img
         v-else
-        class="
-          data-table__row__info__image
-          data-table__row__info__image--no-img
-        "
+        class="li-validator-image"
         src="~assets/images/validator-icon.svg"
         alt="generic validator logo - graphic triangle supporting atom token"
       />
-      <div class="data-table__row__info__container">
-        <span
-          v-tooltip.top="status"
-          :class="statusColor"
-          class="data-table__row__info__container__status"
-        />
-        <span class="data-table__row__info__container__name">
-          {{ validator.description.moniker }}
-        </span>
-        <div class="data-table__row__info__container__description">
-          <Bech32 :address="validator.operator_address" />
+      <div class="validator-info">
+        <h3 class="li-validator-name">{{ validator.description.moniker }}</h3>
+        <div v-if="validator.my_delegations > 0">
+          <h4>
+            {{
+            validator.my_delegations
+            ? num.shortDecimals(num.atoms(validator.my_delegations))
+            : null
+            }}
+          </h4>
+          <h5 v-if="validator.rewards > 0">
+            {{
+            validator.rewards
+            ? `+` + num.shortDecimals(num.atoms(validator.rewards))
+            : `--`
+            }}
+          </h5>
         </div>
       </div>
     </td>
-    <td :class="{ 'hide-xs': showOnMobile !== 'my_delegations' }">
-      {{
-        validator.my_delegations
-          ? num.shortDecimals(num.atoms(validator.my_delegations))
-          : `--`
-      }}
-    </td>
-    <td :class="{ 'hide-xs': showOnMobile !== 'rewards' }">
-      {{
-        validator.rewards
-          ? num.shortDecimals(num.atoms(validator.rewards))
-          : `--`
-      }}
-    </td>
-    <td :class="{ 'hide-xs': showOnMobile !== 'voting-power' }">
-      {{ validator.tokens ? percentOfVotingPower : `--` }}
-    </td>
-    <td :class="{ 'hide-xs': showOnMobile !== 'commission' }">
-      {{ validator.commission ? num.percent(validator.commission) : `--` }}
-    </td>
-    <td :class="{ 'hide-xs': showOnMobile !== 'uptime' }">
-      {{ validator.uptime ? num.percent(validator.uptime) : `--` }}
-    </td>
     <td :class="{ 'hide-xs': showOnMobile !== 'expectedReturns' }">
       {{
-        validator.expectedReturns
-          ? num.percent(validator.expectedReturns)
-          : `--`
+      validator.expectedReturns
+      ? num.percent(validator.expectedReturns)
+      : `--`
       }}
     </td>
+    <td
+      :class="{ 'hide-xs': showOnMobile !== 'voting-power' }"
+    >{{ validator.tokens ? percentOfVotingPower : `--` }}</td>
   </tr>
 </template>
 
@@ -101,28 +84,6 @@ export default {
       `lastHeader`,
       `pool`
     ]),
-    status() {
-      // status: jailed
-      if (this.validator.jailed)
-        return `This validator has been jailed and is not currently validating`
-
-      // status: inactive
-      if (parseFloat(this.validator.status) === 0)
-        return `This validator does not have enough voting power and is inactive`
-
-      // status: active
-      return `This validator is actively validating`
-    },
-    statusColor() {
-      // status: jailed
-      if (this.validator.jailed) return `red`
-
-      // status: inactive
-      if (parseFloat(this.validator.status) === 0) return `yellow`
-
-      // status: active
-      return `green`
-    },
     percentOfVotingPower() {
       return num.percent(
         BN(this.validator.tokens)
@@ -133,3 +94,54 @@ export default {
   }
 }
 </script>
+<style scoped>
+.li-validator {
+  padding: 0.5rem 1rem;
+  margin-bottom: 0.25rem;
+  border-bottom: 1px solid var(--bc-dim);
+  border-radius: 0.25rem;
+}
+
+.li-validator:last-child {
+  border-bottom: none;
+}
+
+.validator-info {
+  display: flex;
+  flex-direction: column;
+  padding-left: 1rem;
+  text-overflow: ellipsis;
+}
+
+.li-validator h4,
+.li-validator h5 {
+  font-size: var(--sm);
+  display: inline-block;
+}
+
+.li-validator h5 {
+  color: var(--success);
+}
+
+.li-validator:hover {
+  cursor: pointer;
+  background: var(--hover-bg);
+  color: var(--bright);
+}
+
+.li-validator-name {
+  font-size: 1rem;
+  line-height: 18px;
+  font-weight: 500;
+  white-space: pre-wrap;
+  color: var(--bright);
+  display: inline-block;
+}
+
+.li-validator-image {
+  border-radius: 0.25rem;
+  height: 2.5rem;
+  min-width: 2.5rem;
+  border: 1px solid var(--bc-dim);
+}
+</style>

@@ -1,7 +1,5 @@
 <template>
-  <p class="text-block">
-    {{ content.trim() }}
-  </p>
+  <p class="text-block">{{ content.trim() }}</p>
 </template>
 
 <script>
@@ -16,9 +14,11 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .text-block {
   word-break: break-word;
+  font-size: 14px;
+  white-space: pre-wrap;
 }
 
 .text-block p {

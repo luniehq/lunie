@@ -6,11 +6,10 @@
       v-clipboard:copy="address"
       v-clipboard:success="() => onCopy()"
       class="address"
-    >
-      {{ address | formatBech32(longForm) }}
-    </div>
+    >{{ address | formatBech32(longForm) }}</div>
     <div :class="{ active: copySuccess }" class="copied">
-      <i class="material-icons">check</i><span>Copied</span>
+      <i class="material-icons">check</i>
+      <span>Copied</span>
     </div>
   </div>
 </template>
@@ -58,8 +57,6 @@ export default {
 .bech32-address .address {
   color: var(--link);
   cursor: pointer;
-  font-weight: 500;
-  font-size: 14px;
   white-space: nowrap;
 }
 

@@ -4,7 +4,7 @@
     ref="actionModal"
     :transaction-data="transactionData"
     :notify-message="notifyMessage"
-    title="Withdraw"
+    title="Rewards"
     class="modal-withdraw-rewards"
     submission-error-prefix="Withdrawal failed"
     :disable="validatorsWithRewards"

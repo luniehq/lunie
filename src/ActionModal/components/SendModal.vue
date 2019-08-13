@@ -16,19 +16,9 @@
       field-id="send-denomination"
       field-label="Denomination"
     >
-      <TmField
-        id="send-denomination"
-        :value="viewDenom($v.denom.$model)"
-        type="text"
-        readonly
-      />
-      <TmFormMsg
-        v-if="$v.denom.$error && !$v.denom.required"
-        name="Denomination"
-        type="required"
-      />
+      <TmField id="send-denomination" :value="viewDenom($v.denom.$model)" type="text" readonly />
+      <TmFormMsg v-if="$v.denom.$error && !$v.denom.required" name="Denomination" type="required" />
     </TmFormGroup>
-
     <TmFormGroup
       :error="$v.address.$error && $v.address.$invalid"
       class="action-modal-form-group"
@@ -43,11 +33,7 @@
         placeholder="Address"
         @keyup.enter.native="refocusOnAmount"
       />
-      <TmFormMsg
-        v-if="$v.address.$error && !$v.address.required"
-        name="Address"
-        type="required"
-      />
+      <TmFormMsg v-if="$v.address.$error && !$v.address.required" name="Address" type="required" />
       <TmFormMsg
         v-else-if="$v.address.$error && !$v.address.bech32Validate"
         name="Address"
@@ -80,11 +66,7 @@
         name="Amount"
         type="required"
       />
-      <TmFormMsg
-        v-else-if="$v.amount.$error && !$v.amount.decimal"
-        name="Amount"
-        type="numeric"
-      />
+      <TmFormMsg v-else-if="$v.amount.$error && !$v.amount.decimal" name="Amount" type="numeric" />
       <TmFormMsg
         v-else-if="$v.amount.$error && !$v.amount.between"
         :max="$v.amount.$params.between.max"
@@ -97,10 +79,8 @@
       v-if="editMemo === false"
       id="edit-memo-btn"
       value="Edit Memo"
-      :to="''"
-      type="link"
-      size="sm"
-      @click.native="editMemo = true"
+      type="secondary"
+      @click.native="showMemo()"
     />
     <TmFormGroup
       v-if="editMemo"
@@ -114,7 +94,7 @@
         id="memo"
         v-model="memo"
         type="text"
-        placeholder="Add a description..."
+        placeholder="Let everyone know how much you love Lunie"
         @keyup.enter.native="enterPressed"
       />
       <TmFormMsg
@@ -219,6 +199,10 @@ export default {
     },
     refocusOnAmount() {
       this.$refs.amount.$el.focus()
+    },
+    showMemo() {
+      this.memo = ``
+      this.editMemo = true
     }
   },
   validations() {
@@ -242,10 +226,6 @@ export default {
 </script>
 <style scoped>
 #edit-memo-btn {
-  display: inline-block;
-  height: 58px;
-  padding: 12px 0;
-  box-sizing: content-box;
-  font-size: var(--sm);
+  margin-top: 1.5rem;
 }
 </style>

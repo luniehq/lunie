@@ -10,49 +10,49 @@
     :notify-message="notifyMessage"
     @close="clear"
   >
-    <TmFormGroup class="action-modal-group vote-options">
-      <TmBtn
-        id="vote-yes"
-        :class="[vote === `Yes` ? 'active' : '']"
-        :disabled="lastVoteOption === `Yes`"
-        color="secondary"
-        value="Yes"
-        size="md"
-        @click.native="vote = 'Yes'"
-      />
-      <TmBtn
-        id="vote-no"
-        :class="[vote === `No` ? 'active' : '']"
-        :disabled="lastVoteOption === `No`"
-        color="secondary"
-        value="No"
-        size="md"
-        @click.native="vote = 'No'"
-      />
-      <TmBtn
-        id="vote-veto"
-        :class="[vote === `NoWithVeto` ? 'active' : '']"
-        :disabled="lastVoteOption === `NoWithVeto`"
-        color="secondary"
-        value="No With Veto"
-        size="md"
-        @click.native="vote = 'NoWithVeto'"
-      />
-      <TmBtn
-        id="vote-abstain"
-        :class="[vote === `Abstain` ? 'active' : '']"
-        :disabled="lastVoteOption === `Abstain`"
-        color="secondary"
-        value="Abstain"
-        size="md"
-        @click.native="vote = 'Abstain'"
-      />
-      <TmFormMsg
-        v-if="$v.vote.$error && !$v.vote.required"
-        name="Vote"
-        type="required"
-      />
-    </TmFormGroup>
+    <div class="action-modal-group vote-options">
+      <div>
+        <TmBtn
+          id="vote-yes"
+          :class="[vote === `Yes` ? 'active' : '']"
+          :disabled="lastVoteOption === `Yes`"
+          color="secondary"
+          value="Yes"
+          size="md"
+          @click.native="vote = 'Yes'"
+        />
+        <TmBtn
+          id="vote-veto"
+          :class="[vote === `NoWithVeto` ? 'active' : '']"
+          :disabled="lastVoteOption === `NoWithVeto`"
+          color="secondary"
+          value="No With Veto"
+          size="md"
+          @click.native="vote = 'NoWithVeto'"
+        />
+      </div>
+      <div>
+        <TmBtn
+          id="vote-no"
+          :class="[vote === `No` ? 'active' : '']"
+          :disabled="lastVoteOption === `No`"
+          color="secondary"
+          value="No"
+          size="md"
+          @click.native="vote = 'No'"
+        />
+        <TmBtn
+          id="vote-abstain"
+          :class="[vote === `Abstain` ? 'active' : '']"
+          :disabled="lastVoteOption === `Abstain`"
+          color="secondary"
+          value="Abstain"
+          size="md"
+          @click.native="vote = 'Abstain'"
+        />
+      </div>
+      <TmFormMsg v-if="$v.vote.$error && !$v.vote.required" name="Vote" type="required" />
+    </div>
   </ActionModal>
 </template>
 
@@ -141,35 +141,28 @@ export default {
 }
 </script>
 
-<style>
-.proposal-title {
-  font-weight: 500;
-}
-
-.action-modal-group.tm-form-group.vote-options {
-  padding: 2rem 0;
-}
-
-.radio-container {
+<style scoped>
+.action-modal-group.vote-options {
+  padding: 1rem 0;
   display: flex;
-  align-items: center;
-  padding: 0.25rem 0;
+  max-width: 75%;
+  margin: 0 auto;
 }
 
-.radio-container label {
-  padding-left: 0.5rem;
+.action-modal-group.vote-options > div {
+  width: 50%;
+  margin: 0 0.25rem;
 }
 
 .vote-options button {
-  margin: 0;
-  min-width: 49%;
+  background: transparent;
+  margin: 0.5rem 0;
+  height: 5rem;
+  width: 100%;
 }
 
-.vote-options button span {
-  margin: 0.25rem;
-}
-
-.vote-options button.active span {
+.vote-options button.active {
   background: var(--tertiary);
+  border-color: var(--tertiary);
 }
 </style>

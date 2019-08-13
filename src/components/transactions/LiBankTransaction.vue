@@ -16,7 +16,7 @@
       <span slot="details">
         <template>
           From
-          <Bech32 :address="sender" /> to
+          <Bech32 :address="sender" />to
           <Bech32 :address="receiver" />
         </template>
       </span>
@@ -28,9 +28,7 @@
         <span>{{ txDenom | viewDenom }}</span>
       </div>
       <span slot="details">
-        <template v-if="sentSelf">
-          To yourself!
-        </template>
+        <template v-if="sentSelf">To yourself!</template>
         <template v-else>
           To&nbsp;
           <Bech32 :address="receiver" />
@@ -39,10 +37,14 @@
     </template>
     <template v-else>
       <div slot="caption">
-        Received <b>{{ txAmount | toAtoms | prettyLong }}</b>
+        Received
+        <b>{{ txAmount | toAtoms | prettyLong }}</b>
         <span>{{ txDenom | viewDenom }}</span>
       </div>
-      <span slot="details"> From &nbsp; <Bech32 :address="sender" /> </span>
+      <span slot="details">
+        From &nbsp;
+        <Bech32 :address="sender" />
+      </span>
     </template>
   </LiTransaction>
 </template>

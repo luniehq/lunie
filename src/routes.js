@@ -9,7 +9,7 @@
 export default [
   {
     path: `/`,
-    redirect: `/validators`
+    redirect: `/portfolio`
   },
   {
     path: `/proposals`,

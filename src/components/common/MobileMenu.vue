@@ -31,7 +31,7 @@ menu {
   bottom: 0;
   width: 100vw;
   display: flex;
-  z-index: calc(var(--z-appHeader) - 1);
+  z-index: calc(var(--z-appHeader) - 2);
   background: var(--app-nav);
   flex-flow: row;
   align-items: center;
@@ -64,7 +64,7 @@ menu a h2 {
   font-weight: 500;
 }
 
-@media screen and (min-width: 667px) {
+@media screen and (min-width: 668px) {
   menu {
     display: none;
   }

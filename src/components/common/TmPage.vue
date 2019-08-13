@@ -1,15 +1,10 @@
 <template>
   <div class="tm-page">
     <TmPageHeader v-if="!hideHeader" :tabs="tabs">
-      <h2 v-if="title" slot="title">
-        {{ title }}
-      </h2>
-      <h3 v-if="subtitle" slot="subtitle">
-        {{ subtitle }}
-      </h3>
+      <h2 v-if="title" slot="title">{{ title }}</h2>
+      <h3 v-if="subtitle" slot="subtitle">{{ subtitle }}</h3>
       <slot slot="menu-body" name="menu-body">
         <TmBalance v-if="session.signedIn" />
-        <ToolBar />
       </slot>
       <slot slot="header-buttons" name="header-buttons" />
     </TmPageHeader>
@@ -120,16 +115,18 @@ export default {
 
 <style>
 .tm-page {
-  flex: 1;
-  display: flex;
-  flex-flow: column nowrap;
   position: relative;
+  width: 100%;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.tm-page.small {
+  max-width: 720px;
 }
 
 .tm-page-main {
-  flex: 1;
   position: relative;
-  padding: 1rem;
 }
 
 .tm-page-title {
@@ -152,13 +149,13 @@ export default {
 
 .row {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   width: 100%;
 }
 
 .row-unjustified {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   width: 100%;
 }
 
@@ -173,90 +170,18 @@ export default {
   font-weight: 500;
 }
 
-.page-profile__section--between > .row {
-  justify-content: space-between;
-}
-
-.page-profile__header {
-  background-color: var(--app-fg);
-}
-
-.page-profile__header .lunie-ow:first-child {
-  border: 1px solid var(--bc-dim);
-}
-
-.page-profile__header .avatar {
-  background: var(--app-nav);
-  height: 8rem;
-  width: 8rem;
-  margin: 1rem;
-  padding: 1rem;
-}
-
-.page-profile__header__info {
-  width: 100%;
-  padding: 1rem;
-}
-
-.page-profile__status-and-title {
-  display: flex;
-  align-items: center;
-}
-
-.page-profile__status {
-  border-radius: 50%;
-  display: inline-block;
-  height: 0.5rem;
-  width: 0.5rem;
-}
-
-.page-profile__title {
-  color: #fff;
-  display: inline-block;
-  font-size: var(--h1);
-  line-height: 2.25rem;
-  font-weight: 500;
-  padding: 1rem 0 0.25rem;
-}
-
-.page-profile__header__actions {
-  display: flex;
-  flex-direction: column;
-}
-
-.page-profile__header__actions button {
-  margin-bottom: 0.5rem;
-}
-
-.page-profile__header__actions button:last-child {
-  margin-bottom: 0;
-}
-
-.page-profile__status.red {
-  background: var(--danger);
-}
-
-.page-profile__status.yellow {
-  background: var(--warning);
-}
-
-.page-profile__status.green {
-  background: var(--success);
-}
-
-.page-profile__status.blue {
-  background: var(--primary);
-}
-
 dl {
   width: 100%;
   padding: 1rem;
-  border: 1px solid var(--bc-dim);
-  background-color: var(--app-fg);
+  border-bottom: 1px solid var(--bc-dim);
+}
+
+dl:last-child {
+  border-bottom: none;
 }
 
 dt {
-  color: var(--dim);
+  color: var(--txt);
   font-size: var(--sm);
   margin-bottom: 2px;
   font-weight: 500;
@@ -264,6 +189,7 @@ dt {
 
 dd {
   font-size: 1rem;
+  font-weight: 400;
   line-height: 1.25rem;
   color: var(--bright);
 }
@@ -296,7 +222,18 @@ dd {
   display: inline;
 }
 
-@media screen and (max-width: 767px) {
+@media screen and (min-width: 1024px) {
+  .tm-page {
+    margin: 1rem auto;
+  }
+
+  .tm-page,
+  .tm-page-main {
+    height: 100%;
+  }
+}
+
+@media screen and (max-width: 667px) {
   .row {
     flex-direction: column;
   }
@@ -304,13 +241,9 @@ dd {
   .page-profile__header__actions {
     margin-right: 0;
   }
-}
 
-@media screen and (max-width: 1023px) {
-  .tm-page-main {
-    min-height: 100vh;
-    padding: 0;
-    padding-bottom: 5rem;
+  .tm-page {
+    padding-bottom: 4rem;
   }
 }
 </style>

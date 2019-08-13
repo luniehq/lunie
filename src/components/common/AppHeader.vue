@@ -116,7 +116,9 @@ export default {
   }
 
   .container {
-    background: var(--app-fg);
+    background: var(--app-fg-dark);
+    position: fixed;
+    width: 100%;
   }
 
   .app-header .header-item {
@@ -130,6 +132,13 @@ export default {
 
   .header-item-logo {
     height: 2rem;
+    padding-left: 4px;
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  .app-header > .container {
+    position: fixed;
   }
 }
 </style>

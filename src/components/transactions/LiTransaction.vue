@@ -16,18 +16,18 @@
         </div>
         <div class="li-tx__content__information">
           <slot name="details" />
-          <span v-if="memo"> &nbsp;- {{ memo }} </span>
+          <span v-if="memo">&nbsp;- {{ memo }}</span>
         </div>
       </div>
       <div v-if="!hideMetaData" class="li-tx__content__right">
         <div>
-          Network Fee:&nbsp;<b>{{ fees.amount | toAtoms }}</b>
+          Network Fee:&nbsp;
+          <b>{{ fees.amount | toAtoms }}</b>
           <span>{{ fees.denom | viewDenom }}</span>
         </div>
         <div class="li-tx__content__block">
-          <router-link :to="{ name: `block`, params: { height: block } }">
-            Block #{{ block }}&nbsp; </router-link
-          >@&nbsp;{{ date }}
+          <router-link :to="{ name: `block`, params: { height: block } }">Block #{{ block }}&nbsp;</router-link>
+          @&nbsp;{{ date }}
         </div>
       </div>
     </div>
@@ -74,7 +74,7 @@ export default {
     date({ time } = this) {
       const momentTime = moment(time)
       return momentTime.format(
-        `${moment().isSame(momentTime, `day`) ? `` : `MMM Do YYYY `}HH:mm:ss`
+        `${moment().isSame(momentTime, `day`) ? `` : `MMMM Do YYYY `}HH:mm`
       )
     }
   }
@@ -85,12 +85,14 @@ export default {
 .li-tx {
   display: flex;
   align-items: center;
-  margin-bottom: 0.5rem;
   border: 1px solid var(--bc-dim);
+  border-radius: 0.25rem;
   background: var(--app-fg);
   width: 100%;
-  font-weight: 300;
   position: relative;
+  max-width: 800px;
+  margin: 0 auto 0.5rem;
+  white-space: nowrap;
 }
 
 .li-tx .copied {
@@ -103,12 +105,12 @@ export default {
 }
 
 .li-tx__icon {
-  padding: 12px 0 12px 1rem;
+  padding: 0 0 0 1rem;
 }
 
 .li-tx__icon img {
   max-height: 100%;
-  max-width: 52px;
+  max-width: 2rem;
   border: 2px solid;
   border-radius: 50%;
   display: block;
@@ -152,6 +154,10 @@ export default {
 }
 
 @media screen and (max-width: 767px) {
+  .li-tx__icon {
+    display: none;
+  }
+
   .li-tx__content {
     flex-direction: column;
     text-align: left;

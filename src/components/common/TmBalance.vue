@@ -1,30 +1,35 @@
 <template>
-  <div class="header-balance">
-    <div class="total-atoms">
-      <h3>Total {{ num.viewDenom(bondDenom) }}</h3>
-      <h2 class="total-atoms__value">{{ totalAtomsDisplay }}</h2>
-    </div>
+  <div class="balance-header">
+    <div class="values-container">
+      <div class="total-atoms">
+        <h3>Total {{ num.viewDenom(bondDenom) }}</h3>
+        <h2 class="total-atoms__value">{{ totalAtomsDisplay }}</h2>
+      </div>
 
-    <div class="available-atoms">
-      <h3>Available {{ num.viewDenom(bondDenom) }}</h3>
-      <h2>{{ unbondedAtoms }}</h2>
-    </div>
+      <div class="row small-container">
+        <div class="available-atoms">
+          <h3>Available {{ num.viewDenom(bondDenom) }}</h3>
+          <h2>{{ unbondedAtoms }}</h2>
+        </div>
 
-    <div v-if="rewards" class="rewards">
-      <h3>Rewards</h3>
-      <h2>{{ rewards }}</h2>
+        <div v-if="rewards" class="rewards">
+          <h3>Total Rewards</h3>
+          <h2>+{{ rewards }}</h2>
+        </div>
+      </div>
     </div>
-    <div v-if="rewards" class="rewards-button">
+    <div class="button-container">
+      <TmBtn class="send" value="Send" type="secondary" @click.native="onSend()" />
       <TmBtn
         id="withdraw-btn"
         :disabled="!readyToWithdraw"
         class="withdraw-rewards"
-        :value="'Withdraw'"
-        size="sm"
+        value="Claim Rewards"
         @click.native="readyToWithdraw && onWithdrawal()"
       />
     </div>
-    <slot />
+
+    <SendModal ref="SendModal" />
     <ModalWithdrawRewards ref="ModalWithdrawRewards" :rewards="totalRewards" :denom="bondDenom" />
   </div>
 </template>
@@ -32,6 +37,7 @@
 import num from "scripts/num"
 import Bech32 from "common/Bech32"
 import TmBtn from "common/TmBtn"
+import SendModal from "src/ActionModal/components/SendModal"
 import ModalWithdrawRewards from "src/ActionModal/components/ModalWithdrawRewards"
 import { mapGetters } from "vuex"
 export default {
@@ -39,6 +45,7 @@ export default {
   components: {
     Bech32,
     TmBtn,
+    SendModal,
     ModalWithdrawRewards
   },
   data() {
@@ -113,74 +120,122 @@ export default {
     },
     onWithdrawal() {
       this.$refs.ModalWithdrawRewards.open()
+    },
+    onSend() {
+      this.$refs.SendModal.open(this.bondDenom)
     }
   }
 }
 </script>
 <style scoped>
-.header-balance {
+.balance-header {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.values-container {
   display: flex;
   position: relative;
   width: 100%;
-  padding: 1rem;
+  padding: 1rem 2rem;
+  flex-direction: column;
 }
 
-.header-balance h3 {
-  font-size: var(--sm);
-  font-weight: 400;
-  white-space: nowrap;
-}
-
-.header-balance h2 {
+.values-container h2 {
   font-size: 24px;
   font-weight: 500;
   line-height: 24px;
   color: var(--bright);
 }
 
+.values-container h3 {
+  font-size: var(--sm);
+  font-weight: 400;
+  white-space: nowrap;
+}
+
 .total-atoms,
 .available-atoms,
 .rewards {
   padding-right: 2.5rem;
-  width: 100%;
 }
 
-.rewards-button {
+.rewards h2 {
+  color: var(--success);
+  font-size: var(--m);
+}
+
+.available-atoms h2 {
+  font-size: var(--m);
+  line-height: 20px;
+}
+
+.button-container {
   display: flex;
-  align-items: flex-end;
+  align-items: center;
+  padding: 0.5rem 2rem;
+  width: 100%;
+  border-bottom: 1px solid var(--bc-dim);
+  border-top: 1px solid var(--bc-dim);
+  margin-bottom: 2rem;
 }
 
-.withdraw-rewards {
-  font-size: var(--sm);
-  font-weight: 500;
-  top: 1rem;
-  right: 1rem;
+.button-container button:first-child {
+  margin-right: 0.5rem;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+}
+
+.small-container {
+  padding-top: 1rem;
 }
 
 @media screen and (max-width: 667px) {
-  .header-balance {
+  .balance-header {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .values-container {
     flex-direction: column;
     width: 100%;
+  }
+
+  .values-container .total-atoms__value {
+    font-size: 28px;
+    font-weight: 500;
+    line-height: 32px;
+  }
+
+  .available-atoms,
+  .rewards {
     padding: 0;
   }
 
-  .available-atoms {
+  .total-atoms {
     padding: 1rem 0;
+    text-align: center;
   }
 
-  .available-atoms h2 {
-    font-size: var(--m);
-    line-height: 20px;
+  .button-container {
+    width: 100%;
+    padding: 1rem;
+    border-top: 1px solid var(--bc);
   }
 
-  .rewards {
-    display: none;
+  .button-container button {
+    width: 50%;
   }
 
-  .rewards-button {
-    position: absolute;
-    right: 2px;
-    top: 0;
+  .small-container {
+    display: flex;
+    justify-content: space-evenly;
+    padding: 1rem 0;
+    text-align: center;
   }
 }
 </style>

@@ -38,7 +38,7 @@
         title="Transactions"
         @click.native="close"
       >
-        <h2 class="app-menu-title">Transactions</h2>
+        <h2 class="app-menu-title">Activity</h2>
         <i class="material-icons">chevron_right</i>
       </router-link>
 
@@ -175,7 +175,7 @@ export default {
 
 .app-menu .app-menu-item:not(.app-menu-item--link):hover {
   color: var(--bright);
-  background: var(--app-fg);
+  background: var(--hover-bg);
 }
 
 .app-menu .app-menu-item--link {

@@ -1,17 +1,11 @@
 <template>
   <transition v-if="show" name="slide-fade">
     <div v-focus-last class="action-modal" tabindex="0" @keyup.esc="close">
-      <div
-        id="closeBtn"
-        class="action-modal-icon action-modal-close"
-        @click="close"
-      >
+      <div id="closeBtn" class="action-modal-icon action-modal-close" @click="close">
         <i class="material-icons">close</i>
       </div>
       <div class="action-modal-header">
-        <span class="action-modal-title">
-          {{ requiresSignIn ? `Sign in required` : title }}
-        </span>
+        <span class="action-modal-title">{{ requiresSignIn ? `Sign in required` : title }}</span>
         <Steps
           v-if="[defaultStep, feeStep, signStep].includes(step)"
           :steps="['Details', 'Fees', 'Sign']"
@@ -19,9 +13,7 @@
         />
       </div>
       <div v-if="requiresSignIn" class="action-modal-form">
-        <p class="form-message notice">
-          You need to sign in to submit a transaction.
-        </p>
+        <p class="form-message notice">You need to sign in to submit a transaction.</p>
       </div>
       <div v-else-if="step === defaultStep" class="action-modal-form">
         <slot />
@@ -35,13 +27,7 @@
           field-label="Gas Price"
         >
           <span class="input-suffix">{{ bondDenom | viewDenom }}</span>
-          <TmField
-            id="gas-price"
-            v-model="gasPrice"
-            step="0.000000001"
-            type="number"
-            min="0"
-          />
+          <TmField id="gas-price" v-model="gasPrice" step="0.000000001" type="number" min="0" />
           <TmFormMsg
             v-if="balanceInAtoms === 0"
             :msg="`doesn't have any ${bondDenom}s`"
@@ -95,9 +81,9 @@
         >
           <div v-if="session.browserWithLedgerSupport">
             {{
-              sending
-                ? `Please verify and sign the transaction on your Ledger`
-                : `Please plug in your Ledger&nbsp;Nano and open
+            sending
+            ? `Please verify and sign the transaction on your Ledger`
+            : `Please plug in your Ledger&nbsp;Nano and open
             the Cosmos app`
             }}
           </div>
@@ -125,8 +111,7 @@
               href="https://chrome.google.com/webstore/category/extensions"
               target="_blank"
               rel="noopener norefferer"
-              >Chrome Web Store</a
-            >.
+            >Chrome Web Store</a>.
           </div>
         </HardwareState>
         <form
@@ -156,9 +141,7 @@
       </div>
       <div v-else-if="step === inclusionStep" class="action-modal-form">
         <TmDataMsg icon="hourglass_empty">
-          <div slot="title">
-            Sent and confirming
-          </div>
+          <div slot="title">Sent and confirming</div>
           <div slot="subtitle">
             The transaction
             <!--with the hash {{ txHash }}-->
@@ -167,20 +150,14 @@
           </div>
         </TmDataMsg>
       </div>
-      <div
-        v-else-if="step === successStep"
-        class="action-modal-form success-step"
-      >
+      <div v-else-if="step === successStep" class="action-modal-form success-step">
         <TmDataMsg icon="check">
-          <div slot="title">
-            {{ notifyMessage.title }}
-          </div>
+          <div slot="title">{{ notifyMessage.title }}</div>
           <div slot="subtitle">
-            {{ notifyMessage.body }} <br /><br />
-            Block
-            <router-link :to="`/blocks/${includedHeight}`"
-              >#{{ includedHeight }}</router-link
-            >.
+            {{ notifyMessage.body }}
+            <br />
+            <br />Block
+            <router-link :to="`/blocks/${includedHeight}`">#{{ includedHeight }}</router-link>.
           </div>
         </TmDataMsg>
       </div>
@@ -234,9 +211,7 @@
         <p
           v-if="submissionError"
           class="tm-form-msg sm tm-form-msg--error submission-error"
-        >
-          {{ submissionError }}
-        </p>
+        >{{ submissionError }}</p>
       </div>
     </div>
   </transition>
@@ -628,6 +603,7 @@ export default {
   z-index: var(--z-modal);
   border-top-left-radius: 0.25rem;
   border-top-right-radius: 0.25rem;
+  border: 1px solid var(--bc);
   box-shadow: 0 2px 8px rgba(200, 200, 200, 0.1);
 }
 
@@ -703,7 +679,8 @@ export default {
 }
 
 .form-message.notice {
-  border-radius: 2px;
+  border-radius: 0.25rem;
+  border: 1px solid var(--bc-dim);
   background-color: #1c223e;
   font-weight: 300;
   margin: 2rem 0;

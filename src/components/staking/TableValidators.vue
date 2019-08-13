@@ -2,11 +2,7 @@
   <div>
     <table class="data-table">
       <thead>
-        <PanelSort
-          :sort="sort"
-          :properties="properties"
-          :show-on-mobile="showOnMobile"
-        />
+        <PanelSort :sort="sort" :properties="properties" :show-on-mobile="showOnMobile" />
       </thead>
       <tbody>
         <LiValidator
@@ -121,41 +117,19 @@ export default {
     properties() {
       return [
         {
-          title: `Moniker`,
+          title: `Name`,
           value: `small_moniker`,
           tooltip: `The validator's moniker`
         },
         {
-          title: `My Delegations`,
-          value: `my_delegations`,
-          tooltip: `Number of ${num.viewDenom(
-            this.bondDenom
-          )} you have delegated to this validator`
-        },
-        {
           title: `Rewards`,
-          value: `rewards`,
-          tooltip: `Rewards you have earned from this validator`
+          value: `expectedReturns`,
+          tooltip: `Approximate annualized reward`
         },
         {
           title: `Voting Power`,
           value: `voting_power`,
           tooltip: `Percentage of voting shares`
-        },
-        {
-          title: `Commission`,
-          value: `commission`,
-          tooltip: `The fee the validator will charge from your rewards`
-        },
-        {
-          title: `Uptime`,
-          value: `uptime`,
-          tooltip: `Ratio of blocks signed within the last 10k blocks`
-        },
-        {
-          title: `Returns`,
-          value: `expectedReturns`,
-          tooltip: `Approximate annualized return if validator is never punished`
         }
       ]
     }
