@@ -30,5 +30,9 @@ module.exports = {
     "jest-watch-typeahead/filename",
     "jest-watch-typeahead/testname"
   ],
-  setupFiles: [`./tests/unit/helpers/fixed_time.js`, `jest-localstorage-mock`]
+  setupFiles: [
+    `./tests/unit/helpers/fixed_time.js`,
+    `./tests/unit/helpers/window_mock.js`,
+    `jest-localstorage-mock`
+  ]
 }
