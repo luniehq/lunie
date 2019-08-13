@@ -7,15 +7,21 @@ describe(`Connector`, () => {
     jest.mock(`src/connectors/rpcWrapper`, () => () => ({
       fooRpc: `rpcBar`
     }))
-    jest.mock(`@lunie/cosmos-api`, () => () => ({
-      get: {}
-    }))
+    jest.mock(
+      `@lunie/cosmos-api`,
+      () =>
+        class mockAPI {
+          constructor() {
+            this.get = {}
+          }
+        }
+    )
 
     Node = require(`src/connectors/node`).default
   })
 
   it(`should setup the connectors`, () => {
-    const node = Node(remoteLcdURL)
+    const node = new Node(remoteLcdURL)
     expect(node.fooRpc).toBe(`rpcBar`)
     expect(node.get).toBeDefined()
   })

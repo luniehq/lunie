@@ -1,12 +1,4 @@
 import { track } from "scripts/google-analytics"
-import {
-  getSeed,
-  getWalletIndex,
-  getStoredWallet,
-  getNewWalletFromSeed,
-  testPassword,
-  storeWallet
-} from "@lunie/cosmos-keys"
 
 export default () => {
   const state = {
@@ -14,12 +6,6 @@ export default () => {
     error: null,
     // import into state to be able to test easier
     externals: {
-      getWalletIndex,
-      getStoredWallet,
-      getNewWalletFromSeed,
-      testPassword,
-      storeWallet,
-      getSeed,
       track
     }
   }
@@ -31,29 +17,33 @@ export default () => {
   }
 
   const actions = {
-    init({ dispatch }) {
-      dispatch("loadAccounts")
-    },
-    async loadAccounts({ commit, state }) {
-      const keys = state.externals.getWalletIndex()
+    async loadAccounts({ commit }) {
+      const { getWalletIndex } = await import("@lunie/cosmos-keys")
+      const keys = getWalletIndex()
       commit(`setAccounts`, keys)
     },
-    async testLogin({ state }, { password, address }) {
+    async testLogin(store, { password, address }) {
+      const { testPassword } = await import("@lunie/cosmos-keys")
       try {
-        state.externals.testPassword(address, password)
+        testPassword(address, password)
         return true
       } catch (err) {
         return false
       }
     },
-    createSeed() {
-      return state.externals.getSeed()
+    async createSeed() {
+      const { getSeed } = await import("@lunie/cosmos-keys")
+      return getSeed()
     },
     async createKey({ dispatch, state }, { seedPhrase, password, name }) {
+      const { getNewWalletFromSeed, storeWallet } = await import(
+        "@lunie/cosmos-keys"
+      )
+
       state.externals.track(`event`, `session`, `create-keypair`)
 
-      const wallet = state.externals.getNewWalletFromSeed(seedPhrase)
-      state.externals.storeWallet(wallet, name, password)
+      const wallet = getNewWalletFromSeed(seedPhrase)
+      storeWallet(wallet, name, password)
 
       // reload accounts as we just added a new one
       dispatch("loadAccounts")
