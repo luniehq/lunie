@@ -60,9 +60,7 @@ exports[`SendModal should display send modal form 1`] = `
    
   <tmbtn-stub
     id="edit-memo-btn"
-    size="sm"
-    to=""
-    type="link"
+    type="secondary"
     value="Edit Memo"
   />
    
@@ -133,9 +131,7 @@ exports[`SendModal validation should show address required error 1`] = `
    
   <tmbtn-stub
     id="edit-memo-btn"
-    size="sm"
-    to=""
-    type="link"
+    type="secondary"
     value="Edit Memo"
   />
    
@@ -206,9 +202,7 @@ exports[`SendModal validation should show bech32 error when address length is to
    
   <tmbtn-stub
     id="edit-memo-btn"
-    size="sm"
-    to=""
-    type="link"
+    type="secondary"
     value="Edit Memo"
   />
    
@@ -279,9 +273,7 @@ exports[`SendModal validation should show bech32 error when address length is to
    
   <tmbtn-stub
     id="edit-memo-btn"
-    size="sm"
-    to=""
-    type="link"
+    type="secondary"
     value="Edit Memo"
   />
    
@@ -355,9 +347,7 @@ exports[`SendModal validation should show bech32 error when alphanumeric is wron
    
   <tmbtn-stub
     id="edit-memo-btn"
-    size="sm"
-    to=""
-    type="link"
+    type="secondary"
     value="Edit Memo"
   />
    

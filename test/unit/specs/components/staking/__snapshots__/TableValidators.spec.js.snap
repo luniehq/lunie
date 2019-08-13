@@ -7,7 +7,7 @@ exports[`TableValidators shows a validator table 1`] = `
   >
     <thead>
       <panelsort-stub
-        properties="[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object]"
+        properties="[object Object],[object Object],[object Object]"
         showonmobile="returns"
         sort="[object Object]"
       />

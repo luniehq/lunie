@@ -7,7 +7,7 @@ exports[`ModalWithdrawRewards should show the withdraw rewards modal 1`] = `
   id="modal-withdraw-rewards"
   notifymessage="[object Object]"
   submissionerrorprefix="Withdrawal failed"
-  title="Withdraw"
+  title="Rewards"
   transactiondata="[object Object]"
   validatoraddress="cosmos1234567"
 >
@@ -16,7 +16,7 @@ exports[`ModalWithdrawRewards should show the withdraw rewards modal 1`] = `
   >
     
     Lunie will only withdraw rewards from 5 validators at a time because of a
-    limitation with the Ledger Nano S.
+    limitation with the Ledger Nano S.
   
   </span>
    

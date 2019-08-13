@@ -6,7 +6,7 @@ exports[`DelegationsOverview shows an overview over all delegations of the user 
 >
   <div>
     <tablevalidators-stub
-      showonmobile="my_delegations"
+      showonmobile="expectedReturns"
       validators="[object Object],[object Object],[object Object]"
     />
   </div>

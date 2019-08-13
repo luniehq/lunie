@@ -12,6 +12,7 @@ exports[`PanelSort has the expected html structure 1`] = `
     >
       
       ID
+      
       <i
         class="material-icons"
       >
@@ -27,6 +28,7 @@ exports[`PanelSort has the expected html structure 1`] = `
     >
       
       AMOUNT
+      
       <i
         class="material-icons"
       >

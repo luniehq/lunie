@@ -11,12 +11,8 @@ exports[`ToolBar has the expected html structure 1`] = `
     <i
       class="material-icons"
     >
-      
       exit_to_app
-    
     </i>
   </a>
-   
-  <!---->
 </div>
 `;
