@@ -38,7 +38,9 @@ exports[`LiValidator has the expected html structure 1`] = `
   <td
     class="hide-xs"
   >
+    
     1.40%
+  
   </td>
 </tr>
 `;
@@ -81,7 +83,9 @@ exports[`LiValidator works if user is not signed in 1`] = `
   <td
     class="hide-xs"
   >
+    
     1.40%
+  
   </td>
 </tr>
 `;

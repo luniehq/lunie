@@ -16,7 +16,9 @@ exports[`LiProposal has the expected html structure 1`] = `
     <h3
       class="li-proposal-title"
     >
+      
       Proposal Title
+    
     </h3>
      
     <p
@@ -51,7 +53,9 @@ exports[`LiProposal should survive the tally result not being present yet 1`] = 
     <h3
       class="li-proposal-title"
     >
+      
       Proposal Title
+    
     </h3>
      
     <p

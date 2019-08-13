@@ -17,7 +17,9 @@ exports[`PageProposal renders votes in HTML when voting is open 1`] = `
       <span
         class="proposal-status pink"
       >
-        Voting Period
+        
+          Voting Period
+        
       </span>
        
       <div
@@ -81,7 +83,10 @@ exports[`PageProposal renders votes in HTML when voting is open 1`] = `
         </dt>
          
         <dd>
-          100,000,000% / 10,000
+          
+            100,000,000% /
+            10,000
+          
         </dd>
       </dl>
        
@@ -213,7 +218,9 @@ exports[`PageProposal should display proposal page if user has signed in 1`] = `
       <span
         class="proposal-status pink"
       >
-        Voting Period
+        
+          Voting Period
+        
       </span>
        
       <div
@@ -277,7 +284,10 @@ exports[`PageProposal should display proposal page if user has signed in 1`] = `
         </dt>
          
         <dd>
-          0% / 0
+          
+            0% /
+            0
+          
         </dd>
       </dl>
        
@@ -409,7 +419,9 @@ exports[`PageProposal should display proposal page should default tally to 0 if 
       <span
         class="proposal-status pink"
       >
-        Voting Period
+        
+          Voting Period
+        
       </span>
        
       <div
@@ -473,7 +485,10 @@ exports[`PageProposal should display proposal page should default tally to 0 if 
         </dt>
          
         <dd>
-          0% / 0
+          
+            0% /
+            0
+          
         </dd>
       </dl>
        

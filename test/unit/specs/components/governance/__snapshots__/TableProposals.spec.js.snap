@@ -21,7 +21,9 @@ exports[`TableProposals has the expected html structure 1`] = `
           <h3
             class="li-proposal-title"
           >
-            Rejected proposal
+            
+      Rejected proposal
+    
           </h3>
            
           <p
@@ -53,7 +55,9 @@ exports[`TableProposals has the expected html structure 1`] = `
           <h3
             class="li-proposal-title"
           >
-            Custom text proposal
+            
+      Custom text proposal
+    
           </h3>
            
           <p
@@ -85,7 +89,9 @@ exports[`TableProposals has the expected html structure 1`] = `
           <h3
             class="li-proposal-title"
           >
-            VotingPeriod proposal
+            
+      VotingPeriod proposal
+    
           </h3>
            
           <p
@@ -117,7 +123,9 @@ exports[`TableProposals has the expected html structure 1`] = `
           <h3
             class="li-proposal-title"
           >
-            Proposal Title
+            
+      Proposal Title
+    
           </h3>
            
           <p
@@ -160,7 +168,9 @@ exports[`TableProposals should filter the proposals 1`] = `
           <h3
             class="li-proposal-title"
           >
-            Rejected proposal
+            
+      Rejected proposal
+    
           </h3>
            
           <p
@@ -192,7 +202,9 @@ exports[`TableProposals should filter the proposals 1`] = `
           <h3
             class="li-proposal-title"
           >
-            Custom text proposal
+            
+      Custom text proposal
+    
           </h3>
            
           <p
@@ -224,7 +236,9 @@ exports[`TableProposals should filter the proposals 1`] = `
           <h3
             class="li-proposal-title"
           >
-            VotingPeriod proposal
+            
+      VotingPeriod proposal
+    
           </h3>
            
           <p
@@ -256,7 +270,9 @@ exports[`TableProposals should filter the proposals 1`] = `
           <h3
             class="li-proposal-title"
           >
-            Proposal Title
+            
+      Proposal Title
+    
           </h3>
            
           <p

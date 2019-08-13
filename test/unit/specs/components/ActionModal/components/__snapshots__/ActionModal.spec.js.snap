@@ -1028,7 +1028,9 @@ exports[`ActionModal should show the action modal when user hasn't logged in 1`]
     <p
       class="form-message notice"
     >
-      You need to sign in to submit a transaction.
+      
+        You need to sign in to submit a transaction.
+      
     </p>
   </div>
    

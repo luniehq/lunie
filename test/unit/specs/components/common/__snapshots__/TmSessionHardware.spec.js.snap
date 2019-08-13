@@ -6,7 +6,11 @@ exports[`TmSessionHardware should show a state indicator for different states of
   </h2> <div class=\\"session-main\\"><div class=\\"tm-hardware-state\\"><div class=\\"tm-hardware-state-content\\"><!----> <div class=\\"tm-hardware-state__label\\"><p>
             Please plug in your Ledger&nbsp;Nano and open the Cosmos Ledger
             app
-          </p> <!----> <button class=\\"button\\">Sign In</button></div> <img src=\\"~assets/images/loader.svg\\" alt=\\"a small spinning circle to display loading\\" style=\\"display: none;\\"></div></div></div></div></div> <button class=\\"button session-close\\" color=\\"secondary\\">Back to Lunie</button></div>"
+          </p> <!----> <button class=\\"button\\">
+  Sign In
+</button></div> <img src=\\"~assets/images/loader.svg\\" alt=\\"a small spinning circle to display loading\\" style=\\"display: none;\\"></div></div></div></div></div> <button class=\\"button session-close\\" color=\\"secondary\\">
+  Back to Lunie
+</button></div>"
 `;
 
 exports[`TmSessionHardware should show a state indicator for different states of the hardware connection 2`] = `
@@ -15,13 +19,21 @@ exports[`TmSessionHardware should show a state indicator for different states of
   </h2> <div class=\\"session-main\\"><div class=\\"tm-hardware-state\\"><div class=\\"tm-hardware-state-content\\"><!----> <div class=\\"tm-hardware-state__label\\"><p>
             Please plug in your Ledger&nbsp;Nano and open the Cosmos Ledger
             app
-          </p> <!----> <button class=\\"button\\" disabled=\\"disabled\\">Waiting for Ledger</button></div> <img src=\\"~assets/images/loader.svg\\" alt=\\"a small spinning circle to display loading\\" style=\\"\\"></div></div></div></div></div> <button class=\\"button session-close\\" color=\\"secondary\\">Back to Lunie</button></div>"
+          </p> <!----> <button class=\\"button\\" disabled=\\"disabled\\">
+  Waiting for Ledger
+</button></div> <img src=\\"~assets/images/loader.svg\\" alt=\\"a small spinning circle to display loading\\" style=\\"\\"></div></div></div></div></div> <button class=\\"button session-close\\" color=\\"secondary\\">
+  Back to Lunie
+</button></div>"
 `;
 
 exports[`TmSessionHardware should show a state indicator for different states of the hardware connection 3`] = `
 "<div class=\\"session-frame\\" name=\\"component-fade\\" mode=\\"out-in\\"><router-link-stub to=\\"/\\"><img src=\\"~assets/images/cosmos-wallet-logo.svg\\" class=\\"session-logo\\"></router-link-stub> <div class=\\"session-outer-container\\"><div class=\\"session\\"><a><i class=\\"material-icons session-back\\">arrow_back</i></a> <h2 class=\\"session-title\\">
     Use my Ledger Nano
-  </h2> <div class=\\"session-main\\"><div class=\\"tm-hardware-state\\"><div class=\\"tm-hardware-state-content\\"><!----> <div class=\\"tm-hardware-state__label\\"><!----> <!----> <button class=\\"button\\" disabled=\\"disabled\\"></button></div> <img src=\\"~assets/images/loader.svg\\" alt=\\"a small spinning circle to display loading\\" style=\\"\\"></div></div></div></div></div> <button class=\\"button session-close\\" color=\\"secondary\\">Back to Lunie</button></div>"
+  </h2> <div class=\\"session-main\\"><div class=\\"tm-hardware-state\\"><div class=\\"tm-hardware-state-content\\"><!----> <div class=\\"tm-hardware-state__label\\"><!----> <!----> <button class=\\"button\\" disabled=\\"disabled\\">
+  
+</button></div> <img src=\\"~assets/images/loader.svg\\" alt=\\"a small spinning circle to display loading\\" style=\\"\\"></div></div></div></div></div> <button class=\\"button session-close\\" color=\\"secondary\\">
+  Back to Lunie
+</button></div>"
 `;
 
 exports[`TmSessionHardware shows the ledger conection view when there're errors 1`] = `
@@ -93,7 +105,9 @@ exports[`TmSessionHardware shows the ledger conection view when there're errors 
               <button
                 class="button"
               >
-                Sign In
+                
+  Sign In
+
               </button>
             </div>
              
@@ -112,7 +126,9 @@ exports[`TmSessionHardware shows the ledger conection view when there're errors 
     class="button session-close"
     color="secondary"
   >
-    Back to Lunie
+    
+  Back to Lunie
+
   </button>
 </div>
 `;
@@ -180,7 +196,9 @@ exports[`TmSessionHardware shows the ledger conection view with no errors 1`] = 
               <button
                 class="button"
               >
-                Sign In
+                
+  Sign In
+
               </button>
             </div>
              
@@ -199,7 +217,9 @@ exports[`TmSessionHardware shows the ledger conection view with no errors 1`] = 
     class="button session-close"
     color="secondary"
   >
-    Back to Lunie
+    
+  Back to Lunie
+
   </button>
 </div>
 `;
