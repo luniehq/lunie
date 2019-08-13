@@ -11,30 +11,32 @@
       <!-- we need the v-if as the template somehow is rendered in any case -->
       <div class="page-profile__header page-profile__section">
         <div class="row">
-          <img
-            v-if="validator.keybase && validator.keybase.avatarUrl"
-            :src="validator.keybase.avatarUrl"
-            :alt="`validator logo for ` + validator.description.moniker"
-            class="avatar"
-          /><img
-            v-else
-            class="avatar"
-            src="~assets/images/validator-icon.svg"
-            alt="generic validator logo - graphic triangle supporting atom token"
-          />
-
+          <ApolloQuery
+            :query="ValidatorProfile"
+            :variables="{ address: validator.operator_address }"
+            :update="validatorProfileResultUpdate"
+          >
+            <template v-slot="{ result: { loading, error, data: keybase } }">
+              <img
+                v-if="!keybase || loading || error"
+                class="avatar"
+                src="~assets/images/validator-icon.svg"
+                alt="generic validator logo - graphic triangle supporting atom token"
+              />
+              <img
+                v-else-if="keybase && keybase.avatarUrl"
+                :src="keybase.avatarUrl"
+                :alt="`validator logo for ` + validator.description.moniker"
+                class="avatar"
+              />
+            </template>
+          </ApolloQuery>
           <div class="page-profile__header__info">
             <div>
               <div class="validator-name-and-address">
                 <div class="page-profile__status-and-title">
-                  <span
-                    v-tooltip.top="status"
-                    :class="statusColor"
-                    class="page-profile__status"
-                  />
-                  <div class="page-profile__title">
-                    {{ validator.description.moniker }}
-                  </div>
+                  <span v-tooltip.top="status" :class="statusColor" class="page-profile__status" />
+                  <div class="page-profile__title">{{ validator.description.moniker }}</div>
                 </div>
                 <Bech32 :address="validator.operator_address" />
               </div>
@@ -75,28 +77,22 @@
             </dl>
             <dl class="info_dl colored_dl">
               <dt>Expected Returns</dt>
-              <dd>{{ num.percent(returns) }}</dd>
+              <dd>{{ percent(returns) }}</dd>
             </dl>
           </div>
 
           <div class="row row-unjustified">
             <dl class="info_dl colored_dl">
               <dt>Voting Power</dt>
-              <dd id="page-profile__power">
-                {{ num.percent(powerRatio) }}
-              </dd>
+              <dd id="page-profile__power">{{ percent(powerRatio) }}</dd>
             </dl>
             <dl class="info_dl colored_dl">
               <dt>Uptime</dt>
-              <dd id="page-profile__uptime">
-                {{ uptime }}
-              </dd>
+              <dd id="page-profile__uptime">{{ uptime }}</dd>
             </dl>
             <dl class="info_dl colored_dl">
               <dt>Commission</dt>
-              <dd id="page-profile__commission">
-                {{ num.percent(validator.commission.rate) }}
-              </dd>
+              <dd id="page-profile__commission">{{ percent(validator.commission.rate) }}</dd>
             </dl>
           </div>
         </div>
@@ -115,9 +111,7 @@
             </dl>
             <dl class="info_dl">
               <dt>Keybase ID</dt>
-              <dd>
-                {{ translateEmptyDescription(validator.description.identity) }}
-              </dd>
+              <dd>{{ translateEmptyDescription(validator.description.identity) }}</dd>
             </dl>
             <dl class="info_dl">
               <dt>Website</dt>
@@ -127,33 +121,29 @@
                   :href="website"
                   target="_blank"
                   rel="nofollow noreferrer noopener"
-                >
-                  {{ website }}
-                </a>
+                >{{ website }}</a>
               </dd>
-              <dd v-else>
-                {{ website }}
-              </dd>
+              <dd v-else>{{ website }}</dd>
             </dl>
             <dl class="info_dl">
               <dt>Description</dt>
-              <dd class="info_dl__text-box">
-                {{ translateEmptyDescription(validator.description.details) }}
-              </dd>
+              <dd
+                class="info_dl__text-box"
+              >{{ translateEmptyDescription(validator.description.details) }}</dd>
             </dl>
           </div>
           <div class="column">
             <dl class="info_dl">
               <dt>Current Commission Rate</dt>
-              <dd>{{ num.percent(validator.commission.rate) }}</dd>
+              <dd>{{ percent(validator.commission.rate) }}</dd>
             </dl>
             <dl class="info_dl">
               <dt>Max Commission Rate</dt>
-              <dd>{{ num.percent(validator.commission.max_rate) }}</dd>
+              <dd>{{ percent(validator.commission.max_rate) }}</dd>
             </dl>
             <dl class="info_dl">
               <dt>Max Daily Commission Change</dt>
-              <dd>{{ num.percent(validator.commission.max_change_rate) }}</dd>
+              <dd>{{ percent(validator.commission.max_change_rate) }}</dd>
             </dl>
             <dl class="info_dl">
               <dt>Last Commission Change</dt>
@@ -161,9 +151,7 @@
             </dl>
             <dl class="info_dl">
               <dt>Self Delegation</dt>
-              <dd id="page-profile__self-bond">
-                {{ selfBond }}
-              </dd>
+              <dd id="page-profile__self-bond">{{ selfBond }}</dd>
             </dl>
           </div>
         </div>
@@ -185,16 +173,12 @@
       />
     </template>
     <template v-else>
-      <template slot="title">
-        Validator Not Found
-      </template>
+      <template slot="title">Validator Not Found</template>
       <template slot="subtitle">
         <div>
           Please visit the
-          <router-link to="/staking/validators/">
-            Validators
-          </router-link>
-          page to view all validators
+          <router-link to="/staking/validators/">Validators</router-link>page to
+          view all validators
         </div>
       </template>
     </template>
@@ -205,7 +189,7 @@
 import moment from "moment"
 import { calculateTokens } from "scripts/common"
 import { mapState, mapGetters } from "vuex"
-import num, { atoms, viewDenom, shortDecimals } from "scripts/num"
+import { atoms, viewDenom, shortDecimals, percent } from "scripts/num"
 import { formatBech32 } from "src/filters"
 import { expectedReturns } from "scripts/returns"
 import TmBtn from "common/TmBtn"
@@ -215,6 +199,8 @@ import UndelegationModal from "src/ActionModal/components/UndelegationModal"
 import Bech32 from "common/Bech32"
 import TmPage from "common/TmPage"
 import isEmpty from "lodash.isempty"
+import { ValidatorProfile, validatorProfileResultUpdate } from "src/gql"
+
 export default {
   name: `page-validator`,
   components: {
@@ -232,8 +218,7 @@ export default {
   },
   data: () => ({
     tabIndex: 1,
-    moment,
-    num
+    ValidatorProfile
   }),
   computed: {
     ...mapState([`delegates`, `delegation`, `distribution`, `pool`, `session`]),
@@ -244,7 +229,6 @@ export default {
       `lastHeader`,
       `bondDenom`,
       `committedDelegations`,
-      `keybase`,
       `liquidAtoms`,
       `connected`
     ]),
@@ -253,7 +237,6 @@ export default {
         v => this.$route.params.validator === v.operator_address
       )
       if (validator) {
-        validator.keybase = this.keybase[validator.description.identity]
         validator.signing_info = this.delegates.signingInfos[
           validator.operator_address
         ]
@@ -262,9 +245,7 @@ export default {
       return validator
     },
     selfBond() {
-      return num.percent(
-        this.delegates.selfBond[this.validator.operator_address]
-      )
+      return percent(this.delegates.selfBond[this.validator.operator_address])
     },
     uptime() {
       if (!this.validator.signing_info) return null
@@ -278,7 +259,7 @@ export default {
     },
     myBond() {
       if (!this.validator) return 0
-      return num.atoms(
+      return atoms(
         calculateTokens(
           this.validator,
           this.committedDelegations[this.validator.operator_address] || 0
@@ -287,8 +268,8 @@ export default {
     },
     myDelegation() {
       const { bondDenom, myBond } = this
-      const myDelegation = num.shortDecimals(myBond)
-      const myDelegationString = `${myDelegation} ${num.viewDenom(bondDenom)}`
+      const myDelegation = shortDecimals(myBond)
+      const myDelegationString = `${myDelegation} ${viewDenom(bondDenom)}`
       return Number(myBond) === 0 ? `--` : myDelegationString
     },
     powerRatio() {
@@ -400,6 +381,9 @@ export default {
     this.$store.dispatch("updateDelegates")
   },
   methods: {
+    percent,
+    moment,
+    validatorProfileResultUpdate,
     onDelegation() {
       this.$refs.delegationModal.open()
     },

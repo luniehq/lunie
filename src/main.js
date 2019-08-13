@@ -6,6 +6,7 @@ import Vuelidate from "vuelidate"
 import InfiniteScroll from "vue-infinite-scroll"
 import VueClipboard from "vue-clipboard2"
 import { focusElement, focusParentLast } from "src/directives"
+import apolloProvider from "src/gql/apollo.js"
 import App from "./App.vue"
 import init from "./initializeApp"
 import { getURLParams } from "scripts/url"
@@ -28,5 +29,6 @@ const { store, router } = init(urlParams)
 new Vue({
   router,
   ...App,
-  store
+  store,
+  apolloProvider
 }).$mount("#app")

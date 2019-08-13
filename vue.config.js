@@ -83,11 +83,7 @@ module.exports = {
               .map(x => x.replace("https", "wss"))
           ],
           "frame-src": [`'self'`, `https://app.appzi.io/`],
-          "img-src": [
-            `'self'`,
-            `https://www.google-analytics.com/`,
-            `https://s3.amazonaws.com/keybase_processed_uploads/`
-          ]
+          "img-src": [`'self'`, `https://www.google-analytics.com/`]
         })
       )
     }

@@ -1,4 +1,5 @@
 import { shallowMount, createLocalVue } from "@vue/test-utils"
+import VueApollo from "vue-apollo"
 import PageValidator from "src/components/staking/PageValidator"
 
 const stakingParameters = {
@@ -57,7 +58,6 @@ const getters = {
     height: `500`
   },
 
-  keybase: `keybase`,
   liquidAtoms: 1337,
   connected: true,
   bondDenom: stakingParameters.bond_denom
@@ -67,6 +67,7 @@ describe(`PageValidator`, () => {
   let wrapper, $store
   const localVue = createLocalVue()
   localVue.directive(`tooltip`, () => {})
+  localVue.use(VueApollo)
 
   beforeEach(() => {
     $store = {
@@ -115,7 +116,7 @@ describe(`PageValidator`, () => {
           params: { validator: validator.operator_address }
         }
       },
-      stubs: [`router-link`]
+      stubs: [`router-link`, `apolloquery`]
     })
   })
 
@@ -143,12 +144,6 @@ describe(`PageValidator`, () => {
     it(`should return one delegate based on route params`, () => {
       expect(wrapper.vm.validator.operator_address).toEqual(
         validator.operator_address
-      )
-    })
-
-    it(`shows a default avatar`, () => {
-      expect(wrapper.find(`.page-profile__header`).html()).toContain(
-        `validator-icon.svg`
       )
     })
 
