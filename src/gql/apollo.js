@@ -4,10 +4,7 @@ import { InMemoryCache } from "apollo-cache-inmemory"
 import VueApollo from "vue-apollo"
 
 const apolloClient = new ApolloClient({
-  uri: process.env.VUE_APP_GRAPHQL_URL,
-  headers: {
-    "x-hasura-admin-secret": process.env.VUE_APP_HASURA_SECRET
-  }
+  uri: process.env.VUE_APP_GRAPHQL_URL
 })
 
 Vue.use(VueApollo)
