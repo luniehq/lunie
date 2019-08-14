@@ -34,9 +34,9 @@ done
 SEQUENCE=1
 
 echo "Funding rich account ${RICH_ADDRESS}"
-echo ${PASSWORD} | gaiacli tx send ${RICH_ADDRESS} 1000000000stake --from ${ACCOUNT} --chain-id ${NETWORK} --yes --home ${HOME} --node ${NODE} --sequence $SEQUENCE &> /dev/null
+echo ${PASSWORD} | gaiacli tx send ${ACCOUNT} ${RICH_ADDRESS} 1000000000stake --chain-id ${NETWORK} --yes --home ${HOME} --node ${NODE} --sequence $SEQUENCE &> /dev/null
 SEQUENCE=$((SEQUENCE+1))
-echo ${PASSWORD} | gaiacli tx send ${RICH_ADDRESS} ${AMOUNTP} --from ${ACCOUNT} --chain-id ${NETWORK} --yes --home ${HOME} --node ${NODE} --sequence $SEQUENCE &> /dev/null
+echo ${PASSWORD} | gaiacli tx send ${ACCOUNT} ${RICH_ADDRESS} ${AMOUNTP} --chain-id ${NETWORK} --yes --home ${HOME} --node ${NODE} --sequence $SEQUENCE &> /dev/null
 SEQUENCE=$((SEQUENCE+1))
 
 while true; do
@@ -54,7 +54,7 @@ while true; do
                 echo "$dt - $DESTINATION already funded, accounts are only funded once"
             else
                 # echo "stakes $AMOUNTS at $DESTINATION"
-                echo ${PASSWORD} | gaiacli tx send ${DESTINATION} ${AMOUNTS} --home ${HOME} --from ${ACCOUNT} --chain-id=${NETWORK} --yes --node ${NODE} --sequence $SEQUENCE &> /dev/null
+                echo ${PASSWORD} | gaiacli tx send ${ACCOUNT} ${DESTINATION} ${AMOUNTS} --home ${HOME} --chain-id=${NETWORK} --yes --node ${NODE} --sequence $SEQUENCE &> /dev/null
                 if [ ! $? -eq 0 ]; then
                     echo "!!Funding didn't work!!"
                     continue
