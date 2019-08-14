@@ -75,12 +75,18 @@ export default {
   padding: 6px 10px;
   font-size: 12px;
   min-width: 0;
-  border-color: var(--bc-dim);
+  border-color: var(--bc);
   color: var(--dim);
   background-color: transparent;
 }
 
 .button.secondary.small:hover {
   background-color: var(--bc-dim);
+}
+
+@media screen and (max-width: 1023px) {
+  .button.secondary.small {
+    padding: 10px 10px;
+  }
 }
 </style>

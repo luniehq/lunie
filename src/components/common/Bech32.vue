@@ -2,7 +2,7 @@
   <div class="bech32-address">
     <div
       id="address"
-      v-tooltip.top="address"
+      v-tooltip.top="`Click to copy`"
       v-clipboard:copy="address"
       v-clipboard:success="() => onCopy()"
       class="address"
@@ -11,7 +11,6 @@
     </div>
     <div :class="{ active: copySuccess }" class="copied">
       <i class="material-icons">check</i>
-      <span>Copied</span>
     </div>
   </div>
 </template>
@@ -54,6 +53,7 @@ export default {
   display: inline-flex;
   padding: 0;
   margin: 0;
+  font-size: inherit;
 }
 
 .bech32-address .address {
@@ -69,9 +69,9 @@ export default {
 .bech32-address .copied {
   align-items: flex-end;
   display: flex;
-  font-size: var(--sm);
+  font-size: 10px;
   opacity: 0;
-  padding-left: 10px;
+  padding-left: 0.25rem;
   padding-top: 2px;
   transition: opacity 500ms ease;
 }
@@ -82,7 +82,7 @@ export default {
 
 .bech32-address .copied i {
   color: var(--success);
-  font-size: var(--m);
+  font-size: 12px;
   padding-bottom: 2px;
   padding-right: 0;
 }

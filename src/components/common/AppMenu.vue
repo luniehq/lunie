@@ -1,5 +1,23 @@
 <template>
   <menu class="app-menu">
+    <div v-if="session.signedIn" class="user-box">
+      <div>
+        <h3>Your Address</h3>
+        <Bech32 :address="session.address || ''" />
+      </div>
+      <a v-if="session.signedIn" id="signOut-btn" @click="signOut()">
+        <i v-tooltip.bottom="'Sign Out'" class="material-icons">exit_to_app</i>
+      </a>
+    </div>
+    <TmBtn
+      v-else
+      id="mobile-sign-in"
+      class="session-link"
+      value="Sign In"
+      type="secondary"
+      size="small"
+      @click.native="signIn()"
+    />
     <div class="app-menu-main">
       <router-link
         class="app-menu-item hide-xs"
@@ -92,30 +110,13 @@
         <h2 class="app-menu-title">Privacy Policy</h2>
       </router-link>
     </div>
-    <TmBtn
-      v-if="session.signedIn"
-      id="mobile-sign-out"
-      class="session-link"
-      value="Sign Out"
-      type="secondary"
-      size="small"
-      @click.native="signOut()"
-    />
-    <TmBtn
-      v-if="!session.signedIn"
-      id="mobile-sign-in"
-      class="session-link"
-      value="Sign In"
-      type="secondary"
-      size="small"
-      @click.native="signIn()"
-    />
     <ConnectedNetwork />
   </menu>
 </template>
 
 <script>
 import noScroll from "no-scroll"
+import Bech32 from "common/Bech32"
 import ConnectedNetwork from "common/TmConnectedNetwork"
 import TmBtn from "common/TmBtn"
 import { mapGetters } from "vuex"
@@ -123,6 +124,7 @@ import { atoms, viewDenom, shortDecimals } from "scripts/num.js"
 export default {
   name: `app-menu`,
   components: {
+    Bech32,
     ConnectedNetwork,
     TmBtn
   },
@@ -199,7 +201,36 @@ export default {
 }
 
 .session-link {
-  margin: 0 1rem;
+  margin: 1rem;
+}
+
+.user-box {
+  font-size: 12px;
+  margin: 1rem;
+  padding: 0.5rem;
+  border: 2px solid var(--bc);
+  border-radius: 0.25rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.user-box i {
+  color: var(--dim);
+  font-size: var(--m);
+  display: flex;
+  align-items: center;
+}
+
+.user-box i {
+  padding: 0.5rem;
+  border-radius: 50%;
+  background: var(--bc-dim);
+}
+
+.user-box i:hover {
+  background: var(--bc);
+  cursor: pointer;
 }
 
 @media screen and (max-width: 1023px) {
@@ -209,7 +240,7 @@ export default {
   }
 
   .app-menu .app-menu-item {
-    padding: 0.75rem;
+    padding: 0.5rem;
   }
 
   .app-menu-title {

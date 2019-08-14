@@ -4,7 +4,7 @@
       <div id="tm-connected-network__icon" class="tm-connected-network__icon">
         <span
           v-tooltip.top="`Network is up and running`"
-          class="page-profile__status green"
+          class="tm-connected-network__status green"
         />
       </div>
       <div
@@ -70,7 +70,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .tm-connected-network {
   align-items: center;
   border-radius: 0.25rem;
@@ -80,9 +80,11 @@ export default {
   justify-content: space-between;
   margin: 0.5rem;
   padding: 0.5rem;
+  position: fixed;
   bottom: 0;
   left: 0;
   right: 0;
+  max-width: 208px; /* sidebar width minus margin */
 }
 
 .tm-connected-network .chain-id {
@@ -127,5 +129,12 @@ export default {
   height: 1rem;
   margin-right: 0.5rem;
   width: 1rem;
+}
+
+.tm-connected-network__status {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--success);
 }
 </style>
