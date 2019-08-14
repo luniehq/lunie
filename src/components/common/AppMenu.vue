@@ -91,22 +91,25 @@
       >
         <h2 class="app-menu-title">Privacy Policy</h2>
       </router-link>
-
-      <a
-        v-if="session.signedIn"
-        id="mobile-sign-out"
-        class="button app-menu-item"
-        @click="signOut()"
-        >Sign out</a
-      >
-      <a
-        v-if="!session.signedIn"
-        id="mobile-sign-in"
-        class="button app-menu-item"
-        @click="signIn()"
-        >Sign in</a
-      >
     </div>
+    <TmBtn
+      v-if="session.signedIn"
+      id="mobile-sign-out"
+      class="session-link"
+      value="Sign Out"
+      type="secondary"
+      size="small"
+      @click.native="signOut()"
+    />
+    <TmBtn
+      v-if="!session.signedIn"
+      id="mobile-sign-in"
+      class="session-link"
+      value="Sign In"
+      type="secondary"
+      size="small"
+      @click.native="signIn()"
+    />
     <ConnectedNetwork />
   </menu>
 </template>
@@ -114,12 +117,14 @@
 <script>
 import noScroll from "no-scroll"
 import ConnectedNetwork from "common/TmConnectedNetwork"
+import TmBtn from "common/TmBtn"
 import { mapGetters } from "vuex"
 import { atoms, viewDenom, shortDecimals } from "scripts/num.js"
 export default {
   name: `app-menu`,
   components: {
-    ConnectedNetwork
+    ConnectedNetwork,
+    TmBtn
   },
   filters: {
     atoms,
@@ -149,44 +154,31 @@ export default {
 <style scoped>
 .app-menu {
   z-index: var(--z-appMenu);
-  user-select: none;
-  display: block;
-  flex-flow: column nowrap;
+  display: flex;
+  flex-flow: column;
   position: relative;
+  height: 100%;
 }
 
-.app-menu .app-menu-main {
-  flex: 1;
-  position: relative;
+.app-menu-main {
+  height: 100%;
 }
 
 .app-menu .app-menu-item {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0.5rem 0.75rem;
-  margin: 0.5rem;
+  padding: 0.5rem;
+  margin: 0.5rem 1rem;
   font-weight: 400;
+  font-size: 14px;
   color: var(--text);
   border-radius: 0.25rem;
+  transition: all 0.5s ease;
 }
 
-.app-menu-item-small:hover {
-  color: var(--link);
-}
-
-.app-menu .app-menu-item:not(.app-menu-item--link):hover {
-  color: var(--bright);
+.app-menu-item:hover {
   background: var(--hover-bg);
-}
-
-.app-menu .app-menu-item--link {
-  display: block;
-  font-size: 14px;
-  padding: 0 0.75rem;
-  margin: 0.5rem;
-  font-weight: 400;
-  color: var(--dim);
 }
 
 .app-menu .app-menu-item--link:hover {
@@ -206,9 +198,8 @@ export default {
   font-weight: 500;
 }
 
-.app-menu .button {
-  color: var(--link);
-  font-size: var(--lg);
+.session-link {
+  margin: 0 1rem;
 }
 
 @media screen and (max-width: 1023px) {
@@ -234,9 +225,5 @@ export default {
   .app-menu {
     width: var(--width-side);
   }
-
-  /* .app-menu .button {
-    display: none;
-  } */
 }
 </style>

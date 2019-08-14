@@ -436,9 +436,8 @@ export default {
 .li-validator-name {
   color: var(--bright);
   font-size: var(--h1);
-  line-height: 2.25rem;
+  line-height: 2rem;
   font-weight: 500;
-  white-space: pre-wrap;
 }
 
 .validator-info {

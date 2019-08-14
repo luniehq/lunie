@@ -139,6 +139,7 @@ export default {
 @media screen and (min-width: 1024px) {
   .app-header > .container {
     position: fixed;
+    height: 100vh;
   }
 }
 </style>

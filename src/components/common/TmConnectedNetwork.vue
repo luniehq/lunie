@@ -73,7 +73,6 @@ export default {
 <style>
 .tm-connected-network {
   align-items: center;
-  background: var(--app-fg);
   border-radius: 0.25rem;
   color: var(--dim);
   display: flex;
@@ -81,17 +80,14 @@ export default {
   justify-content: space-between;
   margin: 0.5rem;
   padding: 0.5rem;
-  position: fixed;
   bottom: 0;
   left: 0;
   right: 0;
-  max-width: 208px; /* sidebar width minus margin */
 }
 
 .tm-connected-network .chain-id {
   font-weight: 500;
   padding-right: 1rem;
-  background: none !important;
 }
 
 .tm-connected-network .exit {

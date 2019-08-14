@@ -1,7 +1,7 @@
 <template>
   <button
     class="button"
-    :class="{ secondary: type === `secondary` }"
+    :class="{ secondary: type === `secondary`, small: size === `small` }"
     :disabled="disabled"
   >
     {{ value }}
@@ -20,6 +20,10 @@ export default {
       type: String,
       default: null
     },
+    size: {
+      type: String,
+      default: null
+    },
     disabled: {
       type: Boolean,
       default: false
@@ -31,11 +35,11 @@ export default {
 <style scoped>
 .button {
   font-family: var(--sans);
-  font-size: 14px !important;
+  font-size: 14px;
   font-weight: 400;
   padding: 8px 16px;
   min-width: 100px;
-  color: var(--bright) !important;
+  color: var(--bright);
   margin: 0;
   border-radius: 0.5rem;
   cursor: pointer;
@@ -43,6 +47,7 @@ export default {
   border: 2px solid var(--primary);
   transition: all 0.5s ease;
   white-space: nowrap;
+  outline: none;
 }
 
 .button:hover {
@@ -64,5 +69,18 @@ export default {
 
 .button.secondary {
   background: var(--primary-alpha);
+}
+
+.button.secondary.small {
+  padding: 6px 10px;
+  font-size: 12px;
+  min-width: 0;
+  border-color: var(--bc-dim);
+  color: var(--dim);
+  background-color: transparent;
+}
+
+.button.secondary.small:hover {
+  background-color: var(--bc-dim);
 }
 </style>

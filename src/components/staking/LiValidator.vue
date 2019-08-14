@@ -129,7 +129,6 @@ export default {
   font-size: 1rem;
   line-height: 18px;
   font-weight: 500;
-  white-space: pre-wrap;
   color: var(--bright);
   display: inline-block;
 }
