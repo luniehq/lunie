@@ -18,7 +18,7 @@
           >
             <template v-slot="{ result: { loading, error, data: keybase } }">
               <img
-                v-if="!keybase || loading || error"
+                v-if="!keybase || !keybase.avatarUrl || loading || error"
                 class="avatar"
                 src="~assets/images/validator-icon.svg"
                 alt="generic validator logo - graphic triangle supporting atom token"
