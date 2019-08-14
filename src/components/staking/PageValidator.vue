@@ -19,7 +19,7 @@
             <template v-slot="{ result: { loading, error, data: keybase } }">
               <Avatar
                 v-if="!keybase || !keybase.avatarUrl || loading || error"
-                class="data-avatar"
+                class="avatar"
                 alt="generic validator logo - generated avatar from address"
                 :address="validator.operator_address"
               />
