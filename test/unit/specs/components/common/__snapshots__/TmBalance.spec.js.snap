@@ -54,7 +54,7 @@ exports[`TmBalance show the balance header 1`] = `
     class="button-container"
   >
     <tmbtn-stub
-      class="send"
+      class="send-button"
       type="secondary"
       value="Send"
     />

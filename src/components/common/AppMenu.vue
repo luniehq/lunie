@@ -183,23 +183,6 @@ export default {
   background: var(--hover-bg);
 }
 
-.app-menu .app-menu-item--link:hover {
-  color: var(--link);
-}
-
-.app-menu .app-menu-item.router-link-active {
-  background: var(--app-fg);
-}
-
-.app-menu .app-menu-item.router-link-active i {
-  color: var(--tertiary);
-}
-
-.app-menu .app-menu-item.router-link-active h2 {
-  color: var(--bright);
-  font-weight: 500;
-}
-
 .session-link {
   margin: 1rem;
 }
@@ -220,9 +203,6 @@ export default {
   font-size: var(--m);
   display: flex;
   align-items: center;
-}
-
-.user-box i {
   padding: 0.5rem;
   border-radius: 50%;
   background: var(--bc-dim);
@@ -231,6 +211,23 @@ export default {
 .user-box i:hover {
   background: var(--bc);
   cursor: pointer;
+}
+
+.app-menu .app-menu-item--link:hover {
+  color: var(--link);
+}
+
+.app-menu .app-menu-item.router-link-active {
+  background: var(--app-fg);
+}
+
+.app-menu .app-menu-item.router-link-active i {
+  color: var(--tertiary);
+}
+
+.app-menu .app-menu-item.router-link-active h2 {
+  color: var(--bright);
+  font-weight: 500;
 }
 
 @media screen and (max-width: 1023px) {
