@@ -5,13 +5,13 @@
         <h3>Your Address</h3>
         <Bech32 :address="session.address || ''" />
       </div>
-      <a v-if="session.signedIn" id="signOut-btn" @click="signOut()">
+      <a v-if="session.signedIn" id="sign-out" @click="signOut()">
         <i v-tooltip.bottom="'Sign Out'" class="material-icons">exit_to_app</i>
       </a>
     </div>
     <TmBtn
       v-else
-      id="mobile-sign-in"
+      id="sign-in"
       class="session-link"
       value="Sign In"
       type="secondary"

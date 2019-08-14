@@ -1,5 +1,5 @@
 module.exports = {
-  "Sign in with local account": async function(browser) {
+  "Sign in with local account": async function (browser) {
     prepare(browser)
 
     browser.click("#use-an-existing-address")
@@ -13,9 +13,9 @@ module.exports = {
     browser.setValue("#sign-in-password", "1234567890")
     await next(browser)
     openMenu(browser)
-    browser.waitForElementVisible("#mobile-sign-out")
+    browser.waitForElementVisible("#sign-out")
   },
-  "Create local account": async function(browser) {
+  "Create local account": async function (browser) {
     prepare(browser)
 
     browser.click("#creat-new-address")
@@ -47,9 +47,9 @@ module.exports = {
     await next(browser)
     // signs in
     openMenu(browser)
-    browser.waitForElementVisible("#mobile-sign-out")
+    browser.waitForElementVisible("#sign-out")
   },
-  "Import local account": async function(browser) {
+  "Import local account": async function (browser) {
     prepare(browser)
 
     browser.click("#use-an-existing-address")
@@ -83,13 +83,13 @@ module.exports = {
     await next(browser)
     // signs in
     openMenu(browser)
-    browser.waitForElementVisible("#mobile-sign-out")
+    browser.waitForElementVisible("#sign-out")
   }
 }
 
 async function next(browser) {
   browser.execute(
-    function(selector, scrollX, scrollY) {
+    function (selector, scrollX, scrollY) {
       var elem = document.querySelector(selector)
       elem.scrollLeft = scrollX
       elem.scrollTop = scrollY
@@ -108,14 +108,14 @@ function openMenu(browser) {
 
 function signOut(browser) {
   openMenu(browser)
-  browser.waitForElementVisible("#mobile-sign-out")
-  browser.click("#mobile-sign-out")
+  browser.waitForElementVisible("#sign-out")
+  browser.click("#sign-out")
 }
 
 function signIn(browser) {
   openMenu(browser)
-  browser.waitForElementVisible("#mobile-sign-in")
-  browser.click("#mobile-sign-in")
+  browser.waitForElementVisible("#sign-in")
+  browser.click("#sign-in")
 }
 
 function prepare(browser) {

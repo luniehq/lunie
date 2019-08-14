@@ -11,8 +11,8 @@ async function getBalance(browser) {
 }
 async function getAvailableTokens(browser) {
   return new Promise(resolve => {
-    browser.expect.element(`.unbonded-atoms h2`).to.be.visible.before(10000)
-    browser.getText(".unbonded-atoms h2", ({ value }) => {
+    browser.expect.element(`.available-atoms`).to.be.visible.before(10000)
+    browser.getText(".available-atoms", ({ value }) => {
       resolve(numeral(value).value())
     })
   })
