@@ -50,8 +50,8 @@
 </template>
 
 <script>
-import { isMobile } from "scripts/device"
 import SessionFrame from "common/SessionFrame"
+import { isMobile } from "scripts/device"
 import LiSession from "common/TmLiSession"
 export default {
   name: `session-welcome`,
