@@ -16,11 +16,6 @@
           <h3>Total Rewards</h3>
           <h2>+{{ rewards }}</h2>
         </div>
-
-        <!-- <div class="user-address">
-          <h3>Your Address</h3>
-          <Bech32 :address="session.address || ''" />
-        </div> -->
       </div>
     </div>
     <div class="button-container">
@@ -49,7 +44,6 @@
 </template>
 <script>
 import num from "scripts/num"
-import Bech32 from "common/Bech32"
 import TmBtn from "common/TmBtn"
 import SendModal from "src/ActionModal/components/SendModal"
 import ModalWithdrawRewards from "src/ActionModal/components/ModalWithdrawRewards"
@@ -57,7 +51,6 @@ import { mapGetters } from "vuex"
 export default {
   name: `tm-balance`,
   components: {
-    Bech32,
     TmBtn,
     SendModal,
     ModalWithdrawRewards
