@@ -21,7 +21,6 @@ const validator = {
     country: `Canada`
   },
   status: 2,
-  bond_height: `0`,
   bond_intra_tx_counter: 6,
   proposer_reward_pool: null,
   commission: {
