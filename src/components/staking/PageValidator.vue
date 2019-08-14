@@ -17,11 +17,11 @@
             :update="validatorProfileResultUpdate"
           >
             <template v-slot="{ result: { loading, error, data: keybase } }">
-              <img
+              <Avatar
                 v-if="!keybase || !keybase.avatarUrl || loading || error"
                 class="avatar"
-                src="~assets/images/validator-icon.svg"
-                alt="generic validator logo - graphic triangle supporting atom token"
+                alt="generic validator logo - generated avatar from address"
+                :address="validator.operator_address"
               />
               <img
                 v-else-if="keybase && keybase.avatarUrl"
@@ -196,6 +196,7 @@ import TmBtn from "common/TmBtn"
 import { ratToBigNumber } from "scripts/common"
 import DelegationModal from "src/ActionModal/components/DelegationModal"
 import UndelegationModal from "src/ActionModal/components/UndelegationModal"
+import Avatar from "common/Avatar"
 import Bech32 from "common/Bech32"
 import TmPage from "common/TmPage"
 import isEmpty from "lodash.isempty"
@@ -207,6 +208,7 @@ export default {
     Bech32,
     DelegationModal,
     UndelegationModal,
+    Avatar,
     TmBtn,
     TmPage
   },

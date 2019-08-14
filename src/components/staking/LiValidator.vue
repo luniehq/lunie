@@ -16,11 +16,11 @@
         :update="validatorProfileResultUpdate"
       >
         <template v-slot="{ result: { loading, error, data: keybase } }">
-          <img
+          <Avatar
             v-if="!keybase || !keybase.avatarUrl || loading || error"
             class="data-table__row__info__image data-table__row__info__image--no-img"
-            src="~assets/images/validator-icon.svg"
-            alt="generic validator logo - graphic triangle supporting atom token"
+            alt="generic validator logo - generated avatar from address"
+            :address="validator.operator_address"
           />
           <img
             v-else-if="keybase && keybase.avatarUrl"
@@ -36,9 +36,11 @@
           :class="statusColor"
           class="data-table__row__info__container__status"
         />
-        <span class="data-table__row__info__container__name">{{
+        <span class="data-table__row__info__container__name">
+          {{
           validator.description.moniker
-        }}</span>
+          }}
+        </span>
         <div class="data-table__row__info__container__description">
           <Bech32 :address="validator.operator_address" />
         </div>
@@ -75,13 +77,15 @@
 import { mapState } from "vuex"
 import { percent, shortDecimals, atoms } from "scripts/num"
 import Bech32 from "common/Bech32"
+import Avatar from "common/Avatar"
 import BN from "bignumber.js"
 import { ValidatorProfile, validatorProfileResultUpdate } from "src/gql"
 
 export default {
   name: `li-validator`,
   components: {
-    Bech32
+    Bech32,
+    Avatar
   },
   props: {
     validator: {
