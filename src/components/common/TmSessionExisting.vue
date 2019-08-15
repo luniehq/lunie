@@ -13,14 +13,14 @@
           route="explore"
         />
         <LiSession
-          v-if="!isMobile"
+          v-if="!isMobileApp"
           id="use-ledger-nano"
           icon="vpn_key"
           title="Use Ledger Nano"
           route="ledger"
         />
         <LiSession
-          v-if="session.experimentalMode || extension.enabled || !isMobile"
+          v-if="(session.experimentalMode || extension.enabled) && !isMobileApp"
           id="use-extension"
           icon="laptop"
           title="Use Lunie Browser Extension"
@@ -59,7 +59,7 @@ export default {
     LiSession
   },
   data: () => ({
-    isMobile: config.mobileApp
+    isMobileApp: config.mobileApp
   }),
   computed: {
     ...mapState([`session`, `keystore`, `extension`]),
