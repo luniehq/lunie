@@ -10,6 +10,18 @@ import Node from "./connectors/node"
 import router, { routeGuard } from "./router"
 import Store from "./vuex/store"
 
+function setOptions(urlParams, store) {
+  if (urlParams.experimental) {
+    store.commit(`setExperimentalMode`)
+  }
+  if (urlParams.rpc) {
+    store.commit(`setRpcUrl`, urlParams.rpc)
+  }
+  if (config.mobileApp || urlParams.insecure) {
+    store.commit(`setInsecureMode`)
+  }
+}
+
 export default function init(urlParams, env = process.env) {
   // add error handlers in production
   if (env.NODE_ENV === `production`) {
@@ -29,15 +41,7 @@ export default function init(urlParams, env = process.env) {
     setGoogleAnalyticsPage(to.path)
   })
 
-  if (urlParams.experimental) {
-    store.commit(`setExperimentalMode`)
-  }
-  if (urlParams.rpc) {
-    store.commit(`setRpcUrl`, urlParams.rpc)
-  }
-  if (config.mobileApp || urlParams.insecure) {
-    store.commit(`setInsecureMode`)
-  }
+  setOptions(urlParams, store)
 
   store.dispatch(`loadLocalPreferences`)
   store
