@@ -8,7 +8,9 @@ exports[`LiProposal has the expected html structure 1`] = `
     <span
       class="proposal-status green"
     >
+      
       Passed
+    
     </span>
      
     <h3
@@ -22,10 +24,15 @@ exports[`LiProposal has the expected html structure 1`] = `
     <p
       class="li-proposal-description"
     >
-      
       Proposal description
-    
     </p>
+     
+    <router-link-stub
+      class="read-more-link"
+      to="/proposals/1"
+    >
+      Read the full proposal...
+    </router-link-stub>
   </td>
 </tr>
 `;
@@ -38,7 +45,9 @@ exports[`LiProposal should survive the tally result not being present yet 1`] = 
     <span
       class="proposal-status green"
     >
+      
       Passed
+    
     </span>
      
     <h3
@@ -52,10 +61,15 @@ exports[`LiProposal should survive the tally result not being present yet 1`] = 
     <p
       class="li-proposal-description"
     >
-      
       Proposal description
-    
     </p>
+     
+    <router-link-stub
+      class="read-more-link"
+      to="/proposals/1"
+    >
+      Read the full proposal...
+    </router-link-stub>
   </td>
 </tr>
 `;

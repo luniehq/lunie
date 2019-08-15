@@ -2,13 +2,13 @@
 
 exports[`TmBalance show the balance header 1`] = `
 <div
-  class="header-balance"
+  class="balance-header"
 >
   <div
-    class="top"
+    class="values-container"
   >
     <div
-      class="total-atoms top-section"
+      class="total-atoms"
     >
       <h3>
         Total STAKE
@@ -17,24 +17,18 @@ exports[`TmBalance show the balance header 1`] = `
       <h2
         class="total-atoms__value"
       >
-        
         3,210
-      
       </h2>
-       
-      <bech32-stub
-        address="cosmos1address"
-      />
     </div>
      
     <div
-      class="second-row"
+      class="row small-container"
     >
       <div
-        class="unbonded-atoms top-section"
+        class="available-atoms"
       >
         <h3>
-          Liquid STAKE
+          Available STAKE
         </h3>
          
         <h2>
@@ -43,28 +37,37 @@ exports[`TmBalance show the balance header 1`] = `
       </div>
        
       <div
-        class="top-section"
+        class="rewards"
       >
         <h3>
-          Available Rewards
+          Total Rewards
         </h3>
          
         <h2>
-          1,000,450
+          +1,000,450
         </h2>
-         
-        <tmbtn-stub
-          class="withdraw-rewards"
-          id="withdraw-btn"
-          size="sm"
-          to=""
-          type="anchor"
-          value="Withdraw"
-        />
       </div>
     </div>
   </div>
-    
+   
+  <div
+    class="button-container"
+  >
+    <tmbtn-stub
+      class="send-button"
+      type="secondary"
+      value="Send"
+    />
+     
+    <tmbtn-stub
+      class="withdraw-rewards"
+      id="withdraw-btn"
+      value="Claim Rewards"
+    />
+  </div>
+   
+  <sendmodal-stub />
+   
   <modalwithdrawrewards-stub
     denom="stake"
     rewards="1000450000000"

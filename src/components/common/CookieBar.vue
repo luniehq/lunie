@@ -3,10 +3,11 @@
     <i></i>
     <p>
       <span class="hide-on-mobile"
-        >This site uses cookies to help improve the user experience.</span
+        >This site uses cookies to help improve your experience.</span
       >
       By using Lunie, you accept our
-      <router-link to="/terms" class="link">Terms of Service</router-link> and
+      <router-link to="/terms" class="link">Terms of Service</router-link
+      >&nbsp;and
       <router-link to="/privacy" class="link">Privacy Policy</router-link>.
     </p>
     <a class="close">
@@ -61,6 +62,10 @@ export default {
   height: 1rem;
   width: 1rem;
   color: var(--bright);
+}
+
+.cookie-bar .close i {
+  font-size: 1rem;
 }
 
 @media (max-width: 1024px) {

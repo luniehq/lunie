@@ -1,7 +1,7 @@
 <template>
   <nav class="app-header" :class="{ mobile: !desktop }">
     <div class="container">
-      <div class="header-item">
+      <div class="header-item" :class="{ open: open }">
         <router-link to="/">
           <img
             class="header-item-logo"
@@ -15,7 +15,7 @@
             <i class="material-icons mobile-menu-action">close</i>
           </div>
           <div v-if="!open" class="open-menu" @click="show()">
-            <i class="material-icons mobile-menu-action">menu</i>
+            <i class="material-icons mobile-menu-action">more_vert</i>
           </div>
         </template>
       </div>
@@ -82,6 +82,10 @@ export default {
   width: var(--width-side);
 }
 
+.app-header .header-item.open {
+  background: var(--app-nav);
+}
+
 .mobile-menu-action {
   font-size: 1.5rem !important;
 }
@@ -112,20 +116,29 @@ export default {
   }
 
   .container {
-    background: var(--app-nav);
+    background: var(--app-fg-dark);
+    position: fixed;
+    width: 100%;
   }
 
   .app-header .header-item {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 1rem;
+    padding: 0.5rem 0.5rem 0.5rem 1rem;
     color: var(--link);
     cursor: pointer;
   }
 
   .header-item-logo {
-    height: 2.5rem;
+    height: 2rem;
+    padding-left: 4px;
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  .app-header > .container {
+    position: fixed;
   }
 }
 </style>

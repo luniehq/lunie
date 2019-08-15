@@ -10,7 +10,7 @@ exports[`CookieBar shows the cookie bar 1`] = `
     <span
       class="hide-on-mobile"
     >
-      This site uses cookies to help improve the user experience.
+      This site uses cookies to help improve your experience.
     </span>
     
     By using Lunie, you accept our
@@ -21,7 +21,7 @@ exports[`CookieBar shows the cookie bar 1`] = `
     >
       Terms of Service
     </router-link-stub>
-     and
+     and
     
     <router-link-stub
       class="link"

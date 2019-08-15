@@ -2,79 +2,15 @@
 
 exports[`PagePortfolio should display the portfolio page 1`] = `
 <tmpage-stub
-  hideheader="true"
   managed="true"
   signinrequired="true"
   subtitle=""
   title=""
 >
   <template>
-    <div
-      class="card"
-    >
-      <h3>
-        Your Public Cosmos Address
-      </h3>
-       
-      <bech32-stub
-        address="cosmos1234"
-        longform="true"
-      />
-    </div>
-     
-    <h3
-      class="tab-header"
-    >
-      
-      Rewards
-    
-    </h3>
-     
-    <licoin-stub
-      class="tm-li-balance"
-      coin="[object Object]"
-    >
-      <tmbtn-stub
-        color="primary"
-        value="Withdraw"
-      />
-    </licoin-stub>
-     
-    <h3
-      class="tab-header"
-    >
-      
-      Balances
-    
-    </h3>
-     
-    <licoin-stub
-      class="tm-li-balance"
-      coin="[object Object]"
-    />
-    <licoin-stub
-      class="tm-li-balance"
-      coin="[object Object]"
-    />
-     
-    <h3
-      class="tab-header"
-    >
-      
-      Delegations
-    
-    </h3>
-     
     <delegationsoverview-stub />
      
     <!---->
   </template>
-   
-  <sendmodal-stub />
-   
-  <modalwithdrawrewards-stub
-    denom="stake"
-    rewards="1000000"
-  />
 </tmpage-stub>
 `;

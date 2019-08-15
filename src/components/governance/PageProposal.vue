@@ -1,42 +1,44 @@
 <template>
-  <TmPage data-title="Proposal" hide-header>
+  <TmPage data-title="Proposal" hide-header class="small">
     <TmDataLoading v-if="!proposals.loaded || !governanceParameters.loaded" />
     <TmDataError v-else-if="!proposal" />
     <template v-else>
       <div class="page-profile__header page-profile__section proposal">
-        <div class="row">
-          <div class="page-profile__header__info">
-            <span :class="status.color" class="proposal-status">{{
-              status.badge
-            }}</span>
-            <div class="page-profile__status-and-title">
-              <h2 class="page-profile__title">
-                {{ title }}
-              </h2>
-            </div>
+        <div class="page-profile__header__info">
+          <span :class="status.color" class="proposal-status">
+            {{ status.badge }}
+          </span>
+          <div class="page-profile__status-and-title">
+            <h2 class="proposal-title">{{ title }}</h2>
           </div>
         </div>
+        <div class="button-container">
+          <TmBtn
+            id="deposit-btn"
+            :value="connected ? 'Deposit' : 'Connecting...'"
+            :disabled="proposal.proposal_status !== 'DepositPeriod'"
+            color="primary"
+            @click.native="onDeposit"
+          />
+          <TmBtn
+            id="vote-btn"
+            :value="connected ? 'Vote' : 'Connecting...'"
+            :disabled="proposal.proposal_status !== 'VotingPeriod'"
+            color="primary"
+            @click.native="() => onVote()"
+          />
+        </div>
         <div class="row">
-          <dl>
-            <dt>Submitted</dt>
-            <dd>{{ submittedAgo }}</dd>
-          </dl>
-
-          <dl>
-            <dt>Voting Start Date</dt>
-            <dd>
-              {{ votingStartedAgo }}
-            </dd>
-          </dl>
-          <dl v-if="displayEndDate">
-            <dt>Voting End Date</dt>
-            <dd>{{ endDate }}</dd>
-          </dl>
+          <div class="column">
+            <dl>
+              <TextBlock :content="description" />
+            </dl>
+          </div>
         </div>
       </div>
 
       <div class="page-profile__section">
-        <div class="row">
+        <div class="row row-condensed">
           <dl v-if="proposal.proposal_status === 'DepositPeriod'">
             <dt>Deposit Count</dt>
             <dd>
@@ -50,80 +52,65 @@
               {{ totalDeposit.denom }}
             </dd>
           </dl>
-          <dl v-if="proposal.proposal_status !== `DepositPeriod`">
+        </div>
+
+        <div
+          v-if="proposal.proposal_status !== `DepositPeriod`"
+          class="row row-condensed"
+        >
+          <dl>
             <dt>Total Vote Count</dt>
             <dd>
+              {{ totalVotePercentage }} /
               {{ num.shortDecimals(num.atoms(totalVotes)) }}
             </dd>
           </dl>
           <dl>
-            <TmBtn
-              v-if="proposal.proposal_status === 'VotingPeriod'"
-              id="vote-btn"
-              :value="connected ? 'Vote' : 'Connecting...'"
-              :disabled="!connected"
-              color="primary"
-              @click.native="() => onVote()"
-            />
-            <TmBtn
-              v-if="proposal.proposal_status === 'DepositPeriod'"
-              id="deposit-btn"
-              :value="connected ? 'Deposit' : 'Connecting...'"
-              :disabled="!connected"
-              color="primary"
-              @click.native="onDeposit"
-            />
-            <TmBtn
-              v-if="proposal.proposal_status === 'Passed'"
-              value="Vote Passed"
-              disabled="disabled"
-              color="primary"
-            />
-            <TmBtn
-              v-if="proposal.proposal_status === 'Rejected'"
-              value="Vote Rejected"
-              disabled="disabled"
-              color="primary"
-            />
-          </dl>
-        </div>
-        <div v-if="proposal.proposal_status !== `DepositPeriod`" class="row">
-          <dl>
             <dt>Yes</dt>
             <dd>
+              {{ yesPercentage }} /
               {{ num.shortDecimals(num.atoms(tally.yes)) }}
-              ({{ yesPercentage }})
             </dd>
           </dl>
           <dl>
             <dt>No</dt>
             <dd>
+              {{ noPercentage }} /
               {{ num.shortDecimals(num.atoms(tally.no)) }}
-              ({{ noPercentage }})
             </dd>
           </dl>
           <dl>
             <dt>No with Veto</dt>
             <dd>
+              {{ noWithVetoPercentage }} /
               {{ num.shortDecimals(num.atoms(tally.no_with_veto)) }}
-              ({{ noWithVetoPercentage }})
             </dd>
           </dl>
           <dl>
             <dt>Abstain</dt>
             <dd>
+              {{ abstainPercentage }} /
               {{ num.shortDecimals(num.atoms(tally.abstain)) }}
-              ({{ abstainPercentage }})
             </dd>
           </dl>
         </div>
-        <div class="row">
-          <div class="column">
-            <dl>
-              <dt>Description</dt>
-              <TextBlock :content="description" />
-            </dl>
-          </div>
+        <div class="row row-condensed">
+          <dl>
+            <dt>Proposal ID</dt>
+            <dd>{{ proposal.proposal_id }}</dd>
+          </dl>
+          <dl>
+            <dt>Submitted</dt>
+            <dd>{{ submittedAgo }}</dd>
+          </dl>
+          <dl>
+            <dt>Voting Start Date</dt>
+            <dd>{{ votingStartedAgo }}</dd>
+          </dl>
+          <dl v-if="displayEndDate">
+            <dt>Voting End Date</dt>
+            <dd>{{ endDate }}</dd>
+          </dl>
         </div>
       </div>
 
@@ -227,6 +214,10 @@ export default {
         .plus(abstain)
         .toNumber()
     },
+    totalVotePercentage({ pool, totalVotes }) {
+      const totalPossibleVotes = pool.pool.bonded_tokens
+      return num.percentInt(totalVotes / totalPossibleVotes)
+    },
     yesPercentage({ tally, totalVotes } = this) {
       return num.percentInt(totalVotes === 0 ? 0 : tally.yes / totalVotes)
     },
@@ -285,3 +276,43 @@ export default {
   }
 }
 </script>
+<style scoped>
+.proposal-title {
+  color: var(--bright);
+  font-size: var(--h1);
+  line-height: 2.25rem;
+  font-weight: 500;
+  padding-top: 1rem;
+}
+
+.button-container {
+  display: flex;
+  align-items: flex-end;
+  padding: 0.5rem 1rem;
+  border-top: 1px solid var(--bc-dim);
+  border-bottom: 1px solid var(--bc-dim);
+}
+
+.page-profile__header__info {
+  padding: 1rem;
+}
+
+.button-container button:first-child {
+  margin-right: 0.5rem;
+}
+
+.row {
+  padding-top: 2rem;
+}
+
+@media screen and (max-width: 667px) {
+  .button-container {
+    width: 100%;
+    padding: 1rem;
+  }
+
+  .button-container button {
+    width: 50%;
+  }
+}
+</style>

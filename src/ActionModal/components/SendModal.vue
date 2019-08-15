@@ -28,7 +28,6 @@
         type="required"
       />
     </TmFormGroup>
-
     <TmFormGroup
       :error="$v.address.$error && $v.address.$invalid"
       class="action-modal-form-group"
@@ -97,10 +96,8 @@
       v-if="editMemo === false"
       id="edit-memo-btn"
       value="Edit Memo"
-      :to="''"
-      type="link"
-      size="sm"
-      @click.native="editMemo = true"
+      type="secondary"
+      @click.native="showMemo()"
     />
     <TmFormGroup
       v-if="editMemo"
@@ -114,7 +111,7 @@
         id="memo"
         v-model="memo"
         type="text"
-        placeholder="Add a description..."
+        placeholder="Let everyone know how much you love Lunie"
         @keyup.enter.native="enterPressed"
       />
       <TmFormMsg
@@ -219,6 +216,10 @@ export default {
     },
     refocusOnAmount() {
       this.$refs.amount.$el.focus()
+    },
+    showMemo() {
+      this.memo = ``
+      this.editMemo = true
     }
   },
   validations() {
@@ -242,10 +243,6 @@ export default {
 </script>
 <style scoped>
 #edit-memo-btn {
-  display: inline-block;
-  height: 58px;
-  padding: 12px 0;
-  box-sizing: content-box;
-  font-size: var(--sm);
+  margin-top: 1.5rem;
 }
 </style>

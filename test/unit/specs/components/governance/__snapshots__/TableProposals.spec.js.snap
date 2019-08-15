@@ -13,7 +13,9 @@ exports[`TableProposals has the expected html structure 1`] = `
           <span
             class="proposal-status red"
           >
-            Rejected
+            
+      Rejected
+    
           </span>
            
           <h3
@@ -27,10 +29,15 @@ exports[`TableProposals has the expected html structure 1`] = `
           <p
             class="li-proposal-description"
           >
-            
-      this proposal was rejected
-    
+            this proposal was rejected
           </p>
+           
+          <router-link-stub
+            class="read-more-link"
+            to="/proposals/6"
+          >
+            Read the full proposal...
+          </router-link-stub>
         </td>
       </tr>
       <tr
@@ -40,7 +47,9 @@ exports[`TableProposals has the expected html structure 1`] = `
           <span
             class="proposal-status orange"
           >
-            Deposit Period
+            
+      Deposit Period
+    
           </span>
            
           <h3
@@ -54,10 +63,15 @@ exports[`TableProposals has the expected html structure 1`] = `
           <p
             class="li-proposal-description"
           >
-            
-      custom text proposal description
-    
+            custom text proposal description
           </p>
+           
+          <router-link-stub
+            class="read-more-link"
+            to="/proposals/5"
+          >
+            Read the full proposal...
+          </router-link-stub>
         </td>
       </tr>
       <tr
@@ -67,7 +81,9 @@ exports[`TableProposals has the expected html structure 1`] = `
           <span
             class="proposal-status pink"
           >
-            Voting Period
+            
+      Voting Period
+    
           </span>
            
           <h3
@@ -81,10 +97,15 @@ exports[`TableProposals has the expected html structure 1`] = `
           <p
             class="li-proposal-description"
           >
-            
-      custom text proposal description
-    
+            custom text proposal description
           </p>
+           
+          <router-link-stub
+            class="read-more-link"
+            to="/proposals/2"
+          >
+            Read the full proposal...
+          </router-link-stub>
         </td>
       </tr>
       <tr
@@ -94,7 +115,9 @@ exports[`TableProposals has the expected html structure 1`] = `
           <span
             class="proposal-status green"
           >
-            Passed
+            
+      Passed
+    
           </span>
            
           <h3
@@ -108,10 +131,15 @@ exports[`TableProposals has the expected html structure 1`] = `
           <p
             class="li-proposal-description"
           >
-            
-      Proposal description
-    
+            Proposal description
           </p>
+           
+          <router-link-stub
+            class="read-more-link"
+            to="/proposals/1"
+          >
+            Read the full proposal...
+          </router-link-stub>
         </td>
       </tr>
     </tbody>
@@ -132,7 +160,9 @@ exports[`TableProposals should filter the proposals 1`] = `
           <span
             class="proposal-status red"
           >
-            Rejected
+            
+      Rejected
+    
           </span>
            
           <h3
@@ -146,10 +176,15 @@ exports[`TableProposals should filter the proposals 1`] = `
           <p
             class="li-proposal-description"
           >
-            
-      this proposal was rejected
-    
+            this proposal was rejected
           </p>
+           
+          <router-link-stub
+            class="read-more-link"
+            to="/proposals/6"
+          >
+            Read the full proposal...
+          </router-link-stub>
         </td>
       </tr>
       <tr
@@ -159,7 +194,9 @@ exports[`TableProposals should filter the proposals 1`] = `
           <span
             class="proposal-status orange"
           >
-            Deposit Period
+            
+      Deposit Period
+    
           </span>
            
           <h3
@@ -173,10 +210,15 @@ exports[`TableProposals should filter the proposals 1`] = `
           <p
             class="li-proposal-description"
           >
-            
-      custom text proposal description
-    
+            custom text proposal description
           </p>
+           
+          <router-link-stub
+            class="read-more-link"
+            to="/proposals/5"
+          >
+            Read the full proposal...
+          </router-link-stub>
         </td>
       </tr>
       <tr
@@ -186,7 +228,9 @@ exports[`TableProposals should filter the proposals 1`] = `
           <span
             class="proposal-status pink"
           >
-            Voting Period
+            
+      Voting Period
+    
           </span>
            
           <h3
@@ -200,10 +244,15 @@ exports[`TableProposals should filter the proposals 1`] = `
           <p
             class="li-proposal-description"
           >
-            
-      custom text proposal description
-    
+            custom text proposal description
           </p>
+           
+          <router-link-stub
+            class="read-more-link"
+            to="/proposals/2"
+          >
+            Read the full proposal...
+          </router-link-stub>
         </td>
       </tr>
       <tr
@@ -213,7 +262,9 @@ exports[`TableProposals should filter the proposals 1`] = `
           <span
             class="proposal-status green"
           >
-            Passed
+            
+      Passed
+    
           </span>
            
           <h3
@@ -227,10 +278,15 @@ exports[`TableProposals should filter the proposals 1`] = `
           <p
             class="li-proposal-description"
           >
-            
-      Proposal description
-    
+            Proposal description
           </p>
+           
+          <router-link-stub
+            class="read-more-link"
+            to="/proposals/1"
+          >
+            Read the full proposal...
+          </router-link-stub>
         </td>
       </tr>
     </tbody>

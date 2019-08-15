@@ -9,9 +9,9 @@
         <i class="material-icons">close</i>
       </div>
       <div class="action-modal-header">
-        <span class="action-modal-title">
-          {{ requiresSignIn ? `Sign in required` : title }}
-        </span>
+        <span class="action-modal-title">{{
+          requiresSignIn ? `Sign in required` : title
+        }}</span>
         <Steps
           v-if="[defaultStep, feeStep, signStep].includes(step)"
           :steps="['Details', 'Fees', 'Sign']"
@@ -156,9 +156,7 @@
       </div>
       <div v-else-if="step === inclusionStep" class="action-modal-form">
         <TmDataMsg icon="hourglass_empty">
-          <div slot="title">
-            Sent and confirming
-          </div>
+          <div slot="title">Sent and confirming</div>
           <div slot="subtitle">
             The transaction
             <!--with the hash {{ txHash }}-->
@@ -172,12 +170,11 @@
         class="action-modal-form success-step"
       >
         <TmDataMsg icon="check">
-          <div slot="title">
-            {{ notifyMessage.title }}
-          </div>
+          <div slot="title">{{ notifyMessage.title }}</div>
           <div slot="subtitle">
-            {{ notifyMessage.body }} <br /><br />
-            Block
+            {{ notifyMessage.body }}
+            <br />
+            <br />Block
             <router-link :to="`/blocks/${includedHeight}`"
               >#{{ includedHeight }}</router-link
             >.
@@ -628,6 +625,7 @@ export default {
   z-index: var(--z-modal);
   border-top-left-radius: 0.25rem;
   border-top-right-radius: 0.25rem;
+  border: 1px solid var(--bc);
   box-shadow: 0 2px 8px rgba(200, 200, 200, 0.1);
 }
 
@@ -703,7 +701,8 @@ export default {
 }
 
 .form-message.notice {
-  border-radius: 2px;
+  border-radius: 0.25rem;
+  border: 1px solid var(--bc-dim);
   background-color: #1c223e;
   font-weight: 300;
   margin: 2rem 0;

@@ -2,7 +2,7 @@
 
 exports[`LiValidator has the expected html structure 1`] = `
 <tr
-  class="data-table__row li-validator"
+  class="li-validator"
   data-moniker="mr_mounty"
 >
   <td
@@ -10,76 +10,21 @@ exports[`LiValidator has the expected html structure 1`] = `
   >
     <img
       alt="generic validator logo - graphic triangle supporting atom token"
-      class="
-        data-table__row__info__image
-        data-table__row__info__image--no-img
-      "
+      class="li-validator-image"
       src="~assets/images/validator-icon.svg"
     />
      
     <div
-      class="data-table__row__info__container"
+      class="validator-info"
     >
-      <span
-        class="data-table__row__info__container__status green"
-      />
-       
-      <span
-        class="data-table__row__info__container__name"
+      <h3
+        class="li-validator-name"
       >
-        
         mr_mounty
-      
-      </span>
+      </h3>
        
-      <div
-        class="data-table__row__info__container__description"
-      >
-        <bech32-stub
-          address="cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au"
-        />
-      </div>
+      <!---->
     </div>
-  </td>
-   
-  <td
-    class="hide-xs"
-  >
-    
-    --
-  
-  </td>
-   
-  <td
-    class="hide-xs"
-  >
-    
-    --
-  
-  </td>
-   
-  <td
-    class="hide-xs"
-  >
-    
-    1.40%
-  
-  </td>
-   
-  <td
-    class="hide-xs"
-  >
-    
-    5.00%
-  
-  </td>
-   
-  <td
-    class="hide-xs"
-  >
-    
-    98.78%
-  
   </td>
    
   <td
@@ -89,96 +34,12 @@ exports[`LiValidator has the expected html structure 1`] = `
     13.00%
   
   </td>
-</tr>
-`;
-
-exports[`LiValidator should display uptime as double-dash 1`] = `
-<tr
-  class="data-table__row li-validator"
-  data-moniker="mr_mounty"
->
-  <td
-    class="data-table__row__info"
-  >
-    <img
-      alt="generic validator logo - graphic triangle supporting atom token"
-      class="
-        data-table__row__info__image
-        data-table__row__info__image--no-img
-      "
-      src="~assets/images/validator-icon.svg"
-    />
-     
-    <div
-      class="data-table__row__info__container"
-    >
-      <span
-        class="data-table__row__info__container__status green"
-      />
-       
-      <span
-        class="data-table__row__info__container__name"
-      >
-        
-        mr_mounty
-      
-      </span>
-       
-      <div
-        class="data-table__row__info__container__description"
-      >
-        <bech32-stub
-          address="cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au"
-        />
-      </div>
-    </div>
-  </td>
-   
-  <td
-    class="hide-xs"
-  >
-    
-    --
-  
-  </td>
-   
-  <td
-    class="hide-xs"
-  >
-    
-    --
-  
-  </td>
    
   <td
     class="hide-xs"
   >
     
     1.40%
-  
-  </td>
-   
-  <td
-    class="hide-xs"
-  >
-    
-    5.00%
-  
-  </td>
-   
-  <td
-    class="hide-xs"
-  >
-    
-    --
-  
-  </td>
-   
-  <td
-    class="hide-xs"
-  >
-    
-    13.00%
   
   </td>
 </tr>
@@ -186,7 +47,7 @@ exports[`LiValidator should display uptime as double-dash 1`] = `
 
 exports[`LiValidator works if user is not signed in 1`] = `
 <tr
-  class="data-table__row li-validator"
+  class="li-validator"
   data-moniker="mr_mounty"
 >
   <td
@@ -194,35 +55,20 @@ exports[`LiValidator works if user is not signed in 1`] = `
   >
     <img
       alt="generic validator logo - graphic triangle supporting atom token"
-      class="
-        data-table__row__info__image
-        data-table__row__info__image--no-img
-      "
+      class="li-validator-image"
       src="~assets/images/validator-icon.svg"
     />
      
     <div
-      class="data-table__row__info__container"
+      class="validator-info"
     >
-      <span
-        class="data-table__row__info__container__status green"
-      />
-       
-      <span
-        class="data-table__row__info__container__name"
+      <h3
+        class="li-validator-name"
       >
-        
         mr_mounty
-      
-      </span>
+      </h3>
        
-      <div
-        class="data-table__row__info__container__description"
-      >
-        <bech32-stub
-          address="cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au"
-        />
-      </div>
+      <!---->
     </div>
   </td>
    
@@ -230,15 +76,7 @@ exports[`LiValidator works if user is not signed in 1`] = `
     class="hide-xs"
   >
     
-    --
-  
-  </td>
-   
-  <td
-    class="hide-xs"
-  >
-    
-    --
+    13.00%
   
   </td>
    
@@ -247,30 +85,6 @@ exports[`LiValidator works if user is not signed in 1`] = `
   >
     
     1.40%
-  
-  </td>
-   
-  <td
-    class="hide-xs"
-  >
-    
-    5.00%
-  
-  </td>
-   
-  <td
-    class="hide-xs"
-  >
-    
-    98.78%
-  
-  </td>
-   
-  <td
-    class="hide-xs"
-  >
-    
-    13.00%
   
   </td>
 </tr>

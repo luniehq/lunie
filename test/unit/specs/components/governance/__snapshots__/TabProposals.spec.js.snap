@@ -16,10 +16,22 @@ exports[`TabProposals shows a message if still connecting 1`] = `
   />
    
   <template>
+    <div
+      class="button-container"
+    >
+      <tmbtn-stub
+        id="propose-btn"
+        type="secondary"
+        value="Create Proposal"
+      />
+    </div>
+     
     <tableproposals-stub
       proposals="[object Object]"
     />
   </template>
+   
+  <modalpropose-stub />
 </tmpage-stub>
 `;
 
@@ -40,11 +52,23 @@ exports[`TabProposals shows a message if still loading 1`] = `
   />
    
   <template>
+    <div
+      class="button-container"
+    >
+      <tmbtn-stub
+        id="propose-btn"
+        type="secondary"
+        value="Create Proposal"
+      />
+    </div>
+     
     <tableproposals-stub
       loading="true"
       proposals="[object Object]"
     />
   </template>
+   
+  <modalpropose-stub />
 </tmpage-stub>
 `;
 
@@ -64,10 +88,22 @@ exports[`TabProposals shows a message if there is nothing to display 1`] = `
   />
    
   <template>
+    <div
+      class="button-container"
+    >
+      <tmbtn-stub
+        id="propose-btn"
+        type="secondary"
+        value="Create Proposal"
+      />
+    </div>
+     
     <tableproposals-stub
       proposals="[object Object]"
     />
   </template>
+   
+  <modalpropose-stub />
 </tmpage-stub>
 `;
 
@@ -87,9 +123,21 @@ exports[`TabProposals shows a proposals table 1`] = `
   />
    
   <template>
+    <div
+      class="button-container"
+    >
+      <tmbtn-stub
+        id="propose-btn"
+        type="secondary"
+        value="Create Proposal"
+      />
+    </div>
+     
     <tableproposals-stub
       proposals="[object Object]"
     />
   </template>
+   
+  <modalpropose-stub />
 </tmpage-stub>
 `;

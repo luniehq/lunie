@@ -33,7 +33,7 @@ describe(`LiTransaction`, () => {
   it(`Should print the hour only if the same day`, () => {
     expect(
       LiTransaction.computed.date({ time: new Date(Date.now()).toISOString() })
-    ).toEqual(`00:00:42`)
+    ).toEqual(`00:00`)
   })
 
   it(`should show a network fee`, () => {
@@ -48,9 +48,6 @@ describe(`LiTransaction`, () => {
         denom: "uatom"
       }
     })
-    // Non breaking space present before fee value
-    // eslint-disable-next-line no-irregular-whitespace
-    expect(wrapper.text()).toContain(`Network Fee: 0 ATOM`)
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
@@ -59,6 +56,6 @@ describe(`LiTransaction`, () => {
       LiTransaction.computed.date({
         time: new Date(Date.now() - day * 2).toISOString()
       })
-    ).toEqual(`Dec 30th 1969 00:00:42`)
+    ).toEqual(`December 30th 1969 00:00`)
   })
 })

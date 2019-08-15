@@ -55,15 +55,6 @@ export default {
   display: inline-block;
 }
 
-.tm-page-header-body {
-  padding: 1rem;
-}
-
-.tm-page-header-container {
-  border-bottom: 1px solid var(--bc-dim);
-  background: var(--app-fg);
-}
-
 .tm-page-header-text .tm-page-header-body {
   flex: 1;
   display: flex;
@@ -92,6 +83,10 @@ export default {
 }
 
 @media screen and (max-width: 767px) {
+  .tm-page-header-body {
+    padding: 0;
+  }
+
   .tabs {
     width: 100%;
   }

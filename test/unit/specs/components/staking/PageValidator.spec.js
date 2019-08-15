@@ -128,7 +128,7 @@ describe(`PageValidator`, () => {
     })
 
     it(`shows a default avatar`, () => {
-      expect(wrapper.find(`.page-profile__header`).html()).toContain(
+      expect(wrapper.find(`.li-validator-image`).html()).toContain(
         `validator-icon.svg`
       )
     })
@@ -155,29 +155,27 @@ describe(`PageValidator`, () => {
     })
 
     it(`shows the selfBond`, () => {
-      expect(wrapper.find(`#page-profile__self-bond`).text()).toBe(`1.00%`)
+      expect(wrapper.find(`#page-profile__self-bond`).text()).toBe(
+        `1.00% / 10,000`
+      )
     })
 
     it(`should show the validator status`, () => {
-      expect(wrapper.vm.status).toBe(`This validator is actively validating`)
+      expect(wrapper.vm.status).toBe(`Active`)
       // Jailed
       $store.getters.delegates.delegates = [
         Object.assign({}, validator, {
           jailed: true
         })
       ]
-      expect(wrapper.vm.status).toBe(
-        `This validator has been jailed and is not currently validating`
-      )
+      expect(wrapper.vm.status).toBe(`Jailed`)
       // Is not a validator
       $store.getters.delegates.delegates = [
         Object.assign({}, validator, {
           status: 0
         })
       ]
-      expect(wrapper.vm.status).toBe(
-        `This validator does not have enough voting power yet and is inactive`
-      )
+      expect(wrapper.vm.status).toBe(`Inactive`)
     })
 
     it(`shows a validator as an inactive candidate if he has no voting_power`, () => {
@@ -196,26 +194,6 @@ describe(`PageValidator`, () => {
         })
       ]
       expect(wrapper.vm.status).toMatchSnapshot()
-    })
-
-    it(`disables delegation and undelegation buttons if not connected`, () => {
-      expect(
-        wrapper.vm.$el.querySelector(`#delegation-btn`).getAttribute(`disabled`)
-      ).toBeNull()
-      expect(
-        wrapper.vm.$el
-          .querySelector(`#undelegation-btn`)
-          .getAttribute(`disabled`)
-      ).toBeNull()
-      $store.getters.connected = false
-      expect(
-        wrapper.vm.$el.querySelector(`#delegation-btn`).getAttribute(`disabled`)
-      ).not.toBeNull()
-      expect(
-        wrapper.vm.$el
-          .querySelector(`#undelegation-btn`)
-          .getAttribute(`disabled`)
-      ).not.toBeNull()
     })
 
     it(`shows empty website url`, () => {
@@ -273,7 +251,7 @@ describe(`PageValidator`, () => {
         bondDenom,
         myBond
       })
-      expect(delegationString).toBe(`--`)
+      expect(delegationString).toBe(null)
     })
   })
 
