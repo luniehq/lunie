@@ -40,11 +40,21 @@ async function waitFor(check, iterations = 10, timeout = 1000) {
 // performs some details actions and handles checking of the invoice step + signing
 async function actionModalCheckout(
   browser,
+  btnSelector,
   detailsActionFn,
   expectedSubtotal,
   expectedTotalChange = 0,
   expectedAvailableTokensChange = 0
 ) {
+  // grab page we came from as we want to go to another page and come back
+  let sourcePage
+  browser.url(function(result) {
+    sourcePage = result.value
+  })
+
+  // go to portfolio to remember balances
+  browser.url(browser.launch_url + "/#/portfolio")
+
   // remember balance to compare later if send got through
   browser.expect.element(`.total-atoms__value`).to.be.visible.before(10000)
   browser.expect
@@ -53,6 +63,13 @@ async function actionModalCheckout(
     .before(10 * 1000)
   const balanceBefore = await getBalance(browser)
   const availableTokensBefore = await getAvailableTokens(browser)
+
+  // go back to source page to checkout
+  browser.url(sourcePage)
+
+  // open modal and enter amount
+  browser.expect.element(btnSelector).to.be.visible.before(10000)
+  browser.click(btnSelector)
 
   browser.expect.element(".action-modal").to.be.visible.before(10000)
 
@@ -88,6 +105,9 @@ async function actionModalCheckout(
 
   browser.expect.element(".success-step").to.be.present.before(20 * 1000)
   browser.click("#closeBtn")
+
+  // go to portfolio to remember balances
+  browser.url(browser.launch_url + "/#/portfolio")
 
   // Wait for UI to be updated according to new state
   await nextBlock(browser)
