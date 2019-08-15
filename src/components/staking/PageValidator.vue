@@ -47,12 +47,7 @@
       </tr>
 
       <div class="button-container">
-        <TmBtn
-          id="delegation-btn"
-          :disabled="!connected"
-          value="Stake"
-          @click.native="onDelegation"
-        />
+        <TmBtn id="delegation-btn" value="Stake" @click.native="onDelegation" />
         <TmBtn
           id="undelegation-btn"
           :disabled="!myDelegation"

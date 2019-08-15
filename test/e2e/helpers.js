@@ -61,7 +61,7 @@ async function actionModalCheckout(
   await detailsActionFn()
 
   // proceed to invoice step
-  browser.click(".action-modal-footer .tm-btn")
+  browser.click(".action-modal-footer .button")
   browser.expect.element(`.table-invoice`).to.be.visible.before(10000)
 
   // check invoice
@@ -82,9 +82,9 @@ async function actionModalCheckout(
   // await nextBlock(browser)
 
   // submit
-  browser.click(".action-modal-footer .tm-btn")
+  browser.click(".action-modal-footer .button")
   browser.setValue("#password", "1234567890")
-  browser.click(".action-modal-footer .tm-btn")
+  browser.click(".action-modal-footer .button")
 
   browser.expect.element(".success-step").to.be.present.before(20 * 1000)
   browser.click("#closeBtn")
@@ -111,14 +111,14 @@ async function actionModalCheckout(
   })
 }
 async function nextBlock(browser) {
-  const lastHeigth = await new Promise(resolve =>
+  const lastHeight = await new Promise(resolve =>
     browser.getText("#tm-connected-network__block", ({ value }) =>
       resolve(value)
     )
   )
   browser.expect
     .element("#tm-connected-network__block")
-    .text.not.to.equal(lastHeigth)
+    .text.not.to.equal(lastHeight)
     .before(10 * 1000)
 }
 

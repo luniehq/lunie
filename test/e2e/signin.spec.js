@@ -97,7 +97,7 @@ async function next(browser) {
     [".session", 0, 500]
   )
   browser.pause(200)
-  return browser.click(".session-footer .tm-btn")
+  return browser.click(".session-footer .button")
 }
 
 function openMenu(browser) {
