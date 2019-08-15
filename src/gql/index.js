@@ -1,18 +1,36 @@
 import gql from "graphql-tag"
 
 export const ValidatorProfile = gql`
-  query validatorProfile($address: String) {
-    validatorProfiles: validatorList(
-      where: { operator_address: { _eq: $address } }
-    ) {
+  query ValidatorInfo($address: String) {
+    allValidators(where: { operator_address: { _eq: $address } }) {
       keybaseId
-      lastUpdated
-      profileUrl
-      userName
-      customized
       avatarUrl
+      userName
+      profileUrl
+      customized
+      operator_address
+      consensus_pubkey
+      jailed
+      status
+      tokens
+      delegator_shares
+      unbonding_height
+      unbonding_time
+      min_self_delegation
+      details
+      identity
+      moniker
+      website
+      rate
+      max_rate
+      max_change_rate
+      update_time
+      lastUpdated
     }
   }
 `
 
-export const validatorProfileResultUpdate = data => data.validatorProfiles[0]
+export const ValidatorResult = data => {
+  console.log(data)
+  return data.allValidators[0]
+}

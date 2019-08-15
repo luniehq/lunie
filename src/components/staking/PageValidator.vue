@@ -11,32 +11,24 @@
       <!-- we need the v-if as the template somehow is rendered in any case -->
       <div class="page-profile__header page-profile__section">
         <div class="row">
-          <ApolloQuery
-            :query="ValidatorProfile"
-            :variables="{ address: validator.operator_address }"
-            :update="validatorProfileResultUpdate"
-          >
-            <template v-slot="{ result: { loading, error, data: keybase } }">
-              <Avatar
-                v-if="!keybase || !keybase.avatarUrl || loading || error"
-                class="avatar"
-                alt="generic validator logo - generated avatar from address"
-                :address="validator.operator_address"
-              />
-              <img
-                v-else-if="keybase && keybase.avatarUrl"
-                :src="keybase.avatarUrl"
-                :alt="`validator logo for ` + validator.description.moniker"
-                class="avatar"
-              />
-            </template>
-          </ApolloQuery>
+          <Avatar
+            v-if="!validator.avatarUrl"
+            class="avatar"
+            alt="generic validator logo - generated avatar from address"
+            :address="validator.operator_address"
+          />
+          <img
+            v-else
+            :src="validator.avatarUrl"
+            :alt="`validator logo for ` + validator.moniker"
+            class="avatar"
+          />
           <div class="page-profile__header__info">
             <div>
               <div class="validator-name-and-address">
                 <div class="page-profile__status-and-title">
                   <span v-tooltip.top="status" :class="statusColor" class="page-profile__status" />
-                  <div class="page-profile__title">{{ validator.description.moniker }}</div>
+                  <div class="page-profile__title">{{ validator.moniker }}</div>
                 </div>
                 <Bech32 :address="validator.operator_address" />
               </div>
@@ -92,7 +84,7 @@
             </dl>
             <dl class="info_dl colored_dl">
               <dt>Commission</dt>
-              <dd id="page-profile__commission">{{ percent(validator.commission.rate) }}</dd>
+              <dd id="page-profile__commission">{{ percent(validator.rate) }}</dd>
             </dl>
           </div>
         </div>
@@ -111,7 +103,7 @@
             </dl>
             <dl class="info_dl">
               <dt>Keybase ID</dt>
-              <dd>{{ translateEmptyDescription(validator.description.identity) }}</dd>
+              <dd>{{ translateEmptyDescription(validator.keybaseId) }}</dd>
             </dl>
             <dl class="info_dl">
               <dt>Website</dt>
@@ -127,23 +119,21 @@
             </dl>
             <dl class="info_dl">
               <dt>Description</dt>
-              <dd
-                class="info_dl__text-box"
-              >{{ translateEmptyDescription(validator.description.details) }}</dd>
+              <dd class="info_dl__text-box">{{ translateEmptyDescription(validator.details) }}</dd>
             </dl>
           </div>
           <div class="column">
             <dl class="info_dl">
               <dt>Current Commission Rate</dt>
-              <dd>{{ percent(validator.commission.rate) }}</dd>
+              <dd>{{ percent(validator.rate) }}</dd>
             </dl>
             <dl class="info_dl">
               <dt>Max Commission Rate</dt>
-              <dd>{{ percent(validator.commission.max_rate) }}</dd>
+              <dd>{{ percent(validator.max_rate) }}</dd>
             </dl>
             <dl class="info_dl">
               <dt>Max Daily Commission Change</dt>
-              <dd>{{ percent(validator.commission.max_change_rate) }}</dd>
+              <dd>{{ percent(validator.max_change_rate) }}</dd>
             </dl>
             <dl class="info_dl">
               <dt>Last Commission Change</dt>
@@ -200,7 +190,7 @@ import Avatar from "common/Avatar"
 import Bech32 from "common/Bech32"
 import TmPage from "common/TmPage"
 import isEmpty from "lodash.isempty"
-import { ValidatorProfile, validatorProfileResultUpdate } from "src/gql"
+import { ValidatorProfile, ValidatorResult } from "src/gql"
 
 export default {
   name: `page-validator`,
@@ -220,6 +210,7 @@ export default {
   },
   data: () => ({
     tabIndex: 1,
+    validator: {},
     ValidatorProfile
   }),
   computed: {
@@ -234,18 +225,6 @@ export default {
       `liquidAtoms`,
       `connected`
     ]),
-    validator() {
-      const validator = this.delegates.delegates.find(
-        v => this.$route.params.validator === v.operator_address
-      )
-      if (validator) {
-        validator.signing_info = this.delegates.signingInfos[
-          validator.operator_address
-        ]
-      }
-
-      return validator
-    },
     selfBond() {
       return percent(this.delegates.selfBond[this.validator.operator_address])
     },
@@ -275,12 +254,15 @@ export default {
       return Number(myBond) === 0 ? `--` : myDelegationString
     },
     powerRatio() {
-      return ratToBigNumber(this.validator.tokens)
-        .div(this.pool.pool.bonded_tokens)
-        .toNumber()
+      return (
+        this.validator.tokens &&
+        ratToBigNumber(this.validator.tokens)
+          .div(this.pool.pool.bonded_tokens)
+          .toNumber()
+      )
     },
     lastCommissionChange() {
-      const updateTime = this.validator.commission.update_time
+      const updateTime = this.validator.update_time
       const dateTime = new Date(updateTime)
       const neverHappened = dateTime.getTime() === 0
 
@@ -319,7 +301,7 @@ export default {
     },
     // empty descriptions have a strange '[do-not-modify]' value which we don't want to show
     website() {
-      let url = this.validator.description.website
+      let url = this.validator.website || ""
       // Check if validator url is empty
       if (url === ``) {
         return this.translateEmptyDescription(url)
@@ -385,7 +367,7 @@ export default {
   methods: {
     percent,
     moment,
-    validatorProfileResultUpdate,
+    ValidatorResult,
     onDelegation() {
       this.$refs.delegationModal.open()
     },
@@ -434,6 +416,17 @@ export default {
     translateEmptyDescription(value) {
       if (!value || value === `[do-not-modify]`) return `--`
       return value
+    }
+  },
+  apollo: {
+    validator: {
+      query: ValidatorProfile,
+      variables() {
+        return {
+          address: this.$route.params.validator
+        }
+      },
+      update: ValidatorResult
     }
   }
 }
