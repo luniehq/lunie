@@ -35,7 +35,7 @@ export default function init(urlParams, env = process.env) {
   if (urlParams.rpc) {
     store.commit(`setRpcUrl`, urlParams.rpc)
   }
-  if (urlParams.insecure) {
+  if (config.mobileApp || urlParams.insecure) {
     store.commit(`setInsecureMode`)
   }
 

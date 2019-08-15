@@ -25,18 +25,10 @@
           route="create"
         />
         <LiSession
-          v-if="!isMobile()"
           id="use-an-existing-address"
           icon="person"
           title="Use an existing address"
           route="existing"
-        />
-        <LiSession
-          v-else
-          id="explore-with-address"
-          icon="language"
-          title="Explore with any address"
-          route="explore"
         />
       </div>
 
@@ -51,7 +43,6 @@
 
 <script>
 import SessionFrame from "common/SessionFrame"
-import { isMobile } from "scripts/device"
 import LiSession from "common/TmLiSession"
 export default {
   name: `session-welcome`,
@@ -59,8 +50,5 @@ export default {
     SessionFrame,
     LiSession
   },
-  methods: {
-    isMobile
-  }
 }
 </script>
