@@ -5,13 +5,9 @@ module.exports = {
     // move to according page
     browser.url(browser.launch_url + "/#/portfolio")
 
-    // open modal and enter amount
-    browser.expect.element(`.send-button`).to.be.visible.before(10000)
-    browser.click(".send-button")
-    browser.expect.element(`#send-modal`).to.be.visible.before(10000)
-
     actionModalCheckout(
       browser,
+      ".send-button",
       // actions to do on details page
       () => {
         browser.setValue(
