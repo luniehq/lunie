@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.0-beta.108] - 2019-08-15
+
+### Added
+
+- Show generated avatars for validators without a profile image @faboweb
+
+### Fixed
+
+- [#2881](https://github.com/cosmos/lunie/pull/2881) Default validator images not showing @faboweb
+
 ## [1.0.0-beta.107] - 2019-08-13
 
 ### Added

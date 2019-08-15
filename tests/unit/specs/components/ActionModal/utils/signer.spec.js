@@ -9,15 +9,17 @@ jest.mock("@lunie/cosmos-keys", () => ({
   })
 }))
 
-jest.mock(`@lunie/cosmos-ledger`, () => {
-  return jest.fn().mockImplementation(() => {
-    return {
-      getKey: () => () => Buffer.alloc(0),
-      getPubKey: () => Buffer.alloc(0),
-      sign: () => Buffer.alloc(0)
+jest.mock(
+  `@lunie/cosmos-ledger`,
+  () =>
+    class mockLedger {
+      constructor() {
+        this.getKey = () => () => Buffer.alloc(0)
+        this.getPubKey = () => Buffer.alloc(0)
+        this.sign = () => Buffer.alloc(0)
+      }
     }
-  })
-})
+)
 
 jest.mock(`scripts/extension-utils`, () => ({
   signWithExtension: jest.fn(() => ({
@@ -30,8 +32,8 @@ describe("pick signer", () => {
   it("should should exist", () => {
     expect(getSigner).toBeDefined()
   })
-  it("should pick a local signer", () => {
-    const signer = getSigner(config, "local", {
+  it("should pick a local signer", async () => {
+    const signer = await getSigner(config, "local", {
       address: "",
       password: "1234567890"
     })
@@ -46,7 +48,7 @@ describe("pick signer", () => {
   })
 
   it("should pick a ledger signer", async () => {
-    const signer = getSigner(config, "ledger", {
+    const signer = await getSigner(config, "ledger", {
       address: "",
       password: "1234567890"
     })
@@ -58,7 +60,7 @@ describe("pick signer", () => {
   })
 
   it("should pick the extension signer", async () => {
-    const signer = getSigner(config, "extension", {
+    const signer = await getSigner(config, "extension", {
       address: ""
     })
     const { signWithExtension } = require(`scripts/extension-utils`)

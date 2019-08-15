@@ -375,7 +375,7 @@ describe(`ActionModal`, () => {
       })
     })
 
-    it("should fail if simulation fails", () => {
+    it("should fail if simulation fails", async () => {
       const mockSimulateFail = jest.fn(() =>
         Promise.reject(new Error(`invalid request`))
       )
@@ -404,13 +404,12 @@ describe(`ActionModal`, () => {
       wrapper.setProps({ transactionProperties })
       wrapper.setData(data)
       wrapper.vm.simulate()
-      wrapper.vm.$nextTick(() => {
-        expect(wrapper.vm.gasEstimate).toBe(null)
-        expect(wrapper.vm.submissionError).toBe(
-          "Transaction failed: invalid request."
-        )
-        expect(wrapper.vm.step).toBe("details")
-      })
+      await wrapper.vm.$nextTick()
+      expect(wrapper.vm.gasEstimate).toBe(null)
+      expect(wrapper.vm.submissionError).toBe(
+        "Transaction failed: invalid request."
+      )
+      expect(wrapper.vm.step).toBe("details")
     })
   })
 
@@ -512,6 +511,7 @@ describe(`ActionModal`, () => {
       wrapper.setProps({ transactionProperties })
       wrapper.setData(data)
       wrapper.vm.submit()
+      await wrapper.vm.$nextTick()
       await wrapper.vm.$nextTick()
 
       expect(wrapper.html()).toContain(
