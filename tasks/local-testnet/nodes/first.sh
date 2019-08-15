@@ -27,7 +27,7 @@ sed -i -e 's/max_subscriptions_per_client = .*$/max_subscriptions_per_client = 1
 # safe node id for other nodes to connect to it
 echo ${NODEID} >> ${HOME}/id.txt
 
-gaiad start --home ${HOME} > /dev/null & (
+gaiad start --home ${HOME} --rpc.laddr tcp://0.0.0.0:26657 > /dev/null & (
   sleep 3s &&
   (
     gaiacli rest-server --home ${HOME} --chain-id ${NETWORK} --trust-node true --laddr tcp://0.0.0.0:${API_PORT} &

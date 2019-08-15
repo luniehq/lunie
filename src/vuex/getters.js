@@ -7,15 +7,8 @@ import {
 } from "scripts/transaction-utils"
 
 // wallet
-export const allTransactions = state =>
-  state.transactions.bank.concat(
-    state.transactions.staking,
-    state.transactions.governance,
-    state.transactions.distribution
-  )
-
-export const flatOrderedTransactionList = (state, getters) => {
-  let allTx = getters.allTransactions.reduce(flattenTransactionMsgs, [])
+export const flatOrderedTransactionList = state => {
+  let allTx = state.transactions.txs.reduce(flattenTransactionMsgs, [])
   allTx = allTx.map(addTransactionTypeData(state))
   allTx.sort(compareBlockTimeDesc)
   return allTx

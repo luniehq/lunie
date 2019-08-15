@@ -21,9 +21,11 @@ export default [
     bond_intra_tx_counter: 6,
     proposer_reward_pool: null,
     commission: {
-      rate: 0,
-      max_rate: `0`,
-      max_change_rate: `0`,
+      commission_rates: {
+        rate: 0,
+        max_rate: `0`,
+        max_change_rate: `0`
+      },
       update_time: `1970-01-01T00:00:00Z`
     },
     prev_bonded_shares: `0`
@@ -48,9 +50,11 @@ export default [
     bond_intra_tx_counter: 6,
     proposer_reward_pool: null,
     commission: {
-      rate: 0,
-      max_rate: `0`,
-      max_change_rate: `0`,
+      commission_rates: {
+        rate: 0,
+        max_rate: `0`,
+        max_change_rate: `0`
+      },
       update_time: new Date(Date.now()).toISOString()
     },
     prev_bonded_shares: `0`
@@ -77,9 +81,11 @@ export default [
     bond_intra_tx_counter: 6,
     proposer_reward_pool: null,
     commission: {
-      rate: 0,
-      max_rate: `0`,
-      max_change_rate: `0`,
+      commission_rates: {
+        rate: 0,
+        max_rate: `0`,
+        max_change_rate: `0`
+      },
       update_time: new Date(Date.now()).toISOString()
     },
     prev_bonded_shares: `0`

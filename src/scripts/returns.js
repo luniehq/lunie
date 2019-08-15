@@ -2,7 +2,7 @@
 export const provisionShare = (validator, totalStakedTokens) => {
   const validatorProvisionShare = validator.tokens / totalStakedTokens
   const delegatorProvisionShare =
-    validatorProvisionShare * (1 - validator.commission.rate)
+    validatorProvisionShare * (1 - validator.commission.commission_rates.rate)
 
   return delegatorProvisionShare
 }

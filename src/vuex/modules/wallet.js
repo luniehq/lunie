@@ -113,14 +113,7 @@ function subscribeToTxs(rpcClient, address, dispatch) {
     dispatch(`queryWalletStateAfterHeight`, data.TxResult.height + 1)
   }
 
-  const queries = [
-    `tm.event = 'Tx' AND sender = '${address}'`,
-    `tm.event = 'Tx' AND recipient = '${address}'`,
-    `tm.event = 'Tx' AND proposer = '${address}'`,
-    `tm.event = 'Tx' AND depositor = '${address}'`,
-    `tm.event = 'Tx' AND delegator = '${address}'`,
-    `tm.event = 'Tx' AND voter = '${address}'`
-  ]
+  const queries = [`tm.event = 'Tx' AND message.sender = '${address}'`]
 
   queries.forEach(query => {
     rpcClient

@@ -92,7 +92,9 @@
             </dl>
             <dl class="info_dl colored_dl">
               <dt>Commission</dt>
-              <dd id="page-profile__commission">{{ percent(validator.commission.rate) }}</dd>
+              <dd
+                id="page-profile__commission"
+              >{{ percent(validator.commission.commission_rates.rate) }}</dd>
             </dl>
           </div>
         </div>
@@ -135,15 +137,15 @@
           <div class="column">
             <dl class="info_dl">
               <dt>Current Commission Rate</dt>
-              <dd>{{ percent(validator.commission.rate) }}</dd>
+              <dd>{{ percent(validator.commission.commission_rates.rate) }}</dd>
             </dl>
             <dl class="info_dl">
               <dt>Max Commission Rate</dt>
-              <dd>{{ percent(validator.commission.max_rate) }}</dd>
+              <dd>{{ percent(validator.commission.commission_rates.max_rate) }}</dd>
             </dl>
             <dl class="info_dl">
               <dt>Max Daily Commission Change</dt>
-              <dd>{{ percent(validator.commission.max_change_rate) }}</dd>
+              <dd>{{ percent(validator.commission.commission_rates.max_change_rate) }}</dd>
             </dl>
             <dl class="info_dl">
               <dt>Last Commission Change</dt>

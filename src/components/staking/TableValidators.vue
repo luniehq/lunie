@@ -2,11 +2,7 @@
   <div>
     <table class="data-table">
       <thead>
-        <PanelSort
-          :sort="sort"
-          :properties="properties"
-          :show-on-mobile="showOnMobile"
-        />
+        <PanelSort :sort="sort" :properties="properties" :show-on-mobile="showOnMobile" />
       </thead>
       <tbody v-infinite-scroll="loadMore" infinite-scroll-distance="80">
         <LiValidator
@@ -80,7 +76,7 @@ export default {
             session.signedIn && committedDelegations[v.operator_address] > 0
               ? committedDelegations[v.operator_address]
               : 0,
-          commission: v.commission.rate,
+          commission: v.commission.commission_rates.rate,
           voting_power: BN(v.tokens)
             .div(pool.pool.bonded_tokens)
             .toFixed(10),
