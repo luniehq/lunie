@@ -15,4 +15,5 @@ export const ValidatorProfile = gql`
   }
 `
 
-export const validatorProfileResultUpdate = data => data.validatorProfiles[0]
+export const validatorProfileResultUpdate = data =>
+  data.validatorProfiles ? data.validatorProfiles[0] : undefined
