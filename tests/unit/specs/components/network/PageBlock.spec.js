@@ -3,7 +3,7 @@ import PageBlock from "network/PageBlock"
 import { bankTxs } from "../../store/json/txs"
 
 const localVue = createLocalVue()
-localVue.directive(`tooltip`, () => { })
+localVue.directive(`tooltip`, () => {})
 
 describe(`PageBlock`, () => {
   let wrapper
@@ -41,7 +41,7 @@ describe(`PageBlock`, () => {
       unbondingDelegations: {},
       loaded: true
     },
-    session: { address: `` },
+    session: { address: `` }
   }
 
   beforeEach(() => {
@@ -96,8 +96,10 @@ describe(`PageBlock`, () => {
                 }
               },
               transactions: []
-            }
+            },
+            validators: {}
           },
+          state,
           dispatch: jest.fn()
         },
         $route: {
@@ -130,8 +132,10 @@ describe(`PageBlock`, () => {
               block_meta: {
                 header: {}
               }
-            }
+            },
+            validators: {}
           }),
+          state,
           dispatch: jest.fn()
         },
         $route: {

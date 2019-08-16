@@ -1,10 +1,13 @@
-import { shallowMount } from "@vue/test-utils"
+import { shallowMount, createLocalVue } from "@vue/test-utils"
 import AppMenu from "common/AppMenu"
 
 describe(`AppMenu`, () => {
-  let wrapper, $store
+  let $store
 
   beforeEach(async () => {
+    const localVue = createLocalVue()
+    localVue.directive(`tooltip`, () => {})
+
     $store = {
       commit: jest.fn(),
       state: {
@@ -14,7 +17,7 @@ describe(`AppMenu`, () => {
       }
     }
 
-    wrapper = shallowMount(AppMenu, {
+    shallowMount(AppMenu, {
       mocks: {
         $store
       },

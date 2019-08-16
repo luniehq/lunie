@@ -1,8 +1,12 @@
-import { shallowMount } from "@vue/test-utils"
+import { shallowMount, createLocalVue } from "@vue/test-utils"
 import DelegationsOverview from "staking/DelegationsOverview"
 import validators from "../../store/json/validators.js"
+import Vuex from "vuex"
 
 describe(`DelegationsOverview`, () => {
+  const localVue = createLocalVue()
+  localVue.use(Vuex)
+
   let wrapper, $store
 
   const getters = {
@@ -17,7 +21,7 @@ describe(`DelegationsOverview`, () => {
       state: {
         delegation: {
           loaded: true
-        },
+        }
       },
       getters: JSON.parse(JSON.stringify(getters)) // clone so we don't overwrite by accident
     }

@@ -60,7 +60,7 @@ describe(`TableValidators`, () => {
       },
       propsData: { validators },
       directives: {
-        infiniteScroll: () => { }
+        infiniteScroll: () => {}
       }
     })
     wrapper.setData({ rollingWindow: 10000 })

@@ -31,7 +31,7 @@ describe(`PagePortfolio`, () => {
     },
     delegation: {
       unbondingDelegations: {}
-    },
+    }
   }
 
   beforeEach(() => {
@@ -42,7 +42,7 @@ describe(`PagePortfolio`, () => {
       state
     }
 
-    shallowMount(PagePortfolio, {
+    wrapper = shallowMount(PagePortfolio, {
       mocks: {
         $store
       }
