@@ -1,11 +1,11 @@
 const dev = process.env.NODE_ENV === `development`
 const stargate =
   process.env.STARGATE ||
-  (dev ? `https://lcd.nylira.net` : `https://stargate.lunie.io`)
+  (dev ? `https://localhost:9071` : `https://stargate.lunie.io`)
 
 const rpc =
   process.env.RPC ||
-  (dev ? `https://rpc.lunie.io:26657` : `https://rpc.lunie.io:26657`)
+  (dev ? `localhost:26657` : `https://rpc.lunie.io:26657`)
 
 export default {
   name: `Lunie`,
