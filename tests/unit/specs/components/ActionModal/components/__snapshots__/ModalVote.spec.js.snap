@@ -1,0 +1,56 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ModalVote should display vote modal form 1`] = `
+<actionmodal-stub
+  amount="0"
+  class="modal-vote"
+  id="modal-vote"
+  notifymessage="[object Object]"
+  submissionerrorprefix="Voting failed"
+  title="Vote"
+  transactiondata="[object Object]"
+  validate="function () { [native code] }"
+>
+  <div
+    class="action-modal-group vote-options"
+  >
+    <div>
+      <tmbtn-stub
+        class=""
+        color="secondary"
+        id="vote-yes"
+        size="md"
+        value="Yes"
+      />
+       
+      <tmbtn-stub
+        class=""
+        color="secondary"
+        id="vote-veto"
+        size="md"
+        value="No With Veto"
+      />
+    </div>
+     
+    <div>
+      <tmbtn-stub
+        class=""
+        color="secondary"
+        id="vote-no"
+        size="md"
+        value="No"
+      />
+       
+      <tmbtn-stub
+        class=""
+        color="secondary"
+        id="vote-abstain"
+        size="md"
+        value="Abstain"
+      />
+    </div>
+     
+    <!---->
+  </div>
+</actionmodal-stub>
+`;
