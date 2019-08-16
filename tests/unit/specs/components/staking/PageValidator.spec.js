@@ -65,7 +65,7 @@ const getters = {
 describe(`PageValidator`, () => {
   let wrapper, $store
   const localVue = createLocalVue()
-  localVue.directive(`tooltip`, () => { })
+  localVue.directive(`tooltip`, () => {})
   localVue.use(VueApollo)
 
   beforeEach(() => {
@@ -425,8 +425,8 @@ describe(`PageValidator`, () => {
     describe(`should update rewards `, () => {
       it(
         `if waited for 20 blocks, ` +
-        `user has signed in, ` +
-        `has delegations and is watching the validator page`,
+          `user has signed in, ` +
+          `has delegations and is watching the validator page`,
         () => {
           const $store = { dispatch: jest.fn() }
           const session = { signedIn: true }
