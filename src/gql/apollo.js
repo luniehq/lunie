@@ -4,7 +4,7 @@ import { InMemoryCache } from "apollo-cache-inmemory"
 import VueApollo from "vue-apollo"
 
 const apolloClient = new ApolloClient({
-  uri: `https://backend.lunie.io/v1/graphql`
+  uri: process.env.VUE_APP_GRAPHQL_URL
 })
 
 Vue.use(VueApollo)

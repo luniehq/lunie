@@ -181,7 +181,7 @@ describe(`Module: Session`, () => {
   })
 
   it(`should enable error collection`, async () => {
-    jest.spyOn(console, `log`).mockImplementationOnce(() => {})
+    jest.spyOn(console, `log`).mockImplementationOnce(() => { })
     const commit = jest.fn()
     const dispatch = jest.fn()
     await actions.setErrorCollection(
@@ -197,7 +197,7 @@ describe(`Module: Session`, () => {
   })
 
   it(`should disable error collection`, async () => {
-    jest.spyOn(console, `log`).mockImplementationOnce(() => {})
+    jest.spyOn(console, `log`).mockImplementationOnce(() => { })
     const commit = jest.fn()
     const dispatch = jest.fn()
     await actions.setErrorCollection(
@@ -212,25 +212,8 @@ describe(`Module: Session`, () => {
     expect(state.errorCollection).toBe(false)
   })
 
-  it(`should enable analytics collection`, async () => {
-    jest.spyOn(console, `log`).mockImplementationOnce(() => {})
-    const commit = jest.fn()
-    const dispatch = jest.fn()
-    await actions.setAnalyticsCollection(
-      {
-        state,
-        commit,
-        dispatch
-      },
-      true
-    )
-
-    expect(state.analyticsCollection).toBe(true)
-    expect(state.externals.deanonymize).toHaveBeenCalled()
-  })
-
   it(`should disable analytics collection`, async () => {
-    jest.spyOn(console, `log`).mockImplementationOnce(() => {})
+    jest.spyOn(console, `log`).mockImplementationOnce(() => { })
     const commit = jest.fn()
     const dispatch = jest.fn()
     await actions.setAnalyticsCollection(

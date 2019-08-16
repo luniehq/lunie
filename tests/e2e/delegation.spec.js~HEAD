@@ -26,7 +26,7 @@ module.exports = {
     browser.url(browser.launch_url + "/#/transactions")
     await waitFor(() => {
       browser.expect
-        .element(".li-tx__content__caption__title")
+        .element(".tx__content__caption")
         .text.to.contain(`Delegated ${value} STAKE`)
     })
   },
@@ -48,7 +48,7 @@ module.exports = {
       async () => {
         browser.click("#from")
         browser.click("#from option[value='1']")
-        browser.pause(1000)
+        browser.pause(500)
         browser.setValue("#amount", value)
       },
       // expected subtotal
@@ -59,7 +59,7 @@ module.exports = {
     browser.url(browser.launch_url + "/#/transactions")
     await waitFor(() => {
       browser.expect
-        .element(".li-tx__content__caption__title")
+        .element(".tx__content__caption")
         .text.to.contain(`Delegated ${value} STAKE`)
     })
   },
@@ -90,7 +90,7 @@ module.exports = {
     browser.url(browser.launch_url + "/#/transactions")
     await waitFor(() => {
       browser.expect
-        .element(".li-tx__content__caption__title")
+        .element(".tx__content__caption")
         .text.to.contain(`Undelegated ${value} STAKE`)
     })
   }

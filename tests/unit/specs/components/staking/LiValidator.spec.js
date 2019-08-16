@@ -3,7 +3,7 @@ import VueApollo from "vue-apollo"
 import LiValidator from "src/components/staking/LiValidator"
 
 const localVue = createLocalVue()
-localVue.directive(`tooltip`, () => {})
+localVue.directive(`tooltip`, () => { })
 localVue.use(VueApollo)
 
 describe(`LiValidator`, () => {
@@ -74,11 +74,5 @@ describe(`LiValidator`, () => {
 
   it(`should show the voting power`, () => {
     expect(wrapper.html()).toContain(`1.40%`)
-  })
-
-  it(`works if user is not signed in`, () => {
-    $store.getters.session.signedIn = false
-
-    expect(wrapper.vm.$el).toMatchSnapshot()
   })
 })
