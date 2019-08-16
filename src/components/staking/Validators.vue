@@ -19,7 +19,7 @@
 <script>
 import TableValidators from "staking/TableValidators"
 import TmPage from "common/TmPage"
-import { mapGetters } from "vuex"
+import { mapState, mapGetters } from "vuex"
 
 export default {
   name: `tab-validators`,
@@ -31,12 +31,11 @@ export default {
     lastUpdate: 0
   }),
   computed: {
+    ...mapState([`session`, `delegates`]),
     ...mapGetters([
       `lastHeader`,
-      `delegates`,
       `committedDelegations`,
       `connected`,
-      `session`,
       `yourValidators`
     ])
   }

@@ -8,9 +8,9 @@
           :show-on-mobile="showOnMobile"
         />
       </thead>
-      <tbody>
+      <tbody v-infinite-scroll="loadMore" infinite-scroll-distance="80">
         <LiValidator
-          v-for="validator in sortedEnrichedValidators"
+          v-for="validator in showingValidators"
           :key="validator.operator_address"
           :validator="validator"
           :show-on-mobile="showOnMobile"
@@ -51,22 +51,15 @@ export default {
       property: `commission`,
       order: `asc`
     },
+    showing: 15,
     rollingWindow: 10000 // param of slashing period
   }),
   computed: {
-    ...mapGetters([
-      `committedDelegations`,
-      `delegates`,
-      `session`,
-      `distribution`,
-      `bondDenom`,
-      `keybase`,
-      `pool`,
-      `lastHeader`
-    ]),
+    ...mapState([`delegates`, `distribution`, `pool`, `session`]),
     ...mapState({
       annualProvision: state => state.minting.annualProvision
     }),
+    ...mapGetters([`committedDelegations`, `bondDenom`, `lastHeader`]),
     enrichedValidators(
       {
         validators,
@@ -74,7 +67,6 @@ export default {
         pool,
         annualProvision,
         committedDelegations,
-        keybase,
         session,
         distribution,
         rollingWindow
@@ -92,7 +84,6 @@ export default {
           voting_power: BN(v.tokens)
             .div(pool.pool.bonded_tokens)
             .toFixed(10),
-          keybase: keybase[v.description.identity],
           rewards:
             session.signedIn && distribution.rewards[v.operator_address]
               ? distribution.rewards[v.operator_address][this.bondDenom]
@@ -118,6 +109,9 @@ export default {
         [this.sort.order]
       )
     },
+    showingValidators() {
+      return this.sortedEnrichedValidators.slice(0, this.showing)
+    },
     properties() {
       return [
         {
@@ -136,6 +130,33 @@ export default {
           tooltip: `Percentage of voting shares`
         }
       ]
+    }
+  },
+  watch: {
+    address: function() {
+      this.session.address
+    },
+    lastHeader: {
+      immediate: true,
+      handler() {
+        this.$store.dispatch(`getRewardsFromMyValidators`)
+      }
+    },
+    "sort.property": function() {
+      this.showing = 15
+    },
+    "sort.order": function() {
+      this.showing = 15
+    }
+  },
+  mounted() {
+    this.$store.dispatch(`getPool`)
+    this.$store.dispatch(`getRewardsFromMyValidators`)
+    this.$store.dispatch(`getMintingParameters`)
+  },
+  methods: {
+    loadMore() {
+      this.showing += 10
     }
   }
 }

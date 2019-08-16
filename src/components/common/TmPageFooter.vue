@@ -57,7 +57,7 @@ export default { name: `tm-page-footer` }
 <style scoped>
 footer {
   width: 100%;
-  padding: 0.5rem;
+  padding: 3rem 0 0;
   margin-top: 1rem;
 }
 
@@ -76,7 +76,7 @@ ul li {
   justify-content: space-between;
   align-items: center;
   padding: 0.25rem 0;
-  color: var(--txt);
+  color: var(--dim);
   font-size: var(--sm);
 }
 

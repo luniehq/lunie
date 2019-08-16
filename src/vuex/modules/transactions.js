@@ -1,5 +1,4 @@
 import uniqBy from "lodash.uniqby"
-import * as Sentry from "@sentry/browser"
 import Vue from "vue"
 
 // TODO simplify with one call
@@ -96,7 +95,6 @@ export default ({ node }) => {
         commit(`setHistoryLoading`, false)
         state.loaded = true
       } catch (error) {
-        Sentry.captureException(error)
         state.error = error
       }
     },

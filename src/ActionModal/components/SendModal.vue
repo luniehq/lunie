@@ -127,8 +127,8 @@
 <script>
 import b32 from "scripts/b32"
 import { required, between, decimal, maxLength } from "vuelidate/lib/validators"
-import { uatoms, atoms, viewDenom, SMALLEST } from "src/scripts/num.js"
-import { mapGetters } from "vuex"
+import { uatoms, atoms, viewDenom, SMALLEST } from "src/scripts/num"
+import { mapState } from "vuex"
 import TmFormGroup from "src/components/common/TmFormGroup"
 import TmField from "src/components/common/TmField"
 import TmFormMsg from "src/components/common/TmFormMsg"
@@ -156,7 +156,7 @@ export default {
     editMemo: false
   }),
   computed: {
-    ...mapGetters([`wallet`]),
+    ...mapState([`wallet`]),
     balance() {
       const denom = this.wallet.balances.find(b => b.denom === this.denom)
       return (denom && denom.amount) || 0

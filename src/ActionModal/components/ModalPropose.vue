@@ -104,7 +104,7 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex"
+import { mapState } from "vuex"
 import {
   minLength,
   maxLength,
@@ -112,12 +112,12 @@ import {
   between,
   decimal
 } from "vuelidate/lib/validators"
-import { uatoms, atoms, viewDenom, SMALLEST } from "src/scripts/num.js"
+import { uatoms, atoms, viewDenom, SMALLEST } from "scripts/num"
 import isEmpty from "lodash.isempty"
 import trim from "lodash.trim"
-import TmField from "src/components/common/TmField"
-import TmFormGroup from "src/components/common/TmFormGroup"
-import TmFormMsg from "src/components/common/TmFormMsg"
+import TmField from "common/TmField"
+import TmFormGroup from "common/TmFormGroup"
+import TmFormMsg from "common/TmFormMsg"
 import ActionModal from "./ActionModal"
 
 import transaction from "../utils/transactionTypes"
@@ -153,7 +153,7 @@ export default {
     amount: 0
   }),
   computed: {
-    ...mapGetters([`wallet`]),
+    ...mapState([`wallet`]),
     balance() {
       // TODO: refactor to get the selected coin when multicoin deposit is enabled
       if (!this.wallet.loading && !!this.wallet.balances.length) {

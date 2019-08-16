@@ -133,7 +133,7 @@
 <script>
 import moment from "moment"
 import BigNumber from "bignumber.js"
-import { mapGetters } from "vuex"
+import { mapState, mapGetters } from "vuex"
 import num from "scripts/num"
 import TmBtn from "common/TmBtn"
 import TmDataError from "common/TmDataError"
@@ -165,18 +165,13 @@ export default {
     lastVote: undefined
   }),
   computed: {
-    ...mapGetters([
-      `depositDenom`,
-      `proposals`,
-      `connected`,
-      `wallet`,
-      `votes`,
-      `governanceParameters`,
-      `session`,
-      `pool`
-    ]),
-    proposal({ proposals, proposalId } = this) {
-      return proposals.proposals[proposalId]
+    ...mapState(
+      [`governanceParameters`, `pool`, `proposals`, `session`, `wallet`],
+      { votes: state => state.votes.votes }
+    ),
+    ...mapGetters([`depositDenom`, `connected`]),
+    proposal() {
+      return this.proposals.proposals[this.proposalId]
     },
     title({ proposal } = this) {
       return proposal.proposal_content.value.title

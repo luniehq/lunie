@@ -6,7 +6,7 @@
         <Bech32 :address="session.address || ''" />
       </div>
       <a v-if="session.signedIn" id="sign-out" @click="signOut()">
-        <i v-tooltip.bottom="'Sign Out'" class="material-icons">exit_to_app</i>
+        <i v-tooltip.top="'Sign Out'" class="material-icons">exit_to_app</i>
       </a>
     </div>
     <TmBtn
@@ -119,7 +119,7 @@ import noScroll from "no-scroll"
 import Bech32 from "common/Bech32"
 import ConnectedNetwork from "common/TmConnectedNetwork"
 import TmBtn from "common/TmBtn"
-import { mapGetters } from "vuex"
+import { mapState, mapGetters } from "vuex"
 import { atoms, viewDenom, shortDecimals } from "scripts/num.js"
 export default {
   name: `app-menu`,
@@ -134,7 +134,8 @@ export default {
     shortDecimals
   },
   computed: {
-    ...mapGetters([`session`, `liquidAtoms`, `totalAtoms`, `bondDenom`])
+    ...mapState([`session`]),
+    ...mapGetters([`liquidAtoms`, `totalAtoms`, `bondDenom`])
   },
   methods: {
     close() {

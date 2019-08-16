@@ -18,7 +18,7 @@
 
 <script>
 import num from "scripts/num"
-import { mapGetters } from "vuex"
+import { mapState, mapGetters } from "vuex"
 import orderBy from "lodash.orderby"
 import TmPage from "common/TmPage"
 import DelegationsOverview from "staking/DelegationsOverview"
@@ -35,11 +35,9 @@ export default {
     lastUpdate: 0
   }),
   computed: {
+    ...mapState([`session`, `wallet`, `delegation`]),
     ...mapGetters([
-      `wallet`,
       `connected`,
-      `session`,
-      `delegation`,
       `distribution`,
       `totalRewards`,
       `bondDenom`,

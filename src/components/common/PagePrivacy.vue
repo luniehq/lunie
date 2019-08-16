@@ -391,11 +391,11 @@
           >
         </li>
         <li class="c13">
-          <span class="c0"
-            >Cookies tied to sentry.io, Appzi and similar services that provide
-            information and analytics on the the App&rsquo;s performance and
-            user experience.</span
-          >
+          <span class="c0">
+            Cookies tied to Appzi and similar services that provide information
+            and analytics on the the App&rsquo;s performance and user
+            experience.
+          </span>
         </li>
       </ul>
       <p><span class="c5">Controlling Cookies</span></p>
@@ -1035,6 +1035,4 @@ export default {
 }
 </script>
 
-<style scoped>
-@import "../../styles/content-page.css";
-</style>
+<style scoped src="../../styles/content-page.css"></style>

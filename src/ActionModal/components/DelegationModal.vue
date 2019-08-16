@@ -82,9 +82,9 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex"
+import { mapState, mapGetters } from "vuex"
 import { between, decimal } from "vuelidate/lib/validators"
-import { uatoms, atoms, viewDenom, SMALLEST } from "src/scripts/num.js"
+import { uatoms, atoms, viewDenom, SMALLEST } from "src/scripts/num"
 import TmField from "src/components/common/TmField"
 import TmFormGroup from "src/components/common/TmFormGroup"
 import TmFormMsg from "src/components/common/TmFormMsg"
@@ -125,7 +125,8 @@ export default {
     selectedIndex: 0
   }),
   computed: {
-    ...mapGetters([`session`, `modalContext`]),
+    ...mapState([`session`]),
+    ...mapGetters([`modalContext`]),
     balance() {
       if (!this.session.signedIn) return 0
 

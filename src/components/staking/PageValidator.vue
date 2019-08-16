@@ -16,18 +16,26 @@
 
       <tr class="li-validator">
         <td class="data-table__row__info">
-          <img
-            v-if="validator.keybase && validator.keybase.avatarUrl"
-            :src="validator.keybase.avatarUrl"
-            class="li-validator-image"
-            :alt="`validator logo for ` + validator.description.moniker"
-          />
-          <img
-            v-else
-            class="li-validator-image"
-            src="~assets/images/validator-icon.svg"
-            alt="generic validator logo - graphic triangle supporting atom token"
-          />
+          <ApolloQuery
+            :query="ValidatorProfile"
+            :variables="{ address: validator.operator_address }"
+            :update="validatorProfileResultUpdate"
+          >
+            <template v-slot="{ result: { loading, error, data: keybase } }">
+              <Avatar
+                v-if="!keybase || !keybase.avatarUrl || loading || error"
+                class="li-validator-image"
+                alt="generic geometric symbol - generated avatar from address"
+                :address="validator.operator_address"
+              />
+              <img
+                v-else-if="keybase && keybase.avatarUrl"
+                :src="keybase.avatarUrl"
+                :alt="`validator logo for ` + validator.description.moniker"
+                class="li-validator-image"
+              />
+            </template>
+          </ApolloQuery>
           <div class="validator-info">
             <h3 class="li-validator-name">
               {{ validator.description.moniker }}
@@ -37,9 +45,7 @@
                 {{ myDelegation }}
               </h4>
               <h5 v-if="rewards">
-                {{
-                  rewards ? `+` + num.shortDecimals(num.atoms(rewards)) : `--`
-                }}
+                {{ rewards ? `+` + shortDecimals(atoms(rewards)) : `--` }}
               </h5>
             </div>
           </div>
@@ -89,8 +95,8 @@
         <dl class="info_dl">
           <dt>Voting Power / Total Stake</dt>
           <dd id="page-profile__power">
-            {{ num.percent(powerRatio) }} /
-            {{ num.shortDecimals(num.atoms(validator.tokens)) }}
+            {{ percent(powerRatio) }} /
+            {{ shortDecimals(atoms(validator.tokens)) }}
           </dd>
         </dl>
         <dl class="info_dl">
@@ -111,15 +117,15 @@
         </dl>
         <dl class="info_dl">
           <dt>Current Commission Rate</dt>
-          <dd>{{ num.percent(validator.commission.rate) }}</dd>
+          <dd>{{ percent(validator.commission.rate) }}</dd>
         </dl>
         <dl class="info_dl">
           <dt>Max Commission Rate</dt>
-          <dd>{{ num.percent(validator.commission.max_rate) }}</dd>
+          <dd>{{ percent(validator.commission.max_rate) }}</dd>
         </dl>
         <dl class="info_dl">
           <dt>Max Daily Commission Change</dt>
-          <dd>{{ num.percent(validator.commission.max_change_rate) }}</dd>
+          <dd>{{ percent(validator.commission.max_change_rate) }}</dd>
         </dl>
         <dl class="info_dl">
           <dt>Last Commission Change</dt>
@@ -144,8 +150,8 @@
     </template>
     <template v-else>
       <template slot="title"
-        >Validator Not Found</template
-      >
+        >Validator Not Found
+      </template>
       <template slot="subtitle">
         <div>
           Please visit the
@@ -160,23 +166,26 @@
 <script>
 import moment from "moment"
 import { calculateTokens } from "scripts/common"
-import { mapGetters, mapState } from "vuex"
-import num, { atoms, viewDenom, shortDecimals } from "scripts/num"
+import { mapState, mapGetters } from "vuex"
+import { atoms, viewDenom, shortDecimals, percent, uatoms } from "scripts/num"
 import { formatBech32 } from "src/filters"
 import { expectedReturns } from "scripts/returns"
 import TmBtn from "common/TmBtn"
 import { ratToBigNumber } from "scripts/common"
 import DelegationModal from "src/ActionModal/components/DelegationModal"
 import UndelegationModal from "src/ActionModal/components/UndelegationModal"
+import Avatar from "common/Avatar"
 import Bech32 from "common/Bech32"
 import TmPage from "common/TmPage"
 import isEmpty from "lodash.isempty"
+import { ValidatorProfile, validatorProfileResultUpdate } from "src/gql"
 export default {
   name: `page-validator`,
   components: {
     Bech32,
     DelegationModal,
     UndelegationModal,
+    Avatar,
     TmBtn,
     TmPage
   },
@@ -193,33 +202,27 @@ export default {
     }
   },
   data: () => ({
-    tabIndex: 1,
-    moment,
-    num
+    ValidatorProfile
   }),
   computed: {
+    ...mapState(
+      [`delegates`, `delegation`, `distribution`, `pool`, `session`],
+      {
+        annualProvision: state => state.minting.annualProvision
+      }
+    ),
     ...mapGetters([
       `lastHeader`,
       `bondDenom`,
-      `delegates`,
-      `delegation`,
-      `distribution`,
       `committedDelegations`,
-      `keybase`,
       `liquidAtoms`,
-      `session`,
-      `connected`,
-      `pool`
+      `connected`
     ]),
-    ...mapState({
-      annualProvision: state => state.minting.annualProvision
-    }),
     validator() {
       const validator = this.delegates.delegates.find(
         v => this.$route.params.validator === v.operator_address
       )
       if (validator) {
-        validator.keybase = this.keybase[validator.description.identity]
         validator.signing_info = this.delegates.signingInfos[
           validator.operator_address
         ]
@@ -228,13 +231,11 @@ export default {
       return validator
     },
     selfBond() {
-      return num.percent(
-        this.delegates.selfBond[this.validator.operator_address]
-      )
+      return percent(this.delegates.selfBond[this.validator.operator_address])
     },
     selfBondAmount() {
-      return num.shortDecimals(
-        num.uatoms(this.delegates.selfBond[this.validator.operator_address])
+      return shortDecimals(
+        uatoms(this.delegates.selfBond[this.validator.operator_address])
       )
     },
     uptime() {
@@ -249,7 +250,7 @@ export default {
     },
     myBond() {
       if (!this.validator) return 0
-      return num.atoms(
+      return atoms(
         calculateTokens(
           this.validator,
           this.committedDelegations[this.validator.operator_address] || 0
@@ -258,8 +259,8 @@ export default {
     },
     myDelegation() {
       const { bondDenom, myBond } = this
-      const myDelegation = num.shortDecimals(myBond)
-      const myDelegationString = `${myDelegation} ${num.viewDenom(bondDenom)}`
+      const myDelegation = shortDecimals(myBond)
+      const myDelegationString = `${myDelegation} ${viewDenom(bondDenom)}`
       return Number(myBond) === 0 ? null : myDelegationString
     },
     powerRatio() {
@@ -360,6 +361,12 @@ export default {
     }
   },
   methods: {
+    shortDecimals,
+    atoms,
+    uatoms,
+    percent,
+    moment,
+    validatorProfileResultUpdate,
     onDelegation() {
       this.$refs.delegationModal.open()
     },
@@ -449,6 +456,7 @@ export default {
 }
 
 .li-validator h5 {
+  padding-left: 0.5rem;
   color: var(--success);
 }
 

@@ -13,14 +13,14 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex"
+import { mapState } from "vuex"
 export default {
   name: `maintenance-bar`,
   data: () => ({
     show: true
   }),
   computed: {
-    ...mapGetters([`session`])
+    ...mapState([`session`])
   },
   methods: {
     close() {

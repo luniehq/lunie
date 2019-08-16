@@ -32,7 +32,7 @@
 <script>
 import AccountList from "common/AccountList"
 import SessionFrame from "common/SessionFrame"
-import { mapGetters } from "vuex"
+import { mapState } from "vuex"
 export default {
   name: `session-extension`,
   components: {
@@ -44,7 +44,7 @@ export default {
     address: null
   }),
   computed: {
-    ...mapGetters([`extension`]),
+    ...mapState([`extension`]),
     accounts() {
       return this.extension.accounts
     }

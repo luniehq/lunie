@@ -25,7 +25,7 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex"
+import { mapState } from "vuex"
 import noScroll from "no-scroll"
 import AppMenu from "common/AppMenu"
 export default {
@@ -36,7 +36,7 @@ export default {
     desktop: false
   }),
   computed: {
-    ...mapGetters([`session`])
+    ...mapState([`session`])
   },
   mounted() {
     this.watchWindowSize()

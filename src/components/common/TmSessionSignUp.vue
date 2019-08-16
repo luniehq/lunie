@@ -174,7 +174,7 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex"
+import { mapState } from "vuex"
 import { required, minLength, sameAs } from "vuelidate/lib/validators"
 import TmBtn from "common/TmBtn"
 import TmFormGroup from "common/TmFormGroup"
@@ -205,7 +205,7 @@ export default {
     }
   }),
   computed: {
-    ...mapGetters([`session`])
+    ...mapState([`session`])
   },
   mounted() {
     this.$store.dispatch(`createSeed`).then(seedPhrase => {

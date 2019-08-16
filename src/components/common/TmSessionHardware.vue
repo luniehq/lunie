@@ -36,7 +36,7 @@
 
 <script>
 import TmBtn from "common/TmBtn"
-import { mapGetters } from "vuex"
+import { mapState } from "vuex"
 import HardwareState from "common/TmHardwareState"
 import SessionFrame from "common/SessionFrame"
 export default {
@@ -52,7 +52,7 @@ export default {
     address: null
   }),
   computed: {
-    ...mapGetters([`session`]),
+    ...mapState([`session`]),
     submitCaption() {
       return {
         connect: "Sign In",

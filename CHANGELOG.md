@@ -7,6 +7,64 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.0-beta.108] - 2019-08-15
+
+### Added
+
+- Show generated avatars for validators without a profile image @faboweb
+
+### Fixed
+
+- [#2881](https://github.com/cosmos/lunie/pull/2881) Default validator images not showing @faboweb
+
+## [1.0.0-beta.107] - 2019-08-13
+
+### Added
+
+- [#2869](https://github.com/cosmos/lunie/pull/2869) Fetch validator info using GraphQL @colw
+
+### Security
+
+- [#2875](https://github.com/cosmos/lunie/pull/2875) Allow minor upgrades in package.json @colw
+
+### Deprecated
+
+- [#2865](https://github.com/cosmos/lunie/issues/2865) Remove Sentry @colw
+
+## [1.0.0-beta.106] - 2019-08-13
+
+### Added
+
+- Added infinite scroll to validator list @faboweb
+
+### Changed
+
+- [#2870](https://github.com/cosmos/lunie/pull/2870) Keep staking tabs in memory even when switching between them @colw
+
+### Fixed
+
+- [#2871](https://github.com/cosmos/lunie/pull/2871) Sort panel does not error on Network page @colw
+
+### Code Improvements
+
+- [#2867](https://github.com/cosmos/lunie/pull/2867) Remove some getters and convert to mapState @colw
+
+## [1.0.0-beta.105] - 2019-08-07
+
+### Code Improvements
+
+- [#2846](https://github.com/cosmos/lunie/pull/2846) Refactor Transaction types and component rendering @colw
+
+### Repository
+
+- [#2860](https://github.com/cosmos/lunie/pull/2860) Switched to vue-cli-3 @faboweb
+
+## [1.0.0-beta.104] - 2019-08-04	
+
+ ### Changed	
+
+ - SEO improvements, accessibility fixes, etc. @jbibla
+
 ## [1.0.0-beta.103] - 2019-08-03
 
 ### Changed

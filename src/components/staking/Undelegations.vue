@@ -1,42 +1,29 @@
 <template>
   <div>
-    <LiAnyTransaction
-      v-for="tx in unbondingTransactions"
-      :key="tx.txhash"
-      :validators="yourValidators"
-      :validators-url="`/validators`"
-      :proposals-url="`/governance`"
-      :transaction="tx"
+    <TransactionList
+      :transactions="unbondingTransactions"
       :address="session.address"
-      :bonding-denom="bondDenom"
-      :unbonding-time="
-        time.getUnbondingTime(tx, delegation.unbondingDelegations)
-      "
+      :validators="yourValidators"
     />
   </div>
 </template>
 
 <script>
-import { mapGetters } from "vuex"
-import LiAnyTransaction from "../transactions/LiAnyTransaction"
-import time from "scripts/time"
+import { mapState, mapGetters } from "vuex"
+import TransactionList from "transactions/TransactionList"
+import { getUnbondTimeFromTX } from "scripts/time"
 
 export default {
   name: `undelegations`,
   components: {
-    LiAnyTransaction
+    TransactionList
   },
   data: () => ({
-    time
+    getUnbondTimeFromTX
   }),
   computed: {
-    ...mapGetters([
-      `transactions`,
-      `delegation`,
-      `bondDenom`,
-      `session`,
-      `yourValidators`
-    ]),
+    ...mapState([`transactions`, `delegation`, `bondDenom`, `session`]),
+    ...mapGetters([`yourValidators`]),
     unbondingTransactions: ({ transactions, delegation } = this) =>
       transactions.staking &&
       transactions.staking
@@ -46,7 +33,7 @@ export default {
             return false
 
           // getting the unbonding time and checking if it has passed already
-          const unbondingEndTime = time.getUnbondingTime(
+          const unbondingEndTime = getUnbondTimeFromTX(
             transaction,
             delegation.unbondingDelegations
           )

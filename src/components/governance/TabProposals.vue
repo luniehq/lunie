@@ -36,11 +36,11 @@
 
 <script>
 import ModalPropose from "src/ActionModal/components/ModalPropose"
-import TableProposals from "./TableProposals"
+import TableProposals from "governance/TableProposals"
 import TmBtn from "common/TmBtn"
 import TmPage from "common/TmPage"
 import TmDataEmpty from "common/TmDataEmpty"
-import { mapGetters } from "vuex"
+import { mapState, mapGetters } from "vuex"
 export default {
   name: `tab-proposals`,
   components: {
@@ -51,7 +51,8 @@ export default {
     TmPage
   },
   computed: {
-    ...mapGetters([`connected`, `depositDenom`, `proposals`])
+    ...mapState([`proposals`]),
+    ...mapGetters([`depositDenom`])
   },
   mounted() {
     this.$store.dispatch(`getProposals`)

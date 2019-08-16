@@ -47,8 +47,8 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex"
-import { uatoms, atoms, viewDenom, SMALLEST } from "src/scripts/num.js"
+import { mapState } from "vuex"
+import { uatoms, atoms, viewDenom, SMALLEST } from "src/scripts/num"
 import { between, decimal } from "vuelidate/lib/validators"
 import TmField from "src/components/common/TmField"
 import TmFormGroup from "src/components/common/TmFormGroup"
@@ -85,7 +85,7 @@ export default {
     amount: 0
   }),
   computed: {
-    ...mapGetters([`wallet`]),
+    ...mapState([`wallet`]),
     balance() {
       const denom = this.wallet.balances.find(b => b.denom === this.denom)
       return (denom && denom.amount) || 0

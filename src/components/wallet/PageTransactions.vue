@@ -11,86 +11,60 @@
   >
     <DataEmptyTx slot="no-data" />
     <template slot="managed-body">
-      <LiAnyTransaction
-        v-for="tx in orderedTransactions"
-        :key="tx.txhash"
-        :validators="delegates.delegates"
-        :validators-url="validatorURL"
-        :proposals-url="governanceURL"
-        :transaction="tx"
-        :address="session.address"
-        :bonding-denom="bondDenom"
-        :unbonding-time="
-          time.getUnbondingTime(tx, delegation.unbondingDelegations)
-        "
-      />
+      <div v-infinite-scroll="loadMore" infinite-scroll-distance="80">
+        <TransactionList
+          :transactions="showingTransactions"
+          :address="session.address"
+          :validators="validators"
+        />
+      </div>
       <br />
     </template>
   </TmPage>
 </template>
 
 <script>
-import shortid from "shortid"
-import { mapGetters } from "vuex"
-import orderBy from "lodash.orderby"
+import { mapState, mapGetters } from "vuex"
 import DataEmptyTx from "common/TmDataEmptyTx"
 import TmPage from "common/TmPage"
-import LiAnyTransaction from "transactions/LiAnyTransaction"
-import time from "scripts/time"
+import TransactionList from "transactions/TransactionList"
 
 export default {
   name: `page-transactions`,
   components: {
-    LiAnyTransaction,
+    TransactionList,
     DataEmptyTx,
     TmPage
   },
   data: () => ({
-    shortid: shortid,
-    sort: {
-      property: `height`,
-      order: `desc`
-    },
-    validatorURL: `/validators`,
-    governanceURL: `/governance`,
-    time
+    showing: 15
   }),
   computed: {
-    ...mapGetters([
-      `transactions`,
-      `allTransactions`,
-      `session`,
-      `bondDenom`,
-      `delegation`,
-      `delegates`
-    ]),
-    orderedTransactions() {
-      return orderBy(
-        this.allTransactions.map(t => {
-          t.height = parseInt(t.height)
-          return t // TODO what happens if block height is bigger then int?
-        }),
-        [this.sort.property],
-        [this.sort.order]
-      )
+    ...mapState([`session`, `transactions`]),
+    ...mapGetters([`validators`, `flatOrderedTransactionList`]),
+    showingTransactions() {
+      return this.flatOrderedTransactionList.slice(0, this.showing)
     },
     dataEmpty() {
-      return this.orderedTransactions.length === 0
+      return this.flatOrderedTransactionList.length === 0
     }
   },
   watch: {
-    "session.signedIn": {
-      immediate: true,
-      handler() {
-        this.refreshTransactions()
-      }
+    "session.signedIn": function() {
+      this.refreshTransactions()
     }
   },
+  created() {
+    this.refreshTransactions()
+  },
   methods: {
-    async refreshTransactions({ $store, session } = this) {
-      if (session.signedIn) {
-        await $store.dispatch(`getAllTxs`)
+    async refreshTransactions() {
+      if (this.session.signedIn) {
+        await this.$store.dispatch(`getAllTxs`)
       }
+    },
+    loadMore() {
+      this.showing += 10
     }
   }
 }

@@ -47,7 +47,7 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex"
+import { mapState } from "vuex"
 import LiSession from "common/TmLiSession"
 import SessionFrame from "common/SessionFrame"
 export default {
@@ -57,10 +57,13 @@ export default {
     LiSession
   },
   computed: {
-    ...mapGetters([`session`, `keystore`, `extension`]),
+    ...mapState([`session`, `keystore`, `extension`]),
     accountExists() {
       return this.keystore && this.keystore.accounts.length > 0
     }
+  },
+  created() {
+    this.$store.dispatch("loadAccounts")
   }
 }
 </script>

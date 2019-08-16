@@ -1,6 +1,6 @@
 "use strict"
 
-import RpcClient from "./tendermint-ws.js"
+import RpcClient from "./tendermint-ws"
 
 export default function setRpcWrapper(container) {
   const rpcWrapper = {
@@ -48,7 +48,7 @@ async function rpcConnect(rpcURL) {
   const https = rpcURL.startsWith(`https`)
 
   console.log(`init rpc with ` + rpcURL)
-  const newRpc = new RpcClient(`${https ? `wss` : `ws`}://${rpcHost}`)
+  const newRpc = RpcClient(`${https ? `wss` : `ws`}://${rpcHost}`)
 
   // we need to check immediately if the connection fails. later we will not be able to check this error
   const connected = await checkConnection(newRpc)

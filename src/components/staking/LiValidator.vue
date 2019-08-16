@@ -10,32 +10,40 @@
     "
   >
     <td class="data-table__row__info">
-      <img
-        v-if="validator.keybase && validator.keybase.avatarUrl"
-        :src="validator.keybase.avatarUrl"
-        class="li-validator-image"
-        :alt="`validator logo for ` + validator.description.moniker"
-      />
-      <img
-        v-else
-        class="li-validator-image"
-        src="~assets/images/validator-icon.svg"
-        alt="generic validator logo - graphic triangle supporting atom token"
-      />
+      <ApolloQuery
+        :query="ValidatorProfile"
+        :variables="{ address: validator.operator_address }"
+        :update="validatorProfileResultUpdate"
+      >
+        <template v-slot="{ result: { loading, error, data: keybase } }">
+          <Avatar
+            v-if="!keybase || !keybase.avatarUrl || loading || error"
+            class="li-validator-image"
+            alt="generic validator logo - generated avatar from address"
+            :address="validator.operator_address"
+          />
+          <img
+            v-else-if="keybase && keybase.avatarUrl"
+            :src="keybase.avatarUrl"
+            class="li-validator-image"
+            :alt="`validator logo for ` + validator.description.moniker"
+          />
+        </template>
+      </ApolloQuery>
       <div class="validator-info">
         <h3 class="li-validator-name">{{ validator.description.moniker }}</h3>
         <div v-if="validator.my_delegations > 0">
           <h4>
             {{
               validator.my_delegations
-                ? num.shortDecimals(num.atoms(validator.my_delegations))
+                ? shortDecimals(atoms(validator.my_delegations))
                 : null
             }}
           </h4>
           <h5 v-if="validator.rewards > 0">
             {{
               validator.rewards
-                ? `+` + num.shortDecimals(num.atoms(validator.rewards))
+                ? `+` + shortDecimals(atoms(validator.rewards))
                 : `--`
             }}
           </h5>
@@ -44,9 +52,7 @@
     </td>
     <td :class="{ 'hide-xs': showOnMobile !== 'expectedReturns' }">
       {{
-        validator.expectedReturns
-          ? num.percent(validator.expectedReturns)
-          : `--`
+        validator.expectedReturns ? percent(validator.expectedReturns) : `--`
       }}
     </td>
     <td :class="{ 'hide-xs': showOnMobile !== 'voting-power' }">
@@ -56,11 +62,17 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex"
-import num from "scripts/num"
+import { mapState } from "vuex"
+import { percent, shortDecimals, atoms } from "scripts/num"
+import Avatar from "common/Avatar"
 import BN from "bignumber.js"
+import { ValidatorProfile, validatorProfileResultUpdate } from "src/gql"
+
 export default {
   name: `li-validator`,
+  components: {
+    Avatar
+  },
   props: {
     validator: {
       type: Object,
@@ -71,22 +83,24 @@ export default {
       default: () => "returns"
     }
   },
-  data: () => ({ num }),
+  data: () => ({
+    ValidatorProfile
+  }),
   computed: {
-    ...mapGetters([
-      `delegates`,
-      `distribution`,
-      `session`,
-      `lastHeader`,
-      `pool`
-    ]),
+    ...mapState([`pool`]),
     percentOfVotingPower() {
-      return num.percent(
+      return percent(
         BN(this.validator.tokens)
           .div(this.pool.pool.bonded_tokens)
           .toFixed(4)
       )
     }
+  },
+  methods: {
+    shortDecimals,
+    atoms,
+    percent,
+    validatorProfileResultUpdate
   }
 }
 </script>
@@ -116,6 +130,7 @@ export default {
 }
 
 .li-validator h5 {
+  padding-left: 0.5rem;
   color: var(--success);
 }
 

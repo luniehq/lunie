@@ -1,1 +1,0 @@
-[Added] [\#1797](https://github.com/cosmos/voyager/issues/1797) Added cookie and error collection bar and storage @faboweb

@@ -52,7 +52,7 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex"
+import { mapState } from "vuex"
 import { required, minLength } from "vuelidate/lib/validators"
 import TmBtn from "common/TmBtn"
 import TmFormGroup from "common/TmFormGroup"
@@ -76,7 +76,7 @@ export default {
     error: ``
   }),
   computed: {
-    ...mapGetters([`keystore`]),
+    ...mapState([`keystore`]),
     accounts() {
       let accounts = this.keystore.accounts
       return accounts.map(({ name, address }) => ({

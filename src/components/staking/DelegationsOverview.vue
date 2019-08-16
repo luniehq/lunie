@@ -21,11 +21,10 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex"
+import { mapState, mapGetters } from "vuex"
 import num from "scripts/num"
 import TmDataMsg from "common/TmDataMsg"
 import TableValidators from "staking/TableValidators"
-import time from "scripts/time"
 
 export default {
   name: `delegations-overview`,
@@ -35,11 +34,11 @@ export default {
   },
   data: () => ({
     validatorURL: `/validators`,
-    time,
     num
   }),
   computed: {
-    ...mapGetters([`delegation`, `bondDenom`, `yourValidators`])
+    ...mapState([`delegation`]),
+    ...mapGetters([`bondDenom`, `yourValidators`])
   }
 }
 </script>

@@ -36,6 +36,12 @@
   --red-fade-1: hsla(0, 100%, 40%, 0.25);
   --red-fade-2: hsla(0, 100%, 40%, 0.15);
 
+  /* Transaction group colours */
+  --tx-banking: #ed553b;
+  --tx-staking: #47ab6c;
+  --tx-governance: #15cfcc;
+  --tx-distribution: #f2b134;
+
   /* don't change - should be consistent across themes */
   --input-bg: transparent;
   --success: hsl(120, 58%, 50%);

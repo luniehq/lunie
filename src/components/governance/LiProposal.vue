@@ -26,14 +26,10 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex"
-import { prettyDecimals } from "../../scripts/num"
+import { mapState } from "vuex"
 import { getProposalStatus } from "scripts/proposal-status"
 export default {
   name: `li-proposal`,
-  filters: {
-    prettyDecimals
-  },
   props: {
     proposal: {
       type: Object,
@@ -41,7 +37,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters([`proposals`]),
+    ...mapState([`proposals`]),
     status() {
       return getProposalStatus(this.proposal)
     },

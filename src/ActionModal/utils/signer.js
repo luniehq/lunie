@@ -1,9 +1,15 @@
-import Ledger from "@lunie/cosmos-ledger"
-import { signWithPrivateKey, getStoredWallet } from "@lunie/cosmos-keys"
 import { signWithExtension } from "src/scripts/extension-utils"
 
-export function getSigner(config, submitType = "", { address, password }) {
+export async function getSigner(
+  config,
+  submitType = "",
+  { address, password }
+) {
   if (submitType === `local`) {
+    const { signWithPrivateKey, getStoredWallet } = await import(
+      "@lunie/cosmos-keys"
+    )
+
     const wallet = getStoredWallet(address, password)
     return signMessage => {
       const signature = signWithPrivateKey(
@@ -17,6 +23,9 @@ export function getSigner(config, submitType = "", { address, password }) {
       }
     }
   } else if (submitType === `ledger`) {
+    // importing default here to be compatible with Jest
+    const { default: Ledger } = await import("@lunie/cosmos-ledger")
+
     return async signMessage => {
       const ledger = new Ledger(config)
       const publicKey = await ledger.getPubKey()
