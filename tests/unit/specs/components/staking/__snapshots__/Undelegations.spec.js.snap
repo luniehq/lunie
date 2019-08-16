@@ -6,7 +6,7 @@ exports[`Undelegations should show unbonding validators 2`] = `
 <div>
   <transactionlist-stub
     transactions=""
-    validators="[object Object],[object Object],[object Object]"
+    validators="[object Object]"
   />
 </div>
 `;

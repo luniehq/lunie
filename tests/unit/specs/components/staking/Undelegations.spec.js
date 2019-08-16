@@ -7,7 +7,7 @@ describe(`Undelegations`, () => {
   let wrapper, $store
   const getters = {
     lastHeader: { height: `20` },
-    yourValidators: validators
+    yourValidators: validators[0]
   }
 
   const state = {

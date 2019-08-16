@@ -22,9 +22,10 @@ module.exports = {
           assets: resolve(`src/assets`),
           scripts: resolve(`src/scripts`),
           common: resolve(`src/components/common`),
-          transactions: resolve(`src/components/transactions`),
           governance: resolve(`src/components/governance`),
+          network: resolve(`src/components/network`),
           staking: resolve(`src/components/staking`),
+          transactions: resolve(`src/components/transactions`),
           wallet: resolve(`src/components/wallet`),
           test: resolve(`test`)
         },
