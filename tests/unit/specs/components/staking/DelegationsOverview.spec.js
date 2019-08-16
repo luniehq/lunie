@@ -1,14 +1,11 @@
 import { shallowMount } from "@vue/test-utils"
-import DelegationsOverview from "src/components/staking/DelegationsOverview"
+import DelegationsOverview from "staking/DelegationsOverview"
 import validators from "../../store/json/validators.js"
 
 describe(`DelegationsOverview`, () => {
   let wrapper, $store
 
   const getters = {
-    delegation: {
-      loaded: true
-    },
     bondDenom: `stake`,
     yourValidators: validators
   }
@@ -18,9 +15,9 @@ describe(`DelegationsOverview`, () => {
       commit: jest.fn(),
       dispatch: jest.fn(),
       state: {
-        minting: {
-          annualProvision: "100"
-        }
+        delegation: {
+          loaded: true
+        },
       },
       getters: JSON.parse(JSON.stringify(getters)) // clone so we don't overwrite by accident
     }

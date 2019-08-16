@@ -60,7 +60,7 @@ describe(`TableValidators`, () => {
       },
       propsData: { validators },
       directives: {
-        infiniteScroll: () => {}
+        infiniteScroll: () => { }
       }
     })
     wrapper.setData({ rollingWindow: 10000 })
@@ -111,20 +111,6 @@ describe(`TableValidators`, () => {
     expect(wrapper.findAll("livalidator-stub").length).toBe(2)
     wrapper.vm.loadMore()
     expect(wrapper.findAll("livalidator-stub").length).toBe(3)
-  })
-
-  it(`queries delegations on signin`, () => {
-    const session = { address: `cosmos1address` }
-    const $store = { dispatch: jest.fn() }
-    TableValidators.watch.address.call({ $store, session })
-    expect($store.dispatch).toHaveBeenCalledWith(`updateDelegates`)
-  })
-
-  it(`doesn't query delegations if not signed in`, () => {
-    const session = { address: undefined }
-    const $store = { dispatch: jest.fn() }
-    TableValidators.watch.address.call({ $store, session })
-    expect($store.dispatch).not.toHaveBeenCalledWith(`updateDelegates`)
   })
 
   it(`should update rewards on new blocks`, () => {

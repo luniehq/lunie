@@ -102,7 +102,9 @@ describe(`Module: Wallet`, () => {
       expect(commit).toHaveBeenCalledWith(`setWalletAddress`, address)
       expect(dispatch.mock.calls).toEqual([
         [`queryWalletBalances`],
-        [`walletSubscribe`]
+        [`walletSubscribe`],
+        [`getBondedDelegates`],
+        [`getRewardsFromMyValidators`]
       ])
     })
 
@@ -243,7 +245,7 @@ describe(`Module: Wallet`, () => {
 
     it(`should catch errors from subscriptions`, async () => {
       jest.useFakeTimers()
-      jest.spyOn(console, "error").mockImplementation(() => {})
+      jest.spyOn(console, "error").mockImplementation(() => { })
 
       const node = {
         rpc: {

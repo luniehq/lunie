@@ -34,6 +34,7 @@ a:hover {
   line-height: 1.5;
   font-family: var(--sans);
   color: var(--txt);
+  display: flex;
   flex-flow: column nowrap;
   min-width: 0;
 }

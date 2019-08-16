@@ -36,13 +36,7 @@ export default {
   }),
   computed: {
     ...mapState([`session`, `wallet`, `delegation`]),
-    ...mapGetters([
-      `connected`,
-      `distribution`,
-      `totalRewards`,
-      `bondDenom`,
-      `lastHeader`
-    ]),
+    ...mapGetters([`connected`, `totalRewards`, `lastHeader`]),
     filteredBalances() {
       return orderBy(
         this.wallet.balances,

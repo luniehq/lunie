@@ -15,8 +15,8 @@ describe(`PageProposal`, () => {
   const localVue = createLocalVue()
   localVue.use(Vuex)
   localVue.use(Vuelidate)
-  localVue.directive(`tooltip`, () => {})
-  localVue.directive(`focus`, () => {})
+  localVue.directive(`tooltip`, () => { })
+  localVue.directive(`focus`, () => { })
 
   const state = {
     governanceParameters: { ...governanceParameters, loaded: true },
@@ -123,7 +123,12 @@ describe(`PageProposal`, () => {
         governanceParameters: {
           loaded: true,
           ...governanceParameters
-        }
+        },
+        pool: {
+          pool: {
+            bonded_tokens: 10000
+          }
+        },
       },
       getters: {
         ...getters
@@ -149,18 +154,6 @@ describe(`PageProposal`, () => {
   it(`should return the time that voting started`, () => {
     expect(wrapper.vm.votingStartedAgo).toEqual(`January 3rd 1970, 00:00`)
   })
-
-  // it(`should return the time the vote ends`, () => {
-  //   expect(wrapper.vm.endDate).toEqual(
-  //     moment(proposal.voting_end_time).format("MMMM Do YYYY, HH:mm")
-  //   )
-  // })
-
-  // it(`should return the time when deposits end`, () => {
-  //   expect(wrapper.vm.depositEndsIn).toEqual(
-  //     moment(new Date(proposal.deposit_end_time)).fromNow()
-  //   )
-  // })
 
   describe(`Proposal status`, () => {
     it(`displays correctly a proposal that 'Passed'`, () => {
@@ -209,7 +202,7 @@ describe(`PageProposal`, () => {
       $store = { dispatch: jest.fn() }
 
       const thisIs = {
-        $refs: { modalVote: { open: () => {} } },
+        $refs: { modalVote: { open: () => { } } },
         $store,
         votes: {},
         proposalId: `2`,
@@ -229,7 +222,7 @@ describe(`PageProposal`, () => {
       $store = { dispatch: jest.fn() }
 
       const thisIs = {
-        $refs: { modalVote: { open: () => {} } },
+        $refs: { modalVote: { open: () => { } } },
         $store,
         votes: {
           2: [

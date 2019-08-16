@@ -1,0 +1,93 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`PageBlock shows a page with information about a certain block 1`] = `
+<tmpage-stub
+  class="small"
+  data-title="Block"
+  hideheader="true"
+  subtitle=""
+  title=""
+>
+  <div
+    class="page-profile__header page-profile__section block"
+  >
+    <div
+      class="row"
+    >
+      <div
+        class="page-profile__header__info"
+      >
+        <div
+          class="page-profile__status-and-title"
+        >
+          <h2
+            class="page-profile__title"
+          >
+            
+              Block #100
+            
+          </h2>
+        </div>
+      </div>
+    </div>
+     
+    <div
+      class="row row-condensed"
+    >
+      <dl
+        class="info_dl"
+      >
+        <dt>
+          Chain ID
+        </dt>
+         
+        <dd>
+          chain-1
+        </dd>
+      </dl>
+       
+      <dl
+        class="info_dl"
+      >
+        <dt>
+          Time
+        </dt>
+         
+        <dd>
+          January 1st 1970, 00:00
+        </dd>
+      </dl>
+    </div>
+  </div>
+   
+  <div
+    class="page-profile__section block"
+  >
+    <div
+      class="row"
+    >
+      <div
+        class="column"
+      >
+        <h3
+          class="page-profile__section-title"
+        >
+          
+            Transactions (10)
+          
+        </h3>
+         
+        <!---->
+         
+        <transactionlist-stub
+          address=""
+          transactions="[object Object],[object Object],[object Object]"
+          validators="[object Object]"
+        />
+         
+        <br />
+      </div>
+    </div>
+  </div>
+</tmpage-stub>
+`;

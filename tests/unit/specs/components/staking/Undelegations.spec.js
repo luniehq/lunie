@@ -6,6 +6,11 @@ import { stakingTxs } from "../../store/json/txs"
 describe(`Undelegations`, () => {
   let wrapper, $store
   const getters = {
+    lastHeader: { height: `20` },
+    yourValidators: validators
+  }
+
+  const state = {
     transactions: {
       staking: []
     },
@@ -14,20 +19,17 @@ describe(`Undelegations`, () => {
       loaded: true
     },
     session: { signedIn: true },
-    lastHeader: { height: `20` },
-    yourValidators: validators,
-    bondDenom: "stake"
+    bondDenom: "stake",
+    minting: {
+      annualProvision: "100"
+    }
   }
 
   beforeEach(() => {
     $store = {
       commit: jest.fn(),
       dispatch: jest.fn(),
-      state: {
-        minting: {
-          annualProvision: "100"
-        }
-      },
+      state,
       getters: JSON.parse(JSON.stringify(getters)) // clone so we don't overwrite by accident
     }
 

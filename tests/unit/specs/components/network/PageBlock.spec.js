@@ -1,23 +1,18 @@
 import { shallowMount, createLocalVue } from "@vue/test-utils"
 import PageBlock from "network/PageBlock"
 import { bankTxs } from "../../store/json/txs"
-import { state } from "test/unit/helpers/mockValues.js"
 
 const localVue = createLocalVue()
-localVue.directive(`tooltip`, () => {})
+localVue.directive(`tooltip`, () => { })
 
 describe(`PageBlock`, () => {
   let wrapper
 
   const getters = {
     connected: true,
-    delegation: {},
-    bondDenom: `atom`,
     lastHeader: {
       height: `1000`
     },
-    session: { address: `` },
-    delegates: { delegates: state.candidates },
     block: {
       block: {
         header: {
@@ -29,14 +24,24 @@ describe(`PageBlock`, () => {
       },
       block_meta: {
         header: {
-          chain_id: `chain-1`
+          chain_id: `chain-1`,
+          num_txs: 10
         },
         block_id: {
           hash: `ABCD1234`
         }
       },
       transactions: bankTxs
-    }
+    },
+    validators: {}
+  }
+
+  const state = {
+    delegation: {
+      unbondingDelegations: {},
+      loaded: true
+    },
+    session: { address: `` },
   }
 
   beforeEach(() => {
@@ -45,6 +50,7 @@ describe(`PageBlock`, () => {
       mocks: {
         $store: {
           getters,
+          state,
           dispatch: jest.fn()
         },
         $route: {
@@ -105,20 +111,6 @@ describe(`PageBlock`, () => {
     })
 
     expect(wrapper.vm.$el).toMatchSnapshot()
-  })
-
-  it(`sets properties for the block table`, () => {
-    expect(wrapper.vm.properties).toEqual([
-      {
-        title: `Proposer`
-      },
-      {
-        title: `Time`
-      },
-      {
-        title: `Round`
-      }
-    ])
   })
 
   it(`loads the block information when the route changes`, () => {

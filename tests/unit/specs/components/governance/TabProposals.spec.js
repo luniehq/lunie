@@ -25,7 +25,8 @@ describe(`TabProposals`, () => {
     }
 
     $store.getters = {
-      connected: true
+      connected: true,
+      bondDenom: `lunies`
     }
 
     const wrapper = shallowMount(TabProposals, {

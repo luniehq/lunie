@@ -5,6 +5,14 @@ describe(`PagePortfolio`, () => {
   let wrapper, $store
 
   const getters = {
+    connected: true,
+    totalRewards: 1000000,
+    lastHeader: {
+      height: 10
+    }
+  }
+
+  const state = {
     wallet: {
       balances: [
         {
@@ -24,29 +32,24 @@ describe(`PagePortfolio`, () => {
     delegation: {
       unbondingDelegations: {}
     },
-    connected: true,
-    lastHeader: {
-      height: 10
-    },
-    bondDenom: "stake",
-    totalRewards: 1000000
   }
 
   beforeEach(() => {
     $store = {
       commit: jest.fn(),
       dispatch: jest.fn(),
-      getters
+      getters,
+      state
     }
 
-    wrapper = shallowMount(PagePortfolio, {
+    shallowMount(PagePortfolio, {
       mocks: {
         $store
       }
     })
   })
 
-  it("should display the portfolio page", () => {
-    expect(wrapper.element).toMatchSnapshot()
+  it("should display the portfolio page", async () => {
+    expect(wrapper.vm.$el).toMatchSnapshot()
   })
 })
