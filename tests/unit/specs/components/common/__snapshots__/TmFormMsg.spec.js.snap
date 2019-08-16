@@ -1,0 +1,12 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TmFormMsg has the expected html structure 1`] = `
+<div
+  class="tm-form-msg sm tm-form-msg--error"
+  error="Password must be between 16 and 255 characters"
+>
+  
+    Password must be between 16 and 255 characters
+  
+</div>
+`;

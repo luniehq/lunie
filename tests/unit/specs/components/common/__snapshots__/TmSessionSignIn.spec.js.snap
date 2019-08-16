@@ -1,0 +1,64 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TmSessionSignIn has the expected html structure 1`] = `
+<sessionframe-stub>
+  <tmformstruct-stub
+    class="session-container"
+    submit="function () { [native code] }"
+    width=""
+  >
+    <h2
+      class="session-title"
+    >
+      
+      Sign in with account
+    
+    </h2>
+     
+    <div
+      class="session-main"
+    >
+      <tmformgroup-stub
+        fieldid="sign-in-name"
+        fieldlabel="Select Account"
+      >
+        <tmfield-stub
+          id="sign-in-name"
+          options="[object Object]"
+          placeholder="Select account…"
+          type="select"
+          value="cosmos1234"
+          vue-focus="vue-focus"
+        />
+         
+        <!---->
+      </tmformgroup-stub>
+       
+      <tmformgroup-stub
+        fieldid="sign-in-password"
+        fieldlabel="Password"
+      >
+        <tmfield-stub
+          id="sign-in-password"
+          type="password"
+          value=""
+        />
+         
+        <!---->
+         
+        <!---->
+         
+        <!---->
+      </tmformgroup-stub>
+    </div>
+     
+    <div
+      class="session-footer"
+    >
+      <tmbtn-stub
+        value="Sign In"
+      />
+    </div>
+  </tmformstruct-stub>
+</sessionframe-stub>
+`;

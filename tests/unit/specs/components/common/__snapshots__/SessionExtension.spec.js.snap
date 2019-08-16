@@ -1,0 +1,66 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SessionExtension should show a guide to install the extension if no extension is installed 1`] = `
+<sessionframe-stub>
+  <div
+    class="session-container"
+  >
+    <h2
+      class="session-title"
+    >
+      
+      Use Lunie Browser Extension
+    
+    </h2>
+     
+    <div
+      class="session-main"
+    >
+      <p>
+        
+        Please install the Lunie Browser Extension from the
+        
+        <a
+          href="https://chrome.google.com/webstore/category/extensions"
+          rel="noopener norefferer"
+          target="_blank"
+        >
+          Chrome Web Store
+        </a>
+        .
+      
+      </p>
+    </div>
+  </div>
+</sessionframe-stub>
+`;
+
+exports[`SessionExtension should show a list of all accounts in the extension 1`] = `
+<sessionframe-stub>
+  <div
+    class="session-container"
+  >
+    <h2
+      class="session-title"
+    >
+      
+      Use Lunie Browser Extension
+    
+    </h2>
+     
+    <div
+      class="session-main"
+    >
+      
+      Below is a list of accounts we received from the Lunie browser
+      extension.
+      
+      <accountlist-stub
+        accounts="[object Object],[object Object]"
+        buttonaction="function () { [native code] }"
+        buttontext="Use Account"
+      />
+    </div>
+  </div>
+</sessionframe-stub>
+`;

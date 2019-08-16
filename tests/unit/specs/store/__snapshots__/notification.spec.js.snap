@@ -1,0 +1,62 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Module: Notification should add a notification object to the store 1`] = `
+Object {
+  "body": "BodyB",
+  "icon": "check_circle",
+  "key": 0,
+  "time": 42000,
+  "title": "TitleA",
+}
+`;
+
+exports[`Module: Notification should add a warning object to the store 1`] = `
+Object {
+  "body": "BodyB",
+  "icon": "warning",
+  "key": 0,
+  "time": 42000,
+  "title": "TitleA",
+  "type": "warning",
+}
+`;
+
+exports[`Module: Notification should add an authentication required notification to the store 1`] = `
+Object {
+  "body": "You must sign up or sign in to view that page.",
+  "icon": "error",
+  "key": 0,
+  "time": 42000,
+  "title": "Authentication Required",
+}
+`;
+
+exports[`Module: Notification should add an signin notification to the store 1`] = `
+Object {
+  "body": "Welcome back.",
+  "icon": "mood",
+  "key": 0,
+  "time": 42000,
+  "title": "Signed In",
+}
+`;
+
+exports[`Module: Notification should add an signout notification to the store 1`] = `
+Object {
+  "body": "Come back again soon.",
+  "icon": "exit_to_app",
+  "key": 0,
+  "time": 42000,
+  "title": "Signed Out",
+}
+`;
+
+exports[`Module: Notification should add an signup notification to the store 1`] = `
+Object {
+  "body": "Thank you for signing up.",
+  "icon": "mood",
+  "key": 0,
+  "time": 42000,
+  "title": "Welcome!",
+}
+`;

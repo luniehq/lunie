@@ -1,0 +1,1433 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`PageValidator shows a validator profile information errors signing info is missing 1`] = `
+<tmpage-stub
+  class="small"
+  data-title="Validator"
+  hideheader="true"
+  loaded="true"
+  managed="true"
+  subtitle=""
+  title=""
+>
+  <template>
+    <div
+      class="status-container"
+    >
+      <span
+        class="validator-status green"
+      >
+        Active
+      </span>
+    </div>
+     
+    <tr
+      class="li-validator"
+    >
+      <td
+        class="data-table__row__info"
+      >
+<<<<<<< HEAD:test/unit/specs/components/staking/__snapshots__/PageValidator.spec.js.snap
+        <img
+          alt="generic validator logo - graphic triangle supporting atom token"
+          class="li-validator-image"
+          src="~assets/images/validator-icon.svg"
+=======
+        <apolloquery-stub
+          debounce="0"
+          options="[object Object]"
+          prefetch="true"
+          query="[object Object]"
+          tag="div"
+          throttle="0"
+          update="function () { [native code] }"
+          variables="[object Object]"
+>>>>>>> develop:tests/unit/specs/components/staking/__snapshots__/PageValidator.spec.js.snap
+        />
+         
+        <div
+          class="validator-info"
+        >
+<<<<<<< HEAD:test/unit/specs/components/staking/__snapshots__/PageValidator.spec.js.snap
+          <h3
+            class="li-validator-name"
+=======
+          <div>
+            <div
+              class="validator-name-and-address"
+            >
+              <div
+                class="page-profile__status-and-title"
+              >
+                <span
+                  class="page-profile__status green"
+                />
+                 
+                <div
+                  class="page-profile__title"
+                >
+                  mr_mounty
+                </div>
+              </div>
+               
+              <bech32-stub
+                address="cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
+              />
+            </div>
+          </div>
+           
+          <div
+            class="page-profile__header__actions"
+>>>>>>> develop:tests/unit/specs/components/staking/__snapshots__/PageValidator.spec.js.snap
+          >
+            
+            mr_mounty
+          
+          </h3>
+           
+          <!---->
+        </div>
+      </td>
+    </tr>
+     
+    <div
+      class="button-container"
+    >
+      <tmbtn-stub
+        id="delegation-btn"
+        value="Stake"
+      />
+       
+      <tmbtn-stub
+        disabled="true"
+        id="undelegation-btn"
+        type="secondary"
+        value="Unstake"
+      />
+    </div>
+     
+    <div
+      class="row"
+    >
+      <dl
+        class="info_dl"
+      >
+        <dt>
+          Description
+        </dt>
+         
+        <dd
+          class="info_dl__text-box"
+        >
+<<<<<<< HEAD:test/unit/specs/components/staking/__snapshots__/PageValidator.spec.js.snap
+          
+          Mr Mounty
+        
+        </dd>
+      </dl>
+       
+      <dl
+        class="info_dl"
+      >
+        <dt>
+          Website
+        </dt>
+         
+        <dd>
+          <a
+            href="https://www.monty.ca"
+            id="validator-website"
+            rel="nofollow noreferrer noopener"
+            target="_blank"
+          >
+            https://www.monty.ca
+          </a>
+        </dd>
+      </dl>
+       
+      <dl
+        class="info_dl"
+      >
+        <dt>
+          Validator Address
+        </dt>
+         
+        <dd>
+          <bech32-stub
+            address="cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
+          />
+        </dd>
+      </dl>
+=======
+          <dl
+            class="info_dl colored_dl"
+          >
+            <dt>
+              Voting Power
+            </dt>
+             
+            <dd
+              id="page-profile__power"
+            >
+              0.33%
+            </dd>
+          </dl>
+           
+          <dl
+            class="info_dl colored_dl"
+          >
+            <dt>
+              Uptime
+            </dt>
+             
+            <dd
+              id="page-profile__uptime"
+            >
+              99.6%
+            </dd>
+          </dl>
+           
+          <dl
+            class="info_dl colored_dl"
+          >
+            <dt>
+              Commission
+            </dt>
+             
+            <dd
+              id="page-profile__commission"
+            >
+              5.00%
+            </dd>
+          </dl>
+        </div>
+      </div>
+>>>>>>> develop:tests/unit/specs/components/staking/__snapshots__/PageValidator.spec.js.snap
+    </div>
+     
+    <div
+      class="row row-condensed"
+    >
+      <dl
+        class="info_dl"
+      >
+        <dt>
+          Voting Power / Total Stake
+        </dt>
+         
+        <dd
+          id="page-profile__power"
+        >
+<<<<<<< HEAD:test/unit/specs/components/staking/__snapshots__/PageValidator.spec.js.snap
+          
+          0.33% /
+          0
+        
+        </dd>
+      </dl>
+       
+      <dl
+        class="info_dl"
+      >
+        <dt>
+          Self Stake
+        </dt>
+=======
+          <dl
+            class="info_dl"
+          >
+            <dt>
+              Full Operator Address
+            </dt>
+             
+            <dd
+              class="address"
+            >
+              cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw
+            </dd>
+          </dl>
+           
+          <dl
+            class="info_dl"
+          >
+            <dt>
+              Keybase ID
+            </dt>
+             
+            <dd>
+              --
+            </dd>
+          </dl>
+           
+          <dl
+            class="info_dl"
+          >
+            <dt>
+              Website
+            </dt>
+             
+            <dd>
+              <a
+                href="https://www.monty.ca"
+                id="validator-website"
+                rel="nofollow noreferrer noopener"
+                target="_blank"
+              >
+                https://www.monty.ca
+              </a>
+            </dd>
+          </dl>
+           
+          <dl
+            class="info_dl"
+          >
+            <dt>
+              Description
+            </dt>
+             
+            <dd
+              class="info_dl__text-box"
+            >
+              Mr Mounty
+            </dd>
+          </dl>
+        </div>
+>>>>>>> develop:tests/unit/specs/components/staking/__snapshots__/PageValidator.spec.js.snap
+         
+        <dd
+          id="page-profile__self-bond"
+        >
+<<<<<<< HEAD:test/unit/specs/components/staking/__snapshots__/PageValidator.spec.js.snap
+          
+          1.00% / 10,000
+        
+        </dd>
+      </dl>
+       
+      <dl
+        class="info_dl"
+      >
+        <dt>
+          Validator Since
+        </dt>
+         
+        <dd>
+          Block #
+        </dd>
+      </dl>
+       
+      <dl
+        class="info_dl"
+      >
+        <dt>
+          Uptime / Missed Blocks
+        </dt>
+         
+        <dd
+          id="page-profile__uptime"
+        >
+          
+          99.6% / 2
+        
+        </dd>
+      </dl>
+       
+      <dl
+        class="info_dl"
+      >
+        <dt>
+          Current Commission Rate
+        </dt>
+         
+        <dd>
+          5.00%
+        </dd>
+      </dl>
+       
+      <dl
+        class="info_dl"
+      >
+        <dt>
+          Max Commission Rate
+        </dt>
+         
+        <dd>
+          10.00%
+        </dd>
+      </dl>
+       
+      <dl
+        class="info_dl"
+      >
+        <dt>
+          Max Daily Commission Change
+        </dt>
+         
+        <dd>
+          0.50%
+        </dd>
+      </dl>
+       
+      <dl
+        class="info_dl"
+      >
+        <dt>
+          Last Commission Change
+        </dt>
+         
+        <dd>
+          a few seconds ago
+        </dd>
+      </dl>
+=======
+          <dl
+            class="info_dl"
+          >
+            <dt>
+              Current Commission Rate
+            </dt>
+             
+            <dd>
+              5.00%
+            </dd>
+          </dl>
+           
+          <dl
+            class="info_dl"
+          >
+            <dt>
+              Max Commission Rate
+            </dt>
+             
+            <dd>
+              10.00%
+            </dd>
+          </dl>
+           
+          <dl
+            class="info_dl"
+          >
+            <dt>
+              Max Daily Commission Change
+            </dt>
+             
+            <dd>
+              0.50%
+            </dd>
+          </dl>
+           
+          <dl
+            class="info_dl"
+          >
+            <dt>
+              Last Commission Change
+            </dt>
+             
+            <dd>
+              a few seconds ago
+            </dd>
+          </dl>
+           
+          <dl
+            class="info_dl"
+          >
+            <dt>
+              Self Delegation
+            </dt>
+             
+            <dd
+              id="page-profile__self-bond"
+            >
+              1.00%
+            </dd>
+          </dl>
+        </div>
+      </div>
+>>>>>>> develop:tests/unit/specs/components/staking/__snapshots__/PageValidator.spec.js.snap
+    </div>
+     
+    <delegationmodal-stub
+      denom="STAKE"
+      fromoptions="[object Object]"
+      to="cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
+      validator="[object Object]"
+    />
+     
+    <undelegationmodal-stub
+      denom="STAKE"
+      maximum="0"
+      to="cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9"
+      validator="[object Object]"
+    />
+  </template>
+</tmpage-stub>
+`;
+
+exports[`PageValidator shows a validator profile information if user has signed in 1`] = `
+<tmpage-stub
+  class="small"
+  data-title="Validator"
+  hideheader="true"
+  loaded="true"
+  managed="true"
+  subtitle=""
+  title=""
+>
+  <template>
+    <div
+      class="status-container"
+    >
+      <span
+        class="validator-status green"
+      >
+        Active
+      </span>
+    </div>
+     
+    <tr
+      class="li-validator"
+    >
+      <td
+        class="data-table__row__info"
+      >
+<<<<<<< HEAD:test/unit/specs/components/staking/__snapshots__/PageValidator.spec.js.snap
+        <img
+          alt="generic validator logo - graphic triangle supporting atom token"
+          class="li-validator-image"
+          src="~assets/images/validator-icon.svg"
+=======
+        <apolloquery-stub
+          debounce="0"
+          options="[object Object]"
+          prefetch="true"
+          query="[object Object]"
+          tag="div"
+          throttle="0"
+          update="function () { [native code] }"
+          variables="[object Object]"
+>>>>>>> develop:tests/unit/specs/components/staking/__snapshots__/PageValidator.spec.js.snap
+        />
+         
+        <div
+          class="validator-info"
+        >
+<<<<<<< HEAD:test/unit/specs/components/staking/__snapshots__/PageValidator.spec.js.snap
+          <h3
+            class="li-validator-name"
+=======
+          <div>
+            <div
+              class="validator-name-and-address"
+            >
+              <div
+                class="page-profile__status-and-title"
+              >
+                <span
+                  class="page-profile__status green"
+                />
+                 
+                <div
+                  class="page-profile__title"
+                >
+                  mr_mounty
+                </div>
+              </div>
+               
+              <bech32-stub
+                address="cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
+              />
+            </div>
+          </div>
+           
+          <div
+            class="page-profile__header__actions"
+>>>>>>> develop:tests/unit/specs/components/staking/__snapshots__/PageValidator.spec.js.snap
+          >
+            
+            mr_mounty
+          
+          </h3>
+           
+          <!---->
+        </div>
+      </td>
+    </tr>
+     
+    <div
+      class="button-container"
+    >
+      <tmbtn-stub
+        id="delegation-btn"
+        value="Stake"
+      />
+       
+      <tmbtn-stub
+        disabled="true"
+        id="undelegation-btn"
+        type="secondary"
+        value="Unstake"
+      />
+    </div>
+     
+    <div
+      class="row"
+    >
+      <dl
+        class="info_dl"
+      >
+        <dt>
+          Description
+        </dt>
+         
+        <dd
+          class="info_dl__text-box"
+        >
+<<<<<<< HEAD:test/unit/specs/components/staking/__snapshots__/PageValidator.spec.js.snap
+          
+          Mr Mounty
+        
+        </dd>
+      </dl>
+       
+      <dl
+        class="info_dl"
+      >
+        <dt>
+          Website
+        </dt>
+         
+        <dd>
+          <a
+            href="https://www.monty.ca"
+            id="validator-website"
+            rel="nofollow noreferrer noopener"
+            target="_blank"
+          >
+            https://www.monty.ca
+          </a>
+        </dd>
+      </dl>
+       
+      <dl
+        class="info_dl"
+      >
+        <dt>
+          Validator Address
+        </dt>
+         
+        <dd>
+          <bech32-stub
+            address="cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
+          />
+        </dd>
+      </dl>
+=======
+          <dl
+            class="info_dl colored_dl"
+          >
+            <dt>
+              Voting Power
+            </dt>
+             
+            <dd
+              id="page-profile__power"
+            >
+              0.33%
+            </dd>
+          </dl>
+           
+          <dl
+            class="info_dl colored_dl"
+          >
+            <dt>
+              Uptime
+            </dt>
+             
+            <dd
+              id="page-profile__uptime"
+            >
+              99.6%
+            </dd>
+          </dl>
+           
+          <dl
+            class="info_dl colored_dl"
+          >
+            <dt>
+              Commission
+            </dt>
+             
+            <dd
+              id="page-profile__commission"
+            >
+              5.00%
+            </dd>
+          </dl>
+        </div>
+      </div>
+>>>>>>> develop:tests/unit/specs/components/staking/__snapshots__/PageValidator.spec.js.snap
+    </div>
+     
+    <div
+      class="row row-condensed"
+    >
+      <dl
+        class="info_dl"
+      >
+        <dt>
+          Voting Power / Total Stake
+        </dt>
+         
+        <dd
+          id="page-profile__power"
+        >
+<<<<<<< HEAD:test/unit/specs/components/staking/__snapshots__/PageValidator.spec.js.snap
+          
+          0.33% /
+          0
+        
+        </dd>
+      </dl>
+       
+      <dl
+        class="info_dl"
+      >
+        <dt>
+          Self Stake
+        </dt>
+=======
+          <dl
+            class="info_dl"
+          >
+            <dt>
+              Full Operator Address
+            </dt>
+             
+            <dd
+              class="address"
+            >
+              cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw
+            </dd>
+          </dl>
+           
+          <dl
+            class="info_dl"
+          >
+            <dt>
+              Keybase ID
+            </dt>
+             
+            <dd>
+              --
+            </dd>
+          </dl>
+           
+          <dl
+            class="info_dl"
+          >
+            <dt>
+              Website
+            </dt>
+             
+            <dd>
+              <a
+                href="https://www.monty.ca"
+                id="validator-website"
+                rel="nofollow noreferrer noopener"
+                target="_blank"
+              >
+                https://www.monty.ca
+              </a>
+            </dd>
+          </dl>
+           
+          <dl
+            class="info_dl"
+          >
+            <dt>
+              Description
+            </dt>
+             
+            <dd
+              class="info_dl__text-box"
+            >
+              Mr Mounty
+            </dd>
+          </dl>
+        </div>
+>>>>>>> develop:tests/unit/specs/components/staking/__snapshots__/PageValidator.spec.js.snap
+         
+        <dd
+          id="page-profile__self-bond"
+        >
+<<<<<<< HEAD:test/unit/specs/components/staking/__snapshots__/PageValidator.spec.js.snap
+          
+          1.00% / 10,000
+        
+        </dd>
+      </dl>
+       
+      <dl
+        class="info_dl"
+      >
+        <dt>
+          Validator Since
+        </dt>
+         
+        <dd>
+          Block #
+        </dd>
+      </dl>
+       
+      <dl
+        class="info_dl"
+      >
+        <dt>
+          Uptime / Missed Blocks
+        </dt>
+         
+        <dd
+          id="page-profile__uptime"
+        >
+          
+          99.6% / 2
+        
+        </dd>
+      </dl>
+       
+      <dl
+        class="info_dl"
+      >
+        <dt>
+          Current Commission Rate
+        </dt>
+         
+        <dd>
+          5.00%
+        </dd>
+      </dl>
+       
+      <dl
+        class="info_dl"
+      >
+        <dt>
+          Max Commission Rate
+        </dt>
+         
+        <dd>
+          10.00%
+        </dd>
+      </dl>
+       
+      <dl
+        class="info_dl"
+      >
+        <dt>
+          Max Daily Commission Change
+        </dt>
+         
+        <dd>
+          0.50%
+        </dd>
+      </dl>
+       
+      <dl
+        class="info_dl"
+      >
+        <dt>
+          Last Commission Change
+        </dt>
+         
+        <dd>
+          a few seconds ago
+        </dd>
+      </dl>
+=======
+          <dl
+            class="info_dl"
+          >
+            <dt>
+              Current Commission Rate
+            </dt>
+             
+            <dd>
+              5.00%
+            </dd>
+          </dl>
+           
+          <dl
+            class="info_dl"
+          >
+            <dt>
+              Max Commission Rate
+            </dt>
+             
+            <dd>
+              10.00%
+            </dd>
+          </dl>
+           
+          <dl
+            class="info_dl"
+          >
+            <dt>
+              Max Daily Commission Change
+            </dt>
+             
+            <dd>
+              0.50%
+            </dd>
+          </dl>
+           
+          <dl
+            class="info_dl"
+          >
+            <dt>
+              Last Commission Change
+            </dt>
+             
+            <dd>
+              a few seconds ago
+            </dd>
+          </dl>
+           
+          <dl
+            class="info_dl"
+          >
+            <dt>
+              Self Delegation
+            </dt>
+             
+            <dd
+              id="page-profile__self-bond"
+            >
+              1.00%
+            </dd>
+          </dl>
+        </div>
+      </div>
+>>>>>>> develop:tests/unit/specs/components/staking/__snapshots__/PageValidator.spec.js.snap
+    </div>
+     
+    <delegationmodal-stub
+      denom="STAKE"
+      fromoptions="[object Object]"
+      to="cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
+      validator="[object Object]"
+    />
+     
+    <undelegationmodal-stub
+      denom="STAKE"
+      maximum="0"
+      to="cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9"
+      validator="[object Object]"
+    />
+  </template>
+</tmpage-stub>
+`;
+
+exports[`PageValidator shows a validator profile information if user hasn't signed in 1`] = `
+<tmpage-stub
+  class="small"
+  data-title="Validator"
+  hideheader="true"
+  loaded="true"
+  managed="true"
+  subtitle=""
+  title=""
+>
+  <template>
+    <div
+      class="status-container"
+    >
+      <span
+        class="validator-status green"
+      >
+        Active
+      </span>
+    </div>
+     
+    <tr
+      class="li-validator"
+    >
+      <td
+        class="data-table__row__info"
+      >
+<<<<<<< HEAD:test/unit/specs/components/staking/__snapshots__/PageValidator.spec.js.snap
+        <img
+          alt="generic validator logo - graphic triangle supporting atom token"
+          class="li-validator-image"
+          src="~assets/images/validator-icon.svg"
+=======
+        <apolloquery-stub
+          debounce="0"
+          options="[object Object]"
+          prefetch="true"
+          query="[object Object]"
+          tag="div"
+          throttle="0"
+          update="function () { [native code] }"
+          variables="[object Object]"
+>>>>>>> develop:tests/unit/specs/components/staking/__snapshots__/PageValidator.spec.js.snap
+        />
+         
+        <div
+          class="validator-info"
+        >
+<<<<<<< HEAD:test/unit/specs/components/staking/__snapshots__/PageValidator.spec.js.snap
+          <h3
+            class="li-validator-name"
+=======
+          <div>
+            <div
+              class="validator-name-and-address"
+            >
+              <div
+                class="page-profile__status-and-title"
+              >
+                <span
+                  class="page-profile__status green"
+                />
+                 
+                <div
+                  class="page-profile__title"
+                >
+                  mr_mounty
+                </div>
+              </div>
+               
+              <bech32-stub
+                address="cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
+              />
+            </div>
+          </div>
+           
+          <div
+            class="page-profile__header__actions"
+>>>>>>> develop:tests/unit/specs/components/staking/__snapshots__/PageValidator.spec.js.snap
+          >
+            
+            mr_mounty
+          
+          </h3>
+           
+          <!---->
+        </div>
+      </td>
+    </tr>
+     
+    <div
+      class="button-container"
+    >
+      <tmbtn-stub
+        id="delegation-btn"
+        value="Stake"
+      />
+       
+      <tmbtn-stub
+        disabled="true"
+        id="undelegation-btn"
+        type="secondary"
+        value="Unstake"
+      />
+    </div>
+     
+    <div
+      class="row"
+    >
+      <dl
+        class="info_dl"
+      >
+        <dt>
+          Description
+        </dt>
+         
+        <dd
+          class="info_dl__text-box"
+        >
+<<<<<<< HEAD:test/unit/specs/components/staking/__snapshots__/PageValidator.spec.js.snap
+          
+          Mr Mounty
+        
+        </dd>
+      </dl>
+       
+      <dl
+        class="info_dl"
+      >
+        <dt>
+          Website
+        </dt>
+         
+        <dd>
+          <a
+            href="https://www.monty.ca"
+            id="validator-website"
+            rel="nofollow noreferrer noopener"
+            target="_blank"
+          >
+            https://www.monty.ca
+          </a>
+        </dd>
+      </dl>
+       
+      <dl
+        class="info_dl"
+      >
+        <dt>
+          Validator Address
+        </dt>
+         
+        <dd>
+          <bech32-stub
+            address="cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
+          />
+        </dd>
+      </dl>
+=======
+          <dl
+            class="info_dl colored_dl"
+          >
+            <dt>
+              Voting Power
+            </dt>
+             
+            <dd
+              id="page-profile__power"
+            >
+              0.33%
+            </dd>
+          </dl>
+           
+          <dl
+            class="info_dl colored_dl"
+          >
+            <dt>
+              Uptime
+            </dt>
+             
+            <dd
+              id="page-profile__uptime"
+            >
+              99.6%
+            </dd>
+          </dl>
+           
+          <dl
+            class="info_dl colored_dl"
+          >
+            <dt>
+              Commission
+            </dt>
+             
+            <dd
+              id="page-profile__commission"
+            >
+              5.00%
+            </dd>
+          </dl>
+        </div>
+      </div>
+>>>>>>> develop:tests/unit/specs/components/staking/__snapshots__/PageValidator.spec.js.snap
+    </div>
+     
+    <div
+      class="row row-condensed"
+    >
+      <dl
+        class="info_dl"
+      >
+        <dt>
+          Voting Power / Total Stake
+        </dt>
+         
+        <dd
+          id="page-profile__power"
+        >
+<<<<<<< HEAD:test/unit/specs/components/staking/__snapshots__/PageValidator.spec.js.snap
+          
+          0.33% /
+          0
+        
+        </dd>
+      </dl>
+       
+      <dl
+        class="info_dl"
+      >
+        <dt>
+          Self Stake
+        </dt>
+=======
+          <dl
+            class="info_dl"
+          >
+            <dt>
+              Full Operator Address
+            </dt>
+             
+            <dd
+              class="address"
+            >
+              cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw
+            </dd>
+          </dl>
+           
+          <dl
+            class="info_dl"
+          >
+            <dt>
+              Keybase ID
+            </dt>
+             
+            <dd>
+              --
+            </dd>
+          </dl>
+           
+          <dl
+            class="info_dl"
+          >
+            <dt>
+              Website
+            </dt>
+             
+            <dd>
+              <a
+                href="https://www.monty.ca"
+                id="validator-website"
+                rel="nofollow noreferrer noopener"
+                target="_blank"
+              >
+                https://www.monty.ca
+              </a>
+            </dd>
+          </dl>
+           
+          <dl
+            class="info_dl"
+          >
+            <dt>
+              Description
+            </dt>
+             
+            <dd
+              class="info_dl__text-box"
+            >
+              Mr Mounty
+            </dd>
+          </dl>
+        </div>
+>>>>>>> develop:tests/unit/specs/components/staking/__snapshots__/PageValidator.spec.js.snap
+         
+        <dd
+          id="page-profile__self-bond"
+        >
+<<<<<<< HEAD:test/unit/specs/components/staking/__snapshots__/PageValidator.spec.js.snap
+          
+          1.00% / 10,000
+        
+        </dd>
+      </dl>
+       
+      <dl
+        class="info_dl"
+      >
+        <dt>
+          Validator Since
+        </dt>
+         
+        <dd>
+          Block #
+        </dd>
+      </dl>
+       
+      <dl
+        class="info_dl"
+      >
+        <dt>
+          Uptime / Missed Blocks
+        </dt>
+         
+        <dd
+          id="page-profile__uptime"
+        >
+          
+          99.6% / 2
+        
+        </dd>
+      </dl>
+       
+      <dl
+        class="info_dl"
+      >
+        <dt>
+          Current Commission Rate
+        </dt>
+         
+        <dd>
+          5.00%
+        </dd>
+      </dl>
+       
+      <dl
+        class="info_dl"
+      >
+        <dt>
+          Max Commission Rate
+        </dt>
+         
+        <dd>
+          10.00%
+        </dd>
+      </dl>
+       
+      <dl
+        class="info_dl"
+      >
+        <dt>
+          Max Daily Commission Change
+        </dt>
+         
+        <dd>
+          0.50%
+        </dd>
+      </dl>
+       
+      <dl
+        class="info_dl"
+      >
+        <dt>
+          Last Commission Change
+        </dt>
+         
+        <dd>
+          a few seconds ago
+        </dd>
+      </dl>
+=======
+          <dl
+            class="info_dl"
+          >
+            <dt>
+              Current Commission Rate
+            </dt>
+             
+            <dd>
+              5.00%
+            </dd>
+          </dl>
+           
+          <dl
+            class="info_dl"
+          >
+            <dt>
+              Max Commission Rate
+            </dt>
+             
+            <dd>
+              10.00%
+            </dd>
+          </dl>
+           
+          <dl
+            class="info_dl"
+          >
+            <dt>
+              Max Daily Commission Change
+            </dt>
+             
+            <dd>
+              0.50%
+            </dd>
+          </dl>
+           
+          <dl
+            class="info_dl"
+          >
+            <dt>
+              Last Commission Change
+            </dt>
+             
+            <dd>
+              a few seconds ago
+            </dd>
+          </dl>
+           
+          <dl
+            class="info_dl"
+          >
+            <dt>
+              Self Delegation
+            </dt>
+             
+            <dd
+              id="page-profile__self-bond"
+            >
+              1.00%
+            </dd>
+          </dl>
+        </div>
+      </div>
+>>>>>>> develop:tests/unit/specs/components/staking/__snapshots__/PageValidator.spec.js.snap
+    </div>
+     
+    <delegationmodal-stub
+      denom="STAKE"
+      fromoptions=""
+      to="cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
+      validator="[object Object]"
+    />
+     
+    <undelegationmodal-stub
+      denom="STAKE"
+      maximum="0"
+      to=""
+      validator="[object Object]"
+    />
+  </template>
+</tmpage-stub>
+`;
+
+exports[`PageValidator shows a validator profile information shows a validator as an inactive candidate if he has no voting_power 1`] = `"Inactive"`;
+
+exports[`PageValidator shows a validator profile information shows that a validator is jailed 1`] = `"Jailed"`;
+
+exports[`delegationTargetOptions always shows wallet in the first position 1`] = `
+Array [
+  Object {
+    "address": "cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9",
+    "key": "My Wallet - cosmos…3p4mqpjyrm5ctpesxxn9",
+    "maximum": 1337,
+    "value": 0,
+  },
+]
+`;
+
+exports[`delegationTargetOptions hides displayed validator if bonded 1`] = `
+Array [
+  Object {
+    "address": "cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9",
+    "key": "My Wallet - cosmos…3p4mqpjyrm5ctpesxxn9",
+    "maximum": 1337,
+    "value": 0,
+  },
+]
+`;
+
+exports[`delegationTargetOptions shows bonded validators for redelegation options 1`] = `
+Array [
+  Object {
+    "address": "cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9",
+    "key": "My Wallet - cosmos…3p4mqpjyrm5ctpesxxn9",
+    "maximum": 1337,
+    "value": 0,
+  },
+  Object {
+    "address": "cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au",
+    "key": "good_greg - cosmosvaladdr…3p4mqpjyrm5ctplpn3au",
+    "maximum": 5,
+    "value": 1,
+  },
+]
+`;

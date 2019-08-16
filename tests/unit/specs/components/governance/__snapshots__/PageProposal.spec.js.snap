@@ -1,0 +1,630 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`PageProposal renders votes in HTML when voting is open 1`] = `
+<tmpage-stub
+  class="small"
+  data-title="Proposal"
+  hideheader="true"
+  subtitle=""
+  title=""
+>
+  <div
+    class="page-profile__header page-profile__section proposal"
+  >
+    <div
+      class="page-profile__header__info"
+    >
+      <span
+        class="proposal-status pink"
+      >
+        
+          Voting Period
+        
+      </span>
+       
+      <div
+        class="page-profile__status-and-title"
+      >
+        <h2
+          class="proposal-title"
+        >
+          VotingPeriod proposal
+        </h2>
+      </div>
+    </div>
+     
+    <div
+      class="button-container"
+    >
+      <tmbtn-stub
+        color="primary"
+        disabled="true"
+        id="deposit-btn"
+        value="Deposit"
+      />
+       
+      <tmbtn-stub
+        color="primary"
+        id="vote-btn"
+        value="Vote"
+      />
+    </div>
+     
+    <div
+      class="row"
+    >
+      <div
+        class="column"
+      >
+        <dl>
+          <textblock-stub
+            content="custom text proposal description"
+          />
+        </dl>
+      </div>
+    </div>
+  </div>
+   
+  <div
+    class="page-profile__section"
+  >
+    <div
+      class="row row-condensed"
+    >
+      <!---->
+    </div>
+     
+    <div
+      class="row row-condensed"
+    >
+      <dl>
+        <dt>
+          Total Vote Count
+        </dt>
+         
+        <dd>
+          
+            100,000,000% /
+            10,000
+          
+        </dd>
+      </dl>
+       
+      <dl>
+        <dt>
+          Yes
+        </dt>
+         
+        <dd>
+          
+            10% /
+            1,000
+          
+        </dd>
+      </dl>
+       
+      <dl>
+        <dt>
+          No
+        </dt>
+         
+        <dd>
+          
+            20% /
+            2,000
+          
+        </dd>
+      </dl>
+       
+      <dl>
+        <dt>
+          No with Veto
+        </dt>
+         
+        <dd>
+          
+            30% /
+            3,000
+          
+        </dd>
+      </dl>
+       
+      <dl>
+        <dt>
+          Abstain
+        </dt>
+         
+        <dd>
+          
+            40% /
+            4,000
+          
+        </dd>
+      </dl>
+    </div>
+     
+    <div
+      class="row row-condensed"
+    >
+      <dl>
+        <dt>
+          Proposal ID
+        </dt>
+         
+        <dd>
+          2
+        </dd>
+      </dl>
+       
+      <dl>
+        <dt>
+          Submitted
+        </dt>
+         
+        <dd>
+          January 1st 1970, 00:00
+        </dd>
+      </dl>
+       
+      <dl>
+        <dt>
+          Voting Start Date
+        </dt>
+         
+        <dd>
+          January 3rd 1970, 00:00
+        </dd>
+      </dl>
+       
+      <dl>
+        <dt>
+          Voting End Date
+        </dt>
+         
+        <dd>
+          January 5th 1970, 00:00
+        </dd>
+      </dl>
+    </div>
+  </div>
+   
+  <modaldeposit-stub
+    denom="STAKE"
+    proposalid="2"
+    proposaltitle="VotingPeriod proposal"
+  />
+   
+  <modalvote-stub
+    proposalid="2"
+    proposaltitle="VotingPeriod proposal"
+  />
+</tmpage-stub>
+`;
+
+exports[`PageProposal should display proposal page if user has signed in 1`] = `
+<tmpage-stub
+  class="small"
+  data-title="Proposal"
+  hideheader="true"
+  subtitle=""
+  title=""
+>
+  <div
+    class="page-profile__header page-profile__section proposal"
+  >
+    <div
+      class="page-profile__header__info"
+    >
+      <span
+        class="proposal-status pink"
+      >
+        
+          Voting Period
+        
+      </span>
+       
+      <div
+        class="page-profile__status-and-title"
+      >
+        <h2
+          class="proposal-title"
+        >
+          VotingPeriod proposal
+        </h2>
+      </div>
+    </div>
+     
+    <div
+      class="button-container"
+    >
+      <tmbtn-stub
+        color="primary"
+        disabled="true"
+        id="deposit-btn"
+        value="Deposit"
+      />
+       
+      <tmbtn-stub
+        color="primary"
+        id="vote-btn"
+        value="Vote"
+      />
+    </div>
+     
+    <div
+      class="row"
+    >
+      <div
+        class="column"
+      >
+        <dl>
+          <textblock-stub
+            content="custom text proposal description"
+          />
+        </dl>
+      </div>
+    </div>
+  </div>
+   
+  <div
+    class="page-profile__section"
+  >
+    <div
+      class="row row-condensed"
+    >
+      <!---->
+    </div>
+     
+    <div
+      class="row row-condensed"
+    >
+      <dl>
+        <dt>
+          Total Vote Count
+        </dt>
+         
+        <dd>
+          
+            0% /
+            0
+          
+        </dd>
+      </dl>
+       
+      <dl>
+        <dt>
+          Yes
+        </dt>
+         
+        <dd>
+          
+            0% /
+            0
+          
+        </dd>
+      </dl>
+       
+      <dl>
+        <dt>
+          No
+        </dt>
+         
+        <dd>
+          
+            0% /
+            0
+          
+        </dd>
+      </dl>
+       
+      <dl>
+        <dt>
+          No with Veto
+        </dt>
+         
+        <dd>
+          
+            0% /
+            0
+          
+        </dd>
+      </dl>
+       
+      <dl>
+        <dt>
+          Abstain
+        </dt>
+         
+        <dd>
+          
+            0% /
+            0
+          
+        </dd>
+      </dl>
+    </div>
+     
+    <div
+      class="row row-condensed"
+    >
+      <dl>
+        <dt>
+          Proposal ID
+        </dt>
+         
+        <dd>
+          2
+        </dd>
+      </dl>
+       
+      <dl>
+        <dt>
+          Submitted
+        </dt>
+         
+        <dd>
+          January 1st 1970, 00:00
+        </dd>
+      </dl>
+       
+      <dl>
+        <dt>
+          Voting Start Date
+        </dt>
+         
+        <dd>
+          January 3rd 1970, 00:00
+        </dd>
+      </dl>
+       
+      <dl>
+        <dt>
+          Voting End Date
+        </dt>
+         
+        <dd>
+          January 5th 1970, 00:00
+        </dd>
+      </dl>
+    </div>
+  </div>
+   
+  <modaldeposit-stub
+    denom="STAKE"
+    proposalid="2"
+    proposaltitle="VotingPeriod proposal"
+  />
+   
+  <modalvote-stub
+    proposalid="2"
+    proposaltitle="VotingPeriod proposal"
+  />
+</tmpage-stub>
+`;
+
+exports[`PageProposal should display proposal page should default tally to 0 if it's not yet present  1`] = `
+<tmpage-stub
+  class="small"
+  data-title="Proposal"
+  hideheader="true"
+  subtitle=""
+  title=""
+>
+  <div
+    class="page-profile__header page-profile__section proposal"
+  >
+    <div
+      class="page-profile__header__info"
+    >
+      <span
+        class="proposal-status pink"
+      >
+        
+          Voting Period
+        
+      </span>
+       
+      <div
+        class="page-profile__status-and-title"
+      >
+        <h2
+          class="proposal-title"
+        >
+          VotingPeriod proposal
+        </h2>
+      </div>
+    </div>
+     
+    <div
+      class="button-container"
+    >
+      <tmbtn-stub
+        color="primary"
+        disabled="true"
+        id="deposit-btn"
+        value="Deposit"
+      />
+       
+      <tmbtn-stub
+        color="primary"
+        id="vote-btn"
+        value="Vote"
+      />
+    </div>
+     
+    <div
+      class="row"
+    >
+      <div
+        class="column"
+      >
+        <dl>
+          <textblock-stub
+            content="custom text proposal description"
+          />
+        </dl>
+      </div>
+    </div>
+  </div>
+   
+  <div
+    class="page-profile__section"
+  >
+    <div
+      class="row row-condensed"
+    >
+      <!---->
+    </div>
+     
+    <div
+      class="row row-condensed"
+    >
+      <dl>
+        <dt>
+          Total Vote Count
+        </dt>
+         
+        <dd>
+          
+            0% /
+            0
+          
+        </dd>
+      </dl>
+       
+      <dl>
+        <dt>
+          Yes
+        </dt>
+         
+        <dd>
+          
+            0% /
+            0
+          
+        </dd>
+      </dl>
+       
+      <dl>
+        <dt>
+          No
+        </dt>
+         
+        <dd>
+          
+            0% /
+            0
+          
+        </dd>
+      </dl>
+       
+      <dl>
+        <dt>
+          No with Veto
+        </dt>
+         
+        <dd>
+          
+            0% /
+            0
+          
+        </dd>
+      </dl>
+       
+      <dl>
+        <dt>
+          Abstain
+        </dt>
+         
+        <dd>
+          
+            0% /
+            0
+          
+        </dd>
+      </dl>
+    </div>
+     
+    <div
+      class="row row-condensed"
+    >
+      <dl>
+        <dt>
+          Proposal ID
+        </dt>
+         
+        <dd>
+          2
+        </dd>
+      </dl>
+       
+      <dl>
+        <dt>
+          Submitted
+        </dt>
+         
+        <dd>
+          January 1st 1970, 00:00
+        </dd>
+      </dl>
+       
+      <dl>
+        <dt>
+          Voting Start Date
+        </dt>
+         
+        <dd>
+          January 3rd 1970, 00:00
+        </dd>
+      </dl>
+       
+      <dl>
+        <dt>
+          Voting End Date
+        </dt>
+         
+        <dd>
+          January 5th 1970, 00:00
+        </dd>
+      </dl>
+    </div>
+  </div>
+   
+  <modaldeposit-stub
+    denom="STAKE"
+    proposalid="2"
+    proposaltitle="VotingPeriod proposal"
+  />
+   
+  <modalvote-stub
+    proposalid="2"
+    proposaltitle="VotingPeriod proposal"
+  />
+</tmpage-stub>
+`;
+
+exports[`PageProposal should display proposal page should show a loader if the necessary data hasen't been loaded 1`] = `
+<tmpage-stub
+  class="small"
+  data-title="Proposal"
+  hideheader="true"
+  subtitle=""
+  title=""
+>
+  <tmdataloading-stub
+    title="Data is loading…"
+  />
+</tmpage-stub>
+`;
+
+exports[`PageProposal shows an error if the proposal couldn't be found 1`] = `
+<tmpage-stub
+  class="small"
+  data-title="Proposal"
+  hideheader="true"
+  subtitle=""
+  title=""
+>
+  <tmdataerror-stub />
+</tmpage-stub>
+`;

@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Module: Transactions should have an empty state by default 1`] = `
+Object {
+  "bank": Array [],
+  "distribution": Array [],
+  "error": null,
+  "governance": Array [],
+  "loaded": false,
+  "loading": false,
+  "staking": Array [],
+}
+`;

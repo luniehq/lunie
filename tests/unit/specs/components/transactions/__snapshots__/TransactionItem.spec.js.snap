@@ -1,0 +1,18 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TransactionItem renders a transaction item 1`] = `
+<div
+  class="tx"
+>
+  <transactionicon-stub
+    transactiongroup="banking"
+  />
+   
+  <transactiondetails-stub
+    address="cosmos1"
+    showmetadata="true"
+    transaction="[object Object]"
+    validators="[object Object]"
+  />
+</div>
+`;

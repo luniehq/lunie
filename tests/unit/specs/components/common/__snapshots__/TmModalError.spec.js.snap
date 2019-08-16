@@ -1,0 +1,50 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TmModalError has the expected html structure 1`] = `
+<div
+  class="tm-modal-error__wrapper"
+>
+  <div
+    class="tm-modal-error"
+  >
+    <div
+      class="tm-modal-error__icon"
+    >
+      <i
+        class="material-icons"
+      >
+        error_outline
+      </i>
+    </div>
+     
+    <div
+      class="tm-modal-error__title"
+    >
+      
+      Voyager ran into an error
+    
+    </div>
+     
+    <div
+      class="tm-modal-error__body"
+    >
+      
+      Voyager has encountered a critical error that blocks the app from running. Please create an issue and include a copy of the app logs.
+    
+    </div>
+     
+    <div
+      class="tm-modal-error__footer"
+    >
+      <tmbtn-stub
+        color="primary"
+        href="https://github.com/cosmos/voyager/issues"
+        icon="bug_report"
+        id="tm-modal-error__btn-issue"
+        type="anchor"
+        value="Create an issue"
+      />
+    </div>
+  </div>
+</div>
+`;

@@ -1,0 +1,52 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TmDataEmptyTx has the expected html structure 1`] = `
+<div
+  class="tm-data-msg"
+>
+  <div
+    class="tm-data-msg__icon"
+  >
+    <i
+      class="material-icons"
+    >
+      receipt
+    </i>
+  </div>
+   
+  <div
+    class="tm-data-msg__text"
+  >
+    <h2
+      class="tm-data-msg__title"
+    >
+      <div>
+        
+    No Transaction History
+  
+      </div>
+    </h2>
+     
+    <h3
+      class="tm-data-msg__subtitle"
+    >
+      <div>
+        
+    Looks like there are no transactions associated with this address yet.
+    Head over to your
+    
+        <router-link-stub
+          to="[object Object]"
+        >
+          
+      Wallet
+    
+        </router-link-stub>
+        
+    to make your first transaction!
+  
+      </div>
+    </h3>
+  </div>
+</div>
+`;

@@ -1,0 +1,50 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TmDataError has the expected html structure 1`] = `
+<div
+  class="tm-data-msg"
+>
+  <div
+    class="tm-data-msg__icon"
+  >
+    <i
+      class="material-icons"
+    >
+      sentiment_very_dissatisfied
+    </i>
+  </div>
+   
+  <div
+    class="tm-data-msg__text"
+  >
+    <h2
+      class="tm-data-msg__title"
+    >
+      <div>
+        
+    Aw shucks!
+  
+      </div>
+    </h2>
+     
+    <h3
+      class="tm-data-msg__subtitle"
+    >
+      <div>
+        
+    Even though you're connected a full node, we can't display this data for
+    you right now. Please try again later or
+    
+        <a
+          href="https://github.com/cosmos/voyager/issues"
+        >
+          file a bug report
+        </a>
+        .
+    Apologies!
+  
+      </div>
+    </h3>
+  </div>
+</div>
+`;

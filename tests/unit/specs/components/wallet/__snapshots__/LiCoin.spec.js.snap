@@ -1,0 +1,46 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`LiCoin has the expected html structure 1`] = `
+<li
+  class="li-coin"
+  id="li-coin--stake"
+>
+  <div
+    class="li-coin__icon"
+  >
+    <img
+      alt="cosmic atom token"
+      src="~assets/images/cosmos-logo.png"
+    />
+  </div>
+   
+  <div
+    class="li-coin__content"
+  >
+    <div
+      class="li-coin__content-left"
+    >
+      <p
+        class="coin-denom"
+      >
+        
+        STAKE
+      
+      </p>
+       
+      <p
+        class="coin-amount"
+      >
+        
+        10,000.000000
+      
+      </p>
+    </div>
+     
+    <tmbtn-stub
+      color="primary"
+      value="Send"
+    />
+  </div>
+</li>
+`;

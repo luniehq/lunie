@@ -1,0 +1,8 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TmFieldSeed has the expected html structure 1`] = `
+<textarea
+  class="tm-field-seed tm-field"
+  style="overflow-x: hidden; word-wrap: break-word; overflow-y: hidden;"
+/>
+`;

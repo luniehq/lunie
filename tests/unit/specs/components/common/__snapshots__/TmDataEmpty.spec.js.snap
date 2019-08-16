@@ -1,0 +1,41 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TmDataEmpty has the expected html structure 1`] = `
+<div
+  class="tm-data-msg"
+>
+  <div
+    class="tm-data-msg__icon"
+  >
+    <i
+      class="material-icons"
+    >
+      info_outline
+    </i>
+  </div>
+   
+  <div
+    class="tm-data-msg__text"
+  >
+    <h2
+      class="tm-data-msg__title"
+    >
+      <h4>
+        
+        N/A
+      
+      </h4>
+    </h2>
+     
+    <h3
+      class="tm-data-msg__subtitle"
+    >
+      <h5>
+        
+        No data available yet.
+      
+      </h5>
+    </h3>
+  </div>
+</div>
+`;
