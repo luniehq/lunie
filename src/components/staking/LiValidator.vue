@@ -1,7 +1,7 @@
 <template>
   <tr
     class="data-table__row li-validator"
-    :data-moniker="validator.description.moniker"
+    :data-moniker="validator.moniker"
     @click="
       $router.push({
         name: 'validator',
@@ -10,26 +10,18 @@
     "
   >
     <td class="data-table__row__info">
-      <ApolloQuery
-        :query="ValidatorProfile"
-        :variables="{ address: validator.operator_address }"
-        :update="validatorProfileResultUpdate"
-      >
-        <template v-slot="{ result: { loading, error, data: keybase } }">
-          <Avatar
-            v-if="!keybase || !keybase.avatarUrl || loading || error"
-            class="data-table__row__info__image data-table__row__info__image--no-img"
-            alt="generic validator logo - generated avatar from address"
-            :address="validator.operator_address"
-          />
-          <img
-            v-else-if="keybase && keybase.avatarUrl"
-            :src="keybase.avatarUrl"
-            class="data-table__row__info__image"
-            :alt="`validator logo for ` + validator.description.moniker"
-          />
-        </template>
-      </ApolloQuery>
+      <Avatar
+        v-if="!validator || !validator.avatarUrl"
+        class="data-table__row__info__image data-table__row__info__image--no-img"
+        alt="generic validator logo - generated avatar from address"
+        :address="validator.operator_address"
+      />
+      <img
+        v-else-if="validator && validator.avatarUrl"
+        :src="validator.avatarUrl"
+        class="data-table__row__info__image"
+        :alt="`validator logo for ` + validator.moniker"
+      />
       <div class="data-table__row__info__container">
         <span
           v-tooltip.top="status"
@@ -38,7 +30,7 @@
         />
         <span class="data-table__row__info__container__name">
           {{
-          validator.description.moniker
+          validator.moniker
           }}
         </span>
         <div class="data-table__row__info__container__description">
@@ -48,26 +40,26 @@
     </td>
     <td :class="{ 'hide-xs': showOnMobile !== 'my_delegations' }">
       {{
-        validator.my_delegations
-          ? shortDecimals(atoms(validator.my_delegations))
-          : `--`
+      validator.my_delegations
+      ? shortDecimals(atoms(validator.my_delegations))
+      : `--`
       }}
     </td>
-    <td :class="{ 'hide-xs': showOnMobile !== 'rewards' }">
-      {{ validator.rewards ? shortDecimals(atoms(validator.rewards)) : `--` }}
-    </td>
-    <td :class="{ 'hide-xs': showOnMobile !== 'voting-power' }">
-      {{ validator.tokens ? percentOfVotingPower : `--` }}
-    </td>
-    <td :class="{ 'hide-xs': showOnMobile !== 'commission' }">
-      {{ validator.commission ? percent(validator.commission) : `--` }}
-    </td>
-    <td :class="{ 'hide-xs': showOnMobile !== 'uptime' }">
-      {{ validator.uptime ? percent(validator.uptime) : `--` }}
-    </td>
+    <td
+      :class="{ 'hide-xs': showOnMobile !== 'rewards' }"
+    >{{ validator.rewards ? shortDecimals(atoms(validator.rewards)) : `--` }}</td>
+    <td
+      :class="{ 'hide-xs': showOnMobile !== 'voting-power' }"
+    >{{ validator.tokens ? percentOfVotingPower : `--` }}</td>
+    <td
+      :class="{ 'hide-xs': showOnMobile !== 'commission' }"
+    >{{ validator.commission ? percent(validator.commission) : `--` }}</td>
+    <td
+      :class="{ 'hide-xs': showOnMobile !== 'uptime' }"
+    >{{ validator.uptime ? percent(validator.uptime) : `--` }}</td>
     <td :class="{ 'hide-xs': showOnMobile !== 'expectedReturns' }">
       {{
-        validator.expectedReturns ? percent(validator.expectedReturns) : `--`
+      validator.expectedReturns ? percent(validator.expectedReturns) : `--`
       }}
     </td>
   </tr>
@@ -79,7 +71,6 @@ import { percent, shortDecimals, atoms } from "scripts/num"
 import Bech32 from "common/Bech32"
 import Avatar from "common/Avatar"
 import BN from "bignumber.js"
-import { ValidatorProfile, validatorProfileResultUpdate } from "src/gql"
 
 export default {
   name: `li-validator`,
@@ -97,9 +88,6 @@ export default {
       default: () => "returns"
     }
   },
-  data: () => ({
-    ValidatorProfile
-  }),
   computed: {
     ...mapState([`pool`]),
     status() {
@@ -135,8 +123,7 @@ export default {
   methods: {
     shortDecimals,
     atoms,
-    percent,
-    validatorProfileResultUpdate
+    percent
   }
 }
 </script>

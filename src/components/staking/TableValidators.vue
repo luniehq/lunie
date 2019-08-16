@@ -28,6 +28,8 @@ import LiValidator from "staking/LiValidator"
 import PanelSort from "staking/PanelSort"
 import BN from "bignumber.js"
 import { expectedReturns } from "scripts/returns"
+import { AllValidators, AllValidatorsResult } from "src/gql"
+
 export default {
   name: `table-validators`,
   components: {
@@ -35,16 +37,13 @@ export default {
     PanelSort
   },
   props: {
-    validators: {
-      type: Array,
-      required: true
-    },
     showOnMobile: {
       type: String,
       default: () => "returns"
     }
   },
   data: () => ({
+    validators: [],
     num: num,
     query: ``,
     sort: {
@@ -75,12 +74,12 @@ export default {
       return validators.map(v => {
         const signingInfo = signingInfos[v.operator_address]
         return Object.assign({}, v, {
-          small_moniker: v.description.moniker.toLowerCase(),
+          small_moniker: v.moniker.toLowerCase(),
           my_delegations:
             session.signedIn && committedDelegations[v.operator_address] > 0
               ? committedDelegations[v.operator_address]
               : 0,
-          commission: v.commission.rate,
+          commission: v.rate,
           voting_power: BN(v.tokens)
             .div(pool.pool.bonded_tokens)
             .toFixed(10),
@@ -180,6 +179,12 @@ export default {
   methods: {
     loadMore() {
       this.showing += 10
+    }
+  },
+  apollo: {
+    validators: {
+      query: AllValidators,
+      update: AllValidatorsResult
     }
   }
 }
