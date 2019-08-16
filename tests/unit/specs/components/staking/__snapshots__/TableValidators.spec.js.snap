@@ -1,7 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`TableValidators shows a validator table 1`] = `
-<div>
+<div
+  validators="[object Object],[object Object],[object Object]"
+>
   <table
     class="data-table"
   >
@@ -15,20 +17,7 @@ exports[`TableValidators shows a validator table 1`] = `
      
     <tbody
       infinite-scroll-distance="80"
-    >
-      <livalidator-stub
-        showonmobile="returns"
-        validator="[object Object]"
-      />
-      <livalidator-stub
-        showonmobile="returns"
-        validator="[object Object]"
-      />
-      <livalidator-stub
-        showonmobile="returns"
-        validator="[object Object]"
-      />
-    </tbody>
+    />
   </table>
 </div>
 `;
