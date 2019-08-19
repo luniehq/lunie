@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.0-beta.109] - 2019-08-19
+
+### Fixed
+
+- [#2864](https://github.com/cosmos/lunie/issues/2864) Remove 'first seen' field from validator. Data not present. @colw
+
 ## [1.0.0-beta.108] - 2019-08-15
 
 ### Added
