@@ -175,18 +175,6 @@ exports[`PageValidator shows a validator profile information errors signing info
             class="info_dl"
           >
             <dt>
-              First Seen
-            </dt>
-             
-            <dd>
-              Block #0
-            </dd>
-          </dl>
-           
-          <dl
-            class="info_dl"
-          >
-            <dt>
               Full Operator Address
             </dt>
              
@@ -503,18 +491,6 @@ exports[`PageValidator shows a validator profile information if user has signed 
             class="info_dl"
           >
             <dt>
-              First Seen
-            </dt>
-             
-            <dd>
-              Block #0
-            </dd>
-          </dl>
-           
-          <dl
-            class="info_dl"
-          >
-            <dt>
               Full Operator Address
             </dt>
              
@@ -827,18 +803,6 @@ exports[`PageValidator shows a validator profile information if user hasn't sign
         <div
           class="column"
         >
-          <dl
-            class="info_dl"
-          >
-            <dt>
-              First Seen
-            </dt>
-             
-            <dd>
-              Block #0
-            </dd>
-          </dl>
-           
           <dl
             class="info_dl"
           >
