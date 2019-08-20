@@ -106,4 +106,31 @@ describe(`TabProposals`, () => {
     })
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
+
+  it(`opens a create proposal modal`, () => {
+    $store.state = {
+      proposals: {
+        loading: false,
+        loaded: false,
+        proposals,
+        tallies
+      }
+    }
+
+    $store.getters = {
+      connected: true,
+      depositDenom: `lunies`
+    }
+
+    const wrapper = shallowMount(TabProposals, {
+      mocks: {
+        $store
+      }
+    })
+
+    const $refs = { modalPropose: { open: jest.fn() } }
+    wrapper.vm.$refs = $refs
+    wrapper.find("#propose-btn").trigger("click")
+    expect($refs.modalPropose.open).toHaveBeenCalled()
+  })
 })

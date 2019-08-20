@@ -2,11 +2,7 @@
   <div>
     <table class="data-table">
       <thead>
-        <PanelSort
-          :sort="sort"
-          :properties="properties"
-          :show-on-mobile="showOnMobile"
-        />
+        <PanelSort :sort="sort" :properties="properties" :show-on-mobile="showOnMobile" />
       </thead>
       <tbody v-infinite-scroll="loadMore" infinite-scroll-distance="80">
         <LiValidator
@@ -133,9 +129,6 @@ export default {
     }
   },
   watch: {
-    address: function() {
-      this.session.address
-    },
     lastHeader: {
       immediate: true,
       handler() {

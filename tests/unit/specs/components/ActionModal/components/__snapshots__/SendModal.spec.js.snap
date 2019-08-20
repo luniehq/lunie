@@ -63,8 +63,6 @@ exports[`SendModal should display send modal form 1`] = `
     type="secondary"
     value="Edit Memo"
   />
-   
-  <!---->
 </actionmodal-stub>
 `;
 
@@ -134,8 +132,6 @@ exports[`SendModal validation should show address required error 1`] = `
     type="secondary"
     value="Edit Memo"
   />
-   
-  <!---->
 </actionmodal-stub>
 `;
 
@@ -205,8 +201,6 @@ exports[`SendModal validation should show bech32 error when address length is to
     type="secondary"
     value="Edit Memo"
   />
-   
-  <!---->
 </actionmodal-stub>
 `;
 
@@ -276,8 +270,6 @@ exports[`SendModal validation should show bech32 error when address length is to
     type="secondary"
     value="Edit Memo"
   />
-   
-  <!---->
 </actionmodal-stub>
 `;
 
@@ -350,7 +342,5 @@ exports[`SendModal validation should show bech32 error when alphanumeric is wron
     type="secondary"
     value="Edit Memo"
   />
-   
-  <!---->
 </actionmodal-stub>
 `;

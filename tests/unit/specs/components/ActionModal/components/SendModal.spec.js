@@ -71,10 +71,11 @@ describe(`SendModal`, () => {
     expect(self.amount).toBe(undefined)
   })
 
-  it(`shows the memo input if desired`, () => {
+  it(`shows the memo input if desired`, async () => {
     wrapper.find("#edit-memo-btn").trigger("click")
+    await wrapper.vm.$nextTick()
 
-    expect(wrapper.exists("#memo")).toBe(true)
+    expect(wrapper.find("#memo").isVisible()).toBe(true)
   })
 
   describe(`validation`, () => {
