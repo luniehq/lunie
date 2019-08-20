@@ -315,6 +315,20 @@ describe(`PageValidator`, () => {
       })
       expect(rewardsValue).toBe(0)
     })
+
+    it(`when user is not signed in`, () => {
+      const distribution = { rewards: {} }
+      const rewardsValue = PageValidator.computed.rewards.call({
+        session: {
+          signedIn: false
+        },
+        bondDenom,
+        distribution,
+        validator,
+        lastHeader
+      })
+      expect(rewardsValue).toBe(null)
+    })
   })
 
   it(`should only call user rewards if bond is more then 0`, () => {
