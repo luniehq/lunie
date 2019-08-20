@@ -25,7 +25,7 @@ export default [
   {
     path: `/validators`,
     name: `Validators`,
-    component: require(`./components/staking/Validators`).default
+    component: require(`./components/staking/PageValidators`).default
   },
   {
     path: `/validators/:validator`,
