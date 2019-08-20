@@ -49,6 +49,6 @@ export default {
   components: {
     SessionFrame,
     LiSession
-  }
+  },
 }
 </script>
