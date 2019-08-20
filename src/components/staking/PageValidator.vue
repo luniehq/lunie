@@ -37,14 +37,10 @@
             </template>
           </ApolloQuery>
           <div class="validator-info">
-            <h3 class="li-validator-name">
-              {{ validator.description.moniker }}
-            </h3>
+            <h3 class="li-validator-name">{{ validator.description.moniker }}</h3>
             <div v-if="myDelegation">
               <h4>{{ myDelegation }}</h4>
-              <h5 v-if="rewards">
-                {{ rewards ? `+` + shortDecimals(atoms(rewards)) : `--` }}
-              </h5>
+              <h5 v-if="rewards">{{ rewards ? `+` + shortDecimals(atoms(rewards)) : `--` }}</h5>
             </div>
           </div>
         </td>
@@ -64,9 +60,9 @@
       <div class="row">
         <dl class="info_dl">
           <dt>Description</dt>
-          <dd class="info_dl__text-box">
-            {{ translateEmptyDescription(validator.description.details) }}
-          </dd>
+          <dd
+            class="info_dl__text-box"
+          >{{ translateEmptyDescription(validator.description.details) }}</dd>
         </dl>
         <dl class="info_dl">
           <dt>Website</dt>
@@ -76,8 +72,7 @@
               :href="website"
               target="_blank"
               rel="nofollow noreferrer noopener"
-              >{{ website }}</a
-            >
+            >{{ website }}</a>
           </dd>
           <dd v-else>{{ website }}</dd>
         </dl>
@@ -91,6 +86,10 @@
 
       <div class="row row-condensed">
         <dl class="info_dl">
+          <dt>Rewards</dt>
+          <dd id="page-profile__rewards">{{ percent(returns) }}</dd>
+        </dl>
+        <dl class="info_dl">
           <dt>Voting Power / Total Stake</dt>
           <dd id="page-profile__power">
             {{ percent(powerRatio) }} /
@@ -99,19 +98,17 @@
         </dl>
         <dl class="info_dl">
           <dt>Self Stake</dt>
-          <dd id="page-profile__self-bond">
-            {{ selfBond }} / {{ selfBondAmount }}
-          </dd>
+          <dd id="page-profile__self-bond">{{ selfBond }} / {{ selfBondAmount }}</dd>
         </dl>
         <dl class="info_dl">
           <dt>Validator Since</dt>
-          <dd>Block #{{ validator.signing_info.start_height }}</dd>
+          <dd>Block #{{ validator.signing_info ? validator.signing_info.start_height : 0 }}</dd>
         </dl>
         <dl class="info_dl">
           <dt>Uptime / Missed Blocks</dt>
-          <dd id="page-profile__uptime">
-            {{ uptime }} / {{ validator.signing_info.missed_blocks_counter }}
-          </dd>
+          <dd
+            id="page-profile__uptime"
+          >{{ uptime }} / {{ validator.signing_info ? validator.signing_info.missed_blocks_counter : 0 }}</dd>
         </dl>
         <dl class="info_dl">
           <dt>Current Commission Rate</dt>
@@ -147,9 +144,7 @@
       />
     </template>
     <template v-else>
-      <template slot="title"
-        >Validator Not Found</template
-      >
+      <template slot="title">Validator Not Found</template>
       <template slot="subtitle">
         <div>
           Please visit the
@@ -203,12 +198,10 @@ export default {
     ValidatorProfile
   }),
   computed: {
-    ...mapState(
-      [`delegates`, `delegation`, `distribution`, `pool`, `session`],
-      {
-        annualProvision: state => state.minting.annualProvision
-      }
-    ),
+    ...mapState([`delegates`, `delegation`, `distribution`, `pool`, `session`]),
+    ...mapState({
+      annualProvision: state => state.minting.annualProvision
+    }),
     ...mapGetters([
       `lastHeader`,
       `bondDenom`,
