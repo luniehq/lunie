@@ -6,21 +6,12 @@ import { flatOrderedTransactionList } from "../../store/json/txs"
 describe(`Undelegations`, () => {
   let wrapper, $store
   const getters = {
-    lastHeader: { height: `20` },
     yourValidators: validators[0],
-    flatOrderedTransactionList: []
+    flatOrderedTransactionList
   }
 
   const state = {
-    delegation: {
-      unbondingDelegations: {},
-      loaded: true
-    },
-    session: { signedIn: true },
-    bondDenom: "stake",
-    minting: {
-      annualProvision: "100"
-    }
+    session: { signedIn: true }
   }
 
   beforeEach(() => {
@@ -39,36 +30,6 @@ describe(`Undelegations`, () => {
   })
 
   it(`should show unbonding validators`, () => {
-    const time = Date.now() + 10000
-    const blockNumber = flatOrderedTransactionList[0].blockNumber
-    const address = flatOrderedTransactionList[0].value.validator_address
-    const unbondingDelegations = {
-      [address]: [
-        {
-          creation_height: String(blockNumber),
-          completion_time: time
-        }
-      ]
-    }
-
-    $store = {
-      commit: jest.fn(),
-      dispatch: jest.fn(),
-      state: Object.assign({}, state, {
-        delegation: {
-          loaded: true,
-          unbondingDelegations
-        }
-      }),
-      getters: Object.assign({}, getters, { flatOrderedTransactionList })
-    }
-
-    wrapper = shallowMount(Undelegations, {
-      mocks: {
-        $store
-      }
-    })
-
     expect(wrapper.vm.unbondingTransactions).toMatchSnapshot()
     expect(wrapper.vm.$el).toMatchSnapshot()
   })

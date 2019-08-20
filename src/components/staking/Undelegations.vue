@@ -11,7 +11,7 @@
 <script>
 import { mapState, mapGetters } from "vuex"
 import TransactionList from "transactions/TransactionList"
-import { getUnbondTimeFromTX } from "scripts/time"
+import { messageType } from "transactions/messageTypes"
 
 export default {
   name: `undelegations`,
@@ -19,34 +19,12 @@ export default {
     TransactionList
   },
   computed: {
-    ...mapState([`delegation`, `bondDenom`, `session`]),
+    ...mapState([`session`]),
     ...mapGetters([`flatOrderedTransactionList`, `yourValidators`]),
-    unbondingTransactions: (
-      { flatOrderedTransactionList, delegation } = this
-    ) =>
-      flatOrderedTransactionList
-        .filter(transaction => {
-          // Checking the type of transaction
-          if (transaction.type !== `cosmos-sdk/MsgUndelegate`) {
-            return false
-          }
-
-          // getting the unbonding time and checking if it has passed already
-          const unbondingEndTime = getUnbondTimeFromTX(
-            transaction,
-            delegation.unbondingDelegations
-          )
-
-          console.log(unbondingEndTime)
-          if (unbondingEndTime && unbondingEndTime >= Date.now()) {
-            return true
-          }
-        })
-        .map(transaction => ({
-          ...transaction,
-          unbondingDelegation:
-            delegation.unbondingDelegations[transaction.value.validator_address]
-        }))
+    unbondingTransactions: ({ flatOrderedTransactionList } = this) =>
+      flatOrderedTransactionList.filter(
+        transaction => transaction.type === messageType.UNDELEGATE
+      )
   }
 }
 </script>
