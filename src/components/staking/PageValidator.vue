@@ -37,10 +37,14 @@
             </template>
           </ApolloQuery>
           <div class="validator-info">
-            <h3 class="li-validator-name">{{ validator.description.moniker }}</h3>
+            <h3 class="li-validator-name">
+              {{ validator.description.moniker }}
+            </h3>
             <div v-if="myDelegation">
               <h4>{{ myDelegation }}</h4>
-              <h5 v-if="rewards">{{ rewards ? `+` + shortDecimals(atoms(rewards)) : `--` }}</h5>
+              <h5 v-if="rewards">
+                {{ rewards ? `+` + shortDecimals(atoms(rewards)) : `--` }}
+              </h5>
             </div>
           </div>
         </td>
@@ -60,9 +64,9 @@
       <div class="row">
         <dl class="info_dl">
           <dt>Description</dt>
-          <dd
-            class="info_dl__text-box"
-          >{{ translateEmptyDescription(validator.description.details) }}</dd>
+          <dd class="info_dl__text-box">
+            {{ translateEmptyDescription(validator.description.details) }}
+          </dd>
         </dl>
         <dl class="info_dl">
           <dt>Website</dt>
@@ -72,7 +76,8 @@
               :href="website"
               target="_blank"
               rel="nofollow noreferrer noopener"
-            >{{ website }}</a>
+              >{{ website }}</a
+            >
           </dd>
           <dd v-else>{{ website }}</dd>
         </dl>
@@ -94,7 +99,9 @@
         </dl>
         <dl class="info_dl">
           <dt>Self Stake</dt>
-          <dd id="page-profile__self-bond">{{ selfBond }} / {{ selfBondAmount }}</dd>
+          <dd id="page-profile__self-bond">
+            {{ selfBond }} / {{ selfBondAmount }}
+          </dd>
         </dl>
         <dl class="info_dl">
           <dt>Validator Since</dt>
@@ -102,9 +109,9 @@
         </dl>
         <dl class="info_dl">
           <dt>Uptime / Missed Blocks</dt>
-          <dd
-            id="page-profile__uptime"
-          >{{ uptime }} / {{ validator.signing_info.missed_blocks_counter }}</dd>
+          <dd id="page-profile__uptime">
+            {{ uptime }} / {{ validator.signing_info.missed_blocks_counter }}
+          </dd>
         </dl>
         <dl class="info_dl">
           <dt>Current Commission Rate</dt>
@@ -140,7 +147,9 @@
       />
     </template>
     <template v-else>
-      <template slot="title">Validator Not Found</template>
+      <template slot="title"
+        >Validator Not Found</template
+      >
       <template slot="subtitle">
         <div>
           Please visit the

@@ -4,8 +4,7 @@ const stargate =
   (dev ? `https://localhost:9071` : `https://stargate.lunie.io`)
 
 const rpc =
-  process.env.RPC ||
-  (dev ? `localhost:26657` : `https://rpc.lunie.io:26657`)
+  process.env.RPC || (dev ? `localhost:26657` : `https://rpc.lunie.io:26657`)
 
 export default {
   name: `Lunie`,
