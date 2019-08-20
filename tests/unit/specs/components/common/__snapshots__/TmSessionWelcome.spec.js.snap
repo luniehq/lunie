@@ -70,8 +70,7 @@ exports[`TmSessionWelcome has the expected html structure 1`] = `
         class="link"
         to="/privacy"
       >
-        
-        Privacy Policy 
+         Privacy Policy 
       </router-link-stub>
       .
     
@@ -150,8 +149,7 @@ exports[`TmSessionWelcome has the expected html structure when on mobile 1`] = `
         class="link"
         to="/privacy"
       >
-        
-        Privacy Policy 
+         Privacy Policy 
       </router-link-stub>
       .
     
