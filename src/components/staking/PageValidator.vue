@@ -94,10 +94,6 @@
         <div class="row">
           <div class="column">
             <dl class="info_dl">
-              <dt>First Seen</dt>
-              <dd>Block #{{ validator.bond_height }}</dd>
-            </dl>
-            <dl class="info_dl">
               <dt>Full Operator Address</dt>
               <dd class="address">{{ validator.operator_address }}</dd>
             </dl>

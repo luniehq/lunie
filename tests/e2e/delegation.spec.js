@@ -58,7 +58,7 @@ module.exports = {
       async () => {
         browser.click("#from")
         browser.click("#from option[value='1']")
-        browser.pause(500)
+        browser.pause(1000)
         browser.setValue("#amount", value)
       },
       // expected subtotal
