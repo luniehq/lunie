@@ -2,6 +2,7 @@ import { shallowMount, createLocalVue } from "@vue/test-utils"
 import AppMenu from "common/AppMenu"
 
 const localVue = createLocalVue()
+localVue.directive(`tooltip`, () => {})
 
 describe(`AppMenu`, () => {
   let $store
@@ -17,6 +18,7 @@ describe(`AppMenu`, () => {
     }
 
     shallowMount(AppMenu, {
+      localVue,
       mocks: {
         $store
       },
@@ -25,7 +27,6 @@ describe(`AppMenu`, () => {
   })
 
   it(`opens the session modal for a sign in`, () => {
-    localVue.directive(`tooltip`, () => {})
     const $store = { commit: jest.fn(), $emit: jest.fn() }
     const self = { $store, $router: { push: jest.fn() }, $emit: jest.fn() }
     AppMenu.methods.signIn.call(self)
@@ -33,7 +34,6 @@ describe(`AppMenu`, () => {
   })
 
   it(`call dispatch to sign the user out`, () => {
-    localVue.directive(`tooltip`, () => {})
     const $store = { dispatch: jest.fn() }
     const self = { $store, $router: { push: jest.fn() }, $emit: jest.fn() }
     AppMenu.methods.signOut.call(self)
@@ -41,7 +41,6 @@ describe(`AppMenu`, () => {
   })
 
   it(`closes menu on sign out`, () => {
-    localVue.directive(`tooltip`, () => {})
     const $store = { dispatch: jest.fn() }
     const self = { $store, $router: { push: jest.fn() }, $emit: jest.fn() }
     AppMenu.methods.signOut.call(self)
