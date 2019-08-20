@@ -15,5 +15,5 @@ export const getUnbondTimeFromTX = (tx, unbondingDelegations) => {
       return new Date(unbondingDelegation.completion_time)
     }
   }
-  return NaN
+  return null
 }

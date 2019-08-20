@@ -27,7 +27,9 @@ export default {
       flatOrderedTransactionList
         .filter(transaction => {
           // Checking the type of transaction
-          if (transaction.type !== `cosmos-sdk/MsgUndelegate`) return false
+          if (transaction.type !== `cosmos-sdk/MsgUndelegate`) {
+            return false
+          }
 
           // getting the unbonding time and checking if it has passed already
           const unbondingEndTime = getUnbondTimeFromTX(
@@ -35,7 +37,10 @@ export default {
             delegation.unbondingDelegations
           )
 
-          if (unbondingEndTime && unbondingEndTime >= Date.now()) return true
+          console.log(unbondingEndTime)
+          if (unbondingEndTime && unbondingEndTime >= Date.now()) {
+            return true
+          }
         })
         .map(transaction => ({
           ...transaction,

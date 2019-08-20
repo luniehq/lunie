@@ -39,13 +39,13 @@ describe(`Undelegations`, () => {
   })
 
   it(`should show unbonding validators`, () => {
-    const time = new Date(Date.now()).toISOString()
-    const height = flatOrderedTransactionList[0].height
+    const time = Date.now() + 10000
+    const blockNumber = flatOrderedTransactionList[0].blockNumber
     const address = flatOrderedTransactionList[0].value.validator_address
     const unbondingDelegations = {
       [address]: [
         {
-          creation_height: height,
+          creation_height: String(blockNumber),
           completion_time: time
         }
       ]
