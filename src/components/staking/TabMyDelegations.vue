@@ -94,9 +94,6 @@ export default {
   async created() {
     this.loadStakingTxs()
   },
-  updated: function() {
-    console.log(this.validators)
-  },
   methods: {
     async loadStakingTxs() {
       if (this.session.signedIn) {
