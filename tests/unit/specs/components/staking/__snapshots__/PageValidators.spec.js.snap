@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Validators shows a list of validators 1`] = `
+exports[`PageValidators shows a list of validators 1`] = `
 <tmpage-stub
   hideheader="true"
   loaded="true"
@@ -17,7 +17,7 @@ exports[`Validators shows a list of validators 1`] = `
 </tmpage-stub>
 `;
 
-exports[`Validators shows a message if still connecting 1`] = `
+exports[`PageValidators shows a message if still connecting 1`] = `
 <tmpage-stub
   hideheader="true"
   managed="true"
@@ -33,7 +33,7 @@ exports[`Validators shows a message if still connecting 1`] = `
 </tmpage-stub>
 `;
 
-exports[`Validators shows a message if still loading 1`] = `
+exports[`PageValidators shows a message if still loading 1`] = `
 <tmpage-stub
   hideheader="true"
   loading="true"
@@ -50,7 +50,7 @@ exports[`Validators shows a message if still loading 1`] = `
 </tmpage-stub>
 `;
 
-exports[`Validators shows a message if there is nothing to display 1`] = `
+exports[`PageValidators shows a message if there is nothing to display 1`] = `
 <tmpage-stub
   hideheader="true"
   loaded="true"

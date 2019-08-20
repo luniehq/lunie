@@ -19,8 +19,7 @@ exports[`CookieBar shows the cookie bar 1`] = `
       class="link"
       to="/terms"
     >
-      
-      Terms of Service 
+       Terms of Service 
     </router-link-stub>
      and
     
@@ -28,8 +27,7 @@ exports[`CookieBar shows the cookie bar 1`] = `
       class="link"
       to="/privacy"
     >
-      
-      Privacy Policy 
+       Privacy Policy 
     </router-link-stub>
     .
   
