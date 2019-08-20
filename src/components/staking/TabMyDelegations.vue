@@ -1,16 +1,12 @@
 <template>
   <div>
     <CardSignInRequired v-if="!session.signedIn" />
-    <div v-else-if="delegation.loaded && validators.length > 0">
-      <TableValidators
-        :validators="validators"
-        show-on-mobile="my_delegations"
-      />
-    </div>
-    <TmDataConnecting v-else-if="!delegation.loaded && !connected" />
-    <TmDataLoading v-else-if="!delegation.loaded && delegation.loading" />
+    <TmDataConnecting
+      v-else-if="!connected && $apollo.queries.validators.loading"
+    />
+    <TmDataLoading v-else-if="$apollo.queries.validators.loading" />
     <TmDataMsg
-      v-else-if="validators.length === 0"
+      v-else-if="!$apollo.queries.validators.loading && validators.length === 0"
       icon="sentiment_dissatisfied"
     >
       <div slot="title">No Active Delegations</div>
@@ -21,6 +17,12 @@
         make your first delegation!
       </div>
     </TmDataMsg>
+    <div v-else>
+      <TableValidators
+        :validators="validators"
+        show-on-mobile="my_delegations"
+      />
+    </div>
     <div v-if="delegation.loaded && pendingUndelegations.length > 0">
       <h3 class="tab-header transactions">Pending Undelegations</h3>
       <div class="unbonding-transactions">
@@ -72,8 +74,7 @@ export default {
       `committedDelegations`,
       `bondDenom`,
       `connected`,
-      `flatOrderedTransactionList`,
-      `yourValidators`
+      `flatOrderedTransactionList`
     ]),
     yourValidatorsAddressMap() {
       const names = {}

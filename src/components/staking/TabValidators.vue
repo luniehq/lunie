@@ -1,9 +1,9 @@
 <template>
   <div>
-    <TmDataConnecting v-if="!delegates.loaded && !connected" />
-    <TmDataLoading v-else-if="!delegates.loaded && delegates.loading" />
+    <TmDataConnecting v-if="!connected && $apollo.queries.validators.loading" />
+    <TmDataLoading v-else-if="$apollo.queries.validators.loading" />
     <TmDataEmpty
-      v-else-if="delegates.loaded && delegates.delegates.length === 0"
+      v-else-if="!$apollo.queries.validators.loading && validators.length === 0"
     />
     <TableValidators
       v-else
@@ -14,13 +14,12 @@
 </template>
 
 <script>
-import { mapState, mapGetters } from "vuex"
+import { mapGetters } from "vuex"
+import { AllValidators, AllValidatorsResult } from "src/gql"
 import TableValidators from "staking/TableValidators"
 import TmDataEmpty from "common/TmDataEmpty"
 import TmDataLoading from "common/TmDataLoading"
 import TmDataConnecting from "common/TmDataConnecting"
-import { AllValidators, AllValidatorsResult } from "src/gql"
-
 
 export default {
   name: `tab-validators`,
@@ -35,8 +34,7 @@ export default {
     validators: []
   }),
   computed: {
-    ...mapState([`session`, `delegates`]),
-    ...mapGetters([`lastHeader`, `connected`,])
+    ...mapGetters([`connected`])
   },
   apollo: {
     validators: {
