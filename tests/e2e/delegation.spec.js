@@ -24,6 +24,7 @@ module.exports = {
 
     // check if tx shows
     browser.url(browser.launch_url + "/#/transactions")
+    browser.pause(500)
     browser.expect
       .element(".tx__content__caption")
       .text.to.contain(`Delegated ${value} STAKE`)
@@ -54,7 +55,6 @@ module.exports = {
     )
 
     // check if tx shows
-    // TODO this part of the test is currently not ran for come reason
     browser.url(browser.launch_url + "/#/transactions")
     browser.pause(500)
     browser.expect
