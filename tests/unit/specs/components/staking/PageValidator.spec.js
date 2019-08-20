@@ -1,6 +1,6 @@
-import { shallowMount, createLocalVue } from "@vue/test-utils"
 import VueApollo from "vue-apollo"
 import PageValidator from "staking/PageValidator"
+import { shallowMount, createLocalVue } from "@vue/test-utils"
 
 const stakingParameters = {
   unbonding_time: `259200000000000`,
