@@ -170,9 +170,8 @@
       <template slot="subtitle">
         <div>
           Please visit the
-          <router-link to="/validators/">
-            Validators </router-link
-          >page to view all validators
+          <router-link to="/validators/"> Validators </router-link>page to view
+          all validators
         </div>
       </template>
     </template>
