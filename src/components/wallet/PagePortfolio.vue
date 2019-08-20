@@ -17,9 +17,7 @@
 </template>
 
 <script>
-import num from "scripts/num"
 import { mapState, mapGetters } from "vuex"
-import orderBy from "lodash.orderby"
 import TmPage from "common/TmPage"
 import DelegationsOverview from "staking/DelegationsOverview"
 import Undelegations from "staking/Undelegations"
@@ -36,19 +34,7 @@ export default {
   }),
   computed: {
     ...mapState([`session`, `wallet`, `delegation`]),
-    ...mapGetters([`connected`, `totalRewards`, `lastHeader`]),
-    filteredBalances() {
-      return orderBy(
-        this.wallet.balances,
-        [`amount`, balance => num.viewDenom(balance.denom).toLowerCase()],
-        [`desc`, `asc`]
-      )
-    },
-    // only be ready to withdraw of the validator rewards are loaded and the user has rewards to withdraw
-    // the validator rewards are needed to filter the top 5 validators to withdraw from
-    readyToWithdraw() {
-      return this.totalRewards > 0
-    }
+    ...mapGetters([`lastHeader`])
   },
   watch: {
     lastHeader: {
