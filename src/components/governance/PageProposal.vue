@@ -9,7 +9,9 @@
             {{ status.badge }}
           </span>
           <div class="page-profile__status-and-title">
-            <h2 class="proposal-title">{{ title }}</h2>
+            <h2 class="proposal-title">
+              {{ title }}
+            </h2>
           </div>
         </div>
         <div class="button-container">

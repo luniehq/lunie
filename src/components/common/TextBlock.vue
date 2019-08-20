@@ -1,5 +1,7 @@
 <template>
-  <p class="text-block">{{ content.trim() }}</p>
+  <p class="text-block">
+    {{ content.trim() }}
+  </p>
 </template>
 
 <script>

@@ -156,7 +156,9 @@
       </div>
       <div v-else-if="step === inclusionStep" class="action-modal-form">
         <TmDataMsg icon="hourglass_empty">
-          <div slot="title">Sent and confirming</div>
+          <div slot="title">
+            Sent and confirming
+          </div>
           <div slot="subtitle">
             The transaction
             <!--with the hash {{ txHash }}-->
@@ -170,7 +172,9 @@
         class="action-modal-form success-step"
       >
         <TmDataMsg icon="check">
-          <div slot="title">{{ notifyMessage.title }}</div>
+          <div slot="title">
+            {{ notifyMessage.title }}
+          </div>
           <div slot="subtitle">
             {{ notifyMessage.body }}
             <br />

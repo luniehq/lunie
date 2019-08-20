@@ -7,15 +7,21 @@
       title="Portfolio"
     >
       <i class="material-icons">star</i>
-      <h2 class="app-menu-title">Portfolio</h2>
+      <h2 class="app-menu-title">
+        Portfolio
+      </h2>
     </router-link>
     <router-link class="mobile-menu-item" to="/validators" title="Validators">
       <i class="material-icons">sort</i>
-      <h2 class="app-menu-title">Validators</h2>
+      <h2 class="app-menu-title">
+        Validators
+      </h2>
     </router-link>
     <router-link class="mobile-menu-item" to="/proposals" title="Proposals">
       <i class="material-icons">add_circle_outline</i>
-      <h2 class="app-menu-title">Proposals</h2>
+      <h2 class="app-menu-title">
+        Proposals
+      </h2>
     </router-link>
     <router-link
       class="mobile-menu-item"
@@ -24,7 +30,9 @@
       title="Transactions"
     >
       <i class="material-icons">show_chart</i>
-      <h2 class="app-menu-title">Activity</h2>
+      <h2 class="app-menu-title">
+        Activity
+      </h2>
     </router-link>
   </menu>
 </template>

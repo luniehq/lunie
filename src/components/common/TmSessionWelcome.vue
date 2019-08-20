@@ -34,8 +34,13 @@
 
       <p class="footnote">
         By using Lunie, you accept our
-        <router-link to="/terms" class="link">Terms of Service</router-link> and
-        <router-link to="/privacy" class="link">Privacy Policy</router-link>.
+        <router-link to="/terms" class="link">
+          Terms of Service
+        </router-link>
+        and
+        <router-link to="/privacy" class="link">
+          Privacy Policy </router-link
+        >.
       </p>
     </div>
   </SessionFrame>
@@ -49,6 +54,6 @@ export default {
   components: {
     SessionFrame,
     LiSession
-  },
+  }
 }
 </script>

@@ -9,7 +9,9 @@
     <template slot="managed-body">
       <DelegationsOverview />
       <template v-if="Object.keys(delegation.unbondingDelegations).length">
-        <h3 class="tab-header">Pending Undelegations</h3>
+        <h3 class="tab-header">
+          Pending Undelegations
+        </h3>
         <Undelegations />
       </template>
     </template>

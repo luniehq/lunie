@@ -1,8 +1,12 @@
 <template>
   <div class="tm-page">
     <TmPageHeader v-if="!hideHeader" :tabs="tabs">
-      <h2 v-if="title" slot="title">{{ title }}</h2>
-      <h3 v-if="subtitle" slot="subtitle">{{ subtitle }}</h3>
+      <h2 v-if="title" slot="title">
+        {{ title }}
+      </h2>
+      <h3 v-if="subtitle" slot="subtitle">
+        {{ subtitle }}
+      </h3>
       <slot slot="menu-body" name="menu-body">
         <TmBalance v-if="session.signedIn" />
       </slot>

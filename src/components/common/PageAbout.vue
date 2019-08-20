@@ -2,8 +2,15 @@
   <TmPage data-title="About" hide-header>
     <div class="card">
       <h1>About</h1>
-      <p>🎉 <router-link to="careers">We're Hiring!</router-link></p>
-      <h2 class="c5">What is Lunie?</h2>
+      <p>
+        🎉
+        <router-link to="careers">
+          We're Hiring!
+        </router-link>
+      </p>
+      <h2 class="c5">
+        What is Lunie?
+      </h2>
       <p>
         Lunie is a user interface for sending and receiving Cosmos tokens,
         viewing your transaction history, delegating your ATOMs, and
@@ -29,7 +36,9 @@
     </div>
 
     <div class="card">
-      <h2 class="c5">Security</h2>
+      <h2 class="c5">
+        Security
+      </h2>
       <p>
         Lunie is non-custodial. We believe that maintaining ownership over your
         keys is an important part of participating in these networks.
@@ -52,12 +61,16 @@
       </p>
       <p>
         To learn more about our security policies on Lunie.io, please visit our
-        <router-link to="security">security page</router-link>.
+        <router-link to="security">
+          security page </router-link
+        >.
       </p>
     </div>
 
     <div class="card">
-      <h2 class="c5">Team</h2>
+      <h2 class="c5">
+        Team
+      </h2>
       <div class="flex-row">
         <div class="profile">
           <img
@@ -82,7 +95,9 @@
       </div>
     </div>
     <div class="card">
-      <h2 class="c5">Contact</h2>
+      <h2 class="c5">
+        Contact
+      </h2>
       <p>
         Please let us know what you think! You can find us on
         <a

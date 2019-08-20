@@ -31,7 +31,9 @@
         </template>
       </ApolloQuery>
       <div class="validator-info">
-        <h3 class="li-validator-name">{{ validator.description.moniker }}</h3>
+        <h3 class="li-validator-name">
+          {{ validator.description.moniker }}
+        </h3>
         <div v-if="validator.my_delegations > 0">
           <h4>
             {{

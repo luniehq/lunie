@@ -2,7 +2,9 @@
   <TmPage data-title="Security" hide-header>
     <div class="card">
       <h1>Security</h1>
-      <h2 class="c5">Coordinated Vulnerability Disclosure Policy</h2>
+      <h2 class="c5">
+        Coordinated Vulnerability Disclosure Policy
+      </h2>
       <p>
         To protect our users and reduce harm to the community, we ask security
         researchers to keep vulnerabilities and communications around
@@ -34,7 +36,9 @@
       </p>
     </div>
     <div class="card">
-      <h2 class="c5">Vulnerability Disclosure Process</h2>
+      <h2 class="c5">
+        Vulnerability Disclosure Process
+      </h2>
       <p>
         Once we receive a vulnerability report, the Lunie will take these steps
         to address it:
@@ -82,7 +86,9 @@
       </ol>
     </div>
     <div class="card">
-      <h2 class="c5">Contact Us</h2>
+      <h2 class="c5">
+        Contact Us
+      </h2>
       <p>
         You can contact our team directly at security@lunie.io which is
         monitored by our core team of two engineers. Please avoid filing

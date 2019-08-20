@@ -15,7 +15,9 @@
       <h3 class="li-proposal-title">
         {{ proposal.proposal_content.value.title }}
       </h3>
-      <p class="li-proposal-description">{{ description }}</p>
+      <p class="li-proposal-description">
+        {{ description }}
+      </p>
       <router-link
         :to="`/proposals/` + proposal.proposal_id"
         class="read-more-link"

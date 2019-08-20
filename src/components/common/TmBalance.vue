@@ -3,7 +3,9 @@
     <div class="values-container">
       <div class="total-atoms">
         <h3>Total {{ num.viewDenom(bondDenom) }}</h3>
-        <h2 class="total-atoms__value">{{ totalAtomsDisplay }}</h2>
+        <h2 class="total-atoms__value">
+          {{ totalAtomsDisplay }}
+        </h2>
       </div>
 
       <div class="row small-container">

@@ -10,10 +10,13 @@
       v-else-if="yourValidators.length === 0"
       icon="sentiment_dissatisfied"
     >
-      <div slot="title">No validators in your portfolio</div>
+      <div slot="title">
+        No validators in your portfolio
+      </div>
       <div slot="subtitle">
         Head over to the
-        <router-link :to="{ name: 'Validators' }">validator list</router-link
+        <router-link :to="{ name: 'Validators' }">
+          validator list </router-link
         >&nbsp;to get staking!
       </div>
     </TmDataMsg>

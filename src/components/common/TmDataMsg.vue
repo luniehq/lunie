@@ -5,10 +5,14 @@
     </div>
     <div class="tm-data-msg__text">
       <h2 class="tm-data-msg__title">
-        <slot name="title">{{ title }}</slot>
+        <slot name="title">
+          {{ title }}
+        </slot>
       </h2>
       <h3 class="tm-data-msg__subtitle">
-        <slot name="subtitle">{{ subtitle }}</slot>
+        <slot name="subtitle">
+          {{ subtitle }}
+        </slot>
       </h3>
     </div>
   </div>
