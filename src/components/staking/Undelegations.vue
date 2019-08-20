@@ -18,19 +18,16 @@ export default {
   components: {
     TransactionList
   },
-  data: () => ({
-    getUnbondTimeFromTX
-  }),
   computed: {
-    ...mapState([`transactions`, `delegation`, `bondDenom`, `session`]),
-    ...mapGetters([`yourValidators`]),
-    unbondingTransactions: ({ transactions, delegation } = this) =>
-      transactions.staking &&
-      transactions.staking
+    ...mapState([`delegation`, `bondDenom`, `session`]),
+    ...mapGetters([`flatOrderedTransactionList`, `yourValidators`]),
+    unbondingTransactions: (
+      { flatOrderedTransactionList, delegation } = this
+    ) =>
+      flatOrderedTransactionList
         .filter(transaction => {
           // Checking the type of transaction
-          if (transaction.tx.value.msg[0].type !== `cosmos-sdk/MsgUndelegate`)
-            return false
+          if (transaction.type !== `cosmos-sdk/MsgUndelegate`) return false
 
           // getting the unbonding time and checking if it has passed already
           const unbondingEndTime = getUnbondTimeFromTX(
@@ -43,9 +40,7 @@ export default {
         .map(transaction => ({
           ...transaction,
           unbondingDelegation:
-            delegation.unbondingDelegations[
-              transaction.tx.value.msg[0].value.validator_address
-            ]
+            delegation.unbondingDelegations[transaction.value.validator_address]
         }))
   }
 }

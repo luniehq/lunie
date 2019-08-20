@@ -1,19 +1,17 @@
 import { shallowMount } from "@vue/test-utils"
 import Undelegations from "staking/Undelegations"
 import validators from "../../store/json/validators.js"
-import { stakingTxs } from "../../store/json/txs"
+import { flatOrderedTransactionList } from "../../store/json/txs"
 
 describe(`Undelegations`, () => {
   let wrapper, $store
   const getters = {
     lastHeader: { height: `20` },
-    yourValidators: validators[0]
+    yourValidators: validators[0],
+    flatOrderedTransactionList: []
   }
 
   const state = {
-    transactions: {
-      staking: []
-    },
     delegation: {
       unbondingDelegations: {},
       loaded: true
@@ -42,8 +40,8 @@ describe(`Undelegations`, () => {
 
   it(`should show unbonding validators`, () => {
     const time = new Date(Date.now()).toISOString()
-    const height = stakingTxs[3].height
-    const address = stakingTxs[3].tx.value.msg[0].value.validator_address
+    const height = flatOrderedTransactionList[0].height
+    const address = flatOrderedTransactionList[0].value.validator_address
     const unbondingDelegations = {
       [address]: [
         {
@@ -53,8 +51,23 @@ describe(`Undelegations`, () => {
       ]
     }
 
-    wrapper.vm.delegation.unbondingDelegations = unbondingDelegations
-    wrapper.vm.transactions.staking = [stakingTxs[3]]
+    $store = {
+      commit: jest.fn(),
+      dispatch: jest.fn(),
+      state: Object.assign({}, state, {
+        delegation: {
+          loaded: true,
+          unbondingDelegations
+        }
+      }),
+      getters: Object.assign({}, getters, { flatOrderedTransactionList })
+    }
+
+    wrapper = shallowMount(Undelegations, {
+      mocks: {
+        $store
+      }
+    })
 
     expect(wrapper.vm.unbondingTransactions).toMatchSnapshot()
     expect(wrapper.vm.$el).toMatchSnapshot()

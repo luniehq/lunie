@@ -74,3 +74,9 @@ export default {
   }
 }
 </script>
+<style scoped>
+.tab-header {
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+}
+</style>
