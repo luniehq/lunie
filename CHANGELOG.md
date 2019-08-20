@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.0-beta.110] - 2019-08-20
+
+### Repository
+
+- this is needed for babel and jest to play nicely on my machine @jbibla
+
 ## [1.0.0-beta.109] - 2019-08-19
 
 ### Fixed
