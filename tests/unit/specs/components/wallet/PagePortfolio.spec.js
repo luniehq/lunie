@@ -49,7 +49,31 @@ describe(`PagePortfolio`, () => {
     })
   })
 
-  it("should display the portfolio page", async () => {
+  it("should display the portfolio page", () => {
     expect(wrapper.vm.$el).toMatchSnapshot()
+  })
+
+  it("should trigger updates on every 10th block", () => {
+    const self = {
+      lastUpdate: 0,
+      session: {
+        signedIn: true
+      },
+      update: jest.fn(),
+      $store: {
+        dispatch: jest.fn()
+      }
+    }
+    PagePortfolio.watch.lastHeader.handler.call(self, { height: 5 })
+    expect(self.update).not.toHaveBeenCalled()
+
+    PagePortfolio.watch.lastHeader.handler.call(self, { height: 100 })
+    expect(self.update).toHaveBeenCalledWith(100)
+
+    PagePortfolio.methods.update.call(self, 100)
+    expect(self.$store.dispatch).toHaveBeenCalledWith(
+      `getRewardsFromMyValidators`
+    )
+    expect(self.lastUpdate).toBe(100)
   })
 })
