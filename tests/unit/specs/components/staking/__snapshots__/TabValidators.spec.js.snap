@@ -9,12 +9,6 @@ exports[`TabValidators shows a list of validators 1`] = `
 </div>
 `;
 
-exports[`TabValidators shows a message if still connecting 1`] = `
-<div>
-  <tmdataconnecting-stub />
-</div>
-`;
-
 exports[`TabValidators shows a message if still loading 1`] = `
 <div>
   <tmdataloading-stub
