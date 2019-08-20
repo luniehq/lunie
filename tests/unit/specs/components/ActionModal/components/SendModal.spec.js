@@ -72,9 +72,7 @@ describe(`SendModal`, () => {
   })
 
   it(`shows the memo input if desired`, () => {
-    wrapper.setData({
-      editMemo: true
-    })
+    wrapper.find("#edit-memo-btn").trigger("click")
 
     expect(wrapper.exists("#memo")).toBe(true)
   })
