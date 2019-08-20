@@ -14,7 +14,7 @@
     "lint:style": "vue-cli-service lint:style",
     "proxy": "node ./tasks/local-testnet/proxy.js",
     "release": "git checkout develop & git pull & git push origin develop:release",
-    "test:coverage": "live-server test/unit/coverage/lcov-report",
+    "test:coverage": "live-server ./coverage/lcov-report",
     "test:coverage-branch": "npm run test:unit --coverage && git diff origin/develop | diff-test-coverage -c ./coverage/lcov.info -t lcov --",
     "test:e2e:browserstack": "node tests/e2e/browserstack.runner.js -c  tests/e2e/browserstack.conf.js",
     "test:e2e:local": "kill-port 9515 && nightwatch --config ./tests/e2e/local-chrome.conf.js",
