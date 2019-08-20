@@ -82,9 +82,14 @@ async function actionModalCheckout(
   browser.expect.element(`.table-invoice`).to.be.visible.before(10000)
 
   // check invoice
-  browser.expect
-    .element(".table-invoice li:first-child span:last-child")
-    .text.to.contain(expectedSubtotal)
+  if (expectedSubtotal === "0") {
+    // doesn't show sub total
+    browser.expect.elements(".table-invoice li").count.to.equal(2)
+  } else {
+    browser.expect
+      .element(".table-invoice li:first-child span:last-child")
+      .text.to.contain(expectedSubtotal)
+  }
 
   // remember fees
   const fees = await new Promise(resolve =>

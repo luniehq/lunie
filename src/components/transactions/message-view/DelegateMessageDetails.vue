@@ -1,19 +1,17 @@
 <template>
   <div>
     <div class="tx__content__caption">
-      <p class="tx__content__caption__title">
+      <p>
         Delegated
         <b>{{ coin.amount | atoms | prettyLong }}</b>
-        <span>{{ coin.denom | viewDenom }}</span>
+        <span>&nbsp;{{ coin.denom | viewDenom }}</span>
       </p>
     </div>
     <div class="tx__content__information">
       To&nbsp;
-      <router-link
-        :to="`staking/validators/${transaction.value.validator_address}`"
-      >
+      <router-link :to="`staking/validators/${transaction.value.validator_address}`">
         {{
-          transaction.value.validator_address | resolveValidatorName(validators)
+        transaction.value.validator_address | resolveValidatorName(validators)
         }}
       </router-link>
     </div>

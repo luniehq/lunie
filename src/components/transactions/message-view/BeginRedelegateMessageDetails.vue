@@ -4,25 +4,21 @@
       <p>
         Redelegated
         <b>{{ coin.amount | atoms | prettyLong }}</b>
-        <span>{{ coin.denom | viewDenom }}</span>
+        <span>&nbsp;{{ coin.denom | viewDenom }}</span>
       </p>
     </div>
     <div class="tx__content__information">
       From&nbsp;
-      <router-link
-        :to="`staking/validators/${transaction.value.validator_src_address}`"
-      >
+      <router-link :to="`staking/validators/${transaction.value.validator_src_address}`">
         {{
-          transaction.value.validator_src_address
-            | resolveValidatorName(validators)
-        }} </router-link
-      >To&nbsp;
-      <router-link
-        :to="`staking/validators/${transaction.value.validator_dst_address}`"
-      >
+        transaction.value.validator_src_address
+        | resolveValidatorName(validators)
+        }}
+      </router-link>To&nbsp;
+      <router-link :to="`staking/validators/${transaction.value.validator_dst_address}`">
         {{
-          transaction.value.validator_dst_address
-            | resolveValidatorName(validators)
+        transaction.value.validator_dst_address
+        | resolveValidatorName(validators)
         }}
       </router-link>
     </div>

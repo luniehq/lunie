@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="tx__content__caption">
-      <p class="tx__content__caption__title">
+      <p>
         Deposited
         <b>{{ deposit.amount | atoms | prettyLong }}</b>
         <span>{{ deposit.denom | viewDenom }}</span>
@@ -9,9 +9,9 @@
     </div>
     <div class="tx__content__information">
       On
-      <router-link :to="`/governance/${transaction.value.proposal_id}`"
-        >Proposal &#35;{{ transaction.value.proposal_id }}</router-link
-      >
+      <router-link
+        :to="`/governance/${transaction.value.proposal_id}`"
+      >Proposal &#35;{{ transaction.value.proposal_id }}</router-link>
     </div>
   </div>
 </template>

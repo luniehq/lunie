@@ -1,4 +1,4 @@
-const { actionModalCheckout, nextBlock, waitFor } = require("./helpers.js")
+const { actionModalCheckout, nextBlock } = require("./helpers.js")
 
 module.exports = {
   "Delegate Action": async function(browser) {
@@ -24,15 +24,11 @@ module.exports = {
 
     // check if tx shows
     browser.url(browser.launch_url + "/#/transactions")
-    await waitFor(() => {
-      browser.expect
-        .element(".tx__content__caption")
-        .text.to.contain(`Delegated ${value} STAKE`)
-    })
+    browser.expect
+      .element(".tx__content__caption")
+      .text.to.contain(`Delegated ${value} STAKE`)
   },
   "Redelegate Action": async function(browser) {
-    browser.pause(500)
-
     // move to according page
     browser.url(browser.launch_url + "/#/validators")
 
@@ -45,23 +41,25 @@ module.exports = {
       browser,
       "#delegation-btn",
       // actions to do on details page
-      async () => {
-        browser.click("#from")
-        browser.click("#from option[value='1']")
-        browser.pause(500)
+      () => {
+        setSelect(browser, "#from select", "1")
+        browser.expect
+          .element(".action-modal-title")
+          .text.to.contain(`Redelegate`)
+          .before(2000)
         browser.setValue("#amount", value)
       },
       // expected subtotal
-      value
+      "0"
     )
 
     // check if tx shows
+    // TODO this part of the test is currently not ran for come reason
     browser.url(browser.launch_url + "/#/transactions")
-    await waitFor(() => {
-      browser.expect
-        .element(".tx__content__caption")
-        .text.to.contain(`Delegated ${value} STAKE`)
-    })
+    browser.pause(500)
+    browser.expect
+      .element(".tx__content__caption")
+      .text.to.contain(`Redelegated ${value} STAKE`)
   },
   "Undelegate Action": async function(browser) {
     // be sure that the balance has updated, if we don't wait, the baseline (balance) shifts
@@ -88,10 +86,25 @@ module.exports = {
 
     // check if tx shows
     browser.url(browser.launch_url + "/#/transactions")
-    await waitFor(() => {
-      browser.expect
-        .element(".tx__content__caption")
-        .text.to.contain(`Undelegated ${value} STAKE`)
-    })
+    browser.pause(500)
+    browser.expect
+      .element(".tx__content__caption")
+      .text.to.contain(`Undelegated ${value} STAKE`)
   }
+}
+
+function setSelect(browser, selector, option) {
+  browser.execute(
+    function(selector, option) {
+      const select = document.querySelector(selector)
+      select.value = option
+
+      // Create a new 'change' event
+      var event = new Event("input")
+
+      // Dispatch it.
+      select.dispatchEvent(event)
+    },
+    [selector, option]
+  )
 }

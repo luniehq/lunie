@@ -56,7 +56,7 @@ exports[`TransactionDetails renders MsgBeginRedelegate transaction item 1`] = `
         </b>
          
         <span>
-          ATOM
+           ATOM
         </span>
       </p>
     </div>
@@ -71,7 +71,8 @@ exports[`TransactionDetails renders MsgBeginRedelegate transaction item 1`] = `
         to="staking/validators/cosmosvaloper1sjllsnasdmasakjshdlkdhjasldnasd"
       >
         
-      cosmosvaloper…nasd 
+      cosmosvaloper…nasd
+    
       </router-link-stub>
       To 
     
@@ -190,9 +191,7 @@ exports[`TransactionDetails renders MsgDelegate transaction item 1`] = `
     <div
       class="tx__content__caption"
     >
-      <p
-        class="tx__content__caption__title"
-      >
+      <p>
         
       Delegated
       
@@ -201,7 +200,7 @@ exports[`TransactionDetails renders MsgDelegate transaction item 1`] = `
         </b>
          
         <span>
-          ATOM
+           ATOM
         </span>
       </p>
     </div>
@@ -263,9 +262,7 @@ exports[`TransactionDetails renders MsgDeposit transaction item 1`] = `
     <div
       class="tx__content__caption"
     >
-      <p
-        class="tx__content__caption__title"
-      >
+      <p>
         
       Deposited
       
@@ -946,15 +943,13 @@ exports[`TransactionDetails renders MsgUndelegate transaction item 1`] = `
         </b>
          
         <span>
-          ATOM
+           ATOM
         </span>
          
         <span
           class="tx-unbonding__time-diff"
         >
-          
-        (liquid in 50 years)
-      
+           (liquid in 50 years)
         </span>
       </p>
     </div>
