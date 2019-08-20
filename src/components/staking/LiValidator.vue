@@ -29,9 +29,7 @@
           class="data-table__row__info__container__status"
         />
         <span class="data-table__row__info__container__name">
-          {{
-          validator.moniker
-          }}
+          {{ validator.moniker }}
         </span>
         <div class="data-table__row__info__container__description">
           <Bech32 :address="validator.operator_address" />
@@ -40,26 +38,26 @@
     </td>
     <td :class="{ 'hide-xs': showOnMobile !== 'my_delegations' }">
       {{
-      validator.my_delegations
-      ? shortDecimals(atoms(validator.my_delegations))
-      : `--`
+        validator.my_delegations
+          ? shortDecimals(atoms(validator.my_delegations))
+          : `--`
       }}
     </td>
-    <td
-      :class="{ 'hide-xs': showOnMobile !== 'rewards' }"
-    >{{ validator.rewards ? shortDecimals(atoms(validator.rewards)) : `--` }}</td>
-    <td
-      :class="{ 'hide-xs': showOnMobile !== 'voting-power' }"
-    >{{ validator.tokens ? percentOfVotingPower : `--` }}</td>
-    <td
-      :class="{ 'hide-xs': showOnMobile !== 'commission' }"
-    >{{ validator.commission ? percent(validator.commission) : `--` }}</td>
-    <td
-      :class="{ 'hide-xs': showOnMobile !== 'uptime' }"
-    >{{ validator.uptime ? percent(validator.uptime) : `--` }}</td>
+    <td :class="{ 'hide-xs': showOnMobile !== 'rewards' }">
+      {{ validator.rewards ? shortDecimals(atoms(validator.rewards)) : `--` }}
+    </td>
+    <td :class="{ 'hide-xs': showOnMobile !== 'voting-power' }">
+      {{ validator.tokens ? percentOfVotingPower : `--` }}
+    </td>
+    <td :class="{ 'hide-xs': showOnMobile !== 'commission' }">
+      {{ validator.commission ? percent(validator.commission) : `--` }}
+    </td>
+    <td :class="{ 'hide-xs': showOnMobile !== 'uptime' }">
+      {{ validator.uptime ? percent(validator.uptime) : `--` }}
+    </td>
     <td :class="{ 'hide-xs': showOnMobile !== 'expectedReturns' }">
       {{
-      validator.expectedReturns ? percent(validator.expectedReturns) : `--`
+        validator.expectedReturns ? percent(validator.expectedReturns) : `--`
       }}
     </td>
   </tr>

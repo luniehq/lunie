@@ -69,7 +69,7 @@ export default {
     validators: []
   }),
   computed: {
-    ...mapState([`delegates`, `delegation`, `session`]),
+    ...mapState([`session`]),
     ...mapGetters([
       `committedDelegations`,
       `bondDenom`,

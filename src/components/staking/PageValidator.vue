@@ -1,10 +1,10 @@
 <template>
   <TmPage
     :managed="true"
-    :loading="delegates.loading"
-    :loaded="delegates.loaded"
-    :error="delegates.error"
-    :data-empty="!validator"
+    :loading="$apollo.queries.validator.loading"
+    :loaded="!$apollo.queries.validator.loading"
+    :error="$apollo.queries.validator.error"
+    :data-empty="!validator.operator_address"
     data-title="Validator"
   >
     <template v-if="validator.operator_address" slot="managed-body">
@@ -27,7 +27,11 @@
             <div>
               <div class="validator-name-and-address">
                 <div class="page-profile__status-and-title">
-                  <span v-tooltip.top="status" :class="statusColor" class="page-profile__status" />
+                  <span
+                    v-tooltip.top="status"
+                    :class="statusColor"
+                    class="page-profile__status"
+                  />
                   <div class="page-profile__title">{{ validator.moniker }}</div>
                 </div>
                 <Bech32 :address="validator.operator_address" />
@@ -84,7 +88,9 @@
             </dl>
             <dl class="info_dl colored_dl">
               <dt>Commission</dt>
-              <dd id="page-profile__commission">{{ percent(validator.rate) }}</dd>
+              <dd id="page-profile__commission">
+                {{ percent(validator.rate) }}
+              </dd>
             </dl>
           </div>
         </div>
@@ -109,13 +115,17 @@
                   :href="website"
                   target="_blank"
                   rel="nofollow noreferrer noopener"
-                >{{ website }}</a>
+                >
+                  {{ website }}
+                </a>
               </dd>
               <dd v-else>{{ website }}</dd>
             </dl>
             <dl class="info_dl">
               <dt>Description</dt>
-              <dd class="info_dl__text-box">{{ translateEmptyDescription(validator.details) }}</dd>
+              <dd class="info_dl__text-box">
+                {{ translateEmptyDescription(validator.details) }}
+              </dd>
             </dl>
           </div>
           <div class="column">
@@ -159,7 +169,9 @@
       />
     </template>
     <template v-else>
-      <template slot="title">Validator Not Found</template>
+      <template slot="title">
+        Validator Not Found
+      </template>
       <template slot="subtitle">
         <div>
           Please visit the
