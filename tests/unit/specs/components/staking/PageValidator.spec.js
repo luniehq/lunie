@@ -14,25 +14,17 @@ const validator = {
   jailed: false,
   tokens: `14`,
   delegator_shares: `14`,
-  description: {
-    website: `www.monty.ca`,
-    details: `Mr Mounty`,
-    moniker: `mr_mounty`,
-    country: `Canada`
-  },
+  website: `www.monty.ca`,
+  details: `Mr Mounty`,
+  moniker: `mr_mounty`,
   status: 2,
   bond_intra_tx_counter: 6,
   proposer_reward_pool: null,
-  commission: {
-    rate: `0.05`,
-    max_rate: `0.1`,
-    max_change_rate: `0.005`,
-    update_time: Date.now() - 1
-  },
-  prev_bonded_shares: `0`,
-  signing_info: {
-    missed_blocks_counter: 2
-  }
+  rate: `0.05`,
+  max_rate: `0.1`,
+  max_change_rate: `0.005`,
+  update_time: Date.now() - 1,
+  prev_bonded_shares: `0`
 }
 const validatorTo = {
   operator_address: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au`,
@@ -232,25 +224,25 @@ describe(`PageValidator`, () => {
     })
 
     it(`shows empty website url`, () => {
-      validator.description.website = ``
+      validator.website = ``
       wrapper.setData({ validator })
       expect(wrapper.vm.website).toBe(`--`)
     })
 
     it(`shows https website url`, () => {
-      validator.description.website = `www.monty.ca`
+      validator.website = `www.monty.ca`
       wrapper.setData({ validator })
       expect(wrapper.vm.website).toBe(`https://www.monty.ca`)
     })
 
     it(`shows http website url`, () => {
-      validator.description.website = `http://www.monty.ca`
+      validator.website = `http://www.monty.ca`
       wrapper.setData({ validator })
       expect(wrapper.vm.website).toBe(`http://www.monty.ca`)
     })
 
     it(`already has https website url`, () => {
-      validator.description.website = `https://www.monty.ca`
+      validator.website = `https://www.monty.ca`
       wrapper.setData({ validator })
       expect(wrapper.vm.website).toBe(`https://www.monty.ca`)
     })
