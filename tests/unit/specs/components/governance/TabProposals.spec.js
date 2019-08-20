@@ -26,7 +26,7 @@ describe(`TabProposals`, () => {
 
     $store.getters = {
       connected: true,
-      bondDenom: `lunies`
+      depositDenom: `lunies`
     }
 
     const wrapper = shallowMount(TabProposals, {
@@ -48,7 +48,8 @@ describe(`TabProposals`, () => {
     }
 
     $store.getters = {
-      connected: false
+      connected: false,
+      depositDenom: `lunies`
     }
 
     const wrapper = shallowMount(TabProposals, {
@@ -71,7 +72,8 @@ describe(`TabProposals`, () => {
     }
 
     $store.getters = {
-      connected: true
+      connected: true,
+      depositDenom: `lunies`
     }
 
     const wrapper = shallowMount(TabProposals, {
@@ -93,7 +95,8 @@ describe(`TabProposals`, () => {
     }
 
     $store.getters = {
-      connected: true
+      connected: true,
+      depositDenom: `lunies`
     }
 
     const wrapper = shallowMount(TabProposals, {

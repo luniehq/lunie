@@ -31,7 +31,9 @@ exports[`TabProposals shows a message if still connecting 1`] = `
     />
   </template>
    
-  <modalpropose-stub />
+  <modalpropose-stub
+    denom="lunies"
+  />
 </tmpage-stub>
 `;
 
@@ -68,7 +70,9 @@ exports[`TabProposals shows a message if still loading 1`] = `
     />
   </template>
    
-  <modalpropose-stub />
+  <modalpropose-stub
+    denom="lunies"
+  />
 </tmpage-stub>
 `;
 
@@ -103,7 +107,9 @@ exports[`TabProposals shows a message if there is nothing to display 1`] = `
     />
   </template>
    
-  <modalpropose-stub />
+  <modalpropose-stub
+    denom="lunies"
+  />
 </tmpage-stub>
 `;
 
@@ -138,6 +144,8 @@ exports[`TabProposals shows a proposals table 1`] = `
     />
   </template>
    
-  <modalpropose-stub />
+  <modalpropose-stub
+    denom="lunies"
+  />
 </tmpage-stub>
 `;
