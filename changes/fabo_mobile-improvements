@@ -2,3 +2,4 @@
 [Changed] [#2850](https://github.com/cosmos/lunie/pull/2850) Menu on mobile is on the bottom @faboweb
 [Changed] [#2850](https://github.com/cosmos/lunie/pull/2850) Removed store caching mechanism @faboweb
 [Code Improvements] [#2850](https://github.com/cosmos/lunie/pull/2850) Move most of the queries to run at application start @faboweb
+[Repository] Added vetur html formatting rules to vscode config @faboweb
