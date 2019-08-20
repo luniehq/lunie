@@ -1,5 +1,5 @@
-import { shallowMount, createLocalVue } from "@vue/test-utils"
 import VueApollo from "vue-apollo"
+import { shallowMount, createLocalVue } from "@vue/test-utils"
 import PageValidator from "src/components/staking/PageValidator"
 
 const stakingParameters = {

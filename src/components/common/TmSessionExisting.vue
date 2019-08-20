@@ -13,13 +13,14 @@
           route="explore"
         />
         <LiSession
+          v-if="!isMobileApp"
           id="use-ledger-nano"
           icon="vpn_key"
           title="Use Ledger Nano"
           route="ledger"
         />
         <LiSession
-          v-if="session.experimentalMode || extension.enabled"
+          v-if="(session.experimentalMode || extension.enabled) && !isMobileApp"
           id="use-extension"
           icon="laptop"
           title="Use Lunie Browser Extension"
@@ -47,6 +48,7 @@
 </template>
 
 <script>
+import config from "src/config"
 import { mapState } from "vuex"
 import LiSession from "common/TmLiSession"
 import SessionFrame from "common/SessionFrame"
@@ -56,6 +58,9 @@ export default {
     SessionFrame,
     LiSession
   },
+  data: () => ({
+    isMobileApp: config.mobileApp
+  }),
   computed: {
     ...mapState([`session`, `keystore`, `extension`]),
     accountExists() {

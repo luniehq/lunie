@@ -55,4 +55,16 @@ describe(`TmSessionExisting`, () => {
       expect(wrapper.find(`#sign-in-with-account`).exists()).toBe(true)
     })
   })
+
+  describe(`mobile app`, () => {
+    beforeEach(() => {
+      wrapper.setData({ isMobileApp: true })
+      wrapper.vm.session.insecureMode = false
+    })
+
+    it(`does not show extension or ledger sign-in options`, () => {
+      expect(wrapper.find(`#use-extension`).exists()).toBe(false)
+      expect(wrapper.find(`#use-ledger-nano`).exists()).toBe(false)
+    })
+  })
 })
