@@ -5,6 +5,8 @@ exports[`TextBlock has the expected html structure 1`] = `
   author="faboweb"
   class="text-block"
 >
+  
   Hello World
+
 </p>
 `;

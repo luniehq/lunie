@@ -44,7 +44,9 @@ exports[`PageValidator shows a validator profile information errors signing info
           <h3
             class="li-validator-name"
           >
+            
             mr_mounty
+          
           </h3>
            
           <!---->
@@ -81,7 +83,9 @@ exports[`PageValidator shows a validator profile information errors signing info
         <dd
           class="info_dl__text-box"
         >
+          
           Mr Mounty
+        
         </dd>
       </dl>
        
@@ -132,7 +136,9 @@ exports[`PageValidator shows a validator profile information errors signing info
         <dd
           id="page-profile__rewards"
         >
+          
           2.26%
+        
         </dd>
       </dl>
        
@@ -163,7 +169,9 @@ exports[`PageValidator shows a validator profile information errors signing info
         <dd
           id="page-profile__self-bond"
         >
+          
           1.00% / 10,000
+        
         </dd>
       </dl>
        
@@ -175,7 +183,9 @@ exports[`PageValidator shows a validator profile information errors signing info
         </dt>
          
         <dd>
+          
           Block #
+        
         </dd>
       </dl>
        
@@ -189,7 +199,10 @@ exports[`PageValidator shows a validator profile information errors signing info
         <dd
           id="page-profile__uptime"
         >
-          99.6% / 2
+          
+          99.6% /
+          2
+        
         </dd>
       </dl>
        
@@ -303,7 +316,9 @@ exports[`PageValidator shows a validator profile information if user has signed 
           <h3
             class="li-validator-name"
           >
+            
             mr_mounty
+          
           </h3>
            
           <!---->
@@ -340,7 +355,9 @@ exports[`PageValidator shows a validator profile information if user has signed 
         <dd
           class="info_dl__text-box"
         >
+          
           Mr Mounty
+        
         </dd>
       </dl>
        
@@ -391,7 +408,9 @@ exports[`PageValidator shows a validator profile information if user has signed 
         <dd
           id="page-profile__rewards"
         >
+          
           2.26%
+        
         </dd>
       </dl>
        
@@ -422,7 +441,9 @@ exports[`PageValidator shows a validator profile information if user has signed 
         <dd
           id="page-profile__self-bond"
         >
+          
           1.00% / 10,000
+        
         </dd>
       </dl>
        
@@ -434,7 +455,9 @@ exports[`PageValidator shows a validator profile information if user has signed 
         </dt>
          
         <dd>
+          
           Block #
+        
         </dd>
       </dl>
        
@@ -448,7 +471,10 @@ exports[`PageValidator shows a validator profile information if user has signed 
         <dd
           id="page-profile__uptime"
         >
-          99.6% / 2
+          
+          99.6% /
+          2
+        
         </dd>
       </dl>
        
@@ -562,7 +588,9 @@ exports[`PageValidator shows a validator profile information if user hasn't sign
           <h3
             class="li-validator-name"
           >
+            
             mr_mounty
+          
           </h3>
            
           <!---->
@@ -599,7 +627,9 @@ exports[`PageValidator shows a validator profile information if user hasn't sign
         <dd
           class="info_dl__text-box"
         >
+          
           Mr Mounty
+        
         </dd>
       </dl>
        
@@ -650,7 +680,9 @@ exports[`PageValidator shows a validator profile information if user hasn't sign
         <dd
           id="page-profile__rewards"
         >
+          
           2.26%
+        
         </dd>
       </dl>
        
@@ -681,7 +713,9 @@ exports[`PageValidator shows a validator profile information if user hasn't sign
         <dd
           id="page-profile__self-bond"
         >
+          
           1.00% / 10,000
+        
         </dd>
       </dl>
        
@@ -693,7 +727,9 @@ exports[`PageValidator shows a validator profile information if user hasn't sign
         </dt>
          
         <dd>
+          
           Block #
+        
         </dd>
       </dl>
        
@@ -707,7 +743,10 @@ exports[`PageValidator shows a validator profile information if user hasn't sign
         <dd
           id="page-profile__uptime"
         >
-          99.6% / 2
+          
+          99.6% /
+          2
+        
         </dd>
       </dl>
        

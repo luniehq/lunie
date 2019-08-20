@@ -71,8 +71,7 @@ exports[`TransactionDetails renders MsgBeginRedelegate transaction item 1`] = `
         to="staking/validators/cosmosvaloper1sjllsnasdmasakjshdlkdhjasldnasd"
       >
         
-      cosmosvaloper…nasd
-    
+      cosmosvaloper…nasd 
       </router-link-stub>
       To 
     

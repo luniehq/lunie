@@ -173,7 +173,9 @@ exports[`PageBlock shows the block page with no txs 1`] = `
           icon="info_outline"
         >
           <div>
-            No Transactions
+            
+              No Transactions
+            
           </div>
            
           <div>
@@ -271,7 +273,9 @@ exports[`PageBlock shows the page when the block hasn't been loaded yet 1`] = `
           icon="info_outline"
         >
           <div>
-            No Transactions
+            
+              No Transactions
+            
           </div>
            
           <div>

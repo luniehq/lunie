@@ -25,7 +25,9 @@ exports[`LiValidator has the expected html structure 1`] = `
       <h3
         class="li-validator-name"
       >
+        
         mr_mounty
+      
       </h3>
        
       <!---->

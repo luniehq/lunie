@@ -29,7 +29,9 @@ exports[`TableProposals has the expected html structure 1`] = `
           <p
             class="li-proposal-description"
           >
-            this proposal was rejected
+            
+      this proposal was rejected
+    
           </p>
            
           <router-link-stub
@@ -63,7 +65,9 @@ exports[`TableProposals has the expected html structure 1`] = `
           <p
             class="li-proposal-description"
           >
-            custom text proposal description
+            
+      custom text proposal description
+    
           </p>
            
           <router-link-stub
@@ -97,7 +101,9 @@ exports[`TableProposals has the expected html structure 1`] = `
           <p
             class="li-proposal-description"
           >
-            custom text proposal description
+            
+      custom text proposal description
+    
           </p>
            
           <router-link-stub
@@ -131,7 +137,9 @@ exports[`TableProposals has the expected html structure 1`] = `
           <p
             class="li-proposal-description"
           >
-            Proposal description
+            
+      Proposal description
+    
           </p>
            
           <router-link-stub
@@ -176,7 +184,9 @@ exports[`TableProposals should filter the proposals 1`] = `
           <p
             class="li-proposal-description"
           >
-            this proposal was rejected
+            
+      this proposal was rejected
+    
           </p>
            
           <router-link-stub
@@ -210,7 +220,9 @@ exports[`TableProposals should filter the proposals 1`] = `
           <p
             class="li-proposal-description"
           >
-            custom text proposal description
+            
+      custom text proposal description
+    
           </p>
            
           <router-link-stub
@@ -244,7 +256,9 @@ exports[`TableProposals should filter the proposals 1`] = `
           <p
             class="li-proposal-description"
           >
-            custom text proposal description
+            
+      custom text proposal description
+    
           </p>
            
           <router-link-stub
@@ -278,7 +292,9 @@ exports[`TableProposals should filter the proposals 1`] = `
           <p
             class="li-proposal-description"
           >
-            Proposal description
+            
+      Proposal description
+    
           </p>
            
           <router-link-stub

@@ -28,7 +28,9 @@ exports[`PageProposal renders votes in HTML when voting is open 1`] = `
         <h2
           class="proposal-title"
         >
-          VotingPeriod proposal
+          
+            VotingPeriod proposal
+          
         </h2>
       </div>
     </div>
@@ -229,7 +231,9 @@ exports[`PageProposal should display proposal page if user has signed in 1`] = `
         <h2
           class="proposal-title"
         >
-          VotingPeriod proposal
+          
+            VotingPeriod proposal
+          
         </h2>
       </div>
     </div>
@@ -430,7 +434,9 @@ exports[`PageProposal should display proposal page should default tally to 0 if 
         <h2
           class="proposal-title"
         >
-          VotingPeriod proposal
+          
+            VotingPeriod proposal
+          
         </h2>
       </div>
     </div>

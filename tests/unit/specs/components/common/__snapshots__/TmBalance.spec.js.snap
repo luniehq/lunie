@@ -17,7 +17,9 @@ exports[`TmBalance show the balance header 1`] = `
       <h2
         class="total-atoms__value"
       >
+        
         3,210
+      
       </h2>
     </div>
      

@@ -20,13 +20,17 @@ exports[`TmDataMsg has the expected html structure 1`] = `
     <h2
       class="tm-data-msg__title"
     >
-      sOmEtHiNg Is HaPpEnIng!!!
+      
+        sOmEtHiNg Is HaPpEnIng!!!
+      
     </h2>
      
     <h3
       class="tm-data-msg__subtitle"
     >
-      Oh my! What could it be?
+      
+        Oh my! What could it be?
+      
     </h3>
   </div>
 </div>

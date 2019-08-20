@@ -36,7 +36,9 @@ exports[`ActionModal should show the action modal on success 1`] = `
       icon="check"
     >
       <div>
-        Successful transaction
+        
+          Successful transaction
+        
       </div>
        
       <div>
