@@ -28,9 +28,7 @@ const validator = {
 }
 const validatorTo = {
   operator_address: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au`,
-  description: {
-    moniker: `good_greg`
-  }
+  moniker: `good_greg`
 }
 
 const state = {
@@ -55,7 +53,7 @@ const getters = {
 }
 
 describe(`PageValidator`, () => {
-  let wrapper, $store
+  let wrapper, $store, $apollo
   const localVue = createLocalVue()
   localVue.directive(`tooltip`, () => {})
   localVue.use(VueApollo)
@@ -99,10 +97,18 @@ describe(`PageValidator`, () => {
       },
       getters: JSON.parse(JSON.stringify(getters)) // clone to be safe we don't overwrite
     }
+    $apollo = {
+      queries: {
+        validaor: {
+          loading: true
+        }
+      }
+    }
     wrapper = shallowMount(PageValidator, {
       localVue,
       mocks: {
         $store,
+        $apollo,
         $route: {
           params: { validator: validator.operator_address }
         }

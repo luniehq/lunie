@@ -216,12 +216,9 @@ const state = {
       revoked: false,
       tokens: `0`,
       delegator_shares: `0`,
-      description: {
-        website: `www.greg.com`,
-        details: `Good Guy Greg`,
-        moniker: `good_greg`,
-        country: `USA`
-      },
+      website: `www.greg.com`,
+      details: `Good Guy Greg`,
+      moniker: `good_greg`,
       status: 2,
       bond_height: `0`,
       bond_intra_tx_counter: 6,

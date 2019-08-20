@@ -3,7 +3,7 @@ import TabValidators from "src/components/staking/TabValidators"
 import validators from "../../store/json/validators.js"
 
 describe(`TabValidators`, () => {
-  let wrapper, $store
+  let wrapper, $store, $apollo
 
   const state = {
     session: {
@@ -27,6 +27,13 @@ describe(`TabValidators`, () => {
   }
 
   beforeEach(async () => {
+    $apollo = {
+      queries: {
+        validators: {
+          loading: true
+        }
+      }
+    }
     $store = {
       dispatch: jest.fn(),
       getters,
@@ -35,7 +42,8 @@ describe(`TabValidators`, () => {
 
     wrapper = shallowMount(TabValidators, {
       mocks: {
-        $store
+        $store,
+        $apollo
       }
     })
   })
@@ -69,7 +77,8 @@ describe(`TabValidators`, () => {
 
     wrapper = shallowMount(TabValidators, {
       mocks: {
-        $store
+        $store,
+        $apollo
       }
     })
 
@@ -101,7 +110,8 @@ describe(`TabValidators`, () => {
 
     wrapper = shallowMount(TabValidators, {
       mocks: {
-        $store
+        $store,
+        $apollo
       }
     })
 
@@ -133,7 +143,8 @@ describe(`TabValidators`, () => {
 
     wrapper = shallowMount(TabValidators, {
       mocks: {
-        $store
+        $store,
+        $apollo
       }
     })
 

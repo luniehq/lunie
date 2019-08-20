@@ -6,26 +6,18 @@ export default [
     revoked: false,
     tokens: `14`,
     delegator_shares: `14`,
-    description: {
-      website: `www.monty.ca`,
-      details: `Mr Mounty`,
-      moniker: `mr_mounty`,
-      country: `Canada`,
-      identity: `keybase`
-    },
-    signing_info: {
-      missed_blocks_counter: 2
-    },
+    website: `www.monty.ca`,
+    details: `Mr Mounty`,
+    moniker: `mr_mounty`,
+    identity: `keybase`,
     status: 2,
     bond_height: `0`,
     bond_intra_tx_counter: 6,
     proposer_reward_pool: null,
-    commission: {
-      rate: 0,
-      max_rate: `0`,
-      max_change_rate: `0`,
-      update_time: `1970-01-01T00:00:00Z`
-    },
+    rate: 0,
+    max_rate: `0`,
+    max_change_rate: `0`,
+    update_time: `1970-01-01T00:00:00Z`,
     prev_bonded_shares: `0`
   },
   {
@@ -35,24 +27,19 @@ export default [
     revoked: false,
     tokens: `0`,
     delegator_shares: `0`,
-    description: {
-      website: `www.greg.com`,
-      details: `Good Guy Greg`,
-      moniker: `good_greg`,
-      country: `USA`,
-      identity: `keybase`
-    },
+    website: `www.greg.com`,
+    details: `Good Guy Greg`,
+    moniker: `good_greg`,
+    identity: `keybase`,
     signing_info: null,
     status: 2,
     bond_height: `0`,
     bond_intra_tx_counter: 6,
     proposer_reward_pool: null,
-    commission: {
-      rate: 0,
-      max_rate: `0`,
-      max_change_rate: `0`,
-      update_time: new Date(Date.now()).toISOString()
-    },
+    rate: 0,
+    max_rate: `0`,
+    max_change_rate: `0`,
+    update_time: new Date(Date.now()).toISOString(),
     prev_bonded_shares: `0`
   },
   {
@@ -61,27 +48,19 @@ export default [
     pub_key: `cosmosvalpub8910`,
     tokens: `19`,
     delegator_shares: `19`,
-    description: {
-      details: `Herr Schmidt`,
-      website: `www.schmidt.de`,
-      moniker: `herr_schmidt_revoked`,
-      country: `DE`,
-      identity: `keybase`
-    },
+    details: `Herr Schmidt`,
+    website: `www.schmidt.de`,
+    moniker: `herr_schmidt_revoked`,
+    identity: `keybase`,
     revoked: true,
-    signing_info: {
-      missed_blocks_counter: 2000
-    },
     status: 2,
     bond_height: `0`,
     bond_intra_tx_counter: 6,
     proposer_reward_pool: null,
-    commission: {
-      rate: 0,
-      max_rate: `0`,
-      max_change_rate: `0`,
-      update_time: new Date(Date.now()).toISOString()
-    },
+    rate: 0,
+    max_rate: `0`,
+    max_change_rate: `0`,
+    update_time: new Date(Date.now()).toISOString(),
     prev_bonded_shares: `0`
   }
 ]
