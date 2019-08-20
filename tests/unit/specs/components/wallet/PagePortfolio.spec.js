@@ -34,7 +34,7 @@ describe(`PagePortfolio`, () => {
     }
   }
 
-  beforeEach(() => {
+  it("should display the portfolio page", async () => {
     $store = {
       commit: jest.fn(),
       dispatch: jest.fn(),
@@ -47,9 +47,7 @@ describe(`PagePortfolio`, () => {
         $store
       }
     })
-  })
 
-  it("should display the portfolio page", () => {
     expect(wrapper.vm.$el).toMatchSnapshot()
   })
 
@@ -64,9 +62,18 @@ describe(`PagePortfolio`, () => {
         dispatch: jest.fn()
       }
     }
+    // always triggers on first update (lastUpdate === 0)
     PagePortfolio.watch.lastHeader.handler.call(self, { height: 5 })
+    expect(self.update).toHaveBeenCalledWith(5)
+
+    self.update.mockClear()
+    PagePortfolio.watch.lastHeader.handler.call(
+      Object.assign({}, self, { lastUpdate: 1 }),
+      { height: 5 }
+    )
     expect(self.update).not.toHaveBeenCalled()
 
+    self.update.mockClear()
     PagePortfolio.watch.lastHeader.handler.call(self, { height: 100 })
     expect(self.update).toHaveBeenCalledWith(100)
 

@@ -39,7 +39,7 @@ export default {
   watch: {
     lastHeader: {
       immediate: true,
-      handler(newHeader) {
+      handler: function(newHeader) {
         const height = Number(newHeader.height)
         // run the update queries the first time and after every 10 blocks
         const waitedTenBlocks = height - this.lastUpdate >= 10
