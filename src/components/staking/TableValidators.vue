@@ -28,7 +28,6 @@ import LiValidator from "staking/LiValidator"
 import PanelSort from "staking/PanelSort"
 import BN from "bignumber.js"
 import { expectedReturns } from "scripts/returns"
-import { AllValidators, AllValidatorsResult } from "src/gql"
 
 export default {
   name: `table-validators`,
@@ -37,13 +36,16 @@ export default {
     PanelSort
   },
   props: {
+    validators: {
+      type: Array,
+      required: true
+    },
     showOnMobile: {
       type: String,
       default: () => "returns"
     }
   },
   data: () => ({
-    validators: [],
     num: num,
     query: ``,
     sort: {
@@ -179,12 +181,6 @@ export default {
   methods: {
     loadMore() {
       this.showing += 10
-    }
-  },
-  apollo: {
-    validators: {
-      query: AllValidators,
-      update: AllValidatorsResult
     }
   }
 }

@@ -7,18 +7,20 @@
     />
     <TableValidators
       v-else
-      :validators="delegates.delegates"
+      :validators="validators"
       show-on-mobile="expectedReturns"
     />
   </div>
 </template>
 
 <script>
+import { mapState, mapGetters } from "vuex"
 import TableValidators from "staking/TableValidators"
 import TmDataEmpty from "common/TmDataEmpty"
 import TmDataLoading from "common/TmDataLoading"
 import TmDataConnecting from "common/TmDataConnecting"
-import { mapState, mapGetters } from "vuex"
+import { AllValidators, AllValidatorsResult } from "src/gql"
+
 
 export default {
   name: `tab-validators`,
@@ -29,16 +31,18 @@ export default {
     TmDataConnecting
   },
   data: () => ({
-    lastUpdate: 0
+    lastUpdate: 0,
+    validators: []
   }),
   computed: {
     ...mapState([`session`, `delegates`]),
-    ...mapGetters([
-      `lastHeader`,
-      `committedDelegations`,
-      `connected`,
-      `yourValidators`
-    ])
+    ...mapGetters([`lastHeader`, `connected`,])
+  },
+  apollo: {
+    validators: {
+      query: AllValidators,
+      update: AllValidatorsResult
+    }
   }
 }
 </script>

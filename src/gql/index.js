@@ -46,6 +46,14 @@ export const ValidatorProfile = gql`
   ${ValidatorFragment}
 `
 
-export const AllValidatorsResult = data => data.allValidators
+export const SomeValidators = gql`
+  query ValidatorInfo($addressList: [String!]) {
+    allValidators(where: { operator_address: { _in: $addressList } }) {
+      ...ValidatorParts
+    }
+  }
+  ${ValidatorFragment}
+`
 
+export const AllValidatorsResult = data => data.allValidators
 export const ValidatorResult = data => data.allValidators[0]

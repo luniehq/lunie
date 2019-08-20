@@ -1,16 +1,16 @@
 <template>
   <div>
     <CardSignInRequired v-if="!session.signedIn" />
-    <div v-else-if="delegation.loaded && yourValidators.length > 0">
+    <div v-else-if="delegation.loaded && validators.length > 0">
       <TableValidators
-        :validators="yourValidators"
+        :validators="validators"
         show-on-mobile="my_delegations"
       />
     </div>
     <TmDataConnecting v-else-if="!delegation.loaded && !connected" />
     <TmDataLoading v-else-if="!delegation.loaded && delegation.loading" />
     <TmDataMsg
-      v-else-if="yourValidators.length === 0"
+      v-else-if="validators.length === 0"
       icon="sentiment_dissatisfied"
     >
       <div slot="title">No Active Delegations</div>
@@ -41,6 +41,7 @@
 import { mapState, mapGetters } from "vuex"
 import { viewDenom } from "scripts/num"
 import { isPendingUndelegation } from "scripts/transaction-utils"
+import { SomeValidators, AllValidatorsResult } from "src/gql"
 
 import TmDataMsg from "common/TmDataMsg"
 import CardSignInRequired from "common/CardSignInRequired"
@@ -62,6 +63,9 @@ export default {
   filters: {
     viewDenom
   },
+  data: () => ({
+    validators: []
+  }),
   computed: {
     ...mapState([`delegates`, `delegation`, `session`]),
     ...mapGetters([
@@ -71,19 +75,9 @@ export default {
       `flatOrderedTransactionList`,
       `yourValidators`
     ]),
-    yourValidators() {
-      if (!this.session.signedIn) return []
-      return (
-        this.session.signedIn &&
-        this.delegates.delegates.filter(
-          ({ operator_address }) =>
-            operator_address in this.committedDelegations
-        )
-      )
-    },
     yourValidatorsAddressMap() {
       const names = {}
-      this.yourValidators.forEach(item => {
+      this.validators.forEach(item => {
         names[item.operator_address] = item
       })
       return names
@@ -100,11 +94,25 @@ export default {
   async created() {
     this.loadStakingTxs()
   },
+  updated: function() {
+    console.log(this.validators)
+  },
   methods: {
     async loadStakingTxs() {
       if (this.session.signedIn) {
         await this.$store.dispatch(`getAllTxs`)
       }
+    }
+  },
+  apollo: {
+    validators: {
+      query: SomeValidators,
+      variables() {
+        return {
+          addressList: Object.keys(this.committedDelegations)
+        }
+      },
+      update: AllValidatorsResult
     }
   }
 }
