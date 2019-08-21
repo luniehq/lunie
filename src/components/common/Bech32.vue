@@ -1,7 +1,6 @@
 <template>
   <div class="bech32-address">
     <div
-      id="address"
       v-tooltip.top="`Click to copy`"
       v-clipboard:copy="address"
       v-clipboard:success="() => onCopy()"

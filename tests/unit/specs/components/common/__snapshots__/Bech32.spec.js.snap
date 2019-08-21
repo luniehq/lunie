@@ -6,7 +6,6 @@ exports[`Bech32 should show a long address 1`] = `
 >
   <div
     class="address"
-    id="address"
   >
     
     cosmosftw123456789
@@ -31,7 +30,6 @@ exports[`Bech32 should show a short address 1`] = `
 >
   <div
     class="address"
-    id="address"
   >
     
     cosmosftw…6789
