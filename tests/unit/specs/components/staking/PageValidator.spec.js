@@ -31,6 +31,7 @@ const validator = {
   },
   prev_bonded_shares: `0`,
   signing_info: {
+    start_height: 42,
     missed_blocks_counter: 2
   }
 }
@@ -65,7 +66,7 @@ const getters = {
 describe(`PageValidator`, () => {
   let wrapper, $store
   const localVue = createLocalVue()
-  localVue.directive(`tooltip`, () => {})
+  localVue.directive(`tooltip`, () => { })
   localVue.use(VueApollo)
 
   beforeEach(() => {
@@ -100,7 +101,8 @@ describe(`PageValidator`, () => {
           loaded: true,
           signingInfos: {
             cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw: {
-              missed_blocks_counter: 2
+              missed_blocks_counter: 2,
+              start_height: 100
             }
           }
         }
@@ -439,8 +441,8 @@ describe(`PageValidator`, () => {
     describe(`should update rewards `, () => {
       it(
         `if waited for 20 blocks, ` +
-          `user has signed in, ` +
-          `has delegations and is watching the validator page`,
+        `user has signed in, ` +
+        `has delegations and is watching the validator page`,
         () => {
           const $store = { dispatch: jest.fn() }
           const session = { signedIn: true }
@@ -528,7 +530,8 @@ describe(`delegationTargetOptions`, () => {
         loaded: true,
         signingInfos: {
           cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw: {
-            missed_blocks_counter: 2
+            missed_blocks_counter: 2,
+            start_height: 500
           }
         }
       },

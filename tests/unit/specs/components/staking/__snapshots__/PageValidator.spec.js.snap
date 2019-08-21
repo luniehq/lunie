@@ -184,7 +184,7 @@ exports[`PageValidator shows a validator profile information errors signing info
          
         <dd>
           
-          Block #
+          Block #100
         
         </dd>
       </dl>
@@ -456,7 +456,7 @@ exports[`PageValidator shows a validator profile information if user has signed 
          
         <dd>
           
-          Block #
+          Block #100
         
         </dd>
       </dl>
@@ -728,7 +728,7 @@ exports[`PageValidator shows a validator profile information if user hasn't sign
          
         <dd>
           
-          Block #
+          Block #100
         
         </dd>
       </dl>
