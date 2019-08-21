@@ -67,7 +67,7 @@ describe(`TableValidators`, () => {
   })
 
   it(`shows a validator table`, async () => {
-    expect(wrapper.vm.$el).toMatchSnapshot()
+    expect(wrapper.element).toMatchSnapshot()
   })
 
   it(`should create an enriched validator object for a signed in user`, () => {
