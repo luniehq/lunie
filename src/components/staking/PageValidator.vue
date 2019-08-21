@@ -105,26 +105,26 @@
             </dl>
             <dl class="info_dl">
               <dt>Keybase ID</dt>
-              <dd>{{ translateEmptyDescription(validator.keybaseId) }}</dd>
+              <dd>{{ validator.keybaseId | noBlanks }}</dd>
             </dl>
             <dl class="info_dl">
               <dt>Website</dt>
-              <dd v-if="website !== `--`">
+              <dd v-if="website !== `--` && website !== ''">
                 <a
                   id="validator-website"
                   :href="website"
                   target="_blank"
                   rel="nofollow noreferrer noopener"
                 >
-                  {{ website }}
+                  {{ website | noBlanks }}
                 </a>
               </dd>
-              <dd v-else>{{ website }}</dd>
+              <dd v-else>{{ website | noBlanks }}</dd>
             </dl>
             <dl class="info_dl">
               <dt>Description</dt>
               <dd class="info_dl__text-box">
-                {{ translateEmptyDescription(validator.details) }}
+                {{ validator.details | noBlanks }}
               </dd>
             </dl>
           </div>
@@ -214,7 +214,12 @@ export default {
     atoms,
     viewDenom,
     shortDecimals,
-    formatBech32
+    formatBech32,
+    // empty descriptions have a strange '[do-not-modify]' value which we don't want to show
+    noBlanks: function(value) {
+      if (!value || value === `[do-not-modify]`) return `--`
+      return value
+    }
   },
   data: () => ({
     tabIndex: 1,
@@ -237,6 +242,7 @@ export default {
       return percent(this.delegates.selfBond[this.validator.operator_address])
     },
     uptime() {
+      // We no longer have missed bloks to calculate this
       if (!this.validator.signing_info) return null
 
       const totalBlocks = this.lastHeader.height
@@ -307,20 +313,15 @@ export default {
       // status: active
       return `green`
     },
-    // empty descriptions have a strange '[do-not-modify]' value which we don't want to show
     website() {
-      let url = this.validator.website || ""
-      // Check if validator url is empty
-      if (url === ``) {
-        return this.translateEmptyDescription(url)
+      let url = this.validator.website
 
-        // Check if validator url does not contain either http or https
-      } else if (!url.includes(`https`) && !url.includes(`http`)) {
+      if (!url) {
+        return ""
+      } else if (!url.match(/http[s]?/)) {
         url = `https://` + url
-        return this.translateEmptyDescription(url)
-      } else {
-        return this.translateEmptyDescription(url)
       }
+      return url
     },
     rewards() {
       const { session, bondDenom, distribution, validator } = this
@@ -368,9 +369,6 @@ export default {
         }
       }
     }
-  },
-  mounted() {
-    this.$store.dispatch("updateDelegates")
   },
   methods: {
     percent,
@@ -420,10 +418,6 @@ export default {
           }
         })
       return myWallet.concat(redelegationOptions)
-    },
-    translateEmptyDescription(value) {
-      if (!value || value === `[do-not-modify]`) return `--`
-      return value
     }
   },
   apollo: {

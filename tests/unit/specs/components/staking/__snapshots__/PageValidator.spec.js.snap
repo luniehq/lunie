@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`PageValidator shows a validator profile information errors signing info is missing 1`] = `
+exports[`PageValidator renders validator information correctly 1`] = `
 <tmpage-stub
   data-title="Validator"
   loaded="true"
@@ -15,15 +15,10 @@ exports[`PageValidator shows a validator profile information errors signing info
       <div
         class="row"
       >
-        <apolloquery-stub
-          debounce="0"
-          options="[object Object]"
-          prefetch="true"
-          query="[object Object]"
-          tag="div"
-          throttle="0"
-          update="function () { [native code] }"
-          variables="[object Object]"
+        <img
+          alt="validator logo for mr_mounty"
+          class="avatar"
+          src="www.blah.com/img.jpg"
         />
          
         <div
@@ -141,7 +136,7 @@ exports[`PageValidator shows a validator profile information errors signing info
             <dd
               id="page-profile__uptime"
             >
-              99.6%
+              
             </dd>
           </dl>
            
@@ -155,7 +150,9 @@ exports[`PageValidator shows a validator profile information errors signing info
             <dd
               id="page-profile__commission"
             >
+              
               5.00%
+            
             </dd>
           </dl>
         </div>
@@ -193,7 +190,7 @@ exports[`PageValidator shows a validator profile information errors signing info
             </dt>
              
             <dd>
-              --
+              DE8EDE345676546
             </dd>
           </dl>
            
@@ -211,7 +208,9 @@ exports[`PageValidator shows a validator profile information errors signing info
                 rel="nofollow noreferrer noopener"
                 target="_blank"
               >
+                
                 https://www.monty.ca
+              
               </a>
             </dd>
           </dl>
@@ -226,7 +225,9 @@ exports[`PageValidator shows a validator profile information errors signing info
             <dd
               class="info_dl__text-box"
             >
+              
               Mr Mounty
+            
             </dd>
           </dl>
         </div>
@@ -316,7 +317,7 @@ exports[`PageValidator shows a validator profile information errors signing info
 </tmpage-stub>
 `;
 
-exports[`PageValidator shows a validator profile information if user has signed in 1`] = `
+exports[`PageValidator renders validator information correctly when no avatar url 1`] = `
 <tmpage-stub
   data-title="Validator"
   loaded="true"
@@ -331,15 +332,10 @@ exports[`PageValidator shows a validator profile information if user has signed 
       <div
         class="row"
       >
-        <apolloquery-stub
-          debounce="0"
-          options="[object Object]"
-          prefetch="true"
-          query="[object Object]"
-          tag="div"
-          throttle="0"
-          update="function () { [native code] }"
-          variables="[object Object]"
+        <avatar-stub
+          address="cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
+          alt="generic validator logo - generated avatar from address"
+          class="avatar"
         />
          
         <div
@@ -457,7 +453,7 @@ exports[`PageValidator shows a validator profile information if user has signed 
             <dd
               id="page-profile__uptime"
             >
-              99.6%
+              
             </dd>
           </dl>
            
@@ -471,7 +467,9 @@ exports[`PageValidator shows a validator profile information if user has signed 
             <dd
               id="page-profile__commission"
             >
+              
               5.00%
+            
             </dd>
           </dl>
         </div>
@@ -509,7 +507,7 @@ exports[`PageValidator shows a validator profile information if user has signed 
             </dt>
              
             <dd>
-              --
+              DE8EDE345676546
             </dd>
           </dl>
            
@@ -527,7 +525,9 @@ exports[`PageValidator shows a validator profile information if user has signed 
                 rel="nofollow noreferrer noopener"
                 target="_blank"
               >
+                
                 https://www.monty.ca
+              
               </a>
             </dd>
           </dl>
@@ -542,7 +542,9 @@ exports[`PageValidator shows a validator profile information if user has signed 
             <dd
               class="info_dl__text-box"
             >
+              
               Mr Mounty
+            
             </dd>
           </dl>
         </div>
@@ -632,7 +634,7 @@ exports[`PageValidator shows a validator profile information if user has signed 
 </tmpage-stub>
 `;
 
-exports[`PageValidator shows a validator profile information if user hasn't signed in 1`] = `
+exports[`PageValidator renders website correctly 1`] = `
 <tmpage-stub
   data-title="Validator"
   loaded="true"
@@ -647,15 +649,10 @@ exports[`PageValidator shows a validator profile information if user hasn't sign
       <div
         class="row"
       >
-        <apolloquery-stub
-          debounce="0"
-          options="[object Object]"
-          prefetch="true"
-          query="[object Object]"
-          tag="div"
-          throttle="0"
-          update="function () { [native code] }"
-          variables="[object Object]"
+        <img
+          alt="validator logo for mr_mounty"
+          class="avatar"
+          src="www.blah.com/img.jpg"
         />
          
         <div
@@ -773,7 +770,7 @@ exports[`PageValidator shows a validator profile information if user hasn't sign
             <dd
               id="page-profile__uptime"
             >
-              99.6%
+              
             </dd>
           </dl>
            
@@ -787,7 +784,9 @@ exports[`PageValidator shows a validator profile information if user hasn't sign
             <dd
               id="page-profile__commission"
             >
+              
               5.00%
+            
             </dd>
           </dl>
         </div>
@@ -825,7 +824,7 @@ exports[`PageValidator shows a validator profile information if user hasn't sign
             </dt>
              
             <dd>
-              --
+              DE8EDE345676546
             </dd>
           </dl>
            
@@ -837,14 +836,7 @@ exports[`PageValidator shows a validator profile information if user hasn't sign
             </dt>
              
             <dd>
-              <a
-                href="https://www.monty.ca"
-                id="validator-website"
-                rel="nofollow noreferrer noopener"
-                target="_blank"
-              >
-                https://www.monty.ca
-              </a>
+              --
             </dd>
           </dl>
            
@@ -858,7 +850,9 @@ exports[`PageValidator shows a validator profile information if user hasn't sign
             <dd
               class="info_dl__text-box"
             >
+              
               Mr Mounty
+            
             </dd>
           </dl>
         </div>
@@ -933,7 +927,7 @@ exports[`PageValidator shows a validator profile information if user hasn't sign
      
     <delegationmodal-stub
       denom="STAKE"
-      fromoptions=""
+      fromoptions="[object Object]"
       to="cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
       validator="[object Object]"
     />
@@ -941,52 +935,9 @@ exports[`PageValidator shows a validator profile information if user hasn't sign
     <undelegationmodal-stub
       denom="STAKE"
       maximum="0"
-      to=""
+      to="cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9"
       validator="[object Object]"
     />
   </template>
 </tmpage-stub>
-`;
-
-exports[`PageValidator shows a validator profile information shows a validator as an inactive candidate if he has no voting_power 1`] = `"This validator does not have enough voting power yet and is inactive"`;
-
-exports[`PageValidator shows a validator profile information shows that a validator is jailed 1`] = `"This validator has been jailed and is not currently validating"`;
-
-exports[`delegationTargetOptions always shows wallet in the first position 1`] = `
-Array [
-  Object {
-    "address": "cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9",
-    "key": "My Wallet - cosmos…3p4mqpjyrm5ctpesxxn9",
-    "maximum": 1337,
-    "value": 0,
-  },
-]
-`;
-
-exports[`delegationTargetOptions hides displayed validator if bonded 1`] = `
-Array [
-  Object {
-    "address": "cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9",
-    "key": "My Wallet - cosmos…3p4mqpjyrm5ctpesxxn9",
-    "maximum": 1337,
-    "value": 0,
-  },
-]
-`;
-
-exports[`delegationTargetOptions shows bonded validators for redelegation options 1`] = `
-Array [
-  Object {
-    "address": "cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9",
-    "key": "My Wallet - cosmos…3p4mqpjyrm5ctpesxxn9",
-    "maximum": 1337,
-    "value": 0,
-  },
-  Object {
-    "address": "cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au",
-    "key": "good_greg - cosmosvaladdr…3p4mqpjyrm5ctplpn3au",
-    "maximum": 5,
-    "value": 1,
-  },
-]
 `;
