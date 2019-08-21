@@ -23,7 +23,7 @@
         show-on-mobile="my_delegations"
       />
     </div>
-    <div v-if="delegation.loaded && pendingUndelegations.length > 0">
+    <div v-if="pendingUndelegations.length > 0">
       <h3 class="tab-header transactions">Pending Undelegations</h3>
       <div class="unbonding-transactions">
         <template>

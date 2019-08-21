@@ -5,162 +5,176 @@ import { flatOrderedTransactionList } from "../../store/json/txs"
 
 describe(`Component: TabMyDelegations`, () => {
   const state = {
-    delegates: {
-      delegates: validators
-    },
-    delegation: {
-      unbondingDelegations: {},
-      loaded: true
-    },
     session: { signedIn: true }
   }
   const getters = {
-    committedDelegations: {},
+    committedDelegations: {
+      [validators[0].operator_address]: 42
+    },
     connected: true,
     bondDenom: `uatom`,
     flatOrderedTransactionList
   }
 
-  describe(`view`, () => {
-    let wrapper, $store
+  let wrapper, $store, $apollo, $route
 
-    beforeEach(() => {
-      $store = {
-        commit: jest.fn(),
-        dispatch: jest.fn(),
-        state,
-        getters: JSON.parse(JSON.stringify(getters)) // clone so we don't overwrite by accident
+  beforeEach(() => {
+    $store = {
+      commit: jest.fn(),
+      dispatch: jest.fn(),
+      state,
+      getters
+    }
+
+    $apollo = {
+      queries: {
+        validators: {
+          loading: false
+        }
       }
+    }
 
-      wrapper = shallowMount(TabMyDelegations, {
-        mocks: {
-          $store,
-          $route: {
-            path: `/staking/my-delegations`
+    $route = {
+      path: `/staking/my-delegations`
+    }
+
+    wrapper = shallowMount(TabMyDelegations, {
+      mocks: {
+        $store,
+        $apollo,
+        $route
+      },
+      stubs: [`router-link`]
+    })
+    wrapper.setData({ validators: [validators[0]] })
+  })
+
+  it(`should show committed validators`, () => {
+    $store.getters.committedDelegations = expect(
+      wrapper.element
+    ).toMatchSnapshot()
+  })
+
+  it(`should show message when no commited validators`, () => {
+    wrapper.setData({ validators: [] })
+    expect(wrapper.text()).toMatch(/No Active Delegations/)
+    expect(wrapper.element).toMatchSnapshot()
+  })
+
+  it(`should show sign in message when not signed in`, () => {
+    $store = {
+      commit: jest.fn(),
+      dispatch: jest.fn(),
+      state: {
+        delegation: {
+          unbondingDelegations: {},
+          loaded: true
+        },
+        session: { signedIn: false }
+      },
+      getters
+    }
+    wrapper = shallowMount(TabMyDelegations, {
+      mocks: {
+        $store,
+        $apollo
+      },
+      stubs: [`router-link`]
+    })
+    expect(wrapper.find("cardsigninrequired-stub").exists()).toBe(true)
+    expect(wrapper.element).toMatchSnapshot()
+  })
+
+  it(`should show message when loading and not connected`, () => {
+    $store = {
+      commit: jest.fn(),
+      dispatch: jest.fn(),
+      state: {
+        session: { signedIn: true }
+      },
+      getters: {
+        committedDelegations: {
+          [validators[0].operator_address]: 42
+        },
+        connected: false,
+        bondDenom: `uatom`,
+        flatOrderedTransactionList
+      }
+    }
+    wrapper = shallowMount(TabMyDelegations, {
+      mocks: {
+        $store,
+        $apollo: {
+          queries: {
+            validators: {
+              loading: true
+            }
           }
-        },
-        stubs: [`router-link`]
-      })
+        }
+      },
+      stubs: [`router-link`]
     })
+    console.log(wrapper.html())
+    expect(wrapper.find("TmDataConnecting-stub").exists()).toBe(true)
+    expect(wrapper.element).toMatchSnapshot()
+  })
 
-    it(`should show committed validators`, () => {
-      $store.getters.committedDelegations = {
-        [validators[0].operator_address]: 42
+  it(`should show loading message`, () => {
+    $store = {
+      commit: jest.fn(),
+      dispatch: jest.fn(),
+      state: {
+        session: { signedIn: true }
+      },
+      getters: {
+        committedDelegations: {
+          [validators[0].operator_address]: 42
+        },
+        connected: true,
+        bondDenom: `uatom`,
+        flatOrderedTransactionList
       }
-      expect(wrapper.element).toMatchSnapshot()
+    }
+    wrapper = shallowMount(TabMyDelegations, {
+      mocks: {
+        $store,
+        $apollo: {
+          queries: {
+            validators: {
+              loading: true
+            }
+          }
+        }
+      },
+      stubs: [`router-link`]
+    })
+    expect(wrapper.find("TmDataLoading-stub").exists()).toBe(true)
+    expect(wrapper.element).toMatchSnapshot()
+  })
+
+  it(`should show pending undelegations`, () => {
+    $store = {
+      commit: jest.fn(),
+      dispatch: jest.fn(),
+      state: {
+        session: { signedIn: true }
+      },
+      getters
+    }
+
+    $store.getters.committedDelegations = {
+      [`cosmos1`]: 42
+    }
+
+    wrapper = shallowMount(TabMyDelegations, {
+      mocks: {
+        $store,
+        $apollo
+      },
+      stubs: [`router-link`, `tablevalidators-stub`]
     })
 
-    it(`should show message when no commited validators`, () => {
-      expect(wrapper.text()).toMatch(/No Active Delegations/)
-      expect(wrapper.element).toMatchSnapshot()
-    })
-
-    it(`should show sign in message when not signed in`, () => {
-      $store = {
-        commit: jest.fn(),
-        dispatch: jest.fn(),
-        state: {
-          delegation: {
-            unbondingDelegations: {},
-            loaded: true
-          },
-          session: { signedIn: false }
-        },
-        getters: JSON.parse(JSON.stringify(getters))
-      }
-      wrapper = shallowMount(TabMyDelegations, {
-        mocks: {
-          $store
-        },
-        stubs: [`router-link`]
-      })
-      expect(wrapper.find("cardsigninrequired-stub").exists()).toBe(true)
-      expect(wrapper.element).toMatchSnapshot()
-    })
-
-    it(`should show message when loading and not connected`, () => {
-      $store = {
-        commit: jest.fn(),
-        dispatch: jest.fn(),
-        state: {
-          delegation: {
-            unbondingDelegations: {},
-            loaded: true
-          },
-          session: { signedIn: true }
-        },
-        getters: JSON.parse(JSON.stringify(getters))
-      }
-      $store.state.delegation.loaded = false
-      $store.getters.connected = false
-      wrapper = shallowMount(TabMyDelegations, {
-        mocks: {
-          $store
-        },
-        stubs: [`router-link`]
-      })
-      expect(wrapper.find("TmDataConnecting-stub").exists()).toBe(true)
-      expect(wrapper.element).toMatchSnapshot()
-    })
-
-    it(`should show loading message`, () => {
-      $store = {
-        commit: jest.fn(),
-        dispatch: jest.fn(),
-        state: {
-          delegation: {
-            unbondingDelegations: {},
-            loaded: true
-          },
-          session: { signedIn: true }
-        },
-        getters: JSON.parse(JSON.stringify(getters))
-      }
-      $store.state.delegation.loaded = false
-      $store.state.delegation.loading = true
-      wrapper = shallowMount(TabMyDelegations, {
-        mocks: {
-          $store
-        },
-        stubs: [`router-link`]
-      })
-      expect(wrapper.find("TmDataLoading-stub").exists()).toBe(true)
-      expect(wrapper.element).toMatchSnapshot()
-    })
-
-    it(`should show pending undelegations`, () => {
-      $store = {
-        commit: jest.fn(),
-        dispatch: jest.fn(),
-        state: {
-          delegates: {
-            delegates: validators
-          },
-          delegation: {
-            unbondingDelegations: {},
-            loaded: true
-          },
-          session: { signedIn: true }
-        },
-        getters: JSON.parse(JSON.stringify(getters))
-      }
-
-      $store.state.delegation.loaded = true
-      $store.state.delegation.loading = false
-      $store.getters.committedDelegations = {
-        [`cosmos1`]: 42
-      }
-      $store.state.delegates.delegates = [{ operator_address: `cosmos1` }]
-
-      wrapper = shallowMount(TabMyDelegations, {
-        mocks: {
-          $store
-        },
-        stubs: [`router-link`, `tablevalidators-stub`]
-      })
-
-      expect(wrapper.html()).toMatch(/Pending Undelegations/)
-      expect(wrapper.vm.$el).toMatchSnapshot()
-    })
+    expect(wrapper.html()).toMatch(/Pending Undelegations/)
+    expect(wrapper.element).toMatchSnapshot()
   })
 })
