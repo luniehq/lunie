@@ -217,7 +217,7 @@ describe(`Module: Delegations`, () => {
     expect(commit).not.toHaveBeenCalled()
   })
 
-  it(`should load delegtes if they are not loaded already`, async () => {
+  it(`should load delegates if they are not loaded already`, async () => {
     const node = {
       get: {
         delegations: jest.fn(() => []),
