@@ -417,7 +417,6 @@ exports[`TransactionDetails renders MsgSend transaction item from other to you 1
       >
         <div
           class="address"
-          id="address"
         >
           
     cosmos…1212
@@ -507,7 +506,6 @@ exports[`TransactionDetails renders MsgSend transaction item from session user t
       >
         <div
           class="address"
-          id="address"
         >
           
     cosmos…sdas
@@ -662,7 +660,6 @@ exports[`TransactionDetails renders MsgSend transaction item unrelated to sessio
       >
         <div
           class="address"
-          id="address"
         >
           
     cosmos…dlkj
@@ -686,7 +683,6 @@ exports[`TransactionDetails renders MsgSend transaction item unrelated to sessio
       >
         <div
           class="address"
-          id="address"
         >
           
     cosmos…dlkj
