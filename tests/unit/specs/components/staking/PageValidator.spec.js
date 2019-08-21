@@ -83,7 +83,7 @@ const stubbedModal = {
 }
 
 describe(`PageValidator`, () => {
-  let wrapper, $store, $apollo, $refs
+  let wrapper, $store, $apollo
   const localVue = createLocalVue()
   localVue.directive(`tooltip`, () => {})
 
