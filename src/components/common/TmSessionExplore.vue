@@ -67,7 +67,7 @@ export default {
         address: this.address
       })
       localStorage.setItem(`prevAddress`, this.address)
-      this.$router.push(`/portfolio`)
+      this.$router.push(`/`)
     },
     bech32Validate(param) {
       try {

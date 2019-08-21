@@ -45,7 +45,7 @@
 </template>
 
 <script>
-import SessionFrame from "common/SessionFrame"
+import SessionFrame from "common/SessionFrame.vue"
 import LiSession from "common/TmLiSession"
 export default {
   name: `session-welcome`,
