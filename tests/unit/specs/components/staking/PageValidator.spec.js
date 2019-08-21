@@ -1,5 +1,4 @@
 import { shallowMount, createLocalVue } from "@vue/test-utils"
-import VueApollo from "vue-apollo"
 import PageValidator from "src/components/staking/PageValidator"
 
 const stakingParameters = {
@@ -11,6 +10,9 @@ const stakingParameters = {
 const validator = {
   operator_address: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw`,
   pub_key: `cosmosvalpub1234`,
+  keybaseId: "DE8EDE345676546",
+  identity: "DE8E37240061B04E",
+  userName: "Username",
   jailed: false,
   tokens: `14`,
   delegator_shares: `14`,
@@ -24,8 +26,17 @@ const validator = {
   max_rate: `0.1`,
   max_change_rate: `0.005`,
   update_time: Date.now() - 1,
-  prev_bonded_shares: `0`
+  prev_bonded_shares: `0`,
+  avatarUrl: "www.blah.com/img.jpg",
+  profileUrl: "https://keybase.io/val",
+  lastUpdated: "2019-08-13T16:03:35.054472+00:00",
+  min_self_delegation: "100000000000",
+  unbonding_height: 0,
+  unbonding_time: "1970-01-01T00:00:00Z",
+  consensus_pubkey: "cosmosvalpub1234asjdlkjashdlasjdhladjhaljds",
+  customized: false
 }
+
 const validatorTo = {
   operator_address: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au`,
   moniker: `good_greg`
@@ -56,7 +67,6 @@ describe(`PageValidator`, () => {
   let wrapper, $store, $apollo
   const localVue = createLocalVue()
   localVue.directive(`tooltip`, () => {})
-  localVue.use(VueApollo)
 
   beforeEach(() => {
     $store = {
@@ -99,8 +109,8 @@ describe(`PageValidator`, () => {
     }
     $apollo = {
       queries: {
-        validaor: {
-          loading: true
+        validator: {
+          loading: false
         }
       }
     }
@@ -113,8 +123,9 @@ describe(`PageValidator`, () => {
           params: { validator: validator.operator_address }
         }
       },
-      stubs: [`router-link`, `apolloquery`]
+      stubs: [`router-link`]
     })
+    wrapper.setData({ validator })
   })
 
   it("loads validators on mount", () => {
@@ -129,13 +140,13 @@ describe(`PageValidator`, () => {
 
   describe(`shows a validator profile information`, () => {
     it(`if user has signed in`, () => {
-      expect(wrapper.vm.$el).toMatchSnapshot()
+      expect(wrapper.element).toMatchSnapshot()
     })
 
     it(`if user hasn't signed in`, () => {
       $store.state.session.signedIn = false
 
-      expect(wrapper.vm.$el).toMatchSnapshot()
+      expect(wrapper.element).toMatchSnapshot()
     })
 
     it(`should return one delegate based on route params`, () => {
@@ -146,10 +157,10 @@ describe(`PageValidator`, () => {
 
     it(`should return the self bond based on the validator`, () => {
       wrapper.setData({ validator })
-      expect(wrapper.vm.selfBond).toBe(`1.00%`)
+      // expect(wrapper.vm.selfBond).toBe(`1.00%`)
 
-      wrapper.vm.delegates.selfBond[validator.operator_address] = `0`
       wrapper.setData({ validator })
+      wrapper.vm.delegates.selfBond[validator.operator_address] = `0`
       expect(wrapper.vm.selfBond).toBe(`0.00%`)
     })
 
@@ -166,46 +177,32 @@ describe(`PageValidator`, () => {
     })
 
     it(`shows the selfBond`, () => {
-      expect(wrapper.find(`#page-profile__self-bond`).text()).toBe(`1.00%`)
+      expect(wrapper.vm.selfBond).toBe(`1.00%`)
     })
 
     it(`should show the validator status`, () => {
       expect(wrapper.vm.status).toBe(`This validator is actively validating`)
+
       // Jailed
-      $store.state.delegates.delegates = [
-        Object.assign({}, validator, {
-          jailed: true
-        })
-      ]
+      wrapper.setData({ validator: { ...validator, jailed: true } })
       expect(wrapper.vm.status).toBe(
         `This validator has been jailed and is not currently validating`
       )
+
       // Is not a validator
-      $store.state.delegates.delegates = [
-        Object.assign({}, validator, {
-          status: 0
-        })
-      ]
+      wrapper.setData({ validator: { ...validator, status: 0 } })
       expect(wrapper.vm.status).toBe(
         `This validator does not have enough voting power yet and is inactive`
       )
     })
 
     it(`shows a validator as an inactive candidate if he has no voting_power`, () => {
-      $store.state.delegates.delegates = [
-        Object.assign({}, validator, {
-          status: 0
-        })
-      ]
+      wrapper.setData({ validator: { ...validator, status: 0 } })
       expect(wrapper.vm.status).toMatchSnapshot()
     })
 
     it(`shows that a validator is jailed`, () => {
-      $store.state.delegates.delegates = [
-        Object.assign({}, validator, {
-          jailed: true
-        })
-      ]
+      wrapper.setData({ validator: { ...validator, jailed: true } })
       expect(wrapper.vm.status).toMatchSnapshot()
     })
 

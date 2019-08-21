@@ -7,7 +7,7 @@
     :data-empty="!validator.operator_address"
     data-title="Validator"
   >
-    <template v-if="validator.operator_address" slot="managed-body">
+    <template v-if="!$apollo.queries.validator.loading" slot="managed-body">
       <!-- we need the v-if as the template somehow is rendered in any case -->
       <div class="page-profile__header page-profile__section">
         <div class="row">
