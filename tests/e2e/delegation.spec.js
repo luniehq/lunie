@@ -1,7 +1,7 @@
-const { actionModalCheckout, nextBlock } = require("./helpers.js")
+const { actionModalCheckout, nextBlock, waitForText } = require("./helpers.js")
 
 module.exports = {
-  "Delegate Action": async function(browser) {
+  "Delegate Action": async function (browser) {
     // move to according page
     browser.url(browser.launch_url + "/#/validators")
 
@@ -24,12 +24,9 @@ module.exports = {
 
     // check if tx shows
     browser.url(browser.launch_url + "/#/transactions")
-    browser.pause(500)
-    browser.expect
-      .element(".tx__content__caption")
-      .text.to.contain(`Delegated ${value} STAKE`)
+    await waitForText(browser, ".tx:first-child .tx__content__caption", `Delegated ${value} STAKE`)
   },
-  "Redelegate Action": async function(browser) {
+  "Redelegate Action": async function (browser) {
     // move to according page
     browser.url(browser.launch_url + "/#/validators")
 
@@ -56,12 +53,9 @@ module.exports = {
 
     // check if tx shows
     browser.url(browser.launch_url + "/#/transactions")
-    browser.pause(500)
-    browser.expect
-      .element(".tx__content__caption")
-      .text.to.contain(`Redelegated ${value} STAKE`)
+    await waitForText(browser, ".tx:first-child .tx__content__caption", `Redelegated ${value} STAKE`)
   },
-  "Undelegate Action": async function(browser) {
+  "Undelegate Action": async function (browser) {
     // be sure that the balance has updated, if we don't wait, the baseline (balance) shifts
     await nextBlock(browser)
 
@@ -86,16 +80,13 @@ module.exports = {
 
     // check if tx shows
     browser.url(browser.launch_url + "/#/transactions")
-    browser.pause(500)
-    browser.expect
-      .element(".tx__content__caption")
-      .text.to.contain(`Undelegated ${value} STAKE`)
+    await waitForText(browser, ".tx:first-child .tx__content__caption", `Undelegated ${value} STAKE`)
   }
 }
 
 function setSelect(browser, selector, option) {
   browser.execute(
-    function(selector, option) {
+    function (selector, option) {
       const select = document.querySelector(selector)
       select.value = option
 
