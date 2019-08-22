@@ -23,7 +23,7 @@ describe(`DelegationsOverview`, () => {
           loaded: true
         }
       },
-      getters: JSON.parse(JSON.stringify(getters)) // clone so we don't overwrite by accident
+      getters
     }
 
     wrapper = shallowMount(DelegationsOverview, {

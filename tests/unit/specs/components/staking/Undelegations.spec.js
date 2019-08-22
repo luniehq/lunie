@@ -19,7 +19,7 @@ describe(`Undelegations`, () => {
       commit: jest.fn(),
       dispatch: jest.fn(),
       state,
-      getters: JSON.parse(JSON.stringify(getters)) // clone so we don't overwrite by accident
+      getters
     }
 
     wrapper = shallowMount(Undelegations, {
