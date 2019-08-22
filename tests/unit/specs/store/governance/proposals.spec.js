@@ -44,7 +44,7 @@ describe(`Module: Proposals`, () => {
     const { mutations, state } = moduleInstance
     mutations.setProposal(state, proposals[`2`])
     mutations.setProposalTally(state, {
-      proposal_id: `2`,
+      id: `2`,
       final_tally_result: tallies[`1`]
     })
     expect(state.tallies[`2`]).toEqual(tallies[`1`])
@@ -75,7 +75,7 @@ describe(`Module: Proposals`, () => {
         node: {
           get: {
             proposals: () => Promise.resolve(Object.values(proposals)),
-            proposalTally: proposal_id => Promise.resolve(tallies[proposal_id])
+            proposalTally: id => Promise.resolve(tallies[id])
           }
         }
       })
@@ -93,22 +93,22 @@ describe(`Module: Proposals`, () => {
           [`setProposal`, proposals[`1`]],
           [
             `setProposalTally`,
-            { proposal_id: `1`, final_tally_result: tallies[`1`] }
+            { id: `1`, final_tally_result: tallies[`1`] }
           ],
           [`setProposal`, proposals[`2`]],
           [
             `setProposalTally`,
-            { proposal_id: `2`, final_tally_result: tallies[`2`] }
+            { id: `2`, final_tally_result: tallies[`2`] }
           ],
           [`setProposal`, proposals[`5`]],
           [
             `setProposalTally`,
-            { proposal_id: `5`, final_tally_result: tallies[`5`] }
+            { id: `5`, final_tally_result: tallies[`5`] }
           ],
           [`setProposal`, proposals[`6`]],
           [
             `setProposalTally`,
-            { proposal_id: `6`, final_tally_result: tallies[`6`] }
+            { id: `6`, final_tally_result: tallies[`6`] }
           ]
         ])
       )
@@ -125,7 +125,7 @@ describe(`Module: Proposals`, () => {
       const { actions, state } = moduleInstance
       await actions.getProposals({
         state,
-        commit: () => {},
+        commit: () => { },
         rootState: mockRootState
       })
       expect(state.error.message).toBe(`Error`)
@@ -137,8 +137,8 @@ describe(`Module: Proposals`, () => {
       moduleInstance = proposalsModule({
         node: {
           get: {
-            proposal: proposal_id => Promise.resolve(proposals[proposal_id]),
-            proposalTally: proposal_id => Promise.resolve(tallies[proposal_id])
+            proposal: id => Promise.resolve(proposals[id]),
+            proposalTally: id => Promise.resolve(tallies[id])
           }
         }
       })
@@ -155,7 +155,7 @@ describe(`Module: Proposals`, () => {
         [`setProposal`, proposals[`1`]],
         [
           `setProposalTally`,
-          { proposal_id: `1`, final_tally_result: tallies[`1`] }
+          { id: `1`, final_tally_result: tallies[`1`] }
         ]
       ])
 
@@ -169,7 +169,7 @@ describe(`Module: Proposals`, () => {
         [`setProposal`, proposals[`2`]],
         [
           `setProposalTally`,
-          { proposal_id: `2`, final_tally_result: tallies[`2`] }
+          { id: `2`, final_tally_result: tallies[`2`] }
         ]
       ])
     })
@@ -213,7 +213,7 @@ describe(`Module: Proposals`, () => {
     )
     jest.runAllTimers()
     expect(commit).toHaveBeenCalledWith(`setProposal`, {
-      proposal_id: `1`,
+      id: `1`,
       proposal_content: {
         value: {
           title: `Proposal Title`,

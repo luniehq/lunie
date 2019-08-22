@@ -4,11 +4,11 @@
       <p class="tx__content__caption__title">
         Deposited
         <b>{{ deposit.amount | atoms | prettyLong }}</b>
-        <span>{{ deposit.denom | viewDenom }}</span>
+        <span> {{ deposit.denom | viewDenom }}</span>
       </p>
     </div>
     <div class="tx__content__information">
-      On
+      On&nbsp;
       <router-link :to="`/governance/${transaction.value.proposal_id}`"
         >Proposal &#35;{{ transaction.value.proposal_id }}</router-link
       >

@@ -2,7 +2,7 @@ import { validators } from "./addresses"
 const day = 86400000
 export const proposals = {
   1: {
-    proposal_id: `1`,
+    id: `1`,
     proposal_type: `Text`,
     proposal_content: {
       value: {
@@ -35,7 +35,7 @@ export const proposals = {
     }
   },
   2: {
-    proposal_id: `2`,
+    id: `2`,
     proposal_type: `Text`,
     proposal_content: {
       value: {
@@ -68,7 +68,7 @@ export const proposals = {
     }
   },
   5: {
-    proposal_id: `5`,
+    id: `5`,
     proposal_type: `Text`,
     proposal_content: {
       value: {
@@ -101,7 +101,7 @@ export const proposals = {
     }
   },
   6: {
-    proposal_id: `6`,
+    id: `6`,
     proposal_type: `Text`,
     proposal_content: {
       value: {
@@ -137,12 +137,12 @@ export const proposals = {
 export const votes = {
   1: [
     {
-      proposal_id: `1`,
+      id: `1`,
       voter: validators[0],
       option: `Yes`
     },
     {
-      proposal_id: `1`,
+      id: `1`,
       voter: validators[1],
       option: `NoWithVeto`
     }
@@ -150,24 +150,24 @@ export const votes = {
   2: [],
   5: [
     {
-      proposal_id: `5`,
+      id: `5`,
       voter: validators[0],
       option: `No`
     },
     {
-      proposal_id: `5`,
+      id: `5`,
       voter: validators[1],
       option: `Abstain`
     }
   ],
   6: [
     {
-      proposal_id: `6`,
+      id: `6`,
       voter: validators[0],
       option: `No`
     },
     {
-      proposal_id: `6`,
+      id: `6`,
       voter: validators[1],
       option: `NoWithVeto`
     }

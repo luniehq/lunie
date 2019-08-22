@@ -3,7 +3,7 @@ import { createLocalVue, shallowMount } from "@vue/test-utils"
 
 describe(`PageTransactions`, () => {
   const localVue = createLocalVue()
-  localVue.directive(`tooltip`, () => {})
+  localVue.directive(`tooltip`, () => { })
 
   const addresses = [
     `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
@@ -121,11 +121,11 @@ describe(`PageTransactions`, () => {
       type: "cosmos-sdk/MsgDeposit",
       value: {
         depositor: "cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9",
-        proposal_id: "1",
+        id: "1",
         amount: [{ denom: "STAKE", amount: "100" }]
       },
       key:
-        'cosmos-sdk/MsgDeposit_undefined_{"depositor":"cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9","proposal_id":"1","amount":[{"denom":"STAKE","amount":"100"}]}',
+        'cosmos-sdk/MsgDeposit_undefined_{"depositor":"cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9","id":"1","amount":[{"denom":"STAKE","amount":"100"}]}',
       blockNumber: 213,
       time: null,
       fees: { amount: "0", denom: "ATOM" },
@@ -231,7 +231,7 @@ describe(`PageTransactions`, () => {
           $store
         },
         directives: {
-          infiniteScroll: () => {}
+          infiniteScroll: () => { }
         }
       })
       expect(wrapper.element).toMatchSnapshot()
@@ -248,7 +248,7 @@ describe(`PageTransactions`, () => {
           $store
         },
         directives: {
-          infiniteScroll: () => {}
+          infiniteScroll: () => { }
         }
       })
       expect(wrapper.element).toMatchSnapshot()
@@ -266,7 +266,7 @@ describe(`PageTransactions`, () => {
         $store
       },
       directives: {
-        infiniteScroll: () => {}
+        infiniteScroll: () => { }
       }
     })
     expect($store.dispatch).not.toHaveBeenCalledWith(`getAllTxs`)
@@ -282,7 +282,7 @@ describe(`PageTransactions`, () => {
         $store
       },
       directives: {
-        infiniteScroll: () => {}
+        infiniteScroll: () => { }
       }
     })
     wrapper.setData({ showing: 2 })

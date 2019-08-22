@@ -118,7 +118,7 @@ const state = {
               type: `cosmos-sdk/MsgDeposit`,
               value: {
                 depositor: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
-                proposal_id: `1`,
+                id: `1`,
                 amount: [
                   {
                     denom: `STAKE`,
@@ -298,7 +298,7 @@ const state = {
   },
   proposals: {
     1: {
-      proposal_id: `1`,
+      id: `1`,
       proposal_type: `Text`,
       title: `Proposal Title`,
       description: `Proposal description`,
@@ -327,7 +327,7 @@ const state = {
       }
     },
     2: {
-      proposal_id: `2`,
+      id: `2`,
       proposal_type: `Text`,
       title: `VotingPeriod proposal`,
       description: `custom text proposal description`,
@@ -356,7 +356,7 @@ const state = {
       }
     },
     5: {
-      proposal_id: `5`,
+      id: `5`,
       proposal_type: `Text`,
       title: `Custom text proposal`,
       description: `custom text proposal description`,
@@ -385,7 +385,7 @@ const state = {
       }
     },
     6: {
-      proposal_id: `6`,
+      id: `6`,
       proposal_type: `Text`,
       title: `Rejected proposal`,
       description: `this proposal was rejected`,
@@ -443,12 +443,12 @@ const state = {
   votes: {
     1: [
       {
-        proposal_id: `1`,
+        id: `1`,
         voter: validators[0],
         option: `Yes`
       },
       {
-        proposal_id: `1`,
+        id: `1`,
         voter: validators[1],
         option: `NoWithVeto`
       }
@@ -456,24 +456,24 @@ const state = {
     2: [],
     5: [
       {
-        proposal_id: `5`,
+        id: `5`,
         voter: validators[0],
         option: `No`
       },
       {
-        proposal_id: `5`,
+        id: `5`,
         voter: validators[1],
         option: `Abstain`
       }
     ],
     6: [
       {
-        proposal_id: `6`,
+        id: `6`,
         voter: validators[0],
         option: `No`
       },
       {
-        proposal_id: `6`,
+        id: `6`,
         voter: validators[1],
         option: `NoWithVeto`
       }
@@ -482,7 +482,7 @@ const state = {
   deposits: {
     1: [
       {
-        proposal_id: `1`,
+        id: `1`,
         depositor: validators[0],
         amount: [
           {
@@ -496,7 +496,7 @@ const state = {
         ]
       },
       {
-        proposal_id: `1`,
+        id: `1`,
         depositor: validators[1],
         amount: [
           {
@@ -508,7 +508,7 @@ const state = {
     ],
     2: [
       {
-        proposal_id: `2`,
+        id: `2`,
         depositor: validators[0],
         amount: [
           {
@@ -520,7 +520,7 @@ const state = {
     ],
     5: [
       {
-        proposal_id: `5`,
+        id: `5`,
         depositor: validators[0],
         amount: [
           {
@@ -530,7 +530,7 @@ const state = {
         ]
       },
       {
-        proposal_id: `5`,
+        id: `5`,
         depositor: validators[1],
         amount: [
           {
@@ -542,7 +542,7 @@ const state = {
     ],
     6: [
       {
-        proposal_id: `6`,
+        id: `6`,
         depositor: validators[0],
         amount: [
           {

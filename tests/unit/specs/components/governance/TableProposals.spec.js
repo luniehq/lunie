@@ -35,12 +35,12 @@ describe(`TableProposals`, () => {
   })
 
   it(`should sort the proposals by selected property`, () => {
-    wrapper.vm.sort.property = `proposal_id`
+    wrapper.vm.sort.property = `id`
     wrapper.vm.sort.order = `asc`
 
     expect(wrapper.vm.filteredProposals[0].title).toEqual(proposals[`1`].title)
 
-    wrapper.vm.sort.property = `proposal_id`
+    wrapper.vm.sort.property = `id`
     wrapper.vm.sort.order = `desc`
 
     expect(wrapper.vm.filteredProposals[0].title).toEqual(proposals[`6`].title)

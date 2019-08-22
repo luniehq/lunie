@@ -4,7 +4,7 @@
       <p>
         Undelegated
         <b>{{ coin.amount | atoms | prettyLong }}</b>
-        <span>{{ coin.denom | viewDenom }}</span>
+        <span> {{ coin.denom | viewDenom }}</span>
         <span v-if="transaction.liquidDate" class="tx-unbonding__time-diff">
           {{ liquidDateCaption }}
         </span>

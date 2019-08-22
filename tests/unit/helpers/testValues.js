@@ -149,7 +149,7 @@ const testTransactionObjects = [
     type: "cosmos-sdk/MsgVote",
     value: {
       option: "NoWithVeto",
-      proposal_id: "13",
+      id: "13",
       voter: "cosmos1jq9mc3kp4nnxwrasdadasdasdasd5q480zu0z"
     },
     key:
@@ -165,7 +165,7 @@ const testTransactionObjects = [
     type: "cosmos-sdk/MsgDeposit",
     value: {
       depositer: `cosmos1asdadasdasdasds`,
-      proposal_id: 2,
+      id: 2,
       amount: [{ denom: "uatom", amount: "234500" }]
     },
     key:

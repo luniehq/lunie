@@ -1,5 +1,5 @@
 <template>
-  <TmPage class="governance" data-title="Governance" hide-header>
+  <TmPage class="governance" data-title="Governance">
     <TmBtn
       id="propose-btn"
       slot="header-buttons"

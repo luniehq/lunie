@@ -5,10 +5,10 @@ export const setProposalTally = (commit, node) => async proposal => {
   commit(`setProposal`, proposal)
   const final_tally_result =
     proposal.proposal_status === `VotingPeriod`
-      ? await node.get.proposalTally(proposal.proposal_id)
+      ? await node.get.proposalTally(proposal.id)
       : { ...proposal.final_tally_result }
   commit(`setProposalTally`, {
-    proposal_id: proposal.proposal_id,
+    id: proposal.id,
     final_tally_result
   })
 }
@@ -24,10 +24,10 @@ export default ({ node }) => {
   const state = JSON.parse(JSON.stringify(emptyState))
   const mutations = {
     setProposal(state, proposal) {
-      Vue.set(state.proposals, proposal.proposal_id, proposal)
+      Vue.set(state.proposals, proposal.id, proposal)
     },
-    setProposalTally(state, { proposal_id, final_tally_result }) {
-      Vue.set(state.tallies, proposal_id, final_tally_result)
+    setProposalTally(state, { id, final_tally_result }) {
+      Vue.set(state.tallies, id, final_tally_result)
     }
   }
   const actions = {
@@ -56,10 +56,10 @@ export default ({ node }) => {
         state.error = error
       }
     },
-    async getProposal({ state, commit }, proposal_id) {
+    async getProposal({ state, commit }, id) {
       state.loading = true
       try {
-        const proposal = await node.get.proposal(proposal_id)
+        const proposal = await node.get.proposal(id)
         await setProposalTally(commit, node)(proposal)
         state.error = null
         state.loaded = true
@@ -99,7 +99,7 @@ export default ({ node }) => {
       }, 0)
 
       commit(`setProposal`, {
-        proposal_id: String(latestId + 1),
+        id: String(latestId + 1),
         proposal_content: {
           value: { title, description }
         },

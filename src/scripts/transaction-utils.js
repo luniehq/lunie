@@ -47,7 +47,7 @@ export const flattenTransactionMsgs = (acc, curTxList) => {
   const fees = getFees(curTxList)
   const memo = curTxList.tx.value.memo
   const newVals = curTxList.tx.value.msg.map(x =>
-    makeTxObject(x, fees, memo, curTxList.time, curTxList.height)
+    makeTxObject(x, fees, memo, curTxList.timestamp, curTxList.height)
   )
   return acc.concat(newVals)
 }

@@ -4,7 +4,7 @@
       <p class="tx__content__caption__title">
         Delegated
         <b>{{ coin.amount | atoms | prettyLong }}</b>
-        <span>{{ coin.denom | viewDenom }}</span>
+        <span> {{ coin.denom | viewDenom }}</span>
       </p>
     </div>
     <div class="tx__content__information">

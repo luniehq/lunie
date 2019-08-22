@@ -35,8 +35,8 @@ export default {
   computed: {
     enrichedProposals() {
       const copy = JSON.parse(JSON.stringify(this.proposals))
-      Object.keys(copy).forEach(proposal_id => {
-        copy[proposal_id].id = Number(proposal_id)
+      Object.keys(copy).forEach(id => {
+        copy[id].id = Number(id)
       })
       return copy
     },

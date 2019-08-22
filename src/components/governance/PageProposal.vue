@@ -191,10 +191,10 @@ export default {
       return this.proposals.proposals[this.proposalId]
     },
     title({ proposal } = this) {
-      return proposal.proposal_content.value.title
+      return proposal.content.value.title
     },
     description({ proposal } = this) {
-      return proposal.proposal_content.value.description
+      return proposal.content.value.description
     },
     submittedAgo({ proposal } = this) {
       return moment(proposal.submit_time).format("MMMM Do YYYY, HH:mm")

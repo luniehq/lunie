@@ -435,7 +435,7 @@ export const governanceTxs = [
             type: `cosmos-sdk/MsgDeposit`,
             value: {
               depositer: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw`,
-              proposal_id: `1`,
+              id: `1`,
               amount: [
                 {
                   denom: `uatom`,
@@ -478,7 +478,7 @@ export const governanceTxs = [
             type: `cosmos-sdk/MsgVote`,
             value: {
               voter: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw`,
-              proposal_id: `1`,
+              id: `1`,
               option: `Yes`
             }
           }
@@ -693,11 +693,11 @@ export const flatOrderedTransactionList = [
     type: "cosmos-sdk/MsgDeposit",
     value: {
       depositor: "cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9",
-      proposal_id: "1",
+      id: "1",
       amount: [{ denom: "STAKE", amount: "100" }]
     },
     key:
-      'cosmos-sdk/MsgDeposit_undefined_{"depositor":"cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9","proposal_id":"1","amount":[{"denom":"STAKE","amount":"100"}]}',
+      'cosmos-sdk/MsgDeposit_undefined_{"depositor":"cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9","id":"1","amount":[{"denom":"STAKE","amount":"100"}]}',
     blockNumber: 213,
     time: null,
     fees: { amount: "0", denom: "ATOM" },

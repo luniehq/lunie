@@ -4,7 +4,7 @@
     @click="
       $router.push({
         name: 'Proposal',
-        params: { proposalId: proposal.proposal_id }
+        params: { proposalId: String(proposal.id) }
       })
     "
   >
@@ -13,7 +13,7 @@
         status.badge
       }}</span>
       <h3 class="li-proposal-title">
-        {{ proposal.proposal_content.value.title }}
+        {{ proposal.content.value.title }}
       </h3>
       <p class="li-proposal-description">
         {{ description }}
@@ -42,7 +42,7 @@ export default {
     ...mapState([`proposals`]),
     tally() {
       const { yes, no, abstain, no_with_veto } =
-        this.proposals.tallies[this.proposal.proposal_id] || {}
+        this.proposals.tallies[this.proposal.id] || {}
 
       const totalVotes = BigNumber(yes)
         .plus(no)
@@ -67,7 +67,7 @@ export default {
       return getProposalStatus(this.proposal)
     },
     description() {
-      const { description } = this.proposal.proposal_content.value
+      const { description } = this.proposal.content.value
       return description.length > 200
         ? description.substring(0, 200) + `…`
         : description.substring(0, 200)

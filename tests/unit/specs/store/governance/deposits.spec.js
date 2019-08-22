@@ -39,15 +39,15 @@ describe(`Module: Deposits`, () => {
     })
     const { actions, state } = module
     const commit = jest.fn()
-    Object.keys(proposals).forEach(async (proposal_id, i) => {
+    Object.keys(proposals).forEach(async (id, i) => {
       await actions.getProposalDeposits(
         { state, commit, rootState: mockRootState },
-        proposal_id
+        id
       )
       expect(commit.mock.calls[i]).toEqual([
         `setProposalDeposits`,
-        proposal_id,
-        deposits[proposal_id]
+        id,
+        deposits[id]
       ])
     })
   })
@@ -67,11 +67,11 @@ describe(`Module: Deposits`, () => {
 
     const proposalIds = Object.keys(proposals)
     const numProposals = proposalIds.length
-    proposalIds.forEach(async (proposal_id, i) => {
+    proposalIds.forEach(async (id, i) => {
       await actions.postMsgDeposit(
         { rootState: mockRootState, dispatch, commit },
         {
-          txProps: { proposalId: proposal_id, amounts: amount }
+          txProps: { proposalId: id, amounts: amount }
         }
       )
 
@@ -82,11 +82,11 @@ describe(`Module: Deposits`, () => {
       })
       expect(dispatch.mock.calls[i]).toEqual([
         `getProposalDeposits`,
-        proposal_id
+        id
       ])
       expect(dispatch.mock.calls[i + numProposals]).toEqual([
         `getProposal`,
-        proposal_id
+        id
       ])
       expect(dispatch.mock.calls[i + numProposals * 2]).toEqual([`getAllTxs`])
     })
