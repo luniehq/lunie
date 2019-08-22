@@ -81,6 +81,7 @@
     "chai": "^4.2.0",
     "chai-string": "^1.5.0",
     "chromedriver": "2.46.0",
+    "chromedriver-latest": "npm:chromedriver",
     "copy-webpack-plugin": "5.0.4",
     "cross-env": "^5.2.0",
     "csp-webpack-plugin": "^2.0.2",
