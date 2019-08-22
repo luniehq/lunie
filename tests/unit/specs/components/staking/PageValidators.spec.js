@@ -41,7 +41,7 @@ describe(`PageValidators`, () => {
   })
 
   it(`shows a list of validators`, async () => {
-    expect(wrapper.vm.$el).toMatchSnapshot()
+    expect(wrapper.element).toMatchSnapshot()
   })
 
   it(`shows a message if still connecting`, async () => {
@@ -73,7 +73,7 @@ describe(`PageValidators`, () => {
       }
     })
 
-    expect(wrapper.vm.$el).toMatchSnapshot()
+    expect(wrapper.element).toMatchSnapshot()
   })
 
   it(`shows a message if still loading`, async () => {
@@ -105,7 +105,7 @@ describe(`PageValidators`, () => {
       }
     })
 
-    expect(wrapper.vm.$el).toMatchSnapshot()
+    expect(wrapper.element).toMatchSnapshot()
   })
 
   it(`shows a message if there is nothing to display`, async () => {
@@ -137,6 +137,6 @@ describe(`PageValidators`, () => {
       }
     })
 
-    expect(wrapper.vm.$el).toMatchSnapshot()
+    expect(wrapper.element).toMatchSnapshot()
   })
 })

@@ -34,7 +34,7 @@ describe(`TabProposals`, () => {
         $store
       }
     })
-    expect(wrapper.vm.$el).toMatchSnapshot()
+    expect(wrapper.element).toMatchSnapshot()
   })
 
   it(`shows a message if still connecting`, async () => {
@@ -57,7 +57,7 @@ describe(`TabProposals`, () => {
         $store
       }
     })
-    expect(wrapper.vm.$el).toMatchSnapshot()
+    expect(wrapper.element).toMatchSnapshot()
   })
 
   it(`shows a message if still loading`, async () => {
@@ -81,7 +81,7 @@ describe(`TabProposals`, () => {
         $store
       }
     })
-    expect(wrapper.vm.$el).toMatchSnapshot()
+    expect(wrapper.element).toMatchSnapshot()
   })
 
   it(`shows a message if there is nothing to display`, async () => {
@@ -104,7 +104,7 @@ describe(`TabProposals`, () => {
         $store
       }
     })
-    expect(wrapper.vm.$el).toMatchSnapshot()
+    expect(wrapper.element).toMatchSnapshot()
   })
 
   it(`opens a create proposal modal`, () => {

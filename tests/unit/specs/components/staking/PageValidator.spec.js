@@ -123,13 +123,13 @@ describe(`PageValidator`, () => {
 
   describe(`shows a validator profile information`, () => {
     it(`if user has signed in`, () => {
-      expect(wrapper.vm.$el).toMatchSnapshot()
+      expect(wrapper.element).toMatchSnapshot()
     })
 
     it(`if user hasn't signed in`, () => {
       $store.state.session.signedIn = false
 
-      expect(wrapper.vm.$el).toMatchSnapshot()
+      expect(wrapper.element).toMatchSnapshot()
     })
 
     it(`should return one delegate based on route params`, () => {
@@ -233,7 +233,7 @@ describe(`PageValidator`, () => {
           })
         ]
         // still shows the validator without crashing
-        expect(wrapper.vm.$el).toMatchSnapshot()
+        expect(wrapper.element).toMatchSnapshot()
       })
     })
   })

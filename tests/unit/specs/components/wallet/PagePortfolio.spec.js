@@ -48,7 +48,7 @@ describe(`PagePortfolio`, () => {
       }
     })
 
-    expect(wrapper.vm.$el).toMatchSnapshot()
+    expect(wrapper.element).toMatchSnapshot()
   })
 
   it("should trigger updates on every 10th block", () => {

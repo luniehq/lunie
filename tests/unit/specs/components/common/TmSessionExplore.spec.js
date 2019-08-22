@@ -29,7 +29,7 @@ describe(`TmSessionExplore`, () => {
   })
 
   it(`shows a form to sign in with an address`, () => {
-    expect(wrapper.vm.$el).toMatchSnapshot()
+    expect(wrapper.element).toMatchSnapshot()
   })
 
   it(`should close the modal on successful login`, async () => {

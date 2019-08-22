@@ -35,6 +35,6 @@ describe(`DelegationsOverview`, () => {
   })
 
   it(`shows an overview over all delegations of the user`, async () => {
-    expect(wrapper.vm.$el).toMatchSnapshot()
+    expect(wrapper.element).toMatchSnapshot()
   })
 })

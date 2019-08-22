@@ -15,8 +15,8 @@
       </div>
       <div slot="subtitle">
         Head over to the
-        <router-link :to="{ name: 'Validators' }"> validator list </router-link
-        >&nbsp;to get staking!
+        <router-link to="/validators"> validator list </router-link>&nbsp;to get
+        staking!
       </div>
     </TmDataMsg>
   </div>
@@ -24,7 +24,6 @@
 
 <script>
 import { mapState, mapGetters } from "vuex"
-import num from "scripts/num"
 import TmDataMsg from "common/TmDataMsg"
 import TableValidators from "staking/TableValidators"
 
@@ -34,10 +33,6 @@ export default {
     TableValidators,
     TmDataMsg
   },
-  data: () => ({
-    validatorURL: `/validators`,
-    num
-  }),
   computed: {
     ...mapState([`delegation`]),
     ...mapGetters([`bondDenom`, `yourValidators`])

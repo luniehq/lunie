@@ -45,7 +45,7 @@ describe(`TmBalance`, () => {
   })
 
   it(`show the balance header`, () => {
-    expect(wrapper.vm.$el).toMatchSnapshot()
+    expect(wrapper.element).toMatchSnapshot()
   })
 
   it(`displays unbonded tokens`, () => {

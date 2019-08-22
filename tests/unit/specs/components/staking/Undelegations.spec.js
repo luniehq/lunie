@@ -31,6 +31,6 @@ describe(`Undelegations`, () => {
 
   it(`should show unbonding validators`, () => {
     expect(wrapper.vm.unbondingTransactions).toMatchSnapshot()
-    expect(wrapper.vm.$el).toMatchSnapshot()
+    expect(wrapper.element).toMatchSnapshot()
   })
 })

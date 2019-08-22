@@ -62,17 +62,17 @@ describe(`PageProposal`, () => {
   describe(`should display proposal page`, () => {
     it(`if user has signed in`, async () => {
       wrapper = shallowMount(PageProposal, args)
-      expect(wrapper.vm.$el).toMatchSnapshot()
+      expect(wrapper.element).toMatchSnapshot()
     })
 
     it(`should default tally to 0 if it's not yet present `, () => {
       wrapper.vm.proposals.tallies = {}
-      expect(wrapper.vm.$el).toMatchSnapshot()
+      expect(wrapper.element).toMatchSnapshot()
     })
 
     it("should show a loader if the necessary data hasen't been loaded", () => {
       wrapper.vm.governanceParameters.loaded = false
-      expect(wrapper.vm.$el).toMatchSnapshot()
+      expect(wrapper.element).toMatchSnapshot()
 
       // needed to reset as somehow this causes sideeffects
       wrapper.vm.governanceParameters.loaded = true
@@ -135,7 +135,7 @@ describe(`PageProposal`, () => {
       }
     }
     wrapper = shallowMount(PageProposal, { ...args, mocks: { $store } })
-    expect(wrapper.vm.$el).toMatchSnapshot()
+    expect(wrapper.element).toMatchSnapshot()
   })
 
   it(`shows an error if the proposal couldn't be found`, () => {
@@ -144,7 +144,7 @@ describe(`PageProposal`, () => {
       propsData: { proposalId: `666` }
     })
     wrapper.setData({ governanceParameters: { loaded: true } })
-    expect(wrapper.vm.$el).toMatchSnapshot()
+    expect(wrapper.element).toMatchSnapshot()
   })
 
   it(`should return the time of submission `, () => {

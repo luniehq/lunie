@@ -22,12 +22,12 @@ describe(`Bech32`, () => {
   })
 
   it(`should show a short address`, () => {
-    expect(wrapper.vm.$el).toMatchSnapshot()
+    expect(wrapper.element).toMatchSnapshot()
   })
 
   it(`should show a long address`, () => {
     wrapper.setProps({ longForm: true })
-    expect(wrapper.vm.$el).toMatchSnapshot()
+    expect(wrapper.element).toMatchSnapshot()
   })
 
   it(`should return 'address not found'`, () => {

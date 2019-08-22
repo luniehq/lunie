@@ -2,7 +2,7 @@
   <div class="balance-header">
     <div class="values-container">
       <div class="total-atoms">
-        <h3>Total {{ num.viewDenom(bondDenom) }}</h3>
+        <h3>Total {{ bondDenom | viewDenom }}</h3>
         <h2 class="total-atoms__value">
           {{ totalAtomsDisplay }}
         </h2>
@@ -10,7 +10,7 @@
 
       <div class="row small-container">
         <div class="available-atoms">
-          <h3>Available {{ num.viewDenom(bondDenom) }}</h3>
+          <h3>Available {{ bondDenom | viewDenom }}</h3>
           <h2>{{ unbondedAtoms }}</h2>
         </div>
 
@@ -62,6 +62,9 @@ export default {
       num,
       lastUpdate: 0
     }
+  },
+  filters: {
+    viewDenom: num.viewDenom
   },
   computed: {
     ...mapState([`wallet`, `distribution`, `delegation`, `session`]),

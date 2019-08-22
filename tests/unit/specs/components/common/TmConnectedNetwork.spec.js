@@ -29,7 +29,7 @@ describe(`TmConnectedNetwork`, () => {
   })
 
   it(`has the expected html structure`, () => {
-    expect(wrapper.vm.$el).toMatchSnapshot()
+    expect(wrapper.element).toMatchSnapshot()
   })
 
   it(`has a network string`, () => {
@@ -69,6 +69,6 @@ describe(`TmConnectedNetwork`, () => {
       },
       stubs: [`router-link`]
     })
-    expect(wrapper.vm.$el).toMatchSnapshot()
+    expect(wrapper.element).toMatchSnapshot()
   })
 })

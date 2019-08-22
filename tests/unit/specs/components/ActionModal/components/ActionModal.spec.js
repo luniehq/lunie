@@ -187,7 +187,7 @@ describe(`ActionModal`, () => {
           wrapper.vm.session.sessionType = signMethod
           wrapper.vm.step = step
           wrapper.vm.sending = sending
-          expect(wrapper.vm.$el).toMatchSnapshot()
+          expect(wrapper.element).toMatchSnapshot()
         })
       })
     })
@@ -195,17 +195,17 @@ describe(`ActionModal`, () => {
     it(`when user hasn't logged in`, async () => {
       wrapper.vm.session.signedIn = false
       await wrapper.vm.$nextTick()
-      expect(wrapper.vm.$el).toMatchSnapshot()
+      expect(wrapper.element).toMatchSnapshot()
     })
 
     it(`waiting on inclusion`, async () => {
       wrapper.vm.step = "inclusion"
-      expect(wrapper.vm.$el).toMatchSnapshot()
+      expect(wrapper.element).toMatchSnapshot()
     })
 
     it(`on success`, async () => {
       wrapper.vm.step = "success"
-      expect(wrapper.vm.$el).toMatchSnapshot()
+      expect(wrapper.element).toMatchSnapshot()
     })
   })
 

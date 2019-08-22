@@ -29,7 +29,7 @@ describe(`TmSessionWelcome`, () => {
   })
 
   it(`has the expected html structure`, async () => {
-    expect(wrapper.vm.$el).toMatchSnapshot()
+    expect(wrapper.element).toMatchSnapshot()
   })
 
   it(`has the expected html structure when on mobile`, async () => {
@@ -43,6 +43,6 @@ describe(`TmSessionWelcome`, () => {
 
       stubs: [`router-link`]
     })
-    expect(wrapper.vm.$el).toMatchSnapshot()
+    expect(wrapper.element).toMatchSnapshot()
   })
 })

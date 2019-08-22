@@ -65,7 +65,7 @@ describe(`PageBlock`, () => {
   })
 
   it(`shows a page with information about a certain block`, () => {
-    expect(wrapper.vm.$el).toMatchSnapshot()
+    expect(wrapper.element).toMatchSnapshot()
   })
 
   it(`shows the block page with no txs`, () => {
@@ -112,7 +112,7 @@ describe(`PageBlock`, () => {
       stubs: [`router-link`]
     })
 
-    expect(wrapper.vm.$el).toMatchSnapshot()
+    expect(wrapper.element).toMatchSnapshot()
   })
 
   it(`loads the block information when the route changes`, () => {
@@ -148,8 +148,8 @@ describe(`PageBlock`, () => {
       stubs: [`router-link`]
     })
 
-    expect(wrapper.vm.$el).not.toBeUndefined()
-    expect(wrapper.vm.$el).toMatchSnapshot()
+    expect(wrapper.element).not.toBeUndefined()
+    expect(wrapper.element).toMatchSnapshot()
   })
 
   it(`redirects to the 404 page if the block doesn't exist`, async () => {

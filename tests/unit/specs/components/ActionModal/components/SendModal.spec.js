@@ -56,7 +56,7 @@ describe(`SendModal`, () => {
   })
 
   it(`should display send modal form`, async () => {
-    expect(wrapper.vm.$el).toMatchSnapshot()
+    expect(wrapper.element).toMatchSnapshot()
   })
 
   it(`clears on close`, () => {
@@ -88,7 +88,7 @@ describe(`SendModal`, () => {
       wrapper.vm.validateForm()
       await wrapper.vm.$nextTick()
       expect(wrapper.vm.$v.$error).toBe(true)
-      expect(wrapper.vm.$el).toMatchSnapshot()
+      expect(wrapper.element).toMatchSnapshot()
     })
     it(`should show bech32 error when address length is too short`, async () => {
       wrapper.setData({
@@ -99,7 +99,7 @@ describe(`SendModal`, () => {
       wrapper.vm.validateForm()
       await wrapper.vm.$nextTick()
       expect(wrapper.vm.$v.$error).toBe(true)
-      expect(wrapper.vm.$el).toMatchSnapshot()
+      expect(wrapper.element).toMatchSnapshot()
     })
 
     it(`should show bech32 error when address length is too long`, async () => {
@@ -111,7 +111,7 @@ describe(`SendModal`, () => {
       wrapper.vm.validateForm()
       await wrapper.vm.$nextTick()
       expect(wrapper.vm.$v.$error).toBe(true)
-      expect(wrapper.vm.$el).toMatchSnapshot()
+      expect(wrapper.element).toMatchSnapshot()
     })
     it(`should show bech32 error when alphanumeric is wrong`, async () => {
       wrapper.setData({
@@ -119,7 +119,7 @@ describe(`SendModal`, () => {
       })
       expect(wrapper.vm.validateForm()).toBe(false)
       await wrapper.vm.$nextTick()
-      expect(wrapper.vm.$el).toMatchSnapshot()
+      expect(wrapper.element).toMatchSnapshot()
     })
   })
 

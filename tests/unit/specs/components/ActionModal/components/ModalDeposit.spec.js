@@ -45,7 +45,7 @@ describe(`ModalDeposit`, () => {
   })
 
   it(`should display deposit modal form`, async () => {
-    expect(wrapper.vm.$el).toMatchSnapshot()
+    expect(wrapper.element).toMatchSnapshot()
   })
 
   it(`opens`, () => {

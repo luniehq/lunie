@@ -35,7 +35,7 @@ describe(`ModalVote`, () => {
   })
 
   it(`should display vote modal form`, async () => {
-    expect(wrapper.vm.$el).toMatchSnapshot()
+    expect(wrapper.element).toMatchSnapshot()
   })
 
   it(`opens`, () => {

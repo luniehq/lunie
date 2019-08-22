@@ -31,7 +31,7 @@ describe(`AppHeader`, () => {
       open: true
     })
 
-    expect(wrapper.vm.$el).toMatchSnapshot()
+    expect(wrapper.element).toMatchSnapshot()
   })
 
   it(`should show the sidebar as a menu on mobile`, () => {
@@ -40,7 +40,7 @@ describe(`AppHeader`, () => {
       open: true
     })
 
-    expect(wrapper.vm.$el).toMatchSnapshot()
+    expect(wrapper.element).toMatchSnapshot()
   })
 
   it(`should open the menu on click`, () => {

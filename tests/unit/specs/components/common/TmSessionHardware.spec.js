@@ -34,13 +34,13 @@ describe(`TmSessionHardware`, () => {
 
   describe(`shows the ledger conection view`, () => {
     it(`with no errors`, () => {
-      expect(wrapper.vm.$el).toMatchSnapshot()
+      expect(wrapper.element).toMatchSnapshot()
     })
 
     it(`when there're errors`, async () => {
       wrapper.vm.connectionError = `No Ledger found`
       await wrapper.vm.$nextTick()
-      expect(wrapper.vm.$el).toMatchSnapshot()
+      expect(wrapper.element).toMatchSnapshot()
     })
   })
 

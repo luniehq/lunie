@@ -14,7 +14,7 @@
       <div>
         <TmBtn
           id="vote-yes"
-          :class="[vote === `Yes` ? 'active' : '']"
+          :class="{ active: vote === `Yes` }"
           :disabled="lastVoteOption === `Yes`"
           color="secondary"
           value="Yes"
@@ -23,7 +23,7 @@
         />
         <TmBtn
           id="vote-veto"
-          :class="[vote === `NoWithVeto` ? 'active' : '']"
+          :class="{ active: vote === `NoWithVeto` }"
           :disabled="lastVoteOption === `NoWithVeto`"
           color="secondary"
           value="No With Veto"
@@ -34,7 +34,7 @@
       <div>
         <TmBtn
           id="vote-no"
-          :class="[vote === `No` ? 'active' : '']"
+          :class="{ active: vote === `No` }"
           :disabled="lastVoteOption === `No`"
           color="secondary"
           value="No"
@@ -43,7 +43,7 @@
         />
         <TmBtn
           id="vote-abstain"
-          :class="[vote === `Abstain` ? 'active' : '']"
+          :class="{ active: vote === `Abstain` }"
           :disabled="lastVoteOption === `Abstain`"
           color="secondary"
           value="Abstain"
