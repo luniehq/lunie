@@ -8,7 +8,7 @@
           :show-on-mobile="showOnMobile"
         />
       </thead>
-      <tbody v-infinite-scroll="loadMore" infinite-scroll-distance="80">
+      <tbody v-infinite-scroll="loadMore" infinite-scroll-distance="200">
         <LiValidator
           v-for="validator in showingValidators"
           :key="validator.operator_address"

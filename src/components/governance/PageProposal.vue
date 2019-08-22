@@ -16,6 +16,7 @@
         </div>
         <div class="button-container">
           <TmBtn
+            v-if="proposal.proposal_status !== 'Passed'"
             id="deposit-btn"
             :value="connected ? 'Deposit' : 'Connecting...'"
             :disabled="proposal.proposal_status !== 'DepositPeriod'"

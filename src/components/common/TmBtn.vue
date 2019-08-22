@@ -57,13 +57,13 @@ export default {
 
 .button:disabled {
   opacity: 0.5;
-  background: var(--bc);
+  background: var(--primary-dark);
   border-color: var(--bc-dim);
   cursor: default;
 }
 
 .button:disabled:hover {
-  background: var(--bc);
+  background: var(--primary-dark);
   border-color: var(--bc-dim);
 }
 
@@ -71,12 +71,16 @@ export default {
   background: var(--primary-alpha);
 }
 
+.button.secondary:hover {
+  background: var(--primary-alpha);
+}
+
 .button.secondary.small {
   padding: 6px 10px;
   font-size: 12px;
   min-width: 0;
-  border-color: var(--bc);
   color: var(--dim);
+  border-color: var(--bc);
   background-color: transparent;
 }
 
