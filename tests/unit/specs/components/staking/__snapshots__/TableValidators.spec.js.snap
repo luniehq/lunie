@@ -14,7 +14,7 @@ exports[`TableValidators shows a validator table 1`] = `
     </thead>
      
     <tbody
-      infinite-scroll-distance="80"
+      infinite-scroll-distance="200"
     >
       <livalidator-stub
         showonmobile="returns"
