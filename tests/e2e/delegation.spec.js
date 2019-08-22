@@ -8,7 +8,7 @@ module.exports = {
     // move to validator page
     browser.expect.element(".li-validator").to.be.visible.before(10000)
     browser.click(
-      ".li-validator[data-moniker=main_account] .data-table__row__info__container__name"
+      ".li-validator[data-moniker=SparkPool] .data-table__row__info__container__name"
     )
 
     // open modal and enter amount
