@@ -11,7 +11,6 @@
 <script>
 import { mapState, mapGetters } from "vuex"
 import TransactionList from "transactions/TransactionList"
-import { messageType } from "transactions/messageTypes"
 import { isPendingUndelegation } from "scripts/transaction-utils"
 
 export default {

@@ -57,14 +57,14 @@ export default {
     SendModal,
     ModalWithdrawRewards
   },
+  filters: {
+    viewDenom: num.viewDenom
+  },
   data() {
     return {
       num,
       lastUpdate: 0
     }
-  },
-  filters: {
-    viewDenom: num.viewDenom
   },
   computed: {
     ...mapState([`wallet`, `distribution`, `delegation`, `session`]),

@@ -19,7 +19,7 @@
 <script>
 import TableValidators from "staking/TableValidators"
 import TmPage from "common/TmPage"
-import { mapState, mapGetters } from "vuex"
+import { mapState } from "vuex"
 
 export default {
   name: `tab-validators`,

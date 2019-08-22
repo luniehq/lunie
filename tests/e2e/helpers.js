@@ -36,14 +36,21 @@ async function waitFor(check, iterations = 10, timeout = 1000) {
 
   throw new Error("Condition was not meet in time")
 }
-async function waitForText(browser, selector, expectedCaption, iterations, timeout) {
-  await waitFor(async () => {
-    const { value: caption } = await browser
-      .getText(selector)
-    expect(caption)
-      .to
-      .include(expectedCaption)
-  }, iterations, timeout)
+async function waitForText(
+  browser,
+  selector,
+  expectedCaption,
+  iterations,
+  timeout
+) {
+  await waitFor(
+    async () => {
+      const { value: caption } = await browser.getText(selector)
+      expect(caption).to.include(expectedCaption)
+    },
+    iterations,
+    timeout
+  )
 }
 
 // performs some details actions and handles checking of the invoice step + signing
@@ -57,7 +64,7 @@ async function actionModalCheckout(
 ) {
   // grab page we came from as we want to go to another page and come back
   let sourcePage
-  browser.url(function (result) {
+  browser.url(function(result) {
     sourcePage = result.value
   })
 
