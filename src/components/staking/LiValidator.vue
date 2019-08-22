@@ -36,18 +36,10 @@
         </h3>
         <div v-if="validator.my_delegations > 0">
           <h4>
-            {{
-              validator.my_delegations
-                ? shortDecimals(atoms(validator.my_delegations))
-                : null
-            }}
+            {{ validator.my_delegations | atoms | shortDecimals }}
           </h4>
           <h5 v-if="validator.rewards > 0">
-            {{
-              validator.rewards
-                ? `+` + shortDecimals(atoms(validator.rewards))
-                : `--`
-            }}
+            +{{ validator.rewards | atoms | shortDecimals }}
           </h5>
         </div>
       </div>
@@ -84,6 +76,10 @@ export default {
       type: String,
       default: () => "returns"
     }
+  },
+  filters: {
+    atoms,
+    shortDecimals
   },
   data: () => ({
     ValidatorProfile
