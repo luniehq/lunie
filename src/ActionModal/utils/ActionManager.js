@@ -62,21 +62,6 @@ export default class ActionManager {
   async simulate(memo) {
     this.readyCheck()
 
-    // the simulate endpoint is out of sync right now: https://github.com/cosmos/cosmos-sdk/issues/4929
-    if (this.messageType === 'MsgSubmitProposal') {
-      const fixedMessage = {
-        type: "cosmos-sdk/MsgSubmitProposal",
-        value: {
-          title: this.message.message.value.content.value.title,
-          description: this.message.message.value.content.value.description,
-          proposal_type: "Text",
-          proposer: this.message.message.value.proposer,
-          initial_deposit: this.message.message.value.initial_deposit
-        }
-      }
-      return await this.cosmos.simulate(this.context.userAddress, { message: fixedMessage, memo })
-    }
-
     const gasEstimate = await this.message.simulate({
       memo: memo
     })
