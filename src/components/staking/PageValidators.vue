@@ -31,13 +31,7 @@ export default {
     lastUpdate: 0
   }),
   computed: {
-    ...mapState([`session`, `delegates`]),
-    ...mapGetters([
-      `lastHeader`,
-      `committedDelegations`,
-      `connected`,
-      `yourValidators`
-    ])
+    ...mapState([`delegates`])
   }
 }
 </script>
