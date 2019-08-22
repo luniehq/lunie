@@ -12,6 +12,7 @@
 import { mapState, mapGetters } from "vuex"
 import TransactionList from "transactions/TransactionList"
 import { messageType } from "transactions/messageTypes"
+import { isPendingUndelegation } from "scripts/transaction-utils"
 
 export default {
   name: `undelegations`,
@@ -22,9 +23,7 @@ export default {
     ...mapState([`session`]),
     ...mapGetters([`flatOrderedTransactionList`, `yourValidators`]),
     unbondingTransactions: ({ flatOrderedTransactionList } = this) =>
-      flatOrderedTransactionList.filter(
-        transaction => transaction.type === messageType.UNDELEGATE
-      )
+      flatOrderedTransactionList.filter(isPendingUndelegation)
   }
 }
 </script>
