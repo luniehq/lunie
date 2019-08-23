@@ -1,7 +1,10 @@
 "use strict"
 
 import PageProposal from "governance/PageProposal"
-import { proposals, tallies } from "../../store/json/proposals"
+import {
+  oldFormatProposals as proposals,
+  tallies
+} from "../../store/json/proposals"
 import { governanceParameters } from "../../store/json/parameters"
 import { createLocalVue, shallowMount } from "@vue/test-utils"
 import Vuex from "vuex"

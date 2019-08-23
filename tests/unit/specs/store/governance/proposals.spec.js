@@ -1,5 +1,5 @@
 import proposalsModule from "src/vuex/modules/governance/proposals.js"
-import { proposals, tallies } from "../json/proposals"
+import { oldFormatProposals as proposals, tallies } from "../json/proposals"
 
 const mockRootState = {
   wallet: {
