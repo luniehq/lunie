@@ -17,6 +17,7 @@ module.exports = {
   configureWebpack: () => {
     const config = {
       resolve: {
+        symlinks: false,
         alias: {
           src: resolve(`src`),
           "@": resolve(`src`),
