@@ -1,6 +1,3 @@
-const BundleAnalyzerPlugin = require("webpack-bundle-analyzer")
-  .BundleAnalyzerPlugin
-
 const path = require(`path`)
 const fs = require(`fs`)
 const webpack = require(`webpack`)
