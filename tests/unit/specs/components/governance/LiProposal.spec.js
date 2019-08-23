@@ -1,9 +1,7 @@
 import { shallowMount, createLocalVue } from "@vue/test-utils"
 import LiProposal from "src/components/governance/LiProposal"
 
-import { proposals, tallies } from "../../store/json/proposals"
-
-const proposal = proposals[`1`]
+import { proposals } from "../../store/json/proposals"
 
 describe(`LiProposal`, () => {
   const localVue = createLocalVue()
