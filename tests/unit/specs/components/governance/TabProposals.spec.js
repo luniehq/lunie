@@ -3,60 +3,46 @@ import TabProposals from "governance/TabProposals"
 import { proposals, tallies } from "../../store/json/proposals"
 
 describe(`TabProposals`, () => {
-  let $store
+  let wrapper, $store, $apollo
 
   beforeEach(() => {
     $store = {
-      commit: jest.fn(),
-      dispatch: jest.fn(),
-      state: {},
-      getters: {}
+      getters: { depositDenom: "lunies" }
     }
+    $apollo = {
+      queries: {
+        proposals: {
+          loading: false
+        }
+      }
+    }
+    wrapper = shallowMount(TabProposals, {
+      mocks: {
+        $store,
+        $apollo
+      }
+    })
+    wrapper.setData({ proposals: Object.values(proposals) })
   })
 
   it(`shows a proposals table`, async () => {
-    $store.state = {
-      proposals: {
-        loading: false,
-        loaded: false,
-        proposals,
-        tallies
-      }
-    }
-
-    $store.getters = {
-      connected: true,
-      depositDenom: `lunies`
-    }
-
-    const wrapper = shallowMount(TabProposals, {
-      mocks: {
-        $store
-      }
-    })
     expect(wrapper.element).toMatchSnapshot()
   })
 
   it(`shows a message if still connecting`, async () => {
-    $store.state = {
-      proposals: {
-        loading: false,
-        loaded: false,
-        proposals: {},
-        tallies: {}
-      }
-    }
-
-    $store.getters = {
-      connected: false,
-      depositDenom: `lunies`
-    }
-
-    const wrapper = shallowMount(TabProposals, {
+    wrapper = shallowMount(TabProposals, {
       mocks: {
-        $store
+        $store,
+        $apollo: {
+          queries: {
+            proposals: {
+              loading: true
+            }
+          }
+        }
       }
     })
+    wrapper.setData({ proposals: Object.values(proposals) })
     expect(wrapper.element).toMatchSnapshot()
   })
 
@@ -78,7 +64,8 @@ describe(`TabProposals`, () => {
 
     const wrapper = shallowMount(TabProposals, {
       mocks: {
-        $store
+        $store,
+        $apollo
       }
     })
     expect(wrapper.element).toMatchSnapshot()
@@ -101,7 +88,8 @@ describe(`TabProposals`, () => {
 
     const wrapper = shallowMount(TabProposals, {
       mocks: {
-        $store
+        $store,
+        $apollo
       }
     })
     expect(wrapper.element).toMatchSnapshot()
@@ -124,7 +112,8 @@ describe(`TabProposals`, () => {
 
     const wrapper = shallowMount(TabProposals, {
       mocks: {
-        $store
+        $store,
+        $apollo
       }
     })
 
