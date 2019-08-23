@@ -60,8 +60,9 @@ export default {
     networkTooltip({ connected, nodeUrl, lastHeader } = this) {
       if (connected) {
         return `You're connected to ${lastHeader.chain_id} via ${nodeUrl}.`
+      } else {
+        return `Seeking connection`
       }
-      return `Seeking connection`
     },
     blockHeight({ num, lastHeader } = this) {
       return `#` + num.prettyInt(lastHeader.height)

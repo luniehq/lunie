@@ -2,7 +2,7 @@
   border-spacing: 0 0.25rem;
   width: 100%;
   padding: 0;
-  table-layout: auto;
+  table-layout: fixed;
 }
 
 .data-table tr td:first-child::before {
@@ -11,6 +11,10 @@
   text-align: right;
   color: var(--dim);
   left: -1.5rem;
+}
+
+.data-table th:first-child {
+  width: 65%;
 }
 
 .data-table th {
@@ -22,6 +26,7 @@
   padding: 0.5rem 2rem;
   position: relative;
   vertical-align: middle;
+  width: 100%;
 }
 
 .data-table__row__cell__separator::after {

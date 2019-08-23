@@ -67,6 +67,10 @@ export default {
   components: {
     Avatar
   },
+  filters: {
+    atoms,
+    shortDecimals
+  },
   props: {
     validator: {
       type: Object,
@@ -76,10 +80,6 @@ export default {
       type: String,
       default: () => "returns"
     }
-  },
-  filters: {
-    atoms,
-    shortDecimals
   },
   data: () => ({
     ValidatorProfile

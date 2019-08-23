@@ -69,6 +69,7 @@ ul {
 
 ul li {
   display: inline;
+  padding: 0 0.5rem;
 }
 
 .app-menu-item-small {

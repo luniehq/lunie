@@ -70,33 +70,31 @@ exports[`PageValidator shows a validator profile information errors signing info
       />
     </div>
      
-    <div
+    <ul
       class="row"
     >
-      <dl
-        class="info_dl"
+      <li
+        class="column"
       >
-        <dt>
+        <h4>
           Description
-        </dt>
+        </h4>
          
-        <dd
-          class="info_dl__text-box"
-        >
+        <span>
           
           Mr Mounty
         
-        </dd>
-      </dl>
+        </span>
+      </li>
        
-      <dl
-        class="info_dl"
+      <li
+        class="column"
       >
-        <dt>
+        <h4>
           Website
-        </dt>
+        </h4>
          
-        <dd>
+        <span>
           <a
             href="https://www.monty.ca"
             id="validator-website"
@@ -105,155 +103,137 @@ exports[`PageValidator shows a validator profile information errors signing info
           >
             https://www.monty.ca
           </a>
-        </dd>
-      </dl>
+        </span>
+      </li>
        
-      <dl
-        class="info_dl"
+      <li
+        class="column"
       >
-        <dt>
+        <h4>
           Validator Address
-        </dt>
+        </h4>
          
-        <dd>
+        <span>
           <bech32-stub
             address="cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
           />
-        </dd>
-      </dl>
-    </div>
+        </span>
+      </li>
+    </ul>
      
-    <div
-      class="row row-condensed"
+    <ul
+      class="row"
     >
-      <dl
-        class="info_dl"
-      >
-        <dt>
+      <li>
+        <h4>
           Rewards
-        </dt>
+        </h4>
          
-        <dd
+        <span
           id="page-profile__rewards"
         >
           
           2.26%
         
-        </dd>
-      </dl>
+        </span>
+      </li>
        
-      <dl
-        class="info_dl"
-      >
-        <dt>
+      <li>
+        <h4>
           Voting Power / Total Stake
-        </dt>
+        </h4>
          
-        <dd
+        <span
           id="page-profile__power"
         >
           
           0.33% /
           0
         
-        </dd>
-      </dl>
+        </span>
+      </li>
        
-      <dl
-        class="info_dl"
-      >
-        <dt>
+      <li>
+        <h4>
           Self Stake
-        </dt>
+        </h4>
          
-        <dd
+        <span
           id="page-profile__self-bond"
         >
           
           1.00% / 10,000
         
-        </dd>
-      </dl>
+        </span>
+      </li>
        
-      <dl
-        class="info_dl"
-      >
-        <dt>
+      <li>
+        <h4>
           Validator Since
-        </dt>
+        </h4>
          
-        <dd>
+        <span>
           
           Block #100
         
-        </dd>
-      </dl>
+        </span>
+      </li>
        
-      <dl
-        class="info_dl"
-      >
-        <dt>
+      <li>
+        <h4>
           Uptime / Missed Blocks
-        </dt>
+        </h4>
          
-        <dd
+        <span
           id="page-profile__uptime"
         >
           
           99.6% /
           2
         
-        </dd>
-      </dl>
+        </span>
+      </li>
        
-      <dl
-        class="info_dl"
-      >
-        <dt>
+      <li>
+        <h4>
           Current Commission Rate
-        </dt>
+        </h4>
          
-        <dd>
+        <span>
           5.00%
-        </dd>
-      </dl>
+        </span>
+      </li>
        
-      <dl
-        class="info_dl"
-      >
-        <dt>
+      <li>
+        <h4>
           Max Commission Rate
-        </dt>
+        </h4>
          
-        <dd>
+        <span>
           10.00%
-        </dd>
-      </dl>
+        </span>
+      </li>
        
-      <dl
-        class="info_dl"
-      >
-        <dt>
+      <li>
+        <h4>
           Max Daily Commission Change
-        </dt>
+        </h4>
          
-        <dd>
+        <span>
           0.50%
-        </dd>
-      </dl>
+        </span>
+      </li>
        
-      <dl
-        class="info_dl"
-      >
-        <dt>
+      <li>
+        <h4>
           Last Commission Change
-        </dt>
+        </h4>
          
-        <dd>
+        <span>
           a few seconds ago
-        </dd>
-      </dl>
-    </div>
+        </span>
+      </li>
+    </ul>
      
     <delegationmodal-stub
       denom="STAKE"
@@ -342,33 +322,31 @@ exports[`PageValidator shows a validator profile information if user has signed 
       />
     </div>
      
-    <div
+    <ul
       class="row"
     >
-      <dl
-        class="info_dl"
+      <li
+        class="column"
       >
-        <dt>
+        <h4>
           Description
-        </dt>
+        </h4>
          
-        <dd
-          class="info_dl__text-box"
-        >
+        <span>
           
           Mr Mounty
         
-        </dd>
-      </dl>
+        </span>
+      </li>
        
-      <dl
-        class="info_dl"
+      <li
+        class="column"
       >
-        <dt>
+        <h4>
           Website
-        </dt>
+        </h4>
          
-        <dd>
+        <span>
           <a
             href="https://www.monty.ca"
             id="validator-website"
@@ -377,155 +355,137 @@ exports[`PageValidator shows a validator profile information if user has signed 
           >
             https://www.monty.ca
           </a>
-        </dd>
-      </dl>
+        </span>
+      </li>
        
-      <dl
-        class="info_dl"
+      <li
+        class="column"
       >
-        <dt>
+        <h4>
           Validator Address
-        </dt>
+        </h4>
          
-        <dd>
+        <span>
           <bech32-stub
             address="cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
           />
-        </dd>
-      </dl>
-    </div>
+        </span>
+      </li>
+    </ul>
      
-    <div
-      class="row row-condensed"
+    <ul
+      class="row"
     >
-      <dl
-        class="info_dl"
-      >
-        <dt>
+      <li>
+        <h4>
           Rewards
-        </dt>
+        </h4>
          
-        <dd
+        <span
           id="page-profile__rewards"
         >
           
           2.26%
         
-        </dd>
-      </dl>
+        </span>
+      </li>
        
-      <dl
-        class="info_dl"
-      >
-        <dt>
+      <li>
+        <h4>
           Voting Power / Total Stake
-        </dt>
+        </h4>
          
-        <dd
+        <span
           id="page-profile__power"
         >
           
           0.33% /
           0
         
-        </dd>
-      </dl>
+        </span>
+      </li>
        
-      <dl
-        class="info_dl"
-      >
-        <dt>
+      <li>
+        <h4>
           Self Stake
-        </dt>
+        </h4>
          
-        <dd
+        <span
           id="page-profile__self-bond"
         >
           
           1.00% / 10,000
         
-        </dd>
-      </dl>
+        </span>
+      </li>
        
-      <dl
-        class="info_dl"
-      >
-        <dt>
+      <li>
+        <h4>
           Validator Since
-        </dt>
+        </h4>
          
-        <dd>
+        <span>
           
           Block #100
         
-        </dd>
-      </dl>
+        </span>
+      </li>
        
-      <dl
-        class="info_dl"
-      >
-        <dt>
+      <li>
+        <h4>
           Uptime / Missed Blocks
-        </dt>
+        </h4>
          
-        <dd
+        <span
           id="page-profile__uptime"
         >
           
           99.6% /
           2
         
-        </dd>
-      </dl>
+        </span>
+      </li>
        
-      <dl
-        class="info_dl"
-      >
-        <dt>
+      <li>
+        <h4>
           Current Commission Rate
-        </dt>
+        </h4>
          
-        <dd>
+        <span>
           5.00%
-        </dd>
-      </dl>
+        </span>
+      </li>
        
-      <dl
-        class="info_dl"
-      >
-        <dt>
+      <li>
+        <h4>
           Max Commission Rate
-        </dt>
+        </h4>
          
-        <dd>
+        <span>
           10.00%
-        </dd>
-      </dl>
+        </span>
+      </li>
        
-      <dl
-        class="info_dl"
-      >
-        <dt>
+      <li>
+        <h4>
           Max Daily Commission Change
-        </dt>
+        </h4>
          
-        <dd>
+        <span>
           0.50%
-        </dd>
-      </dl>
+        </span>
+      </li>
        
-      <dl
-        class="info_dl"
-      >
-        <dt>
+      <li>
+        <h4>
           Last Commission Change
-        </dt>
+        </h4>
          
-        <dd>
+        <span>
           a few seconds ago
-        </dd>
-      </dl>
-    </div>
+        </span>
+      </li>
+    </ul>
      
     <delegationmodal-stub
       denom="STAKE"
@@ -614,33 +574,31 @@ exports[`PageValidator shows a validator profile information if user hasn't sign
       />
     </div>
      
-    <div
+    <ul
       class="row"
     >
-      <dl
-        class="info_dl"
+      <li
+        class="column"
       >
-        <dt>
+        <h4>
           Description
-        </dt>
+        </h4>
          
-        <dd
-          class="info_dl__text-box"
-        >
+        <span>
           
           Mr Mounty
         
-        </dd>
-      </dl>
+        </span>
+      </li>
        
-      <dl
-        class="info_dl"
+      <li
+        class="column"
       >
-        <dt>
+        <h4>
           Website
-        </dt>
+        </h4>
          
-        <dd>
+        <span>
           <a
             href="https://www.monty.ca"
             id="validator-website"
@@ -649,155 +607,137 @@ exports[`PageValidator shows a validator profile information if user hasn't sign
           >
             https://www.monty.ca
           </a>
-        </dd>
-      </dl>
+        </span>
+      </li>
        
-      <dl
-        class="info_dl"
+      <li
+        class="column"
       >
-        <dt>
+        <h4>
           Validator Address
-        </dt>
+        </h4>
          
-        <dd>
+        <span>
           <bech32-stub
             address="cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
           />
-        </dd>
-      </dl>
-    </div>
+        </span>
+      </li>
+    </ul>
      
-    <div
-      class="row row-condensed"
+    <ul
+      class="row"
     >
-      <dl
-        class="info_dl"
-      >
-        <dt>
+      <li>
+        <h4>
           Rewards
-        </dt>
+        </h4>
          
-        <dd
+        <span
           id="page-profile__rewards"
         >
           
           2.26%
         
-        </dd>
-      </dl>
+        </span>
+      </li>
        
-      <dl
-        class="info_dl"
-      >
-        <dt>
+      <li>
+        <h4>
           Voting Power / Total Stake
-        </dt>
+        </h4>
          
-        <dd
+        <span
           id="page-profile__power"
         >
           
           0.33% /
           0
         
-        </dd>
-      </dl>
+        </span>
+      </li>
        
-      <dl
-        class="info_dl"
-      >
-        <dt>
+      <li>
+        <h4>
           Self Stake
-        </dt>
+        </h4>
          
-        <dd
+        <span
           id="page-profile__self-bond"
         >
           
           1.00% / 10,000
         
-        </dd>
-      </dl>
+        </span>
+      </li>
        
-      <dl
-        class="info_dl"
-      >
-        <dt>
+      <li>
+        <h4>
           Validator Since
-        </dt>
+        </h4>
          
-        <dd>
+        <span>
           
           Block #100
         
-        </dd>
-      </dl>
+        </span>
+      </li>
        
-      <dl
-        class="info_dl"
-      >
-        <dt>
+      <li>
+        <h4>
           Uptime / Missed Blocks
-        </dt>
+        </h4>
          
-        <dd
+        <span
           id="page-profile__uptime"
         >
           
           99.6% /
           2
         
-        </dd>
-      </dl>
+        </span>
+      </li>
        
-      <dl
-        class="info_dl"
-      >
-        <dt>
+      <li>
+        <h4>
           Current Commission Rate
-        </dt>
+        </h4>
          
-        <dd>
+        <span>
           5.00%
-        </dd>
-      </dl>
+        </span>
+      </li>
        
-      <dl
-        class="info_dl"
-      >
-        <dt>
+      <li>
+        <h4>
           Max Commission Rate
-        </dt>
+        </h4>
          
-        <dd>
+        <span>
           10.00%
-        </dd>
-      </dl>
+        </span>
+      </li>
        
-      <dl
-        class="info_dl"
-      >
-        <dt>
+      <li>
+        <h4>
           Max Daily Commission Change
-        </dt>
+        </h4>
          
-        <dd>
+        <span>
           0.50%
-        </dd>
-      </dl>
+        </span>
+      </li>
        
-      <dl
-        class="info_dl"
-      >
-        <dt>
+      <li>
+        <h4>
           Last Commission Change
-        </dt>
+        </h4>
          
-        <dd>
+        <span>
           a few seconds ago
-        </dd>
-      </dl>
-    </div>
+        </span>
+      </li>
+    </ul>
      
     <delegationmodal-stub
       denom="STAKE"
