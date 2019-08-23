@@ -13,8 +13,6 @@ exports[`TmPage should show links to other pages 1`] = `
      
     <template>
       <!---->
-       
-      <toolbar-stub />
     </template>
      
     <template />
@@ -44,8 +42,6 @@ exports[`TmPage shows a page skeleton 1`] = `
      
     <template>
       <!---->
-       
-      <toolbar-stub />
     </template>
      
     <template />

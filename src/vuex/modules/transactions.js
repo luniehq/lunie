@@ -50,6 +50,9 @@ export default ({ node }) => {
         await dispatch(`getAllTxs`)
       }
     },
+    async initializeWallet({ dispatch }) {
+      await dispatch(`getAllTxs`)
+    },
     async parseAndSetTxs({ commit, dispatch, state }, { txType }) {
       const txs = await dispatch(`getTx`, txType)
       if (state[txType] && txs.length > state[txType].length) {

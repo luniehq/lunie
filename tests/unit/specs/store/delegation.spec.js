@@ -9,7 +9,10 @@ const mockRootState = {
     address: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
     signedIn: true
   },
-  stakingParameters: mockValues.state.stakingParameters
+  stakingParameters: mockValues.state.stakingParameters,
+  delegates: {
+    delegates: mockValues.state.validators
+  }
 }
 let staticDateNow
 describe(`Module: Delegations`, () => {
@@ -214,6 +217,37 @@ describe(`Module: Delegations`, () => {
     expect(commit).not.toHaveBeenCalled()
   })
 
+  it(`should load delegates if they are not loaded already`, async () => {
+    const node = {
+      get: {
+        delegations: jest.fn(() => []),
+        undelegations: jest.fn(() => []),
+        redelegations: jest.fn(() => [])
+      }
+    }
+    const instance = delegationModule({
+      node
+    })
+    state = instance.state
+    actions = instance.actions
+    mutations = instance.mutations
+    const dispatch = jest.fn()
+
+    const rootState = JSON.parse(JSON.stringify(mockRootState))
+    rootState.delegates.loaded = false
+    await actions.getBondedDelegates(
+      {
+        state,
+        rootState,
+        commit: jest.fn(),
+        dispatch
+      },
+      mockValues.state.candidates
+    )
+
+    expect(dispatch).toHaveBeenCalledWith("getDelegates")
+  })
+
   it(`should store a undelegation`, async () => {
     mutations.setUnbondingDelegations(state, [
       {
@@ -294,32 +328,6 @@ describe(`Module: Delegations`, () => {
     expect(state.error).toBe(`Error`)
   })
 
-  it(`should load delegates and delegations if signed in`, async () => {
-    const { actions } = delegationModule({ node: { get: {} } })
-
-    const dispatch = jest.fn(() => [])
-
-    await actions.updateDelegates({
-      dispatch,
-      rootState: {
-        session: {
-          signedIn: true
-        },
-        connection: {
-          lastHeader: {
-            height: "200"
-          }
-        }
-      },
-      state: {
-        lastDelegatesUpdate: 10
-      }
-    })
-
-    expect(dispatch).toHaveBeenCalledWith(`getDelegates`)
-    expect(dispatch).toHaveBeenCalledWith(`getBondedDelegates`, [])
-  })
-
   it(`should load delegations on sign in`, async () => {
     const { actions } = delegationModule({ node: { get: {} } })
 
@@ -327,6 +335,18 @@ describe(`Module: Delegations`, () => {
 
     await actions.initializeWallet({ dispatch })
 
-    expect(dispatch).toHaveBeenCalledWith(`updateDelegates`)
+    expect(dispatch).toHaveBeenCalledWith(`getBondedDelegates`)
+  })
+
+  it("should reset the data on a new session", () => {
+    const { actions } = delegationModule({ node: { get: {} } })
+
+    const rootState = {
+      delegation: {
+        loaded: true
+      }
+    }
+    actions.resetSessionData({ rootState })
+    expect(rootState.delegation.loaded).toBe(false)
   })
 })

@@ -1,6 +1,6 @@
 import VueApollo from "vue-apollo"
+import PageValidator from "staking/PageValidator"
 import { shallowMount, createLocalVue } from "@vue/test-utils"
-import PageValidator from "src/components/staking/PageValidator"
 
 const stakingParameters = {
   unbonding_time: `259200000000000`,
@@ -31,6 +31,7 @@ const validator = {
   },
   prev_bonded_shares: `0`,
   signing_info: {
+    start_height: 42,
     missed_blocks_counter: 2
   }
 }
@@ -100,7 +101,8 @@ describe(`PageValidator`, () => {
           loaded: true,
           signingInfos: {
             cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw: {
-              missed_blocks_counter: 2
+              missed_blocks_counter: 2,
+              start_height: 100
             }
           }
         }
@@ -119,25 +121,15 @@ describe(`PageValidator`, () => {
     })
   })
 
-  it("loads validators on mount", () => {
-    const self = {
-      $store: {
-        dispatch: jest.fn()
-      }
-    }
-    PageValidator.mounted.call(self)
-    expect($store.dispatch).toHaveBeenCalledWith("updateDelegates")
-  })
-
   describe(`shows a validator profile information`, () => {
     it(`if user has signed in`, () => {
-      expect(wrapper.vm.$el).toMatchSnapshot()
+      expect(wrapper.element).toMatchSnapshot()
     })
 
     it(`if user hasn't signed in`, () => {
       $store.state.session.signedIn = false
 
-      expect(wrapper.vm.$el).toMatchSnapshot()
+      expect(wrapper.element).toMatchSnapshot()
     })
 
     it(`should return one delegate based on route params`, () => {
@@ -168,29 +160,27 @@ describe(`PageValidator`, () => {
     })
 
     it(`shows the selfBond`, () => {
-      expect(wrapper.find(`#page-profile__self-bond`).text()).toBe(`1.00%`)
+      expect(wrapper.find(`#page-profile__self-bond`).text()).toBe(
+        `1.00% / 10,000`
+      )
     })
 
     it(`should show the validator status`, () => {
-      expect(wrapper.vm.status).toBe(`This validator is actively validating`)
+      expect(wrapper.vm.status).toBe(`Active`)
       // Jailed
       $store.state.delegates.delegates = [
         Object.assign({}, validator, {
           jailed: true
         })
       ]
-      expect(wrapper.vm.status).toBe(
-        `This validator has been jailed and is not currently validating`
-      )
+      expect(wrapper.vm.status).toBe(`Jailed`)
       // Is not a validator
       $store.state.delegates.delegates = [
         Object.assign({}, validator, {
           status: 0
         })
       ]
-      expect(wrapper.vm.status).toBe(
-        `This validator does not have enough voting power yet and is inactive`
-      )
+      expect(wrapper.vm.status).toBe(`Inactive`)
     })
 
     it(`shows a validator as an inactive candidate if he has no voting_power`, () => {
@@ -209,26 +199,6 @@ describe(`PageValidator`, () => {
         })
       ]
       expect(wrapper.vm.status).toMatchSnapshot()
-    })
-
-    it(`disables delegation and undelegation buttons if not connected`, () => {
-      expect(
-        wrapper.vm.$el.querySelector(`#delegation-btn`).getAttribute(`disabled`)
-      ).toBeNull()
-      expect(
-        wrapper.vm.$el
-          .querySelector(`#undelegation-btn`)
-          .getAttribute(`disabled`)
-      ).toBeNull()
-      $store.getters.connected = false
-      expect(
-        wrapper.vm.$el.querySelector(`#delegation-btn`).getAttribute(`disabled`)
-      ).not.toBeNull()
-      expect(
-        wrapper.vm.$el
-          .querySelector(`#undelegation-btn`)
-          .getAttribute(`disabled`)
-      ).not.toBeNull()
     })
 
     it(`shows empty website url`, () => {
@@ -263,7 +233,7 @@ describe(`PageValidator`, () => {
           })
         ]
         // still shows the validator without crashing
-        expect(wrapper.vm.$el).toMatchSnapshot()
+        expect(wrapper.element).toMatchSnapshot()
       })
     })
   })
@@ -286,7 +256,7 @@ describe(`PageValidator`, () => {
         bondDenom,
         myBond
       })
-      expect(delegationString).toBe(`--`)
+      expect(delegationString).toBe(null)
     })
   })
 
@@ -346,6 +316,20 @@ describe(`PageValidator`, () => {
         lastHeader
       })
       expect(rewardsValue).toBe(0)
+    })
+
+    it(`when user is not signed in`, () => {
+      const distribution = { rewards: {} }
+      const rewardsValue = PageValidator.computed.rewards.call({
+        session: {
+          signedIn: false
+        },
+        bondDenom,
+        distribution,
+        validator,
+        lastHeader
+      })
+      expect(rewardsValue).toBe(null)
     })
   })
 
@@ -546,7 +530,8 @@ describe(`delegationTargetOptions`, () => {
         loaded: true,
         signingInfos: {
           cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw: {
-            missed_blocks_counter: 2
+            missed_blocks_counter: 2,
+            start_height: 500
           }
         }
       },

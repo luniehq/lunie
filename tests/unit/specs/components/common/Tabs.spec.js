@@ -6,7 +6,7 @@ describe(`Tabs`, () => {
   it(`has the expected html structure`, async () => {
     wrapper = shallowMount(Tabs, {})
     expect(wrapper.findAll(`.tabs .tab`).length).toBe(0)
-    expect(wrapper.vm.$el).toMatchSnapshot()
+    expect(wrapper.element).toMatchSnapshot()
   })
 
   it(`should show links to other pages`, () => {
@@ -22,6 +22,6 @@ describe(`Tabs`, () => {
       stubs: [`router-link`]
     })
     expect(wrapper.findAll(`.tabs .tab`).length).toBe(1)
-    expect(wrapper.vm.$el).toMatchSnapshot()
+    expect(wrapper.element).toMatchSnapshot()
   })
 })

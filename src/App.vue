@@ -9,6 +9,7 @@
       <div id="app-content">
         <router-view />
       </div>
+      <MobileMenu />
       <TmNotifications :notifications="notifications" />
     </div>
   </div>
@@ -17,6 +18,7 @@
 <script>
 import { mapState } from "vuex"
 import AppHeader from "common/AppHeader"
+import MobileMenu from "common/MobileMenu"
 import CookieBar from "common/CookieBar"
 import MaintenanceBar from "common/MaintenanceBar"
 import DisconnectedBar from "common/DisconnectedBar"
@@ -30,7 +32,8 @@ export default {
     TmNotifications,
     CookieBar,
     MaintenanceBar,
-    DisconnectedBar
+    DisconnectedBar,
+    MobileMenu
   },
   computed: {
     ...mapState([`notifications`, `session`])

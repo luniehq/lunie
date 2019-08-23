@@ -34,10 +34,15 @@ a:hover {
   line-height: 1.5;
   font-family: var(--sans);
   color: var(--txt);
+  display: flex;
   flex-flow: column nowrap;
   min-width: 0;
-  overflow: hidden;
+}
+
+#app-content {
+  flex: 1;
   display: flex;
+  flex-flow: column nowrap;
 }
 
 .tm-field {
@@ -91,24 +96,35 @@ input.tm-field {
   line-height: 14px;
 }
 
-#app-content {
-  flex: 1;
-  display: flex;
-  flex-flow: column no-wrap;
-}
-
 #appzi-launch-button-cf1d801a-9653-4934-8a18-cea8c9e77495 {
   z-index: var(--z-appHeader) !important;
 }
 
+@media screen and (max-width: 1023px) {
+  #app-content {
+    padding-top: 3rem;
+  }
+}
+
 @media screen and (min-width: 1023px) {
   #app {
-    padding-top: 0;
     flex-flow: row nowrap;
   }
 
   #app-content {
     display: flex;
     min-width: 0;
+  }
+}
+
+@media screen and (max-width: 667px) {
+  .hide-xs {
+    display: none !important;
+  }
+}
+
+@media screen and (min-width: 668px) {
+  .hide-m {
+    display: none !important;
   }
 }

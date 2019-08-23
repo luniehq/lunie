@@ -1,6 +1,7 @@
 export default ({ node }) => {
   const emptyState = {
     pool: {},
+    annualProvision: null,
     loading: false,
     loaded: false,
     error: null

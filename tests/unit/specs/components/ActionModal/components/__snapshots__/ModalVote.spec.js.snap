@@ -11,42 +11,46 @@ exports[`ModalVote should display vote modal form 1`] = `
   transactiondata="[object Object]"
   validate="function () { [native code] }"
 >
-  <tmformgroup-stub
+  <div
     class="action-modal-group vote-options"
   >
-    <tmbtn-stub
-      class=""
-      color="secondary"
-      id="vote-yes"
-      size="md"
-      value="Yes"
-    />
+    <div>
+      <tmbtn-stub
+        class=""
+        color="secondary"
+        id="vote-yes"
+        size="md"
+        value="Yes"
+      />
+       
+      <tmbtn-stub
+        class=""
+        color="secondary"
+        id="vote-veto"
+        size="md"
+        value="No With Veto"
+      />
+    </div>
      
-    <tmbtn-stub
-      class=""
-      color="secondary"
-      id="vote-no"
-      size="md"
-      value="No"
-    />
-     
-    <tmbtn-stub
-      class=""
-      color="secondary"
-      id="vote-veto"
-      size="md"
-      value="No With Veto"
-    />
-     
-    <tmbtn-stub
-      class=""
-      color="secondary"
-      id="vote-abstain"
-      size="md"
-      value="Abstain"
-    />
+    <div>
+      <tmbtn-stub
+        class=""
+        color="secondary"
+        id="vote-no"
+        size="md"
+        value="No"
+      />
+       
+      <tmbtn-stub
+        class=""
+        color="secondary"
+        id="vote-abstain"
+        size="md"
+        value="Abstain"
+      />
+    </div>
      
     <!---->
-  </tmformgroup-stub>
+  </div>
 </actionmodal-stub>
 `;

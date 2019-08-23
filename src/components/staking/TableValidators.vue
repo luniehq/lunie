@@ -8,7 +8,7 @@
           :show-on-mobile="showOnMobile"
         />
       </thead>
-      <tbody v-infinite-scroll="loadMore" infinite-scroll-distance="80">
+      <tbody v-infinite-scroll="loadMore" infinite-scroll-distance="400">
         <LiValidator
           v-for="validator in showingValidators"
           :key="validator.operator_address"
@@ -115,49 +115,24 @@ export default {
     properties() {
       return [
         {
-          title: `Moniker`,
+          title: `Name`,
           value: `small_moniker`,
           tooltip: `The validator's moniker`
         },
         {
-          title: `My Delegations`,
-          value: `my_delegations`,
-          tooltip: `Number of ${num.viewDenom(
-            this.bondDenom
-          )} you have delegated to this validator`
-        },
-        {
           title: `Rewards`,
-          value: `rewards`,
-          tooltip: `Rewards you have earned from this validator`
+          value: `expectedReturns`,
+          tooltip: `Approximate annualized reward`
         },
         {
           title: `Voting Power`,
           value: `voting_power`,
           tooltip: `Percentage of voting shares`
-        },
-        {
-          title: `Commission`,
-          value: `commission`,
-          tooltip: `The fee the validator will charge from your rewards`
-        },
-        {
-          title: `Uptime`,
-          value: `uptime`,
-          tooltip: `Ratio of blocks signed within the last 10k blocks`
-        },
-        {
-          title: `Returns`,
-          value: `expectedReturns`,
-          tooltip: `Approximate annualized return if validator is never punished`
         }
       ]
     }
   },
   watch: {
-    address: function() {
-      this.session.address && this.$store.dispatch(`updateDelegates`)
-    },
     lastHeader: {
       immediate: true,
       handler() {
@@ -173,7 +148,6 @@ export default {
   },
   mounted() {
     this.$store.dispatch(`getPool`)
-    this.$store.dispatch(`updateDelegates`)
     this.$store.dispatch(`getRewardsFromMyValidators`)
     this.$store.dispatch(`getMintingParameters`)
   },

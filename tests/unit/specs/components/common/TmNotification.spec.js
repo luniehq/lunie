@@ -39,7 +39,7 @@ describe(`TmNotification.vue`, () => {
       const wrapper = mount(TmNotification, {
         propsData: { ...notification }
       })
-      expect(wrapper.vm.$el).toMatchSnapshot()
+      expect(wrapper.element).toMatchSnapshot()
     })
   })
 

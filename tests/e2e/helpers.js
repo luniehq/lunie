@@ -11,8 +11,8 @@ async function getBalance(browser) {
 }
 async function getAvailableTokens(browser) {
   return new Promise(resolve => {
-    browser.expect.element(`.unbonded-atoms h2`).to.be.visible.before(10000)
-    browser.getText(".unbonded-atoms h2", ({ value }) => {
+    browser.expect.element(`.available-atoms`).to.be.visible.before(10000)
+    browser.getText(".available-atoms", ({ value }) => {
       resolve(numeral(value).value())
     })
   })
@@ -36,15 +36,41 @@ async function waitFor(check, iterations = 10, timeout = 1000) {
 
   throw new Error("Condition was not meet in time")
 }
+async function waitForText(
+  browser,
+  selector,
+  expectedCaption,
+  iterations,
+  timeout
+) {
+  await waitFor(
+    async () => {
+      const { value: caption } = await browser.getText(selector)
+      expect(caption).to.include(expectedCaption)
+    },
+    iterations,
+    timeout
+  )
+}
 
 // performs some details actions and handles checking of the invoice step + signing
 async function actionModalCheckout(
   browser,
+  btnSelector,
   detailsActionFn,
   expectedSubtotal,
   expectedTotalChange = 0,
   expectedAvailableTokensChange = 0
 ) {
+  // grab page we came from as we want to go to another page and come back
+  let sourcePage
+  browser.url(function(result) {
+    sourcePage = result.value
+  })
+
+  // go to portfolio to remember balances
+  browser.url(browser.launch_url + "/#/portfolio")
+
   // remember balance to compare later if send got through
   browser.expect.element(`.total-atoms__value`).to.be.visible.before(10000)
   browser.expect
@@ -54,6 +80,13 @@ async function actionModalCheckout(
   const balanceBefore = await getBalance(browser)
   const availableTokensBefore = await getAvailableTokens(browser)
 
+  // go back to source page to checkout
+  browser.url(sourcePage)
+
+  // open modal and enter amount
+  browser.expect.element(btnSelector).to.be.visible.before(10000)
+  browser.click(btnSelector)
+
   browser.expect.element(".action-modal").to.be.visible.before(10000)
 
   browser.pause(500)
@@ -61,13 +94,18 @@ async function actionModalCheckout(
   await detailsActionFn()
 
   // proceed to invoice step
-  browser.click(".action-modal-footer .tm-btn")
+  browser.click(".action-modal-footer .button")
   browser.expect.element(`.table-invoice`).to.be.visible.before(10000)
 
   // check invoice
-  browser.expect
-    .element(".table-invoice li:first-child span:last-child")
-    .text.to.contain(expectedSubtotal)
+  if (expectedSubtotal === "0") {
+    // doesn't show sub total
+    browser.expect.elements(".table-invoice li").count.to.equal(2)
+  } else {
+    browser.expect
+      .element(".table-invoice li:first-child span:last-child")
+      .text.to.contain(expectedSubtotal)
+  }
 
   // remember fees
   const fees = await new Promise(resolve =>
@@ -82,12 +120,15 @@ async function actionModalCheckout(
   // await nextBlock(browser)
 
   // submit
-  browser.click(".action-modal-footer .tm-btn")
+  browser.click(".action-modal-footer .button")
   browser.setValue("#password", "1234567890")
-  browser.click(".action-modal-footer .tm-btn")
+  browser.click(".action-modal-footer .button")
 
   browser.expect.element(".success-step").to.be.present.before(20 * 1000)
   browser.click("#closeBtn")
+
+  // go to portfolio to remember balances
+  browser.url(browser.launch_url + "/#/portfolio")
 
   // Wait for UI to be updated according to new state
   await nextBlock(browser)
@@ -111,14 +152,14 @@ async function actionModalCheckout(
   })
 }
 async function nextBlock(browser) {
-  const lastHeigth = await new Promise(resolve =>
+  const lastHeight = await new Promise(resolve =>
     browser.getText("#tm-connected-network__block", ({ value }) =>
       resolve(value)
     )
   )
   browser.expect
     .element("#tm-connected-network__block")
-    .text.not.to.equal(lastHeigth)
+    .text.not.to.equal(lastHeight)
     .before(10 * 1000)
 }
 
@@ -127,6 +168,7 @@ module.exports = {
   getAvailableTokens,
   awaitBalance,
   waitFor,
+  waitForText,
   actionModalCheckout,
   nextBlock
 }

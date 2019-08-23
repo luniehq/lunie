@@ -23,7 +23,7 @@ describe(`DisconnectedBar`, () => {
   })
 
   it(`shows the disconnected bar`, () => {
-    expect(wrapper.vm.$el).toMatchSnapshot()
+    expect(wrapper.element).toMatchSnapshot()
   })
 
   it(`hides the disconnected bar if proper connection assumped`, () => {

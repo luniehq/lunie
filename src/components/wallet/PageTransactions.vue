@@ -7,6 +7,7 @@
     :data-empty="dataEmpty"
     data-title="Transactions"
     :sign-in-required="true"
+    :hide-header="true"
   >
     <DataEmptyTx slot="no-data" />
     <template slot="managed-body">
@@ -26,7 +27,7 @@
 import { mapState, mapGetters } from "vuex"
 import DataEmptyTx from "common/TmDataEmptyTx"
 import TmPage from "common/TmPage"
-import TransactionList from "../transactions/TransactionList"
+import TransactionList from "transactions/TransactionList"
 
 export default {
   name: `page-transactions`,

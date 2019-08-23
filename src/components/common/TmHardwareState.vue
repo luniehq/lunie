@@ -41,7 +41,7 @@ export default {
   padding: 1.5rem;
   user-select: none;
   border: 2px solid var(--bc);
-  border-radius: 2px;
+  border-radius: 0.25rem;
 }
 
 .tm-hardware-state-content {

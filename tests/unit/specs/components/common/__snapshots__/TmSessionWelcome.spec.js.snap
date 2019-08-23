@@ -59,15 +59,18 @@ exports[`TmSessionWelcome has the expected html structure 1`] = `
         class="link"
         to="/terms"
       >
+        
         Terms of Service
+      
       </router-link-stub>
-       and
+      
+      and
       
       <router-link-stub
         class="link"
         to="/privacy"
       >
-        Privacy Policy
+         Privacy Policy 
       </router-link-stub>
       .
     
@@ -135,15 +138,18 @@ exports[`TmSessionWelcome has the expected html structure when on mobile 1`] = `
         class="link"
         to="/terms"
       >
+        
         Terms of Service
+      
       </router-link-stub>
-       and
+      
+      and
       
       <router-link-stub
         class="link"
         to="/privacy"
       >
-        Privacy Policy
+         Privacy Policy 
       </router-link-stub>
       .
     
