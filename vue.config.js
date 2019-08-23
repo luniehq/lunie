@@ -1,3 +1,6 @@
+const BundleAnalyzerPlugin = require("webpack-bundle-analyzer")
+  .BundleAnalyzerPlugin
+
 const path = require(`path`)
 const fs = require(`fs`)
 const webpack = require(`webpack`)
@@ -42,6 +45,9 @@ module.exports = {
               process.env.GOOGLE_ANALYTICS_UID
             )
           }
+        }),
+        new BundleAnalyzerPlugin({
+          analyzerMode: "static"
         })
       ]
     }
