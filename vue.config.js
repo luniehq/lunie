@@ -47,7 +47,9 @@ module.exports = {
           }
         }),
         new BundleAnalyzerPlugin({
-          analyzerMode: "static"
+          analyzerMode: "static",
+          openAnalyzer: false,
+          reportFilename: "bundle_sizes.html"
         })
       ]
     }
