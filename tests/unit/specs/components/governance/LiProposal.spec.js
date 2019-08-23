@@ -9,25 +9,14 @@ describe(`LiProposal`, () => {
   const localVue = createLocalVue()
   localVue.directive(`tooltip`, () => {})
 
-  let wrapper
+  let wrapper, proposalList
 
   beforeEach(() => {
-    const $store = {
-      commit: jest.fn(),
-      dispatch: jest.fn(),
-      state: {
-        proposals: {
-          tallies
-        }
-      }
-    }
+    proposalList = Object.values(proposals)
 
     wrapper = shallowMount(LiProposal, {
       localVue,
-      mocks: {
-        $store
-      },
-      propsData: { proposal },
+      propsData: { proposal: proposalList[0] },
       stubs: [`router-link`]
     })
   })
@@ -37,110 +26,59 @@ describe(`LiProposal`, () => {
   })
 
   it(`should return status info for passed proposals`, () => {
-    wrapper.setProps({
-      proposal: {
-        ...proposal,
-        proposal_status: `Passed`
-      }
-    })
-    expect(wrapper.vm.status).toEqual({
-      badge: `Passed`,
-      color: `green`
-    })
+    expect(wrapper.find(".proposal-status").classes()).toContain("passed")
   })
 
   it(`should return status info for rejected proposals`, () => {
-    wrapper.setProps({
-      proposal: {
-        ...proposal,
-        proposal_status: `Rejected`
-      }
-    })
-    expect(wrapper.vm.status).toEqual({
-      badge: `Rejected`,
-      color: `red`
-    })
+    wrapper.setProps({ proposal: proposalList[3] })
+    expect(wrapper.find(".proposal-status").classes()).toContain("rejected")
   })
 
   it(`should return status info for active proposals`, () => {
-    wrapper.setProps({
-      proposal: {
-        ...proposal,
-        proposal_status: `VotingPeriod`
-      }
-    })
-    expect(wrapper.vm.status).toEqual({
-      badge: `Voting Period`,
-      color: `pink`
-    })
+    wrapper.setProps({ proposal: proposalList[1] })
+    expect(wrapper.find(".proposal-status").classes()).toContain("votingperiod")
   })
 
   it(`should return status info for 'DepositPeriod' proposals`, () => {
-    wrapper.setProps({
-      proposal: {
-        ...proposal,
-        proposal_status: `DepositPeriod`
-      }
-    })
-    expect(wrapper.vm.status).toEqual({
-      badge: `Deposit Period`,
-      color: `orange`
-    })
-  })
-
-  it(`should return status info for an unknown proposal type`, () => {
-    wrapper.setProps({
-      proposal: {
-        ...proposal,
-        proposal_status: `Unknown`
-      }
-    })
-    expect(wrapper.vm.status).toEqual({
-      badge: `Error`,
-      color: `grey`
-    })
-  })
-
-  it(`should not truncate the description or add an ellipsis`, () => {
-    expect(wrapper.vm.description).toEqual(`Proposal description`)
-  })
-
-  it(`should truncate the description and add an ellipsis`, () => {
-    wrapper.setProps({
-      proposal: {
-        ...proposal,
-        proposal_content: {
-          value: {
-            description: `This is some kind of long description. longer than 200 characters for optimum-maximum-ideal truncation. This is some kind of long description. longer than 200 characters for optimum-maximum-ideal truncation.`
-          }
-        }
-      }
-    })
-    expect(wrapper.vm.description).toEqual(
-      `This is some kind of long description. longer than 200 characters for optimum-maximum-ideal truncation. This is some kind of long description. longer than 200 characters for optimum-maximum-ideal trun…`
+    wrapper.setProps({ proposal: proposalList[2] })
+    expect(wrapper.find(".proposal-status").classes()).toContain(
+      "depositperiod"
     )
   })
 
-  it(`should survive the tally result not being present yet`, () => {
-    const $store = {
-      commit: jest.fn(),
-      dispatch: jest.fn(),
-      state: {
-        proposals: {
-          tallies: {}
-        }
-      }
-    }
+  it(`should return status info for an unknown proposal type`, () => {
+    const unknownProposal = Object.assign({}, proposalList[3])
+    unknownProposal.proposal_status = "unknown"
+    wrapper.setProps({ proposal: unknownProposal })
+    const classes = wrapper.find(".proposal-status").classes()
 
-    wrapper = shallowMount(LiProposal, {
-      localVue,
-      mocks: {
-        $store
-      },
-      propsData: { proposal },
-      stubs: [`router-link`]
+    classes.forEach(className => {
+      expect([
+        "passed",
+        "rejected",
+        "votingperiod",
+        "depositperiod"
+      ]).not.toContain(className)
     })
+  })
 
-    expect(wrapper.element).toMatchSnapshot()
+  it(`should not truncate a short description or add an ellipsis`, () => {
+    wrapper.setProps({ proposal: proposalList[1] })
+    expect(
+      wrapper
+        .find(".li-proposal-description")
+        .text()
+        .slice(-1)
+    ).not.toBe("…")
+  })
+
+  it(`should truncate the description and add an ellipsis`, () => {
+    wrapper.setProps({ proposal: proposalList[3] })
+    expect(
+      wrapper
+        .find(".li-proposal-description")
+        .text()
+        .slice(-1)
+    ).toBe("…")
   })
 })
