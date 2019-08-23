@@ -45,11 +45,6 @@ module.exports = {
               process.env.GOOGLE_ANALYTICS_UID
             )
           }
-        }),
-        new BundleAnalyzerPlugin({
-          analyzerMode: "static",
-          openAnalyzer: false,
-          reportFilename: "bundle_sizes.html"
         })
       ]
     }
@@ -102,6 +97,10 @@ module.exports = {
 
   pluginOptions: {
     lintStyleOnBuild: false,
-    stylelint: {}
+    stylelint: {},
+    webpackBundleAnalyzer: {
+      openAnalyzer: false,
+      reportFilename: "bundle_sizes.html"
+    }
   }
 }
