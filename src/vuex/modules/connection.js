@@ -5,12 +5,12 @@ import config from "src/config"
 const NODE_HALTED_TIMEOUT = config.node_halted_timeout
 const MAX_CONNECTION_ATTEMPTS = 5
 
-export default function({ node }) {
+export default function ({ node }) {
   // get tendermint RPC client from basecoin client
 
   const state = {
     stopConnecting: false,
-    connected: false,
+    connected: true,
     lastHeader: {
       height: 0,
       chain_id: ``
@@ -55,6 +55,7 @@ export default function({ node }) {
       dispatch("connect")
     },
     async connect({ state, commit, dispatch }) {
+      return
       const {
         externals: { node },
         rpcUrl,
