@@ -9,45 +9,41 @@
     "
   >
     <td>
-      <span :class="status.color" class="proposal-status">
-        {{ status.badge }}
+      <span
+        :class="proposal.proposal_status | lowerCase"
+        class="proposal-status"
+      >
+        {{ proposal.proposal_status }}
       </span>
       <h3 class="li-proposal-title">
-        {{ proposal.proposal_content.value.title }}
+        {{ proposal.title }}
       </h3>
       <p class="li-proposal-description">
-        {{ description }}
+        {{ proposal.description | trim(200) }}
       </p>
       <router-link
         :to="`/proposals/` + proposal.proposal_id"
         class="read-more-link"
-        >Read the full proposal...</router-link
       >
+        Read the full proposal…
+      </router-link>
     </td>
   </tr>
 </template>
 
 <script>
-import { mapState } from "vuex"
-import { getProposalStatus } from "scripts/proposal-status"
 export default {
   name: `li-proposal`,
+  filters: {
+    trim: function(text, length) {
+      return text.length > length ? text.substring(0, length) + `…` : text
+    },
+    lowerCase: s => s.toLowerCase()
+  },
   props: {
     proposal: {
       type: Object,
       required: true
-    }
-  },
-  computed: {
-    ...mapState([`proposals`]),
-    status() {
-      return getProposalStatus(this.proposal)
-    },
-    description() {
-      const { description } = this.proposal.proposal_content.value
-      return description.length > 200
-        ? description.substring(0, 200) + `…`
-        : description.substring(0, 200)
     }
   }
 }
@@ -104,24 +100,26 @@ export default {
   border: 2px solid;
   padding: 2px 4px;
   border-radius: 0.25rem;
+  color: var(--grey);
+  border-color: var(--grey);
 }
 
-.proposal-status.red {
+.proposal-status.rejected {
   color: var(--danger);
   border-color: var(--danger);
 }
 
-.proposal-status.orange {
+.proposal-status.depositperiod {
   color: var(--warning);
   border-color: var(--warning);
 }
 
-.proposal-status.green {
+.proposal-status.passed {
   color: var(--success);
   border-color: var(--success);
 }
 
-.proposal-status.pink {
+.proposal-status.votingperiod {
   color: var(--tertiary);
   border-color: var(--tertiary);
 }

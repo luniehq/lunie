@@ -2,9 +2,9 @@
   <TmPage
     data-title="Proposals"
     :managed="true"
-    :loading="proposals.loading"
-    :loaded="proposals.loaded"
-    :error="proposals.error"
+    :loading="$apollo.queries.proposals.loading"
+    :loaded="!$apollo.queries.proposals.loading"
+    :error="$apollo.queries.proposals.error"
     :data-empty="proposals.length === 0"
     hide-header
   >
@@ -25,8 +25,8 @@
         />
       </div>
       <TableProposals
-        :proposals="proposals.proposals"
-        :loading="proposals.loading"
+        :proposals="proposals"
+        :loading="$apollo.queries.proposals.loading"
       />
     </template>
 
@@ -40,7 +40,9 @@ import TableProposals from "governance/TableProposals"
 import TmBtn from "common/TmBtn"
 import TmPage from "common/TmPage"
 import TmDataEmpty from "common/TmDataEmpty"
-import { mapState, mapGetters } from "vuex"
+import { mapGetters } from "vuex"
+import { allProposals, allProposalsUpdate } from "src/gql"
+
 export default {
   name: `tab-proposals`,
   components: {
@@ -50,16 +52,21 @@ export default {
     TmBtn,
     TmPage
   },
+  data: () => ({
+    proposals: []
+  }),
   computed: {
-    ...mapState([`proposals`]),
     ...mapGetters([`depositDenom`])
-  },
-  mounted() {
-    this.$store.dispatch(`getProposals`)
   },
   methods: {
     onPropose() {
       this.$refs.modalPropose.open()
+    }
+  },
+  apollo: {
+    proposals: {
+      query: allProposals,
+      update: allProposalsUpdate
     }
   }
 }
