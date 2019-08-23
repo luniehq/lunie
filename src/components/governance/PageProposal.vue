@@ -3,16 +3,12 @@
     <TmDataLoading v-if="!proposals.loaded || !governanceParameters.loaded" />
     <TmDataError v-else-if="!proposal" />
     <template v-else>
-      <div class="page-profile__header page-profile__section proposal">
+      <div class="proposal">
         <div class="page-profile__header__info">
           <span :class="status.color" class="proposal-status">
             {{ status.badge }}
           </span>
-          <div class="page-profile__status-and-title">
-            <h2 class="proposal-title">
-              {{ title }}
-            </h2>
-          </div>
+          <h2 class="proposal-title">{{ title }}</h2>
         </div>
         <div class="button-container">
           <TmBtn
@@ -31,91 +27,82 @@
             @click.native="() => onVote()"
           />
         </div>
-        <div class="row">
-          <div class="column">
-            <dl>
-              <TextBlock :content="description" />
-            </dl>
-          </div>
-        </div>
       </div>
 
-      <div class="page-profile__section">
-        <div class="row row-condensed">
-          <dl v-if="proposal.proposal_status === 'DepositPeriod'">
-            <dt>Deposit Count</dt>
-            <dd>
-              {{ totalDeposit ? totalDeposit.amount : `0` }}
-              /
-              {{
-                num.atoms(
-                  governanceParameters.parameters.deposit.min_deposit[0].amount
-                )
-              }}
-              {{ totalDeposit.denom }}
-            </dd>
-          </dl>
-        </div>
+      <TextBlock :content="description" />
 
-        <div
-          v-if="proposal.proposal_status !== `DepositPeriod`"
-          class="row row-condensed"
-        >
-          <dl>
-            <dt>Total Vote Count</dt>
-            <dd>
-              {{ totalVotePercentage }} /
-              {{ num.shortDecimals(num.atoms(totalVotes)) }}
-            </dd>
-          </dl>
-          <dl>
-            <dt>Yes</dt>
-            <dd>
-              {{ yesPercentage }} /
-              {{ num.shortDecimals(num.atoms(tally.yes)) }}
-            </dd>
-          </dl>
-          <dl>
-            <dt>No</dt>
-            <dd>
-              {{ noPercentage }} /
-              {{ num.shortDecimals(num.atoms(tally.no)) }}
-            </dd>
-          </dl>
-          <dl>
-            <dt>No with Veto</dt>
-            <dd>
-              {{ noWithVetoPercentage }} /
-              {{ num.shortDecimals(num.atoms(tally.no_with_veto)) }}
-            </dd>
-          </dl>
-          <dl>
-            <dt>Abstain</dt>
-            <dd>
-              {{ abstainPercentage }} /
-              {{ num.shortDecimals(num.atoms(tally.abstain)) }}
-            </dd>
-          </dl>
-        </div>
-        <div class="row row-condensed">
-          <dl>
-            <dt>Proposal ID</dt>
-            <dd>{{ proposal.proposal_id }}</dd>
-          </dl>
-          <dl>
-            <dt>Submitted</dt>
-            <dd>{{ submittedAgo }}</dd>
-          </dl>
-          <dl>
-            <dt>Voting Start Date</dt>
-            <dd>{{ votingStartedAgo }}</dd>
-          </dl>
-          <dl v-if="displayEndDate">
-            <dt>Voting End Date</dt>
-            <dd>{{ endDate }}</dd>
-          </dl>
-        </div>
-      </div>
+      <ul v-if="proposal.proposal_status === 'DepositPeriod'" class="row">
+        <li>
+          <h4>Deposit Count</h4>
+          <span>
+            {{ totalDeposit ? totalDeposit.amount : `0` }}
+            /
+            {{
+              num.atoms(
+                governanceParameters.parameters.deposit.min_deposit[0].amount
+              )
+            }}
+            {{ totalDeposit.denom }}
+          </span>
+        </li>
+      </ul>
+
+      <ul v-if="proposal.proposal_status !== `DepositPeriod`" class="row">
+        <li>
+          <h4>Total Vote Count</h4>
+          <span>
+            {{ totalVotePercentage }} /
+            {{ num.shortDecimals(num.atoms(totalVotes)) }}
+          </span>
+        </li>
+        <li>
+          <h4>Yes</h4>
+          <span>
+            {{ yesPercentage }} /
+            {{ num.shortDecimals(num.atoms(tally.yes)) }}
+          </span>
+        </li>
+        <li>
+          <h4>No</h4>
+          <span>
+            {{ noPercentage }} /
+            {{ num.shortDecimals(num.atoms(tally.no)) }}
+          </span>
+        </li>
+        <li>
+          <h4>No with Veto</h4>
+          <span>
+            {{ noWithVetoPercentage }} /
+            {{ num.shortDecimals(num.atoms(tally.no_with_veto)) }}
+          </span>
+        </li>
+        <li>
+          <h4>Abstain</h4>
+          <span>
+            {{ abstainPercentage }} /
+            {{ num.shortDecimals(num.atoms(tally.abstain)) }}
+          </span>
+        </li>
+      </ul>
+
+      <ul class="row">
+        <li>
+          <h4>Proposal ID</h4>
+          <span>{{ proposal.proposal_id }}</span>
+        </li>
+        <li>
+          <h4>Submitted</h4>
+          <span>{{ submittedAgo }}</span>
+        </li>
+        <li>
+          <h4>Voting Start Date</h4>
+          <span>{{ votingStartedAgo }}</span>
+        </li>
+        <li v-if="displayEndDate">
+          <h4>Voting End Date</h4>
+          <span>{{ endDate }}</span>
+        </li>
+      </ul>
 
       <ModalDeposit
         ref="modalDeposit"
@@ -287,6 +274,10 @@ export default {
   padding-top: 1rem;
 }
 
+.text-block {
+  padding: 0 1rem 3rem;
+}
+
 .button-container {
   display: flex;
   align-items: flex-end;
@@ -301,10 +292,6 @@ export default {
 
 .button-container button:first-child {
   margin-right: 0.5rem;
-}
-
-.row {
-  padding-top: 2rem;
 }
 
 @media screen and (max-width: 667px) {

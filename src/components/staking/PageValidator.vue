@@ -61,16 +61,16 @@
         />
       </div>
 
-      <div class="row">
-        <dl class="info_dl">
-          <dt>Description</dt>
-          <dd class="info_dl__text-box">
+      <ul class="row">
+        <li class="column">
+          <h4>Description</h4>
+          <span>
             {{ translateEmptyDescription(validator.description.details) }}
-          </dd>
-        </dl>
-        <dl class="info_dl">
-          <dt>Website</dt>
-          <dd v-if="website !== `--`">
+          </span>
+        </li>
+        <li class="column">
+          <h4>Website</h4>
+          <span v-if="website !== `--`">
             <a
               id="validator-website"
               :href="website"
@@ -78,75 +78,75 @@
               rel="nofollow noreferrer noopener"
               >{{ website }}</a
             >
-          </dd>
-          <dd v-else>
+          </span>
+          <span v-else>
             {{ website }}
-          </dd>
-        </dl>
-        <dl class="info_dl">
-          <dt>Validator Address</dt>
-          <dd>
+          </span>
+        </li>
+        <li class="column">
+          <h4>Validator Address</h4>
+          <span>
             <Bech32 :address="validator.operator_address" />
-          </dd>
-        </dl>
-      </div>
+          </span>
+        </li>
+      </ul>
 
-      <div class="row row-condensed">
-        <dl class="info_dl">
-          <dt>Rewards</dt>
-          <dd id="page-profile__rewards">
+      <ul class="row">
+        <li>
+          <h4>Rewards</h4>
+          <span id="page-profile__rewards">
             {{ percent(returns) }}
-          </dd>
-        </dl>
-        <dl class="info_dl">
-          <dt>Voting Power / Total Stake</dt>
-          <dd id="page-profile__power">
+          </span>
+        </li>
+        <li>
+          <h4>Voting Power / Total Stake</h4>
+          <span id="page-profile__power">
             {{ percent(powerRatio) }} /
             {{ shortDecimals(atoms(validator.tokens)) }}
-          </dd>
-        </dl>
-        <dl class="info_dl">
-          <dt>Self Stake</dt>
-          <dd id="page-profile__self-bond">
+          </span>
+        </li>
+        <li>
+          <h4>Self Stake</h4>
+          <span id="page-profile__self-bond">
             {{ selfBond }} / {{ selfBondAmount }}
-          </dd>
-        </dl>
-        <dl class="info_dl">
-          <dt>Validator Since</dt>
-          <dd>
+          </span>
+        </li>
+        <li>
+          <h4>Validator Since</h4>
+          <span>
             Block #{{
               validator.signing_info ? validator.signing_info.start_height : 0
             }}
-          </dd>
-        </dl>
-        <dl class="info_dl">
-          <dt>Uptime / Missed Blocks</dt>
-          <dd id="page-profile__uptime">
+          </span>
+        </li>
+        <li>
+          <h4>Uptime / Missed Blocks</h4>
+          <span id="page-profile__uptime">
             {{ uptime }} /
             {{
               validator.signing_info
                 ? validator.signing_info.missed_blocks_counter
                 : 0
             }}
-          </dd>
-        </dl>
-        <dl class="info_dl">
-          <dt>Current Commission Rate</dt>
-          <dd>{{ percent(validator.commission.rate) }}</dd>
-        </dl>
-        <dl class="info_dl">
-          <dt>Max Commission Rate</dt>
-          <dd>{{ percent(validator.commission.max_rate) }}</dd>
-        </dl>
-        <dl class="info_dl">
-          <dt>Max Daily Commission Change</dt>
-          <dd>{{ percent(validator.commission.max_change_rate) }}</dd>
-        </dl>
-        <dl class="info_dl">
-          <dt>Last Commission Change</dt>
-          <dd>{{ lastCommissionChange }}</dd>
-        </dl>
-      </div>
+          </span>
+        </li>
+        <li>
+          <h4>Current Commission Rate</h4>
+          <span>{{ percent(validator.commission.rate) }}</span>
+        </li>
+        <li>
+          <h4>Max Commission Rate</h4>
+          <span>{{ percent(validator.commission.max_rate) }}</span>
+        </li>
+        <li>
+          <h4>Max Daily Commission Change</h4>
+          <span>{{ percent(validator.commission.max_change_rate) }}</span>
+        </li>
+        <li>
+          <h4>Last Commission Change</h4>
+          <span>{{ lastCommissionChange }}</span>
+        </li>
+      </ul>
 
       <DelegationModal
         ref="delegationModal"
@@ -164,16 +164,12 @@
       />
     </template>
     <template v-else>
-      <template slot="title"
-        >Validator Not Found</template
-      >
-      <template slot="subtitle">
-        <div>
-          Please visit the
-          <router-link to="/validators/"> Validators </router-link>page to view
-          all validators
-        </div>
-      </template>
+      <div slot="title">Validator Not Found</div>
+      <div slot="subtitle">
+        Please visit the
+        <router-link to="/validators/"> Validators </router-link>page to view
+        all validators
+      </div>
     </template>
   </TmPage>
 </template>
@@ -473,11 +469,7 @@ export default {
   color: var(--success);
 }
 
-.row {
-  padding-top: 2rem;
-}
-
-dd {
+span {
   font-size: 12px;
   line-height: normal;
 }
@@ -536,16 +528,5 @@ dd {
   .button-container button {
     width: 50%;
   }
-}
-
-.row-condensed dl {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.row-condensed dl dd,
-.row-condensed dl dt {
-  font-size: 12px;
 }
 </style>

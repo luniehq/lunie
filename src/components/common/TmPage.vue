@@ -116,7 +116,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .tm-page {
   position: relative;
   width: 100%;
@@ -147,6 +147,7 @@ export default {
   display: flex;
   flex-direction: column;
   position: relative;
+  align-items: normal;
   width: 100%;
 }
 
@@ -154,12 +155,7 @@ export default {
   display: flex;
   flex-direction: column;
   width: 100%;
-}
-
-.row-unjustified {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
+  padding: 2rem 0 1rem;
 }
 
 .page-profile__section {
@@ -173,28 +169,31 @@ export default {
   font-weight: 500;
 }
 
-dl {
+li {
   width: 100%;
   padding: 1rem;
   border-bottom: 1px solid var(--bc-dim);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
-dl:last-child {
+li:last-child {
   border-bottom: none;
 }
 
-dt {
+h4 {
   color: var(--txt);
   font-size: var(--sm);
   margin-bottom: 2px;
   font-weight: 500;
 }
 
-dd {
-  font-size: 1rem;
-  font-weight: 400;
-  line-height: 1.25rem;
+.row span {
   color: var(--bright);
+  font-size: var(--sm);
+  font-weight: 400;
+  line-height: 1rem;
 }
 
 .footer {

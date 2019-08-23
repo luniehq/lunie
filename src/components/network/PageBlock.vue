@@ -2,53 +2,45 @@
   <TmPage data-title="Block" class="small" hide-header>
     <TmDataError v-if="!connected || !block" />
     <template v-else>
-      <div class="page-profile__header page-profile__section block">
-        <div class="row">
-          <div class="page-profile__header__info">
-            <div class="page-profile__status-and-title">
-              <h2 class="page-profile__title">
-                Block {{ blockTitle || `--` }}
-              </h2>
-            </div>
-          </div>
-        </div>
-
-        <div class="row row-condensed">
-          <dl class="info_dl">
-            <dt>Chain ID</dt>
-            <dd>{{ block.block_meta.header.chain_id }}</dd>
-          </dl>
-          <dl class="info_dl">
-            <dt>Time</dt>
-            <dd>{{ blockTime }}</dd>
-          </dl>
-        </div>
+      <div class="block">
+        <h2 class="page-profile__title">Block {{ blockTitle || `--` }}</h2>
       </div>
 
-      <div class="page-profile__section block">
-        <div class="row">
-          <div class="column">
-            <h3 v-if="block.transactions" class="page-profile__section-title">
-              Transactions ({{ block.block_meta.header.num_txs }})
-            </h3>
-            <TmDataMsg
-              v-if="transactions && transactions.length === 0"
-              icon="info_outline"
-            >
-              <div slot="title">
-                No Transactions
-              </div>
-              <div slot="subtitle">
-                This block doesn't contain any transactions.
-              </div>
-            </TmDataMsg>
-            <TransactionList
-              :transactions="transactions"
-              :address="session.address"
-              :validators="validators"
-            />
-            <br />
-          </div>
+      <ul class="row">
+        <li>
+          <h4>Chain ID</h4>
+          <span class="page-data">{{ block.block_meta.header.chain_id }}</span>
+        </li>
+        <li>
+          <h4>Time</h4>
+          <span class="page-data">{{ blockTime }}</span>
+        </li>
+      </ul>
+
+      <div class="row">
+        <div class="column">
+          <h3 v-if="block.transactions" class="page-profile__section-title">
+            Transactions ({{ block.block_meta.header.num_txs }})
+          </h3>
+
+          <TmDataMsg
+            v-if="transactions && transactions.length === 0"
+            icon="info_outline"
+          >
+            <div slot="title">
+              No Transactions
+            </div>
+            <div slot="subtitle">
+              This block doesn't contain any transactions.
+            </div>
+          </TmDataMsg>
+
+          <TransactionList
+            :transactions="transactions"
+            :address="session.address"
+            :validators="validators"
+          />
+          <br />
         </div>
       </div>
     </template>
