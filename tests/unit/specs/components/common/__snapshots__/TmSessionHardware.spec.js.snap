@@ -17,13 +17,17 @@ exports[`TmSessionHardware should show a state indicator for different states of
                 Please plug in your Ledger&nbsp;Nano and open the Cosmos Ledger
                 app
               </p>
-              <!----> <button class="tm-btn"><span class="tm-btn__container"><!----><span class="tm-btn__value">Sign In</span></span></button>
+              <!----> <button class="button">
+                Sign In
+              </button>
             </div> <img src="~assets/images/loader.svg" alt="a small spinning circle to display loading" style="display: none;">
           </div>
         </div>
       </div>
     </div>
-  </div> <button class="tm-btn session-close"><span class="tm-btn__container tm-btn--secondary"><!----><span class="tm-btn__value">Back to Lunie</span></span></button>
+  </div> <button class="button session-close" color="secondary">
+    Back to Lunie
+  </button>
 </div>
 `;
 
@@ -44,13 +48,17 @@ exports[`TmSessionHardware should show a state indicator for different states of
                 Please plug in your Ledger&nbsp;Nano and open the Cosmos Ledger
                 app
               </p>
-              <!----> <button class="tm-btn" disabled="disabled"><span class="tm-btn__container"><!----><span class="tm-btn__value">Waiting for Ledger</span></span></button>
+              <!----> <button class="button" disabled="disabled">
+                Waiting for Ledger
+              </button>
             </div> <img src="~assets/images/loader.svg" alt="a small spinning circle to display loading" style="">
           </div>
         </div>
       </div>
     </div>
-  </div> <button class="tm-btn session-close"><span class="tm-btn__container tm-btn--secondary"><!----><span class="tm-btn__value">Back to Lunie</span></span></button>
+  </div> <button class="button session-close" color="secondary">
+    Back to Lunie
+  </button>
 </div>
 `;
 
@@ -68,12 +76,16 @@ exports[`TmSessionHardware should show a state indicator for different states of
             <!---->
             <div class="tm-hardware-state__label">
               <!---->
-              <!----> <button class="tm-btn" disabled="disabled"><span class="tm-btn__container"><!----><!----></span></button></div> <img src="~assets/images/loader.svg" alt="a small spinning circle to display loading" style="">
+              <!----> <button class="button" disabled="disabled">
+
+              </button></div> <img src="~assets/images/loader.svg" alt="a small spinning circle to display loading" style="">
           </div>
         </div>
       </div>
     </div>
-  </div> <button class="tm-btn session-close"><span class="tm-btn__container tm-btn--secondary"><!----><span class="tm-btn__value">Back to Lunie</span></span></button>
+  </div> <button class="button session-close" color="secondary">
+    Back to Lunie
+  </button>
 </div>
 `;
 
@@ -144,18 +156,11 @@ exports[`TmSessionHardware shows the ledger conection view when there're errors 
               </p>
                
               <button
-                class="tm-btn"
+                class="button"
               >
-                <span
-                  class="tm-btn__container"
-                >
-                  <!---->
-                  <span
-                    class="tm-btn__value"
-                  >
-                    Sign In
-                  </span>
-                </span>
+                
+  Sign In
+
               </button>
             </div>
              
@@ -171,18 +176,12 @@ exports[`TmSessionHardware shows the ledger conection view when there're errors 
   </div>
    
   <button
-    class="tm-btn session-close"
+    class="button session-close"
+    color="secondary"
   >
-    <span
-      class="tm-btn__container tm-btn--secondary"
-    >
-      <!---->
-      <span
-        class="tm-btn__value"
-      >
-        Back to Lunie
-      </span>
-    </span>
+    
+  Back to Lunie
+
   </button>
 </div>
 `;
@@ -248,18 +247,11 @@ exports[`TmSessionHardware shows the ledger conection view with no errors 1`] = 
               <!---->
                
               <button
-                class="tm-btn"
+                class="button"
               >
-                <span
-                  class="tm-btn__container"
-                >
-                  <!---->
-                  <span
-                    class="tm-btn__value"
-                  >
-                    Sign In
-                  </span>
-                </span>
+                
+  Sign In
+
               </button>
             </div>
              
@@ -275,18 +267,12 @@ exports[`TmSessionHardware shows the ledger conection view with no errors 1`] = 
   </div>
    
   <button
-    class="tm-btn session-close"
+    class="button session-close"
+    color="secondary"
   >
-    <span
-      class="tm-btn__container tm-btn--secondary"
-    >
-      <!---->
-      <span
-        class="tm-btn__value"
-      >
-        Back to Lunie
-      </span>
-    </span>
+    
+  Back to Lunie
+
   </button>
 </div>
 `;

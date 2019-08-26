@@ -37,7 +37,7 @@ exports[`TmConnectedNetwork has the expected html structure 1`] = `
       id="tm-connected-network__icon"
     >
       <span
-        class="page-profile__status green"
+        class="tm-connected-network__status green"
       />
     </div>
      

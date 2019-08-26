@@ -73,7 +73,7 @@ describe(`DelegationModal`, () => {
   })
 
   it(`should display the delegation modal form`, async () => {
-    expect(wrapper.vm.$el).toMatchSnapshot()
+    expect(wrapper.element).toMatchSnapshot()
   })
 
   it(`should submit when enterPressed is called`, async () => {

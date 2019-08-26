@@ -49,6 +49,8 @@ export default ({ node }) => {
       commit(`setWalletAddress`, address)
       dispatch(`queryWalletBalances`)
       dispatch(`walletSubscribe`)
+      await dispatch(`getBondedDelegates`) // TODO move away
+      dispatch(`getRewardsFromMyValidators`) // TODO move away
     },
     resetSessionData({ rootState }) {
       // clear previous account state
@@ -84,7 +86,8 @@ export default ({ node }) => {
           if (rootState.connection.lastHeader.height < height) return
           clearInterval(interval)
           dispatch(`queryWalletBalances`)
-          dispatch(`updateDelegates`, true)
+          dispatch(`getBondedDelegates`) // TODO move away
+          dispatch(`getRewardsFromMyValidators`) // TODO move away
           resolve()
         }, 1000)
       })

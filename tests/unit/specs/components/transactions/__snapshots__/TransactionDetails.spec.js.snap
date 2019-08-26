@@ -56,7 +56,7 @@ exports[`TransactionDetails renders MsgBeginRedelegate transaction item 1`] = `
         </b>
          
         <span>
-          ATOM
+           ATOM
         </span>
       </p>
     </div>
@@ -190,9 +190,7 @@ exports[`TransactionDetails renders MsgDelegate transaction item 1`] = `
     <div
       class="tx__content__caption"
     >
-      <p
-        class="tx__content__caption__title"
-      >
+      <p>
         
       Delegated
       
@@ -201,7 +199,7 @@ exports[`TransactionDetails renders MsgDelegate transaction item 1`] = `
         </b>
          
         <span>
-          ATOM
+           ATOM
         </span>
       </p>
     </div>
@@ -263,9 +261,7 @@ exports[`TransactionDetails renders MsgDeposit transaction item 1`] = `
     <div
       class="tx__content__caption"
     >
-      <p
-        class="tx__content__caption__title"
-      >
+      <p>
         
       Deposited
       
@@ -421,7 +417,6 @@ exports[`TransactionDetails renders MsgSend transaction item from other to you 1
       >
         <div
           class="address"
-          id="address"
         >
           
     cosmos…1212
@@ -436,9 +431,6 @@ exports[`TransactionDetails renders MsgSend transaction item from other to you 1
           >
             check
           </i>
-          <span>
-            Copied
-          </span>
         </div>
       </div>
        
@@ -514,7 +506,6 @@ exports[`TransactionDetails renders MsgSend transaction item from session user t
       >
         <div
           class="address"
-          id="address"
         >
           
     cosmos…sdas
@@ -529,9 +520,6 @@ exports[`TransactionDetails renders MsgSend transaction item from session user t
           >
             check
           </i>
-          <span>
-            Copied
-          </span>
         </div>
       </div>
        
@@ -672,7 +660,6 @@ exports[`TransactionDetails renders MsgSend transaction item unrelated to sessio
       >
         <div
           class="address"
-          id="address"
         >
           
     cosmos…dlkj
@@ -687,9 +674,6 @@ exports[`TransactionDetails renders MsgSend transaction item unrelated to sessio
           >
             check
           </i>
-          <span>
-            Copied
-          </span>
         </div>
       </div>
        to 
@@ -699,7 +683,6 @@ exports[`TransactionDetails renders MsgSend transaction item unrelated to sessio
       >
         <div
           class="address"
-          id="address"
         >
           
     cosmos…dlkj
@@ -714,9 +697,6 @@ exports[`TransactionDetails renders MsgSend transaction item unrelated to sessio
           >
             check
           </i>
-          <span>
-            Copied
-          </span>
         </div>
       </div>
        
@@ -958,15 +938,13 @@ exports[`TransactionDetails renders MsgUndelegate transaction item 1`] = `
         </b>
          
         <span>
-          ATOM
+           ATOM
         </span>
          
         <span
           class="tx-unbonding__time-diff"
         >
-          
-        (liquid in 50 years)
-      
+           (liquid in 50 years)
         </span>
       </p>
     </div>

@@ -19,5 +19,6 @@ export default {
   version: process.env.RELEASE,
 
   // Ledger
-  CosmosAppTestModeAllowed: false
+  CosmosAppTestModeAllowed: false,
+  mobileApp: Boolean(process.env.MOBILE_APP)
 }

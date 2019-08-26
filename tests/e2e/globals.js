@@ -55,7 +55,7 @@ module.exports = {
       return true
     }, [])
 
-    browser.resizeWindow(1920, 1080)
+    browser.resizeWindow(1350, 1080)
     browser.refresh()
     done()
   },

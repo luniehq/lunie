@@ -2,7 +2,9 @@
   <TmPage data-title="Terms" hide-header>
     <div class="card">
       <h1>Terms of Service</h1>
-      <p class="c3">Effective Date: March 28, 2019</p>
+      <p class="c3">
+        Effective Date: March 28, 2019
+      </p>
       <p class="c3">
         These Terms of Service (the &ldquo;Terms&rdquo; or this
         &ldquo;Agreement&rdquo;) apply to the &ldquo;universal wallet&rdquo;
@@ -59,7 +61,9 @@
         SERVICES.
       </p>
       <ol class="c5 lst-kix_list_7-0 start" start="1">
-        <li class="c2">Changes to Terms</li>
+        <li class="c2">
+          Changes to Terms
+        </li>
         <p class="c3">
           We reserve the right to change or modify these Terms on a going
           forward basis at any time and in our sole discretion, so please review
@@ -74,7 +78,9 @@
           terms and conditions that apply to your access to, and use of, Lunie
           and the Services.
         </p>
-        <li class="c2">Account</li>
+        <li class="c2">
+          Account
+        </li>
         <p class="c3">
           You may be required to create an account (&ldquo;Account&rdquo;) to
           use certain features of Lunie and/or the Services. When you create an
@@ -126,7 +132,9 @@
           to us that you are authorized to agree to these Terms on behalf of the
           business.
         </p>
-        <li class="c2">Services</li>
+        <li class="c2">
+          Services
+        </li>
         <p class="c3">
           Lunie and the Services provide software tools for users to access and
           manage various features and functions related to digital assets
@@ -184,7 +192,9 @@
             intellectual property rights that may be part of Lunie or the
             Services; or
           </li>
-          <li class="c3 c6">Scrape data or code from Lunie or the Services.</li>
+          <li class="c3 c6">
+            Scrape data or code from Lunie or the Services.
+          </li>
         </ul>
         <p class="c3">
           <span
@@ -209,7 +219,9 @@
           (b) our termination of your Account in accordance with the terms of
           this Agreement.
         </p>
-        <li class="c2">Using the Services</li>
+        <li class="c2">
+          Using the Services
+        </li>
         <p class="c3">
           You are responsible for the software, Device and other hardware,
           Internet service and mobile data service (and all associated fees)
@@ -285,7 +297,9 @@
           communications, blockchain network congestion or network issues, all
           of which are outside of our control.
         </p>
-        <li class="c2">Restrictions on Use of Lunie and Services</li>
+        <li class="c2">
+          Restrictions on Use of Lunie and Services
+        </li>
         <p class="c3">
           You may use the Services for lawful, non-commercial purposes only. You
           agree that you willnot(and you agree not to encourage or allow any
@@ -339,7 +353,9 @@
             aspect of Lunie or the Services or otherwise interfere with
             others&rsquo; use and enjoyment of Lunie or the Services;
           </li>
-          <li class="c3 c6">Create an Account under fraudulent pretenses;</li>
+          <li class="c3 c6">
+            Create an Account under fraudulent pretenses;
+          </li>
           <li class="c3 c6">
             Engage in obscene, threatening, harassing, defamatory, libelous,
             deceptive, fraudulent, hateful, violent, abusive, pornographic or
@@ -356,7 +372,9 @@
             from anywhere other than a Permitted Region, as defined herein.
           </li>
         </ul>
-        <li class="c2">Communication</li>
+        <li class="c2">
+          Communication
+        </li>
         <p class="c3">
           By using the Services and accessing Lunie you consent to receiving
           electronic communications from us regarding your Account. These
@@ -394,7 +412,9 @@
           &ldquo;STOP&rdquo; on any texts. Please review our Privacy Policy for
           further detail on communications.
         </p>
-        <li class="c2">Modification to Lunie And Services</li>
+        <li class="c2">
+          Modification to Lunie And Services
+        </li>
         <p class="c3">
           We may from time to time perform upgrades, updates, bug fixes, or
           error corrections to Lunie or the Services (&ldquo;Updates&rdquo;) or
@@ -449,7 +469,9 @@
             By using Lunie, you agree to such automatic updating</span
           ><span class="c1">.</span>
         </p>
-        <li class="c2">Rules of Conduct</li>
+        <li class="c2">
+          Rules of Conduct
+        </li>
         <p class="c3">
           Your online conduct and interaction with others who use Lunie and/or
           the Services must comply with the rules of conduct set forth below and
@@ -467,7 +489,9 @@
           not:
         </p>
         <ul class="lst-kix_list_2-0 start">
-          <li class="c3 c6">Violate any law, rule or regulation.</li>
+          <li class="c3 c6">
+            Violate any law, rule or regulation.
+          </li>
           <li class="c3 c6">
             Promote, encourage or assist any person in violating any law, rule
             or regulation.
@@ -574,7 +598,9 @@
           please report this activity to us by contacting Customer Support at
           support@lunie.io.
         </p>
-        <li class="c2">Links to Other Websites and Services</li>
+        <li class="c2">
+          Links to Other Websites and Services
+        </li>
         <p class="c3">
           The Services also may contain links to other websites or online
           services that we think may interest you (collectively, &ldquo;Linked
@@ -588,7 +614,9 @@
           to Linked Services for your convenience only. You access Linked
           Services at your own risk.
         </p>
-        <li class="c2">Disclaimers</li>
+        <li class="c2">
+          Disclaimers
+        </li>
         <p class="c3">
           Using Digital Assets-related software, applications and services
           necessarily entails many risks. We specifically disclaim and have no
@@ -670,7 +698,9 @@
           OF A CONSUMER, SO SOME OR ALL OF THE ABOVE EXCLUSIONS AND LIMITATIONS
           MAY NOT APPLY TO YOU.
         </p>
-        <li class="c2">Indemnification</li>
+        <li class="c2">
+          Indemnification
+        </li>
         <p id="h.3znysh7" class="c3">
           <span
             >You agree to indemnify, defend and hold Lunie and the Lunie
@@ -685,7 +715,9 @@
           a third-party, or any such violation by others you authorized to use
           your Lunie Account.
         </p>
-        <li class="c2">Notice to California Residents</li>
+        <li class="c2">
+          Notice to California Residents
+        </li>
         <p class="c3">
           BY USING THE SERVICES, YOU WAIVE YOUR RIGHTS WITH RESPECT TO
           CALIFORNIA CIVIL CODE SECTION 1542, WHICH SAYS &ldquo;A GENERAL
@@ -709,7 +741,9 @@
           >of the Services by sending a letter to the attention of
           terms@lunie.io.
         </p>
-        <li class="c2">Limitation of Liability</li>
+        <li class="c2">
+          Limitation of Liability
+        </li>
         <p class="c3">
           <span>UNDER NO CIRCUMSTANCES SHALL ANY LUNIE PARTY</span>OR ANY OF
           THEIR DIRECTORS, OFFICERS, AGENTS OR EMPLOYEES BE LIABLE TO YOU OR
@@ -754,7 +788,9 @@
           CERTAIN LIMITATIONS OF LIABILITY SO SOME OR ALL OF THE ABOVE
           LIMITATIONS OF LIABILITY MAY NOT APPLY TO YOU
         </p>
-        <li class="c2">Electronic Signature</li>
+        <li class="c2">
+          Electronic Signature
+        </li>
         <p class="c3">
           You agree that your electronicsignatureto these Terms (including
           checking a box to confirm that you have read, understood and agree to
@@ -765,7 +801,9 @@
           executed and adopted by either party with the intent to sign these
           Terms.
         </p>
-        <li class="c2">Geographic Restrictions</li>
+        <li class="c2">
+          Geographic Restrictions
+        </li>
         <p class="c3">
           The Services are based in the province of Ontario, Canada and our
           servers are hosted by Amazon Web Services in the United States. The
@@ -778,7 +816,9 @@
           If you access Lunie or the Services from outside a Permitted Region,
           you are responsible for compliance with local laws.
         </p>
-        <li class="c2">Dispute resolution</li>
+        <li class="c2">
+          Dispute resolution
+        </li>
         <p class="c3">
           PLEASE READ THE FOLLOWING SECTION CAREFULLY BECAUSE IT REQUIRES YOU TO
           SUBMIT TO BINDING ARBITRATION (JURY TRIAL WAIVER) OF ANY AND ALL
@@ -788,7 +828,9 @@
           LUNIE (NO CLASS ARBITRATIONS, CLASS ACTIONS OR REPRESENTATIVE ACTIONS
           OR ARBITRATIONS).
         </p>
-        <p class="c3">Binding Arbitration; Disputes; Small Claims.</p>
+        <p class="c3">
+          Binding Arbitration; Disputes; Small Claims.
+        </p>
         <p class="c3">
           You and Lunie agree to waive any right to a jury trial, or the right
           to have any Dispute resolved in any court, and instead accept the use
@@ -837,7 +879,9 @@
           ANY RELIEF AWARDED CANNOT AFFECT OTHER USERS OF THE LUNIE SERVICE OR
           LUNIE.
         </p>
-        <p class="c3">Pre-Arbitration Dispute Resolution.</p>
+        <p class="c3">
+          Pre-Arbitration Dispute Resolution.
+        </p>
         <p class="c3">
           <span
             >We are interested in resolving disputes amicably. So, before you
@@ -855,7 +899,9 @@
             Dispute terms@lunie.io.</span
           >
         </p>
-        <p class="c3">Time for filing Claims</p>
+        <p class="c3">
+          Time for filing Claims
+        </p>
         <p class="c3">
           You agree that regardless of any statute or law to the contrary, any
           claim or cause of action arising out of or related to use of Lunie,
@@ -863,7 +909,9 @@
           filed within one year after such claim or cause of action arose or be
           forever barred.
         </p>
-        <p class="c3">Arbitration Services and Rules.</p>
+        <p class="c3">
+          Arbitration Services and Rules.
+        </p>
         <p class="c3">
           <span
             >Arbitration will be conducted by a neutral arbitrator in accordance
@@ -914,7 +962,9 @@
           use of the Services and/or Lunie to the extent required by applicable
           law.
         </p>
-        <p class="c3">Costs of Arbitration.</p>
+        <p class="c3">
+          Costs of Arbitration.
+        </p>
         <p class="c3">
           Payment of all filing, administration, and arbitrator fees
           (collectively, the &ldquo;Arbitration Fees&rdquo;) will be governed by
@@ -927,13 +977,17 @@
           your behalf that you otherwise would be obligated to pay under the
           JAMS rules.
         </p>
-        <p class="c3">Confidentiality.</p>
+        <p class="c3">
+          Confidentiality.
+        </p>
         <p class="c3">
           All aspects of the arbitration proceeding, and any ruling, decision or
           award by the arbitrator, will be strictly confidential for the benefit
           of all parties.
         </p>
-        <p class="c3">Severability.</p>
+        <p class="c3">
+          Severability.
+        </p>
         <p class="c3">
           If a court decides that any term or provision of this Arbitration
           Agreement other than the section entitled &ldquo;Prohibition of Class
@@ -949,7 +1003,9 @@
           Agreement shall be null and void. The remainder of these Terms will
           continue to apply.
         </p>
-        <p class="c3">Future Changes to this Arbitration Agreement.</p>
+        <p class="c3">
+          Future Changes to this Arbitration Agreement.
+        </p>
         <p class="c3">
           <span
             >Notwithstanding any provision in these Terms to the contrary, you
@@ -965,7 +1021,9 @@
           effective as to any claim that was filed in a legal proceeding against
           us prior to the effective date of removal.
         </p>
-        <li class="c2">Privacy Policy</li>
+        <li class="c2">
+          Privacy Policy
+        </li>
         <p class="c3">
           The terms on which we process any personal information that we collect
           from you or that you provide to us are described in our Privacy
@@ -991,7 +1049,9 @@
           the accuracy of any third-party&rsquo;s privacy policy or for ensuring
           that third-parties comply with their privacy policies.
         </p>
-        <li class="c2">Submissions/User Generated Content</li>
+        <li class="c2">
+          Submissions/User Generated Content
+        </li>
         <p class="c3">
           We may from time to time offer areas in the Services where you and
           other users can share with us or other user&rsquo;s suggestions, ideas
@@ -1061,7 +1121,9 @@
             Services without further notice, attribution or compensation to you.
           </span>
         </p>
-        <li class="c2">Feedback</li>
+        <li class="c2">
+          Feedback
+        </li>
         <p class="c3">
           Separate and apart from UGC, you may submit questions, comments,
           suggestions, ideas, plans, notes, drawings, original or creative
@@ -1073,7 +1135,9 @@
           Feedback in any way it may choose without any obligation to you or any
           third-party.
         </p>
-        <li class="c2">Notice of Copyright Infringement</li>
+        <li class="c2">
+          Notice of Copyright Infringement
+        </li>
         <p class="c3">
           <span
             >If you are a copyright owner or an agent thereof and believe that
@@ -1131,7 +1195,9 @@
           to comply with all of the requirements of these Terms, your DMCA
           notice may not be valid.
         </p>
-        <p class="c3">Counter-Notice.</p>
+        <p class="c3">
+          Counter-Notice.
+        </p>
         <p class="c3">
           <span
             >If you believe that your UGC that was removed (or to which access
@@ -1143,7 +1209,9 @@
           >
         </p>
         <ul class="lst-kix_list_6-0">
-          <li class="c3 c6">Your physical or electronic signature;</li>
+          <li class="c3 c6">
+            Your physical or electronic signature;
+          </li>
           <li class="c3 c6">
             Identification of the UGC that has been removed or to which access
             has been disabled and the location at which the UGC appeared before
@@ -1172,7 +1240,9 @@
           fourteen (14) business days or more after receipt of the
           counter-notice, at our sole discretion.
         </p>
-        <li class="c2">Termination</li>
+        <li class="c2">
+          Termination
+        </li>
         <p id="h.tyjcwt" class="c3">
           This Agreement is effective until terminated by you or us. We may
           terminate your access and use of Lunie and/or Services and/or your
@@ -1203,7 +1273,9 @@
           its terms intended to survive termination shall survive termination of
           these Terms.
         </p>
-        <li class="c2">General Terms</li>
+        <li class="c2">
+          General Terms
+        </li>
         <ul class="lst-kix_list_17-0 start">
           <li class="c3 c6">
             These Terms control the relationship between Lunie and you. They do
@@ -1286,7 +1358,9 @@
             from doing business under applicable export control laws.
           </li>
         </ul>
-        <li class="c2">Contact Us</li>
+        <li class="c2">
+          Contact Us
+        </li>
       </ol>
       <p class="c3">
         If you have any questions, comments or concerns regarding our Privacy

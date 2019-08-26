@@ -4,7 +4,7 @@
       <div id="tm-connected-network__icon" class="tm-connected-network__icon">
         <span
           v-tooltip.top="`Network is up and running`"
-          class="page-profile__status green"
+          class="tm-connected-network__status green"
         />
       </div>
       <div
@@ -60,8 +60,9 @@ export default {
     networkTooltip({ connected, nodeUrl, lastHeader } = this) {
       if (connected) {
         return `You're connected to ${lastHeader.chain_id} via ${nodeUrl}.`
+      } else {
+        return `Seeking connection`
       }
-      return `Seeking connection`
     },
     blockHeight({ num, lastHeader } = this) {
       return `#` + num.prettyInt(lastHeader.height)
@@ -70,10 +71,9 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .tm-connected-network {
   align-items: center;
-  background: var(--app-fg);
   border-radius: 0.25rem;
   color: var(--dim);
   display: flex;
@@ -91,7 +91,6 @@ export default {
 .tm-connected-network .chain-id {
   font-weight: 500;
   padding-right: 1rem;
-  background: none !important;
 }
 
 .tm-connected-network .exit {
@@ -131,5 +130,12 @@ export default {
   height: 1rem;
   margin-right: 0.5rem;
   width: 1rem;
+}
+
+.tm-connected-network__status {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--success);
 }
 </style>

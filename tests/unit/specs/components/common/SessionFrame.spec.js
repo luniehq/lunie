@@ -16,7 +16,7 @@ describe(`SessionFrame`, () => {
   })
 
   it(`shows an overview of all wallets to sign in with from the extension`, () => {
-    expect(wrapper.vm.$el).toMatchSnapshot()
+    expect(wrapper.element).toMatchSnapshot()
   })
 
   it(`should go back to Welcome when back arrow is clicked`, () => {

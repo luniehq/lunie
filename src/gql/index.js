@@ -1,3 +1,5 @@
+/* istanbul ignore file */
+
 import gql from "graphql-tag"
 
 export const ValidatorProfile = gql`
@@ -15,4 +17,5 @@ export const ValidatorProfile = gql`
   }
 `
 
-export const validatorProfileResultUpdate = data => data.validatorProfiles[0]
+export const validatorProfileResultUpdate = data =>
+  data.validatorProfiles ? data.validatorProfiles[0] : undefined

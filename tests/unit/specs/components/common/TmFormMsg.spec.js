@@ -112,7 +112,7 @@ describe(`TmFormMsg`, () => {
   })
 
   it(`has the expected html structure`, () => {
-    expect(wrapper.vm.$el).toMatchSnapshot()
+    expect(wrapper.element).toMatchSnapshot()
   })
 
   for (let i = 0; i < propsData.length; i++) {

@@ -13,6 +13,7 @@ const commitHash = require(`child_process`)
   .trim()
 
 module.exports = {
+  publicPath: ``,
   configureWebpack: () => {
     const config = {
       resolve: {
@@ -22,9 +23,10 @@ module.exports = {
           assets: resolve(`src/assets`),
           scripts: resolve(`src/scripts`),
           common: resolve(`src/components/common`),
-          transactions: resolve(`src/components/transactions`),
-          govern: resolve(`src/components/govern`),
+          governance: resolve(`src/components/governance`),
+          network: resolve(`src/components/network`),
           staking: resolve(`src/components/staking`),
+          transactions: resolve(`src/components/transactions`),
           wallet: resolve(`src/components/wallet`),
           test: resolve(`test`)
         },

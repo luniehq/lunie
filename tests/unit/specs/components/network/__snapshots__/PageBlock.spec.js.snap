@@ -2,77 +2,73 @@
 
 exports[`PageBlock shows a page with information about a certain block 1`] = `
 <tmpage-stub
+  class="small"
   data-title="Block"
+  hideheader="true"
   subtitle=""
   title=""
 >
   <div
-    class="page-profile__header page-profile__section block"
+    class="block"
   >
-    <div
-      class="row"
+    <h2
+      class="page-profile__title"
     >
-      <div
-        class="page-profile__header__info"
-      >
-        <div
-          class="page-profile__status-and-title"
-        >
-          <h2
-            class="page-profile__title"
-          >
-            
-              Block #100
-            
-          </h2>
-        </div>
-      </div>
-    </div>
-     
-    <div
-      class="row"
-    >
-      <dl
-        class="info_dl colored_dl"
-      >
-        <dt>
-          Time
-        </dt>
-         
-        <dd>
-          Jan 1st 1970, 00:00:42
-        </dd>
-      </dl>
-    </div>
+      Block #100
+    </h2>
   </div>
    
+  <ul
+    class="row"
+  >
+    <li>
+      <h4>
+        Chain ID
+      </h4>
+       
+      <span
+        class="page-data"
+      >
+        chain-1
+      </span>
+    </li>
+     
+    <li>
+      <h4>
+        Time
+      </h4>
+       
+      <span
+        class="page-data"
+      >
+        January 1st 1970, 00:00
+      </span>
+    </li>
+  </ul>
+   
   <div
-    class="page-profile__section block"
+    class="row"
   >
     <div
-      class="row"
+      class="column"
     >
-      <div
-        class="column"
+      <h3
+        class="page-profile__section-title"
       >
-        <h3
-          class="page-profile__section-title"
-        >
-          
-            Transactions
-          
-        </h3>
-         
-        <!---->
-         
-        <transactionlist-stub
-          address=""
-          transactions="[object Object],[object Object],[object Object]"
-          validators="[object Object]"
-        />
-         
-        <br />
-      </div>
+        
+          Transactions (10)
+        
+      </h3>
+       
+      <!---->
+       
+      <transactionlist-stub
+        address=""
+        transactions="[object Object],[object Object],[object Object]"
+        validators="[object Object]"
+      />
+       
+      <br />
     </div>
   </div>
 </tmpage-stub>
@@ -80,89 +76,87 @@ exports[`PageBlock shows a page with information about a certain block 1`] = `
 
 exports[`PageBlock shows the block page with no txs 1`] = `
 <tmpage-stub
+  class="small"
   data-title="Block"
+  hideheader="true"
   subtitle=""
   title=""
 >
   <div
-    class="page-profile__header page-profile__section block"
+    class="block"
   >
-    <div
-      class="row"
+    <h2
+      class="page-profile__title"
     >
-      <div
-        class="page-profile__header__info"
-      >
-        <div
-          class="page-profile__status-and-title"
-        >
-          <h2
-            class="page-profile__title"
-          >
-            
-              Block #100
-            
-          </h2>
-        </div>
-      </div>
-    </div>
-     
-    <div
-      class="row"
-    >
-      <dl
-        class="info_dl colored_dl"
-      >
-        <dt>
-          Time
-        </dt>
-         
-        <dd>
-          Jan 1st 1970, 00:00:42
-        </dd>
-      </dl>
-    </div>
+      Block #100
+    </h2>
   </div>
    
+  <ul
+    class="row"
+  >
+    <li>
+      <h4>
+        Chain ID
+      </h4>
+       
+      <span
+        class="page-data"
+      >
+        chain-1
+      </span>
+    </li>
+     
+    <li>
+      <h4>
+        Time
+      </h4>
+       
+      <span
+        class="page-data"
+      >
+        January 1st 1970, 00:00
+      </span>
+    </li>
+  </ul>
+   
   <div
-    class="page-profile__section block"
+    class="row"
   >
     <div
-      class="row"
+      class="column"
     >
-      <div
-        class="column"
+      <h3
+        class="page-profile__section-title"
       >
-        <h3
-          class="page-profile__section-title"
-        >
+        
+          Transactions ()
+        
+      </h3>
+       
+      <tmdatamsg-stub
+        icon="info_outline"
+      >
+        <div>
           
-            Transactions
-          
-        </h3>
-         
-        <tmdatamsg-stub
-          icon="info_outline"
-        >
-          <div>
             No Transactions
-          </div>
-           
-          <div>
-            
-              This block doesn't contain any transactions.
-            
-          </div>
-        </tmdatamsg-stub>
+          
+        </div>
          
-        <transactionlist-stub
-          address=""
-          transactions=""
-          validators="[object Object]"
-        />
-         
-        <br />
-      </div>
+        <div>
+          
+            This block doesn't contain any transactions.
+          
+        </div>
+      </tmdatamsg-stub>
+       
+      <transactionlist-stub
+        address=""
+        transactions=""
+        validators="[object Object]"
+      />
+       
+      <br />
     </div>
   </div>
 </tmpage-stub>
@@ -170,89 +164,81 @@ exports[`PageBlock shows the block page with no txs 1`] = `
 
 exports[`PageBlock shows the page when the block hasn't been loaded yet 1`] = `
 <tmpage-stub
+  class="small"
   data-title="Block"
+  hideheader="true"
   subtitle=""
   title=""
 >
   <div
-    class="page-profile__header page-profile__section block"
+    class="block"
   >
-    <div
-      class="row"
+    <h2
+      class="page-profile__title"
     >
-      <div
-        class="page-profile__header__info"
-      >
-        <div
-          class="page-profile__status-and-title"
-        >
-          <h2
-            class="page-profile__title"
-          >
-            
-              Block --
-            
-          </h2>
-        </div>
-      </div>
-    </div>
-     
-    <div
-      class="row"
-    >
-      <dl
-        class="info_dl colored_dl"
-      >
-        <dt>
-          Time
-        </dt>
-         
-        <dd>
-          --
-        </dd>
-      </dl>
-    </div>
+      Block --
+    </h2>
   </div>
    
+  <ul
+    class="row"
+  >
+    <li>
+      <h4>
+        Chain ID
+      </h4>
+       
+      <span
+        class="page-data"
+      >
+        
+      </span>
+    </li>
+     
+    <li>
+      <h4>
+        Time
+      </h4>
+       
+      <span
+        class="page-data"
+      >
+        --
+      </span>
+    </li>
+  </ul>
+   
   <div
-    class="page-profile__section block"
+    class="row"
   >
     <div
-      class="row"
+      class="column"
     >
-      <div
-        class="column"
+      <!---->
+       
+      <tmdatamsg-stub
+        icon="info_outline"
       >
-        <h3
-          class="page-profile__section-title"
-        >
+        <div>
           
-            Transactions
-          
-        </h3>
-         
-        <tmdatamsg-stub
-          icon="info_outline"
-        >
-          <div>
             No Transactions
-          </div>
-           
-          <div>
-            
-              This block doesn't contain any transactions.
-            
-          </div>
-        </tmdatamsg-stub>
+          
+        </div>
          
-        <transactionlist-stub
-          address=""
-          transactions=""
-          validators="[object Object]"
-        />
-         
-        <br />
-      </div>
+        <div>
+          
+            This block doesn't contain any transactions.
+          
+        </div>
+      </tmdatamsg-stub>
+       
+      <transactionlist-stub
+        address=""
+        transactions=""
+        validators="[object Object]"
+      />
+       
+      <br />
     </div>
   </div>
 </tmpage-stub>

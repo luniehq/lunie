@@ -23,9 +23,7 @@ exports[`ActionModal should show the action modal on success 1`] = `
     <span
       class="action-modal-title"
     >
-      
-        Action Modal
-      
+      Action Modal
     </span>
      
     <!---->
@@ -45,11 +43,12 @@ exports[`ActionModal should show the action modal on success 1`] = `
        
       <div>
         
-          You have successfully completed a transaction. 
+          You have successfully completed a transaction.
+          
         <br />
+         
         <br />
-        
-          Block
+        Block
           
         <router-link-stub
           to="/blocks/undefined"
@@ -95,9 +94,7 @@ exports[`ActionModal should show the action modal waiting on inclusion 1`] = `
     <span
       class="action-modal-title"
     >
-      
-        Action Modal
-      
+      Action Modal
     </span>
      
     <!---->
@@ -138,9 +135,7 @@ exports[`ActionModal should show the action modal when user has logged in with e
     <span
       class="action-modal-title"
     >
-      
-        Action Modal
-      
+      Action Modal
     </span>
      
     <steps-stub
@@ -205,9 +200,7 @@ exports[`ActionModal should show the action modal when user has logged in with e
     <span
       class="action-modal-title"
     >
-      
-        Action Modal
-      
+      Action Modal
     </span>
      
     <steps-stub
@@ -294,9 +287,7 @@ exports[`ActionModal should show the action modal when user has logged in with e
     <span
       class="action-modal-title"
     >
-      
-        Action Modal
-      
+      Action Modal
     </span>
      
     <steps-stub
@@ -383,9 +374,7 @@ exports[`ActionModal should show the action modal when user has logged in with e
     <span
       class="action-modal-title"
     >
-      
-        Action Modal
-      
+      Action Modal
     </span>
      
     <steps-stub
@@ -450,9 +439,7 @@ exports[`ActionModal should show the action modal when user has logged in with e
     <span
       class="action-modal-title"
     >
-      
-        Action Modal
-      
+      Action Modal
     </span>
      
     <steps-stub
@@ -527,9 +514,7 @@ exports[`ActionModal should show the action modal when user has logged in with e
     <span
       class="action-modal-title"
     >
-      
-        Action Modal
-      
+      Action Modal
     </span>
      
     <steps-stub
@@ -605,9 +590,7 @@ exports[`ActionModal should show the action modal when user has logged in with l
     <span
       class="action-modal-title"
     >
-      
-        Action Modal
-      
+      Action Modal
     </span>
      
     <steps-stub
@@ -672,9 +655,7 @@ exports[`ActionModal should show the action modal when user has logged in with l
     <span
       class="action-modal-title"
     >
-      
-        Action Modal
-      
+      Action Modal
     </span>
      
     <steps-stub
@@ -745,9 +726,7 @@ exports[`ActionModal should show the action modal when user has logged in with l
     <span
       class="action-modal-title"
     >
-      
-        Action Modal
-      
+      Action Modal
     </span>
      
     <steps-stub
@@ -819,9 +798,7 @@ exports[`ActionModal should show the action modal when user has logged in with l
     <span
       class="action-modal-title"
     >
-      
-        Action Modal
-      
+      Action Modal
     </span>
      
     <steps-stub
@@ -886,9 +863,7 @@ exports[`ActionModal should show the action modal when user has logged in with l
     <span
       class="action-modal-title"
     >
-      
-        Action Modal
-      
+      Action Modal
     </span>
      
     <steps-stub
@@ -964,9 +939,7 @@ exports[`ActionModal should show the action modal when user has logged in with l
     <span
       class="action-modal-title"
     >
-      
-        Action Modal
-      
+      Action Modal
     </span>
      
     <steps-stub
@@ -1042,9 +1015,7 @@ exports[`ActionModal should show the action modal when user hasn't logged in 1`]
     <span
       class="action-modal-title"
     >
-      
-        Sign in required
-      
+      Sign in required
     </span>
      
     <steps-stub

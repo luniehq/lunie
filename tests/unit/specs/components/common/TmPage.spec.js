@@ -30,7 +30,7 @@ describe(`TmPage`, () => {
 
   it(`shows a page skeleton`, async () => {
     wrapper = shallowMount(TmPage, { store, localVue, stubs: [`router-link`] })
-    expect(wrapper.vm.$el).toMatchSnapshot()
+    expect(wrapper.element).toMatchSnapshot()
   })
 
   it(`should show links to other pages`, () => {
@@ -48,7 +48,7 @@ describe(`TmPage`, () => {
       stubs: [`router-link`]
     })
 
-    expect(wrapper.vm.$el).toMatchSnapshot()
+    expect(wrapper.element).toMatchSnapshot()
   })
 
   it(`scrolls back to the top on a route change`, () => {

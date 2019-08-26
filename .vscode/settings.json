@@ -3,5 +3,6 @@
     "javascript",
     "javascriptreact",
     { "language": "vue", "autoFix": false }
-  ]
+  ],
+  "vetur.format.defaultFormatter.html": "prettier"
 }

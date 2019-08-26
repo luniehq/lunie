@@ -45,7 +45,7 @@ describe(`TmBalance`, () => {
   })
 
   it(`show the balance header`, () => {
-    expect(wrapper.vm.$el).toMatchSnapshot()
+    expect(wrapper.element).toMatchSnapshot()
   })
 
   it(`displays unbonded tokens`, () => {
@@ -75,8 +75,16 @@ describe(`TmBalance`, () => {
 
   it(`opens withdraw modal`, () => {
     const $refs = { ModalWithdrawRewards: { open: jest.fn() } }
-    TmBalance.methods.onWithdrawal.call({ $refs })
+    wrapper.vm.$refs = $refs
+    wrapper.find("#withdraw-btn").trigger("click")
     expect($refs.ModalWithdrawRewards.open).toHaveBeenCalled()
+  })
+
+  it(`opens send modal`, () => {
+    const $refs = { SendModal: { open: jest.fn() } }
+    wrapper.vm.$refs = $refs
+    wrapper.find(".send-button").trigger("click")
+    expect($refs.SendModal.open).toHaveBeenCalled()
   })
 
   describe(`update balance and total rewards on new blocks`, () => {

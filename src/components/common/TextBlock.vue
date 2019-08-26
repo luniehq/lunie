@@ -16,9 +16,11 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .text-block {
   word-break: break-word;
+  font-size: 14px;
+  white-space: pre-wrap;
 }
 
 .text-block p {

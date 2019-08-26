@@ -34,7 +34,7 @@ describe(`AccountList`, () => {
   })
 
   it(`has the expected html structure`, () => {
-    expect(wrapper.vm.$el).toMatchSnapshot()
+    expect(wrapper.element).toMatchSnapshot()
   })
 
   it(`renders the correct accounts`, () => {

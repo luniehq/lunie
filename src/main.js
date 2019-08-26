@@ -6,7 +6,7 @@ import Vuelidate from "vuelidate"
 import InfiniteScroll from "vue-infinite-scroll"
 import VueClipboard from "vue-clipboard2"
 import { focusElement, focusParentLast } from "src/directives"
-import apolloProvider from "src/gql/apollo.js"
+import { createApolloProvider } from "src/gql/apollo.js"
 import App from "./App.vue"
 import init from "./initializeApp"
 import { getURLParams } from "scripts/url"
@@ -24,6 +24,7 @@ Vue.directive(`focus`, focusElement)
 Vue.directive(`focus-last`, focusParentLast)
 
 const urlParams = getURLParams(window)
+const apolloProvider = createApolloProvider(urlParams)
 const { store, router } = init(urlParams)
 
 new Vue({

@@ -11,7 +11,7 @@ describe(`TmBtn`, () => {
   })
 
   it(`has the expected html structure`, () => {
-    expect(wrapper.vm.$el).toMatchSnapshot()
+    expect(wrapper.element).toMatchSnapshot()
   })
 
   it(`displays as a link`, () => {
@@ -19,28 +19,28 @@ describe(`TmBtn`, () => {
       type: `link`,
       to: `/stake`
     })
-    expect(wrapper.vm.$el).toMatchSnapshot()
+    expect(wrapper.element).toMatchSnapshot()
   })
 
   it(`displays as an external link`, () => {
     wrapper.setProps({
       type: `anchor`
     })
-    expect(wrapper.vm.$el).toMatchSnapshot()
+    expect(wrapper.element).toMatchSnapshot()
   })
 
   it(`displays as an icon`, () => {
     wrapper.setProps({
       icon: `search`
     })
-    expect(wrapper.vm.$el).toMatchSnapshot()
+    expect(wrapper.element).toMatchSnapshot()
   })
 
   it(`displays as an img as an icon`, () => {
     wrapper.setProps({
       img: `./icon.png`
     })
-    expect(wrapper.vm.$el).toMatchSnapshot()
+    expect(wrapper.element).toMatchSnapshot()
   })
 
   it(`allows for customization`, () => {
@@ -49,6 +49,6 @@ describe(`TmBtn`, () => {
       size: `sm`,
       color: `danger`
     })
-    expect(wrapper.vm.$el).toMatchSnapshot()
+    expect(wrapper.element).toMatchSnapshot()
   })
 })

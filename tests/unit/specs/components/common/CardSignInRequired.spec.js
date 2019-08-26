@@ -9,6 +9,6 @@ describe(`CardSignInRequired`, () => {
   })
 
   it(`shows a sign in required card`, () => {
-    expect(wrapper.vm.$el).toMatchSnapshot()
+    expect(wrapper.element).toMatchSnapshot()
   })
 })

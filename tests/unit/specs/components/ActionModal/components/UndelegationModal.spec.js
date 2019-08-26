@@ -59,7 +59,7 @@ describe(`UndelegationModal`, () => {
   })
 
   it(`should display undelegation modal form`, () => {
-    expect(wrapper.vm.$el).toMatchSnapshot()
+    expect(wrapper.element).toMatchSnapshot()
   })
 
   it(`opens`, () => {
