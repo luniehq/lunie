@@ -16,21 +16,40 @@ export default [
     name: `Proposals`,
     component: require(`./components/governance/TabProposals`).default
   },
+  // for depredecated routes
+  {
+    path: `/governance/proposals`,
+    redirect: `/proposals`
+  },
   {
     path: `/proposals/:proposalId`,
     name: `Proposal`,
     component: require(`./components/governance/PageProposal`).default,
     props: true
   },
+  // for depredecated routes
+  {
+    path: `/governance/proposals/:proposalId`,
+    redirect: `/proposals/:proposalId`
+  },
   {
     path: `/validators`,
     name: `Validators`,
     component: require(`./components/staking/PageValidators`).default
   },
+  // for depredecated routes
+  {
+    path: `/staking/validators`,
+    redirect: `/validators`
+  },
   {
     path: `/validators/:validator`,
     name: `validator`,
     component: require(`./components/staking/PageValidator`).default
+  },
+  {
+    path: `/staking/validators/:validator`,
+    redirect: `/validators/:validator`
   },
   {
     path: `/portfolio`,
