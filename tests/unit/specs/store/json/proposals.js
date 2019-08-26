@@ -4,7 +4,7 @@ export const proposals = {
   1: {
     id: `1`,
     proposal_type: `Text`,
-    proposal_content: {
+    content: {
       value: {
         title: `Proposal Title`,
         description: `Proposal description`
@@ -37,7 +37,7 @@ export const proposals = {
   2: {
     id: `2`,
     proposal_type: `Text`,
-    proposal_content: {
+    content: {
       value: {
         title: `VotingPeriod proposal`,
         description: `custom text proposal description`
@@ -70,7 +70,7 @@ export const proposals = {
   5: {
     id: `5`,
     proposal_type: `Text`,
-    proposal_content: {
+    content: {
       value: {
         title: `Custom text proposal`,
         description: `custom text proposal description`
@@ -103,7 +103,7 @@ export const proposals = {
   6: {
     id: `6`,
     proposal_type: `Text`,
-    proposal_content: {
+    content: {
       value: {
         title: `Rejected proposal`,
         description: `this proposal was rejected`

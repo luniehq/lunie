@@ -56,7 +56,7 @@ exports[`TransactionDetails renders MsgBeginRedelegate transaction item 1`] = `
         </b>
          
         <span>
-          ATOM
+           ATOM
         </span>
       </p>
     </div>
@@ -201,7 +201,7 @@ exports[`TransactionDetails renders MsgDelegate transaction item 1`] = `
         </b>
          
         <span>
-          ATOM
+           ATOM
         </span>
       </p>
     </div>
@@ -274,7 +274,7 @@ exports[`TransactionDetails renders MsgDeposit transaction item 1`] = `
         </b>
          
         <span>
-          ATOM
+           ATOM
         </span>
       </p>
     </div>
@@ -283,7 +283,7 @@ exports[`TransactionDetails renders MsgDeposit transaction item 1`] = `
       class="tx__content__information"
     >
       
-    On
+    On 
     
       <router-link-stub
         to="/governance/2"
@@ -891,7 +891,7 @@ exports[`TransactionDetails renders MsgSubmitProposal transaction item 1`] = `
         </b>
          
         <span>
-          ATOM
+           ATOM
         </span>
       </p>
     </div>
@@ -900,7 +900,7 @@ exports[`TransactionDetails renders MsgSubmitProposal transaction item 1`] = `
       class="tx__content__information"
     >
       
-    Title
+    Title 
     
       <i>
         Test title
@@ -958,7 +958,7 @@ exports[`TransactionDetails renders MsgUndelegate transaction item 1`] = `
         </b>
          
         <span>
-          ATOM
+           ATOM
         </span>
          
         <span

@@ -91,25 +91,13 @@ describe(`Module: Proposals`, () => {
       expect(commit.mock.calls).toEqual(
         expect.arrayContaining([
           [`setProposal`, proposals[`1`]],
-          [
-            `setProposalTally`,
-            { id: `1`, final_tally_result: tallies[`1`] }
-          ],
+          [`setProposalTally`, { id: `1`, final_tally_result: tallies[`1`] }],
           [`setProposal`, proposals[`2`]],
-          [
-            `setProposalTally`,
-            { id: `2`, final_tally_result: tallies[`2`] }
-          ],
+          [`setProposalTally`, { id: `2`, final_tally_result: tallies[`2`] }],
           [`setProposal`, proposals[`5`]],
-          [
-            `setProposalTally`,
-            { id: `5`, final_tally_result: tallies[`5`] }
-          ],
+          [`setProposalTally`, { id: `5`, final_tally_result: tallies[`5`] }],
           [`setProposal`, proposals[`6`]],
-          [
-            `setProposalTally`,
-            { id: `6`, final_tally_result: tallies[`6`] }
-          ]
+          [`setProposalTally`, { id: `6`, final_tally_result: tallies[`6`] }]
         ])
       )
     })
@@ -153,10 +141,7 @@ describe(`Module: Proposals`, () => {
       )
       expect(commit.mock.calls).toEqual([
         [`setProposal`, proposals[`1`]],
-        [
-          `setProposalTally`,
-          { id: `1`, final_tally_result: tallies[`1`] }
-        ]
+        [`setProposalTally`, { id: `1`, final_tally_result: tallies[`1`] }]
       ])
 
       commit.mockClear()
@@ -167,10 +152,7 @@ describe(`Module: Proposals`, () => {
       )
       expect(commit.mock.calls).toEqual([
         [`setProposal`, proposals[`2`]],
-        [
-          `setProposalTally`,
-          { id: `2`, final_tally_result: tallies[`2`] }
-        ]
+        [`setProposalTally`, { id: `2`, final_tally_result: tallies[`2`] }]
       ])
     })
 
@@ -205,8 +187,8 @@ describe(`Module: Proposals`, () => {
       { state, dispatch, rootState: mockRootState, commit },
       {
         txProps: {
-          title: proposal.proposal_content.value.title,
-          description: proposal.proposal_content.value.description,
+          title: proposal.content.value.title,
+          description: proposal.content.value.description,
           initialDeposits: proposal.initial_deposit
         }
       }
@@ -214,7 +196,7 @@ describe(`Module: Proposals`, () => {
     jest.runAllTimers()
     expect(commit).toHaveBeenCalledWith(`setProposal`, {
       id: `1`,
-      proposal_content: {
+      content: {
         value: {
           title: `Proposal Title`,
           description: `Proposal description`

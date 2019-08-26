@@ -100,7 +100,7 @@ export default ({ node }) => {
 
       commit(`setProposal`, {
         id: String(latestId + 1),
-        proposal_content: {
+        content: {
           value: { title, description }
         },
         initial_deposit: initialDeposits

@@ -313,14 +313,11 @@ describe(`Store: getters`, () => {
     ]
 
     const state = {
-      delegation: { unbondingDelegations: [] }
+      delegation: { unbondingDelegations: [] },
+      transactions: { txs: original }
     }
 
-    const getters = {
-      allTransactions: original
-    }
-
-    const result = flatOrderedTransactionList(state, getters)
+    const result = flatOrderedTransactionList(state)
 
     const expected = [
       {

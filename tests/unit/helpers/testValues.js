@@ -130,11 +130,15 @@ const testTransactionObjects = [
   {
     type: "cosmos-sdk/MsgSubmitProposal",
     value: {
-      description: "description text",
+      content: {
+        type: "cosmos-sdk/TextProposal",
+        value: {
+          description: "description text",
+          title: "Test title"
+        }
+      },
       initial_deposit: [{ amount: "200000", denom: "uatom" }],
-      proposal_type: "Text",
-      proposer: "cosmos1jq9mc3kp4nnxwryr09fpqjtrwya8q5q480zu0e",
-      title: "Test title"
+      proposer: "cosmos1jq9mc3kp4nnxwryr09fpqjtrwya8q5q480zu0e"
     },
     key:
       'cosmos-sdk/cosmos-sdk/MsgSubmitProposal_2019-06-11T13:47:45.425Z_{"delegator_address":"cosmos1alkjdbasdlkhasldjnasldkjasndlkjansdlasndlkj","validator_address":"cosmosvaloper1sjllsnasdmasakjshdlkdhjasldnasdnadn"}',
@@ -149,7 +153,7 @@ const testTransactionObjects = [
     type: "cosmos-sdk/MsgVote",
     value: {
       option: "NoWithVeto",
-      id: "13",
+      proposal_id: "13",
       voter: "cosmos1jq9mc3kp4nnxwrasdadasdasdasd5q480zu0z"
     },
     key:
@@ -165,7 +169,7 @@ const testTransactionObjects = [
     type: "cosmos-sdk/MsgDeposit",
     value: {
       depositer: `cosmos1asdadasdasdasds`,
-      id: 2,
+      proposal_id: 2,
       amount: [{ denom: "uatom", amount: "234500" }]
     },
     key:

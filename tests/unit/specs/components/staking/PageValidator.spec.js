@@ -25,9 +25,11 @@ const validator = {
   bond_intra_tx_counter: 6,
   proposer_reward_pool: null,
   commission: {
-    rate: `0.05`,
-    max_rate: `0.1`,
-    max_change_rate: `0.005`,
+    commission_rates: {
+      rate: `0.05`,
+      max_rate: `0.1`,
+      max_change_rate: `0.005`
+    },
     update_time: Date.now() - 1
   },
   prev_bonded_shares: `0`,

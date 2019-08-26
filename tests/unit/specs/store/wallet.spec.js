@@ -238,7 +238,7 @@ describe(`Module: Wallet`, () => {
       })
 
       jest.runTimersToTime(30000)
-      expect(dispatch).toHaveBeenCalledTimes(6)
+      expect(dispatch).toHaveBeenCalledTimes(1)
     })
 
     it(`should catch errors from subscriptions`, async () => {
