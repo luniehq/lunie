@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.0-beta.111] - 2019-08-26
+
+### Fixed
+
+- [#2908](https://github.com/cosmos/lunie/issues/2908) Redirect old routes to new routes @faboweb
+- [#2910](https://github.com/cosmos/lunie/pull/2910) Fixed bad validator image sizing @faboweb
+
 ## [1.0.0-beta.110] - 2019-08-26
 
 ### Added
