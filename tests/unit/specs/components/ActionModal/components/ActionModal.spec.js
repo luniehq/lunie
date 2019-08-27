@@ -683,4 +683,34 @@ describe(`ActionModal`, () => {
       ])
     })
   })
+
+  describe(`windows`, () => {
+    beforeEach(() => {
+      wrapper = shallowMount(ActionModal, {
+        localVue,
+        propsData: {
+          title: `Action Modal`
+        },
+        mocks: {
+          $store: {
+            state: {
+              session: {
+                windowsDevice: true,
+                windowsWarning: "WINDOWS WARNING MESSAGE"
+              }
+            },
+            getters: {
+              modalContext
+            }
+          }
+        },
+        stubs: ["router-link"]
+      })
+      wrapper.vm.open()
+    })
+    it(`shows windows warning`, async () => {
+      expect(wrapper.element).toMatchSnapshot()
+      expect(wrapper.text()).toMatch(/WINDOWS WARNING MESSAGE/)
+    })
+  })
 })

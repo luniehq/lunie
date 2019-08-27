@@ -28,6 +28,12 @@ describe(`Module: Session`, () => {
     expect(state.address).toBe(null)
   })
 
+  it(`should set windows device property`, () => {
+    jest.spyOn(window.navigator, "platform", "get").mockReturnValue("win32")
+    state = sessionModule({ node }).state
+    expect(state.windowsDevice).toBe(true)
+  })
+
   it("should always default to disable the local signer", () => {
     expect(state.insecureMode).toBe(false)
   })

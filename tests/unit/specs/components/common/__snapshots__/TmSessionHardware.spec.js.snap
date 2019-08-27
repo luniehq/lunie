@@ -9,6 +9,7 @@ exports[`TmSessionHardware should show a state indicator for different states of
         Use my Ledger Nano
       </h2>
       <div class="session-main">
+        <!---->
         <div class="tm-hardware-state">
           <div class="tm-hardware-state-content">
             <!---->
@@ -40,6 +41,7 @@ exports[`TmSessionHardware should show a state indicator for different states of
         Use my Ledger Nano
       </h2>
       <div class="session-main">
+        <!---->
         <div class="tm-hardware-state">
           <div class="tm-hardware-state-content">
             <!---->
@@ -71,6 +73,7 @@ exports[`TmSessionHardware should show a state indicator for different states of
         Use my Ledger Nano
       </h2>
       <div class="session-main">
+        <!---->
         <div class="tm-hardware-state">
           <div class="tm-hardware-state-content">
             <!---->
@@ -129,6 +132,8 @@ exports[`TmSessionHardware shows the ledger conection view when there're errors 
       <div
         class="session-main"
       >
+        <!---->
+         
         <div
           class="tm-hardware-state"
         >
@@ -226,6 +231,8 @@ exports[`TmSessionHardware shows the ledger conection view with no errors 1`] = 
       <div
         class="session-main"
       >
+        <!---->
+         
         <div
           class="tm-hardware-state"
         >
