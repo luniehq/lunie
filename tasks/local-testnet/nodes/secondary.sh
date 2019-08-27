@@ -28,6 +28,11 @@ cp $MAINNODEHOME/config/genesis.json ${HOME}/config/genesis.json
 
 sed -i -e 's/index_all_tags = .*$/index_all_tags = false/' ${HOME}/config/config.toml
 
+if [[ ${SPEEDY} ]];
+then
+    sh /etc/nodes/speedy.sh $HOME
+fi
+
 # boot referring to the remote node
 gaiad start --p2p.persistent_peers=${MAINNODEID}@${MAINNODEIP}:${MAINNODEPORT} --p2p.laddr=tcp://0.0.0.0:${STARTPORT} --address=tcp://0.0.0.0:$(($STARTPORT + 1)) --rpc.laddr=tcp://0.0.0.0:$(($STARTPORT + 2)) --home ${HOME} > /dev/null &
 sh /etc/nodes/declareValidation.sh $PASSWORD $ACCOUNT $REQUEST_FOLDER $NETWORK $HOME
