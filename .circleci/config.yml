@@ -106,6 +106,8 @@ jobs:
           root: *WORKSPACE
           paths:
             - dist
+      - store_artifacts:
+          path: ./report
 
   pendingUpdated:
     executor: node
