@@ -7,8 +7,7 @@
     <template v-if="session.browserWithLedgerSupport">
       <div class="session-main">
         <p v-if="session.windowsDevice" class="form-message notice">
-          If you’re using Windows 10 May 2019 update, your Ledger Nano S will
-          not work. Please use another operating system, or version of Windows.
+          {{ session.windowsWarning }}
         </p>
         <HardwareState :loading="status === `connect` ? false : true">
           <template v-if="status === `connect` || status === `detect`">
