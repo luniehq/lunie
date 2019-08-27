@@ -18,13 +18,13 @@ NODEID=$(gaiad tendermint show-node-id --home ${HOME})
 echo ${PASSWORD} | gaiacli keys add ${ACCOUNT} --home ${HOME} &> /dev/null
 gaiad add-genesis-account $(gaiacli keys show ${ACCOUNT} --home ${HOME} --address) 1000000000000000000000stake,100000000000000000000photino --home ${HOME} > /dev/null
 
-echo ${PASSWORD} | gaiad gentx --name ${ACCOUNT} --home ${HOME} --home-client ${HOME} &>/dev/null
+echo ${PASSWORD} | gaiad gentx --name ${ACCOUNT} --home ${HOME} --home-client ${HOME} --commission-rate 1 --commission-max-rate 1 &>/dev/null
 gaiad collect-gentxs --home ${HOME} &>/dev/null
 
 sed -i -e 's/\"inflation\".*$/\"inflation\":\ \"0.000000001300000000\",/' -e 's/\"inflation_max\".*$/\"inflation_max\":\ \"0.000000002000000000\",/' -e 's/\"inflation_min\".*$/\"inflation_min\":\ \"0.000000000700000000\",/' -e 's/\"goal_bonded\".*$/\"goal_bonded\":\ \"0.000000006700000000\",/' ${HOME}/config/genesis.json
 sed -i -e 's/max_subscriptions_per_client = .*$/max_subscriptions_per_client = 10/' ${HOME}/config/config.toml
 
-if [[ ${SPEEDY} -ne false ]];
+if [ "${SPEEDY}" != "false" ];
 then
     sh /etc/nodes/speedy.sh $HOME
 fi

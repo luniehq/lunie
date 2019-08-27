@@ -28,7 +28,7 @@ cp $MAINNODEHOME/config/genesis.json ${HOME}/config/genesis.json
 
 sed -i -e 's/index_all_tags = .*$/index_all_tags = false/' ${HOME}/config/config.toml
 
-if [[ ${SPEEDY} -ne false ]];
+if [ "${SPEEDY}" != "false" ];
 then
     sh /etc/nodes/speedy.sh $HOME
 fi
