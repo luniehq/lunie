@@ -2,6 +2,12 @@ codecov:
   notify:
     require_ci_to_pass: yes
 
+coverage:
+  status:
+    project: no
+    patch: yes
+    changes: no
+
 comment:
   layout: "diff, files"
   behavior: default
