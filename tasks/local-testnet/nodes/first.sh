@@ -24,7 +24,7 @@ gaiad collect-gentxs --home ${HOME} &>/dev/null
 sed -i -e 's/\"inflation\".*$/\"inflation\":\ \"0.000000001300000000\",/' -e 's/\"inflation_max\".*$/\"inflation_max\":\ \"0.000000002000000000\",/' -e 's/\"inflation_min\".*$/\"inflation_min\":\ \"0.000000000700000000\",/' -e 's/\"goal_bonded\".*$/\"goal_bonded\":\ \"0.000000006700000000\",/' ${HOME}/config/genesis.json
 sed -i -e 's/max_subscriptions_per_client = .*$/max_subscriptions_per_client = 10/' ${HOME}/config/config.toml
 
-if [[ ${SPEEDY} ]];
+if [[ ${SPEEDY} -ne false ]];
 then
     sh /etc/nodes/speedy.sh $HOME
 fi
