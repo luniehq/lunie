@@ -149,7 +149,7 @@ export default {
 .li-validator-image {
   border-radius: 0.25rem;
   height: 2.5rem;
-  min-width: 2.5rem;
+  width: 2.5rem;
   border: 1px solid var(--bc-dim);
 }
 </style>

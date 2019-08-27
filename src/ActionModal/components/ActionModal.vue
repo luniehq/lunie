@@ -18,6 +18,9 @@
           :active-step="step"
         />
       </div>
+      <p v-if="session.windowsDevice" class="form-message notice">
+        {{ session.windowsWarning }}
+      </p>
       <div v-if="requiresSignIn" class="action-modal-form">
         <p class="form-message notice">
           You need to sign in to submit a transaction.
