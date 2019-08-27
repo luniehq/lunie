@@ -49,7 +49,6 @@ export default {
   border: 1px solid var(--bc-dim);
   background: var(--app-fg);
   width: 100%;
-  font-weight: 300;
   position: relative;
 }
 

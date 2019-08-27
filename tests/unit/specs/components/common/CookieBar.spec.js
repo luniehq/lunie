@@ -23,7 +23,7 @@ describe(`CookieBar`, () => {
   })
 
   it(`shows the cookie bar`, () => {
-    expect(wrapper.vm.$el).toMatchSnapshot()
+    expect(wrapper.element).toMatchSnapshot()
   })
 
   it(`can triggers cookie acceptance on close`, () => {

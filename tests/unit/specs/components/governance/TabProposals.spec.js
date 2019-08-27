@@ -1,5 +1,5 @@
 import { shallowMount } from "@vue/test-utils"
-import TabProposals from "src/components/governance/TabProposals"
+import TabProposals from "governance/TabProposals"
 import { proposals, tallies } from "../../store/json/proposals"
 
 describe(`TabProposals`, () => {
@@ -25,7 +25,8 @@ describe(`TabProposals`, () => {
     }
 
     $store.getters = {
-      connected: true
+      connected: true,
+      depositDenom: `lunies`
     }
 
     const wrapper = shallowMount(TabProposals, {
@@ -33,7 +34,7 @@ describe(`TabProposals`, () => {
         $store
       }
     })
-    expect(wrapper.vm.$el).toMatchSnapshot()
+    expect(wrapper.element).toMatchSnapshot()
   })
 
   it(`shows a message if still connecting`, async () => {
@@ -47,7 +48,8 @@ describe(`TabProposals`, () => {
     }
 
     $store.getters = {
-      connected: false
+      connected: false,
+      depositDenom: `lunies`
     }
 
     const wrapper = shallowMount(TabProposals, {
@@ -55,7 +57,7 @@ describe(`TabProposals`, () => {
         $store
       }
     })
-    expect(wrapper.vm.$el).toMatchSnapshot()
+    expect(wrapper.element).toMatchSnapshot()
   })
 
   it(`shows a message if still loading`, async () => {
@@ -70,7 +72,8 @@ describe(`TabProposals`, () => {
     }
 
     $store.getters = {
-      connected: true
+      connected: true,
+      depositDenom: `lunies`
     }
 
     const wrapper = shallowMount(TabProposals, {
@@ -78,7 +81,7 @@ describe(`TabProposals`, () => {
         $store
       }
     })
-    expect(wrapper.vm.$el).toMatchSnapshot()
+    expect(wrapper.element).toMatchSnapshot()
   })
 
   it(`shows a message if there is nothing to display`, async () => {
@@ -92,7 +95,8 @@ describe(`TabProposals`, () => {
     }
 
     $store.getters = {
-      connected: true
+      connected: true,
+      depositDenom: `lunies`
     }
 
     const wrapper = shallowMount(TabProposals, {
@@ -100,6 +104,33 @@ describe(`TabProposals`, () => {
         $store
       }
     })
-    expect(wrapper.vm.$el).toMatchSnapshot()
+    expect(wrapper.element).toMatchSnapshot()
+  })
+
+  it(`opens a create proposal modal`, () => {
+    $store.state = {
+      proposals: {
+        loading: false,
+        loaded: false,
+        proposals,
+        tallies
+      }
+    }
+
+    $store.getters = {
+      connected: true,
+      depositDenom: `lunies`
+    }
+
+    const wrapper = shallowMount(TabProposals, {
+      mocks: {
+        $store
+      }
+    })
+
+    const $refs = { modalPropose: { open: jest.fn() } }
+    wrapper.vm.$refs = $refs
+    wrapper.find("#propose-btn").trigger("click")
+    expect($refs.modalPropose.open).toHaveBeenCalled()
   })
 })

@@ -25,7 +25,7 @@ describe(`ModalWithdrawRewards`, () => {
   })
 
   it(`should show the withdraw rewards modal`, () => {
-    expect(wrapper.vm.$el).toMatchSnapshot()
+    expect(wrapper.element).toMatchSnapshot()
   })
 
   it(`opens the action modal`, () => {

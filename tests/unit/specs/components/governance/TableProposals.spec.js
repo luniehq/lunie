@@ -1,5 +1,5 @@
 import { mount, createLocalVue } from "@vue/test-utils"
-import TableProposals from "src/components/governance/TableProposals"
+import TableProposals from "governance/TableProposals"
 
 import { proposals, tallies } from "../../store/json/proposals"
 
@@ -31,7 +31,7 @@ describe(`TableProposals`, () => {
   })
 
   it(`has the expected html structure`, async () => {
-    expect(wrapper.vm.$el).toMatchSnapshot()
+    expect(wrapper.element).toMatchSnapshot()
   })
 
   it(`should sort the proposals by selected property`, () => {
@@ -47,7 +47,7 @@ describe(`TableProposals`, () => {
   })
 
   it(`should filter the proposals`, () => {
-    expect(wrapper.vm.$el).toMatchSnapshot()
+    expect(wrapper.element).toMatchSnapshot()
     expect(wrapper.vm.filteredProposals[0].description).toBe(
       proposals[`6`].description
     )

@@ -15,7 +15,8 @@
         class="sort-by-link"
         @click="orderBy(property.value)"
       >
-        {{ property.title }}<i class="material-icons">arrow_drop_up</i>
+        {{ property.title }}
+        <i class="material-icons">arrow_drop_up</i>
       </a>
       <span v-else>{{ property.title }}</span>
     </th>
@@ -74,6 +75,7 @@ export default {
 <style>
 .panel-sort-container {
   padding: 1rem;
+  border-bottom: 1px solid var(--bc-dim);
 }
 
 .panel-sort-table-header {
@@ -83,14 +85,19 @@ export default {
 .sort-by i {
   font-size: var(--lg);
   position: relative;
-  top: 7px;
-  right: 2px;
+  top: 6px;
+  right: 4px;
 }
 
 .sort-by a {
   cursor: pointer;
   user-select: none;
   white-space: nowrap;
+  color: var(--dim);
+}
+
+.sort-by a:hover {
+  color: var(--link);
 }
 
 .sort-by.active a {
@@ -104,11 +111,5 @@ export default {
 .sort-by.desc i {
   transform: rotate(180deg);
   color: var(--tertiary);
-}
-
-@media screen and (max-width: 550px) {
-  .hide-xs {
-    display: none;
-  }
 }
 </style>

@@ -8,7 +8,7 @@ exports[`AppHeader should display the sidebar on desktop 1`] = `
     class="container"
   >
     <div
-      class="header-item"
+      class="header-item open"
     >
       <router-link-stub
         to="/"
@@ -39,7 +39,7 @@ exports[`AppHeader should show the sidebar as a menu on mobile 1`] = `
     class="container"
   >
     <div
-      class="header-item"
+      class="header-item open"
     >
       <router-link-stub
         to="/"

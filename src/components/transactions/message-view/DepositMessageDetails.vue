@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="tx__content__caption">
-      <p class="tx__content__caption__title">
+      <p>
         Deposited
         <b>{{ deposit.amount | atoms | prettyLong }}</b>
         <span> {{ deposit.denom | viewDenom }}</span>

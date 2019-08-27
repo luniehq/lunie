@@ -6,158 +6,151 @@
     :error="delegates.error"
     :data-empty="!validator"
     data-title="Validator"
+    :hide-header="true"
+    class="small"
   >
     <template v-if="validator" slot="managed-body">
-      <!-- we need the v-if as the template somehow is rendered in any case -->
-      <div class="page-profile__header page-profile__section">
-        <div class="row">
+      <div class="status-container">
+        <span :class="statusColor" class="validator-status">{{ status }}</span>
+      </div>
+
+      <tr class="li-validator">
+        <td class="data-table__row__info">
           <ApolloQuery
             :query="ValidatorProfile"
             :variables="{ address: validator.operator_address }"
             :update="validatorProfileResultUpdate"
           >
             <template v-slot="{ result: { loading, error, data: keybase } }">
-              <img
-                v-if="!keybase || loading || error"
-                class="avatar"
-                src="~assets/images/validator-icon.svg"
-                alt="generic validator logo - graphic triangle supporting atom token"
+              <Avatar
+                v-if="!keybase || !keybase.avatarUrl || loading || error"
+                class="li-validator-image"
+                alt="generic geometric symbol - generated avatar from address"
+                :address="validator.operator_address"
               />
               <img
                 v-else-if="keybase && keybase.avatarUrl"
                 :src="keybase.avatarUrl"
                 :alt="`validator logo for ` + validator.description.moniker"
-                class="avatar"
+                class="li-validator-image"
               />
             </template>
           </ApolloQuery>
-          <div class="page-profile__header__info">
-            <div>
-              <div class="validator-name-and-address">
-                <div class="page-profile__status-and-title">
-                  <span v-tooltip.top="status" :class="statusColor" class="page-profile__status" />
-                  <div class="page-profile__title">{{ validator.description.moniker }}</div>
-                </div>
-                <Bech32 :address="validator.operator_address" />
-              </div>
-            </div>
-
-            <div class="page-profile__header__actions">
-              <TmBtn
-                id="delegation-btn"
-                :disabled="!connected"
-                :value="connected ? 'Delegate' : 'Connecting...'"
-                color="primary"
-                @click.native="onDelegation"
-              />
-              <TmBtn
-                id="undelegation-btn"
-                :disabled="!connected"
-                :value="connected ? 'Undelegate' : 'Connecting...'"
-                color="secondary"
-                @click.native="onUndelegation"
-              />
+          <div class="validator-info">
+            <h3 class="li-validator-name">
+              {{ validator.description.moniker }}
+            </h3>
+            <div v-if="myDelegation">
+              <h4>{{ myDelegation }}</h4>
+              <h5 v-if="rewards">
+                {{ rewards ? `+` + shortDecimals(atoms(rewards)) : `--` }}
+              </h5>
             </div>
           </div>
-        </div>
+        </td>
+      </tr>
 
-        <div class="row">
-          <div class="row row-unjustified">
-            <dl class="info_dl colored_dl">
-              <dt>My Delegation</dt>
-              <dd>{{ myDelegation }}</dd>
-            </dl>
-            <dl class="info_dl colored_dl">
-              <dt>My Rewards</dt>
-              <dd v-if="rewards > 0">
-                {{ rewards | atoms | shortDecimals }}
-                {{ bondDenom | viewDenom }}
-              </dd>
-              <dd v-else>--</dd>
-            </dl>
-            <dl class="info_dl colored_dl">
-              <dt>Expected Returns</dt>
-              <dd>{{ percent(returns) }}</dd>
-            </dl>
-          </div>
-
-          <div class="row row-unjustified">
-            <dl class="info_dl colored_dl">
-              <dt>Voting Power</dt>
-              <dd id="page-profile__power">{{ percent(powerRatio) }}</dd>
-            </dl>
-            <dl class="info_dl colored_dl">
-              <dt>Uptime</dt>
-              <dd id="page-profile__uptime">{{ uptime }}</dd>
-            </dl>
-            <dl class="info_dl colored_dl">
-              <dt>Commission</dt>
-              <dd
-                id="page-profile__commission"
-              >{{ percent(validator.commission.commission_rates.rate) }}</dd>
-            </dl>
-          </div>
-        </div>
+      <div class="button-container">
+        <TmBtn id="delegation-btn" value="Stake" @click.native="onDelegation" />
+        <TmBtn
+          id="undelegation-btn"
+          :disabled="!myDelegation"
+          value="Unstake"
+          type="secondary"
+          @click.native="onUndelegation"
+        />
       </div>
 
-      <div class="page-profile__section">
-        <div class="row">
-          <div class="column">
-            <dl class="info_dl">
-              <dt>First Seen</dt>
-              <dd>Block #{{ validator.bond_height }}</dd>
-            </dl>
-            <dl class="info_dl">
-              <dt>Full Operator Address</dt>
-              <dd class="address">{{ validator.operator_address }}</dd>
-            </dl>
-            <dl class="info_dl">
-              <dt>Keybase ID</dt>
-              <dd>{{ translateEmptyDescription(validator.description.identity) }}</dd>
-            </dl>
-            <dl class="info_dl">
-              <dt>Website</dt>
-              <dd v-if="website !== `--`">
-                <a
-                  id="validator-website"
-                  :href="website"
-                  target="_blank"
-                  rel="nofollow noreferrer noopener"
-                >{{ website }}</a>
-              </dd>
-              <dd v-else>{{ website }}</dd>
-            </dl>
-            <dl class="info_dl">
-              <dt>Description</dt>
-              <dd
-                class="info_dl__text-box"
-              >{{ translateEmptyDescription(validator.description.details) }}</dd>
-            </dl>
-          </div>
-          <div class="column">
-            <dl class="info_dl">
-              <dt>Current Commission Rate</dt>
-              <dd>{{ percent(validator.commission.commission_rates.rate) }}</dd>
-            </dl>
-            <dl class="info_dl">
-              <dt>Max Commission Rate</dt>
-              <dd>{{ percent(validator.commission.commission_rates.max_rate) }}</dd>
-            </dl>
-            <dl class="info_dl">
-              <dt>Max Daily Commission Change</dt>
-              <dd>{{ percent(validator.commission.commission_rates.max_change_rate) }}</dd>
-            </dl>
-            <dl class="info_dl">
-              <dt>Last Commission Change</dt>
-              <dd>{{ lastCommissionChange }}</dd>
-            </dl>
-            <dl class="info_dl">
-              <dt>Self Delegation</dt>
-              <dd id="page-profile__self-bond">{{ selfBond }}</dd>
-            </dl>
-          </div>
-        </div>
-      </div>
+      <ul class="row">
+        <li class="column">
+          <h4>Description</h4>
+          <span>
+            {{ translateEmptyDescription(validator.description.details) }}
+          </span>
+        </li>
+        <li class="column">
+          <h4>Website</h4>
+          <span v-if="website !== `--`">
+            <a
+              id="validator-website"
+              :href="website"
+              target="_blank"
+              rel="nofollow noreferrer noopener"
+              >{{ website }}</a
+            >
+          </span>
+          <span v-else>
+            {{ website }}
+          </span>
+        </li>
+        <li class="column">
+          <h4>Validator Address</h4>
+          <span>
+            <Bech32 :address="validator.operator_address" />
+          </span>
+        </li>
+      </ul>
+
+      <ul class="row">
+        <li>
+          <h4>Rewards</h4>
+          <span id="page-profile__rewards">
+            {{ percent(returns) }}
+          </span>
+        </li>
+        <li>
+          <h4>Voting Power / Total Stake</h4>
+          <span id="page-profile__power">
+            {{ percent(powerRatio) }} /
+            {{ shortDecimals(atoms(validator.tokens)) }}
+          </span>
+        </li>
+        <li>
+          <h4>Self Stake</h4>
+          <span id="page-profile__self-bond">
+            {{ selfBond }} / {{ selfBondAmount }}
+          </span>
+        </li>
+        <li>
+          <h4>Validator Since</h4>
+          <span>
+            Block #{{
+              validator.signing_info ? validator.signing_info.start_height : 0
+            }}
+          </span>
+        </li>
+        <li>
+          <h4>Uptime / Missed Blocks</h4>
+          <span id="page-profile__uptime">
+            {{ uptime }} /
+            {{
+              validator.signing_info
+                ? validator.signing_info.missed_blocks_counter
+                : 0
+            }}
+          </span>
+        </li>
+        <li>
+          <h4>Current Commission Rate</h4>
+          <span>{{ percent(validator.commission.commission_rates.rate) }}</span>
+        </li>
+        <li>
+          <h4>Max Commission Rate</h4>
+          <span>{{
+            percent(validator.commission.commission_rates.max_rate)
+          }}</span>
+        </li>
+        <li>
+          <h4>Max Daily Commission Change</h4>
+          <span>{{
+            percent(validator.commission.commission_rates.max_change_rate)
+          }}</span>
+        </li>
+        <li>
+          <h4>Last Commission Change</h4>
+          <span>{{ lastCommissionChange }}</span>
+        </li>
+      </ul>
 
       <DelegationModal
         ref="delegationModal"
@@ -175,14 +168,12 @@
       />
     </template>
     <template v-else>
-      <template slot="title">Validator Not Found</template>
-      <template slot="subtitle">
-        <div>
-          Please visit the
-          <router-link to="/staking/validators/">Validators</router-link>page to
-          view all validators
-        </div>
-      </template>
+      <div slot="title">Validator Not Found</div>
+      <div slot="subtitle">
+        Please visit the
+        <router-link to="/validators/"> Validators </router-link>page to view
+        all validators
+      </div>
     </template>
   </TmPage>
 </template>
@@ -191,24 +182,25 @@
 import moment from "moment"
 import { calculateTokens } from "scripts/common"
 import { mapState, mapGetters } from "vuex"
-import { atoms, viewDenom, shortDecimals, percent } from "scripts/num"
+import { atoms, viewDenom, shortDecimals, percent, uatoms } from "scripts/num"
 import { formatBech32 } from "src/filters"
 import { expectedReturns } from "scripts/returns"
 import TmBtn from "common/TmBtn"
 import { ratToBigNumber } from "scripts/common"
 import DelegationModal from "src/ActionModal/components/DelegationModal"
 import UndelegationModal from "src/ActionModal/components/UndelegationModal"
+import Avatar from "common/Avatar"
 import Bech32 from "common/Bech32"
 import TmPage from "common/TmPage"
 import isEmpty from "lodash.isempty"
 import { ValidatorProfile, validatorProfileResultUpdate } from "src/gql"
-
 export default {
   name: `page-validator`,
   components: {
     Bech32,
     DelegationModal,
     UndelegationModal,
+    Avatar,
     TmBtn,
     TmPage
   },
@@ -218,8 +210,13 @@ export default {
     shortDecimals,
     formatBech32
   },
+  props: {
+    showOnMobile: {
+      type: String,
+      default: () => "returns"
+    }
+  },
   data: () => ({
-    tabIndex: 1,
     ValidatorProfile
   }),
   computed: {
@@ -249,6 +246,11 @@ export default {
     selfBond() {
       return percent(this.delegates.selfBond[this.validator.operator_address])
     },
+    selfBondAmount() {
+      return shortDecimals(
+        uatoms(this.delegates.selfBond[this.validator.operator_address])
+      )
+    },
     uptime() {
       if (!this.validator.signing_info) return null
 
@@ -272,7 +274,7 @@ export default {
       const { bondDenom, myBond } = this
       const myDelegation = shortDecimals(myBond)
       const myDelegationString = `${myDelegation} ${viewDenom(bondDenom)}`
-      return Number(myBond) === 0 ? `--` : myDelegationString
+      return Number(myBond) === 0 ? null : myDelegationString
     },
     powerRatio() {
       return ratToBigNumber(this.validator.tokens)
@@ -296,25 +298,17 @@ export default {
       )
     },
     status() {
-      // status: jailed
-      if (this.validator.jailed)
-        return `This validator has been jailed and is not currently validating`
+      if (this.validator.jailed) return `Jailed`
 
-      // status: inactive
-      if (parseFloat(this.validator.status) === 0)
-        return `This validator does not have enough voting power yet and is inactive`
+      if (parseFloat(this.validator.status) === 0) return `Inactive`
 
-      // status: active
-      return `This validator is actively validating`
+      return `Active`
     },
     statusColor() {
-      // status: jailed
       if (this.validator.jailed) return `red`
 
-      // status: inactive
-      if (parseFloat(this.validator.status) === 0) return `yellow`
+      if (parseFloat(this.validator.status) === 0) return `orange`
 
-      // status: active
       return `green`
     },
     // empty descriptions have a strange '[do-not-modify]' value which we don't want to show
@@ -379,10 +373,10 @@ export default {
       }
     }
   },
-  mounted() {
-    this.$store.dispatch("updateDelegates")
-  },
   methods: {
+    shortDecimals,
+    atoms,
+    uatoms,
     percent,
     moment,
     validatorProfileResultUpdate,
@@ -414,11 +408,11 @@ export default {
       //- We skip the option of redelegating to the same address
       const redelegationOptions = bondedValidators
         .filter(address => address != $route.params.validator)
-        .map((address, index) => {
+        .reduce((validators, address) => {
           const delegate = delegates.delegates.find(function(validator) {
             return validator.operator_address === address
           })
-          return {
+          return validators.concat({
             address: address,
             maximum: Math.floor(committedDelegations[address]),
             key: `${delegate.description.moniker} - ${formatBech32(
@@ -426,9 +420,9 @@ export default {
               false,
               20
             )}`,
-            value: index + 1
-          }
-        })
+            value: validators.length + 1
+          })
+        }, [])
       return myWallet.concat(redelegationOptions)
     },
     translateEmptyDescription(value) {
@@ -439,43 +433,104 @@ export default {
 }
 </script>
 <style scoped>
-.address {
-  word-break: break-word;
-}
-
-.page-profile__header__info {
+.li-validator {
   display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  border-bottom: 1px solid var(--bc-dim);
 }
 
-.page-profile__status {
-  margin-left: -0.5rem;
-  transform: translateX(-0.5rem);
+.li-validator-image {
+  border-radius: 0.25rem;
+  height: 4rem;
+  width: 4rem;
+  border: 1px solid var(--bc-dim);
 }
 
-.page-profile__header__actions {
+.li-validator-name {
+  color: var(--bright);
+  font-size: var(--h1);
+  line-height: 2rem;
+  font-weight: 500;
+}
+
+.validator-info {
+  display: flex;
   flex-direction: column;
-  justify-content: center;
-  margin-left: auto;
+  padding-left: 1rem;
+  text-overflow: ellipsis;
 }
 
-@media screen and (max-width: 525px) {
-  .page-profile__header__actions {
+.li-validator h4,
+.li-validator h5 {
+  font-size: var(--sm);
+  display: inline-block;
+}
+
+.li-validator h5 {
+  padding-left: 0.5rem;
+  color: var(--success);
+}
+
+span {
+  font-size: 12px;
+  line-height: normal;
+}
+
+.bech32-address {
+  font-size: 12px;
+  line-height: normal;
+}
+
+.button-container {
+  display: flex;
+  align-items: flex-end;
+  padding: 0.5rem 1rem;
+  border-bottom: 1px solid var(--bc-dim);
+}
+
+.button-container button:first-child {
+  margin-right: 0.5rem;
+}
+
+.status-container {
+  padding: 1rem 1rem 0;
+}
+
+.validator-status {
+  text-transform: uppercase;
+  font-size: 10px;
+  font-weight: 600;
+  border: 2px solid;
+  padding: 2px 4px;
+  border-radius: 0.25rem;
+}
+
+.validator-status.red {
+  color: var(--danger);
+  border-color: var(--danger);
+}
+
+.validator-status.orange {
+  color: var(--warning);
+  border-color: var(--warning);
+}
+
+.validator-status.green {
+  color: var(--success);
+  border-color: var(--success);
+}
+</style>
+<style>
+@media screen and (max-width: 667px) {
+  .button-container {
     width: 100%;
+    padding: 1rem;
   }
 
-  .page-profile__header__info {
-    align-items: center;
-    flex-direction: column;
-  }
-
-  .validator-name-and-address {
-    padding-bottom: 2rem;
-    margin-left: 4rem;
-  }
-
-  .page-profile__header .avatar {
-    padding: 0;
-    margin: 1rem auto;
+  .button-container button {
+    width: 50%;
   }
 }
 </style>

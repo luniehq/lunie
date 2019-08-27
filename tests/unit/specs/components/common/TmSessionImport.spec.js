@@ -35,7 +35,7 @@ describe(`TmSessionImport`, () => {
   })
 
   it(`has the expected html structure`, () => {
-    expect(wrapper.vm.$el).toMatchSnapshot()
+    expect(wrapper.element).toMatchSnapshot()
   })
 
   it(`should show error if seed is not filled in`, async () => {

@@ -4,10 +4,10 @@
       <p>
         Undelegated
         <b>{{ coin.amount | atoms | prettyLong }}</b>
-        <span> {{ coin.denom | viewDenom }}</span>
-        <span v-if="transaction.liquidDate" class="tx-unbonding__time-diff">
-          {{ liquidDateCaption }}
-        </span>
+        <span>&nbsp;{{ coin.denom | viewDenom }}</span>
+        <span v-if="transaction.liquidDate" class="tx-unbonding__time-diff"
+          >&nbsp;{{ liquidDateCaption }}</span
+        >
       </p>
     </div>
     <div class="tx__content__information">

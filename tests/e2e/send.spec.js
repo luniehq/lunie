@@ -1,17 +1,13 @@
-const { actionModalCheckout } = require("./helpers.js")
+const { actionModalCheckout, nextBlock, waitForText } = require("./helpers.js")
 
 module.exports = {
   "Send Action": async function(browser) {
     // move to according page
-    browser.url(browser.launch_url + "/#/wallet")
-
-    // open modal and enter amount
-    browser.expect.element(`#li-coin--stake`).to.be.visible.before(10000)
-    browser.click("#li-coin--stake button")
-    browser.expect.element(`#send-modal`).to.be.visible.before(10000)
+    browser.url(browser.launch_url + "/#/portfolio")
 
     actionModalCheckout(
       browser,
+      ".send-button",
       // actions to do on details page
       () => {
         browser.setValue(
@@ -24,11 +20,14 @@ module.exports = {
       "1.3"
     )
 
+    await nextBlock(browser)
+
     // check if tx shows
     browser.url(browser.launch_url + "/#/transactions")
-    browser.expect
-      .element(".tx__content__caption")
-      .text.to.contain("Sent 1.3 STAKE")
-      .before(10 * 1000)
+    await waitForText(
+      browser,
+      ".tx:first-child .tx__content__caption",
+      "Sent 1.3 STAKE"
+    )
   }
 }

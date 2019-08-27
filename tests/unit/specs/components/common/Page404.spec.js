@@ -11,7 +11,7 @@ describe(`Page404`, () => {
   })
 
   it(`should show the 404 page`, async () => {
-    expect(wrapper.vm.$el).toMatchSnapshot()
+    expect(wrapper.element).toMatchSnapshot()
   })
 
   it(`should show links to other pages`, () => {

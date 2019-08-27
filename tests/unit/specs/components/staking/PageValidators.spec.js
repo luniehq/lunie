@@ -1,8 +1,8 @@
 import { shallowMount } from "@vue/test-utils"
-import TabValidators from "src/components/staking/TabValidators"
+import PageValidators from "staking/PageValidators"
 import validators from "../../store/json/validators.js"
 
-describe(`TabValidators`, () => {
+describe(`PageValidators`, () => {
   let wrapper, $store
 
   const state = {
@@ -33,7 +33,7 @@ describe(`TabValidators`, () => {
       state
     }
 
-    wrapper = shallowMount(TabValidators, {
+    wrapper = shallowMount(PageValidators, {
       mocks: {
         $store
       }
@@ -41,7 +41,7 @@ describe(`TabValidators`, () => {
   })
 
   it(`shows a list of validators`, async () => {
-    expect(wrapper.vm.$el).toMatchSnapshot()
+    expect(wrapper.element).toMatchSnapshot()
   })
 
   it(`shows a message if still connecting`, async () => {
@@ -67,13 +67,13 @@ describe(`TabValidators`, () => {
       }
     }
 
-    wrapper = shallowMount(TabValidators, {
+    wrapper = shallowMount(PageValidators, {
       mocks: {
         $store
       }
     })
 
-    expect(wrapper.vm.$el).toMatchSnapshot()
+    expect(wrapper.element).toMatchSnapshot()
   })
 
   it(`shows a message if still loading`, async () => {
@@ -99,13 +99,13 @@ describe(`TabValidators`, () => {
       }
     }
 
-    wrapper = shallowMount(TabValidators, {
+    wrapper = shallowMount(PageValidators, {
       mocks: {
         $store
       }
     })
 
-    expect(wrapper.vm.$el).toMatchSnapshot()
+    expect(wrapper.element).toMatchSnapshot()
   })
 
   it(`shows a message if there is nothing to display`, async () => {
@@ -131,12 +131,12 @@ describe(`TabValidators`, () => {
       }
     }
 
-    wrapper = shallowMount(TabValidators, {
+    wrapper = shallowMount(PageValidators, {
       mocks: {
         $store
       }
     })
 
-    expect(wrapper.vm.$el).toMatchSnapshot()
+    expect(wrapper.element).toMatchSnapshot()
   })
 })

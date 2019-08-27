@@ -47,7 +47,6 @@ export const liquidAtoms = state =>
       balance => balance.denom === state.stakingParameters.parameters.bond_denom
     ) || { amount: 0 }
   ).amount
-
 export const totalAtoms = (state, getters) => {
   return new BN(getters.liquidAtoms)
     .plus(getters.oldBondedAtoms)
@@ -70,7 +69,6 @@ export const oldBondedAtoms = state => {
   })
   return totalOldBondedAtoms
 }
-
 export const oldUnbondingAtoms = state => {
   return Object.values(state.delegation.unbondingDelegations).reduce(
     // unbondingDelegations can have several active undelegations per validator (key)

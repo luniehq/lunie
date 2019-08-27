@@ -33,7 +33,7 @@ export default ({ node }) => {
       }
     },
     async loadTxs({ commit }) {
-      const txs = await node.txs()
+      const txs = await node.get.txs()
       commit("setTxs", txs)
     },
     async getAllTxs({ commit, state, rootState }) {

@@ -46,7 +46,7 @@ describe(`ModalPropose`, () => {
   })
 
   it(`should display proposal modal form`, () => {
-    expect(wrapper.vm.$el).toMatchSnapshot()
+    expect(wrapper.element).toMatchSnapshot()
   })
 
   it(`opens`, () => {

@@ -21,6 +21,13 @@ describe(`Module: Delegates`, () => {
     })
   })
 
+  it(`sets the loading state`, () => {
+    const { mutations, state } = instance
+    expect(state.loading).toBe(false)
+    mutations.setDelegateLoading(state, true)
+    expect(state.loading).toBe(true)
+  })
+
   it(`adds delegate to state`, () => {
     const { mutations, state } = instance
     mutations.setDelegates(state, [

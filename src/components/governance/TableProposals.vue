@@ -14,7 +14,7 @@
 
 <script>
 import orderBy from "lodash.orderby"
-import LiProposal from "./LiProposal"
+import LiProposal from "governance/LiProposal"
 export default {
   name: `table-proposals`,
   components: {

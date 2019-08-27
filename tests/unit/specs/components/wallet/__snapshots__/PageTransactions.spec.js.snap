@@ -3,6 +3,7 @@
 exports[`PageTransactions Renders correctly and does not load transactions if the user has not signed in 1`] = `
 <tmpage-stub
   data-title="Transactions"
+  hideheader="true"
   loaded="true"
   managed="true"
   signinrequired="true"
@@ -29,6 +30,7 @@ exports[`PageTransactions Renders correctly and does not load transactions if th
 exports[`PageTransactions Renders correctly and loads transactions 1`] = `
 <tmpage-stub
   data-title="Transactions"
+  hideheader="true"
   loaded="true"
   managed="true"
   signinrequired="true"

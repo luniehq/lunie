@@ -4,7 +4,7 @@
       <p>
         Redelegated
         <b>{{ coin.amount | atoms | prettyLong }}</b>
-        <span> {{ coin.denom | viewDenom }}</span>
+        <span>&nbsp;{{ coin.denom | viewDenom }}</span>
       </p>
     </div>
     <div class="tx__content__information">

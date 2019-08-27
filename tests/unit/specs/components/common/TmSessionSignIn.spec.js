@@ -36,7 +36,7 @@ describe(`TmSessionSignIn`, () => {
   })
 
   it(`has the expected html structure`, () => {
-    expect(wrapper.vm.$el).toMatchSnapshot()
+    expect(wrapper.element).toMatchSnapshot()
   })
 
   it(`should close the modal on successful login`, async () => {

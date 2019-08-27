@@ -7,6 +7,56 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.0-beta.111] - 2019-08-26
+
+### Fixed
+
+- [#2908](https://github.com/cosmos/lunie/issues/2908) Redirect old routes to new routes @faboweb
+- [#2910](https://github.com/cosmos/lunie/pull/2910) Fixed bad validator image sizing @faboweb
+
+## [1.0.0-beta.110] - 2019-08-26
+
+### Added
+
+- [#2896](https://github.com/cosmos/lunie/pull/2896) Allow user to set graphql endpoint as a URL parametera @colw
+
+### Changed
+
+- [#2885](https://github.com/cosmos/lunie/issues/2885) Do not show ledger or extension sign-in options on mobile @colw
+- [#2850](https://github.com/cosmos/lunie/pull/2850) Adjusted to new desktop menu @faboweb
+- [#2850](https://github.com/cosmos/lunie/pull/2850) Menu on mobile is on the bottom @faboweb
+- [#2850](https://github.com/cosmos/lunie/pull/2850) Removed store caching mechanism @faboweb
+
+### Fixed
+
+- [#2901](https://github.com/cosmos/lunie/pull/2901) Use latest chromedriver for local testing @colw
+
+### Code Improvements
+
+- [#2850](https://github.com/cosmos/lunie/pull/2850) Move most of the queries to run at application start @faboweb
+
+### Repository
+
+- [#2893](https://github.com/cosmos/lunie/pull/2893) Fixed preview on CircleCI @faboweb
+- Added vetur html formatting rules to vscode config @faboweb
+- this is needed for babel and jest to play nicely on my machine @jbibla
+
+## [1.0.0-beta.109] - 2019-08-19
+
+### Fixed
+
+- [#2864](https://github.com/cosmos/lunie/issues/2864) Remove 'first seen' field from validator. Data not present. @colw
+
+## [1.0.0-beta.108] - 2019-08-15
+
+### Added
+
+- Show generated avatars for validators without a profile image @faboweb
+
+### Fixed
+
+- [#2881](https://github.com/cosmos/lunie/pull/2881) Default validator images not showing @faboweb
+
 ## [1.0.0-beta.107] - 2019-08-13
 
 ### Added

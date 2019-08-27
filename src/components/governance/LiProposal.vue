@@ -9,29 +9,27 @@
     "
   >
     <td>
-      <span :class="status.color" class="proposal-status">{{
-        status.badge
-      }}</span>
+      <span :class="status.color" class="proposal-status">
+        {{ status.badge }}
+      </span>
       <h3 class="li-proposal-title">
         {{ proposal.content.value.title }}
       </h3>
       <p class="li-proposal-description">
         {{ description }}
       </p>
+      <router-link :to="`/proposals/` + proposal.id" class="read-more-link"
+        >Read the full proposal...</router-link
+      >
     </td>
   </tr>
 </template>
 
 <script>
-import BigNumber from "bignumber.js"
 import { mapState } from "vuex"
-import { prettyDecimals, roundObjectPercentages } from "../../scripts/num"
 import { getProposalStatus } from "scripts/proposal-status"
 export default {
   name: `li-proposal`,
-  filters: {
-    prettyDecimals
-  },
   props: {
     proposal: {
       type: Object,
@@ -40,29 +38,6 @@ export default {
   },
   computed: {
     ...mapState([`proposals`]),
-    tally() {
-      const { yes, no, abstain, no_with_veto } =
-        this.proposals.tallies[this.proposal.id] || {}
-
-      const totalVotes = BigNumber(yes)
-        .plus(no)
-        .plus(no_with_veto)
-        .plus(abstain)
-        .toNumber()
-      const totalMult = totalVotes / 100
-      return {
-        yes: yes / totalMult || BigNumber(0),
-        no: no / totalMult || BigNumber(0),
-        abstain: abstain / totalMult || BigNumber(0),
-        no_with_veto: no_with_veto / totalMult || BigNumber(0)
-      }
-    },
-    roundedPercentagesTally() {
-      return roundObjectPercentages(this.tally)
-    },
-    isDepositPeriod() {
-      return this.proposal.proposal_status === `DepositPeriod`
-    },
     status() {
       return getProposalStatus(this.proposal)
     },
@@ -77,27 +52,46 @@ export default {
 </script>
 <style scoped>
 .li-proposal {
-  margin: 0 0 1rem;
-  padding: 1rem;
+  margin: 1rem 0;
+  padding: 1rem 0;
   display: block;
   cursor: pointer;
   max-width: 680px;
-  background-color: var(--app-fg);
+  background: var(--app-fg);
   border-radius: 0.25rem;
   border: 1px solid var(--bc-dim);
 }
 
+.li-proposal:hover {
+  cursor: pointer;
+  background: var(--hover-bg);
+}
+
 .li-proposal-title {
-  font-size: var(--lg);
-  line-height: 26px;
+  font-size: var(--xl);
+  line-height: 32px;
+  color: var(--bright);
   font-weight: 500;
   display: block;
-  padding: 1rem 0 0.25rem 0;
+  padding: 1rem 0 0.5rem 0;
 }
 
 .li-proposal-description {
   word-break: break-word;
   color: var(--txt);
+  font-size: 14px;
+}
+
+.read-more-link {
+  padding-top: 1rem;
+  font-size: 14px;
+  display: inline-block;
+}
+
+@media screen and (min-width: 667px) {
+  .li-proposal {
+    margin: 1rem auto;
+  }
 }
 </style>
 <style>
