@@ -1,1 +1,2 @@
 [Repository] [#2915](https://github.com/cosmos/lunie/pull/2915) Ability to run a speedy testnet to improve e2e tests @faboweb
+[Repository] [#2915](https://github.com/cosmos/lunie/pull/2915) Make main validator of testnet greedy to reduce received rewards to 0 for predictability @faboweb
