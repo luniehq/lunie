@@ -12,6 +12,8 @@ module.exports = {
     )
     browser.setValue("#sign-in-password", "1234567890")
     await next(browser)
+    // check if signed in
+    browser.waitForElementNotVisible(".session")
     openMenu(browser)
     browser.waitForElementVisible("#sign-out")
   },
@@ -45,7 +47,8 @@ module.exports = {
 
     browser.click("#sign-up-warning")
     await next(browser)
-    // signs in
+    // check if signed in
+    browser.waitForElementNotVisible(".session")
     openMenu(browser)
     browser.waitForElementVisible("#sign-out")
   },
@@ -81,7 +84,8 @@ module.exports = {
       `lab stable vessel rose donkey panel slim assault cause tenant level yellow sport argue rural pizza supply idea detect brass shift aunt matrix simple`
     )
     await next(browser)
-    // signs in
+    // check if signed in
+    browser.waitForElementNotVisible(".session")
     openMenu(browser)
     browser.waitForElementVisible("#sign-out")
   }
