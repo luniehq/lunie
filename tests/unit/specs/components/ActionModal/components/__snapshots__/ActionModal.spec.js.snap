@@ -1084,3 +1084,74 @@ exports[`ActionModal should show the action modal when user hasn't logged in 1`]
   </div>
 </div>
 `;
+
+exports[`ActionModal windows shows windows warning 1`] = `
+<div
+  class="action-modal"
+  name="slide-fade"
+  tabindex="0"
+>
+  <div
+    class="action-modal-icon action-modal-close"
+    id="closeBtn"
+  >
+    <i
+      class="material-icons"
+    >
+      close
+    </i>
+  </div>
+   
+  <div
+    class="action-modal-header"
+  >
+    <span
+      class="action-modal-title"
+    >
+      Sign in required
+    </span>
+     
+    <steps-stub
+      activestep="details"
+      steps="Details,Fees,Sign"
+    />
+  </div>
+   
+  <p
+    class="form-message notice"
+  >
+    
+      WINDOWS WARNING MESSAGE
+    
+  </p>
+   
+  <div
+    class="action-modal-form"
+  >
+    <p
+      class="form-message notice"
+    >
+      
+        You need to sign in to submit a transaction.
+      
+    </p>
+  </div>
+   
+  <div
+    class="action-modal-footer"
+  >
+    <tmformgroup-stub
+      class="action-modal-group"
+    >
+      <div>
+        <tmbtn-stub
+          color="primary"
+          value="Sign In"
+        />
+      </div>
+    </tmformgroup-stub>
+     
+    <!---->
+  </div>
+</div>
+`;
