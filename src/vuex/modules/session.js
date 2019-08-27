@@ -1,6 +1,10 @@
 import { track, deanonymize, anonymize } from "scripts/google-analytics"
 import config from "src/config"
 
+function isWindowsPlatform() {
+  return window.navigator.platform.match(/win32|win64/i) !== null
+}
+
 export default () => {
   const USER_PREFERENCES_KEY = `lunie_user_preferences`
 
@@ -26,6 +30,7 @@ export default () => {
     browserWithLedgerSupport:
       navigator.userAgent.includes(`Chrome`) ||
       navigator.userAgent.includes(`Opera`),
+    windowsDevice: isWindowsPlatform(),
 
     // import into state to be able to test easier
     externals: {
