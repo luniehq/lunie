@@ -5,7 +5,7 @@ function isWindowsPlatform() {
   return window.navigator.platform.match(/win32|win64/i) !== null
 }
 
-const windowsWarning = `If you’re using Windows 10 May 2019 update, signing
+const windowsWarning = `If you’re using Windows 10 (May 2019 update), signing
 transactions with your Ledger Nano S will not work. Please use another
 operating system, or version of Windows.`
 
