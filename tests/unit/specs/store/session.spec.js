@@ -1,5 +1,4 @@
 import sessionModule from "src/vuex/modules/session.js"
-import { platform } from "os"
 
 describe(`Module: Session`, () => {
   let module, state, actions, mutations, node
