@@ -113,7 +113,7 @@ describe(`Module: Proposals`, () => {
       const { actions, state } = moduleInstance
       await actions.getProposals({
         state,
-        commit: () => { },
+        commit: () => {},
         rootState: mockRootState
       })
       expect(state.error.message).toBe(`Error`)

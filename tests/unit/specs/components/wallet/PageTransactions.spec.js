@@ -3,7 +3,7 @@ import { createLocalVue, shallowMount } from "@vue/test-utils"
 
 describe(`PageTransactions`, () => {
   const localVue = createLocalVue()
-  localVue.directive(`tooltip`, () => { })
+  localVue.directive(`tooltip`, () => {})
 
   const addresses = [
     `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
@@ -231,7 +231,7 @@ describe(`PageTransactions`, () => {
           $store
         },
         directives: {
-          infiniteScroll: () => { }
+          infiniteScroll: () => {}
         }
       })
       expect(wrapper.element).toMatchSnapshot()
@@ -248,7 +248,7 @@ describe(`PageTransactions`, () => {
           $store
         },
         directives: {
-          infiniteScroll: () => { }
+          infiniteScroll: () => {}
         }
       })
       expect(wrapper.element).toMatchSnapshot()
@@ -266,7 +266,7 @@ describe(`PageTransactions`, () => {
         $store
       },
       directives: {
-        infiniteScroll: () => { }
+        infiniteScroll: () => {}
       }
     })
     expect($store.dispatch).not.toHaveBeenCalledWith(`getAllTxs`)
@@ -282,7 +282,7 @@ describe(`PageTransactions`, () => {
         $store
       },
       directives: {
-        infiniteScroll: () => { }
+        infiniteScroll: () => {}
       }
     })
     wrapper.setData({ showing: 2 })

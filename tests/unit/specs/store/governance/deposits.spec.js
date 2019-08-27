@@ -80,14 +80,8 @@ describe(`Module: Deposits`, () => {
         denom: `stake`,
         amount: 85
       })
-      expect(dispatch.mock.calls[i]).toEqual([
-        `getProposalDeposits`,
-        id
-      ])
-      expect(dispatch.mock.calls[i + numProposals]).toEqual([
-        `getProposal`,
-        id
-      ])
+      expect(dispatch.mock.calls[i]).toEqual([`getProposalDeposits`, id])
+      expect(dispatch.mock.calls[i + numProposals]).toEqual([`getProposal`, id])
       expect(dispatch.mock.calls[i + numProposals * 2]).toEqual([`getAllTxs`])
     })
   })
