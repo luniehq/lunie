@@ -1,4 +1,5 @@
 import sessionModule from "src/vuex/modules/session.js"
+import { platform } from "os"
 
 describe(`Module: Session`, () => {
   let module, state, actions, mutations, node
@@ -26,6 +27,12 @@ describe(`Module: Session`, () => {
   it(`should default to signed out state`, () => {
     expect(state.signedIn).toBe(false)
     expect(state.address).toBe(null)
+  })
+
+  it(`should set windows device property`, () => {
+    jest.spyOn(window.navigator, "platform", "get").mockReturnValue("win32")
+    state = sessionModule({ node }).state
+    expect(state.windowsDevice).toBe(true)
   })
 
   it("should always default to disable the local signer", () => {

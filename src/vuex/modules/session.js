@@ -2,7 +2,7 @@ import { track, deanonymize, anonymize } from "scripts/google-analytics"
 import config from "src/config"
 
 function isWindowsPlatform() {
-  return true || window.navigator.platform.match(/win32|win64/i) !== null
+  return window.navigator.platform.match(/win32|win64/i) !== null
 }
 
 const windowsWarning = `If you’re using Windows 10 May 2019 update, signing
