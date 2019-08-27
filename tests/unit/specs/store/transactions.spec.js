@@ -90,7 +90,7 @@ describe(`Module: Transactions`, () => {
     })
 
     describe(`getAllTxs`, () => {
-      it(`should get all types of txs`, async () => {
+      it(`should get all txs`, async () => {
         node.get.txs = jest.fn(() => [])
         await actions.getAllTxs({
           commit,
@@ -98,8 +98,9 @@ describe(`Module: Transactions`, () => {
           rootState: mockRootState
         })
 
-        expect(node.get.txs).toHaveBeenCalled()
+        expect(node.get.txs).toHaveBeenCalledWith(address)
         expect(state.error).toBeNull()
+        expect(commit).toHaveBeenCalledWith(`setTxs`, [])
         expect(commit).toHaveBeenCalledWith(`setHistoryLoading`, false)
       })
 

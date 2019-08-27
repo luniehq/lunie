@@ -53,6 +53,9 @@ describe(`TransactionDetails`, () => {
   it(`renders MsgSubmitProposal transaction item`, () => {
     wrapper.setProps({ transaction: testTransactionObjects[8] })
     expect(wrapper.element).toMatchSnapshot()
+
+    wrapper.setProps({ transaction: testTransactionObjects[16] })
+    expect(wrapper.element).toMatchSnapshot()
   })
   it(`renders MsgVote transaction item`, () => {
     wrapper.setProps({ transaction: testTransactionObjects[9] })

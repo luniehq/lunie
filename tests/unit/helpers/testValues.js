@@ -250,6 +250,28 @@ const testTransactionObjects = [
     memo: "",
     fees: { amount: "0", denom: "ATOM" },
     liquidDate: null
+  },
+  {
+    type: "cosmos-sdk/MsgSubmitProposal",
+    value: {
+      content: {
+        type: "cosmos-sdk/SoftwareUpgradeProposal",
+        value: {
+          description: "description text",
+          title: "Test title"
+        }
+      },
+      initial_deposit: [{ amount: "200000", denom: "uatom" }],
+      proposer: "cosmos1jq9mc3kp4nnxwryr09fpqjtrwya8q5q480zu0e"
+    },
+    key:
+      'cosmos-sdk/cosmos-sdk/MsgSubmitProposal_2019-06-11T13:47:45.425Z_{"delegator_address":"cosmos1alkjdbasdlkhasldjnasldkjasndlkjansdlasndlkj","validator_address":"cosmosvaloper1sjllsnasdmasakjshdlkdhjasldnasdnadn"}',
+    blockNumber: 626102,
+    time: "2019-06-11T13:47:45.425Z",
+    group: "governance",
+    memo: "",
+    fees: { amount: "69", denom: "ATOM" },
+    liquidDate: null
   }
 ]
 

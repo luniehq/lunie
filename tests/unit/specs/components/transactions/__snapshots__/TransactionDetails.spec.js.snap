@@ -918,6 +918,73 @@ exports[`TransactionDetails renders MsgSubmitProposal transaction item 1`] = `
 </div>
 `;
 
+exports[`TransactionDetails renders MsgSubmitProposal transaction item 2`] = `
+<div
+  class="tx__content"
+>
+  <div
+    class="tx__content__left"
+    session-address="cosmos1"
+  >
+    <div
+      class="tx__content__caption"
+    >
+      <p>
+        
+      Submitted proposal
+      
+        <b>
+          0.2
+        </b>
+         
+        <span>
+           ATOM
+        </span>
+      </p>
+    </div>
+     
+    <div
+      class="tx__content__information"
+    >
+      
+    Title 
+    
+      <i>
+        Test title
+      </i>
+    </div>
+  </div>
+   
+  <div
+    class="tx__content__right"
+  >
+    <div>
+      
+    Network Fee: 
+    
+      <b>
+        0.000069
+      </b>
+       
+      <span>
+        ATOM
+      </span>
+    </div>
+     
+    <div>
+      <router-link-stub
+        to="[object Object]"
+      >
+        Block #626102 
+      </router-link-stub>
+      
+    @ Jun 11th 2019 13:47:45
+  
+    </div>
+  </div>
+</div>
+`;
+
 exports[`TransactionDetails renders MsgUndelegate transaction item 1`] = `
 <div
   class="tx__content"

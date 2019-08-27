@@ -32,10 +32,6 @@ export default ({ node }) => {
         await dispatch(`getAllTxs`)
       }
     },
-    async loadTxs({ commit }) {
-      const txs = await node.get.txs()
-      commit("setTxs", txs)
-    },
     async getAllTxs({ commit, state, rootState }) {
       try {
         commit(`setHistoryLoading`, true)
@@ -45,7 +41,7 @@ export default ({ node }) => {
         }
 
         const txs = await node.get.txs(rootState.session.address)
-        state.txs = txs
+        commit("setTxs", txs)
 
         state.error = null
         commit(`setHistoryLoading`, false)
