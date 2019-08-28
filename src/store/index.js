@@ -14,7 +14,10 @@ const modules = {}
 export default new Vuex.Store({
   state: {
     accounts: [],
-    signRequest: null
+    signRequest: null,
+    session: {
+      insecureMode: true
+    }
   },
   getters,
   modules,
