@@ -11,10 +11,6 @@ describe(`SessionAccounts`, () => {
       { name: `accountname3`, address: 'cosmos3' }
     ]
     const getters = {
-      session: {
-        insecureMode: true,
-        browserWithLedgerSupport: null
-      },
       lastPage: `/`
     }
     $store = {
@@ -22,6 +18,10 @@ describe(`SessionAccounts`, () => {
       commit: jest.fn(),
       dispatch: jest.fn(),
       state: {
+        session: {
+          insecureMode: true,
+          browserWithLedgerSupport: null
+        },
         accounts
       }
     }

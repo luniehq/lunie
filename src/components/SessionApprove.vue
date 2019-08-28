@@ -6,17 +6,14 @@
     </div>
     <br />
     <TmFormGroup v-if="signRequest">
-      <LiAnyTransaction
-        v-if="tx"
+      <TransactionItem
+        v-if="transaction"
+        :key="transaction.key"
+        :transaction="transaction"
+        :validators="validatorsAddressMap"
         :address="senderAddress"
-        :validators="validators"
-        :transaction="tx"
-        :hide-meta-data="true"
-        validators-url="https://lunie.io/#/staking/validators/"
-        proposals-url="https://lunie.io/#/governance/proposals/"
-        bonding-denom="Atoms"
+        :show-meta-data="false"
       />
-
       <!-- Going to take some more logic based on how transactions are passed in -->
       <div>
         From
@@ -79,7 +76,7 @@ import TmBtn from 'common/TmBtn'
 import TmFormGroup from 'common/TmFormGroup'
 import TmField from 'common/TmField'
 import TmFormMsg from 'common/TmFormMsg'
-import LiAnyTransaction from 'transactions/LiAnyTransaction'
+import TransactionItem from 'transactions/TransactionItem'
 import TableInvoice from 'src/ActionModal/components/TableInvoice'
 import Bech32 from 'common/Bech32'
 import { required } from 'vuelidate/lib/validators'
@@ -87,12 +84,14 @@ import { parseTx, parseFee, parseValueObj } from '../scripts/parsers.js'
 import { atoms } from 'scripts/num.js'
 import { getValidatorsData } from '../store/actions.js'
 
+import { flattenTransactionMsgs } from 'scripts/transaction-utils'
+
 export default {
   name: `session-approve`,
   components: {
     TmBtn,
     TmFormGroup,
-    LiAnyTransaction,
+    TransactionItem,
     TableInvoice,
     Bech32,
     TmField,
@@ -108,6 +107,9 @@ export default {
     tx() {
       return this.signRequest ? parseTx(this.signRequest.signMessage) : null
     },
+    transaction() {
+      return flattenTransactionMsgs([], this.tx)[0]
+    },
     fees() {
       return this.tx ? atoms(parseFee(this.tx.tx)) : null
     },
@@ -122,6 +124,13 @@ export default {
     },
     bondDenom() {
       return this.amountCoin ? this.amountCoin.denom : null
+    },
+    validatorsAddressMap() {
+      const names = {}
+      this.validators.forEach(item => {
+        names[item.operator_address] = item
+      })
+      return names
     }
   },
   watch: {

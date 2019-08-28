@@ -27,7 +27,7 @@ module.exports = {
 
       //Send transaction on Lunie to extension
       .execute(function() {
-        window.open('https://localhost:9080/?experimental=true/#/wallet')
+        window.open('https://localhost:9080/?experimental=true/#/extension')
       })
       .pause(500)
 
@@ -35,22 +35,16 @@ module.exports = {
       .windowHandles(function(result) {
         browser
           .switchWindow(result.value[1])
-          .pause(3000)
+          .pause(300)
           .assert.urlContains(
-            'https://localhost:9080/?experimental=true/#/wallet'
+            'https://localhost:9080/?experimental=true/#/extension'
           )
-          .waitForElementVisible('div.tool-bar', 10 * 1000)
-          .click('div.tool-bar button')
-          .waitForElementVisible('a[href="#/existing"]', 300)
-          .click('a[href="#/existing"]')
-          .pause(300)
-          .click('a[href="#/extension"]')
-          .pause(300)
+          .waitForElementVisible('li.account button')
           .click('li.account button')
-          .pause(300)
-          .click('a[href="#/staking"]')
-          .click('a[href="#/staking/validators"]')
-          .click('a.data-table__row__info__container__name')
+          .waitForElementNotPresent('.session')
+          .click('a[href="#/validators"]')
+          .waitForElementVisible('.li-validator')
+          .click('.li-validator')
           .click('#delegation-btn')
           .setValue("input[placeholder='Amount']", '1')
           .click('div.action-modal-footer button')

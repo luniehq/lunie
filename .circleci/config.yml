@@ -3,7 +3,6 @@ version: 2.1
 aliases:
   # Define paths and never think about them again
   - &WORKSPACE /tmp/lunie
-  - &docker-browsers tendermintdev/voyager_node_browser
 
 # reusable commands
 commands:
@@ -86,7 +85,7 @@ jobs:
   testE2E:
     docker:
       # Primary container image where all steps run.
-     - image: *docker-browsers
+     - image: circleci/node:10.15.3-browsers
       # Secondary container image on common network which runs the testnet
      - image: lunieio/testnet:v0.34.3
     steps:
@@ -100,6 +99,15 @@ jobs:
           command: |
             npm run initiate-submodule
             npm run test:e2e:build
+            cd lunie
+            yarn certificates
+      - run:
+          name: Install Chrome
+          command: |
+            wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
+            sudo sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list'
+            sudo apt-get update
+            sudo apt-get -y install google-chrome-stable
       - run:
           name: Test
           command: npm run test:e2e:start-lunie & yarn test:e2e
