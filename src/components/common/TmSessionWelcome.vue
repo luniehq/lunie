@@ -4,7 +4,7 @@
       <router-link to="/">
         <img
           class="session-logo-mobile"
-          src="~assets/images/cosmos-wallet-logo.svg"
+          src="~assets/images/lunie-logo-white.svg"
           alt="a small spinning circle to display loading"
         />
       </router-link>

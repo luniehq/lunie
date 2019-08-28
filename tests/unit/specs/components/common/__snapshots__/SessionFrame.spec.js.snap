@@ -11,7 +11,7 @@ exports[`SessionFrame shows an overview of all wallets to sign in with from the 
   >
     <img
       class="session-logo"
-      src="~assets/images/cosmos-wallet-logo.svg"
+      src="~assets/images/lunie-logo-white.svg"
     />
   </router-link-stub>
    
