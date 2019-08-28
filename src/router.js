@@ -6,6 +6,13 @@ import Vue from "vue"
 Vue.use(Router)
 
 export const routeGuard = store => (to, from, next) => {
+  // Redirect if fullPath begins with a hash (fallback for old pre history mode urls)
+  if (to.fullPath.includes("#")) {
+    const path = to.fullPath.substr(to.fullPath.indexOf("#") + 1)
+    next(path)
+    return
+  }
+
   if (from.fullPath !== to.fullPath && !store.state.session.pauseHistory) {
     store.commit(`addHistory`, from.fullPath)
   }
