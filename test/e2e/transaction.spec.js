@@ -39,10 +39,11 @@ module.exports = {
           .assert.urlContains(
             'https://localhost:9080/?experimental=true/#/extension'
           )
-          .pause(300)
+          .waitForElementVisible('li.account button')
           .click('li.account button')
           .waitForElementNotPresent('.session')
           .click('a[href="#/validators"]')
+          .waitForElementVisible('.li-validator')
           .click('.li-validator')
           .click('#delegation-btn')
           .setValue("input[placeholder='Amount']", '1')
