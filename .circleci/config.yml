@@ -3,7 +3,7 @@ version: 2.1
 aliases:
   # Define paths and never think about them again
   - &WORKSPACE /tmp/lunie
-  - &docker-browsers tendermintdev/voyager_node_browser
+  - &docker-browsers circleci/node-browsers
 
 # reusable commands
 commands:
