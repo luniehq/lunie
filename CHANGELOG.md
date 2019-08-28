@@ -7,6 +7,19 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.0-beta.112] - 2019-08-28
+
+### Added
+
+- [#2912](https://github.com/cosmos/lunie/pull/2912) Warn Windows users about Nano S singing limitation @colw
+
+### Repository
+
+- [#2915](https://github.com/cosmos/lunie/pull/2915) Ability to run a speedy testnet to improve e2e tests @faboweb
+- [#2915](https://github.com/cosmos/lunie/pull/2915) Make main validator of testnet greedy to reduce received rewards to 0 for predictability @faboweb
+- [#2914](https://github.com/cosmos/lunie/pull/2914) Switched back to codecov @faboweb
+- [#2914](https://github.com/cosmos/lunie/pull/2914) Disabled duplicate code detection in codeclimate @faboweb
+
 ## [1.0.0-beta.111] - 2019-08-26
 
 ### Fixed

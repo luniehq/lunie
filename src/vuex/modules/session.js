@@ -1,6 +1,14 @@
 import { track, deanonymize, anonymize } from "scripts/google-analytics"
 import config from "src/config"
 
+function isWindowsPlatform() {
+  return window.navigator.platform.match(/win32|win64/i) !== null
+}
+
+const windowsWarning = `If you’re using Windows 10 (May 2019 update), signing
+transactions with your Ledger Nano S will not work. Please use another
+operating system, or version of Windows.`
+
 export default () => {
   const USER_PREFERENCES_KEY = `lunie_user_preferences`
 
@@ -26,6 +34,8 @@ export default () => {
     browserWithLedgerSupport:
       navigator.userAgent.includes(`Chrome`) ||
       navigator.userAgent.includes(`Opera`),
+    windowsDevice: isWindowsPlatform(),
+    windowsWarning: windowsWarning,
 
     // import into state to be able to test easier
     externals: {
