@@ -3,7 +3,6 @@ version: 2.1
 aliases:
   # Define paths and never think about them again
   - &WORKSPACE /tmp/lunie
-  - &docker-browsers circleci/node:10.15.3-browsers
 
 # reusable commands
 commands:
@@ -86,7 +85,7 @@ jobs:
   testE2E:
     docker:
       # Primary container image where all steps run.
-     - image: *docker-browsers
+     - image: circleci/node:10.15.3-browsers
       # Secondary container image on common network which runs the testnet
      - image: lunieio/testnet:v0.34.3
     steps:
