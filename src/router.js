@@ -15,6 +15,7 @@ export const routeGuard = store => (to, from, next) => {
 
 /* istanbul ignore next */
 const router = new Router({
+  mode: "history",
   scrollBehavior: () => ({ y: 0 }),
   routes
 })
