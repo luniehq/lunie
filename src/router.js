@@ -12,8 +12,8 @@ export const routeGuard = store => async (to, from, next) => {
     next(path)
     return
   }
-  
-  if (!featureAvailable(store, to)) {
+
+  if (!(await featureAvailable(store, to))) {
     next(`/feature-not-available/${to.meta.feature}`)
     return
   }
