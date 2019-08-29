@@ -83,6 +83,12 @@ describe(`parsers helper`, () => {
     expect(parseFee(signedMessage)).toBe(40)
   })
 
+  it(`should parse a signedmessaged parseFee if there are no fees`, () => {
+    const noFeesSignedMessage = JSON.parse(JSON.stringify(signedMessage))
+    noFeesSignedMessage.value.fee.amount = []
+    expect(parseFee(noFeesSignedMessage)).toBe(0)
+  })
+
   it(`should parse a signedmessaged parseValueObj`, () => {
     const parsedValueObj = {
       amount: '10000000',
