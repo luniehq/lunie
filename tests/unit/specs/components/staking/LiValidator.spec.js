@@ -16,7 +16,6 @@ describe(`LiValidator`, () => {
     customized: false,
     delegator_shares: "697935712090.000000000000000000",
     details: "Mr Mounty",
-    id: "9cfd0f08-c750-4cde-a267-e5a38feede20",
     identity: "4BE49EABAA41B8BF",
     jailed: false,
     keybaseId: "4BE49EABAA41B8BF",

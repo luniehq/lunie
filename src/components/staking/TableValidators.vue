@@ -22,7 +22,6 @@
 
 <script>
 import { mapGetters, mapState } from "vuex"
-import num from "scripts/num"
 import orderBy from "lodash.orderby"
 import LiValidator from "staking/LiValidator"
 import PanelSort from "staking/PanelSort"
@@ -45,7 +44,6 @@ export default {
     }
   },
   data: () => ({
-    num: num,
     query: ``,
     sort: {
       property: `commission`,

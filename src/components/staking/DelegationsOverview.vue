@@ -38,7 +38,7 @@ export default {
     validators: []
   }),
   computed: {
-    ...mapGetters([`committedDelegations`, `flatOrderedTransactionList`])
+    ...mapGetters([`committedDelegations`])
   },
   apollo: {
     validators: {

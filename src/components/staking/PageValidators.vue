@@ -28,7 +28,6 @@ export default {
     TmPage
   },
   data: () => ({
-    lastUpdate: 0,
     validators: []
   }),
   apollo: {

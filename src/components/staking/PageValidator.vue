@@ -73,8 +73,8 @@
               >{{ website }}</a
             >
           </span>
-          <span v-else>
-            {{ website }}
+          <span v-else id="validator-website">
+            {{ website | noBlanks }}
           </span>
         </li>
         <li class="column">
