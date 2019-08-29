@@ -28,6 +28,7 @@ describe(`DelegationsOverview`, () => {
         }
       }
     }
+
     wrapper = shallowMount(DelegationsOverview, {
       mocks: {
         $store,
