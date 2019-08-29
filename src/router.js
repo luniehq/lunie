@@ -39,7 +39,7 @@ async function waitForAvailable(selectorFn) {
 }
 
 // check if feature is allowed and redirect if not
-async function featureAvailable(store, to, next) {
+async function featureAvailable(store, to) {
   await waitForAvailable(() => store.state.networks.network)
   if (
     to.meta.feature &&
