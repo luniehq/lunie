@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.0-beta.113] - 2019-08-29
+
+### Changed
+
+- Change to use html5 history mode for router @faboweb
+
 ## [1.0.0-beta.112] - 2019-08-28
 
 ### Added

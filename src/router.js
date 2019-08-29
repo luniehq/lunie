@@ -6,6 +6,13 @@ import Vue from "vue"
 Vue.use(Router)
 
 export const routeGuard = store => async (to, from, next) => {
+  // Redirect if fullPath begins with a hash (fallback for old pre history mode urls)
+  if (to.fullPath.includes("#")) {
+    const path = to.fullPath.substr(to.fullPath.indexOf("#") + 1)
+    next(path)
+    return
+  }
+  
   if (!featureAvailable(store, to)) {
     next(`/feature-not-available/${to.meta.feature}`)
     return
@@ -20,6 +27,7 @@ export const routeGuard = store => async (to, from, next) => {
 
 /* istanbul ignore next */
 const router = new Router({
+  mode: process.env.VUE_APP_E2E ? undefined : "history",
   scrollBehavior: () => ({ y: 0 }),
   routes
 })
