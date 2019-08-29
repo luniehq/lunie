@@ -33,6 +33,8 @@ export default (opts = {}) => {
     pending = storeUpdateHandler(mutation, state, pending)
   })
 
+  store.dispatch("init")
+
   return store
 }
 

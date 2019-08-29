@@ -9,14 +9,13 @@ const rpc =
 export default {
   name: `Lunie`,
   development: dev,
-  network: process.env.NETWORK || `local-testnet`,
+  network: `cosmoshub`,
   stargate,
   rpc,
   google_analytics_uid: process.env.GOOGLE_ANALYTICS_UID || "",
   node_halted_timeout: 120000,
   block_timeout: 10000,
   default_gas_price: dev ? 1e-9 : 2.5e-8, // recommended from Cosmos Docs
-  version: process.env.RELEASE,
 
   // Ledger
   CosmosAppTestModeAllowed: false,
