@@ -105,7 +105,7 @@ describe(`TableValidators`, () => {
     wrapper.setData({ showing: 2 })
     expect(wrapper.findAll("livalidator-stub").length).toBe(2)
     wrapper.vm.loadMore()
-    expect(wrapper.findAll("livalidator-stub").length).toBe(3)
+    expect(wrapper.findAll("livalidator-stub").length).toBe(5)
   })
 
   it(`should update rewards on new blocks`, () => {
