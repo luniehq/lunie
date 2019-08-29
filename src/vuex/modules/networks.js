@@ -47,14 +47,11 @@ export default ({ apollo }) => {
           query Networks {
             networks(where: {id: {_eq: "${id}"}}) {
               action_delegate
-              action_proposal_create
-              action_proposal_deposit
-              action_proposal_vote
+              action_proposal
+              action_deposit
+              action_vote
               action_redelegate
               action_send
-              action_session_create
-              action_session_recover
-              action_session_signin
               action_undelegate
               action_withdraw
               api_url
@@ -76,7 +73,6 @@ export default ({ apollo }) => {
       })
 
       const { networks } = response.data
-      // networks[0].feature_portfolio = false
       commit("setNetwork", networks[0])
     }
   }
