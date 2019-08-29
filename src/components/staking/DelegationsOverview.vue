@@ -1,13 +1,13 @@
 <template>
   <div>
-    <div v-if="delegation.loaded && yourValidators.length > 0">
+    <div v-if="!$apollo.queries.validators.loading && validators.length > 0">
       <TableValidators
-        :validators="yourValidators"
+        :validators="validators"
         show-on-mobile="expectedReturns"
       />
     </div>
     <TmDataMsg
-      v-else-if="yourValidators.length === 0"
+      v-else-if="validators.length === 0"
       icon="sentiment_dissatisfied"
     >
       <div slot="title">
@@ -23,9 +23,10 @@
 </template>
 
 <script>
-import { mapState, mapGetters } from "vuex"
+import { mapGetters } from "vuex"
 import TmDataMsg from "common/TmDataMsg"
 import TableValidators from "staking/TableValidators"
+import { SomeValidators, AllValidatorsResult } from "src/gql"
 
 export default {
   name: `delegations-overview`,
@@ -33,9 +34,22 @@ export default {
     TableValidators,
     TmDataMsg
   },
+  data: () => ({
+    validators: []
+  }),
   computed: {
-    ...mapState([`delegation`]),
-    ...mapGetters([`bondDenom`, `yourValidators`])
+    ...mapGetters([`committedDelegations`, `flatOrderedTransactionList`])
+  },
+  apollo: {
+    validators: {
+      query: SomeValidators,
+      variables() {
+        return {
+          addressList: Object.keys(this.committedDelegations)
+        }
+      },
+      update: AllValidatorsResult
+    }
   }
 }
 </script>

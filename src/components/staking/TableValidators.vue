@@ -55,7 +55,7 @@ export default {
     rollingWindow: 10000 // param of slashing period
   }),
   computed: {
-    ...mapState([`delegates`, `distribution`, `pool`, `session`]),
+    ...mapState([`distribution`, `pool`, `session`]),
     ...mapState({
       annualProvision: state => state.minting.annualProvision
     }),
@@ -63,24 +63,21 @@ export default {
     enrichedValidators(
       {
         validators,
-        delegates: { signingInfos },
         pool,
         annualProvision,
         committedDelegations,
         session,
-        distribution,
-        rollingWindow
+        distribution
       } = this
     ) {
       return validators.map(v => {
-        const signingInfo = signingInfos[v.operator_address]
         return Object.assign({}, v, {
-          small_moniker: v.description.moniker.toLowerCase(),
+          small_moniker: v.moniker.toLowerCase(),
           my_delegations:
             session.signedIn && committedDelegations[v.operator_address] > 0
               ? committedDelegations[v.operator_address]
               : 0,
-          commission: v.commission.rate,
+          commission: v.rate,
           voting_power: BN(v.tokens)
             .div(pool.pool.bonded_tokens)
             .toFixed(10),
@@ -88,10 +85,6 @@ export default {
             session.signedIn && distribution.rewards[v.operator_address]
               ? distribution.rewards[v.operator_address][this.bondDenom]
               : 0,
-          uptime: signingInfo
-            ? (rollingWindow - signingInfo.missed_blocks_counter) /
-              rollingWindow
-            : 0,
           expectedReturns: annualProvision
             ? expectedReturns(
                 v,
