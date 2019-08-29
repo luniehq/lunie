@@ -1,8 +1,6 @@
 import networks from "src/vuex/modules/networks.js"
 
 describe(`Module: Networks`, () => {
-  let module, state, actions
-
   const mockNetworks = [
     {
       chain_id: "cosmoshub-2",
