@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.4] - 2019-08-29
+
+### Fixed
+
+- Fix a bug where the UI would crash 0 fee txs @faboweb
+
+### Code Improvements
+
+- [#83](https://github.com/cosmos/lunie/pull/83) Use new transaction component @colw
+
 ## [1.0.3] - 2019-08-06
 
 ### Added
