@@ -6,13 +6,9 @@ import Vue from "vue"
 Vue.use(Router)
 
 export const routeGuard = store => async (to, from, next) => {
-  // check if feature is allowed and redirect if not
-  await waitForAvailable(() => store.state.networks.network)
-  if (
-    to.meta.feature &&
-    !store.state.networks.network[`feature_${to.meta.feature.toLowerCase()}`]
-  ) {
+  if (!featureAvailable(store, to)) {
     next(`/feature-not-available/${to.meta.feature}`)
+    return
   }
 
   if (from.fullPath !== to.fullPath && !store.state.session.pauseHistory) {
@@ -30,6 +26,7 @@ const router = new Router({
 
 export default router
 
+// wait for a value to be available
 async function waitForAvailable(selectorFn) {
   if (selectorFn() === null || selectorFn() === undefined) {
     await new Promise(resolve =>
@@ -39,4 +36,17 @@ async function waitForAvailable(selectorFn) {
       }, 50)
     )
   }
+}
+
+// check if feature is allowed and redirect if not
+async function featureAvailable(store, to, next) {
+  await waitForAvailable(() => store.state.networks.network)
+  if (
+    to.meta.feature &&
+    !store.state.networks.network[`feature_${to.meta.feature.toLowerCase()}`]
+  ) {
+    return false
+  }
+
+  return true
 }
