@@ -39,26 +39,26 @@ exports[`ActionModal should show the action modal on success 1`] = `
     >
       <div>
         
-          Successful transaction
-        
+            Successful transaction
+          
       </div>
        
       <div>
         
-          You have successfully completed a transaction.
-          
+            You have successfully completed a transaction.
+            
         <br />
          
         <br />
         Block
-          
+            
         <router-link-stub
           to="/blocks/undefined"
         >
           #
         </router-link-stub>
         .
-        
+          
       </div>
     </tmdatamsg-stub>
   </div>
@@ -474,9 +474,9 @@ exports[`ActionModal should show the action modal when user has logged in with e
     >
       <div>
         
-          Please send the transaction to be signed in the Lunie Browser
-          Extension.
-        
+            Please send the transaction to be signed in the Lunie Browser
+            Extension.
+          
       </div>
        
       <!---->
@@ -554,9 +554,9 @@ exports[`ActionModal should show the action modal when user has logged in with e
        
       <div>
         
-          Please open the Lunie Browser Extension, review the details, and
-          approve the transaction.
-        
+            Please open the Lunie Browser Extension, review the details, and
+            approve the transaction.
+          
       </div>
        
       <!---->
@@ -694,9 +694,9 @@ exports[`ActionModal should show the action modal when user has logged in with l
     >
       <div>
         
-          Please use Chrome, Brave, or Opera. Ledger is not supported in this
-          browser.
-        
+            Please use Chrome, Brave, or Opera. Ledger is not supported in
+            this browser.
+          
       </div>
     </hardwarestate-stub>
      
@@ -768,9 +768,9 @@ exports[`ActionModal should show the action modal when user has logged in with l
     >
       <div>
         
-          Please use Chrome, Brave, or Opera. Ledger is not supported in this
-          browser.
-        
+            Please use Chrome, Brave, or Opera. Ledger is not supported in
+            this browser.
+          
       </div>
     </hardwarestate-stub>
      
@@ -1061,8 +1061,8 @@ exports[`ActionModal should show the action modal when user hasn't logged in 1`]
       class="form-message notice"
     >
       
-        You need to sign in to submit a transaction.
-      
+          You need to sign in to submit a transaction.
+        
     </p>
   </div>
    
@@ -1082,6 +1082,41 @@ exports[`ActionModal should show the action modal when user hasn't logged in 1`]
      
     <!---->
   </div>
+</div>
+`;
+
+exports[`ActionModal shows a feature unavailable message 1`] = `
+<div
+  class="action-modal"
+  name="slide-fade"
+  tabindex="0"
+>
+  <div
+    class="action-modal-icon action-modal-close"
+    id="closeBtn"
+  >
+    <i
+      class="material-icons"
+    >
+      close
+    </i>
+  </div>
+   
+  <div
+    class="action-modal-header"
+  >
+    <span
+      class="action-modal-title"
+    >
+      Action Modal
+    </span>
+     
+    <!---->
+  </div>
+   
+  <featurenotavailable-stub
+    feature="Action Modal"
+  />
 </div>
 `;
 
@@ -1121,8 +1156,8 @@ exports[`ActionModal windows shows windows warning 1`] = `
     class="form-message notice"
   >
     
-      WINDOWS WARNING MESSAGE
-    
+        WINDOWS WARNING MESSAGE
+      
   </p>
    
   <div
@@ -1132,8 +1167,8 @@ exports[`ActionModal windows shows windows warning 1`] = `
       class="form-message notice"
     >
       
-        You need to sign in to submit a transaction.
-      
+          You need to sign in to submit a transaction.
+        
     </p>
   </div>
    

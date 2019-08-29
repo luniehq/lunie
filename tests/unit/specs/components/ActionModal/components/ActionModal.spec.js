@@ -58,6 +58,11 @@ describe(`ActionModal`, () => {
         extension: {
           enabled: true
         },
+        networks: {
+          network: {
+            action_action_modal: true // value depends on title
+          }
+        },
         session: {
           signedIn: true,
           sessionType: `local`,
@@ -684,6 +689,12 @@ describe(`ActionModal`, () => {
     })
   })
 
+  it("shows a feature unavailable message", () => {
+    $store.state.networks.network.action_action_modal = false
+    expect(wrapper.element).toMatchSnapshot()
+    expect(wrapper.exists("featurenotavailable-stub")).toBe(true)
+  })
+
   describe(`windows`, () => {
     beforeEach(() => {
       wrapper = shallowMount(ActionModal, {
@@ -697,6 +708,11 @@ describe(`ActionModal`, () => {
               session: {
                 windowsDevice: true,
                 windowsWarning: "WINDOWS WARNING MESSAGE"
+              },
+              networks: {
+                network: {
+                  action_action_modal: true // value depends on title
+                }
               }
             },
             getters: {
