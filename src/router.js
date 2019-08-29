@@ -6,6 +6,7 @@ import Vue from "vue"
 Vue.use(Router)
 
 export const routeGuard = store => async (to, from, next) => {
+  // check if feature is allowed and redirect if not
   await waitForAvailable(() => store.state.networks.network)
   if (
     to.meta.feature &&
@@ -13,6 +14,7 @@ export const routeGuard = store => async (to, from, next) => {
   ) {
     next(`/feature-not-available/${to.meta.feature}`)
   }
+
   if (from.fullPath !== to.fullPath && !store.state.session.pauseHistory) {
     store.commit(`addHistory`, from.fullPath)
   }
