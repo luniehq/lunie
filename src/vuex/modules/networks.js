@@ -1,6 +1,44 @@
 import gql from "graphql-tag"
 import config from "src/config.js"
 
+const NETWORKS_QUERY = gql`
+  query Networks {
+    networks {
+      chain_id
+      logo_url
+      testnet
+      title
+    }
+  }
+`
+const CAPABILITIES_QUERY = id => gql`
+query Networks {
+  networks(where: {id: {_eq: "${id}"}}) {
+    action_delegate
+    action_proposal
+    action_deposit
+    action_vote
+    action_redelegate
+    action_send
+    action_undelegate
+    action_withdraw
+    api_url
+    bech32_prefix
+    feature_activity
+    chain_id
+    feature_blocks
+    feature_portfolio
+    feature_proposals
+    feature_sessions
+    feature_validators
+    logo_url
+    rpc_url
+    testnet
+    title
+  }
+}
+`
+
 export default ({ apollo }) => {
   const state = {
     loading: false,
@@ -26,16 +64,7 @@ export default ({ apollo }) => {
     },
     async loadNetworks({ commit }) {
       const response = await apollo.query({
-        query: gql`
-          query Networks {
-            networks {
-              chain_id
-              logo_url
-              testnet
-              title
-            }
-          }
-        `
+        query: NETWORKS_QUERY
       })
 
       const { networks } = response.data
@@ -43,33 +72,7 @@ export default ({ apollo }) => {
     },
     async loadNetwork({ commit }, id) {
       const response = await apollo.query({
-        query: gql`
-          query Networks {
-            networks(where: {id: {_eq: "${id}"}}) {
-              action_delegate
-              action_proposal
-              action_deposit
-              action_vote
-              action_redelegate
-              action_send
-              action_undelegate
-              action_withdraw
-              api_url
-              bech32_prefix
-              feature_activity
-              chain_id
-              feature_blocks
-              feature_portfolio
-              feature_proposals
-              feature_sessions
-              feature_validators
-              logo_url
-              rpc_url
-              testnet
-              title
-            }
-          }
-        `
+        query: CAPABILITIES_QUERY(id)
       })
 
       const { networks } = response.data
