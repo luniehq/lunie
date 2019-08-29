@@ -11,7 +11,7 @@ exports[`PageValidators shows a list of validators 1`] = `
   <template>
     <tablevalidators-stub
       showonmobile="expectedReturns"
-      validators="[object Object],[object Object],[object Object]"
+      validators="[object Object],[object Object],[object Object],[object Object],[object Object]"
     />
   </template>
 </tmpage-stub>
