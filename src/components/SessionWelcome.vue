@@ -1,7 +1,7 @@
 <template>
   <SessionFrame :hide-back="true">
     <div id="session-welcome">
-      <img class="lunie-logo" src="../images/extension-logo.svg" />
+      <img class="lunie-logo" src="../images/lunie-logo-white.svg" />
 
       <div class="session-list">
         <LiSession
