@@ -387,6 +387,7 @@ export default {
     validator: {
       query: ValidatorProfile,
       variables() {
+        /* istanbul ignore next */
         return {
           address: this.$route.params.validator
         }
