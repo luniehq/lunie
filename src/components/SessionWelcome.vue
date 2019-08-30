@@ -70,7 +70,8 @@ export default {
 }
 
 .lunie-logo {
-  margin: 1rem 0 1rem 1rem;
+  margin: 1rem 0 0rem 1rem;
+  width: 40px;
 }
 
 .session-paragraph {
