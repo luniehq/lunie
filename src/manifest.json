@@ -26,6 +26,7 @@
       "matches": [
         "https://localhost/*",
         "https://lunie.io/*",
+        "https://app.lunie.io/*",
         "https://www.lunie.io/*"
       ],
       "js": [
