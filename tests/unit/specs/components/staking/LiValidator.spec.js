@@ -71,4 +71,14 @@ describe(`LiValidator`, () => {
   it(`should show the voting power`, () => {
     expect(wrapper.html()).toContain(`1.40%`)
   })
+
+  it(`should gravatar when no avatar`, () => {
+    wrapper.setProps({
+      validator: {
+        ...validator,
+        avatarUrl: ""
+      }
+    })
+    expect(wrapper.find("avatar-stub").exists())
+  })
 })
