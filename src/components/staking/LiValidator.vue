@@ -69,6 +69,7 @@ export default {
     },
     showOnMobile: {
       type: String,
+      /* istanbul ignore next */
       default: () => "returns"
     }
   },
