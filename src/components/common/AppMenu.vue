@@ -69,6 +69,7 @@
       </router-link>
 
       <router-link
+        v-if="session.experimentalMode"
         class="app-menu-item hide-xs"
         to="/network"
         exact="exact"
