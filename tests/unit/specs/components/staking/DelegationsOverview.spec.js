@@ -44,6 +44,12 @@ describe(`DelegationsOverview`, () => {
     expect(wrapper.element).toMatchSnapshot()
   })
 
+  it(`has list of deleegation addresses`, async () => {
+    expect(wrapper.vm.delegationsAddressList).toEqual([
+      validators[0].operator_address
+    ])
+  })
+
   it(`shows a sentiment of dissatisfaction when you have no such delegations`, async () => {
     wrapper.setData({ validators: [] })
     expect(wrapper.element).toMatchSnapshot()

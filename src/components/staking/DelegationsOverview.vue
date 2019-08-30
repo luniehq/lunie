@@ -38,14 +38,17 @@ export default {
     validators: []
   }),
   computed: {
-    ...mapGetters([`committedDelegations`])
+    ...mapGetters([`committedDelegations`]),
+    delegationsAddressList() {
+      return Object.keys(this.committedDelegations)
+    }
   },
   apollo: {
     validators: {
       query: SomeValidators,
       variables() {
         return {
-          addressList: Object.keys(this.committedDelegations)
+          addressList: this.delegationsAddressList
         }
       },
       update: AllValidatorsResult
