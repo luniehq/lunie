@@ -13,7 +13,7 @@ const commitHash = require(`child_process`)
   .trim()
 
 module.exports = {
-  publicPath: `./`,
+  publicPath: `/`,
   configureWebpack: () => {
     const config = {
       resolve: {
