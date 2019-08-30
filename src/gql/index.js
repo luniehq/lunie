@@ -28,6 +28,7 @@ const ValidatorFragment = gql`
     update_time
     uptime_percentage
     userName
+    voting_power
     website
   }
 `

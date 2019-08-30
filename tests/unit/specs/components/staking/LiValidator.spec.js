@@ -35,6 +35,7 @@ describe(`LiValidator`, () => {
     uptime_percentage: "0.9962",
     userName: "mr_mounty",
     website: "www.monty.ca",
+    voting_power: 0.014,
 
     // Enriched locally
     expectedReturns: 0.13

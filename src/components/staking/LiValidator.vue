@@ -42,16 +42,14 @@
       }}
     </td>
     <td :class="{ 'hide-xs': showOnMobile !== 'voting-power' }">
-      {{ validator.tokens ? percentOfVotingPower : `--` }}
+      {{ validator.voting_power | percent }}
     </td>
   </tr>
 </template>
 
 <script>
-import { mapState } from "vuex"
 import { percent, shortDecimals, atoms } from "scripts/num"
 import Avatar from "common/Avatar"
-import BN from "bignumber.js"
 
 export default {
   name: `li-validator`,
@@ -60,7 +58,8 @@ export default {
   },
   filters: {
     atoms,
-    shortDecimals
+    shortDecimals,
+    percent
   },
   props: {
     validator: {
@@ -71,16 +70,6 @@ export default {
       type: String,
       /* istanbul ignore next */
       default: () => "returns"
-    }
-  },
-  computed: {
-    ...mapState([`pool`]),
-    percentOfVotingPower() {
-      return percent(
-        BN(this.validator.tokens)
-          .div(this.pool.pool.bonded_tokens)
-          .toFixed(4)
-      )
     }
   },
   methods: {
