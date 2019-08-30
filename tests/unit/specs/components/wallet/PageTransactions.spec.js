@@ -290,4 +290,22 @@ describe(`PageTransactions`, () => {
     wrapper.vm.loadMore()
     expect(wrapper.vm.showingTransactions.length).toBe(7)
   })
+  it(`should load more transactions (infinite scrolling)`, async () => {
+    const refreshTransactions = jest.fn()
+    wrapper = shallowMount(PageTransactions, {
+      localVue,
+      mocks: {
+        $store
+      },
+      directives: {
+        infiniteScroll: () => {}
+      },
+      methods: {
+        refreshTransactions
+      }
+    })
+    wrapper.setData({ session: { signedIn: false } })
+    wrapper.vm.$nextTick()
+    expect(refreshTransactions).toHaveBeenCalled()
+  })
 })
