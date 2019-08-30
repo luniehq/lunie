@@ -46,6 +46,7 @@ export default {
   apollo: {
     validators: {
       query: SomeValidators,
+      /* istanbul ignore next */
       variables() {
         return {
           addressList: this.delegationsAddressList
