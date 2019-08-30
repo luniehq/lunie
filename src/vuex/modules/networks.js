@@ -4,6 +4,7 @@ import config from "src/config.js"
 const NETWORKS_QUERY = gql`
   query Networks {
     networks {
+      id
       chain_id
       logo_url
       testnet
