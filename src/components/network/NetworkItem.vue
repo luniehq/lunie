@@ -5,13 +5,11 @@
     </div>
     <div class="network-content">
       <h5 class="network-title">
-        {{ network.title }} (<small>{{ network.id }}</small
-        >)
+        {{ network.title }}
       </h5>
       <p class="network-caption">
         {{ network.chain_id }}
       </p>
-      <pre>{{ network }}</pre>
     </div>
   </div>
 </template>
