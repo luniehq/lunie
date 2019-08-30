@@ -78,7 +78,7 @@ export default ({ apollo }) => {
 
       const { networks } = response.data
       commit("setNetwork", networks[0])
-      commit("setRpcUrl", state.network.rpc_url)
+      commit("setRpcUrl", networks[0].rpc_url)
       dispatch("connect")
     }
   }

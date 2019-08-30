@@ -88,7 +88,9 @@ describe(`Module: Networks`, () => {
     })
 
     const commit = jest.fn()
-    await actions.loadNetwork({ state, commit }, "cosmoshub")
+    const dispatch = jest.fn()
+    await actions.loadNetwork({ state, commit, dispatch }, "cosmoshub")
     expect(commit).toHaveBeenCalledWith("setNetwork", mockCapabilities)
+    expect(dispatch).toHaveBeenCalledWith("connect")
   })
 })
