@@ -69,6 +69,19 @@
       </router-link>
 
       <router-link
+        class="app-menu-item hide-xs"
+        to="/network"
+        exact="exact"
+        title="Network"
+        @click.native="close"
+      >
+        <h2 class="app-menu-title">
+          Network
+        </h2>
+        <i class="material-icons">chevron_right</i>
+      </router-link>
+
+      <router-link
         class="app-menu-item hide-m"
         to="/about"
         exact="exact"

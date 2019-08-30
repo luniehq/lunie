@@ -82,6 +82,14 @@ export default [
     }
   },
   {
+    path: `/network`,
+    name: `network`,
+    component: require(`./components/network/PageNetwork`).default,
+    meta: {
+      requiresAuth: false
+    }
+  },
+  {
     path: `/blocks/:height`,
     name: `block`,
     component: require(`./components/network/PageBlock`).default,
