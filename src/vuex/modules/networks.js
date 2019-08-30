@@ -71,13 +71,15 @@ export default ({ apollo }) => {
       const { networks } = response.data
       commit("setNetworks", networks)
     },
-    async loadNetwork({ commit }, id) {
+    async loadNetwork({ state, commit, dispatch }, id) {
       const response = await apollo.query({
         query: CAPABILITIES_QUERY(id)
       })
 
       const { networks } = response.data
       commit("setNetwork", networks[0])
+      commit("setRpcUrl", state.network.rpc_url)
+      dispatch("connect")
     }
   }
 
