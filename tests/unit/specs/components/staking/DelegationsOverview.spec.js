@@ -43,4 +43,9 @@ describe(`DelegationsOverview`, () => {
   it(`shows an overview over all delegations of the user`, async () => {
     expect(wrapper.element).toMatchSnapshot()
   })
+
+  it(`shows a sentiment of dissatisfaction when you have no such delegations`, async () => {
+    wrapper.setData({ validators: [] })
+    expect(wrapper.element).toMatchSnapshot()
+  })
 })
