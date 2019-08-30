@@ -277,7 +277,7 @@ export default {
     website() {
       let url = this.validator.website
 
-      if (!url) {
+      if (!url || url === "[do-not-modify]") {
         return ""
       } else if (!url.match(/http[s]?/)) {
         url = `https://` + url
