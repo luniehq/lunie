@@ -2,19 +2,62 @@
 
 import gql from "graphql-tag"
 
-export const ValidatorProfile = gql`
-  query validatorProfile($address: String) {
-    validatorProfiles: validatorList(
-      where: { operator_address: { _eq: $address } }
-    ) {
-      keybaseId
-      lastUpdated
-      profileUrl
-      userName
-      customized
-      avatarUrl
+const ValidatorFragment = gql`
+  fragment ValidatorParts on allValidators {
+    avatarUrl
+    consensus_pubkey
+    customized
+    delegator_shares
+    details
+    id
+    identity
+    jailed
+    keybaseId
+    lastUpdated
+    max_change_rate
+    max_rate
+    min_self_delegation
+    moniker
+    operator_address
+    profileUrl
+    rate
+    status
+    tokens
+    unbonding_height
+    unbonding_time
+    update_time
+    uptime_percentage
+    userName
+    voting_power
+    website
+  }
+`
+
+export const AllValidators = gql`
+  query AllValidators {
+    allValidators {
+      ...ValidatorParts
     }
   }
+  ${ValidatorFragment}
+`
+
+export const ValidatorProfile = gql`
+  query ValidatorInfo($address: String) {
+    allValidators(where: { operator_address: { _eq: $address } }) {
+      ...ValidatorParts
+    }
+  }
+  ${ValidatorFragment}
+`
+
+export const SomeValidators = gql`
+  query ValidatorInfo($addressList: [String!]) {
+    allValidators(where: { operator_address: { _in: $addressList } }) {
+      ...ValidatorParts
+    }
+  }
+  ${ValidatorFragment}
 `
 
 export const Networks = gql`
@@ -27,9 +70,10 @@ export const Networks = gql`
     }
   }
 `
-export const NetworkCapabilities = id => gql`
+
+export const NetworkCapabilities = networkId => gql`
 query Networks {
-  networks(where: {id: {_eq: "${id}"}}) {
+  networks(where: {id: {_eq: "${networkId}"}}) {
     action_delegate
     action_proposal
     action_deposit
@@ -55,5 +99,5 @@ query Networks {
 }
 `
 
-export const validatorProfileResultUpdate = data =>
-  data.validatorProfiles ? data.validatorProfiles[0] : undefined
+export const AllValidatorsResult = data => data.allValidators
+export const ValidatorResult = data => data.allValidators[0]

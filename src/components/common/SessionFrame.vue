@@ -2,7 +2,7 @@
   <transition name="component-fade" mode="out-in">
     <div class="session-frame">
       <router-link to="/">
-        <img class="session-logo" src="~assets/images/cosmos-wallet-logo.svg" />
+        <img class="session-logo" src="~assets/images/lunie-logo-white.svg" />
       </router-link>
       <div class="session-outer-container">
         <div class="session">

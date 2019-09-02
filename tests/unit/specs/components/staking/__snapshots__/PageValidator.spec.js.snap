@@ -15,9 +15,11 @@ exports[`PageValidator shows a validator profile information errors signing info
       class="status-container"
     >
       <span
-        class="validator-status green"
+        class="validator-status active"
       >
+        
         Active
+      
       </span>
     </div>
      
@@ -27,15 +29,10 @@ exports[`PageValidator shows a validator profile information errors signing info
       <td
         class="data-table__row__info"
       >
-        <apolloquery-stub
-          debounce="0"
-          options="[object Object]"
-          prefetch="true"
-          query="[object Object]"
-          tag="div"
-          throttle="0"
-          update="function () { [native code] }"
-          variables="[object Object]"
+        <img
+          alt="validator logo for good_greg"
+          class="li-validator-image"
+          src="https://s3.amazonaws.com/img/path.jpg"
         />
          
         <div
@@ -45,7 +42,7 @@ exports[`PageValidator shows a validator profile information errors signing info
             class="li-validator-name"
           >
             
-            mr_mounty
+            good_greg
           
           </h3>
            
@@ -82,7 +79,7 @@ exports[`PageValidator shows a validator profile information errors signing info
          
         <span>
           
-          Mr Mounty
+          Good Guy Greg
         
         </span>
       </li>
@@ -96,12 +93,12 @@ exports[`PageValidator shows a validator profile information errors signing info
          
         <span>
           <a
-            href="https://www.monty.ca"
+            href=""
             id="validator-website"
             rel="nofollow noreferrer noopener"
             target="_blank"
           >
-            https://www.monty.ca
+            
           </a>
         </span>
       </li>
@@ -115,7 +112,7 @@ exports[`PageValidator shows a validator profile information errors signing info
          
         <span>
           <bech32-stub
-            address="cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
+            address="cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au"
           />
         </span>
       </li>
@@ -133,7 +130,7 @@ exports[`PageValidator shows a validator profile information errors signing info
           id="page-profile__rewards"
         >
           
-          2.26%
+          -NaN%
         
         </span>
       </li>
@@ -147,7 +144,7 @@ exports[`PageValidator shows a validator profile information errors signing info
           id="page-profile__power"
         >
           
-          0.33% /
+          0.00% /
           0
         
         </span>
@@ -174,22 +171,21 @@ exports[`PageValidator shows a validator profile information errors signing info
          
         <span>
           
-          Block #100
+          Block #0
         
         </span>
       </li>
        
       <li>
         <h4>
-          Uptime / Missed Blocks
+          Uptime
         </h4>
          
         <span
           id="page-profile__uptime"
         >
           
-          99.6% /
-          2
+          
         
         </span>
       </li>
@@ -200,7 +196,7 @@ exports[`PageValidator shows a validator profile information errors signing info
         </h4>
          
         <span>
-          5.00%
+          0.00%
         </span>
       </li>
        
@@ -210,7 +206,7 @@ exports[`PageValidator shows a validator profile information errors signing info
         </h4>
          
         <span>
-          10.00%
+          50.00%
         </span>
       </li>
        
@@ -220,7 +216,7 @@ exports[`PageValidator shows a validator profile information errors signing info
         </h4>
          
         <span>
-          0.50%
+          1.00%
         </span>
       </li>
        
@@ -230,7 +226,7 @@ exports[`PageValidator shows a validator profile information errors signing info
         </h4>
          
         <span>
-          a few seconds ago
+          in 50 years
         </span>
       </li>
     </ul>
@@ -238,7 +234,7 @@ exports[`PageValidator shows a validator profile information errors signing info
     <delegationmodal-stub
       denom="STAKE"
       fromoptions="[object Object]"
-      to="cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
+      to="cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au"
       validator="[object Object]"
     />
      
@@ -267,9 +263,11 @@ exports[`PageValidator shows a validator profile information if user has signed 
       class="status-container"
     >
       <span
-        class="validator-status green"
+        class="validator-status active"
       >
+        
         Active
+      
       </span>
     </div>
      
@@ -279,15 +277,10 @@ exports[`PageValidator shows a validator profile information if user has signed 
       <td
         class="data-table__row__info"
       >
-        <apolloquery-stub
-          debounce="0"
-          options="[object Object]"
-          prefetch="true"
-          query="[object Object]"
-          tag="div"
-          throttle="0"
-          update="function () { [native code] }"
-          variables="[object Object]"
+        <img
+          alt="validator logo for good_greg"
+          class="li-validator-image"
+          src="https://s3.amazonaws.com/img/path.jpg"
         />
          
         <div
@@ -297,7 +290,7 @@ exports[`PageValidator shows a validator profile information if user has signed 
             class="li-validator-name"
           >
             
-            mr_mounty
+            good_greg
           
           </h3>
            
@@ -334,7 +327,7 @@ exports[`PageValidator shows a validator profile information if user has signed 
          
         <span>
           
-          Mr Mounty
+          Good Guy Greg
         
         </span>
       </li>
@@ -348,12 +341,12 @@ exports[`PageValidator shows a validator profile information if user has signed 
          
         <span>
           <a
-            href="https://www.monty.ca"
+            href=""
             id="validator-website"
             rel="nofollow noreferrer noopener"
             target="_blank"
           >
-            https://www.monty.ca
+            
           </a>
         </span>
       </li>
@@ -367,7 +360,7 @@ exports[`PageValidator shows a validator profile information if user has signed 
          
         <span>
           <bech32-stub
-            address="cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
+            address="cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au"
           />
         </span>
       </li>
@@ -385,7 +378,7 @@ exports[`PageValidator shows a validator profile information if user has signed 
           id="page-profile__rewards"
         >
           
-          2.26%
+          -NaN%
         
         </span>
       </li>
@@ -399,7 +392,7 @@ exports[`PageValidator shows a validator profile information if user has signed 
           id="page-profile__power"
         >
           
-          0.33% /
+          0.00% /
           0
         
         </span>
@@ -426,22 +419,21 @@ exports[`PageValidator shows a validator profile information if user has signed 
          
         <span>
           
-          Block #100
+          Block #0
         
         </span>
       </li>
        
       <li>
         <h4>
-          Uptime / Missed Blocks
+          Uptime
         </h4>
          
         <span
           id="page-profile__uptime"
         >
           
-          99.6% /
-          2
+          
         
         </span>
       </li>
@@ -452,7 +444,7 @@ exports[`PageValidator shows a validator profile information if user has signed 
         </h4>
          
         <span>
-          5.00%
+          0.00%
         </span>
       </li>
        
@@ -462,7 +454,7 @@ exports[`PageValidator shows a validator profile information if user has signed 
         </h4>
          
         <span>
-          10.00%
+          50.00%
         </span>
       </li>
        
@@ -472,7 +464,7 @@ exports[`PageValidator shows a validator profile information if user has signed 
         </h4>
          
         <span>
-          0.50%
+          1.00%
         </span>
       </li>
        
@@ -482,7 +474,7 @@ exports[`PageValidator shows a validator profile information if user has signed 
         </h4>
          
         <span>
-          a few seconds ago
+          in 50 years
         </span>
       </li>
     </ul>
@@ -490,7 +482,7 @@ exports[`PageValidator shows a validator profile information if user has signed 
     <delegationmodal-stub
       denom="STAKE"
       fromoptions="[object Object]"
-      to="cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
+      to="cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au"
       validator="[object Object]"
     />
      
@@ -519,9 +511,11 @@ exports[`PageValidator shows a validator profile information if user hasn't sign
       class="status-container"
     >
       <span
-        class="validator-status green"
+        class="validator-status active"
       >
+        
         Active
+      
       </span>
     </div>
      
@@ -531,15 +525,10 @@ exports[`PageValidator shows a validator profile information if user hasn't sign
       <td
         class="data-table__row__info"
       >
-        <apolloquery-stub
-          debounce="0"
-          options="[object Object]"
-          prefetch="true"
-          query="[object Object]"
-          tag="div"
-          throttle="0"
-          update="function () { [native code] }"
-          variables="[object Object]"
+        <img
+          alt="validator logo for good_greg"
+          class="li-validator-image"
+          src="https://s3.amazonaws.com/img/path.jpg"
         />
          
         <div
@@ -549,7 +538,7 @@ exports[`PageValidator shows a validator profile information if user hasn't sign
             class="li-validator-name"
           >
             
-            mr_mounty
+            good_greg
           
           </h3>
            
@@ -586,7 +575,7 @@ exports[`PageValidator shows a validator profile information if user hasn't sign
          
         <span>
           
-          Mr Mounty
+          Good Guy Greg
         
         </span>
       </li>
@@ -600,12 +589,12 @@ exports[`PageValidator shows a validator profile information if user hasn't sign
          
         <span>
           <a
-            href="https://www.monty.ca"
+            href=""
             id="validator-website"
             rel="nofollow noreferrer noopener"
             target="_blank"
           >
-            https://www.monty.ca
+            
           </a>
         </span>
       </li>
@@ -619,7 +608,7 @@ exports[`PageValidator shows a validator profile information if user hasn't sign
          
         <span>
           <bech32-stub
-            address="cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
+            address="cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au"
           />
         </span>
       </li>
@@ -637,7 +626,7 @@ exports[`PageValidator shows a validator profile information if user hasn't sign
           id="page-profile__rewards"
         >
           
-          2.26%
+          -NaN%
         
         </span>
       </li>
@@ -651,7 +640,7 @@ exports[`PageValidator shows a validator profile information if user hasn't sign
           id="page-profile__power"
         >
           
-          0.33% /
+          0.00% /
           0
         
         </span>
@@ -678,22 +667,21 @@ exports[`PageValidator shows a validator profile information if user hasn't sign
          
         <span>
           
-          Block #100
+          Block #0
         
         </span>
       </li>
        
       <li>
         <h4>
-          Uptime / Missed Blocks
+          Uptime
         </h4>
          
         <span
           id="page-profile__uptime"
         >
           
-          99.6% /
-          2
+          
         
         </span>
       </li>
@@ -704,7 +692,7 @@ exports[`PageValidator shows a validator profile information if user hasn't sign
         </h4>
          
         <span>
-          5.00%
+          0.00%
         </span>
       </li>
        
@@ -714,7 +702,7 @@ exports[`PageValidator shows a validator profile information if user hasn't sign
         </h4>
          
         <span>
-          10.00%
+          50.00%
         </span>
       </li>
        
@@ -724,7 +712,7 @@ exports[`PageValidator shows a validator profile information if user hasn't sign
         </h4>
          
         <span>
-          0.50%
+          1.00%
         </span>
       </li>
        
@@ -734,31 +722,527 @@ exports[`PageValidator shows a validator profile information if user hasn't sign
         </h4>
          
         <span>
-          a few seconds ago
+          in 50 years
         </span>
       </li>
     </ul>
      
     <delegationmodal-stub
       denom="STAKE"
-      fromoptions=""
-      to="cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
+      fromoptions="[object Object]"
+      to="cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au"
       validator="[object Object]"
     />
      
     <undelegationmodal-stub
       denom="STAKE"
       maximum="0"
-      to=""
+      to="cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9"
       validator="[object Object]"
     />
   </template>
 </tmpage-stub>
 `;
 
-exports[`PageValidator shows a validator profile information shows a validator as an inactive candidate if he has no voting_power 1`] = `"Inactive"`;
+exports[`PageValidator shows a validator profile information shows a validator as an inactive candidate if he has no voting_power 1`] = `"Active"`;
 
-exports[`PageValidator shows a validator profile information shows that a validator is jailed 1`] = `"Jailed"`;
+exports[`PageValidator shows a validator profile information shows empty website url 1`] = `
+<tmpage-stub
+  class="small"
+  data-title="Validator"
+  hideheader="true"
+  loaded="true"
+  managed="true"
+  subtitle=""
+  title=""
+>
+  <template>
+    <div
+      class="status-container"
+    >
+      <span
+        class="validator-status active"
+      >
+        
+        Active
+      
+      </span>
+    </div>
+     
+    <tr
+      class="li-validator"
+    >
+      <td
+        class="data-table__row__info"
+      >
+        <img
+          alt="validator logo for good_greg"
+          class="li-validator-image"
+          src="https://s3.amazonaws.com/img/path.jpg"
+        />
+         
+        <div
+          class="validator-info"
+        >
+          <h3
+            class="li-validator-name"
+          >
+            
+            good_greg
+          
+          </h3>
+           
+          <!---->
+        </div>
+      </td>
+    </tr>
+     
+    <div
+      class="button-container"
+    >
+      <tmbtn-stub
+        id="delegation-btn"
+        value="Stake"
+      />
+       
+      <tmbtn-stub
+        disabled="true"
+        id="undelegation-btn"
+        type="secondary"
+        value="Unstake"
+      />
+    </div>
+     
+    <ul
+      class="row"
+    >
+      <li
+        class="column"
+      >
+        <h4>
+          Description
+        </h4>
+         
+        <span>
+          
+          Good Guy Greg
+        
+        </span>
+      </li>
+       
+      <li
+        class="column"
+      >
+        <h4>
+          Website
+        </h4>
+         
+        <span>
+          <a
+            href=""
+            id="validator-website"
+            rel="nofollow noreferrer noopener"
+            target="_blank"
+          >
+            
+          </a>
+        </span>
+      </li>
+       
+      <li
+        class="column"
+      >
+        <h4>
+          Validator Address
+        </h4>
+         
+        <span>
+          <bech32-stub
+            address="cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au"
+          />
+        </span>
+      </li>
+    </ul>
+     
+    <ul
+      class="row"
+    >
+      <li>
+        <h4>
+          Rewards
+        </h4>
+         
+        <span
+          id="page-profile__rewards"
+        >
+          
+          -NaN%
+        
+        </span>
+      </li>
+       
+      <li>
+        <h4>
+          Voting Power / Total Stake
+        </h4>
+         
+        <span
+          id="page-profile__power"
+        >
+          
+          0.00% /
+          0
+        
+        </span>
+      </li>
+       
+      <li>
+        <h4>
+          Self Stake
+        </h4>
+         
+        <span
+          id="page-profile__self-bond"
+        >
+          
+          1.00% / 10,000
+        
+        </span>
+      </li>
+       
+      <li>
+        <h4>
+          Validator Since
+        </h4>
+         
+        <span>
+          
+          Block #0
+        
+        </span>
+      </li>
+       
+      <li>
+        <h4>
+          Uptime
+        </h4>
+         
+        <span
+          id="page-profile__uptime"
+        >
+          
+          
+        
+        </span>
+      </li>
+       
+      <li>
+        <h4>
+          Current Commission Rate
+        </h4>
+         
+        <span>
+          0.00%
+        </span>
+      </li>
+       
+      <li>
+        <h4>
+          Max Commission Rate
+        </h4>
+         
+        <span>
+          50.00%
+        </span>
+      </li>
+       
+      <li>
+        <h4>
+          Max Daily Commission Change
+        </h4>
+         
+        <span>
+          1.00%
+        </span>
+      </li>
+       
+      <li>
+        <h4>
+          Last Commission Change
+        </h4>
+         
+        <span>
+          in 50 years
+        </span>
+      </li>
+    </ul>
+     
+    <delegationmodal-stub
+      denom="STAKE"
+      fromoptions="[object Object]"
+      to="cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au"
+      validator="[object Object]"
+    />
+     
+    <undelegationmodal-stub
+      denom="STAKE"
+      maximum="0"
+      to="cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9"
+      validator="[object Object]"
+    />
+  </template>
+</tmpage-stub>
+`;
+
+exports[`PageValidator shows a validator profile information shows http website url 1`] = `
+<tmpage-stub
+  class="small"
+  data-title="Validator"
+  hideheader="true"
+  loaded="true"
+  managed="true"
+  subtitle=""
+  title=""
+>
+  <template>
+    <div
+      class="status-container"
+    >
+      <span
+        class="validator-status active"
+      >
+        
+        Active
+      
+      </span>
+    </div>
+     
+    <tr
+      class="li-validator"
+    >
+      <td
+        class="data-table__row__info"
+      >
+        <img
+          alt="validator logo for good_greg"
+          class="li-validator-image"
+          src="https://s3.amazonaws.com/img/path.jpg"
+        />
+         
+        <div
+          class="validator-info"
+        >
+          <h3
+            class="li-validator-name"
+          >
+            
+            good_greg
+          
+          </h3>
+           
+          <!---->
+        </div>
+      </td>
+    </tr>
+     
+    <div
+      class="button-container"
+    >
+      <tmbtn-stub
+        id="delegation-btn"
+        value="Stake"
+      />
+       
+      <tmbtn-stub
+        disabled="true"
+        id="undelegation-btn"
+        type="secondary"
+        value="Unstake"
+      />
+    </div>
+     
+    <ul
+      class="row"
+    >
+      <li
+        class="column"
+      >
+        <h4>
+          Description
+        </h4>
+         
+        <span>
+          
+          Good Guy Greg
+        
+        </span>
+      </li>
+       
+      <li
+        class="column"
+      >
+        <h4>
+          Website
+        </h4>
+         
+        <span>
+          <a
+            href=""
+            id="validator-website"
+            rel="nofollow noreferrer noopener"
+            target="_blank"
+          >
+            
+          </a>
+        </span>
+      </li>
+       
+      <li
+        class="column"
+      >
+        <h4>
+          Validator Address
+        </h4>
+         
+        <span>
+          <bech32-stub
+            address="cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au"
+          />
+        </span>
+      </li>
+    </ul>
+     
+    <ul
+      class="row"
+    >
+      <li>
+        <h4>
+          Rewards
+        </h4>
+         
+        <span
+          id="page-profile__rewards"
+        >
+          
+          -NaN%
+        
+        </span>
+      </li>
+       
+      <li>
+        <h4>
+          Voting Power / Total Stake
+        </h4>
+         
+        <span
+          id="page-profile__power"
+        >
+          
+          0.00% /
+          0
+        
+        </span>
+      </li>
+       
+      <li>
+        <h4>
+          Self Stake
+        </h4>
+         
+        <span
+          id="page-profile__self-bond"
+        >
+          
+          1.00% / 10,000
+        
+        </span>
+      </li>
+       
+      <li>
+        <h4>
+          Validator Since
+        </h4>
+         
+        <span>
+          
+          Block #0
+        
+        </span>
+      </li>
+       
+      <li>
+        <h4>
+          Uptime
+        </h4>
+         
+        <span
+          id="page-profile__uptime"
+        >
+          
+          
+        
+        </span>
+      </li>
+       
+      <li>
+        <h4>
+          Current Commission Rate
+        </h4>
+         
+        <span>
+          0.00%
+        </span>
+      </li>
+       
+      <li>
+        <h4>
+          Max Commission Rate
+        </h4>
+         
+        <span>
+          50.00%
+        </span>
+      </li>
+       
+      <li>
+        <h4>
+          Max Daily Commission Change
+        </h4>
+         
+        <span>
+          1.00%
+        </span>
+      </li>
+       
+      <li>
+        <h4>
+          Last Commission Change
+        </h4>
+         
+        <span>
+          in 50 years
+        </span>
+      </li>
+    </ul>
+     
+    <delegationmodal-stub
+      denom="STAKE"
+      fromoptions="[object Object]"
+      to="cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au"
+      validator="[object Object]"
+    />
+     
+    <undelegationmodal-stub
+      denom="STAKE"
+      maximum="0"
+      to="cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9"
+      validator="[object Object]"
+    />
+  </template>
+</tmpage-stub>
+`;
+
+exports[`PageValidator shows a validator profile information shows that a validator is jailed 1`] = `"Active"`;
 
 exports[`delegationTargetOptions always shows wallet in the first position 1`] = `
 Array [
@@ -792,7 +1276,7 @@ Array [
   },
   Object {
     "address": "cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au",
-    "key": "good_greg - cosmosvaladdr…3p4mqpjyrm5ctplpn3au",
+    "key": "undefined - cosmosvaladdr…3p4mqpjyrm5ctplpn3au",
     "maximum": 5,
     "value": 1,
   },
