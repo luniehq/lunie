@@ -99,5 +99,15 @@ query Networks {
 }
 `
 
+// capability is 'feature_portfolio' / 'action_send'
+export const NetworkCapability = (networkId, capability) => gql`
+query Networks {
+  networks(where: {id: {_eq: "${networkId}"}, ${capability}: {_eq: true}}) {
+    id
+  }
+}
+`
+
 export const AllValidatorsResult = data => data.allValidators
 export const ValidatorResult = data => data.allValidators[0]
+export const NetworkCapabilityResult = data => data.networks.length === 1

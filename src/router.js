@@ -1,6 +1,6 @@
 import Router from "vue-router"
 import routes from "./routes"
-import { NetworkCapabilities } from "./gql"
+import { NetworkCapability, NetworkCapabilityResult } from "./gql"
 import Vue from "vue"
 import config from "src/config.js"
 
@@ -16,6 +16,7 @@ export const routeGuard = (store, apollo) => async (to, from, next) => {
   }
 
   if (
+    to.meta.feature &&
     !config.e2e && // TODO remove once we have Hasura integrated in e2e tests
     !(await featureAvailable(apollo, store.state.connection.network, to))
   ) {
@@ -41,18 +42,11 @@ export default router
 
 // check if feature is allowed and redirect if not
 async function featureAvailable(apollo, networkId, to) {
-  const {
-    data: { networks }
-  } = await apollo.query({
-    query: NetworkCapabilities(networkId)
+  const { data } = await apollo.query({
+    query: NetworkCapability(
+      networkId,
+      `feature_${to.meta.feature.toLowerCase()}`
+    )
   })
-  const capabilities = networks[0]
-  if (
-    to.meta.feature &&
-    !capabilities[`feature_${to.meta.feature.toLowerCase()}`]
-  ) {
-    return false
-  }
-
-  return true
+  return NetworkCapabilityResult(data)
 }
