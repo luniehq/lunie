@@ -23,6 +23,7 @@ export default [
     update_time: "2019-04-01T17:07:19.892771401Z",
     uptime_percentage: "0.9962",
     userName: "mr_mounty",
+    voting_power: "0.0014",
     website: "www.monty.ca"
   },
   {
@@ -49,6 +50,7 @@ export default [
     update_time: "2019-04-01T17:07:19.892771401Z",
     uptime_percentage: "0.9962",
     userName: "mr_mounty",
+    voting_power: 0.014,
     website: "www.greg.com"
   },
   {
@@ -75,6 +77,7 @@ export default [
     update_time: "2019-04-01T17:07:19.892771401Z",
     uptime_percentage: "0.9962",
     userName: "mr_mounty",
+    voting_power: 0.014,
     website: "www.schmidt.de"
   },
   {
@@ -101,6 +104,7 @@ export default [
     update_time: "2019-04-01T17:07:19.892771401Z",
     uptime_percentage: "0.9962",
     userName: "mr_mounty jailed",
+    voting_power: 0.014,
     website: "www.schmidt.de"
   },
   {
@@ -127,6 +131,7 @@ export default [
     update_time: "2019-04-01T17:07:19.892771401Z",
     uptime_percentage: "0.9962",
     userName: "mr_mounty inactive",
+    voting_power: 0.014,
     website: "www.schmidt.de"
   }
 ]
