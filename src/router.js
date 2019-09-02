@@ -2,7 +2,7 @@ import Router from "vue-router"
 import routes from "./routes"
 import { NetworkCapabilities } from "./gql"
 import Vue from "vue"
-import config from "./src/config"
+import config from "src/config.js"
 
 /* istanbul ignore next */
 Vue.use(Router)
