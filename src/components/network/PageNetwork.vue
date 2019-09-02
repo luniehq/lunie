@@ -28,7 +28,7 @@
 </template>
 
 <script>
-import { mapState } from "vuex"
+import { Networks, NetworksResult } from "src/gql"
 import NetworkItem from "./NetworkItem"
 
 import TmPage from "common/TmPage"
@@ -38,10 +38,10 @@ export default {
     TmPage,
     NetworkItem
   },
+  data: () => ({
+    networks: []
+  }),
   computed: {
-    ...mapState({
-      networks: state => state.networks.networks
-    }),
     mainNets() {
       return this.networks.filter(network => !network.testnet)
     },
@@ -52,6 +52,12 @@ export default {
   methods: {
     selectNetworkHandler(id) {
       this.$store.dispatch("loadNetwork", id)
+    }
+  },
+  apollo: {
+    networks: {
+      query: Networks,
+      update: NetworksResult
     }
   }
 }
