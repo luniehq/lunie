@@ -74,9 +74,8 @@ describe(`TableValidators`, () => {
     expect(wrapper.vm.enrichedValidators[0].small_moniker).toBe(`mr_mounty`)
     expect(wrapper.vm.enrichedValidators[0].voting_power).toBe(`0.0140000000`)
     expect(wrapper.vm.enrichedValidators[0].my_delegations).toBe(10)
-    expect(wrapper.vm.enrichedValidators[0].commission).toBe(0)
+    expect(wrapper.vm.enrichedValidators[0].commission).toBe("0")
     expect(wrapper.vm.enrichedValidators[0].rewards).toBe(1000)
-    expect(wrapper.vm.enrichedValidators[0].uptime).toBe(0.9998)
     expect(wrapper.vm.enrichedValidators[0].expectedReturns).toBe(0.1)
   })
 
@@ -84,10 +83,6 @@ describe(`TableValidators`, () => {
     wrapper.vm.session.signedIn = false
     expect(wrapper.vm.enrichedValidators[1].my_delegations).toBe(0)
     expect(wrapper.vm.enrichedValidators[1].rewards).toBe(0)
-  })
-
-  it(`should have an uptime of 0 if no signing_info`, () => {
-    expect(wrapper.vm.enrichedValidators[1].uptime).toBe(0)
   })
 
   it(`should sort the delegates by selected property`, () => {
@@ -110,7 +105,7 @@ describe(`TableValidators`, () => {
     wrapper.setData({ showing: 2 })
     expect(wrapper.findAll("livalidator-stub").length).toBe(2)
     wrapper.vm.loadMore()
-    expect(wrapper.findAll("livalidator-stub").length).toBe(3)
+    expect(wrapper.findAll("livalidator-stub").length).toBe(5)
   })
 
   it(`should update rewards on new blocks`, () => {
