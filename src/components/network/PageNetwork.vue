@@ -51,7 +51,8 @@ export default {
   },
   methods: {
     selectNetworkHandler(id) {
-      this.$store.dispatch("loadNetwork", id)
+      // TODO Set correct end points
+      console.log("Selected nework:", id)
     }
   },
   apollo: {
