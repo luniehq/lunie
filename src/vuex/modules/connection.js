@@ -5,7 +5,7 @@ import config from "src/config"
 const NODE_HALTED_TIMEOUT = config.node_halted_timeout
 const MAX_CONNECTION_ATTEMPTS = 5
 
-export default function({ node }) {
+export default function ({ node }) {
   // get tendermint RPC client from basecoin client
 
   const state = {
@@ -15,6 +15,7 @@ export default function({ node }) {
       height: 0,
       chain_id: ``
     },
+    network: config.network, // network id to reference network capabilities stored in Hasura
     connectionAttempts: 0,
     nodeUrl: config.stargate,
     rpcUrl: config.rpc,

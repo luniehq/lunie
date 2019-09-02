@@ -33,12 +33,13 @@ export default function init(urlParams, env = process.env) {
   console.log(`Expecting stargate at: ${stargate}`)
 
   const apolloProvider = createApolloProvider(urlParams)
+  const apolloClient = apolloProvider.clients.defaultClient
 
   const node = Node(stargate)
-  const store = Store({ node, apollo: apolloProvider.clients.defaultClient })
+  const store = Store({ node, apollo: apolloClient })
 
   setGoogleAnalyticsPage(router.currentRoute.path)
-  router.beforeEach(routeGuard(store))
+  router.beforeEach(routeGuard(store, apolloClient))
   router.afterEach(to => {
     /* istanbul ignore next */
     setGoogleAnalyticsPage(to.path)
