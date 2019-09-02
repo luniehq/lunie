@@ -89,7 +89,7 @@ query Networks {
     feature_blocks
     feature_portfolio
     feature_proposals
-    feature_sessions
+    feature_session
     feature_validators
     logo_url
     rpc_url
