@@ -1,7 +1,7 @@
 <template>
   <SessionFrame :hide-back="true">
     <div id="session-welcome">
-      <img class="lunie-logo" src="../images/extension-logo.svg" />
+      <img class="lunie-logo" src="../images/lunie-logo-white.svg" />
 
       <div class="session-list">
         <LiSession
@@ -70,7 +70,8 @@ export default {
 }
 
 .lunie-logo {
-  margin: 1rem 0 1rem 1rem;
+  margin: 1rem 0 0 1rem;
+  width: 40px;
 }
 
 .session-paragraph {

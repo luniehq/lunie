@@ -9,7 +9,7 @@ exports[`SessionWelcome has the expected html structure 1`] = `
   >
     <img
       class="lunie-logo"
-      src="../images/extension-logo.svg"
+      src="../images/lunie-logo-white.svg"
     />
      
     <div
