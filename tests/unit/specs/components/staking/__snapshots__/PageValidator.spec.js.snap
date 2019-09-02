@@ -93,12 +93,12 @@ exports[`PageValidator shows a validator profile information errors signing info
          
         <span>
           <a
-            href=""
+            href="https://www.greg.com"
             id="validator-website"
             rel="nofollow noreferrer noopener"
             target="_blank"
           >
-            
+            https://www.greg.com
           </a>
         </span>
       </li>
@@ -144,7 +144,7 @@ exports[`PageValidator shows a validator profile information errors signing info
           id="page-profile__power"
         >
           
-          0.00% /
+          1.40% /
           0
         
         </span>
@@ -185,7 +185,7 @@ exports[`PageValidator shows a validator profile information errors signing info
           id="page-profile__uptime"
         >
           
-          
+          0.9962
         
         </span>
       </li>
@@ -226,7 +226,7 @@ exports[`PageValidator shows a validator profile information errors signing info
         </h4>
          
         <span>
-          in 50 years
+          in 49 years
         </span>
       </li>
     </ul>
@@ -341,12 +341,12 @@ exports[`PageValidator shows a validator profile information if user has signed 
          
         <span>
           <a
-            href=""
+            href="https://www.greg.com"
             id="validator-website"
             rel="nofollow noreferrer noopener"
             target="_blank"
           >
-            
+            https://www.greg.com
           </a>
         </span>
       </li>
@@ -392,7 +392,7 @@ exports[`PageValidator shows a validator profile information if user has signed 
           id="page-profile__power"
         >
           
-          0.00% /
+          1.40% /
           0
         
         </span>
@@ -433,7 +433,7 @@ exports[`PageValidator shows a validator profile information if user has signed 
           id="page-profile__uptime"
         >
           
-          
+          0.9962
         
         </span>
       </li>
@@ -474,7 +474,7 @@ exports[`PageValidator shows a validator profile information if user has signed 
         </h4>
          
         <span>
-          in 50 years
+          in 49 years
         </span>
       </li>
     </ul>
@@ -589,12 +589,12 @@ exports[`PageValidator shows a validator profile information if user hasn't sign
          
         <span>
           <a
-            href=""
+            href="https://www.greg.com"
             id="validator-website"
             rel="nofollow noreferrer noopener"
             target="_blank"
           >
-            
+            https://www.greg.com
           </a>
         </span>
       </li>
@@ -640,7 +640,7 @@ exports[`PageValidator shows a validator profile information if user hasn't sign
           id="page-profile__power"
         >
           
-          0.00% /
+          1.40% /
           0
         
         </span>
@@ -681,7 +681,7 @@ exports[`PageValidator shows a validator profile information if user hasn't sign
           id="page-profile__uptime"
         >
           
-          
+          0.9962
         
         </span>
       </li>
@@ -722,14 +722,14 @@ exports[`PageValidator shows a validator profile information if user hasn't sign
         </h4>
          
         <span>
-          in 50 years
+          in 49 years
         </span>
       </li>
     </ul>
      
     <delegationmodal-stub
       denom="STAKE"
-      fromoptions="[object Object]"
+      fromoptions=""
       to="cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au"
       validator="[object Object]"
     />
@@ -737,7 +737,7 @@ exports[`PageValidator shows a validator profile information if user hasn't sign
     <undelegationmodal-stub
       denom="STAKE"
       maximum="0"
-      to="cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9"
+      to=""
       validator="[object Object]"
     />
   </template>
@@ -890,7 +890,7 @@ exports[`PageValidator shows a validator profile information shows empty website
           id="page-profile__power"
         >
           
-          0.00% /
+          1.40% /
           0
         
         </span>
@@ -931,7 +931,7 @@ exports[`PageValidator shows a validator profile information shows empty website
           id="page-profile__uptime"
         >
           
-          
+          0.9962
         
         </span>
       </li>
@@ -972,7 +972,7 @@ exports[`PageValidator shows a validator profile information shows empty website
         </h4>
          
         <span>
-          in 50 years
+          in 49 years
         </span>
       </li>
     </ul>
@@ -1087,12 +1087,12 @@ exports[`PageValidator shows a validator profile information shows http website 
          
         <span>
           <a
-            href=""
+            href="http://www.monty.ca"
             id="validator-website"
             rel="nofollow noreferrer noopener"
             target="_blank"
           >
-            
+            http://www.monty.ca
           </a>
         </span>
       </li>
@@ -1138,7 +1138,7 @@ exports[`PageValidator shows a validator profile information shows http website 
           id="page-profile__power"
         >
           
-          0.00% /
+          1.40% /
           0
         
         </span>
@@ -1179,7 +1179,7 @@ exports[`PageValidator shows a validator profile information shows http website 
           id="page-profile__uptime"
         >
           
-          
+          0.9962
         
         </span>
       </li>
@@ -1220,7 +1220,7 @@ exports[`PageValidator shows a validator profile information shows http website 
         </h4>
          
         <span>
-          in 50 years
+          in 49 years
         </span>
       </li>
     </ul>

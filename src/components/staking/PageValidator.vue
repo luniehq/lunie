@@ -95,7 +95,7 @@
         <li>
           <h4>Voting Power / Total Stake</h4>
           <span id="page-profile__power">
-            {{ powerRatio | percent }} /
+            {{ validator.voting_power | percent }} /
             {{ validator.tokens | atoms | shortDecimals }}
           </span>
         </li>
@@ -171,7 +171,6 @@ import { atoms, viewDenom, shortDecimals, percent, uatoms } from "scripts/num"
 import { formatBech32 } from "src/filters"
 import { expectedReturns } from "scripts/returns"
 import TmBtn from "common/TmBtn"
-import { ratToBigNumber } from "scripts/common"
 import DelegationModal from "src/ActionModal/components/DelegationModal"
 import UndelegationModal from "src/ActionModal/components/UndelegationModal"
 import Avatar from "common/Avatar"
@@ -244,14 +243,6 @@ export default {
       const myDelegation = shortDecimals(myBond)
       const myDelegationString = `${myDelegation} ${viewDenom(bondDenom)}`
       return Number(myBond) === 0 ? null : myDelegationString
-    },
-    powerRatio() {
-      if (this.validator.tokens) {
-        return ratToBigNumber(this.validator.tokens)
-          .div(this.pool.pool.bonded_tokens)
-          .toNumber()
-      }
-      return 0
     },
     lastCommissionChange() {
       const updateTime = this.validator.update_time
