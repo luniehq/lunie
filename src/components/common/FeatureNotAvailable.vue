@@ -3,8 +3,7 @@
     <div slot="title">{{ feature }} not yet available</div>
     <div slot="subtitle">
       ¯\_(ツ)_/¯<br />
-      We are working hard to get this feature into Lunie. If you are super
-      exited about using it, write us or tweet about it. We live off feedback.
+      This feature is not supported in Lunie yet. Reach out if you'd like to see support for this feature added to Lunie soon.
     </div>
   </TmDataMsg>
 </template>
