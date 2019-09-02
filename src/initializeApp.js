@@ -9,6 +9,7 @@ import config from "src/config"
 import Node from "./connectors/node"
 import router, { routeGuard } from "./router"
 import Store from "./vuex/store"
+import { createApolloProvider } from "src/gql/apollo.js"
 
 function setOptions(urlParams, store) {
   if (urlParams.experimental) {
@@ -31,11 +32,14 @@ export default function init(urlParams, env = process.env) {
   const stargate = urlParams.stargate || config.stargate
   console.log(`Expecting stargate at: ${stargate}`)
 
+  const apolloProvider = createApolloProvider(urlParams)
+  const apolloClient = apolloProvider.clients.defaultClient
+
   const node = Node(stargate)
-  const store = Store({ node })
+  const store = Store({ node, apollo: apolloClient })
 
   setGoogleAnalyticsPage(router.currentRoute.path)
-  router.beforeEach(routeGuard(store))
+  router.beforeEach(routeGuard(store, apolloClient))
   router.afterEach(to => {
     /* istanbul ignore next */
     setGoogleAnalyticsPage(to.path)
@@ -56,5 +60,5 @@ export default function init(urlParams, env = process.env) {
 
   listenToExtensionMessages(store)
 
-  return { store, router }
+  return { store, router, apolloProvider }
 }
