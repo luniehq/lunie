@@ -16,7 +16,7 @@ exports[`AppHeader should display the sidebar on desktop 1`] = `
         <img
           alt="Lunie spaceship accelerating into a colourful space sky"
           class="header-item-logo"
-          src="~assets/images/cosmos-wallet-logo.svg"
+          src="~assets/images/lunie-logo-white.svg"
         />
         
         Lunie
@@ -47,7 +47,7 @@ exports[`AppHeader should show the sidebar as a menu on mobile 1`] = `
         <img
           alt="Lunie spaceship accelerating into a colourful space sky"
           class="header-item-logo"
-          src="~assets/images/cosmos-wallet-logo.svg"
+          src="~assets/images/lunie-logo-white.svg"
         />
         
         Lunie
