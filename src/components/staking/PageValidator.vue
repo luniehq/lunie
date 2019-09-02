@@ -9,7 +9,7 @@
     data-title="Validator"
     class="small"
   >
-    <template v-if="validator" slot="managed-body">
+    <template v-if="validator.operator_address" slot="managed-body">
       <div class="status-container">
         <span :class="status | toLower" class="validator-status">
           {{ status }}
