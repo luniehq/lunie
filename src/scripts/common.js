@@ -15,16 +15,6 @@ export const coinsToObject = function(coinArray) {
   )
 }
 
-// convert rat format ('123/456') to big number
-export const ratToBigNumber = function(rat) {
-  if (rat.indexOf(`/`) !== -1) {
-    const n = new BN(rat.split(`/`)[0])
-    const d = new BN(rat.split(`/`)[1] || 1)
-    return n.div(d)
-  }
-  return new BN(rat)
-}
-
 // could be used in optimistic update PR, pls uncomment or delete when addressed
 export const calculateShares = function(validator, tokens) {
   const myTokens = new BN(tokens || 0)

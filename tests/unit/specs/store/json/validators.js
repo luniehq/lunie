@@ -20,9 +20,10 @@ export default [
     tokens: 14,
     unbonding_height: 556130,
     unbonding_time: "2019-06-26T23:50:09.38840326Z",
-    update_time: "2019-04-01T17:07:19.892771401Z",
+    update_time: "2019-04-01T17:07:19.892Z",
     uptime_percentage: "0.9962",
     userName: "mr_mounty",
+    voting_power: "0.0014",
     website: "www.monty.ca"
   },
   {
@@ -46,9 +47,10 @@ export default [
     tokens: 0,
     unbonding_height: 556130,
     unbonding_time: "2019-06-26T23:50:09.38840326Z",
-    update_time: "2019-04-01T17:07:19.892771401Z",
+    update_time: "2019-04-01T17:07:19.892Z",
     uptime_percentage: "0.9962",
     userName: "mr_mounty",
+    voting_power: 0.014,
     website: "www.greg.com"
   },
   {
@@ -72,9 +74,10 @@ export default [
     tokens: 19,
     unbonding_height: 556130,
     unbonding_time: "2019-06-26T23:50:09.38840326Z",
-    update_time: "2019-04-01T17:07:19.892771401Z",
+    update_time: "2019-04-01T17:07:19.892Z",
     uptime_percentage: "0.9962",
     userName: "mr_mounty",
+    voting_power: 0.014,
     website: "www.schmidt.de"
   },
   {
@@ -98,9 +101,10 @@ export default [
     tokens: 19,
     unbonding_height: 556130,
     unbonding_time: "2019-06-26T23:50:09.38840326Z",
-    update_time: "2019-04-01T17:07:19.892771401Z",
+    update_time: "2019-04-01T17:07:19.892Z",
     uptime_percentage: "0.9962",
     userName: "mr_mounty jailed",
+    voting_power: 0.014,
     website: "www.schmidt.de"
   },
   {
@@ -124,9 +128,10 @@ export default [
     tokens: 19,
     unbonding_height: 556130,
     unbonding_time: "2019-06-26T23:50:09.38840326Z",
-    update_time: "2019-04-01T17:07:19.892771401Z",
+    update_time: "2019-04-01T17:07:19.892Z",
     uptime_percentage: "0.9962",
     userName: "mr_mounty inactive",
+    voting_power: 0.014,
     website: "www.schmidt.de"
   }
 ]

@@ -25,7 +25,6 @@ import { mapGetters, mapState } from "vuex"
 import orderBy from "lodash.orderby"
 import LiValidator from "staking/LiValidator"
 import PanelSort from "staking/PanelSort"
-import BN from "bignumber.js"
 import { expectedReturns } from "scripts/returns"
 export default {
   name: `table-validators`,
@@ -46,8 +45,8 @@ export default {
   data: () => ({
     query: ``,
     sort: {
-      property: `commission`,
-      order: `asc`
+      property: `expectedReturns`,
+      order: `desc`
     },
     showing: 15,
     rollingWindow: 10000 // param of slashing period
@@ -75,10 +74,6 @@ export default {
             session.signedIn && committedDelegations[v.operator_address] > 0
               ? committedDelegations[v.operator_address]
               : 0,
-          commission: v.rate,
-          voting_power: BN(v.tokens)
-            .div(pool.pool.bonded_tokens)
-            .toFixed(10),
           rewards:
             session.signedIn && distribution.rewards[v.operator_address]
               ? distribution.rewards[v.operator_address][this.bondDenom]
