@@ -2,6 +2,7 @@ import Router from "vue-router"
 import routes from "./routes"
 import { NetworkCapabilities } from "./gql"
 import Vue from "vue"
+import config from "./src/config"
 
 /* istanbul ignore next */
 Vue.use(Router)
@@ -14,7 +15,10 @@ export const routeGuard = (store, apollo) => async (to, from, next) => {
     return
   }
 
-  if (!(await featureAvailable(apollo, store.state.connection.network, to))) {
+  if (
+    !config.e2e && // TODO remove once we have Hasura integrated in e2e tests
+    !(await featureAvailable(apollo, store.state.connection.network, to))
+  ) {
     next(`/feature-not-available/${to.meta.feature}`)
     return
   }

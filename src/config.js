@@ -19,5 +19,7 @@ export default {
 
   // Ledger
   CosmosAppTestModeAllowed: false,
-  mobileApp: Boolean(process.env.MOBILE_APP)
+  mobileApp: Boolean(process.env.MOBILE_APP),
+
+  e2e: process.env.VUE_APP_E2E
 }
