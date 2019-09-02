@@ -12,9 +12,7 @@
     </div>
     <div class="tx__content__information">
       From&nbsp;
-      <router-link
-        :to="`staking/validators/${transaction.value.validator_address}`"
-      >
+      <router-link :to="`/validators/${transaction.value.validator_address}`">
         {{
           transaction.value.validator_address | resolveValidatorName(validators)
         }}

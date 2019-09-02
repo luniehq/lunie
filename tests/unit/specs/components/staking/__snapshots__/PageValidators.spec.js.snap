@@ -11,23 +11,7 @@ exports[`PageValidators shows a list of validators 1`] = `
   <template>
     <tablevalidators-stub
       showonmobile="expectedReturns"
-      validators="[object Object],[object Object],[object Object]"
-    />
-  </template>
-</tmpage-stub>
-`;
-
-exports[`PageValidators shows a message if still connecting 1`] = `
-<tmpage-stub
-  hideheader="true"
-  managed="true"
-  subtitle=""
-  title=""
->
-  <template>
-    <tablevalidators-stub
-      showonmobile="expectedReturns"
-      validators="[object Object],[object Object],[object Object]"
+      validators="[object Object],[object Object],[object Object],[object Object],[object Object]"
     />
   </template>
 </tmpage-stub>
@@ -35,6 +19,7 @@ exports[`PageValidators shows a message if still connecting 1`] = `
 
 exports[`PageValidators shows a message if still loading 1`] = `
 <tmpage-stub
+  dataempty="true"
   hideheader="true"
   loading="true"
   managed="true"
@@ -44,7 +29,26 @@ exports[`PageValidators shows a message if still loading 1`] = `
   <template>
     <tablevalidators-stub
       showonmobile="expectedReturns"
-      validators="[object Object],[object Object],[object Object]"
+      validators=""
+    />
+  </template>
+</tmpage-stub>
+`;
+
+exports[`PageValidators shows a message if there is an error to display 1`] = `
+<tmpage-stub
+  dataempty="true"
+  error="true"
+  hideheader="true"
+  loaded="true"
+  managed="true"
+  subtitle=""
+  title=""
+>
+  <template>
+    <tablevalidators-stub
+      showonmobile="expectedReturns"
+      validators=""
     />
   </template>
 </tmpage-stub>
@@ -52,6 +56,7 @@ exports[`PageValidators shows a message if still loading 1`] = `
 
 exports[`PageValidators shows a message if there is nothing to display 1`] = `
 <tmpage-stub
+  dataempty="true"
   hideheader="true"
   loaded="true"
   managed="true"

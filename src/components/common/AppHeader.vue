@@ -5,7 +5,7 @@
         <router-link to="/">
           <img
             class="header-item-logo"
-            src="~assets/images/cosmos-wallet-logo.svg"
+            src="~assets/images/lunie-logo-white.svg"
             alt="Lunie spaceship accelerating into a colourful space sky"
           />
           Lunie

@@ -267,6 +267,7 @@ import { mapState, mapGetters } from "vuex"
 import { atoms, viewDenom } from "src/scripts/num"
 import { between, requiredIf } from "vuelidate/lib/validators"
 import { track } from "scripts/google-analytics"
+import { NetworkCapabilities } from "src/gql"
 import config from "src/config"
 
 import ActionManager from "../utils/ActionManager"
@@ -371,19 +372,15 @@ export default {
     signStep,
     inclusionStep,
     successStep,
-    SIGN_METHODS
+    SIGN_METHODS,
+    featureAvailable: false
   }),
   computed: {
     ...mapState([`extension`, `session`]),
     ...mapState({
-      network: state => state.networks.network
+      network: state => state.connection.network
     }),
     ...mapGetters([`connected`, `bondDenom`, `liquidAtoms`, `modalContext`]),
-    featureAvailable() {
-      return this.network[
-        `action_${this.title.toLowerCase().replace(" ", "_")}`
-      ]
-    },
     requiresSignIn() {
       return !this.session.signedIn
     },
@@ -453,6 +450,7 @@ export default {
   methods: {
     open() {
       this.trackEvent(`event`, `modal`, this.title)
+      this.checkFeatureAvailable()
       this.gasPrice = config.default_gas_price.toFixed(9)
       this.show = true
     },
@@ -599,6 +597,17 @@ export default {
     },
     async connectLedger() {
       await this.$store.dispatch(`connectLedgerApp`)
+    },
+    async checkFeatureAvailable() {
+      const {
+        data: { networks }
+      } = await this.$apollo.query({
+        query: NetworkCapabilities(this.network)
+      })
+      const capabilities = networks[0]
+      const action = this.title.toLowerCase().replace(" ", "_")
+
+      this.featureAvailable = capabilities[`action_${action}`]
     }
   },
   validations() {

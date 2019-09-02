@@ -956,7 +956,7 @@ exports[`TransactionDetails renders MsgUndelegate transaction item 1`] = `
     From 
     
       <router-link-stub
-        to="staking/validators/cosmosvaloper1lsajkdalskdjhasldkahsdljkalskdjhlaks"
+        to="/validators/cosmosvaloper1lsajkdalskdjhasldkahsdljkalskdjhlaks"
       >
         
       cosmosvaloper…laks
