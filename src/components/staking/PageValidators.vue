@@ -1,5 +1,5 @@
 <template>
-  <TmPage
+  <PageContainer
     :managed="true"
     :loading="$apollo.queries.validators.loading"
     :loaded="!$apollo.queries.validators.loading"
@@ -8,31 +8,40 @@
     hide-header
   >
     <template slot="managed-body">
+      <TmField v-model="searchTerm" placeholder="Validator name…" />
       <TableValidators
         :validators="validators"
         show-on-mobile="expectedReturns"
       />
     </template>
-  </TmPage>
+  </PageContainer>
 </template>
 
 <script>
-import { AllValidators, AllValidatorsResult } from "src/gql"
+import { ValidatorByName, AllValidatorsResult } from "src/gql"
 import TableValidators from "staking/TableValidators"
-import TmPage from "common/TmPage"
+import PageContainer from "common/PageContainer"
+import TmField from "common/TmField"
 
 export default {
   name: `tab-validators`,
   components: {
     TableValidators,
-    TmPage
+    PageContainer,
+    TmField
   },
   data: () => ({
+    searchTerm: "",
     validators: []
   }),
   apollo: {
     validators: {
-      query: AllValidators,
+      query: ValidatorByName,
+      variables() {
+        return {
+          monikerName: `%${this.searchTerm}%`
+        }
+      },
       update: AllValidatorsResult
     }
   }
