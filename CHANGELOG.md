@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.5] - 2019-09-03
+
+### Changed
+
+- Switched to new logo @faboweb
+
+### Security
+
+- [#90](https://github.com/cosmos/lunie/pull/90) Allow app.lunie.io domain to work with the extension @colw
+
 ## [1.0.4] - 2019-08-29
 
 ### Fixed
