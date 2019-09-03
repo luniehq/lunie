@@ -1,6 +1,6 @@
 import { percent } from "../scripts/num"
 
-export const percentOrPending = function(value, totalValue, pending) {
+export const percentOrPending = function (value, totalValue, pending) {
   return pending ? `--` : percent(totalValue === 0 ? 0 : value / totalValue)
 }
 
@@ -18,7 +18,7 @@ export const formatBech32 = (address, longForm = false, length = 4) => {
 
 export const resolveValidatorName = (address, validators) => {
   if (validators[address]) {
-    return validators[address].moniker
+    return validators[address].description.moniker
   }
   return formatBech32(address)
 }
