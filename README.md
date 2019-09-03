@@ -30,6 +30,10 @@ Yarn is a JS package manager we use to manage Lunie's dependencies. Download it 
 
 To run a local tesnet for Lunie you will need [Docker](https://www.docker.com/) installed. You can download it [here](https://www.docker.com/get-docker).
 
+### Docker compose
+
+To build the SSL certificates needed by Lunie you also will need [Docker Compose](https://docs.docker.com/compose/) installed. You can find installation instructions for your platform [here](https://docs.docker.com/compose/install/).
+
 ### Ledger Cosmos App
 
 > **IMPORTANT:** Only use Ledger devices that you **bought factory new** or **trust fully**.
