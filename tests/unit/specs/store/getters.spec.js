@@ -333,17 +333,16 @@ describe(`Store: getters`, () => {
           to_address: "cosmos1askljdhaslkdhaskldhasdlkjahlkajsh",
           amount: [{ denom: "uatom", amount: "50000" }]
         },
-        key:
-          'cosmos-sdk/MsgSend_2019-05-17T07:44:10Z_{"from_address":"cosmos1askljdhaslkdhaskldhasdlkjahlkajsh","to_address":"cosmos1askljdhaslkdhaskldhasdlkjahlkajsh","amount":[{"denom":"uatom","amount":"50000"}]}',
+        key: "345768MBNVMNBVMNBV",
         blockNumber: 123456,
-        time: "2019-05-17T07:44:10.000Z",
+        time: new Date("2019-05-17T07:44:10.000Z"),
         group: "banking",
         memo: "(Sent via Lunie)",
         fees: { amount: "0", denom: "ATOM" },
-        liquidDate: NaN
+        liquidDate: null
       }
     ]
 
-    expect(JSON.stringify(result)).toBe(JSON.stringify(expected))
+    expect(result).toEqual(expected)
   })
 })

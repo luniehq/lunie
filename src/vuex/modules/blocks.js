@@ -8,9 +8,7 @@ export const cache = (list, element, maxSize = 100) => {
 
 export default ({ node }) => {
   const state = {
-    blockMetaInfo: { block_id: {} },
     blockMetas: {},
-    peers: [],
     blocks: [],
     subscription: false,
     subscribedRPC: null,
@@ -24,7 +22,6 @@ export default ({ node }) => {
     setBlockHeight: (state, height) => (state.blockHeight = height),
     setSyncing: (state, syncing) => (state.syncing = syncing),
     setBlockMetas: (state, blockMetas) => (state.blockMetas = blockMetas),
-    setPeers: (state, peers) => (state.peers = peers),
     setBlocks: (state, blocks) => (state.blocks = blocks),
     addBlock: (state, block) =>
       Vue.set(state, `blocks`, cache(state.blocks, block)),
@@ -34,7 +31,7 @@ export default ({ node }) => {
       (state.subscription = subscription),
     setBlocksLoading: (state, loading) => (state.loading = loading),
     setBlocksLoaded: (state, loaded) => (state.loaded = loaded),
-    setBlockError: (state, error) => (state.error = error)
+    setBlocksError: (state, error) => (state.error = error)
   }
 
   const actions = {
@@ -74,12 +71,9 @@ export default ({ node }) => {
         return blockMetaInfo
       } catch (error) {
         commit(`setBlocksLoading`, false)
-        commit(`setBlockError`, error)
-        return undefined
+        commit(`setBlocksError`, error)
+        return null
       }
-    },
-    async queryBlock(_, height) {
-      return await node.get.block(height)
     },
     async subscribeToBlocks({ state, commit, dispatch }) {
       // ensure we never subscribe twice
@@ -111,15 +105,6 @@ export default ({ node }) => {
       })
 
       return true
-    },
-    async getPeers({ state, commit }) {
-      if (!(state.connected && node.rpc)) return []
-
-      const {
-        result: { peers }
-      } = await node.rpc.net_info()
-      commit(`setPeers`, peers)
-      return peers
     }
   }
 

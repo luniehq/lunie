@@ -100,7 +100,9 @@ export default {
     },
     transactionsLoading() {
       return (
-        this.blockMetaInfo.header.num_txs > 0 && this.transactions.length === 0
+        this.blockMetaInfo &&
+        this.blockMetaInfo.header.num_txs > 0 &&
+        this.transactions.length === 0
       )
     },
     blockTitle() {
