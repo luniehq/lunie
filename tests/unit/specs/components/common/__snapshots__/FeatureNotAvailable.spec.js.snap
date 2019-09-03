@@ -1,0 +1,43 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`FeatureNotAvailable shows a warning about a feature not being available 1`] = `
+<div
+  class="tm-data-msg"
+>
+  <div
+    class="tm-data-msg__icon"
+  >
+    <i
+      class="material-icons"
+    >
+      timeline
+    </i>
+  </div>
+   
+  <div
+    class="tm-data-msg__text"
+  >
+    <h2
+      class="tm-data-msg__title"
+    >
+      <div>
+        Spacetravel not yet available
+      </div>
+    </h2>
+     
+    <h3
+      class="tm-data-msg__subtitle"
+    >
+      <div>
+        
+    ¯\\_(ツ)_/¯
+        <br />
+        
+    This feature is not supported in Lunie yet. Reach out if you'd like to see
+    support for this feature added to Lunie soon.
+  
+      </div>
+    </h3>
+  </div>
+</div>
+`;

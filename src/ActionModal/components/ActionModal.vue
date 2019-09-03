@@ -13,235 +13,242 @@
           requiresSignIn ? `Sign in required` : title
         }}</span>
         <Steps
-          v-if="[defaultStep, feeStep, signStep].includes(step)"
+          v-if="
+            [defaultStep, feeStep, signStep].includes(step) && featureAvailable
+          "
           :steps="['Details', 'Fees', 'Sign']"
           :active-step="step"
         />
       </div>
-      <p v-if="session.windowsDevice" class="form-message notice">
-        {{ session.windowsWarning }}
-      </p>
-      <div v-if="requiresSignIn" class="action-modal-form">
-        <p class="form-message notice">
-          You need to sign in to submit a transaction.
+      <template v-if="!featureAvailable">
+        <FeatureNotAvailable :feature="title" />
+      </template>
+      <template v-else>
+        <p v-if="session.windowsDevice" class="form-message notice">
+          {{ session.windowsWarning }}
         </p>
-      </div>
-      <div v-else-if="step === defaultStep" class="action-modal-form">
-        <slot />
-      </div>
-      <div v-else-if="step === feeStep" class="action-modal-form">
-        <TmFormGroup
-          v-if="session.experimentalMode"
-          :error="$v.gasPrice.$error && $v.gasPrice.$invalid"
-          class="action-modal-group"
-          field-id="gasPrice"
-          field-label="Gas Price"
-        >
-          <span class="input-suffix">{{ bondDenom | viewDenom }}</span>
-          <TmField
-            id="gas-price"
-            v-model="gasPrice"
-            step="0.000000001"
-            type="number"
-            min="0"
-          />
-          <TmFormMsg
-            v-if="balanceInAtoms === 0"
-            :msg="`doesn't have any ${bondDenom}s`"
-            name="Wallet"
-            type="custom"
-          />
-          <TmFormMsg
-            v-else-if="$v.gasPrice.$error && !$v.gasPrice.required"
-            name="Gas price"
-            type="required"
-          />
-          <TmFormMsg
-            v-else-if="$v.gasPrice.$error && !$v.gasPrice.between"
-            :max="$v.gasPrice.$params.between.max"
-            :min="0"
-            name="Gas price"
-            type="between"
-          />
-        </TmFormGroup>
-        <TableInvoice
-          :amount="Number(amount)"
-          :estimated-fee="estimatedFee"
-          :bond-denom="bondDenom"
-        />
-        <TmFormMsg
-          v-if="$v.invoiceTotal.$invalid"
-          name="Total"
-          type="between"
-          min="0"
-          :max="balanceInAtoms"
-        />
-      </div>
-      <div v-else-if="step === signStep" class="action-modal-form">
-        <TmFormGroup
-          v-if="signMethods.length > 1"
-          class="action-modal-form-group"
-          field-id="sign-method"
-          field-label="Signing Method"
-        >
-          <TmField
-            id="sign-method"
-            v-model="selectedSignMethod"
-            :options="signMethods"
-            type="select"
-          />
-        </TmFormGroup>
-        <HardwareState
-          v-if="selectedSignMethod === SIGN_METHODS.LEDGER"
-          :icon="session.browserWithLedgerSupport ? 'usb' : 'info'"
-          :loading="!!sending"
-        >
-          <div v-if="session.browserWithLedgerSupport">
-            {{
-              sending
-                ? `Please verify and sign the transaction on your Ledger`
-                : `Please plug in your Ledger&nbsp;Nano and open
-            the Cosmos app`
-            }}
-          </div>
-          <div v-else>
-            Please use Chrome, Brave, or Opera. Ledger is not supported in this
-            browser.
-          </div>
-        </HardwareState>
-        <HardwareState
-          v-if="selectedSignMethod === SIGN_METHODS.EXTENSION"
-          :icon="session.browserWithLedgerSupport ? 'laptop' : 'info'"
-          :loading="!!sending"
-        >
-          <div v-if="extension.enabled && !sending">
-            Please send the transaction to be signed in the Lunie Browser
-            Extension.
-          </div>
-          <div v-if="extension.enabled && sending">
-            Please open the Lunie Browser Extension, review the details, and
-            approve the transaction.
-          </div>
-          <div v-if="!extension.enabled">
-            Please install the Lunie Browser Extension from the
-            <a
-              href="https://chrome.google.com/webstore/category/extensions"
-              target="_blank"
-              rel="noopener norefferer"
-              >Chrome Web Store</a
-            >.
-          </div>
-        </HardwareState>
-        <form
-          v-else-if="selectedSignMethod === SIGN_METHODS.LOCAL"
-          @submit.prevent="validateChangeStep"
-        >
+        <div v-if="requiresSignIn" class="action-modal-form">
+          <p class="form-message notice">
+            You need to sign in to submit a transaction.
+          </p>
+        </div>
+        <div v-else-if="step === defaultStep" class="action-modal-form">
+          <slot />
+        </div>
+        <div v-else-if="step === feeStep" class="action-modal-form">
           <TmFormGroup
-            :error="$v.password.$error && $v.password.$invalid"
+            v-if="session.experimentalMode"
+            :error="$v.gasPrice.$error && $v.gasPrice.$invalid"
             class="action-modal-group"
-            field-id="password"
-            field-label="Password"
+            field-id="gasPrice"
+            field-label="Gas Price"
           >
+            <span class="input-suffix">{{ bondDenom | viewDenom }}</span>
             <TmField
-              id="password"
-              v-model="password"
-              v-focus
-              type="password"
-              placeholder="Password"
+              id="gas-price"
+              v-model="gasPrice"
+              step="0.000000001"
+              type="number"
+              min="0"
             />
             <TmFormMsg
-              v-if="$v.password.$error && !$v.password.required"
-              name="Password"
+              v-if="balanceInAtoms === 0"
+              :msg="`doesn't have any ${bondDenom}s`"
+              name="Wallet"
+              type="custom"
+            />
+            <TmFormMsg
+              v-else-if="$v.gasPrice.$error && !$v.gasPrice.required"
+              name="Gas price"
               type="required"
             />
+            <TmFormMsg
+              v-else-if="$v.gasPrice.$error && !$v.gasPrice.between"
+              :max="$v.gasPrice.$params.between.max"
+              :min="0"
+              name="Gas price"
+              type="between"
+            />
           </TmFormGroup>
-        </form>
-      </div>
-      <div v-else-if="step === inclusionStep" class="action-modal-form">
-        <TmDataMsg icon="hourglass_empty">
-          <div slot="title">
-            Sent and confirming
-          </div>
-          <div slot="subtitle">
-            The transaction
-            <!--with the hash {{ txHash }}-->
-            was successfully signed and sent the network. Waiting for it to be
-            confirmed.
-          </div>
-        </TmDataMsg>
-      </div>
-      <div
-        v-else-if="step === successStep"
-        class="action-modal-form success-step"
-      >
-        <TmDataMsg icon="check">
-          <div slot="title">
-            {{ notifyMessage.title }}
-          </div>
-          <div slot="subtitle">
-            {{ notifyMessage.body }}
-            <br />
-            <br />Block
-            <router-link :to="`/blocks/${includedHeight}`"
-              >#{{ includedHeight }}</router-link
-            >.
-          </div>
-        </TmDataMsg>
-      </div>
-      <div class="action-modal-footer">
-        <slot name="action-modal-footer">
+          <TableInvoice
+            :amount="Number(amount)"
+            :estimated-fee="estimatedFee"
+            :bond-denom="bondDenom"
+          />
+          <TmFormMsg
+            v-if="$v.invoiceTotal.$invalid"
+            name="Total"
+            type="between"
+            min="0"
+            :max="balanceInAtoms"
+          />
+        </div>
+        <div v-else-if="step === signStep" class="action-modal-form">
           <TmFormGroup
-            v-if="[defaultStep, feeStep, signStep].includes(step)"
-            class="action-modal-group"
+            v-if="signMethods.length > 1"
+            class="action-modal-form-group"
+            field-id="sign-method"
+            field-label="Signing Method"
           >
-            <div>
-              <TmBtn
-                v-if="requiresSignIn"
-                v-focus
-                value="Sign In"
-                color="primary"
-                @click.native="goToSession"
-                @click.enter.native="goToSession"
-              />
-              <TmBtn
-                v-else-if="sending"
-                :value="submitButtonCaption"
-                disabled="disabled"
-                color="primary"
-              />
-              <TmBtn
-                v-else-if="!connected"
-                value="Connecting..."
-                disabled="disabled"
-                color="primary"
-              />
-              <TmBtn
-                v-else-if="step !== signStep"
-                ref="next"
-                color="primary"
-                value="Next"
-                :disabled="
-                  disabled || (step === feeStep && $v.invoiceTotal.$invalid)
-                "
-                @click.native="validateChangeStep"
-              />
-              <TmBtn
-                v-else
-                color="primary"
-                value="Send"
-                :disabled="!session.browserWithLedgerSupport"
-                @click.native="validateChangeStep"
-              />
-            </div>
+            <TmField
+              id="sign-method"
+              v-model="selectedSignMethod"
+              :options="signMethods"
+              type="select"
+            />
           </TmFormGroup>
-        </slot>
-        <p
-          v-if="submissionError"
-          class="tm-form-msg sm tm-form-msg--error submission-error"
+          <HardwareState
+            v-if="selectedSignMethod === SIGN_METHODS.LEDGER"
+            :icon="session.browserWithLedgerSupport ? 'usb' : 'info'"
+            :loading="!!sending"
+          >
+            <div v-if="session.browserWithLedgerSupport">
+              {{
+                sending
+                  ? `Please verify and sign the transaction on your Ledger`
+                  : `Please plug in your Ledger&nbsp;Nano and open
+              the Cosmos app`
+              }}
+            </div>
+            <div v-else>
+              Please use Chrome, Brave, or Opera. Ledger is not supported in
+              this browser.
+            </div>
+          </HardwareState>
+          <HardwareState
+            v-if="selectedSignMethod === SIGN_METHODS.EXTENSION"
+            :icon="session.browserWithLedgerSupport ? 'laptop' : 'info'"
+            :loading="!!sending"
+          >
+            <div v-if="extension.enabled && !sending">
+              Please send the transaction to be signed in the Lunie Browser
+              Extension.
+            </div>
+            <div v-if="extension.enabled && sending">
+              Please open the Lunie Browser Extension, review the details, and
+              approve the transaction.
+            </div>
+            <div v-if="!extension.enabled">
+              Please install the Lunie Browser Extension from the
+              <a
+                href="https://chrome.google.com/webstore/category/extensions"
+                target="_blank"
+                rel="noopener norefferer"
+                >Chrome Web Store</a
+              >.
+            </div>
+          </HardwareState>
+          <form
+            v-else-if="selectedSignMethod === SIGN_METHODS.LOCAL"
+            @submit.prevent="validateChangeStep"
+          >
+            <TmFormGroup
+              :error="$v.password.$error && $v.password.$invalid"
+              class="action-modal-group"
+              field-id="password"
+              field-label="Password"
+            >
+              <TmField
+                id="password"
+                v-model="password"
+                v-focus
+                type="password"
+                placeholder="Password"
+              />
+              <TmFormMsg
+                v-if="$v.password.$error && !$v.password.required"
+                name="Password"
+                type="required"
+              />
+            </TmFormGroup>
+          </form>
+        </div>
+        <div v-else-if="step === inclusionStep" class="action-modal-form">
+          <TmDataMsg icon="hourglass_empty">
+            <div slot="title">
+              Sent and confirming
+            </div>
+            <div slot="subtitle">
+              The transaction
+              <!--with the hash {{ txHash }}-->
+              was successfully signed and sent the network. Waiting for it to be
+              confirmed.
+            </div>
+          </TmDataMsg>
+        </div>
+        <div
+          v-else-if="step === successStep"
+          class="action-modal-form success-step"
         >
-          {{ submissionError }}
-        </p>
-      </div>
+          <TmDataMsg icon="check">
+            <div slot="title">
+              {{ notifyMessage.title }}
+            </div>
+            <div slot="subtitle">
+              {{ notifyMessage.body }}
+              <br />
+              <br />Block
+              <router-link :to="`/blocks/${includedHeight}`"
+                >#{{ includedHeight }}</router-link
+              >.
+            </div>
+          </TmDataMsg>
+        </div>
+        <div class="action-modal-footer">
+          <slot name="action-modal-footer">
+            <TmFormGroup
+              v-if="[defaultStep, feeStep, signStep].includes(step)"
+              class="action-modal-group"
+            >
+              <div>
+                <TmBtn
+                  v-if="requiresSignIn"
+                  v-focus
+                  value="Sign In"
+                  color="primary"
+                  @click.native="goToSession"
+                  @click.enter.native="goToSession"
+                />
+                <TmBtn
+                  v-else-if="sending"
+                  :value="submitButtonCaption"
+                  disabled="disabled"
+                  color="primary"
+                />
+                <TmBtn
+                  v-else-if="!connected"
+                  value="Connecting..."
+                  disabled="disabled"
+                  color="primary"
+                />
+                <TmBtn
+                  v-else-if="step !== signStep"
+                  ref="next"
+                  color="primary"
+                  value="Next"
+                  :disabled="
+                    disabled || (step === feeStep && $v.invoiceTotal.$invalid)
+                  "
+                  @click.native="validateChangeStep"
+                />
+                <TmBtn
+                  v-else
+                  color="primary"
+                  value="Send"
+                  :disabled="!session.browserWithLedgerSupport"
+                  @click.native="validateChangeStep"
+                />
+              </div>
+            </TmFormGroup>
+          </slot>
+          <p
+            v-if="submissionError"
+            class="tm-form-msg sm tm-form-msg--error submission-error"
+          >
+            {{ submissionError }}
+          </p>
+        </div>
+      </template>
     </div>
   </transition>
 </template>
@@ -252,6 +259,7 @@ import TmBtn from "src/components/common/TmBtn"
 import TmField from "src/components/common/TmField"
 import TmFormGroup from "src/components/common/TmFormGroup"
 import TmFormMsg from "src/components/common/TmFormMsg"
+import FeatureNotAvailable from "src/components/common/FeatureNotAvailable"
 import TmDataMsg from "common/TmDataMsg"
 import TableInvoice from "./TableInvoice"
 import Steps from "./Steps"
@@ -259,6 +267,7 @@ import { mapState, mapGetters } from "vuex"
 import { atoms, viewDenom } from "src/scripts/num"
 import { between, requiredIf } from "vuelidate/lib/validators"
 import { track } from "scripts/google-analytics"
+import { NetworkCapabilities } from "src/gql"
 import config from "src/config"
 
 import ActionManager from "../utils/ActionManager"
@@ -307,7 +316,8 @@ export default {
     TmFormMsg,
     TmDataMsg,
     TableInvoice,
-    Steps
+    Steps,
+    FeatureNotAvailable
   },
   filters: {
     viewDenom
@@ -362,10 +372,14 @@ export default {
     signStep,
     inclusionStep,
     successStep,
-    SIGN_METHODS
+    SIGN_METHODS,
+    featureAvailable: false
   }),
   computed: {
     ...mapState([`extension`, `session`]),
+    ...mapState({
+      network: state => state.connection.network
+    }),
     ...mapGetters([`connected`, `bondDenom`, `liquidAtoms`, `modalContext`]),
     requiresSignIn() {
       return !this.session.signedIn
@@ -436,6 +450,7 @@ export default {
   methods: {
     open() {
       this.trackEvent(`event`, `modal`, this.title)
+      this.checkFeatureAvailable()
       this.gasPrice = config.default_gas_price.toFixed(9)
       this.show = true
     },
@@ -582,6 +597,17 @@ export default {
     },
     async connectLedger() {
       await this.$store.dispatch(`connectLedgerApp`)
+    },
+    async checkFeatureAvailable() {
+      const {
+        data: { networks }
+      } = await this.$apollo.query({
+        query: NetworkCapabilities(this.network)
+      })
+      const capabilities = networks[0]
+      const action = this.title.toLowerCase().replace(" ", "_")
+
+      this.featureAvailable = capabilities[`action_${action}`]
     }
   },
   validations() {
