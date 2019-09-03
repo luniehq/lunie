@@ -1,7 +1,13 @@
 <template>
-  <TmPage data-title="Block" class="small" hide-header>
-    <TmDataError v-if="!connected || !block" />
-    <template v-else>
+  <TmPage
+    data-title="Block"
+    :managed="true"
+    :loading="!block"
+    :loaded="!!block"
+    :error="block && block.error"
+    hide-header
+  >
+    <template slot="managed-body">
       <div class="block">
         <h2 class="page-profile__title">Block {{ blockTitle || `--` }}</h2>
       </div>
@@ -9,7 +15,9 @@
       <ul class="row">
         <li>
           <h4>Chain ID</h4>
-          <span class="page-data">{{ block.block_meta.header.chain_id }}</span>
+          <span class="page-data">{{
+            block && block.block_meta && block.block_meta.header.chain_id
+          }}</span>
         </li>
         <li>
           <h4>Time</h4>
@@ -19,8 +27,10 @@
 
       <div class="row">
         <div class="column">
-          <h3 v-if="block.transactions" class="page-profile__section-title">
-            Transactions ({{ block.block_meta.header.num_txs }})
+          <h3 v-if="transactions" class="page-profile__section-title">
+            Transactions ({{
+              block && block.block_meta && block.block_meta.header.num_txs
+            }})
           </h3>
 
           <TmDataMsg
@@ -56,27 +66,28 @@ import {
   addTransactionTypeData
 } from "scripts/transaction-utils"
 
-import TmDataError from "common/TmDataError"
 import TmPage from "common/TmPage"
 import TransactionList from "transactions/TransactionList"
 import TmDataMsg from "common/TmDataMsg"
 export default {
   name: `page-block`,
   components: {
-    TmDataError,
     TmDataMsg,
     TmPage,
     TransactionList
   },
+  data: () => ({
+    block: undefined
+  }),
   computed: {
     ...mapState([`delegation`, `session`]),
-    ...mapGetters([`connected`, `block`, `lastHeader`, `validators`]),
+    ...mapGetters([`connected`, `lastHeader`, `validators`]),
     transactions() {
       const unbondingInfo = {
         delegation: this.delegation
       }
 
-      if (this.block.transactions) {
+      if (this.block && this.block.transactions) {
         return this.block.transactions
           .reduce(flattenTransactionMsgs, [])
           .map(addTransactionTypeData(unbondingInfo))
@@ -85,12 +96,12 @@ export default {
     },
     blockTitle() {
       const block = this.block
-      if (!block.block) return `--`
+      if (!block || !block.block) return `--`
       return `#` + prettyInt(block.block.header.height)
     },
     blockTime() {
       const block = this.block
-      if (!block.block) return `--`
+      if (!block || !block.block) return `--`
       return moment(block.block.header.time).format(`MMMM Do YYYY, HH:mm`)
     }
   },
@@ -105,7 +116,10 @@ export default {
   methods: {
     async getBlock({ $store, $route, $router, lastHeader } = this) {
       // query first for the block so we don't fail if the user started from this route and hasn't received any lastHeader yet
-      await $store.dispatch(`queryBlockInfo`, $route.params.height)
+      this.block = (await $store.dispatch(
+        `queryBlockInfo`,
+        $route.params.height
+      )).block
 
       if (!this.block && $route.params.height > lastHeader.height) {
         $router.push(`/404`)
