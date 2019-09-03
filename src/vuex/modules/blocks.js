@@ -54,24 +54,16 @@ export default ({ node }) => {
       commit(`setSubscription`, false)
       dispatch(`subscribeToBlocks`)
     },
-    async getBlockTxs({ state, commit }, height) {
-      try {
-        commit(`setBlocksLoaded`, false)
-        commit(`setBlocksLoading`, true)
-        let txs = await node.get.txsByHeight(height)
-        const time = state.blockMetas[height].header.time
-        txs = txs.map(tx =>
-          Object.assign({}, tx, {
-            height,
-            time
-          })
-        )
-        commit(`setBlockTransactions`, txs)
-        commit(`setBlocksLoaded`, true)
-      } catch (error) {
-        commit(`setBlockError`, error)
-      }
-      commit(`setBlocksLoading`, false)
+    async getBlockTxs({ dispatch }, height) {
+      let txs = await node.get.txsByHeight(height)
+      const time = (await dispatch("queryBlockInfo", height)).header.time
+      txs = txs.map(tx =>
+        Object.assign({}, tx, {
+          height,
+          time
+        })
+      )
+      return txs
     },
     async queryBlockInfo({ state, commit }, height) {
       try {
@@ -79,25 +71,26 @@ export default ({ node }) => {
         if (blockMetaInfo) {
           return blockMetaInfo
         }
-        commit(`setBlocksLoaded`, false)
         commit(`setBlocksLoading`, true)
         const block = await node.get.block(height)
 
         blockMetaInfo = block.block_meta
-        commit(`setBlocksLoading`, false)
 
         commit(`setBlockMetas`, {
           ...state.blockMetas,
           [height]: blockMetaInfo
         })
-        commit(`setBlock`, block)
+        commit(`setBlocksLoading`, false)
         commit(`setBlocksLoaded`, true)
         return blockMetaInfo
       } catch (error) {
         commit(`setBlocksLoading`, false)
         commit(`setBlockError`, error)
-        return null
+        return undefined
       }
+    },
+    async queryBlock(_, height) {
+      return await node.get.block(height)
     },
     async subscribeToBlocks({ state, commit, dispatch }) {
       // ensure we never subscribe twice

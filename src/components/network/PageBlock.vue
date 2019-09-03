@@ -2,9 +2,9 @@
   <TmPage
     data-title="Block"
     :managed="true"
-    :loading="!block"
-    :loaded="!!block"
-    :error="block && block.error"
+    :loading="!blockMetaInfo"
+    :loaded="!!blockMetaInfo"
+    :error="error"
     hide-header
   >
     <template slot="managed-body">
@@ -16,7 +16,7 @@
         <li>
           <h4>Chain ID</h4>
           <span class="page-data">{{
-            block && block.block_meta && block.block_meta.header.chain_id
+            blockMetaInfo && blockMetaInfo.header.chain_id
           }}</span>
         </li>
         <li>
@@ -28,13 +28,13 @@
       <div class="row">
         <div class="column">
           <h3 v-if="transactions" class="page-profile__section-title">
-            Transactions ({{
-              block && block.block_meta && block.block_meta.header.num_txs
-            }})
+            Transactions ({{ blockMetaInfo && blockMetaInfo.header.num_txs }})
           </h3>
 
+          <TmDataLoading v-if="transactionsLoading" />
+
           <TmDataMsg
-            v-if="transactions && transactions.length === 0"
+            v-else-if="transactions && transactions.length === 0"
             icon="info_outline"
           >
             <div slot="title">
@@ -69,15 +69,19 @@ import {
 import TmPage from "common/TmPage"
 import TransactionList from "transactions/TransactionList"
 import TmDataMsg from "common/TmDataMsg"
+import TmDataLoading from "common/TmDataLoading"
 export default {
   name: `page-block`,
   components: {
     TmDataMsg,
+    TmDataLoading,
     TmPage,
     TransactionList
   },
   data: () => ({
-    block: undefined
+    error: null,
+    txs: [],
+    blockMetaInfo: null
   }),
   computed: {
     ...mapState([`delegation`, `session`]),
@@ -87,22 +91,27 @@ export default {
         delegation: this.delegation
       }
 
-      if (this.block && this.block.transactions) {
-        return this.block.transactions
+      if (this.txs) {
+        return this.txs
           .reduce(flattenTransactionMsgs, [])
           .map(addTransactionTypeData(unbondingInfo))
       }
       return []
     },
+    transactionsLoading() {
+      return (
+        this.blockMetaInfo.header.num_txs > 0 && this.transactions.length === 0
+      )
+    },
     blockTitle() {
-      const block = this.block
-      if (!block || !block.block) return `--`
-      return `#` + prettyInt(block.block.header.height)
+      if (!this.blockMetaInfo) return `--`
+      return `#` + prettyInt(this.blockMetaInfo.header.height)
     },
     blockTime() {
-      const block = this.block
-      if (!block || !block.block) return `--`
-      return moment(block.block.header.time).format(`MMMM Do YYYY, HH:mm`)
+      if (!this.blockMetaInfo) return `--`
+      return moment(this.blockMetaInfo.header.time).format(
+        `MMMM Do YYYY, HH:mm`
+      )
     }
   },
   watch: {
@@ -115,17 +124,21 @@ export default {
   },
   methods: {
     async getBlock({ $store, $route, $router, lastHeader } = this) {
-      // query first for the block so we don't fail if the user started from this route and hasn't received any lastHeader yet
-      this.block = (await $store.dispatch(
-        `queryBlockInfo`,
-        $route.params.height
-      )).block
+      try {
+        // query first for the block so we don't fail if the user started from this route and hasn't received any lastHeader yet
+        this.blockMetaInfo = await $store.dispatch(
+          `queryBlockInfo`,
+          $route.params.height
+        )
 
-      if (!this.block && $route.params.height > lastHeader.height) {
-        $router.push(`/404`)
-        return
+        if (!this.blockMetaInfo && $route.params.height > lastHeader.height) {
+          $router.push(`/404`)
+          return
+        }
+        this.txs = await $store.dispatch(`getBlockTxs`, $route.params.height)
+      } catch (error) {
+        this.error = error
       }
-      await $store.dispatch(`getBlockTxs`, $route.params.height)
     }
   }
 }
