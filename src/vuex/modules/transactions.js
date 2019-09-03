@@ -95,7 +95,6 @@ export default ({ node }) => {
         commit(`setHistoryLoading`, false)
         state.loaded = true
       } catch (error) {
-        throw error
         state.error = error
       }
     },

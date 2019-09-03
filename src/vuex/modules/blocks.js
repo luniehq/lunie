@@ -9,16 +9,9 @@ export const cache = (list, element, maxSize = 100) => {
 export default ({ node }) => {
   const state = {
     blockMetaInfo: { block_id: {} },
-    blockHeight: null, // we remember the height so we can requery the block, if querying failed
     blockMetas: {},
     peers: [],
     blocks: [],
-    // one block, specified by height
-    block: {
-      block: {},
-      block_meta: {},
-      transactions: []
-    },
     subscription: false,
     subscribedRPC: null,
     syncing: true,
@@ -33,10 +26,6 @@ export default ({ node }) => {
     setBlockMetas: (state, blockMetas) => (state.blockMetas = blockMetas),
     setPeers: (state, peers) => (state.peers = peers),
     setBlocks: (state, blocks) => (state.blocks = blocks),
-    setBlock: (state, block) => (state.block = block),
-    setBlockTransactions: (state, txs) => {
-      Vue.set(state.block, `transactions`, txs)
-    },
     addBlock: (state, block) =>
       Vue.set(state, `blocks`, cache(state.blocks, block)),
     setSubscribedRPC: (state, subscribedRPC) =>
