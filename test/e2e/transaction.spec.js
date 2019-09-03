@@ -58,8 +58,9 @@ module.exports = {
           .click('#approve-btn')
           .assert.containsText('body', 'Transaction Complete')
           .switchWindow(result.value[1])
-          .pause(6 * 1000)
-          .assert.containsText('body', 'Successful delegation!')
+          .expect.element('body')
+          .text.to.contain('Successful delegation!')
+          .before(10000)
           .end()
       })
   }
