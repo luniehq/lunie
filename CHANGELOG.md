@@ -7,6 +7,23 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.0-beta.115] - 2019-09-03
+
+### Changed
+
+- [#2926](https://github.com/cosmos/lunie/pull/2926) Fetch validator information using graphql @colw
+- [#2903](https://github.com/cosmos/lunie/issues/2903) Change to new logo @faboweb
+- [#2904](https://github.com/cosmos/lunie/issues/2904) Allow to switch features and interactions dependend on network capabilities @faboweb
+
+### Fixed
+
+- [#2933](https://github.com/cosmos/lunie/pull/2933) Fix warnings from duplicate addresses in test values @colw
+- [#2937](https://github.com/cosmos/lunie/pull/2937) Remove test warnings by updating test data and removing old fields. @colw
+
+### Repository
+
+- Fail if jest outputs a console.error @faboweb
+
 ## [1.0.0-beta.114] - 2019-08-30
 
 ### Fixed
