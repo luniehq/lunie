@@ -180,4 +180,4 @@ A list of all environment variables and their purpose:
 
 ## Thanks
 
-[![Browserstack](/test/browserstack-logo-600x315.png)](https://www.browserstack.com)
+[![Browserstack](/tests/browserstack-logo-600x315.png)](https://www.browserstack.com)
