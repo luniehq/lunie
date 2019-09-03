@@ -7,7 +7,7 @@ import { bindRequestsToTabs } from './tabsHandler'
 global.browser = require('webextension-polyfill')
 
 const extensionHost = location.origin
-const whitelisted = ['https://app.lunie.io', extensionHost]
+const whitelisted = ['https://lunie.io', 'https://www.lunie.io', extensionHost]
 if (process.env.NODE_ENV === 'development') {
   whitelisted.push('https://localhost')
 }
