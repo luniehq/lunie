@@ -24,7 +24,7 @@ describe(`PageBlock`, () => {
     session: { address: `` }
   }
 
-  beforeEach(() => {
+  beforeEach(async () => {
     wrapper = shallowMount(PageBlock, {
       localVue,
       mocks: {
@@ -32,7 +32,7 @@ describe(`PageBlock`, () => {
           getters,
           state,
           dispatch: jest.fn(type => {
-            if (type === "queryBlockInfos")
+            if (type === "queryBlockInfo")
               return {
                 header: {
                   chain_id: `chain-1`,
@@ -54,6 +54,7 @@ describe(`PageBlock`, () => {
       },
       stubs: [`router-link`]
     })
+    await wrapper.vm.getBlock()
   })
 
   it(`shows a page with information about a certain block`, () => {

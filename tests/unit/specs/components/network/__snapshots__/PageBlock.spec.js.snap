@@ -4,7 +4,7 @@ exports[`PageBlock shows a page with information about a certain block 1`] = `
 <tmpage-stub
   data-title="Block"
   hideheader="true"
-  loading="true"
+  loaded="true"
   managed="true"
   subtitle=""
   title=""
@@ -16,7 +16,7 @@ exports[`PageBlock shows a page with information about a certain block 1`] = `
       <h2
         class="page-profile__title"
       >
-        Block --
+        Block #0
       </h2>
     </div>
      
@@ -31,7 +31,7 @@ exports[`PageBlock shows a page with information about a certain block 1`] = `
         <span
           class="page-data"
         >
-          
+          chain-1
         </span>
       </li>
        
@@ -43,7 +43,7 @@ exports[`PageBlock shows a page with information about a certain block 1`] = `
         <span
           class="page-data"
         >
-          --
+          January 1st 1970, 00:00
         </span>
       </li>
     </ul>
@@ -58,7 +58,7 @@ exports[`PageBlock shows a page with information about a certain block 1`] = `
           class="page-profile__section-title"
         >
           
-          Transactions ()
+          Transactions (10)
         
         </h3>
          

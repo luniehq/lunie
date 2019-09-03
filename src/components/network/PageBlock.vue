@@ -80,7 +80,7 @@ export default {
   },
   data: () => ({
     error: null,
-    txs: [],
+    transactionsRaw: [],
     blockMetaInfo: null
   }),
   computed: {
@@ -91,8 +91,8 @@ export default {
         delegation: this.delegation
       }
 
-      if (this.txs) {
-        return this.txs
+      if (this.transactionsRaw) {
+        return this.transactionsRaw
           .reduce(flattenTransactionMsgs, [])
           .map(addTransactionTypeData(unbondingInfo))
       }
@@ -137,7 +137,11 @@ export default {
           $router.push(`/404`)
           return
         }
-        this.txs = await $store.dispatch(`getBlockTxs`, $route.params.height)
+
+        this.transactionsRaw = await $store.dispatch(
+          `getBlockTxs`,
+          $route.params.height
+        )
       } catch (error) {
         this.error = error
       }
