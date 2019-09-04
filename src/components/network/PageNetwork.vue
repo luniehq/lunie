@@ -7,7 +7,7 @@
           v-for="network in mainNets"
           :key="network.chain_id"
           class="select-network-item"
-          @click="selectNetworkHandler(network.id)"
+          @click="selectNetworkHandler(network)"
         >
           <NetworkItem :network="network" />
         </li>
@@ -18,7 +18,7 @@
           v-for="network in testNets"
           :key="network.chain_id"
           class="select-network-item"
-          @click="selectNetworkHandler(network.id)"
+          @click="selectNetworkHandler(network)"
         >
           <NetworkItem :network="network" />
         </li>
@@ -50,9 +50,8 @@ export default {
     }
   },
   methods: {
-    selectNetworkHandler(id) {
-      // TODO Set correct end points
-      console.log("Selected nework:", id)
+    selectNetworkHandler(network) {
+      this.$store.commit(`setCurrentNetwork`, network)
     }
   },
   apollo: {

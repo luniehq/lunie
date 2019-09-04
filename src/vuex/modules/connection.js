@@ -164,6 +164,13 @@ export default function({ node }) {
       setTimeout(() => {
         dispatch(`pollRPCConnection`)
       }, timeout)
+    },
+    async setNetwork({ commit, dispatch }, network) {
+      commit("setRpcUrl", network.rpc_url)
+      dispatch("reconnect")
+      console.info(
+        `Connecting to network ${network.title} (${network.chain_id})`
+      )
     }
   }
 

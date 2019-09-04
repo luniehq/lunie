@@ -17,6 +17,7 @@ export default () => {
     experimentalMode: config.development, // development mode, can be set from browser
     insecureMode: false, // show the local signer
     signedIn: false,
+    chainId: config.network,
     sessionType: null, // local, ledger, extension
     pauseHistory: false,
     history: [],
@@ -73,6 +74,9 @@ export default () => {
     },
     pauseHistory(state, paused) {
       state.pauseHistory = paused
+    },
+    setCurrentChain(state, chainId) {
+      state.chainId = chainId
     }
   }
 
@@ -168,6 +172,10 @@ export default () => {
         state.externals.anonymize()
         console.log(`Analytics collection has been disabled`)
       }
+    },
+    setCurrentNetwork({ commit, dispatch }, network) {
+      commit("setCurrentChain", network.id)
+      dispatch("setNetwork", network)
     }
   }
 
