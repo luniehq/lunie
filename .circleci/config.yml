@@ -107,11 +107,10 @@ jobs:
   prep:
     executor: web
     steps:
+      - attach_workspace:
+          at: *WORKSPACE
       - checkout
       - yarn-install
-      - persist_to_workspace:
-          root: *WORKSPACE
-          path: /
 
   build:
     executor: web
@@ -354,7 +353,9 @@ workflows:
                 - release
                 - master
 
-      - testExtension
+      - testExtension:
+          requires:
+            - prep
 
   # Every UTC midnight we go on develop and release
   release:
