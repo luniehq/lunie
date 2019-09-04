@@ -58,10 +58,10 @@ module.exports = {
           .click('#approve-btn')
           .assert.containsText('body', 'Transaction Complete')
           .switchWindow(result.value[1])
-          .expect.element('body')
+        browser.expect
+          .element('body')
           .text.to.contain('Successful delegation!')
           .before(10000)
-          .end()
       })
   }
 }
