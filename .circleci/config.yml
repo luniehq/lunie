@@ -182,10 +182,13 @@ jobs:
       # Secondary container image on common network which runs the testnet
      - image: lunieio/testnet:v0.34.3
     steps:
+      - add_ssh_keys:
+          fingerprints:
+            - "SHA256:nThbg6kXUpJWGl7E1IGOCspRomTxdCARLviKw6E5SY8"
       - run:
           name: Checkout Extension
           command: |
-            git clone git@github.com:luniehq/lunie-browser-extension.git
+            git clone git@github.com:luniehq/lunie-browser-extension.git 
       - yarn-install
       - setup_remote_docker
       - run:
