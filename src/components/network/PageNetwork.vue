@@ -7,7 +7,10 @@
           v-for="network in mainNets"
           :key="network.chain_id"
           class="select-network-item"
-          @click="selectNetworkHandler(network)"
+          :class="{ selected: connection.network === network.id }"
+          @click="
+            connection.network !== network.id && selectNetworkHandler(network)
+          "
         >
           <NetworkItem :network="network" />
         </li>
@@ -18,7 +21,9 @@
           v-for="network in testNets"
           :key="network.chain_id"
           class="select-network-item"
-          @click="selectNetworkHandler(network)"
+          @click="
+            connection.network !== network.id && selectNetworkHandler(network)
+          "
         >
           <NetworkItem :network="network" />
         </li>
@@ -28,6 +33,8 @@
 </template>
 
 <script>
+import { mapState } from "vuex"
+
 import { Networks, NetworksResult } from "src/gql"
 import NetworkItem from "./NetworkItem"
 
@@ -42,6 +49,7 @@ export default {
     networks: []
   }),
   computed: {
+    ...mapState([`connection`]),
     mainNets() {
       return this.networks.filter(network => !network.testnet)
     },
@@ -96,5 +104,9 @@ h3 {
   cursor: pointer;
   padding: 0;
   margin-bottom: 1rem;
+}
+
+.select-network-item.selected {
+  cursor: inherit;
 }
 </style>
