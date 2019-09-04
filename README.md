@@ -40,4 +40,5 @@ $ yarn run build
 ## Test in Chrome
 
 1. Go to chrome://extensions/ and check the box for Developer mode in the top right.
-2. Click the Load unpacked extension button in the top left and select the `dist/` folder to install it.
+2. Click the Load unpacked extension button in the top left and select the build folder `lunie-browser-extension/dist/` to install it.
+
