@@ -3,9 +3,7 @@ version: 2.1
 # Here we define all the paths and versions of images we want to play with
 aliases:
   # Define paths and never think about them again
-  - &GAIA /tmp/gaia
   - &WORKSPACE /tmp/voyager
-  - &DIST /tmp/voyager/dist
   # Pick docker versions here only, then use the aliases in the executors definition
   - &docker-node tendermintdev/voyager_node
   - &docker-browsers tendermintdev/voyager_node_browser
@@ -28,41 +26,6 @@ commands:
             - yarn.lock
             - node_modules
           key: v4-dependencies-root-{{ checksum "package.json" }}
-
-  sync:
-    parameters:
-      dist_path:
-        type: string
-    steps:
-      - run:
-          name: Set default environment variables
-          command: |
-            cd && touch $BASH_ENV
-
-            if [ "${CIRCLE_BRANCH}" = "master" ]; then
-              echo 'export DISTRIBUTION_ID=E3NNXI2PHNC362' >> $BASH_ENV
-
-              echo 'export BUCKET_NAME=lunie.io' >> $BASH_ENV
-            else
-              echo 'export DISTRIBUTION_ID=E1KBKFOGFYCD32' >> $BASH_ENV
-              echo 'export BUCKET_NAME=staging.lunie.io' >> $BASH_ENV
-            fi
-      - run:
-          name: Sync dist folder to s3 bucket
-          command: |
-            source $BASH_ENV
-            cd << parameters.dist_path >>
-
-            echo "deployment job ID = $CIRCLE_BUILD_NUM<br>" >> version.html
-            echo "deployment job URL = $CIRCLE_BUILD_URL<br>" >> version.html
-
-            aws s3 sync . s3://$BUCKET_NAME --delete
-      - run:
-          name: Invalidate the cloudfront distribution
-          command: |
-            source $BASH_ENV
-
-            aws cloudfront create-invalidation --distribution-id $DISTRIBUTION_ID --path "/*"
 
 # a reusable executor
 executors:
@@ -89,24 +52,6 @@ executors:
       AWS_REGION: us-east-1
 
 jobs:
-  build:
-    executor: web
-    steps:
-      - checkout
-      - yarn-install
-      - run: |
-          mkdir -p dist
-
-          if [ "${CIRCLE_BRANCH}" = "master" ]; then
-            RELEASE=true CIRCLECI=true yarn build
-          else
-            CIRCLECI=true yarn build
-          fi
-      - persist_to_workspace:
-          root: *WORKSPACE
-          paths:
-            - dist
-
   pendingUpdated:
     executor: node
     steps:
@@ -175,14 +120,6 @@ jobs:
           path: ./screenshots
           when: on_fail
 
-  deploy2s3:
-    executor: web_deploy
-    steps:
-      - attach_workspace:
-          at: *WORKSPACE
-      - sync:
-          dist_path: *DIST
-
   # Create release.
   release:
     executor: node
@@ -192,9 +129,7 @@ jobs:
           yarn add simsala
           git config user.email "bot@lunie.io"
           git config user.name "Lunie Bot"
-          REPO_ID=99653950
-          BUILD_NUM=`expr $CIRCLE_BUILD_NUM - 1` #hacky as it assumes the build step ran before this step
-          node node_modules/simsala/src/cli.js release-candidate --semver prerelease --pending-path ./changes --owner luniehq --repository lunie --token $GIT_BOT_TOKEN --message "Please manually test before merging this to master <a href='https://${BUILD_NUM}-${REPO_ID}-gh.circle-artifacts.com/0/tmp/voyager/dist/index.html'>here</a>"
+          node node_modules/simsala/src/cli.js release-candidate --semver prerelease --pending-path ./changes --owner luniehq --repository lunie --token $GIT_BOT_TOKEN --message "Please manually test before merging this to master"
       
   # Push merges to master immediatly back to develop to stay in sync
   mergeBack:
@@ -214,7 +149,7 @@ jobs:
 
 workflows:
   version: 2
-  build-and-deploy:
+  test:
     jobs:
       # Static checks before
       - pendingUpdated:
@@ -240,25 +175,6 @@ workflows:
           filters:
             branches:
               ignore: release
-
-      - build:
-          # no heavy lifting if other portion fails
-          requires:
-            - security
-            - lint
-          filters:
-            branches:
-              only:
-                - master
-
-      - deploy2s3:
-          requires:
-            - testUnit
-            - build
-          filters:
-            branches:
-              only:
-                - master
 
       - testE2e:
           filters:
