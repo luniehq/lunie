@@ -63,6 +63,7 @@ export const SomeValidators = gql`
 export const Networks = gql`
   query Networks {
     networks {
+      id
       chain_id
       logo_url
       testnet

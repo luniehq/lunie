@@ -11,17 +11,30 @@
         {{ network.chain_id }}
       </p>
     </div>
+    <div class="network-selected">
+      {{ connection.network === network.id }}
+    </div>
   </div>
 </template>
 
 <script>
+import { mapState } from "vuex"
+
 export default {
   name: `network-item`,
   props: {
     network: {
       type: Object,
       required: true
+    },
+    enabled: {
+      type: Boolean,
+      required: false,
+      default: false
     }
+  },
+  computed: {
+    ...mapState([`connection`])
   }
 }
 </script>

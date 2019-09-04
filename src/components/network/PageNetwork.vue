@@ -51,7 +51,8 @@ export default {
   },
   methods: {
     selectNetworkHandler(network) {
-      this.$store.dispatch(`setCurrentNetwork`, network)
+      console.log("network", network)
+      this.$store.dispatch(`setNetwork`, network)
     }
   },
   apollo: {
