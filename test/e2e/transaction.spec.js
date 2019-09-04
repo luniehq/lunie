@@ -2,7 +2,7 @@ var { globals } = require('./nightwatch.conf.js')
 const formData = require('./formData.json')
 
 module.exports = {
-  'Send Transaction': function(browser) {
+  'Send Transaction': function (browser) {
     browser
       //Import funded account
       .url(`chrome-extension://${globals.EXTENSION_ID}/popup/popup.html`)
@@ -26,13 +26,13 @@ module.exports = {
       .assert.containsText('body', formData.name)
 
       //Send transaction on Lunie to extension
-      .execute(function() {
+      .execute(function () {
         window.open('https://localhost:9080/?experimental=true/#/extension')
       })
       .pause(500)
 
       //Switch to Localhost
-      .windowHandles(function(result) {
+      .windowHandles(function (result) {
         browser
           .switchWindow(result.value[1])
           .pause(300)
@@ -42,7 +42,7 @@ module.exports = {
           .waitForElementVisible('li.account button')
           .click('li.account button')
           .waitForElementNotPresent('.session')
-          .click('a[href="#/validators"]')
+          .click('a[href="/validators"]')
           .waitForElementVisible('.li-validator')
           .click('.li-validator')
           .click('#delegation-btn')
