@@ -111,6 +111,7 @@ jobs:
       - yarn-install
       - persist_to_workspace:
           root: *WORKSPACE
+          path: /
 
   build:
     executor: web
@@ -290,7 +291,7 @@ workflows:
   build-and-deploy:
     jobs:
       - prep
-      
+
       # Static checks before
       - pendingUpdated:
           requires:
