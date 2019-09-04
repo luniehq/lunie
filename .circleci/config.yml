@@ -211,15 +211,6 @@ jobs:
             git merge origin/master --no-edit
             git push
 
-  # store artifacts to check a branch as a staging build
-  upload:
-    executor: node
-    steps:
-      - attach_workspace:
-          at: *WORKSPACE
-      - store_artifacts:
-          path: *DIST
-
 
 workflows:
   version: 2
@@ -255,10 +246,10 @@ workflows:
           requires:
             - security
             - lint
-
-      - upload:
-          requires:
-            - build
+          filters:
+            branches:
+              only:
+                - master
 
       - deploy2s3:
           requires:
@@ -267,7 +258,6 @@ workflows:
           filters:
             branches:
               only:
-                - develop
                 - master
 
       - testE2e:
@@ -287,27 +277,11 @@ workflows:
               only:
                 - develop
     jobs:
-      - build
-      - upload:
-          requires:
-            - build
-      - release:
-          requires:
-            - upload
+      - release
 
   releaseManually:
     jobs:
-      - build:
-          filters:
-            branches:
-              only:
-                - release
-      - upload:
-          requires:
-            - build
-      - release:
-          requires:
-            - upload
+      - release
   mergeBack:
     jobs:
       - mergeBack:
