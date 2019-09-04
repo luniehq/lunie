@@ -15,6 +15,7 @@
 
 .data-table th:first-child {
   width: 10%;
+  color: var(--dim);
 }
 
 .data-table th:nth-child(2) {
