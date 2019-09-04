@@ -599,6 +599,8 @@ export default {
       await this.$store.dispatch(`connectLedgerApp`)
     },
     async checkFeatureAvailable() {
+      if (config.e2e) return true // TODO remove once Hasura is available in e2e tests
+
       const {
         data: { networks }
       } = await this.$apollo.query({
