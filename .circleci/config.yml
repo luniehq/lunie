@@ -209,6 +209,7 @@ jobs:
      - image: circleci/node:10.15.3-browsers
       # Secondary container image on common network which runs the testnet
      - image: lunieio/testnet:v0.34.3
+    working_directory: *WORKSPACE
     steps:
       - run:
           name: Avoid hosts unknown for github
