@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.6] - 2019-09-03
+
+### Fixed
+
+- Whitelist actual new lunie URL @faboweb
+
+### Repository
+
+- Use patch version updates instead of beta version updates @faboweb
+
 ## [1.0.5] - 2019-09-03
 
 ### Changed
