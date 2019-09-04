@@ -267,7 +267,7 @@ import { mapState, mapGetters } from "vuex"
 import { atoms, viewDenom } from "src/scripts/num"
 import { between, requiredIf } from "vuelidate/lib/validators"
 import { track } from "scripts/google-analytics"
-import { NetworkCapabilities } from "src/gql"
+import { NetworkCapability, NetworkCapabilityResult } from "src/gql"
 import config from "src/config"
 
 import ActionManager from "../utils/ActionManager"
@@ -605,15 +605,12 @@ export default {
         return
       }
 
-      const {
-        data: { networks }
-      } = await this.$apollo.query({
-        query: NetworkCapabilities(this.network)
+      const action = `action_${this.title.toLowerCase().replace(" ", "_")}`
+      const { data } = await this.$apollo.query({
+        query: NetworkCapability(this.network, action)
       })
-      const capabilities = networks[0]
-      const action = this.title.toLowerCase().replace(" ", "_")
 
-      this.featureAvailable = capabilities[`action_${action}`]
+      this.featureAvailable = NetworkCapabilityResult(data)
     }
   },
   validations() {
