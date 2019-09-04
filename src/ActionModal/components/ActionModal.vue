@@ -600,7 +600,7 @@ export default {
     },
     async checkFeatureAvailable() {
       // TODO remove once Hasura is available in e2e tests
-      /* istanbuld ignore:next */
+      /* istanbul ignore next */
       if (config.e2e) {
         this.featureAvailable = true
         return
