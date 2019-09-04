@@ -1,5 +1,6 @@
 <template>
   <tr class="panel-sort-container">
+    <th width="20">#</th>
     <th
       v-for="property in properties"
       :key="property.value"
