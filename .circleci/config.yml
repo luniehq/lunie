@@ -206,7 +206,7 @@ jobs:
   testExtension:
     docker:
       # Primary container image where all steps run.
-     - image: circleci/node:10.15.3-browsers
+     - image: *docker-browsers
       # Secondary container image on common network which runs the testnet
      - image: lunieio/testnet:v0.34.3
     working_directory: *WORKSPACE
