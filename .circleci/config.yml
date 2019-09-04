@@ -4,8 +4,8 @@ version: 2.1
 aliases:
   # Define paths and never think about them again
   - &GAIA /tmp/gaia
-  - &WORKSPACE /tmp/voyager
-  - &DIST /tmp/voyager/dist
+  - &WORKSPACE /tmp/lunie
+  - &DIST /tmp/lunie/dist
   # Pick docker versions here only, then use the aliases in the executors definition
   - &docker-node tendermintdev/voyager_node
   - &docker-browsers tendermintdev/voyager_node_browser
@@ -28,6 +28,21 @@ commands:
             - yarn.lock
             - node_modules
           key: v4-dependencies-root-{{ checksum "package.json" }}
+
+  yarn-install-extension:
+    description: "[YARN] update and install"
+    steps:
+      - restore_cache:
+          keys:
+            - v1-dependencies-extension-{{ checksum "lunie-browser-extension/package.json" }}
+            - v1-dependencies-extension-
+
+      - run: yarn install
+      - save_cache:
+          paths:
+            - lunie-browser-extension/yarn.lock
+            - lunie-browser-extension/node_modules
+          key: v1-dependencies-extension-{{ checksum "lunie-browser-extension/package.json" }}
 
   sync:
     parameters:
@@ -89,11 +104,18 @@ executors:
       AWS_REGION: us-east-1
 
 jobs:
-  build:
+  prep:
     executor: web
     steps:
       - checkout
       - yarn-install
+      - persist_to_workspace:
+          root: *WORKSPACE
+  build:
+    executor: web
+    steps:
+      - attach_workspace:
+          at: *WORKSPACE
       - run: |
           mkdir -p dist
 
@@ -110,22 +132,23 @@ jobs:
   pendingUpdated:
     executor: node
     steps:
-      - checkout
+      - attach_workspace:
+          at: *WORKSPACE
       - run: yarn add simsala
       - run: node node_modules/simsala/src/cli.js check --pending-path ./changes
 
   lint:
     executor: node
     steps:
-      - checkout
-      - yarn-install
+      - attach_workspace:
+          at: *WORKSPACE
       - run: yarn run lint
 
   testUnit:
     executor: web
     steps:
-      - checkout
-      - yarn-install
+      - attach_workspace:
+          at: *WORKSPACE
       - run:
           name: Test
           command: |
@@ -136,7 +159,8 @@ jobs:
   security:
     executor: web
     steps:
-      - checkout
+      - attach_workspace:
+          at: *WORKSPACE
       - run:
           name: Audit
           command: |
@@ -159,10 +183,8 @@ jobs:
       # Secondary container image on common network. 
      - image: lunieio/testnet:v0.34.7
     steps:
-      - checkout
       - attach_workspace:
           at: *WORKSPACE
-      - yarn-install
       - run:
           # needs to be done in CI to be sure it is build once we start the tests
           name: Build for E2E test
@@ -189,18 +211,17 @@ jobs:
           name: Checkout Extension
           command: |
             git clone git@github.com:luniehq/lunie-browser-extension.git 
-      - yarn-install
+      - attach_workspace:
+          at: /tmp/lunie/lunie-browser-extension/lunie
+      - yarn-install-extension
       - setup_remote_docker
       - run:
           name: Build
           command: |
-            npm run initiate-submodule
+            npm run build:dev
+            node ./scripts/add-pem-key.js
             cd lunie
-            git checkout ${CIRCLE_BRANCH}
-            git pull
-            cd ..
             npm run test:e2e:build
-            cd lunie
             yarn certificates
       - run:
           name: Install Chrome
@@ -269,6 +290,8 @@ workflows:
     jobs:
       # Static checks before
       - pendingUpdated:
+          requires:
+            - prep
           filters:
             branches:
               ignore: 
@@ -278,16 +301,22 @@ workflows:
                 - /release-candidate.*/
 
       - security:
+          requires:
+            - prep
           filters:
             branches:
               ignore: release
 
       - lint:
+          requires:
+            - prep
           filters:
             branches:
               ignore: release
 
       - testUnit:
+          requires:
+            - prep
           filters:
             branches:
               ignore: release
@@ -313,6 +342,8 @@ workflows:
                 - master
 
       - testE2e:
+          requires:
+            - prep
           filters:
             branches:
               ignore:
