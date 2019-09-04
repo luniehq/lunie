@@ -61,8 +61,13 @@ export const SomeValidators = gql`
 `
 
 export const ValidatorByName = gql`
-  query ValidatorInfo($monikerName: String) {
-    allValidators(where: { moniker: { _ilike: $monikerName } }) {
+  query ValidatorInfo($monikerName: String, $activeOnly: Boolean) {
+    allValidators(
+      where: {
+        moniker: { _ilike: $monikerName }
+        jailed: { _neq: $activeOnly }
+      }
+    ) {
       ...ValidatorParts
     }
   }
