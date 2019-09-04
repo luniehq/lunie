@@ -15,7 +15,6 @@
           {{ status }}
         </span>
       </div>
-
       <tr class="li-validator">
         <td class="data-table__row__info">
           <Avatar

@@ -9,6 +9,7 @@
       })
     "
   >
+    <td>{{ index+1 }}</td>
     <td class="data-table__row__info">
       <Avatar
         v-if="!validator || !validator.avatarUrl"
@@ -64,6 +65,10 @@ export default {
   props: {
     validator: {
       type: Object,
+      required: true
+    },
+    index: {
+      type: Number,
       required: true
     },
     showOnMobile: {
