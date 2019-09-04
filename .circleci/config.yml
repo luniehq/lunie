@@ -217,7 +217,7 @@ jobs:
       - run:
           name: Checkout Extension
           command: |
-            git clone git@github.com:luniehq/lunie-browser-extension.git 
+            git clone git@github.com:luniehq/lunie-browser-extension.git .
       - attach_workspace:
           at: /tmp/voyager/lunie-browser-extension/lunie
       - yarn-install-extension
