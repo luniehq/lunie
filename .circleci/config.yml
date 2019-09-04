@@ -187,12 +187,10 @@ jobs:
      - image: *docker-browsers
       # Secondary container image on common network. 
      - image: lunieio/testnet:v0.34.7
+    working_directory: *WORKSPACE
     steps:
       - attach_workspace:
           at: *WORKSPACE
-      - run:
-          name: Go to workspace
-          command: cd /tmp/voyager
       - run:
           # needs to be done in CI to be sure it is build once we start the tests
           name: Build for E2E test
