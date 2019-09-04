@@ -8,9 +8,7 @@
           :key="network.chain_id"
           class="select-network-item"
           :class="{ selected: connection.network === network.id }"
-          @click="
-            connection.network !== network.id && selectNetworkHandler(network)
-          "
+          @click="selectNetworkHandler(network)"
         >
           <NetworkItem :network="network" />
         </li>
@@ -21,9 +19,7 @@
           v-for="network in testNets"
           :key="network.chain_id"
           class="select-network-item"
-          @click="
-            connection.network !== network.id && selectNetworkHandler(network)
-          "
+          @click="selectNetworkHandler(network)"
         >
           <NetworkItem :network="network" />
         </li>
@@ -59,8 +55,9 @@ export default {
   },
   methods: {
     selectNetworkHandler(network) {
-      console.log("network", network)
-      this.$store.dispatch(`setNetwork`, network)
+      if (this.connection.network !== network.id) {
+        this.$store.dispatch(`setNetwork`, network)
+      }
     }
   },
   apollo: {

@@ -28,7 +28,12 @@ describe(`PageNetwork`, () => {
       localVue,
       mocks: {
         $store: {
-          dispatch: jest.fn()
+          dispatch: jest.fn(),
+          state: {
+            connection: {
+              network: `gaia-testnet`
+            }
+          }
         },
         $route: {
           params: { height: `100` }
@@ -50,17 +55,14 @@ describe(`PageNetwork`, () => {
     expect(wrapper.findAll("ul").length).toBe(2)
   })
 
-  it("sets new network ehen clicking list item", () => {
+  it("sets new network when clicking list item", () => {
     wrapper.find(".select-network-item").trigger("click")
-    expect(wrapper.vm.$store.dispatch).toHaveBeenCalledWith(
-      `setCurrentNetwork`,
-      {
-        id: "cosmoshub",
-        chain_id: "cosmoshub",
-        logo_url: "cosmos-logo.png",
-        testnet: false,
-        title: "Cosmos Hub"
-      }
-    )
+    expect(wrapper.vm.$store.dispatch).toHaveBeenCalledWith(`setNetwork`, {
+      id: "cosmoshub",
+      chain_id: "cosmoshub",
+      logo_url: "cosmos-logo.png",
+      testnet: false,
+      title: "Cosmos Hub"
+    })
   })
 })
