@@ -316,12 +316,7 @@ workflows:
                 - release
                 - master
 
-      - testExtension:
-          filters:
-            branches:
-              ignore:
-                - release
-                - master
+      - testExtension
 
   # Every UTC midnight we go on develop and release
   release:
