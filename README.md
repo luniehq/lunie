@@ -1,4 +1,4 @@
-![Lunie logo — spaceship blasting off](/public/img/icons/android-chrome-192x192.png)
+![Lunie logo — right half circle with dotted left circle](/public/img/icons/android-icon-192x192.png)
 
 # Welcome to [Lunie.io](https://lunie.io)!
 
@@ -29,6 +29,10 @@ Yarn is a JS package manager we use to manage Lunie's dependencies. Download it 
 ### Docker
 
 To run a local tesnet for Lunie you will need [Docker](https://www.docker.com/) installed. You can download it [here](https://www.docker.com/get-docker).
+
+### Docker compose
+
+To build the SSL certificates needed by Lunie you also will need [Docker Compose](https://docs.docker.com/compose/) installed. You can find installation instructions for your platform [here](https://docs.docker.com/compose/install/).
 
 ### Ledger Cosmos App
 
@@ -176,4 +180,4 @@ A list of all environment variables and their purpose:
 
 ## Thanks
 
-[![Browserstack](/test/browserstack-logo-600x315.png)](https://www.browserstack.com)
+[![Browserstack](/tests/browserstack-logo-600x315.png)](https://www.browserstack.com)
