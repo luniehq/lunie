@@ -42,7 +42,7 @@ export default function({ node }) {
       state.connectionAttempts = 0
     },
     setRpcUrl(state, rpcUrl) {
-      console.log(state.rpc_url, rpcUrl)
+      console.log(state.rpcUrl, rpcUrl)
       state.rpcUrl = rpcUrl
     }
   }
@@ -169,7 +169,9 @@ export default function({ node }) {
     async setNetwork({ commit, dispatch }, network) {
       commit("setRpcUrl", network.rpc_url)
       dispatch("reconnect")
-      console.info(`Connecting to: ${network.title} (${network.chain_id})`)
+      console.info(
+        `Connecting to: ${network.title} (${network.chain_id}) – ${network.rpc_url}`
+      )
     },
     async setCurrentNetwork({ commit, dispatch }, network) {
       commit("setCurrentChain", network.id)
