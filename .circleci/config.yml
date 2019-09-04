@@ -34,7 +34,7 @@ commands:
     steps:
       - restore_cache:
           keys:
-            - v1-dependencies-extension-{{ checksum "lunie-browser-extension/package.json" }}
+            - v1-dependencies-extension-{{ checksum "package.json" }}
             - v1-dependencies-extension-
 
       - run: yarn install
@@ -42,7 +42,7 @@ commands:
           paths:
             - lunie-browser-extension/yarn.lock
             - lunie-browser-extension/node_modules
-          key: v1-dependencies-extension-{{ checksum "lunie-browser-extension/package.json" }}
+          key: v1-dependencies-extension-{{ checksum "package.json" }}
 
   sync:
     parameters:
