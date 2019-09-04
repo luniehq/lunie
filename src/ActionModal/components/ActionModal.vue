@@ -373,7 +373,7 @@ export default {
     inclusionStep,
     successStep,
     SIGN_METHODS,
-    featureAvailable: false
+    featureAvailable: true
   }),
   computed: {
     ...mapState([`extension`, `session`]),
@@ -599,7 +599,11 @@ export default {
       await this.$store.dispatch(`connectLedgerApp`)
     },
     async checkFeatureAvailable() {
-      if (config.e2e) return true // TODO remove once Hasura is available in e2e tests
+      // TODO remove once Hasura is available in e2e tests
+      if (config.e2e) {
+        this.featureAvailable = true
+        return
+      }
 
       const {
         data: { networks }
