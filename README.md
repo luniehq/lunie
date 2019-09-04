@@ -1,4 +1,4 @@
-![Lunie logo — spaceship blasting off](/public/img/icons/android-icon-192x192.png)
+![Lunie logo — right half circle with dotted left circle](/public/img/icons/android-icon-192x192.png)
 
 # Welcome to [Lunie.io](https://lunie.io)!
 
