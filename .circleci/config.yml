@@ -111,6 +111,10 @@ jobs:
           at: *WORKSPACE
       - checkout
       - yarn-install
+      - persist_to_workspace:
+          root: *WORKSPACE
+          paths:
+            - "*"
 
   build:
     executor: web
