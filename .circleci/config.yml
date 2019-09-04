@@ -219,7 +219,7 @@ jobs:
           command: |
             git clone git@github.com:luniehq/lunie-browser-extension.git .
       - attach_workspace:
-          at: /tmp/voyager/lunie-browser-extension/lunie
+          at: /tmp/voyager/lunie
       - yarn-install-extension
       - setup_remote_docker
       - run:
