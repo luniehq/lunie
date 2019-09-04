@@ -68,6 +68,7 @@ export const Networks = gql`
       logo_url
       testnet
       title
+      rpc_url
     }
   }
 `
@@ -83,19 +84,6 @@ query Networks {
     action_send
     action_undelegate
     action_withdraw
-    api_url
-    bech32_prefix
-    feature_activity
-    chain_id
-    feature_blocks
-    feature_portfolio
-    feature_proposals
-    feature_session
-    feature_validators
-    logo_url
-    rpc_url
-    testnet
-    title
   }
 }
 `
