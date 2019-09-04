@@ -185,7 +185,7 @@ jobs:
       - run:
           name: Checkout Extension
           command: |
-            git checkout https://github.com/luniehq/lunie-browser-extension.git
+            git checkout https://github.com/luniehq/lunie-browser-extension
       - yarn-install
       - setup_remote_docker
       - run:
