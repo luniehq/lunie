@@ -197,7 +197,11 @@ workflows:
 
   releaseManually:
     jobs:
-      - release
+      - release:
+          filters:
+            branches:
+              only: release
+
   mergeBack:
     jobs:
       - mergeBack:
