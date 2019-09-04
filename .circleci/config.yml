@@ -188,6 +188,7 @@ jobs:
       - run:
           name: Checkout Extension
           command: |
+            GIT_SSH_COMMAND='ssh -i ~/.ssh/id_rsa_fingerprint'
             git clone git@github.com:luniehq/lunie-browser-extension.git 
       - yarn-install
       - setup_remote_docker
