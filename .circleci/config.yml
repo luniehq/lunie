@@ -7,8 +7,8 @@ aliases:
   - &WORKSPACE /tmp/voyager
   - &DIST /tmp/voyager/dist
   # Pick docker versions here only, then use the aliases in the executors definition
-  - &docker-node tendermintdev/voyager_node
-  - &docker-browsers tendermintdev/voyager_node_browser
+  - &docker-node circleci/node:10.15.3
+  - &docker-browsers circleci/node:10.15.3-browsers
   - &docker-go circleci/golang:1.11
   - &docker-deploy tendermintdev/website_deployment
 
@@ -191,6 +191,9 @@ jobs:
       - attach_workspace:
           at: *WORKSPACE
       - run:
+          name: Go to workspace
+          command: cd /tmp/voyager
+      - run:
           # needs to be done in CI to be sure it is build once we start the tests
           name: Build for E2E test
           command: yarn test:e2e:build
@@ -217,7 +220,7 @@ jobs:
           command: |
             git clone git@github.com:luniehq/lunie-browser-extension.git 
       - attach_workspace:
-          at: /tmp/lunie/lunie-browser-extension/lunie
+          at: /tmp/voyager/lunie-browser-extension/lunie
       - yarn-install-extension
       - setup_remote_docker
       - run:
