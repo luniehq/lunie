@@ -34,7 +34,7 @@ $ yarn watch:dev
 ## Build
 
 ```bash
-yarn run build
+$ yarn run build
 ```
 
 ## Test in Chrome
