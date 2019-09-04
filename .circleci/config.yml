@@ -175,6 +175,45 @@ jobs:
           path: ./screenshots
           when: on_fail
 
+  testExtension:
+    docker:
+      # Primary container image where all steps run.
+     - image: circleci/node:10.15.3-browsers
+      # Secondary container image on common network which runs the testnet
+     - image: lunieio/testnet:v0.34.3
+    steps:
+      - run:
+        name: Checkout Extension
+        command: |
+          git checkout https://github.com/luniehq/lunie-browser-extension.git
+      - yarn-install
+      - setup_remote_docker
+      - run:
+          name: Build
+          command: |
+            npm run initiate-submodule
+            cd lunie
+            git checkout ${CIRCLE_BRANCH}
+            git pull
+            cd ..
+            npm run test:e2e:build
+            cd lunie
+            yarn certificates
+      - run:
+          name: Install Chrome
+          command: |
+            wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
+            sudo sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list'
+            sudo apt-get update
+            sudo apt-get -y install google-chrome-stable
+      - run:
+          name: Test
+          command: npm run test:e2e:start-lunie & yarn test:e2e
+          no_output_timeout: 120
+      - store_artifacts:
+          path: ./screenshots_extension
+          when: on_fail
+
   deploy2s3:
     executor: web_deploy
     steps:
@@ -271,6 +310,13 @@ workflows:
                 - master
 
       - testE2e:
+          filters:
+            branches:
+              ignore:
+                - release
+                - master
+
+      - testExtension:
           filters:
             branches:
               ignore:
