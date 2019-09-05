@@ -26,7 +26,7 @@ import TmBalance from "common/TmBalance"
 import PageFooter from "common/TmPageFooter"
 
 export default {
-  name: `tm-page`,
+  name: `page-container`,
   components: {
     TmBalance,
     TmPageHeader,
