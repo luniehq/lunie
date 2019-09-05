@@ -82,14 +82,13 @@ export default {
   data: () => ({
     error: null,
     transactionsRaw: [],
-    blockMetaInfo: null
+    blockMetaInfo: null,
+    validators: []
   }),
   computed: {
     ...mapState([`delegation`, `session`]),
     ...mapGetters([`lastHeader`]),
     validatorsAddressMap() {
-      if (!this.validators) return {}
-
       const names = {}
       this.validators.forEach(item => {
         names[item.operator_address] = item
