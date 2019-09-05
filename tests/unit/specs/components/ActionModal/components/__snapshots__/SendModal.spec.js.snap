@@ -44,12 +44,19 @@ exports[`SendModal should display send modal form 1`] = `
     fieldid="amount"
     fieldlabel="Amount"
   >
-    <tmfield-stub
-      class="tm-field"
-      id="amount"
-      placeholder="Amount"
-      type="number"
-    />
+    <tmfieldgroup-stub>
+      <tmfield-stub
+        class="tm-field-addon"
+        id="amount"
+        placeholder="Amount"
+        type="number"
+      />
+       
+      <tmbtn-stub
+        type="addon-max"
+        value="Set Max"
+      />
+    </tmfieldgroup-stub>
      
     <tmformmsg-stub
       msg="doesn't have any STAKEs"
@@ -116,13 +123,20 @@ exports[`SendModal validation should show address required error 1`] = `
     fieldid="amount"
     fieldlabel="Amount"
   >
-    <tmfield-stub
-      class="tm-field"
-      id="amount"
-      placeholder="Amount"
-      type="number"
-      value="2"
-    />
+    <tmfieldgroup-stub>
+      <tmfield-stub
+        class="tm-field-addon"
+        id="amount"
+        placeholder="Amount"
+        type="number"
+        value="2"
+      />
+       
+      <tmbtn-stub
+        type="addon-max"
+        value="Set Max"
+      />
+    </tmfieldgroup-stub>
      
     <!---->
   </tmformgroup-stub>
@@ -185,13 +199,20 @@ exports[`SendModal validation should show bech32 error when address length is to
     fieldid="amount"
     fieldlabel="Amount"
   >
-    <tmfield-stub
-      class="tm-field"
-      id="amount"
-      placeholder="Amount"
-      type="number"
-      value="2"
-    />
+    <tmfieldgroup-stub>
+      <tmfield-stub
+        class="tm-field-addon"
+        id="amount"
+        placeholder="Amount"
+        type="number"
+        value="2"
+      />
+       
+      <tmbtn-stub
+        type="addon-max"
+        value="Set Max"
+      />
+    </tmfieldgroup-stub>
      
     <!---->
   </tmformgroup-stub>
@@ -254,13 +275,20 @@ exports[`SendModal validation should show bech32 error when address length is to
     fieldid="amount"
     fieldlabel="Amount"
   >
-    <tmfield-stub
-      class="tm-field"
-      id="amount"
-      placeholder="Amount"
-      type="number"
-      value="2"
-    />
+    <tmfieldgroup-stub>
+      <tmfield-stub
+        class="tm-field-addon"
+        id="amount"
+        placeholder="Amount"
+        type="number"
+        value="2"
+      />
+       
+      <tmbtn-stub
+        type="addon-max"
+        value="Set Max"
+      />
+    </tmfieldgroup-stub>
      
     <!---->
   </tmformgroup-stub>
@@ -323,12 +351,19 @@ exports[`SendModal validation should show bech32 error when alphanumeric is wron
     fieldid="amount"
     fieldlabel="Amount"
   >
-    <tmfield-stub
-      class="tm-field"
-      id="amount"
-      placeholder="Amount"
-      type="number"
-    />
+    <tmfieldgroup-stub>
+      <tmfield-stub
+        class="tm-field-addon"
+        id="amount"
+        placeholder="Amount"
+        type="number"
+      />
+       
+      <tmbtn-stub
+        type="addon-max"
+        value="Set Max"
+      />
+    </tmfieldgroup-stub>
      
     <tmformmsg-stub
       msg="doesn't have any STAKEs"
