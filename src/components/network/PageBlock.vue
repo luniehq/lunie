@@ -48,7 +48,7 @@
           <TransactionList
             :transactions="transactions"
             :address="session.address"
-            :validators="validators"
+            :validators="validatorsAddressMap"
           />
           <br />
         </div>
@@ -65,6 +65,7 @@ import {
   flattenTransactionMsgs,
   addTransactionTypeData
 } from "scripts/transaction-utils"
+import { AllValidators, AllValidatorsResult } from "src/gql"
 
 import TmPage from "common/TmPage"
 import TransactionList from "transactions/TransactionList"
@@ -85,7 +86,16 @@ export default {
   }),
   computed: {
     ...mapState([`delegation`, `session`]),
-    ...mapGetters([`lastHeader`, `validators`]),
+    ...mapGetters([`lastHeader`]),
+    validatorsAddressMap() {
+      if (!this.validators) return {}
+
+      const names = {}
+      this.validators.forEach(item => {
+        names[item.operator_address] = item
+      })
+      return names
+    },
     transactions() {
       const unbondingInfo = {
         delegation: this.delegation
@@ -145,6 +155,12 @@ export default {
       } catch (error) {
         this.error = error
       }
+    }
+  },
+  apollo: {
+    validators: {
+      query: AllValidators,
+      update: AllValidatorsResult
     }
   }
 }
