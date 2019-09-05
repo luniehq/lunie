@@ -139,7 +139,7 @@ import { uatoms, atoms, viewDenom, SMALLEST } from "src/scripts/num"
 import { mapState } from "vuex"
 import TmFormGroup from "src/components/common/TmFormGroup"
 import TmField from "src/components/common/TmField"
-import TmFieldAddon from "src/components/common/TmFieldAddon"
+import TmFieldGroup from "src/components/common/TmFieldGroup"
 import TmBtn from "src/components/common/TmBtn"
 import TmFormMsg from "src/components/common/TmFormMsg"
 import ActionModal from "./ActionModal"
@@ -151,7 +151,7 @@ export default {
   name: `send-modal`,
   components: {
     TmField,
-    TmFieldAddon,
+    TmFieldGroup,
     TmFormGroup,
     TmFormMsg,
     ActionModal,
