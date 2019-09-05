@@ -7,8 +7,7 @@ import {
   modalContext,
   validatorsWithRewards,
   totalRewards,
-  flatOrderedTransactionList,
-  validators as validatorsAddressMap
+  flatOrderedTransactionList
 } from "src/vuex/getters.js"
 
 import validatorsFull from "./json/validators.js"
@@ -94,21 +93,6 @@ describe(`Store: getters`, () => {
     })
 
     expect(result.toNumber()).toBe(63)
-  })
-
-  describe(`validators`, () => {
-    it("should return a map from address to validator", () => {
-      const stateWithValidators = {
-        delegates: {
-          delegates: validators
-        }
-      }
-      const resultMap = validatorsAddressMap(stateWithValidators)
-
-      expect(resultMap[validators[0].operator_address]).toBe(validators[0])
-      expect(resultMap[validators[1].operator_address]).toBe(validators[1])
-      expect(resultMap[validators[2].operator_address]).toBe(validators[2])
-    })
   })
 
   describe(`yourValidators`, () => {
