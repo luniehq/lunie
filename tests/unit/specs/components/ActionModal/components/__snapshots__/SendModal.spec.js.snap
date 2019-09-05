@@ -2,6 +2,7 @@
 
 exports[`SendModal should display send modal form 1`] = `
 <actionmodal-stub
+  amount="0"
   id="send-modal"
   notifymessage="[object Object]"
   submissionerrorprefix="Sending tokens failed"
@@ -50,6 +51,7 @@ exports[`SendModal should display send modal form 1`] = `
         id="amount"
         placeholder="Amount"
         type="number"
+        value="0"
       />
        
       <tmbtn-stub
@@ -63,6 +65,14 @@ exports[`SendModal should display send modal form 1`] = `
       name="Wallet"
       type="custom"
     />
+     
+    <p
+      class="form-message notice"
+    >
+      
+      Warning! you should probably leave some left over for fees
+    
+    </p>
   </tmformgroup-stub>
    
   <tmbtn-stub
@@ -137,6 +147,8 @@ exports[`SendModal validation should show address required error 1`] = `
         value="Set Max"
       />
     </tmfieldgroup-stub>
+     
+    <!---->
      
     <!---->
   </tmformgroup-stub>
@@ -215,6 +227,8 @@ exports[`SendModal validation should show bech32 error when address length is to
     </tmfieldgroup-stub>
      
     <!---->
+     
+    <!---->
   </tmformgroup-stub>
    
   <tmbtn-stub
@@ -291,6 +305,8 @@ exports[`SendModal validation should show bech32 error when address length is to
     </tmfieldgroup-stub>
      
     <!---->
+     
+    <!---->
   </tmformgroup-stub>
    
   <tmbtn-stub
@@ -303,6 +319,7 @@ exports[`SendModal validation should show bech32 error when address length is to
 
 exports[`SendModal validation should show bech32 error when alphanumeric is wrong 1`] = `
 <actionmodal-stub
+  amount="0"
   id="send-modal"
   notifymessage="[object Object]"
   submissionerrorprefix="Sending tokens failed"
@@ -357,6 +374,7 @@ exports[`SendModal validation should show bech32 error when alphanumeric is wron
         id="amount"
         placeholder="Amount"
         type="number"
+        value="0"
       />
        
       <tmbtn-stub
@@ -370,6 +388,14 @@ exports[`SendModal validation should show bech32 error when alphanumeric is wron
       name="Wallet"
       type="custom"
     />
+     
+    <p
+      class="form-message notice"
+    >
+      
+      Warning! you should probably leave some left over for fees
+    
+    </p>
   </tmformgroup-stub>
    
   <tmbtn-stub
