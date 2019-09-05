@@ -9,6 +9,7 @@
     hide-header
   >
     <template slot="no-data">
+      <!-- duplicated, I have no proper way of refactoring this -->
       <div class="button-container">
         <TmBtn
           id="propose-btn"
@@ -25,6 +26,7 @@
       />
     </template>
     <template slot="managed-body">
+      <!-- duplicated, I have no proper way of refactoring this -->
       <div class="button-container">
         <TmBtn
           id="propose-btn"
