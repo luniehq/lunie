@@ -63,6 +63,18 @@
   </label>
 
   <input
+    v-else-if="type === 'number-addon'"
+    ref="numTextInput"
+    :type="type"
+    :placeholder="placeholder"
+    :value="value"
+    @change="onChange"
+    @keyup="onKeyup"
+    @keydown="onKeydown"
+    @input="updateValue($event.target.value)"
+  />  
+
+  <input
     v-else
     ref="numTextInput"
     :type="type"
@@ -131,8 +143,6 @@ export default {
         value += ` tm-field-select`
       }
       if (this.size) value += ` tm-field-size-${this.size}`
-      // We don't want tm-field class if they are an addon
-      if (this.class === `tm-field-addon`) value = ''
       return value
     },
     toggleClass() {

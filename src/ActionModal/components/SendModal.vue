@@ -67,7 +67,7 @@
           v-model="amount"
           class="tm-field-addon"
           placeholder="Amount"
-          type="number"
+          type="number-addon"
           @keyup.enter.native="enterPressed"
         />
         <TmBtn
