@@ -40,8 +40,8 @@
         <TmField
           id="amount"
           v-model="amount"
-          class="tm-field-addon"
           v-focus
+          class="tm-field-addon"
           type="number"
           placeholder="Amount"
           @keyup.enter.native="enterPressed"
@@ -106,6 +106,7 @@ export default {
   components: {
     TmField,
     TmFieldGroup,
+    TmBtn,
     TmFormGroup,
     TmFormMsg,
     ActionModal
