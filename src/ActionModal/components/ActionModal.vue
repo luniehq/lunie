@@ -339,6 +339,16 @@ export default {
       type: [String, Number],
       default: `0`
     },
+
+    gasEstimate: {
+      type: Number,
+      default: 0
+    },
+    gasPrice: {
+      type: Number,
+      default: 0
+    },
+
     transactionData: {
       type: Object,
       default: () => {}

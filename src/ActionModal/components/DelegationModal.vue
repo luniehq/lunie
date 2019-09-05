@@ -36,14 +36,21 @@
       field-label="Amount"
     >
       <span class="input-suffix">{{ denom | viewDenom }}</span>
-      <TmField
-        id="amount"
-        v-model="amount"
-        v-focus
-        type="number"
-        placeholder="Amount"
-        @keyup.enter.native="enterPressed"
-      />
+      <TmFieldGroup>
+        <TmField
+          id="amount"
+          v-model="amount"
+          v-focus
+          type="number"
+          placeholder="Amount"
+          @keyup.enter.native="enterPressed"
+        />
+        <TmBtn
+          type="addon-max"
+          value="Set Max"
+          @click.native="setMaxAmount()"
+        />
+      </TmFieldGroup>
       <span v-if="!isRedelegation()" class="form-message">
         Available to Delegate:
         {{ getFromBalance() }}
@@ -86,6 +93,7 @@ import { mapState, mapGetters } from "vuex"
 import { between, decimal } from "vuelidate/lib/validators"
 import { uatoms, atoms, viewDenom, SMALLEST } from "src/scripts/num"
 import TmField from "src/components/common/TmField"
+import TmFieldGroup from "src/components/common/TmFieldGroup"
 import TmFormGroup from "src/components/common/TmFormGroup"
 import TmFormMsg from "src/components/common/TmFormMsg"
 import ActionModal from "./ActionModal"
@@ -95,6 +103,7 @@ export default {
   name: `delegation-modal`,
   components: {
     TmField,
+    TmFieldGroup,
     TmFormGroup,
     TmFormMsg,
     ActionModal
@@ -192,6 +201,9 @@ export default {
       this.selectedIndex = 0
       this.amount = null
     },
+    setMaxAmount() {
+      this.amount = atoms(this.balance)
+    },    
     enterPressed() {
       this.$refs.actionModal.validateChangeStep()
     },

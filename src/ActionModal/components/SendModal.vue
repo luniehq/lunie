@@ -4,6 +4,10 @@
     ref="actionModal"
     :validate="validateForm"
     :amount="amount"
+
+    :gasEstimate="gasEstimate"
+    :gasPrice="gasPrice"
+
     title="Send"
     submission-error-prefix="Sending tokens failed"
     :transaction-data="transactionData"
@@ -59,7 +63,6 @@
       field-id="amount"
       field-label="Amount"
     >
-      
       <TmFieldGroup>
         <TmField
           id="amount"
@@ -76,7 +79,6 @@
           @click.native="setMaxAmount()"
         />
       </TmFieldGroup>
-
       <TmFormMsg
         v-if="balance === 0"
         :msg="`doesn't have any ${viewDenom(denom)}s`"
@@ -215,8 +217,7 @@ export default {
       this.sending = false
     },
     setMaxAmount() {
-      // TODO: Substract fee
-      this.amount = atoms(this.balance)
+      this.amount = atoms(this.balance - (this.gasPrice * this.gasEstimate))
     },
     bech32Validate(param) {
       try {

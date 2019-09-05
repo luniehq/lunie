@@ -100,9 +100,6 @@ export default {
   }
 }
 
-
-
-
 .addon-max {
   font-family: var(--sans);
   font-size: 14px;
