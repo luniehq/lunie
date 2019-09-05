@@ -215,6 +215,7 @@ export default {
       this.sending = false
     },
     setMaxAmount() {
+      // TODO: Substract fee
       this.amount = atoms(this.balance)
     },
     bech32Validate(param) {
