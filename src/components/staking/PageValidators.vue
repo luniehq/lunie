@@ -57,9 +57,11 @@ export default {
   apollo: {
     validators: {
       query() {
+        /* istanbul ignore next */
         return ValidatorByName(this.activeOnly)
       },
       variables() {
+        /* istanbul ignore next */
         return {
           monikerName: `%${this.searchTerm}%`
         }
