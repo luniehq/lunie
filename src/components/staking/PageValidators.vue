@@ -8,13 +8,21 @@
     hide-header
   >
     <template slot="managed-body">
-      <TmField v-model="searchTerm" placeholder="Search" />
-      <TmBtn
-        color="primary"
-        value="Active Only"
-        :type="activeOnly ? `primary` : `secondary`"
-        @click.native="activeOnly = !activeOnly"
-      />
+      <div class="filterOptions">
+        <TmField
+          v-model="searchTerm"
+          class="searchField"
+          size="14px"
+          placeholder="Search"
+        />
+        <TmBtn
+          color="primary"
+          value="Active Only"
+          class="activeOnlybutton"
+          :type="activeOnly ? `primary` : `secondary`"
+          @click.native="activeOnly = !activeOnly"
+        />
+      </div>
       <TableValidators
         :validators="validators"
         show-on-mobile="expectedReturns"
@@ -58,3 +66,20 @@ export default {
   }
 }
 </script>
+
+<style lang="scss">
+.filterOptions {
+  margin: 1rem;
+
+  input {
+    margin-bottom: 1rem;
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  .filterOptions {
+    max-width: 300px;
+    margin: 2rem;
+  }
+}
+</style>
