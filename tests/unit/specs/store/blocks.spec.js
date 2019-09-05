@@ -56,40 +56,26 @@ describe(`Module: Blocks`, () => {
 
   describe(`getBlockTxs`, () => {
     it(`should fetch block txs`, async () => {
-      const state = {
-        blockMetas: {
-          [`5`]: { header: { time: 100 } }
-        }
-      }
-      node.get.txsByHeight = () =>
-        Promise.resolve([
-          {
-            hash: `abcdefghijklm`
-          }
-        ])
-      const commit = jest.fn()
-      await actions.getBlockTxs({ state, commit }, `5`)
-      expect(commit).toHaveBeenCalledWith(`setBlocksLoading`, true)
-      expect(commit).toHaveBeenCalledWith(`setBlockTransactions`, [
+      const txs = [
         {
-          hash: `abcdefghijklm`,
-          time: 100,
-          height: `5`
+          hash: `abcdefghijklm`
         }
+      ]
+      node.get.txsByHeight = () => Promise.resolve(txs)
+      const dispatch = () => ({ header: { time: 100 } })
+      const result = await actions.getBlockTxs({ dispatch }, `5`)
+      expect(result).toEqual([
+        { hash: "abcdefghijklm", height: "5", time: 100 }
       ])
-      expect(commit).toHaveBeenCalledWith(`setBlocksLoaded`, true)
     })
 
     it(`should fail if request to full node fails`, async () => {
       node.get.txsByHeight = () => Promise.reject(Error(`error`))
-      const commit = jest.fn()
-      await actions.getBlockTxs({ state, commit }, `5`)
-      expect(commit).not.toHaveBeenCalledWith(`setBlockTransactions`, [
-        {
-          hash: `abcdefghijklm`
-        }
-      ])
-      expect(commit).toHaveBeenCalledWith(`setBlockError`, Error(`error`))
+      const dispatch = jest.fn()
+      expect(
+        actions.getBlockTxs({ state, dispatch }, `5`)
+      ).rejects.toThrowError("error")
+      expect(dispatch).not.toHaveBeenCalled()
     })
   })
 
@@ -151,10 +137,9 @@ describe(`Module: Blocks`, () => {
       1000
     )
     expect(commit.mock.calls).toEqual([
-      [`setBlocksLoaded`, false],
       [`setBlocksLoading`, true],
       [`setBlocksLoading`, false],
-      [`setBlockError`, error]
+      [`setBlocksError`, error]
     ])
 
     expect(output).toBe(null)
@@ -259,29 +244,6 @@ describe(`Module: Blocks`, () => {
     ])
   })
 
-  it(`should get the peers`, async () => {
-    const peers = [`a`, `b`, `c`]
-    const node = {
-      rpc: {
-        net_info: () =>
-          Promise.resolve({
-            result: {
-              peers
-            }
-          })
-      }
-    }
-    const module = blocks({
-      node
-    })
-    const commit = jest.fn()
-    await module.actions.getPeers({
-      state: { connected: true },
-      commit
-    })
-    expect(commit.mock.calls).toEqual([[`setPeers`, peers]])
-  })
-
   it(`caches a certan number of blocks`, async () => {
     const block = 1
     expect(cache([], block, 1)).toEqual([1])
@@ -320,18 +282,11 @@ describe(`Mutations`, () => {
   })
 
   it(`should set the error state`, async () => {
-    const { setBlockError } = mutations
+    const { setBlocksError } = mutations
     const state = {}
     const error = new Error(`just another error`)
-    setBlockError(state, error)
+    setBlocksError(state, error)
     expect(state.error).toEqual(error)
-  })
-
-  it(`should set the blockHeight state`, async () => {
-    const { setBlockHeight } = mutations
-    const state = {}
-    setBlockHeight(state, 1)
-    expect(state.blockHeight).toEqual(1)
   })
 
   it(`should set the syncing state`, async () => {
@@ -348,13 +303,6 @@ describe(`Mutations`, () => {
     expect(state.blockMetas).toEqual({ block_id: `X` })
   })
 
-  it(`should set the peers in the state`, async () => {
-    const { setPeers } = mutations
-    const state = {}
-    setPeers(state, [1])
-    expect(state.peers).toEqual([1])
-  })
-
   it(`should set the blocks in the state`, async () => {
     const { setBlocks } = mutations
     const state = {}
@@ -362,24 +310,6 @@ describe(`Mutations`, () => {
     expect(state.blocks).toEqual([])
     setBlocks(state, [1, 2, 3])
     expect(state.blocks).toEqual([1, 2, 3])
-  })
-
-  it(`should set the blocks in the state`, async () => {
-    const { setBlock } = mutations
-    const state = {}
-    setBlock(state, {})
-    expect(state.block).toEqual({})
-    setBlock(state, [1, 2, 3])
-    expect(state.block).toEqual([1, 2, 3])
-  })
-
-  it(`should set the block's transactions`, async () => {
-    const { setBlockTransactions } = mutations
-    const state = { block: {} }
-    setBlockTransactions(state, [{ txhash: `abcdef` }])
-    expect(state.block.transactions).toEqual([{ txhash: `abcdef` }])
-    setBlockTransactions(state, [])
-    expect(state.block.transactions).toEqual([])
   })
 
   it(`should add a block the blocks`, async () => {
