@@ -217,11 +217,9 @@ export default {
     },
     setMaxAmount() {
       this.amount = atoms(this.balance)
-      console.log(`amount: ${this.amount} balance: ${this.balance}`)
     },
     isMaxAmount() {
       return this.amount === atoms(this.balance)
-      console.log(`amount: ${this.amount} balance: ${this.balance}`)
     },
     bech32Validate(param) {
       try {
