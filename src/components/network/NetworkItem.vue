@@ -12,7 +12,7 @@
       </p>
     </div>
     <div class="network-selected">
-      {{ connection.network === network.id ? "✅" : "" }}
+      {{ connection.network === network.id ? "WIP ✅" : "" }}
     </div>
   </div>
 </template>
