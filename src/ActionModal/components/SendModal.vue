@@ -73,6 +73,7 @@
         <TmBtn
           type="addon-max"
           value="Set Max"
+          @click="amount = $v.amount.$params.between.max"
         />
       </TmFieldGroup>
 
