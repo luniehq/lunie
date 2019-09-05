@@ -8,7 +8,7 @@
     hide-header
   >
     <template slot="managed-body">
-      <TmField v-model="searchTerm" placeholder="Validator name…" />
+      <TmField v-model="searchTerm" placeholder="Search" />
       <TmBtn
         color="primary"
         value="Active Only"
