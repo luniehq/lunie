@@ -99,7 +99,7 @@
         type="between"
       />
       <p v-if="isMaxAmount()" class="form-message notice">
-        Warning! you should probably leave some left over for fees which may be required
+        Warning! you should probably leave some left over for fees
       </p>
     </TmFormGroup>
     <TmBtn
@@ -264,5 +264,9 @@ export default {
 <style scoped>
 #edit-memo-btn {
   margin-top: 1.5rem;
+}
+
+.form-message.notice {
+  margin: 0.5rem 0;
 }
 </style>
