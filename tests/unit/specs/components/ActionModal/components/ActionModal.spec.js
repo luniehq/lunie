@@ -47,6 +47,18 @@ const modalContext = {
   }
 }
 
+const $apollo = {
+  query: () => ({
+    data: {
+      networks: [
+        {
+          action_action_modal: true
+        }
+      ]
+    }
+  })
+}
+
 describe(`ActionModal`, () => {
   let wrapper, $store
 
@@ -62,6 +74,9 @@ describe(`ActionModal`, () => {
           signedIn: true,
           sessionType: `local`,
           browserWithLedgerSupport: null
+        },
+        connection: {
+          network: "testnet"
         }
       },
       getters: {
@@ -94,7 +109,8 @@ describe(`ActionModal`, () => {
         $store,
         $router: {
           push: jest.fn()
-        }
+        },
+        $apollo
       },
       stubs: ["router-link"]
     })
@@ -684,6 +700,19 @@ describe(`ActionModal`, () => {
     })
   })
 
+  it.only("shows a feature unavailable message", async () => {
+    wrapper.vm.$apollo = {
+      query: () => ({
+        data: {
+          networks: []
+        }
+      })
+    }
+    await wrapper.vm.open()
+    expect(wrapper.element).toMatchSnapshot()
+    expect(wrapper.exists("featurenotavailable-stub")).toBe(true)
+  })
+
   describe(`windows`, () => {
     beforeEach(() => {
       wrapper = shallowMount(ActionModal, {
@@ -697,12 +726,16 @@ describe(`ActionModal`, () => {
               session: {
                 windowsDevice: true,
                 windowsWarning: "WINDOWS WARNING MESSAGE"
+              },
+              connection: {
+                network: "testnet"
               }
             },
             getters: {
               modalContext
             }
-          }
+          },
+          $apollo
         },
         stubs: ["router-link"]
       })

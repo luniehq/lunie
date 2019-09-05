@@ -77,7 +77,7 @@ export default {
       default: false
     },
     error: {
-      type: Error,
+      type: Boolean,
       default: undefined
     },
     tabs: {

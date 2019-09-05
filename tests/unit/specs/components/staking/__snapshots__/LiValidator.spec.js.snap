@@ -5,18 +5,17 @@ exports[`LiValidator has the expected html structure 1`] = `
   class="li-validator"
   data-moniker="mr_mounty"
 >
+  <td>
+    2
+  </td>
+   
   <td
     class="data-table__row__info"
   >
-    <apolloquery-stub
-      debounce="0"
-      options="[object Object]"
-      prefetch="true"
-      query="[object Object]"
-      tag="div"
-      throttle="0"
-      update="function () { [native code] }"
-      variables="[object Object]"
+    <img
+      alt="validator logo for mr_mounty"
+      class="li-validator-image"
+      src="https://s3.amazonaws.com/img/path.jpg"
     />
      
     <div

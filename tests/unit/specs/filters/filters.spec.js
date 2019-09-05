@@ -52,9 +52,7 @@ describe(`resolveValidatorName Filter`, () => {
   beforeEach(() => {
     validators = {
       cosmosvaloper1xyz: {
-        description: {
-          moniker: "Big Val"
-        }
+        moniker: "Big Val"
       }
     }
   })

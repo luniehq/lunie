@@ -10,8 +10,9 @@
       </thead>
       <tbody v-infinite-scroll="loadMore" infinite-scroll-distance="400">
         <LiValidator
-          v-for="validator in showingValidators"
+          v-for="(validator, index) in showingValidators"
           :key="validator.operator_address"
+          :index="index"
           :validator="validator"
           :show-on-mobile="showOnMobile"
         />
@@ -22,11 +23,9 @@
 
 <script>
 import { mapGetters, mapState } from "vuex"
-import num from "scripts/num"
 import orderBy from "lodash.orderby"
 import LiValidator from "staking/LiValidator"
 import PanelSort from "staking/PanelSort"
-import BN from "bignumber.js"
 import { expectedReturns } from "scripts/returns"
 export default {
   name: `table-validators`,
@@ -45,17 +44,16 @@ export default {
     }
   },
   data: () => ({
-    num: num,
     query: ``,
     sort: {
-      property: `commission`,
-      order: `asc`
+      property: `expectedReturns`,
+      order: `desc`
     },
     showing: 15,
     rollingWindow: 10000 // param of slashing period
   }),
   computed: {
-    ...mapState([`delegates`, `distribution`, `pool`, `session`]),
+    ...mapState([`distribution`, `pool`, `session`]),
     ...mapState({
       annualProvision: state => state.minting.annualProvision
     }),
@@ -63,35 +61,24 @@ export default {
     enrichedValidators(
       {
         validators,
-        delegates: { signingInfos },
         pool,
         annualProvision,
         committedDelegations,
         session,
-        distribution,
-        rollingWindow
+        distribution
       } = this
     ) {
       return validators.map(v => {
-        const signingInfo = signingInfos[v.operator_address]
         return Object.assign({}, v, {
-          small_moniker: v.description.moniker.toLowerCase(),
+          small_moniker: v.moniker.toLowerCase(),
           my_delegations:
             session.signedIn && committedDelegations[v.operator_address] > 0
               ? committedDelegations[v.operator_address]
               : 0,
-          commission: v.commission.rate,
-          voting_power: BN(v.tokens)
-            .div(pool.pool.bonded_tokens)
-            .toFixed(10),
           rewards:
             session.signedIn && distribution.rewards[v.operator_address]
               ? distribution.rewards[v.operator_address][this.bondDenom]
               : 0,
-          uptime: signingInfo
-            ? (rollingWindow - signingInfo.missed_blocks_counter) /
-              rollingWindow
-            : 0,
           expectedReturns: annualProvision
             ? expectedReturns(
                 v,

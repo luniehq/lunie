@@ -14,6 +14,9 @@ export default [
   {
     path: `/proposals`,
     name: `Proposals`,
+    meta: {
+      feature: "Proposals"
+    },
     component: require(`./components/governance/TabProposals`).default
   },
   // for depredecated routes
@@ -24,6 +27,9 @@ export default [
   {
     path: `/proposals/:proposalId`,
     name: `Proposal`,
+    meta: {
+      feature: "Proposals"
+    },
     component: require(`./components/governance/PageProposal`).default,
     props: true
   },
@@ -35,6 +41,9 @@ export default [
   {
     path: `/validators`,
     name: `Validators`,
+    meta: {
+      feature: "Validators"
+    },
     component: require(`./components/staking/PageValidators`).default
   },
   // for depredecated routes
@@ -45,6 +54,9 @@ export default [
   {
     path: `/validators/:validator`,
     name: `validator`,
+    meta: {
+      feature: "Validators"
+    },
     component: require(`./components/staking/PageValidator`).default
   },
   {
@@ -55,24 +67,36 @@ export default [
     path: `/portfolio`,
     name: `portfolio`,
     component: require(`./components/wallet/PagePortfolio`).default,
-    meta: { requiresAuth: true }
+    meta: {
+      requiresAuth: true,
+      feature: "Portfolio"
+    }
   },
   {
     path: `/transactions`,
     name: `transactions`,
     component: require(`./components/wallet/PageTransactions`).default,
-    meta: { requiresAuth: true }
+    meta: {
+      requiresAuth: true,
+      feature: "Activity"
+    }
   },
   {
     path: `/blocks/:height`,
     name: `block`,
-    component: require(`./components/network/PageBlock`).default
+    component: require(`./components/network/PageBlock`).default,
+    meta: {
+      feature: "Explorer"
+    }
   },
   {
     path: `/welcome`,
     name: `welcome`,
     components: {
       session: require(`./components/common/TmSessionWelcome`).default
+    },
+    meta: {
+      feature: "Session"
     }
   },
   {
@@ -80,6 +104,9 @@ export default [
     name: `login`,
     components: {
       session: require(`./components/common/TmSessionSignIn`).default
+    },
+    meta: {
+      feature: "Session"
     }
   },
   {
@@ -87,6 +114,9 @@ export default [
     name: `create`,
     components: {
       session: require(`./components/common/TmSessionSignUp`).default
+    },
+    meta: {
+      feature: "Session"
     }
   },
   {
@@ -94,6 +124,9 @@ export default [
     name: `recover`,
     components: {
       session: require(`./components/common/TmSessionImport`).default
+    },
+    meta: {
+      feature: "Session"
     }
   },
   {
@@ -101,6 +134,9 @@ export default [
     name: `explore`,
     components: {
       session: require(`./components/common/TmSessionExplore`).default
+    },
+    meta: {
+      feature: "Session"
     }
   },
   {
@@ -108,6 +144,9 @@ export default [
     name: `ledger`,
     components: {
       session: require(`./components/common/TmSessionHardware`).default
+    },
+    meta: {
+      feature: "Session"
     }
   },
   {
@@ -115,6 +154,9 @@ export default [
     name: `extension`,
     components: {
       session: require(`./components/common/TmSessionExtension`).default
+    },
+    meta: {
+      feature: "Session"
     }
   },
   {
@@ -122,6 +164,9 @@ export default [
     name: `existing`,
     components: {
       session: require(`./components/common/TmSessionExisting`).default
+    },
+    meta: {
+      feature: "Session"
     }
   },
   { path: `/404`, component: require(`./components/common/Page404`).default },
@@ -144,6 +189,11 @@ export default [
   {
     path: `/careers`,
     component: require(`./components/common/PageCareers`).default
+  },
+  {
+    path: `/feature-not-available/:feature`,
+    component: require(`./components/common/PageFeatureNotAvailable`).default,
+    props: true
   },
   { path: `*`, component: require(`./components/common/Page404`).default }
 ]

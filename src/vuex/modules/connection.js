@@ -15,6 +15,7 @@ export default function({ node }) {
       height: 0,
       chain_id: ``
     },
+    network: config.network, // network id to reference network capabilities stored in Hasura
     connectionAttempts: 0,
     nodeUrl: config.stargate,
     rpcUrl: config.rpc,

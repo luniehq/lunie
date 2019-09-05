@@ -1,7 +1,7 @@
 <template>
   <tr
     class="li-validator"
-    :data-moniker="validator.description.moniker"
+    :data-moniker="validator.moniker"
     @click="
       $router.push({
         name: 'validator',
@@ -9,30 +9,23 @@
       })
     "
   >
+    <td>{{ index+1 }}</td>
     <td class="data-table__row__info">
-      <ApolloQuery
-        :query="ValidatorProfile"
-        :variables="{ address: validator.operator_address }"
-        :update="validatorProfileResultUpdate"
-      >
-        <template v-slot="{ result: { loading, error, data: keybase } }">
-          <Avatar
-            v-if="!keybase || !keybase.avatarUrl || loading || error"
-            class="li-validator-image"
-            alt="generic validator logo - generated avatar from address"
-            :address="validator.operator_address"
-          />
-          <img
-            v-else-if="keybase && keybase.avatarUrl"
-            :src="keybase.avatarUrl"
-            class="li-validator-image"
-            :alt="`validator logo for ` + validator.description.moniker"
-          />
-        </template>
-      </ApolloQuery>
+      <Avatar
+        v-if="!validator || !validator.avatarUrl"
+        class="li-validator-image"
+        alt="generic validator logo - generated avatar from address"
+        :address="validator.operator_address"
+      />
+      <img
+        v-else-if="validator && validator.avatarUrl"
+        :src="validator.avatarUrl"
+        class="li-validator-image"
+        :alt="`validator logo for ` + validator.moniker"
+      />
       <div class="validator-info">
         <h3 class="li-validator-name">
-          {{ validator.description.moniker }}
+          {{ validator.moniker }}
         </h3>
         <div v-if="validator.my_delegations > 0">
           <h4>
@@ -50,17 +43,14 @@
       }}
     </td>
     <td :class="{ 'hide-xs': showOnMobile !== 'voting-power' }">
-      {{ validator.tokens ? percentOfVotingPower : `--` }}
+      {{ validator.voting_power | percent }}
     </td>
   </tr>
 </template>
 
 <script>
-import { mapState } from "vuex"
 import { percent, shortDecimals, atoms } from "scripts/num"
 import Avatar from "common/Avatar"
-import BN from "bignumber.js"
-import { ValidatorProfile, validatorProfileResultUpdate } from "src/gql"
 
 export default {
   name: `li-validator`,
@@ -69,36 +59,26 @@ export default {
   },
   filters: {
     atoms,
-    shortDecimals
+    shortDecimals,
+    percent
   },
   props: {
     validator: {
       type: Object,
       required: true
     },
+    index: {
+      type: Number,
+      required: true
+    },
     showOnMobile: {
       type: String,
+      /* istanbul ignore next */
       default: () => "returns"
     }
   },
-  data: () => ({
-    ValidatorProfile
-  }),
-  computed: {
-    ...mapState([`pool`]),
-    percentOfVotingPower() {
-      return percent(
-        BN(this.validator.tokens)
-          .div(this.pool.pool.bonded_tokens)
-          .toFixed(4)
-      )
-    }
-  },
   methods: {
-    shortDecimals,
-    atoms,
-    percent,
-    validatorProfileResultUpdate
+    percent
   }
 }
 </script>

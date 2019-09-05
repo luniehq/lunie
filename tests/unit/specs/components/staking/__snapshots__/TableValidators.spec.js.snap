@@ -17,14 +17,27 @@ exports[`TableValidators shows a validator table 1`] = `
       infinite-scroll-distance="400"
     >
       <livalidator-stub
+        index="0"
         showonmobile="returns"
         validator="[object Object]"
       />
       <livalidator-stub
+        index="1"
         showonmobile="returns"
         validator="[object Object]"
       />
       <livalidator-stub
+        index="2"
+        showonmobile="returns"
+        validator="[object Object]"
+      />
+      <livalidator-stub
+        index="3"
+        showonmobile="returns"
+        validator="[object Object]"
+      />
+      <livalidator-stub
+        index="4"
         showonmobile="returns"
         validator="[object Object]"
       />

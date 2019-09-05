@@ -10,7 +10,10 @@ import {
   flatOrderedTransactionList,
   validators as validatorsAddressMap
 } from "src/vuex/getters.js"
-import validators from "./json/validators.js"
+
+import validatorsFull from "./json/validators.js"
+
+const validators = validatorsFull.slice(0, 3)
 
 describe(`Store: getters`, () => {
   it(`liquidAtoms`, () => {

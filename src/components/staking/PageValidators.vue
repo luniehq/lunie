@@ -1,15 +1,15 @@
 <template>
   <TmPage
     :managed="true"
-    :loading="delegates.loading"
-    :loaded="delegates.loaded"
-    :error="delegates.error"
-    :data-empty="delegates.length === 0"
+    :loading="$apollo.queries.validators.loading"
+    :loaded="!$apollo.queries.validators.loading"
+    :error="$apollo.queries.validators.error"
+    :data-empty="validators.length === 0"
     hide-header
   >
     <template slot="managed-body">
       <TableValidators
-        :validators="delegates.delegates"
+        :validators="validators"
         show-on-mobile="expectedReturns"
       />
     </template>
@@ -17,9 +17,9 @@
 </template>
 
 <script>
+import { AllValidators, AllValidatorsResult } from "src/gql"
 import TableValidators from "staking/TableValidators"
 import TmPage from "common/TmPage"
-import { mapState } from "vuex"
 
 export default {
   name: `tab-validators`,
@@ -28,10 +28,13 @@ export default {
     TmPage
   },
   data: () => ({
-    lastUpdate: 0
+    validators: []
   }),
-  computed: {
-    ...mapState([`delegates`])
+  apollo: {
+    validators: {
+      query: AllValidators,
+      update: AllValidatorsResult
+    }
   }
 }
 </script>
