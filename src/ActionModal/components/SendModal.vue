@@ -161,7 +161,7 @@ export default {
   },
   data: () => ({
     address: ``,
-    amount: null,
+    amount: 0,
     denom: ``,
     memo: defaultMemo,
     max_memo_characters: 256,
