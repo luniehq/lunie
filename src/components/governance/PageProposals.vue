@@ -5,16 +5,25 @@
     :loading="proposals.loading"
     :loaded="proposals.loaded"
     :error="proposals.error"
-    :data-empty="proposals.length === 0"
+    :data-empty="Object.keys(proposals.proposals).length === 0"
     hide-header
   >
-    <TmDataEmpty
-      slot="no-data"
-      title="No Governance Proposals"
-      subtitle="There are currently no governance proposals to display.
+    <template slot="no-data">
+      <div class="button-container">
+        <TmBtn
+          id="propose-btn"
+          value="Create Proposal"
+          type="secondary"
+          @click.native="onPropose"
+        />
+      </div>
+      <TmDataMsg
+        title="No Governance Proposals"
+        subtitle="There are currently no governance proposals to display.
     Click the 'Create Proposal' button to submit a proposal."
-      icon="gavel"
-    />
+        icon="gavel"
+      />
+    </template>
     <template slot="managed-body">
       <div class="button-container">
         <TmBtn
@@ -39,14 +48,14 @@ import ModalPropose from "src/ActionModal/components/ModalPropose"
 import TableProposals from "governance/TableProposals"
 import TmBtn from "common/TmBtn"
 import TmPage from "common/TmPage"
-import TmDataEmpty from "common/TmDataEmpty"
+import TmDataMsg from "common/TmDataMsg"
 import { mapState, mapGetters } from "vuex"
 export default {
-  name: `tab-proposals`,
+  name: `page-proposals`,
   components: {
     ModalPropose,
     TableProposals,
-    TmDataEmpty,
+    TmDataMsg,
     TmBtn,
     TmPage
   },
