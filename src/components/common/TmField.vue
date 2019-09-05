@@ -219,6 +219,8 @@ input[type="checkbox"] {
   -webkit-appearance: none;
   border-top-left-radius: .25rem!important;
   border-bottom-left-radius: .25rem!important;
+  border-top-right-radius: 0 !important;
+  border-bottom-right-radius: 0 !important;
 }
 
 .tm-field::placeholder {

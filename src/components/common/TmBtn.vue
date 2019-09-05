@@ -113,8 +113,6 @@ export default {
   margin: 0;
   border-top-right-radius: .25rem !important;
   border-bottom-right-radius: .25rem !important;
-  border-top-right-radius: 0 !important;
-  border-bottom-right-radius: 0 !important;
   cursor: pointer;
   background: var(--primary);
   border: 2px solid var(--primary);
