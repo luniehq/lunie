@@ -63,18 +63,6 @@
   </label>
 
   <input
-    v-else-if="type === 'number-addon'"
-    ref="numTextInput"
-    :type="type"
-    :placeholder="placeholder"
-    :value="value"
-    @change="onChange"
-    @keyup="onKeyup"
-    @keydown="onKeydown"
-    @input="updateValue($event.target.value)"
-  />  
-
-  <input
     v-else
     ref="numTextInput"
     :type="type"
