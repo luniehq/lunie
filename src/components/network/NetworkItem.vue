@@ -12,7 +12,7 @@
       </p>
     </div>
     <div class="network-selected">
-      {{ connection.network === network.id }}
+      {{ connection.network === network.id ? "✅" : "" }}
     </div>
   </div>
 </template>
@@ -29,7 +29,6 @@ export default {
     },
     enabled: {
       type: Boolean,
-      required: false,
       default: false
     }
   },
