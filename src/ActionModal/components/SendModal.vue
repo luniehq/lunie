@@ -4,10 +4,6 @@
     ref="actionModal"
     :validate="validateForm"
     :amount="amount"
-
-    :gasEstimate="gasEstimate"
-    :gasPrice="gasPrice"
-
     title="Send"
     submission-error-prefix="Sending tokens failed"
     :transaction-data="transactionData"
@@ -217,7 +213,7 @@ export default {
       this.sending = false
     },
     setMaxAmount() {
-      this.amount = atoms(this.balance - (this.gasPrice * this.gasEstimate))
+      this.amount = atoms(this.balance)
     },
     bech32Validate(param) {
       try {
