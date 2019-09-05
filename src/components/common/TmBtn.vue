@@ -111,8 +111,8 @@ export default {
   min-width: 100px;
   color: var(--bright);
   margin: 0;
-  border-top-left-radius: .25rem!important;
-  border-bottom-left-radius: .25rem!important;
+  border-top-right-radius: .25rem!important;
+  border-bottom-right-radius: .25rem!important;
   cursor: pointer;
   background: var(--primary);
   border: 2px solid var(--primary);
