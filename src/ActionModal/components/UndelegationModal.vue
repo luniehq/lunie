@@ -169,7 +169,7 @@ export default {
       this.amount = null
     },
     setMaxAmount() {
-      this.amount = atoms(this.maximum)
+      this.amount = this.maximum
     },      
     enterPressed() {
       this.$refs.actionModal.validateChangeStep()
