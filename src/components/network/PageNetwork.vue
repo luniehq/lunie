@@ -1,63 +1,32 @@
 <template>
   <TmPage data-title="Network" class="small" hide-header>
     <template>
-      <h3>Mainnets</h3>
-      <ul>
-        <li
-          v-for="network in mainNets"
-          :key="network.chain_id"
-          class="select-network-item"
-          :class="{ selected: connection.network === network.id }"
-          @click="selectNetworkHandler(network)"
-        >
-          <NetworkItem :network="network" />
-        </li>
-      </ul>
-      <h3>Testnets</h3>
-      <ul>
-        <li
-          v-for="network in testNets"
-          :key="network.chain_id"
-          class="select-network-item"
-          @click="selectNetworkHandler(network)"
-        >
-          <NetworkItem :network="network" />
-        </li>
-      </ul>
+      <NetworkList title="Mainnets" :networks="mainNets" />
+      <NetworkList title="Testnets" :networks="testNets" />
     </template>
   </TmPage>
 </template>
 
 <script>
-import { mapState } from "vuex"
-
 import { Networks, NetworksResult } from "src/gql"
-import NetworkItem from "./NetworkItem"
+import NetworkList from "./NetworkList"
 
 import TmPage from "common/TmPage"
 export default {
   name: `page-network`,
   components: {
     TmPage,
-    NetworkItem
+    NetworkList
   },
   data: () => ({
     networks: []
   }),
   computed: {
-    ...mapState([`connection`]),
     mainNets() {
       return this.networks.filter(network => !network.testnet)
     },
     testNets() {
       return this.networks.filter(network => network.testnet)
-    }
-  },
-  methods: {
-    selectNetworkHandler(network) {
-      if (this.connection.network !== network.id) {
-        this.$store.dispatch(`setNetwork`, network)
-      }
     }
   },
   apollo: {
