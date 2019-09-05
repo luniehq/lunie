@@ -133,7 +133,6 @@ export default ({ node }) => {
       const enrichedTransactions = await Promise.all(
         transactions.map(async tx => {
           const blockMetaInfo = await dispatch(`queryBlockInfo`, tx.height)
-          // if (!blockMetaInfo) return tx
 
           const enrichedTx = Object.assign({}, tx, {
             type: txType,
