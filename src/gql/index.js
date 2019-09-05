@@ -66,6 +66,7 @@ export const ValidatorByName = active => gql`
       where: {
         moniker: { _ilike: $monikerName }
         ${active ? "jailed: { _neq: true }" : ""}
+        ${active ? "status: { _neq: 0 }" : ""}
       }
     ) {
       ...ValidatorParts
