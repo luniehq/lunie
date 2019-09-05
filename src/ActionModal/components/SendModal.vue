@@ -60,7 +60,7 @@
       field-label="Amount"
     >
       
-      <TmFieldAddon>
+      <TmFieldGroup>
         <TmField
           id="amount"
           ref="amount"
@@ -71,9 +71,10 @@
           @keyup.enter.native="enterPressed"
         />
         <TmBtn
+          type="addon-max"
           value="MAX"
         />
-      </TmFieldAddon>
+      </TmFieldGroup>
 
       <TmFormMsg
         v-if="balance === 0"
