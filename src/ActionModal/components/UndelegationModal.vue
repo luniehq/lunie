@@ -37,6 +37,7 @@
         <TmField
           id="amount"
           v-model="amount"
+          class="tm-field-addon"
           v-focus
           type="number"
           placeholder="Amount"
