@@ -72,7 +72,7 @@
         />
         <TmBtn
           type="addon-max"
-          value="MAX"
+          value="Set Max"
         />
       </TmFieldGroup>
 

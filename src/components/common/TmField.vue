@@ -131,6 +131,8 @@ export default {
         value += ` tm-field-select`
       }
       if (this.size) value += ` tm-field-size-${this.size}`
+      // We don't want tm-field class if they are an addon
+      if (this.class === `tm-field-addon`) value = ''
       return value
     },
     toggleClass() {
