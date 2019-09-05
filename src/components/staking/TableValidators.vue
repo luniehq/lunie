@@ -17,11 +17,9 @@
         <LiValidator
           v-for="(validator, index) in showingValidators"
           :key="validator.operator_address"
-          :data-index="index"
           :index="index"
           :validator="validator"
           :show-on-mobile="showOnMobile"
-          class="list-complete-item"
         />
       </tbody>
     </table>
