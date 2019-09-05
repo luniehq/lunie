@@ -8,13 +8,20 @@
           :show-on-mobile="showOnMobile"
         />
       </thead>
-      <tbody v-infinite-scroll="loadMore" infinite-scroll-distance="400">
+      <tbody
+        is="transition-group"
+        v-infinite-scroll="loadMore"
+        infinite-scroll-distance="400"
+        name="flip-list"
+      >
         <LiValidator
           v-for="(validator, index) in showingValidators"
           :key="validator.operator_address"
+          :data-index="index"
           :index="index"
           :validator="validator"
           :show-on-mobile="showOnMobile"
+          class="list-complete-item"
         />
       </tbody>
     </table>
@@ -141,6 +148,22 @@ export default {
   methods: {
     loadMore() {
       this.showing += 10
+    },
+    beforeEnter: function(el) {
+      el.style.opacity = 0
+      el.style.height = 0
+    },
+    enter: function(el, done) {
+      var delay = el.dataset.index * 150
+      setTimeout(function() {
+        Velocity(el, { opacity: 1, height: "1.6em" }, { complete: done })
+      }, delay)
+    },
+    leave: function(el, done) {
+      var delay = el.dataset.index * 150
+      setTimeout(function() {
+        Velocity(el, { opacity: 0, height: 0 }, { complete: done })
+      }, delay)
     }
   }
 }
@@ -154,5 +177,9 @@ export default {
   .data-table__row__info {
     max-width: 22rem;
   }
+}
+
+.flip-list-move {
+  transition: transform 1s;
 }
 </style>
