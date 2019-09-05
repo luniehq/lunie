@@ -1,18 +1,15 @@
 <template>
-  <div>
-    <h3>{{ title }}</h3>
-    <ul>
-      <li
-        v-for="network in networks"
-        :key="network.chain_id"
-        class="select-network-item"
-        :class="{ selected: connection.network === network.id }"
-        @click="selectNetworkHandler(network)"
-      >
-        <NetworkItem :network="network" />
-      </li>
-    </ul>
-  </div>
+  <ul>
+    <li
+      v-for="network in networks"
+      :key="network.chain_id"
+      class="select-network-item"
+      :class="{ selected: connection.network === network.id }"
+      @click="selectNetworkHandler(network)"
+    >
+      <NetworkItem :network="network" />
+    </li>
+  </ul>
 </template>
 
 <script>

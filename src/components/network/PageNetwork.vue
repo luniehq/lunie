@@ -1,8 +1,10 @@
 <template>
   <TmPage data-title="Network" class="small" hide-header>
     <template>
-      <NetworkList title="Mainnets" :networks="mainNets" />
-      <NetworkList title="Testnets" :networks="testNets" />
+      <h3>Mainnets</h3>
+      <NetworkList :networks="mainNets" />
+      <h3>Testnets</h3>
+      <NetworkList :networks="testNets" />
     </template>
   </TmPage>
 </template>
