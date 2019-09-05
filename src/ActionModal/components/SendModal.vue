@@ -70,7 +70,9 @@
           type="number"
           @keyup.enter.native="enterPressed"
         />
-        <TmBtn />
+        <TmBtn
+          value="MAX"
+        />
       </TmFieldAddon>
 
       <TmFormMsg
