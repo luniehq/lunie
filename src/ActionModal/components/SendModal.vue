@@ -73,7 +73,7 @@
         <TmBtn
           type="addon-max"
           value="Set Max"
-          @click="amount = $v.amount.$params.between.max"
+          @click.native="setMaxAmount()"
         />
       </TmFieldGroup>
 
@@ -213,6 +213,9 @@ export default {
       this.editMemo = false
       this.memo = defaultMemo
       this.sending = false
+    },
+    setMaxAmount() {
+      this.amount = atoms(this.balance)
     },
     bech32Validate(param) {
       try {
