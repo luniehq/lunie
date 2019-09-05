@@ -8,17 +8,8 @@ export const cache = (list, element, maxSize = 100) => {
 
 export default ({ node }) => {
   const state = {
-    blockMetaInfo: { block_id: {} },
-    blockHeight: null, // we remember the height so we can requery the block, if querying failed
     blockMetas: {},
-    peers: [],
     blocks: [],
-    // one block, specified by height
-    block: {
-      block: {},
-      block_meta: {},
-      transactions: []
-    },
     subscription: false,
     subscribedRPC: null,
     syncing: true,
@@ -31,12 +22,7 @@ export default ({ node }) => {
     setBlockHeight: (state, height) => (state.blockHeight = height),
     setSyncing: (state, syncing) => (state.syncing = syncing),
     setBlockMetas: (state, blockMetas) => (state.blockMetas = blockMetas),
-    setPeers: (state, peers) => (state.peers = peers),
     setBlocks: (state, blocks) => (state.blocks = blocks),
-    setBlock: (state, block) => (state.block = block),
-    setBlockTransactions: (state, txs) => {
-      Vue.set(state.block, `transactions`, txs)
-    },
     addBlock: (state, block) =>
       Vue.set(state, `blocks`, cache(state.blocks, block)),
     setSubscribedRPC: (state, subscribedRPC) =>
@@ -45,7 +31,7 @@ export default ({ node }) => {
       (state.subscription = subscription),
     setBlocksLoading: (state, loading) => (state.loading = loading),
     setBlocksLoaded: (state, loaded) => (state.loaded = loaded),
-    setBlockError: (state, error) => (state.error = error)
+    setBlocksError: (state, error) => (state.error = error)
   }
 
   const actions = {
@@ -54,24 +40,16 @@ export default ({ node }) => {
       commit(`setSubscription`, false)
       dispatch(`subscribeToBlocks`)
     },
-    async getBlockTxs({ state, commit }, height) {
-      try {
-        commit(`setBlocksLoaded`, false)
-        commit(`setBlocksLoading`, true)
-        let txs = await node.get.txsByHeight(height)
-        const time = state.blockMetas[height].header.time
-        txs = txs.map(tx =>
-          Object.assign({}, tx, {
-            height,
-            time
-          })
-        )
-        commit(`setBlockTransactions`, txs)
-        commit(`setBlocksLoaded`, true)
-      } catch (error) {
-        commit(`setBlockError`, error)
-      }
-      commit(`setBlocksLoading`, false)
+    async getBlockTxs({ dispatch }, height) {
+      let txs = await node.get.txsByHeight(height)
+      const time = (await dispatch("queryBlockInfo", height)).header.time
+      txs = txs.map(tx =>
+        Object.assign({}, tx, {
+          height,
+          time
+        })
+      )
+      return txs
     },
     async queryBlockInfo({ state, commit }, height) {
       try {
@@ -79,23 +57,21 @@ export default ({ node }) => {
         if (blockMetaInfo) {
           return blockMetaInfo
         }
-        commit(`setBlocksLoaded`, false)
         commit(`setBlocksLoading`, true)
         const block = await node.get.block(height)
 
         blockMetaInfo = block.block_meta
-        commit(`setBlocksLoading`, false)
 
         commit(`setBlockMetas`, {
           ...state.blockMetas,
           [height]: blockMetaInfo
         })
-        commit(`setBlock`, block)
+        commit(`setBlocksLoading`, false)
         commit(`setBlocksLoaded`, true)
         return blockMetaInfo
       } catch (error) {
         commit(`setBlocksLoading`, false)
-        commit(`setBlockError`, error)
+        commit(`setBlocksError`, error)
         return null
       }
     },
@@ -129,15 +105,6 @@ export default ({ node }) => {
       })
 
       return true
-    },
-    async getPeers({ state, commit }) {
-      if (!(state.connected && node.rpc)) return []
-
-      const {
-        result: { peers }
-      } = await node.rpc.net_info()
-      commit(`setPeers`, peers)
-      return peers
     }
   }
 

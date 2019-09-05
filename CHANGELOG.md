@@ -7,6 +7,23 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.0-beta.117] - 2019-09-05
+
+### Added
+
+- [#2671](https://github.com/cosmos/lunie/issues/2671) Show validator rank number in Validator list @mariopino
+
+### Repository
+
+- [#2944](https://github.com/cosmos/lunie/pull/2944) Remove S3 upload from CI @faboweb
+- Update README to include docker compose as development dependendy. @mariopino
+
+## [1.0.0-beta.116] - 2019-09-03
+
+### Fixed
+
+- Use correct query for feature detection in actionmodal @faboweb
+
 ## [1.0.0-beta.115] - 2019-09-03
 
 ### Changed
