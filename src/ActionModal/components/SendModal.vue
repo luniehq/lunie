@@ -98,7 +98,7 @@
         name="Amount"
         type="between"
       />
-      <p v-if="amount === atom(balance)" class="form-message notice">
+      <p v-if="amount === balance" class="form-message notice">
         Warning! you should probably leave some left over for fees which may be required
       </p>
     </TmFormGroup>
