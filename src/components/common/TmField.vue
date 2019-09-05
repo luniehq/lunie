@@ -62,25 +62,6 @@
     </div>
   </label>
 
-  <div v-else-if="type === 'number-max'">
-    <div class="input-group">
-      <div class="input-group-area">
-        <input
-          ref="numTextInput"
-          :type="type"
-          :class="css"
-          :placeholder="placeholder"
-          :value="value"
-          :max="max"
-          @change="onChange"
-          @keyup="onKeyup"
-          @keydown="onKeydown"
-          @input="updateValue($event.target.value)"
-        />
-      <div class="input-group-btn"><button type="button">MAX</button></div>
-    </div>
-  </div>
-
   <input
     v-else
     ref="numTextInput"
@@ -421,32 +402,5 @@ textarea.tm-field {
   height: 3rem;
   padding-left: 0.75rem;
   padding-right: 0.75rem;
-}
-
-
-.input-group{
-  display: table;
-  border-collapse: collapse;
-  width:100%;
-	margin-bottom: 1rem
-}
-.input-group > div{
-  display: table-cell;
-  border: 1px solid #ddd;
-  vertical-align: middle;  /* needed for Safari */
-}
-.input-group-area{
-  width:100%;
-}
-.input-group input{
-  border: 0;
-  display: block;
-  width: 100%;
-  padding: 8px;
-}
-.input-group-btn button {
-  width: 50px;
-  height: 100%;
-  padding: 8px;
 }
 </style>

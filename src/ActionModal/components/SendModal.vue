@@ -60,18 +60,18 @@
       field-label="Amount"
     >
       
-      <!-- -->
-      <TmField
-        id="amount"
-        ref="amount"
-        v-model="amount"
-        class="tm-field"
-        placeholder="Amount"
-        type="number-max"
-        :max="$v.amount.$params.between.max"
-        @keyup.enter.native="enterPressed"
-      />
-      <!-- -->
+      <TmFieldAddon>
+        <TmField
+          id="amount"
+          ref="amount"
+          v-model="amount"
+          class="tm-field"
+          placeholder="Amount"
+          type="number"
+          @keyup.enter.native="enterPressed"
+        />
+        <TmBtn />
+      </TmFieldAddon>
 
       <TmFormMsg
         v-if="balance === 0"
@@ -136,6 +136,8 @@ import { uatoms, atoms, viewDenom, SMALLEST } from "src/scripts/num"
 import { mapState } from "vuex"
 import TmFormGroup from "src/components/common/TmFormGroup"
 import TmField from "src/components/common/TmField"
+import TmFieldAddon from "src/components/common/TmFieldAddon"
+import TmBtn from "src/components/common/TmBtn"
 import TmFormMsg from "src/components/common/TmFormMsg"
 import TmBtn from "src/components/common/TmBtn"
 import ActionModal from "./ActionModal"
@@ -147,6 +149,7 @@ export default {
   name: `send-modal`,
   components: {
     TmField,
+    TmFieldAddon,
     TmFormGroup,
     TmFormMsg,
     ActionModal,
