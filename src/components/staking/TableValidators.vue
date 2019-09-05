@@ -180,6 +180,6 @@ export default {
 }
 
 .flip-list-move {
-  transition: transform 1s;
+  transition: transform 0.3s;
 }
 </style>
