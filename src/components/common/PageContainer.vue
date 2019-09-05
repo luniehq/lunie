@@ -21,7 +21,7 @@
 
 <script>
 import TmPageHeader from "./TmPageHeader.vue"
-import { mapState, mapGetters } from "vuex"
+import { mapState } from "vuex"
 import TmBalance from "common/TmBalance"
 import PageFooter from "common/TmPageFooter"
 
@@ -75,8 +75,7 @@ export default {
     }
   },
   computed: {
-    ...mapState([`session`]),
-    ...mapGetters([`connected`])
+    ...mapState([`session`])
   },
   watch: {
     $route() {
