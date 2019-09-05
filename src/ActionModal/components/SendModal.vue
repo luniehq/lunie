@@ -267,6 +267,6 @@ export default {
 }
 
 .form-message.notice {
-  margin: 0.5rem 0;
+  margin: 1rem 0 0 0;
 }
 </style>
