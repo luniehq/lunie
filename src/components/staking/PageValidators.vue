@@ -27,6 +27,9 @@
         :validators="validators"
         show-on-mobile="expectedReturns"
       />
+      <div v-if="validators.length === 0 && searchTerm" class="no-results">
+        No results for these search terms
+      </div>
     </template>
   </PageContainer>
 </template>
@@ -81,5 +84,11 @@ export default {
     max-width: 300px;
     margin: 2rem;
   }
+}
+
+.no-results {
+  text-align: center;
+  margin: 3rem;
+  color: var(--dim);
 }
 </style>
