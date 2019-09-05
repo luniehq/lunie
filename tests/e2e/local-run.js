@@ -8,6 +8,8 @@ const main = async () => {
   const filter = process.argv[2]
   await exec("yarn testnet:start:container")
   const proxy = spawn("yarn", ["proxy"])
+  proxy.stdout.pipe(process.stdout)
+  proxy.stderr.pipe(process.stderr)
   const serve = spawn("yarn", ["test:e2e:serve"])
   serve.stdout.pipe(process.stdout)
   serve.stderr.pipe(process.stderr)
@@ -18,14 +20,16 @@ const main = async () => {
   test.stderr.pipe(process.stderr)
 
   test.on("exit", terminateProcesses({ proxy, serve, test }))
-  test.on("close", terminateProcesses({ proxy, serve, test }))
   test.stdout.on("data", async data => {
     if (data.toString().startsWith("Done in")) {
       await terminateProcesses({ proxy, serve, test })
       process.exit(0)
     }
   })
-  test.stderr.on("data", async () => {
+  test.stderr.on("data", async data => {
+    // ignore simple test failures
+    if (data.toString().startsWith("expected")) return
+
     console.error("Test failed")
     await terminateProcesses({ proxy, serve, test })
     process.exit(1)
