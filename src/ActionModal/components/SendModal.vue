@@ -59,15 +59,20 @@
       field-id="amount"
       field-label="Amount"
     >
+      
+      <!-- -->
       <TmField
         id="amount"
         ref="amount"
         v-model="amount"
         class="tm-field"
         placeholder="Amount"
-        type="number"
+        type="number-max"
+        :max="$v.amount.$params.between.max"
         @keyup.enter.native="enterPressed"
       />
+      <!-- -->
+
       <TmFormMsg
         v-if="balance === 0"
         :msg="`doesn't have any ${viewDenom(denom)}s`"
