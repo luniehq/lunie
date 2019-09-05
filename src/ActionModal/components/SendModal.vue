@@ -139,7 +139,6 @@ import TmField from "src/components/common/TmField"
 import TmFieldAddon from "src/components/common/TmFieldAddon"
 import TmBtn from "src/components/common/TmBtn"
 import TmFormMsg from "src/components/common/TmFormMsg"
-import TmBtn from "src/components/common/TmBtn"
 import ActionModal from "./ActionModal"
 import transaction from "../utils/transactionTypes"
 
