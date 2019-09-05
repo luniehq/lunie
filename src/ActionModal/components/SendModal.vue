@@ -98,7 +98,7 @@
         name="Amount"
         type="between"
       />
-      <p v-if="amount === atoms(balance)" class="form-message notice">
+      <p v-if="isMaxAmount()" class="form-message notice">
         Warning! you should probably leave some left over for fees which may be required
       </p>
     </TmFormGroup>
@@ -217,6 +217,10 @@ export default {
     },
     setMaxAmount() {
       this.amount = atoms(this.balance)
+      console.log(`amount: ${this.amount} balance: ${this.balance}`)
+    },
+    isMaxAmount() {
+      return this.amount === atoms(this.balance)
       console.log(`amount: ${this.amount} balance: ${this.balance}`)
     },
     bech32Validate(param) {
