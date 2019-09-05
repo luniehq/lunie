@@ -1,5 +1,11 @@
 <template>
-  <button
+  <button v-if="type === `addon-max`"
+    class="addon-max"
+    :disabled="disabled"
+  >
+    {{ value }}
+  </button>
+  <button v-else
     class="button"
     :class="{ secondary: type === `secondary`, small: size === `small` }"
     :disabled="disabled"
@@ -93,4 +99,43 @@ export default {
     padding: 10px 10px;
   }
 }
+
+
+
+
+.addon-max {
+  font-family: var(--sans);
+  font-size: 14px;
+  font-weight: 400;
+  padding: 5px 16px;
+  min-width: 100px;
+  color: var(--bright);
+  margin: 0;
+  border-top-left-radius: .25rem!important;
+  border-bottom-left-radius: .25rem!important;
+  cursor: pointer;
+  background: var(--primary);
+  border: 2px solid var(--primary);
+  transition: all 0.5s ease;
+  white-space: nowrap;
+  outline: none;
+}
+
+.addon-max:hover {
+  background: var(--primary-dark);
+  border-color: var(--primary-dark);
+}
+
+.addon-max:disabled {
+  opacity: 0.5;
+  background: var(--primary-dark);
+  border-color: var(--bc-dim);
+  cursor: default;
+}
+
+.addon-max:disabled:hover {
+  background: var(--primary-dark);
+  border-color: var(--bc-dim);
+}
+
 </style>
