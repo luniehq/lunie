@@ -45,11 +45,12 @@ export default {
   }),
   apollo: {
     validators: {
-      query: ValidatorByName,
+      query() {
+        return ValidatorByName(this.activeOnly)
+      },
       variables() {
         return {
-          monikerName: `%${this.searchTerm}%`,
-          activeOnly: this.activeOnly
+          monikerName: `%${this.searchTerm}%`
         }
       },
       update: AllValidatorsResult
