@@ -11,6 +11,15 @@
         <i class="material-icons" @click="close">close</i>
       </a>
     </div>
+    <div v-if="maintenance.length > 0" class="maintenance-bar">
+      <i></i>
+      <p>
+        Maintenance text
+      </p>
+      <a class="close">
+        <i class="material-icons" @click="close">close</i>
+      </a>
+    </div>
   </div>
 </template>
 
@@ -21,7 +30,7 @@ export default {
   name: `maintenance-bar`,
   data: () => ({
     show: true,
-    maintenance
+    maintenance: []
   }),
   computed: {
     ...mapState([`session`])
@@ -30,17 +39,10 @@ export default {
     close() {
       this.show = false
     }
-  }, 
+  },
   apollo: {
     maintenance: {
       query: Maintenance,
-      variables() {
-        console.log(this.maintenance);
-        // return {
-        //   message: this.maintenance[0].message,
-        //   type: this.maintenance[0].type,
-        // }
-      },
       update: MaintenanceResult
     }
   }
