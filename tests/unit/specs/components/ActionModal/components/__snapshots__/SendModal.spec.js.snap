@@ -2,7 +2,6 @@
 
 exports[`SendModal should display send modal form 1`] = `
 <actionmodal-stub
-  amount="0"
   id="send-modal"
   notifymessage="[object Object]"
   submissionerrorprefix="Sending tokens failed"
@@ -51,7 +50,6 @@ exports[`SendModal should display send modal form 1`] = `
         id="amount"
         placeholder="Amount"
         type="number"
-        value="0"
       />
        
       <tmbtn-stub
@@ -66,13 +64,7 @@ exports[`SendModal should display send modal form 1`] = `
       type="custom"
     />
      
-    <p
-      class="form-message notice"
-    >
-      
-      You are about to use all your tokens for this transaction. Consider leaving a little bit left over to cover the network fees.
-    
-    </p>
+    <!---->
   </tmformgroup-stub>
    
   <tmbtn-stub
@@ -319,7 +311,6 @@ exports[`SendModal validation should show bech32 error when address length is to
 
 exports[`SendModal validation should show bech32 error when alphanumeric is wrong 1`] = `
 <actionmodal-stub
-  amount="0"
   id="send-modal"
   notifymessage="[object Object]"
   submissionerrorprefix="Sending tokens failed"
@@ -374,7 +365,6 @@ exports[`SendModal validation should show bech32 error when alphanumeric is wron
         id="amount"
         placeholder="Amount"
         type="number"
-        value="0"
       />
        
       <tmbtn-stub
@@ -389,13 +379,7 @@ exports[`SendModal validation should show bech32 error when alphanumeric is wron
       type="custom"
     />
      
-    <p
-      class="form-message notice"
-    >
-      
-      You are about to use all your tokens for this transaction. Consider leaving a little bit left over to cover the network fees.
-    
-    </p>
+    <!---->
   </tmformgroup-stub>
    
   <tmbtn-stub

@@ -99,6 +99,13 @@ describe(`UndelegationModal`, () => {
     expect(self.$refs.actionModal.validateChangeStep).toHaveBeenCalled()
   })
 
+  describe(`if amount field max button clicked`, () => {
+    it(`amount has to be 1000000000`, async () => {
+      wrapper.vm.setMaxAmount()
+      expect(wrapper.vm.amount).toBe(1000000000)
+    })
+  })
+
   describe("Submission Data", () => {
     beforeEach(() => {
       wrapper.setData({

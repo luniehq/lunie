@@ -98,7 +98,7 @@
         name="Amount"
         type="between"
       />
-      <p v-if="isMaxAmount()" class="form-message notice">
+      <p v-if="isMaxAmount()" class="form-message notice max-notice">
         You are about to use all your tokens for this transaction. Consider leaving a little bit left over to cover the network fees.
       </p>
     </TmFormGroup>
@@ -161,7 +161,7 @@ export default {
   },
   data: () => ({
     address: ``,
-    amount: 0,
+    amount: null,
     denom: ``,
     memo: defaultMemo,
     max_memo_characters: 256,
