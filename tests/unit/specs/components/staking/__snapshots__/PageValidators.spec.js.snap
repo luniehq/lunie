@@ -12,6 +12,24 @@ exports[`PageValidators shows a list of validators 1`] = `
     <div
       class="filterOptions"
     >
+      <div
+        class="toggles"
+      >
+        <tmbtn-stub
+          class="btn-radio"
+          color="primary"
+          type="secondary"
+          value="All"
+        />
+         
+        <tmbtn-stub
+          class="btn-radio"
+          color="primary"
+          type="primary"
+          value="Active"
+        />
+      </div>
+       
       <tmfield-stub
         class="searchField"
         placeholder="Search"
@@ -19,21 +37,6 @@ exports[`PageValidators shows a list of validators 1`] = `
         type="text"
         value=""
       />
-       
-      <label
-        class="activeOnlybutton"
-        color="primary"
-        for="activeOnlyToggle"
-      >
-        <input
-          color="primary"
-          id="activeOnlyToggle"
-          type="checkbox"
-        />
-        
-        Active Only
-      
-      </label>
     </div>
      
     <tablevalidators-stub
@@ -59,6 +62,24 @@ exports[`PageValidators shows a message if still loading 1`] = `
     <div
       class="filterOptions"
     >
+      <div
+        class="toggles"
+      >
+        <tmbtn-stub
+          class="btn-radio"
+          color="primary"
+          type="secondary"
+          value="All"
+        />
+         
+        <tmbtn-stub
+          class="btn-radio"
+          color="primary"
+          type="primary"
+          value="Active"
+        />
+      </div>
+       
       <tmfield-stub
         class="searchField"
         placeholder="Search"
@@ -66,21 +87,6 @@ exports[`PageValidators shows a message if still loading 1`] = `
         type="text"
         value=""
       />
-       
-      <label
-        class="activeOnlybutton"
-        color="primary"
-        for="activeOnlyToggle"
-      >
-        <input
-          color="primary"
-          id="activeOnlyToggle"
-          type="checkbox"
-        />
-        
-        Active Only
-      
-      </label>
     </div>
      
     <tablevalidators-stub
@@ -107,6 +113,24 @@ exports[`PageValidators shows a message if there is an error to display 1`] = `
     <div
       class="filterOptions"
     >
+      <div
+        class="toggles"
+      >
+        <tmbtn-stub
+          class="btn-radio"
+          color="primary"
+          type="secondary"
+          value="All"
+        />
+         
+        <tmbtn-stub
+          class="btn-radio"
+          color="primary"
+          type="primary"
+          value="Active"
+        />
+      </div>
+       
       <tmfield-stub
         class="searchField"
         placeholder="Search"
@@ -114,21 +138,6 @@ exports[`PageValidators shows a message if there is an error to display 1`] = `
         type="text"
         value=""
       />
-       
-      <label
-        class="activeOnlybutton"
-        color="primary"
-        for="activeOnlyToggle"
-      >
-        <input
-          color="primary"
-          id="activeOnlyToggle"
-          type="checkbox"
-        />
-        
-        Active Only
-      
-      </label>
     </div>
      
     <tablevalidators-stub
@@ -154,6 +163,24 @@ exports[`PageValidators shows a message if there is nothing to display 1`] = `
     <div
       class="filterOptions"
     >
+      <div
+        class="toggles"
+      >
+        <tmbtn-stub
+          class="btn-radio"
+          color="primary"
+          type="secondary"
+          value="All"
+        />
+         
+        <tmbtn-stub
+          class="btn-radio"
+          color="primary"
+          type="primary"
+          value="Active"
+        />
+      </div>
+       
       <tmfield-stub
         class="searchField"
         placeholder="Search"
@@ -161,21 +188,6 @@ exports[`PageValidators shows a message if there is nothing to display 1`] = `
         type="text"
         value=""
       />
-       
-      <label
-        class="activeOnlybutton"
-        color="primary"
-        for="activeOnlyToggle"
-      >
-        <input
-          color="primary"
-          id="activeOnlyToggle"
-          type="checkbox"
-        />
-        
-        Active Only
-      
-      </label>
     </div>
      
     <tablevalidators-stub
