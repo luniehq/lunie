@@ -11,10 +11,10 @@
         <i class="material-icons" @click="close">close</i>
       </a>
     </div>
-    <div v-if="maintenance.length > 0" class="maintenance-bar" v-bind:class="maintenance.type">
+    <div v-if="maintenance.length > 0" class="maintenance-bar" v-bind:class="maintenance[0].type">
       <i></i>
       <p>
-        {{ maintenance.message }}
+        {{ maintenance[0].message }}
       </p>
       <a class="close">
         <i class="material-icons" @click="close">close</i>
