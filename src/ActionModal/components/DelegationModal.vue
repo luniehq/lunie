@@ -85,6 +85,9 @@
         name="Amount"
         type="between"
       />
+      <p v-if="isMaxAmount()" class="form-message notice">
+        You are about to use all your tokens for this transaction. Consider leaving a little bit left over to cover the network fees.
+      </p>
     </TmFormGroup>
   </ActionModal>
 </template>
@@ -206,7 +209,10 @@ export default {
     },
     setMaxAmount() {
       this.amount = atoms(this.balance)
-    },    
+    },
+    isMaxAmount() {
+      return this.amount === atoms(this.balance)
+    },        
     enterPressed() {
       this.$refs.actionModal.validateChangeStep()
     },
