@@ -35,21 +35,15 @@ describe(`TmConnectedNetwork`, () => {
   })
 
   it(`has a network string`, () => {
-    expect(
-      wrapper
-        .find(`#tm-connected-network__string`)
-        .text()
-        .trim()
-    ).toBe(`gaia-20k`)
+    expect(wrapper.find(`#tm-connected-network__string`).text()).toMatch(
+      /gaia-20k/
+    )
   })
 
   it(`has a block string`, () => {
-    expect(
-      wrapper
-        .find(`#tm-connected-network__block`)
-        .text()
-        .trim()
-    ).toBe(`#6,001`)
+    expect(wrapper.find(`#tm-connected-network__block`).text()).toMatch(
+      /#6,001/
+    )
   })
 
   it(`has a connecting state`, async () => {
