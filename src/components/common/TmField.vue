@@ -162,6 +162,7 @@ export default {
         value += ` tm-field-select`
       }
       if (this.size) value += ` tm-field-size-${this.size}`
+      if (this.maxAmount) value += ` tm-field-size-addon`
       return value
     },
     toggleClass() {
