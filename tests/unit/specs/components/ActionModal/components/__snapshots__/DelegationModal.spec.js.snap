@@ -42,12 +42,6 @@ exports[`DelegationModal should display the delegation modal form 1`] = `
     fieldid="amount"
     fieldlabel="Amount"
   >
-    <span
-      class="input-suffix"
-    >
-      STAKE
-    </span>
-     
     <tmfieldgroup-stub>
       <tmfield-stub
         class="tm-field-addon"
