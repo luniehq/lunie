@@ -11,7 +11,7 @@
         <i class="material-icons" @click="close">close</i>
       </a>
     </div>
-    <div v-if="maintenance.length > 0" class="maintenance-bar" v-bind:class="maintenance[0].type">
+    <div v-if="maintenance.length > 0 && show" class="maintenance-bar" v-bind:class="maintenance[0].type">
       <i></i>
       <p>
         {{ maintenance[0].message }}
