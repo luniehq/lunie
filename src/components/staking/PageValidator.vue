@@ -212,7 +212,8 @@ export default {
   computed: {
     ...mapState([`delegates`, `delegation`, `distribution`, `pool`, `session`]),
     ...mapState({
-      annualProvision: state => state.minting.annualProvision
+      annualProvision: state => state.minting.annualProvision,
+      network: state => state.connection.network
     }),
     ...mapGetters([
       `lastHeader`,
@@ -376,14 +377,18 @@ export default {
   },
   apollo: {
     validator: {
-      query: ValidatorProfile,
+      query() {
+        return ValidatorProfile(this.network)
+      },
       variables() {
         /* istanbul ignore next */
         return {
           address: this.$route.params.validator
         }
       },
-      update: ValidatorResult
+      update(data) {
+        return ValidatorResult(this.network)(data)
+      }
     }
   }
 }

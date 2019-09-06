@@ -17,6 +17,7 @@
 </template>
 
 <script>
+import { mapState } from "vuex"
 import { AllValidators, AllValidatorsResult } from "src/gql"
 import TableValidators from "staking/TableValidators"
 import TmPage from "common/TmPage"
@@ -30,10 +31,17 @@ export default {
   data: () => ({
     validators: []
   }),
+  computed: {
+    ...mapState({ network: state => state.connection.network })
+  },
   apollo: {
     validators: {
-      query: AllValidators,
-      update: AllValidatorsResult
+      query() {
+        return AllValidators(this.network)
+      },
+      update(data) {
+        return AllValidatorsResult(this.network)(data)
+      }
     }
   }
 }
