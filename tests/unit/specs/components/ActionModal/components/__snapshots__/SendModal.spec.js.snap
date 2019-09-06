@@ -70,7 +70,7 @@ exports[`SendModal should display send modal form 1`] = `
       class="form-message notice"
     >
       
-      Warning! you should probably leave some left over for fees
+      You are about to use all your tokens for this transaction. Consider leaving a little bit left over to cover the network fees.
     
     </p>
   </tmformgroup-stub>
@@ -393,7 +393,7 @@ exports[`SendModal validation should show bech32 error when alphanumeric is wron
       class="form-message notice"
     >
       
-      Warning! you should probably leave some left over for fees
+      You are about to use all your tokens for this transaction. Consider leaving a little bit left over to cover the network fees.
     
     </p>
   </tmformgroup-stub>
