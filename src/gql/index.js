@@ -60,6 +60,21 @@ export const SomeValidators = gql`
   ${ValidatorFragment}
 `
 
+export const ValidatorByName = active => gql`
+  query ValidatorInfo($monikerName: String) {
+    allValidators(
+      where: {
+        moniker: { _ilike: $monikerName }
+        ${active ? "jailed: { _neq: true }" : ""}
+        ${active ? "status: { _neq: 0 }" : ""}
+      }
+    ) {
+      ...ValidatorParts
+    }
+  }
+  ${ValidatorFragment}
+`
+
 export const Networks = gql`
   query Networks {
     networks {
