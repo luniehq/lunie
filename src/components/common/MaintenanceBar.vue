@@ -29,7 +29,8 @@ import { Maintenance } from "src/gql"
 export default {
   name: `maintenance-bar`,
   data: () => ({
-    show: true
+    show: true,
+    maintenance: []
   }),
   computed: {
     ...mapState([`session`])
