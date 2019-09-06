@@ -25,7 +25,7 @@
 
 <script>
 import { mapState } from "vuex"
-import { Maintenance, MaintenanceResult } from "src/gql"
+import gql from "graphql-tag"
 export default {
   name: `maintenance-bar`,
   data: () => ({
@@ -41,9 +41,24 @@ export default {
     }
   },
   apollo: {
+    // They key is the name of the data property
+    // on the component that you intend to populate.
     maintenance: {
-      query: Maintenance,
-      update: MaintenanceResult
+      // Yes, this looks confusing.
+      // It's just normal GraphQL.
+      query: gql`
+        query Maintenance {
+          maintenance {
+            message
+            type
+          }
+        }
+      `,
+
+      // Apollo maps results to the name of the query, for caching.
+      // So to update the right property on the componet, you need to
+      // select the property of the result with the name of the query.
+      update: result => result.maintenance,
     }
   }
 }
