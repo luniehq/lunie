@@ -15,13 +15,20 @@
           size="14px"
           placeholder="Search"
         />
-        <TmBtn
+        <label
           color="primary"
-          value="Active Only"
           class="activeOnlybutton"
-          :type="activeOnly ? `primary` : `secondary`"
+          for="activeOnlyToggle"
           @click.native="activeOnly = !activeOnly"
-        />
+        >
+          <input
+            id="activeOnlyToggle"
+            v-model="activeOnly"
+            color="primary"
+            type="checkbox"
+          />
+          Active Only
+        </label>
       </div>
       <TableValidators
         :validators="validators"
@@ -39,15 +46,13 @@ import { ValidatorByName, AllValidatorsResult } from "src/gql"
 import TableValidators from "staking/TableValidators"
 import PageContainer from "common/PageContainer"
 import TmField from "common/TmField"
-import TmBtn from "common/TmBtn"
 
 export default {
   name: `tab-validators`,
   components: {
     TableValidators,
     PageContainer,
-    TmField,
-    TmBtn
+    TmField
   },
   data: () => ({
     searchTerm: "",
@@ -74,16 +79,24 @@ export default {
 
 <style lang="scss">
 .filterOptions {
+  display: flex;
+  flex-flow: column wrap;
   margin: 1rem;
 
   input {
     margin-bottom: 1rem;
   }
+
+  label {
+    cursor: pointer;
+  }
 }
 
 @media screen and (min-width: 1024px) {
   .filterOptions {
-    max-width: 300px;
+    input {
+      max-width: 300px;
+    }
     margin: 2rem;
   }
 }

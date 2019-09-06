@@ -20,12 +20,20 @@ exports[`PageValidators shows a list of validators 1`] = `
         value=""
       />
        
-      <tmbtn-stub
+      <label
         class="activeOnlybutton"
         color="primary"
-        type="secondary"
-        value="Active Only"
-      />
+        for="activeOnlyToggle"
+      >
+        <input
+          color="primary"
+          id="activeOnlyToggle"
+          type="checkbox"
+        />
+        
+        Active Only
+      
+      </label>
     </div>
      
     <tablevalidators-stub
@@ -59,12 +67,20 @@ exports[`PageValidators shows a message if still loading 1`] = `
         value=""
       />
        
-      <tmbtn-stub
+      <label
         class="activeOnlybutton"
         color="primary"
-        type="secondary"
-        value="Active Only"
-      />
+        for="activeOnlyToggle"
+      >
+        <input
+          color="primary"
+          id="activeOnlyToggle"
+          type="checkbox"
+        />
+        
+        Active Only
+      
+      </label>
     </div>
      
     <tablevalidators-stub
@@ -99,12 +115,20 @@ exports[`PageValidators shows a message if there is an error to display 1`] = `
         value=""
       />
        
-      <tmbtn-stub
+      <label
         class="activeOnlybutton"
         color="primary"
-        type="secondary"
-        value="Active Only"
-      />
+        for="activeOnlyToggle"
+      >
+        <input
+          color="primary"
+          id="activeOnlyToggle"
+          type="checkbox"
+        />
+        
+        Active Only
+      
+      </label>
     </div>
      
     <tablevalidators-stub
@@ -138,12 +162,20 @@ exports[`PageValidators shows a message if there is nothing to display 1`] = `
         value=""
       />
        
-      <tmbtn-stub
+      <label
         class="activeOnlybutton"
         color="primary"
-        type="secondary"
-        value="Active Only"
-      />
+        for="activeOnlyToggle"
+      >
+        <input
+          color="primary"
+          id="activeOnlyToggle"
+          type="checkbox"
+        />
+        
+        Active Only
+      
+      </label>
     </div>
      
     <tablevalidators-stub
