@@ -7,6 +7,17 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.7] - 2019-09-06
+
+### Fixed
+
+- [#95](https://github.com/cosmos/lunie/pull/95) Fixed e2e transaction test by switching to send instead of delegation @faboweb
+
+### Repository
+
+- Ignore pending check on release candidate @faboweb
+- Updated README to include more detailed info about building and testing the extension. @mariopino
+
 ## [1.0.6] - 2019-09-03
 
 ### Fixed

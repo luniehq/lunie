@@ -1,1 +1,0 @@
-[Fixed] [#95](https://github.com/cosmos/lunie/pull/95) Fixed e2e transaction test by switching to send instead of delegation @faboweb
