@@ -9,28 +9,28 @@
   >
     <template slot="managed-body">
       <div class="filterOptions">
-        <div class="toggles">
-          <TmBtn	       
-            color="primary"
-            value="All"
-            class="btn-radio"
-            :type="!activeOnly ? `primary` : `secondary`"
-            @click.native="activeOnly = !activeOnly"	  
-          />        
-          <TmBtn
-            color="primary"
-            value="Active"
-            class="btn-radio"
-            :type="activeOnly ? `primary` : `secondary`"
-            @click.native="activeOnly = !activeOnly"	  
-          />
-        </div>
         <TmField
           v-model="searchTerm"
           class="searchField"
           size="14px"
           placeholder="Search"
         />
+        <div class="toggles">
+          <TmBtn
+            color="primary"
+            value="All"
+            class="btn-radio"
+            :type="!activeOnly ? `primary` : `secondary`"
+            @click.native="activeOnly = !activeOnly"
+          />
+          <TmBtn
+            color="primary"
+            value="Active"
+            class="btn-radio"
+            :type="activeOnly ? `primary` : `secondary`"
+            @click.native="activeOnly = !activeOnly"
+          />
+        </div>
       </div>
       <TableValidators
         :validators="validators"
@@ -86,11 +86,11 @@ export default {
   display: flex;
   flex-flow: row wrap;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: center;
   margin: 1rem;
 
-  input {
-    margin-left: 1rem;
+  .toggles {
+    margin-top: 1rem;
   }
 
   label {
@@ -115,7 +115,13 @@ export default {
 
 @media screen and (min-width: 1024px) {
   .filterOptions {
+    justify-content: flex-end;
+    .toggles {
+      order: -1;
+      margin-top: 0;
+    }
     input {
+      margin-left: 1rem;
       max-width: 300px;
     }
     margin: 2rem;
