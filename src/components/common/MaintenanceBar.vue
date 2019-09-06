@@ -75,6 +75,18 @@ export default {
   color: var(--bright);
 }
 
+.maintenance-bar.ok {
+  background-color: #61b360;
+}
+
+.maintenance-bar.warning {
+  background-color: #b3b060;
+}
+
+.maintenance-bar.danger {
+  background-color: #ca3e4b;
+}
+
 .maintenance-bar .link {
   text-decoration: underline;
   color: var(--bright);
