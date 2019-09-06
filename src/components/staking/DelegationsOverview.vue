@@ -53,7 +53,7 @@ export default {
       variables() {
         /* istanbul ignore next */
         return {
-          addressList: this.delegationsAddressList
+          addressList: Object.keys(this.committedDelegations)
         }
       },
       update(data) {
