@@ -378,6 +378,7 @@ export default {
   apollo: {
     validator: {
       query() {
+        /* istanbul ignore next */
         return ValidatorProfile(this.network)
       },
       variables() {
@@ -387,6 +388,7 @@ export default {
         }
       },
       update(data) {
+        /* istanbul ignore next */
         return ValidatorResult(this.network)(data)
       }
     }
