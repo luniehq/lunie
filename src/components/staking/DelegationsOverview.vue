@@ -46,18 +46,18 @@ export default {
   },
   apollo: {
     validators: {
-      /* istanbul ignore next */
       query() {
+        /* istanbul ignore next */
         return SomeValidators(this.network)
       },
       variables() {
         /* istanbul ignore next */
         return {
-          addressList: this.delegationsAddressList
+          addressList: Object.keys(this.committedDelegations)
         }
       },
-      /* istanbul ignore next */
       update(data) {
+        /* istanbul ignore next */
         return AllValidatorsResult(this.network)(data)
       }
     }

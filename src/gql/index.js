@@ -27,6 +27,7 @@ const ValidatorFragment = `
     rate
     status
     tokens
+    unbonding_height
     unbonding_time
     update_time
     uptime_percentage
@@ -59,14 +60,25 @@ export const SomeValidators = schema => gql`
   }
 `
 
-// export const AllValidatorsResult = schema => data =>
-//   data[`${schema}${"allValidators"}`]
-
 export const AllValidatorsResult = schema => data =>
   data[`${schemaMap[schema]}allValidators`]
 
 export const ValidatorResult = schema => data =>
   data[`${schemaMap[schema]}allValidators`][0]
+
+export const ValidatorByName = schema => active => gql`
+  query ${schemaMap[schema]}ValidatorInfo($monikerName: String) {
+    allValidators(
+      where: {
+        moniker: { _ilike: $monikerName }
+        ${active ? "jailed: { _neq: true }" : ""}
+        ${active ? "status: { _neq: 0 }" : ""}
+      }
+    ) {
+      ${ValidatorFragment}
+    }
+  }
+`
 
 export const Networks = gql`
   query Networks {

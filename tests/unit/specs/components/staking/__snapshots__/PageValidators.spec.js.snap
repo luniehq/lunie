@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`PageValidators shows a list of validators 1`] = `
-<tmpage-stub
+<pagecontainer-stub
   hideheader="true"
   loaded="true"
   managed="true"
@@ -9,16 +9,48 @@ exports[`PageValidators shows a list of validators 1`] = `
   title=""
 >
   <template>
+    <div
+      class="filterOptions"
+    >
+      <tmfield-stub
+        class="searchField"
+        placeholder="Search"
+        size="14px"
+        type="text"
+        value=""
+      />
+       
+      <div
+        class="toggles"
+      >
+        <tmbtn-stub
+          class="btn-radio"
+          color="primary"
+          type="secondary"
+          value="All"
+        />
+         
+        <tmbtn-stub
+          class="btn-radio"
+          color="primary"
+          type="primary"
+          value="Active"
+        />
+      </div>
+    </div>
+     
     <tablevalidators-stub
       showonmobile="expectedReturns"
       validators="[object Object],[object Object],[object Object],[object Object],[object Object]"
     />
+     
+    <!---->
   </template>
-</tmpage-stub>
+</pagecontainer-stub>
 `;
 
 exports[`PageValidators shows a message if still loading 1`] = `
-<tmpage-stub
+<pagecontainer-stub
   dataempty="true"
   hideheader="true"
   loading="true"
@@ -27,16 +59,48 @@ exports[`PageValidators shows a message if still loading 1`] = `
   title=""
 >
   <template>
+    <div
+      class="filterOptions"
+    >
+      <tmfield-stub
+        class="searchField"
+        placeholder="Search"
+        size="14px"
+        type="text"
+        value=""
+      />
+       
+      <div
+        class="toggles"
+      >
+        <tmbtn-stub
+          class="btn-radio"
+          color="primary"
+          type="secondary"
+          value="All"
+        />
+         
+        <tmbtn-stub
+          class="btn-radio"
+          color="primary"
+          type="primary"
+          value="Active"
+        />
+      </div>
+    </div>
+     
     <tablevalidators-stub
       showonmobile="expectedReturns"
       validators=""
     />
+     
+    <!---->
   </template>
-</tmpage-stub>
+</pagecontainer-stub>
 `;
 
 exports[`PageValidators shows a message if there is an error to display 1`] = `
-<tmpage-stub
+<pagecontainer-stub
   dataempty="true"
   error="true"
   hideheader="true"
@@ -46,16 +110,48 @@ exports[`PageValidators shows a message if there is an error to display 1`] = `
   title=""
 >
   <template>
+    <div
+      class="filterOptions"
+    >
+      <tmfield-stub
+        class="searchField"
+        placeholder="Search"
+        size="14px"
+        type="text"
+        value=""
+      />
+       
+      <div
+        class="toggles"
+      >
+        <tmbtn-stub
+          class="btn-radio"
+          color="primary"
+          type="secondary"
+          value="All"
+        />
+         
+        <tmbtn-stub
+          class="btn-radio"
+          color="primary"
+          type="primary"
+          value="Active"
+        />
+      </div>
+    </div>
+     
     <tablevalidators-stub
       showonmobile="expectedReturns"
       validators=""
     />
+     
+    <!---->
   </template>
-</tmpage-stub>
+</pagecontainer-stub>
 `;
 
 exports[`PageValidators shows a message if there is nothing to display 1`] = `
-<tmpage-stub
+<pagecontainer-stub
   dataempty="true"
   hideheader="true"
   loaded="true"
@@ -64,10 +160,42 @@ exports[`PageValidators shows a message if there is nothing to display 1`] = `
   title=""
 >
   <template>
+    <div
+      class="filterOptions"
+    >
+      <tmfield-stub
+        class="searchField"
+        placeholder="Search"
+        size="14px"
+        type="text"
+        value=""
+      />
+       
+      <div
+        class="toggles"
+      >
+        <tmbtn-stub
+          class="btn-radio"
+          color="primary"
+          type="secondary"
+          value="All"
+        />
+         
+        <tmbtn-stub
+          class="btn-radio"
+          color="primary"
+          type="primary"
+          value="Active"
+        />
+      </div>
+    </div>
+     
     <tablevalidators-stub
       showonmobile="expectedReturns"
       validators=""
     />
+     
+    <!---->
   </template>
-</tmpage-stub>
+</pagecontainer-stub>
 `;
