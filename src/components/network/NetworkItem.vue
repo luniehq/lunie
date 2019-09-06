@@ -11,8 +11,19 @@
         {{ network.chain_id }}
       </p>
     </div>
-    <div class="network-selected">
-      {{ connection.network === network.id ? "WIP ✅" : "" }}
+    <div class="network-status">
+      <img
+        v-if="!connection.connected && connection.network === network.id"
+        class="tm-connected-network-loader"
+        src="~assets/images/loader.svg"
+        alt="a small spinning circle to display loading"
+      />
+      <div
+        v-else-if="connection.connected && connection.network === network.id"
+        class="network-selected"
+      >
+        <i class="material-icons">check</i>
+      </div>
     </div>
   </div>
 </template>
@@ -85,5 +96,9 @@ export default {
   flex-direction: row;
   font-size: 14px;
   color: var(--dim);
+}
+
+.network-status {
+  margin: 2rem;
 }
 </style>

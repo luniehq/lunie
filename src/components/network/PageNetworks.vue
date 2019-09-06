@@ -1,5 +1,5 @@
 <template>
-  <TmPage data-title="Network" class="small" hide-header>
+  <TmPage data-title="Network" class="page" hide-header>
     <template>
       <h3>Mainnetworks</h3>
       <NetworkList :networks="mainNetworks" />
@@ -40,6 +40,11 @@ export default {
 }
 </script>
 <style scoped>
+
+.page {
+  padding: 2rem;
+}
+
 .page-profile__title {
   color: var(--bright);
   font-size: var(--h1);
