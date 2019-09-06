@@ -25,7 +25,7 @@
 
 <script>
 import { mapState } from "vuex"
-import { Maintenance } from "src/gql"
+import { Maintenance, MaintenanceResult } from "src/gql"
 export default {
   name: `maintenance-bar`,
   data: () => ({
