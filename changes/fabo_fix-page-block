@@ -1,4 +1,0 @@
-[Fixed] [#2940](https://github.com/cosmos/lunie/pull/2940) PageBlock was jumping between blocks @faboweb
-[Code Improvements] [#2940](https://github.com/cosmos/lunie/pull/2940) Removed not used or unnecessary properties from blocks module @faboweb
-[Fixed] [#2940](https://github.com/cosmos/lunie/pull/2940) Monikers were not showing correctly for transactions @faboweb
-[Fixed] [#2940](https://github.com/cosmos/lunie/pull/2940) Fixed dupelicate keys in transaction list @faboweb
