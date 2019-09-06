@@ -1,9 +1,9 @@
 import { shallowMount, createLocalVue } from "@vue/test-utils"
-import PageNetwork from "network/PageNetwork"
+import PageNetworks from "network/PageNetworks"
 
 const localVue = createLocalVue()
 
-describe(`PageNetwork`, () => {
+describe(`PageNetworks`, () => {
   let wrapper
 
   const networks = [
@@ -24,7 +24,7 @@ describe(`PageNetwork`, () => {
   ]
 
   beforeEach(() => {
-    wrapper = shallowMount(PageNetwork, {
+    wrapper = shallowMount(PageNetworks, {
       localVue,
       mocks: {
         $store: {

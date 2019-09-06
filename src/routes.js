@@ -82,9 +82,9 @@ export default [
     }
   },
   {
-    path: `/network`,
-    name: `network`,
-    component: require(`./components/network/PageNetwork`).default,
+    path: `/networks`,
+    name: `networks`,
+    component: require(`./components/network/PageNetworks`).default,
     meta: {
       requiresAuth: false
     }

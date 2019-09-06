@@ -1,10 +1,10 @@
 <template>
   <TmPage data-title="Network" class="small" hide-header>
     <template>
-      <h3>Mainnets</h3>
-      <NetworkList :networks="mainNets" />
-      <h3>Testnets</h3>
-      <NetworkList :networks="testNets" />
+      <h3>Mainnetworks</h3>
+      <NetworkList :networks="mainNetworks" />
+      <h3>Testnetworks</h3>
+      <NetworkList :networks="testNetworks" />
     </template>
   </TmPage>
 </template>
@@ -24,10 +24,10 @@ export default {
     networks: []
   }),
   computed: {
-    mainNets() {
+    mainNetworks() {
       return this.networks.filter(network => !network.testnet)
     },
-    testNets() {
+    testNetworks() {
       return this.networks.filter(network => network.testnet)
     }
   },

@@ -71,13 +71,13 @@
       <router-link
         v-if="session.experimentalMode"
         class="app-menu-item hide-xs"
-        to="/network"
+        to="/networks"
         exact="exact"
-        title="Network"
+        title="Networks"
         @click.native="close"
       >
         <h2 class="app-menu-title">
-          Network
+          Networks
         </h2>
         <i class="material-icons">chevron_right</i>
       </router-link>

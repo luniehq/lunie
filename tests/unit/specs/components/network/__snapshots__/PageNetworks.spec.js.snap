@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`PageNetwork shows a page with a selection of networks 1`] = `
+exports[`PageNetworks shows a page with a selection of networks 1`] = `
 <tmpage-stub
   class="small"
   data-title="Network"
@@ -9,7 +9,7 @@ exports[`PageNetwork shows a page with a selection of networks 1`] = `
   title=""
 >
   <h3>
-    Mainnets
+    Mainnetworks
   </h3>
    
   <networklist-stub
@@ -17,7 +17,7 @@ exports[`PageNetwork shows a page with a selection of networks 1`] = `
   />
    
   <h3>
-    Testnets
+    Testnetworks
   </h3>
    
   <networklist-stub
