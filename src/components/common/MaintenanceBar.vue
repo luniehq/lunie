@@ -30,7 +30,7 @@ export default {
     close() {
       this.show = false
     }
-  },
+  }, 
   apollo: {
     maintenance: {
       query: Maintenance,
