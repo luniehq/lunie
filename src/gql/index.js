@@ -27,6 +27,7 @@ const ValidatorFragment = `
     rate
     status
     tokens
+    unbonding_height
     unbonding_time
     update_time
     uptime_percentage
