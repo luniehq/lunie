@@ -83,6 +83,12 @@ describe(`Module: Connection`, () => {
       mutations.resetConnectionAttempts(state)
       expect(state.connectionAttempts).toBe(0)
     })
+
+    it(`setNetworkId`, () => {
+      state.network = ""
+      mutations.setNetworkId(state, "awesomenet")
+      expect(state.network).toBe("awesomenet")
+    })
   })
 
   it(`reconnects`, () => {
@@ -352,5 +358,20 @@ describe(`Module: Connection`, () => {
     // expire the halted check before a block was received
     jest.runAllTimers()
     expect(dispatch).not.toHaveBeenCalledWith(`nodeHasHalted`)
+  })
+
+  it("should switch networks", async () => {
+    const dispatch = jest.fn()
+    const commit = jest.fn()
+    await actions.setNetwork(
+      { commit, dispatch },
+      {
+        id: "awesomenet",
+        rpc_url: "https://localhost:1337"
+      }
+    )
+    expect(commit).toHaveBeenCalledWith("setNetworkId", "awesomenet")
+    expect(commit).toHaveBeenCalledWith("setRpcUrl", "https://localhost:1337")
+    expect(dispatch).toHaveBeenCalledWith("reconnect")
   })
 })

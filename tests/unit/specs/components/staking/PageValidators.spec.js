@@ -3,7 +3,7 @@ import PageValidators from "staking/PageValidators"
 import validators from "../../store/json/validators.js"
 
 describe(`PageValidators`, () => {
-  let wrapper, $apollo
+  let wrapper, $apollo, $store
 
   beforeEach(async () => {
     $apollo = {
@@ -15,9 +15,18 @@ describe(`PageValidators`, () => {
       }
     }
 
+    $store = {
+      state: {
+        connection: {
+          network: "awesomenet"
+        }
+      }
+    }
+
     wrapper = shallowMount(PageValidators, {
       mocks: {
-        $apollo
+        $apollo,
+        $store
       }
     })
 

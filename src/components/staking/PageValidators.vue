@@ -44,6 +44,7 @@
 </template>
 
 <script>
+import { mapState } from "vuex"
 import { ValidatorByName, AllValidatorsResult } from "src/gql"
 import TableValidators from "staking/TableValidators"
 import PageContainer from "common/PageContainer"
@@ -63,19 +64,25 @@ export default {
     activeOnly: true,
     validators: []
   }),
+  computed: {
+    ...mapState({ network: state => state.connection.network })
+  },
   apollo: {
     validators: {
       query() {
         /* istanbul ignore next */
-        return ValidatorByName(this.activeOnly)
+        return ValidatorByName(this.network)(this.activeOnly)
+      },
+      update(data) {
+        /* istanbul ignore next */
+        return AllValidatorsResult(this.network)(data)
       },
       variables() {
         /* istanbul ignore next */
         return {
           monikerName: `%${this.searchTerm}%`
         }
-      },
-      update: AllValidatorsResult
+      }
     }
   }
 }
