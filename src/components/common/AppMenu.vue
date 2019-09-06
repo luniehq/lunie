@@ -203,7 +203,7 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0.5rem;
+  padding: 0.5rem 0.5rem 0.5rem 0.75rem;
   margin: 0.5rem 1rem;
   font-weight: 400;
   font-size: 14px;
@@ -223,7 +223,7 @@ export default {
 .user-box {
   font-size: 12px;
   margin: 1rem;
-  padding: 0.5rem;
+  padding: 0.5rem 0.75rem;
   border: 2px solid var(--bc);
   border-radius: 0.25rem;
   display: flex;

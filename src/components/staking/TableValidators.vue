@@ -10,8 +10,9 @@
       </thead>
       <tbody v-infinite-scroll="loadMore" infinite-scroll-distance="400">
         <LiValidator
-          v-for="validator in showingValidators"
+          v-for="(validator, index) in showingValidators"
           :key="validator.operator_address"
+          :index="index"
           :validator="validator"
           :show-on-mobile="showOnMobile"
         />

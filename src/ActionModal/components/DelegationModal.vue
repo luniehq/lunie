@@ -35,15 +35,23 @@
       field-id="amount"
       field-label="Amount"
     >
-      <span class="input-suffix">{{ denom | viewDenom }}</span>
-      <TmField
-        id="amount"
-        v-model="amount"
-        v-focus
-        type="number"
-        placeholder="Amount"
-        @keyup.enter.native="enterPressed"
-      />
+      <!-- <span class="input-suffix">{{ denom | viewDenom }}</span> -->
+      <TmFieldGroup>
+        <TmField
+          id="amount"
+          v-model="amount"
+          v-focus
+          class="tm-field-addon"
+          type="number"
+          placeholder="Amount"
+          @keyup.enter.native="enterPressed"
+        />
+        <TmBtn
+          type="addon-max"
+          value="Set Max"
+          @click.native="setMaxAmount()"
+        />
+      </TmFieldGroup>
       <span v-if="!isRedelegation()" class="form-message">
         Available to Delegate:
         {{ getFromBalance() }}
@@ -77,6 +85,9 @@
         name="Amount"
         type="between"
       />
+      <p v-if="isMaxAmount() && !isRedelegation()" class="form-message notice">
+        You are about to use all your tokens for this transaction. Consider leaving a little bit left over to cover the network fees.
+      </p>
     </TmFormGroup>
   </ActionModal>
 </template>
@@ -86,6 +97,8 @@ import { mapState, mapGetters } from "vuex"
 import { between, decimal } from "vuelidate/lib/validators"
 import { uatoms, atoms, viewDenom, SMALLEST } from "src/scripts/num"
 import TmField from "src/components/common/TmField"
+import TmFieldGroup from "src/components/common/TmFieldGroup"
+import TmBtn from "src/components/common/TmBtn"
 import TmFormGroup from "src/components/common/TmFormGroup"
 import TmFormMsg from "src/components/common/TmFormMsg"
 import ActionModal from "./ActionModal"
@@ -95,6 +108,8 @@ export default {
   name: `delegation-modal`,
   components: {
     TmField,
+    TmFieldGroup,
+    TmBtn,
     TmFormGroup,
     TmFormMsg,
     ActionModal
@@ -191,6 +206,12 @@ export default {
 
       this.selectedIndex = 0
       this.amount = null
+    },
+    setMaxAmount() {
+      this.amount = atoms(this.balance)
+    },
+    isMaxAmount() {
+      return this.amount === atoms(this.balance)
     },
     enterPressed() {
       this.$refs.actionModal.validateChangeStep()

@@ -33,14 +33,22 @@
       field-label="Amount"
     >
       <span class="input-suffix">{{ num.viewDenom(denom) }}</span>
-      <TmField
-        id="amount"
-        v-model="amount"
-        v-focus
-        type="number"
-        placeholder="Amount"
-        @keyup.enter.native="enterPressed"
-      />
+      <TmFieldGroup>
+        <TmField
+          id="amount"
+          v-model="amount"
+          v-focus
+          class="tm-field-addon"
+          type="number"
+          placeholder="Amount"
+          @keyup.enter.native="enterPressed"
+        />
+        <TmBtn
+          type="addon-max"
+          value="Set Max"
+          @click.native="setMaxAmount()"
+        />
+      </TmFieldGroup>
       <span v-if="maximum > 0" class="form-message">
         Currently Delegated: {{ maximum }} {{ num.viewDenom(denom) }}s
       </span>
@@ -79,6 +87,8 @@ import num, { uatoms, atoms, SMALLEST } from "src/scripts/num"
 import { between, decimal } from "vuelidate/lib/validators"
 import ActionModal from "./ActionModal"
 import TmField from "src/components/common/TmField"
+import TmFieldGroup from "src/components/common/TmFieldGroup"
+import TmBtn from "src/components/common/TmBtn"
 import TmFormGroup from "src/components/common/TmFormGroup"
 import TmFormMsg from "src/components/common/TmFormMsg"
 import transaction from "../utils/transactionTypes"
@@ -88,6 +98,8 @@ export default {
   components: {
     ActionModal,
     TmField,
+    TmFieldGroup,
+    TmBtn,
     TmFormGroup,
     TmFormMsg
   },
@@ -156,6 +168,9 @@ export default {
 
       this.amount = null
     },
+    setMaxAmount() {
+      this.amount = this.maximum
+    },      
     enterPressed() {
       this.$refs.actionModal.validateChangeStep()
     }

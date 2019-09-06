@@ -42,17 +42,19 @@ exports[`DelegationModal should display the delegation modal form 1`] = `
     fieldid="amount"
     fieldlabel="Amount"
   >
-    <span
-      class="input-suffix"
-    >
-      STAKE
-    </span>
-     
-    <tmfield-stub
-      id="amount"
-      placeholder="Amount"
-      type="number"
-    />
+    <tmfieldgroup-stub>
+      <tmfield-stub
+        class="tm-field-addon"
+        id="amount"
+        placeholder="Amount"
+        type="number"
+      />
+       
+      <tmbtn-stub
+        type="addon-max"
+        value="Set Max"
+      />
+    </tmfieldgroup-stub>
      
     <span
       class="form-message"
@@ -63,6 +65,8 @@ exports[`DelegationModal should display the delegation modal form 1`] = `
       STAKEs
     
     </span>
+     
+    <!---->
      
     <!---->
   </tmformgroup-stub>

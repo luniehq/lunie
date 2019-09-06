@@ -81,21 +81,6 @@ export const Networks = gql`
   }
 `
 
-export const NetworkCapabilities = networkId => gql`
-query Networks {
-  networks(where: {id: {_eq: "${networkId}"}}) {
-    action_delegate
-    action_proposal
-    action_deposit
-    action_vote
-    action_redelegate
-    action_send
-    action_undelegate
-    action_withdraw
-  }
-}
-`
-
 // capability is 'feature_portfolio' / 'action_send'
 export const NetworkCapability = (networkId, capability) => gql`
 query Networks {
