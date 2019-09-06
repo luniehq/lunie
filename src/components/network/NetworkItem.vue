@@ -99,6 +99,6 @@ export default {
 }
 
 .network-status {
-  margin: 2rem;
+  margin: auto 2rem;
 }
 </style>
