@@ -11,15 +11,6 @@
         <i class="material-icons" @click="close">close</i>
       </a>
     </div>
-    <div v-if="maintenance" class="maintenance-bar">
-      <i></i>
-      <p>
-       {{ maintenance.message }}
-      </p>
-      <a class="close">
-        <i class="material-icons" @click="close">close</i>
-      </a>
-    </div>
   </div>
 </template>
 
@@ -44,10 +35,10 @@ export default {
     maintenance: {
       query: Maintenance,
       variables() {
-        console.log(`message: ${this.message} type: ${this.type}`);
+        console.log(`message: ${this.maintenance[0].message} type: ${this.maintenance[0].type}`);
         return {
-          message: this.message,
-          type: this.type,
+          message: this.maintenance[0].message,
+          type: this.maintenance[0].type,
         }
       },
       update: MaintenanceResult
