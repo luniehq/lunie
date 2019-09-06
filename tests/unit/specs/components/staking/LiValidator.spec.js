@@ -41,6 +41,8 @@ describe(`LiValidator`, () => {
     expectedReturns: 0.13
   }
 
+  const index = 1;
+
   beforeEach(() => {
     $store = {
       state: {
@@ -56,6 +58,7 @@ describe(`LiValidator`, () => {
       localVue,
       propsData: {
         validator,
+        index,
         showOnMobile: "returns"
       },
       mocks: {

@@ -373,7 +373,7 @@ export default {
     inclusionStep,
     successStep,
     SIGN_METHODS,
-    featureAvailable: false
+    featureAvailable: true
   }),
   computed: {
     ...mapState([`extension`, `session`]),
@@ -599,6 +599,13 @@ export default {
       await this.$store.dispatch(`connectLedgerApp`)
     },
     async checkFeatureAvailable() {
+      // TODO remove once Hasura is available in e2e tests
+      /* istanbul ignore next */
+      if (config.e2e) {
+        this.featureAvailable = true
+        return
+      }
+
       const action = `action_${this.title.toLowerCase().replace(" ", "_")}`
       const { data } = await this.$apollo.query({
         query: NetworkCapability(this.network, action)

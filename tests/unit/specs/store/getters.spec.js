@@ -7,8 +7,7 @@ import {
   modalContext,
   validatorsWithRewards,
   totalRewards,
-  flatOrderedTransactionList,
-  validators as validatorsAddressMap
+  flatOrderedTransactionList
 } from "src/vuex/getters.js"
 
 import validatorsFull from "./json/validators.js"
@@ -94,21 +93,6 @@ describe(`Store: getters`, () => {
     })
 
     expect(result.toNumber()).toBe(63)
-  })
-
-  describe(`validators`, () => {
-    it("should return a map from address to validator", () => {
-      const stateWithValidators = {
-        delegates: {
-          delegates: validators
-        }
-      }
-      const resultMap = validatorsAddressMap(stateWithValidators)
-
-      expect(resultMap[validators[0].operator_address]).toBe(validators[0])
-      expect(resultMap[validators[1].operator_address]).toBe(validators[1])
-      expect(resultMap[validators[2].operator_address]).toBe(validators[2])
-    })
   })
 
   describe(`yourValidators`, () => {
@@ -333,17 +317,16 @@ describe(`Store: getters`, () => {
           to_address: "cosmos1askljdhaslkdhaskldhasdlkjahlkajsh",
           amount: [{ denom: "uatom", amount: "50000" }]
         },
-        key:
-          'cosmos-sdk/MsgSend_2019-05-17T07:44:10Z_{"from_address":"cosmos1askljdhaslkdhaskldhasdlkjahlkajsh","to_address":"cosmos1askljdhaslkdhaskldhasdlkjahlkajsh","amount":[{"denom":"uatom","amount":"50000"}]}',
+        key: "345768MBNVMNBVMNBV",
         blockNumber: 123456,
-        time: "2019-05-17T07:44:10.000Z",
+        time: new Date("2019-05-17T07:44:10.000Z"),
         group: "banking",
         memo: "(Sent via Lunie)",
         fees: { amount: "0", denom: "ATOM" },
-        liquidDate: NaN
+        liquidDate: null
       }
     ]
 
-    expect(JSON.stringify(result)).toBe(JSON.stringify(expected))
+    expect(result).toEqual(expected)
   })
 })

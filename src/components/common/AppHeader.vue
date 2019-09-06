@@ -97,7 +97,7 @@ export default {
 }
 
 .app-header .header-item {
-  padding: 1.25rem;
+  padding: 1.75rem;
   font-size: 0;
 }
 
@@ -106,7 +106,7 @@ export default {
 }
 
 .header-item-logo {
-  height: 3rem;
+  height: 2rem;
 }
 
 @media screen and (max-width: 1023px) {
@@ -131,8 +131,7 @@ export default {
   }
 
   .header-item-logo {
-    height: 2rem;
-    padding-left: 4px;
+    height: 1.75rem;
   }
 }
 

@@ -3,14 +3,10 @@ version: 2.1
 # Here we define all the paths and versions of images we want to play with
 aliases:
   # Define paths and never think about them again
-  - &GAIA /tmp/gaia
   - &WORKSPACE /tmp/voyager
-  - &DIST /tmp/voyager/dist
   # Pick docker versions here only, then use the aliases in the executors definition
   - &docker-node circleci/node:10.15.3
   - &docker-browsers circleci/node:10.15.3-browsers
-  - &docker-go circleci/golang:1.11
-  - &docker-deploy tendermintdev/website_deployment
 
 # reusable commands
 commands:
@@ -40,44 +36,9 @@ commands:
       - run: yarn install
       - save_cache:
           paths:
-            - lunie-browser-extension/yarn.lock
-            - lunie-browser-extension/node_modules
+            - yarn.lock
+            - node_modules
           key: v1-dependencies-extension-{{ checksum "package.json" }}
-
-  sync:
-    parameters:
-      dist_path:
-        type: string
-    steps:
-      - run:
-          name: Set default environment variables
-          command: |
-            cd && touch $BASH_ENV
-
-            if [ "${CIRCLE_BRANCH}" = "master" ]; then
-              echo 'export DISTRIBUTION_ID=E3NNXI2PHNC362' >> $BASH_ENV
-
-              echo 'export BUCKET_NAME=lunie.io' >> $BASH_ENV
-            else
-              echo 'export DISTRIBUTION_ID=E1KBKFOGFYCD32' >> $BASH_ENV
-              echo 'export BUCKET_NAME=staging.lunie.io' >> $BASH_ENV
-            fi
-      - run:
-          name: Sync dist folder to s3 bucket
-          command: |
-            source $BASH_ENV
-            cd << parameters.dist_path >>
-
-            echo "deployment job ID = $CIRCLE_BUILD_NUM<br>" >> version.html
-            echo "deployment job URL = $CIRCLE_BUILD_URL<br>" >> version.html
-
-            aws s3 sync . s3://$BUCKET_NAME --delete
-      - run:
-          name: Invalidate the cloudfront distribution
-          command: |
-            source $BASH_ENV
-
-            aws cloudfront create-invalidation --distribution-id $DISTRIBUTION_ID --path "/*"
 
 # a reusable executor
 executors:
@@ -91,18 +52,6 @@ executors:
       - image: *docker-node
     working_directory: *WORKSPACE
 
-  go:
-    docker:
-      - image: *docker-go
-    working_directory: *WORKSPACE
-
-  web_deploy:
-    docker:
-      - image: *docker-deploy
-    environment:
-      BASH_ENV: /root/.bashrc
-      AWS_REGION: us-east-1
-
 jobs:
   prep:
     executor: web
@@ -115,24 +64,6 @@ jobs:
           root: *WORKSPACE
           paths:
             - "*"
-
-  build:
-    executor: web
-    steps:
-      - attach_workspace:
-          at: *WORKSPACE
-      - run: |
-          mkdir -p dist
-
-          if [ "${CIRCLE_BRANCH}" = "master" ]; then
-            RELEASE=true CIRCLECI=true yarn build
-          else
-            CIRCLECI=true yarn build
-          fi
-      - persist_to_workspace:
-          root: *WORKSPACE
-          paths:
-            - dist
 
   pendingUpdated:
     executor: node
@@ -245,14 +176,6 @@ jobs:
           path: ./screenshots_extension
           when: on_fail
 
-  deploy2s3:
-    executor: web_deploy
-    steps:
-      - attach_workspace:
-          at: *WORKSPACE
-      - sync:
-          dist_path: *DIST
-
   # Create release.
   release:
     executor: node
@@ -262,11 +185,9 @@ jobs:
           yarn add simsala
           git config user.email "bot@lunie.io"
           git config user.name "Lunie Bot"
-          REPO_ID=99653950
-          BUILD_NUM=`expr $CIRCLE_BUILD_NUM - 1` #hacky as it assumes the build step ran before this step
-          node node_modules/simsala/src/cli.js release-candidate --semver prerelease --pending-path ./changes --owner luniehq --repository lunie --token $GIT_BOT_TOKEN --message "Please manually test before merging this to master <a href='https://${BUILD_NUM}-${REPO_ID}-gh.circle-artifacts.com/0/tmp/voyager/dist/index.html'>here</a>"
+          node node_modules/simsala/src/cli.js release-candidate --semver prerelease --pending-path ./changes --owner luniehq --repository lunie --token $GIT_BOT_TOKEN --message "Please manually test before merging this to master"
       
-  # Push merges to master immediatly back to develop to stay in sync
+  # Push merges to master immediately back to develop to stay in sync
   mergeBack:
     executor: node
     steps:
@@ -281,19 +202,10 @@ jobs:
             git merge origin/master --no-edit
             git push
 
-  # store artifacts to check a branch as a staging build
-  upload:
-    executor: node
-    steps:
-      - attach_workspace:
-          at: *WORKSPACE
-      - store_artifacts:
-          path: *DIST
-
 
 workflows:
   version: 2
-  build-and-deploy:
+  test:
     jobs:
       - prep
 
@@ -330,26 +242,6 @@ workflows:
             branches:
               ignore: release
 
-      - build:
-          # no heavy lifting if other portion fails
-          requires:
-            - security
-            - lint
-
-      - upload:
-          requires:
-            - build
-
-      - deploy2s3:
-          requires:
-            - testUnit
-            - build
-          filters:
-            branches:
-              only:
-                - develop
-                - master
-
       - testE2e:
           requires:
             - prep
@@ -373,27 +265,15 @@ workflows:
               only:
                 - develop
     jobs:
-      - build
-      - upload:
-          requires:
-            - build
-      - release:
-          requires:
-            - upload
+      - release
 
   releaseManually:
     jobs:
-      - build:
+      - release:
           filters:
             branches:
-              only:
-                - release
-      - upload:
-          requires:
-            - build
-      - release:
-          requires:
-            - upload
+              only: release
+
   mergeBack:
     jobs:
       - mergeBack:
