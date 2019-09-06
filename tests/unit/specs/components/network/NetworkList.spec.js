@@ -1,9 +1,9 @@
 import { shallowMount, createLocalVue } from "@vue/test-utils"
-import PageNetwork from "network/PageNetwork"
+import NetworkList from "network/NetworkList"
 
 const localVue = createLocalVue()
 
-describe(`PageNetwork`, () => {
+describe(`NetworkList`, () => {
   let wrapper
 
   const networks = [
@@ -24,14 +24,17 @@ describe(`PageNetwork`, () => {
   ]
 
   beforeEach(() => {
-    wrapper = shallowMount(PageNetwork, {
+    wrapper = shallowMount(NetworkList, {
       localVue,
+      propsData: {
+        networks
+      },
       mocks: {
         $store: {
           dispatch: jest.fn(),
           state: {
             connection: {
-              network: `gaia-testnet`
+              network: `cosmoshub`
             }
           }
         },
@@ -44,14 +47,25 @@ describe(`PageNetwork`, () => {
       },
       stubs: [`router-link`]
     })
-    wrapper.setData({ networks })
   })
 
-  it(`shows a page with a selection of networks`, () => {
+  it(`shows a list of networks`, () => {
     expect(wrapper.element).toMatchSnapshot()
   })
 
-  it(`has 2 network lists`, () => {
-    expect(wrapper.findAll("networklist-stub").length).toBe(2)
+  it("sets new network when clicking list item", () => {
+    wrapper.find(".select-network-item:not(.selected)").trigger("click")
+    expect(wrapper.vm.$store.dispatch).toHaveBeenCalledWith(`setNetwork`, {
+      id: "gaia-testnet",
+      chain_id: "gaia-123",
+      logo_url: "cosmos-logo.png",
+      testnet: true,
+      title: "Cosmos Hub Test"
+    })
+  })
+
+  it("does not change network when already selected", () => {
+    wrapper.find(".select-network-item.selected").trigger("click")
+    expect(wrapper.vm.$store.dispatch).not.toHaveBeenCalledWith()
   })
 })

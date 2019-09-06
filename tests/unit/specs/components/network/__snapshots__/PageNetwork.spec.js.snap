@@ -12,28 +12,16 @@ exports[`PageNetwork shows a page with a selection of networks 1`] = `
     Mainnets
   </h3>
    
-  <ul>
-    <li
-      class="select-network-item"
-    >
-      <networkitem-stub
-        network="[object Object]"
-      />
-    </li>
-  </ul>
+  <networklist-stub
+    networks="[object Object]"
+  />
    
   <h3>
     Testnets
   </h3>
    
-  <ul>
-    <li
-      class="select-network-item"
-    >
-      <networkitem-stub
-        network="[object Object]"
-      />
-    </li>
-  </ul>
+  <networklist-stub
+    networks="[object Object]"
+  />
 </tmpage-stub>
 `;

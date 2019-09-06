@@ -22,10 +22,6 @@ export default {
     NetworkItem
   },
   props: {
-    title: {
-      type: String,
-      default: "Networks"
-    },
     networks: {
       type: Array,
       required: true

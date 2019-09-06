@@ -1,0 +1,20 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`NetworkList shows a list of networks 1`] = `
+<ul>
+  <li
+    class="select-network-item"
+  >
+    <networkitem-stub
+      network="[object Object]"
+    />
+  </li>
+  <li
+    class="select-network-item selected"
+  >
+    <networkitem-stub
+      network="[object Object]"
+    />
+  </li>
+</ul>
+`;

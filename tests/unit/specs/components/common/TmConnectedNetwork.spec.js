@@ -9,13 +9,15 @@ describe(`TmConnectedNetwork`, () => {
 
   beforeEach(() => {
     $store = {
-      getters: {
-        lastHeader: {
-          chain_id: `gaia-20k`,
-          height: `6001`
-        },
-        nodeUrl: `https://faboNode.de`,
-        connected: true
+      state: {
+        connection: {
+          connected: true,
+          network: "gaia-20k",
+          nodeUrl: `https://faboNode.de`,
+          lastHeader: {
+            height: `6001`
+          }
+        }
       }
     }
 
@@ -52,13 +54,15 @@ describe(`TmConnectedNetwork`, () => {
 
   it(`has a connecting state`, async () => {
     $store = {
-      getters: {
-        lastHeader: {
-          chain_id: ``,
-          height: ``
-        },
-        nodeUrl: null,
-        connected: false
+      state: {
+        connection: {
+          connected: false,
+          network: "cosmoshub",
+          nodeUrl: null,
+          lastHeader: {
+            height: `6001`
+          }
+        }
       }
     }
 
