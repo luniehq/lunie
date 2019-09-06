@@ -1,9 +1,9 @@
 <template>
   <TmPage data-title="Network" class="page" hide-header>
     <template>
-      <h3>Mainnetworks</h3>
+      <h3>Main Networks</h3>
       <NetworkList :networks="mainNetworks" />
-      <h3>Testnetworks</h3>
+      <h3>Test Networks</h3>
       <NetworkList :networks="testNetworks" />
     </template>
   </TmPage>
@@ -40,7 +40,6 @@ export default {
 }
 </script>
 <style scoped>
-
 .page {
   padding: 2rem;
 }
