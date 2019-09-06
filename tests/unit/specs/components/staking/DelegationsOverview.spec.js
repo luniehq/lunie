@@ -17,7 +17,12 @@ describe(`DelegationsOverview`, () => {
 
   beforeEach(() => {
     $store = {
-      getters
+      getters,
+      state: {
+        connection: {
+          network: "testnet"
+        }
+      }
     }
 
     $apollo = {

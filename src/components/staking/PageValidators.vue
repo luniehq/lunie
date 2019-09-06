@@ -36,9 +36,11 @@ export default {
   },
   apollo: {
     validators: {
+      /* istanbul ignore next */
       query() {
         return AllValidators(this.network)
       },
+      /* istanbul ignore next */
       update(data) {
         return AllValidatorsResult(this.network)(data)
       }
