@@ -42,10 +42,14 @@ module.exports = {
           .waitForElementVisible('li.account button')
           .click('li.account button')
           .waitForElementNotPresent('.session')
-          .click('a[href="#/validators"]')
-          .waitForElementVisible('.li-validator')
-          .click('.li-validator')
-          .click('#delegation-btn')
+
+          // Perform a token send
+          .click('a[href="#/portfolio"]')
+          .click('.send-button')
+          .setValue(
+            "input[placeholder='Address']",
+            'cosmos1akhswynqs07zj5p2k25r6s4ur45qyjnr30wt59'
+          )
           .setValue("input[placeholder='Amount']", '1')
           .click('div.action-modal-footer button')
           .click('div.action-modal-footer button')
@@ -58,9 +62,10 @@ module.exports = {
           .click('#approve-btn')
           .assert.containsText('body', 'Transaction Complete')
           .switchWindow(result.value[1])
-          .pause(6 * 1000)
-          .assert.containsText('body', 'Successful delegation!')
-          .end()
+        browser.expect
+          .element('body')
+          .text.to.contain('Successful Send')
+          .before(10000)
       })
   }
 }
