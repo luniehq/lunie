@@ -64,7 +64,7 @@
         ref="amount"
         v-model="amount"
         :maxAmount="true" 
-        :freeBalance="atoms(balance)"
+        :freeBalance="balance"
         class="tm-field-addon"
         placeholder="Amount"
         type="number"
@@ -137,7 +137,6 @@ import { uatoms, atoms, viewDenom, SMALLEST } from "src/scripts/num"
 import { mapState } from "vuex"
 import TmFormGroup from "src/components/common/TmFormGroup"
 import TmField from "src/components/common/TmField"
-import TmFieldGroup from "src/components/common/TmFieldGroup"
 import TmBtn from "src/components/common/TmBtn"
 import TmFormMsg from "src/components/common/TmFormMsg"
 import ActionModal from "./ActionModal"
@@ -149,7 +148,6 @@ export default {
   name: `send-modal`,
   components: {
     TmField,
-    TmFieldGroup,
     TmFormGroup,
     TmFormMsg,
     ActionModal,
