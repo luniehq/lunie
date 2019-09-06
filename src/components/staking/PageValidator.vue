@@ -209,9 +209,16 @@ export default {
     validator: {}
   }),
   computed: {
-    ...mapState([`delegates`, `delegation`, `distribution`, `pool`, `session`, `connection`]),
+    ...mapState([
+      `delegates`,
+      `delegation`,
+      `distribution`,
+      `pool`,
+      `session`,
+      `connection`
+    ]),
     ...mapState({
-      annualProvision: state => state.minting.annualProvision,
+      annualProvision: state => state.minting.annualProvision
     }),
     ...mapGetters([
       `lastHeader`,
