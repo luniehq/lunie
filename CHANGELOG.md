@@ -7,6 +7,19 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.0-beta.118] - 2019-09-06
+
+### Fixed
+
+- [#2935](https://github.com/cosmos/lunie/issues/2935) Show no proposals message again @faboweb
+- [#2940](https://github.com/cosmos/lunie/pull/2940) PageBlock was jumping between blocks @faboweb
+- [#2940](https://github.com/cosmos/lunie/pull/2940) Monikers were not showing correctly for transactions @faboweb
+- [#2940](https://github.com/cosmos/lunie/pull/2940) Fixed dupelicate keys in transaction list @faboweb
+
+### Code Improvements
+
+- [#2940](https://github.com/cosmos/lunie/pull/2940) Removed not used or unnecessary properties from blocks module @faboweb
+
 ## [1.0.0-beta.117] - 2019-09-05
 
 ### Added

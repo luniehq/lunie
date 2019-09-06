@@ -1,4 +1,4 @@
-![Lunie logo — right half circle with dotted left circle](/public/img/icons/android-icon-192x192.png)
+![Lunie logo — right half circle with dotted left circle](/public/img/readme-header.svg)
 
 # Welcome to [Lunie.io](https://lunie.io)!
 
@@ -6,9 +6,7 @@
 [![codecov](https://codecov.io/gh/luniehq/lunie/branch/develop/graph/badge.svg)](https://codecov.io/gh/luniehq/lunie)
 [![Maintainability](https://api.codeclimate.com/v1/badges/a99a88d28ad37a79dbf6/maintainability)](https://codeclimate.com/github/codeclimate/codeclimate/maintainability)
 
-👋 Welcome to Lunie, the official wallet and UI for the [Cosmos Hub](https://cosmos.network/).
-
-⚠️ This is beta software. **DO NOT** enter your Cosmos fundraiser seed into Lunie. We will not ask for it and this is considered highly unsafe.
+👋 Welcome to Lunie. We're making staking accessible for everyone. This is the repo for the Lunie web app.
 
 ## Development Dependencies
 
