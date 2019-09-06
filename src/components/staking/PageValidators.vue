@@ -56,7 +56,7 @@ export default {
   },
   data: () => ({
     searchTerm: "",
-    activeOnly: false,
+    activeOnly: true,
     validators: []
   }),
   apollo: {
