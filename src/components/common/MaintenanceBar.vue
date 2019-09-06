@@ -35,11 +35,11 @@ export default {
     maintenance: {
       query: Maintenance,
       variables() {
-        console.log(`message: ${this.maintenance[0].message} type: ${this.maintenance[0].type}`);
-        return {
-          message: this.maintenance[0].message,
-          type: this.maintenance[0].type,
-        }
+        console.log(maintenance);
+        // return {
+        //   message: this.maintenance[0].message,
+        //   type: this.maintenance[0].type,
+        // }
       },
       update: MaintenanceResult
     }
