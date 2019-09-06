@@ -59,22 +59,18 @@
       field-id="amount"
       field-label="Amount"
     >
-      <TmFieldGroup>
-        <TmField
-          id="amount"
-          ref="amount"
-          v-model="amount"
-          class="tm-field-addon"
-          placeholder="Amount"
-          type="number"
-          @keyup.enter.native="enterPressed"
-        />
-        <TmBtn
-          type="addon-max"
-          value="Set Max"
-          @click.native="setMaxAmount()"
-        />
-      </TmFieldGroup>
+      <TmField
+        id="amount"
+        ref="amount"
+        v-model="amount"
+        :maxAmount="true" 
+        :freeBalance="atoms(balance)"
+        class="tm-field-addon"
+        placeholder="Amount"
+        type="number"
+        max
+        @keyup.enter.native="enterPressed"
+      />
       <TmFormMsg
         v-if="balance === 0"
         :msg="`doesn't have any ${viewDenom(denom)}s`"
@@ -214,9 +210,6 @@ export default {
       this.editMemo = false
       this.memo = defaultMemo
       this.sending = false
-    },
-    setMaxAmount() {
-      this.amount = atoms(this.balance)
     },
     isMaxAmount() {
       return this.amount === atoms(this.balance)
