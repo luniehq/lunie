@@ -59,15 +59,22 @@
       field-id="amount"
       field-label="Amount"
     >
-      <TmField
-        id="amount"
-        ref="amount"
-        v-model="amount"
-        class="tm-field"
-        placeholder="Amount"
-        type="number"
-        @keyup.enter.native="enterPressed"
-      />
+      <TmFieldGroup>
+        <TmField
+          id="amount"
+          ref="amount"
+          v-model="amount"
+          class="tm-field-addon"
+          placeholder="Amount"
+          type="number"
+          @keyup.enter.native="enterPressed"
+        />
+        <TmBtn
+          type="addon-max"
+          value="Set Max"
+          @click.native="setMaxAmount()"
+        />
+      </TmFieldGroup>
       <TmFormMsg
         v-if="balance === 0"
         :msg="`doesn't have any ${viewDenom(denom)}s`"
@@ -91,6 +98,9 @@
         name="Amount"
         type="between"
       />
+      <p v-if="isMaxAmount()" class="form-message notice max-notice">
+        You are about to use all your tokens for this transaction. Consider leaving a little bit left over to cover the network fees.
+      </p>
     </TmFormGroup>
     <TmBtn
       v-if="editMemo === false"
@@ -131,8 +141,9 @@ import { uatoms, atoms, viewDenom, SMALLEST } from "src/scripts/num"
 import { mapState } from "vuex"
 import TmFormGroup from "src/components/common/TmFormGroup"
 import TmField from "src/components/common/TmField"
-import TmFormMsg from "src/components/common/TmFormMsg"
+import TmFieldGroup from "src/components/common/TmFieldGroup"
 import TmBtn from "src/components/common/TmBtn"
+import TmFormMsg from "src/components/common/TmFormMsg"
 import ActionModal from "./ActionModal"
 import transaction from "../utils/transactionTypes"
 
@@ -142,6 +153,7 @@ export default {
   name: `send-modal`,
   components: {
     TmField,
+    TmFieldGroup,
     TmFormGroup,
     TmFormMsg,
     ActionModal,
@@ -203,6 +215,12 @@ export default {
       this.memo = defaultMemo
       this.sending = false
     },
+    setMaxAmount() {
+      this.amount = atoms(this.balance)
+    },
+    isMaxAmount() {
+      return this.amount === atoms(this.balance)
+    },
     bech32Validate(param) {
       try {
         b32.decode(param)
@@ -244,5 +262,9 @@ export default {
 <style scoped>
 #edit-memo-btn {
   margin-top: 1.5rem;
+}
+
+.form-message.notice {
+  margin: 1rem 0 0 0;
 }
 </style>

@@ -205,6 +205,24 @@ input[type="checkbox"] {
   -webkit-appearance: none;
 }
 
+.tm-field-addon {
+  background: var(--input-bg, #fff);
+  border: 1px solid var(--input-bc, #ccc);
+  border-radius: 0;
+  color: var(--txt, #333);
+  display: block;
+  font-size: 16px;
+  line-height: 1.5rem;
+  min-width: 0;
+  padding: 0.1875rem 0.5rem;
+  width: 100%;
+  -webkit-appearance: none;
+  border-top-left-radius: .25rem!important;
+  border-bottom-left-radius: .25rem!important;
+  border-top-right-radius: 0 !important;
+  border-bottom-right-radius: 0 !important;
+}
+
 .tm-field::placeholder {
   color: var(--dim);
 }
