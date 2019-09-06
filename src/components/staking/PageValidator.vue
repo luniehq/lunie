@@ -209,10 +209,9 @@ export default {
     validator: {}
   }),
   computed: {
-    ...mapState([`delegates`, `delegation`, `distribution`, `pool`, `session`]),
+    ...mapState([`delegates`, `delegation`, `distribution`, `pool`, `session`, `connection`]),
     ...mapState({
       annualProvision: state => state.minting.annualProvision,
-      network: state => state.connection.network
     }),
     ...mapGetters([
       `lastHeader`,
@@ -378,7 +377,7 @@ export default {
     validator: {
       query() {
         /* istanbul ignore next */
-        return ValidatorProfile(this.network)
+        return ValidatorProfile(this.connection.network)
       },
       variables() {
         /* istanbul ignore next */
@@ -388,7 +387,7 @@ export default {
       },
       update(data) {
         /* istanbul ignore next */
-        return ValidatorResult(this.network)(data)
+        return ValidatorResult(this.connection.network)(data)
       }
     }
   }
