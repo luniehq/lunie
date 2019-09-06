@@ -13,26 +13,6 @@ describe(`PageBlock`, () => {
     lastHeader: {
       height: `1000`
     },
-    block: {
-      block: {
-        header: {
-          height: `100`,
-          num_txs: bankTxs.length,
-          proposer_address: `ABCDEFG123456HIJKLMNOP`,
-          time: Date.now()
-        }
-      },
-      block_meta: {
-        header: {
-          chain_id: `chain-1`,
-          num_txs: 10
-        },
-        block_id: {
-          hash: `ABCD1234`
-        }
-      },
-      transactions: bankTxs
-    },
     validators: {}
   }
 
@@ -44,14 +24,26 @@ describe(`PageBlock`, () => {
     session: { address: `` }
   }
 
-  beforeEach(() => {
+  beforeEach(async () => {
     wrapper = shallowMount(PageBlock, {
       localVue,
       mocks: {
         $store: {
           getters,
           state,
-          dispatch: jest.fn()
+          dispatch: jest.fn(type => {
+            if (type === "queryBlockInfo")
+              return {
+                header: {
+                  chain_id: `chain-1`,
+                  num_txs: 10
+                },
+                block_id: {
+                  hash: `ABCD1234`
+                }
+              }
+            if (type === "getBlockTxs") return bankTxs
+          })
         },
         $route: {
           params: { height: `100` }
@@ -62,6 +54,7 @@ describe(`PageBlock`, () => {
       },
       stubs: [`router-link`]
     })
+    await wrapper.vm.getBlock()
   })
 
   it(`shows a page with information about a certain block`, () => {
@@ -78,29 +71,21 @@ describe(`PageBlock`, () => {
             lastHeader: {
               height: `1000`
             },
-            block: {
-              block: {
-                header: {
-                  height: `100`,
-                  num_txs: 0,
-                  proposer_address: `ABCDEFG123456HIJKLMNOP`,
-                  time: Date.now()
-                }
-              },
-              block_meta: {
+            validators: {}
+          },
+          state,
+          dispatch: jest.fn(type => {
+            if (type === "queryBlockInfos")
+              return {
                 header: {
                   chain_id: `chain-1`
                 },
                 block_id: {
                   hash: `ABCD1234`
                 }
-              },
-              transactions: []
-            },
-            validators: {}
-          },
-          state,
-          dispatch: jest.fn()
+              }
+            if (type === "getBlockTxs") return []
+          })
         },
         $route: {
           params: { height: `100` }
@@ -120,36 +105,6 @@ describe(`PageBlock`, () => {
     PageBlock.watch[`$route.params.height`].call({ getBlock })
 
     expect(getBlock).toHaveBeenCalled()
-  })
-
-  it(`shows the page when the block hasn't been loaded yet`, () => {
-    wrapper = shallowMount(PageBlock, {
-      localVue,
-      mocks: {
-        $store: {
-          getters: Object.assign({}, getters, {
-            block: {
-              block_meta: {
-                header: {}
-              }
-            },
-            validators: {}
-          }),
-          state,
-          dispatch: jest.fn()
-        },
-        $route: {
-          params: { height: `100` }
-        },
-        $router: {
-          push: jest.fn()
-        }
-      },
-      stubs: [`router-link`]
-    })
-
-    expect(wrapper.element).not.toBeUndefined()
-    expect(wrapper.element).toMatchSnapshot()
   })
 
   it(`redirects to the 404 page if the block doesn't exist`, async () => {

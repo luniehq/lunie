@@ -102,6 +102,13 @@ describe(`DelegationModal`, () => {
     expect(self.amount).toBeNull()
   })
 
+  describe(`if amount field max button clicked`, () => {
+    it(`amount has to be 1000 atom`, async () => {
+      wrapper.vm.setMaxAmount()
+      expect(wrapper.vm.amount).toBe(1000)
+    })
+  })  
+
   describe(`validation`, () => {
     describe(`fails`, () => {
       it(`with default values`, () => {
@@ -121,6 +128,7 @@ describe(`DelegationModal`, () => {
       })
     })
   })
+  
   describe("Submission Data for Delegating", () => {
     beforeEach(() => {
       wrapper.setData({

@@ -17,7 +17,7 @@ export default [
     meta: {
       feature: "Proposals"
     },
-    component: require(`./components/governance/TabProposals`).default
+    component: require(`./components/governance/PageProposals`).default
   },
   // for depredecated routes
   {

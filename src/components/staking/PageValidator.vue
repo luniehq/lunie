@@ -15,7 +15,6 @@
           {{ status }}
         </span>
       </div>
-
       <tr class="li-validator">
         <td class="data-table__row__info">
           <Avatar
@@ -377,6 +376,7 @@ export default {
   },
   apollo: {
     validator: {
+      /* istanbul ignore next */
       query() {
         /* istanbul ignore next */
         return ValidatorProfile(this.network)
@@ -387,6 +387,7 @@ export default {
           address: this.$route.params.validator
         }
       },
+      /* istanbul ignore next */
       update(data) {
         /* istanbul ignore next */
         return ValidatorResult(this.network)(data)

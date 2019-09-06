@@ -3,7 +3,7 @@
     :managed="true"
     :loading="transactions.loading"
     :loaded="transactions.loaded"
-    :error="transactions.error"
+    :error="!!transactions.error"
     :data-empty="dataEmpty"
     data-title="Transactions"
     :sign-in-required="true"

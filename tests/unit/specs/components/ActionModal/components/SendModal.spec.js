@@ -173,4 +173,27 @@ describe(`SendModal`, () => {
       body: `Successfully sent 2 STAKEs to cosmos12345`
     })
   })
+
+  describe(`if amount field max button clicked`, () => {
+    it(`amount has to be 10000 atom`, async () => {
+      wrapper.setData({
+        denom: `STAKE`,
+        address: `cosmos12345`
+      })
+      wrapper.vm.setMaxAmount()
+      expect(wrapper.vm.amount).toBe(10000)
+    })
+    it(`should show warning message`, async () => {
+      wrapper.setData({
+        denom: `STAKE`,
+        address: `cosmos12345`
+      })
+      wrapper.vm.setMaxAmount()
+      expect(wrapper.vm.amount).toBe(10000)
+      await wrapper.vm.$nextTick()
+      expect(wrapper.find(".max-notice").text()).toBe("You are about to use all your tokens for this transaction. Consider leaving a little bit left over to cover the network fees.")
+    })
+  })
+
+
 })

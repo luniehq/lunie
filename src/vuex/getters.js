@@ -21,14 +21,6 @@ export const flatOrderedTransactionList = (state, getters) => {
   return allTx
 }
 
-export const validators = state => {
-  const names = {}
-  state.delegates.delegates.forEach(item => {
-    names[item.operator_address] = item
-  })
-  return names
-}
-
 // fee distribution
 export const yourValidators = (state, getters) =>
   state.session.signedIn
