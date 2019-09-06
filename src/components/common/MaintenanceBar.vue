@@ -49,7 +49,8 @@ export default {
           message: this.message,
           type: this.type,
         }
-      }
+      },
+      update: MaintenanceResult
     }
   }
 }

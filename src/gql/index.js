@@ -93,3 +93,4 @@ export const Maintenance = gql`
 export const AllValidatorsResult = data => data.allValidators
 export const ValidatorResult = data => data.allValidators[0]
 export const NetworkCapabilityResult = data => data.networks.length === 1
+export const MaintenanceResult = data => data.maintenance
