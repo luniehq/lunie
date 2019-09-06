@@ -212,7 +212,7 @@ export default {
     },
     isMaxAmount() {
       return this.amount === atoms(this.balance)
-    },        
+    },
     enterPressed() {
       this.$refs.actionModal.validateChangeStep()
     },
