@@ -11,10 +11,10 @@
         <i class="material-icons" @click="close">close</i>
       </a>
     </div>
-    <div v-if="maintenance.length > 0" class="maintenance-bar">
+    <div v-if="maintenance.length > 0" class="maintenance-bar" v-bind:class="maintenance.type">
       <i></i>
       <p>
-        Maintenance text
+        {{ maintenance.message }}
       </p>
       <a class="close">
         <i class="material-icons" @click="close">close</i>
@@ -41,11 +41,7 @@ export default {
     }
   },
   apollo: {
-    // They key is the name of the data property
-    // on the component that you intend to populate.
     maintenance: {
-      // Yes, this looks confusing.
-      // It's just normal GraphQL.
       query: gql`
         query Maintenance {
           maintenance {
@@ -54,10 +50,6 @@ export default {
           }
         }
       `,
-
-      // Apollo maps results to the name of the query, for caching.
-      // So to update the right property on the componet, you need to
-      // select the property of the result with the name of the query.
       update: result => result.maintenance,
     }
   }
