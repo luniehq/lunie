@@ -2,14 +2,14 @@
 
 exports[`PageNetworks shows a page with a selection of networks 1`] = `
 <tmpage-stub
-  class="small"
+  class="page"
   data-title="Network"
   hideheader="true"
   subtitle=""
   title=""
 >
   <h3>
-    Mainnetworks
+    Main Networks
   </h3>
    
   <networklist-stub
@@ -17,7 +17,7 @@ exports[`PageNetworks shows a page with a selection of networks 1`] = `
   />
    
   <h3>
-    Testnetworks
+    Test Networks
   </h3>
    
   <networklist-stub
