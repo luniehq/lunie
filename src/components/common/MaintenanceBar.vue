@@ -21,7 +21,7 @@ export default {
   name: `maintenance-bar`,
   data: () => ({
     show: true,
-    maintenance: []
+    maintenance
   }),
   computed: {
     ...mapState([`session`])
@@ -35,7 +35,7 @@ export default {
     maintenance: {
       query: Maintenance,
       variables() {
-        console.log(maintenance);
+        console.log(this.maintenance);
         // return {
         //   message: this.maintenance[0].message,
         //   type: this.maintenance[0].type,
