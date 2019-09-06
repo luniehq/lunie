@@ -59,18 +59,22 @@
       field-id="amount"
       field-label="Amount"
     >
-      <TmField
-        id="amount"
-        ref="amount"
-        v-model="amount"
-        :maxAmount="true" 
-        :freeBalance="balance"
-        class="tm-field-addon"
-        placeholder="Amount"
-        type="number"
-        max
-        @keyup.enter.native="enterPressed"
-      />
+      <TmFieldGroup>
+        <TmField
+          id="amount"
+          ref="amount"
+          v-model="amount"
+          class="tm-field-addon"
+          placeholder="Amount"
+          type="number"
+          @keyup.enter.native="enterPressed"
+        />
+        <TmBtn
+          type="addon-max"
+          value="Set Max"
+          @click.native="setMaxAmount()"
+        />
+      </TmFieldGroup>
       <TmFormMsg
         v-if="balance === 0"
         :msg="`doesn't have any ${viewDenom(denom)}s`"
@@ -137,6 +141,7 @@ import { uatoms, atoms, viewDenom, SMALLEST } from "src/scripts/num"
 import { mapState } from "vuex"
 import TmFormGroup from "src/components/common/TmFormGroup"
 import TmField from "src/components/common/TmField"
+import TmFieldGroup from "src/components/common/TmFieldGroup"
 import TmBtn from "src/components/common/TmBtn"
 import TmFormMsg from "src/components/common/TmFormMsg"
 import ActionModal from "./ActionModal"
@@ -148,6 +153,7 @@ export default {
   name: `send-modal`,
   components: {
     TmField,
+    TmFieldGroup,
     TmFormGroup,
     TmFormMsg,
     ActionModal,
@@ -208,6 +214,9 @@ export default {
       this.editMemo = false
       this.memo = defaultMemo
       this.sending = false
+    },
+    setMaxAmount() {
+      this.amount = atoms(this.balance)
     },
     isMaxAmount() {
       return this.amount === atoms(this.balance)

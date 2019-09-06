@@ -62,25 +62,6 @@
     </div>
   </label>
 
-  <div v-else-if="maxAmount" class="tm-field-group">
-    <input
-      ref="numTextInput"
-      :type="type"
-      :class="css"
-      :placeholder="placeholder"
-      :value="value"
-      @change="onChange"
-      @keyup="onKeyup"
-      @keydown="onKeydown"
-      @input="updateValue($event.target.value)"
-    />
-    <TmBtn
-      type="addon-max"
-      value="Set Max"
-      @click.native="setMaxAmount()"
-    />
-  </div>
-
   <input
     v-else
     ref="numTextInput"
@@ -96,12 +77,8 @@
 </template>
 
 <script>
-import TmBtn from "src/components/common/TmBtn"
 export default {
   name: `tm-field`,
-  components: {
-    TmBtn
-  },  
   props: {
     type: {
       type: String,
@@ -138,15 +115,7 @@ export default {
     isDisabled: {
       type: Boolean,
       default: false
-    },
-    maxAmount: {
-      type: Boolean,
-      default: false
-    },
-    freeBalance: {
-      type: Number,
-      default: null
-    },    
+    }
   },
   data: () => ({
     defaultToggleOptions: {
@@ -162,7 +131,6 @@ export default {
         value += ` tm-field-select`
       }
       if (this.size) value += ` tm-field-size-${this.size}`
-      if (this.maxAmount) value += ` tm-field-size-addon`
       return value
     },
     toggleClass() {
@@ -204,9 +172,6 @@ export default {
 
       // Emit the number value through the input event
       this.$emit(`input`, formattedValue)
-    },
-    setMaxAmount() {
-      this.value = this.freeBalance
     },
     onChange(...args) {
       if (this.change) return this.change(...args)
