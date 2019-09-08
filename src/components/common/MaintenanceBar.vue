@@ -1,6 +1,6 @@
 <template>
   <div v-if="maintenance.length > 0">
-    <div v-for="message in maintenance">
+    <div v-for="message in maintenance" v-bind:key="message">
       <div v-if="message.show" class="maintenance-bar" v-bind:class="message.type">
         <i></i>
         <p>
@@ -21,7 +21,7 @@ export default {
   data: () => ({
     maintenance: []
   }),
-  methods: { 
+  methods: {
     close(message) {
       message.show = false
     }
@@ -37,7 +37,7 @@ export default {
           }
         }
       `,
-      update: result => result.maintenance,
+      update: result => result.maintenance
     }
   }
 }
