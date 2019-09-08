@@ -7,7 +7,7 @@
           {{ message.message }}
         </p>
         <a class="close">
-          <i class="material-icons" @click="close(message)">close</i>
+          <i class="material-icons close-icon" @click="close(message)">close</i>
         </a>
       </div>
     </div>
@@ -86,6 +86,10 @@ export default {
   color: var(--bright);
 }
 
+.close-icon {
+  line-height: 18px;
+}
+
 @media (max-width: 1024px) {
   .maintenance-bar {
     position: fixed;
@@ -94,6 +98,14 @@ export default {
     z-index: 99;
     padding: 0.5rem;
     justify-content: space-around;
+  }
+
+  .maintenance-bar:nth-child(2) {
+    bottom: 36px;
+  }
+
+  .maintenance-bar:nth-child(3) {
+    bottom: 72px;
   }
 
   .hide-on-mobile {
