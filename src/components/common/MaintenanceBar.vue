@@ -100,11 +100,11 @@ export default {
     justify-content: space-around;
   }
 
-  .maintenance-bar:nth-child(2) {
+  div > div.maintenance-bar:nth-child(2) {
     bottom: 36px;
   }
 
-  .maintenance-bar:nth-child(3) {
+  div > div.maintenance-bar:nth-child(3) {
     bottom: 72px;
   }
 
