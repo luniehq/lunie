@@ -108,6 +108,14 @@ export default {
     bottom: 72px;
   }
 
+  .message-4 {
+    bottom: 108px;
+  }
+
+  .message-5 {
+    bottom: 144px;
+  }
+
   .hide-on-mobile {
     display: none;
   }
