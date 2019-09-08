@@ -1,6 +1,6 @@
 <template>
   <div v-if="maintenance.length > 0">
-    <div v-for="message in maintenance" v-bind:key="message">
+    <div v-for="message in maintenance">
       <div v-if="message.show" class="maintenance-bar" v-bind:class="message.type">
         <i></i>
         <p>
