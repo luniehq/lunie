@@ -1,24 +1,15 @@
 <template>
-  <div>
-    <div v-if="session.maintenanceBar && show" class="maintenance-bar">
-      <i></i>
-      <p>
-        We've identified problems with our servers that are causing issues for
-        some of our users. We apologize for the disruption and are working on a
-        fix.
-      </p>
-      <a class="close">
-        <i class="material-icons" @click="close">close</i>
-      </a>
-    </div>
-    <div v-if="maintenance.length > 0 && show" class="maintenance-bar" v-bind:class="maintenance[0].type">
-      <i></i>
-      <p>
-        {{ maintenance[0].message }}
-      </p>
-      <a class="close">
-        <i class="material-icons" @click="close">close</i>
-      </a>
+  <div v-if="maintenance.length > 0">
+    <div v-for="message in maintenance">
+      <div v-if="show" class="maintenance-bar" v-bind:class="message.type">
+        <i></i>
+        <p>
+          {{ message.message }}
+        </p>
+        <a class="close">
+          <i class="material-icons" @click="close">close</i>
+        </a>
+      </div>
     </div>
   </div>
 </template>
@@ -75,16 +66,26 @@ export default {
   color: var(--bright);
 }
 
-.maintenance-bar.ok {
-  background-color: #61b360;
+ /* don't change - should be consistent across themes */
+  --input-bg: transparent;
+  --success: hsl(120, 58%, 50%);
+  --success-bc: hsl(120, 58%, 41%);
+  --warning: hsl(35, 100%, 50%);
+  --warning-bc: hsl(35, 75%, 38%);
+  --danger: hsl(0, 100%, 55%);
+  --danger-bc: hsl(0, 100%, 41%);
+  --tendermint: #5ead37;
+
+.maintenance-bar.success {
+  background-color: var(--success);
 }
 
 .maintenance-bar.warning {
-  background-color: #b3b060;
+  background-color: var(--warning);
 }
 
 .maintenance-bar.danger {
-  background-color: #ca3e4b;
+  background-color: var(--danger);
 }
 
 .maintenance-bar .link {
