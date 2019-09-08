@@ -34,6 +34,7 @@ export default {
           maintenance {
             message
             type
+            show
           }
         }
       `,
