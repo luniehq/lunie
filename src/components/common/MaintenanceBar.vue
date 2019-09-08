@@ -15,7 +15,6 @@
 </template>
 
 <script>
-import { mapState } from "vuex"
 import gql from "graphql-tag"
 export default {
   name: `maintenance-bar`,
