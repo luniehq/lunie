@@ -69,6 +69,20 @@
       </router-link>
 
       <router-link
+        v-if="session.experimentalMode"
+        class="app-menu-item hide-xs"
+        to="/networks"
+        exact="exact"
+        title="Networks"
+        @click.native="close"
+      >
+        <h2 class="app-menu-title">
+          Networks
+        </h2>
+        <i class="material-icons">chevron_right</i>
+      </router-link>
+
+      <router-link
         class="app-menu-item hide-m"
         to="/about"
         exact="exact"
@@ -189,7 +203,7 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0.5rem;
+  padding: 0.5rem 0.5rem 0.5rem 0.75rem;
   margin: 0.5rem 1rem;
   font-weight: 400;
   font-size: 14px;
@@ -209,7 +223,7 @@ export default {
 .user-box {
   font-size: 12px;
   margin: 1rem;
-  padding: 0.5rem;
+  padding: 0.5rem 0.75rem;
   border: 2px solid var(--bc);
   border-radius: 0.25rem;
   display: flex;

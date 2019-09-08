@@ -41,7 +41,7 @@ describe(`LiValidator`, () => {
     expectedReturns: 0.13
   }
 
-  const index = 1;
+  const index = 1
 
   beforeEach(() => {
     $store = {

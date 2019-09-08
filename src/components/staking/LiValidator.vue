@@ -9,7 +9,7 @@
       })
     "
   >
-    <td>{{ index+1 }}</td>
+    <td>{{ index + 1 }}</td>
     <td class="data-table__row__info">
       <Avatar
         v-if="!validator || !validator.avatarUrl"

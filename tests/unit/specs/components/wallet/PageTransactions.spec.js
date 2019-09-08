@@ -210,6 +210,9 @@ describe(`PageTransactions`, () => {
     session: {
       address: addresses[0],
       signedIn: true
+    },
+    connection: {
+      network: "awesomenet"
     }
   }
 

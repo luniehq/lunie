@@ -17,7 +17,12 @@ describe(`DelegationsOverview`, () => {
 
   beforeEach(() => {
     $store = {
-      getters
+      getters,
+      state: {
+        connection: {
+          network: "testnet"
+        }
+      }
     }
 
     $apollo = {
@@ -42,12 +47,6 @@ describe(`DelegationsOverview`, () => {
 
   it(`shows an overview over all delegations of the user`, async () => {
     expect(wrapper.element).toMatchSnapshot()
-  })
-
-  it(`has list of deleegation addresses`, async () => {
-    expect(wrapper.vm.delegationsAddressList).toEqual([
-      validators[0].operator_address
-    ])
   })
 
   it(`shows a sentiment of dissatisfaction when you have no such delegations`, async () => {

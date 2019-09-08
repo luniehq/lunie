@@ -1,0 +1,27 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`PageNetworks shows a page with a selection of networks 1`] = `
+<tmpage-stub
+  class="page"
+  data-title="Network"
+  hideheader="true"
+  subtitle=""
+  title=""
+>
+  <h3>
+    Main Networks
+  </h3>
+   
+  <networklist-stub
+    networks="[object Object]"
+  />
+   
+  <h3>
+    Test Networks
+  </h3>
+   
+  <networklist-stub
+    networks="[object Object]"
+  />
+</tmpage-stub>
+`;

@@ -15,6 +15,7 @@ exports[`TableValidators shows a validator table 1`] = `
      
     <tbody
       infinite-scroll-distance="400"
+      name="flip-list"
     >
       <livalidator-stub
         index="0"
