@@ -1,13 +1,13 @@
 <template>
   <div v-if="maintenance.length > 0">
     <div v-for="message in maintenance">
-      <div v-if="show" class="maintenance-bar" v-bind:class="message.type">
+      <div v-if="message.show" class="maintenance-bar" v-bind:class="message.type">
         <i></i>
         <p>
           {{ message.message }}
         </p>
         <a class="close">
-          <i class="material-icons" @click="close">close</i>
+          <i class="material-icons" @click="close(message)">close</i>
         </a>
       </div>
     </div>
@@ -20,15 +20,11 @@ import gql from "graphql-tag"
 export default {
   name: `maintenance-bar`,
   data: () => ({
-    show: true,
     maintenance: []
   }),
-  computed: {
-    ...mapState([`session`])
-  },
-  methods: {
-    close() {
-      this.show = false
+  methods: { 
+    close(message) {
+      message.show = false
     }
   },
   apollo: {
