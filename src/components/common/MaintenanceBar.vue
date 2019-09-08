@@ -63,16 +63,6 @@ export default {
   color: var(--bright);
 }
 
- /* don't change - should be consistent across themes */
-  --input-bg: transparent;
-  --success: hsl(120, 58%, 50%);
-  --success-bc: hsl(120, 58%, 41%);
-  --warning: hsl(35, 100%, 50%);
-  --warning-bc: hsl(35, 75%, 38%);
-  --danger: hsl(0, 100%, 55%);
-  --danger-bc: hsl(0, 100%, 41%);
-  --tendermint: #5ead37;
-
 .maintenance-bar.success {
   background-color: var(--success);
 }
