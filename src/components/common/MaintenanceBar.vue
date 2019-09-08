@@ -1,7 +1,7 @@
 <template>
   <div v-if="maintenance.length > 0">
-    <div v-for="message in maintenance">
-      <div v-if="message.show" class="maintenance-bar" v-bind:class="message.type">
+    <div v-for="(message, index) in maintenance">
+      <div v-if="message.show" class="maintenance-bar" v-bind:class="`${message.type} message-${index}`">
         <i></i>
         <p>
           {{ message.message }}
@@ -100,11 +100,11 @@ export default {
     justify-content: space-around;
   }
 
-  div > div.maintenance-bar:nth-child(2) {
+  .message-2 {
     bottom: 36px;
   }
 
-  div > div.maintenance-bar:nth-child(3) {
+  .message-3 {
     bottom: 72px;
   }
 
