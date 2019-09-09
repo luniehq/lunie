@@ -18,6 +18,7 @@
 <script>
 import TransactionItem from "./TransactionItem"
 import groupBy from "lodash.groupby"
+import orderBy from "lodash.orderby"
 import moment from "moment"
 
 function stripTime(momentTime) {
@@ -55,11 +56,6 @@ export default {
   components: {
     TransactionItem
   },
-  filters: {
-    date(tx) {
-      return moment(tx.time).format("MMM Do YYYY")
-    }
-  },
   props: {
     transactions: {
       type: Array,
@@ -76,7 +72,11 @@ export default {
   },
   computed: {
     groupedTransactions() {
-      return groupBy(this.categorizedTransactions, "title")
+      return orderBy(
+        groupBy(this.categorizedTransactions, "title"),
+        group => group[0].tx.time,
+        "desc"
+      )
     },
     categorizedTransactions() {
       return this.transactions.map(tx => {
