@@ -1,0 +1,53 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`PageContainer should show links to other pages 1`] = `
+<div
+  class="tm-page"
+>
+  <tmpageheader-stub
+    tabs=""
+  >
+    <!---->
+     
+    <!---->
+     
+    <template>
+      <tmbalance-stub />
+    </template>
+     
+    <template />
+  </tmpageheader-stub>
+   
+  <main
+    class="tm-page-main"
+  />
+   
+  <pagefooter-stub />
+</div>
+`;
+
+exports[`PageContainer shows a page skeleton 1`] = `
+<div
+  class="tm-page"
+>
+  <tmpageheader-stub
+    tabs=""
+  >
+    <!---->
+     
+    <!---->
+     
+    <template>
+      <tmbalance-stub />
+    </template>
+     
+    <template />
+  </tmpageheader-stub>
+   
+  <main
+    class="tm-page-main"
+  />
+   
+  <pagefooter-stub />
+</div>
+`;

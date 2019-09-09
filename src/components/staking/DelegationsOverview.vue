@@ -23,7 +23,7 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex"
+import { mapState, mapGetters } from "vuex"
 import TmDataMsg from "common/TmDataMsg"
 import TableValidators from "staking/TableValidators"
 import { SomeValidators, AllValidatorsResult } from "src/gql"
@@ -38,6 +38,7 @@ export default {
     validators: []
   }),
   computed: {
+    ...mapState({ network: state => state.connection.network }),
     ...mapGetters([`committedDelegations`]),
     delegationsAddressList() {
       return Object.keys(this.committedDelegations)
@@ -45,14 +46,20 @@ export default {
   },
   apollo: {
     validators: {
-      query: SomeValidators,
+      query() {
+        /* istanbul ignore next */
+        return SomeValidators(this.network)
+      },
       variables() {
         /* istanbul ignore next */
         return {
-          addressList: this.delegationsAddressList
+          addressList: Object.keys(this.committedDelegations)
         }
       },
-      update: AllValidatorsResult
+      update(data) {
+        /* istanbul ignore next */
+        return AllValidatorsResult(this.network)(data)
+      }
     }
   }
 }

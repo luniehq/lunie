@@ -1,5 +1,9 @@
 <template>
-  <div v-if="connected" id="tm-connected-network" class="tm-connected-network">
+  <div
+    v-if="connection.connected"
+    id="tm-connected-network"
+    class="tm-connected-network"
+  >
     <div class="tm-connected-network__connection">
       <div id="tm-connected-network__icon" class="tm-connected-network__icon">
         <span
@@ -12,16 +16,19 @@
         class="tm-connected-network__string"
       >
         <span v-tooltip.top="networkTooltip" class="chain-id">
-          {{ lastHeader.chain_id }}
+          {{ connection.network }}
         </span>
       </div>
     </div>
     <div id="tm-connected-network__block" class="tm-connected-network__string">
       <router-link
         v-tooltip.top="'Block Height'"
-        :to="{ name: `block`, params: { height: lastHeader.height } }"
+        :to="{
+          name: `block`,
+          params: { height: connection.lastHeader.height }
+        }"
       >
-        {{ blockHeight }}
+        #{{ connection.lastHeader.height | prettyInt }}
       </router-link>
     </div>
   </div>
@@ -47,25 +54,22 @@
   </div>
 </template>
 <script>
-import { mapGetters } from "vuex"
-import num from "scripts/num"
+import { mapState } from "vuex"
+import { prettyInt } from "scripts/num"
 
 export default {
   name: `tm-connected-network`,
-  data: () => ({
-    num
-  }),
+  filters: {
+    prettyInt
+  },
   computed: {
-    ...mapGetters([`lastHeader`, `nodeUrl`, `connected`]),
-    networkTooltip({ connected, nodeUrl, lastHeader } = this) {
-      if (connected) {
-        return `You're connected to ${lastHeader.chain_id} via ${nodeUrl}.`
+    ...mapState([`connection`]),
+    networkTooltip() {
+      if (this.connection.connected) {
+        return `You're connected to ${this.connection.network} via ${this.connection.nodeUrl}.`
       } else {
         return `Seeking connection`
       }
-    },
-    blockHeight({ num, lastHeader } = this) {
-      return `#` + num.prettyInt(lastHeader.height)
     }
   }
 }

@@ -81,6 +81,9 @@ describe(`PageValidator`, () => {
           }
         }
       },
+      connection: {
+        network: "testnet"
+      },
       getters: JSON.parse(JSON.stringify(getters)) // clone to be safe we don't overwrite
     }
 

@@ -43,6 +43,7 @@ export default {
   }),
   computed: {
     ...mapState([`session`, `transactions`]),
+    ...mapState({ network: state => state.connection.network }),
     ...mapGetters([`flatOrderedTransactionList`]),
     validatorsAddressMap() {
       const names = {}
@@ -78,8 +79,14 @@ export default {
   },
   apollo: {
     validators: {
-      query: AllValidators,
-      update: AllValidatorsResult
+      query() {
+        /* istanbul ignore next */
+        return AllValidators(this.network)
+      },
+      update(data) {
+        /* istanbul ignore next */
+        return AllValidatorsResult(this.network)(data)
+      }
     }
   }
 }
