@@ -63,7 +63,7 @@ describe(`MaintenanceBar`, () => {
         }        
       ],
     });
-    wrapper.vm.maintenance[0].show = false
+    wrapper.vm.close(wrapper.vm.maintenance[0])
     expect(wrapper.find(".maintenance-bar.success p").exists())
       .toBe(false)
   })

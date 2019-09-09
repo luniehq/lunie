@@ -37,6 +37,7 @@ export default {
           }
         }
       `,
+      /* istanbul ignore next */
       update: result => result.maintenance
     }
   }
