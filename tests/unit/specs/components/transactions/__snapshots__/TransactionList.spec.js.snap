@@ -4,7 +4,7 @@ exports[`TransactionList renders a list of TransactionItems 1`] = `
 <div>
   <div>
     <h1>
-      Jul 31st 2019
+      July 19
     </h1>
      
     <transactionitem-stub
