@@ -1,5 +1,8 @@
 <template>
-  <div class="network-item" :class="{ active: connection.network === network.id }">
+  <div
+    class="network-item"
+    :class="{ active: connection.network === network.id }"
+  >
     <div class="network-icon">
       <img :src="network.logo_url" alt="cosmic atom token" />
     </div>
