@@ -2,7 +2,7 @@
   <div>
     <template v-for="group in groupedTransactions">
       <div :key="group[0].title">
-        <h1>{{ group[0].title }}</h1>
+        <h3>{{ group[0].title }}</h3>
         <TransactionItem
           v-for="{ tx } in group"
           :key="tx.key"
