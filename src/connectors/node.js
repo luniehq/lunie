@@ -1,7 +1,7 @@
 "use strict"
 
 import Cosmos from "@lunie/cosmos-api"
-import Tendermint from "./rpcWrapper"
+import Tendermint from "./tendermint"
 
 export default function Connector(stargateUrl) {
   const cosmosClient = new Cosmos(stargateUrl, "no_address")

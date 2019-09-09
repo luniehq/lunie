@@ -1,3 +1,5 @@
+/* istanbuld ignore file: mostly websocket logic */
+
 "use strict"
 
 const camel = require(`camelcase`)
@@ -10,14 +12,16 @@ export default function tendermintConnect() {
       return this.socket && this.socket.readyState === WebSocket.OPEN
     },
     async disconnect() {
-      await this.unsubscribeAll()
+      try {
+        await this.unsubscribeAll()
+      } catch (error) {}
       this.subscriptions = []
       this.socket.close()
     },
     async connect(websocketEndpoint) {
       // if we have an existing connection, first disconnect that one
       if (this.isConnected()) {
-        this.disconnect()
+        await this.disconnect()
       }
 
       try {
@@ -27,7 +31,7 @@ export default function tendermintConnect() {
         throw error
       }
 
-      this.socket.onmessage = function(event) {
+      const handler = function(event) {
         let { id: eventId, error, result } = JSON.parse(event.data)
         const isSubscriptionEvent = eventId.indexOf("#event") !== -1
         if (isSubscriptionEvent) {
@@ -43,8 +47,9 @@ export default function tendermintConnect() {
 
           if (error) {
             subscription.reject(error)
+          } else {
+            subscription.resolve(result)
           }
-          subscription.resolve(result)
 
           // remove single subscription
           if (subscription.method !== "subscribe") {
@@ -54,6 +59,9 @@ export default function tendermintConnect() {
           }
         }
       }.bind(this)
+
+      this.socket.onmessage = handler
+      this.socket.onerror = handler
 
       this.subscriptions.forEach(subscription =>
         this.startSubscription(subscription)

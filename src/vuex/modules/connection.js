@@ -57,7 +57,6 @@ export default function({ node }) {
     reconnect({ commit, dispatch }) {
       commit("resetConnectionAttempts")
       commit("stopConnecting", false)
-      node.tendermint.disconnect()
       dispatch("connect")
     },
     async connect({ state, commit, dispatch }) {
