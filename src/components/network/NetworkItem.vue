@@ -1,12 +1,12 @@
 <template>
-  <div class="network-item">
+  <div class="network-item" :class="{ active: connection.network === network.id }">
     <div class="network-icon">
       <img :src="network.logo_url" alt="cosmic atom token" />
     </div>
     <div class="network-content">
-      <h5 class="network-title">
+      <h4 class="network-title">
         {{ network.title }}
-      </h5>
+      </h4>
       <p class="network-caption">
         {{ network.chain_id }}
       </p>
@@ -49,32 +49,34 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .network-item {
   display: flex;
   align-items: center;
-  margin-bottom: 0.5rem;
   border: 1px solid var(--bc-dim);
   background: var(--app-fg);
   width: 100%;
   position: relative;
+  padding: 0.5rem 1rem;
+  margin-bottom: 0.25rem;
+  border-bottom: 1px solid var(--bc-dim);
+  border-radius: 0.25rem;
+}
+
+.network-item:hover {
+  cursor: pointer;
+  background: var(--hover-bg);
+  color: var(--bright);
 }
 
 .network-item b {
   font-weight: 500;
 }
 
-.network-icon {
-  padding: 12px 0 12px 1rem;
-}
-
 .network-icon img {
   max-height: 100%;
   max-width: 52px;
-  border: 2px solid;
-  border-radius: 50%;
   display: block;
-  border-color: grey;
 }
 
 .network-content {
@@ -82,12 +84,13 @@ export default {
   flex-flow: column nowrap;
   justify-content: space-between;
   width: 100%;
-  padding: 1rem;
+  padding-left: 1rem;
 }
 
 .network-title {
+  font-size: 1rem;
   line-height: 18px;
-  font-size: 18px;
+  font-weight: 500;
   color: var(--bright);
 }
 
@@ -98,7 +101,7 @@ export default {
   color: var(--dim);
 }
 
-.network-status {
-  margin: auto 2rem;
+.network-selected {
+  color: var(--success);
 }
 </style>
