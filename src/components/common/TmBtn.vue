@@ -7,7 +7,11 @@
   </button>
   <button v-else
     class="button"
-    :class="{ secondary: type === `secondary`, small: size === `small` }"
+    :class="{ 
+      secondary: type === `secondary`,
+      small: size === `small`, 
+      active: type === `active` 
+    }"
     :disabled="disabled"
   >
     {{ value }}
@@ -73,12 +77,16 @@ export default {
   border-color: var(--bc-dim);
 }
 
+.button.secondary.active {
+  background: var(--primary-dark);
+}
+
 .button.secondary {
   background: var(--primary-alpha);
 }
 
 .button.secondary:hover {
-  background: var(--primary-alpha);
+  background: var(--primary-dark);
 }
 
 .button.secondary.small {
