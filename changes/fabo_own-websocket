@@ -1,0 +1,3 @@
+[Code Improvements] Use standard websockets for Tendermint @faboweb
+[Changed] Remove experimental flag from network selector @faboweb
+[Changed] Show local testnet in network selector @faboweb
