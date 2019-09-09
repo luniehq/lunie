@@ -1,0 +1,1 @@
+[Fixed] [#2963](https://github.com/cosmos/lunie/issues/2963) Increase circleci testUnit test timeout from 120 to 180 seconds @mariopino

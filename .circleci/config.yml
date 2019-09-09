@@ -76,7 +76,7 @@ jobs:
           command: |
             yarn run test:unit --coverage --maxWorkers=2
             bash <(curl -s https://codecov.io/bash)
-          no_output_timeout: 120
+          no_output_timeout: 180
 
   security:
     executor: web
