@@ -219,6 +219,8 @@ export default {
       this.amount = atoms(this.balance)
     },
     isMaxAmount() {
+      console.log(this.amount)
+      console.log(this.balance)
       return this.amount === atoms(this.balance)
     },
     bech32Validate(param) {
