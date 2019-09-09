@@ -1,15 +1,12 @@
 <template>
   <div>
-    <template v-for="dayTxs in days">
-      <div :key="getDate(dayTxs[0])">
-        <h1 v-if="getDate(dayTxs[0]) === getDate({ time: new Date() })">
-          Today
-        </h1>
-        <h1 v-else>{{ dayTxs[0] | date }}</h1>
+    <template v-for="group in groupedTransactions">
+      <div :key="group[0].title">
+        <h1>{{ group[0].title }}</h1>
         <TransactionItem
-          v-for="msg in dayTxs"
-          :key="msg.key"
-          :transaction="msg"
+          v-for="{ tx } in group"
+          :key="tx.key"
+          :transaction="tx"
           :validators="validators"
           :address="address"
         />
@@ -23,14 +20,46 @@ import TransactionItem from "./TransactionItem"
 import groupBy from "lodash.groupby"
 import moment from "moment"
 
-function getDate(tx) {
-  var dateObj = tx.time
+function parseDateString(date) {
   var month = dateObj.getUTCMonth() + 1 //months from 1-12
   var day = dateObj.getUTCDate()
   var year = dateObj.getUTCFullYear()
 
   return year + "/" + month + "/" + day
 }
+
+function stripTime(momentTime) {
+  return momentTime
+    .hours(0)
+    .minutes(0)
+    .seconds(0)
+}
+
+const categories = [
+  {
+    title: "Today",
+    matcher: tx => {
+      return stripTime(moment(tx.time)).isSame(stripTime(moment()))
+    }
+  },
+  {
+    title: "Yesterday",
+    matcher: tx => {
+      return stripTime(moment(tx.time)).isSame(
+        stripTime(moment().subtract(1, "days"))
+      )
+    }
+  },
+  {
+    title: "Last Week",
+    matcher: tx => {
+      return stripTime(moment(tx.time)).isBetween(
+        stripTime(moment().subtract(2, "days")),
+        stripTime(moment().subtract(7, "days"))
+      )
+    }
+  }
+]
 
 export default {
   name: `transaction-list`,
@@ -57,12 +86,40 @@ export default {
     }
   },
   computed: {
-    days() {
-      return groupBy(this.transactions, getDate)
+    groupedTransactions() {
+      return groupBy(this.categorizedTransactions, "title")
+    },
+    categorizedTransactions() {
+      return this.transactions.map(tx => {
+        // check if the tx is in Today, Yesterday or Last Week
+        const category = categories.find(({ matcher }) => matcher(tx))
+        if (category) {
+          return {
+            title: category.title,
+            tx
+          }
+        }
+
+        // check if tx is in a month this year
+        const date = moment(tx.time)
+        const today = moment()
+        if (date.year() === today.year()) {
+          return {
+            title: date.format("MMMM"),
+            tx
+          }
+        }
+
+        // tx is in a month another year
+        return {
+          title: date.format("MMMM YY"),
+          tx
+        }
+      })
     }
   },
   methods: {
-    getDate
+    parseDateString
   }
 }
 </script>
