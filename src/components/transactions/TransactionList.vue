@@ -21,31 +21,26 @@ import groupBy from "lodash.groupby"
 import orderBy from "lodash.orderby"
 import moment from "moment"
 
-function stripTime(momentTime) {
-  return momentTime.startOf("day") // sets the time to 12AM
-}
-
 const categories = [
   {
     title: "Today",
     matcher: tx => {
-      return stripTime(moment(tx.time)).isSame(stripTime(moment()))
+      return moment(tx.time).isSame(moment(), "day")
     }
   },
   {
     title: "Yesterday",
     matcher: tx => {
-      return stripTime(moment(tx.time)).isSame(
-        stripTime(moment().subtract(1, "days"))
-      )
+      return moment(tx.time).isSame(moment().subtract(1, "days"), "day")
     }
   },
   {
     title: "Last Week",
     matcher: tx => {
-      return stripTime(moment(tx.time)).isBetween(
-        stripTime(moment().subtract(2, "days")),
-        stripTime(moment().subtract(7, "days"))
+      return moment(tx.time).isBetween(
+        moment().subtract(2, "days"),
+        moment().subtract(7, "days"),
+        "day"
       )
     }
   }
