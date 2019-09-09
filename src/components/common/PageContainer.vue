@@ -15,7 +15,6 @@
     <main class="tm-page-main">
       <slot name="managed-body" />
     </main>
-    <PageFooter />
   </div>
 </template>
 

@@ -32,7 +32,6 @@
       </template>
       <slot />
     </main>
-    <PageFooter />
   </div>
 </template>
 
