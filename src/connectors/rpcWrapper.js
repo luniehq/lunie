@@ -1,63 +1,119 @@
 "use strict"
 
-import RpcClient from "./tendermint-ws"
+const camel = require(`camelcase`)
 
-export default function setRpcWrapper(container) {
-  const rpcWrapper = {
-    rpcInfo: {
-      connecting: false,
-      connected: true
+export default function tendermintConnect() {
+  const client = {
+    socket: undefined,
+    subscriptions: [],
+    isConnected() {
+      return this.socket && this.socket.readyState === WebSocket.OPEN
     },
-    rpcDisconnect() {
-      rpcDisconnect(container.rpc)
-      rpcWrapper.rpcInfo.connected = false
+    async disconnect() {
+      await this.unsubscribeAll()
+      this.subscriptions = []
+      this.socket.close()
     },
-    async rpcConnect(rpcURL) {
+    async connect(websocketEndpoint) {
       // if we have an existing connection, first disconnect that one
-      if (container.rpc) {
-        rpcDisconnect(container.rpc)
-        rpcWrapper.rpcInfo.connected = false
+      if (this.isConnected()) {
+        this.disconnect()
       }
 
-      const newRpc = await rpcConnect(rpcURL).catch(err => {
-        rpcWrapper.rpcInfo.connected = false
-        throw err
+      try {
+        const socket = await connect(websocketEndpoint)
+        this.socket = socket
+      } catch (error) {
+        throw error
+      }
+
+      this.socket.onmessage = function(event) {
+        let { id: eventId, error, result } = JSON.parse(event.data)
+        const isSubscriptionEvent = eventId.indexOf("#event") !== -1
+        if (isSubscriptionEvent) {
+          eventId = eventId.replace("#event", "")
+        }
+
+        const subscription = this.subscriptions.find(({ id }) => eventId === id)
+        if (subscription) {
+          if (isSubscriptionEvent) {
+            subscription.callback(result.data.value)
+            return
+          }
+
+          if (error) {
+            subscription.reject(error)
+          }
+          subscription.resolve(result)
+
+          // remove single subscription
+          if (subscription.method !== "subscribe") {
+            this.subscriptions = this.subscriptions.filter(
+              ({ id }) => eventId !== id
+            )
+          }
+        }
+      }.bind(this)
+
+      this.subscriptions.forEach(subscription =>
+        this.startSubscription(subscription)
+      )
+    },
+    subscribe(args, callback, method = "subscribe") {
+      const id = Math.random().toString(36)
+      const parameters = convertWsArgs(args)
+
+      return new Promise((resolve, reject) => {
+        const subscription = {
+          id,
+          method,
+          parameters,
+          callback,
+          resolve,
+          reject
+        }
+        this.subscriptions.push(subscription)
+
+        if (this.isConnected()) {
+          this.startSubscription(subscription)
+        }
       })
-      container.rpc = newRpc
-      rpcWrapper.rpcInfo.connected = true
+    },
+    startSubscription({ id, method, parameters }) {
+      this.socket.send(
+        JSON.stringify({
+          jsonrpc: `2.0`,
+          id,
+          method,
+          params: parameters
+        })
+      )
     }
   }
 
-  return rpcWrapper
-}
-
-function rpcDisconnect(rpc) {
-  if (!rpc || !rpc.ws) return
-
-  console.log(`removing old websocket`)
-
-  // ignore disconnect error
-  rpc.removeAllListeners(`error`)
-  rpc.on(`error`, () => {})
-
-  rpc.ws.destroy()
-}
-
-async function rpcConnect(rpcURL) {
-  const rpcHost = getHost(rpcURL)
-  const https = rpcURL.startsWith(`https`)
-
-  console.log(`init rpc with ` + rpcURL)
-  const newRpc = RpcClient(`${https ? `wss` : `ws`}://${rpcHost}`)
-
-  // we need to check immediately if the connection fails. later we will not be able to check this error
-  const connected = await checkConnection(newRpc)
-
-  if (!connected) {
-    throw new Error(`WS connection failed`)
+  for (const name of tendermintMethods) {
+    client[camel(name)] = function(args) {
+      return client.subscribe(args, undefined, name)
+    }
   }
 
-  return newRpc
+  return client
+}
+
+async function connect(websocketEndpoint) {
+  const websocketHost = getHost(websocketEndpoint)
+  const https = websocketEndpoint.startsWith(`https`)
+
+  const socket = new WebSocket(
+    `${https ? `wss` : `ws`}://${websocketHost}/websocket`
+  )
+
+  await new Promise((resolve, reject) => {
+    socket.onopen = resolve
+    socket.onclose = reject
+  })
+
+  return socket
 }
 
 function getHost(url) {
@@ -66,16 +122,51 @@ function getHost(url) {
     : url
 }
 
-// check if the rpc connection was established
-async function checkConnection(rpc) {
-  const connectionAttempt = await Promise.race([
-    new Promise(resolve => {
-      rpc.on(`error`, err => {
-        resolve({ error: err })
-      })
-    }),
-    rpc.health()
-  ])
+const tendermintMethods = [
+  `unsubscribe`,
+  `unsubscribe_all`,
 
-  return !connectionAttempt.error
+  `status`,
+  `net_info`,
+  `dial_peers`,
+  `dial_seeds`,
+  `blockchain`,
+  `genesis`,
+  `health`,
+  `block`,
+  `block_results`,
+  `blockchain`,
+  `validators`,
+  `consensus_state`,
+  `dump_consensus_state`,
+  `broadcast_tx_commit`,
+  `broadcast_tx_sync`,
+  `broadcast_tx_async`,
+  `unconfirmed_txs`,
+  `num_unconfirmed_txs`,
+  `commit`,
+  `tx`,
+  `tx_search`,
+
+  `abci_query`,
+  `abci_info`,
+
+  `unsafe_flush_mempool`,
+  `unsafe_start_cpu_profiler`,
+  `unsafe_stop_cpu_profiler`,
+  `unsafe_write_heap_profile`
+]
+
+function convertWsArgs(args = {}) {
+  for (const k in args) {
+    const v = args[k]
+    if (typeof v === `number`) {
+      args[k] = String(v)
+    } else if (Buffer.isBuffer(v)) {
+      args[k] = `0x` + v.toString(`hex`)
+    } else if (v instanceof Uint8Array) {
+      args[k] = `0x` + Buffer.from(v).toString(`hex`)
+    }
+  }
+  return args
 }

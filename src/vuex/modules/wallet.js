@@ -96,11 +96,11 @@ export default ({ node }) => {
       if (!rootState.session.address) return
       // check if we already subscribed to this rpc object
       // we need to resubscribe on rpc reconnections
-      if (state.subscribedRPC === node.rpc) return
+      if (state.subscribedRPC === node.tendermint) return
 
-      state.subscribedRPC = node.rpc
+      state.subscribedRPC = node.tendermint
 
-      subscribeToTxs(node.rpc, rootState.session.address, dispatch)
+      subscribeToTxs(node.tendermint, rootState.session.address, dispatch)
     }
   }
 
@@ -111,7 +111,7 @@ export default ({ node }) => {
   }
 }
 
-function subscribeToTxs(rpcClient, address, dispatch) {
+function subscribeToTxs(tendermint, address, dispatch) {
   function onTx(data) {
     dispatch(`queryWalletStateAfterHeight`, data.TxResult.height + 1)
   }
@@ -126,15 +126,6 @@ function subscribeToTxs(rpcClient, address, dispatch) {
   ]
 
   queries.forEach(query => {
-    rpcClient
-      .subscribe(
-        {
-          query
-        },
-        onTx
-      )
-      .catch(err => {
-        console.error(err)
-      })
+    tendermint.subscribe({ query }, onTx)
   })
 }
