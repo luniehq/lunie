@@ -4,7 +4,7 @@
     :loading="$apollo.queries.validators.loading"
     :loaded="!$apollo.queries.validators.loading"
     :error="$apollo.queries.validators.error"
-    :data-empty="validators.length === 0"
+    :data-empty="validators && validators.length === 0"
     hide-header
   >
     <template slot="managed-body">
@@ -36,7 +36,10 @@
         :validators="validators"
         show-on-mobile="expectedReturns"
       />
-      <div v-if="validators.length === 0 && searchTerm" class="no-results">
+      <div
+        v-if="validators && validators.length === 0 && searchTerm"
+        class="no-results"
+      >
         No results for these search terms
       </div>
     </template>

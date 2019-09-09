@@ -14,7 +14,9 @@ export default function tendermintConnect() {
     async disconnect() {
       try {
         await this.unsubscribeAll()
-      } catch (error) {}
+      } catch (error) {
+        // ignore error because throws if nothing to unsubscribe
+      }
       this.subscriptions = []
       this.socket.close()
     },
