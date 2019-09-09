@@ -21,10 +21,7 @@ import groupBy from "lodash.groupby"
 import moment from "moment"
 
 function stripTime(momentTime) {
-  return momentTime
-    .hours(0)
-    .minutes(0)
-    .seconds(0)
+  return momentTime.startOf("day") // sets the time to 12AM
 }
 
 const categories = [
