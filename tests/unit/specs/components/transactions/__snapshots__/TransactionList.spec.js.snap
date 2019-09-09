@@ -3,9 +3,9 @@
 exports[`TransactionList renders a list of TransactionItems 1`] = `
 <div>
   <div>
-    <h1>
+    <h3>
       July 19
-    </h1>
+    </h3>
      
     <transactionitem-stub
       address="cosmos1"
@@ -21,9 +21,9 @@ exports[`TransactionList renders a list of TransactionItems 1`] = `
     />
   </div>
   <div>
-    <h1>
+    <h3>
       Today
-    </h1>
+    </h3>
      
     <transactionitem-stub
       address="cosmos1"
