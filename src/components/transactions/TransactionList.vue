@@ -20,14 +20,6 @@ import TransactionItem from "./TransactionItem"
 import groupBy from "lodash.groupby"
 import moment from "moment"
 
-function parseDateString(date) {
-  var month = dateObj.getUTCMonth() + 1 //months from 1-12
-  var day = dateObj.getUTCDate()
-  var year = dateObj.getUTCFullYear()
-
-  return year + "/" + month + "/" + day
-}
-
 function stripTime(momentTime) {
   return momentTime
     .hours(0)
@@ -117,9 +109,11 @@ export default {
         }
       })
     }
-  },
-  methods: {
-    parseDateString
   }
 }
 </script>
+<style scoped>
+h1 {
+  padding: 1rem 0 0.5rem 1rem;
+}
+</style>
