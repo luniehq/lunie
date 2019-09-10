@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.0-beta.120] - 2019-09-10
+
+### Fixed
+
+- [#2963](https://github.com/cosmos/lunie/issues/2963) Increase circleci testUnit test timeout from 120 to 180 seconds @mariopino
+
+### Repository
+
+- [#2929](https://github.com/cosmos/lunie/issues/2929) Test the browser extension before Lunie-core releases @faboweb
+
 ## [1.0.0-beta.119] - 2019-09-08
 
 ### Added
