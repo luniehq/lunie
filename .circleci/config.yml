@@ -5,10 +5,8 @@ aliases:
   # Define paths and never think about them again
   - &WORKSPACE /tmp/voyager
   # Pick docker versions here only, then use the aliases in the executors definition
-  - &docker-node tendermintdev/voyager_node
-  - &docker-browsers tendermintdev/voyager_node_browser
-  - &docker-go circleci/golang:1.11
-  - &docker-deploy tendermintdev/website_deployment
+  - &docker-node circleci/node:10.15.3
+  - &docker-browsers circleci/node:10.15.3-browsers
 
 # reusable commands
 commands:
@@ -27,6 +25,21 @@ commands:
             - node_modules
           key: v4-dependencies-root-{{ checksum "package.json" }}
 
+  yarn-install-extension:
+    description: "[YARN] update and install"
+    steps:
+      - restore_cache:
+          keys:
+            - v1-dependencies-extension-{{ checksum "package.json" }}
+            - v1-dependencies-extension-
+
+      - run: yarn install
+      - save_cache:
+          paths:
+            - yarn.lock
+            - node_modules
+          key: v1-dependencies-extension-{{ checksum "package.json" }}
+
 # a reusable executor
 executors:
   web:
@@ -39,49 +52,51 @@ executors:
       - image: *docker-node
     working_directory: *WORKSPACE
 
-  go:
-    docker:
-      - image: *docker-go
-    working_directory: *WORKSPACE
-
-  web_deploy:
-    docker:
-      - image: *docker-deploy
-    environment:
-      BASH_ENV: /root/.bashrc
-      AWS_REGION: us-east-1
-
 jobs:
+  prep:
+    executor: web
+    steps:
+      - attach_workspace:
+          at: *WORKSPACE
+      - checkout
+      - yarn-install
+      - persist_to_workspace:
+          root: *WORKSPACE
+          paths:
+            - "*"
+
   pendingUpdated:
     executor: node
     steps:
-      - checkout
+      - attach_workspace:
+          at: *WORKSPACE
       - run: yarn add simsala
       - run: node node_modules/simsala/src/cli.js check --pending-path ./changes
 
   lint:
     executor: node
     steps:
-      - checkout
-      - yarn-install
+      - attach_workspace:
+          at: *WORKSPACE
       - run: yarn run lint
 
   testUnit:
     executor: web
     steps:
-      - checkout
-      - yarn-install
+      - attach_workspace:
+          at: *WORKSPACE
       - run:
           name: Test
           command: |
             yarn run test:unit --coverage --maxWorkers=2
             bash <(curl -s https://codecov.io/bash)
-          no_output_timeout: 120
+          no_output_timeout: 180
 
   security:
     executor: web
     steps:
-      - checkout
+      - attach_workspace:
+          at: *WORKSPACE
       - run:
           name: Audit
           command: |
@@ -103,11 +118,10 @@ jobs:
      - image: *docker-browsers
       # Secondary container image on common network. 
      - image: lunieio/testnet:v0.34.7
+    working_directory: *WORKSPACE
     steps:
-      - checkout
       - attach_workspace:
           at: *WORKSPACE
-      - yarn-install
       - run:
           # needs to be done in CI to be sure it is build once we start the tests
           name: Build for E2E test
@@ -118,6 +132,48 @@ jobs:
           no_output_timeout: 120
       - store_artifacts:
           path: ./screenshots
+          when: on_fail
+
+  testExtension:
+    docker:
+      # Primary container image where all steps run.
+     - image: *docker-browsers
+      # Secondary container image on common network which runs the testnet
+     - image: lunieio/testnet:v0.34.3
+    working_directory: *WORKSPACE
+    steps:
+      - run:
+          name: Avoid hosts unknown for github
+          command: mkdir ~/.ssh/ && echo -e "Host github.com\n\tStrictHostKeyChecking no\n" > ~/.ssh/config
+      - run:
+          name: Checkout Extension
+          command: |
+            git clone git@github.com:luniehq/lunie-browser-extension.git .
+      - attach_workspace:
+          at: /tmp/voyager/lunie
+      - yarn-install-extension
+      - setup_remote_docker
+      - run:
+          name: Build
+          command: |
+            npm run build:dev
+            node ./scripts/add-pem-key.js
+            cd lunie
+            npm run test:e2e:build
+            yarn certificates
+      - run:
+          name: Install Chrome
+          command: |
+            wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
+            sudo sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list'
+            sudo apt-get update
+            sudo apt-get -y install google-chrome-stable
+      - run:
+          name: Test
+          command: npm run test:e2e:start-lunie & yarn test:e2e
+          no_output_timeout: 120
+      - store_artifacts:
+          path: ./screenshots_extension
           when: on_fail
 
   # Create release.
@@ -151,8 +207,12 @@ workflows:
   version: 2
   test:
     jobs:
+      - prep
+
       # Static checks before
       - pendingUpdated:
+          requires:
+            - prep
           filters:
             branches:
               ignore: 
@@ -162,26 +222,38 @@ workflows:
                 - /release-candidate.*/
 
       - security:
+          requires:
+            - prep
           filters:
             branches:
               ignore: release
 
       - lint:
+          requires:
+            - prep
           filters:
             branches:
               ignore: release
 
       - testUnit:
+          requires:
+            - prep
           filters:
             branches:
               ignore: release
 
       - testE2e:
+          requires:
+            - prep
           filters:
             branches:
               ignore:
                 - release
                 - master
+
+      - testExtension:
+          requires:
+            - prep
 
   # Every UTC midnight we go on develop and release
   release:
