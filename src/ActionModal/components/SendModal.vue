@@ -272,7 +272,7 @@ export default {
 }
 
 .form-message.empty {
-  margin: 2rem 0;
-  padding: 2rem;
+  margin: 1rem 0 0 0;
+  padding: 1.8rem;
 }
 </style>
