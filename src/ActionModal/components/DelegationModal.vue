@@ -210,9 +210,9 @@ export default {
     },
     setMaxAmount() {
       this.amount = atoms(this.balance)
-    },   
+    },
     isMaxAmount() {
-      return this.amount === atoms(this.balance)
+      return parseFloat(this.amount) === parseFloat(atoms(this.balance))
     },
     enterPressed() {
       this.$refs.actionModal.validateChangeStep()
