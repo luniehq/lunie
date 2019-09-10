@@ -89,6 +89,7 @@
       <p v-if="isMaxAmount() && !isRedelegation()" class="form-message notice">
         You are about to use all your tokens for this transaction. Consider leaving a little bit left over to cover the network fees.
       </p>
+      <p v-else class="form-message empty"></p>
     </TmFormGroup>
   </ActionModal>
 </template>

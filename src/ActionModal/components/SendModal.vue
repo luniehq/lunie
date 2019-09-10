@@ -267,12 +267,4 @@ export default {
   margin-top: 1.5rem;
 }
 
-.form-message.notice {
-  margin: 1rem 0 0 0;
-}
-
-.form-message.empty {
-  margin: 1rem 0 0 0;
-  padding: 2.2rem;
-}
 </style>
