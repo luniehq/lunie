@@ -22,6 +22,11 @@
             name="Your Cosmos Address"
             type="bech32"
           />
+          <TmFormMsg
+            v-else-if="$v.address.isValidatorAddress"
+            name="Your Cosmos Address"
+            type="validator"
+          />          
         </TmFormGroup>
       </div>
       <div class="session-footer">
