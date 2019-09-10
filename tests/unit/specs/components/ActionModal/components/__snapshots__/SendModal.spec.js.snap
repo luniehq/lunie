@@ -71,7 +71,9 @@ exports[`SendModal should display send modal form 1`] = `
       type="custom"
     />
      
-    <!---->
+    <p
+      class="form-message empty"
+    />
   </tmformgroup-stub>
    
   <tmbtn-stub
@@ -156,7 +158,9 @@ exports[`SendModal validation should show address required error 1`] = `
      
     <!---->
      
-    <!---->
+    <p
+      class="form-message empty"
+    />
   </tmformgroup-stub>
    
   <tmbtn-stub
@@ -241,7 +245,9 @@ exports[`SendModal validation should show bech32 error when address length is to
      
     <!---->
      
-    <!---->
+    <p
+      class="form-message empty"
+    />
   </tmformgroup-stub>
    
   <tmbtn-stub
@@ -326,7 +332,9 @@ exports[`SendModal validation should show bech32 error when address length is to
      
     <!---->
      
-    <!---->
+    <p
+      class="form-message empty"
+    />
   </tmformgroup-stub>
    
   <tmbtn-stub
@@ -414,7 +422,9 @@ exports[`SendModal validation should show bech32 error when alphanumeric is wron
       type="custom"
     />
      
-    <!---->
+    <p
+      class="form-message empty"
+    />
   </tmformgroup-stub>
    
   <tmbtn-stub
