@@ -745,7 +745,7 @@ export default {
 .form-message.empty {
   display: block;
   margin: 1rem 0 0 0;
-  padding: 2.2rem;
+  padding: 2.38rem;
 }
 
 .slide-fade-enter-active {
