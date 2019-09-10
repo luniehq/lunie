@@ -76,6 +76,14 @@ export default {
       } catch (error) {
         return false
       }
+    },
+    isValidatorAddress(param) {
+      console.log(param.substring(0, 13));
+      if (param.substring(0, 13) === 'cosmosvaloper') {
+        return true
+      } else {
+        return false
+      }
     }
   },
   validations() {
