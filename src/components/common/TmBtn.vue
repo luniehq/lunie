@@ -131,4 +131,8 @@ export default {
   border-color: var(--bc-dim);
 }
 
+.input-suffix {
+  right: 124px;
+}
+
 </style>
