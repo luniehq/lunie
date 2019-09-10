@@ -220,7 +220,7 @@ describe(`Module: Wallet`, () => {
       jest.useFakeTimers()
 
       const node = {
-        rpc: {
+        tendermint: {
           subscribe: jest.fn((_, cb) => {
             //query is param
             cb({ TxResult: { height: -1 } })
@@ -248,7 +248,7 @@ describe(`Module: Wallet`, () => {
       jest.spyOn(console, "error").mockImplementation(() => {})
 
       const node = {
-        rpc: {
+        tendermint: {
           subscribe: jest.fn(() => {
             return Promise.reject("Expected")
           })
