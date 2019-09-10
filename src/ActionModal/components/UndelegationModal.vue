@@ -44,7 +44,8 @@
           @keyup.enter.native="enterPressed"
         />
         <TmBtn
-          type="addon-max"
+          type="button"
+          class="secondary addon-max"
           value="Set Max"
           @click.native="setMaxAmount()"
         />

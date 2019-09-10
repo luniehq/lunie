@@ -1,11 +1,5 @@
 <template>
-  <button v-if="type === `addon-max`"
-    class="addon-max"
-    :disabled="disabled"
-  >
-    {{ value }}
-  </button>
-  <button v-else
+  <button
     class="button"
     :class="{ secondary: type === `secondary`, small: size === `small` }"
     :disabled="disabled"
