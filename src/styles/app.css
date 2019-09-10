@@ -102,15 +102,6 @@ input.tm-field {
   border-radius: 2px;
 }
 
-.form-message.notice {
-  margin: 1rem 0 0 0;
-}
-
-.form-message.empty {
-  margin: 1rem 0 0 0;
-  padding: 2.2rem;
-}
-
 .field-checkbox-label {
   display: block;
   padding-left: 1.5rem;

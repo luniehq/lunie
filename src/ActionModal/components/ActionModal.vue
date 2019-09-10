@@ -734,11 +734,18 @@ export default {
   border: 1px solid var(--bc-dim);
   background-color: #1c223e;
   font-weight: 300;
-  margin: 2rem 0;
+  display: block;
+  margin: 1rem 0 0 0;
   padding: 1rem 1rem;
   font-size: 14px;
   font-style: normal;
   width: 100%;
+}
+
+.form-message.empty {
+  display: block;
+  margin: 1rem 0 0 0;
+  padding: 2.2rem;
 }
 
 .slide-fade-enter-active {
