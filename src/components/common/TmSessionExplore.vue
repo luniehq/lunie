@@ -83,7 +83,6 @@ export default {
       }
     },
     isNotValidatorAddress(param) {
-      console.log(param.substring(0, 13))
       if (param.substring(0, 13) !== "cosmosvaloper") {
         return true
       } else {
