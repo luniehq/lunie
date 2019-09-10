@@ -210,7 +210,7 @@ export default {
     },
     setMaxAmount() {
       this.amount = atoms(this.balance)
-    },
+    },   
     isMaxAmount() {
       return this.amount === atoms(this.balance)
     },
