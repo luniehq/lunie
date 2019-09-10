@@ -23,7 +23,7 @@
             type="bech32"
           />
           <TmFormMsg
-            v-else-if="$v.address.isValidatorAddress"
+            v-else-if="$v.address.$error && !$v.address.isNotValidatorAddress"
             name="Your Cosmos Address"
             type="validator"
           />          
@@ -82,9 +82,9 @@ export default {
         return false
       }
     },
-    isValidatorAddress(param) {
+    isNotValidatorAddress(param) {
       console.log(param.substring(0, 13))
-      if (param.substring(0, 13) === "cosmosvaloper") {
+      if (param.substring(0, 13) !== "cosmosvaloper") {
         return true
       } else {
         return false
@@ -93,7 +93,7 @@ export default {
   },
   validations() {
     return {
-      address: { required, bech32Validate: this.bech32Validate }
+      address: { required, bech32Validate: this.bech32Validate, isNotValidatorAddress: this.isNotValidatorAddress }
     }
   }
 }
