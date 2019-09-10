@@ -4,10 +4,13 @@
 
 const camel = require(`camelcase`)
 
+const connectionTimeoutInterval = 5000
+
 export default function tendermintConnect() {
   const client = {
     socket: undefined,
     subscriptions: [],
+    ondisconnect: undefined,
     isConnected() {
       return this.socket && this.socket.readyState === WebSocket.OPEN
     },
@@ -65,9 +68,21 @@ export default function tendermintConnect() {
       this.socket.onmessage = handler
       this.socket.onerror = handler
 
+      // poll websocket connection
+      setInterval(() => this.pollConnection(), connectionTimeoutInterval * 6)
+
       this.subscriptions.forEach(subscription =>
         this.startSubscription(subscription)
       )
+    },
+    pollConnection() {
+      let connectionTimeout = setTimeout(
+        function() {
+          if (this.ondisconnect) this.ondisconnect()
+        }.bind(this),
+        connectionTimeoutInterval
+      )
+      this.health().then(() => clearTimeout(connectionTimeout))
     },
     subscribe(args, callback, method = "subscribe") {
       const id = Math.random().toString(36)

@@ -76,6 +76,10 @@ export default function({ node }) {
       commit(`setConnected`, false)
       try {
         await node.tendermint.connect(rpcUrl)
+        node.tendermint.ondisconnect = () => {
+          commit(`setConnected`, false)
+          dispatch(`connect`)
+        }
         commit(`setConnected`, true)
         dispatch(`reconnected`)
         dispatch(`rpcSubscribe`)
@@ -102,17 +106,6 @@ export default function({ node }) {
       }
 
       commit(`setConnected`, true)
-
-      // TODO: get event from light-client websocket instead of RPC connection (once that exists)
-      // node.rpc.on(`error`, error => {
-      //   if (
-      //     error instanceof Event || // this is always a disconnect, strange that it is 2 different types
-      //     error.message.indexOf(`disconnected`) !== -1
-      //   ) {
-      //     commit(`setConnected`, false)
-      //     dispatch(`connect`)
-      //   }
-      // })
 
       node.tendermint.status().then(status => {
         dispatch(`setLastHeader`, {

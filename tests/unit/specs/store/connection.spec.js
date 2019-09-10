@@ -289,36 +289,6 @@ describe(`Module: Connection`, () => {
     jest.runAllTimers()
   })
 
-  it(`should continue polling the connection status`, async () => {
-    const dispatch = jest.fn()
-    jest.useFakeTimers()
-    await actions.pollRPCConnection({
-      state,
-      dispatch
-    })
-    jest.runOnlyPendingTimers()
-    expect(dispatch).toHaveBeenCalledWith(`pollRPCConnection`)
-  })
-
-  it(`should signal if the rpc connection times out`, async () => {
-    jest.spyOn(console, `error`).mockImplementationOnce(() => {})
-    const dispatch = jest.fn()
-    const commit = jest.fn()
-    jest.useFakeTimers()
-    await actions.pollRPCConnection({
-      state: Object.assign({}, state, {
-        externals: {
-          health: jest.fn().mockRejectedValueOnce(new Error(`expected`))
-        }
-      }),
-      commit,
-      dispatch
-    })
-    jest.runOnlyPendingTimers()
-    expect(commit).toHaveBeenCalledWith(`setConnected`, false)
-    expect(dispatch).toHaveBeenCalledWith(`connect`)
-  })
-
   it(`should not subscribe if stopConnecting active`, () => {
     state.stopConnecting = true
     actions.rpcSubscribe({
