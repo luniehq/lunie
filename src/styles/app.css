@@ -90,7 +90,6 @@ input.tm-field {
 }
 
 .input-suffix-denom {
-  background: var(--bc-dim);
   display: inline-block;
   position: absolute;
   padding: 7px 8px;
