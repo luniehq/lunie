@@ -89,6 +89,20 @@ input.tm-field {
   border-radius: 2px;
 }
 
+.input-suffix-denom {
+  background: var(--bc-dim);
+  display: inline-block;
+  position: absolute;
+  padding: 7px 8px;
+  font-size: var(--sm);
+  text-transform: uppercase;
+  right: 124px;
+  letter-spacing: 1px;
+  text-align: right;
+  font-weight: 500;
+  border-radius: 2px;
+}
+
 .field-checkbox-label {
   display: block;
   padding-left: 1.5rem;

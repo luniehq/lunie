@@ -131,18 +131,4 @@ export default {
   border-color: var(--bc-dim);
 }
 
-.input-suffix-denom {
-  background: var(--bc-dim);
-  display: inline-block;
-  position: absolute;
-  padding: 7px 8px;
-  font-size: var(--sm);
-  text-transform: uppercase;
-  right: 124px;
-  letter-spacing: 1px;
-  text-align: right;
-  font-weight: 500;
-  border-radius: 2px;
-}
-
 </style>
