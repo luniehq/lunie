@@ -217,8 +217,8 @@ input[type="checkbox"] {
   padding: 0.1875rem 0.5rem;
   width: 100%;
   -webkit-appearance: none;
-  border-top-left-radius: .25rem!important;
-  border-bottom-left-radius: .25rem!important;
+  border-top-left-radius: 0.25rem !important;
+  border-bottom-left-radius: 0.25rem !important;
   border-top-right-radius: 0 !important;
   border-bottom-right-radius: 0 !important;
 }
