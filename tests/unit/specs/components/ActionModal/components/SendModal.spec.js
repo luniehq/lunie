@@ -191,8 +191,8 @@ describe(`SendModal`, () => {
       wrapper.vm.setMaxAmount()
       expect(wrapper.vm.amount).toBe(10000)
       await wrapper.vm.$nextTick()
-      expect(wrapper.find(".max-notice").text()).toBe(
-        "You are about to use all your tokens for this transaction. Consider leaving a little bit left over to cover the network fees."
+      expect(wrapper.find(".max-notice").text()).toContain(
+        "You are about to use all your tokens for this transaction."
       )
     })
   })
