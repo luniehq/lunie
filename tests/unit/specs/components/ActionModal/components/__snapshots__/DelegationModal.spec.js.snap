@@ -75,7 +75,9 @@ exports[`DelegationModal should display the delegation modal form 1`] = `
      
     <!---->
      
-    <!---->
+    <p
+      class="form-message empty"
+    />
   </tmformgroup-stub>
 </actionmodal-stub>
 `;
