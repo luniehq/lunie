@@ -92,6 +92,11 @@ describe(`TmFormMsg`, () => {
       error: `Address is invalid bech32`
     },
     {
+      type: `validator`,
+      name: `Address`,
+      error: `Address is a validator address`
+    },    
+    {
       type: `integer`,
       name: `Number`,
       error: `Number must be an integer`
