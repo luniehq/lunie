@@ -19,10 +19,7 @@ describe(`Module: Connection`, () => {
         ),
         health: jest.fn(),
         subscribe: jest.fn(),
-        connect: jest.fn(() => {
-          node.rpcInfo.connected = true
-          return Promise.resolve()
-        }),
+        connect: jest.fn(),
         disconnect: jest.fn(),
         isConnected: () => true
       }
@@ -162,8 +159,8 @@ describe(`Module: Connection`, () => {
   it(`reacts to rpc disconnection with reconnect`, async () => {
     const commit = jest.fn()
     const dispatch = jest.fn()
-    await actions.rpcSubscribe({
-      rootState: { session: { signedIn: true } },
+    await actions.connect({
+      state,
       commit,
       dispatch
     })
@@ -259,26 +256,6 @@ describe(`Module: Connection`, () => {
       chain_id: `test-net2`,
       validators_hash: `abcd`
     })
-  })
-
-  it(`should trigger reconnection if it started disconnected`, async done => {
-    jest.useFakeTimers()
-
-    node.tendermint.isDisconnected = () => false
-
-    const dispatch = jest.fn()
-    actions
-      .rpcSubscribe({
-        rootState: { session: { signedIn: true } },
-        state,
-        commit: jest.fn(),
-        dispatch
-      })
-      .then(() => {
-        expect(dispatch).toHaveBeenCalledWith(`connect`)
-        done()
-      })
-    jest.runAllTimers()
   })
 
   it(`should not subscribe if stopConnecting active`, () => {

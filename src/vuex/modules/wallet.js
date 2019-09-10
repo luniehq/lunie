@@ -92,7 +92,7 @@ export default ({ node }) => {
         }, 1000)
       })
     },
-    walletSubscribe({ rootState, dispatch }) {
+    async walletSubscribe({ state, rootState, dispatch }) {
       if (!rootState.session.address) return
       // check if we already subscribed to this rpc object
       // we need to resubscribe on rpc reconnections
@@ -100,7 +100,15 @@ export default ({ node }) => {
 
       state.subscribedRPC = node.tendermint
 
-      subscribeToTxs(node.tendermint, rootState.session.address, dispatch)
+      try {
+        await subscribeToTxs(
+          node.tendermint,
+          rootState.session.address,
+          dispatch
+        )
+      } catch (error) {
+        state.error = error
+      }
     }
   }
 
@@ -125,7 +133,7 @@ function subscribeToTxs(tendermint, address, dispatch) {
     `tm.event = 'Tx' AND voter = '${address}'`
   ]
 
-  queries.forEach(query => {
-    tendermint.subscribe({ query }, onTx)
-  })
+  return Promise.all(
+    queries.map(query => tendermint.subscribe({ query }, onTx))
+  )
 }

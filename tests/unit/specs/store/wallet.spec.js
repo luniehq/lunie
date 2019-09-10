@@ -235,6 +235,7 @@ describe(`Module: Wallet`, () => {
       const dispatch = jest.fn()
 
       await actions.walletSubscribe({
+        state,
         rootState: { session: { address: `x` } },
         dispatch
       })
@@ -260,6 +261,7 @@ describe(`Module: Wallet`, () => {
       const dispatch = jest.fn()
 
       await actions.walletSubscribe({
+        state,
         rootState: { session: { address: `x` } },
         dispatch
       })
