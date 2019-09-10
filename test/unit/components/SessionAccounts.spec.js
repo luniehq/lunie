@@ -42,7 +42,7 @@ describe(`SessionAccounts`, () => {
     window.open = openFn
     wrapper.vm.goToLunie()
     expect(openFn).toHaveBeenCalledWith(
-      'https://lunie.io/#/extension',
+      'https://app.lunie.io/#/extension',
       '_blank',
       'noreferrer noopener'
     )

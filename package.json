@@ -27,7 +27,7 @@
     "test:e2e:start-lunie": "cd ./lunie && npm run serve:dist",
     "test:e2e": "nightwatch --config ./test/e2e/nightwatch.conf.js",
     "test:coverage": "live-server test/unit/coverage/lcov-report",
-    "log": "simsala log",
+    "changelog": "simsala log",
     "release": "git checkout develop & git pull & git push origin develop:release"
   },
   "husky": {

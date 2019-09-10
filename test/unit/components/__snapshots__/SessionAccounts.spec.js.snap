@@ -8,17 +8,20 @@ exports[`SessionAccounts has the expected html structure 1`] = `
     class="session-container"
   >
     <div
-      class="session-header"
+      class="accounts-header"
     >
       <h2
         class="session-title"
       >
-        My accounts
+        <img
+          class="lunie-logo"
+          src="../images/lunie-logo-white.svg"
+        />
       </h2>
        
       <p>
         
-        You can use the accounts below to explore Lunie.io and to approve
+        You can use the account(s) below to explore Lunie.io and to approve
         transactions.
       
       </p>
@@ -34,15 +37,12 @@ exports[`SessionAccounts has the expected html structure 1`] = `
       />
     </div>
      
-    <div
-      class="session-footer"
+    <router-link-stub
+      class="back-link"
+      to="/welcome"
     >
-      <router-link-stub
-        to="/welcome"
-      >
-        Want to add another account?
-      </router-link-stub>
-    </div>
+      Want to add another account?
+    </router-link-stub>
   </div>
 </sessionframe-stub>
 `;
