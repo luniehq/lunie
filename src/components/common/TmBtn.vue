@@ -98,7 +98,7 @@ export default {
   font-family: var(--sans);
   font-size: 14px;
   font-weight: 400;
-  padding: 5px 16px;
+  padding: 4px 16px;
   min-width: 100px;
   color: var(--bright);
   margin: 0;
