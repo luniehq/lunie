@@ -78,8 +78,8 @@ export default {
       }
     },
     isValidatorAddress(param) {
-      console.log(param.substring(0, 13));
-      if (param.substring(0, 13) === 'cosmosvaloper') {
+      console.log(param.substring(0, 13))
+      if (param.substring(0, 13) === "cosmosvaloper") {
         return true
       } else {
         return false
