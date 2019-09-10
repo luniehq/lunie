@@ -1,4 +1,3 @@
-import { sleep } from "scripts/common"
 import Vue from "vue"
 import config from "src/config"
 
