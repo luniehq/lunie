@@ -78,7 +78,7 @@ jobs:
     steps:
       - attach_workspace:
           at: *WORKSPACE
-      - run: yarn run lint
+      - run: yarn run lint --max-warnings 0
 
   testUnit:
     executor: web
