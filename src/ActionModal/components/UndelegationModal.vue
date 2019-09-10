@@ -32,7 +32,7 @@
       field-id="amount"
       field-label="Amount"
     >
-      <span class="input-suffix">{{ num.viewDenom(denom) }}</span>
+      <span class="input-suffix-denom">{{ num.viewDenom(denom) }}</span>
       <TmFieldGroup>
         <TmField
           id="amount"

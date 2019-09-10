@@ -104,8 +104,8 @@ export default {
   margin: 0;
   border-top-left-radius: 0 !important;
   border-bottom-left-radius: 0 !important;
-  border-top-right-radius: .25rem !important;
-  border-bottom-right-radius: .25rem !important;
+  border-top-right-radius: 0.25rem !important;
+  border-bottom-right-radius: 0.25rem !important;
   cursor: pointer;
   background: var(--primary);
   border: 2px solid var(--primary);
@@ -131,8 +131,18 @@ export default {
   border-color: var(--bc-dim);
 }
 
-.input-suffix {
+.input-suffix-denom {
+  background: var(--bc-dim);
+  display: inline-block;
+  position: absolute;
+  padding: 7px 8px;
+  font-size: var(--sm);
+  text-transform: uppercase;
   right: 124px;
+  letter-spacing: 1px;
+  text-align: right;
+  font-weight: 500;
+  border-radius: 2px;
 }
 
 </style>
