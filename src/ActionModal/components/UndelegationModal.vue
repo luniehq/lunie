@@ -171,7 +171,7 @@ export default {
     },
     setMaxAmount() {
       this.amount = this.maximum
-    },      
+    },
     enterPressed() {
       this.$refs.actionModal.validateChangeStep()
     }
