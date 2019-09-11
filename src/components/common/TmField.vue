@@ -192,33 +192,31 @@ input[type="checkbox"] {
 }
 
 .tm-field {
-  background: var(--input-bg, #fff);
-  border: 1px solid var(--input-bc, #ccc);
+  background: var(--input-bg);
+  border: 2px solid var(--input-bc);
   border-radius: 0;
   color: var(--txt, #333);
   display: block;
-  font-size: 16px;
-  line-height: 1.5rem;
+  font-size: 14px;
   min-width: 0;
-  padding: 0.1875rem 0.5rem;
+  padding: 0.5rem 0.5rem;
   width: 100%;
   -webkit-appearance: none;
 }
 
 .tm-field-addon {
-  background: var(--input-bg, #fff);
-  border: 1px solid var(--input-bc, #ccc);
+  background: var(--input-bg);
+  border: 2px solid var(--input-bc);
   border-radius: 0;
-  color: var(--txt, #333);
+  color: var(--txt);
   display: block;
-  font-size: 16px;
-  line-height: 1.5rem;
+  font-size: 14px;
   min-width: 0;
-  padding: 0.1875rem 0.5rem;
+  padding: 0.5rem 0.5rem;
   width: 100%;
   -webkit-appearance: none;
-  border-top-left-radius: .25rem!important;
-  border-bottom-left-radius: .25rem!important;
+  border-top-left-radius: 0.25rem !important;
+  border-bottom-left-radius: 0.25rem !important;
   border-top-right-radius: 0 !important;
   border-bottom-right-radius: 0 !important;
 }
@@ -228,15 +226,15 @@ input[type="checkbox"] {
 }
 
 .tm-field:disabled {
-  background: var(--app-fg, #eee);
-  border: var(--app-fg, #eee);
+  background: var(--app-fg);
+  border: var(--app-fg);
   box-shadow: none;
-  color: var(--dim, #666);
+  color: var(--dim);
   text-shadow: none;
 }
 
 .tm-field:focus {
-  border: 1px solid var(--link, #00f);
+  border: 2px solid var(--link);
   box-shadow: none;
   outline: none;
 }
@@ -251,7 +249,7 @@ textarea.tm-field {
 }
 
 .tm-toggle {
-  border: 1px solid var(--input-bc, #ccc);
+  border: 2px solid var(--input-bc);
   border-radius: 1rem;
   height: 2rem;
   padding: 0 2px;
@@ -279,13 +277,13 @@ textarea.tm-field {
 }
 
 .tm-toggle .tm-toggle-wrapper::before {
-  background: var(--success, #4acf4a);
+  background: var(--success);
   border-radius: 1em 0 0 1em;
   left: calc((-1.625rem / 2));
 }
 
 .tm-toggle .tm-toggle-wrapper::after {
-  background: var(--danger, #8c8fa6);
+  background: var(--danger);
   border-radius: 0 1em 1em 0;
   right: calc((-1.625rem / 2));
 }
@@ -311,19 +309,19 @@ textarea.tm-field {
 }
 
 .tm-toggle .tm-toggle-wrapper .toggle-option-checked {
-  background: var(--success, #4acf4a);
+  background: var(--success);
   left: 0;
   width: 100%;
 }
 
 .tm-toggle .tm-toggle-wrapper .toggle-option-unchecked {
-  background: var(--danger, #8c8fa6);
+  background: var(--danger);
   right: 0;
   width: 0%;
 }
 
 .tm-toggle .tm-toggle-wrapper .toggle-handle::after {
-  background: var(--grey, #d4d5de);
+  background: var(--grey);
   border-radius: 1rem;
   content: "";
   height: 1.625rem;
@@ -377,8 +375,8 @@ textarea.tm-field {
 
 .tm-select .tm-field-select-addon {
   align-items: center;
-  background: var(--input-bg, #fff);
-  border-left: 1px solid var(--input-bc, #ccc);
+  background: var(--input-bg);
+  border-left: 1px solid var(--input-bc);
   box-sizing: border-box;
   color: var(--txt, #333);
   display: flex;
@@ -393,10 +391,10 @@ textarea.tm-field {
 }
 
 .input-group-addon {
-  background: var(--input-bg, #fff);
-  border: 1px solid var(--input-bc, #ccc);
+  background: var(--input-bg);
+  border: 2px solid var(--input-bc);
   border-left: none;
-  color: var(--txt, #333);
+  color: var(--txt);
   font-size: 0.75rem;
   line-height: 1.875rem;
   padding: 0 0.5rem;

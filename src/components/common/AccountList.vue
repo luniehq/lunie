@@ -48,7 +48,7 @@ export default {
 
 .account {
   display: flex;
-  flex-flow: row;
+  align-items: center;
   justify-content: space-between;
   padding: 0.5rem 1rem;
   background: var(--app-fg);
@@ -58,10 +58,20 @@ export default {
 
 .account h3 {
   color: var(--bright);
+  font-weight: 500;
+  font-size: 14px;
 }
 
 .account-info {
   display: flex;
   flex-direction: column;
+}
+
+.account-button {
+  padding: 0.25rem 0.5rem;
+}
+
+.bech32-address {
+  font-size: 14px;
 }
 </style>

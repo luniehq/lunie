@@ -107,7 +107,7 @@ describe(`DelegationModal`, () => {
       wrapper.vm.setMaxAmount()
       expect(wrapper.vm.amount).toBe(1000)
     })
-  })  
+  })
 
   describe(`validation`, () => {
     describe(`fails`, () => {
@@ -128,7 +128,7 @@ describe(`DelegationModal`, () => {
       })
     })
   })
-  
+
   describe("Submission Data for Delegating", () => {
     beforeEach(() => {
       wrapper.setData({
