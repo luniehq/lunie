@@ -76,10 +76,11 @@ export default {
     categorizedTransactions() {
       return this.transactions.map(tx => {
         // check if the tx is in Today, Yesterday or Last Week
+        const dateString = ` (` + moment(tx.time).format("MMMM Do") + `)`
         const category = categories.find(({ matcher }) => matcher(tx))
         if (category) {
           return {
-            title: category.title,
+            title: category.title + dateString,
             tx
           }
         }
@@ -89,14 +90,14 @@ export default {
         const today = moment()
         if (date.year() === today.year()) {
           return {
-            title: date.format("MMMM"),
+            title: date.format("MMMM Do"),
             tx
           }
         }
 
         // tx is in a month another year
         return {
-          title: date.format("MMMM YY"),
+          title: date.format("MMMM Do, YYYY"),
           tx
         }
       })
@@ -105,7 +106,10 @@ export default {
 }
 </script>
 <style scoped>
-h1 {
-  padding: 1rem 0 0.5rem 1rem;
+h3 {
+  margin: 2rem 0 0.25rem 1rem;
+  color: var(--dim);
+  font-size: var(--sm);
+  font-weight: 500;
 }
 </style>
