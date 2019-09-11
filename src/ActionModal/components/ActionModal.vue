@@ -456,7 +456,7 @@ export default {
         )
         if (confirmResult) {
           this.session.currrentModalOpen.close()
-          this.$store.commit(`setcurrrentModalOpen`, false)
+          this.$store.commit(`setCurrrentModalOpen`, false)
         }
       }
     },
@@ -466,14 +466,14 @@ export default {
         return
       }
 
-      this.$store.commit(`setcurrrentModalOpen`, this)
+      this.$store.commit(`setCurrrentModalOpen`, this)
       this.trackEvent(`event`, `modal`, this.title)
       this.checkFeatureAvailable()
       this.gasPrice = config.default_gas_price.toFixed(9)
       this.show = true
     },
     close() {
-      this.$store.commit(`setcurrrentModalOpen`, false)
+      this.$store.commit(`setCurrrentModalOpen`, false)
       this.submissionError = null
       this.password = null
       this.step = defaultStep

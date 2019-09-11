@@ -74,7 +74,7 @@ export default () => {
     pauseHistory(state, paused) {
       state.pauseHistory = paused
     },
-    setcurrrentModalOpen(state, modal) {
+    setCurrrentModalOpen(state, modal) {
       state.currrentModalOpen = modal
     }
   }
