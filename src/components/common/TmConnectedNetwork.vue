@@ -167,4 +167,10 @@ export default {
   border-radius: 50%;
   background: var(--success);
 }
+
+@media screen and (max-width: 767px) {
+  .sidebar-bottom {
+    max-width: 100%;
+  }
+}
 </style>
