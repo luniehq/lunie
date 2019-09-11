@@ -2,7 +2,7 @@
   <transition v-if="show" name="slide-fade">
     <div v-focus-last class="action-modal" tabindex="0" @keyup.esc="close">
       <div
-        v-if="step === feeStep || step === signStep"
+        v-if="(step === feeStep || step === signStep) && !sending"
         id="prevBtn"
         class="action-modal-icon action-modal-prev"
         @click="previousStep"
