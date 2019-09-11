@@ -450,30 +450,30 @@ export default {
   methods: {
     confirmModalOpen() {
       let confirmResult = false
-      if (this.session.curModalOpen) {
+      if (this.session.currrentModalOpen) {
         confirmResult = window.confirm(
           "You are in the middle of an action already. Would you like to close it?"
         )
         if (confirmResult) {
-          this.session.curModalOpen.close()
-          this.$store.commit(`setCurModalOpen`, false)
+          this.session.currrentModalOpen.close()
+          this.$store.commit(`setcurrrentModalOpen`, false)
         }
       }
     },
     open() {
       this.confirmModalOpen()
-      if (this.session.curModalOpen) {
+      if (this.session.currrentModalOpen) {
         return
       }
 
-      this.$store.commit(`setCurModalOpen`, this)
+      this.$store.commit(`setcurrrentModalOpen`, this)
       this.trackEvent(`event`, `modal`, this.title)
       this.checkFeatureAvailable()
       this.gasPrice = config.default_gas_price.toFixed(9)
       this.show = true
     },
     close() {
-      this.$store.commit(`setCurModalOpen`, false)
+      this.$store.commit(`setcurrrentModalOpen`, false)
       this.submissionError = null
       this.password = null
       this.step = defaultStep
