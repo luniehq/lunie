@@ -452,7 +452,7 @@ export default {
       let confirmResult = false
       if (this.session.currrentModalOpen) {
         confirmResult = window.confirm(
-          "You are in the middle of an action already. Would you like to close it?"
+          "You are in the middle of creating a transaction already. Are you sure you want to cancel this action?"
         )
         if (confirmResult) {
           this.session.currrentModalOpen.close()
