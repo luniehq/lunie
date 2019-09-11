@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.0-beta.121] - 2019-09-11
+
+### Repository
+
+- Prevent checkin of code with lint warnings (before only errors) @faboweb
+
 ## [1.0.0-beta.120] - 2019-09-10
 
 ### Fixed
