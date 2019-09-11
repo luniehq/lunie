@@ -10,6 +10,7 @@
     "
   >
     <td>{{ index + 1 }}</td>
+    <td>Status: {{ validator.status }} Jailed: {{ validator.jailed }}</td>
     <td class="data-table__row__info">
       <Avatar
         v-if="!validator || !validator.avatarUrl"
