@@ -448,13 +448,32 @@ export default {
     }
   },
   methods: {
+    confirmModalOpen() {
+      let confirmResult = false
+      if (this.session.curModalOpen) {
+        confirmResult = window.confirm(
+          "You are in the middle of an action already. Would you like to close it?"
+        )
+        if (confirmResult) {
+          this.session.curModalOpen.close()
+          this.$store.commit(`setCurModalOpen`, false)
+        }
+      }
+    },
     open() {
+      this.confirmModalOpen()
+      if (this.session.curModalOpen) {
+        return
+      }
+
+      this.$store.commit(`setCurModalOpen`, this)
       this.trackEvent(`event`, `modal`, this.title)
       this.checkFeatureAvailable()
       this.gasPrice = config.default_gas_price.toFixed(9)
       this.show = true
     },
     close() {
+      this.$store.commit(`setCurModalOpen`, false)
       this.submissionError = null
       this.password = null
       this.step = defaultStep
