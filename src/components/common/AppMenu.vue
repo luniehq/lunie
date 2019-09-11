@@ -69,7 +69,7 @@
       </router-link>
 
       <router-link
-        class="app-menu-item hide-m"
+        class="app-menu-item"
         to="/networks"
         exact="exact"
         title="Networks"
