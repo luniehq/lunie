@@ -14,7 +14,7 @@
           />
           <TmFormMsg
             v-if="$v.address.$error && !$v.address.required"
-            name="Name"
+            name="Address"
             type="required"
           />
           <TmFormMsg
@@ -24,8 +24,8 @@
           />
           <TmFormMsg
             v-else-if="$v.address.$error && !$v.address.isNotAValidatorAddress"
-            name="Your Cosmos Address"
-            type="validator"
+            name="You can't sign in with a validator address"
+            type="custom"
           />          
         </TmFormGroup>
       </div>

@@ -90,10 +90,7 @@ export default {
           break
         case `bech32`:
           msg = `is invalid bech32`
-          break
-        case `validator`:
-          msg = `is a validator address`
-          break          
+          break        
         case `integer`:
           msg = `must be an integer`
           break
