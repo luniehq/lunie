@@ -209,7 +209,7 @@ export default {
   methods: {
     viewDenom,
     open(options) {
-      if (options.redelegation && this.fromOptions.length > 1) {
+      if (options && options.redelegation && this.fromOptions.length > 1) {
         this.selectedIndex = 1
       }
       this.$refs.actionModal.open()
