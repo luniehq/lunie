@@ -18,11 +18,10 @@ describe(`MaintenanceBar`, () => {
           message: 'success test message',
           type: 'success',
           show: true
-        }        
-      ],
-    });
-    expect(wrapper.find(".bar.success p").text())
-      .toBe("success test message");
+        }
+      ]
+    })
+    expect(wrapper.toContain("success test message"))
   })
 
   it(`show warning message`, () => {
@@ -32,11 +31,10 @@ describe(`MaintenanceBar`, () => {
           message: 'warning test message',
           type: 'warning',
           show: true
-        }        
-      ],
-    });
-    expect(wrapper.find(".bar.warning p").text())
-      .toBe("warning test message");
+        }
+      ]
+    })
+    expect(wrapper.toContain("warning test message"))
   })
 
   it(`show danger message`, () => {
@@ -46,25 +44,9 @@ describe(`MaintenanceBar`, () => {
           message: 'danger test message',
           type: 'danger',
           show: true
-        }        
-      ],
-    });
-    expect(wrapper.find(".bar.danger p").text())
-      .toBe("danger test message");
-  })
-
-  it(`close message button works`, () => {
-    wrapper.setData({
-      maintenance: [
-        {
-          message: 'success test message',
-          type: 'success',
-          show: true
-        }        
-      ],
-    });
-    wrapper.vm.close(wrapper.vm.maintenance[0])
-    expect(wrapper.find(".bar.success p").exists())
-      .toBe(false)
+        }
+      ]
+    })
+    expect(wrapper.toContain("danger test message"))
   })
 })
