@@ -172,6 +172,14 @@ describe(`ActionModal`, () => {
     expect(closeModal).toHaveBeenCalled()
   })
 
+  it(`should not open second modal`, () => {
+    wrapper.setData({ show: false })
+    global.confirm = () => false
+    wrapper.vm.session.currrentModalOpen = true
+    wrapper.vm.open()
+    expect(wrapper.vm.show).toBe(false)
+  })
+
   it(`opens session modal and closes itself`, () => {
     const $store = { commit: jest.fn() }
     const self = { $store, close: jest.fn(), $router: { push: jest.fn() } }
