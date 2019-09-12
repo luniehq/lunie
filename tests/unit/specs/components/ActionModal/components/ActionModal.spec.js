@@ -733,7 +733,8 @@ describe(`ActionModal`, () => {
             },
             getters: {
               modalContext
-            }
+            },
+            commit: jest.fn()
           },
           $apollo
         },
