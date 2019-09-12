@@ -1,3 +1,30 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`MaintenanceBar has the expected html structure 1`] = `<!---->`;
+exports[`MaintenanceBar has the expected html structure 1`] = `
+<div>
+  <div>
+    <bar-stub
+      show="true"
+      type="success"
+    >
+      success message
+    </bar-stub>
+  </div>
+  <div>
+    <bar-stub
+      show="true"
+      type="danger"
+    >
+      danger message
+    </bar-stub>
+  </div>
+  <div>
+    <bar-stub
+      show="true"
+      type="warning"
+    >
+      warning message
+    </bar-stub>
+  </div>
+</div>
+`;

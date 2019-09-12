@@ -21,7 +21,7 @@ describe(`MaintenanceBar`, () => {
         }        
       ],
     });
-    expect(wrapper.find(".maintenance-bar.success p").text())
+    expect(wrapper.find(".bar.success p").text())
       .toBe("success test message");
   })
 
@@ -35,7 +35,7 @@ describe(`MaintenanceBar`, () => {
         }        
       ],
     });
-    expect(wrapper.find(".maintenance-bar.warning p").text())
+    expect(wrapper.find(".bar.warning p").text())
       .toBe("warning test message");
   })
 
@@ -49,7 +49,7 @@ describe(`MaintenanceBar`, () => {
         }        
       ],
     });
-    expect(wrapper.find(".maintenance-bar.danger p").text())
+    expect(wrapper.find(".bar.danger p").text())
       .toBe("danger test message");
   })
 
@@ -64,7 +64,7 @@ describe(`MaintenanceBar`, () => {
       ],
     });
     wrapper.vm.close(wrapper.vm.maintenance[0])
-    expect(wrapper.find(".maintenance-bar.success p").exists())
+    expect(wrapper.find(".bar.success p").exists())
       .toBe(false)
   })
 })
