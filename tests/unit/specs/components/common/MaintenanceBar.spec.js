@@ -21,7 +21,7 @@ describe(`MaintenanceBar`, () => {
         }
       ]
     })
-    expect(wrapper.toContain("success test message"))
+    expect(wrapper.text()).toBe("success test message")
   })
 
   it(`show warning message`, () => {
@@ -34,7 +34,7 @@ describe(`MaintenanceBar`, () => {
         }
       ]
     })
-    expect(wrapper.toContain("warning test message"))
+    expect(wrapper.text()).toBe("warning test message")
   })
 
   it(`show danger message`, () => {
@@ -47,6 +47,6 @@ describe(`MaintenanceBar`, () => {
         }
       ]
     })
-    expect(wrapper.toContain("danger test message"))
+    expect(wrapper.text()).toBe("danger test message")
   })
 })
