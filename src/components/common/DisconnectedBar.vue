@@ -26,6 +26,7 @@ export default {
   },
   watch: {
     reconnect: function(val) {
+      console.log("reconnect")
       if (val === true) {
         this.$store.dispatch("reconnect")
       }
