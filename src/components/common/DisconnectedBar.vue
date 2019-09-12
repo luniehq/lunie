@@ -1,8 +1,8 @@
 <template>
   <!-- <div v-if="stopConnecting"> -->
   <div v-if="true">
-    <Bar :show="show" :type="'info'">
-      You are currently not connected. <a class="link" @click="reconnect()">Try Reconnecting</a>?
+    <Bar :show="show" :type="'info'" v-on:reconnect="reconnect()">
+      You are currently not connected. <a class="link" v-on:click="$emit('reconnect', true)">Try Reconnecting</a>?
     </Bar>
   </div>
 </template>
@@ -24,17 +24,18 @@ export default {
       stopConnecting: state => state.connection.stopConnecting
     })
   },
-  watch: {
+/*   watch: {
     reconnect: function(val) {
-      console.log("reconnect")
+      console.log(reconnect")
       if (val === true) {
         this.$store.dispatch("reconnect")
       }
     }
-  },
+  } */
   methods: {
     reconnect() {
-      console.log("reconnect")
+      console.log(reconnect")
+      this.$store.dispatch("reconnect")
     }
   }
 }
