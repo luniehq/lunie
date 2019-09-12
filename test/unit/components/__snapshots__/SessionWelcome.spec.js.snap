@@ -32,7 +32,7 @@ exports[`SessionWelcome has the expected html structure 1`] = `
       <lisession-stub
         icon="person"
         id="see-accounts"
-        route="/"
+        route="/accounts"
         title="See existing accounts"
       />
     </div>
