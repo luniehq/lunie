@@ -89,8 +89,11 @@ input.tm-field {
   border-radius: 2px;
 }
 
-#appzi-launch-button-cf1d801a-9653-4934-8a18-cea8c9e77495 {
-  z-index: var(--z-appHeader) !important;
+.field-checkbox-label {
+  display: block;
+  padding-left: 1.5rem;
+  text-indent: -1.5rem;
+  line-height: 14px;
 }
 
 @media screen and (max-width: 1023px) {
