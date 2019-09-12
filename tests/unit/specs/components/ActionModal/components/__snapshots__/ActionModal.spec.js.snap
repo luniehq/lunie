@@ -6,6 +6,8 @@ exports[`ActionModal should show the action modal on success 1`] = `
   name="slide-fade"
   tabindex="0"
 >
+  <!---->
+   
   <div
     class="action-modal-icon action-modal-close"
     id="closeBtn"
@@ -79,6 +81,8 @@ exports[`ActionModal should show the action modal waiting on inclusion 1`] = `
   name="slide-fade"
   tabindex="0"
 >
+  <!---->
+   
   <div
     class="action-modal-icon action-modal-close"
     id="closeBtn"
@@ -122,6 +126,17 @@ exports[`ActionModal should show the action modal when user has logged in with e
   name="slide-fade"
   tabindex="0"
 >
+  <div
+    class="action-modal-icon action-modal-prev"
+    id="prevBtn"
+  >
+    <i
+      class="material-icons"
+    >
+      arrow_back
+    </i>
+  </div>
+   
   <div
     class="action-modal-icon action-modal-close"
     id="closeBtn"
@@ -189,6 +204,17 @@ exports[`ActionModal should show the action modal when user has logged in with e
   name="slide-fade"
   tabindex="0"
 >
+  <div
+    class="action-modal-icon action-modal-prev"
+    id="prevBtn"
+  >
+    <i
+      class="material-icons"
+    >
+      arrow_back
+    </i>
+  </div>
+   
   <div
     class="action-modal-icon action-modal-close"
     id="closeBtn"
@@ -278,6 +304,8 @@ exports[`ActionModal should show the action modal when user has logged in with e
   name="slide-fade"
   tabindex="0"
 >
+  <!---->
+   
   <div
     class="action-modal-icon action-modal-close"
     id="closeBtn"
@@ -368,6 +396,17 @@ exports[`ActionModal should show the action modal when user has logged in with e
   tabindex="0"
 >
   <div
+    class="action-modal-icon action-modal-prev"
+    id="prevBtn"
+  >
+    <i
+      class="material-icons"
+    >
+      arrow_back
+    </i>
+  </div>
+   
+  <div
     class="action-modal-icon action-modal-close"
     id="closeBtn"
   >
@@ -434,6 +473,17 @@ exports[`ActionModal should show the action modal when user has logged in with e
   name="slide-fade"
   tabindex="0"
 >
+  <div
+    class="action-modal-icon action-modal-prev"
+    id="prevBtn"
+  >
+    <i
+      class="material-icons"
+    >
+      arrow_back
+    </i>
+  </div>
+   
   <div
     class="action-modal-icon action-modal-close"
     id="closeBtn"
@@ -511,6 +561,8 @@ exports[`ActionModal should show the action modal when user has logged in with e
   name="slide-fade"
   tabindex="0"
 >
+  <!---->
+   
   <div
     class="action-modal-icon action-modal-close"
     id="closeBtn"
@@ -590,6 +642,17 @@ exports[`ActionModal should show the action modal when user has logged in with l
   tabindex="0"
 >
   <div
+    class="action-modal-icon action-modal-prev"
+    id="prevBtn"
+  >
+    <i
+      class="material-icons"
+    >
+      arrow_back
+    </i>
+  </div>
+   
+  <div
     class="action-modal-icon action-modal-close"
     id="closeBtn"
   >
@@ -656,6 +719,17 @@ exports[`ActionModal should show the action modal when user has logged in with l
   name="slide-fade"
   tabindex="0"
 >
+  <div
+    class="action-modal-icon action-modal-prev"
+    id="prevBtn"
+  >
+    <i
+      class="material-icons"
+    >
+      arrow_back
+    </i>
+  </div>
+   
   <div
     class="action-modal-icon action-modal-close"
     id="closeBtn"
@@ -729,6 +803,8 @@ exports[`ActionModal should show the action modal when user has logged in with l
   name="slide-fade"
   tabindex="0"
 >
+  <!---->
+   
   <div
     class="action-modal-icon action-modal-close"
     id="closeBtn"
@@ -804,6 +880,17 @@ exports[`ActionModal should show the action modal when user has logged in with l
   tabindex="0"
 >
   <div
+    class="action-modal-icon action-modal-prev"
+    id="prevBtn"
+  >
+    <i
+      class="material-icons"
+    >
+      arrow_back
+    </i>
+  </div>
+   
+  <div
     class="action-modal-icon action-modal-close"
     id="closeBtn"
   >
@@ -870,6 +957,17 @@ exports[`ActionModal should show the action modal when user has logged in with l
   name="slide-fade"
   tabindex="0"
 >
+  <div
+    class="action-modal-icon action-modal-prev"
+    id="prevBtn"
+  >
+    <i
+      class="material-icons"
+    >
+      arrow_back
+    </i>
+  </div>
+   
   <div
     class="action-modal-icon action-modal-close"
     id="closeBtn"
@@ -948,6 +1046,8 @@ exports[`ActionModal should show the action modal when user has logged in with l
   name="slide-fade"
   tabindex="0"
 >
+  <!---->
+   
   <div
     class="action-modal-icon action-modal-close"
     id="closeBtn"
@@ -1026,6 +1126,8 @@ exports[`ActionModal should show the action modal when user hasn't logged in 1`]
   name="slide-fade"
   tabindex="0"
 >
+  <!---->
+   
   <div
     class="action-modal-icon action-modal-close"
     id="closeBtn"
@@ -1128,6 +1230,8 @@ exports[`ActionModal windows shows windows warning 1`] = `
   name="slide-fade"
   tabindex="0"
 >
+  <!---->
+   
   <div
     class="action-modal-icon action-modal-close"
     id="closeBtn"
