@@ -1,6 +1,6 @@
 <template>
   <div v-if="!session.cookiesAccepted">
-    <Bar :show="show" :type="'primary'">
+    <Bar :show="true" :type="'primary'">
       <span class="hide-on-mobile">This site uses cookies to help improve your experience.</span>
       By using Lunie, you accept our
       <router-link to="/terms" class="link"> Terms of Service </router-link> and
@@ -17,9 +17,6 @@ export default {
   components: {
     Bar
   },
-  data: () => ({
-    show: true
-  }),
   computed: {
     ...mapState([`session`])
   },
