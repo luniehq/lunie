@@ -26,7 +26,6 @@ export default () => {
     cookiesAccepted: undefined,
     stateLoaded: false, // shows if the persisted state is already loaded. used to prevent overwriting the persisted state before it is loaded
     error: null,
-    maintenanceBar: false,
     modals: {
       error: { active: false },
       help: { active: false }

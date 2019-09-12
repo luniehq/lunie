@@ -8,6 +8,7 @@
   --primary-alpha: hsla(233, 88%, 57%, 0.15);
   --primary-dark: hsla(233, 88%, 57%, 0.55);
   --link: hsl(217, 100%, 70%);
+  --input-bc: var(--dim);
   --link-dark: hsl(233, 88%, 50%);
   --link-hover: rgba(31, 117, 255, 1);
   --hover: rgba(0, 0, 0, 8%);

@@ -5,7 +5,7 @@ import SendModal from "src/ActionModal/components/SendModal"
 describe(`SendModal`, () => {
   const localVue = createLocalVue()
   localVue.use(Vuelidate)
-  localVue.directive(`focus`, () => {})
+  localVue.directive(`focus`, () => { })
 
   let wrapper, $store
 
