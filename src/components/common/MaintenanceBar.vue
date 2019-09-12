@@ -18,11 +18,6 @@ export default {
     /* Just for testing */
     maintenance: [
       {
-        message: "primary message",
-        show: true,
-        type: "primary"
-      },
-      {
         message: "success message",
         show: true,
         type: "success"
