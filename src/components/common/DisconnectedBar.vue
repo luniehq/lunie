@@ -2,7 +2,7 @@
   <!-- <div v-if="stopConnecting"> -->
   <div v-if="true">
     <Bar :show="show" :type="'info'" @click="reconnect()">
-      You are currently not connected. <a class="link" v-on:click="$emit('click')">Try Reconnecting</a>?
+      You are currently not connected. <a class="link" @click="console.log("reconnect") $emit('click')">Try Reconnecting</a>?
     </Bar>
   </div>
 </template>
@@ -35,7 +35,7 @@ export default {
   methods: {
     reconnect() {
       console.log("reconnect")
-      this.$store.dispatch("reconnect")
+      //this.$store.dispatch("reconnect")
     }
   }
 }
