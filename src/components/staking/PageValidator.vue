@@ -149,7 +149,7 @@
         :to="session.signedIn ? session.address : ``"
         :validator="validator"
         :denom="bondDenom"
-        @switchToRedelegation="onDelegation({ redelgation: true })"
+        @switchToRedelegation="onDelegation({ redelegation: true })"
       />
     </template>
     <template v-else>
