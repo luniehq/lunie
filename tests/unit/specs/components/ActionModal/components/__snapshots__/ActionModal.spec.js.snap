@@ -1091,6 +1091,8 @@ exports[`ActionModal shows a feature unavailable message 1`] = `
   name="slide-fade"
   tabindex="0"
 >
+  <!---->
+   
   <div
     class="action-modal-icon action-modal-close"
     id="closeBtn"
