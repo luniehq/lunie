@@ -64,6 +64,7 @@ export default {
 .bar .link {
   text-decoration: underline;
   color: var(--bright);
+  cursor: pointer;
 }
 
 .bar .close {
