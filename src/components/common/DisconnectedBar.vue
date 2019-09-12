@@ -1,8 +1,8 @@
 <template>
   <!-- <div v-if="stopConnecting"> -->
   <div v-if="true">
-    <Bar :show="show" :type="'info'">
-      You are currently not connected. <a class="link" @click="reconnect()">Try Reconnecting</a>?
+    <Bar :show="show" :type="'info'" @click="reconnect()">
+      You are currently not connected. <a class="link" @click="emitEvent('reconnect')">Try Reconnecting</a>?
     </Bar>
   </div>
 </template>
@@ -16,8 +16,7 @@ export default {
     Bar
   },
   data: () => ({
-    show: true,
-    reconnect: false
+    show: true
   }),
   computed: {
     ...mapState({
@@ -33,9 +32,9 @@ export default {
     }
   } */
   methods: {
-    reconnect() {
+    emitEvent(event) {
       console.log("reconnect")
-      this.$store.dispatch("reconnect")
+      //this.$store.dispatch("reconnect")
     }
   }
 }
