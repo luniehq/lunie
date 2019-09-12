@@ -1,6 +1,6 @@
 <template>
   <div v-if="stopConnecting">
-    <Bar :show="show" :type="'primary'">
+    <Bar :show="show" :type="'info'">
       You are currently not connected. <a class="link" @click="this.$emit('reconnect', true)">Try Reconnecting</a>?
     </Bar>
   </div>

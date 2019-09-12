@@ -57,6 +57,10 @@ export default {
   background-color: var(--danger);
 }
 
+.bar.info {
+  background-color: var(--info);
+}
+
 .bar .link {
   text-decoration: underline;
   color: var(--bright);
