@@ -21,7 +21,7 @@
           id="see-accounts"
           icon="person"
           title="See existing accounts"
-          route="/"
+          route="/accounts"
         />
       </div>
 
@@ -70,8 +70,8 @@ export default {
 }
 
 .lunie-logo {
-  margin: 1rem 0 0 1rem;
-  width: 40px;
+  margin: 1rem 0 2rem 1.1rem;
+  height: 40px;
 }
 
 .session-paragraph {

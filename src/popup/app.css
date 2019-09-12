@@ -28,7 +28,7 @@ body,
   overflow: hidden;
   width: 100%;
   min-width: 400px;
-  min-height: 464px;
+  min-height: 496px;
 }
 
 a {
@@ -89,10 +89,6 @@ input.tm-field {
   flex: 1;
   display: flex;
   flex-flow: column no-wrap;
-}
-
-#appzi-launch-button-cf1d801a-9653-4934-8a18-cea8c9e77495 {
-  z-index: var(--z-appHeader) !important;
 }
 
 @media screen and (min-width: 1023px) {

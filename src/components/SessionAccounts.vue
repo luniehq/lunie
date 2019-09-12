@@ -1,10 +1,12 @@
 <template>
   <SessionFrame :hide-back="true">
     <div class="session-container">
-      <div class="session-header">
-        <h2 class="session-title">My accounts</h2>
+      <div class="accounts-header">
+        <h2 class="session-title">
+          <img class="lunie-logo" src="../images/lunie-logo-white.svg" />
+        </h2>
         <p>
-          You can use the accounts below to explore Lunie.io and to approve
+          You can use the account(s) below to explore Lunie.io and to approve
           transactions.
         </p>
       </div>
@@ -15,9 +17,9 @@
           button-text="Go to Lunie"
         />
       </div>
-      <div class="session-footer">
-        <router-link to="/welcome">Want to add another account?</router-link>
-      </div>
+      <router-link class="back-link" to="/welcome"
+        >Want to add another account?</router-link
+      >
     </div>
   </SessionFrame>
 </template>
@@ -39,7 +41,7 @@ export default {
   methods: {
     goToLunie() {
       window.open(
-        'https://lunie.io/#/extension',
+        'https://app.lunie.io/#/extension',
         '_blank',
         'noreferrer noopener'
       )
@@ -49,11 +51,17 @@ export default {
 </script>
 
 <style scoped>
-.button-add-account {
-  display: flex;
-  justify-content: flex-end;
-  padding: 1.5rem 0 1rem;
-  flex-grow: 1;
-  align-self: flex-end;
+.session-container p {
+  font-size: 14px;
+}
+
+.back-link {
+  font-size: 12px;
+  padding: 0 1rem;
+}
+
+.lunie-logo {
+  margin: 0.5rem 0;
+  height: 32px;
 }
 </style>
