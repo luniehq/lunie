@@ -700,7 +700,7 @@ describe(`ActionModal`, () => {
     })
   })
 
-  it.only("shows a feature unavailable message", async () => {
+  it("shows a feature unavailable message", async () => {
     wrapper.vm.$apollo = {
       query: () => ({
         data: {
