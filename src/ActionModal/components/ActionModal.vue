@@ -27,6 +27,9 @@
           :steps="['Details', 'Fees', 'Sign']"
           :active-step="step"
         />
+        <p class="form-message notice" v-if="extension.enabled && !modalContext.isExtensionAccount">
+          Hello user. FYI, this address is not in your extension accounts list.
+        </p>
       </div>
       <template v-if="!featureAvailable">
         <FeatureNotAvailable :feature="title" />
@@ -243,7 +246,7 @@
                   v-else
                   color="primary"
                   value="Send"
-                  :disabled="!session.browserWithLedgerSupport"
+                  :disabled="!hasSigningMethod"
                   @click.native="validateChangeStep"
                 />
               </div>
@@ -433,6 +436,14 @@ export default {
         default:
           return "Sending..."
       }
+    },
+    hasSigningMethod() {
+      return (
+        (this.selectedSignMethod === "ledger" &&
+          this.session.browserWithLedgerSupport) ||
+        (this.selectedSignMethod === "extension" &&
+          this.modalContext.isExtensionAccount)
+      )
     }
   },
   watch: {

@@ -204,6 +204,10 @@ describe(`Store: getters`, () => {
         },
         connected: true
       },
+      extension: {
+        enabled: true,
+        accounts: []
+      },
       session: {
         address: "cosmos1abcdefghijklmop",
         localKeyPairName: "localKeyPairName"
@@ -238,7 +242,8 @@ describe(`Store: getters`, () => {
       delegates: [],
       localKeyPairName: "localKeyPairName",
       bondDenom: "uatom",
-      totalRewards: 123
+      totalRewards: 123,
+      isExtensionAccount: false
     }
 
     const result = modalContext(state, getters)

@@ -110,5 +110,8 @@ export const modalContext = (state, getters) => ({
   rewards: state.distribution.rewards,
   totalRewards: getters.totalRewards,
   delegates: state.delegates.delegates,
-  bondDenom: getters.bondDenom
+  bondDenom: getters.bondDenom,
+  isExtensionAccount: state.extension.accounts.some(account => {
+    return account.address === state.session.address
+  })
 })

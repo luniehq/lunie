@@ -45,7 +45,8 @@ const modalContext = {
   },
   delegation: {
     committedDelegates: []
-  }
+  },
+  isExtensionAccount: true
 }
 
 const $apollo = {
@@ -760,6 +761,9 @@ describe(`ActionModal`, () => {
               },
               connection: {
                 network: "testnet"
+              },
+              extension: {
+                enabled: true
               }
             },
             getters: {

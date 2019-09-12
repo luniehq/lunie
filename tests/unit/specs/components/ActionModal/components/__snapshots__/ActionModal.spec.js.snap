@@ -41,6 +41,8 @@ exports[`ActionModal back button renders and functions 1`] = `
       activestep="sign"
       steps="Details,Fees,Sign"
     />
+     
+    <!---->
   </div>
    
   <!---->
@@ -118,6 +120,8 @@ exports[`ActionModal should show the action modal on success 1`] = `
     </span>
      
     <!---->
+     
+    <!---->
   </div>
    
   <!---->
@@ -193,6 +197,8 @@ exports[`ActionModal should show the action modal waiting on inclusion 1`] = `
     </span>
      
     <!---->
+     
+    <!---->
   </div>
    
   <!---->
@@ -250,6 +256,8 @@ exports[`ActionModal should show the action modal when user has logged in with e
       activestep="fees"
       steps="Details,Fees,Sign"
     />
+     
+    <!---->
   </div>
    
   <!---->
@@ -328,6 +336,8 @@ exports[`ActionModal should show the action modal when user has logged in with e
       activestep="sign"
       steps="Details,Fees,Sign"
     />
+     
+    <!---->
   </div>
    
   <!---->
@@ -419,6 +429,8 @@ exports[`ActionModal should show the action modal when user has logged in with e
       activestep="sign"
       steps="Details,Fees,Sign"
     />
+     
+    <!---->
   </div>
    
   <!---->
@@ -519,6 +531,8 @@ exports[`ActionModal should show the action modal when user has logged in with e
       activestep="fees"
       steps="Details,Fees,Sign"
     />
+     
+    <!---->
   </div>
    
   <!---->
@@ -597,6 +611,8 @@ exports[`ActionModal should show the action modal when user has logged in with e
       activestep="sign"
       steps="Details,Fees,Sign"
     />
+     
+    <!---->
   </div>
    
   <!---->
@@ -633,7 +649,6 @@ exports[`ActionModal should show the action modal when user has logged in with e
       <div>
         <tmbtn-stub
           color="primary"
-          disabled="true"
           value="Send"
         />
       </div>
@@ -676,6 +691,8 @@ exports[`ActionModal should show the action modal when user has logged in with e
       activestep="sign"
       steps="Details,Fees,Sign"
     />
+     
+    <!---->
   </div>
    
   <!---->
@@ -765,6 +782,8 @@ exports[`ActionModal should show the action modal when user has logged in with l
       activestep="fees"
       steps="Details,Fees,Sign"
     />
+     
+    <!---->
   </div>
    
   <!---->
@@ -843,6 +862,8 @@ exports[`ActionModal should show the action modal when user has logged in with l
       activestep="sign"
       steps="Details,Fees,Sign"
     />
+     
+    <!---->
   </div>
    
   <!---->
@@ -918,6 +939,8 @@ exports[`ActionModal should show the action modal when user has logged in with l
       activestep="sign"
       steps="Details,Fees,Sign"
     />
+     
+    <!---->
   </div>
    
   <!---->
@@ -1003,6 +1026,8 @@ exports[`ActionModal should show the action modal when user has logged in with l
       activestep="fees"
       steps="Details,Fees,Sign"
     />
+     
+    <!---->
   </div>
    
   <!---->
@@ -1081,6 +1106,8 @@ exports[`ActionModal should show the action modal when user has logged in with l
       activestep="sign"
       steps="Details,Fees,Sign"
     />
+     
+    <!---->
   </div>
    
   <!---->
@@ -1161,6 +1188,8 @@ exports[`ActionModal should show the action modal when user has logged in with l
       activestep="sign"
       steps="Details,Fees,Sign"
     />
+     
+    <!---->
   </div>
    
   <!---->
@@ -1241,6 +1270,8 @@ exports[`ActionModal should show the action modal when user hasn't logged in 1`]
       activestep="details"
       steps="Details,Fees,Sign"
     />
+     
+    <!---->
   </div>
    
   <!---->
@@ -1305,6 +1336,8 @@ exports[`ActionModal shows a feature unavailable message 1`] = `
     </span>
      
     <!---->
+     
+    <!---->
   </div>
    
   <featurenotavailable-stub
@@ -1345,6 +1378,8 @@ exports[`ActionModal windows shows windows warning 1`] = `
       activestep="details"
       steps="Details,Fees,Sign"
     />
+     
+    <!---->
   </div>
    
   <p
