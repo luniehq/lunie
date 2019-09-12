@@ -128,6 +128,36 @@ export default [
     }
   },
   {
+    path: `/create-password`,
+    name: `create-password`,
+    components: {
+      session: require(`./components/common/TmSessionSignUp2`).default
+    },
+    meta: {
+      feature: "Session"
+    }
+  },
+  {
+    path: `/create-seed`,
+    name: `create-seed`,
+    components: {
+      session: require(`./components/common/TmSessionSignUp3`).default
+    },
+    meta: {
+      feature: "Session"
+    }
+  },
+  {
+    path: `/create-confirm`,
+    name: `create-confirm`,
+    components: {
+      session: require(`./components/common/TmSessionSignUp4`).default
+    },
+    meta: {
+      feature: "Session"
+    }
+  },
+  {
     path: `/recover`,
     name: `recover`,
     components: {

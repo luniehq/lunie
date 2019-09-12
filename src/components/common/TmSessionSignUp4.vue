@@ -1,73 +1,12 @@
 <template>
   <SessionFrame>
-    <TmFormStruct :submit="() => {}">
+    <TmFormStruct :submit="onSubmit.bind(this)">
       <h2 class="session-title">
-        Create a new address
+        Create a new address — Done!
       </h2>
-      <div v-if="session.insecureMode" class="session-main">
-        <div class="danger-zone">
-          <h2>DANGER ZONE</h2>
-          <p>
-            Creating an address in the browser is not advised. This feature is
-            only enabled in insecure mode for testing purposes and should not be
-            used otherwise.
-          </p>
-        </div>
-        <TmFormGroup
-          :error="$v.fieldName.$error"
-          field-id="sign-up-name"
-          field-label="Account Name"
-        >
-          <TmField
-            id="sign-up-name"
-            v-model.trim="fieldName"
-            type="text"
-            placeholder="Must be at least 5 characters"
-            vue-focus="vue-focus"
-          />
-          <TmFormMsg
-            v-if="$v.fieldName.$error && !$v.fieldName.required"
-            name="Name"
-            type="required"
-          />
-          <TmFormMsg
-            v-if="$v.fieldName.$error && !$v.fieldName.minLength"
-            name="Name"
-            type="minLength"
-            min="5"
-          />
-        </TmFormGroup>
-        <div class="session-footer">
-          <router-link to="/create-password" tag="button">Next</router-link>
-          <!-- <TmBtn value="Next" @click.native="$router.push('create-seed')" /> -->
-        </div>
-      </div>
-      <div v-if="!session.insecureMode" class="session-main">
-        <p>
-          Creating an address in the browser is unsafe. To offer you a secure
-          alternative we will be releasing a browser extension and a mobile app
-          soon.
-        </p>
-        <p>
-          In the meantime, you can create a new account outside of the browser
-          by using a
-          <a
-            href="https://shop.ledger.com/?r=3dd204ef7508"
-            target="_blank"
-            rel="noopener norefferer"
-            >Ledger Nano</a
-          >
-          or the
-          <a
-            href="https://hub.cosmos.network/docs/delegator-guide-cli.html#creating-an-account"
-            target="_blank"
-            rel="noopener norefferer"
-            >command line</a
-          >.
-        </p>
-        <router-link to="existing"
-          >Want to use an existing address?</router-link
-        >
+      <div>
+        <p>🎈🎈🎈 Congratulations! 🎈🎈🎈</p>
+        <router-link to="/" tag="button">Go to Lunie Home</router-link>
       </div>
     </TmFormStruct>
   </SessionFrame>
@@ -77,21 +16,21 @@
 import { mapState } from "vuex"
 import { required, minLength, sameAs } from "vuelidate/lib/validators"
 // import TmBtn from "common/TmBtn"
-import TmFormGroup from "common/TmFormGroup"
+// import TmFormGroup from "common/TmFormGroup"
 import TmFormStruct from "common/TmFormStruct"
-import TmField from "common/TmField"
-import TmFormMsg from "common/TmFormMsg"
+// import TmField from "common/TmField"
+// import TmFormMsg from "common/TmFormMsg"
 // import FieldSeed from "common/TmFieldSeed"
 import SessionFrame from "common/SessionFrame"
 export default {
   name: `session-sign-up`,
   components: {
     // TmBtn,
-    TmField,
+    // TmField,
     SessionFrame,
     // FieldSeed,
-    TmFormGroup,
-    TmFormMsg,
+    // TmFormGroup,
+    // TmFormMsg,
     TmFormStruct
   },
   data: () => ({
@@ -142,7 +81,7 @@ export default {
     },
     fieldWarning: {
       get() {
-        return this.$store.state.signup.signUpWarning
+        return this.$store.state.signup.signUpName
       },
       set(value) {
         this.$store.commit(`updateField`, { field: `signUpWarning`, value })

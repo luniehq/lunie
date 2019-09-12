@@ -1,8 +1,8 @@
 <template>
   <SessionFrame>
-    <TmFormStruct :submit="() => {}">
+    <TmFormStruct :submit="onSubmit.bind(this)">
       <h2 class="session-title">
-        Create a new address
+        Create a new address — Confirm Seed
       </h2>
       <div v-if="session.insecureMode" class="session-main">
         <div class="danger-zone">
@@ -14,32 +14,36 @@
           </p>
         </div>
         <TmFormGroup
-          :error="$v.fieldName.$error"
-          field-id="sign-up-name"
-          field-label="Account Name"
+          field-id="sign-up-seed"
+          class="sign-up-seed-group"
+          field-label="Seed Phrase"
         >
-          <TmField
-            id="sign-up-name"
-            v-model.trim="fieldName"
-            type="text"
-            placeholder="Must be at least 5 characters"
-            vue-focus="vue-focus"
-          />
+          <FieldSeed id="sign-up-seed" v-model="fieldSeed" />
+        </TmFormGroup>
+        <TmFormGroup
+          class="field-checkbox"
+          :error="$v.fieldWarning.$error"
+          field-id="sign-up-warning"
+          field-label
+        >
+          <div class="field-checkbox-input">
+            <label class="field-checkbox-label" for="sign-up-warning">
+              <input
+                id="sign-up-warning"
+                v-model="fieldWarning"
+                type="checkbox"
+              />
+              I understand that lost seeds cannot be recovered.</label
+            >
+          </div>
           <TmFormMsg
-            v-if="$v.fieldName.$error && !$v.fieldName.required"
-            name="Name"
+            v-if="$v.fieldWarning.$error && !$v.fieldWarning.required"
+            name="Recovery confirmation"
             type="required"
-          />
-          <TmFormMsg
-            v-if="$v.fieldName.$error && !$v.fieldName.minLength"
-            name="Name"
-            type="minLength"
-            min="5"
           />
         </TmFormGroup>
         <div class="session-footer">
-          <router-link to="/create-password" tag="button">Next</router-link>
-          <!-- <TmBtn value="Next" @click.native="$router.push('create-seed')" /> -->
+          <TmBtn value="Create Address" />
         </div>
       </div>
       <div v-if="!session.insecureMode" class="session-main">
@@ -76,20 +80,20 @@
 <script>
 import { mapState } from "vuex"
 import { required, minLength, sameAs } from "vuelidate/lib/validators"
-// import TmBtn from "common/TmBtn"
+import TmBtn from "common/TmBtn"
 import TmFormGroup from "common/TmFormGroup"
 import TmFormStruct from "common/TmFormStruct"
-import TmField from "common/TmField"
+// import TmField from "common/TmField"
 import TmFormMsg from "common/TmFormMsg"
-// import FieldSeed from "common/TmFieldSeed"
+import FieldSeed from "common/TmFieldSeed"
 import SessionFrame from "common/SessionFrame"
 export default {
   name: `session-sign-up`,
   components: {
-    // TmBtn,
-    TmField,
+    TmBtn,
+    // TmField,
     SessionFrame,
-    // FieldSeed,
+    FieldSeed,
     TmFormGroup,
     TmFormMsg,
     TmFormStruct
@@ -170,7 +174,7 @@ export default {
           password: this.fieldPassword,
           name: this.fieldName
         })
-        this.$router.push(`/`)
+        this.$router.push(`/create-confirm`)
       } catch (error) {
         this.$store.commit(`notifyError`, {
           title: `Couldn't create account`,

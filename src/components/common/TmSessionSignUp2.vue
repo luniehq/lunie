@@ -2,7 +2,7 @@
   <SessionFrame>
     <TmFormStruct :submit="() => {}">
       <h2 class="session-title">
-        Create a new address
+        Create a new address — Password
       </h2>
       <div v-if="session.insecureMode" class="session-main">
         <div class="danger-zone">
@@ -14,31 +14,50 @@
           </p>
         </div>
         <TmFormGroup
-          :error="$v.fieldName.$error"
-          field-id="sign-up-name"
-          field-label="Account Name"
+          :error="$v.fieldPassword.$error"
+          field-id="sign-up-password"
+          field-label="Password"
         >
           <TmField
-            id="sign-up-name"
-            v-model.trim="fieldName"
-            type="text"
-            placeholder="Must be at least 5 characters"
-            vue-focus="vue-focus"
+            id="sign-up-password"
+            v-model="fieldPassword"
+            type="password"
+            placeholder="Must be at least 10 characters"
           />
           <TmFormMsg
-            v-if="$v.fieldName.$error && !$v.fieldName.required"
-            name="Name"
+            v-if="$v.fieldPassword.$error && !$v.fieldPassword.required"
+            name="Password"
             type="required"
           />
           <TmFormMsg
-            v-if="$v.fieldName.$error && !$v.fieldName.minLength"
-            name="Name"
+            v-if="$v.fieldPassword.$error && !$v.fieldPassword.minLength"
+            name="Password"
             type="minLength"
-            min="5"
+            min="10"
+          />
+        </TmFormGroup>
+        <TmFormGroup
+          :error="$v.fieldPasswordConfirm.$error"
+          field-id="sign-up-password-confirm"
+          field-label="Confirm Password"
+        >
+          <TmField
+            id="sign-up-password-confirm"
+            v-model="fieldPasswordConfirm"
+            type="password"
+            placeholder="Enter password again"
+          />
+          <TmFormMsg
+            v-if="
+              $v.fieldPasswordConfirm.$error &&
+                !$v.fieldPasswordConfirm.sameAsPassword
+            "
+            name="Password confirmation"
+            type="match"
           />
         </TmFormGroup>
         <div class="session-footer">
-          <router-link to="/create-password" tag="button">Next</router-link>
+          <router-link to="/create-seed" tag="button">Next</router-link>
           <!-- <TmBtn value="Next" @click.native="$router.push('create-seed')" /> -->
         </div>
       </div>
