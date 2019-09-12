@@ -15,7 +15,7 @@ export default {
   name: `bar`,
   props: ["show", "type" ],
   methods: {
-    close(message) {
+    close() {
       this.show = false
     }
   }
