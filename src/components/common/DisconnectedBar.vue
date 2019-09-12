@@ -1,7 +1,7 @@
 <template>
   <!-- <div v-if="stopConnecting"> -->
   <div v-if="true">
-    <Bar :show="show" :type="'info'">
+    <Bar :show="true" :type="'info'">
       You are currently not connected. <a class="link" @click="emitEvent('reconnect')">Try Reconnecting</a>?
     </Bar>
   </div>
@@ -15,9 +15,6 @@ export default {
   components: {
     Bar
   },
-  data: () => ({
-    show: true
-  }),
   computed: {
     ...mapState({
       stopConnecting: state => state.connection.stopConnecting
