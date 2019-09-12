@@ -16,7 +16,9 @@
         <span>
           Undelegations take 21 days to complete and cannot be undone. Please
           make sure you understand the rules of delegation. Would you prefer to
-          <a href="#" @click="switchToRedelegation()">redelegate?</a>
+          <a id="switch-to-redelgation" href="#" @click="switchToRedelegation()"
+            >redelegate?</a
+          >
         </span>
       </div>
     </TmFormGroup>

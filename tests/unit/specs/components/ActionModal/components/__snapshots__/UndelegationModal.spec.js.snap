@@ -25,6 +25,7 @@ exports[`UndelegationModal should display undelegation modal form 1`] = `
         
         <a
           href="#"
+          id="switch-to-redelgation"
         >
           redelegate?
         </a>
