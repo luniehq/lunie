@@ -1,5 +1,94 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`ActionModal back button renders and works 1`] = `
+<div
+  class="action-modal"
+  name="slide-fade"
+  tabindex="0"
+>
+  <div
+    class="action-modal-icon action-modal-prev"
+    id="prevBtn"
+  >
+    <i
+      class="material-icons"
+    >
+      arrow_back
+    </i>
+  </div>
+   
+  <div
+    class="action-modal-icon action-modal-close"
+    id="closeBtn"
+  >
+    <i
+      class="material-icons"
+    >
+      close
+    </i>
+  </div>
+   
+  <div
+    class="action-modal-header"
+  >
+    <span
+      class="action-modal-title"
+    >
+      Action Modal
+    </span>
+     
+    <steps-stub
+      activestep="sign"
+      steps="Details,Fees,Sign"
+    />
+  </div>
+   
+  <!---->
+   
+  <div
+    class="action-modal-form"
+  >
+    <!---->
+     
+    <!---->
+     
+    <form>
+      <tmformgroup-stub
+        class="action-modal-group"
+        fieldid="password"
+        fieldlabel="Password"
+      >
+        <tmfield-stub
+          id="password"
+          placeholder="Password"
+          type="password"
+        />
+         
+        <!---->
+      </tmformgroup-stub>
+    </form>
+  </div>
+   
+  <div
+    class="action-modal-footer"
+  >
+    <tmformgroup-stub
+      class="action-modal-group"
+    >
+      <div>
+        <tmbtn-stub
+          color="primary"
+          disabled="true"
+          value="Send"
+        />
+      </div>
+    </tmformgroup-stub>
+     
+    <!---->
+  </div>
+</div>
+`;
+
 exports[`ActionModal should show the action modal on success 1`] = `
 <div
   class="action-modal"
