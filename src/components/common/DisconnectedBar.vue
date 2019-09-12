@@ -2,7 +2,7 @@
   <!-- <div v-if="stopConnecting"> -->
   <div v-if="true">
     <Bar :show="show" :type="'info'">
-      You are currently not connected. <a class="link" @click="this.$emit('reconnect', true)">Try Reconnecting</a>?
+      You are currently not connected. <a class="link" v-on:click="$emit('reconnect', true)">Try Reconnecting</a>?
     </Bar>
   </div>
 </template>
