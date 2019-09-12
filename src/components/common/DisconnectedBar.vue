@@ -36,6 +36,10 @@ export default {
     reconnect() {
       console.log("reconnect")
       //this.$store.dispatch("reconnect")
+    },
+    emitEvent(event) {
+      console.log(event)
+      this.$emit(event)
     }
   }
 }
