@@ -175,7 +175,7 @@ export default {
     enterPressed() {
       this.$refs.actionModal.validateChangeStep()
     },
-    switchToRedelgation() {
+    switchToRedelegation() {
       this.$refs.actionModal.close()
       this.$emit("switchToRedelegation")
     }
