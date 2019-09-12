@@ -17,6 +17,10 @@ export default {
   methods: {
     close() {
       this.show = false
+    },
+    emitEvent(event) {
+      console.log(event)
+      this.$emit(event)
     }
   }
 }
