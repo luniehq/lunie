@@ -21,7 +21,6 @@
         <span v-else>
           Voting power and rewards will
           change instantly upon redelegation — your tokens will still be subject to the risks associated with the original delegation for the duration of the undelegation period.
-          subject to the unbonding period)
         </span>
       </div>
     </TmFormGroup>
