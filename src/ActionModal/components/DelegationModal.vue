@@ -19,7 +19,7 @@
           behaviour of the validator.
         </span>
         <span v-else>
-          Redelegation infoooomrrrmation voting power and rewards / distribution
+          Voting power and rewards will
           change instantly upon redelegation — but the original delegations are
           subject to the unbonding period)
         </span>
