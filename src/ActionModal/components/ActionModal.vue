@@ -2,6 +2,14 @@
   <transition v-if="show" name="slide-fade">
     <div v-focus-last class="action-modal" tabindex="0" @keyup.esc="close">
       <div
+        v-if="(step === feeStep || step === signStep) && !sending"
+        id="prevBtn"
+        class="action-modal-icon action-modal-prev"
+        @click="previousStep"
+      >
+        <i class="material-icons">arrow_back</i>
+      </div>
+      <div
         id="closeBtn"
         class="action-modal-icon action-modal-close"
         @click="close"
@@ -498,6 +506,16 @@ export default {
 
       return !this.$v[property].$invalid
     },
+    previousStep() {
+      switch (this.step) {
+        case signStep:
+          this.step = feeStep
+          break
+        case feeStep:
+          this.step = defaultStep
+          break
+      }
+    },
     async validateChangeStep() {
       if (this.disabled) return
 
@@ -701,6 +719,13 @@ export default {
 
 .action-modal-icon i {
   font-size: var(--lg);
+}
+
+.action-modal-icon.action-modal-prev {
+  cursor: pointer;
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
 }
 
 .action-modal-icon.action-modal-close {

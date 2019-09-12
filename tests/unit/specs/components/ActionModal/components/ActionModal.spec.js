@@ -245,6 +245,17 @@ describe(`ActionModal`, () => {
     })
   })
 
+  describe(`back button`, () => {
+    it(`renders and functions`, () => {
+      wrapper.setData({ step: "sign" })
+      expect(wrapper.element).toMatchSnapshot()
+      wrapper.find("#prevBtn").trigger("click")
+      expect(wrapper.vm.step).toBe("fees")
+      wrapper.find("#prevBtn").trigger("click")
+      expect(wrapper.vm.step).toBe("details")
+    })
+  })
+
   describe(`close modal`, () => {
     it(`closes`, () => {
       wrapper.vm.open()
