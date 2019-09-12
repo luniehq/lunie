@@ -33,16 +33,6 @@ const categories = [
     matcher: tx => {
       return moment(tx.time).isSame(moment().subtract(1, "days"), "day")
     }
-  },
-  {
-    title: "Last Week",
-    matcher: tx => {
-      return moment(tx.time).isBetween(
-        moment().subtract(2, "days"),
-        moment().subtract(7, "days"),
-        "day"
-      )
-    }
   }
 ]
 
