@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`ActionModal back button renders and works 1`] = `
+exports[`ActionModal back button renders and functions 1`] = `
 <div
   class="action-modal"
   name="slide-fade"
