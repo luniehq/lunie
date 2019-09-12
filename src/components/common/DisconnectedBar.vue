@@ -20,14 +20,6 @@ export default {
       stopConnecting: state => state.connection.stopConnecting
     })
   },
-/*   watch: {
-    reconnect: function(val) {
-      console.log(reconnect")
-      if (val === true) {
-        this.$store.dispatch("reconnect")
-      }
-    }
-  } */
   methods: {
     emitEvent(event) {
       console.log("reconnect")
