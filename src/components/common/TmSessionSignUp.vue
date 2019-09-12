@@ -13,76 +13,69 @@
             used otherwise.
           </p>
         </div>
+        <!-- <pre>{{ signup }}</pre> -->
         <TmFormGroup
-          :error="$v.fields.signUpName.$error"
+          :error="$v.fieldName.$error"
           field-id="sign-up-name"
           field-label="Account Name"
         >
           <TmField
             id="sign-up-name"
-            v-model.trim="fields.signUpName"
+            v-model.trim="fieldName"
             type="text"
             placeholder="Must be at least 5 characters"
             vue-focus="vue-focus"
           />
           <TmFormMsg
-            v-if="$v.fields.signUpName.$error && !$v.fields.signUpName.required"
+            v-if="$v.fieldName.$error && !$v.fieldName.required"
             name="Name"
             type="required"
           />
           <TmFormMsg
-            v-if="
-              $v.fields.signUpName.$error && !$v.fields.signUpName.minLength
-            "
+            v-if="$v.fieldName.$error && !$v.fieldName.minLength"
             name="Name"
             type="minLength"
             min="5"
           />
         </TmFormGroup>
         <TmFormGroup
-          :error="$v.fields.signUpPassword.$error"
+          :error="$v.fieldPassword.$error"
           field-id="sign-up-password"
           field-label="Password"
         >
           <TmField
             id="sign-up-password"
-            v-model="fields.signUpPassword"
+            v-model="fieldPassword"
             type="password"
             placeholder="Must be at least 10 characters"
           />
           <TmFormMsg
-            v-if="
-              $v.fields.signUpPassword.$error &&
-                !$v.fields.signUpPassword.required
-            "
+            v-if="$v.fieldPassword.$error && !$v.fieldPassword.required"
             name="Password"
             type="required"
           />
           <TmFormMsg
-            v-if="
-              $v.fields.signUpPassword.$error &&
-                !$v.fields.signUpPassword.minLength
-            "
+            v-if="$v.fieldPassword.$error && !$v.fieldPassword.minLength"
             name="Password"
             type="minLength"
             min="10"
           />
         </TmFormGroup>
         <TmFormGroup
-          :error="$v.fields.signUpPasswordConfirm.$error"
+          :error="$v.fieldPasswordConfirm.$error"
           field-id="sign-up-password-confirm"
           field-label="Confirm Password"
         >
           <TmField
             id="sign-up-password-confirm"
-            v-model="fields.signUpPasswordConfirm"
+            v-model="fieldPasswordConfirm"
             type="password"
             placeholder="Enter password again"
           />
           <TmFormMsg
             v-if="
-              $v.fields.signUpPasswordConfirm.$error &&
-                !$v.fields.signUpPasswordConfirm.sameAsPassword
+              $v.fieldPasswordConfirm.$error &&
+                !$v.fieldPasswordConfirm.sameAsPassword
             "
             name="Password confirmation"
             type="match"
@@ -93,11 +86,11 @@
           class="sign-up-seed-group"
           field-label="Seed Phrase"
         >
-          <FieldSeed id="sign-up-seed" v-model="fields.signUpSeed" />
+          <FieldSeed id="sign-up-seed" v-model="fieldSeed" />
         </TmFormGroup>
         <TmFormGroup
           class="field-checkbox"
-          :error="$v.fields.signUpWarning.$error"
+          :error="$v.fieldWarning.$error"
           field-id="sign-up-warning"
           field-label
         >
@@ -105,17 +98,14 @@
             <label class="field-checkbox-label" for="sign-up-warning">
               <input
                 id="sign-up-warning"
-                v-model="fields.signUpWarning"
+                v-model="fieldWarning"
                 type="checkbox"
               />
               I understand that lost seeds cannot be recovered.</label
             >
           </div>
           <TmFormMsg
-            v-if="
-              $v.fields.signUpWarning.$error &&
-                !$v.fields.signUpWarning.required
-            "
+            v-if="$v.fieldWarning.$error && !$v.fieldWarning.required"
             name="Recovery confirmation"
             type="required"
           />
@@ -177,33 +167,80 @@ export default {
     TmFormStruct
   },
   data: () => ({
-    creating: true,
-    fields: {
-      signUpName: ``,
-      signUpSeed: `Creating seed...`,
-      signUpPassword: ``,
-      signUpPasswordConfirm: ``,
-      signUpWarning: false
-    }
+    // fields: {
+    //   signUpName: ``,
+    //   signUpSeed: `Creating seed...`,
+    //   signUpPassword: ``,
+    //   signUpPasswordConfirm: ``,
+    //   signUpWarning: false
+    // }
   }),
   computed: {
-    ...mapState([`session`])
+    ...mapState([`session`, `signup`]),
+    fieldName: {
+      get() {
+        return this.$store.state.signup.signUpName
+      },
+      set(value) {
+        this.$store.commit(`updateField`, { field: `signUpName`, value })
+      }
+    },
+    fieldPassword: {
+      get() {
+        return this.$store.state.signup.signUpPassword
+      },
+      set(value) {
+        this.$store.commit(`updateField`, { field: `signUpPassword`, value })
+      }
+    },
+    fieldPasswordConfirm: {
+      get() {
+        return this.$store.state.signup.signUpPasswordConfirm
+      },
+      set(value) {
+        this.$store.commit(`updateField`, {
+          field: `signUpPasswordConfirm`,
+          value
+        })
+      }
+    },
+    fieldSeed: {
+      get() {
+        return this.$store.state.signup.signUpSeed
+      },
+      set(value) {
+        this.$store.commit(`updateField`, { field: `signUpSeed`, value })
+      }
+    },
+    fieldWarning: {
+      get() {
+        return this.$store.state.signup.signUpName
+      },
+      set(value) {
+        this.$store.commit(`updateField`, { field: `signUpWarning`, value })
+      }
+    }
   },
   mounted() {
     this.$store.dispatch(`createSeed`).then(seedPhrase => {
-      this.creating = false
-      this.fields.signUpSeed = seedPhrase
+      this.$store.commit(`updateField`, {
+        field: `signUpSeed`,
+        value: seedPhrase
+      })
     })
   },
   methods: {
+    updateField(e) {
+      this.$store.commit(`updateField`, `field`, e.target.value)
+    },
     async onSubmit() {
       this.$v.$touch()
       if (this.$v.$error) return
       try {
         await this.$store.dispatch(`createKey`, {
-          seedPhrase: this.fields.signUpSeed,
-          password: this.fields.signUpPassword,
-          name: this.fields.signUpName
+          seedPhrase: this.fieldSeed,
+          password: this.fieldPassword,
+          name: this.fieldName
         })
         this.$router.push(`/`)
       } catch (error) {
@@ -215,13 +252,13 @@ export default {
     }
   },
   validations: () => ({
-    fields: {
-      signUpName: { required, minLength: minLength(5) },
-      signUpPassword: { required, minLength: minLength(10) },
-      signUpPasswordConfirm: { sameAsPassword: sameAs(`signUpPassword`) },
-      signUpWarning: { required: sameAs(() => true) },
-      errorCollection: false
-    }
+    // fields: {
+    fieldName: { required, minLength: minLength(5) },
+    fieldPassword: { required, minLength: minLength(10) },
+    fieldPasswordConfirm: { sameAsPassword: sameAs(`fieldPassword`) },
+    fieldWarning: { required: sameAs(() => true) },
+    errorCollection: false
+    // }
   })
 }
 </script>
