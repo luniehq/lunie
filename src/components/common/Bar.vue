@@ -1,14 +1,11 @@
 <template>
-  <div
-    v-if="message.show"
-    v-bind:class="`bar ${message.type}`"
-  >
+  <div v-if="show" v-bind:class="`bar ${type}`">
     <i></i>
     <p>
-      {{ message.message }}
+      <slot />
     </p>
     <a class="close">
-      <i class="material-icons close-icon" @click="close(message)">close</i>
+      <i class="material-icons close-icon" @click="close(show)">close</i>
     </a>
   </div>
 </template>
@@ -16,10 +13,10 @@
 <script>
 export default {
   name: `bar`,
-  props: [ "message" ],
+  props: ["show", "type" ],
   methods: {
     close(message) {
-      message.show = false
+      this.show = false
     }
   }
 }
