@@ -1,8 +1,10 @@
 <template>
   <div>
-    <CookieBar />
-    <MaintenanceBar />
-    <DisconnectedBar />
+    <div id="bar-container">
+      <CookieBar />
+      <MaintenanceBar />
+      <DisconnectedBar />
+    </div>
     <div id="app">
       <router-view name="session" />
       <AppHeader />
@@ -44,4 +46,12 @@ export default {
 
 <style>
 @import "./styles/app.css";
+
+#bar-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1;
+}
 </style>
