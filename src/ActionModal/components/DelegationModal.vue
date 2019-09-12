@@ -19,8 +19,9 @@
           behaviour of the validator.
         </span>
         <span v-else>
-          Voting power and rewards will
-          change instantly upon redelegation — your tokens will still be subject to the risks associated with the original delegation for the duration of the undelegation period.
+          Voting power and rewards will change instantly upon redelegation —
+          your tokens will still be subject to the risks associated with the
+          original delegation for the duration of the undelegation period.
         </span>
       </div>
     </TmFormGroup>
