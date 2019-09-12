@@ -40,7 +40,8 @@ const modalContext = {
   },
   session: {
     address: "cosmos1abcdefghijklmop",
-    localKeyPairName: "localKeyPairName"
+    localKeyPairName: "localKeyPairName",
+    currrentModalOpen: false
   },
   delegation: {
     committedDelegates: []
@@ -73,7 +74,8 @@ describe(`ActionModal`, () => {
         session: {
           signedIn: true,
           sessionType: `local`,
-          browserWithLedgerSupport: null
+          browserWithLedgerSupport: null,
+          currrentModalOpen: false
         },
         connection: {
           network: "testnet"
@@ -158,6 +160,24 @@ describe(`ActionModal`, () => {
 
     expect(wrapper.isEmpty()).not.toBe(true)
     expect(wrapper.vm.trackEvent).toHaveBeenCalled()
+  })
+
+  it(`should confirm modal closing`, () => {
+    global.confirm = () => true
+    const closeModal = jest.fn()
+    wrapper.vm.session.currrentModalOpen = {
+      close: closeModal
+    }
+    wrapper.vm.confirmModalOpen()
+    expect(closeModal).toHaveBeenCalled()
+  })
+
+  it(`should not open second modal`, () => {
+    wrapper.setData({ show: false })
+    global.confirm = () => false
+    wrapper.vm.session.currrentModalOpen = true
+    wrapper.vm.open()
+    expect(wrapper.vm.show).toBe(false)
   })
 
   it(`opens session modal and closes itself`, () => {
@@ -700,7 +720,7 @@ describe(`ActionModal`, () => {
     })
   })
 
-  it.only("shows a feature unavailable message", async () => {
+  it("shows a feature unavailable message", async () => {
     wrapper.vm.$apollo = {
       query: () => ({
         data: {
@@ -733,7 +753,8 @@ describe(`ActionModal`, () => {
             },
             getters: {
               modalContext
-            }
+            },
+            commit: jest.fn()
           },
           $apollo
         },
