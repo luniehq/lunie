@@ -90,6 +90,12 @@ describe(`DelegationModal`, () => {
     expect($refs.actionModal.open).toHaveBeenCalled()
   })
 
+  it(`opens and switches to redelegaion when selected`, () => {
+    wrapper.vm.$refs = { actionModal: { open: jest.fn() } }
+    wrapper.vm.open({ redelegation: true })
+    expect(wrapper.vm.selectedIndex).toBe(1)
+  })
+
   it(`clears on close`, () => {
     const self = {
       $v: { $reset: jest.fn() },

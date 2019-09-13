@@ -12,22 +12,19 @@
         <TmField
           v-model="searchTerm"
           class="searchField"
-          size="14px"
           placeholder="Search"
         />
         <div class="toggles">
           <TmBtn
-            color="primary"
             value="All"
-            class="btn-radio"
-            :type="!activeOnly ? `primary` : `secondary`"
+            class="btn-radio secondary"
+            :type="!activeOnly ? `active` : `secondary`"
             @click.native="activeOnly = !activeOnly"
           />
           <TmBtn
-            color="primary"
             value="Active"
-            class="btn-radio"
-            :type="activeOnly ? `primary` : `secondary`"
+            class="btn-radio secondary"
+            :type="activeOnly ? `active` : `secondary`"
             @click.native="activeOnly = !activeOnly"
           />
         </div>
@@ -97,44 +94,50 @@ export default {
   flex-flow: row wrap;
   align-items: center;
   justify-content: center;
-  margin: 1rem;
+  margin: 0.5rem 1rem;
+  flex-direction: column-reverse;
 
   .toggles {
-    margin-top: 1rem;
+    margin-top: 0;
+    margin-bottom: 1rem;
   }
 
   label {
     cursor: pointer;
   }
+
+  input {
+    font-size: 14px;
+  }
 }
 
 .filterOptions .btn-radio:last-child {
   border-radius: 0 0.5rem 0.5rem 0;
-  border-left: none;
-  outline: red;
+  margin-left: -1px;
 }
 
 .filterOptions .btn-radio:first-child {
   border-radius: 0.5rem 0 0 0.5rem;
-  border-right: none;
+  margin-right: -1px;
 }
 
 .filterOptions .btn-radio {
   border-radius: 0;
 }
 
-@media screen and (min-width: 1024px) {
+@media screen and (min-width: 768px) {
   .filterOptions {
-    justify-content: flex-end;
+    justify-content: space-between;
+    flex-direction: row;
+    margin: 0.5rem 2rem 1rem;
+
     .toggles {
-      order: -1;
-      margin-top: 0;
+      margin-bottom: 0;
     }
+
     input {
-      margin-left: 1rem;
       max-width: 300px;
     }
-    margin: 2rem;
   }
 }
 

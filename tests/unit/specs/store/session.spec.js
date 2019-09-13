@@ -87,6 +87,12 @@ describe(`Module: Session`, () => {
       mutations.setInsecureMode(state)
       expect(state.insecureMode).toBe(true)
     })
+
+    it(`should set current modal`, () => {
+      expect(state.currrentModalOpen).toBe(false)
+      mutations.setCurrrentModalOpen(state, true)
+      expect(state.currrentModalOpen).toBe(true)
+    })
   })
 
   it(`should clear all session related data`, () => {

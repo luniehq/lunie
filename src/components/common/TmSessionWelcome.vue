@@ -55,3 +55,8 @@ export default {
   }
 }
 </script>
+<style scoped>
+.session-title {
+  padding: 0 1rem;
+}
+</style>

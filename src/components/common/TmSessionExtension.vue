@@ -17,8 +17,10 @@
       </div>
 
       <div v-else class="session-main">
-        Below is a list of accounts we received from the Lunie browser
-        extension.
+        <p class="extension-message">
+          Below is a list of accounts we've received from the Lunie browser
+          extension.
+        </p>
         <AccountList
           :accounts="accounts"
           :button-action="signIn"
@@ -66,3 +68,10 @@ export default {
   }
 }
 </script>
+<style scoped>
+.session-title,
+.extension-message {
+  padding: 0 1rem;
+  margin: 0;
+}
+</style>

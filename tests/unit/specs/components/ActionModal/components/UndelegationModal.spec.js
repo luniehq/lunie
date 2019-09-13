@@ -68,6 +68,13 @@ describe(`UndelegationModal`, () => {
     expect($refs.actionModal.open).toHaveBeenCalled()
   })
 
+  it(`emits switch to redelegation event`, () => {
+    wrapper.vm.$refs = { actionModal: { close: jest.fn() } }
+    wrapper.find("#switch-to-redelgation").trigger("click")
+    expect(wrapper.vm.$refs.actionModal.close).toHaveBeenCalled()
+    expect(wrapper.emitted().switchToRedelegation).toBeTruthy()
+  })
+
   it(`clears on close`, () => {
     const self = {
       $v: { $reset: jest.fn() },

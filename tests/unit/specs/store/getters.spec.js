@@ -317,7 +317,7 @@ describe(`Store: getters`, () => {
           to_address: "cosmos1askljdhaslkdhaskldhasdlkjahlkajsh",
           amount: [{ denom: "uatom", amount: "50000" }]
         },
-        key: "345768MBNVMNBVMNBV",
+        key: "345768MBNVMNBVMNBV_0",
         blockNumber: 123456,
         time: new Date("2019-05-17T07:44:10.000Z"),
         group: "banking",

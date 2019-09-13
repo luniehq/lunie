@@ -51,10 +51,15 @@ exports[`SessionExtension should show a list of all accounts in the extension 1`
     <div
       class="session-main"
     >
+      <p
+        class="extension-message"
+      >
+        
+        Below is a list of accounts we've received from the Lunie browser
+        extension.
       
-      Below is a list of accounts we received from the Lunie browser
-      extension.
-      
+      </p>
+       
       <accountlist-stub
         accounts="[object Object],[object Object]"
         buttonaction="function () { [native code] }"
