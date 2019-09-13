@@ -78,10 +78,10 @@ export default ({ node }) => {
     async subscribeToBlocks({ state, commit, dispatch }) {
       // ensure we never subscribe twice
       if (state.subscription) return false
-      if (state.subscribedRPC === node.rpc) return false
-      commit(`setSubscribedRPC`, node.rpc)
+      if (state.subscribedRPC === node.tendermint) return false
+      commit(`setSubscribedRPC`, node.tendermint)
 
-      const status = await node.rpc.status()
+      const status = await node.tendermint.status()
       commit(`setBlockHeight`, status.sync_info.latest_block_height)
       if (status.sync_info.catching_up) {
         // still syncing, let's try subscribing again in 30 seconds
@@ -96,7 +96,7 @@ export default ({ node }) => {
       commit(`setBlocks`, [])
 
       // only subscribe if the node is not catching up anymore
-      node.rpc.subscribe({ query: `tm.event = 'NewBlock'` }, event => {
+      node.tendermint.subscribe({ query: `tm.event = 'NewBlock'` }, event => {
         if (state.subscription === false) commit(`setSubscription`, true)
         commit(`addBlock`, event.block)
         event.block &&
