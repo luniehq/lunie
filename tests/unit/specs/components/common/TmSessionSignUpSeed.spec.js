@@ -1,8 +1,8 @@
 import { createLocalVue, shallowMount } from "@vue/test-utils"
 import Vuelidate from "vuelidate"
-import TmSessionSignUp from "common/TmSessionSignUp"
+import TmSessionSignUpSeed from "common/TmSessionSignUpSeed"
 
-describe(`TmSessionSignUp`, () => {
+describe(`TmSessionSignUpSeed`, () => {
   const localVue = createLocalVue()
   localVue.use(Vuelidate)
 
@@ -13,12 +13,15 @@ describe(`TmSessionSignUp`, () => {
       state: {
         session: { insecureMode: true },
         signup: {
-          signUpName: ""
+          signUpSeed: "seed",
+          signUpWarning: false
         }
-      }
+      },
+      commit: jest.fn(),
+      dispatch: jest.fn().mockResolvedValue("")
     }
 
-    wrapper = shallowMount(TmSessionSignUp, {
+    wrapper = shallowMount(TmSessionSignUpSeed, {
       localVue,
       mocks: {
         $store,
@@ -31,6 +34,7 @@ describe(`TmSessionSignUp`, () => {
   })
 
   it("renders", () => {
+    expect(wrapper.vm.fieldSeed).not.toBe(``)
     expect(wrapper.element).toMatchSnapshot()
   })
 })

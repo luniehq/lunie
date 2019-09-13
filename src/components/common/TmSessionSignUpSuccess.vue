@@ -1,5 +1,5 @@
 <template>
-  <SessionFrame hide-back="true">
+  <SessionFrame :hide-back="true">
     <h2 class="session-title">
       Success!
     </h2>
@@ -15,7 +15,6 @@
 </template>
 
 <script>
-import { mapState } from "vuex"
 import TmBtn from "common/TmBtn"
 import SessionFrame from "common/SessionFrame"
 export default {
@@ -23,10 +22,6 @@ export default {
   components: {
     TmBtn,
     SessionFrame
-  },
-
-  computed: {
-    ...mapState([`session`, `signup`])
   }
 }
 </script>

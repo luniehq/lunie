@@ -1,0 +1,33 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TmSessionSignUpSuccess renders 1`] = `
+<sessionframe-stub
+  hideback="true"
+>
+  <h2
+    class="session-title"
+  >
+    
+    Success!
+  
+  </h2>
+   
+  <div
+    class="wrapper"
+  >
+    <div
+      class="content-main"
+    >
+      <p>
+        
+        A message should go here.
+      
+      </p>
+       
+      <tmbtn-stub
+        value="Back to Lunie"
+      />
+    </div>
+  </div>
+</sessionframe-stub>
+`;

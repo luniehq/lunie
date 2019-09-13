@@ -1,8 +1,8 @@
 import { createLocalVue, shallowMount } from "@vue/test-utils"
 import Vuelidate from "vuelidate"
-import TmSessionSignUp from "common/TmSessionSignUp"
+import TmSessionSignUpPassword from "common/TmSessionSignUpPassword"
 
-describe(`TmSessionSignUp`, () => {
+describe(`TmSessionSignUpPassword`, () => {
   const localVue = createLocalVue()
   localVue.use(Vuelidate)
 
@@ -13,12 +13,13 @@ describe(`TmSessionSignUp`, () => {
       state: {
         session: { insecureMode: true },
         signup: {
-          signUpName: ""
+          signUpPassword: "",
+          signUpPasswordConfirm: ""
         }
       }
     }
 
-    wrapper = shallowMount(TmSessionSignUp, {
+    wrapper = shallowMount(TmSessionSignUpPassword, {
       localVue,
       mocks: {
         $store,
