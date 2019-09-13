@@ -57,8 +57,7 @@
           />
         </TmFormGroup>
         <div class="session-footer">
-          <router-link to="/create-seed" tag="button">Next</router-link>
-          <!-- <TmBtn value="Next" @click.native="$router.push('create-seed')" /> -->
+          <TmBtn value="Next" @click.native="$router.push('create-seed')" />
         </div>
       </div>
       <div v-if="!session.insecureMode" class="session-main">
@@ -95,7 +94,7 @@
 <script>
 import { mapState } from "vuex"
 import { required, minLength, sameAs } from "vuelidate/lib/validators"
-// import TmBtn from "common/TmBtn"
+import TmBtn from "common/TmBtn"
 import TmFormGroup from "common/TmFormGroup"
 import TmFormStruct from "common/TmFormStruct"
 import TmField from "common/TmField"
@@ -105,7 +104,7 @@ import SessionFrame from "common/SessionFrame"
 export default {
   name: `session-sign-up`,
   components: {
-    // TmBtn,
+    TmBtn,
     TmField,
     SessionFrame,
     // FieldSeed,

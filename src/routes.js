@@ -131,7 +131,7 @@ export default [
     path: `/create-password`,
     name: `create-password`,
     components: {
-      session: require(`./components/common/TmSessionSignUp2`).default
+      session: require(`./components/common/TmSessionSignUpPassword`).default
     },
     meta: {
       feature: "Session"
@@ -141,7 +141,7 @@ export default [
     path: `/create-seed`,
     name: `create-seed`,
     components: {
-      session: require(`./components/common/TmSessionSignUp3`).default
+      session: require(`./components/common/TmSessionSignUpSeed`).default
     },
     meta: {
       feature: "Session"
@@ -151,7 +151,7 @@ export default [
     path: `/create-confirm`,
     name: `create-confirm`,
     components: {
-      session: require(`./components/common/TmSessionSignUp4`).default
+      session: require(`./components/common/TmSessionSignUpSuccess`).default
     },
     meta: {
       feature: "Session"
