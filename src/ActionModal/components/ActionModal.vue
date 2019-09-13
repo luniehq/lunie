@@ -599,9 +599,8 @@ export default {
       await this.$store.dispatch(`connectLedgerApp`)
     },
     async checkFeatureAvailable() {
-      // TODO remove once Hasura is available in e2e tests
       /* istanbul ignore next */
-      if (config.e2e) {
+      if (this.network === "testnet") {
         this.featureAvailable = true
         return
       }

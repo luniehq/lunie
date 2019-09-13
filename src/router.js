@@ -17,7 +17,7 @@ export const routeGuard = (store, apollo) => async (to, from, next) => {
 
   if (
     to.meta.feature &&
-    !config.e2e && // TODO remove once we have Hasura integrated in e2e tests
+    !(store.state.connection.network === "testnet") && // TODO remove once we have Hasura integrated in e2e tests
     !(await featureAvailable(apollo, store.state.connection.network, to))
   ) {
     next(`/feature-not-available/${to.meta.feature}`)
