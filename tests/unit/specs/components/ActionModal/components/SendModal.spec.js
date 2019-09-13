@@ -5,7 +5,7 @@ import SendModal from "src/ActionModal/components/SendModal"
 describe(`SendModal`, () => {
   const localVue = createLocalVue()
   localVue.use(Vuelidate)
-  localVue.directive(`focus`, () => {})
+  localVue.directive(`focus`, () => { })
 
   let wrapper, $store
 
@@ -191,8 +191,9 @@ describe(`SendModal`, () => {
       wrapper.vm.setMaxAmount()
       expect(wrapper.vm.amount).toBe(10000)
       await wrapper.vm.$nextTick()
-      expect(wrapper.find(".max-notice").text()).toContain(
-        "You are about to use all your tokens for this transaction."
+      expect(wrapper.find(".max-notice").text()).toBe(
+        `You are about to use all your tokens for this transaction. Consider
+      leaving a little bit left over to cover the network fees.`
       )
     })
   })
