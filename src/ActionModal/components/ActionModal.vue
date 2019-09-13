@@ -27,7 +27,10 @@
           :steps="['Details', 'Fees', 'Sign']"
           :active-step="step"
         />
-        <p class="form-message notice" v-if="extension.enabled && !modalContext.isExtensionAccount">
+        <p
+          class="form-message notice"
+          v-if="extension.enabled && !modalContext.isExtensionAccount"
+        >
           Hello user. FYI, this address is not in your extension accounts list.
         </p>
       </div>
@@ -439,8 +442,7 @@ export default {
     },
     hasSigningMethod() {
       return (
-        (this.selectedSignMethod === "ledger" &&
-          this.session.browserWithLedgerSupport) ||
+        this.session.browserWithLedgerSupport ||
         (this.selectedSignMethod === "extension" &&
           this.modalContext.isExtensionAccount)
       )
