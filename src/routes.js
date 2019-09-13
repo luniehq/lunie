@@ -138,8 +138,8 @@ export default [
     }
   },
   {
-    path: `/create-seed`,
-    name: `create-seed`,
+    path: `/create-confirm`,
+    name: `create-confirm`,
     components: {
       session: require(`./components/common/TmSessionSignUpSeed`).default
     },
@@ -148,8 +148,8 @@ export default [
     }
   },
   {
-    path: `/create-confirm`,
-    name: `create-confirm`,
+    path: `/create-success`,
+    name: `create-success`,
     components: {
       session: require(`./components/common/TmSessionSignUpSuccess`).default
     },
