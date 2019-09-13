@@ -8,6 +8,15 @@ describe(`MaintenanceBar`, () => {
   })
 
   it(`has the expected html structure`, () => {
+    wrapper.setData({
+      maintenance: [
+        {
+          message: "success test message",
+          type: "success",
+          show: true
+        }
+      ]
+    })
     expect(wrapper.element).toMatchSnapshot()
   })
 
