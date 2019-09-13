@@ -93,6 +93,10 @@ input.tm-field {
   z-index: var(--z-appHeader) !important;
 }
 
+#bar-container {
+  display: block;
+}
+
 @media screen and (max-width: 1023px) {
   #app-content {
     padding-top: 3rem;
