@@ -1,5 +1,5 @@
 <template>
-  <div v-if="show" v-bind:class="`bar ${type}`">
+  <div v-if="show" :class="`bar ${type}`">
     <i></i>
     <p>
       <slot />
@@ -13,7 +13,13 @@
 <script>
 export default {
   name: `bar`,
-  props: ["show", "type" ],
+  props: {
+    type: {
+      type: String,
+      default: "primary"
+    },
+    show: Boolean
+  },
   methods: {
     close() {
       this.show = false

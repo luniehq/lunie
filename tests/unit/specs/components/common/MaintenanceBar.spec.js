@@ -15,8 +15,8 @@ describe(`MaintenanceBar`, () => {
     wrapper.setData({
       maintenance: [
         {
-          message: 'success test message',
-          type: 'success',
+          message: "success test message",
+          type: "success",
           show: true
         }
       ]
@@ -28,8 +28,8 @@ describe(`MaintenanceBar`, () => {
     wrapper.setData({
       maintenance: [
         {
-          message: 'warning test message',
-          type: 'warning',
+          message: "warning test message",
+          type: "warning",
           show: true
         }
       ]
@@ -41,8 +41,8 @@ describe(`MaintenanceBar`, () => {
     wrapper.setData({
       maintenance: [
         {
-          message: 'danger test message',
-          type: 'danger',
+          message: "danger test message",
+          type: "danger",
           show: true
         }
       ]
