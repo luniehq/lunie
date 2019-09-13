@@ -47,15 +47,6 @@ module.exports = {
       ]
     }
 
-    if (!process.env.CI) {
-      config.devServer = {
-        https: {
-          key: fs.readFileSync("./certs/dev.key"),
-          cert: fs.readFileSync("./certs/dev.crt")
-        }
-      }
-    }
-
     if (process.env.NODE_ENV === `production` && !process.env.E2E_TESTS) {
       config.plugins.push(
         // adds the content security policy to the index.html
