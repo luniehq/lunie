@@ -1,11 +1,11 @@
 <template>
-  <div v-if="show" :class="`bar ${type}`">
+  <div v-if="showMessage" :class="`bar ${type}`">
     <i></i>
     <p>
       <slot />
     </p>
     <a class="close">
-      <i class="material-icons close-icon" @click="close(show)">close</i>
+      <i class="material-icons close-icon" @click="close()">close</i>
     </a>
   </div>
 </template>
@@ -20,9 +20,14 @@ export default {
     },
     show: Boolean
   },
+  data: function () {
+    return {
+      showMessage: this.show
+    }
+  },
   methods: {
     close() {
-      this.show = false
+      this.showMessage = false
     }
   }
 }
