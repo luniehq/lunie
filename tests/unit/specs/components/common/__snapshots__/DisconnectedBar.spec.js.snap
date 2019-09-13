@@ -7,7 +7,8 @@ exports[`DisconnectedBar shows the disconnected bar 1`] = `
     type="info"
   >
     
-    You are currently not connected. 
+    You are currently not connected.
+    
     <a
       class="link"
     >
