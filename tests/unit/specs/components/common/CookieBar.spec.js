@@ -2,16 +2,18 @@ import { shallowMount } from "@vue/test-utils"
 import CookieBar from "common/CookieBar"
 
 describe(`CookieBar`, () => {
-  let wrapper, $store
+  let wrapper, dispatch, $store
 
   beforeEach(async () => {
+    dispatch = jest.fn()
     $store = {
       commit: jest.fn(),
       state: {
         session: {
           cookiesAccepted: false
         }
-      }
+      },
+      dispatch
     }
 
     wrapper = shallowMount(CookieBar, {
@@ -27,12 +29,7 @@ describe(`CookieBar`, () => {
   })
 
   it(`can triggers cookie acceptance on close`, () => {
-    const dispatch = jest.fn()
-    CookieBar.methods.accept.call({
-      $store: {
-        dispatch
-      }
-    })
+    wrapper.setData({ show: false });
     expect(dispatch).toHaveBeenCalledWith(`setAnalyticsCollection`, true)
     expect(dispatch).toHaveBeenCalledWith(`setErrorCollection`, true)
     expect(dispatch).toHaveBeenCalledWith(`storeLocalPreferences`)

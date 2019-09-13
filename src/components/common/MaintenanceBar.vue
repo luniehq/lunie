@@ -7,7 +7,7 @@
 </template>
 
 <script>
-//import gql from "graphql-tag"
+import gql from "graphql-tag"
 import Bar from "common/Bar"
 export default {
   name: `maintenance-bar`,
@@ -15,26 +15,8 @@ export default {
     Bar
   },
   data: () => ({
-    /* Just for testing */
-    maintenance: [
-      {
-        message: "success message",
-        show: true,
-        type: "success"
-      },
-      {
-        message: "danger message",
-        show: true,
-        type: "danger"
-      },
-      {
-        message: "warning message",
-        show: true,
-        type: "warning"
-      }
-    ]
+    maintenance: []
   }),
-  /*
   apollo: {
     maintenance: {
       query: gql`
@@ -49,6 +31,5 @@ export default {
       update: result => result.maintenance
     }
   }
-  */
 }
 </script>

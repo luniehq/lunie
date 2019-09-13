@@ -1,6 +1,5 @@
 <template>
-  <!-- <div v-if="stopConnecting"> -->
-  <div v-if="true">
+  <div v-if="stopConnecting">
     <Bar :show="true" :type="'info'">
       You are currently not connected. <a class="link" @click="reconnect()">Try Reconnecting</a>?
     </Bar>
