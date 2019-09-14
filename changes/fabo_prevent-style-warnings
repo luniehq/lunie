@@ -1,0 +1,1 @@
+[Repository] Prevent checkin of code with lint warnings (before only errors) @faboweb

@@ -90,7 +90,7 @@ describe(`TmFormMsg`, () => {
       type: `bech32`,
       name: `Address`,
       error: `Address is invalid bech32`
-    },
+    },   
     {
       type: `integer`,
       name: `Number`,

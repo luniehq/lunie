@@ -1,13 +1,15 @@
 <template>
-  <button v-if="type === `addon-max`"
-    class="addon-max"
-    :disabled="disabled"
-  >
+  <button v-if="type === `addon-max`" class="addon-max" :disabled="disabled">
     {{ value }}
   </button>
-  <button v-else
+  <button
+    v-else
     class="button"
-    :class="{ secondary: type === `secondary`, small: size === `small` }"
+    :class="{
+      secondary: type === `secondary`,
+      small: size === `small`,
+      active: type === `active`
+    }"
     :disabled="disabled"
   >
     {{ value }}
@@ -73,12 +75,16 @@ export default {
   border-color: var(--bc-dim);
 }
 
+.button.secondary.active {
+  background: var(--primary-dark);
+}
+
 .button.secondary {
   background: var(--primary-alpha);
 }
 
 .button.secondary:hover {
-  background: var(--primary-alpha);
+  background: var(--primary-dark);
 }
 
 .button.secondary.small {
@@ -108,8 +114,8 @@ export default {
   min-width: 100px;
   color: var(--bright);
   margin: 0;
-  border-top-right-radius: .25rem !important;
-  border-bottom-right-radius: .25rem !important;
+  border-top-right-radius: 0.25rem !important;
+  border-bottom-right-radius: 0.25rem !important;
   cursor: pointer;
   background: var(--primary);
   border: 2px solid var(--primary);
@@ -134,5 +140,4 @@ export default {
   background: var(--primary-dark);
   border-color: var(--bc-dim);
 }
-
 </style>

@@ -21,8 +21,6 @@ exports[`PageContainer should show links to other pages 1`] = `
   <main
     class="tm-page-main"
   />
-   
-  <pagefooter-stub />
 </div>
 `;
 
@@ -47,7 +45,5 @@ exports[`PageContainer shows a page skeleton 1`] = `
   <main
     class="tm-page-main"
   />
-   
-  <pagefooter-stub />
 </div>
 `;
