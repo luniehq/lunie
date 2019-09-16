@@ -104,7 +104,7 @@
         v-else-if="isMaxAmount()"
         msg="You are about to use all your tokens for this transaction. Consider leaving a little bit left over to cover the network fees."
         type="custom"
-        class="tm-form-msg--desc"
+        class="tm-form-msg--desc max-message"
       />
     </TmFormGroup>
     <TmBtn

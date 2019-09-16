@@ -70,10 +70,6 @@ exports[`SendModal should display send modal form 1`] = `
       name="Wallet"
       type="custom"
     />
-     
-    <p
-      class="form-message empty"
-    />
   </tmformgroup-stub>
    
   <tmbtn-stub
@@ -157,10 +153,6 @@ exports[`SendModal validation should show address required error 1`] = `
     </tmfieldgroup-stub>
      
     <!---->
-     
-    <p
-      class="form-message empty"
-    />
   </tmformgroup-stub>
    
   <tmbtn-stub
@@ -244,10 +236,6 @@ exports[`SendModal validation should show bech32 error when address length is to
     </tmfieldgroup-stub>
      
     <!---->
-     
-    <p
-      class="form-message empty"
-    />
   </tmformgroup-stub>
    
   <tmbtn-stub
@@ -331,10 +319,6 @@ exports[`SendModal validation should show bech32 error when address length is to
     </tmfieldgroup-stub>
      
     <!---->
-     
-    <p
-      class="form-message empty"
-    />
   </tmformgroup-stub>
    
   <tmbtn-stub
@@ -420,10 +404,6 @@ exports[`SendModal validation should show bech32 error when alphanumeric is wron
       msg="doesn't have any STAKEs"
       name="Wallet"
       type="custom"
-    />
-     
-    <p
-      class="form-message empty"
     />
   </tmformgroup-stub>
    
