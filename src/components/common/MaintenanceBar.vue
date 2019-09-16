@@ -1,7 +1,11 @@
 <template>
   <div v-if="maintenance.length > 0">
     <div v-for="(message, index) in maintenance" :key="index">
-      <div v-if="message.show" class="maintenance-bar" v-bind:class="`${message.type} message-${index+1}`">
+      <div
+        v-if="message.show"
+        class="maintenance-bar"
+        :class="`${message.type} message-${index + 1}`"
+      >
         <i></i>
         <p>
           {{ message.message }}
