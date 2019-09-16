@@ -100,11 +100,12 @@
         name="Amount"
         type="between"
       />
-      <p v-if="isMaxAmount()" class="form-message notice max-notice">
-        You are about to use all your tokens for this transaction. Consider
-        leaving a little bit left over to cover the network fees.
-      </p>
-      <p v-else class="form-message empty"></p>
+      <TmFormMsg
+        v-else-if="isMaxAmount()"
+        msg="You are about to use all your tokens for this transaction. Consider leaving a little bit left over to cover the network fees."
+        name="Amount"
+        type="custom"
+      />
     </TmFormGroup>
     <TmBtn
       v-if="editMemo === false"
