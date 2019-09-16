@@ -4,8 +4,8 @@ exports[`MaintenanceBar has the expected html structure 1`] = `
 <div>
   <div>
     <bar-stub
+      bartype="primary"
       show="true"
-      type="success"
     >
       success test message
     </bar-stub>

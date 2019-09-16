@@ -1,6 +1,6 @@
 <template>
   <div v-if="!session.cookiesAccepted">
-    <Bar :show="show" :type="'primary'">
+    <Bar :show="show" :bar-type="'primary'">
       <span class="hide-on-mobile"
         >This site uses cookies to help improve your experience.</span
       >

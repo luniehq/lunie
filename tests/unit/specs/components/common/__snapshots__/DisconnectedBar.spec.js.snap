@@ -3,8 +3,8 @@
 exports[`DisconnectedBar shows the disconnected bar 1`] = `
 <div>
   <bar-stub
+    bartype="info"
     show="true"
-    type="info"
   >
     
     You are currently not connected.

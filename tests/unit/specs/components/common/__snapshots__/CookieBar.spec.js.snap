@@ -3,8 +3,8 @@
 exports[`CookieBar shows the cookie bar 1`] = `
 <div>
   <bar-stub
+    bartype="primary"
     show="true"
-    type="primary"
   >
     <span
       class="hide-on-mobile"

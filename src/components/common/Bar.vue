@@ -1,5 +1,5 @@
 <template>
-  <div v-if="showMessage" :class="`bar ${type}`">
+  <div v-if="showMessage" :class="`bar ${barType}`">
     <i></i>
     <p>
       <slot />
@@ -14,7 +14,7 @@
 export default {
   name: `bar`,
   props: {
-    type: {
+    barType: {
       type: String,
       default: "primary"
     },

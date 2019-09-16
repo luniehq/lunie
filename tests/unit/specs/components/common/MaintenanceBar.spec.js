@@ -12,7 +12,7 @@ describe(`MaintenanceBar`, () => {
       maintenance: [
         {
           message: "success test message",
-          type: "success",
+          barType: "success",
           show: true
         }
       ]
@@ -25,7 +25,7 @@ describe(`MaintenanceBar`, () => {
       maintenance: [
         {
           message: "success test message",
-          type: "success",
+          barType: "success",
           show: true
         }
       ]
@@ -38,7 +38,7 @@ describe(`MaintenanceBar`, () => {
       maintenance: [
         {
           message: "warning test message",
-          type: "warning",
+          barType: "warning",
           show: true
         }
       ]
@@ -51,7 +51,7 @@ describe(`MaintenanceBar`, () => {
       maintenance: [
         {
           message: "danger test message",
-          type: "danger",
+          barType: "danger",
           show: true
         }
       ]
