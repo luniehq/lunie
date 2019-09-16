@@ -115,7 +115,7 @@
         <li>
           <h4>Uptime</h4>
           <span id="page-profile__uptime">
-            {{ validator.uptime_percentage }}
+            {{ validator.uptime_percentage | percent }}
           </span>
         </li>
         <li>
@@ -149,6 +149,7 @@
         :to="session.signedIn ? session.address : ``"
         :validator="validator"
         :denom="bondDenom"
+        @switchToRedelegation="onDelegation({ redelegation: true })"
       />
     </template>
     <template v-else>
@@ -334,8 +335,8 @@ export default {
     uatoms,
     percent,
     moment,
-    onDelegation() {
-      this.$refs.delegationModal.open()
+    onDelegation(options) {
+      this.$refs.delegationModal.open(options)
     },
     onUndelegation() {
       this.$refs.undelegationModal.open()

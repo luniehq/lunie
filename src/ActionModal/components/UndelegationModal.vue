@@ -15,8 +15,11 @@
       <div class="form-message notice">
         <span>
           Undelegations take 21 days to complete and cannot be undone. Please
-          make sure you understand the rules of delegation.</span
-        >
+          make sure you understand the rules of delegation. Would you prefer to
+          <a id="switch-to-redelgation" href="#" @click="switchToRedelegation()"
+            >redelegate?</a
+          >
+        </span>
       </div>
     </TmFormGroup>
     <TmFormGroup
@@ -174,6 +177,10 @@ export default {
     },
     enterPressed() {
       this.$refs.actionModal.validateChangeStep()
+    },
+    switchToRedelegation() {
+      this.$refs.actionModal.close()
+      this.$emit("switchToRedelegation")
     }
   }
 }

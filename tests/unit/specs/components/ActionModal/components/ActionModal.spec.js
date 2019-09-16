@@ -40,7 +40,8 @@ const modalContext = {
   },
   session: {
     address: "cosmos1abcdefghijklmop",
-    localKeyPairName: "localKeyPairName"
+    localKeyPairName: "localKeyPairName",
+    currrentModalOpen: false
   },
   delegation: {
     committedDelegates: []
@@ -73,7 +74,8 @@ describe(`ActionModal`, () => {
         session: {
           signedIn: true,
           sessionType: `local`,
-          browserWithLedgerSupport: null
+          browserWithLedgerSupport: null,
+          currrentModalOpen: false
         },
         connection: {
           network: "testnet"
@@ -160,6 +162,24 @@ describe(`ActionModal`, () => {
     expect(wrapper.vm.trackEvent).toHaveBeenCalled()
   })
 
+  it(`should confirm modal closing`, () => {
+    global.confirm = () => true
+    const closeModal = jest.fn()
+    wrapper.vm.session.currrentModalOpen = {
+      close: closeModal
+    }
+    wrapper.vm.confirmModalOpen()
+    expect(closeModal).toHaveBeenCalled()
+  })
+
+  it(`should not open second modal`, () => {
+    wrapper.setData({ show: false })
+    global.confirm = () => false
+    wrapper.vm.session.currrentModalOpen = true
+    wrapper.vm.open()
+    expect(wrapper.vm.show).toBe(false)
+  })
+
   it(`opens session modal and closes itself`, () => {
     const $store = { commit: jest.fn() }
     const self = { $store, close: jest.fn(), $router: { push: jest.fn() } }
@@ -222,6 +242,17 @@ describe(`ActionModal`, () => {
     it(`on success`, async () => {
       wrapper.vm.step = "success"
       expect(wrapper.element).toMatchSnapshot()
+    })
+  })
+
+  describe(`back button`, () => {
+    it(`renders and functions`, () => {
+      wrapper.setData({ step: "sign" })
+      expect(wrapper.element).toMatchSnapshot()
+      wrapper.find("#prevBtn").trigger("click")
+      expect(wrapper.vm.step).toBe("fees")
+      wrapper.find("#prevBtn").trigger("click")
+      expect(wrapper.vm.step).toBe("details")
     })
   })
 
@@ -700,7 +731,7 @@ describe(`ActionModal`, () => {
     })
   })
 
-  it.only("shows a feature unavailable message", async () => {
+  it("shows a feature unavailable message", async () => {
     wrapper.vm.$apollo = {
       query: () => ({
         data: {
@@ -733,7 +764,8 @@ describe(`ActionModal`, () => {
             },
             getters: {
               modalContext
-            }
+            },
+            commit: jest.fn()
           },
           $apollo
         },

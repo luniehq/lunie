@@ -38,9 +38,13 @@
   display: block;
 }
 
+.session-header p {
+  font-size: 14px;
+}
+
 .session-main {
   flex: 1;
-  padding: 0 1rem;
+  /* padding: 0 1rem; */
 }
 
 .session-main p {
@@ -48,11 +52,11 @@
 }
 
 .session-title {
-  font-size: 38px;
+  font-size: var(--h2);
   line-height: 44px;
   color: var(--bright);
   font-weight: 600;
-  padding: 1rem 1rem 1.5rem;
+  padding: 1rem 0 0;
 }
 
 .session-image {
@@ -91,9 +95,10 @@
 
 .session-footer {
   display: flex;
-  padding: 2rem 1rem;
+  padding: 1rem 0;
   flex-direction: column;
   justify-content: space-between;
+  font-size: 12px;
 }
 
 .footnote {
@@ -113,6 +118,18 @@
 
 .session-logo-mobile {
   display: none;
+}
+
+.field-checkbox-input {
+  display: block;
+  padding-left: 1.5rem;
+  text-indent: -1.5rem;
+  line-height: 14px;
+  font-size: 14px;
+}
+
+.accounts-header {
+  padding: 0 1rem;
 }
 
 @media screen and (min-width: 667px) {
@@ -144,13 +161,13 @@
 }
 
 @media screen and (max-width: 1023px) {
-  .session-header,
+  /* .session-header,
   .session-title,
   .session-main,
   .session-footer {
     padding-left: 0;
     padding-right: 0;
-  }
+  } */
 
   .session-frame .session-close {
     display: none;

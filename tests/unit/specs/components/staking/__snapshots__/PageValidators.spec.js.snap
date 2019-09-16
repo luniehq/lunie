@@ -15,7 +15,6 @@ exports[`PageValidators shows a list of validators 1`] = `
       <tmfield-stub
         class="searchField"
         placeholder="Search"
-        size="14px"
         type="text"
         value=""
       />
@@ -24,16 +23,14 @@ exports[`PageValidators shows a list of validators 1`] = `
         class="toggles"
       >
         <tmbtn-stub
-          class="btn-radio"
-          color="primary"
+          class="btn-radio secondary"
           type="secondary"
           value="All"
         />
          
         <tmbtn-stub
-          class="btn-radio"
-          color="primary"
-          type="primary"
+          class="btn-radio secondary"
+          type="active"
           value="Active"
         />
       </div>
@@ -65,7 +62,6 @@ exports[`PageValidators shows a message if still loading 1`] = `
       <tmfield-stub
         class="searchField"
         placeholder="Search"
-        size="14px"
         type="text"
         value=""
       />
@@ -74,16 +70,14 @@ exports[`PageValidators shows a message if still loading 1`] = `
         class="toggles"
       >
         <tmbtn-stub
-          class="btn-radio"
-          color="primary"
+          class="btn-radio secondary"
           type="secondary"
           value="All"
         />
          
         <tmbtn-stub
-          class="btn-radio"
-          color="primary"
-          type="primary"
+          class="btn-radio secondary"
+          type="active"
           value="Active"
         />
       </div>
@@ -116,7 +110,6 @@ exports[`PageValidators shows a message if there is an error to display 1`] = `
       <tmfield-stub
         class="searchField"
         placeholder="Search"
-        size="14px"
         type="text"
         value=""
       />
@@ -125,16 +118,14 @@ exports[`PageValidators shows a message if there is an error to display 1`] = `
         class="toggles"
       >
         <tmbtn-stub
-          class="btn-radio"
-          color="primary"
+          class="btn-radio secondary"
           type="secondary"
           value="All"
         />
          
         <tmbtn-stub
-          class="btn-radio"
-          color="primary"
-          type="primary"
+          class="btn-radio secondary"
+          type="active"
           value="Active"
         />
       </div>
@@ -166,7 +157,6 @@ exports[`PageValidators shows a message if there is nothing to display 1`] = `
       <tmfield-stub
         class="searchField"
         placeholder="Search"
-        size="14px"
         type="text"
         value=""
       />
@@ -175,16 +165,14 @@ exports[`PageValidators shows a message if there is nothing to display 1`] = `
         class="toggles"
       >
         <tmbtn-stub
-          class="btn-radio"
-          color="primary"
+          class="btn-radio secondary"
           type="secondary"
           value="All"
         />
          
         <tmbtn-stub
-          class="btn-radio"
-          color="primary"
-          type="primary"
+          class="btn-radio secondary"
+          type="active"
           value="Active"
         />
       </div>

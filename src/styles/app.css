@@ -109,8 +109,8 @@ input.tm-field {
   line-height: 14px;
 }
 
-#appzi-launch-button-cf1d801a-9653-4934-8a18-cea8c9e77495 {
-  z-index: var(--z-appHeader) !important;
+#bar-container {
+  display: block;
 }
 
 @media screen and (max-width: 1023px) {
