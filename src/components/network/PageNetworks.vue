@@ -12,6 +12,7 @@
 <script>
 import { Networks, NetworksResult } from "src/gql"
 import NetworkList from "./NetworkList"
+import config from "src/config"
 
 import TmPage from "common/TmPage"
 export default {
@@ -28,7 +29,18 @@ export default {
       return this.networks.filter(network => !network.testnet)
     },
     testNetworks() {
-      return this.networks.filter(network => network.testnet)
+      const networks = this.networks.filter(network => network.testnet)
+      if (config.development) {
+        networks.push({
+          title: "Local Testnet",
+          chain_id: "testnet",
+          id: "testnet",
+          rpc_url: config.rpc,
+          api_url: config.stargate,
+          logo_url: "https://s3.amazonaws.com/network.logos/cosmos-logo.png"
+        })
+      }
+      return networks
     }
   },
   apollo: {

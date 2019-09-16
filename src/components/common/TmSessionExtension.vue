@@ -6,13 +6,15 @@
       </h2>
       <div v-if="!extension.enabled" class="session-main">
         <p>
-          Please install the Lunie Browser Extension from the
+          Looks like you don't have the Lunie browser extension installed yet.
+          Head over to the
           <a
-            href="https://chrome.google.com/webstore/category/extensions"
+            href="http://bit.ly/lunie-ext"
             target="_blank"
             rel="noopener norefferer"
             >Chrome Web Store</a
-          >.
+          >
+          to quickly install the extension.
         </p>
       </div>
 
