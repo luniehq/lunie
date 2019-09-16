@@ -185,7 +185,7 @@ exports[`PageValidator shows a validator profile information errors signing info
           id="page-profile__uptime"
         >
           
-          0.9962
+          99.62%
         
         </span>
       </li>
@@ -433,7 +433,7 @@ exports[`PageValidator shows a validator profile information if user has signed 
           id="page-profile__uptime"
         >
           
-          0.9962
+          99.62%
         
         </span>
       </li>
@@ -681,7 +681,7 @@ exports[`PageValidator shows a validator profile information if user hasn't sign
           id="page-profile__uptime"
         >
           
-          0.9962
+          99.62%
         
         </span>
       </li>
@@ -931,7 +931,7 @@ exports[`PageValidator shows a validator profile information shows empty website
           id="page-profile__uptime"
         >
           
-          0.9962
+          99.62%
         
         </span>
       </li>
@@ -1179,7 +1179,7 @@ exports[`PageValidator shows a validator profile information shows http website 
           id="page-profile__uptime"
         >
           
-          0.9962
+          99.62%
         
         </span>
       </li>
