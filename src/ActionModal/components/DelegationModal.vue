@@ -11,6 +11,20 @@
     :notify-message="notifyMessage"
     @close="clear"
   >
+    <TmFormGroup class="action-modal-form-group">
+      <div class="form-message notice">
+        <span v-if="!isRedelegation()">
+          It will take 21 days to unlock your tokens after a delegation and
+          there is a risk that some tokens will be lost depending on the
+          behaviour of the validator.
+        </span>
+        <span v-else>
+          Voting power and rewards will change instantly upon redelegation —
+          your tokens will still be subject to the risks associated with the
+          original delegation for the duration of the undelegation period.
+        </span>
+      </div>
+    </TmFormGroup>
     <TmFormGroup class="action-modal-form-group" field-id="to" field-label="To">
       <TmField id="to" v-model="to" type="text" readonly />
     </TmFormGroup>
@@ -194,7 +208,10 @@ export default {
   },
   methods: {
     viewDenom,
-    open() {
+    open(options) {
+      if (options && options.redelegation && this.fromOptions.length > 1) {
+        this.selectedIndex = 1
+      }
       this.$refs.actionModal.open()
     },
     validateForm() {

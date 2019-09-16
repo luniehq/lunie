@@ -2,14 +2,14 @@
   <nav class="app-header" :class="{ mobile: !desktop }">
     <div class="container">
       <div class="header-item" :class="{ open: open }">
-        <router-link to="/">
+        <a href="https://lunie.io">
           <img
             class="header-item-logo"
             src="~assets/images/lunie-logo-white.svg"
             alt="Lunie spaceship accelerating into a colourful space sky"
           />
           Lunie
-        </router-link>
+        </a>
         <template v-if="!desktop">
           <div v-if="open" class="close-menu" @click="close()">
             <i class="material-icons mobile-menu-action">close</i>

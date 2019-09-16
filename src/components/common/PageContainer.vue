@@ -15,7 +15,6 @@
     <main class="tm-page-main">
       <slot name="managed-body" />
     </main>
-    <PageFooter />
   </div>
 </template>
 
@@ -23,14 +22,12 @@
 import TmPageHeader from "./TmPageHeader.vue"
 import { mapState } from "vuex"
 import TmBalance from "common/TmBalance"
-import PageFooter from "common/TmPageFooter"
 
 export default {
   name: `page-container`,
   components: {
     TmBalance,
-    TmPageHeader,
-    PageFooter
+    TmPageHeader
   },
   props: {
     hideHeader: {

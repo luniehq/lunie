@@ -10,8 +10,7 @@ describe(`Module: Connection`, () => {
 
   beforeEach(() => {
     node = {
-      rpc: {
-        on: jest.fn(),
+      tendermint: {
         status: jest.fn(() =>
           Promise.resolve({
             sync_info: {},
@@ -19,17 +18,11 @@ describe(`Module: Connection`, () => {
           })
         ),
         health: jest.fn(),
-        subscribe: jest.fn()
-      },
-      rpcInfo: {
-        connected: true
-      },
-      rpcConnect: jest.fn(() => {
-        node.rpcInfo.connected = true
-        return Promise.resolve()
-      }),
-      rpcDisconnect: jest.fn(),
-      setup: jest.fn()
+        subscribe: jest.fn(),
+        connect: jest.fn(),
+        disconnect: jest.fn(),
+        isConnected: () => true
+      }
     }
     module = connectionModule({
       node
@@ -110,7 +103,7 @@ describe(`Module: Connection`, () => {
     })
 
     expect(commit).toHaveBeenCalledWith(`setConnected`, false)
-    expect(node.rpcConnect).toHaveBeenCalled()
+    expect(node.tendermint.connect).toHaveBeenCalled()
 
     // on success should trigger connection follow up events
     expect(dispatch).toHaveBeenCalledWith(`reconnected`)
@@ -128,7 +121,7 @@ describe(`Module: Connection`, () => {
     })
 
     expect(commit).not.toHaveBeenCalledWith(`setConnected`, false)
-    expect(node.rpcConnect).not.toHaveBeenCalled()
+    expect(node.tendermint.connect).not.toHaveBeenCalled()
   })
 
   it(`should try to connect if an attempt failed`, async () => {
@@ -136,7 +129,7 @@ describe(`Module: Connection`, () => {
 
     const commit = jest.fn()
     const dispatch = jest.fn()
-    node.rpcConnect = () => Promise.reject("Expected")
+    node.tendermint.connect = () => Promise.reject("Expected")
     await actions.connect({
       state,
       commit,
@@ -160,29 +153,25 @@ describe(`Module: Connection`, () => {
     })
 
     expect(commit).toHaveBeenCalledWith(`stopConnecting`)
-    expect(node.rpcConnect).not.toHaveBeenCalled()
+    expect(node.tendermint.connect).not.toHaveBeenCalled()
   })
 
-  it(`reacts to rpc disconnection with reconnect`, () => {
-    node.rpc.on = jest.fn((value, cb) => {
-      cb({
-        message: `disconnected`
-      })
-    })
+  it(`reacts to rpc disconnection with reconnect`, async () => {
     const commit = jest.fn()
     const dispatch = jest.fn()
-    actions.rpcSubscribe({
-      rootState: { session: { signedIn: true } },
+    await actions.connect({
+      state,
       commit,
       dispatch
     })
+    node.tendermint.ondisconnect()
 
     expect(commit).toHaveBeenCalledWith(`setConnected`, false)
     expect(dispatch).toHaveBeenCalledWith(`connect`)
   })
 
   it(`should not reconnect on errors that do not mean disconnection`, () => {
-    node.rpc.on = jest.fn((value, cb) => {
+    node.tendermint.on = jest.fn((value, cb) => {
       cb({
         message: `some message`
       })
@@ -200,7 +189,7 @@ describe(`Module: Connection`, () => {
   })
 
   it(`should set the initial status on subscription`, async () => {
-    node.rpc.status = () =>
+    node.tendermint.status = () =>
       Promise.resolve({
         sync_info: {
           latest_block_height: 42
@@ -223,7 +212,7 @@ describe(`Module: Connection`, () => {
   })
 
   it(`should set insecure mode on testnet`, async () => {
-    node.rpc.status = () =>
+    node.tendermint.status = () =>
       Promise.resolve({
         sync_info: {
           latest_block_height: 42
@@ -243,7 +232,7 @@ describe(`Module: Connection`, () => {
   })
 
   it(`should react to status updates`, async () => {
-    node.rpc.subscribe = (type, cb) => {
+    node.tendermint.subscribe = (type, cb) => {
       if (type.query === `tm.event = 'NewBlockHeader'`) {
         cb({
           header: {
@@ -269,63 +258,13 @@ describe(`Module: Connection`, () => {
     })
   })
 
-  it(`should trigger reconnection if it started disconnected`, async done => {
-    jest.useFakeTimers()
-
-    node.rpcInfo.connected = false
-
-    const dispatch = jest.fn()
-    actions
-      .rpcSubscribe({
-        rootState: { session: { signedIn: true } },
-        state,
-        commit: jest.fn(),
-        dispatch
-      })
-      .then(() => {
-        expect(dispatch).toHaveBeenCalledWith(`connect`)
-        done()
-      })
-    jest.runAllTimers()
-  })
-
-  it(`should continue polling the connection status`, async () => {
-    const dispatch = jest.fn()
-    jest.useFakeTimers()
-    await actions.pollRPCConnection({
-      state,
-      dispatch
-    })
-    jest.runOnlyPendingTimers()
-    expect(dispatch).toHaveBeenCalledWith(`pollRPCConnection`)
-  })
-
-  it(`should signal if the rpc connection times out`, async () => {
-    jest.spyOn(console, `error`).mockImplementationOnce(() => {})
-    const dispatch = jest.fn()
-    const commit = jest.fn()
-    jest.useFakeTimers()
-    await actions.pollRPCConnection({
-      state: Object.assign({}, state, {
-        externals: {
-          health: jest.fn().mockRejectedValueOnce(new Error(`expected`))
-        }
-      }),
-      commit,
-      dispatch
-    })
-    jest.runOnlyPendingTimers()
-    expect(commit).toHaveBeenCalledWith(`setConnected`, false)
-    expect(dispatch).toHaveBeenCalledWith(`connect`)
-  })
-
   it(`should not subscribe if stopConnecting active`, () => {
     state.stopConnecting = true
     actions.rpcSubscribe({
       commit: jest.fn(),
       dispatch: jest.fn()
     })
-    expect(node.rpc.subscribe).not.toHaveBeenCalled()
+    expect(node.tendermint.subscribe).not.toHaveBeenCalled()
   })
 
   it(`should check if the node has positively halted`, async () => {
