@@ -103,8 +103,8 @@
       <TmFormMsg
         v-else-if="isMaxAmount()"
         msg="You are about to use all your tokens for this transaction. Consider leaving a little bit left over to cover the network fees."
-        name="Amount"
         type="custom"
+        class="tm-form-msg--desc"
       />
     </TmFormGroup>
     <TmBtn
