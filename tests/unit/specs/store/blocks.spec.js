@@ -12,7 +12,7 @@ describe(`Module: Blocks`, () => {
 
   beforeEach(() => {
     node = {
-      rpc: {
+      tendermint: {
         status: () => Promise.resolve({ sync_info: {} })
       },
       get: {
@@ -107,14 +107,14 @@ describe(`Module: Blocks`, () => {
     state.blockMetas = {}
     state.blockMetas[100] = blockMeta
 
-    node.rpc.blockchain = jest.fn()
+    node.tendermint.blockchain = jest.fn()
 
     const output = await actions.queryBlockInfo(
       { state, commit: jest.fn() },
       100
     )
     expect(output).toBe(blockMeta)
-    expect(node.rpc.blockchain).not.toHaveBeenCalled()
+    expect(node.tendermint.blockchain).not.toHaveBeenCalled()
   })
 
   it(`should show an error if block info is unavailable`, async () => {
@@ -146,8 +146,8 @@ describe(`Module: Blocks`, () => {
   })
 
   it(`should not subscribe twice`, async () => {
-    node.rpc.status = () => Promise.resolve({ sync_info: {} })
-    node.rpc.subscribe = (query, cb) => {
+    node.tendermint.status = () => Promise.resolve({ sync_info: {} })
+    node.tendermint.subscribe = (query, cb) => {
       cb({ block: `yeah` })
     }
 
@@ -171,42 +171,42 @@ describe(`Module: Blocks`, () => {
   })
 
   it(`should not subscribe if still syncing`, async () => {
-    node.rpc.status = () =>
+    node.tendermint.status = () =>
       Promise.resolve({
         sync_info: {
           catching_up: true,
           latest_block_height: 42
         }
       })
-    node.rpc.subscribe = jest.fn()
+    node.tendermint.subscribe = jest.fn()
     await actions.subscribeToBlocks({
       state,
       commit: jest.fn(),
       dispatch: jest.fn()
     })
-    expect(node.rpc.subscribe.mock.calls.length).toBe(0)
+    expect(node.tendermint.subscribe.mock.calls.length).toBe(0)
   })
 
   it(`should subscribe if not syncing`, async () => {
-    node.rpc.status = () =>
+    node.tendermint.status = () =>
       Promise.resolve({
         sync_info: {
           catching_up: false,
           latest_block_height: 42
         }
       })
-    node.rpc.subscribe = jest.fn()
+    node.tendermint.subscribe = jest.fn()
     await actions.subscribeToBlocks({
       state,
       commit: jest.fn(),
       dispatch: jest.fn()
     })
-    expect(node.rpc.subscribe.mock.calls.length).toBe(1)
+    expect(node.tendermint.subscribe.mock.calls.length).toBe(1)
   })
 
   it(`should dispatch successful subscription only if the subscription is inactive`, async () => {
     const node = {
-      rpc: {
+      tendermint: {
         status: () =>
           Promise.resolve({
             sync_info: {
@@ -232,7 +232,7 @@ describe(`Module: Blocks`, () => {
       commit
     })
     expect(commit.mock.calls).toEqual([
-      [`setSubscribedRPC`, node.rpc],
+      [`setSubscribedRPC`, node.tendermint],
       [`setBlockHeight`, 0],
       [`setSyncing`, false],
       [`setBlocks`, []],

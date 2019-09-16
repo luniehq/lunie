@@ -68,7 +68,7 @@ export const ValidatorResult = schema => data =>
 
 export const ValidatorByName = schema => active => gql`
   query ${schemaMap[schema]}ValidatorInfo($monikerName: String) {
-    allValidators(
+    ${schemaMap[schema]}allValidators(
       where: {
         moniker: { _ilike: $monikerName }
         ${active ? "jailed: { _neq: true }" : ""}

@@ -60,7 +60,9 @@ describe(`TmSessionExplore`, () => {
   })
 
   it(`should show error if address is a validator address`, () => {
-    wrapper.setData({ address: `cosmosvaloper12knqu4ecmg0982plzs9m9f5jareh0cvegcw3wu` })
+    wrapper.setData({
+      address: `cosmosvaloper12knqu4ecmg0982plzs9m9f5jareh0cvegcw3wu`
+    })
     wrapper.vm.onSubmit()
     expect($store.commit.mock.calls[1]).toBeUndefined()
     expect(wrapper.find(`.tm-form-msg-error`)).toBeDefined()
