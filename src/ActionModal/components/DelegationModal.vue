@@ -232,11 +232,7 @@ export default {
       this.amount = atoms(this.balance)
     },
     isMaxAmount() {
-      if (this.balance === 0) {
-        return false
-      } else {
-        return parseFloat(this.amount) === parseFloat(atoms(this.balance))
-      }
+      return parseFloat(this.amount) === parseFloat(atoms(this.balance))
     },
     enterPressed() {
       this.$refs.actionModal.validateChangeStep()
