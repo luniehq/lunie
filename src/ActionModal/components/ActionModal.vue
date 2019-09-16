@@ -28,8 +28,13 @@
           :active-step="step"
         />
         <p
+          v-if="
+            extension.enabled &&
+              !modalContext.isExtensionAccount &&
+              step === signStep &&
+              selectedSignMethod === SIGN_METHODS.EXTENSION
+          "
           class="form-message notice"
-          v-if="extension.enabled && !modalContext.isExtensionAccount"
         >
           Hello user. FYI, this address is not in your extension accounts list.
         </p>
