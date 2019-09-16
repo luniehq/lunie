@@ -96,6 +96,10 @@ input.tm-field {
   line-height: 14px;
 }
 
+#bar-container {
+  display: block;
+}
+
 @media screen and (max-width: 1023px) {
   #app-content {
     padding-top: 3rem;
