@@ -36,7 +36,8 @@
           "
           class="form-message notice extension-address"
         >
-          Hello user. FYI, this address is not in your extension accounts list.
+          The address you are trying to send with is not available in the
+          extension.
         </p>
       </div>
       <template v-if="!featureAvailable">
