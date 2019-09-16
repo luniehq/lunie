@@ -34,7 +34,7 @@
               step === signStep &&
               selectedSignMethod === SIGN_METHODS.EXTENSION
           "
-          class="form-message notice"
+          class="form-message notice extension-address"
         >
           Hello user. FYI, this address is not in your extension accounts list.
         </p>
