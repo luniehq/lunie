@@ -14,7 +14,7 @@
           />
           <TmFormMsg
             v-if="$v.address.$error && !$v.address.required"
-            name="Name"
+            name="Address"
             type="required"
           />
           <TmFormMsg
@@ -22,6 +22,11 @@
             name="Your Cosmos Address"
             type="bech32"
           />
+          <TmFormMsg
+            v-else-if="$v.address.$error && !$v.address.isNotAValidatorAddress"
+            name="You can't sign in with a validator address"
+            type="custom"
+          />          
         </TmFormGroup>
       </div>
       <div class="session-footer">
@@ -76,11 +81,18 @@ export default {
       } catch (error) {
         return false
       }
+    },
+    isNotAValidatorAddress(param) {
+      if (param.substring(0, 13) !== "cosmosvaloper") {
+        return true
+      } else {
+        return false
+      }
     }
   },
   validations() {
     return {
-      address: { required, bech32Validate: this.bech32Validate }
+      address: { required, bech32Validate: this.bech32Validate, isNotAValidatorAddress: this.isNotAValidatorAddress }
     }
   }
 }

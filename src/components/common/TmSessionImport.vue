@@ -2,7 +2,7 @@
   <SessionFrame>
     <TmFormStruct :submit="onSubmit.bind(this)">
       <h2 class="session-title">
-        Recover from seed
+        Recover with backup code
       </h2>
       <div class="session-main">
         <TmFormGroup
@@ -83,7 +83,7 @@
         <TmFormGroup
           :error="$v.$error && $v.fields.importSeed.$invalid"
           field-id="import-seed"
-          field-label="Seed Phrase"
+          field-label="Backup code"
         >
           <FieldSeed
             id="import-seed"
@@ -103,23 +103,6 @@
             name="Seed"
             type="words24"
           />
-        </TmFormGroup>
-        <TmFormGroup
-          :error="$v.$error && $v.fields.errorCollection.$invalid"
-          field-id="error-collection"
-          field-label
-        >
-          <div class="field-checkbox">
-            <label class="field-checkbox-label" for="error-collection">
-              <input
-                id="error-collection"
-                v-model="fields.errorCollection"
-                type="checkbox"
-              />
-              I'd like to opt in for remote error tracking to help improve
-              Voyager.
-            </label>
-          </div>
         </TmFormGroup>
       </div>
       <div class="session-footer">

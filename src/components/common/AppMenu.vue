@@ -69,8 +69,7 @@
       </router-link>
 
       <router-link
-        v-if="session.experimentalMode"
-        class="app-menu-item hide-xs"
+        class="app-menu-item"
         to="/networks"
         exact="exact"
         title="Networks"
@@ -195,10 +194,6 @@ export default {
   height: 100%;
 }
 
-.app-menu-main {
-  height: 100%;
-}
-
 .app-menu .app-menu-item {
   display: flex;
   justify-content: space-between;
@@ -217,7 +212,7 @@ export default {
 }
 
 .session-link {
-  margin: 1rem;
+  margin: 2.5rem 1rem 1rem;
 }
 
 .user-box {

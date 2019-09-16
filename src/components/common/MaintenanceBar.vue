@@ -1,30 +1,44 @@
 <template>
-  <div v-if="session.maintenanceBar && show" class="maintenance-bar">
-    <i></i>
-    <p>
-      We've identified problems with our servers that are causing issues for
-      some of our users. We apologize for the disruption and are working on a
-      fix.
-    </p>
-    <a class="close">
-      <i class="material-icons" @click="close">close</i>
-    </a>
+  <div v-if="maintenance.length > 0">
+    <div v-for="(message, index) in maintenance" :key="index">
+      <div v-if="message.show" class="maintenance-bar" v-bind:class="`${message.type} message-${index+1}`">
+        <i></i>
+        <p>
+          {{ message.message }}
+        </p>
+        <a class="close">
+          <i class="material-icons close-icon" @click="close(message)">close</i>
+        </a>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
-import { mapState } from "vuex"
+import gql from "graphql-tag"
 export default {
   name: `maintenance-bar`,
   data: () => ({
-    show: true
+    maintenance: []
   }),
-  computed: {
-    ...mapState([`session`])
-  },
   methods: {
-    close() {
-      this.show = false
+    close(message) {
+      message.show = false
+    }
+  },
+  apollo: {
+    maintenance: {
+      query: gql`
+        query Maintenance {
+          maintenance {
+            message
+            type
+            show
+          }
+        }
+      `,
+      /* istanbul ignore next */
+      update: result => result.maintenance
     }
   }
 }
@@ -49,6 +63,18 @@ export default {
   color: var(--bright);
 }
 
+.maintenance-bar.success {
+  background-color: var(--success);
+}
+
+.maintenance-bar.warning {
+  background-color: var(--warning);
+}
+
+.maintenance-bar.danger {
+  background-color: var(--danger);
+}
+
 .maintenance-bar .link {
   text-decoration: underline;
   color: var(--bright);
@@ -61,6 +87,10 @@ export default {
   color: var(--bright);
 }
 
+.close-icon {
+  line-height: 18px;
+}
+
 @media (max-width: 1024px) {
   .maintenance-bar {
     position: fixed;
@@ -69,6 +99,22 @@ export default {
     z-index: 99;
     padding: 0.5rem;
     justify-content: space-around;
+  }
+
+  .message-2 {
+    bottom: 36px;
+  }
+
+  .message-3 {
+    bottom: 72px;
+  }
+
+  .message-4 {
+    bottom: 108px;
+  }
+
+  .message-5 {
+    bottom: 144px;
   }
 
   .hide-on-mobile {
