@@ -59,6 +59,7 @@
       field-id="amount"
       field-label="Amount"
     >
+      <span class="input-suffix-denom">{{ viewDenom(denom) }}</span>
       <TmFieldGroup>
         <TmField
           id="amount"
@@ -70,7 +71,8 @@
           @keyup.enter.native="enterPressed"
         />
         <TmBtn
-          type="addon-max"
+          type="button"
+          class="secondary addon-max"
           value="Set Max"
           @click.native="setMaxAmount()"
         />
@@ -98,10 +100,12 @@
         name="Amount"
         type="between"
       />
-      <p v-if="isMaxAmount()" class="form-message notice max-notice">
-        You are about to use all your tokens for this transaction. Consider
-        leaving a little bit left over to cover the network fees.
-      </p>
+      <TmFormMsg
+        v-else-if="isMaxAmount()"
+        msg="You are about to use all your tokens for this transaction. Consider leaving a little bit left over to cover the network fees."
+        type="custom"
+        class="tm-form-msg--desc max-message"
+      />
     </TmFormGroup>
     <TmBtn
       v-if="editMemo === false"
@@ -220,7 +224,11 @@ export default {
       this.amount = atoms(this.balance)
     },
     isMaxAmount() {
-      return this.amount === atoms(this.balance)
+      if (this.balance === 0) {
+        return false
+      } else {
+        return parseFloat(this.amount) === parseFloat(atoms(this.balance))
+      }
     },
     bech32Validate(param) {
       try {
@@ -262,10 +270,7 @@ export default {
 </script>
 <style scoped>
 #edit-memo-btn {
-  margin-top: 1.5rem;
+  margin-top: 2.4rem;
 }
 
-.form-message.notice {
-  margin: 1rem 0 0 0;
-}
 </style>

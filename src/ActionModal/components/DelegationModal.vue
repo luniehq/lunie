@@ -49,7 +49,7 @@
       field-id="amount"
       field-label="Amount"
     >
-      <!-- <span class="input-suffix">{{ denom | viewDenom }}</span> -->
+      <span class="input-suffix-denom">{{ viewDenom(denom) }}</span>
       <TmFieldGroup>
         <TmField
           id="amount"
@@ -61,7 +61,8 @@
           @keyup.enter.native="enterPressed"
         />
         <TmBtn
-          type="addon-max"
+          type="button"
+          class="secondary addon-max"
           value="Set Max"
           @click.native="setMaxAmount()"
         />
@@ -99,10 +100,12 @@
         name="Amount"
         type="between"
       />
-      <p v-if="isMaxAmount() && !isRedelegation()" class="form-message notice">
-        You are about to use all your tokens for this transaction. Consider
-        leaving a little bit left over to cover the network fees.
-      </p>
+      <TmFormMsg
+        v-else-if="isMaxAmount() && !isRedelegation()"
+        msg="You are about to use all your tokens for this transaction. Consider leaving a little bit left over to cover the network fees."
+        type="custom"
+        class="tm-form-msg--desc"
+      />
     </TmFormGroup>
   </ActionModal>
 </template>
@@ -229,7 +232,7 @@ export default {
       this.amount = atoms(this.balance)
     },
     isMaxAmount() {
-      return this.amount === atoms(this.balance)
+      return parseFloat(this.amount) === parseFloat(atoms(this.balance))
     },
     enterPressed() {
       this.$refs.actionModal.validateChangeStep()

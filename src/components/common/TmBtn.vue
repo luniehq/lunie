@@ -1,9 +1,5 @@
 <template>
-  <button v-if="type === `addon-max`" class="addon-max" :disabled="disabled">
-    {{ value }}
-  </button>
   <button
-    v-else
     class="button"
     :class="{
       secondary: type === `secondary`,
@@ -110,10 +106,12 @@ export default {
   font-family: var(--sans);
   font-size: 14px;
   font-weight: 400;
-  padding: 5px 16px;
+  padding: 4px 16px;
   min-width: 100px;
   color: var(--bright);
   margin: 0;
+  border-top-left-radius: 0 !important;
+  border-bottom-left-radius: 0 !important;
   border-top-right-radius: 0.25rem !important;
   border-bottom-right-radius: 0.25rem !important;
   cursor: pointer;
