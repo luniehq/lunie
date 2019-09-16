@@ -21,7 +21,7 @@ describe(`SendModal`, () => {
     {
       denom: `EMPTY_BALANCE`,
       amount: 0
-    },    
+    }
   ]
   const getters = {
     connected: true,
@@ -208,6 +208,15 @@ describe(`SendModal`, () => {
       expect(wrapper.html()).not.toContain(
         "You are about to use all your tokens for this transaction. Consider leaving a little bit left over to cover the network fees."
       )
+    })
+    it(`isMaxAmount() should return false if balance = 0`, async () => {
+      wrapper.setData({
+        denom: `EMPTY_BALANCE`,
+        address: `cosmos12345`
+      })
+      wrapper.vm.setMaxAmount()
+      await wrapper.vm.$nextTick()
+      expect(wrapper.vm.isMaxAmount()).toBe(false)
     })
   })
 })
