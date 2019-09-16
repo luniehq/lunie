@@ -224,7 +224,11 @@ export default {
       this.amount = atoms(this.balance)
     },
     isMaxAmount() {
-      return parseFloat(this.amount) === parseFloat(atoms(this.balance))
+      if (this.balance === 0) {
+        return false
+      } else {
+        return parseFloat(this.amount) === parseFloat(atoms(this.balance))
+      }
     },
     bech32Validate(param) {
       try {
