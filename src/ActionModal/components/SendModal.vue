@@ -266,7 +266,7 @@ export default {
 </script>
 <style scoped>
 #edit-memo-btn {
-  margin-top: 1.5rem;
+  margin-top: 2.4rem;
 }
 
 </style>
