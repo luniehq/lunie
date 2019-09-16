@@ -115,7 +115,7 @@
         <li>
           <h4>Uptime</h4>
           <span id="page-profile__uptime">
-            {{ validator.uptime_percentage }}
+            {{ validator.uptime_percentage | percent }}
           </span>
         </li>
         <li>

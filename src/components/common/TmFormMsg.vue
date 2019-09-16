@@ -90,7 +90,7 @@ export default {
           break
         case `bech32`:
           msg = `is invalid bech32`
-          break        
+          break
         case `integer`:
           msg = `must be an integer`
           break
