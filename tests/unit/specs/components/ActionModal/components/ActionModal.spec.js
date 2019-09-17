@@ -45,7 +45,8 @@ const modalContext = {
   },
   delegation: {
     committedDelegates: []
-  }
+  },
+  isExtensionAccount: true
 }
 
 const $apollo = {
@@ -656,6 +657,16 @@ describe(`ActionModal`, () => {
         await ActionModal.methods.validateChangeStep.call(self)
         expect(self.submit).not.toHaveBeenCalled()
       })
+
+      it("should dispaly warning when using an address not in the extension", () => {
+        wrapper.vm.modalContext.isExtensionAccount = false
+        wrapper.vm.step = "sign"
+        wrapper.vm.selectedSignMethod = "extension"
+        expect(
+          wrapper.find(".form-message.notice.extension-address").exists()
+        ).toBe(true)
+        expect(wrapper.element).toMatchSnapshot()
+      })
     })
 
     describe(`invalid step`, () => {
@@ -760,6 +771,9 @@ describe(`ActionModal`, () => {
               },
               connection: {
                 network: "testnet"
+              },
+              extension: {
+                enabled: true
               }
             },
             getters: {
