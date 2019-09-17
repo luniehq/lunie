@@ -35,7 +35,7 @@
       field-id="amount"
       field-label="Amount"
     >
-      <span class="input-suffix">{{ num.viewDenom(denom) }}</span>
+      <span class="input-suffix-denom">{{ num.viewDenom(denom) }}</span>
       <TmFieldGroup>
         <TmField
           id="amount"
@@ -47,7 +47,8 @@
           @keyup.enter.native="enterPressed"
         />
         <TmBtn
-          type="addon-max"
+          type="button"
+          class="secondary addon-max"
           value="Set Max"
           @click.native="setMaxAmount()"
         />

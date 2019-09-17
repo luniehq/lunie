@@ -44,6 +44,12 @@ exports[`SendModal should display send modal form 1`] = `
     fieldid="amount"
     fieldlabel="Amount"
   >
+    <span
+      class="input-suffix-denom"
+    >
+      STAKE
+    </span>
+     
     <tmfieldgroup-stub>
       <tmfield-stub
         class="tm-field-addon"
@@ -53,7 +59,8 @@ exports[`SendModal should display send modal form 1`] = `
       />
        
       <tmbtn-stub
-        type="addon-max"
+        class="secondary addon-max"
+        type="button"
         value="Set Max"
       />
     </tmfieldgroup-stub>
@@ -63,8 +70,6 @@ exports[`SendModal should display send modal form 1`] = `
       name="Wallet"
       type="custom"
     />
-     
-    <!---->
   </tmformgroup-stub>
    
   <tmbtn-stub
@@ -125,6 +130,12 @@ exports[`SendModal validation should show address required error 1`] = `
     fieldid="amount"
     fieldlabel="Amount"
   >
+    <span
+      class="input-suffix-denom"
+    >
+      STAKE
+    </span>
+     
     <tmfieldgroup-stub>
       <tmfield-stub
         class="tm-field-addon"
@@ -135,12 +146,11 @@ exports[`SendModal validation should show address required error 1`] = `
       />
        
       <tmbtn-stub
-        type="addon-max"
+        class="secondary addon-max"
+        type="button"
         value="Set Max"
       />
     </tmfieldgroup-stub>
-     
-    <!---->
      
     <!---->
   </tmformgroup-stub>
@@ -203,6 +213,12 @@ exports[`SendModal validation should show bech32 error when address length is to
     fieldid="amount"
     fieldlabel="Amount"
   >
+    <span
+      class="input-suffix-denom"
+    >
+      STAKE
+    </span>
+     
     <tmfieldgroup-stub>
       <tmfield-stub
         class="tm-field-addon"
@@ -213,12 +229,11 @@ exports[`SendModal validation should show bech32 error when address length is to
       />
        
       <tmbtn-stub
-        type="addon-max"
+        class="secondary addon-max"
+        type="button"
         value="Set Max"
       />
     </tmfieldgroup-stub>
-     
-    <!---->
      
     <!---->
   </tmformgroup-stub>
@@ -281,6 +296,12 @@ exports[`SendModal validation should show bech32 error when address length is to
     fieldid="amount"
     fieldlabel="Amount"
   >
+    <span
+      class="input-suffix-denom"
+    >
+      STAKE
+    </span>
+     
     <tmfieldgroup-stub>
       <tmfield-stub
         class="tm-field-addon"
@@ -291,12 +312,11 @@ exports[`SendModal validation should show bech32 error when address length is to
       />
        
       <tmbtn-stub
-        type="addon-max"
+        class="secondary addon-max"
+        type="button"
         value="Set Max"
       />
     </tmfieldgroup-stub>
-     
-    <!---->
      
     <!---->
   </tmformgroup-stub>
@@ -359,6 +379,12 @@ exports[`SendModal validation should show bech32 error when alphanumeric is wron
     fieldid="amount"
     fieldlabel="Amount"
   >
+    <span
+      class="input-suffix-denom"
+    >
+      STAKE
+    </span>
+     
     <tmfieldgroup-stub>
       <tmfield-stub
         class="tm-field-addon"
@@ -368,7 +394,8 @@ exports[`SendModal validation should show bech32 error when alphanumeric is wron
       />
        
       <tmbtn-stub
-        type="addon-max"
+        class="secondary addon-max"
+        type="button"
         value="Set Max"
       />
     </tmfieldgroup-stub>
@@ -378,8 +405,6 @@ exports[`SendModal validation should show bech32 error when alphanumeric is wron
       name="Wallet"
       type="custom"
     />
-     
-    <!---->
   </tmformgroup-stub>
    
   <tmbtn-stub

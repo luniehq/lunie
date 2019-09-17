@@ -7,6 +7,49 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.0-beta.122] - 2019-09-17
+
+### Fixed
+
+- [#2898](https://github.com/cosmos/lunie/issues/2898) Uptime on PageValidator didn't show as percent @faboweb
+- [#2965](https://github.com/cosmos/lunie/issues/2965) Change Set Max button style to secondary, fixed bug in warning message. @mariopino
+
+### Code Improvements
+
+- [#2988](https://github.com/cosmos/lunie/issues/2988) Removed Intercom ID at another place @faboweb
+- [#2967](https://github.com/cosmos/lunie/issues/2967) Refactor cookie, maintenance and disconnected bar @mariopino
+
+## [1.0.0-beta.121] - 2019-09-16
+
+### Added
+
+- [#2482](https://github.com/cosmos/lunie/issues/2482) Confirm closing a modal before opening a second @colw
+- [#2504](https://github.com/cosmos/lunie/issues/2504) Warn user about staking, with option to switch types @colw
+- [#2655](https://github.com/cosmos/lunie/issues/2655) Action modal back button @colw
+- [#1771](https://github.com/cosmos/lunie/issues/1771) Group transactions by date @faboweb
+- cleaned up forms and made some adjustments for the extension @jbibla
+- added intercom @jbibla
+- [#2858](https://github.com/cosmos/lunie/issues/2858) Add warning field to backend @mariopino
+
+### Changed
+
+- [#2973](https://github.com/cosmos/lunie/pull/2973) Remove experimental flag from network selector @faboweb
+- [#2973](https://github.com/cosmos/lunie/pull/2973) Show local testnet in network selector @faboweb
+- [#2969](https://github.com/cosmos/lunie/issues/2969) removed footer and other style improvements @jbibla
+- unhide the browser extension option on session screens @jbibla
+
+### Fixed
+
+- [#2649](https://github.com/cosmos/lunie/issues/2649) Don't allow validator address at sign in @mariopino
+
+### Code Improvements
+
+- [#2973](https://github.com/cosmos/lunie/pull/2973) Use standard websockets for Tendermint @faboweb
+
+### Repository
+
+- Prevent checkin of code with lint warnings (before only errors) @faboweb
+
 ## [1.0.0-beta.120] - 2019-09-10
 
 ### Fixed

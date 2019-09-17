@@ -1,6 +1,6 @@
 {
   "name": "lunie",
-  "version": "1.0.0-beta.120",
+  "version": "1.0.0-beta.122",
   "description": "Lunie is the staking and governance platform for proof-of-stake blockchains.",
   "author": "Lunie International Software Systems Inc. <hello@lunie.io>",
   "scripts": {
@@ -49,10 +49,7 @@
     "lodash.trim": "^4.5.1",
     "lodash.uniqby": "^4.7.0",
     "moment": "^2.24.0",
-    "ndjson": "^1.5.0",
     "no-scroll": "^2.1.1",
-    "old": "0.2.0",
-    "pumpify": "^1.5.1",
     "register-service-worker": "^1.6.2",
     "timezone-mock": "^1.0.8",
     "vue": "^2.6.10",
@@ -62,8 +59,7 @@
     "vue-infinite-scroll": "^2.0.2",
     "vue-router": "^3.0.3",
     "vuelidate": "^0.7.4",
-    "vuex": "^3.1.1",
-    "websocket-stream": "5.3.0"
+    "vuex": "^3.1.1"
   },
   "devDependencies": {
     "@ascendancyy/vue-cli-plugin-stylelint": "^1.1.2",

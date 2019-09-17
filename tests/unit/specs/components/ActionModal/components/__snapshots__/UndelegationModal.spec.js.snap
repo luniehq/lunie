@@ -52,7 +52,7 @@ exports[`UndelegationModal should display undelegation modal form 1`] = `
     fieldlabel="Amount"
   >
     <span
-      class="input-suffix"
+      class="input-suffix-denom"
     >
       STAKE
     </span>
@@ -66,7 +66,8 @@ exports[`UndelegationModal should display undelegation modal form 1`] = `
       />
        
       <tmbtn-stub
-        type="addon-max"
+        class="secondary addon-max"
+        type="button"
         value="Set Max"
       />
     </tmfieldgroup-stub>

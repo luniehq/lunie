@@ -26,7 +26,7 @@
             v-else-if="$v.address.$error && !$v.address.isNotAValidatorAddress"
             name="You can't sign in with a validator address"
             type="custom"
-          />          
+          />
         </TmFormGroup>
       </div>
       <div class="session-footer">
@@ -92,7 +92,11 @@ export default {
   },
   validations() {
     return {
-      address: { required, bech32Validate: this.bech32Validate, isNotAValidatorAddress: this.isNotAValidatorAddress }
+      address: {
+        required,
+        bech32Validate: this.bech32Validate,
+        isNotAValidatorAddress: this.isNotAValidatorAddress
+      }
     }
   }
 }

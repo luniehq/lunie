@@ -18,16 +18,18 @@ exports[`SessionExtension should show a guide to install the extension if no ext
     >
       <p>
         
-        Please install the Lunie Browser Extension from the
+        Looks like you don't have the Lunie browser extension installed yet.
+        Head over to the
         
         <a
-          href="https://chrome.google.com/webstore/category/extensions"
+          href="http://bit.ly/lunie-ext"
           rel="noopener norefferer"
           target="_blank"
         >
           Chrome Web Store
         </a>
-        .
+        
+        to quickly install the extension.
       
       </p>
     </div>
