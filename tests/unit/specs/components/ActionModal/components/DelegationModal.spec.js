@@ -25,7 +25,7 @@ describe(`DelegationModal`, () => {
   const state = {
     session: {
       signedIn: true,
-      address: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw`
+      address: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw`,
     }
   }
 
@@ -190,6 +190,29 @@ describe(`DelegationModal`, () => {
         title: `Successful redelegation!`,
         body: `You have successfully redelegated your STAKEs`
       })
+    })
+  })
+
+  describe(`if amount field max button clicked`, () => {
+    it(`amount has to be 1000 atom`, async () => {
+      wrapper.setData({
+        amount: 1,
+        selectedIndex: 0,
+        validator: mockValues.state.candidates[1]
+      })
+      wrapper.vm.setMaxAmount()
+      expect(wrapper.vm.amount).toBe(1000)
+    })
+    it(`should show warning message`, async () => {
+      wrapper.setData({
+        amount: 1000,
+        selectedIndex: 0,
+        validator: mockValues.state.candidates[1]
+      })
+      //await wrapper.vm.$nextTick()
+      expect(wrapper.html()).toContain(
+        "You are about to use all your tokens for this transaction. Consider leaving a little bit left over to cover the network fees."
+      )
     })
   })
 })

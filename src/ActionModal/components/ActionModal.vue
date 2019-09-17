@@ -772,18 +772,6 @@ export default {
   display: inline-block;
 }
 
-.form-message.notice {
-  border-radius: 0.25rem;
-  border: 1px solid var(--bc-dim);
-  background-color: #1c223e;
-  font-weight: 300;
-  margin: 2rem 0;
-  padding: 1rem 1rem;
-  font-size: 14px;
-  font-style: normal;
-  width: 100%;
-}
-
 .slide-fade-enter-active {
   transition: all 0.1s ease;
 }

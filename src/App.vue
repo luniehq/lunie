@@ -1,8 +1,10 @@
 <template>
   <div>
-    <CookieBar />
-    <MaintenanceBar />
-    <DisconnectedBar />
+    <div id="bar-container">
+      <CookieBar />
+      <MaintenanceBar />
+      <DisconnectedBar />
+    </div>
     <div id="app">
       <router-view name="session" />
       <AppHeader />
