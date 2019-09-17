@@ -1,0 +1,21 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Bar shows a primary bar 1`] = `
+<div
+  class="bar primary"
+>
+  <i />
+   
+  <p />
+   
+  <a
+    class="close"
+  >
+    <i
+      class="material-icons close-icon"
+    >
+      close
+    </i>
+  </a>
+</div>
+`;

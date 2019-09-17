@@ -17,6 +17,10 @@ describe(`SendModal`, () => {
     {
       denom: `fermion`,
       amount: 2300
+    },
+    {
+      denom: `EMPTY_BALANCE`,
+      amount: 0
     }
   ]
   const getters = {
@@ -27,7 +31,7 @@ describe(`SendModal`, () => {
   const state = {
     wallet: {
       loading: false,
-      denoms: [`fermion`, `gregcoin`, `mycoin`, `STAKE`],
+      denoms: [`fermion`, `gregcoin`, `mycoin`, `STAKE`, `EMPTY_BALANCE`],
       balances
     }
   }
@@ -189,11 +193,30 @@ describe(`SendModal`, () => {
         address: `cosmos12345`
       })
       wrapper.vm.setMaxAmount()
-      expect(wrapper.vm.amount).toBe(10000)
       await wrapper.vm.$nextTick()
-      expect(wrapper.find(".max-notice").text()).toContain(
-        "You are about to use all your tokens for this transaction."
+      expect(wrapper.html()).toContain(
+        "You are about to use all your tokens for this transaction. Consider leaving a little bit left over to cover the network fees."
       )
+    })
+    it(`should not show warning message if balance = 0`, async () => {
+      wrapper.setData({
+        denom: `EMPTY_BALANCE`,
+        address: `cosmos12345`
+      })
+      wrapper.vm.setMaxAmount()
+      await wrapper.vm.$nextTick()
+      expect(wrapper.html()).not.toContain(
+        "You are about to use all your tokens for this transaction. Consider leaving a little bit left over to cover the network fees."
+      )
+    })
+    it(`isMaxAmount() should return false if balance = 0`, async () => {
+      wrapper.setData({
+        denom: `EMPTY_BALANCE`,
+        address: `cosmos12345`
+      })
+      wrapper.vm.setMaxAmount()
+      await wrapper.vm.$nextTick()
+      expect(wrapper.vm.isMaxAmount()).toBe(false)
     })
   })
 })
