@@ -41,6 +41,8 @@ exports[`ActionModal back button renders and functions 1`] = `
       activestep="sign"
       steps="Details,Fees,Sign"
     />
+     
+    <!---->
   </div>
    
   <!---->
@@ -67,6 +69,103 @@ exports[`ActionModal back button renders and functions 1`] = `
         <!---->
       </tmformgroup-stub>
     </form>
+  </div>
+   
+  <div
+    class="action-modal-footer"
+  >
+    <tmformgroup-stub
+      class="action-modal-group"
+    >
+      <div>
+        <tmbtn-stub
+          color="primary"
+          disabled="true"
+          value="Send"
+        />
+      </div>
+    </tmformgroup-stub>
+     
+    <!---->
+  </div>
+</div>
+`;
+
+exports[`ActionModal runs validation and changes step on sign step should dispaly warning when using an address not in the extension 1`] = `
+<div
+  class="action-modal"
+  name="slide-fade"
+  tabindex="0"
+>
+  <div
+    class="action-modal-icon action-modal-prev"
+    id="prevBtn"
+  >
+    <i
+      class="material-icons"
+    >
+      arrow_back
+    </i>
+  </div>
+   
+  <div
+    class="action-modal-icon action-modal-close"
+    id="closeBtn"
+  >
+    <i
+      class="material-icons"
+    >
+      close
+    </i>
+  </div>
+   
+  <div
+    class="action-modal-header"
+  >
+    <span
+      class="action-modal-title"
+    >
+      Action Modal
+    </span>
+     
+    <steps-stub
+      activestep="sign"
+      steps="Details,Fees,Sign"
+    />
+     
+    <p
+      class="form-message notice extension-address"
+    >
+      
+        The address you are trying to send with is not available in the
+        extension.
+      
+    </p>
+  </div>
+   
+  <!---->
+   
+  <div
+    class="action-modal-form"
+  >
+    <!---->
+     
+    <!---->
+     
+    <hardwarestate-stub
+      icon="info"
+    >
+      <div>
+        
+            Please send the transaction to be signed in the Lunie Browser
+            Extension.
+          
+      </div>
+       
+      <!---->
+       
+      <!---->
+    </hardwarestate-stub>
   </div>
    
   <div
@@ -116,6 +215,8 @@ exports[`ActionModal should show the action modal on success 1`] = `
     >
       Action Modal
     </span>
+     
+    <!---->
      
     <!---->
   </div>
@@ -193,6 +294,8 @@ exports[`ActionModal should show the action modal waiting on inclusion 1`] = `
     </span>
      
     <!---->
+     
+    <!---->
   </div>
    
   <!---->
@@ -250,6 +353,8 @@ exports[`ActionModal should show the action modal when user has logged in with e
       activestep="fees"
       steps="Details,Fees,Sign"
     />
+     
+    <!---->
   </div>
    
   <!---->
@@ -328,6 +433,8 @@ exports[`ActionModal should show the action modal when user has logged in with e
       activestep="sign"
       steps="Details,Fees,Sign"
     />
+     
+    <!---->
   </div>
    
   <!---->
@@ -419,6 +526,8 @@ exports[`ActionModal should show the action modal when user has logged in with e
       activestep="sign"
       steps="Details,Fees,Sign"
     />
+     
+    <!---->
   </div>
    
   <!---->
@@ -519,6 +628,8 @@ exports[`ActionModal should show the action modal when user has logged in with e
       activestep="fees"
       steps="Details,Fees,Sign"
     />
+     
+    <!---->
   </div>
    
   <!---->
@@ -597,6 +708,8 @@ exports[`ActionModal should show the action modal when user has logged in with e
       activestep="sign"
       steps="Details,Fees,Sign"
     />
+     
+    <!---->
   </div>
    
   <!---->
@@ -633,7 +746,6 @@ exports[`ActionModal should show the action modal when user has logged in with e
       <div>
         <tmbtn-stub
           color="primary"
-          disabled="true"
           value="Send"
         />
       </div>
@@ -676,6 +788,8 @@ exports[`ActionModal should show the action modal when user has logged in with e
       activestep="sign"
       steps="Details,Fees,Sign"
     />
+     
+    <!---->
   </div>
    
   <!---->
@@ -765,6 +879,8 @@ exports[`ActionModal should show the action modal when user has logged in with l
       activestep="fees"
       steps="Details,Fees,Sign"
     />
+     
+    <!---->
   </div>
    
   <!---->
@@ -843,6 +959,8 @@ exports[`ActionModal should show the action modal when user has logged in with l
       activestep="sign"
       steps="Details,Fees,Sign"
     />
+     
+    <!---->
   </div>
    
   <!---->
@@ -918,6 +1036,8 @@ exports[`ActionModal should show the action modal when user has logged in with l
       activestep="sign"
       steps="Details,Fees,Sign"
     />
+     
+    <!---->
   </div>
    
   <!---->
@@ -1003,6 +1123,8 @@ exports[`ActionModal should show the action modal when user has logged in with l
       activestep="fees"
       steps="Details,Fees,Sign"
     />
+     
+    <!---->
   </div>
    
   <!---->
@@ -1081,6 +1203,8 @@ exports[`ActionModal should show the action modal when user has logged in with l
       activestep="sign"
       steps="Details,Fees,Sign"
     />
+     
+    <!---->
   </div>
    
   <!---->
@@ -1161,6 +1285,8 @@ exports[`ActionModal should show the action modal when user has logged in with l
       activestep="sign"
       steps="Details,Fees,Sign"
     />
+     
+    <!---->
   </div>
    
   <!---->
@@ -1241,6 +1367,8 @@ exports[`ActionModal should show the action modal when user hasn't logged in 1`]
       activestep="details"
       steps="Details,Fees,Sign"
     />
+     
+    <!---->
   </div>
    
   <!---->
@@ -1308,6 +1436,8 @@ exports[`ActionModal shows a feature unavailable message 1`] = `
       activestep="details"
       steps="Details,Fees,Sign"
     />
+     
+    <!---->
   </div>
    
   <!---->
@@ -1367,6 +1497,8 @@ exports[`ActionModal windows shows windows warning 1`] = `
       activestep="details"
       steps="Details,Fees,Sign"
     />
+     
+    <!---->
   </div>
    
   <p
