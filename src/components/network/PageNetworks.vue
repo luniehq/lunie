@@ -12,7 +12,6 @@
 <script>
 import { Networks, NetworksResult } from "src/gql"
 import NetworkList from "./NetworkList"
-import config from "src/config"
 
 import TmPage from "common/TmPage"
 export default {
