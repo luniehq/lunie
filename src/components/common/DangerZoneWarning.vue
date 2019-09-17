@@ -2,9 +2,15 @@
   <div class="danger-zone">
     <h2>DANGER ZONE</h2>
     <p>
-      Creating an address in the browser is not advised. This feature is only
-      enabled in insecure mode for testing purposes and should not be used
-      otherwise.
+      Did you know that storing your key in the browser is considered unsafe? We
+      offer a more secure way to storing your keys via our
+      <a
+        href="http://bit.ly/lunie-ext"
+        target="_blank"
+        rel="noopener norefferer"
+        >browser extension</a
+      >. Check it out in a quiet minute. Soon you will also have out mobile app
+      available to store your keys. Stay tuned!
     </p>
   </div>
 </template>
