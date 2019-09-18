@@ -54,6 +54,7 @@ export default ({ node }) => {
       const enrichedTransactions = await Promise.all(
         transactions.map(async tx => {
           const blockMetaInfo = await dispatch(`queryBlockInfo`, tx.height)
+
           const enrichedTx = Object.assign({}, tx, {
             type: txType,
             time: new Date(blockMetaInfo.header.time).toISOString()

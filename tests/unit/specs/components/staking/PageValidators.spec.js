@@ -3,140 +3,80 @@ import PageValidators from "staking/PageValidators"
 import validators from "../../store/json/validators.js"
 
 describe(`PageValidators`, () => {
-  let wrapper, $store
-
-  const state = {
-    session: {
-      signedIn: true
-    },
-    delegates: {
-      delegates: validators,
-      loading: false,
-      loaded: true
-    }
-  }
-
-  const getters = {
-    committedDelegations: {
-      [validators[0].operator_address]: 42
-    },
-
-    connected: true,
-    lastHeader: { height: 20 },
-    yourValidators: validators
-  }
+  let wrapper, $apollo, $store
 
   beforeEach(async () => {
+    $apollo = {
+      queries: {
+        validators: {
+          loading: false,
+          error: false
+        }
+      }
+    }
+
     $store = {
-      dispatch: jest.fn(),
-      getters,
-      state
+      state: {
+        connection: {
+          network: "awesomenet"
+        }
+      }
     }
 
     wrapper = shallowMount(PageValidators, {
       mocks: {
+        $apollo,
         $store
       }
     })
+
+    wrapper.setData({ validators })
   })
 
   it(`shows a list of validators`, async () => {
     expect(wrapper.element).toMatchSnapshot()
   })
 
-  it(`shows a message if still connecting`, async () => {
-    $store = {
-      dispatch: jest.fn(),
-      state: {
-        session: {
-          signedIn: true
-        },
-        delegates: {
-          delegates: validators,
-          loading: false,
-          loaded: false
-        }
-      },
-      getters: {
-        committedDelegations: {
-          [validators[0].operator_address]: 42
-        },
-        connected: false,
-        lastHeader: { height: 20 },
-        yourValidators: validators
-      }
-    }
-
-    wrapper = shallowMount(PageValidators, {
-      mocks: {
-        $store
-      }
-    })
-
-    expect(wrapper.element).toMatchSnapshot()
-  })
-
   it(`shows a message if still loading`, async () => {
-    $store = {
-      dispatch: jest.fn(),
-      state: {
-        session: {
-          signedIn: true
-        },
-        delegates: {
-          delegates: validators,
-          loading: true,
-          loaded: false
-        }
-      },
-      getters: {
-        committedDelegations: {
-          [validators[0].operator_address]: 42
-        },
-        connected: true,
-        lastHeader: { height: 20 },
-        yourValidators: validators
-      }
-    }
-
     wrapper = shallowMount(PageValidators, {
       mocks: {
-        $store
+        $apollo: {
+          queries: {
+            validators: {
+              loading: true,
+              error: false
+            }
+          }
+        }
       }
     })
-
     expect(wrapper.element).toMatchSnapshot()
   })
 
   it(`shows a message if there is nothing to display`, async () => {
-    $store = {
-      dispatch: jest.fn(),
-      state: {
-        session: {
-          signedIn: true
-        },
-        delegates: {
-          delegates: [],
-          loading: false,
-          loaded: true
-        }
-      },
-      getters: {
-        committedDelegations: {
-          [validators[0].operator_address]: 42
-        },
-        connected: true,
-        lastHeader: { height: 20 },
-        yourValidators: validators
-      }
-    }
-
     wrapper = shallowMount(PageValidators, {
       mocks: {
-        $store
+        $apollo
       }
     })
+    wrapper.setData({ validators: [] })
 
+    expect(wrapper.element).toMatchSnapshot()
+  })
+
+  it(`shows a message if there is an error to display`, async () => {
+    wrapper = shallowMount(PageValidators, {
+      mocks: {
+        $apollo: {
+          queries: {
+            validators: {
+              loading: false,
+              error: true
+            }
+          }
+        }
+      }
+    })
     expect(wrapper.element).toMatchSnapshot()
   })
 })

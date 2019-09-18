@@ -7,34 +7,50 @@ describe(`DelegationsOverview`, () => {
   const localVue = createLocalVue()
   localVue.use(Vuex)
 
-  let wrapper, $store
+  let wrapper, $store, $apollo
 
   const getters = {
-    bondDenom: `stake`,
-    yourValidators: validators
+    committedDelegations: {
+      [validators[0].operator_address]: validators[0]
+    }
   }
 
   beforeEach(() => {
     $store = {
-      commit: jest.fn(),
-      dispatch: jest.fn(),
+      getters,
       state: {
-        delegation: {
-          loaded: true
+        connection: {
+          network: "testnet"
         }
-      },
-      getters
+      }
+    }
+
+    $apollo = {
+      queries: {
+        validators: {
+          loading: false,
+          error: false
+        }
+      }
     }
 
     wrapper = shallowMount(DelegationsOverview, {
       mocks: {
-        $store
+        $store,
+        $apollo
       },
-      propsData: { validators }
+      propsData: { validators },
+      stubs: [`router-link`]
     })
+    wrapper.setData({ validators })
   })
 
   it(`shows an overview over all delegations of the user`, async () => {
+    expect(wrapper.element).toMatchSnapshot()
+  })
+
+  it(`shows a sentiment of dissatisfaction when you have no such delegations`, async () => {
+    wrapper.setData({ validators: [] })
     expect(wrapper.element).toMatchSnapshot()
   })
 })

@@ -1,6 +1,6 @@
-import VueApollo from "vue-apollo"
 import PageValidator from "staking/PageValidator"
 import { shallowMount, createLocalVue } from "@vue/test-utils"
+import validators from "../../store/json/validators.js"
 
 const stakingParameters = {
   unbonding_time: `259200000000000`,
@@ -8,35 +8,8 @@ const stakingParameters = {
   bond_denom: `STAKE`
 }
 
-const validator = {
-  operator_address: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw`,
-  pub_key: `cosmosvalpub1234`,
-  jailed: false,
-  tokens: `14`,
-  delegator_shares: `14`,
-  description: {
-    website: `www.monty.ca`,
-    details: `Mr Mounty`,
-    moniker: `mr_mounty`,
-    country: `Canada`
-  },
-  status: 2,
-  bond_intra_tx_counter: 6,
-  proposer_reward_pool: null,
-  commission: {
-    commission_rates: {
-      rate: `0.05`,
-      max_rate: `0.1`,
-      max_change_rate: `0.005`
-    },
-    update_time: Date.now() - 1
-  },
-  prev_bonded_shares: `0`,
-  signing_info: {
-    start_height: 42,
-    missed_blocks_counter: 2
-  }
-}
+const validator = validators[1]
+
 const validatorTo = {
   operator_address: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au`,
   description: {
@@ -66,10 +39,9 @@ const getters = {
 }
 
 describe(`PageValidator`, () => {
-  let wrapper, $store
+  let wrapper, $store, $apollo
   const localVue = createLocalVue()
   localVue.directive(`tooltip`, () => {})
-  localVue.use(VueApollo)
 
   beforeEach(() => {
     $store = {
@@ -109,18 +81,32 @@ describe(`PageValidator`, () => {
           }
         }
       },
+      connection: {
+        network: "testnet"
+      },
       getters: JSON.parse(JSON.stringify(getters)) // clone to be safe we don't overwrite
+    }
+
+    $apollo = {
+      queries: {
+        validator: {
+          loading: false,
+          error: false
+        }
+      }
     }
     wrapper = shallowMount(PageValidator, {
       localVue,
       mocks: {
         $store,
+        $apollo,
         $route: {
           params: { validator: validator.operator_address }
         }
       },
-      stubs: [`router-link`, `apolloquery`]
+      stubs: [`router-link`]
     })
+    wrapper.setData({ validator })
   })
 
   describe(`shows a validator profile information`, () => {
@@ -169,19 +155,11 @@ describe(`PageValidator`, () => {
 
     it(`should show the validator status`, () => {
       expect(wrapper.vm.status).toBe(`Active`)
-      // Jailed
-      $store.state.delegates.delegates = [
-        Object.assign({}, validator, {
-          jailed: true
-        })
-      ]
+
+      wrapper.setData({ validator: validators[3] })
       expect(wrapper.vm.status).toBe(`Jailed`)
       // Is not a validator
-      $store.state.delegates.delegates = [
-        Object.assign({}, validator, {
-          status: 0
-        })
-      ]
+      wrapper.setData({ validator: validators[4] })
       expect(wrapper.vm.status).toBe(`Inactive`)
     })
 
@@ -204,27 +182,22 @@ describe(`PageValidator`, () => {
     })
 
     it(`shows empty website url`, () => {
-      validator.description.website = ``
-      wrapper.setData({ validator })
-      expect(wrapper.vm.website).toBe(`--`)
+      const emtpyWebSiteValidator = Object.assign({}, validator)
+      emtpyWebSiteValidator.website = ""
+      wrapper.setData({ validator: emtpyWebSiteValidator })
+      expect(wrapper.element).toMatchSnapshot()
     })
 
     it(`shows https website url`, () => {
-      validator.description.website = `www.monty.ca`
       wrapper.setData({ validator })
-      expect(wrapper.vm.website).toBe(`https://www.monty.ca`)
+      expect(wrapper.vm.website).toBe(`https://www.greg.com`)
     })
 
     it(`shows http website url`, () => {
-      validator.description.website = `http://www.monty.ca`
-      wrapper.setData({ validator })
-      expect(wrapper.vm.website).toBe(`http://www.monty.ca`)
-    })
-
-    it(`already has https website url`, () => {
-      validator.description.website = `https://www.monty.ca`
-      wrapper.setData({ validator })
-      expect(wrapper.vm.website).toBe(`https://www.monty.ca`)
+      const httpWebSiteValidator = Object.assign({}, validator)
+      httpWebSiteValidator.website = "http://www.monty.ca"
+      wrapper.setData({ validator: httpWebSiteValidator })
+      expect(wrapper.element).toMatchSnapshot()
     })
 
     describe(`errors`, () => {
@@ -518,6 +491,8 @@ describe(`delegationTargetOptions`, () => {
   })
 
   it(`shows bonded validators for redelegation options`, () => {
+    const curValidator = validators[0]
+
     const $store = {
       commit: jest.fn(),
       dispatch: jest.fn()
@@ -526,9 +501,9 @@ describe(`delegationTargetOptions`, () => {
     const state = {
       delegates: {
         selfBond: {
-          [validator.operator_address]: 0.01
+          [curValidator.operator_address]: 0.01
         },
-        delegates: [validator, validatorTo],
+        delegates: [curValidator, validatorTo],
         loaded: true,
         signingInfos: {
           cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw: {
@@ -548,18 +523,18 @@ describe(`delegationTargetOptions`, () => {
       ...getters,
       ...state,
       committedDelegations: {
-        [validator.operator_address]: 10,
+        [curValidator.operator_address]: 10,
         cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au: 5
       },
       $store,
       $route: {
-        params: { validator: validator.operator_address }
+        params: { validator: curValidator.operator_address }
       }
     })
 
     expect(options).toHaveLength(2)
     expect(options).not.toContainEqual(
-      expect.objectContaining({ address: validator.operator_address })
+      expect.objectContaining({ address: curValidator.operator_address })
     )
     expect(options[0].address).toEqual(state.session.address)
     expect(options).toContainEqual(

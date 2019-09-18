@@ -3,14 +3,10 @@ version: 2.1
 # Here we define all the paths and versions of images we want to play with
 aliases:
   # Define paths and never think about them again
-  - &GAIA /tmp/gaia
   - &WORKSPACE /tmp/voyager
-  - &DIST /tmp/voyager/dist
   # Pick docker versions here only, then use the aliases in the executors definition
-  - &docker-node tendermintdev/voyager_node
-  - &docker-browsers tendermintdev/voyager_node_browser
-  - &docker-go circleci/golang:1.11
-  - &docker-deploy tendermintdev/website_deployment
+  - &docker-node circleci/node:10.15.3
+  - &docker-browsers circleci/node:10.15.3-browsers
 
 # reusable commands
 commands:
@@ -29,40 +25,20 @@ commands:
             - node_modules
           key: v4-dependencies-root-{{ checksum "package.json" }}
 
-  sync:
-    parameters:
-      dist_path:
-        type: string
+  yarn-install-extension:
+    description: "[YARN] update and install"
     steps:
-      - run:
-          name: Set default environment variables
-          command: |
-            cd && touch $BASH_ENV
+      - restore_cache:
+          keys:
+            - v1-dependencies-extension-{{ checksum "package.json" }}
+            - v1-dependencies-extension-
 
-            if [ "${CIRCLE_BRANCH}" = "master" ]; then
-              echo 'export DISTRIBUTION_ID=E3NNXI2PHNC362' >> $BASH_ENV
-
-              echo 'export BUCKET_NAME=lunie.io' >> $BASH_ENV
-            else
-              echo 'export DISTRIBUTION_ID=E1KBKFOGFYCD32' >> $BASH_ENV
-              echo 'export BUCKET_NAME=staging.lunie.io' >> $BASH_ENV
-            fi
-      - run:
-          name: Sync dist folder to s3 bucket
-          command: |
-            source $BASH_ENV
-            cd << parameters.dist_path >>
-
-            echo "deployment job ID = $CIRCLE_BUILD_NUM<br>" >> version.html
-            echo "deployment job URL = $CIRCLE_BUILD_URL<br>" >> version.html
-
-            aws s3 sync . s3://$BUCKET_NAME --delete
-      - run:
-          name: Invalidate the cloudfront distribution
-          command: |
-            source $BASH_ENV
-
-            aws cloudfront create-invalidation --distribution-id $DISTRIBUTION_ID --path "/*"
+      - run: yarn install
+      - save_cache:
+          paths:
+            - yarn.lock
+            - node_modules
+          key: v1-dependencies-extension-{{ checksum "package.json" }}
 
 # a reusable executor
 executors:
@@ -76,77 +52,51 @@ executors:
       - image: *docker-node
     working_directory: *WORKSPACE
 
-  go:
-    docker:
-      - image: *docker-go
-    working_directory: *WORKSPACE
-
-  web_deploy:
-    docker:
-      - image: *docker-deploy
-    environment:
-      BASH_ENV: /root/.bashrc
-      AWS_REGION: us-east-1
-
 jobs:
-  build:
+  prep:
     executor: web
     steps:
+      - attach_workspace:
+          at: *WORKSPACE
       - checkout
       - yarn-install
-      - run: |
-          mkdir -p dist
-
-          if [ "${CIRCLE_BRANCH}" = "master" ]; then
-            RELEASE=true CIRCLECI=true yarn build
-          else
-            CIRCLECI=true yarn build
-          fi
       - persist_to_workspace:
           root: *WORKSPACE
           paths:
-            - dist
+            - "*"
 
   pendingUpdated:
     executor: node
     steps:
-      - checkout
+      - attach_workspace:
+          at: *WORKSPACE
       - run: yarn add simsala
       - run: node node_modules/simsala/src/cli.js check --pending-path ./changes
 
   lint:
     executor: node
     steps:
-      - checkout
-      - yarn-install
-      - run: yarn run lint
+      - attach_workspace:
+          at: *WORKSPACE
+      - run: yarn run lint --max-warnings 0
 
   testUnit:
     executor: web
     steps:
-      - checkout
-      - yarn-install
-      - run:
-          name: Setup Code Climate test-reporter
-          command: |
-            # download test reporter as a static binary
-            curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
-            chmod +x ./cc-test-reporter
+      - attach_workspace:
+          at: *WORKSPACE
       - run:
           name: Test
           command: |
-            # notify Code Climate of a pending test report using `before-build`
-            ./cc-test-reporter before-build
             yarn run test:unit --coverage --maxWorkers=2
-            # upload test report to Code Climate
-            ./cc-test-reporter format-coverage -t lcov ./coverage/lcov.info
-            ./cc-test-reporter upload-coverage
-          no_output_timeout: 120
+            bash <(curl -s https://codecov.io/bash)
+          no_output_timeout: 180
 
   security:
     executor: web
     steps:
-      - checkout
+      - attach_workspace:
+          at: *WORKSPACE
       - run:
           name: Audit
           command: |
@@ -169,10 +119,8 @@ jobs:
       # Secondary container image on common network. 
      - image: lunieio/testnet-gaia:v2.0.0
     steps:
-      - checkout
       - attach_workspace:
           at: *WORKSPACE
-      - yarn-install
       - run:
           # needs to be done in CI to be sure it is build once we start the tests
           name: Build for E2E test
@@ -185,13 +133,47 @@ jobs:
           path: ./screenshots
           when: on_fail
 
-  deploy2s3:
-    executor: web_deploy
+  testExtension:
+    docker:
+      # Primary container image where all steps run.
+     - image: *docker-browsers
+      # Secondary container image on common network which runs the testnet
+     - image: lunieio/testnet:v0.34.3
+    working_directory: *WORKSPACE
     steps:
+      - run:
+          name: Avoid hosts unknown for github
+          command: mkdir ~/.ssh/ && echo -e "Host github.com\n\tStrictHostKeyChecking no\n" > ~/.ssh/config
+      - run:
+          name: Checkout Extension
+          command: |
+            git clone git@github.com:luniehq/lunie-browser-extension.git .
       - attach_workspace:
-          at: *WORKSPACE
-      - sync:
-          dist_path: *DIST
+          at: /tmp/voyager/lunie
+      - yarn-install-extension
+      - setup_remote_docker
+      - run:
+          name: Build
+          command: |
+            npm run build:dev
+            node ./scripts/add-pem-key.js
+            cd lunie
+            npm run test:e2e:build
+            yarn certificates
+      - run:
+          name: Install Chrome
+          command: |
+            wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
+            sudo sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list'
+            sudo apt-get update
+            sudo apt-get -y install google-chrome-stable
+      - run:
+          name: Test
+          command: npm run test:e2e:start-lunie & yarn test:e2e
+          no_output_timeout: 120
+      - store_artifacts:
+          path: ./screenshots_extension
+          when: on_fail
 
   # Create release.
   release:
@@ -202,11 +184,9 @@ jobs:
           yarn add simsala
           git config user.email "bot@lunie.io"
           git config user.name "Lunie Bot"
-          REPO_ID=99653950
-          BUILD_NUM=`expr $CIRCLE_BUILD_NUM - 1` #hacky as it assumes the build step ran before this step
-          node node_modules/simsala/src/cli.js release-candidate --semver prerelease --pending-path ./changes --owner luniehq --repository lunie --token $GIT_BOT_TOKEN --message "Please manually test before merging this to master <a href='https://${BUILD_NUM}-${REPO_ID}-gh.circle-artifacts.com/0/tmp/voyager/dist/index.html'>here</a>"
+          node node_modules/simsala/src/cli.js release-candidate --semver prerelease --pending-path ./changes --owner luniehq --repository lunie --token $GIT_BOT_TOKEN --message "Please manually test before merging this to master"
       
-  # Push merges to master immediatly back to develop to stay in sync
+  # Push merges to master immediately back to develop to stay in sync
   mergeBack:
     executor: node
     steps:
@@ -221,22 +201,17 @@ jobs:
             git merge origin/master --no-edit
             git push
 
-  # store artifacts to check a branch as a staging build
-  upload:
-    executor: node
-    steps:
-      - attach_workspace:
-          at: *WORKSPACE
-      - store_artifacts:
-          path: *DIST
-
 
 workflows:
   version: 2
-  build-and-deploy:
+  test:
     jobs:
+      - prep
+
       # Static checks before
       - pendingUpdated:
+          requires:
+            - prep
           filters:
             branches:
               ignore: 
@@ -246,46 +221,38 @@ workflows:
                 - /release-candidate.*/
 
       - security:
+          requires:
+            - prep
           filters:
             branches:
               ignore: release
 
       - lint:
+          requires:
+            - prep
           filters:
             branches:
               ignore: release
 
       - testUnit:
+          requires:
+            - prep
           filters:
             branches:
               ignore: release
 
-      - build:
-          # no heavy lifting if other portion fails
-          requires:
-            - security
-            - lint
-
-      - upload:
-          requires:
-            - build
-
-      - deploy2s3:
-          requires:
-            - testUnit
-            - build
-          filters:
-            branches:
-              only:
-                - develop
-                - master
-
       - testE2e:
+          requires:
+            - prep
           filters:
             branches:
               ignore:
                 - release
                 - master
+
+      - testExtension:
+          requires:
+            - prep
 
   # Every UTC midnight we go on develop and release
   release:
@@ -297,27 +264,15 @@ workflows:
               only:
                 - develop
     jobs:
-      - build
-      - upload:
-          requires:
-            - build
-      - release:
-          requires:
-            - upload
+      - release
 
   releaseManually:
     jobs:
-      - build:
+      - release:
           filters:
             branches:
-              only:
-                - release
-      - upload:
-          requires:
-            - build
-      - release:
-          requires:
-            - upload
+              only: release
+
   mergeBack:
     jobs:
       - mergeBack:

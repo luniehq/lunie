@@ -20,7 +20,7 @@
           route="ledger"
         />
         <LiSession
-          v-if="(session.experimentalMode || extension.enabled) && !isMobileApp"
+          v-if="!isMobileApp"
           id="use-extension"
           icon="laptop"
           title="Use Lunie Browser Extension"

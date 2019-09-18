@@ -69,6 +69,19 @@
       </router-link>
 
       <router-link
+        class="app-menu-item"
+        to="/networks"
+        exact="exact"
+        title="Networks"
+        @click.native="close"
+      >
+        <h2 class="app-menu-title">
+          Networks
+        </h2>
+        <i class="material-icons">chevron_right</i>
+      </router-link>
+
+      <router-link
         class="app-menu-item hide-m"
         to="/about"
         exact="exact"
@@ -181,15 +194,11 @@ export default {
   height: 100%;
 }
 
-.app-menu-main {
-  height: 100%;
-}
-
 .app-menu .app-menu-item {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0.5rem;
+  padding: 0.5rem 0.5rem 0.5rem 0.75rem;
   margin: 0.5rem 1rem;
   font-weight: 400;
   font-size: 14px;
@@ -203,13 +212,13 @@ export default {
 }
 
 .session-link {
-  margin: 1rem;
+  margin: 2.5rem 1rem 1rem;
 }
 
 .user-box {
   font-size: 12px;
   margin: 1rem;
-  padding: 0.5rem;
+  padding: 0.5rem 0.75rem;
   border: 2px solid var(--bc);
   border-radius: 0.25rem;
   display: flex;

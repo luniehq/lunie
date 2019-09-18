@@ -9,8 +9,8 @@ describe(`PageTransactions`, () => {
     `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
     `cosmos1pxdf0lvq5jvl9uxznklgc5gxuwzpdy5ynem546`
   ]
-  const validators = {
-    cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw: {
+  const validators = [
+    {
       operator_address: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw`,
       pub_key: `cosmosvalpub1234`,
       revoked: false,
@@ -34,7 +34,7 @@ describe(`PageTransactions`, () => {
       },
       prev_bonded_shares: `0`
     },
-    cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au: {
+    {
       operator_address: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au`,
       pub_key: `cosmosvalpub5678`,
       revoked: false,
@@ -58,7 +58,7 @@ describe(`PageTransactions`, () => {
       },
       prev_bonded_shares: `0`
     },
-    cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctgurrg7n: {
+    {
       operator_address: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctgurrg7n`,
       pub_key: `cosmosvalpub8910`,
       tokens: `19`,
@@ -82,7 +82,7 @@ describe(`PageTransactions`, () => {
       },
       prev_bonded_shares: `0`
     }
-  }
+  ]
 
   const flatOrderedTransactionList = [
     {
@@ -198,8 +198,7 @@ describe(`PageTransactions`, () => {
   let wrapper, $store
 
   const getters = {
-    flatOrderedTransactionList,
-    validators
+    flatOrderedTransactionList
   }
 
   const state = {
@@ -211,6 +210,9 @@ describe(`PageTransactions`, () => {
     session: {
       address: addresses[0],
       signedIn: true
+    },
+    connection: {
+      network: "awesomenet"
     }
   }
 
@@ -289,5 +291,42 @@ describe(`PageTransactions`, () => {
     expect(wrapper.vm.showingTransactions.length).toBe(2)
     wrapper.vm.loadMore()
     expect(wrapper.vm.showingTransactions.length).toBe(7)
+  })
+  it(`should load more transactions (infinite scrolling)`, async () => {
+    const refreshTransactions = jest.fn()
+    wrapper = shallowMount(PageTransactions, {
+      localVue,
+      mocks: {
+        $store
+      },
+      directives: {
+        infiniteScroll: () => {}
+      },
+      methods: {
+        refreshTransactions
+      }
+    })
+    wrapper.setData({ session: { signedIn: false } })
+    wrapper.vm.$nextTick()
+    expect(refreshTransactions).toHaveBeenCalled()
+  })
+
+  it(`validator address map to be correct`, async () => {
+    wrapper = shallowMount(PageTransactions, {
+      localVue,
+      mocks: {
+        $store
+      },
+      directives: {
+        infiniteScroll: () => {}
+      }
+    })
+    wrapper.setData({ validators })
+    // console.log(wrapper.vm.validatorsAddressMap)
+    expect(Object.keys(wrapper.vm.validatorsAddressMap)).toEqual([
+      "cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw",
+      "cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au",
+      "cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctgurrg7n"
+    ])
   })
 })

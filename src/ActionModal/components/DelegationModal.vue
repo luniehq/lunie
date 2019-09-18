@@ -11,6 +11,20 @@
     :notify-message="notifyMessage"
     @close="clear"
   >
+    <TmFormGroup class="action-modal-form-group">
+      <div class="form-message notice">
+        <span v-if="!isRedelegation()">
+          It will take 21 days to unlock your tokens after a delegation and
+          there is a risk that some tokens will be lost depending on the
+          behaviour of the validator.
+        </span>
+        <span v-else>
+          Voting power and rewards will change instantly upon redelegation —
+          your tokens will still be subject to the risks associated with the
+          original delegation for the duration of the undelegation period.
+        </span>
+      </div>
+    </TmFormGroup>
     <TmFormGroup class="action-modal-form-group" field-id="to" field-label="To">
       <TmField id="to" v-model="to" type="text" readonly />
     </TmFormGroup>
@@ -35,15 +49,24 @@
       field-id="amount"
       field-label="Amount"
     >
-      <span class="input-suffix">{{ denom | viewDenom }}</span>
-      <TmField
-        id="amount"
-        v-model="amount"
-        v-focus
-        type="number"
-        placeholder="Amount"
-        @keyup.enter.native="enterPressed"
-      />
+      <span class="input-suffix-denom">{{ viewDenom(denom) }}</span>
+      <TmFieldGroup>
+        <TmField
+          id="amount"
+          v-model="amount"
+          v-focus
+          class="tm-field-addon"
+          type="number"
+          placeholder="Amount"
+          @keyup.enter.native="enterPressed"
+        />
+        <TmBtn
+          type="button"
+          class="secondary addon-max"
+          value="Set Max"
+          @click.native="setMaxAmount()"
+        />
+      </TmFieldGroup>
       <span v-if="!isRedelegation()" class="form-message">
         Available to Delegate:
         {{ getFromBalance() }}
@@ -77,6 +100,12 @@
         name="Amount"
         type="between"
       />
+      <TmFormMsg
+        v-else-if="isMaxAmount() && !isRedelegation()"
+        msg="You are about to use all your tokens for this transaction. Consider leaving a little bit left over to cover the network fees."
+        type="custom"
+        class="tm-form-msg--desc"
+      />
     </TmFormGroup>
   </ActionModal>
 </template>
@@ -86,6 +115,8 @@ import { mapState, mapGetters } from "vuex"
 import { between, decimal } from "vuelidate/lib/validators"
 import { uatoms, atoms, viewDenom, SMALLEST } from "src/scripts/num"
 import TmField from "src/components/common/TmField"
+import TmFieldGroup from "src/components/common/TmFieldGroup"
+import TmBtn from "src/components/common/TmBtn"
 import TmFormGroup from "src/components/common/TmFormGroup"
 import TmFormMsg from "src/components/common/TmFormMsg"
 import ActionModal from "./ActionModal"
@@ -95,6 +126,8 @@ export default {
   name: `delegation-modal`,
   components: {
     TmField,
+    TmFieldGroup,
+    TmBtn,
     TmFormGroup,
     TmFormMsg,
     ActionModal
@@ -178,7 +211,10 @@ export default {
   },
   methods: {
     viewDenom,
-    open() {
+    open(options) {
+      if (options && options.redelegation && this.fromOptions.length > 1) {
+        this.selectedIndex = 1
+      }
       this.$refs.actionModal.open()
     },
     validateForm() {
@@ -191,6 +227,12 @@ export default {
 
       this.selectedIndex = 0
       this.amount = null
+    },
+    setMaxAmount() {
+      this.amount = atoms(this.balance)
+    },
+    isMaxAmount() {
+      return parseFloat(this.amount) === parseFloat(atoms(this.balance))
     },
     enterPressed() {
       this.$refs.actionModal.validateChangeStep()

@@ -1,8 +1,7 @@
 // share of all provisioned block rewards all delegators of this validator get
 export const provisionShare = (validator, totalStakedTokens) => {
   const validatorProvisionShare = validator.tokens / totalStakedTokens
-  const delegatorProvisionShare =
-    validatorProvisionShare * (1 - validator.commission.commission_rates.rate)
+  const delegatorProvisionShare = validatorProvisionShare * (1 - validator.rate)
 
   return delegatorProvisionShare
 }

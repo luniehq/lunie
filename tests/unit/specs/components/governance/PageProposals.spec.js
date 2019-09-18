@@ -1,8 +1,8 @@
 import { shallowMount } from "@vue/test-utils"
-import TabProposals from "governance/TabProposals"
+import PageProposals from "governance/PageProposals"
 import { proposals, tallies } from "../../store/json/proposals"
 
-describe(`TabProposals`, () => {
+describe(`PageProposals`, () => {
   let $store
 
   beforeEach(() => {
@@ -29,7 +29,7 @@ describe(`TabProposals`, () => {
       depositDenom: `lunies`
     }
 
-    const wrapper = shallowMount(TabProposals, {
+    const wrapper = shallowMount(PageProposals, {
       mocks: {
         $store
       }
@@ -52,7 +52,7 @@ describe(`TabProposals`, () => {
       depositDenom: `lunies`
     }
 
-    const wrapper = shallowMount(TabProposals, {
+    const wrapper = shallowMount(PageProposals, {
       mocks: {
         $store
       }
@@ -76,7 +76,7 @@ describe(`TabProposals`, () => {
       depositDenom: `lunies`
     }
 
-    const wrapper = shallowMount(TabProposals, {
+    const wrapper = shallowMount(PageProposals, {
       mocks: {
         $store
       }
@@ -99,7 +99,7 @@ describe(`TabProposals`, () => {
       depositDenom: `lunies`
     }
 
-    const wrapper = shallowMount(TabProposals, {
+    const wrapper = shallowMount(PageProposals, {
       mocks: {
         $store
       }
@@ -122,7 +122,7 @@ describe(`TabProposals`, () => {
       depositDenom: `lunies`
     }
 
-    const wrapper = shallowMount(TabProposals, {
+    const wrapper = shallowMount(PageProposals, {
       mocks: {
         $store
       }

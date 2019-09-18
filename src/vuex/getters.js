@@ -14,14 +14,6 @@ export const flatOrderedTransactionList = state => {
   return allTx
 }
 
-export const validators = state => {
-  const names = {}
-  state.delegates.delegates.forEach(item => {
-    names[item.operator_address] = item
-  })
-  return names
-}
-
 // fee distribution
 export const yourValidators = (state, getters) =>
   state.session.signedIn
@@ -111,5 +103,8 @@ export const modalContext = (state, getters) => ({
   rewards: state.distribution.rewards,
   totalRewards: getters.totalRewards,
   delegates: state.delegates.delegates,
-  bondDenom: getters.bondDenom
+  bondDenom: getters.bondDenom,
+  isExtensionAccount: state.extension.accounts.some(account => {
+    return account.address === state.session.address
+  })
 })

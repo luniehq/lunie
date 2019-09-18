@@ -28,6 +28,12 @@ describe(`Module: Session`, () => {
     expect(state.address).toBe(null)
   })
 
+  it(`should set windows device property`, () => {
+    jest.spyOn(window.navigator, "platform", "get").mockReturnValue("win32")
+    state = sessionModule({ node }).state
+    expect(state.windowsDevice).toBe(true)
+  })
+
   it("should always default to disable the local signer", () => {
     expect(state.insecureMode).toBe(false)
   })
@@ -80,6 +86,12 @@ describe(`Module: Session`, () => {
     it(`should activate insecure mode`, () => {
       mutations.setInsecureMode(state)
       expect(state.insecureMode).toBe(true)
+    })
+
+    it(`should set current modal`, () => {
+      expect(state.currrentModalOpen).toBe(false)
+      mutations.setCurrrentModalOpen(state, true)
+      expect(state.currrentModalOpen).toBe(true)
     })
   })
 

@@ -40,11 +40,25 @@ const modalContext = {
   },
   session: {
     address: "cosmos1abcdefghijklmop",
-    localKeyPairName: "localKeyPairName"
+    localKeyPairName: "localKeyPairName",
+    currrentModalOpen: false
   },
   delegation: {
     committedDelegates: []
-  }
+  },
+  isExtensionAccount: true
+}
+
+const $apollo = {
+  query: () => ({
+    data: {
+      networks: [
+        {
+          action_action_modal: true
+        }
+      ]
+    }
+  })
 }
 
 describe(`ActionModal`, () => {
@@ -61,7 +75,11 @@ describe(`ActionModal`, () => {
         session: {
           signedIn: true,
           sessionType: `local`,
-          browserWithLedgerSupport: null
+          browserWithLedgerSupport: null,
+          currrentModalOpen: false
+        },
+        connection: {
+          network: "testnet"
         }
       },
       getters: {
@@ -94,7 +112,8 @@ describe(`ActionModal`, () => {
         $store,
         $router: {
           push: jest.fn()
-        }
+        },
+        $apollo
       },
       stubs: ["router-link"]
     })
@@ -142,6 +161,24 @@ describe(`ActionModal`, () => {
 
     expect(wrapper.isEmpty()).not.toBe(true)
     expect(wrapper.vm.trackEvent).toHaveBeenCalled()
+  })
+
+  it(`should confirm modal closing`, () => {
+    global.confirm = () => true
+    const closeModal = jest.fn()
+    wrapper.vm.session.currrentModalOpen = {
+      close: closeModal
+    }
+    wrapper.vm.confirmModalOpen()
+    expect(closeModal).toHaveBeenCalled()
+  })
+
+  it(`should not open second modal`, () => {
+    wrapper.setData({ show: false })
+    global.confirm = () => false
+    wrapper.vm.session.currrentModalOpen = true
+    wrapper.vm.open()
+    expect(wrapper.vm.show).toBe(false)
   })
 
   it(`opens session modal and closes itself`, () => {
@@ -206,6 +243,17 @@ describe(`ActionModal`, () => {
     it(`on success`, async () => {
       wrapper.vm.step = "success"
       expect(wrapper.element).toMatchSnapshot()
+    })
+  })
+
+  describe(`back button`, () => {
+    it(`renders and functions`, () => {
+      wrapper.setData({ step: "sign" })
+      expect(wrapper.element).toMatchSnapshot()
+      wrapper.find("#prevBtn").trigger("click")
+      expect(wrapper.vm.step).toBe("fees")
+      wrapper.find("#prevBtn").trigger("click")
+      expect(wrapper.vm.step).toBe("details")
     })
   })
 
@@ -609,6 +657,16 @@ describe(`ActionModal`, () => {
         await ActionModal.methods.validateChangeStep.call(self)
         expect(self.submit).not.toHaveBeenCalled()
       })
+
+      it("should dispaly warning when using an address not in the extension", () => {
+        wrapper.vm.modalContext.isExtensionAccount = false
+        wrapper.vm.step = "sign"
+        wrapper.vm.selectedSignMethod = "extension"
+        expect(
+          wrapper.find(".form-message.notice.extension-address").exists()
+        ).toBe(true)
+        expect(wrapper.element).toMatchSnapshot()
+      })
     })
 
     describe(`invalid step`, () => {
@@ -681,6 +739,57 @@ describe(`ActionModal`, () => {
           value: `ledger`
         }
       ])
+    })
+  })
+
+  it("shows a feature unavailable message", async () => {
+    wrapper.vm.$apollo = {
+      query: () => ({
+        data: {
+          networks: []
+        }
+      })
+    }
+    await wrapper.vm.open()
+    expect(wrapper.element).toMatchSnapshot()
+    expect(wrapper.exists("featurenotavailable-stub")).toBe(true)
+  })
+
+  describe(`windows`, () => {
+    beforeEach(() => {
+      wrapper = shallowMount(ActionModal, {
+        localVue,
+        propsData: {
+          title: `Action Modal`
+        },
+        mocks: {
+          $store: {
+            state: {
+              session: {
+                windowsDevice: true,
+                windowsWarning: "WINDOWS WARNING MESSAGE"
+              },
+              connection: {
+                network: "testnet"
+              },
+              extension: {
+                enabled: true
+              }
+            },
+            getters: {
+              modalContext
+            },
+            commit: jest.fn()
+          },
+          $apollo
+        },
+        stubs: ["router-link"]
+      })
+      wrapper.vm.open()
+    })
+    it(`shows windows warning`, async () => {
+      expect(wrapper.element).toMatchSnapshot()
+      expect(wrapper.text()).toMatch(/WINDOWS WARNING MESSAGE/)
     })
   })
 })

@@ -17,6 +17,10 @@ describe(`SendModal`, () => {
     {
       denom: `fermion`,
       amount: 2300
+    },
+    {
+      denom: `EMPTY_BALANCE`,
+      amount: 0
     }
   ]
   const getters = {
@@ -27,7 +31,7 @@ describe(`SendModal`, () => {
   const state = {
     wallet: {
       loading: false,
-      denoms: [`fermion`, `gregcoin`, `mycoin`, `STAKE`],
+      denoms: [`fermion`, `gregcoin`, `mycoin`, `STAKE`, `EMPTY_BALANCE`],
       balances
     }
   }
@@ -171,6 +175,48 @@ describe(`SendModal`, () => {
     expect(wrapper.vm.notifyMessage).toEqual({
       title: `Successful Send`,
       body: `Successfully sent 2 STAKEs to cosmos12345`
+    })
+  })
+
+  describe(`if amount field max button clicked`, () => {
+    it(`amount has to be 10000 atom`, async () => {
+      wrapper.setData({
+        denom: `STAKE`,
+        address: `cosmos12345`
+      })
+      wrapper.vm.setMaxAmount()
+      expect(wrapper.vm.amount).toBe(10000)
+    })
+    it(`should show warning message`, async () => {
+      wrapper.setData({
+        denom: `STAKE`,
+        address: `cosmos12345`
+      })
+      wrapper.vm.setMaxAmount()
+      await wrapper.vm.$nextTick()
+      expect(wrapper.html()).toContain(
+        "You are about to use all your tokens for this transaction. Consider leaving a little bit left over to cover the network fees."
+      )
+    })
+    it(`should not show warning message if balance = 0`, async () => {
+      wrapper.setData({
+        denom: `EMPTY_BALANCE`,
+        address: `cosmos12345`
+      })
+      wrapper.vm.setMaxAmount()
+      await wrapper.vm.$nextTick()
+      expect(wrapper.html()).not.toContain(
+        "You are about to use all your tokens for this transaction. Consider leaving a little bit left over to cover the network fees."
+      )
+    })
+    it(`isMaxAmount() should return false if balance = 0`, async () => {
+      wrapper.setData({
+        denom: `EMPTY_BALANCE`,
+        address: `cosmos12345`
+      })
+      wrapper.vm.setMaxAmount()
+      await wrapper.vm.$nextTick()
+      expect(wrapper.vm.isMaxAmount()).toBe(false)
     })
   })
 })

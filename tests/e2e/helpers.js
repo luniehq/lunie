@@ -83,6 +83,8 @@ async function actionModalCheckout(
   // go back to source page to checkout
   browser.url(sourcePage)
 
+  browser.pause(500)
+
   // open modal and enter amount
   browser.expect.element(btnSelector).to.be.visible.before(10000)
   browser.click(btnSelector)

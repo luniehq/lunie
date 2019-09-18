@@ -1,12 +1,12 @@
-![Lunie logo — spaceship blasting off](/src/assets/images/png/128x128.png)
+![Lunie logo — right half circle with dotted left circle](/public/img/readme-header.svg)
 
 # Welcome to [Lunie.io](https://lunie.io)!
 
 [![CircleCI](https://circleci.com/gh/luniehq/lunie/tree/develop.svg?style=svg)](https://circleci.com/gh/luniehq/lunie/tree/develop)
+[![codecov](https://codecov.io/gh/luniehq/lunie/branch/develop/graph/badge.svg)](https://codecov.io/gh/luniehq/lunie)
+[![Maintainability](https://api.codeclimate.com/v1/badges/a99a88d28ad37a79dbf6/maintainability)](https://codeclimate.com/github/codeclimate/codeclimate/maintainability)
 
-👋 Welcome to Lunie, the official wallet and UI for the [Cosmos Hub](https://cosmos.network/).
-
-⚠️ This is beta software. **DO NOT** enter your Cosmos fundraiser seed into Lunie. We will not ask for it and this is considered highly unsafe.
+👋 Welcome to Lunie. We're making staking accessible for everyone. This is the repo for the Lunie web app.
 
 ## Development Dependencies
 
@@ -27,6 +27,10 @@ Yarn is a JS package manager we use to manage Lunie's dependencies. Download it 
 ### Docker
 
 To run a local tesnet for Lunie you will need [Docker](https://www.docker.com/) installed. You can download it [here](https://www.docker.com/get-docker).
+
+### Docker compose
+
+To build the SSL certificates needed by Lunie you also will need [Docker Compose](https://docs.docker.com/compose/) installed. You can find installation instructions for your platform [here](https://docs.docker.com/compose/install/).
 
 ### Ledger Cosmos App
 
@@ -174,4 +178,4 @@ A list of all environment variables and their purpose:
 
 ## Thanks
 
-[![Browserstack](/test/browserstack-logo-600x315.png)](https://www.browserstack.com)
+[![Browserstack](/tests/browserstack-logo-600x315.png)](https://www.browserstack.com)

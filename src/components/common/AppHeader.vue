@@ -2,14 +2,14 @@
   <nav class="app-header" :class="{ mobile: !desktop }">
     <div class="container">
       <div class="header-item" :class="{ open: open }">
-        <router-link to="/">
+        <a href="https://lunie.io">
           <img
             class="header-item-logo"
-            src="~assets/images/cosmos-wallet-logo.svg"
+            src="~assets/images/lunie-logo-white.svg"
             alt="Lunie spaceship accelerating into a colourful space sky"
           />
           Lunie
-        </router-link>
+        </a>
         <template v-if="!desktop">
           <div v-if="open" class="close-menu" @click="close()">
             <i class="material-icons mobile-menu-action">close</i>
@@ -97,7 +97,7 @@ export default {
 }
 
 .app-header .header-item {
-  padding: 1.25rem;
+  padding: 1.75rem;
   font-size: 0;
 }
 
@@ -106,7 +106,7 @@ export default {
 }
 
 .header-item-logo {
-  height: 3rem;
+  height: 2rem;
 }
 
 @media screen and (max-width: 1023px) {
@@ -131,8 +131,7 @@ export default {
   }
 
   .header-item-logo {
-    height: 2rem;
-    padding-left: 4px;
+    height: 1.75rem;
   }
 }
 

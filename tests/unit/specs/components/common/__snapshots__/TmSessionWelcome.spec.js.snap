@@ -11,7 +11,7 @@ exports[`TmSessionWelcome has the expected html structure 1`] = `
       <img
         alt="a small spinning circle to display loading"
         class="session-logo-mobile"
-        src="~assets/images/cosmos-wallet-logo.svg"
+        src="~assets/images/lunie-logo-white.svg"
       />
     </router-link-stub>
      
@@ -90,7 +90,7 @@ exports[`TmSessionWelcome has the expected html structure when on mobile 1`] = `
       <img
         alt="a small spinning circle to display loading"
         class="session-logo-mobile"
-        src="~assets/images/cosmos-wallet-logo.svg"
+        src="~assets/images/lunie-logo-white.svg"
       />
     </router-link-stub>
      

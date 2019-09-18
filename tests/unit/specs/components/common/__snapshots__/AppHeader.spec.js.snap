@@ -10,18 +10,18 @@ exports[`AppHeader should display the sidebar on desktop 1`] = `
     <div
       class="header-item open"
     >
-      <router-link-stub
-        to="/"
+      <a
+        href="https://lunie.io"
       >
         <img
           alt="Lunie spaceship accelerating into a colourful space sky"
           class="header-item-logo"
-          src="~assets/images/cosmos-wallet-logo.svg"
+          src="~assets/images/lunie-logo-white.svg"
         />
         
         Lunie
       
-      </router-link-stub>
+      </a>
        
       <!---->
     </div>
@@ -41,18 +41,18 @@ exports[`AppHeader should show the sidebar as a menu on mobile 1`] = `
     <div
       class="header-item open"
     >
-      <router-link-stub
-        to="/"
+      <a
+        href="https://lunie.io"
       >
         <img
           alt="Lunie spaceship accelerating into a colourful space sky"
           class="header-item-logo"
-          src="~assets/images/cosmos-wallet-logo.svg"
+          src="~assets/images/lunie-logo-white.svg"
         />
         
         Lunie
       
-      </router-link-stub>
+      </a>
        
       <div
         class="close-menu"

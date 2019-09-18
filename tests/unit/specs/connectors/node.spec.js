@@ -4,7 +4,7 @@ describe(`Connector`, () => {
   const remoteLcdURL = `http://awesomenode.de:12345`
 
   beforeAll(() => {
-    jest.mock(`src/connectors/rpcWrapper`, () => () => ({
+    jest.mock(`src/connectors/tendermint`, () => () => ({
       fooRpc: `rpcBar`
     }))
     jest.mock(
@@ -22,7 +22,7 @@ describe(`Connector`, () => {
 
   it(`should setup the connectors`, () => {
     const node = new Node(remoteLcdURL)
-    expect(node.fooRpc).toBe(`rpcBar`)
+    expect(node.tendermint.fooRpc).toBe(`rpcBar`)
     expect(node.get).toBeDefined()
   })
 })

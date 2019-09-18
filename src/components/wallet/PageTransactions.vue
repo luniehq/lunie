@@ -3,7 +3,7 @@
     :managed="true"
     :loading="transactions.loading"
     :loaded="transactions.loaded"
-    :error="transactions.error"
+    :error="!!transactions.error"
     :data-empty="dataEmpty"
     data-title="Transactions"
     :sign-in-required="true"
@@ -15,7 +15,7 @@
         <TransactionList
           :transactions="showingTransactions"
           :address="session.address"
-          :validators="validators"
+          :validators="validatorsAddressMap"
         />
       </div>
       <br />
@@ -28,6 +28,7 @@ import { mapState, mapGetters } from "vuex"
 import DataEmptyTx from "common/TmDataEmptyTx"
 import TmPage from "common/TmPage"
 import TransactionList from "transactions/TransactionList"
+import { AllValidators, AllValidatorsResult } from "src/gql"
 
 export default {
   name: `page-transactions`,
@@ -37,11 +38,20 @@ export default {
     TmPage
   },
   data: () => ({
-    showing: 15
+    showing: 15,
+    validators: []
   }),
   computed: {
     ...mapState([`session`, `transactions`]),
-    ...mapGetters([`validators`, `flatOrderedTransactionList`]),
+    ...mapState({ network: state => state.connection.network }),
+    ...mapGetters([`flatOrderedTransactionList`]),
+    validatorsAddressMap() {
+      const names = {}
+      this.validators.forEach(item => {
+        names[item.operator_address] = item
+      })
+      return names
+    },
     showingTransactions() {
       return this.flatOrderedTransactionList.slice(0, this.showing)
     },
@@ -65,6 +75,18 @@ export default {
     },
     loadMore() {
       this.showing += 10
+    }
+  },
+  apollo: {
+    validators: {
+      query() {
+        /* istanbul ignore next */
+        return AllValidators(this.network)
+      },
+      update(data) {
+        /* istanbul ignore next */
+        return AllValidatorsResult(this.network)(data)
+      }
     }
   }
 }
