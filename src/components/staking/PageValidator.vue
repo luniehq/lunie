@@ -12,10 +12,14 @@
     <template v-if="validator.operator_address" slot="managed-body">
       <div class="status-container">
         <span :class="status | toLower" class="validator-status">
-          {{ status }} 
+          {{ status }}
         </span>
-        <span v-if="jailed" class="jailed">Temporally banned from the network</span>
-        <span v-if="tombstoned" class="tombstoned">Banned from the network</span>
+        <span v-if="jailed" class="jailed">
+          Temporally banned from the network
+        </span>
+        <span v-if="tombstoned" class="tombstoned">
+          Banned from the network
+        </span>
       </div>
       <tr class="li-validator">
         <td class="data-table__row__info">
