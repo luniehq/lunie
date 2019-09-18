@@ -10,7 +10,7 @@
     "
   >
     <td>{{ index + 1 }}</td>
-    <td>
+    <td class="hide-xs">
       <div class="status-container">
         <span :class="status | toLower" class="validator-status">
           {{ status }}
