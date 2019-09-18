@@ -156,4 +156,23 @@ export default {
   width: 2.5rem;
   border: 1px solid var(--bc-dim);
 }
+
+.validator-status {
+  text-transform: uppercase;
+  font-size: 10px;
+  font-weight: 600;
+  border: 2px solid;
+  padding: 2px 4px;
+  border-radius: 0.25rem;
+}
+
+.validator-status.inactive {
+  color: var(--warning);
+  border-color: var(--warning);
+}
+
+.validator-status.active {
+  color: var(--success);
+  border-color: var(--success);
+}
 </style>
