@@ -10,7 +10,19 @@
     "
   >
     <td>{{ index + 1 }}</td>
-    <td>Status: {{ validator.status }} Jailed: {{ validator.jailed }}</td>
+    <td>
+      <div class="status-container">
+        <span :class="status | toLower" class="validator-status">
+          {{ status }}
+        </span>
+        <span v-if="jailed" class="jailed">
+          Temporally banned from the network
+        </span>
+        <span v-if="tombstoned" class="tombstoned">
+          Banned from the network
+        </span>
+      </div>
+    </td>
     <td class="data-table__row__info">
       <Avatar
         v-if="!validator || !validator.avatarUrl"
