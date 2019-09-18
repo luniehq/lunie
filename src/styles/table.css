@@ -20,6 +20,7 @@
 
 .data-table th:nth-child(2) {
   width: 10%;
+  color: var(--dim);
 }
 
 .data-table th:nth-child(3) {
