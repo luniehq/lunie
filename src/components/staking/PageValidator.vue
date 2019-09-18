@@ -501,7 +501,7 @@ span {
 .validator-status-detailed {
   display: block;
   margin-top: 0.4rem;
-  color: #e07b7b;
+  color: var(--warning);
   font-size: 0.8rem;
 }
 </style>
