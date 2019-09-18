@@ -27,6 +27,18 @@
           :steps="['Details', 'Fees', 'Sign']"
           :active-step="step"
         />
+        <p
+          v-if="
+            extension.enabled &&
+              !modalContext.isExtensionAccount &&
+              step === signStep &&
+              selectedSignMethod === SIGN_METHODS.EXTENSION
+          "
+          class="form-message notice extension-address"
+        >
+          The address you are trying to send with is not available in the
+          extension.
+        </p>
       </div>
       <template v-if="!featureAvailable">
         <FeatureNotAvailable :feature="title" />
@@ -243,7 +255,7 @@
                   v-else
                   color="primary"
                   value="Send"
-                  :disabled="!session.browserWithLedgerSupport"
+                  :disabled="!hasSigningMethod"
                   @click.native="validateChangeStep"
                 />
               </div>
@@ -433,6 +445,13 @@ export default {
         default:
           return "Sending..."
       }
+    },
+    hasSigningMethod() {
+      return (
+        this.session.browserWithLedgerSupport ||
+        (this.selectedSignMethod === "extension" &&
+          this.modalContext.isExtensionAccount)
+      )
     }
   },
   watch: {

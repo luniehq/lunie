@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.0-beta.123] - 2019-09-18
+
+### Added
+
+- [#2820](https://github.com/cosmos/lunie/issues/2820) Warn user if the current address is not in the extension account list, and disable sign button. @colw
+
 ## [1.0.0-beta.122] - 2019-09-17
 
 ### Fixed
