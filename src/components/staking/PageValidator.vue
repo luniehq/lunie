@@ -12,7 +12,7 @@
     <template v-if="validator.operator_address" slot="managed-body">
       <div class="status-container">
         <span :class="status | toLower" class="validator-status">
-          {{ status }}
+          {{ status }} {{ status_detailed }}
         </span>
         <span v-if="status_detailed !== false" class="validator-status-detailed">
           {{ status_detailed }}
