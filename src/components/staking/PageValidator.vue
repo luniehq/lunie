@@ -14,8 +14,8 @@
         <span :class="status | toLower" class="validator-status">
           {{ status }} 
         </span>
-        <span v-if="jailed">Jailed</span>
-        <span v-if="tombstoned">Tombstoned</span>
+        <span v-if="jailed" class="jailed">Temporally banned from the network</span>
+        <span v-if="tombstoned" class="tombstoned">Banned from the network</span>
       </div>
       <tr class="li-validator">
         <td class="data-table__row__info">
@@ -269,8 +269,12 @@ export default {
       )
     },
     status() {
-      if (this.validator.jailed) return `Jailed`
-      else if (this.validator.status === 0) return `Inactive`
+      if (
+        this.validator.jailed ||
+        this.validator.tombstoned ||
+        this.validator.status === 0
+      )
+        return `Inactive`
       return `Active`
     },
     website() {
@@ -477,11 +481,6 @@ span {
   border-radius: 0.25rem;
 }
 
-.validator-status.jailed {
-  color: var(--danger);
-  border-color: var(--danger);
-}
-
 .validator-status.inactive {
   color: var(--warning);
   border-color: var(--warning);
@@ -490,6 +489,14 @@ span {
 .validator-status.active {
   color: var(--success);
   border-color: var(--success);
+}
+
+.tombstoned,
+.jailed {
+  display: block;
+  margin-top: 0.4rem;
+  color: #e07b7b;
+  font-size: 0.8rem;
 }
 </style>
 <style>
