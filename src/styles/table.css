@@ -16,11 +16,13 @@
 .data-table th:first-child {
   width: 10%;
   color: var(--dim);
+  font-size: var(--sm)
 }
 
 .data-table th:nth-child(2) {
   width: 10%;
   color: var(--dim);
+  font-size: var(--sm)
 }
 
 .data-table th:nth-child(3) {
