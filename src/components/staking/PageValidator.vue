@@ -14,11 +14,8 @@
         <span :class="status | toLower" class="validator-status">
           {{ status }}
         </span>
-        <span v-if="jailed" class="jailed">
-          Temporally banned from the network
-        </span>
-        <span v-if="tombstoned" class="tombstoned">
-          Banned from the network
+        <span v-if="status_detailed" class="validator-status-detailed">
+          {{ status_detailed }}
         </span>
       </div>
       <tr class="li-validator">
@@ -281,6 +278,12 @@ export default {
         return `Inactive`
       return `Active`
     },
+    status_datailed() {
+      if (this.validator.jailed) return `Temporally banned from the network`
+      if (this.validator.tombstoned) return `Banned from the network`
+      if (this.validator.status === 0) return `Banned from the network`
+      return false
+    },
     website() {
       let url = this.validator.website
 
@@ -495,8 +498,7 @@ span {
   border-color: var(--success);
 }
 
-.tombstoned,
-.jailed {
+.validator-status-detailed {
   display: block;
   margin-top: 0.4rem;
   color: #e07b7b;

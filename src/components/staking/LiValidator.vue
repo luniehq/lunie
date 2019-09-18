@@ -12,7 +12,11 @@
     <td>{{ index + 1 }}</td>
     <td class="hide-xs">
       <div class="status-container">
-        <span :class="status | toLower" class="validator-status">
+        <span
+          :class="status | toLower"
+          class="validator-status"
+          :title="status_datailed"
+        >
           {{ status }}
         </span>
       </div>
@@ -94,6 +98,12 @@ export default {
       )
         return `Inactive`
       return `Active`
+    },
+    status_datailed() {
+      if (this.validator.jailed) return `Temporally banned from the network`
+      if (this.validator.tombstoned) return `Banned from the network`
+      if (this.validator.status === 0) return `Banned from the network`
+      return false
     }
   },
   methods: {
