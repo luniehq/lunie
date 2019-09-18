@@ -15,7 +15,7 @@
         <span
           :class="status | toLower"
           class="validator-status"
-          :title="status_datailed"
+          :title="status_detailed"
         >
           {{ status }}
         </span>
@@ -99,7 +99,7 @@ export default {
         return `Inactive`
       return `Active`
     },
-    status_datailed() {
+    status_detailed() {
       if (this.validator.jailed) return `Temporally banned from the network`
       if (this.validator.tombstoned) return `Banned from the network`
       if (this.validator.status === 0) return `Banned from the network`

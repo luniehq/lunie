@@ -12,9 +12,9 @@
     <template v-if="validator.operator_address" slot="managed-body">
       <div class="status-container">
         <span :class="status | toLower" class="validator-status">
-          {{ status }} {{ status_detailed }}
+          {{ status }}
         </span>
-        <span v-if="status_detailed !== false" class="validator-status-detailed">
+        <span v-if="status_detailed" class="validator-status-detailed">
           {{ status_detailed }}
         </span>
       </div>
@@ -278,7 +278,7 @@ export default {
         return `Inactive`
       return `Active`
     },
-    status_datailed() {
+    status_detailed() {
       if (this.validator.jailed) return `Temporally banned from the network`
       if (this.validator.tombstoned) return `Banned from the network`
       if (this.validator.status === 0) return `Banned from the network`
