@@ -1,12 +1,11 @@
 const dev = process.env.NODE_ENV === `development`
-const stargate = process.env.STARGATE || `https://localhost:9071`
-
+const stargate = process.env.STARGATE || `http://localhost:9071`
 const rpc = process.env.RPC || `localhost:26657`
 
 export default {
   name: `Lunie`,
   development: dev,
-  network: `cosmoshub`,
+  network: dev ? `testnet` : `cosmoshub`,
   stargate,
   rpc,
   google_analytics_uid: process.env.GOOGLE_ANALYTICS_UID || "",
