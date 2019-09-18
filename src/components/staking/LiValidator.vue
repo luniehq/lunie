@@ -15,12 +15,6 @@
         <span :class="status | toLower" class="validator-status">
           {{ status }}
         </span>
-        <span v-if="jailed" class="jailed">
-          Temporally banned from the network
-        </span>
-        <span v-if="tombstoned" class="tombstoned">
-          Banned from the network
-        </span>
       </div>
     </td>
     <td class="data-table__row__info">
@@ -73,7 +67,8 @@ export default {
   filters: {
     atoms,
     shortDecimals,
-    percent
+    percent,
+    toLower: text => text.toLowerCase()
   },
   props: {
     validator: {
