@@ -12,7 +12,7 @@
     <template v-if="validator.operator_address" slot="managed-body">
       <div class="status-container">
         <span :class="status | toLower" class="validator-status">
-          {{ status }}
+          {{ status }} Jailed: {{ jailed }} Tombstoned: {{ tombstoned }}
         </span>
       </div>
       <tr class="li-validator">
