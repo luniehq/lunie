@@ -90,6 +90,17 @@ export default {
       default: () => "returns"
     }
   },
+  computed: {
+    status() {
+      if (
+        this.validator.jailed ||
+        this.validator.tombstoned ||
+        this.validator.status === 0
+      )
+        return `Inactive`
+      return `Active`
+    }
+  },
   methods: {
     percent
   }
