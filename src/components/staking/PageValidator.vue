@@ -14,7 +14,7 @@
         <span :class="status | toLower" class="validator-status">
           {{ status }}
         </span>
-        <span v-if="status_detailed" class="validator-status-detailed">
+        <span v-if="status_detailed !== false" class="validator-status-detailed">
           {{ status_detailed }}
         </span>
       </div>
