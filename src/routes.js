@@ -161,7 +161,48 @@ export default [
     path: `/recover`,
     name: `recover`,
     components: {
-      session: require(`./components/common/TmSessionImport`).default
+      session: require(`./components/common/TmSessionImportBackupCode`).default
+    },
+    meta: {
+      feature: "Session"
+    }
+  },
+  {
+    path: `/recover-confirm-address`,
+    name: `recover-confirm-address`,
+    components: {
+      session: require(`./components/common/TmSessionImportConfirmAddress`)
+        .default
+    },
+    meta: {
+      feature: "Session"
+    }
+  },
+  {
+    path: `/recover-name`,
+    name: `recover-name`,
+    components: {
+      session: require(`./components/common/TmSessionImportName`).default
+    },
+    meta: {
+      feature: "Session"
+    }
+  },
+  {
+    path: `/recover-password`,
+    name: `recover-password`,
+    components: {
+      session: require(`./components/common/TmSessionImportPassword`).default
+    },
+    meta: {
+      feature: "Session"
+    }
+  },
+  {
+    path: `/recover-success`,
+    name: `recover-success`,
+    components: {
+      session: require(`./components/common/TmSessionImportSuccess`).default
     },
     meta: {
       feature: "Session"

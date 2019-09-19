@@ -48,26 +48,16 @@ export default function init(urlParams, env = process.env) {
   setOptions(urlParams, store)
 
   store.dispatch(`loadLocalPreferences`)
-  if (config.development) {
-    store.dispatch(`setNetwork`, {
-      title: "Local Testnet",
-      chain_id: "testnet",
-      id: "testnet",
-      rpc_url: config.rpc,
-      api_url: config.stargate,
-      logo_url: "https://s3.amazonaws.com/network.logos/cosmos-logo.png"
+
+  store
+    .dispatch(`connect`)
+    // wait for connected as the check for session will sign in directly and query account data
+    .then(() => {
+      store.dispatch(`checkForPersistedSession`)
+      store.dispatch("getDelegates")
+      store.dispatch(`getPool`)
+      store.dispatch(`getMintingParameters`)
     })
-  } else {
-    store
-      .dispatch(`connect`)
-      // wait for connected as the check for session will sign in directly and query account data
-      .then(() => {
-        store.dispatch(`checkForPersistedSession`)
-        store.dispatch("getDelegates")
-        store.dispatch(`getPool`)
-        store.dispatch(`getMintingParameters`)
-      })
-  }
 
   listenToExtensionMessages(store)
 
