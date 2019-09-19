@@ -1432,14 +1432,36 @@ exports[`ActionModal shows a feature unavailable message 1`] = `
       Action Modal
     </span>
      
-    <!---->
+    <steps-stub
+      activestep="details"
+      steps="Details,Fees,Sign"
+    />
      
     <!---->
   </div>
    
-  <featurenotavailable-stub
-    feature="Action Modal"
+  <!---->
+   
+  <div
+    class="action-modal-form"
   />
+   
+  <div
+    class="action-modal-footer"
+  >
+    <tmformgroup-stub
+      class="action-modal-group"
+    >
+      <div>
+        <tmbtn-stub
+          color="primary"
+          value="Next"
+        />
+      </div>
+    </tmformgroup-stub>
+     
+    <!---->
+  </div>
 </div>
 `;
 

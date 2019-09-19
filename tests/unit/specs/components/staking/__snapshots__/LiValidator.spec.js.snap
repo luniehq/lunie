@@ -10,6 +10,22 @@ exports[`LiValidator has the expected html structure 1`] = `
   </td>
    
   <td
+    class="hide-xs"
+  >
+    <div
+      class="status-container"
+    >
+      <span
+        class="validator-status active"
+      >
+        
+        Active
+      
+      </span>
+    </div>
+  </td>
+   
+  <td
     class="data-table__row__info"
   >
     <img
