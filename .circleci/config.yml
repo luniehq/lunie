@@ -138,7 +138,7 @@ jobs:
             cd lunie-backend
             git checkout fabo/local-lunie-compatibility
             yarn
-            docker-compose -d up
+            docker-compose up -d
       - run:
           # needs to be done in CI to be sure it is build once we start the tests
           name: Build for E2E test
