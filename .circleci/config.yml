@@ -120,6 +120,7 @@ jobs:
     steps:
       - attach_workspace:
           at: *WORKSPACE
+      - setup_remote_docker
       - run:
           name: Run testnet
           command: |
