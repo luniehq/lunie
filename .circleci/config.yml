@@ -121,6 +121,9 @@ jobs:
       - attach_workspace:
           at: *WORKSPACE
       - setup_remote_docker
+      - add_ssh_keys:
+          fingerprints:
+            - "65:5f:43:fd:be:48:c8:45:d5:39:ef:86:14:d6:e1:12"
       - run:
           name: Add GitHub to known hosts
           command: |
@@ -132,8 +135,8 @@ jobs:
           name: Run testnet
           command: |
             git clone git@github.com:luniehq/lunie-backend.git
-            git checkout fabo/local-lunie-compatibility
             cd lunie-backend
+            git checkout fabo/local-lunie-compatibility
             yarn
             docker-compose -d up
       - run:
