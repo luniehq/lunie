@@ -122,9 +122,16 @@ jobs:
           at: *WORKSPACE
       - setup_remote_docker
       - run:
+          name: Add GitHub to known hosts
+          command: |
+            mkdir -p ~/.ssh
+            touch ~/.ssh/known_hosts
+            ssh-keygen -R github.com
+            ssh-keyscan github.com >> ~/.ssh/known_hosts
+      - run:
           name: Run testnet
           command: |
-            git clone https://github.com/luniehq/lunie-backend.git
+            git clone git@github.com:luniehq/lunie-backend.git
             git checkout fabo/local-lunie-compatibility
             cd lunie-backend
             yarn
