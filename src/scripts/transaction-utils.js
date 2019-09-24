@@ -52,7 +52,7 @@ export const flattenTransactionMsgs = (acc, curTxList) => {
       x,
       fees,
       memo,
-      curTxList.time,
+      curTxList.timestamp,
       curTxList.height,
       curTxList.txhash,
       index

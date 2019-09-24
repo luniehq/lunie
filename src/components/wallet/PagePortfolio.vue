@@ -8,7 +8,7 @@
   >
     <template slot="managed-body">
       <DelegationsOverview />
-      <template v-if="Object.keys(delegation.unbondingDelegations).length">
+      <template v-if="Object.keys(delegation.unbondingDelegations).length > 0">
         <h3 class="tab-header">
           Pending Undelegations
         </h3>
@@ -58,6 +58,15 @@ export default {
     update(height) {
       this.lastUpdate = height
       this.$store.dispatch(`getRewardsFromMyValidators`)
+
+      if (Object.keys(this.delegation.unbondingDelegations).length > 0) {
+        this.refreshTransactions()
+      }
+    },
+    async refreshTransactions() {
+      if (this.session.signedIn) {
+        await this.$store.dispatch(`getAllTxs`)
+      }
     }
   }
 }

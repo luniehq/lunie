@@ -17,10 +17,16 @@ export const flatOrderedTransactionList = state => {
 // fee distribution
 export const yourValidators = (state, getters) =>
   state.session.signedIn
-    ? state.delegates.delegates.filter(
-        ({ operator_address }) =>
-          operator_address in getters.committedDelegations
-      )
+    ? state.delegates.delegates
+        .filter(
+          ({ operator_address }) =>
+            operator_address in getters.committedDelegations
+        )
+        // create dictionary
+        .reduce((sum, cur) => {
+          sum[cur.operator_address] = cur
+          return sum
+        }, {})
     : []
 export const validatorsWithRewards = (state, getters) =>
   Object.entries(state.distribution.rewards).filter(

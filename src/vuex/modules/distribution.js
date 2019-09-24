@@ -74,8 +74,8 @@ export default ({ node }) => {
     }) {
       state.loading = true
       await Promise.all(
-        yourValidators.map(validator =>
-          dispatch(`getRewardsFromValidator`, validator.operator_address)
+        Object.keys(yourValidators).map(validatorOperatorAddress =>
+          dispatch(`getRewardsFromValidator`, validatorOperatorAddress)
         )
       )
       state.loading = false
