@@ -138,7 +138,7 @@ jobs:
       # Primary container image where all steps run.
      - image: *docker-browsers
       # Secondary container image on common network which runs the testnet
-     - image: lunieio/testnet:v0.34.3
+     - image: lunieio/testnet-gaia:v2.0.0
     working_directory: *WORKSPACE
     steps:
       - run:
