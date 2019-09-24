@@ -119,8 +119,8 @@ jobs:
       # Secondary container image on common network. 
      - image: lunieio/testnet-gaia:v2.0.0
     steps:
-      - attach_workspace:
-          at: *WORKSPACE
+      - checkout
+      - yarn-install
       - run:
           # needs to be done in CI to be sure it is build once we start the tests
           name: Build for E2E test
