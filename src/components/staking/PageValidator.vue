@@ -14,6 +14,9 @@
         <span :class="status | toLower" class="validator-status">
           {{ status }}
         </span>
+        <span v-if="status_detailed" class="validator-status-detailed">
+          {{ status_detailed }}
+        </span>
       </div>
       <tr class="li-validator">
         <td class="data-table__row__info">
@@ -268,9 +271,19 @@ export default {
       )
     },
     status() {
-      if (this.validator.jailed) return `Jailed`
-      else if (this.validator.status === 0) return `Inactive`
+      if (
+        this.validator.jailed ||
+        this.validator.tombstoned ||
+        this.validator.status === 0
+      )
+        return `Inactive`
       return `Active`
+    },
+    status_detailed() {
+      if (this.validator.jailed) return `Temporally banned from the network`
+      if (this.validator.tombstoned) return `Banned from the network`
+      if (this.validator.status === 0) return `Banned from the network`
+      return false
     },
     website() {
       let url = this.validator.website
@@ -476,11 +489,6 @@ span {
   border-radius: 0.25rem;
 }
 
-.validator-status.jailed {
-  color: var(--danger);
-  border-color: var(--danger);
-}
-
 .validator-status.inactive {
   color: var(--warning);
   border-color: var(--warning);
@@ -489,6 +497,13 @@ span {
 .validator-status.active {
   color: var(--success);
   border-color: var(--success);
+}
+
+.validator-status-detailed {
+  display: block;
+  margin-top: 0.4rem;
+  color: var(--warning);
+  font-size: 0.8rem;
 }
 </style>
 <style>

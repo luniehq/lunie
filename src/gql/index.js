@@ -17,6 +17,7 @@ const ValidatorFragment = `
     id
     identity
     jailed
+    tombstoned
     keybaseId
     lastUpdated
     max_change_rate

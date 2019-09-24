@@ -21,6 +21,8 @@ exports[`PageValidator shows a validator profile information errors signing info
         Active
       
       </span>
+       
+      <!---->
     </div>
      
     <tr
@@ -269,6 +271,8 @@ exports[`PageValidator shows a validator profile information if user has signed 
         Active
       
       </span>
+       
+      <!---->
     </div>
      
     <tr
@@ -517,6 +521,8 @@ exports[`PageValidator shows a validator profile information if user hasn't sign
         Active
       
       </span>
+       
+      <!---->
     </div>
      
     <tr
@@ -767,6 +773,8 @@ exports[`PageValidator shows a validator profile information shows empty website
         Active
       
       </span>
+       
+      <!---->
     </div>
      
     <tr
@@ -1015,6 +1023,8 @@ exports[`PageValidator shows a validator profile information shows http website 
         Active
       
       </span>
+       
+      <!---->
     </div>
      
     <tr
