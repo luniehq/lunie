@@ -172,9 +172,7 @@ exports[`PageValidator shows a validator profile information errors signing info
         </h4>
          
         <span>
-          
-          Block #0
-        
+           Block #15 
         </span>
       </li>
        
@@ -422,9 +420,7 @@ exports[`PageValidator shows a validator profile information if user has signed 
         </h4>
          
         <span>
-          
-          Block #0
-        
+           Block #15 
         </span>
       </li>
        
@@ -672,9 +668,7 @@ exports[`PageValidator shows a validator profile information if user hasn't sign
         </h4>
          
         <span>
-          
-          Block #0
-        
+           Block #15 
         </span>
       </li>
        
@@ -924,9 +918,7 @@ exports[`PageValidator shows a validator profile information shows empty website
         </h4>
          
         <span>
-          
-          Block #0
-        
+           Block #15 
         </span>
       </li>
        
@@ -1174,9 +1166,7 @@ exports[`PageValidator shows a validator profile information shows http website 
         </h4>
          
         <span>
-          
-          Block #0
-        
+           Block #15 
         </span>
       </li>
        
