@@ -110,7 +110,10 @@ describe(`Store: getters`, () => {
             }
           }
         )
-      ).toEqual([validators[0], validators[2]])
+      ).toEqual({
+        [validators[0].operator_address]: validators[0],
+        [validators[2].operator_address]: validators[2]
+      })
     })
 
     it(`should return false if not signed in`, () => {

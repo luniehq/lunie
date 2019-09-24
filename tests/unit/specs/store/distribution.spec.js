@@ -108,10 +108,12 @@ describe(`Module: Fee Distribution`, () => {
 
     describe(`getRewardsFromMyValidators`, () => {
       it(`success`, async () => {
-        const validators = [
-          { operator_address: `cosmosvaloper1address1` },
-          { operator_address: `cosmosvaloper1address2` }
-        ]
+        const validators = {
+          cosmosvaloper1address1: {
+            operator_address: `cosmosvaloper1address1`
+          },
+          cosmosvaloper1address2: { operator_address: `cosmosvaloper1address2` }
+        }
         await actions.getRewardsFromMyValidators({
           state,
           dispatch,
@@ -120,11 +122,11 @@ describe(`Module: Fee Distribution`, () => {
         expect(dispatch).toBeCalledTimes(2)
         expect(dispatch).toBeCalledWith(
           `getRewardsFromValidator`,
-          validators[0].operator_address
+          `cosmosvaloper1address1`
         )
         expect(dispatch).toBeCalledWith(
           `getRewardsFromValidator`,
-          validators[1].operator_address
+          `cosmosvaloper1address2`
         )
       })
 

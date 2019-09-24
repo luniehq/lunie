@@ -10,7 +10,15 @@ exports[`PagePortfolio should display the portfolio page 1`] = `
   <template>
     <delegationsoverview-stub />
      
-    <!---->
+    <h3
+      class="tab-header"
+    >
+      
+        Pending Undelegations
+      
+    </h3>
+     
+    <undelegations-stub />
   </template>
 </tmpage-stub>
 `;

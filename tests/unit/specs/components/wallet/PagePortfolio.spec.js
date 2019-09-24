@@ -30,7 +30,9 @@ describe(`PagePortfolio`, () => {
       signedIn: true
     },
     delegation: {
-      unbondingDelegations: {}
+      unbondingDelegations: {
+        1: 42
+      }
     }
   }
 
@@ -57,6 +59,9 @@ describe(`PagePortfolio`, () => {
       session: {
         signedIn: true
       },
+      delegation: {
+        unbondingDelegations: {}
+      },
       update: jest.fn(),
       $store: {
         dispatch: jest.fn()
@@ -82,5 +87,11 @@ describe(`PagePortfolio`, () => {
       `getRewardsFromMyValidators`
     )
     expect(self.lastUpdate).toBe(100)
+  })
+
+  it("should load transactions for displaying unbonding transactions", async () => {
+    await wrapper.vm.update(5)
+
+    expect($store.dispatch).toHaveBeenCalledWith(`getAllTxs`)
   })
 })
