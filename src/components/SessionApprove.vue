@@ -1,10 +1,11 @@
 <template>
   <div class="session-approve">
     <h2>Approve Transaction</h2>
-    <div>
-      <p>Verify the transaction details below.</p>
-    </div>
     <br />
+    <div class="from">
+      From
+      <Bech32 :address="senderAddress" />
+    </div>
     <TmFormGroup v-if="signRequest">
       <TransactionItem
         v-if="transaction"
@@ -15,11 +16,8 @@
         :show-meta-data="false"
       />
       <!-- Going to take some more logic based on how transactions are passed in -->
-      <div>
-        From
-        <Bech32 :address="senderAddress" />
-      </div>
       <TableInvoice
+        class="approval-table"
         :amount="amount"
         :estimated-fee="fees"
         :bond-denom="bondDenom"
@@ -55,14 +53,14 @@
           id="reject-btn"
           value="Reject"
           class="left-button"
-          color="secondary"
+          type="secondary"
           @click.native="reject"
         />
         <TmBtn
           id="approve-btn"
           value="Approve"
           class="right-button"
-          color="primary"
+          type="primary"
           @click.native="approve"
         />
       </div>
@@ -221,11 +219,26 @@ export default {
 
 .session-approve-footer {
   display: flex;
-  justify-content: space-around;
-  padding: 1.5rem 0 1rem;
+  justify-content: flex-end;
+  padding: 2rem 0 0;
 
   /* keeps button in bottom right no matter the size of the action modal */
   flex-grow: 1;
-  align-self: flex-end;
+}
+
+.from {
+  font-size: 14px;
+}
+
+.left-button {
+  margin-right: 0.5rem;
+}
+</style>
+
+<style>
+.approval-table .table-invoice {
+  padding: 0.5rem 0;
+  margin: 1rem 0;
+  font-size: 14px;
 }
 </style>
