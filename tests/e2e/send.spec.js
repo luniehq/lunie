@@ -26,7 +26,7 @@ module.exports = {
     browser.url(browser.launch_url + "/#/transactions")
     await waitForText(
       browser,
-      ".tx:first-child .tx__content__caption",
+      ".tx:nth-child(2) .tx__content__caption",
       "Sent 1.3 STAKE"
     )
   }
