@@ -1,0 +1,18 @@
+{
+  "name": "lgql",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "apollo-datasource-rest": "^0.6.4",
+    "apollo-server": "^2.9.4",
+    "graphql": "^14.5.8",
+    "nodemon": "^1.19.2"
+  }
+}
