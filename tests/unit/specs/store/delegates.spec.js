@@ -105,19 +105,6 @@ describe(`Module: Delegates`, () => {
     ])
   })
 
-  it(`should query further info for validators`, async () => {
-    node.get.validators = () => []
-    const { actions, state } = instance
-    const commit = jest.fn()
-    const dispatch = jest.fn()
-    const candidates = await actions.getDelegates({
-      state,
-      commit,
-      dispatch,
-      rootState: mockRootState
-    })
-  })
-
   it(`should query for delegates on reconnection if was loading before`, async () => {
     const { actions } = delegatesModule({})
     const instance = {

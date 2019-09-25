@@ -13,7 +13,6 @@ export default ({ node }) => {
     selfBond: {}
   }
   const state = JSON.parse(JSON.stringify(emptyState))
-  const delegatesThrottle = throttle("delegates")(10)
 
   const mutations = {
     setDelegateLoading(state, loading) {
