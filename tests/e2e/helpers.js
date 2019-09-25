@@ -50,7 +50,10 @@ async function waitForText(
     },
     iterations,
     timeout
-  )
+  ).catch(err => {
+    console.log(err.message)
+    process.exit(2)
+  })
 }
 
 // performs some details actions and handles checking of the invoice step + signing

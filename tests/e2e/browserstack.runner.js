@@ -27,11 +27,6 @@ try {
             // Code to stop browserstack local after end of single test
             bs_local.stop(function() {})
           })
-          .catch(function(err) {
-            console.log("There was an error while running the test runner:\n\n")
-            process.stderr.write(err.stack + "\n")
-            process.exit(2)
-          })
       })
     }
   )
