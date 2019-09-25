@@ -113,7 +113,7 @@ jobs:
             exit 0
 
   testE2e:
-    mashine: true
+    machine: true
     working_directory: *WORKSPACE
     steps:
       - attach_workspace:
