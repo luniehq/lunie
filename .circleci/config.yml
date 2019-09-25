@@ -135,6 +135,12 @@ jobs:
             cd lunie-backend
             git checkout fabo/downgrade-docker-compose
       - run:
+          name: Install node version
+          command: |
+            ./.circleci/load-nvm.sh
+            nvm install v10.13.0
+            nvm alias default v10.13.0
+      - run:
           name: install dependencies
           command: |
             cd lunie-backend
