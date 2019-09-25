@@ -134,6 +134,11 @@ jobs:
             git clone git@github.com:luniehq/lunie-backend.git
             cd lunie-backend
             git checkout develop
+      - run: 
+          name: Use NVM
+          command: |
+            echo 'export NVM_DIR="/opt/circleci/.nvm"' >> $BASH_ENV
+            echo ' [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"' >> $BASH_ENV
       - run:
           name: Install node version
           command: |
