@@ -8,7 +8,9 @@ const server = new ApolloServer({
   resolvers,
   dataSources: () => ({
     proposalAPI: new ProposalAPI(),
-  })
+  }),
+  introspection: true,
+  playground: true,
 })
 
 server
