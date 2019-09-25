@@ -129,9 +129,6 @@ jobs:
             ssh-keygen -R github.com
             ssh-keyscan github.com >> ~/.ssh/known_hosts
       - run:
-          name: install yarn
-          command: curl -o- -L https://yarnpkg.com/install.sh | bash
-      - run:
           name: checkout backend
           command: |
             git clone git@github.com:luniehq/lunie-backend.git
@@ -141,7 +138,7 @@ jobs:
           name: install dependencies
           command: |
             cd lunie-backend
-            yarn
+            npm install
       - run:
           name: Run testnet
           command: |
@@ -150,10 +147,10 @@ jobs:
       - run:
           # needs to be done in CI to be sure it is build once we start the tests
           name: Build for E2E test
-          command: yarn test:e2e:build
+          command: npm run test:e2e:build
       - run:
           name: Test
-          command: yarn serve:dist & yarn test:e2e:browserstack
+          command: npm run serve:dist & npm run test:e2e:browserstack
           no_output_timeout: 120
       - store_artifacts:
           path: ./screenshots
