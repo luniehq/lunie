@@ -129,11 +129,18 @@ jobs:
             ssh-keygen -R github.com
             ssh-keyscan github.com >> ~/.ssh/known_hosts
       - run:
+          name: install yarn
+          command: curl -o- -L https://yarnpkg.com/install.sh | bash
+      - run:
           name: checkout backend
           command: |
             git clone git@github.com:luniehq/lunie-backend.git
             cd lunie-backend
             git checkout develop
+      - run:
+          name: install dependencies
+          command: |
+            cd lunie-backend
             yarn
       - run:
           name: Run testnet
