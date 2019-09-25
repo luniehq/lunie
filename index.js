@@ -12,7 +12,7 @@ const server = new ApolloServer({
 })
 
 server
-  .listen()
+  .listen({ port: process.env.PORT || 4000 })
   .then(({ url }) => `GraphQL Server listening on ${url}`)
   .then(console.log)
   .catch(console.error)
