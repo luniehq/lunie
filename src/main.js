@@ -22,12 +22,16 @@ Vue.use(InfiniteScroll)
 Vue.directive(`focus`, focusElement)
 Vue.directive(`focus-last`, focusParentLast)
 
-const urlParams = getURLParams(window)
-const { store, router, apolloProvider } = init(urlParams)
+async function main() {
+  const urlParams = getURLParams(window)
+  const { store, router, apolloProvider } = await init(urlParams)
 
-new Vue({
-  router,
-  ...App,
-  store,
-  apolloProvider
-}).$mount("#app")
+  new Vue({
+    router,
+    ...App,
+    store,
+    apolloProvider
+  }).$mount("#app")
+}
+
+main()
