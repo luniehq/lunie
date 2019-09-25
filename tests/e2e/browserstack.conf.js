@@ -21,6 +21,7 @@ const nightwatch_config = {
         "browserstack.key": process.env.BROWSERSTACK_ACCESS_KEY || "",
         "browserstack.debug": true,
         "browserstack.local": true,
+        "browserstack.networkLogs": true,
         browser: "chrome",
         resolution: "1920x1080",
         javascriptEnabled: true,
