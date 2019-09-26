@@ -2,6 +2,7 @@ const { RESTDataSource } = require("apollo-datasource-rest");
 const {
   proposalReducer,
   validatorReducer,
+  blockReducer
 } = require("./reducers");
 
 class ProposalAPI extends RESTDataSource {
@@ -35,6 +36,9 @@ class ProposalAPI extends RESTDataSource {
     );
   }
 
+  async getBlockById({ blockNumber }) {
+    const response = await this.get(`blocks/${blockNumber}`);
+    return blockReducer(response);
   }
 }
 

@@ -35,8 +35,19 @@ function validatorReducer(validator) {
   };
 }
 
+function blockReducer(block) {
+  return {
+    height: block.block_meta.header.height,
+    chainId: block.block_meta.header.chain_id,
+    hash: block.block_meta.block_id.hash,
+    time: block.block_meta.header.time,
+    numTxs: block.block_meta.header.num_txs,
+    proposer_address: block.block_meta.header.proposer_address
+  };
+}
 
 module.exports = {
   proposalReducer,
   validatorReducer,
+  blockReducer
 };

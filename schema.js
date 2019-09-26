@@ -34,7 +34,17 @@ const typeDefs = gql`
     update_time: String
   }
 
+  type Block {
+    height: Int
+    hash: String
+    chainId: String
+    time: String
+    numTxs: Int
+    proposer_address: String
+  }
+
   type Query {
+    block(id: Int!): Block
     proposal(id: Int!): Proposal
     proposals: [Proposal]
     validators: [Validator]
