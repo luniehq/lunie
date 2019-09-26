@@ -1,10 +1,12 @@
 const resolvers = {
   Query: {
     proposals: (_, __, { dataSources }) =>
-      dataSources.proposalAPI.getAllProposals(),
+      dataSources.cosmosAPI.getAllProposals(),
     proposal: (_, { id }, { dataSources }) =>
-      dataSources.proposalAPI.getProposalById({ proposalId: id })
+      dataSources.cosmosAPI.getProposalById({ proposalId: id }),
+    validators: (_, __, { dataSources }) =>
+      dataSources.cosmosAPI.getAllValidators()
   }
-}
+};
 
-module.exports = resolvers
+module.exports = resolvers;
