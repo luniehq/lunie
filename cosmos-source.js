@@ -30,12 +30,6 @@ class ProposalAPI extends RESTDataSource {
     return proposalReducer(response);
   }
 
-  getProposalsByIds({ proposalIds }) {
-    return Promise.all(
-      proposalIds.map(proposalId => this.getProposalById({ proposalId }))
-    );
-  }
-
   async getBlockById({ blockNumber }) {
     const response = await this.get(`blocks/${blockNumber}`);
     return blockReducer(response);
