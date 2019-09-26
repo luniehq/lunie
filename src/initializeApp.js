@@ -49,12 +49,15 @@ export default async function init(urlParams, env = process.env) {
 
   store.dispatch(`loadLocalPreferences`)
 
-  await store.dispatch("loadNetwork")
+  // load a default network from the database
+  await store.dispatch("loadDefaultNetwork")
   // wait for connected as the check for session will sign in directly and query account data
-  store.dispatch(`checkForPersistedSession`)
-  store.dispatch("getDelegates")
-  store.dispatch(`getPool`)
-  store.dispatch(`getMintingParameters`)
+  store.dispatch("connect").then(() => {
+    store.dispatch(`checkForPersistedSession`)
+    store.dispatch("getDelegates")
+    store.dispatch(`getPool`)
+    store.dispatch(`getMintingParameters`)
+  })
 
   listenToExtensionMessages(store)
 

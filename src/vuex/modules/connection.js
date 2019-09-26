@@ -58,12 +58,13 @@ export default function({ node, apollo }) {
       commit("stopConnecting", false)
       dispatch("connect")
     },
-    async loadNetwork({ dispatch }) {
+    async loadDefaultNetwork({ commit }) {
       const { data } = await apollo.query({
         query: Networks
       })
       const defaultNetwork = NetworksResult(data)[0] // loads first network in list by id
-      await dispatch(`setNetwork`, defaultNetwork)
+      commit("setNetworkId", defaultNetwork.id)
+      commit("setRpcUrl", defaultNetwork.rpc_url)
     },
     async connect({ state, commit, dispatch }) {
       const {
