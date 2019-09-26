@@ -1,7 +1,7 @@
 const { ApolloServer } = require("apollo-server");
-const typeDefs = require("./schema");
-const resolvers = require("./resolvers");
-const CosmosAPI = require("./cosmos-source");
+const typeDefs = require("./lib/schema");
+const resolvers = require("./lib/resolvers");
+const CosmosAPI = require("./lib/cosmos-source");
 
 const server = new ApolloServer({
   typeDefs,
