@@ -44,7 +44,7 @@ const typeDefs = gql`
   }
 
   type Query {
-    block(id: Int!): Block
+    block(height: Int): Block
     proposal(id: Int!): Proposal
     proposals: [Proposal]
     validators: [Validator]

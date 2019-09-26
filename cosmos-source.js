@@ -30,8 +30,18 @@ class ProposalAPI extends RESTDataSource {
     return proposalReducer(response);
   }
 
-  async getBlockById({ blockNumber }) {
-    const response = await this.get(`blocks/${blockNumber}`);
+  async getBlockByHeight({ blockHeight }) {
+    let response;
+    if (blockHeight) {
+      response = await this.get(`blocks/${blockHeight}`);
+    } else {
+      response = await this.get(`blocks/latest`);
+    }
+    return blockReducer(response);
+  }
+
+  async getLatestBlock() {
+    const response = await this.get(`blocks/latest`);
     return blockReducer(response);
   }
 }

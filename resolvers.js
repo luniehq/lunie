@@ -6,8 +6,8 @@ const resolvers = {
       dataSources.cosmosAPI.getProposalById({ proposalId: id }),
     validators: (_, __, { dataSources }) =>
       dataSources.cosmosAPI.getAllValidators(),
-    block: (_, { id }, { dataSources }) =>
-      dataSources.cosmosAPI.getBlockById({ blockNumber: id })
+    block: (_, { height }, { dataSources }) =>
+      dataSources.cosmosAPI.getBlockByHeight({ blockHeight: height })
   }
 };
 
