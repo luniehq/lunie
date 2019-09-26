@@ -153,11 +153,11 @@ jobs:
           name: Run testnet
           command: |
             cd lunie-backend
-            docker-compose up -d
+            npm run stack
       - run:
           # needs to be done in CI to be sure it is build once we start the tests
           name: Build for E2E test
-          command: VUE_APP_GRAPHQL_URL=http://localhost:8080/v1/graphql && npm run test:e2e:build
+          command: npm run test:e2e:build
       - run:
           name: Test
           command: npm run serve:dist & npm run test:e2e:browserstack
@@ -167,46 +167,16 @@ jobs:
           when: on_fail
 
   testExtension:
-    machine: true
+    docker:
+      # Primary container image where all steps run.
+     - image: *docker-browsers
+      # Secondary container image on common network which runs the testnet
+     - image: lunieio/testnet:v0.34.3
     working_directory: *WORKSPACE
     steps:
-      - add_ssh_keys:
-          fingerprints:
-            - "65:5f:43:fd:be:48:c8:45:d5:39:ef:86:14:d6:e1:12"
       - run:
-          name: Add GitHub to known hosts
-          command: |
-            mkdir -p ~/.ssh
-            touch ~/.ssh/known_hosts
-            ssh-keygen -R github.com
-            ssh-keyscan github.com >> ~/.ssh/known_hosts
-      - run:
-          name: checkout backend
-          command: |
-            git clone git@github.com:luniehq/lunie-backend.git
-            cd lunie-backend
-            git checkout develop
-      - run: 
-          name: Use NVM
-          command: |
-            echo 'export NVM_DIR="/opt/circleci/.nvm"' >> $BASH_ENV
-            echo ' [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"' >> $BASH_ENV
-      - run:
-          name: Install node version
-          command: |
-            nvm install v10.13.0
-            nvm alias default v10.13.0
-      - run:
-          name: install dependencies
-          command: |
-            cd lunie-backend
-            npm install
-      - run:
-          name: Run testnet
-          command: |
-            cd lunie-backend
-            docker-compose up -d
-
+          name: Avoid hosts unknown for github
+          command: mkdir ~/.ssh/ && echo -e "Host github.com\n\tStrictHostKeyChecking no\n" > ~/.ssh/config
       - run:
           name: Checkout Extension
           command: |
@@ -214,6 +184,7 @@ jobs:
       - attach_workspace:
           at: /tmp/voyager/lunie
       - yarn-install-extension
+      - setup_remote_docker
       - run:
           name: Build
           command: |
