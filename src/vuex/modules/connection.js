@@ -1,10 +1,11 @@
 import Vue from "vue"
 import config from "src/config"
+import { Networks, NetworksResult } from "../../gql"
 
 const NODE_HALTED_TIMEOUT = config.node_halted_timeout
 const MAX_CONNECTION_ATTEMPTS = 5
 
-export default function({ node }) {
+export default function({ node, apollo }) {
   // get tendermint RPC client from basecoin client
 
   const state = {
@@ -136,6 +137,14 @@ export default function({ node }) {
       console.info(
         `Connecting to: ${network.title} (${network.chain_id}) – ${network.rpc_url}`
       )
+    },
+    async loadDefaultNetwork({ commit }) {
+      const { data } = await apollo.query({
+        query: Networks
+      })
+      const defaultNetwork = NetworksResult(data)[0] // loads first network in list by id
+      commit("setNetworkId", defaultNetwork.id)
+      commit("setRpcUrl", defaultNetwork.rpc_url)
     }
   }
 
