@@ -27,7 +27,7 @@ module.exports = {
     while (!schmemaUp) {
       try {
         await axios({
-          url: `https://localhost:8080/v1/graphql`,
+          url: `http://localhost:8080/v1/graphql`,
           method: "post",
           headers: {
             "Content-Type": "application/json"
@@ -44,6 +44,7 @@ module.exports = {
         })
         schmemaUp = true
       } catch (err) {
+        console.log(err)
         await new Promise(resolve => setTimeout(resolve, 1000))
         console.log("Waiting for schema to be available")
       }
