@@ -5,6 +5,9 @@ const resolvers = require("./lib/resolvers");
 const CosmosAPI = require("./lib/cosmos-source");
 const networkData = require("./data/networks");
 
+const redisHost = process.env.REDIS_URL || "localhost";
+console.log("redis", process.env.REDIS_URL, redisHost);
+
 const server = new ApolloServer({
   typeDefs,
   resolvers,
@@ -12,9 +15,9 @@ const server = new ApolloServer({
     cosmosAPI: new CosmosAPI(),
     networkData
   }),
-  // cache: new RedisCache({
-  //   host: process.env.REDIS_URL
-  // }),
+  cache: new RedisCache({
+    host: redisHost
+  }),
   introspection: true,
   playground: true
 });
