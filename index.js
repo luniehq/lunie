@@ -10,9 +10,9 @@ const server = new ApolloServer({
   dataSources: () => ({
     cosmosAPI: new CosmosAPI()
   }),
-  cache: new RedisCache({
-    host: process.env.REDIS_URL
-  }),
+  // cache: new RedisCache({
+  //   host: process.env.REDIS_URL
+  // }),
   introspection: true,
   playground: true
 });
