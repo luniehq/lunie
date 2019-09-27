@@ -10,55 +10,12 @@ module.exports = {
   asyncHookTimeout: 30000,
 
   async before() {
-    // we need to wait until the testnet is up
-    let apiUp = false
-    while (!apiUp) {
-      try {
-        await axios(`http://${HOST}:9070/node_info`)
-        apiUp = true
-      } catch (err) {
-        await new Promise(resolve => setTimeout(resolve, 1000))
-        console.log("Waiting for node to be up")
-      }
-    }
-
-    // we need to wait until the backend is fully up
-    let schmemaUp = false
-    while (!schmemaUp) {
-      try {
-        const { data } = await axios({
-          url: `http://localhost:8080/v1/graphql`,
-          method: "post",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          data: {
-            query: `
-                query {
-                  networks {
-                    id
-                  }
-                }
-                `
-          }
-        })
-
-        if (data.errors) {
-          throw new Error(data.errors.map(({ message }) => message).join("\n"))
-        }
-
-        schmemaUp = true
-      } catch (error) {
-        console.log(error)
-        await new Promise(resolve => setTimeout(resolve, 1000))
-        console.log("Waiting for schema to be available")
-        continue
-      }
-    }
+    await apiUp()
+    await backendReady()
   },
 
   beforeEach(browser, done) {
-    browser.url(browser.launch_url).execute(function() {
+    browser.url(browser.launch_url).execute(function () {
       window.localStorage.setItem(
         `cosmos-wallets-cosmos1ek9cd8ewgxg9w5xllq9um0uf4aaxaruvcw4v9e`,
         JSON.stringify({
@@ -101,7 +58,7 @@ module.exports = {
    *
    * @param results
    */
-  reporter: function(results) {
+  reporter: function (results) {
     if (
       (typeof results.failed === `undefined` || results.failed === 0) &&
       (typeof results.error === `undefined` || results.error === 0)
@@ -109,6 +66,58 @@ module.exports = {
       process.exit(0)
     } else {
       process.exit(1)
+    }
+  }
+}
+
+async function apiUp() {
+  // we need to wait until the testnet is up
+  let apiUp = false
+  while (!apiUp) {
+    try {
+      await axios(`http://${HOST}:9070/node_info`)
+      apiUp = true
+    } catch (err) {
+      await new Promise(resolve => setTimeout(resolve, 1000))
+      console.log("Waiting for node to be up")
+    }
+  }
+}
+
+async function backendReady() {
+  // we need to wait until the backend is fully up
+  let schmemaUp = false
+  while (!schmemaUp) {
+    try {
+      const { data } = await axios({
+        url: `http://localhost:8080/v1/graphql`,
+        method: "post",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        data: {
+          query: `
+                query {
+                  networks {
+                    id
+                  }
+                }
+                `
+        }
+      })
+
+      if (data.errors) {
+        throw new Error(data.errors.map(({ message }) => message).join("\n"))
+      }
+
+      console.log("Networks found:", data.data.networks)
+
+      schmemaUp = true
+    } catch (error) {
+      console.log(error)
+      await new Promise(resolve => setTimeout(resolve, 1000))
+      console.log("Waiting for schema to be available")
+      continue
     }
   }
 }
