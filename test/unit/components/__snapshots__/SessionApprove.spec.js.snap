@@ -9,13 +9,18 @@ exports[`SessionApprove shows the approval modal with the transaction and an inv
     Approve Transaction
   </h2>
    
-  <div>
-    <p>
-      Verify the transaction details below.
-    </p>
-  </div>
-   
   <br />
+   
+  <div
+    class="from"
+  >
+    
+    From
+    
+    <bech32-stub
+      address="cosmos1234"
+    />
+  </div>
    
   <tmformgroup-stub>
     <transactionitem-stub
@@ -24,18 +29,10 @@ exports[`SessionApprove shows the approval modal with the transaction and an inv
       validators="[object Object]"
     />
      
-    <div>
-      
-      From
-      
-      <bech32-stub
-        address="cosmos1234"
-      />
-    </div>
-     
     <tableinvoice-stub
       amount="12"
       bonddenom="stake"
+      class="approval-table"
       estimatedfee="0.00004"
     />
      
@@ -60,15 +57,15 @@ exports[`SessionApprove shows the approval modal with the transaction and an inv
     >
       <tmbtn-stub
         class="left-button"
-        color="secondary"
         id="reject-btn"
+        type="secondary"
         value="Reject"
       />
        
       <tmbtn-stub
         class="right-button"
-        color="primary"
         id="approve-btn"
+        type="primary"
         value="Approve"
       />
     </div>
