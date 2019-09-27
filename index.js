@@ -19,7 +19,11 @@ let options = {
     defaultMaxAge: 5000
   },
   introspection: true,
-  playground: true
+  playground: true,
+  engine: {
+    apiKey: process.env.ENGINE_API_KEY,
+    schemaTag: "production"
+  }
 };
 
 let redis_uri;
