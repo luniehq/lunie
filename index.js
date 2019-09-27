@@ -13,6 +13,9 @@ let options = {
     cosmosAPI: new CosmosAPI(),
     networkData
   }),
+  cacheControl: {
+    defaultMaxAge: 5000
+  },
   introspection: true,
   playground: true
 };
@@ -39,5 +42,5 @@ const server = new ApolloServer(options);
 server
   .listen({ port: process.env.PORT || 4000 })
   .then(({ url }) => `GraphQL Server listening on ${url}`)
-  .then(console.log)
+  // .then(console.log)
   .catch(console.error);
