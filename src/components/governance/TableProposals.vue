@@ -3,9 +3,9 @@
     <table class="data-table">
       <tbody>
         <LiProposal
-          v-for="(value, key) in filteredProposals"
-          :key="key"
-          :proposal="value"
+          v-for="proposal in proposals"
+          :key="proposal.id"
+          :proposal="proposal"
         />
       </tbody>
     </table>
@@ -22,7 +22,7 @@ export default {
   },
   props: {
     proposals: {
-      type: Object,
+      type: Array,
       required: true
     }
   },

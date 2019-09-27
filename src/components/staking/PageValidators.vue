@@ -45,7 +45,7 @@
 
 <script>
 import { mapState } from "vuex"
-import { ValidatorByName, AllValidatorsResult } from "src/gql"
+import { AllValidators, validatorsResult } from "src/gql"
 import TableValidators from "staking/TableValidators"
 import PageContainer from "common/PageContainer"
 import TmField from "common/TmField"
@@ -71,11 +71,11 @@ export default {
     validators: {
       query() {
         /* istanbul ignore next */
-        return ValidatorByName(this.network)(this.activeOnly)
+        return AllValidators(this.network)
       },
       update(data) {
         /* istanbul ignore next */
-        return AllValidatorsResult(this.network)(data)
+        return validatorsResult(this.network)(data)
       },
       variables() {
         /* istanbul ignore next */

@@ -2,7 +2,7 @@
   <div>
     <div id="bar-container">
       <CookieBar />
-      <MaintenanceBar />
+      <!-- <MaintenanceBar /> -->
       <DisconnectedBar />
     </div>
     <div id="app">

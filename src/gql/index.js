@@ -14,7 +14,6 @@ const ValidatorFragment = `
     customized
     delegator_shares
     details
-    id
     identity
     jailed
     tombstoned
@@ -39,16 +38,16 @@ const ValidatorFragment = `
 `
 
 export const AllValidators = schema => gql`
-  query AllValidators {
-    ${schemaMap[schema]}allValidators {
+  query validators {
+    ${schemaMap[schema]}validators {
       ${ValidatorFragment}
     }
   }
 `
 
 export const ValidatorProfile = schema => gql`
-  query ValidatorInfo($address: String) {
-    ${schemaMap[schema]}allValidators(where: { operator_address: { _eq: $address } }) {
+  query validator($address: String) {
+    ${schemaMap[schema]}validator(address: $address) {
       ${ValidatorFragment}
     }
   }
@@ -56,21 +55,15 @@ export const ValidatorProfile = schema => gql`
 
 export const SomeValidators = schema => gql`
   query ValidatorInfo($addressList: [String!]) {
-    ${schemaMap[schema]}allValidators(where: { operator_address: { _in: $addressList } }) {
+    ${schemaMap[schema]}validators(where: { operator_address: { _in: $addressList } }) {
       ${ValidatorFragment}
     }
   }
 `
 
-export const AllValidatorsResult = schema => data =>
-  data[`${schemaMap[schema]}allValidators`]
-
-export const ValidatorResult = schema => data =>
-  data[`${schemaMap[schema]}allValidators`][0]
-
 export const ValidatorByName = schema => active => gql`
   query ${schemaMap[schema]}ValidatorInfo($monikerName: String) {
-    ${schemaMap[schema]}allValidators(
+    ${schemaMap[schema]}validators(
       where: {
         moniker: { _ilike: $monikerName }
         ${active ? "jailed: { _neq: true }" : ""}
@@ -81,6 +74,14 @@ export const ValidatorByName = schema => active => gql`
     }
   }
 `
+
+export const validatorsResult = schema => data =>
+  data[`${schemaMap[schema]}validators`]
+
+export const ValidatorResult = schema => data => {
+  console.log(data)
+  return data[`${schemaMap[schema]}validator`]
+}
 
 export const Networks = gql`
   query Networks {
@@ -96,13 +97,71 @@ export const Networks = gql`
 `
 
 // capability is 'feature_portfolio' / 'action_send'
-export const NetworkCapability = (networkId, capability) => gql`
+export const NetworkCapability = networkId => gql`
 query Networks {
-  networks(where: {id: {_eq: "${networkId}"}, ${capability}: {_eq: true}}) {
+  network(id: "${networkId}") {
     id
+    feature_session
+    feature_portfolio
+    feature_validators
+    feature_proposals
+    feature_activity
+    feature_explorer
+    action_send
+    action_claim_rewards
+    action_delegate
+    action_redelegate
+    action_undelegate
+    action_deposit
+    action_vote
+    action_proposal
   }
 }
 `
 
-export const NetworkCapabilityResult = data => data.networks.length === 1
+export const NetworkCapabilityResult = action => data => data.network[action]
 export const NetworksResult = data => data.networks
+
+const ProposalFragment = `
+  id
+  type
+  title
+  description
+  status
+  final_tally_yes
+  final_tally_no
+  final_tally_no_with_veto
+  final_tally_abstain
+  submit_time
+  deposit_end_time
+  total_deposit_denom
+  total_deposit_amount
+  voting_start_time
+  voting_end_time  
+`
+
+export const ProposalList = schema => gql`
+  query proposals {
+    ${schemaMap[schema]}proposals {
+      ${ProposalFragment}
+    }
+  }
+`
+
+export const ProposalItem = schema => gql`
+  query proposal($id: Int!) {
+    ${schemaMap[schema]}proposal(id: $id) {
+      ${ProposalFragment}
+    }
+  }
+`
+
+export const proposalListResult = schema => data => {
+  console.log(data)
+  return data[`${schemaMap[schema]}proposals`]
+}
+
+export const proposalResult = schema => data => {
+  console.log(data)
+  return data[`${schemaMap[schema]}proposal`]
+}

@@ -5,7 +5,7 @@ const rpc = process.env.RPC || `localhost:26657`
 export default {
   name: `Lunie`,
   development: dev,
-  network: dev ? `testnet` : `cosmoshub`,
+  network: `cosmoshub`,
   stargate,
   rpc,
   google_analytics_uid: process.env.GOOGLE_ANALYTICS_UID || "",

@@ -87,6 +87,10 @@ export default {
         return `Seeking connection`
       }
     }
+  },
+  mounted() {
+    console.log(this.connection.network)
+    console.log(this.connection)
   }
 }
 </script>
