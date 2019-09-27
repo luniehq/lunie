@@ -1,4 +1,6 @@
+require("dotenv").config();
 var url = require("url");
+
 const { ApolloServer } = require("apollo-server");
 const { RedisCache } = require("apollo-server-cache-redis");
 const typeDefs = require("./lib/schema");
