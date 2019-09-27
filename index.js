@@ -6,11 +6,13 @@ const resolvers = require("./lib/resolvers");
 const CosmosAPI = require("./lib/cosmos-source");
 const networkData = require("./data/networks");
 
+const chainUrl = process.env.CHAIN_URL || "https://lcd.nylira.net";
+
 let options = {
   typeDefs,
   resolvers,
   dataSources: () => ({
-    cosmosAPI: new CosmosAPI(),
+    cosmosAPI: new CosmosAPI(chainUrl),
     networkData
   }),
   cacheControl: {
