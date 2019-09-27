@@ -41,7 +41,8 @@ if (process.env.NODE_ENV === "development") {
 if (process.env.ENABLE_CACHE) {
   options.cache = new RedisCache({
     host: redis_uri.hostname,
-    port: redis_uri.port
+    port: redis_uri.port,
+    password: redis_uri.auth && redis_uri.auth.split(":")[1]
   });
 }
 
