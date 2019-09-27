@@ -4,8 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "NODE_ENV=development nodemon index.js",
-    "start-cache": "NODE_ENV=development ENABLE_CACHE=true nodemon index.js",
+    "dev": "NODE_ENV=development nodemon index.js",
+    "dev-cache": "NODE_ENV=development ENABLE_CACHE=true nodemon index.js",
+    "start": "nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
