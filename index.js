@@ -1,5 +1,4 @@
 require("dotenv").config();
-var url = require("url");
 
 const { ApolloServer } = require("apollo-server");
 const typeDefs = require("./lib/schema");
