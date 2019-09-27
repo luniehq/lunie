@@ -1,1 +1,2 @@
 [Fixed] E2E tests were not failing correctly @faboweb
+[Changed] Load first network as default network @faboweb
