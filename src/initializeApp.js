@@ -30,7 +30,7 @@ export default async function init(urlParams, env = process.env) {
   }
 
   const stargate = urlParams.stargate || config.stargate
-  console.log(`Expecting stargate at: ${stargate}`)
+  console.log(`Expecting hasura at: ${process.env.VUE_APP_GRAPHQL_URL}`)
 
   const apolloProvider = createApolloProvider(urlParams)
   const apolloClient = apolloProvider.clients.defaultClient
