@@ -25,28 +25,35 @@ module.exports = {
     // we need to wait until the backend is fully up
     let schmemaUp = false
     while (!schmemaUp) {
-      const { data } = await axios({
-        url: `http://localhost:8080/v1/graphql`,
-        method: "post",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        data: {
-          query: `
-              query {
-                networks {
-                  id
+      try {
+        const { data } = await axios({
+          url: `http://localhost:8080/v1/graphql`,
+          method: "post",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          data: {
+            query: `
+                query {
+                  networks {
+                    id
+                  }
                 }
-              }
-              `
+                `
+          }
+        })
+
+        if (data.errors) {
+          throw new Error(data.errors.map(({ message }) => message).join("\n"))
         }
-      })
-      if (data.errors) {
+
+        schmemaUp = true
+      } catch (error) {
+        console.log(error)
         await new Promise(resolve => setTimeout(resolve, 1000))
         console.log("Waiting for schema to be available")
         continue
       }
-      schmemaUp = true
     }
   },
 
