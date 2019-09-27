@@ -46,6 +46,10 @@ if (process.env.ENABLE_CACHE) {
   });
 }
 
+console.log("SETTINGS");
+console.log("NODE_ENV", JSON.stringify(process.env));
+console.log("redis_uri", redis_uri);
+
 const server = new ApolloServer(options);
 
 server
