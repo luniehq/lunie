@@ -805,6 +805,10 @@ export default {
   opacity: 0;
 }
 
+.success-step .tm-data-msg {
+  margin: 2rem 0 2rem 0;
+}
+
 @media screen and (max-width: 767px) {
   .tm-form-group__field {
     width: 100%;
