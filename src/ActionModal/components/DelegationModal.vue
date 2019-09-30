@@ -12,11 +12,6 @@
     @close="clear"
   >
     <TmFormGroup class="action-modal-form-group">
-      <div v-if="getValidatorStatus() === 'Inactive'" class="form-message notice">
-        You are about to <span v-if="isRedelegation()">re</span>delegate to an <strong>inactive</strong> validator ({{ getValidatorStatusDetailed() }})
-      </div>
-    </TmFormGroup>
-    <TmFormGroup class="action-modal-form-group">
       <div class="form-message notice">
         <span v-if="!isRedelegation()">
           It will take 21 days to unlock your tokens after a delegation and
@@ -32,6 +27,18 @@
     </TmFormGroup>
     <TmFormGroup class="action-modal-form-group" field-id="to" field-label="To">
       <TmField id="to" v-model="to" type="text" readonly />
+      <TmFormMsg
+        v-if="getValidatorStatus() === 'Inactive' && !isRedelegation()"
+        :msg="`You are about to delegate to an <strong>inactive</strong> validator (${getValidatorStatusDetailed()})`"
+        type="custom"
+        class="tm-form-msg--desc"
+      />
+      <TmFormMsg
+        v-if="getValidatorStatus() === 'Inactive' && isRedelegation()"
+        :msg="`You are about to redelegate to an <strong>inactive</strong> validator (${getValidatorStatusDetailed()})`"
+        type="custom"
+        class="tm-form-msg--desc"
+      />      
     </TmFormGroup>
 
     <TmFormGroup
