@@ -77,8 +77,6 @@ export default {
 .app-header {
   z-index: var(--z-appHeader);
   position: relative;
-  background: var(--app-nav);
-  min-height: 100vh;
   width: var(--width-side);
 }
 
@@ -138,6 +136,8 @@ export default {
 @media screen and (min-width: 1024px) {
   .app-header > .container {
     position: fixed;
+    min-height: 100vh;
+    background: var(--app-nav);
   }
 }
 </style>
