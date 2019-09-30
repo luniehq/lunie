@@ -380,6 +380,7 @@ export default {
           const delegate = delegates.delegates.find(function(validator) {
             return validator.operator_address === address
           })
+          console.log(delegate)
           return validators.concat({
             address: address,
             maximum: Math.floor(committedDelegations[address]),
