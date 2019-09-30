@@ -805,7 +805,7 @@ export default {
   opacity: 0;
 }
 
-.success-step .tm-data-msg {
+#send-modal .tm-data-msg {
   margin: 2rem 0 2rem 0;
 }
 
