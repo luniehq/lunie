@@ -28,14 +28,14 @@
     <TmFormGroup class="action-modal-form-group" field-id="to" field-label="To">
       <TmField id="to" v-model="to" type="text" readonly />
       <TmFormMsg
-        v-if="getValidatorStatus() === 'Inactive' && !isRedelegation()"
-        :msg="`You are about to delegate to an inactive validator (${getValidatorStatusDetailed()})`"
+        v-if="validatorStatus === 'Inactive' && !isRedelegation()"
+        :msg="`You are about to delegate to an inactive validator (${validatorStatusDetailed})`"
         type="custom"
         class="tm-form-msg--desc"
       />
       <TmFormMsg
-        v-if="getValidatorStatus() === 'Inactive' && isRedelegation()"
-        :msg="`You are about to delegate to an inactive validator (${getValidatorStatusDetailed()})`"
+        v-if="validatorStatus === 'Inactive' && isRedelegation()"
+        :msg="`You are about to delegate to an inactive validator (${validatorStatusDetailed})`"
         type="custom"
         class="tm-form-msg--desc"
       />
@@ -219,6 +219,23 @@ export default {
           )}s`
         }
       }
+    },
+    // Will be replaced by `status` field from backend
+    validatorStatus() {
+      if (
+        this.validator.jailed ||
+        this.validator.tombstoned ||
+        this.validator.status === 0
+      )
+        return `Inactive`
+      return `Active`
+    },
+    // Will be replaced by `status_detail` field from backend
+    validatorStatusDetailed() {
+      if (this.validator.jailed) return `temporally banned from the network`
+      if (this.validator.tombstoned) return `banned from the network`
+      if (this.validator.status === 0) return `banned from the network`
+      return false
     }
   },
   methods: {
@@ -228,7 +245,6 @@ export default {
         this.selectedIndex = 1
       }
       this.$refs.actionModal.open()
-      //console.log(this.validator)
     },
     validateForm() {
       this.$v.$touch()
@@ -255,26 +271,6 @@ export default {
     },
     getFromBalance() {
       return atoms(this.balance)
-    },
-    getValidatorStatus() {
-      //console.log(this.validator)
-      if (
-        this.validator.jailed ||
-        this.validator.tombstoned ||
-        this.validator.status === 0
-      ) {
-        console.log(`Inactive`)
-        return `Inactive`
-      } else {
-        console.log(`Active`)
-        return `Active`
-      }
-    },
-    getValidatorStatusDetailed() {
-      if (this.validator.jailed) return `Temporally banned from the network`
-      if (this.validator.tombstoned) return `Banned from the network`
-      if (this.validator.status === 0) return `Banned from the network`
-      return false
     }
   },
   validations() {
