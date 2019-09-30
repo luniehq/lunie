@@ -455,6 +455,7 @@ export default {
     },
     prettyIncludedHeight() {
       return prettyInt(this.includedHeight)
+    }
   },
   watch: {
     // if there is only one sign method, preselect it
