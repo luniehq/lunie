@@ -45,7 +45,7 @@ exports[`SendModal should display send modal form 1`] = `
     fieldlabel="Amount"
   >
     <span
-      class="input-suffix-denom"
+      class="input-suffix max-button"
     >
       STAKE
     </span>
@@ -131,7 +131,7 @@ exports[`SendModal validation should show address required error 1`] = `
     fieldlabel="Amount"
   >
     <span
-      class="input-suffix-denom"
+      class="input-suffix max-button"
     >
       STAKE
     </span>
@@ -214,7 +214,7 @@ exports[`SendModal validation should show bech32 error when address length is to
     fieldlabel="Amount"
   >
     <span
-      class="input-suffix-denom"
+      class="input-suffix max-button"
     >
       STAKE
     </span>
@@ -297,7 +297,7 @@ exports[`SendModal validation should show bech32 error when address length is to
     fieldlabel="Amount"
   >
     <span
-      class="input-suffix-denom"
+      class="input-suffix max-button"
     >
       STAKE
     </span>
@@ -380,7 +380,7 @@ exports[`SendModal validation should show bech32 error when alphanumeric is wron
     fieldlabel="Amount"
   >
     <span
-      class="input-suffix-denom"
+      class="input-suffix max-button"
     >
       STAKE
     </span>

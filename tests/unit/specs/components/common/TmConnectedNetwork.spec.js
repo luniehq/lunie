@@ -2,7 +2,7 @@ import { shallowMount, createLocalVue } from "@vue/test-utils"
 import TmConnectedNetwork from "common/TmConnectedNetwork"
 
 const localVue = createLocalVue()
-localVue.directive(`tooltip`, () => {})
+localVue.directive(`tooltip`, () => { })
 
 describe(`TmConnectedNetwork`, () => {
   let wrapper, $store
@@ -12,10 +12,11 @@ describe(`TmConnectedNetwork`, () => {
       state: {
         connection: {
           connected: true,
-          network: "gaia-20k",
+          network: "Gaia Testnet",
           nodeUrl: `https://faboNode.de`,
           lastHeader: {
-            height: `6001`
+            height: `6001`,
+            chain_id: "gaia-20k"
           }
         }
       }
@@ -54,7 +55,8 @@ describe(`TmConnectedNetwork`, () => {
           network: "cosmoshub",
           nodeUrl: null,
           lastHeader: {
-            height: `6001`
+            height: `6001`,
+            chain_id: null
           }
         }
       }
