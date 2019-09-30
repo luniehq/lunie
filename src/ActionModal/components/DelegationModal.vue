@@ -212,14 +212,18 @@ export default {
       }
     },
     ValidatorStatus() {
-      console.log(this.validator)
+      //console.log(this.validator)
       if (
         this.validator.jailed ||
         this.validator.tombstoned ||
         this.validator.status === 0
-      )
+      ) {
+        console.log(`Inactive`)
         return `Inactive`
-      return `Active`
+      } else {
+        console.log(`Active`)
+        return `Active`
+      }
     },
     ValidatorStatusDetailed() {
       if (this.validator.jailed) return `Temporally banned from the network`
@@ -235,7 +239,7 @@ export default {
         this.selectedIndex = 1
       }
       this.$refs.actionModal.open()
-      console.log(this.validator)
+      //console.log(this.validator)
     },
     validateForm() {
       this.$v.$touch()
