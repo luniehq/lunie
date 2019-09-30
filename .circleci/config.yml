@@ -133,7 +133,7 @@ jobs:
           command: |
             git clone git@github.com:luniehq/lunie-backend.git
             cd lunie-backend
-            git checkout origin/fabo/fix-testnet
+            git checkout origin/master
       - run: 
           name: Use NVM
           command: |
