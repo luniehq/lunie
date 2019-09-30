@@ -15,7 +15,7 @@ describe(`LiProposal`, () => {
     const $store = {
       commit: jest.fn(),
       dispatch: jest.fn(),
-      getters: {
+      state: {
         proposals: {
           tallies
         }
@@ -33,7 +33,7 @@ describe(`LiProposal`, () => {
   })
 
   it(`has the expected html structure`, () => {
-    expect(wrapper.vm.$el).toMatchSnapshot()
+    expect(wrapper.element).toMatchSnapshot()
   })
 
   it(`should return status info for passed proposals`, () => {
@@ -101,28 +101,6 @@ describe(`LiProposal`, () => {
     })
   })
 
-  describe(`DepositPeriod`, () => {
-    it(`should return true when status is DepositPeriod`, () => {
-      wrapper.setProps({
-        proposal: {
-          ...proposal,
-          proposal_status: `DepositPeriod`
-        }
-      })
-      expect(wrapper.vm.isDepositPeriod).toEqual(true)
-    })
-
-    it(`should return false when status is not DepositPeriod`, () => {
-      wrapper.setProps({
-        proposal: {
-          ...proposal,
-          proposal_status: `anything else`
-        }
-      })
-      expect(wrapper.vm.isDepositPeriod).toEqual(false)
-    })
-  })
-
   it(`should not truncate the description or add an ellipsis`, () => {
     expect(wrapper.vm.description).toEqual(`Proposal description`)
   })
@@ -147,7 +125,7 @@ describe(`LiProposal`, () => {
     const $store = {
       commit: jest.fn(),
       dispatch: jest.fn(),
-      getters: {
+      state: {
         proposals: {
           tallies: {}
         }
@@ -163,6 +141,6 @@ describe(`LiProposal`, () => {
       stubs: [`router-link`]
     })
 
-    expect(wrapper.vm.$el).toMatchSnapshot()
+    expect(wrapper.element).toMatchSnapshot()
   })
 })

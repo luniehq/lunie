@@ -8,7 +8,7 @@ describe(`TmDataEmpty`, () => {
   })
 
   it(`has the expected html structure`, () => {
-    expect(wrapper.vm.$el).toMatchSnapshot()
+    expect(wrapper.element).toMatchSnapshot()
   })
 
   it(`has an icon`, () => {

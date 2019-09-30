@@ -1,5 +1,4 @@
 import uniqBy from "lodash.uniqby"
-import * as Sentry from "@sentry/browser"
 import Vue from "vue"
 
 // TODO simplify with one call
@@ -51,6 +50,9 @@ export default ({ node }) => {
         await dispatch(`getAllTxs`)
       }
     },
+    async initializeWallet({ dispatch }) {
+      await dispatch(`getAllTxs`)
+    },
     async parseAndSetTxs({ commit, dispatch, state }, { txType }) {
       const txs = await dispatch(`getTx`, txType)
       if (state[txType] && txs.length > state[txType].length) {
@@ -93,7 +95,6 @@ export default ({ node }) => {
         commit(`setHistoryLoading`, false)
         state.loaded = true
       } catch (error) {
-        Sentry.captureException(error)
         state.error = error
       }
     },
@@ -132,6 +133,7 @@ export default ({ node }) => {
       const enrichedTransactions = await Promise.all(
         transactions.map(async tx => {
           const blockMetaInfo = await dispatch(`queryBlockInfo`, tx.height)
+
           const enrichedTx = Object.assign({}, tx, {
             type: txType,
             time: new Date(blockMetaInfo.header.time).toISOString()

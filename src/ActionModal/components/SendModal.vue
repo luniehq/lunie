@@ -28,7 +28,6 @@
         type="required"
       />
     </TmFormGroup>
-
     <TmFormGroup
       :error="$v.address.$error && $v.address.$invalid"
       class="action-modal-form-group"
@@ -60,15 +59,24 @@
       field-id="amount"
       field-label="Amount"
     >
-      <TmField
-        id="amount"
-        ref="amount"
-        v-model="amount"
-        class="tm-field"
-        placeholder="Amount"
-        type="number"
-        @keyup.enter.native="enterPressed"
-      />
+      <span class="input-suffix-denom">{{ viewDenom(denom) }}</span>
+      <TmFieldGroup>
+        <TmField
+          id="amount"
+          ref="amount"
+          v-model="amount"
+          class="tm-field-addon"
+          placeholder="Amount"
+          type="number"
+          @keyup.enter.native="enterPressed"
+        />
+        <TmBtn
+          type="button"
+          class="secondary addon-max"
+          value="Set Max"
+          @click.native="setMaxAmount()"
+        />
+      </TmFieldGroup>
       <TmFormMsg
         v-if="balance === 0"
         :msg="`doesn't have any ${viewDenom(denom)}s`"
@@ -92,18 +100,22 @@
         name="Amount"
         type="between"
       />
+      <TmFormMsg
+        v-else-if="isMaxAmount()"
+        msg="You are about to use all your tokens for this transaction. Consider leaving a little bit left over to cover the network fees."
+        type="custom"
+        class="tm-form-msg--desc max-message"
+      />
     </TmFormGroup>
     <TmBtn
       v-if="editMemo === false"
       id="edit-memo-btn"
       value="Edit Memo"
-      :to="''"
-      type="link"
-      size="sm"
-      @click.native="editMemo = true"
+      type="secondary"
+      @click.native="showMemo()"
     />
     <TmFormGroup
-      v-if="editMemo"
+      v-else
       id="memo"
       :error="$v.memo.$error && $v.memo.$invalid"
       class="action-modal-group"
@@ -114,7 +126,7 @@
         id="memo"
         v-model="memo"
         type="text"
-        placeholder="Add a description..."
+        placeholder="Let everyone know how much you love Lunie"
         @keyup.enter.native="enterPressed"
       />
       <TmFormMsg
@@ -131,11 +143,12 @@
 import b32 from "scripts/b32"
 import { required, between, decimal, maxLength } from "vuelidate/lib/validators"
 import { uatoms, atoms, viewDenom, SMALLEST } from "src/scripts/num"
-import { mapGetters } from "vuex"
+import { mapState } from "vuex"
 import TmFormGroup from "src/components/common/TmFormGroup"
 import TmField from "src/components/common/TmField"
-import TmFormMsg from "src/components/common/TmFormMsg"
+import TmFieldGroup from "src/components/common/TmFieldGroup"
 import TmBtn from "src/components/common/TmBtn"
+import TmFormMsg from "src/components/common/TmFormMsg"
 import ActionModal from "./ActionModal"
 import transaction from "../utils/transactionTypes"
 
@@ -145,6 +158,7 @@ export default {
   name: `send-modal`,
   components: {
     TmField,
+    TmFieldGroup,
     TmFormGroup,
     TmFormMsg,
     ActionModal,
@@ -159,7 +173,7 @@ export default {
     editMemo: false
   }),
   computed: {
-    ...mapGetters([`wallet`]),
+    ...mapState([`wallet`]),
     balance() {
       const denom = this.wallet.balances.find(b => b.denom === this.denom)
       return (denom && denom.amount) || 0
@@ -206,6 +220,16 @@ export default {
       this.memo = defaultMemo
       this.sending = false
     },
+    setMaxAmount() {
+      this.amount = atoms(this.balance)
+    },
+    isMaxAmount() {
+      if (this.balance === 0) {
+        return false
+      } else {
+        return parseFloat(this.amount) === parseFloat(atoms(this.balance))
+      }
+    },
     bech32Validate(param) {
       try {
         b32.decode(param)
@@ -219,6 +243,10 @@ export default {
     },
     refocusOnAmount() {
       this.$refs.amount.$el.focus()
+    },
+    showMemo() {
+      this.memo = ``
+      this.editMemo = true
     }
   },
   validations() {
@@ -242,10 +270,6 @@ export default {
 </script>
 <style scoped>
 #edit-memo-btn {
-  display: inline-block;
-  height: 58px;
-  padding: 12px 0;
-  box-sizing: content-box;
-  font-size: var(--sm);
+  margin-top: 2.4rem;
 }
 </style>

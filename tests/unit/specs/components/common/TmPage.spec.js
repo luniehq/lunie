@@ -13,7 +13,6 @@ describe(`TmPage`, () => {
 
   beforeEach(() => {
     getters = {
-      session: () => ({ address: `cosmos`, atoms: 1 }),
       connected: () => true
     }
     actions = {
@@ -21,7 +20,9 @@ describe(`TmPage`, () => {
       actionInput: jest.fn()
     }
     store = new Vuex.Store({
-      state: {},
+      state: {
+        session: () => ({ address: `cosmos`, atoms: 1 })
+      },
       actions,
       getters
     })
@@ -29,7 +30,7 @@ describe(`TmPage`, () => {
 
   it(`shows a page skeleton`, async () => {
     wrapper = shallowMount(TmPage, { store, localVue, stubs: [`router-link`] })
-    expect(wrapper.vm.$el).toMatchSnapshot()
+    expect(wrapper.element).toMatchSnapshot()
   })
 
   it(`should show links to other pages`, () => {
@@ -47,7 +48,7 @@ describe(`TmPage`, () => {
       stubs: [`router-link`]
     })
 
-    expect(wrapper.vm.$el).toMatchSnapshot()
+    expect(wrapper.element).toMatchSnapshot()
   })
 
   it(`scrolls back to the top on a route change`, () => {

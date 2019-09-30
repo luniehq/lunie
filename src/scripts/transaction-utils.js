@@ -16,13 +16,14 @@ const getFees = (transaction, defaultDenom = "ATOM") => {
   }
 }
 
-const makeTxObject = (x, fees, memo, time, height) => {
+const makeTxObject = (tx, fees, memo, time, height, hash, msgIndex) => {
   return {
-    ...x,
-    key: `${x.type}_${time}_${JSON.stringify(x.value)}`,
+    ...tx,
+    // txhash alone doesn't work as we split into multiple messages which would all have the same hash
+    key: `${hash}_${msgIndex}`,
     blockNumber: Number(height),
     time: new Date(time),
-    group: transactionGroup[x.type],
+    group: transactionGroup[tx.type],
     memo,
     fees
   }
@@ -43,11 +44,11 @@ export function compareBlockTimeDesc(a, b) {
   return b.blockNumber - a.blockNumber
 }
 
-export const flattenTransactionMsgs = (acc, curTxList) => {
-  const fees = getFees(curTxList)
-  const memo = curTxList.tx.value.memo
-  const newVals = curTxList.tx.value.msg.map(x =>
-    makeTxObject(x, fees, memo, curTxList.time, curTxList.height)
+export const flattenTransactionMsgs = (acc, curTx) => {
+  const fees = getFees(curTx)
+  const memo = curTx.tx.value.memo
+  const newVals = curTx.tx.value.msg.map((x, index) =>
+    makeTxObject(x, fees, memo, curTx.time, curTx.height, curTx.txhash, index)
   )
   return acc.concat(newVals)
 }

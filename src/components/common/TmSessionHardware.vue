@@ -6,6 +6,9 @@
 
     <template v-if="session.browserWithLedgerSupport">
       <div class="session-main">
+        <p v-if="session.windowsDevice" class="form-message notice">
+          {{ session.windowsWarning }}
+        </p>
         <HardwareState :loading="status === `connect` ? false : true">
           <template v-if="status === `connect` || status === `detect`">
             <p>
@@ -36,7 +39,7 @@
 
 <script>
 import TmBtn from "common/TmBtn"
-import { mapGetters } from "vuex"
+import { mapState } from "vuex"
 import HardwareState from "common/TmHardwareState"
 import SessionFrame from "common/SessionFrame"
 export default {
@@ -52,7 +55,7 @@ export default {
     address: null
   }),
   computed: {
-    ...mapGetters([`session`]),
+    ...mapState([`session`]),
     submitCaption() {
       return {
         connect: "Sign In",
@@ -105,5 +108,25 @@ export default {
   font-weight: 500;
   font-size: 14px;
   white-space: nowrap;
+}
+
+.form-message {
+  font-size: var(--sm);
+  font-weight: 500;
+  font-style: italic;
+  color: var(--dim);
+  display: inline-block;
+}
+
+.form-message.notice {
+  border-radius: 0.25rem;
+  border: 1px solid var(--bc-dim);
+  background-color: #1c223e;
+  font-weight: 300;
+  margin: 2rem 0;
+  padding: 1rem 1rem;
+  font-size: 14px;
+  font-style: normal;
+  width: 100%;
 }
 </style>

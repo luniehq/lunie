@@ -23,18 +23,19 @@ describe(`PanelSort`, () => {
             value: `amount`,
             title: `AMOUNT`
           }
-        ]
+        ],
+        showOnMobile: "amount"
       }
     })
   })
 
   it(`has the expected html structure`, () => {
-    expect(wrapper.vm.$el).toMatchSnapshot()
+    expect(wrapper.element).toMatchSnapshot()
   })
 
   it(`should show an arrow according to ordering`, () => {
-    const firstCol = wrapper.vm.$el.querySelector(`.sort-by`)
-    const link = wrapper.vm.$el.querySelector(`.sort-by-link`)
+    const firstCol = wrapper.element.querySelector(`.sort-by`)
+    const link = wrapper.element.querySelector(`.sort-by-link`)
     expect(firstCol.className.split(` `)).not.toContain(`asc`)
     expect(firstCol.className.split(` `)).not.toContain(`desc`)
     link.click()
@@ -49,13 +50,49 @@ describe(`PanelSort`, () => {
   })
 
   it(`should only sort one col actively`, () => {
-    const firstCol = wrapper.vm.$el.querySelectorAll(`.sort-by`)[0]
-    const secondCol = wrapper.vm.$el.querySelectorAll(`.sort-by`)[1]
-    const firstLink = wrapper.vm.$el.querySelectorAll(`.sort-by-link`)[0]
-    const secondLink = wrapper.vm.$el.querySelectorAll(`.sort-by-link`)[1]
+    const firstCol = wrapper.element.querySelectorAll(`.sort-by`)[0]
+    const secondCol = wrapper.element.querySelectorAll(`.sort-by`)[1]
+    const firstLink = wrapper.element.querySelectorAll(`.sort-by-link`)[0]
+    const secondLink = wrapper.element.querySelectorAll(`.sort-by-link`)[1]
     firstLink.click()
     secondLink.click()
     expect(firstCol.className.split(` `)).not.toContain(`asc`)
     expect(secondCol.className.split(` `)).toContain(`asc`)
+  })
+
+  describe("showOnMobile", () => {
+    beforeEach(() => {
+      wrapper = shallowMount(PanelSort, {
+        localVue,
+        propsData: {
+          sort: {
+            property: `block_number`,
+            order: `asc`
+          },
+          properties: [
+            {
+              value: `block_number`,
+              title: `Block Number`
+            },
+            {
+              value: `amount`,
+              title: `Amount`
+            },
+            {
+              value: `other`,
+              title: `Other`
+            }
+          ],
+          showOnMobile: "amount"
+        }
+      })
+    })
+
+    it(`should show mobile field correctly`, () => {
+      wrapper.setProps({ showOnMobile: "amount" })
+      const numHidden = wrapper.findAll("th").filter(w => w.classes("hide-xs"))
+        .length
+      expect(numHidden).toBe(2)
+    })
   })
 })

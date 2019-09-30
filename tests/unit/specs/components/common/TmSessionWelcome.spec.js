@@ -9,8 +9,7 @@ describe(`TmSessionWelcome`, () => {
       session: {
         insecureMode: true,
         browserWithLedgerSupport: null
-      },
-      lastPage: `/`
+      }
     }
     $store = {
       getters,
@@ -19,13 +18,31 @@ describe(`TmSessionWelcome`, () => {
     }
     wrapper = shallowMount(TmSessionWelcome, {
       mocks: {
-        $store
+        $store,
+        isMobile: function() {
+          return false
+        }
       },
+
       stubs: [`router-link`]
     })
   })
 
   it(`has the expected html structure`, async () => {
-    expect(wrapper.vm.$el).toMatchSnapshot()
+    expect(wrapper.element).toMatchSnapshot()
+  })
+
+  it(`has the expected html structure when on mobile`, async () => {
+    wrapper = shallowMount(TmSessionWelcome, {
+      mocks: {
+        $store,
+        isMobile: function() {
+          return true
+        }
+      },
+
+      stubs: [`router-link`]
+    })
+    expect(wrapper.element).toMatchSnapshot()
   })
 })

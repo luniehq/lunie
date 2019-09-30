@@ -1,4 +1,3 @@
-import * as Sentry from "@sentry/browser"
 import Vue from "vue"
 import config from "src/config"
 import axios from "axios"
@@ -50,6 +49,8 @@ export default ({ node }) => {
       commit(`setWalletAddress`, address)
       dispatch(`queryWalletBalances`)
       dispatch(`walletSubscribe`)
+      await dispatch(`getBondedDelegates`) // TODO move away
+      dispatch(`getRewardsFromMyValidators`) // TODO move away
     },
     resetSessionData({ rootState }) {
       // clear previous account state
@@ -75,7 +76,6 @@ export default ({ node }) => {
           title: `Error fetching balances`,
           body: error.message
         })
-        Sentry.captureException(error)
         state.error = error
       }
     },
@@ -86,20 +86,29 @@ export default ({ node }) => {
           if (rootState.connection.lastHeader.height < height) return
           clearInterval(interval)
           dispatch(`queryWalletBalances`)
-          dispatch(`updateDelegates`, true)
+          dispatch(`getBondedDelegates`) // TODO move away
+          dispatch(`getRewardsFromMyValidators`) // TODO move away
           resolve()
         }, 1000)
       })
     },
-    walletSubscribe({ rootState, dispatch }) {
+    async walletSubscribe({ state, rootState, dispatch }) {
       if (!rootState.session.address) return
       // check if we already subscribed to this rpc object
       // we need to resubscribe on rpc reconnections
-      if (state.subscribedRPC === node.rpc) return
+      if (state.subscribedRPC === node.tendermint) return
 
-      state.subscribedRPC = node.rpc
+      state.subscribedRPC = node.tendermint
 
-      subscribeToTxs(node.rpc, rootState.session.address, dispatch)
+      try {
+        await subscribeToTxs(
+          node.tendermint,
+          rootState.session.address,
+          dispatch
+        )
+      } catch (error) {
+        state.error = error
+      }
     }
   }
 
@@ -110,7 +119,7 @@ export default ({ node }) => {
   }
 }
 
-function subscribeToTxs(rpcClient, address, dispatch) {
+function subscribeToTxs(tendermint, address, dispatch) {
   function onTx(data) {
     dispatch(`queryWalletStateAfterHeight`, data.TxResult.height + 1)
   }
@@ -124,17 +133,7 @@ function subscribeToTxs(rpcClient, address, dispatch) {
     `tm.event = 'Tx' AND voter = '${address}'`
   ]
 
-  queries.forEach(query => {
-    rpcClient
-      .subscribe(
-        {
-          query
-        },
-        onTx
-      )
-      .catch(err => {
-        // TODO Output error like this to not trigger Sentry
-        console.error(err)
-      })
-  })
+  return Promise.all(
+    queries.map(query => tendermint.subscribe({ query }, onTx))
+  )
 }

@@ -29,7 +29,7 @@ describe(`TmSessionExplore`, () => {
   })
 
   it(`shows a form to sign in with an address`, () => {
-    expect(wrapper.vm.$el).toMatchSnapshot()
+    expect(wrapper.element).toMatchSnapshot()
   })
 
   it(`should close the modal on successful login`, async () => {
@@ -54,6 +54,15 @@ describe(`TmSessionExplore`, () => {
 
   it(`should show error if address is not in bech32`, () => {
     wrapper.setData({ address: `cosmos2xxxxx` })
+    wrapper.vm.onSubmit()
+    expect($store.commit.mock.calls[1]).toBeUndefined()
+    expect(wrapper.find(`.tm-form-msg-error`)).toBeDefined()
+  })
+
+  it(`should show error if address is a validator address`, () => {
+    wrapper.setData({
+      address: `cosmosvaloper12knqu4ecmg0982plzs9m9f5jareh0cvegcw3wu`
+    })
     wrapper.vm.onSubmit()
     expect($store.commit.mock.calls[1]).toBeUndefined()
     expect(wrapper.find(`.tm-form-msg-error`)).toBeDefined()

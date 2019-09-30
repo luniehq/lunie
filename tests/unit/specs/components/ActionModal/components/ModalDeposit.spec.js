@@ -20,7 +20,9 @@ describe(`ModalDeposit`, () => {
         session: { signedIn: true },
         connection: { connected: true },
         bondDenom: `uatom`,
-        liquidAtoms: 1000000,
+        liquidAtoms: 1000000
+      },
+      state: {
         wallet: {
           balances: [{ denom: `uatom`, amount: `10` }],
           loading: false
@@ -43,7 +45,7 @@ describe(`ModalDeposit`, () => {
   })
 
   it(`should display deposit modal form`, async () => {
-    expect(wrapper.vm.$el).toMatchSnapshot()
+    expect(wrapper.element).toMatchSnapshot()
   })
 
   it(`opens`, () => {

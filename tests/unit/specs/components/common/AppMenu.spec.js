@@ -1,34 +1,29 @@
-import { shallowMount } from "@vue/test-utils"
+import { shallowMount, createLocalVue } from "@vue/test-utils"
 import AppMenu from "common/AppMenu"
 
+const localVue = createLocalVue()
+localVue.directive(`tooltip`, () => {})
+
 describe(`AppMenu`, () => {
-  let wrapper, $store
+  let $store
 
   beforeEach(async () => {
     $store = {
       commit: jest.fn(),
-      getters: {
+      state: {
         session: {
           signedIn: true
         }
       }
     }
 
-    wrapper = shallowMount(AppMenu, {
+    shallowMount(AppMenu, {
+      localVue,
       mocks: {
         $store
       },
       stubs: [`router-link`]
     })
-  })
-
-  it(`has a perfect scrollbar`, () => {
-    expect(wrapper.vm.ps).toBeDefined()
-  })
-
-  it(`can close the app menu`, () => {
-    wrapper.find(`#app-menu__wallet`).trigger(`click`)
-    expect(wrapper.emitted().close).toBeTruthy()
   })
 
   it(`opens the session modal for a sign in`, () => {

@@ -5,17 +5,21 @@
   --tertiary: hsl(325, 96%, 59%);
   --secondary: hsl(277, 92%, 58%);
   --primary: hsl(233, 88%, 57%);
+  --primary-alpha: hsla(233, 88%, 57%, 0.15);
+  --primary-dark: hsla(233, 88%, 57%, 0.55);
   --link: hsl(217, 100%, 70%);
-  --link-dark: hsl(217, 100%, 45%);
+  --input-bc: var(--dim);
+  --link-dark: hsl(233, 88%, 50%);
   --link-hover: rgba(31, 117, 255, 1);
   --hover: rgba(0, 0, 0, 8%);
   --hover-bg: rgba(27, 113, 255, 0.1);
   --bright: hsl(0, 100%, 100%);
-  --txt: hsla(0, 100%, 100%, 0.8);
-  --dim: hsla(0, 100%, 100%, 0.667);
+  --txt: hsl(0, 0%, 89%);
+  --dim: rgb(175, 175, 175);
   --bc: hsla(233, 24%, 75%, 0.175);
   --bc-dim: hsla(233, 24%, 75%, 0.0875);
   --app-fg: hsl(233, 36%, 18%);
+  --app-fg-dark: hsl(233, 36%, 15%);
   --app-bg: hsl(233, 30%, 22%);
   --app-nav: hsl(233, 38%, 7%);
   --app-nav-light: hsl(233, 38%, 11%);
@@ -41,13 +45,14 @@
 
   /* don't change - should be consistent across themes */
   --input-bg: transparent;
-  --success: hsl(120, 58%, 55%);
+  --success: hsl(120, 58%, 50%);
   --success-bc: hsl(120, 58%, 41%);
   --warning: hsl(35, 100%, 50%);
   --warning-bc: hsl(35, 75%, 38%);
   --danger: hsl(0, 100%, 55%);
   --danger-bc: hsl(0, 100%, 41%);
   --tendermint: #5ead37;
+  --info: #551f38;
 
   /* ============================================================================= */
 

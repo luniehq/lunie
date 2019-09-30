@@ -1,36 +1,32 @@
 <template>
   <div>
-    <div v-if="delegation.loaded && yourValidators.length > 0">
+    <div v-if="!$apollo.queries.validators.loading && validators.length > 0">
       <TableValidators
-        :validators="yourValidators"
-        show-on-mobile="my_delegations"
+        :validators="validators"
+        show-on-mobile="expectedReturns"
       />
     </div>
     <TmDataMsg
-      v-else-if="yourValidators.length === 0"
+      v-else-if="validators.length === 0"
       icon="sentiment_dissatisfied"
     >
       <div slot="title">
-        No Active Delegations
+        No validators in your portfolio
       </div>
       <div slot="subtitle">
-        Looks like you haven't delegated any {{ num.viewDenom(bondDenom) }}s
-        yet. Head over to the
-        <router-link :to="{ name: 'Validators' }">
-          validator list
-        </router-link>
-        to make your first delegation!
+        Head over to the
+        <router-link to="/validators"> validator list </router-link>&nbsp;to get
+        staking!
       </div>
     </TmDataMsg>
   </div>
 </template>
 
 <script>
-import { mapGetters } from "vuex"
-import num from "scripts/num"
+import { mapState, mapGetters } from "vuex"
 import TmDataMsg from "common/TmDataMsg"
 import TableValidators from "staking/TableValidators"
-import time from "scripts/time"
+import { SomeValidators, AllValidatorsResult } from "src/gql"
 
 export default {
   name: `delegations-overview`,
@@ -39,16 +35,36 @@ export default {
     TmDataMsg
   },
   data: () => ({
-    validatorURL: `/staking/validators`,
-    time,
-    num
+    validators: []
   }),
   computed: {
-    ...mapGetters([`delegation`, `bondDenom`, `yourValidators`])
+    ...mapState({ network: state => state.connection.network }),
+    ...mapGetters([`committedDelegations`]),
+    delegationsAddressList() {
+      return Object.keys(this.committedDelegations)
+    }
+  },
+  apollo: {
+    validators: {
+      query() {
+        /* istanbul ignore next */
+        return SomeValidators(this.network)
+      },
+      variables() {
+        /* istanbul ignore next */
+        return {
+          addressList: Object.keys(this.committedDelegations)
+        }
+      },
+      update(data) {
+        /* istanbul ignore next */
+        return AllValidatorsResult(this.network)(data)
+      }
+    }
   }
 }
 </script>
-<style>
+<style scoped>
 .tab-header {
   color: var(--dim);
   font-size: 14px;

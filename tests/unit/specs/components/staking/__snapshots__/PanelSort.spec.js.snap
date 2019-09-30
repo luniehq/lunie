@@ -4,6 +4,16 @@ exports[`PanelSort has the expected html structure 1`] = `
 <tr
   class="panel-sort-container"
 >
+  <th>
+    #
+  </th>
+   
+  <th
+    class="hide-xs"
+  >
+    Status
+  </th>
+   
   <th
     class="panel-sort-table-header sort-by hide-xs"
   >
@@ -12,6 +22,7 @@ exports[`PanelSort has the expected html structure 1`] = `
     >
       
       ID
+      
       <i
         class="material-icons"
       >
@@ -20,13 +31,14 @@ exports[`PanelSort has the expected html structure 1`] = `
     </a>
   </th>
   <th
-    class="panel-sort-table-header sort-by hide-xs"
+    class="panel-sort-table-header sort-by"
   >
     <a
       class="sort-by-link"
     >
       
       AMOUNT
+      
       <i
         class="material-icons"
       >

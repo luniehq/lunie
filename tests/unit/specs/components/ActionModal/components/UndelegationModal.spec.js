@@ -59,13 +59,20 @@ describe(`UndelegationModal`, () => {
   })
 
   it(`should display undelegation modal form`, () => {
-    expect(wrapper.vm.$el).toMatchSnapshot()
+    expect(wrapper.element).toMatchSnapshot()
   })
 
   it(`opens`, () => {
     const $refs = { actionModal: { open: jest.fn() } }
     UndelegationModal.methods.open.call({ $refs })
     expect($refs.actionModal.open).toHaveBeenCalled()
+  })
+
+  it(`emits switch to redelegation event`, () => {
+    wrapper.vm.$refs = { actionModal: { close: jest.fn() } }
+    wrapper.find("#switch-to-redelgation").trigger("click")
+    expect(wrapper.vm.$refs.actionModal.close).toHaveBeenCalled()
+    expect(wrapper.emitted().switchToRedelegation).toBeTruthy()
   })
 
   it(`clears on close`, () => {
@@ -97,6 +104,13 @@ describe(`UndelegationModal`, () => {
     }
     UndelegationModal.methods.enterPressed.call(self)
     expect(self.$refs.actionModal.validateChangeStep).toHaveBeenCalled()
+  })
+
+  describe(`if amount field max button clicked`, () => {
+    it(`amount has to be 1000000000`, async () => {
+      wrapper.vm.setMaxAmount()
+      expect(wrapper.vm.amount).toBe(1000000000)
+    })
   })
 
   describe("Submission Data", () => {

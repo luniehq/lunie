@@ -11,9 +11,6 @@ describe(`Module: Session`, () => {
     mutations = module.mutations
 
     state.externals = {
-      Sentry: {
-        init: jest.fn()
-      },
       track: jest.fn(),
       anonymize: jest.fn(),
       deanonymize: jest.fn(),
@@ -21,7 +18,6 @@ describe(`Module: Session`, () => {
         development: false,
         google_analytics_uid: `UA-123`,
         version: `abcfdef`,
-        sentry_dsn: `https://1:1@sentry.io/1`,
         default_gas_price: 2.5e-8
       }
     }
@@ -30,6 +26,12 @@ describe(`Module: Session`, () => {
   it(`should default to signed out state`, () => {
     expect(state.signedIn).toBe(false)
     expect(state.address).toBe(null)
+  })
+
+  it(`should set windows device property`, () => {
+    jest.spyOn(window.navigator, "platform", "get").mockReturnValue("win32")
+    state = sessionModule({ node }).state
+    expect(state.windowsDevice).toBe(true)
   })
 
   it("should always default to disable the local signer", () => {
@@ -85,6 +87,12 @@ describe(`Module: Session`, () => {
       mutations.setInsecureMode(state)
       expect(state.insecureMode).toBe(true)
     })
+
+    it(`should set current modal`, () => {
+      expect(state.currrentModalOpen).toBe(false)
+      mutations.setCurrrentModalOpen(state, true)
+      expect(state.currrentModalOpen).toBe(true)
+    })
   })
 
   it(`should clear all session related data`, () => {
@@ -111,7 +119,6 @@ describe(`Module: Session`, () => {
         `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`
       )
       expect(commit).toHaveBeenCalledWith(`setSessionType`, `local`)
-      expect(dispatch).toHaveBeenCalledWith(`loadPersistedState`)
       expect(dispatch).toHaveBeenCalledWith(`initializeWallet`, {
         address: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`
       })
@@ -133,7 +140,6 @@ describe(`Module: Session`, () => {
       )
       expect(commit).toHaveBeenCalledWith(`setUserAddress`, address)
       expect(commit).toHaveBeenCalledWith(`setSessionType`, `ledger`)
-      expect(dispatch).toHaveBeenCalledWith(`loadPersistedState`)
       expect(dispatch).toHaveBeenCalledWith(`initializeWallet`, { address })
       expect(state.externals.track).toHaveBeenCalledWith(
         `event`,
@@ -153,7 +159,6 @@ describe(`Module: Session`, () => {
       )
       expect(commit).toHaveBeenCalledWith(`setUserAddress`, address)
       expect(commit).toHaveBeenCalledWith(`setSessionType`, `explore`)
-      expect(dispatch).toHaveBeenCalledWith(`loadPersistedState`)
       expect(dispatch).toHaveBeenCalledWith(`initializeWallet`, { address })
       expect(state.externals.track).toHaveBeenCalledWith(
         `event`,
@@ -201,10 +206,6 @@ describe(`Module: Session`, () => {
     )
 
     expect(state.errorCollection).toBe(true)
-    expect(state.externals.Sentry.init).toHaveBeenCalledWith({
-      dsn: expect.stringMatching(`https://.*@sentry.io/.*`),
-      release: `abcfdef`
-    })
   })
 
   it(`should disable error collection`, async () => {
@@ -221,7 +222,6 @@ describe(`Module: Session`, () => {
     )
 
     expect(state.errorCollection).toBe(false)
-    expect(state.externals.Sentry.init).toHaveBeenCalledWith({})
   })
 
   it(`should disable analytics collection`, async () => {

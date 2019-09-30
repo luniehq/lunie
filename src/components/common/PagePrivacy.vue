@@ -2,7 +2,9 @@
   <TmPage data-title="Privacy" hide-header>
     <div class="card">
       <h1>Privacy Policy</h1>
-      <p class="c3">Effective Date: March 28, 2019</p>
+      <p class="c3">
+        Effective Date: March 28, 2019
+      </p>
       <p><span class="c5">When this Privacy Policy Applies</span></p>
       <p>
         <span class="c0"
@@ -128,7 +130,9 @@
         <li class="c1">
           <span class="c0">Your current employer and place of work;</span>
         </li>
-        <li class="c1"><span class="c0">Account preferences;</span></li>
+        <li class="c1">
+          <span class="c0">Account preferences;</span>
+        </li>
         <li class="c1">
           <span class="c0">Security questions and answers; &nbsp;</span>
         </li>
@@ -357,7 +361,9 @@
             information we hold about you.
           </span>
         </li>
-        <li class="c1"><span>The Services use the following Cookies:</span></li>
+        <li class="c1">
+          <span>The Services use the following Cookies:</span>
+        </li>
       </ul>
       <ul class="c6 lst-kix_8jq553b4xpm4-1 start">
         <li class="c13">
@@ -391,11 +397,11 @@
           >
         </li>
         <li class="c13">
-          <span class="c0"
-            >Cookies tied to sentry.io, Appzi and similar services that provide
-            information and analytics on the the App&rsquo;s performance and
-            user experience.</span
-          >
+          <span class="c0">
+            Cookies tied to Appzi and similar services that provide information
+            and analytics on the the App&rsquo;s performance and user
+            experience.
+          </span>
         </li>
       </ul>
       <p><span class="c5">Controlling Cookies</span></p>
@@ -482,7 +488,9 @@
             Services</span
           >
         </li>
-        <li class="c1"><span class="c0">Cookies</span></li>
+        <li class="c1">
+          <span class="c0">Cookies</span>
+        </li>
         <li class="c1">
           <span class="c0"
             >Plug-ins necessary for the App to operate on the web browser of
@@ -514,7 +522,9 @@
             >Set up and maintain your account and Digital Wallet</span
           >
         </li>
-        <li class="c1"><span class="c0">Communicate with you</span></li>
+        <li class="c1">
+          <span class="c0">Communicate with you</span>
+        </li>
         <li class="c1">
           <span class="c0"
             >To respond to your questions and to try to resolve any problems
@@ -529,7 +539,9 @@
             >Identify, fix and troubleshoot bugs and service errors;</span
           >
         </li>
-        <li class="c1"><span class="c0">Provide software updates;</span></li>
+        <li class="c1">
+          <span class="c0">Provide software updates;</span>
+        </li>
         <li class="c1">
           <span
             >Enable third-party service providers to deliver information and
@@ -541,7 +553,9 @@
         <span class="c4">To improve the Services and develop new ones:</span>
       </p>
       <ul class="c6 lst-kix_k6vcdb8m5d6a-0 start">
-        <li class="c1"><span class="c0">Administer surveys</span></li>
+        <li class="c1">
+          <span class="c0">Administer surveys</span>
+        </li>
         <li class="c1">
           <span class="c0"
             >Analyze and understand our visitors and users, improve our Services
@@ -555,7 +569,9 @@
         <li class="c1">
           <span class="c0">Measure the health of the Services</span>
         </li>
-        <li class="c1"><span class="c0">Research</span></li>
+        <li class="c1">
+          <span class="c0">Research</span>
+        </li>
       </ul>
       <p>
         <span class="c4"
@@ -601,7 +617,9 @@
         <li class="c1">
           <span class="c0">Communicate with you regarding the Services</span>
         </li>
-        <li class="c1"><span class="c0">Make recommendations to you</span></li>
+        <li class="c1">
+          <span class="c0">Make recommendations to you</span>
+        </li>
       </ul>
       <p>
         <span class="c4"
@@ -848,7 +866,9 @@
             to the Services</span
           >
         </li>
-        <li class="c1"><span class="c0">Delete your account </span></li>
+        <li class="c1">
+          <span class="c0">Delete your account </span>
+        </li>
         <li class="c1">
           <span class="c0"
             >Contact us at privacy@lunie.io with your request.

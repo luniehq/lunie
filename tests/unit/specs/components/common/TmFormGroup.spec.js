@@ -22,7 +22,7 @@ describe(`TmFormGroup`, () => {
   })
 
   it(`has the expected html structure`, () => {
-    expect(wrapper.vm.$el).toMatchSnapshot()
+    expect(wrapper.element).toMatchSnapshot()
   })
 
   it(`shows the label of the field`, () => {

@@ -11,7 +11,7 @@ exports[`TmSessionWelcome has the expected html structure 1`] = `
       <img
         alt="a small spinning circle to display loading"
         class="session-logo-mobile"
-        src="~assets/images/cosmos-wallet-logo.svg"
+        src="~assets/images/lunie-logo-white.svg"
       />
     </router-link-stub>
      
@@ -59,15 +59,97 @@ exports[`TmSessionWelcome has the expected html structure 1`] = `
         class="link"
         to="/terms"
       >
+        
         Terms of Service
+      
       </router-link-stub>
-       and
+      
+      and
       
       <router-link-stub
         class="link"
         to="/privacy"
       >
-        Privacy Policy
+         Privacy Policy 
+      </router-link-stub>
+      .
+    
+    </p>
+  </div>
+</sessionframe-stub>
+`;
+
+exports[`TmSessionWelcome has the expected html structure when on mobile 1`] = `
+<sessionframe-stub>
+  <div
+    id="session-welcome"
+  >
+    <router-link-stub
+      to="/"
+    >
+      <img
+        alt="a small spinning circle to display loading"
+        class="session-logo-mobile"
+        src="~assets/images/lunie-logo-white.svg"
+      />
+    </router-link-stub>
+     
+    <h2
+      class="session-title"
+    >
+      
+      Welcome to Lunie
+    
+    </h2>
+     
+    <p
+      class="session-paragraph"
+    >
+      
+      The easiest way to send, stake, and vote on the Cosmos Hub.
+    
+    </p>
+     
+    <div
+      class="session-list"
+    >
+      <lisession-stub
+        icon="person_add"
+        id="creat-new-address"
+        route="create"
+        title="Create a new address"
+      />
+       
+      <lisession-stub
+        icon="person"
+        id="use-an-existing-address"
+        route="existing"
+        title="Use an existing address"
+      />
+    </div>
+     
+    <p
+      class="footnote"
+    >
+      
+      By using Lunie, you accept our
+      
+      <router-link-stub
+        class="link"
+        to="/terms"
+      >
+        
+        Terms of Service
+      
+      </router-link-stub>
+      
+      and
+      
+      <router-link-stub
+        class="link"
+        to="/privacy"
+      >
+         Privacy Policy 
       </router-link-stub>
       .
     

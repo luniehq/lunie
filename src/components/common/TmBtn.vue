@@ -1,30 +1,18 @@
 <template>
-  <router-link
-    v-if="type === 'link'"
-    :to="to"
-    exact="exact"
+  <button
+    class="button"
+    :class="{
+      secondary: type === `secondary`,
+      small: size === `small`,
+      active: type === `active`
+    }"
     :disabled="disabled"
   >
     {{ value }}
-  </router-link>
-  <a v-else-if="type === 'anchor'" :disabled="disabled">
-    <span :class="btnClass">
-      <i v-if="icon" :class="'tm-btn__icon material-icons'" aria-hidden="true">
-        {{ icon }} </i
-      ><span v-if="value" class="tm-btn__value">{{ value }}</span>
-    </span>
-  </a>
-  <button v-else :type="type" class="tm-btn" :disabled="disabled">
-    <span :class="btnClass">
-      <i v-if="icon" :class="'tm-btn__icon material-icons'" aria-hidden="true">
-        {{ icon }} </i
-      ><span v-if="value" class="tm-btn__value">{{ value }}</span>
-    </span>
   </button>
 </template>
 
 <script>
-// TODO refactor btn content into mixin?
 export default {
   name: `TmBtn`,
   props: {
@@ -36,23 +24,7 @@ export default {
       type: String,
       default: null
     },
-    icon: {
-      type: String,
-      default: null
-    },
-    iconPos: {
-      type: String,
-      default: null
-    },
     size: {
-      type: String,
-      default: null
-    },
-    to: {
-      type: String,
-      default: null
-    },
-    color: {
       type: String,
       default: null
     },
@@ -60,114 +32,110 @@ export default {
       type: Boolean,
       default: false
     }
-  },
-  computed: {
-    btnClass() {
-      let value = `tm-btn__container`
-      if (this.iconPos) value += ` tm-btn__icon-${this.iconPos}`
-      if (this.size) value += ` tm-btn--size-${this.size}`
-      if (this.color) value += ` tm-btn--${this.color}`
-      return value
-    }
   }
 }
 </script>
 
 <style scoped>
-.tm-btn {
-  padding: 0;
-  border: none;
-  background: transparent;
-  text-decoration: none !important;
-  display: inline-block;
-  font-size: 16px;
-}
-
-a {
-  cursor: pointer;
-}
-
-[disabled] * {
-  opacity: 0.7;
-  cursor: not-allowed;
-}
-
-.tm-btn .tm-btn__container {
+.button {
   font-family: var(--sans);
-  font-size: 1rem !important;
+  font-size: 14px;
   font-weight: 400;
-  height: 2em;
-  line-height: 1;
-  color: var(--bright, #333) !important;
-  padding: 0.5rem 2rem;
+  padding: 8px 16px;
+  min-width: 100px;
+  color: var(--bright);
   margin: 0;
-  background: var(--primary);
-  border: 1px solid var(--primary);
-  border-radius: 0.25rem;
+  border-radius: 0.5rem;
   cursor: pointer;
-  user-select: none;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.tm-btn .tm-btn--secondary {
-  background: var(--app-bg, #fff);
-}
-
-.tm-btn .tm-btn__container::before,
-.tm-btn .tm-btn__container::after {
-  content: "";
-  flex: 1 0 auto;
-}
-
-.tm-btn .tm-btn__container:hover:enabled {
-  color: var(--txt, #333);
-  text-decoration: none;
-  border-color: var(--bc, #ddd);
-  background: var(--app-fg, #eee);
-}
-
-.tm-btn .tm-btn__value {
-  line-height: 1.5;
+  background: var(--primary);
+  border: 2px solid var(--primary);
+  transition: all 0.5s ease;
   white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow: hidden;
-}
-
-.tm-btn.disabled,
-.tm-btn[disabled] {
-  opacity: 0.333;
-  user-select: none;
-  color: var(--dim, #666) !important;
-}
-
-.tm-btn.disabled:focus:enabled,
-.tm-btn[disabled]:focus:enabled {
   outline: none;
 }
 
-.tm-btn .tm-btn__container.tm-btn--size-sm {
-  font-size: 0.75em;
-  height: 1.5rem;
-  line-height: 1rem;
-  padding: 0 1rem;
+.button:hover {
+  background: var(--primary-dark);
+  border-color: var(--primary-dark);
 }
 
-.tm-btn .tm-btn__container.tm-btn--size-sm .tm-btn__value {
-  font-size: 0.75rem;
+.button:disabled {
+  opacity: 0.5;
+  background: var(--primary-dark);
+  border-color: var(--bc-dim);
+  cursor: default;
 }
 
-.tm-btn .tm-btn__container.tm-btn--size-lg {
-  font-size: 1.125em !important;
-  height: 3rem;
-  font-weight: normal;
-  padding: 0 1rem;
+.button:disabled:hover {
+  background: var(--primary-dark);
+  border-color: var(--bc-dim);
+}
+
+.button.secondary.active {
+  background: var(--primary-dark);
+}
+
+.button.secondary {
+  background: var(--primary-alpha);
+}
+
+.button.secondary:hover {
+  background: var(--primary-dark);
+}
+
+.button.secondary.small {
+  padding: 6px 10px;
+  font-size: 12px;
+  min-width: 0;
+  color: var(--dim);
+  border-color: var(--bc);
+  background-color: transparent;
+}
+
+.button.secondary.small:hover {
+  background-color: var(--bc-dim);
 }
 
 @media screen and (max-width: 1023px) {
-  .tm-btn .tm-btn__container {
-    width: 100%;
+  .button.secondary.small {
+    padding: 10px 10px;
   }
+}
+
+.addon-max {
+  font-family: var(--sans);
+  font-size: 14px;
+  font-weight: 400;
+  padding: 4px 16px;
+  min-width: 100px;
+  color: var(--bright);
+  margin: 0;
+  border-top-left-radius: 0 !important;
+  border-bottom-left-radius: 0 !important;
+  border-top-right-radius: 0.25rem !important;
+  border-bottom-right-radius: 0.25rem !important;
+  cursor: pointer;
+  background: var(--primary);
+  border: 2px solid var(--primary);
+  transition: all 0.5s ease;
+  white-space: nowrap;
+  outline: none;
+}
+
+.addon-max:hover {
+  background: var(--primary-dark);
+  border-color: var(--primary-dark);
+}
+
+.addon-max:disabled {
+  opacity: 0.5;
+  background: var(--primary-dark);
+  border-color: var(--bc-dim);
+  cursor: default;
+}
+
+.addon-max:disabled:hover {
+  background: var(--primary-dark);
+  border-color: var(--bc-dim);
 }
 </style>

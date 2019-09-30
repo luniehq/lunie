@@ -5,7 +5,7 @@ describe(`SessionExtension`, () => {
   let wrapper, $store
 
   beforeEach(() => {
-    const getters = {
+    const state = {
       extension: {
         enabled: true,
         accounts: [
@@ -24,7 +24,7 @@ describe(`SessionExtension`, () => {
     $store = {
       commit: jest.fn(),
       dispatch: jest.fn(),
-      getters
+      state
     }
     wrapper = shallowMount(TmSessionExtension, {
       mocks: {
@@ -37,12 +37,12 @@ describe(`SessionExtension`, () => {
   })
 
   it(`should show a list of all accounts in the extension`, () => {
-    expect(wrapper.vm.$el).toMatchSnapshot()
+    expect(wrapper.element).toMatchSnapshot()
   })
 
   it(`should show a guide to install the extension if no extension is installed`, () => {
     wrapper.vm.extension.enabled = false
-    expect(wrapper.vm.$el).toMatchSnapshot()
+    expect(wrapper.element).toMatchSnapshot()
   })
 
   it("should load addresses on mount", () => {

@@ -5,7 +5,7 @@ describe(`TmSessionExisting`, () => {
   let wrapper, $store
 
   beforeEach(() => {
-    const getters = {
+    const state = {
       session: {
         insecureMode: false,
         browserWithLedgerSupport: null
@@ -15,11 +15,10 @@ describe(`TmSessionExisting`, () => {
       },
       keystore: {
         accounts: []
-      },
-      lastPage: `/`
+      }
     }
     $store = {
-      getters,
+      state,
       commit: jest.fn(),
       dispatch: jest.fn()
     }
@@ -54,6 +53,18 @@ describe(`TmSessionExisting`, () => {
       wrapper.vm.keystore.accounts = [`account1`]
 
       expect(wrapper.find(`#sign-in-with-account`).exists()).toBe(true)
+    })
+  })
+
+  describe(`mobile app`, () => {
+    beforeEach(() => {
+      wrapper.setData({ isMobileApp: true })
+      wrapper.vm.session.insecureMode = false
+    })
+
+    it(`does not show extension or ledger sign-in options`, () => {
+      expect(wrapper.find(`#use-extension`).exists()).toBe(false)
+      expect(wrapper.find(`#use-ledger-nano`).exists()).toBe(false)
     })
   })
 })

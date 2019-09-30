@@ -1,12 +1,13 @@
 <template>
   <tr class="panel-sort-container">
+    <th>#</th>
+    <th class="hide-xs">Status</th>
     <th
       v-for="property in properties"
       :key="property.value"
       :class="{
         'sort-by': sort,
-        'hide-xs':
-          property.value !== showOnMobile && property.value !== 'small_moniker'
+        'hide-xs': hideXs(property)
       }"
       class="panel-sort-table-header"
     >
@@ -16,7 +17,8 @@
         class="sort-by-link"
         @click="orderBy(property.value)"
       >
-        {{ property.title }}<i class="material-icons">arrow_drop_up</i>
+        {{ property.title }}
+        <i class="material-icons">arrow_drop_up</i>
       </a>
       <span v-else>{{ property.title }}</span>
     </th>
@@ -41,6 +43,11 @@ export default {
     }
   },
   methods: {
+    hideXs(property) {
+      const primaryFields = ["small_moniker", "block_number"]
+      const hideFieldMobile = property.value !== this.showOnMobile
+      return hideFieldMobile && !primaryFields.includes(property.value)
+    },
     orderBy(property) {
       const sortBys = this.$el.querySelectorAll(`.sort-by`)
       sortBys.forEach(el => el.classList.remove(`active`, `desc`, `asc`))
@@ -70,6 +77,7 @@ export default {
 <style>
 .panel-sort-container {
   padding: 1rem;
+  border-bottom: 1px solid var(--bc-dim);
 }
 
 .panel-sort-table-header {
@@ -79,14 +87,19 @@ export default {
 .sort-by i {
   font-size: var(--lg);
   position: relative;
-  top: 7px;
-  right: 2px;
+  top: 6px;
+  right: 4px;
 }
 
 .sort-by a {
   cursor: pointer;
   user-select: none;
   white-space: nowrap;
+  color: var(--dim);
+}
+
+.sort-by a:hover {
+  color: var(--link);
 }
 
 .sort-by.active a {
@@ -100,11 +113,5 @@ export default {
 .sort-by.desc i {
   transform: rotate(180deg);
   color: var(--tertiary);
-}
-
-@media screen and (max-width: 550px) {
-  .hide-xs {
-    display: none;
-  }
 }
 </style>

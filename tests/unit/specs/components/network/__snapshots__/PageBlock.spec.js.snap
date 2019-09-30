@@ -3,52 +3,51 @@
 exports[`PageBlock shows a page with information about a certain block 1`] = `
 <tmpage-stub
   data-title="Block"
+  hideheader="true"
+  loaded="true"
+  managed="true"
   subtitle=""
   title=""
 >
-  <div
-    class="page-profile__header page-profile__section block"
-  >
+  <template>
     <div
-      class="row"
+      class="block"
     >
-      <div
-        class="page-profile__header__info"
+      <h2
+        class="page-profile__title"
       >
-        <div
-          class="page-profile__status-and-title"
-        >
-          <h2
-            class="page-profile__title"
-          >
-            
-              Block #100
-            
-          </h2>
-        </div>
-      </div>
+        Block #0
+      </h2>
     </div>
      
-    <div
+    <ul
       class="row"
     >
-      <dl
-        class="info_dl colored_dl"
-      >
-        <dt>
-          Time
-        </dt>
+      <li>
+        <h4>
+          Chain ID
+        </h4>
          
-        <dd>
-          Jan 1st 1970, 00:00:42
-        </dd>
-      </dl>
-    </div>
-  </div>
-   
-  <div
-    class="page-profile__section block"
-  >
+        <span
+          class="page-data"
+        >
+          chain-1
+        </span>
+      </li>
+       
+      <li>
+        <h4>
+          Time
+        </h4>
+         
+        <span
+          class="page-data"
+        >
+          January 1st 1970, 00:00
+        </span>
+      </li>
+    </ul>
+     
     <div
       class="row"
     >
@@ -59,8 +58,8 @@ exports[`PageBlock shows a page with information about a certain block 1`] = `
           class="page-profile__section-title"
         >
           
-            Transactions
-          
+          Transactions (10)
+        
         </h3>
          
         <!---->
@@ -74,149 +73,58 @@ exports[`PageBlock shows a page with information about a certain block 1`] = `
         <br />
       </div>
     </div>
-  </div>
+  </template>
 </tmpage-stub>
 `;
 
 exports[`PageBlock shows the block page with no txs 1`] = `
 <tmpage-stub
   data-title="Block"
+  hideheader="true"
+  loading="true"
+  managed="true"
   subtitle=""
   title=""
 >
-  <div
-    class="page-profile__header page-profile__section block"
-  >
+  <template>
     <div
-      class="row"
+      class="block"
     >
-      <div
-        class="page-profile__header__info"
+      <h2
+        class="page-profile__title"
       >
-        <div
-          class="page-profile__status-and-title"
-        >
-          <h2
-            class="page-profile__title"
-          >
-            
-              Block #100
-            
-          </h2>
-        </div>
-      </div>
+        Block --
+      </h2>
     </div>
      
-    <div
+    <ul
       class="row"
     >
-      <dl
-        class="info_dl colored_dl"
-      >
-        <dt>
-          Time
-        </dt>
+      <li>
+        <h4>
+          Chain ID
+        </h4>
          
-        <dd>
-          Jan 1st 1970, 00:00:42
-        </dd>
-      </dl>
-    </div>
-  </div>
-   
-  <div
-    class="page-profile__section block"
-  >
-    <div
-      class="row"
-    >
-      <div
-        class="column"
-      >
-        <h3
-          class="page-profile__section-title"
+        <span
+          class="page-data"
         >
           
-            Transactions
-          
-        </h3>
-         
-        <tmdatamsg-stub
-          icon="info_outline"
-        >
-          <div>
-            No Transactions
-          </div>
-           
-          <div>
-            
-              This block doesn't contain any transactions.
-            
-          </div>
-        </tmdatamsg-stub>
-         
-        <transactionlist-stub
-          address=""
-          transactions=""
-          validators="[object Object]"
-        />
-         
-        <br />
-      </div>
-    </div>
-  </div>
-</tmpage-stub>
-`;
-
-exports[`PageBlock shows the page when the block hasn't been loaded yet 1`] = `
-<tmpage-stub
-  data-title="Block"
-  subtitle=""
-  title=""
->
-  <div
-    class="page-profile__header page-profile__section block"
-  >
-    <div
-      class="row"
-    >
-      <div
-        class="page-profile__header__info"
-      >
-        <div
-          class="page-profile__status-and-title"
-        >
-          <h2
-            class="page-profile__title"
-          >
-            
-              Block --
-            
-          </h2>
-        </div>
-      </div>
-    </div>
-     
-    <div
-      class="row"
-    >
-      <dl
-        class="info_dl colored_dl"
-      >
-        <dt>
+        </span>
+      </li>
+       
+      <li>
+        <h4>
           Time
-        </dt>
+        </h4>
          
-        <dd>
+        <span
+          class="page-data"
+        >
           --
-        </dd>
-      </dl>
-    </div>
-  </div>
-   
-  <div
-    class="page-profile__section block"
-  >
+        </span>
+      </li>
+    </ul>
+     
     <div
       class="row"
     >
@@ -227,21 +135,23 @@ exports[`PageBlock shows the page when the block hasn't been loaded yet 1`] = `
           class="page-profile__section-title"
         >
           
-            Transactions
-          
+          Transactions ()
+        
         </h3>
          
         <tmdatamsg-stub
           icon="info_outline"
         >
           <div>
+            
             No Transactions
+          
           </div>
            
           <div>
             
-              This block doesn't contain any transactions.
-            
+            This block doesn't contain any transactions.
+          
           </div>
         </tmdatamsg-stub>
          
@@ -254,6 +164,6 @@ exports[`PageBlock shows the page when the block hasn't been loaded yet 1`] = `
         <br />
       </div>
     </div>
-  </div>
+  </template>
 </tmpage-stub>
 `;

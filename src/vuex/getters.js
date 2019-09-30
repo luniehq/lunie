@@ -6,20 +6,7 @@ import {
   flattenTransactionMsgs
 } from "scripts/transaction-utils"
 
-// ui
-export const filters = state => state.filters
-export const notifications = state => state.notifications
-export const session = state => state.session
-export const lastPage = state => {
-  return (
-    state.session.history.length &&
-    state.session.history[state.session.history.length - 1]
-  )
-}
-export const keystore = state => state.keystore
-
 // wallet
-export const transactions = state => state.transactions
 export const allTransactions = state =>
   state.transactions.bank.concat(
     state.transactions.staking,
@@ -34,23 +21,10 @@ export const flatOrderedTransactionList = (state, getters) => {
   return allTx
 }
 
-export const validators = state => {
-  const names = {}
-  state.delegates.delegates.forEach(item => {
-    names[item.operator_address] = item
-  })
-  return names
-}
-
-export const ledger = state => state.ledger
-export const wallet = state => state.wallet
-export const extension = state => state.extension
-
 // fee distribution
-export const distribution = state => state.distribution
 export const yourValidators = (state, getters) =>
   state.session.signedIn
-    ? getters.delegates.delegates.filter(
+    ? state.delegates.delegates.filter(
         ({ operator_address }) =>
           operator_address in getters.committedDelegations
       )
@@ -72,32 +46,28 @@ export const liquidAtoms = state =>
       balance => balance.denom === state.stakingParameters.parameters.bond_denom
     ) || { amount: 0 }
   ).amount
-export const delegation = state => state.delegation
 export const totalAtoms = (state, getters) => {
   return new BN(getters.liquidAtoms)
     .plus(getters.oldBondedAtoms)
     .plus(getters.oldUnbondingAtoms)
     .toString()
 }
-export const oldBondedAtoms = (state, getters) => {
+export const oldBondedAtoms = state => {
   let totalOldBondedAtoms = new BN(0)
-  Object.keys(getters.delegation.committedDelegates).forEach(
-    delegatorAddress => {
-      const shares = getters.delegation.committedDelegates[delegatorAddress]
-      const delegator = getters.delegates.delegates.find(
-        d => d.operator_address === delegatorAddress
-      )
-      if (!delegator) {
-        return
-      }
-      totalOldBondedAtoms = totalOldBondedAtoms.plus(
-        calculateTokens(delegator, shares)
-      )
+  Object.keys(state.delegation.committedDelegates).forEach(delegatorAddress => {
+    const shares = state.delegation.committedDelegates[delegatorAddress]
+    const delegator = state.delegates.delegates.find(
+      d => d.operator_address === delegatorAddress
+    )
+    if (!delegator) {
+      return
     }
-  )
+    totalOldBondedAtoms = totalOldBondedAtoms.plus(
+      calculateTokens(delegator, shares)
+    )
+  })
   return totalOldBondedAtoms
 }
-
 export const oldUnbondingAtoms = state => {
   return Object.values(state.delegation.unbondingDelegations).reduce(
     // unbondingDelegations can have several active undelegations per validator (key)
@@ -110,24 +80,16 @@ export const oldUnbondingAtoms = state => {
   )
 }
 export const committedDelegations = state => state.delegation.committedDelegates
-export const delegates = state => state.delegates
-export const keybase = state => state.keybase.identities
-export const pool = state => state.pool
-export const stakingParameters = state => state.stakingParameters
-export const bondDenom = getters =>
-  (getters.stakingParameters.parameters &&
-    getters.stakingParameters.parameters.bond_denom) ||
+export const bondDenom = state =>
+  (state.stakingParameters.parameters &&
+    state.stakingParameters.parameters.bond_denom) ||
   `uatom`
 
 // governance
-export const proposals = state => state.proposals
-export const votes = state => state.votes.votes
-export const deposits = state => state.deposits.deposits
-export const governanceParameters = state => state.governanceParameters
-export const depositDenom = getters =>
-  getters.governanceParameters.loaded &&
-  getters.governanceParameters.parameters.deposit.min_deposit
-    ? getters.governanceParameters.parameters.deposit.min_deposit[0].denom
+export const depositDenom = state =>
+  state.governanceParameters.loaded &&
+  state.governanceParameters.parameters.deposit.min_deposit
+    ? state.governanceParameters.parameters.deposit.min_deposit[0].denom
     : `uatom`
 
 // connection
@@ -148,5 +110,8 @@ export const modalContext = (state, getters) => ({
   rewards: state.distribution.rewards,
   totalRewards: getters.totalRewards,
   delegates: state.delegates.delegates,
-  bondDenom: getters.bondDenom
+  bondDenom: getters.bondDenom,
+  isExtensionAccount: state.extension.accounts.some(account => {
+    return account.address === state.session.address
+  })
 })

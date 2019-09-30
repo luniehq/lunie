@@ -1,5 +1,4 @@
 const path = require(`path`)
-const fs = require(`fs`)
 const webpack = require(`webpack`)
 const CSPWebpackPlugin = require(`csp-webpack-plugin`)
 
@@ -13,6 +12,7 @@ const commitHash = require(`child_process`)
   .trim()
 
 module.exports = {
+  publicPath: `/`,
   configureWebpack: () => {
     const config = {
       resolve: {
@@ -22,9 +22,10 @@ module.exports = {
           assets: resolve(`src/assets`),
           scripts: resolve(`src/scripts`),
           common: resolve(`src/components/common`),
-          transactions: resolve(`src/components/transactions`),
-          govern: resolve(`src/components/govern`),
+          governance: resolve(`src/components/governance`),
+          network: resolve(`src/components/network`),
           staking: resolve(`src/components/staking`),
+          transactions: resolve(`src/components/transactions`),
           wallet: resolve(`src/components/wallet`),
           test: resolve(`test`)
         },
@@ -39,20 +40,10 @@ module.exports = {
             RELEASE: JSON.stringify(commitHash),
             GOOGLE_ANALYTICS_UID: JSON.stringify(
               process.env.GOOGLE_ANALYTICS_UID
-            ),
-            SENTRY_DSN: JSON.stringify(process.env.SENTRY_DSN)
+            )
           }
         })
       ]
-    }
-
-    if (!process.env.CI) {
-      config.devServer = {
-        https: {
-          key: fs.readFileSync("./certs/dev.key"),
-          cert: fs.readFileSync("./certs/dev.crt")
-        }
-      }
     }
 
     if (process.env.NODE_ENV === `production` && !process.env.E2E_TESTS) {
@@ -62,18 +53,12 @@ module.exports = {
           "object-src": `'none'`,
           "base-uri": `'self'`,
           "default-src": `'self'`,
-          "script-src": [
-            `'self'`,
-            `https://app.appzi.io/`,
-            `https://*.lunie.io`
-          ],
+          "script-src": [`'self'`, `https://*.lunie.io`],
           "worker-src": `'none'`,
-          // 'style-src': production ? `'self'` : `*`, // SECURITY Appzi is applying styles inline, inquired to them already
           "style-src": [`'self'`, `'unsafe-inline'`],
           "connect-src": [
             // third party tools
-            `https://sentry.io`,
-            `https://appzi-collector-b.azurewebsites.net`,
+            `https://api-iam.intercom.io`,
             // mainnet
             `https://stargate.lunie.io`,
             `wss://rpc.lunie.io:26657`,
@@ -84,12 +69,8 @@ module.exports = {
               .filter(x => x !== undefined)
               .map(x => x.replace("https", "wss"))
           ],
-          "frame-src": [`'self'`, `https://app.appzi.io/`],
-          "img-src": [
-            `'self'`,
-            `https://www.google-analytics.com/`,
-            `https://s3.amazonaws.com/keybase_processed_uploads/`
-          ]
+          "frame-src": [`'self'`, `https://api-iam.intercom.io`],
+          "img-src": [`'self'`, `https://www.google-analytics.com/`]
         })
       )
     }

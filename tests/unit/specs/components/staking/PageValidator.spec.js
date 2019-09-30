@@ -1,5 +1,6 @@
+import PageValidator from "staking/PageValidator"
 import { shallowMount, createLocalVue } from "@vue/test-utils"
-import PageValidator from "src/components/staking/PageValidator"
+import validators from "../../store/json/validators.js"
 
 const stakingParameters = {
   unbonding_time: `259200000000000`,
@@ -7,33 +8,8 @@ const stakingParameters = {
   bond_denom: `STAKE`
 }
 
-const validator = {
-  operator_address: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw`,
-  pub_key: `cosmosvalpub1234`,
-  jailed: false,
-  tokens: `14`,
-  delegator_shares: `14`,
-  description: {
-    website: `www.monty.ca`,
-    details: `Mr Mounty`,
-    moniker: `mr_mounty`,
-    country: `Canada`
-  },
-  status: 2,
-  bond_height: `0`,
-  bond_intra_tx_counter: 6,
-  proposer_reward_pool: null,
-  commission: {
-    rate: `0.05`,
-    max_rate: `0.1`,
-    max_change_rate: `0.005`,
-    update_time: Date.now() - 1
-  },
-  prev_bonded_shares: `0`,
-  signing_info: {
-    missed_blocks_counter: 2
-  }
-}
+const validator = validators[1]
+
 const validatorTo = {
   operator_address: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au`,
   description: {
@@ -41,49 +17,29 @@ const validatorTo = {
   }
 }
 
-const getters = {
+const state = {
   session: {
     experimentalMode: true,
     signedIn: true,
     address: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`
-  },
-  delegates: {
-    selfBond: {
-      [validator.operator_address]: 0.01
-    },
-    delegates: [validator, validatorTo],
-    loaded: true,
-    signingInfos: {
-      cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw: {
-        missed_blocks_counter: 2
-      }
-    }
-  },
-  delegation: { loaded: true },
+  }
+}
+
+const getters = {
   committedDelegations: {
     [validator.operator_address]: 0
   },
   lastHeader: {
     height: `500`
   },
-  distribution: {
-    rewards: {
-      [validator.operator_address]: 10
-    }
-  },
-  keybase: `keybase`,
+
   liquidAtoms: 1337,
   connected: true,
-  bondDenom: stakingParameters.bond_denom,
-  pool: {
-    pool: {
-      bonded_tokens: 4200
-    }
-  }
+  bondDenom: stakingParameters.bond_denom
 }
 
 describe(`PageValidator`, () => {
-  let wrapper, $store
+  let wrapper, $store, $apollo
   const localVue = createLocalVue()
   localVue.directive(`tooltip`, () => {})
 
@@ -92,54 +48,81 @@ describe(`PageValidator`, () => {
       commit: jest.fn(),
       dispatch: jest.fn(),
       state: {
+        session: {
+          experimentalMode: true,
+          signedIn: true,
+          address: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`
+        },
         minting: {
           annualProvision: "100"
+        },
+        distribution: {
+          rewards: {
+            [validator.operator_address]: 10
+          }
+        },
+        pool: {
+          pool: {
+            bonded_tokens: 4200
+          }
+        },
+        delegation: { loaded: true },
+        delegates: {
+          selfBond: {
+            [validator.operator_address]: 0.01
+          },
+          delegates: [validator, validatorTo],
+          loaded: true,
+          signingInfos: {
+            cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw: {
+              missed_blocks_counter: 2,
+              start_height: 100
+            }
+          }
         }
       },
+      connection: {
+        network: "testnet"
+      },
       getters: JSON.parse(JSON.stringify(getters)) // clone to be safe we don't overwrite
+    }
+
+    $apollo = {
+      queries: {
+        validator: {
+          loading: false,
+          error: false
+        }
+      }
     }
     wrapper = shallowMount(PageValidator, {
       localVue,
       mocks: {
         $store,
+        $apollo,
         $route: {
           params: { validator: validator.operator_address }
         }
       },
       stubs: [`router-link`]
     })
-  })
-
-  it("loads validators on mount", () => {
-    const self = {
-      $store: {
-        dispatch: jest.fn()
-      }
-    }
-    PageValidator.mounted.call(self)
-    expect($store.dispatch).toHaveBeenCalledWith("updateDelegates")
+    wrapper.setData({ validator })
   })
 
   describe(`shows a validator profile information`, () => {
     it(`if user has signed in`, () => {
-      expect(wrapper.vm.$el).toMatchSnapshot()
+      expect(wrapper.element).toMatchSnapshot()
     })
 
     it(`if user hasn't signed in`, () => {
-      $store.getters.session.signedIn = false
+      $store.state.session.signedIn = false
 
-      expect(wrapper.vm.$el).toMatchSnapshot()
+      expect(wrapper.element).toMatchSnapshot()
     })
 
     it(`should return one delegate based on route params`, () => {
       expect(wrapper.vm.validator.operator_address).toEqual(
         validator.operator_address
-      )
-    })
-
-    it(`shows a default avatar`, () => {
-      expect(wrapper.find(`.page-profile__header`).html()).toContain(
-        `validator-icon.svg`
       )
     })
 
@@ -153,45 +136,35 @@ describe(`PageValidator`, () => {
     })
 
     it(`shows an error if the validator couldn't be found`, () => {
-      $store.getters.delegates.delegates = []
+      $store.state.delegates.delegates = []
 
       expect(wrapper.exists(`tm-data-error-stub`)).toBe(true)
     })
 
     it(`shows invalid validator address page if invalid validator address used`, () => {
-      $store.getters.delegates.delegates = []
+      $store.state.delegates.delegates = []
 
       expect(wrapper.exists(`tm-data-msg`)).toBe(true)
     })
 
     it(`shows the selfBond`, () => {
-      expect(wrapper.find(`#page-profile__self-bond`).text()).toBe(`1.00%`)
+      expect(wrapper.find(`#page-profile__self-bond`).text()).toBe(
+        `1.00% / 10,000`
+      )
     })
 
     it(`should show the validator status`, () => {
-      expect(wrapper.vm.status).toBe(`This validator is actively validating`)
-      // Jailed
-      $store.getters.delegates.delegates = [
-        Object.assign({}, validator, {
-          jailed: true
-        })
-      ]
-      expect(wrapper.vm.status).toBe(
-        `This validator has been jailed and is not currently validating`
-      )
+      expect(wrapper.vm.status).toBe(`Active`)
+
+      wrapper.setData({ validator: validators[3] })
+      expect(wrapper.vm.status).toBe(`Inactive`)
       // Is not a validator
-      $store.getters.delegates.delegates = [
-        Object.assign({}, validator, {
-          status: 0
-        })
-      ]
-      expect(wrapper.vm.status).toBe(
-        `This validator does not have enough voting power yet and is inactive`
-      )
+      wrapper.setData({ validator: validators[4] })
+      expect(wrapper.vm.status).toBe(`Inactive`)
     })
 
     it(`shows a validator as an inactive candidate if he has no voting_power`, () => {
-      $store.getters.delegates.delegates = [
+      $store.state.delegates.delegates = [
         Object.assign({}, validator, {
           status: 0
         })
@@ -200,7 +173,7 @@ describe(`PageValidator`, () => {
     })
 
     it(`shows that a validator is jailed`, () => {
-      $store.getters.delegates.delegates = [
+      $store.state.delegates.delegates = [
         Object.assign({}, validator, {
           jailed: true
         })
@@ -208,59 +181,34 @@ describe(`PageValidator`, () => {
       expect(wrapper.vm.status).toMatchSnapshot()
     })
 
-    it(`disables delegation and undelegation buttons if not connected`, () => {
-      expect(
-        wrapper.vm.$el.querySelector(`#delegation-btn`).getAttribute(`disabled`)
-      ).toBeNull()
-      expect(
-        wrapper.vm.$el
-          .querySelector(`#undelegation-btn`)
-          .getAttribute(`disabled`)
-      ).toBeNull()
-      $store.getters.connected = false
-      expect(
-        wrapper.vm.$el.querySelector(`#delegation-btn`).getAttribute(`disabled`)
-      ).not.toBeNull()
-      expect(
-        wrapper.vm.$el
-          .querySelector(`#undelegation-btn`)
-          .getAttribute(`disabled`)
-      ).not.toBeNull()
-    })
-
     it(`shows empty website url`, () => {
-      validator.description.website = ``
-      wrapper.setData({ validator })
-      expect(wrapper.vm.website).toBe(`--`)
+      const emtpyWebSiteValidator = Object.assign({}, validator)
+      emtpyWebSiteValidator.website = ""
+      wrapper.setData({ validator: emtpyWebSiteValidator })
+      expect(wrapper.element).toMatchSnapshot()
     })
 
     it(`shows https website url`, () => {
-      validator.description.website = `www.monty.ca`
       wrapper.setData({ validator })
-      expect(wrapper.vm.website).toBe(`https://www.monty.ca`)
+      expect(wrapper.vm.website).toBe(`https://www.greg.com`)
     })
 
     it(`shows http website url`, () => {
-      validator.description.website = `http://www.monty.ca`
-      wrapper.setData({ validator })
-      expect(wrapper.vm.website).toBe(`http://www.monty.ca`)
-    })
-
-    it(`already has https website url`, () => {
-      validator.description.website = `https://www.monty.ca`
-      wrapper.setData({ validator })
-      expect(wrapper.vm.website).toBe(`https://www.monty.ca`)
+      const httpWebSiteValidator = Object.assign({}, validator)
+      httpWebSiteValidator.website = "http://www.monty.ca"
+      wrapper.setData({ validator: httpWebSiteValidator })
+      expect(wrapper.element).toMatchSnapshot()
     })
 
     describe(`errors`, () => {
       it(`signing info is missing`, () => {
-        $store.getters.delegates.delegates = [
+        $store.state.delegates.delegates = [
           Object.assign({}, validator, {
             signing_info: undefined
           })
         ]
         // still shows the validator without crashing
-        expect(wrapper.vm.$el).toMatchSnapshot()
+        expect(wrapper.element).toMatchSnapshot()
       })
     })
   })
@@ -283,7 +231,7 @@ describe(`PageValidator`, () => {
         bondDenom,
         myBond
       })
-      expect(delegationString).toBe(`--`)
+      expect(delegationString).toBe(null)
     })
   })
 
@@ -343,6 +291,20 @@ describe(`PageValidator`, () => {
         lastHeader
       })
       expect(rewardsValue).toBe(0)
+    })
+
+    it(`when user is not signed in`, () => {
+      const distribution = { rewards: {} }
+      const rewardsValue = PageValidator.computed.rewards.call({
+        session: {
+          signedIn: false
+        },
+        bondDenom,
+        distribution,
+        validator,
+        lastHeader
+      })
+      expect(rewardsValue).toBe(null)
     })
   })
 
@@ -489,6 +451,7 @@ describe(`delegationTargetOptions`, () => {
 
     const options = PageValidator.methods.delegationTargetOptions.call({
       ...getters,
+      ...state,
       committedDelegations: {},
       $store,
       $route: {
@@ -496,7 +459,7 @@ describe(`delegationTargetOptions`, () => {
       }
     })
     expect(options).toHaveLength(1)
-    expect(options[0].address).toEqual(getters.session.address)
+    expect(options[0].address).toEqual(state.session.address)
 
     expect(options).toMatchSnapshot()
   })
@@ -509,6 +472,7 @@ describe(`delegationTargetOptions`, () => {
 
     const options = PageValidator.methods.delegationTargetOptions({
       ...getters,
+      ...state,
       committedDelegations: {
         [validator.operator_address]: 10
       },
@@ -521,34 +485,58 @@ describe(`delegationTargetOptions`, () => {
     expect(options).not.toContainEqual(
       expect.objectContaining({ address: validator.operator_address })
     )
-    expect(options[0].address).toEqual(getters.session.address)
+    expect(options[0].address).toEqual(state.session.address)
 
     expect(options).toMatchSnapshot()
   })
 
   it(`shows bonded validators for redelegation options`, () => {
+    const curValidator = validators[0]
+
     const $store = {
       commit: jest.fn(),
       dispatch: jest.fn()
     }
 
+    const state = {
+      delegates: {
+        selfBond: {
+          [curValidator.operator_address]: 0.01
+        },
+        delegates: [curValidator, validatorTo],
+        loaded: true,
+        signingInfos: {
+          cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw: {
+            missed_blocks_counter: 2,
+            start_height: 500
+          }
+        }
+      },
+      session: {
+        experimentalMode: true,
+        signedIn: true,
+        address: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`
+      }
+    }
+
     const options = PageValidator.methods.delegationTargetOptions.call({
       ...getters,
+      ...state,
       committedDelegations: {
-        [validator.operator_address]: 10,
+        [curValidator.operator_address]: 10,
         cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au: 5
       },
       $store,
       $route: {
-        params: { validator: validator.operator_address }
+        params: { validator: curValidator.operator_address }
       }
     })
 
     expect(options).toHaveLength(2)
     expect(options).not.toContainEqual(
-      expect.objectContaining({ address: validator.operator_address })
+      expect.objectContaining({ address: curValidator.operator_address })
     )
-    expect(options[0].address).toEqual(getters.session.address)
+    expect(options[0].address).toEqual(state.session.address)
     expect(options).toContainEqual(
       expect.objectContaining({ address: validatorTo.operator_address })
     )

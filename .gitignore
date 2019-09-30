@@ -1,4 +1,5 @@
 .DS_Store
+.env*
 node_modules
 /dist
 
@@ -24,3 +25,6 @@ yarn-error.log*
 *.njsproj
 *.sln
 *.sw?
+
+android
+ios

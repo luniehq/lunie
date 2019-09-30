@@ -18,7 +18,7 @@ describe(`TableInvoice`, () => {
   })
 
   it(`should render correctly`, async () => {
-    expect(wrapper.vm.$el).toMatchSnapshot()
+    expect(wrapper.element).toMatchSnapshot()
   })
 
   it(`should display the correct subtotal`, async () => {

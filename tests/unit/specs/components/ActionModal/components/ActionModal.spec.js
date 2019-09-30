@@ -40,11 +40,25 @@ const modalContext = {
   },
   session: {
     address: "cosmos1abcdefghijklmop",
-    localKeyPairName: "localKeyPairName"
+    localKeyPairName: "localKeyPairName",
+    currrentModalOpen: false
   },
   delegation: {
     committedDelegates: []
-  }
+  },
+  isExtensionAccount: true
+}
+
+const $apollo = {
+  query: () => ({
+    data: {
+      networks: [
+        {
+          action_action_modal: true
+        }
+      ]
+    }
+  })
 }
 
 describe(`ActionModal`, () => {
@@ -54,16 +68,22 @@ describe(`ActionModal`, () => {
     $store = {
       commit: jest.fn(),
       dispatch: jest.fn(),
-      getters: {
-        connected: true,
-        session: {
-          signedIn: true,
-          sessionType: `local`,
-          browserWithLedgerSupport: null
-        },
+      state: {
         extension: {
           enabled: true
         },
+        session: {
+          signedIn: true,
+          sessionType: `local`,
+          browserWithLedgerSupport: null,
+          currrentModalOpen: false
+        },
+        connection: {
+          network: "testnet"
+        }
+      },
+      getters: {
+        connected: true,
         bondDenom: `uatom`,
         wallet: {
           loading: false
@@ -92,7 +112,8 @@ describe(`ActionModal`, () => {
         $store,
         $router: {
           push: jest.fn()
-        }
+        },
+        $apollo
       },
       stubs: ["router-link"]
     })
@@ -142,6 +163,24 @@ describe(`ActionModal`, () => {
     expect(wrapper.vm.trackEvent).toHaveBeenCalled()
   })
 
+  it(`should confirm modal closing`, () => {
+    global.confirm = () => true
+    const closeModal = jest.fn()
+    wrapper.vm.session.currrentModalOpen = {
+      close: closeModal
+    }
+    wrapper.vm.confirmModalOpen()
+    expect(closeModal).toHaveBeenCalled()
+  })
+
+  it(`should not open second modal`, () => {
+    wrapper.setData({ show: false })
+    global.confirm = () => false
+    wrapper.vm.session.currrentModalOpen = true
+    wrapper.vm.open()
+    expect(wrapper.vm.show).toBe(false)
+  })
+
   it(`opens session modal and closes itself`, () => {
     const $store = { commit: jest.fn() }
     const self = { $store, close: jest.fn(), $router: { push: jest.fn() } }
@@ -185,7 +224,7 @@ describe(`ActionModal`, () => {
           wrapper.vm.session.sessionType = signMethod
           wrapper.vm.step = step
           wrapper.vm.sending = sending
-          expect(wrapper.vm.$el).toMatchSnapshot()
+          expect(wrapper.element).toMatchSnapshot()
         })
       })
     })
@@ -193,17 +232,28 @@ describe(`ActionModal`, () => {
     it(`when user hasn't logged in`, async () => {
       wrapper.vm.session.signedIn = false
       await wrapper.vm.$nextTick()
-      expect(wrapper.vm.$el).toMatchSnapshot()
+      expect(wrapper.element).toMatchSnapshot()
     })
 
     it(`waiting on inclusion`, async () => {
       wrapper.vm.step = "inclusion"
-      expect(wrapper.vm.$el).toMatchSnapshot()
+      expect(wrapper.element).toMatchSnapshot()
     })
 
     it(`on success`, async () => {
       wrapper.vm.step = "success"
-      expect(wrapper.vm.$el).toMatchSnapshot()
+      expect(wrapper.element).toMatchSnapshot()
+    })
+  })
+
+  describe(`back button`, () => {
+    it(`renders and functions`, () => {
+      wrapper.setData({ step: "sign" })
+      expect(wrapper.element).toMatchSnapshot()
+      wrapper.find("#prevBtn").trigger("click")
+      expect(wrapper.vm.step).toBe("fees")
+      wrapper.find("#prevBtn").trigger("click")
+      expect(wrapper.vm.step).toBe("details")
     })
   })
 
@@ -373,7 +423,7 @@ describe(`ActionModal`, () => {
       })
     })
 
-    it("should fail if simulation fails", () => {
+    it("should fail if simulation fails", async () => {
       const mockSimulateFail = jest.fn(() =>
         Promise.reject(new Error(`invalid request`))
       )
@@ -402,13 +452,12 @@ describe(`ActionModal`, () => {
       wrapper.setProps({ transactionProperties })
       wrapper.setData(data)
       wrapper.vm.simulate()
-      wrapper.vm.$nextTick(() => {
-        expect(wrapper.vm.gasEstimate).toBe(null)
-        expect(wrapper.vm.submissionError).toBe(
-          "Transaction failed: invalid request."
-        )
-        expect(wrapper.vm.step).toBe("details")
-      })
+      await wrapper.vm.$nextTick()
+      expect(wrapper.vm.gasEstimate).toBe(null)
+      expect(wrapper.vm.submissionError).toBe(
+        "Transaction failed: invalid request."
+      )
+      expect(wrapper.vm.step).toBe("details")
     })
   })
 
@@ -511,6 +560,7 @@ describe(`ActionModal`, () => {
       wrapper.setData(data)
       wrapper.vm.submit()
       await wrapper.vm.$nextTick()
+      await wrapper.vm.$nextTick()
 
       expect(wrapper.html()).toContain(
         "Transaction failed: couldn't find Ledger."
@@ -607,6 +657,16 @@ describe(`ActionModal`, () => {
         await ActionModal.methods.validateChangeStep.call(self)
         expect(self.submit).not.toHaveBeenCalled()
       })
+
+      it("should dispaly warning when using an address not in the extension", () => {
+        wrapper.vm.modalContext.isExtensionAccount = false
+        wrapper.vm.step = "sign"
+        wrapper.vm.selectedSignMethod = "extension"
+        expect(
+          wrapper.find(".form-message.notice.extension-address").exists()
+        ).toBe(true)
+        expect(wrapper.element).toMatchSnapshot()
+      })
     })
 
     describe(`invalid step`, () => {
@@ -671,7 +731,7 @@ describe(`ActionModal`, () => {
     })
 
     it(`selects ledger if device is connected`, () => {
-      $store.getters.session.sessionType = `ledger`
+      $store.state.session.sessionType = `ledger`
       expect(wrapper.vm.selectedSignMethod).toBe(`ledger`)
       expect(wrapper.vm.signMethods).toEqual([
         {
@@ -679,6 +739,57 @@ describe(`ActionModal`, () => {
           value: `ledger`
         }
       ])
+    })
+  })
+
+  it("shows a feature unavailable message", async () => {
+    wrapper.vm.$apollo = {
+      query: () => ({
+        data: {
+          networks: []
+        }
+      })
+    }
+    await wrapper.vm.open()
+    expect(wrapper.element).toMatchSnapshot()
+    expect(wrapper.exists("featurenotavailable-stub")).toBe(true)
+  })
+
+  describe(`windows`, () => {
+    beforeEach(() => {
+      wrapper = shallowMount(ActionModal, {
+        localVue,
+        propsData: {
+          title: `Action Modal`
+        },
+        mocks: {
+          $store: {
+            state: {
+              session: {
+                windowsDevice: true,
+                windowsWarning: "WINDOWS WARNING MESSAGE"
+              },
+              connection: {
+                network: "testnet"
+              },
+              extension: {
+                enabled: true
+              }
+            },
+            getters: {
+              modalContext
+            },
+            commit: jest.fn()
+          },
+          $apollo
+        },
+        stubs: ["router-link"]
+      })
+      wrapper.vm.open()
+    })
+    it(`shows windows warning`, async () => {
+      expect(wrapper.element).toMatchSnapshot()
+      expect(wrapper.text()).toMatch(/WINDOWS WARNING MESSAGE/)
     })
   })
 })

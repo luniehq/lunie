@@ -2,7 +2,9 @@
 
 exports[`PageValidator shows a validator profile information errors signing info is missing 1`] = `
 <tmpage-stub
+  class="small"
   data-title="Validator"
+  hideheader="true"
   loaded="true"
   managed="true"
   subtitle=""
@@ -10,322 +12,229 @@ exports[`PageValidator shows a validator profile information errors signing info
 >
   <template>
     <div
-      class="page-profile__header page-profile__section"
+      class="status-container"
     >
-      <div
-        class="row"
+      <span
+        class="validator-status active"
+      >
+        
+        Active
+      
+      </span>
+       
+      <!---->
+    </div>
+     
+    <tr
+      class="li-validator"
+    >
+      <td
+        class="data-table__row__info"
       >
         <img
-          alt="generic validator logo - graphic triangle supporting atom token"
-          class="avatar"
-          src="~assets/images/validator-icon.svg"
+          alt="validator logo for good_greg"
+          class="li-validator-image"
+          src="https://s3.amazonaws.com/img/path.jpg"
         />
          
         <div
-          class="page-profile__header__info"
+          class="validator-info"
         >
-          <div>
-            <div
-              class="validator-name-and-address"
-            >
-              <div
-                class="page-profile__status-and-title"
-              >
-                <span
-                  class="page-profile__status green"
-                />
-                 
-                <div
-                  class="page-profile__title"
-                >
-                  
-                  mr_mounty
-                
-                </div>
-              </div>
-               
-              <bech32-stub
-                address="cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
-              />
-            </div>
-          </div>
-           
-          <div
-            class="page-profile__header__actions"
+          <h3
+            class="li-validator-name"
           >
-            <tmbtn-stub
-              color="primary"
-              id="delegation-btn"
-              value="Delegate"
-            />
-             
-            <tmbtn-stub
-              color="secondary"
-              id="undelegation-btn"
-              value="Undelegate"
-            />
-          </div>
-        </div>
-      </div>
-       
-      <div
-        class="row"
-      >
-        <div
-          class="row row-unjustified"
-        >
-          <dl
-            class="info_dl colored_dl"
-          >
-            <dt>
-              My Delegation
-            </dt>
-             
-            <dd>
-              --
-            </dd>
-          </dl>
-           
-          <dl
-            class="info_dl colored_dl"
-          >
-            <dt>
-              My Rewards
-            </dt>
-             
-            <dd>
-              --
-            </dd>
-          </dl>
-           
-          <dl
-            class="info_dl colored_dl"
-          >
-            <dt>
-              Expected Returns
-            </dt>
-             
-            <dd>
-              2.26%
-            </dd>
-          </dl>
-        </div>
-         
-        <div
-          class="row row-unjustified"
-        >
-          <dl
-            class="info_dl colored_dl"
-          >
-            <dt>
-              Voting Power
-            </dt>
-             
-            <dd
-              id="page-profile__power"
-            >
-              
-              0.33%
             
-            </dd>
-          </dl>
+            good_greg
+          
+          </h3>
            
-          <dl
-            class="info_dl colored_dl"
-          >
-            <dt>
-              Uptime
-            </dt>
-             
-            <dd
-              id="page-profile__uptime"
-            >
-              
-              99.6%
-            
-            </dd>
-          </dl>
-           
-          <dl
-            class="info_dl colored_dl"
-          >
-            <dt>
-              Commission
-            </dt>
-             
-            <dd
-              id="page-profile__commission"
-            >
-              
-              5.00%
-            
-            </dd>
-          </dl>
+          <!---->
         </div>
-      </div>
-    </div>
+      </td>
+    </tr>
      
     <div
-      class="page-profile__section"
+      class="button-container"
     >
-      <div
-        class="row"
-      >
-        <div
-          class="column"
-        >
-          <dl
-            class="info_dl"
-          >
-            <dt>
-              First Seen
-            </dt>
-             
-            <dd>
-              Block #0
-            </dd>
-          </dl>
-           
-          <dl
-            class="info_dl"
-          >
-            <dt>
-              Full Operator Address
-            </dt>
-             
-            <dd
-              class="address"
-            >
-              cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw
-            </dd>
-          </dl>
-           
-          <dl
-            class="info_dl"
-          >
-            <dt>
-              Keybase ID
-            </dt>
-             
-            <dd>
-              
-              --
-            
-            </dd>
-          </dl>
-           
-          <dl
-            class="info_dl"
-          >
-            <dt>
-              Website
-            </dt>
-             
-            <dd>
-              <a
-                href="https://www.monty.ca"
-                id="validator-website"
-                rel="nofollow noreferrer noopener"
-                target="_blank"
-              >
-                
-                https://www.monty.ca
-              
-              </a>
-            </dd>
-          </dl>
-           
-          <dl
-            class="info_dl"
-          >
-            <dt>
-              Description
-            </dt>
-             
-            <dd
-              class="info_dl__text-box"
-            >
-              
-              Mr Mounty
-            
-            </dd>
-          </dl>
-        </div>
-         
-        <div
-          class="column"
-        >
-          <dl
-            class="info_dl"
-          >
-            <dt>
-              Current Commission Rate
-            </dt>
-             
-            <dd>
-              5.00%
-            </dd>
-          </dl>
-           
-          <dl
-            class="info_dl"
-          >
-            <dt>
-              Max Commission Rate
-            </dt>
-             
-            <dd>
-              10.00%
-            </dd>
-          </dl>
-           
-          <dl
-            class="info_dl"
-          >
-            <dt>
-              Max Daily Commission Change
-            </dt>
-             
-            <dd>
-              0.50%
-            </dd>
-          </dl>
-           
-          <dl
-            class="info_dl"
-          >
-            <dt>
-              Last Commission Change
-            </dt>
-             
-            <dd>
-              a few seconds ago
-            </dd>
-          </dl>
-           
-          <dl
-            class="info_dl"
-          >
-            <dt>
-              Self Delegation
-            </dt>
-             
-            <dd
-              id="page-profile__self-bond"
-            >
-              
-              1.00%
-            
-            </dd>
-          </dl>
-        </div>
-      </div>
+      <tmbtn-stub
+        id="delegation-btn"
+        value="Stake"
+      />
+       
+      <tmbtn-stub
+        disabled="true"
+        id="undelegation-btn"
+        type="secondary"
+        value="Unstake"
+      />
     </div>
+     
+    <ul
+      class="row"
+    >
+      <li
+        class="column"
+      >
+        <h4>
+          Description
+        </h4>
+         
+        <span>
+          
+          Good Guy Greg
+        
+        </span>
+      </li>
+       
+      <li
+        class="column"
+      >
+        <h4>
+          Website
+        </h4>
+         
+        <span>
+          <a
+            href="https://www.greg.com"
+            id="validator-website"
+            rel="nofollow noreferrer noopener"
+            target="_blank"
+          >
+            https://www.greg.com
+          </a>
+        </span>
+      </li>
+       
+      <li
+        class="column"
+      >
+        <h4>
+          Validator Address
+        </h4>
+         
+        <span>
+          <bech32-stub
+            address="cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au"
+          />
+        </span>
+      </li>
+    </ul>
+     
+    <ul
+      class="row"
+    >
+      <li>
+        <h4>
+          Rewards
+        </h4>
+         
+        <span
+          id="page-profile__rewards"
+        >
+          
+          -NaN%
+        
+        </span>
+      </li>
+       
+      <li>
+        <h4>
+          Voting Power / Total Stake
+        </h4>
+         
+        <span
+          id="page-profile__power"
+        >
+          
+          1.40% /
+          0
+        
+        </span>
+      </li>
+       
+      <li>
+        <h4>
+          Self Stake
+        </h4>
+         
+        <span
+          id="page-profile__self-bond"
+        >
+          
+          1.00% / 10,000
+        
+        </span>
+      </li>
+       
+      <li>
+        <h4>
+          Validator Since
+        </h4>
+         
+        <span>
+           Block #15 
+        </span>
+      </li>
+       
+      <li>
+        <h4>
+          Uptime
+        </h4>
+         
+        <span
+          id="page-profile__uptime"
+        >
+          
+          99.62%
+        
+        </span>
+      </li>
+       
+      <li>
+        <h4>
+          Current Commission Rate
+        </h4>
+         
+        <span>
+          0.00%
+        </span>
+      </li>
+       
+      <li>
+        <h4>
+          Max Commission Rate
+        </h4>
+         
+        <span>
+          50.00%
+        </span>
+      </li>
+       
+      <li>
+        <h4>
+          Max Daily Commission Change
+        </h4>
+         
+        <span>
+          1.00%
+        </span>
+      </li>
+       
+      <li>
+        <h4>
+          Last Commission Change
+        </h4>
+         
+        <span>
+          in 49 years
+        </span>
+      </li>
+    </ul>
      
     <delegationmodal-stub
       denom="STAKE"
       fromoptions="[object Object]"
-      to="cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
+      to="cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au"
       validator="[object Object]"
     />
      
@@ -341,7 +250,9 @@ exports[`PageValidator shows a validator profile information errors signing info
 
 exports[`PageValidator shows a validator profile information if user has signed in 1`] = `
 <tmpage-stub
+  class="small"
   data-title="Validator"
+  hideheader="true"
   loaded="true"
   managed="true"
   subtitle=""
@@ -349,322 +260,229 @@ exports[`PageValidator shows a validator profile information if user has signed 
 >
   <template>
     <div
-      class="page-profile__header page-profile__section"
+      class="status-container"
     >
-      <div
-        class="row"
+      <span
+        class="validator-status active"
+      >
+        
+        Active
+      
+      </span>
+       
+      <!---->
+    </div>
+     
+    <tr
+      class="li-validator"
+    >
+      <td
+        class="data-table__row__info"
       >
         <img
-          alt="generic validator logo - graphic triangle supporting atom token"
-          class="avatar"
-          src="~assets/images/validator-icon.svg"
+          alt="validator logo for good_greg"
+          class="li-validator-image"
+          src="https://s3.amazonaws.com/img/path.jpg"
         />
          
         <div
-          class="page-profile__header__info"
+          class="validator-info"
         >
-          <div>
-            <div
-              class="validator-name-and-address"
-            >
-              <div
-                class="page-profile__status-and-title"
-              >
-                <span
-                  class="page-profile__status green"
-                />
-                 
-                <div
-                  class="page-profile__title"
-                >
-                  
-                  mr_mounty
-                
-                </div>
-              </div>
-               
-              <bech32-stub
-                address="cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
-              />
-            </div>
-          </div>
-           
-          <div
-            class="page-profile__header__actions"
+          <h3
+            class="li-validator-name"
           >
-            <tmbtn-stub
-              color="primary"
-              id="delegation-btn"
-              value="Delegate"
-            />
-             
-            <tmbtn-stub
-              color="secondary"
-              id="undelegation-btn"
-              value="Undelegate"
-            />
-          </div>
-        </div>
-      </div>
-       
-      <div
-        class="row"
-      >
-        <div
-          class="row row-unjustified"
-        >
-          <dl
-            class="info_dl colored_dl"
-          >
-            <dt>
-              My Delegation
-            </dt>
-             
-            <dd>
-              --
-            </dd>
-          </dl>
-           
-          <dl
-            class="info_dl colored_dl"
-          >
-            <dt>
-              My Rewards
-            </dt>
-             
-            <dd>
-              --
-            </dd>
-          </dl>
-           
-          <dl
-            class="info_dl colored_dl"
-          >
-            <dt>
-              Expected Returns
-            </dt>
-             
-            <dd>
-              2.26%
-            </dd>
-          </dl>
-        </div>
-         
-        <div
-          class="row row-unjustified"
-        >
-          <dl
-            class="info_dl colored_dl"
-          >
-            <dt>
-              Voting Power
-            </dt>
-             
-            <dd
-              id="page-profile__power"
-            >
-              
-              0.33%
             
-            </dd>
-          </dl>
+            good_greg
+          
+          </h3>
            
-          <dl
-            class="info_dl colored_dl"
-          >
-            <dt>
-              Uptime
-            </dt>
-             
-            <dd
-              id="page-profile__uptime"
-            >
-              
-              99.6%
-            
-            </dd>
-          </dl>
-           
-          <dl
-            class="info_dl colored_dl"
-          >
-            <dt>
-              Commission
-            </dt>
-             
-            <dd
-              id="page-profile__commission"
-            >
-              
-              5.00%
-            
-            </dd>
-          </dl>
+          <!---->
         </div>
-      </div>
-    </div>
+      </td>
+    </tr>
      
     <div
-      class="page-profile__section"
+      class="button-container"
     >
-      <div
-        class="row"
-      >
-        <div
-          class="column"
-        >
-          <dl
-            class="info_dl"
-          >
-            <dt>
-              First Seen
-            </dt>
-             
-            <dd>
-              Block #0
-            </dd>
-          </dl>
-           
-          <dl
-            class="info_dl"
-          >
-            <dt>
-              Full Operator Address
-            </dt>
-             
-            <dd
-              class="address"
-            >
-              cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw
-            </dd>
-          </dl>
-           
-          <dl
-            class="info_dl"
-          >
-            <dt>
-              Keybase ID
-            </dt>
-             
-            <dd>
-              
-              --
-            
-            </dd>
-          </dl>
-           
-          <dl
-            class="info_dl"
-          >
-            <dt>
-              Website
-            </dt>
-             
-            <dd>
-              <a
-                href="https://www.monty.ca"
-                id="validator-website"
-                rel="nofollow noreferrer noopener"
-                target="_blank"
-              >
-                
-                https://www.monty.ca
-              
-              </a>
-            </dd>
-          </dl>
-           
-          <dl
-            class="info_dl"
-          >
-            <dt>
-              Description
-            </dt>
-             
-            <dd
-              class="info_dl__text-box"
-            >
-              
-              Mr Mounty
-            
-            </dd>
-          </dl>
-        </div>
-         
-        <div
-          class="column"
-        >
-          <dl
-            class="info_dl"
-          >
-            <dt>
-              Current Commission Rate
-            </dt>
-             
-            <dd>
-              5.00%
-            </dd>
-          </dl>
-           
-          <dl
-            class="info_dl"
-          >
-            <dt>
-              Max Commission Rate
-            </dt>
-             
-            <dd>
-              10.00%
-            </dd>
-          </dl>
-           
-          <dl
-            class="info_dl"
-          >
-            <dt>
-              Max Daily Commission Change
-            </dt>
-             
-            <dd>
-              0.50%
-            </dd>
-          </dl>
-           
-          <dl
-            class="info_dl"
-          >
-            <dt>
-              Last Commission Change
-            </dt>
-             
-            <dd>
-              a few seconds ago
-            </dd>
-          </dl>
-           
-          <dl
-            class="info_dl"
-          >
-            <dt>
-              Self Delegation
-            </dt>
-             
-            <dd
-              id="page-profile__self-bond"
-            >
-              
-              1.00%
-            
-            </dd>
-          </dl>
-        </div>
-      </div>
+      <tmbtn-stub
+        id="delegation-btn"
+        value="Stake"
+      />
+       
+      <tmbtn-stub
+        disabled="true"
+        id="undelegation-btn"
+        type="secondary"
+        value="Unstake"
+      />
     </div>
+     
+    <ul
+      class="row"
+    >
+      <li
+        class="column"
+      >
+        <h4>
+          Description
+        </h4>
+         
+        <span>
+          
+          Good Guy Greg
+        
+        </span>
+      </li>
+       
+      <li
+        class="column"
+      >
+        <h4>
+          Website
+        </h4>
+         
+        <span>
+          <a
+            href="https://www.greg.com"
+            id="validator-website"
+            rel="nofollow noreferrer noopener"
+            target="_blank"
+          >
+            https://www.greg.com
+          </a>
+        </span>
+      </li>
+       
+      <li
+        class="column"
+      >
+        <h4>
+          Validator Address
+        </h4>
+         
+        <span>
+          <bech32-stub
+            address="cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au"
+          />
+        </span>
+      </li>
+    </ul>
+     
+    <ul
+      class="row"
+    >
+      <li>
+        <h4>
+          Rewards
+        </h4>
+         
+        <span
+          id="page-profile__rewards"
+        >
+          
+          -NaN%
+        
+        </span>
+      </li>
+       
+      <li>
+        <h4>
+          Voting Power / Total Stake
+        </h4>
+         
+        <span
+          id="page-profile__power"
+        >
+          
+          1.40% /
+          0
+        
+        </span>
+      </li>
+       
+      <li>
+        <h4>
+          Self Stake
+        </h4>
+         
+        <span
+          id="page-profile__self-bond"
+        >
+          
+          1.00% / 10,000
+        
+        </span>
+      </li>
+       
+      <li>
+        <h4>
+          Validator Since
+        </h4>
+         
+        <span>
+           Block #15 
+        </span>
+      </li>
+       
+      <li>
+        <h4>
+          Uptime
+        </h4>
+         
+        <span
+          id="page-profile__uptime"
+        >
+          
+          99.62%
+        
+        </span>
+      </li>
+       
+      <li>
+        <h4>
+          Current Commission Rate
+        </h4>
+         
+        <span>
+          0.00%
+        </span>
+      </li>
+       
+      <li>
+        <h4>
+          Max Commission Rate
+        </h4>
+         
+        <span>
+          50.00%
+        </span>
+      </li>
+       
+      <li>
+        <h4>
+          Max Daily Commission Change
+        </h4>
+         
+        <span>
+          1.00%
+        </span>
+      </li>
+       
+      <li>
+        <h4>
+          Last Commission Change
+        </h4>
+         
+        <span>
+          in 49 years
+        </span>
+      </li>
+    </ul>
      
     <delegationmodal-stub
       denom="STAKE"
       fromoptions="[object Object]"
-      to="cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
+      to="cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au"
       validator="[object Object]"
     />
      
@@ -680,7 +498,9 @@ exports[`PageValidator shows a validator profile information if user has signed 
 
 exports[`PageValidator shows a validator profile information if user hasn't signed in 1`] = `
 <tmpage-stub
+  class="small"
   data-title="Validator"
+  hideheader="true"
   loaded="true"
   managed="true"
   subtitle=""
@@ -688,322 +508,229 @@ exports[`PageValidator shows a validator profile information if user hasn't sign
 >
   <template>
     <div
-      class="page-profile__header page-profile__section"
+      class="status-container"
     >
-      <div
-        class="row"
+      <span
+        class="validator-status active"
+      >
+        
+        Active
+      
+      </span>
+       
+      <!---->
+    </div>
+     
+    <tr
+      class="li-validator"
+    >
+      <td
+        class="data-table__row__info"
       >
         <img
-          alt="generic validator logo - graphic triangle supporting atom token"
-          class="avatar"
-          src="~assets/images/validator-icon.svg"
+          alt="validator logo for good_greg"
+          class="li-validator-image"
+          src="https://s3.amazonaws.com/img/path.jpg"
         />
          
         <div
-          class="page-profile__header__info"
+          class="validator-info"
         >
-          <div>
-            <div
-              class="validator-name-and-address"
-            >
-              <div
-                class="page-profile__status-and-title"
-              >
-                <span
-                  class="page-profile__status green"
-                />
-                 
-                <div
-                  class="page-profile__title"
-                >
-                  
-                  mr_mounty
-                
-                </div>
-              </div>
-               
-              <bech32-stub
-                address="cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
-              />
-            </div>
-          </div>
-           
-          <div
-            class="page-profile__header__actions"
+          <h3
+            class="li-validator-name"
           >
-            <tmbtn-stub
-              color="primary"
-              id="delegation-btn"
-              value="Delegate"
-            />
-             
-            <tmbtn-stub
-              color="secondary"
-              id="undelegation-btn"
-              value="Undelegate"
-            />
-          </div>
-        </div>
-      </div>
-       
-      <div
-        class="row"
-      >
-        <div
-          class="row row-unjustified"
-        >
-          <dl
-            class="info_dl colored_dl"
-          >
-            <dt>
-              My Delegation
-            </dt>
-             
-            <dd>
-              --
-            </dd>
-          </dl>
-           
-          <dl
-            class="info_dl colored_dl"
-          >
-            <dt>
-              My Rewards
-            </dt>
-             
-            <dd>
-              --
-            </dd>
-          </dl>
-           
-          <dl
-            class="info_dl colored_dl"
-          >
-            <dt>
-              Expected Returns
-            </dt>
-             
-            <dd>
-              2.26%
-            </dd>
-          </dl>
-        </div>
-         
-        <div
-          class="row row-unjustified"
-        >
-          <dl
-            class="info_dl colored_dl"
-          >
-            <dt>
-              Voting Power
-            </dt>
-             
-            <dd
-              id="page-profile__power"
-            >
-              
-              0.33%
             
-            </dd>
-          </dl>
+            good_greg
+          
+          </h3>
            
-          <dl
-            class="info_dl colored_dl"
-          >
-            <dt>
-              Uptime
-            </dt>
-             
-            <dd
-              id="page-profile__uptime"
-            >
-              
-              99.6%
-            
-            </dd>
-          </dl>
-           
-          <dl
-            class="info_dl colored_dl"
-          >
-            <dt>
-              Commission
-            </dt>
-             
-            <dd
-              id="page-profile__commission"
-            >
-              
-              5.00%
-            
-            </dd>
-          </dl>
+          <!---->
         </div>
-      </div>
-    </div>
+      </td>
+    </tr>
      
     <div
-      class="page-profile__section"
+      class="button-container"
     >
-      <div
-        class="row"
-      >
-        <div
-          class="column"
-        >
-          <dl
-            class="info_dl"
-          >
-            <dt>
-              First Seen
-            </dt>
-             
-            <dd>
-              Block #0
-            </dd>
-          </dl>
-           
-          <dl
-            class="info_dl"
-          >
-            <dt>
-              Full Operator Address
-            </dt>
-             
-            <dd
-              class="address"
-            >
-              cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw
-            </dd>
-          </dl>
-           
-          <dl
-            class="info_dl"
-          >
-            <dt>
-              Keybase ID
-            </dt>
-             
-            <dd>
-              
-              --
-            
-            </dd>
-          </dl>
-           
-          <dl
-            class="info_dl"
-          >
-            <dt>
-              Website
-            </dt>
-             
-            <dd>
-              <a
-                href="https://www.monty.ca"
-                id="validator-website"
-                rel="nofollow noreferrer noopener"
-                target="_blank"
-              >
-                
-                https://www.monty.ca
-              
-              </a>
-            </dd>
-          </dl>
-           
-          <dl
-            class="info_dl"
-          >
-            <dt>
-              Description
-            </dt>
-             
-            <dd
-              class="info_dl__text-box"
-            >
-              
-              Mr Mounty
-            
-            </dd>
-          </dl>
-        </div>
-         
-        <div
-          class="column"
-        >
-          <dl
-            class="info_dl"
-          >
-            <dt>
-              Current Commission Rate
-            </dt>
-             
-            <dd>
-              5.00%
-            </dd>
-          </dl>
-           
-          <dl
-            class="info_dl"
-          >
-            <dt>
-              Max Commission Rate
-            </dt>
-             
-            <dd>
-              10.00%
-            </dd>
-          </dl>
-           
-          <dl
-            class="info_dl"
-          >
-            <dt>
-              Max Daily Commission Change
-            </dt>
-             
-            <dd>
-              0.50%
-            </dd>
-          </dl>
-           
-          <dl
-            class="info_dl"
-          >
-            <dt>
-              Last Commission Change
-            </dt>
-             
-            <dd>
-              a few seconds ago
-            </dd>
-          </dl>
-           
-          <dl
-            class="info_dl"
-          >
-            <dt>
-              Self Delegation
-            </dt>
-             
-            <dd
-              id="page-profile__self-bond"
-            >
-              
-              1.00%
-            
-            </dd>
-          </dl>
-        </div>
-      </div>
+      <tmbtn-stub
+        id="delegation-btn"
+        value="Stake"
+      />
+       
+      <tmbtn-stub
+        disabled="true"
+        id="undelegation-btn"
+        type="secondary"
+        value="Unstake"
+      />
     </div>
+     
+    <ul
+      class="row"
+    >
+      <li
+        class="column"
+      >
+        <h4>
+          Description
+        </h4>
+         
+        <span>
+          
+          Good Guy Greg
+        
+        </span>
+      </li>
+       
+      <li
+        class="column"
+      >
+        <h4>
+          Website
+        </h4>
+         
+        <span>
+          <a
+            href="https://www.greg.com"
+            id="validator-website"
+            rel="nofollow noreferrer noopener"
+            target="_blank"
+          >
+            https://www.greg.com
+          </a>
+        </span>
+      </li>
+       
+      <li
+        class="column"
+      >
+        <h4>
+          Validator Address
+        </h4>
+         
+        <span>
+          <bech32-stub
+            address="cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au"
+          />
+        </span>
+      </li>
+    </ul>
+     
+    <ul
+      class="row"
+    >
+      <li>
+        <h4>
+          Rewards
+        </h4>
+         
+        <span
+          id="page-profile__rewards"
+        >
+          
+          -NaN%
+        
+        </span>
+      </li>
+       
+      <li>
+        <h4>
+          Voting Power / Total Stake
+        </h4>
+         
+        <span
+          id="page-profile__power"
+        >
+          
+          1.40% /
+          0
+        
+        </span>
+      </li>
+       
+      <li>
+        <h4>
+          Self Stake
+        </h4>
+         
+        <span
+          id="page-profile__self-bond"
+        >
+          
+          1.00% / 10,000
+        
+        </span>
+      </li>
+       
+      <li>
+        <h4>
+          Validator Since
+        </h4>
+         
+        <span>
+           Block #15 
+        </span>
+      </li>
+       
+      <li>
+        <h4>
+          Uptime
+        </h4>
+         
+        <span
+          id="page-profile__uptime"
+        >
+          
+          99.62%
+        
+        </span>
+      </li>
+       
+      <li>
+        <h4>
+          Current Commission Rate
+        </h4>
+         
+        <span>
+          0.00%
+        </span>
+      </li>
+       
+      <li>
+        <h4>
+          Max Commission Rate
+        </h4>
+         
+        <span>
+          50.00%
+        </span>
+      </li>
+       
+      <li>
+        <h4>
+          Max Daily Commission Change
+        </h4>
+         
+        <span>
+          1.00%
+        </span>
+      </li>
+       
+      <li>
+        <h4>
+          Last Commission Change
+        </h4>
+         
+        <span>
+          in 49 years
+        </span>
+      </li>
+    </ul>
      
     <delegationmodal-stub
       denom="STAKE"
       fromoptions=""
-      to="cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw"
+      to="cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au"
       validator="[object Object]"
     />
      
@@ -1017,9 +744,505 @@ exports[`PageValidator shows a validator profile information if user hasn't sign
 </tmpage-stub>
 `;
 
-exports[`PageValidator shows a validator profile information shows a validator as an inactive candidate if he has no voting_power 1`] = `"This validator does not have enough voting power yet and is inactive"`;
+exports[`PageValidator shows a validator profile information shows a validator as an inactive candidate if he has no voting_power 1`] = `"Active"`;
 
-exports[`PageValidator shows a validator profile information shows that a validator is jailed 1`] = `"This validator has been jailed and is not currently validating"`;
+exports[`PageValidator shows a validator profile information shows empty website url 1`] = `
+<tmpage-stub
+  class="small"
+  data-title="Validator"
+  hideheader="true"
+  loaded="true"
+  managed="true"
+  subtitle=""
+  title=""
+>
+  <template>
+    <div
+      class="status-container"
+    >
+      <span
+        class="validator-status active"
+      >
+        
+        Active
+      
+      </span>
+       
+      <!---->
+    </div>
+     
+    <tr
+      class="li-validator"
+    >
+      <td
+        class="data-table__row__info"
+      >
+        <img
+          alt="validator logo for good_greg"
+          class="li-validator-image"
+          src="https://s3.amazonaws.com/img/path.jpg"
+        />
+         
+        <div
+          class="validator-info"
+        >
+          <h3
+            class="li-validator-name"
+          >
+            
+            good_greg
+          
+          </h3>
+           
+          <!---->
+        </div>
+      </td>
+    </tr>
+     
+    <div
+      class="button-container"
+    >
+      <tmbtn-stub
+        id="delegation-btn"
+        value="Stake"
+      />
+       
+      <tmbtn-stub
+        disabled="true"
+        id="undelegation-btn"
+        type="secondary"
+        value="Unstake"
+      />
+    </div>
+     
+    <ul
+      class="row"
+    >
+      <li
+        class="column"
+      >
+        <h4>
+          Description
+        </h4>
+         
+        <span>
+          
+          Good Guy Greg
+        
+        </span>
+      </li>
+       
+      <li
+        class="column"
+      >
+        <h4>
+          Website
+        </h4>
+         
+        <span>
+          <a
+            href=""
+            id="validator-website"
+            rel="nofollow noreferrer noopener"
+            target="_blank"
+          >
+            
+          </a>
+        </span>
+      </li>
+       
+      <li
+        class="column"
+      >
+        <h4>
+          Validator Address
+        </h4>
+         
+        <span>
+          <bech32-stub
+            address="cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au"
+          />
+        </span>
+      </li>
+    </ul>
+     
+    <ul
+      class="row"
+    >
+      <li>
+        <h4>
+          Rewards
+        </h4>
+         
+        <span
+          id="page-profile__rewards"
+        >
+          
+          -NaN%
+        
+        </span>
+      </li>
+       
+      <li>
+        <h4>
+          Voting Power / Total Stake
+        </h4>
+         
+        <span
+          id="page-profile__power"
+        >
+          
+          1.40% /
+          0
+        
+        </span>
+      </li>
+       
+      <li>
+        <h4>
+          Self Stake
+        </h4>
+         
+        <span
+          id="page-profile__self-bond"
+        >
+          
+          1.00% / 10,000
+        
+        </span>
+      </li>
+       
+      <li>
+        <h4>
+          Validator Since
+        </h4>
+         
+        <span>
+           Block #15 
+        </span>
+      </li>
+       
+      <li>
+        <h4>
+          Uptime
+        </h4>
+         
+        <span
+          id="page-profile__uptime"
+        >
+          
+          99.62%
+        
+        </span>
+      </li>
+       
+      <li>
+        <h4>
+          Current Commission Rate
+        </h4>
+         
+        <span>
+          0.00%
+        </span>
+      </li>
+       
+      <li>
+        <h4>
+          Max Commission Rate
+        </h4>
+         
+        <span>
+          50.00%
+        </span>
+      </li>
+       
+      <li>
+        <h4>
+          Max Daily Commission Change
+        </h4>
+         
+        <span>
+          1.00%
+        </span>
+      </li>
+       
+      <li>
+        <h4>
+          Last Commission Change
+        </h4>
+         
+        <span>
+          in 49 years
+        </span>
+      </li>
+    </ul>
+     
+    <delegationmodal-stub
+      denom="STAKE"
+      fromoptions="[object Object]"
+      to="cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au"
+      validator="[object Object]"
+    />
+     
+    <undelegationmodal-stub
+      denom="STAKE"
+      maximum="0"
+      to="cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9"
+      validator="[object Object]"
+    />
+  </template>
+</tmpage-stub>
+`;
+
+exports[`PageValidator shows a validator profile information shows http website url 1`] = `
+<tmpage-stub
+  class="small"
+  data-title="Validator"
+  hideheader="true"
+  loaded="true"
+  managed="true"
+  subtitle=""
+  title=""
+>
+  <template>
+    <div
+      class="status-container"
+    >
+      <span
+        class="validator-status active"
+      >
+        
+        Active
+      
+      </span>
+       
+      <!---->
+    </div>
+     
+    <tr
+      class="li-validator"
+    >
+      <td
+        class="data-table__row__info"
+      >
+        <img
+          alt="validator logo for good_greg"
+          class="li-validator-image"
+          src="https://s3.amazonaws.com/img/path.jpg"
+        />
+         
+        <div
+          class="validator-info"
+        >
+          <h3
+            class="li-validator-name"
+          >
+            
+            good_greg
+          
+          </h3>
+           
+          <!---->
+        </div>
+      </td>
+    </tr>
+     
+    <div
+      class="button-container"
+    >
+      <tmbtn-stub
+        id="delegation-btn"
+        value="Stake"
+      />
+       
+      <tmbtn-stub
+        disabled="true"
+        id="undelegation-btn"
+        type="secondary"
+        value="Unstake"
+      />
+    </div>
+     
+    <ul
+      class="row"
+    >
+      <li
+        class="column"
+      >
+        <h4>
+          Description
+        </h4>
+         
+        <span>
+          
+          Good Guy Greg
+        
+        </span>
+      </li>
+       
+      <li
+        class="column"
+      >
+        <h4>
+          Website
+        </h4>
+         
+        <span>
+          <a
+            href="http://www.monty.ca"
+            id="validator-website"
+            rel="nofollow noreferrer noopener"
+            target="_blank"
+          >
+            http://www.monty.ca
+          </a>
+        </span>
+      </li>
+       
+      <li
+        class="column"
+      >
+        <h4>
+          Validator Address
+        </h4>
+         
+        <span>
+          <bech32-stub
+            address="cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au"
+          />
+        </span>
+      </li>
+    </ul>
+     
+    <ul
+      class="row"
+    >
+      <li>
+        <h4>
+          Rewards
+        </h4>
+         
+        <span
+          id="page-profile__rewards"
+        >
+          
+          -NaN%
+        
+        </span>
+      </li>
+       
+      <li>
+        <h4>
+          Voting Power / Total Stake
+        </h4>
+         
+        <span
+          id="page-profile__power"
+        >
+          
+          1.40% /
+          0
+        
+        </span>
+      </li>
+       
+      <li>
+        <h4>
+          Self Stake
+        </h4>
+         
+        <span
+          id="page-profile__self-bond"
+        >
+          
+          1.00% / 10,000
+        
+        </span>
+      </li>
+       
+      <li>
+        <h4>
+          Validator Since
+        </h4>
+         
+        <span>
+           Block #15 
+        </span>
+      </li>
+       
+      <li>
+        <h4>
+          Uptime
+        </h4>
+         
+        <span
+          id="page-profile__uptime"
+        >
+          
+          99.62%
+        
+        </span>
+      </li>
+       
+      <li>
+        <h4>
+          Current Commission Rate
+        </h4>
+         
+        <span>
+          0.00%
+        </span>
+      </li>
+       
+      <li>
+        <h4>
+          Max Commission Rate
+        </h4>
+         
+        <span>
+          50.00%
+        </span>
+      </li>
+       
+      <li>
+        <h4>
+          Max Daily Commission Change
+        </h4>
+         
+        <span>
+          1.00%
+        </span>
+      </li>
+       
+      <li>
+        <h4>
+          Last Commission Change
+        </h4>
+         
+        <span>
+          in 49 years
+        </span>
+      </li>
+    </ul>
+     
+    <delegationmodal-stub
+      denom="STAKE"
+      fromoptions="[object Object]"
+      to="cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au"
+      validator="[object Object]"
+    />
+     
+    <undelegationmodal-stub
+      denom="STAKE"
+      maximum="0"
+      to="cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9"
+      validator="[object Object]"
+    />
+  </template>
+</tmpage-stub>
+`;
+
+exports[`PageValidator shows a validator profile information shows that a validator is jailed 1`] = `"Active"`;
 
 exports[`delegationTargetOptions always shows wallet in the first position 1`] = `
 Array [

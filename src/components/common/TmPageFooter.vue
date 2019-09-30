@@ -1,5 +1,5 @@
 <template>
-  <footer>
+  <footer class="hide-xs">
     <ul>
       <li>
         <router-link
@@ -7,9 +7,8 @@
           to="/about"
           exact="exact"
           title="About"
+          >About</router-link
         >
-          About
-        </router-link>
       </li>
       <li>
         <router-link
@@ -17,9 +16,8 @@
           to="/careers"
           exact="exact"
           title="Careers"
+          >Careers</router-link
         >
-          Careers
-        </router-link>
       </li>
       <li>
         <router-link
@@ -27,9 +25,8 @@
           to="/security"
           exact="exact"
           title="Security"
+          >Security</router-link
         >
-          Security
-        </router-link>
       </li>
       <li>
         <router-link
@@ -37,9 +34,8 @@
           to="/terms"
           exact="exact"
           title="Terms"
+          >Terms of Service</router-link
         >
-          Terms of Service
-        </router-link>
       </li>
       <li>
         <router-link
@@ -47,9 +43,8 @@
           to="/privacy"
           exact="exact"
           title="Privacy"
+          >Privacy Policy</router-link
         >
-          Privacy Policy
-        </router-link>
       </li>
     </ul>
   </footer>
@@ -62,45 +57,31 @@ export default { name: `tm-page-footer` }
 <style scoped>
 footer {
   width: 100%;
-  background: var(--app-fg);
-  padding: 0.5rem;
+  padding: 3rem 0 0;
   margin-top: 1rem;
 }
 
 ul {
   display: flex;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: center;
 }
 
 ul li {
   display: inline;
+  padding: 0 0.5rem;
 }
 
 .app-menu-item-small {
   display: inline-block;
   justify-content: space-between;
   align-items: center;
-  padding: 0.25rem 0.25rem;
-  margin: 0 0.5rem;
+  padding: 0.25rem 0;
   color: var(--dim);
-  border-radius: 0.25rem;
   font-size: var(--sm);
 }
 
-@media screen and (max-width: 1023px) {
-  footer {
-    background: var(--app-fg);
-    padding: 2rem 1.5rem;
-    margin-top: 1rem;
-  }
-
-  ul {
-    display: block;
-  }
-
-  ul li {
-    display: block;
-  }
+.app-menu-item-small:hover {
+  color: var(--link);
 }
 </style>

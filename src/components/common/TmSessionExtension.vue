@@ -6,19 +6,23 @@
       </h2>
       <div v-if="!extension.enabled" class="session-main">
         <p>
-          Please install the Lunie Browser Extension from the
+          Looks like you don't have the Lunie browser extension installed yet.
+          Head over to the
           <a
-            href="https://chrome.google.com/webstore/category/extensions"
+            href="http://bit.ly/lunie-ext"
             target="_blank"
             rel="noopener norefferer"
             >Chrome Web Store</a
-          >.
+          >
+          to quickly install the extension.
         </p>
       </div>
 
       <div v-else class="session-main">
-        Below is a list of accounts we received from the Lunie browser
-        extension.
+        <p class="extension-message">
+          Below is a list of accounts we've received from the Lunie browser
+          extension.
+        </p>
         <AccountList
           :accounts="accounts"
           :button-action="signIn"
@@ -32,7 +36,7 @@
 <script>
 import AccountList from "common/AccountList"
 import SessionFrame from "common/SessionFrame"
-import { mapGetters } from "vuex"
+import { mapState } from "vuex"
 export default {
   name: `session-extension`,
   components: {
@@ -44,7 +48,7 @@ export default {
     address: null
   }),
   computed: {
-    ...mapGetters([`extension`]),
+    ...mapState([`extension`]),
     accounts() {
       return this.extension.accounts
     }
@@ -66,3 +70,10 @@ export default {
   }
 }
 </script>
+<style scoped>
+.session-title,
+.extension-message {
+  padding: 0 1rem;
+  margin: 0;
+}
+</style>

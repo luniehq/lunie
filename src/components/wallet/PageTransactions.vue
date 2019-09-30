@@ -3,28 +3,32 @@
     :managed="true"
     :loading="transactions.loading"
     :loaded="transactions.loaded"
-    :error="transactions.error"
+    :error="!!transactions.error"
     :data-empty="dataEmpty"
     data-title="Transactions"
     :sign-in-required="true"
+    :hide-header="true"
   >
     <DataEmptyTx slot="no-data" />
     <template slot="managed-body">
-      <TransactionList
-        :transactions="flatOrderedTransactionList"
-        :address="session.address"
-        :validators="validators"
-      />
+      <div v-infinite-scroll="loadMore" infinite-scroll-distance="80">
+        <TransactionList
+          :transactions="showingTransactions"
+          :address="session.address"
+          :validators="validatorsAddressMap"
+        />
+      </div>
       <br />
     </template>
   </TmPage>
 </template>
 
 <script>
-import { mapGetters } from "vuex"
+import { mapState, mapGetters } from "vuex"
 import DataEmptyTx from "common/TmDataEmptyTx"
 import TmPage from "common/TmPage"
-import TransactionList from "../transactions/TransactionList"
+import TransactionList from "transactions/TransactionList"
+import { AllValidators, AllValidatorsResult } from "src/gql"
 
 export default {
   name: `page-transactions`,
@@ -33,13 +37,24 @@ export default {
     DataEmptyTx,
     TmPage
   },
+  data: () => ({
+    showing: 15,
+    validators: []
+  }),
   computed: {
-    ...mapGetters([
-      `session`,
-      `transactions`,
-      `flatOrderedTransactionList`,
-      `validators`
-    ]),
+    ...mapState([`session`, `transactions`]),
+    ...mapState({ network: state => state.connection.network }),
+    ...mapGetters([`flatOrderedTransactionList`]),
+    validatorsAddressMap() {
+      const names = {}
+      this.validators.forEach(item => {
+        names[item.operator_address] = item
+      })
+      return names
+    },
+    showingTransactions() {
+      return this.flatOrderedTransactionList.slice(0, this.showing)
+    },
     dataEmpty() {
       return this.flatOrderedTransactionList.length === 0
     }
@@ -56,6 +71,21 @@ export default {
     async refreshTransactions() {
       if (this.session.signedIn) {
         await this.$store.dispatch(`getAllTxs`)
+      }
+    },
+    loadMore() {
+      this.showing += 10
+    }
+  },
+  apollo: {
+    validators: {
+      query() {
+        /* istanbul ignore next */
+        return AllValidators(this.network)
+      },
+      update(data) {
+        /* istanbul ignore next */
+        return AllValidatorsResult(this.network)(data)
       }
     }
   }

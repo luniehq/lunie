@@ -1,21 +1,21 @@
 <template>
   <nav class="app-header" :class="{ mobile: !desktop }">
     <div class="container">
-      <div class="header-item">
-        <router-link to="/">
+      <div class="header-item" :class="{ open: open }">
+        <a href="https://lunie.io">
           <img
             class="header-item-logo"
-            src="~assets/images/cosmos-wallet-logo.svg"
+            src="~assets/images/lunie-logo-white.svg"
             alt="Lunie spaceship accelerating into a colourful space sky"
           />
           Lunie
-        </router-link>
+        </a>
         <template v-if="!desktop">
           <div v-if="open" class="close-menu" @click="close()">
             <i class="material-icons mobile-menu-action">close</i>
           </div>
           <div v-if="!open" class="open-menu" @click="show()">
-            <i class="material-icons mobile-menu-action">menu</i>
+            <i class="material-icons mobile-menu-action">more_vert</i>
           </div>
         </template>
       </div>
@@ -25,7 +25,7 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex"
+import { mapState } from "vuex"
 import noScroll from "no-scroll"
 import AppMenu from "common/AppMenu"
 export default {
@@ -36,7 +36,7 @@ export default {
     desktop: false
   }),
   computed: {
-    ...mapGetters([`session`])
+    ...mapState([`session`])
   },
   mounted() {
     this.watchWindowSize()
@@ -82,6 +82,10 @@ export default {
   width: var(--width-side);
 }
 
+.app-header .header-item.open {
+  background: var(--app-nav);
+}
+
 .mobile-menu-action {
   font-size: 1.5rem !important;
 }
@@ -93,7 +97,7 @@ export default {
 }
 
 .app-header .header-item {
-  padding: 1.25rem;
+  padding: 1.75rem;
   font-size: 0;
 }
 
@@ -102,7 +106,7 @@ export default {
 }
 
 .header-item-logo {
-  height: 3rem;
+  height: 2rem;
 }
 
 @media screen and (max-width: 1023px) {
@@ -112,20 +116,28 @@ export default {
   }
 
   .container {
-    background: var(--app-nav);
+    background: var(--app-fg-dark);
+    position: fixed;
+    width: 100%;
   }
 
   .app-header .header-item {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 1rem;
+    padding: 0.5rem 0.5rem 0.5rem 1rem;
     color: var(--link);
     cursor: pointer;
   }
 
   .header-item-logo {
-    height: 2.5rem;
+    height: 1.75rem;
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  .app-header > .container {
+    position: fixed;
   }
 }
 </style>

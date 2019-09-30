@@ -1,6 +1,13 @@
-import * as Sentry from "@sentry/browser"
 import { track, deanonymize, anonymize } from "scripts/google-analytics"
 import config from "src/config"
+
+function isWindowsPlatform() {
+  return window.navigator.platform.match(/win32|win64/i) !== null
+}
+
+const windowsWarning = `If you’re using Windows 10 (May 2019 update), signing
+transactions with your Ledger Nano S will not work. Please use another
+operating system, or version of Windows.`
 
 export default () => {
   const USER_PREFERENCES_KEY = `lunie_user_preferences`
@@ -19,7 +26,7 @@ export default () => {
     cookiesAccepted: undefined,
     stateLoaded: false, // shows if the persisted state is already loaded. used to prevent overwriting the persisted state before it is loaded
     error: null,
-    maintenanceBar: false,
+    currrentModalOpen: false,
     modals: {
       error: { active: false },
       help: { active: false }
@@ -27,14 +34,15 @@ export default () => {
     browserWithLedgerSupport:
       navigator.userAgent.includes(`Chrome`) ||
       navigator.userAgent.includes(`Opera`),
+    windowsDevice: isWindowsPlatform(),
+    windowsWarning: windowsWarning,
 
     // import into state to be able to test easier
     externals: {
       config,
       track,
       anonymize,
-      deanonymize,
-      Sentry
+      deanonymize
     }
   }
 
@@ -65,6 +73,9 @@ export default () => {
     },
     pauseHistory(state, paused) {
       state.pauseHistory = paused
+    },
+    setCurrrentModalOpen(state, modal) {
+      state.currrentModalOpen = modal
     }
   }
 
@@ -73,7 +84,7 @@ export default () => {
       const session = localStorage.getItem(`session`)
       if (session) {
         const { address, sessionType } = JSON.parse(session)
-        dispatch(`signIn`, { address, sessionType })
+        await dispatch(`signIn`, { address, sessionType })
       }
     },
     async persistSession(store, { address, sessionType }) {
@@ -90,7 +101,6 @@ export default () => {
       commit(`setSignIn`, true)
       commit(`setSessionType`, sessionType)
       commit(`setUserAddress`, address)
-      await dispatch(`loadPersistedState`)
       await dispatch(`initializeWallet`, { address })
       dispatch(`persistSession`, {
         address,
@@ -146,17 +156,6 @@ export default () => {
 
       state.errorCollection = enabled
       dispatch(`storeLocalPreferences`)
-
-      if (state.errorCollection && !state.externals.config.development) {
-        state.externals.Sentry.init({
-          dsn: state.externals.config.sentry_dsn,
-          release: state.externals.config.version
-        })
-        console.log(`Error collection has been enabled`)
-      } else {
-        console.log(`Error collection has been disabled`)
-        state.externals.Sentry.init({})
-      }
     },
     setAnalyticsCollection({ state, dispatch }, enabled) {
       // don't track in development

@@ -4,14 +4,14 @@
     ref="actionModal"
     :transaction-data="transactionData"
     :notify-message="notifyMessage"
-    title="Withdraw"
+    title="Claim Rewards"
     class="modal-withdraw-rewards"
     submission-error-prefix="Withdrawal failed"
     :disable="validatorsWithRewards"
   >
     <span class="form-message notice withdraw-limit">
       Lunie will only withdraw rewards from 5 validators at a time because of a
-      limitation with the Ledger Nano S.
+      limitation with the Ledger Nano&nbsp;S.
     </span>
     <TmFormGroup
       class="action-modal-form-group"

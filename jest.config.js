@@ -11,12 +11,12 @@ module.exports = {
     "^src/(.*)$": `<rootDir>/src/$1`,
     "^assets/(.*)$": `<rootDir>/src/assets/$1`,
     "^common/(.*)$": `<rootDir>/src/components/common/$1`,
-    "^transactions/(.*)$": `<rootDir>/src/components/transactions/$1`,
     "^governance/(.*)$": `<rootDir>/src/components/governance/$1`,
-    "^monitor/(.*)$": `<rootDir>/src/components/monitor/$1`,
+    "^network/(.*)$": `<rootDir>/src/components/network/$1`,
     "^staking/(.*)$": `<rootDir>/src/components/staking/$1`,
-    "^scripts/(.*)$": `<rootDir>/src/scripts/$1`,
+    "^transactions/(.*)$": `<rootDir>/src/components/transactions/$1`,
     "^wallet/(.*)$": `<rootDir>/src/components/wallet/$1`,
+    "^scripts/(.*)$": `<rootDir>/src/scripts/$1`,
     "^modules/(.*)$": `<rootDir>/src/vuex/modules/$1`,
     "^tests/(.*)$": `<rootDir>/tests/$1`,
     "^.+\\.(css)$": "<rootDir>/tests/unit/helpers/emptyModule.js"
@@ -30,5 +30,10 @@ module.exports = {
     "jest-watch-typeahead/filename",
     "jest-watch-typeahead/testname"
   ],
-  setupFiles: [`./tests/unit/helpers/fixed_time.js`, `jest-localstorage-mock`]
+  setupFiles: [
+    `./tests/unit/helpers/fixed_time.js`,
+    `./tests/unit/helpers/window_mock.js`,
+    `./tests/unit/helpers/console_error_throw.js`,
+    `jest-localstorage-mock`
+  ]
 }

@@ -1,15 +1,12 @@
 "use strict"
 
-import moment from "moment"
-import PageProposal from "src/components/governance/PageProposal"
-
+import PageProposal from "governance/PageProposal"
 import { proposals, tallies } from "../../store/json/proposals"
 import { governanceParameters } from "../../store/json/parameters"
 import { createLocalVue, shallowMount } from "@vue/test-utils"
 import Vuex from "vuex"
 import Vuelidate from "vuelidate"
 
-const proposal = proposals[`2`]
 const multiplier = 100000000
 
 describe(`PageProposal`, () => {
@@ -21,17 +18,25 @@ describe(`PageProposal`, () => {
   localVue.directive(`tooltip`, () => {})
   localVue.directive(`focus`, () => {})
 
-  const getters = {
-    depositDenom: governanceParameters.parameters.deposit.min_deposit[0].denom,
-    proposals: { proposals, tallies, loaded: true },
-    connected: true,
+  const state = {
     governanceParameters: { ...governanceParameters, loaded: true },
-    wallet: {
-      address: `X`
-    },
+    proposals: { proposals, tallies, loaded: true },
     session: {
       signedIn: true
+    },
+    pool: {
+      pool: {
+        bonded_tokens: 10000
+      }
+    },
+    wallet: {
+      address: `X`
     }
+  }
+
+  const getters = {
+    depositDenom: governanceParameters.parameters.deposit.min_deposit[0].denom,
+    connected: true
   }
   let args
 
@@ -39,7 +44,8 @@ describe(`PageProposal`, () => {
     $store = {
       commit: jest.fn(),
       dispatch: jest.fn(),
-      getters
+      getters,
+      state
     }
     args = {
       localVue,
@@ -56,17 +62,17 @@ describe(`PageProposal`, () => {
   describe(`should display proposal page`, () => {
     it(`if user has signed in`, async () => {
       wrapper = shallowMount(PageProposal, args)
-      expect(wrapper.vm.$el).toMatchSnapshot()
+      expect(wrapper.element).toMatchSnapshot()
     })
 
     it(`should default tally to 0 if it's not yet present `, () => {
       wrapper.vm.proposals.tallies = {}
-      expect(wrapper.vm.$el).toMatchSnapshot()
+      expect(wrapper.element).toMatchSnapshot()
     })
 
     it("should show a loader if the necessary data hasen't been loaded", () => {
       wrapper.vm.governanceParameters.loaded = false
-      expect(wrapper.vm.$el).toMatchSnapshot()
+      expect(wrapper.element).toMatchSnapshot()
 
       // needed to reset as somehow this causes sideeffects
       wrapper.vm.governanceParameters.loaded = true
@@ -76,9 +82,10 @@ describe(`PageProposal`, () => {
       $store = {
         commit: jest.fn(),
         dispatch: jest.fn(),
+        state,
         getters: JSON.parse(JSON.stringify(getters))
       }
-      $store.getters.governanceParameters.loaded = false
+      $store.state.governanceParameters.loaded = false
       args = {
         localVue,
         propsData: {
@@ -100,8 +107,7 @@ describe(`PageProposal`, () => {
     $store = {
       commit: jest.fn(),
       dispatch: jest.fn(),
-      getters: {
-        ...getters,
+      state: {
         proposals: {
           proposals,
           tallies: {
@@ -117,11 +123,19 @@ describe(`PageProposal`, () => {
         governanceParameters: {
           loaded: true,
           ...governanceParameters
+        },
+        pool: {
+          pool: {
+            bonded_tokens: 10000
+          }
         }
+      },
+      getters: {
+        ...getters
       }
     }
     wrapper = shallowMount(PageProposal, { ...args, mocks: { $store } })
-    expect(wrapper.vm.$el).toMatchSnapshot()
+    expect(wrapper.element).toMatchSnapshot()
   })
 
   it(`shows an error if the proposal couldn't be found`, () => {
@@ -129,7 +143,8 @@ describe(`PageProposal`, () => {
       ...args,
       propsData: { proposalId: `666` }
     })
-    expect(wrapper.vm.$el).toMatchSnapshot()
+    wrapper.setData({ governanceParameters: { loaded: true } })
+    expect(wrapper.element).toMatchSnapshot()
   })
 
   it(`should return the time of submission `, () => {
@@ -138,18 +153,6 @@ describe(`PageProposal`, () => {
 
   it(`should return the time that voting started`, () => {
     expect(wrapper.vm.votingStartedAgo).toEqual(`January 3rd 1970, 00:00`)
-  })
-
-  it(`should return the time the vote ends`, () => {
-    expect(wrapper.vm.endDate).toEqual(
-      moment(proposal.voting_end_time).format("MMMM Do YYYY, HH:mm")
-    )
-  })
-
-  it(`should return the time when deposits end`, () => {
-    expect(wrapper.vm.depositEndsIn).toEqual(
-      moment(new Date(proposal.deposit_end_time)).fromNow()
-    )
   })
 
   describe(`Proposal status`, () => {
@@ -242,10 +245,17 @@ describe(`PageProposal`, () => {
       ])
       expect(thisIs.lastVote).toEqual({ voter: `X`, vote: `yes` })
     })
+  })
 
-    it(`disables voting if the proposal is on the 'DepositPeriod'`, () => {
-      wrapper.setProps({ proposalId: `5` })
-      expect(wrapper.find(`#vote-btn`).exists()).toEqual(false)
+  describe(`Modal onDeposit`, () => {
+    it(`opens deposit modal`, async () => {
+      const self = {
+        $refs: { modalDeposit: { open: jest.fn() } }
+      }
+
+      await PageProposal.methods.onDeposit.call(self)
+
+      expect(self.$refs.modalDeposit.open).toHaveBeenCalled()
     })
   })
 })

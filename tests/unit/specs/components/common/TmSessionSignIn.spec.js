@@ -12,8 +12,7 @@ describe(`TmSessionSignIn`, () => {
     $store = {
       commit: jest.fn(),
       dispatch: jest.fn(() => true),
-      getters: {
-        connected: true,
+      state: {
         keystore: {
           accounts: [
             {
@@ -21,8 +20,7 @@ describe(`TmSessionSignIn`, () => {
               name: `my_account`
             }
           ]
-        },
-        mockedConnector: false
+        }
       }
     }
 
@@ -38,7 +36,7 @@ describe(`TmSessionSignIn`, () => {
   })
 
   it(`has the expected html structure`, () => {
-    expect(wrapper.vm.$el).toMatchSnapshot()
+    expect(wrapper.element).toMatchSnapshot()
   })
 
   it(`should close the modal on successful login`, async () => {

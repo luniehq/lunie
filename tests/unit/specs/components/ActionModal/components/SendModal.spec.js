@@ -17,30 +17,35 @@ describe(`SendModal`, () => {
     {
       denom: `fermion`,
       amount: 2300
+    },
+    {
+      denom: `EMPTY_BALANCE`,
+      amount: 0
     }
   ]
   const getters = {
-    wallet: {
-      loading: false,
-      denoms: [`fermion`, `gregcoin`, `mycoin`, `STAKE`],
-      balances
-    },
     connected: true,
     session: { signedIn: true, address: "cosmos1234" }
+  }
+
+  const state = {
+    wallet: {
+      loading: false,
+      denoms: [`fermion`, `gregcoin`, `mycoin`, `STAKE`, `EMPTY_BALANCE`],
+      balances
+    }
   }
 
   beforeEach(async () => {
     $store = {
       commit: jest.fn(),
       dispatch: jest.fn(),
-      getters
+      getters,
+      state
     }
 
     wrapper = shallowMount(SendModal, {
       localVue,
-      propsData: {
-        denom: `STAKE`
-      },
       mocks: {
         $store
       },
@@ -51,10 +56,11 @@ describe(`SendModal`, () => {
       submit: cb => cb(),
       open: jest.fn()
     }
+    wrapper.vm.open("stake")
   })
 
   it(`should display send modal form`, async () => {
-    expect(wrapper.vm.$el).toMatchSnapshot()
+    expect(wrapper.element).toMatchSnapshot()
   })
 
   it(`clears on close`, () => {
@@ -69,12 +75,11 @@ describe(`SendModal`, () => {
     expect(self.amount).toBe(undefined)
   })
 
-  it(`shows the memo input if desired`, () => {
-    wrapper.setData({
-      editMemo: true
-    })
+  it(`shows the memo input if desired`, async () => {
+    wrapper.find("#edit-memo-btn").trigger("click")
+    await wrapper.vm.$nextTick()
 
-    expect(wrapper.exists("#memo")).toBe(true)
+    expect(wrapper.find("#memo").isVisible()).toBe(true)
   })
 
   describe(`validation`, () => {
@@ -87,7 +92,7 @@ describe(`SendModal`, () => {
       wrapper.vm.validateForm()
       await wrapper.vm.$nextTick()
       expect(wrapper.vm.$v.$error).toBe(true)
-      expect(wrapper.vm.$el).toMatchSnapshot()
+      expect(wrapper.element).toMatchSnapshot()
     })
     it(`should show bech32 error when address length is too short`, async () => {
       wrapper.setData({
@@ -98,7 +103,7 @@ describe(`SendModal`, () => {
       wrapper.vm.validateForm()
       await wrapper.vm.$nextTick()
       expect(wrapper.vm.$v.$error).toBe(true)
-      expect(wrapper.vm.$el).toMatchSnapshot()
+      expect(wrapper.element).toMatchSnapshot()
     })
 
     it(`should show bech32 error when address length is too long`, async () => {
@@ -110,7 +115,7 @@ describe(`SendModal`, () => {
       wrapper.vm.validateForm()
       await wrapper.vm.$nextTick()
       expect(wrapper.vm.$v.$error).toBe(true)
-      expect(wrapper.vm.$el).toMatchSnapshot()
+      expect(wrapper.element).toMatchSnapshot()
     })
     it(`should show bech32 error when alphanumeric is wrong`, async () => {
       wrapper.setData({
@@ -118,7 +123,7 @@ describe(`SendModal`, () => {
       })
       expect(wrapper.vm.validateForm()).toBe(false)
       await wrapper.vm.$nextTick()
-      expect(wrapper.vm.$el).toMatchSnapshot()
+      expect(wrapper.element).toMatchSnapshot()
     })
   })
 
@@ -170,6 +175,48 @@ describe(`SendModal`, () => {
     expect(wrapper.vm.notifyMessage).toEqual({
       title: `Successful Send`,
       body: `Successfully sent 2 STAKEs to cosmos12345`
+    })
+  })
+
+  describe(`if amount field max button clicked`, () => {
+    it(`amount has to be 10000 atom`, async () => {
+      wrapper.setData({
+        denom: `STAKE`,
+        address: `cosmos12345`
+      })
+      wrapper.vm.setMaxAmount()
+      expect(wrapper.vm.amount).toBe(10000)
+    })
+    it(`should show warning message`, async () => {
+      wrapper.setData({
+        denom: `STAKE`,
+        address: `cosmos12345`
+      })
+      wrapper.vm.setMaxAmount()
+      await wrapper.vm.$nextTick()
+      expect(wrapper.html()).toContain(
+        "You are about to use all your tokens for this transaction. Consider leaving a little bit left over to cover the network fees."
+      )
+    })
+    it(`should not show warning message if balance = 0`, async () => {
+      wrapper.setData({
+        denom: `EMPTY_BALANCE`,
+        address: `cosmos12345`
+      })
+      wrapper.vm.setMaxAmount()
+      await wrapper.vm.$nextTick()
+      expect(wrapper.html()).not.toContain(
+        "You are about to use all your tokens for this transaction. Consider leaving a little bit left over to cover the network fees."
+      )
+    })
+    it(`isMaxAmount() should return false if balance = 0`, async () => {
+      wrapper.setData({
+        denom: `EMPTY_BALANCE`,
+        address: `cosmos12345`
+      })
+      wrapper.vm.setMaxAmount()
+      await wrapper.vm.$nextTick()
+      expect(wrapper.vm.isMaxAmount()).toBe(false)
     })
   })
 })

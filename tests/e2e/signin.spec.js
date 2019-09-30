@@ -12,8 +12,10 @@ module.exports = {
     )
     browser.setValue("#sign-in-password", "1234567890")
     await next(browser)
+    // check if signed in
+    browser.waitForElementNotPresent(".session")
     openMenu(browser)
-    browser.waitForElementVisible("#mobile-sign-out")
+    browser.waitForElementVisible("#sign-out")
   },
   "Create local account": async function(browser) {
     prepare(browser)
@@ -45,9 +47,10 @@ module.exports = {
 
     browser.click("#sign-up-warning")
     await next(browser)
-    // signs in
+    // check if signed in
+    browser.waitForElementNotPresent(".session")
     openMenu(browser)
-    browser.waitForElementVisible("#mobile-sign-out")
+    browser.waitForElementVisible("#sign-out")
   },
   "Import local account": async function(browser) {
     prepare(browser)
@@ -81,9 +84,10 @@ module.exports = {
       `lab stable vessel rose donkey panel slim assault cause tenant level yellow sport argue rural pizza supply idea detect brass shift aunt matrix simple`
     )
     await next(browser)
-    // signs in
+    // check if signed in
+    browser.waitForElementNotPresent(".session")
     openMenu(browser)
-    browser.waitForElementVisible("#mobile-sign-out")
+    browser.waitForElementVisible("#sign-out")
   }
 }
 
@@ -97,7 +101,7 @@ async function next(browser) {
     [".session", 0, 500]
   )
   browser.pause(200)
-  return browser.click(".session-footer .tm-btn")
+  return browser.click(".session-footer .button")
 }
 
 function openMenu(browser) {
@@ -108,14 +112,14 @@ function openMenu(browser) {
 
 function signOut(browser) {
   openMenu(browser)
-  browser.waitForElementVisible("#mobile-sign-out")
-  browser.click("#mobile-sign-out")
+  browser.waitForElementVisible("#sign-out")
+  browser.click("#sign-out")
 }
 
 function signIn(browser) {
   openMenu(browser)
-  browser.waitForElementVisible("#mobile-sign-in")
-  browser.click("#mobile-sign-in")
+  browser.waitForElementVisible("#sign-in")
+  browser.click("#sign-in")
 }
 
 function prepare(browser) {

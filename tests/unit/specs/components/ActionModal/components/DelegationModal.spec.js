@@ -22,12 +22,15 @@ describe(`DelegationModal`, () => {
   localVue.use(Vuelidate)
   localVue.directive("focus", () => {})
 
-  const getters = {
-    connection: { connected: true },
+  const state = {
     session: {
       signedIn: true,
       address: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw`
-    },
+    }
+  }
+
+  const getters = {
+    connection: { connected: true },
     stakingParameters: { parameters: stakingParameters },
     modalContext: {
       ...context,
@@ -39,7 +42,7 @@ describe(`DelegationModal`, () => {
     wrapper = shallowMount(DelegationModal, {
       localVue,
       mocks: {
-        $store: { getters }
+        $store: { getters, state }
       },
       propsData: {
         validator: mockValues.state.candidates[0],
@@ -70,7 +73,7 @@ describe(`DelegationModal`, () => {
   })
 
   it(`should display the delegation modal form`, async () => {
-    expect(wrapper.vm.$el).toMatchSnapshot()
+    expect(wrapper.element).toMatchSnapshot()
   })
 
   it(`should submit when enterPressed is called`, async () => {
@@ -87,6 +90,12 @@ describe(`DelegationModal`, () => {
     expect($refs.actionModal.open).toHaveBeenCalled()
   })
 
+  it(`opens and switches to redelegaion when selected`, () => {
+    wrapper.vm.$refs = { actionModal: { open: jest.fn() } }
+    wrapper.vm.open({ redelegation: true })
+    expect(wrapper.vm.selectedIndex).toBe(1)
+  })
+
   it(`clears on close`, () => {
     const self = {
       $v: { $reset: jest.fn() },
@@ -97,6 +106,13 @@ describe(`DelegationModal`, () => {
     expect(self.$v.$reset).toHaveBeenCalled()
     expect(self.selectedIndex).toBe(0)
     expect(self.amount).toBeNull()
+  })
+
+  describe(`if amount field max button clicked`, () => {
+    it(`amount has to be 1000 atom`, async () => {
+      wrapper.vm.setMaxAmount()
+      expect(wrapper.vm.amount).toBe(1000)
+    })
   })
 
   describe(`validation`, () => {
@@ -118,6 +134,7 @@ describe(`DelegationModal`, () => {
       })
     })
   })
+
   describe("Submission Data for Delegating", () => {
     beforeEach(() => {
       wrapper.setData({
@@ -173,6 +190,29 @@ describe(`DelegationModal`, () => {
         title: `Successful redelegation!`,
         body: `You have successfully redelegated your STAKEs`
       })
+    })
+  })
+
+  describe(`if amount field max button clicked`, () => {
+    it(`amount has to be 1000 atom`, async () => {
+      wrapper.setData({
+        amount: 1,
+        selectedIndex: 0,
+        validator: mockValues.state.candidates[1]
+      })
+      wrapper.vm.setMaxAmount()
+      expect(wrapper.vm.amount).toBe(1000)
+    })
+    it(`should show warning message`, async () => {
+      wrapper.setData({
+        amount: 1000,
+        selectedIndex: 0,
+        validator: mockValues.state.candidates[1]
+      })
+      //await wrapper.vm.$nextTick()
+      expect(wrapper.html()).toContain(
+        "You are about to use all your tokens for this transaction. Consider leaving a little bit left over to cover the network fees."
+      )
     })
   })
 })

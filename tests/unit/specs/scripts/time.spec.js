@@ -36,7 +36,7 @@ const constantDate = new Date()
 
 describe(`time helper`, () => {
   describe(`getUnbondTimeFromTX`, () => {
-    it(`should return NaN with wrong transactions`, () => {
+    it(`should return null with wrong transactions`, () => {
       expect(
         getUnbondTimeFromTX(wrongTransactionType, {
           [`cosmosxyz`]: [
@@ -46,10 +46,10 @@ describe(`time helper`, () => {
             }
           ]
         })
-      ).toBe(NaN)
+      ).toBe(null)
     })
 
-    it(`should return NaN for unbonding transactions when height does not match`, () => {
+    it(`should return null for unbonding transactions when height does not match`, () => {
       expect(
         getUnbondTimeFromTX(unbondingTransaction, {
           [`cosmos4`]: [
@@ -59,7 +59,7 @@ describe(`time helper`, () => {
             }
           ]
         })
-      ).toBe(NaN)
+      ).toBe(null)
     })
 
     it(`should return time for unbonding transactions when height match`, () => {

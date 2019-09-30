@@ -13,13 +13,14 @@
           route="explore"
         />
         <LiSession
+          v-if="!isMobileApp"
           id="use-ledger-nano"
           icon="vpn_key"
           title="Use Ledger Nano"
           route="ledger"
         />
         <LiSession
-          v-if="session.experimentalMode || extension.enabled"
+          v-if="!isMobileApp"
           id="use-extension"
           icon="laptop"
           title="Use Lunie Browser Extension"
@@ -41,13 +42,16 @@
           route="login"
         />
       </div>
-      <router-link to="create">Want to create a new address?</router-link>
+      <router-link to="create">
+        Want to create a new address?
+      </router-link>
     </div>
   </SessionFrame>
 </template>
 
 <script>
-import { mapGetters } from "vuex"
+import config from "src/config"
+import { mapState } from "vuex"
 import LiSession from "common/TmLiSession"
 import SessionFrame from "common/SessionFrame"
 export default {
@@ -56,11 +60,17 @@ export default {
     SessionFrame,
     LiSession
   },
+  data: () => ({
+    isMobileApp: config.mobileApp
+  }),
   computed: {
-    ...mapGetters([`session`, `keystore`, `extension`]),
+    ...mapState([`session`, `keystore`, `extension`]),
     accountExists() {
       return this.keystore && this.keystore.accounts.length > 0
     }
+  },
+  created() {
+    this.$store.dispatch("loadAccounts")
   }
 }
 </script>

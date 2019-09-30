@@ -2,7 +2,9 @@
   <TmPage data-title="Careers" hide-header>
     <div class="card">
       <h1>Careers</h1>
-      <h2 class="c5">Our Mission</h2>
+      <h2 class="c5">
+        Our Mission
+      </h2>
       <p>
         Starting with Cosmos and the Cosmos Hub, we are on a mission to simplify
         the user experience for new multi-stakeholder participant owned
@@ -15,7 +17,9 @@
       <p>...And we need your help to make it happen!</p>
     </div>
     <div class="card">
-      <h2 class="c5">Open Positions</h2>
+      <h2 class="c5">
+        Open Positions
+      </h2>
       <p>
         The following are full-time roles based in Toronto or Berlin.
       </p>
@@ -53,7 +57,9 @@
       </ul>
     </div>
     <div class="card">
-      <h2 class="c5">Why You Should Join Us</h2>
+      <h2 class="c5">
+        Why You Should Join Us
+      </h2>
       <p>
         We're an experienced and well-funded team, having an impact the future
         of participant owned networks. We measure jokes per meeting and love

@@ -10,10 +10,12 @@ describe(`TmSessionSignUp`, () => {
 
   beforeEach(() => {
     const getters = {
-      connected: true,
-      session: { insecureMode: false }
+      connected: true
     }
     $store = {
+      state: {
+        session: { insecureMode: false }
+      },
       getters,
       commit: jest.fn(),
       dispatch: jest.fn(() => Promise.resolve(`seed`))
@@ -31,7 +33,7 @@ describe(`TmSessionSignUp`, () => {
   })
 
   it(`has the expected html structure`, () => {
-    expect(wrapper.vm.$el).toMatchSnapshot()
+    expect(wrapper.element).toMatchSnapshot()
   })
 
   it(`should show error if warnings not acknowledged`, () => {

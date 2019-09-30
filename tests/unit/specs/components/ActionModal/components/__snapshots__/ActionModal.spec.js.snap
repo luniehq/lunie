@@ -1,11 +1,22 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`ActionModal should show the action modal on success 1`] = `
+exports[`ActionModal back button renders and functions 1`] = `
 <div
   class="action-modal"
   name="slide-fade"
   tabindex="0"
 >
+  <div
+    class="action-modal-icon action-modal-prev"
+    id="prevBtn"
+  >
+    <i
+      class="material-icons"
+    >
+      arrow_back
+    </i>
+  </div>
+   
   <div
     class="action-modal-icon action-modal-close"
     id="closeBtn"
@@ -23,13 +34,194 @@ exports[`ActionModal should show the action modal on success 1`] = `
     <span
       class="action-modal-title"
     >
-      
-        Action Modal
-      
+      Action Modal
     </span>
+     
+    <steps-stub
+      activestep="sign"
+      steps="Details,Fees,Sign"
+    />
      
     <!---->
   </div>
+   
+  <!---->
+   
+  <div
+    class="action-modal-form"
+  >
+    <!---->
+     
+    <!---->
+     
+    <form>
+      <tmformgroup-stub
+        class="action-modal-group"
+        fieldid="password"
+        fieldlabel="Password"
+      >
+        <tmfield-stub
+          id="password"
+          placeholder="Password"
+          type="password"
+        />
+         
+        <!---->
+      </tmformgroup-stub>
+    </form>
+  </div>
+   
+  <div
+    class="action-modal-footer"
+  >
+    <tmformgroup-stub
+      class="action-modal-group"
+    >
+      <div>
+        <tmbtn-stub
+          color="primary"
+          disabled="true"
+          value="Send"
+        />
+      </div>
+    </tmformgroup-stub>
+     
+    <!---->
+  </div>
+</div>
+`;
+
+exports[`ActionModal runs validation and changes step on sign step should dispaly warning when using an address not in the extension 1`] = `
+<div
+  class="action-modal"
+  name="slide-fade"
+  tabindex="0"
+>
+  <div
+    class="action-modal-icon action-modal-prev"
+    id="prevBtn"
+  >
+    <i
+      class="material-icons"
+    >
+      arrow_back
+    </i>
+  </div>
+   
+  <div
+    class="action-modal-icon action-modal-close"
+    id="closeBtn"
+  >
+    <i
+      class="material-icons"
+    >
+      close
+    </i>
+  </div>
+   
+  <div
+    class="action-modal-header"
+  >
+    <span
+      class="action-modal-title"
+    >
+      Action Modal
+    </span>
+     
+    <steps-stub
+      activestep="sign"
+      steps="Details,Fees,Sign"
+    />
+     
+    <p
+      class="form-message notice extension-address"
+    >
+      
+        The address you are trying to send with is not available in the
+        extension.
+      
+    </p>
+  </div>
+   
+  <!---->
+   
+  <div
+    class="action-modal-form"
+  >
+    <!---->
+     
+    <!---->
+     
+    <hardwarestate-stub
+      icon="info"
+    >
+      <div>
+        
+            Please send the transaction to be signed in the Lunie Browser
+            Extension.
+          
+      </div>
+       
+      <!---->
+       
+      <!---->
+    </hardwarestate-stub>
+  </div>
+   
+  <div
+    class="action-modal-footer"
+  >
+    <tmformgroup-stub
+      class="action-modal-group"
+    >
+      <div>
+        <tmbtn-stub
+          color="primary"
+          disabled="true"
+          value="Send"
+        />
+      </div>
+    </tmformgroup-stub>
+     
+    <!---->
+  </div>
+</div>
+`;
+
+exports[`ActionModal should show the action modal on success 1`] = `
+<div
+  class="action-modal"
+  name="slide-fade"
+  tabindex="0"
+>
+  <!---->
+   
+  <div
+    class="action-modal-icon action-modal-close"
+    id="closeBtn"
+  >
+    <i
+      class="material-icons"
+    >
+      close
+    </i>
+  </div>
+   
+  <div
+    class="action-modal-header"
+  >
+    <span
+      class="action-modal-title"
+    >
+      Action Modal
+    </span>
+     
+    <!---->
+     
+    <!---->
+  </div>
+   
+  <!---->
    
   <div
     class="action-modal-form success-step"
@@ -39,25 +231,26 @@ exports[`ActionModal should show the action modal on success 1`] = `
     >
       <div>
         
-          Successful transaction
-        
+            Successful transaction
+          
       </div>
        
       <div>
         
-          You have successfully completed a transaction. 
+            You have successfully completed a transaction.
+            
         <br />
+         
         <br />
-        
-          Block
-          
+        Block
+            
         <router-link-stub
           to="/blocks/undefined"
         >
           #
         </router-link-stub>
         .
-        
+          
       </div>
     </tmdatamsg-stub>
   </div>
@@ -78,6 +271,8 @@ exports[`ActionModal should show the action modal waiting on inclusion 1`] = `
   name="slide-fade"
   tabindex="0"
 >
+  <!---->
+   
   <div
     class="action-modal-icon action-modal-close"
     id="closeBtn"
@@ -95,13 +290,15 @@ exports[`ActionModal should show the action modal waiting on inclusion 1`] = `
     <span
       class="action-modal-title"
     >
-      
-        Action Modal
-      
+      Action Modal
     </span>
      
     <!---->
+     
+    <!---->
   </div>
+   
+  <!---->
    
   <!---->
    
@@ -122,6 +319,17 @@ exports[`ActionModal should show the action modal when user has logged in with e
   tabindex="0"
 >
   <div
+    class="action-modal-icon action-modal-prev"
+    id="prevBtn"
+  >
+    <i
+      class="material-icons"
+    >
+      arrow_back
+    </i>
+  </div>
+   
+  <div
     class="action-modal-icon action-modal-close"
     id="closeBtn"
   >
@@ -138,16 +346,18 @@ exports[`ActionModal should show the action modal when user has logged in with e
     <span
       class="action-modal-title"
     >
-      
-        Action Modal
-      
+      Action Modal
     </span>
      
     <steps-stub
       activestep="fees"
       steps="Details,Fees,Sign"
     />
+     
+    <!---->
   </div>
+   
+  <!---->
    
   <div
     class="action-modal-form"
@@ -189,6 +399,17 @@ exports[`ActionModal should show the action modal when user has logged in with e
   tabindex="0"
 >
   <div
+    class="action-modal-icon action-modal-prev"
+    id="prevBtn"
+  >
+    <i
+      class="material-icons"
+    >
+      arrow_back
+    </i>
+  </div>
+   
+  <div
     class="action-modal-icon action-modal-close"
     id="closeBtn"
   >
@@ -205,16 +426,18 @@ exports[`ActionModal should show the action modal when user has logged in with e
     <span
       class="action-modal-title"
     >
-      
-        Action Modal
-      
+      Action Modal
     </span>
      
     <steps-stub
       activestep="sign"
       steps="Details,Fees,Sign"
     />
+     
+    <!---->
   </div>
+   
+  <!---->
    
   <div
     class="action-modal-form"
@@ -277,6 +500,8 @@ exports[`ActionModal should show the action modal when user has logged in with e
   name="slide-fade"
   tabindex="0"
 >
+  <!---->
+   
   <div
     class="action-modal-icon action-modal-close"
     id="closeBtn"
@@ -294,16 +519,18 @@ exports[`ActionModal should show the action modal when user has logged in with e
     <span
       class="action-modal-title"
     >
-      
-        Action Modal
-      
+      Action Modal
     </span>
      
     <steps-stub
       activestep="sign"
       steps="Details,Fees,Sign"
     />
+     
+    <!---->
   </div>
+   
+  <!---->
    
   <div
     class="action-modal-form"
@@ -367,6 +594,17 @@ exports[`ActionModal should show the action modal when user has logged in with e
   tabindex="0"
 >
   <div
+    class="action-modal-icon action-modal-prev"
+    id="prevBtn"
+  >
+    <i
+      class="material-icons"
+    >
+      arrow_back
+    </i>
+  </div>
+   
+  <div
     class="action-modal-icon action-modal-close"
     id="closeBtn"
   >
@@ -383,16 +621,18 @@ exports[`ActionModal should show the action modal when user has logged in with e
     <span
       class="action-modal-title"
     >
-      
-        Action Modal
-      
+      Action Modal
     </span>
      
     <steps-stub
       activestep="fees"
       steps="Details,Fees,Sign"
     />
+     
+    <!---->
   </div>
+   
+  <!---->
    
   <div
     class="action-modal-form"
@@ -434,6 +674,17 @@ exports[`ActionModal should show the action modal when user has logged in with e
   tabindex="0"
 >
   <div
+    class="action-modal-icon action-modal-prev"
+    id="prevBtn"
+  >
+    <i
+      class="material-icons"
+    >
+      arrow_back
+    </i>
+  </div>
+   
+  <div
     class="action-modal-icon action-modal-close"
     id="closeBtn"
   >
@@ -450,16 +701,18 @@ exports[`ActionModal should show the action modal when user has logged in with e
     <span
       class="action-modal-title"
     >
-      
-        Action Modal
-      
+      Action Modal
     </span>
      
     <steps-stub
       activestep="sign"
       steps="Details,Fees,Sign"
     />
+     
+    <!---->
   </div>
+   
+  <!---->
    
   <div
     class="action-modal-form"
@@ -473,9 +726,9 @@ exports[`ActionModal should show the action modal when user has logged in with e
     >
       <div>
         
-          Please send the transaction to be signed in the Lunie Browser
-          Extension.
-        
+            Please send the transaction to be signed in the Lunie Browser
+            Extension.
+          
       </div>
        
       <!---->
@@ -493,7 +746,6 @@ exports[`ActionModal should show the action modal when user has logged in with e
       <div>
         <tmbtn-stub
           color="primary"
-          disabled="true"
           value="Send"
         />
       </div>
@@ -510,6 +762,8 @@ exports[`ActionModal should show the action modal when user has logged in with e
   name="slide-fade"
   tabindex="0"
 >
+  <!---->
+   
   <div
     class="action-modal-icon action-modal-close"
     id="closeBtn"
@@ -527,16 +781,18 @@ exports[`ActionModal should show the action modal when user has logged in with e
     <span
       class="action-modal-title"
     >
-      
-        Action Modal
-      
+      Action Modal
     </span>
      
     <steps-stub
       activestep="sign"
       steps="Details,Fees,Sign"
     />
+     
+    <!---->
   </div>
+   
+  <!---->
    
   <div
     class="action-modal-form"
@@ -553,9 +809,9 @@ exports[`ActionModal should show the action modal when user has logged in with e
        
       <div>
         
-          Please open the Lunie Browser Extension, review the details, and
-          approve the transaction.
-        
+            Please open the Lunie Browser Extension, review the details, and
+            approve the transaction.
+          
       </div>
        
       <!---->
@@ -589,6 +845,17 @@ exports[`ActionModal should show the action modal when user has logged in with l
   tabindex="0"
 >
   <div
+    class="action-modal-icon action-modal-prev"
+    id="prevBtn"
+  >
+    <i
+      class="material-icons"
+    >
+      arrow_back
+    </i>
+  </div>
+   
+  <div
     class="action-modal-icon action-modal-close"
     id="closeBtn"
   >
@@ -605,16 +872,18 @@ exports[`ActionModal should show the action modal when user has logged in with l
     <span
       class="action-modal-title"
     >
-      
-        Action Modal
-      
+      Action Modal
     </span>
      
     <steps-stub
       activestep="fees"
       steps="Details,Fees,Sign"
     />
+     
+    <!---->
   </div>
+   
+  <!---->
    
   <div
     class="action-modal-form"
@@ -656,6 +925,17 @@ exports[`ActionModal should show the action modal when user has logged in with l
   tabindex="0"
 >
   <div
+    class="action-modal-icon action-modal-prev"
+    id="prevBtn"
+  >
+    <i
+      class="material-icons"
+    >
+      arrow_back
+    </i>
+  </div>
+   
+  <div
     class="action-modal-icon action-modal-close"
     id="closeBtn"
   >
@@ -672,16 +952,18 @@ exports[`ActionModal should show the action modal when user has logged in with l
     <span
       class="action-modal-title"
     >
-      
-        Action Modal
-      
+      Action Modal
     </span>
      
     <steps-stub
       activestep="sign"
       steps="Details,Fees,Sign"
     />
+     
+    <!---->
   </div>
+   
+  <!---->
    
   <div
     class="action-modal-form"
@@ -693,9 +975,9 @@ exports[`ActionModal should show the action modal when user has logged in with l
     >
       <div>
         
-          Please use Chrome, Brave, or Opera. Ledger is not supported in this
-          browser.
-        
+            Please use Chrome, Brave, or Opera. Ledger is not supported in
+            this browser.
+          
       </div>
     </hardwarestate-stub>
      
@@ -728,6 +1010,8 @@ exports[`ActionModal should show the action modal when user has logged in with l
   name="slide-fade"
   tabindex="0"
 >
+  <!---->
+   
   <div
     class="action-modal-icon action-modal-close"
     id="closeBtn"
@@ -745,16 +1029,18 @@ exports[`ActionModal should show the action modal when user has logged in with l
     <span
       class="action-modal-title"
     >
-      
-        Action Modal
-      
+      Action Modal
     </span>
      
     <steps-stub
       activestep="sign"
       steps="Details,Fees,Sign"
     />
+     
+    <!---->
   </div>
+   
+  <!---->
    
   <div
     class="action-modal-form"
@@ -767,9 +1053,9 @@ exports[`ActionModal should show the action modal when user has logged in with l
     >
       <div>
         
-          Please use Chrome, Brave, or Opera. Ledger is not supported in this
-          browser.
-        
+            Please use Chrome, Brave, or Opera. Ledger is not supported in
+            this browser.
+          
       </div>
     </hardwarestate-stub>
      
@@ -803,6 +1089,17 @@ exports[`ActionModal should show the action modal when user has logged in with l
   tabindex="0"
 >
   <div
+    class="action-modal-icon action-modal-prev"
+    id="prevBtn"
+  >
+    <i
+      class="material-icons"
+    >
+      arrow_back
+    </i>
+  </div>
+   
+  <div
     class="action-modal-icon action-modal-close"
     id="closeBtn"
   >
@@ -819,16 +1116,18 @@ exports[`ActionModal should show the action modal when user has logged in with l
     <span
       class="action-modal-title"
     >
-      
-        Action Modal
-      
+      Action Modal
     </span>
      
     <steps-stub
       activestep="fees"
       steps="Details,Fees,Sign"
     />
+     
+    <!---->
   </div>
+   
+  <!---->
    
   <div
     class="action-modal-form"
@@ -870,6 +1169,17 @@ exports[`ActionModal should show the action modal when user has logged in with l
   tabindex="0"
 >
   <div
+    class="action-modal-icon action-modal-prev"
+    id="prevBtn"
+  >
+    <i
+      class="material-icons"
+    >
+      arrow_back
+    </i>
+  </div>
+   
+  <div
     class="action-modal-icon action-modal-close"
     id="closeBtn"
   >
@@ -886,16 +1196,18 @@ exports[`ActionModal should show the action modal when user has logged in with l
     <span
       class="action-modal-title"
     >
-      
-        Action Modal
-      
+      Action Modal
     </span>
      
     <steps-stub
       activestep="sign"
       steps="Details,Fees,Sign"
     />
+     
+    <!---->
   </div>
+   
+  <!---->
    
   <div
     class="action-modal-form"
@@ -947,6 +1259,8 @@ exports[`ActionModal should show the action modal when user has logged in with l
   name="slide-fade"
   tabindex="0"
 >
+  <!---->
+   
   <div
     class="action-modal-icon action-modal-close"
     id="closeBtn"
@@ -964,16 +1278,18 @@ exports[`ActionModal should show the action modal when user has logged in with l
     <span
       class="action-modal-title"
     >
-      
-        Action Modal
-      
+      Action Modal
     </span>
      
     <steps-stub
       activestep="sign"
       steps="Details,Fees,Sign"
     />
+     
+    <!---->
   </div>
+   
+  <!---->
    
   <div
     class="action-modal-form"
@@ -1025,6 +1341,8 @@ exports[`ActionModal should show the action modal when user hasn't logged in 1`]
   name="slide-fade"
   tabindex="0"
 >
+  <!---->
+   
   <div
     class="action-modal-icon action-modal-close"
     id="closeBtn"
@@ -1042,16 +1360,18 @@ exports[`ActionModal should show the action modal when user hasn't logged in 1`]
     <span
       class="action-modal-title"
     >
-      
-        Sign in required
-      
+      Sign in required
     </span>
      
     <steps-stub
       activestep="details"
       steps="Details,Fees,Sign"
     />
+     
+    <!---->
   </div>
+   
+  <!---->
    
   <div
     class="action-modal-form"
@@ -1060,8 +1380,144 @@ exports[`ActionModal should show the action modal when user hasn't logged in 1`]
       class="form-message notice"
     >
       
-        You need to sign in to submit a transaction.
+          You need to sign in to submit a transaction.
+        
+    </p>
+  </div>
+   
+  <div
+    class="action-modal-footer"
+  >
+    <tmformgroup-stub
+      class="action-modal-group"
+    >
+      <div>
+        <tmbtn-stub
+          color="primary"
+          value="Sign In"
+        />
+      </div>
+    </tmformgroup-stub>
+     
+    <!---->
+  </div>
+</div>
+`;
+
+exports[`ActionModal shows a feature unavailable message 1`] = `
+<div
+  class="action-modal"
+  name="slide-fade"
+  tabindex="0"
+>
+  <!---->
+   
+  <div
+    class="action-modal-icon action-modal-close"
+    id="closeBtn"
+  >
+    <i
+      class="material-icons"
+    >
+      close
+    </i>
+  </div>
+   
+  <div
+    class="action-modal-header"
+  >
+    <span
+      class="action-modal-title"
+    >
+      Action Modal
+    </span>
+     
+    <steps-stub
+      activestep="details"
+      steps="Details,Fees,Sign"
+    />
+     
+    <!---->
+  </div>
+   
+  <!---->
+   
+  <div
+    class="action-modal-form"
+  />
+   
+  <div
+    class="action-modal-footer"
+  >
+    <tmformgroup-stub
+      class="action-modal-group"
+    >
+      <div>
+        <tmbtn-stub
+          color="primary"
+          value="Next"
+        />
+      </div>
+    </tmformgroup-stub>
+     
+    <!---->
+  </div>
+</div>
+`;
+
+exports[`ActionModal windows shows windows warning 1`] = `
+<div
+  class="action-modal"
+  name="slide-fade"
+  tabindex="0"
+>
+  <!---->
+   
+  <div
+    class="action-modal-icon action-modal-close"
+    id="closeBtn"
+  >
+    <i
+      class="material-icons"
+    >
+      close
+    </i>
+  </div>
+   
+  <div
+    class="action-modal-header"
+  >
+    <span
+      class="action-modal-title"
+    >
+      Sign in required
+    </span>
+     
+    <steps-stub
+      activestep="details"
+      steps="Details,Fees,Sign"
+    />
+     
+    <!---->
+  </div>
+   
+  <p
+    class="form-message notice"
+  >
+    
+        WINDOWS WARNING MESSAGE
       
+  </p>
+   
+  <div
+    class="action-modal-form"
+  >
+    <p
+      class="form-message notice"
+    >
+      
+          You need to sign in to submit a transaction.
+        
     </p>
   </div>
    

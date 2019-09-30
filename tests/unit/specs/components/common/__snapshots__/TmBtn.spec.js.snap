@@ -2,100 +2,60 @@
 
 exports[`TmBtn allows for customization 1`] = `
 <button
-  class="tm-btn"
->
-  <span
-    class="tm-btn__container tm-btn__icon-right tm-btn--size-sm tm-btn--danger"
-  >
-    <!---->
-    <span
-      class="tm-btn__value"
-    >
-      button
-    </span>
-  </span>
-</button>
-`;
-
-exports[`TmBtn displays as a link 1`] = `
-<router-link
-  exact="exact"
-  to="/stake"
+  class="button"
 >
   
   button
 
-</router-link>
+</button>
+`;
+
+exports[`TmBtn displays as a link 1`] = `
+<button
+  class="button"
+>
+  
+  button
+
+</button>
 `;
 
 exports[`TmBtn displays as an external link 1`] = `
-<a>
-  <span
-    class="tm-btn__container"
-  >
-    <!---->
-    <span
-      class="tm-btn__value"
-    >
-      button
-    </span>
-  </span>
-</a>
+<button
+  class="button"
+>
+  
+  button
+
+</button>
 `;
 
 exports[`TmBtn displays as an icon 1`] = `
 <button
-  class="tm-btn"
+  class="button"
 >
-  <span
-    class="tm-btn__container"
-  >
-    <i
-      aria-hidden="true"
-      class="tm-btn__icon material-icons"
-    >
-      
-      search 
-    </i>
-    <span
-      class="tm-btn__value"
-    >
-      button
-    </span>
-  </span>
+  
+  button
+
 </button>
 `;
 
 exports[`TmBtn displays as an img as an icon 1`] = `
 <button
-  class="tm-btn"
+  class="button"
 >
-  <span
-    class="tm-btn__container"
-  >
-    <!---->
-    <span
-      class="tm-btn__value"
-    >
-      button
-    </span>
-  </span>
+  
+  button
+
 </button>
 `;
 
 exports[`TmBtn has the expected html structure 1`] = `
 <button
-  class="tm-btn"
+  class="button"
 >
-  <span
-    class="tm-btn__container"
-  >
-    <!---->
-    <span
-      class="tm-btn__value"
-    >
-      button
-    </span>
-  </span>
+  
+  button
+
 </button>
 `;

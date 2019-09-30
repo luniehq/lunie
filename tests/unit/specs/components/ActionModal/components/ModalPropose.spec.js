@@ -24,7 +24,9 @@ describe(`ModalPropose`, () => {
       getters: {
         session: { signedIn: true },
         connection: { connected: true },
-        liquidAtoms: 200000000,
+        liquidAtoms: 200000000
+      },
+      state: {
         wallet: {
           balances: [{ denom: `uatom`, amount: `20000000` }],
           loading: false
@@ -44,7 +46,7 @@ describe(`ModalPropose`, () => {
   })
 
   it(`should display proposal modal form`, () => {
-    expect(wrapper.vm.$el).toMatchSnapshot()
+    expect(wrapper.element).toMatchSnapshot()
   })
 
   it(`opens`, () => {

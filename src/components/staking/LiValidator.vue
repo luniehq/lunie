@@ -1,7 +1,7 @@
 <template>
   <tr
-    class="data-table__row li-validator"
-    :data-moniker="validator.description.moniker"
+    class="li-validator"
+    :data-moniker="validator.moniker"
     @click="
       $router.push({
         name: 'validator',
@@ -9,147 +9,175 @@
       })
     "
   >
-    <td class="data-table__row__info">
-      <img
-        v-if="validator.keybase && validator.keybase.avatarUrl"
-        :src="validator.keybase.avatarUrl"
-        class="data-table__row__info__image"
-        :alt="`validator logo for ` + validator.description.moniker"
-      />
-      <img
-        v-else
-        class="
-          data-table__row__info__image
-          data-table__row__info__image--no-img
-        "
-        src="~assets/images/validator-icon.svg"
-        alt="generic validator logo - graphic triangle supporting atom token"
-      />
-      <div class="data-table__row__info__container">
+    <td>{{ index + 1 }}</td>
+    <td class="hide-xs">
+      <div class="status-container">
         <span
-          v-tooltip.top="status"
-          :class="statusColor"
-          class="data-table__row__info__container__status"
-        />
-        <span class="data-table__row__info__container__name">
-          {{ validator.description.moniker }}
+          :class="status | toLower"
+          class="validator-status"
+          :title="status_detailed"
+        >
+          {{ status }}
         </span>
-        <div class="data-table__row__info__container__description">
-          <Bech32 :address="validator.operator_address" />
+      </div>
+    </td>
+    <td class="data-table__row__info">
+      <Avatar
+        v-if="!validator || !validator.avatarUrl"
+        class="li-validator-image"
+        alt="generic validator logo - generated avatar from address"
+        :address="validator.operator_address"
+      />
+      <img
+        v-else-if="validator && validator.avatarUrl"
+        :src="validator.avatarUrl"
+        class="li-validator-image"
+        :alt="`validator logo for ` + validator.moniker"
+      />
+      <div class="validator-info">
+        <h3 class="li-validator-name">
+          {{ validator.moniker }}
+        </h3>
+        <div v-if="validator.my_delegations > 0">
+          <h4>
+            {{ validator.my_delegations | atoms | shortDecimals }}
+          </h4>
+          <h5 v-if="validator.rewards > 0">
+            +{{ validator.rewards | atoms | shortDecimals }}
+          </h5>
         </div>
       </div>
     </td>
-    <td :class="{ 'hide-xs': showOnMobile !== 'my_delegations' }">
+    <td :class="{ 'hide-xs': showOnMobile !== 'expectedReturns' }">
       {{
-        validator.my_delegations
-          ? num.shortDecimals(num.atoms(validator.my_delegations))
-          : `--`
-      }}
-    </td>
-    <td :class="{ 'hide-xs': showOnMobile !== 'rewards' }">
-      {{
-        validator.rewards
-          ? num.shortDecimals(num.atoms(validator.rewards))
-          : `--`
+        validator.expectedReturns ? percent(validator.expectedReturns) : `--`
       }}
     </td>
     <td :class="{ 'hide-xs': showOnMobile !== 'voting-power' }">
-      {{ validator.tokens ? percentOfVotingPower : `--` }}
-    </td>
-    <td :class="{ 'hide-xs': showOnMobile !== 'commission' }">
-      {{ validator.commission ? num.percent(validator.commission) : `--` }}
-    </td>
-    <td :class="{ 'hide-xs': showOnMobile !== 'uptime' }">
-      {{ validator.uptime ? num.percent(validator.uptime) : `--` }}
-    </td>
-    <td :class="{ 'hide-xs': showOnMobile !== 'expectedReturns' }">
-      {{
-        validator.expectedReturns
-          ? num.percent(validator.expectedReturns)
-          : `--`
-      }}
+      {{ validator.voting_power | percent }}
     </td>
   </tr>
 </template>
 
 <script>
-import { mapGetters } from "vuex"
-import num from "scripts/num"
-import Bech32 from "common/Bech32"
-import BN from "bignumber.js"
+import { percent, shortDecimals, atoms } from "scripts/num"
+import Avatar from "common/Avatar"
+
 export default {
   name: `li-validator`,
   components: {
-    Bech32
+    Avatar
+  },
+  filters: {
+    atoms,
+    shortDecimals,
+    percent,
+    toLower: text => text.toLowerCase()
   },
   props: {
     validator: {
       type: Object,
       required: true
     },
+    index: {
+      type: Number,
+      required: true
+    },
     showOnMobile: {
       type: String,
+      /* istanbul ignore next */
       default: () => "returns"
     }
   },
-  data: () => ({ num }),
   computed: {
-    ...mapGetters([
-      `delegates`,
-      `distribution`,
-      `session`,
-      `lastHeader`,
-      `pool`
-    ]),
     status() {
-      // status: jailed
-      if (this.validator.jailed)
-        return `This validator has been jailed and is not currently validating`
-
-      // status: inactive
-      if (parseFloat(this.validator.status) === 0)
-        return `This validator does not have enough voting power and is inactive`
-
-      // status: active
-      return `This validator is actively validating`
-    },
-    statusColor() {
-      // status: jailed
-      if (this.validator.jailed) return `red`
-
-      // status: inactive
-      if (parseFloat(this.validator.status) === 0) return `yellow`
-
-      // status: active
-      return `green`
-    },
-    percentOfVotingPower() {
-      return num.percent(
-        BN(this.validator.tokens)
-          .div(this.pool.pool.bonded_tokens)
-          .toFixed(4)
+      if (
+        this.validator.jailed ||
+        this.validator.tombstoned ||
+        this.validator.status === 0
       )
+        return `Inactive`
+      return `Active`
+    },
+    status_detailed() {
+      if (this.validator.jailed) return `Temporally banned from the network`
+      if (this.validator.tombstoned) return `Banned from the network`
+      if (this.validator.status === 0) return `Banned from the network`
+      return false
     }
+  },
+  methods: {
+    percent
   }
 }
 </script>
 <style scoped>
-.data-table__row {
-  cursor: pointer;
+.li-validator {
+  padding: 0.5rem 1rem;
+  margin-bottom: 0.25rem;
+  border-bottom: 1px solid var(--bc-dim);
+  border-radius: 0.25rem;
 }
 
-@media screen and (max-width: 550px) {
-  .hide-xs {
-    display: none;
-  }
+.li-validator:last-child {
+  border-bottom: none;
+}
 
-  .data-table__row {
-    max-width: calc(100vw - 2px);
-    padding: 0;
-  }
+.validator-info {
+  display: flex;
+  flex-direction: column;
+  padding-left: 1rem;
+  text-overflow: ellipsis;
+}
 
-  .data-table__row__info {
-    max-width: calc(100vw - 6rem);
-  }
+.li-validator h4,
+.li-validator h5 {
+  font-size: var(--sm);
+  display: inline-block;
+}
+
+.li-validator h5 {
+  padding-left: 0.5rem;
+  color: var(--success);
+}
+
+.li-validator:hover {
+  cursor: pointer;
+  background: var(--hover-bg);
+  color: var(--bright);
+}
+
+.li-validator-name {
+  font-size: 1rem;
+  line-height: 18px;
+  font-weight: 500;
+  color: var(--bright);
+  display: inline-block;
+}
+
+.li-validator-image {
+  border-radius: 0.25rem;
+  height: 2.5rem;
+  width: 2.5rem;
+  border: 1px solid var(--bc-dim);
+}
+
+.validator-status {
+  text-transform: uppercase;
+  font-size: 10px;
+  font-weight: 600;
+  border: 2px solid;
+  padding: 2px 4px;
+  border-radius: 0.25rem;
+}
+
+.validator-status.inactive {
+  color: var(--warning);
+  border-color: var(--warning);
+}
+
+.validator-status.active {
+  color: var(--success);
+  border-color: var(--success);
 }
 </style>

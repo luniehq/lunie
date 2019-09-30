@@ -7,6 +7,252 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.0-beta.124] - 2019-09-19
+
+### Changed
+
+- Switched to http in local testnet environment @faboweb
+- [#2302](https://github.com/cosmos/lunie/issues/2302) Show INACTIVE status if validator is either jailed or tombstoned @mariopino
+
+### Repository
+
+- Enable all features on "testnet" @faboweb
+
+## [1.0.0-beta.123] - 2019-09-18
+
+### Added
+
+- [#2820](https://github.com/cosmos/lunie/issues/2820) Warn user if the current address is not in the extension account list, and disable sign button. @colw
+
+## [1.0.0-beta.122] - 2019-09-17
+
+### Fixed
+
+- [#2898](https://github.com/cosmos/lunie/issues/2898) Uptime on PageValidator didn't show as percent @faboweb
+- [#2965](https://github.com/cosmos/lunie/issues/2965) Change Set Max button style to secondary, fixed bug in warning message. @mariopino
+
+### Code Improvements
+
+- [#2988](https://github.com/cosmos/lunie/issues/2988) Removed Intercom ID at another place @faboweb
+- [#2967](https://github.com/cosmos/lunie/issues/2967) Refactor cookie, maintenance and disconnected bar @mariopino
+
+## [1.0.0-beta.121] - 2019-09-16
+
+### Added
+
+- [#2482](https://github.com/cosmos/lunie/issues/2482) Confirm closing a modal before opening a second @colw
+- [#2504](https://github.com/cosmos/lunie/issues/2504) Warn user about staking, with option to switch types @colw
+- [#2655](https://github.com/cosmos/lunie/issues/2655) Action modal back button @colw
+- [#1771](https://github.com/cosmos/lunie/issues/1771) Group transactions by date @faboweb
+- cleaned up forms and made some adjustments for the extension @jbibla
+- added intercom @jbibla
+- [#2858](https://github.com/cosmos/lunie/issues/2858) Add warning field to backend @mariopino
+
+### Changed
+
+- [#2973](https://github.com/cosmos/lunie/pull/2973) Remove experimental flag from network selector @faboweb
+- [#2973](https://github.com/cosmos/lunie/pull/2973) Show local testnet in network selector @faboweb
+- [#2969](https://github.com/cosmos/lunie/issues/2969) removed footer and other style improvements @jbibla
+- unhide the browser extension option on session screens @jbibla
+
+### Fixed
+
+- [#2649](https://github.com/cosmos/lunie/issues/2649) Don't allow validator address at sign in @mariopino
+
+### Code Improvements
+
+- [#2973](https://github.com/cosmos/lunie/pull/2973) Use standard websockets for Tendermint @faboweb
+
+### Repository
+
+- Prevent checkin of code with lint warnings (before only errors) @faboweb
+
+## [1.0.0-beta.120] - 2019-09-10
+
+### Fixed
+
+- [#2963](https://github.com/cosmos/lunie/issues/2963) Increase circleci testUnit test timeout from 120 to 180 seconds @mariopino
+
+### Repository
+
+- [#2929](https://github.com/cosmos/lunie/issues/2929) Test the browser extension before Lunie-core releases @faboweb
+
+## [1.0.0-beta.119] - 2019-09-08
+
+### Added
+
+- [#2928](https://github.com/cosmos/lunie/pull/2928) Add Network page with a slection of different networks to select @colw
+- [#2947](https://github.com/cosmos/lunie/pull/2947) Ability to filter validator list by name or jailed status @colw
+- [#2670](https://github.com/cosmos/lunie/issues/2670) Add "max" button to amount fields #2670 @mariopino
+
+### Changed
+
+- change the lunie logo to include wordmark @jbibla
+
+## [1.0.0-beta.118] - 2019-09-06
+
+### Fixed
+
+- [#2935](https://github.com/cosmos/lunie/issues/2935) Show no proposals message again @faboweb
+- [#2940](https://github.com/cosmos/lunie/pull/2940) PageBlock was jumping between blocks @faboweb
+- [#2940](https://github.com/cosmos/lunie/pull/2940) Monikers were not showing correctly for transactions @faboweb
+- [#2940](https://github.com/cosmos/lunie/pull/2940) Fixed dupelicate keys in transaction list @faboweb
+
+### Code Improvements
+
+- [#2940](https://github.com/cosmos/lunie/pull/2940) Removed not used or unnecessary properties from blocks module @faboweb
+
+## [1.0.0-beta.117] - 2019-09-05
+
+### Added
+
+- [#2671](https://github.com/cosmos/lunie/issues/2671) Show validator rank number in Validator list @mariopino
+
+### Repository
+
+- [#2944](https://github.com/cosmos/lunie/pull/2944) Remove S3 upload from CI @faboweb
+- Update README to include docker compose as development dependendy. @mariopino
+
+## [1.0.0-beta.116] - 2019-09-03
+
+### Fixed
+
+- Use correct query for feature detection in actionmodal @faboweb
+
+## [1.0.0-beta.115] - 2019-09-03
+
+### Changed
+
+- [#2926](https://github.com/cosmos/lunie/pull/2926) Fetch validator information using graphql @colw
+- [#2903](https://github.com/cosmos/lunie/issues/2903) Change to new logo @faboweb
+- [#2904](https://github.com/cosmos/lunie/issues/2904) Allow to switch features and interactions dependend on network capabilities @faboweb
+
+### Fixed
+
+- [#2933](https://github.com/cosmos/lunie/pull/2933) Fix warnings from duplicate addresses in test values @colw
+- [#2937](https://github.com/cosmos/lunie/pull/2937) Remove test warnings by updating test data and removing old fields. @colw
+
+### Repository
+
+- Fail if jest outputs a console.error @faboweb
+
+## [1.0.0-beta.114] - 2019-08-30
+
+### Fixed
+
+- [#2925](https://github.com/cosmos/lunie/pull/2925) Adjust build bundle paths to allow for html5 deep linking @faboweb
+
+## [1.0.0-beta.113] - 2019-08-29
+
+### Changed
+
+- Change to use html5 history mode for router @faboweb
+
+## [1.0.0-beta.112] - 2019-08-28
+
+### Added
+
+- [#2912](https://github.com/cosmos/lunie/pull/2912) Warn Windows users about Nano S singing limitation @colw
+
+### Repository
+
+- [#2915](https://github.com/cosmos/lunie/pull/2915) Ability to run a speedy testnet to improve e2e tests @faboweb
+- [#2915](https://github.com/cosmos/lunie/pull/2915) Make main validator of testnet greedy to reduce received rewards to 0 for predictability @faboweb
+- [#2914](https://github.com/cosmos/lunie/pull/2914) Switched back to codecov @faboweb
+- [#2914](https://github.com/cosmos/lunie/pull/2914) Disabled duplicate code detection in codeclimate @faboweb
+
+## [1.0.0-beta.111] - 2019-08-26
+
+### Fixed
+
+- [#2908](https://github.com/cosmos/lunie/issues/2908) Redirect old routes to new routes @faboweb
+- [#2910](https://github.com/cosmos/lunie/pull/2910) Fixed bad validator image sizing @faboweb
+
+## [1.0.0-beta.110] - 2019-08-26
+
+### Added
+
+- [#2896](https://github.com/cosmos/lunie/pull/2896) Allow user to set graphql endpoint as a URL parametera @colw
+
+### Changed
+
+- [#2885](https://github.com/cosmos/lunie/issues/2885) Do not show ledger or extension sign-in options on mobile @colw
+- [#2850](https://github.com/cosmos/lunie/pull/2850) Adjusted to new desktop menu @faboweb
+- [#2850](https://github.com/cosmos/lunie/pull/2850) Menu on mobile is on the bottom @faboweb
+- [#2850](https://github.com/cosmos/lunie/pull/2850) Removed store caching mechanism @faboweb
+
+### Fixed
+
+- [#2901](https://github.com/cosmos/lunie/pull/2901) Use latest chromedriver for local testing @colw
+
+### Code Improvements
+
+- [#2850](https://github.com/cosmos/lunie/pull/2850) Move most of the queries to run at application start @faboweb
+
+### Repository
+
+- [#2893](https://github.com/cosmos/lunie/pull/2893) Fixed preview on CircleCI @faboweb
+- Added vetur html formatting rules to vscode config @faboweb
+- this is needed for babel and jest to play nicely on my machine @jbibla
+
+## [1.0.0-beta.109] - 2019-08-19
+
+### Fixed
+
+- [#2864](https://github.com/cosmos/lunie/issues/2864) Remove 'first seen' field from validator. Data not present. @colw
+
+## [1.0.0-beta.108] - 2019-08-15
+
+### Added
+
+- Show generated avatars for validators without a profile image @faboweb
+
+### Fixed
+
+- [#2881](https://github.com/cosmos/lunie/pull/2881) Default validator images not showing @faboweb
+
+## [1.0.0-beta.107] - 2019-08-13
+
+### Added
+
+- [#2869](https://github.com/cosmos/lunie/pull/2869) Fetch validator info using GraphQL @colw
+
+### Security
+
+- [#2875](https://github.com/cosmos/lunie/pull/2875) Allow minor upgrades in package.json @colw
+
+### Deprecated
+
+- [#2865](https://github.com/cosmos/lunie/issues/2865) Remove Sentry @colw
+
+## [1.0.0-beta.106] - 2019-08-13
+
+### Added
+
+- Added infinite scroll to validator list @faboweb
+
+### Changed
+
+- [#2870](https://github.com/cosmos/lunie/pull/2870) Keep staking tabs in memory even when switching between them @colw
+
+### Fixed
+
+- [#2871](https://github.com/cosmos/lunie/pull/2871) Sort panel does not error on Network page @colw
+
+### Code Improvements
+
+- [#2867](https://github.com/cosmos/lunie/pull/2867) Remove some getters and convert to mapState @colw
+
+## [1.0.0-beta.105] - 2019-08-07
+
+### Code Improvements
+
+- [#2846](https://github.com/cosmos/lunie/pull/2846) Refactor Transaction types and component rendering @colw
+
+### Repository
+
+- [#2860](https://github.com/cosmos/lunie/pull/2860) Switched to vue-cli-3 @faboweb
+
 ## [1.0.0-beta.104] - 2019-08-04	
 
  ### Changed	

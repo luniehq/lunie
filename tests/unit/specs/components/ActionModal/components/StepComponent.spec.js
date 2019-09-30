@@ -10,7 +10,7 @@ describe(`Steps`, () => {
   })
 
   it(`shows steps`, () => {
-    expect(wrapper.vm.$el).toMatchSnapshot()
+    expect(wrapper.element).toMatchSnapshot()
   })
 
   it(`sets a step active active class`, () => {

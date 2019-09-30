@@ -1,22 +1,26 @@
 <template>
   <div>
-    <CookieBar />
-    <MaintenanceBar />
-    <DisconnectedBar />
+    <div id="bar-container">
+      <CookieBar />
+      <MaintenanceBar />
+      <DisconnectedBar />
+    </div>
     <div id="app">
       <router-view name="session" />
       <AppHeader />
       <div id="app-content">
         <router-view />
       </div>
+      <MobileMenu />
       <TmNotifications :notifications="notifications" />
     </div>
   </div>
 </template>
 
 <script>
-import { mapGetters } from "vuex"
+import { mapState } from "vuex"
 import AppHeader from "common/AppHeader"
+import MobileMenu from "common/MobileMenu"
 import CookieBar from "common/CookieBar"
 import MaintenanceBar from "common/MaintenanceBar"
 import DisconnectedBar from "common/DisconnectedBar"
@@ -30,10 +34,11 @@ export default {
     TmNotifications,
     CookieBar,
     MaintenanceBar,
-    DisconnectedBar
+    DisconnectedBar,
+    MobileMenu
   },
   computed: {
-    ...mapGetters([`notifications`, `session`])
+    ...mapState([`notifications`, `session`])
   },
   store
 }

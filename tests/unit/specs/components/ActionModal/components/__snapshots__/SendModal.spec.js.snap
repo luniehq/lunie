@@ -2,7 +2,6 @@
 
 exports[`SendModal should display send modal form 1`] = `
 <actionmodal-stub
-  denom="STAKE"
   id="send-modal"
   notifymessage="[object Object]"
   submissionerrorprefix="Sending tokens failed"
@@ -19,7 +18,7 @@ exports[`SendModal should display send modal form 1`] = `
       id="send-denomination"
       readonly=""
       type="text"
-      value=""
+      value="STAKE"
     />
      
     <!---->
@@ -45,15 +44,29 @@ exports[`SendModal should display send modal form 1`] = `
     fieldid="amount"
     fieldlabel="Amount"
   >
-    <tmfield-stub
-      class="tm-field"
-      id="amount"
-      placeholder="Amount"
-      type="number"
-    />
+    <span
+      class="input-suffix-denom"
+    >
+      STAKE
+    </span>
+     
+    <tmfieldgroup-stub>
+      <tmfield-stub
+        class="tm-field-addon"
+        id="amount"
+        placeholder="Amount"
+        type="number"
+      />
+       
+      <tmbtn-stub
+        class="secondary addon-max"
+        type="button"
+        value="Set Max"
+      />
+    </tmfieldgroup-stub>
      
     <tmformmsg-stub
-      msg="doesn't have any s"
+      msg="doesn't have any STAKEs"
       name="Wallet"
       type="custom"
     />
@@ -61,20 +74,15 @@ exports[`SendModal should display send modal form 1`] = `
    
   <tmbtn-stub
     id="edit-memo-btn"
-    size="sm"
-    to=""
-    type="link"
+    type="secondary"
     value="Edit Memo"
   />
-   
-  <!---->
 </actionmodal-stub>
 `;
 
 exports[`SendModal validation should show address required error 1`] = `
 <actionmodal-stub
   amount="2"
-  denom="STAKE"
   id="send-modal"
   notifymessage="[object Object]"
   submissionerrorprefix="Sending tokens failed"
@@ -122,33 +130,42 @@ exports[`SendModal validation should show address required error 1`] = `
     fieldid="amount"
     fieldlabel="Amount"
   >
-    <tmfield-stub
-      class="tm-field"
-      id="amount"
-      placeholder="Amount"
-      type="number"
-      value="2"
-    />
+    <span
+      class="input-suffix-denom"
+    >
+      STAKE
+    </span>
+     
+    <tmfieldgroup-stub>
+      <tmfield-stub
+        class="tm-field-addon"
+        id="amount"
+        placeholder="Amount"
+        type="number"
+        value="2"
+      />
+       
+      <tmbtn-stub
+        class="secondary addon-max"
+        type="button"
+        value="Set Max"
+      />
+    </tmfieldgroup-stub>
      
     <!---->
   </tmformgroup-stub>
    
   <tmbtn-stub
     id="edit-memo-btn"
-    size="sm"
-    to=""
-    type="link"
+    type="secondary"
     value="Edit Memo"
   />
-   
-  <!---->
 </actionmodal-stub>
 `;
 
 exports[`SendModal validation should show bech32 error when address length is too long 1`] = `
 <actionmodal-stub
   amount="2"
-  denom="STAKE"
   id="send-modal"
   notifymessage="[object Object]"
   submissionerrorprefix="Sending tokens failed"
@@ -196,33 +213,42 @@ exports[`SendModal validation should show bech32 error when address length is to
     fieldid="amount"
     fieldlabel="Amount"
   >
-    <tmfield-stub
-      class="tm-field"
-      id="amount"
-      placeholder="Amount"
-      type="number"
-      value="2"
-    />
+    <span
+      class="input-suffix-denom"
+    >
+      STAKE
+    </span>
+     
+    <tmfieldgroup-stub>
+      <tmfield-stub
+        class="tm-field-addon"
+        id="amount"
+        placeholder="Amount"
+        type="number"
+        value="2"
+      />
+       
+      <tmbtn-stub
+        class="secondary addon-max"
+        type="button"
+        value="Set Max"
+      />
+    </tmfieldgroup-stub>
      
     <!---->
   </tmformgroup-stub>
    
   <tmbtn-stub
     id="edit-memo-btn"
-    size="sm"
-    to=""
-    type="link"
+    type="secondary"
     value="Edit Memo"
   />
-   
-  <!---->
 </actionmodal-stub>
 `;
 
 exports[`SendModal validation should show bech32 error when address length is too short 1`] = `
 <actionmodal-stub
   amount="2"
-  denom="STAKE"
   id="send-modal"
   notifymessage="[object Object]"
   submissionerrorprefix="Sending tokens failed"
@@ -270,32 +296,41 @@ exports[`SendModal validation should show bech32 error when address length is to
     fieldid="amount"
     fieldlabel="Amount"
   >
-    <tmfield-stub
-      class="tm-field"
-      id="amount"
-      placeholder="Amount"
-      type="number"
-      value="2"
-    />
+    <span
+      class="input-suffix-denom"
+    >
+      STAKE
+    </span>
+     
+    <tmfieldgroup-stub>
+      <tmfield-stub
+        class="tm-field-addon"
+        id="amount"
+        placeholder="Amount"
+        type="number"
+        value="2"
+      />
+       
+      <tmbtn-stub
+        class="secondary addon-max"
+        type="button"
+        value="Set Max"
+      />
+    </tmfieldgroup-stub>
      
     <!---->
   </tmformgroup-stub>
    
   <tmbtn-stub
     id="edit-memo-btn"
-    size="sm"
-    to=""
-    type="link"
+    type="secondary"
     value="Edit Memo"
   />
-   
-  <!---->
 </actionmodal-stub>
 `;
 
 exports[`SendModal validation should show bech32 error when alphanumeric is wrong 1`] = `
 <actionmodal-stub
-  denom="STAKE"
   id="send-modal"
   notifymessage="[object Object]"
   submissionerrorprefix="Sending tokens failed"
@@ -305,7 +340,6 @@ exports[`SendModal validation should show bech32 error when alphanumeric is wron
 >
   <tmformgroup-stub
     class="action-modal-form-group"
-    error="true"
     fieldid="send-denomination"
     fieldlabel="Denomination"
   >
@@ -313,14 +347,10 @@ exports[`SendModal validation should show bech32 error when alphanumeric is wron
       id="send-denomination"
       readonly=""
       type="text"
-      value=""
+      value="STAKE"
     />
      
-    <tmformmsg-stub
-      msg=""
-      name="Denomination"
-      type="required"
-    />
+    <!---->
   </tmformgroup-stub>
    
   <tmformgroup-stub
@@ -349,15 +379,29 @@ exports[`SendModal validation should show bech32 error when alphanumeric is wron
     fieldid="amount"
     fieldlabel="Amount"
   >
-    <tmfield-stub
-      class="tm-field"
-      id="amount"
-      placeholder="Amount"
-      type="number"
-    />
+    <span
+      class="input-suffix-denom"
+    >
+      STAKE
+    </span>
+     
+    <tmfieldgroup-stub>
+      <tmfield-stub
+        class="tm-field-addon"
+        id="amount"
+        placeholder="Amount"
+        type="number"
+      />
+       
+      <tmbtn-stub
+        class="secondary addon-max"
+        type="button"
+        value="Set Max"
+      />
+    </tmfieldgroup-stub>
      
     <tmformmsg-stub
-      msg="doesn't have any s"
+      msg="doesn't have any STAKEs"
       name="Wallet"
       type="custom"
     />
@@ -365,12 +409,8 @@ exports[`SendModal validation should show bech32 error when alphanumeric is wron
    
   <tmbtn-stub
     id="edit-memo-btn"
-    size="sm"
-    to=""
-    type="link"
+    type="secondary"
     value="Edit Memo"
   />
-   
-  <!---->
 </actionmodal-stub>
 `;

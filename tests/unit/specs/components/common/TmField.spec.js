@@ -8,7 +8,7 @@ describe(`TmField`, () => {
   })
 
   it(`has the expected html structure`, () => {
-    expect(wrapper.vm.$el).toMatchSnapshot()
+    expect(wrapper.element).toMatchSnapshot()
   })
 
   it(`emits updates`, () => {
@@ -60,7 +60,7 @@ describe(`TmField`, () => {
         type: `select`
       }
     })
-    expect(wrapper.vm.$el).toMatchSnapshot()
+    expect(wrapper.element).toMatchSnapshot()
     wrapper.setProps({
       options: [
         {
@@ -73,11 +73,11 @@ describe(`TmField`, () => {
         }
       ]
     })
-    expect(wrapper.vm.$el).toMatchSnapshot()
+    expect(wrapper.element).toMatchSnapshot()
     wrapper.setProps({
       placeholder: `Select a number...`
     })
-    expect(wrapper.vm.$el).toMatchSnapshot()
+    expect(wrapper.element).toMatchSnapshot()
   })
 
   it(`displays a textarea`, () => {
@@ -86,7 +86,7 @@ describe(`TmField`, () => {
         type: `textarea`
       }
     })
-    expect(wrapper.vm.$el).toMatchSnapshot()
+    expect(wrapper.element).toMatchSnapshot()
   })
 
   it(`displays a number input`, async () => {
@@ -95,7 +95,7 @@ describe(`TmField`, () => {
         type: `number`
       }
     })
-    expect(wrapper.vm.$el).toMatchSnapshot()
+    expect(wrapper.element).toMatchSnapshot()
   })
 
   it(`trims number values`, () => {
@@ -110,7 +110,7 @@ describe(`TmField`, () => {
         type: `toggle`
       }
     })
-    expect(wrapper.vm.$el).toMatchSnapshot()
+    expect(wrapper.element).toMatchSnapshot()
     // works with default option
     wrapper.setProps({
       value: false,
@@ -119,13 +119,13 @@ describe(`TmField`, () => {
         unchecked: `bad`
       }
     })
-    expect(wrapper.vm.$el).toMatchSnapshot()
+    expect(wrapper.element).toMatchSnapshot()
 
     // triggers
     expect(wrapper.find(`.tm-toggle-wrapper > span`).text()).toBe(`bad`)
     wrapper.find(`.tm-toggle-wrapper`).trigger(`click`)
     expect(wrapper.find(`.tm-toggle-wrapper > span`).text()).toBe(`cool`)
-    expect(wrapper.vm.$el).toMatchSnapshot()
+    expect(wrapper.element).toMatchSnapshot()
 
     // allows for updates from the outside
     wrapper.setProps({
@@ -150,13 +150,13 @@ describe(`TmField`, () => {
       }
     })
 
-    expect(wrapper.vm.$el).toMatchSnapshot()
+    expect(wrapper.element).toMatchSnapshot()
 
     // disable triggers
     expect(wrapper.find(`.tm-toggle-wrapper > span`).text()).toBe(`bad`)
     wrapper.find(`.tm-toggle-wrapper`).trigger(`click`)
     expect(wrapper.find(`.tm-toggle-wrapper > span`).text()).not.toBe(`cool`)
-    expect(wrapper.vm.$el).toMatchSnapshot()
+    expect(wrapper.element).toMatchSnapshot()
   })
 
   it(`allows for style customization`, () => {
@@ -165,6 +165,6 @@ describe(`TmField`, () => {
         size: `lg`
       }
     })
-    expect(wrapper.vm.$el).toMatchSnapshot()
+    expect(wrapper.element).toMatchSnapshot()
   })
 })
