@@ -13,7 +13,7 @@
   >
     <TmFormGroup class="action-modal-form-group">
       <div class="form-message notice">
-        <span v-if="getValidatorStatus() === `Inactive`">
+        <span v-if="getValidatorStatus() === 'Inactive'">
           You are about to <span v-if="isRedelegation()">re</span>delegate to an <strong>inactive</strong> validator ({{ ValidatorStatusDetailed }})
         </span>
         <span v-if="!isRedelegation()">
