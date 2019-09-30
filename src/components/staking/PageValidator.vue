@@ -383,7 +383,7 @@ export default {
           return validators.concat({
             address: address,
             maximum: Math.floor(committedDelegations[address]),
-            key: `${delegate.moniker} - ${formatBech32(
+            key: `${delegate.description.moniker} - ${formatBech32(
               delegate.operator_address,
               false,
               20
