@@ -199,6 +199,8 @@ const state = {
         country: `Canada`
       },
       status: 2,
+      jailed: false,
+      tombstoned: false,
       bond_height: `0`,
       bond_intra_tx_counter: 6,
       proposer_reward_pool: null,
@@ -223,6 +225,8 @@ const state = {
         country: `USA`
       },
       status: 2,
+      jailed: false,
+      tombstoned: false,
       bond_height: `0`,
       bond_intra_tx_counter: 6,
       proposer_reward_pool: null,
@@ -247,6 +251,8 @@ const state = {
       },
       revoked: true,
       status: 2,
+      jailed: false,
+      tombstoned: false,
       bond_height: `0`,
       bond_intra_tx_counter: 6,
       proposer_reward_pool: null,
@@ -257,7 +263,57 @@ const state = {
         update_time: new Date(Date.now()).toISOString()
       },
       prev_bonded_shares: `0`
-    }
+    },
+    {
+      operator_address: validators[3],
+      pub_key: `cosmosvalpub9999`,
+      tokens: `190000000`,
+      delegator_shares: `190000000`,
+      description: {
+        details: `Jailed validator`,
+        website: `www.awesomewebsite.io`,
+        moniker: `sad_to_be_jailed`,
+        country: `ES`
+      },
+      status: 0,
+      jailed: true,
+      tombstoned: false,
+      bond_height: `0`,
+      bond_intra_tx_counter: 6,
+      proposer_reward_pool: null,
+      commission: {
+        rate: `0`,
+        max_rate: `0`,
+        max_change_rate: `0`,
+        update_time: new Date(Date.now()).toISOString()
+      },
+      prev_bonded_shares: `0`
+    },
+    {
+      operator_address: validators[4],
+      pub_key: `cosmosvalpub9999`,
+      tokens: `190000000`,
+      delegator_shares: `190000000`,
+      description: {
+        details: `Tombstoned validator`,
+        website: `www.anotherawesomewebsite.io`,
+        moniker: `sad_to_be_tombstoned`,
+        country: `ES`
+      },
+      status: 0,
+      jailed: true,
+      tombstoned: false,
+      bond_height: `0`,
+      bond_intra_tx_counter: 6,
+      proposer_reward_pool: null,
+      commission: {
+        rate: `0`,
+        max_rate: `0`,
+        max_change_rate: `0`,
+        update_time: new Date(Date.now()).toISOString()
+      },
+      prev_bonded_shares: `0`
+    }    
   ],
   pool: {
     loose_tokens: `1000000000.00000000000`,

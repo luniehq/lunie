@@ -162,7 +162,7 @@ describe(`DelegationModal`, () => {
     })
   })
 
-  describe("Submission Data for Redelgating", () => {
+  describe("Submission Data for Redelegating", () => {
     beforeEach(() => {
       wrapper.setData({
         amount: 10,
@@ -212,6 +212,32 @@ describe(`DelegationModal`, () => {
       //await wrapper.vm.$nextTick()
       expect(wrapper.html()).toContain(
         "You are about to use all your tokens for this transaction. Consider leaving a little bit left over to cover the network fees."
+      )
+    })
+  })
+
+  describe(`if validator is jailed`, () => {
+    it(`must show warn message about it`, async () => {
+      wrapper.setData({
+        amount: 1,
+        selectedIndex: 0,
+        validator: mockValues.state.candidates[3] // Jailed validator
+      })
+      expect(wrapper.html()).toContain(
+        "You are about to delegate to an inactive validator (temporally banned from the network)"
+      )
+    })
+  })
+
+  describe(`if validator is tombstoned`, () => {
+    it(`must show warn message about it`, async () => {
+      wrapper.setData({
+        amount: 1,
+        selectedIndex: 0,
+        validator: mockValues.state.candidates[4] // Tombstoned validator
+      })
+      expect(wrapper.html()).toContain(
+        "You are about to delegate to an inactive validator (banned from the network)"
       )
     })
   })
