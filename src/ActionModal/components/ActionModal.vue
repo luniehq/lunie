@@ -789,6 +789,9 @@ export default {
   font-style: italic;
   color: var(--dim);
   display: inline-block;
+  border-left: 2px solid var(--warning);
+  padding: 0.5rem 0 0.5rem 1rem;
+  font-size: 14px;
 }
 
 .slide-fade-enter-active {
@@ -803,6 +806,10 @@ export default {
 .slide-fade-leave-to {
   transform: translateX(2rem);
   opacity: 0;
+}
+
+.tm-form-group__field {
+  position: relative;
 }
 
 @media screen and (max-width: 767px) {
