@@ -109,11 +109,7 @@
         </li>
         <li>
           <h4>Validator Since</h4>
-          <span>
-            Block #{{
-              validator.signing_info ? validator.signing_info.start_height : 0
-            }}
-          </span>
+          <span> Block #{{ validator.start_height }} </span>
         </li>
         <li>
           <h4>Uptime</h4>
@@ -383,7 +379,7 @@ export default {
           return validators.concat({
             address: address,
             maximum: Math.floor(committedDelegations[address]),
-            key: `${delegate.moniker} - ${formatBech32(
+            key: `${delegate.description.moniker} - ${formatBech32(
               delegate.operator_address,
               false,
               20
