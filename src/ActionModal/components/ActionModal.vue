@@ -44,7 +44,7 @@
         <FeatureNotAvailable :feature="title" />
       </template>
       <template v-else>
-        <p v-if="session.windowsDevice" class="form-message notice">
+        <p v-if="session.windowsDevice && step !== successStep" class="form-message notice">
           {{ session.windowsWarning }}
         </p>
         <div v-if="requiresSignIn" class="action-modal-form">
