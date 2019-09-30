@@ -38,7 +38,7 @@
         :msg="`You are about to redelegate to an <strong>inactive</strong> validator (${getValidatorStatusDetailed()})`"
         type="custom"
         class="tm-form-msg--desc"
-      />      
+      />
     </TmFormGroup>
 
     <TmFormGroup
