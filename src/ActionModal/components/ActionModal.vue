@@ -209,7 +209,7 @@
               <br />
               <br />Block
               <router-link :to="`/blocks/${includedHeight}`"
-                >#{{ prettyBlockHeight }}</router-link
+                >#{{ prettyIncludedHeight }}</router-link
               >
             </div>
           </TmDataMsg>
@@ -453,7 +453,7 @@ export default {
           this.modalContext.isExtensionAccount)
       )
     },
-    prettyBlockHeight() {
+    prettyIncludedHeight() {
       return prettyInt(this.includedHeight)
   },
   watch: {
