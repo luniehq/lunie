@@ -160,7 +160,7 @@ jobs:
           name: Run testnet
           command: |
             cd lunie-backend
-            npm run stack
+            npm run stack -- -d
       - run:
           # needs to be done in CI to be sure it is build once we start the tests
           name: Build for E2E test
