@@ -212,8 +212,8 @@ export default {
       }
     },
     ValidatorStatus() {
-      console.log()
-      if (this.validator)
+      console.log(this.validator)
+      if (
         this.validator.jailed ||
         this.validator.tombstoned ||
         this.validator.status === 0
