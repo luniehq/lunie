@@ -13,7 +13,7 @@
   >
     <TmFormGroup class="action-modal-form-group">
       <div class="form-message notice">
-        <span v-if="validatorStatus === `Inactive`">
+        <span v-if="getValidatorStatus() === `Inactive`">
           You are about to <span v-if="isRedelegation()">re</span>delegate to an <strong>inactive</strong> validator ({{ ValidatorStatusDetailed }})
         </span>
         <span v-if="!isRedelegation()">
@@ -210,26 +210,6 @@ export default {
           )}s`
         }
       }
-    },
-    ValidatorStatus() {
-      //console.log(this.validator)
-      if (
-        this.validator.jailed ||
-        this.validator.tombstoned ||
-        this.validator.status === 0
-      ) {
-        console.log(`Inactive`)
-        return `Inactive`
-      } else {
-        console.log(`Active`)
-        return `Active`
-      }
-    },
-    ValidatorStatusDetailed() {
-      if (this.validator.jailed) return `Temporally banned from the network`
-      if (this.validator.tombstoned) return `Banned from the network`
-      if (this.validator.status === 0) return `Banned from the network`
-      return false
     }
   },
   methods: {
@@ -266,6 +246,26 @@ export default {
     },
     getFromBalance() {
       return atoms(this.balance)
+    },
+    getValidatorStatus() {
+      //console.log(this.validator)
+      if (
+        this.validator.jailed ||
+        this.validator.tombstoned ||
+        this.validator.status === 0
+      ) {
+        console.log(`Inactive`)
+        return `Inactive`
+      } else {
+        console.log(`Active`)
+        return `Active`
+      }
+    },
+    getValidatorStatusDetailed() {
+      if (this.validator.jailed) return `Temporally banned from the network`
+      if (this.validator.tombstoned) return `Banned from the network`
+      if (this.validator.status === 0) return `Banned from the network`
+      return false
     }
   },
   validations() {
