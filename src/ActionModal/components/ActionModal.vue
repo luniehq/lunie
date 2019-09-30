@@ -209,8 +209,8 @@
               <br />
               <br />Block
               <router-link :to="`/blocks/${includedHeight}`"
-                >#{{ includedHeight }}</router-link
-              >.
+                >#{{ prettyBlockHeight }}</router-link
+              >
             </div>
           </TmDataMsg>
         </div>
@@ -284,7 +284,7 @@ import TmDataMsg from "common/TmDataMsg"
 import TableInvoice from "./TableInvoice"
 import Steps from "./Steps"
 import { mapState, mapGetters } from "vuex"
-import { atoms, viewDenom } from "src/scripts/num"
+import { atoms, viewDenom, prettyInt } from "src/scripts/num"
 import { between, requiredIf } from "vuelidate/lib/validators"
 import { track } from "scripts/google-analytics"
 import { NetworkCapability, NetworkCapabilityResult } from "src/gql"
@@ -452,7 +452,9 @@ export default {
         (this.selectedSignMethod === "extension" &&
           this.modalContext.isExtensionAccount)
       )
-    }
+    },
+    prettyBlockHeight() {
+      return prettyInt(this.includedHeight)
   },
   watch: {
     // if there is only one sign method, preselect it
