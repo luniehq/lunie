@@ -235,6 +235,7 @@ export default {
         this.selectedIndex = 1
       }
       this.$refs.actionModal.open()
+      console.log(this.validator)
     },
     validateForm() {
       this.$v.$touch()
