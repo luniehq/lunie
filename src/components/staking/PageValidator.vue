@@ -109,11 +109,7 @@
         </li>
         <li>
           <h4>Validator Since</h4>
-          <span>
-            Block #{{
-              validator.signing_info ? validator.signing_info.start_height : 0
-            }}
-          </span>
+          <span> Block #{{ validator.start_height }} </span>
         </li>
         <li>
           <h4>Uptime</h4>
