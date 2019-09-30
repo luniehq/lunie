@@ -809,6 +809,15 @@ export default {
   margin: 2rem 0 2rem 0;
 }
 
+@media screen and (max-width: 576px) {
+  #send-modal {
+    text-align: center;
+  }
+  .tm-data-msg__icon {
+    margin-right: 0;
+  }
+}
+
 @media screen and (max-width: 767px) {
   .tm-form-group__field {
     width: 100%;
@@ -825,4 +834,7 @@ export default {
     top: 0;
   }
 }
+
+
+
 </style>
