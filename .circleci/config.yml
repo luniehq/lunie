@@ -133,7 +133,7 @@ jobs:
           command: |
             git clone git@github.com:luniehq/lunie-backend.git
             cd lunie-backend
-            git checkout origin/master
+            git checkout origin/fabo/fix-old-testnet
       - run: 
           name: Use NVM
           command: |
@@ -160,7 +160,7 @@ jobs:
           name: Run testnet
           command: |
             cd lunie-backend
-            docker-compose up -d
+            HASURA_ADMIN_KEY=$HASURA_ADMIN_KEY docker-compose up --build -d
       - run:
           # needs to be done in CI to be sure it is build once we start the tests
           name: Build for E2E test
