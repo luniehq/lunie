@@ -301,8 +301,8 @@ const state = {
         country: `ES`
       },
       status: 0,
-      jailed: true,
-      tombstoned: false,
+      jailed: false,
+      tombstoned: true,
       bond_height: `0`,
       bond_intra_tx_counter: 6,
       proposer_reward_pool: null,
