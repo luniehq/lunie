@@ -15,6 +15,8 @@
       <div v-if="getValidatorStatus() === 'Inactive'" class="form-message notice">
         You are about to <span v-if="isRedelegation()">re</span>delegate to an <strong>inactive</strong> validator ({{ getValidatorStatusDetailed() }})
       </div>
+    </TmFormGroup>
+    <TmFormGroup class="action-modal-form-group">
       <div class="form-message notice">
         <span v-if="!isRedelegation()">
           It will take 21 days to unlock your tokens after a delegation and
