@@ -29,13 +29,13 @@
       <TmField id="to" v-model="to" type="text" readonly />
       <TmFormMsg
         v-if="getValidatorStatus() === 'Inactive' && !isRedelegation()"
-        :msg="`You are about to delegate to an <strong>inactive</strong> validator (${getValidatorStatusDetailed()})`"
+        :msg="`You are about to delegate to an inactive validator (${getValidatorStatusDetailed()})`"
         type="custom"
         class="tm-form-msg--desc"
       />
       <TmFormMsg
         v-if="getValidatorStatus() === 'Inactive' && isRedelegation()"
-        :msg="`You are about to redelegate to an <strong>inactive</strong> validator (${getValidatorStatusDetailed()})`"
+        :msg="`You are about to delegate to an inactive validator (${getValidatorStatusDetailed()})`"
         type="custom"
         class="tm-form-msg--desc"
       />
