@@ -10,7 +10,7 @@ let options = {
   typeDefs,
   resolvers,
   dataSources: () => ({
-    cosmosAPI: new CosmosAPI(process.env.CHAIN_URL || "https://lcd.nylira.net"),
+    cosmosAPI: new CosmosAPI(process.env.CHAIN_URL),
     networkData
   }),
   cacheControl: {
