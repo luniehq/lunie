@@ -759,7 +759,7 @@ export default {
 
 .action-modal-form .tm-form-group {
   display: block;
-  padding: 0.75rem 0;
+  padding: 1rem 0;
 }
 
 .action-modal-footer {
