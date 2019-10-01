@@ -6,42 +6,63 @@ import { WebSocketLink } from "apollo-link-ws"
 import { InMemoryCache } from "apollo-cache-inmemory"
 import { getMainDefinition } from "apollo-utilities"
 import VueApollo from "vue-apollo"
+import config from "src/config"
 
 Vue.use(VueApollo)
 
-const httpLink = createHttpLink({
-  uri: process.env.VUE_APP_GRAPHQL_URL
-})
+const graphqlHost = urlParams => urlParams.graphql || config.graphqlHost
 
-const webSocketLink = new WebSocketLink({
-  uri: process.env.VUE_APP_GRAPHQL_URL_SUB,
-  options: {
-    reconnect: true
+console.log(config.development)
+
+const makeHttpLink = urlParams => {
+  let prefix = `https`
+  if (config.development) {
+    prefix = `http`
   }
-})
+  const host = graphqlHost(urlParams)
+  return createHttpLink({
+    uri: `${prefix}://${host}`
+  })
+}
 
-const link = split(
-  ({ query }) => {
-    const definition = getMainDefinition(query)
-    return (
-      definition.kind === "OperationDefinition" &&
-      definition.operation === "subscription"
-    )
-  },
-  webSocketLink,
-  httpLink
-)
+const makeWebSocketLink = urlParams => {
+  let prefix = `wss`
+  if (config.development) {
+    prefix = `ws`
+  }
+  const host = graphqlHost(urlParams)
+  return new WebSocketLink({
+    uri: `${prefix}://${host}/graphql`,
+    options: {
+      reconnect: true
+    }
+  })
+}
 
-const cache = new InMemoryCache()
+const createApolloClient = urlParams => {
+  const link = split(
+    ({ query }) => {
+      const definition = getMainDefinition(query)
+      return (
+        definition.kind === "OperationDefinition" &&
+        definition.operation === "subscription"
+      )
+    },
+    makeWebSocketLink(urlParams),
+    makeHttpLink(urlParams)
+  )
 
-const apolloClient = new ApolloClient({
-  link,
-  cache,
-  connectToDevTools: true
-})
+  const cache = new InMemoryCache()
 
-export const createApolloProvider = () => {
+  return new ApolloClient({
+    link,
+    cache,
+    connectToDevTools: true
+  })
+}
+
+export const createApolloProvider = urlParams => {
   return new VueApollo({
-    defaultClient: apolloClient
+    defaultClient: createApolloClient(urlParams)
   })
 }

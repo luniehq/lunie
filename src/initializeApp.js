@@ -32,7 +32,7 @@ export default function init(urlParams, env = process.env) {
   const stargate = urlParams.stargate || config.stargate
   console.log(`Expecting stargate at: ${stargate}`)
 
-  const apolloProvider = createApolloProvider()
+  const apolloProvider = createApolloProvider(urlParams)
   const apolloClient = apolloProvider.clients.defaultClient
 
   const node = Node(stargate)
