@@ -81,6 +81,7 @@ export function storeUpdateHandler(mutation, state, pending) {
  * @param state
  */
 function persistState(state) {
+  console.log(`Address: ${state.session.address}`)
   const cachedState = JSON.stringify({
     transactions: {
       wallet: state.transactions.wallet,
