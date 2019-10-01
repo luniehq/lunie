@@ -126,13 +126,11 @@ export default {
       if (addressType === "explore") return `language`
       if (addressType === "ledger") return `vpn_key`
       if (addressType === "extension") return `laptop`
-      return false
     },
     getAddressTypeDescription(addressType) {
       if (addressType === "explore") return `Explore Mode`
       if (addressType === "ledger") return `Ledger Nano S`
       if (addressType === "extension") return `Lunie Browser Extension`
-      return false
     },
     shortenAddress(address) {
       return `${address.substring(0, 12)}...${address.substring(address.length - 12)}`
