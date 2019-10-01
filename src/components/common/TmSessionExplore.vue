@@ -4,26 +4,27 @@
       <h2 class="session-title">
         Explore with any address
       </h2>
-      <div class="session-main">
-        <TmFormGroup field-id="sign-in-name" field-label="Your Cosmos Address">
+      
+      <h3>Previouly used addresses:</h3>
 
-          <div
-            v-for="account in session.addresses"
-            v-bind:key="account.address"
-          >
-            <div class="tm-li-session-icon">
-              <i class="material-icons circle">{{ getAddressIcon(account.type) }}</i>
-            </div>
-            <div class="tm-li-session-text">
-              <div class="tm-li-session-title">
-                <span>{{ account.address }}</span>
-              </div>
-            </div>
-            <div class="tm-li-session-icon">
-              <i class="material-icons">arrow_forward</i>
-            </div>
+      <div v-for="account in session.addresses" v-bind:key="account.address">
+        <div class="tm-li-session-icon">
+          <i class="material-icons circle">{{
+            getAddressIcon(account.type)
+          }}</i>
+        </div>
+        <div class="tm-li-session-text">
+          <div class="tm-li-session-title">
+            <span>{{ account.address }}</span>
           </div>
+        </div>
+        <div class="tm-li-session-icon">
+          <i class="material-icons">arrow_forward</i>
+        </div>
+      </div>
 
+      <div class="session-main">
+        <TmFormGroup field-id="sign-in-name" field-label="Other Cosmos Address">
           <TmField
             v-model="address"
             type="text"
