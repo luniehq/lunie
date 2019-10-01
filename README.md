@@ -57,6 +57,16 @@ yarn install
 
 ## Lunie Development
 
+Use the new GraphQL endpoint using an `.env` file with the following:
+
+`VUE_APP_GRAPHQL_URL=localhost:4000`
+
+Note you only need the hostname and optional port. The application assumes queries and subscriptions are from the same host, and will set the protocol as needed.
+
+If you prefer, you can also use a url parameter:
+
+`http://localhost:9080/validators?graphql=localhost:4000`
+
 ### Generate SSL certificates
 
 First generate some SSL certificates and add them to your trusted certificates.
