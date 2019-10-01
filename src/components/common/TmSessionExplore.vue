@@ -5,8 +5,6 @@
         Explore with any address
       </h2>
 
-      <h3>Previouly used addresses:</h3>
-
       <div
         v-for="account in session.addresses"
         v-bind:key="account.address"
@@ -20,7 +18,7 @@
           </div>
           <div class="tm-li-session-text">
             <div class="tm-li-session-title">
-              <span>{{ account.address }}</span>
+              <Bech32 :address="account.address" />
             </div>
           </div>
           <div class="tm-li-session-icon">
@@ -70,7 +68,7 @@ import TmFormGroup from "common/TmFormGroup"
 import TmFormStruct from "common/TmFormStruct"
 import TmField from "common/TmField"
 import TmFormMsg from "common/TmFormMsg"
-import bech32 from "bech32"
+import Bech32 from "bech32"
 export default {
   name: `session-explore`,
   components: {
@@ -79,7 +77,8 @@ export default {
     TmField,
     TmFormGroup,
     TmFormMsg,
-    TmFormStruct
+    TmFormStruct,
+    Bech32
   },
   data: () => ({
     address: ``,
