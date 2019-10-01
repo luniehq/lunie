@@ -118,7 +118,7 @@ export default () => {
       if (!sessionExist) {
         state.addresses.push(session)
         commit(`setUserAddresses`, state.addresses)
-        console.log(`Addresses: ${state.addresses}`)
+        console.log(`Addresses: ${JSON.stringify(state.addresses)}`)
       }
       //
 
