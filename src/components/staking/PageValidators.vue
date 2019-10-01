@@ -45,11 +45,12 @@
 
 <script>
 import { mapState } from "vuex"
-import { AllValidators, validatorsResult } from "src/gql"
+import { AllValidators, validatorsResult, NewBlockSubscription} from "src/gql"
 import TableValidators from "staking/TableValidators"
 import PageContainer from "common/PageContainer"
 import TmField from "common/TmField"
 import TmBtn from "common/TmBtn"
+import gql from "graphql-tag"
 
 export default {
   name: `tab-validators`,
@@ -81,6 +82,23 @@ export default {
         /* istanbul ignore next */
         return {
           monikerName: `%${this.searchTerm}%`
+        }
+      }
+    },
+    $subscribe: {
+      blockAdded: {
+        query: gql`
+          subscription {
+            blockAdded {
+              height
+            }
+          }
+        `,
+        result({ data }) {
+          this.$store.commit(`notify`, {
+            title: `New Block`,
+            body: `New Block #${data.blockAdded.height}`
+          })
         }
       }
     }

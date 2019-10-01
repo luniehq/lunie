@@ -165,3 +165,15 @@ export const proposalResult = schema => data => {
   console.log(data)
   return data[`${schemaMap[schema]}proposal`]
 }
+
+export const NewBlockSubscription = () => gql`
+  subscription {
+    blockAdded {
+      height
+      hash
+      chainId
+      time
+      numTxs
+    }
+  }
+`
