@@ -313,7 +313,7 @@ const state = {
         update_time: new Date(Date.now()).toISOString()
       },
       prev_bonded_shares: `0`
-    }    
+    }
   ],
   pool: {
     loose_tokens: `1000000000.00000000000`,

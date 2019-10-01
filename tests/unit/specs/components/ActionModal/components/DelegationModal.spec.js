@@ -25,7 +25,7 @@ describe(`DelegationModal`, () => {
   const state = {
     session: {
       signedIn: true,
-      address: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw`,
+      address: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw`
     }
   }
 
@@ -252,7 +252,7 @@ describe(`DelegationModal`, () => {
       expect(wrapper.html()).not.toContain(
         "You are about to delegate to an inactive validator"
       )
+      expect(wrapper.vm.validatorStatusDetailed).toBe(false)
     })
   })
-
 })

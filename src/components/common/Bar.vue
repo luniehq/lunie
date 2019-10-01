@@ -20,7 +20,7 @@ export default {
     },
     show: Boolean
   },
-  data: function () {
+  data: function() {
     return {
       showMessage: this.show
     }

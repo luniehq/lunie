@@ -239,6 +239,7 @@ export default {
       if (this.validator.jailed) return `temporally banned from the network`
       else if (this.validator.tombstoned) return `banned from the network`
       else if (this.validator.status === 0) return `banned from the network`
+      else return false
     }
   },
   methods: {
