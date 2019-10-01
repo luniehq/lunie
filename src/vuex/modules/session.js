@@ -20,7 +20,8 @@ export default () => {
     sessionType: null, // local, ledger, extension
     pauseHistory: false,
     history: [],
-    address: null,
+    address: null, // Current address
+    addresses: [], // Array of used addresses. Must include account source (ledger, extension, typed in)
     errorCollection: false,
     analyticsCollection: false,
     cookiesAccepted: undefined,
@@ -55,6 +56,9 @@ export default () => {
     },
     setUserAddress(state, address) {
       state.address = address
+    },
+    setUserAddresses(state, addresses) {
+      state.addresses = addresses
     },
     setExperimentalMode(state) {
       state.experimentalMode = true
@@ -101,6 +105,23 @@ export default () => {
       commit(`setSignIn`, true)
       commit(`setSessionType`, sessionType)
       commit(`setUserAddress`, address)
+
+      // Add sign in address to addresses array if not exist previously
+      let session = {
+        address: address,
+        type: sessionType
+      }
+      let sessionExist = false;
+      for (let i = 0; i <= state.addresses.length; i++) {
+        if (state.addresses[i].address === address) sessionExist = true
+      }
+      if (!sessionExist) {
+        state.addresses.push(session)
+        commit(`setUserAddresses`, state.addresses)
+        console.log(`Addresses: ${state.addresses}`)
+      }
+      //
+
       await dispatch(`initializeWallet`, { address })
       dispatch(`persistSession`, {
         address,
