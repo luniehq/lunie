@@ -5,7 +5,7 @@
         Explore with any address
       </h2>
 
-      <div v-if="session.addresses.length > 0" class="address-list">
+      <div v-if="session.addresses.length > 0" class="session-list">
         <div v-for="account in session.addresses" v-bind:key="account.address">
           <div class="tm-li-session">
             <div class="tm-li-session-icon">
