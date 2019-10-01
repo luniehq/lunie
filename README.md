@@ -1,3 +1,24 @@
+## Installation
+
+```
+yarn install
+```
+
+or 
+
+## Development
+```
+yarn dev
+```
+
+or using Redis for the Apollo cache.
+
+```
+yarn dev-cache
+```
+
+You will need to set `REDIS_URL` to your redis instance host.
+
 ## Environment variables
 
 - Set `CHAIN_URL` to the chain of your choice. Defaults to https://lcd.nylira.net.
