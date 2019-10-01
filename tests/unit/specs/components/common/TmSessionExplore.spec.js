@@ -104,4 +104,5 @@ describe(`TmSessionExplore`, () => {
       sessionType: `explore`
     })
   })
+  
 })
