@@ -18,7 +18,7 @@
           </div>
           <div class="tm-li-session-text">
             <div class="tm-li-session-title">
-              <Bech32Component :address="account.address" />
+              <span>{{ shortenAddress(account.address) }}</span>
             </div>
           </div>
           <div class="tm-li-session-icon">
@@ -69,7 +69,6 @@ import TmFormStruct from "common/TmFormStruct"
 import TmField from "common/TmField"
 import TmFormMsg from "common/TmFormMsg"
 import bech32 from "bech32"
-import Bech32Component from "common/Bech32"
 export default {
   name: `session-explore`,
   components: {
@@ -78,8 +77,7 @@ export default {
     TmField,
     TmFormGroup,
     TmFormMsg,
-    TmFormStruct,
-    Bech32Component
+    TmFormStruct
   },
   data: () => ({
     address: ``,
@@ -124,6 +122,9 @@ export default {
       if (addressType === "ledger") return `vpn_key`
       if (addressType === "extension") return `laptop`
       return false
+    },
+    shortenAddress(address) {
+      return `${address.substring(0, 12)}...${address.substring(0, -12)}`
     }
   },
   validations() {
