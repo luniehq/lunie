@@ -96,7 +96,6 @@ describe(`TmSessionExplore`, () => {
   })
 
   it(`should explore with a previously used address`, async () => {
-    console.log(wrapper.html())
     let address = `cosmos1z8mzakma7vnaajysmtkwt4wgjqr2m84tzvyfkz`
     await wrapper.vm.exploreWith(address)
     expect($store.dispatch).toHaveBeenCalledWith(`signIn`, {
@@ -104,5 +103,5 @@ describe(`TmSessionExplore`, () => {
       sessionType: `explore`
     })
   })
-  
+
 })
