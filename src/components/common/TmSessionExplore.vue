@@ -18,7 +18,7 @@
           </div>
           <div class="tm-li-session-text">
             <div class="tm-li-session-title">
-              <Bech32 :address="account.address" />
+              <Bech32Component :address="account.address" />
             </div>
           </div>
           <div class="tm-li-session-icon">
@@ -68,7 +68,8 @@ import TmFormGroup from "common/TmFormGroup"
 import TmFormStruct from "common/TmFormStruct"
 import TmField from "common/TmField"
 import TmFormMsg from "common/TmFormMsg"
-import Bech32 from "common/Bech32"
+import bech32 from "bech32"
+import Bech32Component from "common/Bech32"
 export default {
   name: `session-explore`,
   components: {
@@ -78,7 +79,7 @@ export default {
     TmFormGroup,
     TmFormMsg,
     TmFormStruct,
-    Bech32
+    Bech32Component
   },
   data: () => ({
     address: ``,
