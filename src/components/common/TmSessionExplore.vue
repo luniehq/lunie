@@ -90,7 +90,6 @@ export default {
     ...mapState([`session`])
   },
   mounted() {
-    console.log(this.session)
     this.address = localStorage.getItem(`prevAddress`)
   },
   methods: {
