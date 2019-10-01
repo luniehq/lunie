@@ -5,24 +5,22 @@
         Explore with any address
       </h2>
 
-      <div
-        v-for="account in session.addresses"
-        v-bind:key="account.address"
-        class="session-list"
-      >
-        <div class="tm-li-session">
-          <div class="tm-li-session-icon">
-            <i class="material-icons circle">{{
-              getAddressIcon(account.type)
-            }}</i>
-          </div>
-          <div class="tm-li-session-text">
-            <div class="tm-li-session-title">
-              <span>{{ shortenAddress(account.address) }}</span>
+      <div v-if="session.addresses.length > 0" class="address-list">
+        <div v-for="account in session.addresses" v-bind:key="account.address">
+          <div class="tm-li-session">
+            <div class="tm-li-session-icon">
+              <i class="material-icons circle">{{
+                getAddressIcon(account.type)
+              }}</i>
             </div>
-          </div>
-          <div class="tm-li-session-icon">
-            <i class="material-icons">arrow_forward</i>
+            <div class="tm-li-session-text">
+              <div class="tm-li-session-title">
+                <span>{{ shortenAddress(account.address) }}</span>
+              </div>
+            </div>
+            <div class="tm-li-session-icon">
+              <i class="material-icons">arrow_forward</i>
+            </div>
           </div>
         </div>
       </div>
