@@ -21,6 +21,7 @@
             <div class="tm-li-session-text">
               <div class="tm-li-session-title">
                 <span>{{ shortenAddress(account.address) }}</span>
+                <p class="tm-li-session-subtitle">{{ getAddressTypeDescription(account.type)}}</p>
               </div>
             </div>
             <div class="tm-li-session-icon">
@@ -125,6 +126,12 @@ export default {
       if (addressType === "extension") return `laptop`
       return false
     },
+    getAddressTypeDescription(addressType) {
+      if (addressType === "explore") return `Explore Mode`
+      if (addressType === "ledger") return `Ledger Nano S`
+      if (addressType === "extension") return `Lunie Browser Extension`
+      return false
+    },
     shortenAddress(address) {
       return `${address.substring(0, 12)}...${address.substring(address.length - 12)}`
     },
@@ -172,6 +179,13 @@ export default {
 .tm-li-session-title {
   color: var(--bright);
   font-size: var(--h4);
+  font-weight: 400;
+}
+
+.tm-li-session-subtitle {
+  display: block;
+  width: 100%;
+  font-size: var(--h6);
   font-weight: 400;
 }
 

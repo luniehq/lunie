@@ -17,11 +17,11 @@ export default () => {
     experimentalMode: config.development, // development mode, can be set from browser
     insecureMode: false, // show the local signer
     signedIn: false,
-    sessionType: null, // local, ledger, extension
+    sessionType: null, // explore, ledger, extension
     pauseHistory: false,
     history: [],
     address: null, // Current address
-    addresses: [], // Array of used addresses. Must include account source (ledger, extension, typed in)
+    addresses: [], // Array of previously used addresses
     errorCollection: false,
     analyticsCollection: false,
     cookiesAccepted: undefined,
