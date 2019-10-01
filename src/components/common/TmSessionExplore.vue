@@ -68,7 +68,7 @@ import TmFormGroup from "common/TmFormGroup"
 import TmFormStruct from "common/TmFormStruct"
 import TmField from "common/TmField"
 import TmFormMsg from "common/TmFormMsg"
-import Bech32 from "bech32"
+import Bech32 from "Bech32"
 export default {
   name: `session-explore`,
   components: {
