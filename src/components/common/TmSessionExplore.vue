@@ -6,6 +6,24 @@
       </h2>
       <div class="session-main">
         <TmFormGroup field-id="sign-in-name" field-label="Your Cosmos Address">
+
+          <div
+            v-for="account in session.addresses"
+            v-bind:key="account.address"
+          >
+            <div class="tm-li-session-icon">
+              <i class="material-icons circle">{{ getAddressIcon(account.type) }}</i>
+            </div>
+            <div class="tm-li-session-text">
+              <div class="tm-li-session-title">
+                <span>{{ account.address }}</span>
+              </div>
+            </div>
+            <div class="tm-li-session-icon">
+              <i class="material-icons">arrow_forward</i>
+            </div>
+          </div>
+
           <TmField
             v-model="address"
             type="text"
@@ -93,6 +111,12 @@ export default {
       } else {
         return false
       }
+    },
+    getAddressIcon(addressType) {
+      if (addressType === "explore") return `language`
+      if (addressType === "ledger") return `vpn_key`
+      if (addressType === "extension") return `laptop`
+      return false
     }
   },
   validations() {
