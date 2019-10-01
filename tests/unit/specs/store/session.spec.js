@@ -78,6 +78,15 @@ describe(`Module: Session`, () => {
       )
     })
 
+    it(`should add user address to previously used addresses array`, () => {
+      let address = {
+        address: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
+        sessionType: `explore`
+      }
+      mutations.setUserAddresses(state, address)
+      expect(state.addresses).toEqual(address)
+    })
+
     it(`should activate experimental mode`, () => {
       mutations.setExperimentalMode(state)
       expect(state.experimentalMode).toBe(true)
