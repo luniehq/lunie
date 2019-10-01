@@ -180,6 +180,7 @@ export default {
   color: var(--bright);
   font-size: var(--h4);
   font-weight: 400;
+  margin-top: -0.4rem;
 }
 
 .tm-li-session-subtitle {
@@ -187,6 +188,7 @@ export default {
   width: 100%;
   font-size: var(--h6);
   font-weight: 400;
+  color: var(--dim);
 }
 
 .tm-li-session-text {
