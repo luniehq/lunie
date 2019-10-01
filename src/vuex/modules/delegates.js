@@ -1,7 +1,6 @@
 import BN from "bignumber.js"
 import b32 from "scripts/b32"
 import Vue from "vue"
-import { throttle } from "scripts/blocks-throttle"
 
 export default ({ node }) => {
   const emptyState = {
@@ -13,7 +12,6 @@ export default ({ node }) => {
     selfBond: {}
   }
   const state = JSON.parse(JSON.stringify(emptyState))
-  const delegatesThrottle = throttle("delegates")(10)
 
   const mutations = {
     setDelegateLoading(state, loading) {
@@ -39,9 +37,6 @@ export default ({ node }) => {
       }
     ) {
       Vue.set(state.selfBond, operator_address, ratio)
-    },
-    setSigningInfos(state, signingInfos) {
-      state.signingInfos = signingInfos
     }
   }
 
@@ -51,42 +46,7 @@ export default ({ node }) => {
         dispatch(`getDelegates`)
       }
     },
-    async updateSigningInfo(
-      {
-        commit,
-        getters: { lastHeader }
-      },
-      validators
-    ) {
-      await delegatesThrottle(state, Number(lastHeader.height), async () => {
-        const signingInfos = await Promise.all(
-          validators.map(async validator => {
-            if (validator.consensus_pubkey) {
-              const signing_info = await node.get.validatorSigningInfo(
-                validator.consensus_pubkey
-              )
-              return {
-                operator_address: validator.operator_address,
-                signing_info
-              }
-            }
-          })
-        )
-        commit(
-          `setSigningInfos`,
-          signingInfos
-            .filter(x => !!x)
-            .reduce(
-              (signingInfos, { operator_address, signing_info }) => ({
-                ...signingInfos,
-                [operator_address]: signing_info
-              }),
-              {}
-            )
-        )
-      })
-    },
-    async getDelegates({ state, commit, dispatch, rootState }) {
+    async getDelegates({ state, commit, rootState }) {
       commit(`setDelegateLoading`, true)
 
       if (!rootState.connection.connected) return
@@ -99,7 +59,6 @@ export default ({ node }) => {
 
         commit(`setDelegates`, validators)
         commit(`setDelegateLoading`, false)
-        dispatch(`updateSigningInfo`, validators)
 
         return validators
       } catch (error) {

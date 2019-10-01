@@ -24,7 +24,8 @@ export default [
     uptime_percentage: "0.9962",
     userName: "mr_mounty",
     voting_power: "0.0014",
-    website: "www.monty.ca"
+    website: "www.monty.ca",
+    start_height: 10
   },
   {
     avatarUrl: "https://s3.amazonaws.com/img/path.jpg",
@@ -51,7 +52,8 @@ export default [
     uptime_percentage: "0.9962",
     userName: "mr_mounty",
     voting_power: 0.014,
-    website: "www.greg.com"
+    website: "www.greg.com",
+    start_height: 15
   },
   {
     avatarUrl: "https://s3.amazonaws.com/img/path.jpg",
@@ -78,7 +80,8 @@ export default [
     uptime_percentage: "0.9962",
     userName: "mr_mounty",
     voting_power: 0.014,
-    website: "www.schmidt.de"
+    website: "www.schmidt.de",
+    start_height: 12
   },
   {
     avatarUrl: "https://s3.amazonaws.com/img/path.jpg",
@@ -105,7 +108,8 @@ export default [
     uptime_percentage: "0.9962",
     userName: "mr_mounty jailed",
     voting_power: 0.014,
-    website: "www.schmidt.de"
+    website: "www.schmidt.de",
+    start_height: 100
   },
   {
     avatarUrl: "https://s3.amazonaws.com/img/path.jpg",
@@ -132,6 +136,7 @@ export default [
     uptime_percentage: "0.9962",
     userName: "mr_mounty inactive",
     voting_power: 0.014,
-    website: "www.schmidt.de"
+    website: "www.schmidt.de",
+    start_height: 1000
   }
 ]
