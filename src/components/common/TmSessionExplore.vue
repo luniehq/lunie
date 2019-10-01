@@ -14,14 +14,16 @@
         >
           <div class="tm-li-session">
             <div class="tm-li-session-icon">
-              <i class="material-icons circle">{{
-                getAddressIcon(account.type)
-              }}</i>
+              <i class="material-icons circle">
+                {{ getAddressIcon(account.type) }}
+              </i>
             </div>
             <div class="tm-li-session-text">
               <div class="tm-li-session-title">
                 <span>{{ shortenAddress(account.address) }}</span>
-                <p class="tm-li-session-subtitle">{{ getAddressTypeDescription(account.type)}}</p>
+                <p class="tm-li-session-subtitle">
+                  {{ getAddressTypeDescription(account.type) }}
+                </p>
               </div>
             </div>
             <div class="tm-li-session-icon">
