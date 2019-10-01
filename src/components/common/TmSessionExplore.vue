@@ -6,7 +6,12 @@
       </h2>
 
       <div v-if="session.addresses.length > 0" class="session-list">
-        <div v-for="account in session.addresses" v-bind:key="account.address" @click="updateAddress(account.address)">
+        <div
+          v-for="account in session.addresses"
+          v-bind:key="account.address"
+          v-bind:title="account.address"
+          @click="exploreWith(account.address)"
+        >
           <div class="tm-li-session">
             <div class="tm-li-session-icon">
               <i class="material-icons circle">{{
@@ -124,7 +129,7 @@ export default {
     shortenAddress(address) {
       return `${address.substring(0, 12)}...${address.substring(address.length - 12)}`
     },
-    updateAddress(address) {
+    exploreWith(address) {
       this.address = address
       this.onSubmit()
     }

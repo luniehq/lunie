@@ -118,9 +118,7 @@ export default () => {
       if (!sessionExist) {
         state.addresses.push(session)
         commit(`setUserAddresses`, state.addresses)
-        console.log(`Addresses: ${JSON.stringify(state.addresses)}`)
       }
-      //
 
       await dispatch(`initializeWallet`, { address })
       dispatch(`persistSession`, {
