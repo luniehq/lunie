@@ -12,18 +12,20 @@
         v-bind:key="account.address"
         class="session-list"
       >
-        <div class="tm-li-session-icon">
-          <i class="material-icons circle">{{
-            getAddressIcon(account.type)
-          }}</i>
-        </div>
-        <div class="tm-li-session-text">
-          <div class="tm-li-session-title">
-            <span>{{ account.address }}</span>
+        <div class="tm-li-session">
+          <div class="tm-li-session-icon">
+            <i class="material-icons circle">{{
+              getAddressIcon(account.type)
+            }}</i>
           </div>
-        </div>
-        <div class="tm-li-session-icon">
-          <i class="material-icons">arrow_forward</i>
+          <div class="tm-li-session-text">
+            <div class="tm-li-session-title">
+              <span>{{ account.address }}</span>
+            </div>
+          </div>
+          <div class="tm-li-session-icon">
+            <i class="material-icons">arrow_forward</i>
+          </div>
         </div>
       </div>
 
