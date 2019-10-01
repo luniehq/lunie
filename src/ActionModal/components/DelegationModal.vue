@@ -237,9 +237,8 @@ export default {
     // Will be replaced by `status_detail` field from backend
     validatorStatusDetailed() {
       if (this.validator.jailed) return `temporally banned from the network`
-      if (this.validator.tombstoned) return `banned from the network`
-      if (this.validator.status === 0) return `banned from the network`
-      return false
+      else if (this.validator.tombstoned) return `banned from the network`
+      else if (this.validator.status === 0) return `banned from the network`
     }
   },
   methods: {

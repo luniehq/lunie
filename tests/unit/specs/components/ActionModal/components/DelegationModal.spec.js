@@ -241,4 +241,18 @@ describe(`DelegationModal`, () => {
       )
     })
   })
+
+  describe(`if validator is active`, () => {
+    it(`must not show warn message`, async () => {
+      wrapper.setData({
+        amount: 1,
+        selectedIndex: 0,
+        validator: mockValues.state.candidates[2] // Active validator
+      })
+      expect(wrapper.html()).not.toContain(
+        "You are about to delegate to an inactive validator"
+      )
+    })
+  })
+
 })
