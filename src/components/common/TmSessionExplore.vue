@@ -6,7 +6,7 @@
       </h2>
 
       <div v-if="session.addresses.length > 0" class="session-list">
-        <div v-for="account in session.addresses" v-bind:key="account.address">
+        <div v-for="account in session.addresses" v-bind:key="account.address" @click="updateAddress(account.address)">
           <div class="tm-li-session">
             <div class="tm-li-session-icon">
               <i class="material-icons circle">{{
@@ -26,7 +26,7 @@
       </div>
 
       <div class="session-main">
-        <TmFormGroup field-id="sign-in-name" field-label="Other Cosmos Address">
+        <TmFormGroup field-id="sign-in-name" field-label="Your Cosmos Address">
           <TmField
             v-model="address"
             type="text"
@@ -123,6 +123,9 @@ export default {
     },
     shortenAddress(address) {
       return `${address.substring(0, 12)}...${address.substring(address.length - 12)}`
+    },
+    updateAddress(address) {
+      this.address = address
     }
   },
   validations() {
