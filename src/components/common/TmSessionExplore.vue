@@ -135,3 +135,48 @@ export default {
   }
 }
 </script>
+<style scoped>
+.tm-li-session {
+  display: flex;
+  padding: 1rem;
+  margin-bottom: 0.25rem;
+  border: 2px solid var(--bc);
+  background-color: var(--app-fg);
+  border-radius: 0.25rem;
+}
+
+.tm-li-session:hover {
+  cursor: pointer;
+  background: var(--hover-bg);
+}
+
+.tm-li-session-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tm-li-session-icon i {
+  font-size: 1.25rem;
+}
+
+.tm-li-session-title {
+  color: var(--bright);
+  font-size: var(--h4);
+  font-weight: 400;
+}
+
+.tm-li-session-text {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  flex-flow: column nowrap;
+  padding: 0 1rem;
+}
+
+.material-icons.circle {
+  border: 2px solid var(--dim);
+  border-radius: 50%;
+  padding: 0.5rem;
+}
+</style>
