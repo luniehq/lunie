@@ -4,10 +4,14 @@
       <h2 class="session-title">
         Explore with any address
       </h2>
-      
+
       <h3>Previouly used addresses:</h3>
 
-      <div v-for="account in session.addresses" v-bind:key="account.address">
+      <div
+        v-for="account in session.addresses"
+        v-bind:key="account.address"
+        class="session-list"
+      >
         <div class="tm-li-session-icon">
           <i class="material-icons circle">{{
             getAddressIcon(account.type)
