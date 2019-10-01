@@ -126,15 +126,7 @@ export default {
     },
     updateAddress(address) {
       this.address = address
-      this.$v.$touch()
-      if (this.$v.$error) return
-
-      this.$store.dispatch(`signIn`, {
-        sessionType: `explore`,
-        address: this.address
-      })
-      localStorage.setItem(`prevAddress`, this.address)
-      this.$router.push(`/`)
+      this.onSubmit()
     }
   },
   validations() {
