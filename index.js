@@ -32,6 +32,8 @@ const server = new ApolloServer(options);
 
 server
   .listen({ port: process.env.PORT || 4000 })
-  .then(({ url }) => `GraphQL Server listening on ${url}`)
-  .then(console.log)
+  .then(({ url, subscriptionsUrl }) => {
+    console.log(`Server ready at ${url}`);
+    console.log(`Subscriptions ready at ${subscriptionsUrl}`);
+  })
   .catch(console.error);
