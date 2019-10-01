@@ -124,7 +124,7 @@ export default {
       return false
     },
     shortenAddress(address) {
-      return `${address.substring(0, 12)}...${address.substring(0, -12)}`
+      return `${address.substring(0, 12)}...${address.substring(address.length - 12)}`
     }
   },
   validations() {
