@@ -37,6 +37,7 @@
 </template>
 
 <script>
+import { mapState } from "vuex"
 import { required } from "vuelidate/lib/validators"
 import TmBtn from "common/TmBtn"
 import SessionFrame from "common/SessionFrame"
@@ -59,7 +60,11 @@ export default {
     address: ``,
     error: ``
   }),
+  computed: {
+    ...mapState([`session`])
+  },
   mounted() {
+    console.log(this.session)
     this.address = localStorage.getItem(`prevAddress`)
   },
   methods: {
