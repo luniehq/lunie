@@ -113,7 +113,7 @@ export default () => {
       }
       let sessionExist = false;
       for (let i = 0; i <= state.addresses.length; i++) {
-        if (state.addresses[i].address === address) sessionExist = true
+        if (state.addresses[i].address === state.address) sessionExist = true
       }
       if (!sessionExist) {
         state.addresses.push(session)
