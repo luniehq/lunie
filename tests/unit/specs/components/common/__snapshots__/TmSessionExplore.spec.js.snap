@@ -14,6 +14,8 @@ exports[`TmSessionExplore shows a form to sign in with an address 1`] = `
     
     </h2>
      
+    <!---->
+     
     <div
       class="session-main"
     >

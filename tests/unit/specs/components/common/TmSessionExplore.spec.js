@@ -12,8 +12,11 @@ describe(`TmSessionExplore`, () => {
     $store = {
       commit: jest.fn(),
       dispatch: jest.fn(() => true),
-      getters: {
-        connected: true
+      state: {
+        session: {
+          address: ``,
+          addresses: []
+        }
       }
     }
 
