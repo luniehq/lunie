@@ -39,7 +39,7 @@
 </template>
 
 <script>
-import { mapState } from "vuex"
+import { mapGetters } from "vuex"
 import { required } from "vuelidate/lib/validators"
 import TmBtn from "common/TmBtn"
 import TmFormGroup from "common/TmFormGroup"
@@ -63,15 +63,13 @@ export default {
     TmFormStruct
   },
   computed: {
-    ...mapState([`recover`]),
+    ...mapGetters([`recover`]),
     seed: {
       get() {
         return this.$store.state.recover.seed
       },
       set(value) {
-        console.log(`Store value for seed is ${JSON.stringify(this.$store.state.recover)}`)
-        //this.$store.commit(`updateField`, { field: `seed`, value })
-        this.$store.commit(`updateSeed`, value)
+        this.$store.commit(`updateField`, { field: `seed`, value })
       }
     }
   },
