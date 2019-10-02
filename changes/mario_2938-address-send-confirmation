@@ -1,1 +1,0 @@
-[Fixed] [#2938](https://github.com/cosmos/lunie/issues/2938) Prevent destination address to expand over its container on Send confirmation screen.  @mariopino

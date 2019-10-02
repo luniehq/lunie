@@ -7,6 +7,17 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.0-beta.126] - 2019-10-02
+
+### Added
+
+- [#1932](https://github.com/cosmos/lunie/issues/1932) Warn if user is trying to delegate to a jailed/tombstone validator @mariopino
+
+### Fixed
+
+- [#3006](https://github.com/cosmos/lunie/pull/3006) Network images were not showing @faboweb
+- [#2938](https://github.com/cosmos/lunie/issues/2938) Prevent destination address to expand over its container on Send confirmation screen.  @mariopino
+
 ## [1.0.0-beta.125] - 2019-10-01
 
 ### Fixed
