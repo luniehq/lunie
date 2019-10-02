@@ -28,7 +28,7 @@ import { mapState, mapGetters } from "vuex"
 import DataEmptyTx from "common/TmDataEmptyTx"
 import TmPage from "common/TmPage"
 import TransactionList from "transactions/TransactionList"
-import { AllValidators, AllValidatorsResult } from "src/gql"
+import { AllValidators, validatorsResult } from "src/gql"
 
 export default {
   name: `page-transactions`,
@@ -85,7 +85,7 @@ export default {
       },
       update(data) {
         /* istanbul ignore next */
-        return AllValidatorsResult(this.network)(data)
+        return validatorsResult(this.network)(data)
       }
     }
   }

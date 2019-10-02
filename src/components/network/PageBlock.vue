@@ -65,7 +65,7 @@ import {
   flattenTransactionMsgs,
   addTransactionTypeData
 } from "scripts/transaction-utils"
-import { AllValidators, AllValidatorsResult } from "src/gql"
+import { AllValidators, validatorsResult } from "src/gql"
 
 import TmPage from "common/TmPage"
 import TransactionList from "transactions/TransactionList"
@@ -159,7 +159,7 @@ export default {
   apollo: {
     validators: {
       query: AllValidators,
-      update: AllValidatorsResult
+      update: validatorsResult
     }
   }
 }
