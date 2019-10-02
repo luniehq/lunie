@@ -197,6 +197,13 @@ export default [
     },
     meta: {
       feature: "Session"
+    },
+    beforeEnter: (to, from, next) => {
+      if (from.name === `recover`) {
+        next()
+      } else {
+        next({ path: `/recover` })
+      }
     }
   },
   {
@@ -207,6 +214,13 @@ export default [
     },
     meta: {
       feature: "Session"
+    },
+    beforeEnter: (to, from, next) => {
+      if (from.name === `recover-confirm`) {
+        next()
+      } else {
+        next({ path: `/recover` })
+      }
     }
   },
   {
@@ -217,6 +231,13 @@ export default [
     },
     meta: {
       feature: "Session"
+    },
+    beforeEnter: (to, from, next) => {
+      if (from.name === `recover-name`) {
+        next()
+      } else {
+        next({ path: `/recover` })
+      }
     }
   },
   {
@@ -227,6 +248,13 @@ export default [
     },
     meta: {
       feature: "Session"
+    },
+    beforeEnter: (to, from, next) => {
+      if (from.name === `recover-password`) {
+        next()
+      } else {
+        next({ path: `/recover` })
+      }
     }
   },
   {
