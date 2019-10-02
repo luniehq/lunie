@@ -20,12 +20,12 @@ exports[`TmSessionSignUpSuccess renders 1`] = `
     >
       <p>
         
-        A message should go here.
+        Your address has been created
       
       </p>
        
       <tmbtn-stub
-        value="Back to Lunie"
+        value="Go to Lunie"
       />
     </div>
   </div>

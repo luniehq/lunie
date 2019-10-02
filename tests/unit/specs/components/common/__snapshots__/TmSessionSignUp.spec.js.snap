@@ -41,7 +41,7 @@ exports[`TmSessionSignUp renders 1`] = `
       >
         <tmbtn-stub
           disabled="true"
-          value="Choose Password"
+          value="Next"
         />
       </div>
     </div>

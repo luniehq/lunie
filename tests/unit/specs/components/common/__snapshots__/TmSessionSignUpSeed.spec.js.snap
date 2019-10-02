@@ -17,8 +17,6 @@ exports[`TmSessionSignUpSeed renders 1`] = `
     <div
       class="session-main"
     >
-      <dangerzonewarning-stub />
-       
       <tmformgroup-stub
         class="sign-up-seed-group"
         fieldid="sign-up-seed"
@@ -59,7 +57,7 @@ exports[`TmSessionSignUpSeed renders 1`] = `
       >
         <tmbtn-stub
           disabled="true"
-          value="Create Address"
+          value="Create"
         />
       </div>
     </div>
