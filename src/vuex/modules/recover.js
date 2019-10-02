@@ -13,15 +13,10 @@ export default () => {
     },
     mutations: {
       updateField(state, payload) {
-        console.log(payload)
         state[payload.field] = payload.value
-        console.log(state)
       },
       recoverReset(state) {
         state = emptyState
-      },
-      updateSeed(state, seed) {
-        state.seed = seed
       }
     }
   }
