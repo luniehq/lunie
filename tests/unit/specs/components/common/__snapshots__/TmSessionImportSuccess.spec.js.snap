@@ -23,7 +23,7 @@ exports[`TmSessionImportSuccess has the expected html structure 1`] = `
       </p>
        
       <tmbtn-stub
-        value="Go to Lunie"
+        value="Back to Lunie"
       />
     </div>
   </div>
