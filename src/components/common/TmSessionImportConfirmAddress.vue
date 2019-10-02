@@ -40,6 +40,7 @@ export default {
     ...mapState([`recover`])
   },
   async created() {
+    console.log(`Created!`)
     console.log(this.$store.state.recover.seed)
     this.importCosmosAddress = await this.$store.dispatch(
       `getAddressFromSeed`,
