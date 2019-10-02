@@ -1,0 +1,48 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TmSessionImportName has the expected html structure 1`] = `
+<sessionframe-stub>
+  <tmformstruct-stub
+    submit="function () {}"
+    width=""
+  >
+    <h2
+      class="session-title"
+    >
+      
+      Recover with backup code
+    
+    </h2>
+     
+    <div
+      class="session-main"
+    >
+      <tmformgroup-stub
+        fieldid="import-name"
+        fieldlabel="Account Name"
+      >
+        <tmfield-stub
+          id="import-name"
+          placeholder="Must have at least 5 characters"
+          type="text"
+          value=""
+          vue-focus="vue-focus"
+        />
+         
+        <!---->
+         
+        <!---->
+      </tmformgroup-stub>
+    </div>
+     
+    <div
+      class="session-footer"
+    >
+      <tmbtn-stub
+        disabled="true"
+        value="Confirm Seed"
+      />
+    </div>
+  </tmformstruct-stub>
+</sessionframe-stub>
+`;

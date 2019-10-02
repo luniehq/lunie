@@ -1,0 +1,39 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TmSessionImportConfirmAddress has the expected html structure 1`] = `
+<sessionframe-stub>
+  <tmformstruct-stub
+    submit="function () {}"
+    width=""
+  >
+    <h2
+      class="session-title"
+    >
+      
+      Recover with backup code
+    
+    </h2>
+     
+    <div
+      class="session-main"
+    >
+      <tmformgroup-stub
+        fieldid="import-name"
+        fieldlabel="Address"
+      >
+        <pre>
+          true
+        </pre>
+      </tmformgroup-stub>
+    </div>
+     
+    <div
+      class="session-footer"
+    >
+      <tmbtn-stub
+        value="Create Account"
+      />
+    </div>
+  </tmformstruct-stub>
+</sessionframe-stub>
+`;
