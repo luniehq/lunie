@@ -42,7 +42,7 @@ export default {
   async created() {
     this.importCosmosAddress = await this.$store.dispatch(
       `getAddressFromSeed`,
-      this.recover.seed
+      this.$store.state.recover.seed
     )
   }
 }
