@@ -133,6 +133,11 @@ export default [
     components: {
       session: require(`./components/common/TmSessionSignUpPassword`).default
     },
+    beforeEnter: (to, from, next) => {
+      console.log(to)
+      console.log(from)
+      next()
+    },
     meta: {
       feature: "Session"
     }
