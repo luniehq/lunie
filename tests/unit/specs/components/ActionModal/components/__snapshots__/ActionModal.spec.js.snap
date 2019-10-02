@@ -247,10 +247,8 @@ exports[`ActionModal should show the action modal on success 1`] = `
         <router-link-stub
           to="/blocks/undefined"
         >
-          #
+          #0
         </router-link-stub>
-        .
-          
       </div>
     </tmdatamsg-stub>
   </div>

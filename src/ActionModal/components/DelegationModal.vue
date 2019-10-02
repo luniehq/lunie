@@ -27,6 +27,22 @@
     </TmFormGroup>
     <TmFormGroup class="action-modal-form-group" field-id="to" field-label="To">
       <TmField id="to" v-model="to" type="text" readonly />
+      <TmFormMsg
+        v-if="validatorStatus === 'Inactive' && !isRedelegation()"
+        :msg="
+          `You are about to delegate to an inactive validator (${validatorStatusDetailed})`
+        "
+        type="custom"
+        class="tm-form-msg--desc"
+      />
+      <TmFormMsg
+        v-if="validatorStatus === 'Inactive' && isRedelegation()"
+        :msg="
+          `You are about to redelegate to an inactive validator (${validatorStatusDetailed})`
+        "
+        type="custom"
+        class="tm-form-msg--desc"
+      />
     </TmFormGroup>
 
     <TmFormGroup
@@ -207,6 +223,23 @@ export default {
           )}s`
         }
       }
+    },
+    // Will be replaced by `status` field from backend
+    validatorStatus() {
+      if (
+        this.validator.jailed ||
+        this.validator.tombstoned ||
+        this.validator.status === 0
+      )
+        return `Inactive`
+      return `Active`
+    },
+    // Will be replaced by `status_detail` field from backend
+    validatorStatusDetailed() {
+      if (this.validator.jailed) return `temporally banned from the network`
+      else if (this.validator.tombstoned) return `banned from the network`
+      else if (this.validator.status === 0) return `banned from the network`
+      else return false
     }
   },
   methods: {

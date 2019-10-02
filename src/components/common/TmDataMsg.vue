@@ -78,6 +78,7 @@ export default {
 .tm-data-msg__subtitle {
   color: var(--txt);
   font-size: 1rem;
+  word-break: break-word;
 }
 
 @media screen and (max-width: 767px) {
