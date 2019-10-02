@@ -20,7 +20,7 @@ export default () => {
       },
       updateSeed(state, seed) {
         state.seed = seed
-      },
+      }
     }
   }
 }
