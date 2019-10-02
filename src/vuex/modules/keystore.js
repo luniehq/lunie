@@ -35,7 +35,7 @@ export default () => {
       const { getSeed } = await import("@lunie/cosmos-keys")
       return getSeed()
     },
-    async getAddressFromSeed(store, { seedPhrase }) {
+    async getAddressFromSeed(store, seedPhrase) {
       const { getNewWalletFromSeed } = await import("@lunie/cosmos-keys")
       console.log(`Seed phrase: ${seedPhrase}`)
       const wallet = getNewWalletFromSeed(seedPhrase)
