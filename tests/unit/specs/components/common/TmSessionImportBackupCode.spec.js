@@ -54,7 +54,6 @@ describe(`TmSessionImportBackupCode`, () => {
   it(`should disable button if seed is not 24 words long`, async () => {
     $store.state.recover.seed = `asdf asdf asdf asdf`
     getters = {
-      // connected: () => true,
       seed: () => `asdf asdf asdf asdf`
     }
     wrapper = shallowMount(TmSessionImportBackupCode, {
@@ -74,8 +73,8 @@ describe(`TmSessionImportBackupCode`, () => {
   it(`should enable button if seed is 24 words long`, async () => {
     $store.state.recover.seed = `asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf`
     getters = {
-      // connected: () => true,
-      seed: () => `asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf`
+      seed: () =>
+        `asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf`
     }
     wrapper = shallowMount(TmSessionImportBackupCode, {
       localVue,
