@@ -12,7 +12,7 @@
       <div class="session-footer">
         <TmBtn
           value="Create Account"
-          @click.native="$router.push('recover-name')"
+          @click.native="$router.push('/recover/name')"
         />
       </div>
     </TmFormStruct>

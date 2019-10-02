@@ -104,7 +104,7 @@ export default {
           password: this.recover.password,
           name: this.recover.name
         })
-        this.$router.push(`recover-success`)
+        this.$router.push(`/recover/success`)
       } catch (error) {
         this.$store.commit(`notifyError`, {
           title: `Couldn't create account`,

@@ -34,7 +34,7 @@
         <TmBtn
           value="Confirm Seed"
           :disabled="$v.name.$invalid || $v.name.$invalid"
-          @click.native="$router.push('recover-password')"
+          @click.native="$router.push('/recover/password')"
         />
       </div>
     </TmFormStruct>

@@ -189,8 +189,8 @@ export default [
     }
   },
   {
-    path: `/recover-confirm-address`,
-    name: `recover-confirm-address`,
+    path: `/recover/confirm`,
+    name: `recover-confirm`,
     components: {
       session: require(`./components/common/TmSessionImportConfirmAddress`)
         .default
@@ -200,7 +200,7 @@ export default [
     }
   },
   {
-    path: `/recover-name`,
+    path: `/recover/name`,
     name: `recover-name`,
     components: {
       session: require(`./components/common/TmSessionImportName`).default
@@ -210,7 +210,7 @@ export default [
     }
   },
   {
-    path: `/recover-password`,
+    path: `/recover/password`,
     name: `recover-password`,
     components: {
       session: require(`./components/common/TmSessionImportPassword`).default
@@ -220,7 +220,7 @@ export default [
     }
   },
   {
-    path: `/recover-success`,
+    path: `/recover/success`,
     name: `recover-success`,
     components: {
       session: require(`./components/common/TmSessionImportSuccess`).default

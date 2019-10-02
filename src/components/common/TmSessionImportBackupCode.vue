@@ -31,7 +31,7 @@
         <TmBtn
           value="Confirm Seed"
           :disabled="$v.seed.$invalid || $v.seed.$invalid"
-          @click.native="$router.push('recover-confirm-address')"
+          @click.native="$router.push('/recover/confirm')"
         />
       </div>
     </TmFormStruct>
