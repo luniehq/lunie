@@ -39,7 +39,6 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex"
 import { required } from "vuelidate/lib/validators"
 import TmBtn from "common/TmBtn"
 import TmFormGroup from "common/TmFormGroup"
@@ -47,6 +46,7 @@ import TmFormStruct from "common/TmFormStruct"
 import TmFormMsg from "common/TmFormMsg"
 import FieldSeed from "common/TmFieldSeed"
 import SessionFrame from "common/SessionFrame"
+import { mapGetters } from "vuex"
 
 const words24 = param => {
   return param && param.split(` `).length === 24
@@ -69,6 +69,7 @@ export default {
         return this.$store.state.recover.seed
       },
       set(value) {
+        console.log(`Seed is ${value}`)
         this.$store.commit(`updateField`, { field: `seed`, value })
       }
     }
