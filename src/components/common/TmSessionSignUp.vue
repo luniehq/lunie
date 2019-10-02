@@ -34,7 +34,7 @@
           <TmBtn
             value="Choose Password"
             :disabled="$v.fieldName.$invalid"
-            @click.native="$router.push('create-password')"
+            @click.native="$router.push('/create/password')"
           />
         </div>
       </div>
