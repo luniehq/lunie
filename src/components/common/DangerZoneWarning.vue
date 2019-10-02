@@ -14,12 +14,12 @@
     </p>
   </div>
 </template>
-  
+
 <style scoped>
 .danger-zone {
   border: 2px solid var(--danger-bc);
   border-radius: 0.25rem;
-  margin-bottom: 1rem;
+  margin: 1rem 0;
   padding: 1rem;
 }
 
