@@ -55,7 +55,7 @@
             :disabled="
               $v.fieldPassword.$invalid || $v.fieldPasswordConfirm.$invalid
             "
-            @click.native="$router.push('create-confirm')"
+            @click.native="$router.push('/create/confirm')"
           />
         </div>
       </div>
