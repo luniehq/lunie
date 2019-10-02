@@ -43,7 +43,9 @@ export default () => {
       track,
       anonymize,
       deanonymize
-    }
+    },
+
+    seed: ``
   }
 
   const mutations = {
@@ -76,6 +78,9 @@ export default () => {
     },
     setCurrrentModalOpen(state, modal) {
       state.currrentModalOpen = modal
+    },
+    setSeed(state, seed) {
+      state.seed = seed
     }
   }
 
@@ -121,7 +126,7 @@ export default () => {
       localStorage.removeItem(`session`)
     },
     loadLocalPreferences({ state, dispatch }) {
-      const localPreferences = localStorage.getItem(USER_PREFERENCES_KEY)
+      const localPreferences = localStorage.updateFieldItem(USER_PREFERENCES_KEY)
 
       // don't track in development
       if (state.developmentMode) return
