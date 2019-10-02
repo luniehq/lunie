@@ -1,0 +1,31 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TmSessionImportSuccess has the expected html structure 1`] = `
+<sessionframe-stub
+  hideback="true"
+>
+  <h2
+    class="session-title"
+  >
+    
+    Success!
+  
+  </h2>
+   
+  <div
+    class="wrapper"
+  >
+    <div
+      class="content-main"
+    >
+      <p>
+        Created account
+      </p>
+       
+      <tmbtn-stub
+        value="Back to Lunie"
+      />
+    </div>
+  </div>
+</sessionframe-stub>
+`;
