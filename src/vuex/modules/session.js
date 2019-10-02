@@ -43,10 +43,6 @@ export default () => {
       track,
       anonymize,
       deanonymize
-    },
-
-    recover: {
-      seed: ``
     }
   }
 
@@ -79,9 +75,6 @@ export default () => {
       state.pauseHistory = paused
     },
     setCurrrentModalOpen(state, modal) {
-      state.currrentModalOpen = modal
-    },
-    setSeed(state, modal) {
       state.currrentModalOpen = modal
     }
   }

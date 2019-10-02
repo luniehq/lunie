@@ -40,7 +40,6 @@
 </template>
 
 <script>
-import { mapState } from "vuex"
 import { required } from "vuelidate/lib/validators"
 import TmBtn from "common/TmBtn"
 import TmFormGroup from "common/TmFormGroup"
@@ -64,10 +63,9 @@ export default {
     TmFormStruct
   },
   computed: {
-    ...mapState([`session`]),
     seed: {
       get() {
-        return this.$store.state.session.seed
+        return this.$store.state.recover.seed
       },
       set(value) {
         this.$store.commit(`updateField`, { field: `seed`, value })
