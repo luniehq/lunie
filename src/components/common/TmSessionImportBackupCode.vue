@@ -64,7 +64,6 @@ export default {
     TmFormStruct
   },
   computed: {
-    computed: {
     ...mapState([`session`]),
     seed: {
       get() {
