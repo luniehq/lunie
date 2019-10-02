@@ -8,7 +8,7 @@
         <p>
           Your account has been created
         </p>
-        <TmBtn value="Go to Lunie" @click.native="$router.push('/')" />
+        <TmBtn value="Back to Lunie" @click.native="$router.push('/')" />
       </div>
     </div>
   </SessionFrame>
