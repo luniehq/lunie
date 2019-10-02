@@ -17,7 +17,10 @@ export default () => {
       },
       recoverReset(state) {
         state = emptyState
-      }
+      },
+      updateSeed(state, seed) {
+        state.seed = seed
+      },
     }
   }
 }
