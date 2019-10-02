@@ -1,109 +1,44 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`TmSessionImportBackupCode has the expected html structure 1`] = `
-<div
-  class="session-frame"
-  mode="out-in"
-  name="component-fade"
->
-  <router-link-stub
-    to="/"
+<sessionframe-stub>
+  <tmformstruct-stub
+    submit="function () {}"
+    width=""
   >
-    <img
-      class="session-logo"
-      src="~assets/images/lunie-logo-white.svg"
-    />
-  </router-link-stub>
-   
-  <div
-    class="session-outer-container"
-  >
-    <div
-      class="session"
+    <h2
+      class="session-title"
     >
-      <a>
-        <i
-          class="material-icons session-back"
-        >
-          arrow_back
-        </i>
-      </a>
-       
-      <form
-        class="form"
-      >
-         
-        <!---->
-         
-        <main
-          class="form-main"
-        >
-          <h2
-            class="session-title"
-          >
-            
+      
       Recover with backup code
     
-          </h2>
-           
-          <div
-            class="session-main"
-          >
-            <div
-              class="tm-form-group"
-            >
-              <!---->
-               
-              <label
-                class="tm-form-group__label"
-                for="import-seed"
-              >
-                
-    Backup code
-  
-              </label>
-               
-              <div
-                class="tm-form-group__field"
-              >
-                <textarea
-                  class="tm-field-seed tm-field"
-                  id="import-seed"
-                  placeholder="Must be exactly 24 words"
-                  style="overflow-x: hidden; word-wrap: break-word; overflow-y: hidden;"
-                />
-                 
-                <!---->
-              </div>
-            </div>
-          </div>
-           
-          <div
-            class="session-footer"
-          >
-            <button
-              class="button"
-              disabled="disabled"
-            >
-              
-  Confirm Seed
-
-            </button>
-          </div>
-        </main>
+    </h2>
+     
+    <div
+      class="session-main"
+    >
+      <tmformgroup-stub
+        fieldid="import-seed"
+        fieldlabel="Backup code"
+      >
+        <fieldseed-stub
+          id="import-seed"
+          placeholder="Must be exactly 24 words"
+          value=""
+        />
          
         <!---->
-      </form>
+      </tmformgroup-stub>
     </div>
-  </div>
-   
-  <button
-    class="button session-close"
-    color="secondary"
-  >
-    
-  Back to Lunie
-
-  </button>
-</div>
+     
+    <div
+      class="session-footer"
+    >
+      <tmbtn-stub
+        disabled="true"
+        value="Confirm Seed"
+      />
+    </div>
+  </tmformstruct-stub>
+</sessionframe-stub>
 `;
