@@ -86,6 +86,7 @@ export default {
     validators: []
   }),
   computed: {
+    ...mapState({ network: state => state.connection.network }),
     ...mapState([`delegation`, `session`]),
     ...mapGetters([`lastHeader`]),
     validatorsAddressMap() {
@@ -158,8 +159,14 @@ export default {
   },
   apollo: {
     validators: {
-      query: AllValidators,
-      update: AllValidatorsResult
+      query() {
+        /* istanbul ignore next */
+        return AllValidators(this.network)
+      },
+      update(data) {
+        /* istanbul ignore next */
+        return AllValidatorsResult(this.network)(data)
+      }
     }
   }
 }
