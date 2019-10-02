@@ -128,7 +128,7 @@ export default [
     }
   },
   {
-    path: `/create-password`,
+    path: `/create/password`,
     name: `create-password`,
     components: {
       session: require(`./components/common/TmSessionSignUpPassword`).default
@@ -145,7 +145,7 @@ export default [
     }
   },
   {
-    path: `/create-confirm`,
+    path: `/create/confirm`,
     name: `create-confirm`,
     components: {
       session: require(`./components/common/TmSessionSignUpSeed`).default
@@ -162,7 +162,7 @@ export default [
     }
   },
   {
-    path: `/create-success`,
+    path: `/create/success`,
     name: `create-success`,
     components: {
       session: require(`./components/common/TmSessionSignUpSuccess`).default
