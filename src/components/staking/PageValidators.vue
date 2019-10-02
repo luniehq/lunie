@@ -45,7 +45,7 @@
 
 <script>
 import { mapState } from "vuex"
-import { ValidatorByName, AllValidatorsResult } from "src/gql"
+import { AllValidators, validatorsResult, NewBlockSubscription } from "src/gql"
 import TableValidators from "staking/TableValidators"
 import PageContainer from "common/PageContainer"
 import TmField from "common/TmField"
@@ -71,16 +71,27 @@ export default {
     validators: {
       query() {
         /* istanbul ignore next */
-        return ValidatorByName(this.network)(this.activeOnly)
+        return AllValidators(this.network)
       },
       update(data) {
         /* istanbul ignore next */
-        return AllValidatorsResult(this.network)(data)
+        return validatorsResult(this.network)(data)
       },
       variables() {
         /* istanbul ignore next */
         return {
           monikerName: `%${this.searchTerm}%`
+        }
+      }
+    },
+    $subscribe: {
+      blockAdded: {
+        query: NewBlockSubscription,
+        result({ data }) {
+          this.$store.commit(`notify`, {
+            title: `New Block`,
+            body: `New Block #${data.blockAdded.height}`
+          })
         }
       }
     }

@@ -1,28 +1,30 @@
 <template>
   <TmPage data-title="Proposal" hide-header class="small">
-    <TmDataLoading v-if="!proposals.loaded || !governanceParameters.loaded" />
-    <TmDataError v-else-if="!proposal" />
-    <template v-else>
+    <!-- <TmDataLoading
+      v-if="!$apollo.queries.proposal.loading || !governanceParameters.loaded"
+    /> -->
+    <!-- <TmDataError v-else-if="!proposal" /> -->
+    <template>
       <div class="proposal">
         <div class="page-profile__header__info">
           <span :class="status.color" class="proposal-status">
             {{ status.badge }}
           </span>
-          <h2 class="proposal-title">{{ title }}</h2>
+          <h2 class="proposal-title">{{ proposal.title }}</h2>
         </div>
         <div class="button-container">
           <TmBtn
-            v-if="proposal.proposal_status !== 'Passed'"
+            v-if="proposal.status !== 'Passed'"
             id="deposit-btn"
             :value="connected ? 'Deposit' : 'Connecting...'"
-            :disabled="proposal.proposal_status !== 'DepositPeriod'"
+            :disabled="proposal.status !== 'DepositPeriod'"
             color="primary"
             @click.native="onDeposit"
           />
           <TmBtn
             id="vote-btn"
             :value="connected ? 'Vote' : 'Connecting...'"
-            :disabled="proposal.proposal_status !== 'VotingPeriod'"
+            :disabled="proposal.status !== 'VotingPeriod'"
             color="primary"
             @click.native="() => onVote()"
           />
@@ -31,7 +33,7 @@
 
       <TextBlock :content="description" />
 
-      <ul v-if="proposal.proposal_status === 'DepositPeriod'" class="row">
+      <ul v-if="proposal.status === 'DepositPeriod'" class="row">
         <li>
           <h4>Deposit Count</h4>
           <span>
@@ -47,7 +49,7 @@
         </li>
       </ul>
 
-      <ul v-if="proposal.proposal_status !== `DepositPeriod`" class="row">
+      <ul v-if="proposal.status !== `DepositPeriod`" class="row">
         <li>
           <h4>Total Vote Count</h4>
           <span>
@@ -58,29 +60,29 @@
         <li>
           <h4>Yes</h4>
           <span>
-            {{ yesPercentage }} /
-            {{ num.shortDecimals(num.atoms(tally.yes)) }}
+            {{ proposal.final_tally_yes / totalVotes * 100 | shortDecimals }} /
+            {{ num.shortDecimals(num.atoms(tally.final_tally_yes)) }}
           </span>
         </li>
         <li>
           <h4>No</h4>
           <span>
             {{ noPercentage }} /
-            {{ num.shortDecimals(num.atoms(tally.no)) }}
+            {{ num.shortDecimals(num.atoms(tally.final_tally_no)) }}
           </span>
         </li>
         <li>
           <h4>No with Veto</h4>
           <span>
             {{ noWithVetoPercentage }} /
-            {{ num.shortDecimals(num.atoms(tally.no_with_veto)) }}
+            {{ num.shortDecimals(num.atoms(tally.final_tally_no_with_veto)) }}
           </span>
         </li>
         <li>
           <h4>Abstain</h4>
           <span>
             {{ abstainPercentage }} /
-            {{ num.shortDecimals(num.atoms(tally.abstain)) }}
+            {{ num.shortDecimals(num.atoms(tally.final_tally_abstain)) }}
           </span>
         </li>
       </ul>
@@ -88,32 +90,32 @@
       <ul class="row">
         <li>
           <h4>Proposal ID</h4>
-          <span>{{ proposal.proposal_id }}</span>
+          <span>{{ proposal.id }}</span>
         </li>
         <li>
           <h4>Submitted</h4>
-          <span>{{ submittedAgo }}</span>
+          <span>{{ proposal.submit_time }}</span>
         </li>
         <li>
           <h4>Voting Start Date</h4>
-          <span>{{ votingStartedAgo }}</span>
+          <span>{{ proposal.voting_start_time }}</span>
         </li>
-        <li v-if="displayEndDate">
+        <li v-if="proposal.voting_end_time">
           <h4>Voting End Date</h4>
-          <span>{{ endDate }}</span>
+          <span>{{ proposal.voting_end_time }}</span>
         </li>
       </ul>
 
       <ModalDeposit
         ref="modalDeposit"
         :proposal-id="proposalId"
-        :proposal-title="title"
+        :proposal-title="proposal.title || ''"
         :denom="depositDenom"
       />
       <ModalVote
         ref="modalVote"
         :proposal-id="proposalId"
-        :proposal-title="title"
+        :proposal-title="proposal.title || ''"
         :last-vote-option="lastVote && lastVote.option"
       />
     </template>
@@ -124,7 +126,7 @@
 import moment from "moment"
 import BigNumber from "bignumber.js"
 import { mapState, mapGetters } from "vuex"
-import num from "scripts/num"
+import num, { shortDecimals } from "scripts/num"
 import TmBtn from "common/TmBtn"
 import TmDataError from "common/TmDataError"
 import TmDataLoading from "common/TmDataLoading"
@@ -133,6 +135,8 @@ import ModalDeposit from "src/ActionModal/components/ModalDeposit"
 import ModalVote from "src/ActionModal/components/ModalVote"
 import TmPage from "common/TmPage"
 import { getProposalStatus } from "scripts/proposal-status"
+import { ProposalItem, proposalResult } from "src/gql"
+
 export default {
   name: `page-proposal`,
   components: {
@@ -150,39 +154,41 @@ export default {
       required: true
     }
   },
+  filters: {
+    shortDecimals
+  },
   data: () => ({
     num,
-    lastVote: undefined
+    lastVote: undefined,
+    proposal: {}
   }),
   computed: {
     ...mapState([
       `governanceParameters`,
       `pool`,
-      `proposals`,
+      // `proposals`,
       `session`,
       `wallet`
     ]),
     ...mapState({ votes: state => state.votes.votes }),
+    ...mapState({ network: state => state.connection.network }),
     ...mapGetters([`depositDenom`, `connected`]),
-    proposal() {
-      return this.proposals.proposals[this.proposalId]
+    // proposal() {
+    // return this.proposals.proposals[this.proposalId]
+    // },
+    description() {
+      return this.proposal.description
     },
-    title({ proposal } = this) {
-      return proposal.proposal_content.value.title
+    submittedAgo() {
+      return moment(this.proposal.submit_time).format("MMMM Do YYYY, HH:mm")
     },
-    description({ proposal } = this) {
-      return proposal.proposal_content.value.description
+    endDate() {
+      return moment(this.proposal.voting_end_time).format("MMMM Do YYYY, HH:mm")
     },
-    submittedAgo({ proposal } = this) {
-      return moment(proposal.submit_time).format("MMMM Do YYYY, HH:mm")
-    },
-    endDate({ proposal } = this) {
-      return moment(proposal.voting_end_time).format("MMMM Do YYYY, HH:mm")
-    },
-    displayEndDate({ proposal, governanceParameters } = this) {
+    displayEndDate({ governanceParameters } = this) {
       if (
-        proposal.proposal_status !== "DepositPeriod" &&
-        proposal.total_deposit[0].amount >=
+        this.proposal.status !== "DepositPeriod" &&
+        this.proposal.total_deposit[0].amount >=
           Number(governanceParameters.parameters.deposit.min_deposit[0].amount)
       ) {
         return true
@@ -190,17 +196,20 @@ export default {
         return false
       }
     },
-    votingStartedAgo({ proposal } = this) {
-      return moment(proposal.voting_start_time).format("MMMM Do YYYY, HH:mm")
+    votingStartedAgo() {
+      return moment(this.proposal.voting_start_time).format(
+        "MMMM Do YYYY, HH:mm"
+      )
     },
-    depositEndsIn({ proposal } = this) {
-      return moment(new Date(proposal.deposit_end_time)).fromNow()
+    depositEndsIn() {
+      return moment(new Date(this.proposal.deposit_end_time)).fromNow()
     },
-    totalVotes({ tally: { yes, no, no_with_veto, abstain } } = this) {
-      return BigNumber(yes)
-        .plus(no)
-        .plus(no_with_veto)
-        .plus(abstain)
+    totalVotes({ tally: { final_tally_yes, final_tally_no, final_tally_no_with_veto, final_tally_abstain } } = this) {
+      console.log()
+      return BigNumber(final_tally_yes)
+        .plus(final_tally_no)
+        .plus(final_tally_no_with_veto)
+        .plus(final_tally_abstain)
         .toNumber()
     },
     totalVotePercentage({ pool, totalVotes }) {
@@ -208,27 +217,36 @@ export default {
       return num.percentInt(totalVotes / totalPossibleVotes)
     },
     yesPercentage({ tally, totalVotes } = this) {
-      return num.percentInt(totalVotes === 0 ? 0 : tally.yes / totalVotes)
+      return num.percentInt(totalVotes === 0 ? 0 : tally.final_tally_yes / totalVotes)
     },
     noPercentage({ tally, totalVotes } = this) {
-      return num.percentInt(totalVotes === 0 ? 0 : tally.no / totalVotes)
+      return num.percentInt(totalVotes === 0 ? 0 : tally.final_tally_no / totalVotes)
     },
     noWithVetoPercentage({ tally, totalVotes } = this) {
       return num.percentInt(
-        totalVotes === 0 ? 0 : tally.no_with_veto / totalVotes
+        totalVotes === 0 ? 0 : tally.final_tally_no_with_veto / totalVotes
       )
     },
     abstainPercentage({ tally, totalVotes } = this) {
-      return num.percentInt(totalVotes === 0 ? 0 : tally.abstain / totalVotes)
+      return num.percentInt(totalVotes === 0 ? 0 : tally.final_tally_abstain / totalVotes)
     },
-    tally({ proposals, proposalId } = this) {
-      const { yes, no, abstain, no_with_veto } =
-        proposals.tallies[proposalId] || {}
+    tally() {
+      const {
+        final_tally_yes,
+        final_tally_no,
+        final_tally_abstain,
+        final_tally_no_with_veto
+      } = this.proposal
+
+      console.log(        final_tally_yes,
+        final_tally_no,
+        final_tally_abstain,
+        final_tally_no_with_veto)
       return {
-        yes: yes || BigNumber(0),
-        no: no || BigNumber(0),
-        abstain: abstain || BigNumber(0),
-        no_with_veto: no_with_veto || BigNumber(0)
+        final_tally_yes: BigNumber(final_tally_yes),
+        final_tally_no: BigNumber(final_tally_no),
+        final_tally_abstain: BigNumber(final_tally_abstain),
+        final_tally_no_with_veto: BigNumber(final_tally_no_with_veto)
       }
     },
     status() {
@@ -243,9 +261,10 @@ export default {
   async mounted(
     { proposals, proposalId, governanceParameters, $store } = this
   ) {
-    if (!proposals[proposalId]) {
-      $store.dispatch(`getProposal`, proposalId)
-    }
+    console.log("pageproposal", this.proposalId, typeof +this.proposalId)
+    // if (!proposals[proposalId]) {
+    //   $store.dispatch(`getProposal`, proposalId)
+    // }
     if (!governanceParameters.loaded) {
       $store.dispatch(`getGovParameters`)
     }
@@ -261,6 +280,24 @@ export default {
     },
     onDeposit() {
       this.$refs.modalDeposit.open()
+    }
+  },
+  apollo: {
+    proposal: {
+      query() {
+        /* istanbul ignore next */
+        return ProposalItem(this.network)
+      },
+      update(data) {
+        /* istanbul ignore next */
+        return proposalResult(this.network)(data)
+      },
+      variables() {
+        /* istanbul ignore next */
+        return {
+          id: +this.proposalId
+        }
+      }
     }
   }
 }

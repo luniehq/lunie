@@ -26,7 +26,7 @@
 import { mapState, mapGetters } from "vuex"
 import TmDataMsg from "common/TmDataMsg"
 import TableValidators from "staking/TableValidators"
-import { SomeValidators, AllValidatorsResult } from "src/gql"
+import { SomeValidators, validatorsResult } from "src/gql"
 
 export default {
   name: `delegations-overview`,
@@ -58,7 +58,7 @@ export default {
       },
       update(data) {
         /* istanbul ignore next */
-        return AllValidatorsResult(this.network)(data)
+        return validatorsResult(this.network)(data)
       }
     }
   }

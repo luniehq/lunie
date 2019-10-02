@@ -4,7 +4,7 @@
     @click="
       $router.push({
         name: 'Proposal',
-        params: { proposalId: proposal.proposal_id }
+        params: { proposalId: proposal.id }
       })
     "
   >
@@ -13,7 +13,7 @@
         {{ status.badge }}
       </span>
       <h3 class="li-proposal-title">
-        {{ proposal.proposal_content.value.title }}
+        {{ proposal.title }}
       </h3>
       <p class="li-proposal-description">
         {{ description }}
@@ -44,7 +44,7 @@ export default {
       return getProposalStatus(this.proposal)
     },
     description() {
-      const { description } = this.proposal.proposal_content.value
+      const { description } = this.proposal
       return description.length > 200
         ? description.substring(0, 200) + `…`
         : description.substring(0, 200)

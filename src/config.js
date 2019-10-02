@@ -5,7 +5,7 @@ const rpc = process.env.RPC || `localhost:26657`
 export default {
   name: `Lunie`,
   development: dev,
-  network: dev ? `testnet` : `cosmoshub`,
+  network: `cosmoshub`,
   stargate,
   rpc,
   google_analytics_uid: process.env.GOOGLE_ANALYTICS_UID || "",
@@ -16,6 +16,8 @@ export default {
   // Ledger
   CosmosAppTestModeAllowed: false,
   mobileApp: Boolean(process.env.MOBILE_APP),
+
+  graphqlHost: process.env.VUE_APP_GRAPHQL_URL,
 
   e2e: process.env.VUE_APP_E2E
 }

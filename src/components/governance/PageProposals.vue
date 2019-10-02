@@ -1,11 +1,10 @@
 <template>
-  <TmPage
+  <PageContainer
     data-title="Proposals"
     :managed="true"
-    :loading="proposals.loading"
-    :loaded="proposals.loaded"
-    :error="proposals.error"
-    :data-empty="Object.keys(proposals.proposals).length === 0"
+    :loading="$apollo.queries.proposals.loading"
+    :loaded="!$apollo.queries.proposals.loading"
+    :error="$apollo.queries.proposals.error"
     hide-header
   >
     <template slot="no-data">
@@ -36,22 +35,24 @@
         />
       </div>
       <TableProposals
-        :proposals="proposals.proposals"
-        :loading="proposals.loading"
+        :proposals="proposals"
+        :loading="$apollo.queries.proposals.loading"
       />
     </template>
 
     <ModalPropose ref="modalPropose" :denom="depositDenom" />
-  </TmPage>
+  </PageContainer>
 </template>
 
 <script>
 import ModalPropose from "src/ActionModal/components/ModalPropose"
 import TableProposals from "governance/TableProposals"
 import TmBtn from "common/TmBtn"
-import TmPage from "common/TmPage"
+import PageContainer from "common/PageContainer"
 import TmDataMsg from "common/TmDataMsg"
 import { mapState, mapGetters } from "vuex"
+import { ProposalList, proposalListResult } from "src/gql"
+
 export default {
   name: `page-proposals`,
   components: {
@@ -59,18 +60,33 @@ export default {
     TableProposals,
     TmDataMsg,
     TmBtn,
-    TmPage
+    PageContainer
   },
+  data: () => ({
+    proposals: []
+  }),
   computed: {
-    ...mapState([`proposals`]),
+    ...mapState({ network: state => state.connection.network }),
     ...mapGetters([`depositDenom`])
   },
   mounted() {
-    this.$store.dispatch(`getProposals`)
+    // this.$store.dispatch(`getProposals`)
   },
   methods: {
     onPropose() {
       this.$refs.modalPropose.open()
+    }
+  },
+  apollo: {
+    proposals: {
+      query() {
+        /* istanbul ignore next */
+        return ProposalList(this.network)
+      },
+      update(data) {
+        /* istanbul ignore next */
+        return proposalListResult(this.network)(data)
+      }
     }
   }
 }

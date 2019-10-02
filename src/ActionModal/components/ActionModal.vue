@@ -666,7 +666,7 @@ export default {
         query: NetworkCapability(this.network, action)
       })
 
-      this.featureAvailable = NetworkCapabilityResult(data)
+      this.featureAvailable = NetworkCapabilityResult(action)(data)
     }
   },
   validations() {
