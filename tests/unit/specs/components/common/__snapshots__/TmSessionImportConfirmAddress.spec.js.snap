@@ -31,7 +31,7 @@ exports[`TmSessionImportConfirmAddress has the expected html structure 1`] = `
       class="session-footer"
     >
       <tmbtn-stub
-        value="Create Account"
+        value="Next"
       />
     </div>
   </tmformstruct-stub>

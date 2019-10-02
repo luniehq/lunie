@@ -40,7 +40,7 @@ exports[`TmSessionImportName has the expected html structure 1`] = `
     >
       <tmbtn-stub
         disabled="true"
-        value="Confirm Seed"
+        value="Next"
       />
     </div>
   </tmformstruct-stub>

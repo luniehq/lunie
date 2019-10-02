@@ -19,11 +19,11 @@ exports[`TmSessionImportSuccess has the expected html structure 1`] = `
       class="content-main"
     >
       <p>
-        Created account
+        Your account has been created
       </p>
        
       <tmbtn-stub
-        value="Back to Lunie"
+        value="Go to Lunie"
       />
     </div>
   </div>
