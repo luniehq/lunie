@@ -70,6 +70,7 @@ export default {
         return this.$store.state.recover.seed
       },
       set(value) {
+        console.log(`Store value for seed is ${this.$store.state.recover.seed}`)
         this.$store.commit(`updateField`, { field: `seed`, value })
       }
     }
