@@ -6,9 +6,9 @@
     <div class="wrapper">
       <div class="content-main">
         <p>
-          A message should go here.
+          Your address has been created
         </p>
-        <TmBtn value="Back to Lunie" @click.native="$router.push('/')" />
+        <TmBtn value="Go to Lunie" @click.native="$router.push('/')" />
       </div>
     </div>
   </SessionFrame>

@@ -5,7 +5,6 @@
         Confirm
       </h2>
       <div v-if="session.insecureMode" class="session-main">
-        <DangerZoneWarning />
         <TmFormGroup
           field-id="sign-up-seed"
           class="sign-up-seed-group"
@@ -36,7 +35,7 @@
           />
         </TmFormGroup>
         <div class="session-footer">
-          <TmBtn value="Create Address" :disabled="$v.fieldWarning.$invalid" />
+          <TmBtn value="Create" :disabled="$v.fieldWarning.$invalid" />
         </div>
       </div>
       <div v-if="!session.insecureMode" class="session-main">

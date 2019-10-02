@@ -32,7 +32,7 @@
         </TmFormGroup>
         <div class="session-footer">
           <TmBtn
-            value="Choose Password"
+            value="Next"
             :disabled="$v.fieldName.$invalid"
             @click.native="$router.push('/create/password')"
           />

@@ -5,7 +5,6 @@
         Choose Password
       </h2>
       <div v-if="session.insecureMode" class="session-main">
-        <DangerZoneWarning />
         <TmFormGroup
           :error="$v.fieldPassword.$error"
           field-id="sign-up-password"
@@ -51,7 +50,7 @@
         </TmFormGroup>
         <div class="session-footer">
           <TmBtn
-            value="Confirm"
+            value="Next"
             :disabled="
               $v.fieldPassword.$invalid || $v.fieldPasswordConfirm.$invalid
             "
