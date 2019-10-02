@@ -68,6 +68,7 @@ export default {
       },
       set(value) {
         this.$store.commit(`updateField`, { field: `name`, value })
+        console.log(this.$store.state.recover.name)
       }
     }
   },
