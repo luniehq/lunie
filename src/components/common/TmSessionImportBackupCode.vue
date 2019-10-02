@@ -40,6 +40,7 @@
 </template>
 
 <script>
+import { mapState } from "vuex"
 import { required } from "vuelidate/lib/validators"
 import TmBtn from "common/TmBtn"
 import TmFormGroup from "common/TmFormGroup"
@@ -63,6 +64,7 @@ export default {
     TmFormStruct
   },
   computed: {
+    ...mapState([`recover`]),
     seed: {
       get() {
         return this.$store.state.recover.seed
