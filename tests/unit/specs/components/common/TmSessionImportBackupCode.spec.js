@@ -6,7 +6,7 @@ import TmSessionImportBackupCode from "common/TmSessionImportBackupCode"
 import TmBtn from "common/TmBtn"
 
 jest.mock(`scripts/google-analytics.js`, () => () => {})
-const seed = `goose toward escape engine wheel board help torch avocado educate rose rebel rigid side aspect abandon grace admit inherit female grant pledge shine inquiry`
+// const seed = `goose toward escape engine wheel board help torch avocado educate rose rebel rigid side aspect abandon grace admit inherit female grant pledge shine inquiry`
 const localVue = createLocalVue()
 localVue.use(Vuex)
 localVue.use(Vuelidate)

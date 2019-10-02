@@ -25,4 +25,3 @@
     <router-link to="existing">Want to use an existing address?</router-link>
   </div>
 </template>
-  

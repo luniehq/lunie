@@ -15,7 +15,9 @@ export default () => {
       updateField(state, payload) {
         state[payload.field] = payload.value
       },
+      // eslint-disable-next-line
       recoverReset(state) {
+        // eslint-disable-next-line
         state = emptyState
       }
     }
