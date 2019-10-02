@@ -5,7 +5,6 @@
         Recover with backup code
       </h2>
       <div class="session-main">
-        <pre>{{ recover }}</pre>
         <TmFormGroup
           :error="$v.$error && $v.password.$invalid"
           field-id="import-password"
