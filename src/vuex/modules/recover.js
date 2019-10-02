@@ -15,6 +15,7 @@ export default () => {
       updateField(state, payload) {
         console.log(payload)
         state[payload.field] = payload.value
+        console.log(state)
       },
       recoverReset(state) {
         state = emptyState
