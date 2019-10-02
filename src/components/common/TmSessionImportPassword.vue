@@ -49,7 +49,7 @@
         </TmFormGroup>
       </div>
       <div class="session-footer">
-        <TmBtn value="Create Account" />
+        <TmBtn value="Create" />
       </div>
     </TmFormStruct>
   </SessionFrame>

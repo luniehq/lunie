@@ -32,7 +32,7 @@
       </div>
       <div class="session-footer">
         <TmBtn
-          value="Confirm Seed"
+          value="Next"
           :disabled="$v.name.$invalid || $v.name.$invalid"
           @click.native="$router.push('/recover/password')"
         />
