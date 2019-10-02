@@ -54,7 +54,6 @@ import TmFormStruct from "common/TmFormStruct"
 import TmField from "common/TmField"
 import TmFormMsg from "common/TmFormMsg"
 import SessionFrame from "common/SessionFrame"
-import DangerZoneWarning from "common/DangerZoneWarning"
 import InsecureModeWarning from "common/InsecureModeWarning"
 
 export default {

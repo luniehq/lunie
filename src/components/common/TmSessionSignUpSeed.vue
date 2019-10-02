@@ -66,7 +66,6 @@ export default {
     TmFormGroup,
     TmFormMsg,
     TmFormStruct,
-    DangerZoneWarning,
     InsecureModeWarning
   },
   computed: {
