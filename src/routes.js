@@ -133,17 +133,15 @@ export default [
     components: {
       session: require(`./components/common/TmSessionSignUpPassword`).default
     },
+    meta: {
+      feature: "Session"
+    },
     beforeEnter: (to, from, next) => {
-      console.log(to)
-      console.log(from)
       if (from.name === `create`) {
         next()
       } else {
         next({ path: `/create` })
       }
-    },
-    meta: {
-      feature: "Session"
     }
   },
   {
@@ -154,6 +152,13 @@ export default [
     },
     meta: {
       feature: "Session"
+    },
+    beforeEnter: (to, from, next) => {
+      if (from.name === `create-password`) {
+        next()
+      } else {
+        next({ path: `/create` })
+      }
     }
   },
   {
@@ -164,6 +169,13 @@ export default [
     },
     meta: {
       feature: "Session"
+    },
+    beforeEnter: (to, from, next) => {
+      if (from.name === `create-confirm`) {
+        next()
+      } else {
+        next({ path: `/create` })
+      }
     }
   },
   {
