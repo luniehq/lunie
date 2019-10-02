@@ -24,7 +24,7 @@ import TmBtn from "common/TmBtn"
 import TmFormGroup from "common/TmFormGroup"
 import TmFormStruct from "common/TmFormStruct"
 import SessionFrame from "common/SessionFrame"
-import { mapState } from "vuex"
+import { mapGetters } from "vuex"
 export default {
   name: `session-import`,
   components: {
@@ -37,7 +37,7 @@ export default {
     importCosmosAddress: {}
   }),
   computed: {
-    ...mapState([`recover`])
+    ...mapGetters([`recover`])
   },
   async created() {
     console.log(`Created!`)
