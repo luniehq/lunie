@@ -136,7 +136,11 @@ export default [
     beforeEnter: (to, from, next) => {
       console.log(to)
       console.log(from)
-      next()
+      if (from.name === `create`) {
+        next()
+      } else {
+        next({ path: `/create` })
+      }
     },
     meta: {
       feature: "Session"
