@@ -6,7 +6,7 @@
     <div class="wrapper">
       <div class="content-main">
         <p>
-          Your address has been created
+          Your account has been created
         </p>
         <TmBtn value="Go to Lunie" @click.native="$router.push('/')" />
       </div>
