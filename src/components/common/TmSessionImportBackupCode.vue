@@ -70,7 +70,7 @@ export default {
         return this.$store.state.session.seed
       },
       set(value) {
-        this.$store.commit(`updateSeed`, { field: `seed`, value })
+        this.$store.commit(`updateField`, { field: `seed`, value })
       }
     }
   },
