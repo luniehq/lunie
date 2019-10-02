@@ -104,7 +104,7 @@ export default {
           password: this.signup.signUpPassword,
           name: this.signup.signUpName
         })
-        this.$router.push(`/create/confirm`)
+        this.$router.push(`/create/success`)
       } catch (error) {
         this.$store.commit(`notifyError`, {
           title: `Couldn't create account`,
