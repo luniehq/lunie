@@ -12,9 +12,8 @@
         >
           <FieldSeed
             id="import-seed"
-            :value="seed"
+            v-model="seed"
             placeholder="Must be exactly 24 words"
-            @input="val => (seed = val)"
           />
           <TmFormMsg
             v-if="$v.seed.$error && !$v.seed.required"
