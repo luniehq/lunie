@@ -13,6 +13,7 @@ export default () => {
     },
     mutations: {
       updateField(state, payload) {
+        console.log(payload)
         state[payload.field] = payload.value
       },
       recoverReset(state) {
