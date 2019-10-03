@@ -29,7 +29,10 @@ describe(`TmSessionImportName`, () => {
       },
       getters,
       commit: jest.fn(),
-      dispatch: jest.fn(async () => true)
+      dispatch: jest.fn(async () => true),
+      mutations: {
+        updateField: jest.fn()
+      }
     }
     wrapper = shallowMount(TmSessionImportName, {
       localVue,
@@ -53,9 +56,6 @@ describe(`TmSessionImportName`, () => {
 
   it(`should disable button if name lenght < 5 characters`, async () => {
     $store.state.recover.name = `asdf`
-    getters = {
-      name: () => `asdf`
-    }
     wrapper = shallowMount(TmSessionImportName, {
       localVue,
       mocks: {
@@ -72,9 +72,6 @@ describe(`TmSessionImportName`, () => {
 
   it(`should enable button if name lenght >= 5 characters`, async () => {
     $store.state.recover.name = `Happy Lunie User`
-    getters = {
-      name: () => `Happy Lunie User`
-    }
     wrapper = shallowMount(TmSessionImportName, {
       localVue,
       mocks: {
@@ -87,5 +84,13 @@ describe(`TmSessionImportName`, () => {
     })
     // console.log(wrapper.html())
     expect(wrapper.find(TmBtn).attributes(`disabled`)).toBe(undefined)
+  })
+
+  it(`should commit updateField on field change`, async () => {
+    wrapper.setData({ name: `Happy Lunie User` })
+    expect($store.commit).toHaveBeenCalledWith(`updateField`, {
+      field: `name`,
+      value: `Happy Lunie User`
+    })
   })
 })

@@ -89,8 +89,8 @@ describe(`TmSessionImportBackupCode`, () => {
   it(`should commit updateField on field change`, async () => {
     wrapper.setData({ seed: `asdf asdf asdf asdf` })
     expect($store.commit).toHaveBeenCalledWith(`updateField`, {
-      field: "seed",
-      value: "asdf asdf asdf asdf"
+      field: `seed`,
+      value: `asdf asdf asdf asdf`
     })
   })
 })

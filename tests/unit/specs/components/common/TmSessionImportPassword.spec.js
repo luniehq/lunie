@@ -29,7 +29,10 @@ describe(`TmSessionImportPassword`, () => {
       },
       getters,
       commit: jest.fn(),
-      dispatch: jest.fn(async () => true)
+      dispatch: jest.fn().mockRejectedValue(new Error()),
+      mutations: {
+        updateField: jest.fn()
+      }
     }
     wrapper = shallowMount(TmSessionImportPassword, {
       localVue,
@@ -50,10 +53,6 @@ describe(`TmSessionImportPassword`, () => {
   it(`validation should fail if passwords do not match`, async () => {
     $store.state.recover.password = `1234567890`
     $store.state.recover.passwordConfirm = `notthesame`
-    getters = {
-      password: () => `1234567890`,
-      passwordConfirm: () => `notthesame`
-    }
     wrapper = shallowMount(TmSessionImportPassword, {
       localVue,
       mocks: {
@@ -75,10 +74,6 @@ describe(`TmSessionImportPassword`, () => {
   it(`validation should not fail if passwords match`, async () => {
     $store.state.recover.password = `1234567890`
     $store.state.recover.passwordConfirm = `1234567890`
-    getters = {
-      password: () => `1234567890`,
-      passwordConfirm: () => `1234567890`
-    }
     wrapper = shallowMount(TmSessionImportPassword, {
       localVue,
       mocks: {
@@ -96,4 +91,66 @@ describe(`TmSessionImportPassword`, () => {
     expect(wrapper.vm.$v.passwordConfirm.$error).toBe(false)
     expect(wrapper.vm.$v.passwordConfirm.sameAsPassword).toBe(true)
   })
+
+  it(`should commit updateField on password field change`, async () => {
+    wrapper.setData({ password: `1234567890` })
+    expect($store.commit).toHaveBeenCalledWith(`updateField`, {
+      field: `password`,
+      value: `1234567890`
+    })
+  })
+
+  it(`should commit updateField on passwordConfirm field change`, async () => {
+    wrapper.setData({ passwordConfirm: `1234567890` })
+    expect($store.commit).toHaveBeenCalledWith(`updateField`, {
+      field: `passwordConfirm`,
+      value: `1234567890`
+    })
+  })
+
+  it(`should dispatch createKey if passwords validate`, async () => {
+    $store.state.recover.password = `1234567890`
+    $store.state.recover.passwordConfirm = `1234567890`
+    wrapper = shallowMount(TmSessionImportPassword, {
+      localVue,
+      mocks: {
+        $store,
+        $router: {
+          push: jest.fn()
+        }
+      },
+      stubs: [`router-link`]
+    })
+    await wrapper.vm.onSubmit()
+    expect($store.dispatch).toHaveBeenCalledWith(`createKey`, {
+      name: ``,
+      password: `1234567890`,
+      seedPhrase: ``
+    })
+  })
+
+  /* TODO: Mock `createKey` dispatch error and expect `notifyError` commit */
+
+  /*
+  it(`should commit notifyError on createKey dispatch error`, async () => {
+    $store.state.recover.password = `1234567890`
+    $store.state.recover.passwordConfirm = `1234567890`
+
+    wrapper = shallowMount(TmSessionImportPassword, {
+      localVue,
+      mocks: {
+        $store,
+        $router: {
+          push: jest.fn()
+        }
+      },
+      stubs: [`router-link`]
+    })
+    // console.log(wrapper.vm.$v.$error)
+    // console.log($store.dispatch)
+    // console.log(wrapper.html())
+    await wrapper.vm.onSubmit()
+    //expect($store.commit).toHaveBeenCalledWith(`notifyError`)
+  })
+  */
 })
