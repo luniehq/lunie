@@ -1,6 +1,6 @@
 import Vuex from "vuex"
 import Vuelidate from "vuelidate"
-import { shallowMount, createLocalVue } from "@vue/test-utils"
+import { shallowMount, mount, createLocalVue } from "@vue/test-utils"
 import TmSessionImportBackupCode from "common/TmSessionImportBackupCode"
 import TmBtn from "common/TmBtn"
 jest.mock(`scripts/google-analytics.js`, () => () => {})
@@ -29,7 +29,10 @@ describe(`TmSessionImportBackupCode`, () => {
       },
       getters,
       commit: jest.fn(),
-      dispatch: jest.fn(async () => true)
+      dispatch: jest.fn(async () => true),
+      mutations: {
+        updateField: jest.fn()
+      }
     }
     wrapper = shallowMount(TmSessionImportBackupCode, {
       localVue,
@@ -53,9 +56,6 @@ describe(`TmSessionImportBackupCode`, () => {
 
   it(`should disable button if seed is not 24 words long`, async () => {
     $store.state.recover.seed = `asdf asdf asdf asdf`
-    getters = {
-      seed: () => `asdf asdf asdf asdf`
-    }
     wrapper = shallowMount(TmSessionImportBackupCode, {
       localVue,
       mocks: {
@@ -72,10 +72,6 @@ describe(`TmSessionImportBackupCode`, () => {
 
   it(`should enable button if seed is 24 words long`, async () => {
     $store.state.recover.seed = `asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf`
-    getters = {
-      seed: () =>
-        `asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf`
-    }
     wrapper = shallowMount(TmSessionImportBackupCode, {
       localVue,
       mocks: {
@@ -88,5 +84,13 @@ describe(`TmSessionImportBackupCode`, () => {
     })
     // console.log(wrapper.html())
     expect(wrapper.find(TmBtn).attributes(`disabled`)).toBe(undefined)
+  })
+
+  it(`should commit updateField on field change`, async () => {
+    wrapper.setData({ seed: `asdf asdf asdf asdf` })
+    expect($store.commit).toHaveBeenCalledWith(`updateField`, {
+      field: "seed",
+      value: "asdf asdf asdf asdf"
+    })
   })
 })
