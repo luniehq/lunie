@@ -1,6 +1,6 @@
 <template>
   <SessionFrame>
-    <TmFormStruct :submit="() => {}">
+    <TmFormStruct>
       <h2 class="session-title">
         Recover with backup code
       </h2>
