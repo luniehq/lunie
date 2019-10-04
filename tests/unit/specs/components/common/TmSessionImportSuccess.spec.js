@@ -14,9 +14,7 @@ describe(`TmSessionImportSuccess`, () => {
   let wrapper, $store, getters
 
   beforeEach(() => {
-    getters = {
-      connected: () => true
-    }
+    getters = {}
     $store = {
       state: {
         recover: {
