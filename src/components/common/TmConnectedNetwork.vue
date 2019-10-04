@@ -24,7 +24,7 @@
           class="tm-connected-network__string"
         >
           <span v-tooltip.top="networkTooltip" class="chain-id">
-            {{ connection.network }}
+            {{ connection.lastHeader.chain_id }}
           </span>
         </div>
       </div>
@@ -32,15 +32,16 @@
         id="tm-connected-network__block"
         class="tm-connected-network__string"
       >
-        <router-link
-          v-tooltip.top="'Block Height'"
-          :to="{
-            name: `block`,
-            params: { height: connection.lastHeader.height }
-          }"
-        >
-          #{{ connection.lastHeader.height | prettyInt }}
-        </router-link>
+        <span>
+          <router-link
+            :to="{
+              name: `block`,
+              params: { height: connection.lastHeader.height }
+            }"
+          >
+            #{{ connection.lastHeader.height | prettyInt }}
+          </router-link>
+        </span>
       </div>
     </div>
     <div
@@ -54,7 +55,7 @@
         alt="a small spinning circle to display loading"
       />
       <div
-        v-tooltip.top="networkTooltip"
+        v-tooltip.top="'Seeking connection'"
         class="
         tm-connected-network__string
         tm-connected-network__string--connecting
@@ -81,11 +82,7 @@ export default {
   computed: {
     ...mapState([`connection`]),
     networkTooltip() {
-      if (this.connection.connected) {
-        return `You're connected to ${this.connection.network} via ${this.connection.nodeUrl}.`
-      } else {
-        return `Seeking connection`
-      }
+      return `You're connected to ${this.connection.lastHeader.chain_id} via ${this.connection.nodeUrl}`
     }
   }
 }
