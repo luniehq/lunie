@@ -27,7 +27,7 @@ describe(`TmSessionImportPassword`, () => {
       },
       getters,
       commit: jest.fn(),
-      dispatch: jest.fn().mockRejectedValue(new Error()),
+      dispatch: jest.fn(),
       mutations: {
         updateField: jest.fn()
       }
@@ -103,6 +103,27 @@ describe(`TmSessionImportPassword`, () => {
     expect($store.commit).toHaveBeenCalledWith(`updateField`, {
       field: `passwordConfirm`,
       value: `1234567890`
+    })
+  })
+
+  it(`should dispatch createKey if passwords validate`, async () => {
+    $store.state.recover.password = `1234567890`
+    $store.state.recover.passwordConfirm = `1234567890`
+    wrapper = shallowMount(TmSessionImportPassword, {
+      localVue,
+      mocks: {
+        $store,
+        $router: {
+          push: jest.fn()
+        }
+      },
+      stubs: [`router-link`]
+    })
+    await wrapper.vm.onSubmit()
+    expect($store.dispatch).toHaveBeenCalledWith(`createKey`, {
+      name: ``,
+      password: `1234567890`,
+      seedPhrase: ``
     })
   })
 

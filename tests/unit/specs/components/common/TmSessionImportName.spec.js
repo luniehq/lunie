@@ -93,4 +93,9 @@ describe(`TmSessionImportName`, () => {
       value: `Happy Lunie User`
     })
   })
+
+  it(`should go to /recover/password when submit the form`, async () => {
+    wrapper.vm.submit()
+    expect(wrapper.vm.$router.push).toHaveBeenCalledWith(`/recover/password`)
+  })
 })

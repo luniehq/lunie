@@ -93,4 +93,10 @@ describe(`TmSessionImport`, () => {
       value: `asdf asdf asdf asdf`
     })
   })
+
+  it(`should go to /recover/confirm when submit the form`, async () => {
+    wrapper.vm.submit()
+    expect(wrapper.vm.$router.push).toHaveBeenCalledWith(`/recover/confirm`)
+  })
+
 })

@@ -53,4 +53,9 @@ describe(`TmSessionImportConfirmAddress`, () => {
       `two collect olive inside assault finger relief shallow lottery sugar universe fatigue knock current only absurd famous work path zone distance churn include flower`
     )
   })
+
+  it(`should go to /recover/name when submit the form`, async () => {
+    wrapper.vm.submit()
+    expect(wrapper.vm.$router.push).toHaveBeenCalledWith(`/recover/name`)
+  })
 })
