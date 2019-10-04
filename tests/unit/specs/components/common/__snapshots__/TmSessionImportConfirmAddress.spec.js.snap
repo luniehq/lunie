@@ -3,7 +3,7 @@
 exports[`TmSessionImportConfirmAddress has the expected html structure 1`] = `
 <sessionframe-stub>
   <tmformstruct-stub
-    submit="function() {}"
+    submit="function () { [native code] }"
     width=""
   >
     <h2
@@ -31,6 +31,7 @@ exports[`TmSessionImportConfirmAddress has the expected html structure 1`] = `
       class="session-footer"
     >
       <tmbtn-stub
+        type="submit"
         value="Next"
       />
     </div>

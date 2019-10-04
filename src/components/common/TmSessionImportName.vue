@@ -1,6 +1,6 @@
 <template>
   <SessionFrame>
-    <TmFormStruct>
+    <TmFormStruct :submit="submit">
       <h2 class="session-title">
         Recover with backup code
       </h2>
@@ -31,11 +31,7 @@
         </TmFormGroup>
       </div>
       <div class="session-footer">
-        <TmBtn
-          value="Next"
-          :disabled="$v.name.$invalid || $v.name.$invalid"
-          @click.native="$router.push('/recover/password')"
-        />
+        <TmBtn value="Next" type="submit" :disabled="$v.name.$invalid" />
       </div>
     </TmFormStruct>
   </SessionFrame>
@@ -69,6 +65,11 @@ export default {
       set(value) {
         this.$store.commit(`updateField`, { field: `name`, value })
       }
+    }
+  },
+  methods: {
+    submit() {
+      this.$router.push("/recover/password")
     }
   },
   validations: () => ({

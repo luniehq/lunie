@@ -1,6 +1,6 @@
 <template>
   <SessionFrame>
-    <TmFormStruct :submit="() => {}">
+    <TmFormStruct :submit="submit">
       <h2 class="session-title">
         Choose Password
       </h2>
@@ -51,10 +51,10 @@
         <div class="session-footer">
           <TmBtn
             value="Next"
+            type="submit"
             :disabled="
               $v.fieldPassword.$invalid || $v.fieldPasswordConfirm.$invalid
             "
-            @click.native="$router.push('/create/confirm')"
           />
         </div>
       </div>
@@ -107,6 +107,11 @@ export default {
           value
         })
       }
+    }
+  },
+  methods: {
+    submit() {
+      this.$router.push(`/create/confirm`)
     }
   },
   validations: () => ({

@@ -3,7 +3,7 @@
 exports[`TmSessionSignUp renders 1`] = `
 <sessionframe-stub>
   <tmformstruct-stub
-    submit="function () {}"
+    submit="function () { [native code] }"
     width=""
   >
     <h2
@@ -41,6 +41,7 @@ exports[`TmSessionSignUp renders 1`] = `
       >
         <tmbtn-stub
           disabled="true"
+          type="submit"
           value="Next"
         />
       </div>

@@ -1,6 +1,6 @@
 <template>
   <SessionFrame>
-    <TmFormStruct :submit="() => {}">
+    <TmFormStruct :submit="submit">
       <h2 class="session-title">
         Create a new address
       </h2>
@@ -31,11 +31,7 @@
           />
         </TmFormGroup>
         <div class="session-footer">
-          <TmBtn
-            value="Next"
-            :disabled="$v.fieldName.$invalid"
-            @click.native="$router.push('/create/password')"
-          />
+          <TmBtn value="Next" type="submit" :disabled="$v.fieldName.$invalid" />
         </div>
       </div>
       <div v-if="!session.insecureMode" class="session-main">
@@ -78,6 +74,11 @@ export default {
       set(value) {
         this.$store.commit(`updateField`, { field: `signUpName`, value })
       }
+    }
+  },
+  methods: {
+    submit() {
+      this.$router.push(`/create/password`)
     }
   },
   validations: () => ({

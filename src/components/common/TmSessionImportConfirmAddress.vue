@@ -1,6 +1,6 @@
 <template>
   <SessionFrame>
-    <TmFormStruct>
+    <TmFormStruct :submit="submit">
       <h2 class="session-title">
         Recover with backup code
       </h2>
@@ -10,7 +10,7 @@
         </TmFormGroup>
       </div>
       <div class="session-footer">
-        <TmBtn value="Next" @click.native="$router.push('/recover/name')" />
+        <TmBtn value="Next" type="submit" />
       </div>
     </TmFormStruct>
   </SessionFrame>
@@ -41,6 +41,11 @@ export default {
       `getAddressFromSeed`,
       this.$store.state.recover.seed
     )
+  },
+  methods: {
+    submit() {
+      this.$router.push("/recover/name")
+    }
   }
 }
 </script>
