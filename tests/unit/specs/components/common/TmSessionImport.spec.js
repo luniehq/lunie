@@ -1,7 +1,7 @@
 import Vuex from "vuex"
 import Vuelidate from "vuelidate"
 import { shallowMount, createLocalVue } from "@vue/test-utils"
-import TmSessionImportBackupCode from "common/TmSessionImportBackupCode"
+import TmSessionImport from "common/TmSessionImport"
 import TmBtn from "common/TmBtn"
 jest.mock(`scripts/google-analytics.js`, () => () => {})
 const localVue = createLocalVue()
@@ -10,7 +10,7 @@ localVue.use(Vuelidate)
 localVue.directive(`tooltip`, () => {})
 localVue.directive(`focus`, () => {})
 
-describe(`TmSessionImportBackupCode`, () => {
+describe(`TmSessionImport`, () => {
   let wrapper, $store, getters
 
   beforeEach(() => {
@@ -34,7 +34,7 @@ describe(`TmSessionImportBackupCode`, () => {
         updateField: jest.fn()
       }
     }
-    wrapper = shallowMount(TmSessionImportBackupCode, {
+    wrapper = shallowMount(TmSessionImport, {
       localVue,
       mocks: {
         $store,
@@ -56,7 +56,7 @@ describe(`TmSessionImportBackupCode`, () => {
 
   it(`should disable button if seed is not 24 words long`, async () => {
     $store.state.recover.seed = `asdf asdf asdf asdf`
-    wrapper = shallowMount(TmSessionImportBackupCode, {
+    wrapper = shallowMount(TmSessionImport, {
       localVue,
       mocks: {
         $store,
@@ -72,7 +72,7 @@ describe(`TmSessionImportBackupCode`, () => {
 
   it(`should enable button if seed is 24 words long`, async () => {
     $store.state.recover.seed = `asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf`
-    wrapper = shallowMount(TmSessionImportBackupCode, {
+    wrapper = shallowMount(TmSessionImport, {
       localVue,
       mocks: {
         $store,

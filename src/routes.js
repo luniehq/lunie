@@ -182,7 +182,7 @@ export default [
     path: `/recover`,
     name: `recover`,
     components: {
-      session: require(`./components/common/TmSessionImportBackupCode`).default
+      session: require(`./components/common/TmSessionImport`).default
     },
     meta: {
       feature: "Session"
