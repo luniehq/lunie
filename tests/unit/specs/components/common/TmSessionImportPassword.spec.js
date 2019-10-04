@@ -2,7 +2,6 @@ import Vuex from "vuex"
 import Vuelidate from "vuelidate"
 import { shallowMount, createLocalVue } from "@vue/test-utils"
 import TmSessionImportPassword from "common/TmSessionImportPassword"
-// import TmBtn from "common/TmBtn"
 jest.mock(`scripts/google-analytics.js`, () => () => {})
 const localVue = createLocalVue()
 localVue.use(Vuex)
@@ -49,43 +48,17 @@ describe(`TmSessionImportPassword`, () => {
   })
 
   it(`validation should fail if passwords do not match`, async () => {
-    $store.state.recover.password = `1234567890`
-    $store.state.recover.passwordConfirm = `notthesame`
-    wrapper = shallowMount(TmSessionImportPassword, {
-      localVue,
-      mocks: {
-        $store,
-        $router: {
-          push: jest.fn()
-        }
-      },
-      stubs: [`router-link`]
-    })
-    // console.log(wrapper.html())
+    wrapper.vm.$store.state.recover.password = `1234567890`
+    wrapper.vm.$store.state.recover.passwordConfirm = `notthesame`
     await wrapper.vm.onSubmit()
-    // console.log(wrapper.vm.$v.passwordConfirm.$error) // Must be true
-    // console.log(wrapper.vm.$v.passwordConfirm.sameAsPassword) // Must be false
     expect(wrapper.vm.$v.passwordConfirm.$error).toBe(true)
     expect(wrapper.vm.$v.passwordConfirm.sameAsPassword).toBe(false)
   })
 
   it(`validation should not fail if passwords match`, async () => {
-    $store.state.recover.password = `1234567890`
-    $store.state.recover.passwordConfirm = `1234567890`
-    wrapper = shallowMount(TmSessionImportPassword, {
-      localVue,
-      mocks: {
-        $store,
-        $router: {
-          push: jest.fn()
-        }
-      },
-      stubs: [`router-link`]
-    })
-    // console.log(wrapper.html())
+    wrapper.vm.$store.state.recover.password = `1234567890`
+    wrapper.vm.$store.state.recover.passwordConfirm = `1234567890`
     await wrapper.vm.onSubmit()
-    // console.log(wrapper.vm.$v.passwordConfirm.$error) // Must be false
-    // console.log(wrapper.vm.$v.passwordConfirm.sameAsPassword) // Must be true
     expect(wrapper.vm.$v.passwordConfirm.$error).toBe(false)
     expect(wrapper.vm.$v.passwordConfirm.sameAsPassword).toBe(true)
   })
@@ -107,18 +80,8 @@ describe(`TmSessionImportPassword`, () => {
   })
 
   it(`should dispatch createKey if passwords validate`, async () => {
-    $store.state.recover.password = `1234567890`
-    $store.state.recover.passwordConfirm = `1234567890`
-    wrapper = shallowMount(TmSessionImportPassword, {
-      localVue,
-      mocks: {
-        $store,
-        $router: {
-          push: jest.fn()
-        }
-      },
-      stubs: [`router-link`]
-    })
+    wrapper.vm.$store.state.recover.password = `1234567890`
+    wrapper.vm.$store.state.recover.passwordConfirm = `1234567890`
     await wrapper.vm.onSubmit()
     expect($store.dispatch).toHaveBeenCalledWith(`createKey`, {
       name: ``,
@@ -127,49 +90,23 @@ describe(`TmSessionImportPassword`, () => {
     })
   })
 
-  it(`should dispatch createKey if passwords validate`, async () => {
-    $store.state.recover.password = `1234567890`
-    $store.state.recover.passwordConfirm = `1234567890`
-    wrapper = shallowMount(TmSessionImportPassword, {
-      localVue,
-      mocks: {
-        $store,
-        $router: {
-          push: jest.fn()
-        }
-      },
-      stubs: [`router-link`]
-    })
+  it(`should go to /recover/success when submit the form`, async () => {
+    wrapper.vm.$store.state.recover.password = `1234567890`
+    wrapper.vm.$store.state.recover.passwordConfirm = `1234567890`
     await wrapper.vm.onSubmit()
-    expect($store.dispatch).toHaveBeenCalledWith(`createKey`, {
-      name: ``,
-      password: `1234567890`,
-      seedPhrase: ``
-    })
+    expect(wrapper.vm.$router.push).toHaveBeenCalledWith(`/recover/success`)
   })
 
-  /* TODO: Mock `createKey` dispatch error and expect `notifyError` commit */
-
-  /*
   it(`should commit notifyError on createKey dispatch error`, async () => {
-    $store.state.recover.password = `1234567890`
-    $store.state.recover.passwordConfirm = `1234567890`
-
-    wrapper = shallowMount(TmSessionImportPassword, {
-      localVue,
-      mocks: {
-        $store,
-        $router: {
-          push: jest.fn()
-        }
-      },
-      stubs: [`router-link`]
-    })
-    // console.log(wrapper.vm.$v.$error)
-    // console.log($store.dispatch)
-    // console.log(wrapper.html())
+    wrapper.vm.$store.state.recover.password = `1234567890`
+    wrapper.vm.$store.state.recover.passwordConfirm = `1234567890`
+    wrapper.vm.$store.dispatch = {
+      createKey: jest.fn().mockRejectedValue(new Error()),
+    }
     await wrapper.vm.onSubmit()
-    //expect($store.commit).toHaveBeenCalledWith(`notifyError`)
+    expect(wrapper.vm.$store.commit).toHaveBeenCalledWith(`notifyError`, {
+      body: `this.$store.dispatch is not a function`,
+      title: `Couldn't create account`
+    })
   })
-  */
 })
