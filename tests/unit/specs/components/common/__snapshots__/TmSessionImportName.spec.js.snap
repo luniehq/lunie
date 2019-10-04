@@ -3,7 +3,7 @@
 exports[`TmSessionImportName has the expected html structure 1`] = `
 <sessionframe-stub>
   <tmformstruct-stub
-    submit="function () {}"
+    submit="function() {}"
     width=""
   >
     <h2
