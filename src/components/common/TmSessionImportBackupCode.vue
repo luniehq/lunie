@@ -1,6 +1,6 @@
 <template>
   <SessionFrame>
-    <TmFormStruct :submit="() => {}">
+    <TmFormStruct :submit="submit">
       <h2 class="session-title">
         Recover with backup code
       </h2>
@@ -31,8 +31,8 @@
       <div class="session-footer">
         <TmBtn
           value="Next"
+          type="submit"
           :disabled="$v.seed.$invalid || $v.seed.$invalid"
-          @click.native="$router.push('/recover/confirm')"
         />
       </div>
     </TmFormStruct>
@@ -72,6 +72,11 @@ export default {
       set(value) {
         this.$store.commit(`updateField`, { field: `seed`, value })
       }
+    }
+  },
+  methods: {
+    submit() {
+      this.$router.push("/recover/confirm")
     }
   },
   validations: () => ({
