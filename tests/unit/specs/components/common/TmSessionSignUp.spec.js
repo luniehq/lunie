@@ -15,6 +15,11 @@ describe(`TmSessionSignUp`, () => {
         signup: {
           signUpName: ""
         }
+      },
+      commit: jest.fn(),
+      dispatch: jest.fn(async () => true),
+      mutations: {
+        updateField: jest.fn()
       }
     }
 
@@ -32,5 +37,18 @@ describe(`TmSessionSignUp`, () => {
 
   it("renders", () => {
     expect(wrapper.element).toMatchSnapshot()
+  })
+
+  it(`should commit updateField on field change`, async () => {
+    wrapper.setData({ fieldName: `HappyLunieUser` })
+    expect(wrapper.vm.$store.commit).toHaveBeenCalledWith(`updateField`, {
+      field: `signUpName`,
+      value: `HappyLunieUser`
+    })
+  })
+
+  it(`should go to /create/password when submit the form`, async () => {
+    wrapper.vm.submit()
+    expect(wrapper.vm.$router.push).toHaveBeenCalledWith(`/create/password`)
   })
 })

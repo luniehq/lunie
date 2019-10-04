@@ -55,17 +55,7 @@ describe(`TmSessionImport`, () => {
   })
 
   it(`should disable button if seed is not 24 words long`, async () => {
-    $store.state.recover.seed = `asdf asdf asdf asdf`
-    wrapper = shallowMount(TmSessionImport, {
-      localVue,
-      mocks: {
-        $store,
-        $router: {
-          push: jest.fn()
-        }
-      },
-      stubs: [`router-link`]
-    })
+    wrapper.vm.$store.state.recover.seed = `asdf asdf asdf asdf`
     // console.log(wrapper.html())
     expect(wrapper.find(TmBtn).attributes(`disabled`)).toBe("true")
   })
@@ -98,5 +88,4 @@ describe(`TmSessionImport`, () => {
     wrapper.vm.submit()
     expect(wrapper.vm.$router.push).toHaveBeenCalledWith(`/recover/confirm`)
   })
-
 })
