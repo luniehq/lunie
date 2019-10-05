@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.0-beta.127] - 2019-10-05
+
+### Fixed
+
+- Fix PageBlocks not loading @faboweb
+- little fixes for maintenance bar, connected networkcomponent, and max button @jbibla
+- release script for ios was targeting wrong file @jbibla
+
 ## [1.0.0-beta.126] - 2019-10-02
 
 ### Added
