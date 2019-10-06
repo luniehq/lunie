@@ -52,7 +52,7 @@ exports[`UndelegationModal should display undelegation modal form 1`] = `
     fieldlabel="Amount"
   >
     <span
-      class="input-suffix-denom"
+      class="input-suffix max-button"
     >
       STAKE
     </span>

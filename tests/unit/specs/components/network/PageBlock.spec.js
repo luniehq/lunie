@@ -3,7 +3,7 @@ import PageBlock from "network/PageBlock"
 import { bankTxs } from "../../store/json/txs"
 
 const localVue = createLocalVue()
-localVue.directive(`tooltip`, () => {})
+localVue.directive(`tooltip`, () => { })
 
 describe(`PageBlock`, () => {
   let wrapper
@@ -13,7 +13,10 @@ describe(`PageBlock`, () => {
     lastHeader: {
       height: `1000`
     },
-    validators: {}
+    validators: {},
+    connection: {
+      network: "testnet"
+    }
   }
 
   const state = {
