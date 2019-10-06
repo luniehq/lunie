@@ -8,4 +8,4 @@ If the certificates are not working follow this guide to replace them: https://d
 
 ## Releasing
 
-Push `master` to `release_ios` to start the release process.
+Push `master` to `release_ios` to start the release process. 
