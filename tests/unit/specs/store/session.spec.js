@@ -190,7 +190,7 @@ describe(`Module: Session`, () => {
       expect(dispatch).toHaveBeenCalledWith(`resetSessionData`)
     })
 
-    it("should remember the address", async () => {
+    it("should dispatch required actions", async () => {
       const address = `cosmos1z8mzakma7vnaajysmtkwt4wgjqr2m84tzvyfkz`
       const commit = jest.fn()
       const dispatch = jest.fn()
@@ -213,6 +213,22 @@ describe(`Module: Session`, () => {
       expect(dispatch).toHaveBeenCalledWith(`initializeWallet`, {
         address: `cosmos1z8mzakma7vnaajysmtkwt4wgjqr2m84tzvyfkz`
       })
+    })
+
+    it("should remember the address", async () => {
+      const address = `cosmos1z8mzakma7vnaajysmtkwt4wgjqr2m84tzvyfkz`
+      const commit = jest.fn()
+      state.signedIn = true
+      await actions.rememberAddress(
+        { state, commit },
+        { sessionType: `explore`, address }
+      )
+      expect(commit).toHaveBeenCalledWith(`setUserAddresses`, [
+        {
+          type: `explore`,
+          address
+        }
+      ])
     })
   })
 
