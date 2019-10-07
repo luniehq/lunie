@@ -1,20 +1,20 @@
 ## Installation
 
 ```
-yarn install
+npm install
 ```
 
 or 
 
 ## Development
 ```
-yarn dev
+npm run dev
 ```
 
 or using Redis for the Apollo cache.
 
 ```
-yarn dev-cache
+npm run dev-cache
 ```
 
 You will need to set `REDIS_URL` to your redis instance host.
