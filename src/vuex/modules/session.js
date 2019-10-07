@@ -108,6 +108,8 @@ export default () => {
 
       // Check if signin address was previously used
       const sessionExist = state.addresses.find(function (usedAddress) {
+        let ret = (address === usedAddress)
+        console.log(`address: ${address} - usedAddress: ${usedAddress} ret: ${JSON.stringify(ret)}`)
         return address === usedAddress;
       });
 
