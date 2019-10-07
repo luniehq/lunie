@@ -58,7 +58,9 @@ export default () => {
       state.address = address
     },
     setUserAddresses(state, addresses) {
+      console.log(`Updaeting used addresses!`)
       state.addresses = addresses
+      console.log(`Updated: ${state.addresses}`)
     },
     setExperimentalMode(state) {
       state.experimentalMode = true
