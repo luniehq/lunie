@@ -138,7 +138,7 @@ export default () => {
       commit(`setSessionType`, sessionType)
       commit(`setUserAddress`, address)
 
-      await dispatch(`rememberAddress`, address, sessionType)
+      await dispatch(`rememberAddress`, { address, sessionType })
 
       /* // Check if signin address was previously used
       const sessionExist = state.addresses.find(
