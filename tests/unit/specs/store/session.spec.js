@@ -238,14 +238,24 @@ describe(`Module: Session`, () => {
       const address = `cosmos1z8mzakma7vnaajysmtkwt4wgjqr2m84tzvyfkz`
       const commit = jest.fn()
       state.signedIn = true
+      state.addresses = [
+        {
+          address: `123`,
+          type: `explore`
+        }
+      ]
       await actions.rememberAddress(
         { state, commit },
         { sessionType: `explore`, address }
       )
       expect(commit).toHaveBeenCalledWith(`setUserAddresses`, [
         {
-          type: `explore`,
-          address
+          address: `123`,
+          type: `explore`
+        },
+        {
+          address,
+          type: `explore`
         }
       ])
     })
