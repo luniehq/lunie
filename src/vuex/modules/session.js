@@ -93,6 +93,7 @@ export default () => {
     },
     async checkForPersistedAddresses({ commit }) {
       const addresses = localStorage.getItem(`addresses`)
+      console.log(`Used addresses: ${addresses}`)
       if (addresses) {
         commit(`setUserAddresses`, JSON.parse(addresses))
       }
