@@ -89,7 +89,7 @@ export default () => {
       if (session) {
         const { address, sessionType, addresses } = JSON.parse(session)
         await dispatch(`signIn`, { address, sessionType })
-        commit(`setUserAddresses`, state.addresses)
+        commit(`setUserAddresses`, addresses)
       }
     },
     async persistSession(store, { address, sessionType }) {
