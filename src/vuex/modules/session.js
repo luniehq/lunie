@@ -84,20 +84,24 @@ export default () => {
   }
 
   const actions = {
-    async checkForPersistedSession({ dispatch, commit }) {
+    async checkForPersistedSession({ dispatch }) {
       const session = localStorage.getItem(`session`)
       if (session) {
-        console.log(`Local storage session: ${session}`);
-        const { address, sessionType, addresses } = JSON.parse(session)
-        commit(`setUserAddresses`, addresses)
+        const { address, sessionType } = JSON.parse(session)
         await dispatch(`signIn`, { address, sessionType })
       }
     },
-    async persistSession(store, { address, sessionType, addresses }) {
-      localStorage.setItem(
-        `session`,
-        JSON.stringify({ address, sessionType, addresses })
-      )
+    async checkForPersistedAddresses({ commit }) {
+      const addresses = localStorage.getItem(`addresses`)
+      if (addresses) {
+        commit(`setUserAddresses`, JSON.parse(addresses))
+      }
+    },
+    async persistSession(store, { address, sessionType }) {
+      localStorage.setItem(`session`, JSON.stringify({ address, sessionType }))
+    },
+    async persistAddresses(store, { addresses }) {
+      localStorage.setItem(`addresses`, JSON.stringify({ addresses }))
     },
     async signIn(
       { state, commit, dispatch },
@@ -112,13 +116,14 @@ export default () => {
       commit(`setUserAddress`, address)
 
       // Check if signin address was previously used
-      const sessionExist = state.addresses.find(function(usedAddress) {
+      let addresses = state.addresses
+      const sessionExist = addresses.find(function(usedAddress) {
         return address === usedAddress.address
       })
 
       // Add signin address to addresses array if was not used previously
       if (!sessionExist) {
-        state.addresses.push({
+        addresses.push({
           address: address,
           type: sessionType
         })
@@ -126,10 +131,13 @@ export default () => {
       }
 
       await dispatch(`initializeWallet`, { address })
-      let addresses = state.addresses
+
       dispatch(`persistSession`, {
         address,
-        sessionType,
+        sessionType
+      })
+
+      dispatch(`persistAddresses`, {
         addresses
       })
 
@@ -144,15 +152,7 @@ export default () => {
     resetSessionData({ commit, state }) {
       state.history = ["/"]
       commit(`setUserAddress`, null)
-      //localStorage.removeItem(`session`)
-      // Clear session address and sessionType but keep addresses
-      /* let addresses = state.addresses
-      localStorage.setItem(
-        `session`,
-        JSON.stringify({
-          addresses
-        })
-      ) */
+      localStorage.removeItem(`session`)
     },
     loadLocalPreferences({ state, dispatch }) {
       const localPreferences = localStorage.getItem(USER_PREFERENCES_KEY)
