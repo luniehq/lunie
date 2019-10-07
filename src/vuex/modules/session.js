@@ -109,10 +109,11 @@ export default () => {
       // Check if signin address was previously used
       const sessionExist = state.addresses.find(function (usedAddress) {
         return address === usedAddress;
-      }, false);
+      });
 
       // Add signin address to addresses array if was not used previously
       if (!sessionExist) {
+        console.log(`Signin address ${address} was not used previously`)
         state.addresses.push({
           address: address,
           type: sessionType
