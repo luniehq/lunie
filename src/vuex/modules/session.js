@@ -87,6 +87,7 @@ export default () => {
     async checkForPersistedSession({ dispatch, commit }) {
       const session = localStorage.getItem(`session`)
       if (session) {
+        console.log(`Local storage session: ${session}`);
         const { address, sessionType, addresses } = JSON.parse(session)
         commit(`setUserAddresses`, addresses)
         await dispatch(`signIn`, { address, sessionType })
