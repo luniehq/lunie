@@ -195,12 +195,31 @@ describe(`Module: Session`, () => {
       const commit = jest.fn()
       const dispatch = jest.fn()
       state.signedIn = true
+      state.addresses = [
+        {
+          address: `123`,
+          type: `explore`
+        },
+        {
+          address: `456`,
+          type: `ledger`
+        }
+      ]
       await actions.signIn(
         { state, commit, dispatch },
         { sessionType: `explore`, address }
       )
       expect(dispatch).toHaveBeenCalledWith(`persistAddresses`, {
-        addresses: []
+        addresses: [
+          {
+            address: `123`,
+            type: `explore`
+          },
+          {
+            address: `456`,
+            type: `ledger`
+          }
+        ]
       })
       expect(dispatch).toHaveBeenCalledWith(`persistSession`, {
         address: `cosmos1z8mzakma7vnaajysmtkwt4wgjqr2m84tzvyfkz`,
@@ -213,6 +232,22 @@ describe(`Module: Session`, () => {
       expect(dispatch).toHaveBeenCalledWith(`initializeWallet`, {
         address: `cosmos1z8mzakma7vnaajysmtkwt4wgjqr2m84tzvyfkz`
       })
+    })
+
+    it("should commit checkForPersistedAddresses when dispatch checkForPersistedAddresses ", async () => {
+      const address = `cosmos1z8mzakma7vnaajysmtkwt4wgjqr2m84tzvyfkz`
+      const commit = jest.fn()
+      state.signedIn = true
+      await actions.rememberAddress(
+        { state, commit },
+        { sessionType: `explore`, address }
+      )
+      expect(commit).toHaveBeenCalledWith(`setUserAddresses`, [
+        {
+          type: `explore`,
+          address
+        }
+      ])
     })
 
     it("should remember the address", async () => {
