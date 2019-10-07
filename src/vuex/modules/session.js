@@ -106,17 +106,22 @@ export default () => {
       commit(`setSessionType`, sessionType)
       commit(`setUserAddress`, address)
 
-      // Add sign in address to addresses array if not exist previously
-      let session = {
-        address: address,
-        type: sessionType
-      }
-      let sessionExist = false;
+      // Check if signin address was previously used
+      const sessionExist = state.addresses.reduce(function (usedAddress) {
+        return address === usedAddress;
+      }, false);
+
+      /* let sessionExist = false;
       for (let i = 0; i < state.addresses.length; i++) {
         if (state.addresses[i].address === address) sessionExist = true
-      }
+      } */
+
+      // Add signin address to addresses array if not exist previously
       if (!sessionExist) {
-        state.addresses.push(session)
+        state.addresses.push({
+          address: address,
+          type: sessionType
+        })
         commit(`setUserAddresses`, state.addresses)
       }
 
