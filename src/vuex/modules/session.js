@@ -144,7 +144,7 @@ export default () => {
     resetSessionData({ commit, state }) {
       state.history = ["/"]
       commit(`setUserAddress`, null)
-      localStorage.removeItem(`session`)
+      //localStorage.removeItem(`session`)
     },
     loadLocalPreferences({ state, dispatch }) {
       const localPreferences = localStorage.getItem(USER_PREFERENCES_KEY)
