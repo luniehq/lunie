@@ -24,7 +24,7 @@
           class="tm-connected-network__string"
         >
           <span v-tooltip.top="networkTooltip" class="chain-id">
-            {{ chainId }}
+            {{ block.chainId }}
           </span>
         </div>
       </div>
@@ -33,14 +33,18 @@
         class="tm-connected-network__string"
       >
         <router-link
+          v-if="block.height"
           v-tooltip.top="'Block Height'"
           :to="{
             name: `block`,
-            params: { height: block }
+            params: { height: block.height }
           }"
         >
-          #{{ block | prettyInt }}
+          #{{ block.height | prettyInt }}
         </router-link>
+        <template v-else>
+          --
+        </template>
       </div>
     </div>
     <div
@@ -70,6 +74,7 @@ import { mapState } from "vuex"
 import { prettyInt } from "scripts/num"
 import TmBtn from "common/TmBtn"
 import { NewBlockSubscription } from "src/gql"
+import gql from "graphql-tag"
 
 export default {
   name: `tm-connected-network`,
@@ -79,27 +84,36 @@ export default {
   filters: {
     prettyInt
   },
-  data: () => ({
-    block: "--",
-    chainId: ""
-  }),
   computed: {
     ...mapState([`connection`]),
     networkTooltip() {
       if (this.connection.connected) {
-        return `You're connected to ${this.chainId}.`
+        return `You're connected to ${this.block.chainId}.`
       } else {
         return `Seeking connection`
       }
     }
   },
+  data: () => ({
+    block: {}
+  }),
   apollo: {
+    block: {
+      query: gql`
+        query Block {
+          block {
+            height
+            chainId
+          }
+        }
+      `,
+      update: result => result.block
+    },
     $subscribe: {
       blockAdded: {
         query: NewBlockSubscription,
         result({ data }) {
-          this.block = data.blockAdded.height
-          this.chainId = data.blockAdded.chainId
+          this.block = data.blockAdded
         }
       }
     }

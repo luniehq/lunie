@@ -2,7 +2,7 @@ import { shallowMount, createLocalVue } from "@vue/test-utils"
 import TmConnectedNetwork from "common/TmConnectedNetwork"
 
 const localVue = createLocalVue()
-localVue.directive(`tooltip`, () => {})
+localVue.directive(`tooltip`, () => { })
 
 describe(`TmConnectedNetwork`, () => {
   let wrapper, $store
@@ -11,12 +11,7 @@ describe(`TmConnectedNetwork`, () => {
     $store = {
       state: {
         connection: {
-          connected: true,
-          network: "gaia-20k",
-          nodeUrl: `https://faboNode.de`,
-          lastHeader: {
-            height: `6001`
-          }
+          connected: true
         }
       }
     }
@@ -31,16 +26,34 @@ describe(`TmConnectedNetwork`, () => {
   })
 
   it(`has the expected html structure`, () => {
+    wrapper.setData({
+      block: {
+        chainId: "gaia-20k",
+        height: 6001
+      }
+    })
     expect(wrapper.element).toMatchSnapshot()
   })
 
   it(`has a network string`, () => {
+    wrapper.setData({
+      block: {
+        chainId: "gaia-20k",
+        height: 6001
+      }
+    })
     expect(wrapper.find(`#tm-connected-network__string`).text()).toMatch(
       /gaia-20k/
     )
   })
 
   it(`has a block string`, () => {
+    wrapper.setData({
+      block: {
+        chainId: "gaia-20k",
+        height: 6001
+      }
+    })
     expect(wrapper.find(`#tm-connected-network__block`).text()).toMatch(
       /#6,001/
     )
@@ -50,12 +63,7 @@ describe(`TmConnectedNetwork`, () => {
     $store = {
       state: {
         connection: {
-          connected: false,
-          network: "cosmoshub",
-          nodeUrl: null,
-          lastHeader: {
-            height: `6001`
-          }
+          connected: false
         }
       }
     }
