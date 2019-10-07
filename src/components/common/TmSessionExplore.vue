@@ -20,7 +20,7 @@
             </div>
             <div class="tm-li-session-text">
               <div class="tm-li-session-title">
-                <span>{{ shortenAddress(account.address) }}</span>
+                <span>{{ account.address | formatBech32(false, 12) }}</span>
                 <p class="tm-li-session-subtitle">
                   {{ getAddressTypeDescription(account.type) }}
                 </p>
@@ -75,6 +75,8 @@ import TmFormStruct from "common/TmFormStruct"
 import TmField from "common/TmField"
 import TmFormMsg from "common/TmFormMsg"
 import bech32 from "bech32"
+import { formatBech32 } from "src/filters"
+
 export default {
   name: `session-explore`,
   components: {
@@ -84,6 +86,9 @@ export default {
     TmFormGroup,
     TmFormMsg,
     TmFormStruct
+  },
+  filters: {
+    formatBech32
   },
   data: () => ({
     address: ``,
@@ -131,9 +136,6 @@ export default {
       if (addressType === "explore") return `Explore Mode`
       if (addressType === "ledger") return `Ledger Nano S`
       if (addressType === "extension") return `Lunie Browser Extension`
-    },
-    shortenAddress(address) {
-      return `${address.substring(0, 12)}...${address.substring(address.length - 12)}`
     },
     exploreWith(address) {
       this.address = address
