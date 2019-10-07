@@ -88,8 +88,8 @@ export default () => {
       const session = localStorage.getItem(`session`)
       if (session) {
         const { address, sessionType, addresses } = JSON.parse(session)
-        await dispatch(`signIn`, { address, sessionType })
         commit(`setUserAddresses`, addresses)
+        await dispatch(`signIn`, { address, sessionType })
       }
     },
     async persistSession(store, { address, sessionType }) {
