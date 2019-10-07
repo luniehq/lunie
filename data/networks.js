@@ -1,5 +1,5 @@
-const networks = [
-  {
+const networks = {
+  cosmoshub: {
     api_url: "https://gaia-13006.lunie.io",
     rpc_url: "wss://gaia-13006.lunie.io:26657/websocket",
     action_claim_rewards: false,
@@ -24,7 +24,7 @@ const networks = [
     testnet: true,
     title: "Gaia Testnet"
   },
-  {
+  "gaia-testnet": {
     api_url: "https://lcd.nylira.net",
     rpc_url: "ws://rpc.nylira.net/websocket",
     action_claim_rewards: true,
@@ -49,7 +49,7 @@ const networks = [
     testnet: false,
     title: "Cosmos Hub"
   }
-];
+};
 
 function getNetworks() {
   return networks;
