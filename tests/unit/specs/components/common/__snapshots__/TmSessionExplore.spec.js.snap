@@ -42,7 +42,7 @@ exports[`TmSessionExplore shows a form to sign in with an address 1`] = `
               class="tm-li-session-title"
             >
               <span>
-                cosmos1z8mza...r2m84tzvyfkz
+                cosmos…r2m84tzvyfkz
               </span>
                
               <p
@@ -91,7 +91,7 @@ exports[`TmSessionExplore shows a form to sign in with an address 1`] = `
               class="tm-li-session-title"
             >
               <span>
-                cosmos1unc78...palg5kc7cstv
+                cosmos…palg5kc7cstv
               </span>
                
               <p
@@ -140,7 +140,7 @@ exports[`TmSessionExplore shows a form to sign in with an address 1`] = `
               class="tm-li-session-title"
             >
               <span>
-                cosmos1vxkye...a7m64khj8klc
+                cosmos…a7m64khj8klc
               </span>
                
               <p
