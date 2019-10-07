@@ -58,9 +58,7 @@ export default () => {
       state.address = address
     },
     setUserAddresses(state, addresses) {
-      console.log(`Updating used addresses!`)
       state.addresses = addresses
-      console.log(`Updated: ${JSON.stringify(state.addresses)}`)
     },
     setExperimentalMode(state) {
       state.experimentalMode = true
@@ -95,7 +93,6 @@ export default () => {
     },
     async checkForPersistedAddresses({ commit }) {
       const addresses = localStorage.getItem(`addresses`)
-      console.log(`Used addresses: ${addresses}`)
       if (addresses) {
         await commit(`setUserAddresses`, JSON.parse(addresses))
       }
@@ -106,14 +103,11 @@ export default () => {
     async persistAddresses(store, { addresses }) {
       localStorage.setItem(`addresses`, JSON.stringify(addresses))
     },
-
     async rememberAddress({ state, commit }, { address, sessionType }) {
-      console.log(`remember address: ${address} type: ${sessionType}`)
       // Check if signin address was previously used
       const sessionExist = state.addresses.find(
         usedAddress => address === usedAddress.address
       )
-
       // Add signin address to addresses array if was not used previously
       if (!sessionExist) {
         state.addresses.push({
@@ -121,11 +115,8 @@ export default () => {
           type: sessionType
         })
         commit(`setUserAddresses`, state.addresses)
-        console.log(`state.addresses: ${JSON.stringify(state.addresses)}`)
       }
     },
-
-
     async signIn(
       { state, commit, dispatch },
       { address, sessionType = `ledger` }
@@ -139,20 +130,6 @@ export default () => {
       commit(`setUserAddress`, address)
 
       await dispatch(`rememberAddress`, { address, sessionType })
-
-      /* // Check if signin address was previously used
-      const sessionExist = state.addresses.find(
-        usedAddress => address === usedAddress.address
-      )
-
-      // Add signin address to addresses array if was not used previously
-      if (!sessionExist) {
-        state.addresses.push({
-          address: address,
-          type: sessionType
-        })
-        commit(`setUserAddresses`, state.addresses)
-      } */
 
       await dispatch(`initializeWallet`, { address })
 
