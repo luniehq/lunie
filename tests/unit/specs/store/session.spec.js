@@ -456,4 +456,50 @@ describe(`Module: Session`, () => {
       expect(dispatch).not.toHaveBeenCalled()
     })
   })
+
+  it("should save used addresses in local storage", async () => {
+    state.addresses = [
+      {
+        address: `123`,
+        type: `explore`
+      }
+    ]
+    await actions.persistAddresses({}, { addresses: state.addresses })
+    expect(localStorage.getItem(`addresses`)).toEqual(
+      JSON.stringify([
+        {
+          address: `123`,
+          type: `explore`
+        }
+      ])
+    )
+  })
+
+  it(`should restore previously used addresses from local storage`, async () => {
+    const commit = jest.fn()
+    localStorage.setItem(
+      `addresses`,
+      JSON.stringify([
+        {
+          address: `xxx`,
+          type: `explore`
+        },
+        {
+          address: `yyy`,
+          type: `ledger`
+        }
+      ])
+    )
+    await actions.checkForPersistedAddresses({ commit })
+    expect(commit).toHaveBeenCalledWith(`setUserAddresses`, [
+      {
+        address: `xxx`,
+        type: `explore`
+      },
+      {
+        address: `yyy`,
+        type: `ledger`
+      }
+    ])
+  })
 })
