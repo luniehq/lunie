@@ -1,5 +1,7 @@
 const networks = [
   {
+    api_url: "https://gaia-13006.lunie.io",
+    rpc_url: "wss://gaia-13006.lunie.io:26657/websocket",
     action_claim_rewards: false,
     action_delegate: false,
     action_deposit: false,
@@ -8,7 +10,6 @@ const networks = [
     action_send: false,
     action_undelegate: false,
     action_vote: false,
-    api_url: "https://gaia-13006.lunie.io",
     bech32_prefix: "cosmos",
     chain_id: "gaia-13006",
     experimental: true,
@@ -20,11 +21,12 @@ const networks = [
     feature_validators: true,
     id: "gaia-testnet",
     logo_url: "https://s3.amazonaws.com/network.logos/cosmos-logo.png",
-    rpc_url: "https://gaia-13006.lunie.io:26657",
     testnet: true,
     title: "Gaia Testnet"
   },
   {
+    api_url: "https://lcd.nylira.net",
+    rpc_url: "ws://rpc.nylira.net/websocket",
     action_claim_rewards: true,
     action_delegate: true,
     action_deposit: true,
@@ -33,7 +35,6 @@ const networks = [
     action_send: true,
     action_undelegate: true,
     action_vote: true,
-    api_url: "https://stargate.cosmos.network",
     bech32_prefix: "cosmos",
     chain_id: "cosmoshub-2",
     experimental: true,
@@ -45,7 +46,6 @@ const networks = [
     feature_validators: true,
     id: "cosmoshub",
     logo_url: "https://s3.amazonaws.com/network.logos/cosmos-logo.png",
-    rpc_url: "https://stargate.lunie.io:26657",
     testnet: false,
     title: "Cosmos Hub"
   }
@@ -55,6 +55,12 @@ function getNetworks() {
   return networks;
 }
 
+function getNetwork(name) {
+  return networks.find(network => network.id === name);
+}
+
 module.exports = {
-  getNetworks
+  networks,
+  getNetworks,
+  getNetwork
 };
