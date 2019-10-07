@@ -119,13 +119,13 @@ export default () => {
       commit(`setUserAddress`, address)
 
       // Check if signin address was previously used
-      const sessionExist = state.addresses.find(function(usedAddress) {
+      /* const sessionExist = state.addresses.find(function(usedAddress) {
         return address === usedAddress.address
-      })
+      }) */
 
-      /* const sessionExist = state.addresses.find(
+      const sessionExist = state.addresses.find(
         usedAddress => address === usedAddress.address
-      ) */
+      )
 
       // Add signin address to addresses array if was not used previously
       if (!sessionExist) {
