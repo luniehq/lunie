@@ -106,18 +106,9 @@ export default () => {
     async persistAddresses(store, { addresses }) {
       localStorage.setItem(`addresses`, JSON.stringify(addresses))
     },
-    async signIn(
-      { state, commit, dispatch },
-      { address, sessionType = `ledger` }
-    ) {
-      if (state.signedIn) {
-        await dispatch(`resetSessionData`)
-      }
 
-      commit(`setSignIn`, true)
-      commit(`setSessionType`, sessionType)
-      commit(`setUserAddress`, address)
-
+    async rememberAddress({ state, commit }, address, sessionType) {
+      console.log(`rememberAddress: ${address}`)
       // Check if signin address was previously used
       const sessionExist = state.addresses.find(
         usedAddress => address === usedAddress.address
@@ -130,7 +121,41 @@ export default () => {
           type: sessionType
         })
         commit(`setUserAddresses`, state.addresses)
+        console.log(`state.addresses: ${state.addresses}`)
       }
+    },
+
+
+    async signIn(
+      { state, commit, dispatch },
+      { address, sessionType = `ledger` }
+    ) {
+      if (state.signedIn) {
+        await dispatch(`resetSessionData`)
+      }
+
+      commit(`setSignIn`, true)
+      commit(`setSessionType`, sessionType)
+      commit(`setUserAddress`, address)
+
+      await dispatch(`rememberAddress`, {
+        address,
+        sessionType
+      })
+
+      /* // Check if signin address was previously used
+      const sessionExist = state.addresses.find(
+        usedAddress => address === usedAddress.address
+      )
+
+      // Add signin address to addresses array if was not used previously
+      if (!sessionExist) {
+        state.addresses.push({
+          address: address,
+          type: sessionType
+        })
+        commit(`setUserAddresses`, state.addresses)
+      } */
 
       await dispatch(`initializeWallet`, { address })
 
