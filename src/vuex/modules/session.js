@@ -106,25 +106,6 @@ export default () => {
     async persistAddresses(store, { addresses }) {
       localStorage.setItem(`addresses`, JSON.stringify(addresses))
     },
-
-    // Add signin address to addresses array if was not used previously
-    async rememberAddress({ state, commit, dispatch }, address, sessionType) {
-      console.log(`rememberAddress!`)
-      // Check if signin address was previously used
-      const sessionExist = state.addresses.find(
-        usedAddress => address === usedAddress.address
-      )
-      console.log(`sessionExist: ${sessionExist}`)
-      if (!sessionExist) {
-        state.addresses.push({
-          address: address,
-          type: sessionType
-        })
-        commit(`setUserAddresses`, state.addresses)
-      }
-      dispatch(`persistAddresses`, { addresses: state.addresses })
-    },
-
     async signIn(
       { state, commit, dispatch },
       { address, sessionType = `ledger` }
@@ -136,14 +117,35 @@ export default () => {
       commit(`setSignIn`, true)
       commit(`setSessionType`, sessionType)
       commit(`setUserAddress`, address)
-      commit(`rememberAddress`, address, sessionType)
 
-      await dispatch(`persistSession`, {
+      // Check if signin address was previously used
+      const sessionExist = state.addresses.find(function(usedAddress) {
+        return address === usedAddress.address
+      })
+
+      /* const sessionExist = state.addresses.find(
+        usedAddress => address === usedAddress.address
+      ) */
+
+      // Add signin address to addresses array if was not used previously
+      if (!sessionExist) {
+        state.addresses.push({
+          address: address,
+          type: sessionType
+        })
+        commit(`setUserAddresses`, state.addresses)
+      }
+
+      await dispatch(`initializeWallet`, { address })
+
+      dispatch(`persistSession`, {
         address,
         sessionType
       })
-
-      await dispatch(`initializeWallet`, { address })
+      let addresses = state.addresses
+      dispatch(`persistAddresses`, {
+        addresses
+      })
 
       state.externals.track(`event`, `session`, `sign-in`, sessionType)
     },
