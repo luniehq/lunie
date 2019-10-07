@@ -104,7 +104,7 @@ export default () => {
       localStorage.setItem(`session`, JSON.stringify({ address, sessionType }))
     },
     async persistAddresses(store, { addresses }) {
-      localStorage.setItem(`addresses`, JSON.stringify({ addresses }))
+      localStorage.setItem(`addresses`, JSON.stringify(addresses))
     },
     async signIn(
       { state, commit, dispatch },
