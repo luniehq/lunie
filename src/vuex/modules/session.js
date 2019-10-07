@@ -107,7 +107,7 @@ export default () => {
       localStorage.setItem(`addresses`, JSON.stringify(addresses))
     },
 
-    async rememberAddress({ state, commit }, address, sessionType) {
+    async rememberAddress({ state, commit }, { address, sessionType }) {
       console.log(`remember address: ${address} type: ${sessionType}`)
       // Check if signin address was previously used
       const sessionExist = state.addresses.find(
