@@ -137,7 +137,7 @@ export default () => {
       commit(`setUserAddress`, address)
 
       dispatch(`rememberAddress`, {
-        addresses,
+        address,
         sessionType
       })
 
