@@ -112,7 +112,7 @@ export default () => {
       console.log(`rememberAddress: ${address}`)
       // Check if signin address was previously used
       const sessionExist = state.addresses.find(
-        usedAddress => address === usedAddress.address
+        usedAddress => address === usedAddress
       )
       // Add signin address to addresses array if was not used previously
       if (!sessionExist) {
