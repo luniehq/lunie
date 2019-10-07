@@ -8,7 +8,7 @@ const networkData = require("./data/networks");
 
 try {
   new URL(process.env.CHAIN_URL);
-  new URL(process.env.CHAIN_URL_W);
+  new URL(process.env.CHAIN_URL_WS);
 } catch (e) {
   console.log("CHAIN_URL and CHAIN_URL_WS are required environment variables");
   process.exit(1);
