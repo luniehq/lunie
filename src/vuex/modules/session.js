@@ -17,7 +17,7 @@ export default () => {
     experimentalMode: config.development, // development mode, can be set from browser
     insecureMode: false, // show the local signer
     signedIn: false,
-    sessionType: null, // explore, ledger, extension
+    sessionType: null, // local, explore, ledger, extension
     pauseHistory: false,
     history: [],
     address: null, // Current address
