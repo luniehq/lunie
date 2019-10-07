@@ -103,7 +103,8 @@ function persistState(state) {
     votes: state.votes,
     governanceParameters: state.governanceParameters,
     session: {
-      address: state.session.address
+      address: state.session.address,
+      addresses: state.session.addresses
     }
   })
   // Store the state object as a JSON string
