@@ -116,14 +116,13 @@ export default () => {
       commit(`setUserAddress`, address)
 
       // Check if signin address was previously used
-      let addresses = state.addresses
-      const sessionExist = addresses.find(function(usedAddress) {
+      const sessionExist = state.addresses.find(function(usedAddress) {
         return address === usedAddress.address
       })
 
       // Add signin address to addresses array if was not used previously
       if (!sessionExist) {
-        addresses.push({
+        state.addresses.push({
           address: address,
           type: sessionType
         })
@@ -136,7 +135,7 @@ export default () => {
         address,
         sessionType
       })
-
+      let addresses = state.addresses
       dispatch(`persistAddresses`, {
         addresses
       })
