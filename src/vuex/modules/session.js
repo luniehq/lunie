@@ -121,7 +121,7 @@ export default () => {
           type: sessionType
         })
         commit(`setUserAddresses`, state.addresses)
-        console.log(`state.addresses: ${state.addresses}`)
+        console.log(`state.addresses: ${JSON.stringify(state.addresses)}`)
       }
     },
 
