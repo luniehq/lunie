@@ -84,15 +84,17 @@ export default () => {
   }
 
   const actions = {
-    async checkForPersistedSession({ dispatch }) {
+    async checkForPersistedSession({ dispatch, commit }) {
       const session = localStorage.getItem(`session`)
       if (session) {
-        const { address, sessionType } = JSON.parse(session)
+        const { address, sessionType, addresses } = JSON.parse(session)
         await dispatch(`signIn`, { address, sessionType })
+        commit(`setUserAddresses`, state.addresses)
       }
     },
     async persistSession(store, { address, sessionType }) {
-      localStorage.setItem(`session`, JSON.stringify({ address, sessionType }))
+      let addresses = store.addresses
+      localStorage.setItem(`session`, JSON.stringify({ address, sessionType, addresses }))
     },
     async signIn(
       { state, commit, dispatch },
