@@ -107,7 +107,7 @@ export default () => {
       localStorage.setItem(`addresses`, JSON.stringify(addresses))
     },
 
-    async rememberAddress({ state, commit }, address) {
+    async rememberAddress({ state, commit }, address, sessionType) {
       console.log(`rememberAddress: ${JSON.stringify(address)}`)
       // Check if signin address was previously used
       const sessionExist = state.addresses.find(
@@ -117,8 +117,8 @@ export default () => {
       // Add signin address to addresses array if was not used previously
       if (!sessionExist) {
         state.addresses.push({
-          address: address.address,
-          type: address.sessionType
+          address: address,
+          type: sessionType
         })
         commit(`setUserAddresses`, state.addresses)
         console.log(`state.addresses: ${JSON.stringify(state.addresses)}`)
@@ -138,9 +138,7 @@ export default () => {
       commit(`setSessionType`, sessionType)
       commit(`setUserAddress`, address)
 
-      await dispatch(`rememberAddress`, {
-        address
-      })
+      await dispatch(`rememberAddress`, address, sessionType)
 
       /* // Check if signin address was previously used
       const sessionExist = state.addresses.find(
