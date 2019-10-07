@@ -109,10 +109,12 @@ export default () => {
 
     // Add signin address to addresses array if was not used previously
     async rememberAddress({ state, commit, dispatch }, address, sessionType) {
+      console.log(`rememberAddress!`)
       // Check if signin address was previously used
       const sessionExist = state.addresses.find(
         usedAddress => address === usedAddress.address
       )
+      console.log(`sessionExist: ${sessionExist}`)
       if (!sessionExist) {
         state.addresses.push({
           address: address,
