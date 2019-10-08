@@ -31,7 +31,7 @@
         </TmFormGroup>
       </div>
       <div class="session-footer">
-        <TmBtn value="Next" type="submit" :disabled="$v.name.$invalid" />
+        <TmBtn value="Next" type="submit" />
       </div>
     </TmFormStruct>
   </SessionFrame>
@@ -69,6 +69,8 @@ export default {
   },
   methods: {
     submit() {
+      this.$v.$touch()
+      if (this.$v.name.$invalid) return
       this.$router.push("/recover/password")
     }
   },
