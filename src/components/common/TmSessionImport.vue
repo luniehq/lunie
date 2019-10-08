@@ -31,7 +31,6 @@
       <div class="session-footer">
         <TmBtn
           value="Next"
-          size="small"
           type="submit"
           :disabled="$v.seed.$invalid || $v.seed.$invalid"
         />
@@ -85,3 +84,15 @@ export default {
   })
 }
 </script>
+<style>
+.session-footer {
+  display: flex;
+  justify-content: flex-end;
+  padding: 1.5rem 0 1rem;
+
+  /* keeps button in bottom right no matter the size of the action modal */
+  flex-grow: 1;
+  align-self: flex-end;
+  flex-direction: column;
+}
+</style>
