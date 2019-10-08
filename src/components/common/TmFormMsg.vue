@@ -85,6 +85,9 @@ export default {
         case `words16`:
           msg = `phrase must be 16 words`
           break
+        case `words24`:
+          msg = `seed phrase must be exactly 24 words`
+          break
         case `url`:
           msg = `must be a valid URL (http:// required)`
           break
