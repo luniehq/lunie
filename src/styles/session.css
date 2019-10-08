@@ -95,10 +95,12 @@
 
 .session-footer {
   display: flex;
-  padding: 1rem 0;
+  justify-content: flex-end;
+  padding: 1.5rem 0 1rem;
+  /* keeps button in bottom right no matter the size of the action modal */
+  flex-grow: 1;
+  align-self: flex-end;
   flex-direction: column;
-  justify-content: space-between;
-  font-size: 12px;
 }
 
 .footnote {
