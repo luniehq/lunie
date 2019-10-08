@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.0-beta.128] - 2019-10-08
+
+### Added
+
+- [#2821](https://github.com/cosmos/lunie/issues/2821) Use account list in explore mode with previously used addresses @mariopino
+
 ## [1.0.0-beta.127] - 2019-10-06
 
 ### Fixed
