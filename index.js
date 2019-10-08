@@ -15,7 +15,7 @@ let options = {
   dataSources: () => ({
     CosmosAPI: cosmosApi,
     GaiaAPI: gaiaApi,
-    networkData
+    networks
   }),
   cacheControl: {
     defaultMaxAge: 5000
