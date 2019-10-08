@@ -134,6 +134,12 @@
   padding: 0 1rem;
 }
 
+.session .material-icons.circle.back {
+  background: var(--dim);
+  border-radius: 50%;
+  padding: .4rem;
+}
+
 @media screen and (min-width: 667px) {
   .session {
     width: 100%;
@@ -160,7 +166,7 @@
     height: 3rem;
     margin: 1rem;
   }
-  
+
   .session-footer {
     width: 100%;
   }
