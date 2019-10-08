@@ -31,7 +31,7 @@
       <div class="session-footer">
         <TmBtn
           value="Next"
-          class="small"
+          size="small"
           type="submit"
           :disabled="$v.seed.$invalid || $v.seed.$invalid"
         />
