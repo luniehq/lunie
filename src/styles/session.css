@@ -135,7 +135,8 @@
 }
 
 .session .material-icons.circle.back {
-  background: var(--dim);
+  background:var(--app-nav-light);
+  color: var(--dim);
   border-radius: 50%;
   padding: .4rem;
 }
