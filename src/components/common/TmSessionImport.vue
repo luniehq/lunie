@@ -88,6 +88,6 @@ export default {
 .form {
   position: relative;
   width: var(--width-main);
-  height: 100%;
+  height: 95%;
 }
 </style>
