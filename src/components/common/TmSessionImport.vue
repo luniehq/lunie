@@ -84,10 +84,3 @@ export default {
   })
 }
 </script>
-<style scoped>
-.form {
-  position: relative;
-  width: var(--width-main);
-  height: 95%;
-}
-</style>

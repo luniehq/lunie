@@ -139,6 +139,7 @@
   color: var(--dim);
   border-radius: 50%;
   padding: .4rem;
+  cursor: pointer;
 }
 
 @media screen and (min-width: 667px) {
