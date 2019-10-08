@@ -35,7 +35,6 @@ exports[`TmSessionImport has the expected html structure 1`] = `
       class="session-footer"
     >
       <tmbtn-stub
-        disabled="true"
         type="submit"
         value="Next"
       />
