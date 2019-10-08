@@ -71,13 +71,13 @@ export default {
           msg = `must be between ${this.min} and ${this.max} characters`
           break
         case `minLength`:
-          msg = `must be longer than ${this.min} characters`
+          msg = `must be equal or longer than ${this.min} characters`
           break
         case `match`:
           msg = `must match`
           break
         case `maxLength`:
-          msg = `must be shorter than ${this.max} characters`
+          msg = `must be equal or shorter than ${this.max} characters`
           break
         case `required`:
           msg = `is required`
