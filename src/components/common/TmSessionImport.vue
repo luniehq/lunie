@@ -29,11 +29,7 @@
         </TmFormGroup>
       </div>
       <div class="session-footer">
-        <TmBtn
-          value="Next"
-          type="submit"
-          :disabled="$v.seed.$invalid || $v.seed.$invalid"
-        />
+        <TmBtn value="Next" type="submit" />
       </div>
     </TmFormStruct>
   </SessionFrame>
@@ -76,6 +72,8 @@ export default {
   },
   methods: {
     submit() {
+      this.$v.$touch()
+      if (this.$v.seed.$invalid || this.$v.seed.$invalid) return
       this.$router.push("/recover/confirm")
     }
   },
