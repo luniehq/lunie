@@ -160,6 +160,10 @@
     height: 3rem;
     margin: 1rem;
   }
+  
+  .session-footer {
+    width: 100%;
+  }
 }
 
 @media screen and (max-width: 1023px) {
