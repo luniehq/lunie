@@ -23,8 +23,9 @@ exports[`TmSessionSignUpSeed renders 1`] = `
         fieldlabel="Seed Phrase"
       >
         <fieldseed-stub
+          disabled=""
           id="sign-up-seed"
-          value="seed"
+          value="asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf"
         />
       </tmformgroup-stub>
        

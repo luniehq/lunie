@@ -50,30 +50,21 @@ describe(`TmSessionImport`, () => {
     expect(wrapper.element).toMatchSnapshot()
   })
 
-  it(`should disable button if seed is not filled in`, async () => {
-    expect(wrapper.find(TmBtn).attributes(`disabled`)).toBe("true")
+  it(`validation should fail if seed is not filled in`, async () => {
+    await wrapper.vm.submit()
+    expect(wrapper.vm.$v.seed.$error).toBe(true)
   })
 
-  it(`should disable button if seed is not 24 words long`, async () => {
+  it(`validation should fail if seed is not 24 words long`, async () => {
     wrapper.vm.$store.state.recover.seed = `asdf asdf asdf asdf`
-    // console.log(wrapper.html())
-    expect(wrapper.find(TmBtn).attributes(`disabled`)).toBe("true")
+    await wrapper.vm.submit()
+    expect(wrapper.vm.$v.seed.$error).toBe(true)
   })
 
-  it(`should enable button if seed is 24 words long`, async () => {
-    $store.state.recover.seed = `asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf`
-    wrapper = shallowMount(TmSessionImport, {
-      localVue,
-      mocks: {
-        $store,
-        $router: {
-          push: jest.fn()
-        }
-      },
-      stubs: [`router-link`]
-    })
-    // console.log(wrapper.html())
-    expect(wrapper.find(TmBtn).attributes(`disabled`)).toBe(undefined)
+  it(`should validate if seed is 24 words long`, async () => {
+    wrapper.vm.$store.state.recover.seed = `asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf`
+    await wrapper.vm.submit()
+    expect(wrapper.vm.$v.seed.$error).toBe(false)
   })
 
   it(`should commit updateField on field change`, async () => {
@@ -85,6 +76,7 @@ describe(`TmSessionImport`, () => {
   })
 
   it(`should go to /recover/confirm when submit the form`, async () => {
+    wrapper.vm.$store.state.recover.seed = `asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf`
     wrapper.vm.submit()
     expect(wrapper.vm.$router.push).toHaveBeenCalledWith(`/recover/confirm`)
   })

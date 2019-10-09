@@ -10,7 +10,7 @@
           class="sign-up-seed-group"
           field-label="Seed Phrase"
         >
-          <FieldSeed id="sign-up-seed" v-model="fieldSeed" />
+          <FieldSeed id="sign-up-seed" v-model="fieldSeed" disabled />
         </TmFormGroup>
         <TmFormGroup
           class="field-checkbox"

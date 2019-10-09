@@ -50,40 +50,21 @@ describe(`TmSessionImportName`, () => {
     expect(wrapper.element).toMatchSnapshot()
   })
 
-  it(`should disable button if name is not filled in`, async () => {
-    expect(wrapper.find(TmBtn).attributes(`disabled`)).toBe("true")
+  it(`validation should fail if name is not filled in`, async () => {
+    await wrapper.vm.submit()
+    expect(wrapper.vm.$v.name.$error).toBe(true)
   })
 
-  it(`should disable button if name lenght < 5 characters`, async () => {
-    $store.state.recover.name = `asdf`
-    wrapper = shallowMount(TmSessionImportName, {
-      localVue,
-      mocks: {
-        $store,
-        $router: {
-          push: jest.fn()
-        }
-      },
-      stubs: [`router-link`]
-    })
-    // console.log(wrapper.html())
-    expect(wrapper.find(TmBtn).attributes(`disabled`)).toBe("true")
+  it(`validation should fail if name lenght < 5 characters`, async () => {
+    wrapper.vm.$store.state.recover.name = `asdf`
+    await wrapper.vm.submit()
+    expect(wrapper.vm.$v.name.$error).toBe(true)
   })
 
-  it(`should enable button if name lenght >= 5 characters`, async () => {
-    $store.state.recover.name = `Happy Lunie User`
-    wrapper = shallowMount(TmSessionImportName, {
-      localVue,
-      mocks: {
-        $store,
-        $router: {
-          push: jest.fn()
-        }
-      },
-      stubs: [`router-link`]
-    })
-    // console.log(wrapper.html())
-    expect(wrapper.find(TmBtn).attributes(`disabled`)).toBe(undefined)
+  it(`validation should not fail if name lenght >= 5 characters`, async () => {
+    wrapper.vm.$store.state.recover.name = `Happy Lunie User`
+    await wrapper.vm.submit()
+    expect(wrapper.vm.$v.name.$error).toBe(false)
   })
 
   it(`should commit updateField on field change`, async () => {
@@ -95,6 +76,7 @@ describe(`TmSessionImportName`, () => {
   })
 
   it(`should go to /recover/password when submit the form`, async () => {
+    wrapper.vm.$store.state.recover.name = `Happy Lunie User`
     wrapper.vm.submit()
     expect(wrapper.vm.$router.push).toHaveBeenCalledWith(`/recover/password`)
   })
