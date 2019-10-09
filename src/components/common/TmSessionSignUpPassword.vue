@@ -1,6 +1,6 @@
 <template>
   <SessionFrame>
-    <TmFormStruct :submit="submit">
+    <TmFormStruct :submit="onSubmit">
       <h2 class="session-title">
         Choose Password
       </h2>
@@ -49,13 +49,7 @@
           />
         </TmFormGroup>
         <div class="session-footer">
-          <TmBtn
-            value="Next"
-            type="submit"
-            :disabled="
-              $v.fieldPassword.$invalid || $v.fieldPasswordConfirm.$invalid
-            "
-          />
+          <TmBtn value="Next" type="submit" />
         </div>
       </div>
       <div v-if="!session.insecureMode" class="session-main">
@@ -110,7 +104,9 @@ export default {
     }
   },
   methods: {
-    submit() {
+    async onSubmit() {
+      this.$v.$touch()
+      if (this.$v.$error) return
       this.$router.push(`/create/confirm`)
     }
   },
