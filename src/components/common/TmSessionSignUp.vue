@@ -1,6 +1,6 @@
 <template>
   <SessionFrame>
-    <TmFormStruct :submit="submit">
+    <TmFormStruct :submit="onSubmit">
       <h2 class="session-title">
         Create a new address
       </h2>
@@ -31,7 +31,7 @@
           />
         </TmFormGroup>
         <div class="session-footer">
-          <TmBtn value="Next" type="submit" :disabled="$v.fieldName.$invalid" />
+          <TmBtn value="Next" type="submit" />
         </div>
       </div>
       <div v-if="!session.insecureMode" class="session-main">
@@ -77,7 +77,9 @@ export default {
     }
   },
   methods: {
-    submit() {
+    async onSubmit() {
+      this.$v.$touch()
+      if (this.$v.$error) return
       this.$router.push(`/create/password`)
     }
   },
