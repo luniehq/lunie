@@ -15,30 +15,30 @@ commands:
     steps:
       - restore_cache:
           keys:
-            - v4-dependencies-root-{{ checksum "package.json" }}
-            - v4-dependencies-root-
+            - v5-dependencies-root-{{ checksum "yarn.lock" }}
+            - v5-dependencies-root-
 
       - run: yarn install
       - save_cache:
           paths:
             - yarn.lock
             - node_modules
-          key: v4-dependencies-root-{{ checksum "package.json" }}
+          key: v5-dependencies-root-{{ checksum "yarn.lock" }}
 
   yarn-install-extension:
     description: "[YARN] update and install"
     steps:
       - restore_cache:
           keys:
-            - v1-dependencies-extension-{{ checksum "package.json" }}
-            - v1-dependencies-extension-
+            - v2-dependencies-extension-{{ checksum "yarn.lock" }}
+            - v2-dependencies-extension-
 
       - run: yarn install
       - save_cache:
           paths:
             - yarn.lock
             - node_modules
-          key: v1-dependencies-extension-{{ checksum "package.json" }}
+          key: v2-dependencies-extension-{{ checksum "yarn.lock" }}
 
 # a reusable executor
 executors:
