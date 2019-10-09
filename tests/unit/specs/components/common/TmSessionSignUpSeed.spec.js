@@ -68,12 +68,6 @@ describe(`TmSessionSignUpSeed`, () => {
         "asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf"
     })
     expect(wrapper.vm.$router.push).toHaveBeenCalledWith(`/create/success`)
-
-    // expect($store.dispatch).toHaveBeenCalledWith(`createSeed`)
-    // expect($store.commit).toHaveBeenCalledWith(`updateField`, {
-    //   field: "signUpSeed",
-    //   value: ""
-    // })
   })
 
   it(`should commit notifyError on createKey dispatch error`, async () => {
