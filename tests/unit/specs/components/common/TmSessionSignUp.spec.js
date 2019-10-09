@@ -17,7 +17,7 @@ describe(`TmSessionSignUp`, () => {
         }
       },
       commit: jest.fn(),
-      dispatch: jest.fn(async () => true),
+      dispatch: jest.fn(),
       mutations: {
         updateField: jest.fn()
       }
@@ -48,7 +48,8 @@ describe(`TmSessionSignUp`, () => {
   })
 
   it(`should go to /create/password when submit the form`, async () => {
-    wrapper.vm.submit()
+    wrapper.vm.$store.state.signup.signUpName = `HappyLunieUser`
+    await wrapper.vm.onSubmit()
     expect(wrapper.vm.$router.push).toHaveBeenCalledWith(`/create/password`)
   })
 })

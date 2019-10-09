@@ -50,19 +50,19 @@ describe(`TmSessionImport`, () => {
   })
 
   it(`validation should fail if seed is not filled in`, async () => {
-    await wrapper.vm.submit()
+    await wrapper.vm.onSubmit()
     expect(wrapper.vm.$v.seed.$error).toBe(true)
   })
 
   it(`validation should fail if seed is not 24 words long`, async () => {
     wrapper.vm.$store.state.recover.seed = `asdf asdf asdf asdf`
-    await wrapper.vm.submit()
+    await wrapper.vm.onSubmit()
     expect(wrapper.vm.$v.seed.$error).toBe(true)
   })
 
   it(`should validate if seed is 24 words long`, async () => {
     wrapper.vm.$store.state.recover.seed = `asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf`
-    await wrapper.vm.submit()
+    await wrapper.vm.onSubmit()
     expect(wrapper.vm.$v.seed.$error).toBe(false)
   })
 
@@ -76,7 +76,7 @@ describe(`TmSessionImport`, () => {
 
   it(`should go to /recover/confirm when submit the form`, async () => {
     wrapper.vm.$store.state.recover.seed = `asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf`
-    wrapper.vm.submit()
+    wrapper.vm.onSubmit()
     expect(wrapper.vm.$router.push).toHaveBeenCalledWith(`/recover/confirm`)
   })
 })

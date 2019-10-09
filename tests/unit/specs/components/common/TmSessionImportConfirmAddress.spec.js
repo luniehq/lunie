@@ -55,7 +55,7 @@ describe(`TmSessionImportConfirmAddress`, () => {
   })
 
   it(`should go to /recover/name when submit the form`, async () => {
-    wrapper.vm.submit()
+    wrapper.vm.onSubmit()
     expect(wrapper.vm.$router.push).toHaveBeenCalledWith(`/recover/name`)
   })
 })

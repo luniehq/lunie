@@ -101,7 +101,7 @@ describe(`TmSessionImportPassword`, () => {
     wrapper.vm.$store.state.recover.password = `1234567890`
     wrapper.vm.$store.state.recover.passwordConfirm = `1234567890`
     wrapper.vm.$store.dispatch = {
-      createKey: jest.fn().mockRejectedValue(new Error()),
+      createKey: jest.fn().mockRejectedValue(new Error())
     }
     await wrapper.vm.onSubmit()
     expect(wrapper.vm.$store.commit).toHaveBeenCalledWith(`notifyError`, {

@@ -14,56 +14,55 @@ exports[`TmSessionSignUpSeed renders 1`] = `
     
     </h2>
      
-    <div
-      class="session-main"
-    >
-      <tmformgroup-stub
-        class="sign-up-seed-group"
-        fieldid="sign-up-seed"
-        fieldlabel="Seed Phrase"
+    <div>
+      <div
+        class="session-main"
       >
-        <fieldseed-stub
-          disabled=""
-          id="sign-up-seed"
-          value="asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf"
-        />
-      </tmformgroup-stub>
-       
-      <tmformgroup-stub
-        class="field-checkbox"
-        fieldid="sign-up-warning"
-        fieldlabel=""
-      >
-        <div
-          class="field-checkbox-input"
+        <tmformgroup-stub
+          class="sign-up-seed-group"
+          fieldid="sign-up-seed"
+          fieldlabel="Seed phrase"
         >
-          <label
-            class="field-checkbox-label"
-            for="sign-up-warning"
-          >
-            <input
-              id="sign-up-warning"
-              type="checkbox"
-            />
-            
-            I understand that lost seeds cannot be recovered.
-          </label>
-        </div>
+          <fieldseed-stub
+            disabled=""
+            id="sign-up-seed"
+            value="asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf"
+          />
+        </tmformgroup-stub>
          
-        <!---->
-      </tmformgroup-stub>
+        <tmformgroup-stub
+          class="field-checkbox"
+          fieldid="sign-up-warning"
+          fieldlabel=""
+        >
+          <div
+            class="field-checkbox-input"
+          >
+            <label
+              class="field-checkbox-label"
+              for="sign-up-warning"
+            >
+              <input
+                id="sign-up-warning"
+                type="checkbox"
+              />
+              
+              I understand that lost seeds cannot be recovered.
+            </label>
+          </div>
+           
+          <!---->
+        </tmformgroup-stub>
+      </div>
        
       <div
         class="session-footer"
       >
         <tmbtn-stub
-          disabled="true"
           value="Create"
         />
       </div>
     </div>
-     
-    <!---->
   </tmformstruct-stub>
 </sessionframe-stub>
 `;

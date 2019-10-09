@@ -59,12 +59,36 @@ describe(`TmSessionSignUpSeed`, () => {
     wrapper.vm.$store.state.signup.signUpSeed = `asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf`
     wrapper.vm.$store.state.signup.signUpPassword = `1234567890`
     wrapper.vm.$store.state.signup.signUpName = `HappyLunieUser`
-    wrapper.vm.$store.state.signup.fieldWarning = true
+    wrapper.vm.$store.state.signup.signUpWarning = true
     await wrapper.vm.onSubmit()
-    expect($store.dispatch).toHaveBeenCalledWith(`createSeed`)
-    expect($store.commit).toHaveBeenCalledWith(`updateField`, {
-      field: "signUpSeed",
-      value: ""
+    expect($store.dispatch).toHaveBeenCalledWith(`createKey`, {
+      name: "HappyLunieUser",
+      password: "1234567890",
+      seedPhrase:
+        "asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf"
+    })
+    expect(wrapper.vm.$router.push).toHaveBeenCalledWith(`/create/success`)
+
+    // expect($store.dispatch).toHaveBeenCalledWith(`createSeed`)
+    // expect($store.commit).toHaveBeenCalledWith(`updateField`, {
+    //   field: "signUpSeed",
+    //   value: ""
+    // })
+  })
+
+  it(`should commit notifyError on createKey dispatch error`, async () => {
+    wrapper.vm.$store.state.signup.signUpSeed = `asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf`
+    wrapper.vm.$store.state.signup.signUpPassword = `1234567890`
+    wrapper.vm.$store.state.signup.signUpName = `HappyLunieUser`
+    wrapper.vm.$store.state.signup.signUpWarning = true
+    wrapper.vm.$store.dispatch = {
+      createKey: jest.fn().mockRejectedValue(new Error())
+    }
+    await wrapper.vm.onSubmit()
+    expect(wrapper.vm.$store.commit).toHaveBeenCalledWith(`notifyError`, {
+      body: `this.$store.dispatch is not a function`,
+      title: `Couldn't create account`
     })
   })
+
 })

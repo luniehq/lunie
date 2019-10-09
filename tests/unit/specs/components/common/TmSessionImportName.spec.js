@@ -50,19 +50,19 @@ describe(`TmSessionImportName`, () => {
   })
 
   it(`validation should fail if name is not filled in`, async () => {
-    await wrapper.vm.submit()
+    await wrapper.vm.onSubmit()
     expect(wrapper.vm.$v.name.$error).toBe(true)
   })
 
   it(`validation should fail if name lenght < 5 characters`, async () => {
     wrapper.vm.$store.state.recover.name = `asdf`
-    await wrapper.vm.submit()
+    await wrapper.vm.onSubmit()
     expect(wrapper.vm.$v.name.$error).toBe(true)
   })
 
   it(`validation should not fail if name lenght >= 5 characters`, async () => {
     wrapper.vm.$store.state.recover.name = `Happy Lunie User`
-    await wrapper.vm.submit()
+    await wrapper.vm.onSubmit()
     expect(wrapper.vm.$v.name.$error).toBe(false)
   })
 
@@ -76,7 +76,7 @@ describe(`TmSessionImportName`, () => {
 
   it(`should go to /recover/password when submit the form`, async () => {
     wrapper.vm.$store.state.recover.name = `Happy Lunie User`
-    wrapper.vm.submit()
+    wrapper.vm.onSubmit()
     expect(wrapper.vm.$router.push).toHaveBeenCalledWith(`/recover/password`)
   })
 })

@@ -13,8 +13,8 @@ describe(`TmSessionSignUpPassword`, () => {
       state: {
         session: { insecureMode: true },
         signup: {
-          fieldPassword: ``,
-          fieldPasswordConfirm: ``
+          signUpPassword: ``,
+          signUpPasswordConfirm: ``
         }
       },
       commit: jest.fn(),
@@ -32,7 +32,8 @@ describe(`TmSessionSignUpPassword`, () => {
           push: jest.fn()
         }
       },
-      stubs: [`router-link`]
+      stubs: [`router-link`],
+      sync: false
     })
   })
 
@@ -56,10 +57,10 @@ describe(`TmSessionSignUpPassword`, () => {
     })
   })
 
-  it(`should go to /create/confirm when submit the form`, () => {
-    wrapper.vm.$store.state.signup.fieldPassword = `1234567890`
-    wrapper.vm.$store.state.signup.fieldPasswordConfirm = `1234567890`
-    wrapper.vm.submit()
+  it(`should go to /create/confirm when submit the form`, async () => {
+    wrapper.vm.$store.state.signup.signUpPassword = `1234567890`
+    wrapper.vm.$store.state.signup.signUpPasswordConfirm = `1234567890`
+    await wrapper.vm.onSubmit()
     expect(wrapper.vm.$router.push).toHaveBeenCalledWith(`/create/confirm`)
   })
 })
