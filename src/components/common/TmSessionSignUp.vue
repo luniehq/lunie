@@ -4,37 +4,39 @@
       <h2 class="session-title">
         Create a new address
       </h2>
-      <div v-if="session.insecureMode" class="session-main">
-        <DangerZoneWarning />
-        <TmFormGroup
-          :error="$v.fieldName.$error"
-          field-id="sign-up-name"
-          field-label="Account Name"
-        >
-          <TmField
-            id="sign-up-name"
-            v-model.trim="fieldName"
-            type="text"
-            placeholder="Must be at least 5 characters"
-            vue-focus="vue-focus"
-          />
-          <TmFormMsg
-            v-if="$v.fieldName.$error && !$v.fieldName.required"
-            name="Name"
-            type="required"
-          />
-          <TmFormMsg
-            v-if="$v.fieldName.$error && !$v.fieldName.minLength"
-            name="Name"
-            type="minLength"
-            min="5"
-          />
-        </TmFormGroup>
+      <div v-if="session.insecureMode">
+        <div class="session-main">
+          <DangerZoneWarning />
+          <TmFormGroup
+            :error="$v.fieldName.$error"
+            field-id="sign-up-name"
+            field-label="Account Name"
+          >
+            <TmField
+              id="sign-up-name"
+              v-model.trim="fieldName"
+              type="text"
+              placeholder="Must be at least 5 characters"
+              vue-focus="vue-focus"
+            />
+            <TmFormMsg
+              v-if="$v.fieldName.$error && !$v.fieldName.required"
+              name="Name"
+              type="required"
+            />
+            <TmFormMsg
+              v-if="$v.fieldName.$error && !$v.fieldName.minLength"
+              name="Name"
+              type="minLength"
+              min="5"
+            />
+          </TmFormGroup>
+        </div>
         <div class="session-footer">
           <TmBtn value="Next" type="submit" />
         </div>
       </div>
-      <div v-if="!session.insecureMode" class="session-main">
+      <div v-else class="session-main">
         <InsecureModeWarning />
       </div>
     </TmFormStruct>
