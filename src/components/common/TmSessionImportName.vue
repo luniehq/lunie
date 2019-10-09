@@ -1,6 +1,6 @@
 <template>
   <SessionFrame>
-    <TmFormStruct :submit="submit">
+    <TmFormStruct :submit="onSubmit">
       <h2 class="session-title">
         Recover with backup code
       </h2>
@@ -68,7 +68,7 @@ export default {
     }
   },
   methods: {
-    submit() {
+    onSubmit() {
       this.$v.$touch()
       if (this.$v.name.$invalid) return
       this.$router.push("/recover/password")

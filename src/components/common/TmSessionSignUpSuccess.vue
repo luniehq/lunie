@@ -3,13 +3,13 @@
     <h2 class="session-title">
       Success!
     </h2>
-    <div class="wrapper">
-      <div class="content-main">
-        <p>
-          Your account has been created
-        </p>
-        <TmBtn value="Back to Lunie" @click.native="$router.push('/')" />
-      </div>
+    <div class="session-main">
+      <p>
+        Your account has been created
+      </p>
+    </div>
+    <div class="session-footer">
+      <TmBtn value="Back to Lunie" @click.native="$router.push('/')" />
     </div>
   </SessionFrame>
 </template>

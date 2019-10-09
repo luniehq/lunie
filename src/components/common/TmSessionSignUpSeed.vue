@@ -4,41 +4,43 @@
       <h2 class="session-title">
         Confirm
       </h2>
-      <div v-if="session.insecureMode" class="session-main">
-        <TmFormGroup
-          field-id="sign-up-seed"
-          class="sign-up-seed-group"
-          field-label="Seed Phrase"
-        >
-          <FieldSeed id="sign-up-seed" v-model="fieldSeed" disabled />
-        </TmFormGroup>
-        <TmFormGroup
-          class="field-checkbox"
-          :error="$v.fieldWarning.$error"
-          field-id="sign-up-warning"
-          field-label
-        >
-          <div class="field-checkbox-input">
-            <label class="field-checkbox-label" for="sign-up-warning">
-              <input
-                id="sign-up-warning"
-                v-model="fieldWarning"
-                type="checkbox"
-              />
-              I understand that lost seeds cannot be recovered.</label
-            >
-          </div>
-          <TmFormMsg
-            v-if="$v.fieldWarning.$error && !$v.fieldWarning.required"
-            name="Recovery confirmation"
-            type="required"
-          />
-        </TmFormGroup>
+      <div v-if="session.insecureMode">
+        <div class="session-main">
+          <TmFormGroup
+            field-id="sign-up-seed"
+            class="sign-up-seed-group"
+            field-label="Seed phrase"
+          >
+            <FieldSeed id="sign-up-seed" v-model="fieldSeed" disabled />
+          </TmFormGroup>
+          <TmFormGroup
+            class="field-checkbox"
+            :error="$v.fieldWarning.$error"
+            field-id="sign-up-warning"
+            field-label
+          >
+            <div class="field-checkbox-input">
+              <label class="field-checkbox-label" for="sign-up-warning">
+                <input
+                  id="sign-up-warning"
+                  v-model="fieldWarning"
+                  type="checkbox"
+                />
+                I understand that lost seeds cannot be recovered.</label
+              >
+            </div>
+            <TmFormMsg
+              v-if="$v.fieldWarning.$error && !$v.fieldWarning.required"
+              name="Recovery confirmation"
+              type="required"
+            />
+          </TmFormGroup>
+        </div>
         <div class="session-footer">
-          <TmBtn value="Create" :disabled="$v.fieldWarning.$invalid" />
+          <TmBtn value="Create" />
         </div>
       </div>
-      <div v-if="!session.insecureMode" class="session-main">
+      <div v-else class="session-main">
         <InsecureModeWarning />
       </div>
     </TmFormStruct>
