@@ -100,7 +100,6 @@
   /* keeps button in bottom right no matter the size of the action modal */
   flex-grow: 1;
   align-self: flex-end;
-  /* flex-direction: column; */
 }
 
 .footnote {
@@ -171,6 +170,7 @@
 
   .session-footer {
     width: 100%;
+    flex-direction: column;
   }
 }
 
