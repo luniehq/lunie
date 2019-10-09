@@ -100,7 +100,7 @@
   /* keeps button in bottom right no matter the size of the action modal */
   flex-grow: 1;
   align-self: flex-end;
-  flex-direction: column;
+  /* flex-direction: column; */
 }
 
 .footnote {
