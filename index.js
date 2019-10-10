@@ -8,6 +8,7 @@ const config = require('./config')
 
 const cosmosApi = new CosmosAPI(networks['cosmoshub'])
 const gaiaApi = new GaiaAPI(networks['gaia-testnet'])
+const testnetAPI = new GaiaAPI(networks['testnet'])
 
 let options = {
   typeDefs,
@@ -15,6 +16,7 @@ let options = {
   dataSources: () => ({
     CosmosAPI: cosmosApi,
     GaiaAPI: gaiaApi,
+    TestnetAPI: testnetAPI,
     networks
   }),
   cacheControl: {

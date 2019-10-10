@@ -1,7 +1,7 @@
 const networks = {
   'gaia-testnet': {
     api_url: 'https://gaia-13006.lunie.io',
-    rpc_url: 'wss://gaia-13006.lunie.io:26657/websocket',
+    rpc_url: 'https://gaia-13006.lunie.io:26657',
     action_claim_rewards: false,
     action_delegate: false,
     action_deposit: false,
@@ -16,7 +16,7 @@ const networks = {
     feature_activity: false,
     feature_explorer: false,
     feature_portfolio: false,
-    feature_proposals: false,
+    feature_proposals: true,
     feature_session: true,
     feature_validators: true,
     id: 'gaia-testnet',
@@ -26,7 +26,7 @@ const networks = {
   },
   cosmoshub: {
     api_url: 'https://lcd.nylira.net',
-    rpc_url: 'ws://rpc.nylira.net/websocket',
+    rpc_url: 'https://rpc.nylira.net',
     action_claim_rewards: true,
     action_delegate: true,
     action_deposit: true,
@@ -49,6 +49,36 @@ const networks = {
     testnet: false,
     title: 'Cosmos Hub'
   }
+}
+
+const testnet = {
+  api_url: 'http://localhost:9070',
+  rpc_url: 'http://localhost:26657',
+  action_claim_rewards: true,
+  action_delegate: true,
+  action_deposit: true,
+  action_proposal: true,
+  action_redelegate: true,
+  action_send: true,
+  action_undelegate: true,
+  action_vote: true,
+  bech32_prefix: 'cosmos',
+  chain_id: 'testnet',
+  experimental: true,
+  feature_activity: true,
+  feature_explorer: true,
+  feature_portfolio: true,
+  feature_proposals: true,
+  feature_session: true,
+  feature_validators: true,
+  id: 'testnet',
+  logo_url: 'https://s3.amazonaws.com/network.logos/cosmos-logo.png',
+  testnet: false,
+  title: 'Testnet'
+}
+
+if (process.env.NODE_ENV === 'development') {
+  networks.push(testnet)
 }
 
 function getNetworks() {
