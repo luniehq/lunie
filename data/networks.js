@@ -1,29 +1,4 @@
 const networks = {
-  'gaia-testnet': {
-    api_url: 'https://gaia-13006.lunie.io',
-    rpc_url: 'wss://gaia-13006.lunie.io:26657/websocket',
-    action_claim_rewards: false,
-    action_delegate: false,
-    action_deposit: false,
-    action_proposal: false,
-    action_redelegate: false,
-    action_send: false,
-    action_undelegate: false,
-    action_vote: false,
-    bech32_prefix: 'cosmos',
-    chain_id: 'gaia-13006',
-    experimental: true,
-    feature_activity: false,
-    feature_explorer: false,
-    feature_portfolio: false,
-    feature_proposals: false,
-    feature_session: true,
-    feature_validators: true,
-    id: 'gaia-testnet',
-    logo_url: 'https://s3.amazonaws.com/network.logos/cosmos-logo.png',
-    testnet: true,
-    title: 'Gaia Testnet'
-  },
   cosmoshub: {
     api_url: 'https://lcd.nylira.net',
     rpc_url: 'ws://rpc.nylira.net/websocket',
@@ -48,6 +23,31 @@ const networks = {
     logo_url: 'https://s3.amazonaws.com/network.logos/cosmos-logo.png',
     testnet: false,
     title: 'Cosmos Hub'
+  },
+  'gaia-testnet': {
+    api_url: 'https://gaia-13006.lunie.io',
+    rpc_url: 'wss://gaia-13006.lunie.io:26657/websocket',
+    action_claim_rewards: false,
+    action_delegate: false,
+    action_deposit: false,
+    action_proposal: false,
+    action_redelegate: false,
+    action_send: false,
+    action_undelegate: false,
+    action_vote: false,
+    bech32_prefix: 'cosmos',
+    chain_id: 'gaia-13006',
+    experimental: true,
+    feature_activity: false,
+    feature_explorer: false,
+    feature_portfolio: false,
+    feature_proposals: false,
+    feature_session: true,
+    feature_validators: true,
+    id: 'gaia-testnet',
+    logo_url: 'https://s3.amazonaws.com/network.logos/cosmos-logo.png',
+    testnet: true,
+    title: 'Gaia Testnet'
   }
 }
 
