@@ -1,4 +1,4 @@
-const networks = {
+let networks = {
   'gaia-testnet': {
     api_url: 'https://gaia-13006.lunie.io',
     rpc_url: 'https://gaia-13006.lunie.io:26657',
@@ -78,7 +78,7 @@ const testnet = {
 }
 
 if (process.env.NODE_ENV === 'development') {
-  networks.push(testnet)
+  networks.testnet = testnet
 }
 
 function getNetworks() {
