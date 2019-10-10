@@ -371,19 +371,19 @@ export default {
     }
   },
   apollo: {
-    // bondedTokens: {
-    //   query: gql`
-    //     query bondedTokens($networkId: String!) {
-    //       bondedTokens(networkId: $networkId)
-    //     }
-    //   `,
-    //   variables() {
-    //     return {
-    //       networkId: this.network
-    //     }
-    //   },
-    //   update: result => result.bondedTokens
-    // },
+    bondedTokens: {
+      query: gql`
+        query bondedTokens($networkId: String!) {
+          bondedTokens(networkId: $networkId)
+        }
+      `,
+      variables() {
+        return {
+          networkId: this.network
+        }
+      },
+      update: result => result.bondedTokens
+    },
     validator: {
       query: gql`
         query validator($networkId: String!, $operatorAddress: String!) {
