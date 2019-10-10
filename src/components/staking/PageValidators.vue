@@ -45,11 +45,11 @@
 
 <script>
 import { mapState } from "vuex"
-import { AllValidators, validatorsResult } from "src/gql"
 import TableValidators from "staking/TableValidators"
 import PageContainer from "common/PageContainer"
 import TmField from "common/TmField"
 import TmBtn from "common/TmBtn"
+import gql from "graphql-tag"
 
 export default {
   name: `tab-validators`,
@@ -67,22 +67,40 @@ export default {
   computed: {
     ...mapState({ network: state => state.connection.network })
   },
+  updated() {
+    console.log(this.validators)
+  },
   apollo: {
     validators: {
-      query() {
-        /* istanbul ignore next */
-        return AllValidators(this.network)
-      },
-      update(data) {
-        /* istanbul ignore next */
-        return validatorsResult(this.network)(data)
-      },
-      variables() {
-        /* istanbul ignore next */
-        return {
-          monikerName: `%${this.searchTerm}%`
+      query: gql`
+        query validators($networkId: String!) {
+          validators(networkId: $networkId) {
+            operatorAddress
+            consensusPubkey
+            jailed
+            details
+            website
+            identity
+            moniker
+            votingPower
+            startHeight
+            uptimePercentage
+            tokens
+            updateTime
+            commission
+            maxCommission
+            maxChangeCommission
+            status
+            statusDetailed
+          }
         }
-      }
+      `,
+      variables() {
+        return {
+          networkId: this.network
+        }
+      },
+      update: result => result.validators
     }
   }
 }

@@ -84,8 +84,12 @@ export default {
   filters: {
     prettyInt
   },
+  data: () => ({
+    block: {}
+  }),
   computed: {
     ...mapState([`connection`]),
+    ...mapState({ network: state => state.connection.network }),
     networkTooltip() {
       if (this.connection.connected) {
         return `You're connected to ${this.block.chainId}.`
@@ -94,24 +98,41 @@ export default {
       }
     }
   },
-  data: () => ({
-    block: {}
-  }),
   apollo: {
     block: {
       query: gql`
-        query Block {
-          block {
+        query Block($networkId: String!) {
+          block(networkId: $networkId) {
             height
             chainId
           }
         }
       `,
+      variables() {
+        return {
+          networkId: this.network
+        }
+      },
       update: result => result.block
     },
     $subscribe: {
       blockAdded: {
-        query: NewBlockSubscription,
+        query: gql`
+          subscription BLockAdded($networkId: String!) {
+            blockAdded(networkId: $networkId) {
+              height
+              hash
+              chainId
+              time
+              numTxs
+            }
+          }
+        `,
+        variables() {
+          return {
+            networkId: this.network
+          }
+        },
         result({ data }) {
           this.block = data.blockAdded
         }

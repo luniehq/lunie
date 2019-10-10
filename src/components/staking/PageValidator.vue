@@ -4,18 +4,18 @@
     :loading="$apollo.queries.validator.loading"
     :loaded="!$apollo.queries.validator.loading"
     :error="$apollo.queries.validator.error"
-    :data-empty="!validator.operator_address"
+    :data-empty="!validator.operatorAddress"
     :hide-header="true"
     data-title="Validator"
     class="small"
   >
-    <template v-if="validator.operator_address" slot="managed-body">
+    <template v-if="validator.operatorAddress" slot="managed-body">
       <div class="status-container">
-        <span :class="status | toLower" class="validator-status">
-          {{ status }}
+        <span :class="validator.status | toLower" class="validator-status">
+          {{ validator.status }}
         </span>
-        <span v-if="status_detailed" class="validator-status-detailed">
-          {{ status_detailed }}
+        <span v-if="validator.statusDetailed" class="validator-status-detailed">
+          {{ validator.statusDetailed }}
         </span>
       </div>
       <tr class="li-validator">
@@ -24,7 +24,7 @@
             v-if="!validator.avatarUrl"
             class="li-validator-image"
             alt="generic geometric symbol - generated avatar from address"
-            :address="validator.operator_address"
+            :address="validator.operatorAddress"
           />
           <img
             v-else-if="validator.avatarUrl"
@@ -66,23 +66,23 @@
         </li>
         <li class="column">
           <h4>Website</h4>
-          <span v-if="website !== `--`">
+          <span v-if="validator.website !== ``">
             <a
               id="validator-website"
-              :href="website"
+              :href="validator.website"
               target="_blank"
               rel="nofollow noreferrer noopener"
-              >{{ website }}</a
+              >{{ validator.website }}</a
             >
           </span>
           <span v-else id="validator-website">
-            {{ website | noBlanks }}
+            {{ validator.website | noBlanks }}
           </span>
         </li>
         <li class="column">
           <h4>Validator Address</h4>
           <span>
-            <Bech32 :address="validator.operator_address" />
+            <Bech32 :address="validator.operatorAddress" />
           </span>
         </li>
       </ul>
@@ -97,7 +97,7 @@
         <li>
           <h4>Voting Power / Total Stake</h4>
           <span id="page-profile__power">
-            {{ validator.voting_power | percent }} /
+            {{ validator.votingPower | percent }} /
             {{ validator.tokens | atoms | shortDecimals }}
           </span>
         </li>
@@ -109,29 +109,25 @@
         </li>
         <li>
           <h4>Validator Since</h4>
-          <span>
-            Block #{{
-              validator.signing_info ? validator.signing_info.start_height : 0
-            }}
-          </span>
+          <span>Block #{{ validator.startHeight }}</span>
         </li>
         <li>
           <h4>Uptime</h4>
           <span id="page-profile__uptime">
-            {{ validator.uptime_percentage | percent }}
+            {{ validator.uptimePercentage | percent }}
           </span>
         </li>
         <li>
           <h4>Current Commission Rate</h4>
-          <span>{{ validator.rate | percent }}</span>
+          <span>{{ validator.commission | percent }}</span>
         </li>
         <li>
           <h4>Max Commission Rate</h4>
-          <span>{{ validator.max_rate | percent }}</span>
+          <span>{{ validator.commissionRate | percent }}</span>
         </li>
         <li>
           <h4>Max Daily Commission Change</h4>
-          <span>{{ validator.max_change_rate | percent }}</span>
+          <span>{{ validator.maxChangeCommission | percent }}</span>
         </li>
         <li>
           <h4>Last Commission Change</h4>
@@ -142,7 +138,7 @@
       <DelegationModal
         ref="delegationModal"
         :from-options="delegationTargetOptions()"
-        :to="validator.operator_address"
+        :to="validator.operatorAddress"
         :validator="validator"
         :denom="bondDenom"
       />
@@ -180,7 +176,8 @@ import Avatar from "common/Avatar"
 import Bech32 from "common/Bech32"
 import TmPage from "common/TmPage"
 import isEmpty from "lodash.isempty"
-import { ValidatorProfile, ValidatorResult } from "src/gql"
+import gql from "graphql-tag"
+
 
 export default {
   name: `page-validator`,
@@ -210,20 +207,21 @@ export default {
     }
   },
   data: () => ({
-    validator: {}
+    validator: {},
+    bondedTokens: 0
   }),
   computed: {
     ...mapState([
       `delegates`,
       `delegation`,
       `distribution`,
-      `pool`,
       `session`,
       `connection`
     ]),
     ...mapState({
       annualProvision: state => state.minting.annualProvision
     }),
+    ...mapState({ network: state => state.connection.network }),
     ...mapGetters([
       `lastHeader`,
       `bondDenom`,
@@ -232,11 +230,11 @@ export default {
       `connected`
     ]),
     selfBond() {
-      return percent(this.delegates.selfBond[this.validator.operator_address])
+      return percent(this.delegates.selfBond[this.validator.operatorAddress])
     },
     selfBondAmount() {
       return shortDecimals(
-        uatoms(this.delegates.selfBond[this.validator.operator_address])
+        uatoms(this.delegates.selfBond[this.validator.operatorAddress])
       )
     },
     myBond() {
@@ -244,7 +242,7 @@ export default {
       return atoms(
         calculateTokens(
           this.validator,
-          this.committedDelegations[this.validator.operator_address] || 0
+          this.committedDelegations[this.validator.operatorAddress] || 0
         )
       )
     },
@@ -255,7 +253,7 @@ export default {
       return Number(myBond) === 0 ? null : myDelegationString
     },
     lastCommissionChange() {
-      const updateTime = this.validator.update_time
+      const updateTime = this.validator.updateTime
       const dateTime = new Date(updateTime)
       const neverHappened = dateTime.getTime() === 0
 
@@ -266,34 +264,9 @@ export default {
     returns() {
       return expectedReturns(
         this.validator,
-        parseInt(this.pool.pool.bonded_tokens),
+        parseInt(this.bondedTokens),
         parseFloat(this.annualProvision)
       )
-    },
-    status() {
-      if (
-        this.validator.jailed ||
-        this.validator.tombstoned ||
-        this.validator.status === 0
-      )
-        return `Inactive`
-      return `Active`
-    },
-    status_detailed() {
-      if (this.validator.jailed) return `Temporally banned from the network`
-      if (this.validator.tombstoned) return `Banned from the network`
-      if (this.validator.status === 0) return `Banned from the network`
-      return false
-    },
-    website() {
-      let url = this.validator.website
-
-      if (!url || url === "[do-not-modify]") {
-        return ""
-      } else if (!url.match(/http[s]?/)) {
-        url = `https://` + url
-      }
-      return url
     },
     rewards() {
       const { session, bondDenom, distribution, validator } = this
@@ -301,7 +274,7 @@ export default {
         return null
       }
 
-      const validatorRewards = distribution.rewards[validator.operator_address]
+      const validatorRewards = distribution.rewards[validator.operatorAddress]
       return validatorRewards ? validatorRewards[bondDenom] : 0
     }
   },
@@ -316,10 +289,10 @@ export default {
         }
       }
     },
-    "validator.operator_address": {
+    "validator.operatorAddress": {
       immediate: true,
-      handler(operator_address) {
-        if (!operator_address) return
+      handler(operatorAddress) {
+        if (!operatorAddress) return
         this.$store.dispatch(`getSelfBond`, this.validator)
       }
     },
@@ -341,6 +314,9 @@ export default {
         }
       }
     }
+  },
+  updated() {
+    console.log(this.validator)
   },
   methods: {
     shortDecimals,
@@ -378,13 +354,13 @@ export default {
         .filter(address => address != $route.params.validator)
         .reduce((validators, address) => {
           const delegate = delegates.delegates.find(function(validator) {
-            return validator.operator_address === address
+            return validator.operatorAddress === address
           })
           return validators.concat({
             address: address,
             maximum: Math.floor(committedDelegations[address]),
             key: `${delegate.moniker} - ${formatBech32(
-              delegate.operator_address,
+              delegate.operatorAddress,
               false,
               20
             )}`,
@@ -395,21 +371,50 @@ export default {
     }
   },
   apollo: {
+    // bondedTokens: {
+    //   query: gql`
+    //     query bondedTokens($networkId: String!) {
+    //       bondedTokens(networkId: $networkId)
+    //     }
+    //   `,
+    //   variables() {
+    //     return {
+    //       networkId: this.network
+    //     }
+    //   },
+    //   update: result => result.bondedTokens
+    // },
     validator: {
-      query() {
-        /* istanbul ignore next */
-        return ValidatorProfile(this.connection.network)
-      },
+      query: gql`
+        query validator($networkId: String!, $operatorAddress: String!) {
+          validator(networkId: $networkId, operatorAddress: $operatorAddress) {
+            operatorAddress
+            consensusPubkey
+            jailed
+            details
+            website
+            identity
+            moniker
+            votingPower
+            startHeight
+            uptimePercentage
+            tokens
+            updateTime
+            commission
+            maxCommission
+            maxChangeCommission
+            status
+            statusDetailed
+          }
+        }
+      `,
       variables() {
-        /* istanbul ignore next */
         return {
-          address: this.$route.params.validator
+          networkId: this.network,
+          operatorAddress: this.$route.params.validator
         }
       },
-      update(data) {
-        /* istanbul ignore next */
-        return ValidatorResult(this.connection.network)(data)
-      }
+      update: result => result.validator
     }
   }
 }

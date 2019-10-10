@@ -5,7 +5,7 @@
     @click="
       $router.push({
         name: 'validator',
-        params: { validator: validator.operator_address }
+        params: { validator: validator.operatorAddress }
       })
     "
   >
@@ -26,7 +26,7 @@
         v-if="!validator || !validator.avatarUrl"
         class="li-validator-image"
         alt="generic validator logo - generated avatar from address"
-        :address="validator.operator_address"
+        :address="validator.operatorAddress"
       />
       <img
         v-else-if="validator && validator.avatarUrl"
