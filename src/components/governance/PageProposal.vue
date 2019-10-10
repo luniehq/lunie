@@ -1,10 +1,14 @@
 <template>
   <TmPage data-title="Proposal" hide-header class="small">
     <TmDataLoading
-      v-if="$apollo.queries.proposal.loading || !governanceParameters.loaded"
+      v-if="
+        $apollo.queries.proposal.loading || $apollo.queries.parameters.loading
+      "
     />
     <TmDataError
-      v-else-if="$apollo.queries.proposal.error || governanceParameters.error"
+      v-else-if="
+        $apollo.queries.proposal.error || $apollo.queries.parameters.error
+      "
     />
     <template v-else>
       <div class="proposal">
@@ -33,22 +37,16 @@
         </div>
       </div>
 
-      <TextBlock :content="description" />
+      <TextBlock :content="proposal.description" />
 
       <ul v-if="proposal.status === 'DepositPeriod'" class="row">
         <li>
           <h4>Deposit Count</h4>
           <span>
-            {{ proposal.deposit | atoms }}
+            {{ proposal.deposit }}
             /
-            {{
-              governanceParameters.parameters.deposit.min_deposit[0].amount
-                | atoms
-            }}
-            {{
-              governanceParameters.parameters.deposit.min_deposit[0].amount
-                | viewDenom
-            }}
+            {{ parameters.depositThreshold }}
+            {{ parameters.depositDenom }}
           </span>
         </li>
       </ul>
@@ -57,40 +55,56 @@
         <li v-if="proposal.status === `VotingPeriod`">
           <h4>Total Vote Count</h4>
           <span>
-            {{ totalVotePercentage }} /
-            {{ proposal.tally.total | shortDecimals }}
+            {{ proposal.tally.totalVotedPercentage | percent }} /
+            {{ proposal.tally.total | prettyInt }}
           </span>
         </li>
         <li>
           <h4>Yes</h4>
           <span>
-            {{ (proposal.tally.yes / proposal.tally.total) | percent }}
+            {{
+              proposal.tally.total === "0"
+                ? 0
+                : (proposal.tally.yes / proposal.tally.total) | percent
+            }}
             /
-            {{ proposal.tally.yes | shortDecimals }}
+            {{ proposal.tally.yes | prettyInt }}
           </span>
         </li>
         <li>
           <h4>No</h4>
           <span>
-            {{ (proposal.tally.no / proposal.tally.total) | percent }}
+            {{
+              proposal.tally.total === "0"
+                ? 0
+                : (proposal.tally.no / proposal.tally.total) | percent
+            }}
             /
-            {{ proposal.tally.no | shortDecimals }}
+            {{ proposal.tally.no | prettyInt }}
           </span>
         </li>
         <li>
           <h4>Veto</h4>
           <span>
-            {{ (proposal.tally.veto / proposal.tally.total) | percent }}
+            {{
+              proposal.tally.total === "0"
+                ? 0
+                : (proposal.tally.veto / proposal.tally.total) | percent
+            }}
             /
-            {{ proposal.tally.veto | shortDecimals }}
+            {{ proposal.tally.veto | prettyInt }}
           </span>
         </li>
         <li>
           <h4>Abstain</h4>
           <span>
-            {{ (proposal.tally.abstain / proposal.tally.total) | percent }}
+            {{
+              proposal.tally.total === "0"
+                ? 0
+                : (proposal.tally.abstain / proposal.tally.total) | percent
+            }}
             /
-            {{ proposal.tally.abstain | shortDecimals }}
+            {{ proposal.tally.abstain | prettyInt }}
           </span>
         </li>
       </ul>
@@ -104,22 +118,24 @@
           <h4>Submitted</h4>
           <span>{{ proposal.creationTime | date }}</span>
         </li>
-        <template v-if="actionName">
+        <template
+          v-if="['DepositPeriod', 'VotingPeriod'].includes(proposal.status)"
+        >
           <li>
-            <h4>{{ actionName }} Start Date</h4>
+            <h4>{{ status.badge }} Start Date</h4>
             <span>{{ proposal.statusBeginDate | date }}</span>
           </li>
           <li>
-            <h4>{{ actionName }} End Date</h4>
-            <span
-              >{{ proposal.statusEndDate | date }} /
-              {{ proposal.statusEndDate | fromNow }}</span
-            >
+            <h4>{{ status.badge }} End Date</h4>
+            <span>
+              {{ proposal.statusEndDate | date }} /
+              {{ proposal.statusEndDate | fromNow }}
+            </span>
           </li>
         </template>
         <template v-else>
           <li>
-            <h4>Proposal Finalized ({{ proposal.status }})</h4>
+            <h4>Proposal Finalized ({{ status.badge }})</h4>
             <span>{{ proposal.statusEndDate | date }}</span>
           </li>
         </template>
@@ -129,7 +145,7 @@
         ref="modalDeposit"
         :proposal-id="proposalId"
         :proposal-title="proposal.title || ''"
-        :denom="depositDenom"
+        :denom="parameters.depositDenom"
       />
       <ModalVote
         ref="modalVote"
@@ -144,7 +160,7 @@
 <script>
 import moment from "moment"
 import { mapState, mapGetters } from "vuex"
-import { shortDecimals, viewDenom, atoms, percent } from "scripts/num"
+import { atoms, percent, prettyInt } from "scripts/num"
 import TmBtn from "common/TmBtn"
 import TmDataError from "common/TmDataError"
 import TmDataLoading from "common/TmDataLoading"
@@ -153,7 +169,7 @@ import ModalDeposit from "src/ActionModal/components/ModalDeposit"
 import ModalVote from "src/ActionModal/components/ModalVote"
 import TmPage from "common/TmPage"
 import { getProposalStatus } from "scripts/proposal-status"
-import { ProposalItem } from "src/gql"
+import { ProposalItem, GovernanceParameters } from "src/gql"
 
 export default {
   name: `page-proposal`,
@@ -167,8 +183,7 @@ export default {
     TextBlock
   },
   filters: {
-    shortDecimals,
-    viewDenom,
+    prettyInt,
     atoms,
     percent,
     date: value => moment(value).format("MMMM Do YYYY, HH:mm"),
@@ -187,28 +202,11 @@ export default {
     }
   }),
   computed: {
-    ...mapState([`governanceParameters`, `pool`, `session`, `wallet`]),
+    ...mapState([`session`, `wallet`]),
     ...mapState({ network: state => state.connection.network }),
-    ...mapGetters([`depositDenom`, `connected`]),
-    description() {
-      return this.proposal.description
-    },
-    actionName() {
-      if (this.proposal.status === "DepositPeriod") return `Depositing`
-      if (this.proposal.status === "VotingPeriod") return `Voting`
-      return undefined
-    },
-    totalVotePercentage({ pool, proposal }) {
-      const totalPossibleVotes = pool.pool.bonded_tokens
-      return percent(proposal.tally.total / totalPossibleVotes)
-    },
+    ...mapGetters([`connected`]),
     status() {
       return getProposalStatus(this.proposal)
-    }
-  },
-  async mounted({ governanceParameters, $store } = this) {
-    if (!governanceParameters.loaded) {
-      $store.dispatch(`getGovParameters`)
     }
   },
   methods: {
@@ -239,6 +237,16 @@ export default {
         return {
           id: +this.proposalId
         }
+      }
+    },
+    parameters: {
+      query() {
+        /* istanbul ignore next */
+        return GovernanceParameters(this.network)
+      },
+      update(data) {
+        /* istanbul ignore next */
+        return data.governanceParameters
       }
     }
   }

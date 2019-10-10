@@ -2,9 +2,10 @@
   <PageContainer
     data-title="Proposals"
     :managed="true"
-    :loading="$apollo.queries.proposals.loading"
-    :loaded="!$apollo.queries.proposals.loading"
-    :error="$apollo.queries.proposals.error"
+    :loading="
+      $apollo.queries.proposals.loading && $apollo.queries.parameters.loading
+    "
+    :error="$apollo.queries.proposals.error || $apollo.queries.parameters.error"
     hide-header
   >
     <template slot="no-data">
@@ -38,9 +39,8 @@
         :proposals="proposals"
         :loading="$apollo.queries.proposals.loading"
       />
+      <ModalPropose ref="modalPropose" :denom="parameters.depositDenom" />
     </template>
-
-    <ModalPropose ref="modalPropose" :denom="depositDenom" />
   </PageContainer>
 </template>
 
@@ -50,8 +50,8 @@ import TableProposals from "governance/TableProposals"
 import TmBtn from "common/TmBtn"
 import PageContainer from "common/PageContainer"
 import TmDataMsg from "common/TmDataMsg"
-import { mapState, mapGetters } from "vuex"
-import { ProposalList, proposalListResult } from "src/gql"
+import { mapState } from "vuex"
+import { ProposalList, GovernanceParameters } from "src/gql"
 
 export default {
   name: `page-proposals`,
@@ -63,14 +63,13 @@ export default {
     PageContainer
   },
   data: () => ({
-    proposals: []
+    proposals: [],
+    parameters: {
+      depositDenom: "xxx"
+    }
   }),
   computed: {
-    ...mapState({ network: state => state.connection.network }),
-    ...mapGetters([`depositDenom`])
-  },
-  mounted() {
-    // this.$store.dispatch(`getProposals`)
+    ...mapState({ network: state => state.connection.network })
   },
   methods: {
     onPropose() {
@@ -86,6 +85,16 @@ export default {
       update(data) {
         /* istanbul ignore next */
         return data.proposals
+      }
+    },
+    parameters: {
+      query() {
+        /* istanbul ignore next */
+        return GovernanceParameters(this.network)
+      },
+      update(data) {
+        /* istanbul ignore next */
+        return data.governanceParameters
       }
     }
   }

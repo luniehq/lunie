@@ -49,9 +49,6 @@ export default {
 
       return proposals
     }
-  },
-  mounted() {
-    this.$store.dispatch(`getProposals`)
   }
 }
 </script>

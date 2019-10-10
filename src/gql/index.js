@@ -137,6 +137,7 @@ const ProposalFragment = `
     veto
     abstain
     total
+    totalVotedPercentage
   }
   deposit
 `
@@ -155,6 +156,17 @@ export const ProposalItem = schema => gql`
       ${ProposalFragment}
     }
   }
+`
+
+export const GovernanceParameters = schema => gql`
+query governanceParameters {
+  governanceParameters(networkId: "${schema}") {
+    depositDenom
+    votingThreshold
+    vetoThreshold
+    depositThreshold
+  }
+}
 `
 
 export const NewBlockSubscription = () => gql`
