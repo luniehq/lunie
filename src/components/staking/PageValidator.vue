@@ -39,7 +39,7 @@
             <div v-if="myDelegation">
               <h4>{{ myDelegation }}</h4>
               <h5 v-if="rewards">
-                {{ 0 | atoms | shortDecimals | noBlanks }}
+                {{ rewards.amount | atoms | shortDecimals | noBlanks }}
               </h5>
             </div>
           </div>
@@ -208,19 +208,19 @@ export default {
   },
   data: () => ({
     validator: {},
-    bondedTokens: 0
+    bondedTokens: 0,
+    rewards: 0,
+    delegation: {},
+    annualProvision: 0.0
   }),
   computed: {
     ...mapState([
       `delegates`,
-      `delegation`,
+      // `delegation`,
       `distribution`,
       `session`,
       `connection`
     ]),
-    ...mapState({
-      annualProvision: state => state.minting.annualProvision
-    }),
     ...mapState({ network: state => state.connection.network }),
     ...mapGetters([
       `lastHeader`,
@@ -230,12 +230,10 @@ export default {
       `connected`
     ]),
     selfBond() {
-      return percent(this.delegates.selfBond[this.validator.operatorAddress])
+      return percent(atoms(this.delegation.shares))
     },
     selfBondAmount() {
-      return shortDecimals(
-        uatoms(this.delegates.selfBond[this.validator.operatorAddress])
-      )
+      return shortDecimals(uatoms(this.delegation.shares))
     },
     myBond() {
       if (!this.validator) return 0
@@ -264,19 +262,19 @@ export default {
     returns() {
       return expectedReturns(
         this.validator,
-        parseInt(this.bondedTokens),
-        parseFloat(this.annualProvision)
+        this.bondedTokens,
+        this.annualProvision
       )
     },
-    rewards() {
-      const { session, bondDenom, distribution, validator } = this
-      if (!session.signedIn) {
-        return null
-      }
+    // rewards() {
+    //   const { session, bondDenom, distribution, validator } = this
+    //   if (!session.signedIn) {
+    //     return null
+    //   }
 
-      const validatorRewards = distribution.rewards[validator.operatorAddress]
-      return validatorRewards ? validatorRewards[bondDenom] : 0
-    }
+    //   const validatorRewards = distribution.rewards[validator.operatorAddress]
+    //   return validatorRewards ? validatorRewards[bondDenom] : 0
+    // }
   },
   watch: {
     myBond: {
@@ -304,7 +302,7 @@ export default {
           this.session.signedIn &&
           waitTwentyBlocks &&
           this.$route.name === `validator` &&
-          this.delegation.loaded &&
+          // this.delegation.loaded &&
           Number(this.myBond) > 0
         ) {
           this.$store.dispatch(
@@ -316,7 +314,7 @@ export default {
     }
   },
   updated() {
-    console.log(this.validator)
+    console.log(this.validator, this.bondedTokens, this.rewards, this.delegation, this.annualProvision)
   },
   methods: {
     shortDecimals,
@@ -371,6 +369,72 @@ export default {
     }
   },
   apollo: {
+    annualProvision: {
+      query: gql`
+        query annualProvision($networkId: String!) {
+          annualProvision(networkId: $networkId)
+        }
+      `,
+      variables() {
+        return {
+          networkId: this.network
+        }
+      },
+      update: result => parseFloat(result.annualProvision)
+    },
+    delegation: {
+      query: gql`
+        query delegation(
+          $networkId: String!
+          $delegatorAddress: String!
+          $operatorAddress: String!
+        ) {
+          delegation(
+            networkId: $networkId
+            delegatorAddress: $delegatorAddress
+            operatorAddress: $operatorAddress
+          ) {
+            delegatorAddress
+            validatorAddress
+            shares
+          }
+        }
+      `,
+      variables() {
+        return {
+          networkId: this.network,
+          delegatorAddress: this.session.address,
+          operatorAddress: this.$route.params.validator
+        }
+      },
+      update: result => result.delegation
+    },
+    rewards: {
+      query: gql`
+        query rewards(
+          $networkId: String!
+          $delegatorAddress: String
+          $operatorAddress: String
+        ) {
+          rewards(
+            networkId: $networkId
+            delegatorAddress: $delegatorAddress
+            operatorAddress: $operatorAddress
+          ) {
+            amount
+            denom
+          }
+        }
+      `,
+      variables() {
+        return {
+          networkId: this.network,
+          delegatorAddress: this.session.address,
+          operatorAddress: this.$route.params.validator
+        }
+      },
+      update: result => result.rewards
+    },
     bondedTokens: {
       query: gql`
         query bondedTokens($networkId: String!) {
@@ -382,7 +446,7 @@ export default {
           networkId: this.network
         }
       },
-      update: result => result.bondedTokens
+      update: result => parseInt(result.bondedTokens)
     },
     validator: {
       query: gql`
