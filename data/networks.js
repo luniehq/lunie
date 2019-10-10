@@ -1,7 +1,7 @@
 let networks = {
   'gaia-testnet': {
     api_url: 'https://gaia-13006.lunie.io',
-    rpc_url: 'https://gaia-13006.lunie.io:26657',
+    rpc_url: 'wss://gaia-13006.lunie.io:26657/websocket',
     action_claim_rewards: false,
     action_delegate: false,
     action_deposit: false,
@@ -26,7 +26,7 @@ let networks = {
   },
   cosmoshub: {
     api_url: 'https://lcd.nylira.net',
-    rpc_url: 'https://rpc.nylira.net',
+    rpc_url: 'wss://rpc.nylira.net/websocket',
     action_claim_rewards: true,
     action_delegate: true,
     action_deposit: true,
@@ -53,7 +53,7 @@ let networks = {
 
 const testnet = {
   api_url: 'http://localhost:9070',
-  rpc_url: 'http://localhost:26657',
+  rpc_url: 'ws://localhost:26657/websocket',
   action_claim_rewards: true,
   action_delegate: true,
   action_deposit: true,
