@@ -4,7 +4,7 @@
     @click="
       $router.push({
         name: 'Proposal',
-        params: { proposalId: proposal.id }
+        params: { proposalId: String(proposal.id) }
       })
     "
   >

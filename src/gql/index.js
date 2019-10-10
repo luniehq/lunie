@@ -127,22 +127,23 @@ const ProposalFragment = `
   type
   title
   description
+  creationTime
   status
-  final_tally_yes
-  final_tally_no
-  final_tally_no_with_veto
-  final_tally_abstain
-  submit_time
-  deposit_end_time
-  total_deposit_denom
-  total_deposit_amount
-  voting_start_time
-  voting_end_time  
+  statusBeginTime
+  statusEndTime
+  tally {
+    yes
+    no
+    veto
+    abstain
+    total
+  }
+  deposit
 `
 
 export const ProposalList = schema => gql`
   query proposals {
-    ${schemaMap[schema]}proposals {
+    proposals(networkId: "${schema}") {
       ${ProposalFragment}
     }
   }
@@ -150,21 +151,11 @@ export const ProposalList = schema => gql`
 
 export const ProposalItem = schema => gql`
   query proposal($id: Int!) {
-    ${schemaMap[schema]}proposal(id: $id) {
+    proposal(networkId: "${schema}", id: $id) {
       ${ProposalFragment}
     }
   }
 `
-
-export const proposalListResult = schema => data => {
-  console.log(data)
-  return data[`${schemaMap[schema]}proposals`]
-}
-
-export const proposalResult = schema => data => {
-  console.log(data)
-  return data[`${schemaMap[schema]}proposal`]
-}
 
 export const NewBlockSubscription = () => gql`
   subscription {

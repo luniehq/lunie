@@ -85,7 +85,7 @@ export default {
       },
       update(data) {
         /* istanbul ignore next */
-        return proposalListResult(this.network)(data)
+        return data.proposals
       }
     }
   }
