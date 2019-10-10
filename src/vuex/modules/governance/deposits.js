@@ -1,57 +1,15 @@
-import Vue from "vue"
+export default () => {
+  const state = {}
 
-export default ({ node }) => {
-  const state = {
-    loading: false,
-    error: null,
-    loaded: false,
-    deposits: {}
-  }
-
-  const mutations = {
-    setProposalDeposits(state, proposalId, deposits) {
-      Vue.set(state.deposits, proposalId, deposits)
-    }
-  }
+  const mutations = {}
   const actions = {
-    async getProposalDeposits({ state, commit, rootState }, proposalId) {
-      state.loading = true
-
-      if (!rootState.connection.connected) return
-
-      try {
-        const deposits = await node.get.proposalDeposits(proposalId)
-        state.error = null
-        state.loading = false
-        state.loaded = true
-        commit(`setProposalDeposits`, proposalId, deposits)
-      } catch (error) {
-        state.error = error
-      }
-    },
     async postMsgDeposit(
+      { dispatch },
       {
-        rootState: { wallet },
-        dispatch,
-        commit
-      },
-      {
-        txProps: { proposalId, amounts }
+        txProps: { proposalId }
       }
     ) {
-      // optimistic update
-      amounts.forEach(({ amount, denom }) => {
-        const oldBalance = wallet.balances.find(
-          balance => balance.denom === denom
-        )
-        commit(`updateWalletBalance`, {
-          denom,
-          amount: oldBalance.amount - amount
-        })
-      })
-
-      await dispatch(`getProposalDeposits`, proposalId)
-      await dispatch(`getProposal`, proposalId)
+      // TODO update apollo for proposal
       await dispatch(`getAllTxs`)
     }
   }
