@@ -19,11 +19,9 @@ function setOptions(urlParams, store) {
     store.commit(`setRpcUrl`, urlParams.rpc)
   }
   if (config.mobileApp || urlParams.insecure === `true`) {
-    console.log(urlParams.insecure)
     store.commit(`setInsecureMode`, true)
   }
   if (urlParams.insecure === `false`) {
-    console.log(urlParams.insecure)
     store.commit(`setInsecureMode`, false)
   }
 }
