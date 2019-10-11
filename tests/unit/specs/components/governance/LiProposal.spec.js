@@ -7,7 +7,7 @@ const proposal = proposals[`1`]
 
 describe(`LiProposal`, () => {
   const localVue = createLocalVue()
-  localVue.directive(`tooltip`, () => {})
+  localVue.directive(`tooltip`, () => { })
 
   let wrapper
 
@@ -40,7 +40,7 @@ describe(`LiProposal`, () => {
     wrapper.setProps({
       proposal: {
         ...proposal,
-        proposal_status: `Passed`
+        status: `Passed`
       }
     })
     expect(wrapper.vm.status).toEqual({
@@ -53,7 +53,7 @@ describe(`LiProposal`, () => {
     wrapper.setProps({
       proposal: {
         ...proposal,
-        proposal_status: `Rejected`
+        status: `Rejected`
       }
     })
     expect(wrapper.vm.status).toEqual({
@@ -66,7 +66,7 @@ describe(`LiProposal`, () => {
     wrapper.setProps({
       proposal: {
         ...proposal,
-        proposal_status: `VotingPeriod`
+        status: `VotingPeriod`
       }
     })
     expect(wrapper.vm.status).toEqual({
@@ -79,7 +79,7 @@ describe(`LiProposal`, () => {
     wrapper.setProps({
       proposal: {
         ...proposal,
-        proposal_status: `DepositPeriod`
+        status: `DepositPeriod`
       }
     })
     expect(wrapper.vm.status).toEqual({
@@ -92,7 +92,7 @@ describe(`LiProposal`, () => {
     wrapper.setProps({
       proposal: {
         ...proposal,
-        proposal_status: `Unknown`
+        status: `Unknown`
       }
     })
     expect(wrapper.vm.status).toEqual({
@@ -102,6 +102,12 @@ describe(`LiProposal`, () => {
   })
 
   it(`should not truncate the description or add an ellipsis`, () => {
+    wrapper.setProps({
+      proposal: {
+        ...proposal,
+        description: `Proposal description`
+      }
+    })
     expect(wrapper.vm.description).toEqual(`Proposal description`)
   })
 
@@ -109,11 +115,7 @@ describe(`LiProposal`, () => {
     wrapper.setProps({
       proposal: {
         ...proposal,
-        proposal_content: {
-          value: {
-            description: `This is some kind of long description. longer than 200 characters for optimum-maximum-ideal truncation. This is some kind of long description. longer than 200 characters for optimum-maximum-ideal truncation.`
-          }
-        }
+        description: `This is some kind of long description. longer than 200 characters for optimum-maximum-ideal truncation. This is some kind of long description. longer than 200 characters for optimum-maximum-ideal truncation.`
       }
     })
     expect(wrapper.vm.description).toEqual(

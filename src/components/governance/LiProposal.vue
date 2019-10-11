@@ -18,9 +18,7 @@
       <p class="li-proposal-description">
         {{ description }}
       </p>
-      <router-link
-        :to="`/proposals/` + proposal.proposal_id"
-        class="read-more-link"
+      <router-link :to="`/proposals/` + proposal.id" class="read-more-link"
         >Read the full proposal...</router-link
       >
     </td>

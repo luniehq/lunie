@@ -1,6 +1,6 @@
 import { shallowMount } from "@vue/test-utils"
 import PageProposals from "governance/PageProposals"
-import { proposals, tallies } from "../../store/json/proposals"
+import { proposals } from "../../store/json/proposals"
 
 describe(`PageProposals`, () => {
   let wrapper, $store, $apollo

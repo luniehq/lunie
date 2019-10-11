@@ -135,7 +135,7 @@ exports[`PageProposal Modal onVote shows the last valid vote 1`] = `
 </tmpage-stub>
 `;
 
-exports[`PageProposal should display proposal page should show a loader if the necessary data hasen't been loaded 1`] = `
+exports[`PageProposal should show a loader if the necessary data hasen't been loaded 1`] = `
 <tmpage-stub
   class="small"
   data-title="Proposal"
