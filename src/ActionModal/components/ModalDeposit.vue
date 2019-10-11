@@ -10,6 +10,7 @@
     :transaction-data="transactionData"
     :notify-message="notifyMessage"
     @close="clear"
+    @txIncluded="success"
   >
     <TmFormGroup
       :error="$v.amount.$error && $v.amount.$invalid"
@@ -134,6 +135,9 @@ export default {
       this.$v.$reset()
 
       this.amount = 0
+    },
+    onSuccess(event) {
+      this.$emit(`success`, event)
     }
   }
 }

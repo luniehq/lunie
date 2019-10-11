@@ -9,6 +9,7 @@
     :transaction-data="transactionData"
     :notify-message="notifyMessage"
     @close="clear"
+    @txIncluded="success"
   >
     <TmFormGroup
       :error="$v.title.$error && $v.title.$invalid"
@@ -231,6 +232,9 @@ export default {
     },
     enterPressed() {
       this.$refs.actionModal.validateChangeStep()
+    },
+    onSuccess(event) {
+      this.$emit(`success`, event)
     }
   }
 }

@@ -146,12 +146,14 @@
         :proposal-id="proposalId"
         :proposal-title="proposal.title || ''"
         :denom="parameters.depositDenom"
+        @success="afterDeposit"
       />
       <ModalVote
         ref="modalVote"
         :proposal-id="proposalId"
         :proposal-title="proposal.title || ''"
         :last-vote-option="vote"
+        @success="afterVote"
       />
     </template>
   </TmPage>
@@ -210,11 +212,22 @@ export default {
     }
   },
   methods: {
-    async onVote({ $refs } = this) {
-      $refs.modalVote.open()
+    onVote() {
+      this.$refs.modalVote.open()
+    },
+    afterVote() {
+      this.$apollo.queries.vote.refetch({
+        proposalId: this.proposal.id,
+        address: this.session.address
+      })
     },
     onDeposit() {
       this.$refs.modalDeposit.open()
+    },
+    afterDeposit() {
+      this.$apollo.queries.proposal.refetch({
+        id: this.proposal.id
+      })
     }
   },
   apollo: {

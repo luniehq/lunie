@@ -39,7 +39,11 @@
         :proposals="proposals"
         :loading="$apollo.queries.proposals.loading"
       />
-      <ModalPropose ref="modalPropose" :denom="parameters.depositDenom" />
+      <ModalPropose
+        ref="modalPropose"
+        :denom="parameters.depositDenom"
+        @success="afterPropose"
+      />
     </template>
   </PageContainer>
 </template>
@@ -74,6 +78,9 @@ export default {
   methods: {
     onPropose() {
       this.$refs.modalPropose.open()
+    },
+    afterPropose() {
+      this.$apollo.queries.proposals.refetch()
     }
   },
   apollo: {
