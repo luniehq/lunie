@@ -151,7 +151,7 @@
         ref="modalVote"
         :proposal-id="proposalId"
         :proposal-title="proposal.title || ''"
-        :last-vote-option="lastVote && lastVote.option"
+        :last-vote-option="vote"
       />
     </template>
   </TmPage>
@@ -169,7 +169,7 @@ import ModalDeposit from "src/ActionModal/components/ModalDeposit"
 import ModalVote from "src/ActionModal/components/ModalVote"
 import TmPage from "common/TmPage"
 import { getProposalStatus } from "scripts/proposal-status"
-import { ProposalItem, GovernanceParameters } from "src/gql"
+import { ProposalItem, GovernanceParameters, Vote } from "src/gql"
 
 export default {
   name: `page-proposal`,
@@ -210,13 +210,8 @@ export default {
     }
   },
   methods: {
-    async onVote({ $refs, $store, votes, proposalId, wallet } = this) {
+    async onVote({ $refs } = this) {
       $refs.modalVote.open()
-      // The error is already handled with notifyError in votes.js
-      await $store.dispatch(`getProposalVotes`, proposalId)
-      this.lastVote =
-        votes[proposalId] &&
-        votes[proposalId].find(e => e.voter === wallet.address)
     },
     onDeposit() {
       this.$refs.modalDeposit.open()
@@ -247,6 +242,23 @@ export default {
       update(data) {
         /* istanbul ignore next */
         return data.governanceParameters
+      }
+    },
+    vote: {
+      query() {
+        /* istanbul ignore next */
+        return Vote(this.network)
+      },
+      variables() {
+        /* istanbul ignore next */
+        return {
+          proposalId: +this.proposalId,
+          address: this.session.address
+        }
+      },
+      update(data) {
+        /* istanbul ignore next */
+        return data.vote.option
       }
     }
   }

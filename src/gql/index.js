@@ -169,6 +169,14 @@ query governanceParameters {
 }
 `
 
+export const Vote = schema => gql`
+query vote($proposalId: Int!, $address: String!) {
+  vote(networkId: "${schema}", proposalId: $proposalId, address: $address) {
+    option
+  }
+}
+`
+
 export const NewBlockSubscription = () => gql`
   subscription {
     blockAdded {
