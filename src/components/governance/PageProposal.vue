@@ -262,6 +262,7 @@ export default {
         return data.governanceParameters
       },
       result(data) {
+        /* istanbul ignore next */
         this.error = data.error
       }
     },
@@ -282,6 +283,7 @@ export default {
         return data.vote.option
       },
       result(data) {
+        /* istanbul ignore next */
         this.error = data.error
       }
     }
