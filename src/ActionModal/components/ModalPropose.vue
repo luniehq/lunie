@@ -9,7 +9,7 @@
     :transaction-data="transactionData"
     :notify-message="notifyMessage"
     @close="clear"
-    @txIncluded="success"
+    @txIncluded="onSuccess"
   >
     <TmFormGroup
       :error="$v.title.$error && $v.title.$invalid"
