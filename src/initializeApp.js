@@ -22,7 +22,7 @@ function setOptions(urlParams, store) {
     console.log(urlParams.insecure)
     store.commit(`setInsecureMode`, true)
   }
-  if (urlParams.insecure === `true`) {
+  if (urlParams.insecure === `false`) {
     console.log(urlParams.insecure)
     store.commit(`setInsecureMode`, false)
   }
