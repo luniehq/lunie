@@ -1,25 +1,20 @@
 import { shallowMount, createLocalVue } from "@vue/test-utils"
 import LiProposal from "src/components/governance/LiProposal"
 
-import { proposals, tallies } from "../../store/json/proposals"
+import { proposals } from "../../store/json/proposals"
 
 const proposal = proposals[`1`]
 
 describe(`LiProposal`, () => {
   const localVue = createLocalVue()
-  localVue.directive(`tooltip`, () => {})
+  localVue.directive(`tooltip`, () => { })
 
   let wrapper
 
   beforeEach(() => {
     const $store = {
       commit: jest.fn(),
-      dispatch: jest.fn(),
-      state: {
-        proposals: {
-          tallies
-        }
-      }
+      dispatch: jest.fn()
     }
 
     wrapper = shallowMount(LiProposal, {

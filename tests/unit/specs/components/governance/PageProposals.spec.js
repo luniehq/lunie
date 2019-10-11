@@ -61,4 +61,10 @@ describe(`PageProposals`, () => {
     wrapper.find("#propose-btn").trigger("click")
     expect($refs.modalPropose.open).toHaveBeenCalled()
   })
+
+  it(`refetches proposals after a successful proposal creation`, () => {
+    wrapper.vm.$apollo.queries.proposals.refetch = jest.fn()
+    wrapper.vm.afterPropose()
+    expect(wrapper.vm.$apollo.queries.proposals.refetch).toHaveBeenCalled()
+  })
 })

@@ -6,14 +6,14 @@ exports[`PageProposal Modal onVote enables voting if the proposal is on the 'Vot
     <div class="page-profile__header__info"><span class="proposal-status pink">
           Voting Period
         </span>
-      <h2 class="proposal-title"></h2>
+      <h2 class="proposal-title">test</h2>
     </div>
     <div class="button-container">
       <tmbtn-stub value="Deposit" disabled="true" id="deposit-btn" color="primary"></tmbtn-stub>
       <tmbtn-stub value="Vote" id="vote-btn" color="primary"></tmbtn-stub>
     </div>
   </div>
-  <textblock-stub content=""></textblock-stub>
+  <textblock-stub content="test"></textblock-stub>
   <!---->
   <ul class="row">
     <li>
@@ -24,28 +24,28 @@ exports[`PageProposal Modal onVote enables voting if the proposal is on the 'Vot
     </li>
     <li>
       <h4>Yes</h4> <span>
-          NaN%
+          0.00%
           /
           0
         </span>
     </li>
     <li>
       <h4>No</h4> <span>
-          NaN%
+          0.00%
           /
           0
         </span>
     </li>
     <li>
       <h4>Veto</h4> <span>
-          NaN%
+          0.00%
           /
           0
         </span>
     </li>
     <li>
       <h4>Abstain</h4> <span>
-          NaN%
+          0.00%
           /
           0
         </span>
@@ -53,10 +53,10 @@ exports[`PageProposal Modal onVote enables voting if the proposal is on the 'Vot
   </ul>
   <ul class="row">
     <li>
-      <h4>Proposal ID</h4> <span></span>
+      <h4>Proposal ID</h4> <span>33</span>
     </li>
     <li>
-      <h4>Submitted</h4> <span>January 1st 1970, 00:00</span>
+      <h4>Submitted</h4> <span>August 23rd 2019, 08:46</span>
     </li>
     <li>
       <h4>Voting Period Start Date</h4> <span>January 1st 1970, 00:00</span>
@@ -68,52 +68,52 @@ exports[`PageProposal Modal onVote enables voting if the proposal is on the 'Vot
           </span>
     </li>
   </ul>
-  <modaldeposit-stub proposalid="2" proposaltitle="" denom="TESTCOIN"></modaldeposit-stub>
-  <modalvote-stub proposalid="2" proposaltitle=""></modalvote-stub>
+  <modaldeposit-stub proposalid="2" proposaltitle="test" denom="TESTCOIN"></modaldeposit-stub>
+  <modalvote-stub proposalid="2" proposaltitle="test"></modalvote-stub>
 </tmpage-stub>
 `;
 
 exports[`PageProposal Modal onVote shows the last valid vote 1`] = `
 <tmpage-stub hideheader="true" title="" subtitle="" data-title="Proposal" class="small">
   <div class="proposal">
-    <div class="page-profile__header__info"><span class="proposal-status grey">
-          Error
+    <div class="page-profile__header__info"><span class="proposal-status red">
+          Rejected
         </span>
-      <h2 class="proposal-title"></h2>
+      <h2 class="proposal-title">test</h2>
     </div>
     <div class="button-container">
       <tmbtn-stub value="Deposit" disabled="true" id="deposit-btn" color="primary"></tmbtn-stub>
       <tmbtn-stub value="Vote" disabled="true" id="vote-btn" color="primary"></tmbtn-stub>
     </div>
   </div>
-  <textblock-stub content=""></textblock-stub>
+  <textblock-stub content="test"></textblock-stub>
   <!---->
   <ul class="row">
     <!---->
     <li>
       <h4>Yes</h4> <span>
-          NaN%
+          0.00%
           /
           0
         </span>
     </li>
     <li>
       <h4>No</h4> <span>
-          NaN%
+          0.00%
           /
           0
         </span>
     </li>
     <li>
       <h4>Veto</h4> <span>
-          NaN%
+          0.00%
           /
           0
         </span>
     </li>
     <li>
       <h4>Abstain</h4> <span>
-          NaN%
+          0.00%
           /
           0
         </span>
@@ -121,17 +121,17 @@ exports[`PageProposal Modal onVote shows the last valid vote 1`] = `
   </ul>
   <ul class="row">
     <li>
-      <h4>Proposal ID</h4> <span></span>
+      <h4>Proposal ID</h4> <span>33</span>
     </li>
     <li>
-      <h4>Submitted</h4> <span>January 1st 1970, 00:00</span>
+      <h4>Submitted</h4> <span>August 23rd 2019, 08:46</span>
     </li>
     <li>
-      <h4>Proposal Finalized (Error)</h4> <span>January 1st 1970, 00:00</span>
+      <h4>Proposal Finalized (Rejected)</h4> <span>January 1st 1970, 00:00</span>
     </li>
   </ul>
-  <modaldeposit-stub proposalid="2" proposaltitle="" denom="TESTCOIN"></modaldeposit-stub>
-  <modalvote-stub proposalid="2" proposaltitle="" lastvoteoption="Yes"></modalvote-stub>
+  <modaldeposit-stub proposalid="2" proposaltitle="test" denom="TESTCOIN"></modaldeposit-stub>
+  <modalvote-stub proposalid="2" proposaltitle="test" lastvoteoption="Yes"></modalvote-stub>
 </tmpage-stub>
 `;
 

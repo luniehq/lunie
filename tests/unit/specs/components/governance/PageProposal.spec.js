@@ -4,6 +4,7 @@ import PageProposal from "governance/PageProposal"
 import { createLocalVue, shallowMount } from "@vue/test-utils"
 import Vuex from "vuex"
 import Vuelidate from "vuelidate"
+import { proposals } from "../../store/json/proposals"
 
 describe(`PageProposal`, () => {
   let wrapper, $store
@@ -16,7 +17,7 @@ describe(`PageProposal`, () => {
 
   const state = {
     session: {
-      address: `X`
+      address: `cosmos1xxxx`
     }
   }
 
@@ -55,6 +56,9 @@ describe(`PageProposal`, () => {
       }
     }
     wrapper = shallowMount(PageProposal, args)
+    wrapper.setData({
+      proposal: proposals[2]
+    })
   })
 
   it("should show a loader if the necessary data hasen't been loaded", () => {
@@ -127,6 +131,15 @@ describe(`PageProposal`, () => {
       wrapper.setData({ vote: "Yes" })
       expect(wrapper.html()).toMatchSnapshot()
     })
+
+    it(`refetches user vote after a successful voting`, () => {
+      wrapper.vm.$apollo.queries.vote.refetch = jest.fn()
+      wrapper.vm.afterVote()
+      expect(wrapper.vm.$apollo.queries.vote.refetch).toHaveBeenCalledWith({
+        proposalId: 33,
+        address: "cosmos1xxxx"
+      })
+    })
   })
 
   describe(`Modal onDeposit`, () => {
@@ -138,6 +151,14 @@ describe(`PageProposal`, () => {
       await PageProposal.methods.onDeposit.call(self)
 
       expect(self.$refs.modalDeposit.open).toHaveBeenCalled()
+    })
+
+    it(`refetches proposal data after a successful depositing`, () => {
+      wrapper.vm.$apollo.queries.proposal.refetch = jest.fn()
+      wrapper.vm.afterDeposit()
+      expect(wrapper.vm.$apollo.queries.proposal.refetch).toHaveBeenCalledWith({
+        id: 33
+      })
     })
   })
 })
