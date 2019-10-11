@@ -230,10 +230,10 @@ export default {
       `connected`
     ]),
     selfBond() {
-      return percent(atoms(this.delegation.shares))
+      return percent(this.validator.selfStake.shares / this.validator.delegatorShares)
     },
     selfBondAmount() {
-      return shortDecimals(uatoms(this.delegation.shares))
+      return shortDecimals(uatoms(this.validator.selfStake.shares / this.validator.delegatorShares))
     },
     myBond() {
       if (!this.validator) return 0
@@ -469,6 +469,10 @@ export default {
             maxChangeCommission
             status
             statusDetailed
+            delegatorShares
+            selfStake {
+               shares
+            }
           }
         }
       `,
