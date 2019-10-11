@@ -36,7 +36,7 @@ export default function tendermintConnect() {
         throw error
       }
 
-      const handler = function(event) {
+      const handler = function (event) {
         let { id: eventId, error, result } = JSON.parse(event.data)
         const isSubscriptionEvent = eventId.indexOf("#event") !== -1
         if (isSubscriptionEvent) {
@@ -77,7 +77,7 @@ export default function tendermintConnect() {
     },
     pollConnection() {
       let connectionTimeout = setTimeout(
-        function() {
+        function () {
           if (this.ondisconnect) this.ondisconnect()
         }.bind(this),
         connectionTimeoutInterval
@@ -117,7 +117,7 @@ export default function tendermintConnect() {
   }
 
   for (const name of tendermintMethods) {
-    client[camel(name)] = function(args) {
+    client[camel(name)] = function (args) {
       return client.subscribe(args, undefined, name)
     }
   }
@@ -125,13 +125,11 @@ export default function tendermintConnect() {
   return client
 }
 
+// websocketEndpoint is ws://localhost:26657/websocket for a normal Tendermint full node
+// remember that for a https served website you need to have a wss (secure websocket) endpoint in place
+// to do so, you can reverse proxy the Tendermint full node using Nginx or Caddy
 async function connect(websocketEndpoint) {
-  const websocketHost = getHost(websocketEndpoint)
-  const https = websocketEndpoint.startsWith(`https`)
-
-  const socket = new WebSocket(
-    `${https ? `wss` : `ws`}://${websocketHost}/websocket`
-  )
+  const socket = new WebSocket(websocketEndpoint)
 
   await new Promise((resolve, reject) => {
     socket.onopen = resolve
@@ -139,12 +137,6 @@ async function connect(websocketEndpoint) {
   })
 
   return socket
-}
-
-function getHost(url) {
-  return url.startsWith(`http`) && url.indexOf(`//`) !== -1
-    ? url.split(`//`)[1]
-    : url
 }
 
 const tendermintMethods = [
