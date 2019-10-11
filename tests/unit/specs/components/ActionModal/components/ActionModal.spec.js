@@ -482,10 +482,11 @@ describe(`ActionModal`, () => {
 
       wrapper.setProps({ transactionProperties })
       wrapper.setData(data)
+      wrapper.vm.$emit = jest.fn()
       await wrapper.vm.submit()
       expect(wrapper.vm.submissionError).toBe(null)
       // expect(postSubmit).toHaveBeenCalled()
-      expect($store.dispatch).toHaveBeenCalledWith(`postMsgSend`, {
+      expect(wrapper.vm.$emit).toHaveBeenCalledWith(`txIncluded`, {
         txMeta: {
           gasEstimate: 12345,
           gasPrice: { amount: "0.000000025", denom: "uatom" },

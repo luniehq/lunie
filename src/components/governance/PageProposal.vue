@@ -5,11 +5,7 @@
         $apollo.queries.proposal.loading || $apollo.queries.parameters.loading
       "
     />
-    <TmDataError
-      v-else-if="
-        $apollo.queries.proposal.error || $apollo.queries.parameters.error
-      "
-    />
+    <TmDataError v-else-if="error" />
     <template v-else>
       <div class="proposal">
         <div class="page-profile__header__info">
@@ -146,14 +142,14 @@
         :proposal-id="proposalId"
         :proposal-title="proposal.title || ''"
         :denom="parameters.depositDenom"
-        @success="afterDeposit"
+        @success="() => afterDeposit()"
       />
       <ModalVote
         ref="modalVote"
         :proposal-id="proposalId"
         :proposal-title="proposal.title || ''"
         :last-vote-option="vote"
-        @success="afterVote"
+        @success="() => afterVote()"
       />
     </template>
   </TmPage>
@@ -198,13 +194,18 @@ export default {
     }
   },
   data: () => ({
-    lastVote: undefined,
+    vote: undefined,
     proposal: {
+      status: "",
       tally: {}
-    }
+    },
+    parameters: {
+      depositDenom: "TESTCOIN"
+    },
+    error: undefined
   }),
   computed: {
-    ...mapState([`session`, `wallet`]),
+    ...mapState([`session`]),
     ...mapState({ network: state => state.connection.network }),
     ...mapGetters([`connected`]),
     status() {
@@ -245,6 +246,9 @@ export default {
         return {
           id: +this.proposalId
         }
+      },
+      result(data) {
+        this.error = data.error
       }
     },
     parameters: {
@@ -255,6 +259,9 @@ export default {
       update(data) {
         /* istanbul ignore next */
         return data.governanceParameters
+      },
+      result(data) {
+        this.error = data.error
       }
     },
     vote: {
@@ -272,6 +279,9 @@ export default {
       update(data) {
         /* istanbul ignore next */
         return data.vote.option
+      },
+      result(data) {
+        this.error = data.error
       }
     }
   }

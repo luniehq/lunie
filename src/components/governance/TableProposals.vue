@@ -13,7 +13,6 @@
 </template>
 
 <script>
-import orderBy from "lodash.orderby"
 import LiProposal from "governance/LiProposal"
 export default {
   name: `table-proposals`,
@@ -31,24 +30,6 @@ export default {
       property: `id`,
       order: `desc`
     }
-  }),
-  computed: {
-    enrichedProposals() {
-      const copy = JSON.parse(JSON.stringify(this.proposals))
-      Object.keys(copy).forEach(proposal_id => {
-        copy[proposal_id].id = Number(proposal_id)
-      })
-      return copy
-    },
-    filteredProposals() {
-      const proposals = orderBy(
-        this.enrichedProposals,
-        [this.sort.property],
-        [this.sort.order]
-      )
-
-      return proposals
-    }
-  }
+  })
 }
 </script>

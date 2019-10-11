@@ -42,7 +42,7 @@
       <ModalPropose
         ref="modalPropose"
         :denom="parameters.depositDenom"
-        @success="afterPropose"
+        @success="() => afterPropose()"
       />
     </template>
   </PageContainer>
