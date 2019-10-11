@@ -485,7 +485,6 @@ describe(`ActionModal`, () => {
       wrapper.vm.$emit = jest.fn()
       await wrapper.vm.submit()
       expect(wrapper.vm.submissionError).toBe(null)
-      // expect(postSubmit).toHaveBeenCalled()
       expect(wrapper.vm.$emit).toHaveBeenCalledWith(`txIncluded`, {
         txMeta: {
           gasEstimate: 12345,
