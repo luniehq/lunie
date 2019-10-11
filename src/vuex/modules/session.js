@@ -59,9 +59,8 @@ export default () => {
     setExperimentalMode(state) {
       state.experimentalMode = true
     },
-    setInsecureMode(state) {
-      console.log(`InsecureMode on!`)
-      state.insecureMode = true
+    setInsecureMode(state, insecureMode) {
+      state.insecureMode = insecureMode
     },
     addHistory(state, path) {
       state.history.push(path)

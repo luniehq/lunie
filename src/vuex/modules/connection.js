@@ -102,7 +102,7 @@ export default function({ node }) {
         })
 
         if (status.node_info.network === `testnet`) {
-          commit(`setInsecureMode`)
+          commit(`setInsecureMode`, true)
         }
       })
 
