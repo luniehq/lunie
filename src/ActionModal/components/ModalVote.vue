@@ -9,7 +9,7 @@
     :transaction-data="transactionData"
     :notify-message="notifyMessage"
     @close="clear"
-    @txIncluded="onSuccess"
+    @txIncluded="success"
   >
     <div class="action-modal-group vote-options">
       <div>
