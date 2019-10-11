@@ -11,8 +11,8 @@ describe(`PageProposal`, () => {
   const localVue = createLocalVue()
   localVue.use(Vuex)
   localVue.use(Vuelidate)
-  localVue.directive(`tooltip`, () => { })
-  localVue.directive(`focus`, () => { })
+  localVue.directive(`tooltip`, () => {})
+  localVue.directive(`focus`, () => {})
 
   const state = {
     session: {
@@ -57,11 +57,9 @@ describe(`PageProposal`, () => {
     wrapper = shallowMount(PageProposal, args)
   })
 
-  describe(`should display proposal page`, () => {
-    it("should show a loader if the necessary data hasen't been loaded", () => {
-      wrapper.vm.$apollo.queries.proposal.loading = true
-      expect(wrapper.element).toMatchSnapshot()
-    })
+  it("should show a loader if the necessary data hasen't been loaded", () => {
+    wrapper.vm.$apollo.queries.proposal.loading = true
+    expect(wrapper.element).toMatchSnapshot()
   })
 
   it(`shows an error if the proposal couldn't be found`, () => {
