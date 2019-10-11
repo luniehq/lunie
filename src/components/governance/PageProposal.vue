@@ -248,6 +248,7 @@ export default {
         }
       },
       result(data) {
+        /* istanbul ignore next */
         this.error = data.error
       }
     },

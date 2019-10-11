@@ -42,6 +42,10 @@ describe(`PageProposal`, () => {
         parameters: {
           loading: false,
           error: undefined
+        },
+        vote: {
+          loading: false,
+          error: undefined
         }
       }
     }
@@ -119,12 +123,19 @@ describe(`PageProposal`, () => {
 
   describe(`Modal onVote`, () => {
     it(`enables voting if the proposal is on the 'VotingPeriod'`, async () => {
+      wrapper.vm.$refs.modalVote.open = jest.fn()
+      wrapper.find("#vote-btn").trigger("click")
+      expect(wrapper.vm.$refs.modalVote.open).not.toHaveBeenCalled()
+
       wrapper.setData({
-        proposal: Object.assign({}, wrapper.vm.proposal, {
+        proposal: {
+          ...wrapper.vm.proposal,
           status: "VotingPeriod"
-        })
+        }
       })
       expect(wrapper.html()).toMatchSnapshot()
+      wrapper.find("#vote-btn").trigger("click")
+      expect(wrapper.vm.$refs.modalVote.open).toHaveBeenCalled()
     })
 
     it(`shows the last valid vote`, async () => {
