@@ -7,7 +7,7 @@ const proposal = proposals[`1`]
 
 describe(`LiProposal`, () => {
   const localVue = createLocalVue()
-  localVue.directive(`tooltip`, () => { })
+  localVue.directive(`tooltip`, () => {})
 
   let wrapper
 
