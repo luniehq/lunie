@@ -30,7 +30,7 @@
         </div>
       </div>
       <TableValidators
-        :validators="validators"
+        :validators="validatorsPlus"
         show-on-mobile="expectedReturns"
       />
       <div
@@ -45,6 +45,7 @@
 
 <script>
 import { mapState } from "vuex"
+import { expectedReturns } from "scripts/returns"
 import TableValidators from "staking/TableValidators"
 import PageContainer from "common/PageContainer"
 import TmField from "common/TmField"
@@ -62,15 +63,60 @@ export default {
   data: () => ({
     searchTerm: "",
     activeOnly: true,
-    validators: []
+    validators: [],
+    annualProvision: 0.0,
+    bondedTokens: 0
   }),
   computed: {
-    ...mapState({ network: state => state.connection.network })
+    ...mapState([`session`]),
+    ...mapState({ network: state => state.connection.network }),
+    // selfStake() {
+    //   return percent(
+    //     this.validator.selfStake.shares / this.validator.delegatorShares
+    //   )
+    // },
+    validatorsPlus() {
+      return this.validators.map(v => ({
+        ...v,
+        smallMoniker: v.moniker ? v.moniker.toLowerCase() : "",
+        expectedReturns: expectedReturns(
+          v,
+          this.bondedTokens,
+          this.annualProvision
+        )
+      }))
+    }
   },
-  updated() {
-    console.log(this.validators)
-  },
+  // updated() {
+  //   console.log(this.validatorsPlus)
+  // },
   apollo: {
+    annualProvision: {
+      query: gql`
+        query annualProvision($networkId: String!) {
+          annualProvision(networkId: $networkId)
+        }
+      `,
+      variables() {
+        return {
+          networkId: this.network
+        }
+      },
+      update: result => parseFloat(result.annualProvision)
+    },
+    bondedTokens: {
+      query: gql`
+        query bondedTokens($networkId: String!) {
+          bondedTokens(networkId: $networkId)
+        }
+      `,
+      variables() {
+        return {
+          networkId: this.network
+        }
+      },
+      update: result => parseInt(result.bondedTokens)
+    },
     validators: {
       query: gql`
         query validators($networkId: String!) {
