@@ -1,19 +1,19 @@
 <template>
   <TmPage
     :managed="true"
-    :loading="transactions.loading"
-    :loaded="transactions.loaded"
-    :error="!!transactions.error"
-    :data-empty="dataEmpty"
+    :loading="$apollo.queries.bankTransactions.loading"
+    :loaded="!$apollo.queries.bankTransactions.loading"
+    :error="$apollo.queries.bankTransactions.error"
+    :data-empty="bankTransactions.length === 0"
     data-title="Transactions"
     :sign-in-required="true"
     :hide-header="true"
   >
     <DataEmptyTx slot="no-data" />
     <template slot="managed-body">
-      <div v-infinite-scroll="loadMore" infinite-scroll-distance="80">
+      <div infinite-scroll-distance="80">
         <TransactionList
-          :transactions="showingTransactions"
+          :transactions="bankTransactions"
           :address="session.address"
           :validators="validatorsAddressMap"
         />
@@ -29,6 +29,7 @@ import DataEmptyTx from "common/TmDataEmptyTx"
 import TmPage from "common/TmPage"
 import TransactionList from "transactions/TransactionList"
 import { AllValidators, validatorsResult } from "src/gql"
+import gql from "graphql-tag"
 
 export default {
   name: `page-transactions`,
@@ -39,7 +40,8 @@ export default {
   },
   data: () => ({
     showing: 15,
-    validators: []
+    validators: [],
+    bankTransactions: []
   }),
   computed: {
     ...mapState([`session`, `transactions`]),
@@ -48,7 +50,7 @@ export default {
     validatorsAddressMap() {
       const names = {}
       this.validators.forEach(item => {
-        names[item.operator_address] = item
+        names[item.operatorAddress] = item
       })
       return names
     },
@@ -59,25 +61,66 @@ export default {
       return this.flatOrderedTransactionList.length === 0
     }
   },
-  watch: {
-    "session.signedIn": function() {
-      this.refreshTransactions()
-    }
+  updated() {
+    console.log(this.bankTransactions)
   },
-  created() {
-    this.refreshTransactions()
-  },
-  methods: {
-    async refreshTransactions() {
-      if (this.session.signedIn) {
-        await this.$store.dispatch(`getAllTxs`)
+  // watch: {
+  //   "session.signedIn": function() {
+  //     this.refreshTransactions()
+  //   }
+  // },
+  // created() {
+  // this.refreshTransactions()
+  // },
+  // methods: {
+  //   async refreshTransactions() {
+  //     if (this.session.signedIn) {
+  //       await this.$store.dispatch(`getAllTxs`)
+  //     }
+  //   },
+  //   loadMore() {
+  //     this.showing += 10
+  //   }
+  // },
+  apollo: {
+    bankTransactions: {
+      query: gql`
+        query bankTransactions($networkId: String!, $address: String!) {
+          bankTransactions(networkId: $networkId, address: $address) {
+            type
+            hash
+            height
+            group
+            timestamp
+            senderAddress
+            recipientAddress
+            gasUsed
+            amount {
+              amount
+              denom
+            }
+            fee {
+              amount
+              denom
+            }
+          }
+        }
+      `,
+      variables() {
+        return {
+          networkId: this.network,
+          address: this.session.address
+        }
+      },
+      update: result => {
+        if (Array.isArray(result.bankTransactions)) {
+          return result.bankTransactions.map(tx => {
+            tx.timestamp = new Date(tx.timestamp)
+            return tx
+          })
+        } return []
       }
     },
-    loadMore() {
-      this.showing += 10
-    }
-  },
-  apollo: {
     validators: {
       query() {
         /* istanbul ignore next */

@@ -8,21 +8,23 @@
       </p>
     </div>
     <div class="tx__content__information">
-      <template v-if="toYourself"
-        >To yourself!</template
+      <template
+        v-if="toYourself"
       >
+        To yourself!
+      </template>
       <template v-else-if="sentFromSessionAddress">
         To&nbsp;
-        <Bech32 :address="transaction.value.to_address" />
+        <Bech32 :address="transaction.recipientAddress" />
       </template>
       <template v-else-if="receivedToSessionAddress">
         From&nbsp;
-        <Bech32 :address="transaction.value.from_address" />
+        <Bech32 :address="transaction.senderAddress" />
       </template>
       <template v-else>
         From&nbsp;
-        <Bech32 :address="transaction.value.from_address" />&nbsp;to&nbsp;
-        <Bech32 :address="transaction.value.to_address" />
+        <Bech32 :address="transaction.senderAddress" />&nbsp;to&nbsp;
+        <Bech32 :address="transaction.recipientAddress" />
       </template>
       <span v-if="transaction.memo">&nbsp;- {{ transaction.memo }}</span>
     </div>
@@ -32,7 +34,6 @@
 <script>
 import { atoms, viewDenom, prettyLong } from "scripts/num.js"
 import Bech32 from "common/Bech32"
-import { getCoin } from "scripts/transaction-utils"
 
 export default {
   name: `send-message-details`,
@@ -57,34 +58,30 @@ export default {
   },
   computed: {
     coin() {
-      return getCoin(this.transaction)
+      return this.transaction.amount
     },
     toYourself() {
-      const value = this.transaction.value
       return (
-        value.from_address === this.sessionAddress &&
-        value.to_address === this.sessionAddress
+        this.transaction.senderAddress === this.sessionAddress &&
+        this.transaction.recipientAddress === this.sessionAddress
       )
     },
     sentFromSessionAddress() {
-      const value = this.transaction.value
       return (
-        this.sessionAddress === value.from_address &&
-        this.sessionAddress !== value.to_address
+        this.sessionAddress === this.transaction.senderAddress &&
+        this.sessionAddress !== this.transaction.recipientAddress
       )
     },
     receivedToSessionAddress() {
-      const value = this.transaction.value
       return (
-        this.sessionAddress === value.to_address &&
-        this.sessionAddress !== value.from_address
+        this.sessionAddress === this.transaction.recipientAddress &&
+        this.sessionAddress !== this.transaction.senderAddress
       )
     },
     caption() {
-      const value = this.transaction.value
       if (
-        value.to_address === this.sessionAddress &&
-        value.from_address !== this.sessionAddress
+        this.transaction.recipientAddress === this.sessionAddress &&
+        this.transaction.senderAddress !== this.sessionAddress
       ) {
         return "Received"
       } else {
