@@ -22,7 +22,7 @@ if (config.enableTestnet) {
 let options = {
   typeDefs,
   resolvers,
-  dataSources,
+  dataSources: () => dataSources,
   cacheControl: {
     defaultMaxAge: 5000
   },
