@@ -9,7 +9,7 @@
     <template v-else>
       <div class="proposal">
         <div class="page-profile__header__info">
-          <span :class="status.color" class="proposal-status">
+          <span :class="proposal.status | lowerCase" class="proposal-status">
             {{ status.badge }}
           </span>
           <h2 class="proposal-title">{{ proposal.title }}</h2>
@@ -185,7 +185,8 @@ export default {
     atoms,
     percent,
     date: value => moment(value).format("MMMM Do YYYY, HH:mm"),
-    fromNow: value => moment(value).fromNow()
+    fromNow: value => moment(value).fromNow(),
+    lowerCase: text => text.toLowerCase()
   },
   props: {
     proposalId: {

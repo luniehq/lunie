@@ -27,6 +27,7 @@
 
 <script>
 import { mapState } from "vuex"
+import { getProposalStatus } from "scripts/proposal-status"
 export default {
   name: `li-proposal`,
   filters: {
@@ -42,7 +43,10 @@ export default {
     }
   },
   computed: {
-    ...mapState([`proposals`])
+    ...mapState([`proposals`]),
+    status() {
+      return getProposalStatus(this.proposal)
+    }
   }
 }
 </script>
