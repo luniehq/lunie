@@ -1,10 +1,10 @@
 <template>
   <TmPage
     :managed="true"
-    :loading="$apollo.queries.bankTransactions.loading"
-    :loaded="!$apollo.queries.bankTransactions.loading"
-    :error="$apollo.queries.bankTransactions.error"
-    :data-empty="bankTransactions.length === 0"
+    :loading="$apollo.queries.transactions.loading"
+    :loaded="!$apollo.queries.transactions.loading"
+    :error="$apollo.queries.transactions.error"
+    :data-empty="transactions.length === 0"
     data-title="Transactions"
     :sign-in-required="true"
     :hide-header="true"
@@ -13,7 +13,7 @@
     <template slot="managed-body">
       <div infinite-scroll-distance="80">
         <TransactionList
-          :transactions="bankTransactions"
+          :transactions="transactions"
           :address="session.address"
           :validators="validatorsAddressMap"
         />
@@ -24,7 +24,7 @@
 </template>
 
 <script>
-import { mapState, mapGetters } from "vuex"
+import { mapState } from "vuex"
 import DataEmptyTx from "common/TmDataEmptyTx"
 import TmPage from "common/TmPage"
 import TransactionList from "transactions/TransactionList"
@@ -41,12 +41,11 @@ export default {
   data: () => ({
     showing: 15,
     validators: [],
-    bankTransactions: []
+    transactions: []
   }),
   computed: {
-    ...mapState([`session`, `transactions`]),
+    ...mapState([`session`]),
     ...mapState({ network: state => state.connection.network }),
-    ...mapGetters([`flatOrderedTransactionList`]),
     validatorsAddressMap() {
       const names = {}
       this.validators.forEach(item => {
@@ -54,15 +53,15 @@ export default {
       })
       return names
     },
-    showingTransactions() {
-      return this.flatOrderedTransactionList.slice(0, this.showing)
-    },
+    // showingTransactions() {
+    //   return this.flatOrderedTransactionList.slice(0, this.showing)
+    // },
     dataEmpty() {
-      return this.flatOrderedTransactionList.length === 0
+      return this.transactions.length === 0
     }
   },
   updated() {
-    console.log(this.bankTransactions)
+    console.log(this.transactions)
   },
   // watch: {
   //   "session.signedIn": function() {
@@ -83,26 +82,21 @@ export default {
   //   }
   // },
   apollo: {
-    bankTransactions: {
+    transactions: {
       query: gql`
-        query bankTransactions($networkId: String!, $address: String!) {
-          bankTransactions(networkId: $networkId, address: $address) {
-            type
+        query transactions($networkId: String!, $address: String!) {
+          transactions(networkId: $networkId, address: $address) {
             hash
-            height
+            type
             group
+            height
             timestamp
-            senderAddress
-            recipientAddress
             gasUsed
-            amount {
-              amount
-              denom
-            }
             fee {
               amount
               denom
             }
+            value
           }
         }
       `,
@@ -113,12 +107,15 @@ export default {
         }
       },
       update: result => {
-        if (Array.isArray(result.bankTransactions)) {
-          return result.bankTransactions.map(tx => {
+        if (Array.isArray(result.transactions)) {
+          return result.transactions.map(tx => {
+            !tx.group && console.error("ERROR NO GROUP", tx)
             tx.timestamp = new Date(tx.timestamp)
+            tx.value = JSON.parse(tx.value)
             return tx
           })
-        } return []
+        }
+        return []
       }
     },
     validators: {
