@@ -12,10 +12,16 @@ export default () => {
   const mutations = {
     updateField(state, payload) {
       state[payload.field] = payload.value
+    },
+    resetSignUpData(state) {
+      state = emptyState
     }
   }
-
-  const actions = {}
+  const actions = {
+    resetSignUpData(commit) {
+      commit(`resetSignUpData`)
+    }
+  }
   return {
     state,
     mutations,
