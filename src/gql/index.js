@@ -177,9 +177,18 @@ query vote($proposalId: Int!, $address: String!) {
 }
 `
 
-export const NewBlockSubscription = () => gql`
+export const Block = networkId => gql`
+query Block {
+  block(networkId: "${networkId}") {
+    height
+    chainId
+  }
+}
+`
+
+export const NewBlockSubscription = networkId => gql`
   subscription {
-    blockAdded {
+    blockAdded(networkId: "${networkId}") {
       height
       hash
       chainId
