@@ -8,7 +8,6 @@ const config = require('./config')
 
 const cosmosApi = new CosmosAPI(networks['cosmoshub'])
 const gaiaApi = new GaiaAPI(networks['gaia-testnet'])
-const testnetAPI = new CosmosAPI(networks['testnet'])
 
 const dataSources = {
   CosmosAPI: cosmosApi,
@@ -16,6 +15,7 @@ const dataSources = {
   networks
 }
 if (config.enableTestnet) {
+  const testnetAPI = new CosmosAPI(networks['testnet'])
   dataSources.TestnetAPI = testnetAPI
 }
 
