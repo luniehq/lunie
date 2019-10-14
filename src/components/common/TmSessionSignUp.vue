@@ -7,8 +7,8 @@
       <div v-if="session.insecureMode">
         <div class="session-main">
           <Steps
-            :steps="[`SignUp`, `Password`, `Seed`, `Success`]"
-            active-step="SignUp"
+            :steps="[`Create`, `Password`, `Seed`, `Success`]"
+            active-step="Create"
           />
           <DangerZoneWarning />
           <TmFormGroup
