@@ -13,6 +13,7 @@
 </template>
 
 <script>
+import { mapState } from "vuex"
 import TmBtn from "common/TmBtn"
 import SessionFrame from "common/SessionFrame"
 export default {
@@ -20,6 +21,12 @@ export default {
   components: {
     TmBtn,
     SessionFrame
+  },
+  computed: {
+    ...mapState([`signup`])
+  },
+  mounted() {
+    this.$store.dispatch(`resetSignUpData`)
   }
 }
 </script>

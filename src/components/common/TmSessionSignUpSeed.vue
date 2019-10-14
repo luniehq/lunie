@@ -98,17 +98,11 @@ export default {
       this.$v.$touch()
       if (this.$v.$error) return
       try {
-        var vm = this
-        await this.$store
-          .dispatch(`createKey`, {
-            seedPhrase: this.signup.signUpSeed,
-            password: this.signup.signUpPassword,
-            name: this.signup.signUpName
-          })
-          .then(function() {
-            // Success creating the key. Clean signup data in store
-            vm.$store.dispatch(`resetSignUpData`)
-          })
+        await this.$store.dispatch(`createKey`, {
+          seedPhrase: this.signup.signUpSeed,
+          password: this.signup.signUpPassword,
+          name: this.signup.signUpName
+        })
         this.$router.push(`/create/success`)
       } catch (error) {
         this.$store.commit(`notifyError`, {
