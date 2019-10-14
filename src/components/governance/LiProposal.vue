@@ -9,7 +9,7 @@
     "
   >
     <td>
-      <span :class="status.color" class="proposal-status">
+      <span :class="proposal.status | lowerCase" class="proposal-status">
         {{ status.badge }}
       </span>
       <h3 class="li-proposal-title">
@@ -27,13 +27,13 @@
 
 <script>
 import { mapState } from "vuex"
-import { getProposalStatus } from "scripts/proposal-status"
 export default {
   name: `li-proposal`,
   filters: {
     trim: function(text, length) {
       return text.length > length ? text.substring(0, length) + `…` : text
-    }
+    },
+    lowerCase: text => text.toLowerCase()
   },
   props: {
     proposal: {
@@ -42,10 +42,7 @@ export default {
     }
   },
   computed: {
-    ...mapState([`proposals`]),
-    status() {
-      return getProposalStatus(this.proposal)
-    }
+    ...mapState([`proposals`])
   }
 }
 </script>
@@ -101,24 +98,26 @@ export default {
   border: 2px solid;
   padding: 2px 4px;
   border-radius: 0.25rem;
+  color: var(--grey);
+  border-color: var(--grey);
 }
 
-.proposal-status.red {
+.proposal-status.rejected {
   color: var(--danger);
   border-color: var(--danger);
 }
 
-.proposal-status.orange {
+.proposal-status.depositperiod {
   color: var(--warning);
   border-color: var(--warning);
 }
 
-.proposal-status.green {
+.proposal-status.passed {
   color: var(--success);
   border-color: var(--success);
 }
 
-.proposal-status.pink {
+.proposal-status.votingperiod {
   color: var(--tertiary);
   border-color: var(--tertiary);
 }
