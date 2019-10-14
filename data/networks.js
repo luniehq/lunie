@@ -77,7 +77,7 @@ const testnet = {
   title: 'Testnet'
 }
 
-if (process.env.NODE_ENV === 'development') {
+if (process.env.TESTNET === 'true') {
   networks.testnet = testnet
 }
 
