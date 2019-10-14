@@ -26,7 +26,7 @@ const networks = {
   },
   cosmoshub: {
     api_url: 'https://lcd.nylira.net',
-    rpc_url: 'ws://rpc.nylira.net/websocket',
+    rpc_url: 'wss://rpc.nylira.net/websocket',
     action_claim_rewards: true,
     action_delegate: true,
     action_deposit: true,
