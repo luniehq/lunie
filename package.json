@@ -21,7 +21,7 @@
     "graphql": "^14.5.8",
     "lodash": "^4.17.15",
     "nodemon": "^1.19.2",
-    "tendermint": "^4.0.8"
+    "websocket": "^1.0.30"
   },
   "devDependencies": {
     "eslint": "^6.5.1",
