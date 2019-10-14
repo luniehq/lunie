@@ -103,7 +103,7 @@ describe(`LiProposal`, () => {
         description: `Proposal description`
       }
     })
-    expect(wrapper.vm.description).toEqual(`Proposal description`)
+    expect(wrapper.html()).toContain(`Proposal description`)
   })
 
   it(`should truncate the description and add an ellipsis`, () => {
@@ -113,7 +113,7 @@ describe(`LiProposal`, () => {
         description: `This is some kind of long description. longer than 200 characters for optimum-maximum-ideal truncation. This is some kind of long description. longer than 200 characters for optimum-maximum-ideal truncation.`
       }
     })
-    expect(wrapper.vm.description).toEqual(
+    expect(wrapper.html()).toContain(
       `This is some kind of long description. longer than 200 characters for optimum-maximum-ideal truncation. This is some kind of long description. longer than 200 characters for optimum-maximum-ideal trun…`
     )
   })
