@@ -272,5 +272,4 @@ export default {
 #edit-memo-btn {
   margin-top: 2.4rem;
 }
-
 </style>

@@ -641,7 +641,7 @@ export default {
         this.title,
         this.selectedSignMethod
       )
-      this.$store.dispatch(`post${txType}`, {
+      this.$emit(`txIncluded`, {
         txProps: transactionProperties,
         txMeta: feeProperties
       })

@@ -73,7 +73,7 @@
 import { mapState } from "vuex"
 import { prettyInt } from "scripts/num"
 import TmBtn from "common/TmBtn"
-import { NewBlockSubscription } from "src/gql"
+import { NewBlockSubscription, Block } from "src/gql"
 import gql from "graphql-tag"
 
 export default {
@@ -100,38 +100,15 @@ export default {
   },
   apollo: {
     block: {
-      query: gql`
-        query Block($networkId: String!) {
-          block(networkId: $networkId) {
-            height
-            chainId
-          }
-        }
-      `,
-      variables() {
-        return {
-          networkId: this.network
-        }
+      query() {
+        return Block(this.network)
       },
       update: result => result.block
     },
     $subscribe: {
       blockAdded: {
-        query: gql`
-          subscription BLockAdded($networkId: String!) {
-            blockAdded(networkId: $networkId) {
-              height
-              hash
-              chainId
-              time
-              numTxs
-            }
-          }
-        `,
-        variables() {
-          return {
-            networkId: this.network
-          }
+        query() {
+          return NewBlockSubscription(this.network)
         },
         result({ data }) {
           this.block = data.blockAdded

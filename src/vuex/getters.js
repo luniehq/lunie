@@ -85,13 +85,6 @@ export const bondDenom = state =>
     state.stakingParameters.parameters.bond_denom) ||
   `uatom`
 
-// governance
-export const depositDenom = state =>
-  state.governanceParameters.loaded &&
-  state.governanceParameters.parameters.deposit.min_deposit
-    ? state.governanceParameters.parameters.deposit.min_deposit[0].denom
-    : `uatom`
-
 // connection
 export const connected = state => state.connection.connected
 export const lastHeader = state => state.connection.lastHeader

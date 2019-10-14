@@ -69,6 +69,17 @@ describe(`ModalPropose`, () => {
     expect(self.amount).toBe(0)
   })
 
+  it(`sends an event on success`, () => {
+    const self = {
+      $emit: jest.fn()
+    }
+    ModalPropose.methods.onSuccess.call(self)
+    expect(self.$emit).toHaveBeenCalledWith(
+      "success",
+      expect.objectContaining({})
+    )
+  })
+
   describe(`validation`, () => {
     describe(`fails`, () => {
       it(`with the default values`, () => {

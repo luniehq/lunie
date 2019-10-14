@@ -1,6 +1,6 @@
 const dev = process.env.NODE_ENV === `development`
 const stargate = process.env.STARGATE || `http://localhost:9071`
-const rpc = process.env.RPC || `localhost:26657`
+const rpc = process.env.RPC || `ws://localhost:26657/websocket`
 
 export default {
   name: `Lunie`,
@@ -17,7 +17,7 @@ export default {
   CosmosAppTestModeAllowed: false,
   mobileApp: Boolean(process.env.MOBILE_APP),
 
-  graphqlHost: process.env.VUE_APP_GRAPHQL_URL,
+  graphqlHost: process.env.VUE_APP_GRAPHQL_URL || "localhost:4000",
 
   e2e: process.env.VUE_APP_E2E
 }

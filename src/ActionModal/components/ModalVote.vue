@@ -9,6 +9,7 @@
     :transaction-data="transactionData"
     :notify-message="notifyMessage"
     @close="clear"
+    @txIncluded="onSuccess"
   >
     <div class="action-modal-group vote-options">
       <div>
@@ -136,6 +137,9 @@ export default {
       this.$v.$reset()
 
       this.vote = null
+    },
+    onSuccess(event) {
+      this.$emit(`success`, event)
     }
   }
 }
