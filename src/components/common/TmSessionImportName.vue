@@ -6,9 +6,12 @@
       </h2>
       <div class="session-main">
         <Steps
-          :steps="[`Recover`, `Confirm`, `Name`, `Password`, `Success`]"
+          :steps="[`Recover`, `Name`, `Password`, `Success`]"
           active-step="Name"
         />
+        <TmFormGroup field-id="import-name" field-label="Your Address">
+          <pre>{{ importCosmosAddress }}</pre>
+        </TmFormGroup>
         <TmFormGroup
           :error="$v.$error && $v.name.$invalid"
           field-id="import-name"
@@ -63,6 +66,9 @@ export default {
     TmFormStruct,
     Steps
   },
+  data: () => ({
+    importCosmosAddress: {}
+  }),
   computed: {
     ...mapGetters([`connected`, `recover`]),
     name: {
@@ -73,6 +79,12 @@ export default {
         this.$store.commit(`updateField`, { field: `name`, value })
       }
     }
+  },
+  async created() {
+    this.importCosmosAddress = await this.$store.dispatch(
+      `getAddressFromSeed`,
+      this.$store.state.recover.seed
+    )
   },
   methods: {
     onSubmit() {

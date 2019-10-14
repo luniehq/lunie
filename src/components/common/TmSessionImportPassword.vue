@@ -6,7 +6,7 @@
       </h2>
       <div class="session-main">
         <Steps
-          :steps="[`Recover`, `Confirm`, `Name`, `Password`, `Success`]"
+          :steps="[`Recover`, `Name`, `Password`, `Success`]"
           active-step="Password"
         />
         <TmFormGroup

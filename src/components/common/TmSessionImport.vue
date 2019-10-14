@@ -6,7 +6,7 @@
       </h2>
       <div class="session-main">
         <Steps
-          :steps="[`Recover`, `Confirm`, `Name`, `Password`, `Success`]"
+          :steps="[`Recover`, `Name`, `Password`, `Success`]"
           active-step="Recover"
         />
         <TmFormGroup
@@ -80,7 +80,7 @@ export default {
     onSubmit() {
       this.$v.$touch()
       if (this.$v.seed.$invalid || this.$v.seed.$invalid) return
-      this.$router.push("/recover/confirm")
+      this.$router.push("/recover/name")
     }
   },
   validations: () => ({
