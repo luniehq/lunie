@@ -5,6 +5,10 @@
         Recover with backup code
       </h2>
       <div class="session-main">
+        <Steps
+          :steps="[`Recover`, `Confirm`, `Name`, `Password`, `Success`]"
+          active-step="Confirm"
+        />
         <TmFormGroup field-id="import-name" field-label="Address">
           <pre>{{ importCosmosAddress }}</pre>
         </TmFormGroup>
@@ -22,13 +26,16 @@ import TmFormGroup from "common/TmFormGroup"
 import TmFormStruct from "common/TmFormStruct"
 import SessionFrame from "common/SessionFrame"
 import { mapGetters } from "vuex"
+import Steps from "../../ActionModal/components/Steps"
+
 export default {
   name: `session-import`,
   components: {
     TmBtn,
     SessionFrame,
     TmFormGroup,
-    TmFormStruct
+    TmFormStruct,
+    Steps
   },
   data: () => ({
     importCosmosAddress: {}

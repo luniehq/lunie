@@ -5,6 +5,10 @@
         Recover with backup code
       </h2>
       <div class="session-main">
+        <Steps
+          :steps="[`Recover`, `Confirm`, `Name`, `Password`, `Success`]"
+          active-step="Password"
+        />
         <TmFormGroup
           :error="$v.$error && $v.password.$invalid"
           field-id="import-password"
@@ -64,6 +68,8 @@ import TmField from "common/TmField"
 import TmFormMsg from "common/TmFormMsg"
 import SessionFrame from "common/SessionFrame"
 import { mapState } from "vuex"
+import Steps from "../../ActionModal/components/Steps"
+
 export default {
   name: `session-import-password`,
   components: {
@@ -72,7 +78,8 @@ export default {
     SessionFrame,
     TmFormGroup,
     TmFormMsg,
-    TmFormStruct
+    TmFormStruct,
+    Steps
   },
   computed: {
     ...mapState([`recover`]),

@@ -5,6 +5,10 @@
         Recover with backup code
       </h2>
       <div class="session-main">
+        <Steps
+          :steps="[`Recover`, `Confirm`, `Name`, `Password`, `Success`]"
+          active-step="Recover"
+        />
         <TmFormGroup
           :error="$v.$error && $v.seed.$invalid"
           field-id="import-seed"
@@ -44,6 +48,7 @@ import TmFormMsg from "common/TmFormMsg"
 import FieldSeed from "common/TmFieldSeed"
 import SessionFrame from "common/SessionFrame"
 import { mapGetters } from "vuex"
+import Steps from "../../ActionModal/components/Steps"
 
 const words24 = param => {
   return param && param.split(` `).length === 24
@@ -57,7 +62,8 @@ export default {
     FieldSeed,
     TmFormGroup,
     TmFormMsg,
-    TmFormStruct
+    TmFormStruct,
+    Steps
   },
   computed: {
     ...mapGetters([`recover`]),
