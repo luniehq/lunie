@@ -55,8 +55,9 @@
   font-size: var(--h2);
   line-height: 44px;
   color: var(--bright);
-  font-weight: 600;
-  padding: 1rem 0 0;
+  font-weight: 400;
+  padding: 1rem 0 2rem 0;
+  text-align: center;
 }
 
 .session-image {
