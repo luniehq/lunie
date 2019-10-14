@@ -92,7 +92,7 @@ describe(`PanelSort`, () => {
       wrapper.setProps({ showOnMobile: "amount" })
       const numHidden = wrapper.findAll("th").filter(w => w.classes("hide-xs"))
         .length
-      expect(numHidden).toBe(1)
+      expect(numHidden).toBe(2)
     })
   })
 })

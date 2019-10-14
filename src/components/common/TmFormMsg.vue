@@ -130,13 +130,13 @@ export default {
 
 .tm-form-msg--error {
   display: flex;
+  padding-top: 0.25rem;
 }
 
 .tm-form-msg.tm-form-msg--error {
   color: var(--danger);
   font-style: italic;
   font-weight: 500;
-  position: absolute;
 }
 
 .tm-form-msg.tm-form-msg--error::before {

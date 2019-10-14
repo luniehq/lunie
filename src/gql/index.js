@@ -4,7 +4,8 @@ import gql from "graphql-tag"
 
 export const schemaMap = {
   cosmoshub: "",
-  [`gaia-testnet`]: "gaia_testnet_"
+  [`gaia-testnet`]: "gaia_testnet_",
+  testnet: "gaia_testnet_"
 }
 
 const ValidatorFragment = `
@@ -16,6 +17,7 @@ const ValidatorFragment = `
     id
     identity
     jailed
+    tombstoned
     keybaseId
     lastUpdated
     max_change_rate
@@ -34,6 +36,7 @@ const ValidatorFragment = `
     userName
     voting_power
     website
+    start_height
 `
 
 export const AllValidators = schema => gql`
