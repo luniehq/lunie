@@ -77,6 +77,6 @@ describe(`TmSessionImport`, () => {
   it(`should go to /recover/confirm when submit the form`, async () => {
     wrapper.vm.$store.state.recover.seed = `asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf`
     wrapper.vm.onSubmit()
-    expect(wrapper.vm.$router.push).toHaveBeenCalledWith(`/recover/confirm`)
+    expect(wrapper.vm.$router.push).toHaveBeenCalledWith(`/recover/name`)
   })
 })

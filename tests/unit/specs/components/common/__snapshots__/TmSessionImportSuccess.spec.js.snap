@@ -15,6 +15,11 @@ exports[`TmSessionImportSuccess has the expected html structure 1`] = `
   <div
     class="session-main"
   >
+    <steps-stub
+      activestep="Success"
+      steps="Recover,Name,Password,Success"
+    />
+     
     <p>
       Your account has been created
     </p>

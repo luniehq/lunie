@@ -18,6 +18,11 @@ exports[`TmSessionSignUpSeed renders 1`] = `
       <div
         class="session-main"
       >
+        <steps-stub
+          activestep="Seed"
+          steps="Create,Password,Seed,Success"
+        />
+         
         <tmformgroup-stub
           class="sign-up-seed-group"
           fieldid="sign-up-seed"

@@ -17,6 +17,20 @@ exports[`TmSessionImportName has the expected html structure 1`] = `
     <div
       class="session-main"
     >
+      <steps-stub
+        activestep="Name"
+        steps="Recover,Name,Password,Success"
+      />
+       
+      <tmformgroup-stub
+        fieldid="import-name"
+        fieldlabel="Your Address"
+      >
+        <pre>
+          true
+        </pre>
+      </tmformgroup-stub>
+       
       <tmformgroup-stub
         fieldid="import-name"
         fieldlabel="Account Name"

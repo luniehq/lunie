@@ -17,6 +17,11 @@ exports[`TmSessionImport has the expected html structure 1`] = `
     <div
       class="session-main"
     >
+      <steps-stub
+        activestep="Recover"
+        steps="Recover,Name,Password,Success"
+      />
+       
       <tmformgroup-stub
         fieldid="import-seed"
         fieldlabel="Backup code"

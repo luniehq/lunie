@@ -15,6 +15,11 @@ exports[`TmSessionSignUpSuccess renders 1`] = `
   <div
     class="session-main"
   >
+    <steps-stub
+      activestep="Success"
+      steps="Create,Password,Seed,Success"
+    />
+     
     <p>
       Your account has been created
     </p>

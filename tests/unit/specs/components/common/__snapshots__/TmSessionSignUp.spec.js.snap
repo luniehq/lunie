@@ -18,6 +18,11 @@ exports[`TmSessionSignUp renders 1`] = `
       <div
         class="session-main"
       >
+        <steps-stub
+          activestep="Create"
+          steps="Create,Password,Seed,Success"
+        />
+         
         <dangerzonewarning-stub />
          
         <tmformgroup-stub
