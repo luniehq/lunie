@@ -6,12 +6,37 @@ describe(`TmSessionSignUpSuccess`, () => {
   const localVue = createLocalVue()
   localVue.use(Vuelidate)
 
-  let wrapper
+  let wrapper, $store
 
   beforeEach(() => {
+    $store = {
+      state: {
+        session: { insecureMode: true },
+        signup: {
+          signUpName: ``,
+          signUpSeed: `Creating seed...`,
+          signUpPassword: ``,
+          signUpPasswordConfirm: ``,
+          signUpWarning: false
+        }
+      },
+      commit: jest.fn(),
+      dispatch: jest.fn(),
+      mutations: {
+        updateField: jest.fn()
+      }
+    }
+
     wrapper = shallowMount(TmSessionSignUpSuccess, {
       localVue,
-      stubs: [`router-link`]
+      mocks: {
+        $store,
+        $router: {
+          push: jest.fn()
+        }
+      },
+      stubs: [`router-link`],
+      sync: false
     })
   })
 

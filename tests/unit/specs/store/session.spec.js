@@ -84,7 +84,7 @@ describe(`Module: Session`, () => {
     })
 
     it(`should activate insecure mode`, () => {
-      mutations.setInsecureMode(state)
+      mutations.setInsecureMode(state, true)
       expect(state.insecureMode).toBe(true)
     })
 
