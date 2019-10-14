@@ -6,7 +6,7 @@
     <div class="session-main">
       <Steps
         :steps="[`Recover`, `Name`, `Password`, `Success`]"
-        active-step="Password"
+        active-step="Success"
       />
       <p>Your account has been created</p>
     </div>
