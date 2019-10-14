@@ -1,3 +1,5 @@
+const config = require('../config')
+
 let networks = {
   'gaia-testnet': {
     api_url: 'https://gaia-13006.lunie.io',
@@ -77,7 +79,7 @@ const testnet = {
   title: 'Testnet'
 }
 
-if (process.env.TESTNET === 'true') {
+if (config.enableTestnet) {
   networks.testnet = testnet
 }
 
