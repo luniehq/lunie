@@ -6,6 +6,10 @@
       </h2>
       <div v-if="session.insecureMode">
         <div class="session-main">
+          <Steps
+            :steps="[`Create`, `Password`, `Seed`, `Success`]"
+            active-step="Seed"
+          />
           <TmFormGroup
             field-id="sign-up-seed"
             class="sign-up-seed-group"
@@ -57,6 +61,7 @@ import TmFormMsg from "common/TmFormMsg"
 import FieldSeed from "common/TmFieldSeed"
 import SessionFrame from "common/SessionFrame"
 import InsecureModeWarning from "common/InsecureModeWarning"
+import Steps from "../../ActionModal/components/Steps"
 
 export default {
   name: `session-sign-up`,
@@ -67,7 +72,8 @@ export default {
     TmFormGroup,
     TmFormMsg,
     TmFormStruct,
-    InsecureModeWarning
+    InsecureModeWarning,
+    Steps
   },
   computed: {
     ...mapState([`session`, `signup`]),

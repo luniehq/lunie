@@ -4,6 +4,10 @@
       Success!
     </h2>
     <div class="session-main">
+      <Steps
+        :steps="[`Create`, `Password`, `Seed`, `Success`]"
+        active-step="Success"
+      />
       <p>Your account has been created</p>
     </div>
     <div class="session-footer">
@@ -16,11 +20,14 @@
 import { mapState } from "vuex"
 import TmBtn from "common/TmBtn"
 import SessionFrame from "common/SessionFrame"
+import Steps from "../../ActionModal/components/Steps"
+
 export default {
   name: `session-sign-up`,
   components: {
     TmBtn,
-    SessionFrame
+    SessionFrame,
+    Steps
   },
   computed: {
     ...mapState([`signup`])
