@@ -189,24 +189,6 @@ export default [
     }
   },
   {
-    path: `/recover/confirm`,
-    name: `recover-confirm`,
-    components: {
-      session: require(`./components/common/TmSessionImportConfirmAddress`)
-        .default
-    },
-    meta: {
-      feature: "Session"
-    },
-    beforeEnter: (to, from, next) => {
-      if (from.name === `recover`) {
-        next()
-      } else {
-        next({ path: `/recover` })
-      }
-    }
-  },
-  {
     path: `/recover/name`,
     name: `recover-name`,
     components: {
@@ -216,7 +198,7 @@ export default [
       feature: "Session"
     },
     beforeEnter: (to, from, next) => {
-      if (from.name === `recover-confirm`) {
+      if (from.name === `recover`) {
         next()
       } else {
         next({ path: `/recover` })
