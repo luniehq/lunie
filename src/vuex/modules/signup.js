@@ -14,13 +14,7 @@ export default () => {
       state[payload.field] = payload.value
     },
     resetSignUpData(state) {
-      state = {
-        signUpName: ``,
-        signUpSeed: `Creating seed...`,
-        signUpPassword: ``,
-        signUpPasswordConfirm: ``,
-        signUpWarning: false
-      }
+      Object.assign(state, emptyState)
     }
   }
   const actions = {
