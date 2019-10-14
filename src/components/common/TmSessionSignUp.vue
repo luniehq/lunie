@@ -6,6 +6,10 @@
       </h2>
       <div v-if="session.insecureMode">
         <div class="session-main">
+          <Steps
+            :steps="[`SignUp`, `Password`, `Seed`, `Success`]"
+            active-step="SignUp"
+          />
           <DangerZoneWarning />
           <TmFormGroup
             :error="$v.fieldName.$error"
@@ -54,6 +58,7 @@ import TmFormMsg from "common/TmFormMsg"
 import SessionFrame from "common/SessionFrame"
 import DangerZoneWarning from "common/DangerZoneWarning"
 import InsecureModeWarning from "common/InsecureModeWarning"
+import Steps from "./Steps"
 
 export default {
   name: `session-sign-up`,
@@ -65,7 +70,8 @@ export default {
     TmFormMsg,
     TmFormStruct,
     DangerZoneWarning,
-    InsecureModeWarning
+    InsecureModeWarning,
+    Steps
   },
   computed: {
     ...mapState([`session`, `signup`]),
