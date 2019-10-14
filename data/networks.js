@@ -24,7 +24,8 @@ let networks = {
     id: 'gaia-testnet',
     logo_url: 'https://s3.amazonaws.com/network.logos/cosmos-logo.png',
     testnet: true,
-    title: 'Gaia Testnet'
+    title: 'Gaia Testnet',
+    defaultDenom: 'STAKE'
   },
   cosmoshub: {
     api_url: 'https://lcd.nylira.net',
@@ -49,7 +50,8 @@ let networks = {
     id: 'cosmoshub',
     logo_url: 'https://s3.amazonaws.com/network.logos/cosmos-logo.png',
     testnet: false,
-    title: 'Cosmos Hub'
+    title: 'Cosmos Hub',
+    defaultDenom: 'ATOM'
   }
 }
 
@@ -76,7 +78,8 @@ const testnet = {
   id: 'testnet',
   logo_url: 'https://s3.amazonaws.com/network.logos/cosmos-logo.png',
   testnet: false,
-  title: 'Testnet'
+  title: 'Testnet',
+  defaultDenom: 'STAKE'
 }
 
 if (config.enableTestnet) {
