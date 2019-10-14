@@ -58,7 +58,7 @@ import TmFormMsg from "common/TmFormMsg"
 import SessionFrame from "common/SessionFrame"
 import DangerZoneWarning from "common/DangerZoneWarning"
 import InsecureModeWarning from "common/InsecureModeWarning"
-import Steps from "common/Steps"
+import Steps from "ActionModal/components/Steps"
 
 export default {
   name: `session-sign-up`,
