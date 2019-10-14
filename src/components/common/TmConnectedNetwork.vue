@@ -73,7 +73,7 @@
 import { mapState } from "vuex"
 import { prettyInt } from "scripts/num"
 import TmBtn from "common/TmBtn"
-import { NewBlockSubscription } from "src/gql"
+import { NewBlockSubscription, Block } from "src/gql"
 import gql from "graphql-tag"
 
 export default {
@@ -86,6 +86,9 @@ export default {
   },
   computed: {
     ...mapState([`connection`]),
+    ...mapState({
+      network: state => state.connection.network
+    }),
     networkTooltip() {
       if (this.connection.connected) {
         return `You're connected to ${this.block.chainId}.`
@@ -99,19 +102,16 @@ export default {
   }),
   apollo: {
     block: {
-      query: gql`
-        query Block {
-          block {
-            height
-            chainId
-          }
-        }
-      `,
+      query() {
+        return Block(this.network)
+      },
       update: result => result.block
     },
     $subscribe: {
       blockAdded: {
-        query: NewBlockSubscription,
+        query() {
+          return NewBlockSubscription(this.network)
+        },
         result({ data }) {
           this.block = data.blockAdded
         }

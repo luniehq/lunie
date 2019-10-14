@@ -166,9 +166,18 @@ export const proposalResult = schema => data => {
   return data[`${schemaMap[schema]}proposal`]
 }
 
-export const NewBlockSubscription = () => gql`
+export const Block = networkId => gql`
+query Block {
+  block(networkId: "${networkId}") {
+    height
+    chainId
+  }
+}
+`
+
+export const NewBlockSubscription = networkId => gql`
   subscription {
-    blockAdded {
+    blockAdded(networkId: "${networkId}") {
       height
       hash
       chainId
