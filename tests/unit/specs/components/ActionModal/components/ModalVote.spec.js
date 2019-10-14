@@ -55,6 +55,17 @@ describe(`ModalVote`, () => {
     expect(self.vote).toBeNull()
   })
 
+  it(`sends an event on success`, () => {
+    const self = {
+      $emit: jest.fn()
+    }
+    ModalVote.methods.onSuccess.call(self)
+    expect(self.$emit).toHaveBeenCalledWith(
+      "success",
+      expect.objectContaining({})
+    )
+  })
+
   describe(`validation`, () => {
     it(`fails`, () => {
       // default values
