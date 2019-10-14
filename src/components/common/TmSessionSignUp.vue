@@ -7,9 +7,8 @@
       <div v-if="session.insecureMode">
         <div class="session-main">
           <Steps
-            v-if="[defaultStep, feeStep, signStep].includes(step)"
             :steps="[`SignUp`, `Password`, `Seed`, `Success`]"
-            :active-step="defaultStep"
+            active-step="SignUp"
           />
           <DangerZoneWarning />
           <TmFormGroup
@@ -74,9 +73,6 @@ export default {
     InsecureModeWarning,
     Steps
   },
-  data: () => ({
-    step: defaultStep
-  }),
   computed: {
     ...mapState([`session`, `signup`]),
     fieldName: {
