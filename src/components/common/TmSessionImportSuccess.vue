@@ -11,7 +11,7 @@
       <p>Your account has been created</p>
     </div>
     <div class="session-footer">
-      <TmBtn value="Back to Lunie" @click.native="$router.push('/')" />
+      <TmBtn value="Go to Lunie" @click.native="$router.push('/')" />
     </div>
   </SessionFrame>
 </template>
