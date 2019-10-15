@@ -8,7 +8,7 @@
       size="small"
     />
     <div
-      v-if="connection.connected"
+      v-if="!$apollo.queries.block.loading"
       id="tm-connected-network"
       class="tm-connected-network"
     >
