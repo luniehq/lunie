@@ -6,6 +6,8 @@
   "scripts": {
     "dev": "NODE_ENV=development nodemon index.js",
     "dev-cache": "NODE_ENV=development ENABLE_CACHE=true nodemon index.js",
+    "lint": "eslint index.js lib data",
+    "lint-fix": "npm run lint --fix",
     "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },

@@ -50,8 +50,7 @@ let networks = {
     id: 'cosmoshub',
     logo_url: 'https://s3.amazonaws.com/network.logos/cosmos-logo.png',
     testnet: false,
-    title: 'Cosmos Hub',
-    defaultDenom: 'ATOM'
+    title: 'Cosmos Hub'
   }
 }
 
