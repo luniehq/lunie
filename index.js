@@ -3,20 +3,29 @@ const typeDefs = require('./lib/schema')
 const resolvers = require('./lib/resolvers')
 const CosmosAPI = require('./lib/cosmos-source')
 const GaiaAPI = require('./lib/gaia-source')
+const LunieDBAPI = require('./lib/luniedb-source')
 const { networks } = require('./data/networks')
 const config = require('./config')
 
 const cosmosApi = new CosmosAPI(networks['cosmoshub'])
 const gaiaApi = new GaiaAPI(networks['gaia-testnet'])
+const lunieDBAPI = new LunieDBAPI()
+
+const dataSources = {
+  CosmosAPI: cosmosApi,
+  GaiaAPI: gaiaApi,
+  LunieDBAPI: lunieDBAPI,
+  networks
+}
+if (config.enableTestnet) {
+  const testnetAPI = new CosmosAPI(networks['testnet'])
+  dataSources.TestnetAPI = testnetAPI
+}
 
 let options = {
   typeDefs,
   resolvers,
-  dataSources: () => ({
-    CosmosAPI: cosmosApi,
-    GaiaAPI: gaiaApi,
-    networks
-  }),
+  dataSources: () => dataSources,
   cacheControl: {
     defaultMaxAge: 5000
   },
