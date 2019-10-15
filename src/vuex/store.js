@@ -98,10 +98,6 @@ function persistState(state) {
     },
     stakingParameters: state.stakingParameters,
     pool: state.pool,
-    proposals: state.proposals,
-    deposits: state.deposits,
-    votes: state.votes,
-    governanceParameters: state.governanceParameters,
     session: {
       address: state.session.address
     }
@@ -163,15 +159,7 @@ export async function loadPersistedState({ state, dispatch }) {
         loaded: true,
         loading: false
       },
-      proposals: {
-        loaded: true,
-        loading: false
-      },
       pool: {
-        loaded: true,
-        loading: false
-      },
-      governanceParameters: {
         loaded: true,
         loading: false
       },

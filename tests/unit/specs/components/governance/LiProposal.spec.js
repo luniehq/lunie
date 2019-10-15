@@ -1,25 +1,20 @@
 import { shallowMount, createLocalVue } from "@vue/test-utils"
 import LiProposal from "src/components/governance/LiProposal"
 
-import { proposals, tallies } from "../../store/json/proposals"
+import { proposals } from "../../store/json/proposals"
 
 const proposal = proposals[`1`]
 
 describe(`LiProposal`, () => {
   const localVue = createLocalVue()
-  localVue.directive(`tooltip`, () => {})
+  localVue.directive(`tooltip`, () => { })
 
   let wrapper
 
   beforeEach(() => {
     const $store = {
       commit: jest.fn(),
-      dispatch: jest.fn(),
-      state: {
-        proposals: {
-          tallies
-        }
-      }
+      dispatch: jest.fn()
     }
 
     wrapper = shallowMount(LiProposal, {
@@ -40,7 +35,7 @@ describe(`LiProposal`, () => {
     wrapper.setProps({
       proposal: {
         ...proposal,
-        proposal_status: `Passed`
+        status: `Passed`
       }
     })
     expect(wrapper.vm.status).toEqual({
@@ -53,7 +48,7 @@ describe(`LiProposal`, () => {
     wrapper.setProps({
       proposal: {
         ...proposal,
-        proposal_status: `Rejected`
+        status: `Rejected`
       }
     })
     expect(wrapper.vm.status).toEqual({
@@ -66,7 +61,7 @@ describe(`LiProposal`, () => {
     wrapper.setProps({
       proposal: {
         ...proposal,
-        proposal_status: `VotingPeriod`
+        status: `VotingPeriod`
       }
     })
     expect(wrapper.vm.status).toEqual({
@@ -79,7 +74,7 @@ describe(`LiProposal`, () => {
     wrapper.setProps({
       proposal: {
         ...proposal,
-        proposal_status: `DepositPeriod`
+        status: `DepositPeriod`
       }
     })
     expect(wrapper.vm.status).toEqual({
@@ -92,7 +87,7 @@ describe(`LiProposal`, () => {
     wrapper.setProps({
       proposal: {
         ...proposal,
-        proposal_status: `Unknown`
+        status: `Unknown`
       }
     })
     expect(wrapper.vm.status).toEqual({
@@ -102,21 +97,23 @@ describe(`LiProposal`, () => {
   })
 
   it(`should not truncate the description or add an ellipsis`, () => {
-    expect(wrapper.vm.description).toEqual(`Proposal description`)
+    wrapper.setProps({
+      proposal: {
+        ...proposal,
+        description: `Proposal description`
+      }
+    })
+    expect(wrapper.html()).toContain(`Proposal description`)
   })
 
   it(`should truncate the description and add an ellipsis`, () => {
     wrapper.setProps({
       proposal: {
         ...proposal,
-        proposal_content: {
-          value: {
-            description: `This is some kind of long description. longer than 200 characters for optimum-maximum-ideal truncation. This is some kind of long description. longer than 200 characters for optimum-maximum-ideal truncation.`
-          }
-        }
+        description: `This is some kind of long description. longer than 200 characters for optimum-maximum-ideal truncation. This is some kind of long description. longer than 200 characters for optimum-maximum-ideal truncation.`
       }
     })
-    expect(wrapper.vm.description).toEqual(
+    expect(wrapper.html()).toContain(
       `This is some kind of long description. longer than 200 characters for optimum-maximum-ideal truncation. This is some kind of long description. longer than 200 characters for optimum-maximum-ideal trun…`
     )
   })

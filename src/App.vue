@@ -22,7 +22,7 @@ import { mapState } from "vuex"
 import AppHeader from "common/AppHeader"
 import MobileMenu from "common/MobileMenu"
 import CookieBar from "common/CookieBar"
-import MaintenanceBar from "common/MaintenanceBar"
+// import MaintenanceBar from "common/MaintenanceBar"
 import DisconnectedBar from "common/DisconnectedBar"
 import TmNotifications from "common/TmNotifications"
 import store from "./vuex/store"
@@ -33,7 +33,7 @@ export default {
     AppHeader,
     TmNotifications,
     CookieBar,
-    MaintenanceBar,
+    // MaintenanceBar,
     DisconnectedBar,
     MobileMenu
   },

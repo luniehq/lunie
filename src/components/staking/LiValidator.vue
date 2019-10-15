@@ -23,14 +23,14 @@
     </td>
     <td class="data-table__row__info">
       <Avatar
-        v-if="!validator || !validator.avatarUrl"
+        v-if="!validator || !validator.picture"
         class="li-validator-image"
         alt="generic validator logo - generated avatar from address"
         :address="validator.operatorAddress"
       />
       <img
-        v-else-if="validator && validator.avatarUrl"
-        :src="validator.avatarUrl"
+        v-else-if="validator && validator.picture"
+        :src="validator.picture"
         class="li-validator-image"
         :alt="`validator logo for ` + validator.moniker"
       />

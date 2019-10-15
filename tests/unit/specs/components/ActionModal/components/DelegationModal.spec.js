@@ -25,7 +25,7 @@ describe(`DelegationModal`, () => {
   const state = {
     session: {
       signedIn: true,
-      address: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw`,
+      address: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw`
     }
   }
 

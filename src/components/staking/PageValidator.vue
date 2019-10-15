@@ -104,7 +104,7 @@
         <li>
           <h4>Self Stake</h4>
           <span id="page-profile__self-bond">
-            {{ selfStake }} / {{ selfStakeAmount }}
+            {{ selfStake.amount }} / {{ selfStakeAmount }}
           </span>
         </li>
         <li>
@@ -144,7 +144,7 @@
       />
       <UndelegationModal
         ref="undelegationModal"
-        :maximum="delegation.shares"
+        :maximum="validator.amount"
         :to="session.signedIn ? session.address : ``"
         :validator="validator"
         :denom="balance.denom"
@@ -224,11 +224,9 @@ export default {
   },
   data: () => ({
     validator: {},
-    bondedTokens: 0,
     rewards: 0,
     delegation: {},
     delegations: [],
-    annualProvision: 0.0
   }),
   computed: {
     ...mapState([`delegates`, `session`]),
@@ -236,16 +234,16 @@ export default {
     ...mapGetters([`committedDelegations`]),
     selfStake() {
       return percent(
-        this.validator.selfStake.shares / this.validator.delegatorShares
+        this.validator.selfStake.amount || 0
       )
     },
     selfStakeAmount() {
       return shortDecimals(
-        uatoms(this.validator.selfStake.shares / this.validator.delegatorShares)
+        uatoms(this.validator.selfStake.amount || 0)
       )
     },
     myDelegation() {
-      if (this.delegation.shares && this.delegation.shares !== 0) {
+      if (this.delegation.amount && this.delegation.amount !== 0) {
         const myDelegation = shortDecimals(atoms(this.delegation.shares))
         return `${myDelegation} ${viewDenom(this.balance.denom)}`
       }
@@ -261,11 +259,7 @@ export default {
         : moment(dateTime).fromNow()
     },
     returns() {
-      return expectedReturns(
-        this.validator,
-        this.bondedTokens,
-        this.annualProvision
-      )
+      return this.validator.expectedReturns
     }
   },
   // watch: {
@@ -289,7 +283,7 @@ export default {
   //   }
   // },
   updated() {
-    // console.log("delegations", this.committedDelegations, this.delegations)
+    console.log("validator", this.validator, this.delegations)
   },
   methods: {
     shortDecimals,
@@ -337,19 +331,6 @@ export default {
     }
   },
   apollo: {
-    annualProvision: {
-      query: gql`
-        query annualProvision($networkId: String!) {
-          annualProvision(networkId: $networkId)
-        }
-      `,
-      variables() {
-        return {
-          networkId: this.network
-        }
-      },
-      update: result => parseFloat(result.annualProvision)
-    },
     balance: {
       query: gql`
         query balance($networkId: String!, $address: String!) {
@@ -384,7 +365,7 @@ export default {
           ) {
             delegatorAddress
             validatorAddress
-            shares
+            amount
           }
         }
       `,
@@ -398,7 +379,7 @@ export default {
       update: result => {
         return {
           ...result.delegation,
-          shares: Number(result.delegation.shares)
+          amount: Number(result.delegation.amount)
         }
       }
     },
@@ -409,7 +390,7 @@ export default {
             networkId: $networkId
             delegatorAddress: $delegatorAddress
           ) {
-            shares
+            amount
             validatorAddress
             delegatorAddress
           }
@@ -425,7 +406,7 @@ export default {
         return Array.isArray(result.delegations)
           ? result.delegations.map(delegation => ({
               ...delegation,
-              shares: Number(delegation.shares)
+              amount: Number(delegation.amount || 0)
             }))
           : []
       }
@@ -456,19 +437,6 @@ export default {
       },
       update: result => result.rewards
     },
-    bondedTokens: {
-      query: gql`
-        query bondedTokens($networkId: String!) {
-          bondedTokens(networkId: $networkId)
-        }
-      `,
-      variables() {
-        return {
-          networkId: this.network
-        }
-      },
-      update: result => parseInt(result.bondedTokens)
-    },
     validator: {
       query: gql`
         query validator($networkId: String!, $operatorAddress: String!) {
@@ -490,9 +458,8 @@ export default {
             maxChangeCommission
             status
             statusDetailed
-            delegatorShares
             selfStake {
-              shares
+              amount
             }
           }
         }
@@ -503,10 +470,16 @@ export default {
           operatorAddress: this.$route.params.validator
         }
       },
-      update: result => ({
-        ...result.validator,
-        statusDetailed: getStatusText(result.validator.statusDetailed)
-      })
+      update: result => {
+        console.log(result)
+        return ({
+          ...result.validator,
+          statusDetailed: getStatusText(result.validator.statusDetailed),
+          selfStake: {
+            amount: 0
+          }
+        })
+      }
     }
   }
 }
