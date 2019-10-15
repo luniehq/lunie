@@ -17,6 +17,19 @@ export default new Vuex.Store({
     signRequest: null,
     session: {
       insecureMode: true
+    },
+    signup: {
+      signUpName: ``,
+      signUpPassword: ``,
+      signUpPasswordConfirm: ``,
+      signUpWarning: true,
+      signUpSeed: ``
+    },
+    recover: {
+      seed: ``,
+      name: ``,
+      password: ``,
+      passwordConfirm: ``
     }
   },
   getters,
