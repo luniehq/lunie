@@ -2,21 +2,21 @@
   <div class="balance-header">
     <div class="values-container">
       <div class="total-atoms">
-        <h3>Total {{ bondDenom | viewDenom }}</h3>
+        <h3>Total {{ metaData.stakingDenom }}</h3>
         <h2 class="total-atoms__value">
-          {{ totalAtomsDisplay }}
+          {{ overview.totalStake | shortDecimals }}
         </h2>
       </div>
 
       <div class="row small-container">
         <div class="available-atoms">
-          <h3>Available {{ bondDenom | viewDenom }}</h3>
-          <h2>{{ unbondedAtoms }}</h2>
+          <h3>Available {{ metaData.stakingDenom }}</h3>
+          <h2>{{ overview.liquidStake | shortDecimals }}</h2>
         </div>
 
-        <div v-if="rewards" class="rewards">
+        <div v-if="overview.totalRewards" class="rewards">
           <h3>Total Rewards</h3>
-          <h2>+{{ rewards }}</h2>
+          <h2>{{ overview.totalRewards | shortDecimals }}</h2>
         </div>
       </div>
     </div>
@@ -40,16 +40,17 @@
     <ModalWithdrawRewards
       ref="ModalWithdrawRewards"
       :rewards="totalRewards"
-      :denom="bondDenom"
+      :denom="metaData.stakingDenom"
     />
   </div>
 </template>
 <script>
-import num from "scripts/num"
+import num, { shortDecimals } from "scripts/num"
 import TmBtn from "common/TmBtn"
 import SendModal from "src/ActionModal/components/SendModal"
 import ModalWithdrawRewards from "src/ActionModal/components/ModalWithdrawRewards"
 import { mapState, mapGetters } from "vuex"
+import { Overview, MetaData } from "src/gql"
 export default {
   name: `tm-balance`,
   components: {
@@ -58,49 +59,29 @@ export default {
     ModalWithdrawRewards
   },
   filters: {
-    viewDenom: num.viewDenom
+    shortDecimals
   },
   data() {
     return {
       num,
-      lastUpdate: 0
+      lastUpdate: 0,
+      overview: {},
+      metaData: {
+        stakingDenom: "loading"
+      }
     }
   },
   computed: {
-    ...mapState([`wallet`, `distribution`, `delegation`, `session`]),
-    ...mapGetters([
-      `liquidAtoms`,
-      `lastHeader`,
-      `totalAtoms`,
-      `bondDenom`,
-      `totalRewards`
-    ]),
-    loaded() {
-      return this.wallet.loaded && this.delegation.loaded
-    },
-    totalAtomsDisplay() {
-      return this.loaded
-        ? this.num.shortDecimals(this.num.atoms(this.totalAtoms))
-        : `--`
-    },
-    unbondedAtoms() {
-      return this.loaded
-        ? this.num.shortDecimals(this.num.atoms(this.liquidAtoms))
-        : `--`
+    ...mapState([`delegation`, `session`]),
+    ...mapState({ network: state => state.connection.network }),
+    ...mapGetters([`lastHeader`, `bondDenom`]),
+    totalRewards() {
+      return Number(this.overview.totalRewards)
     },
     // only be ready to withdraw of the validator rewards are loaded and the user has rewards to withdraw
     // the validator rewards are needed to filter the top 5 validators to withdraw from
     readyToWithdraw() {
       return this.totalRewards > 0
-    },
-    rewards() {
-      if (!this.distribution.loaded) {
-        return `--`
-      }
-      const rewards = this.totalRewards
-      return this.num.shortDecimals(
-        this.num.atoms(rewards && rewards > 10 ? rewards : 0)
-      )
     }
   },
   watch: {
@@ -131,6 +112,44 @@ export default {
     onSend() {
       this.$refs.SendModal.open(this.bondDenom)
     }
+  },
+  apollo: {
+    overview: {
+      query() {
+        /* istanbul ignore next */
+        return Overview(this.network, this.session.address)
+      },
+      variables() {
+        /* istanbul ignore next */
+        return {
+          address: this.session.address
+        }
+      },
+      update(data) {
+        /* istanbul ignore next */
+        return data.overview
+      }
+    },
+    metaData: {
+      query() {
+        /* istanbul ignore next */
+        return MetaData(this.network)
+      },
+      update(data) {
+        /* istanbul ignore next */
+        return data.metaData
+      }
+    }
+    // defaultDenom: {
+    //   query() {
+    //     /* istanbul ignore next */
+    //     return NetworkCapability(this.network)
+    //   },
+    //   update(data) {
+    //     /* istanbul ignore next */
+    //     return data.network.defaultDenom
+    //   }
+    // }
   }
 }
 </script>

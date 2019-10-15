@@ -9,32 +9,38 @@ export const schemaMap = {
 }
 
 const ValidatorFragment = `
-    avatarUrl
-    consensus_pubkey
-    customized
-    delegator_shares
-    details
-    identity
-    jailed
-    tombstoned
-    keybaseId
-    lastUpdated
-    max_change_rate
-    max_rate
-    min_self_delegation
-    moniker
-    operator_address
-    profileUrl
-    rate
-    status
-    tokens
-    unbonding_height
-    unbonding_time
-    update_time
-    uptime_percentage
-    userName
-    voting_power
-    website
+  networkId
+  operatorAddress
+  consensusPubkey
+  jailed
+  details
+  website
+  identity
+  moniker
+  votingPower
+  startHeight
+  uptimePercentage
+  tokens
+  updateTime
+  commission
+  maxCommission
+  maxChangeCommission
+  commissionLastUpdate
+  height
+  status
+  statusDetailed
+  delegations
+  selfStake
+  delegatorShares
+
+  avatarUrl
+  customized
+  tombstoned
+  keybaseId
+  lastUpdated
+  minSelfDelegation
+  profileUrl
+  userName
 `
 
 export const AllValidators = schema => gql`
@@ -55,7 +61,7 @@ export const ValidatorProfile = schema => gql`
 
 export const SomeValidators = schema => gql`
   query ValidatorInfo($addressList: [String!]) {
-    ${schemaMap[schema]}validators(where: { operator_address: { _in: $addressList } }) {
+    validators(networkId: "${schema}", addressList: $addressList) {
       ${ValidatorFragment}
     }
   }
@@ -173,6 +179,33 @@ export const Vote = schema => gql`
 query vote($proposalId: Int!, $address: String!) {
   vote(networkId: "${schema}", proposalId: $proposalId, address: $address) {
     option
+  }
+}
+`
+
+export const Balances = schema => gql`
+query balances($address: String!) {
+  balance(networkId: "${schema}", address: $address) {
+    denom
+    amount
+  }
+}
+`
+
+export const Overview = schema => gql`
+query overview($address: String!) {
+  overview(networkId: "${schema}", address: $address) {
+    totalRewards
+    liquidStake
+    totalStake
+  }
+}
+`
+
+export const MetaData = schema => gql`
+query metaData {
+  metaData(networkId: "${schema}") {
+    stakingDenom
   }
 }
 `
