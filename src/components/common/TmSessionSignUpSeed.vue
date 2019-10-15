@@ -13,7 +13,7 @@
           <TmFormGroup
             field-id="sign-up-seed"
             class="sign-up-seed-group"
-            field-label="Seed phrase"
+            field-label="Backup Code"
           >
             <FieldSeed id="sign-up-seed" v-model="fieldSeed" disabled />
           </TmFormGroup>
