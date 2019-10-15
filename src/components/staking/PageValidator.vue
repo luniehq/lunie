@@ -21,14 +21,14 @@
       <tr class="li-validator">
         <td class="data-table__row__info">
           <Avatar
-            v-if="!validator.avatarUrl"
+            v-if="!validator.picture"
             class="li-validator-image"
             alt="generic geometric symbol - generated avatar from address"
             :address="validator.operatorAddress"
           />
           <img
-            v-else-if="validator.avatarUrl"
-            :src="validator.avatarUrl"
+            v-else-if="validator.picture"
+            :src="validator.picture"
             :alt="`validator logo for ` + validator.moniker"
             class="li-validator-image"
           />
@@ -458,6 +458,7 @@ export default {
             maxChangeCommission
             status
             statusDetailed
+            picture
             selfStake {
               amount
             }
