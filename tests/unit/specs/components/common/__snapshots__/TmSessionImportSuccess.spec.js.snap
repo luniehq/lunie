@@ -29,7 +29,7 @@ exports[`TmSessionImportSuccess has the expected html structure 1`] = `
     class="session-footer"
   >
     <tmbtn-stub
-      value="Back to Lunie"
+      value="Go to Lunie"
     />
   </div>
 </sessionframe-stub>
