@@ -2,7 +2,7 @@
   <div class="danger-zone">
     <h2>DANGER ZONE</h2>
     <p>
-      Did you know that storing your key in the browser is considered unsafe? We
+      Did you know that creating your address in the browser is considered unsafe? We
       offer a more secure way to storing your keys via our
       <a
         href="http://bit.ly/lunie-ext"
