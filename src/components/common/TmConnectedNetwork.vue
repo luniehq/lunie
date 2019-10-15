@@ -74,7 +74,7 @@ import { mapState } from "vuex"
 import { prettyInt } from "scripts/num"
 import TmBtn from "common/TmBtn"
 import { NewBlockSubscription, Block } from "src/gql"
-import gql from "graphql-tag"
+// import gql from "graphql-tag"
 
 export default {
   name: `tm-connected-network`,
@@ -100,6 +100,19 @@ export default {
   },
   apollo: {
     block: {
+      // query: gql`
+      //   query Block($networkId: String!) {
+      //     block(networkId: $networkId) {
+      //       height
+      //       chainId
+      //     }
+      //   }
+      // `,
+      variables() {
+        return {
+          networkId: this.network
+        }
+      },
       query() {
         return Block(this.network)
       },
@@ -107,6 +120,11 @@ export default {
     },
     $subscribe: {
       blockAdded: {
+        variables() {
+          return {
+            networkId: this.network
+          }
+        },
         query() {
           return NewBlockSubscription(this.network)
         },

@@ -89,7 +89,6 @@ export const Networks = gql`
     networks {
       id
       chain_id
-      logo_url
       testnet
       title
       rpc_url

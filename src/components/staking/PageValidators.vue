@@ -79,11 +79,6 @@ export default {
       return this.validators.map(v => ({
         ...v,
         smallMoniker: v.moniker ? v.moniker.toLowerCase() : "",
-        expectedReturns: expectedReturns(
-          v,
-          this.bondedTokens,
-          this.annualProvision
-        )
       }))
     }
   },
@@ -138,6 +133,8 @@ export default {
             maxChangeCommission
             status
             statusDetailed
+            picture
+            expectedReturns
           }
         }
       `,
