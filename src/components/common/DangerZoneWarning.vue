@@ -9,7 +9,7 @@
         target="_blank"
         rel="noopener norefferer"
         >browser extension</a
-      >. Check it out in a quiet minute. Soon you will also have out mobile app
+      >. Check it out in a quiet minute.
     </p>
   </div>
 </template>
