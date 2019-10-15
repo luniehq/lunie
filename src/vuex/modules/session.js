@@ -1,5 +1,5 @@
 import { track, deanonymize, anonymize } from "scripts/google-analytics"
-import config from "src/config"
+import config from "src/../config"
 
 function isWindowsPlatform() {
   return window.navigator.platform.match(/win32|win64/i) !== null

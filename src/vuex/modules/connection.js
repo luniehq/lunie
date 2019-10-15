@@ -1,10 +1,10 @@
 import Vue from "vue"
-import config from "src/config"
+import config from "src/../config"
 
 const NODE_HALTED_TIMEOUT = config.node_halted_timeout
 const MAX_CONNECTION_ATTEMPTS = 5
 
-export default function({ node }) {
+export default function ({ node }) {
   // get tendermint RPC client from basecoin client
 
   const state = {
