@@ -4,7 +4,10 @@
       <h2 class="session-title">
         Create a new address
       </h2>
-      <div v-if="session.insecureMode">
+      <div v-if="!session.insecureMode" class="session-main">
+        <InsecureModeWarning />
+      </div>
+      <div v-else>
         <div class="session-main">
           <Steps
             :steps="[`Create`, `Password`, `Seed`, `Success`]"
@@ -39,9 +42,6 @@
         <div class="session-footer">
           <TmBtn value="Next" type="submit" />
         </div>
-      </div>
-      <div v-else class="session-main">
-        <InsecureModeWarning />
       </div>
     </TmFormStruct>
   </SessionFrame>
