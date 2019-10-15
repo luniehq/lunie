@@ -22,7 +22,7 @@ export default new Vuex.Store({
       signUpName: ``,
       signUpPassword: ``,
       signUpPasswordConfirm: ``,
-      signUpWarning: true,
+      signUpWarning: false,
       signUpSeed: ``
     },
     recover: {
