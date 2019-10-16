@@ -50,7 +50,7 @@ module.exports = {
       .windowHandles(function(result) {
         browser
           .switchWindow(result.value[1])
-          .pause(500)
+          .pause(5000)
           .assert.urlContains(
             'https://localhost:9080/?experimental=true/#/extension'
           )
