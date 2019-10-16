@@ -8,10 +8,16 @@
           :show-on-mobile="showOnMobile"
         />
       </thead>
-      <tbody v-infinite-scroll="loadMore" infinite-scroll-distance="400">
+      <tbody
+        is="transition-group"
+        v-infinite-scroll="loadMore"
+        infinite-scroll-distance="400"
+        name="flip-list"
+      >
         <LiValidator
-          v-for="validator in showingValidators"
+          v-for="(validator, index) in showingValidators"
           :key="validator.operator_address"
+          :index="index"
           :validator="validator"
           :show-on-mobile="showOnMobile"
         />
@@ -153,5 +159,9 @@ export default {
   .data-table__row__info {
     max-width: 22rem;
   }
+}
+
+.flip-list-move {
+  transition: transform 0.3s;
 }
 </style>

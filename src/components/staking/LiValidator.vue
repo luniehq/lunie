@@ -9,6 +9,18 @@
       })
     "
   >
+    <td>{{ index + 1 }}</td>
+    <td class="hide-xs">
+      <div class="status-container">
+        <span
+          :class="status | toLower"
+          class="validator-status"
+          :title="status_detailed"
+        >
+          {{ status }}
+        </span>
+      </div>
+    </td>
     <td class="data-table__row__info">
       <Avatar
         v-if="!validator || !validator.avatarUrl"
@@ -59,17 +71,39 @@ export default {
   filters: {
     atoms,
     shortDecimals,
-    percent
+    percent,
+    toLower: text => text.toLowerCase()
   },
   props: {
     validator: {
       type: Object,
       required: true
     },
+    index: {
+      type: Number,
+      required: true
+    },
     showOnMobile: {
       type: String,
       /* istanbul ignore next */
       default: () => "returns"
+    }
+  },
+  computed: {
+    status() {
+      if (
+        this.validator.jailed ||
+        this.validator.tombstoned ||
+        this.validator.status === 0
+      )
+        return `Inactive`
+      return `Active`
+    },
+    status_detailed() {
+      if (this.validator.jailed) return `Temporally banned from the network`
+      if (this.validator.tombstoned) return `Banned from the network`
+      if (this.validator.status === 0) return `Banned from the network`
+      return false
     }
   },
   methods: {
@@ -126,5 +160,24 @@ export default {
   height: 2.5rem;
   width: 2.5rem;
   border: 1px solid var(--bc-dim);
+}
+
+.validator-status {
+  text-transform: uppercase;
+  font-size: 10px;
+  font-weight: 600;
+  border: 2px solid;
+  padding: 2px 4px;
+  border-radius: 0.25rem;
+}
+
+.validator-status.inactive {
+  color: var(--warning);
+  border-color: var(--warning);
+}
+
+.validator-status.active {
+  color: var(--success);
+  border-color: var(--success);
 }
 </style>

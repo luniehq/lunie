@@ -12,8 +12,24 @@ describe(`TmSessionExplore`, () => {
     $store = {
       commit: jest.fn(),
       dispatch: jest.fn(() => true),
-      getters: {
-        connected: true
+      state: {
+        session: {
+          address: ``,
+          addresses: [
+            {
+              address: `cosmos1z8mzakma7vnaajysmtkwt4wgjqr2m84tzvyfkz`,
+              type: `explore`
+            },
+            {
+              address: `cosmos1unc788q8md2jymsns24eyhua58palg5kc7cstv`,
+              type: `ledger`
+            },
+            {
+              address: `cosmos1vxkye0mpdtjhzrc6va5lcnxnuaa7m64khj8klc`,
+              type: `extension`
+            }
+          ]
+        }
       }
     }
 
@@ -59,6 +75,15 @@ describe(`TmSessionExplore`, () => {
     expect(wrapper.find(`.tm-form-msg-error`)).toBeDefined()
   })
 
+  it(`should show error if address is a validator address`, () => {
+    wrapper.setData({
+      address: `cosmosvaloper12knqu4ecmg0982plzs9m9f5jareh0cvegcw3wu`
+    })
+    wrapper.vm.onSubmit()
+    expect($store.commit.mock.calls[1]).toBeUndefined()
+    expect(wrapper.find(`.tm-form-msg-error`)).toBeDefined()
+  })
+
   it(`should show the last account used`, () => {
     localStorage.setItem(`prevAddress`, `cosmos1xxx`)
 
@@ -69,4 +94,14 @@ describe(`TmSessionExplore`, () => {
 
     expect(self.address).toBe(`cosmos1xxx`)
   })
+
+  it(`should explore with a previously used address`, async () => {
+    let address = `cosmos1z8mzakma7vnaajysmtkwt4wgjqr2m84tzvyfkz`
+    await wrapper.vm.exploreWith(address)
+    expect($store.dispatch).toHaveBeenCalledWith(`signIn`, {
+      address: `cosmos1z8mzakma7vnaajysmtkwt4wgjqr2m84tzvyfkz`,
+      sessionType: `explore`
+    })
+  })
+
 })

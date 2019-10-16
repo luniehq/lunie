@@ -79,14 +79,19 @@ input.tm-field {
   background: var(--bc-dim);
   display: inline-block;
   position: absolute;
-  padding: 7px 8px;
+  padding: 8px;
   font-size: var(--sm);
   text-transform: uppercase;
+  top: 2px;
   right: 30px;
   letter-spacing: 1px;
   text-align: right;
   font-weight: 500;
   border-radius: 2px;
+}
+
+.input-suffix.max-button {
+  right: 124px;
 }
 
 .field-checkbox-label {
@@ -96,13 +101,13 @@ input.tm-field {
   line-height: 14px;
 }
 
-#appzi-launch-button-cf1d801a-9653-4934-8a18-cea8c9e77495 {
-  z-index: var(--z-appHeader) !important;
+#bar-container {
+  display: block;
 }
 
 @media screen and (max-width: 1023px) {
   #app-content {
-    padding-top: 3rem;
+    padding-top: 44px;
   }
 }
 

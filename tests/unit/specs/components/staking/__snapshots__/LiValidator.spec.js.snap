@@ -5,6 +5,26 @@ exports[`LiValidator has the expected html structure 1`] = `
   class="li-validator"
   data-moniker="mr_mounty"
 >
+  <td>
+    2
+  </td>
+   
+  <td
+    class="hide-xs"
+  >
+    <div
+      class="status-container"
+    >
+      <span
+        class="validator-status active"
+      >
+        
+        Active
+      
+      </span>
+    </div>
+  </td>
+   
   <td
     class="data-table__row__info"
   >

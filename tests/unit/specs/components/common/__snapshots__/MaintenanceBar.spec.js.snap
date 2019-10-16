@@ -1,0 +1,14 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`MaintenanceBar has the expected html structure 1`] = `
+<div>
+  <div>
+    <bar-stub
+      bartype="primary"
+      show="true"
+    >
+      success test message
+    </bar-stub>
+  </div>
+</div>
+`;

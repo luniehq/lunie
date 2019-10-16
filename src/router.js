@@ -2,12 +2,14 @@ import Router from "vue-router"
 import routes from "./routes"
 import { NetworkCapability, NetworkCapabilityResult } from "./gql"
 import Vue from "vue"
-import config from "src/config.js"
 
 /* istanbul ignore next */
 Vue.use(Router)
 
 export const routeGuard = (store, apollo) => async (to, from, next) => {
+  // Set any open modal to false
+  store.state.session.currrentModalOpen = false
+
   // Redirect if fullPath begins with a hash (fallback for old pre history mode urls)
   if (to.fullPath.includes("#")) {
     const path = to.fullPath.substr(to.fullPath.indexOf("#") + 1)
@@ -17,7 +19,7 @@ export const routeGuard = (store, apollo) => async (to, from, next) => {
 
   if (
     to.meta.feature &&
-    !config.e2e && // TODO remove once we have Hasura integrated in e2e tests
+    !(store.state.connection.network === "testnet") && // TODO remove once we have Hasura integrated in e2e tests
     !(await featureAvailable(apollo, store.state.connection.network, to))
   ) {
     next(`/feature-not-available/${to.meta.feature}`)

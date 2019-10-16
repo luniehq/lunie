@@ -14,8 +14,10 @@
         <span :class="status | toLower" class="validator-status">
           {{ status }}
         </span>
+        <span v-if="status_detailed" class="validator-status-detailed">
+          {{ status_detailed }}
+        </span>
       </div>
-
       <tr class="li-validator">
         <td class="data-table__row__info">
           <Avatar
@@ -107,16 +109,12 @@
         </li>
         <li>
           <h4>Validator Since</h4>
-          <span>
-            Block #{{
-              validator.signing_info ? validator.signing_info.start_height : 0
-            }}
-          </span>
+          <span> Block #{{ validator.start_height }} </span>
         </li>
         <li>
           <h4>Uptime</h4>
           <span id="page-profile__uptime">
-            {{ validator.uptime_percentage }}
+            {{ validator.uptime_percentage | percent }}
           </span>
         </li>
         <li>
@@ -150,6 +148,7 @@
         :to="session.signedIn ? session.address : ``"
         :validator="validator"
         :denom="bondDenom"
+        @switchToRedelegation="onDelegation({ redelegation: true })"
       />
     </template>
     <template v-else>
@@ -210,7 +209,14 @@ export default {
     validator: {}
   }),
   computed: {
-    ...mapState([`delegates`, `delegation`, `distribution`, `pool`, `session`]),
+    ...mapState([
+      `delegates`,
+      `delegation`,
+      `distribution`,
+      `pool`,
+      `session`,
+      `connection`
+    ]),
     ...mapState({
       annualProvision: state => state.minting.annualProvision
     }),
@@ -261,9 +267,19 @@ export default {
       )
     },
     status() {
-      if (this.validator.jailed) return `Jailed`
-      else if (this.validator.status === 0) return `Inactive`
+      if (
+        this.validator.jailed ||
+        this.validator.tombstoned ||
+        this.validator.status === 0
+      )
+        return `Inactive`
       return `Active`
+    },
+    status_detailed() {
+      if (this.validator.jailed) return `Temporally banned from the network`
+      if (this.validator.tombstoned) return `Banned from the network`
+      if (this.validator.status === 0) return `Banned from the network`
+      return false
     },
     website() {
       let url = this.validator.website
@@ -328,8 +344,8 @@ export default {
     uatoms,
     percent,
     moment,
-    onDelegation() {
-      this.$refs.delegationModal.open()
+    onDelegation(options) {
+      this.$refs.delegationModal.open(options)
     },
     onUndelegation() {
       this.$refs.undelegationModal.open()
@@ -363,7 +379,7 @@ export default {
           return validators.concat({
             address: address,
             maximum: Math.floor(committedDelegations[address]),
-            key: `${delegate.moniker} - ${formatBech32(
+            key: `${delegate.description.moniker} - ${formatBech32(
               delegate.operator_address,
               false,
               20
@@ -376,14 +392,20 @@ export default {
   },
   apollo: {
     validator: {
-      query: ValidatorProfile,
+      query() {
+        /* istanbul ignore next */
+        return ValidatorProfile(this.connection.network)
+      },
       variables() {
         /* istanbul ignore next */
         return {
           address: this.$route.params.validator
         }
       },
-      update: ValidatorResult
+      update(data) {
+        /* istanbul ignore next */
+        return ValidatorResult(this.connection.network)(data)
+      }
     }
   }
 }
@@ -463,11 +485,6 @@ span {
   border-radius: 0.25rem;
 }
 
-.validator-status.jailed {
-  color: var(--danger);
-  border-color: var(--danger);
-}
-
 .validator-status.inactive {
   color: var(--warning);
   border-color: var(--warning);
@@ -476,6 +493,13 @@ span {
 .validator-status.active {
   color: var(--success);
   border-color: var(--success);
+}
+
+.validator-status-detailed {
+  display: block;
+  margin-top: 0.4rem;
+  color: var(--warning);
+  font-size: 0.8rem;
 }
 </style>
 <style>

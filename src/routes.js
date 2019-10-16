@@ -17,7 +17,7 @@ export default [
     meta: {
       feature: "Proposals"
     },
-    component: require(`./components/governance/TabProposals`).default
+    component: require(`./components/governance/PageProposals`).default
   },
   // for depredecated routes
   {
@@ -79,6 +79,14 @@ export default [
     meta: {
       requiresAuth: true,
       feature: "Activity"
+    }
+  },
+  {
+    path: `/networks`,
+    name: `networks`,
+    component: require(`./components/network/PageNetworks`).default,
+    meta: {
+      requiresAuth: false
     }
   },
   {

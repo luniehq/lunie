@@ -2,70 +2,96 @@
 
 exports[`TmConnectedNetwork has a connecting state 1`] = `
 <div
-  class="tm-connected-network tm-disconnected-network"
-  id="tm-disconnected-network"
+  class="sidebar-bottom"
 >
-  <img
-    alt="a small spinning circle to display loading"
-    class="tm-connected-network-loader"
-    src="~assets/images/loader.svg"
+  <tmbtn-stub
+    class="intercom-button"
+    id="intercom-button"
+    size="small"
+    type="secondary"
+    value="Help / Feedback"
   />
    
   <div
-    class="
+    class="tm-connected-network tm-disconnected-network"
+    id="tm-disconnected-network"
+  >
+    <img
+      alt="a small spinning circle to display loading"
+      class="tm-connected-network-loader"
+      src="~assets/images/loader.svg"
+    />
+     
+    <div
+      class="
       tm-connected-network__string
       tm-connected-network__string--connecting
     "
-  >
+    >
+      
+      Connecting…
     
-    Connecting…
-  
+    </div>
   </div>
 </div>
 `;
 
 exports[`TmConnectedNetwork has the expected html structure 1`] = `
 <div
-  class="tm-connected-network"
-  id="tm-connected-network"
+  class="sidebar-bottom"
 >
+  <tmbtn-stub
+    class="intercom-button"
+    id="intercom-button"
+    size="small"
+    type="secondary"
+    value="Help / Feedback"
+  />
+   
   <div
-    class="tm-connected-network__connection"
+    class="tm-connected-network"
+    id="tm-connected-network"
   >
     <div
-      class="tm-connected-network__icon"
-      id="tm-connected-network__icon"
+      class="tm-connected-network__connection"
     >
-      <span
-        class="tm-connected-network__status green"
-      />
+      <div
+        class="tm-connected-network__icon"
+        id="tm-connected-network__icon"
+      >
+        <span
+          class="tm-connected-network__status green"
+        />
+      </div>
+       
+      <div
+        class="tm-connected-network__string"
+        id="tm-connected-network__string"
+      >
+        <span
+          class="chain-id"
+        >
+          
+          gaia-20k
+        
+        </span>
+      </div>
     </div>
      
     <div
       class="tm-connected-network__string"
-      id="tm-connected-network__string"
+      id="tm-connected-network__block"
     >
-      <span
-        class="chain-id"
-      >
+      <span>
+        <router-link-stub
+          to="[object Object]"
+        >
+          
+          #6,001
         
-        gaia-20k
-      
+        </router-link-stub>
       </span>
     </div>
-  </div>
-   
-  <div
-    class="tm-connected-network__string"
-    id="tm-connected-network__block"
-  >
-    <router-link-stub
-      to="[object Object]"
-    >
-      
-      #6,001
-    
-    </router-link-stub>
   </div>
 </div>
 `;

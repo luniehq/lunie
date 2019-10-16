@@ -10,7 +10,7 @@ exports[`TmSessionImport has the expected html structure 1`] = `
       class="session-title"
     >
       
-      Recover from seed
+      Recover with backup code
     
     </h2>
      
@@ -66,7 +66,7 @@ exports[`TmSessionImport has the expected html structure 1`] = `
        
       <tmformgroup-stub
         fieldid="import-seed"
-        fieldlabel="Seed Phrase"
+        fieldlabel="Backup code"
       >
         <fieldseed-stub
           id="import-seed"
@@ -75,29 +75,6 @@ exports[`TmSessionImport has the expected html structure 1`] = `
         />
          
         <!---->
-      </tmformgroup-stub>
-       
-      <tmformgroup-stub
-        fieldid="error-collection"
-        fieldlabel=""
-      >
-        <div
-          class="field-checkbox"
-        >
-          <label
-            class="field-checkbox-label"
-            for="error-collection"
-          >
-            <input
-              id="error-collection"
-              type="checkbox"
-            />
-            
-            I'd like to opt in for remote error tracking to help improve
-            Voyager.
-          
-          </label>
-        </div>
       </tmformgroup-stub>
     </div>
      

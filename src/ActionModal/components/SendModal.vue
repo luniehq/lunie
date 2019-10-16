@@ -59,15 +59,24 @@
       field-id="amount"
       field-label="Amount"
     >
-      <TmField
-        id="amount"
-        ref="amount"
-        v-model="amount"
-        class="tm-field"
-        placeholder="Amount"
-        type="number"
-        @keyup.enter.native="enterPressed"
-      />
+      <span class="input-suffix max-button">{{ viewDenom(denom) }}</span>
+      <TmFieldGroup>
+        <TmField
+          id="amount"
+          ref="amount"
+          v-model="amount"
+          class="tm-field-addon"
+          placeholder="Amount"
+          type="number"
+          @keyup.enter.native="enterPressed"
+        />
+        <TmBtn
+          type="button"
+          class="secondary addon-max"
+          value="Set Max"
+          @click.native="setMaxAmount()"
+        />
+      </TmFieldGroup>
       <TmFormMsg
         v-if="balance === 0"
         :msg="`doesn't have any ${viewDenom(denom)}s`"
@@ -90,6 +99,12 @@
         :min="$v.amount.$params.between.min"
         name="Amount"
         type="between"
+      />
+      <TmFormMsg
+        v-else-if="isMaxAmount()"
+        msg="You are about to use all your tokens for this transaction. Consider leaving a little bit left over to cover the network fees."
+        type="custom"
+        class="tm-form-msg--desc max-message"
       />
     </TmFormGroup>
     <TmBtn
@@ -131,8 +146,9 @@ import { uatoms, atoms, viewDenom, SMALLEST } from "src/scripts/num"
 import { mapState } from "vuex"
 import TmFormGroup from "src/components/common/TmFormGroup"
 import TmField from "src/components/common/TmField"
-import TmFormMsg from "src/components/common/TmFormMsg"
+import TmFieldGroup from "src/components/common/TmFieldGroup"
 import TmBtn from "src/components/common/TmBtn"
+import TmFormMsg from "src/components/common/TmFormMsg"
 import ActionModal from "./ActionModal"
 import transaction from "../utils/transactionTypes"
 
@@ -142,6 +158,7 @@ export default {
   name: `send-modal`,
   components: {
     TmField,
+    TmFieldGroup,
     TmFormGroup,
     TmFormMsg,
     ActionModal,
@@ -203,6 +220,16 @@ export default {
       this.memo = defaultMemo
       this.sending = false
     },
+    setMaxAmount() {
+      this.amount = atoms(this.balance)
+    },
+    isMaxAmount() {
+      if (this.balance === 0) {
+        return false
+      } else {
+        return parseFloat(this.amount) === parseFloat(atoms(this.balance))
+      }
+    },
     bech32Validate(param) {
       try {
         b32.decode(param)
@@ -243,6 +270,6 @@ export default {
 </script>
 <style scoped>
 #edit-memo-btn {
-  margin-top: 1.5rem;
+  margin-top: 2.4rem;
 }
 </style>

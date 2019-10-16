@@ -2,6 +2,14 @@
   <transition v-if="show" name="slide-fade">
     <div v-focus-last class="action-modal" tabindex="0" @keyup.esc="close">
       <div
+        v-if="(step === feeStep || step === signStep) && !sending"
+        id="prevBtn"
+        class="action-modal-icon action-modal-prev"
+        @click="previousStep"
+      >
+        <i class="material-icons">arrow_back</i>
+      </div>
+      <div
         id="closeBtn"
         class="action-modal-icon action-modal-close"
         @click="close"
@@ -19,12 +27,27 @@
           :steps="['Details', 'Fees', 'Sign']"
           :active-step="step"
         />
+        <p
+          v-if="
+            extension.enabled &&
+              !modalContext.isExtensionAccount &&
+              step === signStep &&
+              selectedSignMethod === SIGN_METHODS.EXTENSION
+          "
+          class="form-message notice extension-address"
+        >
+          The address you are trying to send with is not available in the
+          extension.
+        </p>
       </div>
       <template v-if="!featureAvailable">
         <FeatureNotAvailable :feature="title" />
       </template>
       <template v-else>
-        <p v-if="session.windowsDevice" class="form-message notice">
+        <p
+          v-if="session.windowsDevice && step !== successStep"
+          class="form-message notice"
+        >
           {{ session.windowsWarning }}
         </p>
         <div v-if="requiresSignIn" class="action-modal-form">
@@ -170,7 +193,7 @@
             </div>
             <div slot="subtitle">
               The transaction
-              <!--with the hash {{ txHash }}-->
+              <!-- with the hash {{ txHash }} -->
               was successfully signed and sent the network. Waiting for it to be
               confirmed.
             </div>
@@ -189,8 +212,8 @@
               <br />
               <br />Block
               <router-link :to="`/blocks/${includedHeight}`"
-                >#{{ includedHeight }}</router-link
-              >.
+                >#{{ prettyIncludedHeight }}</router-link
+              >
             </div>
           </TmDataMsg>
         </div>
@@ -235,7 +258,7 @@
                   v-else
                   color="primary"
                   value="Send"
-                  :disabled="!session.browserWithLedgerSupport"
+                  :disabled="!hasSigningMethod"
                   @click.native="validateChangeStep"
                 />
               </div>
@@ -264,7 +287,7 @@ import TmDataMsg from "common/TmDataMsg"
 import TableInvoice from "./TableInvoice"
 import Steps from "./Steps"
 import { mapState, mapGetters } from "vuex"
-import { atoms, viewDenom } from "src/scripts/num"
+import { atoms, viewDenom, prettyInt } from "src/scripts/num"
 import { between, requiredIf } from "vuelidate/lib/validators"
 import { track } from "scripts/google-analytics"
 import { NetworkCapability, NetworkCapabilityResult } from "src/gql"
@@ -373,7 +396,7 @@ export default {
     inclusionStep,
     successStep,
     SIGN_METHODS,
-    featureAvailable: false
+    featureAvailable: true
   }),
   computed: {
     ...mapState([`extension`, `session`]),
@@ -425,6 +448,16 @@ export default {
         default:
           return "Sending..."
       }
+    },
+    hasSigningMethod() {
+      return (
+        this.session.browserWithLedgerSupport ||
+        (this.selectedSignMethod === "extension" &&
+          this.modalContext.isExtensionAccount)
+      )
+    },
+    prettyIncludedHeight() {
+      return prettyInt(this.includedHeight)
     }
   },
   watch: {
@@ -448,13 +481,32 @@ export default {
     }
   },
   methods: {
+    confirmModalOpen() {
+      let confirmResult = false
+      if (this.session.currrentModalOpen) {
+        confirmResult = window.confirm(
+          "You are in the middle of creating a transaction already. Are you sure you want to cancel this action?"
+        )
+        if (confirmResult) {
+          this.session.currrentModalOpen.close()
+          this.$store.commit(`setCurrrentModalOpen`, false)
+        }
+      }
+    },
     open() {
+      this.confirmModalOpen()
+      if (this.session.currrentModalOpen) {
+        return
+      }
+
+      this.$store.commit(`setCurrrentModalOpen`, this)
       this.trackEvent(`event`, `modal`, this.title)
       this.checkFeatureAvailable()
       this.gasPrice = config.default_gas_price.toFixed(9)
       this.show = true
     },
     close() {
+      this.$store.commit(`setCurrrentModalOpen`, false)
       this.submissionError = null
       this.password = null
       this.step = defaultStep
@@ -478,6 +530,16 @@ export default {
       this.$v[property].$touch()
 
       return !this.$v[property].$invalid
+    },
+    previousStep() {
+      switch (this.step) {
+        case signStep:
+          this.step = feeStep
+          break
+        case feeStep:
+          this.step = defaultStep
+          break
+      }
     },
     async validateChangeStep() {
       if (this.disabled) return
@@ -599,6 +661,12 @@ export default {
       await this.$store.dispatch(`connectLedgerApp`)
     },
     async checkFeatureAvailable() {
+      /* istanbul ignore next */
+      if (this.network === "testnet") {
+        this.featureAvailable = true
+        return
+      }
+
       const action = `action_${this.title.toLowerCase().replace(" ", "_")}`
       const { data } = await this.$apollo.query({
         query: NetworkCapability(this.network, action)
@@ -677,6 +745,13 @@ export default {
   font-size: var(--lg);
 }
 
+.action-modal-icon.action-modal-prev {
+  cursor: pointer;
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+}
+
 .action-modal-icon.action-modal-close {
   cursor: pointer;
   position: absolute;
@@ -690,7 +765,7 @@ export default {
 
 .action-modal-form .tm-form-group {
   display: block;
-  padding: 0.75rem 0;
+  padding: 1rem 0;
 }
 
 .action-modal-footer {
@@ -720,18 +795,9 @@ export default {
   font-style: italic;
   color: var(--dim);
   display: inline-block;
-}
-
-.form-message.notice {
-  border-radius: 0.25rem;
-  border: 1px solid var(--bc-dim);
-  background-color: #1c223e;
-  font-weight: 300;
-  margin: 2rem 0;
-  padding: 1rem 1rem;
+  border-left: 2px solid var(--warning);
+  padding: 0.5rem 0 0.5rem 1rem;
   font-size: 14px;
-  font-style: normal;
-  width: 100%;
 }
 
 .slide-fade-enter-active {
@@ -746,6 +812,23 @@ export default {
 .slide-fade-leave-to {
   transform: translateX(2rem);
   opacity: 0;
+}
+
+.tm-form-group__field {
+  position: relative;
+}
+
+#send-modal .tm-data-msg {
+  margin: 2rem 0 2rem 0;
+}
+
+@media screen and (max-width: 576px) {
+  #send-modal {
+    text-align: center;
+  }
+  .tm-data-msg__icon {
+    margin-right: 0;
+  }
 }
 
 @media screen and (max-width: 767px) {

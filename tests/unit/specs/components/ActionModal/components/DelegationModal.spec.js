@@ -90,6 +90,12 @@ describe(`DelegationModal`, () => {
     expect($refs.actionModal.open).toHaveBeenCalled()
   })
 
+  it(`opens and switches to redelegaion when selected`, () => {
+    wrapper.vm.$refs = { actionModal: { open: jest.fn() } }
+    wrapper.vm.open({ redelegation: true })
+    expect(wrapper.vm.selectedIndex).toBe(1)
+  })
+
   it(`clears on close`, () => {
     const self = {
       $v: { $reset: jest.fn() },
@@ -100,6 +106,13 @@ describe(`DelegationModal`, () => {
     expect(self.$v.$reset).toHaveBeenCalled()
     expect(self.selectedIndex).toBe(0)
     expect(self.amount).toBeNull()
+  })
+
+  describe(`if amount field max button clicked`, () => {
+    it(`amount has to be 1000 atom`, async () => {
+      wrapper.vm.setMaxAmount()
+      expect(wrapper.vm.amount).toBe(1000)
+    })
   })
 
   describe(`validation`, () => {
@@ -121,6 +134,7 @@ describe(`DelegationModal`, () => {
       })
     })
   })
+
   describe("Submission Data for Delegating", () => {
     beforeEach(() => {
       wrapper.setData({
@@ -148,7 +162,7 @@ describe(`DelegationModal`, () => {
     })
   })
 
-  describe("Submission Data for Redelgating", () => {
+  describe("Submission Data for Redelegating", () => {
     beforeEach(() => {
       wrapper.setData({
         amount: 10,
@@ -176,6 +190,69 @@ describe(`DelegationModal`, () => {
         title: `Successful redelegation!`,
         body: `You have successfully redelegated your STAKEs`
       })
+    })
+  })
+
+  describe(`if amount field max button clicked`, () => {
+    it(`amount has to be 1000 atom`, async () => {
+      wrapper.setData({
+        amount: 1,
+        selectedIndex: 0,
+        validator: mockValues.state.candidates[1]
+      })
+      wrapper.vm.setMaxAmount()
+      expect(wrapper.vm.amount).toBe(1000)
+    })
+    it(`should show warning message`, async () => {
+      wrapper.setData({
+        amount: 1000,
+        selectedIndex: 0,
+        validator: mockValues.state.candidates[1]
+      })
+      //await wrapper.vm.$nextTick()
+      expect(wrapper.html()).toContain(
+        "You are about to use all your tokens for this transaction. Consider leaving a little bit left over to cover the network fees."
+      )
+    })
+  })
+
+  describe(`if validator is jailed`, () => {
+    it(`must show warn message about it`, async () => {
+      wrapper.setData({
+        amount: 1,
+        selectedIndex: 0,
+        validator: mockValues.state.candidates[3] // Jailed validator
+      })
+      expect(wrapper.html()).toContain(
+        "You are about to delegate to an inactive validator (temporally banned from the network)"
+      )
+    })
+  })
+
+  describe(`if validator is tombstoned`, () => {
+    it(`must show warn message about it`, async () => {
+      wrapper.setData({
+        amount: 1,
+        selectedIndex: 0,
+        validator: mockValues.state.candidates[4] // Tombstoned validator
+      })
+      expect(wrapper.html()).toContain(
+        "You are about to delegate to an inactive validator (banned from the network)"
+      )
+    })
+  })
+
+  describe(`if validator is active`, () => {
+    it(`must not show warn message`, async () => {
+      wrapper.setData({
+        amount: 1,
+        selectedIndex: 0,
+        validator: mockValues.state.candidates[2] // Active validator
+      })
+      expect(wrapper.html()).not.toContain(
+        "You are about to delegate to an inactive validator"
+      )
+      expect(wrapper.vm.validatorStatusDetailed).toBe(false)
     })
   })
 })

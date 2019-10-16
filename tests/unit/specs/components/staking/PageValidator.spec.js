@@ -81,6 +81,9 @@ describe(`PageValidator`, () => {
           }
         }
       },
+      connection: {
+        network: "testnet"
+      },
       getters: JSON.parse(JSON.stringify(getters)) // clone to be safe we don't overwrite
     }
 
@@ -154,7 +157,7 @@ describe(`PageValidator`, () => {
       expect(wrapper.vm.status).toBe(`Active`)
 
       wrapper.setData({ validator: validators[3] })
-      expect(wrapper.vm.status).toBe(`Jailed`)
+      expect(wrapper.vm.status).toBe(`Inactive`)
       // Is not a validator
       wrapper.setData({ validator: validators[4] })
       expect(wrapper.vm.status).toBe(`Inactive`)

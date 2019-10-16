@@ -2,8 +2,13 @@
 
 import gql from "graphql-tag"
 
-const ValidatorFragment = gql`
-  fragment ValidatorParts on allValidators {
+export const schemaMap = {
+  cosmoshub: "",
+  [`gaia-testnet`]: "gaia_testnet_",
+  testnet: "gaia_testnet_"
+}
+
+const ValidatorFragment = `
     avatarUrl
     consensus_pubkey
     customized
@@ -12,6 +17,7 @@ const ValidatorFragment = gql`
     id
     identity
     jailed
+    tombstoned
     keybaseId
     lastUpdated
     max_change_rate
@@ -30,43 +36,62 @@ const ValidatorFragment = gql`
     userName
     voting_power
     website
-  }
+    start_height
 `
 
-export const AllValidators = gql`
+export const AllValidators = schema => gql`
   query AllValidators {
-    allValidators {
-      ...ValidatorParts
+    ${schemaMap[schema]}allValidators {
+      ${ValidatorFragment}
     }
   }
-  ${ValidatorFragment}
 `
 
-export const ValidatorProfile = gql`
+export const ValidatorProfile = schema => gql`
   query ValidatorInfo($address: String) {
-    allValidators(where: { operator_address: { _eq: $address } }) {
-      ...ValidatorParts
+    ${schemaMap[schema]}allValidators(where: { operator_address: { _eq: $address } }) {
+      ${ValidatorFragment}
     }
   }
-  ${ValidatorFragment}
 `
 
-export const SomeValidators = gql`
+export const SomeValidators = schema => gql`
   query ValidatorInfo($addressList: [String!]) {
-    allValidators(where: { operator_address: { _in: $addressList } }) {
-      ...ValidatorParts
+    ${schemaMap[schema]}allValidators(where: { operator_address: { _in: $addressList } }) {
+      ${ValidatorFragment}
     }
   }
-  ${ValidatorFragment}
+`
+
+export const AllValidatorsResult = schema => data =>
+  data[`${schemaMap[schema]}allValidators`]
+
+export const ValidatorResult = schema => data =>
+  data[`${schemaMap[schema]}allValidators`][0]
+
+export const ValidatorByName = schema => active => gql`
+  query ${schemaMap[schema]}ValidatorInfo($monikerName: String) {
+    ${schemaMap[schema]}allValidators(
+      where: {
+        moniker: { _ilike: $monikerName }
+        ${active ? "jailed: { _neq: true }" : ""}
+        ${active ? "status: { _neq: 0 }" : ""}
+      }
+    ) {
+      ${ValidatorFragment}
+    }
+  }
 `
 
 export const Networks = gql`
   query Networks {
     networks {
+      id
       chain_id
       logo_url
       testnet
       title
+      rpc_url
     }
   }
 `
@@ -80,6 +105,5 @@ query Networks {
 }
 `
 
-export const AllValidatorsResult = data => data.allValidators
-export const ValidatorResult = data => data.allValidators[0]
 export const NetworkCapabilityResult = data => data.networks.length === 1
+export const NetworksResult = data => data.networks

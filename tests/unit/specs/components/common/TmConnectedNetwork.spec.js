@@ -9,13 +9,16 @@ describe(`TmConnectedNetwork`, () => {
 
   beforeEach(() => {
     $store = {
-      getters: {
-        lastHeader: {
-          chain_id: `gaia-20k`,
-          height: `6001`
-        },
-        nodeUrl: `https://faboNode.de`,
-        connected: true
+      state: {
+        connection: {
+          connected: true,
+          network: "Gaia Testnet",
+          nodeUrl: `https://faboNode.de`,
+          lastHeader: {
+            height: `6001`,
+            chain_id: "gaia-20k"
+          }
+        }
       }
     }
 
@@ -33,32 +36,29 @@ describe(`TmConnectedNetwork`, () => {
   })
 
   it(`has a network string`, () => {
-    expect(
-      wrapper
-        .find(`#tm-connected-network__string`)
-        .text()
-        .trim()
-    ).toBe(`gaia-20k`)
+    expect(wrapper.find(`#tm-connected-network__string`).text()).toMatch(
+      /gaia-20k/
+    )
   })
 
   it(`has a block string`, () => {
-    expect(
-      wrapper
-        .find(`#tm-connected-network__block`)
-        .text()
-        .trim()
-    ).toBe(`#6,001`)
+    expect(wrapper.find(`#tm-connected-network__block`).text()).toMatch(
+      /#6,001/
+    )
   })
 
   it(`has a connecting state`, async () => {
     $store = {
-      getters: {
-        lastHeader: {
-          chain_id: ``,
-          height: ``
-        },
-        nodeUrl: null,
-        connected: false
+      state: {
+        connection: {
+          connected: false,
+          network: "cosmoshub",
+          nodeUrl: null,
+          lastHeader: {
+            height: `6001`,
+            chain_id: null
+          }
+        }
       }
     }
 

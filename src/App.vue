@@ -1,12 +1,14 @@
 <template>
   <div>
-    <CookieBar />
-    <MaintenanceBar />
-    <DisconnectedBar />
     <div id="app">
       <router-view name="session" />
       <AppHeader />
       <div id="app-content">
+        <div id="bar-container">
+          <CookieBar />
+          <MaintenanceBar />
+          <DisconnectedBar />
+        </div>
         <router-view />
       </div>
       <MobileMenu />

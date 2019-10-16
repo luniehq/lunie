@@ -64,20 +64,6 @@ describe(`Module: Delegates`, () => {
     ])
   })
 
-  it(`sets the signing infos`, () => {
-    const { mutations, state } = instance
-    mutations.setSigningInfos(state, {
-      operatorX: {
-        signingInfoY: 1
-      }
-    })
-    expect(state.signingInfos).toEqual({
-      operatorX: {
-        signingInfoY: 1
-      }
-    })
-  })
-
   it(`fetches all candidates`, async () => {
     node.get.validators = () => []
     const { actions, state } = instance
@@ -117,55 +103,6 @@ describe(`Module: Delegates`, () => {
         }
       ]
     ])
-  })
-
-  it(`should query further info for validators`, async () => {
-    node.get.validators = () => []
-    const { actions, state } = instance
-    const commit = jest.fn()
-    const dispatch = jest.fn()
-    const candidates = await actions.getDelegates({
-      state,
-      commit,
-      dispatch,
-      rootState: mockRootState
-    })
-    expect(dispatch.mock.calls).toEqual([[`updateSigningInfo`, candidates]])
-  })
-
-  it(`fetches the signing information from all delegates`, async () => {
-    node.get.validators = () => []
-    node.get.validatorSigningInfo = () => ({
-      index_offset: 1,
-      jailed_until: "1970-01-01T00:00:42.000Z",
-      missed_blocks_counter: 1,
-      start_height: 2
-    })
-    const { actions, mutations, state } = instance
-    const commit = jest.fn()
-    mutations.setDelegates(state, [
-      {
-        operator_address: `foo`,
-        consensus_pubkey: `bar`,
-        tokens: `10`
-      }
-    ])
-    expect(state.delegates).not.toContainEqual(
-      expect.objectContaining({ signing_info: expect.anything() })
-    )
-    await actions.updateSigningInfo(
-      { state, commit, getters: { lastHeader: { height: `43` } } },
-      state.delegates
-    )
-
-    expect(commit).toHaveBeenCalledWith(`setSigningInfos`, {
-      foo: {
-        index_offset: 1,
-        jailed_until: `1970-01-01T00:00:42.000Z`,
-        missed_blocks_counter: 1,
-        start_height: 2
-      }
-    })
   })
 
   it(`should query for delegates on reconnection if was loading before`, async () => {
