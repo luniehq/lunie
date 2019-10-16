@@ -6,24 +6,35 @@ const spawn = require("child_process").spawn
 /* you can provide the name of the file to test only one file > for send.spec.js `yarn test:e2e send` */
 const main = async () => {
   const filter = process.argv[2]
-  await exec("yarn testnet:start:container")
-  const proxy = spawn("yarn", ["proxy"])
-  proxy.stdout.pipe(process.stdout)
-  proxy.stderr.pipe(process.stderr)
+  console.log("cloning stack repo")
+  try {
+    await exec("git clone https://github.com/luniehq/lunie-backend.git lunie-backend")
+  } catch (error) { }
+  await exec("cd lunie-backend && git pull origin develop")
+  console.log("starting stack repo")
+  await exec("cd lunie-backend && docker-compose up -d")
   const serve = spawn("yarn", ["test:e2e:serve"])
   serve.stdout.pipe(process.stdout)
   serve.stderr.pipe(process.stderr)
+  // await until page is served
+  await new Promise(resolve => {
+    serve.stdout.on("data", async data => {
+      if (data.toString().indexOf("App is served") !== -1) resolve()
+    })
+  })
+
+  // start local e2e tests
   let testArgs = ["test:e2e:local"]
   if (filter) testArgs = testArgs.concat(`--filter`, `*${filter}*`)
   const test = spawn("yarn", testArgs)
   test.stdout.pipe(process.stdout)
   test.stderr.pipe(process.stderr)
 
-  test.on("exit", terminateProcesses({ proxy, serve, test }))
+  // cleanup on exit
+  test.on("exit", terminateProcesses({ serve, test }))
   test.stdout.on("data", async data => {
     if (data.toString().startsWith("Done in")) {
-      await terminateProcesses({ proxy, serve, test })
-      process.exit(0)
+      await (terminateProcesses({ serve, test }, 0))()
     }
   })
   test.stderr.on("data", async data => {
@@ -31,17 +42,16 @@ const main = async () => {
     if (data.toString().startsWith("expected")) return
 
     console.error("Test failed")
-    await terminateProcesses({ proxy, serve, test })
-    process.exit(1)
+    await (terminateProcesses({ serve, test }))()
   })
-  process.on("exit", terminateProcesses({ proxy, serve, test }))
+  process.on("exit", terminateProcesses({ serve, test }))
 }
 
-const terminateProcesses = ({ proxy, serve, test }) => async () => {
-  await exec("yarn testnet:stop")
+const terminateProcesses = ({ serve, test }, exitCode = 1) => async () => {
+  await exec("cd lunie-backend && docker-compose down")
   test.kill()
   serve.kill()
-  proxy.kill()
+  process.exit(exitCode)
 }
 
 main()
