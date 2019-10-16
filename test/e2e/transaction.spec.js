@@ -4,7 +4,7 @@ const formData = require('./formData.json')
 module.exports = {
   'Send Transaction': function(browser) {
     browser
-      //Import funded account
+      // Import funded account
       .pause(500)
       .url(`chrome-extension://${globals.EXTENSION_ID}/popup/popup.html`)
       .waitForElementVisible('a[href="#/create"]')
@@ -37,17 +37,17 @@ module.exports = {
       .waitForElementVisible('h2.session-title')
       .assert.containsText('body', 'Your account has been created')
 
-      //Send transaction on Lunie to extension
+      // Send transaction on Lunie to extension
       .execute(function() {
         window.open('https://localhost:9080/?experimental=true/#/extension')
       })
       .pause(500)
 
-      //Switch to Localhost
+      // Switch to Localhost
       .windowHandles(function(result) {
         browser
           .switchWindow(result.value[1])
-          .pause(300)
+          .pause(500)
           .assert.urlContains(
             'https://localhost:9080/?experimental=true/#/extension'
           )
@@ -67,7 +67,7 @@ module.exports = {
           .click('div.action-modal-footer button')
           .click('div.action-modal-footer button')
 
-          //Back to extension to approve
+          // Back to extension to approve
           .switchWindow(result.value[0])
           .refresh()
           .setValue("input[placeholder='Password']", formData.password)
