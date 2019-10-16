@@ -1,5 +1,5 @@
 import config from '../../config.js'
-import getNewWalletFromSeed from '@lunie/cosmos-keys'
+const { getNewWalletFromSeed } = import('@lunie/cosmos-keys')
 
 export const createSeed = () => {
   return new Promise(resolve => {
