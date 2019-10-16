@@ -173,3 +173,9 @@ export const resetSignUpData = ({ commit }) => {
 export const resetRecoverData = ({ commit }) => {
   commit(`resetRecoverData`)
 }
+
+export const getAddressFromSeed = async (store, seedPhrase) => {
+  const { getNewWalletFromSeed } = await import('@lunie/cosmos-keys')
+  const wallet = getNewWalletFromSeed(seedPhrase)
+  return wallet.cosmosAddress
+}
