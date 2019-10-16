@@ -60,7 +60,7 @@ module.exports = {
           })
           // Output html synchronously
           .perform(function() {
-            console.log('htmlOutput', htmlOutput)
+            console.log('htmlOutput:', htmlOutput)
           })
           .waitForElementVisible('li.account button')
           .click('li.account button')
