@@ -63,9 +63,7 @@ export default {
   data: () => ({
     searchTerm: "",
     activeOnly: true,
-    validators: [],
-    annualProvision: 0.0,
-    bondedTokens: 0
+    validators: []
   }),
   computed: {
     ...mapState([`session`]),
@@ -78,7 +76,7 @@ export default {
     validatorsPlus() {
       return this.validators.map(v => ({
         ...v,
-        smallMoniker: v.moniker ? v.moniker.toLowerCase() : "",
+        smallMoniker: v.moniker ? v.moniker.toLowerCase() : ""
       }))
     }
   },
@@ -86,32 +84,6 @@ export default {
   //   console.log(this.validatorsPlus)
   // },
   apollo: {
-    annualProvision: {
-      query: gql`
-        query annualProvision($networkId: String!) {
-          annualProvision(networkId: $networkId)
-        }
-      `,
-      variables() {
-        return {
-          networkId: this.network
-        }
-      },
-      update: result => parseFloat(result.annualProvision)
-    },
-    bondedTokens: {
-      query: gql`
-        query bondedTokens($networkId: String!) {
-          bondedTokens(networkId: $networkId)
-        }
-      `,
-      variables() {
-        return {
-          networkId: this.network
-        }
-      },
-      update: result => parseInt(result.bondedTokens)
-    },
     validators: {
       query: gql`
         query validators($networkId: String!) {

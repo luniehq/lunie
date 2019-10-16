@@ -54,7 +54,7 @@
       }}
     </td>
     <td :class="{ 'hide-xs': showOnMobile !== 'voting-power' }">
-      {{ validator.voting_power | percent }}
+      {{ validator.votingPower | percent }}
     </td>
   </tr>
 </template>
@@ -96,7 +96,7 @@ export default {
   }),
   computed: {
     ...mapState({
-      network: state => state.connection.network,
+      network: state => state.connection.network
     }),
     ...mapState([`session`]),
     status() {
@@ -172,12 +172,12 @@ export default {
       },
       update: result => {
         // if (true ||!result) {
-          // console.log("no shares!", result)
-          return {
-            delegatorAddress: "",
-            validatorAddress: "",
-            shares: 0
-          }
+        // console.log("no shares!", result)
+        return {
+          delegatorAddress: "",
+          validatorAddress: "",
+          shares: 0
+        }
         // } else
         //   return {
         //     ...result.delegation,
