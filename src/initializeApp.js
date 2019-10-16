@@ -21,9 +21,6 @@ function setOptions(urlParams, store) {
   if (config.mobileApp || urlParams.insecure === `true`) {
     store.commit(`setInsecureMode`, true)
   }
-  if (urlParams.insecure === `false`) {
-    store.commit(`setInsecureMode`, false)
-  }
 }
 
 export default function init(urlParams, env = process.env) {
