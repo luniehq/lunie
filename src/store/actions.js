@@ -1,4 +1,5 @@
 import config from '../../config.js'
+import getNewWalletFromSeed from '@lunie/cosmos-keys'
 
 export const createSeed = () => {
   return new Promise(resolve => {
@@ -174,8 +175,7 @@ export const resetRecoverData = ({ commit }) => {
   commit(`resetRecoverData`)
 }
 
-export const getAddressFromSeed = async (store, seedPhrase) => {
-  const { getNewWalletFromSeed } = await import('@lunie/cosmos-keys')
+export const getAddressFromSeed = (store, seedPhrase) => {
   const wallet = getNewWalletFromSeed(seedPhrase)
   return wallet.cosmosAddress
 }
