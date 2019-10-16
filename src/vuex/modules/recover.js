@@ -16,9 +16,14 @@ export default () => {
         state[payload.field] = payload.value
       },
       // eslint-disable-next-line
-      recoverReset(state) {
+      resetRecoverData(state) {
         // eslint-disable-next-line
         state = emptyState
+      }
+    },
+    actions: {
+      resetRecoverData({ commit }) {
+        commit(`resetRecoverData`)
       }
     }
   }

@@ -29,7 +29,7 @@ export default {
     Steps
   },
   created() {
-    this.$store.commit("recoverReset")
+    this.$store.dispatch("resetRecoverData")
   }
 }
 </script>

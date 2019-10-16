@@ -43,4 +43,8 @@ describe(`TmSessionSignUpSuccess`, () => {
   it("renders", () => {
     expect(wrapper.element).toMatchSnapshot()
   })
+
+  it(`should dispatch resetSignUpData`, async () => {
+    expect($store.dispatch).toHaveBeenCalledWith(`resetSignUpData`)
+  })
 })

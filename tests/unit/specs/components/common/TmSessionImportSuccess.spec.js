@@ -45,7 +45,7 @@ describe(`TmSessionImportSuccess`, () => {
     expect(wrapper.element).toMatchSnapshot()
   })
 
-  it(`should commit recoverReset`, async () => {
-    expect($store.commit).toHaveBeenCalledWith(`recoverReset`)
+  it(`should dispatch resetRecoverData`, async () => {
+    expect($store.dispatch).toHaveBeenCalledWith(`resetRecoverData`)
   })
 })
