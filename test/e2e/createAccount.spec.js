@@ -32,19 +32,24 @@ module.exports = {
       .waitForElementVisible('a[href="#/create"]')
       .click('a[href="#/create"]')
       .pause(500)
+      // Name
       .setValue(
         "input[placeholder='Must be at least 5 characters']",
-        formData.name2
+        formData.name
       )
       .click('div.session-footer button')
+      // Password
       .setValue(
         "input[placeholder='Must be at least 10 characters']",
         formData.password
       )
       .setValue("input[placeholder='Enter password again']", formData.password)
       .click('div.session-footer button')
+      .pause(500)
+      // Seed
       .click('div.field-checkbox-input label')
       .click('div.session-footer button')
+      // Confirm
       .assert.containsText('body', 'Your account has been created')
   }
 }
