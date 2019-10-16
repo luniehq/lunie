@@ -39,9 +39,10 @@ module.exports = {
       .click('div.session-footer button')
       .setValue(
         "input[placeholder='Must be at least 10 characters']",
-        formData.name2
+        formData.password
       )
       .setValue("input[placeholder='Enter password again']", formData.password)
+      .click('div.session-footer button')
       .click('div.field-checkbox-input label')
       .click('div.session-footer button')
       .assert.containsText('body', 'Your account has been created')
