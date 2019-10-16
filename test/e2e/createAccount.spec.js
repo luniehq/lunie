@@ -42,7 +42,7 @@ module.exports = {
         formData.name2
       )
       .setValue("input[placeholder='Enter password again']", formData.password)
-      .click('input#sign-up-warning')
+      .click('div.field-checkbox-input label')
       .click('div.session-footer button')
       .assert.containsText('body', 'Your account has been created')
   }
