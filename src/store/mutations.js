@@ -40,3 +40,22 @@ export const updateField = (state, payload) => {
     state.signup.signUpSeed = payload.value
   }
 }
+
+export const resetSignUpData = state => {
+  state.signup = {
+    signUpName: ``,
+    signUpPassword: ``,
+    signUpPasswordConfirm: ``,
+    signUpWarning: false,
+    signUpSeed: ``
+  }
+}
+
+export const resetRecoverData = state => {
+  state.recover = {
+    seed: ``,
+    name: ``,
+    password: ``,
+    passwordConfirm: ``
+  }
+}

@@ -165,3 +165,11 @@ export const rejectSignRequest = ({ commit }, signRequest) => {
 }
 
 export const signIn = () => {}
+
+export const resetSignUpData = ({ commit }) => {
+  commit(`resetSignUpData`)
+}
+
+export const resetRecoverData = ({ commit }) => {
+  commit(`resetRecoverData`)
+}
