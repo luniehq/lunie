@@ -1,5 +1,6 @@
 var { globals } = require('./nightwatch.conf.js')
 const formData = require('./formData.json')
+var htmlOutput = ``
 
 module.exports = {
   'Send Transaction': function(browser) {
@@ -53,6 +54,14 @@ module.exports = {
           .assert.urlContains(
             'https://localhost:9080/?experimental=true/#/extension'
           )
+          // Get html output
+          .source(function(result) {
+            htmlOutput = result.value
+          })
+          // Output html synchronously
+          .perform(function() {
+            console.log('htmlOutput', htmlOutput)
+          })
           .waitForElementVisible('li.account button')
           .click('li.account button')
           .waitForElementNotPresent('.session')
