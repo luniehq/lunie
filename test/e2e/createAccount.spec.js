@@ -36,8 +36,14 @@ module.exports = {
         "input[placeholder='Must be at least 5 characters']",
         formData.name2
       )
-      .click('div.field-checkbox-input label')
       .click('div.session-footer button')
-      .assert.containsText('body', 'Choose Password')
+      .setValue(
+        "input[placeholder='Must be at least 10 characters']",
+        formData.name2
+      )
+      .setValue("input[placeholder='Enter password again']", formData.password)
+      .click('input#sign-up-warning')
+      .click('div.session-footer button')
+      .assert.containsText('body', 'Your account has been created')
   }
 }

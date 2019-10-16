@@ -1,4 +1,10 @@
-import { setSignRequest, setAccounts, updateField, resetSignUpData, resetRecoverData } from 'store/mutations'
+import {
+  setSignRequest,
+  setAccounts,
+  updateField,
+  resetSignUpData,
+  resetRecoverData
+} from 'store/mutations'
 
 describe('mutations', () => {
   it('setSignRequest', () => {
