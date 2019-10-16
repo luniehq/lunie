@@ -40,11 +40,6 @@ export default [
     component: require('common/TmSessionSignUpPassword').default
   },
   {
-    path: `/create`,
-    name: `create`,
-    component: require('common/TmSessionSignUp').default
-  },
-  {
     path: `/create/confirm`,
     name: `create-confirm`,
     component: require('common/TmSessionSignUpSeed').default
