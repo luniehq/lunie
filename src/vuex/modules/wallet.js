@@ -1,5 +1,5 @@
 import Vue from "vue"
-import config from "src/config"
+import config from "src/../config"
 import axios from "axios"
 
 export default ({ node }) => {

@@ -1,4 +1,4 @@
-import config from "src/config"
+import config from "src/../config"
 import { getSigner } from "src/ActionModal/utils/signer.js"
 
 jest.mock("@lunie/cosmos-keys", () => ({

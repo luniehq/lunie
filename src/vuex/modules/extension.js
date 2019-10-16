@@ -1,4 +1,4 @@
-import config from "src/config"
+import config from "src/../config"
 import { getAccountsFromExtension } from "src/scripts/extension-utils"
 
 export default () => {
