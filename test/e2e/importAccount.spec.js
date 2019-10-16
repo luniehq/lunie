@@ -1,7 +1,7 @@
 var { globals } = require('./nightwatch.conf.js')
 const formData = require('./formData.json')
 
-module.exports = {
+/* module.exports = {
   'Import Account': function(browser) {
     browser
       .url(`chrome-extension://${globals.EXTENSION_ID}/popup/popup.html`)
@@ -23,5 +23,21 @@ module.exports = {
       )
       .click('div.session-footer button')
       .assert.containsText('body', formData.name)
+  }
+} */
+
+module.exports = {
+  'Import Account': function(browser) {
+    browser
+      .url(`chrome-extension://${globals.EXTENSION_ID}/popup/popup.html`)
+      .waitForElementVisible('.tm-li-session-title')
+      .click('a[href="#/recover"]')
+      .pause(500)
+      .setValue(
+        "textarea[placeholder='Must be exactly 24 words']",
+        formData.seedPhrase
+      )
+      .click('div.session-footer button')
+      .assert.containsText('body', 'Your Address')
   }
 }
