@@ -45,9 +45,8 @@ module.exports = {
       )
       .setValue("input[placeholder='Enter password again']", formData.password)
       .click('div.session-footer button')
-      .pause(500)
       // Seed
-      .click('div.field-checkbox-input label')
+      .click('input')
       .click('div.session-footer button')
       // Confirm
       .assert.containsText('body', 'Your account has been created')
