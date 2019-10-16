@@ -13,6 +13,8 @@ const main = async () => {
   await exec("cd lunie-backend && git pull origin develop")
   console.log("starting stack repo")
   await exec("cd lunie-backend && docker-compose up -d")
+
+  console.log("starting website")
   const serve = spawn("yarn", ["test:e2e:serve"])
   serve.stdout.pipe(process.stdout)
   serve.stderr.pipe(process.stderr)
@@ -23,7 +25,7 @@ const main = async () => {
     })
   })
 
-  // start local e2e tests
+  console.log("starting local e2e tests")
   let testArgs = ["test:e2e:local"]
   if (filter) testArgs = testArgs.concat(`--filter`, `*${filter}*`)
   const test = spawn("yarn", testArgs)
