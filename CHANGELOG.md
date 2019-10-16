@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.0-beta.129] - 2019-10-16
+
+### Repository
+
+- [#978](https://github.com/cosmos/lunie/issues/978) Moved config.js to root directory @faboweb
+
 ## [1.0.0-beta.128] - 2019-10-08
 
 ### Added
