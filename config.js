@@ -9,6 +9,6 @@ module.exports = {
   enable_cache: process.env.ENABLE_CACHE || false,
   redis_url: process.env.REDIS_URL || '',
   hasura_admin_key: process.env.HASURA_ADMIN_KEY || '',
-  hasura_url: process.env.HASURA_URL,
+  hasura_url: process.env.HASURA_URL || 'https://localhost:8080/v1/graphql',
   enableTestnet: process.env.TESTNET === 'true'
 }
