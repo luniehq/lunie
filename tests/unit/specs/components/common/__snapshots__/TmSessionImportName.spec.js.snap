@@ -26,9 +26,11 @@ exports[`TmSessionImportName has the expected html structure 1`] = `
         fieldid="import-name"
         fieldlabel="Your Address"
       >
-        <pre>
+        <p
+          class="address"
+        >
           true
-        </pre>
+        </p>
       </tmformgroup-stub>
        
       <tmformgroup-stub
@@ -42,6 +44,8 @@ exports[`TmSessionImportName has the expected html structure 1`] = `
           value=""
           vue-focus="vue-focus"
         />
+         
+        <!---->
          
         <!---->
          
