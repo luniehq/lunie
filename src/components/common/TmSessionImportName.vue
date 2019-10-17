@@ -2,7 +2,7 @@
   <SessionFrame>
     <TmFormStruct :submit="onSubmit">
       <h2 class="session-title">
-        Recover with backup code
+        Choose name
       </h2>
       <div class="session-main">
         <Steps :steps="[`Recover`, `Name`, `Password`]" active-step="Name" />
