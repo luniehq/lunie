@@ -45,11 +45,6 @@ export default [
     component: require('common/TmSessionSignUpSeed').default
   },
   {
-    path: `/create/success`,
-    name: `create-success`,
-    component: require('common/TmSessionSignUpSuccess').default
-  },
-  {
     path: `/recover`,
     name: `recover`,
     component: require('common/TmSessionImport').default
@@ -63,11 +58,6 @@ export default [
     path: `/recover/password`,
     name: `recover-password`,
     component: require('common/TmSessionImportPassword').default
-  },
-  {
-    path: `/recover/success`,
-    name: `recover-success`,
-    component: require('common/TmSessionImportSuccess').default
   },
   {
     path: `/approve`,
