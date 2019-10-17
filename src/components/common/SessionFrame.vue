@@ -34,11 +34,10 @@ export default {
     hideBack: {
       type: Boolean,
       default: false
-    }
-  },
-  methods: {
-    goBack() {
-      this.$router.go(`-1`)
+    },
+    goBack: {
+      type: Function,
+      default: () => this.$router.go(`-1`)
     }
   }
 }

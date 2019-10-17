@@ -119,63 +119,11 @@ export default [
   },
   {
     path: `/create`,
-    name: `create`,
     components: {
       session: require(`./components/common/TmSessionSignUp`).default
     },
     meta: {
       feature: "Session"
-    }
-  },
-  {
-    path: `/create/password`,
-    name: `create-password`,
-    components: {
-      session: require(`./components/common/TmSessionSignUpPassword`).default
-    },
-    meta: {
-      feature: "Session"
-    },
-    beforeEnter: (to, from, next) => {
-      if (from.name === `create`) {
-        next()
-      } else {
-        next({ path: `/create` })
-      }
-    }
-  },
-  {
-    path: `/create/confirm`,
-    name: `create-confirm`,
-    components: {
-      session: require(`./components/common/TmSessionSignUpSeed`).default
-    },
-    meta: {
-      feature: "Session"
-    },
-    beforeEnter: (to, from, next) => {
-      if (from.name === `create-password`) {
-        next()
-      } else {
-        next({ path: `/create` })
-      }
-    }
-  },
-  {
-    path: `/create/success`,
-    name: `create-success`,
-    components: {
-      session: require(`./components/common/TmSessionSignUpSuccess`).default
-    },
-    meta: {
-      feature: "Session"
-    },
-    beforeEnter: (to, from, next) => {
-      if (from.name === `create-confirm`) {
-        next()
-      } else {
-        next({ path: `/create` })
-      }
     }
   },
   {

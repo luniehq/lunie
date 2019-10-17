@@ -31,7 +31,7 @@ export default {
     },
     submit: {
       type: Function,
-      required: true
+      default: () => {}
     }
   },
   computed: {
