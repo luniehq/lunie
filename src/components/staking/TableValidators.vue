@@ -9,6 +9,7 @@
         />
       </thead>
       <tbody
+        v-infinite-scroll="loadMore"
         infinite-scroll-distance="400"
         name="flip-list"
       >
@@ -47,29 +48,25 @@ export default {
     }
   },
   data: () => ({
-    query: ``,
     sort: {
       property: `expectedReturns`,
       order: `desc`
     },
     showing: 15,
-    rollingWindow: 10000 // param of slashing period
   }),
   computed: {
-    ...mapState([`distribution`, `pool`, `session`]),
-    ...mapState({
-      annualProvision: state => state.minting.annualProvision
-    }),
-    ...mapGetters([`committedDelegations`, `bondDenom`, `lastHeader`]),
     sortedEnrichedValidators() {
       return orderBy(
-        this.validators.slice(0),
+        this.validators.slice(0, this.showing),
         [this.sort.property],
         [this.sort.order]
       )
     },
     showingValidators() {
-      return this.sortedEnrichedValidators
+      return this.sortedEnrichedValidators.map(validator => ({
+        ...validator,
+        small_moniker: validator.moniker ? validator.moniker.toLowerCase() : "",
+      }))
     },
     properties() {
       return [
@@ -92,23 +89,12 @@ export default {
     }
   },
   watch: {
-    lastHeader: {
-      immediate: true,
-      handler() {
-        this.$store.dispatch(`getRewardsFromMyValidators`)
-      }
-    },
     "sort.property": function() {
       this.showing = 15
     },
     "sort.order": function() {
       this.showing = 15
     }
-  },
-  mounted() {
-    this.$store.dispatch(`getPool`)
-    this.$store.dispatch(`getRewardsFromMyValidators`)
-    this.$store.dispatch(`getMintingParameters`)
   },
   methods: {
     loadMore() {
