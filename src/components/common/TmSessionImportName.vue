@@ -10,7 +10,7 @@
           active-step="Name"
         />
         <TmFormGroup field-id="import-name" field-label="Your Address">
-          <pre>{{ importCosmosAddress }}</pre>
+          <p class="address">{{ importCosmosAddress }}</p>
         </TmFormGroup>
         <TmFormGroup
           :error="$v.$error && $v.name.$invalid"
@@ -98,3 +98,9 @@ export default {
   })
 }
 </script>
+<style scoped>
+.address {
+  word-break: break-all;
+  font-size: 0.9rem;
+}
+</style>
