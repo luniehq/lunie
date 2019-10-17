@@ -162,23 +162,6 @@ export default [
     }
   },
   {
-    path: `/create/success`,
-    name: `create-success`,
-    components: {
-      session: require(`./components/common/TmSessionSignUpSuccess`).default
-    },
-    meta: {
-      feature: "Session"
-    },
-    beforeEnter: (to, from, next) => {
-      if (from.name === `create-confirm`) {
-        next()
-      } else {
-        next({ path: `/create` })
-      }
-    }
-  },
-  {
     path: `/recover`,
     name: `recover`,
     components: {

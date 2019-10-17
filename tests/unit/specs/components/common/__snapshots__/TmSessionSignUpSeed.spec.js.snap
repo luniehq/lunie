@@ -10,7 +10,7 @@ exports[`TmSessionSignUpSeed renders 1`] = `
       class="session-title"
     >
       
-      Confirm
+      Backup code
     
     </h2>
      
@@ -19,8 +19,8 @@ exports[`TmSessionSignUpSeed renders 1`] = `
         class="session-main"
       >
         <steps-stub
-          activestep="Seed"
-          steps="Create,Password,Seed,Success"
+          activestep="Backup"
+          steps="Create,Password,Backup"
         />
          
         <tmformgroup-stub

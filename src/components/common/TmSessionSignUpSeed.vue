@@ -2,13 +2,13 @@
   <SessionFrame>
     <TmFormStruct :submit="onSubmit.bind(this)">
       <h2 class="session-title">
-        Confirm
+        Backup code
       </h2>
       <div v-if="session.insecureMode">
         <div class="session-main">
           <Steps
-            :steps="[`Create`, `Password`, `Seed`, `Success`]"
-            active-step="Seed"
+            :steps="[`Create`, `Password`, `Backup`]"
+            active-step="Backup"
           />
           <TmFormGroup
             field-id="sign-up-seed"
@@ -109,7 +109,8 @@ export default {
           password: this.signup.signUpPassword,
           name: this.signup.signUpName
         })
-        this.$router.push(`/create/success`)
+        this.$store.dispatch(`resetSignUpData`)
+        this.$router.push(`/`)
       } catch (error) {
         this.$store.commit(`notifyError`, {
           title: `Couldn't create account`,

@@ -20,7 +20,7 @@ exports[`TmSessionSignUp renders 1`] = `
       >
         <steps-stub
           activestep="Create"
-          steps="Create,Password,Seed,Success"
+          steps="Create,Password,Backup"
         />
          
         <dangerzonewarning-stub />

@@ -6,7 +6,7 @@
       </h2>
       <div v-if="session.insecureMode" class="session-main">
         <Steps
-          :steps="[`Create`, `Password`, `Seed`, `Success`]"
+          :steps="[`Create`, `Password`, `Backup`]"
           active-step="Password"
         />
         <TmFormGroup

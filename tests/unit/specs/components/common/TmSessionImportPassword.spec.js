@@ -90,7 +90,7 @@ describe(`TmSessionImportPassword`, () => {
     })
   })
 
-  it(`should go to /recover/success when submit the form`, async () => {
+  it(`should go to / when submit the form`, async () => {
     wrapper.vm.$store.state.recover.password = `1234567890`
     wrapper.vm.$store.state.recover.passwordConfirm = `1234567890`
     await wrapper.vm.onSubmit()

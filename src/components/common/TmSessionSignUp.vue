@@ -10,7 +10,7 @@
       <div v-else>
         <div class="session-main">
           <Steps
-            :steps="[`Create`, `Password`, `Seed`, `Success`]"
+            :steps="[`Create`, `Password`, `Backup`]"
             active-step="Create"
           />
           <DangerZoneWarning />
