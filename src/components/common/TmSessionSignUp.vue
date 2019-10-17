@@ -37,6 +37,12 @@
               type="minLength"
               min="5"
             />
+            <TmFormMsg
+              v-if="$v.fieldName.$error && !$v.fieldName.nameExists"
+              name="Name"
+              type="custom"
+              msg="already exists"
+            />
           </TmFormGroup>
         </div>
         <div class="session-footer">
@@ -59,6 +65,16 @@ import SessionFrame from "common/SessionFrame"
 import DangerZoneWarning from "common/DangerZoneWarning"
 import InsecureModeWarning from "common/InsecureModeWarning"
 import Steps from "../../ActionModal/components/Steps"
+import { getWalletIndex } from "@lunie/cosmos-keys"
+
+const nameExists = value => {
+  const walletIndex = getWalletIndex()
+  if (walletIndex.some(e => e.name === value)) {
+    return false
+  } else {
+    return true
+  }
+}
 
 export default {
   name: `session-sign-up`,
@@ -92,7 +108,7 @@ export default {
     }
   },
   validations: () => ({
-    fieldName: { required, minLength: minLength(5) }
+    fieldName: { required, minLength: minLength(5), nameExists }
   })
 }
 </script>
