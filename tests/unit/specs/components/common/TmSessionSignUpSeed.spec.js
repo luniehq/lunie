@@ -79,7 +79,7 @@ describe(`TmSessionSignUpSeed`, () => {
     expect($store.dispatch).toHaveBeenCalledWith(`resetSignUpData`)
   })
 
-  it(`should commit notifyError on createKey dispatch error`, async () => {
+  it(`should show error on createKey dispatch error`, async () => {
     wrapper.vm.$store.state.signup.signUpSeed = `asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf`
     wrapper.vm.$store.state.signup.signUpPassword = `1234567890`
     wrapper.vm.$store.state.signup.signUpName = `HappyLunieUser`
@@ -88,10 +88,6 @@ describe(`TmSessionSignUpSeed`, () => {
       createKey: jest.fn().mockRejectedValue(new Error())
     }
     await wrapper.vm.onSubmit()
-    expect(wrapper.vm.$store.commit).toHaveBeenCalledWith(`notifyError`, {
-      body: `this.$store.dispatch is not a function`,
-      title: `Couldn't create account`
-    })
+    expect(wrapper.vm.error).toBe(true)
   })
-
 })
