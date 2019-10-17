@@ -5,7 +5,7 @@ import {
   enableGoogleAnalytics,
   setGoogleAnalyticsPage
 } from "scripts/google-analytics"
-import config from "src/config"
+import config from "src/../config"
 import Node from "./connectors/node"
 import router, { routeGuard } from "./router"
 import Store from "./vuex/store"

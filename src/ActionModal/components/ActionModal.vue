@@ -291,7 +291,7 @@ import { atoms, viewDenom, prettyInt } from "src/scripts/num"
 import { between, requiredIf } from "vuelidate/lib/validators"
 import { track } from "scripts/google-analytics"
 import { NetworkCapability, NetworkCapabilityResult } from "src/gql"
-import config from "src/config"
+import config from "src/../config"
 
 import ActionManager from "../utils/ActionManager"
 

@@ -1,6 +1,6 @@
 import connectionModule from "src/vuex/modules/connection.js"
 
-jest.mock(`src/config.js`, () => ({
+jest.mock(`src/../config.js`, () => ({
   stargate: `https://voyager.lol`,
   rpc: `https://voyager-rpc.lol`
 }))

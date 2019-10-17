@@ -50,7 +50,7 @@
 </template>
 
 <script>
-import config from "src/config"
+import config from "src/../config"
 import { mapState } from "vuex"
 import LiSession from "common/TmLiSession"
 import SessionFrame from "common/SessionFrame"
