@@ -7,4 +7,5 @@ COPY package-lock.json /app/package-lock.json
 COPY index.js /app/index.js
 COPY config.js /app/config.js
 RUN npm install
-CMD node index.js
+EXPOSE 4000
+CMD ["node", "index.js"]
