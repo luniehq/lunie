@@ -94,7 +94,14 @@ describe(`TmSessionImportPassword`, () => {
     wrapper.vm.$store.state.recover.password = `1234567890`
     wrapper.vm.$store.state.recover.passwordConfirm = `1234567890`
     await wrapper.vm.onSubmit()
-    expect(wrapper.vm.$router.push).toHaveBeenCalledWith(`/recover/success`)
+    expect(wrapper.vm.$router.push).toHaveBeenCalledWith(`/`)
+  })
+
+  it(`should dispatch resetRecoverData when submit the form`, async () => {
+    wrapper.vm.$store.state.recover.password = `1234567890`
+    wrapper.vm.$store.state.recover.passwordConfirm = `1234567890`
+    await wrapper.vm.onSubmit()
+    expect($store.dispatch).toHaveBeenCalledWith(`resetRecoverData`)
   })
 
   it(`should commit notifyError on createKey dispatch error`, async () => {
@@ -108,5 +115,12 @@ describe(`TmSessionImportPassword`, () => {
       body: `this.$store.dispatch is not a function`,
       title: `Couldn't create account`
     })
+  })
+
+  it(`should dispatch resetRecoverData when submit the form`, async () => {
+    wrapper.vm.$store.state.recover.password = `1234567890`
+    wrapper.vm.$store.state.recover.passwordConfirm = `1234567890`
+    await wrapper.vm.onSubmit()
+    expect($store.dispatch).toHaveBeenCalledWith(`resetRecoverData`)
   })
 })

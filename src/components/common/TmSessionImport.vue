@@ -5,10 +5,7 @@
         Recover with backup code
       </h2>
       <div class="session-main">
-        <Steps
-          :steps="[`Recover`, `Name`, `Password`, `Success`]"
-          active-step="Recover"
-        />
+        <Steps :steps="[`Recover`, `Name`, `Password`]" active-step="Recover" />
         <TmFormGroup
           :error="$v.$error && $v.seed.$invalid"
           field-id="import-seed"

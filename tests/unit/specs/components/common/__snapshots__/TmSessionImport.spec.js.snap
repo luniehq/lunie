@@ -19,7 +19,7 @@ exports[`TmSessionImport has the expected html structure 1`] = `
     >
       <steps-stub
         activestep="Recover"
-        steps="Recover,Name,Password,Success"
+        steps="Recover,Name,Password"
       />
        
       <tmformgroup-stub

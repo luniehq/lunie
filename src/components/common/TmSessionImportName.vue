@@ -5,10 +5,7 @@
         Recover with backup code
       </h2>
       <div class="session-main">
-        <Steps
-          :steps="[`Recover`, `Name`, `Password`, `Success`]"
-          active-step="Name"
-        />
+        <Steps :steps="[`Recover`, `Name`, `Password`]" active-step="Name" />
         <TmFormGroup field-id="import-name" field-label="Your Address">
           <p class="address">{{ importCosmosAddress }}</p>
         </TmFormGroup>
@@ -105,7 +102,6 @@ export default {
   methods: {
     onSubmit() {
       this.$v.$touch()
-      console.log(this.$v.$error)
       if (this.$v.name.$invalid) return
       this.$router.push("/recover/password")
     }

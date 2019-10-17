@@ -2,11 +2,11 @@
   <SessionFrame>
     <TmFormStruct :submit="onSubmit.bind(this)">
       <h2 class="session-title">
-        Recover with backup code
+        Choose password
       </h2>
       <div class="session-main">
         <Steps
-          :steps="[`Recover`, `Name`, `Password`, `Success`]"
+          :steps="[`Recover`, `Name`, `Password`]"
           active-step="Password"
         />
         <TmFormGroup
@@ -110,7 +110,8 @@ export default {
           password: this.recover.password,
           name: this.recover.name
         })
-        this.$router.push(`/recover/success`)
+        this.$store.dispatch(`resetRecoverData`)
+        this.$router.push(`/`)
       } catch (error) {
         this.$store.commit(`notifyError`, {
           title: `Couldn't create account`,
