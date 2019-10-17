@@ -35,6 +35,12 @@
             type="minLength"
             min="5"
           />
+          <TmFormMsg
+            v-if="$v.name.$error && !$v.name.nameExists"
+            name="Name"
+            type="custom"
+            msg="already exists"
+          />
         </TmFormGroup>
       </div>
       <div class="session-footer">
@@ -54,6 +60,16 @@ import TmFormMsg from "common/TmFormMsg"
 import SessionFrame from "common/SessionFrame"
 import { mapGetters } from "vuex"
 import Steps from "../../ActionModal/components/Steps"
+import { getWalletIndex } from "@lunie/cosmos-keys"
+
+const nameExists = value => {
+  const walletIndex = getWalletIndex()
+  if (walletIndex.some(e => e.name === value)) {
+    return false
+  } else {
+    return true
+  }
+}
 
 export default {
   name: `session-import-name`,
@@ -89,12 +105,13 @@ export default {
   methods: {
     onSubmit() {
       this.$v.$touch()
+      console.log(this.$v.$error)
       if (this.$v.name.$invalid) return
       this.$router.push("/recover/password")
     }
   },
   validations: () => ({
-    name: { required, minLength: minLength(5) }
+    name: { required, minLength: minLength(5), nameExists }
   })
 }
 </script>
