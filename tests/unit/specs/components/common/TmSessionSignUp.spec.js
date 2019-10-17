@@ -1,6 +1,11 @@
 import { createLocalVue, shallowMount } from "@vue/test-utils"
 import Vuelidate from "vuelidate"
 import TmSessionSignUp from "common/TmSessionSignUp"
+jest.mock("@lunie/cosmos-keys", () => ({
+  getWalletIndex: function() {
+    return [{ name: `Happy Lunie User`, address: `xyz123` }]
+  }
+}))
 
 describe(`TmSessionSignUp`, () => {
   const localVue = createLocalVue()
@@ -45,6 +50,12 @@ describe(`TmSessionSignUp`, () => {
       field: `signUpName`,
       value: `HappyLunieUser`
     })
+  })
+
+  it(`validation should fail if name exists already in stored accounts`, async () => {
+    wrapper.vm.$store.state.signup.signUpName = `Happy Lunie User`
+    await wrapper.vm.onSubmit()
+    expect(wrapper.vm.$v.fieldName.$error).toBe(true)
   })
 
   it(`should go to /create/password when submit the form`, async () => {

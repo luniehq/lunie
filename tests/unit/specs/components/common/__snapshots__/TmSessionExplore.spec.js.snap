@@ -164,6 +164,55 @@ exports[`TmSessionExplore shows a form to sign in with an address 1`] = `
           </div>
         </div>
       </div>
+      <div
+        title="cosmos1vxkye0mpdtjhzrc6va5lcnxnuaa7m64khj8xyz"
+      >
+        <div
+          class="tm-li-session"
+        >
+          <div
+            class="tm-li-session-icon"
+          >
+            <i
+              class="material-icons circle"
+            >
+              
+              laptop
+            
+            </i>
+          </div>
+           
+          <div
+            class="tm-li-session-text"
+          >
+            <div
+              class="tm-li-session-title"
+            >
+              <span>
+                cosmos…a7m64khj8xyz
+              </span>
+               
+              <p
+                class="tm-li-session-subtitle"
+              >
+                
+                Local
+              
+              </p>
+            </div>
+          </div>
+           
+          <div
+            class="tm-li-session-icon"
+          >
+            <i
+              class="material-icons"
+            >
+              arrow_forward
+            </i>
+          </div>
+        </div>
+      </div>
     </div>
      
     <div

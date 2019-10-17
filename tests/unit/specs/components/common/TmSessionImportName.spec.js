@@ -3,6 +3,11 @@ import Vuelidate from "vuelidate"
 import { shallowMount, createLocalVue } from "@vue/test-utils"
 import TmSessionImportName from "common/TmSessionImportName"
 jest.mock(`scripts/google-analytics.js`, () => () => {})
+jest.mock("@lunie/cosmos-keys", () => ({
+  getWalletIndex: function() {
+    return [{ name: `Happy Lunie User`, address: `xyz123` }]
+  }
+}))
 const localVue = createLocalVue()
 localVue.use(Vuex)
 localVue.use(Vuelidate)
@@ -61,9 +66,15 @@ describe(`TmSessionImportName`, () => {
   })
 
   it(`validation should not fail if name lenght >= 5 characters`, async () => {
-    wrapper.vm.$store.state.recover.name = `Happy Lunie User`
+    wrapper.vm.$store.state.recover.name = `Happy Lunie User 2`
     await wrapper.vm.onSubmit()
     expect(wrapper.vm.$v.name.$error).toBe(false)
+  })
+
+  it(`validation should fail if name exists already in stored accounts`, async () => {
+    wrapper.vm.$store.state.recover.name = `Happy Lunie User`
+    await wrapper.vm.onSubmit()
+    expect(wrapper.vm.$v.name.$error).toBe(true)
   })
 
   it(`should commit updateField on field change`, async () => {
@@ -75,7 +86,7 @@ describe(`TmSessionImportName`, () => {
   })
 
   it(`should go to /recover/password when submit the form`, async () => {
-    wrapper.vm.$store.state.recover.name = `Happy Lunie User`
+    wrapper.vm.$store.state.recover.name = `Happy Lunie User 2`
     wrapper.vm.onSubmit()
     expect(wrapper.vm.$router.push).toHaveBeenCalledWith(`/recover/password`)
   })
