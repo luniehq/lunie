@@ -23,7 +23,7 @@
               id="sign-up-name"
               v-model.trim="fieldName"
               type="text"
-              placeholder="Must be at least 5 characters"
+              placeholder="Must be at least 3 characters"
               vue-focus="vue-focus"
             />
             <TmFormMsg
@@ -35,7 +35,7 @@
               v-if="$v.fieldName.$error && !$v.fieldName.minLength"
               name="Name"
               type="minLength"
-              min="5"
+              min="3"
             />
             <TmFormMsg
               v-if="$v.fieldName.$error && !$v.fieldName.nameExists"
@@ -108,7 +108,7 @@ export default {
     }
   },
   validations: () => ({
-    fieldName: { required, minLength: minLength(5), nameExists }
+    fieldName: { required, minLength: minLength(3), nameExists }
   })
 }
 </script>

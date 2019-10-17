@@ -31,7 +31,7 @@ exports[`TmSessionSignUp renders 1`] = `
         >
           <tmfield-stub
             id="sign-up-name"
-            placeholder="Must be at least 5 characters"
+            placeholder="Must be at least 3 characters"
             type="text"
             value=""
             vue-focus="vue-focus"

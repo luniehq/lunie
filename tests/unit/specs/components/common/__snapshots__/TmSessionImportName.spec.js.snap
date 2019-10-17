@@ -10,7 +10,7 @@ exports[`TmSessionImportName has the expected html structure 1`] = `
       class="session-title"
     >
       
-      Recover with backup code
+      Choose name
     
     </h2>
      
@@ -39,7 +39,7 @@ exports[`TmSessionImportName has the expected html structure 1`] = `
       >
         <tmfield-stub
           id="import-name"
-          placeholder="Must have at least 5 characters"
+          placeholder="Must have at least 3 characters"
           type="text"
           value=""
           vue-focus="vue-focus"

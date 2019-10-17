@@ -52,6 +52,29 @@ describe(`TmSessionSignUp`, () => {
     })
   })
 
+  it(`validation should fail if name is not filled in`, async () => {
+    await wrapper.vm.onSubmit()
+    expect(wrapper.vm.$v.fieldName.$error).toBe(true)
+  })
+
+  it(`validation should fail if name lenght < 3 characters`, async () => {
+    wrapper.vm.$store.state.signup.signUpName = `as`
+    await wrapper.vm.onSubmit()
+    expect(wrapper.vm.$v.fieldName.$error).toBe(true)
+  })
+
+  it(`validation should not fail if name lenght >= 3 characters`, async () => {
+    wrapper.vm.$store.state.signup.signUpName = `Happy Lunie User 2`
+    await wrapper.vm.onSubmit()
+    expect(wrapper.vm.$v.fieldName.$error).toBe(false)
+  })
+
+  it(`validation should fail if name exists already in stored accounts`, async () => {
+    wrapper.vm.$store.state.signup.signUpName = `Happy Lunie User`
+    await wrapper.vm.onSubmit()
+    expect(wrapper.vm.$v.fieldName.$error).toBe(true)
+  })
+
   it(`validation should fail if name exists already in stored accounts`, async () => {
     wrapper.vm.$store.state.signup.signUpName = `Happy Lunie User`
     await wrapper.vm.onSubmit()

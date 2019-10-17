@@ -59,13 +59,13 @@ describe(`TmSessionImportName`, () => {
     expect(wrapper.vm.$v.name.$error).toBe(true)
   })
 
-  it(`validation should fail if name lenght < 5 characters`, async () => {
-    wrapper.vm.$store.state.recover.name = `asdf`
+  it(`validation should fail if name lenght < 3 characters`, async () => {
+    wrapper.vm.$store.state.recover.name = `as`
     await wrapper.vm.onSubmit()
     expect(wrapper.vm.$v.name.$error).toBe(true)
   })
 
-  it(`validation should not fail if name lenght >= 5 characters`, async () => {
+  it(`validation should not fail if name lenght >= 3 characters`, async () => {
     wrapper.vm.$store.state.recover.name = `Happy Lunie User 2`
     await wrapper.vm.onSubmit()
     expect(wrapper.vm.$v.name.$error).toBe(false)

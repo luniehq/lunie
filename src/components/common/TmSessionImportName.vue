@@ -18,7 +18,7 @@
             id="import-name"
             v-model.trim="name"
             type="text"
-            placeholder="Must have at least 5 characters"
+            placeholder="Must have at least 3 characters"
             vue-focus="vue-focus"
           />
           <TmFormMsg
@@ -30,7 +30,7 @@
             v-if="$v.name.$error && !$v.name.minLength"
             name="Name"
             type="minLength"
-            min="5"
+            min="3"
           />
           <TmFormMsg
             v-if="$v.name.$error && !$v.name.nameExists"
@@ -107,7 +107,7 @@ export default {
     }
   },
   validations: () => ({
-    name: { required, minLength: minLength(5), nameExists }
+    name: { required, minLength: minLength(3), nameExists }
   })
 }
 </script>
