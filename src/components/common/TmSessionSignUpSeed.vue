@@ -38,6 +38,7 @@
               name="Recovery confirmation"
               type="required"
             />
+            <TmFormMsg v-if="error" type="custom" :msg="errorMessage" />
           </TmFormGroup>
         </div>
         <div class="session-footer">
@@ -75,6 +76,10 @@ export default {
     InsecureModeWarning,
     Steps
   },
+  data: () => ({
+    error: false,
+    errorMessage: ``
+  }),
   computed: {
     ...mapState([`session`, `signup`]),
     fieldSeed: {
@@ -112,10 +117,8 @@ export default {
         this.$store.dispatch(`resetSignUpData`)
         this.$router.push(`/`)
       } catch (error) {
-        this.$store.commit(`notifyError`, {
-          title: `Couldn't create account`,
-          body: error.message
-        })
+        this.error = true
+        this.errorMessage = error.message
       }
     }
   },

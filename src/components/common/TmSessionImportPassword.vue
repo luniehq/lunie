@@ -50,6 +50,7 @@
             name="Password confirmation"
             type="match"
           />
+          <TmFormMsg v-if="error" type="custom" :msg="errorMessage" />
         </TmFormGroup>
       </div>
       <div class="session-footer">
@@ -81,6 +82,10 @@ export default {
     TmFormStruct,
     Steps
   },
+  data: () => ({
+    error: false,
+    errorMessage: ``
+  }),
   computed: {
     ...mapState([`recover`]),
     password: {
@@ -113,10 +118,8 @@ export default {
         this.$store.dispatch(`resetRecoverData`)
         this.$router.push(`/`)
       } catch (error) {
-        this.$store.commit(`notifyError`, {
-          title: `Couldn't create account`,
-          body: error.message
-        })
+        this.error = true
+        this.errorMessage = error.message
       }
     }
   },
