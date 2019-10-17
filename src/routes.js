@@ -223,23 +223,6 @@ export default [
     }
   },
   {
-    path: `/recover/success`,
-    name: `recover-success`,
-    components: {
-      session: require(`./components/common/TmSessionImportSuccess`).default
-    },
-    meta: {
-      feature: "Session"
-    },
-    beforeEnter: (to, from, next) => {
-      if (from.name === `recover-password`) {
-        next()
-      } else {
-        next({ path: `/recover` })
-      }
-    }
-  },
-  {
     path: `/explore`,
     name: `explore`,
     components: {
