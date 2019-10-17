@@ -1,7 +1,11 @@
 {
-  "name": "lgql",
+  "name": "Lunie-API",
   "version": "1.0.0",
-  "description": "",
+  "description": "GraphQL API for Lunie.io",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/luniehq/lunie-api.git"
+  },
   "main": "index.js",
   "scripts": {
     "dev": "NODE_ENV=development nodemon index.js",
