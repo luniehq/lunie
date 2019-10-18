@@ -15,7 +15,7 @@
             class="sign-up-seed-group"
             field-label="Backup Code"
           >
-            <TmSeed :value="fieldSeed" :legacy="true" />
+            <TmSeed :value="fieldSeed" :legacy="false" />
           </TmFormGroup>
           <TmFormGroup
             class="field-checkbox"

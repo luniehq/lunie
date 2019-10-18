@@ -61,9 +61,10 @@ export default {
 </script>
 <style scoped>
 table {
-  width: 100%;
+  width: calc(100% + 8px);
   border-spacing: 4px;
   border-collapse: separate;
+  margin: 0 -4px;
 }
 td {
   text-align: center;
@@ -71,7 +72,7 @@ td {
   background-color: var(--app-nav-light);
   padding: 0.5rem;
   border-radius: 0.2rem;
-  font-size: 0.95rem;
+  font-size: 0.9rem;
 }
 td .word-number {
   display: block;

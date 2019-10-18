@@ -7,7 +7,7 @@
 
       <div v-if="session.addresses.length > 0" class="session-list">
         <div
-          v-for="account in session.addresses"
+          v-for="account in session.addresses.slice(-3)"
           :key="account.address"
           :title="account.address"
           @click="exploreWith(account.address)"
