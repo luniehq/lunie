@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`PageValidator shows a validator profile information errors signing info is missing 1`] = `
+exports[`PageValidator if user has signed in 1`] = `
 <tmpage-stub
   class="small"
   data-title="Validator"
@@ -31,7 +31,7 @@ exports[`PageValidator shows a validator profile information errors signing info
 </tmpage-stub>
 `;
 
-exports[`PageValidator shows a validator profile information if user has signed in 1`] = `
+exports[`PageValidator if user hasn't signed in 1`] = `
 <tmpage-stub
   class="small"
   data-title="Validator"
@@ -60,140 +60,4 @@ exports[`PageValidator shows a validator profile information if user has signed 
     
   </div>
 </tmpage-stub>
-`;
-
-exports[`PageValidator shows a validator profile information if user hasn't signed in 1`] = `
-<tmpage-stub
-  class="small"
-  data-title="Validator"
-  dataempty="true"
-  hideheader="true"
-  loaded="true"
-  managed="true"
-  subtitle=""
-  title=""
->
-  <div>
-    Validator Not Found
-  </div>
-   
-  <div>
-    
-      Please visit the
-      
-    <router-link-stub
-      to="/validators/"
-    >
-       Validators 
-    </router-link-stub>
-    page to view
-      all validators
-    
-  </div>
-</tmpage-stub>
-`;
-
-exports[`PageValidator shows a validator profile information shows a validator as an inactive candidate if he has no voting_power 1`] = `undefined`;
-
-exports[`PageValidator shows a validator profile information shows empty website url 1`] = `
-<tmpage-stub
-  class="small"
-  data-title="Validator"
-  dataempty="true"
-  hideheader="true"
-  loaded="true"
-  managed="true"
-  subtitle=""
-  title=""
->
-  <div>
-    Validator Not Found
-  </div>
-   
-  <div>
-    
-      Please visit the
-      
-    <router-link-stub
-      to="/validators/"
-    >
-       Validators 
-    </router-link-stub>
-    page to view
-      all validators
-    
-  </div>
-</tmpage-stub>
-`;
-
-exports[`PageValidator shows a validator profile information shows http website url 1`] = `
-<tmpage-stub
-  class="small"
-  data-title="Validator"
-  dataempty="true"
-  hideheader="true"
-  loaded="true"
-  managed="true"
-  subtitle=""
-  title=""
->
-  <div>
-    Validator Not Found
-  </div>
-   
-  <div>
-    
-      Please visit the
-      
-    <router-link-stub
-      to="/validators/"
-    >
-       Validators 
-    </router-link-stub>
-    page to view
-      all validators
-    
-  </div>
-</tmpage-stub>
-`;
-
-exports[`PageValidator shows a validator profile information shows that a validator is jailed 1`] = `undefined`;
-
-exports[`delegationTargetOptions always shows wallet in the first position 1`] = `
-Array [
-  Object {
-    "address": "cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9",
-    "key": "My Wallet - cosmos…3p4mqpjyrm5ctpesxxn9",
-    "maximum": 1337,
-    "value": 0,
-  },
-]
-`;
-
-exports[`delegationTargetOptions hides displayed validator if bonded 1`] = `
-Array [
-  Object {
-    "address": "cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9",
-    "key": "My Wallet - cosmos…3p4mqpjyrm5ctpesxxn9",
-    "maximum": 1337,
-    "value": 0,
-  },
-]
-`;
-
-exports[`delegationTargetOptions shows bonded validators for redelegation options 1`] = `
-Array [
-  Object {
-    "address": "cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9",
-    "key": "My Wallet - cosmos…3p4mqpjyrm5ctpesxxn9",
-    "maximum": 1337,
-    "value": 0,
-  },
-  Object {
-    "address": "cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au",
-    "key": "undefined - cosmosvaladdr…3p4mqpjyrm5ctplpn3au",
-    "maximum": 5,
-    "value": 1,
-  },
-]
 `;
