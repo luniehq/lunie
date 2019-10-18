@@ -4,7 +4,7 @@ export default ({ node }) => {
   const emptyState = {
     loading: false,
     loaded: false,
-    error: null,
+    error: false,
 
     // our delegations which are already on the blockchain
     committedDelegates: {},
@@ -62,7 +62,7 @@ export default ({ node }) => {
           unbondingDelegations,
           redelegations
         }
-        state.error = null
+        state.error = false
         state.loading = false
         state.loaded = true
 
@@ -103,7 +103,7 @@ export default ({ node }) => {
           title: `Error fetching delegations`,
           body: error.message
         })
-        state.error = error
+        state.error = true
       }
 
       state.loading = false
