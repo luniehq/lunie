@@ -43,6 +43,9 @@ export default {
       required: true
     }
   },
+  mounted() {
+    console.log(this.transaction)
+  },
   computed: {
     coin() {
       return getCoin(this.transaction)

@@ -53,34 +53,15 @@ export default {
       })
       return names
     },
-    // showingTransactions() {
-    //   return this.flatOrderedTransactionList.slice(0, this.showing)
-    // },
     dataEmpty() {
       return this.transactions.length === 0
     }
   },
-  updated() {
-    console.log(this.transactions)
+  methods: {
+    loadMore() {
+      this.showing += 10
+    }
   },
-  // watch: {
-  //   "session.signedIn": function() {
-  //     this.refreshTransactions()
-  //   }
-  // },
-  // created() {
-  // this.refreshTransactions()
-  // },
-  // methods: {
-  //   async refreshTransactions() {
-  //     if (this.session.signedIn) {
-  //       await this.$store.dispatch(`getAllTxs`)
-  //     }
-  //   },
-  //   loadMore() {
-  //     this.showing += 10
-  //   }
-  // },
   apollo: {
     transactions: {
       query: gql`
@@ -100,6 +81,9 @@ export default {
           }
         }
       `,
+      skip() {
+        return !this.session.address
+      },
       variables() {
         return {
           networkId: this.network,
@@ -108,24 +92,32 @@ export default {
       },
       update: result => {
         if (Array.isArray(result.transactions)) {
-          return result.transactions.map(tx => {
-            !tx.group && console.error("ERROR NO GROUP", tx)
-            tx.timestamp = new Date(tx.timestamp)
-            tx.value = JSON.parse(tx.value)
-            return tx
+          return result.transactions.map(transaction => {
+            !transaction.value && console.log("TX ERROR")
+            const newTx = {
+              ...transaction,
+              value: JSON.parse(transaction.value),
+              timestamp: new Date(transaction.timestamp)
+            }
+            return newTx
           })
         }
         return []
       }
     },
     validators: {
-      query() {
-        /* istanbul ignore next */
-        return AllValidators(this.network)
-      },
-      update(data) {
-        /* istanbul ignore next */
-        return validatorsResult(this.network)(data)
+      query: gql`
+        query validators($networkId: String!) {
+          validators(networkId: $networkId) {
+            name
+            operatorAddress
+          }
+        }
+      `,
+      variables() {
+        return {
+          networkId: this.network
+        }
       }
     }
   }

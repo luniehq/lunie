@@ -8,7 +8,7 @@ describe(`TransactionMetadata`, () => {
     wrapper = shallowMount(TransactionMetadata, {
       propsData: {
         time: new Date("2019-07-31"),
-        block: 1234567,
+        height: 1234567,
         fees: {
           amount: "1234",
           denom: "uatom"
