@@ -10,13 +10,7 @@
             :steps="[`Create`, `Password`, `Backup`]"
             active-step="Backup"
           />
-          <TmFormGroup
-            field-id="sign-up-seed"
-            class="sign-up-seed-group"
-            field-label="Backup Code"
-          >
-            <TmSeed :value="fieldSeed" :legacy="false" />
-          </TmFormGroup>
+          <TmSeed :value="fieldSeed" :legacy="false" />
           <TmFormGroup
             class="field-checkbox"
             :error="$v.fieldWarning.$error"
@@ -127,3 +121,8 @@ export default {
   })
 }
 </script>
+<style>
+.session .field-checkbox-input {
+  text-align: center;
+}
+</style>
