@@ -1,5 +1,11 @@
 import { percent } from "../scripts/num"
 
+export const numberPending = function(value) {
+  return value === undefined || value === null || Number.isNaN(value)
+    ? `--`
+    : value
+}
+
 export const percentOrPending = function(value, totalValue, pending) {
   return pending ? `--` : percent(totalValue === 0 ? 0 : value / totalValue)
 }

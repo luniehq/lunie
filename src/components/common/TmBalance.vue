@@ -4,19 +4,19 @@
       <div class="total-atoms">
         <h3>Total {{ metaData.stakingDenom }}</h3>
         <h2 class="total-atoms__value">
-          {{ overview.totalStake | shortDecimals }}
+          {{ overview.totalStake | shortDecimals | numberPending }}
         </h2>
       </div>
 
       <div class="row small-container">
         <div class="available-atoms">
           <h3>Available {{ metaData.stakingDenom }}</h3>
-          <h2>{{ overview.liquidStake | shortDecimals }}</h2>
+          <h2>{{ overview.liquidStake | shortDecimals | numberPending }}</h2>
         </div>
 
         <div v-if="overview.totalRewards" class="rewards">
           <h3>Total Rewards</h3>
-          <h2>{{ overview.totalRewards | shortDecimals }}</h2>
+          <h2>{{ overview.totalRewards | shortDecimals | numberPending }}</h2>
         </div>
       </div>
     </div>
@@ -46,6 +46,7 @@
 </template>
 <script>
 import num, { shortDecimals } from "scripts/num"
+import { numberPending } from "src/filters"
 import TmBtn from "common/TmBtn"
 import SendModal from "src/ActionModal/components/SendModal"
 import ModalWithdrawRewards from "src/ActionModal/components/ModalWithdrawRewards"
@@ -59,7 +60,8 @@ export default {
     ModalWithdrawRewards
   },
   filters: {
-    shortDecimals
+    shortDecimals,
+    numberPending
   },
   data() {
     return {
