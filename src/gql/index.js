@@ -54,9 +54,9 @@ export const ValidatorProfile = schema => gql`
   }
 `
 
-export const SomeValidators = schema => gql`
-  query ValidatorInfo($addressList: [String!]) {
-    validators(networkId: "${schema}", addressList: $addressList) {
+export const DelegatorValidators = schema => gql`
+  query ValidatorInfo($delegatorAddress: String!) {
+    validators(networkId: "${schema}", delegatorAddress: $delegatorAddress) {
       ${ValidatorFragment}
     }
   }

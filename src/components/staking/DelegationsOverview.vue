@@ -23,10 +23,10 @@
 </template>
 
 <script>
-import { mapState, mapGetters } from "vuex"
+import { mapState } from "vuex"
 import TmDataMsg from "common/TmDataMsg"
 import TableValidators from "staking/TableValidators"
-import { SomeValidators, validatorsResult } from "src/gql"
+import { DelegatorValidators, validatorsResult } from "src/gql"
 
 export default {
   name: `delegations-overview`,
@@ -38,22 +38,19 @@ export default {
     validators: []
   }),
   computed: {
-    ...mapState({ network: state => state.connection.network }),
-    ...mapGetters([`committedDelegations`]),
-    delegationsAddressList() {
-      return Object.keys(this.committedDelegations)
-    }
+    ...mapState(["session"]),
+    ...mapState({ network: state => state.connection.network })
   },
   apollo: {
     validators: {
       query() {
         /* istanbul ignore next */
-        return SomeValidators(this.network)
+        return DelegatorValidators(this.network)
       },
       variables() {
         /* istanbul ignore next */
         return {
-          addressList: Object.keys(this.committedDelegations)
+          delegatorAddress: this.session.address
         }
       },
       update(data) {

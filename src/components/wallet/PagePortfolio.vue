@@ -7,7 +7,7 @@
     :sign-in-required="true"
   >
     <template slot="managed-body">
-      <!-- <DelegationsOverview /> -->
+      <DelegationsOverview />
       <template v-if="Object.keys(delegation.unbondingDelegations).length">
         <h3 class="tab-header">
           Pending Undelegations
