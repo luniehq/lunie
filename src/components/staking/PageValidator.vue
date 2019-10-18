@@ -29,12 +29,12 @@
           <img
             v-else-if="validator.picture"
             :src="validator.picture"
-            :alt="`validator logo for ` + validator.moniker"
+            :alt="`validator logo for ` + validator.name"
             class="li-validator-image"
           />
           <div class="validator-info">
             <h3 class="li-validator-name">
-              {{ validator.moniker }}
+              {{ validator.name }}
             </h3>
             <div v-if="myDelegation">
               <h4>{{ myDelegation }}</h4>
@@ -144,7 +144,7 @@
       />
       <UndelegationModal
         ref="undelegationModal"
-        :maximum="validator.amount"
+        :maximum="validator.delegations.amount"
         :to="session.signedIn ? session.address : ``"
         :validator="validator"
         :denom="balance.denom"
@@ -164,7 +164,7 @@
 
 <script>
 import moment from "moment"
-import { mapState, mapGetters } from "vuex"
+import { mapState } from "vuex"
 import {
   atoms,
   viewDenom,
@@ -174,7 +174,6 @@ import {
   uatoms
 } from "scripts/num"
 import { formatBech32 } from "src/filters"
-import { expectedReturns } from "scripts/returns"
 import TmBtn from "common/TmBtn"
 import DelegationModal from "src/ActionModal/components/DelegationModal"
 import UndelegationModal from "src/ActionModal/components/UndelegationModal"
@@ -227,20 +226,16 @@ export default {
     rewards: 0,
     delegation: {},
     delegations: [],
+    balance: {}
   }),
   computed: {
     ...mapState([`delegates`, `session`]),
     ...mapState({ network: state => state.connection.network }),
-    ...mapGetters([`committedDelegations`]),
     selfStake() {
-      return percent(
-        this.validator.selfStake.amount || 0
-      )
+      return percent(this.validator.selfStake.amount || 0)
     },
     selfStakeAmount() {
-      return shortDecimals(
-        uatoms(this.validator.selfStake.amount || 0)
-      )
+      return shortDecimals(uatoms(this.validator.selfStake.amount || 0))
     },
     myDelegation() {
       if (this.delegation.amount && this.delegation.amount !== 0) {
@@ -261,29 +256,6 @@ export default {
     returns() {
       return this.validator.expectedReturns
     }
-  },
-  // watch: {
-  //   lastHeader: {
-  //     immediate: true,
-  //     handler(newHeader) {
-  //       const waitTwentyBlocks = Number(newHeader.height) % 20 === 0
-  //       if (
-  //         this.session.signedIn &&
-  //         waitTwentyBlocks &&
-  //         this.$route.name === `validator` &&
-  //         // this.delegation.loaded &&
-  //         Number(this.myBond) > 0
-  //       ) {
-  //         this.$store.dispatch(
-  //           `getRewardsFromValidator`,
-  //           this.$route.params.validator
-  //         )
-  //       }
-  //     }
-  //   }
-  // },
-  updated() {
-    console.log("validator", this.validator, this.delegations)
   },
   methods: {
     shortDecimals,
@@ -447,7 +419,7 @@ export default {
             details
             website
             identity
-            moniker
+            name
             votingPower
             startHeight
             uptimePercentage
@@ -472,14 +444,13 @@ export default {
         }
       },
       update: result => {
-        console.log(result)
-        return ({
+        return {
           ...result.validator,
           statusDetailed: getStatusText(result.validator.statusDetailed),
           selfStake: {
             amount: 0
           }
-        })
+        }
       }
     }
   }

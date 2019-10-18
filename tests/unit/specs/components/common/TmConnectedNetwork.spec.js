@@ -2,7 +2,7 @@ import { shallowMount, createLocalVue } from "@vue/test-utils"
 import TmConnectedNetwork from "common/TmConnectedNetwork"
 
 const localVue = createLocalVue()
-localVue.directive(`tooltip`, () => { })
+localVue.directive(`tooltip`, () => {})
 
 describe(`TmConnectedNetwork`, () => {
   let wrapper, $store

@@ -26,7 +26,6 @@
 </template>
 
 <script>
-import { mapGetters, mapState } from "vuex"
 import orderBy from "lodash.orderby"
 import LiValidator from "staking/LiValidator"
 import PanelSort from "staking/PanelSort"
@@ -52,7 +51,7 @@ export default {
       property: `expectedReturns`,
       order: `desc`
     },
-    showing: 15,
+    showing: 15
   }),
   computed: {
     sortedEnrichedValidators() {
@@ -65,15 +64,15 @@ export default {
     showingValidators() {
       return this.sortedEnrichedValidators.map(validator => ({
         ...validator,
-        small_moniker: validator.moniker ? validator.moniker.toLowerCase() : "",
+        smallName: validator.name ? validator.name.toLowerCase() : ""
       }))
     },
     properties() {
       return [
         {
           title: `Name`,
-          value: `smallMoniker`,
-          tooltip: `The validator's moniker`
+          value: `smallName`,
+          tooltip: `The validator's name`
         },
         {
           title: `Rewards`,

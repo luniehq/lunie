@@ -45,7 +45,6 @@
 
 <script>
 import { mapState } from "vuex"
-import { expectedReturns } from "scripts/returns"
 import TableValidators from "staking/TableValidators"
 import PageContainer from "common/PageContainer"
 import TmField from "common/TmField"
@@ -64,65 +63,85 @@ export default {
     searchTerm: "",
     activeOnly: true,
     validators: [],
-    annualProvision: 0.0,
-    bondedTokens: 0
+    delegations: {},
+    rewards: []
   }),
   computed: {
-    ...mapState([`session`]),
-    ...mapState({ network: state => state.connection.network }),
-    // selfStake() {
-    //   return percent(
-    //     this.validator.selfStake.shares / this.validator.delegatorShares
-    //   )
-    // },
+    ...mapState({
+      network: state => state.connection.network,
+      userAddress: state => state.session.address
+    }),
     validatorsPlus() {
-      return this.validators.map(v => ({
-        ...v,
-        smallMoniker: v.moniker ? v.moniker.toLowerCase() : "",
-      }))
+      return this.validators.map(validator => {
+        if (this.delegations[validator.operatorAddress]) {
+          validator.userShares = this.delegations[validator.operatorAddress]
+        } else {
+          validator.userShares = {
+            amount: 0
+          }
+        }
+        return validator
+      })
     }
   },
-  // updated() {
-  //   console.log(this.validatorsPlus)
-  // },
   apollo: {
-    annualProvision: {
+    delegations: {
       query: gql`
-        query annualProvision($networkId: String!) {
-          annualProvision(networkId: $networkId)
+        query delegations($networkId: String!, $delegatorAddress: String!) {
+          delegations(
+            networkId: $networkId
+            delegatorAddress: $delegatorAddress
+          ) {
+            delegatorAddress
+            validatorAddress
+            amount
+          }
         }
       `,
       variables() {
         return {
-          networkId: this.network
+          networkId: this.network,
+          delegatorAddress: this.userAddress
         }
       },
-      update: result => parseFloat(result.annualProvision)
+      update: result => {
+        if (result.delegations) {
+          return result.delegations.reduce((map, item) => {
+            map[item.validatorAddress] = item
+            return map
+          }, {})
+        }
+        return {}
+      }
     },
-    bondedTokens: {
+    rewards: {
       query: gql`
-        query bondedTokens($networkId: String!) {
-          bondedTokens(networkId: $networkId)
+        query rewards($networkId: String!, $delegatorAddress: String) {
+          rewards(networkId: $networkId, delegatorAddress: $delegatorAddress) {
+            amount
+            denom
+          }
         }
       `,
       variables() {
         return {
-          networkId: this.network
+          networkId: this.network,
+          delegatorAddress: this.currentAddress
         }
       },
-      update: result => parseInt(result.bondedTokens)
+      update: result => result.rewards
     },
     validators: {
       query: gql`
         query validators($networkId: String!) {
           validators(networkId: $networkId) {
+            name
             operatorAddress
             consensusPubkey
             jailed
             details
             website
             identity
-            moniker
             votingPower
             startHeight
             uptimePercentage

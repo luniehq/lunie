@@ -4,7 +4,10 @@
     :class="{ active: connection.network === network.id }"
   >
     <div class="network-icon">
-      <img src="https://s3.amazonaws.com/network.logos/cosmos-logo.png" alt="cosmic atom token" />
+      <img
+        src="https://s3.amazonaws.com/network.logos/cosmos-logo.png"
+        alt="cosmic atom token"
+      />
     </div>
     <div class="network-content">
       <h4 class="network-title">

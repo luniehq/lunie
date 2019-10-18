@@ -1,7 +1,7 @@
 <template>
   <tr
     class="li-validator"
-    :data-moniker="validator.moniker"
+    :data-name="validator.name"
     @click="
       $router.push({
         name: 'validator',
@@ -13,11 +13,11 @@
     <td class="hide-xs">
       <div class="status-container">
         <span
-          :class="status | toLower"
+          :class="validator.status | toLower"
           class="validator-status"
-          :title="status_detailed"
+          :title="validator.statusDetailed"
         >
-          {{ status }}
+          {{ validator.status }}
         </span>
       </div>
     </td>
@@ -32,20 +32,20 @@
         v-else-if="validator && validator.picture"
         :src="validator.picture"
         class="li-validator-image"
-        :alt="`validator logo for ` + validator.moniker"
+        :alt="`validator logo for ` + validator.name"
       />
       <div class="validator-info">
         <h3 class="li-validator-name">
-          {{ validator.moniker }}
+          {{ validator.name }}
         </h3>
-        <!-- <div v-if="delegation.shares > 0">
+        <div v-if="validator.userShares.amount > 0">
           <h4>
-            {{ delegation | atoms | shortDecimals }}
+            {{ validator.userShares.amount | atoms | shortDecimals }}
           </h4>
-          <h5 v-if="rewards > 0">
-            +{{ validator.rewards.amount | atoms | shortDecimals }}
+          <h5 v-if="+rewards.amount > 0">
+            +{{ rewards.amount | atoms | shortDecimals }}
           </h5>
-        </div> -->
+        </div>
       </div>
     </td>
     <td :class="{ 'hide-xs': showOnMobile !== 'expectedReturns' }">
@@ -54,16 +54,14 @@
       }}
     </td>
     <td :class="{ 'hide-xs': showOnMobile !== 'voting-power' }">
-      {{ validator.voting_power | percent }}
+      {{ validator.votingPower | percent }}
     </td>
   </tr>
 </template>
 
 <script>
 import { percent, shortDecimals, atoms } from "scripts/num"
-import { mapState } from "vuex"
 import Avatar from "common/Avatar"
-import gql from "graphql-tag"
 
 export default {
   name: `li-validator`,
@@ -94,97 +92,8 @@ export default {
   data: () => ({
     rewards: {}
   }),
-  computed: {
-    ...mapState({
-      network: state => state.connection.network,
-    }),
-    ...mapState([`session`]),
-    status() {
-      if (
-        this.validator.jailed ||
-        this.validator.tombstoned ||
-        this.validator.status === 0
-      )
-        return `Inactive`
-      return `Active`
-    },
-    status_detailed() {
-      if (this.validator.jailed) return `Temporally banned from the network`
-      if (this.validator.tombstoned) return `Banned from the network`
-      if (this.validator.status === 0) return `Banned from the network`
-      return false
-    }
-  },
   methods: {
     percent
-  },
-  apollo: {
-    // rewards: {
-    //   query: gql`
-    //     query rewards(
-    //       $networkId: String!
-    //       $delegatorAddress: String
-    //       $operatorAddress: String
-    //     ) {
-    //       rewards(
-    //         networkId: $networkId
-    //         delegatorAddress: $delegatorAddress
-    //         operatorAddress: $operatorAddress
-    //       ) {
-    //         amount
-    //         denom
-    //       }
-    //     }
-    //   `,
-    //   variables() {
-    //     return {
-    //       networkId: this.network,
-    //       delegatorAddress: this.currentAddress,
-    //       operatorAddress: this.validator.operatorAddress
-    //     }
-    //   },
-    //   update: result => result.rewards[0]
-    // },
-    delegation: {
-      query: gql`
-        query delegation(
-          $networkId: String!
-          $delegatorAddress: String!
-          $operatorAddress: String!
-        ) {
-          delegation(
-            networkId: $networkId
-            delegatorAddress: $delegatorAddress
-            operatorAddress: $operatorAddress
-          ) {
-            delegatorAddress
-            validatorAddress
-            shares
-          }
-        }
-      `,
-      variables() {
-        return {
-          networkId: this.network,
-          delegatorAddress: this.session.address,
-          operatorAddress: this.validator.operatorAddress
-        }
-      },
-      update: result => {
-        // if (true ||!result) {
-          // console.log("no shares!", result)
-          return {
-            delegatorAddress: "",
-            validatorAddress: "",
-            shares: 0
-          }
-        // } else
-        //   return {
-        //     ...result.delegation,
-        //     shares: Number(result.delegation.shares)
-        //   }
-      }
-    }
   }
 }
 </script>

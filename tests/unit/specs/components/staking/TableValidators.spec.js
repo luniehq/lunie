@@ -1,28 +1,26 @@
 import { shallowMount } from "@vue/test-utils"
 import TableValidators from "src/components/staking/TableValidators"
-// import validators from "../../store/json/validators.js"
 
 const validators = [
-  {moniker: 'cosmos1a', operatorAddress: 'cosmos1a'},
-  {moniker: 'cosmos1b', operatorAddress: 'cosmos1b'},
-  {moniker: 'cosmos1c', operatorAddress: 'cosmos1c'},
-  {moniker: 'cosmos1d', operatorAddress: 'cosmos1d'},
-  {moniker: 'cosmos1e', operatorAddress: 'cosmos1e'},
-  {moniker: 'cosmos1f', operatorAddress: 'cosmos1f'},
-  {moniker: 'cosmos1g', operatorAddress: 'cosmos1g'},
-  {moniker: 'cosmos1h', operatorAddress: 'cosmos1h'},
-  {moniker: 'cosmos1i', operatorAddress: 'cosmos1i'},
-  {moniker: 'cosmos1j', operatorAddress: 'cosmos1j'},
-  {moniker: 'cosmos1k', operatorAddress: 'cosmos1k'},
-  {moniker: 'cosmos1l', operatorAddress: 'cosmos1l'},
-  {moniker: 'cosmos1m', operatorAddress: 'cosmos1m'},
-  {moniker: 'cosmos1n', operatorAddress: 'cosmos1n'},
-  {moniker: 'cosmos1o', operatorAddress: 'cosmos1o'},
+  { name: "cosmos1a", operatorAddress: "cosmos1a" },
+  { name: "cosmos1b", operatorAddress: "cosmos1b" },
+  { name: "cosmos1c", operatorAddress: "cosmos1c" },
+  { name: "cosmos1d", operatorAddress: "cosmos1d" },
+  { name: "cosmos1e", operatorAddress: "cosmos1e" },
+  { name: "cosmos1f", operatorAddress: "cosmos1f" },
+  { name: "cosmos1g", operatorAddress: "cosmos1g" },
+  { name: "cosmos1h", operatorAddress: "cosmos1h" },
+  { name: "cosmos1i", operatorAddress: "cosmos1i" },
+  { name: "cosmos1j", operatorAddress: "cosmos1j" },
+  { name: "cosmos1k", operatorAddress: "cosmos1k" },
+  { name: "cosmos1l", operatorAddress: "cosmos1l" },
+  { name: "cosmos1m", operatorAddress: "cosmos1m" },
+  { name: "cosmos1n", operatorAddress: "cosmos1n" },
+  { name: "cosmos1o", operatorAddress: "cosmos1o" }
 ]
 
 describe(`TableValidators`, () => {
   let wrapper
-
 
   beforeEach(() => {
     wrapper = shallowMount(TableValidators, {
@@ -37,8 +35,8 @@ describe(`TableValidators`, () => {
     expect(wrapper.element).toMatchSnapshot()
   })
 
-  it(`should add small_moniker property to validators`, () => {
-    expect(wrapper.vm.showingValidators[0].small_moniker).toBe(`cosmos1a`)
+  it(`should add smallName property to validators`, () => {
+    expect(wrapper.vm.showingValidators[0].smallName).toBe(`cosmos1a`)
   })
 
   it(`should sort the delegates by selected property`, () => {
@@ -63,5 +61,4 @@ describe(`TableValidators`, () => {
     wrapper.vm.loadMore()
     expect(wrapper.findAll("livalidator-stub").length).toBe(12)
   })
-
 })
