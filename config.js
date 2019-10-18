@@ -9,9 +9,6 @@ module.exports = {
   enable_cache: process.env.ENABLE_CACHE || false,
   redis_url: process.env.REDIS_URL || '',
   hasura_admin_key: process.env.HASURA_ADMIN_KEY || '',
-  hasura_url:
-    env === 'development'
-      ? 'https://staging-db.lunie.io/v1/graphql'
-      : 'https://production-db.lunie.io/v1/graphql',
+  hasura_url: process.env.HASURA_URL || 'http://localhost:8080/v1/graphql',
   enableTestnet: process.env.TESTNET === 'true'
 }

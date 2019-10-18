@@ -1,11 +1,16 @@
 {
-  "name": "lgql",
+  "name": "Lunie-API",
   "version": "1.0.0",
-  "description": "",
+  "description": "GraphQL API for Lunie.io",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/luniehq/lunie-api.git"
+  },
   "main": "index.js",
   "scripts": {
     "dev": "NODE_ENV=development nodemon index.js",
     "dev-cache": "NODE_ENV=development ENABLE_CACHE=true nodemon index.js",
+    "dev-docker": "docker build -t lunie-api-dev . && docker run --init -it -p 4000:4000 lunie-api-dev",
     "lint": "eslint index.js lib data",
     "lint-fix": "npm run lint --fix",
     "start": "node index.js",
@@ -26,7 +31,6 @@
     "websocket": "^1.0.30"
   },
   "devDependencies": {
-    "bignumber.js": "^9.0.0",
     "eslint": "^6.5.1",
     "eslint-config-prettier": "^6.4.0",
     "eslint-plugin-prettier": "^3.1.1",
