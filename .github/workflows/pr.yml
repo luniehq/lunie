@@ -11,6 +11,6 @@ jobs:
     - uses: rtCamp/action-slack-notify@master
       env:
         SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
-        SLACK_CHANNEL: 'infrastructure-alerts'
+        SLACK_CHANNEL: 'pr_alerts'
         SLACK_USERNAME: 'luniebot'
         SLACK_MESSAGE: 'New pull request to lunie-api'
