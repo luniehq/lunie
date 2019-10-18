@@ -1,5 +1,15 @@
 <template>
-  <div>
+  <div class="seed-phrase">
+    <div
+      v-clipboard:copy="value"
+      v-clipboard:success="() => onCopy()"
+      class="copy-seed"
+    >
+      Copy to clipboard
+      <i class="material-icons copied" :class="{ active: copySuccess }">
+        check
+      </i>
+    </div>
     <div v-if="legacy">
       <FieldSeed id="sign-up-seed" v-model="value" disabled />
     </div>
@@ -51,10 +61,20 @@ export default {
       default: true
     }
   },
+  data: () => ({
+    copySuccess: false
+  }),
   computed: {
     splitSeed: function() {
-      console.log(`seed:`, this.value)
       return this.value.split(` `)
+    }
+  },
+  methods: {
+    onCopy() {
+      this.copySuccess = true
+      setTimeout(() => {
+        this.copySuccess = false
+      }, 2500)
     }
   }
 }
@@ -78,10 +98,34 @@ td .word-number {
   display: block;
   width: 100%;
   opacity: 0.3;
+  /* Prevent user to copy word numbers, we only want the words in their correct order */
   -moz-user-select: none;
   -webkit-user-select: none;
   -ms-user-select: none;
   -o-user-select: none;
   user-select: none;
+}
+
+.copy-seed {
+  display: initial;
+  float: right;
+  font-size: 0.8rem;
+  cursor: pointer;
+  margin-bottom: 0.2rem;
+}
+
+.copy-seed .material-icons {
+  font-size: 12px;
+}
+
+.seed-phrase .copied {
+  padding-bottom: 2px;
+  padding-right: 0;
+  transition: opacity 500ms ease;
+}
+
+.seed-phrase .copied.active {
+  color: var(--success);
+  opacity: 1;
 }
 </style>
