@@ -60,6 +60,9 @@
 </template>
 
 <script>
+
+import { mapState } from "vuex"
+import gql from "graphql-tag"
 import { percent, shortDecimals, atoms } from "scripts/num"
 import Avatar from "common/Avatar"
 
@@ -92,8 +95,45 @@ export default {
   data: () => ({
     rewards: {}
   }),
+  computed: {
+    ...mapState({
+      network: state => state.connection.network,
+      userAddress: state => state.session.address
+    }),
+  },
   methods: {
     percent
+  },
+  apollo: {
+    rewards: {
+      query: gql`
+        query rewards(
+          $networkId: String!
+          $delegatorAddress: String
+          $operatorAddress: String
+        ) {
+          rewards(
+            networkId: $networkId
+            delegatorAddress: $delegatorAddress
+            operatorAddress: $operatorAddress
+          ) {
+            amount
+            denom
+          }
+        }
+      `,
+      variables() {
+        return {
+          networkId: this.network,
+          delegatorAddress: this.userAddress,
+          operatorAddress: this.validator.operatorAddress
+        }
+      },
+      update: result => result.rewards[0],
+      skip () {
+        return !this.userAddress || !this.validator.userShares.amount
+      },
+    },
   }
 }
 </script>

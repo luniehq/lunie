@@ -40,6 +40,7 @@
               <h4>{{ myDelegation }}</h4>
               <h5 v-if="rewards">
                 {{ rewards.amount | atoms | fullDecimals | noBlanks }}
+                }
               </h5>
             </div>
           </div>
@@ -144,7 +145,7 @@
       />
       <UndelegationModal
         ref="undelegationModal"
-        :maximum="validator.delegations.amount"
+        :maximum="delegation.amount"
         :to="session.signedIn ? session.address : ``"
         :validator="validator"
         :denom="balance.denom"
@@ -224,12 +225,17 @@ export default {
   data: () => ({
     validator: {},
     rewards: 0,
-    delegation: {},
+    delegation: {
+      amount: 0,
+    },
     delegations: [],
-    balance: {}
+    balance: {
+      amount: 0,
+      denom: ""
+    }
   }),
   computed: {
-    ...mapState([`delegates`, `session`]),
+    ...mapState([`session`]),
     ...mapState({ network: state => state.connection.network }),
     selfStake() {
       return percent(this.validator.selfStake.amount || 0)
@@ -321,7 +327,10 @@ export default {
       update: result => ({
         amount: parseFloat(result.balance.amount),
         denom: result.balance.denom
-      })
+      }),
+      skip() {
+        return !this.session.address
+      }
     },
     delegation: {
       query: gql`
@@ -353,6 +362,9 @@ export default {
           ...result.delegation,
           amount: Number(result.delegation.amount)
         }
+      },
+      skip() {
+        return !this.session.address
       }
     },
     delegations: {
@@ -371,7 +383,7 @@ export default {
       variables() {
         return {
           networkId: this.network,
-          delegatorAddress: this.session.address
+          delegatorAddress: this.session.address,
         }
       },
       update: result => {
@@ -381,6 +393,9 @@ export default {
               amount: Number(delegation.amount || 0)
             }))
           : []
+      },
+      skip() {
+        return !this.session.address
       }
     },
     rewards: {
@@ -407,7 +422,10 @@ export default {
           operatorAddress: this.$route.params.validator
         }
       },
-      update: result => result.rewards
+      update: result => result.rewards[0],
+      skip() {
+        return !this.session.address
+      }
     },
     validator: {
       query: gql`

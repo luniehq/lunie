@@ -3,7 +3,7 @@
 exports[`PageProposal Modal onVote enables voting if the proposal is on the 'VotingPeriod' 1`] = `
 <tmpage-stub hideheader="true" title="" subtitle="" data-title="Proposal" class="small">
   <div class="proposal">
-    <div class="page-profile__header__info"><span class="proposal-status pink">
+    <div class="page-profile__header__info"><span class="proposal-status votingperiod">
           Voting Period
         </span>
       <h2 class="proposal-title">test</h2>
@@ -76,7 +76,7 @@ exports[`PageProposal Modal onVote enables voting if the proposal is on the 'Vot
 exports[`PageProposal Modal onVote shows the last valid vote 1`] = `
 <tmpage-stub hideheader="true" title="" subtitle="" data-title="Proposal" class="small">
   <div class="proposal">
-    <div class="page-profile__header__info"><span class="proposal-status red">
+    <div class="page-profile__header__info"><span class="proposal-status rejected">
           Rejected
         </span>
       <h2 class="proposal-title">test</h2>

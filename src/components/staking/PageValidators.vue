@@ -30,7 +30,7 @@
         </div>
       </div>
       <TableValidators
-        :validators="validatorsPlus"
+        :validators="validators"
         show-on-mobile="expectedReturns"
       />
       <div
@@ -64,25 +64,12 @@ export default {
     activeOnly: true,
     validators: [],
     delegations: {},
-    rewards: []
   }),
   computed: {
     ...mapState({
       network: state => state.connection.network,
       userAddress: state => state.session.address
     }),
-    validatorsPlus() {
-      return this.validators.map(validator => {
-        if (this.delegations[validator.operatorAddress]) {
-          validator.userShares = this.delegations[validator.operatorAddress]
-        } else {
-          validator.userShares = {
-            amount: 0
-          }
-        }
-        return validator
-      })
-    }
   },
   apollo: {
     delegations: {
@@ -112,24 +99,10 @@ export default {
           }, {})
         }
         return {}
-      }
-    },
-    rewards: {
-      query: gql`
-        query rewards($networkId: String!, $delegatorAddress: String) {
-          rewards(networkId: $networkId, delegatorAddress: $delegatorAddress) {
-            amount
-            denom
-          }
-        }
-      `,
-      variables() {
-        return {
-          networkId: this.network,
-          delegatorAddress: this.currentAddress
-        }
       },
-      update: result => result.rewards
+      skip() {
+        return !this.userAddress
+      }
     },
     validators: {
       query: gql`
@@ -162,7 +135,19 @@ export default {
           networkId: this.network
         }
       },
-      update: result => result.validators
+      update: function(result) {
+        // Add delegated amounts to each validator object if they are present.
+        return result.validators.map(validator => {
+          if (this.delegations[validator.operatorAddress]) {
+            validator.userShares = this.delegations[validator.operatorAddress]
+          } else {
+            validator.userShares = {
+              amount: 0
+            }
+          }
+          return validator
+        })
+      }
     }
   }
 }
