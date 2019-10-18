@@ -8,9 +8,11 @@
       </p>
     </div>
     <div class="tx__content__information">
-      <template v-if="toYourself"
-        >To yourself!</template
+      <template
+        v-if="toYourself"
       >
+        To yourself!
+      </template>
       <template v-else-if="sentFromSessionAddress">
         To&nbsp;
         <Bech32 :address="transaction.value.to_address" />
@@ -60,31 +62,27 @@ export default {
       return getCoin(this.transaction)
     },
     toYourself() {
-      const value = this.transaction.value
       return (
-        value.from_address === this.sessionAddress &&
-        value.to_address === this.sessionAddress
+        this.transaction.value.from_address === this.sessionAddress &&
+        this.transaction.value.to_address === this.sessionAddress
       )
     },
     sentFromSessionAddress() {
-      const value = this.transaction.value
       return (
-        this.sessionAddress === value.from_address &&
-        this.sessionAddress !== value.to_address
+        this.sessionAddress === this.transaction.value.from_address &&
+        this.sessionAddress !== this.transaction.value.to_address
       )
     },
     receivedToSessionAddress() {
-      const value = this.transaction.value
       return (
-        this.sessionAddress === value.to_address &&
-        this.sessionAddress !== value.from_address
+        this.sessionAddress === this.transaction.value.to_address &&
+        this.sessionAddress !== this.transaction.value.from_address
       )
     },
     caption() {
-      const value = this.transaction.value
       if (
-        value.to_address === this.sessionAddress &&
-        value.from_address !== this.sessionAddress
+        this.transaction.value.to_address === this.sessionAddress &&
+        this.transaction.value.from_address !== this.sessionAddress
       ) {
         return "Received"
       } else {

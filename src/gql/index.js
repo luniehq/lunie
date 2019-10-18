@@ -1,6 +1,12 @@
 /* istanbul ignore file */
 
 import gql from "graphql-tag"
+import store from "../vuex/store"
+
+function getCurrentNetwork() {
+  // console.log(store())
+  return store().state.connection.network
+}
 
 export const schemaMap = {
   cosmoshub: "",
@@ -25,31 +31,20 @@ const ValidatorFragment = `
   commission
   maxCommission
   maxChangeCommission
-  commissionLastUpdate
-  height
   status
   statusDetailed
-  delegations
-  selfStake
-  delegatorShares
-
-  avatarUrl
-  customized
-  tombstoned
-  keybaseId
-  lastUpdated
-  minSelfDelegation
-  profileUrl
-  userName
 `
 
-export const AllValidators = schema => gql`
-  query validators {
-    ${schemaMap[schema]}validators {
-      ${ValidatorFragment}
-    }
-  }
-`
+export const AllValidators = () => {
+  const currentNetwork = getCurrentNetwork()
+  // console.log(`currentNetwork`, currentNetwork)
+  return gql`
+    query AllValidators {
+      validators(networkId: "${currentNetwork}") {
+        ${ValidatorFragment}
+      }
+    }`
+}
 
 export const ValidatorProfile = schema => gql`
   query validator($address: String) {
@@ -182,11 +177,11 @@ query vote($proposalId: Int!, $address: String!) {
 }
 `
 
-export const Balances = schema => gql`
-query balances($address: String!) {
-  balance(networkId: "${schema}", address: $address) {
-    denom
-    amount
+export const Block = networkId => gql`
+query Block {
+  block(networkId: "${networkId}") {
+    height
+    chainId
   }
 }
 `
@@ -209,9 +204,9 @@ query metaData {
 }
 `
 
-export const NewBlockSubscription = () => gql`
+export const NewBlockSubscription = networkId => gql`
   subscription {
-    blockAdded {
+    blockAdded(networkId: "${networkId}") {
       height
       hash
       chainId

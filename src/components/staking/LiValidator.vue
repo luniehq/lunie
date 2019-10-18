@@ -5,7 +5,7 @@
     @click="
       $router.push({
         name: 'validator',
-        params: { validator: validator.operator_address }
+        params: { validator: validator.operatorAddress }
       })
     "
   >
@@ -23,14 +23,14 @@
     </td>
     <td class="data-table__row__info">
       <Avatar
-        v-if="!validator || !validator.avatarUrl"
+        v-if="!validator || !validator.picture"
         class="li-validator-image"
         alt="generic validator logo - generated avatar from address"
-        :address="validator.operator_address"
+        :address="validator.operatorAddress"
       />
       <img
-        v-else-if="validator && validator.avatarUrl"
-        :src="validator.avatarUrl"
+        v-else-if="validator && validator.picture"
+        :src="validator.picture"
         class="li-validator-image"
         :alt="`validator logo for ` + validator.moniker"
       />
@@ -38,14 +38,14 @@
         <h3 class="li-validator-name">
           {{ validator.moniker }}
         </h3>
-        <div v-if="validator.my_delegations > 0">
+        <!-- <div v-if="delegation.shares > 0">
           <h4>
-            {{ validator.my_delegations | atoms | shortDecimals }}
+            {{ delegation | atoms | shortDecimals }}
           </h4>
-          <h5 v-if="validator.rewards > 0">
-            +{{ validator.rewards | atoms | shortDecimals }}
+          <h5 v-if="rewards > 0">
+            +{{ validator.rewards.amount | atoms | shortDecimals }}
           </h5>
-        </div>
+        </div> -->
       </div>
     </td>
     <td :class="{ 'hide-xs': showOnMobile !== 'expectedReturns' }">
@@ -54,14 +54,16 @@
       }}
     </td>
     <td :class="{ 'hide-xs': showOnMobile !== 'voting-power' }">
-      {{ validator.voting_power | percent }}
+      {{ validator.votingPower | percent }}
     </td>
   </tr>
 </template>
 
 <script>
 import { percent, shortDecimals, atoms } from "scripts/num"
+import { mapState } from "vuex"
 import Avatar from "common/Avatar"
+import gql from "graphql-tag"
 
 export default {
   name: `li-validator`,
@@ -89,7 +91,14 @@ export default {
       default: () => "returns"
     }
   },
+  data: () => ({
+    rewards: {}
+  }),
   computed: {
+    ...mapState({
+      network: state => state.connection.network
+    }),
+    ...mapState([`session`]),
     status() {
       if (
         this.validator.jailed ||
@@ -108,6 +117,74 @@ export default {
   },
   methods: {
     percent
+  },
+  apollo: {
+    // rewards: {
+    //   query: gql`
+    //     query rewards(
+    //       $networkId: String!
+    //       $delegatorAddress: String
+    //       $operatorAddress: String
+    //     ) {
+    //       rewards(
+    //         networkId: $networkId
+    //         delegatorAddress: $delegatorAddress
+    //         operatorAddress: $operatorAddress
+    //       ) {
+    //         amount
+    //         denom
+    //       }
+    //     }
+    //   `,
+    //   variables() {
+    //     return {
+    //       networkId: this.network,
+    //       delegatorAddress: this.currentAddress,
+    //       operatorAddress: this.validator.operatorAddress
+    //     }
+    //   },
+    //   update: result => result.rewards[0]
+    // },
+    delegation: {
+      query: gql`
+        query delegation(
+          $networkId: String!
+          $delegatorAddress: String!
+          $operatorAddress: String!
+        ) {
+          delegation(
+            networkId: $networkId
+            delegatorAddress: $delegatorAddress
+            operatorAddress: $operatorAddress
+          ) {
+            delegatorAddress
+            validatorAddress
+            shares
+          }
+        }
+      `,
+      variables() {
+        return {
+          networkId: this.network,
+          delegatorAddress: this.session.address,
+          operatorAddress: this.validator.operatorAddress
+        }
+      },
+      update: result => {
+        // if (true ||!result) {
+        // console.log("no shares!", result)
+        return {
+          delegatorAddress: "",
+          validatorAddress: "",
+          shares: 0
+        }
+        // } else
+        //   return {
+        //     ...result.delegation,
+        //     shares: Number(result.delegation.shares)
+        //   }
+      }
+    }
   }
 }
 </script>

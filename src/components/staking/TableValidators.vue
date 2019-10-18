@@ -9,14 +9,12 @@
         />
       </thead>
       <tbody
-        is="transition-group"
-        v-infinite-scroll="loadMore"
         infinite-scroll-distance="400"
         name="flip-list"
       >
         <LiValidator
           v-for="(validator, index) in showingValidators"
-          :key="validator.operator_address"
+          :key="validator.operatorAddress"
           :index="index"
           :validator="validator"
           :show-on-mobile="showOnMobile"
@@ -31,7 +29,7 @@ import { mapGetters, mapState } from "vuex"
 import orderBy from "lodash.orderby"
 import LiValidator from "staking/LiValidator"
 import PanelSort from "staking/PanelSort"
-import { expectedReturns } from "scripts/returns"
+
 export default {
   name: `table-validators`,
   components: {
@@ -63,52 +61,21 @@ export default {
       annualProvision: state => state.minting.annualProvision
     }),
     ...mapGetters([`committedDelegations`, `bondDenom`, `lastHeader`]),
-    enrichedValidators(
-      {
-        validators,
-        pool,
-        annualProvision,
-        committedDelegations,
-        session,
-        distribution
-      } = this
-    ) {
-      return validators.map(v => {
-        return Object.assign({}, v, {
-          small_moniker: v.moniker.toLowerCase(),
-          my_delegations:
-            session.signedIn && committedDelegations[v.operator_address] > 0
-              ? committedDelegations[v.operator_address]
-              : 0,
-          rewards:
-            session.signedIn && distribution.rewards[v.operator_address]
-              ? distribution.rewards[v.operator_address][this.bondDenom]
-              : 0,
-          expectedReturns: annualProvision
-            ? expectedReturns(
-                v,
-                parseInt(pool.pool.bonded_tokens),
-                parseFloat(annualProvision)
-              )
-            : undefined
-        })
-      })
-    },
     sortedEnrichedValidators() {
       return orderBy(
-        this.enrichedValidators.slice(0),
+        this.validators.slice(0),
         [this.sort.property],
         [this.sort.order]
       )
     },
     showingValidators() {
-      return this.sortedEnrichedValidators.slice(0, this.showing)
+      return this.sortedEnrichedValidators
     },
     properties() {
       return [
         {
           title: `Name`,
-          value: `small_moniker`,
+          value: `smallMoniker`,
           tooltip: `The validator's moniker`
         },
         {
@@ -118,7 +85,7 @@ export default {
         },
         {
           title: `Voting Power`,
-          value: `voting_power`,
+          value: `votingPower`,
           tooltip: `Percentage of voting shares`
         }
       ]

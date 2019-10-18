@@ -4,31 +4,31 @@
     :loading="$apollo.queries.validator.loading"
     :loaded="!$apollo.queries.validator.loading"
     :error="$apollo.queries.validator.error"
-    :data-empty="!validator.operator_address"
+    :data-empty="!validator.operatorAddress"
     :hide-header="true"
     data-title="Validator"
     class="small"
   >
-    <template v-if="validator.operator_address" slot="managed-body">
+    <template v-if="validator.operatorAddress" slot="managed-body">
       <div class="status-container">
-        <span :class="status | toLower" class="validator-status">
-          {{ status }}
+        <span :class="validator.status | toLower" class="validator-status">
+          {{ validator.status }}
         </span>
-        <span v-if="status_detailed" class="validator-status-detailed">
-          {{ status_detailed }}
+        <span v-if="validator.statusDetailed" class="validator-status-detailed">
+          {{ validator.statusDetailed }}
         </span>
       </div>
       <tr class="li-validator">
         <td class="data-table__row__info">
           <Avatar
-            v-if="!validator.avatarUrl"
+            v-if="!validator.picture"
             class="li-validator-image"
             alt="generic geometric symbol - generated avatar from address"
-            :address="validator.operator_address"
+            :address="validator.operatorAddress"
           />
           <img
-            v-else-if="validator.avatarUrl"
-            :src="validator.avatarUrl"
+            v-else-if="validator.picture"
+            :src="validator.picture"
             :alt="`validator logo for ` + validator.moniker"
             class="li-validator-image"
           />
@@ -39,7 +39,7 @@
             <div v-if="myDelegation">
               <h4>{{ myDelegation }}</h4>
               <h5 v-if="rewards">
-                {{ 0 | atoms | shortDecimals | noBlanks }}
+                {{ rewards.amount | atoms | fullDecimals | noBlanks }}
               </h5>
             </div>
           </div>
@@ -66,23 +66,23 @@
         </li>
         <li class="column">
           <h4>Website</h4>
-          <span v-if="website !== `--`">
+          <span v-if="validator.website !== ``">
             <a
               id="validator-website"
-              :href="website"
+              :href="validator.website"
               target="_blank"
               rel="nofollow noreferrer noopener"
-              >{{ website }}</a
+              >{{ validator.website }}</a
             >
           </span>
           <span v-else id="validator-website">
-            {{ website | noBlanks }}
+            {{ validator.website | noBlanks }}
           </span>
         </li>
         <li class="column">
           <h4>Validator Address</h4>
           <span>
-            <Bech32 :address="validator.operator_address" />
+            <Bech32 :address="validator.operatorAddress" />
           </span>
         </li>
       </ul>
@@ -97,41 +97,37 @@
         <li>
           <h4>Voting Power / Total Stake</h4>
           <span id="page-profile__power">
-            {{ validator.voting_power | percent }} /
+            {{ validator.votingPower | percent }} /
             {{ validator.tokens | atoms | shortDecimals }}
           </span>
         </li>
         <li>
           <h4>Self Stake</h4>
           <span id="page-profile__self-bond">
-            {{ selfBond }} / {{ selfBondAmount }}
+            {{ selfStake.amount }} / {{ selfStakeAmount }}
           </span>
         </li>
         <li>
           <h4>Validator Since</h4>
-          <span>
-            Block #{{
-              validator.signing_info ? validator.signing_info.start_height : 0
-            }}
-          </span>
+          <span>Block #{{ validator.startHeight }}</span>
         </li>
         <li>
           <h4>Uptime</h4>
           <span id="page-profile__uptime">
-            {{ validator.uptime_percentage | percent }}
+            {{ validator.uptimePercentage | percent }}
           </span>
         </li>
         <li>
           <h4>Current Commission Rate</h4>
-          <span>{{ validator.rate | percent }}</span>
+          <span>{{ validator.commission | percent }}</span>
         </li>
         <li>
           <h4>Max Commission Rate</h4>
-          <span>{{ validator.max_rate | percent }}</span>
+          <span>{{ validator.maxCommission | percent }}</span>
         </li>
         <li>
           <h4>Max Daily Commission Change</h4>
-          <span>{{ validator.max_change_rate | percent }}</span>
+          <span>{{ validator.maxChangeCommission | percent }}</span>
         </li>
         <li>
           <h4>Last Commission Change</h4>
@@ -142,16 +138,16 @@
       <DelegationModal
         ref="delegationModal"
         :from-options="delegationTargetOptions()"
-        :to="validator.operator_address"
+        :to="validator.operatorAddress"
         :validator="validator"
-        :denom="bondDenom"
+        :denom="balance.denom"
       />
       <UndelegationModal
         ref="undelegationModal"
-        :maximum="Number(myBond)"
+        :maximum="validator.amount"
         :to="session.signedIn ? session.address : ``"
         :validator="validator"
-        :denom="bondDenom"
+        :denom="balance.denom"
         @switchToRedelegation="onDelegation({ redelegation: true })"
       />
     </template>
@@ -168,9 +164,15 @@
 
 <script>
 import moment from "moment"
-import { calculateTokens } from "scripts/common"
 import { mapState, mapGetters } from "vuex"
-import { atoms, viewDenom, shortDecimals, percent, uatoms } from "scripts/num"
+import {
+  atoms,
+  viewDenom,
+  shortDecimals,
+  fullDecimals,
+  percent,
+  uatoms
+} from "scripts/num"
 import { formatBech32 } from "src/filters"
 import { expectedReturns } from "scripts/returns"
 import TmBtn from "common/TmBtn"
@@ -179,8 +181,18 @@ import UndelegationModal from "src/ActionModal/components/UndelegationModal"
 import Avatar from "common/Avatar"
 import Bech32 from "common/Bech32"
 import TmPage from "common/TmPage"
-import isEmpty from "lodash.isempty"
-import { ValidatorProfile, ValidatorResult } from "src/gql"
+import gql from "graphql-tag"
+
+function getStatusText(statusDetailed) {
+  switch (statusDetailed) {
+    case "inactive":
+      return "Validator is currently not validating"
+    case "banned":
+      return "Validator is banned from the network"
+    default:
+      return "Validator is actively validating"
+  }
+}
 
 export default {
   name: `page-validator`,
@@ -195,6 +207,7 @@ export default {
   filters: {
     atoms,
     shortDecimals,
+    fullDecimals,
     percent,
     toLower: text => text.toLowerCase(),
     // empty descriptions have a strange '[do-not-modify]' value which we don't want to show
@@ -210,52 +223,34 @@ export default {
     }
   },
   data: () => ({
-    validator: {}
+    validator: {},
+    rewards: 0,
+    delegation: {},
+    delegations: [],
   }),
   computed: {
-    ...mapState([
-      `delegates`,
-      `delegation`,
-      `distribution`,
-      `pool`,
-      `session`,
-      `connection`
-    ]),
-    ...mapState({
-      annualProvision: state => state.minting.annualProvision
-    }),
-    ...mapGetters([
-      `lastHeader`,
-      `bondDenom`,
-      `committedDelegations`,
-      `liquidAtoms`,
-      `connected`
-    ]),
-    selfBond() {
-      return percent(this.delegates.selfBond[this.validator.operator_address])
-    },
-    selfBondAmount() {
-      return shortDecimals(
-        uatoms(this.delegates.selfBond[this.validator.operator_address])
+    ...mapState([`delegates`, `session`]),
+    ...mapState({ network: state => state.connection.network }),
+    ...mapGetters([`committedDelegations`]),
+    selfStake() {
+      return percent(
+        this.validator.selfStake.amount || 0
       )
     },
-    myBond() {
-      if (!this.validator) return 0
-      return atoms(
-        calculateTokens(
-          this.validator,
-          this.committedDelegations[this.validator.operator_address] || 0
-        )
+    selfStakeAmount() {
+      return shortDecimals(
+        uatoms(this.validator.selfStake.amount || 0)
       )
     },
     myDelegation() {
-      const { bondDenom, myBond } = this
-      const myDelegation = shortDecimals(myBond)
-      const myDelegationString = `${myDelegation} ${viewDenom(bondDenom)}`
-      return Number(myBond) === 0 ? null : myDelegationString
+      if (this.delegation.amount && this.delegation.amount !== 0) {
+        const myDelegation = shortDecimals(atoms(this.delegation.shares))
+        return `${myDelegation} ${viewDenom(this.balance.denom)}`
+      }
+      return null
     },
     lastCommissionChange() {
-      const updateTime = this.validator.update_time
+      const updateTime = this.validator.updateTime
       const dateTime = new Date(updateTime)
       const neverHappened = dateTime.getTime() === 0
 
@@ -264,83 +259,31 @@ export default {
         : moment(dateTime).fromNow()
     },
     returns() {
-      return expectedReturns(
-        this.validator,
-        parseInt(this.pool.pool.bonded_tokens),
-        parseFloat(this.annualProvision)
-      )
-    },
-    status() {
-      if (
-        this.validator.jailed ||
-        this.validator.tombstoned ||
-        this.validator.status === 0
-      )
-        return `Inactive`
-      return `Active`
-    },
-    status_detailed() {
-      if (this.validator.jailed) return `Temporally banned from the network`
-      if (this.validator.tombstoned) return `Banned from the network`
-      if (this.validator.status === 0) return `Banned from the network`
-      return false
-    },
-    website() {
-      let url = this.validator.website
-
-      if (!url || url === "[do-not-modify]") {
-        return ""
-      } else if (!url.match(/http[s]?/)) {
-        url = `https://` + url
-      }
-      return url
-    },
-    rewards() {
-      const { session, bondDenom, distribution, validator } = this
-      if (!session.signedIn) {
-        return null
-      }
-
-      const validatorRewards = distribution.rewards[validator.operator_address]
-      return validatorRewards ? validatorRewards[bondDenom] : 0
+      return this.validator.expectedReturns
     }
   },
-  watch: {
-    myBond: {
-      handler(myBond) {
-        if (myBond > 0) {
-          this.$store.dispatch(
-            `getRewardsFromValidator`,
-            this.$route.params.validator
-          )
-        }
-      }
-    },
-    "validator.operator_address": {
-      immediate: true,
-      handler(operator_address) {
-        if (!operator_address) return
-        this.$store.dispatch(`getSelfBond`, this.validator)
-      }
-    },
-    lastHeader: {
-      immediate: true,
-      handler(newHeader) {
-        const waitTwentyBlocks = Number(newHeader.height) % 20 === 0
-        if (
-          this.session.signedIn &&
-          waitTwentyBlocks &&
-          this.$route.name === `validator` &&
-          this.delegation.loaded &&
-          Number(this.myBond) > 0
-        ) {
-          this.$store.dispatch(
-            `getRewardsFromValidator`,
-            this.$route.params.validator
-          )
-        }
-      }
-    }
+  // watch: {
+  //   lastHeader: {
+  //     immediate: true,
+  //     handler(newHeader) {
+  //       const waitTwentyBlocks = Number(newHeader.height) % 20 === 0
+  //       if (
+  //         this.session.signedIn &&
+  //         waitTwentyBlocks &&
+  //         this.$route.name === `validator` &&
+  //         // this.delegation.loaded &&
+  //         Number(this.myBond) > 0
+  //       ) {
+  //         this.$store.dispatch(
+  //           `getRewardsFromValidator`,
+  //           this.$route.params.validator
+  //         )
+  //       }
+  //     }
+  //   }
+  // },
+  updated() {
+    console.log("validator", this.validator, this.delegations)
   },
   methods: {
     shortDecimals,
@@ -354,61 +297,189 @@ export default {
     onUndelegation() {
       this.$refs.undelegationModal.open()
     },
-    delegationTargetOptions(
-      { session, liquidAtoms, committedDelegations, $route, delegates } = this
-    ) {
-      if (!session.signedIn) return []
+    delegationTargetOptions() {
+      if (!this.session.signedIn) return []
 
       //- First option should always be your wallet (i.e normal delegation)
       const myWallet = [
         {
-          address: session.address,
-          maximum: Math.floor(liquidAtoms),
-          key: `My Wallet - ${formatBech32(session.address, false, 20)}`,
+          address: this.session.address,
+          maximum: Math.floor(this.balance.amount),
+          key: `My Wallet - ${formatBech32(this.session.address, false, 20)}`,
           value: 0
         }
       ]
-      const bondedValidators = Object.keys(committedDelegations)
-      if (isEmpty(bondedValidators)) {
-        return myWallet
-      }
-      //- The rest of the options are from your other bonded validators
-      //- We skip the option of redelegating to the same address
-      const redelegationOptions = bondedValidators
-        .filter(address => address != $route.params.validator)
-        .reduce((validators, address) => {
-          const delegate = delegates.delegates.find(function(validator) {
-            return validator.operator_address === address
-          })
-          return validators.concat({
-            address: address,
-            maximum: Math.floor(committedDelegations[address]),
-            key: `${delegate.moniker} - ${formatBech32(
-              delegate.operator_address,
+
+      const result = this.delegations
+        .filter(d => d.validatorAddress != this.$route.params.validator)
+        .map((d, i) => {
+          return {
+            address: this.session.address,
+            maximum: Math.floor(d.shares),
+            // Get names of delegation validators
+            key: `${d.validatorAddress} - ${formatBech32(
+              d.validatorAddress,
               false,
               20
             )}`,
-            value: validators.length + 1
-          })
-        }, [])
-      return myWallet.concat(redelegationOptions)
+            value: i + 1
+          }
+        })
+        .concat(myWallet)
+
+      return result
     }
   },
   apollo: {
-    validator: {
-      query() {
-        /* istanbul ignore next */
-        return ValidatorProfile(this.connection.network)
-      },
+    balance: {
+      query: gql`
+        query balance($networkId: String!, $address: String!) {
+          balance(networkId: $networkId, address: $address) {
+            amount
+            denom
+          }
+        }
+      `,
       variables() {
-        /* istanbul ignore next */
         return {
-          address: this.$route.params.validator
+          networkId: this.network,
+          address: this.session.address
         }
       },
-      update(data) {
-        /* istanbul ignore next */
-        return ValidatorResult(this.connection.network)(data)
+      update: result => ({
+        amount: parseFloat(result.balance.amount),
+        denom: result.balance.denom
+      })
+    },
+    delegation: {
+      query: gql`
+        query delegation(
+          $networkId: String!
+          $delegatorAddress: String!
+          $operatorAddress: String!
+        ) {
+          delegation(
+            networkId: $networkId
+            delegatorAddress: $delegatorAddress
+            operatorAddress: $operatorAddress
+          ) {
+            delegatorAddress
+            validatorAddress
+            amount
+          }
+        }
+      `,
+      variables() {
+        return {
+          networkId: this.network,
+          delegatorAddress: this.session.address,
+          operatorAddress: this.$route.params.validator
+        }
+      },
+      update: result => {
+        return {
+          ...result.delegation,
+          amount: Number(result.delegation.amount)
+        }
+      }
+    },
+    delegations: {
+      query: gql`
+        query delegations($networkId: String!, $delegatorAddress: String!) {
+          delegations(
+            networkId: $networkId
+            delegatorAddress: $delegatorAddress
+          ) {
+            amount
+            validatorAddress
+            delegatorAddress
+          }
+        }
+      `,
+      variables() {
+        return {
+          networkId: this.network,
+          delegatorAddress: this.session.address
+        }
+      },
+      update: result => {
+        return Array.isArray(result.delegations)
+          ? result.delegations.map(delegation => ({
+              ...delegation,
+              amount: Number(delegation.amount || 0)
+            }))
+          : []
+      }
+    },
+    rewards: {
+      query: gql`
+        query rewards(
+          $networkId: String!
+          $delegatorAddress: String
+          $operatorAddress: String
+        ) {
+          rewards(
+            networkId: $networkId
+            delegatorAddress: $delegatorAddress
+            operatorAddress: $operatorAddress
+          ) {
+            amount
+            denom
+          }
+        }
+      `,
+      variables() {
+        return {
+          networkId: this.network,
+          delegatorAddress: this.session.address,
+          operatorAddress: this.$route.params.validator
+        }
+      },
+      update: result => result.rewards
+    },
+    validator: {
+      query: gql`
+        query validator($networkId: String!, $operatorAddress: String!) {
+          validator(networkId: $networkId, operatorAddress: $operatorAddress) {
+            operatorAddress
+            consensusPubkey
+            jailed
+            details
+            website
+            identity
+            moniker
+            votingPower
+            startHeight
+            uptimePercentage
+            tokens
+            updateTime
+            commission
+            maxCommission
+            maxChangeCommission
+            status
+            statusDetailed
+            picture
+            selfStake {
+              amount
+            }
+          }
+        }
+      `,
+      variables() {
+        return {
+          networkId: this.network,
+          operatorAddress: this.$route.params.validator
+        }
+      },
+      update: result => {
+        console.log(result)
+        return ({
+          ...result.validator,
+          statusDetailed: getStatusText(result.validator.statusDetailed),
+          selfStake: {
+            amount: 0
+          }
+        })
       }
     }
   }
