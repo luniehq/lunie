@@ -28,7 +28,6 @@ import { mapState } from "vuex"
 import DataEmptyTx from "common/TmDataEmptyTx"
 import TmPage from "common/TmPage"
 import TransactionList from "transactions/TransactionList"
-import { AllValidators, validatorsResult } from "src/gql"
 import gql from "graphql-tag"
 
 export default {
