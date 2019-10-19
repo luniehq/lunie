@@ -29,12 +29,12 @@
           <img
             v-else-if="validator.picture"
             :src="validator.picture"
-            :alt="`validator logo for ` + validator.moniker"
+            :alt="`validator logo for ` + validator.name"
             class="li-validator-image"
           />
           <div class="validator-info">
             <h3 class="li-validator-name">
-              {{ validator.moniker }}
+              {{ validator.name }}
             </h3>
             <div v-if="delegation.amount">
               <h4>{{ delegation.amount | fullDecimals }}</h4>
@@ -146,7 +146,7 @@
       <UndelegationModal
         ref="undelegationModal"
         :maximum="delegation.amount"
-        :to="session.signedIn ? address : ``"
+        :to="address"
         :validator="validator"
         :denom="metaData.stakingDenom"
         @switchToRedelegation="onDelegation({ redelegation: true })"
@@ -318,6 +318,9 @@ export default {
           ...result.delegation,
           amount: Number(result.delegation.amount)
         }
+      },
+      skip() {
+        return !this.session.address
       }
     },
     rewards: {

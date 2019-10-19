@@ -43,7 +43,7 @@ export default {
   },
   methods: {
     hideXs(property) {
-      const primaryFields = ["smallMoniker", "block_number"]
+      const primaryFields = ["smallName", "block_number"]
       const hideFieldMobile = property.value !== this.showOnMobile
       return hideFieldMobile && !primaryFields.includes(property.value)
     },

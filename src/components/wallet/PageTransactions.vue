@@ -11,7 +11,7 @@
   >
     <DataEmptyTx slot="no-data" />
     <template slot="managed-body">
-      <div infinite-scroll-distance="80">
+      <div v-infinite-scroll="loadMore" infinite-scroll-distance="80">
         <TransactionList
           :transactions="transactions"
           :address="address"
@@ -28,7 +28,6 @@ import { mapGetters } from "vuex"
 import DataEmptyTx from "common/TmDataEmptyTx"
 import TmPage from "common/TmPage"
 import TransactionList from "transactions/TransactionList"
-import { AllValidators, validatorsResult } from "src/gql"
 import gql from "graphql-tag"
 
 export default {
@@ -52,11 +51,13 @@ export default {
       })
       return names
     },
-    // showingTransactions() {
-    //   return this.flatOrderedTransactionList.slice(0, this.showing)
-    // },
     dataEmpty() {
       return this.transactions.length === 0
+    }
+  },
+  methods: {
+    loadMore() {
+      this.showing += 10
     }
   },
   apollo: {
@@ -78,6 +79,9 @@ export default {
           }
         }
       `,
+      skip() {
+        return !this.session.address
+      },
       variables() {
         return {
           networkId: this.network,
@@ -96,13 +100,18 @@ export default {
       }
     },
     validators: {
-      query() {
-        /* istanbul ignore next */
-        return AllValidators(this.network)
-      },
-      update(data) {
-        /* istanbul ignore next */
-        return validatorsResult(this.network)(data)
+      query: gql`
+        query validators($networkId: String!) {
+          validators(networkId: $networkId) {
+            name
+            operatorAddress
+          }
+        }
+      `,
+      variables() {
+        return {
+          networkId: this.network
+        }
       }
     }
   }

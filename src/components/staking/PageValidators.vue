@@ -30,7 +30,7 @@
         </div>
       </div>
       <TableValidators
-        :validators="validatorsPlus"
+        :validators="validators"
         show-on-mobile="expectedReturns"
       />
       <div
@@ -94,7 +94,6 @@ export default {
             details
             website
             identity
-            moniker
             votingPower
             startHeight
             uptimePercentage
@@ -118,7 +117,19 @@ export default {
           query: this.searchTerm
         }
       },
-      update: result => result.validators
+      update: function(result) {
+        // Add delegated amounts to each validator object if they are present.
+        return result.validators.map(validator => {
+          if (this.delegations[validator.operatorAddress]) {
+            validator.userShares = this.delegations[validator.operatorAddress]
+          } else {
+            validator.userShares = {
+              amount: 0
+            }
+          }
+          return validator
+        })
+      }
     }
   }
 }

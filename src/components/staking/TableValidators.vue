@@ -8,7 +8,11 @@
           :show-on-mobile="showOnMobile"
         />
       </thead>
-      <tbody infinite-scroll-distance="400" name="flip-list">
+      <tbody
+        v-infinite-scroll="loadMore"
+        infinite-scroll-distance="400"
+        name="flip-list"
+      >
         <LiValidator
           v-for="(validator, index) in showingValidators"
           :key="validator.operatorAddress"
@@ -51,26 +55,27 @@ export default {
     }
   },
   data: () => ({
-    query: ``,
     rewards: [],
     sort: {
       property: `expectedReturns`,
       order: `desc`
     },
-    showing: 15,
-    rollingWindow: 10000 // param of slashing period
+    showing: 15
   }),
   computed: {
     ...mapGetters([`address`, `network`]),
     sortedEnrichedValidators() {
       return orderBy(
-        this.validators.slice(0),
+        this.validators.slice(0, this.showing),
         [this.sort.property],
         [this.sort.order]
       )
     },
     showingValidators() {
-      return this.sortedEnrichedValidators
+      return this.sortedEnrichedValidators.map(validator => ({
+        ...validator,
+        smallName: validator.name ? validator.name.toLowerCase() : ""
+      }))
     },
     properties() {
       return [
@@ -81,8 +86,8 @@ export default {
         },
         {
           title: `Name`,
-          value: `smallMoniker`,
-          tooltip: `The validator's moniker`
+          value: `smallName`,
+          tooltip: `The validator's name`
         },
         {
           title: `Rewards`,

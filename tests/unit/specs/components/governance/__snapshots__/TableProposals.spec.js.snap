@@ -11,7 +11,7 @@ exports[`TableProposals has the expected html structure 1`] = `
       >
         <td>
           <span
-            class="proposal-status red"
+            class="proposal-status rejected"
           >
             
       Rejected
@@ -47,7 +47,7 @@ exports[`TableProposals has the expected html structure 1`] = `
       >
         <td>
           <span
-            class="proposal-status red"
+            class="proposal-status rejected"
           >
             
       Rejected
@@ -83,7 +83,7 @@ exports[`TableProposals has the expected html structure 1`] = `
       >
         <td>
           <span
-            class="proposal-status red"
+            class="proposal-status rejected"
           >
             
       Rejected
@@ -119,7 +119,7 @@ exports[`TableProposals has the expected html structure 1`] = `
       >
         <td>
           <span
-            class="proposal-status red"
+            class="proposal-status rejected"
           >
             
       Rejected
@@ -158,7 +158,7 @@ Instrument cultivated alteration any favourable expression law far nor. Both new
       >
         <td>
           <span
-            class="proposal-status red"
+            class="proposal-status rejected"
           >
             
       Rejected
@@ -194,7 +194,7 @@ Instrument cultivated alteration any favourable expression law far nor. Both new
       >
         <td>
           <span
-            class="proposal-status red"
+            class="proposal-status rejected"
           >
             
       Rejected
@@ -230,7 +230,7 @@ Instrument cultivated alteration any favourable expression law far nor. Both new
       >
         <td>
           <span
-            class="proposal-status red"
+            class="proposal-status rejected"
           >
             
       Rejected
@@ -266,7 +266,7 @@ Instrument cultivated alteration any favourable expression law far nor. Both new
       >
         <td>
           <span
-            class="proposal-status red"
+            class="proposal-status rejected"
           >
             
       Rejected
@@ -302,7 +302,7 @@ Instrument cultivated alteration any favourable expression law far nor. Both new
       >
         <td>
           <span
-            class="proposal-status red"
+            class="proposal-status rejected"
           >
             
       Rejected
@@ -338,7 +338,7 @@ Instrument cultivated alteration any favourable expression law far nor. Both new
       >
         <td>
           <span
-            class="proposal-status red"
+            class="proposal-status rejected"
           >
             
       Rejected
@@ -374,7 +374,7 @@ Instrument cultivated alteration any favourable expression law far nor. Both new
       >
         <td>
           <span
-            class="proposal-status red"
+            class="proposal-status rejected"
           >
             
       Rejected
@@ -410,7 +410,7 @@ Instrument cultivated alteration any favourable expression law far nor. Both new
       >
         <td>
           <span
-            class="proposal-status red"
+            class="proposal-status rejected"
           >
             
       Rejected
@@ -446,7 +446,7 @@ Instrument cultivated alteration any favourable expression law far nor. Both new
       >
         <td>
           <span
-            class="proposal-status red"
+            class="proposal-status rejected"
           >
             
       Rejected
@@ -482,7 +482,7 @@ Instrument cultivated alteration any favourable expression law far nor. Both new
       >
         <td>
           <span
-            class="proposal-status red"
+            class="proposal-status rejected"
           >
             
       Rejected
@@ -518,7 +518,7 @@ Instrument cultivated alteration any favourable expression law far nor. Both new
       >
         <td>
           <span
-            class="proposal-status red"
+            class="proposal-status rejected"
           >
             
       Rejected
@@ -554,7 +554,7 @@ Instrument cultivated alteration any favourable expression law far nor. Both new
       >
         <td>
           <span
-            class="proposal-status red"
+            class="proposal-status rejected"
           >
             
       Rejected
@@ -590,7 +590,7 @@ Instrument cultivated alteration any favourable expression law far nor. Both new
       >
         <td>
           <span
-            class="proposal-status red"
+            class="proposal-status rejected"
           >
             
       Rejected

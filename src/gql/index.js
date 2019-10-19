@@ -22,7 +22,6 @@ const ValidatorFragment = `
   details
   website
   identity
-  moniker
   votingPower
   startHeight
   uptimePercentage

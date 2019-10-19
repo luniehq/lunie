@@ -19,7 +19,7 @@ exports[`TransactionMetadata renders correct fee and block transaction data 1`] 
     <router-link-stub
       to="[object Object]"
     >
-      Block #1234567 
+      Block # 
     </router-link-stub>
     
     @ Jul 31st 2019 00:00:00

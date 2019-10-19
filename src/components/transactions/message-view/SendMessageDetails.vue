@@ -8,9 +8,7 @@
       </p>
     </div>
     <div class="tx__content__information">
-      <template
-        v-if="toYourself"
-      >
+      <template v-if="toYourself">
         To yourself!
       </template>
       <template v-else-if="sentFromSessionAddress">
