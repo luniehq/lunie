@@ -1,5 +1,5 @@
 <template>
-  <PageContainer
+  <TmPage
     :managed="true"
     :loading="$apollo.queries.validators.loading"
     :loaded="!$apollo.queries.validators.loading"
@@ -40,13 +40,13 @@
         No results for these search terms
       </div>
     </template>
-  </PageContainer>
+  </TmPage>
 </template>
 
 <script>
 import { mapState } from "vuex"
 import TableValidators from "staking/TableValidators"
-import PageContainer from "common/PageContainer"
+import TmPage from "common/TmPage"
 import TmField from "common/TmField"
 import TmBtn from "common/TmBtn"
 import gql from "graphql-tag"
@@ -55,7 +55,7 @@ export default {
   name: `tab-validators`,
   components: {
     TableValidators,
-    PageContainer,
+    TmPage,
     TmField,
     TmBtn
   },
