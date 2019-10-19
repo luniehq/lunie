@@ -8,15 +8,14 @@
           :show-on-mobile="showOnMobile"
         />
       </thead>
-      <tbody
-        infinite-scroll-distance="400"
-        name="flip-list"
-      >
+      <tbody infinite-scroll-distance="400" name="flip-list">
         <LiValidator
           v-for="(validator, index) in showingValidators"
           :key="validator.operatorAddress"
           :index="index"
           :validator="validator"
+          :delegation="getDelegation(validator)"
+          :rewards="getRewards(validator)"
           :show-on-mobile="showOnMobile"
         />
       </tbody>
@@ -29,6 +28,7 @@ import { mapGetters, mapState } from "vuex"
 import orderBy from "lodash.orderby"
 import LiValidator from "staking/LiValidator"
 import PanelSort from "staking/PanelSort"
+import gql from "graphql-tag"
 
 export default {
   name: `table-validators`,
@@ -41,6 +41,10 @@ export default {
       type: Array,
       required: true
     },
+    delegations: {
+      type: Array,
+      default: () => []
+    },
     showOnMobile: {
       type: String,
       default: () => "returns"
@@ -48,6 +52,7 @@ export default {
   },
   data: () => ({
     query: ``,
+    rewards: [],
     sort: {
       property: `expectedReturns`,
       order: `desc`
@@ -56,11 +61,8 @@ export default {
     rollingWindow: 10000 // param of slashing period
   }),
   computed: {
-    ...mapState([`distribution`, `pool`, `session`]),
-    ...mapState({
-      annualProvision: state => state.minting.annualProvision
-    }),
-    ...mapGetters([`committedDelegations`, `bondDenom`, `lastHeader`]),
+    ...mapState([`session`]),
+    ...mapState({ network: state => state.connection.network }),
     sortedEnrichedValidators() {
       return orderBy(
         this.validators.slice(0),
@@ -73,6 +75,11 @@ export default {
     },
     properties() {
       return [
+        {
+          title: `Status`,
+          value: `status`,
+          tooltip: `Validation status of the validator`
+        },
         {
           title: `Name`,
           value: `smallMoniker`,
@@ -92,12 +99,6 @@ export default {
     }
   },
   watch: {
-    lastHeader: {
-      immediate: true,
-      handler() {
-        this.$store.dispatch(`getRewardsFromMyValidators`)
-      }
-    },
     "sort.property": function() {
       this.showing = 15
     },
@@ -105,14 +106,40 @@ export default {
       this.showing = 15
     }
   },
-  mounted() {
-    this.$store.dispatch(`getPool`)
-    this.$store.dispatch(`getRewardsFromMyValidators`)
-    this.$store.dispatch(`getMintingParameters`)
-  },
   methods: {
     loadMore() {
       this.showing += 10
+    },
+    getDelegation({ operatorAddress }) {
+      return this.delegations.find(
+        ({ validator }) => validator.operatorAddress === operatorAddress
+      )
+    },
+    getRewards({ operatorAddress }) {
+      return this.rewards.find(
+        ({ validator }) => validator.operatorAddress === operatorAddress
+      )
+    }
+  },
+  apollo: {
+    rewards: {
+      query: gql`
+        query Rewards($networkId: String!, $delegatorAddress: String!) {
+          rewards(networkId: $networkId, delegatorAddress: $delegatorAddress) {
+            validator {
+              operatorAddress
+            }
+            amount
+          }
+        }
+      `,
+      variables() {
+        return {
+          networkId: this.network,
+          delegatorAddress: this.session.address
+        }
+      },
+      update: result => result.rewards
     }
   }
 }
@@ -130,5 +157,21 @@ export default {
 
 .flip-list-move {
   transition: transform 0.3s;
+}
+
+.data-table >>> th:first-child {
+  width: 5%;
+  color: var(--dim);
+  font-size: var(--sm);
+}
+
+.data-table >>> th:nth-child(2) {
+  width: 10%;
+  color: var(--dim);
+  font-size: var(--sm);
+}
+
+.data-table >>> th:nth-child(3) {
+  width: 50%;
 }
 </style>

@@ -1,13 +1,14 @@
 <template>
   <div>
-    <div v-if="!$apollo.queries.validators.loading && validators.length > 0">
+    <div v-if="!$apollo.queries.delegations.loading && delegations.length > 0">
       <TableValidators
-        :validators="validators"
+        :validators="delegations.map(({ validator }) => validator)"
+        :delegations="delegations"
         show-on-mobile="expectedReturns"
       />
     </div>
     <TmDataMsg
-      v-else-if="validators.length === 0"
+      v-else-if="delegations.length === 0"
       icon="sentiment_dissatisfied"
     >
       <div slot="title">
@@ -26,7 +27,7 @@
 import { mapState } from "vuex"
 import TmDataMsg from "common/TmDataMsg"
 import TableValidators from "staking/TableValidators"
-import { DelegatorValidators, validatorsResult } from "src/gql"
+import { DelegationsForDelegator } from "src/gql"
 
 export default {
   name: `delegations-overview`,
@@ -35,17 +36,17 @@ export default {
     TmDataMsg
   },
   data: () => ({
-    validators: []
+    delegations: []
   }),
   computed: {
     ...mapState(["session"]),
     ...mapState({ network: state => state.connection.network })
   },
   apollo: {
-    validators: {
+    delegations: {
       query() {
         /* istanbul ignore next */
-        return DelegatorValidators(this.network)
+        return DelegationsForDelegator(this.network)
       },
       variables() {
         /* istanbul ignore next */
@@ -55,7 +56,7 @@ export default {
       },
       update(data) {
         /* istanbul ignore next */
-        return validatorsResult(this.network)(data)
+        return data.delegations
       }
     }
   }

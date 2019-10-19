@@ -15,10 +15,10 @@ export const schemaMap = {
 }
 
 const ValidatorFragment = `
-  networkId
   operatorAddress
   consensusPubkey
   jailed
+  picture
   details
   website
   identity
@@ -27,12 +27,15 @@ const ValidatorFragment = `
   startHeight
   uptimePercentage
   tokens
-  updateTime
+  commissionUpdateTime
   commission
   maxCommission
   maxChangeCommission
   status
   statusDetailed
+  expectedReturns
+  selfStake
+  delegatorDelegation
 `
 
 export const AllValidators = () => {
@@ -46,9 +49,9 @@ export const AllValidators = () => {
     }`
 }
 
-export const ValidatorProfile = schema => gql`
-  query validator($address: String) {
-    ${schemaMap[schema]}validator(address: $address) {
+export const ValidatorProfile = gql`
+  query validator($networkId: String!, $operatorAddress: String!) {
+    validator(networkId: $networkId, operatorAddress: $operatorAddress) {
       ${ValidatorFragment}
     }
   }
@@ -58,6 +61,30 @@ export const DelegatorValidators = schema => gql`
   query ValidatorInfo($delegatorAddress: String!) {
     validators(networkId: "${schema}", delegatorAddress: $delegatorAddress) {
       ${ValidatorFragment}
+    }
+  }
+`
+
+export const UndelegationsForDelegator = schema => gql`
+  query Undelegations($delegatorAddress: String!) {
+    undelegations(networkId: "${schema}", delegatorAddress: $delegatorAddress) {
+      validator {
+        ${ValidatorFragment}
+      }
+      amount
+      startHeight
+      endTime
+    }
+  }
+`
+
+export const DelegationsForDelegator = schema => gql`
+  query Delegations($delegatorAddress: String!) {
+    delegations(networkId: "${schema}", delegatorAddress: $delegatorAddress) {
+      validator {
+        ${ValidatorFragment}
+      }
+      amount
     }
   }
 `
@@ -75,14 +102,6 @@ export const ValidatorByName = schema => active => gql`
     }
   }
 `
-
-export const validatorsResult = schema => data =>
-  data[`${schemaMap[schema]}validators`]
-
-export const ValidatorResult = schema => data => {
-  console.log(data)
-  return data[`${schemaMap[schema]}validator`]
-}
 
 export const Networks = gql`
   query Networks {

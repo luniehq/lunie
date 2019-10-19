@@ -45,7 +45,6 @@
 
 <script>
 import { mapState } from "vuex"
-import { expectedReturns } from "scripts/returns"
 import TableValidators from "staking/TableValidators"
 import PageContainer from "common/PageContainer"
 import TmField from "common/TmField"
@@ -68,11 +67,6 @@ export default {
   computed: {
     ...mapState([`session`]),
     ...mapState({ network: state => state.connection.network }),
-    // selfStake() {
-    //   return percent(
-    //     this.validator.selfStake.shares / this.validator.delegatorShares
-    //   )
-    // },
     validatorsPlus() {
       return this.validators.map(v => ({
         ...v,
@@ -80,14 +74,14 @@ export default {
       }))
     }
   },
-  // updated() {
-  //   console.log(this.validatorsPlus)
-  // },
   apollo: {
     validators: {
       query: gql`
-        query validators($networkId: String!) {
-          validators(networkId: $networkId) {
+        query validators($networkId: String!, $delegatorAddress: String) {
+          validators(
+            networkId: $networkId
+            delegatorAddress: $delegatorAddress
+          ) {
             operatorAddress
             consensusPubkey
             jailed
@@ -99,7 +93,7 @@ export default {
             startHeight
             uptimePercentage
             tokens
-            updateTime
+            commissionUpdateTime
             commission
             maxCommission
             maxChangeCommission
@@ -112,7 +106,8 @@ export default {
       `,
       variables() {
         return {
-          networkId: this.network
+          networkId: this.network,
+          delegatorAddress: this.session.address
         }
       },
       update: result => result.validators

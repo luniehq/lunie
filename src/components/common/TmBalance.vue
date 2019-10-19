@@ -4,19 +4,19 @@
       <div class="total-atoms">
         <h3>Total {{ metaData.stakingDenom }}</h3>
         <h2 class="total-atoms__value">
-          {{ overview.totalStake | shortDecimals | numberPending }}
+          {{ overview.totalStake | shortDecimals | noBlanks }}
         </h2>
       </div>
 
       <div class="row small-container">
         <div class="available-atoms">
           <h3>Available {{ metaData.stakingDenom }}</h3>
-          <h2>{{ overview.liquidStake | shortDecimals | numberPending }}</h2>
+          <h2>{{ overview.liquidStake | shortDecimals | noBlanks }}</h2>
         </div>
 
         <div v-if="overview.totalRewards" class="rewards">
           <h3>Total Rewards</h3>
-          <h2>{{ overview.totalRewards | shortDecimals | numberPending }}</h2>
+          <h2>{{ overview.totalRewards | shortDecimals | noBlanks }}</h2>
         </div>
       </div>
     </div>
@@ -46,7 +46,7 @@
 </template>
 <script>
 import num, { shortDecimals } from "scripts/num"
-import { numberPending } from "src/filters"
+import { noBlanks } from "src/filters"
 import TmBtn from "common/TmBtn"
 import SendModal from "src/ActionModal/components/SendModal"
 import ModalWithdrawRewards from "src/ActionModal/components/ModalWithdrawRewards"
@@ -61,7 +61,7 @@ export default {
   },
   filters: {
     shortDecimals,
-    numberPending
+    noBlanks
   },
   data() {
     return {
@@ -142,16 +142,6 @@ export default {
         return data.metaData
       }
     }
-    // defaultDenom: {
-    //   query() {
-    //     /* istanbul ignore next */
-    //     return NetworkCapability(this.network)
-    //   },
-    //   update(data) {
-    //     /* istanbul ignore next */
-    //     return data.network.defaultDenom
-    //   }
-    // }
   }
 }
 </script>

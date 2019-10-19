@@ -10,17 +10,6 @@
     "
   >
     <td>{{ index + 1 }}</td>
-    <td class="hide-xs">
-      <div class="status-container">
-        <span
-          :class="status | toLower"
-          class="validator-status"
-          :title="status_detailed"
-        >
-          {{ status }}
-        </span>
-      </div>
-    </td>
     <td class="data-table__row__info">
       <Avatar
         v-if="!validator || !validator.picture"
@@ -38,30 +27,19 @@
         <h3 class="li-validator-name">
           {{ validator.moniker }}
         </h3>
-        <div v-if="delegation.amount > 0">
-          <h4>
-            {{ delegation.amount | shortDecimals }}
-          </h4>
-          <h5 v-if="rewards.amount > 0.001">
-            +{{ rewards.amount | shortDecimals }}
-          </h5>
-        </div>
+        <h4>
+          {{ undelegation.amount }}
+        </h4>
       </div>
     </td>
-    <td :class="{ 'hide-xs': showOnMobile !== 'expectedReturns' }">
-      {{
-        validator.expectedReturns ? percent(validator.expectedReturns) : `--`
-      }}
-    </td>
-    <td :class="{ 'hide-xs': showOnMobile !== 'voting-power' }">
-      {{ validator.votingPower | percent }}
+    <td>
+      {{ undelegation.endTime | fromNow }}
     </td>
   </tr>
 </template>
 
 <script>
-import { percent, shortDecimals, atoms } from "scripts/num"
-import { mapState } from "vuex"
+import { fromNow } from "src/filters"
 import Avatar from "common/Avatar"
 
 export default {
@@ -70,57 +48,21 @@ export default {
     Avatar
   },
   filters: {
-    atoms,
-    shortDecimals,
-    percent,
-    toLower: text => text.toLowerCase()
+    fromNow
   },
   props: {
-    validator: {
-      type: Object,
-      required: true
-    },
-    delegation: {
-      type: Object,
-      default: () => ({})
-    },
-    rewards: {
-      type: Object,
-      default: () => ({})
-    },
     index: {
       type: Number,
       required: true
     },
-    showOnMobile: {
-      type: String,
-      /* istanbul ignore next */
-      default: () => "returns"
-    }
-  },
-  computed: {
-    ...mapState({
-      network: state => state.connection.network
-    }),
-    ...mapState([`session`]),
-    status() {
-      if (
-        this.validator.jailed ||
-        this.validator.tombstoned ||
-        this.validator.status === 0
-      )
-        return `Inactive`
-      return `Active`
+    validator: {
+      type: Object,
+      required: true
     },
-    status_detailed() {
-      if (this.validator.jailed) return `Temporally banned from the network`
-      if (this.validator.tombstoned) return `Banned from the network`
-      if (this.validator.status === 0) return `Banned from the network`
-      return false
+    undelegation: {
+      type: Object,
+      required: true
     }
-  },
-  methods: {
-    percent
   }
 }
 </script>

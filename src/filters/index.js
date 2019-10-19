@@ -1,7 +1,13 @@
 import { percent } from "../scripts/num"
+import moment from "moment"
 
-export const numberPending = function(value) {
-  return value === undefined || value === null || Number.isNaN(value)
+export const fromNow = date => moment(date).fromNow()
+
+export const noBlanks = function(value) {
+  return value === undefined ||
+    value === null ||
+    value === `` ||
+    value === `[do-not-modify]`
     ? `--`
     : value
 }
