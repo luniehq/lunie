@@ -1,6 +1,12 @@
 /* istanbul ignore file */
 
 import gql from "graphql-tag"
+import store from "../vuex/store"
+
+function getCurrentNetwork() {
+  // console.log(store())
+  return store().state.connection.network
+}
 
 export const schemaMap = {
   cosmoshub: "",
@@ -9,41 +15,35 @@ export const schemaMap = {
 }
 
 const ValidatorFragment = `
-    avatarUrl
-    consensus_pubkey
-    customized
-    delegator_shares
-    details
-    identity
-    jailed
-    tombstoned
-    keybaseId
-    lastUpdated
-    max_change_rate
-    max_rate
-    min_self_delegation
-    moniker
-    operator_address
-    profileUrl
-    rate
-    status
-    tokens
-    unbonding_height
-    unbonding_time
-    update_time
-    uptime_percentage
-    userName
-    voting_power
-    website
+  networkId
+  operatorAddress
+  consensusPubkey
+  jailed
+  details
+  website
+  identity
+  votingPower
+  startHeight
+  uptimePercentage
+  tokens
+  updateTime
+  commission
+  maxCommission
+  maxChangeCommission
+  status
+  statusDetailed
 `
 
-export const AllValidators = schema => gql`
-  query validators {
-    ${schemaMap[schema]}validators {
-      ${ValidatorFragment}
-    }
-  }
-`
+export const AllValidators = () => {
+  const currentNetwork = getCurrentNetwork()
+  // console.log(`currentNetwork`, currentNetwork)
+  return gql`
+    query AllValidators {
+      validators(networkId: "${currentNetwork}") {
+        ${ValidatorFragment}
+      }
+    }`
+}
 
 export const ValidatorProfile = schema => gql`
   query validator($address: String) {

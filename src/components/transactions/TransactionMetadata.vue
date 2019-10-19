@@ -29,7 +29,7 @@ export default {
       type: Date,
       required: true
     },
-    block: {
+    height: {
       type: Number,
       required: true
     },

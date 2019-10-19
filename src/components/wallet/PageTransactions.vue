@@ -1,19 +1,19 @@
 <template>
   <TmPage
     :managed="true"
-    :loading="transactions.loading"
-    :loaded="transactions.loaded"
-    :error="!!transactions.error"
-    :data-empty="dataEmpty"
+    :loading="$apollo.queries.transactions.loading"
+    :loaded="!$apollo.queries.transactions.loading"
+    :error="$apollo.queries.transactions.error"
+    :data-empty="transactions.length === 0"
     data-title="Transactions"
     :sign-in-required="true"
     :hide-header="true"
   >
     <DataEmptyTx slot="no-data" />
     <template slot="managed-body">
-      <div v-infinite-scroll="loadMore" infinite-scroll-distance="80">
+      <div infinite-scroll-distance="80">
         <TransactionList
-          :transactions="showingTransactions"
+          :transactions="transactions"
           :address="session.address"
           :validators="validatorsAddressMap"
         />
@@ -24,11 +24,11 @@
 </template>
 
 <script>
-import { mapState, mapGetters } from "vuex"
+import { mapState } from "vuex"
 import DataEmptyTx from "common/TmDataEmptyTx"
 import TmPage from "common/TmPage"
 import TransactionList from "transactions/TransactionList"
-import { AllValidators, validatorsResult } from "src/gql"
+import gql from "graphql-tag"
 
 export default {
   name: `page-transactions`,
@@ -39,53 +39,84 @@ export default {
   },
   data: () => ({
     showing: 15,
-    validators: []
+    validators: [],
+    transactions: []
   }),
   computed: {
-    ...mapState([`session`, `transactions`]),
+    ...mapState([`session`]),
     ...mapState({ network: state => state.connection.network }),
-    ...mapGetters([`flatOrderedTransactionList`]),
     validatorsAddressMap() {
       const names = {}
       this.validators.forEach(item => {
-        names[item.operator_address] = item
+        names[item.operatorAddress] = item
       })
       return names
     },
-    showingTransactions() {
-      return this.flatOrderedTransactionList.slice(0, this.showing)
-    },
     dataEmpty() {
-      return this.flatOrderedTransactionList.length === 0
+      return this.transactions.length === 0
     }
-  },
-  watch: {
-    "session.signedIn": function() {
-      this.refreshTransactions()
-    }
-  },
-  created() {
-    this.refreshTransactions()
   },
   methods: {
-    async refreshTransactions() {
-      if (this.session.signedIn) {
-        await this.$store.dispatch(`getAllTxs`)
-      }
-    },
     loadMore() {
       this.showing += 10
     }
   },
   apollo: {
-    validators: {
-      query() {
-        /* istanbul ignore next */
-        return AllValidators(this.network)
+    transactions: {
+      query: gql`
+        query transactions($networkId: String!, $address: String!) {
+          transactions(networkId: $networkId, address: $address) {
+            hash
+            type
+            group
+            height
+            timestamp
+            gasUsed
+            fee {
+              amount
+              denom
+            }
+            value
+          }
+        }
+      `,
+      skip() {
+        return !this.session.address
       },
-      update(data) {
-        /* istanbul ignore next */
-        return validatorsResult(this.network)(data)
+      variables() {
+        return {
+          networkId: this.network,
+          address: this.session.address
+        }
+      },
+      update: result => {
+        if (Array.isArray(result.transactions)) {
+          return result.transactions.map(transaction => {
+            !transaction.value && console.log("TX ERROR")
+            const newTx = {
+              ...transaction,
+              value: JSON.parse(transaction.value),
+              timestamp: new Date(transaction.timestamp)
+            }
+            return newTx
+          })
+        }
+        return []
+      }
+    },
+    validators: {
+      query: gql`
+        query validators($networkId: String!) {
+          validators(networkId: $networkId) {
+            name
+            operatorAddress
+          }
+        }
+      `,
+      variables() {
+        return {
+          networkId: this.network
+        }
       }
     }
   }

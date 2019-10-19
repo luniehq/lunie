@@ -8,7 +8,7 @@
       size="small"
     />
     <div
-      v-if="connection.connected"
+      v-if="!$apollo.queries.block.loading"
       id="tm-connected-network"
       class="tm-connected-network"
     >
@@ -73,7 +73,7 @@
 import { mapState } from "vuex"
 import { prettyInt } from "scripts/num"
 import TmBtn from "common/TmBtn"
-import { NewBlockSubscription, Block } from "src/gql"
+import { NewBlockSubscription } from "src/gql"
 import gql from "graphql-tag"
 
 export default {
@@ -84,31 +84,42 @@ export default {
   filters: {
     prettyInt
   },
+  data: () => ({
+    block: {}
+  }),
   computed: {
-    ...mapState([`connection`]),
-    ...mapState({
-      network: state => state.connection.network
-    }),
+    ...mapState({ network: state => state.connection.network }),
     networkTooltip() {
-      if (this.connection.connected) {
+      if (!this.$apollo.queries.block.loading) {
         return `You're connected to ${this.block.chainId}.`
       } else {
         return `Seeking connection`
       }
     }
   },
-  data: () => ({
-    block: {}
-  }),
   apollo: {
     block: {
-      query() {
-        return Block(this.network)
-      },
-      update: result => result.block
+      query: gql`
+        query Block($networkId: String!) {
+          block(networkId: $networkId) {
+            height
+            chainId
+          }
+        }
+      `,
+      variables() {
+        return {
+          networkId: this.network
+        }
+      }
     },
     $subscribe: {
       blockAdded: {
+        variables() {
+          return {
+            networkId: this.network
+          }
+        },
         query() {
           return NewBlockSubscription(this.network)
         },

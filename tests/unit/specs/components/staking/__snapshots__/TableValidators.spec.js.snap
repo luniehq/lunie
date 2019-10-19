@@ -42,6 +42,56 @@ exports[`TableValidators shows a validator table 1`] = `
         showonmobile="returns"
         validator="[object Object]"
       />
+      <livalidator-stub
+        index="5"
+        showonmobile="returns"
+        validator="[object Object]"
+      />
+      <livalidator-stub
+        index="6"
+        showonmobile="returns"
+        validator="[object Object]"
+      />
+      <livalidator-stub
+        index="7"
+        showonmobile="returns"
+        validator="[object Object]"
+      />
+      <livalidator-stub
+        index="8"
+        showonmobile="returns"
+        validator="[object Object]"
+      />
+      <livalidator-stub
+        index="9"
+        showonmobile="returns"
+        validator="[object Object]"
+      />
+      <livalidator-stub
+        index="10"
+        showonmobile="returns"
+        validator="[object Object]"
+      />
+      <livalidator-stub
+        index="11"
+        showonmobile="returns"
+        validator="[object Object]"
+      />
+      <livalidator-stub
+        index="12"
+        showonmobile="returns"
+        validator="[object Object]"
+      />
+      <livalidator-stub
+        index="13"
+        showonmobile="returns"
+        validator="[object Object]"
+      />
+      <livalidator-stub
+        index="14"
+        showonmobile="returns"
+        validator="[object Object]"
+      />
     </tbody>
   </table>
 </div>

@@ -45,11 +45,11 @@
 
 <script>
 import { mapState } from "vuex"
-import { AllValidators, validatorsResult } from "src/gql"
 import TableValidators from "staking/TableValidators"
 import PageContainer from "common/PageContainer"
 import TmField from "common/TmField"
 import TmBtn from "common/TmBtn"
+import gql from "graphql-tag"
 
 export default {
   name: `tab-validators`,
@@ -62,26 +62,91 @@ export default {
   data: () => ({
     searchTerm: "",
     activeOnly: true,
-    validators: []
+    validators: [],
+    delegations: {},
   }),
   computed: {
-    ...mapState({ network: state => state.connection.network })
+    ...mapState({
+      network: state => state.connection.network,
+      userAddress: state => state.session.address
+    }),
   },
   apollo: {
-    validators: {
-      query() {
-        /* istanbul ignore next */
-        return AllValidators(this.network)
-      },
-      update(data) {
-        /* istanbul ignore next */
-        return validatorsResult(this.network)(data)
-      },
-      variables() {
-        /* istanbul ignore next */
-        return {
-          monikerName: `%${this.searchTerm}%`
+    delegations: {
+      query: gql`
+        query delegations($networkId: String!, $delegatorAddress: String!) {
+          delegations(
+            networkId: $networkId
+            delegatorAddress: $delegatorAddress
+          ) {
+            delegatorAddress
+            validatorAddress
+            amount
+          }
         }
+      `,
+      variables() {
+        return {
+          networkId: this.network,
+          delegatorAddress: this.userAddress
+        }
+      },
+      update: result => {
+        if (result.delegations) {
+          return result.delegations.reduce((map, item) => {
+            map[item.validatorAddress] = item
+            return map
+          }, {})
+        }
+        return {}
+      },
+      skip() {
+        return !this.userAddress
+      }
+    },
+    validators: {
+      query: gql`
+        query validators($networkId: String!) {
+          validators(networkId: $networkId) {
+            name
+            operatorAddress
+            consensusPubkey
+            jailed
+            details
+            website
+            identity
+            votingPower
+            startHeight
+            uptimePercentage
+            tokens
+            updateTime
+            commission
+            maxCommission
+            maxChangeCommission
+            status
+            statusDetailed
+            picture
+            expectedReturns
+          }
+        }
+      `,
+      variables() {
+        return {
+          networkId: this.network
+        }
+      },
+      update: function(result) {
+        // Add delegated amounts to each validator object if they are present.
+        return result.validators.map(validator => {
+          if (this.delegations[validator.operatorAddress]) {
+            validator.userShares = this.delegations[validator.operatorAddress]
+          } else {
+            validator.userShares = {
+              amount: 0
+            }
+          }
+          return validator
+        })
       }
     }
   }

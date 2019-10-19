@@ -12,31 +12,20 @@ Vue.use(VueApollo)
 
 const graphqlHost = urlParams => urlParams.graphql || config.graphqlHost
 
-console.log(config.development)
-
 const makeHttpLink = urlParams => {
-  let prefix = `https`
-  if (config.development) {
-    prefix = `http`
-  }
+  let prefix = config.development ? `http` : `https`
   const host = graphqlHost(urlParams)
-  return createHttpLink({
-    uri: `${prefix}://${host}`
-  })
+  const uri = `${prefix}://${host}`
+  console.log("http", uri)
+  return createHttpLink({ uri })
 }
 
 const makeWebSocketLink = urlParams => {
-  let prefix = `wss`
-  if (config.development) {
-    prefix = `ws`
-  }
+  let prefix = config.development ? `ws` : `wss`
   const host = graphqlHost(urlParams)
-  return new WebSocketLink({
-    uri: `${prefix}://${host}/graphql`,
-    options: {
-      reconnect: true
-    }
-  })
+  const uri = `${prefix}://${host}/graphql`
+  console.log("ws", uri)
+  return new WebSocketLink({ uri })
 }
 
 const createApolloClient = urlParams => {
