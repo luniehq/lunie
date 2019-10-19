@@ -1,7 +1,6 @@
 <template>
   <tr class="panel-sort-container">
     <th>#</th>
-    <th class="hide-xs">Status</th>
     <th
       v-for="property in properties"
       :key="property.value"

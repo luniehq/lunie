@@ -1,37 +1,46 @@
 <template>
-  <div>
-    <TransactionList
-      :transactions="unbondingTransactions"
-      :address="session.address"
-      :validators="yourValidators"
-    />
+  <div v-if="undelegations">
+    <h3 class="tab-header">
+      Pending Undelegations
+    </h3>
+    <TableUndelegations :undelegations="undelegations" />
   </div>
 </template>
 
 <script>
-import { mapState, mapGetters } from "vuex"
-import TransactionList from "transactions/TransactionList"
-import { isPendingUndelegation } from "scripts/transaction-utils"
+import { mapGetters } from "vuex"
+import TableUndelegations from "staking/TableUndelegations"
+import { UndelegationsForDelegator } from "src/gql"
 
 export default {
   name: `undelegations`,
   components: {
-    TransactionList
+    TableUndelegations
   },
   computed: {
-    ...mapState([`session`]),
-    ...mapGetters([`flatOrderedTransactionList`, `yourValidators`]),
-    unbondingTransactions: ({ flatOrderedTransactionList } = this) =>
-      flatOrderedTransactionList.filter(isPendingUndelegation)
+    ...mapGetters([`address`, `network`])
+  },
+  apollo: {
+    undelegations: {
+      query() {
+        return UndelegationsForDelegator(this.network)
+      },
+      variables() {
+        return {
+          delegatorAddress: this.address
+        }
+      },
+      update(data) {
+        return data.undelegations
+      }
+    }
   }
 }
 </script>
 <style>
-.unbonding-transactions .tm-li-tx::before {
-  position: absolute;
-  width: 2rem;
-  text-align: right;
-  color: var(--dim);
-  left: 0;
+.tab-header {
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  margin-left: 2rem;
 }
 </style>

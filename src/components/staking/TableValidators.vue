@@ -18,6 +18,8 @@
           :key="validator.operatorAddress"
           :index="index"
           :validator="validator"
+          :delegation="getDelegation(validator)"
+          :rewards="getRewards(validator)"
           :show-on-mobile="showOnMobile"
         />
       </tbody>
@@ -26,9 +28,11 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex"
 import orderBy from "lodash.orderby"
 import LiValidator from "staking/LiValidator"
 import PanelSort from "staking/PanelSort"
+import gql from "graphql-tag"
 
 export default {
   name: `table-validators`,
@@ -41,12 +45,17 @@ export default {
       type: Array,
       required: true
     },
+    delegations: {
+      type: Array,
+      default: () => []
+    },
     showOnMobile: {
       type: String,
       default: () => "returns"
     }
   },
   data: () => ({
+    rewards: [],
     sort: {
       property: `expectedReturns`,
       order: `desc`
@@ -54,6 +63,7 @@ export default {
     showing: 15
   }),
   computed: {
+    ...mapGetters([`address`, `network`]),
     sortedEnrichedValidators() {
       return orderBy(
         this.validators.slice(0, this.showing),
@@ -69,6 +79,11 @@ export default {
     },
     properties() {
       return [
+        {
+          title: `Status`,
+          value: `status`,
+          tooltip: `Validation status of the validator`
+        },
         {
           title: `Name`,
           value: `smallName`,
@@ -98,6 +113,37 @@ export default {
   methods: {
     loadMore() {
       this.showing += 10
+    },
+    getDelegation({ operatorAddress }) {
+      return this.delegations.find(
+        ({ validator }) => validator.operatorAddress === operatorAddress
+      )
+    },
+    getRewards({ operatorAddress }) {
+      return this.rewards.find(
+        ({ validator }) => validator.operatorAddress === operatorAddress
+      )
+    }
+  },
+  apollo: {
+    rewards: {
+      query: gql`
+        query Rewards($networkId: String!, $delegatorAddress: String!) {
+          rewards(networkId: $networkId, delegatorAddress: $delegatorAddress) {
+            validator {
+              operatorAddress
+            }
+            amount
+          }
+        }
+      `,
+      variables() {
+        return {
+          networkId: this.network,
+          delegatorAddress: this.address
+        }
+      },
+      update: result => result.rewards
     }
   }
 }
@@ -115,5 +161,21 @@ export default {
 
 .flip-list-move {
   transition: transform 0.3s;
+}
+
+.data-table >>> th:first-child {
+  width: 5%;
+  color: var(--dim);
+  font-size: var(--sm);
+}
+
+.data-table >>> th:nth-child(2) {
+  width: 10%;
+  color: var(--dim);
+  font-size: var(--sm);
+}
+
+.data-table >>> th:nth-child(3) {
+  width: 50%;
 }
 </style>

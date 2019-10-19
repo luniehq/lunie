@@ -8,12 +8,7 @@
   >
     <template slot="managed-body">
       <DelegationsOverview />
-      <template v-if="Object.keys(delegation.unbondingDelegations).length">
-        <h3 class="tab-header">
-          Pending Undelegations
-        </h3>
-        <Undelegations />
-      </template>
+      <Undelegations />
     </template>
   </TmPage>
 </template>
@@ -62,9 +57,3 @@ export default {
   }
 }
 </script>
-<style scoped>
-.tab-header {
-  margin-top: 2rem;
-  margin-bottom: 1rem;
-}
-</style>

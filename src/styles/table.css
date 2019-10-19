@@ -13,22 +13,6 @@
   left: -1.5rem;
 }
 
-.data-table th:first-child {
-  width: 5%;
-  color: var(--dim);
-  font-size: var(--sm)
-}
-
-.data-table th:nth-child(2) {
-  width: 10%;
-  color: var(--dim);
-  font-size: var(--sm)
-}
-
-.data-table th:nth-child(3) {
-  width: 50%;
-}
-
 .data-table th {
   padding: 0.5rem 2rem;
   text-align: left;

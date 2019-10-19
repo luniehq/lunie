@@ -54,7 +54,7 @@ import TableProposals from "governance/TableProposals"
 import TmBtn from "common/TmBtn"
 import PageContainer from "common/PageContainer"
 import TmDataMsg from "common/TmDataMsg"
-import { mapState } from "vuex"
+import { mapGetters } from "vuex"
 import { ProposalList, GovernanceParameters } from "src/gql"
 
 export default {
@@ -73,7 +73,7 @@ export default {
     }
   }),
   computed: {
-    ...mapState({ network: state => state.connection.network })
+    ...mapGetters([`network`])
   },
   methods: {
     onPropose() {

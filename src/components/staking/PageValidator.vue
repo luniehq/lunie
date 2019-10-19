@@ -36,11 +36,10 @@
             <h3 class="li-validator-name">
               {{ validator.name }}
             </h3>
-            <div v-if="myDelegation">
-              <h4>{{ myDelegation }}</h4>
+            <div v-if="delegation.amount">
+              <h4>{{ delegation.amount | fullDecimals }}</h4>
               <h5 v-if="rewards">
-                {{ rewards.amount | atoms | fullDecimals | noBlanks }}
-                }
+                +{{ rewards.amount | fullDecimals | noBlanks }}
               </h5>
             </div>
           </div>
@@ -51,7 +50,7 @@
         <TmBtn id="delegation-btn" value="Stake" @click.native="onDelegation" />
         <TmBtn
           id="undelegation-btn"
-          :disabled="!myDelegation"
+          :disabled="!delegation"
           value="Unstake"
           type="secondary"
           @click.native="onUndelegation"
@@ -92,7 +91,7 @@
         <li>
           <h4>Rewards</h4>
           <span id="page-profile__rewards">
-            {{ returns | percent }}
+            {{ validator.expectedReturns | percent }}
           </span>
         </li>
         <li>
@@ -105,12 +104,13 @@
         <li>
           <h4>Self Stake</h4>
           <span id="page-profile__self-bond">
-            {{ selfStake.amount }} / {{ selfStakeAmount }}
+            {{ validator.selfStake | shortDecimals }} /
+            {{ (validator.selfStake / validator.tokens) | percent }}
           </span>
         </li>
         <li>
           <h4>Validator Since</h4>
-          <span>Block #{{ validator.startHeight }}</span>
+          <span>Block #{{ validator.startHeight || 0 }}</span>
         </li>
         <li>
           <h4>Uptime</h4>
@@ -132,7 +132,7 @@
         </li>
         <li>
           <h4>Last Commission Change</h4>
-          <span>{{ lastCommissionChange }}</span>
+          <span>{{ validator.commissionUpdateTime | fromNow }}</span>
         </li>
       </ul>
 
@@ -141,14 +141,14 @@
         :from-options="delegationTargetOptions()"
         :to="validator.operatorAddress"
         :validator="validator"
-        :denom="balance.denom"
+        :denom="metaData.stakingDenom"
       />
       <UndelegationModal
         ref="undelegationModal"
         :maximum="delegation.amount"
-        :to="session.signedIn ? session.address : ``"
+        :to="address"
         :validator="validator"
-        :denom="balance.denom"
+        :denom="metaData.stakingDenom"
         @switchToRedelegation="onDelegation({ redelegation: true })"
       />
     </template>
@@ -165,16 +165,9 @@
 
 <script>
 import moment from "moment"
-import { mapState } from "vuex"
-import {
-  atoms,
-  viewDenom,
-  shortDecimals,
-  fullDecimals,
-  percent,
-  uatoms
-} from "scripts/num"
-import { formatBech32 } from "src/filters"
+import { mapGetters } from "vuex"
+import { atoms, shortDecimals, fullDecimals, percent } from "scripts/num"
+import { formatBech32, noBlanks, fromNow } from "src/filters"
 import TmBtn from "common/TmBtn"
 import DelegationModal from "src/ActionModal/components/DelegationModal"
 import UndelegationModal from "src/ActionModal/components/UndelegationModal"
@@ -182,6 +175,7 @@ import Avatar from "common/Avatar"
 import Bech32 from "common/Bech32"
 import TmPage from "common/TmPage"
 import gql from "graphql-tag"
+import { ValidatorProfile, MetaData } from "src/gql"
 
 function getStatusText(statusDetailed) {
   switch (statusDetailed) {
@@ -210,11 +204,8 @@ export default {
     fullDecimals,
     percent,
     toLower: text => text.toLowerCase(),
-    // empty descriptions have a strange '[do-not-modify]' value which we don't want to show
-    noBlanks: function(value) {
-      if (!value || value === `[do-not-modify]`) return `--`
-      return value
-    }
+    noBlanks,
+    fromNow
   },
   props: {
     showOnMobile: {
@@ -225,48 +216,15 @@ export default {
   data: () => ({
     validator: {},
     rewards: 0,
-    delegation: {
-      amount: 0,
-    },
-    delegations: [],
-    balance: {
-      amount: 0,
-      denom: ""
-    }
+    delegation: {},
+    delegations: []
   }),
   computed: {
-    ...mapState([`session`]),
-    ...mapState({ network: state => state.connection.network }),
-    selfStake() {
-      return percent(this.validator.selfStake.amount || 0)
-    },
-    selfStakeAmount() {
-      return shortDecimals(uatoms(this.validator.selfStake.amount || 0))
-    },
-    myDelegation() {
-      if (this.delegation.amount && this.delegation.amount !== 0) {
-        const myDelegation = shortDecimals(atoms(this.delegation.shares))
-        return `${myDelegation} ${viewDenom(this.balance.denom)}`
-      }
-      return null
-    },
-    lastCommissionChange() {
-      const updateTime = this.validator.updateTime
-      const dateTime = new Date(updateTime)
-      const neverHappened = dateTime.getTime() === 0
-
-      return neverHappened || updateTime === `0001-01-01T00:00:00Z`
-        ? `--`
-        : moment(dateTime).fromNow()
-    },
-    returns() {
-      return this.validator.expectedReturns
-    }
+    ...mapGetters([`address`, `network`])
   },
   methods: {
     shortDecimals,
     atoms,
-    uatoms,
     percent,
     moment,
     onDelegation(options) {
@@ -278,12 +236,16 @@ export default {
     delegationTargetOptions() {
       if (!this.session.signedIn) return []
 
+      const balance = this.balance.find(
+        ({ denom }) => this.metaData.stakingDenom === denom
+      ).amount
+
       //- First option should always be your wallet (i.e normal delegation)
       const myWallet = [
         {
-          address: this.session.address,
-          maximum: Math.floor(this.balance.amount),
-          key: `My Wallet - ${formatBech32(this.session.address, false, 20)}`,
+          address: this.address,
+          maximum: Math.floor(balance),
+          key: `My Wallet - ${formatBech32(this.address, false, 20)}`,
           value: 0
         }
       ]
@@ -292,7 +254,7 @@ export default {
         .filter(d => d.validatorAddress != this.$route.params.validator)
         .map((d, i) => {
           return {
-            address: this.session.address,
+            address: this.address,
             maximum: Math.floor(d.shares),
             // Get names of delegation validators
             key: `${d.validatorAddress} - ${formatBech32(
@@ -321,15 +283,11 @@ export default {
       variables() {
         return {
           networkId: this.network,
-          address: this.session.address
+          address: this.address
         }
       },
-      update: result => ({
-        amount: parseFloat(result.balance.amount),
-        denom: result.balance.denom
-      }),
-      skip() {
-        return !this.session.address
+      update: data => {
+        return data.balance
       }
     },
     delegation: {
@@ -344,8 +302,6 @@ export default {
             delegatorAddress: $delegatorAddress
             operatorAddress: $operatorAddress
           ) {
-            delegatorAddress
-            validatorAddress
             amount
           }
         }
@@ -353,7 +309,7 @@ export default {
       variables() {
         return {
           networkId: this.network,
-          delegatorAddress: this.session.address,
+          delegatorAddress: this.address,
           operatorAddress: this.$route.params.validator
         }
       },
@@ -362,37 +318,6 @@ export default {
           ...result.delegation,
           amount: Number(result.delegation.amount)
         }
-      },
-      skip() {
-        return !this.session.address
-      }
-    },
-    delegations: {
-      query: gql`
-        query delegations($networkId: String!, $delegatorAddress: String!) {
-          delegations(
-            networkId: $networkId
-            delegatorAddress: $delegatorAddress
-          ) {
-            amount
-            validatorAddress
-            delegatorAddress
-          }
-        }
-      `,
-      variables() {
-        return {
-          networkId: this.network,
-          delegatorAddress: this.session.address,
-        }
-      },
-      update: result => {
-        return Array.isArray(result.delegations)
-          ? result.delegations.map(delegation => ({
-              ...delegation,
-              amount: Number(delegation.amount || 0)
-            }))
-          : []
       },
       skip() {
         return !this.session.address
@@ -418,43 +343,15 @@ export default {
       variables() {
         return {
           networkId: this.network,
-          delegatorAddress: this.session.address,
+          delegatorAddress: this.address,
           operatorAddress: this.$route.params.validator
         }
       },
-      update: result => result.rewards[0],
-      skip() {
-        return !this.session.address
-      }
+      update: result =>
+        result.rewards.length > 0 ? result.rewards[0] : { amount: 0 }
     },
     validator: {
-      query: gql`
-        query validator($networkId: String!, $operatorAddress: String!) {
-          validator(networkId: $networkId, operatorAddress: $operatorAddress) {
-            operatorAddress
-            consensusPubkey
-            jailed
-            details
-            website
-            identity
-            name
-            votingPower
-            startHeight
-            uptimePercentage
-            tokens
-            updateTime
-            commission
-            maxCommission
-            maxChangeCommission
-            status
-            statusDetailed
-            picture
-            selfStake {
-              amount
-            }
-          }
-        }
-      `,
+      query: ValidatorProfile,
       variables() {
         return {
           networkId: this.network,
@@ -464,11 +361,18 @@ export default {
       update: result => {
         return {
           ...result.validator,
-          statusDetailed: getStatusText(result.validator.statusDetailed),
-          selfStake: {
-            amount: 0
-          }
+          statusDetailed: getStatusText(result.validator.statusDetailed)
         }
+      }
+    },
+    metaData: {
+      query() {
+        /* istanbul ignore next */
+        return MetaData(this.network)
+      },
+      update(data) {
+        /* istanbul ignore next */
+        return data.metaData
       }
     }
   }

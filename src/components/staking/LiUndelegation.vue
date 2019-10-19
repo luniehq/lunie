@@ -1,7 +1,7 @@
 <template>
   <tr
     class="li-validator"
-    :data-name="validator.name"
+    :data-moniker="validator.moniker"
     @click="
       $router.push({
         name: 'validator',
@@ -10,17 +10,6 @@
     "
   >
     <td>{{ index + 1 }}</td>
-    <td class="hide-xs">
-      <div class="status-container">
-        <span
-          :class="validator.status | toLower"
-          class="validator-status"
-          :title="validator.statusDetailed"
-        >
-          {{ validator.status }}
-        </span>
-      </div>
-    </td>
     <td class="data-table__row__info">
       <Avatar
         v-if="!validator || !validator.picture"
@@ -32,35 +21,25 @@
         v-else-if="validator && validator.picture"
         :src="validator.picture"
         class="li-validator-image"
-        :alt="`validator logo for ` + validator.name"
+        :alt="`validator logo for ` + validator.moniker"
       />
       <div class="validator-info">
         <h3 class="li-validator-name">
-          {{ validator.name }}
+          {{ validator.moniker }}
         </h3>
-        <div v-if="delegation.amount > 0">
-          <h4>
-            {{ delegation.amount | shortDecimals }}
-          </h4>
-          <h5 v-if="rewards.amount > 0.001">
-            +{{ rewards.amount | shortDecimals }}
-          </h5>
-        </div>
+        <h4>
+          {{ undelegation.amount }}
+        </h4>
       </div>
     </td>
-    <td :class="{ 'hide-xs': showOnMobile !== 'expectedReturns' }">
-      {{
-        validator.expectedReturns ? percent(validator.expectedReturns) : `--`
-      }}
-    </td>
-    <td :class="{ 'hide-xs': showOnMobile !== 'voting-power' }">
-      {{ validator.votingPower | percent }}
+    <td>
+      {{ undelegation.endTime | fromNow }}
     </td>
   </tr>
 </template>
 
 <script>
-import { percent, shortDecimals, atoms } from "scripts/num"
+import { fromNow } from "src/filters"
 import Avatar from "common/Avatar"
 
 export default {
@@ -69,36 +48,21 @@ export default {
     Avatar
   },
   filters: {
-    atoms,
-    shortDecimals,
-    percent,
-    toLower: text => text.toLowerCase()
+    fromNow
   },
   props: {
-    validator: {
-      type: Object,
-      required: true
-    },
-    delegation: {
-      type: Object,
-      default: () => ({})
-    },
-    rewards: {
-      type: Object,
-      default: () => ({})
-    },
     index: {
       type: Number,
       required: true
     },
-    showOnMobile: {
-      type: String,
-      /* istanbul ignore next */
-      default: () => "returns"
+    validator: {
+      type: Object,
+      required: true
+    },
+    undelegation: {
+      type: Object,
+      required: true
     }
-  },
-  methods: {
-    percent
   }
 }
 </script>

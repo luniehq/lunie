@@ -1,4 +1,16 @@
 import { percent } from "../scripts/num"
+import moment from "moment"
+
+export const fromNow = date => moment(date).fromNow()
+
+export const noBlanks = function(value) {
+  return value === undefined ||
+    value === null ||
+    value === `` ||
+    value === `[do-not-modify]`
+    ? `--`
+    : value
+}
 
 export const percentOrPending = function(value, totalValue, pending) {
   return pending ? `--` : percent(totalValue === 0 ? 0 : value / totalValue)

@@ -1,5 +1,5 @@
 <template>
-  <PageContainer
+  <TmPage
     :managed="true"
     :loading="$apollo.queries.validators.loading"
     :loaded="!$apollo.queries.validators.loading"
@@ -40,13 +40,13 @@
         No results for these search terms
       </div>
     </template>
-  </PageContainer>
+  </TmPage>
 </template>
 
 <script>
-import { mapState } from "vuex"
+import { mapGetters } from "vuex"
 import TableValidators from "staking/TableValidators"
-import PageContainer from "common/PageContainer"
+import TmPage from "common/TmPage"
 import TmField from "common/TmField"
 import TmBtn from "common/TmBtn"
 import gql from "graphql-tag"
@@ -55,60 +55,39 @@ export default {
   name: `tab-validators`,
   components: {
     TableValidators,
-    PageContainer,
+    TmPage,
     TmField,
     TmBtn
   },
   data: () => ({
     searchTerm: "",
     activeOnly: true,
-    validators: [],
-    delegations: {},
+    validators: []
   }),
   computed: {
-    ...mapState({
-      network: state => state.connection.network,
-      userAddress: state => state.session.address
-    }),
+    ...mapGetters([`address`, `network`]),
+    validatorsPlus() {
+      return this.validators.map(v => ({
+        ...v,
+        smallMoniker: v.moniker ? v.moniker.toLowerCase() : ""
+      }))
+    }
   },
   apollo: {
-    delegations: {
-      query: gql`
-        query delegations($networkId: String!, $delegatorAddress: String!) {
-          delegations(
-            networkId: $networkId
-            delegatorAddress: $delegatorAddress
-          ) {
-            delegatorAddress
-            validatorAddress
-            amount
-          }
-        }
-      `,
-      variables() {
-        return {
-          networkId: this.network,
-          delegatorAddress: this.userAddress
-        }
-      },
-      update: result => {
-        if (result.delegations) {
-          return result.delegations.reduce((map, item) => {
-            map[item.validatorAddress] = item
-            return map
-          }, {})
-        }
-        return {}
-      },
-      skip() {
-        return !this.userAddress
-      }
-    },
     validators: {
       query: gql`
-        query validators($networkId: String!) {
-          validators(networkId: $networkId) {
-            name
+        query validators(
+          $networkId: String!
+          $delegatorAddress: String
+          $all: Boolean
+          $query: String
+        ) {
+          validators(
+            networkId: $networkId
+            delegatorAddress: $delegatorAddress
+            all: $all
+            query: $query
+          ) {
             operatorAddress
             consensusPubkey
             jailed
@@ -119,7 +98,7 @@ export default {
             startHeight
             uptimePercentage
             tokens
-            updateTime
+            commissionUpdateTime
             commission
             maxCommission
             maxChangeCommission
@@ -132,7 +111,10 @@ export default {
       `,
       variables() {
         return {
-          networkId: this.network
+          networkId: this.network,
+          delegatorAddress: this.address,
+          all: !this.activeOnly,
+          query: this.searchTerm
         }
       },
       update: function(result) {

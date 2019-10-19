@@ -11,10 +11,10 @@
   >
     <DataEmptyTx slot="no-data" />
     <template slot="managed-body">
-      <div infinite-scroll-distance="80">
+      <div v-infinite-scroll="loadMore" infinite-scroll-distance="80">
         <TransactionList
           :transactions="transactions"
-          :address="session.address"
+          :address="address"
           :validators="validatorsAddressMap"
         />
       </div>
@@ -24,7 +24,7 @@
 </template>
 
 <script>
-import { mapState } from "vuex"
+import { mapGetters } from "vuex"
 import DataEmptyTx from "common/TmDataEmptyTx"
 import TmPage from "common/TmPage"
 import TransactionList from "transactions/TransactionList"
@@ -43,8 +43,7 @@ export default {
     transactions: []
   }),
   computed: {
-    ...mapState([`session`]),
-    ...mapState({ network: state => state.connection.network }),
+    ...mapGetters([`address`, `network`]),
     validatorsAddressMap() {
       const names = {}
       this.validators.forEach(item => {
@@ -86,20 +85,16 @@ export default {
       variables() {
         return {
           networkId: this.network,
-          address: this.session.address
+          address: this.address
         }
       },
       update: result => {
         if (Array.isArray(result.transactions)) {
-          return result.transactions.map(transaction => {
-            !transaction.value && console.log("TX ERROR")
-            const newTx = {
-              ...transaction,
-              value: JSON.parse(transaction.value),
-              timestamp: new Date(transaction.timestamp)
-            }
-            return newTx
-          })
+          return result.transactions.map(tx => ({
+            ...tx,
+            timestamp: new Date(tx.timestamp),
+            value: JSON.parse(tx.value)
+          }))
         }
         return []
       }
