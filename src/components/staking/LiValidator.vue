@@ -13,11 +13,11 @@
     <td class="hide-xs">
       <div class="status-container">
         <span
-          :class="status | toLower"
+          :class="validator.status | toLower"
           class="validator-status"
-          :title="status_detailed"
+          :title="validator.statusDetailed"
         >
-          {{ status }}
+          {{ validator.status }}
         </span>
       </div>
     </td>
@@ -102,22 +102,7 @@ export default {
     ...mapState({
       network: state => state.connection.network
     }),
-    ...mapState([`session`]),
-    status() {
-      if (
-        this.validator.jailed ||
-        this.validator.tombstoned ||
-        this.validator.status === 0
-      )
-        return `Inactive`
-      return `Active`
-    },
-    status_detailed() {
-      if (this.validator.jailed) return `Temporally banned from the network`
-      if (this.validator.tombstoned) return `Banned from the network`
-      if (this.validator.status === 0) return `Banned from the network`
-      return false
-    }
+    ...mapState([`session`])
   },
   methods: {
     percent
