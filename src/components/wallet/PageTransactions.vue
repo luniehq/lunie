@@ -60,27 +60,6 @@ export default {
       return this.transactions.length === 0
     }
   },
-  updated() {
-    console.log(this.transactions)
-  },
-  // watch: {
-  //   "session.signedIn": function() {
-  //     this.refreshTransactions()
-  //   }
-  // },
-  // created() {
-  // this.refreshTransactions()
-  // },
-  // methods: {
-  //   async refreshTransactions() {
-  //     if (this.session.signedIn) {
-  //       await this.$store.dispatch(`getAllTxs`)
-  //     }
-  //   },
-  //   loadMore() {
-  //     this.showing += 10
-  //   }
-  // },
   apollo: {
     transactions: {
       query: gql`
@@ -108,12 +87,11 @@ export default {
       },
       update: result => {
         if (Array.isArray(result.transactions)) {
-          return result.transactions.map(tx => {
-            !tx.group && console.error("ERROR NO GROUP", tx)
-            tx.timestamp = new Date(tx.timestamp)
-            tx.value = JSON.parse(tx.value)
-            return tx
-          })
+          return result.transactions.map(tx => ({
+            ...tx,
+            timestamp: new Date(tx.timestamp),
+            value: JSON.parse(tx.value)
+          }))
         }
         return []
       }
