@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import { mapState } from "vuex"
+import { mapGetters } from "vuex"
 import TableUndelegations from "staking/TableUndelegations"
 import { UndelegationsForDelegator } from "src/gql"
 
@@ -18,10 +18,7 @@ export default {
     TableUndelegations
   },
   computed: {
-    ...mapState([`session`]),
-    ...mapState({
-      network: state => state.connection.network
-    })
+    ...mapGetters([`address`, `network`])
   },
   apollo: {
     undelegations: {
@@ -30,7 +27,7 @@ export default {
       },
       variables() {
         return {
-          delegatorAddress: this.session.address
+          delegatorAddress: this.address
         }
       },
       update(data) {

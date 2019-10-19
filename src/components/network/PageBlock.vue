@@ -47,7 +47,7 @@
 
           <TransactionList
             :transactions="transactions"
-            :address="session.address"
+            :address="address"
             :validators="validatorsAddressMap"
           />
           <br />
@@ -86,8 +86,8 @@ export default {
     validators: []
   }),
   computed: {
-    ...mapState([`delegation`, `session`]),
-    ...mapGetters([`lastHeader`]),
+    ...mapState([`delegation`]),
+    ...mapGetters([`lastHeader`, `address`]),
     validatorsAddressMap() {
       const names = {}
       this.validators.forEach(item => {

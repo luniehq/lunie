@@ -61,7 +61,6 @@
 
 <script>
 import { percent, shortDecimals, atoms } from "scripts/num"
-import { mapState } from "vuex"
 import Avatar from "common/Avatar"
 
 export default {
@@ -97,12 +96,6 @@ export default {
       /* istanbul ignore next */
       default: () => "returns"
     }
-  },
-  computed: {
-    ...mapState({
-      network: state => state.connection.network
-    }),
-    ...mapState([`session`])
   },
   methods: {
     percent

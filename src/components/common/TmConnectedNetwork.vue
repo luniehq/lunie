@@ -70,7 +70,7 @@
   </div>
 </template>
 <script>
-import { mapState } from "vuex"
+import { mapGetters } from "vuex"
 import { prettyInt } from "scripts/num"
 import TmBtn from "common/TmBtn"
 import { NewBlockSubscription, Block } from "src/gql"
@@ -88,8 +88,7 @@ export default {
     block: {}
   }),
   computed: {
-    ...mapState([`connection`]),
-    ...mapState({ network: state => state.connection.network }),
+    ...mapGetters([`connection`, `network`]),
     networkTooltip() {
       if (this.connection.connected) {
         return `You're connected to ${this.block.chainId}.`

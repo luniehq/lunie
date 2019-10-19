@@ -74,9 +74,7 @@ export default {
     }
   },
   computed: {
-    ...mapState([`delegation`, `session`]),
-    ...mapState({ network: state => state.connection.network }),
-    ...mapGetters([`lastHeader`, `bondDenom`]),
+    ...mapState([`address`, `network`]),
     totalRewards() {
       return Number(this.overview.totalRewards)
     },
@@ -84,22 +82,6 @@ export default {
     // the validator rewards are needed to filter the top 5 validators to withdraw from
     readyToWithdraw() {
       return this.totalRewards > 0
-    }
-  },
-  watch: {
-    lastHeader: {
-      immediate: true,
-      handler(newHeader) {
-        const height = Number(newHeader.height)
-        // run the update queries the first time and after every 10 blocks
-        const waitedTenBlocks = height - this.lastUpdate >= 10
-        if (
-          this.session.signedIn &&
-          (this.lastUpdate === 0 || waitedTenBlocks)
-        ) {
-          this.update(height)
-        }
-      }
     }
   },
   methods: {
@@ -112,19 +94,19 @@ export default {
       this.$refs.ModalWithdrawRewards.open()
     },
     onSend() {
-      this.$refs.SendModal.open(this.bondDenom)
+      this.$refs.SendModal.open(this.metaData.stakingDenom)
     }
   },
   apollo: {
     overview: {
       query() {
         /* istanbul ignore next */
-        return Overview(this.network, this.session.address)
+        return Overview(this.network, this.address)
       },
       variables() {
         /* istanbul ignore next */
         return {
-          address: this.session.address
+          address: this.address
         }
       },
       update(data) {

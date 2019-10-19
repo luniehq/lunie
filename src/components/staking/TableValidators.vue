@@ -24,7 +24,7 @@
 </template>
 
 <script>
-import { mapGetters, mapState } from "vuex"
+import { mapGetters } from "vuex"
 import orderBy from "lodash.orderby"
 import LiValidator from "staking/LiValidator"
 import PanelSort from "staking/PanelSort"
@@ -61,8 +61,7 @@ export default {
     rollingWindow: 10000 // param of slashing period
   }),
   computed: {
-    ...mapState([`session`]),
-    ...mapState({ network: state => state.connection.network }),
+    ...mapGetters([`address`, `network`]),
     sortedEnrichedValidators() {
       return orderBy(
         this.validators.slice(0),
@@ -136,7 +135,7 @@ export default {
       variables() {
         return {
           networkId: this.network,
-          delegatorAddress: this.session.address
+          delegatorAddress: this.address
         }
       },
       update: result => result.rewards

@@ -14,7 +14,7 @@
       <div infinite-scroll-distance="80">
         <TransactionList
           :transactions="transactions"
-          :address="session.address"
+          :address="address"
           :validators="validatorsAddressMap"
         />
       </div>
@@ -24,7 +24,7 @@
 </template>
 
 <script>
-import { mapState } from "vuex"
+import { mapGetters } from "vuex"
 import DataEmptyTx from "common/TmDataEmptyTx"
 import TmPage from "common/TmPage"
 import TransactionList from "transactions/TransactionList"
@@ -44,8 +44,7 @@ export default {
     transactions: []
   }),
   computed: {
-    ...mapState([`session`]),
-    ...mapState({ network: state => state.connection.network }),
+    ...mapGetters([`address`, `network`]),
     validatorsAddressMap() {
       const names = {}
       this.validators.forEach(item => {
@@ -82,7 +81,7 @@ export default {
       variables() {
         return {
           networkId: this.network,
-          address: this.session.address
+          address: this.address
         }
       },
       update: result => {

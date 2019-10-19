@@ -24,7 +24,7 @@
 </template>
 
 <script>
-import { mapState } from "vuex"
+import { mapGetters } from "vuex"
 import TmDataMsg from "common/TmDataMsg"
 import TableValidators from "staking/TableValidators"
 import { DelegationsForDelegator } from "src/gql"
@@ -39,8 +39,7 @@ export default {
     delegations: []
   }),
   computed: {
-    ...mapState(["session"]),
-    ...mapState({ network: state => state.connection.network })
+    ...mapGetters(["address", `network`])
   },
   apollo: {
     delegations: {
@@ -51,7 +50,7 @@ export default {
       variables() {
         /* istanbul ignore next */
         return {
-          delegatorAddress: this.session.address
+          delegatorAddress: this.address
         }
       },
       update(data) {

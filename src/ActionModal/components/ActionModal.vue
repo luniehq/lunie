@@ -397,10 +397,13 @@ export default {
   }),
   computed: {
     ...mapState([`extension`, `session`]),
-    ...mapState({
-      network: state => state.connection.network
-    }),
-    ...mapGetters([`connected`, `bondDenom`, `liquidAtoms`, `modalContext`]),
+    ...mapGetters([
+      `connected`,
+      `bondDenom`,
+      `liquidAtoms`,
+      `modalContext`,
+      `network`
+    ]),
     requiresSignIn() {
       return !this.session.signedIn
     },

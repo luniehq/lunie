@@ -44,7 +44,7 @@
 </template>
 
 <script>
-import { mapState } from "vuex"
+import { mapGetters } from "vuex"
 import TableValidators from "staking/TableValidators"
 import TmPage from "common/TmPage"
 import TmField from "common/TmField"
@@ -65,8 +65,7 @@ export default {
     validators: []
   }),
   computed: {
-    ...mapState([`session`]),
-    ...mapState({ network: state => state.connection.network }),
+    ...mapGetters([`address`, `network`]),
     validatorsPlus() {
       return this.validators.map(v => ({
         ...v,
@@ -114,7 +113,7 @@ export default {
       variables() {
         return {
           networkId: this.network,
-          delegatorAddress: this.session.address,
+          delegatorAddress: this.address,
           all: !this.activeOnly,
           query: this.searchTerm
         }

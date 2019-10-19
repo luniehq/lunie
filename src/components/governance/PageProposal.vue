@@ -206,8 +206,7 @@ export default {
     error: undefined
   }),
   computed: {
-    ...mapState([`session`]),
-    ...mapState({ network: state => state.connection.network }),
+    ...mapGetters([`address`, `network`]),
     ...mapGetters([`connected`]),
     status() {
       return getProposalStatus(this.proposal)
@@ -220,7 +219,7 @@ export default {
     afterVote() {
       this.$apollo.queries.vote.refetch({
         proposalId: this.proposal.id,
-        address: this.session.address
+        address: this.address
       })
     },
     onDeposit() {
@@ -276,7 +275,7 @@ export default {
         /* istanbul ignore next */
         return {
           proposalId: +this.proposalId,
-          address: this.session.address
+          address: this.address
         }
       },
       update(data) {

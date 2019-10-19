@@ -146,7 +146,7 @@
       <UndelegationModal
         ref="undelegationModal"
         :maximum="delegation.amount"
-        :to="session.signedIn ? session.address : ``"
+        :to="session.signedIn ? address : ``"
         :validator="validator"
         :denom="metaData.stakingDenom"
         @switchToRedelegation="onDelegation({ redelegation: true })"
@@ -165,7 +165,7 @@
 
 <script>
 import moment from "moment"
-import { mapState } from "vuex"
+import { mapGetters } from "vuex"
 import { atoms, shortDecimals, fullDecimals, percent } from "scripts/num"
 import { formatBech32, noBlanks, fromNow } from "src/filters"
 import TmBtn from "common/TmBtn"
@@ -220,8 +220,7 @@ export default {
     delegations: []
   }),
   computed: {
-    ...mapState([`session`]),
-    ...mapState({ network: state => state.connection.network })
+    ...mapGetters([`address`, `network`])
   },
   methods: {
     shortDecimals,
@@ -244,9 +243,9 @@ export default {
       //- First option should always be your wallet (i.e normal delegation)
       const myWallet = [
         {
-          address: this.session.address,
+          address: this.address,
           maximum: Math.floor(balance),
-          key: `My Wallet - ${formatBech32(this.session.address, false, 20)}`,
+          key: `My Wallet - ${formatBech32(this.address, false, 20)}`,
           value: 0
         }
       ]
@@ -255,7 +254,7 @@ export default {
         .filter(d => d.validatorAddress != this.$route.params.validator)
         .map((d, i) => {
           return {
-            address: this.session.address,
+            address: this.address,
             maximum: Math.floor(d.shares),
             // Get names of delegation validators
             key: `${d.validatorAddress} - ${formatBech32(
@@ -284,7 +283,7 @@ export default {
       variables() {
         return {
           networkId: this.network,
-          address: this.session.address
+          address: this.address
         }
       },
       update: data => {
@@ -310,7 +309,7 @@ export default {
       variables() {
         return {
           networkId: this.network,
-          delegatorAddress: this.session.address,
+          delegatorAddress: this.address,
           operatorAddress: this.$route.params.validator
         }
       },
@@ -341,7 +340,7 @@ export default {
       variables() {
         return {
           networkId: this.network,
-          delegatorAddress: this.session.address,
+          delegatorAddress: this.address,
           operatorAddress: this.$route.params.validator
         }
       },
