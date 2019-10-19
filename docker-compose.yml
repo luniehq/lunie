@@ -1,0 +1,59 @@
+version: '3.6'
+services:
+  lunieapi:
+    image: lunieapi:latest
+    container_name: lunieapi
+    restart: on-failure
+    volumes:
+    - /logs:/var/www/server/logs
+    networks:
+       - general
+    ports:
+      - "4000:4000"
+    deploy:
+      replicas: 1
+    environment:
+      - HASURA_URL=$HASURA_URL
+      - HASURA_ADMIN_KEY=$HASURA_ADMIN_KEY
+  node-exporter:
+    image: prom/node-exporter
+    container_name: node_exporter
+    volumes:
+    - /proc:/host/proc:ro
+    - /sys:/host/sys:ro
+    - /root/textfile_collector:/var/www
+    - /:/rootfs:ro
+    command:
+    - --path.procfs=/host/proc
+    - --path.sysfs=/host/sys
+    - --collector.textfile.directory=/var/www
+    - --collector.filesystem.ignored-mount-points
+    - ^/(sys|proc|dev|host|etc|rootfs/var/lib/docker/containers|rootfs/var/lib/docker/overlay2|rootfs/run/docker/netns|rootfs/var/lib/docker/aufs)($$|/)
+    ports:
+    - 9100:9100
+    restart: always
+    networks:
+       - general
+    deploy:
+      mode: global
+  caddy:
+    image: abiosoft/caddy:0.11.0
+    depends_on:
+    - "lunieapi"
+    restart: on-failure
+    container_name: caddy
+    networks:
+       - general
+    deploy:
+      replicas: 1
+    ports:
+    - "80:80"
+    - "443:443"
+    volumes:
+    - ./Caddyfile:/etc/Caddyfile
+    - ./caddy_certs:/root/.caddy
+volumes:
+  caddy_certs:
+networks:
+  general:
+
