@@ -77,10 +77,17 @@ export default {
   apollo: {
     validators: {
       query: gql`
-        query validators($networkId: String!, $delegatorAddress: String) {
+        query validators(
+          $networkId: String!
+          $delegatorAddress: String
+          $all: Boolean
+          $query: String
+        ) {
           validators(
             networkId: $networkId
             delegatorAddress: $delegatorAddress
+            all: $all
+            query: $query
           ) {
             operatorAddress
             consensusPubkey
@@ -107,7 +114,9 @@ export default {
       variables() {
         return {
           networkId: this.network,
-          delegatorAddress: this.session.address
+          delegatorAddress: this.session.address,
+          all: !this.activeOnly,
+          query: this.searchTerm
         }
       },
       update: result => result.validators
