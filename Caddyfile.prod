@@ -1,0 +1,5 @@
+production-api.lunie.io {
+    proxy / lunieapi:4000 {
+        websocket
+    }
+}
