@@ -9,9 +9,9 @@
     />
     <TransactionMetadata
       v-if="showMetaData"
-      :fees="transaction.fee"
+      :fee="transaction.fee"
       :height="transaction.height"
-      :time="transaction.timestamp"
+      :timestamp="new Date(transaction.timestamp)"
       class="tx__content__right"
     />
   </div>

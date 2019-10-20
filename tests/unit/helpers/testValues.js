@@ -12,7 +12,7 @@ const testTransactionObjects = [
     timestamp: new Date("2019-07-31T09:22:23.054Z"),
     group: "banking",
     memo: "(Sent via Lunie)",
-    fees: { denom: "uatom", amount: "37" },
+    fee: { denom: "ATOM", amount: "0.00037" },
     liquidDate: null
   },
   {
@@ -28,7 +28,7 @@ const testTransactionObjects = [
     timestamp: new Date("2019-07-31T09:22:23.054Z"),
     group: "banking",
     memo: "(Sent via Lunie)",
-    fees: { denom: "uatom", amount: "37" },
+    fee: { denom: "ATOM", amount: "0.00037" },
     liquidDate: null
   },
   {
@@ -44,7 +44,7 @@ const testTransactionObjects = [
     timestamp: new Date("2019-07-31T09:22:23.054Z"),
     group: "banking",
     memo: "(Sent via Lunie)",
-    fees: { denom: "uatom", amount: "37" },
+    fee: { denom: "ATOM", amount: "0.00037" },
     liquidDate: null
   },
   {
@@ -60,7 +60,7 @@ const testTransactionObjects = [
     timestamp: new Date("2019-07-31T09:22:23.054Z"),
     group: "banking",
     memo: "(Sent via Lunie)",
-    fees: { denom: "uatom", amount: "37" },
+    fee: { denom: "ATOM", amount: "0.00037" },
     liquidDate: null
   },
   {
@@ -76,7 +76,7 @@ const testTransactionObjects = [
     timestamp: new Date("2019-07-31T09:22:23.054Z"),
     group: "staking",
     memo: "",
-    fees: { denom: "uatom", amount: "4141" },
+    fee: { denom: "ATOM", amount: "410.00041" },
     liquidDate: "2019-08-21T09:22:23.054Z"
   },
   {
@@ -93,7 +93,7 @@ const testTransactionObjects = [
     timestamp: "2019-06-19T14:45:43.303Z",
     group: "staking",
     memo: "",
-    fees: { denom: "uatom", amount: "283" },
+    fee: { denom: "ATOM", amount: "20.00083" },
     liquidDate: null
   },
   {
@@ -109,7 +109,7 @@ const testTransactionObjects = [
     timestamp: "2019-06-19T14:43:45.874Z",
     group: "staking",
     memo: "",
-    fees: { denom: "uatom", amount: "166" },
+    fee: { denom: "ATOM", amount: "10.00066" },
     liquidDate: null
   },
   {
@@ -124,7 +124,7 @@ const testTransactionObjects = [
     timestamp: "2019-06-11T13:47:45.425Z",
     group: "distribution",
     memo: "",
-    fees: { amount: "0", denom: "ATOM" },
+    fee: { amount: "0", denom: "ATOM" },
     liquidDate: null
   },
   {
@@ -142,7 +142,7 @@ const testTransactionObjects = [
     timestamp: "2019-06-11T13:47:45.425Z",
     group: "governance",
     memo: "",
-    fees: { amount: "69", denom: "ATOM" },
+    fee: { amount: "69", denom: "ATOM" },
     liquidDate: null
   },
   {
@@ -158,7 +158,7 @@ const testTransactionObjects = [
     timestamp: "2019-06-11T13:47:45.425Z",
     group: "governance",
     memo: "",
-    fees: { amount: "69", denom: "ATOM" },
+    fee: { amount: "69", denom: "ATOM" },
     liquidDate: null
   },
   {
@@ -174,7 +174,7 @@ const testTransactionObjects = [
     timestamp: "2019-06-11T13:47:45.425Z",
     group: "governance",
     memo: "",
-    fees: { amount: "69", denom: "ATOM" },
+    fee: { amount: "69", denom: "ATOM" },
     liquidDate: null
   },
   {
@@ -188,7 +188,7 @@ const testTransactionObjects = [
     timestamp: "2019-06-11T13:47:45.425Z",
     group: "distribution",
     memo: "",
-    fees: { amount: "0", denom: "ATOM" },
+    fee: { amount: "0", denom: "ATOM" },
     liquidDate: null
   },
   {
@@ -202,7 +202,7 @@ const testTransactionObjects = [
     timestamp: "2019-06-11T13:47:45.425Z",
     group: "distribution",
     memo: "",
-    fees: { amount: "0", denom: "ATOM" },
+    fee: { amount: "0", denom: "ATOM" },
     liquidDate: null
   },
   {
@@ -216,7 +216,7 @@ const testTransactionObjects = [
     timestamp: "2019-06-11T13:47:45.425Z",
     group: "distribution",
     memo: "",
-    fees: { amount: "0", denom: "ATOM" },
+    fee: { amount: "0", denom: "ATOM" },
     liquidDate: null
   },
   {
@@ -230,7 +230,7 @@ const testTransactionObjects = [
     timestamp: "2019-06-11T13:47:45.425Z",
     group: "distribution",
     memo: "",
-    fees: { amount: "0", denom: "ATOM" },
+    fee: { amount: "0", denom: "ATOM" },
     liquidDate: null
   },
   {
@@ -244,7 +244,7 @@ const testTransactionObjects = [
     timestamp: "2019-06-11T13:47:45.425Z",
     group: "distribution",
     memo: "",
-    fees: { amount: "0", denom: "ATOM" },
+    fee: { amount: "0", denom: "ATOM" },
     liquidDate: null
   }
 ]
