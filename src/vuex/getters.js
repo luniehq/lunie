@@ -25,9 +25,9 @@ export const flatOrderedTransactionList = (state, getters) => {
 export const yourValidators = (state, getters) =>
   state.session.signedIn
     ? state.delegates.delegates.filter(
-      ({ operator_address }) =>
-        operator_address in getters.committedDelegations
-    )
+        ({ operator_address }) =>
+          operator_address in getters.committedDelegations
+      )
     : []
 export const validatorsWithRewards = (state, getters) =>
   Object.entries(state.distribution.rewards).filter(
