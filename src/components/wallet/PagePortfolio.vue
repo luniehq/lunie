@@ -1,15 +1,7 @@
 <template>
-  <TmPage
-    :managed="true"
-    :loading="wallet.loading && delegation.loading"
-    :loaded="wallet.loaded && delegation.loaded"
-    :error="wallet.error || delegation.error"
-    :sign-in-required="true"
-  >
-    <template slot="managed-body">
-      <DelegationsOverview />
-      <Undelegations />
-    </template>
+  <TmPage :sign-in-required="true">
+    <DelegationsOverview />
+    <Undelegations />
   </TmPage>
 </template>
 

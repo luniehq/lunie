@@ -101,7 +101,6 @@ export default () => {
       commit(`setSignIn`, true)
       commit(`setSessionType`, sessionType)
       commit(`setUserAddress`, address)
-      await dispatch(`initializeWallet`, { address })
       dispatch(`persistSession`, {
         address,
         sessionType

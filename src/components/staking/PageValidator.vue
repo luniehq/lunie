@@ -98,7 +98,7 @@
           <h4>Voting Power / Total Stake</h4>
           <span id="page-profile__power">
             {{ validator.votingPower | percent }} /
-            {{ validator.tokens | atoms | shortDecimals }}
+            {{ validator.tokens | shortDecimals }}
           </span>
         </li>
         <li>
@@ -237,15 +237,16 @@ export default {
     delegationTargetOptions() {
       if (!this.session.signedIn) return []
 
-      const balance = this.balance.find(
+      const stakingBalance = this.balance.find(
         ({ denom }) => this.stakingDenom === denom
-      ).amount
+      )
+      const stakingBalanceAmount = stakingBalance ? stakingBalance.amount : 0
 
       //- First option should always be your wallet (i.e normal delegation)
       const myWallet = [
         {
           address: this.address,
-          maximum: Math.floor(balance),
+          maximum: Math.floor(stakingBalanceAmount),
           key: `My Wallet - ${formatBech32(this.address, false, 20)}`,
           value: 0
         }
@@ -256,7 +257,7 @@ export default {
         .map((d, i) => {
           return {
             address: this.address,
-            maximum: Math.floor(d.shares),
+            maximum: Math.floor(d.shares), // TODO
             // Get names of delegation validators
             key: `${d.validatorAddress} - ${formatBech32(
               d.validatorAddress,
