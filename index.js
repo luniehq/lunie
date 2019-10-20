@@ -14,8 +14,7 @@ const lunieDBAPI = new LunieDBAPI()
 const dataSources = {
   CosmosAPI: cosmosApi,
   GaiaAPI: gaiaApi,
-  LunieDBAPI: lunieDBAPI,
-  networks
+  LunieDBAPI: lunieDBAPI
 }
 if (config.enableTestnet) {
   const testnetAPI = new CosmosAPI(networks['testnet'])
