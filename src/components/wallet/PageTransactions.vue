@@ -80,7 +80,7 @@ export default {
         }
       `,
       skip() {
-        return !this.session.address
+        return !this.address
       },
       variables() {
         return {

@@ -2,12 +2,12 @@
   <div>
     <div>
       Network Fee:&nbsp;
-      <b>{{ fees.amount | atoms }}</b>
-      <span>{{ fees.denom | viewDenom }}</span>
+      <b>{{ fees.amount }}</b>
+      <span> {{ fees.denom }}</span>
     </div>
     <div>
-      <router-link :to="{ name: `block`, params: { height: block } }"
-        >Block #{{ block }}&nbsp;</router-link
+      <router-link :to="{ name: `block`, params: { height } }"
+        >Block #{{ height }}&nbsp;</router-link
       >
       @&nbsp;{{ date }}
     </div>
