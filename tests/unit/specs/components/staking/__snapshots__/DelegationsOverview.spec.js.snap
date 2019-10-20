@@ -2,7 +2,7 @@
 
 exports[`DelegationsOverview shows a sentiment of dissatisfaction when you have no such delegations 1`] = `
 <div
-  validators="[object Object],[object Object],[object Object],[object Object],[object Object]"
+  delegations="[object Object],[object Object],[object Object]"
 >
   <tmdatamsg-stub
     icon="sentiment_dissatisfied"
@@ -32,13 +32,30 @@ exports[`DelegationsOverview shows a sentiment of dissatisfaction when you have 
 
 exports[`DelegationsOverview shows an overview over all delegations of the user 1`] = `
 <div
-  validators="[object Object],[object Object],[object Object],[object Object],[object Object]"
+  delegations="[object Object],[object Object],[object Object]"
 >
-  <div>
-    <tablevalidators-stub
-      showonmobile="expectedReturns"
-      validators="[object Object],[object Object],[object Object],[object Object],[object Object]"
-    />
-  </div>
+  <tmdatamsg-stub
+    icon="sentiment_dissatisfied"
+  >
+    <div>
+      
+      No validators in your portfolio
+    
+    </div>
+     
+    <div>
+      
+      Head over to the
+      
+      <router-link-stub
+        to="/validators"
+      >
+         validator list 
+      </router-link-stub>
+       to get
+      staking!
+    
+    </div>
+  </tmdatamsg-stub>
 </div>
 `;
