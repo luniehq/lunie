@@ -93,6 +93,7 @@ describe(`ActionModal`, () => {
           isConnected: true
         },
         liquidAtoms: 1230000000,
+        network: "testnet",
         modalContext
       }
     }
@@ -777,6 +778,7 @@ describe(`ActionModal`, () => {
               }
             },
             getters: {
+              network: "testnet",
               modalContext
             },
             commit: jest.fn()
