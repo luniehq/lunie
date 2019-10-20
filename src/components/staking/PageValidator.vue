@@ -141,14 +141,14 @@
         :from-options="delegationTargetOptions()"
         :to="validator.operatorAddress"
         :validator="validator"
-        :denom="metaData.stakingDenom"
+        :denom="stakingDenom"
       />
       <UndelegationModal
         ref="undelegationModal"
         :maximum="delegation.amount"
         :to="address"
         :validator="validator"
-        :denom="metaData.stakingDenom"
+        :denom="stakingDenom"
         @switchToRedelegation="onDelegation({ redelegation: true })"
       />
     </template>
@@ -165,7 +165,7 @@
 
 <script>
 import moment from "moment"
-import { mapGetters } from "vuex"
+import { mapGetters, mapState } from "vuex"
 import { atoms, shortDecimals, fullDecimals, percent } from "scripts/num"
 import { formatBech32, noBlanks, fromNow } from "src/filters"
 import TmBtn from "common/TmBtn"
@@ -175,7 +175,7 @@ import Avatar from "common/Avatar"
 import Bech32 from "common/Bech32"
 import TmPage from "common/TmPage"
 import gql from "graphql-tag"
-import { ValidatorProfile, MetaData } from "src/gql"
+import { ValidatorProfile } from "src/gql"
 
 function getStatusText(statusDetailed) {
   switch (statusDetailed) {
@@ -220,6 +220,7 @@ export default {
     delegations: []
   }),
   computed: {
+    ...mapState([`session`]),
     ...mapGetters([`address`, `network`])
   },
   methods: {
@@ -237,7 +238,7 @@ export default {
       if (!this.session.signedIn) return []
 
       const balance = this.balance.find(
-        ({ denom }) => this.metaData.stakingDenom === denom
+        ({ denom }) => this.stakingDenom === denom
       ).amount
 
       //- First option should always be your wallet (i.e normal delegation)
@@ -327,7 +328,7 @@ export default {
       query: gql`
         query rewards(
           $networkId: String!
-          $delegatorAddress: String
+          $delegatorAddress: String!
           $operatorAddress: String
         ) {
           rewards(
@@ -336,7 +337,6 @@ export default {
             operatorAddress: $operatorAddress
           ) {
             amount
-            denom
           }
         }
       `,
@@ -365,14 +365,47 @@ export default {
         }
       }
     },
-    metaData: {
-      query() {
-        /* istanbul ignore next */
-        return MetaData(this.network)
+    stakingDenom: {
+      query: gql`
+        query Networks($networkId: String!) {
+          network(id: $networkId) {
+            stakingDenom
+          }
+        }
+      `,
+      variables() {
+        return {
+          networkId: this.network
+        }
       },
       update(data) {
         /* istanbul ignore next */
-        return data.metaData
+        return data.network.stakingDenom
+      }
+    },
+    delegations: {
+      query: gql`
+        query Delegations($networkId: String!, $delegatorAddress: String!) {
+          delegations(
+            networkId: $networkId
+            delegatorAddress: $delegatorAddress
+          ) {
+            amount
+            validator {
+              operatorAddress
+            }
+          }
+        }
+      `,
+      variables() {
+        return {
+          networkId: this.network,
+          delegatorAddress: this.address
+        }
+      },
+      update(data) {
+        /* istanbul ignore next */
+        return data.delegations
       }
     }
   }

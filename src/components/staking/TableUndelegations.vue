@@ -47,8 +47,8 @@ export default {
       return [
         {
           title: `Name`,
-          value: `smallMoniker`,
-          tooltip: `The validator's moniker`
+          value: `smallName`,
+          tooltip: `The validator's name`
         },
         {
           title: `End Time`,

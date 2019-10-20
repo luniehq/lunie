@@ -15,6 +15,7 @@ export const schemaMap = {
 }
 
 const ValidatorFragment = `
+  name
   operatorAddress
   consensusPubkey
   jailed
@@ -88,20 +89,6 @@ export const DelegationsForDelegator = schema => gql`
   }
 `
 
-export const ValidatorByName = schema => active => gql`
-  query ${schemaMap[schema]}ValidatorInfo($monikerName: String) {
-    ${schemaMap[schema]}validators(
-      where: {
-        moniker: { _ilike: $monikerName }
-        ${active ? "jailed: { _neq: true }" : ""}
-        ${active ? "status: { _neq: 0 }" : ""}
-      }
-    ) {
-      ${ValidatorFragment}
-    }
-  }
-`
-
 export const Networks = gql`
   query Networks {
     networks {
@@ -133,6 +120,7 @@ query Networks {
     action_deposit
     action_vote
     action_proposal
+    stakingDenom
   }
 }
 `
@@ -200,16 +188,6 @@ query Block {
   block(networkId: "${networkId}") {
     height
     chainId
-  }
-}
-`
-
-export const Overview = schema => gql`
-query overview($address: String!) {
-  overview(networkId: "${schema}", address: $address) {
-    totalRewards
-    liquidStake
-    totalStake
   }
 }
 `

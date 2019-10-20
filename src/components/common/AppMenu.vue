@@ -150,7 +150,7 @@ import noScroll from "no-scroll"
 import Bech32 from "common/Bech32"
 import ConnectedNetwork from "common/TmConnectedNetwork"
 import TmBtn from "common/TmBtn"
-import { mapGetters } from "vuex"
+import { mapGetters, mapState } from "vuex"
 import { atoms, viewDenom, shortDecimals } from "scripts/num.js"
 export default {
   name: `app-menu`,
@@ -165,6 +165,7 @@ export default {
     shortDecimals
   },
   computed: {
+    ...mapState([`session`]),
     ...mapGetters([`liquidAtoms`, `totalAtoms`, `bondDenom`, `address`])
   },
   methods: {

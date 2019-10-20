@@ -67,9 +67,9 @@ export default {
   computed: {
     ...mapGetters([`address`, `network`]),
     validatorsPlus() {
-      return this.validators.map(v => ({
-        ...v,
-        smallMoniker: v.moniker ? v.moniker.toLowerCase() : ""
+      return this.validators.map(validator => ({
+        ...validator,
+        smallName: validator.name ? validator.name.toLowerCase() : ""
       }))
     }
   },
@@ -88,6 +88,7 @@ export default {
             all: $all
             query: $query
           ) {
+            name
             operatorAddress
             consensusPubkey
             jailed
@@ -118,17 +119,32 @@ export default {
         }
       },
       update: function(result) {
-        // Add delegated amounts to each validator object if they are present.
-        return result.validators.map(validator => {
-          if (this.delegations[validator.operatorAddress]) {
-            validator.userShares = this.delegations[validator.operatorAddress]
-          } else {
-            validator.userShares = {
-              amount: 0
+        return result.validators
+      }
+    },
+    delegations: {
+      query: gql`
+        query Delegations($networkId: String!, $delegatorAddress: String!) {
+          delegations(
+            networkId: $networkId
+            delegatorAddress: $delegatorAddress
+          ) {
+            amount
+            validator {
+              operatorAddress
             }
           }
-          return validator
-        })
+        }
+      `,
+      variables() {
+        return {
+          networkId: this.network,
+          delegatorAddress: this.address
+        }
+      },
+      update(data) {
+        /* istanbul ignore next */
+        return data.delegations
       }
     }
   }

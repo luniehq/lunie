@@ -1,7 +1,7 @@
 <template>
   <tr
     class="li-validator"
-    :data-moniker="validator.moniker"
+    :data-moniker="validator.name"
     @click="
       $router.push({
         name: 'validator',
@@ -21,11 +21,11 @@
         v-else-if="validator && validator.picture"
         :src="validator.picture"
         class="li-validator-image"
-        :alt="`validator logo for ` + validator.moniker"
+        :alt="`validator logo for ` + validator.name"
       />
       <div class="validator-info">
         <h3 class="li-validator-name">
-          {{ validator.moniker }}
+          {{ validator.name }}
         </h3>
         <h4>
           {{ undelegation.amount }}

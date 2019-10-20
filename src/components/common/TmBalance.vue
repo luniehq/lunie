@@ -2,7 +2,7 @@
   <div class="balance-header">
     <div class="values-container">
       <div class="total-atoms">
-        <h3>Total {{ metaData.stakingDenom }}</h3>
+        <h3>Total {{ stakingDenom }}</h3>
         <h2 class="total-atoms__value">
           {{ overview.totalStake | shortDecimals | noBlanks }}
         </h2>
@@ -10,7 +10,7 @@
 
       <div class="row small-container">
         <div class="available-atoms">
-          <h3>Available {{ metaData.stakingDenom }}</h3>
+          <h3>Available {{ stakingDenom }}</h3>
           <h2>{{ overview.liquidStake | shortDecimals | noBlanks }}</h2>
         </div>
 
@@ -40,7 +40,7 @@
     <ModalWithdrawRewards
       ref="ModalWithdrawRewards"
       :rewards="totalRewards"
-      :denom="metaData.stakingDenom"
+      :denom="stakingDenom"
     />
   </div>
 </template>
@@ -50,8 +50,8 @@ import { noBlanks } from "src/filters"
 import TmBtn from "common/TmBtn"
 import SendModal from "src/ActionModal/components/SendModal"
 import ModalWithdrawRewards from "src/ActionModal/components/ModalWithdrawRewards"
-import { mapState, mapGetters } from "vuex"
-import { Overview, MetaData } from "src/gql"
+import { mapGetters } from "vuex"
+import gql from "graphql-tag"
 export default {
   name: `tm-balance`,
   components: {
@@ -68,13 +68,11 @@ export default {
       num,
       lastUpdate: 0,
       overview: {},
-      metaData: {
-        stakingDenom: "loading"
-      }
+      stakingDenom: ""
     }
   },
   computed: {
-    ...mapState([`address`, `network`]),
+    ...mapGetters([`address`, `network`]),
     totalRewards() {
       return Number(this.overview.totalRewards)
     },
@@ -94,18 +92,24 @@ export default {
       this.$refs.ModalWithdrawRewards.open()
     },
     onSend() {
-      this.$refs.SendModal.open(this.metaData.stakingDenom)
+      this.$refs.SendModal.open(this.stakingDenom)
     }
   },
   apollo: {
     overview: {
-      query() {
-        /* istanbul ignore next */
-        return Overview(this.network, this.address)
-      },
+      query: gql`
+        query overview($networkId: String!, $address: String!) {
+          overview(networkId: $networkId, address: $address) {
+            totalRewards
+            liquidStake
+            totalStake
+          }
+        }
+      `,
       variables() {
         /* istanbul ignore next */
         return {
+          networkId: this.network,
           address: this.address
         }
       },
@@ -114,14 +118,22 @@ export default {
         return data.overview
       }
     },
-    metaData: {
-      query() {
-        /* istanbul ignore next */
-        return MetaData(this.network)
+    stakingDenom: {
+      query: gql`
+        query Networks($networkId: String!) {
+          network(id: $networkId) {
+            stakingDenom
+          }
+        }
+      `,
+      variables() {
+        return {
+          networkId: this.network
+        }
       },
       update(data) {
         /* istanbul ignore next */
-        return data.metaData
+        return data.network.stakingDenom
       }
     }
   }
