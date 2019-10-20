@@ -102,7 +102,8 @@
     "vue-template-compiler": "^2.6.10"
   },
   "resolutions": {
-    "braces": ">=2.3.1"
+    "braces": ">=2.3.1",
+    "https-proxy-agent": ">=3.0.0"
   },
   "engines": {
     "node": ">=10.13.0"
