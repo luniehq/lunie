@@ -2,6 +2,7 @@
 
 exports[`PagePortfolio should display the portfolio page 1`] = `
 <tmpage-stub
+  loaded="true"
   managed="true"
   signinrequired="true"
   subtitle=""
