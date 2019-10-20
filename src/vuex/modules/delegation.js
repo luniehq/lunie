@@ -4,7 +4,7 @@ export default ({ node }) => {
   const emptyState = {
     loading: false,
     loaded: false,
-    error: false,
+    error: null,
 
     // our delegations which are already on the blockchain
     committedDelegates: {},
@@ -22,14 +22,14 @@ export default ({ node }) => {
     setUnbondingDelegations(state, unbondingDelegations) {
       state.unbondingDelegations = unbondingDelegations
         ? unbondingDelegations
-            // building a dict from the array and taking out the validators with no undelegations
-            .reduce(
-              (dict, { validator_address, entries }) => ({
-                ...dict,
-                [validator_address]: entries.length > 0 ? entries : undefined
-              }),
-              {}
-            )
+          // building a dict from the array and taking out the validators with no undelegations
+          .reduce(
+            (dict, { validator_address, entries }) => ({
+              ...dict,
+              [validator_address]: entries.length > 0 ? entries : undefined
+            }),
+            {}
+          )
         : {}
     }
   }
@@ -62,7 +62,7 @@ export default ({ node }) => {
           unbondingDelegations,
           redelegations
         }
-        state.error = false
+        state.error = null
         state.loading = false
         state.loaded = true
 
@@ -103,7 +103,7 @@ export default ({ node }) => {
           title: `Error fetching delegations`,
           body: error.message
         })
-        state.error = true
+        state.error = error
       }
 
       state.loading = false

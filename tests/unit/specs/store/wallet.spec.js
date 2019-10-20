@@ -246,7 +246,7 @@ describe(`Module: Wallet`, () => {
 
     it(`should catch errors from subscriptions`, async () => {
       jest.useFakeTimers()
-      jest.spyOn(console, "error").mockImplementation(() => {})
+      jest.spyOn(console, "error").mockImplementation(() => { })
 
       const node = {
         tendermint: {

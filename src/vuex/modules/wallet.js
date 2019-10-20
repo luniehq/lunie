@@ -7,7 +7,7 @@ export default ({ node }) => {
     balances: [],
     loading: true,
     loaded: false,
-    error: false,
+    error: null,
     accountNumber: null,
     address: null,
     subscribedRPC: null,
@@ -65,7 +65,7 @@ export default ({ node }) => {
 
       try {
         const res = await node.get.account(state.address)
-        state.error = false
+        state.error = undefined
         const { coins, account_number } = res || {}
         commit(`setAccountNumber`, account_number)
         commit(`setWalletBalances`, coins || [])
@@ -76,7 +76,7 @@ export default ({ node }) => {
           title: `Error fetching balances`,
           body: error.message
         })
-        state.error = true
+        state.error = error
       }
     },
     queryWalletStateAfterHeight({ rootState, dispatch }, height) {
