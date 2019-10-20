@@ -8,8 +8,11 @@ let networks = {
   cosmoshub: {
     api_url: 'https://lcd.nylira.net',
     rpc_url: 'wss://rpc.nylira.net/websocket'
-  },
-  testnet: {
+  }
+}
+
+if (config.enableTestnet) {
+  networks.testnet = {
     api_url: 'http://localhost:9070',
     rpc_url: 'ws://localhost:26657/websocket'
   }
