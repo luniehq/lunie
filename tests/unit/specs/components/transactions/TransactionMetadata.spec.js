@@ -10,8 +10,8 @@ describe(`TransactionMetadata`, () => {
         time: new Date("2019-07-31"),
         height: 1234567,
         fees: {
-          amount: "1234",
-          denom: "uatom"
+          amount: "0.001234",
+          denom: "ATOM"
         }
       },
       stubs: [`router-link`]
