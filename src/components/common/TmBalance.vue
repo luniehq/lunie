@@ -39,13 +39,13 @@
     <SendModal ref="SendModal" />
     <ModalWithdrawRewards
       ref="ModalWithdrawRewards"
-      :rewards="totalRewards"
+      :rewards="overview.totalRewards"
       :denom="stakingDenom"
     />
   </div>
 </template>
 <script>
-import num, { shortDecimals } from "scripts/num"
+import { shortDecimals } from "scripts/num"
 import { noBlanks } from "src/filters"
 import TmBtn from "common/TmBtn"
 import SendModal from "src/ActionModal/components/SendModal"
@@ -65,29 +65,19 @@ export default {
   },
   data() {
     return {
-      num,
-      lastUpdate: 0,
       overview: {},
       stakingDenom: ""
     }
   },
   computed: {
     ...mapGetters([`address`, `network`]),
-    totalRewards() {
-      return Number(this.overview.totalRewards)
-    },
     // only be ready to withdraw of the validator rewards are loaded and the user has rewards to withdraw
     // the validator rewards are needed to filter the top 5 validators to withdraw from
     readyToWithdraw() {
-      return this.totalRewards > 0
+      return this.overview.totalRewards > 0
     }
   },
   methods: {
-    update(height) {
-      this.lastUpdate = height
-      this.$store.dispatch(`getRewardsFromMyValidators`)
-      this.$store.dispatch(`queryWalletBalances`)
-    },
     onWithdrawal() {
       this.$refs.ModalWithdrawRewards.open()
     },
@@ -115,7 +105,13 @@ export default {
       },
       update(data) {
         /* istanbul ignore next */
-        return data.overview
+        return {
+          ...data.overview,
+          totalRewards: Number(data.overview.totalRewards)
+        }
+      },
+      skip() {
+        return !this.address
       }
     },
     stakingDenom: {
