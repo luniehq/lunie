@@ -1,36 +1,17 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Undelegations should show unbonding validators 1`] = `
-Array [
-  Object {
-    "blockNumber": 1248479,
-    "fees": Object {
-      "amount": "4141",
-      "denom": "uatom",
-    },
-    "group": "staking",
-    "key": "cosmos-sdk/MsgUndelegate_2019-07-31T09:22:23.054Z_{\\"delegator_address\\":\\"cosmos1jq9mc3kp4nnxwryr09fpqjtrwya8q5q480zu0e\\",\\"validator_address\\":\\"cosmosvaloper1vrg6ruw00lhszl4sjgwt5ldvl8z0f7pfp5va85\\",\\"amount\\":{\\"denom\\":\\"uatom\\",\\"amount\\":\\"50000\\"}}",
-    "liquidDate": 12345,
-    "memo": "",
-    "time": "2019-07-31T09:22:23.054Z",
-    "type": "cosmos-sdk/MsgUndelegate",
-    "value": Object {
-      "amount": Object {
-        "amount": "50000",
-        "denom": "uatom",
-      },
-      "delegator_address": "cosmos3",
-      "validator_address": "cosmos4",
-    },
-  },
-]
-`;
-
-exports[`Undelegations should show unbonding validators 2`] = `
 <div>
-  <transactionlist-stub
-    transactions="[object Object]"
-    validators="[object Object]"
+  <h3
+    class="tab-header"
+  >
+    
+    Pending Undelegations
+  
+  </h3>
+   
+  <tableundelegations-stub
+    undelegations="[object Object],[object Object],[object Object]"
   />
 </div>
 `;

@@ -7,11 +7,11 @@ describe(`TransactionMetadata`, () => {
   beforeEach(() => {
     wrapper = shallowMount(TransactionMetadata, {
       propsData: {
-        time: new Date("2019-07-31"),
+        timestamp: new Date("2019-07-31"),
         height: 1234567,
-        fees: {
-          amount: "1234",
-          denom: "uatom"
+        fee: {
+          amount: "0.001234",
+          denom: "ATOM"
         }
       },
       stubs: [`router-link`]

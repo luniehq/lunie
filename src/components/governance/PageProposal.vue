@@ -157,7 +157,7 @@
 
 <script>
 import moment from "moment"
-import { mapState, mapGetters } from "vuex"
+import { mapGetters } from "vuex"
 import { atoms, percent, prettyInt } from "scripts/num"
 import TmBtn from "common/TmBtn"
 import TmDataError from "common/TmDataError"
