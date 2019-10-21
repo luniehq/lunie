@@ -296,7 +296,7 @@ describe(`Module: Delegations`, () => {
         get: {
           delegations: () => [],
           redelegations: () => [],
-          undelegations: async () => Promise.reject(`Error`)
+          undelegations: async () => Promise.reject(new Error(`Error`))
         }
       }
     })
@@ -306,7 +306,7 @@ describe(`Module: Delegations`, () => {
       commit: jest.fn(),
       dispatch: jest.fn()
     })
-    expect(state.error).toBe(`Error`)
+    expect(state.error.message).toBe(`Error`)
   })
 
   it(`should store an error if failed to load redelegations`, async () => {
@@ -315,7 +315,7 @@ describe(`Module: Delegations`, () => {
         get: {
           delegations: () => [],
           undelegations: () => [],
-          redelegations: async () => Promise.reject(`Error`)
+          redelegations: async () => Promise.reject(new Error(`Error`))
         }
       }
     })
@@ -325,7 +325,7 @@ describe(`Module: Delegations`, () => {
       commit: jest.fn(),
       dispatch: jest.fn()
     })
-    expect(state.error).toBe(`Error`)
+    expect(state.error.message).toBe(`Error`)
   })
 
   it(`should load delegations on sign in`, async () => {

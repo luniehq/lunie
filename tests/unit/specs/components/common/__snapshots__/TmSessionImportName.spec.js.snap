@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`TmSessionImport has the expected html structure 1`] = `
+exports[`TmSessionImportName has the expected html structure 1`] = `
 <sessionframe-stub>
   <tmformstruct-stub
     submit="function () { [native code] }"
@@ -10,7 +10,7 @@ exports[`TmSessionImport has the expected html structure 1`] = `
       class="session-title"
     >
       
-      Recover with backup code
+      Choose name
     
     </h2>
      
@@ -18,19 +18,36 @@ exports[`TmSessionImport has the expected html structure 1`] = `
       class="session-main"
     >
       <steps-stub
-        activestep="Recover"
+        activestep="Name"
         steps="Recover,Name,Password"
       />
        
       <tmformgroup-stub
-        fieldid="import-seed"
-        fieldlabel="Backup code"
+        fieldid="import-name"
+        fieldlabel="Your Address"
       >
-        <fieldseed-stub
-          id="import-seed"
-          placeholder="Must be exactly 24 words"
+        <p
+          class="address"
+        >
+          true
+        </p>
+      </tmformgroup-stub>
+       
+      <tmformgroup-stub
+        fieldid="import-name"
+        fieldlabel="Account Name"
+      >
+        <tmfield-stub
+          id="import-name"
+          placeholder="Must have at least 3 characters"
+          type="text"
           value=""
+          vue-focus="vue-focus"
         />
+         
+        <!---->
+         
+        <!---->
          
         <!---->
       </tmformgroup-stub>

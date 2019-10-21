@@ -30,15 +30,15 @@ commands:
     steps:
       - restore_cache:
           keys:
-            - v1-dependencies-extension-{{ checksum "package.json" }}
-            - v1-dependencies-extension-
+            - v2-dependencies-extension-{{ checksum "yarn.lock" }}
+            - v2-dependencies-extension-
 
       - run: yarn install
       - save_cache:
           paths:
             - yarn.lock
             - node_modules
-          key: v1-dependencies-extension-{{ checksum "package.json" }}
+          key: v2-dependencies-extension-{{ checksum "yarn.lock" }}
 
 # a reusable executor
 executors:
@@ -101,6 +101,8 @@ jobs:
           name: Audit
           command: |
             set +e
+
+            yarn audit
 
             SUMMARY="$(yarn audit | grep Severity)"
             VULNERABILITIES=".*(High|Critical).*"
