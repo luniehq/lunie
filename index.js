@@ -12,8 +12,8 @@ const cosmosHubTestnetAPI = new CosmosV2API(networks['gaia-testnet'])
 const lunieDBAPI = new LunieDBAPI()
 
 const dataSources = {
-  CosmosAPI: cosmosHubMainnetAPI,
-  GaiaAPI: cosmosHubTestnetAPI,
+  CosmosHubMainnetAPI: cosmosHubMainnetAPI,
+  CosmosHubTestnetAPI: cosmosHubTestnetAPI,
   LunieDBAPI: lunieDBAPI
 }
 if (config.enableTestnet) {
