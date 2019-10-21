@@ -22,7 +22,8 @@ describe(`PageProposal`, () => {
   }
 
   const getters = {
-    connected: true
+    connected: true,
+    address: `cosmos1xxxx`
   }
   let args
 

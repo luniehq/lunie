@@ -46,15 +46,7 @@ exports[`LiValidator has the expected html structure 1`] = `
       
       </h3>
        
-      <div>
-        <h4>
-          
-          0
-        
-        </h4>
-         
-        <!---->
-      </div>
+      <!---->
     </div>
   </td>
    

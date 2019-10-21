@@ -29,7 +29,7 @@ describe(`PageTransactions`, () => {
       height: 1248479,
       timestamp: "2019-07-31T09:22:23.054Z",
       memo: "",
-      fees: { denom: "uatom", amount: "4141" },
+      fee: { amount: "4141", denom: "ATOM" },
       group: "staking"
     },
     {
@@ -45,7 +45,7 @@ describe(`PageTransactions`, () => {
         'cosmos-sdk/MsgSubmitProposal_undefined_{"proposer":"cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9","proposal_type":"Text","title":"Test Proposal","description":"This is a test proposal","initial_deposit":[{"denom":"STAKE","amount":"100"}]}',
       height: 56673,
       timestamp: null,
-      fees: { amount: "0", denom: "ATOM" },
+      fee: { amount: "0", denom: "ATOM" },
       group: "governance",
       liquidDate: null
     },
@@ -60,7 +60,7 @@ describe(`PageTransactions`, () => {
         'cosmos-sdk/MsgDeposit_undefined_{"depositor":"cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9","proposal_id":"1","amount":[{"denom":"STAKE","amount":"100"}]}',
       height: 213,
       timestamp: null,
-      fees: { amount: "0", denom: "ATOM" },
+      fee: { amount: "0", denom: "ATOM" },
       group: "governance",
       liquidDate: null
     },
@@ -75,7 +75,7 @@ describe(`PageTransactions`, () => {
         'cosmos-sdk/BeginUnbonding_undefined_{"validator_address":"cosmos1a","delegator_address":"cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9","shares":"5"}',
       height: 170,
       timestamp: null,
-      fees: { amount: "0", denom: "ATOM" },
+      fee: { amount: "0", denom: "ATOM" },
       liquidDate: null
     }
   ]
@@ -83,12 +83,6 @@ describe(`PageTransactions`, () => {
   let wrapper, $store, $apollo
 
   const state = {
-    transactions: {
-      loading: false,
-      loaded: true,
-      error: undefined
-    },
-    validators,
     session: {
       address: addresses[0],
       signedIn: true
@@ -111,7 +105,10 @@ describe(`PageTransactions`, () => {
 
   beforeEach(() => {
     $store = {
-      state
+      state,
+      getters: {
+        address: "cosmos1"
+      }
     }
 
     wrapper = shallowMount(PageTransactions, {
@@ -122,9 +119,13 @@ describe(`PageTransactions`, () => {
       },
       directives: {
         infiniteScroll: () => {}
+      },
+      propsData: {
+        transactions,
+        validators
       }
     })
-    wrapper.setProps({ transactions, validators })
+    wrapper.setData({ transactions, validators })
   })
 
   describe(`Renders correctly`, () => {
@@ -154,8 +155,6 @@ describe(`PageTransactions`, () => {
   it(`should refresh the transaction history when signed in`, async () => {
     $store.state.session.signedIn = false
     $store.state.session.address = undefined
-
-    wrapper.setProps({ transactions, validators })
 
     wrapper = shallowMount(PageTransactions, {
       localVue,

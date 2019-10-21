@@ -119,7 +119,7 @@ export default {
         }
       },
       update: function(result) {
-        return result.validators
+        return Array.isArray(result.validators) ? result.validators : []
       }
     },
     delegations: {

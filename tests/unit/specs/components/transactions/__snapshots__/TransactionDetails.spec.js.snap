@@ -18,7 +18,7 @@ exports[`TransactionDetails Unknown transaction returns empty string 1`] = `
       </b>
        
       <span>
-        ATOM
+         ATOM
       </span>
     </div>
      
@@ -26,7 +26,7 @@ exports[`TransactionDetails Unknown transaction returns empty string 1`] = `
       <router-link-stub
         to="[object Object]"
       >
-        Block # 
+        Block #626102 
       </router-link-stub>
       
     @ Jun 11th 2019 13:47:45
@@ -93,11 +93,11 @@ exports[`TransactionDetails renders MsgBeginRedelegate transaction item 1`] = `
     Network Fee: 
     
       <b>
-        0.000283
+        20.00083
       </b>
        
       <span>
-        ATOM
+         ATOM
       </span>
     </div>
      
@@ -105,7 +105,7 @@ exports[`TransactionDetails renders MsgBeginRedelegate transaction item 1`] = `
       <router-link-stub
         to="[object Object]"
       >
-        Block # 
+        Block #726616 
       </router-link-stub>
       
     @ Jun 19th 2019 14:45:43
@@ -161,7 +161,7 @@ exports[`TransactionDetails renders MsgCreateValidator transaction item 1`] = `
       </b>
        
       <span>
-        ATOM
+         ATOM
       </span>
     </div>
      
@@ -169,7 +169,7 @@ exports[`TransactionDetails renders MsgCreateValidator transaction item 1`] = `
       <router-link-stub
         to="[object Object]"
       >
-        Block # 
+        Block #626102 
       </router-link-stub>
       
     @ Jun 11th 2019 13:47:45
@@ -228,11 +228,11 @@ exports[`TransactionDetails renders MsgDelegate transaction item 1`] = `
     Network Fee: 
     
       <b>
-        0.000166
+        10.00066
       </b>
        
       <span>
-        ATOM
+         ATOM
       </span>
     </div>
      
@@ -240,7 +240,7 @@ exports[`TransactionDetails renders MsgDelegate transaction item 1`] = `
       <router-link-stub
         to="[object Object]"
       >
-        Block # 
+        Block #726599 
       </router-link-stub>
       
     @ Jun 19th 2019 14:43:45
@@ -297,11 +297,11 @@ exports[`TransactionDetails renders MsgDeposit transaction item 1`] = `
     Network Fee: 
     
       <b>
-        0.000069
+        69
       </b>
        
       <span>
-        ATOM
+         ATOM
       </span>
     </div>
      
@@ -309,7 +309,7 @@ exports[`TransactionDetails renders MsgDeposit transaction item 1`] = `
       <router-link-stub
         to="[object Object]"
       >
-        Block # 
+        Block #626103 
       </router-link-stub>
       
     @ Jun 11th 2019 13:47:45
@@ -363,7 +363,7 @@ exports[`TransactionDetails renders MsgEditValidator transaction item 1`] = `
       </b>
        
       <span>
-        ATOM
+         ATOM
       </span>
     </div>
      
@@ -371,7 +371,7 @@ exports[`TransactionDetails renders MsgEditValidator transaction item 1`] = `
       <router-link-stub
         to="[object Object]"
       >
-        Block # 
+        Block #626102 
       </router-link-stub>
       
     @ Jun 11th 2019 13:47:45
@@ -448,11 +448,11 @@ exports[`TransactionDetails renders MsgSend transaction item from other to you 1
     Network Fee: 
     
       <b>
-        0.000037
+        0.00037
       </b>
        
       <span>
-        ATOM
+         ATOM
       </span>
     </div>
      
@@ -460,7 +460,7 @@ exports[`TransactionDetails renders MsgSend transaction item from other to you 1
       <router-link-stub
         to="[object Object]"
       >
-        Block # 
+        Block #1086769 
       </router-link-stub>
       
     @ Jul 31st 2019 09:22:23
@@ -537,11 +537,11 @@ exports[`TransactionDetails renders MsgSend transaction item from session user t
     Network Fee: 
     
       <b>
-        0.000037
+        0.00037
       </b>
        
       <span>
-        ATOM
+         ATOM
       </span>
     </div>
      
@@ -549,7 +549,7 @@ exports[`TransactionDetails renders MsgSend transaction item from session user t
       <router-link-stub
         to="[object Object]"
       >
-        Block # 
+        Block #1086769 
       </router-link-stub>
       
     @ Jul 31st 2019 09:22:23
@@ -604,11 +604,11 @@ exports[`TransactionDetails renders MsgSend transaction item to yourself 1`] = `
     Network Fee: 
     
       <b>
-        0.000037
+        0.00037
       </b>
        
       <span>
-        ATOM
+         ATOM
       </span>
     </div>
      
@@ -616,7 +616,7 @@ exports[`TransactionDetails renders MsgSend transaction item to yourself 1`] = `
       <router-link-stub
         to="[object Object]"
       >
-        Block # 
+        Block #1086769 
       </router-link-stub>
       
     @ Jul 31st 2019 09:22:23
@@ -716,11 +716,11 @@ exports[`TransactionDetails renders MsgSend transaction item unrelated to sessio
     Network Fee: 
     
       <b>
-        0.000037
+        0.00037
       </b>
        
       <span>
-        ATOM
+         ATOM
       </span>
     </div>
      
@@ -728,7 +728,7 @@ exports[`TransactionDetails renders MsgSend transaction item unrelated to sessio
       <router-link-stub
         to="[object Object]"
       >
-        Block # 
+        Block #1086769 
       </router-link-stub>
       
     @ Jul 31st 2019 09:22:23
@@ -775,7 +775,7 @@ exports[`TransactionDetails renders MsgSetWithdrawAddress transaction item 1`] =
       </b>
        
       <span>
-        ATOM
+         ATOM
       </span>
     </div>
      
@@ -783,7 +783,7 @@ exports[`TransactionDetails renders MsgSetWithdrawAddress transaction item 1`] =
       <router-link-stub
         to="[object Object]"
       >
-        Block # 
+        Block #626102 
       </router-link-stub>
       
     @ Jun 11th 2019 13:47:45
@@ -835,7 +835,7 @@ exports[`TransactionDetails renders MsgSetWithdrawValidatorCommission transactio
       </b>
        
       <span>
-        ATOM
+         ATOM
       </span>
     </div>
      
@@ -843,7 +843,7 @@ exports[`TransactionDetails renders MsgSetWithdrawValidatorCommission transactio
       <router-link-stub
         to="[object Object]"
       >
-        Block # 
+        Block #626102 
       </router-link-stub>
       
     @ Jun 11th 2019 13:47:45
@@ -898,11 +898,11 @@ exports[`TransactionDetails renders MsgSubmitProposal transaction item 1`] = `
     Network Fee: 
     
       <b>
-        0.000069
+        69
       </b>
        
       <span>
-        ATOM
+         ATOM
       </span>
     </div>
      
@@ -910,7 +910,7 @@ exports[`TransactionDetails renders MsgSubmitProposal transaction item 1`] = `
       <router-link-stub
         to="[object Object]"
       >
-        Block # 
+        Block #626102 
       </router-link-stub>
       
     @ Jun 11th 2019 13:47:45
@@ -975,11 +975,11 @@ exports[`TransactionDetails renders MsgUndelegate transaction item 1`] = `
     Network Fee: 
     
       <b>
-        0.004141
+        410.00041
       </b>
        
       <span>
-        ATOM
+         ATOM
       </span>
     </div>
      
@@ -987,7 +987,7 @@ exports[`TransactionDetails renders MsgUndelegate transaction item 1`] = `
       <router-link-stub
         to="[object Object]"
       >
-        Block # 
+        Block #1248479 
       </router-link-stub>
       
     @ Jul 31st 2019 09:22:23
@@ -1039,7 +1039,7 @@ exports[`TransactionDetails renders MsgUnjail transaction item 1`] = `
       </b>
        
       <span>
-        ATOM
+         ATOM
       </span>
     </div>
      
@@ -1047,7 +1047,7 @@ exports[`TransactionDetails renders MsgUnjail transaction item 1`] = `
       <router-link-stub
         to="[object Object]"
       >
-        Block # 
+        Block #626102 
       </router-link-stub>
       
     @ Jun 11th 2019 13:47:45
@@ -1095,11 +1095,11 @@ exports[`TransactionDetails renders MsgVote transaction item 1`] = `
     Network Fee: 
     
       <b>
-        0.000069
+        69
       </b>
        
       <span>
-        ATOM
+         ATOM
       </span>
     </div>
      
@@ -1107,7 +1107,7 @@ exports[`TransactionDetails renders MsgVote transaction item 1`] = `
       <router-link-stub
         to="[object Object]"
       >
-        Block # 
+        Block #626103 
       </router-link-stub>
       
     @ Jun 11th 2019 13:47:45
@@ -1159,7 +1159,7 @@ exports[`TransactionDetails renders MsgWithdrawDelegationReward transaction item
       </b>
        
       <span>
-        ATOM
+         ATOM
       </span>
     </div>
      
@@ -1167,7 +1167,7 @@ exports[`TransactionDetails renders MsgWithdrawDelegationReward transaction item
       <router-link-stub
         to="[object Object]"
       >
-        Block # 
+        Block #626102 
       </router-link-stub>
       
     @ Jun 11th 2019 13:47:45

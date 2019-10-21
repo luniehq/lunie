@@ -65,7 +65,7 @@ exports[`PageBlock shows a page with information about a certain block 1`] = `
         <!---->
          
         <transactionlist-stub
-          address=""
+          address="cosmos1"
           transactions="[object Object],[object Object],[object Object]"
           validators="[object Object]"
         />
@@ -156,7 +156,7 @@ exports[`PageBlock shows the block page with no txs 1`] = `
         </tmdatamsg-stub>
          
         <transactionlist-stub
-          address=""
+          address="cosmos1"
           transactions=""
           validators="[object Object]"
         />

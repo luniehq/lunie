@@ -59,7 +59,7 @@
           <h4>Yes</h4>
           <span>
             {{
-              proposal.tally.total === "0"
+              noVotes
                 ? 0
                 : (proposal.tally.yes / proposal.tally.total) | percent
             }}
@@ -71,9 +71,7 @@
           <h4>No</h4>
           <span>
             {{
-              proposal.tally.total === "0"
-                ? 0
-                : (proposal.tally.no / proposal.tally.total) | percent
+              noVotes ? 0 : (proposal.tally.no / proposal.tally.total) | percent
             }}
             /
             {{ proposal.tally.no | prettyInt }}
@@ -83,7 +81,7 @@
           <h4>Veto</h4>
           <span>
             {{
-              proposal.tally.total === "0"
+              noVotes
                 ? 0
                 : (proposal.tally.veto / proposal.tally.total) | percent
             }}
@@ -95,7 +93,7 @@
           <h4>Abstain</h4>
           <span>
             {{
-              proposal.tally.total === "0"
+              noVotes
                 ? 0
                 : (proposal.tally.abstain / proposal.tally.total) | percent
             }}
@@ -157,7 +155,7 @@
 
 <script>
 import moment from "moment"
-import { mapState, mapGetters } from "vuex"
+import { mapGetters } from "vuex"
 import { atoms, percent, prettyInt } from "scripts/num"
 import { date, fromNow } from "src/filters"
 import TmBtn from "common/TmBtn"
@@ -169,6 +167,7 @@ import ModalVote from "src/ActionModal/components/ModalVote"
 import TmPage from "common/TmPage"
 import { getProposalStatus } from "scripts/proposal-status"
 import { ProposalItem, GovernanceParameters, Vote } from "src/gql"
+import BigNumber from "bignumber.js"
 
 export default {
   name: `page-proposal`,
@@ -211,6 +210,9 @@ export default {
     ...mapGetters([`connected`]),
     status() {
       return getProposalStatus(this.proposal)
+    },
+    noVotes() {
+      return BigNumber(this.proposal.tally.total).eq(0)
     }
   },
   methods: {
