@@ -5,7 +5,7 @@ var htmlOutput = ``
 module.exports = {
   'Send Transaction': function(browser) {
     browser
-      // Import funded account
+      //  Import funded account
       .pause(500)
       .url(`chrome-extension://${globals.EXTENSION_ID}/popup/popup.html`)
       .waitForElementVisible('a[href="#/create"]')
