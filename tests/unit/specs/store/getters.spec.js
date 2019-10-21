@@ -1,6 +1,4 @@
-import {
-  modalContext,
-} from "src/vuex/getters.js"
+import { modalContext } from "src/vuex/getters.js"
 
 describe(`Store: getters`, () => {
   xit(`modalContext`, () => {

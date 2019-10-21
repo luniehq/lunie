@@ -15,7 +15,6 @@ describe(`Module: Connection`, () => {
   })
 
   describe(`mutations`, () => {
-
     it(`sets nodeUrl from config.json`, () => {
       expect(state.nodeUrl).toBe(`https://voyager.lol`)
     })

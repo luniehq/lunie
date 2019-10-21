@@ -7,7 +7,7 @@ export const address = state => state.session.address
 export const network = state => state.connection.network
 
 // TODO
-export const modalContext = (state, getters) => ({
+export const modalContext = (state) => ({
   url: state.connection.externals.node.url,
   chainId: "", // state.connection.lastHeader.chain_id,
   connected: state.connection.connected,

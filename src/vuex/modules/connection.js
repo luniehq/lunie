@@ -1,6 +1,6 @@
 import config from "src/config"
 
-export default function ({ node }) {
+export default function({ node }) {
   const state = {
     stopConnecting: false,
     connected: true, // TODO do connection test
@@ -22,9 +22,7 @@ export default function ({ node }) {
   const actions = {
     async setNetwork({ commit }, network) {
       commit("setNetworkId", network.id)
-      console.info(
-        `Connecting to: ${network.title} (${network.chain_id})`
-      )
+      console.info(`Connecting to: ${network.title} (${network.chain_id})`)
     }
   }
 
