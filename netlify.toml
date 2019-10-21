@@ -1,5 +1,5 @@
 # Deploy Preview context:
 # All deploys generated from a pull/merge request
 # will inherit these settings.
-[context.deploy-preview.environment]
+[context."feature/api-gateway"]
   VUE_APP_GRAPHQL_URL = "staging-api.lunie.io"
