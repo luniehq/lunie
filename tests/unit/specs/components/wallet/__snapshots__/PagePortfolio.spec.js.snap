@@ -2,16 +2,12 @@
 
 exports[`PagePortfolio should display the portfolio page 1`] = `
 <tmpage-stub
-  loaded="true"
-  managed="true"
   signinrequired="true"
   subtitle=""
   title=""
 >
-  <template>
-    <delegationsoverview-stub />
-     
-    <undelegations-stub />
-  </template>
+  <delegationsoverview-stub />
+   
+  <undelegations-stub />
 </tmpage-stub>
 `;
