@@ -75,6 +75,7 @@ export default {
   },
   methods: {
     open() {
+      console.log(this.rewards)
       this.$refs.actionModal.open()
     }
   }

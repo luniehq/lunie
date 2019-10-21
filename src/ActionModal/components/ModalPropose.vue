@@ -78,7 +78,7 @@
         @keyup.enter.native="enterPressed"
       />
       <TmFormMsg
-        v-if="balance === 0"
+        v-if="currentBalance === 0"
         :msg="`doesn't have any ${viewDenom(denom)}s`"
         name="Wallet"
         type="custom"
@@ -106,6 +106,7 @@
 
 <script>
 import { mapState } from "vuex"
+import gql from "graphql-tag"
 import {
   minLength,
   maxLength,
@@ -154,16 +155,11 @@ export default {
     amount: 0
   }),
   computed: {
-    ...mapState([`wallet`]),
-    balance() {
-      // TODO: refactor to get the selected coin when multicoin deposit is enabled
-      if (!this.wallet.loading && !!this.wallet.balances.length) {
-        const balance = this.wallet.balances.find(
-          coin => coin.denom === this.denom
-        )
-        if (balance) return parseFloat(balance.amount)
-      }
-      return 0
+    ...mapGetters([`network`]),
+    ...mapGetters({userAddress: `address`}),
+    currentBalance() {
+      const denom = this.balance.find(b => b.denom === this.denom)
+      return (denom && denom.amount) || 0
     },
     transactionData() {
       return {
@@ -206,7 +202,7 @@ export default {
       amount: {
         required: x => !!x && x !== `0`,
         decimal,
-        between: between(SMALLEST, atoms(this.balance))
+        between: between(SMALLEST, atoms(this.currentBalance))
       }
     }
   },
@@ -236,7 +232,31 @@ export default {
     onSuccess(event) {
       this.$emit(`success`, event)
     }
-  }
+  },
+  apollo: { 
+    balance: {
+      query: gql`
+        query balance($networkId: String!, $address: String!) {
+          balance(networkId: $networkId, address: $address) {
+            amount
+            denom
+          }
+        }
+      `,
+      skip() {
+        return !this.userAddress
+      },
+      variables() {
+        return {
+          networkId: this.network,
+          address: this.userAddress
+        }
+      },
+      update: data => {
+        return data.balance
+      }
+    }
+  }   
 }
 </script>
 <style>

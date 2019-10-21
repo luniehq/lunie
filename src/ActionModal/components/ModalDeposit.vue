@@ -21,7 +21,7 @@
       <span class="input-suffix">{{ denom | viewDenom }}</span>
       <TmField id="amount" v-model="amount" type="number" />
       <TmFormMsg
-        v-if="balance === 0"
+        v-if="currentBalance === 0"
         :msg="`doesn't have any ${viewDenom(denom)}s`"
         name="Wallet"
         type="custom"
@@ -48,7 +48,8 @@
 </template>
 
 <script>
-import { mapState } from "vuex"
+import { mapGetters } from "vuex"
+import gql from "graphql-tag"
 import { uatoms, atoms, viewDenom, SMALLEST } from "src/scripts/num"
 import { between, decimal } from "vuelidate/lib/validators"
 import TmField from "src/components/common/TmField"
@@ -86,9 +87,10 @@ export default {
     amount: 0
   }),
   computed: {
-    ...mapState([`wallet`]),
-    balance() {
-      const denom = this.wallet.balances.find(b => b.denom === this.denom)
+    ...mapGetters([`network`]),
+    ...mapGetters({userAddress: `address`}),
+    currentBalance() {
+      const denom = this.balance.find(b => b.denom === this.denom)
       return (denom && denom.amount) || 0
     },
     transactionData() {
@@ -117,7 +119,7 @@ export default {
       amount: {
         required: x => !!x && x !== `0`,
         decimal,
-        between: between(SMALLEST, atoms(this.balance))
+        between: between(SMALLEST, atoms(this.currentBalance))
       }
     }
   },
@@ -139,6 +141,30 @@ export default {
     onSuccess(event) {
       this.$emit(`success`, event)
     }
-  }
+  },
+  apollo: { 
+    balance: {
+      query: gql`
+        query balance($networkId: String!, $address: String!) {
+          balance(networkId: $networkId, address: $address) {
+            amount
+            denom
+          }
+        }
+      `,
+      skip() {
+        return !this.userAddress
+      },
+      variables() {
+        return {
+          networkId: this.network,
+          address: this.userAddress
+        }
+      },
+      update: data => {
+        return data.balance
+      }
+    }
+  }  
 }
 </script>

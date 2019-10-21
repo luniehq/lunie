@@ -101,7 +101,6 @@ export default {
     vote: null
   }),
   computed: {
-    ...mapGetters([`bondDenom`]),
     transactionData() {
       return {
         type: transaction.VOTE,
