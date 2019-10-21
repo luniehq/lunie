@@ -41,7 +41,7 @@ module.exports = {
 
       // Send transaction on Lunie to extension
       .execute(function() {
-        window.open('http://localhost:9080/extension')
+        window.open('https://localhost:9080/extension')
       })
       .pause(500)
 
@@ -50,7 +50,7 @@ module.exports = {
         browser
           .switchWindow(result.value[1])
           .pause(5000)
-          .assert.urlContains('http://localhost:9080/extension')
+          .assert.urlContains('https://localhost:9080/extension')
           .waitForElementVisible('li.account button')
           .click('li.account button')
           .waitForElementNotPresent('.session')

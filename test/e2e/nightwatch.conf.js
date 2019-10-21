@@ -37,6 +37,6 @@ module.exports = {
   },
   globals: {
     EXTENSION_ID: 'cklkpejioojjeiigffappdlcmnonmjek',
-    lunieLink: 'http://localhost:9080/?experimental=true//'
+    lunieLink: 'https://localhost:9080/?experimental=true//'
   }
 }

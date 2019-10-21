@@ -9,7 +9,7 @@ global.browser = require('webextension-polyfill')
 const extensionHost = location.origin
 const whitelisted = ['https://app.lunie.io', extensionHost]
 if (process.env.NODE_ENV === 'development') {
-  whitelisted.push('http://localhost')
+  whitelisted.push('https://localhost')
 }
 
 const signRequestQueue = new SignRequestQueue()

@@ -22,7 +22,6 @@
   "content_scripts": [
     {
       "matches": [
-        "http://localhost/*",
         "https://localhost/*",
         "https://lunie.io/*",
         "https://app.lunie.io/*",
