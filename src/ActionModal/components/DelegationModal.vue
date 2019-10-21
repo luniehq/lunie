@@ -198,7 +198,7 @@ export default {
           denom: this.denom
         }
       } else {
-        const validatorSrc = this.modalContext.delegations.find(
+        const validatorSrc = this.delegations.find(
           delegation => this.from === delegation.validator.operatorAddress
         ).validator
         return {

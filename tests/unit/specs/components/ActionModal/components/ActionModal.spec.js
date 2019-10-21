@@ -26,29 +26,6 @@ jest.mock(`src/ActionModal/utils/ActionManager.js`, () => {
   })
 })
 
-const modalContext = {
-  connection: {
-    externals: {
-      node: {
-        url: "http://lunie.io"
-      }
-    },
-    lastHeader: {
-      chain_id: "cosmoshub"
-    },
-    connected: true
-  },
-  session: {
-    address: "cosmos1abcdefghijklmop",
-    localKeyPairName: "localKeyPairName",
-    currrentModalOpen: false
-  },
-  delegation: {
-    committedDelegates: []
-  },
-  isExtensionAccount: true
-}
-
 const $apollo = {
   query: () => ({
     data: {
@@ -94,7 +71,6 @@ describe(`ActionModal`, () => {
         },
         liquidAtoms: 1230000000,
         network: "testnet",
-        modalContext
       }
     }
 
@@ -660,7 +636,7 @@ describe(`ActionModal`, () => {
       })
 
       it("should dispaly warning when using an address not in the extension", () => {
-        wrapper.vm.modalContext.isExtensionAccount = false
+        wrapper.vm.isExtensionAccount = false
         wrapper.vm.step = "sign"
         wrapper.vm.selectedSignMethod = "extension"
         expect(
@@ -779,7 +755,6 @@ describe(`ActionModal`, () => {
             },
             getters: {
               network: "testnet",
-              modalContext
             },
             commit: jest.fn()
           },
