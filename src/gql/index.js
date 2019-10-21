@@ -204,10 +204,7 @@ export const NewBlockSubscription = networkId => gql`
   subscription {
     blockAdded(networkId: "${networkId}") {
       height
-      hash
       chainId
-      time
-      numTxs
     }
   }
 `

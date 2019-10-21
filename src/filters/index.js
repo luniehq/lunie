@@ -1,6 +1,8 @@
 import { percent } from "../scripts/num"
 import moment from "moment"
 
+export const date = date => moment(date).format("MMMM Do YYYY, HH:mm")
+
 export const fromNow = date => moment(date).fromNow()
 
 export const noBlanks = function(value) {

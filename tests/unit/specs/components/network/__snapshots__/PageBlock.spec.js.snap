@@ -4,7 +4,6 @@ exports[`PageBlock shows a page with information about a certain block 1`] = `
 <tmpage-stub
   data-title="Block"
   hideheader="true"
-  loaded="true"
   managed="true"
   subtitle=""
   title=""
@@ -16,7 +15,7 @@ exports[`PageBlock shows a page with information about a certain block 1`] = `
       <h2
         class="page-profile__title"
       >
-        Block #0
+        Block 100
       </h2>
     </div>
      
@@ -31,7 +30,7 @@ exports[`PageBlock shows a page with information about a certain block 1`] = `
         <span
           class="page-data"
         >
-          chain-1
+          gaia-13006
         </span>
       </li>
        
@@ -43,7 +42,7 @@ exports[`PageBlock shows a page with information about a certain block 1`] = `
         <span
           class="page-data"
         >
-          January 1st 1970, 00:00
+          September 24th 2019, 13:03
         </span>
       </li>
     </ul>
@@ -58,7 +57,7 @@ exports[`PageBlock shows a page with information about a certain block 1`] = `
           class="page-profile__section-title"
         >
           
-          Transactions (10)
+          Transactions (1)
         
         </h3>
          
@@ -66,7 +65,7 @@ exports[`PageBlock shows a page with information about a certain block 1`] = `
          
         <transactionlist-stub
           address="cosmos1"
-          transactions="[object Object],[object Object],[object Object]"
+          transactions="[object Object]"
           validators="[object Object]"
         />
          
@@ -81,7 +80,6 @@ exports[`PageBlock shows the block page with no txs 1`] = `
 <tmpage-stub
   data-title="Block"
   hideheader="true"
-  loading="true"
   managed="true"
   subtitle=""
   title=""
@@ -93,7 +91,7 @@ exports[`PageBlock shows the block page with no txs 1`] = `
       <h2
         class="page-profile__title"
       >
-        Block --
+        Block 100
       </h2>
     </div>
      
@@ -108,7 +106,7 @@ exports[`PageBlock shows the block page with no txs 1`] = `
         <span
           class="page-data"
         >
-          
+          gaia-13006
         </span>
       </li>
        
@@ -120,7 +118,7 @@ exports[`PageBlock shows the block page with no txs 1`] = `
         <span
           class="page-data"
         >
-          --
+          September 24th 2019, 13:03
         </span>
       </li>
     </ul>
@@ -135,7 +133,7 @@ exports[`PageBlock shows the block page with no txs 1`] = `
           class="page-profile__section-title"
         >
           
-          Transactions ()
+          Transactions (0)
         
         </h3>
          
