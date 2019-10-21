@@ -3,6 +3,7 @@
     data-title="Block"
     :managed="true"
     :loading="this.$apollo.queries.block.loading"
+    :error="error"
     hide-header
   >
     <template slot="managed-body">
@@ -69,7 +70,8 @@ export default {
     block: {
       transactions: []
     },
-    validators: []
+    validators: [],
+    error: undefined
   }),
   filters: {
     date
@@ -155,6 +157,12 @@ export default {
         }
       },
       update: function(result) {
+        if (!result.block) {
+          return {
+            transactions: []
+          }
+        }
+
         const block = {
           ...result.block,
           transactions: result.block.transactions.map(transaction => ({
@@ -164,6 +172,10 @@ export default {
           }))
         }
         return block
+      },
+      result({ error }) {
+        // TODO move logic of 404 into API
+        this.error = error
       }
     }
   }
