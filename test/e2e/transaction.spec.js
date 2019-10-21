@@ -56,7 +56,7 @@ module.exports = {
           .waitForElementNotPresent('.session')
 
           // Perform a token send
-          .click('a[href="#/portfolio"]')
+          .click('a[href="/portfolio"]')
           .click('.send-button')
           .setValue(
             "input[placeholder='Address']",
