@@ -8,13 +8,13 @@
           id="create-new-address"
           icon="person_add"
           title="Create a new address"
-          route="create"
+          route="/create"
         />
         <LiSession
           id="recover-with-backup"
           icon="settings_backup_restore"
           title="Recover with backup code"
-          route="recover"
+          route="/recover"
         />
         <LiSession
           v-if="accounts.length > 0"

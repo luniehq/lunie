@@ -35,9 +35,29 @@ export default [
     component: require('common/TmSessionSignUp').default
   },
   {
+    path: `/create/password`,
+    name: `create-password`,
+    component: require('common/TmSessionSignUpPassword').default
+  },
+  {
+    path: `/create/confirm`,
+    name: `create-confirm`,
+    component: require('common/TmSessionSignUpSeed').default
+  },
+  {
     path: `/recover`,
     name: `recover`,
     component: require('common/TmSessionImport').default
+  },
+  {
+    path: `/recover/name`,
+    name: `recover-name`,
+    component: require('common/TmSessionImportName').default
+  },
+  {
+    path: `/recover/password`,
+    name: `recover-password`,
+    component: require('common/TmSessionImportPassword').default
   },
   {
     path: `/approve`,
