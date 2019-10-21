@@ -333,7 +333,7 @@ export default {
     },
     rewards: {
       query: gql`
-        query rewards(
+        query RewardsPageValidator(
           $networkId: String!
           $delegatorAddress: String!
           $operatorAddress: String
@@ -376,6 +376,7 @@ export default {
       query: gql`
         query Networks($networkId: String!) {
           network(id: $networkId) {
+            id
             stakingDenom
           }
         }

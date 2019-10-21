@@ -6,6 +6,10 @@ export const nodeUrl = state =>
 export const address = state => state.session.address
 export const network = state => state.connection.network
 
+export const isExtensionAccount = state => state.extension.accounts.some(account => {
+    return account.address === state.session.address
+})
+
 // TODO
 export const modalContext = state => ({
   url: "", // state.connection.externals.node.url,

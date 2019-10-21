@@ -30,7 +30,7 @@
         <p
           v-if="
             extension.enabled &&
-              !modalContext.isExtensionAccount &&
+              !this.isExtensionAccount &&
               step === signStep &&
               selectedSignMethod === SIGN_METHODS.EXTENSION
           "
@@ -66,7 +66,7 @@
             field-id="gasPrice"
             field-label="Gas Price"
           >
-            <span class="input-suffix">{{ bondDenom | viewDenom }}</span>
+            <span class="input-suffix">{{ network.stakingDenom | viewDenom }}</span>
             <TmField
               id="gas-price"
               v-model="gasPrice"
@@ -76,7 +76,7 @@
             />
             <TmFormMsg
               v-if="balanceInAtoms === 0"
-              :msg="`doesn't have any ${bondDenom}s`"
+              :msg="`doesn't have any ${network.stakingDenom}s`"
               name="Wallet"
               type="custom"
             />
@@ -96,7 +96,7 @@
           <TableInvoice
             :amount="Number(amount)"
             :estimated-fee="estimatedFee"
-            :bond-denom="bondDenom"
+            :bond-denom="network.stakingDenom"
           />
           <TmFormMsg
             v-if="$v.invoiceTotal.$invalid"
@@ -277,6 +277,7 @@
 </template>
 
 <script>
+import gql from "graphql-tag"
 import HardwareState from "src/components/common/TmHardwareState"
 import TmBtn from "src/components/common/TmBtn"
 import TmField from "src/components/common/TmField"
@@ -396,22 +397,21 @@ export default {
     inclusionStep,
     successStep,
     SIGN_METHODS,
-    featureAvailable: true
+    featureAvailable: true,
+    network: {}
   }),
   computed: {
     ...mapState([`extension`, `session`]),
     ...mapGetters([
       `connected`,
-      `bondDenom`,
-      `liquidAtoms`,
-      `modalContext`,
-      `network`
+      `isExtensionAccount`,
     ]),
+    ...mapGetters({networkId: `network`}),
     requiresSignIn() {
       return !this.session.signedIn
     },
     balanceInAtoms() {
-      return atoms(this.liquidAtoms)
+      return atoms(this.overview.liquidStake)
     },
     estimatedFee() {
       return Number(this.gasPrice) * Number(this.gasEstimate) // already in atoms
@@ -456,7 +456,7 @@ export default {
       return (
         this.session.browserWithLedgerSupport ||
         (this.selectedSignMethod === "extension" &&
-          this.modalContext.isExtensionAccount)
+          this.isExtensionAccount)
       )
     },
     prettyIncludedHeight() {
@@ -475,7 +475,8 @@ export default {
     }
   },
   updated: function() {
-    this.actionManager.setContext(this.modalContext || {})
+    const context = this.createContext()
+    this.actionManager.setContext(context)
     if (
       (this.title === "Withdraw" || this.step === "fees") &&
       this.$refs.next
@@ -484,6 +485,20 @@ export default {
     }
   },
   methods: {
+    createContext() {
+      return {
+        url: this.network.api_url, // state.connection.externals.node.url,
+        chainId: this.network.chainId, // state.connection.lastHeader.chain_id,
+        connected: this.connected,
+        localKeyPairName: this.session.localKeyPairName,
+        userAddress: this.session.address,
+        rewards: this.rewards, // state.distribution.rewards,
+        totalRewards: this.overview.totalRewardsc, // getters.totalRewards,
+        delegations: this.delegations, // state.delegates.delegates,
+        bondDenom: this.network.stakingDenom, // getters.bondDenom,
+        isExtensionAccount: this.isExtensionAccount
+      }
+    },
     confirmModalOpen() {
       let confirmResult = false
       if (this.session.currrentModalOpen) {
@@ -613,7 +628,7 @@ export default {
 
       const gasPrice = {
         amount: this.gasPrice,
-        denom: this.bondDenom
+        denom: this.network.stakingDenom
       }
 
       const feeProperties = {
@@ -699,6 +714,106 @@ export default {
         between: between(0, this.balanceInAtoms)
       }
     }
+  },
+  apollo: {
+    overview: {
+      query: gql`
+        query overview($networkId: String!, $address: String!) {
+          overview(networkId: $networkId, address: $address) {
+            totalRewards
+            liquidStake
+            totalStake
+          }
+        }
+      `,
+      variables() {
+        /* istanbul ignore next */
+        return {
+          networkId: this.networkId,
+          address: this.session.address
+        }
+      },
+      update(data) {
+        /* istanbul ignore next */
+        return {
+          ...data.overview,
+          totalRewards: Number(data.overview.totalRewards)
+        }
+      },
+      skip() {
+        return !this.session.address
+      }
+    },
+    network: {
+      query: gql`
+        query NetworkActionModal($networkId: String!) {
+          network(id: $networkId) {
+            id
+            stakingDenom
+            chain_id
+            rpc_url
+            api_url
+          }
+        }
+      `,
+      variables() {
+        return {
+          networkId: this.networkId
+        }
+      },
+      update(data) {
+       /* istanbul ignore next */
+        console.log(data)
+        return data.network
+      }
+    },
+    delegations: {
+      query: gql`
+        query Delegations($networkId: String!, $delegatorAddress: String!) {
+          delegations(
+            networkId: $networkId
+            delegatorAddress: $delegatorAddress
+          ) {
+            amount
+            validator {
+              operatorAddress
+            }
+          }
+        }
+      `,
+      skip() {
+        return !this.session.address
+      },
+      variables() {
+        return {
+          networkId: this.networkId,
+          delegatorAddress: this.session.address
+        }
+      },
+      update(data) {
+        /* istanbul ignore next */
+        return data.delegations
+      }
+    },
+    rewards: {
+      query: gql`
+        query RewardsActionModal($networkId: String!, $delegatorAddress: String!) {
+          rewards(networkId: $networkId, delegatorAddress: $delegatorAddress) {
+            validator {
+              operatorAddress
+            }
+            amount
+          }
+        }
+      `,
+      variables() {
+        return {
+          networkId: this.networkId,
+          delegatorAddress: this.session.address
+        }
+      },
+      update: result => result.rewards
+    }      
   }
 }
 </script>

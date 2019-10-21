@@ -116,8 +116,9 @@ export default {
     },
     stakingDenom: {
       query: gql`
-        query Networks($networkId: String!) {
+        query Network($networkId: String!) {
           network(id: $networkId) {
+            id
             stakingDenom
           }
         }
