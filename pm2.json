@@ -1,0 +1,9 @@
+{
+  "name": "lunietest",
+  "script": "npm",
+  "instances": "1",
+  "args": ["run", "start"],
+  "error_file": "/var/www/server/logs/error.log",
+  "combine_logs": true,
+  "time": true
+}
