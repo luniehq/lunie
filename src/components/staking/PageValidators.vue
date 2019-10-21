@@ -136,6 +136,9 @@ export default {
           }
         }
       `,
+      skip() {
+        return !this.address
+      },
       variables() {
         return {
           networkId: this.network,
