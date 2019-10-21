@@ -1,15 +1,7 @@
 <template>
-  <TmPage
-    :managed="true"
-    :loading="false"
-    :loaded="true"
-    :error="false"
-    :sign-in-required="true"
-  >
-    <template slot="managed-body">
-      <DelegationsOverview />
-      <Undelegations />
-    </template>
+  <TmPage :sign-in-required="true">
+    <DelegationsOverview />
+    <Undelegations />
   </TmPage>
 </template>
 
