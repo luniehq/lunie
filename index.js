@@ -1,23 +1,23 @@
 const { ApolloServer } = require('apollo-server')
 const typeDefs = require('./lib/schema')
 const resolvers = require('./lib/resolvers')
-const CosmosHubAPI = require('./lib/gaiav0-source')
-const GaiaTestnetAPI = require('./lib/gaiav2-source')
+const CosmosV0API = require('./lib/cosmosV0-source')
+const CosmosV2API = require('./lib/cosmosV2-source')
 const LunieDBAPI = require('./lib/luniedb-source')
 const { networks } = require('./data/networks')
 const config = require('./config')
 
-const cosmosHubApi = new CosmosHubAPI(networks['cosmoshub'])
-const gaiaTestnetApi = new GaiaTestnetAPI(networks['gaia-testnet'])
+const cosmosHubMainnetAPI = new CosmosV0API(networks['cosmoshub'])
+const cosmosHubTestnetAPI = new CosmosV2API(networks['gaia-testnet'])
 const lunieDBAPI = new LunieDBAPI()
 
 const dataSources = {
-  CosmosAPI: cosmosHubApi,
-  GaiaAPI: gaiaTestnetApi,
+  CosmosAPI: cosmosHubMainnetAPI,
+  GaiaAPI: cosmosHubTestnetAPI,
   LunieDBAPI: lunieDBAPI
 }
 if (config.enableTestnet) {
-  const testnetAPI = new CosmosHubAPI(networks['testnet'])
+  const testnetAPI = new CosmosV0API(networks['testnet'])
   dataSources.TestnetAPI = testnetAPI
 }
 
