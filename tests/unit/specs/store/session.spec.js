@@ -224,9 +224,6 @@ describe(`Module: Session`, () => {
         address: `cosmos1z8mzakma7vnaajysmtkwt4wgjqr2m84tzvyfkz`,
         sessionType: `explore`
       })
-      expect(dispatch).toHaveBeenCalledWith(`initializeWallet`, {
-        address: `cosmos1z8mzakma7vnaajysmtkwt4wgjqr2m84tzvyfkz`
-      })
     })
 
     it("should commit checkForPersistedAddresses when dispatch checkForPersistedAddresses ", async () => {
@@ -283,7 +280,7 @@ describe(`Module: Session`, () => {
   })
 
   it(`should enable error collection`, async () => {
-    jest.spyOn(console, `log`).mockImplementationOnce(() => {})
+    jest.spyOn(console, `log`).mockImplementationOnce(() => { })
     const commit = jest.fn()
     const dispatch = jest.fn()
     await actions.setErrorCollection(
@@ -299,7 +296,7 @@ describe(`Module: Session`, () => {
   })
 
   it(`should disable error collection`, async () => {
-    jest.spyOn(console, `log`).mockImplementationOnce(() => {})
+    jest.spyOn(console, `log`).mockImplementationOnce(() => { })
     const commit = jest.fn()
     const dispatch = jest.fn()
     await actions.setErrorCollection(
@@ -315,7 +312,7 @@ describe(`Module: Session`, () => {
   })
 
   it(`should disable analytics collection`, async () => {
-    jest.spyOn(console, `log`).mockImplementationOnce(() => {})
+    jest.spyOn(console, `log`).mockImplementationOnce(() => { })
     const commit = jest.fn()
     const dispatch = jest.fn()
     await actions.setAnalyticsCollection(

@@ -100,15 +100,13 @@ exports[`TmConnectedNetwork has the expected html structure when connected 1`] =
       class="tm-connected-network__string"
       id="tm-connected-network__block"
     >
-      <span>
-        <router-link-stub
-          to="[object Object]"
-        >
-          
-          #6,001
+      <router-link-stub
+        to="[object Object]"
+      >
         
-        </router-link-stub>
-      </span>
+        #6,001
+      
+      </router-link-stub>
     </div>
   </div>
 </div>
