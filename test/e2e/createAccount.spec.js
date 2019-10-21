@@ -12,7 +12,7 @@ module.exports = {
       // Name
       .waitForElementVisible('h2.session-title')
       .setValue(
-        "input[placeholder='Must be at least 5 characters']",
+        "input[placeholder='Must be at least 3 characters']",
         formData.name
       )
       .click('div.session-footer button')
