@@ -154,7 +154,6 @@
 </template>
 
 <script>
-import moment from "moment"
 import { mapGetters } from "vuex"
 import { atoms, percent, prettyInt } from "scripts/num"
 import { date, fromNow } from "src/filters"

@@ -50,21 +50,22 @@
 </template>
 
 <script>
-import { mapState, mapGetters } from "vuex"
+import { mapGetters } from "vuex"
 import { date } from "src/filters"
 import gql from "graphql-tag"
 
 import TmPage from "common/TmPage"
 import TransactionList from "transactions/TransactionList"
 import TmDataMsg from "common/TmDataMsg"
-import TmDataLoading from "common/TmDataLoading"
 export default {
   name: `page-block`,
   components: {
     TmDataMsg,
-    TmDataLoading,
     TmPage,
     TransactionList
+  },
+  filters: {
+    date
   },
   data: () => ({
     block: {
@@ -73,9 +74,6 @@ export default {
     validators: [],
     error: undefined
   }),
-  filters: {
-    date
-  },
   computed: {
     ...mapGetters([`address`, `network`]),
     height() {
