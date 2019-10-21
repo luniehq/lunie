@@ -13,7 +13,8 @@ describe(`PageBlock`, () => {
     lastHeader: {
       height: `1000`
     },
-    validators: {}
+    validators: {},
+    address: `cosmos1`
   }
 
   const state = {
@@ -71,7 +72,8 @@ describe(`PageBlock`, () => {
             lastHeader: {
               height: `1000`
             },
-            validators: {}
+            validators: {},
+            address: `cosmos1`
           },
           state,
           dispatch: jest.fn(type => {

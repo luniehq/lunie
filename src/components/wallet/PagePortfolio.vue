@@ -6,7 +6,6 @@
 </template>
 
 <script>
-import { mapState, mapGetters } from "vuex"
 import TmPage from "common/TmPage"
 import DelegationsOverview from "staking/DelegationsOverview"
 import Undelegations from "staking/Undelegations"
@@ -17,35 +16,6 @@ export default {
     TmPage,
     Undelegations,
     DelegationsOverview
-  },
-  data: () => ({
-    lastUpdate: 0
-  }),
-  computed: {
-    ...mapState([`session`, `wallet`, `delegation`]),
-    ...mapGetters([`lastHeader`])
-  },
-  watch: {
-    lastHeader: {
-      immediate: true,
-      handler: function(newHeader) {
-        const height = Number(newHeader.height)
-        // run the update queries the first time and after every 10 blocks
-        const waitedTenBlocks = height - this.lastUpdate >= 10
-        if (
-          this.session.signedIn &&
-          (this.lastUpdate === 0 || waitedTenBlocks)
-        ) {
-          this.update(height)
-        }
-      }
-    }
-  },
-  methods: {
-    update(height) {
-      this.lastUpdate = height
-      this.$store.dispatch(`getRewardsFromMyValidators`)
-    }
   }
 }
 </script>

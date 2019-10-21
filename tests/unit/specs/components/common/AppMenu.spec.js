@@ -14,6 +14,9 @@ describe(`AppMenu`, () => {
         session: {
           signedIn: true
         }
+      },
+      getters: {
+        address: `cosmos1`
       }
     }
 
