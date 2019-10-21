@@ -19,7 +19,7 @@ module.exports = {
       // Name
       .waitForElementVisible('h2.session-title')
       .setValue(
-        "input[placeholder='Must have at least 5 characters']",
+        "input[placeholder='Must have at least 3 characters']",
         formData.name
       )
       .click('div.session-footer button')
@@ -33,8 +33,10 @@ module.exports = {
       .setValue("input[placeholder='Enter password again']", formData.password)
       .click('div.session-footer button')
       .pause(500)
-      // Confirm
-      .waitForElementVisible('h2.session-title')
-      .assert.containsText('body', 'Your account has been created')
+      // Assert
+      .assert.containsText(
+        'body',
+        'You can use the account(s) below to explore Lunie.io and to approve transactions'
+      )
   }
 }

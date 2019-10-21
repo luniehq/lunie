@@ -32,8 +32,10 @@ module.exports = {
       .pause(500)
       .click('div.session-footer button')
       .pause(500)
-      // Confirm
-      .waitForElementVisible('h2.session-title')
-      .assert.containsText('body', 'Your account has been created')
+      // Assert
+      .assert.containsText(
+        'body',
+        'You can use the account(s) below to explore Lunie.io and to approve transactions'
+      )
   }
 }
