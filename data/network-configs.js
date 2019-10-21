@@ -1,15 +1,21 @@
 const config = require('../config')
 
 let networks = {
-  'gaia-testnet': {
+  'cosmos-hub-testnet': {
+    id: 'cosmos-hub-testnet',
     api_url: 'https://gaia-13006.lunie.io',
     rpc_url: 'wss://gaia-13006.lunie.io:26657/websocket'
   },
-  cosmoshub: {
+  'cosmos-hub-mainnet': {
+    id: 'cosmos-hub-mainnet',
     api_url: 'https://lcd.nylira.net',
     rpc_url: 'wss://rpc.nylira.net/websocket'
-  },
-  testnet: {
+  }
+}
+
+if (config.enableTestnet) {
+  networks['local-cosmos-hub-testnet'] = {
+    id: 'local-cosmos-hub-testnet',
     api_url: 'http://localhost:9070',
     rpc_url: 'ws://localhost:26657/websocket'
   }
