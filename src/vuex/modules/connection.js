@@ -20,7 +20,7 @@ export default function ({ node }) {
   }
 
   const actions = {
-    async setNetwork({ commit, dispatch }, network) {
+    async setNetwork({ commit }, network) {
       commit("setNetworkId", network.id)
       console.info(
         `Connecting to: ${network.title} (${network.chain_id})`
