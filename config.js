@@ -6,7 +6,7 @@ const graphql =
 export default {
   name: `Lunie`,
   development: dev,
-  network: `cosmoshub`,
+  network: `cosmos-hub-mainnet`,
   stargate,
   graphql,
   google_analytics_uid: process.env.GOOGLE_ANALYTICS_UID || "",
