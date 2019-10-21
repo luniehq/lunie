@@ -129,6 +129,7 @@
 <script>
 import { mapState, mapGetters } from "vuex"
 import { between, decimal } from "vuelidate/lib/validators"
+import gql from "graphql-tag"
 import { uatoms, atoms, viewDenom, SMALLEST } from "src/scripts/num"
 import TmField from "src/components/common/TmField"
 import TmFieldGroup from "src/components/common/TmFieldGroup"
@@ -175,7 +176,7 @@ export default {
   }),
   computed: {
     ...mapState([`session`]),
-    ...mapGetters([`modalContext`]),
+    ...mapGetters([`network`]),
     balance() {
       if (!this.session.signedIn) return 0
 
@@ -189,28 +190,28 @@ export default {
     transactionData() {
       if (!this.from) return {}
 
-      if (this.from === this.modalContext.userAddress) {
+      if (this.from === this.session.address) {
         return {
           type: transaction.DELEGATE,
-          validatorAddress: this.validator.operator_address,
+          validatorAddress: this.validator.operatorAddress,
           amount: uatoms(this.amount),
           denom: this.denom
         }
       } else {
-        const validatorSrc = this.modalContext.delegates.find(
-          v => this.from === v.operator_address
-        )
+        const validatorSrc = this.modalContext.delegations.find(
+          delegation => this.from === delegation.validator.operatorAddress
+        ).validator
         return {
           type: transaction.REDELEGATE,
-          validatorSourceAddress: validatorSrc.operator_address,
-          validatorDestinationAddress: this.validator.operator_address,
+          validatorSourceAddress: validatorSrc.operatorAddress,
+          validatorDestinationAddress: this.validator.operatorAddress,
           amount: uatoms(this.amount),
           denom: this.denom
         }
       }
     },
     notifyMessage() {
-      if (this.from === this.modalContext.userAddress) {
+      if (this.from === this.session.address) {
         return {
           title: `Successful delegation!`,
           body: `You have successfully delegated your ${viewDenom(this.denom)}s`
@@ -271,7 +272,7 @@ export default {
       this.$refs.actionModal.validateChangeStep()
     },
     isRedelegation() {
-      return this.from !== this.modalContext.userAddress
+      return this.from !== this.session.address
     },
     getFromBalance() {
       return atoms(this.balance)
@@ -283,6 +284,36 @@ export default {
         required: x => !!x && x !== `0`,
         decimal,
         between: between(SMALLEST, atoms(this.balance))
+      }
+    }
+  },
+  apollo: {
+    delegations: {
+      query: gql`
+        query Delegations($networkId: String!, $delegatorAddress: String!) {
+          delegations(
+            networkId: $networkId
+            delegatorAddress: $delegatorAddress
+          ) {
+            amount
+            validator {
+              operatorAddress
+            }
+          }
+        }
+      `,
+      skip() {
+        return !this.session.address
+      },
+      variables() {
+        return {
+          networkId: this.network,
+          delegatorAddress: this.session.address
+        }
+      },
+      update(data) {
+        /* istanbul ignore next */
+        return data.delegations
       }
     }
   }
