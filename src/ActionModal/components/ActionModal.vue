@@ -686,11 +686,7 @@ export default {
       }
 
       const action = `action_${this.title.toLowerCase().replace(" ", "_")}`
-      const { data } = await this.$apollo.query({
-        query: NetworkCapability(this.network, action)
-      })
-
-      this.featureAvailable = NetworkCapabilityResult(action)(data)
+      this.featureAvailable = this.network[action] === true
     }
   },
   validations() {
@@ -753,6 +749,14 @@ export default {
             chain_id
             rpc_url
             api_url
+            action_send
+            action_claim_rewards
+            action_delegate
+            action_redelegate
+            action_undelegate
+            action_deposit
+            action_vote
+            action_proposal            
           }
         }
       `,
@@ -763,7 +767,6 @@ export default {
       },
       update(data) {
        /* istanbul ignore next */
-        console.log(data)
         return data.network
       }
     },
