@@ -1,3 +1,17 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Undelegations should show unbonding validators 1`] = `<!---->`;
+exports[`Undelegations should show unbonding validators 1`] = `
+<div>
+  <h3
+    class="tab-header"
+  >
+    
+    Pending Undelegations
+  
+  </h3>
+   
+  <tableundelegations-stub
+    undelegations="[object Object],[object Object],[object Object]"
+  />
+</div>
+`;

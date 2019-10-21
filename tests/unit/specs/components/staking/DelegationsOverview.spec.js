@@ -62,8 +62,11 @@ describe(`DelegationsOverview`, () => {
         $store,
         $apollo
       },
-      propsData: { delegations },
       stubs: [`router-link`]
+    })
+
+    wrapper.setData({
+      delegations
     })
   })
 
