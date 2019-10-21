@@ -4,11 +4,11 @@ const resolvers = require('./lib/resolvers')
 const CosmosV0API = require('./lib/cosmosV0-source')
 const CosmosV2API = require('./lib/cosmosV2-source')
 const LunieDBAPI = require('./lib/luniedb-source')
-const { networks } = require('./data/networks')
+const { networks } = require('./data/network-configs')
 const config = require('./config')
 
-const cosmosHubMainnetAPI = new CosmosV0API(networks['cosmoshub'])
-const cosmosHubTestnetAPI = new CosmosV2API(networks['gaia-testnet'])
+const cosmosHubMainnetAPI = new CosmosV0API(networks['cosmos-hub-mainnet'])
+const cosmosHubTestnetAPI = new CosmosV2API(networks['cosmos-hub-testnet'])
 const lunieDBAPI = new LunieDBAPI()
 
 const dataSources = {
@@ -17,8 +17,10 @@ const dataSources = {
   LunieDBAPI: lunieDBAPI
 }
 if (config.enableTestnet) {
-  const testnetAPI = new CosmosV0API(networks['testnet'])
-  dataSources.TestnetAPI = testnetAPI
+  const localCosmosTestnetAPI = new CosmosV0API(
+    networks['local-cosmos-hub-testnet']
+  )
+  dataSources.TestnetAPI = localCosmosTestnetAPI
 }
 
 let options = {
