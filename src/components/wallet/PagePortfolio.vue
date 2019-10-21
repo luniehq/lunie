@@ -1,7 +1,9 @@
 <template>
-  <TmPage :sign-in-required="true">
-    <DelegationsOverview />
-    <Undelegations />
+  <TmPage :sign-in-required="true" :managed="true">
+    <template slot="managed-body">
+      <DelegationsOverview />
+      <Undelegations />
+    </template>
   </TmPage>
 </template>
 
