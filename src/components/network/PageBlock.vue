@@ -138,6 +138,7 @@ export default {
               memo
               fee {
                 amount
+                denom
               }
               signature
               value
@@ -154,7 +155,15 @@ export default {
         }
       },
       update: function(result) {
-        return result.block
+        const block = {
+          ...result.block,
+          transactions: result.block.transactions.map(transaction => ({
+            ...transaction,
+            timestamp: new Date(transaction.timestamp),
+            value: JSON.parse(transaction.value)
+          }))
+        }
+        return block
       }
     }
   }
