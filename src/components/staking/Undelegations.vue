@@ -17,6 +17,9 @@ export default {
   components: {
     TableUndelegations
   },
+  data: () => ({
+    undelegations: []
+  }),
   computed: {
     ...mapGetters([`address`, `network`])
   },

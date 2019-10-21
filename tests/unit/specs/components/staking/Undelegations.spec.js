@@ -27,8 +27,7 @@ describe(`Undelegations`, () => {
   ]
 
   const state = {
-    session: { signedIn: true },
-    undelegations
+    session: { signedIn: true }
   }
 
   beforeEach(() => {
@@ -44,6 +43,7 @@ describe(`Undelegations`, () => {
         $store
       }
     })
+    wrapper.setData({ undelegations })
   })
 
   it(`should show unbonding validators`, () => {
