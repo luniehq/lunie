@@ -1,6 +1,6 @@
-import config from "src/config"
+import config from "src/../config"
 
-export default function({ node }) {
+export default function () {
   const state = {
     stopConnecting: false,
     connected: true, // TODO do connection test
@@ -8,7 +8,6 @@ export default function({ node }) {
     connectionAttempts: 0,
     nodeUrl: config.stargate,
     externals: {
-      node,
       config
     }
   }

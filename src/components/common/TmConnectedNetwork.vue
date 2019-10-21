@@ -58,7 +58,7 @@
         alt="a small spinning circle to display loading"
       />
       <div
-        v-tooltip.top="networkTooltip"
+        v-tooltip.top="'Seeking connection'"
         class="
         tm-connected-network__string
         tm-connected-network__string--connecting

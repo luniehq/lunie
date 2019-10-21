@@ -5,8 +5,8 @@
   >
     <div class="network-icon">
       <img
-        src="https://s3.amazonaws.com/network.logos/cosmos-logo.png"
-        alt="cosmic atom token"
+        :src="`img/networks/${network.id}.png`"
+        :alt="`logo for network ${network.title}`"
       />
     </div>
     <div class="network-content">

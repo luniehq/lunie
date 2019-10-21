@@ -44,7 +44,10 @@
         <FeatureNotAvailable :feature="title" />
       </template>
       <template v-else>
-        <p v-if="session.windowsDevice" class="form-message notice">
+        <p
+          v-if="session.windowsDevice && step !== successStep"
+          class="form-message notice"
+        >
           {{ session.windowsWarning }}
         </p>
         <div v-if="requiresSignIn" class="action-modal-form">
@@ -190,7 +193,7 @@
             </div>
             <div slot="subtitle">
               The transaction
-              <!--with the hash {{ txHash }}-->
+              <!-- with the hash {{ txHash }} -->
               was successfully signed and sent the network. Waiting for it to be
               confirmed.
             </div>
@@ -209,8 +212,8 @@
               <br />
               <br />Block
               <router-link :to="`/blocks/${includedHeight}`"
-                >#{{ includedHeight }}</router-link
-              >.
+                >#{{ prettyIncludedHeight }}</router-link
+              >
             </div>
           </TmDataMsg>
         </div>
@@ -284,11 +287,11 @@ import TmDataMsg from "common/TmDataMsg"
 import TableInvoice from "./TableInvoice"
 import Steps from "./Steps"
 import { mapState, mapGetters } from "vuex"
-import { atoms, viewDenom } from "src/scripts/num"
+import { atoms, viewDenom, prettyInt } from "src/scripts/num"
 import { between, requiredIf } from "vuelidate/lib/validators"
 import { track } from "scripts/google-analytics"
 import { NetworkCapability, NetworkCapabilityResult } from "src/gql"
-import config from "src/config"
+import config from "src/../config"
 
 import ActionManager from "../utils/ActionManager"
 
@@ -455,6 +458,9 @@ export default {
         (this.selectedSignMethod === "extension" &&
           this.modalContext.isExtensionAccount)
       )
+    },
+    prettyIncludedHeight() {
+      return prettyInt(this.includedHeight)
     }
   },
   watch: {
@@ -762,7 +768,7 @@ export default {
 
 .action-modal-form .tm-form-group {
   display: block;
-  padding: 0.75rem 0;
+  padding: 1rem 0;
 }
 
 .action-modal-footer {
@@ -792,6 +798,9 @@ export default {
   font-style: italic;
   color: var(--dim);
   display: inline-block;
+  border-left: 2px solid var(--warning);
+  padding: 0.5rem 0 0.5rem 1rem;
+  font-size: 14px;
 }
 
 .slide-fade-enter-active {
@@ -806,6 +815,23 @@ export default {
 .slide-fade-leave-to {
   transform: translateX(2rem);
   opacity: 0;
+}
+
+.tm-form-group__field {
+  position: relative;
+}
+
+#send-modal .tm-data-msg {
+  margin: 2rem 0 2rem 0;
+}
+
+@media screen and (max-width: 576px) {
+  #send-modal {
+    text-align: center;
+  }
+  .tm-data-msg__icon {
+    margin-right: 0;
+  }
 }
 
 @media screen and (max-width: 767px) {

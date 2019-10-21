@@ -112,4 +112,8 @@
   .data-table__row__info {
     max-width: calc(100vw - 6rem);
   }
+
+  .data-table th:nth-child(4) {
+    width: 20%;
+  }
 }

@@ -6,7 +6,7 @@ import { WebSocketLink } from "apollo-link-ws"
 import { InMemoryCache } from "apollo-cache-inmemory"
 import { getMainDefinition } from "apollo-utilities"
 import VueApollo from "vue-apollo"
-import config from "src/config"
+import config from "src/../config"
 
 Vue.use(VueApollo)
 
