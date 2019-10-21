@@ -19,7 +19,6 @@
       field-label="Amount"
     >
       <span class="input-suffix">{{ denom | viewDenom }}</span>
-      <TmField id="amount" :value="rewards | fullDecimals" readonly />
     </TmFormGroup>
   </ActionModal>
 </template>
@@ -75,7 +74,6 @@ export default {
   },
   methods: {
     open() {
-      console.log(this.rewards)
       this.$refs.actionModal.open()
     }
   }

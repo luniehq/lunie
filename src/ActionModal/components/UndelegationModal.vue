@@ -131,7 +131,6 @@ export default {
     num
   }),
   computed: {
-    ...mapGetters([`liquidAtoms`]),
     transactionData() {
       return {
         type: transaction.UNDELEGATE,
