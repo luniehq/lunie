@@ -3,7 +3,7 @@
     :managed="true"
     :loading="wallet.loading && delegation.loading"
     :loaded="wallet.loaded && delegation.loaded"
-    :error="wallet.error || delegation.error"
+    :error="error"
     :sign-in-required="true"
   >
     <template slot="managed-body">
@@ -36,7 +36,14 @@ export default {
   }),
   computed: {
     ...mapState([`session`, `wallet`, `delegation`]),
-    ...mapGetters([`lastHeader`])
+    ...mapGetters([`lastHeader`]),
+    error: function() {
+      if (this.wallet.error || this.delegation.error) {
+        return true
+      } else {
+        return false
+      }
+    }
   },
   watch: {
     lastHeader: {

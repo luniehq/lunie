@@ -1,0 +1,75 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TmSessionSignUpSeed renders 1`] = `
+<sessionframe-stub>
+  <tmformstruct-stub
+    submit="function () { [native code] }"
+    width=""
+  >
+    <h2
+      class="session-title"
+    >
+      
+      Backup code
+    
+    </h2>
+     
+    <div>
+      <div
+        class="session-main"
+      >
+        <steps-stub
+          activestep="Backup"
+          steps="Create,Password,Backup"
+        />
+         
+        <tmformgroup-stub
+          class="sign-up-seed-group"
+          fieldid="sign-up-seed"
+          fieldlabel="Backup Code"
+        >
+          <fieldseed-stub
+            disabled=""
+            id="sign-up-seed"
+            value="asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf"
+          />
+        </tmformgroup-stub>
+         
+        <tmformgroup-stub
+          class="field-checkbox"
+          fieldid="sign-up-warning"
+          fieldlabel=""
+        >
+          <div
+            class="field-checkbox-input"
+          >
+            <label
+              class="field-checkbox-label"
+              for="sign-up-warning"
+            >
+              <input
+                id="sign-up-warning"
+                type="checkbox"
+              />
+              
+              I understand that lost seeds cannot be recovered.
+            </label>
+          </div>
+           
+          <!---->
+           
+          <!---->
+        </tmformgroup-stub>
+      </div>
+       
+      <div
+        class="session-footer"
+      >
+        <tmbtn-stub
+          value="Create"
+        />
+      </div>
+    </div>
+  </tmformstruct-stub>
+</sessionframe-stub>
+`;

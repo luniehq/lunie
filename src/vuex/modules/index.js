@@ -20,5 +20,7 @@ export default opts => ({
   stakingParameters: require(`./parameters.js`).default(opts),
   pool: require(`./pool.js`).default(opts),
   extension: require(`./extension.js`).default(opts),
-  minting: require(`./minting.js`).default(opts)
+  minting: require(`./minting.js`).default(opts),
+  signup: require(`./signup.js`).default(opts),
+  recover: require(`./recover.js`).default(opts)
 })
