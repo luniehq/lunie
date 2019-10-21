@@ -1,0 +1,5 @@
+# Specific branch context:
+# Deploys from this branch will take these settings
+# and override their current ones.
+[context."feature/api-gateway"]
+  VUE_APP_GRAPHQL_URL = "staging-api.lunie.io"
