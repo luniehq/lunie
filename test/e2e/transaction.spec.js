@@ -1,9 +1,8 @@
 var { globals } = require('./nightwatch.conf.js')
 const formData = require('./formData.json')
-var htmlOutput = ``
 
 module.exports = {
-  'Send Transaction': function (browser) {
+  'Send Transaction': function(browser) {
     browser
       //  Import funded account
       .pause(500)
@@ -41,27 +40,17 @@ module.exports = {
       )
 
       // Send transaction on Lunie to extension
-      .execute(function () {
-        window.open('http://localhost:9080/?experimental=true/#/extension')
+      .execute(function() {
+        window.open('http://localhost:9080/extension')
       })
       .pause(500)
 
       // Switch to Localhost
-      .windowHandles(function (result) {
+      .windowHandles(function(result) {
         browser
           .switchWindow(result.value[1])
           .pause(5000)
-          .assert.urlContains(
-            'http://localhost:9080/?experimental=true/#/extension'
-          )
-          // Get html output
-          .source(function (result) {
-            htmlOutput = result.value
-          })
-          // Output html synchronously
-          .perform(function () {
-            console.log('htmlOutput:', htmlOutput)
-          })
+          .assert.urlContains('http://localhost:9080/extension')
           .waitForElementVisible('li.account button')
           .click('li.account button')
           .waitForElementNotPresent('.session')
