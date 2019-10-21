@@ -159,6 +159,7 @@
 import moment from "moment"
 import { mapState, mapGetters } from "vuex"
 import { atoms, percent, prettyInt } from "scripts/num"
+import { date, fromNow } from "src/filters"
 import TmBtn from "common/TmBtn"
 import TmDataError from "common/TmDataError"
 import TmDataLoading from "common/TmDataLoading"
@@ -184,8 +185,8 @@ export default {
     prettyInt,
     atoms,
     percent,
-    date: value => moment(value).format("MMMM Do YYYY, HH:mm"),
-    fromNow: value => moment(value).fromNow(),
+    date,
+    fromNow,
     lowerCase: text => text.toLowerCase()
   },
   props: {
