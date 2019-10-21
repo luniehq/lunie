@@ -1,5 +1,5 @@
 <template>
-  <div v-if="undelegations">
+  <div v-if="undelegations.length > 0">
     <h3 class="tab-header">
       Pending Undelegations
     </h3>
