@@ -829,6 +829,7 @@ export default {
   #send-modal {
     text-align: center;
   }
+
   .tm-data-msg__icon {
     margin-right: 0;
   }
