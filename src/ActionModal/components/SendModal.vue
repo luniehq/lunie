@@ -78,7 +78,7 @@
         />
       </TmFieldGroup>
       <TmFormMsg
-        v-if="balance === 0"
+        v-if="currentBalance === 0"
         :msg="`doesn't have any ${viewDenom(denom)}s`"
         name="Wallet"
         type="custom"
@@ -140,10 +140,11 @@
 </template>
 
 <script>
+import gql from "graphql-tag"
 import b32 from "scripts/b32"
 import { required, between, decimal, maxLength } from "vuelidate/lib/validators"
 import { uatoms, atoms, viewDenom, SMALLEST } from "src/scripts/num"
-import { mapState } from "vuex"
+import { mapGetters } from "vuex"
 import TmFormGroup from "src/components/common/TmFormGroup"
 import TmField from "src/components/common/TmField"
 import TmFieldGroup from "src/components/common/TmFieldGroup"
@@ -151,6 +152,7 @@ import TmBtn from "src/components/common/TmBtn"
 import TmFormMsg from "src/components/common/TmFormMsg"
 import ActionModal from "./ActionModal"
 import transaction from "../utils/transactionTypes"
+
 
 const defaultMemo = "(Sent via Lunie)"
 
@@ -170,12 +172,14 @@ export default {
     denom: ``,
     memo: defaultMemo,
     max_memo_characters: 256,
-    editMemo: false
+    editMemo: false,
+    balance: []
   }),
   computed: {
-    ...mapState([`wallet`]),
-    balance() {
-      const denom = this.wallet.balances.find(b => b.denom === this.denom)
+    ...mapGetters([`network`]),
+    ...mapGetters({userAddress: `address`}),
+    currentBalance() {
+      const denom = this.balance.find(b => b.denom === this.denom)
       return (denom && denom.amount) || 0
     },
     transactionData() {
@@ -221,13 +225,13 @@ export default {
       this.sending = false
     },
     setMaxAmount() {
-      this.amount = atoms(this.balance)
+      this.amount = atoms(this.currentBalance)
     },
     isMaxAmount() {
-      if (this.balance === 0) {
+      if (this.currentBalance === 0) {
         return false
       } else {
-        return parseFloat(this.amount) === parseFloat(atoms(this.balance))
+        return parseFloat(this.amount) === parseFloat(atoms(this.currentBalance))
       }
     },
     bech32Validate(param) {
@@ -258,11 +262,35 @@ export default {
       amount: {
         required: x => !!x && x !== `0`,
         decimal,
-        between: between(SMALLEST, atoms(this.balance))
+        between: between(SMALLEST, atoms(this.currentBalance))
       },
       denom: { required },
       memo: {
         maxLength: maxLength(this.max_memo_characters)
+      }
+    }
+  }, 
+  apollo: { 
+    balance: {
+      query: gql`
+        query balance($networkId: String!, $address: String!) {
+          balance(networkId: $networkId, address: $address) {
+            amount
+            denom
+          }
+        }
+      `,
+      skip() {
+        return !this.userAddress
+      },
+      variables() {
+        return {
+          networkId: this.network,
+          address: this.userAddress
+        }
+      },
+      update: data => {
+        return data.balance
       }
     }
   }
