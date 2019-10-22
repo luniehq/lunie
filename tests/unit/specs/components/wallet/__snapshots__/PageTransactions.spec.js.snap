@@ -3,6 +3,7 @@
 exports[`PageTransactions Renders correctly and does not load transactions if the user has not signed in 1`] = `
 <tmpage-stub
   data-title="Transactions"
+  dataempty="true"
   hideheader="true"
   loaded="true"
   managed="true"
@@ -17,7 +18,8 @@ exports[`PageTransactions Renders correctly and does not load transactions if th
       infinite-scroll-distance="80"
     >
       <transactionlist-stub
-        transactions="[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object]"
+        address="cosmos1"
+        transactions=""
         validators="[object Object]"
       />
     </div>
@@ -36,6 +38,8 @@ exports[`PageTransactions Renders correctly and loads transactions 1`] = `
   signinrequired="true"
   subtitle=""
   title=""
+  transactions="[object Object],[object Object],[object Object],[object Object]"
+  validators="[object Object],[object Object],[object Object]"
 >
   <dataemptytx-stub />
    
@@ -44,8 +48,8 @@ exports[`PageTransactions Renders correctly and loads transactions 1`] = `
       infinite-scroll-distance="80"
     >
       <transactionlist-stub
-        address="cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9"
-        transactions="[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object]"
+        address="cosmos1"
+        transactions="[object Object],[object Object],[object Object],[object Object]"
         validators="[object Object]"
       />
     </div>

@@ -8,7 +8,7 @@
       size="small"
     />
     <div
-      v-if="connection.connected"
+      v-if="!$apollo.queries.block.loading"
       id="tm-connected-network"
       class="tm-connected-network"
     >
@@ -24,7 +24,7 @@
           class="tm-connected-network__string"
         >
           <span v-tooltip.top="networkTooltip" class="chain-id">
-            {{ connection.network }}
+            {{ block.chainId }}
           </span>
         </div>
       </div>
@@ -33,14 +33,18 @@
         class="tm-connected-network__string"
       >
         <router-link
+          v-if="block.height"
           v-tooltip.top="'Block Height'"
           :to="{
             name: `block`,
-            params: { height: connection.lastHeader.height }
+            params: { height: block.height }
           }"
         >
-          #{{ connection.lastHeader.height | prettyInt }}
+          #{{ block.height | prettyInt }}
         </router-link>
+        <template v-else>
+          --
+        </template>
       </div>
     </div>
     <div
@@ -54,7 +58,7 @@
         alt="a small spinning circle to display loading"
       />
       <div
-        v-tooltip.top="networkTooltip"
+        v-tooltip.top="'Seeking connection'"
         class="
         tm-connected-network__string
         tm-connected-network__string--connecting
@@ -66,9 +70,11 @@
   </div>
 </template>
 <script>
-import { mapState } from "vuex"
+import { mapGetters } from "vuex"
 import { prettyInt } from "scripts/num"
 import TmBtn from "common/TmBtn"
+import { NewBlockSubscription } from "src/gql"
+import gql from "graphql-tag"
 
 export default {
   name: `tm-connected-network`,
@@ -78,13 +84,48 @@ export default {
   filters: {
     prettyInt
   },
+  data: () => ({
+    block: {}
+  }),
   computed: {
-    ...mapState([`connection`]),
+    ...mapGetters([`network`]),
     networkTooltip() {
-      if (this.connection.connected) {
-        return `You're connected to ${this.connection.network} via ${this.connection.nodeUrl}.`
+      if (!this.$apollo.queries.block.loading) {
+        return `You're connected to ${this.block.chainId}.`
       } else {
         return `Seeking connection`
+      }
+    }
+  },
+  apollo: {
+    block: {
+      query: gql`
+        query Block($networkId: String!) {
+          block(networkId: $networkId) {
+            height
+            chainId
+          }
+        }
+      `,
+      variables() {
+        return {
+          networkId: this.network
+        }
+      }
+    },
+    $subscribe: {
+      blockAdded: {
+        variables() {
+          return {
+            networkId: this.network
+          }
+        },
+        query() {
+          return NewBlockSubscription(this.network)
+        },
+        result({ data }) {
+          this.block = data.blockAdded
+        }
       }
     }
   }

@@ -2,41 +2,33 @@
   <TmPage
     data-title="Block"
     :managed="true"
-    :loading="!blockMetaInfo"
-    :loaded="!!blockMetaInfo"
+    :loading="this.$apollo.queries.block.loading"
     :error="error"
     hide-header
   >
     <template slot="managed-body">
       <div class="block">
-        <h2 class="page-profile__title">Block {{ blockTitle || `--` }}</h2>
+        <h2 class="page-profile__title">Block {{ height }}</h2>
       </div>
 
       <ul class="row">
         <li>
           <h4>Chain ID</h4>
-          <span class="page-data">{{
-            blockMetaInfo && blockMetaInfo.header.chain_id
-          }}</span>
+          <span class="page-data">{{ block.chainId }}</span>
         </li>
         <li>
           <h4>Time</h4>
-          <span class="page-data">{{ blockTime }}</span>
+          <span class="page-data">{{ block.time | date }}</span>
         </li>
       </ul>
 
       <div class="row">
         <div class="column">
-          <h3 v-if="transactions" class="page-profile__section-title">
-            Transactions ({{ blockMetaInfo && blockMetaInfo.header.num_txs }})
+          <h3 class="page-profile__section-title">
+            Transactions ({{ block.transactions.length }})
           </h3>
 
-          <TmDataLoading v-if="transactionsLoading" />
-
-          <TmDataMsg
-            v-else-if="transactions && transactions.length === 0"
-            icon="info_outline"
-          >
+          <TmDataMsg v-if="block.transactions.length === 0" icon="info_outline">
             <div slot="title">
               No Transactions
             </div>
@@ -46,8 +38,8 @@
           </TmDataMsg>
 
           <TransactionList
-            :transactions="transactions"
-            :address="session.address"
+            :transactions="block.transactions"
+            :address="address"
             :validators="validatorsAddressMap"
           />
           <br />
@@ -58,108 +50,131 @@
 </template>
 
 <script>
-import moment from "moment"
-import { mapState, mapGetters } from "vuex"
-import { prettyInt } from "scripts/num"
-import {
-  flattenTransactionMsgs,
-  addTransactionTypeData
-} from "scripts/transaction-utils"
-import { AllValidators, AllValidatorsResult } from "src/gql"
+import { mapGetters } from "vuex"
+import { date } from "src/filters"
+import gql from "graphql-tag"
 
 import TmPage from "common/TmPage"
 import TransactionList from "transactions/TransactionList"
 import TmDataMsg from "common/TmDataMsg"
-import TmDataLoading from "common/TmDataLoading"
 export default {
   name: `page-block`,
   components: {
     TmDataMsg,
-    TmDataLoading,
     TmPage,
     TransactionList
   },
+  filters: {
+    date
+  },
   data: () => ({
-    error: null,
-    transactionsRaw: [],
-    blockMetaInfo: null,
-    validators: []
+    block: {
+      transactions: []
+    },
+    validators: [],
+    error: undefined
   }),
   computed: {
-    ...mapState([`delegation`, `session`]),
-    ...mapGetters([`lastHeader`]),
+    ...mapGetters([`address`, `network`]),
+    height() {
+      return this.$route.params.height
+    },
     validatorsAddressMap() {
       const names = {}
       this.validators.forEach(item => {
         names[item.operator_address] = item
       })
       return names
-    },
-    transactions() {
-      const unbondingInfo = {
-        delegation: this.delegation
-      }
-
-      if (this.transactionsRaw) {
-        return this.transactionsRaw
-          .reduce(flattenTransactionMsgs, [])
-          .map(addTransactionTypeData(unbondingInfo))
-      }
-      return []
-    },
-    transactionsLoading() {
-      return (
-        this.blockMetaInfo &&
-        this.blockMetaInfo.header.num_txs > 0 &&
-        this.transactions.length === 0
-      )
-    },
-    blockTitle() {
-      if (!this.blockMetaInfo) return `--`
-      return `#` + prettyInt(this.blockMetaInfo.header.height)
-    },
-    blockTime() {
-      if (!this.blockMetaInfo) return `--`
-      return moment(this.blockMetaInfo.header.time).format(
-        `MMMM Do YYYY, HH:mm`
-      )
-    }
-  },
-  watch: {
-    "$route.params.height": async function() {
-      this.getBlock()
-    }
-  },
-  async created() {
-    this.getBlock()
-  },
-  methods: {
-    async getBlock({ $store, $route, $router, lastHeader } = this) {
-      try {
-        // query first for the block so we don't fail if the user started from this route and hasn't received any lastHeader yet
-        this.blockMetaInfo = await $store.dispatch(
-          `queryBlockInfo`,
-          $route.params.height
-        )
-
-        if (!this.blockMetaInfo && $route.params.height > lastHeader.height) {
-          $router.push(`/404`)
-          return
-        }
-
-        this.transactionsRaw = await $store.dispatch(
-          `getBlockTxs`,
-          $route.params.height
-        )
-      } catch (error) {
-        this.error = error
-      }
     }
   },
   apollo: {
     validators: {
-      query: AllValidators,
-      update: AllValidatorsResult
+      query: gql`
+        query validators(
+          $networkId: String!
+          $delegatorAddress: String
+          $all: Boolean
+          $query: String
+        ) {
+          validators(
+            networkId: $networkId
+            delegatorAddress: $delegatorAddress
+            all: $all
+            query: $query
+          ) {
+            name
+            operatorAddress
+          }
+        }
+      `,
+      variables() {
+        return {
+          networkId: this.network
+        }
+      },
+      update: function(result) {
+        return result.validators
+      }
+    },
+    block: {
+      query: gql`
+        query block($networkId: String!, $height: Int!) {
+          block(networkId: $networkId, height: $height) {
+            networkId
+            height
+            hash
+            chainId
+            time
+            transactions {
+              type
+              hash
+              height
+              group
+              timestamp
+              gasUsed
+              gasWanted
+              success
+              log
+              memo
+              fee {
+                amount
+                denom
+              }
+              signature
+              value
+              amount
+            }
+            proposer_address
+          }
+        }
+      `,
+      variables() {
+        return {
+          networkId: this.network,
+          height: Number(this.height)
+        }
+      },
+      update: function(result) {
+        if (!result.block) {
+          return {
+            transactions: []
+          }
+        }
+
+        const block = {
+          ...result.block,
+          transactions: result.block.transactions.map(transaction => ({
+            ...transaction,
+            timestamp: new Date(transaction.timestamp),
+            value: JSON.parse(transaction.value)
+          }))
+        }
+        return block
+      },
+      result({ error }) {
+        // TODO move logic of 404 into API
+        this.error = error
+      }
     }
   }
 }

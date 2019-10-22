@@ -4,7 +4,10 @@
     :class="{ active: connection.network === network.id }"
   >
     <div class="network-icon">
-      <img :src="network.logo_url" alt="cosmic atom token" />
+      <img
+        :src="`img/networks/${network.id}.png`"
+        :alt="`logo for network ${network.title}`"
+      />
     </div>
     <div class="network-content">
       <h4 class="network-title">

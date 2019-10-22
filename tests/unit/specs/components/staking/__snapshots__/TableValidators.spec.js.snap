@@ -7,7 +7,7 @@ exports[`TableValidators shows a validator table 1`] = `
   >
     <thead>
       <panelsort-stub
-        properties="[object Object],[object Object],[object Object]"
+        properties="[object Object],[object Object],[object Object],[object Object]"
         showonmobile="returns"
         sort="[object Object]"
       />
@@ -18,27 +18,107 @@ exports[`TableValidators shows a validator table 1`] = `
       name="flip-list"
     >
       <livalidator-stub
+        delegation="[object Object]"
         index="0"
+        rewards="[object Object]"
         showonmobile="returns"
         validator="[object Object]"
       />
       <livalidator-stub
+        delegation="[object Object]"
         index="1"
+        rewards="[object Object]"
         showonmobile="returns"
         validator="[object Object]"
       />
       <livalidator-stub
+        delegation="[object Object]"
         index="2"
+        rewards="[object Object]"
         showonmobile="returns"
         validator="[object Object]"
       />
       <livalidator-stub
+        delegation="[object Object]"
         index="3"
+        rewards="[object Object]"
         showonmobile="returns"
         validator="[object Object]"
       />
       <livalidator-stub
+        delegation="[object Object]"
         index="4"
+        rewards="[object Object]"
+        showonmobile="returns"
+        validator="[object Object]"
+      />
+      <livalidator-stub
+        delegation="[object Object]"
+        index="5"
+        rewards="[object Object]"
+        showonmobile="returns"
+        validator="[object Object]"
+      />
+      <livalidator-stub
+        delegation="[object Object]"
+        index="6"
+        rewards="[object Object]"
+        showonmobile="returns"
+        validator="[object Object]"
+      />
+      <livalidator-stub
+        delegation="[object Object]"
+        index="7"
+        rewards="[object Object]"
+        showonmobile="returns"
+        validator="[object Object]"
+      />
+      <livalidator-stub
+        delegation="[object Object]"
+        index="8"
+        rewards="[object Object]"
+        showonmobile="returns"
+        validator="[object Object]"
+      />
+      <livalidator-stub
+        delegation="[object Object]"
+        index="9"
+        rewards="[object Object]"
+        showonmobile="returns"
+        validator="[object Object]"
+      />
+      <livalidator-stub
+        delegation="[object Object]"
+        index="10"
+        rewards="[object Object]"
+        showonmobile="returns"
+        validator="[object Object]"
+      />
+      <livalidator-stub
+        delegation="[object Object]"
+        index="11"
+        rewards="[object Object]"
+        showonmobile="returns"
+        validator="[object Object]"
+      />
+      <livalidator-stub
+        delegation="[object Object]"
+        index="12"
+        rewards="[object Object]"
+        showonmobile="returns"
+        validator="[object Object]"
+      />
+      <livalidator-stub
+        delegation="[object Object]"
+        index="13"
+        rewards="[object Object]"
+        showonmobile="returns"
+        validator="[object Object]"
+      />
+      <livalidator-stub
+        delegation="[object Object]"
+        index="14"
+        rewards="[object Object]"
         showonmobile="returns"
         validator="[object Object]"
       />

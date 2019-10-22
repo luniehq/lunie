@@ -5,8 +5,7 @@ import {
   enableGoogleAnalytics,
   setGoogleAnalyticsPage
 } from "scripts/google-analytics"
-import config from "src/config"
-import Node from "./connectors/node"
+import config from "src/../config"
 import router, { routeGuard } from "./router"
 import Store from "./vuex/store"
 import { createApolloProvider } from "src/gql/apollo.js"
@@ -35,8 +34,7 @@ export default async function init(urlParams, env = process.env) {
   const apolloProvider = createApolloProvider(urlParams)
   const apolloClient = apolloProvider.clients.defaultClient
 
-  const node = Node(stargate)
-  const store = Store({ node, apollo: apolloClient })
+  const store = Store({ apollo: apolloClient })
 
   setGoogleAnalyticsPage(router.currentRoute.path)
   router.beforeEach(routeGuard(store, apolloClient))
@@ -48,16 +46,8 @@ export default async function init(urlParams, env = process.env) {
   setOptions(urlParams, store)
 
   store.dispatch(`loadLocalPreferences`)
-
-  // load a default network from the database
-  await store.dispatch("loadDefaultNetwork")
-  // wait for connected as the check for session will sign in directly and query account data
-  store.dispatch("connect").then(() => {
-    store.dispatch(`checkForPersistedSession`)
-    store.dispatch("getDelegates")
-    store.dispatch(`getPool`)
-    store.dispatch(`getMintingParameters`)
-  })
+  store.dispatch(`checkForPersistedSession`)
+  store.dispatch(`checkForPersistedAddresses`)
 
   listenToExtensionMessages(store)
 

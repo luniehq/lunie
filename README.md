@@ -57,6 +57,16 @@ yarn install
 
 ## Lunie Development
 
+Use the new GraphQL endpoint using an `.env` file with the following:
+
+`VUE_APP_GRAPHQL_URL=localhost:4000`
+
+Note you only need the hostname and optional port. The application assumes queries and subscriptions are from the same host, and will set the protocol as needed.
+
+If you prefer, you can also use a url parameter:
+
+`http://localhost:9080/validators?graphql=localhost:4000`
+
 ### Generate SSL certificates
 
 First generate some SSL certificates and add them to your trusted certificates.
@@ -94,6 +104,48 @@ If you want to set a particular `Stargate` (Cosmos SDK REST API) or Tendermint's
 STARGATE=<https://StargateAddress:port> RPC=<https://RPCAddress:port> yarn build
 ```
 
+### Mobile
+
+#### Android
+
+Dependencies: 
+- Android Studio
+- Gradle updated to 5.1.1 (Android Studio > File > Project Structure)
+
+You will probably also want a virtual Android device which you can create from inside the Android Studio.
+
+To run the Android version of Lunie in development:
+
+```bash
+$ yarn build
+$ npx @capacitor/cli sync android
+$ npx @capacitor/cli open android
+```
+
+#### iOS
+
+Dependencies:
+- [Xcode 10](https://itunes.apple.com/us/app/xcode/id497799835?mt=12)
+- [Cocoapods](https://guides.cocoapods.org/using/getting-started.html#installation)
+
+To open Lunie in Xcode: 
+1. Build Lunie
+```bash
+$ yarn build
+```
+
+2. This step may take up to 20 minutes to complete if you've never used Cocoapods before.
+```bash
+$ npx @capacitor/cli sync ios
+```
+
+3. This will open Xcode with Lunie loaded
+```bash
+$ npx @capacitor/cli open ios
+```
+
+Once Xcode is open, just click the Play button to run Lunie on your preferred Simulator or Device.
+
 ## Release
 
 Lunie has a automated release process. Every night the CI creates a new release PR. To release manually, run
@@ -104,7 +156,7 @@ yarn release
 
 ## Testing
 
-If you would like to run all the tests you can run:
+If you would like to run all the tests you can run:~ 
 
 ```bash
 yarn test

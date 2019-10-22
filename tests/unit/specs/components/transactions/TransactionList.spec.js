@@ -6,41 +6,41 @@ describe(`TransactionList`, () => {
 
   const transactions = [
     {
-      blockNumber: 1086769,
-      fees: {
-        amount: "37",
-        denom: "uatom"
+      height: 1086769,
+      fee: {
+        amount: "3.7",
+        denom: "atom"
       },
       group: "banking",
       key: "keyhash",
       memo: "(Sent via Lunie)",
-      time: new Date("2019-07-31"),
+      tiemstamp: new Date("2019-07-31"),
       liquidDate: null,
       type: "cosmos-sdk/MsgSend"
     },
     {
-      blockNumber: 1086769,
-      fees: {
-        amount: "37",
-        denom: "uatom"
+      height: 1086769,
+      fee: {
+        amount: "3.7",
+        denom: "atom"
       },
       group: "banking",
       key: "keyhash2",
       memo: "(Sent via Lunie)",
-      time: new Date("1970-01-01"),
+      tiemstamp: new Date("1970-01-01"),
       liquidDate: null,
       type: "cosmos-sdk/MsgSend"
     },
     {
-      blockNumber: 1086769,
-      fees: {
-        amount: "37",
-        denom: "uatom"
+      height: 1086769,
+      fee: {
+        amount: "3.7",
+        denom: "atom"
       },
       group: "banking",
       key: "keyhash3",
       memo: "(Sent via Lunie)",
-      time: new Date("2019-07-31"),
+      tiemstamp: new Date("2019-07-31"),
       liquidDate: null,
       type: "cosmos-sdk/MsgSend"
     }

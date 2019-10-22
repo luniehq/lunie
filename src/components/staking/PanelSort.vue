@@ -1,7 +1,6 @@
 <template>
   <tr class="panel-sort-container">
     <th>#</th>
-    <th class="hide-xs">Status</th>
     <th
       v-for="property in properties"
       :key="property.value"
@@ -44,7 +43,7 @@ export default {
   },
   methods: {
     hideXs(property) {
-      const primaryFields = ["small_moniker", "block_number"]
+      const primaryFields = ["smallName", "block_number"]
       const hideFieldMobile = property.value !== this.showOnMobile
       return hideFieldMobile && !primaryFields.includes(property.value)
     },

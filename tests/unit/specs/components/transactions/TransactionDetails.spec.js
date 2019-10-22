@@ -7,7 +7,6 @@ describe(`TransactionDetails`, () => {
   const localVue = createLocalVue()
   localVue.directive(`tooltip`, () => {})
   localVue.directive(`clipboard`, () => {})
-
   beforeEach(() => {
     wrapper = mount(TransactionDetails, {
       localVue,

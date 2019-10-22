@@ -1,5 +1,5 @@
 <template>
-  <PageContainer
+  <TmPage
     :managed="true"
     :loading="$apollo.queries.validators.loading"
     :loaded="!$apollo.queries.validators.loading"
@@ -40,22 +40,22 @@
         No results for these search terms
       </div>
     </template>
-  </PageContainer>
+  </TmPage>
 </template>
 
 <script>
-import { mapState } from "vuex"
-import { ValidatorByName, AllValidatorsResult } from "src/gql"
+import { mapGetters } from "vuex"
 import TableValidators from "staking/TableValidators"
-import PageContainer from "common/PageContainer"
+import TmPage from "common/TmPage"
 import TmField from "common/TmField"
 import TmBtn from "common/TmBtn"
+import gql from "graphql-tag"
 
 export default {
   name: `tab-validators`,
   components: {
     TableValidators,
-    PageContainer,
+    TmPage,
     TmField,
     TmBtn
   },
@@ -65,23 +65,89 @@ export default {
     validators: []
   }),
   computed: {
-    ...mapState({ network: state => state.connection.network })
+    ...mapGetters([`address`, `network`]),
+    validatorsPlus() {
+      return this.validators.map(validator => ({
+        ...validator,
+        smallName: validator.name ? validator.name.toLowerCase() : ""
+      }))
+    }
   },
   apollo: {
     validators: {
-      query() {
-        /* istanbul ignore next */
-        return ValidatorByName(this.network)(this.activeOnly)
+      query: gql`
+        query validators(
+          $networkId: String!
+          $delegatorAddress: String
+          $all: Boolean
+          $query: String
+        ) {
+          validators(
+            networkId: $networkId
+            delegatorAddress: $delegatorAddress
+            all: $all
+            query: $query
+          ) {
+            name
+            operatorAddress
+            consensusPubkey
+            jailed
+            details
+            website
+            identity
+            votingPower
+            startHeight
+            uptimePercentage
+            tokens
+            commissionUpdateTime
+            commission
+            maxCommission
+            maxChangeCommission
+            status
+            statusDetailed
+            picture
+            expectedReturns
+          }
+        }
+      `,
+      variables() {
+        return {
+          networkId: this.network,
+          delegatorAddress: this.address,
+          all: !this.activeOnly,
+          query: this.searchTerm
+        }
+      },
+      update: function(result) {
+        return Array.isArray(result.validators) ? result.validators : []
+      }
+    },
+    delegations: {
+      query: gql`
+        query Delegations($networkId: String!, $delegatorAddress: String!) {
+          delegations(
+            networkId: $networkId
+            delegatorAddress: $delegatorAddress
+          ) {
+            amount
+            validator {
+              operatorAddress
+            }
+          }
+        }
+      `,
+      skip() {
+        return !this.address
+      },
+      variables() {
+        return {
+          networkId: this.network,
+          delegatorAddress: this.address
+        }
       },
       update(data) {
         /* istanbul ignore next */
-        return AllValidatorsResult(this.network)(data)
-      },
-      variables() {
-        /* istanbul ignore next */
-        return {
-          monikerName: `%${this.searchTerm}%`
-        }
+        return data.delegations
       }
     }
   }

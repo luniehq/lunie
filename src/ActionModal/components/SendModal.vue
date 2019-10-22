@@ -59,7 +59,7 @@
       field-id="amount"
       field-label="Amount"
     >
-      <span class="input-suffix-denom">{{ viewDenom(denom) }}</span>
+      <span class="input-suffix max-button">{{ viewDenom(denom) }}</span>
       <TmFieldGroup>
         <TmField
           id="amount"
@@ -272,5 +272,4 @@ export default {
 #edit-memo-btn {
   margin-top: 2.4rem;
 }
-
 </style>
