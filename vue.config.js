@@ -15,9 +15,6 @@ module.exports = {
   publicPath: `/`,
   configureWebpack: () => {
     const config = {
-      devServer: {
-        https: true
-      },
       resolve: {
         alias: {
           src: resolve(`src`),
