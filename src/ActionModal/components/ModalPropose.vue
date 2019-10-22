@@ -69,7 +69,7 @@
       field-id="amount"
       field-label="Deposit"
     >
-      <span class="input-suffix">{{ denom | viewDenom }}</span>
+      <span class="input-suffix">{{ denom }}</span>
       <TmField
         id="amount"
         v-model="amount"
@@ -79,7 +79,7 @@
       />
       <TmFormMsg
         v-if="currentBalance === 0"
-        :msg="`doesn't have any ${viewDenom(denom)}s`"
+        :msg="`doesn't have any ${denom}s`"
         name="Wallet"
         type="custom"
       />
@@ -114,7 +114,7 @@ import {
   between,
   decimal
 } from "vuelidate/lib/validators"
-import { uatoms, atoms, viewDenom, SMALLEST } from "scripts/num"
+import { uatoms, SMALLEST } from "scripts/num"
 import isEmpty from "lodash.isempty"
 import trim from "lodash.trim"
 import TmField from "common/TmField"
@@ -137,9 +137,6 @@ export default {
     TmFormGroup,
     TmFormMsg
   },
-  filters: {
-    viewDenom
-  },
   props: {
     denom: {
       type: String,
@@ -152,7 +149,8 @@ export default {
     title: ``,
     description: ``,
     type: `Text`,
-    amount: 0
+    amount: 0,
+    balance: []
   }),
   computed: {
     ...mapGetters([`network`]),
@@ -170,7 +168,7 @@ export default {
         initialDeposits: [
           {
             amount: uatoms(this.amount),
-            denom: this.denom
+            denom: this.denom.toLowerCase()
           }
         ]
       }
@@ -202,12 +200,11 @@ export default {
       amount: {
         required: x => !!x && x !== `0`,
         decimal,
-        between: between(SMALLEST, atoms(this.currentBalance))
+        between: between(SMALLEST, this.currentBalance)
       }
     }
   },
   methods: {
-    viewDenom,
     open() {
       this.$refs.actionModal.open()
     },

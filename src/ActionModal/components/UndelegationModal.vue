@@ -27,7 +27,7 @@
       field-id="from"
       field-label="From"
     >
-      <TmField id="from" v-model="validator.operator_address" readonly />
+      <TmField id="from" v-model="validator.operatorAddress" readonly />
     </TmFormGroup>
     <TmFormGroup
       :error="$v.amount.$error && $v.amount.$invalid"

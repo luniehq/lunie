@@ -246,28 +246,31 @@ export default {
       const myWallet = [
         {
           address: this.address,
-          maximum: Math.floor(stakingBalanceAmount),
+          maximum: Number(stakingBalanceAmount),
           key: `My Wallet - ${formatBech32(this.address, false, 20)}`,
           value: 0
         }
       ]
 
-      const result = this.delegations
-        .filter(d => d.validatorAddress != this.$route.params.validator)
-        .map((d, i) => {
-          return {
-            address: this.address,
-            maximum: Math.floor(d.shares), // TODO
-            // Get names of delegation validators
-            key: `${d.validatorAddress} - ${formatBech32(
-              d.validatorAddress,
-              false,
-              20
-            )}`,
-            value: i + 1
-          }
-        })
-        .concat(myWallet)
+      const result = myWallet.concat(
+        this.delegations
+          .filter(
+            d => d.validator.operatorAddress != this.$route.params.validator
+          )
+          .map((d, i) => {
+            return {
+              address: this.address,
+              maximum: Number(d.amount), // TODO
+              // Get names of delegation validators
+              key: `${d.validator.operatorAddress} - ${formatBech32(
+                d.validator.operatorAddress,
+                false,
+                20
+              )}`,
+              value: i + 1
+            }
+          })
+      )
 
       return result
     }

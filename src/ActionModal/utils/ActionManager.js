@@ -116,7 +116,7 @@ export default class ActionManager {
 function convertCurrencyData(amounts) {
   return amounts.map(({ amount, denom }) => ({
     amount: toMicroAtomString(amount),
-    denom
+    denom: denom.toLowerCase()
   }))
 }
 

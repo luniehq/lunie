@@ -65,7 +65,7 @@
       field-id="amount"
       field-label="Amount"
     >
-      <span class="input-suffix-denom">{{ viewDenom(denom) }}</span>
+      <span class="input-suffix-denom">{{ denom }}</span>
       <TmFieldGroup>
         <TmField
           id="amount"
@@ -86,16 +86,16 @@
       <span v-if="!isRedelegation()" class="form-message">
         Available to Delegate:
         {{ getFromBalance() }}
-        {{ denom | viewDenom }}s
+        {{ denom }}s
       </span>
       <span v-else-if="isRedelegation()" class="form-message">
         Available to Redelegate:
         {{ getFromBalance() }}
-        {{ denom | viewDenom }}s
+        {{ denom }}s
       </span>
       <TmFormMsg
         v-if="balance === 0"
-        :msg="`doesn't have any ${viewDenom(denom)}s`"
+        :msg="`doesn't have any ${denom}s`"
         name="Wallet"
         type="custom"
       />
@@ -130,7 +130,7 @@
 import { mapState, mapGetters } from "vuex"
 import { between, decimal } from "vuelidate/lib/validators"
 import gql from "graphql-tag"
-import { uatoms, atoms, viewDenom, SMALLEST } from "src/scripts/num"
+import { uatoms, SMALLEST } from "src/scripts/num"
 import TmField from "src/components/common/TmField"
 import TmFieldGroup from "src/components/common/TmFieldGroup"
 import TmBtn from "src/components/common/TmBtn"
@@ -148,9 +148,6 @@ export default {
     TmFormGroup,
     TmFormMsg,
     ActionModal
-  },
-  filters: {
-    viewDenom
   },
   props: {
     fromOptions: {
@@ -195,7 +192,7 @@ export default {
           type: transaction.DELEGATE,
           validatorAddress: this.validator.operatorAddress,
           amount: uatoms(this.amount),
-          denom: this.denom
+          denom: this.denom.toLowerCase()
         }
       } else {
         const validatorSrc = this.delegations.find(
@@ -206,7 +203,7 @@ export default {
           validatorSourceAddress: validatorSrc.operatorAddress,
           validatorDestinationAddress: this.validator.operatorAddress,
           amount: uatoms(this.amount),
-          denom: this.denom
+          denom: this.denom.toLowerCase()
         }
       }
     },
@@ -214,14 +211,12 @@ export default {
       if (this.from === this.session.address) {
         return {
           title: `Successful delegation!`,
-          body: `You have successfully delegated your ${viewDenom(this.denom)}s`
+          body: `You have successfully delegated your ${this.denom}s`
         }
       } else {
         return {
           title: `Successful redelegation!`,
-          body: `You have successfully redelegated your ${viewDenom(
-            this.denom
-          )}s`
+          body: `You have successfully redelegated your ${this.denom}s`
         }
       }
     },
@@ -244,7 +239,6 @@ export default {
     }
   },
   methods: {
-    viewDenom,
     open(options) {
       if (options && options.redelegation && this.fromOptions.length > 1) {
         this.selectedIndex = 1
@@ -263,10 +257,10 @@ export default {
       this.amount = null
     },
     setMaxAmount() {
-      this.amount = atoms(this.balance)
+      this.amount = this.balance
     },
     isMaxAmount() {
-      return parseFloat(this.amount) === parseFloat(atoms(this.balance))
+      return parseFloat(this.amount) === parseFloat(this.balance)
     },
     enterPressed() {
       this.$refs.actionModal.validateChangeStep()
@@ -275,7 +269,7 @@ export default {
       return this.from !== this.session.address
     },
     getFromBalance() {
-      return atoms(this.balance)
+      return this.balance
     }
   },
   validations() {
@@ -283,7 +277,7 @@ export default {
       amount: {
         required: x => !!x && x !== `0`,
         decimal,
-        between: between(SMALLEST, atoms(this.balance))
+        between: between(SMALLEST, this.balance)
       }
     }
   },
