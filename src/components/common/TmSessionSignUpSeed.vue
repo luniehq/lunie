@@ -10,13 +10,7 @@
             :steps="[`Create`, `Password`, `Backup`]"
             active-step="Backup"
           />
-          <TmFormGroup
-            field-id="sign-up-seed"
-            class="sign-up-seed-group"
-            field-label="Backup Code"
-          >
-            <FieldSeed id="sign-up-seed" v-model="fieldSeed" disabled />
-          </TmFormGroup>
+          <TmSeed :value="fieldSeed" :legacy="false" />
           <TmFormGroup
             class="field-checkbox"
             :error="$v.fieldWarning.$error"
@@ -59,22 +53,22 @@ import TmBtn from "common/TmBtn"
 import TmFormGroup from "common/TmFormGroup"
 import TmFormStruct from "common/TmFormStruct"
 import TmFormMsg from "common/TmFormMsg"
-import FieldSeed from "common/TmFieldSeed"
 import SessionFrame from "common/SessionFrame"
 import InsecureModeWarning from "common/InsecureModeWarning"
 import Steps from "../../ActionModal/components/Steps"
+import TmSeed from "common/TmSeed"
 
 export default {
   name: `session-sign-up`,
   components: {
     TmBtn,
     SessionFrame,
-    FieldSeed,
     TmFormGroup,
     TmFormMsg,
     TmFormStruct,
     InsecureModeWarning,
-    Steps
+    Steps,
+    TmSeed
   },
   data: () => ({
     error: false,
@@ -127,3 +121,8 @@ export default {
   })
 }
 </script>
+<style>
+.session .field-checkbox-input {
+  text-align: center;
+}
+</style>
