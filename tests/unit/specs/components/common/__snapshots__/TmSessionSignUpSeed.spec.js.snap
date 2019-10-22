@@ -23,17 +23,9 @@ exports[`TmSessionSignUpSeed renders 1`] = `
           steps="Create,Password,Backup"
         />
          
-        <tmformgroup-stub
-          class="sign-up-seed-group"
-          fieldid="sign-up-seed"
-          fieldlabel="Backup Code"
-        >
-          <fieldseed-stub
-            disabled=""
-            id="sign-up-seed"
-            value="asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf"
-          />
-        </tmformgroup-stub>
+        <tmseed-stub
+          value="asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf"
+        />
          
         <tmformgroup-stub
           class="field-checkbox"
