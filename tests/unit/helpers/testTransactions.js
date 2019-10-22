@@ -8,7 +8,7 @@ export const testTransactions = [
     gas_used: "24292",
     tags: [
       { key: "action", value: "send" },
-      { key: "sender", value: "cosmos1abcdefghijkl" },^
+      { key: "sender", value: "cosmos1abcdefghijkl" },
       {
         key: "recipient",
         value: "cosmos1abcdefghijkl"
