@@ -66,7 +66,9 @@
             field-id="gasPrice"
             field-label="Gas Price"
           >
-            <span class="input-suffix">{{ network.stakingDenom | viewDenom }}</span>
+            <span class="input-suffix">{{
+              network.stakingDenom | viewDenom
+            }}</span>
             <TmField
               id="gas-price"
               v-model="gasPrice"
@@ -398,20 +400,18 @@ export default {
     successStep,
     SIGN_METHODS,
     featureAvailable: true,
-    network: {}
+    network: {},
+    overview: {}
   }),
   computed: {
     ...mapState([`extension`, `session`]),
-    ...mapGetters([
-      `connected`,
-      `isExtensionAccount`,
-    ]),
-    ...mapGetters({networkId: `network`}),
+    ...mapGetters([`connected`, `isExtensionAccount`]),
+    ...mapGetters({ networkId: `network` }),
     requiresSignIn() {
       return !this.session.signedIn
     },
     balanceInAtoms() {
-      return atoms(this.overview.liquidStake)
+      return this.overview.liquidStake
     },
     estimatedFee() {
       return Number(this.gasPrice) * Number(this.gasEstimate) // already in atoms
@@ -455,8 +455,7 @@ export default {
     hasSigningMethod() {
       return (
         this.session.browserWithLedgerSupport ||
-        (this.selectedSignMethod === "extension" &&
-          this.isExtensionAccount)
+        (this.selectedSignMethod === "extension" && this.isExtensionAccount)
       )
     },
     prettyIncludedHeight() {
@@ -493,7 +492,7 @@ export default {
         localKeyPairName: this.session.localKeyPairName,
         userAddress: this.session.address,
         rewards: this.rewards, // state.distribution.rewards,
-        totalRewards: this.overview.totalRewardsc, // getters.totalRewards,
+        totalRewards: this.overview.totalRewards, // getters.totalRewards,
         delegations: this.delegations, // state.delegates.delegates,
         bondDenom: this.network.stakingDenom, // getters.bondDenom,
         isExtensionAccount: this.isExtensionAccount
@@ -756,7 +755,7 @@ export default {
             action_undelegate
             action_deposit
             action_vote
-            action_proposal            
+            action_proposal
           }
         }
       `,
@@ -766,7 +765,7 @@ export default {
         }
       },
       update(data) {
-       /* istanbul ignore next */
+        /* istanbul ignore next */
         return data.network
       }
     },
@@ -800,7 +799,10 @@ export default {
     },
     rewards: {
       query: gql`
-        query RewardsActionModal($networkId: String!, $delegatorAddress: String!) {
+        query RewardsActionModal(
+          $networkId: String!
+          $delegatorAddress: String!
+        ) {
           rewards(networkId: $networkId, delegatorAddress: $delegatorAddress) {
             validator {
               operatorAddress
@@ -816,7 +818,7 @@ export default {
         }
       },
       update: result => result.rewards
-    }      
+    }
   }
 }
 </script>

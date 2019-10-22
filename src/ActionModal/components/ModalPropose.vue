@@ -105,7 +105,7 @@
 </template>
 
 <script>
-import { mapState } from "vuex"
+import { mapGetters } from "vuex"
 import gql from "graphql-tag"
 import {
   minLength,
@@ -156,7 +156,7 @@ export default {
   }),
   computed: {
     ...mapGetters([`network`]),
-    ...mapGetters({userAddress: `address`}),
+    ...mapGetters({ userAddress: `address` }),
     currentBalance() {
       const denom = this.balance.find(b => b.denom === this.denom)
       return (denom && denom.amount) || 0
@@ -233,7 +233,7 @@ export default {
       this.$emit(`success`, event)
     }
   },
-  apollo: { 
+  apollo: {
     balance: {
       query: gql`
         query balance($networkId: String!, $address: String!) {
@@ -256,7 +256,7 @@ export default {
         return data.balance
       }
     }
-  }   
+  }
 }
 </script>
 <style>

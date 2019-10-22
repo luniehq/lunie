@@ -153,7 +153,6 @@ import TmFormMsg from "src/components/common/TmFormMsg"
 import ActionModal from "./ActionModal"
 import transaction from "../utils/transactionTypes"
 
-
 const defaultMemo = "(Sent via Lunie)"
 
 export default {
@@ -177,7 +176,7 @@ export default {
   }),
   computed: {
     ...mapGetters([`network`]),
-    ...mapGetters({userAddress: `address`}),
+    ...mapGetters({ userAddress: `address` }),
     currentBalance() {
       const denom = this.balance.find(b => b.denom === this.denom)
       return (denom && denom.amount) || 0
@@ -225,13 +224,13 @@ export default {
       this.sending = false
     },
     setMaxAmount() {
-      this.amount = atoms(this.currentBalance)
+      this.amount = this.currentBalance
     },
     isMaxAmount() {
       if (this.currentBalance === 0) {
         return false
       } else {
-        return parseFloat(this.amount) === parseFloat(atoms(this.currentBalance))
+        return parseFloat(this.amount) === parseFloat(this.currentBalance)
       }
     },
     bech32Validate(param) {
@@ -262,15 +261,15 @@ export default {
       amount: {
         required: x => !!x && x !== `0`,
         decimal,
-        between: between(SMALLEST, atoms(this.currentBalance))
+        between: between(SMALLEST, this.currentBalance)
       },
       denom: { required },
       memo: {
         maxLength: maxLength(this.max_memo_characters)
       }
     }
-  }, 
-  apollo: { 
+  },
+  apollo: {
     balance: {
       query: gql`
         query balance($networkId: String!, $address: String!) {
