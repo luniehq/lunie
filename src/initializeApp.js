@@ -22,7 +22,7 @@ function setOptions(urlParams, store) {
   }
 }
 
-export default async function init(urlParams, env = process.env) {
+export default function init(urlParams, env = process.env) {
   // add error handlers in production
   if (env.NODE_ENV === `production`) {
     enableGoogleAnalytics(config.google_analytics_uid)
