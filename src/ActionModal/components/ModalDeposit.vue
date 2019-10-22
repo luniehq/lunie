@@ -88,7 +88,7 @@ export default {
   }),
   computed: {
     ...mapGetters([`network`]),
-    ...mapGetters({userAddress: `address`}),
+    ...mapGetters({ userAddress: `address` }),
     currentBalance() {
       const denom = this.balance.find(b => b.denom === this.denom)
       return (denom && denom.amount) || 0
@@ -119,7 +119,7 @@ export default {
       amount: {
         required: x => !!x && x !== `0`,
         decimal,
-        between: between(SMALLEST, atoms(this.currentBalance))
+        between: between(SMALLEST, this.currentBalance)
       }
     }
   },
