@@ -41,6 +41,12 @@
         </tr>
       </table>
     </div>
+    <div class="seed-warning">
+      <p>
+        Please write your backup code in a safe place. Word order matters, take
+        care to write them in the same order.
+      </p>
+    </div>
   </div>
 </template>
 
@@ -127,6 +133,21 @@ export default {
 .seed-phrase .copied.active {
   color: var(--success);
   opacity: 1;
+}
+
+.seed-warning {
+  border: 2px solid var(--danger-bc);
+  border-radius: 0.25rem;
+  margin-top: 1rem;
+  padding: 0.5rem;
+}
+
+.seed-warning p {
+  font-size: var(--sm);
+  color: var(--danger);
+  margin: 0;
+  text-align: center;
+  font-size: 0.8rem;
 }
 
 @media screen and (max-width: 360px) {
