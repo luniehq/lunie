@@ -27,6 +27,10 @@ describe(`TmSessionExplore`, () => {
             {
               address: `cosmos1vxkye0mpdtjhzrc6va5lcnxnuaa7m64khj8klc`,
               type: `extension`
+            },
+            {
+              address: `cosmos1vxkye0mpdtjhzrc6va5lcnxnuaa7m64khj8xyz`,
+              type: `local`
             }
           ]
         }

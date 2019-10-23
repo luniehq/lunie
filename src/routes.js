@@ -128,6 +128,40 @@ export default [
     }
   },
   {
+    path: `/create/password`,
+    name: `create-password`,
+    components: {
+      session: require(`./components/common/TmSessionSignUpPassword`).default
+    },
+    meta: {
+      feature: "Session"
+    },
+    beforeEnter: (to, from, next) => {
+      if (from.name === `create`) {
+        next()
+      } else {
+        next({ path: `/create` })
+      }
+    }
+  },
+  {
+    path: `/create/confirm`,
+    name: `create-confirm`,
+    components: {
+      session: require(`./components/common/TmSessionSignUpSeed`).default
+    },
+    meta: {
+      feature: "Session"
+    },
+    beforeEnter: (to, from, next) => {
+      if (from.name === `create-password`) {
+        next()
+      } else {
+        next({ path: `/create` })
+      }
+    }
+  },
+  {
     path: `/recover`,
     name: `recover`,
     components: {
@@ -135,6 +169,40 @@ export default [
     },
     meta: {
       feature: "Session"
+    }
+  },
+  {
+    path: `/recover/name`,
+    name: `recover-name`,
+    components: {
+      session: require(`./components/common/TmSessionImportName`).default
+    },
+    meta: {
+      feature: "Session"
+    },
+    beforeEnter: (to, from, next) => {
+      if (from.name === `recover`) {
+        next()
+      } else {
+        next({ path: `/recover` })
+      }
+    }
+  },
+  {
+    path: `/recover/password`,
+    name: `recover-password`,
+    components: {
+      session: require(`./components/common/TmSessionImportPassword`).default
+    },
+    meta: {
+      feature: "Session"
+    },
+    beforeEnter: (to, from, next) => {
+      if (from.name === `recover-name`) {
+        next()
+      } else {
+        next({ path: `/recover` })
+      }
     }
   },
   {

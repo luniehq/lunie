@@ -35,6 +35,11 @@ export default () => {
       const { getSeed } = await import("@lunie/cosmos-keys")
       return getSeed()
     },
+    async getAddressFromSeed(store, seedPhrase) {
+      const { getNewWalletFromSeed } = await import("@lunie/cosmos-keys")
+      const wallet = getNewWalletFromSeed(seedPhrase)
+      return wallet.cosmosAddress
+    },
     async createKey({ dispatch, state }, { seedPhrase, password, name }) {
       const { getNewWalletFromSeed, storeWallet } = await import(
         "@lunie/cosmos-keys"
@@ -43,6 +48,7 @@ export default () => {
       state.externals.track(`event`, `session`, `create-keypair`)
 
       const wallet = getNewWalletFromSeed(seedPhrase)
+
       storeWallet(wallet, name, password)
 
       // reload accounts as we just added a new one

@@ -1,0 +1,81 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TmSeed should render the seed in a legacy textarea 1`] = `
+<div
+  class="seed-phrase"
+>
+  <div
+    class="copy-seed"
+  >
+    
+    Copy to clipboard
+    
+    <i
+      class="material-icons copied"
+    >
+      
+      check
+    
+    </i>
+  </div>
+   
+  <div>
+    <fieldseed-stub
+      disabled=""
+      id="sign-up-seed"
+      value="two collect olive inside assault finger relief shallow lottery sugar universe fatigue knock current only absurd famous work path zone distance churn include flower"
+    />
+  </div>
+   
+  <div
+    class="seed-warning"
+  >
+    <p>
+      
+      Please write your backup code in a safe place. Word order matters, take
+      care to write them in the same order.
+    
+    </p>
+  </div>
+</div>
+`;
+
+exports[`TmSeed should render the seed in a table component 1`] = `
+<div
+  class="seed-phrase"
+>
+  <div
+    class="copy-seed"
+  >
+    
+    Copy to clipboard
+    
+    <i
+      class="material-icons copied"
+    >
+      
+      check
+    
+    </i>
+  </div>
+   
+  <div>
+    <fieldseed-stub
+      disabled=""
+      id="sign-up-seed"
+      value="two collect olive inside assault finger relief shallow lottery sugar universe fatigue knock current only absurd famous work path zone distance churn include flower"
+    />
+  </div>
+   
+  <div
+    class="seed-warning"
+  >
+    <p>
+      
+      Please write your backup code in a safe place. Word order matters, take
+      care to write them in the same order.
+    
+    </p>
+  </div>
+</div>
+`;

@@ -65,7 +65,7 @@ export default ({ node }) => {
 
       try {
         const res = await node.get.account(state.address)
-        state.error = null
+        state.error = undefined
         const { coins, account_number } = res || {}
         commit(`setAccountNumber`, account_number)
         commit(`setWalletBalances`, coins || [])

@@ -23,7 +23,7 @@ exports[`SessionFrame shows an overview of all wallets to sign in with from the 
     >
       <a>
         <i
-          class="material-icons session-back"
+          class="material-icons circle back"
         >
           arrow_back
         </i>

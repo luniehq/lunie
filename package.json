@@ -1,6 +1,6 @@
 {
   "name": "lunie",
-  "version": "1.0.0-beta.129",
+  "version": "1.0.0-beta.130",
   "description": "Lunie is the staking and governance platform for proof-of-stake blockchains.",
   "author": "Lunie International Software Systems Inc. <hello@lunie.io>",
   "scripts": {
@@ -67,7 +67,7 @@
     "@ascendancyy/vue-cli-plugin-stylelint": "^1.1.2",
     "@babel/plugin-transform-runtime": "^7.5.5",
     "@capacitor/android": "1.1.1",
-    "@capacitor/cli": "1.1.1",
+    "@capacitor/cli": "1.2.1",
     "@capacitor/core": "1.1.1",
     "@capacitor/ios": "1.1.1",
     "@vue/cli-plugin-babel": "^3.10.0",
@@ -81,7 +81,7 @@
     "babel-core": "7.0.0-bridge.0",
     "babel-eslint": "^10.0.1",
     "babel-jest": "^23.6.0",
-    "browserstack-local": "^1.4.2",
+    "browserstack-local": "1.4.2",
     "chai": "^4.2.0",
     "chai-string": "^1.5.0",
     "chromedriver": "76.0.0",
@@ -96,7 +96,7 @@
     "kill-port": "^1.5.1",
     "live-server": "^1.2.1",
     "live-server-https": "^0.0.2",
-    "nightwatch": "^1.1.13",
+    "nightwatch": "1.2.4",
     "numeral": "^2.0.6",
     "prettier": "^1.18.2",
     "sass": "^1.18.0",
@@ -106,7 +106,8 @@
     "vue-template-compiler": "^2.6.10"
   },
   "resolutions": {
-    "braces": ">=2.3.1"
+    "braces": ">=2.3.1",
+    "https-proxy-agent": ">=3.0.0"
   },
   "engines": {
     "node": ">=10.13.0"
