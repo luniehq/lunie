@@ -143,7 +143,7 @@
 import gql from "graphql-tag"
 import b32 from "scripts/b32"
 import { required, between, decimal, maxLength } from "vuelidate/lib/validators"
-import { uatoms, atoms, viewDenom, SMALLEST } from "src/scripts/num"
+import { uatoms, viewDenom, SMALLEST } from "src/scripts/num"
 import { mapGetters } from "vuex"
 import TmFormGroup from "src/components/common/TmFormGroup"
 import TmField from "src/components/common/TmField"
@@ -152,13 +152,7 @@ import TmBtn from "src/components/common/TmBtn"
 import TmFormMsg from "src/components/common/TmFormMsg"
 import ActionModal from "./ActionModal"
 import transaction from "../utils/transactionTypes"
-
-function reverseDenomLookup(denom) {
-  if (denom === 'ATOM') {
-    return 'uatom'
-  }
-  return denom.toLowerCase()
-}
+import { toMicroDenom } from "../utils/conversion"
 
 const defaultMemo = "(Sent via Lunie)"
 
@@ -195,7 +189,7 @@ export default {
         amounts: [
           {
             amount: uatoms(+this.amount),
-            denom: reverseDenomLookup(this.denom)
+            denom: toMicroDenom(this.denom)
           }
         ],
         memo: this.memo

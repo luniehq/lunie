@@ -3,6 +3,7 @@ import config from "src/../config"
 import { getSigner } from "./signer"
 import transaction from "./transactionTypes"
 import { uatoms } from "scripts/num"
+import { toMicroDenom } from "../utils/conversion"
 
 export default class ActionManager {
   constructor() {
@@ -80,14 +81,13 @@ export default class ActionManager {
       this.message = this.createWithdrawTransaction()
     }
 
-    const { included, hash } = await this.message.send(
-      {
-        gas: String(gasEstimate),
-        gasPrices: convertCurrencyData([gasPrice]),
-        memo
-      },
-      signer
-    )
+    const messageMetadata = {
+      gas: String(gasEstimate),
+      gasPrices: convertCurrencyData([gasPrice]),
+      memo
+    }
+
+    const { included, hash } = await this.message.send(messageMetadata, signer)
 
     return { included, hash }
   }
@@ -116,7 +116,7 @@ export default class ActionManager {
 function convertCurrencyData(amounts) {
   return amounts.map(({ amount, denom }) => ({
     amount: toMicroAtomString(amount),
-    denom: denom.toLowerCase()
+    denom: toMicroDenom(denom)
   }))
 }
 

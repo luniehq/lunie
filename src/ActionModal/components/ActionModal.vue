@@ -290,10 +290,9 @@ import TmDataMsg from "common/TmDataMsg"
 import TableInvoice from "./TableInvoice"
 import Steps from "./Steps"
 import { mapState, mapGetters } from "vuex"
-import { atoms, viewDenom, prettyInt } from "src/scripts/num"
+import { viewDenom, prettyInt } from "src/scripts/num"
 import { between, requiredIf } from "vuelidate/lib/validators"
 import { track } from "scripts/google-analytics"
-import { NetworkCapability, NetworkCapabilityResult } from "src/gql"
 import config from "src/../config"
 
 import ActionManager from "../utils/ActionManager"
@@ -487,9 +486,8 @@ export default {
     createContext() {
       return {
         url: this.network.api_url, // state.connection.externals.node.url,
-        chainId: this.network.chainId, // state.connection.lastHeader.chain_id,
+        chainId: this.network.chain_id, // state.connection.lastHeader.chain_id,
         connected: this.connected,
-        localKeyPairName: this.session.localKeyPairName,
         userAddress: this.session.address,
         rewards: this.rewards, // state.distribution.rewards,
         totalRewards: this.overview.totalRewards, // getters.totalRewards,

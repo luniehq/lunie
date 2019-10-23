@@ -138,6 +138,7 @@ import TmFormGroup from "src/components/common/TmFormGroup"
 import TmFormMsg from "src/components/common/TmFormMsg"
 import ActionModal from "./ActionModal"
 import transaction from "../utils/transactionTypes"
+import { toMicroDenom } from "../utils/conversion"
 
 export default {
   name: `delegation-modal`,
@@ -192,7 +193,7 @@ export default {
           type: transaction.DELEGATE,
           validatorAddress: this.validator.operatorAddress,
           amount: uatoms(this.amount),
-          denom: this.denom.toLowerCase()
+          denom: toMicroDenom(this.denom)
         }
       } else {
         const validatorSrc = this.delegations.find(
@@ -203,7 +204,7 @@ export default {
           validatorSourceAddress: validatorSrc.operatorAddress,
           validatorDestinationAddress: this.validator.operatorAddress,
           amount: uatoms(this.amount),
-          denom: this.denom.toLowerCase()
+          denom: toMicroDenom(this.denom)
         }
       }
     },

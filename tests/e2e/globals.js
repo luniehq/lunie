@@ -46,7 +46,6 @@ module.exports = {
       window.localStorage.setItem(
         `session`,
         JSON.stringify({
-          localKeyPairName: `rich_account`,
           address: "cosmos1ek9cd8ewgxg9w5xllq9um0uf4aaxaruvcw4v9e",
           sessionType: "local"
         })

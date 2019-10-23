@@ -50,13 +50,14 @@
 <script>
 import { mapGetters } from "vuex"
 import gql from "graphql-tag"
-import { uatoms, atoms, viewDenom, SMALLEST } from "src/scripts/num"
+import { uatoms, viewDenom, SMALLEST } from "src/scripts/num"
 import { between, decimal } from "vuelidate/lib/validators"
 import TmField from "src/components/common/TmField"
 import TmFormGroup from "src/components/common/TmFormGroup"
 import TmFormMsg from "src/components/common/TmFormMsg"
 import ActionModal from "./ActionModal"
 import transaction from "../utils/transactionTypes"
+import { toMicroDenom } from "../utils/conversion"
 
 export default {
   name: `modal-deposit`,
@@ -88,7 +89,7 @@ export default {
   }),
   computed: {
     ...mapGetters([`network`]),
-    ...mapGetters({userAddress: `address`}),
+    ...mapGetters({ userAddress: `address` }),
     currentBalance() {
       const denom = this.balance.find(b => b.denom === this.denom)
       return (denom && denom.amount) || 0
@@ -100,7 +101,7 @@ export default {
         amounts: [
           {
             amount: uatoms(this.amount),
-            denom: this.denom
+            denom: toMicroDenom(this.denom)
           }
         ]
       }
@@ -119,7 +120,7 @@ export default {
       amount: {
         required: x => !!x && x !== `0`,
         decimal,
-        between: between(SMALLEST, atoms(this.currentBalance))
+        between: between(SMALLEST, this.currentBalance)
       }
     }
   },
@@ -142,7 +143,7 @@ export default {
       this.$emit(`success`, event)
     }
   },
-  apollo: { 
+  apollo: {
     balance: {
       query: gql`
         query balance($networkId: String!, $address: String!) {
@@ -165,6 +166,6 @@ export default {
         return data.balance
       }
     }
-  }  
+  }
 }
 </script>

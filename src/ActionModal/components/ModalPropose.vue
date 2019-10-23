@@ -121,6 +121,7 @@ import TmField from "common/TmField"
 import TmFormGroup from "common/TmFormGroup"
 import TmFormMsg from "common/TmFormMsg"
 import ActionModal from "./ActionModal"
+import { toMicroDenom } from "../utils/conversion"
 
 import transaction from "../utils/transactionTypes"
 
@@ -168,7 +169,7 @@ export default {
         initialDeposits: [
           {
             amount: uatoms(this.amount),
-            denom: this.denom.toLowerCase()
+            denom: toMicroDenom(this.denom)
           }
         ]
       }

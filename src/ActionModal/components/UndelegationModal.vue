@@ -86,7 +86,6 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex"
 import num, { uatoms, atoms, SMALLEST } from "src/scripts/num"
 import { between, decimal } from "vuelidate/lib/validators"
 import ActionModal from "./ActionModal"
@@ -96,6 +95,7 @@ import TmBtn from "src/components/common/TmBtn"
 import TmFormGroup from "src/components/common/TmFormGroup"
 import TmFormMsg from "src/components/common/TmFormMsg"
 import transaction from "../utils/transactionTypes"
+import { toMicroDenom } from "../utils/conversion"
 
 export default {
   name: `undelegation-modal`,
@@ -136,7 +136,7 @@ export default {
         type: transaction.UNDELEGATE,
         validatorAddress: this.validator.operator_address,
         amount: uatoms(this.amount),
-        denom: this.denom
+        denom: toMicroDenom(this.denom)
       }
     },
     notifyMessage() {

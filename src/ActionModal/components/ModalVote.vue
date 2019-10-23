@@ -62,7 +62,6 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex"
 import { required } from "vuelidate/lib/validators"
 import ActionModal from "./ActionModal"
 import TmBtn from "src/components/common/TmBtn"
