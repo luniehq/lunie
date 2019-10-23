@@ -2,8 +2,6 @@ FROM keymetrics/pm2:latest-alpine
 
 WORKDIR /var/www/server
 
-COPY ./node_modules ./node_modules
-
 COPY ./lib ./lib
 
 COPY ./data ./data
