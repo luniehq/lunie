@@ -16,8 +16,8 @@ let networks = {
 if (config.enableTestnet) {
   networks['local-cosmos-hub-testnet'] = {
     id: 'local-cosmos-hub-testnet',
-    api_url: 'http://localhost:9070',
-    rpc_url: 'ws://localhost:26657/websocket'
+    api_url: config.testnetAPI,
+    rpc_url: config.testnetRPC
   }
 }
 
