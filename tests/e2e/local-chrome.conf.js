@@ -6,7 +6,7 @@ const nightwatch_config = {
   globals_path: "./globals.js",
   disable_colors: false,
   test_workers: false,
-  launch_url: "http://localhost:9080",
+  launch_url: "https://localhost:9080",
   webdriver: {
     start_process: true,
     port: 9515,
