@@ -153,6 +153,13 @@ import TmFormMsg from "src/components/common/TmFormMsg"
 import ActionModal from "./ActionModal"
 import transaction from "../utils/transactionTypes"
 
+function reverseDenomLookup(denom) {
+  if (denom === 'ATOM') {
+    return 'uatom'
+  }
+  return denom.toLowerCase()
+}
+
 const defaultMemo = "(Sent via Lunie)"
 
 export default {
@@ -188,7 +195,7 @@ export default {
         amounts: [
           {
             amount: uatoms(+this.amount),
-            denom: this.denom
+            denom: reverseDenomLookup(this.denom)
           }
         ],
         memo: this.memo
