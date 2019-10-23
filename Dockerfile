@@ -2,6 +2,8 @@ FROM keymetrics/pm2:latest-alpine
 
 WORKDIR /var/www/server
 
+RUN "node install"
+
 COPY ./node_modules ./node_modules
 
 COPY ./lib ./lib
