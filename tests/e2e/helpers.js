@@ -69,7 +69,7 @@ async function actionModalCheckout(
 ) {
   // grab page we came from as we want to go to another page and come back
   let sourcePage
-  browser.url(function (result) {
+  browser.url(function(result) {
     sourcePage = result.value
   })
 

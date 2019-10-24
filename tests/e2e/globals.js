@@ -11,7 +11,6 @@ module.exports = {
 
   async before() {
     await apiUp()
-    // await backendReady()
   },
 
   beforeEach(browser, done) {
@@ -75,55 +74,11 @@ async function apiUp() {
   let apiUp = false
   while (!apiUp) {
     try {
-      await axios(`http://${HOST}:9070/node_info`)
+      await axios(`http://${HOST}:4000`)
       apiUp = true
     } catch (err) {
       await new Promise(resolve => setTimeout(resolve, 1000))
       console.log("Waiting for node to be up")
-    }
-  }
-}
-
-async function backendReady() {
-  // we need to wait until the backend is fully up
-  let schmemaUp = false
-  let iterations = 5
-  while (!schmemaUp && iterations) {
-    try {
-      const { data } = await axios({
-        url: `http://localhost:8080/v1/graphql`,
-        method: "post",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        data: {
-          query: `
-              {
-                networks {
-                  id
-                }
-              }
-              `
-        }
-      })
-
-      if (data.errors) {
-        throw new Error(data.errors.map(({ message }) => message).join("\n"))
-      }
-
-      console.log("Networks found:", data.data.networks)
-
-      schmemaUp = true
-    } catch (error) {
-      console.log(error)
-      await new Promise(resolve => setTimeout(resolve, 1000))
-      console.log("Waiting for schema to be available")
-      iterations--
-      continue
-    }
-
-    if (iterations === 0) {
-      throw new Error("Waiting for schema to be available failed")
     }
   }
 }
