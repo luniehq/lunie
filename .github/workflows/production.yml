@@ -21,7 +21,7 @@ jobs:
     - name: prepare to push to Digital Ocean
       run: mkdir -p ~/.ssh && echo "${{ secrets.DO_PRIVATE_KEY }}"  | tr -d '\r' > ~/.ssh/id_rsa && chmod 600 ~/.ssh/id_rsa && eval "$(ssh-agent -s)" && ssh-add ~/.ssh/id_rsa && ssh-keyscan -H 167.71.107.214 >> ~/.ssh/known_hosts
     - name: push to Digital Ocean
-      run:  rsync -4 lunieapi.tgz root@167.71.107.214:~/ && rsync -4 pm2metrics.pl root@167.71.107.214:~/  && rsync -4 docker-compose.prod.yml root@167.71.107.214:~/ && rsync -4 Caddyfile.prod root@167.71.107.214:~/
+      run:  rsync -4 lunieapi.tgz root@167.71.107.214:~/ && rsync -4 pm2metrics.pl root@167.71.107.214:~/  && rsync -4 docker-compose.prod.yml root@167.71.107.214:~/docker-compose.yml && rsync -4 Caddyfile.prod root@167.71.107.214:~/Caddyfile
     - name: Installing Docker Compose
       run: ssh root@167.71.107.214 "sudo curl -L \"https://github.com/docker/compose/releases/download/1.24.1/docker-compose-$(uname -s)-$(uname -m)\" -o /usr/local/bin/docker-compose; sudo chmod +x /usr/local/bin/docker-compose"
     - name: Run on Digital Ocean

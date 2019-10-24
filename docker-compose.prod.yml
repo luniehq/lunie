@@ -8,8 +8,6 @@ services:
     - /logs:/var/www/server/logs
     networks:
        - general
-    ports:
-      - "4000:4000"
     deploy:
       replicas: 1
     environment:
@@ -29,8 +27,6 @@ services:
     - --collector.textfile.directory=/var/www
     - --collector.filesystem.ignored-mount-points
     - ^/(sys|proc|dev|host|etc|rootfs/var/lib/docker/containers|rootfs/var/lib/docker/overlay2|rootfs/run/docker/netns|rootfs/var/lib/docker/aufs)($$|/)
-    ports:
-    - 9100:9100
     restart: always
     networks:
        - general
@@ -49,8 +45,9 @@ services:
     ports:
     - "80:80"
     - "443:443"
+    - "9100:9100"
     volumes:
-    - ./Caddyfile.prod:/etc/Caddyfile
+    - ./Caddyfile:/etc/Caddyfile
     - ./caddy_certs:/root/.caddy
 volumes:
   caddy_certs:
