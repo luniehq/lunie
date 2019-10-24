@@ -1,0 +1,1 @@
+[Fixed] [#45](https://github.com/cosmos/lunie/issues/45) Modify jest command to let it use the testMatch pattern defined in jest.config.js instead of passing paths by param @mariopino
