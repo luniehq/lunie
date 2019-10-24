@@ -14,11 +14,11 @@ function setOptions(urlParams, store) {
   if (urlParams.experimental) {
     store.commit(`setExperimentalMode`)
   }
-  if (urlParams.rpc) {
-    store.commit(`setRpcUrl`, urlParams.rpc)
-  }
   if (config.mobileApp || urlParams.insecure) {
     store.commit(`setInsecureMode`)
+  }
+  if (urlParams.network) {
+    store.dispatch(`setNetwork`, { id: urlParams.network })
   }
 }
 
@@ -28,8 +28,7 @@ export default function init(urlParams, env = process.env) {
     enableGoogleAnalytics(config.google_analytics_uid)
   }
 
-  const stargate = urlParams.stargate || config.stargate
-  console.log(`Expecting hasura at: ${process.env.VUE_APP_GRAPHQL_URL}`)
+  console.log(`Expecting backend at: ${config.graphqlHost}`)
 
   const apolloProvider = createApolloProvider(urlParams)
   const apolloClient = apolloProvider.clients.defaultClient

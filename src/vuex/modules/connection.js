@@ -1,11 +1,11 @@
 import config from "src/../config"
+import { Networks } from "src/gql"
 
 export default function () {
   const state = {
     stopConnecting: false,
     connected: true, // TODO do connection test
     network: config.network, // network id to reference network capabilities stored in Hasura
-    connectionAttempts: 0,
     nodeUrl: config.stargate,
     externals: {
       config
