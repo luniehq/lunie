@@ -74,9 +74,18 @@ async function apiUp() {
   let apiUp = false
   while (!apiUp) {
     try {
-      await axios(`http://${HOST}:4000`)
+      await axios.post(`http://${HOST}:4000`, {
+        operationName: "NetworkAvailable",
+        query: `query NetworkAvailable {
+          validators(networkId: "local-cosmos-hub-testnet") {
+            status
+          }
+        }`,
+        variables: {}
+      })
       apiUp = true
     } catch (err) {
+      console.log(err)
       await new Promise(resolve => setTimeout(resolve, 1000))
       console.log("Waiting for node to be up")
     }
