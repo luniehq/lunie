@@ -13,4 +13,4 @@ jobs:
         SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
         SLACK_CHANNEL: 'pr_alerts'
         SLACK_USERNAME: 'luniebot'
-        SLACK_MESSAGE: ${{ toJson(github.event.pull_request.title) }}
+        SLACK_MESSAGE: join(${{ github.event.pull_request.title }}, "\n", "<br >", ${{ github.event.pull_request.body }}, ${{ github.event.pull_request._links.html.href }} )
