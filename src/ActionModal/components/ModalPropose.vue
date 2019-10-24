@@ -121,7 +121,7 @@ import TmField from "common/TmField"
 import TmFormGroup from "common/TmFormGroup"
 import TmFormMsg from "common/TmFormMsg"
 import ActionModal from "./ActionModal"
-import { toMicroDenom, fromMicroDenom } from "../utils/conversion"
+import { toMicroDenom, fromMicroDenom } from "src/scripts/common"
 
 import transaction from "../utils/transactionTypes"
 
@@ -249,7 +249,7 @@ export default {
           address: this.userAddress,
           denom: fromMicroDenom(this.denom)
         }
-      },
+      }
     }
   }
 }

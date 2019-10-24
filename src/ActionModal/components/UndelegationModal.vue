@@ -95,7 +95,7 @@ import TmBtn from "src/components/common/TmBtn"
 import TmFormGroup from "src/components/common/TmFormGroup"
 import TmFormMsg from "src/components/common/TmFormMsg"
 import transaction from "../utils/transactionTypes"
-import { toMicroDenom, fromMicroDenom } from "../utils/conversion"
+import { toMicroDenom, fromMicroDenom } from "src/scripts/common"
 
 export default {
   name: `undelegation-modal`,

@@ -152,7 +152,7 @@ import TmBtn from "src/components/common/TmBtn"
 import TmFormMsg from "src/components/common/TmFormMsg"
 import ActionModal from "./ActionModal"
 import transaction from "../utils/transactionTypes"
-import { toMicroDenom, fromMicroDenom } from "../utils/conversion"
+import { toMicroDenom, fromMicroDenom } from "src/scripts/common"
 
 const defaultMemo = "(Sent via Lunie)"
 

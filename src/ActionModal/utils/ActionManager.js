@@ -3,7 +3,7 @@ import config from "src/../config"
 import { getSigner } from "./signer"
 import transaction from "./transactionTypes"
 import { uatoms } from "scripts/num"
-import { toMicroDenom } from "../utils/conversion"
+import { toMicroDenom } from "src/scripts/common"
 
 export default class ActionManager {
   constructor() {
