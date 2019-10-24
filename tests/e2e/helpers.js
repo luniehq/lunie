@@ -69,12 +69,12 @@ async function actionModalCheckout(
 ) {
   // grab page we came from as we want to go to another page and come back
   let sourcePage
-  browser.url(function(result) {
+  browser.url(function (result) {
     sourcePage = result.value
   })
 
   // go to portfolio to remember balances
-  browser.url(browser.launch_url + "/#/portfolio")
+  browser.url(browser.launch_url + "#/portfolio")
 
   // remember balance to compare later if send got through
   browser.expect.element(`.total-atoms__value`).to.be.visible.before(10000)
@@ -135,7 +135,7 @@ async function actionModalCheckout(
   browser.click("#closeBtn")
 
   // go to portfolio to remember balances
-  browser.url(browser.launch_url + "/#/portfolio")
+  browser.url(browser.launch_url + "#/portfolio")
 
   // Wait for UI to be updated according to new state
   await nextBlock(browser)

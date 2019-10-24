@@ -1,5 +1,5 @@
 module.exports = {
-  "Sign in with local account": async function(browser) {
+  "Sign in with local account": async function (browser) {
     prepare(browser)
 
     browser.click("#use-an-existing-address")
@@ -17,7 +17,7 @@ module.exports = {
     openMenu(browser)
     browser.waitForElementVisible("#sign-out")
   },
-  "Create local account": async function(browser) {
+  "Create local account": async function (browser) {
     prepare(browser)
 
     browser.click("#creat-new-address")
@@ -52,7 +52,7 @@ module.exports = {
     openMenu(browser)
     browser.waitForElementVisible("#sign-out")
   },
-  "Import local account": async function(browser) {
+  "Import local account": async function (browser) {
     prepare(browser)
 
     browser.click("#use-an-existing-address")
@@ -93,7 +93,7 @@ module.exports = {
 
 async function next(browser) {
   browser.execute(
-    function(selector, scrollX, scrollY) {
+    function (selector, scrollX, scrollY) {
       var elem = document.querySelector(selector)
       elem.scrollLeft = scrollX
       elem.scrollTop = scrollY
@@ -124,7 +124,7 @@ function signIn(browser) {
 
 function prepare(browser) {
   browser.resizeWindow(400, 1024) // force mobile screen to be able to click some out of screen buttons
-  browser.url(browser.launch_url + "?insecure=true")
+  browser.url(browser.launch_url + "&insecure=true")
   browser.waitForElementVisible(`body`)
   browser.waitForElementVisible(`#app-content`)
   signOut(browser)
