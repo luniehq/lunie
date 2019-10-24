@@ -221,7 +221,8 @@ export default {
   }),
   computed: {
     ...mapState([`session`]),
-    ...mapGetters([`address`, `network`])
+    ...mapGetters([`network`]),
+    ...mapGetters({ userAddress: `address` })
   },
   methods: {
     shortDecimals,
@@ -261,8 +262,7 @@ export default {
             return {
               address: this.address,
               maximum: Number(d.amount), // TODO
-              // Get names of delegation validators
-              key: `${d.validator.operatorAddress} - ${formatBech32(
+              key: `${d.validator.name} - ${formatBech32(
                 d.validator.operatorAddress,
                 false,
                 20
@@ -271,31 +271,29 @@ export default {
             }
           })
       )
-
+      console.log(result)
       return result
     }
   },
   apollo: {
     balance: {
       query: gql`
-        query balance($networkId: String!, $address: String!) {
-          balance(networkId: $networkId, address: $address) {
+        query balance($networkId: String!, $address: String!, $denom: String!) {
+          balance(networkId: $networkId, address: $address, denom: $denom) {
             amount
             denom
           }
         }
       `,
       skip() {
-        return !this.address
+        return !this.userAddress
       },
       variables() {
         return {
           networkId: this.network,
-          address: this.address
+          address: this.userAddress,
+          denom: this.denom
         }
-      },
-      update: data => {
-        return data.balance
       }
     },
     delegation: {
@@ -329,9 +327,6 @@ export default {
           ...result.delegation,
           amount: Number(result.delegation.amount)
         }
-      },
-      skip() {
-        return !this.session.address
       }
     },
     rewards: {
@@ -404,6 +399,7 @@ export default {
             amount
             validator {
               operatorAddress
+              name
             }
           }
         }

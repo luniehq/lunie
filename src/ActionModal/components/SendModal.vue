@@ -78,7 +78,7 @@
         />
       </TmFieldGroup>
       <TmFormMsg
-        v-if="currentBalance === 0"
+        v-if="balance.amount === 0"
         :msg="`doesn't have any ${viewDenom(denom)}s`"
         name="Wallet"
         type="custom"
@@ -166,6 +166,12 @@ export default {
     ActionModal,
     TmBtn
   },
+  props: {
+    denom: {
+      type: String,
+      required: true
+    }
+  },
   data: () => ({
     address: ``,
     amount: null,
@@ -173,15 +179,14 @@ export default {
     memo: defaultMemo,
     max_memo_characters: 256,
     editMemo: false,
-    balance: []
+    balance: {
+      amount: 0,
+      denom: ``
+    }
   }),
   computed: {
     ...mapGetters([`network`]),
     ...mapGetters({ userAddress: `address` }),
-    currentBalance() {
-      const denom = this.balance.find(b => b.denom === this.denom)
-      return (denom && denom.amount) || 0
-    },
     transactionData() {
       return {
         type: transaction.SEND,
@@ -225,13 +230,13 @@ export default {
       this.sending = false
     },
     setMaxAmount() {
-      this.amount = this.currentBalance
+      this.amount = this.balance.amount
     },
     isMaxAmount() {
-      if (this.currentBalance === 0) {
+      if (this.balance.amount === 0) {
         return false
       } else {
-        return parseFloat(this.amount) === parseFloat(this.currentBalance)
+        return parseFloat(this.amount) === parseFloat(this.balance.amount)
       }
     },
     bech32Validate(param) {
@@ -262,7 +267,7 @@ export default {
       amount: {
         required: x => !!x && x !== `0`,
         decimal,
-        between: between(SMALLEST, this.currentBalance)
+        between: between(SMALLEST, this.balance.amount)
       },
       denom: { required },
       memo: {
@@ -273,8 +278,8 @@ export default {
   apollo: {
     balance: {
       query: gql`
-        query balance($networkId: String!, $address: String!) {
-          balance(networkId: $networkId, address: $address) {
+        query balance($networkId: String!, $address: String!, $denom: String!) {
+          balance(networkId: $networkId, address: $address, denom: $denom) {
             amount
             denom
           }
@@ -286,11 +291,9 @@ export default {
       variables() {
         return {
           networkId: this.network,
-          address: this.userAddress
+          address: this.userAddress,
+          denom: this.denom
         }
-      },
-      update: data => {
-        return data.balance
       }
     }
   }

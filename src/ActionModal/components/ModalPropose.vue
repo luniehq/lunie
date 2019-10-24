@@ -78,7 +78,7 @@
         @keyup.enter.native="enterPressed"
       />
       <TmFormMsg
-        v-if="currentBalance === 0"
+        v-if="balance.amount === 0"
         :msg="`doesn't have any ${denom}s`"
         name="Wallet"
         type="custom"
@@ -151,15 +151,14 @@ export default {
     description: ``,
     type: `Text`,
     amount: 0,
-    balance: []
+    balance: {
+      amount: 0,
+      denom: ``
+    }
   }),
   computed: {
     ...mapGetters([`network`]),
     ...mapGetters({ userAddress: `address` }),
-    currentBalance() {
-      const denom = this.balance.find(b => b.denom === this.denom)
-      return (denom && denom.amount) || 0
-    },
     transactionData() {
       return {
         type: transaction.SUBMIT_PROPOSAL,
@@ -201,7 +200,7 @@ export default {
       amount: {
         required: x => !!x && x !== `0`,
         decimal,
-        between: between(SMALLEST, this.currentBalance)
+        between: between(SMALLEST, this.balance.amount)
       }
     }
   },
@@ -234,8 +233,8 @@ export default {
   apollo: {
     balance: {
       query: gql`
-        query balance($networkId: String!, $address: String!) {
-          balance(networkId: $networkId, address: $address) {
+        query balance($networkId: String!, $address: String!, $denom: String!) {
+          balance(networkId: $networkId, address: $address, denom: $denom) {
             amount
             denom
           }
@@ -247,11 +246,9 @@ export default {
       variables() {
         return {
           networkId: this.network,
-          address: this.userAddress
+          address: this.userAddress,
+          denom: this.denom
         }
-      },
-      update: data => {
-        return data.balance
       }
     }
   }

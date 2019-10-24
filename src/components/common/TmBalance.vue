@@ -36,7 +36,7 @@
       />
     </div>
 
-    <SendModal ref="SendModal" />
+    <SendModal ref="SendModal" :denom="stakingDenom" />
     <ModalWithdrawRewards
       ref="ModalWithdrawRewards"
       :rewards="overview.totalRewards"
@@ -82,7 +82,7 @@ export default {
       this.$refs.ModalWithdrawRewards.open()
     },
     onSend() {
-      this.$refs.SendModal.open(this.stakingDenom)
+      this.$refs.SendModal.open()
     }
   },
   apollo: {

@@ -28,17 +28,17 @@
     <TmFormGroup class="action-modal-form-group" field-id="to" field-label="To">
       <TmField id="to" v-model="to" type="text" readonly />
       <TmFormMsg
-        v-if="validatorStatus === 'Inactive' && !isRedelegation()"
+        v-if="validator.status === 'INACTIVE' && !isRedelegation()"
         :msg="
-          `You are about to delegate to an inactive validator (${validatorStatusDetailed})`
+          `You are about to delegate to an inactive validator (${validator.statusDetailed})`
         "
         type="custom"
         class="tm-form-msg--desc"
       />
       <TmFormMsg
-        v-if="validatorStatus === 'Inactive' && isRedelegation()"
+        v-if="validator.status === 'INACTIVE' && isRedelegation()"
         :msg="
-          `You are about to redelegate to an inactive validator (${validatorStatusDetailed})`
+          `You are about to redelegate to an inactive validator (${validator.statusDetailed})`
         "
         type="custom"
         class="tm-form-msg--desc"
@@ -85,12 +85,12 @@
       </TmFieldGroup>
       <span v-if="!isRedelegation()" class="form-message">
         Available to Delegate:
-        {{ getFromBalance() }}
+        {{ balance.amount }}
         {{ denom }}s
       </span>
       <span v-else-if="isRedelegation()" class="form-message">
         Available to Redelegate:
-        {{ getFromBalance() }}
+        {{ balance.amount }}
         {{ denom }}s
       </span>
       <TmFormMsg
@@ -169,17 +169,16 @@ export default {
     }
   },
   data: () => ({
-    amount: null,
-    selectedIndex: 0
+    amount: 0,
+    selectedIndex: 0,
+    balance: {
+      amount: 0,
+      denom: ``
+    }
   }),
   computed: {
     ...mapState([`session`]),
     ...mapGetters([`network`]),
-    balance() {
-      if (!this.session.signedIn) return 0
-
-      return this.fromOptions[this.selectedIndex].maximum
-    },
     from() {
       if (!this.session.signedIn) return ``
 
@@ -220,23 +219,6 @@ export default {
           body: `You have successfully redelegated your ${this.denom}s`
         }
       }
-    },
-    // Will be replaced by `status` field from backend
-    validatorStatus() {
-      if (
-        this.validator.jailed ||
-        this.validator.tombstoned ||
-        this.validator.status === 0
-      )
-        return `Inactive`
-      return `Active`
-    },
-    // Will be replaced by `status_detail` field from backend
-    validatorStatusDetailed() {
-      if (this.validator.jailed) return `temporally banned from the network`
-      else if (this.validator.tombstoned) return `banned from the network`
-      else if (this.validator.status === 0) return `banned from the network`
-      else return false
     }
   },
   methods: {
@@ -255,22 +237,19 @@ export default {
       this.$v.$reset()
 
       this.selectedIndex = 0
-      this.amount = null
+      this.amount = 0
     },
     setMaxAmount() {
-      this.amount = this.balance
+      this.amount = this.balance.amount
     },
     isMaxAmount() {
-      return parseFloat(this.amount) === parseFloat(this.balance)
+      return parseFloat(this.amount) === parseFloat(this.balance.amount)
     },
     enterPressed() {
       this.$refs.actionModal.validateChangeStep()
     },
     isRedelegation() {
       return this.from !== this.session.address
-    },
-    getFromBalance() {
-      return this.balance
     }
   },
   validations() {
@@ -278,7 +257,7 @@ export default {
       amount: {
         required: x => !!x && x !== `0`,
         decimal,
-        between: between(SMALLEST, this.balance)
+        between: between(SMALLEST, this.balance.amount)
       }
     }
   },
@@ -309,6 +288,26 @@ export default {
       update(data) {
         /* istanbul ignore next */
         return data.delegations
+      }
+    },
+    balance: {
+      query: gql`
+        query balance($networkId: String!, $address: String!, $denom: String!) {
+          balance(networkId: $networkId, address: $address, denom: $denom) {
+            amount
+            denom
+          }
+        }
+      `,
+      skip() {
+        return !this.session.address
+      },
+      variables() {
+        return {
+          networkId: this.network,
+          address: this.session.address,
+          denom: this.denom
+        }
       }
     }
   }
