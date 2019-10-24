@@ -1,9 +1,6 @@
 <template>
   <TmPage
     :managed="true"
-    :loading="$apollo.queries.validators.loading"
-    :loaded="!$apollo.queries.validators.loading"
-    :error="$apollo.queries.validators.error"
     :data-empty="validators && validators.length === 0"
     hide-header
   >
@@ -78,15 +75,13 @@ export default {
       query: gql`
         query validators(
           $networkId: String!
-          $delegatorAddress: String
-          $all: Boolean
-          $query: String
+          $searchTerm: String
+          $activeOnly: Boolean
         ) {
           validators(
             networkId: $networkId
-            delegatorAddress: $delegatorAddress
-            all: $all
-            query: $query
+            searchTerm: $query
+            activeOnly: $all
           ) {
             name
             operatorAddress
@@ -113,9 +108,8 @@ export default {
       variables() {
         return {
           networkId: this.network,
-          delegatorAddress: this.address,
-          all: !this.activeOnly,
-          query: this.searchTerm
+          activeOnly: this.activeOnly,
+          searchTerm: this.searchTerm
         }
       },
       update: function(result) {
