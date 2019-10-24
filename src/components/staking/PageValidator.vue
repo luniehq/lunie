@@ -292,7 +292,7 @@ export default {
         return {
           networkId: this.network,
           address: this.userAddress,
-          denom: this.denom
+          denom: fromMicroDenom(this.denom)
         }
       }
     },

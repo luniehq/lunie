@@ -4,3 +4,10 @@ export function toMicroDenom(denom) {
   }
   return denom.toLowerCase()
 }
+
+export function fromMicroDenom(denom) {
+  if (denom.toLowerCase() === "uatom") {
+    return "ATOM"
+  }
+  return denom.toUpperCase()
+}
