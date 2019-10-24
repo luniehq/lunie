@@ -80,8 +80,8 @@ export default {
         ) {
           validators(
             networkId: $networkId
-            searchTerm: $query
-            activeOnly: $all
+            searchTerm: $searchTerm
+            activeOnly: $activeOnly
           ) {
             name
             operatorAddress
