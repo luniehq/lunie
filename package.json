@@ -6,7 +6,7 @@
   "scripts": {
     "start": "npm run testnet:start & npm run serve",
     "serve": "kill-port 9080 && vue-cli-service serve --port 9080",
-    "serve:dist": "live-server --https=node_modules/live-server-https --port=9080 --no-browser ./dist",
+    "serve:dist": "live-server --port=9080 --no-browser ./dist",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
     "lint:style": "vue-cli-service lint:style",

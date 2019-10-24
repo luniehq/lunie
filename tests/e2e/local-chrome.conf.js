@@ -6,7 +6,7 @@ const nightwatch_config = {
   globals_path: "./globals.js",
   disable_colors: false,
   test_workers: false,
-  launch_url: "https://localhost:9080?network=local-cosmos-hub-testnet",
+  launch_url: "http://localhost:9080?network=local-cosmos-hub-testnet",
   webdriver: {
     start_process: true,
     port: 9515,
