@@ -160,9 +160,11 @@ jobs:
           # needs to be done in CI to be sure it is build once we start the tests
           name: Build for E2E test
           command: npm run test:e2e:build
+          environment:
+            VUE_APP_GRAPHQL_URL: localhost:4000
       - run:
           name: Test
-          command: npm run serve:dist & npm run test:e2e:browserstack
+          command: npm run serve:dist & npm run test:e2e:local
           no_output_timeout: 120
       - store_artifacts:
           path: ./screenshots
