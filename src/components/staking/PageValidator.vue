@@ -326,9 +326,6 @@ export default {
           ...result.delegation,
           amount: Number(result.delegation.amount)
         }
-      },
-      skip() {
-        return !this.session.address
       }
     },
     rewards: {
