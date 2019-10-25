@@ -3,7 +3,7 @@
     <div class="tx__content__caption">
       <p>
         Submitted {{ transaction.value.proposal_type.toLowerCase() }} proposal
-        <b>{{ initialDeposit.amount | atoms | prettyLong }}</b> 
+        <b>{{ initialDeposit.amount | atoms | prettyLong }}</b>
         <span>&nbsp;{{ initialDeposit.denom | viewDenom }}</span>
       </p>
     </div>

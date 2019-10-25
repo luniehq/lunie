@@ -142,7 +142,7 @@ describe(`ActionModal`, () => {
     wrapper.vm.open()
   })
 
-  xit(`should set the submissionError if the submission is rejected`, async () => {
+  it(`should set the submissionError if the submission is rejected`, async () => {
     const ActionManagerSend = jest
       .fn()
       .mockRejectedValue(new Error(`some kind of error message`))

@@ -178,7 +178,6 @@ import gql from "graphql-tag"
 import { ValidatorProfile } from "src/gql"
 import { fromMicroDenom } from "src/scripts/common"
 
-
 function getStatusText(statusDetailed) {
   switch (statusDetailed) {
     case "inactive":

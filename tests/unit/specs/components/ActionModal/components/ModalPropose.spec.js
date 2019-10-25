@@ -90,12 +90,6 @@ describe(`ModalPropose`, () => {
       })
 
       it(`if the user doesn't have the deposit coin`, async () => {
-        const otherCoins = [
-          {
-            amount: `20`,
-            denom: `otherCoin`
-          }
-        ]
         wrapper.setData(inputs)
         wrapper.setData({ amount: 25 })
         await wrapper.vm.$nextTick()

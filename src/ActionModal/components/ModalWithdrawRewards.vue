@@ -26,7 +26,6 @@
 <script>
 import { viewDenom, atoms, fullDecimals } from "src/scripts/num"
 import ActionModal from "./ActionModal"
-import TmField from "src/components/common/TmField"
 import TmFormGroup from "src/components/common/TmFormGroup"
 
 import transaction from "../utils/transactionTypes"
@@ -35,7 +34,6 @@ export default {
   name: `modal-withdraw-rewards`,
   components: {
     ActionModal,
-    TmField,
     TmFormGroup
   },
   filters: {

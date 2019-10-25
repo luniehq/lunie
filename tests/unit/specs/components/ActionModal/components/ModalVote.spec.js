@@ -6,7 +6,7 @@ import ModalVote from "src/ActionModal/components/ModalVote"
 import mockValues from "tests/unit/helpers/mockValues.js"
 
 describe(`ModalVote`, () => {
-  let wrapper, $store
+  let wrapper
 
   const localVue = createLocalVue()
   localVue.use(Vuelidate)
