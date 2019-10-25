@@ -14,7 +14,7 @@ module.exports = {
   },
 
   beforeEach(browser, done) {
-    browser.url(browser.launch_url).execute(function() {
+    browser.url(browser.launch_url).execute(function () {
       window.localStorage.setItem(
         `cosmos-wallets-cosmos1ek9cd8ewgxg9w5xllq9um0uf4aaxaruvcw4v9e`,
         JSON.stringify({
@@ -57,7 +57,7 @@ module.exports = {
    *
    * @param results
    */
-  reporter: function(results) {
+  reporter: function (results) {
     if (
       (typeof results.failed === `undefined` || results.failed === 0) &&
       (typeof results.error === `undefined` || results.error === 0)
@@ -70,19 +70,18 @@ module.exports = {
 }
 
 async function apiUp() {
-  // we need to wait until the testnet is up
+  // we need to wait until the testnet is up and the account has money
   let apiUp = false
   while (!apiUp) {
     try {
-      await axios.post(`http://${HOST}:4000`, {
-        operationName: "NetworkAvailable",
-        query: `query NetworkAvailable {
-          validators(networkId: "local-cosmos-hub-testnet") {
-            status
-          }
-        }`,
+      const { data } = await axios.post(`http://${HOST}:4000`, {
+        operationName: null,
+        query: `{\n  balance(networkId: \"local-cosmos-hub-testnet\", address: \"cosmos1ek9cd8ewgxg9w5xllq9um0uf4aaxaruvcw4v9e\") {\n    denom\n    amount\n  }\n}\n`,
         variables: {}
       })
+      if (!data.data.balance.find(({ denom }) => denom === "STAKE")) {
+        continue
+      }
       apiUp = true
     } catch (err) {
       console.log(err)
