@@ -73,13 +73,18 @@ export default [
     }
   },
   {
-    path: `/transactions`,
-    name: `transactions`,
+    path: `/activity`,
+    name: `activity`,
     component: require(`./components/wallet/PageTransactions`).default,
     meta: {
       requiresAuth: true,
       feature: "Activity"
     }
+  },
+  {
+    path: `/transactions`,
+    name: `transactions`,
+    redirect: `/activity`
   },
   {
     path: `/networks`,
