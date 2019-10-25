@@ -30,13 +30,6 @@ exports[`ModalWithdrawRewards should show the withdraw rewards modal 1`] = `
     >
       STAKE
     </span>
-     
-    <tmfield-stub
-      id="amount"
-      readonly=""
-      type="text"
-      value="0.000000"
-    />
   </tmformgroup-stub>
 </actionmodal-stub>
 `;
