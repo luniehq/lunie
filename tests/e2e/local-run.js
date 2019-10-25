@@ -11,7 +11,7 @@ const main = async () => {
     await exec("git clone https://github.com/luniehq/lunie-backend.git lunie-backend")
   } catch (error) { }
   await exec("cd lunie-backend && git pull origin develop")
-  console.log("starting stack repo")
+  console.log("starting lunie-backend repo")
   await exec("cd lunie-backend && docker-compose up -d")
 
   console.log("starting website")
