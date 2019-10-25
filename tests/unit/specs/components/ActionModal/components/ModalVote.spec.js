@@ -12,24 +12,11 @@ describe(`ModalVote`, () => {
   localVue.use(Vuelidate)
 
   beforeEach(() => {
-    $store = {
-      commit: jest.fn(),
-      dispatch: jest.fn(),
-      getters: {
-        session: { signedIn: true },
-        connection: { connected: true },
-        bondDenom: `uatom`,
-        liquidAtoms: 1000000
-      }
-    }
     wrapper = shallowMount(ModalVote, {
       localVue,
       propsData: {
         proposalId: `1`,
         proposalTitle: mockValues.state.proposals[`1`].title
-      },
-      mocks: {
-        $store
       }
     })
   })
