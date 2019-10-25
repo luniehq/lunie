@@ -50,7 +50,7 @@
         <TmBtn id="delegation-btn" value="Stake" @click.native="onDelegation" />
         <TmBtn
           id="undelegation-btn"
-          :disabled="!delegation"
+          :disabled="delegation.amount === 0"
           value="Unstake"
           type="secondary"
           @click.native="onUndelegation"
