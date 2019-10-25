@@ -4,7 +4,7 @@ const nightwatch_config = {
   src_folders: ["tests/e2e"],
   globals_path: "./globals.js",
   output_folder: "./output",
-  launch_url: "http://127.0.0.1:9080",
+  launch_url: "http://127.0.0.1:9080?network=local-cosmos-hub-testnet",
 
   selenium: {
     start_process: false,
