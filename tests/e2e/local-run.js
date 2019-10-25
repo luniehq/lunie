@@ -6,7 +6,7 @@ const spawn = require("child_process").spawn
 /* you can provide the name of the file to test only one file > for send.spec.js `yarn test:e2e send` */
 const main = async () => {
   const filter = process.argv[2]
-  console.log("cloning stack repo")
+  console.log("cloning lunie-backend repo")
   try {
     await exec("git clone https://github.com/luniehq/lunie-backend.git lunie-backend")
   } catch (error) { }
