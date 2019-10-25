@@ -107,7 +107,10 @@ describe(`ActionModal`, () => {
           sessionType: `local`,
           browserWithLedgerSupport: null,
           currrentModalOpen: false
-        }
+        },
+        overview,
+        network,
+        delegations
       },
       getters: {
         connected: true,
@@ -135,11 +138,6 @@ describe(`ActionModal`, () => {
         // $apollo
       },
       stubs: ["router-link"]
-    })
-    wrapper.setData({
-      overview,
-      network,
-      delegations
     })
     wrapper.vm.open()
   })
