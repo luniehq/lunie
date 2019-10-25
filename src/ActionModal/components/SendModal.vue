@@ -175,7 +175,6 @@ export default {
   data: () => ({
     address: ``,
     amount: null,
-    denom: ``,
     memo: defaultMemo,
     max_memo_characters: 256,
     editMemo: false,
@@ -211,8 +210,7 @@ export default {
   },
   methods: {
     viewDenom,
-    open(denom) {
-      this.denom = denom
+    open() {
       this.$refs.actionModal.open()
     },
     validateForm() {
