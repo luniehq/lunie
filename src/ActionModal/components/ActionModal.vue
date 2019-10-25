@@ -30,7 +30,7 @@
         <p
           v-if="
             extension.enabled &&
-              !this.isExtensionAccount &&
+              !isExtensionAccount &&
               step === signStep &&
               selectedSignMethod === SIGN_METHODS.EXTENSION
           "
@@ -77,7 +77,7 @@
               min="0"
             />
             <TmFormMsg
-              v-if="balanceInAtoms === 0"
+              v-if="overview.liquidStake === 0"
               :msg="`doesn't have any ${network.stakingDenom}s`"
               name="Wallet"
               type="custom"
@@ -105,7 +105,7 @@
             name="Total"
             type="between"
             min="0"
-            :max="balanceInAtoms"
+            :max="overview.liquidStake"
           />
         </div>
         <div v-else-if="step === signStep" class="action-modal-form">
@@ -409,9 +409,6 @@ export default {
     requiresSignIn() {
       return !this.session.signedIn
     },
-    balanceInAtoms() {
-      return this.overview.liquidStake
-    },
     estimatedFee() {
       return Number(this.gasPrice) * Number(this.gasEstimate) // already in atoms
     },
@@ -602,9 +599,9 @@ export default {
       }
 
       // limit fees to the maximum the user has
-      if (this.invoiceTotal > this.balanceInAtoms) {
+      if (this.invoiceTotal > this.overview.liquidStake) {
         this.gasPrice =
-          (this.balanceInAtoms - Number(this.amount)) / this.gasEstimate
+          (this.overview.liquidStake - Number(this.amount)) / this.gasEstimate
       }
     },
     async submit() {
@@ -701,10 +698,10 @@ export default {
         ),
         // we don't use SMALLEST as min gas price because it can be a fraction of uatom
         // min is 0 because we support sending 0 fees
-        between: between(0, this.balanceInAtoms)
+        between: between(0, this.overview.liquidStake)
       },
       invoiceTotal: {
-        between: between(0, this.balanceInAtoms)
+        between: between(0, this.overview.liquidStake)
       }
     }
   },
