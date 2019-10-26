@@ -18,7 +18,7 @@
           </router-link>
         </li>
         <li>
-          <router-link to="/transactions">
+          <router-link to="/activity">
             Transactions
           </router-link>
         </li>

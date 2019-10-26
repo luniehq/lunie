@@ -25,7 +25,7 @@
     </router-link>
     <router-link
       class="mobile-menu-item"
-      to="/transactions"
+      to="/activity"
       exact="exact"
       title="Transactions"
     >

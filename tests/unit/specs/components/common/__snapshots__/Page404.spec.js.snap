@@ -48,7 +48,7 @@ exports[`Page404 should show the 404 page 1`] = `
        
       <li>
         <router-link-stub
-          to="/transactions"
+          to="/activity"
         >
           
           Transactions

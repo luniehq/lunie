@@ -57,7 +57,7 @@
 
       <router-link
         class="app-menu-item hide-xs"
-        to="/transactions"
+        to="/activity"
         exact="exact"
         title="Transactions"
         @click.native="close"
