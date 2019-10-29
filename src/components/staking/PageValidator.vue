@@ -321,9 +321,11 @@ export default {
         },
         query: UserTransactionAdded,
         result({ data }) {
-          this.$apollo.queries.validator.refetch()
-          this.$apollo.queries.rewards.refetch()
-          this.$apollo.queries.delegation.refetch()
+          if (data.userTransactionAdded.success) {
+            this.$apollo.queries.validator.refetch()
+            this.$apollo.queries.rewards.refetch()
+            this.$apollo.queries.delegation.refetch()
+          }
         }
       }
     }

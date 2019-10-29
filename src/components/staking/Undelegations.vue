@@ -50,7 +50,9 @@ export default {
         },
         query: UserTransactionAdded,
         result({ data }) {
-          this.$apollo.queries.undelegations.refetch()
+          if (data.userTransactionAdded.success) {
+            this.$apollo.queries.undelegations.refetch()
+          }
         }
       }
     }

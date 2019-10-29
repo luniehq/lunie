@@ -162,7 +162,9 @@ export default {
         },
         query: UserTransactionAdded,
         result({ data }) {
-          this.$apollo.queries.rewards.refetch()
+          if (data.userTransactionAdded.success) {
+            this.$apollo.queries.rewards.refetch()
+          }
         }
       }
     }

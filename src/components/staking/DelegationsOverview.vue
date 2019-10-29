@@ -71,7 +71,9 @@ export default {
         },
         query: UserTransactionAdded,
         result({ data }) {
-          this.$apollo.queries.delegations.refetch()
+          if (data.userTransactionAdded.success) {
+            this.$apollo.queries.delegations.refetch()
+          }
         }
       }
     }
