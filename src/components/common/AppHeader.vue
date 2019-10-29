@@ -92,6 +92,7 @@ export default {
   flex: 1;
   display: flex;
   flex-flow: column nowrap;
+  padding-top: 1.4rem;
 }
 
 .app-header .header-item {
@@ -114,7 +115,7 @@ export default {
   }
 
   .container {
-    background: var(--app-fg-dark);
+    background: var(--app-nav);
     position: fixed;
     width: 100%;
   }
