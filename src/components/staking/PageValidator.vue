@@ -136,19 +136,10 @@
         </li>
       </ul>
 
-      <DelegationModal
-        ref="delegationModal"
-        :from-options="delegationTargetOptions()"
-        :to="validator.operatorAddress"
-        :validator="validator"
-        :denom="stakingDenom"
-      />
+      <DelegationModal ref="delegationModal" :target-validator="validator" />
       <UndelegationModal
         ref="undelegationModal"
-        :maximum="delegation.amount"
-        :to="userAddress"
-        :validator="validator"
-        :denom="stakingDenom"
+        :source-validator="validator"
         @switchToRedelegation="onDelegation({ redelegation: true })"
       />
     </template>
@@ -167,7 +158,7 @@
 import moment from "moment"
 import { mapGetters, mapState } from "vuex"
 import { atoms, shortDecimals, fullDecimals, percent } from "scripts/num"
-import { formatBech32, noBlanks, fromNow } from "src/filters"
+import { noBlanks, fromNow } from "src/filters"
 import TmBtn from "common/TmBtn"
 import DelegationModal from "src/ActionModal/components/DelegationModal"
 import UndelegationModal from "src/ActionModal/components/UndelegationModal"
@@ -176,7 +167,6 @@ import Bech32 from "common/Bech32"
 import TmPage from "common/TmPage"
 import gql from "graphql-tag"
 import { ValidatorProfile } from "src/gql"
-import { fromMicroDenom } from "src/scripts/common"
 
 function getStatusText(statusDetailed) {
   switch (statusDetailed) {
@@ -218,7 +208,6 @@ export default {
     validator: {},
     rewards: 0,
     delegation: {},
-    delegations: [],
     error: false
   }),
   computed: {
@@ -236,42 +225,6 @@ export default {
     },
     onUndelegation() {
       this.$refs.undelegationModal.open()
-    },
-    delegationTargetOptions() {
-      if (!this.session.signedIn) return []
-
-      const stakingBalanceAmount = this.balance.amount || 0
-
-      //- First option should always be your wallet (i.e normal delegation)
-      const myWallet = [
-        {
-          address: this.userAddress,
-          maximum: Number(stakingBalanceAmount),
-          key: `My Wallet - ${formatBech32(this.userAddress, false, 20)}`,
-          value: 0
-        }
-      ]
-
-      const result = myWallet.concat(
-        this.delegations
-          .filter(
-            d => d.validator.operatorAddress != this.$route.params.validator
-          )
-          .map((d, i) => {
-            return {
-              address: this.userAddress,
-              maximum: Number(d.amount), // TODO
-              key: `${d.validator.name} - ${formatBech32(
-                d.validator.operatorAddress,
-                false,
-                20
-              )}`,
-              value: i + 1
-            }
-          })
-      )
-      console.log(result)
-      return result
     }
   },
   apollo: {
@@ -352,70 +305,6 @@ export default {
         return {
           ...result.validator,
           statusDetailed: getStatusText(result.validator.statusDetailed)
-        }
-      }
-    },
-    stakingDenom: {
-      query: gql`
-        query Networks($networkId: String!) {
-          network(id: $networkId) {
-            id
-            stakingDenom
-          }
-        }
-      `,
-      variables() {
-        return {
-          networkId: this.network
-        }
-      },
-      update(data) {
-        /* istanbul ignore next */
-        return data.network.stakingDenom
-      }
-    },
-    balance: {
-      query: gql`
-        query balance($networkId: String!, $address: String!, $denom: String!) {
-          balance(networkId: $networkId, address: $address, denom: $denom) {
-            amount
-            denom
-          }
-        }
-      `,
-      skip() {
-        return !this.userAddress
-      },
-      variables() {
-        return {
-          networkId: this.network,
-          address: this.userAddress,
-          denom: fromMicroDenom(this.stakingDenom)
-        }
-      }
-    },
-    delegations: {
-      query: gql`
-        query Delegations($networkId: String!, $delegatorAddress: String!) {
-          delegations(
-            networkId: $networkId
-            delegatorAddress: $delegatorAddress
-          ) {
-            amount
-            validator {
-              operatorAddress
-              name
-            }
-          }
-        }
-      `,
-      skip() {
-        return !this.userAddress
-      },
-      variables() {
-        return {
-          networkId: this.network,
-          delegatorAddress: this.userAddress
         }
       }
     }

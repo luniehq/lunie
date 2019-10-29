@@ -143,7 +143,7 @@ export default {
           delegatorAddress: this.address
         }
       },
-      update: result => result.rewards
+      update: result => result.rewards || []
     }
   }
 }

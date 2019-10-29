@@ -4,39 +4,23 @@ import { shallowMount, createLocalVue } from "@vue/test-utils"
 import UndelegationModal from "src/ActionModal/components/UndelegationModal"
 import Vuelidate from "vuelidate"
 
-const context = {
-  url: "http://lunie.io",
-  chainId: "cosmoshub",
-  connected: true,
-  userAddress: "cosmos1abcdefghijklmop",
-  committedDelegations: [],
-  delegates: [],
-  localKeyPairName: "localKeyPairName"
-}
-
 describe(`UndelegationModal`, () => {
   let wrapper, $store
-  const stakingParameters = {
-    unbonding_time: `259200000000000`,
-    max_validators: 100,
-    bond_denom: `STAKE`
-  }
   const validator = {
-    operator_address: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au`
+    operatorAddress: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au`
     // we don't need other props in this component
   }
   const localVue = createLocalVue()
   localVue.use(Vuelidate)
-  localVue.directive("focus", () => {})
+  localVue.directive("focus", () => { })
 
   beforeEach(() => {
     $store = {
       commit: jest.fn(),
       dispatch: jest.fn(),
       getters: {
-        bondDenom: `stake`,
-        liquidAtoms: 1000042,
-        modalContext: context
+        network: "testnet",
+        address: "cosmos12345"
       }
     }
     wrapper = shallowMount(UndelegationModal, {
@@ -45,16 +29,15 @@ describe(`UndelegationModal`, () => {
         $store
       },
       propsData: {
-        maximum: 1000000000,
-        validator,
-        to: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au`,
-        denom: stakingParameters.bond_denom,
-        fromOptions: [
-          {
-            address: `cosmosval1234`
-          }
-        ]
+        sourceValidator: validator
       }
+    })
+    wrapper.setData({
+      delegations: [{
+        validator,
+        amount: 1000
+      }],
+      denom: "STAKE"
     })
   })
 
@@ -107,9 +90,9 @@ describe(`UndelegationModal`, () => {
   })
 
   describe(`if amount field max button clicked`, () => {
-    it(`amount has to be 1000000000`, async () => {
+    it(`amount has to match the delegation`, async () => {
       wrapper.vm.setMaxAmount()
-      expect(wrapper.vm.amount).toBe(1000000000)
+      expect(wrapper.vm.amount).toBe(1000)
     })
   })
 

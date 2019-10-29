@@ -260,7 +260,7 @@
                   v-else
                   color="primary"
                   value="Send"
-                  :disabled="!hasSigningMethod"
+                  :disabled="!selectedSignMethod"
                   @click.native="validateChangeStep"
                 />
               </div>

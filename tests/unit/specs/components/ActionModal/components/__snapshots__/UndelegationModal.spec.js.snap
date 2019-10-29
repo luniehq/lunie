@@ -4,7 +4,6 @@ exports[`UndelegationModal should display undelegation modal form 1`] = `
 <actionmodal-stub
   amount="0"
   class="undelegation-modal"
-  fromoptions="[object Object]"
   id="undelegation-modal"
   notifymessage="[object Object]"
   submissionerrorprefix="Undelegating failed"
@@ -75,7 +74,7 @@ exports[`UndelegationModal should display undelegation modal form 1`] = `
       class="form-message"
     >
       
-      Currently Delegated: 1000000000 STAKEs
+      Currently Delegated: 1000 STAKEs
     
     </span>
      
