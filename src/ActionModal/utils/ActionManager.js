@@ -125,13 +125,13 @@ function toMicroAtomString(amount) {
 }
 
 // // limitation of the block, so we pick the top 5 rewards and inform the user.
-function getTop5RewardsValidators(bondDenom, rewardsObject) {
+function getTop5RewardsValidators(bondDenom, rewards) {
   // Compares the amount in a [address1, {denom: amount}] array
-  const byBalanceOfDenom = denom => (a, b) => b[1][denom] - a[1][denom]
-  const validatorList = Object.entries(rewardsObject)
-    .sort(byBalanceOfDenom(bondDenom))
+  const byBalance = (a, b) => b.amount - a.amount
+  const validatorList = rewards
+    .sort(byBalance)
     .slice(0, 5) // Just the top 5
-    .map(([address]) => address)
+    .map(({ validator }) => validator.operatorAddress)
 
   return validatorList
 }
