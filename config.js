@@ -1,15 +1,11 @@
 const dev = process.env.NODE_ENV === `development`
-const stargate = process.env.STARGATE || `http://localhost:9071`
-const rpc = process.env.RPC || `localhost:26657`
-const graphql = process.env.VUE_APP_GRAPHQL_URL || `localhost:8080`
+const stargate = process.env.STARGATE || `http://localhost:9070`
 
 export default {
   name: `Lunie`,
   development: dev,
-  network: dev ? `testnet` : `cosmoshub`,
+  network: process.env.NETWORK || `cosmos-hub-mainnet`,
   stargate,
-  rpc,
-  graphql,
   google_analytics_uid: process.env.GOOGLE_ANALYTICS_UID || "",
   node_halted_timeout: 120000,
   block_timeout: 10000,
