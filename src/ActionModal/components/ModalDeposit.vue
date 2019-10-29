@@ -57,7 +57,7 @@ import TmFormGroup from "src/components/common/TmFormGroup"
 import TmFormMsg from "src/components/common/TmFormMsg"
 import ActionModal from "./ActionModal"
 import transaction from "../utils/transactionTypes"
-import { toMicroDenom, fromMicroDenom } from "src/scripts/common"
+import { toMicroDenom } from "src/scripts/common"
 
 export default {
   name: `modal-deposit`,
@@ -160,7 +160,7 @@ export default {
         return {
           networkId: this.network,
           address: this.userAddress,
-          denom: fromMicroDenom(this.denom)
+          denom: this.denom
         }
       }
     }

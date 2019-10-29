@@ -121,7 +121,7 @@ import TmField from "common/TmField"
 import TmFormGroup from "common/TmFormGroup"
 import TmFormMsg from "common/TmFormMsg"
 import ActionModal from "./ActionModal"
-import { toMicroDenom, fromMicroDenom } from "src/scripts/common"
+import { toMicroDenom } from "src/scripts/common"
 
 import transaction from "../utils/transactionTypes"
 
@@ -247,7 +247,7 @@ export default {
         return {
           networkId: this.network,
           address: this.userAddress,
-          denom: fromMicroDenom(this.denom)
+          denom: this.denom
         }
       }
     }
