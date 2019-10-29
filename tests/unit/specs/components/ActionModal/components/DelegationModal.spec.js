@@ -3,39 +3,38 @@
 import { shallowMount, createLocalVue } from "@vue/test-utils"
 import DelegationModal from "src/ActionModal/components/DelegationModal"
 import Vuelidate from "vuelidate"
-import mockValues from "tests/unit/helpers/mockValues.js"
 
-const context = {
-  url: "http://lunie.io",
-  chainId: "cosmoshub",
-  connected: true,
-  userAddress: mockValues.addresses[0],
-  committedDelegations: [],
-  delegates: [],
-  localKeyPairName: "localKeyPairName"
-}
+const validators = [{
+  operatorAddress: "cosmosvaladdr12324536463",
+  status: "ACTIVE"
+}, {
+  operatorAddress: "cosmosvaladdr1sdsdsd123123",
+  status: "ACTIVE"
+}, {
+  operatorAddress: "cosmosvaladdr1kjisjsd862323",
+  status: "INACTIVE",
+  statusDetailed: "temporally banned from the network"
+}, {
+  operatorAddress: "cosmosvaladdr1sd0f8mnbjb2",
+  status: "INACTIVE",
+  statusDetailed: "banned from the network"
+}]
 
 describe(`DelegationModal`, () => {
   let wrapper
-  const { stakingParameters } = mockValues.state
   const localVue = createLocalVue()
   localVue.use(Vuelidate)
-  localVue.directive("focus", () => {})
+  localVue.directive("focus", () => { })
 
   const state = {
     session: {
-      signedIn: true,
-      address: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw`
+      signedIn: true
     }
   }
 
   const getters = {
-    connection: { connected: true },
-    stakingParameters: { parameters: stakingParameters },
-    modalContext: {
-      ...context,
-      delegates: mockValues.state.candidates
-    }
+    network: "testnet",
+    address: "cosmos1234"
   }
 
   beforeEach(() => {
@@ -45,29 +44,22 @@ describe(`DelegationModal`, () => {
         $store: { getters, state }
       },
       propsData: {
-        validator: mockValues.state.candidates[0],
-        fromOptions: [
-          {
-            address: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
-            key: `My Wallet - cosmos…3p4mqpjyrm5ctpesxxn9`,
-            maximum: 1000000000,
-            value: 0
-          },
-          {
-            address: mockValues.state.candidates[1].operator_address,
-            key: `Billy the Bill - cosmos…psjr9565ef72pv9g20yx`,
-            maximum: 23.0484375481,
-            value: 1
-          },
-          {
-            address: `cosmos18thamkhnj9wz8pa4nhnp9rldprgant57ryzag7`,
-            key: `Kentucky - cosmos…np9rldprgant57ryzag7`,
-            maximum: 1.3788878447,
-            value: 2
-          }
-        ],
-        to: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au`,
-        denom: stakingParameters.parameters.bond_denom
+        targetValidator: validators[0]
+      }
+    })
+    wrapper.setData({
+      delegations: [{
+        validator: validators[0],
+        amount: 10
+      },
+      {
+        validator: validators[1],
+        amount: 124
+      }],
+      denom: "STAKE",
+      balance: {
+        amount: 1000,
+        denom: "STAKE"
       }
     })
   })
@@ -105,7 +97,7 @@ describe(`DelegationModal`, () => {
     DelegationModal.methods.clear.call(self)
     expect(self.$v.$reset).toHaveBeenCalled()
     expect(self.selectedIndex).toBe(0)
-    expect(self.amount).toBeNull()
+    expect(self.amount).toBe(0)
   })
 
   describe(`if amount field max button clicked`, () => {
@@ -137,20 +129,21 @@ describe(`DelegationModal`, () => {
 
   describe("Submission Data for Delegating", () => {
     beforeEach(() => {
+      wrapper.setProps({
+        targetValidator: validators[1]
+      })
       wrapper.setData({
         amount: 10,
-        selectedIndex: 0,
-        validator: mockValues.state.candidates[1]
+        selectedIndex: 0
       })
     })
 
-    //mockValues.state.candidates[0].operator_address
     it("should return correct transaction data for delegating", () => {
       expect(wrapper.vm.transactionData).toEqual({
         type: "MsgDelegate",
-        validatorAddress: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au`,
+        validatorAddress: `cosmosvaladdr1sdsdsd123123`,
         amount: "10000000",
-        denom: "STAKE"
+        denom: "stake"
       })
     })
 
@@ -164,12 +157,12 @@ describe(`DelegationModal`, () => {
 
   describe("Submission Data for Redelegating", () => {
     beforeEach(() => {
+      wrapper.setProps({
+        targetValidator: validators[1]
+      })
       wrapper.setData({
         amount: 10,
-        selectedIndex: 1,
-        validator: {
-          operator_address: "cosmosDstAddress1"
-        }
+        selectedIndex: 1
       })
     })
 
@@ -177,10 +170,10 @@ describe(`DelegationModal`, () => {
       expect(wrapper.vm.transactionData).toEqual({
         type: "MsgRedelegate",
         validatorSourceAddress:
-          "cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au",
-        validatorDestinationAddress: "cosmosDstAddress1",
+          "cosmosvaladdr12324536463",
+        validatorDestinationAddress: "cosmosvaladdr1sdsdsd123123",
         amount: "10000000",
-        denom: "STAKE"
+        denom: "stake"
       })
       // expect(wrapper.vm.transactionData).toEqual()
     })
@@ -197,8 +190,7 @@ describe(`DelegationModal`, () => {
     it(`amount has to be 1000 atom`, async () => {
       wrapper.setData({
         amount: 1,
-        selectedIndex: 0,
-        validator: mockValues.state.candidates[1]
+        selectedIndex: 0
       })
       wrapper.vm.setMaxAmount()
       expect(wrapper.vm.amount).toBe(1000)
@@ -206,8 +198,7 @@ describe(`DelegationModal`, () => {
     it(`should show warning message`, async () => {
       wrapper.setData({
         amount: 1000,
-        selectedIndex: 0,
-        validator: mockValues.state.candidates[1]
+        selectedIndex: 0
       })
       //await wrapper.vm.$nextTick()
       expect(wrapper.html()).toContain(
@@ -218,10 +209,12 @@ describe(`DelegationModal`, () => {
 
   describe(`if validator is jailed`, () => {
     it(`must show warn message about it`, async () => {
+      wrapper.setProps({
+        targetValidator: validators[2] // Jailed validator
+      })
       wrapper.setData({
         amount: 1,
-        selectedIndex: 0,
-        validator: mockValues.state.candidates[3] // Jailed validator
+        selectedIndex: 0
       })
       expect(wrapper.html()).toContain(
         "You are about to delegate to an inactive validator (temporally banned from the network)"
@@ -231,10 +224,12 @@ describe(`DelegationModal`, () => {
 
   describe(`if validator is tombstoned`, () => {
     it(`must show warn message about it`, async () => {
+      wrapper.setProps({
+        targetValidator: validators[3] // Tombstoned validator
+      })
       wrapper.setData({
         amount: 1,
-        selectedIndex: 0,
-        validator: mockValues.state.candidates[4] // Tombstoned validator
+        selectedIndex: 0
       })
       expect(wrapper.html()).toContain(
         "You are about to delegate to an inactive validator (banned from the network)"
@@ -247,12 +242,12 @@ describe(`DelegationModal`, () => {
       wrapper.setData({
         amount: 1,
         selectedIndex: 0,
-        validator: mockValues.state.candidates[2] // Active validator
+        targetValidator: validators[0] // Active validator
       })
       expect(wrapper.html()).not.toContain(
         "You are about to delegate to an inactive validator"
       )
-      expect(wrapper.vm.validatorStatusDetailed).toBe(false)
+      expect(wrapper.find("#to .tm-form-msg--desc").exists()).toBe(false)
     })
   })
 })

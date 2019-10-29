@@ -6,30 +6,17 @@ import ModalVote from "src/ActionModal/components/ModalVote"
 import mockValues from "tests/unit/helpers/mockValues.js"
 
 describe(`ModalVote`, () => {
-  let wrapper, $store
+  let wrapper
 
   const localVue = createLocalVue()
   localVue.use(Vuelidate)
 
   beforeEach(() => {
-    $store = {
-      commit: jest.fn(),
-      dispatch: jest.fn(),
-      getters: {
-        session: { signedIn: true },
-        connection: { connected: true },
-        bondDenom: `uatom`,
-        liquidAtoms: 1000000
-      }
-    }
     wrapper = shallowMount(ModalVote, {
       localVue,
       propsData: {
         proposalId: `1`,
         proposalTitle: mockValues.state.proposals[`1`].title
-      },
-      mocks: {
-        $store
       }
     })
   })

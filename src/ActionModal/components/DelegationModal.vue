@@ -3,8 +3,8 @@
     id="delegation-modal"
     ref="actionModal"
     :validate="validateForm"
-    :amount="isRedelegation() ? 0 : amount"
-    :title="isRedelegation() ? 'Redelegate' : 'Delegate'"
+    :amount="isRedelegation ? 0 : amount"
+    :title="isRedelegation ? 'Redelegate' : 'Delegate'"
     class="delegation-modal"
     submission-error-prefix="Delegating failed"
     :transaction-data="transactionData"
@@ -13,7 +13,7 @@
   >
     <TmFormGroup class="action-modal-form-group">
       <div class="form-message notice">
-        <span v-if="!isRedelegation()">
+        <span v-if="!isRedelegation">
           It will take 21 days to unlock your tokens after a delegation and
           there is a risk that some tokens will be lost depending on the
           behaviour of the validator.
@@ -26,19 +26,24 @@
       </div>
     </TmFormGroup>
     <TmFormGroup class="action-modal-form-group" field-id="to" field-label="To">
-      <TmField id="to" v-model="to" type="text" readonly />
+      <TmField
+        id="to"
+        v-model="targetValidator.operatorAddress"
+        type="text"
+        readonly
+      />
       <TmFormMsg
-        v-if="validatorStatus === 'Inactive' && !isRedelegation()"
+        v-if="targetValidator.status === 'INACTIVE' && !isRedelegation"
         :msg="
-          `You are about to delegate to an inactive validator (${validatorStatusDetailed})`
+          `You are about to delegate to an inactive validator (${targetValidator.statusDetailed})`
         "
         type="custom"
         class="tm-form-msg--desc"
       />
       <TmFormMsg
-        v-if="validatorStatus === 'Inactive' && isRedelegation()"
+        v-if="targetValidator.status === 'INACTIVE' && isRedelegation"
         :msg="
-          `You are about to redelegate to an inactive validator (${validatorStatusDetailed})`
+          `You are about to redelegate to an inactive validator (${targetValidator.statusDetailed})`
         "
         type="custom"
         class="tm-form-msg--desc"
@@ -65,7 +70,7 @@
       field-id="amount"
       field-label="Amount"
     >
-      <span class="input-suffix-denom">{{ viewDenom(denom) }}</span>
+      <span class="input-suffix-denom">{{ denom }}</span>
       <TmFieldGroup>
         <TmField
           id="amount"
@@ -83,19 +88,17 @@
           @click.native="setMaxAmount()"
         />
       </TmFieldGroup>
-      <span v-if="!isRedelegation()" class="form-message">
-        Available to Delegate:
-        {{ getFromBalance() }}
-        {{ denom | viewDenom }}s
-      </span>
-      <span v-else-if="isRedelegation()" class="form-message">
-        Available to Redelegate:
-        {{ getFromBalance() }}
-        {{ denom | viewDenom }}s
+      <span class="form-message">
+        {{
+          isRedelegation ? "Available to Redelegate" : "Available to Delegate"
+        }}
+        :
+        {{ maxAmount }}
+        {{ denom }}s
       </span>
       <TmFormMsg
         v-if="balance === 0"
-        :msg="`doesn't have any ${viewDenom(denom)}s`"
+        :msg="`doesn't have any ${denom}s`"
         name="Wallet"
         type="custom"
       />
@@ -117,7 +120,7 @@
         type="between"
       />
       <TmFormMsg
-        v-else-if="isMaxAmount() && !isRedelegation()"
+        v-else-if="isMaxAmount() && !isRedelegation"
         msg="You are about to use all your tokens for this transaction. Consider leaving a little bit left over to cover the network fees."
         type="custom"
         class="tm-form-msg--desc"
@@ -129,7 +132,8 @@
 <script>
 import { mapState, mapGetters } from "vuex"
 import { between, decimal } from "vuelidate/lib/validators"
-import { uatoms, atoms, viewDenom, SMALLEST } from "src/scripts/num"
+import gql from "graphql-tag"
+import { uatoms, SMALLEST } from "src/scripts/num"
 import TmField from "src/components/common/TmField"
 import TmFieldGroup from "src/components/common/TmFieldGroup"
 import TmBtn from "src/components/common/TmBtn"
@@ -137,6 +141,8 @@ import TmFormGroup from "src/components/common/TmFormGroup"
 import TmFormMsg from "src/components/common/TmFormMsg"
 import ActionModal from "./ActionModal"
 import transaction from "../utils/transactionTypes"
+import { toMicroDenom } from "src/scripts/common"
+import { formatBech32 } from "src/filters"
 
 export default {
   name: `delegation-modal`,
@@ -148,102 +154,106 @@ export default {
     TmFormMsg,
     ActionModal
   },
-  filters: {
-    viewDenom
-  },
   props: {
-    fromOptions: {
-      type: Array,
-      required: true
-    },
-    to: {
-      type: String,
-      required: true
-    },
-    validator: {
+    targetValidator: {
       type: Object,
-      required: true
-    },
-    denom: {
-      type: String,
       required: true
     }
   },
   data: () => ({
-    amount: null,
-    selectedIndex: 0
+    amount: 0,
+    selectedIndex: 0,
+    balance: {
+      amount: 0,
+      denom: ``
+    },
+    delegations: [],
+    denom: ``
   }),
   computed: {
     ...mapState([`session`]),
-    ...mapGetters([`modalContext`]),
-    balance() {
-      if (!this.session.signedIn) return 0
+    ...mapGetters([`network`, `address`]),
+    fromOptions() {
+      let options = [
+        // from wallet
+        {
+          address: this.address,
+          maximum: Number(this.balance.amount),
+          key: `My Wallet - ${formatBech32(this.address, false, 20)}`,
+          value: 0
+        }
+      ]
 
-      return this.fromOptions[this.selectedIndex].maximum
+      options = options.concat(
+        this.delegations
+          // exclude the validator we are delegating to as a source
+          .filter(
+            delegation =>
+              delegation.validator.operatorAddress !=
+              this.targetValidator.operatorAddress
+          )
+          .map((delegation, index) => {
+            return {
+              address: delegation.validator.operatorAddress,
+              maximum: Number(delegation.amount),
+              key: `${delegation.validator.name} - ${formatBech32(
+                delegation.validator.operatorAddress,
+                false,
+                20
+              )}`,
+              value: index + 1
+            }
+          })
+      )
+
+      return options
     },
     from() {
       if (!this.session.signedIn) return ``
 
       return this.fromOptions[this.selectedIndex].address
     },
+    isRedelegation() {
+      return this.from !== this.address
+    },
     transactionData() {
       if (!this.from) return {}
 
-      if (this.from === this.modalContext.userAddress) {
-        return {
-          type: transaction.DELEGATE,
-          validatorAddress: this.validator.operator_address,
-          amount: uatoms(this.amount),
-          denom: this.denom
-        }
-      } else {
-        const validatorSrc = this.modalContext.delegates.find(
-          v => this.from === v.operator_address
-        )
+      if (this.isRedelegation) {
         return {
           type: transaction.REDELEGATE,
-          validatorSourceAddress: validatorSrc.operator_address,
-          validatorDestinationAddress: this.validator.operator_address,
+          validatorSourceAddress: this.from,
+          validatorDestinationAddress: this.targetValidator.operatorAddress,
           amount: uatoms(this.amount),
-          denom: this.denom
+          denom: toMicroDenom(this.denom)
+        }
+      } else {
+        return {
+          type: transaction.DELEGATE,
+          validatorAddress: this.targetValidator.operatorAddress,
+          amount: uatoms(this.amount),
+          denom: toMicroDenom(this.denom)
         }
       }
     },
     notifyMessage() {
-      if (this.from === this.modalContext.userAddress) {
+      if (this.isRedelegation) {
         return {
-          title: `Successful delegation!`,
-          body: `You have successfully delegated your ${viewDenom(this.denom)}s`
+          title: `Successful redelegation!`,
+          body: `You have successfully redelegated your ${this.denom}s`
         }
       } else {
         return {
-          title: `Successful redelegation!`,
-          body: `You have successfully redelegated your ${viewDenom(
-            this.denom
-          )}s`
+          title: `Successful delegation!`,
+          body: `You have successfully delegated your ${this.denom}s`
         }
       }
     },
-    // Will be replaced by `status` field from backend
-    validatorStatus() {
-      if (
-        this.validator.jailed ||
-        this.validator.tombstoned ||
-        this.validator.status === 0
-      )
-        return `Inactive`
-      return `Active`
-    },
-    // Will be replaced by `status_detail` field from backend
-    validatorStatusDetailed() {
-      if (this.validator.jailed) return `temporally banned from the network`
-      else if (this.validator.tombstoned) return `banned from the network`
-      else if (this.validator.status === 0) return `banned from the network`
-      else return false
+    maxAmount() {
+      return this.fromOptions[this.selectedIndex].maximum
     }
   },
   methods: {
-    viewDenom,
     open(options) {
       if (options && options.redelegation && this.fromOptions.length > 1) {
         this.selectedIndex = 1
@@ -259,22 +269,16 @@ export default {
       this.$v.$reset()
 
       this.selectedIndex = 0
-      this.amount = null
+      this.amount = 0
     },
     setMaxAmount() {
-      this.amount = atoms(this.balance)
+      this.amount = this.maxAmount
     },
     isMaxAmount() {
-      return parseFloat(this.amount) === parseFloat(atoms(this.balance))
+      return parseFloat(this.amount) === parseFloat(this.maxAmount)
     },
     enterPressed() {
       this.$refs.actionModal.validateChangeStep()
-    },
-    isRedelegation() {
-      return this.from !== this.modalContext.userAddress
-    },
-    getFromBalance() {
-      return atoms(this.balance)
     }
   },
   validations() {
@@ -282,7 +286,77 @@ export default {
       amount: {
         required: x => !!x && x !== `0`,
         decimal,
-        between: between(SMALLEST, atoms(this.balance))
+        between: between(SMALLEST, this.maxAmount)
+      }
+    }
+  },
+  apollo: {
+    delegations: {
+      query: gql`
+        query Delegations($networkId: String!, $delegatorAddress: String!) {
+          delegations(
+            networkId: $networkId
+            delegatorAddress: $delegatorAddress
+          ) {
+            amount
+            validator {
+              operatorAddress
+              name
+            }
+          }
+        }
+      `,
+      skip() {
+        return !this.address
+      },
+      variables() {
+        return {
+          networkId: this.network,
+          delegatorAddress: this.address
+        }
+      },
+      update(data) {
+        /* istanbul ignore next */
+        return data.delegations
+      }
+    },
+    balance: {
+      query: gql`
+        query balance($networkId: String!, $address: String!, $denom: String!) {
+          balance(networkId: $networkId, address: $address, denom: $denom) {
+            amount
+            denom
+          }
+        }
+      `,
+      skip() {
+        return !this.address
+      },
+      variables() {
+        return {
+          networkId: this.network,
+          address: this.address,
+          denom: this.denom
+        }
+      }
+    },
+    denom: {
+      query: gql`
+        query Networks($networkId: String!) {
+          network(id: $networkId) {
+            id
+            stakingDenom
+          }
+        }
+      `,
+      variables() {
+        return {
+          networkId: this.network
+        }
+      },
+      update(data) {
+        /* istanbul ignore next */
+        return data.network.stakingDenom
       }
     }
   }

@@ -36,12 +36,8 @@
       />
     </div>
 
-    <SendModal ref="SendModal" />
-    <ModalWithdrawRewards
-      ref="ModalWithdrawRewards"
-      :rewards="overview.totalRewards"
-      :denom="stakingDenom"
-    />
+    <SendModal ref="SendModal" :denom="stakingDenom" />
+    <ModalWithdrawRewards ref="ModalWithdrawRewards" />
   </div>
 </template>
 <script>
@@ -82,7 +78,7 @@ export default {
       this.$refs.ModalWithdrawRewards.open()
     },
     onSend() {
-      this.$refs.SendModal.open(this.stakingDenom)
+      this.$refs.SendModal.open()
     }
   },
   apollo: {
@@ -116,8 +112,9 @@ export default {
     },
     stakingDenom: {
       query: gql`
-        query Networks($networkId: String!) {
+        query Network($networkId: String!) {
           network(id: $networkId) {
+            id
             stakingDenom
           }
         }

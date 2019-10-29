@@ -17,21 +17,17 @@ describe(`ModalPropose`, () => {
     description: `a valid description for the proposal`
   }
 
+  const balance = { denom: `ATOM`, amount: `20` }
+
   beforeEach(async () => {
     $store = {
       commit: jest.fn(),
       dispatch: jest.fn(),
       getters: {
-        session: { signedIn: true },
-        connection: { connected: true },
-        liquidAtoms: 200000000
+        userAddress: "cosmo1",
+        network: "testnet"
       },
-      state: {
-        wallet: {
-          balances: [{ denom: `uatom`, amount: `20000000` }],
-          loading: false
-        }
-      }
+      state: {}
     }
     wrapper = shallowMount(ModalPropose, {
       localVue,
@@ -39,10 +35,11 @@ describe(`ModalPropose`, () => {
         $store
       },
       propsData: {
-        denom: `uatom`
+        denom: `ATOM`
       },
       sync: false
     })
+    wrapper.setData({ balance })
   })
 
   it(`should display proposal modal form`, () => {
@@ -93,13 +90,6 @@ describe(`ModalPropose`, () => {
       })
 
       it(`if the user doesn't have the deposit coin`, async () => {
-        const otherCoins = [
-          {
-            amount: `20`,
-            denom: `otherCoin`
-          }
-        ]
-        wrapper.vm.wallet.balances = otherCoins
         wrapper.setData(inputs)
         wrapper.setData({ amount: 25 })
         await wrapper.vm.$nextTick()
@@ -138,8 +128,8 @@ describe(`ModalPropose`, () => {
 
     describe(`successful`, () => {
       it(`if the user has enough balance and the fields are within the length ranges`, async () => {
-        wrapper.vm.wallet.balances = [{ denom: `uatom`, amount: `20000000` }]
         wrapper.setData(inputs)
+        console.log(wrapper.vm.validateForm())
         await wrapper.vm.$nextTick()
         expect(wrapper.vm.validateForm()).toBe(true)
       })
