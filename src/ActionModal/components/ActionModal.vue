@@ -293,6 +293,7 @@ import { mapState, mapGetters } from "vuex"
 import { viewDenom, prettyInt } from "src/scripts/num"
 import { between, requiredIf } from "vuelidate/lib/validators"
 import { track } from "scripts/google-analytics"
+import { UserTransactionAdded } from "src/gql"
 import config from "src/../config"
 
 import ActionManager from "../utils/ActionManager"
@@ -633,25 +634,14 @@ export default {
       }
 
       try {
-        const { included, hash } = await this.actionManager.send(
-          memo,
-          feeProperties
-        )
+        const { hash } = await this.actionManager.send(memo, feeProperties)
         this.txHash = hash
-        await this.waitForInclusion(included)
-        this.onTxIncluded(type, transactionProperties, feeProperties)
+        this.step = inclusionStep
       } catch ({ message }) {
         this.onSendingFailed(message)
-      } finally {
-        this.txHash = null
       }
     },
-    async waitForInclusion(includedFn) {
-      this.step = inclusionStep
-      const { height } = await includedFn()
-      this.includedHeight = height
-    },
-    onTxIncluded(txType, transactionProperties, feeProperties) {
+    onTxIncluded() {
       this.step = successStep
       this.trackEvent(
         `event`,
@@ -659,10 +649,7 @@ export default {
         this.title,
         this.selectedSignMethod
       )
-      this.$emit(`txIncluded`, {
-        txProps: transactionProperties,
-        txMeta: feeProperties
-      })
+      this.$emit(`txIncluded`)
     },
     onSendingFailed(message) {
       this.step = signStep
@@ -813,6 +800,33 @@ export default {
         }
       },
       update: result => result.rewards
+    },
+    $subscribe: {
+      userTransaction: {
+        variables() {
+          return {
+            networkId: this.networkId,
+            address: this.session.address
+          }
+        },
+        skip() {
+          return !this.txHash
+        },
+        query: UserTransactionAdded,
+        result({ data }) {
+          const { hash, height, success, log } = data.userTransactionAdded
+          if (hash === this.txHash) {
+            this.includedHeight = height
+
+            if (success) {
+              this.onTxIncluded()
+            } else {
+              this.onSendingFailed(log)
+            }
+          }
+          this.txHash = null
+        }
+      }
     }
   }
 }

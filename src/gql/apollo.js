@@ -16,7 +16,9 @@ const makeHttpLink = urlParams => {
   const host = graphqlHost(urlParams)
   const uri = host
   console.log("http", uri)
-  return createHttpLink({ uri })
+  return createHttpLink({
+    uri
+  })
 }
 
 const makeWebSocketLink = urlParams => {
