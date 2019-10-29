@@ -13,7 +13,7 @@ export default {
   CosmosAppTestModeAllowed: false,
   mobileApp: Boolean(process.env.MOBILE_APP),
 
-  graphqlHost: process.env.VUE_APP_GRAPHQL_URL || "localhost:4000",
+  graphqlHost: process.env.VUE_APP_GRAPHQL_URL || "http://localhost:4000",
 
   e2e: process.env.VUE_APP_E2E
 }
