@@ -4,8 +4,10 @@ exports[`ModalWithdrawRewards should show the withdraw rewards modal 1`] = `
 <actionmodal-stub
   amount="0"
   class="modal-withdraw-rewards"
+  denom="stake"
   id="modal-withdraw-rewards"
   notifymessage="[object Object]"
+  rewards="0"
   submissionerrorprefix="Withdrawal failed"
   title="Claim Rewards"
   transactiondata="[object Object]"
@@ -28,8 +30,16 @@ exports[`ModalWithdrawRewards should show the withdraw rewards modal 1`] = `
     <span
       class="input-suffix"
     >
-      STAKE
+      
     </span>
+     
+    <tmfield-stub
+      class="tm-field-addon"
+      disabled="disabled"
+      id="amount"
+      type="number"
+      value="0"
+    />
   </tmformgroup-stub>
 </actionmodal-stub>
 `;

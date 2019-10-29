@@ -4,7 +4,7 @@ const nightwatch_config = {
   src_folders: ["tests/e2e"],
   globals_path: "./globals.js",
   output_folder: "./output",
-  launch_url: "https://127.0.0.1:9080",
+  launch_url: "http://127.0.0.1:9080?network=local-cosmos-hub-testnet",
 
   selenium: {
     start_process: false,
@@ -21,6 +21,7 @@ const nightwatch_config = {
         "browserstack.key": process.env.BROWSERSTACK_ACCESS_KEY || "",
         "browserstack.debug": true,
         "browserstack.local": true,
+        "browserstack.networkLogs": false,
         browser: "chrome",
         resolution: "1920x1080",
         javascriptEnabled: true,

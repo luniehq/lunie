@@ -63,10 +63,7 @@ exports[`TmBalance show empty stakes when not signed in 1`] = `
     denom="ATOM"
   />
    
-  <modalwithdrawrewards-stub
-    denom="ATOM"
-    rewards="0"
-  />
+  <modalwithdrawrewards-stub />
 </div>
 `;
 
@@ -142,9 +139,6 @@ exports[`TmBalance show the balance header when signed in 1`] = `
     denom="ATOM"
   />
    
-  <modalwithdrawrewards-stub
-    denom="ATOM"
-    rewards="1000.45"
-  />
+  <modalwithdrawrewards-stub />
 </div>
 `;
