@@ -13,7 +13,10 @@
             {{ status.badge }}
           </span>
           <h2 class="proposal-title">{{ proposal.title }}</h2>
-          <h3 class="proposal-title">{{ proposal.proposer }}</h3>
+          <p v-if="proposal.proposer !== `unknown`" class="proposer">
+            Proposed by
+            <Bech32 :address="proposal.proposer" :long-form="true" />
+          </p>
         </div>
         <div class="button-container">
           <TmBtn
@@ -168,6 +171,7 @@ import TmPage from "common/TmPage"
 import { getProposalStatus } from "scripts/proposal-status"
 import { ProposalItem, GovernanceParameters, Vote } from "src/gql"
 import BigNumber from "bignumber.js"
+import Bech32 from "common/Bech32"
 
 export default {
   name: `page-proposal`,
@@ -178,7 +182,8 @@ export default {
     TmDataError,
     TmDataLoading,
     TmPage,
-    TextBlock
+    TextBlock,
+    Bech32
   },
   filters: {
     prettyInt,
@@ -252,6 +257,7 @@ export default {
       },
       result(data) {
         /* istanbul ignore next */
+        console.log(data)
         this.error = data.error
       }
     },
@@ -299,6 +305,11 @@ export default {
   font-size: var(--h1);
   line-height: 2.25rem;
   font-weight: 500;
+  padding-top: 1rem;
+}
+
+.proposer {
+  font-size: 14px;
   padding-top: 1rem;
 }
 
