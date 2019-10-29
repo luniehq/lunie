@@ -18,7 +18,7 @@
     >
       <TmField
         id="send-denomination"
-        :value="viewDenom($v.denom.$model)"
+        :value="$v.denom.$model"
         type="text"
         readonly
       />
@@ -59,7 +59,7 @@
       field-id="amount"
       field-label="Amount"
     >
-      <span class="input-suffix max-button">{{ viewDenom(denom) }}</span>
+      <span class="input-suffix max-button">{{ denom }}</span>
       <TmFieldGroup>
         <TmField
           id="amount"
@@ -79,7 +79,7 @@
       </TmFieldGroup>
       <TmFormMsg
         v-if="balance.amount === 0"
-        :msg="`doesn't have any ${viewDenom(denom)}s`"
+        :msg="`doesn't have any ${denom}s`"
         name="Wallet"
         type="custom"
       />
@@ -143,7 +143,7 @@
 import gql from "graphql-tag"
 import b32 from "scripts/b32"
 import { required, between, decimal, maxLength } from "vuelidate/lib/validators"
-import { uatoms, viewDenom, SMALLEST } from "src/scripts/num"
+import { uatoms, SMALLEST } from "src/scripts/num"
 import { mapGetters } from "vuex"
 import TmFormGroup from "src/components/common/TmFormGroup"
 import TmField from "src/components/common/TmField"
@@ -202,14 +202,13 @@ export default {
     notifyMessage() {
       return {
         title: `Successful Send`,
-        body: `Successfully sent ${+this.amount} ${viewDenom(this.denom)}s to ${
+        body: `Successfully sent ${+this.amount} ${this.denom}s to ${
           this.address
         }`
       }
     }
   },
   methods: {
-    viewDenom,
     open() {
       this.$refs.actionModal.open()
     },
