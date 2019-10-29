@@ -4,29 +4,29 @@
   "description": "Lunie is the staking and governance platform for proof-of-stake blockchains.",
   "author": "Lunie International Software Systems Inc. <hello@lunie.io>",
   "scripts": {
-    "start": "npm run testnet:start & npm run serve",
     "serve": "kill-port 9080 && vue-cli-service serve --port 9080",
-    "serve:dist": "live-server --https=node_modules/live-server-https --port=9080 --no-browser ./dist",
-    "serve:ios": "npx cap open ios",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
-    "lint:style": "vue-cli-service lint:style",
     "certificates": "docker-compose -f tasks/certificates/docker-compose.yml up",
     "changelog": "simsala log --pending-path ./changes",
+    "lint:style": "vue-cli-service lint:style",
     "proxy": "node ./tasks/local-testnet/proxy.js",
     "release": "git checkout develop & git pull & git push origin develop:release",
+    "release:android": "git checkout develop && node ./tasks/bump-android-version.js && git commit android/app/build.gradle -m 'updated android app version' && git push origin develop:release-android",
+    "release:ios": "git checkout develop && node ./tasks/bump-ios-version.js && git commit ios/App/App/Info.plist -m 'updated ios app version' && git push origin develop:release-ios",
+    "serve:dist": "live-server --https=node_modules/live-server-https --port=9080 --no-browser ./dist",
+    "serve:ios": "npm run serve && npx cap open ios",
+    "start": "npm run testnet:start & npm run serve",
     "test:coverage": "live-server ./coverage/lcov-report",
     "test:coverage-branch": "npm run test:unit -- --coverage && git diff origin/develop | diff-test-coverage -c ./coverage/lcov.info -t lcov --",
     "test:e2e:browserstack": "node tests/e2e/browserstack.runner.js -c  tests/e2e/browserstack.conf.js",
-    "test:e2e:local": "kill-port 9515 && nightwatch --config ./tests/e2e/local-chrome.conf.js",
     "test:e2e:build": "cross-env VUE_APP_E2E=true STARGATE=http://localhost:9070 RPC=http://localhost:26657 vue-cli-service build --mode production",
+    "test:e2e:local": "kill-port 9515 && nightwatch --config ./tests/e2e/local-chrome.conf.js",
     "test:e2e:serve": "kill-port 9080 && cross-env VUE_APP_E2E=true STARGATE=http://localhost:9070 RPC=http://localhost:26657 vue-cli-service serve --mode production --port 9080 --https",
     "test:unit": "vue-cli-service test:unit",
     "testnet:start": "npm run testnet:start:container && npm run proxy",
     "testnet:start:container": "docker run --rm -p 26657:26657 --name testnet -p 9070:9070 --detach -e MAX_NODES=${MAX_NODES:-2} -e SPEEDY=${SPEEDY:-false} lunieio/testnet:v0.34.7_speedy",
-    "testnet:stop": "docker stop testnet",
-    "release:android": "git checkout develop && node ./tasks/bump-android-version.js && git commit android/app/build.gradle -m 'updated android app version' && git push origin develop:release-android",
-    "release:ios": "git checkout develop && node ./tasks/bump-ios-version.js && git commit ios/App/App/Info.plist -m 'updated ios app version' && git push origin develop:release-ios"
+    "testnet:stop": "docker stop testnet"
   },
   "dependencies": {
     "@babel/polyfill": "^7.4.4",
@@ -106,10 +106,6 @@
     "stylelint-config-standard": "^18.2.0",
     "vue-template-compiler": "^2.6.10"
   },
-  "resolutions": {
-    "braces": ">=2.3.1",
-    "https-proxy-agent": ">=3.0.0"
-  },
   "engines": {
     "node": ">=10.13.0"
   },
@@ -119,5 +115,9 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/luniehq/lunie.git"
+  },
+  "resolutions": {
+    "braces": ">=2.3.1",
+    "https-proxy-agent": ">=3.0.0"
   }
 }
