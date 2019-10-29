@@ -4,13 +4,14 @@ describe(`URL functions`, () => {
   it(`gets query params`, () => {
     const windowMock = {
       location: {
-        search: `?stargate=x&rpc=y`
+        search: `?stargate=x&network=y&graphql=z`
       }
     }
 
     expect(getURLParams(windowMock)).toEqual({
       stargate: `x`,
-      rpc: `y`
+      network: `y`,
+      graphql: "z"
     })
   })
 
