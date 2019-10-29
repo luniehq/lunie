@@ -13,6 +13,7 @@
             {{ status.badge }}
           </span>
           <h2 class="proposal-title">{{ proposal.title }}</h2>
+          <h3 class="proposal-title">{{ proposal.proposer }}</h3>
         </div>
         <div class="button-container">
           <TmBtn
