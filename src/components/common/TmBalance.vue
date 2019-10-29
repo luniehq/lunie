@@ -37,11 +37,7 @@
     </div>
 
     <SendModal ref="SendModal" :denom="stakingDenom" />
-    <ModalWithdrawRewards
-      ref="ModalWithdrawRewards"
-      :rewards="overview.totalRewards"
-      :denom="stakingDenom"
-    />
+    <ModalWithdrawRewards ref="ModalWithdrawRewards" />
   </div>
 </template>
 <script>
