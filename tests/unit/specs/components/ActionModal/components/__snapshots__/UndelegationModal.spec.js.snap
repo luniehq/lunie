@@ -41,6 +41,7 @@ exports[`UndelegationModal should display undelegation modal form 1`] = `
       id="from"
       readonly=""
       type="text"
+      value="cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au"
     />
   </tmformgroup-stub>
    

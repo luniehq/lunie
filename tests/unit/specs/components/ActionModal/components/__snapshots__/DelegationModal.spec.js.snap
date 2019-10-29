@@ -36,6 +36,7 @@ exports[`DelegationModal should display the delegation modal form 1`] = `
       id="to"
       readonly=""
       type="text"
+      value="cosmosvaladdr12324536463"
     />
      
     <!---->
@@ -88,7 +89,8 @@ exports[`DelegationModal should display the delegation modal form 1`] = `
       class="form-message"
     >
       
-      Available to Delegate:
+      Available to Delegate
+      :
       1000
       STAKEs
     
