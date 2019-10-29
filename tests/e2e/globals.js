@@ -78,7 +78,7 @@ async function apiUp() {
         query: `{\n  balance(networkId: "local-cosmos-hub-testnet", address: "cosmos1ek9cd8ewgxg9w5xllq9um0uf4aaxaruvcw4v9e", denom: "STAKE") {\n    denom\n    amount\n  }\n}\n`,
         variables: {}
       })
-      if (!data.data.balance.find(({ denom }) => denom === "STAKE")) {
+      if (data.data.balance.amount === 0) {
         continue
       }
       apiUp = true
