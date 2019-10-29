@@ -619,7 +619,7 @@ export default {
         }
       }
 
-      const { type, memo, ...transactionProperties } = this.transactionData
+      const { memo } = this.transactionData
 
       const gasPrice = {
         amount: this.gasPrice,

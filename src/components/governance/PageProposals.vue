@@ -55,11 +55,7 @@ import TmBtn from "common/TmBtn"
 import PageContainer from "common/PageContainer"
 import TmDataMsg from "common/TmDataMsg"
 import { mapGetters } from "vuex"
-import {
-  ProposalList,
-  GovernanceParameters,
-  UserTransactionAdded
-} from "src/gql"
+import { ProposalList, GovernanceParameters } from "src/gql"
 
 export default {
   name: `page-proposals`,
