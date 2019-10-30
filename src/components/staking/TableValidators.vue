@@ -171,25 +171,6 @@ export default {
         }
       }
     }
-    // $subscribe: {
-    //   userTransactionAdded: {
-    //     variables() {
-    //       return {
-    //         networkId: this.network,
-    //         address: this.address
-    //       }
-    //     },
-    //     skip() {
-    //       return !this.address
-    //     },
-    //     query: UserTransactionAdded,
-    //     result() {
-    //       // query if successful or not as even an unsuccessful tx costs fees
-    //       console.log(this.$apollo.queries.overview, this.$apollo.queries.refetch, this.overview)
-    //       this.$apollo.queries.rewards.refetch()
-    //     }
-    //   }
-    // }
   }
 }
 </script>
