@@ -22,7 +22,7 @@
         }}</span>
         <Steps
           v-if="
-            [defaultStep, feeStep, signStep].includes(step) && featureAvailable
+            [defaultStep, feeStep, signStep].includes(step) && featureAvailable && !isMobileApp
           "
           :steps="['Details', 'Fees', 'Sign']"
           :active-step="step"
@@ -396,7 +396,8 @@ export default {
     inclusionStep,
     successStep,
     SIGN_METHODS,
-    featureAvailable: true
+    featureAvailable: true,
+    isMobileApp: config.mobileApp
   }),
   computed: {
     ...mapState([`extension`, `session`]),
