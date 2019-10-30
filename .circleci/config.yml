@@ -164,7 +164,7 @@ jobs:
             VUE_APP_GRAPHQL_URL: http://127.0.0.1:4000 # Browserstack tunneling doesn't work with "localhost"
       - run:
           name: Test
-          command: npm run serve:dist & npm run test:e2e:browserstack
+          command: npm run serve:dist & npm run test:e2e:local
           no_output_timeout: 120
       - store_artifacts:
           path: ./screenshots
