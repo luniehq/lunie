@@ -4,27 +4,32 @@ import { shallowMount, createLocalVue } from "@vue/test-utils"
 import DelegationModal from "src/ActionModal/components/DelegationModal"
 import Vuelidate from "vuelidate"
 
-const validators = [{
-  operatorAddress: "cosmosvaladdr12324536463",
-  status: "ACTIVE"
-}, {
-  operatorAddress: "cosmosvaladdr1sdsdsd123123",
-  status: "ACTIVE"
-}, {
-  operatorAddress: "cosmosvaladdr1kjisjsd862323",
-  status: "INACTIVE",
-  statusDetailed: "temporally banned from the network"
-}, {
-  operatorAddress: "cosmosvaladdr1sd0f8mnbjb2",
-  status: "INACTIVE",
-  statusDetailed: "banned from the network"
-}]
+const validators = [
+  {
+    operatorAddress: "cosmosvaladdr12324536463",
+    status: "ACTIVE"
+  },
+  {
+    operatorAddress: "cosmosvaladdr1sdsdsd123123",
+    status: "ACTIVE"
+  },
+  {
+    operatorAddress: "cosmosvaladdr1kjisjsd862323",
+    status: "INACTIVE",
+    statusDetailed: "temporally banned from the network"
+  },
+  {
+    operatorAddress: "cosmosvaladdr1sd0f8mnbjb2",
+    status: "INACTIVE",
+    statusDetailed: "banned from the network"
+  }
+]
 
 describe(`DelegationModal`, () => {
   let wrapper
   const localVue = createLocalVue()
   localVue.use(Vuelidate)
-  localVue.directive("focus", () => { })
+  localVue.directive("focus", () => {})
 
   const state = {
     session: {
@@ -48,14 +53,16 @@ describe(`DelegationModal`, () => {
       }
     })
     wrapper.setData({
-      delegations: [{
-        validator: validators[0],
-        amount: 10
-      },
-      {
-        validator: validators[1],
-        amount: 124
-      }],
+      delegations: [
+        {
+          validator: validators[0],
+          amount: 10
+        },
+        {
+          validator: validators[1],
+          amount: 124
+        }
+      ],
       denom: "STAKE",
       balance: {
         amount: 1000,
@@ -169,8 +176,7 @@ describe(`DelegationModal`, () => {
     it("should return correct transaction data for delegating", () => {
       expect(wrapper.vm.transactionData).toEqual({
         type: "MsgRedelegate",
-        validatorSourceAddress:
-          "cosmosvaladdr12324536463",
+        validatorSourceAddress: "cosmosvaladdr12324536463",
         validatorDestinationAddress: "cosmosvaladdr1sdsdsd123123",
         amount: "10000000",
         denom: "stake"

@@ -12,7 +12,7 @@ describe(`UndelegationModal`, () => {
   }
   const localVue = createLocalVue()
   localVue.use(Vuelidate)
-  localVue.directive("focus", () => { })
+  localVue.directive("focus", () => {})
 
   beforeEach(() => {
     $store = {
@@ -33,10 +33,12 @@ describe(`UndelegationModal`, () => {
       }
     })
     wrapper.setData({
-      delegations: [{
-        validator,
-        amount: 1000
-      }],
+      delegations: [
+        {
+          validator,
+          amount: 1000
+        }
+      ],
       denom: "STAKE"
     })
   })
