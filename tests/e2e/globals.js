@@ -2,7 +2,7 @@ const axios = require("axios")
 const chai = require("chai")
 chai.use(require("chai-string"))
 
-const HOST = "localhost"
+const HOST = "127.0.0.1"
 
 module.exports = {
   // controls the timeout time for async hooks. Expects the done() callback to be invoked within this time
