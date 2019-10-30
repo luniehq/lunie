@@ -873,7 +873,7 @@ exports[`TransactionDetails renders MsgSubmitProposal transaction item 1`] = `
         </b>
          
         <span>
-          ATOM
+           ATOM
         </span>
       </p>
     </div>
@@ -882,8 +882,7 @@ exports[`TransactionDetails renders MsgSubmitProposal transaction item 1`] = `
       class="tx__content__information"
     >
       
-    Title
-    
+    Title 
       <i>
         Test title
       </i>

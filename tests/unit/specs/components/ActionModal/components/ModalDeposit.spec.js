@@ -12,21 +12,15 @@ describe(`ModalDeposit`, () => {
   localVue.use(Vuelidate)
   localVue.directive("focus", () => {})
 
+  const balance = { denom: `ATOM`, amount: `20` }
+
   beforeEach(async () => {
     $store = {
       commit: jest.fn(),
       dispatch: jest.fn(),
       getters: {
-        session: { signedIn: true },
-        connection: { connected: true },
-        bondDenom: `uatom`,
-        liquidAtoms: 1000000
-      },
-      state: {
-        wallet: {
-          balances: [{ denom: `uatom`, amount: `10` }],
-          loading: false
-        }
+        userAddress: "cosmo1",
+        network: "testnet"
       }
     }
 
@@ -42,6 +36,7 @@ describe(`ModalDeposit`, () => {
       },
       sync: false
     })
+    wrapper.setData({ balance })
   })
 
   it(`should display deposit modal form`, async () => {
@@ -83,6 +78,7 @@ describe(`ModalDeposit`, () => {
       })
 
       it(`when the amount deposited higher than the user's balance`, async () => {
+        wrapper.setData({ balance: { denom: `ATOM`, amount: `20` } })
         wrapper.setData({ amount: 250 })
         expect(wrapper.vm.validateForm()).toBe(false)
         await wrapper.vm.$nextTick()
@@ -91,13 +87,6 @@ describe(`ModalDeposit`, () => {
       })
 
       it(`when the user doesn't have the deposited coin`, () => {
-        const otherCoins = [
-          {
-            amount: `20`,
-            denom: `otherCoin`
-          }
-        ]
-        wrapper.vm.wallet.balances = otherCoins
         wrapper.setData({ amount: 25 })
         expect(wrapper.vm.validateForm()).toBe(false)
       })
@@ -105,7 +94,7 @@ describe(`ModalDeposit`, () => {
 
     describe(`succeeds`, () => {
       it(`when the user has enough balance to submit a deposit`, async () => {
-        wrapper.vm.wallet.balances = [{ denom: `uatom`, amount: `20000000` }]
+        wrapper.setData({ balance: { denom: `ATOM`, amount: `20` } })
         wrapper.setData({ amount: 10 })
         expect(wrapper.vm.validateForm()).toBe(true)
       })

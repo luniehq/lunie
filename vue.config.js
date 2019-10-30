@@ -35,8 +35,8 @@ module.exports = {
         new webpack.DefinePlugin({
           "process.env": {
             NODE_ENV: JSON.stringify(process.env.NODE_ENV),
-            RPC: JSON.stringify(process.env.RPC),
             STARGATE: JSON.stringify(process.env.STARGATE),
+            NETWORK: JSON.stringify(process.env.NETWORK),
             RELEASE: JSON.stringify(commitHash),
             GOOGLE_ANALYTICS_UID: JSON.stringify(
               process.env.GOOGLE_ANALYTICS_UID

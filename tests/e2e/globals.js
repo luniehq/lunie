@@ -10,20 +10,11 @@ module.exports = {
   asyncHookTimeout: 30000,
 
   async before() {
-    let apiUp = false
-    while (!apiUp) {
-      try {
-        await axios(`http://${HOST}:9070/node_version`)
-        apiUp = true
-      } catch (err) {
-        await new Promise(resolve => setTimeout(resolve, 1000))
-        console.log("Waiting for node to be up")
-      }
-    }
+    await apiUp()
   },
 
   beforeEach(browser, done) {
-    browser.url(browser.launch_url).execute(function() {
+    browser.url(browser.launch_url).execute(function () {
       window.localStorage.setItem(
         `cosmos-wallets-cosmos1ek9cd8ewgxg9w5xllq9um0uf4aaxaruvcw4v9e`,
         JSON.stringify({
@@ -46,7 +37,6 @@ module.exports = {
       window.localStorage.setItem(
         `session`,
         JSON.stringify({
-          localKeyPairName: `rich_account`,
           address: "cosmos1ek9cd8ewgxg9w5xllq9um0uf4aaxaruvcw4v9e",
           sessionType: "local"
         })
@@ -66,7 +56,7 @@ module.exports = {
    *
    * @param results
    */
-  reporter: function(results) {
+  reporter: function (results) {
     if (
       (typeof results.failed === `undefined` || results.failed === 0) &&
       (typeof results.error === `undefined` || results.error === 0)
@@ -74,6 +64,28 @@ module.exports = {
       process.exit(0)
     } else {
       process.exit(1)
+    }
+  }
+}
+
+async function apiUp() {
+  // we need to wait until the testnet is up and the account has money
+  let apiUp = false
+  while (!apiUp) {
+    try {
+      const { data } = await axios.post(`http://${HOST}:4000`, {
+        operationName: null,
+        query: `{\n  balance(networkId: "local-cosmos-hub-testnet", address: "cosmos1ek9cd8ewgxg9w5xllq9um0uf4aaxaruvcw4v9e", denom: "STAKE") {\n    denom\n    amount\n  }\n}\n`,
+        variables: {}
+      })
+      if (data.data.balance.amount === 0) {
+        continue
+      }
+      apiUp = true
+    } catch (err) {
+      console.log(err)
+      await new Promise(resolve => setTimeout(resolve, 1000))
+      console.log("Waiting for node to be up")
     }
   }
 }

@@ -137,13 +137,16 @@ export default {
           }
         }
       `,
+      skip() {
+        return !this.address
+      },
       variables() {
         return {
           networkId: this.network,
           delegatorAddress: this.address
         }
       },
-      update: result => result.rewards
+      update: result => result.rewards || []
     }
   }
 }

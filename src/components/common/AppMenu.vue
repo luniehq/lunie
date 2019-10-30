@@ -166,7 +166,7 @@ export default {
   },
   computed: {
     ...mapState([`session`]),
-    ...mapGetters([`liquidAtoms`, `totalAtoms`, `bondDenom`, `address`])
+    ...mapGetters([`address`])
   },
   methods: {
     close() {
