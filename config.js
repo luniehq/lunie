@@ -12,5 +12,5 @@ module.exports = {
   hasura_url: process.env.HASURA_URL || 'http://localhost:8080/v1/graphql',
   enableTestnet: process.env.TESTNET === 'true',
   testnetRPC: process.env.TESTNET_RPC_URL || 'ws://localhost:26657/websocket',
-  testnetAPI: process.env.TESTNET_API_URL || 'http://localhost:9070'
+  testnetAPI: process.env.TESTNET_API_URL || 'http://localhost:9071'
 }
