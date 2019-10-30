@@ -14,7 +14,7 @@ module.exports = {
   },
 
   beforeEach(browser, done) {
-    browser.url(browser.launch_url).execute(function() {
+    browser.url(browser.launch_url).execute(function () {
       window.localStorage.setItem(
         `cosmos-wallets-cosmos1ek9cd8ewgxg9w5xllq9um0uf4aaxaruvcw4v9e`,
         JSON.stringify({
@@ -56,7 +56,7 @@ module.exports = {
    *
    * @param results
    */
-  reporter: function(results) {
+  reporter: function (results) {
     if (
       (typeof results.failed === `undefined` || results.failed === 0) &&
       (typeof results.error === `undefined` || results.error === 0)
@@ -81,6 +81,7 @@ async function apiUp() {
       const response = await axios.post(`http://${HOST}:4000`, {
         query: `{balance(networkId: "local-cosmos-hub-testnet", address: "cosmos1ek9cd8ewgxg9w5xllq9um0uf4aaxaruvcw4v9e", denom: "STAKE") {    denom    amount  }}`
       })
+      console.log(JSON.stringify(response.data.errors))
       if (response.data.data.balance.amount === 0) {
         continue
       }
