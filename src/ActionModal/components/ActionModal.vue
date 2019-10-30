@@ -22,7 +22,9 @@
         }}</span>
         <Steps
           v-if="
-            [defaultStep, feeStep, signStep].includes(step) && featureAvailable && !isMobileApp
+            [defaultStep, feeStep, signStep].includes(step) &&
+              featureAvailable &&
+              !isMobileApp
           "
           :steps="['Details', 'Fees', 'Sign']"
           :active-step="step"
