@@ -44,5 +44,6 @@ if (config.enableTestnet) {
 }
 
 module.exports = {
-  networks
+  networks,
+  testnet
 }
