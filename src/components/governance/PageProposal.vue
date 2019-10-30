@@ -17,6 +17,9 @@
             Proposed by
             <Bech32 :address="proposal.proposer" :long-form="true" />
           </p>
+          <p v-else class="proposer">
+            Unknown proposer
+          </p>
         </div>
         <div class="button-container">
           <TmBtn
