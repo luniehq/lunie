@@ -166,7 +166,7 @@ import Avatar from "common/Avatar"
 import Bech32 from "common/Bech32"
 import TmPage from "common/TmPage"
 import gql from "graphql-tag"
-import { ValidatorProfile } from "src/gql"
+import { ValidatorProfile, UserTransactionAdded } from "src/gql"
 
 function getStatusText(statusDetailed) {
   switch (statusDetailed) {
@@ -305,6 +305,27 @@ export default {
         return {
           ...result.validator,
           statusDetailed: getStatusText(result.validator.statusDetailed)
+        }
+      }
+    },
+    $subscribe: {
+      userTransaction: {
+        variables() {
+          return {
+            networkId: this.network,
+            address: this.userAddress
+          }
+        },
+        skip() {
+          return !this.userAddress
+        },
+        query: UserTransactionAdded,
+        result({ data }) {
+          if (data.userTransactionAdded.success) {
+            this.$apollo.queries.validator.refetch()
+            this.$apollo.queries.rewards.refetch()
+            this.$apollo.queries.delegation.refetch()
+          }
         }
       }
     }

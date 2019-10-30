@@ -27,7 +27,7 @@
 import { mapGetters } from "vuex"
 import TmDataMsg from "common/TmDataMsg"
 import TableValidators from "staking/TableValidators"
-import { DelegationsForDelegator } from "src/gql"
+import { DelegationsForDelegator, UserTransactionAdded } from "src/gql"
 
 export default {
   name: `delegations-overview`,
@@ -56,6 +56,25 @@ export default {
       update(data) {
         /* istanbul ignore next */
         return data.delegations
+      }
+    },
+    $subscribe: {
+      userTransaction: {
+        variables() {
+          return {
+            networkId: this.network,
+            address: this.address
+          }
+        },
+        skip() {
+          return !this.address
+        },
+        query: UserTransactionAdded,
+        result({ data }) {
+          if (data.userTransactionAdded.success) {
+            this.$apollo.queries.delegations.refetch()
+          }
+        }
       }
     }
   }

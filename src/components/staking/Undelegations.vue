@@ -10,7 +10,7 @@
 <script>
 import { mapGetters } from "vuex"
 import TableUndelegations from "staking/TableUndelegations"
-import { UndelegationsForDelegator } from "src/gql"
+import { UndelegationsForDelegator, UserTransactionAdded } from "src/gql"
 
 export default {
   name: `undelegations`,
@@ -35,6 +35,25 @@ export default {
       },
       update(data) {
         return data.undelegations
+      }
+    },
+    $subscribe: {
+      userTransaction: {
+        variables() {
+          return {
+            networkId: this.network,
+            address: this.address
+          }
+        },
+        skip() {
+          return !this.address
+        },
+        query: UserTransactionAdded,
+        result({ data }) {
+          if (data.userTransactionAdded.success) {
+            this.$apollo.queries.undelegations.refetch()
+          }
+        }
       }
     }
   }
