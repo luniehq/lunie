@@ -824,9 +824,6 @@ export default {
 }
 
 @media screen and (max-width: 576px) {
-  #send-modal {
-    text-align: center;
-  }
   .tm-data-msg__icon {
     margin-right: 0;
   }
