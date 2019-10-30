@@ -132,7 +132,7 @@ exports[`PageValidator shows a validator profile information errors signing info
           id="page-profile__rewards"
         >
           
-          -NaN%
+          NaN%
         
         </span>
       </li>
@@ -380,7 +380,7 @@ exports[`PageValidator shows a validator profile information if user has signed 
           id="page-profile__rewards"
         >
           
-          -NaN%
+          NaN%
         
         </span>
       </li>
@@ -628,7 +628,7 @@ exports[`PageValidator shows a validator profile information if user hasn't sign
           id="page-profile__rewards"
         >
           
-          -NaN%
+          NaN%
         
         </span>
       </li>
@@ -878,7 +878,7 @@ exports[`PageValidator shows a validator profile information shows empty website
           id="page-profile__rewards"
         >
           
-          -NaN%
+          NaN%
         
         </span>
       </li>
@@ -1126,7 +1126,7 @@ exports[`PageValidator shows a validator profile information shows http website 
           id="page-profile__rewards"
         >
           
-          -NaN%
+          NaN%
         
         </span>
       </li>
