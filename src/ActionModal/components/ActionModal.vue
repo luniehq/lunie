@@ -802,7 +802,7 @@ export default {
       update: result => result.rewards
     },
     $subscribe: {
-      userTransaction: {
+      userTransactionAdded: {
         variables() {
           return {
             networkId: this.networkId,

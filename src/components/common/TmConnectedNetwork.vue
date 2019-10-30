@@ -121,7 +121,14 @@ export default {
           }
         },
         query() {
-          return NewBlockSubscription(this.network)
+          return gql`
+            subscription($networkId: String!) {
+              blockAdded(networkId: $networkId) {
+                height
+                chainId
+              }
+            }
+          `
         },
         result({ data }) {
           this.block = data.blockAdded
