@@ -78,9 +78,7 @@ async function apiUp() {
     }
     try {
       const { data } = await axios.post(`http://${HOST}:4000`, {
-        operationName: null,
-        query: `{"operationName":null,"query":"{balance(networkId: \"local-cosmos-hub-testnet\", address: \"cosmos1ek9cd8ewgxg9w5xllq9um0uf4aaxaruvcw4v9e\", denom: \"STAKE\") {    denom    amount  }}","variables":{}}`,
-        variables: {}
+        query: `{balance(networkId: \"local-cosmos-hub-testnet\", address: \"cosmos1ek9cd8ewgxg9w5xllq9um0uf4aaxaruvcw4v9e\", denom: \"STAKE\") {    denom    amount  }}`
       })
       if (data.data.balance.amount === 0) {
         continue
