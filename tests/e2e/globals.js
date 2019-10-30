@@ -77,11 +77,12 @@ async function apiUp() {
       throw new Error("Timed out waiting for API to be up.")
     }
     try {
-      // test if the test account was funded
-      const { data } = await axios.post(`http://${HOST}:4000`, {
+      // test if the test account was funded as we need the account to have funds in the tests
+      const response = await axios.post(`http://${HOST}:4000`, {
         query: `{balance(networkId: \"local-cosmos-hub-testnet\", address: \"cosmos1ek9cd8ewgxg9w5xllq9um0uf4aaxaruvcw4v9e\", denom: \"STAKE\") {    denom    amount  }}`
       })
-      if (data.data.balance.amount === 0) {
+      console.log(response)
+      if (response.data.data.balance.amount === 0) {
         continue
       }
       apiUp = true
