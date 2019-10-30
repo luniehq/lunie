@@ -69,9 +69,13 @@ module.exports = {
 }
 
 async function apiUp() {
+  const start = new Date().getTime()
   // we need to wait until the testnet is up and the account has money
   let apiUp = false
   while (!apiUp) {
+    if (new Date().getTime() - start > 90000) {
+      throw new Error("Timed out waiting for API to be up.")
+    }
     try {
       const { data } = await axios.post(`http://${HOST}:4000`, {
         operationName: null,
