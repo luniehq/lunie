@@ -800,7 +800,6 @@ export default {
   display: inline-block;
   border-left: 2px solid var(--warning);
   padding: 0.5rem 0 0.5rem 1rem;
-  font-size: 14px;
 }
 
 .slide-fade-enter-active {

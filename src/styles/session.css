@@ -44,6 +44,7 @@
 
 .session-main {
   flex: 1;
+
   /* padding: 0 1rem; */
 }
 
@@ -98,6 +99,7 @@
   display: flex;
   justify-content: flex-end;
   padding: 1.5rem 0 1rem;
+
   /* keeps button in bottom right no matter the size of the action modal */
   flex-grow: 1;
   align-self: flex-end;
@@ -135,10 +137,10 @@
 }
 
 .session .material-icons.circle.back {
-  background:var(--app-nav-light);
+  background: var(--app-nav-light);
   color: var(--dim);
   border-radius: 50%;
-  padding: .4rem;
+  padding: 0.4rem;
   cursor: pointer;
 }
 
