@@ -206,6 +206,7 @@ export default {
     vote: undefined,
     proposal: {
       status: "",
+      proposer: "",
       tally: {}
     },
     parameters: {

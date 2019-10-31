@@ -71,7 +71,7 @@ describe(`PageProposal`, () => {
     expect(wrapper.element).toMatchSnapshot()
   })
 
-  it(`shows an error if the proposal couldn't be found`, () => {
+   it(`shows an error if the proposal couldn't be found`, () => {
     wrapper = shallowMount(PageProposal, {
       ...args,
       propsData: { proposalId: `666` }
