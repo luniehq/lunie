@@ -13,12 +13,14 @@
             {{ status.badge }}
           </span>
           <h2 class="proposal-title">{{ proposal.title }}</h2>
-          <p v-if="proposal.proposer !== `unknown`" class="proposer">
-            Proposed by
-            <Bech32 :address="proposal.proposer" :long-form="true" />
-          </p>
-          <p v-else class="proposer">
-            Unknown proposer
+          <p class="proposer">
+            <template v-if="proposal.proposer !== `unknown`">
+              Proposed by
+              <Bech32 :address="proposal.proposer" :long-form="true" />
+            </template>
+            <template v-else>
+              Unknown proposer
+            </template>
           </p>
         </div>
         <div class="button-container">
@@ -261,7 +263,6 @@ export default {
       },
       result(data) {
         /* istanbul ignore next */
-        console.log(data)
         this.error = data.error
       }
     },
