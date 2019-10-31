@@ -10,6 +10,7 @@ module.exports = {
   asyncHookTimeout: 30000,
 
   async before() {
+    await schemaAvailable()
     await apiUp()
   },
 
@@ -89,7 +90,29 @@ async function apiUp() {
     } catch (err) {
       console.log(err)
       await new Promise(resolve => setTimeout(resolve, 1000))
-      console.log("Waiting for node to be up")
+      console.log("Waiting for API to be up")
+    }
+  }
+}
+
+async function schemaAvailable() {
+  const start = new Date().getTime()
+  // we need to wait until the testnet is up and the account has money
+  let databaseUp = false
+  while (!databaseUp) {
+    if (new Date().getTime() - start > 90000) {
+      throw new Error("Timed out waiting for database to be up.")
+    }
+    try {
+      // test if the test account was funded as we need the account to have funds in the tests
+      const response = await axios.post(`http://${HOST}:8080/v1/graphql`, {
+        query: `{maintenance {    message  }}`
+      })
+      databaseUp = true
+    } catch (err) {
+      console.log(err)
+      await new Promise(resolve => setTimeout(resolve, 1000))
+      console.log("Waiting for database to be up")
     }
   }
 }
