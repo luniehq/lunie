@@ -165,7 +165,7 @@ jobs:
             NETWORK: local-cosmos-hub-testnet # Connect directly to the testnet
       - run:
           name: Test
-          command: npm run serve:dist & npm run test:e2e:browerstack
+          command: npm run serve:dist & npm run test:e2e:browserstack
           no_output_timeout: 120
       - store_artifacts:
           path: ./screenshots
