@@ -154,7 +154,7 @@ jobs:
       - run:
           name: Manually update lunie-api docker image
           command: |
-            https://${GITHUB_USERNAME}:${GITHUB_AUTH_TOKEN}@github.com/luniehq/lunie-api.git
+            git clone https://${GITHUB_USERNAME}:${GITHUB_AUTH_TOKEN}@github.com/luniehq/lunie-api.git
             cd lunie-api
             git checkout develop
             docker build --tag luniebackend_lunie-api:latest .
