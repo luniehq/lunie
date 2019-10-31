@@ -73,7 +73,6 @@
 import { mapGetters } from "vuex"
 import { prettyInt } from "scripts/num"
 import TmBtn from "common/TmBtn"
-import { NewBlockSubscription } from "src/gql"
 import gql from "graphql-tag"
 
 export default {
@@ -121,7 +120,14 @@ export default {
           }
         },
         query() {
-          return NewBlockSubscription(this.network)
+          return gql`
+            subscription($networkId: String!) {
+              blockAdded(networkId: $networkId) {
+                height
+                chainId
+              }
+            }
+          `
         },
         result({ data }) {
           this.block = data.blockAdded

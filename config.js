@@ -1,5 +1,6 @@
 const dev = process.env.NODE_ENV === `development`
-const stargate = process.env.STARGATE || `http://localhost:9070`
+const stargate = process.env.STARGATE || `http://localhost:9071`
+const graphql = process.env.VUE_APP_GRAPHQL_URL || `localhost:8080`
 
 export default {
   name: `Lunie`,
@@ -13,7 +14,7 @@ export default {
   CosmosAppTestModeAllowed: false,
   mobileApp: Boolean(process.env.MOBILE_APP),
 
-  graphqlHost: process.env.VUE_APP_GRAPHQL_URL || "http://localhost:4000",
+  graphqlHost: graphql,
 
   e2e: process.env.VUE_APP_E2E
 }
