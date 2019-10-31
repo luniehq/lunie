@@ -80,7 +80,7 @@ async function apiUp() {
     try {
       // test if the test account was funded as we need the account to have funds in the tests
       const response = await axios.post(`http://${HOST}:4000`, {
-        query: `{"query":"{overview(networkId: "local-cosmos-hub-testnet", address:"cosmos1ek9cd8ewgxg9w5xllq9um0uf4aaxaruvcw4v9e") {totalStake}}" }`
+        query: `{overview(networkId: "local-cosmos-hub-testnet", address:"cosmos1ek9cd8ewgxg9w5xllq9um0uf4aaxaruvcw4v9e") {totalStake}}`
       })
       if (response.data.errors) {
         throw new Error(JSON.stringify(response.data.errors))
@@ -90,7 +90,7 @@ async function apiUp() {
       }
       apiUp = true
     } catch (err) {
-      console.log("Failed to check API", err.message)
+      console.log("Failed to check API", err)
       await new Promise(resolve => setTimeout(resolve, 1000))
       console.log("Waiting for API to be up")
     }
