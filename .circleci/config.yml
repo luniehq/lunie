@@ -145,23 +145,17 @@ jobs:
             nvm install v10.13.0
             nvm alias default v10.13.0
       - run:
-          name: Install Chrome
-          command: |
-            wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
-            sudo sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list'
-            sudo apt-get update
-            sudo apt-get -y install google-chrome-stable
-      - run:
           name: Run testnet
           command: |
             cd lunie-backend
-            docker-compose up --build -d
+            npm run start -- -d
       - run:
           # needs to be done in CI to be sure it is build once we start the tests
           name: Build for E2E test
           command: npm run test:e2e:build
           environment:
             VUE_APP_GRAPHQL_URL: http://127.0.0.1:4000 # Browserstack tunneling doesn't work with "localhost"
+            NETWORK: local-cosmos-hub-testnet # Connect directly to the testnet
       - run:
           name: Test
           command: npm run serve:dist & npm run test:e2e:browserstack
