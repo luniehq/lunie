@@ -162,7 +162,7 @@ jobs:
           name: Run testnet
           command: |
             cd lunie-backend
-            docker-compose up --build -d
+            docker-compose up -d
       # - run:
       #     # needs to be done in CI to be sure it is build once we start the tests
       #     name: Build for E2E test
