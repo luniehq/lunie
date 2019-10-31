@@ -21,29 +21,18 @@ module.exports = {
     prepare(browser)
 
     browser.click("#creat-new-address")
-    browser.waitForElementVisible("#sign-up-seed")
-    browser.expect
-      .element("#sign-up-seed")
-      .value.to.match(/\w+( \w+){23}/)
-      .before(10000)
+    browser.waitForElementVisible("#sign-up-name")
+    browser.pause(500)
 
-    await next(browser)
-    browser.expect.elements(".tm-form-msg--error").count.to.equal(3)
+    // browser.expect.elements(".tm-form-msg--error").count.to.equal(1)
 
     browser.setValue("#sign-up-name", "demo-account")
     await next(browser)
-    browser.expect.elements(".tm-form-msg--error").count.to.equal(2)
 
     browser.setValue("#sign-up-password", "1234567890")
-    await next(browser)
-    browser.expect
-      .elements(".tm-form-msg--error")
-      // the error on the initial password vanishes but the password confirmation appears
-      .count.to.equal(2)
-
     browser.setValue("#sign-up-password-confirm", "1234567890")
     await next(browser)
-    browser.expect.elements(".tm-form-msg--error").count.to.equal(1)
+    browser.pause(500)
 
     browser.click("#sign-up-warning")
     await next(browser)
@@ -61,21 +50,8 @@ module.exports = {
     browser.click("#recover-with-backup")
     browser.waitForElementVisible("#import-seed")
 
-    await next(browser)
-    browser.expect.elements(".tm-form-msg--error").count.to.equal(3)
+    /* Recover with backup code, first step */
 
-    browser.setValue("#import-name", "demo-account-imported")
-    await next(browser)
-    browser.expect.elements(".tm-form-msg--error").count.to.equal(2)
-
-    browser.setValue("#import-password", "1234567890")
-    await next(browser)
-    browser.expect
-      .elements(".tm-form-msg--error")
-      // the error on the initial password vanishes but the password confirmation appears
-      .count.to.equal(2)
-
-    browser.setValue("#import-password-confirmation", "1234567890")
     await next(browser)
     browser.expect.elements(".tm-form-msg--error").count.to.equal(1)
 
@@ -84,6 +60,27 @@ module.exports = {
       `lab stable vessel rose donkey panel slim assault cause tenant level yellow sport argue rural pizza supply idea detect brass shift aunt matrix simple`
     )
     await next(browser)
+
+    /* Choose name, second step */
+
+    await next(browser)
+    browser.expect.elements(".tm-form-msg--error").count.to.equal(1)
+
+    browser.setValue("#import-name", "demo-account-imported")
+    await next(browser)
+
+    /* Choose password, third step */
+
+    await next(browser)
+    browser.expect.elements(".tm-form-msg--error").count.to.equal(1)
+
+    browser.setValue("#import-password", "1234567890")
+    await next(browser)
+    browser.expect.elements(".tm-form-msg--error").count.to.equal(1)
+
+    browser.setValue("#import-password-confirmation", "1234567890")
+    await next(browser)
+
     // check if signed in
     browser.waitForElementNotPresent(".session")
     openMenu(browser)
