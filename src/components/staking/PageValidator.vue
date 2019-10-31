@@ -1,9 +1,9 @@
 <template>
   <TmPage
     :managed="true"
-    :loading="$apollo.queries.validator.loading"
-    :loaded="!$apollo.queries.validator.loading"
-    :error="$apollo.queries.validator.error"
+    :loading="$apollo.loading"
+    :loaded="!$apollo.loading"
+    :error="error"
     :data-empty="!validator.operatorAddress"
     :hide-header="true"
     data-title="Validator"
@@ -50,7 +50,7 @@
         <TmBtn id="delegation-btn" value="Stake" @click.native="onDelegation" />
         <TmBtn
           id="undelegation-btn"
-          :disabled="!delegation"
+          :disabled="delegation.amount === 0"
           value="Unstake"
           type="secondary"
           @click.native="onUndelegation"
@@ -136,19 +136,10 @@
         </li>
       </ul>
 
-      <DelegationModal
-        ref="delegationModal"
-        :from-options="delegationTargetOptions()"
-        :to="validator.operatorAddress"
-        :validator="validator"
-        :denom="stakingDenom"
-      />
+      <DelegationModal ref="delegationModal" :target-validator="validator" />
       <UndelegationModal
         ref="undelegationModal"
-        :maximum="delegation.amount"
-        :to="address"
-        :validator="validator"
-        :denom="stakingDenom"
+        :source-validator="validator"
         @switchToRedelegation="onDelegation({ redelegation: true })"
       />
     </template>
@@ -167,7 +158,7 @@
 import moment from "moment"
 import { mapGetters, mapState } from "vuex"
 import { atoms, shortDecimals, fullDecimals, percent } from "scripts/num"
-import { formatBech32, noBlanks, fromNow } from "src/filters"
+import { noBlanks, fromNow } from "src/filters"
 import TmBtn from "common/TmBtn"
 import DelegationModal from "src/ActionModal/components/DelegationModal"
 import UndelegationModal from "src/ActionModal/components/UndelegationModal"
@@ -175,7 +166,7 @@ import Avatar from "common/Avatar"
 import Bech32 from "common/Bech32"
 import TmPage from "common/TmPage"
 import gql from "graphql-tag"
-import { ValidatorProfile } from "src/gql"
+import { ValidatorProfile, UserTransactionAdded } from "src/gql"
 
 function getStatusText(statusDetailed) {
   switch (statusDetailed) {
@@ -217,11 +208,12 @@ export default {
     validator: {},
     rewards: 0,
     delegation: {},
-    delegations: []
+    error: false
   }),
   computed: {
     ...mapState([`session`]),
-    ...mapGetters([`address`, `network`])
+    ...mapGetters([`network`]),
+    ...mapGetters({ userAddress: `address` })
   },
   methods: {
     shortDecimals,
@@ -233,68 +225,9 @@ export default {
     },
     onUndelegation() {
       this.$refs.undelegationModal.open()
-    },
-    delegationTargetOptions() {
-      if (!this.session.signedIn) return []
-
-      const stakingBalance = this.balance.find(
-        ({ denom }) => this.stakingDenom === denom
-      )
-      const stakingBalanceAmount = stakingBalance ? stakingBalance.amount : 0
-
-      //- First option should always be your wallet (i.e normal delegation)
-      const myWallet = [
-        {
-          address: this.address,
-          maximum: Math.floor(stakingBalanceAmount),
-          key: `My Wallet - ${formatBech32(this.address, false, 20)}`,
-          value: 0
-        }
-      ]
-
-      const result = this.delegations
-        .filter(d => d.validatorAddress != this.$route.params.validator)
-        .map((d, i) => {
-          return {
-            address: this.address,
-            maximum: Math.floor(d.shares), // TODO
-            // Get names of delegation validators
-            key: `${d.validatorAddress} - ${formatBech32(
-              d.validatorAddress,
-              false,
-              20
-            )}`,
-            value: i + 1
-          }
-        })
-        .concat(myWallet)
-
-      return result
     }
   },
   apollo: {
-    balance: {
-      query: gql`
-        query balance($networkId: String!, $address: String!) {
-          balance(networkId: $networkId, address: $address) {
-            amount
-            denom
-          }
-        }
-      `,
-      skip() {
-        return !this.address
-      },
-      variables() {
-        return {
-          networkId: this.network,
-          address: this.address
-        }
-      },
-      update: data => {
-        return data.balance
-      }
-    },
     delegation: {
       query: gql`
         query delegation(
@@ -312,12 +245,12 @@ export default {
         }
       `,
       skip() {
-        return !this.address
+        return !this.userAddress
       },
       variables() {
         return {
           networkId: this.network,
-          delegatorAddress: this.address,
+          delegatorAddress: this.userAddress,
           operatorAddress: this.$route.params.validator
         }
       },
@@ -326,14 +259,11 @@ export default {
           ...result.delegation,
           amount: Number(result.delegation.amount)
         }
-      },
-      skip() {
-        return !this.session.address
       }
     },
     rewards: {
       query: gql`
-        query rewards(
+        query RewardsPageValidator(
           $networkId: String!
           $delegatorAddress: String!
           $operatorAddress: String
@@ -347,15 +277,21 @@ export default {
           }
         }
       `,
+      skip() {
+        return !this.userAddress
+      },
       variables() {
         return {
           networkId: this.network,
-          delegatorAddress: this.address,
+          delegatorAddress: this.userAddress,
           operatorAddress: this.$route.params.validator
         }
       },
-      update: result =>
-        result.rewards.length > 0 ? result.rewards[0] : { amount: 0 }
+      update: result => {
+        const r = result.rewards.length > 0 ? result.rewards[0] : { amount: 0 }
+        console.log(r)
+        return r
+      }
     },
     validator: {
       query: ValidatorProfile,
@@ -372,47 +308,25 @@ export default {
         }
       }
     },
-    stakingDenom: {
-      query: gql`
-        query Networks($networkId: String!) {
-          network(id: $networkId) {
-            stakingDenom
+    $subscribe: {
+      userTransactionAdded: {
+        variables() {
+          return {
+            networkId: this.network,
+            address: this.userAddress
+          }
+        },
+        skip() {
+          return !this.userAddress
+        },
+        query: UserTransactionAdded,
+        result({ data }) {
+          if (data.userTransactionAdded.success) {
+            this.$apollo.queries.validator.refetch()
+            this.$apollo.queries.rewards.refetch()
+            this.$apollo.queries.delegation.refetch()
           }
         }
-      `,
-      variables() {
-        return {
-          networkId: this.network
-        }
-      },
-      update(data) {
-        /* istanbul ignore next */
-        return data.network.stakingDenom
-      }
-    },
-    delegations: {
-      query: gql`
-        query Delegations($networkId: String!, $delegatorAddress: String!) {
-          delegations(
-            networkId: $networkId
-            delegatorAddress: $delegatorAddress
-          ) {
-            amount
-            validator {
-              operatorAddress
-            }
-          }
-        }
-      `,
-      variables() {
-        return {
-          networkId: this.network,
-          delegatorAddress: this.address
-        }
-      },
-      update(data) {
-        /* istanbul ignore next */
-        return data.delegations
       }
     }
   }

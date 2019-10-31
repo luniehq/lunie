@@ -13,17 +13,17 @@ Vue.use(VueApollo)
 const graphqlHost = urlParams => urlParams.graphql || config.graphqlHost
 
 const makeHttpLink = urlParams => {
-  let prefix = config.development ? `http` : `https`
   const host = graphqlHost(urlParams)
-  const uri = `${prefix}://${host}`
+  const uri = host
   console.log("http", uri)
-  return createHttpLink({ uri })
+  return createHttpLink({
+    uri
+  })
 }
 
 const makeWebSocketLink = urlParams => {
-  let prefix = config.development ? `ws` : `wss`
   const host = graphqlHost(urlParams)
-  const uri = `${prefix}://${host}/graphql`
+  const uri = `${host.replace("http", "ws")}/graphql`
   console.log("ws", uri)
   return new WebSocketLink({ uri })
 }

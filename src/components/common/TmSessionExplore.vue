@@ -8,8 +8,8 @@
       <div v-if="session.addresses.length > 0" class="session-list">
         <div
           v-for="account in session.addresses"
-          v-bind:key="account.address"
-          v-bind:title="account.address"
+          :key="account.address"
+          :title="account.address"
           @click="exploreWith(account.address)"
         >
           <div class="tm-li-session">

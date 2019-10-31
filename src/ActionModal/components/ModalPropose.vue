@@ -69,7 +69,7 @@
       field-id="amount"
       field-label="Deposit"
     >
-      <span class="input-suffix">{{ denom | viewDenom }}</span>
+      <span class="input-suffix">{{ denom }}</span>
       <TmField
         id="amount"
         v-model="amount"
@@ -78,8 +78,8 @@
         @keyup.enter.native="enterPressed"
       />
       <TmFormMsg
-        v-if="balance === 0"
-        :msg="`doesn't have any ${viewDenom(denom)}s`"
+        v-if="balance.amount === 0"
+        :msg="`doesn't have any ${denom}s`"
         name="Wallet"
         type="custom"
       />
@@ -105,7 +105,8 @@
 </template>
 
 <script>
-import { mapState } from "vuex"
+import { mapGetters } from "vuex"
+import gql from "graphql-tag"
 import {
   minLength,
   maxLength,
@@ -113,13 +114,14 @@ import {
   between,
   decimal
 } from "vuelidate/lib/validators"
-import { uatoms, atoms, viewDenom, SMALLEST } from "scripts/num"
+import { uatoms, SMALLEST } from "scripts/num"
 import isEmpty from "lodash.isempty"
 import trim from "lodash.trim"
 import TmField from "common/TmField"
 import TmFormGroup from "common/TmFormGroup"
 import TmFormMsg from "common/TmFormMsg"
 import ActionModal from "./ActionModal"
+import { toMicroDenom } from "src/scripts/common"
 
 import transaction from "../utils/transactionTypes"
 
@@ -136,9 +138,6 @@ export default {
     TmFormGroup,
     TmFormMsg
   },
-  filters: {
-    viewDenom
-  },
   props: {
     denom: {
       type: String,
@@ -151,20 +150,15 @@ export default {
     title: ``,
     description: ``,
     type: `Text`,
-    amount: 0
+    amount: 0,
+    balance: {
+      amount: 0,
+      denom: ``
+    }
   }),
   computed: {
-    ...mapState([`wallet`]),
-    balance() {
-      // TODO: refactor to get the selected coin when multicoin deposit is enabled
-      if (!this.wallet.loading && !!this.wallet.balances.length) {
-        const balance = this.wallet.balances.find(
-          coin => coin.denom === this.denom
-        )
-        if (balance) return parseFloat(balance.amount)
-      }
-      return 0
-    },
+    ...mapGetters([`network`]),
+    ...mapGetters({ userAddress: `address` }),
     transactionData() {
       return {
         type: transaction.SUBMIT_PROPOSAL,
@@ -174,7 +168,7 @@ export default {
         initialDeposits: [
           {
             amount: uatoms(this.amount),
-            denom: this.denom
+            denom: toMicroDenom(this.denom)
           }
         ]
       }
@@ -206,12 +200,11 @@ export default {
       amount: {
         required: x => !!x && x !== `0`,
         decimal,
-        between: between(SMALLEST, atoms(this.balance))
+        between: between(SMALLEST, this.balance.amount)
       }
     }
   },
   methods: {
-    viewDenom,
     open() {
       this.$refs.actionModal.open()
     },
@@ -235,6 +228,28 @@ export default {
     },
     onSuccess(event) {
       this.$emit(`success`, event)
+    }
+  },
+  apollo: {
+    balance: {
+      query: gql`
+        query balance($networkId: String!, $address: String!, $denom: String!) {
+          balance(networkId: $networkId, address: $address, denom: $denom) {
+            amount
+            denom
+          }
+        }
+      `,
+      skip() {
+        return !this.userAddress
+      },
+      variables() {
+        return {
+          networkId: this.network,
+          address: this.userAddress,
+          denom: this.denom
+        }
+      }
     }
   }
 }

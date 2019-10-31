@@ -201,11 +201,13 @@ query metaData {
 }
 `
 
-export const NewBlockSubscription = networkId => gql`
-  subscription {
-    blockAdded(networkId: "${networkId}") {
+export const UserTransactionAdded = gql`
+  subscription($networkId: String!, $address: String!) {
+    userTransactionAdded(networkId: $networkId, address: $address) {
+      hash
       height
-      chainId
+      success
+      log
     }
   }
 `

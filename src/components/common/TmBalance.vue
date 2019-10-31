@@ -36,12 +36,8 @@
       />
     </div>
 
-    <SendModal ref="SendModal" />
-    <ModalWithdrawRewards
-      ref="ModalWithdrawRewards"
-      :rewards="overview.totalRewards"
-      :denom="stakingDenom"
-    />
+    <SendModal ref="SendModal" :denom="stakingDenom" />
+    <ModalWithdrawRewards ref="ModalWithdrawRewards" />
   </div>
 </template>
 <script>
@@ -50,6 +46,7 @@ import { noBlanks } from "src/filters"
 import TmBtn from "common/TmBtn"
 import SendModal from "src/ActionModal/components/SendModal"
 import ModalWithdrawRewards from "src/ActionModal/components/ModalWithdrawRewards"
+import { UserTransactionAdded } from "src/gql"
 import { mapGetters } from "vuex"
 import gql from "graphql-tag"
 export default {
@@ -82,7 +79,7 @@ export default {
       this.$refs.ModalWithdrawRewards.open()
     },
     onSend() {
-      this.$refs.SendModal.open(this.stakingDenom)
+      this.$refs.SendModal.open()
     }
   },
   apollo: {
@@ -116,8 +113,9 @@ export default {
     },
     stakingDenom: {
       query: gql`
-        query Networks($networkId: String!) {
+        query Network($networkId: String!) {
           network(id: $networkId) {
+            id
             stakingDenom
           }
         }
@@ -130,6 +128,23 @@ export default {
       update(data) {
         /* istanbul ignore next */
         return data.network.stakingDenom
+      }
+    },
+    $subscribe: {
+      userTransactionAdded: {
+        variables() {
+          return {
+            networkId: this.network,
+            address: this.address
+          }
+        },
+        skip() {
+          return !this.address
+        },
+        query: UserTransactionAdded,
+        result() {
+          this.$apollo.queries.overview.refetch()
+        }
       }
     }
   }

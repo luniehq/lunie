@@ -137,13 +137,38 @@ export default {
           }
         }
       `,
+      skip() {
+        return !this.address
+      },
       variables() {
         return {
           networkId: this.network,
           delegatorAddress: this.address
         }
       },
-      update: result => result.rewards
+      update: result => result.rewards || []
+    },
+    $subscribe: {
+      blockAdded: {
+        variables() {
+          return {
+            networkId: this.network
+          }
+        },
+        query() {
+          return gql`
+            subscription($networkId: String!) {
+              blockAdded(networkId: $networkId) {
+                height
+                chainId
+              }
+            }
+          `
+        },
+        result() {
+          this.$apollo.queries.rewards.refetch()
+        }
+      }
     }
   }
 }
