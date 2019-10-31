@@ -144,18 +144,18 @@ jobs:
           command: |
             nvm install v10.13.0
             nvm alias default v10.13.0
-      - run:
-          name: Install Chrome
-          command: |
-            wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
-            sudo sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list'
-            sudo apt-get update
-            sudo apt-get -y install google-chrome-stable
+      # - run:
+      #     name: Install Chrome
+      #     command: |
+      #       wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
+      #       sudo sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list'
+      #       sudo apt-get update
+      #       sudo apt-get -y install google-chrome-stable
       - run:
           name: Run testnet
           command: |
             cd lunie-backend
-            docker-compose up --build -d
+            yarn start --d
       - run:
           # needs to be done in CI to be sure it is build once we start the tests
           name: Build for E2E test
