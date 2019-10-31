@@ -152,24 +152,17 @@ jobs:
             sudo apt-get update
             sudo apt-get -y install google-chrome-stable
       - run:
-          name: Manually update lunie-api docker image
-          command: |
-            git clone https://${GITHUB_USERNAME}:${GITHUB_AUTH_TOKEN}@github.com/luniehq/lunie-api.git
-            cd lunie-api
-            git checkout fabo/debug-missing-denom
-            docker build --tag luniebackend_lunie-api:latest .
-      - run:
           name: Run testnet
           command: |
             cd lunie-backend
-            docker-compose up -d
-      # - run:
-      #     # needs to be done in CI to be sure it is build once we start the tests
-      #     name: Build for E2E test
-      #     command: npm run test:e2e:build
-      #     environment:
-      #       VUE_APP_GRAPHQL_URL: http://127.0.0.1:4000 # Browserstack tunneling doesn't work with "localhost"
-      #       NETWORK: local-cosmos-hub-testnet # Connect directly to the testnet
+            npm run start -- -d
+      - run:
+          # needs to be done in CI to be sure it is build once we start the tests
+          name: Build for E2E test
+          command: npm run test:e2e:build
+          environment:
+            VUE_APP_GRAPHQL_URL: http://127.0.0.1:4000 # Browserstack tunneling doesn't work with "localhost"
+            NETWORK: local-cosmos-hub-testnet # Connect directly to the testnet
       - run:
           name: Test
           command: npm run serve:dist & npm run test:e2e:local

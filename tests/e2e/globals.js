@@ -80,12 +80,12 @@ async function apiUp() {
     try {
       // test if the test account was funded as we need the account to have funds in the tests
       const response = await axios.post(`http://${HOST}:4000`, {
-        query: `{balance(networkId: "local-cosmos-hub-testnet", address: "cosmos1ek9cd8ewgxg9w5xllq9um0uf4aaxaruvcw4v9e", denom: "STAKE") {    denom    amount  }}`
+        query: `{"query":"{overview(networkId: "local-cosmos-hub-testnet", address:"cosmos1ek9cd8ewgxg9w5xllq9um0uf4aaxaruvcw4v9e") {totalStake}}" }`
       })
       if (response.data.errors) {
         throw new Error(JSON.stringify(response.data.errors))
       }
-      if (response.data.data.balance.amount === 0) {
+      if (response.data.data.overview.totalStake === 0) {
         continue
       }
       apiUp = true
