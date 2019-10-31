@@ -113,8 +113,7 @@ jobs:
             exit 0
 
   testE2e:
-    machine:
-      docker_layer_caching: true
+    machine: master
     working_directory: *WORKSPACE
     steps:
       - attach_workspace:
