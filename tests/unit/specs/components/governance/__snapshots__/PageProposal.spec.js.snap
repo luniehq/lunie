@@ -9,7 +9,7 @@ exports[`PageProposal Modal onVote enables voting if the proposal is on the 'Vot
       <h2 class="proposal-title">test</h2>
       <p class="proposer">
         Proposed by
-        <bech32-stub address="" longform="true"></bech32-stub>
+        <bech32-stub address=""></bech32-stub>
       </p>
     </div>
     <div class="button-container">
@@ -86,7 +86,7 @@ exports[`PageProposal Modal onVote shows the last valid vote 1`] = `
       <h2 class="proposal-title">test</h2>
       <p class="proposer">
         Proposed by
-        <bech32-stub address="" longform="true"></bech32-stub>
+        <bech32-stub address=""></bech32-stub>
       </p>
     </div>
     <div class="button-container">

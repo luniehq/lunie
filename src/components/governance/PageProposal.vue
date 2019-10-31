@@ -16,7 +16,7 @@
           <p class="proposer">
             <template v-if="proposal.proposer !== `unknown`">
               Proposed by
-              <Bech32 :address="proposal.proposer" :long-form="true" />
+              <Bech32 :address="proposal.proposer" />
             </template>
             <template v-else>
               Unknown proposer
