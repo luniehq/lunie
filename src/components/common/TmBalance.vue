@@ -131,7 +131,7 @@ export default {
       }
     },
     $subscribe: {
-      userTransaction: {
+      userTransactionAdded: {
         variables() {
           return {
             networkId: this.network,
@@ -143,7 +143,6 @@ export default {
         },
         query: UserTransactionAdded,
         result() {
-          // query if successful or not as even an unsuccessful tx costs fees
           this.$apollo.queries.overview.refetch()
         }
       }

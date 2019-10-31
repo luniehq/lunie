@@ -200,15 +200,6 @@ query metaData {
 }
 `
 
-export const NewBlockSubscription = networkId => gql`
-  subscription {
-    blockAdded(networkId: "${networkId}") {
-      height
-      chainId
-    }
-  }
-`
-
 export const UserTransactionAdded = gql`
   subscription($networkId: String!, $address: String!) {
     userTransactionAdded(networkId: $networkId, address: $address) {

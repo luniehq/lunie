@@ -32,7 +32,6 @@ import { mapGetters } from "vuex"
 import orderBy from "lodash.orderby"
 import LiValidator from "staking/LiValidator"
 import PanelSort from "staking/PanelSort"
-import { UserTransactionAdded } from "src/gql"
 import gql from "graphql-tag"
 
 export default {
@@ -150,21 +149,24 @@ export default {
       update: result => result.rewards || []
     },
     $subscribe: {
-      userTransaction: {
+      blockAdded: {
         variables() {
           return {
-            networkId: this.network,
-            address: this.address
+            networkId: this.network
           }
         },
-        skip() {
-          return !this.address
+        query() {
+          return gql`
+            subscription($networkId: String!) {
+              blockAdded(networkId: $networkId) {
+                height
+                chainId
+              }
+            }
+          `
         },
-        query: UserTransactionAdded,
-        result({ data }) {
-          if (data.userTransactionAdded.success) {
-            this.$apollo.queries.rewards.refetch()
-          }
+        result() {
+          this.$apollo.queries.rewards.refetch()
         }
       }
     }
