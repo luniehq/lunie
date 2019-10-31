@@ -161,11 +161,11 @@ jobs:
           name: Build for E2E test
           command: npm run test:e2e:build
           environment:
-            VUE_APP_GRAPHQL_URL: http://localhost:4000 # Browserstack tunneling doesn't work with "localhost"
+            VUE_APP_GRAPHQL_URL: http://127.0.0.1:4000 # Browserstack tunneling doesn't work with "localhost"
             NETWORK: local-cosmos-hub-testnet # Connect directly to the testnet
       - run:
           name: Test
-          command: npm run serve:dist & npm run test:e2e:local
+          command: npm run serve:dist & npm run test:e2e:browerstack
           no_output_timeout: 120
       - store_artifacts:
           path: ./screenshots
