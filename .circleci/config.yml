@@ -156,7 +156,7 @@ jobs:
           command: |
             git clone https://${GITHUB_USERNAME}:${GITHUB_AUTH_TOKEN}@github.com/luniehq/lunie-api.git
             cd lunie-api
-            git checkout develop
+            git checkout fabo/debug-missing-denom
             docker build --tag luniebackend_lunie-api:latest .
       - run:
           name: Run testnet
