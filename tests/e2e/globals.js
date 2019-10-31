@@ -97,15 +97,15 @@ async function apiUp() {
 
 async function schemaAvailable() {
   const start = new Date().getTime()
-  // we need to wait until the testnet is up and the account has money
+  // we need to wait until the database is up and has the expected shema
   let databaseUp = false
   while (!databaseUp) {
     if (new Date().getTime() - start > 90000) {
       throw new Error("Timed out waiting for database to be up.")
     }
     try {
-      // test if the test account was funded as we need the account to have funds in the tests
-      const response = await axios.post(`http://${HOST}:8080/v1/graphql`, {
+      // test if the database has the expected schema by probing one setup table
+      await axios.post(`http://${HOST}:8080/v1/graphql`, {
         query: `{maintenance {    message  }}`
       })
       databaseUp = true
