@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.0-beta.133] - 2019-10-31
+
+### Repository
+
+- always set the encryption disclaimer for submitting the app to the ios app store @faboweb
+
 ## [1.0.0-beta.132] - 2019-10-29
 
 ### Repository
