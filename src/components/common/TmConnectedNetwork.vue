@@ -73,7 +73,6 @@
 import { mapGetters } from "vuex"
 import { prettyInt } from "scripts/num"
 import TmBtn from "common/TmBtn"
-import { NewBlockSubscription } from "src/gql"
 import gql from "graphql-tag"
 
 export default {

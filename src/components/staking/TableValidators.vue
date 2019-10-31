@@ -32,7 +32,6 @@ import { mapGetters } from "vuex"
 import orderBy from "lodash.orderby"
 import LiValidator from "staking/LiValidator"
 import PanelSort from "staking/PanelSort"
-import { UserTransactionAdded } from "src/gql"
 import gql from "graphql-tag"
 
 export default {
