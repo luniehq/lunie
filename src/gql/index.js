@@ -210,14 +210,3 @@ export const UserTransactionAdded = gql`
     }
   }
 `
-
-export const UserTransactionAdded = gql`
-  subscription($networkId: String!, $address: String!) {
-    userTransactionAdded(networkId: $networkId, address: $address) {
-      hash
-      height
-      success
-      log
-    }
-  }
-`
