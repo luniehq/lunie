@@ -82,7 +82,9 @@ async function apiUp() {
       const response = await axios.post(`http://${HOST}:4000`, {
         query: `{balance(networkId: "local-cosmos-hub-testnet", address: "cosmos1ek9cd8ewgxg9w5xllq9um0uf4aaxaruvcw4v9e", denom: "STAKE") {    denom    amount  }}`
       })
-      console.log(JSON.stringify(response.data.errors))
+      if (response.data.errors) {
+        throw new Error(JSON.stringify(response.data.errors))
+      }
       if (response.data.data.balance.amount === 0) {
         continue
       }

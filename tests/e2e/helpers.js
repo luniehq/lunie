@@ -67,7 +67,7 @@ async function actionModalCheckout(
 ) {
   // grab page we came from as we want to go to another page and come back
   let sourcePage
-  browser.url(function(result) {
+  browser.url(function (result) {
     sourcePage = result.value
   })
 
@@ -76,6 +76,16 @@ async function actionModalCheckout(
 
   // remember balance to compare later if send got through
   browser.expect.element(`.total-atoms__value`).to.be.visible.before(10000)
+  browser.getLog('browser', function (logEntriesArray) {
+    if (logEntriesArray.length) {
+      console.log('Log length: ' + logEntriesArray.length);
+      logEntriesArray.forEach(function (log) {
+        console.log(
+          '[' + log.level + '] ' + log.timestamp + ' : ' + log.message
+        );
+      });
+    }
+  });
   browser.expect
     .element(".total-atoms__value")
     .text.not.to.contain("--")
