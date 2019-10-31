@@ -146,6 +146,7 @@ const ProposalFragment = `
     totalVotedPercentage
   }
   deposit
+  proposer
 `
 
 export const ProposalList = schema => gql`

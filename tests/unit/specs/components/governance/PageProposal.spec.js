@@ -80,6 +80,22 @@ describe(`PageProposal`, () => {
     expect(wrapper.element).toMatchSnapshot()
   })
 
+  it(`should shows Unknown proposer if proposer is unknown`, () => {
+    wrapper.setData({
+      proposal: proposals[0]
+    })
+    expect(wrapper.html()).toContain("Unknown proposer")
+  })
+
+  it(`should show proposer`, () => {
+    wrapper.setData({
+      proposal: proposals[1]
+    })
+    expect(wrapper.html()).toContain(
+      "cosmos1z8mzakma7vnaajysmtkwt4wgjqr2m84tzvyfkz"
+    )
+  })
+
   describe(`Proposal status`, () => {
     it(`displays correctly a proposal that 'Passed'`, () => {
       wrapper.vm.proposal.status = `Passed`
