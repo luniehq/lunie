@@ -401,7 +401,8 @@ export default {
     SIGN_METHODS,
     featureAvailable: true,
     network: {},
-    overview: {}
+    overview: {},
+    loadRewards: false
   }),
   computed: {
     ...mapState([`extension`, `session`]),
@@ -517,6 +518,7 @@ export default {
       this.checkFeatureAvailable()
       this.gasPrice = config.default_gas_price.toFixed(9)
       this.show = true
+      this.loadRewards = true
     },
     close() {
       this.$store.commit(`setCurrrentModalOpen`, false)
@@ -799,7 +801,10 @@ export default {
           delegatorAddress: this.session.address
         }
       },
-      update: result => result.rewards
+      update: result => result.rewards,
+      skip() {
+        this.loadRewards
+      }
     },
     $subscribe: {
       userTransactionAdded: {
