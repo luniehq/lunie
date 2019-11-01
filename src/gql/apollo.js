@@ -1,9 +1,10 @@
 import Vue from "vue"
 import { ApolloClient } from "apollo-boost"
-import { split } from "apollo-link"
+import { createPersistedQueryLink } from "apollo-link-persisted-queries"
 import { createHttpLink } from "apollo-link-http"
 import { WebSocketLink } from "apollo-link-ws"
 import { InMemoryCache } from "apollo-cache-inmemory"
+import { split } from "apollo-link"
 import { getMainDefinition } from "apollo-utilities"
 import VueApollo from "vue-apollo"
 import config from "src/../config"
@@ -15,10 +16,11 @@ const graphqlHost = urlParams => urlParams.graphql || config.graphqlHost
 const makeHttpLink = urlParams => {
   const host = graphqlHost(urlParams)
   const uri = host
-  console.log("http", uri)
-  return createHttpLink({
-    uri
-  })
+  return createPersistedQueryLink().concat(
+    createHttpLink({
+      uri
+    })
+  )
 }
 
 const makeWebSocketLink = urlParams => {
