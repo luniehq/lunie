@@ -11,7 +11,7 @@
           Lunie
         </a>
         <router-link
-          v-if="isMobileApp"
+          v-else
           to="/portfolio"
           exact="exact"
           title="Portfolio"
