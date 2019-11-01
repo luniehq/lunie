@@ -35,5 +35,6 @@ module.exports = {
     `./tests/unit/helpers/window_mock.js`,
     `./tests/unit/helpers/console_error_throw.js`,
     `jest-localstorage-mock`
-  ]
+  ],
+  cache: false
 }
