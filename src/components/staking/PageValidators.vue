@@ -86,18 +86,7 @@ export default {
             name
             operatorAddress
             consensusPubkey
-            jailed
-            details
-            website
-            identity
             votingPower
-            startHeight
-            uptimePercentage
-            tokens
-            commissionUpdateTime
-            commission
-            maxCommission
-            maxChangeCommission
             status
             statusDetailed
             picture
