@@ -1,7 +1,8 @@
 const dev = process.env.NODE_ENV === `development`
 const stargate = process.env.STARGATE || `http://localhost:9071`
 const rpc = process.env.RPC || `localhost:26657`
-const graphql = process.env.VUE_APP_GRAPHQL_URL || `http://localhost:8080/v1/graphql`
+const graphql =
+  process.env.VUE_APP_GRAPHQL_URL || `http://localhost:8080/v1/graphql`
 
 export default {
   name: `Lunie`,
