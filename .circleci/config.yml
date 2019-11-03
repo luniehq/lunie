@@ -298,25 +298,22 @@ workflows:
             branches:
               ignore: release
 
-      - testE2e:
+      - e2eBuild: 
           requires:
             - prep
-            - e2eBuild
           filters:
             branches:
               ignore:
                 - release
                 - master
 
+      - testE2e:
+          requires:
+            - e2eBuild
+
       - testExtension:
           requires:
-            - prep
             - e2eBuild
-          filters:
-            branches:
-              ignore:
-                - release
-                - master
 
   # Every UTC midnight we go on develop and release
   release:
