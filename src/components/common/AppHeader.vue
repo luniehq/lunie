@@ -2,14 +2,26 @@
   <nav class="app-header" :class="{ mobile: !desktop }">
     <div class="container">
       <div class="header-item" :class="{ open: open }">
-        <a href="https://lunie.io">
+        <a v-if="!isMobileApp" href="https://lunie.io">
           <img
             class="header-item-logo"
             src="~assets/images/lunie-logo-white.svg"
-            alt="Lunie spaceship accelerating into a colourful space sky"
+            alt="Lunie sharing circle - dots on the left outline of the cirle, line on the right side"
           />
           Lunie
         </a>
+        <router-link
+          v-else
+          to="/portfolio"
+          exact="exact"
+          title="Portfolio"
+        >
+          <img
+            class="header-item-logo"
+            src="~assets/images/lunie-logo-white.svg"
+            alt="Lunie sharing circle - dots on the left outline of the cirle, line on the right side"
+          />
+        </router-link>
         <template v-if="!desktop">
           <div v-if="open" class="close-menu" @click="close()">
             <i class="material-icons mobile-menu-action">close</i>
@@ -25,6 +37,7 @@
 </template>
 
 <script>
+import config from "src/../config"
 import { mapState } from "vuex"
 import noScroll from "no-scroll"
 import AppMenu from "common/AppMenu"
@@ -33,7 +46,8 @@ export default {
   components: { AppMenu },
   data: () => ({
     open: false,
-    desktop: false
+    desktop: false,
+    isMobileApp: config.mobileApp
   }),
   computed: {
     ...mapState([`session`])
@@ -92,6 +106,7 @@ export default {
   flex: 1;
   display: flex;
   flex-flow: column nowrap;
+  padding-top: 1.4rem;
 }
 
 .app-header .header-item {
@@ -114,7 +129,7 @@ export default {
   }
 
   .container {
-    background: var(--app-fg-dark);
+    background: var(--app-nav);
     position: fixed;
     width: 100%;
   }

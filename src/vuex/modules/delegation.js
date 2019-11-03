@@ -22,14 +22,14 @@ export default ({ node }) => {
     setUnbondingDelegations(state, unbondingDelegations) {
       state.unbondingDelegations = unbondingDelegations
         ? unbondingDelegations
-          // building a dict from the array and taking out the validators with no undelegations
-          .reduce(
-            (dict, { validator_address, entries }) => ({
-              ...dict,
-              [validator_address]: entries.length > 0 ? entries : undefined
-            }),
-            {}
-          )
+            // building a dict from the array and taking out the validators with no undelegations
+            .reduce(
+              (dict, { validator_address, entries }) => ({
+                ...dict,
+                [validator_address]: entries.length > 0 ? entries : undefined
+              }),
+              {}
+            )
         : {}
     }
   }
