@@ -25,20 +25,21 @@ commands:
             - node_modules
           key: v5-dependencies-root-{{ checksum "yarn.lock" }}
 
-  yarn-install-extension:
+  # use npm as the extension install happens in the mashine image which doesn't have yarn
+  npm-install-extension:
     description: "[YARN] update and install"
     steps:
       - restore_cache:
           keys:
-            - v2-dependencies-extension-{{ checksum "yarn.lock" }}
+            - v2-dependencies-extension-{{ checksum "package-lock.json" }}
             - v2-dependencies-extension-
 
-      - run: yarn install
+      - run: npm install
       - save_cache:
           paths:
             - yarn.lock
             - node_modules
-          key: v2-dependencies-extension-{{ checksum "yarn.lock" }}
+          key: v2-dependencies-extension-{{ checksum "package-lock.json" }}
 
 # a reusable executor
 executors:
@@ -176,7 +177,7 @@ jobs:
           command: |
             git clone git@github.com:luniehq/lunie-browser-extension.git .
             git checkout origin/develop
-      - yarn-install-extension
+      - npm-install-extension
       - run:
           name: checkout backend
           command: |
