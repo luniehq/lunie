@@ -157,6 +157,9 @@ async function actionModalCheckout(
   })
 }
 async function nextBlock(browser) {
+  browser.expect
+    .element(`#tm-connected-network__block`)
+    .to.be.visible.before(10000)
   const lastHeight = await new Promise(resolve =>
     browser.getText("#tm-connected-network__block", ({ value }) =>
       resolve(value)
