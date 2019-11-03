@@ -172,15 +172,15 @@ jobs:
             ssh-keygen -R github.com
             ssh-keyscan github.com >> ~/.ssh/known_hosts
       - run:
+          name: checkout extension
+          command: |
+            git clone git@github.com:luniehq/lunie-browser-extension.git .
+            git checkout origin/develop
+      - run:
           name: checkout backend
           command: |
             git clone git@github.com:luniehq/lunie-backend.git
             cd lunie-backend
-            git checkout origin/develop
-      - run:
-          name: checkout extension
-          command: |
-            git clone git@github.com:luniehq/lunie-browser-extension.git .
             git checkout origin/develop
       - attach_workspace:
           at: /tmp/voyager/lunie
