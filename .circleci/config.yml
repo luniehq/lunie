@@ -133,7 +133,57 @@ jobs:
           command: |
             git clone git@github.com:luniehq/lunie-backend.git
             cd lunie-backend
-            git checkout origin/fabo/e2e-restructure
+            git checkout origin/develop
+      - run: 
+          name: Use NVM
+          command: |
+            echo 'export NVM_DIR="/opt/circleci/.nvm"' >> $BASH_ENV
+            echo ' [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"' >> $BASH_ENV
+      - run:
+          name: Install node version
+          command: |
+            nvm install v10.13.0
+            nvm alias default v10.13.0
+      - run:
+          name: Run testnet
+          command: |
+            cd lunie-backend
+            docker-compose up --build -d
+      - run:
+          name: Test
+          command: npm run serve:dist & npm run test:e2e:browserstack
+          no_output_timeout: 120
+      - store_artifacts:
+          path: ./screenshots
+          when: on_fail
+
+  testExtension:
+    machine: true
+    working_directory: *WORKSPACE
+    steps:
+      - add_ssh_keys:
+          fingerprints:
+            - "65:5f:43:fd:be:48:c8:45:d5:39:ef:86:14:d6:e1:12"
+      - run:
+          name: Add GitHub to known hosts
+          command: |
+            mkdir -p ~/.ssh
+            touch ~/.ssh/known_hosts
+            ssh-keygen -R github.com
+            ssh-keyscan github.com >> ~/.ssh/known_hosts
+      - run:
+          name: checkout backend
+          command: |
+            git clone git@github.com:luniehq/lunie-backend.git
+            cd lunie-backend
+            git checkout origin/develop
+      - run:
+          name: checkout extension
+          command: |
+            git clone git@github.com:luniehq/lunie-browser-extension.git .
+            git checkout origin/develop
+      - attach_workspace:
+          at: /tmp/voyager/lunie
       - run: 
           name: Use NVM
           command: |
@@ -157,60 +207,30 @@ jobs:
             cd lunie-backend
             docker-compose up --build -d
       - run:
-          # needs to be done in CI to be sure it is build once we start the tests
-          name: Build for E2E test
-          command: npm run test:e2e:build
-          environment:
-            VUE_APP_GRAPHQL_URL: http://127.0.0.1:4000 # Browserstack tunneling doesn't work with "localhost"
-      - run:
-          name: Test
-          command: npm run serve:dist & npm run test:e2e:browserstack
-          no_output_timeout: 120
-      - store_artifacts:
-          path: ./screenshots
-          when: on_fail
-
-  testExtension:
-    docker:
-      # Primary container image where all steps run.
-     - image: *docker-browsers
-      # Secondary container image on common network which runs the testnet
-     - image: lunieio/testnet:v0.34.3
-    working_directory: *WORKSPACE
-    steps:
-      - run:
-          name: Avoid hosts unknown for github
-          command: mkdir ~/.ssh/ && echo -e "Host github.com\n\tStrictHostKeyChecking no\n" > ~/.ssh/config
-      - run:
-          name: Checkout Extension
-          command: |
-            git clone git@github.com:luniehq/lunie-browser-extension.git .
-      - attach_workspace:
-          at: /tmp/voyager/lunie
-      - yarn-install-extension
-      - setup_remote_docker
-      - run:
-          name: Build
-          command: |
-            npm run build:dev
-            node ./scripts/add-pem-key.js
-            cd lunie
-            npm run test:e2e:build
-            yarn certificates
-      - run:
-          name: Install Chrome
-          command: |
-            wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
-            sudo sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list'
-            sudo apt-get update
-            sudo apt-get -y install google-chrome-stable
+          name: Build Extension
+          command: npm run build:dev && node ./scripts/add-pem-key.js
       - run:
           name: Test
           command: npm run test:e2e:start-lunie & yarn test:e2e
           no_output_timeout: 120
       - store_artifacts:
-          path: ./screenshots_extension
+          path: ./screenshots
           when: on_fail
+
+  e2eBuild:
+    executor: node
+    steps:
+      - attach_workspace:
+          at: *WORKSPACE
+      - run:
+          name: Build for E2e
+          command: npm run test:e2e:build
+          environment:
+            VUE_APP_GRAPHQL_URL: http://127.0.0.1:4000 # Browserstack tunneling doesn't work with "localhost"
+      - persist_to_workspace:
+          root: *WORKSPACE
+          paths:
+            - "*"
 
   # Create release.
   release:
@@ -281,6 +301,7 @@ workflows:
       - testE2e:
           requires:
             - prep
+            - e2eBuild
           filters:
             branches:
               ignore:
@@ -290,6 +311,12 @@ workflows:
       - testExtension:
           requires:
             - prep
+            - e2eBuild
+          filters:
+            branches:
+              ignore:
+                - release
+                - master
 
   # Every UTC midnight we go on develop and release
   release:
