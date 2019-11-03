@@ -2,6 +2,7 @@
 .env*
 node_modules
 /dist
+/screenshots
 
 /tests/e2e/reports/
 selenium-debug.log

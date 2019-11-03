@@ -59,6 +59,7 @@ export default {
   background: var(--app-nav-light);
   width: 1.6rem;
   height: 1.6rem;
+  min-height: 1.6rem;
   margin-bottom: 0.75rem;
   font-size: var(--xs);
   display: flex;
@@ -89,10 +90,11 @@ export default {
   display: inline-block;
   content: "";
   background: var(--grey);
-  width: 3rem;
+  width: 50px;
   height: 2px;
   position: absolute;
-  left: 24px;
+  left: 25px;
+  top: 10px;
 }
 
 .textActive {

@@ -11,6 +11,7 @@ import init from "./initializeApp"
 import { getURLParams } from "scripts/url"
 import "./registerServiceWorker"
 import "@babel/polyfill"
+import { Plugins } from "@capacitor/core"
 
 Vue.config.productionTip = false
 
@@ -24,10 +25,15 @@ Vue.directive(`focus-last`, focusParentLast)
 
 const urlParams = getURLParams(window)
 const { store, router, apolloProvider } = init(urlParams)
+const { SplashScreen, StatusBar } = Plugins
 
 new Vue({
   router,
   ...App,
   store,
-  apolloProvider
+  apolloProvider,
+  mounted() {
+    SplashScreen.hide()
+    StatusBar.show()
+  }
 }).$mount("#app")

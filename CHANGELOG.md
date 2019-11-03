@@ -7,6 +7,18 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.0-beta.133] - 2019-11-03
+
+### Added
+
+- [#3054](https://github.com/cosmos/lunie/issues/3054) added proper icons and splash screens for iOS @jbibla
+
+### Changed
+
+- [#3054](https://github.com/cosmos/lunie/issues/3054) focusing on form inputs won't zoom the screen in anymore @jbibla
+- [#3054](https://github.com/cosmos/lunie/issues/3054) on mobile, lunie logo doesn't go to marketing site anymore @jbibla
+- [#3054](https://github.com/cosmos/lunie/issues/3054) hidden session and action-modal steps on mobile to account for size of screen and avoid forms breaking @jbibla
+
 ## [1.0.0-beta.132] - 2019-10-29
 
 ### Repository
