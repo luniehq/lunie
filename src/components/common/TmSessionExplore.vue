@@ -7,7 +7,7 @@
 
       <div v-if="session.addresses.length > 0" class="session-list">
         <div
-          v-for="account in session.addresses"
+          v-for="account in session.addresses.slice(-3)"
           :key="account.address"
           :title="account.address"
           @click="exploreWith(account.address)"
@@ -131,11 +131,13 @@ export default {
       if (addressType === "explore") return `language`
       if (addressType === "ledger") return `vpn_key`
       if (addressType === "extension") return `laptop`
+      if (addressType === "local") return `laptop`
     },
     getAddressTypeDescription(addressType) {
       if (addressType === "explore") return `Explore Mode`
       if (addressType === "ledger") return `Ledger Nano S`
       if (addressType === "extension") return `Lunie Browser Extension`
+      if (addressType === "local") return `Local`
     },
     exploreWith(address) {
       this.address = address
