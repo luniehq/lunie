@@ -1,6 +1,6 @@
 import config from "src/../config"
 
-export default function() {
+export default function () {
   const state = {
     stopConnecting: false,
     connected: true, // TODO do connection test

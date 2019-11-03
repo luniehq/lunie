@@ -103,6 +103,8 @@ jobs:
           command: |
             set +e
 
+            yarn audit
+
             SUMMARY="$(yarn audit | grep Severity)"
             VULNERABILITIES=".*(High|Critical).*"
 

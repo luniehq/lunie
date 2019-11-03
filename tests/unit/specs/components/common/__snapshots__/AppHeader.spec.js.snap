@@ -14,7 +14,7 @@ exports[`AppHeader should display the sidebar on desktop 1`] = `
         href="https://lunie.io"
       >
         <img
-          alt="Lunie spaceship accelerating into a colourful space sky"
+          alt="Lunie sharing circle - dots on the left outline of the cirle, line on the right side"
           class="header-item-logo"
           src="~assets/images/lunie-logo-white.svg"
         />
@@ -22,6 +22,8 @@ exports[`AppHeader should display the sidebar on desktop 1`] = `
         Lunie
       
       </a>
+       
+      <!---->
        
       <!---->
     </div>
@@ -45,7 +47,7 @@ exports[`AppHeader should show the sidebar as a menu on mobile 1`] = `
         href="https://lunie.io"
       >
         <img
-          alt="Lunie spaceship accelerating into a colourful space sky"
+          alt="Lunie sharing circle - dots on the left outline of the cirle, line on the right side"
           class="header-item-logo"
           src="~assets/images/lunie-logo-white.svg"
         />
@@ -53,6 +55,8 @@ exports[`AppHeader should show the sidebar as a menu on mobile 1`] = `
         Lunie
       
       </a>
+       
+      <!---->
        
       <div
         class="close-menu"
