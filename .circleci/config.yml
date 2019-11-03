@@ -31,15 +31,16 @@ commands:
     steps:
       - restore_cache:
           keys:
-            - v2-dependencies-extension-{{ checksum "package-lock.json" }}
+            - v2-dependencies-extension-{{ checksum "yarn.lock" }}
             - v2-dependencies-extension-
 
       - run: npm install
       - save_cache:
           paths:
+            - package-lock.json
             - yarn.lock
             - node_modules
-          key: v2-dependencies-extension-{{ checksum "package-lock.json" }}
+          key: v2-dependencies-extension-{{ checksum "yarn.lock" }}
 
 # a reusable executor
 executors:
