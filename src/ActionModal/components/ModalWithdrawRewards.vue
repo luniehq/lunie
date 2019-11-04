@@ -7,6 +7,7 @@
     title="Claim Rewards"
     class="modal-withdraw-rewards"
     submission-error-prefix="Withdrawal failed"
+    :rewards="rewards"
     :disable="validatorsWithRewards"
   >
     <span class="form-message notice withdraw-limit">

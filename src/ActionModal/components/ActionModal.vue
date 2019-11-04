@@ -365,6 +365,10 @@ export default {
       type: [String, Number],
       default: `0`
     },
+    rewards: {
+      type: Array,
+      default: []
+    },
     transactionData: {
       type: Object,
       default: () => {}
@@ -783,28 +787,6 @@ export default {
         /* istanbul ignore next */
         return data.delegations
       }
-    },
-    rewards: {
-      query: gql`
-        query RewardsActionModal(
-          $networkId: String!
-          $delegatorAddress: String!
-        ) {
-          rewards(networkId: $networkId, delegatorAddress: $delegatorAddress) {
-            validator {
-              operatorAddress
-            }
-            amount
-          }
-        }
-      `,
-      variables() {
-        return {
-          networkId: this.networkId,
-          delegatorAddress: this.session.address
-        }
-      },
-      update: result => result.rewards,
     },
     $subscribe: {
       userTransactionAdded: {
