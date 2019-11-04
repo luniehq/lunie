@@ -24,9 +24,10 @@ module.exports = {
 
     // check if tx shows
     browser.url(browser.launch_url + "/#/transactions")
+    browser.pause(1000)
     await waitForText(
       browser,
-      ".tx:first-child .tx__content__caption",
+      ".tx:first-child .tx__content__caption p",
       "Sent 1.3 STAKE"
     )
   }
