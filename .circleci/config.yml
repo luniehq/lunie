@@ -213,7 +213,7 @@ jobs:
             docker-compose up --build -d
       - run:
           name: Build Extension
-          command: npm run build:dev && node ./scripts/add-pem-key.js
+          command: npm run test:e2e:build
       - run:
           name: Test
           command: npm run test:e2e:start-lunie & npm run test:e2e
