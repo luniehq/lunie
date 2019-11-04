@@ -19,6 +19,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - [#3054](https://github.com/cosmos/lunie/issues/3054) on mobile, lunie logo doesn't go to marketing site anymore @jbibla
 - [#3054](https://github.com/cosmos/lunie/issues/3054) hidden session and action-modal steps on mobile to account for size of screen and avoid forms breaking @jbibla
 
+### Deprecated
+
+- [#2895](https://github.com/cosmos/lunie/issues/2895) Remove unneeded caching code @mariopino
+
 ## [1.0.0-beta.132] - 2019-10-29
 
 ### Repository
