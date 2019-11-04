@@ -150,7 +150,6 @@ export default {
         }
       },
       update: result => {
-        console.log('new values', result)
         return result.rewards || []
       }
     }

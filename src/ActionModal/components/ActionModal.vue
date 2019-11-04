@@ -367,7 +367,7 @@ export default {
     },
     rewards: {
       type: Array,
-      default: []
+      default: () => []
     },
     transactionData: {
       type: Object,
@@ -762,7 +762,10 @@ export default {
     },
     delegations: {
       query: gql`
-        query DelegationsActionModal($networkId: String!, $delegatorAddress: String!) {
+        query DelegationsActionModal(
+          $networkId: String!
+          $delegatorAddress: String!
+        ) {
           delegations(
             networkId: $networkId
             delegatorAddress: $delegatorAddress
