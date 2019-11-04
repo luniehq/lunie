@@ -401,8 +401,7 @@ export default {
     SIGN_METHODS,
     featureAvailable: true,
     network: {},
-    overview: {},
-    loadRewards: false
+    overview: {}
   }),
   computed: {
     ...mapState([`extension`, `session`]),
@@ -471,6 +470,9 @@ export default {
       }
     }
   },
+  created() {
+    this.$apollo.skipAll = true
+  },
   updated: function() {
     const context = this.createContext()
     this.actionManager.setContext(context)
@@ -518,7 +520,7 @@ export default {
       this.checkFeatureAvailable()
       this.gasPrice = config.default_gas_price.toFixed(9)
       this.show = true
-      this.loadRewards = true
+      this.$apollo.skipAll = false
     },
     close() {
       this.$store.commit(`setCurrrentModalOpen`, false)
@@ -528,6 +530,7 @@ export default {
       this.show = false
       this.sending = false
       this.includedHeight = undefined
+      this.$apollo.skipAll = true
 
       // reset form
       this.$v.$reset()
@@ -802,9 +805,6 @@ export default {
         }
       },
       update: result => result.rewards,
-      skip() {
-        this.loadRewards
-      }
     },
     $subscribe: {
       userTransactionAdded: {
