@@ -24,8 +24,6 @@ exports[`AppHeader should display the sidebar on desktop 1`] = `
       </a>
        
       <!---->
-       
-      <!---->
     </div>
      
     <appmenu-stub />
@@ -55,8 +53,6 @@ exports[`AppHeader should show the sidebar as a menu on mobile 1`] = `
         Lunie
       
       </a>
-       
-      <!---->
        
       <div
         class="close-menu"
