@@ -2,7 +2,7 @@ const axios = require("axios")
 const chai = require("chai")
 chai.use(require("chai-string"))
 
-const HOST = "localhost"
+const HOST = "127.0.0.1"
 
 module.exports = {
   // controls the timeout time for async hooks. Expects the done() callback to be invoked within this time
@@ -14,7 +14,7 @@ module.exports = {
   },
 
   beforeEach(browser, done) {
-    browser.url(browser.launch_url).execute(function() {
+    browser.url(browser.launch_url).execute(function () {
       window.localStorage.setItem(
         `cosmos-wallets-cosmos1ek9cd8ewgxg9w5xllq9um0uf4aaxaruvcw4v9e`,
         JSON.stringify({
@@ -56,7 +56,7 @@ module.exports = {
    *
    * @param results
    */
-  reporter: function(results) {
+  reporter: function (results) {
     if (
       (typeof results.failed === `undefined` || results.failed === 0) &&
       (typeof results.error === `undefined` || results.error === 0)
