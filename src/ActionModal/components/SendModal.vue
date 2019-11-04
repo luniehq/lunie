@@ -275,7 +275,7 @@ export default {
   apollo: {
     balance: {
       query: gql`
-        query BalanceSenModal(
+        query BalanceSendModal(
           $networkId: String!
           $address: String!
           $denom: String!
