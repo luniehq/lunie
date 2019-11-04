@@ -78,13 +78,22 @@ describe(`Module: Session`, () => {
       )
     })
 
+    it(`should add user address to previously used addresses array`, () => {
+      let address = {
+        address: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
+        sessionType: `explore`
+      }
+      mutations.setUserAddresses(state, address)
+      expect(state.addresses).toEqual(address)
+    })
+
     it(`should activate experimental mode`, () => {
       mutations.setExperimentalMode(state)
       expect(state.experimentalMode).toBe(true)
     })
 
     it(`should activate insecure mode`, () => {
-      mutations.setInsecureMode(state)
+      mutations.setInsecureMode(state, true)
       expect(state.insecureMode).toBe(true)
     })
 
@@ -178,7 +187,93 @@ describe(`Module: Session`, () => {
         { sessionType: `explore`, address }
       )
 
-      expect(dispatch).toHaveBeenCalledWith("resetSessionData")
+      expect(dispatch).toHaveBeenCalledWith(`resetSessionData`)
+    })
+
+    it("should dispatch required actions", async () => {
+      const address = `cosmos1z8mzakma7vnaajysmtkwt4wgjqr2m84tzvyfkz`
+      const commit = jest.fn()
+      const dispatch = jest.fn()
+      state.signedIn = true
+      state.addresses = [
+        {
+          address: `123`,
+          type: `explore`
+        },
+        {
+          address: `456`,
+          type: `ledger`
+        }
+      ]
+      await actions.signIn(
+        { state, commit, dispatch },
+        { sessionType: `explore`, address }
+      )
+      expect(dispatch).toHaveBeenCalledWith(`persistAddresses`, {
+        addresses: [
+          {
+            address: `123`,
+            type: `explore`
+          },
+          {
+            address: `456`,
+            type: `ledger`
+          }
+        ]
+      })
+      expect(dispatch).toHaveBeenCalledWith(`persistSession`, {
+        address: `cosmos1z8mzakma7vnaajysmtkwt4wgjqr2m84tzvyfkz`,
+        sessionType: `explore`
+      })
+      expect(dispatch).toHaveBeenCalledWith(`rememberAddress`, {
+        address: `cosmos1z8mzakma7vnaajysmtkwt4wgjqr2m84tzvyfkz`,
+        sessionType: `explore`
+      })
+      expect(dispatch).toHaveBeenCalledWith(`initializeWallet`, {
+        address: `cosmos1z8mzakma7vnaajysmtkwt4wgjqr2m84tzvyfkz`
+      })
+    })
+
+    it("should commit checkForPersistedAddresses when dispatch checkForPersistedAddresses ", async () => {
+      const address = `cosmos1z8mzakma7vnaajysmtkwt4wgjqr2m84tzvyfkz`
+      const commit = jest.fn()
+      state.signedIn = true
+      state.addresses = [
+        {
+          address: `123`,
+          type: `explore`
+        }
+      ]
+      await actions.rememberAddress(
+        { state, commit },
+        { sessionType: `explore`, address }
+      )
+      expect(commit).toHaveBeenCalledWith(`setUserAddresses`, [
+        {
+          address: `123`,
+          type: `explore`
+        },
+        {
+          address,
+          type: `explore`
+        }
+      ])
+    })
+
+    it("should remember the address", async () => {
+      const address = `cosmos1z8mzakma7vnaajysmtkwt4wgjqr2m84tzvyfkz`
+      const commit = jest.fn()
+      state.signedIn = true
+      await actions.rememberAddress(
+        { state, commit },
+        { sessionType: `explore`, address }
+      )
+      expect(commit).toHaveBeenCalledWith(`setUserAddresses`, [
+        {
+          type: `explore`,
+          address
+        }
+      ])
     })
   })
 
@@ -360,5 +455,51 @@ describe(`Module: Session`, () => {
       await actions.checkForPersistedSession({ dispatch })
       expect(dispatch).not.toHaveBeenCalled()
     })
+  })
+
+  it("should save used addresses in local storage", async () => {
+    state.addresses = [
+      {
+        address: `123`,
+        type: `explore`
+      }
+    ]
+    await actions.persistAddresses({}, { addresses: state.addresses })
+    expect(localStorage.getItem(`addresses`)).toEqual(
+      JSON.stringify([
+        {
+          address: `123`,
+          type: `explore`
+        }
+      ])
+    )
+  })
+
+  it(`should restore previously used addresses from local storage`, async () => {
+    const commit = jest.fn()
+    localStorage.setItem(
+      `addresses`,
+      JSON.stringify([
+        {
+          address: `xxx`,
+          type: `explore`
+        },
+        {
+          address: `yyy`,
+          type: `ledger`
+        }
+      ])
+    )
+    await actions.checkForPersistedAddresses({ commit })
+    expect(commit).toHaveBeenCalledWith(`setUserAddresses`, [
+      {
+        address: `xxx`,
+        type: `explore`
+      },
+      {
+        address: `yyy`,
+        type: `ledger`
+      }
+    ])
   })
 })

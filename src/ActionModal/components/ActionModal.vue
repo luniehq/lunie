@@ -22,7 +22,9 @@
         }}</span>
         <Steps
           v-if="
-            [defaultStep, feeStep, signStep].includes(step) && featureAvailable
+            [defaultStep, feeStep, signStep].includes(step) &&
+              featureAvailable &&
+              !isMobileApp
           "
           :steps="['Details', 'Fees', 'Sign']"
           :active-step="step"
@@ -291,7 +293,7 @@ import { atoms, viewDenom, prettyInt } from "src/scripts/num"
 import { between, requiredIf } from "vuelidate/lib/validators"
 import { track } from "scripts/google-analytics"
 import { NetworkCapability, NetworkCapabilityResult } from "src/gql"
-import config from "src/config"
+import config from "src/../config"
 
 import ActionManager from "../utils/ActionManager"
 
@@ -396,7 +398,8 @@ export default {
     inclusionStep,
     successStep,
     SIGN_METHODS,
-    featureAvailable: true
+    featureAvailable: true,
+    isMobileApp: config.mobileApp
   }),
   computed: {
     ...mapState([`extension`, `session`]),
@@ -795,6 +798,8 @@ export default {
   font-style: italic;
   color: var(--dim);
   display: inline-block;
+  border-left: 2px solid var(--warning);
+  padding: 0.5rem 0 0.5rem 1rem;
 }
 
 .slide-fade-enter-active {
@@ -811,14 +816,15 @@ export default {
   opacity: 0;
 }
 
+.tm-form-group__field {
+  position: relative;
+}
+
 #send-modal .tm-data-msg {
   margin: 2rem 0 2rem 0;
 }
 
 @media screen and (max-width: 576px) {
-  #send-modal {
-    text-align: center;
-  }
   .tm-data-msg__icon {
     margin-right: 0;
   }

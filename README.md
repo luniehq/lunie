@@ -108,13 +108,14 @@ To run the Android version of Lunie in development:
 
 ```bash
 $ yarn build
-$ npx @capacitor/cli sync android
-$ npx @capacitor/cli open android
+$ npx cap sync android
+$ npx cap open android
 ```
 
 #### iOS
 
 Dependencies:
+- [Capacitor](https://capacitor.ionicframework.com/docs/getting-started/dependencies/#ios-development)
 - [Xcode 10](https://itunes.apple.com/us/app/xcode/id497799835?mt=12)
 - [Cocoapods](https://guides.cocoapods.org/using/getting-started.html#installation)
 
@@ -126,12 +127,12 @@ $ yarn build
 
 2. This step may take up to 20 minutes to complete if you've never used Cocoapods before.
 ```bash
-$ npx @capacitor/cli sync ios
+$ npx cap sync ios
 ```
 
 3. This will open Xcode with Lunie loaded
 ```bash
-$ npx @capacitor/cli open ios
+$ npx cap open ios
 ```
 
 Once Xcode is open, just click the Play button to run Lunie on your preferred Simulator or Device.

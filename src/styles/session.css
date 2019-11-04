@@ -44,6 +44,7 @@
 
 .session-main {
   flex: 1;
+
   /* padding: 0 1rem; */
 }
 
@@ -55,8 +56,9 @@
   font-size: var(--h2);
   line-height: 44px;
   color: var(--bright);
-  font-weight: 600;
-  padding: 1rem 0 0;
+  font-weight: 400;
+  padding: 1rem 0 2rem 0;
+  text-align: center;
 }
 
 .session-image {
@@ -95,10 +97,12 @@
 
 .session-footer {
   display: flex;
-  padding: 1rem 0;
-  flex-direction: column;
-  justify-content: space-between;
-  font-size: 12px;
+  justify-content: flex-end;
+  padding: 1.5rem 0 1rem;
+
+  /* keeps button in bottom right no matter the size of the action modal */
+  flex-grow: 1;
+  align-self: flex-end;
 }
 
 .footnote {
@@ -132,6 +136,14 @@
   padding: 0 1rem;
 }
 
+.session .material-icons.circle.back {
+  background: var(--app-nav-light);
+  color: var(--dim);
+  border-radius: 50%;
+  padding: 0.4rem;
+  cursor: pointer;
+}
+
 @media screen and (min-width: 667px) {
   .session {
     width: 100%;
@@ -157,6 +169,11 @@
     display: block;
     height: 3rem;
     margin: 1rem;
+  }
+
+  .session-footer {
+    width: 100%;
+    flex-direction: column;
   }
 }
 

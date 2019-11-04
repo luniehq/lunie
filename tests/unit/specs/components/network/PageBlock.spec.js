@@ -13,7 +13,10 @@ describe(`PageBlock`, () => {
     lastHeader: {
       height: `1000`
     },
-    validators: {}
+    validators: {},
+    connection: {
+      network: "testnet"
+    }
   }
 
   const state = {

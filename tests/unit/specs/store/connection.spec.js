@@ -1,6 +1,6 @@
 import connectionModule from "src/vuex/modules/connection.js"
 
-jest.mock(`src/config.js`, () => ({
+jest.mock(`src/../config.js`, () => ({
   stargate: `https://voyager.lol`,
   rpc: `https://voyager-rpc.lol`
 }))
@@ -228,7 +228,7 @@ describe(`Module: Connection`, () => {
       dispatch: jest.fn()
     })
 
-    expect(commit).toHaveBeenCalledWith(`setInsecureMode`)
+    expect(commit).toHaveBeenCalledWith(`setInsecureMode`, true)
   })
 
   it(`should react to status updates`, async () => {

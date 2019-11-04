@@ -5,7 +5,7 @@ import {
   enableGoogleAnalytics,
   setGoogleAnalyticsPage
 } from "scripts/google-analytics"
-import config from "src/config"
+import config from "src/../config"
 import Node from "./connectors/node"
 import router, { routeGuard } from "./router"
 import Store from "./vuex/store"
@@ -18,8 +18,8 @@ function setOptions(urlParams, store) {
   if (urlParams.rpc) {
     store.commit(`setRpcUrl`, urlParams.rpc)
   }
-  if (config.mobileApp || urlParams.insecure) {
-    store.commit(`setInsecureMode`)
+  if (config.mobileApp || urlParams.insecure === `true`) {
+    store.commit(`setInsecureMode`, true)
   }
 }
 
@@ -53,6 +53,7 @@ export default function init(urlParams, env = process.env) {
     // wait for connected as the check for session will sign in directly and query account data
     .then(() => {
       store.dispatch(`checkForPersistedSession`)
+      store.dispatch(`checkForPersistedAddresses`)
       store.dispatch("getDelegates")
       store.dispatch(`getPool`)
       store.dispatch(`getMintingParameters`)

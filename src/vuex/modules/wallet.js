@@ -1,5 +1,5 @@
 import Vue from "vue"
-import config from "src/config"
+import config from "src/../config"
 import axios from "axios"
 
 export default ({ node }) => {
@@ -65,7 +65,7 @@ export default ({ node }) => {
 
       try {
         const res = await node.get.account(state.address)
-        state.error = null
+        state.error = undefined
         const { coins, account_number } = res || {}
         commit(`setAccountNumber`, account_number)
         commit(`setWalletBalances`, coins || [])

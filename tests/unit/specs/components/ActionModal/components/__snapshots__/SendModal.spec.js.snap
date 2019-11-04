@@ -11,21 +11,6 @@ exports[`SendModal should display send modal form 1`] = `
 >
   <tmformgroup-stub
     class="action-modal-form-group"
-    fieldid="send-denomination"
-    fieldlabel="Denomination"
-  >
-    <tmfield-stub
-      id="send-denomination"
-      readonly=""
-      type="text"
-      value="STAKE"
-    />
-     
-    <!---->
-  </tmformgroup-stub>
-   
-  <tmformgroup-stub
-    class="action-modal-form-group"
     fieldid="send-address"
     fieldlabel="Send To"
   >
@@ -45,7 +30,7 @@ exports[`SendModal should display send modal form 1`] = `
     fieldlabel="Amount"
   >
     <span
-      class="input-suffix-denom"
+      class="input-suffix max-button"
     >
       STAKE
     </span>
@@ -92,21 +77,6 @@ exports[`SendModal validation should show address required error 1`] = `
 >
   <tmformgroup-stub
     class="action-modal-form-group"
-    fieldid="send-denomination"
-    fieldlabel="Denomination"
-  >
-    <tmfield-stub
-      id="send-denomination"
-      readonly=""
-      type="text"
-      value="STAKE"
-    />
-     
-    <!---->
-  </tmformgroup-stub>
-   
-  <tmformgroup-stub
-    class="action-modal-form-group"
     error="true"
     fieldid="send-address"
     fieldlabel="Send To"
@@ -131,7 +101,7 @@ exports[`SendModal validation should show address required error 1`] = `
     fieldlabel="Amount"
   >
     <span
-      class="input-suffix-denom"
+      class="input-suffix max-button"
     >
       STAKE
     </span>
@@ -175,21 +145,6 @@ exports[`SendModal validation should show bech32 error when address length is to
 >
   <tmformgroup-stub
     class="action-modal-form-group"
-    fieldid="send-denomination"
-    fieldlabel="Denomination"
-  >
-    <tmfield-stub
-      id="send-denomination"
-      readonly=""
-      type="text"
-      value="STAKE"
-    />
-     
-    <!---->
-  </tmformgroup-stub>
-   
-  <tmformgroup-stub
-    class="action-modal-form-group"
     error="true"
     fieldid="send-address"
     fieldlabel="Send To"
@@ -214,7 +169,7 @@ exports[`SendModal validation should show bech32 error when address length is to
     fieldlabel="Amount"
   >
     <span
-      class="input-suffix-denom"
+      class="input-suffix max-button"
     >
       STAKE
     </span>
@@ -258,21 +213,6 @@ exports[`SendModal validation should show bech32 error when address length is to
 >
   <tmformgroup-stub
     class="action-modal-form-group"
-    fieldid="send-denomination"
-    fieldlabel="Denomination"
-  >
-    <tmfield-stub
-      id="send-denomination"
-      readonly=""
-      type="text"
-      value="STAKE"
-    />
-     
-    <!---->
-  </tmformgroup-stub>
-   
-  <tmformgroup-stub
-    class="action-modal-form-group"
     error="true"
     fieldid="send-address"
     fieldlabel="Send To"
@@ -297,7 +237,7 @@ exports[`SendModal validation should show bech32 error when address length is to
     fieldlabel="Amount"
   >
     <span
-      class="input-suffix-denom"
+      class="input-suffix max-button"
     >
       STAKE
     </span>
@@ -340,21 +280,6 @@ exports[`SendModal validation should show bech32 error when alphanumeric is wron
 >
   <tmformgroup-stub
     class="action-modal-form-group"
-    fieldid="send-denomination"
-    fieldlabel="Denomination"
-  >
-    <tmfield-stub
-      id="send-denomination"
-      readonly=""
-      type="text"
-      value="STAKE"
-    />
-     
-    <!---->
-  </tmformgroup-stub>
-   
-  <tmformgroup-stub
-    class="action-modal-form-group"
     error="true"
     fieldid="send-address"
     fieldlabel="Send To"
@@ -380,7 +305,7 @@ exports[`SendModal validation should show bech32 error when alphanumeric is wron
     fieldlabel="Amount"
   >
     <span
-      class="input-suffix-denom"
+      class="input-suffix max-button"
     >
       STAKE
     </span>

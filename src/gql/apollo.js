@@ -2,12 +2,13 @@ import Vue from "vue"
 import ApolloClient from "apollo-boost"
 import { InMemoryCache } from "apollo-cache-inmemory"
 import VueApollo from "vue-apollo"
+import config from "src/../config"
 
 Vue.use(VueApollo)
 
 const createApolloClient = urlParams => {
   return new ApolloClient({
-    uri: urlParams.graphql || process.env.VUE_APP_GRAPHQL_URL
+    uri: urlParams.graphql || config.graphql
   })
 }
 

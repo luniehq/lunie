@@ -15,6 +15,158 @@ exports[`TmSessionExplore shows a form to sign in with an address 1`] = `
     </h2>
      
     <div
+      class="session-list"
+    >
+      <div
+        title="cosmos1unc788q8md2jymsns24eyhua58palg5kc7cstv"
+      >
+        <div
+          class="tm-li-session"
+        >
+          <div
+            class="tm-li-session-icon"
+          >
+            <i
+              class="material-icons circle"
+            >
+              
+              vpn_key
+            
+            </i>
+          </div>
+           
+          <div
+            class="tm-li-session-text"
+          >
+            <div
+              class="tm-li-session-title"
+            >
+              <span>
+                cosmos…palg5kc7cstv
+              </span>
+               
+              <p
+                class="tm-li-session-subtitle"
+              >
+                
+                Ledger Nano S
+              
+              </p>
+            </div>
+          </div>
+           
+          <div
+            class="tm-li-session-icon"
+          >
+            <i
+              class="material-icons"
+            >
+              arrow_forward
+            </i>
+          </div>
+        </div>
+      </div>
+      <div
+        title="cosmos1vxkye0mpdtjhzrc6va5lcnxnuaa7m64khj8klc"
+      >
+        <div
+          class="tm-li-session"
+        >
+          <div
+            class="tm-li-session-icon"
+          >
+            <i
+              class="material-icons circle"
+            >
+              
+              laptop
+            
+            </i>
+          </div>
+           
+          <div
+            class="tm-li-session-text"
+          >
+            <div
+              class="tm-li-session-title"
+            >
+              <span>
+                cosmos…a7m64khj8klc
+              </span>
+               
+              <p
+                class="tm-li-session-subtitle"
+              >
+                
+                Lunie Browser Extension
+              
+              </p>
+            </div>
+          </div>
+           
+          <div
+            class="tm-li-session-icon"
+          >
+            <i
+              class="material-icons"
+            >
+              arrow_forward
+            </i>
+          </div>
+        </div>
+      </div>
+      <div
+        title="cosmos1vxkye0mpdtjhzrc6va5lcnxnuaa7m64khj8xyz"
+      >
+        <div
+          class="tm-li-session"
+        >
+          <div
+            class="tm-li-session-icon"
+          >
+            <i
+              class="material-icons circle"
+            >
+              
+              laptop
+            
+            </i>
+          </div>
+           
+          <div
+            class="tm-li-session-text"
+          >
+            <div
+              class="tm-li-session-title"
+            >
+              <span>
+                cosmos…a7m64khj8xyz
+              </span>
+               
+              <p
+                class="tm-li-session-subtitle"
+              >
+                
+                Local
+              
+              </p>
+            </div>
+          </div>
+           
+          <div
+            class="tm-li-session-icon"
+          >
+            <i
+              class="material-icons"
+            >
+              arrow_forward
+            </i>
+          </div>
+        </div>
+      </div>
+    </div>
+     
+    <div
       class="session-main"
     >
       <tmformgroup-stub

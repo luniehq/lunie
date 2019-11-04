@@ -7,6 +7,64 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.0-beta.133] - 2019-11-03
+
+### Added
+
+- [#3054](https://github.com/cosmos/lunie/issues/3054) added proper icons and splash screens for iOS @jbibla
+
+### Changed
+
+- [#3054](https://github.com/cosmos/lunie/issues/3054) focusing on form inputs won't zoom the screen in anymore @jbibla
+- [#3054](https://github.com/cosmos/lunie/issues/3054) on mobile, lunie logo doesn't go to marketing site anymore @jbibla
+- [#3054](https://github.com/cosmos/lunie/issues/3054) hidden session and action-modal steps on mobile to account for size of screen and avoid forms breaking @jbibla
+
+### Deprecated
+
+- [#2895](https://github.com/cosmos/lunie/issues/2895) Remove unneeded caching code @mariopino
+
+## [1.0.0-beta.132] - 2019-10-29
+
+### Repository
+
+- always set the encryption disclaimer for submitting the app to the ios app store @faboweb
+
+## [1.0.0-beta.131] - 2019-10-24
+
+### Repository
+
+- always set the encryption disclaimer for submitting the app to the ios app store @faboweb
+
+## [1.0.0-beta.130] - 2019-10-23
+
+### Added
+
+- [#2961](https://github.com/cosmos/lunie/issues/2961) Create a component to display a 24 words seed phrase showing the word number @mariopino
+
+### Changed
+
+- [#2894](https://github.com/cosmos/lunie/issues/2894) Refactor signin steps into separate screens, including a success screen. @colw @mariopino
+
+## [1.0.0-beta.129] - 2019-10-16
+
+### Repository
+
+- [#978](https://github.com/cosmos/lunie/issues/978) Moved config.js to root directory @faboweb
+
+## [1.0.0-beta.128] - 2019-10-08
+
+### Added
+
+- [#2821](https://github.com/cosmos/lunie/issues/2821) Use account list in explore mode with previously used addresses @mariopino
+
+## [1.0.0-beta.127] - 2019-10-06
+
+### Fixed
+
+- Fix PageBlocks not loading @faboweb
+- little fixes for maintenance bar, connected networkcomponent, and max button @jbibla
+- release script for ios was targeting wrong file @jbibla
+
 ## [1.0.0-beta.126] - 2019-10-02
 
 ### Added

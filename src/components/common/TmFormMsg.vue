@@ -71,19 +71,22 @@ export default {
           msg = `must be between ${this.min} and ${this.max} characters`
           break
         case `minLength`:
-          msg = `must be longer than ${this.min} characters`
+          msg = `must be equal or longer than ${this.min} characters`
           break
         case `match`:
           msg = `must match`
           break
         case `maxLength`:
-          msg = `must be shorter than ${this.max} characters`
+          msg = `must be equal or shorter than ${this.max} characters`
           break
         case `required`:
           msg = `is required`
           break
         case `words16`:
           msg = `phrase must be 16 words`
+          break
+        case `words24`:
+          msg = `phrase must be 24 words`
           break
         case `url`:
           msg = `must be a valid URL (http:// required)`
@@ -127,13 +130,13 @@ export default {
 
 .tm-form-msg--error {
   display: flex;
+  padding-top: 0.25rem;
 }
 
 .tm-form-msg.tm-form-msg--error {
   color: var(--danger);
   font-style: italic;
   font-weight: 500;
-  position: absolute;
 }
 
 .tm-form-msg.tm-form-msg--error::before {
