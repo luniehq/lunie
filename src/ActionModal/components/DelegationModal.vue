@@ -293,7 +293,7 @@ export default {
   apollo: {
     delegations: {
       query: gql`
-        query Delegations($networkId: String!, $delegatorAddress: String!) {
+        query DelegationsDelegationModal($networkId: String!, $delegatorAddress: String!) {
           delegations(
             networkId: $networkId
             delegatorAddress: $delegatorAddress
@@ -322,7 +322,7 @@ export default {
     },
     balance: {
       query: gql`
-        query balance($networkId: String!, $address: String!, $denom: String!) {
+        query BalanceDelegationModal($networkId: String!, $address: String!, $denom: String!) {
           balance(networkId: $networkId, address: $address, denom: $denom) {
             amount
             denom
@@ -342,7 +342,7 @@ export default {
     },
     denom: {
       query: gql`
-        query Networks($networkId: String!) {
+        query NetworksDelegationModal($networkId: String!) {
           network(id: $networkId) {
             id
             stakingDenom

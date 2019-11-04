@@ -700,7 +700,7 @@ export default {
   apollo: {
     overview: {
       query: gql`
-        query overview($networkId: String!, $address: String!) {
+        query OverviewActionModal($networkId: String!, $address: String!) {
           overview(networkId: $networkId, address: $address) {
             totalRewards
             liquidStake
@@ -758,7 +758,7 @@ export default {
     },
     delegations: {
       query: gql`
-        query Delegations($networkId: String!, $delegatorAddress: String!) {
+        query DelegationsActionModal($networkId: String!, $delegatorAddress: String!) {
           delegations(
             networkId: $networkId
             delegatorAddress: $delegatorAddress

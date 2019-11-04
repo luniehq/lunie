@@ -179,7 +179,7 @@ export default {
   apollo: {
     delegations: {
       query: gql`
-        query Delegations($networkId: String!, $delegatorAddress: String!) {
+        query DelegationsUndelegationModal($networkId: String!, $delegatorAddress: String!) {
           delegations(
             networkId: $networkId
             delegatorAddress: $delegatorAddress
@@ -207,7 +207,7 @@ export default {
     },
     denom: {
       query: gql`
-        query Networks($networkId: String!) {
+        query NetworksUndelegationModal($networkId: String!) {
           network(id: $networkId) {
             id
             stakingDenom
