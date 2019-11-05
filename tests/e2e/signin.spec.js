@@ -21,9 +21,9 @@ module.exports = {
     prepare(browser)
 
     browser.click("#creat-new-address")
-    browser.waitForElementVisible("#sign-up-seed")
+    browser.expect(".seed-table").to.be.visible.before(10000)
     browser.expect
-      .element("#sign-up-seed")
+      .element(".seed-table")
       .value.to.match(/\w+( \w+){23}/)
       .before(10000)
 

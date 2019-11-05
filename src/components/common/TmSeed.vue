@@ -10,10 +10,7 @@
         check
       </i>
     </div>
-    <div v-if="legacy">
-      <FieldSeed id="sign-up-seed" v-model="value" disabled />
-    </div>
-    <div v-else>
+    <div>
       <table class="seed-table">
         <tr>
           <td v-for="(word, index) in splitSeed.slice(0, 6)" :key="index">
@@ -61,10 +58,6 @@ export default {
     value: {
       type: String,
       default: ``
-    },
-    legacy: {
-      type: Boolean,
-      default: true
     }
   },
   data: () => ({
