@@ -131,7 +131,7 @@ export default {
       }
     },
     $subscribe: {
-      userTransaction: {
+      userTransactionAdded: {
         variables() {
           return {
             networkId: this.network,

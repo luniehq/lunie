@@ -152,7 +152,7 @@ jobs:
           name: Run testnet
           command: |
             cd lunie-backend
-            docker-compose up --build -d
+            npm run start -- -d
       - run:
           name: Test
           command: npm run serve:dist & npm run test:e2e:browserstack
@@ -232,6 +232,7 @@ jobs:
           command: npm run test:e2e:build
           environment:
             VUE_APP_GRAPHQL_URL: http://127.0.0.1:4000 # Browserstack tunneling doesn't work with "localhost"
+            NETWORK: local-cosmos-hub-testnet # Connect directly to the testnet
       - persist_to_workspace:
           root: *WORKSPACE
           paths:

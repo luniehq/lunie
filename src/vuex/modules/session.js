@@ -15,7 +15,7 @@ export default () => {
   const state = {
     developmentMode: config.development, // can't be set in browser
     experimentalMode: config.development, // development mode, can be set from browser
-    insecureMode: false, // show the local signer
+    insecureMode: config.e2e || false, // show the local signer
     signedIn: false,
     sessionType: null, // local, explore, ledger, extension
     pauseHistory: false,
