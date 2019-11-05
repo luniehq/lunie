@@ -3,19 +3,19 @@ module.exports = {
     prepare(browser)
 
     browser.click("#use-an-existing-address")
-    browser.waitForElementVisible("#sign-in-with-account")
+    browser.expect("#sign-in-with-account").to.be.visible.before(10000)
     browser.pause(500)
     browser.click("#sign-in-with-account")
-    browser.waitForElementVisible("#sign-in-name")
+    browser.expect("#sign-in-name").to.be.visible.before(10000)
     browser.click(
       "#sign-in-name option[value=cosmos1ek9cd8ewgxg9w5xllq9um0uf4aaxaruvcw4v9e]"
     )
     browser.setValue("#sign-in-password", "1234567890")
     await next(browser)
     // check if signed in
-    browser.waitForElementNotPresent(".session")
+    browser.expect(".session").to.be.present.before(10000)
     openMenu(browser)
-    browser.waitForElementVisible("#sign-out")
+    browser.expect("#sign-out").to.be.visible.before(10000)
   },
   "Create local account": async function(browser) {
     prepare(browser)
@@ -48,18 +48,18 @@ module.exports = {
     browser.click("#sign-up-warning")
     await next(browser)
     // check if signed in
-    browser.waitForElementNotPresent(".session")
+    browser.expect(".session").to.be.present.before(10000)
     openMenu(browser)
-    browser.waitForElementVisible("#sign-out")
+    browser.expect("#sign-out").to.be.visible.before(10000)
   },
   "Import local account": async function(browser) {
     prepare(browser)
 
     browser.click("#use-an-existing-address")
-    browser.waitForElementVisible("#recover-with-backup")
+    browser.expect("#recover-with-backup").to.be.visible.before(10000)
     browser.pause(500)
     browser.click("#recover-with-backup")
-    browser.waitForElementVisible("#import-seed")
+    browser.expect("#import-seed").to.be.visible.before(10000)
 
     await next(browser)
     browser.expect.elements(".tm-form-msg--error").count.to.equal(3)
@@ -85,9 +85,9 @@ module.exports = {
     )
     await next(browser)
     // check if signed in
-    browser.waitForElementNotPresent(".session")
+    browser.expect(".session").to.be.present.before(10000)
     openMenu(browser)
-    browser.waitForElementVisible("#sign-out")
+    browser.expect("#sign-out").to.be.visible.before(10000)
   }
 }
 
@@ -105,30 +105,30 @@ async function next(browser) {
 }
 
 function openMenu(browser) {
-  browser.waitForElementVisible(".open-menu")
+  browser.expect(".open-menu").to.be.visible.before(10000)
   browser.pause(500)
   browser.click(".open-menu")
 }
 
 function signOut(browser) {
   openMenu(browser)
-  browser.waitForElementVisible("#sign-out")
+  browser.expect("#sign-out").to.be.visible.before(10000)
   browser.click("#sign-out")
 }
 
 function signIn(browser) {
   openMenu(browser)
-  browser.waitForElementVisible("#sign-in")
+  browser.expect("#sign-in").to.be.visible.before(10000)
   browser.click("#sign-in")
 }
 
 function prepare(browser) {
   browser.resizeWindow(400, 1024) // force mobile screen to be able to click some out of screen buttons
   browser.url(browser.launch_url + "&insecure=true")
-  browser.waitForElementVisible(`body`)
-  browser.waitForElementVisible(`#app-content`)
+  browser.expect(`body`).to.be.visible.before(10000)
+  browser.expect(`#app-content`).to.be.visible.before(10000)
   signOut(browser)
   signIn(browser)
 
-  browser.waitForElementVisible("#session-welcome")
+  browser.expect("#session-welcome").to.be.visible.before(10000)
 }
