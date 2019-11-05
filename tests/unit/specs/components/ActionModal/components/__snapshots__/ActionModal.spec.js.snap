@@ -37,14 +37,56 @@ exports[`ActionModal back button renders and functions 1`] = `
       Action Modal
     </span>
      
-    <!---->
+    <steps-stub
+      activestep="sign"
+      steps="Details,Fees,Sign"
+    />
      
     <!---->
   </div>
    
-  <featurenotavailable-stub
-    feature="Action Modal"
-  />
+  <!---->
+   
+  <div
+    class="action-modal-form"
+  >
+    <!---->
+     
+    <!---->
+     
+    <form>
+      <tmformgroup-stub
+        class="action-modal-group"
+        fieldid="password"
+        fieldlabel="Password"
+      >
+        <tmfield-stub
+          id="password"
+          placeholder="Password"
+          type="password"
+        />
+         
+        <!---->
+      </tmformgroup-stub>
+    </form>
+  </div>
+   
+  <div
+    class="action-modal-footer"
+  >
+    <tmformgroup-stub
+      class="action-modal-group"
+    >
+      <div>
+        <tmbtn-stub
+          color="primary"
+          value="Send"
+        />
+      </div>
+    </tmformgroup-stub>
+     
+    <!---->
+  </div>
 </div>
 `;
 
@@ -85,7 +127,10 @@ exports[`ActionModal runs validation and changes step on sign step should dispal
       Action Modal
     </span>
      
-    <!---->
+    <steps-stub
+      activestep="sign"
+      steps="Details,Fees,Sign"
+    />
      
     <p
       class="form-message notice extension-address"
@@ -97,9 +142,47 @@ exports[`ActionModal runs validation and changes step on sign step should dispal
     </p>
   </div>
    
-  <featurenotavailable-stub
-    feature="Action Modal"
-  />
+  <!---->
+   
+  <div
+    class="action-modal-form"
+  >
+    <!---->
+     
+    <!---->
+     
+    <hardwarestate-stub
+      icon="info"
+    >
+      <div>
+        
+            Please send the transaction to be signed in the Lunie Browser
+            Extension.
+          
+      </div>
+       
+      <!---->
+       
+      <!---->
+    </hardwarestate-stub>
+  </div>
+   
+  <div
+    class="action-modal-footer"
+  >
+    <tmformgroup-stub
+      class="action-modal-group"
+    >
+      <div>
+        <tmbtn-stub
+          color="primary"
+          value="Send"
+        />
+      </div>
+    </tmformgroup-stub>
+     
+    <!---->
+  </div>
 </div>
 `;
 
@@ -136,9 +219,45 @@ exports[`ActionModal should show the action modal on success 1`] = `
     <!---->
   </div>
    
-  <featurenotavailable-stub
-    feature="Action Modal"
-  />
+  <!---->
+   
+  <div
+    class="action-modal-form success-step"
+  >
+    <tmdatamsg-stub
+      icon="check"
+    >
+      <div>
+        
+            Successful transaction
+          
+      </div>
+       
+      <div>
+        
+            You have successfully completed a transaction.
+            
+        <br />
+         
+        <br />
+        Block
+            
+        <router-link-stub
+          to="/blocks/undefined"
+        >
+          #0
+        </router-link-stub>
+      </div>
+    </tmdatamsg-stub>
+  </div>
+   
+  <div
+    class="action-modal-footer"
+  >
+    <!---->
+     
+    <!---->
+  </div>
 </div>
 `;
 
@@ -175,9 +294,17 @@ exports[`ActionModal should show the action modal waiting on inclusion 1`] = `
     <!---->
   </div>
    
-  <featurenotavailable-stub
-    feature="Action Modal"
-  />
+  <!---->
+   
+  <!---->
+   
+  <div
+    class="action-modal-footer"
+  >
+    <!---->
+     
+    <!---->
+  </div>
 </div>
 `;
 
@@ -218,14 +345,46 @@ exports[`ActionModal should show the action modal when user has logged in with e
       Action Modal
     </span>
      
-    <!---->
+    <steps-stub
+      activestep="fees"
+      steps="Details,Fees,Sign"
+    />
      
     <!---->
   </div>
    
-  <featurenotavailable-stub
-    feature="Action Modal"
-  />
+  <!---->
+   
+  <div
+    class="action-modal-form"
+  >
+    <!---->
+     
+    <tableinvoice-stub
+      amount="0"
+      bonddenom="STAKE"
+      estimatedfee="0"
+    />
+     
+    <!---->
+  </div>
+   
+  <div
+    class="action-modal-footer"
+  >
+    <tmformgroup-stub
+      class="action-modal-group"
+    >
+      <div>
+        <tmbtn-stub
+          color="primary"
+          value="Next"
+        />
+      </div>
+    </tmformgroup-stub>
+     
+    <!---->
+  </div>
 </div>
 `;
 
@@ -266,14 +425,67 @@ exports[`ActionModal should show the action modal when user has logged in with e
       Action Modal
     </span>
      
-    <!---->
+    <steps-stub
+      activestep="sign"
+      steps="Details,Fees,Sign"
+    />
      
     <!---->
   </div>
    
-  <featurenotavailable-stub
-    feature="Action Modal"
-  />
+  <!---->
+   
+  <div
+    class="action-modal-form"
+  >
+    <tmformgroup-stub
+      class="action-modal-form-group"
+      fieldid="sign-method"
+      fieldlabel="Signing Method"
+    >
+      <tmfield-stub
+        id="sign-method"
+        options="[object Object],[object Object]"
+        type="select"
+        value="local"
+      />
+    </tmformgroup-stub>
+     
+    <!---->
+     
+    <form>
+      <tmformgroup-stub
+        class="action-modal-group"
+        fieldid="password"
+        fieldlabel="Password"
+      >
+        <tmfield-stub
+          id="password"
+          placeholder="Password"
+          type="password"
+        />
+         
+        <!---->
+      </tmformgroup-stub>
+    </form>
+  </div>
+   
+  <div
+    class="action-modal-footer"
+  >
+    <tmformgroup-stub
+      class="action-modal-group"
+    >
+      <div>
+        <tmbtn-stub
+          color="primary"
+          value="Send"
+        />
+      </div>
+    </tmformgroup-stub>
+     
+    <!---->
+  </div>
 </div>
 `;
 
@@ -305,14 +517,68 @@ exports[`ActionModal should show the action modal when user has logged in with e
       Action Modal
     </span>
      
-    <!---->
+    <steps-stub
+      activestep="sign"
+      steps="Details,Fees,Sign"
+    />
      
     <!---->
   </div>
    
-  <featurenotavailable-stub
-    feature="Action Modal"
-  />
+  <!---->
+   
+  <div
+    class="action-modal-form"
+  >
+    <tmformgroup-stub
+      class="action-modal-form-group"
+      fieldid="sign-method"
+      fieldlabel="Signing Method"
+    >
+      <tmfield-stub
+        id="sign-method"
+        options="[object Object],[object Object]"
+        type="select"
+        value="local"
+      />
+    </tmformgroup-stub>
+     
+    <!---->
+     
+    <form>
+      <tmformgroup-stub
+        class="action-modal-group"
+        fieldid="password"
+        fieldlabel="Password"
+      >
+        <tmfield-stub
+          id="password"
+          placeholder="Password"
+          type="password"
+        />
+         
+        <!---->
+      </tmformgroup-stub>
+    </form>
+  </div>
+   
+  <div
+    class="action-modal-footer"
+  >
+    <tmformgroup-stub
+      class="action-modal-group"
+    >
+      <div>
+        <tmbtn-stub
+          color="primary"
+          disabled="true"
+          value="Sending..."
+        />
+      </div>
+    </tmformgroup-stub>
+     
+    <!---->
+  </div>
 </div>
 `;
 
@@ -353,14 +619,46 @@ exports[`ActionModal should show the action modal when user has logged in with e
       Action Modal
     </span>
      
-    <!---->
+    <steps-stub
+      activestep="fees"
+      steps="Details,Fees,Sign"
+    />
      
     <!---->
   </div>
    
-  <featurenotavailable-stub
-    feature="Action Modal"
-  />
+  <!---->
+   
+  <div
+    class="action-modal-form"
+  >
+    <!---->
+     
+    <tableinvoice-stub
+      amount="0"
+      bonddenom="STAKE"
+      estimatedfee="0"
+    />
+     
+    <!---->
+  </div>
+   
+  <div
+    class="action-modal-footer"
+  >
+    <tmformgroup-stub
+      class="action-modal-group"
+    >
+      <div>
+        <tmbtn-stub
+          color="primary"
+          value="Next"
+        />
+      </div>
+    </tmformgroup-stub>
+     
+    <!---->
+  </div>
 </div>
 `;
 
@@ -401,7 +699,10 @@ exports[`ActionModal should show the action modal when user has logged in with e
       Action Modal
     </span>
      
-    <!---->
+    <steps-stub
+      activestep="sign"
+      steps="Details,Fees,Sign"
+    />
      
     <p
       class="form-message notice extension-address"
@@ -413,9 +714,47 @@ exports[`ActionModal should show the action modal when user has logged in with e
     </p>
   </div>
    
-  <featurenotavailable-stub
-    feature="Action Modal"
-  />
+  <!---->
+   
+  <div
+    class="action-modal-form"
+  >
+    <!---->
+     
+    <!---->
+     
+    <hardwarestate-stub
+      icon="info"
+    >
+      <div>
+        
+            Please send the transaction to be signed in the Lunie Browser
+            Extension.
+          
+      </div>
+       
+      <!---->
+       
+      <!---->
+    </hardwarestate-stub>
+  </div>
+   
+  <div
+    class="action-modal-footer"
+  >
+    <tmformgroup-stub
+      class="action-modal-group"
+    >
+      <div>
+        <tmbtn-stub
+          color="primary"
+          value="Send"
+        />
+      </div>
+    </tmformgroup-stub>
+     
+    <!---->
+  </div>
 </div>
 `;
 
@@ -447,7 +786,10 @@ exports[`ActionModal should show the action modal when user has logged in with e
       Action Modal
     </span>
      
-    <!---->
+    <steps-stub
+      activestep="sign"
+      steps="Details,Fees,Sign"
+    />
      
     <p
       class="form-message notice extension-address"
@@ -459,9 +801,49 @@ exports[`ActionModal should show the action modal when user has logged in with e
     </p>
   </div>
    
-  <featurenotavailable-stub
-    feature="Action Modal"
-  />
+  <!---->
+   
+  <div
+    class="action-modal-form"
+  >
+    <!---->
+     
+    <!---->
+     
+    <hardwarestate-stub
+      icon="info"
+      loading="true"
+    >
+      <!---->
+       
+      <div>
+        
+            Please open the Lunie Browser Extension, review the details, and
+            approve the transaction.
+          
+      </div>
+       
+      <!---->
+    </hardwarestate-stub>
+  </div>
+   
+  <div
+    class="action-modal-footer"
+  >
+    <tmformgroup-stub
+      class="action-modal-group"
+    >
+      <div>
+        <tmbtn-stub
+          color="primary"
+          disabled="true"
+          value="Waiting for Extension"
+        />
+      </div>
+    </tmformgroup-stub>
+     
+    <!---->
+  </div>
 </div>
 `;
 
@@ -502,14 +884,46 @@ exports[`ActionModal should show the action modal when user has logged in with l
       Action Modal
     </span>
      
-    <!---->
+    <steps-stub
+      activestep="fees"
+      steps="Details,Fees,Sign"
+    />
      
     <!---->
   </div>
    
-  <featurenotavailable-stub
-    feature="Action Modal"
-  />
+  <!---->
+   
+  <div
+    class="action-modal-form"
+  >
+    <!---->
+     
+    <tableinvoice-stub
+      amount="0"
+      bonddenom="STAKE"
+      estimatedfee="0"
+    />
+     
+    <!---->
+  </div>
+   
+  <div
+    class="action-modal-footer"
+  >
+    <tmformgroup-stub
+      class="action-modal-group"
+    >
+      <div>
+        <tmbtn-stub
+          color="primary"
+          value="Next"
+        />
+      </div>
+    </tmformgroup-stub>
+     
+    <!---->
+  </div>
 </div>
 `;
 
@@ -550,14 +964,51 @@ exports[`ActionModal should show the action modal when user has logged in with l
       Action Modal
     </span>
      
-    <!---->
+    <steps-stub
+      activestep="sign"
+      steps="Details,Fees,Sign"
+    />
      
     <!---->
   </div>
    
-  <featurenotavailable-stub
-    feature="Action Modal"
-  />
+  <!---->
+   
+  <div
+    class="action-modal-form"
+  >
+    <!---->
+     
+    <hardwarestate-stub
+      icon="info"
+    >
+      <div>
+        
+            Please use Chrome, Brave, or Opera. Ledger is not supported in
+            this browser.
+          
+      </div>
+    </hardwarestate-stub>
+     
+    <!---->
+  </div>
+   
+  <div
+    class="action-modal-footer"
+  >
+    <tmformgroup-stub
+      class="action-modal-group"
+    >
+      <div>
+        <tmbtn-stub
+          color="primary"
+          value="Send"
+        />
+      </div>
+    </tmformgroup-stub>
+     
+    <!---->
+  </div>
 </div>
 `;
 
@@ -589,14 +1040,53 @@ exports[`ActionModal should show the action modal when user has logged in with l
       Action Modal
     </span>
      
-    <!---->
+    <steps-stub
+      activestep="sign"
+      steps="Details,Fees,Sign"
+    />
      
     <!---->
   </div>
    
-  <featurenotavailable-stub
-    feature="Action Modal"
-  />
+  <!---->
+   
+  <div
+    class="action-modal-form"
+  >
+    <!---->
+     
+    <hardwarestate-stub
+      icon="info"
+      loading="true"
+    >
+      <div>
+        
+            Please use Chrome, Brave, or Opera. Ledger is not supported in
+            this browser.
+          
+      </div>
+    </hardwarestate-stub>
+     
+    <!---->
+  </div>
+   
+  <div
+    class="action-modal-footer"
+  >
+    <tmformgroup-stub
+      class="action-modal-group"
+    >
+      <div>
+        <tmbtn-stub
+          color="primary"
+          disabled="true"
+          value="Waiting for Ledger"
+        />
+      </div>
+    </tmformgroup-stub>
+     
+    <!---->
+  </div>
 </div>
 `;
 
@@ -637,14 +1127,46 @@ exports[`ActionModal should show the action modal when user has logged in with l
       Action Modal
     </span>
      
-    <!---->
+    <steps-stub
+      activestep="fees"
+      steps="Details,Fees,Sign"
+    />
      
     <!---->
   </div>
    
-  <featurenotavailable-stub
-    feature="Action Modal"
-  />
+  <!---->
+   
+  <div
+    class="action-modal-form"
+  >
+    <!---->
+     
+    <tableinvoice-stub
+      amount="0"
+      bonddenom="STAKE"
+      estimatedfee="0"
+    />
+     
+    <!---->
+  </div>
+   
+  <div
+    class="action-modal-footer"
+  >
+    <tmformgroup-stub
+      class="action-modal-group"
+    >
+      <div>
+        <tmbtn-stub
+          color="primary"
+          value="Next"
+        />
+      </div>
+    </tmformgroup-stub>
+     
+    <!---->
+  </div>
 </div>
 `;
 
@@ -685,14 +1207,56 @@ exports[`ActionModal should show the action modal when user has logged in with l
       Action Modal
     </span>
      
-    <!---->
+    <steps-stub
+      activestep="sign"
+      steps="Details,Fees,Sign"
+    />
      
     <!---->
   </div>
    
-  <featurenotavailable-stub
-    feature="Action Modal"
-  />
+  <!---->
+   
+  <div
+    class="action-modal-form"
+  >
+    <!---->
+     
+    <!---->
+     
+    <form>
+      <tmformgroup-stub
+        class="action-modal-group"
+        fieldid="password"
+        fieldlabel="Password"
+      >
+        <tmfield-stub
+          id="password"
+          placeholder="Password"
+          type="password"
+        />
+         
+        <!---->
+      </tmformgroup-stub>
+    </form>
+  </div>
+   
+  <div
+    class="action-modal-footer"
+  >
+    <tmformgroup-stub
+      class="action-modal-group"
+    >
+      <div>
+        <tmbtn-stub
+          color="primary"
+          value="Send"
+        />
+      </div>
+    </tmformgroup-stub>
+     
+    <!---->
+  </div>
 </div>
 `;
 
@@ -724,14 +1288,57 @@ exports[`ActionModal should show the action modal when user has logged in with l
       Action Modal
     </span>
      
-    <!---->
+    <steps-stub
+      activestep="sign"
+      steps="Details,Fees,Sign"
+    />
      
     <!---->
   </div>
    
-  <featurenotavailable-stub
-    feature="Action Modal"
-  />
+  <!---->
+   
+  <div
+    class="action-modal-form"
+  >
+    <!---->
+     
+    <!---->
+     
+    <form>
+      <tmformgroup-stub
+        class="action-modal-group"
+        fieldid="password"
+        fieldlabel="Password"
+      >
+        <tmfield-stub
+          id="password"
+          placeholder="Password"
+          type="password"
+        />
+         
+        <!---->
+      </tmformgroup-stub>
+    </form>
+  </div>
+   
+  <div
+    class="action-modal-footer"
+  >
+    <tmformgroup-stub
+      class="action-modal-group"
+    >
+      <div>
+        <tmbtn-stub
+          color="primary"
+          disabled="true"
+          value="Sending..."
+        />
+      </div>
+    </tmformgroup-stub>
+     
+    <!---->
+  </div>
 </div>
 `;
 
@@ -763,14 +1370,44 @@ exports[`ActionModal should show the action modal when user hasn't logged in 1`]
       Sign in required
     </span>
      
-    <!---->
+    <steps-stub
+      activestep="details"
+      steps="Details,Fees,Sign"
+    />
      
     <!---->
   </div>
    
-  <featurenotavailable-stub
-    feature="Action Modal"
-  />
+  <!---->
+   
+  <div
+    class="action-modal-form"
+  >
+    <p
+      class="form-message notice"
+    >
+      
+          You need to sign in to submit a transaction.
+        
+    </p>
+  </div>
+   
+  <div
+    class="action-modal-footer"
+  >
+    <tmformgroup-stub
+      class="action-modal-group"
+    >
+      <div>
+        <tmbtn-stub
+          color="primary"
+          value="Sign In"
+        />
+      </div>
+    </tmformgroup-stub>
+     
+    <!---->
+  </div>
 </div>
 `;
 
@@ -802,14 +1439,36 @@ exports[`ActionModal shows a feature unavailable message 1`] = `
       Action Modal
     </span>
      
-    <!---->
+    <steps-stub
+      activestep="details"
+      steps="Details,Fees,Sign"
+    />
      
     <!---->
   </div>
    
-  <featurenotavailable-stub
-    feature="Action Modal"
+  <!---->
+   
+  <div
+    class="action-modal-form"
   />
+   
+  <div
+    class="action-modal-footer"
+  >
+    <tmformgroup-stub
+      class="action-modal-group"
+    >
+      <div>
+        <tmbtn-stub
+          color="primary"
+          value="Next"
+        />
+      </div>
+    </tmformgroup-stub>
+     
+    <!---->
+  </div>
 </div>
 `;
 
@@ -838,16 +1497,44 @@ exports[`ActionModal windows shows windows warning 1`] = `
     <span
       class="action-modal-title"
     >
-      Sign in required
+      Action Modal
     </span>
      
-    <!---->
+    <steps-stub
+      activestep="details"
+      steps="Details,Fees,Sign"
+    />
      
     <!---->
   </div>
    
-  <featurenotavailable-stub
-    feature="Action Modal"
+  <p
+    class="form-message notice"
+  >
+    
+        WINDOWS WARNING MESSAGE
+      
+  </p>
+   
+  <div
+    class="action-modal-form"
   />
+   
+  <div
+    class="action-modal-footer"
+  >
+    <tmformgroup-stub
+      class="action-modal-group"
+    >
+      <div>
+        <tmbtn-stub
+          color="primary"
+          value="Next"
+        />
+      </div>
+    </tmformgroup-stub>
+     
+    <!---->
+  </div>
 </div>
 `;
