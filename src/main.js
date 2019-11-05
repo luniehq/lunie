@@ -16,9 +16,9 @@ import config from "src/../config"
 import * as Sentry from "@sentry/browser"
 import * as Integrations from "@sentry/integrations"
 
-if (config.SENTRY_DSN) {
+if (config.sentryDSN) {
   Sentry.init({
-    dsn: config.SENTRY_DSN,
+    dsn: config.sentryDSN,
     integrations: [new Integrations.Vue({ Vue, attachProps: true })]
   })
 }
