@@ -6,6 +6,7 @@ exports[`ModalVote should display vote modal form 1`] = `
   class="modal-vote"
   id="modal-vote"
   notifymessage="[object Object]"
+  rewards=""
   submissionerrorprefix="Voting failed"
   title="Vote"
   transactiondata="[object Object]"
