@@ -16,6 +16,10 @@ const graphqlHost = urlParams => urlParams.graphql || config.graphqlHost
 const makeHttpLink = urlParams => {
   const host = graphqlHost(urlParams)
   const uri = host
+
+  // We create a createPersistedQueryLink to lower network usage.
+  // With this, a prefetch is done using a hash of the query.
+  // if the server recognises the hash, it will reply with the full reponse.
   return createPersistedQueryLink().concat(
     createHttpLink({
       uri
