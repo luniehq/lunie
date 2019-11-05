@@ -48,12 +48,8 @@
 </template>
 
 <script>
-import FieldSeed from "common/TmFieldSeed"
 export default {
   name: `TmSeed`,
-  components: {
-    FieldSeed
-  },
   props: {
     value: {
       type: String,
