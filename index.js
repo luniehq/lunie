@@ -1,11 +1,14 @@
 const { ApolloServer } = require('apollo-server')
 const responseCachePlugin = require('apollo-server-plugin-response-cache')
+const { mapValues } = require('lodash')
 const typeDefs = require('./lib/schema')
 const resolvers = require('./lib/resolvers')
 const CosmosNodeSubscription = require('./lib/cosmos-node-subscription')
 const CosmosV0API = require('./lib/cosmosV0-source')
 const CosmosV2API = require('./lib/cosmosV2-source')
 const LunieDBAPI = require('./lib/luniedb-source')
+const BlockStore = require('./lib/block-store')
+
 const { networks } = require('./data/network-configs')
 const config = require('./config')
 
@@ -14,18 +17,33 @@ if(config.SENTRY_DSN){
   Sentry.init({ dsn: config.SENTRY_DSN });
 }
 
-new CosmosNodeSubscription(networks['cosmos-hub-mainnet'], CosmosV0API)
-new CosmosNodeSubscription(networks['cosmos-hub-testnet'], CosmosV2API)
+const store = mapValues(networks, network => new BlockStore(network.id))
+
+new CosmosNodeSubscription(
+  networks['cosmos-hub-mainnet'],
+  CosmosV0API,
+  store['cosmos-hub-mainnet']
+)
+new CosmosNodeSubscription(
+  networks['cosmos-hub-testnet'],
+  CosmosV2API,
+  store['cosmos-hub-testnet']
+)
 
 if (config.enableTestnet) {
-  new CosmosNodeSubscription(networks['local-cosmos-hub-testnet'], CosmosV0API)
+  new CosmosNodeSubscription(
+    networks['local-cosmos-hub-testnet'],
+    CosmosV0API,
+    store['local-cosmos-hub-testnet']
+  )
 }
 
 function createDataSources() {
   const dataSources = {
     CosmosHubMainnetAPI: new CosmosV0API(networks['cosmos-hub-mainnet']),
     CosmosHubTestnetAPI: new CosmosV2API(networks['cosmos-hub-testnet']),
-    LunieDBAPI: new LunieDBAPI()
+    LunieDBAPI: new LunieDBAPI(),
+    store: store
   }
   if (config.enableTestnet) {
     dataSources.TestnetAPI = new CosmosV0API(
