@@ -124,7 +124,7 @@ function signIn(browser) {
 
 function prepare(browser) {
   browser.resizeWindow(400, 1024) // force mobile screen to be able to click some out of screen buttons
-  browser.url(browser.launch_url + "&insecure=true")
+  browser.url(browser.launch_url)
   browser.expect(`body`).to.be.visible.before(10000)
   browser.expect(`#app-content`).to.be.visible.before(10000)
   signOut(browser)

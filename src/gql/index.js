@@ -146,6 +146,7 @@ const ProposalFragment = `
     totalVotedPercentage
   }
   deposit
+  proposer
 `
 
 export const ProposalList = schema => gql`
@@ -198,15 +199,6 @@ query metaData {
     stakingDenom
   }
 }
-`
-
-export const NewBlockSubscription = networkId => gql`
-  subscription {
-    blockAdded(networkId: "${networkId}") {
-      height
-      chainId
-    }
-  }
 `
 
 export const UserTransactionAdded = gql`

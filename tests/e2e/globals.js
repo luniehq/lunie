@@ -10,6 +10,7 @@ module.exports = {
   asyncHookTimeout: 30000,
 
   async before() {
+    await schemaAvailable()
     await apiUp()
   },
 
@@ -69,23 +70,51 @@ module.exports = {
 }
 
 async function apiUp() {
+  const start = new Date().getTime()
   // we need to wait until the testnet is up and the account has money
   let apiUp = false
   while (!apiUp) {
+    if (new Date().getTime() - start > 90000) {
+      throw new Error("Timed out waiting for API to be up.")
+    }
     try {
-      const { data } = await axios.post(`http://${HOST}:4000`, {
-        operationName: null,
-        query: `{\n  balance(networkId: "local-cosmos-hub-testnet", address: "cosmos1ek9cd8ewgxg9w5xllq9um0uf4aaxaruvcw4v9e", denom: "STAKE") {\n    denom\n    amount\n  }\n}\n`,
-        variables: {}
+      // test if the test account was funded as we need the account to have funds in the tests
+      const response = await axios.post(`http://${HOST}:4000`, {
+        query: `{overview(networkId: "local-cosmos-hub-testnet", address:"cosmos1ek9cd8ewgxg9w5xllq9um0uf4aaxaruvcw4v9e") {totalStake}}`
       })
-      if (data.data.balance.amount === 0) {
+      if (response.data.errors) {
+        throw new Error(JSON.stringify(response.data.errors))
+      }
+      if (response.data.data.overview.totalStake === 0) {
         continue
       }
       apiUp = true
     } catch (err) {
-      console.log(err)
+      console.log("Failed to check API", err)
       await new Promise(resolve => setTimeout(resolve, 1000))
-      console.log("Waiting for node to be up")
+      console.log("Waiting for API to be up")
+    }
+  }
+}
+
+async function schemaAvailable() {
+  const start = new Date().getTime()
+  // we need to wait until the database is up and has the expected shema
+  let databaseUp = false
+  while (!databaseUp) {
+    if (new Date().getTime() - start > 90000) {
+      throw new Error("Timed out waiting for database to be up.")
+    }
+    try {
+      // test if the database has the expected schema by probing one setup table
+      await axios.post(`http://${HOST}:8080/v1/graphql`, {
+        query: `{maintenance {    message  }}`
+      })
+      databaseUp = true
+    } catch (err) {
+      console.log("Failed to check database", err.message)
+      await new Promise(resolve => setTimeout(resolve, 1000))
+      console.log("Waiting for database to be up")
     }
   }
 }

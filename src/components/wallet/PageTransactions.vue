@@ -97,6 +97,39 @@ export default {
           }))
         }
         return []
+      },
+      subscribeToMore: {
+        document: gql`
+          subscription($networkId: String!, $address: String!) {
+            userTransactionAdded(networkId: $networkId, address: $address) {
+              hash
+              type
+              group
+              height
+              timestamp
+              gasUsed
+              fee {
+                amount
+                denom
+              }
+              value
+            }
+          }
+        `,
+        updateQuery: (previousResult, { subscriptionData }) => {
+          return {
+            transactions: [
+              subscriptionData.data.userTransactionAdded,
+              ...previousResult.transactions
+            ]
+          }
+        },
+        variables() {
+          return {
+            networkId: this.network,
+            address: this.address
+          }
+        }
       }
     },
     validators: {
