@@ -86,7 +86,7 @@ yarn start
 This will create a rich account. You need to import that account into Lunie:
 - Sign In
 - Import Account
-- Use mnemonic: `release endorse scale across absurd trouble climb unaware actor elite fantasy chair license word rare length business kiss smoke tackle report february bid ginger`
+- Use mnemonic: `release endorse scale across absurd trouble climb unaware actor elite fantasy chair license word rare length business kiss smoke tackle report february bid ginger` 
 
 You should now have a bunch of stake to play with.
 
