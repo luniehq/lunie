@@ -31,7 +31,7 @@ describe(`ActionModal`, () => {
 
   const overview = {
     totalRewards: 100000,
-    liquidStake: 1230.000000,
+    liquidStake: 1230.0,
     totalStake: 1430000000
   }
 
@@ -132,7 +132,7 @@ describe(`ActionModal`, () => {
       },
       stubs: ["router-link"]
     })
-    wrapper.setData({network, overview})
+    wrapper.setData({ network, overview })
     wrapper.vm.open()
   })
 
@@ -778,7 +778,12 @@ describe(`ActionModal`, () => {
 
   describe(`windows`, () => {
     it(`shows windows warning`, async () => {
-      wrapper.setData({session: {windowsDevice: true, windowsWarning: "WINDOWS WARNING MESSAGE"}})
+      wrapper.setData({
+        session: {
+          windowsDevice: true,
+          windowsWarning: "WINDOWS WARNING MESSAGE"
+        }
+      })
       expect(wrapper.element).toMatchSnapshot()
       expect(wrapper.text()).toMatch(/WINDOWS WARNING MESSAGE/)
     })

@@ -678,7 +678,7 @@ export default {
     },
     async connectLedger() {
       await this.$store.dispatch(`connectLedgerApp`)
-    },
+    }
   },
   validations() {
     return {
