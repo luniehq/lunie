@@ -668,7 +668,7 @@ export default {
     async connectLedger() {
       await this.$store.dispatch(`connectLedgerApp`)
     },
-    async checkFeatureAvailable() {
+    checkFeatureAvailable() {
       /* istanbul ignore next */
       if (this.network === "testnet") {
         this.featureAvailable = true
