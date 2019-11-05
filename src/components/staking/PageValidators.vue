@@ -171,6 +171,10 @@ export default {
   }
 }
 
+.filterOptions .btn-radio {
+  border-radius: 0;
+}
+
 .filterOptions .btn-radio:last-child {
   border-radius: 0 0.5rem 0.5rem 0;
   margin-left: -1px;
@@ -179,10 +183,6 @@ export default {
 .filterOptions .btn-radio:first-child {
   border-radius: 0.5rem 0 0 0.5rem;
   margin-right: -1px;
-}
-
-.filterOptions .btn-radio {
-  border-radius: 0;
 }
 
 @media screen and (min-width: 768px) {

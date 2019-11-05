@@ -11,24 +11,6 @@
     @close="clear"
   >
     <TmFormGroup
-      :error="$v.denom.$dirty && $v.denom.$invalid"
-      class="action-modal-form-group"
-      field-id="send-denomination"
-      field-label="Denomination"
-    >
-      <TmField
-        id="send-denomination"
-        :value="$v.denom.$model"
-        type="text"
-        readonly
-      />
-      <TmFormMsg
-        v-if="$v.denom.$error && !$v.denom.required"
-        name="Denomination"
-        type="required"
-      />
-    </TmFormGroup>
-    <TmFormGroup
       :error="$v.address.$error && $v.address.$invalid"
       class="action-modal-form-group"
       field-id="send-address"

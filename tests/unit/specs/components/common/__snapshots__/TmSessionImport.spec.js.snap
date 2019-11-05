@@ -17,52 +17,10 @@ exports[`TmSessionImport has the expected html structure 1`] = `
     <div
       class="session-main"
     >
-      <tmformgroup-stub
-        fieldid="import-name"
-        fieldlabel="Account Name"
-      >
-        <tmfield-stub
-          id="import-name"
-          placeholder="Must have at least 5 characters"
-          type="text"
-          value=""
-          vue-focus="vue-focus"
-        />
-         
-        <!---->
-         
-        <!---->
-      </tmformgroup-stub>
-       
-      <tmformgroup-stub
-        fieldid="import-password"
-        fieldlabel="Password"
-      >
-        <tmfield-stub
-          id="import-password"
-          placeholder="Must be at least 10 characters"
-          type="password"
-          value=""
-        />
-         
-        <!---->
-         
-        <!---->
-      </tmformgroup-stub>
-       
-      <tmformgroup-stub
-        fieldid="import-password-confirmation"
-        fieldlabel="Confirm Password"
-      >
-        <tmfield-stub
-          id="import-password-confirmation"
-          placeholder="Enter password again"
-          type="password"
-          value=""
-        />
-         
-        <!---->
-      </tmformgroup-stub>
+      <steps-stub
+        activestep="Recover"
+        steps="Recover,Name,Password"
+      />
        
       <tmformgroup-stub
         fieldid="import-seed"
@@ -82,7 +40,8 @@ exports[`TmSessionImport has the expected html structure 1`] = `
       class="session-footer"
     >
       <tmbtn-stub
-        value="Recover"
+        type="submit"
+        value="Next"
       />
     </div>
   </tmformstruct-stub>

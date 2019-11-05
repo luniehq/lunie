@@ -1,6 +1,11 @@
 import { createLocalVue, shallowMount } from "@vue/test-utils"
 import Vuelidate from "vuelidate"
 import TmSessionSignUp from "common/TmSessionSignUp"
+jest.mock("@lunie/cosmos-keys", () => ({
+  getWalletIndex: function() {
+    return [{ name: `Happy Lunie User`, address: `xyz123` }]
+  }
+}))
 
 describe(`TmSessionSignUp`, () => {
   const localVue = createLocalVue()
@@ -9,17 +14,20 @@ describe(`TmSessionSignUp`, () => {
   let wrapper, $store
 
   beforeEach(() => {
-    const getters = {
-      connected: true
-    }
     $store = {
       state: {
-        session: { insecureMode: false }
+        session: { insecureMode: true },
+        signup: {
+          signUpName: ""
+        }
       },
-      getters,
       commit: jest.fn(),
-      dispatch: jest.fn(() => Promise.resolve(`seed`))
+      dispatch: jest.fn(),
+      mutations: {
+        updateField: jest.fn()
+      }
     }
+
     wrapper = shallowMount(TmSessionSignUp, {
       localVue,
       mocks: {
@@ -32,130 +40,50 @@ describe(`TmSessionSignUp`, () => {
     })
   })
 
-  it(`has the expected html structure`, () => {
+  it("renders", () => {
     expect(wrapper.element).toMatchSnapshot()
   })
 
-  it(`should show error if warnings not acknowledged`, () => {
-    wrapper.setData({
-      fields: {
-        signUpPassword: `1234567890`,
-        signUpPasswordConfirm: `1234567890`,
-        signUpSeed: `bar`,
-        signUpName: `testaccount`,
-        signUpWarning: false
-      }
+  it(`should commit updateField on field change`, async () => {
+    wrapper.setData({ fieldName: `HappyLunieUser` })
+    expect(wrapper.vm.$store.commit).toHaveBeenCalledWith(`updateField`, {
+      field: `signUpName`,
+      value: `HappyLunieUser`
     })
-    wrapper.vm.onSubmit()
-    expect($store.commit).not.toHaveBeenCalled()
-    expect(wrapper.find(`.form-msg-error`)).toBeDefined()
   })
 
-  it(`should show error if password is not 10 long`, async () => {
-    wrapper.setData({
-      fields: {
-        signUpPassword: `123456789`,
-        signUpPasswordConfirm: `1234567890`,
-        signUpSeed: `bar`,
-        signUpName: `testaccount`,
-        signUpWarning: true
-      }
-    })
+  it(`validation should fail if name is not filled in`, async () => {
     await wrapper.vm.onSubmit()
-    expect($store.commit.mock.calls[0]).toBeUndefined()
-    expect(wrapper.find(`.form-msg-error`)).toBeDefined()
+    expect(wrapper.vm.$v.fieldName.$error).toBe(true)
   })
 
-  it(`should show error if password is not confirmed`, async () => {
-    wrapper.setData({
-      fields: {
-        signUpPassword: `1234567890`,
-        signUpPasswordConfirm: `notthesame`,
-        signUpSeed: `bar`,
-        signUpName: `testaccount`,
-        signUpWarning: true
-      }
-    })
+  it(`validation should fail if name lenght < 3 characters`, async () => {
+    wrapper.vm.$store.state.signup.signUpName = `as`
     await wrapper.vm.onSubmit()
-    expect($store.commit.mock.calls[0]).toBeUndefined()
-    expect(wrapper.find(`.form-msg-error`)).toBeDefined()
+    expect(wrapper.vm.$v.fieldName.$error).toBe(true)
   })
 
-  it(`should show an error if account name is not 5 long`, async () => {
-    wrapper.setData({
-      fields: {
-        signUpPassword: `1234567890`,
-        signUpPasswordConfirm: `1234567890`,
-        signUpSeed: `bar`,
-        signUpName: `test`,
-        signUpWarning: true
-      }
-    })
+  it(`validation should not fail if name lenght >= 3 characters`, async () => {
+    wrapper.vm.$store.state.signup.signUpName = `Happy Lunie User 2`
     await wrapper.vm.onSubmit()
-    expect($store.commit.mock.calls[0]).toBeUndefined()
-    expect(wrapper.find(`.form-msg-error`)).toBeDefined()
+    expect(wrapper.vm.$v.fieldName.$error).toBe(false)
   })
 
-  it(`should not continue if creation failed`, async () => {
-    $store.dispatch = jest.fn(() =>
-      Promise.reject(new Error(`Account already exists`))
-    )
-    wrapper.setData({
-      fields: {
-        signUpPassword: `1234567890`,
-        signUpPasswordConfirm: `1234567890`,
-        signUpSeed: `bar`,
-        signUpName: `testaccount`,
-        signUpWarning: true
-      }
-    })
+  it(`validation should fail if name exists already in stored accounts`, async () => {
+    wrapper.vm.$store.state.signup.signUpName = `Happy Lunie User`
     await wrapper.vm.onSubmit()
-    expect($store.commit).toHaveBeenCalledWith(
-      `notifyError`,
-      expect.objectContaining({ body: `Account already exists` })
-    )
+    expect(wrapper.vm.$v.fieldName.$error).toBe(true)
   })
 
-  it(`should show a notification if creation failed`, async () => {
-    const $store = {
-      commit: jest.fn(),
-      dispatch: jest.fn(() => Promise.reject({ message: `reason` }))
-    }
-
-    const self = {
-      fields: {
-        signUpPassword: `1234567890`,
-        signUpPasswordConfirm: `1234567890`,
-        signUpSeed: `bar`,
-        signUpName: `testaccount`,
-        signUpWarning: true
-      },
-      $v: {
-        $touch: () => {},
-        $error: false
-      },
-      $store
-    }
-    await TmSessionSignUp.methods.onSubmit.call(self)
-    expect($store.commit).toHaveBeenCalledWith(`notifyError`, {
-      title: `Couldn't create account`,
-      body: expect.stringContaining(`reason`)
-    })
-  })
-
-  it(`should go to the home page if creating is successful`, async () => {
-    wrapper.setData({
-      fields: {
-        signUpPassword: `1234567890`,
-        signUpPasswordConfirm: `1234567890`,
-        signUpSeed: `bar`,
-        signUpName: `testaccount`,
-        signUpWarning: true
-      }
-    })
-    $store.dispatch = jest.fn(() => Promise.resolve())
+  it(`validation should fail if name exists already in stored accounts`, async () => {
+    wrapper.vm.$store.state.signup.signUpName = `Happy Lunie User`
     await wrapper.vm.onSubmit()
-    expect($store.dispatch.mock.calls[0][0]).toEqual(`createKey`)
-    expect(wrapper.vm.$router.push).toHaveBeenCalledWith(`/`)
+    expect(wrapper.vm.$v.fieldName.$error).toBe(true)
+  })
+
+  it(`should go to /create/password when submit the form`, async () => {
+    wrapper.vm.$store.state.signup.signUpName = `HappyLunieUser`
+    await wrapper.vm.onSubmit()
+    expect(wrapper.vm.$router.push).toHaveBeenCalledWith(`/create/password`)
   })
 })
