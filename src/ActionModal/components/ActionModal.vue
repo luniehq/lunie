@@ -1,5 +1,5 @@
 <template>
-  <transition v-if="show" name="slide-fade">
+  <transition v-if="show && !$apollo.loading" name="slide-fade">
     <div v-focus-last class="action-modal" tabindex="0" @keyup.esc="close">
       <div
         v-if="(step === feeStep || step === signStep) && !sending"
@@ -22,7 +22,7 @@
         }}</span>
         <Steps
           v-if="
-            [defaultStep, feeStep, signStep].includes(step) && featureAvailable
+            [defaultStep, feeStep, signStep].includes(step) && checkFeatureAvailable
           "
           :steps="['Details', 'Fees', 'Sign']"
           :active-step="step"
@@ -40,7 +40,7 @@
           extension.
         </p>
       </div>
-      <template v-if="!featureAvailable">
+      <template v-if="!checkFeatureAvailable">
         <FeatureNotAvailable :feature="title" />
       </template>
       <template v-else>
@@ -411,6 +411,15 @@ export default {
     ...mapState([`extension`, `session`]),
     ...mapGetters([`connected`, `isExtensionAccount`]),
     ...mapGetters({ networkId: `network` }),
+    checkFeatureAvailable() {
+      /* istanbul ignore next */
+      if (this.network.testnet) {
+        return true
+      }
+
+      const action = `action_${this.title.toLowerCase().replace(" ", "_")}`
+      return this.network[action] === true
+    },
     requiresSignIn() {
       return !this.session.signedIn
     },
@@ -515,16 +524,15 @@ export default {
     },
     open() {
       this.confirmModalOpen()
+      this.$apollo.skipAll = false
       if (this.session.currrentModalOpen) {
         return
       }
 
       this.$store.commit(`setCurrrentModalOpen`, this)
       this.trackEvent(`event`, `modal`, this.title)
-      this.checkFeatureAvailable()
       this.gasPrice = config.default_gas_price.toFixed(9)
       this.show = true
-      this.$apollo.skipAll = false
     },
     close() {
       this.$store.commit(`setCurrrentModalOpen`, false)
@@ -668,16 +676,6 @@ export default {
     async connectLedger() {
       await this.$store.dispatch(`connectLedgerApp`)
     },
-    checkFeatureAvailable() {
-      /* istanbul ignore next */
-      if (this.network === "testnet") {
-        this.featureAvailable = true
-        return
-      }
-
-      const action = `action_${this.title.toLowerCase().replace(" ", "_")}`
-      this.featureAvailable = this.network[action] === true
-    }
   },
   validations() {
     return {
@@ -735,6 +733,7 @@ export default {
         query NetworkActionModal($networkId: String!) {
           network(id: $networkId) {
             id
+            testnet
             stakingDenom
             chain_id
             rpc_url
@@ -757,6 +756,7 @@ export default {
       },
       update(data) {
         /* istanbul ignore next */
+
         return data.network
       }
     },
