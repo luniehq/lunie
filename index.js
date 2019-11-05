@@ -9,6 +9,11 @@ const LunieDBAPI = require('./lib/luniedb-source')
 const { networks } = require('./data/network-configs')
 const config = require('./config')
 
+if(config.SENTRY_DSN){
+  const Sentry = require('@sentry/node');
+  Sentry.init({ dsn: config.SENTRY_DSN });
+}
+
 new CosmosNodeSubscription(networks['cosmos-hub-mainnet'], CosmosV0API)
 new CosmosNodeSubscription(networks['cosmos-hub-testnet'], CosmosV2API)
 

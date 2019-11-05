@@ -13,6 +13,8 @@ services:
     environment:
       - HASURA_URL=$HASURA_URL
       - HASURA_ADMIN_KEY=$HASURA_ADMIN_KEY
+      - SENTRY_DSN=$SENTRY_DSN
+      - NODE_ENV=production
   node-exporter:
     image: prom/node-exporter
     container_name: node_exporter

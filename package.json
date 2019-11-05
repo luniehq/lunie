@@ -19,6 +19,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@sentry/node": "^5.7.1",
     "apollo-datasource-rest": "^0.6.4",
     "apollo-server": "^2.9.4",
     "apollo-server-cache-redis": "^1.1.4",
