@@ -1,7 +1,10 @@
 {
-  "appId": "org.lunie.lunie",
-  "appName": "Lunie",
-  "bundledWebRuntime": false,
-  "npmClient": "yarn",
-  "webDir": "dist"
+    "appId": "org.lunie.lunie",
+    "appName": "Lunie",
+    "bundledWebRuntime": false,
+    "npmClient": "yarn",
+    "webDir": "dist",
+    "server": {
+        "url": "http://localhost:9080/"
+    }
 }

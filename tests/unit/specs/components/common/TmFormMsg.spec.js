@@ -17,6 +17,11 @@ describe(`TmFormMsg`, () => {
       error: `Seed phrase must be 16 words`
     },
     {
+      type: `words24`,
+      name: `Seed`,
+      error: `Seed phrase must be 24 words`
+    },
+    {
       type: `alphaNum`,
       name: `Asdf`,
       error: `Asdf must contain only alphanumeric characters`
@@ -58,13 +63,13 @@ describe(`TmFormMsg`, () => {
       type: `minLength`,
       name: `Asdf`,
       min: 2,
-      error: `Asdf must be longer than 2 characters`
+      error: `Asdf must be equal or longer than 2 characters`
     },
     {
       type: `maxLength`,
       name: `Asdf`,
       max: 255,
-      error: `Asdf must be shorter than 255 characters`
+      error: `Asdf must be equal or shorter than 255 characters`
     },
     {
       type: `match`,

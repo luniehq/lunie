@@ -1,0 +1,4 @@
+[Added] [#3054](https://github.com/cosmos/lunie/issues/3054) added proper icons and splash screens for iOS @jbibla
+[Changed] [#3054](https://github.com/cosmos/lunie/issues/3054) focusing on form inputs won't zoom the screen in anymore @jbibla
+[Changed] [#3054](https://github.com/cosmos/lunie/issues/3054) on mobile, lunie logo doesn't go to marketing site anymore @jbibla
+[Changed] [#3054](https://github.com/cosmos/lunie/issues/3054) hidden session and action-modal steps on mobile to account for size of screen and avoid forms breaking @jbibla

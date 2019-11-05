@@ -38,6 +38,17 @@ const nightwatch_config = {
           }
         }
       }
+    },
+    windows: {
+      desiredCapabilities: {
+        os: "Windows",
+        os_version: "10"
+      }
+    },
+    osx: {
+      os: "OS X",
+      os_version: "Mojave",
+      browserName: "Safari"
     }
   }
 }
