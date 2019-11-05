@@ -12,6 +12,16 @@ import { getURLParams } from "scripts/url"
 import "./registerServiceWorker"
 import "@babel/polyfill"
 import { Plugins } from "@capacitor/core"
+import config from "src/../config"
+import * as Sentry from "@sentry/browser"
+import * as Integrations from "@sentry/integrations"
+
+if (config.SENTRY_DSN) {
+  Sentry.init({
+    dsn: config.SENTRY_DSN,
+    integrations: [new Integrations.Vue({ Vue, attachProps: true })]
+  })
+}
 
 Vue.config.productionTip = false
 
