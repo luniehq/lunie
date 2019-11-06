@@ -34,7 +34,7 @@ const main = async () => {
 
   runTests()
 
-  process.on("exit", () => terminateProcesses()
+  process.on("exit", () => terminateProcesses())
 }
 
 const terminateProcesses = async () => {
