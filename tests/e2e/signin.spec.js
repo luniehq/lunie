@@ -13,7 +13,7 @@ module.exports = {
     browser.setValue("#sign-in-password", "1234567890")
     await next(browser)
     // check if signed in
-    browser.waitForElementPresent(".session", 10000, true)
+    browser.waitForElementNotPresent(".session", 10000, true)
     openMenu(browser)
     browser.waitForElementVisible("#sign-out", 10000, true)
   },
@@ -48,7 +48,7 @@ module.exports = {
     browser.click("#sign-up-warning")
     await next(browser)
     // check if signed in
-    browser.waitForElementPresent(".session", 10000, true)
+    browser.waitForElementNotPresent(".session", 10000, true)
     openMenu(browser)
     browser.waitForElementVisible("#sign-out", 10000, true)
   },
@@ -85,7 +85,7 @@ module.exports = {
     )
     await next(browser)
     // check if signed in
-    browser.waitForElementPresent(".session", 10000, true)
+    browser.waitForElementNotPresent(".session", 10000, true)
     openMenu(browser)
     browser.waitForElementVisible("#sign-out", 10000, true)
   }
