@@ -152,7 +152,7 @@ jobs:
           name: Run testnet
           command: |
             cd lunie-backend
-            docker-compose up --build -d
+            docker-compose up --build --detach
       - run:
           name: Test
           command: npm run serve:dist & npm run test:e2e:browserstack
@@ -210,7 +210,7 @@ jobs:
           name: Run testnet
           command: |
             cd lunie-backend
-            docker-compose up --build -d
+            docker-compose up --build --detach
       - run:
           name: Build Extension
           command: npm run test:e2e:build
