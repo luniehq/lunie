@@ -35,6 +35,8 @@
     "@lunie/cosmos-api": "0.1.2",
     "@lunie/cosmos-keys": "0.1.0",
     "@lunie/cosmos-ledger": "0.0.5",
+    "@sentry/browser": "5.7.1",
+    "@sentry/integrations": "5.7.1",
     "apollo-boost": "^0.4.3",
     "apollo-cache-inmemory": "^1.6.2",
     "autosize": "^4.0.2",
