@@ -20,34 +20,32 @@ module.exports = {
   "Create local account": async function (browser) {
     prepare(browser)
 
-    browser.pause(500)
     browser.click("#create-new-address")
+
+    browser.waitForElementVisible("#sign-up-name", 10000, true)
+    await next(browser)
+    browser.expect.elements(".tm-form-msg--error").count.to.equal(1)
+    browser.setValue("#sign-up-name", "demo-account")
+    await next(browser)
+
+    browser.waitForElementVisible("#sign-up-password", 10000, true)
+    await next(browser)
+    browser.expect.elements(".tm-form-msg--error").count.to.equal(1)
+    browser.setValue("#sign-up-password", "1234567890")
+    await next(browser)
+    browser.setValue("#sign-up-password-confirm", "1234567890")
+    await next(browser)
+
     browser.waitForElementVisible(".seed-table", 10000, true)
     browser.expect
       .element(".seed-table")
       .value.to.match(/\w+( \w+){23}/)
       .before(10000)
-
-    await next(browser)
-    browser.expect.elements(".tm-form-msg--error").count.to.equal(3)
-
-    browser.setValue("#sign-up-name", "demo-account")
-    await next(browser)
-    browser.expect.elements(".tm-form-msg--error").count.to.equal(2)
-
-    browser.setValue("#sign-up-password", "1234567890")
-    await next(browser)
-    browser.expect
-      .elements(".tm-form-msg--error")
-      // the error on the initial password vanishes but the password confirmation appears
-      .count.to.equal(2)
-
-    browser.setValue("#sign-up-password-confirm", "1234567890")
     await next(browser)
     browser.expect.elements(".tm-form-msg--error").count.to.equal(1)
-
     browser.click("#sign-up-warning")
     await next(browser)
+
     // check if signed in
     browser.waitForElementNotPresent(".session", 10000, true)
     openMenu(browser)
