@@ -47,7 +47,7 @@ const terminateProcesses = (exitCode = 1) => async () => {
 const runTests = () => {
   // cleanup
   if (processes.test) {
-    processes.test.end()
+    processes.test.kill()
   }
 
   console.log("starting local e2e tests")
