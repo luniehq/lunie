@@ -107,9 +107,10 @@ async function schemaAvailable() {
     }
     try {
       // test if the database has the expected schema by probing one setup table
-      await axios.post(`http://${HOST}:8080/v1/graphql`, {
+      const result = await axios.post(`http://${HOST}:8080/v1/graphql`, {
         query: `{maintenance {    message  }}`
       })
+      console.log(result) // TODO remove after debugging
       databaseUp = true
     } catch (err) {
       console.log("Failed to check database", err.message)
