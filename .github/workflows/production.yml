@@ -21,10 +21,10 @@ jobs:
     - name: prepare to push to Digital Ocean
       run: mkdir -p ~/.ssh && echo "${{ secrets.DO_PRIVATE_KEY }}"  | tr -d '\r' > ~/.ssh/id_rsa && chmod 600 ~/.ssh/id_rsa && eval "$(ssh-agent -s)" && ssh-add ~/.ssh/id_rsa && ssh-keyscan -H 167.71.107.214 >> ~/.ssh/known_hosts
     - name: push to Digital Ocean
-      run:  rsync -4 lunieapi.tgz root@167.71.107.214:~/ && rsync -4 pm2metrics.pl root@167.71.107.214:~/  && rsync -4 docker-compose.prod.yml root@167.71.107.214:~/ && rsync -4 Caddyfile.prod root@167.71.107.214:~/
+      run:  rsync -4 lunieapi.tgz root@167.71.107.214:~/ && rsync -4 pm2metrics.pl root@167.71.107.214:~/  && rsync -4 docker-compose.prod.yml root@167.71.107.214:~/docker-compose.yml && rsync -4 Caddyfile.prod root@167.71.107.214:~/Caddyfile
     - name: Installing Docker Compose
       run: ssh root@167.71.107.214 "sudo curl -L \"https://github.com/docker/compose/releases/download/1.24.1/docker-compose-$(uname -s)-$(uname -m)\" -o /usr/local/bin/docker-compose; sudo chmod +x /usr/local/bin/docker-compose"
     - name: Run on Digital Ocean
-      run: ssh root@167.71.107.214 "docker image prune -a -f; docker load < lunieapi.tgz; docker container stop lunieapi;docker container stop caddy; docker container stop node_exporter; docker container prune -f;export HASURA_URL="https://production-db.lunie.io/v1/graphql"; export HASURA_ADMIN_KEY="${{ secrets.LUNIE_PRODUCTION_DB_KEY }}";  docker-compose -f docker-compose.yml up --build -d"
+      run: ssh root@167.71.107.214 "docker image prune -a -f; docker load < lunieapi.tgz; docker container stop lunieapi;docker container stop caddy; docker container stop node_exporter; docker container prune -f;export HASURA_URL="https://production-db.lunie.io/v1/graphql"; export HASURA_ADMIN_KEY="${{ secrets.LUNIE_PRODUCTION_DB_KEY }}"; export SENTRY_DSN="${{ secrets.SENTRY_DSN }}"; docker-compose -f docker-compose.yml up --build -d"
     - name: Setting up cron job for pm2 metrics export
       run: ssh root@167.71.107.214 "mkdir /logs -p; touch /logs/show; line='*/1 * * * * docker exec lunieapi pm2 show 0 > /logs/show; perl /root/pm2metrics.pl'; crontab -l | grep -q 'lunieapi pm2' && true || (crontab  -l; echo "$line" ) | crontab -"

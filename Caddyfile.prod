@@ -3,3 +3,7 @@ production-api.lunie.io {
         websocket
     }
 }
+:9100 {
+    basicauth / admin lunie1234
+    proxy / node_exporter:9100
+}

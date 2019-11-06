@@ -13,4 +13,4 @@ jobs:
         SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
         SLACK_CHANNEL: 'pr_alerts'
         SLACK_USERNAME: 'luniebot'
-        SLACK_MESSAGE: 'New pull request to lunie-api'
+        SLACK_MESSAGE: ${{ github.event.pull_request.title }} | ${{ github.event.pull_request.body }} | ${{ github.event.pull_request._links.html.href }}
