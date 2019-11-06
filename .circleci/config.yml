@@ -152,7 +152,7 @@ jobs:
           name: Run testnet
           command: |
             cd lunie-backend
-            npm run start -- -d
+            docker-compose up --build -d
       - run:
           name: Test
           command: npm run serve:dist & npm run test:e2e:browserstack
