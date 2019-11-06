@@ -1,4 +1,5 @@
 const util = require("util")
+const fs = require("fs")
 const exec = util.promisify(require("child_process").exec)
 const spawn = require("child_process").spawn
 
@@ -6,10 +7,12 @@ const spawn = require("child_process").spawn
 /* you can provide the name of the file to test only one file > for send.spec.js `yarn test:e2e send` */
 const main = async () => {
   const filter = process.argv[2]
-  console.log("cloning lunie-backend repo")
-  try {
+  if (!fs.existsSync("./lunie-backend")) {
+    console.log("cloning lunie-backend repo")
     await exec("git clone https://github.com/luniehq/lunie-backend.git lunie-backend")
-  } catch (error) { }
+  } else {
+    await exec("cd lunie-backend && git pull origin develop")
+  }
   await exec("cd lunie-backend && git pull origin develop")
   console.log("starting lunie-backend repo")
   await exec("cd lunie-backend && docker-compose up -d")
