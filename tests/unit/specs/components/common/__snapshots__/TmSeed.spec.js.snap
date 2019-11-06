@@ -1,0 +1,291 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TmSeed should render the seed in a table component 1`] = `
+<div
+  class="seed-phrase"
+>
+  <div
+    class="copy-seed"
+  >
+    
+    Copy to clipboard
+    
+    <i
+      class="material-icons copied"
+    >
+      
+      check
+    
+    </i>
+  </div>
+   
+  <div>
+    <table
+      class="seed-table"
+    >
+      <tr>
+        <td>
+          <span
+            class="word-number"
+          >
+            1
+          </span>
+          
+          two
+        
+        </td>
+        <td>
+          <span
+            class="word-number"
+          >
+            2
+          </span>
+          
+          collect
+        
+        </td>
+        <td>
+          <span
+            class="word-number"
+          >
+            3
+          </span>
+          
+          olive
+        
+        </td>
+        <td>
+          <span
+            class="word-number"
+          >
+            4
+          </span>
+          
+          inside
+        
+        </td>
+        <td>
+          <span
+            class="word-number"
+          >
+            5
+          </span>
+          
+          assault
+        
+        </td>
+        <td>
+          <span
+            class="word-number"
+          >
+            6
+          </span>
+          
+          finger
+        
+        </td>
+      </tr>
+       
+      <tr>
+        <td>
+          <span
+            class="word-number"
+          >
+            7
+          </span>
+          
+          relief
+        
+        </td>
+        <td>
+          <span
+            class="word-number"
+          >
+            8
+          </span>
+          
+          shallow
+        
+        </td>
+        <td>
+          <span
+            class="word-number"
+          >
+            9
+          </span>
+          
+          lottery
+        
+        </td>
+        <td>
+          <span
+            class="word-number"
+          >
+            10
+          </span>
+          
+          sugar
+        
+        </td>
+        <td>
+          <span
+            class="word-number"
+          >
+            11
+          </span>
+          
+          universe
+        
+        </td>
+        <td>
+          <span
+            class="word-number"
+          >
+            12
+          </span>
+          
+          fatigue
+        
+        </td>
+      </tr>
+       
+      <tr>
+        <td>
+          <span
+            class="word-number"
+          >
+            13
+          </span>
+          
+          knock
+        
+        </td>
+        <td>
+          <span
+            class="word-number"
+          >
+            14
+          </span>
+          
+          current
+        
+        </td>
+        <td>
+          <span
+            class="word-number"
+          >
+            15
+          </span>
+          
+          only
+        
+        </td>
+        <td>
+          <span
+            class="word-number"
+          >
+            16
+          </span>
+          
+          absurd
+        
+        </td>
+        <td>
+          <span
+            class="word-number"
+          >
+            17
+          </span>
+          
+          famous
+        
+        </td>
+        <td>
+          <span
+            class="word-number"
+          >
+            18
+          </span>
+          
+          work
+        
+        </td>
+      </tr>
+       
+      <tr>
+        <td>
+          <span
+            class="word-number"
+          >
+            19
+          </span>
+          
+          path
+        
+        </td>
+        <td>
+          <span
+            class="word-number"
+          >
+            20
+          </span>
+          
+          zone
+        
+        </td>
+        <td>
+          <span
+            class="word-number"
+          >
+            21
+          </span>
+          
+          distance
+        
+        </td>
+        <td>
+          <span
+            class="word-number"
+          >
+            22
+          </span>
+          
+          churn
+        
+        </td>
+        <td>
+          <span
+            class="word-number"
+          >
+            23
+          </span>
+          
+          include
+        
+        </td>
+        <td>
+          <span
+            class="word-number"
+          >
+            24
+          </span>
+          
+          flower
+        
+        </td>
+      </tr>
+    </table>
+  </div>
+   
+  <div
+    class="seed-warning"
+  >
+    <p>
+      
+      Please write your backup code in a safe place. Word order matters, take
+      care to write them in the same order.
+    
+    </p>
+  </div>
+</div>
+`;

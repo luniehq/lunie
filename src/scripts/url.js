@@ -3,7 +3,9 @@ export function getURLParams(window, env = process.env.NODE_ENV) {
   const parameters = queries.reduce((config, current) => {
     const [name, value] = current.split(`=`)
     if (
-      [`stargate`, `rpc`, `experimental`, `insecure`, `graphql`].includes(name)
+      [`stargate`, `experimental`, `insecure`, `graphql`, `network`].includes(
+        name
+      )
     ) {
       return {
         ...config,

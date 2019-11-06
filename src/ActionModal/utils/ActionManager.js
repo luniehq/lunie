@@ -1,8 +1,9 @@
 import Cosmos from "@lunie/cosmos-api"
-import config from "src/config"
+import config from "src/../config"
 import { getSigner } from "./signer"
 import transaction from "./transactionTypes"
 import { uatoms } from "scripts/num"
+import { toMicroDenom } from "src/scripts/common"
 
 export default class ActionManager {
   constructor() {
@@ -80,14 +81,13 @@ export default class ActionManager {
       this.message = this.createWithdrawTransaction()
     }
 
-    const { included, hash } = await this.message.send(
-      {
-        gas: String(gasEstimate),
-        gasPrices: convertCurrencyData([gasPrice]),
-        memo
-      },
-      signer
-    )
+    const messageMetadata = {
+      gas: String(gasEstimate),
+      gasPrices: convertCurrencyData([gasPrice]),
+      memo
+    }
+
+    const { included, hash } = await this.message.send(messageMetadata, signer)
 
     return { included, hash }
   }
@@ -116,7 +116,7 @@ export default class ActionManager {
 function convertCurrencyData(amounts) {
   return amounts.map(({ amount, denom }) => ({
     amount: toMicroAtomString(amount),
-    denom
+    denom: toMicroDenom(denom)
   }))
 }
 
@@ -125,13 +125,13 @@ function toMicroAtomString(amount) {
 }
 
 // // limitation of the block, so we pick the top 5 rewards and inform the user.
-function getTop5RewardsValidators(bondDenom, rewardsObject) {
+function getTop5RewardsValidators(bondDenom, rewards) {
   // Compares the amount in a [address1, {denom: amount}] array
-  const byBalanceOfDenom = denom => (a, b) => b[1][denom] - a[1][denom]
-  const validatorList = Object.entries(rewardsObject)
-    .sort(byBalanceOfDenom(bondDenom))
+  const byBalance = (a, b) => b.amount - a.amount
+  const validatorList = rewards
+    .sort(byBalance)
     .slice(0, 5) // Just the top 5
-    .map(([address]) => address)
+    .map(({ validator }) => validator.operatorAddress)
 
   return validatorList
 }

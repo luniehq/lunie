@@ -22,7 +22,9 @@
         }}</span>
         <Steps
           v-if="
-            [defaultStep, feeStep, signStep].includes(step) && featureAvailable
+            [defaultStep, feeStep, signStep].includes(step) &&
+              featureAvailable &&
+              !isMobileApp
           "
           :steps="['Details', 'Fees', 'Sign']"
           :active-step="step"
@@ -30,7 +32,7 @@
         <p
           v-if="
             extension.enabled &&
-              !modalContext.isExtensionAccount &&
+              !isExtensionAccount &&
               step === signStep &&
               selectedSignMethod === SIGN_METHODS.EXTENSION
           "
@@ -66,7 +68,9 @@
             field-id="gasPrice"
             field-label="Gas Price"
           >
-            <span class="input-suffix">{{ bondDenom | viewDenom }}</span>
+            <span class="input-suffix">{{
+              network.stakingDenom | viewDenom
+            }}</span>
             <TmField
               id="gas-price"
               v-model="gasPrice"
@@ -75,8 +79,8 @@
               min="0"
             />
             <TmFormMsg
-              v-if="balanceInAtoms === 0"
-              :msg="`doesn't have any ${bondDenom}s`"
+              v-if="overview.liquidStake === 0"
+              :msg="`doesn't have any ${network.stakingDenom}s`"
               name="Wallet"
               type="custom"
             />
@@ -96,14 +100,14 @@
           <TableInvoice
             :amount="Number(amount)"
             :estimated-fee="estimatedFee"
-            :bond-denom="bondDenom"
+            :bond-denom="network.stakingDenom"
           />
           <TmFormMsg
             v-if="$v.invoiceTotal.$invalid"
             name="Total"
             type="between"
             min="0"
-            :max="balanceInAtoms"
+            :max="overview.liquidStake"
           />
         </div>
         <div v-else-if="step === signStep" class="action-modal-form">
@@ -258,7 +262,7 @@
                   v-else
                   color="primary"
                   value="Send"
-                  :disabled="!hasSigningMethod"
+                  :disabled="!selectedSignMethod"
                   @click.native="validateChangeStep"
                 />
               </div>
@@ -277,6 +281,7 @@
 </template>
 
 <script>
+import gql from "graphql-tag"
 import HardwareState from "src/components/common/TmHardwareState"
 import TmBtn from "src/components/common/TmBtn"
 import TmField from "src/components/common/TmField"
@@ -287,11 +292,11 @@ import TmDataMsg from "common/TmDataMsg"
 import TableInvoice from "./TableInvoice"
 import Steps from "./Steps"
 import { mapState, mapGetters } from "vuex"
-import { atoms, viewDenom, prettyInt } from "src/scripts/num"
+import { viewDenom, prettyInt } from "src/scripts/num"
 import { between, requiredIf } from "vuelidate/lib/validators"
 import { track } from "scripts/google-analytics"
-import { NetworkCapability, NetworkCapabilityResult } from "src/gql"
-import config from "src/config"
+import { UserTransactionAdded } from "src/gql"
+import config from "src/../config"
 
 import ActionManager from "../utils/ActionManager"
 
@@ -396,19 +401,17 @@ export default {
     inclusionStep,
     successStep,
     SIGN_METHODS,
-    featureAvailable: true
+    featureAvailable: true,
+    network: {},
+    overview: {},
+    isMobileApp: config.mobileApp
   }),
   computed: {
     ...mapState([`extension`, `session`]),
-    ...mapState({
-      network: state => state.connection.network
-    }),
-    ...mapGetters([`connected`, `bondDenom`, `liquidAtoms`, `modalContext`]),
+    ...mapGetters([`connected`, `isExtensionAccount`]),
+    ...mapGetters({ networkId: `network` }),
     requiresSignIn() {
       return !this.session.signedIn
-    },
-    balanceInAtoms() {
-      return atoms(this.liquidAtoms)
     },
     estimatedFee() {
       return Number(this.gasPrice) * Number(this.gasEstimate) // already in atoms
@@ -452,8 +455,7 @@ export default {
     hasSigningMethod() {
       return (
         this.session.browserWithLedgerSupport ||
-        (this.selectedSignMethod === "extension" &&
-          this.modalContext.isExtensionAccount)
+        (this.selectedSignMethod === "extension" && this.isExtensionAccount)
       )
     },
     prettyIncludedHeight() {
@@ -472,7 +474,8 @@ export default {
     }
   },
   updated: function() {
-    this.actionManager.setContext(this.modalContext || {})
+    const context = this.createContext()
+    this.actionManager.setContext(context)
     if (
       (this.title === "Withdraw" || this.step === "fees") &&
       this.$refs.next
@@ -481,6 +484,19 @@ export default {
     }
   },
   methods: {
+    createContext() {
+      return {
+        url: this.network.api_url, // state.connection.externals.node.url,
+        chainId: this.network.chain_id, // state.connection.lastHeader.chain_id,
+        connected: this.connected,
+        userAddress: this.session.address,
+        rewards: this.rewards, // state.distribution.rewards,
+        totalRewards: this.overview.totalRewards, // getters.totalRewards,
+        delegations: this.delegations, // state.delegates.delegates,
+        bondDenom: this.network.stakingDenom, // getters.bondDenom,
+        isExtensionAccount: this.isExtensionAccount
+      }
+    },
     confirmModalOpen() {
       let confirmResult = false
       if (this.session.currrentModalOpen) {
@@ -587,9 +603,9 @@ export default {
       }
 
       // limit fees to the maximum the user has
-      if (this.invoiceTotal > this.balanceInAtoms) {
+      if (this.invoiceTotal > this.overview.liquidStake) {
         this.gasPrice =
-          (this.balanceInAtoms - Number(this.amount)) / this.gasEstimate
+          (this.overview.liquidStake - Number(this.amount)) / this.gasEstimate
       }
     },
     async submit() {
@@ -606,11 +622,11 @@ export default {
         }
       }
 
-      const { type, memo, ...transactionProperties } = this.transactionData
+      const { memo } = this.transactionData
 
       const gasPrice = {
         amount: this.gasPrice,
-        denom: this.bondDenom
+        denom: this.network.stakingDenom
       }
 
       const feeProperties = {
@@ -621,25 +637,14 @@ export default {
       }
 
       try {
-        const { included, hash } = await this.actionManager.send(
-          memo,
-          feeProperties
-        )
+        const { hash } = await this.actionManager.send(memo, feeProperties)
         this.txHash = hash
-        await this.waitForInclusion(included)
-        this.onTxIncluded(type, transactionProperties, feeProperties)
+        this.step = inclusionStep
       } catch ({ message }) {
         this.onSendingFailed(message)
-      } finally {
-        this.txHash = null
       }
     },
-    async waitForInclusion(includedFn) {
-      this.step = inclusionStep
-      const { height } = await includedFn()
-      this.includedHeight = height
-    },
-    onTxIncluded(txType, transactionProperties, feeProperties) {
+    onTxIncluded() {
       this.step = successStep
       this.trackEvent(
         `event`,
@@ -647,10 +652,7 @@ export default {
         this.title,
         this.selectedSignMethod
       )
-      this.$store.dispatch(`post${txType}`, {
-        txProps: transactionProperties,
-        txMeta: feeProperties
-      })
+      this.$emit(`txIncluded`)
     },
     onSendingFailed(message) {
       this.step = signStep
@@ -668,11 +670,7 @@ export default {
       }
 
       const action = `action_${this.title.toLowerCase().replace(" ", "_")}`
-      const { data } = await this.$apollo.query({
-        query: NetworkCapability(this.network, action)
-      })
-
-      this.featureAvailable = NetworkCapabilityResult(data)
+      this.featureAvailable = this.network[action] === true
     }
   },
   validations() {
@@ -690,10 +688,147 @@ export default {
         ),
         // we don't use SMALLEST as min gas price because it can be a fraction of uatom
         // min is 0 because we support sending 0 fees
-        between: between(0, this.balanceInAtoms)
+        between: between(0, this.overview.liquidStake)
       },
       invoiceTotal: {
-        between: between(0, this.balanceInAtoms)
+        between: between(0, this.overview.liquidStake)
+      }
+    }
+  },
+  apollo: {
+    overview: {
+      query: gql`
+        query overview($networkId: String!, $address: String!) {
+          overview(networkId: $networkId, address: $address) {
+            totalRewards
+            liquidStake
+            totalStake
+          }
+        }
+      `,
+      variables() {
+        /* istanbul ignore next */
+        return {
+          networkId: this.networkId,
+          address: this.session.address
+        }
+      },
+      update(data) {
+        /* istanbul ignore next */
+        return {
+          ...data.overview,
+          totalRewards: Number(data.overview.totalRewards)
+        }
+      },
+      skip() {
+        return !this.session.address
+      }
+    },
+    network: {
+      query: gql`
+        query NetworkActionModal($networkId: String!) {
+          network(id: $networkId) {
+            id
+            stakingDenom
+            chain_id
+            rpc_url
+            api_url
+            action_send
+            action_claim_rewards
+            action_delegate
+            action_redelegate
+            action_undelegate
+            action_deposit
+            action_vote
+            action_proposal
+          }
+        }
+      `,
+      variables() {
+        return {
+          networkId: this.networkId
+        }
+      },
+      update(data) {
+        /* istanbul ignore next */
+        return data.network
+      }
+    },
+    delegations: {
+      query: gql`
+        query Delegations($networkId: String!, $delegatorAddress: String!) {
+          delegations(
+            networkId: $networkId
+            delegatorAddress: $delegatorAddress
+          ) {
+            amount
+            validator {
+              operatorAddress
+            }
+          }
+        }
+      `,
+      skip() {
+        return !this.session.address
+      },
+      variables() {
+        return {
+          networkId: this.networkId,
+          delegatorAddress: this.session.address
+        }
+      },
+      update(data) {
+        /* istanbul ignore next */
+        return data.delegations
+      }
+    },
+    rewards: {
+      query: gql`
+        query RewardsActionModal(
+          $networkId: String!
+          $delegatorAddress: String!
+        ) {
+          rewards(networkId: $networkId, delegatorAddress: $delegatorAddress) {
+            validator {
+              operatorAddress
+            }
+            amount
+          }
+        }
+      `,
+      variables() {
+        return {
+          networkId: this.networkId,
+          delegatorAddress: this.session.address
+        }
+      },
+      update: result => result.rewards
+    },
+    $subscribe: {
+      userTransactionAdded: {
+        variables() {
+          return {
+            networkId: this.networkId,
+            address: this.session.address
+          }
+        },
+        skip() {
+          return !this.txHash
+        },
+        query: UserTransactionAdded,
+        result({ data }) {
+          const { hash, height, success, log } = data.userTransactionAdded
+          if (hash === this.txHash) {
+            this.includedHeight = height
+
+            if (success) {
+              this.onTxIncluded()
+            } else {
+              this.onSendingFailed(log)
+            }
+          }
+          this.txHash = null
+        }
       }
     }
   }
@@ -797,7 +932,6 @@ export default {
   display: inline-block;
   border-left: 2px solid var(--warning);
   padding: 0.5rem 0 0.5rem 1rem;
-  font-size: 14px;
 }
 
 .slide-fade-enter-active {
@@ -823,9 +957,6 @@ export default {
 }
 
 @media screen and (max-width: 576px) {
-  #send-modal {
-    text-align: center;
-  }
   .tm-data-msg__icon {
     margin-right: 0;
   }

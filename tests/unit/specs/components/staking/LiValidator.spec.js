@@ -10,35 +10,42 @@ describe(`LiValidator`, () => {
   let wrapper, $store
 
   const validator = {
-    //From GraphQL
-    avatarUrl: "https://s3.amazonaws.com/img/path.jpg",
-    consensus_pubkey: "cosmosvalpub1234",
-    customized: false,
-    delegator_shares: "697935712090.000000000000000000",
-    details: "Mr Mounty",
-    identity: "4BE49EABAA41B8BF",
+    networkId: "cosmoshub",
+    operatorAddress: "cosmosvaloper1abcdefghijklmnop",
+    consensusPubkey: "cosmosvalconspub11234567890",
     jailed: false,
-    keybaseId: "4BE49EABAA41B8BF",
-    lastUpdated: "2019-08-15T16:03:34.988007+00:00",
-    max_change_rate: "0.010000000000000000",
-    max_rate: "0.500000000000000000",
-    min_self_delegation: "1",
-    moniker: "mr_mounty",
-    operator_address: "cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au",
-    profileUrl: "https://keybase.io/melea",
-    rate: "0.080000000000000000",
-    status: 2,
-    tokens: 14,
-    unbonding_height: 556130,
-    unbonding_time: "2019-06-26T23:50:09.38840326Z",
-    update_time: "2019-04-01T17:07:19.892771401Z",
-    uptime_percentage: "0.9962",
-    userName: "mr_mounty",
-    website: "www.monty.ca",
-    voting_power: 0.014,
-
-    // Enriched locally
-    expectedReturns: 0.13
+    details: "The Validator",
+    website: "http://validator.com/",
+    identity: "ABCDEFGHIJKL",
+    votingPower: "0.014",
+    startHeight: 190459,
+    uptimePercentage: "1",
+    tokens: "123456789",
+    updateTime: "2019-05-31T23:54:12.176123478Z",
+    commission: "0.070000000000000000",
+    maxCommission: "0.150000000000000000",
+    maxChangeCommission: "0.030000000000000000",
+    commissionLastUpdate: null,
+    height: 12345,
+    status: "ACTIVE",
+    statusDetailed: "active",
+    delegations: null,
+    selfStake: {
+      amount: 123
+    },
+    expectedReturns: "123",
+    customized: null,
+    tombstoned: null,
+    keybaseId: null,
+    lastUpdated: null,
+    minSelfDelegation: null,
+    profileUrl: null,
+    userName: null,
+    picture: "picture.jpg",
+    name: "",
+    userShares: {
+      amount: 123
+    }
   }
 
   const index = 1
@@ -80,7 +87,7 @@ describe(`LiValidator`, () => {
     wrapper.setProps({
       validator: {
         ...validator,
-        avatarUrl: ""
+        picture: ""
       }
     })
     expect(wrapper.find("avatar-stub").exists())

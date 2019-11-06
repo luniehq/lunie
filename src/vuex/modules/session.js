@@ -1,5 +1,5 @@
 import { track, deanonymize, anonymize } from "scripts/google-analytics"
-import config from "src/config"
+import config from "src/../config"
 
 function isWindowsPlatform() {
   return window.navigator.platform.match(/win32|win64/i) !== null
@@ -15,7 +15,7 @@ export default () => {
   const state = {
     developmentMode: config.development, // can't be set in browser
     experimentalMode: config.development, // development mode, can be set from browser
-    insecureMode: false, // show the local signer
+    insecureMode: config.e2e || false, // show the local signer
     signedIn: false,
     sessionType: null, // local, explore, ledger, extension
     pauseHistory: false,
@@ -63,8 +63,8 @@ export default () => {
     setExperimentalMode(state) {
       state.experimentalMode = true
     },
-    setInsecureMode(state) {
-      state.insecureMode = true
+    setInsecureMode(state, insecureMode) {
+      state.insecureMode = insecureMode
     },
     addHistory(state, path) {
       state.history.push(path)
@@ -128,16 +128,13 @@ export default () => {
       commit(`setSignIn`, true)
       commit(`setSessionType`, sessionType)
       commit(`setUserAddress`, address)
-
       await dispatch(`rememberAddress`, { address, sessionType })
-
-      await dispatch(`initializeWallet`, { address })
 
       dispatch(`persistSession`, {
         address,
         sessionType
       })
-      let addresses = state.addresses
+      const addresses = state.addresses
       dispatch(`persistAddresses`, {
         addresses
       })

@@ -18,7 +18,7 @@ exports[`TransactionDetails Unknown transaction returns empty string 1`] = `
       </b>
        
       <span>
-        ATOM
+         ATOM
       </span>
     </div>
      
@@ -93,11 +93,11 @@ exports[`TransactionDetails renders MsgBeginRedelegate transaction item 1`] = `
     Network Fee: 
     
       <b>
-        0.000283
+        20.00083
       </b>
        
       <span>
-        ATOM
+         ATOM
       </span>
     </div>
      
@@ -161,7 +161,7 @@ exports[`TransactionDetails renders MsgCreateValidator transaction item 1`] = `
       </b>
        
       <span>
-        ATOM
+         ATOM
       </span>
     </div>
      
@@ -228,11 +228,11 @@ exports[`TransactionDetails renders MsgDelegate transaction item 1`] = `
     Network Fee: 
     
       <b>
-        0.000166
+        10.00066
       </b>
        
       <span>
-        ATOM
+         ATOM
       </span>
     </div>
      
@@ -297,11 +297,11 @@ exports[`TransactionDetails renders MsgDeposit transaction item 1`] = `
     Network Fee: 
     
       <b>
-        0.000069
+        69
       </b>
        
       <span>
-        ATOM
+         ATOM
       </span>
     </div>
      
@@ -363,7 +363,7 @@ exports[`TransactionDetails renders MsgEditValidator transaction item 1`] = `
       </b>
        
       <span>
-        ATOM
+         ATOM
       </span>
     </div>
      
@@ -448,11 +448,11 @@ exports[`TransactionDetails renders MsgSend transaction item from other to you 1
     Network Fee: 
     
       <b>
-        0.000037
+        0.00037
       </b>
        
       <span>
-        ATOM
+         ATOM
       </span>
     </div>
      
@@ -537,11 +537,11 @@ exports[`TransactionDetails renders MsgSend transaction item from session user t
     Network Fee: 
     
       <b>
-        0.000037
+        0.00037
       </b>
        
       <span>
-        ATOM
+         ATOM
       </span>
     </div>
      
@@ -587,7 +587,9 @@ exports[`TransactionDetails renders MsgSend transaction item to yourself 1`] = `
     <div
       class="tx__content__information"
     >
-      To yourself! 
+      
+      To yourself!
+     
       <span>
          - (Sent via Lunie)
       </span>
@@ -602,11 +604,11 @@ exports[`TransactionDetails renders MsgSend transaction item to yourself 1`] = `
     Network Fee: 
     
       <b>
-        0.000037
+        0.00037
       </b>
        
       <span>
-        ATOM
+         ATOM
       </span>
     </div>
      
@@ -714,11 +716,11 @@ exports[`TransactionDetails renders MsgSend transaction item unrelated to sessio
     Network Fee: 
     
       <b>
-        0.000037
+        0.00037
       </b>
        
       <span>
-        ATOM
+         ATOM
       </span>
     </div>
      
@@ -773,7 +775,7 @@ exports[`TransactionDetails renders MsgSetWithdrawAddress transaction item 1`] =
       </b>
        
       <span>
-        ATOM
+         ATOM
       </span>
     </div>
      
@@ -833,7 +835,7 @@ exports[`TransactionDetails renders MsgSetWithdrawValidatorCommission transactio
       </b>
        
       <span>
-        ATOM
+         ATOM
       </span>
     </div>
      
@@ -871,7 +873,7 @@ exports[`TransactionDetails renders MsgSubmitProposal transaction item 1`] = `
         </b>
          
         <span>
-          ATOM
+           ATOM
         </span>
       </p>
     </div>
@@ -880,8 +882,7 @@ exports[`TransactionDetails renders MsgSubmitProposal transaction item 1`] = `
       class="tx__content__information"
     >
       
-    Title
-    
+    Title 
       <i>
         Test title
       </i>
@@ -896,11 +897,11 @@ exports[`TransactionDetails renders MsgSubmitProposal transaction item 1`] = `
     Network Fee: 
     
       <b>
-        0.000069
+        69
       </b>
        
       <span>
-        ATOM
+         ATOM
       </span>
     </div>
      
@@ -973,11 +974,11 @@ exports[`TransactionDetails renders MsgUndelegate transaction item 1`] = `
     Network Fee: 
     
       <b>
-        0.004141
+        410.00041
       </b>
        
       <span>
-        ATOM
+         ATOM
       </span>
     </div>
      
@@ -1015,7 +1016,7 @@ exports[`TransactionDetails renders MsgUnjail transaction item 1`] = `
       class="tx__content__information"
     >
       
-    Moniker:
+    Name:
     
       <router-link-stub
         to="staking/validators/cosmos1alkjdbasdlkhasldjnasldkjasndlkjansdlasndlkj"
@@ -1037,7 +1038,7 @@ exports[`TransactionDetails renders MsgUnjail transaction item 1`] = `
       </b>
        
       <span>
-        ATOM
+         ATOM
       </span>
     </div>
      
@@ -1093,11 +1094,11 @@ exports[`TransactionDetails renders MsgVote transaction item 1`] = `
     Network Fee: 
     
       <b>
-        0.000069
+        69
       </b>
        
       <span>
-        ATOM
+         ATOM
       </span>
     </div>
      
@@ -1157,7 +1158,7 @@ exports[`TransactionDetails renders MsgWithdrawDelegationReward transaction item
       </b>
        
       <span>
-        ATOM
+         ATOM
       </span>
     </div>
      

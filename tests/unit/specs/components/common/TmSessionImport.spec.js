@@ -3,7 +3,6 @@ import Vuelidate from "vuelidate"
 import { shallowMount, createLocalVue } from "@vue/test-utils"
 import TmSessionImport from "common/TmSessionImport"
 jest.mock(`scripts/google-analytics.js`, () => () => {})
-const seed = `goose toward escape engine wheel board help torch avocado educate rose rebel rigid side aspect abandon grace admit inherit female grant pledge shine inquiry`
 const localVue = createLocalVue()
 localVue.use(Vuex)
 localVue.use(Vuelidate)
@@ -11,16 +10,28 @@ localVue.directive(`tooltip`, () => {})
 localVue.directive(`focus`, () => {})
 
 describe(`TmSessionImport`, () => {
-  let wrapper, $store
+  let wrapper, $store, getters
 
   beforeEach(() => {
-    const getters = {
+    getters = {
       connected: () => true
     }
     $store = {
+      state: {
+        recover: {
+          name: ``,
+          seed: ``,
+          password: ``,
+          passwordConfirm: ``,
+          warning: false
+        }
+      },
       getters,
       commit: jest.fn(),
-      dispatch: jest.fn(async () => true)
+      dispatch: jest.fn(async () => true),
+      mutations: {
+        updateField: jest.fn()
+      }
     }
     wrapper = shallowMount(TmSessionImport, {
       localVue,
@@ -38,82 +49,34 @@ describe(`TmSessionImport`, () => {
     expect(wrapper.element).toMatchSnapshot()
   })
 
-  it(`should show error if seed is not filled in`, async () => {
-    wrapper.setData({ fields: { importSeed: `` } })
+  it(`validation should fail if seed is not filled in`, async () => {
     await wrapper.vm.onSubmit()
-    expect($store.commit.mock.calls[0]).toBeUndefined()
-    expect(wrapper.find(`.tm-form-msg-error`)).toBeDefined()
+    expect(wrapper.vm.$v.seed.$error).toBe(true)
   })
 
-  it(`should show error if seed is 16 words long`, async () => {
-    wrapper.setData({
-      fields: {
-        importSeed: `asdf asdf asdf asdf`
-      }
-    })
+  it(`validation should fail if seed is not 24 words long`, async () => {
+    wrapper.vm.$store.state.recover.seed = `asdf asdf asdf asdf`
     await wrapper.vm.onSubmit()
-    expect($store.commit.mock.calls[0]).toBeUndefined()
-    expect(wrapper.find(`.tm-form-msg-error`)).toBeDefined()
+    expect(wrapper.vm.$v.seed.$error).toBe(true)
   })
 
-  it(`should show error if password is not confirmed`, async () => {
-    wrapper.setData({
-      fields: {
-        importName: `foo123`,
-        importPassword: `1234567890`,
-        importPasswordConfirm: `notthesame`,
-        importSeed: seed
-      }
-    })
+  it(`should validate if seed is 24 words long`, async () => {
+    wrapper.vm.$store.state.recover.seed = `asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf`
     await wrapper.vm.onSubmit()
-    expect($store.commit.mock.calls[0]).toBeUndefined()
-    expect(wrapper.find(`.tm-form-msg-error`)).toBeDefined()
+    expect(wrapper.vm.$v.seed.$error).toBe(false)
   })
 
-  it(`should not continue if creation failed`, async () => {
-    $store.dispatch = jest.fn(() => Promise.reject(new Error(`Wrong password`)))
-    wrapper.setData({
-      fields: {
-        importName: `foo123`,
-        importPassword: `1234567890`,
-        importPasswordConfirm: `1234567890`,
-        importSeed: seed
-      }
-    })
-    await wrapper.vm.onSubmit()
-    expect($store.commit).toHaveBeenCalledWith(`notifyError`, {
-      title: `Couldn't create account`,
-      body: expect.stringContaining(`Wrong password`)
+  it(`should commit updateField on field change`, async () => {
+    wrapper.setData({ seed: `asdf asdf asdf asdf` })
+    expect($store.commit).toHaveBeenCalledWith(`updateField`, {
+      field: `seed`,
+      value: `asdf asdf asdf asdf`
     })
   })
 
-  it(`should show a notification if creation failed`, async () => {
-    $store.dispatch = jest.fn(() => Promise.reject({ message: `test` }))
-    wrapper.setData({
-      fields: {
-        importName: `foo123`,
-        importPassword: `1234567890`,
-        importPasswordConfirm: `1234567890`,
-        importSeed: seed
-      }
-    })
-    await wrapper.vm.onSubmit()
-    expect($store.commit.mock.calls[0][0]).toEqual(`notifyError`)
-    expect($store.commit.mock.calls[0][1].body).toEqual(`test`)
-  })
-
-  it(`should go to the home page if recovering is successful`, async () => {
-    wrapper.setData({
-      fields: {
-        importName: `foo123`,
-        importPassword: `1234567890`,
-        importPasswordConfirm: `1234567890`,
-        importSeed: seed
-      }
-    })
-    $store.dispatch = jest.fn(() => Promise.resolve())
-    await wrapper.vm.onSubmit()
-    expect($store.dispatch.mock.calls[0][0]).toEqual(`createKey`)
-    expect(wrapper.vm.$router.push).toHaveBeenCalledWith(`/`)
+  it(`should go to /recover/name when submit the form`, async () => {
+    wrapper.vm.$store.state.recover.seed = `asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf`
+    wrapper.vm.onSubmit()
+    expect(wrapper.vm.$router.push).toHaveBeenCalledWith(`/recover/name`)
   })
 })

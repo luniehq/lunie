@@ -11,24 +11,6 @@
     @close="clear"
   >
     <TmFormGroup
-      :error="$v.denom.$dirty && $v.denom.$invalid"
-      class="action-modal-form-group"
-      field-id="send-denomination"
-      field-label="Denomination"
-    >
-      <TmField
-        id="send-denomination"
-        :value="viewDenom($v.denom.$model)"
-        type="text"
-        readonly
-      />
-      <TmFormMsg
-        v-if="$v.denom.$error && !$v.denom.required"
-        name="Denomination"
-        type="required"
-      />
-    </TmFormGroup>
-    <TmFormGroup
       :error="$v.address.$error && $v.address.$invalid"
       class="action-modal-form-group"
       field-id="send-address"
@@ -59,7 +41,7 @@
       field-id="amount"
       field-label="Amount"
     >
-      <span class="input-suffix max-button">{{ viewDenom(denom) }}</span>
+      <span class="input-suffix max-button">{{ denom }}</span>
       <TmFieldGroup>
         <TmField
           id="amount"
@@ -78,8 +60,8 @@
         />
       </TmFieldGroup>
       <TmFormMsg
-        v-if="balance === 0"
-        :msg="`doesn't have any ${viewDenom(denom)}s`"
+        v-if="balance.amount === 0"
+        :msg="`doesn't have any ${denom}s`"
         name="Wallet"
         type="custom"
       />
@@ -140,10 +122,11 @@
 </template>
 
 <script>
+import gql from "graphql-tag"
 import b32 from "scripts/b32"
 import { required, between, decimal, maxLength } from "vuelidate/lib/validators"
-import { uatoms, atoms, viewDenom, SMALLEST } from "src/scripts/num"
-import { mapState } from "vuex"
+import { uatoms, SMALLEST } from "src/scripts/num"
+import { mapGetters } from "vuex"
 import TmFormGroup from "src/components/common/TmFormGroup"
 import TmField from "src/components/common/TmField"
 import TmFieldGroup from "src/components/common/TmFieldGroup"
@@ -151,6 +134,7 @@ import TmBtn from "src/components/common/TmBtn"
 import TmFormMsg from "src/components/common/TmFormMsg"
 import ActionModal from "./ActionModal"
 import transaction from "../utils/transactionTypes"
+import { toMicroDenom } from "src/scripts/common"
 
 const defaultMemo = "(Sent via Lunie)"
 
@@ -164,20 +148,26 @@ export default {
     ActionModal,
     TmBtn
   },
+  props: {
+    denom: {
+      type: String,
+      required: true
+    }
+  },
   data: () => ({
     address: ``,
     amount: null,
-    denom: ``,
     memo: defaultMemo,
     max_memo_characters: 256,
-    editMemo: false
+    editMemo: false,
+    balance: {
+      amount: 0,
+      denom: ``
+    }
   }),
   computed: {
-    ...mapState([`wallet`]),
-    balance() {
-      const denom = this.wallet.balances.find(b => b.denom === this.denom)
-      return (denom && denom.amount) || 0
-    },
+    ...mapGetters([`network`]),
+    ...mapGetters({ userAddress: `address` }),
     transactionData() {
       return {
         type: transaction.SEND,
@@ -185,7 +175,7 @@ export default {
         amounts: [
           {
             amount: uatoms(+this.amount),
-            denom: this.denom
+            denom: toMicroDenom(this.denom)
           }
         ],
         memo: this.memo
@@ -194,16 +184,14 @@ export default {
     notifyMessage() {
       return {
         title: `Successful Send`,
-        body: `Successfully sent ${+this.amount} ${viewDenom(this.denom)}s to ${
+        body: `Successfully sent ${+this.amount} ${this.denom}s to ${
           this.address
         }`
       }
     }
   },
   methods: {
-    viewDenom,
-    open(denom) {
-      this.denom = denom
+    open() {
       this.$refs.actionModal.open()
     },
     validateForm() {
@@ -221,13 +209,13 @@ export default {
       this.sending = false
     },
     setMaxAmount() {
-      this.amount = atoms(this.balance)
+      this.amount = this.balance.amount
     },
     isMaxAmount() {
-      if (this.balance === 0) {
+      if (this.balance.amount === 0) {
         return false
       } else {
-        return parseFloat(this.amount) === parseFloat(atoms(this.balance))
+        return parseFloat(this.amount) === parseFloat(this.balance.amount)
       }
     },
     bech32Validate(param) {
@@ -258,11 +246,33 @@ export default {
       amount: {
         required: x => !!x && x !== `0`,
         decimal,
-        between: between(SMALLEST, atoms(this.balance))
+        between: between(SMALLEST, this.balance.amount)
       },
       denom: { required },
       memo: {
         maxLength: maxLength(this.max_memo_characters)
+      }
+    }
+  },
+  apollo: {
+    balance: {
+      query: gql`
+        query balance($networkId: String!, $address: String!, $denom: String!) {
+          balance(networkId: $networkId, address: $address, denom: $denom) {
+            amount
+            denom
+          }
+        }
+      `,
+      skip() {
+        return !this.userAddress
+      },
+      variables() {
+        return {
+          networkId: this.network,
+          address: this.userAddress,
+          denom: this.denom
+        }
       }
     }
   }

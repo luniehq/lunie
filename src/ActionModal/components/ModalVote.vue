@@ -9,6 +9,7 @@
     :transaction-data="transactionData"
     :notify-message="notifyMessage"
     @close="clear"
+    @txIncluded="onSuccess"
   >
     <div class="action-modal-group vote-options">
       <div>
@@ -61,7 +62,6 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex"
 import { required } from "vuelidate/lib/validators"
 import ActionModal from "./ActionModal"
 import TmBtn from "src/components/common/TmBtn"
@@ -100,7 +100,6 @@ export default {
     vote: null
   }),
   computed: {
-    ...mapGetters([`bondDenom`]),
     transactionData() {
       return {
         type: transaction.VOTE,
@@ -136,6 +135,9 @@ export default {
       this.$v.$reset()
 
       this.vote = null
+    },
+    onSuccess(event) {
+      this.$emit(`success`, event)
     }
   }
 }

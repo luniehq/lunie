@@ -4,7 +4,7 @@ exports[`TmSessionHardware should show a state indicator for different states of
 <div class="session-frame" name="component-fade" mode="out-in">
   <router-link-stub to="/"><img src="~assets/images/lunie-logo-white.svg" class="session-logo"></router-link-stub>
   <div class="session-outer-container">
-    <div class="session"><a><i class="material-icons session-back">arrow_back</i></a>
+    <div class="session"><a><i class="material-icons circle back">arrow_back</i></a>
       <h2 class="session-title">
         Use my Ledger Nano
       </h2>
@@ -36,7 +36,7 @@ exports[`TmSessionHardware should show a state indicator for different states of
 <div class="session-frame" name="component-fade" mode="out-in">
   <router-link-stub to="/"><img src="~assets/images/lunie-logo-white.svg" class="session-logo"></router-link-stub>
   <div class="session-outer-container">
-    <div class="session"><a><i class="material-icons session-back">arrow_back</i></a>
+    <div class="session"><a><i class="material-icons circle back">arrow_back</i></a>
       <h2 class="session-title">
         Use my Ledger Nano
       </h2>
@@ -68,7 +68,7 @@ exports[`TmSessionHardware should show a state indicator for different states of
 <div class="session-frame" name="component-fade" mode="out-in">
   <router-link-stub to="/"><img src="~assets/images/lunie-logo-white.svg" class="session-logo"></router-link-stub>
   <div class="session-outer-container">
-    <div class="session"><a><i class="material-icons session-back">arrow_back</i></a>
+    <div class="session"><a><i class="material-icons circle back">arrow_back</i></a>
       <h2 class="session-title">
         Use my Ledger Nano
       </h2>
@@ -115,7 +115,7 @@ exports[`TmSessionHardware shows the ledger conection view when there're errors 
     >
       <a>
         <i
-          class="material-icons session-back"
+          class="material-icons circle back"
         >
           arrow_back
         </i>
@@ -214,7 +214,7 @@ exports[`TmSessionHardware shows the ledger conection view with no errors 1`] = 
     >
       <a>
         <i
-          class="material-icons session-back"
+          class="material-icons circle back"
         >
           arrow_back
         </i>

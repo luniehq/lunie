@@ -4,12 +4,11 @@
       <p>
         Submitted {{ transaction.value.proposal_type.toLowerCase() }} proposal
         <b>{{ initialDeposit.amount | atoms | prettyLong }}</b>
-        <span>{{ initialDeposit.denom | viewDenom }}</span>
+        <span>&nbsp;{{ initialDeposit.denom | viewDenom }}</span>
       </p>
     </div>
     <div class="tx__content__information">
-      Title
-      <i>{{ transaction.value.title }}</i>
+      Title&nbsp;<i>{{ transaction.value.title }}</i>
     </div>
   </div>
 </template>

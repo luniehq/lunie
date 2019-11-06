@@ -11,21 +11,6 @@ exports[`SendModal should display send modal form 1`] = `
 >
   <tmformgroup-stub
     class="action-modal-form-group"
-    fieldid="send-denomination"
-    fieldlabel="Denomination"
-  >
-    <tmfield-stub
-      id="send-denomination"
-      readonly=""
-      type="text"
-      value="STAKE"
-    />
-     
-    <!---->
-  </tmformgroup-stub>
-   
-  <tmformgroup-stub
-    class="action-modal-form-group"
     fieldid="send-address"
     fieldlabel="Send To"
   >
@@ -65,11 +50,7 @@ exports[`SendModal should display send modal form 1`] = `
       />
     </tmfieldgroup-stub>
      
-    <tmformmsg-stub
-      msg="doesn't have any STAKEs"
-      name="Wallet"
-      type="custom"
-    />
+    <!---->
   </tmformgroup-stub>
    
   <tmbtn-stub
@@ -90,21 +71,6 @@ exports[`SendModal validation should show address required error 1`] = `
   transactiondata="[object Object]"
   validate="function () { [native code] }"
 >
-  <tmformgroup-stub
-    class="action-modal-form-group"
-    fieldid="send-denomination"
-    fieldlabel="Denomination"
-  >
-    <tmfield-stub
-      id="send-denomination"
-      readonly=""
-      type="text"
-      value="STAKE"
-    />
-     
-    <!---->
-  </tmformgroup-stub>
-   
   <tmformgroup-stub
     class="action-modal-form-group"
     error="true"
@@ -175,21 +141,6 @@ exports[`SendModal validation should show bech32 error when address length is to
 >
   <tmformgroup-stub
     class="action-modal-form-group"
-    fieldid="send-denomination"
-    fieldlabel="Denomination"
-  >
-    <tmfield-stub
-      id="send-denomination"
-      readonly=""
-      type="text"
-      value="STAKE"
-    />
-     
-    <!---->
-  </tmformgroup-stub>
-   
-  <tmformgroup-stub
-    class="action-modal-form-group"
     error="true"
     fieldid="send-address"
     fieldlabel="Send To"
@@ -256,21 +207,6 @@ exports[`SendModal validation should show bech32 error when address length is to
   transactiondata="[object Object]"
   validate="function () { [native code] }"
 >
-  <tmformgroup-stub
-    class="action-modal-form-group"
-    fieldid="send-denomination"
-    fieldlabel="Denomination"
-  >
-    <tmfield-stub
-      id="send-denomination"
-      readonly=""
-      type="text"
-      value="STAKE"
-    />
-     
-    <!---->
-  </tmformgroup-stub>
-   
   <tmformgroup-stub
     class="action-modal-form-group"
     error="true"
@@ -340,21 +276,6 @@ exports[`SendModal validation should show bech32 error when alphanumeric is wron
 >
   <tmformgroup-stub
     class="action-modal-form-group"
-    fieldid="send-denomination"
-    fieldlabel="Denomination"
-  >
-    <tmfield-stub
-      id="send-denomination"
-      readonly=""
-      type="text"
-      value="STAKE"
-    />
-     
-    <!---->
-  </tmformgroup-stub>
-   
-  <tmformgroup-stub
-    class="action-modal-form-group"
     error="true"
     fieldid="send-address"
     fieldlabel="Send To"
@@ -401,9 +322,9 @@ exports[`SendModal validation should show bech32 error when alphanumeric is wron
     </tmfieldgroup-stub>
      
     <tmformmsg-stub
-      msg="doesn't have any STAKEs"
-      name="Wallet"
-      type="custom"
+      msg=""
+      name="Amount"
+      type="required"
     />
   </tmformgroup-stub>
    

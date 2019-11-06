@@ -1,9 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`PageValidators shows a list of validators 1`] = `
-<pagecontainer-stub
+<tmpage-stub
   hideheader="true"
-  loaded="true"
   managed="true"
   subtitle=""
   title=""
@@ -37,20 +36,20 @@ exports[`PageValidators shows a list of validators 1`] = `
     </div>
      
     <tablevalidators-stub
+      delegations=""
       showonmobile="expectedReturns"
       validators="[object Object],[object Object],[object Object],[object Object],[object Object]"
     />
      
     <!---->
   </template>
-</pagecontainer-stub>
+</tmpage-stub>
 `;
 
 exports[`PageValidators shows a message if still loading 1`] = `
-<pagecontainer-stub
+<tmpage-stub
   dataempty="true"
   hideheader="true"
-  loading="true"
   managed="true"
   subtitle=""
   title=""
@@ -84,21 +83,20 @@ exports[`PageValidators shows a message if still loading 1`] = `
     </div>
      
     <tablevalidators-stub
+      delegations=""
       showonmobile="expectedReturns"
       validators=""
     />
      
     <!---->
   </template>
-</pagecontainer-stub>
+</tmpage-stub>
 `;
 
 exports[`PageValidators shows a message if there is an error to display 1`] = `
-<pagecontainer-stub
+<tmpage-stub
   dataempty="true"
-  error="true"
   hideheader="true"
-  loaded="true"
   managed="true"
   subtitle=""
   title=""
@@ -132,20 +130,20 @@ exports[`PageValidators shows a message if there is an error to display 1`] = `
     </div>
      
     <tablevalidators-stub
+      delegations=""
       showonmobile="expectedReturns"
       validators=""
     />
      
     <!---->
   </template>
-</pagecontainer-stub>
+</tmpage-stub>
 `;
 
 exports[`PageValidators shows a message if there is nothing to display 1`] = `
-<pagecontainer-stub
+<tmpage-stub
   dataempty="true"
   hideheader="true"
-  loaded="true"
   managed="true"
   subtitle=""
   title=""
@@ -179,11 +177,12 @@ exports[`PageValidators shows a message if there is nothing to display 1`] = `
     </div>
      
     <tablevalidators-stub
+      delegations=""
       showonmobile="expectedReturns"
       validators=""
     />
      
     <!---->
   </template>
-</pagecontainer-stub>
+</tmpage-stub>
 `;

@@ -1,13 +1,14 @@
 <template>
   <div>
-    <div v-if="!$apollo.queries.validators.loading && validators.length > 0">
+    <div v-if="!$apollo.queries.delegations.loading && delegations.length > 0">
       <TableValidators
-        :validators="validators"
+        :validators="delegations.map(({ validator }) => validator)"
+        :delegations="delegations"
         show-on-mobile="expectedReturns"
       />
     </div>
     <TmDataMsg
-      v-else-if="validators.length === 0"
+      v-else-if="delegations.length === 0"
       icon="sentiment_dissatisfied"
     >
       <div slot="title">
@@ -23,10 +24,10 @@
 </template>
 
 <script>
-import { mapState, mapGetters } from "vuex"
+import { mapGetters } from "vuex"
 import TmDataMsg from "common/TmDataMsg"
 import TableValidators from "staking/TableValidators"
-import { SomeValidators, AllValidatorsResult } from "src/gql"
+import { DelegationsForDelegator, UserTransactionAdded } from "src/gql"
 
 export default {
   name: `delegations-overview`,
@@ -35,30 +36,45 @@ export default {
     TmDataMsg
   },
   data: () => ({
-    validators: []
+    delegations: []
   }),
   computed: {
-    ...mapState({ network: state => state.connection.network }),
-    ...mapGetters([`committedDelegations`]),
-    delegationsAddressList() {
-      return Object.keys(this.committedDelegations)
-    }
+    ...mapGetters(["address", `network`])
   },
   apollo: {
-    validators: {
+    delegations: {
       query() {
         /* istanbul ignore next */
-        return SomeValidators(this.network)
+        return DelegationsForDelegator(this.network)
       },
       variables() {
         /* istanbul ignore next */
         return {
-          addressList: Object.keys(this.committedDelegations)
+          delegatorAddress: this.address
         }
       },
       update(data) {
         /* istanbul ignore next */
-        return AllValidatorsResult(this.network)(data)
+        return data.delegations
+      }
+    },
+    $subscribe: {
+      userTransactionAdded: {
+        variables() {
+          return {
+            networkId: this.network,
+            address: this.address
+          }
+        },
+        skip() {
+          return !this.address
+        },
+        query: UserTransactionAdded,
+        result({ data }) {
+          if (data.userTransactionAdded.success) {
+            this.$apollo.queries.delegations.refetch()
+          }
+        }
       }
     }
   }

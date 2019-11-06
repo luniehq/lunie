@@ -50,7 +50,10 @@ async function waitForText(
     },
     iterations,
     timeout
-  )
+  ).catch(err => {
+    console.log(err.message)
+    process.exit(2)
+  })
 }
 
 // performs some details actions and handles checking of the invoice step + signing
@@ -69,7 +72,7 @@ async function actionModalCheckout(
   })
 
   // go to portfolio to remember balances
-  browser.url(browser.launch_url + "/#/portfolio")
+  browser.url(browser.launch_url + "#/portfolio")
 
   // remember balance to compare later if send got through
   browser.expect.element(`.total-atoms__value`).to.be.visible.before(10000)
@@ -130,7 +133,7 @@ async function actionModalCheckout(
   browser.click("#closeBtn")
 
   // go to portfolio to remember balances
-  browser.url(browser.launch_url + "/#/portfolio")
+  browser.url(browser.launch_url + "#/portfolio")
 
   // Wait for UI to be updated according to new state
   await nextBlock(browser)
@@ -154,6 +157,9 @@ async function actionModalCheckout(
   })
 }
 async function nextBlock(browser) {
+  browser.expect
+    .element(`#tm-connected-network__block`)
+    .to.be.visible.before(10000)
   const lastHeight = await new Promise(resolve =>
     browser.getText("#tm-connected-network__block", ({ value }) =>
       resolve(value)
