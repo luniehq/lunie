@@ -2,11 +2,13 @@ const util = require("util")
 const fs = require("fs")
 const exec = util.promisify(require("child_process").exec)
 const spawn = require("child_process").spawn
+const inquirer = require(`inquirer`);
+
+const processes = {}
 
 /* start the testnet and the development server and executes the local end to end tests */
 /* you can provide the name of the file to test only one file > for send.spec.js `yarn test:e2e send` */
 const main = async () => {
-  const filter = process.argv[2]
   if (!fs.existsSync("./lunie-backend")) {
     console.log("cloning lunie-backend repo")
     await exec("git clone https://github.com/luniehq/lunie-backend.git lunie-backend")
@@ -28,19 +30,39 @@ const main = async () => {
       if (data.toString().indexOf("App is served") !== -1) resolve()
     })
   })
+  processes.serve = serve
+
+  runTests()
+
+  process.on("exit", terminateProcesses())
+}
+
+const terminateProcesses = (exitCode = 1) => async () => {
+  await exec("cd lunie-backend && docker-compose stop")
+  processes.test.kill()
+  processes.serve.kill()
+  process.exit(exitCode)
+}
+
+const runTests = () => {
+  // cleanup
+  if (processes.test) {
+    processes.test.kill()
+  }
 
   console.log("starting local e2e tests")
   let testArgs = ["test:e2e:local"]
+  const filter = process.argv[2]
   if (filter) testArgs = testArgs.concat(`--filter`, `*${filter}*`)
   const test = spawn("yarn", testArgs)
   test.stdout.pipe(process.stdout)
   test.stderr.pipe(process.stderr)
 
   // cleanup on exit
-  test.on("exit", terminateProcesses({ serve, test }))
+  // test.on("exit", terminateProcesses())
   test.stdout.on("data", async data => {
     if (data.toString().startsWith("Done in")) {
-      await (terminateProcesses({ serve, test }, 0))()
+      onEnd(true)
     }
   })
   test.stderr.on("data", async data => {
@@ -48,16 +70,26 @@ const main = async () => {
     if (data.toString().startsWith("expected")) return
 
     console.error("Test failed")
-    await (terminateProcesses({ serve, test }))()
+    onEnd(false)
   })
-  process.on("exit", terminateProcesses({ serve, test }))
+
+  processes.test = test
 }
 
-const terminateProcesses = ({ serve, test }, exitCode = 1) => async () => {
-  await exec("cd lunie-backend && docker-compose stop")
-  test.kill()
-  serve.kill()
-  process.exit(exitCode)
+const onEnd = async (success) => {
+  await new Promise(resolve => setTimeout(resolve), 500)
+  const answers = await inquirer.prompt([{
+    type: `confirm`,
+    name: `runAgain`,
+    message: `Want to run the tests again?`,
+    default: false
+  }])
+
+  if (answers.runAgain) {
+    runTests()
+  } else {
+    terminateProcesses()
+  }
 }
 
 main()
