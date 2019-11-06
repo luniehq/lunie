@@ -34,12 +34,16 @@ const main = async () => {
 
   runTests()
 
-  process.on("exit", terminateProcesses())
+  process.on("exit", () => terminateProcesses()
 }
 
-const terminateProcesses = (exitCode = 1) => async () => {
+const terminateProcesses = async () => {
+  console.log("Terminating processes")
+  console.log("Terminating backend")
   await exec("cd lunie-backend && docker-compose stop")
+  console.log("Terminating test process")
   processes.test.kill()
+  console.log("Terminating Lunie website process")
   processes.serve.kill()
   process.exit(exitCode)
 }
@@ -59,12 +63,6 @@ const runTests = () => {
   test.stderr.pipe(process.stderr, { end: true })
 
   // cleanup on exit
-  // test.on("exit", terminateProcesses())
-  test.stdout.on("data", async data => {
-    if (data.toString().startsWith("Done in")) {
-      onEnd(true)
-    }
-  })
   test.stderr.on("data", async data => {
     // ignore simple test failures
     if (data.toString().startsWith("expected")) return
