@@ -3,6 +3,7 @@
 node_modules
 /dist
 /screenshots
+/lunie-backend
 
 /tests/e2e/reports/
 selenium-debug.log
