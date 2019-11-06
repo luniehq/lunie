@@ -14,7 +14,7 @@
           </span>
           <h2 class="proposal-title">{{ proposal.title }}</h2>
           <p class="proposer">
-            <template v-if="proposal.validator.name">
+            <template v-if="proposal.validator">
               Proposed by {{ proposal.validator.name }}:
               <Bech32 :address="proposal.proposer" />
             </template>
