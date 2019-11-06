@@ -1,6 +1,7 @@
 <template>
   <TmPage
     :managed="true"
+    :loading="$apollo.loading"
     :data-empty="validators && validators.length === 0"
     hide-header
   >
