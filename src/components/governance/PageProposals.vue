@@ -55,7 +55,8 @@ import TmBtn from "common/TmBtn"
 import PageContainer from "common/PageContainer"
 import TmDataMsg from "common/TmDataMsg"
 import { mapGetters } from "vuex"
-import { ProposalList, GovernanceParameters } from "src/gql"
+import { GovernanceParameters } from "src/gql"
+import gql from "graphql-tag"
 
 export default {
   name: `page-proposals`,
@@ -87,7 +88,17 @@ export default {
     proposals: {
       query() {
         /* istanbul ignore next */
-        return ProposalList(this.network)
+        return gql`
+          query proposals {
+            proposals(networkId: "${this.network}") {
+              id
+              type
+              title
+              description
+              status
+            }
+          }
+        `
       },
       update(data) {
         /* istanbul ignore next */
