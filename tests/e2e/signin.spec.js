@@ -20,7 +20,8 @@ module.exports = {
   "Create local account": async function (browser) {
     prepare(browser)
 
-    browser.click("#creat-new-address")
+    browser.pause(500)
+    browser.click("#create-new-address")
     browser.waitForElementVisible(".seed-table", 10000, true)
     browser.expect
       .element(".seed-table")
