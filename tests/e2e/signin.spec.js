@@ -39,7 +39,7 @@ module.exports = {
     browser.waitForElementVisible(".seed-table", 10000, true)
     browser.expect
       .element(".seed-table")
-      .value.to.match(/\w+( \w+){23}/)
+      .text.to.match(/(\d+\s+\w+\s+){23}\d+\s+\w+/)
       .before(10000)
     await next(browser)
     browser.expect.elements(".tm-form-msg--error").count.to.equal(1)
@@ -58,31 +58,31 @@ module.exports = {
     browser.waitForElementVisible("#recover-with-backup", 10000, true)
     browser.pause(500)
     browser.click("#recover-with-backup")
+
     browser.waitForElementVisible("#import-seed", 10000, true)
-
-    await next(browser)
-    browser.expect.elements(".tm-form-msg--error").count.to.equal(3)
-
-    browser.setValue("#import-name", "demo-account-imported")
-    await next(browser)
-    browser.expect.elements(".tm-form-msg--error").count.to.equal(2)
-
-    browser.setValue("#import-password", "1234567890")
-    await next(browser)
-    browser.expect
-      .elements(".tm-form-msg--error")
-      // the error on the initial password vanishes but the password confirmation appears
-      .count.to.equal(2)
-
-    browser.setValue("#import-password-confirmation", "1234567890")
     await next(browser)
     browser.expect.elements(".tm-form-msg--error").count.to.equal(1)
-
     browser.setValue(
       "#import-seed",
       `lab stable vessel rose donkey panel slim assault cause tenant level yellow sport argue rural pizza supply idea detect brass shift aunt matrix simple`
     )
     await next(browser)
+
+    browser.waitForElementVisible("#import-name", 10000, true)
+    await next(browser)
+    browser.expect.elements(".tm-form-msg--error").count.to.equal(1)
+    browser.setValue("#import-name", "demo-account-imported")
+    await next(browser)
+
+    browser.waitForElementVisible("#import-password", 10000, true)
+    await next(browser)
+    browser.expect.elements(".tm-form-msg--error").count.to.equal(1)
+    browser.setValue("#import-password", "1234567890")
+    await next(browser)
+    browser.expect.elements(".tm-form-msg--error").count.to.equal(1)
+    browser.setValue("#import-password-confirmation", "1234567890")
+    await next(browser)
+
     // check if signed in
     browser.waitForElementNotPresent(".session", 10000, true)
     openMenu(browser)
