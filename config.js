@@ -2,6 +2,7 @@ const dev = process.env.NODE_ENV === `development`
 const stargate = process.env.STARGATE || `http://localhost:9071`
 const graphql = process.env.VUE_APP_GRAPHQL_URL || `http://localhost:4000`
 
+
 export default {
   name: `Lunie`,
   development: dev,
