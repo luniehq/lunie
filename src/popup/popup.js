@@ -8,6 +8,8 @@ import VueAnalytics from 'vue-analytics'
 import VueClipboard from 'vue-clipboard2'
 import Tooltip from 'vue-directive-tooltip'
 import { focusElement } from 'src/directives'
+import * as Sentry from '@sentry/browser'
+import * as Integrations from '@sentry/integrations'
 
 global.browser = require('webextension-polyfill')
 Vue.prototype.$browser = global.browser
@@ -18,6 +20,13 @@ Vue.use(Tooltip, { delay: 1 })
 Vue.use(Vuelidate)
 Vue.use(VueClipboard)
 Vue.directive(`focus`, focusElement)
+
+if (config.sentry_dsn) {
+  Sentry.init({
+    dsn: config.sentry_dsn,
+    integrations: [new Integrations.Vue({ Vue, attachProps: true })]
+  })
+}
 
 if (config.google_analytics_uid !== '') {
   Vue.use(VueAnalytics, {

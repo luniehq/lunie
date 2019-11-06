@@ -86,7 +86,9 @@ const config = {
     new webpack.DefinePlugin({
       global: 'window',
       'process.env': {
-        NODE_ENV: JSON.stringify(process.env.NODE_ENV)
+        NODE_ENV: JSON.stringify(process.env.NODE_ENV),
+        SENTRY_DSN: JSON.stringify(process.env.SENTRY_DSN),
+        GOOGLE_ANALYTICS_UID: JSON.stringify(process.env.GOOGLE_ANALYTICS_UID)
       }
     }),
     new VueLoaderPlugin(),
