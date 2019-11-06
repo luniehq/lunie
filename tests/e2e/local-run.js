@@ -11,6 +11,7 @@ const main = async () => {
     console.log("cloning lunie-backend repo")
     await exec("git clone https://github.com/luniehq/lunie-backend.git lunie-backend")
   } else {
+    console.log("updating lunie-backend repo")
     await exec("cd lunie-backend && git pull origin develop")
   }
   await exec("cd lunie-backend && git pull origin develop")
@@ -53,7 +54,7 @@ const main = async () => {
 }
 
 const terminateProcesses = ({ serve, test }, exitCode = 1) => async () => {
-  await exec("cd lunie-backend && docker-compose down")
+  await exec("cd lunie-backend && docker-compose stop")
   test.kill()
   serve.kill()
   process.exit(exitCode)
