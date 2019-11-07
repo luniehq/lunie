@@ -19,6 +19,7 @@ export const proposals = [
     },
     deposit: "0",
     proposer: "unknown",
+    validator: undefined,
     __typename: "Proposal"
   },
   {
@@ -62,6 +63,11 @@ export const proposals = [
       __typename: "Tally"
     },
     deposit: "0",
+    proposer: "cosmos1z8mzakma7vnaajysmtkwt4wgjqr2m84tzvyfkz",
+    validator: {
+      name: "Big Daddy Validator",
+      __typename: "Validator"
+    },
     __typename: "Proposal"
   },
   {

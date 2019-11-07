@@ -22,7 +22,9 @@
         }}</span>
         <Steps
           v-if="
-            [defaultStep, feeStep, signStep].includes(step) && featureAvailable
+            [defaultStep, feeStep, signStep].includes(step) &&
+              featureAvailable &&
+              !isMobileApp
           "
           :steps="['Details', 'Fees', 'Sign']"
           :active-step="step"
@@ -401,7 +403,8 @@ export default {
     SIGN_METHODS,
     featureAvailable: true,
     network: {},
-    overview: {}
+    overview: {},
+    isMobileApp: config.mobileApp
   }),
   computed: {
     ...mapState([`extension`, `session`]),
@@ -929,7 +932,6 @@ export default {
   display: inline-block;
   border-left: 2px solid var(--warning);
   padding: 0.5rem 0 0.5rem 1rem;
-  font-size: 14px;
 }
 
 .slide-fade-enter-active {
@@ -955,9 +957,6 @@ export default {
 }
 
 @media screen and (max-width: 576px) {
-  #send-modal {
-    text-align: center;
-  }
   .tm-data-msg__icon {
     margin-right: 0;
   }

@@ -1,179 +1,87 @@
 <template>
   <SessionFrame>
-    <TmFormStruct :submit="onSubmit.bind(this)">
+    <TmFormStruct :submit="onSubmit">
       <h2 class="session-title">
         Recover with backup code
       </h2>
       <div class="session-main">
+        <Steps :steps="[`Recover`, `Name`, `Password`]" active-step="Recover" />
         <TmFormGroup
-          :error="$v.$error && $v.fields.importName.$invalid"
-          field-id="import-name"
-          field-label="Account Name"
-        >
-          <TmField
-            id="import-name"
-            v-model.trim="fields.importName"
-            type="text"
-            placeholder="Must have at least 5 characters"
-            vue-focus="vue-focus"
-          />
-          <TmFormMsg
-            v-if="$v.fields.importName.$error && !$v.fields.importName.required"
-            name="Name"
-            type="required"
-          />
-          <TmFormMsg
-            v-if="
-              $v.fields.importName.$error && !$v.fields.importName.minLength
-            "
-            name="Name"
-            type="minLength"
-            min="5"
-          />
-        </TmFormGroup>
-        <TmFormGroup
-          :error="$v.$error && $v.fields.importPassword.$invalid"
-          field-id="import-password"
-          field-label="Password"
-        >
-          <TmField
-            id="import-password"
-            v-model="fields.importPassword"
-            type="password"
-            placeholder="Must be at least 10 characters"
-          />
-          <TmFormMsg
-            v-if="
-              $v.fields.importPassword.$error &&
-                !$v.fields.importPassword.required
-            "
-            name="Password"
-            type="required"
-          />
-          <TmFormMsg
-            v-if="
-              $v.fields.importPassword.$error &&
-                !$v.fields.importPassword.minLength
-            "
-            name="Password"
-            type="minLength"
-            min="10"
-          />
-        </TmFormGroup>
-        <TmFormGroup
-          :error="$v.$error && $v.fields.importPasswordConfirm.$invalid"
-          field-id="import-password-confirmation"
-          field-label="Confirm Password"
-        >
-          <TmField
-            id="import-password-confirmation"
-            v-model="fields.importPasswordConfirm"
-            type="password"
-            placeholder="Enter password again"
-          />
-          <TmFormMsg
-            v-if="
-              $v.fields.importPasswordConfirm.$error &&
-                !$v.fields.importPasswordConfirm.sameAsPassword
-            "
-            name="Password confirmation"
-            type="match"
-          />
-        </TmFormGroup>
-        <TmFormGroup
-          :error="$v.$error && $v.fields.importSeed.$invalid"
+          :error="$v.$error && $v.seed.$invalid"
           field-id="import-seed"
           field-label="Backup code"
         >
           <FieldSeed
             id="import-seed"
-            :value="fields.importSeed"
+            :value="seed"
             placeholder="Must be exactly 24 words"
-            @input="val => (fields.importSeed = val)"
+            @input="val => (seed = val)"
           />
           <TmFormMsg
-            v-if="$v.fields.importSeed.$error && !$v.fields.importSeed.required"
+            v-if="$v.seed.$error && !$v.seed.required"
             name="Seed"
             type="required"
           />
           <TmFormMsg
-            v-else-if="
-              $v.fields.importSeed.$error && !$v.fields.importSeed.words24
-            "
+            v-else-if="$v.seed.$error && !$v.seed.words24"
             name="Seed"
             type="words24"
           />
         </TmFormGroup>
       </div>
       <div class="session-footer">
-        <TmBtn value="Recover" />
+        <TmBtn value="Next" type="submit" />
       </div>
     </TmFormStruct>
   </SessionFrame>
 </template>
 
 <script>
-import { required, minLength, sameAs } from "vuelidate/lib/validators"
+import { required } from "vuelidate/lib/validators"
 import TmBtn from "common/TmBtn"
 import TmFormGroup from "common/TmFormGroup"
 import TmFormStruct from "common/TmFormStruct"
-import TmField from "common/TmField"
 import TmFormMsg from "common/TmFormMsg"
 import FieldSeed from "common/TmFieldSeed"
 import SessionFrame from "common/SessionFrame"
 import { mapGetters } from "vuex"
+import Steps from "../../ActionModal/components/Steps"
+
+const words24 = param => {
+  return param && param.split(` `).length === 24
+}
+
 export default {
-  name: `session-import`,
+  name: `session-import-backupcode`,
   components: {
     TmBtn,
-    TmField,
     SessionFrame,
     FieldSeed,
     TmFormGroup,
     TmFormMsg,
-    TmFormStruct
+    TmFormStruct,
+    Steps
   },
-  data: () => ({
-    fields: {
-      importName: ``,
-      importPassword: ``,
-      importPasswordConfirm: ``,
-      importSeed: ``
-    }
-  }),
   computed: {
-    ...mapGetters([`connected`])
-  },
-  methods: {
-    async onSubmit() {
-      this.$v.$touch()
-      if (this.$v.$error) return
-      try {
-        await this.$store.dispatch(`createKey`, {
-          seedPhrase: this.fields.importSeed,
-          password: this.fields.importPassword,
-          name: this.fields.importName
-        })
-        this.$router.push(`/`)
-      } catch (error) {
-        this.$store.commit(`notifyError`, {
-          title: `Couldn't create account`,
-          body: error.message
-        })
+    ...mapGetters([`recover`]),
+    seed: {
+      get() {
+        return this.$store.state.recover.seed
+      },
+      set(value) {
+        this.$store.commit(`updateField`, { field: `seed`, value })
       }
     }
   },
-  validations: () => ({
-    fields: {
-      importName: { required, minLength: minLength(5) },
-      importPassword: { required, minLength: minLength(10) },
-      importPasswordConfirm: { sameAsPassword: sameAs(`importPassword`) },
-      importSeed: { required, words24 },
-      errorCollection: false
+  methods: {
+    onSubmit() {
+      this.$v.$touch()
+      if (this.$v.seed.$invalid || this.$v.seed.$invalid) return
+      this.$router.push("/recover/name")
     }
+  },
+  validations: () => ({
+    seed: { required, words24 }
   })
-}
-const words24 = param => {
-  return param && param.split(` `).length === 24
 }
 </script>

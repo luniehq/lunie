@@ -1,10 +1,9 @@
 {
   "name": "lunie",
-  "version": "1.0.0-beta.129",
+  "version": "1.0.0-beta.132",
   "description": "Lunie is the staking and governance platform for proof-of-stake blockchains.",
   "author": "Lunie International Software Systems Inc. <hello@lunie.io>",
   "scripts": {
-    "start": "npm run testnet:start & npm run serve",
     "serve": "kill-port 9080 && vue-cli-service serve --port 9080",
     "serve:dist": "live-server --port=9080 --no-browser ./dist",
     "build": "vue-cli-service build",
@@ -12,15 +11,18 @@
     "lint:style": "vue-cli-service lint:style",
     "changelog": "simsala log --pending-path ./changes",
     "release": "git checkout develop & git pull & git push origin develop:release",
+    "release:android": "git checkout develop && node ./tasks/bump-android-version.js && git commit android/app/build.gradle -m 'updated android app version' && git push origin develop:release-android",
+    "release:ios": "git checkout develop && node ./tasks/bump-ios-version.js && git commit ios/App/App/Info.plist -m 'updated ios app version' && git push origin develop:release-ios",
+    "serve:ios": "npx cap open ios & npm run serve",
+    "start": "npm run testnet:start & npm run serve",
     "test:coverage": "live-server ./coverage/lcov-report",
     "test:coverage-branch": "npm run test:unit -- --coverage && git diff origin/develop | diff-test-coverage -c ./coverage/lcov.info -t lcov --",
+    "test:e2e": "node tests/e2e/local-run.js",
     "test:e2e:browserstack": "node tests/e2e/browserstack.runner.js -c  tests/e2e/browserstack.conf.js",
     "test:e2e:local": "kill-port 9515 && nightwatch --config ./tests/e2e/local-chrome.conf.js",
     "test:e2e:build": "cross-env VUE_APP_E2E=true vue-cli-service build --mode production",
     "test:e2e:serve": "kill-port 9080 && cross-env VUE_APP_E2E=true vue-cli-service serve --mode production --port 9080",
-    "test:unit": "vue-cli-service test:unit",
-    "release:android": "git checkout develop && node ./tasks/bump-android-version.js && git commit android/app/build.gradle -m 'updated android app version' && git push origin develop:release-android",
-    "release:ios": "git checkout develop && node ./tasks/bump-ios-version.js && git commit ios/App/App/Info.plist -m 'updated ios app version' && git push origin develop:release-ios"
+    "test:unit": "vue-cli-service test:unit"
   },
   "dependencies": {
     "@babel/polyfill": "^7.4.4",
@@ -64,10 +66,10 @@
   "devDependencies": {
     "@ascendancyy/vue-cli-plugin-stylelint": "^1.1.2",
     "@babel/plugin-transform-runtime": "^7.5.5",
-    "@capacitor/android": "1.1.1",
-    "@capacitor/cli": "1.1.1",
-    "@capacitor/core": "1.1.1",
-    "@capacitor/ios": "1.1.1",
+    "@capacitor/android": "1.3.0",
+    "@capacitor/cli": "1.3.0",
+    "@capacitor/core": "1.3.0",
+    "@capacitor/ios": "1.3.0",
     "@vue/cli-plugin-babel": "^3.10.0",
     "@vue/cli-plugin-eslint": "^3.10.0",
     "@vue/cli-plugin-pwa": "^3.10.0",
@@ -82,7 +84,7 @@
     "browserstack-local": "1.4.2",
     "chai": "^4.2.0",
     "chai-string": "^1.5.0",
-    "chromedriver": "77.0.0",
+    "chromedriver": "78.0.1",
     "copy-webpack-plugin": "5.0.4",
     "cross-env": "^5.2.0",
     "csp-webpack-plugin": "^2.0.2",
@@ -94,7 +96,7 @@
     "kill-port": "^1.5.1",
     "live-server": "^1.2.1",
     "live-server-https": "^0.0.2",
-    "nightwatch": "^1.1.13",
+    "nightwatch": "1.2.4",
     "numeral": "^2.0.6",
     "prettier": "^1.18.2",
     "sass": "^1.18.0",
@@ -102,10 +104,6 @@
     "simsala": "0.0.18",
     "stylelint-config-standard": "^18.2.0",
     "vue-template-compiler": "^2.6.10"
-  },
-  "resolutions": {
-    "braces": ">=2.3.1",
-    "https-proxy-agent": ">=3.0.0"
   },
   "engines": {
     "node": ">=10.13.0"
@@ -116,5 +114,9 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/luniehq/lunie.git"
+  },
+  "resolutions": {
+    "braces": ">=2.3.1",
+    "https-proxy-agent": ">=3.0.0"
   }
 }

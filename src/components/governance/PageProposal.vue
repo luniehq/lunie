@@ -14,7 +14,11 @@
           </span>
           <h2 class="proposal-title">{{ proposal.title }}</h2>
           <p class="proposer">
-            <template v-if="proposal.proposer !== `unknown`">
+            <template v-if="proposal.validator">
+              Proposed by {{ proposal.validator.name }}:
+              <Bech32 :address="proposal.proposer" />
+            </template>
+            <template v-else-if="proposal.proposer !== `unknown`">
               Proposed by
               <Bech32 :address="proposal.proposer" />
             </template>
@@ -209,7 +213,8 @@ export default {
     proposal: {
       status: "",
       proposer: "",
-      tally: {}
+      tally: {},
+      validator: {}
     },
     parameters: {
       depositDenom: "TESTCOIN"
