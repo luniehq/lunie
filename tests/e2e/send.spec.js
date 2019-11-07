@@ -1,7 +1,7 @@
 const { actionModalCheckout, nextBlock, waitForText } = require("./helpers.js")
 
 module.exports = {
-  "Send Action": async function(browser) {
+  "Send Action": async function (browser) {
     // move to according page
     browser.url(browser.launch_url + "#/portfolio")
 
@@ -24,6 +24,7 @@ module.exports = {
 
     // check if tx shows
     browser.url(browser.launch_url + "/#/transactions")
+    browser.pause(1000)
     await waitForText(
       browser,
       ".tx:nth-child(2) .tx__content__caption",

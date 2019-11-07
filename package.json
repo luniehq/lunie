@@ -1,6 +1,6 @@
 {
   "name": "lunie",
-  "version": "1.0.0-beta.132",
+  "version": "1.0.0-beta.133",
   "description": "Lunie is the staking and governance platform for proof-of-stake blockchains.",
   "author": "Lunie International Software Systems Inc. <hello@lunie.io>",
   "scripts": {
@@ -31,6 +31,8 @@
     "@lunie/cosmos-api": "0.1.2",
     "@lunie/cosmos-keys": "0.1.0",
     "@lunie/cosmos-ledger": "0.0.5",
+    "@sentry/browser": "5.7.1",
+    "@sentry/integrations": "5.7.1",
     "apollo-boost": "^0.4.3",
     "apollo-cache-inmemory": "^1.6.2",
     "apollo-link-ws": "1.0.19",
