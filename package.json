@@ -94,6 +94,7 @@
     "eslint-plugin-prettier": "^3.1.0",
     "eslint-plugin-vue": "^5.0.0",
     "husky": "3.0.8",
+    "inquirer": "7.0.0",
     "jest-localstorage-mock": "^2.4.0",
     "kill-port": "^1.5.1",
     "live-server": "^1.2.1",
