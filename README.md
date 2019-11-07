@@ -86,7 +86,7 @@ yarn start
 This will create a rich account. You need to import that account into Lunie:
 - Sign In
 - Import Account
-- Use mnemonic: `release endorse scale across absurd trouble climb unaware actor elite fantasy chair license word rare length business kiss smoke tackle report february bid ginger`
+- Use mnemonic: `release endorse scale across absurd trouble climb unaware actor elite fantasy chair license word rare length business kiss smoke tackle report february bid ginger` 
 
 You should now have a bunch of stake to play with.
 
@@ -179,12 +179,6 @@ yarn watch PageValidator
 
 ### End to end tests
 
-If you want to run them locally first start a testnet:
-
-```bash
-MAX_NODES=4 yarn testnet:start
-```
-
 Then run the tests:
 
 ```bash
@@ -194,11 +188,18 @@ yarn test:e2e
 To run only some tests, provide a filter:
 
 ```bash
-yarn test:e2e:serve
-yarn test:e2e:local --filter send.spec.js
+yarn test:e2e send
 ```
 
 To run the e2e tests on multiple browsers use [Browserstack](https://www.browserstack.com/). You must set the environment variables `BROWSERSTACK_USERNAME` and `BROWSERSTACK_ACCESS_KEY` aquired from Browserstack first.
+
+Then start a testnet locally:
+
+```bash
+MAX_NODES=4 yarn testnet:start
+```
+
+Now run Lunie and start the tests:
 
 ```bash
 yarn test:e2e:serve

@@ -91,8 +91,8 @@ async function apiUp() {
       apiUp = true
     } catch (err) {
       console.log("Failed to check API", err)
+      console.log("Waiting 1s for API to be up")
       await new Promise(resolve => setTimeout(resolve, 1000))
-      console.log("Waiting for API to be up")
     }
   }
 }
@@ -113,8 +113,8 @@ async function schemaAvailable() {
       databaseUp = true
     } catch (err) {
       console.log("Failed to check database", err.message)
+      console.log("Waiting 1s for database to be up")
       await new Promise(resolve => setTimeout(resolve, 1000))
-      console.log("Waiting for database to be up")
     }
   }
 }
