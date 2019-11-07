@@ -7,10 +7,7 @@ const sentryDSN = process.env.SENTRY_DSN || ''
 export default {
   name: `Lunie`,
   development: dev,
-  network: process.env.VUE_APP_E2E
-    ? `local-cosmos-hub-testnet`
-    : `cosmos-hub-mainnet`,
-  sentryDSN: sentryDSN,
+  network: process.env.NETWORK || `cosmos-hub-mainnet`,
   stargate,
   google_analytics_uid: process.env.GOOGLE_ANALYTICS_UID || "",
   default_gas_price: dev ? 1e-9 : 2.5e-8, // Recommended from Cosmos Docs
