@@ -14,7 +14,7 @@
     "release:android": "git checkout develop && node ./tasks/bump-android-version.js && git commit android/app/build.gradle -m 'updated android app version' && git push origin develop:release-android",
     "release:ios": "git checkout develop && node ./tasks/bump-ios-version.js && git commit ios/App/App/Info.plist -m 'updated ios app version' && git push origin develop:release-ios",
     "serve:ios": "npx cap open ios & npm run serve",
-    "start": "npm run testnet:start & npm run serve",
+    "test": "npm run test:unit && npm run test:e2e",
     "test:coverage": "live-server ./coverage/lcov-report",
     "test:coverage-branch": "npm run test:unit -- --coverage && git diff origin/develop | diff-test-coverage -c ./coverage/lcov.info -t lcov --",
     "test:e2e": "node tests/e2e/local-run.js",
