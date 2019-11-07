@@ -1,7 +1,7 @@
 const util = require("util")
 const fs = require("fs")
 const exec = util.promisify(require("child_process").exec)
-const spawn = require("child_process").spawn
+const spawn = require("cross-spawn")
 const inquirer = require(`inquirer`)
 
 const processes = {}
