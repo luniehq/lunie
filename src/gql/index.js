@@ -152,14 +152,6 @@ const ProposalFragment = `
   }
 `
 
-export const ProposalList = schema => gql`
-  query proposals {
-    proposals(networkId: "${schema}") {
-      ${ProposalFragment}
-    }
-  }
-`
-
 export const ProposalItem = schema => gql`
   query proposal($id: Int!) {
     proposal(networkId: "${schema}", id: $id) {
