@@ -8,8 +8,8 @@ exports[`PageProposal Modal onVote enables voting if the proposal is on the 'Vot
         </span>
       <h2 class="proposal-title">test</h2>
       <p class="proposer">
-        Proposed by
-        <bech32-stub address=""></bech32-stub>
+        Proposed by Big Daddy Validator:
+        <bech32-stub address="cosmos1z8mzakma7vnaajysmtkwt4wgjqr2m84tzvyfkz"></bech32-stub>
       </p>
     </div>
     <div class="button-container">
@@ -85,8 +85,8 @@ exports[`PageProposal Modal onVote shows the last valid vote 1`] = `
         </span>
       <h2 class="proposal-title">test</h2>
       <p class="proposer">
-        Proposed by
-        <bech32-stub address=""></bech32-stub>
+        Proposed by Big Daddy Validator:
+        <bech32-stub address="cosmos1z8mzakma7vnaajysmtkwt4wgjqr2m84tzvyfkz"></bech32-stub>
       </p>
     </div>
     <div class="button-container">

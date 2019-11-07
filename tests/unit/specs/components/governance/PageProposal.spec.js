@@ -96,6 +96,16 @@ describe(`PageProposal`, () => {
     )
   })
 
+  it(`should show moniker if proposer address is a validator address`, () => {
+    wrapper.setData({
+      proposal: proposals[2]
+    })
+    expect(wrapper.html()).toContain(
+      "cosmos1z8mzakma7vnaajysmtkwt4wgjqr2m84tzvyfkz"
+    )
+    expect(wrapper.html()).toContain("Big Daddy Validator")
+  })
+
   describe(`Proposal status`, () => {
     it(`displays correctly a proposal that 'Passed'`, () => {
       wrapper.vm.proposal.status = `Passed`
