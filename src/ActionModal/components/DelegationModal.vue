@@ -143,6 +143,7 @@ import ActionModal from "./ActionModal"
 import transaction from "../utils/transactionTypes"
 import { toMicroDenom } from "src/scripts/common"
 import { formatBech32 } from "src/filters"
+import { UserTransactionAdded } from "src/gql"
 
 export default {
   name: `delegation-modal`,
@@ -252,6 +253,10 @@ export default {
     maxAmount() {
       return this.fromOptions[this.selectedIndex].maximum
     }
+  },
+  mounted() {
+    this.$apollo.queries.balance.refetch()
+    this.$apollo.queries.delegations.refetch()
   },
   methods: {
     open(options) {
@@ -364,6 +369,25 @@ export default {
       update(data) {
         /* istanbul ignore next */
         return data.network.stakingDenom
+      }
+    }
+  },
+  $subscribe: {
+    userTransactionAdded: {
+      variables() {
+        return {
+          networkId: this.network,
+          address: this.address
+        }
+      },
+      skip() {
+        return !this.address
+      },
+      query: UserTransactionAdded,
+      result({ data }) {
+        if (data.userTransactionAdded.success) {
+          this.$apollo.queries.delegations.refetch()
+        }
       }
     }
   }

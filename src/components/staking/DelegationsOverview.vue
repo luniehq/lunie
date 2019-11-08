@@ -41,6 +41,9 @@ export default {
   computed: {
     ...mapGetters(["address", `network`])
   },
+  mounted() {
+    this.$apollo.queries.delegations.refetch()
+  },
   apollo: {
     delegations: {
       query() {

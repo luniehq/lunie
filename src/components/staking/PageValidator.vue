@@ -212,6 +212,10 @@ export default {
     ...mapGetters([`network`]),
     ...mapGetters({ userAddress: `address` })
   },
+  mounted() {
+    this.$apollo.queries.rewards.refetch()
+    this.$apollo.queries.delegation.refetch()
+  },
   methods: {
     shortDecimals,
     atoms,
@@ -285,9 +289,7 @@ export default {
         }
       },
       update: result => {
-        const r = result.rewards.length > 0 ? result.rewards[0] : { amount: 0 }
-        console.log(r)
-        return r
+        return result.rewards.length > 0 ? result.rewards[0] : { amount: 0 }
       }
     },
     validator: {
