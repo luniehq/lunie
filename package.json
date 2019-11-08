@@ -21,7 +21,7 @@
     "test:e2e:browserstack": "node tests/e2e/browserstack.runner.js -c  tests/e2e/browserstack.conf.js",
     "test:e2e:local": "kill-port 9515 && nightwatch --config ./tests/e2e/local-chrome.conf.js",
     "test:e2e:build": "cross-env VUE_APP_E2E=true vue-cli-service build --mode production",
-    "test:e2e:serve": "kill-port 9080 && cross-env VUE_APP_E2E=true vue-cli-service serve --mode production --port 9080",
+    "test:e2e:serve": "kill-port 9080 && cross-env VUE_APP_E2E=true NETWORK=local-cosmos-hub-testnet vue-cli-service serve --mode production --port 9080",
     "test:unit": "vue-cli-service test:unit"
   },
   "dependencies": {
