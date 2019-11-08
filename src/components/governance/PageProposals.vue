@@ -89,8 +89,8 @@ export default {
       query() {
         /* istanbul ignore next */
         return gql`
-          query proposals {
-            proposals(networkId: "${this.network}") {
+          query proposals($networkId: String!) {
+            proposals(networkId: $networkId) {
               id
               type
               title
@@ -99,6 +99,11 @@ export default {
             }
           }
         `
+      },
+      variables() {
+        return {
+          networkId: this.network
+        }
       },
       update(data) {
         /* istanbul ignore next */
