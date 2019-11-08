@@ -37,6 +37,7 @@ module.exports = {
             NODE_ENV: JSON.stringify(process.env.NODE_ENV),
             STARGATE: JSON.stringify(process.env.STARGATE),
             NETWORK: JSON.stringify(process.env.NETWORK),
+            SENTRY_DSN: JSON.stringify(process.env.SENTRY_DSN),
             RELEASE: JSON.stringify(commitHash),
             GOOGLE_ANALYTICS_UID: JSON.stringify(
               process.env.GOOGLE_ANALYTICS_UID
