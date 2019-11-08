@@ -244,9 +244,9 @@ export default {
           }
         }
       `,
-      // skip() {
-      //   return !this.userAddress
-      // },
+      skip() {
+        return !this.userAddress
+      },
       variables() {
         return {
           networkId: this.network,
