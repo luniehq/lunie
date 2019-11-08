@@ -38,7 +38,7 @@ module.exports = {
 
     // move to validator page
     browser.expect.element(".li-validator").to.be.visible.before(10000)
-    browser.click(".li-validator[data-name=operator_account_2]")
+    browser.click(".li-validator[data-name=operator_account_1]")
 
     const value = "5.53"
     await actionModalCheckout(
@@ -76,7 +76,7 @@ module.exports = {
 
     // move to validator page
     browser.expect.element(".li-validator").to.be.visible.before(10000)
-    browser.click(".li-validator[data-name=operator_account_2]")
+    browser.click(".li-validator[data-name=operator_account_1]")
 
     const value = "4.2"
     await actionModalCheckout(
