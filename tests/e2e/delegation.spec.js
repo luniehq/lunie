@@ -7,7 +7,7 @@ module.exports = {
 
     // move to validator page
     browser.expect.element(".li-validator").to.be.visible.before(10000)
-    browser.click(".li-validator[data-moniker=main_account]")
+    browser.click(".li-validator[data-name=main_account]")
 
     const value = "10.42"
     await actionModalCheckout(
