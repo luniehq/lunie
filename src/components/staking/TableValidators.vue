@@ -66,16 +66,16 @@ export default {
     ...mapGetters([`address`, `network`]),
     sortedEnrichedValidators() {
       return orderBy(
-        this.validators.slice(0, this.showing),
+        this.validators.map(validator => ({
+          ...validator,
+          smallName: validator.name ? validator.name.toLowerCase() : ""
+        })),
         [this.sort.property],
         [this.sort.order]
       )
     },
     showingValidators() {
-      return this.sortedEnrichedValidators.map(validator => ({
-        ...validator,
-        smallName: validator.name ? validator.name.toLowerCase() : ""
-      }))
+      return this.sortedEnrichedValidators.slice(0, this.showing)
     },
     properties() {
       return [
