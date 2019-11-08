@@ -17,5 +17,6 @@ export default {
 
   graphqlHost: graphql,
 
-  e2e: process.env.VUE_APP_E2E
+  e2e: process.env.VUE_APP_E2E,
+  sentryDSN
 }
