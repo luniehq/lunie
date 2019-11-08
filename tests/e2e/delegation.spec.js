@@ -28,7 +28,7 @@ module.exports = {
     browser.url(browser.launch_url + "/#/transactions")
     await waitForText(
       browser,
-      ".tx:first-child .tx__content__caption",
+      ".tx:nth-child(2) .tx__content__caption",
       `Delegated ${value} STAKE`
     )
   },
@@ -38,7 +38,7 @@ module.exports = {
 
     // move to validator page
     browser.expect.element(".li-validator").to.be.visible.before(10000)
-    browser.click(".li-validator[data-name=operator_account_1]")
+    browser.click(".li-validator[data-name=operator_account_2]")
 
     const value = "5.53"
     await actionModalCheckout(
@@ -63,7 +63,7 @@ module.exports = {
     browser.url(browser.launch_url + "/#/transactions")
     await waitForText(
       browser,
-      ".tx:first-child .tx__content__caption",
+      ".tx:nth-child(2) .tx__content__caption",
       `Redelegated ${value} STAKE`
     )
   },
@@ -76,7 +76,7 @@ module.exports = {
 
     // move to validator page
     browser.expect.element(".li-validator").to.be.visible.before(10000)
-    browser.click(".li-validator[data-name=operator_account_1]")
+    browser.click(".li-validator[data-name=operator_account_2]")
 
     const value = "4.2"
     await actionModalCheckout(
@@ -94,7 +94,7 @@ module.exports = {
     browser.url(browser.launch_url + "/#/transactions")
     await waitForText(
       browser,
-      ".tx:first-child .tx__content__caption",
+      ".tx:nth-child(2) .tx__content__caption",
       `Undelegated ${value} STAKE`
     )
   }
