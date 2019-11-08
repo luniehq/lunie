@@ -74,6 +74,12 @@ export default {
       return this.overview.totalRewards > 0
     }
   },
+  mounted() {
+    // We need to account or a small delay in the node processing of balances.
+    // TODO: Find a cleaner solution.
+    const refetch = () => this.$apollo.queries.overview.refetch()
+    setTimeout(refetch, 2000)
+  },
   methods: {
     onWithdrawal() {
       this.$refs.ModalWithdrawRewards.open()
