@@ -107,7 +107,7 @@ You will probably also want a virtual Android device which you can create from i
 To run the Android version of Lunie in development:
 
 ```bash
-$ yarn build
+$ yarn build:mobile
 $ npx cap sync android
 $ npx cap open android
 ```
