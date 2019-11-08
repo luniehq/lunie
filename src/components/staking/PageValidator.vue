@@ -1,7 +1,6 @@
 <template>
   <TmPage
     :managed="true"
-    :error="error"
     :data-empty="!validator.operatorAddress"
     :hide-header="true"
     data-title="Validator"
