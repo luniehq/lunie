@@ -42,13 +42,14 @@ exports[`PageValidators shows a list of validators 1`] = `
     />
      
     <!---->
+     
+    <!---->
   </template>
 </tmpage-stub>
 `;
 
 exports[`PageValidators shows a message if still loading 1`] = `
 <tmpage-stub
-  dataempty="true"
   hideheader="true"
   managed="true"
   subtitle=""
@@ -87,6 +88,8 @@ exports[`PageValidators shows a message if still loading 1`] = `
       showonmobile="expectedReturns"
       validators=""
     />
+     
+    <!---->
      
     <!---->
   </template>
@@ -95,7 +98,6 @@ exports[`PageValidators shows a message if still loading 1`] = `
 
 exports[`PageValidators shows a message if there is an error to display 1`] = `
 <tmpage-stub
-  dataempty="true"
   hideheader="true"
   managed="true"
   subtitle=""
@@ -136,13 +138,14 @@ exports[`PageValidators shows a message if there is an error to display 1`] = `
     />
      
     <!---->
+     
+    <!---->
   </template>
 </tmpage-stub>
 `;
 
 exports[`PageValidators shows a message if there is nothing to display 1`] = `
 <tmpage-stub
-  dataempty="true"
   hideheader="true"
   managed="true"
   subtitle=""
@@ -181,6 +184,8 @@ exports[`PageValidators shows a message if there is nothing to display 1`] = `
       showonmobile="expectedReturns"
       validators=""
     />
+     
+    <!---->
      
     <!---->
   </template>
