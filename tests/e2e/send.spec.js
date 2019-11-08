@@ -1,7 +1,7 @@
 const { actionModalCheckout, nextBlock, waitForText } = require("./helpers.js")
 
 module.exports = {
-  "Send Action": async function (browser) {
+  "Send Action": async function(browser) {
     // move to according page
     browser.url(browser.launch_url + "#/portfolio")
 

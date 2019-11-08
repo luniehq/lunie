@@ -1,5 +1,5 @@
 module.exports = {
-  "Sign in with local account": async function (browser) {
+  "Sign in with local account": async function(browser) {
     prepare(browser)
 
     browser.click("#use-an-existing-address")
@@ -17,7 +17,7 @@ module.exports = {
     openMenu(browser)
     browser.waitForElementVisible("#sign-out", 10000, true)
   },
-  "Create local account": async function (browser) {
+  "Create local account": async function(browser) {
     prepare(browser)
 
     browser.click("#create-new-address")
@@ -51,7 +51,7 @@ module.exports = {
     openMenu(browser)
     browser.waitForElementVisible("#sign-out", 10000, true)
   },
-  "Import local account": async function (browser) {
+  "Import local account": async function(browser) {
     prepare(browser)
 
     browser.click("#use-an-existing-address")
@@ -92,7 +92,7 @@ module.exports = {
 
 async function next(browser) {
   browser.execute(
-    function (selector, scrollX, scrollY) {
+    function(selector, scrollX, scrollY) {
       var elem = document.querySelector(selector)
       elem.scrollLeft = scrollX
       elem.scrollTop = scrollY
