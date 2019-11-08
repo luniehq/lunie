@@ -1,8 +1,6 @@
 <template>
   <TmPage
     :managed="true"
-    :loading="$apollo.loading"
-    :loaded="!$apollo.loading"
     :error="error"
     :data-empty="!validator.operatorAddress"
     :hide-header="true"
