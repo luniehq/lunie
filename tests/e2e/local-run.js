@@ -18,7 +18,6 @@ const main = async () => {
     console.log("updating lunie-backend repo")
     await exec("cd lunie-backend && git pull origin develop")
   }
-  await exec("cd lunie-backend && git pull origin develop")
   console.log("starting lunie-backend repo")
   await exec("cd lunie-backend && docker-compose up -d")
 
