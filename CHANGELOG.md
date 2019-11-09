@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.0-beta.136] - 2019-11-09
+
+### Repository
+
+- [#3048](https://github.com/cosmos/lunie/issues/3048) Sentry integration was added @iambeone
+
 ## [1.0.0-beta.135] - 2019-11-08
 
 ### Repository
