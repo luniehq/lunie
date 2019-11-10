@@ -54,7 +54,16 @@ describe(`PageValidator`, () => {
       queries: {
         validator: {
           loading: false,
-          error: false
+          error: false,
+          refetch: () => {}
+        },
+        rewards: {
+          loading: false,
+          error: false,
+          refetch: () => {}
+        },
+        delegation: {
+          refetch: () => {}
         }
       }
     }
