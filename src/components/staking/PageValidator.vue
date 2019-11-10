@@ -133,11 +133,16 @@
         </li>
       </ul>
 
-      <DelegationModal ref="delegationModal" :target-validator="validator" />
+      <DelegationModal
+        ref="delegationModal"
+        :target-validator="validator"
+        @success="clearDelegationCache"
+      />
       <UndelegationModal
         ref="undelegationModal"
         :source-validator="validator"
         @switchToRedelegation="onDelegation({ redelegation: true })"
+        @success="clearUnelegationCache"
       />
     </template>
     <template v-else>
@@ -226,6 +231,12 @@ export default {
     },
     onUndelegation() {
       this.$refs.undelegationModal.open()
+    },
+    clearDelegationCache() {
+      this.$store.commit("invalidateCache", [`overview`, `delegations`]) // TODO use more finegrained query string (network and address)
+    },
+    clearUndelegationCache() {
+      this.$store.commit("invalidateCache", [`overview`, `delegations`]) // TODO use more finegrained query string (network and address)
     }
   },
   apollo: {

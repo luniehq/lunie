@@ -81,6 +81,7 @@ export default {
     },
     afterPropose() {
       this.$apollo.queries.proposals.refetch()
+      this.$store.commit("invalidateCache", [`overview`])
     }
   },
   apollo: {

@@ -10,6 +10,7 @@
 <script>
 import { mapGetters } from "vuex"
 import TableUndelegations from "staking/TableUndelegations"
+import refetch from "scripts/apollo-refetch"
 import { UndelegationsForDelegator, UserTransactionAdded } from "src/gql"
 
 export default {
@@ -51,7 +52,7 @@ export default {
         query: UserTransactionAdded,
         result({ data }) {
           if (data.userTransactionAdded.success) {
-            this.$apollo.queries.undelegations.refetch()
+            refetch(this.$apollo.query.undelegations)
           }
         }
       }

@@ -10,6 +10,7 @@
     :transaction-data="transactionData"
     :notify-message="notifyMessage"
     @close="clear"
+    @txIncluded="onSuccess"
   >
     <TmFormGroup class="action-modal-form-group">
       <div class="form-message notice">
@@ -284,6 +285,9 @@ export default {
     },
     enterPressed() {
       this.$refs.actionModal.validateChangeStep()
+    },
+    onSuccess(event) {
+      this.$emit(`success`, event)
     }
   },
   validations() {

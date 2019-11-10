@@ -28,6 +28,7 @@ import { mapGetters } from "vuex"
 import TmDataMsg from "common/TmDataMsg"
 import TableValidators from "staking/TableValidators"
 import { DelegationsForDelegator, UserTransactionAdded } from "src/gql"
+import refetch from "scripts/apollo-refetch"
 
 export default {
   name: `delegations-overview`,
@@ -40,9 +41,6 @@ export default {
   }),
   computed: {
     ...mapGetters(["address", `network`])
-  },
-  mounted() {
-    this.$apollo.queries.delegations.refetch()
   },
   apollo: {
     delegations: {
@@ -75,7 +73,7 @@ export default {
         query: UserTransactionAdded,
         result({ data }) {
           if (data.userTransactionAdded.success) {
-            this.$apollo.queries.delegations.refetch()
+            refetch(this.$apollo.query.delegations)
           }
         }
       }
