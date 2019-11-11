@@ -26,24 +26,12 @@ jest.mock(`src/ActionModal/utils/ActionManager.js`, () => {
   })
 })
 
-const $apollo = {
-  query: () => ({
-    data: {
-      networks: [
-        {
-          action_action_modal: true
-        }
-      ]
-    }
-  })
-}
-
 describe(`ActionModal`, () => {
-  let wrapper, $store
+  let wrapper, $store, $apollo
 
   const overview = {
     totalRewards: 100000,
-    liquidStake: 1230000000,
+    liquidStake: 1230.0,
     totalStake: 1430000000
   }
 
@@ -60,7 +48,8 @@ describe(`ActionModal`, () => {
     action_undelegate: false,
     action_deposit: false,
     action_vote: false,
-    action_proposal: false
+    action_proposal: false,
+    testnet: true
   }
 
   const delegations = [
@@ -93,6 +82,10 @@ describe(`ActionModal`, () => {
       }
     }
   ]
+
+  $apollo = {
+    skipAll: jest.fn(() => false)
+  }
 
   beforeEach(() => {
     $store = {
@@ -134,11 +127,12 @@ describe(`ActionModal`, () => {
         $store,
         $router: {
           push: jest.fn()
-        }
-        // $apollo
+        },
+        $apollo
       },
       stubs: ["router-link"]
     })
+    wrapper.setData({ network, overview })
     wrapper.vm.open()
   })
 
@@ -176,11 +170,11 @@ describe(`ActionModal`, () => {
     expect(self.submissionError).toEqual(`PREFIX: some kind of error message.`)
   })
 
-  xit(`should default to submissionError being null`, () => {
+  it(`should default to submissionError being null`, () => {
     expect(wrapper.vm.submissionError).toBe(null)
   })
 
-  xit(`opens`, () => {
+  it(`opens`, () => {
     wrapper.vm.trackEvent = jest.fn()
     wrapper.vm.open()
 
@@ -188,7 +182,7 @@ describe(`ActionModal`, () => {
     expect(wrapper.vm.trackEvent).toHaveBeenCalled()
   })
 
-  xit(`should confirm modal closing`, () => {
+  it(`should confirm modal closing`, () => {
     global.confirm = () => true
     const closeModal = jest.fn()
     wrapper.vm.session.currrentModalOpen = {
@@ -198,7 +192,7 @@ describe(`ActionModal`, () => {
     expect(closeModal).toHaveBeenCalled()
   })
 
-  xit(`should not open second modal`, () => {
+  it(`should not open second modal`, () => {
     wrapper.setData({ show: false })
     global.confirm = () => false
     wrapper.vm.session.currrentModalOpen = true
@@ -206,7 +200,7 @@ describe(`ActionModal`, () => {
     expect(wrapper.vm.show).toBe(false)
   })
 
-  xit(`opens session modal and closes itself`, () => {
+  it(`opens session modal and closes itself`, () => {
     const $store = { commit: jest.fn() }
     const self = { $store, close: jest.fn(), $router: { push: jest.fn() } }
     ActionModal.methods.goToSession.call(self)
@@ -214,21 +208,21 @@ describe(`ActionModal`, () => {
     expect(self.$router.push).toHaveBeenCalledWith(`/welcome`)
   })
 
-  xit(`shows a password input for local signing`, async () => {
+  it(`shows a password input for local signing`, async () => {
     wrapper.vm.step = `sign`
     expect(wrapper.vm.selectedSignMethod).toBe(`local`)
     await wrapper.vm.$nextTick()
     expect(wrapper.find(`#password`).exists()).toBe(true)
   })
 
-  xit(`hides password input if signing with Ledger`, async () => {
+  it(`hides password input if signing with Ledger`, async () => {
     wrapper.vm.session.sessionType = `ledger`
     wrapper.vm.step = `sign`
     expect(wrapper.vm.selectedSignMethod).toBe(`ledger`)
     expect(wrapper.find(`#password`).exists()).toBe(false)
   })
 
-  xit(`should dispatch connectLedgerApp`, () => {
+  it(`should dispatch connectLedgerApp`, () => {
     const $store = { dispatch: jest.fn() }
     const self = { $store }
     ActionModal.methods.connectLedger.call(self)
@@ -254,25 +248,25 @@ describe(`ActionModal`, () => {
       })
     })
 
-    xit(`when user hasn't logged in`, async () => {
+    it(`when user hasn't logged in`, async () => {
       wrapper.vm.session.signedIn = false
       await wrapper.vm.$nextTick()
       expect(wrapper.element).toMatchSnapshot()
     })
 
-    xit(`waiting on inclusion`, async () => {
+    it(`waiting on inclusion`, async () => {
       wrapper.vm.step = "inclusion"
       expect(wrapper.element).toMatchSnapshot()
     })
 
-    xit(`on success`, async () => {
+    it(`on success`, async () => {
       wrapper.vm.step = "success"
       expect(wrapper.element).toMatchSnapshot()
     })
   })
 
   describe(`back button`, () => {
-    xit(`renders and functions`, () => {
+    it(`renders and functions`, () => {
       wrapper.setData({ step: "sign" })
       expect(wrapper.element).toMatchSnapshot()
       wrapper.find("#prevBtn").trigger("click")
@@ -283,43 +277,43 @@ describe(`ActionModal`, () => {
   })
 
   describe(`close modal`, () => {
-    xit(`closes`, () => {
+    it(`closes`, () => {
       wrapper.vm.open()
       wrapper.vm.close()
       expect(wrapper.isEmpty()).toBe(true)
     })
 
-    xit(`should erase password on close`, () => {
+    it(`should erase password on close`, () => {
       wrapper.vm.password = `mySecretPassword`
       wrapper.vm.close()
       expect(wrapper.vm.password).toBeNull()
     })
 
-    xit(`should clear error on close`, () => {
+    it(`should clear error on close`, () => {
       wrapper.vm.submissionError = `TRUMP`
       wrapper.vm.close()
       expect(wrapper.vm.submissionError).toBeNull()
     })
 
-    xit(`should set the step to transaction details`, () => {
+    it(`should set the step to transaction details`, () => {
       wrapper.vm.step = `sign`
       wrapper.vm.close()
       expect(wrapper.vm.step).toBe(`details`)
     })
 
-    xit(`should close on escape key press`, () => {
+    it(`should close on escape key press`, () => {
       wrapper.trigger("keyup.esc")
       expect(wrapper.isEmpty()).toBe(true)
     })
   })
 
   describe(`validates child form`, () => {
-    xit(`default`, () => {
+    it(`default`, () => {
       const isValid = ActionModal.computed.isValidChildForm.call({})
       expect(isValid).toBe(true)
     })
 
-    xit(`when validation function is present`, () => {
+    it(`when validation function is present`, () => {
       const self = {
         validate: jest.fn(() => true)
       }
@@ -331,14 +325,14 @@ describe(`ActionModal`, () => {
 
   describe(`validates password and gas price`, () => {
     describe(`success`, () => {
-      xit(`when password is required`, () => {
+      it(`when password is required`, () => {
         wrapper.vm.step = `sign`
         wrapper.vm.session.sessionType = `localKeystore`
         wrapper.setData({ password: `1234567890` })
         expect(wrapper.vm.isValidInput(`password`)).toBe(true)
       })
 
-      xit(`when gas price is set on dev mode session`, () => {
+      it(`when gas price is set on dev mode session`, () => {
         wrapper.vm.step = `fees`
         wrapper.vm.session.experimentalMode = true
         wrapper.setData({ gasPrice: 2.5e-8 })
@@ -347,21 +341,21 @@ describe(`ActionModal`, () => {
     })
 
     describe(`fails`, () => {
-      xit(`if password is undefined`, () => {
+      it(`if password is undefined`, () => {
         wrapper.vm.step = `sign`
         wrapper.vm.session.sessionType = `localKeystore`
         wrapper.setData({ password: undefined })
         expect(wrapper.vm.isValidInput(`password`)).toBe(false)
       })
 
-      xit(`if gas price is out of range`, () => {
+      it(`if gas price is out of range`, () => {
         wrapper.vm.step = `fees`
         wrapper.vm.session.experimentalMode = true
-        wrapper.setData({ gasPrice: 1500000 })
+        wrapper.setData({ gasPrice: 150003456700 })
         expect(wrapper.vm.isValidInput(`gasPrice`)).toBe(false)
       })
 
-      xit(`if gas price is undefined`, () => {
+      it(`if gas price is undefined`, () => {
         wrapper.vm.step = `fees`
         wrapper.vm.session.experimentalMode = true
         wrapper.setData({ gasPrice: undefined })
@@ -377,14 +371,14 @@ describe(`ActionModal`, () => {
     })
 
     describe(`success`, () => {
-      xit(`when the total invoice amount is less than the balance`, () => {
+      it(`when the total invoice amount is less than the balance`, () => {
         wrapper.setProps({ amount: 1210 })
         expect(wrapper.vm.isValidInput(`invoiceTotal`)).toBe(true)
       })
     })
 
     describe(`fails`, () => {
-      xit(`when the total invoice amount is more than the balance`, () => {
+      it(`when the total invoice amount is more than the balance`, () => {
         wrapper.setProps({ amount: 1211 })
         expect(wrapper.vm.isValidInput(`invoiceTotal`)).toBe(false)
       })
@@ -392,7 +386,7 @@ describe(`ActionModal`, () => {
   })
 
   describe(`simulate`, () => {
-    xit(`should simulate transaction to get estimated gas`, async () => {
+    it(`should simulate transaction to get estimated gas`, async () => {
       const transactionProperties = {
         type: "MsgSend",
         toAddress: "comsos12345",
@@ -420,7 +414,7 @@ describe(`ActionModal`, () => {
       })
     })
 
-    xit(`should max fees to the available amount`, async () => {
+    it(`should max fees to the available amount`, async () => {
       const transactionProperties = {
         type: "MsgSend",
         toAddress: "comsos12345",
@@ -448,7 +442,7 @@ describe(`ActionModal`, () => {
       })
     })
 
-    xit("should fail if simulation fails", async () => {
+    it("should fail if simulation fails", async () => {
       const mockSimulateFail = jest.fn(() =>
         Promise.reject(new Error(`invalid request`))
       )
@@ -487,14 +481,16 @@ describe(`ActionModal`, () => {
   })
 
   describe(`submit`, () => {
+    // Transactions are confirmed int the apollo subscription methods
+    // which we are yet to test.
     xit(`should submit transaction`, async () => {
       const transactionProperties = {
         type: "MsgSend",
         toAddress: "comsos12345",
         amounts: [
           {
-            amount: "100000",
-            denom: "uatoms"
+            amount: "10",
+            denom: "atoms"
           }
         ],
         memo: "A memo"
@@ -508,7 +504,7 @@ describe(`ActionModal`, () => {
       wrapper.setProps({ transactionProperties })
       wrapper.setData(data)
       wrapper.vm.$emit = jest.fn()
-      await wrapper.vm.submxit()
+      await wrapper.vm.submit()
       expect(wrapper.vm.submissionError).toBe(null)
       expect(wrapper.vm.$emit).toHaveBeenCalledWith(`txIncluded`, {
         txMeta: {
@@ -521,7 +517,7 @@ describe(`ActionModal`, () => {
       })
     })
 
-    xit("should fail if submitting fails", async () => {
+    it("should fail if submitting fails", async () => {
       const mockSubmitFail = jest.fn(() =>
         Promise.reject(new Error(`invalid request`))
       )
@@ -549,14 +545,14 @@ describe(`ActionModal`, () => {
 
       wrapper.setProps({ transactionProperties })
       wrapper.setData(data)
-      wrapper.vm.submxit()
+      wrapper.vm.submit()
       await wrapper.vm.$nextTick()
 
       expect(wrapper.html()).toContain("Transaction failed: invalid request.")
       expect(wrapper.vm.step).toBe("sign")
     })
 
-    xit("should fail if can't connect to Ledger", async () => {
+    it("should fail if can't connect to Ledger", async () => {
       $store.dispatch = jest.fn(() =>
         Promise.reject(new Error(`couldn't find Ledger`))
       )
@@ -583,7 +579,7 @@ describe(`ActionModal`, () => {
 
       wrapper.setProps({ transactionProperties })
       wrapper.setData(data)
-      wrapper.vm.submxit()
+      wrapper.vm.submit()
       await wrapper.vm.$nextTick()
       await wrapper.vm.$nextTick()
 
@@ -612,12 +608,12 @@ describe(`ActionModal`, () => {
     })
 
     describe(`on tx details step`, () => {
-      xit(`when using local keystore`, async () => {
+      it(`when using local keystore`, async () => {
         await ActionModal.methods.validateChangeStep.call(self)
         expect(self.simulate).toHaveBeenCalled()
       })
 
-      xit(`when using ledger`, async () => {
+      it(`when using ledger`, async () => {
         self.session.sessionType = `ledger`
         self.selectedSignMethod = `ledger`
 
@@ -631,12 +627,12 @@ describe(`ActionModal`, () => {
         self.step = `fees`
       })
 
-      xit(`success`, async () => {
+      it(`success`, async () => {
         await ActionModal.methods.validateChangeStep.call(self)
         expect(self.step).toBe(`sign`)
       })
 
-      xit(`fails if gas price is invalid`, async () => {
+      it(`fails if gas price is invalid`, async () => {
         self.isValidInput = jest.fn(() => false)
         await ActionModal.methods.validateChangeStep.call(self)
         expect(self.step).toBe(`fees`)
@@ -648,20 +644,20 @@ describe(`ActionModal`, () => {
         self.step = `sign`
       })
 
-      xit(`when using local keystore`, async () => {
+      it(`when using local keystore`, async () => {
         self.password = `1234567890`
         await ActionModal.methods.validateChangeStep.call(self)
         expect(self.submit).toHaveBeenCalled()
       })
 
-      xit(`fails validation if the password is missing`, async () => {
+      it(`fails validation if the password is missing`, async () => {
         self.password = null
         self.isValidInput = jest.fn(() => false)
         await ActionModal.methods.validateChangeStep.call(self)
         expect(self.submit).not.toHaveBeenCalled()
       })
 
-      xit(`when using ledger`, async () => {
+      it(`when using ledger`, async () => {
         self.session.sessionType = `ledger`
         self.selectedSignMethod = `ledger`
 
@@ -669,7 +665,7 @@ describe(`ActionModal`, () => {
         expect(self.submit).toHaveBeenCalled()
       })
 
-      xit(`when using extension`, async () => {
+      it(`when using extension`, async () => {
         self.session.sessionType = `extension`
         self.selectedSignMethod = `extension`
 
@@ -677,14 +673,14 @@ describe(`ActionModal`, () => {
         expect(self.submit).toHaveBeenCalled()
       })
 
-      xit(`doesn't submit on failed validation`, async () => {
+      it(`doesn't submit on failed validation`, async () => {
         self.isValidInput = jest.fn(() => false)
         await ActionModal.methods.validateChangeStep.call(self)
         expect(self.submit).not.toHaveBeenCalled()
       })
 
-      xit("should dispaly warning when using an address not in the extension", () => {
-        wrapper.vm.isExtensionAccount = false
+      it("should dispaly warning when using an address not in the extension", () => {
+        $store.getters.isExtensionAccount = false
         wrapper.vm.step = "sign"
         wrapper.vm.selectedSignMethod = "extension"
         expect(
@@ -695,7 +691,7 @@ describe(`ActionModal`, () => {
     })
 
     describe(`invalid step`, () => {
-      xit(`does anything`, async () => {
+      it(`does anything`, async () => {
         self.step = `other`
         await ActionModal.methods.validateChangeStep.call(self)
       })
@@ -720,7 +716,7 @@ describe(`ActionModal`, () => {
       }
     })
 
-    xit(`when signing with local keystore`, done => {
+    it(`when signing with local keystore`, done => {
       jest.useFakeTimers()
       self.isValidChildForm = true
       ActionModal.methods.validateChangeStep.call(self).then(() => {
@@ -731,7 +727,7 @@ describe(`ActionModal`, () => {
       jest.runAllTimers()
     })
 
-    xit(`when signing with ledger`, done => {
+    it(`when signing with ledger`, done => {
       self.session.sessionType = `ledger`
       self.step = `sign`
       jest.useFakeTimers()
@@ -745,7 +741,7 @@ describe(`ActionModal`, () => {
   })
 
   describe(`selected sign method`, () => {
-    xit(`selects local signed in with account`, () => {
+    it(`selects local signed in with account`, () => {
       expect(wrapper.vm.selectedSignMethod).toBe(`local`)
       expect(wrapper.vm.signMethods).toEqual([
         {
@@ -755,7 +751,7 @@ describe(`ActionModal`, () => {
       ])
     })
 
-    xit(`selects ledger if device is connected`, () => {
+    it(`selects ledger if device is connected`, () => {
       $store.state.session.sessionType = `ledger`
       expect(wrapper.vm.selectedSignMethod).toBe(`ledger`)
       expect(wrapper.vm.signMethods).toEqual([
@@ -767,7 +763,7 @@ describe(`ActionModal`, () => {
     })
   })
 
-  xit("shows a feature unavailable message", async () => {
+  it("shows a feature unavailable message", async () => {
     wrapper.vm.$apollo = {
       query: () => ({
         data: {
@@ -781,38 +777,13 @@ describe(`ActionModal`, () => {
   })
 
   describe(`windows`, () => {
-    beforeEach(() => {
-      wrapper = shallowMount(ActionModal, {
-        localVue,
-        propsData: {
-          title: `Action Modal`
-        },
-        mocks: {
-          $store: {
-            state: {
-              session: {
-                windowsDevice: true,
-                windowsWarning: "WINDOWS WARNING MESSAGE"
-              },
-              connection: {
-                network: "testnet"
-              },
-              extension: {
-                enabled: true
-              }
-            },
-            getters: {
-              network: "testnet"
-            },
-            commit: jest.fn()
-          },
-          $apollo
-        },
-        stubs: ["router-link"]
+    it(`shows windows warning`, async () => {
+      wrapper.setData({
+        session: {
+          windowsDevice: true,
+          windowsWarning: "WINDOWS WARNING MESSAGE"
+        }
       })
-      wrapper.vm.open()
-    })
-    xit(`shows windows warning`, async () => {
       expect(wrapper.element).toMatchSnapshot()
       expect(wrapper.text()).toMatch(/WINDOWS WARNING MESSAGE/)
     })

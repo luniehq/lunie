@@ -10,6 +10,7 @@
     :transaction-data="transactionData"
     :notify-message="notifyMessage"
     @close="clear"
+    @txIncluded="onSuccess"
   >
     <TmFormGroup class="action-modal-form-group">
       <div class="form-message notice">
@@ -143,6 +144,7 @@ import ActionModal from "./ActionModal"
 import transaction from "../utils/transactionTypes"
 import { toMicroDenom } from "src/scripts/common"
 import { formatBech32 } from "src/filters"
+import { UserTransactionAdded } from "src/gql"
 
 export default {
   name: `delegation-modal`,
@@ -253,6 +255,10 @@ export default {
       return this.fromOptions[this.selectedIndex].maximum
     }
   },
+  mounted() {
+    this.$apollo.queries.balance.refetch()
+    this.$apollo.queries.delegations.refetch()
+  },
   methods: {
     open(options) {
       if (options && options.redelegation && this.fromOptions.length > 1) {
@@ -279,6 +285,9 @@ export default {
     },
     enterPressed() {
       this.$refs.actionModal.validateChangeStep()
+    },
+    onSuccess(event) {
+      this.$emit(`success`, event)
     }
   },
   validations() {
@@ -293,7 +302,10 @@ export default {
   apollo: {
     delegations: {
       query: gql`
-        query Delegations($networkId: String!, $delegatorAddress: String!) {
+        query DelegationsDelegationModal(
+          $networkId: String!
+          $delegatorAddress: String!
+        ) {
           delegations(
             networkId: $networkId
             delegatorAddress: $delegatorAddress
@@ -322,7 +334,11 @@ export default {
     },
     balance: {
       query: gql`
-        query balance($networkId: String!, $address: String!, $denom: String!) {
+        query BalanceDelegationModal(
+          $networkId: String!
+          $address: String!
+          $denom: String!
+        ) {
           balance(networkId: $networkId, address: $address, denom: $denom) {
             amount
             denom
@@ -342,7 +358,7 @@ export default {
     },
     denom: {
       query: gql`
-        query Networks($networkId: String!) {
+        query NetworksDelegationModal($networkId: String!) {
           network(id: $networkId) {
             id
             stakingDenom
@@ -357,6 +373,25 @@ export default {
       update(data) {
         /* istanbul ignore next */
         return data.network.stakingDenom
+      }
+    }
+  },
+  $subscribe: {
+    userTransactionAdded: {
+      variables() {
+        return {
+          networkId: this.network,
+          address: this.address
+        }
+      },
+      skip() {
+        return !this.address
+      },
+      query: UserTransactionAdded,
+      result({ data }) {
+        if (data.userTransactionAdded.success) {
+          this.$apollo.queries.delegations.refetch()
+        }
       }
     }
   }

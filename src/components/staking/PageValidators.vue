@@ -1,9 +1,5 @@
 <template>
-  <TmPage
-    :managed="true"
-    :data-empty="validators && validators.length === 0"
-    hide-header
-  >
+  <TmPage :managed="true" hide-header>
     <template slot="managed-body">
       <div class="filterOptions">
         <TmField
@@ -36,12 +32,14 @@
       >
         No results for these search terms
       </div>
+      <TmDataLoading v-if="$apollo.loading" />
     </template>
   </TmPage>
 </template>
 
 <script>
 import { mapGetters } from "vuex"
+import TmDataLoading from "common/TmDataLoading"
 import TableValidators from "staking/TableValidators"
 import TmPage from "common/TmPage"
 import TmField from "common/TmField"
@@ -52,6 +50,7 @@ export default {
   name: `tab-validators`,
   components: {
     TableValidators,
+    TmDataLoading,
     TmPage,
     TmField,
     TmBtn
@@ -86,18 +85,7 @@ export default {
             name
             operatorAddress
             consensusPubkey
-            jailed
-            details
-            website
-            identity
             votingPower
-            startHeight
-            uptimePercentage
-            tokens
-            commissionUpdateTime
-            commission
-            maxCommission
-            maxChangeCommission
             status
             statusDetailed
             picture

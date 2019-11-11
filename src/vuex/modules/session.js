@@ -9,7 +9,7 @@ const windowsWarning = `If you’re using Windows 10 (May 2019 update), signing
 transactions with your Ledger Nano S will not work. Please use another
 operating system, or version of Windows.`
 
-export default () => {
+export default ({ apollo }) => {
   const USER_PREFERENCES_KEY = `lunie_user_preferences`
 
   const state = {
@@ -63,8 +63,8 @@ export default () => {
     setExperimentalMode(state) {
       state.experimentalMode = true
     },
-    setInsecureMode(state, insecureMode) {
-      state.insecureMode = insecureMode
+    setInsecureMode(state) {
+      state.insecureMode = true
     },
     addHistory(state, path) {
       state.history.push(path)
@@ -80,6 +80,19 @@ export default () => {
     },
     setCurrrentModalOpen(state, modal) {
       state.currrentModalOpen = modal
+    },
+
+    // TODO to own store module?
+    // clear the cache manually so we can force reloading of stale data in not mounted components
+    invalidateCache(state, queries) {
+      let rootQuery = apollo.cache.data.data.ROOT_QUERY
+      Object.keys(rootQuery)
+        .filter(query =>
+          queries.find(queryToClear => query.startsWith(queryToClear))
+        )
+        .forEach(query => {
+          delete rootQuery[query]
+        })
     }
   }
 

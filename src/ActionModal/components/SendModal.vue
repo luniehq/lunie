@@ -9,6 +9,7 @@
     :transaction-data="transactionData"
     :notify-message="notifyMessage"
     @close="clear"
+    @txIncluded="onSuccess"
   >
     <TmFormGroup
       :error="$v.address.$error && $v.address.$invalid"
@@ -194,6 +195,9 @@ export default {
     open() {
       this.$refs.actionModal.open()
     },
+    onSuccess(event) {
+      this.$emit(`success`, event)
+    },
     validateForm() {
       this.$v.$touch()
 
@@ -257,7 +261,11 @@ export default {
   apollo: {
     balance: {
       query: gql`
-        query balance($networkId: String!, $address: String!, $denom: String!) {
+        query BalanceSendModal(
+          $networkId: String!
+          $address: String!
+          $denom: String!
+        ) {
           balance(networkId: $networkId, address: $address, denom: $denom) {
             amount
             denom

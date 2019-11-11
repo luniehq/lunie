@@ -6,6 +6,7 @@ exports[`DelegationModal should display the delegation modal form 1`] = `
   class="delegation-modal"
   id="delegation-modal"
   notifymessage="[object Object]"
+  rewards=""
   submissionerrorprefix="Delegating failed"
   title="Delegate"
   transactiondata="[object Object]"

@@ -6,6 +6,7 @@ exports[`ModalDeposit should display deposit modal form 1`] = `
   class="modal-deposit"
   id="modal-deposit"
   notifymessage="[object Object]"
+  rewards=""
   submissionerrorprefix="Depositing failed"
   title="Deposit"
   transactiondata="[object Object]"

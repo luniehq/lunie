@@ -233,7 +233,11 @@ export default {
   apollo: {
     balance: {
       query: gql`
-        query balance($networkId: String!, $address: String!, $denom: String!) {
+        query BalanceModalPropos(
+          $networkId: String!
+          $address: String!
+          $denom: String!
+        ) {
           balance(networkId: $networkId, address: $address, denom: $denom) {
             amount
             denom

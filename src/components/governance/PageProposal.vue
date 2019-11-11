@@ -240,6 +240,7 @@ export default {
         proposalId: this.proposal.id,
         address: this.address
       })
+      this.$store.commit("invalidateCache", [`overview`, `transactions`])
     },
     onDeposit() {
       this.$refs.modalDeposit.open()
@@ -248,6 +249,7 @@ export default {
       this.$apollo.queries.proposal.refetch({
         id: this.proposal.id
       })
+      this.$store.commit("invalidateCache", [`overview`, `transactions`])
     }
   },
   apollo: {

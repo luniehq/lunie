@@ -6,6 +6,7 @@ exports[`UndelegationModal should display undelegation modal form 1`] = `
   class="undelegation-modal"
   id="undelegation-modal"
   notifymessage="[object Object]"
+  rewards=""
   submissionerrorprefix="Undelegating failed"
   title="Undelegate"
   transactiondata="[object Object]"

@@ -10,6 +10,7 @@
     :transaction-data="transactionData"
     :notify-message="notifyMessage"
     @close="clear"
+    @txIncluded="onSuccess"
   >
     <TmFormGroup class="action-modal-form-group">
       <div class="form-message notice">
@@ -174,12 +175,18 @@ export default {
     switchToRedelegation() {
       this.$refs.actionModal.close()
       this.$emit("switchToRedelegation")
+    },
+    onSuccess(event) {
+      this.$emit(`success`, event)
     }
   },
   apollo: {
     delegations: {
       query: gql`
-        query Delegations($networkId: String!, $delegatorAddress: String!) {
+        query DelegationsUndelegationModal(
+          $networkId: String!
+          $delegatorAddress: String!
+        ) {
           delegations(
             networkId: $networkId
             delegatorAddress: $delegatorAddress
@@ -207,7 +214,7 @@ export default {
     },
     denom: {
       query: gql`
-        query Networks($networkId: String!) {
+        query NetworksUndelegationModal($networkId: String!) {
           network(id: $networkId) {
             id
             stakingDenom

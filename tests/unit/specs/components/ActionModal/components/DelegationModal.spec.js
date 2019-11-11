@@ -46,7 +46,13 @@ describe(`DelegationModal`, () => {
     wrapper = shallowMount(DelegationModal, {
       localVue,
       mocks: {
-        $store: { getters, state }
+        $store: { getters, state },
+        $apollo: {
+          queries: {
+            balance: { refetch: () => {} },
+            delegations: { refetch: () => {} }
+          }
+        }
       },
       propsData: {
         targetValidator: validators[0]

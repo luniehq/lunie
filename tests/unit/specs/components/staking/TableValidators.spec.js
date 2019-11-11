@@ -20,13 +20,26 @@ const validators = [
 ]
 
 describe(`TableValidators`, () => {
-  let wrapper
+  let wrapper, $apollo
+
+  $apollo = {
+    queries: {
+      rewards: {
+        loading: false,
+        error: false,
+        startPolling: jest.fn()
+      }
+    }
+  }
 
   beforeEach(() => {
     wrapper = shallowMount(TableValidators, {
       propsData: { validators },
       directives: {
         infiniteScroll: () => {}
+      },
+      mocks: {
+        $apollo
       }
     })
   })

@@ -110,6 +110,9 @@ export default {
       this.showing = 15
     }
   },
+  mounted() {
+    this.$apollo.queries.rewards.startPolling(1000 * 60 * 5)
+  },
   methods: {
     loadMore() {
       this.showing += 10
@@ -146,28 +149,8 @@ export default {
           delegatorAddress: this.address
         }
       },
-      update: result => result.rewards || []
-    },
-    $subscribe: {
-      blockAdded: {
-        variables() {
-          return {
-            networkId: this.network
-          }
-        },
-        query() {
-          return gql`
-            subscription($networkId: String!) {
-              blockAdded(networkId: $networkId) {
-                height
-                chainId
-              }
-            }
-          `
-        },
-        result() {
-          this.$apollo.queries.rewards.refetch()
-        }
+      update: result => {
+        return result.rewards || []
       }
     }
   }

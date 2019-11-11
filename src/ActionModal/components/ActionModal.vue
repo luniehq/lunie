@@ -1,5 +1,5 @@
 <template>
-  <transition v-if="show" name="slide-fade">
+  <transition v-if="show && !$apollo.loading" name="slide-fade">
     <div v-focus-last class="action-modal" tabindex="0" @keyup.esc="close">
       <div
         v-if="(step === feeStep || step === signStep) && !sending"
@@ -23,7 +23,7 @@
         <Steps
           v-if="
             [defaultStep, feeStep, signStep].includes(step) &&
-              featureAvailable &&
+              checkFeatureAvailable &&
               !isMobileApp
           "
           :steps="['Details', 'Fees', 'Sign']"
@@ -42,7 +42,7 @@
           extension.
         </p>
       </div>
-      <template v-if="!featureAvailable">
+      <template v-if="!checkFeatureAvailable">
         <FeatureNotAvailable :feature="title" />
       </template>
       <template v-else>
@@ -367,6 +367,10 @@ export default {
       type: [String, Number],
       default: `0`
     },
+    rewards: {
+      type: Array,
+      default: () => []
+    },
     transactionData: {
       type: Object,
       default: () => {}
@@ -410,6 +414,15 @@ export default {
     ...mapState([`extension`, `session`]),
     ...mapGetters([`connected`, `isExtensionAccount`]),
     ...mapGetters({ networkId: `network` }),
+    checkFeatureAvailable() {
+      /* istanbul ignore next */
+      if (this.network.testnet) {
+        return true
+      }
+
+      const action = `action_${this.title.toLowerCase().replace(" ", "_")}`
+      return this.network[action] === true
+    },
     requiresSignIn() {
       return !this.session.signedIn
     },
@@ -473,6 +486,9 @@ export default {
       }
     }
   },
+  created() {
+    this.$apollo.skipAll = true
+  },
   updated: function() {
     const context = this.createContext()
     this.actionManager.setContext(context)
@@ -511,13 +527,13 @@ export default {
     },
     open() {
       this.confirmModalOpen()
+      this.$apollo.skipAll = false
       if (this.session.currrentModalOpen) {
         return
       }
 
       this.$store.commit(`setCurrrentModalOpen`, this)
       this.trackEvent(`event`, `modal`, this.title)
-      this.checkFeatureAvailable()
       this.gasPrice = config.default_gas_price.toFixed(9)
       this.show = true
     },
@@ -529,6 +545,7 @@ export default {
       this.show = false
       this.sending = false
       this.includedHeight = undefined
+      this.$apollo.skipAll = true
 
       // reset form
       this.$v.$reset()
@@ -661,16 +678,6 @@ export default {
     },
     async connectLedger() {
       await this.$store.dispatch(`connectLedgerApp`)
-    },
-    async checkFeatureAvailable() {
-      /* istanbul ignore next */
-      if (this.network === "testnet") {
-        this.featureAvailable = true
-        return
-      }
-
-      const action = `action_${this.title.toLowerCase().replace(" ", "_")}`
-      this.featureAvailable = this.network[action] === true
     }
   },
   validations() {
@@ -698,7 +705,7 @@ export default {
   apollo: {
     overview: {
       query: gql`
-        query overview($networkId: String!, $address: String!) {
+        query OverviewActionModal($networkId: String!, $address: String!) {
           overview(networkId: $networkId, address: $address) {
             totalRewards
             liquidStake
@@ -729,6 +736,7 @@ export default {
         query NetworkActionModal($networkId: String!) {
           network(id: $networkId) {
             id
+            testnet
             stakingDenom
             chain_id
             rpc_url
@@ -751,12 +759,16 @@ export default {
       },
       update(data) {
         /* istanbul ignore next */
+
         return data.network
       }
     },
     delegations: {
       query: gql`
-        query Delegations($networkId: String!, $delegatorAddress: String!) {
+        query DelegationsActionModal(
+          $networkId: String!
+          $delegatorAddress: String!
+        ) {
           delegations(
             networkId: $networkId
             delegatorAddress: $delegatorAddress
@@ -781,28 +793,6 @@ export default {
         /* istanbul ignore next */
         return data.delegations
       }
-    },
-    rewards: {
-      query: gql`
-        query RewardsActionModal(
-          $networkId: String!
-          $delegatorAddress: String!
-        ) {
-          rewards(networkId: $networkId, delegatorAddress: $delegatorAddress) {
-            validator {
-              operatorAddress
-            }
-            amount
-          }
-        }
-      `,
-      variables() {
-        return {
-          networkId: this.networkId,
-          delegatorAddress: this.session.address
-        }
-      },
-      update: result => result.rewards
     },
     $subscribe: {
       userTransactionAdded: {
