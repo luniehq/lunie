@@ -81,7 +81,7 @@ export default {
     },
     afterPropose() {
       this.$apollo.queries.proposals.refetch()
-      this.$store.commit("invalidateCache", [`overview`])
+      this.$store.commit("invalidateCache", [`overview`, `transactions`])
     }
   },
   apollo: {
