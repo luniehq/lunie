@@ -243,6 +243,7 @@ export default {
       this.$store.commit("invalidateCache", [
         `overview`,
         `delegations`,
+        `undelegations`,
         `transactions`
       ]) // TODO use more finegrained query string (network and address)
     }
