@@ -86,7 +86,7 @@ async function apiUp() {
         throw new Error(JSON.stringify(response.data.errors))
       }
       console.log("OVERVIEW", response.data.data.overview)
-      if (response.data.data.overview.totalStake !== 1000) {
+      if (response.data.data.overview.totalStake !== "1000") {
         continue
       }
       apiUp = true
