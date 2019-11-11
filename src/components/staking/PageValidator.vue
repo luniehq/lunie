@@ -233,10 +233,18 @@ export default {
       this.$refs.undelegationModal.open()
     },
     clearDelegationCache() {
-      this.$store.commit("invalidateCache", [`overview`, `delegations`]) // TODO use more finegrained query string (network and address)
+      this.$store.commit("invalidateCache", [
+        `overview`,
+        `delegations`,
+        `transactions`
+      ]) // TODO use more finegrained query string (network and address)
     },
     clearUndelegationCache() {
-      this.$store.commit("invalidateCache", [`overview`, `delegations`]) // TODO use more finegrained query string (network and address)
+      this.$store.commit("invalidateCache", [
+        `overview`,
+        `delegations`,
+        `transactions`
+      ]) // TODO use more finegrained query string (network and address)
     }
   },
   apollo: {
