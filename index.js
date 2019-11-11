@@ -12,9 +12,9 @@ const BlockStore = require('./lib/block-store')
 const { networks } = require('./data/network-configs')
 const config = require('./config')
 
-if(config.SENTRY_DSN){
-  const Sentry = require('@sentry/node');
-  Sentry.init({ dsn: config.SENTRY_DSN });
+if (config.SENTRY_DSN) {
+  const Sentry = require('@sentry/node')
+  Sentry.init({ dsn: config.SENTRY_DSN })
 }
 
 const store = mapValues(networks, network => new BlockStore(network.id))
