@@ -10,7 +10,7 @@
 <script>
 import { mapGetters } from "vuex"
 import TableUndelegations from "staking/TableUndelegations"
-import refetch from "scripts/apollo-refetch"
+import refetchNetworkOnly from "scripts/refetch-network-only"
 import { UndelegationsForDelegator, UserTransactionAdded } from "src/gql"
 
 export default {
@@ -52,7 +52,7 @@ export default {
         query: UserTransactionAdded,
         result({ data }) {
           if (data.userTransactionAdded.success) {
-            refetch(this.$apollo.query.undelegations)
+            refetchNetworkOnly(this.$apollo.query.undelegations)
           }
         }
       }

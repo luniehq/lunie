@@ -42,7 +42,7 @@
 </template>
 <script>
 import { shortDecimals } from "scripts/num"
-import refetch from "scripts/apollo-refetch"
+import refetchNetworkOnly from "scripts/refetch-network-only"
 import { noBlanks } from "src/filters"
 import TmBtn from "common/TmBtn"
 import SendModal from "src/ActionModal/components/SendModal"
@@ -145,7 +145,7 @@ export default {
         query: UserTransactionAdded,
         result() {
           // query if successful or not as even an unsuccessful tx costs fees
-          refetch(this.$apollo.query.overview)
+          refetchNetworkOnly(this.$apollo.query.overview)
         }
       }
     }
