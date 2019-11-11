@@ -42,6 +42,7 @@
 </template>
 <script>
 import { shortDecimals } from "scripts/num"
+import refetchNetworkOnly from "scripts/refetch-network-only"
 import { noBlanks } from "src/filters"
 import TmBtn from "common/TmBtn"
 import SendModal from "src/ActionModal/components/SendModal"
@@ -73,12 +74,6 @@ export default {
     readyToWithdraw() {
       return this.overview.totalRewards > 0
     }
-  },
-  mounted() {
-    // We need to account or a small delay in the node processing of balances.
-    // TODO: Find a cleaner solution.
-    const refetch = () => this.$apollo.queries.overview.refetch()
-    setTimeout(refetch, 2000)
   },
   methods: {
     onWithdrawal() {
@@ -150,7 +145,7 @@ export default {
         query: UserTransactionAdded,
         result() {
           // query if successful or not as even an unsuccessful tx costs fees
-          this.$apollo.queries.overview.refetch()
+          refetchNetworkOnly(this.$apollo.query.overview)
         }
       }
     }

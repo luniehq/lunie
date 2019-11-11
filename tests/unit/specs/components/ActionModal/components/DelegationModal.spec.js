@@ -29,7 +29,7 @@ describe(`DelegationModal`, () => {
   let wrapper
   const localVue = createLocalVue()
   localVue.use(Vuelidate)
-  localVue.directive("focus", () => {})
+  localVue.directive("focus", () => { })
 
   const state = {
     session: {
@@ -46,7 +46,13 @@ describe(`DelegationModal`, () => {
     wrapper = shallowMount(DelegationModal, {
       localVue,
       mocks: {
-        $store: { getters, state }
+        $store: { getters, state },
+        $apollo: {
+          queries: {
+            balance: { refetch: () => { } },
+            delegations: { refetch: () => { } }
+          }
+        }
       },
       propsData: {
         targetValidator: validators[0]
