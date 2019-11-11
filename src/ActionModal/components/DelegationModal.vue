@@ -10,6 +10,7 @@
     :transaction-data="transactionData"
     :notify-message="notifyMessage"
     @close="clear"
+    @txIncluded="onSuccess"
   >
     <TmFormGroup class="action-modal-form-group">
       <div class="form-message notice">
@@ -143,6 +144,7 @@ import ActionModal from "./ActionModal"
 import transaction from "../utils/transactionTypes"
 import { toMicroDenom } from "src/scripts/common"
 import { formatBech32 } from "src/filters"
+import { UserTransactionAdded } from "src/gql"
 
 export default {
   name: `delegation-modal`,
@@ -253,6 +255,10 @@ export default {
       return this.fromOptions[this.selectedIndex].maximum
     }
   },
+  mounted() {
+    this.$apollo.queries.balance.refetch()
+    this.$apollo.queries.delegations.refetch()
+  },
   methods: {
     open(options) {
       if (options && options.redelegation && this.fromOptions.length > 1) {
@@ -279,6 +285,9 @@ export default {
     },
     enterPressed() {
       this.$refs.actionModal.validateChangeStep()
+    },
+    onSuccess(event) {
+      this.$emit(`success`, event)
     }
   },
   validations() {
@@ -364,6 +373,25 @@ export default {
       update(data) {
         /* istanbul ignore next */
         return data.network.stakingDenom
+      }
+    }
+  },
+  $subscribe: {
+    userTransactionAdded: {
+      variables() {
+        return {
+          networkId: this.network,
+          address: this.address
+        }
+      },
+      skip() {
+        return !this.address
+      },
+      query: UserTransactionAdded,
+      result({ data }) {
+        if (data.userTransactionAdded.success) {
+          this.$apollo.queries.delegations.refetch()
+        }
       }
     }
   }

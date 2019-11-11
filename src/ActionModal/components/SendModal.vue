@@ -9,6 +9,7 @@
     :transaction-data="transactionData"
     :notify-message="notifyMessage"
     @close="clear"
+    @txIncluded="onSuccess"
   >
     <TmFormGroup
       :error="$v.address.$error && $v.address.$invalid"
@@ -193,6 +194,9 @@ export default {
   methods: {
     open() {
       this.$refs.actionModal.open()
+    },
+    onSuccess(event) {
+      this.$emit(`success`, event)
     },
     validateForm() {
       this.$v.$touch()

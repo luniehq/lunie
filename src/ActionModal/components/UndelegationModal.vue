@@ -10,6 +10,7 @@
     :transaction-data="transactionData"
     :notify-message="notifyMessage"
     @close="clear"
+    @txIncluded="onSuccess"
   >
     <TmFormGroup class="action-modal-form-group">
       <div class="form-message notice">
@@ -174,6 +175,9 @@ export default {
     switchToRedelegation() {
       this.$refs.actionModal.close()
       this.$emit("switchToRedelegation")
+    },
+    onSuccess(event) {
+      this.$emit(`success`, event)
     }
   },
   apollo: {

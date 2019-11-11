@@ -34,7 +34,8 @@ async function waitFor(check, iterations = 10, timeout = 1000) {
     }
   }
 
-  throw new Error("Condition was not meet in time")
+  console.error("Condition was not meet in time")
+  process.exit(2) // exiting here so the e2e tests actually fail. if not they pass
 }
 async function waitForText(
   browser,
@@ -50,10 +51,7 @@ async function waitForText(
     },
     iterations,
     timeout
-  ).catch(err => {
-    console.log(err.message)
-    process.exit(2)
-  })
+  )
 }
 
 // performs some details actions and handles checking of the invoice step + signing
@@ -140,12 +138,14 @@ async function actionModalCheckout(
 
   // check if balance header updates as expected
   // TODO find a way to know the rewards on an undelegation to know the final balance 100%
+  console.log("Wait for total balance to update")
   await waitFor(async () => {
     const approximatedBalanceAfter = balanceBefore - expectedTotalChange - fees
     expect(
       Math.abs(approximatedBalanceAfter - (await getBalance(browser)))
     ).to.be.lessThan(2) // acounting for rewards being withdrawn on an undelegation
   })
+  console.log("Wait for liquid balance to update")
   await waitFor(async () => {
     const approximatedAvailableBalanceAfter =
       availableTokensBefore - expectedAvailableTokensChange - fees

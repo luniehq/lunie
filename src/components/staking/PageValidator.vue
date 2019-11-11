@@ -133,11 +133,16 @@
         </li>
       </ul>
 
-      <DelegationModal ref="delegationModal" :target-validator="validator" />
+      <DelegationModal
+        ref="delegationModal"
+        :target-validator="validator"
+        @success="clearDelegationCache"
+      />
       <UndelegationModal
         ref="undelegationModal"
         :source-validator="validator"
         @switchToRedelegation="onDelegation({ redelegation: true })"
+        @success="clearUnelegationCache"
       />
     </template>
     <template v-else>
@@ -212,6 +217,10 @@ export default {
     ...mapGetters([`network`]),
     ...mapGetters({ userAddress: `address` })
   },
+  mounted() {
+    this.$apollo.queries.rewards.refetch()
+    this.$apollo.queries.delegation.refetch()
+  },
   methods: {
     shortDecimals,
     atoms,
@@ -222,6 +231,12 @@ export default {
     },
     onUndelegation() {
       this.$refs.undelegationModal.open()
+    },
+    clearDelegationCache() {
+      this.$store.commit("invalidateCache", [`overview`, `delegations`]) // TODO use more finegrained query string (network and address)
+    },
+    clearUndelegationCache() {
+      this.$store.commit("invalidateCache", [`overview`, `delegations`]) // TODO use more finegrained query string (network and address)
     }
   },
   apollo: {
@@ -285,9 +300,7 @@ export default {
         }
       },
       update: result => {
-        const r = result.rewards.length > 0 ? result.rewards[0] : { amount: 0 }
-        console.log(r)
-        return r
+        return result.rewards.length > 0 ? result.rewards[0] : { amount: 0 }
       }
     },
     validator: {
