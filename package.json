@@ -7,7 +7,7 @@
     "serve": "kill-port 9080 && vue-cli-service serve --port 9080",
     "serve:mobile": "kill-port 9080 && cross-env VUE_APP_GRAPHQL_URL=https://backend.lunie.io/v1/graphql STARGATE=https://lcd.nylira.net RPC=https://rpc.nylira.net MOBILE_APP=true vue-cli-service serve --port 9080",
     "build": "vue-cli-service build",
-    "build:mobile": "cross-env VUE_APP_GRAPHQL_URL=https://backend.lunie.io/v1/graphql STARGATE=https://lcd.nylira.net RPC=https://rpc.nylira.net MOBILE_APP=true vue-cli-service build",
+    "build:mobile": "cross-env MOBILE_APP=true npm run build",
     "lint": "vue-cli-service lint",
     "certificates": "docker-compose -f tasks/certificates/docker-compose.yml up",
     "changelog": "simsala log --pending-path ./changes",
