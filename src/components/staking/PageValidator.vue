@@ -142,7 +142,7 @@
         ref="undelegationModal"
         :source-validator="validator"
         @switchToRedelegation="onDelegation({ redelegation: true })"
-        @success="clearUnelegationCache"
+        @success="clearUndelegationCache"
       />
     </template>
     <template v-else>
