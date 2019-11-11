@@ -826,14 +826,6 @@
   resolved "https://registry.yarnpkg.com/@ledgerhq/logs/-/logs-4.72.0.tgz#43df23af013ad1135407e5cf33ca6e4c4c7708d5"
   integrity sha512-o+TYF8vBcyySRsb2kqBDv/KMeme8a2nwWoG+lAWzbDmWfb2/MrVWYCVYDYvjXdSoI/Cujqy1i0gIDrkdxa9chA==
 
-"@lunie/cosmos-api@0.1.2":
-  version "0.1.2"
-  resolved "https://registry.yarnpkg.com/@lunie/cosmos-api/-/cosmos-api-0.1.2.tgz#09aa13097f980e91c5ecaa0fd11ade504c2fdaaf"
-  integrity sha512-DHr4Jcg+Y1Er4L+44/af5BpW81Mwowu9TqQgSTd9jgG4aAwZAy43KydsoJFt/NMPWx6ZjpREhCIwuqONV2hBKQ==
-  dependencies:
-    "@babel/runtime" "^7.5.4"
-    axios "^0.19.0"
-
 "@lunie/cosmos-keys@0.1.0":
   version "0.1.0"
   resolved "https://registry.yarnpkg.com/@lunie/cosmos-keys/-/cosmos-keys-0.1.0.tgz#f7c4beba376d90866291913a8a862b3f55673b38"
@@ -3460,6 +3452,22 @@ cosmiconfig@^5.0.0, cosmiconfig@^5.2.1:
     is-directory "^0.3.1"
     js-yaml "^3.13.1"
     parse-json "^4.0.0"
+
+"cosmos-apiV0@npm:@lunie/cosmos-api@0.1.x":
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/@lunie/cosmos-api/-/cosmos-api-0.1.2.tgz#09aa13097f980e91c5ecaa0fd11ade504c2fdaaf"
+  integrity sha512-DHr4Jcg+Y1Er4L+44/af5BpW81Mwowu9TqQgSTd9jgG4aAwZAy43KydsoJFt/NMPWx6ZjpREhCIwuqONV2hBKQ==
+  dependencies:
+    "@babel/runtime" "^7.5.4"
+    axios "^0.19.0"
+
+"cosmos-apiV2@npm:@lunie/cosmos-api@0.2.x":
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/@lunie/cosmos-api/-/cosmos-api-0.2.1.tgz#93eb232b1903b4dc9eb96701f41ef95360c7675e"
+  integrity sha512-Q0+0HjeX9j6c9XJGN9kA0d1E/AMsgWthxWpGJi4znB9JKO4PRO2z4YnN/yZksXpLeT2Hl0JM2IwsgU6E27QYJQ==
+  dependencies:
+    "@babel/runtime" "^7.5.4"
+    axios "^0.19.0"
 
 create-ecdh@^4.0.0:
   version "4.0.3"

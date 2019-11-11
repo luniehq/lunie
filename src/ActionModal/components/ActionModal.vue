@@ -503,6 +503,7 @@ export default {
     createContext() {
       return {
         url: this.network.api_url, // state.connection.externals.node.url,
+        networkId: this.network.id, // state.connection.lastHeader.chain_id,
         chainId: this.network.chain_id, // state.connection.lastHeader.chain_id,
         connected: this.connected,
         userAddress: this.session.address,
@@ -611,7 +612,7 @@ export default {
     },
     async simulate() {
       const { type, memo, ...properties } = this.transactionData
-      this.actionManager.setMessage(type, properties)
+      await this.actionManager.setMessage(type, properties)
       try {
         this.gasEstimate = await this.actionManager.simulate(memo)
         this.step = feeStep
