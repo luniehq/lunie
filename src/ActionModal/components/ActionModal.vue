@@ -282,6 +282,7 @@
 
 <script>
 import gql from "graphql-tag"
+import noScroll from "no-scroll"
 import HardwareState from "src/components/common/TmHardwareState"
 import TmBtn from "src/components/common/TmBtn"
 import TmField from "src/components/common/TmField"
@@ -438,7 +439,9 @@ export default {
     },
     signMethods() {
       let signMethods = []
-      if (this.session.sessionType === sessionType.EXPLORE) {
+      if (this.isMobileApp) {
+        signMethods.push(signMethodOptions.LOCAL)
+      } else if (this.session.sessionType === sessionType.EXPLORE) {
         signMethods.push(signMethodOptions.LEDGER)
         signMethods.push(signMethodOptions.EXTENSION)
       } else if (this.session.sessionType === sessionType.LEDGER) {
@@ -531,8 +534,10 @@ export default {
       this.trackEvent(`event`, `modal`, this.title)
       this.gasPrice = config.default_gas_price.toFixed(9)
       this.show = true
+      if (config.isMobileApp) noScroll.on()
     },
     close() {
+      if (config.isMobileApp) noScroll.off()
       this.$store.commit(`setCurrrentModalOpen`, false)
       this.submissionError = null
       this.password = null
@@ -941,6 +946,20 @@ export default {
   margin: 2rem 0 2rem 0;
 }
 
+/* max width of the action modal */
+@media screen and (max-width: 564px) {
+  .action-modal-footer {
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: var(--app-nav);
+    padding: 1rem;
+    border-top: 1px solid var(--bc);
+  }
+}
+
 @media screen and (max-width: 576px) {
   .tm-data-msg__icon {
     margin-right: 0;
@@ -961,22 +980,8 @@ export default {
   .action-modal {
     right: 0;
     top: 0;
-  }
-
-  .action-modal-form {
     overflow-x: scroll;
     padding-bottom: 69px;
-  }
-
-  .action-modal-footer {
-    width: 100%;
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background: var(--app-nav);
-    padding: 1rem;
-    border-top: 1px solid var(--bc);
   }
 
   .action-modal-footer button {
