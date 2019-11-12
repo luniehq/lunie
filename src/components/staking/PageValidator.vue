@@ -173,11 +173,11 @@ import { ValidatorProfile, UserTransactionAdded } from "src/gql"
 function getStatusText(statusDetailed) {
   switch (statusDetailed) {
     case "inactive":
-      return "Validator is currently not validating"
+      return "Validator is not currently validating"
     case "banned":
-      return "Validator is banned from the network"
+      return "Validator is temporarily banned from the network"
     default:
-      return "Validator is actively validating"
+      return "Validator is online and creating blocks"
   }
 }
 
@@ -439,7 +439,6 @@ span {
 .validator-status-detailed {
   display: block;
   margin-top: 0.4rem;
-  color: var(--warning);
   font-size: 0.8rem;
 }
 </style>
