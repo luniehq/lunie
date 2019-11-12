@@ -2,6 +2,8 @@
   <TmPage
     :managed="true"
     :data-empty="!validator.operatorAddress"
+    :loading="$apollo.loading"
+    :loaded="!$apollo.loading"
     :hide-header="true"
     data-title="Validator"
     class="small"
