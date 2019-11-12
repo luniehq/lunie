@@ -3,6 +3,9 @@ import routes from "./routes"
 import { NetworkCapability, NetworkCapabilityResult } from "./gql"
 import Vue from "vue"
 
+// Reset scroll
+Vue.prototype.$scrollToTop = () => window.scrollTo(0, 0)
+
 /* istanbul ignore next */
 Vue.use(Router)
 
