@@ -4,29 +4,36 @@ exports[`PageValidator if user has signed in 1`] = `
 <tmpage-stub
   class="small"
   data-title="Validator"
-  dataempty="true"
   hideheader="true"
   managed="true"
   subtitle=""
   title=""
 >
-  <div>
-    Validator Not Found
-  </div>
+  <!---->
    
-  <div>
-    
+  <template>
+    <div
+      slot="title"
+    >
+      Validator Not Found
+    </div>
+     
+    <div
+      slot="subtitle"
+    >
+      
       Please visit the
       
-    <router-link-stub
-      to="/validators/"
-    >
-       Validators 
-    </router-link-stub>
-    page to view
+      <router-link-stub
+        to="/validators/"
+      >
+         Validators 
+      </router-link-stub>
+      page to view
       all validators
     
-  </div>
+    </div>
+  </template>
 </tmpage-stub>
 `;
 
@@ -34,28 +41,35 @@ exports[`PageValidator if user hasn't signed in 1`] = `
 <tmpage-stub
   class="small"
   data-title="Validator"
-  dataempty="true"
   hideheader="true"
   managed="true"
   subtitle=""
   title=""
 >
-  <div>
-    Validator Not Found
-  </div>
+  <!---->
    
-  <div>
-    
+  <template>
+    <div
+      slot="title"
+    >
+      Validator Not Found
+    </div>
+     
+    <div
+      slot="subtitle"
+    >
+      
       Please visit the
       
-    <router-link-stub
-      to="/validators/"
-    >
-       Validators 
-    </router-link-stub>
-    page to view
+      <router-link-stub
+        to="/validators/"
+      >
+         Validators 
+      </router-link-stub>
+      page to view
       all validators
     
-  </div>
+    </div>
+  </template>
 </tmpage-stub>
 `;
