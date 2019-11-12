@@ -15,6 +15,7 @@ import { Plugins } from "@capacitor/core"
 import config from "src/../config"
 import * as Sentry from "@sentry/browser"
 import * as Integrations from "@sentry/integrations"
+import '../node_modules/material-design-icons/iconfont/material-icons.css';
 
 if (config.sentryDSN) {
   Sentry.init({
