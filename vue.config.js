@@ -37,10 +37,12 @@ module.exports = {
             NODE_ENV: JSON.stringify(process.env.NODE_ENV),
             RPC: JSON.stringify(process.env.RPC),
             STARGATE: JSON.stringify(process.env.STARGATE),
+            SENTRY_DSN: JSON.stringify(process.env.SENTRY_DSN),
             RELEASE: JSON.stringify(commitHash),
             GOOGLE_ANALYTICS_UID: JSON.stringify(
               process.env.GOOGLE_ANALYTICS_UID
-            )
+            ),
+            MOBILE_APP: JSON.stringify(process.env.MOBILE_APP)
           }
         })
       ]
