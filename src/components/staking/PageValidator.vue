@@ -152,7 +152,7 @@
       />
     </template>
     <TmDataLoading v-if="$apollo.loading" />
-    <template v-else slot="managed-body"> 
+    <template v-else slot="managed-body">
       <div slot="title">Validator Not Found</div>
       <div slot="subtitle">
         Please visit the
@@ -218,7 +218,7 @@ export default {
   data: () => ({
     validator: {},
     rewards: 0,
-    delegation: {},
+    delegation: {}
   }),
   computed: {
     ...mapState([`session`]),
