@@ -1,12 +1,18 @@
 <template>
   <TmPage
     :managed="true"
-    :data-empty="!validator.operatorAddress"
     :hide-header="true"
     data-title="Validator"
     class="small"
   >
-    <template v-if="validator.operatorAddress" slot="managed-body">
+    <template
+      v-if="
+        !$apollo.queries.validator.loading &&
+          validator &&
+          validator.operatorAddress
+      "
+      slot="managed-body"
+    >
       <div class="status-container">
         <span :class="validator.status | toLower" class="validator-status">
           {{ validator.status }}
@@ -145,7 +151,8 @@
         @success="clearUndelegationCache"
       />
     </template>
-    <template v-else>
+    <TmDataLoading v-if="$apollo.loading" />
+    <template v-else slot="managed-body"> 
       <div slot="title">Validator Not Found</div>
       <div slot="subtitle">
         Please visit the
@@ -169,6 +176,7 @@ import Bech32 from "common/Bech32"
 import TmPage from "common/TmPage"
 import gql from "graphql-tag"
 import { ValidatorProfile, UserTransactionAdded } from "src/gql"
+import TmDataLoading from "common/TmDataLoading"
 
 function getStatusText(statusDetailed) {
   switch (statusDetailed) {
@@ -189,7 +197,8 @@ export default {
     UndelegationModal,
     Avatar,
     TmBtn,
-    TmPage
+    TmPage,
+    TmDataLoading
   },
   filters: {
     atoms,
@@ -210,7 +219,6 @@ export default {
     validator: {},
     rewards: 0,
     delegation: {},
-    error: false
   }),
   computed: {
     ...mapState([`session`]),
@@ -249,6 +257,27 @@ export default {
     }
   },
   apollo: {
+    validator: {
+      query: ValidatorProfile,
+      variables() {
+        console.log(this.network, this.$route.params.validator)
+        return {
+          networkId: this.network,
+          operatorAddress: this.$route.params.validator
+        }
+      },
+      update: result => {
+        console.log(result)
+        if (result.validator) {
+          return {
+            ...result.validator,
+            statusDetailed: getStatusText(result.validator.statusDetailed)
+          }
+        } else {
+          return {}
+        }
+      }
+    },
     delegation: {
       query: gql`
         query delegation(
@@ -266,7 +295,8 @@ export default {
         }
       `,
       skip() {
-        return !this.userAddress
+        !this.userAddress ||
+          (!this.validator && !this.validator.operatorAddress)
       },
       variables() {
         return {
@@ -299,7 +329,10 @@ export default {
         }
       `,
       skip() {
-        return !this.userAddress
+        return (
+          !this.userAddress ||
+          (!this.validator && !this.validator.operatorAddress)
+        )
       },
       variables() {
         return {
@@ -310,21 +343,6 @@ export default {
       },
       update: result => {
         return result.rewards.length > 0 ? result.rewards[0] : { amount: 0 }
-      }
-    },
-    validator: {
-      query: ValidatorProfile,
-      variables() {
-        return {
-          networkId: this.network,
-          operatorAddress: this.$route.params.validator
-        }
-      },
-      update: result => {
-        return {
-          ...result.validator,
-          statusDetailed: getStatusText(result.validator.statusDetailed)
-        }
       }
     },
     $subscribe: {
