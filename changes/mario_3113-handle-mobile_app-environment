@@ -1,1 +1,0 @@
-[Added] [#3113](https://github.com/cosmos/lunie/issues/3113) Handle MOBILE_APP environment variable in vue.config.js, redirect 404 to index.html in serve:dist target @mariopino
