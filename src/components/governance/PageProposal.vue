@@ -8,7 +8,19 @@
           <span :class="status.color" class="proposal-status">
             {{ status.badge }}
           </span>
-          <h2 class="proposal-title">{{ title }}</h2>
+          <div class="proposal-title__row">
+            <router-link
+              :to="`/proposals/` + (parseInt(proposal.proposal_id) - 1)"
+              class="read-more-link">
+              <i class="material-icons">chevron_left</i>
+            </router-link>
+            <h2 class="proposal-title">{{ title }}</h2>
+            <router-link
+              :to="`/proposals/` + (parseInt(proposal.proposal_id) + 1)"
+              class="read-more-link">
+              <i class="material-icons">chevron_right</i>
+            </router-link>
+          </div>
         </div>
         <div class="button-container">
           <TmBtn
@@ -266,7 +278,25 @@ export default {
 }
 </script>
 <style scoped>
+.proposal-title__row {
+  color: var(--bright);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.proposal-title__row a {
+  color: var(--bright);
+  padding-top: 1rem;
+}
+
+.proposal-title__row a:hover {
+  color: var(--link-hover);
+  padding-top: 1rem;
+}
+
 .proposal-title {
+  text-align: center;
   color: var(--bright);
   font-size: var(--h1);
   line-height: 2.25rem;
