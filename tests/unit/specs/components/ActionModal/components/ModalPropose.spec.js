@@ -9,7 +9,7 @@ describe(`ModalPropose`, () => {
 
   const localVue = createLocalVue()
   localVue.use(Vuelidate)
-  localVue.directive(`focus`, () => {})
+  localVue.directive(`focus`, () => { })
 
   const inputs = {
     amount: 15,
@@ -129,7 +129,6 @@ describe(`ModalPropose`, () => {
     describe(`successful`, () => {
       it(`if the user has enough balance and the fields are within the length ranges`, async () => {
         wrapper.setData(inputs)
-        console.log(wrapper.vm.validateForm())
         await wrapper.vm.$nextTick()
         expect(wrapper.vm.validateForm()).toBe(true)
       })

@@ -15,19 +15,12 @@ exports[`TmSessionWelcome has the expected html structure 1`] = `
       />
     </router-link-stub>
      
-    <h2
-      class="session-title"
-    >
-      
-      Welcome to Lunie
-    
-    </h2>
-     
     <p
       class="session-paragraph"
     >
       
-      The easiest way to send, stake, and vote on the Cosmos Hub.
+      Lunie is the staking and governance platform for proof-of-stake
+      blockchains.
     
     </p>
      
@@ -94,19 +87,12 @@ exports[`TmSessionWelcome has the expected html structure when on mobile 1`] = `
       />
     </router-link-stub>
      
-    <h2
-      class="session-title"
-    >
-      
-      Welcome to Lunie
-    
-    </h2>
-     
     <p
       class="session-paragraph"
     >
       
-      The easiest way to send, stake, and vote on the Cosmos Hub.
+      Lunie is the staking and governance platform for proof-of-stake
+      blockchains.
     
     </p>
      
