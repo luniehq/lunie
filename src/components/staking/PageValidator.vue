@@ -260,14 +260,12 @@ export default {
     validator: {
       query: ValidatorProfile,
       variables() {
-        console.log(this.network, this.$route.params.validator)
         return {
           networkId: this.network,
           operatorAddress: this.$route.params.validator
         }
       },
       update: result => {
-        console.log(result)
         if (result.validator) {
           return {
             ...result.validator,
