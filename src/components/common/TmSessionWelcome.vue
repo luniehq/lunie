@@ -9,12 +9,9 @@
         />
       </router-link>
 
-      <h2 class="session-title">
-        Welcome to Lunie
-      </h2>
-
       <p class="session-paragraph">
-        The easiest way to send, stake, and vote on the Cosmos Hub.
+        Lunie is the staking and governance platform for proof-of-stake
+        blockchains.
       </p>
 
       <div class="session-list">
