@@ -416,6 +416,10 @@ export default {
     ...mapGetters([`connected`, `isExtensionAccount`]),
     ...mapGetters({ networkId: `network` }),
     checkFeatureAvailable() {
+      /* istanbul ignore next */
+      if (this.network.testnet) {
+        return true
+      }
       const action = `action_${this.title.toLowerCase().replace(" ", "_")}`
       return this.network[action] === true
     },
