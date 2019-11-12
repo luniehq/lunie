@@ -137,11 +137,12 @@
 }
 
 .session .material-icons.circle.back {
-  background: var(--app-nav-light);
+  background: var(--app-fg);
   color: var(--dim);
   border-radius: 50%;
-  padding: 0.4rem;
+  padding: 0.25rem;
   cursor: pointer;
+  font-size: var(--x);
 }
 
 @media screen and (min-width: 667px) {
@@ -172,20 +173,22 @@
   }
 
   .session-footer {
+    position: fixed;
+    bottom: 0;
+    left: 0; 
+    right: 0;
     width: 100%;
-    flex-direction: column;
+    /* flex-direction: column; */
+    padding: 1rem;
+    background: var(--app-fg);
+  }
+
+  .session-footer button {
+    width: 100%;
   }
 }
 
 @media screen and (max-width: 1023px) {
-  /* .session-header,
-  .session-title,
-  .session-main,
-  .session-footer {
-    padding-left: 0;
-    padding-right: 0;
-  } */
-
   .session-frame .session-close {
     display: none;
   }

@@ -967,5 +967,25 @@ export default {
     right: 0;
     top: 0;
   }
+
+  .action-modal-form {
+    overflow-x: scroll;
+    padding-bottom: 69px;
+  }
+
+  .action-modal-footer {
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: var(--app-nav);
+    padding: 1rem;
+    border-top: 1px solid var(--bc);
+  }
+
+  .action-modal-footer button {
+    width: 100%;
+  }
 }
 </style>
