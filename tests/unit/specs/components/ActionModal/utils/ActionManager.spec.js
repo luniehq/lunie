@@ -19,16 +19,16 @@ const mockMsgWithdraw = jest.fn(() => ({
   send: () => ({ included: () => async () => true })
 }))
 
-jest.mock(`@lunie/cosmos-api`, () => {
-  return jest.fn().mockImplementation(() => {
-    return {
-      get: mockGet,
-      MsgSend: mockMsgSend,
-      MsgWithdrawDelegationReward: mockMsgWithdraw,
-      MultiMessage: mockMultiMessage
-    }
-  })
+const mockMessageConstructor = jest.fn().mockImplementation(() => {
+  return {
+    get: mockGet,
+    MsgSend: mockMsgSend,
+    MsgWithdrawDelegationReward: mockMsgWithdraw,
+    MultiMessage: mockMultiMessage
+  }
 })
+jest.mock(`cosmos-apiV0`, () => mockMessageConstructor)
+jest.mock(`cosmos-apiV2`, () => mockMessageConstructor)
 
 jest.mock(`src/ActionModal/utils/signer.js`, () => ({
   getSigner: jest.fn(() => "signer")
@@ -36,11 +36,12 @@ jest.mock(`src/ActionModal/utils/signer.js`, () => ({
 
 let actionManager
 describe("ActionManager", () => {
-  beforeEach(() => {
+  beforeEach(async () => {
     actionManager = new ActionManager()
-    actionManager.setContext({
+    await actionManager.setContext({
       url: "blah",
       chainId: "cosmos",
+      networkId: "cosmos-hub-testnet",
       connected: true,
       userAddress: "cosmos12345",
       totalRewards: 1234,
@@ -63,35 +64,38 @@ describe("ActionManager", () => {
     expect(actionManager instanceof ActionManager).toBe(true)
   })
 
-  it("should set context", () => {
+  it("should set context", async () => {
     const context = {
       url: "blah",
       chainId: "cosmos",
+      networkId: "cosmos-hub-testnet",
       connected: true
     }
-    expect(actionManager.setContext(context))
+    expect(await actionManager.setContext(context))
     expect(actionManager.cosmos)
     expect(actionManager.context).toEqual({
       url: "blah",
       chainId: "cosmos",
+      networkId: "cosmos-hub-testnet",
       connected: true
     })
   })
 
-  it("should throw if setting empty context", () => {
+  it("should throw if setting empty context", async () => {
     try {
-      actionManager.setContext()
+      await actionManager.setContext()
     } catch (e) {
       expect(e).toEqual(Error("Context cannot be empty"))
     }
   })
 
-  it("should throw if not connected", () => {
+  it("should throw if not connected", async () => {
     try {
       actionManager = new ActionManager()
-      actionManager.setContext({
+      await actionManager.setContext({
         url: "blah",
         chainId: "cosmos",
+        networkId: "cosmos-hub-testnet",
         connected: false
       })
       actionManager.readyCheck()
@@ -131,20 +135,21 @@ describe("ActionManager", () => {
     }
   })
 
-  it("should throw if setting message with empty context", () => {
+  it("should throw if setting message with empty context", async () => {
     try {
       actionManager = new ActionManager()
-      actionManager.setMessage("MsgSend", sendTx.txProps)
+      await actionManager.setMessage("MsgSend", sendTx.txProps)
     } catch (e) {
       expect(e).toEqual(Error("This modal has no context."))
     }
   })
 
-  describe("simulating and sending", () => {
-    beforeEach(() => {
+  describe("simulating and sending", async () => {
+    beforeEach(async () => {
       const context = {
         url: "blah",
         chainId: "cosmos",
+        networkId: "cosmos-hub-testnet",
         connected: true,
         userAddress: "cosmos12345",
         totalRewards: 1234,
@@ -162,12 +167,12 @@ describe("ActionManager", () => {
           { amount: 97, validator: { operatorAddress: `cosmos10` } }
         ]
       }
-      actionManager.setContext(context)
-      actionManager.setMessage("MsgSend", sendTx.txProps)
+      await actionManager.setContext(context)
+      await actionManager.setMessage("MsgSend", sendTx.txProps)
     })
 
-    it("should create message", () => {
-      actionManager.setMessage("MsgSend", sendTx.txProps)
+    it("should create message", async () => {
+      await actionManager.setMessage("MsgSend", sendTx.txProps)
       expect(mockMsgSend).toHaveBeenCalledWith("cosmos12345", sendTx.txProps)
     })
 
@@ -182,9 +187,10 @@ describe("ActionManager", () => {
       const context = {
         url: "blah",
         chainId: "cosmos",
+        networkId: "cosmos-hub-testnet",
         connected: true
       }
-      actionManager.setContext(context)
+      await actionManager.setContext(context)
       await expect(
         actionManager.send("MsgSend", "memo", sendTx.txProps, sendTx.txMetaData)
       ).rejects.toThrowError(`No message to send`)
@@ -210,7 +216,7 @@ describe("ActionManager", () => {
     })
 
     it("should create multimessage", async () => {
-      actionManager.setMessage(
+      await actionManager.setMessage(
         "MsgWithdrawDelegationReward",
         withdrawTx.txProps
       )
