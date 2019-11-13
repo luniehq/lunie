@@ -41,7 +41,8 @@ module.exports = {
             RELEASE: JSON.stringify(commitHash),
             GOOGLE_ANALYTICS_UID: JSON.stringify(
               process.env.GOOGLE_ANALYTICS_UID
-            )
+            ),
+            MOBILE_APP: JSON.stringify(process.env.MOBILE_APP)
           }
         })
       ]
