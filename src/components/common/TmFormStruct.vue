@@ -54,8 +54,6 @@ export default {
 }
 
 .form-main {
-  /* display: flex; */
-  /* flex-flow: column; */
   width: 100%;
 }
 </style>
