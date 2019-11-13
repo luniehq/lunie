@@ -96,7 +96,8 @@ module.exports = {
       browser,
       ".tx:nth-child(2) .tx__content__caption",
       `Undelegated ${value} STAKE`,
-      20000
+      10,
+      2000
     )
   }
 }
