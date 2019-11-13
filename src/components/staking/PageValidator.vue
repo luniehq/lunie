@@ -175,9 +175,9 @@ function getStatusText(statusDetailed) {
     case "inactive":
       return "Validator is not currently validating"
     case "banned":
-      return "Validator is temporarily banned from the network"
+      return "Validator is permanently banned from the network"
     default:
-      return "Validator is online and creating blocks"
+      return "Validator is online and earning rewards"
   }
 }
 
