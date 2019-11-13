@@ -2,6 +2,8 @@
   <TmPage
     :managed="true"
     :data-empty="!validator.operatorAddress"
+    :loading="$apollo.loading"
+    :loaded="loaded"
     :hide-header="true"
     data-title="Validator"
     class="small"
@@ -210,7 +212,8 @@ export default {
     validator: {},
     rewards: 0,
     delegation: {},
-    error: false
+    error: false,
+    loaded: false
   }),
   computed: {
     ...mapState([`session`]),
@@ -325,6 +328,9 @@ export default {
           ...result.validator,
           statusDetailed: getStatusText(result.validator.statusDetailed)
         }
+      },
+      result(queryResult) {
+        this.loaded = !!queryResult.data.validator
       }
     },
     $subscribe: {
