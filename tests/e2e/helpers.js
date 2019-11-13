@@ -133,9 +133,6 @@ async function actionModalCheckout(
   // go to portfolio to remember balances
   browser.url(browser.launch_url + "#/portfolio")
 
-  // Wait for UI to be updated according to new state
-  await nextBlock(browser)
-
   // check if balance header updates as expected
   // TODO find a way to know the rewards on an undelegation to know the final balance 100%
   console.log("Wait for total balance to update")
@@ -146,15 +143,20 @@ async function actionModalCheckout(
     ).to.be.lessThan(2) // acounting for rewards being withdrawn on an undelegation
   })
   console.log("Wait for liquid balance to update")
-  await waitFor(async () => {
-    const approximatedAvailableBalanceAfter =
-      availableTokensBefore - expectedAvailableTokensChange - fees
-    expect(
-      Math.abs(
-        approximatedAvailableBalanceAfter - (await getAvailableTokens(browser))
-      )
-    ).to.be.lessThan(2) // acounting for rewards being withdrawn on an undelegation
-  })
+  await waitFor(
+    async () => {
+      const approximatedAvailableBalanceAfter =
+        availableTokensBefore - expectedAvailableTokensChange - fees
+      expect(
+        Math.abs(
+          approximatedAvailableBalanceAfter -
+            (await getAvailableTokens(browser))
+        )
+      ).to.be.lessThan(2) // acounting for rewards being withdrawn on an undelegation
+    },
+    10,
+    2000
+  )
 }
 async function nextBlock(browser) {
   browser.expect
