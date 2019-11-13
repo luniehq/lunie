@@ -10,13 +10,13 @@
           </span>
           <div class="proposal-title__row">
             <router-link
-              :to="`/proposals/` + nextProposalId"
+              :to="`/proposals/` + getPrevProposalId"
               class="read-more-link">
               <i class="material-icons">chevron_left</i>
             </router-link>
             <h2 class="proposal-title">{{ title }}</h2>
             <router-link
-              :to="`/proposals/` + nextProposalId"
+              :to="`/proposals/` + getNextProposalId"
               class="read-more-link">
               <i class="material-icons">chevron_right</i>
             </router-link>
@@ -179,11 +179,24 @@ export default {
     proposal() {
       return this.proposals.proposals[this.proposalId]
     },
-    nextProposalId() {
+    getProposalsIdArr() {
       let proposalsObj = this.proposals.proposals
       let proposalsArr = Object.keys(proposalsObj).map(key => proposalsObj[key])
       let proposalsIdArr = proposalsArr.map(proposal => proposal.proposal_id)
+      return proposalsIdArr
+    },
+    getNextProposalId() {
+      let proposalsIdArr = this.getProposalsIdArr
       let id = proposalsIdArr[proposalsIdArr.indexOf(this.proposalId) + 1]
+      if (id !== undefined) {
+        return id
+      } else {
+        return this.proposalId
+      }
+    },
+    getPrevProposalId() {
+      let proposalsIdArr = this.getProposalsIdArr
+      let id = proposalsIdArr[proposalsIdArr.indexOf(this.proposalId) - 1]
       if (id !== undefined) {
         return id
       } else {
