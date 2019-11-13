@@ -10,13 +10,13 @@
           </span>
           <div class="proposal-title__row">
             <router-link
-              :to="`/proposals/` + (parseInt(proposal.proposal_id) - 1)"
+              :to="`/proposals/` + nextProposalId"
               class="read-more-link">
               <i class="material-icons">chevron_left</i>
             </router-link>
             <h2 class="proposal-title">{{ title }}</h2>
             <router-link
-              :to="`/proposals/` + (parseInt(proposal.proposal_id) + 1)"
+              :to="`/proposals/` + nextProposalId"
               class="read-more-link">
               <i class="material-icons">chevron_right</i>
             </router-link>
@@ -178,6 +178,17 @@ export default {
     ...mapGetters([`depositDenom`, `connected`]),
     proposal() {
       return this.proposals.proposals[this.proposalId]
+    },
+    nextProposalId() {
+      let proposalsObj = this.proposals.proposals
+      let proposalsArr = Object.keys(proposalsObj).map(key => proposalsObj[key])
+      let proposalsIdArr = proposalsArr.map(proposal => proposal.proposal_id)
+      let id = proposalsIdArr[proposalsIdArr.indexOf(this.proposalId) + 1]
+      if (id !== undefined) {
+        return id
+      } else {
+        return this.proposalId
+      }
     },
     title({ proposal } = this) {
       return proposal.proposal_content.value.title
