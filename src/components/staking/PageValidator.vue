@@ -312,7 +312,6 @@ export default {
         }
       },
       update: result => {
-        
         return result.rewards.length > 0 ? result.rewards[0] : { amount: 0 }
       }
     },
