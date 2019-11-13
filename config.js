@@ -7,7 +7,6 @@ export default {
   name: `Lunie`,
   development: dev,
   network: process.env.NETWORK || `cosmos-hub-mainnet`,
-  sentryDSN: sentryDSN,
   stargate,
   google_analytics_uid: process.env.GOOGLE_ANALYTICS_UID || "",
   sentryDSN,
