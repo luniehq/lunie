@@ -330,7 +330,6 @@ export default {
         }
       },
       result(queryResult) {
-        console.log(queryResult)
         this.loaded = !!queryResult.data.validator
       }
     },
