@@ -24,10 +24,7 @@
         to="/portfolio"
         exact="exact"
         title="Portfolio"
-        @click.native="
-          close()
-          scrollToTop()
-        "
+        @click.native="handleClick()"
       >
         <h2 class="app-menu-title">
           Portfolio
@@ -38,10 +35,7 @@
         class="app-menu-item hide-xs"
         to="/validators"
         title="Validators"
-        @click.native="
-          close()
-          scrollToTop()
-        "
+        @click.native="handleClick()"
       >
         <h2 class="app-menu-title">
           Validators
@@ -53,10 +47,7 @@
         class="app-menu-item hide-xs"
         to="/proposals"
         title="Proposals"
-        @click.native="
-          close()
-          scrollToTop()
-        "
+        @click.native="handleClick()"
       >
         <h2 class="app-menu-title">
           Proposals
@@ -69,10 +60,7 @@
         to="/transactions"
         exact="exact"
         title="Transactions"
-        @click.native="
-          close()
-          scrollToTop()
-        "
+        @click.native="handleClick()"
       >
         <h2 class="app-menu-title">
           Activity
@@ -85,10 +73,7 @@
         to="/networks"
         exact="exact"
         title="Networks"
-        @click.native="
-          close()
-          scrollToTop()
-        "
+        @click.native="handleClick()"
       >
         <h2 class="app-menu-title">
           Networks
@@ -101,10 +86,7 @@
         to="/about"
         exact="exact"
         title="About"
-        @click.native="
-          close()
-          scrollToTop()
-        "
+        @click.native="handleClick()"
       >
         <h2 class="app-menu-title">
           About
@@ -116,10 +98,7 @@
         to="/careers"
         exact="exact"
         title="Careers"
-        @click.native="
-          close()
-          scrollToTop()
-        "
+        @click.native="handleClick()"
       >
         <h2 class="app-menu-title">
           Careers
@@ -131,10 +110,7 @@
         to="/security"
         exact="exact"
         title="Security"
-        @click.native="
-          close()
-          scrollToTop()
-        "
+        @click.native="handleClick()"
       >
         <h2 class="app-menu-title">
           Security
@@ -146,10 +122,7 @@
         to="/terms"
         exact="exact"
         title="Terms"
-        @click.native="
-          close()
-          scrollToTop()
-        "
+        @click.native="handleClick()"
       >
         <h2 class="app-menu-title">
           Terms of Service
@@ -161,10 +134,7 @@
         to="/privacy"
         exact="exact"
         title="Privacy"
-        @click.native="
-          close()
-          scrollToTop()
-        "
+        @click.native="handleClick()"
       >
         <h2 class="app-menu-title">
           Privacy Policy
@@ -176,7 +146,6 @@
 </template>
 
 <script>
-import noScroll from "no-scroll"
 import Bech32 from "common/Bech32"
 import ConnectedNetwork from "common/TmConnectedNetwork"
 import TmBtn from "common/TmBtn"
@@ -199,9 +168,9 @@ export default {
     ...mapGetters([`liquidAtoms`, `totalAtoms`, `bondDenom`])
   },
   methods: {
-    close() {
+    handleClick() {
       this.$emit(`close`)
-      noScroll.off()
+      window.scrollTo(0, 0)
     },
     signOut() {
       this.$emit(`close`)
@@ -210,9 +179,6 @@ export default {
     signIn() {
       this.$router.push(`/welcome`)
       this.$emit(`close`)
-    },
-    scrollToTop() {
-      window.scrollTo(0, 0)
     }
   }
 }
