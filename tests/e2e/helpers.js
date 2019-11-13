@@ -136,12 +136,17 @@ async function actionModalCheckout(
   // check if balance header updates as expected
   // TODO find a way to know the rewards on an undelegation to know the final balance 100%
   console.log("Wait for total balance to update")
-  await waitFor(async () => {
-    const approximatedBalanceAfter = balanceBefore - expectedTotalChange - fees
-    expect(
-      Math.abs(approximatedBalanceAfter - (await getBalance(browser)))
-    ).to.be.lessThan(2) // acounting for rewards being withdrawn on an undelegation
-  })
+  await waitFor(
+    async () => {
+      const approximatedBalanceAfter =
+        balanceBefore - expectedTotalChange - fees
+      expect(
+        Math.abs(approximatedBalanceAfter - (await getBalance(browser)))
+      ).to.be.lessThan(2) // acounting for rewards being withdrawn on an undelegation
+    },
+    10,
+    2000
+  )
   console.log("Wait for liquid balance to update")
   await waitFor(
     async () => {
