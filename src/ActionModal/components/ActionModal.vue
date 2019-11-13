@@ -54,7 +54,8 @@
         </p>
         <div v-if="requiresSignIn" class="action-modal-form">
           <p class="form-message notice">
-            You need to sign in to submit a transaction.
+            You're using Lunie in explore mode. Please sign in or create an
+            account to proceed with this action.
           </p>
         </div>
         <div v-else-if="step === defaultStep" class="action-modal-form">
@@ -221,6 +222,12 @@
             </div>
           </TmDataMsg>
         </div>
+        <p
+          v-if="submissionError"
+          class="tm-form-msg sm tm-form-msg--error submission-error"
+        >
+          {{ submissionError }}
+        </p>
         <div class="action-modal-footer">
           <slot name="action-modal-footer">
             <TmFormGroup
@@ -268,12 +275,6 @@
               </div>
             </TmFormGroup>
           </slot>
-          <p
-            v-if="submissionError"
-            class="tm-form-msg sm tm-form-msg--error submission-error"
-          >
-            {{ submissionError }}
-          </p>
         </div>
       </template>
     </div>
@@ -420,7 +421,10 @@ export default {
       return this.network[action] === true
     },
     requiresSignIn() {
-      return !this.session.signedIn
+      return (
+        !this.session.signedIn ||
+        (this.isMobileApp && this.session.sessionType === sessionType.EXPLORE)
+      )
     },
     estimatedFee() {
       return Number(this.gasPrice) * Number(this.gasEstimate) // already in atoms
@@ -439,7 +443,7 @@ export default {
     },
     signMethods() {
       let signMethods = []
-      if (this.isMobileApp) {
+      if (this.isMobileApp && this.session.sessionType === sessionType.LOCAL) {
         signMethods.push(signMethodOptions.LOCAL)
       } else if (this.session.sessionType === sessionType.EXPLORE) {
         signMethods.push(signMethodOptions.LEDGER)
@@ -909,9 +913,7 @@ export default {
 }
 
 .submission-error {
-  position: absolute;
-  left: 1.5rem;
-  bottom: 1rem;
+  padding: 1rem;
 }
 
 .form-message {
