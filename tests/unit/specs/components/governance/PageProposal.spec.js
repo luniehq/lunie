@@ -54,7 +54,8 @@ describe(`PageProposal`, () => {
       },
       mocks: {
         $store
-      }
+      },
+      stubs: [`router-link`]
     }
     wrapper = shallowMount(PageProposal, args)
   })

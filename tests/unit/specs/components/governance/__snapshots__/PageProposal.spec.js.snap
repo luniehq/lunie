@@ -22,11 +22,39 @@ exports[`PageProposal renders votes in HTML when voting is open 1`] = `
         
       </span>
        
-      <h2
-        class="proposal-title"
+      <div
+        class="proposal-title__row"
       >
-        VotingPeriod proposal
-      </h2>
+        <router-link-stub
+          class="read-more-link"
+          style="visibility: visible;"
+          to="/proposals/1"
+        >
+          <i
+            class="material-icons"
+          >
+            chevron_left
+          </i>
+        </router-link-stub>
+         
+        <h2
+          class="proposal-title"
+        >
+          VotingPeriod proposal
+        </h2>
+         
+        <router-link-stub
+          class="read-more-link"
+          style="visibility: visible;"
+          to="/proposals/5"
+        >
+          <i
+            class="material-icons"
+          >
+            chevron_right
+          </i>
+        </router-link-stub>
+      </div>
     </div>
      
     <div
@@ -201,11 +229,39 @@ exports[`PageProposal should display proposal page if user has signed in 1`] = `
         
       </span>
        
-      <h2
-        class="proposal-title"
+      <div
+        class="proposal-title__row"
       >
-        VotingPeriod proposal
-      </h2>
+        <router-link-stub
+          class="read-more-link"
+          style="visibility: visible;"
+          to="/proposals/1"
+        >
+          <i
+            class="material-icons"
+          >
+            chevron_left
+          </i>
+        </router-link-stub>
+         
+        <h2
+          class="proposal-title"
+        >
+          VotingPeriod proposal
+        </h2>
+         
+        <router-link-stub
+          class="read-more-link"
+          style="visibility: visible;"
+          to="/proposals/5"
+        >
+          <i
+            class="material-icons"
+          >
+            chevron_right
+          </i>
+        </router-link-stub>
+      </div>
     </div>
      
     <div
@@ -380,11 +436,39 @@ exports[`PageProposal should display proposal page should default tally to 0 if 
         
       </span>
        
-      <h2
-        class="proposal-title"
+      <div
+        class="proposal-title__row"
       >
-        VotingPeriod proposal
-      </h2>
+        <router-link-stub
+          class="read-more-link"
+          style="visibility: visible;"
+          to="/proposals/1"
+        >
+          <i
+            class="material-icons"
+          >
+            chevron_left
+          </i>
+        </router-link-stub>
+         
+        <h2
+          class="proposal-title"
+        >
+          VotingPeriod proposal
+        </h2>
+         
+        <router-link-stub
+          class="read-more-link"
+          style="visibility: visible;"
+          to="/proposals/5"
+        >
+          <i
+            class="material-icons"
+          >
+            chevron_right
+          </i>
+        </router-link-stub>
+      </div>
     </div>
      
     <div
