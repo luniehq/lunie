@@ -406,7 +406,7 @@ describe(`ActionModal`, () => {
 
       wrapper.setProps({ transactionProperties })
       wrapper.setData(data)
-      wrapper.vm.simulate()
+      await wrapper.vm.simulate()
       wrapper.vm.$nextTick(() => {
         expect(wrapper.vm.gasEstimate).toBe(123456)
         expect(wrapper.vm.submissionError).toBe(null)
@@ -434,7 +434,7 @@ describe(`ActionModal`, () => {
 
       wrapper.setProps({ transactionProperties, amount: 1230 })
       wrapper.setData(data)
-      wrapper.vm.simulate()
+      await wrapper.vm.simulate()
       wrapper.vm.$nextTick(() => {
         expect(wrapper.vm.submissionError).toBe(null)
         expect(wrapper.vm.step).toBe("fees")
@@ -470,7 +470,7 @@ describe(`ActionModal`, () => {
 
       wrapper.setProps({ transactionProperties })
       wrapper.setData(data)
-      wrapper.vm.simulate()
+      await wrapper.vm.simulate()
       await wrapper.vm.$nextTick()
       expect(wrapper.vm.gasEstimate).toBe(null)
       expect(wrapper.vm.submissionError).toBe(
