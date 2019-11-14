@@ -10,37 +10,37 @@ aliases:
 
 # reusable commands
 commands:
-  yarn-install:
-    description: "[YARN] update and install"
+  npm-install:
+    description: "[npm] update and install"
     steps:
       - restore_cache:
           keys:
-            - v5-dependencies-root-{{ checksum "yarn.lock" }}
+            - v5-dependencies-root-{{ checksum "package-lock.json" }}
             - v5-dependencies-root-
 
-      - run: yarn install
+      - run: npm install
       - save_cache:
           paths:
-            - yarn.lock
+            - package-lock.json
             - node_modules
-          key: v5-dependencies-root-{{ checksum "yarn.lock" }}
+          key: v5-dependencies-root-{{ checksum "package-lock.json" }}
 
-  # use npm as the extension install happens in the mashine image which doesn't have yarn
+  # use npm as the extension install happens in the mashine image which doesn't have npm
   npm-install-extension:
-    description: "[YARN] update and install"
+    description: "[npm] update and install"
     steps:
       - restore_cache:
           keys:
-            - v2-dependencies-extension-{{ checksum "yarn.lock" }}
+            - v2-dependencies-extension-{{ checksum "package-lock.json" }}
             - v2-dependencies-extension-
 
       - run: npm install
       - save_cache:
           paths:
             - package-lock.json
-            - yarn.lock
+            - package-lock.json
             - node_modules
-          key: v2-dependencies-extension-{{ checksum "yarn.lock" }}
+          key: v2-dependencies-extension-{{ checksum "package-lock.json" }}
 
 # a reusable executor
 executors:
@@ -61,7 +61,7 @@ jobs:
       - attach_workspace:
           at: *WORKSPACE
       - checkout
-      - yarn-install
+      - npm-install
       - persist_to_workspace:
           root: *WORKSPACE
           paths:
@@ -72,7 +72,7 @@ jobs:
     steps:
       - attach_workspace:
           at: *WORKSPACE
-      - run: yarn add simsala
+      - run: npm install simsala
       - run: node node_modules/simsala/src/cli.js check --pending-path ./changes
 
   lint:
@@ -80,7 +80,7 @@ jobs:
     steps:
       - attach_workspace:
           at: *WORKSPACE
-      - run: yarn run lint --max-warnings 0
+      - run: npm run lint --max-warnings 0
 
   testUnit:
     executor: web
@@ -90,7 +90,7 @@ jobs:
       - run:
           name: Test
           command: |
-            yarn run test:unit --coverage --maxWorkers=2
+            npm run test:unit --coverage --maxWorkers=2
             bash <(curl -s https://codecov.io/bash)
           no_output_timeout: 180
 
@@ -104,9 +104,9 @@ jobs:
           command: |
             set +e
 
-            yarn audit
+            npm audit
 
-            SUMMARY="$(yarn audit | grep Severity)"
+            SUMMARY="$(npm audit | grep Severity)"
             VULNERABILITIES=".*(High|Critical).*"
 
             if [[ $SUMMARY =~ $VULNERABILITIES ]]; then
@@ -251,7 +251,7 @@ jobs:
     steps:
       - checkout
       - run: |
-          yarn add simsala
+          npm add simsala
           git config user.email "bot@lunie.io"
           git config user.name "Lunie Bot"
           node node_modules/simsala/src/cli.js release-candidate --semver prerelease --pending-path ./changes --owner luniehq --repository lunie --token $GIT_BOT_TOKEN --message "Please manually test before merging this to master"
