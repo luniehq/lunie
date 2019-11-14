@@ -90,7 +90,7 @@ jobs:
       - run:
           name: Test
           command: |
-            npm run test:unit --coverage --maxWorkers=2
+            npm run test:unit -- --coverage --maxWorkers=2
             bash <(curl -s https://codecov.io/bash)
           no_output_timeout: 180
 
