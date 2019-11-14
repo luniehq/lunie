@@ -1,6 +1,6 @@
 {
   "name": "lunie",
-  "version": "1.0.0-beta.137",
+  "version": "1.0.0-beta.138",
   "description": "Lunie is the staking and governance platform for proof-of-stake blockchains.",
   "author": "Lunie International Software Systems Inc. <hello@lunie.io>",
   "scripts": {
@@ -55,6 +55,7 @@
     "lodash.orderby": "^4.6.0",
     "lodash.trim": "^4.5.1",
     "lodash.uniqby": "^4.7.0",
+    "material-design-icons": "3.0.1",
     "moment": "^2.24.0",
     "no-scroll": "^2.1.1",
     "register-service-worker": "^1.6.2",
