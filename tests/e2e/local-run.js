@@ -7,7 +7,7 @@ const inquirer = require(`inquirer`)
 const processes = {}
 
 /* start the testnet and the development server and executes the local end to end tests */
-/* you can provide the name of the file to test only one file > for send.spec.js `yarn test:e2e send` */
+/* you can provide the name of the file to test only one file > for send.spec.js `npm run test:e2e send` */
 const main = async () => {
   if (!fs.existsSync("./lunie-backend/docker-compose.yaml")) {
     console.log("cloning lunie-backend repo")
@@ -22,15 +22,9 @@ const main = async () => {
   await exec("cd lunie-backend && docker-compose up -d")
 
   console.log("starting website")
-  const serve = spawn("yarn", ["test:e2e:serve"])
-  serve.stdout.pipe(
-    process.stdout,
-    { end: true }
-  )
-  serve.stderr.pipe(
-    process.stderr,
-    { end: true }
-  )
+  const serve = spawn("npm", ["run", "test:e2e:serve"])
+  serve.stdout.pipe(process.stdout, { end: true })
+  serve.stderr.pipe(process.stderr, { end: true })
   // await until page is served
   await new Promise(resolve => {
     serve.stdout.on("data", async data => {
@@ -62,18 +56,12 @@ const runTests = () => {
   }
 
   console.log("starting local e2e tests")
-  let testArgs = ["test:e2e:local"]
+  let testArgs = ["run", "test:e2e:local"]
   const filter = process.argv[2]
   if (filter) testArgs = testArgs.concat(`--filter`, `*${filter}*`)
-  const test = spawn("yarn", testArgs)
-  test.stdout.pipe(
-    process.stdout,
-    { end: true }
-  )
-  test.stderr.pipe(
-    process.stderr,
-    { end: true }
-  )
+  const test = spawn("npm", testArgs)
+  test.stdout.pipe(process.stdout, { end: true })
+  test.stderr.pipe(process.stderr, { end: true })
 
   // cleanup on exit
   test.stderr.on("data", async data => {
