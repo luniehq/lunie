@@ -11,7 +11,7 @@ exports[`TransactionMetadata renders correct fee and block transaction data 1`] 
     </b>
      
     <span>
-      ATOM
+       ATOM
     </span>
   </div>
    

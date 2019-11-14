@@ -9,32 +9,12 @@ describe(`SendModal`, () => {
 
   let wrapper, $store
 
-  const balances = [
-    {
-      denom: `STAKE`,
-      amount: 10000000000
-    },
-    {
-      denom: `fermion`,
-      amount: 2300
-    },
-    {
-      denom: `EMPTY_BALANCE`,
-      amount: 0
-    }
-  ]
   const getters = {
     connected: true,
     session: { signedIn: true, address: "cosmos1234" }
   }
 
-  const state = {
-    wallet: {
-      loading: false,
-      denoms: [`fermion`, `gregcoin`, `mycoin`, `STAKE`, `EMPTY_BALANCE`],
-      balances
-    }
-  }
+  const state = {}
 
   beforeEach(async () => {
     $store = {
@@ -49,7 +29,17 @@ describe(`SendModal`, () => {
       mocks: {
         $store
       },
+      propsData: {
+        denom: "STAKE"
+      },
       sync: false
+    })
+
+    wrapper.setData({
+      balance: {
+        denom: `STAKE`,
+        amount: 10000
+      }
     })
 
     wrapper.vm.$refs.actionModal = {
@@ -84,8 +74,10 @@ describe(`SendModal`, () => {
 
   describe(`validation`, () => {
     it(`should show address required error`, async () => {
+      wrapper.setProps({
+        denom: `STAKE`
+      })
       wrapper.setData({
-        denom: `STAKE`,
         address: ``,
         amount: 2
       })
@@ -95,8 +87,10 @@ describe(`SendModal`, () => {
       expect(wrapper.element).toMatchSnapshot()
     })
     it(`should show bech32 error when address length is too short`, async () => {
+      wrapper.setProps({
+        denom: `STAKE`
+      })
       wrapper.setData({
-        denom: `STAKE`,
         address: `asdf`,
         amount: 2
       })
@@ -107,8 +101,10 @@ describe(`SendModal`, () => {
     })
 
     it(`should show bech32 error when address length is too long`, async () => {
+      wrapper.setProps({
+        denom: `STAKE`
+      })
       wrapper.setData({
-        denom: `STAKE`,
         address: `asdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdf`,
         amount: 2
       })
@@ -153,22 +149,26 @@ describe(`SendModal`, () => {
   })
 
   it("should return transaction data in correct form", () => {
+    wrapper.setProps({
+      denom: `STAKE`
+    })
     wrapper.setData({
-      denom: `STAKE`,
       address: `cosmos12345`,
       amount: 2
     })
     expect(wrapper.vm.transactionData).toEqual({
       type: "MsgSend",
       toAddress: "cosmos12345",
-      amounts: [{ amount: "2000000", denom: "STAKE" }],
+      amounts: [{ amount: "2000000", denom: "stake" }],
       memo: "(Sent via Lunie)"
     })
   })
 
   it("should return notification message", () => {
+    wrapper.setProps({
+      denom: `STAKE`
+    })
     wrapper.setData({
-      denom: `STAKE`,
       address: `cosmos12345`,
       amount: 2
     })
@@ -180,16 +180,20 @@ describe(`SendModal`, () => {
 
   describe(`if amount field max button clicked`, () => {
     it(`amount has to be 10000 atom`, async () => {
+      wrapper.setProps({
+        denom: `STAKE`
+      })
       wrapper.setData({
-        denom: `STAKE`,
         address: `cosmos12345`
       })
       wrapper.vm.setMaxAmount()
       expect(wrapper.vm.amount).toBe(10000)
     })
     it(`should show warning message`, async () => {
+      wrapper.setProps({
+        denom: `STAKE`
+      })
       wrapper.setData({
-        denom: `STAKE`,
         address: `cosmos12345`
       })
       wrapper.vm.setMaxAmount()
@@ -200,8 +204,10 @@ describe(`SendModal`, () => {
     })
     it(`should not show warning message if balance = 0`, async () => {
       wrapper.setData({
-        denom: `EMPTY_BALANCE`,
-        address: `cosmos12345`
+        balance: {
+          amount: 0,
+          denom: "STAKE"
+        }
       })
       wrapper.vm.setMaxAmount()
       await wrapper.vm.$nextTick()
@@ -211,8 +217,10 @@ describe(`SendModal`, () => {
     })
     it(`isMaxAmount() should return false if balance = 0`, async () => {
       wrapper.setData({
-        denom: `EMPTY_BALANCE`,
-        address: `cosmos12345`
+        balance: {
+          amount: 0,
+          denom: "STAKE"
+        }
       })
       wrapper.vm.setMaxAmount()
       await wrapper.vm.$nextTick()
