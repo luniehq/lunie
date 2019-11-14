@@ -2,6 +2,6 @@
   "appId": "org.lunie.lunie",
   "appName": "Lunie",
   "bundledWebRuntime": false,
-  "npmClient": "yarn",
+  "npmClient": "npm",
   "webDir": "dist"
 }
