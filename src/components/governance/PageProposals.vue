@@ -35,7 +35,8 @@
           @click.native="onPropose"
         />
       </div>
-      <TableProposals
+      <TmDataLoading v-if="$apollo.loading" />
+      <TableProposals v-else
         :proposals="proposals"
         :loading="$apollo.queries.proposals.loading"
       />
@@ -54,6 +55,7 @@ import TableProposals from "governance/TableProposals"
 import TmBtn from "common/TmBtn"
 import PageContainer from "common/PageContainer"
 import TmDataMsg from "common/TmDataMsg"
+import TmDataLoading from "common/TmDataLoading"
 import { mapGetters } from "vuex"
 import { GovernanceParameters } from "src/gql"
 import gql from "graphql-tag"
@@ -64,6 +66,7 @@ export default {
     ModalPropose,
     TableProposals,
     TmDataMsg,
+    TmDataLoading,
     TmBtn,
     PageContainer
   },
