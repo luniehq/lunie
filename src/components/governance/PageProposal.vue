@@ -192,7 +192,7 @@ export default {
       return this.proposals.proposals[this.proposalId]
     },
     getNextProposalId() {
-      let id = this.getProposalIndex(`+1`)
+      let id = this.getProposalIndex(1)
       if (id !== undefined) {
         return id
       } else {
@@ -200,7 +200,7 @@ export default {
       }
     },
     getPrevProposalId() {
-      let id = this.getProposalIndex(`-1`)
+      let id = this.getProposalIndex(-1)
       if (id !== undefined) {
         return id
       } else {
@@ -302,12 +302,12 @@ export default {
     onDeposit() {
       this.$refs.modalDeposit.open()
     },
-    getProposalIndex(sign) {
+    getProposalIndex(num) {
       let proposalsObj = this.proposals.proposals
       let proposalsArr = Object.keys(proposalsObj).map(key => proposalsObj[key])
       let proposalsIdArr = proposalsArr.map(proposal => proposal.proposal_id)
       return proposalsIdArr[
-        proposalsIdArr.indexOf(this.proposalId) + Number(sign)
+        proposalsIdArr.indexOf(this.proposalId) + num
       ]
     }
   }
