@@ -251,7 +251,7 @@ export default {
       ]) // TODO use more finegrained query string (network and address)
     }
   },
-  apollo: {
+apollo: {
     delegation: {
       query: gql`
         query delegation(
