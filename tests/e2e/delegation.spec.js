@@ -3,6 +3,7 @@ const { actionModalCheckout, nextBlock, waitForText } = require("./helpers.js")
 module.exports = {
   "Delegate Action": async function(browser) {
     // move to according page
+    browser.waitForElementVisible(`body`, 10000, true)
     browser.url(browser.launch_url + "/#/validators")
 
     // move to validator page
@@ -34,6 +35,7 @@ module.exports = {
   },
   "Redelegate Action": async function(browser) {
     // move to according page
+    browser.waitForElementVisible(`body`, 10000, true)
     browser.url(browser.launch_url + "/#/validators")
 
     // move to validator page
@@ -72,6 +74,7 @@ module.exports = {
     await nextBlock(browser)
 
     // move to according page
+    browser.waitForElementVisible(`body`, 10000, true)
     browser.url(browser.launch_url + "/#/validators")
 
     // move to validator page

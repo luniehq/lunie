@@ -1,0 +1,4 @@
+{
+    "integrationFolder": "tests/cypress/integration",
+    "supportFile": "tests/cypress/support"
+}
