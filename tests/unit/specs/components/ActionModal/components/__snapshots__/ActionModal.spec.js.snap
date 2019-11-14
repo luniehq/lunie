@@ -34,7 +34,7 @@ exports[`ActionModal back button renders and functions 1`] = `
     <span
       class="action-modal-title"
     >
-      Action Modal
+      Send
     </span>
      
     <steps-stub
@@ -80,7 +80,6 @@ exports[`ActionModal back button renders and functions 1`] = `
       <div>
         <tmbtn-stub
           color="primary"
-          disabled="true"
           value="Send"
         />
       </div>
@@ -125,7 +124,7 @@ exports[`ActionModal runs validation and changes step on sign step should dispal
     <span
       class="action-modal-title"
     >
-      Action Modal
+      Send
     </span>
      
     <steps-stub
@@ -177,7 +176,6 @@ exports[`ActionModal runs validation and changes step on sign step should dispal
       <div>
         <tmbtn-stub
           color="primary"
-          disabled="true"
           value="Send"
         />
       </div>
@@ -213,7 +211,7 @@ exports[`ActionModal should show the action modal on success 1`] = `
     <span
       class="action-modal-title"
     >
-      Action Modal
+      Send
     </span>
      
     <!---->
@@ -288,7 +286,7 @@ exports[`ActionModal should show the action modal waiting on inclusion 1`] = `
     <span
       class="action-modal-title"
     >
-      Action Modal
+      Send
     </span>
      
     <!---->
@@ -344,7 +342,7 @@ exports[`ActionModal should show the action modal when user has logged in with e
     <span
       class="action-modal-title"
     >
-      Action Modal
+      Send
     </span>
      
     <steps-stub
@@ -364,7 +362,7 @@ exports[`ActionModal should show the action modal when user has logged in with e
      
     <tableinvoice-stub
       amount="0"
-      bonddenom="uatom"
+      bonddenom="STAKE"
       estimatedfee="0"
     />
      
@@ -424,7 +422,7 @@ exports[`ActionModal should show the action modal when user has logged in with e
     <span
       class="action-modal-title"
     >
-      Action Modal
+      Send
     </span>
      
     <steps-stub
@@ -481,7 +479,6 @@ exports[`ActionModal should show the action modal when user has logged in with e
       <div>
         <tmbtn-stub
           color="primary"
-          disabled="true"
           value="Send"
         />
       </div>
@@ -517,7 +514,7 @@ exports[`ActionModal should show the action modal when user has logged in with e
     <span
       class="action-modal-title"
     >
-      Action Modal
+      Send
     </span>
      
     <steps-stub
@@ -619,7 +616,7 @@ exports[`ActionModal should show the action modal when user has logged in with e
     <span
       class="action-modal-title"
     >
-      Action Modal
+      Send
     </span>
      
     <steps-stub
@@ -639,7 +636,7 @@ exports[`ActionModal should show the action modal when user has logged in with e
      
     <tableinvoice-stub
       amount="0"
-      bonddenom="uatom"
+      bonddenom="STAKE"
       estimatedfee="0"
     />
      
@@ -699,7 +696,7 @@ exports[`ActionModal should show the action modal when user has logged in with e
     <span
       class="action-modal-title"
     >
-      Action Modal
+      Send
     </span>
      
     <steps-stub
@@ -707,7 +704,14 @@ exports[`ActionModal should show the action modal when user has logged in with e
       steps="Details,Fees,Sign"
     />
      
-    <!---->
+    <p
+      class="form-message notice extension-address"
+    >
+      
+        The address you are trying to send with is not available in the
+        extension.
+      
+    </p>
   </div>
    
   <!---->
@@ -779,7 +783,7 @@ exports[`ActionModal should show the action modal when user has logged in with e
     <span
       class="action-modal-title"
     >
-      Action Modal
+      Send
     </span>
      
     <steps-stub
@@ -787,7 +791,14 @@ exports[`ActionModal should show the action modal when user has logged in with e
       steps="Details,Fees,Sign"
     />
      
-    <!---->
+    <p
+      class="form-message notice extension-address"
+    >
+      
+        The address you are trying to send with is not available in the
+        extension.
+      
+    </p>
   </div>
    
   <!---->
@@ -870,7 +881,7 @@ exports[`ActionModal should show the action modal when user has logged in with l
     <span
       class="action-modal-title"
     >
-      Action Modal
+      Send
     </span>
      
     <steps-stub
@@ -890,7 +901,7 @@ exports[`ActionModal should show the action modal when user has logged in with l
      
     <tableinvoice-stub
       amount="0"
-      bonddenom="uatom"
+      bonddenom="STAKE"
       estimatedfee="0"
     />
      
@@ -950,7 +961,7 @@ exports[`ActionModal should show the action modal when user has logged in with l
     <span
       class="action-modal-title"
     >
-      Action Modal
+      Send
     </span>
      
     <steps-stub
@@ -991,7 +1002,6 @@ exports[`ActionModal should show the action modal when user has logged in with l
       <div>
         <tmbtn-stub
           color="primary"
-          disabled="true"
           value="Send"
         />
       </div>
@@ -1027,7 +1037,7 @@ exports[`ActionModal should show the action modal when user has logged in with l
     <span
       class="action-modal-title"
     >
-      Action Modal
+      Send
     </span>
      
     <steps-stub
@@ -1114,7 +1124,7 @@ exports[`ActionModal should show the action modal when user has logged in with l
     <span
       class="action-modal-title"
     >
-      Action Modal
+      Send
     </span>
      
     <steps-stub
@@ -1134,7 +1144,7 @@ exports[`ActionModal should show the action modal when user has logged in with l
      
     <tableinvoice-stub
       amount="0"
-      bonddenom="uatom"
+      bonddenom="STAKE"
       estimatedfee="0"
     />
      
@@ -1194,7 +1204,7 @@ exports[`ActionModal should show the action modal when user has logged in with l
     <span
       class="action-modal-title"
     >
-      Action Modal
+      Send
     </span>
      
     <steps-stub
@@ -1240,7 +1250,6 @@ exports[`ActionModal should show the action modal when user has logged in with l
       <div>
         <tmbtn-stub
           color="primary"
-          disabled="true"
           value="Send"
         />
       </div>
@@ -1276,7 +1285,7 @@ exports[`ActionModal should show the action modal when user has logged in with l
     <span
       class="action-modal-title"
     >
-      Action Modal
+      Send
     </span>
      
     <steps-stub
@@ -1427,7 +1436,7 @@ exports[`ActionModal shows a feature unavailable message 1`] = `
     <span
       class="action-modal-title"
     >
-      Action Modal
+      Send
     </span>
      
     <steps-stub
@@ -1488,7 +1497,7 @@ exports[`ActionModal windows shows windows warning 1`] = `
     <span
       class="action-modal-title"
     >
-      Sign in required
+      Send
     </span>
      
     <steps-stub
@@ -1509,15 +1518,7 @@ exports[`ActionModal windows shows windows warning 1`] = `
    
   <div
     class="action-modal-form"
-  >
-    <p
-      class="form-message notice"
-    >
-      
-          You need to sign in to submit a transaction.
-        
-    </p>
-  </div>
+  />
    
   <div
     class="action-modal-footer"
@@ -1528,7 +1529,7 @@ exports[`ActionModal windows shows windows warning 1`] = `
       <div>
         <tmbtn-stub
           color="primary"
-          value="Sign In"
+          value="Next"
         />
       </div>
     </tmformgroup-stub>

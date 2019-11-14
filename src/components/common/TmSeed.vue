@@ -10,10 +10,7 @@
         check
       </i>
     </div>
-    <div v-if="legacy">
-      <FieldSeed id="sign-up-seed" v-model="value" disabled />
-    </div>
-    <div v-else>
+    <div>
       <table class="seed-table">
         <tr>
           <td v-for="(word, index) in splitSeed.slice(0, 6)" :key="index">
@@ -51,20 +48,12 @@
 </template>
 
 <script>
-import FieldSeed from "common/TmFieldSeed"
 export default {
   name: `TmSeed`,
-  components: {
-    FieldSeed
-  },
   props: {
     value: {
       type: String,
       default: ``
-    },
-    legacy: {
-      type: Boolean,
-      default: true
     }
   },
   data: () => ({
@@ -92,6 +81,7 @@ export default {
   border-collapse: separate;
   margin: 0 -4px;
 }
+
 .seed-table td {
   text-align: center;
   width: 16.6666666666667%;
@@ -100,10 +90,12 @@ export default {
   border-radius: 0.2rem;
   font-size: 0.9rem;
 }
+
 .seed-table td .word-number {
   display: block;
   width: 100%;
   opacity: 0.3;
+
   /* Prevent user to copy word numbers, we only want the words in their correct order */
   -moz-user-select: none;
   -webkit-user-select: none;
@@ -147,7 +139,6 @@ export default {
   color: var(--danger);
   margin: 0;
   text-align: center;
-  font-size: 0.8rem;
 }
 
 @media screen and (max-width: 360px) {

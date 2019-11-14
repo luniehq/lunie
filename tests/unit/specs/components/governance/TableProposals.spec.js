@@ -1,7 +1,7 @@
 import { mount, createLocalVue } from "@vue/test-utils"
 import TableProposals from "governance/TableProposals"
 
-import { proposals, tallies } from "../../store/json/proposals"
+import { proposals } from "../../store/json/proposals"
 
 describe(`TableProposals`, () => {
   let wrapper, $store
@@ -11,13 +11,7 @@ describe(`TableProposals`, () => {
   beforeEach(() => {
     $store = {
       commit: jest.fn(),
-      dispatch: jest.fn(),
-      getters: {
-        proposals: {
-          proposals,
-          tallies
-        }
-      }
+      dispatch: jest.fn()
     }
 
     wrapper = mount(TableProposals, {
@@ -32,24 +26,5 @@ describe(`TableProposals`, () => {
 
   it(`has the expected html structure`, async () => {
     expect(wrapper.element).toMatchSnapshot()
-  })
-
-  it(`should sort the proposals by selected property`, () => {
-    wrapper.vm.sort.property = `proposal_id`
-    wrapper.vm.sort.order = `asc`
-
-    expect(wrapper.vm.filteredProposals[0].title).toEqual(proposals[`1`].title)
-
-    wrapper.vm.sort.property = `proposal_id`
-    wrapper.vm.sort.order = `desc`
-
-    expect(wrapper.vm.filteredProposals[0].title).toEqual(proposals[`6`].title)
-  })
-
-  it(`should filter the proposals`, () => {
-    expect(wrapper.element).toMatchSnapshot()
-    expect(wrapper.vm.filteredProposals[0].description).toBe(
-      proposals[`6`].description
-    )
   })
 })

@@ -2,12 +2,12 @@
   <div>
     <div>
       Network Fee:&nbsp;
-      <b>{{ fees.amount | atoms }}</b>
-      <span>{{ fees.denom | viewDenom }}</span>
+      <b>{{ fee.amount }}</b>
+      <span> {{ fee.denom }}</span>
     </div>
     <div>
-      <router-link :to="{ name: `block`, params: { height: block } }"
-        >Block #{{ block }}&nbsp;</router-link
+      <router-link :to="{ name: `block`, params: { height } }"
+        >Block #{{ height }}&nbsp;</router-link
       >
       @&nbsp;{{ date }}
     </div>
@@ -19,28 +19,28 @@ import moment from "moment"
 import { atoms, viewDenom } from "scripts/num.js"
 
 export default {
-  name: `transaction-fees`,
+  name: `transaction-metadata`,
   filters: {
     atoms,
     viewDenom
   },
   props: {
-    time: {
+    timestamp: {
       type: Date,
       required: true
     },
-    block: {
+    height: {
       type: Number,
       required: true
     },
-    fees: {
+    fee: {
       type: Object,
       required: true
     }
   },
   computed: {
     date() {
-      const momentTime = moment(this.time)
+      const momentTime = moment(this.timestamp)
       return momentTime.format(
         `${moment().isSame(momentTime, `day`) ? `` : `MMM Do YYYY `}HH:mm:ss`
       )

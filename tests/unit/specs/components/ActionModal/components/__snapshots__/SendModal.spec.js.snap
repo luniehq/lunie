@@ -4,26 +4,12 @@ exports[`SendModal should display send modal form 1`] = `
 <actionmodal-stub
   id="send-modal"
   notifymessage="[object Object]"
+  rewards=""
   submissionerrorprefix="Sending tokens failed"
   title="Send"
   transactiondata="[object Object]"
   validate="function () { [native code] }"
 >
-  <tmformgroup-stub
-    class="action-modal-form-group"
-    fieldid="send-denomination"
-    fieldlabel="Denomination"
-  >
-    <tmfield-stub
-      id="send-denomination"
-      readonly=""
-      type="text"
-      value="STAKE"
-    />
-     
-    <!---->
-  </tmformgroup-stub>
-   
   <tmformgroup-stub
     class="action-modal-form-group"
     fieldid="send-address"
@@ -65,11 +51,7 @@ exports[`SendModal should display send modal form 1`] = `
       />
     </tmfieldgroup-stub>
      
-    <tmformmsg-stub
-      msg="doesn't have any STAKEs"
-      name="Wallet"
-      type="custom"
-    />
+    <!---->
   </tmformgroup-stub>
    
   <tmbtn-stub
@@ -85,26 +67,12 @@ exports[`SendModal validation should show address required error 1`] = `
   amount="2"
   id="send-modal"
   notifymessage="[object Object]"
+  rewards=""
   submissionerrorprefix="Sending tokens failed"
   title="Send"
   transactiondata="[object Object]"
   validate="function () { [native code] }"
 >
-  <tmformgroup-stub
-    class="action-modal-form-group"
-    fieldid="send-denomination"
-    fieldlabel="Denomination"
-  >
-    <tmfield-stub
-      id="send-denomination"
-      readonly=""
-      type="text"
-      value="STAKE"
-    />
-     
-    <!---->
-  </tmformgroup-stub>
-   
   <tmformgroup-stub
     class="action-modal-form-group"
     error="true"
@@ -168,26 +136,12 @@ exports[`SendModal validation should show bech32 error when address length is to
   amount="2"
   id="send-modal"
   notifymessage="[object Object]"
+  rewards=""
   submissionerrorprefix="Sending tokens failed"
   title="Send"
   transactiondata="[object Object]"
   validate="function () { [native code] }"
 >
-  <tmformgroup-stub
-    class="action-modal-form-group"
-    fieldid="send-denomination"
-    fieldlabel="Denomination"
-  >
-    <tmfield-stub
-      id="send-denomination"
-      readonly=""
-      type="text"
-      value="STAKE"
-    />
-     
-    <!---->
-  </tmformgroup-stub>
-   
   <tmformgroup-stub
     class="action-modal-form-group"
     error="true"
@@ -251,26 +205,12 @@ exports[`SendModal validation should show bech32 error when address length is to
   amount="2"
   id="send-modal"
   notifymessage="[object Object]"
+  rewards=""
   submissionerrorprefix="Sending tokens failed"
   title="Send"
   transactiondata="[object Object]"
   validate="function () { [native code] }"
 >
-  <tmformgroup-stub
-    class="action-modal-form-group"
-    fieldid="send-denomination"
-    fieldlabel="Denomination"
-  >
-    <tmfield-stub
-      id="send-denomination"
-      readonly=""
-      type="text"
-      value="STAKE"
-    />
-     
-    <!---->
-  </tmformgroup-stub>
-   
   <tmformgroup-stub
     class="action-modal-form-group"
     error="true"
@@ -333,26 +273,12 @@ exports[`SendModal validation should show bech32 error when alphanumeric is wron
 <actionmodal-stub
   id="send-modal"
   notifymessage="[object Object]"
+  rewards=""
   submissionerrorprefix="Sending tokens failed"
   title="Send"
   transactiondata="[object Object]"
   validate="function () { [native code] }"
 >
-  <tmformgroup-stub
-    class="action-modal-form-group"
-    fieldid="send-denomination"
-    fieldlabel="Denomination"
-  >
-    <tmfield-stub
-      id="send-denomination"
-      readonly=""
-      type="text"
-      value="STAKE"
-    />
-     
-    <!---->
-  </tmformgroup-stub>
-   
   <tmformgroup-stub
     class="action-modal-form-group"
     error="true"
@@ -401,9 +327,9 @@ exports[`SendModal validation should show bech32 error when alphanumeric is wron
     </tmfieldgroup-stub>
      
     <tmformmsg-stub
-      msg="doesn't have any STAKEs"
-      name="Wallet"
-      type="custom"
+      msg=""
+      name="Amount"
+      type="required"
     />
   </tmformgroup-stub>
    

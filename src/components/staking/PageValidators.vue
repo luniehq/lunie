@@ -1,12 +1,5 @@
 <template>
-  <PageContainer
-    :managed="true"
-    :loading="$apollo.queries.validators.loading"
-    :loaded="!$apollo.queries.validators.loading"
-    :error="$apollo.queries.validators.error"
-    :data-empty="validators && validators.length === 0"
-    hide-header
-  >
+  <TmPage :managed="true" hide-header>
     <template slot="managed-body">
       <div class="filterOptions">
         <TmField
@@ -39,23 +32,26 @@
       >
         No results for these search terms
       </div>
+      <TmDataLoading v-if="$apollo.loading" />
     </template>
-  </PageContainer>
+  </TmPage>
 </template>
 
 <script>
-import { mapState } from "vuex"
-import { ValidatorByName, AllValidatorsResult } from "src/gql"
+import { mapGetters } from "vuex"
+import TmDataLoading from "common/TmDataLoading"
 import TableValidators from "staking/TableValidators"
-import PageContainer from "common/PageContainer"
+import TmPage from "common/TmPage"
 import TmField from "common/TmField"
 import TmBtn from "common/TmBtn"
+import gql from "graphql-tag"
 
 export default {
   name: `tab-validators`,
   components: {
     TableValidators,
-    PageContainer,
+    TmDataLoading,
+    TmPage,
     TmField,
     TmBtn
   },
@@ -65,23 +61,75 @@ export default {
     validators: []
   }),
   computed: {
-    ...mapState({ network: state => state.connection.network })
+    ...mapGetters([`address`, `network`]),
+    validatorsPlus() {
+      return this.validators.map(validator => ({
+        ...validator,
+        smallName: validator.name ? validator.name.toLowerCase() : ""
+      }))
+    }
   },
   apollo: {
     validators: {
-      query() {
-        /* istanbul ignore next */
-        return ValidatorByName(this.network)(this.activeOnly)
+      query: gql`
+        query validators(
+          $networkId: String!
+          $searchTerm: String
+          $activeOnly: Boolean
+        ) {
+          validators(
+            networkId: $networkId
+            searchTerm: $searchTerm
+            activeOnly: $activeOnly
+          ) {
+            name
+            operatorAddress
+            consensusPubkey
+            votingPower
+            status
+            statusDetailed
+            picture
+            expectedReturns
+          }
+        }
+      `,
+      variables() {
+        return {
+          networkId: this.network,
+          activeOnly: this.activeOnly,
+          searchTerm: this.searchTerm
+        }
+      },
+      update: function(result) {
+        return Array.isArray(result.validators) ? result.validators : []
+      }
+    },
+    delegations: {
+      query: gql`
+        query Delegations($networkId: String!, $delegatorAddress: String!) {
+          delegations(
+            networkId: $networkId
+            delegatorAddress: $delegatorAddress
+          ) {
+            amount
+            validator {
+              operatorAddress
+            }
+          }
+        }
+      `,
+      skip() {
+        return !this.address
+      },
+      variables() {
+        return {
+          networkId: this.network,
+          delegatorAddress: this.address
+        }
       },
       update(data) {
         /* istanbul ignore next */
-        return AllValidatorsResult(this.network)(data)
-      },
-      variables() {
-        /* istanbul ignore next */
-        return {
-          monikerName: `%${this.searchTerm}%`
-        }
+        return data.delegations
       }
     }
   }
@@ -111,6 +159,10 @@ export default {
   }
 }
 
+.filterOptions .btn-radio {
+  border-radius: 0;
+}
+
 .filterOptions .btn-radio:last-child {
   border-radius: 0 0.5rem 0.5rem 0;
   margin-left: -1px;
@@ -119,10 +171,6 @@ export default {
 .filterOptions .btn-radio:first-child {
   border-radius: 0.5rem 0 0 0.5rem;
   margin-right: -1px;
-}
-
-.filterOptions .btn-radio {
-  border-radius: 0;
 }
 
 @media screen and (min-width: 768px) {
