@@ -63,8 +63,8 @@ export default ({ apollo }) => {
     setExperimentalMode(state) {
       state.experimentalMode = true
     },
-    setInsecureMode(state) {
-      state.insecureMode = true
+    setInsecureMode(state, insecureMode) {
+      state.insecureMode = insecureMode
     },
     addHistory(state, path) {
       state.history.push(path)

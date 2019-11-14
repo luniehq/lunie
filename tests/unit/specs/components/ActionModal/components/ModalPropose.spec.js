@@ -129,6 +129,7 @@ describe(`ModalPropose`, () => {
     describe(`successful`, () => {
       it(`if the user has enough balance and the fields are within the length ranges`, async () => {
         wrapper.setData(inputs)
+        console.log(wrapper.vm.validateForm())
         await wrapper.vm.$nextTick()
         expect(wrapper.vm.validateForm()).toBe(true)
       })

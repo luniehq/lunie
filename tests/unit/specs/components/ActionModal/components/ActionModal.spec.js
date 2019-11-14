@@ -6,7 +6,7 @@ import { focusParentLast } from "src/directives"
 const localVue = createLocalVue()
 localVue.use(Vuelidate)
 localVue.directive("focus-last", focusParentLast)
-localVue.directive("focus", () => {})
+localVue.directive("focus", () => { })
 
 let mockSimulate = jest.fn(() => 123456)
 let mockSend = jest.fn(() => ({
@@ -41,15 +41,7 @@ describe(`ActionModal`, () => {
     chain_id: "gaia-13006",
     rpc_url: "wss://gaia-13006.lunie.io:26657/websocket",
     api_url: "https://gaia-13006.lunie.io",
-    action_send: false,
-    action_claim_rewards: false,
-    action_delegate: false,
-    action_redelegate: false,
-    action_undelegate: false,
-    action_deposit: false,
-    action_vote: false,
-    action_proposal: false,
-    testnet: true
+    action_send: true // to enable the feature send, needs to match the title of the ActionModal
   }
 
   const delegations = [
@@ -115,7 +107,7 @@ describe(`ActionModal`, () => {
     wrapper = shallowMount(ActionModal, {
       localVue,
       propsData: {
-        title: `Action Modal`,
+        title: `Send`,
         validate: jest.fn(),
         transactionData: {
           type: "MsgSend",
@@ -144,7 +136,7 @@ describe(`ActionModal`, () => {
     const self = {
       $store,
       actionManager: {
-        setContext: () => {},
+        setContext: () => { },
         simulate: () => 12345,
         send: ActionManagerSend
       },
@@ -158,7 +150,7 @@ describe(`ActionModal`, () => {
       },
       submissionErrorPrefix: `PREFIX`,
       trackEvent: jest.fn(),
-      connectLedger: () => {},
+      connectLedger: () => { },
       onSendingFailed: jest.fn()
     }
     await ActionModal.methods.submit.call(self)
@@ -603,7 +595,7 @@ describe(`ActionModal`, () => {
         isValidInput: jest.fn(() => true),
         selectedSignMethod: `local`,
         step: `details`,
-        validateChangeStep: jest.fn(() => {})
+        validateChangeStep: jest.fn(() => { })
       }
     })
 

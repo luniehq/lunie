@@ -7,6 +7,45 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.0-beta.138] - 2019-11-14
+
+### Deprecated
+
+- [#3127](https://github.com/cosmos/lunie/pull/3127) Delete a former duplicate of the material-icons stylesheet @Bitcoinera
+
+### Code Improvements
+
+- [###2918](https://github.com/cosmos/lunie/issues/##2918) material design icons are now served directly @Bitcoinera
+
+## [1.0.0-beta.137] - 2019-11-12
+
+### Added
+
+- [#3107](https://github.com/cosmos/lunie/issues/3107) Improve mobile app development flow @mariopino
+- [#3113](https://github.com/cosmos/lunie/issues/3113) Handle MOBILE_APP environment variable in vue.config.js, redirect 404 to index.html in serve:dist target @mariopino
+
+### Fixed
+
+- [#3106](https://github.com/cosmos/lunie/issues/3106) Fix buggy app menu behaviour in mobile when scroll down. @mariopino
+
+## [1.0.0-beta.136] - 2019-11-11
+
+### Repository
+
+- [#3048](https://github.com/cosmos/lunie/issues/3048) Sentry integration was added @iambeone
+
+## [1.0.0-beta.135] - 2019-11-08
+
+### Repository
+
+- [#3048](https://github.com/cosmos/lunie/issues/3048) Sentry integration was added @iambeone
+
+## [1.0.0-beta.134] - 2019-11-07
+
+### Repository
+
+- [#3048](https://github.com/cosmos/lunie/issues/3048) Sentry integration was added @iambeone
+
 ## [1.0.0-beta.133] - 2019-11-03
 
 ### Added

@@ -262,6 +262,9 @@ export default {
   .app-menu {
     background: var(--app-nav);
     height: 100vh;
+    position: fixed;
+    top: 0;
+    width: 100%;
   }
 
   .app-menu .app-menu-item {
