@@ -4,7 +4,7 @@ import PageProposal from "governance/PageProposal"
 import { createLocalVue, shallowMount } from "@vue/test-utils"
 import Vuex from "vuex"
 import Vuelidate from "vuelidate"
-import { proposals } from "../../store/json/proposals"
+import { proposals, proposalsOld } from "../../store/json/proposals"
 
 describe(`PageProposal`, () => {
   let wrapper, $store
@@ -58,7 +58,8 @@ describe(`PageProposal`, () => {
       mocks: {
         $store,
         $apollo
-      }
+      },
+      stubs: [`router-link`]
     }
     wrapper = shallowMount(PageProposal, args)
     wrapper.setData({
@@ -104,6 +105,16 @@ describe(`PageProposal`, () => {
       "cosmos1z8mzakma7vnaajysmtkwt4wgjqr2m84tzvyfkz"
     )
     expect(wrapper.html()).toContain("Big Daddy Validator")
+  })
+
+  it(`should return the ID of the current proposal`, () => {
+    wrapper.setData({ proposal: proposals[0] })
+    expect(wrapper.vm.getNextProposalId).toEqual(35)
+  })
+
+  it(`should return the ID of the current proposal`, () => {
+    wrapper.setData({ proposal: proposals[16] })
+    expect(wrapper.vm.getPrevProposalId).toEqual(12)
   })
 
   describe(`Proposal status`, () => {
