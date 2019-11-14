@@ -3,9 +3,9 @@
     <table class="data-table">
       <tbody>
         <LiProposal
-          v-for="(value, key) in filteredProposals"
-          :key="key"
-          :proposal="value"
+          v-for="proposal in proposals"
+          :key="proposal.id"
+          :proposal="proposal"
         />
       </tbody>
     </table>
@@ -13,7 +13,6 @@
 </template>
 
 <script>
-import orderBy from "lodash.orderby"
 import LiProposal from "governance/LiProposal"
 export default {
   name: `table-proposals`,
@@ -22,7 +21,7 @@ export default {
   },
   props: {
     proposals: {
-      type: Object,
+      type: Array,
       required: true
     }
   },
@@ -31,27 +30,6 @@ export default {
       property: `id`,
       order: `desc`
     }
-  }),
-  computed: {
-    enrichedProposals() {
-      const copy = JSON.parse(JSON.stringify(this.proposals))
-      Object.keys(copy).forEach(proposal_id => {
-        copy[proposal_id].id = Number(proposal_id)
-      })
-      return copy
-    },
-    filteredProposals() {
-      const proposals = orderBy(
-        this.enrichedProposals,
-        [this.sort.property],
-        [this.sort.order]
-      )
-
-      return proposals
-    }
-  },
-  mounted() {
-    this.$store.dispatch(`getProposals`)
-  }
+  })
 }
 </script>

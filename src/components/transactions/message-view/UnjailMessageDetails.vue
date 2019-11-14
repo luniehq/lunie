@@ -4,7 +4,7 @@
       <p>Unjail</p>
     </div>
     <div class="tx__content__information">
-      Moniker:
+      Name:
       <router-link :to="`staking/validators/${transaction.value.address}`">{{
         transaction.value.address | formatBech32
       }}</router-link>

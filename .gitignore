@@ -8,7 +8,7 @@ node_modules
 /tests/e2e/reports/
 selenium-debug.log
 chromedriver.log
-certs
+screenshots
 
 # local env files
 .env.local

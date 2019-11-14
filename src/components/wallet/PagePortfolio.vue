@@ -1,25 +1,13 @@
 <template>
-  <TmPage
-    :managed="true"
-    :loading="wallet.loading && delegation.loading"
-    :loaded="wallet.loaded && delegation.loaded"
-    :error="error"
-    :sign-in-required="true"
-  >
+  <TmPage :sign-in-required="true" :managed="true">
     <template slot="managed-body">
       <DelegationsOverview />
-      <template v-if="Object.keys(delegation.unbondingDelegations).length">
-        <h3 class="tab-header">
-          Pending Undelegations
-        </h3>
-        <Undelegations />
-      </template>
+      <Undelegations />
     </template>
   </TmPage>
 </template>
 
 <script>
-import { mapState, mapGetters } from "vuex"
 import TmPage from "common/TmPage"
 import DelegationsOverview from "staking/DelegationsOverview"
 import Undelegations from "staking/Undelegations"
@@ -30,48 +18,6 @@ export default {
     TmPage,
     Undelegations,
     DelegationsOverview
-  },
-  data: () => ({
-    lastUpdate: 0
-  }),
-  computed: {
-    ...mapState([`session`, `wallet`, `delegation`]),
-    ...mapGetters([`lastHeader`]),
-    error: function() {
-      if (this.wallet.error || this.delegation.error) {
-        return true
-      } else {
-        return false
-      }
-    }
-  },
-  watch: {
-    lastHeader: {
-      immediate: true,
-      handler: function(newHeader) {
-        const height = Number(newHeader.height)
-        // run the update queries the first time and after every 10 blocks
-        const waitedTenBlocks = height - this.lastUpdate >= 10
-        if (
-          this.session.signedIn &&
-          (this.lastUpdate === 0 || waitedTenBlocks)
-        ) {
-          this.update(height)
-        }
-      }
-    }
-  },
-  methods: {
-    update(height) {
-      this.lastUpdate = height
-      this.$store.dispatch(`getRewardsFromMyValidators`)
-    }
   }
 }
 </script>
-<style scoped>
-.tab-header {
-  margin-top: 2rem;
-  margin-bottom: 1rem;
-}
-</style>
