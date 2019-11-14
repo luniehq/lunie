@@ -1,7 +1,7 @@
 const { actionModalCheckout, nextBlock, waitForText } = require("./helpers.js")
 
 module.exports = {
-  "Delegate Action": async function (browser) {
+  "Delegate Action": async function(browser) {
     // move to according page
     browser.url(browser.launch_url + "/#/validators")
 
@@ -32,7 +32,7 @@ module.exports = {
       `Delegated ${value} STAKE`
     )
   },
-  "Redelegate Action": async function (browser) {
+  "Redelegate Action": async function(browser) {
     // move to according page
     browser.url(browser.launch_url + "/#/validators")
 
@@ -67,7 +67,7 @@ module.exports = {
       `Redelegated ${value} STAKE`
     )
   },
-  "Undelegate Action": async function (browser) {
+  "Undelegate Action": async function(browser) {
     // be sure that the balance has updated, if we don't wait, the baseline (balance) shifts
     await nextBlock(browser)
 
@@ -96,14 +96,15 @@ module.exports = {
       browser,
       ".tx:nth-child(2) .tx__content__caption",
       `Undelegated ${value} STAKE`,
-      20000
+      10,
+      2000
     )
   }
 }
 
 function setSelect(browser, selector, option) {
   browser.execute(
-    function (selector, option) {
+    function(selector, option) {
       const select = document.querySelector(selector)
       select.value = option
 
