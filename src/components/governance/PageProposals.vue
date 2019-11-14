@@ -36,7 +36,8 @@
         />
       </div>
       <TmDataLoading v-if="$apollo.loading" />
-      <TableProposals v-else
+      <TableProposals
+        v-else
         :proposals="proposals"
         :loading="$apollo.queries.proposals.loading"
       />
