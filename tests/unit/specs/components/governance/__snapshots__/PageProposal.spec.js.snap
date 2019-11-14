@@ -1,627 +1,149 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`PageProposal renders votes in HTML when voting is open 1`] = `
-<tmpage-stub
-  class="small"
-  data-title="Proposal"
-  hideheader="true"
-  subtitle=""
-  title=""
->
-  <div
-    class="proposal"
-  >
-    <div
-      class="page-profile__header__info"
-    >
-      <span
-        class="proposal-status pink"
-      >
-        
+exports[`PageProposal Modal onVote enables voting if the proposal is on the 'VotingPeriod' 1`] = `
+<tmpage-stub hideheader="true" title="" subtitle="" data-title="Proposal" class="small">
+  <div class="proposal">
+    <div class="page-profile__header__info"><span class="proposal-status votingperiod">
           Voting Period
-        
-      </span>
-       
-      <div
-        class="proposal-title__row"
-      >
-        <router-link-stub
-          class="read-more-link"
-          style="visibility: visible;"
-          to="/proposals/1"
-        >
-          <i
-            class="material-icons"
-          >
-            chevron_left
-          </i>
-        </router-link-stub>
-         
-        <h2
-          class="proposal-title"
-        >
-          VotingPeriod proposal
-        </h2>
-         
-        <router-link-stub
-          class="read-more-link"
-          style="visibility: visible;"
-          to="/proposals/5"
-        >
-          <i
-            class="material-icons"
-          >
-            chevron_right
-          </i>
-        </router-link-stub>
-      </div>
+        </span>
+      <h2 class="proposal-title">test</h2>
+      <p class="proposer">
+        Proposed by Big Daddy Validator:
+        <bech32-stub address="cosmos1z8mzakma7vnaajysmtkwt4wgjqr2m84tzvyfkz"></bech32-stub>
+      </p>
     </div>
-     
-    <div
-      class="button-container"
-    >
-      <tmbtn-stub
-        color="primary"
-        disabled="true"
-        id="deposit-btn"
-        value="Deposit"
-      />
-       
-      <tmbtn-stub
-        color="primary"
-        id="vote-btn"
-        value="Vote"
-      />
+    <div class="button-container">
+      <tmbtn-stub value="Deposit" disabled="true" id="deposit-btn" color="primary"></tmbtn-stub>
+      <tmbtn-stub value="Vote" id="vote-btn" color="primary"></tmbtn-stub>
     </div>
   </div>
-   
-  <textblock-stub
-    content="custom text proposal description"
-  />
-   
+  <textblock-stub content="test"></textblock-stub>
   <!---->
-   
-  <ul
-    class="row"
-  >
+  <ul class="row">
     <li>
-      <h4>
-        Total Vote Count
-      </h4>
-       
-      <span>
-        
-          100,000,000% /
-          10,000
-        
-      </span>
+      <h4>Total Vote Count</h4> <span>
+          0.00% /
+          0
+        </span>
     </li>
-     
     <li>
-      <h4>
-        Yes
-      </h4>
-       
-      <span>
-        
-          10% /
-          1,000
-        
-      </span>
+      <h4>Yes</h4> <span>
+          0.00%
+          /
+          0
+        </span>
     </li>
-     
     <li>
-      <h4>
-        No
-      </h4>
-       
-      <span>
-        
-          20% /
-          2,000
-        
-      </span>
+      <h4>No</h4> <span>
+          0.00%
+          /
+          0
+        </span>
     </li>
-     
     <li>
-      <h4>
-        No with Veto
-      </h4>
-       
-      <span>
-        
-          30% /
-          3,000
-        
-      </span>
+      <h4>Veto</h4> <span>
+          0.00%
+          /
+          0
+        </span>
     </li>
-     
     <li>
-      <h4>
-        Abstain
-      </h4>
-       
-      <span>
-        
-          40% /
-          4,000
-        
-      </span>
+      <h4>Abstain</h4> <span>
+          0.00%
+          /
+          0
+        </span>
     </li>
   </ul>
-   
-  <ul
-    class="row"
-  >
+  <ul class="row">
     <li>
-      <h4>
-        Proposal ID
-      </h4>
-       
-      <span>
-        2
-      </span>
+      <h4>Proposal ID</h4> <span>33</span>
     </li>
-     
     <li>
-      <h4>
-        Submitted
-      </h4>
-       
-      <span>
-        January 1st 1970, 00:00
-      </span>
+      <h4>Submitted</h4> <span>August 23rd 2019, 08:46</span>
     </li>
-     
     <li>
-      <h4>
-        Voting Start Date
-      </h4>
-       
-      <span>
-        January 3rd 1970, 00:00
-      </span>
+      <h4>Voting Period Start Date</h4> <span>January 1st 1970, 00:00</span>
     </li>
-     
     <li>
-      <h4>
-        Voting End Date
-      </h4>
-       
-      <span>
-        January 5th 1970, 00:00
-      </span>
+      <h4>Voting Period End Date</h4> <span>
+            January 1st 1970, 00:00 /
+            a few seconds ago
+          </span>
     </li>
   </ul>
-   
-  <modaldeposit-stub
-    denom="STAKE"
-    proposalid="2"
-    proposaltitle="VotingPeriod proposal"
-  />
-   
-  <modalvote-stub
-    proposalid="2"
-    proposaltitle="VotingPeriod proposal"
-  />
+  <modaldeposit-stub proposalid="2" proposaltitle="test" denom="TESTCOIN"></modaldeposit-stub>
+  <modalvote-stub proposalid="2" proposaltitle="test"></modalvote-stub>
 </tmpage-stub>
 `;
 
-exports[`PageProposal should display proposal page if user has signed in 1`] = `
-<tmpage-stub
-  class="small"
-  data-title="Proposal"
-  hideheader="true"
-  subtitle=""
-  title=""
->
-  <div
-    class="proposal"
-  >
-    <div
-      class="page-profile__header__info"
-    >
-      <span
-        class="proposal-status pink"
-      >
-        
-          Voting Period
-        
-      </span>
-       
-      <div
-        class="proposal-title__row"
-      >
-        <router-link-stub
-          class="read-more-link"
-          style="visibility: visible;"
-          to="/proposals/1"
-        >
-          <i
-            class="material-icons"
-          >
-            chevron_left
-          </i>
-        </router-link-stub>
-         
-        <h2
-          class="proposal-title"
-        >
-          VotingPeriod proposal
-        </h2>
-         
-        <router-link-stub
-          class="read-more-link"
-          style="visibility: visible;"
-          to="/proposals/5"
-        >
-          <i
-            class="material-icons"
-          >
-            chevron_right
-          </i>
-        </router-link-stub>
-      </div>
+exports[`PageProposal Modal onVote shows the last valid vote 1`] = `
+<tmpage-stub hideheader="true" title="" subtitle="" data-title="Proposal" class="small">
+  <div class="proposal">
+    <div class="page-profile__header__info"><span class="proposal-status rejected">
+          Rejected
+        </span>
+      <h2 class="proposal-title">test</h2>
+      <p class="proposer">
+        Proposed by Big Daddy Validator:
+        <bech32-stub address="cosmos1z8mzakma7vnaajysmtkwt4wgjqr2m84tzvyfkz"></bech32-stub>
+      </p>
     </div>
-     
-    <div
-      class="button-container"
-    >
-      <tmbtn-stub
-        color="primary"
-        disabled="true"
-        id="deposit-btn"
-        value="Deposit"
-      />
-       
-      <tmbtn-stub
-        color="primary"
-        id="vote-btn"
-        value="Vote"
-      />
+    <div class="button-container">
+      <tmbtn-stub value="Deposit" disabled="true" id="deposit-btn" color="primary"></tmbtn-stub>
+      <tmbtn-stub value="Vote" disabled="true" id="vote-btn" color="primary"></tmbtn-stub>
     </div>
   </div>
-   
-  <textblock-stub
-    content="custom text proposal description"
-  />
-   
+  <textblock-stub content="test"></textblock-stub>
   <!---->
-   
-  <ul
-    class="row"
-  >
+  <ul class="row">
+    <!---->
     <li>
-      <h4>
-        Total Vote Count
-      </h4>
-       
-      <span>
-        
-          0% /
+      <h4>Yes</h4> <span>
+          0.00%
+          /
           0
-        
-      </span>
+        </span>
     </li>
-     
     <li>
-      <h4>
-        Yes
-      </h4>
-       
-      <span>
-        
-          0% /
+      <h4>No</h4> <span>
+          0.00%
+          /
           0
-        
-      </span>
+        </span>
     </li>
-     
     <li>
-      <h4>
-        No
-      </h4>
-       
-      <span>
-        
-          0% /
+      <h4>Veto</h4> <span>
+          0.00%
+          /
           0
-        
-      </span>
+        </span>
     </li>
-     
     <li>
-      <h4>
-        No with Veto
-      </h4>
-       
-      <span>
-        
-          0% /
+      <h4>Abstain</h4> <span>
+          0.00%
+          /
           0
-        
-      </span>
-    </li>
-     
-    <li>
-      <h4>
-        Abstain
-      </h4>
-       
-      <span>
-        
-          0% /
-          0
-        
-      </span>
+        </span>
     </li>
   </ul>
-   
-  <ul
-    class="row"
-  >
+  <ul class="row">
     <li>
-      <h4>
-        Proposal ID
-      </h4>
-       
-      <span>
-        2
-      </span>
+      <h4>Proposal ID</h4> <span>33</span>
     </li>
-     
     <li>
-      <h4>
-        Submitted
-      </h4>
-       
-      <span>
-        January 1st 1970, 00:00
-      </span>
+      <h4>Submitted</h4> <span>August 23rd 2019, 08:46</span>
     </li>
-     
     <li>
-      <h4>
-        Voting Start Date
-      </h4>
-       
-      <span>
-        January 3rd 1970, 00:00
-      </span>
-    </li>
-     
-    <li>
-      <h4>
-        Voting End Date
-      </h4>
-       
-      <span>
-        January 5th 1970, 00:00
-      </span>
+      <h4>Proposal Finalized (Rejected)</h4> <span>January 1st 1970, 00:00</span>
     </li>
   </ul>
-   
-  <modaldeposit-stub
-    denom="STAKE"
-    proposalid="2"
-    proposaltitle="VotingPeriod proposal"
-  />
-   
-  <modalvote-stub
-    proposalid="2"
-    proposaltitle="VotingPeriod proposal"
-  />
+  <modaldeposit-stub proposalid="2" proposaltitle="test" denom="TESTCOIN"></modaldeposit-stub>
+  <modalvote-stub proposalid="2" proposaltitle="test" lastvoteoption="Yes"></modalvote-stub>
 </tmpage-stub>
 `;
 
-exports[`PageProposal should display proposal page should default tally to 0 if it's not yet present  1`] = `
-<tmpage-stub
-  class="small"
-  data-title="Proposal"
-  hideheader="true"
-  subtitle=""
-  title=""
->
-  <div
-    class="proposal"
-  >
-    <div
-      class="page-profile__header__info"
-    >
-      <span
-        class="proposal-status pink"
-      >
-        
-          Voting Period
-        
-      </span>
-       
-      <div
-        class="proposal-title__row"
-      >
-        <router-link-stub
-          class="read-more-link"
-          style="visibility: visible;"
-          to="/proposals/1"
-        >
-          <i
-            class="material-icons"
-          >
-            chevron_left
-          </i>
-        </router-link-stub>
-         
-        <h2
-          class="proposal-title"
-        >
-          VotingPeriod proposal
-        </h2>
-         
-        <router-link-stub
-          class="read-more-link"
-          style="visibility: visible;"
-          to="/proposals/5"
-        >
-          <i
-            class="material-icons"
-          >
-            chevron_right
-          </i>
-        </router-link-stub>
-      </div>
-    </div>
-     
-    <div
-      class="button-container"
-    >
-      <tmbtn-stub
-        color="primary"
-        disabled="true"
-        id="deposit-btn"
-        value="Deposit"
-      />
-       
-      <tmbtn-stub
-        color="primary"
-        id="vote-btn"
-        value="Vote"
-      />
-    </div>
-  </div>
-   
-  <textblock-stub
-    content="custom text proposal description"
-  />
-   
-  <!---->
-   
-  <ul
-    class="row"
-  >
-    <li>
-      <h4>
-        Total Vote Count
-      </h4>
-       
-      <span>
-        
-          0% /
-          0
-        
-      </span>
-    </li>
-     
-    <li>
-      <h4>
-        Yes
-      </h4>
-       
-      <span>
-        
-          0% /
-          0
-        
-      </span>
-    </li>
-     
-    <li>
-      <h4>
-        No
-      </h4>
-       
-      <span>
-        
-          0% /
-          0
-        
-      </span>
-    </li>
-     
-    <li>
-      <h4>
-        No with Veto
-      </h4>
-       
-      <span>
-        
-          0% /
-          0
-        
-      </span>
-    </li>
-     
-    <li>
-      <h4>
-        Abstain
-      </h4>
-       
-      <span>
-        
-          0% /
-          0
-        
-      </span>
-    </li>
-  </ul>
-   
-  <ul
-    class="row"
-  >
-    <li>
-      <h4>
-        Proposal ID
-      </h4>
-       
-      <span>
-        2
-      </span>
-    </li>
-     
-    <li>
-      <h4>
-        Submitted
-      </h4>
-       
-      <span>
-        January 1st 1970, 00:00
-      </span>
-    </li>
-     
-    <li>
-      <h4>
-        Voting Start Date
-      </h4>
-       
-      <span>
-        January 3rd 1970, 00:00
-      </span>
-    </li>
-     
-    <li>
-      <h4>
-        Voting End Date
-      </h4>
-       
-      <span>
-        January 5th 1970, 00:00
-      </span>
-    </li>
-  </ul>
-   
-  <modaldeposit-stub
-    denom="STAKE"
-    proposalid="2"
-    proposaltitle="VotingPeriod proposal"
-  />
-   
-  <modalvote-stub
-    proposalid="2"
-    proposaltitle="VotingPeriod proposal"
-  />
-</tmpage-stub>
-`;
-
-exports[`PageProposal should display proposal page should show a loader if the necessary data hasen't been loaded 1`] = `
+exports[`PageProposal should show a loader if the necessary data hasen't been loaded 1`] = `
 <tmpage-stub
   class="small"
   data-title="Proposal"

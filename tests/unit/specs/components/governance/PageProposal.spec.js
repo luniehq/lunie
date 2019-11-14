@@ -1,13 +1,10 @@
 "use strict"
 
 import PageProposal from "governance/PageProposal"
-import { proposals, tallies } from "../../store/json/proposals"
-import { governanceParameters } from "../../store/json/parameters"
 import { createLocalVue, shallowMount } from "@vue/test-utils"
 import Vuex from "vuex"
 import Vuelidate from "vuelidate"
-
-const multiplier = 100000000
+import { proposals } from "../../store/json/proposals"
 
 describe(`PageProposal`, () => {
   let wrapper, $store
@@ -19,24 +16,14 @@ describe(`PageProposal`, () => {
   localVue.directive(`focus`, () => {})
 
   const state = {
-    governanceParameters: { ...governanceParameters, loaded: true },
-    proposals: { proposals, tallies, loaded: true },
     session: {
-      signedIn: true
-    },
-    pool: {
-      pool: {
-        bonded_tokens: 10000
-      }
-    },
-    wallet: {
-      address: `X`
+      address: `cosmos1xxxx`
     }
   }
 
   const getters = {
-    depositDenom: governanceParameters.parameters.deposit.min_deposit[0].denom,
-    connected: true
+    connected: true,
+    address: `cosmos1xxxx`
   }
   let args
 
@@ -47,95 +34,40 @@ describe(`PageProposal`, () => {
       getters,
       state
     }
+    const $apollo = {
+      queries: {
+        proposal: {
+          loading: false,
+          error: undefined
+        },
+        parameters: {
+          loading: false,
+          error: undefined
+        },
+        vote: {
+          loading: false,
+          error: undefined
+        }
+      }
+    }
     args = {
       localVue,
       propsData: {
         proposalId: `2`
       },
       mocks: {
-        $store
-      },
-      stubs: [`router-link`]
+        $store,
+        $apollo
+      }
     }
     wrapper = shallowMount(PageProposal, args)
-  })
-
-  describe(`should display proposal page`, () => {
-    it(`if user has signed in`, async () => {
-      wrapper = shallowMount(PageProposal, args)
-      expect(wrapper.element).toMatchSnapshot()
-    })
-
-    it(`should default tally to 0 if it's not yet present `, () => {
-      wrapper.vm.proposals.tallies = {}
-      expect(wrapper.element).toMatchSnapshot()
-    })
-
-    it("should show a loader if the necessary data hasen't been loaded", () => {
-      wrapper.vm.governanceParameters.loaded = false
-      expect(wrapper.element).toMatchSnapshot()
-
-      // needed to reset as somehow this causes sideeffects
-      wrapper.vm.governanceParameters.loaded = true
-    })
-
-    it("loads data if not available", () => {
-      $store = {
-        commit: jest.fn(),
-        dispatch: jest.fn(),
-        state,
-        getters: JSON.parse(JSON.stringify(getters))
-      }
-      $store.state.governanceParameters.loaded = false
-      args = {
-        localVue,
-        propsData: {
-          proposalId: `666`
-        },
-        mocks: {
-          $store
-        }
-      }
-
-      wrapper = shallowMount(PageProposal, args)
-
-      expect($store.dispatch).toHaveBeenCalledWith("getProposal", "666")
-      expect($store.dispatch).toHaveBeenCalledWith("getGovParameters")
+    wrapper.setData({
+      proposal: proposals[2]
     })
   })
 
-  it(`renders votes in HTML when voting is open`, async () => {
-    $store = {
-      commit: jest.fn(),
-      dispatch: jest.fn(),
-      state: {
-        proposals: {
-          proposals,
-          tallies: {
-            2: {
-              yes: 10 * multiplier,
-              no: 20 * multiplier,
-              no_with_veto: 30 * multiplier,
-              abstain: 40 * multiplier
-            }
-          },
-          loaded: true
-        },
-        governanceParameters: {
-          loaded: true,
-          ...governanceParameters
-        },
-        pool: {
-          pool: {
-            bonded_tokens: 10000
-          }
-        }
-      },
-      getters: {
-        ...getters
-      }
-    }
-    wrapper = shallowMount(PageProposal, { ...args, mocks: { $store } })
+  it("should show a loader if the necessary data hasen't been loaded", () => {
+    wrapper.vm.$apollo.queries.proposal.loading = true
     expect(wrapper.element).toMatchSnapshot()
   })
 
@@ -144,49 +76,39 @@ describe(`PageProposal`, () => {
       ...args,
       propsData: { proposalId: `666` }
     })
-    wrapper.setData({ governanceParameters: { loaded: true } })
+    wrapper.setData({ error: { message: "Error" } })
     expect(wrapper.element).toMatchSnapshot()
   })
 
-  it(`should return the time of submission `, () => {
-    expect(wrapper.vm.submittedAgo).toEqual(`January 1st 1970, 00:00`)
+  it(`should shows Unknown proposer if proposer is unknown`, () => {
+    wrapper.setData({
+      proposal: proposals[0]
+    })
+    expect(wrapper.html()).toContain("Unknown proposer")
   })
 
-  it(`should return the ID of the next proposal`, () => {
-    wrapper = shallowMount(PageProposal, {
-      ...args,
-      propsData: { proposalId: `2` }
+  it(`should show proposer`, () => {
+    wrapper.setData({
+      proposal: proposals[1]
     })
-    expect(wrapper.vm.getNextProposalId).toEqual(`5`)
+    expect(wrapper.html()).toContain(
+      "cosmos1z8mzakma7vnaajysmtkwt4wgjqr2m84tzvyfkz"
+    )
   })
 
-  it(`should return the ID of the current proposal`, () => {
-    wrapper = shallowMount(PageProposal, {
-      ...args,
-      propsData: { proposalId: `6` }
+  it(`should show moniker if proposer address is a validator address`, () => {
+    wrapper.setData({
+      proposal: proposals[2]
     })
-    expect(wrapper.vm.getNextProposalId).toEqual(`6`)
-  })
-
-  it(`should return the ID of the previous proposal`, () => {
-    wrapper = shallowMount(PageProposal, {
-      ...args,
-      propsData: { proposalId: `5` }
-    })
-    expect(wrapper.vm.getPrevProposalId).toEqual(`2`)
-  })
-
-  it(`should return the ID of the current proposal`, () => {
-    wrapper = shallowMount(PageProposal, {
-      ...args,
-      propsData: { proposalId: `1` }
-    })
-    expect(wrapper.vm.getPrevProposalId).toEqual(`1`)
+    expect(wrapper.html()).toContain(
+      "cosmos1z8mzakma7vnaajysmtkwt4wgjqr2m84tzvyfkz"
+    )
+    expect(wrapper.html()).toContain("Big Daddy Validator")
   })
 
   describe(`Proposal status`, () => {
     it(`displays correctly a proposal that 'Passed'`, () => {
-      wrapper.vm.proposal.proposal_status = `Passed`
+      wrapper.vm.proposal.status = `Passed`
       expect(wrapper.vm.status).toMatchObject({
         badge: `Passed`,
         color: `green`
@@ -194,7 +116,7 @@ describe(`PageProposal`, () => {
     })
 
     it(`displays correctly a 'Rejected' proposal`, () => {
-      wrapper.vm.proposal.proposal_status = `Rejected`
+      wrapper.vm.proposal.status = `Rejected`
       expect(wrapper.vm.status).toMatchObject({
         badge: `Rejected`,
         color: `red`
@@ -202,7 +124,7 @@ describe(`PageProposal`, () => {
     })
 
     it(`displays correctly a proposal on 'DepositPeriod'`, () => {
-      wrapper.vm.proposal.proposal_status = `DepositPeriod`
+      wrapper.vm.proposal.status = `DepositPeriod`
       expect(wrapper.vm.status).toMatchObject({
         badge: `Deposit Period`,
         color: `orange`
@@ -210,7 +132,7 @@ describe(`PageProposal`, () => {
     })
 
     it(`displays correctly a proposal on 'VotingPeriod'`, () => {
-      wrapper.vm.proposal.proposal_status = `VotingPeriod`
+      wrapper.vm.proposal.status = `VotingPeriod`
       expect(wrapper.vm.status).toMatchObject({
         badge: `Voting Period`,
         color: `pink`
@@ -218,7 +140,7 @@ describe(`PageProposal`, () => {
     })
 
     it(`shows error status`, () => {
-      wrapper.vm.proposal.proposal_status = ``
+      wrapper.vm.proposal.status = ``
       expect(wrapper.vm.status).toMatchObject({
         badge: `Error`,
         color: `grey`
@@ -228,51 +150,33 @@ describe(`PageProposal`, () => {
 
   describe(`Modal onVote`, () => {
     it(`enables voting if the proposal is on the 'VotingPeriod'`, async () => {
-      $store = { dispatch: jest.fn() }
+      wrapper.vm.$refs.modalVote.open = jest.fn()
+      wrapper.find("#vote-btn").trigger("click")
+      expect(wrapper.vm.$refs.modalVote.open).not.toHaveBeenCalled()
 
-      const thisIs = {
-        $refs: { modalVote: { open: () => {} } },
-        $store,
-        votes: {},
-        proposalId: `2`,
-        lastVote: undefined,
-        wallet: { address: `X` }
-      }
-
-      await PageProposal.methods.onVote.call(thisIs)
-
-      expect($store.dispatch.mock.calls).toEqual([
-        [`getProposalVotes`, thisIs.proposalId]
-      ])
-      expect(thisIs.lastVote).toBeUndefined()
+      wrapper.setData({
+        proposal: {
+          ...wrapper.vm.proposal,
+          status: "VotingPeriod"
+        }
+      })
+      expect(wrapper.html()).toMatchSnapshot()
+      wrapper.find("#vote-btn").trigger("click")
+      expect(wrapper.vm.$refs.modalVote.open).toHaveBeenCalled()
     })
 
-    it(`load the last valid vote succesfully`, async () => {
-      $store = { dispatch: jest.fn() }
+    it(`shows the last valid vote`, async () => {
+      wrapper.setData({ vote: "Yes" })
+      expect(wrapper.html()).toMatchSnapshot()
+    })
 
-      const thisIs = {
-        $refs: { modalVote: { open: () => {} } },
-        $store,
-        votes: {
-          2: [
-            {
-              voter: `X`,
-              vote: `yes`
-            }
-          ]
-        },
-        proposalId: `2`,
-        lastVote: undefined,
-        wallet: { address: `X` }
-      }
-      expect(thisIs.lastVote).toBeUndefined()
-
-      await PageProposal.methods.onVote.call(thisIs)
-
-      expect($store.dispatch.mock.calls).toEqual([
-        [`getProposalVotes`, thisIs.proposalId]
-      ])
-      expect(thisIs.lastVote).toEqual({ voter: `X`, vote: `yes` })
+    it(`refetches user vote after a successful voting`, () => {
+      wrapper.vm.$apollo.queries.vote.refetch = jest.fn()
+      wrapper.vm.afterVote()
+      expect(wrapper.vm.$apollo.queries.vote.refetch).toHaveBeenCalledWith({
+        proposalId: 33,
+        address: "cosmos1xxxx"
+      })
     })
   })
 
@@ -285,6 +189,14 @@ describe(`PageProposal`, () => {
       await PageProposal.methods.onDeposit.call(self)
 
       expect(self.$refs.modalDeposit.open).toHaveBeenCalled()
+    })
+
+    it(`refetches proposal data after a successful depositing`, () => {
+      wrapper.vm.$apollo.queries.proposal.refetch = jest.fn()
+      wrapper.vm.afterDeposit()
+      expect(wrapper.vm.$apollo.queries.proposal.refetch).toHaveBeenCalledWith({
+        id: 33
+      })
     })
   })
 })
