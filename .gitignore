@@ -4,6 +4,7 @@ node_modules
 /dist
 /screenshots
 /lunie-backend
+yarn.lock
 
 /tests/e2e/reports/
 selenium-debug.log
