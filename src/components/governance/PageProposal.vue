@@ -12,7 +12,31 @@
           <span :class="proposal.status | lowerCase" class="proposal-status">
             {{ status.badge }}
           </span>
-          <h2 class="proposal-title">{{ proposal.title }}</h2>
+          <div class="proposal-title__row">
+            <router-link
+              :to="`/proposals/` + getPrevProposalId"
+              :style="{
+                visibility:
+                  getPrevProposalId !== proposal.id
+                   ? 'visible' : 'hidden'
+              }"
+              class="read-more-link"
+            >
+              <i class="material-icons">chevron_left</i>
+            </router-link>
+            <h2 class="proposal-title">{{ proposal.title }}</h2>
+            <router-link
+              :to="`/proposals/` + getNextProposalId"
+              :style="{
+                visibility:
+                  getNextProposalId !== proposal.id
+                    ? 'visible' : 'hidden'
+              }"
+              class="read-more-link"
+            >
+              <i class="material-icons">chevron_right</i>
+            </router-link>
+          </div>
           <p class="proposer">
             <template v-if="proposal.validator">
               Proposed by {{ proposal.validator.name }}:
@@ -181,6 +205,7 @@ import { getProposalStatus } from "scripts/proposal-status"
 import { ProposalItem, GovernanceParameters, Vote } from "src/gql"
 import BigNumber from "bignumber.js"
 import Bech32 from "common/Bech32"
+import gql from "graphql-tag"
 
 export default {
   name: `page-proposal`,
@@ -209,6 +234,7 @@ export default {
     }
   },
   data: () => ({
+    proposals: [],
     vote: undefined,
     proposal: {
       status: "",
@@ -229,6 +255,22 @@ export default {
     },
     noVotes() {
       return BigNumber(this.proposal.tally.total).eq(0)
+    },
+    getNextProposalId() {
+      let id = this.getProposalIndex(-1)
+      if (id !== undefined) {
+        return id
+      } else {
+        return this.proposal.id
+      }
+    },
+    getPrevProposalId() {
+      let id = this.getProposalIndex(1)
+      if (id !== undefined) {
+        return id
+      } else {
+        return this.proposal.id
+      }
     }
   },
   methods: {
@@ -250,9 +292,42 @@ export default {
         id: this.proposal.id
       })
       this.$store.commit("invalidateCache", [`overview`, `transactions`])
+    },
+    getProposalIndex(num) {
+      let proposalsObj = this.proposals
+      let proposalsArr = Object.keys(proposalsObj).map(key => proposalsObj[key])
+      let proposalsIdArr = proposalsArr.map(proposal => proposal.id)
+      return proposalsIdArr[
+        proposalsIdArr.indexOf(this.proposal.id) + num
+      ]
     }
   },
   apollo: {
+    proposals: {
+      query() {
+        /* istanbul ignore next */
+        return gql`
+          query proposals($networkId: String!) {
+            proposals(networkId: $networkId) {
+              id
+              type
+              title
+              description
+              status
+            }
+          }
+        `
+      },
+      variables() {
+        return {
+          networkId: this.network
+        }
+      },
+      update(data) {
+        /* istanbul ignore next */
+        return data.proposals
+      }
+    },
     proposal: {
       query() {
         /* istanbul ignore next */
