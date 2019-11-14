@@ -69,7 +69,7 @@
       </router-link>
 
       <router-link
-        class="app-menu-item hide-xs"
+        class="app-menu-item"
         to="/networks"
         exact="exact"
         title="Networks"
@@ -256,6 +256,12 @@ export default {
 .app-menu .app-menu-item.router-link-active h2 {
   color: var(--bright);
   font-weight: 500;
+}
+
+@media screen and (max-width: 667px) {
+  .app-menu-item i {
+    visibility: hidden;
+  } 
 }
 
 @media screen and (max-width: 1023px) {
