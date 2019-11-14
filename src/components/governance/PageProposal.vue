@@ -299,6 +299,9 @@ export default {
           address: this.address
         }
       },
+      skip() {
+        return !this.address
+      },
       update(data) {
         /* istanbul ignore next */
         return data.vote.option
