@@ -152,8 +152,36 @@ describe(`PageProposal`, () => {
     expect(wrapper.vm.submittedAgo).toEqual(`January 1st 1970, 00:00`)
   })
 
-  it(`should return the time that voting started`, () => {
-    expect(wrapper.vm.votingStartedAgo).toEqual(`January 3rd 1970, 00:00`)
+  it(`should return the ID of the next proposal`, () => {
+    wrapper = shallowMount(PageProposal, {
+      ...args,
+      propsData: { proposalId: `2` }
+    })
+    expect(wrapper.vm.getNextProposalId).toEqual(`5`)
+  })
+
+  it(`should return the ID of the current proposal`, () => {
+    wrapper = shallowMount(PageProposal, {
+      ...args,
+      propsData: { proposalId: `6` }
+    })
+    expect(wrapper.vm.getNextProposalId).toEqual(`6`)
+  })
+
+  it(`should return the ID of the previous proposal`, () => {
+    wrapper = shallowMount(PageProposal, {
+      ...args,
+      propsData: { proposalId: `5` }
+    })
+    expect(wrapper.vm.getPrevProposalId).toEqual(`2`)
+  })
+
+  it(`should return the ID of the current proposal`, () => {
+    wrapper = shallowMount(PageProposal, {
+      ...args,
+      propsData: { proposalId: `1` }
+    })
+    expect(wrapper.vm.getPrevProposalId).toEqual(`1`)
   })
 
   describe(`Proposal status`, () => {
