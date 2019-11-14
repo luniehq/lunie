@@ -15,11 +15,7 @@
           <div class="proposal-title__row">
             <router-link
               :to="`/proposals/` + getPrevProposalId"
-              :style="{
-                visibility:
-                  getPrevProposalId !== proposal.id
-                   ? 'visible' : 'hidden'
-              }"
+              :style="{ visibility: getPrevProposalId ? 'visible' : 'hidden' }"
               class="read-more-link"
             >
               <i class="material-icons">chevron_left</i>
@@ -27,11 +23,7 @@
             <h2 class="proposal-title">{{ proposal.title }}</h2>
             <router-link
               :to="`/proposals/` + getNextProposalId"
-              :style="{
-                visibility:
-                  getNextProposalId !== proposal.id
-                    ? 'visible' : 'hidden'
-              }"
+              :style="{ visibility: getNextProposalId ? 'visible' : 'hidden' }"
               class="read-more-link"
             >
               <i class="material-icons">chevron_right</i>
@@ -258,19 +250,11 @@ export default {
     },
     getNextProposalId() {
       let id = this.getProposalIndex(-1)
-      if (id !== undefined) {
-        return id
-      } else {
-        return this.proposal.id
-      }
+      return id
     },
     getPrevProposalId() {
       let id = this.getProposalIndex(1)
-      if (id !== undefined) {
-        return id
-      } else {
-        return this.proposal.id
-      }
+      return id
     }
   },
   methods: {
@@ -295,11 +279,10 @@ export default {
     },
     getProposalIndex(num) {
       let proposalsObj = this.proposals
-      let proposalsArr = Object.keys(proposalsObj).map(key => proposalsObj[key])
-      let proposalsIdArr = proposalsArr.map(proposal => proposal.id)
-      return proposalsIdArr[
-        proposalsIdArr.indexOf(this.proposal.id) + num
-      ]
+      let proposalsIdArr = Object.values(proposalsObj).map(
+        proposal => proposal.id
+      )
+      return proposalsIdArr[proposalsIdArr.indexOf(this.proposal.id) + num]
     }
   },
   apollo: {
