@@ -4,7 +4,7 @@ import PageProposal from "governance/PageProposal"
 import { createLocalVue, shallowMount } from "@vue/test-utils"
 import Vuex from "vuex"
 import Vuelidate from "vuelidate"
-import { proposals, proposalsOld } from "../../store/json/proposals"
+import { proposals } from "../../store/json/proposals"
 
 describe(`PageProposal`, () => {
   let wrapper, $store
