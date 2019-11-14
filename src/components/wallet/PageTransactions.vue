@@ -1,10 +1,10 @@
 <template>
   <TmPage
     :managed="true"
-    :loading="transactions.loading"
-    :loaded="transactions.loaded"
-    :error="!!transactions.error"
-    :data-empty="dataEmpty"
+    :loading="$apollo.queries.transactions.loading"
+    :loaded="!$apollo.queries.transactions.loading"
+    :error="$apollo.queries.transactions.error"
+    :data-empty="transactions.length === 0"
     data-title="Transactions"
     :sign-in-required="true"
     :hide-header="true"
@@ -13,8 +13,8 @@
     <template slot="managed-body">
       <div v-infinite-scroll="loadMore" infinite-scroll-distance="80">
         <TransactionList
-          :transactions="showingTransactions"
-          :address="session.address"
+          :transactions="transactions"
+          :address="address"
           :validators="validatorsAddressMap"
         />
       </div>
@@ -24,11 +24,11 @@
 </template>
 
 <script>
-import { mapState, mapGetters } from "vuex"
+import { mapGetters } from "vuex"
 import DataEmptyTx from "common/TmDataEmptyTx"
 import TmPage from "common/TmPage"
 import TransactionList from "transactions/TransactionList"
-import { AllValidators, AllValidatorsResult } from "src/gql"
+import gql from "graphql-tag"
 
 export default {
   name: `page-transactions`,
@@ -39,53 +39,115 @@ export default {
   },
   data: () => ({
     showing: 15,
-    validators: []
+    validators: [],
+    transactions: []
   }),
   computed: {
-    ...mapState([`session`, `transactions`]),
-    ...mapState({ network: state => state.connection.network }),
-    ...mapGetters([`flatOrderedTransactionList`]),
+    ...mapGetters([`address`, `network`]),
     validatorsAddressMap() {
       const names = {}
       this.validators.forEach(item => {
-        names[item.operator_address] = item
+        names[item.operatorAddress] = item
       })
       return names
     },
-    showingTransactions() {
-      return this.flatOrderedTransactionList.slice(0, this.showing)
-    },
     dataEmpty() {
-      return this.flatOrderedTransactionList.length === 0
+      return this.transactions.length === 0
     }
-  },
-  watch: {
-    "session.signedIn": function() {
-      this.refreshTransactions()
-    }
-  },
-  created() {
-    this.refreshTransactions()
   },
   methods: {
-    async refreshTransactions() {
-      if (this.session.signedIn) {
-        await this.$store.dispatch(`getAllTxs`)
-      }
-    },
     loadMore() {
       this.showing += 10
     }
   },
   apollo: {
-    validators: {
-      query() {
-        /* istanbul ignore next */
-        return AllValidators(this.network)
+    transactions: {
+      query: gql`
+        query transactions($networkId: String!, $address: String!) {
+          transactions(networkId: $networkId, address: $address) {
+            hash
+            type
+            group
+            height
+            timestamp
+            gasUsed
+            fee {
+              amount
+              denom
+            }
+            value
+          }
+        }
+      `,
+      skip() {
+        return !this.address
       },
-      update(data) {
-        /* istanbul ignore next */
-        return AllValidatorsResult(this.network)(data)
+      variables() {
+        return {
+          networkId: this.network,
+          address: this.address
+        }
+      },
+      update: result => {
+        if (Array.isArray(result.transactions)) {
+          return result.transactions.map(tx => ({
+            ...tx,
+            timestamp: new Date(tx.timestamp),
+            value: JSON.parse(tx.value)
+          }))
+        }
+        return []
+      },
+      subscribeToMore: {
+        document: gql`
+          subscription($networkId: String!, $address: String!) {
+            userTransactionAdded(networkId: $networkId, address: $address) {
+              hash
+              type
+              group
+              height
+              timestamp
+              gasUsed
+              fee {
+                amount
+                denom
+              }
+              value
+            }
+          }
+        `,
+        updateQuery: (previousResult, { subscriptionData }) => {
+          return {
+            transactions: [
+              subscriptionData.data.userTransactionAdded,
+              ...previousResult.transactions
+            ]
+          }
+        },
+        variables() {
+          return {
+            networkId: this.network,
+            address: this.address
+          }
+        }
+      }
+    },
+    validators: {
+      query: gql`
+        query validators($networkId: String!) {
+          validators(networkId: $networkId) {
+            name
+            operatorAddress
+          }
+        }
+      `,
+      skip() {
+        return !this.address
+      },
+      variables() {
+        return {
+          networkId: this.network
+        }
       }
     }
   }

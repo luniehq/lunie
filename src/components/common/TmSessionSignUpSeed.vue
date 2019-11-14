@@ -10,7 +10,7 @@
             :steps="[`Create`, `Password`, `Backup`]"
             active-step="Backup"
           />
-          <TmSeed :value="fieldSeed" :legacy="false" />
+          <TmSeed :value="fieldSeed" />
           <TmFormGroup
             class="field-checkbox"
             :error="$v.fieldWarning.$error"

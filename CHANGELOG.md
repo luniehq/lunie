@@ -7,6 +7,49 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.0-beta.139] - 2019-11-14
+
+### Added
+
+- Allow setting of default network via environment variable (mainly for e2e tests) @faboweb
+- [#3045](https://github.com/cosmos/lunie/issues/3045) Update the UI when a transaction of the user is successful @faboweb
+- [#3076](https://github.com/cosmos/lunie/issues/3076) Resolve proposal proposer to moniker if it is a validator address @mariopino
+
+### Changed
+
+- Use Apollo subscription for connection indicator @faboweb
+
+### Fixed
+
+- Allow definition of a https graphql url in development mode @faboweb
+- [#3094](https://github.com/cosmos/lunie/issues/3094) Fix bug in Proposals @mariopino
+
+### Deprecated
+
+- [#3127](https://github.com/cosmos/lunie/pull/3127) Delete a former duplicate of the material-icons stylesheet @Bitcoinera
+
+### Code Improvements
+
+- [###2918](https://github.com/cosmos/lunie/issues/##2918) material design icons are now served directly @Bitcoinera
+- [#3021](https://github.com/cosmos/lunie/issues/3021) Change proposals to be queried via new API @faboweb
+
+### Repository
+
+- [#3048](https://github.com/cosmos/lunie/issues/3048) Sentry integration was added @iambeone
+- Using lunie-backend for e2e tests @faboweb
+- Updated the README.md @faboweb
+- Added script to simplify e2e tests @faboweb
+
+## [1.0.0-beta.138] - 2019-11-14
+
+### Deprecated
+
+- [#3127](https://github.com/cosmos/lunie/pull/3127) Delete a former duplicate of the material-icons stylesheet @Bitcoinera
+
+### Code Improvements
+
+- [###2918](https://github.com/cosmos/lunie/issues/##2918) material design icons are now served directly @Bitcoinera
+
 ## [1.0.0-beta.137] - 2019-11-12
 
 ### Added

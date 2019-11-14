@@ -1,6 +1,5 @@
 import { shallowMount, createLocalVue } from "@vue/test-utils"
 import PageBlock from "network/PageBlock"
-import { bankTxs } from "../../store/json/txs"
 
 const localVue = createLocalVue()
 localVue.directive(`tooltip`, () => {})
@@ -10,21 +9,54 @@ describe(`PageBlock`, () => {
 
   const getters = {
     connected: true,
-    lastHeader: {
-      height: `1000`
-    },
-    validators: {},
-    connection: {
-      network: "testnet"
-    }
+    address: `cosmos1`
   }
 
   const state = {
-    delegation: {
-      unbondingDelegations: {},
-      loaded: true
-    },
     session: { address: `` }
+  }
+
+  const $apollo = {
+    queries: {
+      block: {
+        loading: false
+      }
+    }
+  }
+
+  const block = {
+    chainId: "gaia-13006",
+    hash: "1502BF74E13670334E42A9A0648719DFA0AF36B8FF1362601C101CF2D781C476",
+    height: 524084,
+    networkId: "gaia-testnet",
+    proposer_address: "C696FEA7DBD3A064ED66C7C8C806F260C18EB179",
+    time: "2019-09-24T13:03:47.985027686Z",
+    transactions: [
+      {
+        type: "cosmos-sdk/MsgSend",
+        hash:
+          "01735A10A9B701A76A67BF92DCFBC0A4B61DB9D202D60587C902E0F197FD6A71",
+        height: 524084,
+        group: "banking",
+        timestamp:
+          "[native Date Tue Sep 24 2019 09:03:47 GMT-0400 (Nordamerikanische Ostküsten-Sommerzeit)]",
+        gasUsed: 40171,
+        gasWanted: 50000,
+        success: true,
+        log: "",
+        memo: "",
+        fee: { amount: "0.00125", denom: "MUON", __typename: "Coin" },
+        signature:
+          "Wg+iANtNPTitYI7dwsUfT2Edn0JMt6Fwpv1SSQs/GvVgGiZsw5nMDrEV4Wd1LaT1FqVK5w2fP4j5pnQNs0Sxtw==",
+        value: {
+          from_address: "cosmos1ek9cd8ewgxg9w5xllq9um0uf4aaxaruvcw4v9e",
+          to_address: "cosmos1j0clrcqrzca52lagpz27hwtq74wl2re5484awh",
+          amount: [{ denom: "muon", amount: "100000" }]
+        },
+        amount: null,
+        __typename: "Transaction"
+      }
+    ]
   }
 
   beforeEach(async () => {
@@ -33,31 +65,22 @@ describe(`PageBlock`, () => {
       mocks: {
         $store: {
           getters,
-          state,
-          dispatch: jest.fn(type => {
-            if (type === "queryBlockInfo")
-              return {
-                header: {
-                  chain_id: `chain-1`,
-                  num_txs: 10
-                },
-                block_id: {
-                  hash: `ABCD1234`
-                }
-              }
-            if (type === "getBlockTxs") return bankTxs
-          })
+          state
         },
         $route: {
           params: { height: `100` }
         },
         $router: {
           push: jest.fn()
-        }
+        },
+        $apollo
       },
       stubs: [`router-link`]
     })
-    await wrapper.vm.getBlock()
+
+    wrapper.setData({
+      block
+    })
   })
 
   it(`shows a page with information about a certain block`, () => {
@@ -65,91 +88,13 @@ describe(`PageBlock`, () => {
   })
 
   it(`shows the block page with no txs`, () => {
-    wrapper = shallowMount(PageBlock, {
-      localVue,
-      mocks: {
-        $store: {
-          getters: {
-            connected: true,
-            lastHeader: {
-              height: `1000`
-            },
-            validators: {}
-          },
-          state,
-          dispatch: jest.fn(type => {
-            if (type === "queryBlockInfos")
-              return {
-                header: {
-                  chain_id: `chain-1`
-                },
-                block_id: {
-                  hash: `ABCD1234`
-                }
-              }
-            if (type === "getBlockTxs") return []
-          })
-        },
-        $route: {
-          params: { height: `100` }
-        },
-        $router: {
-          push: jest.fn()
-        }
-      },
-      stubs: [`router-link`]
+    wrapper.setData({
+      block: {
+        ...block,
+        transactions: []
+      }
     })
 
     expect(wrapper.element).toMatchSnapshot()
-  })
-
-  it(`loads the block information when the route changes`, () => {
-    const getBlock = jest.fn()
-    PageBlock.watch[`$route.params.height`].call({ getBlock })
-
-    expect(getBlock).toHaveBeenCalled()
-  })
-
-  it(`redirects to the 404 page if the block doesn't exist`, async () => {
-    const routerPush = jest.fn()
-
-    await PageBlock.methods.getBlock({
-      $store: {
-        dispatch: () => null // not returning a block when querying
-      },
-      $route: {
-        params: {
-          height: `42`
-        }
-      },
-      $router: {
-        push: routerPush
-      },
-      lastHeader: {
-        height: `1`
-      }
-    })
-
-    expect(routerPush).toHaveBeenCalledWith(`/404`)
-
-    routerPush.mockClear()
-    await PageBlock.methods.getBlock({
-      $store: {
-        dispatch: () => ({ x: 1 }) // return pseudo block
-      },
-      $route: {
-        params: {
-          height: 42
-        }
-      },
-      $router: {
-        push: routerPush
-      },
-      lastHeader: {
-        height: `1000`
-      }
-    })
-
-    expect(routerPush).not.toHaveBeenCalledWith(`/404`)
   })
 })

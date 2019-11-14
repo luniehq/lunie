@@ -7,13 +7,33 @@ describe(`DelegationsOverview`, () => {
   const localVue = createLocalVue()
   localVue.use(Vuex)
 
-  let wrapper, $store, $apollo
+  let wrapper, $store, $apollo, delegations
 
   const getters = {
     committedDelegations: {
       [validators[0].operator_address]: validators[0]
-    }
+    },
+    address: "cosmos1",
+    network: "testnet"
   }
+
+  delegations = [
+    {
+      validator: validators[0],
+      delegatorAddress: `cosmos1`,
+      amount: 10
+    },
+    {
+      validator: validators[1],
+      delegatorAddress: `cosmos1`,
+      amount: 12
+    },
+    {
+      validator: validators[2],
+      delegatorAddress: `cosmos1`,
+      amount: 11
+    }
+  ]
 
   beforeEach(() => {
     $store = {
@@ -21,13 +41,16 @@ describe(`DelegationsOverview`, () => {
       state: {
         connection: {
           network: "testnet"
-        }
-      }
+        },
+        delegations
+      },
+      address: "cosmos1",
+      network: "testnet"
     }
 
     $apollo = {
       queries: {
-        validators: {
+        delegations: {
           loading: false,
           error: false
         }
@@ -39,10 +62,12 @@ describe(`DelegationsOverview`, () => {
         $store,
         $apollo
       },
-      propsData: { validators },
       stubs: [`router-link`]
     })
-    wrapper.setData({ validators })
+
+    wrapper.setData({
+      delegations
+    })
   })
 
   it(`shows an overview over all delegations of the user`, async () => {
@@ -50,7 +75,7 @@ describe(`DelegationsOverview`, () => {
   })
 
   it(`shows a sentiment of dissatisfaction when you have no such delegations`, async () => {
-    wrapper.setData({ validators: [] })
+    wrapper.setData({ delegations: [] })
     expect(wrapper.element).toMatchSnapshot()
   })
 })
