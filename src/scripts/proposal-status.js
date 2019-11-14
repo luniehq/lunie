@@ -1,5 +1,5 @@
 export const getProposalStatus = proposal => {
-  switch (proposal.proposal_status) {
+  switch (proposal.status) {
     case `Passed`:
       return {
         badge: `Passed`,

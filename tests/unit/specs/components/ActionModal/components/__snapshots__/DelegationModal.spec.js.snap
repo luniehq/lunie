@@ -2,9 +2,11 @@
 
 exports[`DelegationModal should display the delegation modal form 1`] = `
 <actionmodal-stub
+  amount="0"
   class="delegation-modal"
   id="delegation-modal"
   notifymessage="[object Object]"
+  rewards=""
   submissionerrorprefix="Delegating failed"
   title="Delegate"
   transactiondata="[object Object]"
@@ -35,7 +37,7 @@ exports[`DelegationModal should display the delegation modal form 1`] = `
       id="to"
       readonly=""
       type="text"
-      value="cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au"
+      value="cosmosvaladdr12324536463"
     />
      
     <!---->
@@ -50,8 +52,8 @@ exports[`DelegationModal should display the delegation modal form 1`] = `
   >
     <tmfield-stub
       id="from"
-      options="[object Object],[object Object],[object Object]"
-      title="cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9"
+      options="[object Object],[object Object]"
+      title="cosmos1234"
       type="select"
       value="0"
     />
@@ -74,6 +76,7 @@ exports[`DelegationModal should display the delegation modal form 1`] = `
         id="amount"
         placeholder="Amount"
         type="number"
+        value="0"
       />
        
       <tmbtn-stub
@@ -87,7 +90,8 @@ exports[`DelegationModal should display the delegation modal form 1`] = `
       class="form-message"
     >
       
-      Available to Delegate:
+      Available to Delegate
+      :
       1000
       STAKEs
     

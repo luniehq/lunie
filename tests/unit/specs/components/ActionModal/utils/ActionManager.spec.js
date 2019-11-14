@@ -44,18 +44,18 @@ describe("ActionManager", () => {
       connected: true,
       userAddress: "cosmos12345",
       totalRewards: 1234,
-      rewards: {
-        address1: { uatom: 100 },
-        address2: { uatom: 1 },
-        address3: { uatom: 5 },
-        address4: { uatom: 3 },
-        address5: { uatom: 0 },
-        address6: { uatom: 99 },
-        address7: { uatom: 9 },
-        address8: { uatom: 96 },
-        address9: { uatom: 98 },
-        address10: { uatom: 97 }
-      }
+      rewards: [
+        { amount: 100, validator: { operatorAddress: `cosmos1` } },
+        { amount: 1, validator: { operatorAddress: `cosmos2` } },
+        { amount: 5, validator: { operatorAddress: `cosmos3` } },
+        { amount: 3, validator: { operatorAddress: `cosmos4` } },
+        { amount: 0, validator: { operatorAddress: `cosmos5` } },
+        { amount: 99, validator: { operatorAddress: `cosmos6` } },
+        { amount: 9, validator: { operatorAddress: `cosmos7` } },
+        { amount: 96, validator: { operatorAddress: `cosmos8` } },
+        { amount: 98, validator: { operatorAddress: `cosmos9` } },
+        { amount: 97, validator: { operatorAddress: `cosmos10` } }
+      ]
     })
   })
 
@@ -149,18 +149,18 @@ describe("ActionManager", () => {
         userAddress: "cosmos12345",
         totalRewards: 1234,
         bondDenom: "uatom",
-        rewards: {
-          address1: { uatom: 100 },
-          address2: { uatom: 1 },
-          address3: { uatom: 5 },
-          address4: { uatom: 3 },
-          address5: { uatom: 0 },
-          address6: { uatom: 99 },
-          address7: { uatom: 9 },
-          address8: { uatom: 96 },
-          address9: { uatom: 98 },
-          address10: { uatom: 97 }
-        }
+        rewards: [
+          { amount: 100, validator: { operatorAddress: `cosmos1` } },
+          { amount: 1, validator: { operatorAddress: `cosmos2` } },
+          { amount: 5, validator: { operatorAddress: `cosmos3` } },
+          { amount: 3, validator: { operatorAddress: `cosmos4` } },
+          { amount: 0, validator: { operatorAddress: `cosmos5` } },
+          { amount: 99, validator: { operatorAddress: `cosmos6` } },
+          { amount: 9, validator: { operatorAddress: `cosmos7` } },
+          { amount: 96, validator: { operatorAddress: `cosmos8` } },
+          { amount: 98, validator: { operatorAddress: `cosmos9` } },
+          { amount: 97, validator: { operatorAddress: `cosmos10` } }
+        ]
       }
       actionManager.setContext(context)
       actionManager.setMessage("MsgSend", sendTx.txProps)

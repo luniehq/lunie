@@ -10,7 +10,7 @@ exports[`PagePortfolio should display the portfolio page 1`] = `
   <template>
     <delegationsoverview-stub />
      
-    <!---->
+    <undelegations-stub />
   </template>
 </tmpage-stub>
 `;
