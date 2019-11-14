@@ -7,9 +7,9 @@ exports[`PageProposal Modal onVote enables voting if the proposal is on the 'Vot
           Voting Period
         </span>
       <div class="proposal-title__row">
-        <router-link-stub to="/proposals/33" class="read-more-link" style="visibility: hidden;"><i class="material-icons">chevron_left</i></router-link-stub>
+        <router-link-stub to="/proposals/undefined" class="read-more-link" style="visibility: hidden;"><i class="material-icons">chevron_left</i></router-link-stub>
         <h2 class="proposal-title">test</h2>
-        <router-link-stub to="/proposals/33" class="read-more-link" style="visibility: hidden;"><i class="material-icons">chevron_right</i></router-link-stub>
+        <router-link-stub to="/proposals/undefined" class="read-more-link" style="visibility: hidden;"><i class="material-icons">chevron_right</i></router-link-stub>
       </div>
       <p class="proposer">
         Proposed by Big Daddy Validator:
@@ -88,9 +88,9 @@ exports[`PageProposal Modal onVote shows the last valid vote 1`] = `
           Rejected
         </span>
       <div class="proposal-title__row">
-        <router-link-stub to="/proposals/33" class="read-more-link" style="visibility: hidden;"><i class="material-icons">chevron_left</i></router-link-stub>
+        <router-link-stub to="/proposals/undefined" class="read-more-link" style="visibility: hidden;"><i class="material-icons">chevron_left</i></router-link-stub>
         <h2 class="proposal-title">test</h2>
-        <router-link-stub to="/proposals/33" class="read-more-link" style="visibility: hidden;"><i class="material-icons">chevron_right</i></router-link-stub>
+        <router-link-stub to="/proposals/undefined" class="read-more-link" style="visibility: hidden;"><i class="material-icons">chevron_right</i></router-link-stub>
       </div>
       <p class="proposer">
         Proposed by Big Daddy Validator:
