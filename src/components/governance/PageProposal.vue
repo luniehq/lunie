@@ -293,9 +293,6 @@ export default {
           query proposals($networkId: String!) {
             proposals(networkId: $networkId) {
               id
-              type
-              title
-              description
               status
             }
           }
