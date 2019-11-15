@@ -9,7 +9,7 @@ describe(`ModalPropose`, () => {
 
   const localVue = createLocalVue()
   localVue.use(Vuelidate)
-  localVue.directive(`focus`, () => { })
+  localVue.directive(`focus`, () => {})
 
   const inputs = {
     amount: 15,
