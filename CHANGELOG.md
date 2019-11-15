@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.0-beta.140] - 2019-11-15
+
+### Fixed
+
+- Proposal would fail to load if not signed in @faboweb
+
 ## [1.0.0-beta.139] - 2019-11-14
 
 ### Added
