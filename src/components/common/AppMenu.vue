@@ -78,7 +78,7 @@
         <h2 class="app-menu-title">
           Networks
         </h2>
-        <i class="material-icons">chevron_right</i>
+        <i class="material-icons hide-xs">chevron_right</i>
       </router-link>
 
       <router-link
@@ -256,12 +256,6 @@ export default {
 .app-menu .app-menu-item.router-link-active h2 {
   color: var(--bright);
   font-weight: 500;
-}
-
-@media screen and (max-width: 667px) {
-  .app-menu-item i {
-    visibility: hidden;
-  } 
 }
 
 @media screen and (max-width: 1023px) {
