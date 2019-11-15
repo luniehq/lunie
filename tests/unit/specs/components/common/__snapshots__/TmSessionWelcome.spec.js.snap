@@ -15,6 +15,14 @@ exports[`TmSessionWelcome has the expected html structure 1`] = `
       />
     </router-link-stub>
      
+    <h2
+      class="session-title"
+    >
+      
+      Welcome to Lunie
+    
+    </h2>
+     
     <p
       class="session-paragraph"
     >
@@ -86,6 +94,14 @@ exports[`TmSessionWelcome has the expected html structure when on mobile 1`] = `
         src="~assets/images/lunie-logo-white.svg"
       />
     </router-link-stub>
+     
+    <h2
+      class="session-title"
+    >
+      
+      Welcome to Lunie
+    
+    </h2>
      
     <p
       class="session-paragraph"
