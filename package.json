@@ -11,7 +11,7 @@
     "dev": "cross-env NODE_ENV=development nodemon index.js",
     "dev-cache": "cross-env NODE_ENV=development ENABLE_CACHE=true nodemon index.js",
     "dev-docker": "docker build -t lunie-api-dev . && docker run --init -it -p 4000:4000 lunie-api-dev",
-    "lint": "eslint index.js config.js lib",
+    "lint": "eslint index.js config.js lib data",
     "lint-fix": "npm run lint -- --fix",
     "start": "node index.js",
     "test": "jest"
