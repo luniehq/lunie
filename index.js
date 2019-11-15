@@ -9,7 +9,9 @@ const CosmosV2API = require('./lib/cosmosV2-source')
 const LunieDBAPI = require('./lib/luniedb-source')
 const BlockStore = require('./lib/block-store')
 
-const { networks } = require('./data/network-configs')
+const networksMain = require('./data/networks.json')
+const networksLocal = require('./data/networks-local.json')
+
 const config = require('./config')
 
 if (config.SENTRY_DSN) {
@@ -17,7 +19,12 @@ if (config.SENTRY_DSN) {
   Sentry.init({ dsn: config.SENTRY_DSN })
 }
 
-const store = mapValues(networks, network => new BlockStore(network.id))
+let networks = networksMain
+if (config.enableTestnet) {
+  networks = { ...networks, ...networksLocal }
+}
+
+const store = mapValues(networks, network => new BlockStore(network))
 
 new CosmosNodeSubscription(
   networks['cosmos-hub-mainnet'],
