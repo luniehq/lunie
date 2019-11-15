@@ -21,7 +21,8 @@ function setOptions(urlParams, store) {
     store.dispatch(`setNetwork`, { id: urlParams.network })
   }
 }
-
+`
+`
 export default function init(urlParams, env = process.env) {
   // add error handlers in production
   if (env.NODE_ENV === `production`) {
