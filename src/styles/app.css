@@ -109,6 +109,10 @@ input.tm-field {
   #app-content {
     padding-top: 66px;
   }
+
+  ::-webkit-scrollbar {
+    display: none;
+  }
 }
 
 @media screen and (min-width: 1023px) {

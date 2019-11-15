@@ -175,11 +175,11 @@ import { ValidatorProfile, UserTransactionAdded } from "src/gql"
 function getStatusText(statusDetailed) {
   switch (statusDetailed) {
     case "inactive":
-      return "Validator is currently not validating"
+      return "Validator is not currently validating"
     case "banned":
-      return "Validator is banned from the network"
+      return "Validator is permanently banned from the network"
     default:
-      return "Validator is actively validating"
+      return "Validator is online and earning rewards"
   }
 }
 
@@ -251,7 +251,7 @@ export default {
       ]) // TODO use more finegrained query string (network and address)
     }
   },
-  apollo: {
+apollo: {
     delegation: {
       query: gql`
         query delegation(
@@ -445,7 +445,6 @@ span {
 .validator-status-detailed {
   display: block;
   margin-top: 0.4rem;
-  color: var(--warning);
   font-size: 0.8rem;
 }
 </style>

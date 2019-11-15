@@ -13,7 +13,7 @@
             :steps="[`Create`, `Password`, `Backup`]"
             active-step="Create"
           />
-          <DangerZoneWarning />
+          <DangerZoneWarning v-if="!session.mobile" />
           <TmFormGroup
             :error="$v.fieldName.$error"
             field-id="sign-up-name"
