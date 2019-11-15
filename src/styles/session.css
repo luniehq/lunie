@@ -17,7 +17,7 @@
 }
 
 .session-logo {
-  height: 3rem;
+  height: 2.5rem;
   position: absolute;
   top: 1.25rem;
   left: 1.25rem;
@@ -44,8 +44,6 @@
 
 .session-main {
   flex: 1;
-
-  /* padding: 0 1rem; */
 }
 
 .session-main p {
@@ -53,11 +51,11 @@
 }
 
 .session-title {
-  font-size: var(--h2);
+  font-size: var(--h1);
   line-height: 44px;
   color: var(--bright);
-  font-weight: 400;
-  padding: 1rem 0 2rem 0;
+  font-weight: 500;
+  padding: 0.5rem 0 1rem 0;
   text-align: center;
 }
 
@@ -121,7 +119,9 @@
 }
 
 .session-logo-mobile {
-  display: none;
+  display: block;
+  height: 2.5rem;
+  margin: 1rem 1rem 3.5rem;
 }
 
 .field-checkbox-input {
@@ -153,6 +153,14 @@
     padding-left: 1.5rem;
     text-indent: -1.5rem;
   }
+
+  .session-logo-mobile {
+    display: none;
+  }
+
+  .session-paragraph {
+    display: none;
+  }
 }
 
 @media screen and (max-width: 667px) {
@@ -169,10 +177,8 @@
     display: none;
   }
 
-  .session-logo-mobile {
-    display: block;
-    height: 2.5rem;
-    margin: 1rem 1rem 3.5rem;
+  .session-title {
+    display: none;
   }
 
   .session-footer {
@@ -181,7 +187,6 @@
     left: 0; 
     right: 0;
     width: 100%;
-    /* flex-direction: column; */
     padding: 1rem;
     background: var(--app-fg);
   }

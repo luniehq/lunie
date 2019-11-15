@@ -9,6 +9,10 @@
         />
       </router-link>
 
+      <h2 class="session-title">
+        Welcome to Lunie
+      </h2>
+
       <p class="session-paragraph">
         Lunie is the staking and governance platform for proof-of-stake
         blockchains.
@@ -52,8 +56,3 @@ export default {
   }
 }
 </script>
-<style scoped>
-.session-title {
-  padding: 0 1rem;
-}
-</style>
