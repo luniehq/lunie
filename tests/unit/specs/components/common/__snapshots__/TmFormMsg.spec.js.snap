@@ -5,8 +5,6 @@ exports[`TmFormMsg has the expected html structure 1`] = `
   class="tm-form-msg sm tm-form-msg--error"
   error="Password must be between 16 and 255 characters"
 >
-  
-    Password must be between 16 and 255 characters
-  
+   Password must be between 16 and 255 characters 
 </div>
 `;
