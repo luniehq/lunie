@@ -10,7 +10,7 @@ const LunieDBAPI = require('./lib/luniedb-source')
 const BlockStore = require('./lib/block-store')
 
 const networksMain = require('./data/networks.json')
-const networksLocal = require('./data/networks-local.js')
+const networksLocal = require('./data/networks-local.json')
 
 const config = require('./config')
 
