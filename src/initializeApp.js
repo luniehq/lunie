@@ -22,7 +22,6 @@ function setOptions(urlParams, store) {
   }
 }
 
-
 export default function init(urlParams, env = process.env) {
   // add error handlers in production
   if (env.NODE_ENV === `production`) {
