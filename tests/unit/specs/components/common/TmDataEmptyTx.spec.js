@@ -40,7 +40,7 @@ describe(`TmDataEmptyTx`, () => {
         .text()
         .trim()
     ).toContain(
-      `Looks like there are no transactions associated with this address yet.`
+      `There are no transactions associated with this address yet.`
     )
   })
 })

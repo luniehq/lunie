@@ -37,10 +37,7 @@ exports[`ActionModal back button renders and functions 1`] = `
       Send
     </span>
      
-    <steps-stub
-      activestep="sign"
-      steps="Details,Fees,Sign"
-    />
+    <!---->
      
     <!---->
   </div>
@@ -127,10 +124,7 @@ exports[`ActionModal runs validation and changes step on sign step should dispal
       Send
     </span>
      
-    <steps-stub
-      activestep="sign"
-      steps="Details,Fees,Sign"
-    />
+    <!---->
      
     <p
       class="form-message notice extension-address"
@@ -342,13 +336,10 @@ exports[`ActionModal should show the action modal when user has logged in with e
     <span
       class="action-modal-title"
     >
-      Send
+      Sign in required
     </span>
      
-    <steps-stub
-      activestep="fees"
-      steps="Details,Fees,Sign"
-    />
+    <!---->
      
     <!---->
   </div>
@@ -358,15 +349,14 @@ exports[`ActionModal should show the action modal when user has logged in with e
   <div
     class="action-modal-form"
   >
-    <!---->
-     
-    <tableinvoice-stub
-      amount="0"
-      bonddenom="STAKE"
-      estimatedfee="0"
-    />
-     
-    <!---->
+    <p
+      class="form-message notice"
+    >
+      
+          You're using Lunie in explore mode. Please sign in or create an
+          account to proceed with this action.
+        
+    </p>
   </div>
    
   <!---->
@@ -380,7 +370,7 @@ exports[`ActionModal should show the action modal when user has logged in with e
       <div>
         <tmbtn-stub
           color="primary"
-          value="Next"
+          value="Sign In"
         />
       </div>
     </tmformgroup-stub>
@@ -422,13 +412,10 @@ exports[`ActionModal should show the action modal when user has logged in with e
     <span
       class="action-modal-title"
     >
-      Send
+      Sign in required
     </span>
      
-    <steps-stub
-      activestep="sign"
-      steps="Details,Fees,Sign"
-    />
+    <!---->
      
     <!---->
   </div>
@@ -438,36 +425,14 @@ exports[`ActionModal should show the action modal when user has logged in with e
   <div
     class="action-modal-form"
   >
-    <tmformgroup-stub
-      class="action-modal-form-group"
-      fieldid="sign-method"
-      fieldlabel="Signing Method"
+    <p
+      class="form-message notice"
     >
-      <tmfield-stub
-        id="sign-method"
-        options="[object Object],[object Object]"
-        type="select"
-        value="local"
-      />
-    </tmformgroup-stub>
-     
-    <!---->
-     
-    <form>
-      <tmformgroup-stub
-        class="action-modal-group"
-        fieldid="password"
-        fieldlabel="Password"
-      >
-        <tmfield-stub
-          id="password"
-          placeholder="Password"
-          type="password"
-        />
-         
-        <!---->
-      </tmformgroup-stub>
-    </form>
+      
+          You're using Lunie in explore mode. Please sign in or create an
+          account to proceed with this action.
+        
+    </p>
   </div>
    
   <!---->
@@ -481,7 +446,7 @@ exports[`ActionModal should show the action modal when user has logged in with e
       <div>
         <tmbtn-stub
           color="primary"
-          value="Send"
+          value="Sign In"
         />
       </div>
     </tmformgroup-stub>
@@ -514,13 +479,10 @@ exports[`ActionModal should show the action modal when user has logged in with e
     <span
       class="action-modal-title"
     >
-      Send
+      Sign in required
     </span>
      
-    <steps-stub
-      activestep="sign"
-      steps="Details,Fees,Sign"
-    />
+    <!---->
      
     <!---->
   </div>
@@ -530,36 +492,14 @@ exports[`ActionModal should show the action modal when user has logged in with e
   <div
     class="action-modal-form"
   >
-    <tmformgroup-stub
-      class="action-modal-form-group"
-      fieldid="sign-method"
-      fieldlabel="Signing Method"
+    <p
+      class="form-message notice"
     >
-      <tmfield-stub
-        id="sign-method"
-        options="[object Object],[object Object]"
-        type="select"
-        value="local"
-      />
-    </tmformgroup-stub>
-     
-    <!---->
-     
-    <form>
-      <tmformgroup-stub
-        class="action-modal-group"
-        fieldid="password"
-        fieldlabel="Password"
-      >
-        <tmfield-stub
-          id="password"
-          placeholder="Password"
-          type="password"
-        />
-         
-        <!---->
-      </tmformgroup-stub>
-    </form>
+      
+          You're using Lunie in explore mode. Please sign in or create an
+          account to proceed with this action.
+        
+    </p>
   </div>
    
   <!---->
@@ -573,8 +513,7 @@ exports[`ActionModal should show the action modal when user has logged in with e
       <div>
         <tmbtn-stub
           color="primary"
-          disabled="true"
-          value="Sending..."
+          value="Sign In"
         />
       </div>
     </tmformgroup-stub>
@@ -619,10 +558,7 @@ exports[`ActionModal should show the action modal when user has logged in with e
       Send
     </span>
      
-    <steps-stub
-      activestep="fees"
-      steps="Details,Fees,Sign"
-    />
+    <!---->
      
     <!---->
   </div>
@@ -699,10 +635,7 @@ exports[`ActionModal should show the action modal when user has logged in with e
       Send
     </span>
      
-    <steps-stub
-      activestep="sign"
-      steps="Details,Fees,Sign"
-    />
+    <!---->
      
     <p
       class="form-message notice extension-address"
@@ -786,10 +719,7 @@ exports[`ActionModal should show the action modal when user has logged in with e
       Send
     </span>
      
-    <steps-stub
-      activestep="sign"
-      steps="Details,Fees,Sign"
-    />
+    <!---->
      
     <p
       class="form-message notice extension-address"
@@ -884,10 +814,7 @@ exports[`ActionModal should show the action modal when user has logged in with l
       Send
     </span>
      
-    <steps-stub
-      activestep="fees"
-      steps="Details,Fees,Sign"
-    />
+    <!---->
      
     <!---->
   </div>
@@ -964,10 +891,7 @@ exports[`ActionModal should show the action modal when user has logged in with l
       Send
     </span>
      
-    <steps-stub
-      activestep="sign"
-      steps="Details,Fees,Sign"
-    />
+    <!---->
      
     <!---->
   </div>
@@ -1040,10 +964,7 @@ exports[`ActionModal should show the action modal when user has logged in with l
       Send
     </span>
      
-    <steps-stub
-      activestep="sign"
-      steps="Details,Fees,Sign"
-    />
+    <!---->
      
     <!---->
   </div>
@@ -1127,10 +1048,7 @@ exports[`ActionModal should show the action modal when user has logged in with l
       Send
     </span>
      
-    <steps-stub
-      activestep="fees"
-      steps="Details,Fees,Sign"
-    />
+    <!---->
      
     <!---->
   </div>
@@ -1207,10 +1125,7 @@ exports[`ActionModal should show the action modal when user has logged in with l
       Send
     </span>
      
-    <steps-stub
-      activestep="sign"
-      steps="Details,Fees,Sign"
-    />
+    <!---->
      
     <!---->
   </div>
@@ -1288,10 +1203,7 @@ exports[`ActionModal should show the action modal when user has logged in with l
       Send
     </span>
      
-    <steps-stub
-      activestep="sign"
-      steps="Details,Fees,Sign"
-    />
+    <!---->
      
     <!---->
   </div>
@@ -1370,10 +1282,7 @@ exports[`ActionModal should show the action modal when user hasn't logged in 1`]
       Sign in required
     </span>
      
-    <steps-stub
-      activestep="details"
-      steps="Details,Fees,Sign"
-    />
+    <!---->
      
     <!---->
   </div>
@@ -1440,10 +1349,7 @@ exports[`ActionModal shows a feature unavailable message 1`] = `
       Send
     </span>
      
-    <steps-stub
-      activestep="details"
-      steps="Details,Fees,Sign"
-    />
+    <!---->
      
     <!---->
   </div>
@@ -1501,10 +1407,7 @@ exports[`ActionModal windows shows windows warning 1`] = `
       Send
     </span>
      
-    <steps-stub
-      activestep="details"
-      steps="Details,Fees,Sign"
-    />
+    <!---->
      
     <!---->
   </div>

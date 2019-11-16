@@ -15,7 +15,7 @@ describe(`TmSessionExisting`, () => {
       },
       keystore: {
         accounts: []
-      }
+      },
     }
     $store = {
       state,
@@ -36,6 +36,12 @@ describe(`TmSessionExisting`, () => {
     })
 
     it(`shows "Use Ledger Nano"`, () => {
+      wrapper.setData({ isMobileApp: false })
+      expect(wrapper.find(`#use-ledger-nano`).exists()).toBe(true)
+    })
+
+    it(`shows "Use Lunie Browser Extension"`, () => {
+      wrapper.setData({ isMobileApp: false })
       expect(wrapper.find(`#use-ledger-nano`).exists()).toBe(true)
     })
   })

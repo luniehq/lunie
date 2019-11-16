@@ -18,7 +18,7 @@ exports[`DelegationsOverview shows a sentiment of dissatisfaction when you have 
       <router-link-stub
         to="/validators"
       >
-         validator list 
+         validator list
       </router-link-stub>
        to get
       staking!
