@@ -26,12 +26,7 @@ if (config.sentryDSN) {
 
 Vue.config.productionTip = false
 
-let tooltipOptions = { delay: 1 }
-if (config.mobileApp) {
-  tooltipOptions = { class: `hide` }
-}
-Vue.use(Tooltip, tooltipOptions)
-
+Vue.use(Tooltip, { delay: 1 })
 Vue.use(Vuelidate)
 Vue.use(VueClipboard)
 Vue.use(InfiniteScroll)

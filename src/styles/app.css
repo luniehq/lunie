@@ -105,10 +105,6 @@ input.tm-field {
   display: block;
 }
 
-.hide {
-  display: none;
-}
-
 @media screen and (max-width: 1023px) {
   #app-content {
     padding-top: 66px;
