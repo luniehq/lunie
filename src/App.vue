@@ -17,6 +17,7 @@
   </div>
 </template>
 
+
 <script>
 import { mapState } from "vuex"
 import AppHeader from "common/AppHeader"
