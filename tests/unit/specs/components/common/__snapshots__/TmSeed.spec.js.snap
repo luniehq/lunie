@@ -5,6 +5,17 @@ exports[`TmSeed should render the seed in a table component 1`] = `
   class="seed-phrase"
 >
   <div
+    class="seed-warning"
+  >
+    <p>
+      
+      This backup code is all that is needed to access your account. Please
+      make sure to store it in a safe place.
+    
+    </p>
+  </div>
+   
+  <div
     class="copy-seed"
   >
     
@@ -275,17 +286,6 @@ exports[`TmSeed should render the seed in a table component 1`] = `
         </td>
       </tr>
     </table>
-  </div>
-   
-  <div
-    class="seed-warning"
-  >
-    <p>
-      
-      Please write your backup code in a safe place. Word order matters, take
-      care to write them in the same order.
-    
-    </p>
   </div>
 </div>
 `;
