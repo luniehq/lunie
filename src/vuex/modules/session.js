@@ -160,7 +160,7 @@ export default ({ apollo }) => {
 
       dispatch(`resetSessionData`)
       commit(`setSignIn`, false)
-      console.info(`Disconnecting user...`)
+      console.info(`Signing user out...`)
     },
     resetSessionData({ commit, state }) {
       state.history = ["/"]
