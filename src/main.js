@@ -15,7 +15,7 @@ import { Plugins } from "@capacitor/core"
 import config from "src/../config"
 import * as Sentry from "@sentry/browser"
 import * as Integrations from "@sentry/integrations"
-import "material-design-icons/iconfont/material-icons.css"
+import "material-design-icons-iconfont/dist/material-design-icons.css"
 
 if (config.sentryDSN) {
   Sentry.init({
@@ -44,7 +44,9 @@ new Vue({
   store,
   apolloProvider,
   mounted() {
-    SplashScreen.hide()
-    StatusBar.show()
+    if (config.MOBILE_APP) {
+      SplashScreen.hide()
+      StatusBar.show()
+    }
   }
 }).$mount("#app")
