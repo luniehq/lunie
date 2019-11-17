@@ -24,7 +24,6 @@ if (config.sentryDSN) {
   })
 }
 
-
 Vue.config.productionTip = false
 
 Vue.use(Tooltip, { delay: 1 })
