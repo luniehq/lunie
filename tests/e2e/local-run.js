@@ -23,14 +23,8 @@ const main = async () => {
 
   console.log("starting website")
   const serve = spawn("yarn", ["test:e2e:serve"])
-  serve.stdout.pipe(
-    process.stdout,
-    { end: true }
-  )
-  serve.stderr.pipe(
-    process.stderr,
-    { end: true }
-  )
+  serve.stdout.pipe(process.stdout, { end: true })
+  serve.stderr.pipe(process.stderr, { end: true })
   // await until page is served
   await new Promise(resolve => {
     serve.stdout.on("data", async data => {
@@ -66,14 +60,8 @@ const runTests = () => {
   const filter = process.argv[2]
   if (filter) testArgs = testArgs.concat(`--filter`, `*${filter}*`)
   const test = spawn("yarn", testArgs)
-  test.stdout.pipe(
-    process.stdout,
-    { end: true }
-  )
-  test.stderr.pipe(
-    process.stderr,
-    { end: true }
-  )
+  test.stdout.pipe(process.stdout, { end: true })
+  test.stderr.pipe(process.stderr, { end: true })
 
   // cleanup on exit
   test.stderr.on("data", async data => {

@@ -52,4 +52,10 @@ h3 {
   font-size: var(--sm);
   font-weight: 500;
 }
+
+@media screen and (max-width: 767px) {
+  .page {
+    padding: 1rem;
+  }
+}
 </style>
