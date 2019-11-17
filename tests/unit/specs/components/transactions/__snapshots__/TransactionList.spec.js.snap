@@ -4,27 +4,21 @@ exports[`TransactionList renders a list of TransactionItems 1`] = `
 <div>
   <div>
     <h3>
-      July 31st, 2019
-    </h3>
-     
-    <transactionitem-stub
-      address="cosmos1"
-      showmetadata="true"
-      transaction="[object Object]"
-      validators="[object Object]"
-    />
-    <transactionitem-stub
-      address="cosmos1"
-      showmetadata="true"
-      transaction="[object Object]"
-      validators="[object Object]"
-    />
-  </div>
-  <div>
-    <h3>
       Today (January 1st)
     </h3>
      
+    <transactionitem-stub
+      address="cosmos1"
+      showmetadata="true"
+      transaction="[object Object]"
+      validators="[object Object]"
+    />
+    <transactionitem-stub
+      address="cosmos1"
+      showmetadata="true"
+      transaction="[object Object]"
+      validators="[object Object]"
+    />
     <transactionitem-stub
       address="cosmos1"
       showmetadata="true"

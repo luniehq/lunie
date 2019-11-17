@@ -7,6 +7,7 @@
     title="Claim Rewards"
     class="modal-withdraw-rewards"
     submission-error-prefix="Withdrawal failed"
+    :rewards="rewards"
     :disable="validatorsWithRewards"
   >
     <span class="form-message notice withdraw-limit">
@@ -18,17 +19,25 @@
       field-id="amount"
       field-label="Amount"
     >
-      <span class="input-suffix">{{ denom | viewDenom }}</span>
-      <TmField id="amount" :value="rewards | atoms | fullDecimals" readonly />
+      <span class="input-suffix">{{ denom }}</span>
+      <TmField
+        id="amount"
+        v-model="totalRewards"
+        class="tm-field-addon"
+        type="number"
+        disabled="disabled"
+      />
     </TmFormGroup>
   </ActionModal>
 </template>
 
 <script>
-import { viewDenom, atoms, fullDecimals } from "src/scripts/num"
+import { mapGetters } from "vuex"
+import { fullDecimals } from "src/scripts/num"
 import ActionModal from "./ActionModal"
 import TmField from "src/components/common/TmField"
 import TmFormGroup from "src/components/common/TmFormGroup"
+import gql from "graphql-tag"
 
 import transaction from "../utils/transactionTypes"
 
@@ -36,29 +45,24 @@ export default {
   name: `modal-withdraw-rewards`,
   components: {
     ActionModal,
-    TmField,
-    TmFormGroup
+    TmFormGroup,
+    TmField
   },
   filters: {
-    atoms,
-    viewDenom,
     fullDecimals
   },
-  props: {
-    rewards: {
-      type: Number,
-      default: 0
-    },
-    denom: {
-      type: String,
-      required: true
-    }
-  },
+  data: () => ({
+    rewards: []
+  }),
   computed: {
+    ...mapGetters([`address`, `network`]),
     transactionData() {
       return {
         type: transaction.WITHDRAW
       }
+    },
+    totalRewards() {
+      return this.rewards.reduce((sum, { amount }) => sum + Number(amount), 0)
     },
     notifyMessage() {
       return {
@@ -67,15 +71,59 @@ export default {
       }
     },
     validatorsWithRewards() {
-      return (
-        this.$refs.actionModal &&
-        this.$refs.actionModal.context.validatorsWithRewards.length > 0
-      )
+      return this.rewards.length > 0
     }
   },
   methods: {
     open() {
       this.$refs.actionModal.open()
+    }
+  },
+  apollo: {
+    rewards: {
+      query: gql`
+        query rewards($networkId: String!, $delegatorAddress: String!) {
+          rewards(networkId: $networkId, delegatorAddress: $delegatorAddress) {
+            validator {
+              operatorAddress
+            }
+            amount
+          }
+        }
+      `,
+      variables() {
+        /* istanbul ignore next */
+        return {
+          networkId: this.network,
+          delegatorAddress: this.address
+        }
+      },
+      update(data) {
+        /* istanbul ignore next */
+        return data.rewards
+      },
+      skip() {
+        return !this.address
+      }
+    },
+    denom: {
+      query: gql`
+        query Networks($networkId: String!) {
+          network(id: $networkId) {
+            id
+            stakingDenom
+          }
+        }
+      `,
+      variables() {
+        return {
+          networkId: this.network
+        }
+      },
+      update(data) {
+        /* istanbul ignore next */
+        return data.network.stakingDenom
+      }
     }
   }
 }

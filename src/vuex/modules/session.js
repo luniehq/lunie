@@ -9,13 +9,14 @@ const windowsWarning = `If you’re using Windows 10 (May 2019 update), signing
 transactions with your Ledger Nano S will not work. Please use another
 operating system, or version of Windows.`
 
-export default () => {
+export default ({ apollo }) => {
   const USER_PREFERENCES_KEY = `lunie_user_preferences`
 
   const state = {
     developmentMode: config.development, // can't be set in browser
     experimentalMode: config.development, // development mode, can be set from browser
-    insecureMode: false, // show the local signer
+    insecureMode: config.e2e || false, // show the local signer
+    mobile: config.mobileApp || false,
     signedIn: false,
     sessionType: null, // local, explore, ledger, extension
     pauseHistory: false,
@@ -80,6 +81,19 @@ export default () => {
     },
     setCurrrentModalOpen(state, modal) {
       state.currrentModalOpen = modal
+    },
+
+    // TODO to own store module?
+    // clear the cache manually so we can force reloading of stale data in not mounted components
+    invalidateCache(state, queries) {
+      let rootQuery = apollo.cache.data.data.ROOT_QUERY
+      Object.keys(rootQuery)
+        .filter(query =>
+          queries.find(queryToClear => query.startsWith(queryToClear))
+        )
+        .forEach(query => {
+          delete rootQuery[query]
+        })
     }
   }
 
@@ -128,16 +142,13 @@ export default () => {
       commit(`setSignIn`, true)
       commit(`setSessionType`, sessionType)
       commit(`setUserAddress`, address)
-
       await dispatch(`rememberAddress`, { address, sessionType })
-
-      await dispatch(`initializeWallet`, { address })
 
       dispatch(`persistSession`, {
         address,
         sessionType
       })
-      let addresses = state.addresses
+      const addresses = state.addresses
       dispatch(`persistAddresses`, {
         addresses
       })

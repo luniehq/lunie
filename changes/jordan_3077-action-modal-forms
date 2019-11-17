@@ -1,0 +1,2 @@
+[Changed] [#3077](https://github.com/cosmos/lunie/issues/3077) fixed button to bottom on forms and addressed some strange scrolling behaviour @jbibla
+[Changed] [#3101](https://github.com/cosmos/lunie/issues/3101) only load StatusBar on mobile devices to avoid console error in browsers @jbibla

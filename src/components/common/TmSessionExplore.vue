@@ -131,13 +131,13 @@ export default {
       if (addressType === "explore") return `language`
       if (addressType === "ledger") return `vpn_key`
       if (addressType === "extension") return `laptop`
-      if (addressType === "local") return `laptop`
+      if (addressType === "local") return `phone_iphone`
     },
     getAddressTypeDescription(addressType) {
       if (addressType === "explore") return `Explore Mode`
       if (addressType === "ledger") return `Ledger Nano S`
       if (addressType === "extension") return `Lunie Browser Extension`
-      if (addressType === "local") return `Local`
+      if (addressType === "local") return `Mobile App`
     },
     exploreWith(address) {
       this.address = address

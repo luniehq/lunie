@@ -3,7 +3,7 @@
     <div v-if="session.signedIn" class="user-box">
       <div>
         <h3>Your Address</h3>
-        <Bech32 :address="session.address || ''" />
+        <Bech32 :address="address || ''" />
       </div>
       <a v-if="session.signedIn" id="sign-out" @click="signOut()">
         <i v-tooltip.top="'Sign Out'" class="material-icons">exit_to_app</i>
@@ -149,7 +149,7 @@
 import Bech32 from "common/Bech32"
 import ConnectedNetwork from "common/TmConnectedNetwork"
 import TmBtn from "common/TmBtn"
-import { mapState, mapGetters } from "vuex"
+import { mapGetters, mapState } from "vuex"
 import { atoms, viewDenom, shortDecimals } from "scripts/num.js"
 export default {
   name: `app-menu`,
@@ -165,7 +165,7 @@ export default {
   },
   computed: {
     ...mapState([`session`]),
-    ...mapGetters([`liquidAtoms`, `totalAtoms`, `bondDenom`])
+    ...mapGetters([`address`])
   },
   methods: {
     handleClick() {
