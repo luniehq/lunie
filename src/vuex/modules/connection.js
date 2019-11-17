@@ -18,7 +18,8 @@ export default function() {
   }
 
   const actions = {
-    async setNetwork({ commit }, network) {
+    async setNetwork({ commit, dispatch }, network) {
+      dispatch(`signOut`)
       commit("setNetworkId", network.id)
       console.info(`Connecting to: ${network.id}`)
     }
