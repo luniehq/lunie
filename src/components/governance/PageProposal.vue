@@ -146,20 +146,20 @@
         >
           <li>
             <h4>{{ status.badge }} Start Date</h4>
-            <span>{{ proposal.statusBeginDate | date }}</span>
+            <span>{{ proposal.statusBeginTime | date }}</span>
           </li>
           <li>
             <h4>{{ status.badge }} End Date</h4>
             <span>
-              {{ proposal.statusEndDate | date }} /
-              {{ proposal.statusEndDate | fromNow }}
+              {{ proposal.statusEndTime | date }} /
+              {{ proposal.statusEndTime | fromNow }}
             </span>
           </li>
         </template>
         <template v-else>
           <li>
             <h4>Proposal Finalized ({{ status.badge }})</h4>
-            <span>{{ proposal.statusEndDate | date }}</span>
+            <span>{{ proposal.statusEndTime | date }}</span>
           </li>
         </template>
       </ul>

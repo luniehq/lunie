@@ -67,12 +67,12 @@ exports[`PageProposal Modal onVote enables voting if the proposal is on the 'Vot
       <h4>Submitted</h4> <span>August 23rd 2019, 08:46</span>
     </li>
     <li>
-      <h4>Voting Period Start Date</h4> <span>January 1st 1970, 00:00</span>
+      <h4>Voting Period Start Date</h4> <span>August 25th 2019, 08:46</span>
     </li>
     <li>
       <h4>Voting Period End Date</h4> <span>
-            January 1st 1970, 00:00 /
-            a few seconds ago
+            August 25th 2019, 08:46 /
+            in 50 years
           </span>
     </li>
   </ul>
@@ -143,7 +143,7 @@ exports[`PageProposal Modal onVote shows the last valid vote 1`] = `
       <h4>Submitted</h4> <span>August 23rd 2019, 08:46</span>
     </li>
     <li>
-      <h4>Proposal Finalized (Rejected)</h4> <span>January 1st 1970, 00:00</span>
+      <h4>Proposal Finalized (Rejected)</h4> <span>August 25th 2019, 08:46</span>
     </li>
   </ul>
   <modaldeposit-stub proposalid="33" proposaltitle="test" denom="TESTCOIN"></modaldeposit-stub>
