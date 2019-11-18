@@ -14,7 +14,7 @@ function setOptions(urlParams, store) {
   if (urlParams.experimental) {
     store.commit(`setExperimentalMode`)
   }
-  if (config.mobileApp || urlParams.insecure === `true`) {
+  if (urlParams.insecure === `true`) {
     store.commit(`setInsecureMode`)
   }
   if (urlParams.network) {
