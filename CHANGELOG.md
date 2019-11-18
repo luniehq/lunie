@@ -7,6 +7,18 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.0-beta.141] - 2019-11-18
+
+### Changed
+
+- [#3077](https://github.com/cosmos/lunie/issues/3077) fixed button to bottom on forms and addressed some strange scrolling behaviour @jbibla
+- [#3101](https://github.com/cosmos/lunie/issues/3101) only load StatusBar on mobile devices to avoid console error in browsers @jbibla
+- changed the material-icons package to only download iconfonts instead of all assets @jbibla
+
+### Fixed
+
+- [#3151](https://github.com/cosmos/lunie/pull/3151) removed package-lock.json to solve build issue in bitrise @jbibla
+
 ## [1.0.0-beta.140] - 2019-11-15
 
 ### Fixed

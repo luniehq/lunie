@@ -128,7 +128,7 @@ exports[`TmSessionExplore shows a form to sign in with an address 1`] = `
               class="material-icons circle"
             >
               
-              laptop
+              phone_iphone
             
             </i>
           </div>
@@ -147,7 +147,7 @@ exports[`TmSessionExplore shows a form to sign in with an address 1`] = `
                 class="tm-li-session-subtitle"
               >
                 
-                Local
+                Mobile App
               
               </p>
             </div>
