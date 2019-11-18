@@ -1,0 +1,1 @@
+[Fixed] [#110](https://github.com/cosmos/lunie/pull/110) Fix e2e tests by using the lunie-backend docker-compose to run the stack @faboweb

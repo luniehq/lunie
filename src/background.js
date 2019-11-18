@@ -10,6 +10,7 @@ const extensionHost = location.origin
 const whitelisted = ['https://app.lunie.io', extensionHost]
 if (process.env.NODE_ENV === 'development') {
   whitelisted.push('https://localhost')
+  whitelisted.push('http://localhost')
 }
 
 const signRequestQueue = new SignRequestQueue()

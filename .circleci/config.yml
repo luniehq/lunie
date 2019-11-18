@@ -1,9 +1,5 @@
 version: 2.1
 
-aliases:
-  # Define paths and never think about them again
-  - &WORKSPACE /tmp/lunie
-
 # reusable commands
 commands:
   yarn-install:
@@ -11,7 +7,7 @@ commands:
     steps:
       - restore_cache:
           keys:
-            - v4-dependencies-root-{{ checksum "package.json" }}
+            - v4-dependencies-root-{{ checksum "yarn.lock" }}
             - v4-dependencies-root-
 
       - run: yarn install
@@ -19,7 +15,20 @@ commands:
           paths:
             - yarn.lock
             - node_modules
-          key: v4-dependencies-root-{{ checksum "package.json" }}
+          key: v4-dependencies-root-{{ checksum "yarn.lock" }}
+  npm-install-app:
+    description: '[NPM] update and install'
+    steps:
+      - restore_cache:
+          keys:
+            - v1-dependencies-app-root-{{ checksum "lunie/yarn.lock" }}
+            - v1-dependencies-app-root-
+
+      - run: cd lunie && npm install
+      - save_cache:
+          paths:
+            - lunie/node_modules
+          key: v1-dependencies-app-root-{{ checksum "lunie/yarn.lock" }}
 
 jobs:
   pendingUpdated:
@@ -83,24 +92,36 @@ jobs:
             exit 0
   
   testE2E:
-    docker:
-      # Primary container image where all steps run.
-     - image: circleci/node:10.15.3-browsers
-      # Secondary container image on common network which runs the testnet
-     - image: lunieio/testnet:v0.34.3
+    machine: true
     steps:
+      - add_ssh_keys:
+          fingerprints:
+            - "65:5f:43:fd:be:48:c8:45:d5:39:ef:86:14:d6:e1:12"
       - checkout
-      - attach_workspace:
-          at: *WORKSPACE
-      - yarn-install
-      - setup_remote_docker
+      - run: npm install
       - run:
-          name: Build
+          name: Add GitHub to known hosts
           command: |
-            npm run initiate-submodule
-            npm run test:e2e:build
-            cd lunie
-            yarn certificates
+            mkdir -p ~/.ssh
+            touch ~/.ssh/known_hosts
+            ssh-keygen -R github.com
+            ssh-keyscan github.com >> ~/.ssh/known_hosts
+      - run:
+          name: checkout backend
+          command: |
+            git clone git@github.com:luniehq/lunie-backend.git
+            cd lunie-backend
+            git checkout origin/develop
+      - run: 
+          name: Use NVM
+          command: |
+            echo 'export NVM_DIR="/opt/circleci/.nvm"' >> $BASH_ENV
+            echo ' [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"' >> $BASH_ENV
+      - run:
+          name: Install node version
+          command: |
+            nvm install v10.13.0
+            nvm alias default v10.13.0
       - run:
           name: Install Chrome
           command: |
@@ -109,8 +130,31 @@ jobs:
             sudo apt-get update
             sudo apt-get -y install google-chrome-stable
       - run:
+          name: Run testnet
+          command: |
+            cd lunie-backend
+            docker-compose up --build -d
+      - run:
+          # needs to be done in CI to be sure it is build once we start the tests
+          name: Build Extension
+          command: |
+            npm run initiate-submodule
+            npm run test:e2e:build
+          environment:
+            VUE_APP_GRAPHQL_URL: http://127.0.0.1:4000 # Browserstack tunneling doesn't work with "localhost"
+      - npm-install-app
+      - run:
+          # needs to be done in CI to be sure it is build once we start the tests
+          name: Build App
+          command: |
+            cd lunie
+            npm run test:e2e:build
+          environment:
+            NETWORK: local-cosmos-hub-testnet
+            VUE_APP_GRAPHQL_URL: http://127.0.0.1:4000 # Browserstack tunneling doesn't work with "localhost"
+      - run:
           name: Test
-          command: npm run test:e2e:start-lunie & yarn test:e2e
+          command: npm run test:e2e:start-lunie & npm run test:e2e
           no_output_timeout: 120
       - store_artifacts:
           path: ./screenshots

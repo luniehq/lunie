@@ -29,7 +29,7 @@ const config = {
       common: resolve('lunie/src/components/common'),
       transactions: resolve('lunie/src/components/transactions'),
       modules: resolve('lunie/src/vuex/modules'),
-      'src/config': resolve('config.js'),
+      config: resolve('config.js'),
       src: resolve('lunie/src'),
       scripts: resolve('lunie/src/scripts')
     },

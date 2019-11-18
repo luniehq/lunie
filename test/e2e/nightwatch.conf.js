@@ -19,7 +19,9 @@ module.exports = {
     default: {
       screenshots: {
         enabled: true,
-        path: './screenshots'
+        on_failure: true,
+        on_error: true,
+        path: 'screenshots'
       },
       filter: ['*.spec.js'],
       globals: {
@@ -36,7 +38,6 @@ module.exports = {
     }
   },
   globals: {
-    EXTENSION_ID: 'cklkpejioojjeiigffappdlcmnonmjek',
-    lunieLink: 'https://localhost:9080/?experimental=true//'
+    EXTENSION_ID: 'cklkpejioojjeiigffappdlcmnonmjek'
   }
 }

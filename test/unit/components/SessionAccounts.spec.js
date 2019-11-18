@@ -1,6 +1,10 @@
 import { shallowMount } from '@vue/test-utils'
 import SessionAccounts from 'components/SessionAccounts.vue'
 
+jest.mock('config', () => ({
+  lunieLink: 'https://app.lunie.io'
+}))
+
 describe(`SessionAccounts`, () => {
   let $store, wrapper
 

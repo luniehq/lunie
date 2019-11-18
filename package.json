@@ -18,12 +18,13 @@
     "build": "cross-env NODE_ENV=production webpack --hide-modules && node ./scripts/remove-localhost.js",
     "build:dev": "cross-env NODE_ENV=development webpack --hide-modules",
     "build-zip": "node scripts/build-zip.js",
-    "initiate-submodule": "git submodule init && git submodule update && cd lunie",
+    "initiate-submodule": "git submodule init && git submodule update && cd lunie && git checkout origin/master",
     "watch": "npm run build -- --watch",
     "watch:dev": "cross-env HMR=true npm run build:dev -- --watch",
     "test:unit": "jest --coverage",
     "test": "npm run lint && npm run test:unit",
-    "test:e2e:build": "npm run build:dev && node ./scripts/add-pem-key.js && cd ./lunie && yarn install && npm run test:e2e:build",
+    "test:e2e:build": "npm run build:dev && node ./scripts/add-pem-key.js",
+    "test:e2e:build:lunie": "cd ./lunie && yarn install && npm run test:e2e:build",
     "test:e2e:start-lunie": "cd ./lunie && npm run serve:dist",
     "test:e2e": "nightwatch --config ./test/e2e/nightwatch.conf.js",
     "test:coverage": "live-server test/unit/coverage/lcov-report",
@@ -101,7 +102,7 @@
     "eslint-plugin-vue": "^5.2.2",
     "file-loader": "^1.1.11",
     "husky": "^2.4.0",
-    "jest": "^24.8.0",
+    "jest": "^24.9.0",
     "lint-prepush": "^0.4.1",
     "live-server": "^1.2.1",
     "mini-css-extract-plugin": "^0.4.4",
@@ -120,5 +121,8 @@
     "webpack": "^4.20.2",
     "webpack-cli": "^3.1.2",
     "webpack-extension-reloader": "^1.1.0"
+  },
+  "resolutions": {
+    "handlebars": ">=4.5.2"
   }
 }

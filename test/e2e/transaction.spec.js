@@ -4,16 +4,22 @@ const formData = require('./formData.json')
 module.exports = {
   'Send Transaction': function(browser) {
     browser
-      //  Import funded account
-      .pause(500)
       .url(`chrome-extension://${globals.EXTENSION_ID}/popup/popup.html`)
-      .waitForElementVisible('a[href="#/create"]')
-      .click('a[href="#/create"]')
+      .waitForElementVisible('.tm-li-session-title')
+      .click('a[href="#/recover"]')
+      .pause(500)
+      // Seed
+      .waitForElementVisible('h2.session-title')
+      .setValue(
+        "textarea[placeholder='Must be exactly 24 words']",
+        formData.seedPhrase
+      )
+      .click('div.session-footer button')
       .pause(500)
       // Name
       .waitForElementVisible('h2.session-title')
       .setValue(
-        "input[placeholder='Must be at least 3 characters']",
+        "input[placeholder='Must have at least 3 characters']",
         formData.name
       )
       .click('div.session-footer button')
@@ -27,12 +33,6 @@ module.exports = {
       .setValue("input[placeholder='Enter password again']", formData.password)
       .click('div.session-footer button')
       .pause(500)
-      // Seed
-      .waitForElementVisible('h2.session-title')
-      .click('div.field-checkbox-input label')
-      .pause(500)
-      .click('div.session-footer button')
-      .pause(500)
       // Assert
       .assert.containsText(
         'body',
@@ -41,7 +41,7 @@ module.exports = {
 
       // Send transaction on Lunie to extension
       .execute(function() {
-        window.open('https://localhost:9080/extension')
+        window.open('http://localhost:9080/#/extension')
       })
       .pause(500)
 
@@ -49,14 +49,14 @@ module.exports = {
       .windowHandles(function(result) {
         browser
           .switchWindow(result.value[1])
-          .pause(5000)
-          .assert.urlContains('https://localhost:9080/extension')
-          .waitForElementVisible('li.account button')
-          .click('li.account button')
+          .pause(300)
+          // .assert.urlContains('http://localhost:9080/#/extension')
+          .waitForElementVisible('.account-button')
+          .click('.account-button')
           .waitForElementNotPresent('.session')
 
           // Perform a token send
-          .click('a[href="/portfolio"]')
+          // .click('a[href="/portfolio"]') // this doesn't work and we are at portfolio already
           .click('.send-button')
           .setValue(
             "input[placeholder='Address']",

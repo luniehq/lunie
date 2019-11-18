@@ -27,6 +27,7 @@
 <script>
 import AccountList from 'common/AccountList'
 import SessionFrame from 'common/SessionFrame'
+import config from 'config'
 export default {
   name: `session-accounts`,
   components: {
@@ -41,7 +42,7 @@ export default {
   methods: {
     goToLunie() {
       window.open(
-        'https://app.lunie.io/#/extension',
+        `${config.lunieLink}/#/extension`,
         '_blank',
         'noreferrer noopener'
       )

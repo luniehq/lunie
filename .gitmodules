@@ -1,4 +1,4 @@
 [submodule "lunie"]
 	path = lunie
 	url = https://github.com/luniehq/lunie.git
-	branch = develop
+	branch = master
