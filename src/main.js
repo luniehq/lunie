@@ -24,6 +24,7 @@ if (config.sentryDSN) {
   })
 }
 
+
 Vue.config.productionTip = false
 
 let tooltipOptions = { delay: 1 }
