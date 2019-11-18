@@ -28,6 +28,7 @@ export default {
     }
   },
   computed: {
+    ...mapState([`session`]),
     ...mapState([`connection`])
   },
   methods: {
@@ -39,11 +40,11 @@ export default {
     },
     confirmModalOpen() {
       let confirm = false
-      if (localStorage.getItem(`session`)) {
-          confirm = window.confirm(
-            `By switching the network you will get signed out of your current address: ${this.$store.state.session.address}`
-          )
-          return confirm
+      if (this.session.signedIn) {
+        confirm = window.confirm(
+          `By switching the network you will get signed out of your current address: ${this.$store.state.session.address}`
+        )
+        return confirm
       } else {
         return true
       }
