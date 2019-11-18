@@ -5,7 +5,7 @@
       <AppHeader />
       <div id="app-content">
         <div id="bar-container">
-          <CookieBar />
+          <CookieBar v-if="!isMobileApp" />
           <MaintenanceBar />
           <DisconnectedBar />
         </div>
@@ -26,6 +26,7 @@ import MaintenanceBar from "common/MaintenanceBar"
 import DisconnectedBar from "common/DisconnectedBar"
 import TmNotifications from "common/TmNotifications"
 import store from "./vuex/store"
+import config from "src/../config"
 
 export default {
   name: `app`,
@@ -37,6 +38,9 @@ export default {
     DisconnectedBar,
     MobileMenu
   },
+  data: () => ({
+    isMobileApp: config.mobileApp
+  }),
   computed: {
     ...mapState([`notifications`, `session`])
   },
