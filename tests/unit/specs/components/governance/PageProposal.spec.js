@@ -53,12 +53,13 @@ describe(`PageProposal`, () => {
     args = {
       localVue,
       propsData: {
-        proposalId: `2`
+        proposalId: `33`
       },
       mocks: {
         $store,
         $apollo
-      }
+      },
+      stubs: [`router-link`]
     }
     wrapper = shallowMount(PageProposal, args)
     wrapper.setData({
@@ -104,6 +105,13 @@ describe(`PageProposal`, () => {
       "cosmos1z8mzakma7vnaajysmtkwt4wgjqr2m84tzvyfkz"
     )
     expect(wrapper.html()).toContain("Big Daddy Validator")
+  })
+
+  it(`should return the index within the array of a proposal`, () => {
+    wrapper.setData({
+      proposals: proposals
+    })
+    expect(wrapper.vm.getProposalIndex(1)).toEqual(32)
   })
 
   describe(`Proposal status`, () => {
