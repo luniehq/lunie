@@ -12,7 +12,23 @@
           <span :class="proposal.status | lowerCase" class="proposal-status">
             {{ status.badge }}
           </span>
-          <h2 class="proposal-title">{{ proposal.title }}</h2>
+          <div class="proposal-title__row">
+            <router-link
+              :to="`/proposals/` + getPrevProposalId"
+              :style="{ visibility: getPrevProposalId ? 'visible' : 'hidden' }"
+              class="read-more-link"
+            >
+              <i class="material-icons">chevron_left</i>
+            </router-link>
+            <h2 class="proposal-title">{{ proposal.title }}</h2>
+            <router-link
+              :to="`/proposals/` + getNextProposalId"
+              :style="{ visibility: getNextProposalId ? 'visible' : 'hidden' }"
+              class="read-more-link"
+            >
+              <i class="material-icons">chevron_right</i>
+            </router-link>
+          </div>
           <p class="proposer">
             <template v-if="proposal.validator">
               Proposed by {{ proposal.validator.name }}:
@@ -130,20 +146,20 @@
         >
           <li>
             <h4>{{ status.badge }} Start Date</h4>
-            <span>{{ proposal.statusBeginDate | date }}</span>
+            <span>{{ proposal.statusBeginTime | date }}</span>
           </li>
           <li>
             <h4>{{ status.badge }} End Date</h4>
             <span>
-              {{ proposal.statusEndDate | date }} /
-              {{ proposal.statusEndDate | fromNow }}
+              {{ proposal.statusEndTime | date }} /
+              {{ proposal.statusEndTime | fromNow }}
             </span>
           </li>
         </template>
         <template v-else>
           <li>
             <h4>Proposal Finalized ({{ status.badge }})</h4>
-            <span>{{ proposal.statusEndDate | date }}</span>
+            <span>{{ proposal.statusEndTime | date }}</span>
           </li>
         </template>
       </ul>
@@ -181,6 +197,7 @@ import { getProposalStatus } from "scripts/proposal-status"
 import { ProposalItem, GovernanceParameters, Vote } from "src/gql"
 import BigNumber from "bignumber.js"
 import Bech32 from "common/Bech32"
+import gql from "graphql-tag"
 
 export default {
   name: `page-proposal`,
@@ -209,6 +226,7 @@ export default {
     }
   },
   data: () => ({
+    proposals: [],
     vote: undefined,
     proposal: {
       status: "",
@@ -229,6 +247,14 @@ export default {
     },
     noVotes() {
       return BigNumber(this.proposal.tally.total).eq(0)
+    },
+    getNextProposalId() {
+      let id = this.getProposalIndex(-1)
+      return id
+    },
+    getPrevProposalId() {
+      let id = this.getProposalIndex(1)
+      return id
     }
   },
   methods: {
@@ -250,9 +276,38 @@ export default {
         id: this.proposal.id
       })
       this.$store.commit("invalidateCache", [`overview`, `transactions`])
+    },
+    getProposalIndex(num) {
+      let proposalsObj = this.proposals
+      let proposalsIdArr = Object.values(proposalsObj).map(
+        proposal => proposal.id
+      )
+      return proposalsIdArr[proposalsIdArr.indexOf(this.proposal.id) + num]
     }
   },
   apollo: {
+    proposals: {
+      query() {
+        /* istanbul ignore next */
+        return gql`
+          query proposals($networkId: String!) {
+            proposals(networkId: $networkId) {
+              id
+              status
+            }
+          }
+        `
+      },
+      variables() {
+        return {
+          networkId: this.network
+        }
+      },
+      update(data) {
+        /* istanbul ignore next */
+        return data.proposals
+      }
+    },
     proposal: {
       query() {
         /* istanbul ignore next */
@@ -299,6 +354,9 @@ export default {
           address: this.address
         }
       },
+      skip() {
+        return !this.address
+      },
       update(data) {
         /* istanbul ignore next */
         return data.vote.option
@@ -312,7 +370,25 @@ export default {
 }
 </script>
 <style scoped>
+.proposal-title__row {
+  color: var(--bright);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.proposal-title__row a {
+  color: var(--bright);
+  padding-top: 1rem;
+}
+
+.proposal-title__row a:hover {
+  color: var(--link-hover);
+  padding-top: 1rem;
+}
+
 .proposal-title {
+  text-align: center;
   color: var(--bright);
   font-size: var(--h1);
   line-height: 2.25rem;

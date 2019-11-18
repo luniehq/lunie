@@ -71,6 +71,8 @@ exports[`ActionModal back button renders and functions 1`] = `
     </form>
   </div>
    
+  <!---->
+   
   <div
     class="action-modal-footer"
   >
@@ -84,8 +86,6 @@ exports[`ActionModal back button renders and functions 1`] = `
         />
       </div>
     </tmformgroup-stub>
-     
-    <!---->
   </div>
 </div>
 `;
@@ -167,6 +167,8 @@ exports[`ActionModal runs validation and changes step on sign step should dispal
     </hardwarestate-stub>
   </div>
    
+  <!---->
+   
   <div
     class="action-modal-footer"
   >
@@ -180,8 +182,6 @@ exports[`ActionModal runs validation and changes step on sign step should dispal
         />
       </div>
     </tmformgroup-stub>
-     
-    <!---->
   </div>
 </div>
 `;
@@ -251,11 +251,11 @@ exports[`ActionModal should show the action modal on success 1`] = `
     </tmdatamsg-stub>
   </div>
    
+  <!---->
+   
   <div
     class="action-modal-footer"
   >
-    <!---->
-     
     <!---->
   </div>
 </div>
@@ -298,11 +298,11 @@ exports[`ActionModal should show the action modal waiting on inclusion 1`] = `
    
   <!---->
    
+  <!---->
+   
   <div
     class="action-modal-footer"
   >
-    <!---->
-     
     <!---->
   </div>
 </div>
@@ -369,6 +369,8 @@ exports[`ActionModal should show the action modal when user has logged in with e
     <!---->
   </div>
    
+  <!---->
+   
   <div
     class="action-modal-footer"
   >
@@ -382,8 +384,6 @@ exports[`ActionModal should show the action modal when user has logged in with e
         />
       </div>
     </tmformgroup-stub>
-     
-    <!---->
   </div>
 </div>
 `;
@@ -470,6 +470,8 @@ exports[`ActionModal should show the action modal when user has logged in with e
     </form>
   </div>
    
+  <!---->
+   
   <div
     class="action-modal-footer"
   >
@@ -483,8 +485,6 @@ exports[`ActionModal should show the action modal when user has logged in with e
         />
       </div>
     </tmformgroup-stub>
-     
-    <!---->
   </div>
 </div>
 `;
@@ -562,6 +562,8 @@ exports[`ActionModal should show the action modal when user has logged in with e
     </form>
   </div>
    
+  <!---->
+   
   <div
     class="action-modal-footer"
   >
@@ -576,8 +578,6 @@ exports[`ActionModal should show the action modal when user has logged in with e
         />
       </div>
     </tmformgroup-stub>
-     
-    <!---->
   </div>
 </div>
 `;
@@ -643,6 +643,8 @@ exports[`ActionModal should show the action modal when user has logged in with e
     <!---->
   </div>
    
+  <!---->
+   
   <div
     class="action-modal-footer"
   >
@@ -656,8 +658,6 @@ exports[`ActionModal should show the action modal when user has logged in with e
         />
       </div>
     </tmformgroup-stub>
-     
-    <!---->
   </div>
 </div>
 `;
@@ -739,6 +739,8 @@ exports[`ActionModal should show the action modal when user has logged in with e
     </hardwarestate-stub>
   </div>
    
+  <!---->
+   
   <div
     class="action-modal-footer"
   >
@@ -752,8 +754,6 @@ exports[`ActionModal should show the action modal when user has logged in with e
         />
       </div>
     </tmformgroup-stub>
-     
-    <!---->
   </div>
 </div>
 `;
@@ -827,6 +827,8 @@ exports[`ActionModal should show the action modal when user has logged in with e
     </hardwarestate-stub>
   </div>
    
+  <!---->
+   
   <div
     class="action-modal-footer"
   >
@@ -841,8 +843,6 @@ exports[`ActionModal should show the action modal when user has logged in with e
         />
       </div>
     </tmformgroup-stub>
-     
-    <!---->
   </div>
 </div>
 `;
@@ -908,6 +908,8 @@ exports[`ActionModal should show the action modal when user has logged in with l
     <!---->
   </div>
    
+  <!---->
+   
   <div
     class="action-modal-footer"
   >
@@ -921,8 +923,6 @@ exports[`ActionModal should show the action modal when user has logged in with l
         />
       </div>
     </tmformgroup-stub>
-     
-    <!---->
   </div>
 </div>
 `;
@@ -993,6 +993,8 @@ exports[`ActionModal should show the action modal when user has logged in with l
     <!---->
   </div>
    
+  <!---->
+   
   <div
     class="action-modal-footer"
   >
@@ -1006,8 +1008,6 @@ exports[`ActionModal should show the action modal when user has logged in with l
         />
       </div>
     </tmformgroup-stub>
-     
-    <!---->
   </div>
 </div>
 `;
@@ -1070,6 +1070,8 @@ exports[`ActionModal should show the action modal when user has logged in with l
     <!---->
   </div>
    
+  <!---->
+   
   <div
     class="action-modal-footer"
   >
@@ -1084,8 +1086,6 @@ exports[`ActionModal should show the action modal when user has logged in with l
         />
       </div>
     </tmformgroup-stub>
-     
-    <!---->
   </div>
 </div>
 `;
@@ -1151,6 +1151,8 @@ exports[`ActionModal should show the action modal when user has logged in with l
     <!---->
   </div>
    
+  <!---->
+   
   <div
     class="action-modal-footer"
   >
@@ -1164,8 +1166,6 @@ exports[`ActionModal should show the action modal when user has logged in with l
         />
       </div>
     </tmformgroup-stub>
-     
-    <!---->
   </div>
 </div>
 `;
@@ -1241,6 +1241,8 @@ exports[`ActionModal should show the action modal when user has logged in with l
     </form>
   </div>
    
+  <!---->
+   
   <div
     class="action-modal-footer"
   >
@@ -1254,8 +1256,6 @@ exports[`ActionModal should show the action modal when user has logged in with l
         />
       </div>
     </tmformgroup-stub>
-     
-    <!---->
   </div>
 </div>
 `;
@@ -1322,6 +1322,8 @@ exports[`ActionModal should show the action modal when user has logged in with l
     </form>
   </div>
    
+  <!---->
+   
   <div
     class="action-modal-footer"
   >
@@ -1336,8 +1338,6 @@ exports[`ActionModal should show the action modal when user has logged in with l
         />
       </div>
     </tmformgroup-stub>
-     
-    <!---->
   </div>
 </div>
 `;
@@ -1387,10 +1387,13 @@ exports[`ActionModal should show the action modal when user hasn't logged in 1`]
       class="form-message notice"
     >
       
-          You need to sign in to submit a transaction.
+          You're using Lunie in explore mode. Please sign in or create an
+          account to proceed with this action.
         
     </p>
   </div>
+   
+  <!---->
    
   <div
     class="action-modal-footer"
@@ -1405,8 +1408,6 @@ exports[`ActionModal should show the action modal when user hasn't logged in 1`]
         />
       </div>
     </tmformgroup-stub>
-     
-    <!---->
   </div>
 </div>
 `;
@@ -1453,6 +1454,8 @@ exports[`ActionModal shows a feature unavailable message 1`] = `
     class="action-modal-form"
   />
    
+  <!---->
+   
   <div
     class="action-modal-footer"
   >
@@ -1466,8 +1469,6 @@ exports[`ActionModal shows a feature unavailable message 1`] = `
         />
       </div>
     </tmformgroup-stub>
-     
-    <!---->
   </div>
 </div>
 `;
@@ -1520,6 +1521,8 @@ exports[`ActionModal windows shows windows warning 1`] = `
     class="action-modal-form"
   />
    
+  <!---->
+   
   <div
     class="action-modal-footer"
   >
@@ -1533,8 +1536,6 @@ exports[`ActionModal windows shows windows warning 1`] = `
         />
       </div>
     </tmformgroup-stub>
-     
-    <!---->
   </div>
 </div>
 `;

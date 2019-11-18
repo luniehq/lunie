@@ -10,6 +10,7 @@ yarn.lock
 selenium-debug.log
 chromedriver.log
 screenshots
+coverage
 
 # local env files
 .env.local

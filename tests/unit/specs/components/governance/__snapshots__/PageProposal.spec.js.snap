@@ -6,7 +6,11 @@ exports[`PageProposal Modal onVote enables voting if the proposal is on the 'Vot
     <div class="page-profile__header__info"><span class="proposal-status votingperiod">
           Voting Period
         </span>
-      <h2 class="proposal-title">test</h2>
+      <div class="proposal-title__row">
+        <router-link-stub to="/proposals/undefined" class="read-more-link" style="visibility: hidden;"><i class="material-icons">chevron_left</i></router-link-stub>
+        <h2 class="proposal-title">test</h2>
+        <router-link-stub to="/proposals/undefined" class="read-more-link" style="visibility: hidden;"><i class="material-icons">chevron_right</i></router-link-stub>
+      </div>
       <p class="proposer">
         Proposed by Big Daddy Validator:
         <bech32-stub address="cosmos1z8mzakma7vnaajysmtkwt4wgjqr2m84tzvyfkz"></bech32-stub>
@@ -63,17 +67,17 @@ exports[`PageProposal Modal onVote enables voting if the proposal is on the 'Vot
       <h4>Submitted</h4> <span>August 23rd 2019, 08:46</span>
     </li>
     <li>
-      <h4>Voting Period Start Date</h4> <span>January 1st 1970, 00:00</span>
+      <h4>Voting Period Start Date</h4> <span>August 25th 2019, 08:46</span>
     </li>
     <li>
       <h4>Voting Period End Date</h4> <span>
-            January 1st 1970, 00:00 /
-            a few seconds ago
+            August 25th 2019, 08:46 /
+            in 50 years
           </span>
     </li>
   </ul>
-  <modaldeposit-stub proposalid="2" proposaltitle="test" denom="TESTCOIN"></modaldeposit-stub>
-  <modalvote-stub proposalid="2" proposaltitle="test"></modalvote-stub>
+  <modaldeposit-stub proposalid="33" proposaltitle="test" denom="TESTCOIN"></modaldeposit-stub>
+  <modalvote-stub proposalid="33" proposaltitle="test"></modalvote-stub>
 </tmpage-stub>
 `;
 
@@ -83,7 +87,11 @@ exports[`PageProposal Modal onVote shows the last valid vote 1`] = `
     <div class="page-profile__header__info"><span class="proposal-status rejected">
           Rejected
         </span>
-      <h2 class="proposal-title">test</h2>
+      <div class="proposal-title__row">
+        <router-link-stub to="/proposals/undefined" class="read-more-link" style="visibility: hidden;"><i class="material-icons">chevron_left</i></router-link-stub>
+        <h2 class="proposal-title">test</h2>
+        <router-link-stub to="/proposals/undefined" class="read-more-link" style="visibility: hidden;"><i class="material-icons">chevron_right</i></router-link-stub>
+      </div>
       <p class="proposer">
         Proposed by Big Daddy Validator:
         <bech32-stub address="cosmos1z8mzakma7vnaajysmtkwt4wgjqr2m84tzvyfkz"></bech32-stub>
@@ -135,11 +143,11 @@ exports[`PageProposal Modal onVote shows the last valid vote 1`] = `
       <h4>Submitted</h4> <span>August 23rd 2019, 08:46</span>
     </li>
     <li>
-      <h4>Proposal Finalized (Rejected)</h4> <span>January 1st 1970, 00:00</span>
+      <h4>Proposal Finalized (Rejected)</h4> <span>August 25th 2019, 08:46</span>
     </li>
   </ul>
-  <modaldeposit-stub proposalid="2" proposaltitle="test" denom="TESTCOIN"></modaldeposit-stub>
-  <modalvote-stub proposalid="2" proposaltitle="test" lastvoteoption="Yes"></modalvote-stub>
+  <modaldeposit-stub proposalid="33" proposaltitle="test" denom="TESTCOIN"></modaldeposit-stub>
+  <modalvote-stub proposalid="33" proposaltitle="test" lastvoteoption="Yes"></modalvote-stub>
 </tmpage-stub>
 `;
 
