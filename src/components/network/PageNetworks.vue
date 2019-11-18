@@ -1,6 +1,7 @@
 <template>
   <TmPage data-title="Network" class="page" hide-header>
-    <template>
+    <TmDataLoading v-if="$apollo.loading" />
+    <template v-else-if="!$apollo.loading">
       <h3>Main Networks</h3>
       <NetworkList :networks="mainNetworks" />
       <h3>Test Networks</h3>
@@ -12,13 +13,15 @@
 <script>
 import { Networks, NetworksResult } from "src/gql"
 import NetworkList from "./NetworkList"
+import TmDataLoading from "common/TmDataLoading"
 
 import TmPage from "common/TmPage"
 export default {
   name: `page-network`,
   components: {
     TmPage,
-    NetworkList
+    NetworkList,
+    TmDataLoading
   },
   data: () => ({
     networks: []
