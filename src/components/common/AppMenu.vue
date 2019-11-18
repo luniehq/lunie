@@ -78,7 +78,7 @@
         <h2 class="app-menu-title">
           Networks
         </h2>
-        <i class="material-icons">chevron_right</i>
+        <i class="material-icons hide-xs">chevron_right</i>
       </router-link>
 
       <router-link
@@ -261,7 +261,6 @@ export default {
   .app-menu {
     background: var(--app-nav);
     height: 100vh;
-    position: fixed;
     top: 0;
     width: 100%;
   }
