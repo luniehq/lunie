@@ -15,6 +15,10 @@ describe(`Module: Connection`, () => {
   })
 
   describe(`mutations`, () => {
+    it(`sets nodeUrl from config.json`, () => {
+      expect(state.nodeUrl).toBe(`https://voyager.lol`)
+    })
+
     it(`setNetworkId`, () => {
       state.network = ""
       mutations.setNetworkId(state, "awesomenet")
@@ -38,14 +42,14 @@ describe(`Module: Connection`, () => {
       `network`,
       JSON.stringify([
         {
-          network: `awesomenet`
+          network: `awesomenet`,
         }
       ])
     )
     await actions.checkForPersistedNetwork({ commit })
     expect(commit).toHaveBeenCalledWith(`setNetworkId`, [
       {
-        network: `awesomenet`
+        network: `awesomenet`,
       }
     ])
   })

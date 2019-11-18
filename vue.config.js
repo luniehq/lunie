@@ -35,6 +35,7 @@ module.exports = {
         new webpack.DefinePlugin({
           "process.env": {
             NODE_ENV: JSON.stringify(process.env.NODE_ENV),
+            STARGATE: JSON.stringify(process.env.STARGATE),
             NETWORK: JSON.stringify(process.env.NETWORK),
             SENTRY_DSN: JSON.stringify(process.env.SENTRY_DSN),
             RELEASE: JSON.stringify(commitHash),
@@ -61,7 +62,14 @@ module.exports = {
             // third party tools
             `https://api-iam.intercom.io`,
             // mainnet
-            `https://lcd.nylira.net`
+            `https://stargate.lunie.io`,
+            `wss://rpc.lunie.io:26657`,
+            `https://stargate.cosmos.network`,
+            `wss://rpc.cosmos.network:26657`,
+            ...[process.env.STARGATE].filter(x => x !== undefined),
+            ...[process.env.RPC]
+              .filter(x => x !== undefined)
+              .map(x => x.replace("https", "wss"))
           ],
           "frame-src": [`'self'`, `https://api-iam.intercom.io`],
           "img-src": [`'self'`, `https://www.google-analytics.com/`]
