@@ -24,6 +24,7 @@
       </div>
       <TableValidators
         :validators="validators"
+        :delegations="delegations"
         show-on-mobile="expectedReturns"
       />
       <div
