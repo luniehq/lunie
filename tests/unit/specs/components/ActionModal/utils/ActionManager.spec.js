@@ -135,7 +135,7 @@ describe("ActionManager", () => {
     }
   })
 
-  it("should throw if setting message with empty context", async () => {
+  it("should throw if setting message with empty context ", async () => {
     try {
       actionManager = new ActionManager()
       await actionManager.setMessage("MsgSend", sendTx.txProps)
