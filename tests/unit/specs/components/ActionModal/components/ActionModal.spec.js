@@ -753,6 +753,17 @@ describe(`ActionModal`, () => {
         }
       ])
     })
+
+    it(`selects ledger if device is connected`, () => {
+      $store.state.session.sessionType = `extension`
+      expect(wrapper.vm.selectedSignMethod).toBe(`extension`)
+      expect(wrapper.vm.signMethods).toEqual([
+        {
+          key: `Lunie Browser Extension`,
+          value: `extension`
+        }
+      ])
+    })
   })
 
   it("shows a feature unavailable message", async () => {

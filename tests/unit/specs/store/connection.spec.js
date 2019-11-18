@@ -26,6 +26,34 @@ describe(`Module: Connection`, () => {
     })
   })
 
+  it("should persist the network", async () => {
+    const network = {
+      id: `awesomenet`
+    }
+    await actions.persistNetwork({}, network)
+    expect(localStorage.getItem(`network`)).toEqual(
+      JSON.stringify(`awesomenet`)
+    )
+  })
+
+  it(`assigns the user a network if a network was found`, async () => {
+    const commit = jest.fn()
+    localStorage.setItem(
+      `network`,
+      JSON.stringify([
+        {
+          network: `awesomenet`,
+        }
+      ])
+    )
+    await actions.checkForPersistedNetwork({ commit })
+    expect(commit).toHaveBeenCalledWith(`setNetworkId`, [
+      {
+        network: `awesomenet`,
+      }
+    ])
+  })
+
   it("should switch networks", async () => {
     const dispatch = jest.fn()
     const commit = jest.fn()

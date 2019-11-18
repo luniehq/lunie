@@ -28,18 +28,18 @@
         >
         </LiSession>
         <LiSession
-          v-if="session.insecureMode"
-          id="recover-with-backup"
-          icon="settings_backup_restore"
-          title="Recover with backup code"
-          route="recover"
-        />
-        <LiSession
           v-if="accountExists && session.insecureMode"
           id="sign-in-with-account"
           icon="lock"
           title="Sign in with account"
           route="login"
+        />
+        <LiSession
+          v-if="session.insecureMode"
+          id="recover-with-backup"
+          icon="settings_backup_restore"
+          title="Recover with backup code"
+          route="recover"
         />
       </div>
       <router-link to="create">

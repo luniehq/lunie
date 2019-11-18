@@ -9,6 +9,7 @@ node_modules
 selenium-debug.log
 chromedriver.log
 screenshots
+coverage
 
 # local env files
 .env.local

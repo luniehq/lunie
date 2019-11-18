@@ -26,7 +26,7 @@ exports[`CookieBar shows the cookie bar 1`] = `
       class="link"
       to="/privacy"
     >
-       Privacy Policy 
+       Privacy Policy
     </router-link-stub>
     .
   
