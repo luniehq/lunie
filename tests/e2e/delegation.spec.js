@@ -25,12 +25,12 @@ module.exports = {
     await nextBlock(browser)
 
     // check if tx shows
-    browser.url(browser.launch_url + "/#/transactions")
-    await waitForText(
-      browser,
-      ".tx:nth-child(2) .tx__content__caption",
-      `Delegated ${value} STAKE`
-    )
+    // browser.url(browser.launch_url + "/#/transactions")
+    // await waitForText(
+    //   browser,
+    //   ".tx:nth-child(2) .tx__content__caption",
+    //   `Delegated ${value} STAKE`
+    // )
   },
   "Redelegate Action": async function(browser) {
     // move to according page
@@ -60,12 +60,12 @@ module.exports = {
     await nextBlock(browser)
 
     // check if tx shows
-    browser.url(browser.launch_url + "/#/transactions")
-    await waitForText(
-      browser,
-      ".tx:nth-child(2) .tx__content__caption",
-      `Redelegated ${value} STAKE`
-    )
+    // browser.url(browser.launch_url + "/#/transactions")
+    // await waitForText(
+    //   browser,
+    //   ".tx:nth-child(2) .tx__content__caption",
+    //   `Redelegated ${value} STAKE`
+    // )
   },
   "Undelegate Action": async function(browser) {
     // be sure that the balance has updated, if we don't wait, the baseline (balance) shifts
@@ -91,14 +91,14 @@ module.exports = {
     )
 
     // check if tx shows
-    browser.url(browser.launch_url + "/#/transactions")
-    await waitForText(
-      browser,
-      ".tx:nth-child(2) .tx__content__caption",
-      `Undelegated ${value} STAKE`,
-      10,
-      2000
-    )
+    // browser.url(browser.launch_url + "/#/transactions")
+    // await waitForText(
+    //   browser,
+    //   ".tx:nth-child(2) .tx__content__caption",
+    //   `Undelegated ${value} STAKE`,
+    //   10,
+    //   2000
+    // )
   }
 }
 
