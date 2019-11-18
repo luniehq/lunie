@@ -104,12 +104,6 @@ Create the bundle to deploy Lunie you can run:
 npm run build
 ```
 
-If you want to set a particular `Stargate` (Cosmos SDK REST API):
-
-```bash
-STARGATE=<https://StargateAddress:port> npm run build
-```
-
 ### Mobile
 
 #### Android
@@ -225,7 +219,6 @@ A list of all environment variables and their purpose:
 |-----------------|-----------------------------|---------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | `NODE_ENV`      | `production`, `development` |         |                                                                                                                                                                   |
 | `ALLOW_CONSOLE` | `true`, `false`             | `false` | Unit tests fail if they use `console.error` or `console.warn`. To see the initial use/occurences of those callings, you can escape this behavior using this flag. |
-| `STARGATE` |              | `http://localhost:9071` | URL of the Cosmos REST API that is used for broadcasting and simulation of transactions. |
 | `VUE_APP_GRAPHQL_URL` |              | `http://localhost:4000` | URL of the Lunie Backend GraphQL API. |
 | `VUE_APP_E2E` | `true`, `false`             | `false` | Switches Lunie to run/build in e2e test mode. Disables some tracking. |
 | `GOOGLE_ANALYTICS_UID` |             |  | Google Analytics UID to be used in production builds. |
