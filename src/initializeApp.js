@@ -14,7 +14,7 @@ function setOptions(urlParams, store) {
   if (urlParams.experimental) {
     store.commit(`setExperimentalMode`)
   }
-  if (config.mobileApp || urlParams.insecure === `true`) {
+  if (urlParams.insecure === `true`) {
     store.commit(`setInsecureMode`)
   }
   if (urlParams.network) {
@@ -47,6 +47,7 @@ export default function init(urlParams, env = process.env) {
   store.dispatch(`loadLocalPreferences`)
   store.dispatch(`checkForPersistedSession`)
   store.dispatch(`checkForPersistedAddresses`)
+  store.dispatch(`checkForPersistedNetwork`)
 
   listenToExtensionMessages(store)
 

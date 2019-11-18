@@ -18,7 +18,17 @@ export default function() {
   }
 
   const actions = {
-    async setNetwork({ commit }, network) {
+    async checkForPersistedNetwork({ commit }) {
+      const network = localStorage.getItem(`network`)
+      if (network) {
+        await commit(`setNetworkId`, JSON.parse(network))
+      }
+    },
+    async persistNetwork(store, network) {
+      localStorage.setItem(`network`, JSON.stringify(network.id))
+    },
+    async setNetwork({ commit, dispatch }, network) {
+      dispatch(`persistNetwork`, network)
       commit("setNetworkId", network.id)
       console.info(`Connecting to: ${network.id}`)
     }

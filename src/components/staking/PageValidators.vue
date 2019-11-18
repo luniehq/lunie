@@ -32,7 +32,7 @@
       >
         No results for these search terms
       </div>
-      <TmDataLoading v-if="$apollo.loading" />
+      <TmDataLoading v-if="$apollo.loading && !searchTerm" />
     </template>
   </TmPage>
 </template>
