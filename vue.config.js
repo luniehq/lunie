@@ -61,7 +61,8 @@ module.exports = {
             // third party tools
             `https://api-iam.intercom.io`,
             // mainnet
-            `https://lcd.nylira.net`
+            `https://lcd.nylira.net`,
+            `https://gaia-13006.lunie.io`
           ],
           "frame-src": [`'self'`, `https://api-iam.intercom.io`],
           "img-src": [`'self'`, `https://www.google-analytics.com/`]
