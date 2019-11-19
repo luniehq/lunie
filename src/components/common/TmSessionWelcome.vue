@@ -1,5 +1,5 @@
 <template>
-  <SessionFrame>
+  <SessionFrame hide-back="true">
     <div id="session-welcome">
       <router-link to="/">
         <img
@@ -9,7 +9,7 @@
         />
       </router-link>
 
-      <h2 class="session-title">
+      <h2 class="session-title welcome">
         Welcome to Lunie
       </h2>
 
