@@ -15,7 +15,7 @@ const graphqlHost = urlParams => urlParams.graphql || config.graphqlHost
 
 const makeHttpLink = urlParams => {
   const host = graphqlHost(urlParams)
-  const uri = host
+  const uri = `${host}/query`
 
   // We create a createPersistedQueryLink to lower network usage.
   // With this, a prefetch is done using a hash of the query.
@@ -29,7 +29,7 @@ const makeHttpLink = urlParams => {
 
 const makeWebSocketLink = urlParams => {
   const host = graphqlHost(urlParams)
-  const uri = `${host.replace("http", "ws")}/graphql`
+  const uri = `${host.replace("http", "ws")}/subscription`
   console.log("ws", uri)
   return new WebSocketLink({ uri })
 }
