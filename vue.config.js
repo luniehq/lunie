@@ -63,9 +63,8 @@ module.exports = {
             `https://api-iam.intercom.io`,
             // mainnet
             `https://stargate.lunie.io`,
-            `wss://rpc.lunie.io:26657`,
             `https://stargate.cosmos.network`,
-            `wss://rpc.cosmos.network:26657`,
+            `https://gaia-13006.lunie.io`,
             ...[process.env.STARGATE].filter(x => x !== undefined),
             ...[process.env.RPC]
               .filter(x => x !== undefined)

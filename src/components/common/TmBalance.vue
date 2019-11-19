@@ -145,7 +145,7 @@ export default {
         query: UserTransactionAdded,
         result() {
           // query if successful or not as even an unsuccessful tx costs fees
-          refetchNetworkOnly(this.$apollo.query.overview)
+          refetchNetworkOnly(this.$apollo.queries.overview)
         }
       }
     }
