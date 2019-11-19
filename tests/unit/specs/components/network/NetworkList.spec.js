@@ -76,9 +76,11 @@ describe(`NetworkList`, () => {
     wrapper.setData({
       session: {
         signedIn: true,
-        windowsDevice: true
       }
     })
-    expect(wrapper.element).toMatchSnapshot()
+    const spy = jest.spyOn(window, `confirm`).mockImplementationOnce(() => {})
+    wrapper.find(".select-network-item:not(.selected)").trigger("click")
+    expect(spy).toHaveBeenCalled()
+    spy.mockRestore()
   })
 })
