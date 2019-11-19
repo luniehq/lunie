@@ -43,7 +43,7 @@ describe(`TmBalance`, () => {
     wrapper.setData({ overview: false })
     expect(wrapper.element).toMatchSnapshot()
     expect(wrapper.text()).toMatch(/Total ATOM.*--/s)
-    expect(wrapper.text()).toMatch(/Available ATOM.*--/s)
+    expect(wrapper.text()).not.toMatch(/Available ATOM.*--/s)
     expect(wrapper.text()).not.toMatch(/Total Rewards/)
   })
 

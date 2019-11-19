@@ -26,17 +26,7 @@ exports[`TmBalance show empty stakes when not signed in 1`] = `
     <div
       class="row small-container"
     >
-      <div
-        class="available-atoms"
-      >
-        <h3>
-          Available ATOM
-        </h3>
-         
-        <h2>
-          --
-        </h2>
-      </div>
+      <!---->
        
       <!---->
     </div>

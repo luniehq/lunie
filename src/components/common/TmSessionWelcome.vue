@@ -1,5 +1,5 @@
 <template>
-  <SessionFrame hide-back="true">
+  <SessionFrame hide-back>
     <div id="session-welcome">
       <router-link to="/">
         <img
