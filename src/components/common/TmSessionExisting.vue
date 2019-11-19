@@ -35,14 +35,14 @@
           route="login"
         />
         <LiSession
-          v-if="session.insecureMode"
+          v-if="isMobileApp || session.insecureMode"
           id="recover-with-backup"
           icon="settings_backup_restore"
           title="Recover with backup code"
           route="recover"
         />
       </div>
-      <router-link to="create">
+      <router-link to="create" class="footnote">
         Want to create a new address?
       </router-link>
     </div>

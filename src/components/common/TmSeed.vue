@@ -130,7 +130,7 @@ export default {
 }
 
 .seed-warning {
-  border: 2px solid var(--danger-bc);
+  border: 2px solid var(--warning);
   border-radius: 0.25rem;
   margin-bottom: 1rem;
   padding: 0.5rem;
@@ -138,9 +138,8 @@ export default {
 
 .seed-warning p {
   font-size: var(--sm);
-  color: var(--danger);
+  color: var(--warning);
   margin: 0;
-  text-align: center;
 }
 
 @media screen and (max-width: 360px) {

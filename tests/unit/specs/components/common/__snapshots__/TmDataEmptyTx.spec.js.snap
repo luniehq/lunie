@@ -32,14 +32,14 @@ exports[`TmDataEmptyTx has the expected html structure 1`] = `
     >
       <div>
         
-    Looks like there are no transactions associated with this address yet.
-    Head over to your
+    There are no transactions associated with this address yet. Head over to
+    your
     
         <router-link-stub
           to="[object Object]"
         >
           
-      Wallet
+      portfolio
     
         </router-link-stub>
         

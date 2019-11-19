@@ -90,6 +90,8 @@ module.exports = {
       "0"
     )
 
+    await nextBlock(browser)
+
     // check if tx shows
     browser.url(browser.launch_url + "/#/transactions")
     await waitForText(
