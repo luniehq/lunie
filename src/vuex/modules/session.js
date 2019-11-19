@@ -16,6 +16,7 @@ export default ({ apollo }) => {
     developmentMode: config.development, // can't be set in browser
     experimentalMode: config.development, // development mode, can be set from browser
     insecureMode: config.e2e || false, // show the local signer
+    mobile: config.mobileApp || false,
     signedIn: false,
     sessionType: null, // local, explore, ledger, extension
     pauseHistory: false,
@@ -63,8 +64,8 @@ export default ({ apollo }) => {
     setExperimentalMode(state) {
       state.experimentalMode = true
     },
-    setInsecureMode(state, insecureMode) {
-      state.insecureMode = insecureMode
+    setInsecureMode(state) {
+      state.insecureMode = true
     },
     addHistory(state, path) {
       state.history.push(path)

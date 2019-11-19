@@ -4,10 +4,10 @@
       No Transaction History
     </div>
     <div slot="subtitle">
-      Looks like there are no transactions associated with this address yet.
-      Head over to your
-      <router-link :to="{ name: 'wallet' }">
-        Wallet
+      There are no transactions associated with this address yet. Head over to
+      your
+      <router-link :to="{ name: 'portfolio' }">
+        portfolio
       </router-link>
       to make your first transaction!
     </div>

@@ -54,7 +54,8 @@
         </p>
         <div v-if="requiresSignIn" class="action-modal-form">
           <p class="form-message notice">
-            You need to sign in to submit a transaction.
+            You're using Lunie in explore mode. Please sign in or create an
+            account to proceed with this action.
           </p>
         </div>
         <div v-else-if="step === defaultStep" class="action-modal-form">
@@ -221,6 +222,12 @@
             </div>
           </TmDataMsg>
         </div>
+        <p
+          v-if="submissionError"
+          class="tm-form-msg sm tm-form-msg--error submission-error"
+        >
+          {{ submissionError }}
+        </p>
         <div class="action-modal-footer">
           <slot name="action-modal-footer">
             <TmFormGroup
@@ -268,12 +275,6 @@
               </div>
             </TmFormGroup>
           </slot>
-          <p
-            v-if="submissionError"
-            class="tm-form-msg sm tm-form-msg--error submission-error"
-          >
-            {{ submissionError }}
-          </p>
         </div>
       </template>
     </div>
@@ -282,6 +283,7 @@
 
 <script>
 import gql from "graphql-tag"
+import noScroll from "no-scroll"
 import HardwareState from "src/components/common/TmHardwareState"
 import TmBtn from "src/components/common/TmBtn"
 import TmField from "src/components/common/TmField"
@@ -419,7 +421,10 @@ export default {
       return this.network[action] === true
     },
     requiresSignIn() {
-      return !this.session.signedIn
+      return (
+        !this.session.signedIn ||
+        (this.isMobileApp && this.session.sessionType === sessionType.EXPLORE)
+      )
     },
     estimatedFee() {
       return Number(this.gasPrice) * Number(this.gasEstimate) // already in atoms
@@ -438,7 +443,9 @@ export default {
     },
     signMethods() {
       let signMethods = []
-      if (this.session.sessionType === sessionType.EXPLORE) {
+      if (this.isMobileApp && this.session.sessionType === sessionType.LOCAL) {
+        signMethods.push(signMethodOptions.LOCAL)
+      } else if (this.session.sessionType === sessionType.EXPLORE) {
         signMethods.push(signMethodOptions.LEDGER)
         signMethods.push(signMethodOptions.EXTENSION)
       } else if (this.session.sessionType === sessionType.LEDGER) {
@@ -532,8 +539,10 @@ export default {
       this.trackEvent(`event`, `modal`, this.title)
       this.gasPrice = config.default_gas_price.toFixed(9)
       this.show = true
+      if (config.isMobileApp) noScroll.on()
     },
     close() {
+      if (config.isMobileApp) noScroll.off()
       this.$store.commit(`setCurrrentModalOpen`, false)
       this.submissionError = null
       this.password = null
@@ -905,9 +914,7 @@ export default {
 }
 
 .submission-error {
-  position: absolute;
-  left: 1.5rem;
-  bottom: 1rem;
+  padding: 1rem;
 }
 
 .form-message {
@@ -942,6 +949,20 @@ export default {
   margin: 2rem 0 2rem 0;
 }
 
+/* max width of the action modal */
+@media screen and (max-width: 564px) {
+  .action-modal-footer {
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: var(--app-nav);
+    padding: 1rem;
+    border-top: 1px solid var(--bc);
+  }
+}
+
 @media screen and (max-width: 576px) {
   .tm-data-msg__icon {
     margin-right: 0;
@@ -962,6 +983,12 @@ export default {
   .action-modal {
     right: 0;
     top: 0;
+    overflow-x: scroll;
+    padding-bottom: 69px;
+  }
+
+  .action-modal-footer button {
+    width: 100%;
   }
 }
 </style>

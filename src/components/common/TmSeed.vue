@@ -1,5 +1,11 @@
 <template>
   <div class="seed-phrase">
+    <div class="seed-warning">
+      <p>
+        This backup code is all that is needed to access your account. Please
+        make sure to store it in a safe place.
+      </p>
+    </div>
     <div
       v-clipboard:copy="value"
       v-clipboard:success="() => onCopy()"
@@ -37,12 +43,6 @@
           </td>
         </tr>
       </table>
-    </div>
-    <div class="seed-warning">
-      <p>
-        Please write your backup code in a safe place. Word order matters, take
-        care to write them in the same order.
-      </p>
     </div>
   </div>
 </template>
@@ -110,6 +110,7 @@ export default {
   font-size: 0.8rem;
   cursor: pointer;
   margin-bottom: 0.2rem;
+  color: var(--link);
 }
 
 .copy-seed .material-icons {
@@ -120,25 +121,25 @@ export default {
   padding-bottom: 2px;
   padding-right: 0;
   transition: opacity 500ms ease;
+  color: var(--success);
+  opacity: 0;
 }
 
 .seed-phrase .copied.active {
-  color: var(--success);
   opacity: 1;
 }
 
 .seed-warning {
-  border: 2px solid var(--danger-bc);
+  border: 2px solid var(--warning);
   border-radius: 0.25rem;
-  margin-top: 1rem;
+  margin-bottom: 1rem;
   padding: 0.5rem;
 }
 
 .seed-warning p {
   font-size: var(--sm);
-  color: var(--danger);
+  color: var(--warning);
   margin: 0;
-  text-align: center;
 }
 
 @media screen and (max-width: 360px) {
