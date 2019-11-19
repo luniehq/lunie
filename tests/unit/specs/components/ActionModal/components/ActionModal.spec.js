@@ -6,7 +6,7 @@ import { focusParentLast } from "src/directives"
 const localVue = createLocalVue()
 localVue.use(Vuelidate)
 localVue.directive("focus-last", focusParentLast)
-localVue.directive("focus", () => {})
+localVue.directive("focus", () => { })
 
 let mockSimulate = jest.fn(() => 123456)
 let mockSend = jest.fn(() => ({
@@ -136,7 +136,7 @@ describe(`ActionModal`, () => {
     const self = {
       $store,
       actionManager: {
-        setContext: () => {},
+        setContext: () => { },
         simulate: () => 12345,
         send: ActionManagerSend
       },
@@ -150,7 +150,7 @@ describe(`ActionModal`, () => {
       },
       submissionErrorPrefix: `PREFIX`,
       trackEvent: jest.fn(),
-      connectLedger: () => {},
+      connectLedger: () => { },
       onSendingFailed: jest.fn()
     }
     await ActionModal.methods.submit.call(self)
@@ -398,7 +398,7 @@ describe(`ActionModal`, () => {
 
       wrapper.setProps({ transactionProperties })
       wrapper.setData(data)
-      wrapper.vm.simulate()
+      await wrapper.vm.simulate()
       wrapper.vm.$nextTick(() => {
         expect(wrapper.vm.gasEstimate).toBe(123456)
         expect(wrapper.vm.submissionError).toBe(null)
@@ -426,7 +426,7 @@ describe(`ActionModal`, () => {
 
       wrapper.setProps({ transactionProperties, amount: 1230 })
       wrapper.setData(data)
-      wrapper.vm.simulate()
+      await wrapper.vm.simulate()
       wrapper.vm.$nextTick(() => {
         expect(wrapper.vm.submissionError).toBe(null)
         expect(wrapper.vm.step).toBe("fees")
@@ -462,7 +462,7 @@ describe(`ActionModal`, () => {
 
       wrapper.setProps({ transactionProperties })
       wrapper.setData(data)
-      wrapper.vm.simulate()
+      await wrapper.vm.simulate()
       await wrapper.vm.$nextTick()
       expect(wrapper.vm.gasEstimate).toBe(null)
       expect(wrapper.vm.submissionError).toBe(
@@ -595,7 +595,7 @@ describe(`ActionModal`, () => {
         isValidInput: jest.fn(() => true),
         selectedSignMethod: `local`,
         step: `details`,
-        validateChangeStep: jest.fn(() => {})
+        validateChangeStep: jest.fn(() => { })
       }
     })
 
