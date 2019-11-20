@@ -39,7 +39,6 @@
       <TableProposals
         v-else
         :proposals="proposals"
-        :loading="$apollo.queries.proposals.loading"
       />
       <ModalPropose
         ref="modalPropose"
