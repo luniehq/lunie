@@ -49,7 +49,7 @@ new Vue({
   store,
   apolloProvider,
   mounted() {
-    if (config.MOBILE_APP) {
+    if (config.mobileApp) {
       SplashScreen.hide()
       StatusBar.show()
     }

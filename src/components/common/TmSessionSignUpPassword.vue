@@ -2,7 +2,7 @@
   <SessionFrame>
     <TmFormStruct :submit="onSubmit">
       <h2 class="session-title">
-        Choose a strong password
+        Choose a password
       </h2>
       <div v-if="!session.insecureMode && !session.mobile" class="session-main">
         <InsecureModeWarning />

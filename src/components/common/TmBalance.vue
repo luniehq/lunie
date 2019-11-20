@@ -9,7 +9,7 @@
       </div>
 
       <div class="row small-container">
-        <div class="available-atoms">
+        <div v-if="overview.totalStake > 0" class="available-atoms">
           <h3>Available {{ stakingDenom }}</h3>
           <h2>{{ overview.liquidStake | shortDecimals | noBlanks }}</h2>
         </div>

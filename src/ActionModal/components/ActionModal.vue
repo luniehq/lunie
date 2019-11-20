@@ -923,7 +923,6 @@ export default {
   font-style: italic;
   color: var(--dim);
   display: inline-block;
-  border-left: 2px solid var(--warning);
   padding: 0.5rem 0 0.5rem 1rem;
 }
 
