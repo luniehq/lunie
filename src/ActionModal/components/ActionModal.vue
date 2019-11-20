@@ -616,9 +616,14 @@ export default {
     },
     async simulate() {
       const { type, memo, ...properties } = this.transactionData
-      await this.actionManager.setMessage(type, properties)
+      // await this.actionManager.setMessage(type, properties)
       try {
-        this.gasEstimate = await this.actionManager.simulate(memo)
+        this.gasEstimate = await this.actionManager.simulateTxAPI(
+          this.createContext(),
+          type,
+          properties,
+          memo
+        )
         this.step = feeStep
       } catch ({ message }) {
         this.submissionError = `${this.submissionErrorPrefix}: ${message}.`

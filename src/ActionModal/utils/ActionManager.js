@@ -5,6 +5,27 @@ import { uatoms } from "scripts/num"
 import { toMicroDenom } from "src/scripts/common"
 import { getMessage, getMultiMessage } from "./MessageConstructor.js"
 
+const txFetchOptions = {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json'
+  }
+}
+
+const apiURL = config.graphqlHost
+console.log(config, apiURL)
+
+async function transactionAPIRequest(payload) {
+  // console.log(config)
+  const options = {
+    ...txFetchOptions,
+    body: JSON.stringify({payload})
+  }
+
+  return fetch(`http://localhost:4000/transaction`, options)
+  .then(r => r.json())
+}
+
 export default class ActionManager {
   constructor() {
     this.context = null
@@ -49,10 +70,25 @@ export default class ActionManager {
     if (!this.context) {
       throw Error("This modal has no context.")
     }
+    this.txProps = transactionProperties
 
     this.messageTypeCheck(type)
     this.messageType = type
     this.message = await getMessage(type, transactionProperties, this.context)
+  }
+
+  async simulateTxAPI(context, type, txProps, memo) {
+    const txPayload = {
+      simulate: true,
+      networkId: context.networkId,
+      address: context.userAddress,
+      txProperties: txProps,
+      memo
+    }
+    console.log(`Sending TX ${JSON.stringify(txPayload, null, 2)}`)
+    const result = await transactionAPIRequest(txPayload)
+    console.log(`TxAPI Response: ${JSON.stringify(result, null, 2)}`)
+    return result
   }
 
   async simulate(memo) {
