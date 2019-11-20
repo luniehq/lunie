@@ -37,14 +37,20 @@ describe(`TmBalance`, () => {
     expect(wrapper.text()).toContain("Total ATOM")
   })
 
-  it(`show empty stakes when not signed in`, () => {
+  it(`do not show available atoms when the user has none in the first place`, () => {
     // This *should* set overview to an empty Object, but the call is ignored?
     // Setting it to false has the desired effect.
-    wrapper.setData({ overview: false })
+    wrapper.setData({
+      overview: {
+        totalStake: 0,
+        liquidStake: 0,
+        totalRewards: 0
+      }
+    })
     expect(wrapper.element).toMatchSnapshot()
-    expect(wrapper.text()).toMatch(/Total ATOM.*--/s)
-    expect(wrapper.text()).not.toMatch(/Available ATOM.*--/s)
-    expect(wrapper.text()).not.toMatch(/Total Rewards/)
+    expect(wrapper.text()).toContain("Total ATOM")
+    expect(wrapper.text()).not.toContain("Available ATOM")
+    expect(wrapper.text()).not.toContain("Total Rewards")
   })
 
   it(`opens send modal`, () => {

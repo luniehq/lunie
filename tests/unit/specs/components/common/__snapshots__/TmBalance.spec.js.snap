@@ -1,5 +1,62 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`TmBalance do not show available atoms when the user has none in the first place 1`] = `
+<div
+  class="balance-header"
+>
+  <div
+    class="values-container"
+  >
+    <div
+      class="total-atoms"
+    >
+      <h3>
+        Total ATOM
+      </h3>
+       
+      <h2
+        class="total-atoms__value"
+      >
+        
+        0
+      
+      </h2>
+    </div>
+     
+    <div
+      class="row small-container"
+    >
+      <!---->
+       
+      <!---->
+    </div>
+  </div>
+   
+  <div
+    class="button-container"
+  >
+    <tmbtn-stub
+      class="send-button"
+      type="secondary"
+      value="Send"
+    />
+     
+    <tmbtn-stub
+      class="withdraw-rewards"
+      disabled="true"
+      id="withdraw-btn"
+      value="Claim Rewards"
+    />
+  </div>
+   
+  <sendmodal-stub
+    denom="ATOM"
+  />
+   
+  <modalwithdrawrewards-stub />
+</div>
+`;
+
 exports[`TmBalance show empty stakes when not signed in 1`] = `
 <div
   class="balance-header"
