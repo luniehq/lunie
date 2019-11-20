@@ -1,2 +1,0 @@
-[Fixed] mobile app config wasn't loaded properly in main.js @jbibla
-[Changed] [#3144](https://github.com/cosmos/lunie/issues/3144) hid available ATOM when zero balance for mobile and reduced confusion on desktop @jbibla
