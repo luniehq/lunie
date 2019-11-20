@@ -39,7 +39,6 @@ exports[`PageProposals shows a message if still loading 1`] = `
     </div>
      
     <tableproposals-stub
-      loading="true"
       proposals=""
     />
      

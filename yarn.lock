@@ -831,14 +831,6 @@
   resolved "https://registry.yarnpkg.com/@ledgerhq/logs/-/logs-4.72.0.tgz#43df23af013ad1135407e5cf33ca6e4c4c7708d5"
   integrity sha512-o+TYF8vBcyySRsb2kqBDv/KMeme8a2nwWoG+lAWzbDmWfb2/MrVWYCVYDYvjXdSoI/Cujqy1i0gIDrkdxa9chA==
 
-"@lunie/cosmos-api@npm:@lunie/cosmos-api@0.2.x", "cosmos-apiV2@npm:@lunie/cosmos-api@0.2.x":
-  version "0.2.2"
-  resolved "https://registry.yarnpkg.com/@lunie/cosmos-api/-/cosmos-api-0.2.2.tgz#17819a110082dd0c54a4410c6a067706b1a689bf"
-  integrity sha512-3PG5phSaAbRbPIKcisQmy0F+InfUFfgurqZq0zchge9PIBduSYciZWzWg+GDroE3NWJ96TAMTb5IlUSduc//oA==
-  dependencies:
-    "@babel/runtime" "^7.5.4"
-    axios "^0.19.0"
-
 "@lunie/cosmos-keys@0.1.0":
   version "0.1.0"
   resolved "https://registry.yarnpkg.com/@lunie/cosmos-keys/-/cosmos-keys-0.1.0.tgz#f7c4beba376d90866291913a8a862b3f55673b38"
@@ -3514,6 +3506,14 @@ cosmiconfig@^5.0.0, cosmiconfig@^5.2.1:
     "@babel/runtime" "^7.5.4"
     axios "^0.19.0"
 
+"cosmos-apiV2@npm:@lunie/cosmos-api@0.2.x":
+  version "0.2.2"
+  resolved "https://registry.yarnpkg.com/@lunie/cosmos-api/-/cosmos-api-0.2.2.tgz#17819a110082dd0c54a4410c6a067706b1a689bf"
+  integrity sha512-3PG5phSaAbRbPIKcisQmy0F+InfUFfgurqZq0zchge9PIBduSYciZWzWg+GDroE3NWJ96TAMTb5IlUSduc//oA==
+  dependencies:
+    "@babel/runtime" "^7.5.4"
+    axios "^0.19.0"
+
 create-ecdh@^4.0.0:
   version "4.0.3"
   resolved "https://registry.yarnpkg.com/create-ecdh/-/create-ecdh-4.0.3.tgz#c9111b6f33045c4697f144787f9254cdc77c45ff"
@@ -5583,7 +5583,7 @@ handle-thing@^2.0.0:
   resolved "https://registry.yarnpkg.com/handle-thing/-/handle-thing-2.0.0.tgz#0e039695ff50c93fc288557d696f3c1dc6776754"
   integrity sha512-d4sze1JNC454Wdo2fkuyzCr6aHcbL6PGGuFAz0Li/NcOm1tCHGnWDRmJP85dh9IhQErTc2svWFEX5xHIOo//kQ==
 
-handlebars@^4.0.3:
+handlebars@>=4.5.3, handlebars@^4.0.3:
   version "4.5.3"
   resolved "https://registry.yarnpkg.com/handlebars/-/handlebars-4.5.3.tgz#5cf75bd8714f7605713511a56be7c349becb0482"
   integrity sha512-3yPecJoJHK/4c6aZhSvxOyG4vJKDshV36VHp0iVCDVh7o9w2vwi3NSnL2MMPj3YdduqaBcu7cGbggJQM0br9xA==
