@@ -48,5 +48,30 @@
     "action_proposal": true,
     "default": true,
     "stakingDenom": "ATOM"
+  },
+  "terra-testnet": {
+    "id": "terra-testnet",
+    "title": "Terra",
+    "chain_id": "soyu-0010",
+    "api_url": "http://terra-columbus-2.lunie.io/",
+    "rpc_url": "wss://terra-columbus-2.lunie.io/websocket",
+    "bech32_prefix": "terra",
+    "testnet": true,
+    "feature_session": false,
+    "feature_portfolio": true,
+    "feature_validators": true,
+    "feature_proposals": true,
+    "feature_activity": true,
+    "feature_explorer": true,
+    "action_send": false,
+    "action_claim_rewards": false,
+    "action_delegate": false,
+    "action_redelegate": false,
+    "action_undelegate": false,
+    "action_deposit": false,
+    "action_vote": false,
+    "action_proposal": false,
+    "default": false,
+    "stakingDenom": "LUNA"
   }
 }
