@@ -28,12 +28,25 @@ export default {
     }
   },
   computed: {
+    ...mapState([`session`]),
     ...mapState([`connection`])
   },
   methods: {
     selectNetworkHandler(network) {
-      if (this.connection.network !== network.id) {
+      let confirm = this.confirmModalOpen()
+      if (this.connection.network !== network.id && confirm) {
         this.$store.dispatch(`setNetwork`, network)
+      }
+    },
+    confirmModalOpen() {
+      let confirm = false
+      if (this.session.signedIn) {
+        confirm = window.confirm(
+          `By switching the network you will get signed out of your current address: ${this.$store.state.session.address}`
+        )
+        return confirm
+      } else {
+        return true
       }
     }
   }

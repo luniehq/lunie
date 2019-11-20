@@ -2,10 +2,14 @@
   <SessionFrame>
     <TmFormStruct :submit="onSubmit">
       <h2 class="session-title">
-        Choose Password
+        Choose a password
       </h2>
-      <div v-if="session.insecureMode" class="session-main">
+      <div v-if="!session.insecureMode && !session.mobile" class="session-main">
+        <InsecureModeWarning />
+      </div>
+      <div v-else>
         <Steps
+          v-if="!session.mobile"
           :steps="[`Create`, `Password`, `Backup`]"
           active-step="Password"
         />
@@ -55,9 +59,6 @@
         <div class="session-footer">
           <TmBtn value="Next" type="submit" />
         </div>
-      </div>
-      <div v-if="!session.insecureMode" class="session-main">
-        <InsecureModeWarning />
       </div>
     </TmFormStruct>
   </SessionFrame>

@@ -35,6 +35,9 @@ describe(`NetworkList`, () => {
           state: {
             connection: {
               network: `cosmoshub`
+            },
+            session: {
+              signedIn: false
             }
           }
         },
@@ -67,5 +70,17 @@ describe(`NetworkList`, () => {
   it("does not change network when already selected", () => {
     wrapper.find(".select-network-item.selected").trigger("click")
     expect(wrapper.vm.$store.dispatch).not.toHaveBeenCalledWith()
+  })
+
+  it(`shows windows about switching networks`, async () => {
+    wrapper.setData({
+      session: {
+        signedIn: true,
+      }
+    })
+    const spy = jest.spyOn(window, `confirm`).mockImplementationOnce(() => {})
+    wrapper.find(".select-network-item:not(.selected)").trigger("click")
+    expect(spy).toHaveBeenCalled()
+    spy.mockRestore()
   })
 })

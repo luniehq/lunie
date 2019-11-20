@@ -65,7 +65,7 @@ async function actionModalCheckout(
 ) {
   // grab page we came from as we want to go to another page and come back
   let sourcePage
-  browser.url(function(result) {
+  browser.url(function (result) {
     sourcePage = result.value
   })
 
@@ -155,7 +155,7 @@ async function actionModalCheckout(
       expect(
         Math.abs(
           approximatedAvailableBalanceAfter -
-            (await getAvailableTokens(browser))
+          (await getAvailableTokens(browser))
         )
       ).to.be.lessThan(2) // acounting for rewards being withdrawn on an undelegation
     },

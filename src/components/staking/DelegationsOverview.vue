@@ -16,7 +16,7 @@
       </div>
       <div slot="subtitle">
         Head over to the
-        <router-link to="/validators"> validator list </router-link>&nbsp;to get
+        <router-link to="/validators"> validator list</router-link>&nbsp;to get
         staking!
       </div>
     </TmDataMsg>
