@@ -99,7 +99,7 @@ export default class ActionManager {
 
   // Withdrawing is a multi message for all validators you have bonds with
   async createMultiMessage(messageType, { validatorAddresses }) {
-    const messages = Promise.all(
+    const messages = await Promise.all(
       validatorAddresses.map(validatorAddress =>
         getMessage(
           messageType,
