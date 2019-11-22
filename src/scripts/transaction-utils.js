@@ -58,8 +58,40 @@ export const isPendingUndelegation = tx =>
 
 export const getCoin = transaction => {
   if (Array.isArray(transaction.value.amount)) {
+    // console.log(`getCoin:`, transaction.value.amount[0])
     return transaction.value.amount[0]
   } else {
     return transaction.value.amount
+  }
+}
+
+export const getMultiSendCoin = (transaction, sessionAddress) => {
+  // console.log(`transaction:`, transaction)
+  // console.log(`sessionAddress:`, sessionAddress)
+  // console.log(`sender:`, transaction.value.inputs[0].address)
+  if (transaction.value.inputs[0].address === sessionAddress) {
+    // Sent transaction
+    if (Array.isArray(transaction.value.inputs[0].coins)) {
+      return transaction.value.inputs[0].coins[0]
+    } else {
+      return transaction.value.inputs[0].coins
+    }
+  } else {
+    // Received transaction, find sessionAddress in outputs[]
+    // console.log(`sessionAddress`, sessionAddress)
+    let coins
+    transaction.value.outputs.map(function(output) {
+      // console.log(`recipient:`, output.address)
+      if (output.address === sessionAddress) {
+        // console.log(`Detected!`)
+        // console.log(`output.coins[0]:`, output.coins[0])
+        if (Array.isArray(output.coins)) {
+          coins = output.coins[0]
+        } else {
+          coins = output.coins
+        }
+      }
+    })
+    return coins
   }
 }

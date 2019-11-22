@@ -24,14 +24,13 @@ export default {
 @import "../../styles/variables.css";
 
 .tx__icon {
-  padding: 12px 0 12px 1rem;
+  padding: 1rem;
 }
 
 .tx__icon img {
   max-height: 100%;
   max-width: 52px;
   border: 2px solid;
-  border-radius: 50%;
   display: block;
   border-color: grey;
 }

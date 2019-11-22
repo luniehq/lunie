@@ -18,12 +18,12 @@
       </template>
       <template v-else-if="receivedToSessionAddress">
         From&nbsp;
-        <Bech32 :address="transaction.value.from_address" />
+        <Bech32 :address="transaction.value.inputs[0].address" />
       </template>
       <template v-else>
         From&nbsp;
-        <Bech32 :address="transaction.value.from_address" />&nbsp;to&nbsp;
-        <Bech32 :address="transaction.value.to_address" />
+        <Bech32 :address="transaction.value.inputs[0].address" />&nbsp;to&nbsp;
+        <Bech32 :address="sessionAddress" />
       </template>
       <span v-if="transaction.memo">&nbsp;- {{ transaction.memo }}</span>
     </div>
@@ -33,10 +33,10 @@
 <script>
 import { atoms, viewDenom, prettyLong } from "scripts/num.js"
 import Bech32 from "common/Bech32"
-import { getCoin } from "scripts/transaction-utils"
+import { getMultiSendCoin } from "scripts/transaction-utils"
 
 export default {
-  name: `send-message-details`,
+  name: `multi-send-message-details`,
   filters: {
     atoms,
     viewDenom,
@@ -62,7 +62,7 @@ export default {
   },
   computed: {
     coin() {
-      return getCoin(this.transaction)
+      return getMultiSendCoin(this.transaction, this.sessionAddress)
     },
     toYourself() {
       return (
@@ -83,13 +83,10 @@ export default {
       )
     },
     caption() {
-      if (
-        this.transaction.value.to_address === this.sessionAddress &&
-        this.transaction.value.from_address !== this.sessionAddress
-      ) {
-        return "Received"
-      } else {
+      if (this.transaction.value.inputs[0].address === this.sessionAddress) {
         return "Sent"
+      } else {
+        return "Received"
       }
     }
   }

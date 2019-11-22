@@ -1,9 +1,9 @@
 <template>
   <div>
-    <div class="tx__content__caption">
+    <div v-if="show === `caption`" class="tx__content__caption">
       <p>Unjail</p>
     </div>
-    <div class="tx__content__information">
+    <div v-if="show === `details`" class="tx__content__information">
       Name:
       <router-link :to="`staking/validators/${transaction.value.address}`">{{
         transaction.value.address | formatBech32
@@ -23,6 +23,10 @@ export default {
   props: {
     transaction: {
       type: Object,
+      required: true
+    },
+    show: {
+      type: String,
       required: true
     },
     validators: {

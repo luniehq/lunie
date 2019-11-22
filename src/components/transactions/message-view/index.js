@@ -1,4 +1,5 @@
 import SendMessageDetails from "./SendMessageDetails"
+import MultiSendMessageDetails from "./MultiSendMessageDetails"
 import DelegateMessageDetails from "./DelegateMessageDetails"
 import DepositMessageDetails from "./DepositMessageDetails"
 import EditValidatorMessageDetails from "./EditValidatorMessageDetails"
@@ -14,6 +15,7 @@ import WithdrawValidatorCommissionMessageDetails from "./WithdrawValidatorCommis
 
 export {
   SendMessageDetails,
+  MultiSendMessageDetails,
   DelegateMessageDetails,
   DepositMessageDetails,
   EditValidatorMessageDetails,

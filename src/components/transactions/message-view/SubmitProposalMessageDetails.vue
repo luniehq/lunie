@@ -1,13 +1,15 @@
 <template>
   <div>
-    <div class="tx__content__caption">
-      <p>
+    <div v-if="show === `caption`" class="tx__content__caption">
+      <div class="tx__content__left">
         Submitted {{ transaction.value.proposal_type.toLowerCase() }} proposal
-        <b>{{ initialDeposit.amount | atoms | prettyLong }}</b>
-        <span>&nbsp;{{ initialDeposit.denom | viewDenom }}</span>
-      </p>
+      </div>
+      <div class="tx__content__right">
+        {{ initialDeposit.amount | atoms | prettyLong }}&nbsp;
+        {{ initialDeposit.denom | viewDenom }}
+      </div>
     </div>
-    <div class="tx__content__information">
+    <div v-if="show === `details`" class="tx__content__information">
       Title&nbsp;<i>{{ transaction.value.title }}</i>
     </div>
   </div>
@@ -28,6 +30,10 @@ export default {
   props: {
     transaction: {
       type: Object,
+      required: true
+    },
+    show: {
+      type: String,
       required: true
     },
     validators: {

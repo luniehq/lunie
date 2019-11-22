@@ -1,9 +1,9 @@
 <template>
   <div>
-    <div class="tx__content__caption">
+    <div v-if="show === `caption`" class="tx__content__caption">
       <p>Update withdraw address</p>
     </div>
-    <div class="tx__content__information">
+    <div v-if="show === `details`" class="tx__content__information">
       To {{ transaction.value.withdraw_address }}
     </div>
   </div>
@@ -22,6 +22,10 @@ export default {
   props: {
     transaction: {
       type: Object,
+      required: true
+    },
+    show: {
+      type: String,
       required: true
     },
     validators: {

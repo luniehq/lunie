@@ -1,11 +1,11 @@
 <template>
   <div>
-    <div class="tx__content__caption">
+    <div v-if="show === `caption`" class="tx__content__caption">
       <p>
         Create validator
       </p>
     </div>
-    <div class="tx__content__information">
+    <div v-if="show === `details`" class="tx__content__information">
       Monikor&nbsp;
       <router-link
         :to="`staking/validators/${transaction.value.validator_address}`"
@@ -33,6 +33,10 @@ export default {
   props: {
     transaction: {
       type: Object,
+      required: true
+    },
+    show: {
+      type: String,
       required: true
     },
     validators: {

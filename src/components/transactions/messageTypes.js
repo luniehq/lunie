@@ -1,5 +1,6 @@
 const messageType = {
   SEND: "cosmos-sdk/MsgSend",
+  MULTISEND: "cosmos-sdk/MsgMultiSend",
   CREATE_VALIDATOR: "cosmos-sdk/MsgCreateValidator",
   EDIT_VALIDATOR: "cosmos-sdk/MsgEditValidator",
   DELEGATE: "cosmos-sdk/MsgDelegate",
@@ -16,6 +17,7 @@ const messageType = {
 
 const transactionGroup = {
   [messageType.SEND]: "banking",
+  [messageType.MULTISEND]: "banking",
   [messageType.CREATE_VALIDATOR]: "staking",
   [messageType.EDIT_VALIDATOR]: "staking",
   [messageType.DELEGATE]: "staking",

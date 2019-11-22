@@ -32,6 +32,10 @@ export default {
       type: Object,
       required: true
     },
+    show: {
+      type: String,
+      required: true
+    },
     validators: {
       type: Object,
       required: true

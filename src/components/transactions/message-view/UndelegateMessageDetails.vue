@@ -1,22 +1,25 @@
 <template>
   <div>
-    <div class="tx__content__caption">
-      <p>
-        Undelegated
-        <b>{{ coin.amount | atoms | prettyLong }}</b>
-        <span>&nbsp;{{ coin.denom | viewDenom }}</span>
-        <span v-if="transaction.liquidDate" class="tx-unbonding__time-diff"
-          >&nbsp;{{ liquidDateCaption }}</span
-        >
-      </p>
+    <div v-if="show === `caption`" class="tx__content__caption">
+      <div class="tx__content__left">
+        Unstaked
+      </div>
+      <div class="tx__content__right">
+        {{ coin.amount | atoms | prettyLong }}&nbsp;
+        {{ coin.denom | viewDenom }}
+      </div>
     </div>
-    <div class="tx__content__information">
+    <div v-if="show === `details`" class="tx__content__information">
       From&nbsp;
       <router-link :to="`/validators/${transaction.value.validator_address}`">
         {{
           transaction.value.validator_address | resolveValidatorName(validators)
         }}
       </router-link>
+      Liquid date&nbsp;
+      <span v-if="transaction.liquidDate" class="tx-unbonding__time-diff">
+        &nbsp;{{ liquidDateCaption }}
+      </span>
     </div>
   </div>
 </template>
@@ -40,6 +43,10 @@ export default {
       type: Object,
       required: true
     },
+    show: {
+      type: String,
+      required: true
+    },
     validators: {
       type: Object,
       required: true
@@ -55,22 +62,3 @@ export default {
   }
 }
 </script>
-
-<style>
-.tx__content__information,
-.tx__content__information > * {
-  display: flex;
-  flex-direction: row;
-}
-
-.tx__content__information {
-  font-size: 14px;
-  color: var(--dim);
-}
-
-.tx__content__caption {
-  line-height: 18px;
-  font-size: 18px;
-  color: var(--bright);
-}
-</style>

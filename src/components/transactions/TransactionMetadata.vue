@@ -1,15 +1,16 @@
 <template>
   <div>
+    <div class="tx__metadata">
+      Block:
+      <router-link :to="{ name: `block`, params: { height } }"
+        >#{{ height }}&nbsp;</router-link
+      >
+      @&nbsp;{{ date }}
+    </div>
     <div>
       Network Fee:&nbsp;
       <b>{{ fee.amount }}</b>
       <span> {{ fee.denom }}</span>
-    </div>
-    <div>
-      <router-link :to="{ name: `block`, params: { height } }"
-        >Block #{{ height }}&nbsp;</router-link
-      >
-      @&nbsp;{{ date }}
     </div>
   </div>
 </template>
@@ -48,3 +49,8 @@ export default {
   }
 }
 </script>
+<style scoped>
+.tx__metadata {
+  margin-top: 0.5rem;
+}
+</style>

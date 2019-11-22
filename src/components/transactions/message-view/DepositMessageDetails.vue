@@ -1,13 +1,15 @@
 <template>
   <div>
-    <div class="tx__content__caption">
-      <p>
+    <div v-if="show === `caption`" class="tx__content__caption">
+      <div class="tx__content__left">
         Deposited
-        <b>{{ deposit.amount | atoms | prettyLong }}</b>
-        <span>{{ deposit.denom | viewDenom }}</span>
-      </p>
+      </div>
+      <div class="tx__content__right">
+        {{ deposit.amount | atoms | prettyLong }}&nbsp;
+        {{ deposit.denom | viewDenom }}
+      </div>
     </div>
-    <div class="tx__content__information">
+    <div v-if="show === `details`" class="tx__content__information">
       On
       <router-link :to="`/governance/${transaction.value.proposal_id}`"
         >Proposal &#35;{{ transaction.value.proposal_id }}</router-link
@@ -31,6 +33,10 @@ export default {
   props: {
     transaction: {
       type: Object,
+      required: true
+    },
+    show: {
+      type: String,
       required: true
     },
     validators: {

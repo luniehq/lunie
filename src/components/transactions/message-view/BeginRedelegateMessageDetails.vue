@@ -1,13 +1,14 @@
 <template>
   <div>
-    <div class="tx__content__caption">
-      <p>
-        Redelegated
-        <b>{{ coin.amount | atoms | prettyLong }}</b>
-        <span>&nbsp;{{ coin.denom | viewDenom }}</span>
-      </p>
+    <div v-if="show === `caption`" class="tx__content__caption">
+      <div class="tx__content__left">
+        Restaked
+      </div>
+      <div class="tx__content__right">
+        {{ coin.amount | atoms | prettyLong }} {{ coin.denom | viewDenom }}
+      </div>
     </div>
-    <div class="tx__content__information">
+    <div v-if="show === `details`" class="tx__content__information">
       From&nbsp;
       <router-link
         :to="`staking/validators/${transaction.value.validator_src_address}`"
@@ -45,6 +46,10 @@ export default {
   props: {
     transaction: {
       type: Object,
+      required: true
+    },
+    show: {
+      type: String,
       required: true
     },
     validators: {
