@@ -6,9 +6,9 @@ import { toMicroDenom } from "src/scripts/common"
 import { getMessage, getMultiMessage } from "./MessageConstructor.js"
 
 const txFetchOptions = {
-  method: 'POST',
+  method: "POST",
   headers: {
-    'Content-Type': 'application/json'
+    "Content-Type": "application/json"
   }
 }
 
@@ -19,11 +19,10 @@ async function transactionAPIRequest(payload) {
   // console.log(config)
   const options = {
     ...txFetchOptions,
-    body: JSON.stringify({payload})
+    body: JSON.stringify({ payload })
   }
 
-  return fetch(`http://localhost:4000/transaction`, options)
-  .then(r => r.json())
+  return fetch(`${config.graphqlHost}/transaction`, options).then(r => r.json())
 }
 
 export default class ActionManager {
@@ -81,6 +80,7 @@ export default class ActionManager {
     const txPayload = {
       simulate: true,
       networkId: context.networkId,
+      messageType: type,
       address: context.userAddress,
       txProperties: txProps,
       memo
@@ -88,7 +88,11 @@ export default class ActionManager {
     console.log(`Sending TX ${JSON.stringify(txPayload, null, 2)}`)
     const result = await transactionAPIRequest(txPayload)
     console.log(`TxAPI Response: ${JSON.stringify(result, null, 2)}`)
-    return result
+    if (result.success) {
+      return result.gasEstimate
+    } else {
+      throw Error("simulation unsuccessful")
+    }
   }
 
   async simulate(memo) {
