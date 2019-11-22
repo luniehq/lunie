@@ -12,9 +12,6 @@ const txFetchOptions = {
   }
 }
 
-const apiURL = config.graphqlHost
-console.log(config, apiURL)
-
 async function transactionAPIRequest(payload) {
   // console.log(config)
   const options = {
