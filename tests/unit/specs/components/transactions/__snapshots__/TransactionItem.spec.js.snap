@@ -1,18 +1,23 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`TransactionItem renders a transaction item 1`] = `
-<div
-  class="tx"
->
-  <transactionicon-stub
-    transactiongroup="banking"
-  />
+<div>
+  <div
+    class="tx"
+  >
+    <transactionicon-stub
+      transactiongroup="banking"
+    />
+     
+    <send-message-details-stub
+      class="tx__content"
+      sessionaddress="cosmos1"
+      show="caption"
+      transaction="[object Object]"
+      validators="[object Object]"
+    />
+  </div>
    
-  <transactiondetails-stub
-    address="cosmos1"
-    showmetadata="true"
-    transaction="[object Object]"
-    validators="[object Object]"
-  />
+  <!---->
 </div>
 `;
