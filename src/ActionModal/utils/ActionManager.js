@@ -22,7 +22,7 @@ async function transactionAPIRequest(payload) {
     body: JSON.stringify({ payload })
   }
 
-  return fetch(`${config.graphqlHost}/transaction`, options).then(r => r.json())
+  return fetch(`${config.graphqlHost}/transaction/estimate`, options).then(r => r.json())
 }
 
 export default class ActionManager {
