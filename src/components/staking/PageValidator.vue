@@ -198,7 +198,8 @@ export default {
         { property: "og:type", content: "website" },
         {
           property: "og:url",
-          content: "https://app.lunie.io/validators/" + this.validator.address
+          content:
+            "https://app.lunie.io/validators/" + this.validator.operatorAddress
         },
         {
           property: "og:image",
@@ -206,17 +207,18 @@ export default {
         },
         {
           property: "og:description",
-          content: this.validator.description
+          content: this.validator.details
         },
         { name: "twitter:card", content: "summary" },
         {
           name: "twitter:site",
-          content: "https://app.lunie.io/validators/" + this.validator.address
+          content:
+            "https://app.lunie.io/validators/" + this.validator.operatorAddress
         },
         { name: "twitter:title", content: this.validator.name + " ← Lunie.io" },
         {
           name: "twitter:description",
-          content: this.validator.description
+          content: this.validator.details
         },
         { name: "twitter:creator", content: "@luniehq" },
         {
@@ -224,7 +226,7 @@ export default {
           content: this.validator.picture
         },
         { itemprop: "name", content: this.validator.name + " ← Lunie.io" },
-        { itemprop: "description", content: this.validator.description },
+        { itemprop: "description", content: this.validator.details },
         {
           itemprop: "image",
           content: this.validator.picture

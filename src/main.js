@@ -16,7 +16,6 @@ import config from "src/../config"
 import * as Sentry from "@sentry/browser"
 import * as Integrations from "@sentry/integrations"
 import "material-design-icons-iconfont/dist/material-design-icons.css"
-import Meta from "vue-meta"
 
 if (config.sentryDSN) {
   Sentry.init({
@@ -36,7 +35,6 @@ Vue.use(Tooltip, tooltipOptions)
 Vue.use(Vuelidate)
 Vue.use(VueClipboard)
 Vue.use(InfiniteScroll)
-Vue.use(Meta)
 
 Vue.directive(`focus`, focusElement)
 Vue.directive(`focus-last`, focusParentLast)

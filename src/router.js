@@ -2,9 +2,11 @@ import Router from "vue-router"
 import routes from "./routes"
 import { NetworkCapability, NetworkCapabilityResult } from "./gql"
 import Vue from "vue"
+import Meta from "vue-meta"
 
 /* istanbul ignore next */
 Vue.use(Router)
+Vue.use(Meta)
 
 export const routeGuard = (store, apollo) => async (to, from, next) => {
   // Set any open modal to false
