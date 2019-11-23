@@ -17,7 +17,7 @@
 }
 
 .session-logo {
-  height: 3rem;
+  height: 2.5rem;
   position: absolute;
   top: 1.25rem;
   left: 1.25rem;
@@ -44,8 +44,6 @@
 
 .session-main {
   flex: 1;
-
-  /* padding: 0 1rem; */
 }
 
 .session-main p {
@@ -53,11 +51,11 @@
 }
 
 .session-title {
-  font-size: var(--h2);
+  font-size: var(--h1);
   line-height: 44px;
   color: var(--bright);
-  font-weight: 400;
-  padding: 1rem 0 2rem 0;
+  font-weight: 500;
+  padding: 0.5rem 0 1rem 0;
   text-align: center;
 }
 
@@ -121,13 +119,13 @@
 }
 
 .session-logo-mobile {
-  display: none;
+  display: block;
+  height: 2.5rem;
+  margin: 1rem 1rem 3.5rem;
 }
 
 .field-checkbox-input {
   display: block;
-  padding-left: 1.5rem;
-  text-indent: -1.5rem;
   line-height: 14px;
   font-size: 14px;
 }
@@ -137,11 +135,12 @@
 }
 
 .session .material-icons.circle.back {
-  background: var(--app-nav-light);
+  background: var(--app-fg);
   color: var(--dim);
   border-radius: 50%;
-  padding: 0.4rem;
+  padding: 0.25rem;
   cursor: pointer;
+  font-size: var(--x);
 }
 
 @media screen and (min-width: 667px) {
@@ -149,12 +148,25 @@
     width: 100%;
     min-width: 560px;
   }
+
+  .field-checkbox-input {
+    padding-left: 1.5rem;
+    text-indent: -1.5rem;
+  }
+
+  .session-logo-mobile {
+    display: none;
+  }
+
+  .session-paragraph {
+    display: none;
+  }
 }
 
-@media screen and (max-width: 667px) {
+@media screen and (max-width: 666px) {
   .session {
     height: 100vh;
-    padding: 1rem;
+    padding: 1.5rem 1rem 1rem;
   }
 
   .session-outer-container {
@@ -165,27 +177,26 @@
     display: none;
   }
 
-  .session-logo-mobile {
-    display: block;
-    height: 3rem;
-    margin: 1rem;
+  .session-title.welcome {
+    display: none;
   }
 
   .session-footer {
+    position: fixed;
+    bottom: 0;
+    left: 0; 
+    right: 0;
     width: 100%;
-    flex-direction: column;
+    padding: 1rem;
+    background: var(--app-fg);
+  }
+
+  .session-footer button {
+    width: 100%;
   }
 }
 
 @media screen and (max-width: 1023px) {
-  /* .session-header,
-  .session-title,
-  .session-main,
-  .session-footer {
-    padding-left: 0;
-    padding-right: 0;
-  } */
-
   .session-frame .session-close {
     display: none;
   }

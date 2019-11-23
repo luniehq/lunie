@@ -1,11 +1,11 @@
 <template>
   <tr
     class="li-validator"
-    :data-moniker="validator.moniker"
+    :data-name="validator.name"
     @click="
       $router.push({
         name: 'validator',
-        params: { validator: validator.operator_address }
+        params: { validator: validator.operatorAddress }
       })
     "
   >
@@ -13,37 +13,37 @@
     <td class="hide-xs">
       <div class="status-container">
         <span
-          :class="status | toLower"
+          :class="validator.status | toLower"
           class="validator-status"
-          :title="status_detailed"
+          :title="validator.statusDetailed"
         >
-          {{ status }}
+          {{ validator.status }}
         </span>
       </div>
     </td>
     <td class="data-table__row__info">
       <Avatar
-        v-if="!validator || !validator.avatarUrl"
+        v-if="!validator || !validator.picture"
         class="li-validator-image"
         alt="generic validator logo - generated avatar from address"
-        :address="validator.operator_address"
+        :address="validator.operatorAddress"
       />
       <img
-        v-else-if="validator && validator.avatarUrl"
-        :src="validator.avatarUrl"
+        v-else-if="validator && validator.picture"
+        :src="validator.picture"
         class="li-validator-image"
-        :alt="`validator logo for ` + validator.moniker"
+        :alt="`validator logo for ` + validator.name"
       />
       <div class="validator-info">
         <h3 class="li-validator-name">
-          {{ validator.moniker }}
+          {{ validator.name }}
         </h3>
-        <div v-if="validator.my_delegations > 0">
+        <div v-if="delegation.amount > 0">
           <h4>
-            {{ validator.my_delegations | atoms | shortDecimals }}
+            {{ delegation.amount | shortDecimals }}
           </h4>
-          <h5 v-if="validator.rewards > 0">
-            +{{ validator.rewards | atoms | shortDecimals }}
+          <h5 v-if="rewards.amount > 0.001">
+            +{{ rewards.amount | shortDecimals }}
           </h5>
         </div>
       </div>
@@ -54,7 +54,7 @@
       }}
     </td>
     <td :class="{ 'hide-xs': showOnMobile !== 'voting-power' }">
-      {{ validator.voting_power | percent }}
+      {{ validator.votingPower | percent }}
     </td>
   </tr>
 </template>
@@ -79,6 +79,14 @@ export default {
       type: Object,
       required: true
     },
+    delegation: {
+      type: Object,
+      default: () => ({})
+    },
+    rewards: {
+      type: Object,
+      default: () => ({})
+    },
     index: {
       type: Number,
       required: true
@@ -87,23 +95,6 @@ export default {
       type: String,
       /* istanbul ignore next */
       default: () => "returns"
-    }
-  },
-  computed: {
-    status() {
-      if (
-        this.validator.jailed ||
-        this.validator.tombstoned ||
-        this.validator.status === 0
-      )
-        return `Inactive`
-      return `Active`
-    },
-    status_detailed() {
-      if (this.validator.jailed) return `Temporally banned from the network`
-      if (this.validator.tombstoned) return `Banned from the network`
-      if (this.validator.status === 0) return `Banned from the network`
-      return false
     }
   },
   methods: {

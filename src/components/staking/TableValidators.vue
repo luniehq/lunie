@@ -9,16 +9,17 @@
         />
       </thead>
       <tbody
-        is="transition-group"
         v-infinite-scroll="loadMore"
         infinite-scroll-distance="400"
         name="flip-list"
       >
         <LiValidator
           v-for="(validator, index) in showingValidators"
-          :key="validator.operator_address"
+          :key="validator.operatorAddress"
           :index="index"
           :validator="validator"
+          :delegation="getDelegation(validator)"
+          :rewards="getRewards(validator)"
           :show-on-mobile="showOnMobile"
         />
       </tbody>
@@ -27,11 +28,12 @@
 </template>
 
 <script>
-import { mapGetters, mapState } from "vuex"
+import { mapGetters } from "vuex"
 import orderBy from "lodash.orderby"
 import LiValidator from "staking/LiValidator"
 import PanelSort from "staking/PanelSort"
-import { expectedReturns } from "scripts/returns"
+import gql from "graphql-tag"
+
 export default {
   name: `table-validators`,
   components: {
@@ -43,60 +45,31 @@ export default {
       type: Array,
       required: true
     },
+    delegations: {
+      type: Array,
+      default: () => []
+    },
     showOnMobile: {
       type: String,
       default: () => "returns"
     }
   },
   data: () => ({
-    query: ``,
+    rewards: [],
     sort: {
       property: `expectedReturns`,
       order: `desc`
     },
-    showing: 15,
-    rollingWindow: 10000 // param of slashing period
+    showing: 15
   }),
   computed: {
-    ...mapState([`distribution`, `pool`, `session`]),
-    ...mapState({
-      annualProvision: state => state.minting.annualProvision
-    }),
-    ...mapGetters([`committedDelegations`, `bondDenom`, `lastHeader`]),
-    enrichedValidators(
-      {
-        validators,
-        pool,
-        annualProvision,
-        committedDelegations,
-        session,
-        distribution
-      } = this
-    ) {
-      return validators.map(v => {
-        return Object.assign({}, v, {
-          small_moniker: v.moniker.toLowerCase(),
-          my_delegations:
-            session.signedIn && committedDelegations[v.operator_address] > 0
-              ? committedDelegations[v.operator_address]
-              : 0,
-          rewards:
-            session.signedIn && distribution.rewards[v.operator_address]
-              ? distribution.rewards[v.operator_address][this.bondDenom]
-              : 0,
-          expectedReturns: annualProvision
-            ? expectedReturns(
-                v,
-                parseInt(pool.pool.bonded_tokens),
-                parseFloat(annualProvision)
-              )
-            : undefined
-        })
-      })
-    },
+    ...mapGetters([`address`, `network`]),
     sortedEnrichedValidators() {
       return orderBy(
-        this.enrichedValidators.slice(0),
+        this.validators.map(validator => ({
+          ...validator,
+          smallName: validator.name ? validator.name.toLowerCase() : ""
+        })),
         [this.sort.property],
         [this.sort.order]
       )
@@ -107,9 +80,14 @@ export default {
     properties() {
       return [
         {
+          title: `Status`,
+          value: `status`,
+          tooltip: `Validation status of the validator`
+        },
+        {
           title: `Name`,
-          value: `small_moniker`,
-          tooltip: `The validator's moniker`
+          value: `smallName`,
+          tooltip: `The validator's name`
         },
         {
           title: `Rewards`,
@@ -118,19 +96,13 @@ export default {
         },
         {
           title: `Voting Power`,
-          value: `voting_power`,
+          value: `votingPower`,
           tooltip: `Percentage of voting shares`
         }
       ]
     }
   },
   watch: {
-    lastHeader: {
-      immediate: true,
-      handler() {
-        this.$store.dispatch(`getRewardsFromMyValidators`)
-      }
-    },
     "sort.property": function() {
       this.showing = 15
     },
@@ -139,13 +111,47 @@ export default {
     }
   },
   mounted() {
-    this.$store.dispatch(`getPool`)
-    this.$store.dispatch(`getRewardsFromMyValidators`)
-    this.$store.dispatch(`getMintingParameters`)
+    this.$apollo.queries.rewards.startPolling(1000 * 60 * 5)
   },
   methods: {
     loadMore() {
       this.showing += 10
+    },
+    getDelegation({ operatorAddress }) {
+      return this.delegations.find(
+        ({ validator }) => validator.operatorAddress === operatorAddress
+      )
+    },
+    getRewards({ operatorAddress }) {
+      return this.rewards.find(
+        ({ validator }) => validator.operatorAddress === operatorAddress
+      )
+    }
+  },
+  apollo: {
+    rewards: {
+      query: gql`
+        query Rewards($networkId: String!, $delegatorAddress: String!) {
+          rewards(networkId: $networkId, delegatorAddress: $delegatorAddress) {
+            validator {
+              operatorAddress
+            }
+            amount
+          }
+        }
+      `,
+      skip() {
+        return !this.address
+      },
+      variables() {
+        return {
+          networkId: this.network,
+          delegatorAddress: this.address
+        }
+      },
+      update: result => {
+        return result.rewards || []
+      }
     }
   }
 }
@@ -163,5 +169,21 @@ export default {
 
 .flip-list-move {
   transition: transform 0.3s;
+}
+
+.data-table >>> th:first-child {
+  width: 5%;
+  color: var(--dim);
+  font-size: var(--sm);
+}
+
+.data-table >>> th:nth-child(2) {
+  width: 10%;
+  color: var(--dim);
+  font-size: var(--sm);
+}
+
+.data-table >>> th:nth-child(3) {
+  width: 50%;
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <SessionFrame>
+  <SessionFrame hide-back>
     <div id="session-welcome">
       <router-link to="/">
         <img
@@ -9,17 +9,18 @@
         />
       </router-link>
 
-      <h2 class="session-title">
+      <h2 class="session-title welcome">
         Welcome to Lunie
       </h2>
 
       <p class="session-paragraph">
-        The easiest way to send, stake, and vote on the Cosmos Hub.
+        Lunie is the staking and governance platform for proof-of-stake
+        blockchains.
       </p>
 
       <div class="session-list">
         <LiSession
-          id="creat-new-address"
+          id="create-new-address"
           icon="person_add"
           title="Create a new address"
           route="create"
@@ -55,8 +56,3 @@ export default {
   }
 }
 </script>
-<style scoped>
-.session-title {
-  padding: 0 1rem;
-}
-</style>

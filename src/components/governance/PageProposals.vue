@@ -1,11 +1,11 @@
 <template>
-  <TmPage
+  <PageContainer
     data-title="Proposals"
     :managed="true"
-    :loading="proposals.loading"
-    :loaded="proposals.loaded"
-    :error="proposals.error"
-    :data-empty="Object.keys(proposals.proposals).length === 0"
+    :loading="
+      $apollo.queries.proposals.loading && $apollo.queries.parameters.loading
+    "
+    :error="$apollo.queries.proposals.error || $apollo.queries.parameters.error"
     hide-header
   >
     <template slot="no-data">
@@ -35,42 +35,94 @@
           @click.native="onPropose"
         />
       </div>
+      <TmDataLoading v-if="$apollo.loading" />
       <TableProposals
-        :proposals="proposals.proposals"
-        :loading="proposals.loading"
+        v-else
+        :proposals="proposals"
+      />
+      <ModalPropose
+        ref="modalPropose"
+        :denom="parameters.depositDenom"
+        @success="() => afterPropose()"
       />
     </template>
-
-    <ModalPropose ref="modalPropose" :denom="depositDenom" />
-  </TmPage>
+  </PageContainer>
 </template>
 
 <script>
 import ModalPropose from "src/ActionModal/components/ModalPropose"
 import TableProposals from "governance/TableProposals"
 import TmBtn from "common/TmBtn"
-import TmPage from "common/TmPage"
+import PageContainer from "common/PageContainer"
 import TmDataMsg from "common/TmDataMsg"
-import { mapState, mapGetters } from "vuex"
+import TmDataLoading from "common/TmDataLoading"
+import { mapGetters } from "vuex"
+import { GovernanceParameters } from "src/gql"
+import gql from "graphql-tag"
+
 export default {
   name: `page-proposals`,
   components: {
     ModalPropose,
     TableProposals,
     TmDataMsg,
+    TmDataLoading,
     TmBtn,
-    TmPage
+    PageContainer
   },
+  data: () => ({
+    proposals: [],
+    parameters: {
+      depositDenom: "xxx"
+    }
+  }),
   computed: {
-    ...mapState([`proposals`]),
-    ...mapGetters([`depositDenom`])
-  },
-  mounted() {
-    this.$store.dispatch(`getProposals`)
+    ...mapGetters([`network`])
   },
   methods: {
     onPropose() {
       this.$refs.modalPropose.open()
+    },
+    afterPropose() {
+      this.$apollo.queries.proposals.refetch()
+      this.$store.commit("invalidateCache", [`overview`, `transactions`])
+    }
+  },
+  apollo: {
+    proposals: {
+      query() {
+        /* istanbul ignore next */
+        return gql`
+          query proposals($networkId: String!) {
+            proposals(networkId: $networkId) {
+              id
+              type
+              title
+              description
+              status
+            }
+          }
+        `
+      },
+      variables() {
+        return {
+          networkId: this.network
+        }
+      },
+      update(data) {
+        /* istanbul ignore next */
+        return data.proposals
+      }
+    },
+    parameters: {
+      query() {
+        /* istanbul ignore next */
+        return GovernanceParameters(this.network)
+      },
+      update(data) {
+        /* istanbul ignore next */
+        return data.governanceParameters
+      }
     }
   }
 }

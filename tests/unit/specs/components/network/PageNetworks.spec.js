@@ -23,6 +23,15 @@ describe(`PageNetworks`, () => {
     }
   ]
 
+  const $apollo = {
+    queries: {
+      parameters: {
+        loading: false,
+        error: undefined
+      }
+    }
+  }
+
   beforeEach(() => {
     wrapper = shallowMount(PageNetworks, {
       localVue,
@@ -40,7 +49,8 @@ describe(`PageNetworks`, () => {
         },
         $router: {
           push: jest.fn()
-        }
+        },
+        $apollo
       },
       stubs: [`router-link`]
     })

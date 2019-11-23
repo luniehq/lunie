@@ -1,7 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`TmSessionWelcome has the expected html structure 1`] = `
-<sessionframe-stub>
+<sessionframe-stub
+  hideback="true"
+>
   <div
     id="session-welcome"
   >
@@ -16,7 +18,7 @@ exports[`TmSessionWelcome has the expected html structure 1`] = `
     </router-link-stub>
      
     <h2
-      class="session-title"
+      class="session-title welcome"
     >
       
       Welcome to Lunie
@@ -27,7 +29,8 @@ exports[`TmSessionWelcome has the expected html structure 1`] = `
       class="session-paragraph"
     >
       
-      The easiest way to send, stake, and vote on the Cosmos Hub.
+      Lunie is the staking and governance platform for proof-of-stake
+      blockchains.
     
     </p>
      
@@ -36,7 +39,7 @@ exports[`TmSessionWelcome has the expected html structure 1`] = `
     >
       <lisession-stub
         icon="person_add"
-        id="creat-new-address"
+        id="create-new-address"
         route="create"
         title="Create a new address"
       />
@@ -80,7 +83,9 @@ exports[`TmSessionWelcome has the expected html structure 1`] = `
 `;
 
 exports[`TmSessionWelcome has the expected html structure when on mobile 1`] = `
-<sessionframe-stub>
+<sessionframe-stub
+  hideback="true"
+>
   <div
     id="session-welcome"
   >
@@ -95,7 +100,7 @@ exports[`TmSessionWelcome has the expected html structure when on mobile 1`] = `
     </router-link-stub>
      
     <h2
-      class="session-title"
+      class="session-title welcome"
     >
       
       Welcome to Lunie
@@ -106,7 +111,8 @@ exports[`TmSessionWelcome has the expected html structure when on mobile 1`] = `
       class="session-paragraph"
     >
       
-      The easiest way to send, stake, and vote on the Cosmos Hub.
+      Lunie is the staking and governance platform for proof-of-stake
+      blockchains.
     
     </p>
      
@@ -115,7 +121,7 @@ exports[`TmSessionWelcome has the expected html structure when on mobile 1`] = `
     >
       <lisession-stub
         icon="person_add"
-        id="creat-new-address"
+        id="create-new-address"
         route="create"
         title="Create a new address"
       />

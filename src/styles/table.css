@@ -25,6 +25,18 @@
   left: -1.5rem;
 }
 
+.data-table th {
+  padding: 0.5rem 2rem;
+  text-align: left;
+}
+
+.data-table td {
+  padding: 0.5rem 2rem;
+  position: relative;
+  vertical-align: middle;
+  width: 100%;
+}
+
 .data-table th:first-child {
   width: 5%;
   color: var(--dim);

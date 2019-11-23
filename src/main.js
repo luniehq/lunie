@@ -15,6 +15,7 @@ import { Plugins } from "@capacitor/core"
 import config from "src/../config"
 import * as Sentry from "@sentry/browser"
 import * as Integrations from "@sentry/integrations"
+import "material-design-icons-iconfont/dist/material-design-icons.css"
 
 if (config.sentryDSN) {
   Sentry.init({
@@ -25,7 +26,12 @@ if (config.sentryDSN) {
 
 Vue.config.productionTip = false
 
-Vue.use(Tooltip, { delay: 1 })
+let tooltipOptions = { delay: 1 }
+if (config.mobileApp) {
+  tooltipOptions = { class: `hide` }
+}
+Vue.use(Tooltip, tooltipOptions)
+
 Vue.use(Vuelidate)
 Vue.use(VueClipboard)
 Vue.use(InfiniteScroll)
@@ -43,7 +49,9 @@ new Vue({
   store,
   apolloProvider,
   mounted() {
-    SplashScreen.hide()
-    StatusBar.show()
+    if (config.mobileApp) {
+      SplashScreen.hide()
+      StatusBar.show()
+    }
   }
 }).$mount("#app")

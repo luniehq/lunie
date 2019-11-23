@@ -14,6 +14,9 @@ describe(`AppMenu`, () => {
         session: {
           signedIn: true
         }
+      },
+      getters: {
+        address: `cosmos1`
       }
     }
 
@@ -45,5 +48,17 @@ describe(`AppMenu`, () => {
     const self = { $store, $router: { push: jest.fn() }, $emit: jest.fn() }
     AppMenu.methods.signOut.call(self)
     expect(self.$emit).toHaveBeenCalledWith(`close`)
+  })
+
+  it(`should close menu and reset scroll on click`, () => {
+    global.window = Object.create(window)
+    Object.defineProperty(window, `scrollTo`, {
+      value: jest.fn()
+    })
+    const $store = { dispatch: jest.fn() }
+    const self = { $store, $router: { push: jest.fn() }, $emit: jest.fn() }
+    AppMenu.methods.handleClick.call(self)
+    expect(self.$emit).toHaveBeenCalledWith(`close`)
+    expect(window.scrollTo).toHaveBeenCalledWith(0, 0)
   })
 })

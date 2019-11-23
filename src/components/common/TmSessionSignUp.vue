@@ -4,16 +4,17 @@
       <h2 class="session-title">
         Create a new address
       </h2>
-      <div v-if="!session.insecureMode" class="session-main">
+      <div v-if="!session.insecureMode && !session.mobile" class="session-main">
         <InsecureModeWarning />
       </div>
       <div v-else>
         <div class="session-main">
           <Steps
+            v-if="!session.mobile"
             :steps="[`Create`, `Password`, `Backup`]"
             active-step="Create"
           />
-          <DangerZoneWarning />
+          <DangerZoneWarning v-if="!session.mobile" />
           <TmFormGroup
             :error="$v.fieldName.$error"
             field-id="sign-up-name"

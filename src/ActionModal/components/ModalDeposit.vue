@@ -10,6 +10,7 @@
     :transaction-data="transactionData"
     :notify-message="notifyMessage"
     @close="clear"
+    @txIncluded="onSuccess"
   >
     <TmFormGroup
       :error="$v.amount.$error && $v.amount.$invalid"
@@ -20,7 +21,7 @@
       <span class="input-suffix">{{ denom | viewDenom }}</span>
       <TmField id="amount" v-model="amount" type="number" />
       <TmFormMsg
-        v-if="balance === 0"
+        v-if="balance.amount === 0"
         :msg="`doesn't have any ${viewDenom(denom)}s`"
         name="Wallet"
         type="custom"
@@ -47,14 +48,16 @@
 </template>
 
 <script>
-import { mapState } from "vuex"
-import { uatoms, atoms, viewDenom, SMALLEST } from "src/scripts/num"
+import { mapGetters } from "vuex"
+import gql from "graphql-tag"
+import { uatoms, viewDenom, SMALLEST } from "src/scripts/num"
 import { between, decimal } from "vuelidate/lib/validators"
 import TmField from "src/components/common/TmField"
 import TmFormGroup from "src/components/common/TmFormGroup"
 import TmFormMsg from "src/components/common/TmFormMsg"
 import ActionModal from "./ActionModal"
 import transaction from "../utils/transactionTypes"
+import { toMicroDenom } from "src/scripts/common"
 
 export default {
   name: `modal-deposit`,
@@ -82,14 +85,15 @@ export default {
     }
   },
   data: () => ({
-    amount: 0
+    amount: 0,
+    balance: {
+      amount: 0,
+      denom: ``
+    }
   }),
   computed: {
-    ...mapState([`wallet`]),
-    balance() {
-      const denom = this.wallet.balances.find(b => b.denom === this.denom)
-      return (denom && denom.amount) || 0
-    },
+    ...mapGetters([`network`]),
+    ...mapGetters({ userAddress: `address` }),
     transactionData() {
       return {
         type: transaction.DEPOSIT,
@@ -97,7 +101,7 @@ export default {
         amounts: [
           {
             amount: uatoms(this.amount),
-            denom: this.denom
+            denom: toMicroDenom(this.denom)
           }
         ]
       }
@@ -116,7 +120,7 @@ export default {
       amount: {
         required: x => !!x && x !== `0`,
         decimal,
-        between: between(SMALLEST, atoms(this.balance))
+        between: between(SMALLEST, this.balance.amount)
       }
     }
   },
@@ -134,6 +138,35 @@ export default {
       this.$v.$reset()
 
       this.amount = 0
+    },
+    onSuccess(event) {
+      this.$emit(`success`, event)
+    }
+  },
+  apollo: {
+    balance: {
+      query: gql`
+        query BalanceModalDeposit(
+          $networkId: String!
+          $address: String!
+          $denom: String!
+        ) {
+          balance(networkId: $networkId, address: $address, denom: $denom) {
+            amount
+            denom
+          }
+        }
+      `,
+      skip() {
+        return !this.userAddress
+      },
+      variables() {
+        return {
+          networkId: this.network,
+          address: this.userAddress,
+          denom: this.denom
+        }
+      }
     }
   }
 }

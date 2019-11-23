@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`TmBalance show the balance header 1`] = `
+exports[`TmBalance do not show available atoms when the user has none in the first place 1`] = `
 <div
   class="balance-header"
 >
@@ -11,7 +11,64 @@ exports[`TmBalance show the balance header 1`] = `
       class="total-atoms"
     >
       <h3>
-        Total STAKE
+        Total ATOM
+      </h3>
+       
+      <h2
+        class="total-atoms__value"
+      >
+        
+        0
+      
+      </h2>
+    </div>
+     
+    <div
+      class="row small-container"
+    >
+      <!---->
+       
+      <!---->
+    </div>
+  </div>
+   
+  <div
+    class="button-container"
+  >
+    <tmbtn-stub
+      class="send-button"
+      type="secondary"
+      value="Send"
+    />
+     
+    <tmbtn-stub
+      class="withdraw-rewards"
+      disabled="true"
+      id="withdraw-btn"
+      value="Claim Rewards"
+    />
+  </div>
+   
+  <sendmodal-stub
+    denom="ATOM"
+  />
+   
+  <modalwithdrawrewards-stub />
+</div>
+`;
+
+exports[`TmBalance show the balance header when signed in 1`] = `
+<div
+  class="balance-header"
+>
+  <div
+    class="values-container"
+  >
+    <div
+      class="total-atoms"
+    >
+      <h3>
+        Total ATOM
       </h3>
        
       <h2
@@ -30,7 +87,7 @@ exports[`TmBalance show the balance header 1`] = `
         class="available-atoms"
       >
         <h3>
-          Available STAKE
+          Available ATOM
         </h3>
          
         <h2>
@@ -46,7 +103,7 @@ exports[`TmBalance show the balance header 1`] = `
         </h3>
          
         <h2>
-          +1,000,450
+          1,000.45
         </h2>
       </div>
     </div>
@@ -68,11 +125,10 @@ exports[`TmBalance show the balance header 1`] = `
     />
   </div>
    
-  <sendmodal-stub />
-   
-  <modalwithdrawrewards-stub
-    denom="stake"
-    rewards="1000450000000"
+  <sendmodal-stub
+    denom="ATOM"
   />
+   
+  <modalwithdrawrewards-stub />
 </div>
 `;
