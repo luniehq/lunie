@@ -153,6 +153,12 @@ export default {
   cursor: pointer;
 }
 
+.tx:hover {
+  cursor: pointer;
+  background: var(--hover-bg);
+  color: var(--bright);
+}
+
 .tx.show {
   margin-bottom: 0;
 }
