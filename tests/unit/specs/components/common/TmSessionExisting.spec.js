@@ -15,7 +15,7 @@ describe(`TmSessionExisting`, () => {
       },
       keystore: {
         accounts: []
-      },
+      }
     }
     $store = {
       state,

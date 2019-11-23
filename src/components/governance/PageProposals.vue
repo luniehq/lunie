@@ -36,10 +36,7 @@
         />
       </div>
       <TmDataLoading v-if="$apollo.loading" />
-      <TableProposals
-        v-else
-        :proposals="proposals"
-      />
+      <TableProposals v-else :proposals="proposals" />
       <ModalPropose
         ref="modalPropose"
         :denom="parameters.depositDenom"
