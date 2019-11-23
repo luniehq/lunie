@@ -35,7 +35,10 @@ export default {
     selectNetworkHandler(network) {
       let confirm = this.confirmModalOpen()
       if (this.connection.network !== network.id && confirm) {
-        this.$store.dispatch(`setNetwork`, network)
+        this.$store.dispatch(`setNetwork`, {
+          id: network.id,
+          title: network.title
+        })
       }
     },
     confirmModalOpen() {

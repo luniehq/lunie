@@ -18,7 +18,7 @@ function setOptions(urlParams, store) {
     store.commit(`setInsecureMode`)
   }
   if (urlParams.network) {
-    store.dispatch(`setNetwork`, { id: urlParams.network })
+    store.dispatch(`setNetworkId`, { id: urlParams.network })
   }
 }
 

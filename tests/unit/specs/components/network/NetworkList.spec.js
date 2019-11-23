@@ -58,7 +58,7 @@ describe(`NetworkList`, () => {
 
   it("sets new network when clicking list item", () => {
     wrapper.find(".select-network-item:not(.selected)").trigger("click")
-    expect(wrapper.vm.$store.dispatch).toHaveBeenCalledWith(`setNetwork`, {
+    expect(wrapper.vm.$store.dispatch).toHaveBeenCalledWith(`setNetworkId`, {
       id: "gaia-testnet",
       chain_id: "gaia-123",
       logo_url: "cosmos-logo.png",
@@ -78,7 +78,7 @@ describe(`NetworkList`, () => {
         signedIn: true,
       }
     })
-    const spy = jest.spyOn(window, `confirm`).mockImplementationOnce(() => {})
+    const spy = jest.spyOn(window, `confirm`).mockImplementationOnce(() => { })
     wrapper.find(".select-network-item:not(.selected)").trigger("click")
     expect(spy).toHaveBeenCalled()
     spy.mockRestore()

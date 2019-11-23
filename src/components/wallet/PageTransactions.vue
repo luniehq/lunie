@@ -32,6 +32,9 @@ import gql from "graphql-tag"
 
 export default {
   name: `page-transactions`,
+  metaInfo: {
+    title: "My Activity | Transactions"
+  },
   components: {
     TransactionList,
     DataEmptyTx,

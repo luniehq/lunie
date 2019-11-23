@@ -50,6 +50,9 @@ import SessionFrame from "common/SessionFrame.vue"
 import LiSession from "common/TmLiSession"
 export default {
   name: `session-welcome`,
+  metaInfo: {
+    title: "Welcome!"
+  },
   components: {
     SessionFrame,
     LiSession

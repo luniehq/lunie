@@ -18,6 +18,9 @@ import TmDataLoading from "common/TmDataLoading"
 import TmPage from "common/TmPage"
 export default {
   name: `page-network`,
+  metaInfo: {
+    title: "Proof of Stake Networks | Cosmos Hub, Terra, Lino"
+  },
   components: {
     TmPage,
     NetworkList,

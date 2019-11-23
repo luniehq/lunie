@@ -39,7 +39,7 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex"
+import { mapGetters, mapState } from "vuex"
 import TmDataLoading from "common/TmDataLoading"
 import TableValidators from "staking/TableValidators"
 import TmPage from "common/TmPage"
@@ -49,6 +49,11 @@ import gql from "graphql-tag"
 
 export default {
   name: `tab-validators`,
+  metaInfo() {
+    return {
+      title: this.connection.networkTitle + " Validator Set"
+    }
+  },
   components: {
     TableValidators,
     TmDataLoading,
@@ -62,6 +67,7 @@ export default {
     validators: []
   }),
   computed: {
+    ...mapState([`connection`]),
     ...mapGetters([`address`, `network`]),
     validatorsPlus() {
       return this.validators.map(validator => ({

@@ -36,10 +36,7 @@
         />
       </div>
       <TmDataLoading v-if="$apollo.loading" />
-      <TableProposals
-        v-else
-        :proposals="proposals"
-      />
+      <TableProposals v-else :proposals="proposals" />
       <ModalPropose
         ref="modalPropose"
         :denom="parameters.depositDenom"
@@ -56,12 +53,17 @@ import TmBtn from "common/TmBtn"
 import PageContainer from "common/PageContainer"
 import TmDataMsg from "common/TmDataMsg"
 import TmDataLoading from "common/TmDataLoading"
-import { mapGetters } from "vuex"
+import { mapGetters, mapState } from "vuex"
 import { GovernanceParameters } from "src/gql"
 import gql from "graphql-tag"
 
 export default {
   name: `page-proposals`,
+  metaInfo() {
+    return {
+      title: this.connection.networkTitle + " Proposals"
+    }
+  },
   components: {
     ModalPropose,
     TableProposals,
@@ -77,6 +79,7 @@ export default {
     }
   }),
   computed: {
+    ...mapState([`connection`]),
     ...mapGetters([`network`])
   },
   methods: {

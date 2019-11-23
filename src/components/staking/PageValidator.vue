@@ -185,6 +185,53 @@ function getStatusText(statusDetailed) {
 
 export default {
   name: `page-validator`,
+  metaInfo() {
+    return {
+      title:
+        this.validator.name +
+        " | " +
+        this.connection.networkTitle +
+        " Validator",
+      meta: [
+        { property: "og:title", content: this.validator.name + " ← Lunie.io" },
+        { property: "og:site_name", content: "Lunie.io" },
+        { property: "og:type", content: "website" },
+        {
+          property: "og:url",
+          content: "https://app.lunie.io/validators/" + this.validator.address
+        },
+        {
+          property: "og:image",
+          content: this.validator.picture
+        },
+        {
+          property: "og:description",
+          content: this.validator.description
+        },
+        { name: "twitter:card", content: "summary" },
+        {
+          name: "twitter:site",
+          content: "https://app.lunie.io/validators/" + this.validator.address
+        },
+        { name: "twitter:title", content: this.validator.name + " ← Lunie.io" },
+        {
+          name: "twitter:description",
+          content: this.validator.description
+        },
+        { name: "twitter:creator", content: "@luniehq" },
+        {
+          name: "twitter:image:src",
+          content: this.validator.picture
+        },
+        { itemprop: "name", content: this.validator.name + " ← Lunie.io" },
+        { itemprop: "description", content: this.validator.description },
+        {
+          itemprop: "image",
+          content: this.validator.picture
+        }
+      ]
+    }
+  },
   components: {
     Bech32,
     DelegationModal,
@@ -209,14 +256,16 @@ export default {
     }
   },
   data: () => ({
-    validator: {},
+    validator: {
+      name: ""
+    },
     rewards: 0,
     delegation: {},
     error: false,
     loaded: false
   }),
   computed: {
-    ...mapState([`session`]),
+    ...mapState([`session`, `connection`]),
     ...mapGetters([`network`]),
     ...mapGetters({ userAddress: `address` })
   },

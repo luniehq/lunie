@@ -201,6 +201,11 @@ import gql from "graphql-tag"
 
 export default {
   name: `page-proposal`,
+  metaInfo() {
+    return {
+      title: this.proposal.title + " | Proposal " + this.proposal.id
+    }
+  },
   components: {
     TmBtn,
     ModalDeposit,
@@ -232,7 +237,9 @@ export default {
       status: "",
       proposer: "",
       tally: {},
-      validator: {}
+      validator: {},
+      title: "",
+      id: ""
     },
     parameters: {
       depositDenom: "TESTCOIN"

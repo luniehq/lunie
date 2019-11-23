@@ -14,6 +14,9 @@ import Undelegations from "staking/Undelegations"
 
 export default {
   name: `page-portfolio`,
+  metaInfo: {
+    title: "My Staking Portfolio"
+  },
   components: {
     TmPage,
     Undelegations,

@@ -30,6 +30,10 @@ import config from "src/../config"
 
 export default {
   name: `app`,
+  metaInfo: {
+    title: "Lunie — Simple Staking Wallet | Staking Rewards",
+    titleTemplate: "%s ← Lunie.io"
+  },
   components: {
     AppHeader,
     TmNotifications,

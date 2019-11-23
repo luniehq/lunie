@@ -52,7 +52,8 @@ const createApolloClient = urlParams => {
   return new ApolloClient({
     link,
     cache,
-    connectToDevTools: true
+    connectToDevTools: true,
+    resolvers: {}
   })
 }
 
