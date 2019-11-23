@@ -1,21 +1,20 @@
 {
   "name": "lunie",
-  "version": "1.0.0-beta.140",
+  "version": "1.0.0-beta.144",
   "description": "Lunie is the staking and governance platform for proof-of-stake blockchains.",
   "author": "Lunie International Software Systems Inc. <hello@lunie.io>",
   "scripts": {
-    "serve": "kill-port 9080 && vue-cli-service serve --port 9080",
-    "serve:dist": "live-server --port=9080 --no-browser ./dist",
-    "serve:mobile": "cross-env MOBILE_APP=true npm run serve",
     "build": "vue-cli-service build",
     "build:mobile": "cross-env MOBILE_APP=true npm run build",
+    "changelog": "simsala log --pending-path ./changes",
     "lint": "vue-cli-service lint",
     "lint:style": "vue-cli-service lint:style",
-    "changelog": "simsala log --pending-path ./changes",
     "release": "git checkout develop & git pull & git push origin develop:release",
     "release:android": "git checkout develop && node ./tasks/bump-android-version.js && git commit android/app/build.gradle -m 'updated android app version' && git push origin develop:release-android",
     "release:ios": "git checkout develop && node ./tasks/bump-ios-version.js && git commit ios/App/App/Info.plist -m 'updated ios app version' && git push origin develop:release-ios",
-    "serve:ios": "npx cap open ios & npm run serve",
+    "serve": "kill-port 9080 && vue-cli-service serve --port 9080",
+    "serve:dist": "live-server --port=9080 --no-browser ./dist",
+    "serve:mobile": "cross-env MOBILE_APP=true npm run serve",
     "test": "npm run test:unit && npm run test:e2e",
     "test:coverage": "live-server ./coverage/lcov-report",
     "test:coverage-branch": "npm run test:unit -- --coverage && git diff origin/develop | diff-test-coverage -c ./coverage/lcov.info -t lcov --",
@@ -30,7 +29,6 @@
     "@babel/polyfill": "^7.4.4",
     "@dicebear/avatars": "3.1.4",
     "@dicebear/avatars-jdenticon-sprites": "1.1.4",
-    "@lunie/cosmos-api": "0.1.2",
     "@lunie/cosmos-keys": "0.1.0",
     "@lunie/cosmos-ledger": "0.0.5",
     "@sentry/browser": "5.7.1",
@@ -46,6 +44,8 @@
     "bignumber.js": "^8.1.1",
     "camelcase": "^5.3.0",
     "core-js": "^2.6.5",
+    "cosmos-apiV0": "npm:@lunie/cosmos-api@0.1.x",
+    "cosmos-apiV2": "npm:@lunie/cosmos-api@0.2.x",
     "cross-spawn": "7.0.1",
     "crypto-js": "^3.1.9-1",
     "graphql": "14.4.2",
@@ -126,6 +126,7 @@
   },
   "resolutions": {
     "braces": ">=2.3.1",
-    "https-proxy-agent": ">=3.0.0"
+    "https-proxy-agent": ">=3.0.0",
+    "handlebars": ">=4.5.3"
   }
 }

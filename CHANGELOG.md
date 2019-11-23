@@ -7,6 +7,73 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.0-beta.144] - 2019-11-22
+
+### Added
+
+- Added icons for Terra @faboweb
+
+### Fixed
+
+- [#3176](https://github.com/cosmos/lunie/pull/3176) Withdrawal was not working as message was empty @colw
+
+## [1.0.0-beta.143] - 2019-11-21
+
+### Added
+
+- Added icons for Terra @faboweb
+
+### Fixed
+
+- [#3176](https://github.com/cosmos/lunie/pull/3176) Withdrawal was not working as message was empty @colw
+
+## [1.0.0-beta.142] - 2019-11-20
+
+### Added
+
+- [#3074](https://github.com/cosmos/lunie/issues/3074) Now it is possible to navigate within the proposals themselves forwards and backwards @Bitcoinera
+- [#3141](https://github.com/cosmos/lunie/pull/3141) Loading indidcator for proposal list @colw
+- Added icons and splash screens for Android @faboweb
+- Sign across Cosmos SDK v0 and Cosmos SDK v2 @faboweb
+
+### Changed
+
+- [#2982](https://github.com/cosmos/lunie/issues/2982) Now user gets signed out every time they switch networks @Bitcoinera
+- [#3063](https://github.com/cosmos/lunie/issues/3063) Now Lunie remembers the last network you selected. Network persistency @Bitcoinera
+- [#3133](https://github.com/cosmos/lunie/issues/3133) Now the networks page also has a loader @Bitcoinera
+- [#3077](https://github.com/cosmos/lunie/issues/3077) fixed button to bottom on forms and addressed some strange scrolling behaviour @jbibla
+- [#3101](https://github.com/cosmos/lunie/issues/3101) only load StatusBar on mobile devices to avoid console error in browsers @jbibla
+- changed the material-icons package to only download iconfonts instead of all assets @jbibla
+- session screens handle mobile and insecure modes properly @jbibla
+- [#3144](https://github.com/cosmos/lunie/issues/3144) hid available ATOM when zero balance for mobile and reduced confusion on desktop @jbibla
+- [#3115](https://github.com/cosmos/lunie/issues/3115) Hide tooltips on mobile app @mariopino
+- [#3148](https://github.com/cosmos/lunie/issues/3148) Do not show cookie warn in mobile app @mariopino
+
+### Fixed
+
+- [#3145](https://github.com/cosmos/lunie/issues/3145) Fix the voting period dates displayed @Bitcoinera
+- [#3128](https://github.com/cosmos/lunie/pull/3128) Mobile app header not showing and Networks showing in the mobile app menu @Bitcoinera
+- [#3130](https://github.com/cosmos/lunie/issues/3130) Delegation rewards were not displaying in validator list @colw
+- refetching from network only was failing @faboweb
+- fixing failing e2e tests @faboweb
+- [#3151](https://github.com/cosmos/lunie/pull/3151) removed package-lock.json to solve build issue in bitrise @jbibla
+- mobile app config wasn't loaded properly in main.js @jbibla
+- [#3119](https://github.com/cosmos/lunie/issues/3119) Fix scroll to top when open a new page that needs scroll @mariopino
+- [#3131](https://github.com/cosmos/lunie/issues/3131) Don't show the loading screen when using search bar @mariopino
+- [#3146](https://github.com/cosmos/lunie/issues/3146) Fix insecure mode handling @mariopino
+
+## [1.0.0-beta.141] - 2019-11-18
+
+### Changed
+
+- [#3077](https://github.com/cosmos/lunie/issues/3077) fixed button to bottom on forms and addressed some strange scrolling behaviour @jbibla
+- [#3101](https://github.com/cosmos/lunie/issues/3101) only load StatusBar on mobile devices to avoid console error in browsers @jbibla
+- changed the material-icons package to only download iconfonts instead of all assets @jbibla
+
+### Fixed
+
+- [#3151](https://github.com/cosmos/lunie/pull/3151) removed package-lock.json to solve build issue in bitrise @jbibla
+
 ## [1.0.0-beta.140] - 2019-11-15
 
 ### Fixed

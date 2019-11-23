@@ -1,14 +1,13 @@
-import Cosmos from "@lunie/cosmos-api"
 import config from "src/../config"
 import { getSigner } from "./signer"
 import transaction from "./transactionTypes"
 import { uatoms } from "scripts/num"
 import { toMicroDenom } from "src/scripts/common"
+import { getMessage, getMultiMessage } from "./MessageConstructor.js"
 
 export default class ActionManager {
   constructor() {
     this.context = null
-    this.cosmos = null
     this.message = null
   }
 
@@ -17,7 +16,6 @@ export default class ActionManager {
       throw Error("Context cannot be empty")
     }
     this.context = context
-    this.cosmos = new Cosmos(this.context.url || "", this.context.chainId || "")
   }
 
   readyCheck() {
@@ -47,17 +45,14 @@ export default class ActionManager {
     }
   }
 
-  setMessage(type, transactionProperties) {
+  async setMessage(type, transactionProperties) {
     if (!this.context) {
       throw Error("This modal has no context.")
     }
 
     this.messageTypeCheck(type)
     this.messageType = type
-    this.message = this.cosmos[type](
-      this.context.userAddress,
-      transactionProperties
-    )
+    this.message = await getMessage(type, transactionProperties, this.context)
   }
 
   async simulate(memo) {
@@ -78,7 +73,7 @@ export default class ActionManager {
     })
 
     if (this.messageType === transaction.WITHDRAW) {
-      this.message = this.createWithdrawTransaction()
+      this.message = await this.createWithdrawTransaction()
     }
 
     const messageMetadata = {
@@ -92,24 +87,30 @@ export default class ActionManager {
     return { included, hash }
   }
 
-  createWithdrawTransaction() {
+  async createWithdrawTransaction() {
     const addresses = getTop5RewardsValidators(
       this.context.bondDenom,
       this.context.rewards
     )
-    return this.createMultiMessage(
-      transaction.WITHDRAW,
-      this.context.userAddress,
-      { validatorAddresses: addresses }
-    )
+    return await this.createMultiMessage(transaction.WITHDRAW, {
+      validatorAddresses: addresses
+    })
   }
 
   // Withdrawing is a multi message for all validators you have bonds with
-  createMultiMessage(type, senderAddress, { validatorAddresses }) {
-    const messages = validatorAddresses.map(validatorAddress =>
-      this.cosmos[type](senderAddress, { validatorAddress })
+  async createMultiMessage(messageType, { validatorAddresses }) {
+    const messages = await Promise.all(
+      validatorAddresses.map(validatorAddress =>
+        getMessage(
+          messageType,
+          {
+            validatorAddress
+          },
+          this.context
+        )
+      )
     )
-    return this.cosmos.MultiMessage(senderAddress, messages)
+    return await getMultiMessage(this.context, messages)
   }
 }
 

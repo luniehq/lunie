@@ -52,7 +52,7 @@ export default {
         query: UserTransactionAdded,
         result({ data }) {
           if (data.userTransactionAdded.success) {
-            refetchNetworkOnly(this.$apollo.query.undelegations)
+            refetchNetworkOnly(this.$apollo.queries.undelegations)
           }
         }
       }

@@ -163,10 +163,10 @@
   }
 }
 
-@media screen and (max-width: 667px) {
+@media screen and (max-width: 666px) {
   .session {
     height: 100vh;
-    padding: 1rem;
+    padding: 1.5rem 1rem 1rem;
   }
 
   .session-outer-container {
@@ -177,7 +177,7 @@
     display: none;
   }
 
-  .session-title {
+  .session-title.welcome {
     display: none;
   }
 

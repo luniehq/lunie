@@ -24,7 +24,6 @@ if (config.sentryDSN) {
   })
 }
 
-
 Vue.config.productionTip = false
 
 let tooltipOptions = { delay: 1 }
@@ -50,7 +49,7 @@ new Vue({
   store,
   apolloProvider,
   mounted() {
-    if (config.MOBILE_APP) {
+    if (config.mobileApp) {
       SplashScreen.hide()
       StatusBar.show()
     }

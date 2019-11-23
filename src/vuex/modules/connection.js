@@ -27,6 +27,7 @@ export default function() {
       localStorage.setItem(`network`, JSON.stringify(network.id))
     },
     async setNetwork({ commit, dispatch }, network) {
+      dispatch(`signOut`)
       dispatch(`persistNetwork`, network)
       commit("setNetworkId", network.id)
       console.info(`Connecting to: ${network.id}`)
