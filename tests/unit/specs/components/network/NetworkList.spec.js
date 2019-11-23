@@ -75,10 +75,10 @@ describe(`NetworkList`, () => {
   it(`shows windows about switching networks`, async () => {
     wrapper.setData({
       session: {
-        signedIn: true,
+        signedIn: true
       }
     })
-    const spy = jest.spyOn(window, `confirm`).mockImplementationOnce(() => { })
+    const spy = jest.spyOn(window, `confirm`).mockImplementationOnce(() => {})
     wrapper.find(".select-network-item:not(.selected)").trigger("click")
     expect(spy).toHaveBeenCalled()
     spy.mockRestore()

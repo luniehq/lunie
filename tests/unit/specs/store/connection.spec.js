@@ -42,14 +42,14 @@ describe(`Module: Connection`, () => {
       `network`,
       JSON.stringify([
         {
-          network: `awesomenet`,
+          network: `awesomenet`
         }
       ])
     )
     await actions.checkForPersistedNetwork({ commit })
     expect(commit).toHaveBeenCalledWith(`setNetworkId`, [
       {
-        network: `awesomenet`,
+        network: `awesomenet`
       }
     ])
   })

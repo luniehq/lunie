@@ -1,6 +1,6 @@
 import config from "src/../config"
 
-export default function () {
+export default function() {
   const state = {
     stopConnecting: false,
     connected: true, // TODO do connection test
@@ -30,10 +30,13 @@ export default function () {
       }
     },
     async persistNetwork(store, network) {
-      localStorage.setItem(`network`, JSON.stringify({
-        id: network.id,
-        title: network.title
-      }))
+      localStorage.setItem(
+        `network`,
+        JSON.stringify({
+          id: network.id,
+          title: network.title
+        })
+      )
     },
     async setNetwork({ commit, dispatch }, network) {
       dispatch(`signOut`)
