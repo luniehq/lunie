@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <div class="tx" :class="{ show }" @click="toggleDetail()">
+  <div class="tx">
+    <div class="tx-caption" @click="toggleDetail()">
       <TransactionIcon :transaction-group="transaction.group"></TransactionIcon>
       <component
         :is="messageTypeComponent"
@@ -11,22 +11,24 @@
         class="tx__content"
       />
     </div>
-    <div v-if="show" class="tx-details">
-      <component
-        :is="messageTypeComponent"
-        show="details"
-        :transaction="transaction"
-        :validators="validators"
-        :session-address="address"
-        class="tx__content"
-      />
-      <TransactionMetadata
-        v-if="showMetaData"
-        :fee="transaction.fee"
-        :height="transaction.height"
-        :timestamp="new Date(transaction.timestamp)"
-      />
-    </div>
+    <transition name="fade">
+      <div v-if="show" class="tx-details">
+        <component
+          :is="messageTypeComponent"
+          show="details"
+          :transaction="transaction"
+          :validators="validators"
+          :session-address="address"
+          class="tx__content"
+        />
+        <TransactionMetadata
+          v-if="showMetaData"
+          :fee="transaction.fee"
+          :height="transaction.height"
+          :timestamp="new Date(transaction.timestamp)"
+        />
+      </div>
+    </transition>
   </div>
 </template>
 
@@ -142,9 +144,13 @@ export default {
 
 <style>
 .tx {
+  margin-bottom: 0.5rem;
+}
+
+.tx-caption {
   display: flex;
   align-items: center;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0;
   border: 1px solid var(--bc-dim);
   border-radius: 5px;
   background: var(--app-fg);
@@ -153,22 +159,18 @@ export default {
   cursor: pointer;
 }
 
-.tx:hover {
+.tx-caption:hover {
   cursor: pointer;
   background: var(--hover-bg);
   color: var(--bright);
 }
 
-.tx.show {
-  margin-bottom: 0;
-}
-
-.tx .copied {
+.tx-caption .copied {
   position: absolute;
   bottom: 0;
 }
 
-.tx b {
+.tx-caption b {
   font-weight: 500;
 }
 
@@ -223,6 +225,14 @@ export default {
   font-size: 18px;
   color: var(--bright);
   padding: 1rem 1rem 1rem 0;
+}
+
+.fade-enter-active, .fade-leave-active {
+  transition: opacity 0.5s;
+}
+
+.fade-enter, .fade-leave-to {
+  opacity: 0;
 }
 
 @media screen and (max-width: 767px) {
