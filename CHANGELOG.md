@@ -7,6 +7,18 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.0-beta.145] - 2019-11-24
+
+### Added
+
+- Added icons for Terra @faboweb
+
+### Fixed
+
+- [#3176](https://github.com/cosmos/lunie/pull/3176) Withdrawal was not working as message was empty @colw
+- Refetching undelegations failed @faboweb
+- [#3184](https://github.com/cosmos/lunie/issues/3184) signing in with an existing account was restricted to insecure mode but is now enabled in mobile @jbibla
+
 ## [1.0.0-beta.144] - 2019-11-22
 
 ### Added
