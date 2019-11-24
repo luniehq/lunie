@@ -5,6 +5,9 @@ const env = process.env.NODE_ENV || 'development'
 module.exports = {
   env: env,
   port: process.env.PORT || '4000',
+  queryPath: '/',
+  transactionPath: '/transaction',
+  subscriptionPath: '/graphql',
   apollo_engine_api_key: process.env.ENGINE_API_KEY || '',
   enable_cache: process.env.ENABLE_CACHE || false,
   redis_url: process.env.REDIS_URL || '',
