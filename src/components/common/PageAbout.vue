@@ -53,7 +53,7 @@
         To send transactions with Lunie, you'll have to sign them with your
         Ledger Nano. If you don't have a Ledger Nano, you can
         <a
-          href="https://shop.ledger.com/?r=3dd204ef7508?ref=lunie"
+          href="https://shop.ledger.com/?r=3dd204ef7508&ref=lunie"
           target="_blank"
           rel="noopener norefferer"
           >buy one here</a
