@@ -60,7 +60,7 @@
     "feature_session": false,
     "feature_portfolio": true,
     "feature_validators": true,
-    "feature_proposals": true,
+    "feature_proposals": false,
     "feature_activity": true,
     "feature_explorer": true,
     "action_send": false,
