@@ -186,17 +186,17 @@
 import { mapGetters } from "vuex"
 import { atoms, percent, prettyInt } from "scripts/num"
 import { date, fromNow } from "src/filters"
-import TmBtn from "common/TmBtn"
-import TmDataError from "common/TmDataError"
-import TmDataLoading from "common/TmDataLoading"
-import TextBlock from "common/TextBlock"
-import ModalDeposit from "src/ActionModal/components/ModalDeposit"
-import ModalVote from "src/ActionModal/components/ModalVote"
-import TmPage from "common/TmPage"
+const TmBtn = () => import("common/TmBtn")
+const TmDataError = () => import("common/TmDataError")
+const TmDataLoading = () => import("common/TmDataLoading")
+const TextBlock = () => import("common/TextBlock")
+const ModalDeposit = () => import("src/ActionModal/components/ModalDeposit")
+const ModalVote = () => import("src/ActionModal/components/ModalVote")
+const TmPage = () => import("common/TmPage")
+const Bech32 = () => import("common/Bech32")
 import { getProposalStatus } from "scripts/proposal-status"
 import { ProposalItem, GovernanceParameters, Vote } from "src/gql"
 import BigNumber from "bignumber.js"
-import Bech32 from "common/Bech32"
 import gql from "graphql-tag"
 
 export default {

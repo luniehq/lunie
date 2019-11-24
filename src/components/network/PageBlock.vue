@@ -53,10 +53,10 @@
 import { mapGetters } from "vuex"
 import { date } from "src/filters"
 import gql from "graphql-tag"
+const TmPage = () => import("common/TmPage")
+const TransactionList = () => import("transactions/TransactionList")
+const TmDataMsg = () => import("common/TmDataMsg")
 
-import TmPage from "common/TmPage"
-import TransactionList from "transactions/TransactionList"
-import TmDataMsg from "common/TmDataMsg"
 export default {
   name: `page-block`,
   components: {

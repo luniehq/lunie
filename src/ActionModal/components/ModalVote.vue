@@ -64,9 +64,8 @@
 <script>
 import { required } from "vuelidate/lib/validators"
 import ActionModal from "./ActionModal"
-import TmBtn from "src/components/common/TmBtn"
-import TmFormMsg from "src/components/common/TmFormMsg"
-
+const TmBtn = () => import("src/components/common/TmBtn")
+const TmFormMsg = () => import("src/components/common/TmFormMsg")
 import transaction from "../utils/transactionTypes"
 
 const isValid = option =>

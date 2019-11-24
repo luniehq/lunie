@@ -12,8 +12,8 @@
 
 <script>
 import { Networks, NetworksResult } from "src/gql"
-import NetworkList from "./NetworkList"
-import TmDataLoading from "common/TmDataLoading"
+const NetworkList = () => import("./NetworkList")
+const TmDataLoading = () => import("common/TmDataLoading")
 
 import TmPage from "common/TmPage"
 export default {

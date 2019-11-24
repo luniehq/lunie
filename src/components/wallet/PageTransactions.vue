@@ -25,9 +25,9 @@
 
 <script>
 import { mapGetters } from "vuex"
-import DataEmptyTx from "common/TmDataEmptyTx"
-import TmPage from "common/TmPage"
-import TransactionList from "transactions/TransactionList"
+const DataEmptyTx = () => import("common/TmDataEmptyTx")
+const TmPage = () => import("common/TmPage")
+const TransactionList = () => import("transactions/TransactionList")
 import gql from "graphql-tag"
 
 export default {

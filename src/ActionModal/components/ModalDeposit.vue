@@ -52,10 +52,10 @@ import { mapGetters } from "vuex"
 import gql from "graphql-tag"
 import { uatoms, viewDenom, SMALLEST } from "src/scripts/num"
 import { between, decimal } from "vuelidate/lib/validators"
-import TmField from "src/components/common/TmField"
-import TmFormGroup from "src/components/common/TmFormGroup"
-import TmFormMsg from "src/components/common/TmFormMsg"
-import ActionModal from "./ActionModal"
+const TmField = () => import("src/components/common/TmField")
+const TmFormGroup = () => import("src/components/common/TmFormGroup")
+const TmFormMsg = () => import("src/components/common/TmFormMsg")
+const ActionModal = () => import("./ActionModal")
 import transaction from "../utils/transactionTypes"
 import { toMicroDenom } from "src/scripts/common"
 

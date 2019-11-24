@@ -135,13 +135,13 @@ import { mapState, mapGetters } from "vuex"
 import { between, decimal } from "vuelidate/lib/validators"
 import gql from "graphql-tag"
 import { uatoms, SMALLEST } from "src/scripts/num"
-import TmField from "src/components/common/TmField"
-import TmFieldGroup from "src/components/common/TmFieldGroup"
-import TmBtn from "src/components/common/TmBtn"
-import TmFormGroup from "src/components/common/TmFormGroup"
-import TmFormMsg from "src/components/common/TmFormMsg"
-import ActionModal from "./ActionModal"
-import transaction from "../utils/transactionTypes"
+const TmField = () => import("src/components/common/TmField")
+const TmFieldGroup = () => import("src/components/common/TmFieldGroup")
+const TmBtn = () => import("src/components/common/TmBtn")
+const TmFormGroup = () => import("src/components/common/TmFormGroup")
+const TmFormMsg = () => import("src/components/common/TmFormMsg")
+const ActionModal = () => import("./ActionModal")
+const transaction = () => import("../utils/transactionTypes")
 import { toMicroDenom } from "src/scripts/common"
 import { formatBech32 } from "src/filters"
 import { UserTransactionAdded } from "src/gql"

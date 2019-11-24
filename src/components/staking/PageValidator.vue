@@ -163,12 +163,14 @@ import moment from "moment"
 import { mapGetters, mapState } from "vuex"
 import { atoms, shortDecimals, fullDecimals, percent } from "scripts/num"
 import { noBlanks, fromNow } from "src/filters"
-import TmBtn from "common/TmBtn"
-import DelegationModal from "src/ActionModal/components/DelegationModal"
-import UndelegationModal from "src/ActionModal/components/UndelegationModal"
-import Avatar from "common/Avatar"
-import Bech32 from "common/Bech32"
-import TmPage from "common/TmPage"
+const TmBtn = () => import("common/TmBtn")
+const DelegationModal = () =>
+  import("src/ActionModal/components/DelegationModal")
+const UndelegationModal = () =>
+  import("src/ActionModal/components/UndelegationModal")
+const Avatar = () => import("common/Avatar")
+const Bech32 = () => import("common/Bech32")
+const TmPage = () => import("common/TmPage")
 import gql from "graphql-tag"
 import { ValidatorProfile, UserTransactionAdded } from "src/gql"
 

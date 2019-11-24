@@ -284,15 +284,16 @@
 <script>
 import gql from "graphql-tag"
 import noScroll from "no-scroll"
-import HardwareState from "src/components/common/TmHardwareState"
-import TmBtn from "src/components/common/TmBtn"
-import TmField from "src/components/common/TmField"
-import TmFormGroup from "src/components/common/TmFormGroup"
-import TmFormMsg from "src/components/common/TmFormMsg"
-import FeatureNotAvailable from "src/components/common/FeatureNotAvailable"
-import TmDataMsg from "common/TmDataMsg"
-import TableInvoice from "./TableInvoice"
-import Steps from "./Steps"
+const HardwareState = () => import("src/components/common/TmHardwareState")
+const TmBtn = () => import("src/components/common/TmBtn")
+const TmField = () => import("src/components/common/TmField")
+const TmFormGroup = () => import("src/components/common/TmFormGroup")
+const TmFormMsg = () => import("src/components/common/TmFormMsg")
+const FeatureNotAvailable = () =>
+  import("src/components/common/FeatureNotAvailable")
+const TmDataMsg = () => import("common/TmDataMsg")
+const TableInvoice = () => import("./TableInvoice")
+const Steps = () => import("./Steps")
 import { mapState, mapGetters } from "vuex"
 import { viewDenom, prettyInt } from "src/scripts/num"
 import { between, requiredIf } from "vuelidate/lib/validators"

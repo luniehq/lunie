@@ -36,10 +36,7 @@
         />
       </div>
       <TmDataLoading v-if="$apollo.loading" />
-      <TableProposals
-        v-else
-        :proposals="proposals"
-      />
+      <TableProposals v-else :proposals="proposals" />
       <ModalPropose
         ref="modalPropose"
         :denom="parameters.depositDenom"
@@ -50,12 +47,12 @@
 </template>
 
 <script>
-import ModalPropose from "src/ActionModal/components/ModalPropose"
-import TableProposals from "governance/TableProposals"
-import TmBtn from "common/TmBtn"
-import PageContainer from "common/PageContainer"
-import TmDataMsg from "common/TmDataMsg"
-import TmDataLoading from "common/TmDataLoading"
+const ModalPropose = () => import("src/ActionModal/components/ModalPropose")
+const TableProposals = () => import("governance/TableProposals")
+const TmBtn = () => import("common/TmBtn")
+const PageContainer = () => import("common/PageContainer")
+const TmDataMsg = () => import("common/TmDataMsg")
+const TmDataLoading = () => import("common/TmDataLoading")
 import { mapGetters } from "vuex"
 import { GovernanceParameters } from "src/gql"
 import gql from "graphql-tag"

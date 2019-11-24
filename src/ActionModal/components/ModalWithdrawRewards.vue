@@ -34,11 +34,10 @@
 <script>
 import { mapGetters } from "vuex"
 import { fullDecimals } from "src/scripts/num"
-import ActionModal from "./ActionModal"
-import TmField from "src/components/common/TmField"
-import TmFormGroup from "src/components/common/TmFormGroup"
+const ActionModal = () => import("./ActionModal")
+const TmField = () => import("src/components/common/TmField")
+const TmFormGroup = () => import("src/components/common/TmFormGroup")
 import gql from "graphql-tag"
-
 import transaction from "../utils/transactionTypes"
 
 export default {

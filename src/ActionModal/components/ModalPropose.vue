@@ -117,9 +117,9 @@ import {
 import { uatoms, SMALLEST } from "scripts/num"
 import isEmpty from "lodash.isempty"
 import trim from "lodash.trim"
-import TmField from "common/TmField"
-import TmFormGroup from "common/TmFormGroup"
-import TmFormMsg from "common/TmFormMsg"
+const TmField = () => import("common/TmField")
+const TmFormGroup = () => import("common/TmFormGroup")
+const TmFormMsg = () => import("common/TmFormMsg")
 import ActionModal from "./ActionModal"
 import { toMicroDenom } from "src/scripts/common"
 

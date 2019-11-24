@@ -128,12 +128,12 @@ import b32 from "scripts/b32"
 import { required, between, decimal, maxLength } from "vuelidate/lib/validators"
 import { uatoms, SMALLEST } from "src/scripts/num"
 import { mapGetters } from "vuex"
-import TmFormGroup from "src/components/common/TmFormGroup"
-import TmField from "src/components/common/TmField"
-import TmFieldGroup from "src/components/common/TmFieldGroup"
-import TmBtn from "src/components/common/TmBtn"
-import TmFormMsg from "src/components/common/TmFormMsg"
-import ActionModal from "./ActionModal"
+const TmFormGroup = () => import("src/components/common/TmFormGroup")
+const TmField = () => import("src/components/common/TmField")
+const TmFieldGroup = () => import("src/components/common/TmFieldGroup")
+const TmBtn = () => import("src/components/common/TmBtn")
+const TmFormMsg = () => import("src/components/common/TmFormMsg")
+const ActionModal = () => import("./ActionModal")
 import transaction from "../utils/transactionTypes"
 import { toMicroDenom } from "src/scripts/common"
 

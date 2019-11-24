@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import Step from "./StepComponent"
+const Step = () => import("./StepComponent")
 export default {
   name: "Steps",
   components: {

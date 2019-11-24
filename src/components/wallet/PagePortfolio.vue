@@ -8,9 +8,9 @@
 </template>
 
 <script>
-import TmPage from "common/TmPage"
-import DelegationsOverview from "staking/DelegationsOverview"
-import Undelegations from "staking/Undelegations"
+const TmPage = () => import("common/TmPage")
+const DelegationsOverview = () => import("staking/DelegationsOverview")
+const Undelegations = () => import("staking/Undelegations")
 
 export default {
   name: `page-portfolio`,

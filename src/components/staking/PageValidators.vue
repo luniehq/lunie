@@ -40,11 +40,11 @@
 
 <script>
 import { mapGetters } from "vuex"
-import TmDataLoading from "common/TmDataLoading"
-import TableValidators from "staking/TableValidators"
-import TmPage from "common/TmPage"
-import TmField from "common/TmField"
-import TmBtn from "common/TmBtn"
+const TmDataLoading = () => import("common/TmDataLoading")
+const TableValidators = () => import("staking/TableValidators")
+const TmPage = () => import("common/TmPage")
+const TmField = () => import("common/TmField")
+const TmBtn = () => import("common/TmBtn")
 import gql from "graphql-tag"
 
 export default {
