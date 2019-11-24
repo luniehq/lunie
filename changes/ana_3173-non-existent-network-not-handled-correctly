@@ -1,0 +1,1 @@
+[Added] [#3173](https://github.com/cosmos/lunie/issues/3173) Now when it is started the app chooses either the first mainnet available or the local-testnet from the existing networks, directly connecting to one @Bitcoinera
