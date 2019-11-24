@@ -8,7 +8,7 @@ jobs:
     - name: Audit Netlify deploy preview
       uses: jakejarvis/lighthouse-action@master
       with:
-        netlify_site: 'develop--lunieio.netlify.com/'
+        netlify_site: 'lunieio.netlify.com'
     - uses: actions/upload-artifact@master
       with:
         name: report
