@@ -120,14 +120,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
-      - name: Audit URLs using Lighthouse
-        uses: treosh/lighthouse-ci-action@v2
-        with:
-          urls: |
-            https://app.lunie.io
-            https://app.lunie.io/validators
-            https://app.lunie.io/proposals
-            https://app.lunie.io/networks
+      - run:
+          name: Audit URLs using Lighthouse
+          uses: treosh/lighthouse-ci-action@v2
+          with:
+            urls: |
+              https://app.lunie.io
+              https://app.lunie.io/validators
+              https://app.lunie.io/proposals
+              https://app.lunie.io/networks
 
   testE2e:
     machine: true
