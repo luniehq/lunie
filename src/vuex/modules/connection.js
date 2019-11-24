@@ -5,7 +5,6 @@ export default function() {
     stopConnecting: false,
     connected: true, // TODO do connection test
     network: config.network, // network id to reference network capabilities stored in Hasura
-    nodeUrl: config.stargate,
     externals: {
       config
     }
