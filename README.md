@@ -34,7 +34,7 @@ npm run dev-docker
 
 ## Development
 
-When running you can access GraphQL Playground at http://localhost:4000/. You can use it to create/test GraphQL queries to the API.
+When running you can access GraphQL Playground at http://localhost:4000/. You can use it to create/test GraphQL queries to the API. 
 
 ## Environment variables
 
