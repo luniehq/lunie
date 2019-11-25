@@ -108,6 +108,7 @@
     "live-server-https": "^0.0.2",
     "nightwatch": "1.2.4",
     "numeral": "^2.0.6",
+    "prerender-spa-plugin": "3.0.0-beta.2",
     "prettier": "^1.18.2",
     "sass": "^1.18.0",
     "sass-loader": "^7.1.0",

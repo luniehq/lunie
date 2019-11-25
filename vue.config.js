@@ -1,6 +1,8 @@
 const path = require(`path`)
 const webpack = require(`webpack`)
 const CSPWebpackPlugin = require(`csp-webpack-plugin`)
+const PrerenderSPAPlugin = require('prerender-spa-plugin')
+const PuppeteerRenderer = PrerenderSPAPlugin.PuppeteerRenderer
 
 function resolve(dir) {
   return path.join(__dirname, dir)
@@ -44,6 +46,20 @@ module.exports = {
             ),
             MOBILE_APP: JSON.stringify(process.env.MOBILE_APP)
           }
+        }),
+        new PrerenderSPAPlugin({
+          staticDir: path.join(__dirname, 'dist'),
+          routes: ['/', '/portfolio', '/validators', '/proposals'],
+          minify: {
+            collapseBooleanAttributes: true,
+            collapseWhitespace: true,
+            decodeEntities: true,
+            keepClosingSlash: true,
+            sortAttributes: true
+          },
+          renderer: new PuppeteerRenderer({
+            renderAfterElementExists: '#app'
+          })
         })
       ]
     }
