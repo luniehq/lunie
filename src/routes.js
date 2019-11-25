@@ -17,7 +17,7 @@ export default [
     meta: {
       feature: "Proposals"
     },
-    component: () => import(`./components/governance/PageProposals`).default
+    component: () => import(`./components/governance/PageProposals`)
   },
   // for depredecated routes
   {
@@ -30,7 +30,7 @@ export default [
     meta: {
       feature: "Proposals"
     },
-    component: () => import(`./components/governance/PageProposal`).default,
+    component: () => import(`./components/governance/PageProposal`),
     props: true
   },
   // for depredecated routes
@@ -44,7 +44,7 @@ export default [
     meta: {
       feature: "Validators"
     },
-    component: () => import(`./components/staking/PageValidators`).default
+    component: () => import(`./components/staking/PageValidators`)
   },
   // for depredecated routes
   {
@@ -57,7 +57,7 @@ export default [
     meta: {
       feature: "Validators"
     },
-    component: () => import(`./components/staking/PageValidator`).default
+    component: () => import(`./components/staking/PageValidator`)
   },
   {
     path: `/staking/validators/:validator`,
@@ -66,7 +66,7 @@ export default [
   {
     path: `/portfolio`,
     name: `portfolio`,
-    component: () => import(`./components/wallet/PagePortfolio`).default,
+    component: () => import(`./components/wallet/PagePortfolio`),
     meta: {
       requiresAuth: true,
       feature: "Portfolio"
@@ -75,7 +75,7 @@ export default [
   {
     path: `/transactions`,
     name: `transactions`,
-    component: () => import(`./components/wallet/PageTransactions`).default,
+    component: () => import(`./components/wallet/PageTransactions`),
     meta: {
       requiresAuth: true,
       feature: "Activity"
@@ -84,7 +84,7 @@ export default [
   {
     path: `/networks`,
     name: `networks`,
-    component: () => import(`./components/network/PageNetworks`).default,
+    component: () => import(`./components/network/PageNetworks`),
     meta: {
       requiresAuth: false
     }
@@ -92,7 +92,7 @@ export default [
   {
     path: `/blocks/:height`,
     name: `block`,
-    component: () => import(`./components/network/PageBlock`).default,
+    component: () => import(`./components/network/PageBlock`),
     meta: {
       feature: "Explorer"
     }
@@ -101,7 +101,7 @@ export default [
     path: `/welcome`,
     name: `welcome`,
     components: {
-      session: () => import(`./components/common/TmSessionWelcome`).default
+      session: () => import(`./components/common/TmSessionWelcome`)
     },
     meta: {
       feature: "Session"
@@ -111,7 +111,7 @@ export default [
     path: `/login`,
     name: `login`,
     components: {
-      session: () => import(`./components/common/TmSessionSignIn`).default
+      session: () => import(`./components/common/TmSessionSignIn`)
     },
     meta: {
       feature: "Session"
@@ -121,7 +121,7 @@ export default [
     path: `/create`,
     name: `create`,
     components: {
-      session: () => import(`./components/common/TmSessionSignUp`).default
+      session: () => import(`./components/common/TmSessionSignUp`)
     },
     meta: {
       feature: "Session"
@@ -131,7 +131,7 @@ export default [
     path: `/create/password`,
     name: `create-password`,
     components: {
-      session: () => import(`./components/common/TmSessionSignUpPassword`).default
+      session: () => import(`./components/common/TmSessionSignUpPassword`)
     },
     meta: {
       feature: "Session"
@@ -148,7 +148,7 @@ export default [
     path: `/create/confirm`,
     name: `create-confirm`,
     components: {
-      session: () => import(`./components/common/TmSessionSignUpSeed`).default
+      session: () => import(`./components/common/TmSessionSignUpSeed`)
     },
     meta: {
       feature: "Session"
@@ -165,7 +165,7 @@ export default [
     path: `/recover`,
     name: `recover`,
     components: {
-      session: () => import(`./components/common/TmSessionImport`).default
+      session: () => import(`./components/common/TmSessionImport`)
     },
     meta: {
       feature: "Session"
@@ -175,7 +175,7 @@ export default [
     path: `/recover/name`,
     name: `recover-name`,
     components: {
-      session: () => import(`./components/common/TmSessionImportName`).default
+      session: () => import(`./components/common/TmSessionImportName`)
     },
     meta: {
       feature: "Session"
@@ -192,7 +192,7 @@ export default [
     path: `/recover/password`,
     name: `recover-password`,
     components: {
-      session: () => import(`./components/common/TmSessionImportPassword`).default
+      session: () => import(`./components/common/TmSessionImportPassword`)
     },
     meta: {
       feature: "Session"
@@ -209,7 +209,7 @@ export default [
     path: `/explore`,
     name: `explore`,
     components: {
-      session: () => import(`./components/common/TmSessionExplore`).default
+      session: () => import(`./components/common/TmSessionExplore`)
     },
     meta: {
       feature: "Session"
@@ -219,7 +219,7 @@ export default [
     path: `/ledger`,
     name: `ledger`,
     components: {
-      session: () => import(`./components/common/TmSessionHardware`).default
+      session: () => import(`./components/common/TmSessionHardware`)
     },
     meta: {
       feature: "Session"
@@ -229,7 +229,7 @@ export default [
     path: `/extension`,
     name: `extension`,
     components: {
-      session: () => import(`./components/common/TmSessionExtension`).default
+      session: () => import(`./components/common/TmSessionExtension`)
     },
     meta: {
       feature: "Session"
@@ -239,37 +239,37 @@ export default [
     path: `/existing`,
     name: `existing`,
     components: {
-      session: () => import(`./components/common/TmSessionExisting`).default
+      session: () => import(`./components/common/TmSessionExisting`)
     },
     meta: {
       feature: "Session"
     }
   },
-  { path: `/404`, component: () => import(`./components/common/Page404`).default },
+  { path: `/404`, component: () => import(`./components/common/Page404`) },
   {
     path: `/privacy`,
-    component: () => import(`./components/common/PagePrivacy`).default
+    component: () => import(`./components/common/PagePrivacy`)
   },
   {
     path: `/terms`,
-    component: () => import(`./components/common/PageTerms`).default
+    component: () => import(`./components/common/PageTerms`)
   },
   {
     path: `/security`,
-    component: () => import(`./components/common/PageSecurity`).default
+    component: () => import(`./components/common/PageSecurity`)
   },
   {
     path: `/about`,
-    component: () => import(`./components/common/PageAbout`).default
+    component: () => import(`./components/common/PageAbout`)
   },
   {
     path: `/careers`,
-    component: () => import(`./components/common/PageCareers`).default
+    component: () => import(`./components/common/PageCareers`)
   },
   {
     path: `/feature-not-available/:feature`,
-    component: () => import(`./components/common/PageFeatureNotAvailable`).default,
+    component: () => import(`./components/common/PageFeatureNotAvailable`),
     props: true
   },
-  { path: `*`, component: () => import(`./components/common/Page404`).default }
+  { path: `*`, component: () => import(`./components/common/Page404`) }
 ]
