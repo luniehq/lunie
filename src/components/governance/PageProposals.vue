@@ -1,56 +1,48 @@
 <template>
-  <PageContainer
-    data-title="Proposals"
-    :managed="true"
-    :loading="
-      $apollo.queries.proposals.loading && $apollo.queries.parameters.loading
-    "
-    :error="$apollo.queries.proposals.error || $apollo.queries.parameters.error"
-    hide-header
-  >
-    <template slot="no-data">
-      <!-- duplicated, I have no proper way of refactoring this -->
-      <div class="button-container">
-        <TmBtn
-          id="propose-btn"
-          value="Create Proposal"
-          type="secondary"
-          @click.native="onPropose"
-        />
-      </div>
-      <TmDataMsg
-        title="No Governance Proposals"
-        subtitle="There are currently no governance proposals to display.
-    Click the 'Create Proposal' button to submit a proposal."
-        icon="gavel"
+  <div v-if="!$apollo.loading && proposals.length === 0">     
+    <div class="button-container">
+      <TmBtn
+        id="propose-btn"
+        value="Create Proposal"
+        type="secondary"
+        @click.native="onPropose"
       />
-    </template>
-    <template slot="managed-body">
-      <!-- duplicated, I have no proper way of refactoring this -->
-      <div class="button-container">
-        <TmBtn
-          id="propose-btn"
-          value="Create Proposal"
-          type="secondary"
-          @click.native="onPropose"
-        />
-      </div>
-      <TmDataLoading v-if="$apollo.loading" />
-      <TableProposals v-else :proposals="proposals" />
-      <ModalPropose
-        ref="modalPropose"
-        :denom="parameters.depositDenom"
-        @success="() => afterPropose()"
+    </div>
+    <div>
+      <TmDataMsg icon="gavel">
+        <div slot="title">
+          No Governance Proposals
+        </div>
+        <div slot="subtitle">
+          There are currently no governance proposals to display.
+          Click the 'Create Proposal' button to submit the first proposal of the network!
+        </div>
+      </TmDataMsg>
+    </div>
+  </div>
+  <div v-else-if="!$apollo.loading && proposals.length > 0">
+    <div class="button-container">
+      <TmBtn
+        id="propose-btn"
+        value="Create Proposal"
+        type="secondary"
+        @click.native="onPropose"
       />
-    </template>
-  </PageContainer>
+    </div>
+    <TmDataLoading v-if="$apollo.loading" />
+    <TableProposals v-else :proposals="proposals" />
+    <ModalPropose
+      ref="modalPropose"
+      :denom="parameters.depositDenom"
+      @success="() => afterPropose()"
+    />
+  </div>
 </template>
 
 <script>
 import ModalPropose from "src/ActionModal/components/ModalPropose"
 import TableProposals from "governance/TableProposals"
 import TmBtn from "common/TmBtn"
-import PageContainer from "common/PageContainer"
 import TmDataMsg from "common/TmDataMsg"
 import TmDataLoading from "common/TmDataLoading"
 import { mapGetters } from "vuex"
@@ -64,8 +56,7 @@ export default {
     TableProposals,
     TmDataMsg,
     TmDataLoading,
-    TmBtn,
-    PageContainer
+    TmBtn
   },
   data: () => ({
     proposals: [],
