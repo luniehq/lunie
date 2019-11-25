@@ -7,12 +7,13 @@ describe(`TransactionIcon`, () => {
   beforeEach(() => {
     wrapper = shallowMount(TransactionIcon, {
       propsData: {
-        transactionGroup: "banking"
+        transactionGroup: "banking",
+        transactionType: "Sent"
       }
     })
   })
 
-  it(`renders a banking coloured icon`, () => {
+  it(`renders a banking coloured sent transaction icon`, () => {
     expect(wrapper.element).toMatchSnapshot()
   })
 })

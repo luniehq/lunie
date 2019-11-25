@@ -1,13 +1,13 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`TransactionIcon renders a banking coloured icon 1`] = `
+exports[`TransactionIcon renders a banking coloured sent transaction icon 1`] = `
 <div
   class="tx__icon"
 >
   <img
-    alt="cosmic atom token"
+    alt="Sent"
     class="banking"
-    src="~assets/images/cosmos-logo.png"
+    src="/img/icons/activity/Sent.svg"
   />
 </div>
 `;
