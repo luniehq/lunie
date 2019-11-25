@@ -26,6 +26,11 @@ describe(`TransactionIcon`, () => {
       icon: `Restaked`
     },
     {
+      type: `Unstaked`,
+      group: `staking`,
+      icon: `Unstaked`
+    },
+    {
       type: `Withdrawal`,
       group: `distribution`,
       icon: `Withdrawal`

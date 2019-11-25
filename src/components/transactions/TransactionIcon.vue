@@ -50,6 +50,7 @@ export default {
         // MISSING ICON!
         return `/img/icons/activity/Unjail.svg`
       } else {
+        /* istanbul ignore next */
         return ``
       }
     }

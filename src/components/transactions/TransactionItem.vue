@@ -124,6 +124,7 @@ export default {
           return `withdraw-delegation-reward-message-details`
         case messageType.WITHDRAW_VALIDATOR_COMMISSION:
           return `withdraw-validator-commission-message-details`
+        /* istanbul ignore next */
         default:
           return ``
       }

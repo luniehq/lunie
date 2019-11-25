@@ -72,6 +72,18 @@ exports[`TransactionIcon renders a coloured Submitted transaction icon 1`] = `
 </div>
 `;
 
+exports[`TransactionIcon renders a coloured Unstaked transaction icon 1`] = `
+<div
+  class="tx__icon"
+>
+  <img
+    alt="Unstaked"
+    class="staking"
+    src="/img/icons/activity/Unstaked.svg"
+  />
+</div>
+`;
+
 exports[`TransactionIcon renders a coloured Update withdraw address transaction icon 1`] = `
 <div
   class="tx__icon"

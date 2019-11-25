@@ -1,5 +1,6 @@
 import { shallowMount } from "@vue/test-utils"
 import TransactionItem from "src/components/transactions/TransactionItem"
+
 import {
   messageType,
   transactionGroup
@@ -8,24 +9,24 @@ import {
 describe(`TransactionItem`, () => {
   let wrapper
   let txs = []
-  let blockNumber = 1086769
+  let height = 1086769
   let offset = 1
 
   for (var type in messageType) {
     txs.push({
-      blockNumber,
-      fees: {
+      height,
+      fee: {
         amount: "37",
         denom: "uatom"
       },
       group: transactionGroup[messageType[type]],
       key: "keyhash",
       memo: "(Sent via Lunie)",
-      time: new Date("2019-07-31"),
+      timestamp: 123456789,
       liquidDate: null,
       type: messageType[type]
     })
-    blockNumber += offset
+    height += offset
   }
 
   for (let i = 0; i < txs.length; i++) {
@@ -38,6 +39,8 @@ describe(`TransactionItem`, () => {
         }
       })
       expect(wrapper.element).toMatchSnapshot()
+      wrapper.vm.toggleDetail()
+      expect(wrapper.html()).toContain("tx-details")
     })
   }
 })

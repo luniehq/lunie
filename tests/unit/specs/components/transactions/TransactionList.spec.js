@@ -1,55 +1,42 @@
 import { shallowMount } from "@vue/test-utils"
 import TransactionList from "src/components/transactions/TransactionList"
+import {
+  messageType,
+  transactionGroup
+} from "src/components/transactions/messageTypes"
 
 describe(`TransactionList`, () => {
   let wrapper
 
-  const transactions = [
-    {
-      height: 1086769,
+  let txs = []
+  let height = 1086769
+  let offset = 86400 / 7 // 7s block time
+  let timestamp = new Date().getTime()
+  let oneDay = 86400
+  let timeOffset = 0
+
+  for (var type in messageType) {
+    txs.push({
+      height,
       fee: {
-        amount: "3.7",
-        denom: "atom"
+        amount: "37",
+        denom: "uatom"
       },
-      group: "banking",
+      group: transactionGroup[messageType[type]],
       key: "keyhash",
       memo: "(Sent via Lunie)",
-      tiemstamp: new Date("2019-07-31"),
+      timestamp: timestamp - timeOffset,
       liquidDate: null,
-      type: "cosmos-sdk/MsgSend"
-    },
-    {
-      height: 1086769,
-      fee: {
-        amount: "3.7",
-        denom: "atom"
-      },
-      group: "banking",
-      key: "keyhash2",
-      memo: "(Sent via Lunie)",
-      tiemstamp: new Date("1970-01-01"),
-      liquidDate: null,
-      type: "cosmos-sdk/MsgSend"
-    },
-    {
-      height: 1086769,
-      fee: {
-        amount: "3.7",
-        denom: "atom"
-      },
-      group: "banking",
-      key: "keyhash3",
-      memo: "(Sent via Lunie)",
-      tiemstamp: new Date("2019-07-31"),
-      liquidDate: null,
-      type: "cosmos-sdk/MsgSend"
-    }
-  ]
+      type: messageType[type]
+    })
+    height += offset
+    timeOffset += oneDay
+  }
 
   beforeEach(() => {
     wrapper = shallowMount(TransactionList, {
       propsData: {
-        transactions: transactions,
+        transactions: txs,
         validators: {},
         address: "cosmos1"
       }
