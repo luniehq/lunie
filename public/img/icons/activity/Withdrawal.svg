@@ -1,7 +1,15 @@
-<svg width="52" height="52" viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M26 52C40.3594 52 52 40.3594 52 26C52 11.6406 40.3594 0 26 0C11.6406 0 0 11.6406 0 26C0 40.3594 11.6406 52 26 52Z" fill="#292B47"/>
-<path d="M13 18H39" stroke="#66A1FF" stroke-width="2" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
-<path d="M34 22V37H18V22" stroke="#66A1FF" stroke-width="2" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
-<path d="M29 29L26 32L23 29" stroke="white" stroke-width="2" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
-<path d="M26 23V31" stroke="white" stroke-width="2" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="52px" height="52px" viewBox="0 0 52 52" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 59.1 (86144) - https://sketch.com -->
+    <title>Withdrawal</title>
+    <desc>Created with Sketch.</desc>
+    <g id="icons" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Withdrawal">
+            <path d="M26,52 C40.3594,52 52,40.3594 52,26 C52,11.6406 40.3594,0 26,0 C11.6406,0 0,11.6406 0,26 C0,40.3594 11.6406,52 26,52 Z" id="Path" fill="#292B47" fill-rule="nonzero"></path>
+            <line x1="13" y1="18" x2="39" y2="18" id="Path" stroke="#36C936" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></line>
+            <polyline id="Path" stroke="#36C936" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" points="34 22 34 37 18 37 18 22"></polyline>
+            <polyline id="Path" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" points="29 29 26 32 23 29"></polyline>
+            <line x1="26" y1="23" x2="26" y2="31" id="Path" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></line>
+        </g>
+    </g>
 </svg>

@@ -38,16 +38,12 @@ export default {
       } else if (this.transactionType === `Deposit`) {
         return `/img/icons/activity/Deposit.svg`
       } else if (this.transactionType.search(`Submitted`) === 0) {
-        // MISSING ICON!
         return `/img/icons/activity/Submitted.svg`
       } else if (this.transactionType === `Create validator`) {
-        // MISSING ICON!
         return `/img/icons/activity/Create.svg`
       } else if (this.transactionType === `Edit validator`) {
-        // MISSING ICON!
         return `/img/icons/activity/Edit.svg`
       } else if (this.transactionType.search(`Unjail`) === 0) {
-        // MISSING ICON!
         return `/img/icons/activity/Unjail.svg`
       } else {
         /* istanbul ignore next */
@@ -68,25 +64,6 @@ export default {
 .tx__icon img {
   max-height: 100%;
   max-width: 52px;
-  border-radius: 50%;
-  border: 2px solid;
   display: block;
-  border-color: grey;
-}
-
-.tx__icon img.banking {
-  border-color: var(--tx-banking);
-}
-
-.tx__icon img.staking {
-  border-color: var(--tx-staking);
-}
-
-.tx__icon img.governance {
-  border-color: var(--tx-governance);
-}
-
-.tx__icon img.distribution {
-  border-color: var(--tx-distribution);
 }
 </style>

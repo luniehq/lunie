@@ -237,24 +237,6 @@ export default {
 .tx__icon img {
   max-height: 100%;
   max-width: 52px;
-  border: 2px solid;
   display: block;
-  border-color: grey;
-}
-
-.tx__icon img.banking {
-  border-color: var(--tx-banking);
-}
-
-.tx__icon img.staking {
-  border-color: var(--tx-staking);
-}
-
-.tx__icon img.governance {
-  border-color: var(--tx-governance);
-}
-
-.tx__icon img.distribution {
-  border-color: var(--tx-distribution);
 }
 </style>
