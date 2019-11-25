@@ -1,34 +1,43 @@
 import { shallowMount } from "@vue/test-utils"
 import TransactionItem from "src/components/transactions/TransactionItem"
+import {
+  messageType,
+  transactionGroup
+} from "src/components/transactions/messageTypes"
 
 describe(`TransactionItem`, () => {
   let wrapper
+  let txs = []
+  let blockNumber = 1086769
+  let offset = 1
 
-  const tx = {
-    blockNumber: 1086769,
-    fees: {
-      amount: "37",
-      denom: "uatom"
-    },
-    group: "banking",
-    key: "keyhash",
-    memo: "(Sent via Lunie)",
-    time: new Date("2019-07-31"),
-    liquidDate: null,
-    type: "cosmos-sdk/MsgSend"
+  for (var type in messageType) {
+    txs.push({
+      blockNumber,
+      fees: {
+        amount: "37",
+        denom: "uatom"
+      },
+      group: transactionGroup[messageType[type]],
+      key: "keyhash",
+      memo: "(Sent via Lunie)",
+      time: new Date("2019-07-31"),
+      liquidDate: null,
+      type: messageType[type]
+    })
+    blockNumber += offset
   }
 
-  beforeEach(() => {
-    wrapper = shallowMount(TransactionItem, {
-      propsData: {
-        transaction: tx,
-        validators: {},
-        address: "cosmos1"
-      }
+  for (let i = 0; i < txs.length; i++) {
+    it(`renders a ${txs[i].type} transaction item`, () => {
+      wrapper = shallowMount(TransactionItem, {
+        propsData: {
+          transaction: txs[i],
+          validators: {},
+          address: "cosmos1"
+        }
+      })
+      expect(wrapper.element).toMatchSnapshot()
     })
-  })
-
-  it(`renders a transaction item`, () => {
-    expect(wrapper.element).toMatchSnapshot()
-  })
+  }
 })

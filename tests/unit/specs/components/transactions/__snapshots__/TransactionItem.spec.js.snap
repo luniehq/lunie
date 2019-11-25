@@ -1,12 +1,220 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`TransactionItem renders a transaction item 1`] = `
+exports[`TransactionItem renders a cosmos-sdk/MsgBeginRedelegate transaction item 1`] = `
+<div
+  class="tx"
+>
+  <begin-redelegate-message-details-stub
+    class="tx-caption"
+    session-address="cosmos1"
+    show="caption"
+    transaction="[object Object]"
+    validators="[object Object]"
+  />
+   
+  <!---->
+</div>
+`;
+
+exports[`TransactionItem renders a cosmos-sdk/MsgCreateValidator transaction item 1`] = `
+<div
+  class="tx"
+>
+  <create-validator-message-details-stub
+    class="tx-caption"
+    session-address="cosmos1"
+    show="caption"
+    transaction="[object Object]"
+    validators="[object Object]"
+  />
+   
+  <!---->
+</div>
+`;
+
+exports[`TransactionItem renders a cosmos-sdk/MsgDelegate transaction item 1`] = `
+<div
+  class="tx"
+>
+  <delegate-message-details-stub
+    class="tx-caption"
+    session-address="cosmos1"
+    show="caption"
+    transaction="[object Object]"
+    validators="[object Object]"
+  />
+   
+  <!---->
+</div>
+`;
+
+exports[`TransactionItem renders a cosmos-sdk/MsgDeposit transaction item 1`] = `
+<div
+  class="tx"
+>
+  <deposit-message-details-stub
+    class="tx-caption"
+    session-address="cosmos1"
+    show="caption"
+    transaction="[object Object]"
+    validators="[object Object]"
+  />
+   
+  <!---->
+</div>
+`;
+
+exports[`TransactionItem renders a cosmos-sdk/MsgEditValidator transaction item 1`] = `
+<div
+  class="tx"
+>
+  <edit-validator-message-details-stub
+    class="tx-caption"
+    session-address="cosmos1"
+    show="caption"
+    transaction="[object Object]"
+    validators="[object Object]"
+  />
+   
+  <!---->
+</div>
+`;
+
+exports[`TransactionItem renders a cosmos-sdk/MsgMultiSend transaction item 1`] = `
+<div
+  class="tx"
+>
+  <multi-send-message-details-stub
+    class="tx-caption"
+    sessionaddress="cosmos1"
+    show="caption"
+    transaction="[object Object]"
+    validators="[object Object]"
+  />
+   
+  <!---->
+</div>
+`;
+
+exports[`TransactionItem renders a cosmos-sdk/MsgSend transaction item 1`] = `
 <div
   class="tx"
 >
   <send-message-details-stub
     class="tx-caption"
     sessionaddress="cosmos1"
+    show="caption"
+    transaction="[object Object]"
+    validators="[object Object]"
+  />
+   
+  <!---->
+</div>
+`;
+
+exports[`TransactionItem renders a cosmos-sdk/MsgSetWithdrawAddress transaction item 1`] = `
+<div
+  class="tx"
+>
+  <set-withdraw-address-message-details-stub
+    class="tx-caption"
+    session-address="cosmos1"
+    show="caption"
+    transaction="[object Object]"
+    validators="[object Object]"
+  />
+   
+  <!---->
+</div>
+`;
+
+exports[`TransactionItem renders a cosmos-sdk/MsgSubmitProposal transaction item 1`] = `
+<div
+  class="tx"
+>
+  <submit-proposal-message-details-stub
+    class="tx-caption"
+    session-address="cosmos1"
+    show="caption"
+    transaction="[object Object]"
+    validators="[object Object]"
+  />
+   
+  <!---->
+</div>
+`;
+
+exports[`TransactionItem renders a cosmos-sdk/MsgUndelegate transaction item 1`] = `
+<div
+  class="tx"
+>
+  <undelegate-message-details-stub
+    class="tx-caption"
+    session-address="cosmos1"
+    show="caption"
+    transaction="[object Object]"
+    validators="[object Object]"
+  />
+   
+  <!---->
+</div>
+`;
+
+exports[`TransactionItem renders a cosmos-sdk/MsgUnjail transaction item 1`] = `
+<div
+  class="tx"
+>
+  <unjail-message-details-stub
+    class="tx-caption"
+    session-address="cosmos1"
+    show="caption"
+    transaction="[object Object]"
+    validators="[object Object]"
+  />
+   
+  <!---->
+</div>
+`;
+
+exports[`TransactionItem renders a cosmos-sdk/MsgVote transaction item 1`] = `
+<div
+  class="tx"
+>
+  <vote-message-details-stub
+    class="tx-caption"
+    session-address="cosmos1"
+    show="caption"
+    transaction="[object Object]"
+    validators="[object Object]"
+  />
+   
+  <!---->
+</div>
+`;
+
+exports[`TransactionItem renders a cosmos-sdk/MsgWithdrawDelegationReward transaction item 1`] = `
+<div
+  class="tx"
+>
+  <withdraw-delegation-reward-message-details-stub
+    class="tx-caption"
+    session-address="cosmos1"
+    show="caption"
+    transaction="[object Object]"
+    validators="[object Object]"
+  />
+   
+  <!---->
+</div>
+`;
+
+exports[`TransactionItem renders a cosmos-sdk/MsgWithdrawValidatorCommission transaction item 1`] = `
+<div
+  class="tx"
+>
+  <withdraw-validator-commission-message-details-stub
+    class="tx-caption"
+    session-address="cosmos1"
     show="caption"
     transaction="[object Object]"
     validators="[object Object]"
