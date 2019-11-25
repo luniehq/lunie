@@ -66,10 +66,16 @@ module.exports = {
 
     // check if tx shows
     browser.url(browser.launch_url + "/#/transactions")
+
     await waitForText(
       browser,
-      ".tx:nth-child(2) .tx__content__caption",
-      `Redelegated ${value} STAKE`
+      ".tx:nth-child(2) .tx-caption .tx__content .tx__content__left",
+      `Restaked`
+    )
+    await waitForText(
+      browser,
+      ".tx:nth-child(2) .tx-caption .tx__content .tx__content__right",
+      `${value} STAKE`
     )
   },
   "Undelegate Action": async function (browser) {
@@ -99,10 +105,18 @@ module.exports = {
 
     // check if tx shows
     browser.url(browser.launch_url + "/#/transactions")
+
     await waitForText(
       browser,
-      ".tx:nth-child(2) .tx__content__caption",
-      `Undelegated ${value} STAKE`,
+      ".tx:nth-child(2) .tx-caption .tx__content .tx__content__left",
+      `Unstaked`,
+      10,
+      2000
+    )
+    await waitForText(
+      browser,
+      ".tx:nth-child(2) .tx-caption .tx__content .tx__content__right",
+      `${value} STAKE`,
       10,
       2000
     )
