@@ -116,9 +116,7 @@ module.exports = {
     await waitForText(
       browser,
       ".tx:nth-child(2) .tx-caption .tx__content .tx__content__right",
-      `${value} STAKE`,
-      10,
-      2000
+      `${value} STAKE`
     )
   }
 }
