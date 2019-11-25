@@ -41,14 +41,15 @@
   </div>
 </template>
 <script>
-import { shortDecimals } from "scripts/num"
 import refetchNetworkOnly from "scripts/refetch-network-only"
+import { shortDecimals } from "scripts/num"
 import { noBlanks } from "src/filters"
-import TmBtn from "common/TmBtn"
-import SendModal from "src/ActionModal/components/SendModal"
-import ModalWithdrawRewards from "src/ActionModal/components/ModalWithdrawRewards"
 import { UserTransactionAdded } from "src/gql"
 import { mapGetters } from "vuex"
+const TmBtn = () => import("common/TmBtn")
+const SendModal = () => import("src/ActionModal/components/SendModal")
+const ModalWithdrawRewards = () =>
+  import("src/ActionModal/components/ModalWithdrawRewards")
 import gql from "graphql-tag"
 export default {
   name: `tm-balance`,

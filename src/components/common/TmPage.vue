@@ -36,14 +36,14 @@
 </template>
 
 <script>
-import TmPageHeader from "./TmPageHeader.vue"
-import TmDataLoading from "common/TmDataLoading"
-import TmDataEmpty from "common/TmDataEmpty"
-import CardSignInRequired from "common/CardSignInRequired"
 import { mapState, mapGetters } from "vuex"
-import TmDataError from "common/TmDataError"
-import TmDataConnecting from "common/TmDataConnecting"
-import TmBalance from "common/TmBalance"
+const TmPageHeader = () => import("./TmPageHeader.vue")
+const TmDataLoading = () => import("common/TmDataLoading")
+const TmDataEmpty = () => import("common/TmDataEmpty")
+const CardSignInRequired = () => import("common/CardSignInRequired")
+const TmDataError = () => import("common/TmDataError")
+const TmDataConnecting = () => import("common/TmDataConnecting")
+const TmBalance = () => import("common/TmBalance")
 
 export default {
   name: `tm-page`,

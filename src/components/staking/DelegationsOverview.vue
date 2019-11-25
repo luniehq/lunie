@@ -25,8 +25,8 @@
 
 <script>
 import { mapGetters } from "vuex"
-import TmDataMsg from "common/TmDataMsg"
-import TableValidators from "staking/TableValidators"
+const TmDataMsg = () => import("common/TmDataMsg")
+const TableValidators = () => import("staking/TableValidators")
 import { DelegationsForDelegator, UserTransactionAdded } from "src/gql"
 import refetchNetworkOnly from "scripts/refetch-network-only"
 

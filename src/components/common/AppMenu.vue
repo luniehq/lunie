@@ -146,11 +146,12 @@
 </template>
 
 <script>
-import Bech32 from "common/Bech32"
-import ConnectedNetwork from "common/TmConnectedNetwork"
-import TmBtn from "common/TmBtn"
+const Bech32 = () => import("common/Bech32")
+const ConnectedNetwork = () => import("common/TmConnectedNetwork")
+const TmBtn = () => import("common/TmBtn")
 import { mapGetters, mapState } from "vuex"
 import { atoms, viewDenom, shortDecimals } from "scripts/num.js"
+
 export default {
   name: `app-menu`,
   components: {

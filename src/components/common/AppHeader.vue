@@ -35,7 +35,8 @@
 import config from "src/../config"
 import { mapState } from "vuex"
 import noScroll from "no-scroll"
-import AppMenu from "common/AppMenu"
+const AppMenu = () => import("common/AppMenu")
+
 export default {
   name: `app-header`,
   components: { AppMenu },

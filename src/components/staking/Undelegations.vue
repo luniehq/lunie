@@ -9,7 +9,7 @@
 
 <script>
 import { mapGetters } from "vuex"
-import TableUndelegations from "staking/TableUndelegations"
+const TableUndelegations = () => import("staking/TableUndelegations")
 import refetchNetworkOnly from "scripts/refetch-network-only"
 import { UndelegationsForDelegator, UserTransactionAdded } from "src/gql"
 
