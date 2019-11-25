@@ -1,8 +1,12 @@
 <template>
   <div>
-    <div v-if="show === `caption`" class="tx__content__caption">
+    <div v-if="show === `caption`" class="tx__content">
+      <TransactionIcon
+        :transaction-group="transaction.group"
+        :transaction-type="caption"
+      />
       <div class="tx__content__left">
-        Restaked
+        {{ caption }}
       </div>
       <div class="tx__content__right">
         {{ coin.amount | atoms | prettyLong }} {{ coin.denom | viewDenom }}
@@ -34,6 +38,7 @@
 import { atoms, viewDenom, prettyLong } from "scripts/num.js"
 import { resolveValidatorName } from "src/filters"
 import { getCoin } from "scripts/transaction-utils"
+import TransactionIcon from "../TransactionIcon"
 
 export default {
   name: `begin-redelegate-message-details`,
@@ -42,6 +47,9 @@ export default {
     viewDenom,
     prettyLong,
     resolveValidatorName
+  },
+  components: {
+    TransactionIcon
   },
   props: {
     transaction: {
@@ -55,6 +63,11 @@ export default {
     validators: {
       type: Object,
       required: true
+    }
+  },
+  data: () => {
+    return {
+      caption: `Restaked`
     }
   },
   computed: {

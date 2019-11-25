@@ -1,8 +1,12 @@
 <template>
   <div>
-    <div v-if="show === `caption`" class="tx__content__caption">
+    <div v-if="show === `caption`" class="tx__content">
+      <TransactionIcon
+        :transaction-group="transaction.group"
+        :transaction-type="caption"
+      />
       <div class="tx__content__left">
-        Deposited
+        {{ caption }}
       </div>
       <div class="tx__content__right">
         {{ deposit.amount | atoms | prettyLong }}&nbsp;
@@ -21,6 +25,7 @@
 <script>
 import { atoms, viewDenom, prettyLong } from "scripts/num.js"
 import { formatBech32 } from "src/filters"
+import TransactionIcon from "../TransactionIcon"
 
 export default {
   name: `deposit-message-details`,
@@ -29,6 +34,9 @@ export default {
     viewDenom,
     prettyLong,
     formatBech32
+  },
+  components: {
+    TransactionIcon
   },
   props: {
     transaction: {
@@ -42,6 +50,11 @@ export default {
     validators: {
       type: Object,
       required: true
+    }
+  },
+  data: () => {
+    return {
+      caption: `Deposit`
     }
   },
   computed: {

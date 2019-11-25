@@ -1,7 +1,13 @@
 <template>
   <div>
-    <div v-if="show === `caption`" class="tx__content__caption">
-      <p>Withdrawal</p>
+    <div v-if="show === `caption`" class="tx__content">
+      <TransactionIcon
+        :transaction-group="transaction.group"
+        :transaction-type="caption"
+      />
+      <div class="tx__content__left">
+        {{ caption }}
+      </div>
     </div>
     <div v-if="show === `details`" class="tx__content__information">
       From&nbsp;
@@ -18,6 +24,7 @@
 <script>
 import { atoms, viewDenom, prettyLong } from "scripts/num.js"
 import { resolveValidatorName } from "src/filters"
+import TransactionIcon from "../TransactionIcon"
 
 export default {
   name: `withdraw-delegation-reward-message-details`,
@@ -26,6 +33,9 @@ export default {
     viewDenom,
     prettyLong,
     resolveValidatorName
+  },
+  components: {
+    TransactionIcon
   },
   props: {
     transaction: {
@@ -39,6 +49,11 @@ export default {
     validators: {
       type: Object,
       required: true
+    }
+  },
+  data: () => {
+    return {
+      caption: `Withdrawal`
     }
   }
 }

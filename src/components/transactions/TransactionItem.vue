@@ -1,16 +1,13 @@
 <template>
-  <div class="tx">
-    <div class="tx-caption" @click="toggleDetail()">
-      <TransactionIcon :transaction-group="transaction.group"></TransactionIcon>
-      <component
-        :is="messageTypeComponent"
-        show="caption"
-        :transaction="transaction"
-        :validators="validators"
-        :session-address="address"
-        class="tx__content"
-      />
-    </div>
+  <div class="tx" @click="toggleDetail()">
+    <component
+      :is="messageTypeComponent"
+      show="caption"
+      :transaction="transaction"
+      :validators="validators"
+      :session-address="address"
+      class="tx-caption"
+    />
     <transition name="fade">
       <div v-if="show" class="tx-details">
         <component
@@ -33,7 +30,6 @@
 </template>
 
 <script>
-import TransactionIcon from "./TransactionIcon"
 import { messageType } from "./messageTypes.js"
 import TransactionMetadata from "./TransactionMetadata"
 import Bech32 from "common/Bech32"
@@ -58,7 +54,6 @@ import {
 export default {
   name: `tx-item`,
   components: {
-    TransactionIcon,
     TransactionMetadata,
     Bech32,
     SendMessageDetails,
@@ -198,6 +193,7 @@ export default {
   display: flex;
   flex-direction: column;
   width: 100%;
+  padding: 1rem;
 }
 
 .tx__content__right {
@@ -227,23 +223,37 @@ export default {
   padding: 1rem 1rem 1rem 0;
 }
 
-.fade-enter-active, .fade-leave-active {
+.fade-enter-active,
+.fade-leave-active {
   transition: opacity 0.5s;
 }
 
-.fade-enter, .fade-leave-to {
+.fade-enter,
+.fade-leave-to {
   opacity: 0;
 }
 
-@media screen and (max-width: 767px) {
-  .tx__content {
-    flex-direction: column;
-    text-align: left;
-  }
+.tx__icon img {
+  max-height: 100%;
+  max-width: 52px;
+  border: 2px solid;
+  display: block;
+  border-color: grey;
+}
 
-  .tx__content__right {
-    text-align: left;
-    padding-top: 0.5rem;
-  }
+.tx__icon img.banking {
+  border-color: var(--tx-banking);
+}
+
+.tx__icon img.staking {
+  border-color: var(--tx-staking);
+}
+
+.tx__icon img.governance {
+  border-color: var(--tx-governance);
+}
+
+.tx__icon img.distribution {
+  border-color: var(--tx-distribution);
 }
 </style>

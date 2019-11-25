@@ -1,6 +1,10 @@
 <template>
   <div>
-    <div v-if="show === `caption`" class="tx__content__caption">
+    <div v-if="show === `caption`" class="tx__content">
+      <TransactionIcon
+        :transaction-group="transaction.group"
+        :transaction-type="caption"
+      />
       <div class="tx__content__left">
         {{ caption }}
       </div>
@@ -8,6 +12,7 @@
         {{ coin.amount | atoms | prettyLong }} {{ coin.denom | viewDenom }}
       </div>
     </div>
+
     <div v-if="show === `details`" class="tx__content__information">
       <template v-if="toYourself">
         To yourself!
@@ -34,6 +39,7 @@
 import { atoms, viewDenom, prettyLong } from "scripts/num.js"
 import Bech32 from "common/Bech32"
 import { getCoin } from "scripts/transaction-utils"
+import TransactionIcon from "../TransactionIcon"
 
 export default {
   name: `send-message-details`,
@@ -43,7 +49,8 @@ export default {
     prettyLong
   },
   components: {
-    Bech32
+    Bech32,
+    TransactionIcon
   },
   props: {
     transaction: {

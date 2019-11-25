@@ -1,7 +1,13 @@
 <template>
   <div>
-    <div v-if="show === `caption`" class="tx__content__caption">
-      <p>Unjail</p>
+    <div v-if="show === `caption`" class="tx__content">
+      <TransactionIcon
+        :transaction-group="transaction.group"
+        :transaction-type="caption"
+      />
+      <div class="tx__content__left">
+        {{ caption }}
+      </div>
     </div>
     <div v-if="show === `details`" class="tx__content__information">
       Name:
@@ -14,11 +20,15 @@
 
 <script>
 import { formatBech32 } from "src/filters"
+import TransactionIcon from "../TransactionIcon"
 
 export default {
   name: `unjail-message-details`,
   filters: {
     formatBech32
+  },
+  components: {
+    TransactionIcon
   },
   props: {
     transaction: {
@@ -32,6 +42,11 @@ export default {
     validators: {
       type: Object,
       required: true
+    }
+  },
+  data: () => {
+    return {
+      caption: `Unjail`
     }
   }
 }

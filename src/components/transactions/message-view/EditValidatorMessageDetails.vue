@@ -1,10 +1,20 @@
 <template>
   <div>
-    <div v-if="show === `caption`" class="tx__content__caption">
-      <p>Edit validator</p>
+    <div v-if="show === `caption`" class="tx__content">
+      <TransactionIcon
+        :transaction-group="transaction.group"
+        :transaction-type="caption"
+      />
+      <div class="tx__content__left">
+        {{ caption }}
+      </div>
+      <div class="tx__content__right">
+        {{ deposit.amount | atoms | prettyLong }}&nbsp;
+        {{ deposit.denom | viewDenom }}
+      </div>
     </div>
     <div v-if="show === `details`" class="tx__content__information">
-      Monikor&nbsp;
+      Moniker&nbsp;
       <router-link
         :to="`staking/validators/${transaction.value.validator_address}`"
       >
@@ -19,6 +29,7 @@
 <script>
 import { atoms, viewDenom, prettyLong } from "scripts/num.js"
 import { resolveValidatorName } from "src/filters"
+import TransactionIcon from "../TransactionIcon"
 
 export default {
   name: `edit-validator-message-details`,
@@ -27,6 +38,9 @@ export default {
     viewDenom,
     prettyLong,
     resolveValidatorName
+  },
+  components: {
+    TransactionIcon
   },
   props: {
     transaction: {
@@ -40,6 +54,11 @@ export default {
     validators: {
       type: Object,
       required: true
+    }
+  },
+  data: () => {
+    return {
+      caption: `Edit validator`
     }
   }
 }
