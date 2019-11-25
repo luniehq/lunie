@@ -28,8 +28,13 @@ module.exports = {
     browser.url(browser.launch_url + "/#/transactions")
     await waitForText(
       browser,
-      ".tx:nth-child(2) .tx__content__caption",
-      `Delegated ${value} STAKE`
+      ".tx:nth-child(2) .tx-caption .tx__content .tx__content__left",
+      `Staked`
+    )
+    await waitForText(
+      browser,
+      ".tx:nth-child(2) .tx-caption .tx__content .tx__content__right",
+      `${value} STAKE`
     )
   },
   "Redelegate Action": async function (browser) {
