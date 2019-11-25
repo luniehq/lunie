@@ -513,7 +513,8 @@ export default {
         totalRewards: this.overview.totalRewards, // getters.totalRewards,
         delegations: this.delegations, // state.delegates.delegates,
         bondDenom: this.network.stakingDenom, // getters.bondDenom,
-        isExtensionAccount: this.isExtensionAccount
+        isExtensionAccount: this.isExtensionAccount,
+        account: this.overview.accountInformation
       }
     },
     confirmModalOpen() {
@@ -653,7 +654,7 @@ export default {
         }
       }
 
-      const { memo } = this.transactionData
+      const { type, memo, ...properties } = this.transactionData
 
       const gasPrice = {
         amount: this.gasPrice,
@@ -668,7 +669,20 @@ export default {
       }
 
       try {
-        const { hash } = await this.actionManager.send(memo, feeProperties)
+        let hashResult
+        if (!process.env.VUE_APP_ENABLE_TX_API) {
+          hashResult = await this.actionManager.send(memo)
+        } else {
+          hashResult = await this.actionManager.sendTxAPI(
+            this.createContext(),
+            type,
+            properties,
+            memo,
+            feeProperties
+          )
+        }
+
+        const { hash } = hashResult
         this.txHash = hash
         this.step = inclusionStep
       } catch ({ message }) {
@@ -724,6 +738,10 @@ export default {
             totalRewards
             liquidStake
             totalStake
+            accountInformation {
+              accountNumber
+              sequence
+            }
           }
         }
       `,

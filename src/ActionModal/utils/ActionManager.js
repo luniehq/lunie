@@ -3,7 +3,12 @@ import { getSigner } from "./signer"
 import transaction from "./transactionTypes"
 import { uatoms } from "scripts/num"
 import { toMicroDenom } from "src/scripts/common"
-import { getMessage, getMultiMessage } from "./MessageConstructor.js"
+import {
+  getMessage,
+  getMultiMessage,
+  getTransactionSigner,
+  transformMessage
+} from "./MessageConstructor.js"
 
 const txFetchOptions = {
   method: "POST",
@@ -19,7 +24,12 @@ async function transactionAPIRequest(payload) {
     body: JSON.stringify({ payload })
   }
 
-  return fetch(`${config.graphqlHost}/transaction/estimate`, options).then(r => r.json())
+  const command = payload.simulate ? "estimate" : "broadcast"
+
+  return fetch(
+    `${config.graphqlHost}/transaction/${command}`,
+    options
+  ).then(r => r.json())
 }
 
 export default class ActionManager {
@@ -122,6 +132,55 @@ export default class ActionManager {
     const { included, hash } = await this.message.send(messageMetadata, signer)
 
     return { included, hash }
+  }
+
+  async sendTxAPI(context, type, transactionProperties, memo, txMetaData) {
+    console.log(context)
+    const { gasEstimate, gasPrice, submitType, password } = txMetaData
+    const signer = await getSigner(config, submitType, {
+      address: context.userAddress,
+      password
+    })
+
+    if (this.messageType === transaction.WITHDRAW) {
+      this.message = await this.createWithdrawTransaction()
+    }
+
+    const messageMetadata = {
+      gas: String(gasEstimate),
+      gasPrices: convertCurrencyData([gasPrice]),
+      memo
+    }
+
+    const txMessage = transformMessage(
+      type,
+      context.userAddress,
+      transactionProperties
+    )
+
+    const createSignedTransaction = await getTransactionSigner(context)
+    // { gas, gasPrices = DEFAULT_GAS_PRICE, memo = `` }, messages, signer, chainId, accountNumber, sequence
+    const signedMessage = await createSignedTransaction(
+      messageMetadata,
+      [txMessage],
+      signer,
+      context.chainId,
+      context.account.accountNumber,
+      context.account.sequence
+    )
+
+    console.log(signedMessage)
+
+    const txPayload = {
+      simulate: false,
+      networkId: context.networkId,
+      signedMessage
+    }
+
+    const result = await transactionAPIRequest(txPayload)
+    console.log("broadcast successful:", result)
+
+    return { hash: result.hash }
   }
 
   async createWithdrawTransaction() {
