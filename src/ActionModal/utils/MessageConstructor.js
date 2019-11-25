@@ -129,7 +129,6 @@ export function MsgRedelegate(
 export function MsgSubmitProposal(
   senderAddress,
   {
-    proposalType,
     title,
     description,
     initialDeposits // [{ denom, amount }]
