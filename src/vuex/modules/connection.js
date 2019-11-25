@@ -19,14 +19,14 @@ export default function() {
 
   const actions = {
     async checkForPersistedNetwork({ dispatch, commit }, apollo) {
-      const network = localStorage.getItem(`network`)
+      const network = JSON.parse(localStorage.getItem(`network`))
       const { data } = await apollo.query({
         query: Networks
       })
       let availNetworks = Object.values(data.networks).map( network => network.id)
-      if (network && availNetworks.includes(JSON.parse(network))) {
-        await commit(`setNetworkId`, JSON.parse(network))
-      } else if (network && !availNetworks.includes(JSON.parse(network))) {
+      if (network && availNetworks.includes(network)) {
+        await commit(`setNetworkId`, network)
+      } else if (network && !availNetworks.includes(network)) {
         if (data.networks.length > 1) {
           // we connect as default to cosmos-hub-mainnet
           await dispatch(`setNetwork`, data.networks[1])
