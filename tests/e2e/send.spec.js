@@ -28,7 +28,7 @@ module.exports = {
     await waitForText(
       browser,
       ".tx:nth-child(2) .tx-caption .tx__content .tx__content__left",
-      "Sent 1.3 STAKE"
+      "Sent"
     )
     await waitForText(
       browser,
