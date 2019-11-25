@@ -6,7 +6,6 @@ import Vuelidate from "vuelidate"
 import InfiniteScroll from "vue-infinite-scroll"
 import VueClipboard from "vue-clipboard2"
 import { focusElement, focusParentLast } from "src/directives"
-import App from "./App.vue"
 import init from "./initializeApp"
 import { getURLParams } from "scripts/url"
 import "./registerServiceWorker"
@@ -16,6 +15,7 @@ import config from "src/../config"
 import * as Sentry from "@sentry/browser"
 import * as Integrations from "@sentry/integrations"
 import "material-design-icons-iconfont/dist/material-design-icons.css"
+const App = () => import("./App.vue")
 
 if (config.sentryDSN) {
   Sentry.init({
