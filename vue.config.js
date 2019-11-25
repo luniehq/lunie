@@ -48,7 +48,9 @@ module.exports = {
       ],
       optimization: {
         splitChunks: {
-          chunks: 'all'
+          chunks: 'all',
+          minSize: 10000,
+          maxSize: 250000,
         }
       }
     }

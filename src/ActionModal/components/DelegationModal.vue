@@ -140,7 +140,7 @@ const TmFieldGroup = () => import("src/components/common/TmFieldGroup")
 const TmBtn = () => import("src/components/common/TmBtn")
 const TmFormGroup = () => import("src/components/common/TmFormGroup")
 const TmFormMsg = () => import("src/components/common/TmFormMsg")
-const ActionModal = () => import("./ActionModal")
+const ActionModal = () => import(/* webpackChunkName: "ActionModal" */ "./ActionModal")
 const transaction = () => import("../utils/transactionTypes")
 import { toMicroDenom } from "src/scripts/common"
 import { formatBech32 } from "src/filters"

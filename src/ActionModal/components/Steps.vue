@@ -12,7 +12,7 @@
 </template>
 
 <script>
-const Step = () => import("./StepComponent")
+const Step = () => import(/* webpackChunkName: "Step" */ "./StepComponent")
 export default {
   name: "Steps",
   components: {

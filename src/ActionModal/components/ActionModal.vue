@@ -301,7 +301,7 @@ import { track } from "scripts/google-analytics"
 import { UserTransactionAdded } from "src/gql"
 import config from "src/../config"
 
-const ActionManager = () => import("../utils/ActionManager")
+const ActionManager = () => import(/* webpackChunkName: "ActionManager" */ "../utils/ActionManager")
 
 const defaultStep = `details`
 const feeStep = `fees`
