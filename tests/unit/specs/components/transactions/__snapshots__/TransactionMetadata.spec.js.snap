@@ -14,7 +14,7 @@ exports[`TransactionMetadata renders correct fee and block transaction data 1`] 
       #1234567 
     </router-link-stub>
     
-    @ Jul 31st 2019 00:00:00
+    @ 00:00:00
   
   </div>
    
