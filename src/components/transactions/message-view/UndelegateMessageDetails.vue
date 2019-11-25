@@ -9,8 +9,7 @@
         {{ caption }}
       </div>
       <div class="tx__content__right">
-        {{ coin.amount | atoms | prettyLong }}&nbsp;
-        {{ coin.denom | viewDenom }}
+        {{ coin.amount | atoms | prettyLong }} {{ coin.denom | viewDenom }}
       </div>
     </div>
     <div v-if="show === `details`" class="tx__content__information">
