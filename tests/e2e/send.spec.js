@@ -27,8 +27,13 @@ module.exports = {
     browser.pause(1000)
     await waitForText(
       browser,
-      ".tx:nth-child(2) .tx__content__caption",
+      ".tx:nth-child(2) .tx__content__caption .tx__content .tx__content__left",
       "Sent 1.3 STAKE"
+    )
+    await waitForText(
+      browser,
+      ".tx:nth-child(2) .tx__content__caption .tx__content .tx__content__right",
+      "1.3 STAKE"
     )
   }
 }
