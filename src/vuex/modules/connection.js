@@ -1,7 +1,5 @@
 import config from "src/../config"
 import { Networks } from "../../gql"
-import { print } from "graphql/language/printer"
-import axios from "axios"
 
 export default function() {
   const state = {
@@ -20,26 +18,23 @@ export default function() {
   }
 
   const actions = {
-    async checkForPersistedNetwork({ dispatch, commit }) {
-      const network = JSON.parse(localStorage.getItem(`network`))
-      dispatch(`checkAvailableNetworks`).then( async result => {
-        let availNetworks = result.data.data.networks
-        let availNetworksID = Object.values(availNetworks).map(
-          network => network.id
-        )
-        // Little hack to reorder the array so 'cosmos-hub-mainnet' stays at the beginning
-        if (availNetworks.length > 1) {
-          availNetworks = availNetworks.sort( (n1, n2) => (n1.testnet > n2.testnet) ? 1 : -1)
-        }
-        if (network && availNetworksID.includes(network)) {
-          await commit(`setNetworkId`, network)
-        } else if (network && !availNetworksID.includes(network)) {
-          await dispatch(`setNetwork`, availNetworks[0])
-        }      
-      }).catch( error => {
-        console.error('Error', error)
+    async checkForPersistedNetwork({ dispatch, commit }, apollo) {
+      const network = localStorage.getItem(`network`)
+      const { data } = await apollo.query({
+        query: Networks
       })
-
+      let availNetworks = Object.values(data.networks).map( network => network.id)
+      if (network && availNetworks.includes(JSON.parse(network))) {
+        await commit(`setNetworkId`, JSON.parse(network))
+      } else if (network && !availNetworks.includes(JSON.parse(network))) {
+        if (data.networks.length > 1) {
+          // we connect as default to cosmos-hub-mainnet
+          await dispatch(`setNetwork`, data.networks[1])
+        } else {
+          // otherwise we connect to local-cosmos-hub-testnet
+          await dispatch(`setNetwork`, data.networks[0])
+        }
+      }
 
     },
     async persistNetwork(store, network) {
@@ -50,14 +45,6 @@ export default function() {
       dispatch(`persistNetwork`, network)
       commit("setNetworkId", network.id)
       console.info(`Connecting to: ${network.id}`)
-    },
-    async checkAvailableNetworks() {
-      let networksQuery = print(Networks)
-      return await axios
-      .post(
-        process.env.VUE_APP_GRAPHQL_URL || `http://127.0.0.1:4000`,
-        {query: networksQuery}
-      )
     }
   }
 
