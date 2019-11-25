@@ -24,11 +24,11 @@ export default {
       } else if (this.transactionType === `Received`) {
         return `/img/icons/activity/Received.svg`
       } else if (this.transactionType === `Staked`) {
-        return `/img/icons/activity/Delegate.svg`
+        return `/img/icons/activity/Staked.svg`
       } else if (this.transactionType === `Restaked`) {
-        return `/img/icons/activity/Redelegate.svg`
+        return `/img/icons/activity/Restaked.svg`
       } else if (this.transactionType === `Unstaked`) {
-        return `/img/icons/activity/Undelegate.svg`
+        return `/img/icons/activity/Unstaked.svg`
       } else if (this.transactionType.search(`Withdrawal`) === 0) {
         return `/img/icons/activity/Withdrawal.svg`
       } else if (this.transactionType === `Update withdraw address`) {
@@ -39,7 +39,7 @@ export default {
         return `/img/icons/activity/Deposit.svg`
       } else if (this.transactionType.search(`Submitted`) === 0) {
         // MISSING ICON!
-        return `/img/icons/activity/Proposal.svg`
+        return `/img/icons/activity/Submitted.svg`
       } else if (this.transactionType === `Create validator`) {
         // MISSING ICON!
         return `/img/icons/activity/Create.svg`
