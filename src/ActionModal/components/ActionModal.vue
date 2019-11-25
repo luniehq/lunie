@@ -300,8 +300,7 @@ import { between, requiredIf } from "vuelidate/lib/validators"
 import { track } from "scripts/google-analytics"
 import { UserTransactionAdded } from "src/gql"
 import config from "src/../config"
-
-const ActionManager = () => import(/* webpackChunkName: "ActionManager" */ "../utils/ActionManager")
+import ActionManager from "../utils/ActionManager"
 
 const defaultStep = `details`
 const feeStep = `fees`
