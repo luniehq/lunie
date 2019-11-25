@@ -44,14 +44,14 @@ const { store, router, apolloProvider } = init(urlParams)
 const { SplashScreen, StatusBar } = Plugins
 
 new Vue({
-  router,
-  ...App,
-  store,
-  apolloProvider,
   mounted() {
     if (config.mobileApp) {
       SplashScreen.hide()
       StatusBar.show()
     }
-  }
+  },
+  render: h => h(App),
+  router,
+  store,
+  apolloProvider
 }).$mount("#app")
