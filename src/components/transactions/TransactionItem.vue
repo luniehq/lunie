@@ -1,5 +1,5 @@
 <template>
-  <div class="tx" @click="toggleDetail()">
+  <div class="tx" @click="toggleDetail">
     <component
       :is="messageTypeComponent"
       show="caption"
@@ -133,8 +133,11 @@ export default {
     }
   },
   methods: {
-    toggleDetail() {
-      this.show = !this.show
+    toggleDetail(event) {
+      // Prevent collapse tx details when click on address
+      if (event.target.className !== `address`) {
+        this.show = !this.show
+      }
     }
   }
 }
