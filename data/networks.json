@@ -7,7 +7,7 @@
     "api_url": "https://gaia-13006.lunie.io",
     "bech32_prefix": "cosmos",
     "testnet": true,
-    "feature_session": true,
+    "feature_session": false,
     "feature_portfolio": true,
     "feature_validators": true,
     "feature_proposals": true,
