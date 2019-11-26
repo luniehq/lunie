@@ -15,7 +15,7 @@ import config from "src/../config"
 import * as Sentry from "@sentry/browser"
 import * as Integrations from "@sentry/integrations"
 import "material-design-icons-iconfont/dist/material-design-icons.css"
-const App = () => import(/* webpackChunkName: "App" */ "./App.vue")
+const App = () => import("./App.vue")
 
 if (config.sentryDSN) {
   Sentry.init({

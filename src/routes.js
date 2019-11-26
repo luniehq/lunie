@@ -44,7 +44,7 @@ export default [
     meta: {
       feature: "Validators"
     },
-    component: () => import(/* webpackChunkName: "PageValidators" */ `./components/staking/PageValidators`)
+    component: () => import(`./components/staking/PageValidators`)
   },
   // for depredecated routes
   {
@@ -66,7 +66,7 @@ export default [
   {
     path: `/portfolio`,
     name: `portfolio`,
-    component: () => import(/* webpackChunkName: "Portfolio" */ `./components/wallet/PagePortfolio`),
+    component: () => import(`./components/wallet/PagePortfolio`),
     meta: {
       requiresAuth: true,
       feature: "Portfolio"
