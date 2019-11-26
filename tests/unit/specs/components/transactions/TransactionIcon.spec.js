@@ -36,12 +36,17 @@ describe(`TransactionIcon`, () => {
       icon: `Withdrawal`
     },
     {
+      type: `Withdrawal with comission`,
+      group: `distribution`,
+      icon: `Withdrawal`
+    },
+    {
       type: `Update withdraw address`,
       group: `distribution`,
       icon: `Withdrawal`
     },
     {
-      type: `Voted`,
+      type: `Voted xxx`,
       group: `governance`,
       icon: `Voted`
     },
@@ -51,7 +56,7 @@ describe(`TransactionIcon`, () => {
       icon: `Deposit`
     },
     {
-      type: `Submitted`,
+      type: `Submitted xxx proposal`,
       group: `governance`,
       icon: `Submitted`
     },
@@ -61,7 +66,7 @@ describe(`TransactionIcon`, () => {
       icon: `Create`
     },
     {
-      type: `Edit`,
+      type: `Edit validator`,
       group: `staking`,
       icon: `Edit`
     },

@@ -36,6 +36,18 @@ exports[`TransactionIcon renders a coloured Edit transaction icon 1`] = `
 </div>
 `;
 
+exports[`TransactionIcon renders a coloured Edit validator transaction icon 1`] = `
+<div
+  class="tx__icon"
+>
+  <img
+    alt="Edit validator"
+    class="staking"
+    src="/img/icons/activity/Edit.svg"
+  />
+</div>
+`;
+
 exports[`TransactionIcon renders a coloured Received transaction icon 1`] = `
 <div
   class="tx__icon"
@@ -96,6 +108,18 @@ exports[`TransactionIcon renders a coloured Submitted transaction icon 1`] = `
 </div>
 `;
 
+exports[`TransactionIcon renders a coloured Submitted xxx proposal transaction icon 1`] = `
+<div
+  class="tx__icon"
+>
+  <img
+    alt="Submitted xxx proposal"
+    class="governance"
+    src="/img/icons/activity/Submitted.svg"
+  />
+</div>
+`;
+
 exports[`TransactionIcon renders a coloured Unjail transaction icon 1`] = `
 <div
   class="tx__icon"
@@ -144,12 +168,36 @@ exports[`TransactionIcon renders a coloured Voted transaction icon 1`] = `
 </div>
 `;
 
+exports[`TransactionIcon renders a coloured Voted xxx transaction icon 1`] = `
+<div
+  class="tx__icon"
+>
+  <img
+    alt="Voted xxx"
+    class="governance"
+    src="/img/icons/activity/Voted.svg"
+  />
+</div>
+`;
+
 exports[`TransactionIcon renders a coloured Withdrawal transaction icon 1`] = `
 <div
   class="tx__icon"
 >
   <img
     alt="Withdrawal"
+    class="distribution"
+    src="/img/icons/activity/Withdrawal.svg"
+  />
+</div>
+`;
+
+exports[`TransactionIcon renders a coloured Withdrawal with comission transaction icon 1`] = `
+<div
+  class="tx__icon"
+>
+  <img
+    alt="Withdrawal with comission"
     class="distribution"
     src="/img/icons/activity/Withdrawal.svg"
   />
