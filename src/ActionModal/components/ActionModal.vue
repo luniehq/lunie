@@ -619,7 +619,7 @@ export default {
       const { type, memo, ...properties } = this.transactionData
       await this.actionManager.setMessage(type, properties)
       try {
-        if (!process.env.VUE_APP_ENABLE_TX_API) {
+        if (!config.enableTxAPI) {
           this.gasEstimate = await this.actionManager.simulate(memo)
         } else {
           this.gasEstimate = await this.actionManager.simulateTxAPI(
@@ -670,7 +670,7 @@ export default {
 
       try {
         let hashResult
-        if (!process.env.VUE_APP_ENABLE_TX_API) {
+        if (!config.enableTxAPI) {
           hashResult = await this.actionManager.send(memo)
         } else {
           hashResult = await this.actionManager.sendTxAPI(
