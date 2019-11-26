@@ -1,27 +1,44 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`TransactionMetadata renders correct fee and block transaction data 1`] = `
-<div>
-  <div
-    class="tx__metadata"
-  >
-    
-    Block
+<div
+  class="tx__metadata"
+>
+  <div>
+    <i
+      class="material-icons"
+    >
+      widgets
+    </i>
+     Block
     
     <router-link-stub
       to="[object Object]"
     >
-      #1,234,567 
+      
+      #1,234,567
+    
     </router-link-stub>
-    @ 00:00:00
+     
+    <i
+      class="material-icons"
+    >
+      access_time
+    </i>
+     00:00:00
   
   </div>
    
   <!---->
    
   <div>
+    <i
+      class="material-icons"
+    >
+      call_split
+    </i>
     
-    Network Fee: 
+    Fee:
     
     <b>
       0.001234
@@ -35,7 +52,14 @@ exports[`TransactionMetadata renders correct fee and block transaction data 1`] 
   <p
     class="hash"
   >
+    <i
+      class="material-icons"
+    >
+      fingerprint
+    </i>
+    
     Hash: ABCD1234
+  
   </p>
 </div>
 `;
