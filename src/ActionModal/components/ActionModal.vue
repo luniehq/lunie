@@ -656,14 +656,12 @@ export default {
 
       const { type, memo, ...properties } = this.transactionData
 
-      const gasPrice = {
-        amount: this.gasPrice,
-        denom: this.network.stakingDenom
-      }
-
       const feeProperties = {
         gasEstimate: this.gasEstimate,
-        gasPrice: gasPrice,
+        gasPrice: {
+          amount: this.gasPrice,
+          denom: this.network.stakingDenom
+        },
         submitType: this.selectedSignMethod,
         password: this.password
       }
@@ -676,8 +674,8 @@ export default {
           hashResult = await this.actionManager.sendTxAPI(
             this.createContext(),
             type,
-            properties,
             memo,
+            properties,
             feeProperties
           )
         }

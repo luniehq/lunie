@@ -134,7 +134,7 @@ export default class ActionManager {
     return { included, hash }
   }
 
-  async sendTxAPI(context, type, transactionProperties, memo, txMetaData) {
+  async sendTxAPI(context, type, memo, transactionProperties, txMetaData) {
     console.log(context)
     const { gasEstimate, gasPrice, submitType, password } = txMetaData
     const signer = await getSigner(config, submitType, {
