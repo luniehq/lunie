@@ -10,9 +10,9 @@ describe(`TransactionList`, () => {
 
   let txs = []
   let height = 1086769
-  let offset = 86400 / 7 // 7s block time
-  let timestamp = new Date().getTime()
-  let oneDay = 86400
+  let oneDay = 86400 // One day
+  let offset = 86400 / 7 // One day / 7s block time
+  let timestamp = new Date().getTime() // Today
   let timeOffset = 0
 
   for (var type in messageType) {
