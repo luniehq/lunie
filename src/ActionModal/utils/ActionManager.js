@@ -142,7 +142,6 @@ export default class ActionManager {
       password
     })
 
-
     const messageMetadata = {
       gas: String(gasEstimate),
       gasPrices: convertCurrencyData([gasPrice]),
@@ -151,14 +150,15 @@ export default class ActionManager {
 
     let txMessages = []
     if (this.messageType === transaction.WITHDRAW) {
-      const validators = getTop5RewardsValidators(context.bondDenom, context.rewards)
+      const validators = getTop5RewardsValidators(
+        context.bondDenom,
+        context.rewards
+      )
       validators.forEach(validator => {
-        const txMessage = transformMessage(
-          type,
-          context.userAddress,
-          {validatorAddress: validator}
-        )
-        txMessages.push(txMessage)       
+        const txMessage = transformMessage(type, context.userAddress, {
+          validatorAddress: validator
+        })
+        txMessages.push(txMessage)
       })
     } else {
       const txMessage = transformMessage(
