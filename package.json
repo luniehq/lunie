@@ -12,13 +12,13 @@
     "dev-cache": "cross-env NODE_ENV=development ENABLE_CACHE=true nodemon index.js",
     "dev-docker": "docker build -t lunie-api-dev . && docker run --init -it -p 4000:4000 lunie-api-dev",
     "lint": "eslint index.js config.js lib",
-    "lint-fix": "npm run lint -- --fix",
+    "lint-fix": "yarn lint --fix",
     "start": "node index.js",
     "test": "jest"
   },
   "husky": {
     "hooks": {
-      "pre-push": "npm run lint"
+      "pre-push": "yarn lint"
     }
   },
   "author": "",

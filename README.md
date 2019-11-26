@@ -9,7 +9,7 @@ git clone https://github.com/luniehq/lunie-api.git
 Install dependencies:
 
 ```
-npm install
+yarn install
 ```
 
 ## Run
@@ -17,19 +17,19 @@ npm install
 Start with automatic restart on save:
 
 ```
-npm run dev
+yarn dev
 ```
 
 Or start using Redis for the Apollo cache. You will need to set `REDIS_URL` environment variable with your Redis server URL.
 
 ```
-npm run dev-cache
+yarn dev-cache
 ```
 
 Or start in a docker container:
 
 ```
-npm run dev-docker
+yarn dev-docker
 ```
 
 ## Development

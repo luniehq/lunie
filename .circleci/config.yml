@@ -7,10 +7,10 @@ jobs:
       - checkout
       - run:
           name: Install dependencies
-          command: npm install
+          command: yarn
       - run:
           name: Lint
-          command: npm run lint
+          command: yarn lint
       - run:
           name: Test
-          command: npm test          
+          command: yarn test          
