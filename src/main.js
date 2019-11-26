@@ -9,6 +9,7 @@ import { focusElement, focusParentLast } from "src/directives"
 import App from "./App.vue"
 import init from "./initializeApp"
 import { getURLParams } from "scripts/url"
+import { registerPushNotifications } from "scripts/push-notifications"
 import "./registerServiceWorker"
 import "@babel/polyfill"
 import { Plugins } from "@capacitor/core"
@@ -52,6 +53,8 @@ new Vue({
     if (config.mobileApp) {
       SplashScreen.hide()
       StatusBar.show()
+
+      registerPushNotifications()
     }
   }
 }).$mount("#app")

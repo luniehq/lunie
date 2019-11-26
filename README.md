@@ -122,6 +122,10 @@ $ npx cap sync android
 $ npx cap open android
 ```
 
+#### Known issues
+
+If you see something like "capacitor-cordova-android-plugins" not found. Follow this: https://github.com/ionic-team/capacitor/issues/349#issuecomment-550118242
+
 #### iOS
 
 Dependencies:
