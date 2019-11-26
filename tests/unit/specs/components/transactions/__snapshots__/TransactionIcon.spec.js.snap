@@ -1,5 +1,17 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`TransactionIcon renders a coloured Create transaction icon 1`] = `
+<div
+  class="tx__icon"
+>
+  <img
+    alt="Create"
+    class="staking"
+    src="/img/icons/activity/Create.svg"
+  />
+</div>
+`;
+
 exports[`TransactionIcon renders a coloured Deposit transaction icon 1`] = `
 <div
   class="tx__icon"
@@ -8,6 +20,18 @@ exports[`TransactionIcon renders a coloured Deposit transaction icon 1`] = `
     alt="Deposit"
     class="governance"
     src="/img/icons/activity/Deposit.svg"
+  />
+</div>
+`;
+
+exports[`TransactionIcon renders a coloured Edit transaction icon 1`] = `
+<div
+  class="tx__icon"
+>
+  <img
+    alt="Edit"
+    class="staking"
+    src="/img/icons/activity/Edit.svg"
   />
 </div>
 `;
@@ -68,6 +92,18 @@ exports[`TransactionIcon renders a coloured Submitted transaction icon 1`] = `
     alt="Submitted"
     class="governance"
     src="/img/icons/activity/Submitted.svg"
+  />
+</div>
+`;
+
+exports[`TransactionIcon renders a coloured Unjail transaction icon 1`] = `
+<div
+  class="tx__icon"
+>
+  <img
+    alt="Unjail"
+    class="staking"
+    src="/img/icons/activity/Unjail.svg"
   />
 </div>
 `;

@@ -19,35 +19,17 @@ export default {
   },
   computed: {
     icon() {
-      if (this.transactionType === `Sent`) {
-        return `/img/icons/activity/Sent.svg`
-      } else if (this.transactionType === `Received`) {
-        return `/img/icons/activity/Received.svg`
-      } else if (this.transactionType === `Staked`) {
-        return `/img/icons/activity/Staked.svg`
-      } else if (this.transactionType === `Restaked`) {
-        return `/img/icons/activity/Restaked.svg`
-      } else if (this.transactionType === `Unstaked`) {
-        return `/img/icons/activity/Unstaked.svg`
-      } else if (this.transactionType.search(`Withdrawal`) === 0) {
-        return `/img/icons/activity/Withdrawal.svg`
-      } else if (this.transactionType === `Update withdraw address`) {
-        return `/img/icons/activity/Withdrawal.svg`
-      } else if (this.transactionType.search(`Voted`) === 0) {
-        return `/img/icons/activity/Voted.svg`
-      } else if (this.transactionType === `Deposit`) {
-        return `/img/icons/activity/Deposit.svg`
-      } else if (this.transactionType.search(`Submitted`) === 0) {
-        return `/img/icons/activity/Submitted.svg`
-      } else if (this.transactionType === `Create validator`) {
-        return `/img/icons/activity/Create.svg`
-      } else if (this.transactionType === `Edit validator`) {
-        return `/img/icons/activity/Edit.svg`
-      } else if (this.transactionType.search(`Unjail`) === 0) {
-        return `/img/icons/activity/Unjail.svg`
+      if (this.transactionType.indexOf(` `) !== -1) {
+        if (this.transactionType === `Update withdraw address`) {
+          return `/img/icons/activity/Withdrawal.svg`
+        } else {
+          return `/img/icons/activity/${this.transactionType.substr(
+            0,
+            this.transactionType.indexOf(` `)
+          )}.svg`
+        }
       } else {
-        /* istanbul ignore next */
-        return ``
+        return `/img/icons/activity/${this.transactionType}.svg`
       }
     }
   }

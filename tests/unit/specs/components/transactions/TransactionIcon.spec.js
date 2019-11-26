@@ -55,21 +55,21 @@ describe(`TransactionIcon`, () => {
       group: `governance`,
       icon: `Submitted`
     },
-    // {
-    //   type: `Create`,
-    //   group: `staking`,
-    //   icon: `Create`
-    // },
-    // {
-    //   type: `Edit`,
-    //   group: `staking`,
-    //   icon: `Edit`
-    // },
-    // {
-    //   type: `Unjail`,
-    //   group: `staking`,
-    //   icon: `Unjail`
-    // }
+    {
+      type: `Create`,
+      group: `staking`,
+      icon: `Create`
+    },
+    {
+      type: `Edit`,
+      group: `staking`,
+      icon: `Edit`
+    },
+    {
+      type: `Unjail`,
+      group: `staking`,
+      icon: `Unjail`
+    }
   ]
 
   for (let i = 0; i < transactions.length; i++) {
