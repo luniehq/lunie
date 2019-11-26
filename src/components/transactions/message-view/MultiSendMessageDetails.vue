@@ -71,22 +71,38 @@ export default {
       return getMultiSendCoin(this.transaction, this.sessionAddress)
     },
     toYourself() {
-      return (
-        this.transaction.value.from_address === this.sessionAddress &&
-        this.transaction.value.to_address === this.sessionAddress
-      )
+      let toYourself = false
+      if (this.transaction.value.inputs[0].address === this.sessionAddress) {
+        this.transaction.value.outputs.map(output => {
+          if (output.address === this.sessionAddress) {
+            toYourself = true
+          }
+        })
+      }
+      return toYourself
     },
     sentFromSessionAddress() {
-      return (
-        this.sessionAddress === this.transaction.value.from_address &&
-        this.sessionAddress !== this.transaction.value.to_address
-      )
+      let sentFromSessionAddress = false
+      if (this.transaction.value.inputs[0].address === this.sessionAddress) {
+        sentFromSessionAddress = true
+        this.transaction.value.outputs.map(output => {
+          if (output.address === this.sessionAddress) {
+            sentFromSessionAddress = false
+          }
+        })
+      }
+      return sentFromSessionAddress
     },
     receivedToSessionAddress() {
-      return (
-        this.sessionAddress === this.transaction.value.to_address &&
-        this.sessionAddress !== this.transaction.value.from_address
-      )
+      let receivedToSessionAddress = false
+      if (this.transaction.value.inputs[0].address !== this.sessionAddress) {
+        this.transaction.value.outputs.map(output => {
+          if (output.address === this.sessionAddress) {
+            receivedToSessionAddress = true
+          }
+        })
+      }
+      return receivedToSessionAddress
     },
     caption() {
       if (this.transaction.value.inputs[0].address === this.sessionAddress) {

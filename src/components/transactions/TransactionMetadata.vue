@@ -43,7 +43,8 @@ export default {
     },
     memo: {
       type: String,
-      required: false
+      required: false,
+      default: ``
     },
     hash: {
       type: String,

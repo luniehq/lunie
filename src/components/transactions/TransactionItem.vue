@@ -9,7 +9,7 @@
       class="tx-caption"
     />
     <transition name="slide-out">
-      <div v-if="show" class="tx-details" v-on:submit.prevent>
+      <div v-if="show" class="tx-details">
         <component
           :is="messageTypeComponent"
           show="details"
