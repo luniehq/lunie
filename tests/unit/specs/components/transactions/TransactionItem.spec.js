@@ -11,6 +11,11 @@ describe(`TransactionItem`, () => {
   let txs = []
   let height = 1086769
   let offset = 1
+  const event = {
+    target: {
+      className: `tx__content__left`
+    }
+  }
 
   for (var type in messageType) {
     txs.push({
@@ -40,7 +45,7 @@ describe(`TransactionItem`, () => {
         }
       })
       expect(wrapper.element).toMatchSnapshot()
-      wrapper.vm.toggleDetail()
+      wrapper.vm.toggleDetail(event)
       expect(wrapper.html()).toContain("tx-details")
     })
   }
