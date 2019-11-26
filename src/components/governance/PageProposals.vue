@@ -1,42 +1,46 @@
 <template>
-  <div v-if="!$apollo.loading && proposals.length === 0">     
-    <div class="button-container">
-      <TmBtn
-        id="propose-btn"
-        value="Create Proposal"
-        type="secondary"
-        @click.native="onPropose"
+  <TmPage
+    data-title="Proposals"
+    :managed="false">
+    <div v-if="!$apollo.loading && proposals.length === 0">     
+      <div class="button-container">
+        <TmBtn
+          id="propose-btn"
+          value="Create Proposal"
+          type="secondary"
+          @click.native="onPropose"
+        />
+      </div>
+      <div>
+        <TmDataMsg icon="gavel">
+          <div slot="title">
+            No Governance Proposals
+          </div>
+          <div slot="subtitle">
+            There are currently no governance proposals to display.
+            Click the 'Create Proposal' button to submit the first proposal of the network!
+          </div>
+        </TmDataMsg>
+      </div>
+    </div>
+    <div v-else-if="!$apollo.loading && proposals.length > 0">
+      <div class="button-container">
+        <TmBtn
+          id="propose-btn"
+          value="Create Proposal"
+          type="secondary"
+          @click.native="onPropose"
+        />
+      </div>
+      <TmDataLoading v-if="$apollo.loading" />
+      <TableProposals v-else :proposals="proposals" />
+      <ModalPropose
+        ref="modalPropose"
+        :denom="parameters.depositDenom"
+        @success="() => afterPropose()"
       />
     </div>
-    <div>
-      <TmDataMsg icon="gavel">
-        <div slot="title">
-          No Governance Proposals
-        </div>
-        <div slot="subtitle">
-          There are currently no governance proposals to display.
-          Click the 'Create Proposal' button to submit the first proposal of the network!
-        </div>
-      </TmDataMsg>
-    </div>
-  </div>
-  <div v-else-if="!$apollo.loading && proposals.length > 0">
-    <div class="button-container">
-      <TmBtn
-        id="propose-btn"
-        value="Create Proposal"
-        type="secondary"
-        @click.native="onPropose"
-      />
-    </div>
-    <TmDataLoading v-if="$apollo.loading" />
-    <TableProposals v-else :proposals="proposals" />
-    <ModalPropose
-      ref="modalPropose"
-      :denom="parameters.depositDenom"
-      @success="() => afterPropose()"
-    />
-  </div>
+  </TmPage>
 </template>
 
 <script>
