@@ -142,9 +142,6 @@ export default class ActionManager {
       password
     })
 
-    if (this.messageType === transaction.WITHDRAW) {
-      this.message = await this.createWithdrawTransaction()
-    }
 
     const messageMetadata = {
       gas: String(gasEstimate),
@@ -152,17 +149,30 @@ export default class ActionManager {
       memo
     }
 
-    const txMessage = transformMessage(
-      type,
-      context.userAddress,
-      transactionProperties
-    )
+    let txMessages = []
+    if (this.messageType === transaction.WITHDRAW) {
+      const validators = getTop5RewardsValidators(context.bondDenom, context.rewards)
+      validators.forEach(validator => {
+        const txMessage = transformMessage(
+          type,
+          context.userAddress,
+          {validatorAddress: validator}
+        )
+        txMessages.push(txMessage)       
+      })
+    } else {
+      const txMessage = transformMessage(
+        type,
+        context.userAddress,
+        transactionProperties
+      )
+      txMessages.push(txMessage)
+    }
 
     const createSignedTransaction = await getTransactionSigner(context)
-    // { gas, gasPrices = DEFAULT_GAS_PRICE, memo = `` }, messages, signer, chainId, accountNumber, sequence
     const signedMessage = await createSignedTransaction(
       messageMetadata,
-      [txMessage],
+      txMessages,
       signer,
       context.chainId,
       context.account.accountNumber,
