@@ -21,7 +21,7 @@
           transaction.value.validator_src_address
             | resolveValidatorName(validators)
         }} </router-link
-      >To&nbsp;
+      >&nbsp;to&nbsp;
       <router-link
         :to="`staking/validators/${transaction.value.validator_dst_address}`"
       >

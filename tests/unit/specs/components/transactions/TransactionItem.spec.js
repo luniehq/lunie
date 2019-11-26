@@ -19,6 +19,7 @@ describe(`TransactionItem`, () => {
         amount: "37",
         denom: "uatom"
       },
+      hash: `ABCD1234`,
       group: transactionGroup[messageType[type]],
       key: "keyhash",
       memo: "(Sent via Lunie)",

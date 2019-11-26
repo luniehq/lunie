@@ -15,7 +15,7 @@
 
     <div v-if="show === `details`" class="tx__content__information">
       <template v-if="toYourself">
-        To yourself!
+        To yourself!&nbsp;<Bech32 :address="transaction.value.to_address" />
       </template>
       <template v-else-if="sentFromSessionAddress">
         To&nbsp;
@@ -30,7 +30,6 @@
         <Bech32 :address="transaction.value.from_address" />&nbsp;to&nbsp;
         <Bech32 :address="transaction.value.to_address" />
       </template>
-      <span v-if="transaction.memo">&nbsp;- {{ transaction.memo }}</span>
     </div>
   </div>
 </template>

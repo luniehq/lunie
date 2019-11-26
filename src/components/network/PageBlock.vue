@@ -8,7 +8,7 @@
   >
     <template slot="managed-body">
       <div class="block">
-        <h2 class="page-profile__title">Block {{ height }}</h2>
+        <h2 class="page-profile__title">Block #{{ height | prettyInt }}</h2>
       </div>
 
       <ul class="row">
@@ -52,6 +52,7 @@
 <script>
 import { mapGetters } from "vuex"
 import { date } from "src/filters"
+import { prettyInt } from "scripts/num"
 import gql from "graphql-tag"
 
 import TmPage from "common/TmPage"
@@ -65,7 +66,8 @@ export default {
     TransactionList
   },
   filters: {
-    date
+    date,
+    prettyInt
   },
   data: () => ({
     block: {

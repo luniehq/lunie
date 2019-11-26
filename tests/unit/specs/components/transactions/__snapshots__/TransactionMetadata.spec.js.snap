@@ -6,17 +6,18 @@ exports[`TransactionMetadata renders correct fee and block transaction data 1`] 
     class="tx__metadata"
   >
     
-    Block:
+    Block
     
     <router-link-stub
       to="[object Object]"
     >
-      #1234567 
+      #1,234,567 
     </router-link-stub>
-    
     @ 00:00:00
   
   </div>
+   
+  <!---->
    
   <div>
     
@@ -30,5 +31,11 @@ exports[`TransactionMetadata renders correct fee and block transaction data 1`] 
        ATOM
     </span>
   </div>
+   
+  <p
+    class="hash"
+  >
+    Hash: ABCD1234
+  </p>
 </div>
 `;

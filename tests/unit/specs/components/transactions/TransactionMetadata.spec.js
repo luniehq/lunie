@@ -12,7 +12,8 @@ describe(`TransactionMetadata`, () => {
         fee: {
           amount: "0.001234",
           denom: "ATOM"
-        }
+        },
+        hash: `ABCD1234`
       },
       stubs: [`router-link`]
     })

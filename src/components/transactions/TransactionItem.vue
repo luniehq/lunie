@@ -8,21 +8,23 @@
       :session-address="address"
       class="tx-caption"
     />
-    <transition name="fade">
-      <div v-if="show" class="tx-details">
+    <transition name="slide-out">
+      <div v-if="show" class="tx-details" v-on:submit.prevent>
         <component
           :is="messageTypeComponent"
           show="details"
           :transaction="transaction"
           :validators="validators"
           :session-address="address"
-          class="tx__content"
+          class="tx-detail-content"
         />
         <TransactionMetadata
           v-if="showMetaData"
           :fee="transaction.fee"
           :height="transaction.height"
           :timestamp="new Date(transaction.timestamp)"
+          :hash="transaction.hash"
+          :memo="transaction.memo"
         />
       </div>
     </transition>
@@ -141,17 +143,10 @@ export default {
 <style>
 .tx {
   margin-bottom: 0.5rem;
+  padding: 0 1rem;
 }
 
 .tx-caption {
-  display: flex;
-  align-items: center;
-  margin-bottom: 0;
-  border: 1px solid var(--bc-dim);
-  border-radius: 5px;
-  background: var(--app-fg);
-  width: 100%;
-  position: relative;
   cursor: pointer;
 }
 
@@ -171,10 +166,17 @@ export default {
 }
 
 .tx-details {
-  background: #272f58;
+  background: var(--app-fg);
+  border-left: 1px solid var(--bc-dim);
+  border-right: 1px solid var(--bc-dim);
+  border-bottom: 1px solid var(--bc-dim);
+  border-bottom-left-radius: 0.25rem;
+  border-bottom-right-radius: 0.25rem;
   margin: 0 1rem 0.5rem 1rem;
   padding: 1rem;
   font-size: 14px;
+  position: relative;
+  z-index: 0;
 }
 
 .tx__content {
@@ -182,6 +184,11 @@ export default {
   align-items: center;
   justify-content: space-between;
   width: 100%;
+  background: var(--app-fg);
+  position: relative;
+  z-index: 90;
+  border: 1px solid var(--bc-dim);
+  border-radius: 0.25rem;
 }
 
 .tx__content__caption {
@@ -201,20 +208,15 @@ export default {
   text-align: right;
 }
 
-.tx__content__information,
-.tx__content__information > * {
-  display: flex;
-  flex-direction: row;
-}
-
 .tx__content__information {
   font-size: 14px;
 }
 
-.tx__content__caption {
-  line-height: 18px;
-  font-size: 18px;
-  color: var(--bright);
+.tx__content__information,
+.tx__content__information > * {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
 }
 
 .tx__content__caption {
@@ -224,14 +226,16 @@ export default {
   padding: 1rem 1rem 1rem 0;
 }
 
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.5s;
+.slide-out-enter-active,
+.slide-out-leave-active {
+  transition: all 0.4s;
 }
 
-.fade-enter,
-.fade-leave-to {
+.slide-out-enter,
+.slide-out-leave-to {
   opacity: 0;
+  transform: translateY(-100px);
+  margin-bottom: -100px;
 }
 
 .tx__icon img {
