@@ -173,6 +173,7 @@ export default class ActionManager {
 
     const txPayload = {
       simulate: false,
+      messageType: type,
       networkId: context.networkId,
       signedMessage
     }
