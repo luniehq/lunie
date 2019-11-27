@@ -28,7 +28,7 @@
         </TmDataMsg>
       </div>
     </div>
-    <div v-else-if="!$apollo.loading && proposals.length > 0">
+    <div v-else>
       <TmDataLoading v-if="$apollo.loading" />
       <TableProposals v-else :proposals="proposals" />
     </div>
