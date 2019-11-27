@@ -1,0 +1,99 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`MultiSendMessageDetails renders a received transaction caption message 1`] = `
+<div>
+  <div
+    class="tx__content"
+  >
+    <transactionicon-stub
+      transactiongroup="banking"
+      transactiontype="Received"
+    />
+     
+    <div
+      class="tx__content__left"
+    >
+      
+      Received
+    
+    </div>
+     
+    <div
+      class="tx__content__right"
+    >
+      
+      10,000 ATOM
+    
+    </div>
+  </div>
+   
+  <!---->
+</div>
+`;
+
+exports[`MultiSendMessageDetails renders a send transaction caption message 1`] = `
+<div>
+  <div
+    class="tx__content"
+  >
+    <transactionicon-stub
+      transactiongroup="banking"
+      transactiontype="Sent"
+    />
+     
+    <div
+      class="tx__content__left"
+    >
+      
+      Sent
+    
+    </div>
+     
+    <div
+      class="tx__content__right"
+    >
+      
+      20,000 ATOM
+    
+    </div>
+  </div>
+   
+  <!---->
+</div>
+`;
+
+exports[`MultiSendMessageDetails renders a send transaction details message (send to another address) 1`] = `
+<div>
+  <!---->
+   
+  <div
+    class="tx__content__information"
+  >
+    
+      To 
+      
+    <bech32-stub />
+     
+    <span>
+       - (Sent via Lunie)
+    </span>
+  </div>
+</div>
+`;
+
+exports[`MultiSendMessageDetails renders a send transaction details message (send to yourself) 1`] = `
+<div>
+  <!---->
+   
+  <div
+    class="tx__content__information"
+  >
+    
+      To yourself!
+     
+    <span>
+       - (Sent via Lunie)
+    </span>
+  </div>
+</div>
+`;

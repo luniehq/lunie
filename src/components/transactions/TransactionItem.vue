@@ -135,7 +135,11 @@ export default {
   methods: {
     toggleDetail(event) {
       // Prevent collapse tx details when click on address
-      if (event.target.className !== `address`) {
+      console.log(event.target.className)
+      if (
+        event.target.className !== `address` &&
+        event.target.className !== `tx-details`
+      ) {
         this.show = !this.show
       }
     }

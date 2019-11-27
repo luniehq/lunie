@@ -82,16 +82,11 @@ export default {
       return toYourself
     },
     sentFromSessionAddress() {
-      let sentFromSessionAddress = false
       if (this.transaction.value.inputs[0].address === this.sessionAddress) {
-        sentFromSessionAddress = true
-        this.transaction.value.outputs.map(output => {
-          if (output.address === this.sessionAddress) {
-            sentFromSessionAddress = false
-          }
-        })
+        return true
+      } else {
+        return false
       }
-      return sentFromSessionAddress
     },
     receivedToSessionAddress() {
       let receivedToSessionAddress = false

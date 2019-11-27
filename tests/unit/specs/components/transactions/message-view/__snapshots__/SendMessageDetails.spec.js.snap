@@ -1,0 +1,97 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SendMessageDetails renders a received transaction caption message 1`] = `
+<div>
+  <div
+    class="tx__content"
+  >
+    <transactionicon-stub
+      transactiongroup="banking"
+      transactiontype="Received"
+    />
+     
+    <div
+      class="tx__content__left"
+    >
+      
+      Received
+    
+    </div>
+     
+    <div
+      class="tx__content__right"
+    >
+      
+      10,000 ATOM
+    
+    </div>
+  </div>
+   
+  <!---->
+</div>
+`;
+
+exports[`SendMessageDetails renders a received transaction details message 1`] = `
+<div>
+  <!---->
+   
+  <div
+    class="tx__content__information"
+  >
+    
+      From 
+      
+    <bech32-stub
+      address="cosmos1"
+    />
+  </div>
+</div>
+`;
+
+exports[`SendMessageDetails renders a send transaction caption message 1`] = `
+<div>
+  <div
+    class="tx__content"
+  >
+    <transactionicon-stub
+      transactiongroup="banking"
+      transactiontype="Sent"
+    />
+     
+    <div
+      class="tx__content__left"
+    >
+      
+      Sent
+    
+    </div>
+     
+    <div
+      class="tx__content__right"
+    >
+      
+      10,000 ATOM
+    
+    </div>
+  </div>
+   
+  <!---->
+</div>
+`;
+
+exports[`SendMessageDetails renders a send transaction details message 1`] = `
+<div>
+  <!---->
+   
+  <div
+    class="tx__content__information"
+  >
+    
+      To 
+      
+    <bech32-stub
+      address="cosmos1ahtlr29s38w23xxq7slcwmmz4c8x9efmr8qmee"
+    />
+  </div>
+</div>
+`;
