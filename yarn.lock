@@ -831,10 +831,10 @@
   resolved "https://registry.yarnpkg.com/@ledgerhq/logs/-/logs-4.72.0.tgz#43df23af013ad1135407e5cf33ca6e4c4c7708d5"
   integrity sha512-o+TYF8vBcyySRsb2kqBDv/KMeme8a2nwWoG+lAWzbDmWfb2/MrVWYCVYDYvjXdSoI/Cujqy1i0gIDrkdxa9chA==
 
-"@lunie/cosmos-keys@0.1.0":
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/@lunie/cosmos-keys/-/cosmos-keys-0.1.0.tgz#f7c4beba376d90866291913a8a862b3f55673b38"
-  integrity sha512-Hbhh7KfRoC1U6G38UGUwh0UM8bbm+EE1U+w1BvyxOLZka6xmfKiffX7z3XEumlt0QPt9SezLYOHdYrH7XzeDZg==
+"@lunie/cosmos-keys@0.0.11":
+  version "0.0.11"
+  resolved "https://registry.yarnpkg.com/@lunie/cosmos-keys/-/cosmos-keys-0.0.11.tgz#694bcdd1b3106dfbe3078a9a8435de8428c030f9"
+  integrity sha512-iqxHMYAeqxRTo+qGdDJaBDxeMqH/2Zmtre0NgmKbfrL2pz1VTn8+mcx7cJPBpU3GtGBFSDsywWeK+ukIOa88pA==
   dependencies:
     bech32 "^1.1.3"
     bip32 "^1.0.4"
@@ -842,25 +842,13 @@
     crypto-js "^3.1.9-1"
     secp256k1 "^3.6.2"
 
-"@lunie/cosmos-keys@^0.0.9":
-  version "0.0.9"
-  resolved "https://registry.yarnpkg.com/@lunie/cosmos-keys/-/cosmos-keys-0.0.9.tgz#ca52af422a448462973dac4015ff76f9db87793d"
-  integrity sha512-KPDcWHxt6VtcIwj0UdfJUU/FRfShCUglJWoZJmuxHwwjlikUSA4ZWvYFieW/xt45mpvqJQVvd5zVe3qBn5h/Gw==
-  dependencies:
-    bech32 "^1.1.3"
-    bip32 "^1.0.4"
-    bip39 "^3.0.1"
-    crypto-js "^3.1.9-1"
-    secp256k1 "^3.6.2"
-
-"@lunie/cosmos-ledger@0.0.5":
-  version "0.0.5"
-  resolved "https://registry.yarnpkg.com/@lunie/cosmos-ledger/-/cosmos-ledger-0.0.5.tgz#d4ac03b304c5c33d83bd7116fee1a509e76ffe6a"
-  integrity sha512-lAAAUfFnNZt3mDsaqGa2X2nLLj320ytzPssh13g+5RiPySrc5pf9A2k4QDPdD5PmbJllaIZowd38AS4s7hn3Qg==
+"@lunie/cosmos-ledger@0.0.6":
+  version "0.0.6"
+  resolved "https://registry.yarnpkg.com/@lunie/cosmos-ledger/-/cosmos-ledger-0.0.6.tgz#1a1a8242f14087c9e8c5fed41880eb9eeb279e8d"
+  integrity sha512-LDPT1xT4D2N74xBp9F32xmeaErP+rVeghHlcDCDBAeH6JHyPAkqnxVWGrbFIB9iytBEHPmyA3Lu/U0JsuNd/SQ==
   dependencies:
     "@ledgerhq/hw-transport-u2f" "^4.61.0"
     "@ledgerhq/hw-transport-webusb" "^4.61.0"
-    "@lunie/cosmos-keys" "^0.0.9"
     ledger-cosmos-js "^2.0.2"
     secp256k1 "^3.7.0"
     semver "^6.1.0"
