@@ -12,8 +12,9 @@ describe(`Module: Connection`, () => {
       return {
         data: {
           networks: [
-            { id: `awesomenet`},
-            { id: `keine-ahnungnet` }          ]
+            { id: `awesomenet` },
+            { id: `keine-ahnungnet`} 
+          ]
         }
       }
     } 
@@ -59,10 +60,24 @@ describe(`Module: Connection`, () => {
   })
 
   it(`assigns the user the default network if there is no persisted network 
-  and the default network is among the available networks`, async () => {
+  and the default network is among the available networks`, async () => { 
     const dispatch = jest.fn()
     await actions.checkForPersistedNetwork({ dispatch })
     expect(dispatch).toHaveBeenCalledWith(`setNetwork`, {"id": "keine-ahnungnet"})
+    localStorage.clear()
+  })
+
+  it(`assigns the user the fallback network if there is no persisted network 
+  and the default network is not among the available networks`, async () => {
+    const dispatch = jest.fn()
+    // jest.clearAllMocks();
+    jest.mock(`src/../config.js`, () => ({
+      stargate: `https://voyager.lol`,
+      network: `strangenet`,
+      fallbackNetwork: `localnet`
+    }))
+    await actions.checkForPersistedNetwork({ dispatch })
+    expect(dispatch).toHaveBeenCalledWith(`setNetwork`, {"id": "localnet"})
   })
 
   it("should switch networks", async () => {
