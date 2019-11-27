@@ -6,6 +6,10 @@ COPY ./lib ./lib
 
 COPY ./data ./data
 
+COPY ./cosmos-api-v0-0.1.2 ./cosmos-api-v0-0.1.2
+
+COPY ./cosmos-api-v0-0.2.2 ./cosmos-api-v0-0.2.2
+
 COPY package.json .
 
 COPY config.js .
