@@ -68,7 +68,7 @@
           <span v-if="validator.website !== ``">
             <a
               id="validator-website"
-              :href="validator.website"
+              :href="validator.website + `?ref=lunie`"
               target="_blank"
               rel="nofollow noreferrer noopener"
               >{{ validator.website }}</a
