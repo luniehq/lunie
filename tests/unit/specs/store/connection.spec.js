@@ -6,9 +6,20 @@ jest.mock(`src/../config.js`, () => ({
 
 describe(`Module: Connection`, () => {
   let module, state, actions, mutations
+  let mockApollo = {
+    async query() {
+      return {
+        data: {
+          networks: [
+            { id: `awesomenet`},
+            { id: `keine-ahnungnet` }          ]
+        }
+      }
+    } 
+  }
 
   beforeEach(() => {
-    module = connectionModule({})
+    module = connectionModule({apollo: mockApollo})
     state = module.state
     actions = module.actions
     mutations = module.mutations
@@ -35,19 +46,14 @@ describe(`Module: Connection`, () => {
   it(`assigns the user a network if a network was found`, async () => {
     const commit = jest.fn()
     localStorage.setItem(
-      `network`,
-      JSON.stringify([
+      JSON.stringify(
         {
           network: `awesomenet`
         }
-      ])
+      )
     )
     await actions.checkForPersistedNetwork({ commit })
-    expect(commit).toHaveBeenCalledWith(`setNetworkId`, [
-      {
-        network: `awesomenet`
-      }
-    ])
+    expect(commit).toHaveBeenCalledWith(`setNetworkId`, `awesomenet`)
   })
 
   it("should switch networks", async () => {
