@@ -10,8 +10,6 @@
     "lint": "vue-cli-service lint",
     "lint:style": "vue-cli-service lint:style",
     "release": "git checkout develop & git pull & git push origin develop:release",
-    "release:android": "git checkout develop && node ./tasks/bump-android-version.js && git commit android/app/build.gradle -m 'updated android app version' && git push origin develop:release-android",
-    "release:ios": "git checkout develop && node ./tasks/bump-ios-version.js && git commit ios/App/App/Info.plist -m 'updated ios app version' && git push origin develop:release-ios",
     "serve": "kill-port 9080 && vue-cli-service serve --port 9080",
     "serve:dist": "live-server --port=9080 --no-browser ./dist",
     "serve:mobile": "cross-env MOBILE_APP=true npm run serve",
