@@ -1,7 +1,8 @@
 import connectionModule from "src/vuex/modules/connection.js"
 
 jest.mock(`src/../config.js`, () => ({
-  stargate: `https://voyager.lol`
+  stargate: `https://voyager.lol`,
+  network: `keine-ahnungnet`
 }))
 
 describe(`Module: Connection`, () => {
@@ -54,6 +55,14 @@ describe(`Module: Connection`, () => {
     )
     await actions.checkForPersistedNetwork({ commit })
     expect(commit).toHaveBeenCalledWith(`setNetworkId`, `awesomenet`)
+    localStorage.clear()
+  })
+
+  it(`assigns the user the default network if there is no persisted network 
+  and the default network is among the available networks`, async () => {
+    const dispatch = jest.fn()
+    await actions.checkForPersistedNetwork({ dispatch })
+    expect(dispatch).toHaveBeenCalledWith(`setNetwork`, {"id": "keine-ahnungnet"})
   })
 
   it("should switch networks", async () => {
