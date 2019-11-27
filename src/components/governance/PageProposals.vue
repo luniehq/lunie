@@ -10,6 +10,11 @@
         @click.native="onPropose"
       />
     </div>
+    <ModalPropose
+      ref="modalPropose"
+      :denom="parameters.depositDenom"
+      @success="() => afterPropose()"
+    />
     <div v-if="!$apollo.loading && proposals.length === 0">     
       <div>
         <TmDataMsg icon="gavel">
@@ -26,11 +31,6 @@
     <div v-else-if="!$apollo.loading && proposals.length > 0">
       <TmDataLoading v-if="$apollo.loading" />
       <TableProposals v-else :proposals="proposals" />
-      <ModalPropose
-        ref="modalPropose"
-        :denom="parameters.depositDenom"
-        @success="() => afterPropose()"
-      />
     </div>
   </TmPage>
 </template>
