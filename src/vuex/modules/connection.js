@@ -23,19 +23,26 @@ export default function({ apollo }) {
       const { data } = await apollo.query({
         query: Networks
       })
-      let availNetworks = Object.values(data.networks).map( network => network.id)
+      let availNetworks = Object.values(data.networks).map(
+        network => network.id
+      )
       if (persistedNetwork && availNetworks.includes(persistedNetwork)) {
         await commit(`setNetworkId`, persistedNetwork)
       } else {
-        if (availNetworks.find( network => network === `cosmos-hub-mainnet`)) {
-          // we connect as default to cosmos-hub-mainnet
-          await dispatch(`setNetwork`, data.networks.find(({id}) => id === `cosmos-hub-mainnet`))
+        const defaultNetwork = config.network
+        if (availNetworks.find(network => network === defaultNetwork)) {
+          await dispatch(
+            `setNetwork`,
+            data.networks.find(({ id }) => id === defaultNetwork)
+          )
         } else {
-          // otherwise we connect to local-cosmos-hub-testnet
-          await dispatch(`setNetwork`, data.networks.find(({id}) => id === `local-cosmos-hub-testnet`))
+          // otherwise we connect to a fallback network
+          await dispatch(
+            `setNetwork`,
+            data.networks.find(({ id }) => id === config.fallbackNetwork)
+          )
         }
       }
-
     },
     async persistNetwork(store, network) {
       localStorage.setItem(`network`, JSON.stringify(network.id))
