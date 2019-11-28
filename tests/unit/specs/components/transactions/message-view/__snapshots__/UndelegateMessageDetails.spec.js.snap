@@ -14,7 +14,7 @@ exports[`UndelegateMessageDetails renders a undelegate transaction message 1`] =
   >
     
     Unstaked
-     from 
+    from 
     
     <router-link-stub
       to="/validators/cosmosvaloper1sjllsnramtg3ewxqwwrwjxfgc4n4ef9u2lcnj0"

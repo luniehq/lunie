@@ -7,6 +7,16 @@ exports[`TransactionItem renders a cosmos-sdk/MsgBeginRedelegate transaction ite
   <div
     class="tx"
   >
+    <div
+      class="toggle-box"
+    >
+      <i
+        class="material-icons toggle-icon"
+      >
+        keyboard_arrow_down
+      </i>
+    </div>
+     
     <begin-redelegate-message-details-stub
       class="tx-caption"
       session-address="cosmos1"
@@ -26,6 +36,16 @@ exports[`TransactionItem renders a cosmos-sdk/MsgCreateValidator transaction ite
   <div
     class="tx"
   >
+    <div
+      class="toggle-box"
+    >
+      <i
+        class="material-icons toggle-icon"
+      >
+        keyboard_arrow_down
+      </i>
+    </div>
+     
     <create-validator-message-details-stub
       class="tx-caption"
       session-address="cosmos1"
@@ -45,6 +65,16 @@ exports[`TransactionItem renders a cosmos-sdk/MsgDelegate transaction item 1`] =
   <div
     class="tx"
   >
+    <div
+      class="toggle-box"
+    >
+      <i
+        class="material-icons toggle-icon"
+      >
+        keyboard_arrow_down
+      </i>
+    </div>
+     
     <delegate-message-details-stub
       class="tx-caption"
       session-address="cosmos1"
@@ -64,6 +94,16 @@ exports[`TransactionItem renders a cosmos-sdk/MsgDeposit transaction item 1`] = 
   <div
     class="tx"
   >
+    <div
+      class="toggle-box"
+    >
+      <i
+        class="material-icons toggle-icon"
+      >
+        keyboard_arrow_down
+      </i>
+    </div>
+     
     <deposit-message-details-stub
       class="tx-caption"
       session-address="cosmos1"
@@ -83,6 +123,16 @@ exports[`TransactionItem renders a cosmos-sdk/MsgEditValidator transaction item 
   <div
     class="tx"
   >
+    <div
+      class="toggle-box"
+    >
+      <i
+        class="material-icons toggle-icon"
+      >
+        keyboard_arrow_down
+      </i>
+    </div>
+     
     <edit-validator-message-details-stub
       class="tx-caption"
       session-address="cosmos1"
@@ -102,6 +152,16 @@ exports[`TransactionItem renders a cosmos-sdk/MsgMultiSend transaction item 1`] 
   <div
     class="tx"
   >
+    <div
+      class="toggle-box"
+    >
+      <i
+        class="material-icons toggle-icon"
+      >
+        keyboard_arrow_down
+      </i>
+    </div>
+     
     <multi-send-message-details-stub
       class="tx-caption"
       sessionaddress="cosmos1"
@@ -121,6 +181,16 @@ exports[`TransactionItem renders a cosmos-sdk/MsgSend transaction item 1`] = `
   <div
     class="tx"
   >
+    <div
+      class="toggle-box"
+    >
+      <i
+        class="material-icons toggle-icon"
+      >
+        keyboard_arrow_down
+      </i>
+    </div>
+     
     <send-message-details-stub
       class="tx-caption"
       sessionaddress="cosmos1"
@@ -140,6 +210,16 @@ exports[`TransactionItem renders a cosmos-sdk/MsgSetWithdrawAddress transaction 
   <div
     class="tx"
   >
+    <div
+      class="toggle-box"
+    >
+      <i
+        class="material-icons toggle-icon"
+      >
+        keyboard_arrow_down
+      </i>
+    </div>
+     
     <set-withdraw-address-message-details-stub
       class="tx-caption"
       session-address="cosmos1"
@@ -159,6 +239,16 @@ exports[`TransactionItem renders a cosmos-sdk/MsgSubmitProposal transaction item
   <div
     class="tx"
   >
+    <div
+      class="toggle-box"
+    >
+      <i
+        class="material-icons toggle-icon"
+      >
+        keyboard_arrow_down
+      </i>
+    </div>
+     
     <submit-proposal-message-details-stub
       class="tx-caption"
       session-address="cosmos1"
@@ -178,6 +268,16 @@ exports[`TransactionItem renders a cosmos-sdk/MsgUndelegate transaction item 1`]
   <div
     class="tx"
   >
+    <div
+      class="toggle-box"
+    >
+      <i
+        class="material-icons toggle-icon"
+      >
+        keyboard_arrow_down
+      </i>
+    </div>
+     
     <undelegate-message-details-stub
       class="tx-caption"
       session-address="cosmos1"
@@ -197,6 +297,16 @@ exports[`TransactionItem renders a cosmos-sdk/MsgUnjail transaction item 1`] = `
   <div
     class="tx"
   >
+    <div
+      class="toggle-box"
+    >
+      <i
+        class="material-icons toggle-icon"
+      >
+        keyboard_arrow_down
+      </i>
+    </div>
+     
     <unjail-message-details-stub
       class="tx-caption"
       session-address="cosmos1"
@@ -216,6 +326,16 @@ exports[`TransactionItem renders a cosmos-sdk/MsgVote transaction item 1`] = `
   <div
     class="tx"
   >
+    <div
+      class="toggle-box"
+    >
+      <i
+        class="material-icons toggle-icon"
+      >
+        keyboard_arrow_down
+      </i>
+    </div>
+     
     <vote-message-details-stub
       class="tx-caption"
       session-address="cosmos1"
@@ -235,6 +355,16 @@ exports[`TransactionItem renders a cosmos-sdk/MsgWithdrawDelegationReward transa
   <div
     class="tx"
   >
+    <div
+      class="toggle-box"
+    >
+      <i
+        class="material-icons toggle-icon"
+      >
+        keyboard_arrow_down
+      </i>
+    </div>
+     
     <withdraw-delegation-reward-message-details-stub
       class="tx-caption"
       session-address="cosmos1"
@@ -254,6 +384,16 @@ exports[`TransactionItem renders a cosmos-sdk/MsgWithdrawValidatorCommission tra
   <div
     class="tx"
   >
+    <div
+      class="toggle-box"
+    >
+      <i
+        class="material-icons toggle-icon"
+      >
+        keyboard_arrow_down
+      </i>
+    </div>
+     
     <withdraw-validator-commission-message-details-stub
       class="tx-caption"
       session-address="cosmos1"

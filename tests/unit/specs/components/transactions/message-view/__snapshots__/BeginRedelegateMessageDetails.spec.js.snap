@@ -14,7 +14,7 @@ exports[`BeginRedelegateMessageDetails renders a redelegate transaction message 
   >
     
     Restaked
-     from 
+    from 
     
     <router-link-stub
       to="staking/validators/cosmos1"

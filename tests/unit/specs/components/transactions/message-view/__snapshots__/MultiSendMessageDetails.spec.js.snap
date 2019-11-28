@@ -15,7 +15,7 @@ exports[`MultiSendMessageDetails renders a received transaction message 1`] = `
     
     Received
     
-       from 
+      from 
       
     <bech32-stub
       address="cosmos1ahtlr29s38w23xxq7slcwmmz4c8x9efmr8qmee"
@@ -51,7 +51,7 @@ exports[`MultiSendMessageDetails renders a sent transaction message (send to you
     
     Sent
     
-       to yourself!
+      to yourself!
     
   </div>
    
@@ -84,7 +84,7 @@ exports[`MultiSendMessageDetails renders a sent transaction message 1`] = `
     
     Sent
     
-       to yourself!
+      to yourself!
     
   </div>
    
