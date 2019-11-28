@@ -28,47 +28,24 @@ describe(`SendMessageDetails`, () => {
     type: `cosmos-sdk/MsgSend`
   }
 
-  it(`renders a send transaction caption message`, () => {
+  it(`renders a sent transaction message`, () => {
     wrapper = shallowMount(SendMessageDetails, {
       propsData: {
         transaction: tx,
-        show: `caption`,
         sessionAddress: "cosmos1"
       }
     })
     expect(wrapper.element).toMatchSnapshot()
   })
 
-  it(`renders a send transaction details message`, () => {
+  it(`renders a received transaction message`, () => {
     wrapper = shallowMount(SendMessageDetails, {
       propsData: {
         transaction: tx,
-        show: `details`,
-        sessionAddress: "cosmos1"
-      }
-    })
-    expect(wrapper.element).toMatchSnapshot()
-  })
-
-  it(`renders a received transaction caption message`, () => {
-    wrapper = shallowMount(SendMessageDetails, {
-      propsData: {
-        transaction: tx,
-        show: `caption`,
         sessionAddress: "cosmos1ahtlr29s38w23xxq7slcwmmz4c8x9efmr8qmee"
       }
     })
     expect(wrapper.element).toMatchSnapshot()
   })
 
-  it(`renders a received transaction details message`, () => {
-    wrapper = shallowMount(SendMessageDetails, {
-      propsData: {
-        transaction: tx,
-        show: `details`,
-        sessionAddress: "cosmos1ahtlr29s38w23xxq7slcwmmz4c8x9efmr8qmee"
-      }
-    })
-    expect(wrapper.element).toMatchSnapshot()
-  })
 })

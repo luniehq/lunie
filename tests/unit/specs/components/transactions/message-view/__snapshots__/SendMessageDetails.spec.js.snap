@@ -1,97 +1,73 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`SendMessageDetails renders a received transaction caption message 1`] = `
-<div>
-  <div
-    class="tx__content"
-  >
-    <transactionicon-stub
-      transactiongroup="banking"
-      transactiontype="Received"
-    />
-     
-    <div
-      class="tx__content__left"
-    >
-      
-      Received
-    
-    </div>
-     
-    <div
-      class="tx__content__right"
-    >
-      
-      10,000 ATOM
-    
-    </div>
-  </div>
-   
-  <!---->
-</div>
-`;
-
-exports[`SendMessageDetails renders a received transaction details message 1`] = `
-<div>
-  <!---->
+exports[`SendMessageDetails renders a received transaction message 1`] = `
+<div
+  class="tx__content"
+>
+  <transactionicon-stub
+    transactiongroup="banking"
+    transactiontype="Received"
+  />
    
   <div
-    class="tx__content__information"
+    class="tx__content__left"
   >
     
-      From 
+    Received
+    
+      from 
       
     <bech32-stub
       address="cosmos1"
     />
   </div>
-</div>
-`;
-
-exports[`SendMessageDetails renders a send transaction caption message 1`] = `
-<div>
+   
   <div
-    class="tx__content"
+    class="tx__content__right"
   >
-    <transactionicon-stub
-      transactiongroup="banking"
-      transactiontype="Sent"
-    />
-     
-    <div
-      class="tx__content__left"
-    >
-      
-      Sent
-    
-    </div>
-     
-    <div
-      class="tx__content__right"
+    <p
+      class="amount"
     >
       
       10,000 ATOM
     
-    </div>
+    </p>
   </div>
-   
-  <!---->
 </div>
 `;
 
-exports[`SendMessageDetails renders a send transaction details message 1`] = `
-<div>
-  <!---->
+exports[`SendMessageDetails renders a sent transaction message 1`] = `
+<div
+  class="tx__content"
+>
+  <transactionicon-stub
+    transactiongroup="banking"
+    transactiontype="Sent"
+  />
    
   <div
-    class="tx__content__information"
+    class="tx__content__left"
   >
     
-      To 
+    Sent
+    
+      to 
       
     <bech32-stub
       address="cosmos1ahtlr29s38w23xxq7slcwmmz4c8x9efmr8qmee"
     />
+  </div>
+   
+  <div
+    class="tx__content__right"
+  >
+    <p
+      class="amount"
+    >
+      
+      10,000 ATOM
+    
+    </p>
   </div>
 </div>
 `;
