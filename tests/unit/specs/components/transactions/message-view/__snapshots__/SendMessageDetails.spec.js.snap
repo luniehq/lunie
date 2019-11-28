@@ -15,7 +15,7 @@ exports[`SendMessageDetails renders a received transaction message 1`] = `
     
     Received
     
-      from 
+       from 
       
     <bech32-stub
       address="cosmos1"
@@ -51,7 +51,7 @@ exports[`SendMessageDetails renders a sent transaction message 1`] = `
     
     Sent
     
-      to 
+       to 
       
     <bech32-stub
       address="cosmos1ahtlr29s38w23xxq7slcwmmz4c8x9efmr8qmee"

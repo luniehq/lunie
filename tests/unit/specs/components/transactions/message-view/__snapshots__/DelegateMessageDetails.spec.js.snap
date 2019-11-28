@@ -14,7 +14,7 @@ exports[`DelegateMessageDetails renders a redelegate transaction message 1`] = `
   >
     
     Staked
-     to 
+    to 
     
     <router-link-stub
       to="staking/validators/cosmos1"
