@@ -92,13 +92,11 @@ export default class ActionManager {
       txProperties: txProps,
       memo
     }
-    console.log(`Sending TX ${JSON.stringify(txPayload, null, 2)}`)
     const result = await transactionAPIRequest(txPayload)
-    console.log(`TxAPI Response: ${JSON.stringify(result, null, 2)}`)
     if (result.success) {
       return result.gasEstimate
     } else {
-      throw Error("simulation unsuccessful")
+      throw Error("Simulation unsuccessful")
     }
   }
 
@@ -135,7 +133,6 @@ export default class ActionManager {
   }
 
   async sendTxAPI(context, type, memo, transactionProperties, txMetaData) {
-    console.log(context)
     const { gasEstimate, gasPrice, submitType, password } = txMetaData
     const signer = await getSigner(config, submitType, {
       address: context.userAddress,
@@ -179,8 +176,6 @@ export default class ActionManager {
       context.account.sequence
     )
 
-    console.log(signedMessage)
-
     const txPayload = {
       simulate: false,
       messageType: type,
@@ -189,8 +184,6 @@ export default class ActionManager {
     }
 
     const result = await transactionAPIRequest(txPayload)
-    console.log("broadcast successful:", result)
-
     if (result.success) {
       return { hash: result.hash }
     } else {
