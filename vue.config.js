@@ -13,6 +13,9 @@ const commitHash = require(`child_process`)
 
 module.exports = {
   publicPath: `/`,
+  chainWebpack: (config) => {
+    config.plugins.delete(`prefetch`)
+  },
   configureWebpack: () => {
     const config = {
       resolve: {
@@ -32,6 +35,7 @@ module.exports = {
         extensions: [`.js`, `.vue`, `.css`]
       },
       plugins: [
+        new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
         new webpack.DefinePlugin({
           "process.env": {
             NODE_ENV: JSON.stringify(process.env.NODE_ENV),
@@ -44,7 +48,12 @@ module.exports = {
             MOBILE_APP: JSON.stringify(process.env.MOBILE_APP)
           }
         })
-      ]
+      ],
+      optimization: {
+        splitChunks: {
+          chunks: 'all',
+        }
+      }
     }
 
     if (process.env.NODE_ENV === `production` && !process.env.E2E_TESTS) {
