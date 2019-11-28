@@ -48,6 +48,8 @@ module.exports = {
 
     browser.resizeWindow(1350, 1080)
     browser.refresh()
+    // wait until on portfolio page to make sure future tests have the same state
+    browser.expect.element(".balance-header").to.be.visible.before(10000)
     done()
   },
   /**
@@ -70,6 +72,7 @@ module.exports = {
 }
 
 async function apiUp() {
+  console.log("Testing if API is up")
   const start = new Date().getTime()
   // we need to wait until the testnet is up and the account has money
   let apiUp = false
@@ -98,6 +101,7 @@ async function apiUp() {
 }
 
 async function schemaAvailable() {
+  console.log("Testing if DB is up")
   const start = new Date().getTime()
   // we need to wait until the database is up and has the expected shema
   let databaseUp = false
