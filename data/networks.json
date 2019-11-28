@@ -57,7 +57,7 @@
     "api_url": "https://regen-congo-1.lunie.io",
     "bech32_prefix": "xrn:",
     "testnet": true,
-    "feature_session": true,
+    "feature_session": false,
     "feature_portfolio": true,
     "feature_validators": true,
     "feature_proposals": true,
