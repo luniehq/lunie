@@ -13,6 +13,9 @@ const commitHash = require(`child_process`)
 
 module.exports = {
   publicPath: `/`,
+  chainWebpack: (config) => {
+    config.plugins.delete(`prefetch`)
+  },
   configureWebpack: () => {
     const config = {
       resolve: {
@@ -45,7 +48,12 @@ module.exports = {
             MOBILE_APP: JSON.stringify(process.env.MOBILE_APP)
           }
         })
-      ]
+      ],
+      optimization: {
+        splitChunks: {
+          chunks: 'all',
+        }
+      }
     }
 
     if (process.env.NODE_ENV === `production` && !process.env.E2E_TESTS) {
