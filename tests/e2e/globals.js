@@ -15,7 +15,7 @@ module.exports = {
   },
 
   beforeEach(browser, done) {
-    browser.url(browser.launch_url).execute(function() {
+    browser.url(browser.launch_url).execute(function () {
       window.localStorage.setItem(
         `cosmos-wallets-cosmos1ek9cd8ewgxg9w5xllq9um0uf4aaxaruvcw4v9e`,
         JSON.stringify({
@@ -53,19 +53,6 @@ module.exports = {
     done()
   },
 
-  after(browser, done) {
-    browser.getLog("browser", function(logEntriesArray) {
-      console.log("Log length: " + logEntriesArray.length)
-      logEntriesArray.forEach(function(log) {
-        console.log(
-          "[" + log.level + "] " + log.timestamp + " : " + log.message
-        )
-      })
-    })
-
-    done()
-  },
-
   /**
    * After all the tests are run, evaluate if there were errors and exit appropriately.
    *
@@ -73,7 +60,7 @@ module.exports = {
    *
    * @param results
    */
-  reporter: function(results) {
+  reporter: function (results) {
     if (
       (typeof results.failed === `undefined` || results.failed === 0) &&
       (typeof results.error === `undefined` || results.error === 0)
@@ -102,7 +89,7 @@ async function apiUp() {
       if (response.data.errors) {
         throw new Error(JSON.stringify(response.data.errors))
       }
-      if (response.data.data.overview.totalStake !== "1000") {
+      if (Number(response.data.data.overview.totalStake) === 0) {
         continue
       }
       apiUp = true
