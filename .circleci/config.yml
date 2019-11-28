@@ -329,16 +329,16 @@ workflows:
       #       - e2eBuild
 
   # Every UTC midnight we go on develop and release
-  release:
-    # triggers:
-    #   - schedule:
-    #       cron: "0 0 * * *"
-    #       filters:
-    #         branches:
-    #           only:
-    #             - develop
-    jobs:
-      - release
+  # release:
+  #   triggers:
+  #     - schedule:
+  #         cron: "0 0 * * *"
+  #         filters:
+  #           branches:
+  #             only:
+  #               - develop
+  #   jobs:
+  #     - release
 
   releaseManually:
     jobs:
