@@ -311,32 +311,32 @@ workflows:
             branches:
               ignore: release
 
-      - e2eBuild: 
-          requires:
-            - prep
-          filters:
-            branches:
-              ignore:
-                - release
-                - master
+      # - e2eBuild: 
+      #     requires:
+      #       - prep
+      #     filters:
+      #       branches:
+      #         ignore:
+      #           - release
+      #           - master
 
-      - testE2e:
-          requires:
-            - e2eBuild
+      # - testE2e:
+      #     requires:
+      #       - e2eBuild
 
-      - testExtension:
-          requires:
-            - e2eBuild
+      # - testExtension:
+      #     requires:
+      #       - e2eBuild
 
   # Every UTC midnight we go on develop and release
   release:
-    triggers:
-      - schedule:
-          cron: "0 0 * * *"
-          filters:
-            branches:
-              only:
-                - develop
+    # triggers:
+    #   - schedule:
+    #       cron: "0 0 * * *"
+    #       filters:
+    #         branches:
+    #           only:
+    #             - develop
     jobs:
       - release
 
