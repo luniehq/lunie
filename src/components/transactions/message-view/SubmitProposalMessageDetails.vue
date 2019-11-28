@@ -8,6 +8,12 @@
       {{ caption }}
       &nbsp;title&nbsp;<i>{{ transaction.value.title }}</i>
     </div>
+    <div class="tx__content__right">
+      <p class="amount">
+        {{ initialDeposit.amount | atoms | prettyLong }}&nbsp;
+        {{ initialDeposit.denom | viewDenom }}
+      </p>
+    </div>
   </div>
 </template>
 

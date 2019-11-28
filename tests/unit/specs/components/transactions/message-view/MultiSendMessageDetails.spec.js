@@ -3,6 +3,7 @@ import MultiSendMessageDetails from "src/components/transactions/message-view/Mu
 
 describe(`MultiSendMessageDetails`, () => {
   let wrapper
+  // Examples @ https://stargate.cosmos.network/txs?action=multisend
   const tx = {
     height: 2000000,
     value: {

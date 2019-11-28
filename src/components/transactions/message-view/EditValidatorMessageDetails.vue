@@ -7,18 +7,14 @@
     <div class="tx__content__left">
       {{ caption }}
       &nbsp;moniker&nbsp;
-      <router-link
-        :to="`staking/validators/${transaction.value.validator_address}`"
-      >
-        {{
-          transaction.value.validator_address | resolveValidatorName(validators)
-        }}
+      <router-link :to="`staking/validators/${transaction.value.address}`">
+        {{ transaction.value.address | resolveValidatorName(validators) }}
       </router-link>
     </div>
     <div class="tx__content__right">
       <p class="amount">
-        {{ deposit.amount | atoms | prettyLong }}&nbsp;
-        {{ deposit.denom | viewDenom }}
+        {{ fee.amount | atoms | prettyLong }}&nbsp;
+        {{ fee.denom | viewDenom }}
       </p>
     </div>
   </div>
@@ -53,6 +49,11 @@ export default {
   data: () => {
     return {
       caption: `Edit validator`
+    }
+  },
+  computed: {
+    fee() {
+      return this.transaction.fee.amount[0]
     }
   }
 }

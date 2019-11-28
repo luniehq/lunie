@@ -3,6 +3,7 @@ import SendMessageDetails from "src/components/transactions/message-view/SendMes
 
 describe(`SendMessageDetails`, () => {
   let wrapper
+  // Examples @ https://stargate.cosmos.network/txs?action=send
   const tx = {
     height: 2000000,
     value: {

@@ -1,0 +1,28 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CreateValidatorMessageDetails renders a create validator transaction message 1`] = `
+<div
+  class="tx__content"
+>
+  <transactionicon-stub
+    transactiongroup="staking"
+    transactiontype="Create validator"
+  />
+   
+  <div
+    class="tx__content__left"
+  >
+    
+    Create validator
+     moniker 
+    
+    <router-link-stub
+      to="staking/validators/cosmos1"
+    >
+      
+      cosmos…mos1
+    
+    </router-link-stub>
+  </div>
+</div>
+`;

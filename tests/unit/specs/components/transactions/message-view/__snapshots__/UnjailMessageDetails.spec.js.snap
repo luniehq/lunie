@@ -1,0 +1,26 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`UnjailMessageDetails renders a unjail validator transaction message 1`] = `
+<div
+  class="tx__content"
+>
+  <transactionicon-stub
+    transactiongroup="staking"
+    transactiontype="Unjail"
+  />
+   
+  <div
+    class="tx__content__left"
+  >
+    
+    Unjail
+     name: 
+    
+    <router-link-stub
+      to="staking/validators/cosmos16wgw3k7rspegl9khx79fuaa37unf4nfmxf7pyr"
+    >
+      cosmos…7pyr
+    </router-link-stub>
+  </div>
+</div>
+`;

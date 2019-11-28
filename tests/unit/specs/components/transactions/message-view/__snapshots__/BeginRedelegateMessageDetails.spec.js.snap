@@ -1,0 +1,48 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`BeginRedelegateMessageDetails renders a redelegate transaction message 1`] = `
+<div
+  class="tx__content"
+>
+  <transactionicon-stub
+    transactiongroup="staking"
+    transactiontype="Restaked"
+  />
+   
+  <div
+    class="tx__content__left"
+  >
+    
+    Restaked
+     from 
+    
+    <router-link-stub
+      to="staking/validators/cosmos1"
+    >
+      
+      cosmos…mos1 
+    </router-link-stub>
+     to 
+    
+    <router-link-stub
+      to="staking/validators/cosmos2"
+    >
+      
+      Not A Valid Bech32 Address
+    
+    </router-link-stub>
+  </div>
+   
+  <div
+    class="tx__content__right"
+  >
+    <p
+      class="amount"
+    >
+      
+      10,000 ATOM
+    
+    </p>
+  </div>
+</div>
+`;

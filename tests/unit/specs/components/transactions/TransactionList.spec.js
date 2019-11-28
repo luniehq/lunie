@@ -12,7 +12,13 @@ describe(`TransactionList`, () => {
   let height = 1086769
   let oneDay = 86400 // One day
   let offset = 86400 / 7 // One day / 7s block time
-  let timestamp = new Date('2019-11-27T04:41:20') // cannot do new Date().getTime() because of snapshots
+
+  // Return a fixed timestamp when moment().format() is called
+  jest.mock("moment", () => () => ({
+    format: () => "27/11/2019 0:00:00"
+  }))
+
+  let timestamp = "1574809200"
   let timeOffset = 0
 
   for (var type in messageType) {
