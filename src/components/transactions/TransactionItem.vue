@@ -1,5 +1,5 @@
 <template>
-  <div class="tx-container" >
+  <div class="tx-container">
     <div class="tx" @click="toggleDetail">
       <component
         :is="messageTypeComponent"

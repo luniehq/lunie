@@ -48,5 +48,4 @@ describe(`SendMessageDetails`, () => {
     })
     expect(wrapper.element).toMatchSnapshot()
   })
-
 })

@@ -39,8 +39,6 @@ describe(`TmDataEmptyTx`, () => {
         .find(`.tm-data-msg__subtitle div`)
         .text()
         .trim()
-    ).toContain(
-      `There are no transactions associated with this address yet.`
-    )
+    ).toContain(`There are no transactions associated with this address yet.`)
   })
 })

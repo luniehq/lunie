@@ -75,7 +75,7 @@ describe(`NetworkList`, () => {
   it(`shows windows about switching networks`, async () => {
     wrapper.setData({
       session: {
-        signedIn: true,
+        signedIn: true
       }
     })
     const spy = jest.spyOn(window, `confirm`).mockImplementationOnce(() => {})
