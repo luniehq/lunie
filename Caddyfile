@@ -1,5 +1,7 @@
 staging-api.lunie.io {
     proxy / lunieapi:4000 {
+        transparent
+        header_downstream Access-Control-Allow-Origin "*"
         websocket
     }
 }

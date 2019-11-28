@@ -57,7 +57,7 @@
     "api_url": "https://regen-congo-1.lunie.io",
     "bech32_prefix": "xrn:",
     "testnet": true,
-    "feature_session": true,
+    "feature_session": false,
     "feature_portfolio": true,
     "feature_validators": true,
     "feature_proposals": true,
@@ -77,7 +77,7 @@
   "terra-testnet": {
     "id": "terra-testnet",
     "title": "Terra",
-    "chain_id": "soyu-0010",
+    "chain_id": "soju-0012",
     "api_url": "http://terra-soju-0012.lunie.io/",
     "rpc_url": "wss://terra-soju-0012.lunie.io/websocket",
     "bech32_prefix": "terra",

@@ -3,6 +3,7 @@ const http = require('http')
 const cors = require('cors')
 const { createApolloServer } = require('./lib/apollo')
 const transaction = require('./lib/routes/transaction')
+const push = require('./lib/routes/push')
 
 const config = require('./config')
 
@@ -16,6 +17,7 @@ const httpServer = http.createServer(app)
 
 app.use(express.json())
 app.use(config.transactionPath, cors(), transaction)
+app.use(config.pushRegistrationPath, cors(), push)
 
 const apolloServer = new createApolloServer(httpServer)
 app.use(apolloServer.getMiddleware({ app, path: config.queryPath, cors: true }))
