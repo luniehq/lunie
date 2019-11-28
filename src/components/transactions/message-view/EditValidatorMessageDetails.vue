@@ -6,7 +6,7 @@
     />
     <div class="tx__content__left">
       {{ caption }}
-      &nbsp;moniker&nbsp;
+      moniker&nbsp;
       <router-link :to="`staking/validators/${transaction.value.address}`">
         {{ transaction.value.address | resolveValidatorName(validators) }}
       </router-link>

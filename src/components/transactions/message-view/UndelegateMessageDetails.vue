@@ -6,7 +6,7 @@
     />
     <div class="tx__content__left">
       {{ caption }}
-      &nbsp;from&nbsp;
+      from&nbsp;
       <router-link :to="`/validators/${transaction.value.validator_address}`">
         {{
           transaction.value.validator_address | resolveValidatorName(validators)

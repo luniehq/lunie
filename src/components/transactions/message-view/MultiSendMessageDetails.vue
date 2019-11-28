@@ -10,15 +10,15 @@
         to yourself!
       </template>
       <template v-else-if="sentFromSessionAddress">
-        to
+        to&nbsp;
         <Bech32 :address="transaction.value.to_address" />
       </template>
       <template v-else-if="receivedToSessionAddress">
-        from
+        from&nbsp;
         <Bech32 :address="transaction.value.inputs[0].address" />
       </template>
       <template v-else>
-        from
+        from&nbsp;
         <Bech32 :address="transaction.value.inputs[0].address" /> to
         <Bech32 :address="sessionAddress" />
       </template>

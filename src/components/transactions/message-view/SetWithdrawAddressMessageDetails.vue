@@ -6,7 +6,7 @@
     />
     <div class="tx__content__left">
       {{ caption }}
-      &nbsp;to {{ transaction.value.withdraw_address }}
+      to {{ transaction.value.withdraw_address }}
     </div>
   </div>
 </template>

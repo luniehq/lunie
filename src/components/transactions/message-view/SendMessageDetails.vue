@@ -7,19 +7,19 @@
     <div class="tx__content__left">
       {{ caption }}
       <template v-if="toYourself">
-        &nbsp;to yourself!&nbsp;
+        to yourself!&nbsp;
         <Bech32 :address="transaction.value.to_address" />
       </template>
       <template v-else-if="sentFromSessionAddress">
-        &nbsp;to&nbsp;
+        to&nbsp;
         <Bech32 :address="transaction.value.to_address" />
       </template>
       <template v-else-if="receivedToSessionAddress">
-        &nbsp;from&nbsp;
+        from&nbsp;
         <Bech32 :address="transaction.value.from_address" />
       </template>
       <template v-else>
-        &nbsp;from&nbsp;
+        from&nbsp;
         <Bech32 :address="transaction.value.from_address" /> to
         <Bech32 :address="transaction.value.to_address" />
       </template>

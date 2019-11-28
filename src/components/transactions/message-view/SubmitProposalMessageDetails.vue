@@ -6,7 +6,7 @@
     />
     <div class="tx__content__left">
       {{ caption }}
-      &nbsp;title&nbsp;<i>{{ transaction.value.title }}</i>
+      title&nbsp;<i>{{ transaction.value.title }}</i>
     </div>
     <div class="tx__content__right">
       <p class="amount">
