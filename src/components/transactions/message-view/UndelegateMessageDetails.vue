@@ -1,28 +1,26 @@
 <template>
-  <div>
-    <div v-if="show === `caption`" class="tx__content">
-      <TransactionIcon
-        :transaction-group="transaction.group"
-        :transaction-type="caption"
-      />
-      <div class="tx__content__left">
-        {{ caption }}
-      </div>
-      <div class="tx__content__right">
-        {{ coin.amount | atoms | prettyLong }} {{ coin.denom | viewDenom }}
-      </div>
-    </div>
-    <div v-if="show === `details`" class="tx__content__information">
-      From&nbsp;
+  <div class="tx__content">
+    <TransactionIcon
+      :transaction-group="transaction.group"
+      :transaction-type="caption"
+    />
+    <div class="tx__content__left">
+      {{ caption }}
+      &nbsp;from&nbsp;
       <router-link :to="`/validators/${transaction.value.validator_address}`">
         {{
           transaction.value.validator_address | resolveValidatorName(validators)
         }}
       </router-link>
-      Liquid date&nbsp;
+      &nbsp;Liquid date&nbsp;
       <span v-if="transaction.liquidDate" class="tx-unbonding__time-diff">
         &nbsp;{{ liquidDateCaption }}
       </span>
+    </div>
+    <div class="tx__content__right">
+      <p class="amount">
+        {{ coin.amount | atoms | prettyLong }} {{ coin.denom | viewDenom }}
+      </p>
     </div>
   </div>
 </template>
@@ -48,10 +46,6 @@ export default {
   props: {
     transaction: {
       type: Object,
-      required: true
-    },
-    show: {
-      type: String,
       required: true
     },
     validators: {

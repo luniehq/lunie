@@ -1,35 +1,32 @@
 <template>
-  <div>
-    <div v-if="show === `caption`" class="tx__content">
-      <TransactionIcon
-        :transaction-group="transaction.group"
-        :transaction-type="caption"
-      />
-      <div class="tx__content__left">
-        {{ caption }}
-      </div>
-      <div class="tx__content__right">
-        {{ coin.amount | atoms | prettyLong }} {{ coin.denom | viewDenom }}
-      </div>
-    </div>
-    <div v-if="show === `details`" class="tx__content__information">
+  <div class="tx__content">
+    <TransactionIcon
+      :transaction-group="transaction.group"
+      :transaction-type="caption"
+    />
+    <div class="tx__content__left">
+      {{ caption }}
       <template v-if="toYourself">
-        To yourself!
+        to yourself!
       </template>
       <template v-else-if="sentFromSessionAddress">
-        To&nbsp;
+        to
         <Bech32 :address="transaction.value.to_address" />
       </template>
       <template v-else-if="receivedToSessionAddress">
-        From&nbsp;
+        from
         <Bech32 :address="transaction.value.inputs[0].address" />
       </template>
       <template v-else>
-        From&nbsp;
-        <Bech32 :address="transaction.value.inputs[0].address" />&nbsp;to&nbsp;
+        from
+        <Bech32 :address="transaction.value.inputs[0].address" /> to
         <Bech32 :address="sessionAddress" />
       </template>
-      <span v-if="transaction.memo">&nbsp;- {{ transaction.memo }}</span>
+    </div>
+    <div class="tx__content__right">
+      <p class="amount">
+        {{ coin.amount | atoms | prettyLong }} {{ coin.denom | viewDenom }}
+      </p>
     </div>
   </div>
 </template>
@@ -54,10 +51,6 @@ export default {
   props: {
     transaction: {
       type: Object,
-      required: true
-    },
-    show: {
-      type: String,
       required: true
     },
     sessionAddress: {

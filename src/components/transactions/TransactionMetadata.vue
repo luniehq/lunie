@@ -7,7 +7,7 @@
       </router-link>
       <i class="material-icons">access_time</i> {{ date }}
     </div>
-    <p v-if="memo">Memo: {{ memo }}</p>
+    <p v-if="memo"><i class="material-icons">message</i> Memo: {{ memo }}</p>
     <div>
       <i class="material-icons">call_split</i>
       Fee:

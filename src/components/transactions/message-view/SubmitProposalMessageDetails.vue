@@ -1,16 +1,12 @@
 <template>
-  <div>
-    <div v-if="show === `caption`" class="tx__content">
-      <TransactionIcon
-        :transaction-group="transaction.group"
-        :transaction-type="caption"
-      />
-      <div class="tx__content__left">
-        {{ caption }}
-      </div>
-    </div>
-    <div v-if="show === `details`" class="tx__content__information">
-      Title&nbsp;<i>{{ transaction.value.title }}</i>
+  <div class="tx__content">
+    <TransactionIcon
+      :transaction-group="transaction.group"
+      :transaction-type="caption"
+    />
+    <div class="tx__content__left">
+      {{ caption }}
+      &nbsp;title&nbsp;<i>{{ transaction.value.title }}</i>
     </div>
   </div>
 </template>
@@ -34,10 +30,6 @@ export default {
   props: {
     transaction: {
       type: Object,
-      required: true
-    },
-    show: {
-      type: String,
       required: true
     },
     validators: {

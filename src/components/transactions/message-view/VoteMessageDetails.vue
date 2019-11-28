@@ -1,16 +1,12 @@
 <template>
-  <div>
-    <div v-if="show === `caption`" class="tx__content">
-      <TransactionIcon
-        :transaction-group="transaction.group"
-        :transaction-type="caption"
-      />
-      <div class="tx__content__left">
-        {{ caption }}
-      </div>
-    </div>
-    <div v-if="show === `details`" class="tx__content__information">
-      On&nbsp;
+  <div class="tx__content">
+    <TransactionIcon
+      :transaction-group="transaction.group"
+      :transaction-type="caption"
+    />
+    <div class="tx__content__left">
+      {{ caption }}
+      &nbsp;on&nbsp;
       <router-link :to="`/governance/${transaction.value.proposal_id}`"
         >Proposal &#35;{{ transaction.value.proposal_id }}</router-link
       >
@@ -33,10 +29,6 @@ export default {
   props: {
     transaction: {
       type: Object,
-      required: true
-    },
-    show: {
-      type: String,
       required: true
     },
     validators: {

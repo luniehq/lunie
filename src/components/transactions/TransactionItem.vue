@@ -1,23 +1,16 @@
 <template>
-  <div class="tx" @click="toggleDetail">
-    <component
-      :is="messageTypeComponent"
-      show="caption"
-      :transaction="transaction"
-      :validators="validators"
-      :session-address="address"
-      class="tx-caption"
-    />
+  <div class="tx-container" >
+    <div class="tx" @click="toggleDetail">
+      <component
+        :is="messageTypeComponent"
+        :transaction="transaction"
+        :validators="validators"
+        :session-address="address"
+        class="tx-caption"
+      />
+    </div>
     <transition name="slide-out">
       <div v-if="show" class="tx-details">
-        <component
-          :is="messageTypeComponent"
-          show="details"
-          :transaction="transaction"
-          :validators="validators"
-          :session-address="address"
-          class="tx-detail-content"
-        />
         <TransactionMetadata
           v-if="showMetaData"
           :fee="transaction.fee"
@@ -134,12 +127,7 @@ export default {
   },
   methods: {
     toggleDetail(event) {
-      // Prevent collapse tx details when click on address
-      console.log(event.target.className)
-      if (
-        event.target.className !== `address` &&
-        event.target.className !== `tx-details`
-      ) {
+      if (event.target.className !== `address`) {
         this.show = !this.show
       }
     }
@@ -148,24 +136,16 @@ export default {
 </script>
 
 <style>
-.tx {
+.tx-container {
   margin-bottom: 0.5rem;
+}
+
+.tx-details {
   padding: 0 1rem;
 }
 
 .tx-caption {
   cursor: pointer;
-}
-
-.tx-caption:hover {
-  cursor: pointer;
-  background: var(--hover-bg);
-  color: var(--bright);
-}
-
-.tx-caption .copied {
-  position: absolute;
-  bottom: 0;
 }
 
 .tx-caption b {
@@ -206,13 +186,8 @@ export default {
 .tx__content__left,
 .tx__content__right {
   display: flex;
-  flex-direction: column;
   width: 100%;
   padding: 1rem;
-}
-
-.tx__content__right {
-  text-align: right;
 }
 
 .tx__content__information {
@@ -249,5 +224,11 @@ export default {
   max-height: 100%;
   max-width: 52px;
   display: block;
+}
+
+.amount {
+  display: block;
+  width: 100%;
+  text-align: right;
 }
 </style>

@@ -1,20 +1,12 @@
 <template>
-  <div>
-    <div v-if="show === `caption`" class="tx__content">
-      <TransactionIcon
-        :transaction-group="transaction.group"
-        :transaction-type="caption"
-      />
-      <div class="tx__content__left">
-        {{ caption }}
-      </div>
-      <div class="tx__content__right">
-        {{ deposit.amount | atoms | prettyLong }}&nbsp;
-        {{ deposit.denom | viewDenom }}
-      </div>
-    </div>
-    <div v-if="show === `details`" class="tx__content__information">
-      Moniker&nbsp;
+  <div class="tx__content">
+    <TransactionIcon
+      :transaction-group="transaction.group"
+      :transaction-type="caption"
+    />
+    <div class="tx__content__left">
+      {{ caption }}
+      &nbsp;moniker&nbsp;
       <router-link
         :to="`staking/validators/${transaction.value.validator_address}`"
       >
@@ -22,6 +14,12 @@
           transaction.value.validator_address | resolveValidatorName(validators)
         }}
       </router-link>
+    </div>
+    <div class="tx__content__right">
+      <p class="amount">
+        {{ deposit.amount | atoms | prettyLong }}&nbsp;
+        {{ deposit.denom | viewDenom }}
+      </p>
     </div>
   </div>
 </template>
@@ -45,10 +43,6 @@ export default {
   props: {
     transaction: {
       type: Object,
-      required: true
-    },
-    show: {
-      type: String,
       required: true
     },
     validators: {
