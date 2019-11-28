@@ -191,7 +191,12 @@ export default class ActionManager {
     const result = await transactionAPIRequest(txPayload)
     console.log("broadcast successful:", result)
 
-    return { hash: result.hash }
+    if (result.success) {
+      return { hash: result.hash }
+    } else {
+      throw Error('Broadcast was not successfull')
+    }
+    
   }
 
   async createWithdrawTransaction() {
