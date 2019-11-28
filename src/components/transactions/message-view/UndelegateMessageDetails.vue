@@ -12,10 +12,6 @@
           transaction.value.validator_address | resolveValidatorName(validators)
         }}
       </router-link>
-      &nbsp;Liquid date&nbsp;
-      <span v-if="transaction.liquidDate" class="tx-unbonding__time-diff">
-        &nbsp;{{ liquidDateCaption }}
-      </span>
     </div>
     <div class="tx__content__right">
       <p class="amount">
