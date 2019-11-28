@@ -28,7 +28,7 @@
         >
         </LiSession>
         <LiSession
-          v-if="accountExists && session.insecureMode"
+          v-if="accountExists && (session.insecureMode || isMobileApp)"
           id="sign-in-with-account"
           icon="lock"
           title="Sign in with account"
