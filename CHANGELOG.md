@@ -11,14 +11,18 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Added
 
+- [#3173](https://github.com/cosmos/lunie/issues/3173) Now when it is started the app chooses either the first mainnet available or the local-testnet from the existing networks, directly connecting to one @Bitcoinera
 - Added network icon for Regen @Bitcoinera
 
 ### Changed
 
 - upgraded cosmos-keys and cosmos-ledger libraries @jbibla
+- implement lazy loading, code splitting, and chunking for improved performance @jbibla
 
 ### Fixed
 
+- Now the proposals page behaves properly, displaying a banner in case there are no proposals in the network saying "No Governance Proposals". Also removed PageContainer from PageProposals @Bitcoinera
+- Updated Ledger lib to update existing bug @faboweb
 - Refetching undelegations failed @faboweb
 - [#3184](https://github.com/cosmos/lunie/issues/3184) signing in with an existing account was restricted to insecure mode but is now enabled in mobile @jbibla
 

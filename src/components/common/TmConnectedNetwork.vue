@@ -58,7 +58,6 @@
         alt="a small spinning circle to display loading"
       />
       <div
-        v-tooltip.top="'Seeking connection'"
         class="
         tm-connected-network__string
         tm-connected-network__string--connecting
@@ -89,11 +88,7 @@ export default {
   computed: {
     ...mapGetters([`network`]),
     networkTooltip() {
-      if (!this.$apollo.queries.block.loading) {
-        return `You're connected to ${this.block.chainId}.`
-      } else {
-        return `Seeking connection`
-      }
+      return `You're connected to ${this.block.chainId}.`
     }
   },
   apollo: {
