@@ -29,7 +29,7 @@ export default function({ apollo }) {
       if (persistedNetwork && availNetworks.includes(persistedNetwork)) {
         await commit(`setNetworkId`, persistedNetwork)
       } else {
-        const defaultNetwork = config.network
+        const defaultNetwork = state.externals.config.network
         if (availNetworks.find(network => network === defaultNetwork)) {
           await dispatch(
             `setNetwork`,
@@ -39,7 +39,7 @@ export default function({ apollo }) {
           // otherwise we connect to a fallback network
           await dispatch(
             `setNetwork`,
-            data.networks.find(({ id }) => id === config.fallbackNetwork)
+            data.networks.find(({ id }) => id === state.externals.config.fallbackNetwork)
           )
         }
       }
