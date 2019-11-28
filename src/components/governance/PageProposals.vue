@@ -1,7 +1,5 @@
 <template>
-  <TmPage
-    data-title="Proposals"
-    :managed="false">
+  <TmPage data-title="Proposals" :managed="false" hide-header>
     <div class="button-container">
       <TmBtn
         id="propose-btn"
@@ -15,15 +13,15 @@
       :denom="parameters.depositDenom"
       @success="() => afterPropose()"
     />
-    <div v-if="!$apollo.loading && proposals.length === 0">     
+    <div v-if="!$apollo.loading && proposals.length === 0">
       <div>
         <TmDataMsg icon="gavel">
           <div slot="title">
             No Governance Proposals
           </div>
           <div slot="subtitle">
-            There are currently no governance proposals to display.
-            Click the 'Create Proposal' button to submit the first network proposal!
+            There are currently no governance proposals to display. Click the
+            'Create Proposal' button to submit the first network proposal!
           </div>
         </TmDataMsg>
       </div>
