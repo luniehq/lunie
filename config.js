@@ -7,6 +7,7 @@ module.exports = {
   port: process.env.PORT || '4000',
   queryPath: '/',
   transactionPath: '/transaction',
+  pushRegistrationPath: '/push',
   subscriptionPath: '/graphql',
   apollo_engine_api_key: process.env.ENGINE_API_KEY || '',
   enable_cache: process.env.ENABLE_CACHE || false,
