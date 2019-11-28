@@ -1,6 +1,12 @@
 <template>
   <div class="tx-container">
     <div class="tx" @click="toggleDetail">
+      <div class="toggle-box">
+        <i v-if="!show" class="material-icons toggle-icon"
+          >keyboard_arrow_down</i
+        >
+        <i v-else class="material-icons toggle-icon">keyboard_arrow_up</i>
+      </div>
       <component
         :is="messageTypeComponent"
         :transaction="transaction"
@@ -136,6 +142,10 @@ export default {
 </script>
 
 <style>
+.tx {
+  position: relative;
+}
+
 .tx-container {
   margin-bottom: 0.5rem;
 }
@@ -190,8 +200,14 @@ export default {
   padding: 1rem;
 }
 
+.tx__content__right {
+  position: absolute;
+  right: 1rem;
+}
+
 .tx__content__information {
   font-size: 14px;
+  right: 1.5rem;
 }
 
 .tx__content__information,
@@ -230,5 +246,22 @@ export default {
   display: block;
   width: 100%;
   text-align: right;
+}
+
+.toggle-icon {
+  width: 20px;
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  z-index: 91;
+}
+
+.toggle-box i {
+  font-size: 1rem;
+  padding: 0.1rem;
+  border-radius: 50%;
+  background: var(--bc-dim);
+  height: 1.2rem;
+  width: 1.2rem;
 }
 </style>
