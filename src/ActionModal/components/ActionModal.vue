@@ -159,7 +159,7 @@
             <div v-if="!extension.enabled">
               Please install the Lunie Browser Extension from the
               <a
-                href="https://chrome.google.com/webstore/category/extensions"
+                href="https://chrome.google.com/webstore/category/extensions?ref=lunie"
                 target="_blank"
                 rel="noopener norefferer"
                 >Chrome Web Store</a

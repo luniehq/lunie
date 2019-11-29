@@ -253,7 +253,7 @@ jobs:
       - run: |
           yarn add simsala
           git config user.email "bot@lunie.io"
-          git config user.name "Lunie Bot"
+          git config user.name "Release Lunie Bot"
           node node_modules/simsala/src/cli.js release-candidate --semver prerelease --pending-path ./changes --owner luniehq --repository lunie --token $GIT_BOT_TOKEN --message "Please manually test before merging this to master"
       
   # Push merges to master immediately back to develop to stay in sync
@@ -264,10 +264,10 @@ jobs:
       - run:
           command: |
             git config user.email "bot@lunie.io"
-            git config user.name "Lunie Bot"
+            git config user.name "MergeBack Lunie Bot"
             git remote add bot https://${GIT_BOT_TOKEN}@github.com/luniehq/lunie.git
-            git checkout develop -f
-            git pull -f --no-edit
+            git checkout develop
+            git pull
             git merge origin/master --no-edit
             git push
 
@@ -311,34 +311,34 @@ workflows:
             branches:
               ignore: release
 
-      - e2eBuild: 
-          requires:
-            - prep
-          filters:
-            branches:
-              ignore:
-                - release
-                - master
+      # - e2eBuild: 
+      #     requires:
+      #       - prep
+      #     filters:
+      #       branches:
+      #         ignore:
+      #           - release
+      #           - master
 
-      - testE2e:
-          requires:
-            - e2eBuild
+      # - testE2e:
+      #     requires:
+      #       - e2eBuild
 
-      - testExtension:
-          requires:
-            - e2eBuild
+      # - testExtension:
+      #     requires:
+      #       - e2eBuild
 
   # Every UTC midnight we go on develop and release
-  release:
-    triggers:
-      - schedule:
-          cron: "0 0 * * *"
-          filters:
-            branches:
-              only:
-                - develop
-    jobs:
-      - release
+  # release:
+  #   triggers:
+  #     - schedule:
+  #         cron: "0 0 * * *"
+  #         filters:
+  #           branches:
+  #             only:
+  #               - develop
+  #   jobs:
+  #     - release
 
   releaseManually:
     jobs:

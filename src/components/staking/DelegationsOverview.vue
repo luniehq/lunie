@@ -73,7 +73,7 @@ export default {
         query: UserTransactionAdded,
         result({ data }) {
           if (data.userTransactionAdded.success) {
-            refetchNetworkOnly(this.$apollo.query.delegations)
+            refetchNetworkOnly(this.$apollo.queries.delegations)
           }
         }
       }

@@ -11,7 +11,9 @@ import config from "src/../config"
 
 Vue.use(VueApollo)
 
-const graphqlHost = urlParams => urlParams.graphql || config.graphqlHost
+const graphqlHost = urlParams =>
+  (urlParams.graphql ? decodeURIComponent(urlParams.graphql) : false) ||
+  config.graphqlHost
 
 const makeHttpLink = urlParams => {
   const host = graphqlHost(urlParams)

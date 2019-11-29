@@ -1,148 +1,118 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`PageProposals shows a message if still loading 1`] = `
-<pagecontainer-stub
+<tmpage-stub
   data-title="Proposals"
   hideheader="true"
-  managed="true"
   subtitle=""
   title=""
 >
-  <template>
-    <div
-      class="button-container"
-    >
-      <tmbtn-stub
-        id="propose-btn"
-        type="secondary"
-        value="Create Proposal"
-      />
-    </div>
-     
-    <tmdatamsg-stub
-      icon="gavel"
-      subtitle="There are currently no governance proposals to display.
-  Click the 'Create Proposal' button to submit a proposal."
-      title="No Governance Proposals"
+  <div
+    class="button-container"
+  >
+    <tmbtn-stub
+      id="propose-btn"
+      type="secondary"
+      value="Create Proposal"
     />
-  </template>
+  </div>
    
-  <template>
-    <div
-      class="button-container"
-    >
-      <tmbtn-stub
-        id="propose-btn"
-        type="secondary"
-        value="Create Proposal"
-      />
+  <modalpropose-stub
+    denom="xxx"
+  />
+   
+  <div>
+    <div>
+      <tmdatamsg-stub
+        icon="gavel"
+      >
+        <div>
+          
+          No Governance Proposals
+        
+        </div>
+         
+        <div>
+          
+          There are currently no governance proposals to display. Click the
+          'Create Proposal' button to submit the first network proposal!
+        
+        </div>
+      </tmdatamsg-stub>
     </div>
-     
-    <tableproposals-stub
-      proposals=""
-    />
-     
-    <modalpropose-stub
-      denom="xxx"
-    />
-  </template>
-</pagecontainer-stub>
+  </div>
+</tmpage-stub>
 `;
 
 exports[`PageProposals shows a message if there is nothing to display 1`] = `
-<pagecontainer-stub
+<tmpage-stub
   data-title="Proposals"
   hideheader="true"
-  managed="true"
   subtitle=""
   title=""
 >
-  <template>
-    <div
-      class="button-container"
-    >
-      <tmbtn-stub
-        id="propose-btn"
-        type="secondary"
-        value="Create Proposal"
-      />
-    </div>
-     
-    <tmdatamsg-stub
-      icon="gavel"
-      subtitle="There are currently no governance proposals to display.
-  Click the 'Create Proposal' button to submit a proposal."
-      title="No Governance Proposals"
+  <div
+    class="button-container"
+  >
+    <tmbtn-stub
+      id="propose-btn"
+      type="secondary"
+      value="Create Proposal"
     />
-  </template>
+  </div>
    
-  <template>
-    <div
-      class="button-container"
-    >
-      <tmbtn-stub
-        id="propose-btn"
-        type="secondary"
-        value="Create Proposal"
-      />
+  <modalpropose-stub
+    denom="xxx"
+  />
+   
+  <div>
+    <div>
+      <tmdatamsg-stub
+        icon="gavel"
+      >
+        <div>
+          
+          No Governance Proposals
+        
+        </div>
+         
+        <div>
+          
+          There are currently no governance proposals to display. Click the
+          'Create Proposal' button to submit the first network proposal!
+        
+        </div>
+      </tmdatamsg-stub>
     </div>
-     
-    <tableproposals-stub
-      proposals=""
-    />
-     
-    <modalpropose-stub
-      denom="xxx"
-    />
-  </template>
-</pagecontainer-stub>
+  </div>
+</tmpage-stub>
 `;
 
 exports[`PageProposals shows a proposals table 1`] = `
-<pagecontainer-stub
+<tmpage-stub
   data-title="Proposals"
   hideheader="true"
-  managed="true"
   subtitle=""
   title=""
 >
-  <template>
-    <div
-      class="button-container"
-    >
-      <tmbtn-stub
-        id="propose-btn"
-        type="secondary"
-        value="Create Proposal"
-      />
-    </div>
-     
-    <tmdatamsg-stub
-      icon="gavel"
-      subtitle="There are currently no governance proposals to display.
-  Click the 'Create Proposal' button to submit a proposal."
-      title="No Governance Proposals"
+  <div
+    class="button-container"
+  >
+    <tmbtn-stub
+      id="propose-btn"
+      type="secondary"
+      value="Create Proposal"
     />
-  </template>
+  </div>
    
-  <template>
-    <div
-      class="button-container"
-    >
-      <tmbtn-stub
-        id="propose-btn"
-        type="secondary"
-        value="Create Proposal"
-      />
-    </div>
-     
+  <modalpropose-stub
+    denom="lunies"
+  />
+   
+  <div>
     <tableproposals-stub
       proposals="[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object]"
     />
-     
-    <modalpropose-stub
-      denom="lunies"
-    />
-  </template>
-</pagecontainer-stub>
+  </div>
+</tmpage-stub>
 `;

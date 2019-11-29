@@ -7,6 +7,66 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.0-beta.146] - 2019-11-29
+
+### Fixed
+
+- [#3218](https://github.com/cosmos/lunie/pull/3218) Fix small typo in delegations query @colw
+- Hide balance header on page proposals @faboweb
+
+## [1.0.0-beta.145] - 2019-11-28
+
+### Added
+
+- [#3173](https://github.com/cosmos/lunie/issues/3173) Now when it is started the app chooses either the first mainnet available or the local-testnet from the existing networks, directly connecting to one @Bitcoinera
+- Added network icon for Regen @Bitcoinera
+
+### Changed
+
+- upgraded cosmos-keys and cosmos-ledger libraries @jbibla
+- implement lazy loading, code splitting, and chunking for improved performance @jbibla
+
+### Fixed
+
+- Now the proposals page behaves properly, displaying a banner in case there are no proposals in the network saying "No Governance Proposals". Also removed PageContainer from PageProposals @Bitcoinera
+- Updated Ledger lib to update existing bug @faboweb
+- Refetching undelegations failed @faboweb
+- [#3184](https://github.com/cosmos/lunie/issues/3184) signing in with an existing account was restricted to insecure mode but is now enabled in mobile @jbibla
+
+### Deprecated
+
+- removed moment.js locales because they are large and unused @jbibla
+
+### Code Improvements
+
+- [#3182](https://github.com/cosmos/lunie/issues/3182) I added "?ref=lunie" at the end of the outgoing links @Bitcoinera
+- Removed references to Cosmos REST API (stargate) @faboweb
+
+### Repository
+
+- Switch to release apps from master instead of from the release branches @faboweb
+- Disabling the e2e tests as they don't work consistantly @faboweb
+
+## [1.0.0-beta.144] - 2019-11-22
+
+### Added
+
+- Added icons for Terra @faboweb
+
+### Fixed
+
+- [#3176](https://github.com/cosmos/lunie/pull/3176) Withdrawal was not working as message was empty @colw
+
+## [1.0.0-beta.143] - 2019-11-21
+
+### Added
+
+- Added icons for Terra @faboweb
+
+### Fixed
+
+- [#3176](https://github.com/cosmos/lunie/pull/3176) Withdrawal was not working as message was empty @colw
+
 ## [1.0.0-beta.142] - 2019-11-20
 
 ### Added

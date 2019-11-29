@@ -13,6 +13,9 @@ const commitHash = require(`child_process`)
 
 module.exports = {
   publicPath: `/`,
+  chainWebpack: (config) => {
+    config.plugins.delete(`prefetch`)
+  },
   configureWebpack: () => {
     const config = {
       resolve: {
@@ -32,10 +35,10 @@ module.exports = {
         extensions: [`.js`, `.vue`, `.css`]
       },
       plugins: [
+        new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
         new webpack.DefinePlugin({
           "process.env": {
             NODE_ENV: JSON.stringify(process.env.NODE_ENV),
-            STARGATE: JSON.stringify(process.env.STARGATE),
             NETWORK: JSON.stringify(process.env.NETWORK),
             SENTRY_DSN: JSON.stringify(process.env.SENTRY_DSN),
             RELEASE: JSON.stringify(commitHash),
@@ -45,7 +48,12 @@ module.exports = {
             MOBILE_APP: JSON.stringify(process.env.MOBILE_APP)
           }
         })
-      ]
+      ],
+      optimization: {
+        splitChunks: {
+          chunks: 'all',
+        }
+      }
     }
 
     if (process.env.NODE_ENV === `production` && !process.env.E2E_TESTS) {
@@ -62,13 +70,8 @@ module.exports = {
             // third party tools
             `https://api-iam.intercom.io`,
             // mainnet
-            `https://stargate.lunie.io`,
-            `https://stargate.cosmos.network`,
-            `https://gaia-13006.lunie.io`,
-            ...[process.env.STARGATE].filter(x => x !== undefined),
-            ...[process.env.RPC]
-              .filter(x => x !== undefined)
-              .map(x => x.replace("https", "wss"))
+            `https://lcd.nylira.net`,
+            `https://gaia-13006.lunie.io`
           ],
           "frame-src": [`'self'`, `https://api-iam.intercom.io`],
           "img-src": [`'self'`, `https://www.google-analytics.com/`]
