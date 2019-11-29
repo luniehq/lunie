@@ -28,12 +28,12 @@ module.exports = {
     browser.url(browser.launch_url + "/#/transactions")
     await waitForText(
       browser,
-      ".tx:nth-child(2) .tx-caption .tx__content .tx__content__left",
+      ".tx:nth-child(2) .tx-caption .tx__content__left",
       `Staked`
     )
     await waitForText(
       browser,
-      ".tx:nth-child(2) .tx-caption .tx__content .tx__content__right",
+      ".tx:nth-child(2) .tx-caption .tx__content__right .amount",
       `${value} STAKE`
     )
   },
@@ -69,12 +69,12 @@ module.exports = {
 
     await waitForText(
       browser,
-      ".tx:nth-child(2) .tx-caption .tx__content .tx__content__left",
+      ".tx:nth-child(2) .tx-caption .tx__content__left",
       `Restaked`
     )
     await waitForText(
       browser,
-      ".tx:nth-child(2) .tx-caption .tx__content .tx__content__right",
+      ".tx:nth-child(2) .tx-caption .tx__content__right .amount",
       `${value} STAKE`
     )
   },
@@ -108,14 +108,14 @@ module.exports = {
 
     await waitForText(
       browser,
-      ".tx:nth-child(2) .tx-caption .tx__content .tx__content__left",
+      ".tx:nth-child(2) .tx-caption .tx__content__left",
       `Unstaked`,
       10,
       2000
     )
     await waitForText(
       browser,
-      ".tx:nth-child(2) .tx-caption .tx__content .tx__content__right",
+      ".tx:nth-child(2) .tx-caption .tx__content__right .amount",
       `${value} STAKE`
     )
   }
