@@ -49,19 +49,6 @@ describe(`Module: Connection`, () => {
   it(`assigns the user a network if a network was found`, async () => {
     const commit = jest.fn()
     localStorage.setItem(
-<<<<<<< HEAD
-      `network`,
-      JSON.stringify([
-        {
-          network: `awesomenet`
-        }
-      ])
-    )
-    await actions.checkForPersistedNetwork({ commit })
-    expect(commit).toHaveBeenCalledWith(`setNetworkId`, [
-      {
-        network: `awesomenet`
-=======
       JSON.stringify({
         network: `awesomenet`
       })
@@ -90,7 +77,6 @@ describe(`Module: Connection`, () => {
         stargate: `https://voyager.lol`,
         network: `strangenet`,
         fallbackNetwork: `localnet`
->>>>>>> develop
       }
     }
     await actions.checkForPersistedNetwork({ dispatch })
