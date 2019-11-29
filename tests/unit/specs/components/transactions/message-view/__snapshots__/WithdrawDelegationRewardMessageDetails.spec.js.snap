@@ -19,7 +19,10 @@ exports[`WithdrawalDelegationRewardMessageDetails renders a vote transaction mes
     <router-link-stub
       to="staking/validators/cosmosvaloper15r4tc0m6hc7z8drq3dzlrtcs6rq2q9l2nvwher"
     >
+      <!---->
+      
       cosmosvaloper…wher
+    
     </router-link-stub>
   </div>
 </div>

@@ -19,6 +19,7 @@ exports[`EditValidatorMessageDetails renders a edit validator transaction messag
     <router-link-stub
       to="staking/validators/cosmos1"
     >
+      <!---->
       
       cosmos…mos1
     

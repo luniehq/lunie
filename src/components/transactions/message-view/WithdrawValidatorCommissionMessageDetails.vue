@@ -9,10 +9,17 @@
       from&nbsp;
       <router-link
         :to="`staking/validators/${transaction.value.validator_address}`"
-        >{{
-          transaction.value.validator_address | resolveValidatorName(validators)
-        }}</router-link
       >
+        <img
+          v-if="validator && validator.picture"
+          :src="validator.picture"
+          class="validator-image"
+          :alt="`validator logo for ` + validator.name"
+        />
+        {{
+          transaction.value.validator_address | resolveValidatorName(validators)
+        }}
+      </router-link>
     </div>
   </div>
 </template>
@@ -46,6 +53,11 @@ export default {
   data: () => {
     return {
       caption: `Withdrawal with commission`
+    }
+  },
+  computed: {
+    validator() {
+      return this.validators[this.transaction.value.validator_address] || false
     }
   }
 }

@@ -34,7 +34,6 @@ import { atoms, viewDenom, prettyLong } from "scripts/num.js"
 import { resolveValidatorName } from "src/filters"
 import { getCoin } from "scripts/transaction-utils"
 import TransactionIcon from "../TransactionIcon"
-import Avatar from "../../common/Avatar"
 
 export default {
   name: `delegate-message-details`,
@@ -45,8 +44,7 @@ export default {
     resolveValidatorName
   },
   components: {
-    TransactionIcon,
-    Avatar
+    TransactionIcon
   },
   props: {
     transaction: {
@@ -68,7 +66,7 @@ export default {
       return getCoin(this.transaction)
     },
     validator() {
-      return this.validators[this.transaction.value.validator_address] || null
+      return this.validators[this.transaction.value.validator_address] || false
     }
   }
 }

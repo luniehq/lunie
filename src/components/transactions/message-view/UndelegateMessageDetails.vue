@@ -8,6 +8,12 @@
       {{ caption }}
       from&nbsp;
       <router-link :to="`/validators/${transaction.value.validator_address}`">
+        <img
+          v-if="validator && validator.picture"
+          :src="validator.picture"
+          class="validator-image"
+          :alt="`validator logo for ` + validator.name"
+        />
         {{
           transaction.value.validator_address | resolveValidatorName(validators)
         }}
@@ -60,6 +66,9 @@ export default {
     },
     coin() {
       return getCoin(this.transaction)
+    },
+    validator() {
+      return this.validators[this.transaction.value.validator_address] || false
     }
   }
 }

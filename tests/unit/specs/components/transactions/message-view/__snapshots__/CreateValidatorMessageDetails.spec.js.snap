@@ -19,6 +19,7 @@ exports[`CreateValidatorMessageDetails renders a create validator transaction me
     <router-link-stub
       to="staking/validators/cosmos1"
     >
+      <!---->
       
       cosmos…mos1
     

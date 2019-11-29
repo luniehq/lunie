@@ -10,6 +10,12 @@
       <router-link
         :to="`staking/validators/${transaction.value.validator_address}`"
       >
+        <img
+          v-if="validator && validator.picture"
+          :src="validator.picture"
+          class="validator-image"
+          :alt="`validator logo for ` + validator.name"
+        />
         {{
           transaction.value.validator_address | resolveValidatorName(validators)
         }}
@@ -47,6 +53,11 @@ export default {
   data: () => {
     return {
       caption: `Create validator`
+    }
+  },
+  computed: {
+    validator() {
+      return this.validators[this.transaction.value.validator_address] || false
     }
   }
 }
