@@ -12,7 +12,7 @@
     <p v-if="transaction.undelegationEndTime">
       <i class="material-icons">calendar_today</i>
       Liquid date:
-      {{ transaction.undelegationEndTime }}
+      {{ getUndelegationEndTime() }}
     </p>
     <p v-if="transaction.memo">
       <i class="material-icons">message</i> Memo: {{ transaction.memo }}
@@ -52,6 +52,11 @@ export default {
     date() {
       const momentTime = moment(this.transaction.timestamp)
       return momentTime.format(`HH:mm:ss`)
+    }
+  },
+  methods: {
+    getUndelegationEndTime() {
+      return moment(new Date(this.transaction.undelegationEndTime))
     }
   }
 }

@@ -76,6 +76,7 @@ export default {
               denom
             }
             value
+            undelegationEndTime
           }
         }
       `,
