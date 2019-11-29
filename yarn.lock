@@ -872,14 +872,26 @@
     crypto-js "^3.1.9-1"
     secp256k1 "^3.6.2"
 
-"@lunie/cosmos-ledger@0.0.7":
-  version "0.0.7"
-  resolved "https://registry.yarnpkg.com/@lunie/cosmos-ledger/-/cosmos-ledger-0.0.7.tgz#5c6276224b5b8af55af0f509e515b4ddd707360c"
-  integrity sha512-fpyHIB1FrbnrVzoOC7TaCgzBFL2vs6Btdf0AUWswI/D4xOALxFvzssR7IANbmitfEB2H7elLOy9Z01E1dprHVw==
+"@lunie/cosmos-keys@^0.0.9":
+  version "0.0.9"
+  resolved "https://registry.yarnpkg.com/@lunie/cosmos-keys/-/cosmos-keys-0.0.9.tgz#ca52af422a448462973dac4015ff76f9db87793d"
+  integrity sha512-KPDcWHxt6VtcIwj0UdfJUU/FRfShCUglJWoZJmuxHwwjlikUSA4ZWvYFieW/xt45mpvqJQVvd5zVe3qBn5h/Gw==
+  dependencies:
+    bech32 "^1.1.3"
+    bip32 "^1.0.4"
+    bip39 "^3.0.1"
+    crypto-js "^3.1.9-1"
+    secp256k1 "^3.6.2"
+
+"@lunie/cosmos-ledger@0.0.5":
+  version "0.0.5"
+  resolved "https://registry.yarnpkg.com/@lunie/cosmos-ledger/-/cosmos-ledger-0.0.5.tgz#d4ac03b304c5c33d83bd7116fee1a509e76ffe6a"
+  integrity sha512-lAAAUfFnNZt3mDsaqGa2X2nLLj320ytzPssh13g+5RiPySrc5pf9A2k4QDPdD5PmbJllaIZowd38AS4s7hn3Qg==
   dependencies:
     "@ledgerhq/hw-transport-u2f" "^4.61.0"
     "@ledgerhq/hw-transport-webusb" "^4.61.0"
-    ledger-cosmos-js "^2.1.7"
+    "@lunie/cosmos-keys" "^0.0.9"
+    ledger-cosmos-js "^2.0.2"
     secp256k1 "^3.7.0"
     semver "^6.1.0"
 
@@ -7376,7 +7388,7 @@ lcid@^2.0.0:
   dependencies:
     invert-kv "^2.0.0"
 
-ledger-cosmos-js@^2.1.7:
+ledger-cosmos-js@^2.0.2:
   version "2.1.7"
   resolved "https://registry.yarnpkg.com/ledger-cosmos-js/-/ledger-cosmos-js-2.1.7.tgz#362d1139ac2504ccb56029abda053b2c5b290e8d"
   integrity sha512-RyaP+6lRhllQTgk5X14PiZtsUE8bYP7mOiFkOMAzPQvUDdy8IZr17mDaH9whqHtE0wZd95YPN89VAhbfV+Re8w==
