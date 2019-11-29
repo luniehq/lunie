@@ -1,1 +1,0 @@
-[Fixed] [#3184](https://github.com/cosmos/lunie/issues/3184) signing in with an existing account was restricted to insecure mode but is now enabled in mobile @jbibla
