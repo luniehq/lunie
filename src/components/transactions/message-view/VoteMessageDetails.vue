@@ -7,8 +7,7 @@
     <div class="tx__content__left">
       <h3>{{ caption }}</h3>
       <span
-        ><i class="italic">{{ this.transaction.value.option }}</i>
-        on&nbsp;</span
+        ><i class="italic">{{ transaction.value.option }}</i> on&nbsp;</span
       >
       <router-link :to="`/governance/${transaction.value.proposal_id}`"
         >Proposal &#35;{{ transaction.value.proposal_id }}</router-link

@@ -27,13 +27,13 @@ describe(`WithdrawalDelegationRewardMessageDetails`, () => {
     cosmosvaloper15r4tc0m6hc7z8drq3dzlrtcs6rq2q9l2nvwher: {
       name: `SuperValidator`,
       operatorAddress: `cosmosvaloper15r4tc0m6hc7z8drq3dzlrtcs6rq2q9l2nvwher`,
-      picture: '',
+      picture: "",
       __typename: `Validator`
     },
     cosmos1: {
       name: `SuperValidator`,
       operatorAddress: `"cosmos1"`,
-      picture: '',
+      picture: "",
       __typename: `Validator`
     }
   }
