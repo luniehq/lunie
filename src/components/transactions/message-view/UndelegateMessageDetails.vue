@@ -28,7 +28,6 @@
 </template>
 
 <script>
-import moment from "moment"
 import { atoms, viewDenom, prettyLong } from "scripts/num.js"
 import { resolveValidatorName } from "src/filters"
 import { getCoin } from "scripts/transaction-utils"
