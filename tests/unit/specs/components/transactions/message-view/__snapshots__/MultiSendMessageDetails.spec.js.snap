@@ -12,11 +12,14 @@ exports[`MultiSendMessageDetails renders a received transaction message 1`] = `
   <div
     class="tx__content__left"
   >
-    
-    Received
-    
-      from 
-      
+    <h3>
+      Received
+    </h3>
+     
+    <span>
+      From 
+    </span>
+     
     <bech32-stub
       address="cosmos1ahtlr29s38w23xxq7slcwmmz4c8x9efmr8qmee"
     />
@@ -48,11 +51,13 @@ exports[`MultiSendMessageDetails renders a sent transaction message (send to you
   <div
     class="tx__content__left"
   >
-    
-    Sent
-    
-      to yourself!
-    
+    <h3>
+      Sent
+    </h3>
+     
+    <span>
+      To yourself — 
+    </span>
   </div>
    
   <div
@@ -81,11 +86,13 @@ exports[`MultiSendMessageDetails renders a sent transaction message 1`] = `
   <div
     class="tx__content__left"
   >
-    
-    Sent
-    
-      to yourself!
-    
+    <h3>
+      Sent
+    </h3>
+     
+    <span>
+      To yourself — 
+    </span>
   </div>
    
   <div
