@@ -104,13 +104,6 @@ export default {
   padding-top: 1.4rem;
 }
 
-@media screen and (max-width: 1023px) {
-  .app-header > .container {
-    position: fixed;
-    top: 0;
-  }
-}
-
 .app-header .header-item {
   padding: 1.75rem;
   font-size: 0;
