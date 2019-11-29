@@ -126,7 +126,6 @@ export default {
   },
   methods: {
     toggleDetail(event) {
-      console.log(event.target.className)
       if (event.target.className !== `address`) {
         this.show = !this.show
       }
