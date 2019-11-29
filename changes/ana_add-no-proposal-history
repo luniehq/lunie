@@ -1,1 +1,0 @@
-[Fixed] Now the proposals page behaves properly, displaying a banner in case there are no proposals in the network saying "No Governance Proposals". Also removed PageContainer from PageProposals @Bitcoinera
