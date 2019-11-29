@@ -31,6 +31,8 @@ exports[`TransactionMetadata renders correct fee and block transaction data 1`] 
    
   <!---->
    
+  <!---->
+   
   <div>
     <i
       class="material-icons"
