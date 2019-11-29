@@ -9,10 +9,10 @@
       </router-link>
       <i class="material-icons">access_time</i> {{ date }}
     </div>
-    <p v-if="transaction.liquidDate">
+    <p v-if="transaction.undelegationEndTime">
       <i class="material-icons">calendar_today</i>
       Liquid date:
-      {{ transaction.liquidDate }}
+      {{ transaction.undelegationEndTime }}
     </p>
     <p v-if="transaction.memo">
       <i class="material-icons">message</i> Memo: {{ transaction.memo }}

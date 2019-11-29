@@ -126,6 +126,7 @@ export default {
   },
   methods: {
     toggleDetail(event) {
+      console.log(event.target.className)
       if (event.target.className !== `address`) {
         this.show = !this.show
       }
@@ -194,7 +195,6 @@ export default {
 }
 
 .tx__content__right {
-  position: absolute;
   right: 1rem;
 }
 
