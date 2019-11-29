@@ -37,15 +37,19 @@ export default {
 </script>
 
 <style>
-@import "../../styles/variables.css";
-
 .tx__icon {
-  padding: 1rem 0 1rem 1rem;
+  padding: 0.5rem 0 0.5rem 0.5rem;
 }
 
 .tx__icon img {
   max-height: 100%;
-  max-width: 52px;
+  max-width: 40px;
   display: block;
+}
+
+@media screen and (min-width: 1023px) {
+  .tx__icon img {
+    max-width: 48px;
+  }
 }
 </style>
