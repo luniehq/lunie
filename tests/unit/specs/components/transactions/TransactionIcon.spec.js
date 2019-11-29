@@ -31,19 +31,19 @@ describe(`TransactionIcon`, () => {
       icon: `Unstaked`
     },
     {
-      type: `Withdrawal`,
+      type: `Claimed`,
       group: `distribution`,
-      icon: `Withdrawal`
+      icon: `Claimed`
     },
     {
-      type: `Withdrawal with comission`,
+      type: `Claimed with commission`,
       group: `distribution`,
-      icon: `Withdrawal`
+      icon: `Claimed`
     },
     {
       type: `Update withdraw address`,
       group: `distribution`,
-      icon: `Withdrawal`
+      icon: `Claimed`
     },
     {
       type: `Voted xxx`,

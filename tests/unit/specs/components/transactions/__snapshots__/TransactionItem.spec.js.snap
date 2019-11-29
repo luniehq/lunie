@@ -8,7 +8,6 @@ exports[`TransactionItem renders a cosmos-sdk/MsgBeginRedelegate transaction ite
     class="tx"
   >
     <begin-redelegate-message-details-stub
-      class="tx-caption"
       session-address="cosmos1"
       transaction="[object Object]"
       validators="[object Object]"
@@ -37,7 +36,6 @@ exports[`TransactionItem renders a cosmos-sdk/MsgCreateValidator transaction ite
     class="tx"
   >
     <create-validator-message-details-stub
-      class="tx-caption"
       session-address="cosmos1"
       transaction="[object Object]"
       validators="[object Object]"
@@ -66,7 +64,6 @@ exports[`TransactionItem renders a cosmos-sdk/MsgDelegate transaction item 1`] =
     class="tx"
   >
     <delegate-message-details-stub
-      class="tx-caption"
       session-address="cosmos1"
       transaction="[object Object]"
       validators="[object Object]"
@@ -95,7 +92,6 @@ exports[`TransactionItem renders a cosmos-sdk/MsgDeposit transaction item 1`] = 
     class="tx"
   >
     <deposit-message-details-stub
-      class="tx-caption"
       session-address="cosmos1"
       transaction="[object Object]"
       validators="[object Object]"
@@ -124,7 +120,6 @@ exports[`TransactionItem renders a cosmos-sdk/MsgEditValidator transaction item 
     class="tx"
   >
     <edit-validator-message-details-stub
-      class="tx-caption"
       session-address="cosmos1"
       transaction="[object Object]"
       validators="[object Object]"
@@ -153,7 +148,6 @@ exports[`TransactionItem renders a cosmos-sdk/MsgMultiSend transaction item 1`] 
     class="tx"
   >
     <multi-send-message-details-stub
-      class="tx-caption"
       sessionaddress="cosmos1"
       transaction="[object Object]"
       validators="[object Object]"
@@ -182,7 +176,6 @@ exports[`TransactionItem renders a cosmos-sdk/MsgSend transaction item 1`] = `
     class="tx"
   >
     <send-message-details-stub
-      class="tx-caption"
       sessionaddress="cosmos1"
       transaction="[object Object]"
       validators="[object Object]"
@@ -211,7 +204,6 @@ exports[`TransactionItem renders a cosmos-sdk/MsgSetWithdrawAddress transaction 
     class="tx"
   >
     <set-withdraw-address-message-details-stub
-      class="tx-caption"
       session-address="cosmos1"
       transaction="[object Object]"
       validators="[object Object]"
@@ -240,7 +232,6 @@ exports[`TransactionItem renders a cosmos-sdk/MsgSubmitProposal transaction item
     class="tx"
   >
     <submit-proposal-message-details-stub
-      class="tx-caption"
       session-address="cosmos1"
       transaction="[object Object]"
       validators="[object Object]"
@@ -269,7 +260,6 @@ exports[`TransactionItem renders a cosmos-sdk/MsgUndelegate transaction item 1`]
     class="tx"
   >
     <undelegate-message-details-stub
-      class="tx-caption"
       session-address="cosmos1"
       transaction="[object Object]"
       validators="[object Object]"
@@ -298,7 +288,6 @@ exports[`TransactionItem renders a cosmos-sdk/MsgUnjail transaction item 1`] = `
     class="tx"
   >
     <unjail-message-details-stub
-      class="tx-caption"
       session-address="cosmos1"
       transaction="[object Object]"
       validators="[object Object]"
@@ -327,7 +316,6 @@ exports[`TransactionItem renders a cosmos-sdk/MsgVote transaction item 1`] = `
     class="tx"
   >
     <vote-message-details-stub
-      class="tx-caption"
       session-address="cosmos1"
       transaction="[object Object]"
       validators="[object Object]"
@@ -356,7 +344,6 @@ exports[`TransactionItem renders a cosmos-sdk/MsgWithdrawDelegationReward transa
     class="tx"
   >
     <withdraw-delegation-reward-message-details-stub
-      class="tx-caption"
       session-address="cosmos1"
       transaction="[object Object]"
       validators="[object Object]"

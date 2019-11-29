@@ -6,18 +6,19 @@ exports[`SubmitProposalMessageDetails renders a submit proposal transaction mess
 >
   <transactionicon-stub
     transactiongroup="governance"
-    transactiontype="Submitted text proposal"
+    transactiontype="Submitted proposal"
   />
    
   <div
     class="tx__content__left"
   >
-    
-    Submitted text proposal
-    title 
-    <i>
+    <h3>
+      Submitted proposal
+    </h3>
+     
+    <span>
       Bla bla bla
-    </i>
+    </span>
   </div>
    
   <div

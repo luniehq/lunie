@@ -12,10 +12,14 @@ exports[`DepositMessageDetails renders a deposit transaction message 1`] = `
   <div
     class="tx__content__left"
   >
-    
-    Deposit
-    on
-    
+    <h3>
+      Deposit
+    </h3>
+     
+    <span>
+      On 
+    </span>
+     
     <router-link-stub
       to="/governance/1"
     >

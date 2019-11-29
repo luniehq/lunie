@@ -12,10 +12,14 @@ exports[`BeginRedelegateMessageDetails renders a redelegate transaction message 
   <div
     class="tx__content__left"
   >
-    
-    Restaked
-    from
-    
+    <h3>
+      Restaked
+    </h3>
+     
+    <span>
+      From 
+    </span>
+     
     <router-link-stub
       to="staking/validators/cosmos1"
     >

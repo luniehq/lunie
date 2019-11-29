@@ -1,5 +1,29 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`TransactionIcon renders a coloured Claimed transaction icon 1`] = `
+<div
+  class="tx__icon"
+>
+  <img
+    alt="Claimed"
+    class="distribution"
+    src="/img/icons/activity/Claimed.svg"
+  />
+</div>
+`;
+
+exports[`TransactionIcon renders a coloured Claimed with commission transaction icon 1`] = `
+<div
+  class="tx__icon"
+>
+  <img
+    alt="Claimed with commission"
+    class="distribution"
+    src="/img/icons/activity/Claimed.svg"
+  />
+</div>
+`;
+
 exports[`TransactionIcon renders a coloured Create transaction icon 1`] = `
 <div
   class="tx__icon"
@@ -127,7 +151,7 @@ exports[`TransactionIcon renders a coloured Update withdraw address transaction 
   <img
     alt="Update withdraw address"
     class="distribution"
-    src="/img/icons/activity/Withdrawal.svg"
+    src="/img/icons/activity/Claimed.svg"
   />
 </div>
 `;
@@ -140,30 +164,6 @@ exports[`TransactionIcon renders a coloured Voted xxx transaction icon 1`] = `
     alt="Voted xxx"
     class="governance"
     src="/img/icons/activity/Voted.svg"
-  />
-</div>
-`;
-
-exports[`TransactionIcon renders a coloured Withdrawal transaction icon 1`] = `
-<div
-  class="tx__icon"
->
-  <img
-    alt="Withdrawal"
-    class="distribution"
-    src="/img/icons/activity/Withdrawal.svg"
-  />
-</div>
-`;
-
-exports[`TransactionIcon renders a coloured Withdrawal with comission transaction icon 1`] = `
-<div
-  class="tx__icon"
->
-  <img
-    alt="Withdrawal with comission"
-    class="distribution"
-    src="/img/icons/activity/Withdrawal.svg"
   />
 </div>
 `;

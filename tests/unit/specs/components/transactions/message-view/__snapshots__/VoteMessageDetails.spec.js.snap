@@ -6,16 +6,26 @@ exports[`VoteMessageDetails renders a vote transaction message 1`] = `
 >
   <transactionicon-stub
     transactiongroup="governance"
-    transactiontype="Voted Abstain"
+    transactiontype="Voted"
   />
    
   <div
     class="tx__content__left"
   >
-    
-    Voted Abstain
-    on
-    
+    <h3>
+      Voted
+    </h3>
+     
+    <span>
+      <i
+        class="italic"
+      >
+        Abstain
+      </i>
+      
+      on 
+    </span>
+     
     <router-link-stub
       to="/governance/5"
     >
