@@ -1,5 +1,6 @@
 <template>
   <TmPage data-title="Proposals" :managed="false" hide-header>
+    <TmBalance v-if="session.signedIn" />
     <div class="button-container">
       <TmBtn
         id="propose-btn"
@@ -40,7 +41,9 @@ import TmPage from "common/TmPage"
 import TmBtn from "common/TmBtn"
 import TmDataMsg from "common/TmDataMsg"
 import TmDataLoading from "common/TmDataLoading"
+import TmBalance from "common/TmBalance"
 import { mapGetters } from "vuex"
+import { mapState } from "vuex"
 import { GovernanceParameters } from "src/gql"
 import gql from "graphql-tag"
 
@@ -52,7 +55,8 @@ export default {
     TmDataMsg,
     TmDataLoading,
     TmBtn,
-    TmPage
+    TmPage,
+    TmBalance
   },
   data: () => ({
     proposals: [],
@@ -61,7 +65,8 @@ export default {
     }
   }),
   computed: {
-    ...mapGetters([`network`])
+    ...mapGetters([`network`]),
+    ...mapState([`session`])
   },
   methods: {
     onPropose() {
