@@ -24,7 +24,7 @@ exports[`TmSessionHardware should show a state indicator for different states of
             </div> <img src="~assets/images/loader.svg" alt="a small spinning circle to display loading" style="display: none;">
           </div>
         </div>
-      </div> <button class="button" color="secondary">
+      </div> <button class="button session-close" color="secondary">
         Back to Lunie
       </button>
     </div>
@@ -58,7 +58,7 @@ exports[`TmSessionHardware should show a state indicator for different states of
             </div> <img src="~assets/images/loader.svg" alt="a small spinning circle to display loading" style="">
           </div>
         </div>
-      </div> <button class="button" color="secondary">
+      </div> <button class="button session-close" color="secondary">
         Back to Lunie
       </button>
     </div>
@@ -88,7 +88,7 @@ exports[`TmSessionHardware should show a state indicator for different states of
               </button></div> <img src="~assets/images/loader.svg" alt="a small spinning circle to display loading" style="">
           </div>
         </div>
-      </div> <button class="button" color="secondary">
+      </div> <button class="button session-close" color="secondary">
         Back to Lunie
       </button>
     </div>
@@ -185,7 +185,7 @@ exports[`TmSessionHardware shows the ledger conection view when there're errors 
       </div>
        
       <button
-        class="button"
+        class="button session-close"
         color="secondary"
       >
         
@@ -287,7 +287,7 @@ exports[`TmSessionHardware shows the ledger conection view with no errors 1`] = 
       </div>
        
       <button
-        class="button"
+        class="button session-close"
         color="secondary"
       >
         
