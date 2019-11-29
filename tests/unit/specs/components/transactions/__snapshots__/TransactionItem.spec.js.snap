@@ -376,32 +376,3 @@ exports[`TransactionItem renders a cosmos-sdk/MsgWithdrawDelegationReward transa
   <!---->
 </div>
 `;
-
-exports[`TransactionItem renders a cosmos-sdk/MsgWithdrawValidatorCommission transaction item 1`] = `
-<div
-  class="tx-container"
->
-  <div
-    class="tx"
-  >
-    <div
-      class="toggle-box"
-    >
-      <i
-        class="material-icons toggle-icon"
-      >
-        keyboard_arrow_down
-      </i>
-    </div>
-     
-    <withdraw-validator-commission-message-details-stub
-      class="tx-caption"
-      session-address="cosmos1"
-      transaction="[object Object]"
-      validators="[object Object]"
-    />
-  </div>
-   
-  <!---->
-</div>
-`;

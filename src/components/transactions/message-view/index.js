@@ -11,7 +11,6 @@ import VoteMessageDetails from "./VoteMessageDetails"
 import BeginRedelegateMessageDetails from "./BeginRedelegateMessageDetails"
 import SetWithdrawAddressMessageDetails from "./SetWithdrawAddressMessageDetails"
 import WithdrawDelegationRewardMessageDetails from "./WithdrawDelegationRewardMessageDetails"
-import WithdrawValidatorCommissionMessageDetails from "./WithdrawValidatorCommissionMessageDetails"
 
 export {
   SendMessageDetails,
@@ -26,6 +25,5 @@ export {
   VoteMessageDetails,
   BeginRedelegateMessageDetails,
   SetWithdrawAddressMessageDetails,
-  WithdrawDelegationRewardMessageDetails,
-  WithdrawValidatorCommissionMessageDetails
+  WithdrawDelegationRewardMessageDetails
 }
