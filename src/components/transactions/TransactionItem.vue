@@ -257,4 +257,13 @@ export default {
   height: 1.2rem;
   width: 1.2rem;
 }
+
+.validator-image {
+  border-radius: 0.25rem;
+  height: 1.2rem;
+  width: 1.2rem;
+  border: 1px solid var(--bc-dim);
+  vertical-align: middle;
+  margin-bottom: 2px;
+}
 </style>

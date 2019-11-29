@@ -10,6 +10,12 @@
       <router-link
         :to="`staking/validators/${transaction.value.validator_address}`"
       >
+        <img
+          v-if="validator && validator.picture"
+          :src="validator.picture"
+          class="validator-image"
+          :alt="`validator logo for ` + validator.name"
+        />
         {{
           transaction.value.validator_address | resolveValidatorName(validators)
         }}
@@ -28,6 +34,7 @@ import { atoms, viewDenom, prettyLong } from "scripts/num.js"
 import { resolveValidatorName } from "src/filters"
 import { getCoin } from "scripts/transaction-utils"
 import TransactionIcon from "../TransactionIcon"
+import Avatar from "../../common/Avatar"
 
 export default {
   name: `delegate-message-details`,
@@ -38,7 +45,8 @@ export default {
     resolveValidatorName
   },
   components: {
-    TransactionIcon
+    TransactionIcon,
+    Avatar
   },
   props: {
     transaction: {
@@ -58,7 +66,11 @@ export default {
   computed: {
     coin() {
       return getCoin(this.transaction)
+    },
+    validator() {
+      return this.validators[this.transaction.value.validator_address] || null
     }
   }
 }
 </script>
+
