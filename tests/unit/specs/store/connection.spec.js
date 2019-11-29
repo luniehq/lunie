@@ -14,15 +14,15 @@ describe(`Module: Connection`, () => {
           networks: [
             { id: `awesomenet` },
             { id: `keine-ahnungnet` },
-            { id: `localnet` } 
+            { id: `localnet` }
           ]
         }
       }
-    } 
+    }
   }
 
   beforeEach(() => {
-    module = connectionModule({apollo: mockApollo})
+    module = connectionModule({ apollo: mockApollo })
     state = module.state
     actions = module.actions
     mutations = module.mutations
@@ -49,11 +49,9 @@ describe(`Module: Connection`, () => {
   it(`assigns the user a network if a network was found`, async () => {
     const commit = jest.fn()
     localStorage.setItem(
-      JSON.stringify(
-        {
-          network: `awesomenet`
-        }
-      )
+      JSON.stringify({
+        network: `awesomenet`
+      })
     )
     await actions.checkForPersistedNetwork({ commit })
     expect(commit).toHaveBeenCalledWith(`setNetworkId`, `awesomenet`)
@@ -61,10 +59,12 @@ describe(`Module: Connection`, () => {
   })
 
   it(`assigns the user the default network if there is no persisted network 
-  and the default network is among the available networks`, async () => { 
+  and the default network is among the available networks`, async () => {
     const dispatch = jest.fn()
     await actions.checkForPersistedNetwork({ dispatch })
-    expect(dispatch).toHaveBeenCalledWith(`setNetwork`, {"id": "keine-ahnungnet"})
+    expect(dispatch).toHaveBeenCalledWith(`setNetwork`, {
+      id: "keine-ahnungnet"
+    })
     localStorage.clear()
   })
 
@@ -80,7 +80,7 @@ describe(`Module: Connection`, () => {
       }
     }
     await actions.checkForPersistedNetwork({ dispatch })
-    expect(dispatch).toHaveBeenCalledWith(`setNetwork`, {"id": "localnet"})
+    expect(dispatch).toHaveBeenCalledWith(`setNetwork`, { id: "localnet" })
   })
 
   it("should switch networks", async () => {
