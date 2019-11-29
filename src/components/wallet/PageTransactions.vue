@@ -76,6 +76,7 @@ export default {
               denom
             }
             value
+            undelegationEndTime
           }
         }
       `,
@@ -113,6 +114,7 @@ export default {
                 denom
               }
               value
+              undelegationEndTime
             }
           }
         `,
