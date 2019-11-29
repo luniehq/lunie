@@ -6,7 +6,6 @@
         :transaction="transaction"
         :validators="validators"
         :session-address="address"
-        class="tx-caption"
       />
       <div class="toggle" :class="{ up: show }">
         <i class="material-icons toggle-icon">keyboard_arrow_down</i>
@@ -131,10 +130,28 @@ export default {
 .tx {
   position: relative;
   font-size: 14px;
+  display: flex;
+  align-items: center;
+  background: var(--app-fg);
+  border: 1px solid var(--bc-dim);
+  border-radius: 0.25rem;
+  z-index: 90;
+  cursor: pointer;
 }
 
 .tx a {
   display: inline-block;
+}
+
+.tx h3 {
+  font-size: 18px;
+  font-weight: 400;
+  padding-bottom: 2px;
+  color: var(--bright);
+}
+
+.tx .amount {
+  white-space: nowrap;
 }
 
 .tx-container {
@@ -143,14 +160,6 @@ export default {
 
 .tx-details {
   padding: 0 1rem;
-}
-
-.tx-caption {
-  cursor: pointer;
-}
-
-.tx-caption b {
-  font-weight: 500;
 }
 
 .tx-details {
@@ -170,42 +179,19 @@ export default {
 .tx__content {
   display: flex;
   align-items: center;
-  background: var(--app-fg);
   position: relative;
   z-index: 90;
-  border: 1px solid var(--bc-dim);
-  border-radius: 0.25rem;
-}
-
-.tx__content__caption {
-  display: flex;
+  width: 100%;
 }
 
 .tx__content__left {
-  padding: 1rem 1rem 1rem 0.5rem;
+  padding: 1rem 1rem 1rem 0;
 }
 
 .tx__content__right {
-  padding: 1rem 2.5rem 1rem 1rem;
+  padding-right: 2rem;
   text-align: right;
   flex: auto;
-}
-
-.tx__content__information {
-  right: 1.5rem;
-}
-
-.tx__content__information,
-.tx__content__information > * {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-}
-
-.tx__content__caption {
-  line-height: 18px;
-  color: var(--bright);
-  padding: 1rem 1rem 1rem 0;
 }
 
 .slide-out-enter-active,
@@ -221,9 +207,8 @@ export default {
 }
 
 .toggle {
-  position: absolute;
-  top: 20px;
-  right: 0.5rem;
+  position: relative;
+  right: 1rem;
   z-index: 91;
   cursor: pointer;
   padding: 0.1rem;
@@ -244,9 +229,35 @@ export default {
 
 .validator-image {
   border-radius: 0.25rem;
-  height: 1.5rem;
-  width: 1.5rem;
-  vertical-align: top;
-  margin: 0 2px;
+  height: 1rem;
+  width: 1rem;
+  vertical-align: middle;
+  margin: 0 2px 2px 2px;
+}
+
+@media screen and (max-width: 767px) {
+  .tx__icon {
+    display: none;
+  }
+
+  .tx__content__left {
+    padding-left: 1rem;
+  }
+
+  .toggle {
+    display: none;
+  }
+
+  .amount {
+    position: absolute;
+    right: 1rem;
+    top: 1.2rem;
+  }
+  /* .tx__content__left div,
+  .tx__content__left i,
+  .tx__content__left span,
+  .tx__content__left a {
+    display: none;
+  } */
 }
 </style>
