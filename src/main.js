@@ -9,7 +9,6 @@ import { focusElement, focusParentLast } from "src/directives"
 import App from "./App.vue"
 import init from "./initializeApp"
 import { getURLParams } from "scripts/url"
-import { registerPushNotifications } from "scripts/push-notifications"
 import "./registerServiceWorker"
 import "@babel/polyfill"
 import { Plugins } from "@capacitor/core"
@@ -49,11 +48,14 @@ new Vue({
   ...App,
   store,
   apolloProvider,
-  mounted() {
+  async mounted() {
     if (config.mobileApp) {
       SplashScreen.hide()
       StatusBar.show()
 
+      const { registerPushNotifications } = await import(
+        "scripts/push-notifications"
+      )
       registerPushNotifications()
     }
   }

@@ -153,13 +153,22 @@ export default ({ apollo }) => {
         addresses
       })
 
+      if (config.mobileApp) {
+        dispatch(`registerPushNotifications`, [address])
+      }
+
       state.externals.track(`event`, `session`, `sign-in`, sessionType)
     },
     signOut({ state, commit, dispatch }) {
+      const currentAddress = state.address
       state.externals.track(`event`, `session`, `sign-out`)
 
       dispatch(`resetSessionData`)
       commit(`setSignIn`, false)
+
+      if (config.mobileApp) {
+        dispatch(`unregisterPushNotifications`, [currentAddress])
+      }
     },
     resetSessionData({ commit, state }) {
       state.history = ["/"]
