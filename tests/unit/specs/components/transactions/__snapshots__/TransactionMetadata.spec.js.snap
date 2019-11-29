@@ -4,37 +4,27 @@ exports[`TransactionMetadata renders correct transaction metadata 1`] = `
 <div
   class="tx__metadata"
 >
-  <div>
-    <i
-      class="material-icons"
-    >
-      widgets
-    </i>
-     Block
+  <p>
+    
+    Block
     
     <router-link-stub
       to="[object Object]"
     >
       
       #1,234,567
-    
     </router-link-stub>
-     
+     
     <i
       class="material-icons"
     >
       access_time
     </i>
-     00:00:00
+     00:00:00
   
-  </div>
+  </p>
    
   <p>
-    <i
-      class="material-icons"
-    >
-      calendar_today
-    </i>
     
     Liquid date:
     Sat Nov 16 2019 14:08:20 GMT+0000
@@ -43,12 +33,7 @@ exports[`TransactionMetadata renders correct transaction metadata 1`] = `
    
   <!---->
    
-  <div>
-    <i
-      class="material-icons"
-    >
-      call_split
-    </i>
+  <p>
     
     Fee:
     
@@ -59,19 +44,16 @@ exports[`TransactionMetadata renders correct transaction metadata 1`] = `
     <span>
        ATOM
     </span>
-  </div>
+  </p>
    
-  <p
-    class="hash"
-  >
-    <i
-      class="material-icons"
-    >
-      fingerprint
-    </i>
+  <p>
     
-    Hash: ABCD1234
-  
+    Hash: 
+    <span
+      class="hash"
+    >
+      ABCD1234
+    </span>
   </p>
 </div>
 `;

@@ -14,7 +14,7 @@ exports[`VoteMessageDetails renders a vote transaction message 1`] = `
   >
     
     Voted Abstain
-    on 
+    on
     
     <router-link-stub
       to="/governance/5"

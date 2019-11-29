@@ -14,19 +14,25 @@ exports[`BeginRedelegateMessageDetails renders a redelegate transaction message 
   >
     
     Restaked
-    from 
+    from
     
     <router-link-stub
       to="staking/validators/cosmos1"
     >
+      <!---->
       
       cosmos…mos1 
     </router-link-stub>
-     to 
-    
+    <i
+      class="material-icons arrow"
+    >
+      arrow_right_alt
+    </i>
+     
     <router-link-stub
       to="staking/validators/cosmos2"
     >
+      <!---->
       
       Not A Valid Bech32 Address
     

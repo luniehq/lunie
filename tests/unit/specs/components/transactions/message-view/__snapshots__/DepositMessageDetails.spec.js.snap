@@ -14,7 +14,7 @@ exports[`DepositMessageDetails renders a deposit transaction message 1`] = `
   >
     
     Deposit
-    on 
+    on
     
     <router-link-stub
       to="/governance/1"

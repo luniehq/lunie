@@ -14,9 +14,10 @@ exports[`WithdrawalDelegationRewardMessageDetails renders a withdraw delegation 
   >
     
     Withdrawal
-    from 
+    from
     
     <router-link-stub
+      class="validator-link"
       to="staking/validators/cosmosvaloper15r4tc0m6hc7z8drq3dzlrtcs6rq2q9l2nvwher"
     >
       <!---->
@@ -42,9 +43,10 @@ exports[`WithdrawalDelegationRewardMessageDetails renders a withdraw delegation 
   >
     
     Withdrawal
-    from 
+    from
     
     <router-link-stub
+      class="validator-link"
       to="staking/validators/cosmosvaloper15r4tc0m6hc7z8drq3dzlrtcs6rq2q9l2nvwher"
     >
       <!---->
