@@ -6,9 +6,10 @@
     />
     <div class="tx__content__left">
       {{ caption }}
-      from&nbsp;
+      from
       <router-link
         :to="`staking/validators/${transaction.value.validator_address}`"
+        class="validator-link"
       >
         <img
           v-if="validator && validator.picture"

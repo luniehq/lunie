@@ -6,7 +6,7 @@
     />
     <div class="tx__content__left">
       {{ caption }}
-      on&nbsp;
+      on
       <router-link :to="`/governance/${transaction.value.proposal_id}`"
         >Proposal &#35;{{ transaction.value.proposal_id }}</router-link
       >
