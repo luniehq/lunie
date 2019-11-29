@@ -6,6 +6,7 @@
     />
     <div class="tx__content__left">
       {{ caption }}
+      from
       <router-link
         :to="`staking/validators/${transaction.value.validator_src_address}`"
       >
@@ -14,7 +15,11 @@
           :src="sourceValidator.picture"
           class="validator-image"
           :alt="`validator logo for ` + sourceValidator.name"
-        /> </router-link
+        />
+        {{
+          transaction.value.validator_src_address
+            | resolveValidatorName(validators)
+        }} </router-link
       ><i class="material-icons arrow">arrow_right_alt</i>
       <router-link
         :to="`staking/validators/${transaction.value.validator_dst_address}`"
@@ -25,6 +30,10 @@
           class="validator-image"
           :alt="`validator logo for ` + destinationValidator.name"
         />
+        {{
+          transaction.value.validator_dst_address
+            | resolveValidatorName(validators)
+        }}
       </router-link>
     </div>
     <div class="tx__content__right">
