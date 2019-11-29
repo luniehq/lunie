@@ -22,8 +22,7 @@ exports[`VoteMessageDetails renders a vote transaction message 1`] = `
       >
         Abstain
       </i>
-      
-      on 
+       on 
     </span>
      
     <router-link-stub
