@@ -235,6 +235,16 @@ export default {
   margin: 0 2px 2px 2px;
 }
 
+.tx .bech32-address {
+  position: relative;
+}
+
+.tx .copied {
+  position: absolute;
+  top: -0.5rem;
+  right: 0;
+}
+
 @media screen and (max-width: 767px) {
   .tx__icon {
     display: none;
@@ -253,11 +263,5 @@ export default {
     right: 1rem;
     top: 1.2rem;
   }
-  /* .tx__content__left div,
-  .tx__content__left i,
-  .tx__content__left span,
-  .tx__content__left a {
-    display: none;
-  } */
 }
 </style>
