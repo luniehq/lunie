@@ -6,22 +6,25 @@
     />
     <div class="tx__content__left">
       {{ caption }}
-      from&nbsp;
       <router-link
         :to="`staking/validators/${transaction.value.validator_src_address}`"
       >
-        {{
-          transaction.value.validator_src_address
-            | resolveValidatorName(validators)
-        }} </router-link
-      >&nbsp;to&nbsp;
+        <img
+          v-if="sourceValidator && sourceValidator.picture"
+          :src="sourceValidator.picture"
+          class="validator-image"
+          :alt="`validator logo for ` + sourceValidator.name"
+        /> </router-link
+      ><i class="material-icons arrow">arrow_right_alt</i>
       <router-link
         :to="`staking/validators/${transaction.value.validator_dst_address}`"
       >
-        {{
-          transaction.value.validator_dst_address
-            | resolveValidatorName(validators)
-        }}
+        <img
+          v-if="destinationValidator && destinationValidator.picture"
+          :src="destinationValidator.picture"
+          class="validator-image"
+          :alt="`validator logo for ` + destinationValidator.name"
+        />
       </router-link>
     </div>
     <div class="tx__content__right">
@@ -67,7 +70,23 @@ export default {
   computed: {
     coin() {
       return getCoin(this.transaction)
+    },
+    sourceValidator() {
+      return (
+        this.validators[this.transaction.value.validator_src_address] || false
+      )
+    },
+    destinationValidator() {
+      return (
+        this.validators[this.transaction.value.validator_dst_address] || false
+      )
     }
   }
 }
 </script>
+<style>
+.arrow {
+  vertical-align: middle;
+  font-size: 16px;
+}
+</style>
