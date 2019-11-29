@@ -1,31 +1,27 @@
 <template>
   <div class="tx__metadata">
-    <div>
-      <i class="material-icons">widgets</i> Block
+    <p>
+      Block
       <router-link
         :to="{ name: `block`, params: { height: transaction.height } }"
       >
-        #{{ transaction.height | prettyInt }}
-      </router-link>
-      <i class="material-icons">access_time</i> {{ date }}
-    </div>
+        #{{ transaction.height | prettyInt }}</router-link
+      >&nbsp;<i class="material-icons">access_time</i>&nbsp;{{ date }}
+    </p>
     <p v-if="transaction.undelegationEndTime">
-      <i class="material-icons">calendar_today</i>
       Liquid date:
       {{ getUndelegationEndTime() }}
     </p>
     <p v-if="transaction.memo">
       <i class="material-icons">message</i> Memo: {{ transaction.memo }}
     </p>
-    <div>
-      <i class="material-icons">call_split</i>
+    <p>
       Fee:
       <b>{{ transaction.fee.amount }}</b>
       <span> {{ transaction.fee.denom }}</span>
-    </div>
-    <p class="hash">
-      <i class="material-icons">fingerprint</i>
-      Hash: {{ transaction.hash }}
+    </p>
+    <p>
+      Hash: <span class="hash">{{ transaction.hash }}</span>
     </p>
   </div>
 </template>
@@ -62,14 +58,10 @@ export default {
 }
 </script>
 <style scoped>
-.tx__metadata {
-  margin-top: 0.5rem;
-}
-
 .material-icons {
   font-size: 1rem;
-  padding-bottom: 1px;
-  vertical-align: text-bottom;
+  vertical-align: middle;
+  margin-bottom: 2px;
 }
 
 .hash {
