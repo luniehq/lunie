@@ -28,7 +28,11 @@ exports[`SessionFrame shows an overview of all wallets to sign in with from the 
           arrow_back
         </i>
       </a>
-       
+        
+      <tmbtn-stub
+        color="secondary"
+        value="Back to Lunie"
+      />
     </div>
   </div>
    

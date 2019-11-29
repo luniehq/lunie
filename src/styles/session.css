@@ -196,8 +196,19 @@
   }
 }
 
+.session .session-close {
+  display: none;
+}
+
 @media screen and (max-width: 1023px) {
   .session-frame .session-close {
     display: none;
+  }
+
+  .session .session-close {
+    display: block;
+    position: absolute;
+    bottom: 1rem;
+    right: 1rem;
   }
 }

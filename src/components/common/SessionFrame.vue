@@ -10,8 +10,16 @@
             <i class="material-icons circle back">arrow_back</i>
           </a>
           <slot></slot>
+          <!-- on mobile -->
+          <TmBtn
+            class="session-close"
+            value="Back to Lunie"
+            color="secondary"
+            @click.native="$router.push(`/`)"
+          />
         </div>
       </div>
+      <!-- on desktop -->
       <TmBtn
         class="session-close"
         value="Back to Lunie"
