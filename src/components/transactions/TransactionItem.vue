@@ -17,14 +17,7 @@
     </div>
     <transition name="slide-out">
       <div v-if="show" class="tx-details">
-        <TransactionMetadata
-          v-if="showMetaData"
-          :fee="transaction.fee"
-          :height="transaction.height"
-          :timestamp="new Date(transaction.timestamp)"
-          :hash="transaction.hash"
-          :memo="transaction.memo"
-        />
+        <TransactionMetadata v-if="showMetaData" :transaction="transaction" />
       </div>
     </transition>
   </div>
