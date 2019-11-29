@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.0-beta.147] - 2019-11-29
+
+### Fixed
+
+- [#3226](https://github.com/cosmos/lunie/issues/3226) Fixed url passed as parameter after refresing @iambeone
+- [#3172](https://github.com/cosmos/lunie/issues/3172) Fixed menu scrolling up on mobile @faboweb
+- Reverting the ledger library update @faboweb
+
 ## [1.0.0-beta.146] - 2019-11-29
 
 ### Fixed
