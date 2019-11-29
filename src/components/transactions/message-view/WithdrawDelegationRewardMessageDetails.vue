@@ -5,8 +5,8 @@
       :transaction-type="caption"
     />
     <div class="tx__content__left">
-      {{ caption }}
-      from
+      <h3>{{ caption }}</h3>
+      <span>Rewards from&nbsp;</span>
       <router-link
         :to="`staking/validators/${transaction.value.validator_address}`"
         class="validator-link"
@@ -53,7 +53,7 @@ export default {
   },
   data: () => {
     return {
-      caption: `Withdrawal`
+      caption: `Claimed`
     }
   },
   computed: {

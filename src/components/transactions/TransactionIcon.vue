@@ -21,7 +21,7 @@ export default {
     icon() {
       if (this.transactionType.indexOf(` `) !== -1) {
         if (this.transactionType === `Update withdraw address`) {
-          return `/img/icons/activity/Withdrawal.svg`
+          return `/img/icons/activity/Claimed.svg`
         } else {
           return `/img/icons/activity/${this.transactionType.substr(
             0,
@@ -38,7 +38,7 @@ export default {
 
 <style>
 .tx__icon {
-  padding: 0.5rem 0 0.5rem 0.5rem;
+  padding: 1rem;
 }
 
 .tx__icon img {
