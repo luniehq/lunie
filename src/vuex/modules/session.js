@@ -153,7 +153,7 @@ export default ({ apollo }) => {
         addresses
       })
 
-      if (config.mobileApp) {
+      if (state.mobile) {
         dispatch(`registerPushNotifications`, [address])
       }
 
@@ -166,7 +166,7 @@ export default ({ apollo }) => {
       dispatch(`resetSessionData`)
       commit(`setSignIn`, false)
 
-      if (config.mobileApp) {
+      if (state.mobile) {
         dispatch(`unregisterPushNotifications`, [currentAddress])
       }
     },
