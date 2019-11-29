@@ -23,11 +23,37 @@ describe(`WithdrawalDelegationRewardMessageDetails`, () => {
     type: `cosmos-sdk/MsgWithdrawDelegationReward`
   }
 
-  it(`renders a vote transaction message`, () => {
+  const validators = {
+    cosmosvaloper15r4tc0m6hc7z8drq3dzlrtcs6rq2q9l2nvwher: {
+      name: `SuperValidator`,
+      operatorAddress: `cosmosvaloper15r4tc0m6hc7z8drq3dzlrtcs6rq2q9l2nvwher`,
+      picture: '',
+      __typename: `Validator`
+    },
+    cosmos1: {
+      name: `SuperValidator`,
+      operatorAddress: `"cosmos1"`,
+      picture: '',
+      __typename: `Validator`
+    }
+  }
+
+  it(`renders a withdraw delegation reward transaction message`, () => {
     wrapper = shallowMount(WithdrawDelegationRewardMessageDetails, {
       propsData: {
         transaction: tx,
-        validators: {}
+        validators: validators
+      },
+      stubs: [`router-link`]
+    })
+    expect(wrapper.element).toMatchSnapshot()
+  })
+
+  it(`renders a withdraw delegation reward transaction message without validator`, () => {
+    wrapper = shallowMount(WithdrawDelegationRewardMessageDetails, {
+      propsData: {
+        transaction: tx,
+        validators: validators
       },
       stubs: [`router-link`]
     })

@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`WithdrawalDelegationRewardMessageDetails renders a vote transaction message 1`] = `
+exports[`WithdrawalDelegationRewardMessageDetails renders a withdraw delegation reward transaction message 1`] = `
 <div
   class="tx__content"
 >
@@ -21,7 +21,35 @@ exports[`WithdrawalDelegationRewardMessageDetails renders a vote transaction mes
     >
       <!---->
       
-      cosmosvaloper…wher
+      SuperValidator
+    
+    </router-link-stub>
+  </div>
+</div>
+`;
+
+exports[`WithdrawalDelegationRewardMessageDetails renders a withdraw delegation reward transaction message without validator 1`] = `
+<div
+  class="tx__content"
+>
+  <transactionicon-stub
+    transactiongroup="governance"
+    transactiontype="Withdrawal"
+  />
+   
+  <div
+    class="tx__content__left"
+  >
+    
+    Withdrawal
+    from 
+    
+    <router-link-stub
+      to="staking/validators/cosmosvaloper15r4tc0m6hc7z8drq3dzlrtcs6rq2q9l2nvwher"
+    >
+      <!---->
+      
+      SuperValidator
     
     </router-link-stub>
   </div>

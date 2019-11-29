@@ -14,14 +14,15 @@ describe(`TransactionMetadata`, () => {
             amount: "0.001234",
             denom: "ATOM"
           },
-          hash: `ABCD1234`
+          hash: `ABCD1234`,
+          undelegationEndTime: `2019-11-16T14:08:20Z`
         }
       },
       stubs: [`router-link`]
     })
   })
 
-  it(`renders correct fee and block transaction data`, () => {
+  it(`renders correct transaction metadata`, () => {
     expect(wrapper.element).toMatchSnapshot()
   })
 })

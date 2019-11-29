@@ -61,9 +61,6 @@ export default {
     }
   },
   computed: {
-    liquidDateCaption() {
-      return `(liquid ${moment(this.transaction.liquidDate).fromNow()})`
-    },
     coin() {
       return getCoin(this.transaction)
     },
