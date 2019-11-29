@@ -9,5 +9,5 @@ export default opts => ({
   extension: require(`./extension.js`).default(opts),
   signup: require(`./signup.js`).default(opts),
   recover: require(`./recover.js`).default(opts),
-  pushNotifications: require(`./push-notifications.js/index.js`).default(opts)
+  pushNotifications: require(`./push-notifications`).default(opts)
 })
