@@ -1,12 +1,6 @@
 <template>
   <div class="tx-container">
     <div class="tx" @click="toggleDetail">
-      <div class="toggle-box">
-        <i v-if="!show" class="material-icons toggle-icon"
-          >keyboard_arrow_down</i
-        >
-        <i v-else class="material-icons toggle-icon">keyboard_arrow_up</i>
-      </div>
       <component
         :is="messageTypeComponent"
         :transaction="transaction"
@@ -14,6 +8,9 @@
         :session-address="address"
         class="tx-caption"
       />
+      <div class="toggle" :class="{ up: show }">
+        <i class="material-icons toggle-icon">keyboard_arrow_down</i>
+      </div>
     </div>
     <transition name="slide-out">
       <div v-if="show" class="tx-details">
@@ -133,10 +130,15 @@ export default {
 <style>
 .tx {
   position: relative;
+  font-size: 14px;
+}
+
+.tx a {
+  display: inline-block;
 }
 
 .tx-container {
-  margin-bottom: 0.5rem;
+  margin: 0 1rem 0.5rem;
 }
 
 .tx-details {
@@ -159,8 +161,8 @@ export default {
   border-bottom-left-radius: 0.25rem;
   border-bottom-right-radius: 0.25rem;
   margin: 0 1rem 0.5rem 1rem;
-  padding: 1rem;
   font-size: 14px;
+  padding: 1rem;
   position: relative;
   z-index: 0;
 }
@@ -168,8 +170,6 @@ export default {
 .tx__content {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  width: 100%;
   background: var(--app-fg);
   position: relative;
   z-index: 90;
@@ -179,22 +179,19 @@ export default {
 
 .tx__content__caption {
   display: flex;
-  width: 100%;
 }
 
-.tx__content__left,
-.tx__content__right {
-  display: flex;
-  width: 100%;
-  padding: 1rem;
+.tx__content__left {
+  padding: 1rem 1rem 1rem 0.5rem;
 }
 
 .tx__content__right {
-  right: 1rem;
+  padding: 1rem 2.5rem 1rem 1rem;
+  text-align: right;
+  flex: auto;
 }
 
 .tx__content__information {
-  font-size: 14px;
   right: 1.5rem;
 }
 
@@ -207,14 +204,13 @@ export default {
 
 .tx__content__caption {
   line-height: 18px;
-  font-size: 18px;
   color: var(--bright);
   padding: 1rem 1rem 1rem 0;
 }
 
 .slide-out-enter-active,
 .slide-out-leave-active {
-  transition: all 0.4s;
+  transition: all 0.2s;
 }
 
 .slide-out-enter,
@@ -224,41 +220,33 @@ export default {
   margin-bottom: -100px;
 }
 
-.tx__icon img {
-  max-height: 100%;
-  max-width: 52px;
-  display: block;
-}
-
-.amount {
-  display: block;
-  width: 100%;
-  text-align: right;
-}
-
-.toggle-icon {
-  width: 20px;
+.toggle {
   position: absolute;
-  top: 0.5rem;
+  top: 20px;
   right: 0.5rem;
   z-index: 91;
-}
-
-.toggle-box i {
-  font-size: 1rem;
+  cursor: pointer;
   padding: 0.1rem;
   border-radius: 50%;
   background: var(--bc-dim);
-  height: 1.2rem;
-  width: 1.2rem;
+  height: 20px;
+  width: 20px;
+  transition: transform 0.2s ease;
+}
+
+.toggle.up {
+  transform: rotate(180deg);
+}
+
+.toggle-icon {
+  font-size: 16px;
 }
 
 .validator-image {
   border-radius: 0.25rem;
-  height: 1.2rem;
-  width: 1.2rem;
-  border: 1px solid var(--bc-dim);
-  vertical-align: middle;
-  margin-bottom: 2px;
+  height: 1.5rem;
+  width: 1.5rem;
+  vertical-align: top;
+  margin: 0 2px;
 }
 </style>
