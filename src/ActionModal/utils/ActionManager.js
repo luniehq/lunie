@@ -77,6 +77,8 @@ export default class ActionManager {
     }
 
     // temporary fix as the SDK doesn't return proper estimates for votes
+    // TODO move into transacton service
+    /* istanbul ignore next */
     if (this.messageType === transaction.VOTE) {
       gasEstimate = 30000
     }
