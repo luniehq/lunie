@@ -5,22 +5,23 @@
       :transaction-type="caption"
     />
     <div class="tx__content__left">
-      {{ caption }}
+      <h3>{{ caption }}</h3>
       <template v-if="toYourself">
-        to yourself
+        <span>To yourself —&nbsp;</span>
         <Bech32 :address="transaction.value.to_address" />
       </template>
       <template v-else-if="sentFromSessionAddress">
-        to
+        <span>To&nbsp;</span>
         <Bech32 :address="transaction.value.to_address" />
       </template>
       <template v-else-if="receivedToSessionAddress">
-        from
+        <span>From&nbsp;</span>
         <Bech32 :address="transaction.value.from_address" />
       </template>
       <template v-else>
-        from
-        <Bech32 :address="transaction.value.from_address" /> to
+        <span>From&nbsp;</span>
+        <Bech32 :address="transaction.value.from_address" />
+        <i class="material-icons arrow">arrow_right_alt</i>
         <Bech32 :address="transaction.value.to_address" />
       </template>
     </div>

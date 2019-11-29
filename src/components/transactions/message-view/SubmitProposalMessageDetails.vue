@@ -5,8 +5,8 @@
       :transaction-type="caption"
     />
     <div class="tx__content__left">
-      {{ caption }}
-      title&nbsp;<i>{{ transaction.value.title }}</i>
+      <h3>{{ caption }}</h3>
+      <span>{{ transaction.value.title }}</span>
     </div>
     <div class="tx__content__right">
       <p class="amount">
@@ -48,7 +48,7 @@ export default {
       return this.transaction.value.initial_deposit[0]
     },
     caption() {
-      return `Submitted ${this.transaction.value.proposal_type.toLowerCase()} proposal`
+      return `Submitted proposal`
     }
   }
 }

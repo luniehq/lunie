@@ -5,8 +5,11 @@
       :transaction-type="caption"
     />
     <div class="tx__content__left">
-      {{ caption }}
-      on
+      <h3>{{ caption }}</h3>
+      <span
+        ><i class="italic">{{ this.transaction.value.option }}</i>
+        on&nbsp;</span
+      >
       <router-link :to="`/governance/${transaction.value.proposal_id}`"
         >Proposal &#35;{{ transaction.value.proposal_id }}</router-link
       >
@@ -38,8 +41,13 @@ export default {
   },
   computed: {
     caption() {
-      return `Voted ${this.transaction.value.option}`
+      return `Voted`
     }
   }
 }
 </script>
+<style scoped>
+.italic {
+  font-style: italic;
+}
+</style>

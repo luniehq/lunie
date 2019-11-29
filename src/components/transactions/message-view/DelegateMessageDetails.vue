@@ -5,8 +5,8 @@
       :transaction-type="caption"
     />
     <div class="tx__content__left">
-      {{ caption }}
-      to
+      <h3>{{ caption }}</h3>
+      <span>With&nbsp;</span>
       <router-link
         :to="`staking/validators/${transaction.value.validator_address}`"
       >

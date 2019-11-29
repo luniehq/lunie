@@ -5,8 +5,8 @@
       :transaction-type="caption"
     />
     <div class="tx__content__left">
-      {{ caption }}
-      on
+      <h3>{{ caption }}</h3>
+      <span>On&nbsp;</span>
       <router-link :to="`/governance/${transaction.value.proposal_id}`"
         >Proposal &#35;{{ transaction.value.proposal_id }}</router-link
       >
