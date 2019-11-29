@@ -3,6 +3,7 @@
 exports[`PageProposals shows a message if still loading 1`] = `
 <tmpage-stub
   data-title="Proposals"
+  hideheader="true"
   subtitle=""
   title=""
 >
@@ -46,6 +47,7 @@ exports[`PageProposals shows a message if still loading 1`] = `
 exports[`PageProposals shows a message if there is nothing to display 1`] = `
 <tmpage-stub
   data-title="Proposals"
+  hideheader="true"
   subtitle=""
   title=""
 >
@@ -89,6 +91,7 @@ exports[`PageProposals shows a message if there is nothing to display 1`] = `
 exports[`PageProposals shows a proposals table 1`] = `
 <tmpage-stub
   data-title="Proposals"
+  hideheader="true"
   subtitle=""
   title=""
 >

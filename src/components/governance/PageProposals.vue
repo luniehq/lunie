@@ -1,5 +1,5 @@
 <template>
-  <TmPage data-title="Proposals" :managed="false">
+  <TmPage data-title="Proposals" :managed="false" hide-header>
     <div class="button-container">
       <TmBtn
         id="propose-btn"

@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.0-beta.146] - 2019-11-29
+
+### Fixed
+
+- [#3218](https://github.com/cosmos/lunie/pull/3218) Fix small typo in delegations query @colw
+- Hide balance header on page proposals @faboweb
+
 ## [1.0.0-beta.145] - 2019-11-28
 
 ### Added
