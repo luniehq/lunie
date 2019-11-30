@@ -58,7 +58,6 @@ export const isPendingUndelegation = tx =>
 
 export const getCoin = transaction => {
   if (Array.isArray(transaction.value.amount)) {
-    // console.log(`getCoin:`, transaction.value.amount[0])
     return transaction.value.amount[0]
   } else {
     return transaction.value.amount
