@@ -82,7 +82,7 @@ export default {
     validatorsAddressMap() {
       const names = {}
       this.validators.forEach(item => {
-        names[item.operator_address] = item
+        names[item.operatorAddress] = item
       })
       return names
     }
@@ -90,18 +90,8 @@ export default {
   apollo: {
     validators: {
       query: gql`
-        query validators(
-          $networkId: String!
-          $delegatorAddress: String
-          $all: Boolean
-          $query: String
-        ) {
-          validators(
-            networkId: $networkId
-            delegatorAddress: $delegatorAddress
-            all: $all
-            query: $query
-          ) {
+        query validators($networkId: String!) {
+          validators(networkId: $networkId) {
             name
             operatorAddress
           }
