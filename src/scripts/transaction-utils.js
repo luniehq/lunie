@@ -64,12 +64,13 @@ export const getCoin = transaction => {
   }
 }
 
+// Required by cosmos-sdk/MsgMultiSend txs to fetch coins from transaction inputs[] or outputs[] arrays
 export const getMultiSendCoin = (transaction, sessionAddress) => {
   if (transaction.value.inputs[0].address === sessionAddress) {
     // Sent transaction
     return transaction.value.inputs[0].coins[0]
   } else {
-    // Received transaction, find sessionAddress in outputs[]
+    // Received transaction
     let coins
     transaction.value.outputs.map(output => {
       if (output.address === sessionAddress) {

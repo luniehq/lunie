@@ -12,10 +12,14 @@ exports[`UnjailMessageDetails renders a unjail validator transaction message 1`]
   <div
     class="tx__content__left"
   >
-    
-    Unjail
-    name: 
-    
+    <h3>
+      Unjail
+    </h3>
+     
+    <span>
+      name: 
+    </span>
+     
     <router-link-stub
       to="staking/validators/cosmos16wgw3k7rspegl9khx79fuaa37unf4nfmxf7pyr"
     >

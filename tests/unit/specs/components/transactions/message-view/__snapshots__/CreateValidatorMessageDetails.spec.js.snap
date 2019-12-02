@@ -12,10 +12,14 @@ exports[`CreateValidatorMessageDetails renders a create validator transaction me
   <div
     class="tx__content__left"
   >
-    
-    Create validator
-    moniker 
-    
+    <h3>
+      Create validator
+    </h3>
+     
+    <span>
+      moniker 
+    </span>
+     
     <router-link-stub
       to="staking/validators/cosmos1"
     >

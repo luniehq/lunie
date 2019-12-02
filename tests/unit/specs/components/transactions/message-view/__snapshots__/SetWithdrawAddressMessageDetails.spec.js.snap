@@ -12,8 +12,10 @@ exports[`SetWithdrawAddressMessageDetails renders a set withdraw address transac
   <div
     class="tx__content__left"
   >
+    <h3>
+      Update withdraw address
+    </h3>
     
-    Update withdraw address
     to cosmos1
   
   </div>
