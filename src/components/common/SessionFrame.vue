@@ -19,7 +19,7 @@
           @click.native="$router.push(`/`)"
         />
       </div>
-      <div v-else class="session-close session-close-mobile">
+      <div v-else class="session-close user-box">
         <a @click="goBack">
           <i class="material-icons">close</i>
         </a>

@@ -93,10 +93,6 @@
   top: 1.25rem;
 }
 
-.session-close-mobile {
-  cursor: pointer;
-}
-
 .session-footer {
   display: flex;
   justify-content: flex-end;
@@ -136,6 +132,29 @@
 
 .accounts-header {
   padding: 0 1rem;
+}
+
+.user-box {
+  font-size: 12px;
+  margin: 1rem;
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.25rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.user-box i {
+  display: flex;
+  align-items: center;
+  padding: 0.5rem;
+  border-radius: 50%;
+  background: var(--bc-dim);
+}
+
+.user-box i:hover {
+  background: var(--bc);
+  cursor: pointer;
 }
 
 .session .material-icons.circle.back {
