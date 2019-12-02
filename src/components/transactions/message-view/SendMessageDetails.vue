@@ -2,7 +2,7 @@
   <div class="tx__content">
     <TransactionIcon
       :transaction-group="transaction.group"
-      :transaction-type="caption"
+      :transaction-type="type"
     />
     <div class="tx__content__left">
       <h3>{{ caption }}</h3>
@@ -82,6 +82,16 @@ export default {
         this.sessionAddress === this.transaction.value.to_address &&
         this.sessionAddress !== this.transaction.value.from_address
       )
+    },
+    type() {
+      if (
+        this.transaction.value.to_address === this.sessionAddress &&
+        this.transaction.value.from_address !== this.sessionAddress
+      ) {
+        return "Received"
+      } else {
+        return "Sent"
+      }
     },
     caption() {
       if (

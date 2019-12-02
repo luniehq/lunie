@@ -2,7 +2,7 @@
   <div class="tx__content">
     <TransactionIcon
       :transaction-group="transaction.group"
-      :transaction-type="caption"
+      :transaction-type="type"
     />
     <div class="tx__content__left">
       <h3>{{ caption }}</h3>
@@ -37,6 +37,7 @@ export default {
   },
   data: () => {
     return {
+      type: `Update`,
       caption: `Update withdraw address`
     }
   }

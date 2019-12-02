@@ -2,7 +2,7 @@
   <div class="tx__content">
     <TransactionIcon
       :transaction-group="transaction.group"
-      :transaction-type="caption"
+      :transaction-type="type"
     />
     <div class="tx__content__left">
       <h3>{{ caption }}</h3>
@@ -43,12 +43,15 @@ export default {
       required: true
     }
   },
+  data: () => {
+    return {
+      type: `Submitted`,
+      caption: `Submitted proposal`
+    }
+  },
   computed: {
     initialDeposit() {
       return this.transaction.value.initial_deposit[0]
-    },
-    caption() {
-      return `Submitted proposal`
     }
   }
 }

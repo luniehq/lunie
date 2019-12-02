@@ -19,18 +19,7 @@ export default {
   },
   computed: {
     icon() {
-      if (this.transactionType.indexOf(` `) !== -1) {
-        if (this.transactionType === `Update withdraw address`) {
-          return `/img/icons/activity/Claimed.svg`
-        } else {
-          return `/img/icons/activity/${this.transactionType.substr(
-            0,
-            this.transactionType.indexOf(` `)
-          )}.svg`
-        }
-      } else {
-        return `/img/icons/activity/${this.transactionType}.svg`
-      }
+      return `/img/icons/activity/${this.transactionType}.svg`
     }
   }
 }
