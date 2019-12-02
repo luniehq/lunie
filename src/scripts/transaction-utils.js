@@ -63,3 +63,20 @@ export const getCoin = transaction => {
     return transaction.value.amount
   }
 }
+
+// We currently don't support MultiCoin transactions in the design. For simplicity we display only the first outgoing or incomming denomination.
+export const getMultiSendCoin = (transaction, sessionAddress) => {
+  if (transaction.value.inputs[0].address === sessionAddress) {
+    // Sent transaction
+    return transaction.value.inputs[0].coins[0]
+  } else {
+    // Received transaction
+    let coins
+    transaction.value.outputs.map(output => {
+      if (output.address === sessionAddress) {
+        coins = output.coins[0]
+      }
+    })
+    return coins
+  }
+}

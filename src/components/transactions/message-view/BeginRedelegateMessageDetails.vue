@@ -1,30 +1,45 @@
 <template>
-  <div>
-    <div class="tx__content__caption">
-      <p>
-        Redelegated
-        <b>{{ coin.amount | atoms | prettyLong }}</b>
-        <span>&nbsp;{{ coin.denom | viewDenom }}</span>
-      </p>
-    </div>
-    <div class="tx__content__information">
-      From&nbsp;
+  <div class="tx__content">
+    <TransactionIcon
+      :transaction-group="transaction.group"
+      :transaction-type="type"
+    />
+    <div class="tx__content__left">
+      <h3>{{ caption }}</h3>
+      <span>From&nbsp;</span>
       <router-link
         :to="`staking/validators/${transaction.value.validator_src_address}`"
       >
+        <img
+          v-if="sourceValidator && sourceValidator.picture"
+          :src="sourceValidator.picture"
+          class="validator-image"
+          :alt="`validator logo for ` + sourceValidator.name"
+        />
         {{
           transaction.value.validator_src_address
             | resolveValidatorName(validators)
         }} </router-link
-      >To&nbsp;
+      ><i class="material-icons arrow">arrow_right_alt</i>
       <router-link
         :to="`staking/validators/${transaction.value.validator_dst_address}`"
       >
+        <img
+          v-if="destinationValidator && destinationValidator.picture"
+          :src="destinationValidator.picture"
+          class="validator-image"
+          :alt="`validator logo for ` + destinationValidator.name"
+        />
         {{
           transaction.value.validator_dst_address
             | resolveValidatorName(validators)
         }}
       </router-link>
+    </div>
+    <div class="tx__content__right">
+      <p class="amount">
+        {{ coin.amount | atoms | prettyLong }} {{ coin.denom | viewDenom }}
+      </p>
     </div>
   </div>
 </template>
@@ -33,6 +48,7 @@
 import { atoms, viewDenom, prettyLong } from "scripts/num.js"
 import { resolveValidatorName } from "src/filters"
 import { getCoin } from "scripts/transaction-utils"
+import TransactionIcon from "../TransactionIcon"
 
 export default {
   name: `begin-redelegate-message-details`,
@@ -41,6 +57,9 @@ export default {
     viewDenom,
     prettyLong,
     resolveValidatorName
+  },
+  components: {
+    TransactionIcon
   },
   props: {
     transaction: {
@@ -52,10 +71,32 @@ export default {
       required: true
     }
   },
+  data: () => {
+    return {
+      type: `Restaked`,
+      caption: `Restaked`
+    }
+  },
   computed: {
     coin() {
       return getCoin(this.transaction)
+    },
+    sourceValidator() {
+      return (
+        this.validators[this.transaction.value.validator_src_address] || false
+      )
+    },
+    destinationValidator() {
+      return (
+        this.validators[this.transaction.value.validator_dst_address] || false
+      )
     }
   }
 }
 </script>
+<style>
+.arrow {
+  vertical-align: middle;
+  font-size: 16px;
+}
+</style>

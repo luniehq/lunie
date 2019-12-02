@@ -1,17 +1,27 @@
 <template>
-  <div>
-    <div class="tx__content__caption">
-      <p>Edit validator</p>
-    </div>
-    <div class="tx__content__information">
-      Monikor&nbsp;
-      <router-link
-        :to="`staking/validators/${transaction.value.validator_address}`"
-      >
-        {{
-          transaction.value.validator_address | resolveValidatorName(validators)
-        }}
+  <div class="tx__content">
+    <TransactionIcon
+      :transaction-group="transaction.group"
+      :transaction-type="type"
+    />
+    <div class="tx__content__left">
+      <h3>{{ caption }}</h3>
+      <span>moniker&nbsp;</span>
+      <router-link :to="`staking/validators/${transaction.value.address}`">
+        <img
+          v-if="validator && validator.picture"
+          :src="validator.picture"
+          class="validator-image"
+          :alt="`validator logo for ` + validator.name"
+        />
+        {{ transaction.value.address | resolveValidatorName(validators) }}
       </router-link>
+    </div>
+    <div class="tx__content__right">
+      <p class="amount">
+        {{ fee.amount | atoms | prettyLong }}&nbsp;
+        {{ fee.denom | viewDenom }}
+      </p>
     </div>
   </div>
 </template>
@@ -19,6 +29,7 @@
 <script>
 import { atoms, viewDenom, prettyLong } from "scripts/num.js"
 import { resolveValidatorName } from "src/filters"
+import TransactionIcon from "../TransactionIcon"
 
 export default {
   name: `edit-validator-message-details`,
@@ -28,6 +39,9 @@ export default {
     prettyLong,
     resolveValidatorName
   },
+  components: {
+    TransactionIcon
+  },
   props: {
     transaction: {
       type: Object,
@@ -36,6 +50,20 @@ export default {
     validators: {
       type: Object,
       required: true
+    }
+  },
+  data: () => {
+    return {
+      type: `Edit`,
+      caption: `Edit validator`
+    }
+  },
+  computed: {
+    fee() {
+      return this.transaction.fee.amount[0]
+    },
+    validator() {
+      return this.validators[this.transaction.value.validator_address] || false
     }
   }
 }

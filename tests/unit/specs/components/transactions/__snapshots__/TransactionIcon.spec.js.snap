@@ -1,13 +1,157 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`TransactionIcon renders a banking coloured icon 1`] = `
+exports[`TransactionIcon renders a Claimed transaction icon 1`] = `
 <div
   class="tx__icon"
 >
   <img
-    alt="cosmic atom token"
+    alt="Claimed"
+    class="distribution"
+    src="/img/icons/activity/Claimed.svg"
+  />
+</div>
+`;
+
+exports[`TransactionIcon renders a Create transaction icon 1`] = `
+<div
+  class="tx__icon"
+>
+  <img
+    alt="Create"
+    class="staking"
+    src="/img/icons/activity/Create.svg"
+  />
+</div>
+`;
+
+exports[`TransactionIcon renders a Deposit transaction icon 1`] = `
+<div
+  class="tx__icon"
+>
+  <img
+    alt="Deposit"
+    class="governance"
+    src="/img/icons/activity/Deposit.svg"
+  />
+</div>
+`;
+
+exports[`TransactionIcon renders a Edit transaction icon 1`] = `
+<div
+  class="tx__icon"
+>
+  <img
+    alt="Edit"
+    class="staking"
+    src="/img/icons/activity/Edit.svg"
+  />
+</div>
+`;
+
+exports[`TransactionIcon renders a Received transaction icon 1`] = `
+<div
+  class="tx__icon"
+>
+  <img
+    alt="Received"
     class="banking"
-    src="~assets/images/cosmos-logo.png"
+    src="/img/icons/activity/Received.svg"
+  />
+</div>
+`;
+
+exports[`TransactionIcon renders a Restaked transaction icon 1`] = `
+<div
+  class="tx__icon"
+>
+  <img
+    alt="Restaked"
+    class="staking"
+    src="/img/icons/activity/Restaked.svg"
+  />
+</div>
+`;
+
+exports[`TransactionIcon renders a Sent transaction icon 1`] = `
+<div
+  class="tx__icon"
+>
+  <img
+    alt="Sent"
+    class="banking"
+    src="/img/icons/activity/Sent.svg"
+  />
+</div>
+`;
+
+exports[`TransactionIcon renders a Staked transaction icon 1`] = `
+<div
+  class="tx__icon"
+>
+  <img
+    alt="Staked"
+    class="staking"
+    src="/img/icons/activity/Staked.svg"
+  />
+</div>
+`;
+
+exports[`TransactionIcon renders a Submitted transaction icon 1`] = `
+<div
+  class="tx__icon"
+>
+  <img
+    alt="Submitted"
+    class="governance"
+    src="/img/icons/activity/Submitted.svg"
+  />
+</div>
+`;
+
+exports[`TransactionIcon renders a Unjail transaction icon 1`] = `
+<div
+  class="tx__icon"
+>
+  <img
+    alt="Unjail"
+    class="staking"
+    src="/img/icons/activity/Unjail.svg"
+  />
+</div>
+`;
+
+exports[`TransactionIcon renders a Unstaked transaction icon 1`] = `
+<div
+  class="tx__icon"
+>
+  <img
+    alt="Unstaked"
+    class="staking"
+    src="/img/icons/activity/Unstaked.svg"
+  />
+</div>
+`;
+
+exports[`TransactionIcon renders a Update transaction icon 1`] = `
+<div
+  class="tx__icon"
+>
+  <img
+    alt="Update"
+    class="distribution"
+    src="/img/icons/activity/Update.svg"
+  />
+</div>
+`;
+
+exports[`TransactionIcon renders a Voted transaction icon 1`] = `
+<div
+  class="tx__icon"
+>
+  <img
+    alt="Voted"
+    class="governance"
+    src="/img/icons/activity/Voted.svg"
   />
 </div>
 `;
