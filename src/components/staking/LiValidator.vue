@@ -60,8 +60,11 @@
 </template>
 
 <script>
+import { mapGetters, mapState } from "vuex"
 import { percent, shortDecimals, atoms } from "scripts/num"
+import refetchNetworkOnly from "scripts/refetch-network-only"
 import Avatar from "common/Avatar"
+import gql from "graphql-tag"
 
 export default {
   name: `li-validator`,
@@ -97,8 +100,67 @@ export default {
       default: () => "returns"
     }
   },
+  computed: {
+    ...mapState([`session`]),
+    ...mapGetters([`network`]),
+    ...mapGetters({ userAddress: `address` })
+  },
   methods: {
     percent
+  },
+  apollo: {
+    rewards: {
+      query: gql`
+        query RewardsPageValidator(
+          $networkId: String!
+          $delegatorAddress: String!
+          $operatorAddress: String
+        ) {
+          rewards(
+            networkId: $networkId
+            delegatorAddress: $delegatorAddress
+            operatorAddress: $operatorAddress
+          ) {
+            amount
+          }
+        }
+      `,
+      skip() {
+        return !this.userAddress
+      },
+      variables() {
+        return {
+          networkId: this.network,
+          delegatorAddress: this.userAddress,
+          operatorAddress: this.$route.params.validator
+        }
+      },
+      update: result => {
+        return result.rewards.length > 0 ? result.rewards[0] : { amount: 0 }
+      }
+    },
+    $subscribe: {
+       blockAdded: {
+        variables() {
+          return {
+            networkId: this.network
+          }
+        },
+        query() {
+          return gql`
+            subscription($networkId: String!) {
+              blockAdded(networkId: $networkId) {
+                height
+                chainId
+              }
+            }
+          `
+        },
+        result() {
+          refetchNetworkOnly(this.$apollo.queries.rewards)
+        }
+      }
+    }
   }
 }
 </script>

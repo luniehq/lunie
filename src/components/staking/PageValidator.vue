@@ -163,6 +163,7 @@ import moment from "moment"
 import { mapGetters, mapState } from "vuex"
 import { atoms, shortDecimals, fullDecimals, percent } from "scripts/num"
 import { noBlanks, fromNow } from "src/filters"
+import refetchNetworkOnly from "scripts/refetch-network-only"
 import TmBtn from "common/TmBtn"
 import DelegationModal from "src/ActionModal/components/DelegationModal"
 import UndelegationModal from "src/ActionModal/components/UndelegationModal"
@@ -351,6 +352,26 @@ export default {
             this.$apollo.queries.rewards.refetch()
             this.$apollo.queries.delegation.refetch()
           }
+        }
+      },
+       blockAdded: {
+        variables() {
+          return {
+            networkId: this.network
+          }
+        },
+        query() {
+          return gql`
+            subscription($networkId: String!) {
+              blockAdded(networkId: $networkId) {
+                height
+                chainId
+              }
+            }
+          `
+        },
+        result() {
+          refetchNetworkOnly(this.$apollo.queries.rewards)
         }
       }
     }
