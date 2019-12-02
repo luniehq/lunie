@@ -335,25 +335,6 @@ export default {
       }
     },
     $subscribe: {
-      userTransactionAdded: {
-        variables() {
-          return {
-            networkId: this.network,
-            address: this.userAddress
-          }
-        },
-        skip() {
-          return !this.userAddress
-        },
-        query: UserTransactionAdded,
-        result({ data }) {
-          if (data.userTransactionAdded.success) {
-            this.$apollo.queries.validator.refetch()
-            this.$apollo.queries.rewards.refetch()
-            this.$apollo.queries.delegation.refetch()
-          }
-        }
-      },
        blockAdded: {
         variables() {
           return {
