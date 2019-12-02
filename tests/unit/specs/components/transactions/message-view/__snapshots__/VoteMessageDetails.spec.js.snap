@@ -1,0 +1,35 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`VoteMessageDetails renders a vote transaction message 1`] = `
+<div
+  class="tx__content"
+>
+  <transactionicon-stub
+    transactiongroup="governance"
+    transactiontype="Voted"
+  />
+   
+  <div
+    class="tx__content__left"
+  >
+    <h3>
+      Voted
+    </h3>
+     
+    <span>
+      <i
+        class="italic"
+      >
+        Abstain
+      </i>
+       on 
+    </span>
+     
+    <router-link-stub
+      to="/governance/5"
+    >
+      Proposal #5
+    </router-link-stub>
+  </div>
+</div>
+`;

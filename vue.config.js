@@ -13,7 +13,7 @@ const commitHash = require(`child_process`)
 
 module.exports = {
   publicPath: `/`,
-  chainWebpack: (config) => {
+  chainWebpack: config => {
     config.plugins.delete(`prefetch`)
   },
   configureWebpack: () => {
@@ -51,7 +51,7 @@ module.exports = {
       ],
       optimization: {
         splitChunks: {
-          chunks: 'all',
+          chunks: "all"
         }
       }
     }

@@ -1,0 +1,46 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`EditValidatorMessageDetails renders a edit validator transaction message 1`] = `
+<div
+  class="tx__content"
+>
+  <transactionicon-stub
+    transactiongroup="staking"
+    transactiontype="Edit"
+  />
+   
+  <div
+    class="tx__content__left"
+  >
+    <h3>
+      Edit validator
+    </h3>
+     
+    <span>
+      moniker 
+    </span>
+     
+    <router-link-stub
+      to="staking/validators/cosmos1"
+    >
+      <!---->
+      
+      cosmos…mos1
+    
+    </router-link-stub>
+  </div>
+   
+  <div
+    class="tx__content__right"
+  >
+    <p
+      class="amount"
+    >
+      
+      0.000037 
+      ATOM
+    
+    </p>
+  </div>
+</div>
+`;
