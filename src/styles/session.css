@@ -143,6 +143,11 @@
   font-size: var(--x);
 }
 
+.session .close-signin {
+  cursor: pointer;
+  float: right;
+}
+
 @media screen and (min-width: 667px) {
   .session {
     width: 100%;

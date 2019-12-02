@@ -9,6 +9,9 @@
           <a v-if="!hideBack" @click="goBack">
             <i class="material-icons circle back">arrow_back</i>
           </a>
+          <a v-if="!desktop" class="close-signin" @click="goBack">
+            <i class="material-icons">close</i>
+          </a>
           <slot></slot>
         </div>
       </div>
@@ -36,9 +39,33 @@ export default {
       default: false
     }
   },
+  data: () => ({
+    desktop: false
+  }),
+  mounted() {
+    this.watchWindowSize()
+    window.onresize = this.watchWindowSize
+  },
+  updated() {
+    this.watchWindowSize()
+    window.onresize = this.watchWindowSize
+  },
   methods: {
     goBack() {
       this.$router.go(`-1`)
+    },
+    watchWindowSize() {
+      const w = Math.max(
+        document.documentElement.clientWidth,
+        window.innerWidth || 0
+      )
+
+      if (w >= 1024) {
+        this.desktop = true
+        return
+      } else {
+        this.desktop = false
+      }
     }
   }
 }
