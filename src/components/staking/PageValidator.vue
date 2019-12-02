@@ -171,7 +171,7 @@ import Avatar from "common/Avatar"
 import Bech32 from "common/Bech32"
 import TmPage from "common/TmPage"
 import gql from "graphql-tag"
-import { ValidatorProfile, UserTransactionAdded } from "src/gql"
+import { ValidatorProfile } from "src/gql"
 
 function getStatusText(statusDetailed) {
   switch (statusDetailed) {
@@ -335,7 +335,7 @@ export default {
       }
     },
     $subscribe: {
-       blockAdded: {
+      blockAdded: {
         variables() {
           return {
             networkId: this.network
