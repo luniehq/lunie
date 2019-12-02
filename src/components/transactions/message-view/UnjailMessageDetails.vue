@@ -5,8 +5,8 @@
       :transaction-type="caption"
     />
     <div class="tx__content__left">
-      {{ caption }}
-      name:&nbsp;
+      <h3>{{ caption }}</h3>
+      <span>name:&nbsp;</span>
       <router-link :to="`staking/validators/${transaction.value.address}`">{{
         transaction.value.address | formatBech32
       }}</router-link>

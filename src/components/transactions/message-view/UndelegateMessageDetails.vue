@@ -5,8 +5,8 @@
       :transaction-type="caption"
     />
     <div class="tx__content__left">
-      {{ caption }}
-      from&nbsp;
+      <h3>{{ caption }}</h3>
+      <span>from&nbsp;</span>
       <router-link :to="`/validators/${transaction.value.validator_address}`">
         <img
           v-if="validator && validator.picture"

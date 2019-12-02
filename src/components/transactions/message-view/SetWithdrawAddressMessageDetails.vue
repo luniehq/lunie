@@ -5,7 +5,7 @@
       :transaction-type="caption"
     />
     <div class="tx__content__left">
-      {{ caption }}
+      <h3>{{ caption }}</h3>
       to {{ transaction.value.withdraw_address }}
     </div>
   </div>
