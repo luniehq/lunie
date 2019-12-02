@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`TransactionIcon renders a coloured Claimed transaction icon 1`] = `
+exports[`TransactionIcon renders a Claimed transaction icon 1`] = `
 <div
   class="tx__icon"
 >
@@ -12,19 +12,7 @@ exports[`TransactionIcon renders a coloured Claimed transaction icon 1`] = `
 </div>
 `;
 
-exports[`TransactionIcon renders a coloured Claimed with commission transaction icon 1`] = `
-<div
-  class="tx__icon"
->
-  <img
-    alt="Claimed with commission"
-    class="distribution"
-    src="/img/icons/activity/Claimed.svg"
-  />
-</div>
-`;
-
-exports[`TransactionIcon renders a coloured Create transaction icon 1`] = `
+exports[`TransactionIcon renders a Create transaction icon 1`] = `
 <div
   class="tx__icon"
 >
@@ -36,7 +24,7 @@ exports[`TransactionIcon renders a coloured Create transaction icon 1`] = `
 </div>
 `;
 
-exports[`TransactionIcon renders a coloured Deposit transaction icon 1`] = `
+exports[`TransactionIcon renders a Deposit transaction icon 1`] = `
 <div
   class="tx__icon"
 >
@@ -48,19 +36,19 @@ exports[`TransactionIcon renders a coloured Deposit transaction icon 1`] = `
 </div>
 `;
 
-exports[`TransactionIcon renders a coloured Edit validator transaction icon 1`] = `
+exports[`TransactionIcon renders a Edit transaction icon 1`] = `
 <div
   class="tx__icon"
 >
   <img
-    alt="Edit validator"
+    alt="Edit"
     class="staking"
     src="/img/icons/activity/Edit.svg"
   />
 </div>
 `;
 
-exports[`TransactionIcon renders a coloured Received transaction icon 1`] = `
+exports[`TransactionIcon renders a Received transaction icon 1`] = `
 <div
   class="tx__icon"
 >
@@ -72,7 +60,7 @@ exports[`TransactionIcon renders a coloured Received transaction icon 1`] = `
 </div>
 `;
 
-exports[`TransactionIcon renders a coloured Restaked transaction icon 1`] = `
+exports[`TransactionIcon renders a Restaked transaction icon 1`] = `
 <div
   class="tx__icon"
 >
@@ -84,7 +72,7 @@ exports[`TransactionIcon renders a coloured Restaked transaction icon 1`] = `
 </div>
 `;
 
-exports[`TransactionIcon renders a coloured Sent transaction icon 1`] = `
+exports[`TransactionIcon renders a Sent transaction icon 1`] = `
 <div
   class="tx__icon"
 >
@@ -96,7 +84,7 @@ exports[`TransactionIcon renders a coloured Sent transaction icon 1`] = `
 </div>
 `;
 
-exports[`TransactionIcon renders a coloured Staked transaction icon 1`] = `
+exports[`TransactionIcon renders a Staked transaction icon 1`] = `
 <div
   class="tx__icon"
 >
@@ -108,19 +96,19 @@ exports[`TransactionIcon renders a coloured Staked transaction icon 1`] = `
 </div>
 `;
 
-exports[`TransactionIcon renders a coloured Submitted xxx proposal transaction icon 1`] = `
+exports[`TransactionIcon renders a Submitted transaction icon 1`] = `
 <div
   class="tx__icon"
 >
   <img
-    alt="Submitted xxx proposal"
+    alt="Submitted"
     class="governance"
     src="/img/icons/activity/Submitted.svg"
   />
 </div>
 `;
 
-exports[`TransactionIcon renders a coloured Unjail transaction icon 1`] = `
+exports[`TransactionIcon renders a Unjail transaction icon 1`] = `
 <div
   class="tx__icon"
 >
@@ -132,7 +120,7 @@ exports[`TransactionIcon renders a coloured Unjail transaction icon 1`] = `
 </div>
 `;
 
-exports[`TransactionIcon renders a coloured Unstaked transaction icon 1`] = `
+exports[`TransactionIcon renders a Unstaked transaction icon 1`] = `
 <div
   class="tx__icon"
 >
@@ -144,24 +132,24 @@ exports[`TransactionIcon renders a coloured Unstaked transaction icon 1`] = `
 </div>
 `;
 
-exports[`TransactionIcon renders a coloured Update withdraw address transaction icon 1`] = `
+exports[`TransactionIcon renders a Update transaction icon 1`] = `
 <div
   class="tx__icon"
 >
   <img
-    alt="Update withdraw address"
+    alt="Update"
     class="distribution"
-    src="/img/icons/activity/Claimed.svg"
+    src="/img/icons/activity/Update.svg"
   />
 </div>
 `;
 
-exports[`TransactionIcon renders a coloured Voted xxx transaction icon 1`] = `
+exports[`TransactionIcon renders a Voted transaction icon 1`] = `
 <div
   class="tx__icon"
 >
   <img
-    alt="Voted xxx"
+    alt="Voted"
     class="governance"
     src="/img/icons/activity/Voted.svg"
   />

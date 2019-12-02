@@ -43,11 +43,6 @@ export default {
       type: `Voted`,
       caption: `Voted`
     }
-  },
-  computed: {
-    caption() {
-      return `Voted`
-    }
   }
 }
 </script>

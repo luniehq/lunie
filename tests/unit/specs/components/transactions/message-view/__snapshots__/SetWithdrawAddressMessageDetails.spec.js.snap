@@ -6,7 +6,7 @@ exports[`SetWithdrawAddressMessageDetails renders a set withdraw address transac
 >
   <transactionicon-stub
     transactiongroup="staking"
-    transactiontype="Update withdraw address"
+    transactiontype="Update"
   />
    
   <div

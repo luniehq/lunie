@@ -6,7 +6,7 @@ exports[`CreateValidatorMessageDetails renders a create validator transaction me
 >
   <transactionicon-stub
     transactiongroup="staking"
-    transactiontype="Create validator"
+    transactiontype="Create"
   />
    
   <div

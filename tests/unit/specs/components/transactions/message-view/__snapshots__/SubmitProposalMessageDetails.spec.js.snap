@@ -6,7 +6,7 @@ exports[`SubmitProposalMessageDetails renders a submit proposal transaction mess
 >
   <transactionicon-stub
     transactiongroup="governance"
-    transactiontype="Submitted proposal"
+    transactiontype="Submitted"
   />
    
   <div

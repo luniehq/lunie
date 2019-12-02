@@ -7,78 +7,60 @@ describe(`TransactionIcon`, () => {
   const transactions = [
     {
       type: `Sent`,
-      group: `banking`,
-      icon: `Sent`
+      group: `banking`
     },
     {
       type: `Received`,
-      group: `banking`,
-      icon: `Received`
+      group: `banking`
     },
     {
       type: `Staked`,
-      group: `staking`,
-      icon: `Staked`
+      group: `staking`
     },
     {
       type: `Restaked`,
-      group: `staking`,
-      icon: `Restaked`
+      group: `staking`
     },
     {
       type: `Unstaked`,
-      group: `staking`,
-      icon: `Unstaked`
+      group: `staking`
     },
     {
       type: `Claimed`,
-      group: `distribution`,
-      icon: `Claimed`
+      group: `distribution`
     },
     {
-      type: `Claimed with commission`,
-      group: `distribution`,
-      icon: `Claimed`
+      type: `Update`,
+      group: `distribution`
     },
     {
-      type: `Update withdraw address`,
-      group: `distribution`,
-      icon: `Claimed`
-    },
-    {
-      type: `Voted xxx`,
-      group: `governance`,
-      icon: `Voted`
+      type: `Voted`,
+      group: `governance`
     },
     {
       type: `Deposit`,
-      group: `governance`,
-      icon: `Deposit`
+      group: `governance`
     },
     {
-      type: `Submitted xxx proposal`,
-      group: `governance`,
-      icon: `Submitted`
+      type: `Submitted`,
+      group: `governance`
     },
     {
       type: `Create`,
-      group: `staking`,
-      icon: `Create`
+      group: `staking`
     },
     {
-      type: `Edit validator`,
-      group: `staking`,
-      icon: `Edit`
+      type: `Edit`,
+      group: `staking`
     },
     {
       type: `Unjail`,
-      group: `staking`,
-      icon: `Unjail`
+      group: `staking`
     }
   ]
 
   for (let i = 0; i < transactions.length; i++) {
-    it(`renders a coloured ${transactions[i].type} transaction icon`, () => {
+    it(`renders a ${transactions[i].type} transaction icon`, () => {
       wrapper = shallowMount(TransactionIcon, {
         propsData: {
           transactionGroup: transactions[i].group,
@@ -90,7 +72,7 @@ describe(`TransactionIcon`, () => {
         transactions[i].group
       )
       expect(wrapper.find(".tx__icon img").attributes("src")).toEqual(
-        `/img/icons/activity/${transactions[i].icon}.svg`
+        `/img/icons/activity/${transactions[i].type}.svg`
       )
     })
   }

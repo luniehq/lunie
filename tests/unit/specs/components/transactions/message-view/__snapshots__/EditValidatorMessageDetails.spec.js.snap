@@ -6,7 +6,7 @@ exports[`EditValidatorMessageDetails renders a edit validator transaction messag
 >
   <transactionicon-stub
     transactiongroup="staking"
-    transactiontype="Edit validator"
+    transactiontype="Edit"
   />
    
   <div
