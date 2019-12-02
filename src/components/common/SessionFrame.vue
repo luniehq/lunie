@@ -9,18 +9,21 @@
           <a v-if="!hideBack" @click="goBack">
             <i class="material-icons circle back">arrow_back</i>
           </a>
-          <a v-if="!desktop" class="close-signin" @click="goBack">
-            <i class="material-icons">close</i>
-          </a>
           <slot></slot>
         </div>
       </div>
-      <TmBtn
-        class="session-close"
-        value="Back to Lunie"
-        color="secondary"
-        @click.native="$router.push(`/`)"
-      />
+      <div v-if="desktop" class="session-close">
+        <TmBtn
+          value="Back to Lunie"
+          color="secondary"
+          @click.native="$router.push(`/`)"
+        />
+      </div>
+      <div v-else class="session-close session-close-mobile">
+        <a @click="goBack">
+          <i class="material-icons">close</i>
+        </a>
+      </div>
     </div>
   </transition>
 </template>

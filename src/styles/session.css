@@ -93,6 +93,10 @@
   top: 1.25rem;
 }
 
+.session-close-mobile {
+  cursor: pointer;
+}
+
 .session-footer {
   display: flex;
   justify-content: flex-end;
@@ -141,11 +145,6 @@
   padding: 0.25rem;
   cursor: pointer;
   font-size: var(--x);
-}
-
-.session .close-signin {
-  cursor: pointer;
-  float: right;
 }
 
 @media screen and (min-width: 667px) {
@@ -198,11 +197,5 @@
 
   .session-footer button {
     width: 100%;
-  }
-}
-
-@media screen and (max-width: 1023px) {
-  .session-frame .session-close {
-    display: none;
   }
 }
