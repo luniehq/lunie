@@ -64,7 +64,7 @@ export const getCoin = transaction => {
   }
 }
 
-// Required by cosmos-sdk/MsgMultiSend txs to fetch coins from transaction inputs[] or outputs[] arrays
+// We currently don't support MultiCoin transactions in the design. For simplicity we display only the first outgoing or incomming denomination.
 export const getMultiSendCoin = (transaction, sessionAddress) => {
   if (transaction.value.inputs[0].address === sessionAddress) {
     // Sent transaction
