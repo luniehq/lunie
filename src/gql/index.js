@@ -206,14 +206,3 @@ export const UserTransactionAdded = gql`
     }
   }
 `
-
-export const UserRewardsIncremented = gql`
-  subscription($networkId: String!, $address: String!) {
-    userRewardsIncremented(networkId: $networkId, address: $address) {
-      validator {
-        ${ValidatorFragment}
-      }
-      amount
-    }
-  }
-`
