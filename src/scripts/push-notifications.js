@@ -1,4 +1,5 @@
 import { Plugins } from "@capacitor/core"
+import * as Sentry from "@sentry/browser"
 const { PushNotifications } = Plugins
 
 export const registerMobilePushNotifications = store => {
@@ -9,10 +10,11 @@ export const registerMobilePushNotifications = store => {
   })
 
   PushNotifications.addListener("registrationError", error => {
-    alert("Error on registration: " + JSON.stringify(error))
+    Sentry.captureException(error)
   })
 
-  PushNotifications.addListener("pushNotificationReceived", notification => {
-    alert("Push received: " + JSON.stringify(notification))
-  })
+  // TODO if we want to react to notifications while the app is running enter the logic here
+  // PushNotifications.addListener("pushNotificationReceived", notification => {
+  //   alert("Push received: " + JSON.stringify(notification))
+  // })
 }
