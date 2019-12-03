@@ -64,6 +64,7 @@ export const getCoin = transaction => {
     coin = transaction.value.amount
   }
   // Workaround to fix COSMOS REST api bug, see https://github.com/luniehq/lunie/issues/3237
+  // and https://github.com/cosmos/cosmos-sdk/issues/5353
   if (coin.denom === `undefined`) {
     coin.denom = `uatom`
   }
