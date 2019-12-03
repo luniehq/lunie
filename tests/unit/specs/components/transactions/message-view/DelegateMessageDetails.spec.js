@@ -8,12 +8,10 @@ describe(`DelegateMessageDetails`, () => {
     height: 2000000,
     value: {
       validator_address: `cosmos1`,
-      amount: [
-        {
-          amount: "10000000000",
-          denom: "uatom"
-        }
-      ]
+      amount: {
+        amount: "10000000000",
+        denom: "uatom"
+      }
     },
     fee: {
       amount: "37",
