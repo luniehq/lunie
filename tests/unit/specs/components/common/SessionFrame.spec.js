@@ -11,6 +11,9 @@ describe(`SessionFrame`, () => {
           go: jest.fn()
         }
       },
+      methods: {
+        watchWindowSize: () => {} // overwriting to not cause side effects when setting the data in tests
+      },
       stubs: [`router-link`]
     })
   })
@@ -22,5 +25,12 @@ describe(`SessionFrame`, () => {
   it(`should go back to Welcome when back arrow is clicked`, () => {
     wrapper.vm.goBack()
     expect(wrapper.vm.$router.go).toHaveBeenCalledWith(`-1`)
+  })
+
+  it(`shows a material icon to close if windows width drops below 1024px`, () => {
+    wrapper.setData({
+      desktop: false,
+    })
+    expect(wrapper.element).toMatchSnapshot()
   })
 })
