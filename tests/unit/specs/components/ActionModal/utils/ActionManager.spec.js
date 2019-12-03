@@ -67,6 +67,12 @@ jest.mock(`src/ActionModal/utils/signer.js`, () => ({
 let actionManager
 describe("ActionManager", () => {
   beforeEach(async () => {
+    global.fetch = jest.fn(() =>
+      Promise.resolve({
+        json: () => ({ success: true, hash: "abcdsuperhash" })
+      })
+    )
+
     actionManager = new ActionManager()
     await actionManager.setContext({
       url: "blah",
