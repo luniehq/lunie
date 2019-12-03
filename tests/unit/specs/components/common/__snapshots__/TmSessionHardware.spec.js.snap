@@ -27,9 +27,9 @@ exports[`TmSessionHardware should show a state indicator for different states of
       </div>
     </div>
   </div>
-  <div class="session-close"><button class="button" color="secondary">
+  <div class="session-close"><button class="button session-close-button" color="secondary">
       Back to Lunie
-    </button></div>
+    </button> <a class="user-box"><i class="material-icons">close</i></a></div>
 </div>
 `;
 
@@ -60,9 +60,9 @@ exports[`TmSessionHardware should show a state indicator for different states of
       </div>
     </div>
   </div>
-  <div class="session-close"><button class="button" color="secondary">
+  <div class="session-close"><button class="button session-close-button" color="secondary">
       Back to Lunie
-    </button></div>
+    </button> <a class="user-box"><i class="material-icons">close</i></a></div>
 </div>
 `;
 
@@ -89,9 +89,9 @@ exports[`TmSessionHardware should show a state indicator for different states of
       </div>
     </div>
   </div>
-  <div class="session-close"><button class="button" color="secondary">
+  <div class="session-close"><button class="button session-close-button" color="secondary">
       Back to Lunie
-    </button></div>
+    </button> <a class="user-box"><i class="material-icons">close</i></a></div>
 </div>
 `;
 
@@ -187,13 +187,23 @@ exports[`TmSessionHardware shows the ledger conection view when there're errors 
     class="session-close"
   >
     <button
-      class="button"
+      class="button session-close-button"
       color="secondary"
     >
       
   Back to Lunie
 
     </button>
+     
+    <a
+      class="user-box"
+    >
+      <i
+        class="material-icons"
+      >
+        close
+      </i>
+    </a>
   </div>
 </div>
 `;
@@ -284,13 +294,23 @@ exports[`TmSessionHardware shows the ledger conection view with no errors 1`] = 
     class="session-close"
   >
     <button
-      class="button"
+      class="button session-close-button"
       color="secondary"
     >
       
   Back to Lunie
 
     </button>
+     
+    <a
+      class="user-box"
+    >
+      <i
+        class="material-icons"
+      >
+        close
+      </i>
+    </a>
   </div>
 </div>
 `;

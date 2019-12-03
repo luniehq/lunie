@@ -1,51 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`SessionFrame shows a material icon to close if windows width drops below 1024px 1`] = `
-<div
-  class="session-frame"
-  mode="out-in"
-  name="component-fade"
->
-  <router-link-stub
-    to="/"
-  >
-    <img
-      class="session-logo"
-      src="~assets/images/lunie-logo-white.svg"
-    />
-  </router-link-stub>
-   
-  <div
-    class="session-outer-container"
-  >
-    <div
-      class="session"
-    >
-      <a>
-        <i
-          class="material-icons circle back"
-        >
-          arrow_back
-        </i>
-      </a>
-       
-    </div>
-  </div>
-   
-  <div
-    class="session-close user-box"
-  >
-    <a>
-      <i
-        class="material-icons"
-      >
-        close
-      </i>
-    </a>
-  </div>
-</div>
-`;
-
 exports[`SessionFrame shows an overview of all wallets to sign in with from the extension 1`] = `
 <div
   class="session-frame"
@@ -79,9 +33,17 @@ exports[`SessionFrame shows an overview of all wallets to sign in with from the 
   </div>
    
   <div
-    class="session-close user-box"
+    class="session-close"
   >
-    <a>
+    <tmbtn-stub
+      class="session-close-button"
+      color="secondary"
+      value="Back to Lunie"
+    />
+     
+    <a
+      class="user-box"
+    >
       <i
         class="material-icons"
       >
