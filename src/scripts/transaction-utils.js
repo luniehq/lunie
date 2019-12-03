@@ -58,8 +58,16 @@ export const isPendingUndelegation = tx =>
 
 export const getCoin = transaction => {
   if (Array.isArray(transaction.value.amount)) {
+    // Workaround to fix COSMOS REST api bug, see https://github.com/luniehq/lunie/issues/3237
+    if (transaction.value.amount[0].denom === `undefined`) {
+      transaction.value.amount[0].denom = `uatom`
+    }
     return transaction.value.amount[0]
   } else {
+    // Same workaround to fix COSMOS REST api bug, see https://github.com/luniehq/lunie/issues/3237
+    if (transaction.value.amount.denom === `undefined`) {
+      transaction.value.amount.denom = `uatom`
+    }
     return transaction.value.amount
   }
 }
