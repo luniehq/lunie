@@ -60,12 +60,8 @@
 </template>
 
 <script>
-import { mapGetters, mapState } from "vuex"
 import { percent, shortDecimals, atoms } from "scripts/num"
-import refetchNetworkOnly from "scripts/refetch-network-only"
 import Avatar from "common/Avatar"
-import gql from "graphql-tag"
-
 export default {
   name: `li-validator`,
   components: {
@@ -100,67 +96,8 @@ export default {
       default: () => "returns"
     }
   },
-  computed: {
-    ...mapState([`session`]),
-    ...mapGetters([`network`]),
-    ...mapGetters({ userAddress: `address` })
-  },
   methods: {
     percent
-  },
-  apollo: {
-    rewards: {
-      query: gql`
-        query RewardsPageValidator(
-          $networkId: String!
-          $delegatorAddress: String!
-          $operatorAddress: String
-        ) {
-          rewards(
-            networkId: $networkId
-            delegatorAddress: $delegatorAddress
-            operatorAddress: $operatorAddress
-          ) {
-            amount
-          }
-        }
-      `,
-      skip() {
-        return !this.userAddress
-      },
-      variables() {
-        return {
-          networkId: this.network,
-          delegatorAddress: this.userAddress,
-          operatorAddress: this.$route.params.validator
-        }
-      },
-      update: result => {
-        return result.rewards.length > 0 ? result.rewards[0] : { amount: 0 }
-      }
-    },
-    $subscribe: {
-       blockAdded: {
-        variables() {
-          return {
-            networkId: this.network
-          }
-        },
-        query() {
-          return gql`
-            subscription($networkId: String!) {
-              blockAdded(networkId: $networkId) {
-                height
-                chainId
-              }
-            }
-          `
-        },
-        result() {
-          refetchNetworkOnly(this.$apollo.queries.rewards)
-        }
-      }
-    }
   }
 }
 </script>
@@ -171,35 +108,29 @@ export default {
   border-bottom: 1px solid var(--bc-dim);
   border-radius: 0.25rem;
 }
-
 .li-validator:last-child {
   border-bottom: none;
 }
-
 .validator-info {
   display: flex;
   flex-direction: column;
   padding-left: 1rem;
   text-overflow: ellipsis;
 }
-
 .li-validator h4,
 .li-validator h5 {
   font-size: var(--sm);
   display: inline-block;
 }
-
 .li-validator h5 {
   padding-left: 0.5rem;
   color: var(--success);
 }
-
 .li-validator:hover {
   cursor: pointer;
   background: var(--hover-bg);
   color: var(--bright);
 }
-
 .li-validator-name {
   font-size: 1rem;
   line-height: 18px;
@@ -207,14 +138,12 @@ export default {
   color: var(--bright);
   display: inline-block;
 }
-
 .li-validator-image {
   border-radius: 0.25rem;
   height: 2.5rem;
   width: 2.5rem;
   border: 1px solid var(--bc-dim);
 }
-
 .validator-status {
   text-transform: uppercase;
   font-size: 10px;
@@ -223,12 +152,10 @@ export default {
   padding: 2px 4px;
   border-radius: 0.25rem;
 }
-
 .validator-status.inactive {
   color: var(--warning);
   border-color: var(--warning);
 }
-
 .validator-status.active {
   color: var(--success);
   border-color: var(--success);

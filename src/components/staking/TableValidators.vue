@@ -29,6 +29,7 @@
 
 <script>
 import { mapGetters } from "vuex"
+import refetchNetworkOnly from "scripts/refetch-network-only"
 import orderBy from "lodash.orderby"
 import LiValidator from "staking/LiValidator"
 import PanelSort from "staking/PanelSort"
@@ -151,6 +152,28 @@ export default {
       },
       update: result => {
         return result.rewards || []
+      }
+    },
+    $subscribe: {
+      blockAdded: {
+        variables() {
+          return {
+            networkId: this.network
+          }
+        },
+        query() {
+          return gql`
+            subscription($networkId: String!) {
+              blockAdded(networkId: $networkId) {
+                height
+                chainId
+              }
+            }
+          `
+        },
+        result() {
+          refetchNetworkOnly(this.$apollo.queries.rewards)
+        }
       }
     }
   }
