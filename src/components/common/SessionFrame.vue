@@ -13,7 +13,8 @@
         </div>
       </div>
       <div class="session-close">
-        <TmBtn class="session-close-button"
+        <TmBtn
+          class="session-close-button"
           value="Back to Lunie"
           color="secondary"
           @click.native="$router.push(`/`)"
