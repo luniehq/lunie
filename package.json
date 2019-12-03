@@ -10,7 +10,7 @@
     "lint": "vue-cli-service lint",
     "lint:style": "vue-cli-service lint:style",
     "release": "git checkout develop & git pull & git push origin develop:release",
-    "serve": "vue-cli-service serve --port 9080",
+    "serve": "kill-port 9080 && vue-cli-service serve --port 9080",
     "serve:dist": "live-server --port=9080 --no-browser ./dist",
     "serve:mobile": "cross-env MOBILE_APP=true npm run serve",
     "test": "npm run test:unit && npm run test:e2e",
