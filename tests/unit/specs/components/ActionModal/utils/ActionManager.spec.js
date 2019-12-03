@@ -1,4 +1,8 @@
 import ActionManager from "src/ActionModal/utils/ActionManager.js"
+// import { 
+//   getTransactionSigner,
+//   transformMessage
+// } from "src/ActionModal/utils/MessageConstructor.js"
 import { sendTx, withdrawTx } from "./actions"
 
 let mockSimulate = jest.fn(() => 12345)
@@ -9,6 +13,18 @@ const mockMsgSend = jest.fn(() => ({
   send: MsgSendFn
 }))
 
+jest.mock(`src/../config.js`, () => ({
+  enableTxAPI: false
+}))
+
+// jest.mock(`src/ActionModal/utils/MessageConstructor.js`, () => {
+//   return jest.fn(() => {
+//     return {
+//       getTransactionSigner: jest.fn(),
+//       transformMessage: jest.fn(),
+//     }
+//   })
+// })
 const mockMultiMessage = jest.fn(() => ({
   simulate: mockSimulate,
   send: MsgSendFn
@@ -19,12 +35,18 @@ const mockMsgWithdraw = jest.fn(() => ({
   send: () => ({ included: () => async () => true })
 }))
 
+const mockGetTransactionSigner = jest.fn(() => {
+  console.log('mockGetTransactionSigner executed')
+  return jest.fn().mockResolvedValue(() => console.log('sds'))
+})
+
 const mockMessageConstructor = jest.fn().mockImplementation(() => {
   return {
     get: mockGet,
     MsgSend: mockMsgSend,
     MsgWithdrawDelegationReward: mockMsgWithdraw,
-    MultiMessage: mockMultiMessage
+    MultiMessage: mockMultiMessage,
+    getTransactionSigner: () => jest.fn().mockResolvedValue(jest.fn())
   }
 })
 jest.mock(`cosmos-apiV0`, () => mockMessageConstructor)
@@ -214,6 +236,33 @@ describe("ActionManager", () => {
         "signer"
       )
     })
+
+    it("should send via Tx API", async () => {
+      const context = {
+        ...actionManager.context,
+        account: {
+          accountNumber: 1,
+          sequence: 1
+        }
+      }
+
+      const result = await actionManager.sendTxAPI(context, 'MsgSend', "memo", sendTx.txProps, sendTx.txMetaData)
+      expect(result)
+
+      // expect(mockMsgSend).toHaveBeenCalledWith("cosmos12345", {
+      //   amounts: [{ amount: "20000", denom: "uatom" }],
+      //   toAddress: "cosmos123"
+      // })
+
+      // expect(MsgSendFn).toHaveBeenCalledWith(
+      //   {
+      //     gas: "12335",
+      //     gasPrices: [{ amount: "2000000000", denom: "uatom" }],
+      //     memo: "memo"
+      //   },
+      //   "signer"
+      // )
+    })    
 
     it("should create multimessage", async () => {
       await actionManager.setMessage(
