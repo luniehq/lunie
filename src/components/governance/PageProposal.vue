@@ -2,9 +2,12 @@
   <TmPage data-title="Proposal" hide-header class="small">
     <TmDataLoading
       v-if="
-        $apollo.queries.proposal.loading || $apollo.queries.parameters.loading
+        $apollo.queries.proposals.loading ||
+          $apollo.queries.proposal.loading ||
+          $apollo.queries.parameters.loading
       "
     />
+    <TmDataNotFound v-else-if="!found" />
     <TmDataError v-else-if="error" />
     <template v-else>
       <div class="proposal">
@@ -188,6 +191,7 @@ import { atoms, percent, prettyInt } from "scripts/num"
 import { date, fromNow } from "src/filters"
 import TmBtn from "common/TmBtn"
 import TmDataError from "common/TmDataError"
+import TmDataNotFound from "common/TmDataNotFound"
 import TmDataLoading from "common/TmDataLoading"
 import TextBlock from "common/TextBlock"
 import ModalDeposit from "src/ActionModal/components/ModalDeposit"
@@ -206,6 +210,7 @@ export default {
     ModalDeposit,
     ModalVote,
     TmDataError,
+    TmDataNotFound,
     TmDataLoading,
     TmPage,
     TextBlock,
@@ -237,7 +242,8 @@ export default {
     parameters: {
       depositDenom: "TESTCOIN"
     },
-    error: undefined
+    error: undefined,
+    found: false
   }),
   computed: {
     ...mapGetters([`address`, `network`]),
@@ -304,6 +310,13 @@ export default {
         }
       },
       update(data) {
+        if (
+          data.proposals.find(
+            proposal => proposal.id === parseInt(this.proposalId, 10)
+          )
+        ) {
+          this.found = true
+        }
         /* istanbul ignore next */
         return data.proposals
       }
@@ -323,6 +336,9 @@ export default {
           id: +this.proposalId
         }
       },
+      skip() {
+        return !this.found
+      },
       result(data) {
         /* istanbul ignore next */
         this.error = data.error
@@ -336,6 +352,9 @@ export default {
       update(data) {
         /* istanbul ignore next */
         return data.governanceParameters
+      },
+      skip() {
+        return !this.found
       },
       result(data) {
         /* istanbul ignore next */
@@ -355,7 +374,7 @@ export default {
         }
       },
       skip() {
-        return !this.address
+        return !this.address || !this.found
       },
       update(data) {
         /* istanbul ignore next */

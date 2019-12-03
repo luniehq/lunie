@@ -36,6 +36,10 @@ describe(`PageProposal`, () => {
     }
     const $apollo = {
       queries: {
+        proposals: {
+          loading: false,
+          error: undefined
+        },
         proposal: {
           loading: false,
           error: undefined
@@ -63,7 +67,8 @@ describe(`PageProposal`, () => {
     }
     wrapper = shallowMount(PageProposal, args)
     wrapper.setData({
-      proposal: proposals[2]
+      proposal: proposals[2],
+      found: true
     })
   })
 
