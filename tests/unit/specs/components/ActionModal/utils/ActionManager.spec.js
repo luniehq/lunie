@@ -49,8 +49,16 @@ const mockMessageConstructor = jest.fn().mockImplementation(() => {
     getTransactionSigner: mockGetTransactionSigner
   }
 })
-jest.mock(`cosmos-apiV0`, () => mockMessageConstructor)
-jest.mock(`cosmos-apiV2`, () => mockMessageConstructor)
+jest.mock(`cosmos-apiV0`, () => ({
+  default: mockMessageConstructor,
+  createSignedTransaction: jest.fn(),
+  __esModule: true
+}))
+jest.mock(`cosmos-apiV2`, () => ({
+  default: mockMessageConstructor,
+  createSignedTransaction: jest.fn(),
+  __esModule: true
+}))
 
 jest.mock(`src/ActionModal/utils/signer.js`, () => ({
   getSigner: jest.fn(() => "signer")
