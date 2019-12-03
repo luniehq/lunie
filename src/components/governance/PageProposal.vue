@@ -305,6 +305,7 @@ export default {
         `
       },
       variables() {
+        /* istanbul ignore next */
         return {
           networkId: this.network
         }
@@ -337,6 +338,7 @@ export default {
         }
       },
       skip() {
+        /* istanbul ignore next */
         return !this.found
       },
       result(data) {
@@ -354,6 +356,7 @@ export default {
         return data.governanceParameters
       },
       skip() {
+        /* istanbul ignore next */
         return !this.found
       },
       result(data) {
@@ -374,6 +377,7 @@ export default {
         }
       },
       skip() {
+        /* istanbul ignore next */
         return !this.address || !this.found
       },
       update(data) {
