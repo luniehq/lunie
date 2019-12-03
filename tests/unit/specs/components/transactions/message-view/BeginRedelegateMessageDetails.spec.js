@@ -29,6 +29,9 @@ describe(`BeginRedelegateMessageDetails`, () => {
     type: `cosmos-sdk/MsgBeginRedelegate`
   }
 
+  let buggyTx = tx;
+  buggyTx.value.amount[0].denom = "undefined"
+
   it(`renders a redelegate transaction message`, () => {
     wrapper = shallowMount(BeginRedelegateMessageDetails, {
       propsData: {
@@ -38,5 +41,16 @@ describe(`BeginRedelegateMessageDetails`, () => {
       stubs: [`router-link`]
     })
     expect(wrapper.element).toMatchSnapshot()
+  })
+
+  it(`renders a transaction message with undefined denom`, () => {
+    wrapper = shallowMount(BeginRedelegateMessageDetails, {
+      propsData: {
+        transaction: buggyTx,
+        validators: {}
+      },
+      stubs: [`router-link`]
+    })
+    expect(wrapper.html()).toContain("ATOM")
   })
 })
