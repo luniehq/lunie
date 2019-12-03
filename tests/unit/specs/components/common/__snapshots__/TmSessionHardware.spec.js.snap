@@ -26,9 +26,10 @@ exports[`TmSessionHardware should show a state indicator for different states of
         </div>
       </div>
     </div>
-  </div> <button class="button session-close" color="secondary">
-    Back to Lunie
-  </button>
+  </div>
+  <div class="session-close"><button class="button session-close-button" color="secondary">
+      Back to Lunie
+    </button> <a class="user-box"><i class="material-icons">close</i></a></div>
 </div>
 `;
 
@@ -58,9 +59,10 @@ exports[`TmSessionHardware should show a state indicator for different states of
         </div>
       </div>
     </div>
-  </div> <button class="button session-close" color="secondary">
-    Back to Lunie
-  </button>
+  </div>
+  <div class="session-close"><button class="button session-close-button" color="secondary">
+      Back to Lunie
+    </button> <a class="user-box"><i class="material-icons">close</i></a></div>
 </div>
 `;
 
@@ -86,9 +88,10 @@ exports[`TmSessionHardware should show a state indicator for different states of
         </div>
       </div>
     </div>
-  </div> <button class="button session-close" color="secondary">
-    Back to Lunie
-  </button>
+  </div>
+  <div class="session-close"><button class="button session-close-button" color="secondary">
+      Back to Lunie
+    </button> <a class="user-box"><i class="material-icons">close</i></a></div>
 </div>
 `;
 
@@ -180,14 +183,28 @@ exports[`TmSessionHardware shows the ledger conection view when there're errors 
     </div>
   </div>
    
-  <button
-    class="button session-close"
-    color="secondary"
+  <div
+    class="session-close"
   >
-    
+    <button
+      class="button session-close-button"
+      color="secondary"
+    >
+      
   Back to Lunie
 
-  </button>
+    </button>
+     
+    <a
+      class="user-box"
+    >
+      <i
+        class="material-icons"
+      >
+        close
+      </i>
+    </a>
+  </div>
 </div>
 `;
 
@@ -273,13 +290,27 @@ exports[`TmSessionHardware shows the ledger conection view with no errors 1`] = 
     </div>
   </div>
    
-  <button
-    class="button session-close"
-    color="secondary"
+  <div
+    class="session-close"
   >
-    
+    <button
+      class="button session-close-button"
+      color="secondary"
+    >
+      
   Back to Lunie
 
-  </button>
+    </button>
+     
+    <a
+      class="user-box"
+    >
+      <i
+        class="material-icons"
+      >
+        close
+      </i>
+    </a>
+  </div>
 </div>
 `;

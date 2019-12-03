@@ -134,6 +134,28 @@
   padding: 0 1rem;
 }
 
+.user-box {
+  font-size: 12px;
+  margin-right: 1rem;
+  border-radius: 0.25rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.user-box i {
+  display: flex;
+  align-items: center;
+  padding: 0.5rem;
+  border-radius: 50%;
+  background: var(--bc-dim);
+}
+
+.user-box i:hover {
+  background: var(--bc);
+  cursor: pointer;
+}
+
 .session .material-icons.circle.back {
   background: var(--app-fg);
   color: var(--dim);
@@ -155,6 +177,10 @@
   }
 
   .session-logo-mobile {
+    display: none;
+  }
+
+  .session-close-mobile {
     display: none;
   }
 
@@ -194,10 +220,27 @@
   .session-footer button {
     width: 100%;
   }
+
+  .session-close-mobile {
+    display: block;
+    position: absolute;
+    right: 1rem;
+    top: 2.5rem;
+  }
+
+  .session-close {
+    display: none;
+  }
 }
 
 @media screen and (max-width: 1023px) {
-  .session-frame .session-close {
+  .session-close .session-close-button {
+    display: none;
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  .session-close .user-box {
     display: none;
   }
 }
