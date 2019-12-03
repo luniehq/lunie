@@ -12,15 +12,13 @@
           <slot></slot>
         </div>
       </div>
-      <div v-if="desktop" class="session-close">
-        <TmBtn
+      <div class="session-close">
+        <TmBtn class="session-close-button"
           value="Back to Lunie"
           color="secondary"
           @click.native="$router.push(`/`)"
         />
-      </div>
-      <div v-else class="session-close user-box">
-        <a @click="goBack">
+        <a class="user-box" @click="goBack">
           <i class="material-icons">close</i>
         </a>
       </div>
@@ -42,33 +40,9 @@ export default {
       default: false
     }
   },
-  data: () => ({
-    desktop: false
-  }),
-  mounted() {
-    this.watchWindowSize()
-    window.onresize = this.watchWindowSize
-  },
-  updated() {
-    this.watchWindowSize()
-    window.onresize = this.watchWindowSize
-  },
   methods: {
     goBack() {
       this.$router.go(`-1`)
-    },
-    watchWindowSize() {
-      const w = Math.max(
-        document.documentElement.clientWidth,
-        window.innerWidth || 0
-      )
-
-      if (w >= 1024) {
-        this.desktop = true
-        return
-      } else {
-        this.desktop = false
-      }
     }
   }
 }
