@@ -136,8 +136,7 @@
 
 .user-box {
   font-size: 12px;
-  margin: 1rem;
-  padding: 0.5rem 0.75rem;
+  margin-right: 1rem;
   border-radius: 0.25rem;
   display: flex;
   justify-content: space-between;
@@ -225,8 +224,8 @@
   .session-close-mobile {
     display: block;
     position: absolute;
-    right: 0.5rem;
-    top: 1rem;
+    right: 1rem;
+    top: 2.5rem;
   }
 
   .session-close {
