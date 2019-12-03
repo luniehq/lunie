@@ -181,6 +181,10 @@
     display: none;
   }
 
+  .session-close-mobile {
+    display: none;
+  }
+
   .session-paragraph {
     display: none;
   }
@@ -216,5 +220,16 @@
 
   .session-footer button {
     width: 100%;
+  }
+
+  .session-close-mobile {
+    display: block;
+    position: absolute;
+    right: 0.5rem;
+    top: 1rem;
+  }
+
+  .session-close {
+    display: none;
   }
 }
