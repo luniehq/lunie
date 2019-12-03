@@ -310,6 +310,7 @@ export default {
         }
       },
       update(data) {
+        /* istanbul ignore next */
         if (
           data.proposals.find(
             proposal => proposal.id === parseInt(this.proposalId, 10)
@@ -317,7 +318,6 @@ export default {
         ) {
           this.found = true
         }
-        /* istanbul ignore next */
         return data.proposals
       }
     },
