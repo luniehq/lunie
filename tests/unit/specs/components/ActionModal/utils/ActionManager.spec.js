@@ -1,5 +1,5 @@
 import ActionManager from "src/ActionModal/utils/ActionManager.js"
-// import { 
+// import {
 //   getTransactionSigner,
 //   transformMessage
 // } from "src/ActionModal/utils/MessageConstructor.js"
@@ -36,8 +36,8 @@ const mockMsgWithdraw = jest.fn(() => ({
 }))
 
 const mockGetTransactionSigner = jest.fn(() => {
-  console.log('mockGetTransactionSigner executed')
-  return jest.fn().mockResolvedValue(() => console.log('sds'))
+  console.log("mockGetTransactionSigner executed")
+  return jest.fn().mockResolvedValue(() => console.log("sds"))
 })
 
 const mockMessageConstructor = jest.fn().mockImplementation(() => {
@@ -246,7 +246,13 @@ describe("ActionManager", () => {
         }
       }
 
-      const result = await actionManager.sendTxAPI(context, 'MsgSend', "memo", sendTx.txProps, sendTx.txMetaData)
+      const result = await actionManager.sendTxAPI(
+        context,
+        "MsgSend",
+        "memo",
+        sendTx.txProps,
+        sendTx.txMetaData
+      )
       expect(result)
 
       // expect(mockMsgSend).toHaveBeenCalledWith("cosmos12345", {
@@ -262,7 +268,7 @@ describe("ActionManager", () => {
       //   },
       //   "signer"
       // )
-    })    
+    })
 
     it("should create multimessage", async () => {
       await actionManager.setMessage(
