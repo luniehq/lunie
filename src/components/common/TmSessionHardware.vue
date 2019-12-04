@@ -6,11 +6,15 @@
 
     <template v-if="session.browserWithLedgerSupport">
       <div class="session-main">
-        <p v-if="session.windowsDevice" class="form-message notice">
-          {{ session.windowsWarning }}
-        </p>
         <HardwareState :loading="status === `connect` ? false : true">
-          <template v-if="status === `connect` || status === `detect`">
+          <template v-if="isWindows && !hasHIDEnabled">
+            Using a Ledger on Windows requires experimental HID support in your
+            browser.
+            <template v-if="browser === 'chrome' || browser === 'brave'"
+              >Please enable this feature here: <a :href="hidFeatureLink"></a
+            ></template>
+          </template>
+          <template v-else-if="status === `connect` || status === `detect`">
             <p>
               Please plug in your Ledger&nbsp;Nano and open the Cosmos Ledger
               app
@@ -61,6 +65,30 @@ export default {
         connect: "Sign In",
         detect: "Waiting for Ledger"
       }[this.status]
+    },
+    isWindows() {
+      return navigator.platform.indexOf("Win") > -1
+    },
+    hasHIDEnabled() {
+      return !!navigator.hid
+    },
+    browser() {
+      const ua = navigator.userAgent.toLowerCase()
+      const isChrome = /chrome|crios/.test(ua) && !/edge|opr\//.test(ua)
+      const isBrave = isChrome && !window.google
+
+      if (isBrave) return "brave"
+      if (isChrome) return "chrome"
+      return undefined
+    },
+    browserWithLedgerSupport() {
+      return (
+        navigator.userAgent.includes(`Chrome`) ||
+        navigator.userAgent.includes(`Opera`)
+      )
+    },
+    hidFeatureLink() {
+      return `${this.browser}://flags/#enable-experimental-web-platform-features`
     }
   },
   methods: {
