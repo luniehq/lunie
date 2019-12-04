@@ -154,8 +154,8 @@ export function MsgSubmitProposal(
   }
 }
 
-/* istanbul ignore next */
 export function MsgVote(senderAddress, { proposalId, option }) {
+  /* istanbul ignore next */
   return {
     type: `cosmos-sdk/MsgVote`,
     value: {
