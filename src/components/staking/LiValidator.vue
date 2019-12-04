@@ -1,6 +1,5 @@
 <template>
   <tr
-    v-if="delegation.amount >= SMALLEST"
     class="li-validator"
     :data-name="validator.name"
     @click="
