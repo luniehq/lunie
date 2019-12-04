@@ -17,21 +17,6 @@ const txFetchOptions = {
   }
 }
 
-async function transactionAPIRequest(payload) {
-  // console.log(config)
-  const options = {
-    ...txFetchOptions,
-    body: JSON.stringify({ payload })
-  }
-
-  const command = payload.simulate ? "estimate" : "broadcast"
-
-  return fetch(
-    `${config.graphqlHost}/transaction/${command}`,
-    options
-  ).then(r => r.json())
-}
-
 export default class ActionManager {
   constructor() {
     this.context = null
@@ -83,6 +68,20 @@ export default class ActionManager {
     this.message = await getMessage(type, transactionProperties, this.context)
   }
 
+  async transactionAPIRequest(payload) {
+    const options = {
+      ...txFetchOptions,
+      body: JSON.stringify({ payload })
+    }
+
+    const command = payload.simulate ? "estimate" : "broadcast"
+
+    return fetch(
+      `${config.graphqlHost}/transaction/${command}`,
+      options
+    ).then(r => r.json())
+  }
+
   async simulateTxAPI(context, type, txProps, memo) {
     const txPayload = {
       simulate: true,
@@ -92,7 +91,7 @@ export default class ActionManager {
       txProperties: txProps,
       memo
     }
-    const result = await transactionAPIRequest(txPayload)
+    const result = await this.transactionAPIRequest(txPayload)
     if (result.success) {
       return result.gasEstimate
     } else {
@@ -182,8 +181,7 @@ export default class ActionManager {
       networkId: context.networkId,
       signedMessage
     }
-
-    const result = await transactionAPIRequest(txPayload)
+    const result = await this.transactionAPIRequest(txPayload)
     if (result.success) {
       return { hash: result.hash }
     } else {
