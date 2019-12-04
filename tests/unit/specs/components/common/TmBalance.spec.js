@@ -7,77 +7,50 @@ describe(`TmBalance`, () => {
   beforeEach(async () => {
     $store = {
       getters: {
-        connected: true,
-        liquidAtoms: 1230000000,
-        totalAtoms: 3210000000,
-        bondDenom: `stake`,
-
-        lastHeader: { height: `10` },
-        validatorsWithRewards: ["validatorX"],
-        totalRewards: 1000450000000
-      },
-      state: {
-        wallet: {
-          loaded: true
-        },
-        distribution: {
-          loaded: true
-        },
-        delegation: {
-          loaded: true
-        },
-        session: {
-          address: `cosmos1address`,
-          signedIn: true
-        }
-      },
-      dispatch: jest.fn()
+        address: "cosmos1address",
+        network: "test-network"
+      }
     }
 
     wrapper = shallowMount(TmBalance, {
       mocks: {
         $store
-      },
-      methods: {
-        update: () => {}
+      }
+    })
+    wrapper.setData({
+      stakingDenom: "ATOM",
+      overview: {
+        totalStake: 3210,
+        liquidStake: 1230,
+        totalRewards: 1000.45
       }
     })
   })
 
-  it(`show the balance header`, () => {
+  it(`show the balance header when signed in`, () => {
     expect(wrapper.element).toMatchSnapshot()
+    expect(wrapper.text()).toMatch(/Total ATOM.*3,210/s)
+    expect(wrapper.text()).toMatch(/Available ATOM.*1,230/s)
+    expect(wrapper.text()).toMatch(/Total Rewards.*1,000.45/s)
+    expect(wrapper.text()).toContain("Total ATOM")
+    expect(wrapper.text()).toContain("Total ATOM")
+    expect(wrapper.text()).toContain("Total ATOM")
   })
 
-  it(`displays unbonded tokens`, () => {
-    expect(wrapper.vm.unbondedAtoms).toBe(`1,230`)
-  })
-
-  it(`displays neither total tokens nor unbonded tokens if not completely loaded`, () => {
-    wrapper.vm.wallet.loaded = false
-    wrapper.vm.distribution.loaded = false
-    expect(wrapper.vm.totalAtomsDisplay).toBe(`--`)
-    expect(wrapper.vm.unbondedAtoms).toBe(`--`)
-  })
-
-  it(`should not display rewards if not loaded`, () => {
-    wrapper.vm.distribution.loaded = false
-    expect(wrapper.vm.rewards).toBe(`--`)
-  })
-
-  it(`gets user rewards`, () => {
-    expect(wrapper.vm.rewards).toBe(`1,000,450`)
-  })
-
-  it(`shows 0 if user doesn't have rewards`, () => {
-    wrapper.vm.$store.getters.totalRewards = 0
-    expect(wrapper.vm.rewards).toBe(`0`)
-  })
-
-  it(`opens withdraw modal`, () => {
-    const $refs = { ModalWithdrawRewards: { open: jest.fn() } }
-    wrapper.vm.$refs = $refs
-    wrapper.find("#withdraw-btn").trigger("click")
-    expect($refs.ModalWithdrawRewards.open).toHaveBeenCalled()
+  it(`do not show available atoms when the user has none in the first place`, () => {
+    // This *should* set overview to an empty Object, but the call is ignored?
+    // Setting it to false has the desired effect.
+    wrapper.setData({
+      overview: {
+        totalStake: 0,
+        liquidStake: 0,
+        totalRewards: 0
+      }
+    })
+    expect(wrapper.element).toMatchSnapshot()
+    expect(wrapper.text()).toContain("Total ATOM")
+    expect(wrapper.text()).not.toContain("Available ATOM")
+    expect(wrapper.text()).not.toContain("Total Rewards")
   })
 
   it(`opens send modal`, () => {
@@ -87,74 +60,22 @@ describe(`TmBalance`, () => {
     expect($refs.SendModal.open).toHaveBeenCalled()
   })
 
-  describe(`update balance and total rewards on new blocks`, () => {
-    describe(`shouldn't update`, () => {
-      it(`if user is not signed in `, () => {
-        const $store = { dispatch: jest.fn() }
-        const session = { signedIn: false }
-        const newHeader = { height: `10` }
-        const update = jest.fn()
-        TmBalance.watch.lastHeader.handler.call(
-          { session, $store, lastUpdate: 0, update },
-          newHeader
-        )
-        expect(update).not.toHaveBeenCalledWith()
-      })
+  it(`opens claim rewards modal`, () => {
+    const $refs = { ModalWithdrawRewards: { open: jest.fn() } }
+    wrapper.vm.$refs = $refs
+    wrapper.find("#withdraw-btn").trigger("click")
+    expect($refs.ModalWithdrawRewards.open).toHaveBeenCalled()
+  })
 
-      it(`if hasn't waited for 10 blocks `, () => {
-        const $store = { dispatch: jest.fn() }
-        const session = { signedIn: true }
-        const newHeader = { height: `12` }
-        const update = jest.fn()
-        TmBalance.watch.lastHeader.handler.call(
-          { session, $store, lastUpdate: 0, update },
-          newHeader
-        )
-        expect(update).not.toHaveBeenCalledWith()
-      })
+  it(`disables claim rewards button when no rewards`, () => {
+    wrapper.setData({
+      overview: {
+        totalRewards: 0
+      }
     })
-
-    describe(`should update balance and rewards `, () => {
-      it(`if user is signed in initially`, () => {
-        const session = { signedIn: true }
-        const newHeader = { height: `10` }
-        const update = jest.fn()
-        TmBalance.watch.lastHeader.handler.call(
-          { session, lastUpdate: 0, update },
-          newHeader
-        )
-        expect(update).toHaveBeenCalledWith(10)
-      })
-
-      it(`if user is signed in and wait for 10 blocks`, () => {
-        const session = { signedIn: true }
-        const newHeader = { height: `20` }
-        const update = jest.fn()
-        TmBalance.watch.lastHeader.handler.call(
-          { session, lastUpdate: 15, update },
-          newHeader
-        )
-        expect(update).not.toHaveBeenCalled()
-        TmBalance.watch.lastHeader.handler.call(
-          { session, lastUpdate: 5, update },
-          newHeader
-        )
-        expect(update).toHaveBeenCalledWith(20)
-      })
-
-      it(`triggers an update`, () => {
-        const $store = { dispatch: jest.fn() }
-        const self = {
-          $store,
-          lastUpdate: 0
-        }
-        TmBalance.methods.update.call(self, 10)
-        expect($store.dispatch).toHaveBeenCalledWith(
-          `getRewardsFromMyValidators`
-        )
-        expect($store.dispatch).toHaveBeenCalledWith(`queryWalletBalances`)
-        expect(self.lastUpdate).toBe(10)
-      })
-    })
+    const $refs = { ModalWithdrawRewards: { open: jest.fn() } }
+    wrapper.vm.$refs = $refs
+    wrapper.find("#withdraw-btn").trigger("click")
+    expect($refs.ModalWithdrawRewards.open).not.toHaveBeenCalled()
   })
 })

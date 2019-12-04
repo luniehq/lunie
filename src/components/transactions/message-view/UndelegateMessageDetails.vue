@@ -1,31 +1,37 @@
 <template>
-  <div>
-    <div class="tx__content__caption">
-      <p>
-        Undelegated
-        <b>{{ coin.amount | atoms | prettyLong }}</b>
-        <span>&nbsp;{{ coin.denom | viewDenom }}</span>
-        <span v-if="transaction.liquidDate" class="tx-unbonding__time-diff"
-          >&nbsp;{{ liquidDateCaption }}</span
-        >
-      </p>
-    </div>
-    <div class="tx__content__information">
-      From&nbsp;
+  <div class="tx__content">
+    <TransactionIcon
+      :transaction-group="transaction.group"
+      :transaction-type="type"
+    />
+    <div class="tx__content__left">
+      <h3>{{ caption }}</h3>
+      <span>from&nbsp;</span>
       <router-link :to="`/validators/${transaction.value.validator_address}`">
+        <img
+          v-if="validator && validator.picture"
+          :src="validator.picture"
+          class="validator-image"
+          :alt="`validator logo for ` + validator.name"
+        />
         {{
           transaction.value.validator_address | resolveValidatorName(validators)
         }}
       </router-link>
     </div>
+    <div class="tx__content__right">
+      <p class="amount">
+        {{ coin.amount | atoms | prettyLong }} {{ coin.denom | viewDenom }}
+      </p>
+    </div>
   </div>
 </template>
 
 <script>
-import moment from "moment"
 import { atoms, viewDenom, prettyLong } from "scripts/num.js"
 import { resolveValidatorName } from "src/filters"
 import { getCoin } from "scripts/transaction-utils"
+import TransactionIcon from "../TransactionIcon"
 
 export default {
   name: `undelegate-message-details`,
@@ -34,6 +40,9 @@ export default {
     viewDenom,
     prettyLong,
     resolveValidatorName
+  },
+  components: {
+    TransactionIcon
   },
   props: {
     transaction: {
@@ -45,32 +54,19 @@ export default {
       required: true
     }
   },
+  data: () => {
+    return {
+      type: `Unstaked`,
+      caption: `Unstaked`
+    }
+  },
   computed: {
-    liquidDateCaption() {
-      return `(liquid ${moment(this.transaction.liquidDate).fromNow()})`
-    },
     coin() {
       return getCoin(this.transaction)
+    },
+    validator() {
+      return this.validators[this.transaction.value.validator_address] || false
     }
   }
 }
 </script>
-
-<style>
-.tx__content__information,
-.tx__content__information > * {
-  display: flex;
-  flex-direction: row;
-}
-
-.tx__content__information {
-  font-size: 14px;
-  color: var(--dim);
-}
-
-.tx__content__caption {
-  line-height: 18px;
-  font-size: 18px;
-  color: var(--bright);
-}
-</style>

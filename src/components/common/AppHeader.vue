@@ -10,12 +10,7 @@
           />
           Lunie
         </a>
-        <router-link
-          v-else
-          to="/portfolio"
-          exact="exact"
-          title="Portfolio"
-        >
+        <router-link v-else to="/portfolio" exact="exact" title="Portfolio">
           <img
             class="header-item-logo"
             src="~assets/images/lunie-logo-white.svg"
@@ -107,6 +102,13 @@ export default {
   display: flex;
   flex-flow: column nowrap;
   padding-top: 1.4rem;
+}
+
+@media screen and (max-width: 1023px) {
+  .app-header > .container {
+    position: fixed;
+    top: 0;
+  }
 }
 
 .app-header .header-item {

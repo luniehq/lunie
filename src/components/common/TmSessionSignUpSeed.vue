@@ -4,13 +4,17 @@
       <h2 class="session-title">
         Backup code
       </h2>
-      <div v-if="session.insecureMode">
+      <div v-if="!session.insecureMode && !session.mobile" class="session-main">
+        <InsecureModeWarning />
+      </div>
+      <div v-else>
         <div class="session-main">
           <Steps
+            v-if="!session.mobile"
             :steps="[`Create`, `Password`, `Backup`]"
             active-step="Backup"
           />
-          <TmSeed :value="fieldSeed" :legacy="false" />
+          <TmSeed :value="fieldSeed" />
           <TmFormGroup
             class="field-checkbox"
             :error="$v.fieldWarning.$error"
@@ -38,9 +42,6 @@
         <div class="session-footer">
           <TmBtn value="Create" />
         </div>
-      </div>
-      <div v-else class="session-main">
-        <InsecureModeWarning />
       </div>
     </TmFormStruct>
   </SessionFrame>

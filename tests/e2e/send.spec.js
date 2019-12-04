@@ -3,7 +3,7 @@ const { actionModalCheckout, nextBlock, waitForText } = require("./helpers.js")
 module.exports = {
   "Send Action": async function(browser) {
     // move to according page
-    browser.url(browser.launch_url + "/#/portfolio")
+    browser.url(browser.launch_url + "#/portfolio")
 
     actionModalCheckout(
       browser,
@@ -27,8 +27,13 @@ module.exports = {
     browser.pause(1000)
     await waitForText(
       browser,
-      ".tx:first-child .tx__content__caption p",
-      "Sent 1.3 STAKE"
+      ".tx:nth-child(2) .tx-caption .tx__content .tx__content__left",
+      "Sent"
+    )
+    await waitForText(
+      browser,
+      ".tx:nth-child(2) .tx-caption .tx__content .tx__content__right",
+      "1.3 STAKE"
     )
   }
 }

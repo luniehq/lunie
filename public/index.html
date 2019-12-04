@@ -4,7 +4,35 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+  <% if (process.env.MOBILE_APP) { %>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+  <% } else { %>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <% } %>
+  <meta name="Description" content="Lunie is the staking and governance platform for proof-of-stake blockchains.">
+  <meta name="Author" content="Lunie International Software Systems Inc.">
+  <meta name="keywords"
+    content="Staking, Staking Rewards, Proof of Stake, Blockchain, Cryptocurrency, Cosmos, Tezos, Polkadot, Binance, Wallet">
+  <title>Lunie — Simple Staking Wallet | Staking Rewards</title>
+
+  <meta property="og:title" content="Lunie — Simple Staking Wallet | Staking Rewards" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://lunie.io" />
+  <meta property="og:image" content="https://lunie.fra1.digitaloceanspaces.com/lunie-og.png" />
+  <meta property="og:description"
+    content="Lunie is the staking and governance platform for proof-of-stake blockchains." />
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:site" content="@luniehq" />
+  <meta name="twitter:creator" content="@luniehq" />
+
+  <meta name="msapplication-TileColor" content="#ffffff">
+  <meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
+  <meta name="theme-color" content="#ffffff">
+
+  <link rel="canonical" href="https://lunie.io">
+  <link rel="manifest" href="/manifest.json">
+
   <link rel="apple-touch-icon" sizes="57x57" href="/img/icons/apple-icon-57x57.png">
   <link rel="apple-touch-icon" sizes="60x60" href="/img/icons/apple-icon-60x60.png">
   <link rel="apple-touch-icon" sizes="72x72" href="/img/icons/apple-icon-72x72.png">
@@ -19,13 +47,6 @@
   <link rel="icon" type="image/png" sizes="96x96" href="/img/icons/favicon-96x96.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/img/icons/favicon-16x16.png">
   <link rel="icon" type="image/png" href="img/icons/favicon-96x96.png" />
-  <link rel="manifest" href="/manifest.json">
-  <meta name="msapplication-TileColor" content="#ffffff">
-  <meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
-  <meta name="theme-color" content="#ffffff">
-  <meta name="Description" content="Lunie is the staking and governance platform for proof-of-stake blockchains.">
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-  <title>Lunie</title>
 </head>
 
 <body style="background: #15182d">
@@ -46,7 +67,8 @@
     };
   </script>
 
-  <script>(function () { var w = window; var ic = w.Intercom; if (typeof ic === "function") { ic('reattach_activator'); ic('update', w.intercomSettings); } else { var d = document; var i = function () { i.c(arguments); }; i.q = []; i.c = function (args) { i.q.push(args); }; w.Intercom = i; var l = function () { var s = d.createElement('script'); s.type = 'text/javascript'; s.async = true; s.src = 'https://widget.intercom.io/widget/<%= process.env.VUE_APP_INTERCOM_ID %>'; var x = d.getElementsByTagName('script')[0]; x.parentNode.insertBefore(s, x); }; if (w.attachEvent) { w.attachEvent('onload', l); } else { w.addEventListener('load', l, false); } } })();</script>
+  <script
+    defer>(function () { var w = window; var ic = w.Intercom; if (typeof ic === "function") { ic('reattach_activator'); ic('update', w.intercomSettings); } else { var d = document; var i = function () { i.c(arguments); }; i.q = []; i.c = function (args) { i.q.push(args); }; w.Intercom = i; var l = function () { var s = d.createElement('script'); s.type = 'text/javascript'; s.async = true; s.src = 'https://widget.intercom.io/widget/<%= process.env.VUE_APP_INTERCOM_ID %>'; var x = d.getElementsByTagName('script')[0]; x.parentNode.insertBefore(s, x); }; if (w.attachEvent) { w.attachEvent('onload', l); } else { w.addEventListener('load', l, false); } } })();</script>
   <% } %>
 </body>
 

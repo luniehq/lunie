@@ -4,13 +4,13 @@ describe(`URL functions`, () => {
   it(`gets query params`, () => {
     const windowMock = {
       location: {
-        search: `?stargate=x&rpc=y`
+        search: `?network=y&graphql=z`
       }
     }
 
     expect(getURLParams(windowMock)).toEqual({
-      stargate: `x`,
-      rpc: `y`
+      network: `y`,
+      graphql: "z"
     })
   })
 
@@ -32,17 +32,5 @@ describe(`URL functions`, () => {
     }
 
     expect(getURLParams(windowMock)).toEqual({})
-  })
-
-  it(`alerts about inability to set remote urls in production`, () => {
-    const spy = jest.spyOn(window, `alert`).mockImplementationOnce(() => {})
-    const windowMock = {
-      location: {
-        search: `?stargate=1&rpc=2`
-      }
-    }
-
-    getURLParams(windowMock, `production`)
-    expect(spy).toHaveBeenCalled()
   })
 })

@@ -57,9 +57,33 @@ export const isPendingUndelegation = tx =>
   !isNaN(tx.liquidDate) && tx.type === messageType.UNDELEGATE
 
 export const getCoin = transaction => {
+  let coin
   if (Array.isArray(transaction.value.amount)) {
-    return transaction.value.amount[0]
+    coin = transaction.value.amount[0]
   } else {
-    return transaction.value.amount
+    coin = transaction.value.amount
+  }
+  // Workaround to fix COSMOS REST api bug, see https://github.com/luniehq/lunie/issues/3237
+  // and https://github.com/cosmos/cosmos-sdk/issues/5353
+  if (coin.denom === `undefined`) {
+    coin.denom = `uatom`
+  }
+  return coin
+}
+
+// We currently don't support MultiCoin transactions in the design. For simplicity we display only the first outgoing or incomming denomination.
+export const getMultiSendCoin = (transaction, sessionAddress) => {
+  if (transaction.value.inputs[0].address === sessionAddress) {
+    // Sent transaction
+    return transaction.value.inputs[0].coins[0]
+  } else {
+    // Received transaction
+    let coins
+    transaction.value.outputs.map(output => {
+      if (output.address === sessionAddress) {
+        coins = output.coins[0]
+      }
+    })
+    return coins
   }
 }

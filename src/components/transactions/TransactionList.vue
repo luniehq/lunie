@@ -4,9 +4,9 @@
       <div :key="group[0].title">
         <h3>{{ group[0].title }}</h3>
         <TransactionItem
-          v-for="{ tx } in group"
-          :key="tx.key"
-          :transaction="tx"
+          v-for="tx in group"
+          :key="tx.hash"
+          :transaction="tx.tx"
           :validators="validators"
           :address="address"
         />
@@ -25,13 +25,13 @@ const categories = [
   {
     title: "Today",
     matcher: tx => {
-      return moment(tx.time).isSame(moment(), "day")
+      return moment(tx.timestamp).isSame(moment(), "day")
     }
   },
   {
     title: "Yesterday",
     matcher: tx => {
-      return moment(tx.time).isSame(moment().subtract(1, "days"), "day")
+      return moment(tx.timestamp).isSame(moment().subtract(1, "days"), "day")
     }
   }
 ]
@@ -59,14 +59,14 @@ export default {
     groupedTransactions() {
       return orderBy(
         groupBy(this.categorizedTransactions, "title"),
-        group => group[0].tx.time,
+        group => group[0].tx.timestamp,
         "desc"
       )
     },
     categorizedTransactions() {
       return this.transactions.map(tx => {
         // check if the tx is in Today, Yesterday or Last Week
-        const dateString = ` (` + moment(tx.time).format("MMMM Do") + `)`
+        const dateString = ` (` + moment(tx.timestamp).format("MMMM Do") + `)`
         const category = categories.find(({ matcher }) => matcher(tx))
         if (category) {
           return {
@@ -76,7 +76,7 @@ export default {
         }
 
         // check if tx is in a month this year
-        const date = moment(tx.time)
+        const date = moment(tx.timestamp)
         const today = moment()
         if (date.year() === today.year()) {
           return {
@@ -97,7 +97,7 @@ export default {
 </script>
 <style scoped>
 h3 {
-  margin: 2rem 0 0.25rem 1rem;
+  margin: 2rem 0 0.5rem 1.5rem;
   color: var(--dim);
   font-size: var(--sm);
   font-weight: 500;

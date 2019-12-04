@@ -24,11 +24,6 @@ describe(`TmSeed`, () => {
     expect(wrapper.element).toMatchSnapshot()
   })
 
-  it(`should render the seed in a legacy textarea`, () => {
-    wrapper.setProps({ legacy: true })
-    expect(wrapper.element).toMatchSnapshot()
-  })
-
   it(`should split the seed in a 24 words array`, () => {
     const seedWords = [
       `two`,

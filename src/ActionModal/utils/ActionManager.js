@@ -1,13 +1,13 @@
-import Cosmos from "@lunie/cosmos-api"
 import config from "src/../config"
 import { getSigner } from "./signer"
 import transaction from "./transactionTypes"
 import { uatoms } from "scripts/num"
+import { toMicroDenom } from "src/scripts/common"
+import { getMessage, getMultiMessage } from "./MessageConstructor.js"
 
 export default class ActionManager {
   constructor() {
     this.context = null
-    this.cosmos = null
     this.message = null
   }
 
@@ -16,7 +16,6 @@ export default class ActionManager {
       throw Error("Context cannot be empty")
     }
     this.context = context
-    this.cosmos = new Cosmos(this.context.url || "", this.context.chainId || "")
   }
 
   readyCheck() {
@@ -46,17 +45,14 @@ export default class ActionManager {
     }
   }
 
-  setMessage(type, transactionProperties) {
+  async setMessage(type, transactionProperties) {
     if (!this.context) {
       throw Error("This modal has no context.")
     }
 
     this.messageTypeCheck(type)
     this.messageType = type
-    this.message = this.cosmos[type](
-      this.context.userAddress,
-      transactionProperties
-    )
+    this.message = await getMessage(type, transactionProperties, this.context)
   }
 
   async simulate(memo) {
@@ -70,53 +66,65 @@ export default class ActionManager {
   async send(memo, txMetaData) {
     this.readyCheck()
 
-    const { gasEstimate, gasPrice, submitType, password } = txMetaData
+    let { gasEstimate, gasPrice, submitType, password } = txMetaData
     const signer = await getSigner(config, submitType, {
       address: this.context.userAddress,
       password
     })
 
     if (this.messageType === transaction.WITHDRAW) {
-      this.message = this.createWithdrawTransaction()
+      this.message = await this.createWithdrawTransaction()
     }
 
-    const { included, hash } = await this.message.send(
-      {
-        gas: String(gasEstimate),
-        gasPrices: convertCurrencyData([gasPrice]),
-        memo
-      },
-      signer
-    )
+    // temporary fix as the SDK doesn't return proper estimates for votes
+    // TODO move into transacton service
+    /* istanbul ignore next */
+    if (this.messageType === transaction.VOTE) {
+      gasEstimate = 30000
+    }
+
+    const messageMetadata = {
+      gas: String(gasEstimate),
+      gasPrices: convertCurrencyData([gasPrice]),
+      memo
+    }
+
+    const { included, hash } = await this.message.send(messageMetadata, signer)
 
     return { included, hash }
   }
 
-  createWithdrawTransaction() {
+  async createWithdrawTransaction() {
     const addresses = getTop5RewardsValidators(
       this.context.bondDenom,
       this.context.rewards
     )
-    return this.createMultiMessage(
-      transaction.WITHDRAW,
-      this.context.userAddress,
-      { validatorAddresses: addresses }
-    )
+    return await this.createMultiMessage(transaction.WITHDRAW, {
+      validatorAddresses: addresses
+    })
   }
 
   // Withdrawing is a multi message for all validators you have bonds with
-  createMultiMessage(type, senderAddress, { validatorAddresses }) {
-    const messages = validatorAddresses.map(validatorAddress =>
-      this.cosmos[type](senderAddress, { validatorAddress })
+  async createMultiMessage(messageType, { validatorAddresses }) {
+    const messages = await Promise.all(
+      validatorAddresses.map(validatorAddress =>
+        getMessage(
+          messageType,
+          {
+            validatorAddress
+          },
+          this.context
+        )
+      )
     )
-    return this.cosmos.MultiMessage(senderAddress, messages)
+    return await getMultiMessage(this.context, messages)
   }
 }
 
 function convertCurrencyData(amounts) {
   return amounts.map(({ amount, denom }) => ({
     amount: toMicroAtomString(amount),
-    denom
+    denom: toMicroDenom(denom)
   }))
 }
 
@@ -125,13 +133,13 @@ function toMicroAtomString(amount) {
 }
 
 // // limitation of the block, so we pick the top 5 rewards and inform the user.
-function getTop5RewardsValidators(bondDenom, rewardsObject) {
+function getTop5RewardsValidators(bondDenom, rewards) {
   // Compares the amount in a [address1, {denom: amount}] array
-  const byBalanceOfDenom = denom => (a, b) => b[1][denom] - a[1][denom]
-  const validatorList = Object.entries(rewardsObject)
-    .sort(byBalanceOfDenom(bondDenom))
+  const byBalance = (a, b) => b.amount - a.amount
+  const validatorList = rewards
+    .sort(byBalance)
     .slice(0, 5) // Just the top 5
-    .map(([address]) => address)
+    .map(({ validator }) => validator.operatorAddress)
 
   return validatorList
 }

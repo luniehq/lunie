@@ -25,7 +25,8 @@ commands:
             - node_modules
           key: v5-dependencies-root-{{ checksum "yarn.lock" }}
 
-  yarn-install-extension:
+  # use npm as the extension install happens in the mashine image which doesn't have yarn
+  npm-install-extension:
     description: "[YARN] update and install"
     steps:
       - restore_cache:
@@ -33,9 +34,10 @@ commands:
             - v2-dependencies-extension-{{ checksum "yarn.lock" }}
             - v2-dependencies-extension-
 
-      - run: yarn install
+      - run: npm install
       - save_cache:
           paths:
+            - package-lock.json
             - yarn.lock
             - node_modules
           key: v2-dependencies-extension-{{ checksum "yarn.lock" }}
@@ -115,54 +117,37 @@ jobs:
             exit 0
 
   testE2e:
-    docker:
-      # Primary container image where all steps run.
-     - image: *docker-browsers
-      # Secondary container image on common network. 
-     - image: lunieio/testnet:v0.34.7
+    machine: true
     working_directory: *WORKSPACE
     steps:
       - attach_workspace:
           at: *WORKSPACE
+      - add_ssh_keys:
+          fingerprints:
+            - "65:5f:43:fd:be:48:c8:45:d5:39:ef:86:14:d6:e1:12"
       - run:
-          # needs to be done in CI to be sure it is build once we start the tests
-          name: Build for E2E test
-          command: yarn test:e2e:build
-      - run:
-          name: Test
-          command: yarn serve:dist & yarn test:e2e:browserstack
-          no_output_timeout: 120
-      - store_artifacts:
-          path: ./screenshots
-          when: on_fail
-
-  testExtension:
-    docker:
-      # Primary container image where all steps run.
-     - image: *docker-browsers
-      # Secondary container image on common network which runs the testnet
-     - image: lunieio/testnet:v0.34.3
-    working_directory: *WORKSPACE
-    steps:
-      - run:
-          name: Avoid hosts unknown for github
-          command: mkdir ~/.ssh/ && echo -e "Host github.com\n\tStrictHostKeyChecking no\n" > ~/.ssh/config
-      - run:
-          name: Checkout Extension
+          name: Add GitHub to known hosts
           command: |
-            git clone git@github.com:luniehq/lunie-browser-extension.git .
-      - attach_workspace:
-          at: /tmp/voyager/lunie
-      - yarn-install-extension
-      - setup_remote_docker
+            mkdir -p ~/.ssh
+            touch ~/.ssh/known_hosts
+            ssh-keygen -R github.com
+            ssh-keyscan github.com >> ~/.ssh/known_hosts
       - run:
-          name: Build
+          name: checkout backend
           command: |
-            npm run build:dev
-            node ./scripts/add-pem-key.js
-            cd lunie
-            npm run test:e2e:build
-            yarn certificates
+            git clone git@github.com:luniehq/lunie-backend.git
+            cd lunie-backend
+            git checkout origin/develop
+      - run: 
+          name: Use NVM
+          command: |
+            echo 'export NVM_DIR="/opt/circleci/.nvm"' >> $BASH_ENV
+            echo ' [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"' >> $BASH_ENV
+      - run:
+          name: Install node version
+          command: |
+            nvm install v10.13.0
+            nvm alias default v10.13.0
       - run:
           name: Install Chrome
           command: |
@@ -171,12 +156,94 @@ jobs:
             sudo apt-get update
             sudo apt-get -y install google-chrome-stable
       - run:
+          name: Run testnet
+          command: |
+            cd lunie-backend
+            docker-compose up --build -d
+      - run:
           name: Test
-          command: npm run test:e2e:start-lunie & yarn test:e2e
+          command: npm run serve:dist & npm run test:e2e:local
           no_output_timeout: 120
       - store_artifacts:
-          path: ./screenshots_extension
+          path: ./screenshots
           when: on_fail
+
+  testExtension:
+    machine: true
+    working_directory: *WORKSPACE
+    steps:
+      - add_ssh_keys:
+          fingerprints:
+            - "65:5f:43:fd:be:48:c8:45:d5:39:ef:86:14:d6:e1:12"
+      - run:
+          name: Add GitHub to known hosts
+          command: |
+            mkdir -p ~/.ssh
+            touch ~/.ssh/known_hosts
+            ssh-keygen -R github.com
+            ssh-keyscan github.com >> ~/.ssh/known_hosts
+      - run:
+          name: checkout extension
+          command: |
+            git clone git@github.com:luniehq/lunie-browser-extension.git .
+            git checkout origin/develop
+      - npm-install-extension
+      - run:
+          name: checkout backend
+          command: |
+            git clone git@github.com:luniehq/lunie-backend.git
+            cd lunie-backend
+            git checkout origin/develop
+      - attach_workspace:
+          at: /tmp/voyager/lunie
+      - run: 
+          name: Use NVM
+          command: |
+            echo 'export NVM_DIR="/opt/circleci/.nvm"' >> $BASH_ENV
+            echo ' [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"' >> $BASH_ENV
+      - run:
+          name: Install node version
+          command: |
+            nvm install v10.13.0
+            nvm alias default v10.13.0
+      - run:
+          name: Install Chrome
+          command: |
+            wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
+            sudo sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list'
+            sudo apt-get update
+            sudo apt-get -y install google-chrome-stable
+      - run:
+          name: Run testnet
+          command: |
+            cd lunie-backend
+            docker-compose up --build -d
+      - run:
+          name: Build Extension
+          command: npm run test:e2e:build
+      - run:
+          name: Test
+          command: npm run test:e2e:start-lunie & npm run test:e2e
+          no_output_timeout: 120
+      - store_artifacts:
+          path: ./screenshots
+          when: on_fail
+
+  e2eBuild:
+    executor: node
+    steps:
+      - attach_workspace:
+          at: *WORKSPACE
+      - run:
+          name: Build for E2e
+          command: npm run test:e2e:build
+          environment:
+            VUE_APP_GRAPHQL_URL: http://127.0.0.1:4000 # Browserstack tunneling doesn't work with "localhost"
+            NETWORK: local-cosmos-hub-testnet # Connect directly to the testnet
+      - persist_to_workspace:
+          root: *WORKSPACE
+          paths:
+            - "*"
 
   # Create release.
   release:
@@ -186,7 +253,7 @@ jobs:
       - run: |
           yarn add simsala
           git config user.email "bot@lunie.io"
-          git config user.name "Lunie Bot"
+          git config user.name "Release Lunie Bot"
           node node_modules/simsala/src/cli.js release-candidate --semver prerelease --pending-path ./changes --owner luniehq --repository lunie --token $GIT_BOT_TOKEN --message "Please manually test before merging this to master"
       
   # Push merges to master immediately back to develop to stay in sync
@@ -197,10 +264,10 @@ jobs:
       - run:
           command: |
             git config user.email "bot@lunie.io"
-            git config user.name "Lunie Bot"
+            git config user.name "MergeBack Lunie Bot"
             git remote add bot https://${GIT_BOT_TOKEN}@github.com/luniehq/lunie.git
-            git checkout develop -f
-            git pull -f --no-edit
+            git checkout develop
+            git pull
             git merge origin/master --no-edit
             git push
 
@@ -244,30 +311,34 @@ workflows:
             branches:
               ignore: release
 
-      - testE2e:
-          requires:
-            - prep
-          filters:
-            branches:
-              ignore:
-                - release
-                - master
+      # - e2eBuild: 
+      #     requires:
+      #       - prep
+      #     filters:
+      #       branches:
+      #         ignore:
+      #           - release
+      #           - master
 
-      - testExtension:
-          requires:
-            - prep
+      # - testE2e:
+      #     requires:
+      #       - e2eBuild
+
+      # - testExtension:
+      #     requires:
+      #       - e2eBuild
 
   # Every UTC midnight we go on develop and release
-  release:
-    triggers:
-      - schedule:
-          cron: "0 0 * * *"
-          filters:
-            branches:
-              only:
-                - develop
-    jobs:
-      - release
+  # release:
+  #   triggers:
+  #     - schedule:
+  #         cron: "0 0 * * *"
+  #         filters:
+  #           branches:
+  #             only:
+  #               - develop
+  #   jobs:
+  #     - release
 
   releaseManually:
     jobs:
@@ -282,3 +353,4 @@ workflows:
           filters:
             branches:
               only: master
+              

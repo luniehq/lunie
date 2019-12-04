@@ -1,5 +1,6 @@
 const messageType = {
   SEND: "cosmos-sdk/MsgSend",
+  MULTISEND: "cosmos-sdk/MsgMultiSend",
   CREATE_VALIDATOR: "cosmos-sdk/MsgCreateValidator",
   EDIT_VALIDATOR: "cosmos-sdk/MsgEditValidator",
   DELEGATE: "cosmos-sdk/MsgDelegate",
@@ -10,12 +11,12 @@ const messageType = {
   DEPOSIT: "cosmos-sdk/MsgDeposit",
   VOTE: "cosmos-sdk/MsgVote",
   SET_WITHDRAW_ADDRESS: "cosmos-sdk/MsgSetWithdrawAddress",
-  WITHDRAW_DELEGATION_REWARD: "cosmos-sdk/MsgWithdrawDelegationReward",
-  WITHDRAW_VALIDATOR_COMMISSION: "cosmos-sdk/MsgWithdrawValidatorCommission"
+  WITHDRAW_DELEGATION_REWARD: "cosmos-sdk/MsgWithdrawDelegationReward"
 }
 
 const transactionGroup = {
   [messageType.SEND]: "banking",
+  [messageType.MULTISEND]: "banking",
   [messageType.CREATE_VALIDATOR]: "staking",
   [messageType.EDIT_VALIDATOR]: "staking",
   [messageType.DELEGATE]: "staking",
@@ -26,8 +27,7 @@ const transactionGroup = {
   [messageType.DEPOSIT]: "governance",
   [messageType.VOTE]: "governance",
   [messageType.SET_WITHDRAW_ADDRESS]: "distribution",
-  [messageType.WITHDRAW_DELEGATION_REWARD]: "distribution",
-  [messageType.WITHDRAW_VALIDATOR_COMMISSION]: "distribution"
+  [messageType.WITHDRAW_DELEGATION_REWARD]: "distribution"
 }
 
 export { messageType, transactionGroup }

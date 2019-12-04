@@ -43,3 +43,10 @@ export const sleep = function(amount) {
     setTimeout(resolve, amount)
   })
 }
+
+export function toMicroDenom(denom) {
+  if (denom === "ATOM") {
+    return "uatom"
+  }
+  return denom.toLowerCase()
+}

@@ -2,7 +2,7 @@ const axios = require("axios")
 const chai = require("chai")
 chai.use(require("chai-string"))
 
-const HOST = "localhost"
+const HOST = "127.0.0.1"
 
 module.exports = {
   // controls the timeout time for async hooks. Expects the done() callback to be invoked within this time
@@ -10,16 +10,8 @@ module.exports = {
   asyncHookTimeout: 30000,
 
   async before() {
-    let apiUp = false
-    while (!apiUp) {
-      try {
-        await axios(`http://${HOST}:9070/node_version`)
-        apiUp = true
-      } catch (err) {
-        await new Promise(resolve => setTimeout(resolve, 1000))
-        console.log("Waiting for node to be up")
-      }
-    }
+    await schemaAvailable()
+    await apiUp()
   },
 
   beforeEach(browser, done) {
@@ -46,7 +38,6 @@ module.exports = {
       window.localStorage.setItem(
         `session`,
         JSON.stringify({
-          localKeyPairName: `rich_account`,
           address: "cosmos1ek9cd8ewgxg9w5xllq9um0uf4aaxaruvcw4v9e",
           sessionType: "local"
         })
@@ -57,8 +48,11 @@ module.exports = {
 
     browser.resizeWindow(1350, 1080)
     browser.refresh()
+    // wait until on portfolio page to make sure future tests have the same state
+    browser.expect.element(".balance-header").to.be.visible.before(10000)
     done()
   },
+
   /**
    * After all the tests are run, evaluate if there were errors and exit appropriately.
    *
@@ -74,6 +68,58 @@ module.exports = {
       process.exit(0)
     } else {
       process.exit(1)
+    }
+  }
+}
+
+async function apiUp() {
+  console.log("Testing if API is up")
+  const start = new Date().getTime()
+  // we need to wait until the testnet is up and the account has money
+  let apiUp = false
+  while (!apiUp) {
+    if (new Date().getTime() - start > 90000) {
+      throw new Error("Timed out waiting for API to be up.")
+    }
+    try {
+      // test if the test account was funded as we need the account to have funds in the tests
+      const response = await axios.post(`http://${HOST}:4000`, {
+        query: `{overview(networkId: "local-cosmos-hub-testnet", address:"cosmos1ek9cd8ewgxg9w5xllq9um0uf4aaxaruvcw4v9e") {totalStake}}`
+      })
+      if (response.data.errors) {
+        throw new Error(JSON.stringify(response.data.errors))
+      }
+      if (Number(response.data.data.overview.totalStake) === 0) {
+        continue
+      }
+      apiUp = true
+    } catch (err) {
+      console.log("Failed to check API", err)
+      console.log("Waiting 1s for API to be up")
+      await new Promise(resolve => setTimeout(resolve, 1000))
+    }
+  }
+}
+
+async function schemaAvailable() {
+  console.log("Testing if DB is up")
+  const start = new Date().getTime()
+  // we need to wait until the database is up and has the expected shema
+  let databaseUp = false
+  while (!databaseUp) {
+    if (new Date().getTime() - start > 90000) {
+      throw new Error("Timed out waiting for database to be up.")
+    }
+    try {
+      // test if the database has the expected schema by probing one setup table
+      await axios.post(`http://${HOST}:8080/v1/graphql`, {
+        query: `{maintenance {    message  }}`
+      })
+      databaseUp = true
+    } catch (err) {
+      console.log("Failed to check database", err.message)
+      console.log("Waiting 1s for database to be up")
+      await new Promise(resolve => setTimeout(resolve, 1000))
     }
   }
 }

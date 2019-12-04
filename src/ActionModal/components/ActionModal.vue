@@ -1,5 +1,5 @@
 <template>
-  <transition v-if="show" name="slide-fade">
+  <transition v-if="show && !$apollo.loading" name="slide-fade">
     <div v-focus-last class="action-modal" tabindex="0" @keyup.esc="close">
       <div
         v-if="(step === feeStep || step === signStep) && !sending"
@@ -23,7 +23,7 @@
         <Steps
           v-if="
             [defaultStep, feeStep, signStep].includes(step) &&
-              featureAvailable &&
+              checkFeatureAvailable &&
               !isMobileApp
           "
           :steps="['Details', 'Fees', 'Sign']"
@@ -32,7 +32,7 @@
         <p
           v-if="
             extension.enabled &&
-              !modalContext.isExtensionAccount &&
+              !isExtensionAccount &&
               step === signStep &&
               selectedSignMethod === SIGN_METHODS.EXTENSION
           "
@@ -42,7 +42,7 @@
           extension.
         </p>
       </div>
-      <template v-if="!featureAvailable">
+      <template v-if="!checkFeatureAvailable">
         <FeatureNotAvailable :feature="title" />
       </template>
       <template v-else>
@@ -54,7 +54,8 @@
         </p>
         <div v-if="requiresSignIn" class="action-modal-form">
           <p class="form-message notice">
-            You need to sign in to submit a transaction.
+            You're using Lunie in explore mode. Please sign in or create an
+            account to proceed with this action.
           </p>
         </div>
         <div v-else-if="step === defaultStep" class="action-modal-form">
@@ -68,7 +69,9 @@
             field-id="gasPrice"
             field-label="Gas Price"
           >
-            <span class="input-suffix">{{ bondDenom | viewDenom }}</span>
+            <span class="input-suffix">{{
+              network.stakingDenom | viewDenom
+            }}</span>
             <TmField
               id="gas-price"
               v-model="gasPrice"
@@ -77,8 +80,8 @@
               min="0"
             />
             <TmFormMsg
-              v-if="balanceInAtoms === 0"
-              :msg="`doesn't have any ${bondDenom}s`"
+              v-if="overview.liquidStake === 0"
+              :msg="`doesn't have any ${network.stakingDenom}s`"
               name="Wallet"
               type="custom"
             />
@@ -98,14 +101,14 @@
           <TableInvoice
             :amount="Number(amount)"
             :estimated-fee="estimatedFee"
-            :bond-denom="bondDenom"
+            :bond-denom="network.stakingDenom"
           />
           <TmFormMsg
             v-if="$v.invoiceTotal.$invalid"
             name="Total"
             type="between"
             min="0"
-            :max="balanceInAtoms"
+            :max="overview.liquidStake"
           />
         </div>
         <div v-else-if="step === signStep" class="action-modal-form">
@@ -156,7 +159,7 @@
             <div v-if="!extension.enabled">
               Please install the Lunie Browser Extension from the
               <a
-                href="https://chrome.google.com/webstore/category/extensions"
+                href="https://chrome.google.com/webstore/category/extensions?ref=lunie"
                 target="_blank"
                 rel="noopener norefferer"
                 >Chrome Web Store</a
@@ -219,6 +222,12 @@
             </div>
           </TmDataMsg>
         </div>
+        <p
+          v-if="submissionError"
+          class="tm-form-msg sm tm-form-msg--error submission-error"
+        >
+          {{ submissionError }}
+        </p>
         <div class="action-modal-footer">
           <slot name="action-modal-footer">
             <TmFormGroup
@@ -260,18 +269,12 @@
                   v-else
                   color="primary"
                   value="Send"
-                  :disabled="!hasSigningMethod"
+                  :disabled="!selectedSignMethod"
                   @click.native="validateChangeStep"
                 />
               </div>
             </TmFormGroup>
           </slot>
-          <p
-            v-if="submissionError"
-            class="tm-form-msg sm tm-form-msg--error submission-error"
-          >
-            {{ submissionError }}
-          </p>
         </div>
       </template>
     </div>
@@ -279,6 +282,8 @@
 </template>
 
 <script>
+import gql from "graphql-tag"
+import noScroll from "no-scroll"
 import HardwareState from "src/components/common/TmHardwareState"
 import TmBtn from "src/components/common/TmBtn"
 import TmField from "src/components/common/TmField"
@@ -289,10 +294,10 @@ import TmDataMsg from "common/TmDataMsg"
 import TableInvoice from "./TableInvoice"
 import Steps from "./Steps"
 import { mapState, mapGetters } from "vuex"
-import { atoms, viewDenom, prettyInt } from "src/scripts/num"
+import { viewDenom, prettyInt } from "src/scripts/num"
 import { between, requiredIf } from "vuelidate/lib/validators"
 import { track } from "scripts/google-analytics"
-import { NetworkCapability, NetworkCapabilityResult } from "src/gql"
+import { UserTransactionAdded } from "src/gql"
 import config from "src/../config"
 
 import ActionManager from "../utils/ActionManager"
@@ -364,6 +369,10 @@ export default {
       type: [String, Number],
       default: `0`
     },
+    rewards: {
+      type: Array,
+      default: () => []
+    },
     transactionData: {
       type: Object,
       default: () => {}
@@ -399,19 +408,23 @@ export default {
     successStep,
     SIGN_METHODS,
     featureAvailable: true,
+    network: {},
+    overview: {},
     isMobileApp: config.mobileApp
   }),
   computed: {
     ...mapState([`extension`, `session`]),
-    ...mapState({
-      network: state => state.connection.network
-    }),
-    ...mapGetters([`connected`, `bondDenom`, `liquidAtoms`, `modalContext`]),
-    requiresSignIn() {
-      return !this.session.signedIn
+    ...mapGetters([`connected`, `isExtensionAccount`]),
+    ...mapGetters({ networkId: `network` }),
+    checkFeatureAvailable() {
+      const action = `action_${this.title.toLowerCase().replace(" ", "_")}`
+      return this.network[action] === true
     },
-    balanceInAtoms() {
-      return atoms(this.liquidAtoms)
+    requiresSignIn() {
+      return (
+        !this.session.signedIn ||
+        (this.isMobileApp && this.session.sessionType === sessionType.EXPLORE)
+      )
     },
     estimatedFee() {
       return Number(this.gasPrice) * Number(this.gasEstimate) // already in atoms
@@ -430,7 +443,9 @@ export default {
     },
     signMethods() {
       let signMethods = []
-      if (this.session.sessionType === sessionType.EXPLORE) {
+      if (this.isMobileApp && this.session.sessionType === sessionType.LOCAL) {
+        signMethods.push(signMethodOptions.LOCAL)
+      } else if (this.session.sessionType === sessionType.EXPLORE) {
         signMethods.push(signMethodOptions.LEDGER)
         signMethods.push(signMethodOptions.EXTENSION)
       } else if (this.session.sessionType === sessionType.LEDGER) {
@@ -455,8 +470,7 @@ export default {
     hasSigningMethod() {
       return (
         this.session.browserWithLedgerSupport ||
-        (this.selectedSignMethod === "extension" &&
-          this.modalContext.isExtensionAccount)
+        (this.selectedSignMethod === "extension" && this.isExtensionAccount)
       )
     },
     prettyIncludedHeight() {
@@ -474,8 +488,12 @@ export default {
       }
     }
   },
+  created() {
+    this.$apollo.skipAll = true
+  },
   updated: function() {
-    this.actionManager.setContext(this.modalContext || {})
+    const context = this.createContext()
+    this.actionManager.setContext(context)
     if (
       (this.title === "Withdraw" || this.step === "fees") &&
       this.$refs.next
@@ -484,6 +502,20 @@ export default {
     }
   },
   methods: {
+    createContext() {
+      return {
+        url: this.network.api_url, // state.connection.externals.node.url,
+        networkId: this.network.id, // state.connection.lastHeader.chain_id,
+        chainId: this.network.chain_id, // state.connection.lastHeader.chain_id,
+        connected: this.connected,
+        userAddress: this.session.address,
+        rewards: this.rewards, // state.distribution.rewards,
+        totalRewards: this.overview.totalRewards, // getters.totalRewards,
+        delegations: this.delegations, // state.delegates.delegates,
+        bondDenom: this.network.stakingDenom, // getters.bondDenom,
+        isExtensionAccount: this.isExtensionAccount
+      }
+    },
     confirmModalOpen() {
       let confirmResult = false
       if (this.session.currrentModalOpen) {
@@ -498,17 +530,19 @@ export default {
     },
     open() {
       this.confirmModalOpen()
+      this.$apollo.skipAll = false
       if (this.session.currrentModalOpen) {
         return
       }
 
       this.$store.commit(`setCurrrentModalOpen`, this)
       this.trackEvent(`event`, `modal`, this.title)
-      this.checkFeatureAvailable()
       this.gasPrice = config.default_gas_price.toFixed(9)
       this.show = true
+      if (config.isMobileApp) noScroll.on()
     },
     close() {
+      if (config.isMobileApp) noScroll.off()
       this.$store.commit(`setCurrrentModalOpen`, false)
       this.submissionError = null
       this.password = null
@@ -516,6 +550,7 @@ export default {
       this.show = false
       this.sending = false
       this.includedHeight = undefined
+      this.$apollo.skipAll = true
 
       // reset form
       this.$v.$reset()
@@ -581,7 +616,7 @@ export default {
     },
     async simulate() {
       const { type, memo, ...properties } = this.transactionData
-      this.actionManager.setMessage(type, properties)
+      await this.actionManager.setMessage(type, properties)
       try {
         this.gasEstimate = await this.actionManager.simulate(memo)
         this.step = feeStep
@@ -590,9 +625,9 @@ export default {
       }
 
       // limit fees to the maximum the user has
-      if (this.invoiceTotal > this.balanceInAtoms) {
+      if (this.invoiceTotal > this.overview.liquidStake) {
         this.gasPrice =
-          (this.balanceInAtoms - Number(this.amount)) / this.gasEstimate
+          (this.overview.liquidStake - Number(this.amount)) / this.gasEstimate
       }
     },
     async submit() {
@@ -609,11 +644,11 @@ export default {
         }
       }
 
-      const { type, memo, ...transactionProperties } = this.transactionData
+      const { memo } = this.transactionData
 
       const gasPrice = {
         amount: this.gasPrice,
-        denom: this.bondDenom
+        denom: this.network.stakingDenom
       }
 
       const feeProperties = {
@@ -624,25 +659,14 @@ export default {
       }
 
       try {
-        const { included, hash } = await this.actionManager.send(
-          memo,
-          feeProperties
-        )
+        const { hash } = await this.actionManager.send(memo, feeProperties)
         this.txHash = hash
-        await this.waitForInclusion(included)
-        this.onTxIncluded(type, transactionProperties, feeProperties)
+        this.step = inclusionStep
       } catch ({ message }) {
         this.onSendingFailed(message)
-      } finally {
-        this.txHash = null
       }
     },
-    async waitForInclusion(includedFn) {
-      this.step = inclusionStep
-      const { height } = await includedFn()
-      this.includedHeight = height
-    },
-    onTxIncluded(txType, transactionProperties, feeProperties) {
+    onTxIncluded() {
       this.step = successStep
       this.trackEvent(
         `event`,
@@ -650,10 +674,7 @@ export default {
         this.title,
         this.selectedSignMethod
       )
-      this.$store.dispatch(`post${txType}`, {
-        txProps: transactionProperties,
-        txMeta: feeProperties
-      })
+      this.$emit(`txIncluded`)
     },
     onSendingFailed(message) {
       this.step = signStep
@@ -662,20 +683,6 @@ export default {
     },
     async connectLedger() {
       await this.$store.dispatch(`connectLedgerApp`)
-    },
-    async checkFeatureAvailable() {
-      /* istanbul ignore next */
-      if (this.network === "testnet") {
-        this.featureAvailable = true
-        return
-      }
-
-      const action = `action_${this.title.toLowerCase().replace(" ", "_")}`
-      const { data } = await this.$apollo.query({
-        query: NetworkCapability(this.network, action)
-      })
-
-      this.featureAvailable = NetworkCapabilityResult(data)
     }
   },
   validations() {
@@ -693,10 +700,130 @@ export default {
         ),
         // we don't use SMALLEST as min gas price because it can be a fraction of uatom
         // min is 0 because we support sending 0 fees
-        between: between(0, this.balanceInAtoms)
+        between: between(0, this.overview.liquidStake)
       },
       invoiceTotal: {
-        between: between(0, this.balanceInAtoms)
+        between: between(0, this.overview.liquidStake)
+      }
+    }
+  },
+  apollo: {
+    overview: {
+      query: gql`
+        query OverviewActionModal($networkId: String!, $address: String!) {
+          overview(networkId: $networkId, address: $address) {
+            totalRewards
+            liquidStake
+            totalStake
+          }
+        }
+      `,
+      variables() {
+        /* istanbul ignore next */
+        return {
+          networkId: this.networkId,
+          address: this.session.address
+        }
+      },
+      update(data) {
+        /* istanbul ignore next */
+        return {
+          ...data.overview,
+          totalRewards: Number(data.overview.totalRewards)
+        }
+      },
+      skip() {
+        return !this.session.address
+      }
+    },
+    network: {
+      query: gql`
+        query NetworkActionModal($networkId: String!) {
+          network(id: $networkId) {
+            id
+            testnet
+            stakingDenom
+            chain_id
+            rpc_url
+            api_url
+            action_send
+            action_claim_rewards
+            action_delegate
+            action_redelegate
+            action_undelegate
+            action_deposit
+            action_vote
+            action_proposal
+          }
+        }
+      `,
+      variables() {
+        return {
+          networkId: this.networkId
+        }
+      },
+      update(data) {
+        /* istanbul ignore next */
+
+        return data.network
+      }
+    },
+    delegations: {
+      query: gql`
+        query DelegationsActionModal(
+          $networkId: String!
+          $delegatorAddress: String!
+        ) {
+          delegations(
+            networkId: $networkId
+            delegatorAddress: $delegatorAddress
+          ) {
+            amount
+            validator {
+              operatorAddress
+            }
+          }
+        }
+      `,
+      skip() {
+        return !this.session.address
+      },
+      variables() {
+        return {
+          networkId: this.networkId,
+          delegatorAddress: this.session.address
+        }
+      },
+      update(data) {
+        /* istanbul ignore next */
+        return data.delegations
+      }
+    },
+    $subscribe: {
+      userTransactionAdded: {
+        variables() {
+          return {
+            networkId: this.networkId,
+            address: this.session.address
+          }
+        },
+        skip() {
+          return !this.txHash
+        },
+        query: UserTransactionAdded,
+        result({ data }) {
+          const { hash, height, success, log } = data.userTransactionAdded
+          if (hash === this.txHash) {
+            this.includedHeight = height
+
+            if (success) {
+              this.onTxIncluded()
+            } else {
+              this.onSendingFailed(log)
+            }
+          }
+          this.txHash = null
+        }
       }
     }
   }
@@ -787,9 +914,7 @@ export default {
 }
 
 .submission-error {
-  position: absolute;
-  left: 1.5rem;
-  bottom: 1rem;
+  padding: 1rem;
 }
 
 .form-message {
@@ -798,7 +923,6 @@ export default {
   font-style: italic;
   color: var(--dim);
   display: inline-block;
-  border-left: 2px solid var(--warning);
   padding: 0.5rem 0 0.5rem 1rem;
 }
 
@@ -824,6 +948,20 @@ export default {
   margin: 2rem 0 2rem 0;
 }
 
+/* max width of the action modal */
+@media screen and (max-width: 564px) {
+  .action-modal-footer {
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: var(--app-nav);
+    padding: 1rem;
+    border-top: 1px solid var(--bc);
+  }
+}
+
 @media screen and (max-width: 576px) {
   .tm-data-msg__icon {
     margin-right: 0;
@@ -844,6 +982,12 @@ export default {
   .action-modal {
     right: 0;
     top: 0;
+    overflow-x: scroll;
+    padding-bottom: 69px;
+  }
+
+  .action-modal-footer button {
+    width: 100%;
   }
 }
 </style>

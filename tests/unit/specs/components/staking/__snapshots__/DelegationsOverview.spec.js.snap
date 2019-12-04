@@ -1,9 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`DelegationsOverview shows a sentiment of dissatisfaction when you have no such delegations 1`] = `
-<div
-  validators="[object Object],[object Object],[object Object],[object Object],[object Object]"
->
+<div>
   <tmdatamsg-stub
     icon="sentiment_dissatisfied"
   >
@@ -20,7 +18,7 @@ exports[`DelegationsOverview shows a sentiment of dissatisfaction when you have 
       <router-link-stub
         to="/validators"
       >
-         validator list 
+         validator list
       </router-link-stub>
        to get
       staking!
@@ -31,13 +29,12 @@ exports[`DelegationsOverview shows a sentiment of dissatisfaction when you have 
 `;
 
 exports[`DelegationsOverview shows an overview over all delegations of the user 1`] = `
-<div
-  validators="[object Object],[object Object],[object Object],[object Object],[object Object]"
->
+<div>
   <div>
     <tablevalidators-stub
+      delegations="[object Object],[object Object],[object Object]"
       showonmobile="expectedReturns"
-      validators="[object Object],[object Object],[object Object],[object Object],[object Object]"
+      validators="[object Object],[object Object],[object Object]"
     />
   </div>
 </div>

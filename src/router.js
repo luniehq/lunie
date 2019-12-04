@@ -44,11 +44,9 @@ export default router
 
 // check if feature is allowed and redirect if not
 async function featureAvailable(apollo, networkId, to) {
+  const feature = `feature_${to.meta.feature.toLowerCase()}`
   const { data } = await apollo.query({
-    query: NetworkCapability(
-      networkId,
-      `feature_${to.meta.feature.toLowerCase()}`
-    )
+    query: NetworkCapability(networkId)
   })
-  return NetworkCapabilityResult(data)
+  return NetworkCapabilityResult(feature)(data)
 }

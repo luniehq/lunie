@@ -6,7 +6,6 @@ import {
   setGoogleAnalyticsPage
 } from "scripts/google-analytics"
 import config from "src/../config"
-import Node from "./connectors/node"
 import router, { routeGuard } from "./router"
 import Store from "./vuex/store"
 import { createApolloProvider } from "src/gql/apollo.js"
@@ -15,11 +14,11 @@ function setOptions(urlParams, store) {
   if (urlParams.experimental) {
     store.commit(`setExperimentalMode`)
   }
-  if (urlParams.rpc) {
-    store.commit(`setRpcUrl`, urlParams.rpc)
+  if (urlParams.insecure === `true`) {
+    store.commit(`setInsecureMode`)
   }
-  if (config.mobileApp || urlParams.insecure === `true`) {
-    store.commit(`setInsecureMode`, true)
+  if (urlParams.network) {
+    store.dispatch(`setNetwork`, { id: urlParams.network })
   }
 }
 
@@ -29,14 +28,12 @@ export default function init(urlParams, env = process.env) {
     enableGoogleAnalytics(config.google_analytics_uid)
   }
 
-  const stargate = urlParams.stargate || config.stargate
-  console.log(`Expecting stargate at: ${stargate}`)
+  console.log(`Expecting backend at: ${config.graphqlHost}`)
 
   const apolloProvider = createApolloProvider(urlParams)
   const apolloClient = apolloProvider.clients.defaultClient
 
-  const node = Node(stargate)
-  const store = Store({ node, apollo: apolloClient })
+  const store = Store({ apollo: apolloClient })
 
   setGoogleAnalyticsPage(router.currentRoute.path)
   router.beforeEach(routeGuard(store, apolloClient))
@@ -48,16 +45,9 @@ export default function init(urlParams, env = process.env) {
   setOptions(urlParams, store)
 
   store.dispatch(`loadLocalPreferences`)
-  store
-    .dispatch(`connect`)
-    // wait for connected as the check for session will sign in directly and query account data
-    .then(() => {
-      store.dispatch(`checkForPersistedSession`)
-      store.dispatch(`checkForPersistedAddresses`)
-      store.dispatch("getDelegates")
-      store.dispatch(`getPool`)
-      store.dispatch(`getMintingParameters`)
-    })
+  store.dispatch(`checkForPersistedSession`)
+  store.dispatch(`checkForPersistedAddresses`)
+  store.dispatch(`checkForPersistedNetwork`)
 
   listenToExtensionMessages(store)
 

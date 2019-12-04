@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="52px" height="52px" viewBox="0 0 52 52" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 59.1 (86144) - https://sketch.com -->
+    <title>Create</title>
+    <desc>Created with Sketch.</desc>
+    <g id="icons" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Create">
+            <path d="M26,52 C40.3594,52 52,40.3594 52,26 C52,11.6406 40.3594,0 26,0 C11.6406,0 0,11.6406 0,26 C0,40.3594 11.6406,52 26,52 Z" id="Path-Copy" fill="#292B47" fill-rule="nonzero"></path>
+            <g id="Group-2" transform="translate(12.000000, 15.000000)">
+                <polyline id="Path" stroke="#FFFFFF" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" transform="translate(18.000000, 7.000000) rotate(-180.000000) translate(-18.000000, -7.000000) " points="23 12 23 2 13 2"></polyline>
+                <path d="M24.285,5.5083 C25.806,5.5083 27.039,4.2752 27.039,2.7542 C27.039,1.2331 25.806,0 24.285,0 C22.764,0 21.531,1.2331 21.531,2.7542 C21.531,4.2752 22.764,5.5083 24.285,5.5083 Z" id="Path" fill="#FFFFFF" fill-rule="nonzero"></path>
+                <path d="M2.7542,5.5086 C4.275,5.5086 5.508,4.2755 5.508,2.7544 C5.508,1.2333 4.275,0.0002 2.7542,0.0002 C1.2331,0.0002 0,1.2333 0,2.7544 C0,4.2755 1.2331,5.5086 2.7542,5.5086 Z" id="Path" fill="#FFFFFF" fill-rule="nonzero"></path>
+                <path d="M1,17.0263 C4.087,20.0819 8.538,22 13.487,22 C18.449,22 22.912,20.071 26,17" id="Path" stroke="#FFFFFF" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"></path>
+            </g>
+        </g>
+    </g>
+</svg>
