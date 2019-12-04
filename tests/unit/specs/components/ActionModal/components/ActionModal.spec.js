@@ -479,7 +479,8 @@ describe(`ActionModal`, () => {
         submissionError: null,
         actionManager: {
           simulate: mockSimulateFail
-        }
+        },
+        useTxService: false
       }
 
       const transactionProperties = {
@@ -554,7 +555,8 @@ describe(`ActionModal`, () => {
         submissionError: null,
         actionManager: {
           send: mockSubmitFail
-        }
+        },
+        useTxService: false
       }
 
       const transactionProperties = {
