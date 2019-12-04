@@ -468,12 +468,6 @@ export default {
           return "Sending..."
       }
     },
-    hasSigningMethod() {
-      return (
-        this.session.browserWithLedgerSupport ||
-        (this.selectedSignMethod === "extension" && this.isExtensionAccount)
-      )
-    },
     prettyIncludedHeight() {
       return prettyInt(this.includedHeight)
     }
