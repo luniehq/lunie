@@ -8,7 +8,7 @@
       <h3>{{ caption }}</h3>
       <span>Rewards from&nbsp;</span>
       <router-link
-        :to="`staking/validators/${transaction.value.validator_address}`"
+        :to="`staking/validators/${transaction.value[0].validator_address}`"
         class="validator-link"
       >
         <img
@@ -18,9 +18,10 @@
           :alt="`validator logo for ` + validator.name"
         />
         {{
-          transaction.value.validator_address | resolveValidatorName(validators)
+          transaction.value[0].validator_address | resolveValidatorName(validators)
         }}
       </router-link>
+      <span v-if="transaction.value.length > 1"> and {{ transaction.value.length -1 }} others</span>
     </div>
   </div>
 </template>
@@ -58,8 +59,14 @@ export default {
     }
   },
   computed: {
+    // Always return an array
     validator() {
-      return this.validators[this.transaction.value.validator_address] || false
+      console.log(this.transaction.value)
+      if (Array.isArray(this.transaction.value)) {
+        return this.validators[this.transaction.value[0].validator_address] || false
+      } else {
+        return [ this.validators[this.transaction.value.validator_address] ] || false
+      }
     }
   }
 }
