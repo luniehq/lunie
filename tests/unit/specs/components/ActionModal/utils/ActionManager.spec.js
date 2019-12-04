@@ -305,6 +305,39 @@ describe("ActionManager", () => {
       )
     })
 
+    it("should send via Tx API (withdraw)", async () => {
+      const context = {
+        ...actionManager.context,
+        account: {
+          accountNumber: 1,
+          sequence: 1
+        }
+      }
+
+      actionManager.transactionAPIRequest = jest
+        .fn()
+        .mockResolvedValue({ success: true, hash: "abcdsuperhash" })
+
+      await actionManager.sendTxAPI(
+        context,
+        "MsgWithdrawDelegationReward",
+        "memo",
+        sendTx.txProps,
+        sendTx.txMetaData
+      )
+
+      const expectArgs = {
+        simulate: false,
+        messageType: "MsgWithdrawDelegationReward",
+        networkId: "cosmos-hub-testnet",
+        signedMessage: "signedMessage"
+      }
+
+      expect(actionManager.transactionAPIRequest).toHaveBeenCalledWith(
+        expectArgs
+      )
+    })
+
     it("should send estimate request", () => {
       const payload = {
         simulate: true,
