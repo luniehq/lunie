@@ -753,6 +753,7 @@ export default {
         }
       },
       skip() {
+        /* istanbul ignore next */
         return !this.session.address
       }
     },
@@ -778,6 +779,7 @@ export default {
         }
       `,
       variables() {
+        /* istanbul ignore next */
         return {
           networkId: this.networkId
         }
@@ -806,9 +808,11 @@ export default {
         }
       `,
       skip() {
+        /* istanbul ignore next */
         return !this.session.address
       },
       variables() {
+        /* istanbul ignore next */
         return {
           networkId: this.networkId,
           delegatorAddress: this.session.address
@@ -833,13 +837,14 @@ export default {
           return !this.txHash
         },
         query: UserTransactionAdded,
-        /* istanbul ignore next */
         result({ data }) {
+          /* istanbul ignore next */
           const { hash, height, success, log } = data.userTransactionAdded
+          /* istanbul ignore next */
           if (hash === this.txHash) {
             /* istanbul ignore next */
             this.includedHeight = height
-
+            /* istanbul ignore next */
             if (success) {
               /* istanbul ignore next */
               this.onTxIncluded()
