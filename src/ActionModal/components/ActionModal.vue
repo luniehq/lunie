@@ -827,6 +827,7 @@ export default {
     $subscribe: {
       userTransactionAdded: {
         variables() {
+          /* istanbul ignore next */
           return {
             networkId: this.networkId,
             address: this.session.address
@@ -836,6 +837,7 @@ export default {
           return !this.txHash
         },
         query: UserTransactionAdded,
+        /* istanbul ignore next */
         result({ data }) {
           const { hash, height, success, log } = data.userTransactionAdded
           if (hash === this.txHash) {
