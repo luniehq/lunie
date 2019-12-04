@@ -173,6 +173,6 @@ exports[`PageProposal shows an error if the proposal couldn't be found 1`] = `
   subtitle=""
   title=""
 >
-  <tmdataerror-stub />
+  <tmdatanotfound-stub />
 </tmpage-stub>
 `;

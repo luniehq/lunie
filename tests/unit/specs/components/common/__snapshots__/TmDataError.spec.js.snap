@@ -36,7 +36,7 @@ exports[`TmDataError has the expected html structure 1`] = `
     you right now. Please try again later or
     
         <a
-          href="https://github.com/cosmos/voyager/issues"
+          href="https://github.com/luniehq/lunie/issues"
         >
           file a bug report
         </a>

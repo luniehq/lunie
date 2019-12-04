@@ -6,7 +6,7 @@
     <div slot="subtitle">
       Even though you're connected a full node, we can't display this data for
       you right now. Please try again later or
-      <a href="https://github.com/cosmos/voyager/issues">file a bug report</a>.
+      <a href="https://github.com/luniehq/lunie/issues">file a bug report</a>.
       Apologies!
     </div>
   </TmDataMsg>
