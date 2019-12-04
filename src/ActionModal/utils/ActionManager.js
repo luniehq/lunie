@@ -145,7 +145,7 @@ export default class ActionManager {
     }
 
     let txMessages = []
-    if (this.messageType === transaction.WITHDRAW) {
+    if (type === transaction.WITHDRAW) {
       const validators = getTop5RewardsValidators(
         context.bondDenom,
         context.rewards
