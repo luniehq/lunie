@@ -63,6 +63,7 @@ export const getMultiMessage = async (context, messages) => {
 }
 
 // Bank
+/* istanbul ignore next */
 export function MsgSend(
   senderAddress,
   {
@@ -81,6 +82,7 @@ export function MsgSend(
 }
 
 // Staking
+/* istanbul ignore next */
 export function MsgDelegate(
   senderAddress,
   { validatorAddress, amount, denom }
@@ -95,6 +97,7 @@ export function MsgDelegate(
   }
 }
 
+/* istanbul ignore next */
 export function MsgUndelegate(
   senderAddress,
   { validatorAddress, amount, denom }
@@ -109,6 +112,7 @@ export function MsgUndelegate(
   }
 }
 
+/* istanbul ignore next */
 export function MsgRedelegate(
   senderAddress,
   { validatorSourceAddress, validatorDestinationAddress, amount, denom }
@@ -125,7 +129,7 @@ export function MsgRedelegate(
 }
 
 // Governance
-
+/* istanbul ignore next */
 export function MsgSubmitProposal(
   senderAddress,
   {
@@ -150,6 +154,7 @@ export function MsgSubmitProposal(
   }
 }
 
+/* istanbul ignore next */
 export function MsgVote(senderAddress, { proposalId, option }) {
   return {
     type: `cosmos-sdk/MsgVote`,
@@ -161,6 +166,7 @@ export function MsgVote(senderAddress, { proposalId, option }) {
   }
 }
 
+/* istanbul ignore next */
 export function MsgDeposit(
   senderAddress,
   {
@@ -178,6 +184,7 @@ export function MsgDeposit(
   }
 }
 
+/* istanbul ignore next */
 export function MsgWithdrawDelegationReward(
   senderAddress,
   { validatorAddress }
