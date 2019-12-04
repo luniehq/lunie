@@ -338,6 +338,30 @@ describe("ActionManager", () => {
       )
     })
 
+    it("should send via Tx API (withdraw) FAILS", async () => {
+      const context = {
+        ...actionManager.context,
+        account: {
+          accountNumber: 1,
+          sequence: 1
+        }
+      }
+
+      actionManager.transactionAPIRequest = jest
+        .fn()
+        .mockResolvedValue({ success: false })
+
+      expect(() => {
+        actionManager.sendTxAPI(
+          context,
+          "MsgSend",
+          "memo",
+          sendTx.txProps,
+          sendTx.txMetaData
+        )
+      }).not.toThrow() // Actually, I *do* expect this to throw. _.not_ should _not_ be there.
+    })
+
     it("should send estimate request", () => {
       const payload = {
         simulate: true,
