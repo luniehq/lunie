@@ -15,6 +15,10 @@ let mockSend = jest.fn(() => ({
 }))
 let mockSetContext = jest.fn()
 
+// jest.mock(`src/../config.js`, () => ({
+//   enableTxAPI: true
+// }))
+
 jest.mock(`src/ActionModal/utils/ActionManager.js`, () => {
   return jest.fn(() => {
     return {
