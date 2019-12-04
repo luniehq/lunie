@@ -508,9 +508,7 @@ describe(`ActionModal`, () => {
   })
 
   describe(`submit`, () => {
-    // Transactions are confirmed int the apollo subscription methods
-    // which we are yet to test.
-    xit(`should submit transaction`, async () => {
+    it(`should submit transaction`, async () => {
       const transactionProperties = {
         type: "MsgSend",
         toAddress: "comsos12345",
@@ -533,15 +531,34 @@ describe(`ActionModal`, () => {
       wrapper.vm.$emit = jest.fn()
       await wrapper.vm.submit()
       expect(wrapper.vm.submissionError).toBe(null)
-      expect(wrapper.vm.$emit).toHaveBeenCalledWith(`txIncluded`, {
-        txMeta: {
-          gasEstimate: 12345,
-          gasPrice: { amount: "0.000000025", denom: "uatom" },
-          password: null,
-          submitType: "local"
-        },
-        txProps: { denom: "uatom", validatorAddress: "cosmos12345" }
-      })
+      expect(wrapper.vm.txHash).toBe("HASH1234HASH")
+    })
+
+    it(`should submit transaction using transactino api`, async () => {
+      const transactionProperties = {
+        type: "MsgSend",
+        toAddress: "comsos12345",
+        amounts: [
+          {
+            amount: "10",
+            denom: "atoms"
+          }
+        ],
+        memo: "A memo"
+      }
+      const data = {
+        step: `sign`,
+        gasEstimate: 12345,
+        submissionError: null,
+        useTxService: true
+      }
+
+      wrapper.setProps({ transactionProperties })
+      wrapper.setData(data)
+      wrapper.vm.$emit = jest.fn()
+      await wrapper.vm.submit()
+      expect(wrapper.vm.submissionError).toBe(null)
+      expect(wrapper.vm.txHash).toBe("HASH1234HASH")
     })
 
     it("should fail if submitting fails", async () => {
