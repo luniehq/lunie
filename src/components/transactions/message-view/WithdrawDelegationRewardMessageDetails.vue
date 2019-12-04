@@ -61,7 +61,6 @@ export default {
   computed: {
     // Always return an array
     validator() {
-      console.log(this.transaction.value)
       if (Array.isArray(this.transaction.value)) {
         return this.validators[this.transaction.value[0].validator_address] || false
       } else {
