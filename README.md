@@ -66,7 +66,7 @@ yarn certificates
 ```
 
 ### Run local testnet
-
+ 
 You can simply start a docker based testnet and the frontend.
 
 ```bash
