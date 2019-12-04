@@ -829,6 +829,7 @@ export default {
           }
         },
         skip() {
+          /* istanbul ignore next */
           return !this.txHash
         },
         query: UserTransactionAdded,
@@ -836,11 +837,14 @@ export default {
         result({ data }) {
           const { hash, height, success, log } = data.userTransactionAdded
           if (hash === this.txHash) {
+            /* istanbul ignore next */
             this.includedHeight = height
 
             if (success) {
+              /* istanbul ignore next */
               this.onTxIncluded()
             } else {
+              /* istanbul ignore next */
               this.onSendingFailed(log)
             }
           }
