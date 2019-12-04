@@ -1,5 +1,6 @@
 <template>
   <tr
+    v-if="delegation.amount >= SMALLEST"
     class="li-validator"
     :data-name="validator.name"
     @click="
@@ -60,7 +61,7 @@
 </template>
 
 <script>
-import { percent, shortDecimals, atoms } from "scripts/num"
+import { percent, shortDecimals, atoms, SMALLEST } from "scripts/num"
 import Avatar from "common/Avatar"
 export default {
   name: `li-validator`,
@@ -96,6 +97,9 @@ export default {
       default: () => "returns"
     }
   },
+  data: () => ({
+    SMALLEST
+  }),
   methods: {
     percent
   }
