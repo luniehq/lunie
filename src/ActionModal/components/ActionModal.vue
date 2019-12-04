@@ -410,7 +410,8 @@ export default {
     featureAvailable: true,
     network: {},
     overview: {},
-    isMobileApp: config.mobileApp
+    isMobileApp: config.mobileApp,
+    useTxService: config.enableTxAPI
   }),
   computed: {
     ...mapState([`extension`, `session`]),
@@ -619,7 +620,7 @@ export default {
       const { type, memo, ...properties } = this.transactionData
       await this.actionManager.setMessage(type, properties)
       try {
-        if (!config.enableTxAPI) {
+        if (!this.useTxService) {
           this.gasEstimate = await this.actionManager.simulate(memo)
         } else {
           this.gasEstimate = await this.actionManager.simulateTxAPI(
@@ -668,7 +669,7 @@ export default {
 
       try {
         let hashResult
-        if (!config.enableTxAPI) {
+        if (!this.useTxService) {
           hashResult = await this.actionManager.send(memo)
         } else {
           hashResult = await this.actionManager.sendTxAPI(
