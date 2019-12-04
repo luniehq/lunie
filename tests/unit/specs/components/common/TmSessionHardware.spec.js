@@ -101,5 +101,20 @@ describe(`TmSessionHardware`, () => {
         expect.objectContaining({})
       )
     })
+
+    it(`does show the instructions to enable HID on Windows`, () => {
+      wrapper.setData({
+        navigator: {
+          hid: undefined,
+          platform: "Win64",
+          userAgent: "Chrome"
+        }
+      })
+
+      expect(wrapper.html()).toMatchSnapshot()
+      expect(wrapper.html()).toContain(
+        "Using a Ledger on Windows requires experimental HID support in your"
+      )
+    })
   })
 })

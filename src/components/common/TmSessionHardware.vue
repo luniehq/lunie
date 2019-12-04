@@ -81,7 +81,8 @@ export default {
     connectionError: null,
     address: null,
     copySuccess: false,
-    hidFeatureLink: `chrome://flags/#enable-experimental-web-platform-features`
+    hidFeatureLink: `chrome://flags/#enable-experimental-web-platform-features`,
+    navigator: window.navigator
   }),
   computed: {
     ...mapState([`session`]),
@@ -92,10 +93,10 @@ export default {
       }[this.status]
     },
     isWindows() {
-      return navigator.platform.indexOf("Win") > -1
+      return this.navigator.platform.indexOf("Win") > -1
     },
     hasHIDEnabled() {
-      return !!navigator.hid
+      return !!this.navigator.hid
     },
     isChrome() {
       const ua = navigator.userAgent.toLowerCase()
