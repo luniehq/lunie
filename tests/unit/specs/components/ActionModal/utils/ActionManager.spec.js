@@ -359,7 +359,7 @@ describe("ActionManager", () => {
           sendTx.txProps,
           sendTx.txMetaData
         )
-      }).not.toThrow() // Actually, I *do* expect this to throw. _.not_ should _not_ be there.
+      }).toThrow()
     })
 
     it("should send estimate request", () => {
