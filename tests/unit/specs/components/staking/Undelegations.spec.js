@@ -3,7 +3,7 @@ import Undelegations from "staking/Undelegations"
 import validators from "../../store/json/validators.js"
 
 describe(`Undelegations`, () => {
-  let wrapper, $store, undelegations
+  let wrapper, $store, $apollo, undelegations
   const getters = {
     address: "cosmos1"
   }
@@ -38,9 +38,19 @@ describe(`Undelegations`, () => {
       getters
     }
 
+    $apollo = {
+      queries: {
+        undelegations: {
+          loading: false,
+          error: false
+        }
+      }
+    }
+
     wrapper = shallowMount(Undelegations, {
       mocks: {
-        $store
+        $store,
+        $apollo
       }
     })
     wrapper.setData({ undelegations })
