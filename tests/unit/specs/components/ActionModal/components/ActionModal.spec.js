@@ -15,17 +15,15 @@ let mockSend = jest.fn(() => ({
 }))
 let mockSetContext = jest.fn()
 
-// jest.mock(`src/../config.js`, () => ({
-//   enableTxAPI: true
-// }))
-
 jest.mock(`src/ActionModal/utils/ActionManager.js`, () => {
   return jest.fn(() => {
     return {
       setMessage: jest.fn(),
       setContext: mockSetContext,
       simulate: mockSimulate,
-      send: mockSend
+      send: mockSend,
+      simulateTxAPI: mockSimulate,
+      sendTxAPI: mockSend
     }
   })
 })
@@ -142,7 +140,9 @@ describe(`ActionModal`, () => {
       actionManager: {
         setContext: () => {},
         simulate: () => 12345,
-        send: ActionManagerSend
+        send: ActionManagerSend,
+        simulateTxAPI: jest.fn(),
+        sendTxAPI: jest.fn().mockResolvedValue({ hash: 12345 })
       },
       transactionData: {
         type: "TYPE",
@@ -155,7 +155,8 @@ describe(`ActionModal`, () => {
       submissionErrorPrefix: `PREFIX`,
       trackEvent: jest.fn(),
       connectLedger: () => {},
-      onSendingFailed: jest.fn()
+      onSendingFailed: jest.fn(),
+      createContext: jest.fn()
     }
     await ActionModal.methods.submit.call(self)
     expect(self.onSendingFailed).toHaveBeenCalledWith(
@@ -400,6 +401,35 @@ describe(`ActionModal`, () => {
         submissionError: null
       }
 
+      wrapper.setProps({ transactionProperties })
+      wrapper.setData(data)
+      await wrapper.vm.simulate()
+      wrapper.vm.$nextTick(() => {
+        expect(wrapper.vm.gasEstimate).toBe(123456)
+        expect(wrapper.vm.submissionError).toBe(null)
+        expect(wrapper.vm.step).toBe("fees")
+      })
+    })
+
+    it(`should simulate transaction to get estimated gas using Transaction API`, async () => {
+      const transactionProperties = {
+        type: "MsgSend",
+        toAddress: "comsos12345",
+        amounts: [
+          {
+            amount: "100000",
+            denom: "uatoms"
+          }
+        ],
+        memo: "A memo"
+      }
+      const data = {
+        step: `details`,
+        gasEstimate: null,
+        submissionError: null,
+        useTxService: true
+      }
+      wrapper.vm.createContext = jest.fn()
       wrapper.setProps({ transactionProperties })
       wrapper.setData(data)
       await wrapper.vm.simulate()
