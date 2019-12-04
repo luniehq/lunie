@@ -82,11 +82,11 @@ export function MsgSend(
 }
 
 // Staking
-/* istanbul ignore next */
 export function MsgDelegate(
   senderAddress,
   { validatorAddress, amount, denom }
 ) {
+  /* istanbul ignore next */
   return {
     type: `cosmos-sdk/MsgDelegate`,
     value: {
@@ -97,11 +97,11 @@ export function MsgDelegate(
   }
 }
 
-/* istanbul ignore next */
 export function MsgUndelegate(
   senderAddress,
   { validatorAddress, amount, denom }
 ) {
+  /* istanbul ignore next */
   return {
     type: `cosmos-sdk/MsgUndelegate`,
     value: {
@@ -112,11 +112,11 @@ export function MsgUndelegate(
   }
 }
 
-/* istanbul ignore next */
 export function MsgRedelegate(
   senderAddress,
   { validatorSourceAddress, validatorDestinationAddress, amount, denom }
 ) {
+  /* istanbul ignore next */
   return {
     type: `cosmos-sdk/MsgBeginRedelegate`,
     value: {
@@ -129,7 +129,6 @@ export function MsgRedelegate(
 }
 
 // Governance
-/* istanbul ignore next */
 export function MsgSubmitProposal(
   senderAddress,
   {
@@ -138,6 +137,7 @@ export function MsgSubmitProposal(
     initialDeposits // [{ denom, amount }]
   }
 ) {
+  /* istanbul ignore next */
   return {
     type: `cosmos-sdk/MsgSubmitProposal`,
     value: {
@@ -166,7 +166,6 @@ export function MsgVote(senderAddress, { proposalId, option }) {
   }
 }
 
-/* istanbul ignore next */
 export function MsgDeposit(
   senderAddress,
   {
@@ -174,6 +173,7 @@ export function MsgDeposit(
     amounts // [{ denom, amount }]
   }
 ) {
+  /* istanbul ignore next */
   return {
     type: `cosmos-sdk/MsgDeposit`,
     value: {
@@ -184,11 +184,11 @@ export function MsgDeposit(
   }
 }
 
-/* istanbul ignore next */
 export function MsgWithdrawDelegationReward(
   senderAddress,
   { validatorAddress }
 ) {
+  /* istanbul ignore next */
   return {
     type: `cosmos-sdk/MsgWithdrawDelegationReward`,
     value: {
