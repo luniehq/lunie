@@ -54,7 +54,6 @@ input[disabled],
 textarea[readonly],
 textarea[disabled] {
   background: var(--bc-dim) !important;
-  border-color: var(--bc) !important;
 }
 
 input[type="radio"] {
@@ -103,6 +102,7 @@ input.tm-field {
 
 #bar-container {
   display: block;
+  padding: 0.75rem;
 }
 
 .hide {
