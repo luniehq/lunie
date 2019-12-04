@@ -116,5 +116,16 @@ describe(`TmSessionHardware`, () => {
         "Using a Ledger on Windows requires experimental HID support in your"
       )
     })
+
+    describe(`onCopy`, () => {
+      it(`should set and reset copySuccess`, () => {
+        jest.useFakeTimers()
+        wrapper.vm.onCopy() // old test style to make timer work
+        expect(wrapper.vm.copySuccess).toBe(true)
+
+        jest.runAllTimers()
+        expect(wrapper.vm.copySuccess).toBe(false)
+      })
+    })
   })
 })
