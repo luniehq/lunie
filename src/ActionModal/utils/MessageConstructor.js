@@ -198,6 +198,7 @@ function Coin({ amount, denom }) {
   }
 }
 
+/* istanbul ignore next */
 function getMessageFormatter(messageType) {
   switch (messageType) {
     case "MsgSend":
