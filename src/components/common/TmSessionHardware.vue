@@ -80,7 +80,8 @@ export default {
     status: `connect`,
     connectionError: null,
     address: null,
-    copySuccess: false
+    copySuccess: false,
+    hidFeatureLink: `chrome://flags/#enable-experimental-web-platform-features`
   }),
   computed: {
     ...mapState([`session`]),
@@ -99,9 +100,6 @@ export default {
     isChrome() {
       const ua = navigator.userAgent.toLowerCase()
       return /chrome|crios/.test(ua) && !/edge|opr\//.test(ua)
-    },
-    hidFeatureLink() {
-      return `chrome://flags/#enable-experimental-web-platform-features`
     }
   },
   methods: {
