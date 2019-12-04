@@ -628,16 +628,6 @@ export default {
       this.submissionError = null
       this.trackEvent(`event`, `submit`, this.title, this.selectedSignMethod)
 
-      if (this.selectedSignMethod === SIGN_METHODS.LEDGER) {
-        try {
-          await this.connectLedger()
-        } catch (error) {
-          this.submissionError = `${this.submissionErrorPrefix}: ${error.message}.`
-          this.sending = false
-          return
-        }
-      }
-
       const { memo } = this.transactionData
 
       const gasPrice = {

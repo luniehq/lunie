@@ -16,7 +16,22 @@ export default () => {
         testModeAllowed: state.externals.config.testModeAllowed
       })
 
-      return await ledger.getCosmosAddress()
+      let address
+      try {
+        address = await ledger.getCosmosAddress()
+      } catch (err) {
+        if (err.message.trim().startsWith("Device is already open")) {
+          throw new Error(
+            "Something went wrong connecting to your Ledger. Please refresh your page and try again."
+          )
+        }
+        throw err
+      }
+
+      // cleanup. if we leave this open, the next connection will brake for HID
+      ledger.cosmosApp.transport.close()
+
+      return address
     }
   }
   return {
