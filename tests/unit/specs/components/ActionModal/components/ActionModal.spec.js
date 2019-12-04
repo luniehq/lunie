@@ -778,17 +778,4 @@ describe(`ActionModal`, () => {
     expect(wrapper.element).toMatchSnapshot()
     expect(wrapper.exists("featurenotavailable-stub")).toBe(true)
   })
-
-  describe(`windows`, () => {
-    it(`shows windows warning`, async () => {
-      wrapper.setData({
-        session: {
-          windowsDevice: true,
-          windowsWarning: "WINDOWS WARNING MESSAGE"
-        }
-      })
-      expect(wrapper.element).toMatchSnapshot()
-      expect(wrapper.text()).toMatch(/WINDOWS WARNING MESSAGE/)
-    })
-  })
 })
