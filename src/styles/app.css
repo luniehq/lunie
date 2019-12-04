@@ -109,6 +109,11 @@ input.tm-field {
   display: none;
 }
 
+.loading-image-container {
+  overflow: hidden;
+  padding-top: 2rem;
+}
+
 @media screen and (max-width: 1023px) {
   #app-content {
     padding-top: 66px;
