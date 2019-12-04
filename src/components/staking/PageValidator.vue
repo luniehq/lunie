@@ -35,7 +35,7 @@
             <h3 class="li-validator-name">
               {{ validator.name }}
             </h3>
-            <div v-if="delegation.amount">
+            <div v-if="delegation.amount >= SMALLEST">
               <h4>{{ delegation.amount | fullDecimals }}</h4>
               <h5 v-if="rewards">
                 +{{ rewards.amount | fullDecimals | noBlanks }}
@@ -49,7 +49,7 @@
         <TmBtn id="delegation-btn" value="Stake" @click.native="onDelegation" />
         <TmBtn
           id="undelegation-btn"
-          :disabled="delegation.amount === 0"
+          :disabled="delegation.amount < SMALLEST"
           value="Unstake"
           type="secondary"
           @click.native="onUndelegation"
@@ -161,7 +161,13 @@
 <script>
 import moment from "moment"
 import { mapGetters, mapState } from "vuex"
-import { atoms, shortDecimals, fullDecimals, percent } from "scripts/num"
+import {
+  atoms,
+  shortDecimals,
+  fullDecimals,
+  percent,
+  SMALLEST
+} from "scripts/num"
 import { noBlanks, fromNow } from "src/filters"
 import refetchNetworkOnly from "scripts/refetch-network-only"
 import TmBtn from "common/TmBtn"
@@ -214,7 +220,8 @@ export default {
     rewards: 0,
     delegation: {},
     error: false,
-    loaded: false
+    loaded: false,
+    SMALLEST
   }),
   computed: {
     ...mapState([`session`]),
