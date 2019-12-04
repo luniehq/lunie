@@ -44,8 +44,12 @@ describe(`LiValidator`, () => {
     picture: "picture.jpg",
     name: "",
     userShares: {
-      amount: 123
+      amount: 123456789
     }
+  }
+
+  const delegation = {
+    amount: 123456789
   }
 
   const index = 1
@@ -65,6 +69,7 @@ describe(`LiValidator`, () => {
       localVue,
       propsData: {
         validator,
+        delegation,
         index,
         showOnMobile: "returns"
       },
