@@ -29,6 +29,8 @@ exports[`WithdrawalDelegationRewardMessageDetails renders a withdraw delegation 
       SuperValidator
     
     </router-link-stub>
+     
+    <!---->
   </div>
 </div>
 `;
@@ -62,6 +64,8 @@ exports[`WithdrawalDelegationRewardMessageDetails renders a withdraw delegation 
       SuperValidator
     
     </router-link-stub>
+     
+    <!---->
   </div>
 </div>
 `;

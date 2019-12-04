@@ -6,10 +6,13 @@ describe(`WithdrawalDelegationRewardMessageDetails`, () => {
   // Examples @ https://stargate.cosmos.network/txs?action=withdraw_validator_rewards_all
   const tx = {
     height: 2000000,
-    value: {
-      delegator_address: "cosmos15r4tc0m6hc7z8drq3dzlrtcs6rq2q9l2kc6z4s",
-      validator_address: "cosmosvaloper15r4tc0m6hc7z8drq3dzlrtcs6rq2q9l2nvwher"
-    },
+    value: [
+      {
+        delegator_address: "cosmos15r4tc0m6hc7z8drq3dzlrtcs6rq2q9l2kc6z4s",
+        validator_address:
+          "cosmosvaloper15r4tc0m6hc7z8drq3dzlrtcs6rq2q9l2nvwher"
+      }
+    ],
     fee: {
       amount: "37",
       denom: "uatom"
