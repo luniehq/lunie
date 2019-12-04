@@ -1,10 +1,41 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`TransactionMetadata renders correct fee and block transaction data 1`] = `
-<div>
-  <div>
+exports[`TransactionMetadata renders correct transaction metadata 1`] = `
+<div
+  class="tx__metadata"
+>
+  <p>
     
-    Network Fee: 
+    Block
+    
+    <router-link-stub
+      to="[object Object]"
+    >
+      
+      #1,234,567
+    </router-link-stub>
+     
+    <i
+      class="material-icons"
+    >
+      access_time
+    </i>
+     00:00:00
+  
+  </p>
+   
+  <p>
+    
+    Liquid date:
+    Sat Nov 16 2019 14:08:20 GMT+0000
+  
+  </p>
+   
+  <!---->
+   
+  <p>
+    
+    Fee:
     
     <b>
       0.001234
@@ -13,17 +44,16 @@ exports[`TransactionMetadata renders correct fee and block transaction data 1`] 
     <span>
        ATOM
     </span>
-  </div>
+  </p>
    
-  <div>
-    <router-link-stub
-      to="[object Object]"
-    >
-      Block #1234567 
-    </router-link-stub>
+  <p>
     
-    @ Jul 31st 2019 00:00:00
-  
-  </div>
+    Hash: 
+    <span
+      class="hash"
+    >
+      ABCD1234
+    </span>
+  </p>
 </div>
 `;

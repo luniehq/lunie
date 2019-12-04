@@ -1,0 +1,43 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`DepositMessageDetails renders a deposit transaction message 1`] = `
+<div
+  class="tx__content"
+>
+  <transactionicon-stub
+    transactiongroup="governance"
+    transactiontype="Deposit"
+  />
+   
+  <div
+    class="tx__content__left"
+  >
+    <h3>
+      Deposit
+    </h3>
+     
+    <span>
+      On 
+    </span>
+     
+    <router-link-stub
+      to="/governance/1"
+    >
+      Proposal #1
+    </router-link-stub>
+  </div>
+   
+  <div
+    class="tx__content__right"
+  >
+    <p
+      class="amount"
+    >
+      
+      10,000 
+      ATOM
+    
+    </p>
+  </div>
+</div>
+`;

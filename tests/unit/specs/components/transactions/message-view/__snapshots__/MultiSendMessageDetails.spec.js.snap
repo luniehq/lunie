@@ -1,0 +1,110 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`MultiSendMessageDetails renders a received transaction message 1`] = `
+<div
+  class="tx__content"
+>
+  <transactionicon-stub
+    transactiongroup="banking"
+    transactiontype="Received"
+  />
+   
+  <div
+    class="tx__content__left"
+  >
+    <h3>
+      Received
+    </h3>
+     
+    <span>
+      From 
+    </span>
+     
+    <bech32-stub
+      address="cosmos1ahtlr29s38w23xxq7slcwmmz4c8x9efmr8qmee"
+    />
+  </div>
+   
+  <div
+    class="tx__content__right"
+  >
+    <p
+      class="amount"
+    >
+      
+      10,000 ATOM
+    
+    </p>
+  </div>
+</div>
+`;
+
+exports[`MultiSendMessageDetails renders a sent transaction message (send to yourself) 1`] = `
+<div
+  class="tx__content"
+>
+  <transactionicon-stub
+    transactiongroup="banking"
+    transactiontype="Sent"
+  />
+   
+  <div
+    class="tx__content__left"
+  >
+    <h3>
+      Sent
+    </h3>
+     
+    <span>
+      To yourself — 
+    </span>
+  </div>
+   
+  <div
+    class="tx__content__right"
+  >
+    <p
+      class="amount"
+    >
+      
+      20,000 ATOM
+    
+    </p>
+  </div>
+</div>
+`;
+
+exports[`MultiSendMessageDetails renders a sent transaction message 1`] = `
+<div
+  class="tx__content"
+>
+  <transactionicon-stub
+    transactiongroup="banking"
+    transactiontype="Sent"
+  />
+   
+  <div
+    class="tx__content__left"
+  >
+    <h3>
+      Sent
+    </h3>
+     
+    <span>
+      To yourself — 
+    </span>
+  </div>
+   
+  <div
+    class="tx__content__right"
+  >
+    <p
+      class="amount"
+    >
+      
+      20,000 ATOM
+    
+    </p>
+  </div>
+</div>
+`;

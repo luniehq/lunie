@@ -147,6 +147,26 @@ export default {
           // query if successful or not as even an unsuccessful tx costs fees
           refetchNetworkOnly(this.$apollo.queries.overview)
         }
+      },
+      blockAdded: {
+        variables() {
+          return {
+            networkId: this.network
+          }
+        },
+        query() {
+          return gql`
+            subscription($networkId: String!) {
+              blockAdded(networkId: $networkId) {
+                height
+                chainId
+              }
+            }
+          `
+        },
+        result() {
+          refetchNetworkOnly(this.$apollo.queries.overview)
+        }
       }
     }
   }

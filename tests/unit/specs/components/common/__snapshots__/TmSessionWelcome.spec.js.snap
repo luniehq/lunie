@@ -17,6 +17,17 @@ exports[`TmSessionWelcome has the expected html structure 1`] = `
       />
     </router-link-stub>
      
+    <router-link-stub
+      class="session-close-mobile user-box"
+      to="/"
+    >
+      <i
+        class="material-icons"
+      >
+        close
+      </i>
+    </router-link-stub>
+     
     <h2
       class="session-title welcome"
     >
@@ -97,6 +108,17 @@ exports[`TmSessionWelcome has the expected html structure when on mobile 1`] = `
         class="session-logo-mobile"
         src="~assets/images/lunie-logo-white.svg"
       />
+    </router-link-stub>
+     
+    <router-link-stub
+      class="session-close-mobile user-box"
+      to="/"
+    >
+      <i
+        class="material-icons"
+      >
+        close
+      </i>
     </router-link-stub>
      
     <h2

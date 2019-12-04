@@ -39,7 +39,9 @@ export default function({ apollo }) {
           // otherwise we connect to a fallback network
           await dispatch(
             `setNetwork`,
-            data.networks.find(({ id }) => id === state.externals.config.fallbackNetwork)
+            data.networks.find(
+              ({ id }) => id === state.externals.config.fallbackNetwork
+            )
           )
         }
       }
