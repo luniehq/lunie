@@ -10,9 +10,29 @@
           <template v-if="isWindows && !hasHIDEnabled">
             Using a Ledger on Windows requires experimental HID support in your
             browser.
-            <template v-if="browser === 'chrome' || browser === 'brave'"
-              >Please enable this feature here: <a :href="hidFeatureLink"></a
-            ></template>
+            <template v-if="isChrome">
+              <br />
+              <br />
+              <p>
+                Please copy this link into a new tab and 'enable' the shown
+                feature:
+              </p>
+              <div
+                v-clipboard:copy="hidFeatureLink"
+                v-clipboard:success="() => onCopy()"
+                class="copy-feature-link"
+              >
+                {{ hidFeatureLink }}
+                <i
+                  class="material-icons copied"
+                  :class="{ active: copySuccess }"
+                >
+                  check
+                </i>
+              </div>
+              <br />
+              <br />
+            </template>
           </template>
           <template v-else-if="status === `connect` || status === `detect`">
             <p>
@@ -25,7 +45,11 @@
           </p>
           <TmBtn
             :value="submitCaption"
-            :disabled="status === `connect` ? false : `disabled`"
+            :disabled="
+              status === `connect` || (isWindows && !hasHIDEnabled)
+                ? false
+                : `disabled`
+            "
             @click.native="signIn()"
           />
         </HardwareState>
@@ -55,7 +79,8 @@ export default {
   data: () => ({
     status: `connect`,
     connectionError: null,
-    address: null
+    address: null,
+    copySuccess: false
   }),
   computed: {
     ...mapState([`session`]),
@@ -71,17 +96,12 @@ export default {
     hasHIDEnabled() {
       return !!navigator.hid
     },
-    browser() {
+    isChrome() {
       const ua = navigator.userAgent.toLowerCase()
-      const isChrome = /chrome|crios/.test(ua) && !/edge|opr\//.test(ua)
-      const isBrave = isChrome && !window.google
-
-      if (isBrave) return "brave"
-      if (isChrome) return "chrome"
-      return undefined
+      return /chrome|crios/.test(ua) && !/edge|opr\//.test(ua)
     },
     hidFeatureLink() {
-      return `${this.browser}://flags/#enable-experimental-web-platform-features`
+      return `chrome://flags/#enable-experimental-web-platform-features`
     }
   },
   methods: {
@@ -102,6 +122,12 @@ export default {
         sessionType: `ledger`,
         address: this.address
       })
+    },
+    onCopy() {
+      this.copySuccess = true
+      setTimeout(() => {
+        this.copySuccess = false
+      }, 2500)
     }
   }
 }
@@ -149,5 +175,29 @@ export default {
   font-size: 14px;
   font-style: normal;
   width: 100%;
+}
+
+.copy-feature-link {
+  display: initial;
+  font-size: 0.8rem;
+  cursor: pointer;
+  margin-bottom: 0.2rem;
+  color: var(--link);
+}
+
+.copy-feature-link .material-icons {
+  font-size: 12px;
+}
+
+.copy-feature-link .copied {
+  padding-bottom: 2px;
+  padding-right: 0;
+  transition: opacity 500ms ease;
+  color: var(--success);
+  opacity: 0;
+}
+
+.copy-feature-link .copied.active {
+  opacity: 1;
 }
 </style>
