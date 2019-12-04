@@ -133,8 +133,8 @@
               }}
             </div>
             <div v-else>
-              Please use Chrome, Brave, or Opera. Ledger is not supported in
-              this browser.
+              Please use Chrome or Brave. Ledger is not supported in this
+              browser.
             </div>
           </HardwareState>
           <HardwareState

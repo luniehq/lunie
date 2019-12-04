@@ -34,8 +34,7 @@
 
     <div v-else class="session-main">
       <p>
-        Please use Chrome, Opera, or Brave. Ledger is not supported in this
-        browser.
+        Please use Chrome or Brave. Ledger is not supported in this browser.
       </p>
     </div>
   </SessionFrame>
@@ -80,12 +79,6 @@ export default {
       if (isBrave) return "brave"
       if (isChrome) return "chrome"
       return undefined
-    },
-    browserWithLedgerSupport() {
-      return (
-        navigator.userAgent.includes(`Chrome`) ||
-        navigator.userAgent.includes(`Opera`)
-      )
     },
     hidFeatureLink() {
       return `${this.browser}://flags/#enable-experimental-web-platform-features`

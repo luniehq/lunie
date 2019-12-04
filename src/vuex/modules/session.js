@@ -25,6 +25,9 @@ export default ({ apollo }) => {
       error: { active: false },
       help: { active: false }
     },
+    browserWithLedgerSupport:
+      navigator.userAgent.includes(`Chrome`) ||
+      navigator.userAgent.includes(`Opera`),
 
     // import into state to be able to test easier
     externals: {
