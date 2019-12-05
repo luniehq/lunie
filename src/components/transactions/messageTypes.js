@@ -15,21 +15,4 @@ const messageType = {
   WITHDRAW_VALIDATOR_COMMISSION: "cosmos-sdk/MsgWithdrawValidatorCommission"
 }
 
-// const transactionGroup = {
-//   [messageType.SEND]: "banking",
-//   [messageType.MULTISEND]: "banking",
-//   [messageType.CREATE_VALIDATOR]: "staking",
-//   [messageType.EDIT_VALIDATOR]: "staking",
-//   [messageType.DELEGATE]: "staking",
-//   [messageType.UNDELEGATE]: "staking",
-//   [messageType.BEGIN_REDELEGATE]: "staking",
-//   [messageType.UNJAIL]: "staking",
-//   [messageType.SUBMIT_PROPOSAL]: "governance",
-//   [messageType.DEPOSIT]: "governance",
-//   [messageType.VOTE]: "governance",
-//   [messageType.SET_WITHDRAW_ADDRESS]: "distribution",
-//   [messageType.WITHDRAW_DELEGATION_REWARD]: "distribution",
-//   [messageType.WITHDRAW_VALIDATOR_COMMISSION]: "distribution"
-// }
-
-export { messageType, transactionGroup }
+export { messageType }
