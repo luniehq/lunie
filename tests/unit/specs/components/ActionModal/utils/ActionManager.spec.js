@@ -274,7 +274,7 @@ describe("ActionManager", () => {
         .mockResolvedValue({ success: false })
 
       await expect(
-        await actionManager.simulateTxAPI(
+        actionManager.simulateTxAPI(
           actionManager.context,
           "MsgSend",
           sendTx.txProps,
