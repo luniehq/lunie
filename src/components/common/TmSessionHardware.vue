@@ -6,11 +6,35 @@
 
     <template v-if="session.browserWithLedgerSupport">
       <div class="session-main">
-        <p v-if="session.windowsDevice" class="form-message notice">
-          {{ session.windowsWarning }}
-        </p>
         <HardwareState :loading="status === `connect` ? false : true">
-          <template v-if="status === `connect` || status === `detect`">
+          <template v-if="isWindows && !hasHIDEnabled">
+            Using a Ledger on Windows requires experimental HID support in your
+            browser.
+            <template v-if="isChrome">
+              <br />
+              <br />
+              <p>
+                Please copy the link below into a new tab and 'enable' experimental web platform
+                features:
+              </p>
+              <div
+                v-clipboard:copy="hidFeatureLink"
+                v-clipboard:success="() => onCopy()"
+                class="copy-feature-link"
+              >
+                {{ hidFeatureLink }}
+                <i
+                  class="material-icons copied"
+                  :class="{ active: copySuccess }"
+                >
+                  check
+                </i>
+              </div>
+              <br />
+              <br />
+            </template>
+          </template>
+          <template v-else-if="status === `connect` || status === `detect`">
             <p>
               Please plug in your Ledger&nbsp;Nano and open the Cosmos Ledger
               app
@@ -21,7 +45,11 @@
           </p>
           <TmBtn
             :value="submitCaption"
-            :disabled="status === `connect` ? false : `disabled`"
+            :disabled="
+              status === `connect` || (isWindows && !hasHIDEnabled)
+                ? false
+                : `disabled`
+            "
             @click.native="signIn()"
           />
         </HardwareState>
@@ -30,8 +58,7 @@
 
     <div v-else class="session-main">
       <p>
-        Please use Chrome, Opera, or Brave. Ledger is not supported in this
-        browser.
+        Please use Chrome or Brave. Ledger is not supported in this browser.
       </p>
     </div>
   </SessionFrame>
@@ -52,7 +79,10 @@ export default {
   data: () => ({
     status: `connect`,
     connectionError: null,
-    address: null
+    address: null,
+    copySuccess: false,
+    hidFeatureLink: `chrome://flags/#enable-experimental-web-platform-features`,
+    navigator: window.navigator
   }),
   computed: {
     ...mapState([`session`]),
@@ -61,6 +91,16 @@ export default {
         connect: "Sign In",
         detect: "Waiting for Ledger"
       }[this.status]
+    },
+    isWindows() {
+      return this.navigator.platform.indexOf("Win") > -1
+    },
+    hasHIDEnabled() {
+      return !!this.navigator.hid
+    },
+    isChrome() {
+      const ua = navigator.userAgent.toLowerCase()
+      return /chrome|crios/.test(ua) && !/edge|opr\//.test(ua)
     }
   },
   methods: {
@@ -81,6 +121,12 @@ export default {
         sessionType: `ledger`,
         address: this.address
       })
+    },
+    onCopy() {
+      this.copySuccess = true
+      setTimeout(() => {
+        this.copySuccess = false
+      }, 2500)
     }
   }
 }
@@ -128,5 +174,29 @@ export default {
   font-size: 14px;
   font-style: normal;
   width: 100%;
+}
+
+.copy-feature-link {
+  display: initial;
+  font-size: 0.8rem;
+  cursor: pointer;
+  margin-bottom: 0.2rem;
+  color: var(--link);
+}
+
+.copy-feature-link .material-icons {
+  font-size: 12px;
+}
+
+.copy-feature-link .copied {
+  padding-bottom: 2px;
+  padding-right: 0;
+  transition: opacity 500ms ease;
+  color: var(--success);
+  opacity: 0;
+}
+
+.copy-feature-link .copied.active {
+  opacity: 1;
 }
 </style>

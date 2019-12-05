@@ -101,5 +101,31 @@ describe(`TmSessionHardware`, () => {
         expect.objectContaining({})
       )
     })
+
+    it(`does show the instructions to enable HID on Windows`, () => {
+      wrapper.setData({
+        navigator: {
+          hid: undefined,
+          platform: "Win64",
+          userAgent: "Chrome"
+        }
+      })
+
+      expect(wrapper.html()).toMatchSnapshot()
+      expect(wrapper.html()).toContain(
+        "Using a Ledger on Windows requires experimental HID support in your"
+      )
+    })
+
+    describe(`onCopy`, () => {
+      it(`should set and reset copySuccess`, () => {
+        jest.useFakeTimers()
+        wrapper.vm.onCopy() // old test style to make timer work
+        expect(wrapper.vm.copySuccess).toBe(true)
+
+        jest.runAllTimers()
+        expect(wrapper.vm.copySuccess).toBe(false)
+      })
+    })
   })
 })

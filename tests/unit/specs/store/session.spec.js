@@ -28,12 +28,6 @@ describe(`Module: Session`, () => {
     expect(state.address).toBe(null)
   })
 
-  it(`should set windows device property`, () => {
-    jest.spyOn(window.navigator, "platform", "get").mockReturnValue("win32")
-    state = sessionModule({ node }).state
-    expect(state.windowsDevice).toBe(true)
-  })
-
   it("should always default to disable the local signer", () => {
     expect(state.insecureMode).toBe(false)
   })
@@ -280,7 +274,7 @@ describe(`Module: Session`, () => {
   })
 
   it(`should enable error collection`, async () => {
-    jest.spyOn(console, `log`).mockImplementationOnce(() => {})
+    jest.spyOn(console, `log`).mockImplementationOnce(() => { })
     const commit = jest.fn()
     const dispatch = jest.fn()
     await actions.setErrorCollection(
@@ -296,7 +290,7 @@ describe(`Module: Session`, () => {
   })
 
   it(`should disable error collection`, async () => {
-    jest.spyOn(console, `log`).mockImplementationOnce(() => {})
+    jest.spyOn(console, `log`).mockImplementationOnce(() => { })
     const commit = jest.fn()
     const dispatch = jest.fn()
     await actions.setErrorCollection(
@@ -312,7 +306,7 @@ describe(`Module: Session`, () => {
   })
 
   it(`should disable analytics collection`, async () => {
-    jest.spyOn(console, `log`).mockImplementationOnce(() => {})
+    jest.spyOn(console, `log`).mockImplementationOnce(() => { })
     const commit = jest.fn()
     const dispatch = jest.fn()
     await actions.setAnalyticsCollection(

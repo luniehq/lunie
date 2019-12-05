@@ -1,0 +1,1 @@
+[Changed] [#3247](https://github.com/cosmos/lunie/issues/3247) Use WebHID for Ledger on Windows and WebUSB for Ledger on OSX/Linux to improve stability @faboweb
