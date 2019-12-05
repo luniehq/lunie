@@ -131,7 +131,7 @@ export default {
     },
     shortenName(name) {
       if (name.length > 30) {
-        return name.substr(0, 30).concat('...')
+        return name.substr(0, 30).concat("...")
       } else {
         return name
       }
