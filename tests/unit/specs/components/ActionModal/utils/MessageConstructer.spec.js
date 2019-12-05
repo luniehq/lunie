@@ -88,7 +88,7 @@ describe("MessageConstructor", () => {
     expect(result).not.toBeDefined()
   })
 
- it("should return transaction signer", async () => {
+  it("should return transaction signer", async () => {
     result = await getTransactionSigner(
       { networkId: "cosmos-hub-mainnet" },
       messages
@@ -110,7 +110,7 @@ describe("MessageConstructor", () => {
 
   it("should throw when getting a transaction signer for incorrect network", async () => {
     await expect(
-      getTransactionSigner( { networkId: "does-not-exist" })
+      getTransactionSigner({ networkId: "does-not-exist" })
     ).rejects.toThrow()
-  })  
+  })
 })

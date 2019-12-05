@@ -60,7 +60,7 @@ export default {
   },
   watch: {
     "sort.property": function() {
-    /* istanbul ignore next */
+      /* istanbul ignore next */
       this.showing = 15
     },
     "sort.order": function() {

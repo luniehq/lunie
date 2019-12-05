@@ -633,13 +633,7 @@ export default {
       this.submissionError = null
       this.trackEvent(`event`, `submit`, this.title, this.selectedSignMethod)
 
-
       const { type, memo, ...properties } = this.transactionData
-
-      const gasPrice = {
-        amount: this.gasPrice,
-        denom: this.network.stakingDenom
-      }
 
       const feeProperties = {
         gasEstimate: this.gasEstimate,
