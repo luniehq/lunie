@@ -242,19 +242,15 @@ describe("ActionManager", () => {
     })
 
     it("should estimate via Tx API", async () => {
-      const context = {
-        ...actionManager.context,
-        account: {
-          accountNumber: 1,
-          sequence: 1
-        }
-      }
-
       actionManager.transactionAPIRequest = jest
         .fn()
         .mockResolvedValue({ success: true, gasEstimate: 12345 })
 
-      await actionManager.simulateTxAPI(context, "MsgSend", sendTx.txProps)
+      await actionManager.simulateTxAPI(
+        actionManager.context,
+        "MsgSend",
+        sendTx.txProps
+      )
 
       const expectArgs = {
         simulate: true,
@@ -270,6 +266,21 @@ describe("ActionManager", () => {
       expect(actionManager.transactionAPIRequest).toHaveBeenCalledWith(
         expectArgs
       )
+    })
+
+    it("should estimate via Tx API FAILS", async () => {
+      actionManager.transactionAPIRequest = jest
+        .fn()
+        .mockResolvedValue({ success: false })
+
+      await expect(
+        await actionManager.simulateTxAPI(
+          actionManager.context,
+          "MsgSend",
+          sendTx.txProps,
+          "memo"
+        )
+      ).rejects.toThrow()
     })
 
     it("should send via Tx API", async () => {
@@ -338,7 +349,7 @@ describe("ActionManager", () => {
       )
     })
 
-    it("should send via Tx API (withdraw) FAILS", async () => {
+    it("should send via Tx API FAILS", async () => {
       const context = {
         ...actionManager.context,
         account: {
