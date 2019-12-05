@@ -1,39 +1,45 @@
 import config from "src/../config"
-import { getSigner } from "src/ActionModal/utils/signer.js"
-
-jest.mock("@lunie/cosmos-keys", () => ({
-  signWithPrivateKey: () => Buffer.alloc(0),
-  getStoredWallet: () => ({
-    privateKey: "1234",
-    publicKey: "1234"
-  })
-}))
-
-jest.mock(
-  `@lunie/cosmos-ledger`,
-  () =>
-    class mockLedger {
-      constructor() {
-        this.getKey = () => () => Buffer.alloc(0)
-        this.getPubKey = () => Buffer.alloc(0)
-        this.sign = () => Buffer.alloc(0)
-        this.cosmosApp = {
-          transport: {
-            close: jest.fn()
-          }
-        }
-      }
-    }
-)
-
-jest.mock(`scripts/extension-utils`, () => ({
-  signWithExtension: jest.fn(() => ({
-    signature: Buffer.alloc(0),
-    publicKey: Buffer.alloc(0)
-  }))
-}))
 
 describe("pick signer", () => {
+  let getSigner
+  beforeEach(() => {
+    jest.resetModules()
+    jest.doMock("@lunie/cosmos-keys", () => ({
+      signWithPrivateKey: () => Buffer.alloc(0),
+      getStoredWallet: () => ({
+        privateKey: "1234",
+        publicKey: "1234"
+      })
+    }))
+
+    jest.doMock(
+      `@lunie/cosmos-ledger`,
+      () =>
+        class mockLedger {
+          constructor() {
+            this.getKey = () => () => Buffer.alloc(0)
+            this.getPubKey = () => Buffer.alloc(0)
+            this.sign = () => Buffer.alloc(0)
+            this.cosmosApp = {
+              transport: {
+                close: jest.fn()
+              }
+            }
+          }
+        }
+    )
+
+    jest.doMock(`scripts/extension-utils`, () => ({
+      signWithExtension: jest.fn(() => ({
+        signature: Buffer.alloc(0),
+        publicKey: Buffer.alloc(0)
+      }))
+    }))
+
+    const signer = require("src/ActionModal/utils/signer.js")
+    getSigner = signer.getSigner
+  })
+
   it("should should exist", () => {
     expect(getSigner).toBeDefined()
   })
@@ -46,10 +52,6 @@ describe("pick signer", () => {
       signature: expect.any(Buffer),
       publicKey: expect.any(Buffer)
     })
-    // expect(signWithPrivateKey).toHaveBeenCalledWith(
-    //   "message",
-    //   expect.any(Buffer)
-    // )
   })
 
   it("should pick a ledger signer", async () => {
@@ -61,7 +63,35 @@ describe("pick signer", () => {
       signature: expect.any(Buffer),
       publicKey: expect.any(Buffer)
     })
-    // expect(ledgerMock.sign).toHaveBeenCalledWith("message")
+  })
+
+  it("should handle errors", async () => {
+    jest.resetModules()
+    jest.doMock(
+      `@lunie/cosmos-ledger`,
+      () =>
+        class mockLedger {
+          constructor() {
+            this.getKey = () => () => Buffer.alloc(0)
+            this.getPubKey = () => Buffer.alloc(0)
+            this.sign = () => {
+              throw new Error("XXX")
+            }
+            this.cosmosApp = {
+              transport: {
+                close: jest.fn()
+              }
+            }
+          }
+        }
+    )
+    const { getSigner } = require("src/ActionModal/utils/signer.js")
+
+    const signer = await getSigner(config, "ledger", {
+      address: "",
+      password: "1234567890"
+    })
+    await expect(signer("message")).rejects.toThrow("XXX")
   })
 
   it("should pick the extension signer", async () => {
