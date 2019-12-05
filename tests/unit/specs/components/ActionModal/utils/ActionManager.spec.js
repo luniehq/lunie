@@ -349,9 +349,9 @@ describe("ActionManager", () => {
 
       actionManager.transactionAPIRequest = jest
         .fn()
-        .mockResolvedValue({ success: false })
+        .mockResolvedValue({ success: false, hash: 1234 })
 
-      expect(() => {
+      await expect(
         actionManager.sendTxAPI(
           context,
           "MsgSend",
@@ -359,7 +359,7 @@ describe("ActionManager", () => {
           sendTx.txProps,
           sendTx.txMetaData
         )
-      }).toThrow()
+      ).rejects.toThrow()
     })
 
     it("should send estimate request", () => {
