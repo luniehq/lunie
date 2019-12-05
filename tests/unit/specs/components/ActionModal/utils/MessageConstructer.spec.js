@@ -21,20 +21,30 @@ jest.mock(`cosmos-apiV0`, () => ({
   __esModule: true
 }))
 jest.mock(`cosmos-apiV2`, () => ({
-  // default: mockCosmosMessage,
+  default: mockCosmosMessage,
   createSignedTransaction: jest.fn(() => "signedMessage"),
   __esModule: true
 }))
 
 describe("MessageConstructor", () => {
-  let context, messages
+  let context, messages, result
 
   it("should return message", async () => {
-    context = {
+    result = await getMessage("MsgSend", messages, {
       networkId: "cosmos-hub-mainnet"
-    }
+    })
+    expect(result.simulate).toBeDefined()
+    expect(result.send).toBeDefined()
 
-    const result = await getMessage("MsgSend", messages, context)
+    result = await getMessage("MsgSend", messages, {
+      networkId: "local-cosmos-hub-testnet"
+    })
+    expect(result.simulate).toBeDefined()
+    expect(result.send).toBeDefined()
+
+    result = await getMessage("MsgSend", messages, {
+      networkId: "cosmos-hub-testnet"
+    })
     expect(result.simulate).toBeDefined()
     expect(result.send).toBeDefined()
   })
@@ -47,12 +57,33 @@ describe("MessageConstructor", () => {
   })
 
   it("should return multi message", async () => {
-    context = {
-      networkId: "cosmos-hub-mainnet"
-    }
-
-    const result = await getMultiMessage(context, messages)
+    result = await getMultiMessage(
+      { networkId: "cosmos-hub-mainnet" },
+      messages
+    )
     expect(result.simulate).toBeDefined()
     expect(result.send).toBeDefined()
+
+    result = await getMultiMessage(
+      { networkId: "local-cosmos-hub-testnet" },
+      messages
+    )
+    expect(result.simulate).toBeDefined()
+    expect(result.send).toBeDefined()
+
+    result = await getMultiMessage(
+      { networkId: "cosmos-hub-testnet" },
+      messages
+    )
+    expect(result.simulate).toBeDefined()
+    expect(result.send).toBeDefined()
+  })
+
+  it("should return undefined with incorrect network", async () => {
+    const result = await getMultiMessage(
+      { networkId: "does-not-exist" },
+      messages
+    )
+    expect(result).not.toBeDefined()
   })
 })
