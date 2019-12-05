@@ -3,15 +3,15 @@ import {
   getMultiMessage
 } from "src/ActionModal/utils/MessageConstructor.js"
 
-const mockMultiMessage = jest.fn(() => ({
+const mockMessageObject = jest.fn(() => ({
   simulate: jest.fn(),
   send: jest.fn()
 }))
 
 const mockCosmosMessage = jest.fn().mockImplementation(() => {
   return {
-    MsgSend: mockMultiMessage,
-    MultiMessage: mockMultiMessage
+    MsgSend: mockMessageObject,
+    MultiMessage: mockMessageObject
   }
 })
 
