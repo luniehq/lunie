@@ -29,7 +29,7 @@ describe(`BeginRedelegateMessageDetails`, () => {
     type: `cosmos-sdk/MsgBeginRedelegate`
   }
 
-  let buggyTx = tx;
+  let buggyTx = tx
   buggyTx.value.amount[0].denom = "undefined"
 
   it(`renders a redelegate transaction message`, () => {
