@@ -69,7 +69,8 @@ export default {
       return orderBy(
         this.validators.map(validator => ({
           ...validator,
-          smallName: validator.name ? validator.name.toLowerCase() : ""
+          smallName: validator.name ? validator.name.toLowerCase() : "",
+          shortenName: validator.name ? this.shortenName(validator.name) : ""
         })),
         [this.sort.property],
         [this.sort.order]
@@ -127,6 +128,13 @@ export default {
       return this.rewards.find(
         ({ validator }) => validator.operatorAddress === operatorAddress
       )
+    },
+    shortenName(name) {
+      if (name.length > 30) {
+        return name.substr(0, 30).concat('...')
+      } else {
+        return name
+      }
     }
   },
   apollo: {

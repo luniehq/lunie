@@ -36,7 +36,7 @@
       />
       <div class="validator-info">
         <h3 class="li-validator-name">
-          {{ validator.name }}
+          {{ validator.shortenName }}
         </h3>
         <div v-if="delegation.amount > 0">
           <h4>
