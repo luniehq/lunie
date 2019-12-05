@@ -3,10 +3,12 @@
 # Welcome to [Lunie.io](https://lunie.io)!
 
 [![CircleCI](https://circleci.com/gh/luniehq/lunie/tree/develop.svg?style=svg)](https://circleci.com/gh/luniehq/lunie/tree/develop)
+[![Build Status iOS](https://app.bitrise.io/app/727927d247d126ae/status.svg?token=gmn_bux2oTIdwkDY68KGcA&branch=master)](https://app.bitrise.io/app/727927d247d126ae)
+[![Build Status Android](https://app.bitrise.io/app/e61bf9f3e2065440/status.svg?token=Y5zQpmcPnqkbYgMn29Hmiw&branch=master)](https://app.bitrise.io/app/e61bf9f3e2065440)
 [![codecov](https://codecov.io/gh/luniehq/lunie/branch/develop/graph/badge.svg)](https://codecov.io/gh/luniehq/lunie)
 [![Maintainability](https://api.codeclimate.com/v1/badges/a99a88d28ad37a79dbf6/maintainability)](https://codeclimate.com/github/codeclimate/codeclimate/maintainability)
 
-👋 Welcome to Lunie. We're making staking accessible for everyone. This is the repo for the Lunie web app.
+👋 Welcome to Lunie. We're making staking accessible for everyone. This is the repo for the Lunie web and mobile apps.
 
 ## Development Dependencies
 
