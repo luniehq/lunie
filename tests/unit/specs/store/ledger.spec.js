@@ -8,6 +8,11 @@ jest.mock(
     class mockLedger {
       constructor() {
         this.getCosmosAddress = () => "cosmos1"
+        this.cosmosApp = {
+          transport: {
+            close: jest.fn()
+          }
+        }
       }
     }
 )

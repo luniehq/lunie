@@ -543,43 +543,6 @@ describe(`ActionModal`, () => {
       expect(wrapper.html()).toContain("Transaction failed: invalid request.")
       expect(wrapper.vm.step).toBe("sign")
     })
-
-    it("should fail if can't connect to Ledger", async () => {
-      $store.dispatch = jest.fn(() =>
-        Promise.reject(new Error(`couldn't find Ledger`))
-      )
-
-      const data = {
-        step: `sign`,
-        gasEstimate: null,
-        submissionError: null,
-        actionManager: {},
-        selectedSignMethod: "ledger"
-      }
-
-      const transactionProperties = {
-        type: "MsgSend",
-        toAddress: "comsos12345",
-        amounts: [
-          {
-            amount: "100000",
-            denom: "uatoms"
-          }
-        ],
-        memo: "A memo"
-      }
-
-      wrapper.setProps({ transactionProperties })
-      wrapper.setData(data)
-      wrapper.vm.submit()
-      await wrapper.vm.$nextTick()
-      await wrapper.vm.$nextTick()
-
-      expect(wrapper.html()).toContain(
-        "Transaction failed: couldn't find Ledger."
-      )
-      expect(wrapper.vm.step).toBe("sign")
-    })
   })
 
   describe(`runs validation and changes step`, () => {

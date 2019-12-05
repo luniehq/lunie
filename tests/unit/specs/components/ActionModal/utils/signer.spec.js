@@ -17,6 +17,11 @@ jest.mock(
         this.getKey = () => () => Buffer.alloc(0)
         this.getPubKey = () => Buffer.alloc(0)
         this.sign = () => Buffer.alloc(0)
+        this.cosmosApp = {
+          transport: {
+            close: jest.fn()
+          }
+        }
       }
     }
 )
