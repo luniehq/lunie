@@ -36,6 +36,36 @@ describe(`Module: Ledger`, () => {
         })
         expect(res).toBe("cosmos1")
       })
+
+      it(`handles errors`, async () => {
+        jest.resetModules()
+        jest.doMock(
+          `@lunie/cosmos-ledger`,
+          () =>
+            class mockLedger {
+              constructor() {
+                this.getCosmosAddress = () => {
+                  throw new Error("XXX")
+                }
+                this.cosmosApp = {
+                  transport: {
+                    close: jest.fn()
+                  }
+                }
+              }
+            }
+        )
+        const commit = jest.fn()
+        const ledgerModule = require("modules/ledger.js").default
+        const module = ledgerModule()
+        actions = module.actions
+        await expect(
+          actions.connectLedgerApp({
+            commit,
+            state
+          })
+        ).rejects.toThrow("XXX")
+      })
     })
   })
 })

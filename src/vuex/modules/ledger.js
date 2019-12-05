@@ -20,6 +20,7 @@ export default () => {
       try {
         address = await ledger.getCosmosAddress()
       } catch (err) {
+        /* istanbul ignore next: specific error rewrite */
         if (err.message.trim().startsWith("Device is already open")) {
           throw new Error(
             "Something went wrong connecting to your Ledger. Please refresh your page and try again."
