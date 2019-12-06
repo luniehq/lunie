@@ -36,7 +36,7 @@
       />
       <div class="validator-info">
         <h3 class="li-validator-name">
-          {{ validator.shortenName }}
+          {{ validator.name | truncate(30) }}
         </h3>
         <div v-if="delegation.amount > 0">
           <h4>
@@ -60,6 +60,7 @@
 </template>
 
 <script>
+import { truncate } from "src/filters"
 import { percent, shortDecimals, atoms } from "scripts/num"
 import Avatar from "common/Avatar"
 export default {
@@ -71,6 +72,7 @@ export default {
     atoms,
     shortDecimals,
     percent,
+    truncate,
     toLower: text => text.toLowerCase()
   },
   props: {
