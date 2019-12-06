@@ -7,6 +7,25 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.0-beta.148] - 2019-12-03
+
+### Added
+
+- [#3199](https://github.com/cosmos/lunie/issues/3199) Now there is a close button also for mobile screen during the sign in flow @Bitcoinera
+- defer loading intercom script @jbibla
+- [#3078](https://github.com/cosmos/lunie/issues/3078) Improve design of Activity page and support multisend transactions @mariopino
+
+### Changed
+
+- [#3240](https://github.com/cosmos/lunie/issues/3240) Swithing to query batching @iambeone
+- changed the image for lunie on open graph @jbibla
+
+### Fixed
+
+- Fix votes failing due to low gas estimate @faboweb
+- [#3201](https://github.com/cosmos/lunie/issues/3201) Fix validators are not being resolved in blocks page @mariopino
+- [#3237](https://github.com/cosmos/lunie/issues/3237) Workaround to fix wrong denom NDEFINED showed in Staking and Restaking transactions @mariopino
+
 ## [1.0.0-beta.147] - 2019-11-29
 
 ### Fixed
