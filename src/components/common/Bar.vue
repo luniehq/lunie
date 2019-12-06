@@ -1,12 +1,9 @@
 <template>
   <div v-if="showMessage" :class="`bar ${barType}`">
-    <i></i>
     <p>
       <slot />
     </p>
-    <a class="close">
-      <i class="material-icons close-icon" @click="close()">close</i>
-    </a>
+    <i class="material-icons close-icon" @click="close()">close</i>
   </div>
 </template>
 
@@ -35,17 +32,14 @@ export default {
 
 <style scoped>
 .bar {
-  left: 0;
-  right: 0;
-  top: 0;
   width: 100%;
-  padding: 1rem;
+  padding: 0.75rem 1rem;
+  margin-bottom: 0.5rem;
+  border-radius: 0.5rem;
   font-family: var(--sans);
-  background-color: #551f38;
+  background-color: transparent;
   font-size: 14px;
-  line-height: 20px;
   font-weight: 400;
-  text-align: center;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -78,14 +72,9 @@ export default {
   cursor: pointer;
 }
 
-.bar .close {
-  cursor: pointer;
-  height: 1rem;
-  width: 1rem;
-  color: var(--bright);
-}
-
 .close-icon {
-  line-height: 18px;
+  cursor: pointer;
+  font-size: 18px;
+  padding-left: 1rem;
 }
 </style>

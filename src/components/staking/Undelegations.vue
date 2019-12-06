@@ -1,5 +1,7 @@
 <template>
-  <div v-if="undelegations.length > 0">
+  <div
+    v-if="!$apollo.queries.undelegations.loading && undelegations.length > 0"
+  >
     <h3 class="tab-header">
       Pending Undelegations
     </h3>
