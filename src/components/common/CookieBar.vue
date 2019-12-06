@@ -5,7 +5,7 @@
         >This site uses cookies to help improve your experience.</span
       >
       By using Lunie, you accept our
-      <router-link to="/terms" class="link"> Terms of Service </router-link> and
+      <router-link to="/terms" class="link">Terms of Service</router-link> and
       <router-link to="/privacy" class="link"> Privacy Policy</router-link>.
     </Bar>
   </div>

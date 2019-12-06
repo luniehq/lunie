@@ -1,6 +1,16 @@
 <template>
   <div>
-    <div v-if="!$apollo.queries.delegations.loading && delegations.length > 0">
+    <div
+      v-if="$apollo.queries.delegations.loading && !delegations.length"
+      class="loading-image-container"
+    >
+      <img
+        class="loading-image"
+        src="/img/portfolio-loading.svg"
+        alt="geometric placeholder shapes"
+      />
+    </div>
+    <div v-else-if="delegations.length > 0">
       <TableValidators
         :validators="delegations.map(({ validator }) => validator)"
         :delegations="delegations"
@@ -8,7 +18,7 @@
       />
     </div>
     <TmDataMsg
-      v-else-if="delegations.length === 0"
+      v-else-if="delegations.length === 0 && !$apollo.loading"
       icon="sentiment_dissatisfied"
     >
       <div slot="title">
