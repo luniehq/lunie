@@ -129,7 +129,7 @@
           <h4>Max Daily Commission Change</h4>
           <span>{{ validator.maxChangeCommission | percent }}</span>
         </li>
-        <li  v-if="validator.commissionUpdateTime">
+        <li v-if="validator.commissionUpdateTime">
           <h4>Last Commission Change</h4>
           <span>{{ validator.commissionUpdateTime | fromNow }}</span>
         </li>
