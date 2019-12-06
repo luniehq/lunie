@@ -27,30 +27,36 @@ export default {
   apollo: {
     undelegations: {
       query() {
+        /* istanbul ignore next */
         return UndelegationsForDelegator(this.network)
       },
       variables() {
+        /* istanbul ignore next */
         return {
           delegatorAddress: this.address
         }
       },
       update(data) {
+        /* istanbul ignore next */
         return data.undelegations
       }
     },
     $subscribe: {
       userTransactionAdded: {
         variables() {
+          /* istanbul ignore next */
           return {
             networkId: this.network,
             address: this.address
           }
         },
         skip() {
+          /* istanbul ignore next */
           return !this.address
         },
         query: UserTransactionAdded,
         result({ data }) {
+          /* istanbul ignore next */
           if (data.userTransactionAdded.success) {
             refetchNetworkOnly(this.$apollo.queries.undelegations)
           }

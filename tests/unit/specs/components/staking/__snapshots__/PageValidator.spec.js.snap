@@ -1,5 +1,65 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`PageValidator if user has signed in - status text banned 1`] = `
+<tmpage-stub
+  class="small"
+  data-title="Validator"
+  dataempty="true"
+  hideheader="true"
+  managed="true"
+  subtitle=""
+  title=""
+>
+  <div>
+    Validator Not Found
+  </div>
+   
+  <div>
+    
+      Please visit the
+      
+    <router-link-stub
+      to="/validators/"
+    >
+       Validators 
+    </router-link-stub>
+    page to view
+      all validators
+    
+  </div>
+</tmpage-stub>
+`;
+
+exports[`PageValidator if user has signed in - status text inactive 1`] = `
+<tmpage-stub
+  class="small"
+  data-title="Validator"
+  dataempty="true"
+  hideheader="true"
+  managed="true"
+  subtitle=""
+  title=""
+>
+  <div>
+    Validator Not Found
+  </div>
+   
+  <div>
+    
+      Please visit the
+      
+    <router-link-stub
+      to="/validators/"
+    >
+       Validators 
+    </router-link-stub>
+    page to view
+      all validators
+    
+  </div>
+</tmpage-stub>
+`;
+
 exports[`PageValidator if user has signed in 1`] = `
 <tmpage-stub
   class="small"
