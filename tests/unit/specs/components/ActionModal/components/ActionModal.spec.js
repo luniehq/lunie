@@ -6,7 +6,7 @@ import { focusParentLast } from "src/directives"
 const localVue = createLocalVue()
 localVue.use(Vuelidate)
 localVue.directive("focus-last", focusParentLast)
-localVue.directive("focus", () => {})
+localVue.directive("focus", () => { })
 
 let mockSimulate = jest.fn(() => 123456)
 let mockSend = jest.fn(() => ({
@@ -138,7 +138,7 @@ describe(`ActionModal`, () => {
     const self = {
       $store,
       actionManager: {
-        setContext: () => {},
+        setContext: () => { },
         simulate: () => 12345,
         send: ActionManagerSend,
         simulateTxAPI: jest.fn(),
@@ -154,7 +154,7 @@ describe(`ActionModal`, () => {
       },
       submissionErrorPrefix: `PREFIX`,
       trackEvent: jest.fn(),
-      connectLedger: () => {},
+      connectLedger: () => { },
       onSendingFailed: jest.fn(),
       createContext: jest.fn()
     }
@@ -611,7 +611,7 @@ describe(`ActionModal`, () => {
         isValidInput: jest.fn(() => true),
         selectedSignMethod: `local`,
         step: `details`,
-        validateChangeStep: jest.fn(() => {})
+        validateChangeStep: jest.fn(() => { })
       }
     })
 
