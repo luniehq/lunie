@@ -107,11 +107,11 @@
             {{ (validator.selfStake / validator.tokens) | percent }}
           </span>
         </li>
-        <li>
+        <li v-if="validator.startHeight">
           <h4>Validator Since</h4>
           <span>Block #{{ validator.startHeight || 0 }}</span>
         </li>
-        <li>
+        <li v-if="validator.uptimePercentage">
           <h4>Uptime</h4>
           <span id="page-profile__uptime">
             {{ validator.uptimePercentage | percent }}
@@ -121,15 +121,15 @@
           <h4>Current Commission Rate</h4>
           <span>{{ validator.commission | percent }}</span>
         </li>
-        <li>
+        <li v-if="validator.maxComission">
           <h4>Max Commission Rate</h4>
           <span>{{ validator.maxCommission | percent }}</span>
         </li>
-        <li>
+        <li v-if="validator.maxChangeCommission">
           <h4>Max Daily Commission Change</h4>
           <span>{{ validator.maxChangeCommission | percent }}</span>
         </li>
-        <li>
+        <li  v-if="validator.commissionUpdateTime">
           <h4>Last Commission Change</h4>
           <span>{{ validator.commissionUpdateTime | fromNow }}</span>
         </li>
