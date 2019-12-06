@@ -36,11 +36,3 @@ export const resolveValidatorName = (address, validators) => {
   }
   return formatBech32(address)
 }
-
-export const truncate = (string, limit) => {
-  if (string.length > 29) {
-    return string.substr(0, limit).concat(`...`)
-  } else {
-    return string.substr(0, limit)
-  }
-}

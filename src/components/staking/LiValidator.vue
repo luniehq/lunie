@@ -35,8 +35,11 @@
         :alt="`validator logo for ` + validator.name"
       />
       <div class="validator-info">
-        <h3 class="li-validator-name">
-          {{ validator.name | truncate(30) }}
+        <h3 v-if="!validator.name.startsWith('0x')" class="li-validator-name">
+          {{ validator.name }}
+        </h3>
+        <h3 v-else>
+          <Bech32 :address="validator.name" />
         </h3>
         <div v-if="delegation.amount > 0">
           <h4>
@@ -60,19 +63,19 @@
 </template>
 
 <script>
-import { truncate } from "src/filters"
+import Bech32 from "common/Bech32"
 import { percent, shortDecimals, atoms } from "scripts/num"
 import Avatar from "common/Avatar"
 export default {
   name: `li-validator`,
   components: {
-    Avatar
+    Avatar,
+    Bech32
   },
   filters: {
     atoms,
     shortDecimals,
     percent,
-    truncate,
     toLower: text => text.toLowerCase()
   },
   props: {
