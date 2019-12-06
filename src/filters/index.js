@@ -38,5 +38,9 @@ export const resolveValidatorName = (address, validators) => {
 }
 
 export const truncate = (string, limit) => {
-  return string.substr(0, limit).concat(`...`)
+  if (string.length > 29) {
+    return string.substr(0, limit).concat(`...`)
+  } else {
+    return string.substr(0, limit)
+  }
 }
