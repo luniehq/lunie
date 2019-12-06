@@ -2,7 +2,6 @@ import Vue from "vue"
 import { ApolloClient } from "apollo-boost"
 import { BatchHttpLink } from "apollo-link-batch-http"
 import { createPersistedQueryLink } from "apollo-link-persisted-queries"
-//import { createHttpLink } from "apollo-link-http"
 import { WebSocketLink } from "apollo-link-ws"
 import { InMemoryCache } from "apollo-cache-inmemory"
 import { split } from "apollo-link"
@@ -22,7 +21,7 @@ const makeHttpLink = urlParams => {
 
   // We create a createPersistedQueryLink to lower network usage.
   // With this, a prefetch is done using a hash of the query.
-  // if the server recognises the hash, it will reply with the full reponse.
+  // if the server recognises the hash, it will reply with the full response.
   return createPersistedQueryLink().concat(
     new BatchHttpLink({
       uri

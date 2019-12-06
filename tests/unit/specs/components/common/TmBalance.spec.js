@@ -2,7 +2,7 @@ import { shallowMount } from "@vue/test-utils"
 import TmBalance from "common/TmBalance"
 
 describe(`TmBalance`, () => {
-  let wrapper, $store
+  let wrapper, $store, $apollo
 
   beforeEach(async () => {
     $store = {
@@ -12,9 +12,19 @@ describe(`TmBalance`, () => {
       }
     }
 
+    $apollo = {
+      queries: {
+        overview: {
+          loading: false,
+          error: false
+        }
+      }
+    }
+
     wrapper = shallowMount(TmBalance, {
       mocks: {
-        $store
+        $store,
+        $apollo
       }
     })
     wrapper.setData({

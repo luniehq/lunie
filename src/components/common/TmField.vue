@@ -227,7 +227,7 @@ input[type="checkbox"] {
 
 .tm-field:disabled {
   background: var(--app-fg);
-  border: var(--app-fg);
+  border: 2px solid black;
   box-shadow: none;
   color: var(--dim);
   text-shadow: none;
