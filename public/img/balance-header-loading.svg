@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="980px" height="178px" viewBox="0 0 980 178" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 61 (89581) - https://sketch.com -->
+    <title>balance-header-loading</title>
+    <desc>Created with Sketch.</desc>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="balance-header-loading" fill-rule="nonzero">
+            <rect id="Rectangle" fill="#7A88B8" opacity="0.6" transform="translate(50.000000, 5.000000) scale(-1, 1) rotate(-180.000000) translate(-50.000000, -5.000000) " x="20" y="0" width="60" height="10" rx="2"></rect>
+            <rect id="Rectangle-Copy-2" fill="#7A88B8" opacity="0.6" transform="translate(42.500000, 22.000000) scale(-1, 1) rotate(-180.000000) translate(-42.500000, -22.000000) " x="20" y="18" width="45" height="8" rx="2"></rect>
+            <rect id="Rectangle" fill="#7A88B8" opacity="0.26" transform="translate(50.000000, 63.000000) scale(-1, 1) rotate(-180.000000) translate(-50.000000, -63.000000) " x="20" y="58" width="60" height="10" rx="2"></rect>
+            <rect id="Rectangle-Copy" fill="#7A88B8" opacity="0.26" transform="translate(42.500000, 80.000000) scale(-1, 1) rotate(-180.000000) translate(-42.500000, -80.000000) " x="20" y="76" width="45" height="8" rx="2"></rect>
+            <rect id="Rectangle" fill="#7A88B8" opacity="0.26" transform="translate(180.000000, 63.000000) scale(-1, 1) rotate(-180.000000) translate(-180.000000, -63.000000) " x="150" y="58" width="60" height="10" rx="2"></rect>
+            <rect id="Rectangle-Copy-3" fill="#7A88B8" opacity="0.26" transform="translate(172.500000, 80.000000) scale(-1, 1) rotate(-180.000000) translate(-172.500000, -80.000000) " x="150" y="76" width="45" height="8" rx="2"></rect>
+            <rect id="Rectangle" fill="#1E223C" opacity="0.75" x="0" y="113" width="980" height="2"></rect>
+            <rect id="Rectangle" fill="#1E223C" opacity="0.75" x="0" y="176" width="980" height="2"></rect>
+            <rect id="Rectangle" fill="#7A88B8" opacity="0.26" x="20" y="127" width="100" height="37" rx="8"></rect>
+            <rect id="Rectangle" fill="#7A88B8" opacity="0.55" x="130" y="127" width="120" height="37" rx="8"></rect>
+        </g>
+    </g>
+</svg>

@@ -19,5 +19,6 @@ export default {
 
   graphqlHost: graphql,
 
-  e2e: process.env.VUE_APP_E2E || false
+  e2e: process.env.VUE_APP_E2E || false,
+  enableTxAPI: process.env.VUE_APP_ENABLE_TX_API === "true" || false
 }

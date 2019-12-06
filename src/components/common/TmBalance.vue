@@ -1,43 +1,54 @@
 <template>
   <div class="balance-header">
-    <div class="values-container">
-      <div class="total-atoms">
-        <h3>Total {{ stakingDenom }}</h3>
-        <h2 class="total-atoms__value">
-          {{ overview.totalStake | shortDecimals | noBlanks }}
-        </h2>
-      </div>
-
-      <div class="row small-container">
-        <div v-if="overview.totalStake > 0" class="available-atoms">
-          <h3>Available {{ stakingDenom }}</h3>
-          <h2>{{ overview.liquidStake | shortDecimals | noBlanks }}</h2>
-        </div>
-
-        <div v-if="overview.totalRewards" class="rewards">
-          <h3>Total Rewards</h3>
-          <h2>{{ overview.totalRewards | shortDecimals | noBlanks }}</h2>
-        </div>
-      </div>
-    </div>
-    <div class="button-container">
-      <TmBtn
-        class="send-button"
-        value="Send"
-        type="secondary"
-        @click.native="onSend()"
-      />
-      <TmBtn
-        id="withdraw-btn"
-        :disabled="!readyToWithdraw"
-        class="withdraw-rewards"
-        value="Claim Rewards"
-        @click.native="readyToWithdraw && onWithdrawal()"
+    <div
+      v-if="$apollo.queries.overview.loading && !overview.totalStake"
+      class="loading-image-container"
+    >
+      <img
+        src="/img/balance-header-loading.svg"
+        alt="geometric placeholder shapes"
       />
     </div>
+    <div v-else>
+      <div class="values-container">
+        <div class="total-atoms">
+          <h3>Total {{ stakingDenom }}</h3>
+          <h2 class="total-atoms__value">
+            {{ overview.totalStake | shortDecimals | noBlanks }}
+          </h2>
+        </div>
 
-    <SendModal ref="SendModal" :denom="stakingDenom" />
-    <ModalWithdrawRewards ref="ModalWithdrawRewards" />
+        <div class="row small-container">
+          <div v-if="overview.totalStake > 0" class="available-atoms">
+            <h3>Available {{ stakingDenom }}</h3>
+            <h2>{{ overview.liquidStake | shortDecimals | noBlanks }}</h2>
+          </div>
+
+          <div v-if="overview.totalRewards" class="rewards">
+            <h3>Total Rewards</h3>
+            <h2>+{{ overview.totalRewards | shortDecimals | noBlanks }}</h2>
+          </div>
+        </div>
+      </div>
+      <div class="button-container">
+        <TmBtn
+          class="send-button"
+          value="Send"
+          type="secondary"
+          @click.native="onSend()"
+        />
+        <TmBtn
+          id="withdraw-btn"
+          :disabled="!readyToWithdraw"
+          class="withdraw-rewards"
+          value="Claim Rewards"
+          @click.native="readyToWithdraw && onWithdrawal()"
+        />
+      </div>
+
+      <SendModal ref="SendModal" :denom="stakingDenom" />
+      <ModalWithdrawRewards ref="ModalWithdrawRewards" />
+    </div>
   </div>
 </template>
 <script>

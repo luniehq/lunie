@@ -1,5 +1,7 @@
 <template>
-  <div v-if="undelegations.length > 0">
+  <div
+    v-if="!$apollo.queries.undelegations.loading && undelegations.length > 0"
+  >
     <h3 class="tab-header">
       Pending Undelegations
     </h3>
@@ -27,30 +29,36 @@ export default {
   apollo: {
     undelegations: {
       query() {
+        /* istanbul ignore next */
         return UndelegationsForDelegator(this.network)
       },
       variables() {
+        /* istanbul ignore next */
         return {
           delegatorAddress: this.address
         }
       },
       update(data) {
+        /* istanbul ignore next */
         return data.undelegations
       }
     },
     $subscribe: {
       userTransactionAdded: {
         variables() {
+          /* istanbul ignore next */
           return {
             networkId: this.network,
             address: this.address
           }
         },
         skip() {
+          /* istanbul ignore next */
           return !this.address
         },
         query: UserTransactionAdded,
         result({ data }) {
+          /* istanbul ignore next */
           if (data.userTransactionAdded.success) {
             refetchNetworkOnly(this.$apollo.queries.undelegations)
           }

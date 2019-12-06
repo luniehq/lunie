@@ -15,8 +15,8 @@
     <main class="tm-page-main">
       <CardSignInRequired v-if="signInRequired && !session.signedIn" />
       <template v-else-if="managed">
-        <TmDataConnecting v-if="!loaded && !connected" />
-        <TmDataLoading v-else-if="!loaded && loading" />
+        <TmDataConnecting v-if="!connected" />
+        <TmDataLoading v-else-if="$apollo.loading" />
         <TmDataError v-else-if="error" />
         <slot v-else-if="dataEmpty" name="no-data">
           <TmDataEmpty>

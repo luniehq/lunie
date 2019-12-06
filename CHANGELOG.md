@@ -7,6 +7,24 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.149] - 2019-12-06
+
+### Added
+
+- [#3180](https://github.com/cosmos/lunie/pull/3180) Use Lunie Transaction service to estimate an broadcast transactions @colw
+
+### Changed
+
+- show loading images before causing anxiety for user about the state of their portfolio @jbibla
+
+### Code Improvements
+
+- cleaned up bar styles to match new design and reduce code complexity @jbibla
+
+### Repository
+
+- For automatic releases increment patch version instead of prerelease version @faboweb
+
 ## [1.0.148] - 2019-12-05
 
 ### Added

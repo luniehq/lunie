@@ -14,8 +14,8 @@
               <br />
               <br />
               <p>
-                Please copy the link below into a new tab and 'enable' experimental web platform
-                features:
+                Please copy the link below into a new tab and 'enable'
+                experimental web platform features:
               </p>
               <div
                 v-clipboard:copy="hidFeatureLink"

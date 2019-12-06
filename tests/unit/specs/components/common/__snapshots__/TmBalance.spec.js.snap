@@ -4,56 +4,58 @@ exports[`TmBalance do not show available atoms when the user has none in the fir
 <div
   class="balance-header"
 >
-  <div
-    class="values-container"
-  >
+  <div>
     <div
-      class="total-atoms"
+      class="values-container"
     >
-      <h3>
-        Total ATOM
-      </h3>
-       
-      <h2
-        class="total-atoms__value"
+      <div
+        class="total-atoms"
       >
+        <h3>
+          Total ATOM
+        </h3>
+         
+        <h2
+          class="total-atoms__value"
+        >
+          
+          0
         
-        0
-      
-      </h2>
+        </h2>
+      </div>
+       
+      <div
+        class="row small-container"
+      >
+        <!---->
+         
+        <!---->
+      </div>
     </div>
      
     <div
-      class="row small-container"
+      class="button-container"
     >
-      <!---->
+      <tmbtn-stub
+        class="send-button"
+        type="secondary"
+        value="Send"
+      />
        
-      <!---->
+      <tmbtn-stub
+        class="withdraw-rewards"
+        disabled="true"
+        id="withdraw-btn"
+        value="Claim Rewards"
+      />
     </div>
-  </div>
-   
-  <div
-    class="button-container"
-  >
-    <tmbtn-stub
-      class="send-button"
-      type="secondary"
-      value="Send"
+     
+    <sendmodal-stub
+      denom="ATOM"
     />
      
-    <tmbtn-stub
-      class="withdraw-rewards"
-      disabled="true"
-      id="withdraw-btn"
-      value="Claim Rewards"
-    />
+    <modalwithdrawrewards-stub />
   </div>
-   
-  <sendmodal-stub
-    denom="ATOM"
-  />
-   
-  <modalwithdrawrewards-stub />
 </div>
 `;
 
@@ -61,74 +63,76 @@ exports[`TmBalance show the balance header when signed in 1`] = `
 <div
   class="balance-header"
 >
-  <div
-    class="values-container"
-  >
+  <div>
     <div
-      class="total-atoms"
+      class="values-container"
     >
-      <h3>
-        Total ATOM
-      </h3>
-       
-      <h2
-        class="total-atoms__value"
+      <div
+        class="total-atoms"
       >
+        <h3>
+          Total ATOM
+        </h3>
+         
+        <h2
+          class="total-atoms__value"
+        >
+          
+          3,210
         
-        3,210
-      
-      </h2>
-    </div>
-     
-    <div
-      class="row small-container"
-    >
-      <div
-        class="available-atoms"
-      >
-        <h3>
-          Available ATOM
-        </h3>
-         
-        <h2>
-          1,230
         </h2>
       </div>
        
       <div
-        class="rewards"
+        class="row small-container"
       >
-        <h3>
-          Total Rewards
-        </h3>
+        <div
+          class="available-atoms"
+        >
+          <h3>
+            Available ATOM
+          </h3>
+           
+          <h2>
+            1,230
+          </h2>
+        </div>
          
-        <h2>
-          1,000.45
-        </h2>
+        <div
+          class="rewards"
+        >
+          <h3>
+            Total Rewards
+          </h3>
+           
+          <h2>
+            +1,000.45
+          </h2>
+        </div>
       </div>
     </div>
-  </div>
-   
-  <div
-    class="button-container"
-  >
-    <tmbtn-stub
-      class="send-button"
-      type="secondary"
-      value="Send"
+     
+    <div
+      class="button-container"
+    >
+      <tmbtn-stub
+        class="send-button"
+        type="secondary"
+        value="Send"
+      />
+       
+      <tmbtn-stub
+        class="withdraw-rewards"
+        id="withdraw-btn"
+        value="Claim Rewards"
+      />
+    </div>
+     
+    <sendmodal-stub
+      denom="ATOM"
     />
      
-    <tmbtn-stub
-      class="withdraw-rewards"
-      id="withdraw-btn"
-      value="Claim Rewards"
-    />
+    <modalwithdrawrewards-stub />
   </div>
-   
-  <sendmodal-stub
-    denom="ATOM"
-  />
-   
-  <modalwithdrawrewards-stub />
 </div>
 `;
