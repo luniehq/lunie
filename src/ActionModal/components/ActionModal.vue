@@ -404,7 +404,8 @@ export default {
     featureAvailable: true,
     network: {},
     overview: {},
-    isMobileApp: config.mobileApp
+    isMobileApp: config.mobileApp,
+    useTxService: config.enableTxAPI
   }),
   computed: {
     ...mapState([`extension`, `session`]),
@@ -461,12 +462,6 @@ export default {
           return "Sending..."
       }
     },
-    hasSigningMethod() {
-      return (
-        this.session.browserWithLedgerSupport ||
-        (this.selectedSignMethod === "extension" && this.isExtensionAccount)
-      )
-    },
     prettyIncludedHeight() {
       return prettyInt(this.includedHeight)
     }
@@ -507,7 +502,8 @@ export default {
         totalRewards: this.overview.totalRewards, // getters.totalRewards,
         delegations: this.delegations, // state.delegates.delegates,
         bondDenom: this.network.stakingDenom, // getters.bondDenom,
-        isExtensionAccount: this.isExtensionAccount
+        isExtensionAccount: this.isExtensionAccount,
+        account: this.overview.accountInformation
       }
     },
     confirmModalOpen() {
@@ -612,7 +608,16 @@ export default {
       const { type, memo, ...properties } = this.transactionData
       await this.actionManager.setMessage(type, properties)
       try {
-        this.gasEstimate = await this.actionManager.simulate(memo)
+        if (!this.useTxService) {
+          this.gasEstimate = await this.actionManager.simulate(memo)
+        } else {
+          this.gasEstimate = await this.actionManager.simulateTxAPI(
+            this.createContext(),
+            type,
+            properties,
+            memo
+          )
+        }
         this.step = feeStep
       } catch ({ message }) {
         this.submissionError = `${this.submissionErrorPrefix}: ${message}.`
@@ -628,22 +633,33 @@ export default {
       this.submissionError = null
       this.trackEvent(`event`, `submit`, this.title, this.selectedSignMethod)
 
-      const { memo } = this.transactionData
-
-      const gasPrice = {
-        amount: this.gasPrice,
-        denom: this.network.stakingDenom
-      }
+      const { type, memo, ...properties } = this.transactionData
 
       const feeProperties = {
         gasEstimate: this.gasEstimate,
-        gasPrice: gasPrice,
+        gasPrice: {
+          amount: this.gasPrice,
+          denom: this.network.stakingDenom
+        },
         submitType: this.selectedSignMethod,
         password: this.password
       }
 
       try {
-        const { hash } = await this.actionManager.send(memo, feeProperties)
+        let hashResult
+        if (!this.useTxService) {
+          hashResult = await this.actionManager.send(memo)
+        } else {
+          hashResult = await this.actionManager.sendTxAPI(
+            this.createContext(),
+            type,
+            memo,
+            properties,
+            feeProperties
+          )
+        }
+
+        const { hash } = hashResult
         this.txHash = hash
         this.step = inclusionStep
       } catch ({ message }) {
@@ -699,6 +715,10 @@ export default {
             totalRewards
             liquidStake
             totalStake
+            accountInformation {
+              accountNumber
+              sequence
+            }
           }
         }
       `,
@@ -717,6 +737,7 @@ export default {
         }
       },
       skip() {
+        /* istanbul ignore next */
         return !this.session.address
       }
     },
@@ -742,6 +763,7 @@ export default {
         }
       `,
       variables() {
+        /* istanbul ignore next */
         return {
           networkId: this.networkId
         }
@@ -770,9 +792,11 @@ export default {
         }
       `,
       skip() {
+        /* istanbul ignore next */
         return !this.session.address
       },
       variables() {
+        /* istanbul ignore next */
         return {
           networkId: this.networkId,
           delegatorAddress: this.session.address
@@ -786,23 +810,30 @@ export default {
     $subscribe: {
       userTransactionAdded: {
         variables() {
+          /* istanbul ignore next */
           return {
             networkId: this.networkId,
             address: this.session.address
           }
         },
         skip() {
+          /* istanbul ignore next */
           return !this.txHash
         },
         query: UserTransactionAdded,
         result({ data }) {
+          /* istanbul ignore next */
           const { hash, height, success, log } = data.userTransactionAdded
+          /* istanbul ignore next */
           if (hash === this.txHash) {
+            /* istanbul ignore next */
             this.includedHeight = height
-
+            /* istanbul ignore next */
             if (success) {
+              /* istanbul ignore next */
               this.onTxIncluded()
             } else {
+              /* istanbul ignore next */
               this.onSendingFailed(log)
             }
           }
