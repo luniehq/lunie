@@ -46,12 +46,6 @@
         <FeatureNotAvailable :feature="title" />
       </template>
       <template v-else>
-        <p
-          v-if="session.windowsDevice && step !== successStep"
-          class="form-message notice"
-        >
-          {{ session.windowsWarning }}
-        </p>
         <div v-if="requiresSignIn" class="action-modal-form">
           <p class="form-message notice">
             You're using Lunie in explore mode. Please sign in or create an
@@ -139,8 +133,8 @@
               }}
             </div>
             <div v-else>
-              Please use Chrome, Brave, or Opera. Ledger is not supported in
-              this browser.
+              Please use Chrome or Brave. Ledger is not supported in this
+              browser.
             </div>
           </HardwareState>
           <HardwareState
@@ -633,16 +627,6 @@ export default {
     async submit() {
       this.submissionError = null
       this.trackEvent(`event`, `submit`, this.title, this.selectedSignMethod)
-
-      if (this.selectedSignMethod === SIGN_METHODS.LEDGER) {
-        try {
-          await this.connectLedger()
-        } catch (error) {
-          this.submissionError = `${this.submissionErrorPrefix}: ${error.message}.`
-          this.sending = false
-          return
-        }
-      }
 
       const { memo } = this.transactionData
 

@@ -45,8 +45,6 @@ exports[`ActionModal back button renders and functions 1`] = `
     <!---->
   </div>
    
-  <!---->
-   
   <div
     class="action-modal-form"
   >
@@ -142,8 +140,6 @@ exports[`ActionModal runs validation and changes step on sign step should dispal
     </p>
   </div>
    
-  <!---->
-   
   <div
     class="action-modal-form"
   >
@@ -218,8 +214,6 @@ exports[`ActionModal should show the action modal on success 1`] = `
      
     <!---->
   </div>
-   
-  <!---->
    
   <div
     class="action-modal-form success-step"
@@ -298,8 +292,6 @@ exports[`ActionModal should show the action modal waiting on inclusion 1`] = `
    
   <!---->
    
-  <!---->
-   
   <div
     class="action-modal-footer"
   >
@@ -352,8 +344,6 @@ exports[`ActionModal should show the action modal when user has logged in with e
      
     <!---->
   </div>
-   
-  <!---->
    
   <div
     class="action-modal-form"
@@ -432,8 +422,6 @@ exports[`ActionModal should show the action modal when user has logged in with e
      
     <!---->
   </div>
-   
-  <!---->
    
   <div
     class="action-modal-form"
@@ -524,8 +512,6 @@ exports[`ActionModal should show the action modal when user has logged in with e
      
     <!---->
   </div>
-   
-  <!---->
    
   <div
     class="action-modal-form"
@@ -627,8 +613,6 @@ exports[`ActionModal should show the action modal when user has logged in with e
     <!---->
   </div>
    
-  <!---->
-   
   <div
     class="action-modal-form"
   >
@@ -714,8 +698,6 @@ exports[`ActionModal should show the action modal when user has logged in with e
     </p>
   </div>
    
-  <!---->
-   
   <div
     class="action-modal-form"
   >
@@ -800,8 +782,6 @@ exports[`ActionModal should show the action modal when user has logged in with e
       
     </p>
   </div>
-   
-  <!---->
    
   <div
     class="action-modal-form"
@@ -892,8 +872,6 @@ exports[`ActionModal should show the action modal when user has logged in with l
     <!---->
   </div>
    
-  <!---->
-   
   <div
     class="action-modal-form"
   >
@@ -972,8 +950,6 @@ exports[`ActionModal should show the action modal when user has logged in with l
     <!---->
   </div>
    
-  <!---->
-   
   <div
     class="action-modal-form"
   >
@@ -984,8 +960,8 @@ exports[`ActionModal should show the action modal when user has logged in with l
     >
       <div>
         
-            Please use Chrome, Brave, or Opera. Ledger is not supported in
-            this browser.
+            Please use Chrome or Brave. Ledger is not supported in this
+            browser.
           
       </div>
     </hardwarestate-stub>
@@ -1048,8 +1024,6 @@ exports[`ActionModal should show the action modal when user has logged in with l
     <!---->
   </div>
    
-  <!---->
-   
   <div
     class="action-modal-form"
   >
@@ -1061,8 +1035,8 @@ exports[`ActionModal should show the action modal when user has logged in with l
     >
       <div>
         
-            Please use Chrome, Brave, or Opera. Ledger is not supported in
-            this browser.
+            Please use Chrome or Brave. Ledger is not supported in this
+            browser.
           
       </div>
     </hardwarestate-stub>
@@ -1134,8 +1108,6 @@ exports[`ActionModal should show the action modal when user has logged in with l
      
     <!---->
   </div>
-   
-  <!---->
    
   <div
     class="action-modal-form"
@@ -1215,8 +1187,6 @@ exports[`ActionModal should show the action modal when user has logged in with l
     <!---->
   </div>
    
-  <!---->
-   
   <div
     class="action-modal-form"
   >
@@ -1295,8 +1265,6 @@ exports[`ActionModal should show the action modal when user has logged in with l
      
     <!---->
   </div>
-   
-  <!---->
    
   <div
     class="action-modal-form"
@@ -1378,8 +1346,6 @@ exports[`ActionModal should show the action modal when user hasn't logged in 1`]
     <!---->
   </div>
    
-  <!---->
-   
   <div
     class="action-modal-form"
   >
@@ -1447,75 +1413,6 @@ exports[`ActionModal shows a feature unavailable message 1`] = `
      
     <!---->
   </div>
-   
-  <!---->
-   
-  <div
-    class="action-modal-form"
-  />
-   
-  <!---->
-   
-  <div
-    class="action-modal-footer"
-  >
-    <tmformgroup-stub
-      class="action-modal-group"
-    >
-      <div>
-        <tmbtn-stub
-          color="primary"
-          value="Next"
-        />
-      </div>
-    </tmformgroup-stub>
-  </div>
-</div>
-`;
-
-exports[`ActionModal windows shows windows warning 1`] = `
-<div
-  class="action-modal"
-  name="slide-fade"
-  tabindex="0"
->
-  <!---->
-   
-  <div
-    class="action-modal-icon action-modal-close"
-    id="closeBtn"
-  >
-    <i
-      class="material-icons"
-    >
-      close
-    </i>
-  </div>
-   
-  <div
-    class="action-modal-header"
-  >
-    <span
-      class="action-modal-title"
-    >
-      Send
-    </span>
-     
-    <steps-stub
-      activestep="details"
-      steps="Details,Fees,Sign"
-    />
-     
-    <!---->
-  </div>
-   
-  <p
-    class="form-message notice"
-  >
-    
-        WINDOWS WARNING MESSAGE
-      
-  </p>
    
   <div
     class="action-modal-form"
