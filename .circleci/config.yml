@@ -254,7 +254,7 @@ jobs:
           yarn add simsala
           git config user.email "bot@lunie.io"
           git config user.name "Release Lunie Bot"
-          node node_modules/simsala/src/cli.js release-candidate --semver prerelease --pending-path ./changes --owner luniehq --repository lunie --token $GIT_BOT_TOKEN --message "Please manually test before merging this to master"
+          node node_modules/simsala/src/cli.js release-candidate --semver patch --pending-path ./changes --owner luniehq --repository lunie --token $GIT_BOT_TOKEN --message "Please manually test before merging this to master"
       
   # Push merges to master immediately back to develop to stay in sync
   mergeBack:
