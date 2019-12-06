@@ -7,6 +7,35 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.149-beta.0] - 2019-12-06
+
+### Added
+
+- [#3199](https://github.com/cosmos/lunie/issues/3199) Now there is a close button also for mobile screen during the sign in flow @Bitcoinera
+- [#3095](https://github.com/cosmos/lunie/issues/3095) Add the subscription to automatically update the user rewards @Bitcoinera
+- [#3180](https://github.com/cosmos/lunie/pull/3180) Use Lunie Transaction service to estimate an broadcast transactions @colw
+- defer loading intercom script @jbibla
+- [#3078](https://github.com/cosmos/lunie/issues/3078) Improve design of Activity page and support multisend transactions @mariopino
+
+### Changed
+
+- [#3240](https://github.com/cosmos/lunie/issues/3240) Swithing to query batching @iambeone
+- [#3247](https://github.com/cosmos/lunie/issues/3247) Use WebHID for Ledger on Windows and WebUSB for Ledger on OSX/Linux to improve stability @faboweb
+- changed the image for lunie on open graph @jbibla
+- show loading images before causing anxiety for user about the state of their portfolio @jbibla
+
+### Fixed
+
+- Fix votes failing due to low gas estimate @faboweb
+- [#3093](https://github.com/cosmos/lunie/issues/3093) Improve error control in PageProposal @mariopino
+- [#3201](https://github.com/cosmos/lunie/issues/3201) Fix validators are not being resolved in blocks page @mariopino
+- [#3237](https://github.com/cosmos/lunie/issues/3237) Workaround to fix wrong denom NDEFINED showed in Staking and Restaking transactions @mariopino
+
+### Code Improvements
+
+- Add again the withdraw-validator-commission to the list of message types in the messageTypes.js file @Bitcoinera
+- cleaned up bar styles to match new design and reduce code complexity @jbibla
+
 ## [1.0.148] - 2019-12-05
 
 ### Added
