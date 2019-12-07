@@ -47,10 +47,10 @@ exports[`LiValidator has the expected html structure 1`] = `
       </h3>
        
       <h3
-        class="li-validator-name li-validator-name-truncate"
+        class="li-validator-name li-validator-name-short"
       >
         
-        
+        Address Not Found
       
       </h3>
        

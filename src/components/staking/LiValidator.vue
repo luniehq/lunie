@@ -38,8 +38,8 @@
         <h3 class="li-validator-name">
           {{ validator.name }}
         </h3>
-        <h3 class="li-validator-name li-validator-name-truncate">
-          {{ validator.name | truncate(25) }}
+        <h3 class="li-validator-name li-validator-name-short">
+          {{ validator.name | formatBech32 }}
         </h3>
         <div v-if="delegation.amount > 0">
           <h4>
@@ -67,7 +67,7 @@
 
 <script>
 import { percent, shortDecimals, atoms } from "scripts/num"
-import { noBlanks, truncate } from "src/filters"
+import { noBlanks, formatBech32 } from "src/filters"
 import Avatar from "common/Avatar"
 export default {
   name: `li-validator`,
@@ -77,7 +77,7 @@ export default {
   filters: {
     atoms,
     noBlanks,
-    truncate,
+    formatBech32,
     shortDecimals,
     percent,
     toLower: text => text.toLowerCase()
@@ -147,7 +147,7 @@ export default {
   color: var(--bright);
   display: inline-block;
 }
-.li-validator-name-truncate {
+.li-validator-name-short {
   display: none;
 }
 .li-validator-image {
@@ -176,7 +176,7 @@ export default {
   .li-validator-name {
     display: none;
   }
-  .li-validator-name-truncate {
+  .li-validator-name-short {
     display: inline-block;
   }
 }
