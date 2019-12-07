@@ -46,6 +46,14 @@ exports[`LiValidator has the expected html structure 1`] = `
       
       </h3>
        
+      <h3
+        class="li-validator-name li-validator-name-truncate"
+      >
+        
+        
+      
+      </h3>
+       
       <!---->
     </div>
   </td>
@@ -61,9 +69,11 @@ exports[`LiValidator has the expected html structure 1`] = `
   <td
     class="hide-xs"
   >
+    <span>
+      
+      1.40%
     
-    1.40%
-  
+    </span>
   </td>
 </tr>
 `;
