@@ -65,7 +65,7 @@
         </li>
         <li class="column">
           <h4>Website</h4>
-          <span v-if="validator.website !== ``">
+          <span v-if="validator.website">
             <a
               id="validator-website"
               :href="validator.website + `?ref=lunie`"
@@ -95,10 +95,11 @@
         </li>
         <li>
           <h4>Voting Power / Total Stake</h4>
-          <span id="page-profile__power">
-            {{ validator.votingPower | percent }} /
-            {{ validator.tokens | shortDecimals }}
-          </span>
+          <span id="page-profile__power" v-if="validator.votingPower"
+            >{{ validator.votingPower | percent }} /</span
+          >
+          <span id="page-profile__power" v-else>{{ validator.votingPower | noBlanks }} /</span>
+          {{ validator.tokens | shortDecimals }}
         </li>
         <li>
           <h4>Self Stake</h4>
@@ -107,31 +108,49 @@
             {{ (validator.selfStake / validator.tokens) | percent }}
           </span>
         </li>
-        <li v-if="validator.startHeight">
+        <li>
           <h4>Validator Since</h4>
-          <span>Block #{{ validator.startHeight || 0 }}</span>
+          <span v-if="validator.startHeight"
+            >Block #{{ validator.startHeight }}</span
+          >
+          <span v-else>{{ validator.startHeight | noBlanks }}</span>
         </li>
-        <li v-if="validator.uptimePercentage">
+        <li>
           <h4>Uptime</h4>
-          <span id="page-profile__uptime">
-            {{ validator.uptimePercentage | percent }}
-          </span>
+          <span id="page-profile__uptime" v-if="validator.uptimePercentage">{{
+            validator.uptimePercentage | percent
+          }}</span>
+          <span id="page-profile__uptime" v-else>{{
+            validator.uptimePercentage | noBlanks
+          }}</span>
         </li>
         <li>
           <h4>Current Commission Rate</h4>
-          <span>{{ validator.commission | percent }}</span>
+          <span v-if="validator.commission">{{
+            validator.commission | percent
+          }}</span>
+          <span v-else>{{ validator.commission | noBlanks }}</span>
         </li>
-        <li v-if="validator.maxComission">
+        <li>
           <h4>Max Commission Rate</h4>
-          <span>{{ validator.maxCommission | percent }}</span>
+          <span v-if="validator.maxCommission">{{
+            validator.maxCommission | percent
+          }}</span>
+          <span v-else>{{ validator.maxCommission | noBlanks }}</span>
         </li>
-        <li v-if="validator.maxChangeCommission">
+        <li>
           <h4>Max Daily Commission Change</h4>
-          <span>{{ validator.maxChangeCommission | percent }}</span>
+          <span v-if="validator.maxChangeCommission">{{
+            validator.maxChangeCommission | percent
+          }}</span>
+          <span v-else>{{ validator.maxChangeCommission | noBlanks }}</span>
         </li>
-        <li v-if="validator.commissionUpdateTime">
+        <li>
           <h4>Last Commission Change</h4>
-          <span>{{ validator.commissionUpdateTime | fromNow }}</span>
+          <span v-if="validator.comissionUpdateTime">{{
+            validator.commissionUpdateTime | fromNow
+          }}</span>
+          <span v-else>{{ validator.commissionUpdateTime | noBlanks }}</span>
         </li>
       </ul>
 
