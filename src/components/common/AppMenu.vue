@@ -141,7 +141,7 @@
         </h2>
       </router-link>
     </div>
-    <ConnectedNetwork />
+    <ConnectedNetwork @close-menu="handleClick" />
   </menu>
 </template>
 
