@@ -35,11 +35,11 @@
         :alt="`validator logo for ` + validator.name"
       />
       <div class="validator-info">
-        <h3 v-if="!validator.name.startsWith('0x')" class="li-validator-name">
+        <h3 class="li-validator-name">
           {{ validator.name }}
         </h3>
-        <h3 v-else>
-          <Bech32 :address="validator.name" />
+        <h3 class="li-validator-name li-validator-name-truncate">
+          {{ validator.name | truncate(25) }}
         </h3>
         <div v-if="delegation.amount > 0">
           <h4>
@@ -57,23 +57,27 @@
       }}
     </td>
     <td :class="{ 'hide-xs': showOnMobile !== 'voting-power' }">
-      {{ validator.votingPower | percent }}
+      <span v-if="validator.votingPower">
+        {{ validator.votingPower | percent }}
+      </span>
+      <span v-else>{{ validator.votingPower | noBlanks }}</span>
     </td>
   </tr>
 </template>
 
 <script>
-import Bech32 from "common/Bech32"
 import { percent, shortDecimals, atoms } from "scripts/num"
+import { noBlanks, truncate } from "src/filters"
 import Avatar from "common/Avatar"
 export default {
   name: `li-validator`,
   components: {
-    Avatar,
-    Bech32
+    Avatar
   },
   filters: {
     atoms,
+    noBlanks,
+    truncate,
     shortDecimals,
     percent,
     toLower: text => text.toLowerCase()
@@ -143,6 +147,9 @@ export default {
   color: var(--bright);
   display: inline-block;
 }
+.li-validator-name-truncate {
+  display: none;
+}
 .li-validator-image {
   border-radius: 0.25rem;
   height: 2.5rem;
@@ -164,5 +171,13 @@ export default {
 .validator-status.active {
   color: var(--success);
   border-color: var(--success);
+}
+@media screen and (max-width: 1023px) {
+  .li-validator-name {
+    display: none;
+  }
+  .li-validator-name-truncate {
+    display: inline-block;
+  }
 }
 </style>

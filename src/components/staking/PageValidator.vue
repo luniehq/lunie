@@ -95,10 +95,12 @@
         </li>
         <li>
           <h4>Voting Power / Total Stake</h4>
-          <span id="page-profile__power" v-if="validator.votingPower"
+          <span v-if="validator.votingPower" id="page-profile__power"
             >{{ validator.votingPower | percent }} /</span
           >
-          <span id="page-profile__power" v-else>{{ validator.votingPower | noBlanks }} /</span>
+          <span v-else id="page-profile__power"
+            >{{ validator.votingPower | noBlanks }} /</span
+          >
           {{ validator.tokens | shortDecimals }}
         </li>
         <li>
@@ -117,10 +119,10 @@
         </li>
         <li>
           <h4>Uptime</h4>
-          <span id="page-profile__uptime" v-if="validator.uptimePercentage">{{
+          <span v-if="validator.uptimePercentage" id="page-profile__uptime">{{
             validator.uptimePercentage | percent
           }}</span>
-          <span id="page-profile__uptime" v-else>{{
+          <span v-else id="page-profile__uptime">{{
             validator.uptimePercentage | noBlanks
           }}</span>
         </li>
