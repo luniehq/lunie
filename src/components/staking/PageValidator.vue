@@ -95,13 +95,14 @@
         </li>
         <li>
           <h4>Voting Power / Total Stake</h4>
-          <span v-if="validator.votingPower" id="page-profile__power"
-            >{{ validator.votingPower | percent }} /</span
-          >
-          <span v-else id="page-profile__power"
-            >{{ validator.votingPower | noBlanks }} /</span
-          >
-          {{ validator.tokens | shortDecimals }}
+          <span v-if="validator.votingPower" id="page-profile__power">
+            {{ validator.votingPower | percent }} /
+            {{ validator.tokens | shortDecimals }}
+          </span>
+          <span v-else id="page-profile__power">
+            {{ validator.votingPower | noBlanks }} /
+            {{ validator.tokens | shortDecimals }}
+          </span>
         </li>
         <li>
           <h4>Self Stake</h4>
