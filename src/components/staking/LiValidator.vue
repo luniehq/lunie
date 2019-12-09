@@ -35,11 +35,11 @@
         :alt="`validator logo for ` + validator.name"
       />
       <div class="validator-info">
-        <h3 class="li-validator-name">
-          {{ validator.name }}
-        </h3>
-        <h3 class="li-validator-name li-validator-name-short">
+        <h3 v-if="validator.name.startsWith('0x')" class="li-validator-name">
           {{ validator.name | formatBech32 }}
+        </h3>
+        <h3 v-else class="li-validator-name">
+          {{ validator.name }}
         </h3>
         <div v-if="delegation.amount > 0">
           <h4>
@@ -147,9 +147,6 @@ export default {
   color: var(--bright);
   display: inline-block;
 }
-.li-validator-name-short {
-  display: none;
-}
 .li-validator-image {
   border-radius: 0.25rem;
   height: 2.5rem;
@@ -171,13 +168,5 @@ export default {
 .validator-status.active {
   color: var(--success);
   border-color: var(--success);
-}
-@media screen and (max-width: 1023px) {
-  .li-validator-name {
-    display: none;
-  }
-  .li-validator-name-short {
-    display: inline-block;
-  }
 }
 </style>
