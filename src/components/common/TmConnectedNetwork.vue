@@ -39,6 +39,7 @@
             name: `block`,
             params: { height: block.height }
           }"
+          @click.native="handleClick()"
         >
           #{{ block.height | prettyInt }}
         </router-link>
@@ -89,6 +90,12 @@ export default {
     ...mapGetters([`network`]),
     networkTooltip() {
       return `You're connected to ${this.block.chainId}.`
+    }
+  },
+  methods: {
+    handleClick() {
+      this.$emit(`close-menu`)
+      window.scrollTo(0, 0)
     }
   },
   apollo: {
