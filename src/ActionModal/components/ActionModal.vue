@@ -648,7 +648,7 @@ export default {
       try {
         let hashResult
         if (!this.useTxService) {
-          hashResult = await this.actionManager.send(memo)
+          hashResult = await this.actionManager.send(memo, feeProperties)
         } else {
           hashResult = await this.actionManager.sendTxAPI(
             this.createContext(),
