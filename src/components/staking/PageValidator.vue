@@ -131,7 +131,7 @@
         </li>
         <li>
           <h4>Last Commission Change</h4>
-          <span>{{ chooseFilter(validator.commissionUpdateTime) }}</span>
+          <span>{{ chooseFilter(validator.commissionLastUpdate) }}</span>
         </li>
       </ul>
 
