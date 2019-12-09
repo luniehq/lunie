@@ -7,6 +7,18 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.150] - 2019-12-09
+
+### Added
+
+- added bitrise widgets to readme @jbibla
+
+### Fixed
+
+- [#3255](https://github.com/cosmos/lunie/pull/3255) Hide menu when changing to block view from menu @colw
+- Fix failing sends @faboweb
+- Show correct feature flag url for HID support under Windows @faboweb
+
 ## [1.0.149] - 2019-12-06
 
 ### Added
