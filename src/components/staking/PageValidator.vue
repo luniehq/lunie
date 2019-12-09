@@ -95,12 +95,8 @@
         </li>
         <li>
           <h4>Voting Power / Total Stake</h4>
-          <span v-if="validator.votingPower" id="page-profile__power">
-            {{ validator.votingPower | percent }} /
-            {{ validator.tokens | shortDecimals }}
-          </span>
-          <span v-else id="page-profile__power">
-            {{ validator.votingPower | noBlanks }} /
+          <span id="page-profile__power">
+            {{ chooseFilter(validator.votingPower) }} /
             {{ validator.tokens | shortDecimals }}
           </span>
         </li>
@@ -113,47 +109,29 @@
         </li>
         <li>
           <h4>Validator Since</h4>
-          <span v-if="validator.startHeight"
-            >Block #{{ validator.startHeight }}</span
-          >
-          <span v-else>{{ validator.startHeight | noBlanks }}</span>
+          <span>{{ chooseFilter(validator.startHeight) }}</span>
         </li>
         <li>
           <h4>Uptime</h4>
-          <span v-if="validator.uptimePercentage" id="page-profile__uptime">{{
-            validator.uptimePercentage | percent
-          }}</span>
-          <span v-else id="page-profile__uptime">{{
-            validator.uptimePercentage | noBlanks
+          <span id="page-profile__uptime">{{
+            chooseFilter(validator.uptimePercentage)
           }}</span>
         </li>
         <li>
           <h4>Current Commission Rate</h4>
-          <span v-if="validator.commission">{{
-            validator.commission | percent
-          }}</span>
-          <span v-else>{{ validator.commission | noBlanks }}</span>
+          <span>{{ chooseFilter(validator.commission) }}</span>
         </li>
         <li>
           <h4>Max Commission Rate</h4>
-          <span v-if="validator.maxCommission">{{
-            validator.maxCommission | percent
-          }}</span>
-          <span v-else>{{ validator.maxCommission | noBlanks }}</span>
+          <span>{{ chooseFilter(validator.maxCommission) }}</span>
         </li>
         <li>
           <h4>Max Daily Commission Change</h4>
-          <span v-if="validator.maxChangeCommission">{{
-            validator.maxChangeCommission | percent
-          }}</span>
-          <span v-else>{{ validator.maxChangeCommission | noBlanks }}</span>
+          <span>{{ chooseFilter(validator.maxChangeCommission) }}</span>
         </li>
         <li>
           <h4>Last Commission Change</h4>
-          <span v-if="validator.comissionUpdateTime">{{
-            validator.commissionUpdateTime | fromNow
-          }}</span>
-          <span v-else>{{ validator.commissionUpdateTime | noBlanks }}</span>
+          <span>{{ chooseFilter(validator.commissionUpdateTime) }}</span>
         </li>
       </ul>
 
@@ -272,6 +250,11 @@ export default {
         `undelegations`,
         `transactions`
       ]) // TODO use more finegrained query string (network and address)
+    },
+    chooseFilter(field) {
+      return field
+        ? this.$options.filters.percent(field)
+        : this.$options.filters.noBlanks(field)
     }
   },
   apollo: {
