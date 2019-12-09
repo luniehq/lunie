@@ -7,6 +7,31 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.150] - 2019-12-09
+
+### Added
+
+- [#3180](https://github.com/cosmos/lunie/pull/3180) Use Lunie Transaction service to estimate an broadcast transactions @colw
+- added bitrise widgets to readme @jbibla
+
+### Changed
+
+- show loading images before causing anxiety for user about the state of their portfolio @jbibla
+
+### Fixed
+
+- [#3255](https://github.com/cosmos/lunie/pull/3255) Hide menu when changing to block view from menu @colw
+- Fix failing sends @faboweb
+- Show correct feature flag url for HID support under Windows @faboweb
+
+### Code Improvements
+
+- cleaned up bar styles to match new design and reduce code complexity @jbibla
+
+### Repository
+
+- For automatic releases increment patch version instead of prerelease version @faboweb
+
 ## [1.0.149] - 2019-12-06
 
 ### Added
