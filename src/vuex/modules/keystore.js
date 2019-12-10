@@ -1,4 +1,5 @@
 import { track } from "scripts/google-analytics"
+import config from "src/../config"
 
 export default () => {
   const state = {
@@ -6,7 +7,8 @@ export default () => {
     error: null,
     // import into state to be able to test easier
     externals: {
-      track
+      track,
+      config
     }
   }
 
@@ -35,8 +37,8 @@ export default () => {
       const { getSeed } = await import("@lunie/cosmos-keys")
       return getSeed()
     },
-    async getAddressFromSeed(store, { seedPhrase, network }) {
-      const wallet = getWallet(seedPhrase, network)
+    async getAddressFromSeed({ state }, { seedPhrase, network }) {
+      const wallet = getWallet(state.externals.config, seedPhrase, network)
       return wallet.cosmosAddress
     },
     async createKey(
@@ -44,7 +46,7 @@ export default () => {
       { seedPhrase, password, name, network }
     ) {
       const { storeWallet } = await import("@lunie/cosmos-keys")
-      const wallet = getWallet(seedPhrase, network)
+      const wallet = getWallet(state.externals.config, seedPhrase, network)
 
       storeWallet(wallet, name, password)
 
@@ -70,22 +72,14 @@ export default () => {
 }
 
 // creates a cosmos addres for the network desired
-function getCosmosAddressCreator(network) {
+function getCosmosAddressCreator(config, network) {
   return async seedPhrase => {
-    const bech32Prefixes = {
-      "cosmos-hub-mainnet": "cosmos",
-      "cosmos-hub-testnet": "cosmos",
-      "regen-testnet": "xrn:",
-      "regen-mainnet": "xrn:",
-      "terra-testnet": "terra",
-      "terra-mainnet": "terra"
-    }
     const { getNewWalletFromSeed } = await import("@lunie/cosmos-keys")
-    return getNewWalletFromSeed(seedPhrase, bech32Prefixes[network])
+    return getNewWalletFromSeed(seedPhrase, config.bech32Prefixes[network])
   }
 }
 
-function getWallet(seedPhrase, network) {
+function getWallet(config, seedPhrase, network) {
   switch (network) {
     case "cosmos-hub-mainnet":
     case "cosmos-hub-testnet":
@@ -93,7 +87,7 @@ function getWallet(seedPhrase, network) {
     case "regen-mainnet":
     case "terra-testnet":
     case "terra-mainnet": {
-      const addressCreator = getCosmosAddressCreator(network)
+      const addressCreator = getCosmosAddressCreator(config, network)
       return addressCreator(seedPhrase)
     }
     default:

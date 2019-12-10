@@ -20,5 +20,14 @@ export default {
   graphqlHost: graphql,
 
   e2e: process.env.VUE_APP_E2E || false,
-  enableTxAPI: process.env.VUE_APP_ENABLE_TX_API === "true" || false
+  enableTxAPI: process.env.VUE_APP_ENABLE_TX_API === "true" || false,
+
+  bech32Prefixes: {
+    "cosmos-hub-mainnet": "cosmos",
+    "cosmos-hub-testnet": "cosmos",
+    "regen-testnet": "xrn:",
+    "regen-mainnet": "xrn:",
+    "terra-testnet": "terra",
+    "terra-mainnet": "terra"
+  }
 }
