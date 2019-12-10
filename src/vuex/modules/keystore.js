@@ -1,6 +1,6 @@
 import { track } from "scripts/google-analytics"
 
-export default () => {
+export default ({ apollo }) => {
   const state = {
     accounts: [],
     error: null,
@@ -35,21 +35,79 @@ export default () => {
       const { getSeed } = await import("@lunie/cosmos-keys")
       return getSeed()
     },
-    async getAddressFromSeed(store, seedPhrase) {
-      const { getNewWalletFromSeed } = await import("@lunie/cosmos-keys")
-      const wallet = getNewWalletFromSeed(seedPhrase)
-      return wallet.cosmosAddress
+    async getAddressFromSeed(store, { seedPhrase, network }) {
+      switch (network) {
+        case "cosmos-hub-mainnet":
+        case "cosmos-hub-testnet":
+        case "regen-testnet":
+        case "terra-testnet": {
+          const {
+            data: {
+              network: { bech32_prefix }
+            }
+          } = await apollo.query({
+            query: `
+              query ImportPrefix($networkId: String!) {
+                network(id: $networkId) {
+                  bech32_prefix
+                }
+              }
+            `,
+            variables: {
+              networkId: network
+            }
+          })
+          const { getNewWalletFromSeed } = await import("@lunie/cosmos-keys")
+          const wallet = getNewWalletFromSeed(seedPhrase, bech32_prefix)
+          return wallet.cosmosAddress
+        }
+        default:
+          throw new Error(
+            "Lunie doesn't support address creation for this network."
+          )
+      }
     },
-    async createKey({ dispatch, state }, { seedPhrase, password, name }) {
-      const { getNewWalletFromSeed, storeWallet } = await import(
-        "@lunie/cosmos-keys"
-      )
-
-      state.externals.track(`event`, `session`, `create-keypair`)
-
-      const wallet = getNewWalletFromSeed(seedPhrase)
+    async createKey(
+      { dispatch, state },
+      { seedPhrase, password, name, network }
+    ) {
+      const { storeWallet } = await import("@lunie/cosmos-keys")
+      let wallet
+      switch (network) {
+        case "cosmos-hub-mainnet":
+        case "cosmos-hub-testnet":
+        case "regen-testnet":
+        case "terra-testnet":
+          {
+            const {
+              data: {
+                network: { bech32_prefix }
+              }
+            } = await apollo.query({
+              query: `
+              query ImportPrefix($networkId: String!) {
+                network(id: $networkId) {
+                  bech32_prefix
+                }
+              }
+            `,
+              variables: {
+                networkId: network
+              }
+            })
+            const { getNewWalletFromSeed } = await import("@lunie/cosmos-keys")
+            wallet = getNewWalletFromSeed(seedPhrase, bech32_prefix)
+          }
+          break
+        default:
+          throw new Error(
+            "Lunie doesn't support address creation for this network."
+          )
+      }
 
       storeWallet(wallet, name, password)
+
+      state.externals.track(`event`, `session`, `create-keypair`)
 
       // reload accounts as we just added a new one
       dispatch("loadAccounts")
