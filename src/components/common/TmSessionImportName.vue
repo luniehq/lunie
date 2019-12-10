@@ -113,29 +113,7 @@ export default {
   },
   validations: () => ({
     name: { required, minLength: minLength(3), nameExists }
-  }),
-  apollo: {
-    network: {
-      query: gql`
-        query ImportPrefix($networkId: String!) {
-          network(id: $networkId) {
-            bech32_prefix
-          }
-        }
-      `,
-      variables() {
-        /* istanbul ignore next */
-        return {
-          networkId: this.networkId
-        }
-      },
-      update(data) {
-        /* istanbul ignore next */
-
-        return data.network
-      }
-    }
-  }
+  })
 }
 </script>
 <style scoped>

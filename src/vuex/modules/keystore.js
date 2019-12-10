@@ -1,6 +1,6 @@
 import { track } from "scripts/google-analytics"
 
-export default ({ apollo }) => {
+export default () => {
   const state = {
     accounts: [],
     error: null,
@@ -36,74 +36,15 @@ export default ({ apollo }) => {
       return getSeed()
     },
     async getAddressFromSeed(store, { seedPhrase, network }) {
-      switch (network) {
-        case "cosmos-hub-mainnet":
-        case "cosmos-hub-testnet":
-        case "regen-testnet":
-        case "terra-testnet": {
-          const {
-            data: {
-              network: { bech32_prefix }
-            }
-          } = await apollo.query({
-            query: `
-              query ImportPrefix($networkId: String!) {
-                network(id: $networkId) {
-                  bech32_prefix
-                }
-              }
-            `,
-            variables: {
-              networkId: network
-            }
-          })
-          const { getNewWalletFromSeed } = await import("@lunie/cosmos-keys")
-          const wallet = getNewWalletFromSeed(seedPhrase, bech32_prefix)
-          return wallet.cosmosAddress
-        }
-        default:
-          throw new Error(
-            "Lunie doesn't support address creation for this network."
-          )
-      }
+      const wallet = getWallet(seedPhrase, network)
+      return wallet.cosmosAddress
     },
     async createKey(
       { dispatch, state },
       { seedPhrase, password, name, network }
     ) {
       const { storeWallet } = await import("@lunie/cosmos-keys")
-      let wallet
-      switch (network) {
-        case "cosmos-hub-mainnet":
-        case "cosmos-hub-testnet":
-        case "regen-testnet":
-        case "terra-testnet":
-          {
-            const {
-              data: {
-                network: { bech32_prefix }
-              }
-            } = await apollo.query({
-              query: `
-              query ImportPrefix($networkId: String!) {
-                network(id: $networkId) {
-                  bech32_prefix
-                }
-              }
-            `,
-              variables: {
-                networkId: network
-              }
-            })
-            const { getNewWalletFromSeed } = await import("@lunie/cosmos-keys")
-            wallet = getNewWalletFromSeed(seedPhrase, bech32_prefix)
-          }
-          break
-        default:
-          throw new Error(
-            "Lunie doesn't support address creation for this network."
-          )
-      }
+      const wallet = getWallet(seedPhrase, network)
 
       storeWallet(wallet, name, password)
 
@@ -125,5 +66,39 @@ export default ({ apollo }) => {
     state,
     mutations,
     actions
+  }
+}
+
+// creates a cosmos addres for the network desired
+function getCosmosAddressCreator(network) {
+  return async seedPhrase => {
+    const bech32Prefixes = {
+      "cosmos-hub-mainnet": "cosmos",
+      "cosmos-hub-testnet": "cosmos",
+      "regen-testnet": "xrn:",
+      "regen-mainnet": "xrn:",
+      "terra-testnet": "terra",
+      "terra-mainnet": "terra"
+    }
+    const { getNewWalletFromSeed } = await import("@lunie/cosmos-keys")
+    return getNewWalletFromSeed(seedPhrase, bech32Prefixes[network])
+  }
+}
+
+function getWallet(seedPhrase, network) {
+  switch (network) {
+    case "cosmos-hub-mainnet":
+    case "cosmos-hub-testnet":
+    case "regen-testnet":
+    case "regen-mainnet":
+    case "terra-testnet":
+    case "terra-mainnet": {
+      const addressCreator = getCosmosAddressCreator(network)
+      return addressCreator(seedPhrase)
+    }
+    default:
+      throw new Error(
+        "Lunie doesn't support address creation for this network."
+      )
   }
 }
