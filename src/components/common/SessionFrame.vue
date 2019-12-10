@@ -17,9 +17,8 @@
           class="session-close-button"
           value="Back to Lunie"
           color="secondary"
-          @click.native="$router.push(`/`)"
         />
-        <a class="user-box" @click="goBack">
+        <a class="user-box" href="/">
           <i class="material-icons">close</i>
         </a>
       </div>
