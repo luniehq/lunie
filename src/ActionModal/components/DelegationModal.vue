@@ -26,7 +26,13 @@
         </span>
       </div>
     </TmFormGroup>
-    <TmFormGroup class="action-modal-form-group" field-id="to" field-label="To">
+
+    <TmFormGroup
+      v-if="!isRedelegation"
+      class="action-modal-form-group"
+      field-id="to"
+      field-label="To"
+    >
       <TmField
         id="to"
         v-model="targetValidator.operatorAddress"
@@ -52,7 +58,37 @@
     </TmFormGroup>
 
     <TmFormGroup
-      v-if="fromOptions.length > 1"
+      v-else
+      class="action-modal-form-group"
+      field-id="to"
+      field-label="To"
+    >
+      <TmField
+        id="to"
+        v-model="targetValidator.operatorAddress"
+        :options="validators"
+        type="select"
+      />
+      <TmFormMsg
+        v-if="targetValidator.status === 'INACTIVE' && !isRedelegation"
+        :msg="
+          `You are about to delegate to an inactive validator (${targetValidator.statusDetailed})`
+        "
+        type="custom"
+        class="tm-form-msg--desc"
+      />
+      <TmFormMsg
+        v-if="targetValidator.status === 'INACTIVE' && isRedelegation"
+        :msg="
+          `You are about to redelegate to an inactive validator (${targetValidator.statusDetailed})`
+        "
+        type="custom"
+        class="tm-form-msg--desc"
+      />
+    </TmFormGroup>
+
+    <TmFormGroup
+      v-if="fromOptions.length > 1 && !isRedelegation"
       class="action-modal-form-group"
       field-id="from"
       field-label="From"
@@ -65,6 +101,22 @@
         type="select"
       />
     </TmFormGroup>
+
+    <TmFormGroup
+      v-else-if="fromOptions.length > 1 && isRedelegation"
+      class="action-modal-form-group"
+      field-id="from"
+      field-label="From"
+    >
+      <TmField
+        id="from"
+        v-model="selectedIndex"
+        :title="from"
+        :options="redelegateFromOptions"
+        type="select"
+      />
+    </TmFormGroup>
+
     <TmFormGroup
       :error="$v.amount.$error && $v.amount.$invalid"
       class="action-modal-form-group"
@@ -209,6 +261,23 @@ export default {
       )
 
       return options
+    },
+    redelegateFromOptions() {
+      let options = []
+      return options.concat(
+        this.delegations.map((delegation, index) => {
+          return {
+            address: delegation.validator.operatorAddress,
+            maximum: Number(delegation.amount),
+            key: `${delegation.validator.name} - ${formatBech32(
+              delegation.validator.operatorAddress,
+              false,
+              20
+            )}`,
+            value: index + 1
+          }
+        })
+      )
     },
     from() {
       if (!this.session.signedIn) return ``
@@ -373,6 +442,63 @@ export default {
       update(data) {
         /* istanbul ignore next */
         return data.network.stakingDenom
+      }
+    },
+    validators: {
+      query: gql`
+        query validators(
+          $networkId: String!
+          $searchTerm: String
+          $activeOnly: Boolean
+        ) {
+          validators(
+            networkId: $networkId
+            searchTerm: $searchTerm
+            activeOnly: $activeOnly
+          ) {
+            name
+            operatorAddress
+            consensusPubkey
+            votingPower
+            status
+            statusDetailed
+            picture
+            expectedReturns
+          }
+        }
+      `,
+      skip() {
+        return !this.isRedelegation
+      },
+      variables() {
+        return {
+          networkId: this.network,
+          activeOnly: true
+        }
+      },
+      update: function(result) {
+        let options = []
+        options = options.concat(
+          result.validators
+            // exclude the validator we are redelegating from
+            .filter(
+              validator =>
+                validator.operatorAddress !== this.targetValidator.operatorAddress
+            )
+            .map(validator => {
+              return {
+                address: validator.operatorAddress,
+                key: `${validator.name} - ${formatBech32(
+                  validator.operatorAddress,
+                  false,
+                  20
+                )}`,
+                value: validator.operatorAddress
+              }
+            })
+        )
+        // console.log(options)
+        return options
       }
     }
   },
