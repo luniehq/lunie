@@ -478,12 +478,15 @@ export default {
       },
       update: function(result) {
         let options = []
+        // console.log(this.redelegateFromOptions)
+        // console.log(this.selectedIndex - 1)
         options = options.concat(
           result.validators
             // exclude the validator we are redelegating from
             .filter(
               validator =>
-                validator.operatorAddress !== this.targetValidator.operatorAddress
+                validator.operatorAddress !==
+                this.targetValidator.operatorAddress
             )
             .map(validator => {
               return {
