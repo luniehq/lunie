@@ -135,25 +135,21 @@
 }
 
 .user-box {
-  font-size: 12px;
-  margin-right: 1rem;
-  border-radius: 0.25rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  cursor: pointer;
 }
 
 .user-box i {
-  display: flex;
-  align-items: center;
-  padding: 0.5rem;
+  padding: 0.25rem;
   border-radius: 50%;
   background: var(--bc-dim);
+  color: var(--dim);
 }
 
 .user-box i:hover {
   background: var(--bc);
-  cursor: pointer;
 }
 
 .session .material-icons.circle.back {
@@ -192,7 +188,7 @@
 @media screen and (max-width: 666px) {
   .session {
     height: 100vh;
-    padding: 1.5rem 1rem 1rem;
+    padding: 3rem 1rem 1rem;
   }
 
   .session-outer-container {
@@ -224,8 +220,12 @@
   .session-close-mobile {
     display: block;
     position: absolute;
-    right: 1rem;
-    top: 2.5rem;
+    right: 1.9rem;
+    top: 4.4rem;
+  }
+
+  .session-close-mobile i {
+    font-size: 1.25rem;
   }
 
   .session-close {
