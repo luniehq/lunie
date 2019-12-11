@@ -9,13 +9,6 @@
       >
         <i class="material-icons">arrow_back</i>
       </div>
-      <div
-        id="closeBtn"
-        class="action-modal-icon action-modal-close"
-        @click="close"
-      >
-        <i class="material-icons">close</i>
-      </div>
       <div class="action-modal-header">
         <span class="action-modal-title">{{
           requiresSignIn ? `Sign in required` : title
@@ -228,45 +221,49 @@
               v-if="[defaultStep, feeStep, signStep].includes(step)"
               class="action-modal-group"
             >
-              <div>
-                <TmBtn
-                  v-if="requiresSignIn"
-                  v-focus
-                  value="Sign In"
-                  color="primary"
-                  @click.native="goToSession"
-                  @click.enter.native="goToSession"
-                />
-                <TmBtn
-                  v-else-if="sending"
-                  :value="submitButtonCaption"
-                  disabled="disabled"
-                  color="primary"
-                />
-                <TmBtn
-                  v-else-if="!connected"
-                  value="Connecting..."
-                  disabled="disabled"
-                  color="primary"
-                />
-                <TmBtn
-                  v-else-if="step !== signStep"
-                  ref="next"
-                  color="primary"
-                  value="Next"
-                  :disabled="
-                    disabled || (step === feeStep && $v.invoiceTotal.$invalid)
-                  "
-                  @click.native="validateChangeStep"
-                />
-                <TmBtn
-                  v-else
-                  color="primary"
-                  value="Send"
-                  :disabled="!selectedSignMethod"
-                  @click.native="validateChangeStep"
-                />
-              </div>
+              <TmBtn
+                id="closeBtn"
+                value="Cancel"
+                type="tertiary"
+                @click.native="close"
+              />
+              <TmBtn
+                v-if="requiresSignIn"
+                v-focus
+                value="Sign In"
+                type="primary"
+                @click.native="goToSession"
+                @click.enter.native="goToSession"
+              />
+              <TmBtn
+                v-else-if="sending"
+                :value="submitButtonCaption"
+                disabled="disabled"
+                type="primary"
+              />
+              <TmBtn
+                v-else-if="!connected"
+                value="Connecting..."
+                disabled="disabled"
+                type="primary"
+              />
+              <TmBtn
+                v-else-if="step !== signStep"
+                ref="next"
+                type="primary"
+                value="Next"
+                :disabled="
+                  disabled || (step === feeStep && $v.invoiceTotal.$invalid)
+                "
+                @click.native="validateChangeStep"
+              />
+              <TmBtn
+                v-else
+                type="primary"
+                value="Send"
+                :disabled="!selectedSignMethod"
+                @click.native="validateChangeStep"
+              />
             </TmFormGroup>
           </slot>
         </div>
@@ -877,7 +874,6 @@ export default {
   font-size: var(--h2);
   font-weight: 400;
   color: var(--bright);
-  padding-bottom: 2rem;
 }
 
 .action-modal-icon {
@@ -915,13 +911,20 @@ export default {
 
 .action-modal-footer {
   display: flex;
-  justify-content: flex-end;
-  padding: 1.5rem 0 1rem;
-
-  /* keeps button in bottom right no matter the size of the action modal */
   flex-grow: 1;
   align-self: flex-end;
   flex-direction: column;
+  padding: 1.5rem 0 1rem;
+}
+
+.action-modal-footer .tm-form-group .tm-form-group__field {
+  display: flex;
+  align-items: center;
+  justify-items: space-between;
+}
+
+.action-modal-footer .tm-form-group .tm-form-group__field .tertiary {
+  margin-right: 0.5rem;
 }
 
 .action-modal-footer .tm-form-group {
@@ -999,10 +1002,15 @@ export default {
     top: 0;
     overflow-x: scroll;
     padding-bottom: 69px;
+    padding-top: 4rem;
   }
 
   .action-modal-footer button {
     width: 100%;
+  }
+
+  .action-modal-icon.action-modal-close {
+    top: 3rem;
   }
 }
 </style>
