@@ -96,7 +96,7 @@
         <li>
           <h4>Voting Power / Total Stake</h4>
           <span id="page-profile__power">
-            {{ chooseFilter(validator.votingPower) }} /
+            {{ validator.votingPower | percent }} /
             {{ validator.tokens | shortDecimals }}
           </span>
         </li>

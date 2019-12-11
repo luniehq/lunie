@@ -35,10 +35,7 @@
         :alt="`validator logo for ` + validator.name"
       />
       <div class="validator-info">
-        <h3 v-if="validator.name.startsWith('0x')" class="li-validator-name">
-          {{ validator.name | formatBech32 }}
-        </h3>
-        <h3 v-else class="li-validator-name">
+        <h3 class="li-validator-name">
           {{ validator.name }}
         </h3>
         <div v-if="delegation.amount > 0">
@@ -57,17 +54,15 @@
       }}
     </td>
     <td :class="{ 'hide-xs': showOnMobile !== 'voting-power' }">
-      <span v-if="validator.votingPower">
+      <span>
         {{ validator.votingPower | percent }}
       </span>
-      <span v-else>{{ validator.votingPower | noBlanks }}</span>
     </td>
   </tr>
 </template>
 
 <script>
 import { percent, shortDecimals, atoms } from "scripts/num"
-import { noBlanks, formatBech32 } from "src/filters"
 import Avatar from "common/Avatar"
 export default {
   name: `li-validator`,
@@ -76,8 +71,6 @@ export default {
   },
   filters: {
     atoms,
-    noBlanks,
-    formatBech32,
     shortDecimals,
     percent,
     toLower: text => text.toLowerCase()
