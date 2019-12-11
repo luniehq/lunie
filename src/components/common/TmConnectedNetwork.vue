@@ -149,6 +149,7 @@ export default {
   left: 0;
   right: 0;
   max-width: 208px; /* sidebar width minus margin */
+  background: var(--app-nav);
 }
 
 .intercom-button {
@@ -220,6 +221,12 @@ export default {
 @media screen and (max-width: 767px) {
   .sidebar-bottom {
     max-width: 100%;
+  }
+}
+
+@media screen and (max-height: 600px) {
+  .sidebar-bottom {
+    position: static;
   }
 }
 </style>

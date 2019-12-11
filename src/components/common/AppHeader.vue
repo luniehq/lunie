@@ -1,6 +1,6 @@
 <template>
   <nav class="app-header" :class="{ mobile: !desktop }">
-    <div class="container">
+    <div class="container" :class="{ open: open }">
       <div class="header-item" :class="{ open: open }">
         <a v-if="!isMobileApp" href="https://lunie.io">
           <img
@@ -105,6 +105,11 @@ export default {
 }
 
 @media screen and (max-width: 1023px) {
+  .app-header > .container.open {
+    height: 100%;
+    overflow: scroll;
+  }
+
   .app-header > .container {
     position: fixed;
     top: 0;
@@ -153,7 +158,8 @@ export default {
 @media screen and (min-width: 1024px) {
   .app-header > .container {
     position: fixed;
-    min-height: 100vh;
+    height: 100%;
+    overflow: scroll;
     background: var(--app-nav);
   }
 }
