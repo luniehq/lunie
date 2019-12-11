@@ -27,7 +27,7 @@
   "cosmos-hub-mainnet": {
     "id": "cosmos-hub-mainnet",
     "title": "Cosmos Hub",
-    "chain_id": "cosmoshub-2",
+    "chain_id": "cosmoshub-3",
     "rpc_url": "wss://rpc.nylira.net/websocket",
     "api_url": "https://lcd.nylira.net",
     "bech32_prefix": "cosmos",
