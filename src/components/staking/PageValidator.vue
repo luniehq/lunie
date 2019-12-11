@@ -8,7 +8,8 @@
     data-title="Validator"
     class="small"
   >
-    <template v-if="validator.operatorAddress" slot="managed-body">
+    <TmDataLoading v-if="$apollo.queries.validator.loading" />
+    <template v-else-if="validator.operatorAddress" slot="managed-body">
       <div class="status-container">
         <span :class="validator.status | toLower" class="validator-status">
           {{ validator.status }}
