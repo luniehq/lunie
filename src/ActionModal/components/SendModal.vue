@@ -90,13 +90,9 @@
         class="tm-form-msg--desc max-message"
       />
     </TmFormGroup>
-    <TmBtn
-      v-if="editMemo === false"
-      id="edit-memo-btn"
-      value="Edit Memo"
-      type="secondary"
-      @click.native="showMemo()"
-    />
+    <a v-if="editMemo === false" id="edit-memo-btn" @click="showMemo()">
+      Need to edit the memo field?
+    </a>
     <TmFormGroup
       v-else
       id="memo"
@@ -109,7 +105,7 @@
         id="memo"
         v-model="memo"
         type="text"
-        placeholder="Let everyone know how much you love Lunie"
+        placeholder="Memo"
         @keyup.enter.native="enterPressed"
       />
       <TmFormMsg
@@ -289,5 +285,7 @@ export default {
 <style scoped>
 #edit-memo-btn {
   margin-top: 2.4rem;
+  font-size: 12px;
+  cursor: pointer;
 }
 </style>
