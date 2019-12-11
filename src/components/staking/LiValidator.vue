@@ -137,11 +137,10 @@ export default {
   font-weight: 500;
   color: var(--bright);
   display: inline-block;
-  max-width: 11rem;
+  max-width: 20rem;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-
 }
 .li-validator-image {
   border-radius: 0.25rem;
@@ -166,5 +165,10 @@ export default {
 .validator-status.active {
   color: var(--success);
   border-color: var(--success);
+}
+@media screen and (max-width: 768px) {
+  .li-validator-name {
+    max-width: 11rem;
+  }
 }
 </style>
