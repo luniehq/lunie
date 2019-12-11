@@ -321,8 +321,8 @@ exports[`TmSessionHardware sign in does show the instructions to enable HID on W
           <div class="tm-hardware-state-content">
             <!---->
             <div class="tm-hardware-state__label">
-              Using a Ledger on Windows requires experimental HID support in your
-              browser.
+              Due to recent Ledger updates, using a Ledger on Windows now requires
+              "Experimental Web Platform features" to be enabled.
               <!---->
               <!----> <button class="button">
                 Sign In
