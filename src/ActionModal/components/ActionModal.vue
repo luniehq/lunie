@@ -680,9 +680,6 @@ export default {
       this.step = signStep
       this.submissionError = `${this.submissionErrorPrefix}: ${message}.`
       this.trackEvent(`event`, `failed-submit`, this.title, message)
-    },
-    async connectLedger() {
-      await this.$store.dispatch(`connectLedgerApp`)
     }
   },
   validations() {

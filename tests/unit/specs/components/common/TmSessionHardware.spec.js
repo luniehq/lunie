@@ -6,8 +6,8 @@ import TmSessionHardware from "common/TmSessionHardware"
 const localVue = createLocalVue()
 localVue.use(Vuex)
 localVue.use(Vuelidate)
-localVue.directive(`tooltip`, () => {})
-localVue.directive(`focus`, () => {})
+localVue.directive(`tooltip`, () => { })
+localVue.directive(`focus`, () => { })
 
 describe(`TmSessionHardware`, () => {
   let wrapper, store
@@ -73,7 +73,7 @@ describe(`TmSessionHardware`, () => {
         confirmAddress: jest.fn(() => true)
       }
       await TmSessionHardware.methods.signIn.call(self)
-      expect(self.$store.dispatch).toHaveBeenCalledWith(`connectLedgerApp`)
+      expect(self.$store.dispatch).toHaveBeenCalledWith(`getAddressFromLedger`)
       expect(self.connectionError).toBeNull()
       expect(self.$store.dispatch).toHaveBeenCalledWith(`signIn`, {
         sessionType: `ledger`,
