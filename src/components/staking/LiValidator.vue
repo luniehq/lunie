@@ -137,11 +137,18 @@ export default {
   font-weight: 500;
   color: var(--bright);
   display: inline-block;
+  max-width: 11rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
 }
 .li-validator-image {
   border-radius: 0.25rem;
   height: 2.5rem;
   width: 2.5rem;
+  min-height: 2.5rem;
+  min-width: 2.5rem;
   border: 1px solid var(--bc-dim);
 }
 .validator-status {
