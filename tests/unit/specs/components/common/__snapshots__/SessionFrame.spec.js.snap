@@ -43,7 +43,6 @@ exports[`SessionFrame shows an overview of all wallets to sign in with from the 
      
     <a
       class="user-box"
-      href="/"
     >
       <i
         class="material-icons"
