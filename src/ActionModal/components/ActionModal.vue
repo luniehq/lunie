@@ -866,7 +866,6 @@ export default {
   flex-direction: column;
   text-align: center;
   display: flex;
-  padding-bottom: 2rem;
 }
 
 .action-modal-title {
@@ -874,6 +873,7 @@ export default {
   font-size: var(--h2);
   font-weight: 400;
   color: var(--bright);
+  padding-bottom: 2rem;
 }
 
 .action-modal-icon {
