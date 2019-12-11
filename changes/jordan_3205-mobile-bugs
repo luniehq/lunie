@@ -1,0 +1,4 @@
+[Fixed] [#3205](https://github.com/cosmos/lunie/issues/3205) resolved keyboard and button issues on iOS forms @jbibla
+[Fixed] added special styles for the notch and bottom bar on iPhone X and 11 @jbibla
+[Changed] the proposal description length was unreasonably small, now it is much larger @jbibla
+[Fixed] the input suffix styles were broken on the delegation modal, but now they are fixed!  @jbibla
