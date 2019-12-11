@@ -34,6 +34,17 @@
         Activity
       </h2>
     </router-link>
+    <router-link
+      class="mobile-menu-item"
+      to="/networks"
+      exact="exact"
+      title="Networks"
+    >
+      <i class="material-icons">public</i>
+      <h2 class="app-menu-title">
+        Networks
+      </h2>
+    </router-link>
   </menu>
 </template>
 
