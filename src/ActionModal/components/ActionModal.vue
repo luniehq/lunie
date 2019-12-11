@@ -1004,6 +1004,8 @@ export default {
   .action-modal-footer button {
     width: 100%;
   }
+}
+
 /* iPhone X and Xs Max */
 @media only screen and (min-device-width: 375px) and (min-device-height: 812px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait) {
   .action-modal-footer {
