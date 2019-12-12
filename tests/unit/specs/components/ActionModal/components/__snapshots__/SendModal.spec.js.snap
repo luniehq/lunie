@@ -54,11 +54,13 @@ exports[`SendModal should display send modal form 1`] = `
     <!---->
   </tmformgroup-stub>
    
-  <tmbtn-stub
+  <a
     id="edit-memo-btn"
-    type="secondary"
-    value="Edit Memo"
-  />
+  >
+    
+    Need to edit the memo field?
+  
+  </a>
 </actionmodal-stub>
 `;
 
@@ -123,11 +125,13 @@ exports[`SendModal validation should show address required error 1`] = `
     <!---->
   </tmformgroup-stub>
    
-  <tmbtn-stub
+  <a
     id="edit-memo-btn"
-    type="secondary"
-    value="Edit Memo"
-  />
+  >
+    
+    Need to edit the memo field?
+  
+  </a>
 </actionmodal-stub>
 `;
 
@@ -192,11 +196,13 @@ exports[`SendModal validation should show bech32 error when address length is to
     <!---->
   </tmformgroup-stub>
    
-  <tmbtn-stub
+  <a
     id="edit-memo-btn"
-    type="secondary"
-    value="Edit Memo"
-  />
+  >
+    
+    Need to edit the memo field?
+  
+  </a>
 </actionmodal-stub>
 `;
 
@@ -261,11 +267,13 @@ exports[`SendModal validation should show bech32 error when address length is to
     <!---->
   </tmformgroup-stub>
    
-  <tmbtn-stub
+  <a
     id="edit-memo-btn"
-    type="secondary"
-    value="Edit Memo"
-  />
+  >
+    
+    Need to edit the memo field?
+  
+  </a>
 </actionmodal-stub>
 `;
 
@@ -333,10 +341,12 @@ exports[`SendModal validation should show bech32 error when alphanumeric is wron
     />
   </tmformgroup-stub>
    
-  <tmbtn-stub
+  <a
     id="edit-memo-btn"
-    type="secondary"
-    value="Edit Memo"
-  />
+  >
+    
+    Need to edit the memo field?
+  
+  </a>
 </actionmodal-stub>
 `;
