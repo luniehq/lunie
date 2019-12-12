@@ -54,9 +54,7 @@
       }}
     </td>
     <td :class="{ 'hide-xs': showOnMobile !== 'voting-power' }">
-      <span>
-        {{ validator.votingPower | percent }}
-      </span>
+      {{ validator.votingPower | percent }}
     </td>
   </tr>
 </template>

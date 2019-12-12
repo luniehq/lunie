@@ -65,7 +65,7 @@
         </li>
         <li class="column">
           <h4>Website</h4>
-          <span v-if="validator.website">
+          <span v-if="validator.website !== ``">
             <a
               id="validator-website"
               :href="validator.website + `?ref=lunie`"
@@ -109,29 +109,29 @@
         </li>
         <li>
           <h4>Validator Since</h4>
-          <span>{{ chooseFilter(validator.startHeight) }}</span>
+          <span>Block #{{ validator.startHeight || 0 }}</span>
         </li>
         <li>
           <h4>Uptime</h4>
-          <span id="page-profile__uptime">{{
-            chooseFilter(validator.uptimePercentage)
-          }}</span>
+          <span id="page-profile__uptime">
+            {{ validator.uptimePercentage | percent }}
+          </span>
         </li>
         <li>
           <h4>Current Commission Rate</h4>
-          <span>{{ chooseFilter(validator.commission) }}</span>
+          <span>{{ validator.commission | percent }}</span>
         </li>
         <li>
           <h4>Max Commission Rate</h4>
-          <span>{{ chooseFilter(validator.maxCommission) }}</span>
+          <span>{{ validator.maxCommission | percent }}</span>
         </li>
         <li>
           <h4>Max Daily Commission Change</h4>
-          <span>{{ chooseFilter(validator.maxChangeCommission) }}</span>
+          <span>{{ validator.maxChangeCommission | percent }}</span>
         </li>
         <li>
           <h4>Last Commission Change</h4>
-          <span>{{ chooseFilter(validator.commissionLastUpdate) }}</span>
+          <span>{{ validator.commissionUpdateTime | fromNow }}</span>
         </li>
       </ul>
 
@@ -250,11 +250,6 @@ export default {
         `undelegations`,
         `transactions`
       ]) // TODO use more finegrained query string (network and address)
-    },
-    chooseFilter(field) {
-      return field
-        ? this.$options.filters.percent(field)
-        : this.$options.filters.noBlanks(field)
     }
   },
   apollo: {
