@@ -98,5 +98,30 @@
     "action_proposal": false,
     "default": false,
     "stakingDenom": "LUNA"
+  },
+  "livepeer-mainnet": {
+    "id": "livepeer-mainnet",
+    "title": "Livepeer",
+    "chain_id": "ethereum-1",
+    "api_url": "https://api.thegraph.com/subgraphs/name/livepeer/livepeer",
+    "rpc_url": "wss://api.thegraph.com/subgraphs/name/livepeer/livepeer",
+    "bech32_prefix": "0x",
+    "testnet": false,
+    "feature_session": false,
+    "feature_portfolio": false,
+    "feature_validators": true,
+    "feature_proposals": false,
+    "feature_activity": false,
+    "feature_explorer": false,
+    "action_send": false,
+    "action_claim_rewards": false,
+    "action_delegate": false,
+    "action_redelegate": false,
+    "action_undelegate": false,
+    "action_deposit": false,
+    "action_vote": false,
+    "action_proposal": false,
+    "default": false,
+    "stakingDenom": "LPT"
   }
 }
