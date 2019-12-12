@@ -8,14 +8,14 @@
       <div class="session-main">
         <HardwareState :loading="status === `connect` ? false : true">
           <template v-if="isWindows && !hasHIDEnabled">
-            Using a Ledger on Windows requires experimental HID support in your
-            browser.
+            Due to recent Ledger updates, using a Ledger on Windows now requires
+            "Experimental Web Platform features" to be enabled.
             <template v-if="isChrome">
               <br />
               <br />
               <p>
-                Please copy the link below into a new tab and 'enable'
-                experimental web platform features:
+                Please copy the link below into a new tab and set the
+                "Experimental Web Platform features" flag to "Enabled":
               </p>
               <div
                 v-clipboard:copy="hidFeatureLink"
