@@ -91,6 +91,7 @@ export default {
         `
       },
       variables() {
+        /* istanbul ignore next */
         return {
           networkId: this.network
         }
@@ -113,6 +114,7 @@ export default {
     $subscribe: {
       blockAdded: {
         variables() {
+          /* istanbul ignore next */
           return {
             networkId: this.network
           }
@@ -133,6 +135,7 @@ export default {
             this.blockHeight = ApolloQueryResult.data.blockAdded.height
           }
           // Update proposals every 10 blocks
+          /* istanbul ignore next */
           if (
             ApolloQueryResult.data.blockAdded.height ===
             this.blockHeight + 10
