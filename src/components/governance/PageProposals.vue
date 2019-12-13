@@ -43,6 +43,7 @@ import TmDataLoading from "common/TmDataLoading"
 import { mapGetters } from "vuex"
 import { GovernanceParameters } from "src/gql"
 import gql from "graphql-tag"
+import refetchNetworkOnly from "scripts/refetch-network-only"
 
 export default {
   name: `page-proposals`,
@@ -58,7 +59,8 @@ export default {
     proposals: [],
     parameters: {
       depositDenom: "xxx"
-    }
+    },
+    blockHeight: 0
   }),
   computed: {
     ...mapGetters([`network`])
@@ -106,6 +108,37 @@ export default {
       update(data) {
         /* istanbul ignore next */
         return data.governanceParameters
+      }
+    },
+    $subscribe: {
+      blockAdded: {
+        variables() {
+          return {
+            networkId: this.network
+          }
+        },
+        query() {
+          return gql`
+            subscription($networkId: String!) {
+              blockAdded(networkId: $networkId) {
+                height
+              }
+            }
+          `
+        },
+        result(ApolloQueryResult) {
+          if (this.blockHeight === 0) {
+            this.blockHeight = ApolloQueryResult.data.blockAdded.height
+          }
+          // Update proposals every 10 blocks
+          if (
+            ApolloQueryResult.data.blockAdded.height ===
+            this.blockHeight + 10
+          ) {
+            this.blockHeight = ApolloQueryResult.data.blockAdded.height
+            refetchNetworkOnly(this.$apollo.queries.proposals)
+          }
+        }
       }
     }
   }
