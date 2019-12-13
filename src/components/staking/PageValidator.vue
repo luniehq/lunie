@@ -1,12 +1,14 @@
 <template>
   <TmPage
     :managed="true"
+    :data-empty="!validator.operatorAddress"
+    :loading="$apollo.loading"
+    :loaded="loaded"
     :hide-header="true"
     data-title="Validator"
     class="small"
   >
-    <TmDataLoading v-if="$apollo.loading" />
-    <template v-else-if="validator.operatorAddress" slot="managed-body">
+    <template v-if="validator.operatorAddress" slot="managed-body">
       <div class="status-container">
         <span :class="validator.status | toLower" class="validator-status">
           {{ validator.status }}
@@ -170,7 +172,6 @@ import Bech32 from "common/Bech32"
 import TmPage from "common/TmPage"
 import gql from "graphql-tag"
 import { ValidatorProfile } from "src/gql"
-import TmDataLoading from "common/TmDataLoading"
 
 function getStatusText(statusDetailed) {
   switch (statusDetailed) {
@@ -191,8 +192,7 @@ export default {
     UndelegationModal,
     Avatar,
     TmBtn,
-    TmPage,
-    TmDataLoading
+    TmPage
   },
   filters: {
     atoms,
