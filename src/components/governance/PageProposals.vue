@@ -118,6 +118,7 @@ export default {
           }
         },
         query() {
+          /* istanbul ignore next */
           return gql`
             subscription($networkId: String!) {
               blockAdded(networkId: $networkId) {
@@ -127,6 +128,7 @@ export default {
           `
         },
         result(ApolloQueryResult) {
+          /* istanbul ignore next */
           if (this.blockHeight === 0) {
             this.blockHeight = ApolloQueryResult.data.blockAdded.height
           }
