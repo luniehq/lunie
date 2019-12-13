@@ -166,6 +166,7 @@ import { atoms, shortDecimals, fullDecimals, percent } from "scripts/num"
 import { noBlanks, fromNow } from "src/filters"
 import refetchNetworkOnly from "scripts/refetch-network-only"
 import TmBtn from "common/TmBtn"
+import TmDataLoading from "common/TmDataLoading"
 import DelegationModal from "src/ActionModal/components/DelegationModal"
 import UndelegationModal from "src/ActionModal/components/UndelegationModal"
 import Avatar from "common/Avatar"
@@ -193,7 +194,8 @@ export default {
     UndelegationModal,
     Avatar,
     TmBtn,
-    TmPage
+    TmPage,
+    TmDataLoading
   },
   filters: {
     atoms,
