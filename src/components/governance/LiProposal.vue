@@ -94,4 +94,6 @@ export default {
   }
 }
 </style>
-<style scoped src="../../styles/proposal.css"></style>
+<style scoped>
+@import "../../styles/proposal-status.css";
+</style>
