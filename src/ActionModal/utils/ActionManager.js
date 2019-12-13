@@ -3,6 +3,7 @@ import { getSigner } from "./signer"
 import transaction from "./transactionTypes"
 import { uatoms } from "scripts/num"
 import { toMicroDenom } from "src/scripts/common"
+import { getURLParams } from "scripts/url"
 import {
   getMessage,
   getMultiMessage,
@@ -76,8 +77,14 @@ export default class ActionManager {
 
     const command = payload.simulate ? "estimate" : "broadcast"
 
+    // TODO refactor and put into config.js
+    const graphqlHost = urlParams =>
+      (urlParams.graphql ? decodeURIComponent(urlParams.graphql) : false) ||
+      config.graphqlHost
+    const urlParams = getURLParams(window)
+
     return fetch(
-      `${config.graphqlHost}/transaction/${command}`,
+      `${graphqlHost(urlParams)}/transaction/${command}`,
       options
     ).then(r => r.json())
   }
