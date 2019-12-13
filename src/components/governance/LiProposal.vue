@@ -50,7 +50,10 @@ export default {
   }
 }
 </script>
+
 <style scoped>
+@import "../../styles/proposal-status.css";
+
 .li-proposal {
   margin: 1rem 0;
   padding: 1rem 0;
@@ -93,7 +96,4 @@ export default {
     margin: 1rem auto;
   }
 }
-</style>
-<style scoped>
-@import "../../styles/proposal-status.css";
 </style>

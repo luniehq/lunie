@@ -394,7 +394,7 @@ export default {
 </script>
 
 <style scoped>
-@import "../../styles/proposal.css";
+@import "../../styles/proposal-status.css";
 
 .proposal-title__row {
   color: var(--bright);
