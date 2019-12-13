@@ -392,7 +392,10 @@ export default {
   }
 }
 </script>
+
 <style scoped>
+@import "../../styles/proposal-status.css";
+
 .proposal-title__row {
   color: var(--bright);
   display: flex;
