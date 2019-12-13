@@ -8,8 +8,7 @@
     data-title="Validator"
     class="small"
   >
-    <TmDataLoading v-if="$apollo.queries.validator.loading" />
-    <template v-else-if="validator.operatorAddress" slot="managed-body">
+    <template v-if="validator.operatorAddress" slot="managed-body">
       <div class="status-container">
         <span :class="validator.status | toLower" class="validator-status">
           {{ validator.status }}
@@ -166,7 +165,6 @@ import { atoms, shortDecimals, fullDecimals, percent } from "scripts/num"
 import { noBlanks, fromNow } from "src/filters"
 import refetchNetworkOnly from "scripts/refetch-network-only"
 import TmBtn from "common/TmBtn"
-import TmDataLoading from "common/TmDataLoading"
 import DelegationModal from "src/ActionModal/components/DelegationModal"
 import UndelegationModal from "src/ActionModal/components/UndelegationModal"
 import Avatar from "common/Avatar"
@@ -194,8 +192,7 @@ export default {
     UndelegationModal,
     Avatar,
     TmBtn,
-    TmPage,
-    TmDataLoading
+    TmPage
   },
   filters: {
     atoms,
