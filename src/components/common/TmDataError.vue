@@ -6,8 +6,8 @@
     <div slot="subtitle">
       Even though you're connected a full node, we can't display this data for
       you right now. Please try again later or
-      <a href="https://github.com/luniehq/lunie/issues">file a bug report</a>.
-      Apologies!
+      <a href="https://github.com/luniehq/lunie/issues">file a bug report</a> or
+      <a id="intercom-button" href="#">open a support chat</a>. Apologies!
     </div>
   </TmDataMsg>
 </template>
