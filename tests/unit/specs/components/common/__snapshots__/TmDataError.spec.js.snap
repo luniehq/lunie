@@ -43,8 +43,8 @@ exports[`TmDataError has the expected html structure 1`] = `
          or
     
         <a
+          class="intercom-button"
           href="#"
-          id="intercom-button"
         >
           open a support chat
         </a>
