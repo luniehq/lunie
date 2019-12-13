@@ -146,6 +146,7 @@ export default {
   }
 }
 </script>
+
 <style scoped>
 .button-container {
   display: flex;
