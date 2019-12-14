@@ -9,14 +9,14 @@
       >
         <i class="material-icons">arrow_back</i>
       </div>
+      <div
+        id="closeBtn"	
+        class="action-modal-icon action-modal-close"	
+        @click="close"	
+      >
+        <i class="material-icons">close</i>	
+      </div>
       <div class="action-modal-header">
-        <div
-          id="closeBtn"	
-          class="action-modal-icon action-modal-close"	
-          @click="close"	
-        >
-          <i class="material-icons">close</i>	
-        </div>
         <span class="action-modal-title">{{
           requiresSignIn ? `Sign in required` : title
         }}</span>
