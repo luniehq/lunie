@@ -78,7 +78,10 @@ describe(`ActionModal`, () => {
   ]
 
   $apollo = {
-    skipAll: jest.fn(() => false)
+    skipAll: jest.fn(() => false),
+    queries: {
+      overview: jest.fn()
+    }
   }
 
   beforeEach(() => {
