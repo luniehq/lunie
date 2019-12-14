@@ -1013,4 +1013,18 @@ export default {
     top: 3rem;
   }
 }
+
+/* iPhone X and Xs Max */
+@media only screen and (min-device-width: 375px) and (min-device-height: 812px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait) {
+  .action-modal-footer {
+    padding-bottom: 1.8rem;
+  }
+}
+
+/* iPhone XR */
+@media only screen and (min-device-width: 414px) and (min-device-height: 896px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait) {
+  .action-modal-footer {
+    padding-bottom: 1.8rem;
+  }
+}
 </style>
