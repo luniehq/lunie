@@ -159,7 +159,6 @@ export default {
   .app-header > .container {
     position: fixed;
     height: 100%;
-    overflow: scroll;
     background: var(--app-nav);
   }
 }
