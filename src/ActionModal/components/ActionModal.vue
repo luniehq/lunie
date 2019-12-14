@@ -387,7 +387,7 @@ export default {
     password: null,
     sending: false,
     gasEstimate: null,
-    gasPrice: config.default_gas_price.toFixed(9),
+    gasPrice: (config.default_gas_price / 4).toFixed(9), // as we bump the gas amount by 4 in the API
     submissionError: null,
     show: false,
     actionManager: new ActionManager(),
