@@ -234,6 +234,7 @@ export default {
     atoms,
     percent,
     fromNow,
+    noBlanks,
     moment,
     onDelegation(options) {
       this.$refs.delegationModal.open(options)
@@ -257,9 +258,7 @@ export default {
       ]) // TODO use more finegrained query string (network and address)
     },
     isBlankField(field, alternateFilter) {
-      return field
-        ? alternateFilter(field)
-        : this.$options.filters.noBlanks(field)
+      return field ? alternateFilter(field) : noBlanks(field)
     }
   },
   apollo: {
