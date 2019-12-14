@@ -14,13 +14,13 @@ export const getMessage = async (
 
 const getMessageConstructor = async context => {
   switch (context.networkId) {
-    case `local-cosmos-hub-testnet`:
-    case `cosmos-hub-mainnet`: {
+    case `local-cosmos-hub-testnet`: {
       const { default: Cosmos } = await import("cosmos-apiV0")
       const cosmos = new Cosmos(context.url || "", context.chainId || "")
       return (messageType, userAddress, transactionProperties) =>
         cosmos[messageType](userAddress, transactionProperties)
     }
+    case `cosmos-hub-mainnet`:
     case `cosmos-hub-testnet`: {
       const { default: Cosmos } = await import("cosmos-apiV2")
       const cosmos = new Cosmos(context.url || "", context.chainId || "")
@@ -33,11 +33,11 @@ const getMessageConstructor = async context => {
 
 export const getTransactionSigner = async context => {
   switch (context.networkId) {
-    case `local-cosmos-hub-testnet`:
-    case `cosmos-hub-mainnet`: {
+    case `local-cosmos-hub-testnet`: {
       const { createSignedTransaction } = await import("cosmos-apiV0")
       return createSignedTransaction
     }
+    case `cosmos-hub-mainnet`:
     case `cosmos-hub-testnet`: {
       const { createSignedTransaction } = await import("cosmos-apiV2")
       return createSignedTransaction
@@ -48,12 +48,12 @@ export const getTransactionSigner = async context => {
 
 export const getMultiMessage = async (context, messages) => {
   switch (context.networkId) {
-    case `local-cosmos-hub-testnet`:
-    case `cosmos-hub-mainnet`: {
+    case `local-cosmos-hub-testnet`: {
       const { default: Cosmos } = await import("cosmos-apiV0")
       const cosmos = new Cosmos(context.url || "", context.chainId || "")
       return cosmos.MultiMessage(context.userAddress, messages)
     }
+    case `cosmos-hub-mainnet`:
     case `cosmos-hub-testnet`: {
       const { default: Cosmos } = await import("cosmos-apiV2")
       const cosmos = new Cosmos(context.url || "", context.chainId || "")

@@ -65,7 +65,7 @@ exports[`DelegationModal should display the delegation modal form 1`] = `
     fieldlabel="Amount"
   >
     <span
-      class="input-suffix-denom"
+      class="input-suffix max-button"
     >
       STAKE
     </span>

@@ -5,7 +5,7 @@ exports[`AppHeader should display the sidebar on desktop 1`] = `
   class="app-header"
 >
   <div
-    class="container"
+    class="container open"
   >
     <div
       class="header-item open"
@@ -36,7 +36,7 @@ exports[`AppHeader should show the sidebar as a menu on mobile 1`] = `
   class="app-header mobile"
 >
   <div
-    class="container"
+    class="container open"
   >
     <div
       class="header-item open"
