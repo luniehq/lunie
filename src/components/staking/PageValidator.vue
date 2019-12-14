@@ -114,24 +114,28 @@
         <li>
           <h4>Uptime</h4>
           <span id="page-profile__uptime">{{
-            chooseFilter(validator.uptimePercentage)
+            isBlankField(validator.uptimePercentage, percent)
           }}</span>
         </li>
         <li>
           <h4>Current Commission Rate</h4>
-          <span>{{ chooseFilter(validator.commission) }}</span>
+          <span>{{ isBlankField(validator.commission, percent) }}</span>
         </li>
         <li>
           <h4>Max Commission Rate</h4>
-          <span>{{ chooseFilter(validator.maxCommission) }}</span>
+          <span>{{ isBlankField(validator.maxCommission, percent) }}</span>
         </li>
         <li>
           <h4>Max Daily Commission Change</h4>
-          <span>{{ chooseFilter(validator.maxChangeCommission) }}</span>
+          <span>{{
+            isBlankField(validator.maxChangeCommission, percent)
+          }}</span>
         </li>
         <li>
           <h4>Last Commission Change</h4>
-          <span>{{ chooseFilter(validator.commissionLastUpdate) }}</span>
+          <span>{{
+            isBlankField(validator.commissionUpdateTime, fromNow)
+          }}</span>
         </li>
       </ul>
 
@@ -229,6 +233,7 @@ export default {
     shortDecimals,
     atoms,
     percent,
+    fromNow,
     moment,
     onDelegation(options) {
       this.$refs.delegationModal.open(options)
@@ -251,9 +256,9 @@ export default {
         `transactions`
       ]) // TODO use more finegrained query string (network and address)
     },
-    chooseFilter(field) {
+    isBlankField(field, alternateFilter) {
       return field
-        ? this.$options.filters.percent(field)
+        ? alternateFilter(field)
         : this.$options.filters.noBlanks(field)
     }
   },
