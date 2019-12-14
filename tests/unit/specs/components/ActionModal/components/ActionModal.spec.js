@@ -80,7 +80,9 @@ describe(`ActionModal`, () => {
   $apollo = {
     skipAll: jest.fn(() => false),
     queries: {
-      overview: jest.fn()
+      overview: {
+        refetch: jest.fn()
+      }
     }
   }
 
