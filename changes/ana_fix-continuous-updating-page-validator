@@ -1,0 +1,1 @@
+[Fixed] [#3303](https://github.com/cosmos/lunie/pull/3303) Fix the continuous refreshing of the PageValidator component, which prevented from staking or doing any action at all @Bitcoinera
