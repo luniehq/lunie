@@ -107,7 +107,7 @@ export default {
 @media screen and (max-width: 1023px) {
   .app-header > .container.open {
     height: 100%;
-    overflow: scroll;
+    overflow: auto;
   }
 
   .app-header > .container {
@@ -159,7 +159,7 @@ export default {
   .app-header > .container {
     position: fixed;
     height: 100%;
-    overflow: scroll;
+    overflow: auto;
     background: var(--app-nav);
   }
 }
