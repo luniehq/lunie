@@ -50,7 +50,10 @@ export default {
   }
 }
 </script>
+
 <style scoped>
+@import "../../styles/proposal-status.css";
+
 .li-proposal {
   margin: 1rem 0;
   padding: 1rem 0;
@@ -92,37 +95,5 @@ export default {
   .li-proposal {
     margin: 1rem auto;
   }
-}
-</style>
-<style>
-.proposal-status {
-  text-transform: uppercase;
-  font-size: 10px;
-  font-weight: 600;
-  border: 2px solid;
-  padding: 2px 4px;
-  border-radius: 0.25rem;
-  color: var(--grey);
-  border-color: var(--grey);
-}
-
-.proposal-status.rejected {
-  color: var(--danger);
-  border-color: var(--danger);
-}
-
-.proposal-status.depositperiod {
-  color: var(--warning);
-  border-color: var(--warning);
-}
-
-.proposal-status.passed {
-  color: var(--success);
-  border-color: var(--success);
-}
-
-.proposal-status.votingperiod {
-  color: var(--tertiary);
-  border-color: var(--tertiary);
 }
 </style>

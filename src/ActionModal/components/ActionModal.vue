@@ -387,7 +387,7 @@ export default {
     password: null,
     sending: false,
     gasEstimate: null,
-    gasPrice: config.default_gas_price.toFixed(9),
+    gasPrice: (config.default_gas_price / 4).toFixed(9), // as we bump the gas amount by 4 in the API
     submissionError: null,
     show: false,
     actionManager: new ActionManager(),
@@ -478,6 +478,7 @@ export default {
     this.$apollo.skipAll = true
   },
   updated: function() {
+    // TODO do we need to set the context on every update of the component?
     const context = this.createContext()
     this.actionManager.setContext(context)
     if (
@@ -672,11 +673,13 @@ export default {
         this.selectedSignMethod
       )
       this.$emit(`txIncluded`)
+      this.$apollo.queries.overview.refetch()
     },
     onSendingFailed(message) {
       this.step = signStep
       this.submissionError = `${this.submissionErrorPrefix}: ${message}.`
       this.trackEvent(`event`, `failed-submit`, this.title, message)
+      this.$apollo.queries.overview.refetch()
     },
     async connectLedger() {
       await this.$store.dispatch(`connectLedgerApp`)
@@ -1011,6 +1014,20 @@ export default {
 
   .action-modal-icon.action-modal-close {
     top: 3rem;
+  }
+}
+
+/* iPhone X and Xs Max */
+@media only screen and (min-device-width: 375px) and (min-device-height: 812px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait) {
+  .action-modal-footer {
+    padding-bottom: 1.8rem;
+  }
+}
+
+/* iPhone XR */
+@media only screen and (min-device-width: 414px) and (min-device-height: 896px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait) {
+  .action-modal-footer {
+    padding-bottom: 1.8rem;
   }
 }
 </style>

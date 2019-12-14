@@ -9,6 +9,7 @@
   },
   "plugins": {
     "Keyboard": {
+      "resize": "none",
       "style": "dark"
     }
   }
