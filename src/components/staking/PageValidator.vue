@@ -369,7 +369,6 @@ export default {
         },
         query: UserTransactionAdded,
         result({ data }) {
-          console.log('TRANSACTION DATA', data)
           /* istanbul ignore next */
           if (data.userTransactionAdded.success) {
             refetchNetworkOnly(this.$apollo.queries.delegation)
