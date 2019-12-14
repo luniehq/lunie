@@ -478,6 +478,7 @@ export default {
     this.$apollo.skipAll = true
   },
   updated: function() {
+    // TODO do we need to set the context on every update of the component?
     const context = this.createContext()
     this.actionManager.setContext(context)
     if (
@@ -672,11 +673,13 @@ export default {
         this.selectedSignMethod
       )
       this.$emit(`txIncluded`)
+      this.$apollo.queries.overview.refetch()
     },
     onSendingFailed(message) {
       this.step = signStep
       this.submissionError = `${this.submissionErrorPrefix}: ${message}.`
       this.trackEvent(`event`, `failed-submit`, this.title, message)
+      this.$apollo.queries.overview.refetch()
     },
     async connectLedger() {
       await this.$store.dispatch(`connectLedgerApp`)
