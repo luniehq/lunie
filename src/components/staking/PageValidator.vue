@@ -360,12 +360,8 @@ export default {
           /* istanbul ignore next */
           return {
             networkId: this.network,
-            address: this.address
+            address: this.userAddress
           }
-        },
-        skip() {
-          /* istanbul ignore next */
-          return !this.address
         },
         query: UserTransactionAdded,
         result({ data }) {
