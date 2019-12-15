@@ -40,8 +40,15 @@ exports[`TmDataError has the expected html structure 1`] = `
         >
           file a bug report
         </a>
-        .
-    Apologies!
+         or
+    
+        <a
+          class="intercom-button"
+          href="#"
+        >
+          open a support chat
+        </a>
+        . Apologies!
   
       </div>
     </h3>

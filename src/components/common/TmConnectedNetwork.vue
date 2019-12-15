@@ -218,7 +218,7 @@ export default {
   background: var(--success);
 }
 
-@media screen and (max-width: 767px) {
+@media screen and (max-width: 1023px) {
   .sidebar-bottom {
     max-width: 100%;
   }
