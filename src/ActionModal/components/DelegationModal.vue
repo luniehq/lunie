@@ -272,7 +272,9 @@ export default {
       return !this.$v.$invalid
     },
     clear() {
-      this.$v.$reset()
+      if (this.$v) {
+        this.$v.$reset()
+      }
 
       this.selectedIndex = 0
       this.amount = 0
