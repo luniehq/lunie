@@ -1,6 +1,13 @@
 <template>
   <TmPage data-title="Proposal" hide-header class="small">
-    <TmDataLoading v-if="$apollo.loading && !loaded" />
+    <TmDataLoading
+      v-if="
+        ($apollo.queries.proposals.loading ||
+          $apollo.queries.proposal.loading ||
+          $apollo.queries.parameters.loading) &&
+          !loaded
+      "
+    />
     <TmDataNotFound v-else-if="!found" />
     <TmDataError v-else-if="error" />
     <template v-else>
