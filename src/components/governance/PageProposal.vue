@@ -424,7 +424,6 @@ export default {
         result() {
           /* istanbul ignore next */
           refetchNetworkOnly(this.$apollo.queries.proposal)
-          console.log(`proposal updated`)
         }
       }
     }
