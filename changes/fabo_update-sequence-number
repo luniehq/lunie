@@ -1,1 +1,0 @@
-[Fixed] Consecutive transactions would fail as the sequence number wasn't updated @faboweb
