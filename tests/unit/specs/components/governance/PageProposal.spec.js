@@ -34,6 +34,11 @@ describe(`PageProposal`, () => {
       getters,
       state
     }
+
+    const $route = {
+      path: "/proposals/33"
+    }
+
     const $apollo = {
       queries: {
         proposals: {
@@ -61,7 +66,8 @@ describe(`PageProposal`, () => {
       },
       mocks: {
         $store,
-        $apollo
+        $apollo,
+        $route
       },
       stubs: [`router-link`]
     }
@@ -117,6 +123,14 @@ describe(`PageProposal`, () => {
       proposals: proposals
     })
     expect(wrapper.vm.getProposalIndex(1)).toEqual(32)
+  })
+
+  it(`should set loaded to false on route change`, () => {
+    wrapper = shallowMount(PageProposal, {
+      ...args,
+      propsData: { proposalId: `666` }
+    })
+    expect(wrapper.vm.loaded).toBe(false)
   })
 
   describe(`Proposal status`, () => {
