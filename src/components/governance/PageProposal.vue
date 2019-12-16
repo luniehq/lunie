@@ -267,6 +267,7 @@ export default {
     }
   },
   watch: {
+    // Needed to show data loading component when you are browsing from one proposal to another
     $route: function() {
       this.loaded = false
     }
