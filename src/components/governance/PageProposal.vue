@@ -2,9 +2,10 @@
   <TmPage data-title="Proposal" hide-header class="small">
     <TmDataLoading
       v-if="
-        $apollo.queries.proposals.loading ||
+        ($apollo.queries.proposals.loading ||
           $apollo.queries.proposal.loading ||
-          $apollo.queries.parameters.loading
+          $apollo.queries.parameters.loading) &&
+          !loaded
       "
     />
     <TmDataNotFound v-else-if="!found" />
@@ -202,6 +203,7 @@ import { ProposalItem, GovernanceParameters, Vote } from "src/gql"
 import BigNumber from "bignumber.js"
 import Bech32 from "common/Bech32"
 import gql from "graphql-tag"
+import refetchNetworkOnly from "scripts/refetch-network-only"
 
 export default {
   name: `page-proposal`,
@@ -243,7 +245,8 @@ export default {
       depositDenom: "TESTCOIN"
     },
     error: undefined,
-    found: false
+    found: false,
+    loaded: false
   }),
   computed: {
     ...mapGetters([`address`, `network`]),
@@ -344,6 +347,7 @@ export default {
       result(data) {
         /* istanbul ignore next */
         this.error = data.error
+        this.loaded = true
       }
     },
     parameters: {
@@ -387,6 +391,35 @@ export default {
       result(data) {
         /* istanbul ignore next */
         this.error = data.error
+      }
+    },
+    $subscribe: {
+      blockAdded: {
+        variables() {
+          /* istanbul ignore next */
+          return {
+            networkId: this.network
+          }
+        },
+        query() {
+          /* istanbul ignore next */
+          return gql`
+            subscription($networkId: String!) {
+              blockAdded(networkId: $networkId) {
+                height
+              }
+            }
+          `
+        },
+        skip() {
+          /* istanbul ignore next */
+          return !this.found
+        },
+        result() {
+          /* istanbul ignore next */
+          refetchNetworkOnly(this.$apollo.queries.proposal)
+          console.log(`proposal updated`)
+        }
       }
     }
   }
