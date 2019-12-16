@@ -328,6 +328,7 @@ export default {
         ) {
           this.found = true
         }
+        /* istanbul ignore next */
         return data.proposals
       }
     },
@@ -353,6 +354,7 @@ export default {
       result(data) {
         /* istanbul ignore next */
         this.error = data.error
+        /* istanbul ignore next */
         this.loaded = true
       }
     },
