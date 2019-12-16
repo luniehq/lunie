@@ -5,9 +5,9 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <% if (process.env.MOBILE_APP) { %>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0 viewport-fit=cover">
   <% } else { %>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0 viewport-fit=cover">
   <% } %>
   <meta name="Description" content="Lunie is the staking and governance platform for proof-of-stake blockchains.">
   <meta name="Author" content="Lunie International Software Systems Inc.">
@@ -63,7 +63,7 @@
   <script>
     window.intercomSettings = {
       app_id: "<%= process.env.VUE_APP_INTERCOM_ID %>",
-      custom_launcher_selector: '#intercom-button'
+      custom_launcher_selector: '.intercom-button'
     };
   </script>
 
