@@ -426,6 +426,10 @@ export default {
         result() {
           /* istanbul ignore next */
           refetchNetworkOnly(this.$apollo.queries.proposal)
+          /* istanbul ignore next */
+          refetchNetworkOnly(this.$apollo.queries.parameters)
+          /* istanbul ignore next */
+          refetchNetworkOnly(this.$apollo.queries.vote)
         }
       }
     }
