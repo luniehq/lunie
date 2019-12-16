@@ -1,5 +1,10 @@
 <template>
-  <TmPage data-title="Proposals" :managed="false" hide-header>
+  <TmPage
+    data-title="Proposals"
+    :managed="true"
+    hide-header
+    :loading="$apollo.loading && !loaded"
+  >
     <div class="button-container">
       <TmBtn
         id="propose-btn"
@@ -26,10 +31,7 @@
         </TmDataMsg>
       </div>
     </div>
-    <div v-else>
-      <TmDataLoading v-if="$apollo.loading" />
-      <TableProposals v-else :proposals="proposals" />
-    </div>
+    <TableProposals v-else :proposals="proposals" />
   </TmPage>
 </template>
 
@@ -39,7 +41,6 @@ import TableProposals from "governance/TableProposals"
 import TmPage from "common/TmPage"
 import TmBtn from "common/TmBtn"
 import TmDataMsg from "common/TmDataMsg"
-import TmDataLoading from "common/TmDataLoading"
 import { mapGetters } from "vuex"
 import { GovernanceParameters } from "src/gql"
 import gql from "graphql-tag"
@@ -51,7 +52,6 @@ export default {
     ModalPropose,
     TableProposals,
     TmDataMsg,
-    TmDataLoading,
     TmBtn,
     TmPage
   },
@@ -60,7 +60,7 @@ export default {
     parameters: {
       depositDenom: "xxx"
     },
-    blockHeight: 0
+    loaded: false
   }),
   computed: {
     ...mapGetters([`network`])
@@ -98,6 +98,7 @@ export default {
       },
       update(data) {
         /* istanbul ignore next */
+        this.loaded = true
         return data.proposals
       }
     },
@@ -129,20 +130,9 @@ export default {
             }
           `
         },
-        result(ApolloQueryResult) {
+        result() {
           /* istanbul ignore next */
-          if (this.blockHeight === 0) {
-            this.blockHeight = ApolloQueryResult.data.blockAdded.height
-          }
-          // Update proposals every 10 blocks
-          /* istanbul ignore next */
-          if (
-            ApolloQueryResult.data.blockAdded.height ===
-            this.blockHeight + 10
-          ) {
-            this.blockHeight = ApolloQueryResult.data.blockAdded.height
-            refetchNetworkOnly(this.$apollo.queries.proposals)
-          }
+          refetchNetworkOnly(this.$apollo.queries.proposals)
         }
       }
     }
