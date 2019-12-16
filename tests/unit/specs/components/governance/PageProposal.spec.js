@@ -126,10 +126,9 @@ describe(`PageProposal`, () => {
   })
 
   it(`should set loaded to false on route change`, () => {
-    wrapper = shallowMount(PageProposal, {
-      ...args,
-      propsData: { proposalId: `666` }
-    })
+    wrapper.vm.loaded = true
+    // Call directly watcher function
+    wrapper.vm.$options.watch.$route.call(wrapper.vm, { path: "xxxx" })
     expect(wrapper.vm.loaded).toBe(false)
   })
 
