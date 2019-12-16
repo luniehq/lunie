@@ -1,13 +1,6 @@
 <template>
   <TmPage data-title="Proposal" hide-header class="small">
-    <TmDataLoading
-      v-if="
-        ($apollo.queries.proposals.loading ||
-          $apollo.queries.proposal.loading ||
-          $apollo.queries.parameters.loading) &&
-          !loaded
-      "
-    />
+    <TmDataLoading v-if="$apollo.loading && !loaded" />
     <TmDataNotFound v-else-if="!found" />
     <TmDataError v-else-if="error" />
     <template v-else>
@@ -339,6 +332,8 @@ export default {
       },
       update(data) {
         /* istanbul ignore next */
+        this.loaded = true
+        /* istanbul ignore next */
         return data.proposal
       },
       variables() {
@@ -354,8 +349,6 @@ export default {
       result(data) {
         /* istanbul ignore next */
         this.error = data.error
-        /* istanbul ignore next */
-        this.loaded = true
       }
     },
     parameters: {
@@ -424,12 +417,16 @@ export default {
           return !this.found
         },
         result() {
+          // Don't update passed or rejected proposals
           /* istanbul ignore next */
-          refetchNetworkOnly(this.$apollo.queries.proposal)
-          /* istanbul ignore next */
-          refetchNetworkOnly(this.$apollo.queries.parameters)
-          /* istanbul ignore next */
-          refetchNetworkOnly(this.$apollo.queries.vote)
+          if (
+            this.proposal.status !== "Passed" &&
+            this.proposal.status !== "Rejected"
+          ) {
+            refetchNetworkOnly(this.$apollo.queries.proposal)
+            refetchNetworkOnly(this.$apollo.queries.parameters)
+            refetchNetworkOnly(this.$apollo.queries.vote)
+          }
         }
       }
     }
