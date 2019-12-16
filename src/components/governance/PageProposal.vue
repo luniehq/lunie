@@ -266,6 +266,11 @@ export default {
       return id
     }
   },
+  watch: {
+    $route: function() {
+      this.loaded = false
+    }
+  },
   methods: {
     onVote() {
       this.$refs.modalVote.open()
