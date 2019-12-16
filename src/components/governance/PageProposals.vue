@@ -99,6 +99,7 @@ export default {
       update(data) {
         /* istanbul ignore next */
         this.loaded = true
+        /* istanbul ignore next */
         return data.proposals
       }
     },
