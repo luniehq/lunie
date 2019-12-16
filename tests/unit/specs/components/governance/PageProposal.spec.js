@@ -35,10 +35,6 @@ describe(`PageProposal`, () => {
       state
     }
 
-    const $route = {
-      path: "/proposals/33"
-    }
-
     const $apollo = {
       queries: {
         proposals: {
@@ -66,8 +62,7 @@ describe(`PageProposal`, () => {
       },
       mocks: {
         $store,
-        $apollo,
-        $route
+        $apollo
       },
       stubs: [`router-link`]
     }

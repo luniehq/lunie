@@ -417,11 +417,12 @@ export default {
           return !this.found
         },
         result() {
-          // Don't update passed or rejected proposals
           /* istanbul ignore next */
           if (
+            // Don't update passed or rejected proposals
             this.proposal.status !== "Passed" &&
-            this.proposal.status !== "Rejected"
+            this.proposal.status !== "Rejected" &&
+            this.loaded
           ) {
             refetchNetworkOnly(this.$apollo.queries.proposal)
             refetchNetworkOnly(this.$apollo.queries.parameters)
