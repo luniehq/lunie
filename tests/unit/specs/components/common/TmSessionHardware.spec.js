@@ -6,8 +6,8 @@ import TmSessionHardware from "common/TmSessionHardware"
 const localVue = createLocalVue()
 localVue.use(Vuex)
 localVue.use(Vuelidate)
-localVue.directive(`tooltip`, () => { })
-localVue.directive(`focus`, () => { })
+localVue.directive(`tooltip`, () => {})
+localVue.directive(`focus`, () => {})
 
 describe(`TmSessionHardware`, () => {
   let wrapper, store
@@ -114,6 +114,20 @@ describe(`TmSessionHardware`, () => {
       expect(wrapper.html()).toMatchSnapshot()
       expect(wrapper.html()).toContain(
         "Due to recent Ledger updates, using a Ledger on Windows"
+      )
+    })
+
+    it(`does show the instructions to fix connection issues for Linux users`, () => {
+      wrapper.setData({
+        navigator: {
+          platform: "Linux i686",
+          userAgent: "Chrome"
+        }
+      })
+
+      expect(wrapper.html()).toMatchSnapshot()
+      expect(wrapper.html()).toContain(
+        "Since we switched to WebUSB Linux users may experience connection"
       )
     })
 
