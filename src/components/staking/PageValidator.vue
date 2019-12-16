@@ -21,7 +21,7 @@
       <tr class="li-validator">
         <td class="data-table__row__info">
           <Avatar
-            v-if="!validator.picture"
+            v-if="!validator.picture || validator.picture === 'null'"
             class="li-validator-image"
             alt="generic geometric symbol - generated avatar from address"
             :address="validator.operatorAddress"
