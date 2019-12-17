@@ -132,6 +132,7 @@ import TmFormMsg from "src/components/common/TmFormMsg"
 import ActionModal from "./ActionModal"
 import transaction from "../utils/transactionTypes"
 import { toMicroDenom } from "src/scripts/common"
+import config from "src/../config"
 
 const defaultMemo = "(Sent via Lunie)"
 
@@ -153,7 +154,7 @@ export default {
   },
   data: () => ({
     address: ``,
-    amount: null,
+    amount: config.development ? 0.000001 : null, // dev life, hard life > make simple
     memo: defaultMemo,
     max_memo_characters: 256,
     editMemo: false,
