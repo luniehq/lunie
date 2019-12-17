@@ -12,6 +12,9 @@
     @close="clear"
     @txIncluded="onSuccess"
   >
+    <h4 v-if="isRedelegation">Redelegating!</h4>
+    <h4 v-else>Delegating!</h4>
+
     <TmFormGroup class="action-modal-form-group">
       <div class="form-message notice">
         <span>
@@ -31,7 +34,7 @@
         v-model="fromSelectedIndex"
         :options="fromOptions"
         type="select"
-        readonly
+        :is-disabled="true"
       />
     </TmFormGroup>
 
@@ -134,7 +137,7 @@ export default {
     delegations: [],
     denom: "",
     fromSelectedIndex: 1,
-    toSelectedIndex: 0,
+    toSelectedIndex: `0`,
     balance: {
       amount: 0,
       denom: ``
@@ -181,6 +184,9 @@ export default {
         })
       )
       return options
+    },
+    isRedelegation() {
+      return this.toSelectedIndex !== `0`
     }
   },
   validations() {
