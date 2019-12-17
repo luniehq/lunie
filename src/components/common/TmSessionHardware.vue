@@ -34,6 +34,25 @@
               <br />
             </template>
           </template>
+          <template v-else-if="isLinux">
+            Since we switched to WebUSB Linux users may experience connection
+            issues with their devices.
+            <br />
+            <br />
+            Please visit the following site to learn more about how to fix them:
+            <div
+              v-clipboard:copy="linuxLedgerConnectionLink"
+              v-clipboard:success="() => onCopy()"
+              class="copy-feature-link"
+            >
+              {{ linuxLedgerConnectionLink }}
+              <i class="material-icons copied" :class="{ active: copySuccess }">
+                check
+              </i>
+            </div>
+            <br />
+            <br />
+          </template>
           <template v-else-if="status === `connect` || status === `detect`">
             <p>
               Please plug in your Ledger&nbsp;Nano and open the Cosmos Ledger
@@ -82,6 +101,7 @@ export default {
     address: null,
     copySuccess: false,
     hidFeatureLink: `chrome://flags/#enable-experimental-web-platform-features`,
+    linuxLedgerConnectionLink: `https://support.ledger.com/hc/en-us/articles/360019301813-Fix-USB-issues`,
     navigator: window.navigator
   }),
   computed: {
@@ -94,6 +114,9 @@ export default {
     },
     isWindows() {
       return this.navigator.platform.indexOf("Win") > -1
+    },
+    isLinux() {
+      return this.navigator.platform.indexOf("Lin") > -1
     },
     hasHIDEnabled() {
       return !!this.navigator.hid
@@ -198,5 +221,10 @@ export default {
 
 .copy-feature-link .copied.active {
   opacity: 1;
+}
+
+.session-main .button {
+  margin: 0 auto;
+  display: block;
 }
 </style>
