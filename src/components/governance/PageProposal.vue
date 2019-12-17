@@ -1,12 +1,6 @@
 <template>
   <TmPage data-title="Proposal" hide-header class="small">
-    <TmDataLoading
-      v-if="
-        $apollo.queries.proposals.loading ||
-          $apollo.queries.proposal.loading ||
-          $apollo.queries.parameters.loading
-      "
-    />
+    <TmDataLoading v-if="$apollo.loading && !loaded" />
     <TmDataNotFound v-else-if="!found" />
     <TmDataError v-else-if="error" />
     <template v-else>
@@ -202,6 +196,7 @@ import { ProposalItem, GovernanceParameters, Vote } from "src/gql"
 import BigNumber from "bignumber.js"
 import Bech32 from "common/Bech32"
 import gql from "graphql-tag"
+import refetchNetworkOnly from "scripts/refetch-network-only"
 
 export default {
   name: `page-proposal`,
@@ -243,7 +238,8 @@ export default {
       depositDenom: "TESTCOIN"
     },
     error: undefined,
-    found: false
+    found: false,
+    loaded: false
   }),
   computed: {
     ...mapGetters([`address`, `network`]),
@@ -261,6 +257,12 @@ export default {
     getPrevProposalId() {
       let id = this.getProposalIndex(1)
       return id
+    }
+  },
+  watch: {
+    // Needed to show data loading component when you are browsing from one proposal to another
+    $route: function() {
+      this.loaded = false
     }
   },
   methods: {
@@ -319,6 +321,7 @@ export default {
         ) {
           this.found = true
         }
+        /* istanbul ignore next */
         return data.proposals
       }
     },
@@ -328,6 +331,8 @@ export default {
         return ProposalItem(this.network)
       },
       update(data) {
+        /* istanbul ignore next */
+        this.loaded = true
         /* istanbul ignore next */
         return data.proposal
       },
@@ -387,6 +392,43 @@ export default {
       result(data) {
         /* istanbul ignore next */
         this.error = data.error
+      }
+    },
+    $subscribe: {
+      blockAdded: {
+        variables() {
+          /* istanbul ignore next */
+          return {
+            networkId: this.network
+          }
+        },
+        query() {
+          /* istanbul ignore next */
+          return gql`
+            subscription($networkId: String!) {
+              blockAdded(networkId: $networkId) {
+                height
+              }
+            }
+          `
+        },
+        skip() {
+          /* istanbul ignore next */
+          return !this.found
+        },
+        result() {
+          /* istanbul ignore next */
+          if (
+            // Don't update passed or rejected proposals
+            this.proposal.status !== "Passed" &&
+            this.proposal.status !== "Rejected" &&
+            this.loaded
+          ) {
+            refetchNetworkOnly(this.$apollo.queries.proposal)
+            refetchNetworkOnly(this.$apollo.queries.parameters)
+            refetchNetworkOnly(this.$apollo.queries.vote)
+          }
+        }
       }
     }
   }
