@@ -21,14 +21,8 @@ exports[`UndelegationModal should display undelegation modal form 1`] = `
       <span>
         
         Undelegations take 21 days to complete and cannot be undone. Please
-        make sure you understand the rules of delegation. Would you prefer to
-        
-        <a
-          href="#"
-          id="switch-to-redelgation"
-        >
-          redelegate?
-        </a>
+        make sure you understand the rules of delegation.
+      
       </span>
     </div>
   </tmformgroup-stub>
@@ -40,9 +34,22 @@ exports[`UndelegationModal should display undelegation modal form 1`] = `
   >
     <tmfield-stub
       id="from"
-      readonly=""
-      type="text"
-      value="cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au"
+      isdisabled="true"
+      options="[object Object]"
+      type="select"
+      value="1"
+    />
+  </tmformgroup-stub>
+   
+  <tmformgroup-stub
+    class="action-modal-form-group"
+    fieldid="to"
+    fieldlabel="To"
+  >
+    <tmfield-stub
+      id="to"
+      type="select"
+      value="0"
     />
   </tmformgroup-stub>
    
