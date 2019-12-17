@@ -8,8 +8,7 @@
     data-title="Validator"
     class="small"
   >
-    <TmDataLoading v-if="$apollo.queries.validator.loading" />
-    <template v-else-if="validator.operatorAddress" slot="managed-body">
+    <template v-if="validator.operatorAddress" slot="managed-body">
       <div class="status-container">
         <span :class="validator.status | toLower" class="validator-status">
           {{ validator.status }}
@@ -144,7 +143,6 @@
       <UndelegationModal
         ref="undelegationModal"
         :source-validator="validator"
-        @switchToRedelegation="onDelegation({ redelegation: true })"
         @success="clearUndelegationCache"
       />
     </template>

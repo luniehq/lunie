@@ -16,20 +16,34 @@
       <div class="form-message notice">
         <span>
           Undelegations take 21 days to complete and cannot be undone. Please
-          make sure you understand the rules of delegation. Would you prefer to
-          <a id="switch-to-redelgation" href="#" @click="switchToRedelegation()"
-            >redelegate?</a
-          >
+          make sure you understand the rules of delegation.
         </span>
       </div>
     </TmFormGroup>
+
     <TmFormGroup
       class="action-modal-form-group"
       field-id="from"
       field-label="From"
     >
-      <TmField id="from" v-model="sourceValidator.operatorAddress" readonly />
+      <TmField
+        id="from"
+        v-model="fromSelectedIndex"
+        :options="fromOptions"
+        type="select"
+        readonly
+      />
     </TmFormGroup>
+
+    <TmFormGroup class="action-modal-form-group" field-id="to" field-label="To">
+      <TmField
+        id="to"
+        v-model="toSelectedIndex"
+        :options="toOptions"
+        type="select"
+      />
+    </TmFormGroup>
+
     <TmFormGroup
       :error="$v.amount.$error && $v.amount.$invalid"
       class="action-modal-form-group"
@@ -85,7 +99,7 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex"
+import { mapState, mapGetters } from "vuex"
 import gql from "graphql-tag"
 import { uatoms, SMALLEST } from "src/scripts/num"
 import { between, decimal } from "vuelidate/lib/validators"
@@ -97,6 +111,7 @@ import TmFormGroup from "src/components/common/TmFormGroup"
 import TmFormMsg from "src/components/common/TmFormMsg"
 import transaction from "../utils/transactionTypes"
 import { toMicroDenom } from "src/scripts/common"
+import { formatBech32 } from "src/filters"
 
 export default {
   name: `undelegation-modal`,
@@ -117,9 +132,16 @@ export default {
   data: () => ({
     amount: null,
     delegations: [],
-    denom: ""
+    denom: "",
+    fromSelectedIndex: 1,
+    toSelectedIndex: 0,
+    balance: {
+      amount: 0,
+      denom: ``
+    }
   }),
   computed: {
+    ...mapState([`session`]),
     ...mapGetters([`network`, `address`]),
     maximum() {
       const delegation = this.delegations.find(
@@ -141,6 +163,24 @@ export default {
         title: `Successful undelegation!`,
         body: `You have successfully undelegated ${this.amount} ${this.denom}s.`
       }
+    },
+    fromOptions() {
+      let options = []
+      options = options.concat(
+        this.delegations.map((delegation, index) => {
+          return {
+            address: delegation.validator.operatorAddress,
+            maximum: Number(delegation.amount),
+            key: `${delegation.validator.name} - ${formatBech32(
+              delegation.validator.operatorAddress,
+              false,
+              20
+            )}`,
+            value: index + 1
+          }
+        })
+      )
+      return options
     }
   },
   validations() {
@@ -151,6 +191,9 @@ export default {
         between: between(SMALLEST, this.maximum)
       }
     }
+  },
+  mounted: function() {
+    this.setFromSelectedIndex()
   },
   methods: {
     open() {
@@ -172,12 +215,18 @@ export default {
     enterPressed() {
       this.$refs.actionModal.validateChangeStep()
     },
-    switchToRedelegation() {
-      this.$refs.actionModal.close()
-      this.$emit("switchToRedelegation")
-    },
     onSuccess(event) {
       this.$emit(`success`, event)
+    },
+    setFromSelectedIndex() {
+      this.delegations.forEach((delegation, index) => {
+        if (
+          delegation.validator.operatorAddress ===
+          this.sourceValidator.operatorAddress
+        ) {
+          this.fromSelectedIndex = index + 1
+        }
+      })
     }
   },
   apollo: {
@@ -193,15 +242,18 @@ export default {
           ) {
             amount
             validator {
+              name
               operatorAddress
             }
           }
         }
       `,
       skip() {
+        /* istanbul ignore next */
         return !this.address
       },
       variables() {
+        /* istanbul ignore next */
         return {
           networkId: this.network,
           delegatorAddress: this.address
@@ -229,6 +281,62 @@ export default {
       update(data) {
         /* istanbul ignore next */
         return data.network.stakingDenom
+      }
+    },
+    toOptions: {
+      query: gql`
+        query validators(
+          $networkId: String!
+          $searchTerm: String
+          $activeOnly: Boolean
+        ) {
+          validators(
+            networkId: $networkId
+            searchTerm: $searchTerm
+            activeOnly: $activeOnly
+          ) {
+            name
+            operatorAddress
+          }
+        }
+      `,
+      variables() {
+        return {
+          networkId: this.network,
+          activeOnly: true
+        }
+      },
+      update: function(result) {
+        let options = [
+          // from wallet
+          {
+            address: this.address,
+            maximum: Number(this.balance.amount),
+            key: `My Wallet - ${formatBech32(this.address, false, 20)}`,
+            value: 0
+          }
+        ]
+        options = options.concat(
+          result.validators
+            // exclude the validator we are redelegating from
+            .filter(
+              validator =>
+                validator.operatorAddress !==
+                this.sourceValidator.operatorAddress
+            )
+            .map(validator => {
+              return {
+                address: validator.operatorAddress,
+                key: `${validator.name} - ${formatBech32(
+                  validator.operatorAddress,
+                  false,
+                  20
+                )}`,
+                value: validator.operatorAddress
+              }
+            })
+        )
+        return options
       }
     }
   }
