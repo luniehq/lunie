@@ -21,7 +21,7 @@
       <tr class="li-validator">
         <td class="data-table__row__info">
           <Avatar
-            v-if="!validator.picture"
+            v-if="!validator.picture || validator.picture === 'null'"
             class="li-validator-image"
             alt="generic geometric symbol - generated avatar from address"
             :address="validator.operatorAddress"
@@ -66,7 +66,7 @@
         </li>
         <li class="column">
           <h4>Website</h4>
-          <span v-if="validator.website !== ``">
+          <span v-if="validator.website">
             <a
               id="validator-website"
               :href="validator.website + `?ref=lunie`"
@@ -114,25 +114,29 @@
         </li>
         <li>
           <h4>Uptime</h4>
-          <span id="page-profile__uptime">
-            {{ validator.uptimePercentage | percent }}
-          </span>
+          <span id="page-profile__uptime">{{
+            isBlankField(validator.uptimePercentage, percent)
+          }}</span>
         </li>
         <li>
           <h4>Current Commission Rate</h4>
-          <span>{{ validator.commission | percent }}</span>
+          <span>{{ isBlankField(validator.commission, percent) }}</span>
         </li>
         <li>
           <h4>Max Commission Rate</h4>
-          <span>{{ validator.maxCommission | percent }}</span>
+          <span>{{ isBlankField(validator.maxCommission, percent) }}</span>
         </li>
         <li>
           <h4>Max Daily Commission Change</h4>
-          <span>{{ validator.maxChangeCommission | percent }}</span>
+          <span>{{
+            isBlankField(validator.maxChangeCommission, percent)
+          }}</span>
         </li>
         <li>
           <h4>Last Commission Change</h4>
-          <span>{{ validator.commissionUpdateTime | fromNow }}</span>
+          <span>{{
+            isBlankField(validator.commissionUpdateTime, fromNow)
+          }}</span>
         </li>
       </ul>
 
@@ -230,6 +234,8 @@ export default {
     shortDecimals,
     atoms,
     percent,
+    fromNow,
+    noBlanks,
     moment,
     onDelegation(options) {
       this.$refs.delegationModal.open(options)
@@ -251,6 +257,9 @@ export default {
         `undelegations`,
         `transactions`
       ]) // TODO use more finegrained query string (network and address)
+    },
+    isBlankField(field, alternateFilter) {
+      return field ? alternateFilter(field) : noBlanks(field)
     }
   },
   apollo: {
