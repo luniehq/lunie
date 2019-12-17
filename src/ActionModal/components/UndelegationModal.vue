@@ -154,17 +154,36 @@ export default {
       return delegation ? Number(delegation.amount) : 0
     },
     transactionData() {
-      return {
-        type: transaction.UNDELEGATE,
-        validatorAddress: this.sourceValidator.operatorAddress,
-        amount: uatoms(this.amount),
-        denom: toMicroDenom(this.denom)
+      if (!this.sourceValidator.operatorAddress) return {}
+
+      if (this.isRedelegation) {
+        return {
+          type: transaction.REDELEGATE,
+          validatorSourceAddress: this.sourceValidator.operatorAddress,
+          validatorDestinationAddress: this.toSelectedIndex,
+          amount: uatoms(this.amount),
+          denom: toMicroDenom(this.denom)
+        }
+      } else {
+        return {
+          type: transaction.UNDELEGATE,
+          validatorAddress: this.sourceValidator.operatorAddress,
+          amount: uatoms(this.amount),
+          denom: toMicroDenom(this.denom)
+        }
       }
     },
     notifyMessage() {
-      return {
-        title: `Successful undelegation!`,
-        body: `You have successfully undelegated ${this.amount} ${this.denom}s.`
+      if (this.isRedelegation) {
+        return {
+          title: `Successful redelegation!`,
+          body: `You have successfully redelegated ${this.amount} ${this.denom}s`
+        }
+      } else {
+        return {
+          title: `Successful undelegation!`,
+          body: `You have successfully undelegated ${this.amount} ${this.denom}s.`
+        }
       }
     },
     fromOptions() {
@@ -330,7 +349,7 @@ export default {
                 validator.operatorAddress !==
                 this.sourceValidator.operatorAddress
             )
-            .map(validator => {
+            .map((validator, index) => {
               return {
                 address: validator.operatorAddress,
                 key: `${validator.name} - ${formatBech32(
