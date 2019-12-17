@@ -1,0 +1,1 @@
+[Fixed] [#3323](https://github.com/cosmos/lunie/pull/3323) Fixes the userTransactionAdded subscription and deletes the double TmLoadingComponent @Bitcoinera
