@@ -16,7 +16,10 @@ export default () => {
     }
   }
 
-  const networkPrefix = localStorage.getItem(`network`).split(`-`, 1)[0].substr(1)
+  const networkPrefix = localStorage
+    .getItem(`network`)
+    .split(`-`, 1)[0]
+    .substr(1)
 
   const actions = {
     async loadAccounts({ commit }) {
