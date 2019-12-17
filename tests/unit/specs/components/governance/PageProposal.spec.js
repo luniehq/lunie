@@ -34,6 +34,7 @@ describe(`PageProposal`, () => {
       getters,
       state
     }
+
     const $apollo = {
       queries: {
         proposals: {
@@ -117,6 +118,13 @@ describe(`PageProposal`, () => {
       proposals: proposals
     })
     expect(wrapper.vm.getProposalIndex(1)).toEqual(32)
+  })
+
+  it(`should set loaded to false on route change`, () => {
+    wrapper.vm.loaded = true
+    // Call directly watcher function
+    wrapper.vm.$options.watch.$route.call(wrapper.vm, { path: "xxxx" })
+    expect(wrapper.vm.loaded).toBe(false)
   })
 
   describe(`Proposal status`, () => {
