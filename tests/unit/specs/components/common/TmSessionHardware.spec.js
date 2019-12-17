@@ -8,6 +8,7 @@ localVue.use(Vuex)
 localVue.use(Vuelidate)
 localVue.directive(`tooltip`, () => {})
 localVue.directive(`focus`, () => {})
+localVue.directive('clipboard', () => {})
 
 describe(`TmSessionHardware`, () => {
   let wrapper, store
