@@ -4,26 +4,29 @@
     ref="actionModal"
     :validate="validateForm"
     :amount="0"
-    title="Undelegate"
+    :title="isRedelegation ? 'Redelegate' : 'Undelegate'"
     class="undelegation-modal"
-    submission-error-prefix="Undelegating failed"
+    :submission-error-prefix="
+      isRedelegation ? 'Redelegating failed' : 'Undelegating failed'
+    "
     :transaction-data="transactionData"
     :notify-message="notifyMessage"
     @close="clear"
     @txIncluded="onSuccess"
   >
-    <h4 v-if="isRedelegation">Redelegating!</h4>
-    <h4 v-else>Delegating!</h4>
-
     <TmFormGroup class="action-modal-form-group">
       <div class="form-message notice">
-        <span>
+        <span v-if="!isRedelegation">
           Undelegations take 21 days to complete and cannot be undone. Please
           make sure you understand the rules of delegation.
         </span>
+        <span v-else>
+          Voting power and rewards will change instantly upon redelegation —
+          your tokens will still be subject to the risks associated with the
+          original delegation for the duration of the undelegation period.
+        </span>
       </div>
     </TmFormGroup>
-
     <TmFormGroup
       class="action-modal-form-group"
       field-id="from"
@@ -37,7 +40,6 @@
         :is-disabled="true"
       />
     </TmFormGroup>
-
     <TmFormGroup class="action-modal-form-group" field-id="to" field-label="To">
       <TmField
         id="to"
@@ -46,7 +48,6 @@
         type="select"
       />
     </TmFormGroup>
-
     <TmFormGroup
       :error="$v.amount.$error && $v.amount.$invalid"
       class="action-modal-form-group"
@@ -349,7 +350,7 @@ export default {
                 validator.operatorAddress !==
                 this.sourceValidator.operatorAddress
             )
-            .map((validator, index) => {
+            .map(validator => {
               return {
                 address: validator.operatorAddress,
                 key: `${validator.name} - ${formatBech32(
