@@ -34,6 +34,17 @@
         Activity
       </h2>
     </router-link>
+    <router-link
+      class="mobile-menu-item"
+      to="/networks"
+      exact="exact"
+      title="Networks"
+    >
+      <i class="material-icons">public</i>
+      <h2 class="app-menu-title">
+        Networks
+      </h2>
+    </router-link>
   </menu>
 </template>
 
@@ -85,6 +96,20 @@ menu a h2 {
 @media screen and (min-width: 668px) {
   menu {
     display: none;
+  }
+}
+
+/* iPhone X and Xs Max */
+@media only screen and (min-device-width: 375px) and (min-device-height: 812px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait) {
+  .mobile-menu-item {
+    padding-bottom: 1.5rem;
+  }
+}
+
+/* iPhone XR */
+@media only screen and (min-device-width: 414px) and (min-device-height: 896px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait) {
+  .mobile-menu-item {
+    padding-bottom: 1.5rem;
   }
 }
 </style>

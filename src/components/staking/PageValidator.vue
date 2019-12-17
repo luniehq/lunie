@@ -2,13 +2,14 @@
   <TmPage
     :managed="true"
     :data-empty="!validator.operatorAddress"
-    :loading="$apollo.loading"
+    :loading="$apollo.queries.validator.loading"
     :loaded="loaded"
     :hide-header="true"
     data-title="Validator"
     class="small"
   >
-    <template v-if="validator.operatorAddress" slot="managed-body">
+    <TmDataLoading v-if="$apollo.queries.validator.loading" />
+    <template v-else-if="validator.operatorAddress" slot="managed-body">
       <div class="status-container">
         <span :class="validator.status | toLower" class="validator-status">
           {{ validator.status }}
@@ -20,7 +21,7 @@
       <tr class="li-validator">
         <td class="data-table__row__info">
           <Avatar
-            v-if="!validator.picture"
+            v-if="!validator.picture || validator.picture === 'null'"
             class="li-validator-image"
             alt="generic geometric symbol - generated avatar from address"
             :address="validator.operatorAddress"
@@ -171,7 +172,7 @@ import Avatar from "common/Avatar"
 import Bech32 from "common/Bech32"
 import TmPage from "common/TmPage"
 import gql from "graphql-tag"
-import { ValidatorProfile } from "src/gql"
+import { ValidatorProfile, UserTransactionAdded } from "src/gql"
 
 function getStatusText(statusDetailed) {
   switch (statusDetailed) {
@@ -353,6 +354,22 @@ export default {
         },
         result() {
           refetchNetworkOnly(this.$apollo.queries.rewards)
+        }
+      },
+      userTransactionAdded: {
+        variables() {
+          /* istanbul ignore next */
+          return {
+            networkId: this.network,
+            address: this.userAddress
+          }
+        },
+        query: UserTransactionAdded,
+        result({ data }) {
+          /* istanbul ignore next */
+          if (data.userTransactionAdded.success) {
+            refetchNetworkOnly(this.$apollo.queries.delegation)
+          }
         }
       }
     }

@@ -9,13 +9,6 @@
       >
         <i class="material-icons">arrow_back</i>
       </div>
-      <div
-        id="closeBtn"
-        class="action-modal-icon action-modal-close"
-        @click="close"
-      >
-        <i class="material-icons">close</i>
-      </div>
       <div class="action-modal-header">
         <span class="action-modal-title">{{
           requiresSignIn ? `Sign in required` : title
@@ -228,45 +221,49 @@
               v-if="[defaultStep, feeStep, signStep].includes(step)"
               class="action-modal-group"
             >
-              <div>
-                <TmBtn
-                  v-if="requiresSignIn"
-                  v-focus
-                  value="Sign In"
-                  color="primary"
-                  @click.native="goToSession"
-                  @click.enter.native="goToSession"
-                />
-                <TmBtn
-                  v-else-if="sending"
-                  :value="submitButtonCaption"
-                  disabled="disabled"
-                  color="primary"
-                />
-                <TmBtn
-                  v-else-if="!connected"
-                  value="Connecting..."
-                  disabled="disabled"
-                  color="primary"
-                />
-                <TmBtn
-                  v-else-if="step !== signStep"
-                  ref="next"
-                  color="primary"
-                  value="Next"
-                  :disabled="
-                    disabled || (step === feeStep && $v.invoiceTotal.$invalid)
-                  "
-                  @click.native="validateChangeStep"
-                />
-                <TmBtn
-                  v-else
-                  color="primary"
-                  value="Send"
-                  :disabled="!selectedSignMethod"
-                  @click.native="validateChangeStep"
-                />
-              </div>
+              <TmBtn
+                id="closeBtn"
+                value="Cancel"
+                type="tertiary"
+                @click.native="close"
+              />
+              <TmBtn
+                v-if="requiresSignIn"
+                v-focus
+                value="Sign In"
+                type="primary"
+                @click.native="goToSession"
+                @click.enter.native="goToSession"
+              />
+              <TmBtn
+                v-else-if="sending"
+                :value="submitButtonCaption"
+                disabled="disabled"
+                type="primary"
+              />
+              <TmBtn
+                v-else-if="!connected"
+                value="Connecting..."
+                disabled="disabled"
+                type="primary"
+              />
+              <TmBtn
+                v-else-if="step !== signStep"
+                ref="next"
+                type="primary"
+                value="Next"
+                :disabled="
+                  disabled || (step === feeStep && $v.invoiceTotal.$invalid)
+                "
+                @click.native="validateChangeStep"
+              />
+              <TmBtn
+                v-else
+                type="primary"
+                value="Send"
+                :disabled="!selectedSignMethod"
+                @click.native="validateChangeStep"
+              />
             </TmFormGroup>
           </slot>
         </div>
@@ -390,7 +387,7 @@ export default {
     password: null,
     sending: false,
     gasEstimate: null,
-    gasPrice: config.default_gas_price.toFixed(9),
+    gasPrice: (config.default_gas_price / 4).toFixed(9), // as we bump the gas amount by 4 in the API
     submissionError: null,
     show: false,
     actionManager: new ActionManager(),
@@ -481,6 +478,7 @@ export default {
     this.$apollo.skipAll = true
   },
   updated: function() {
+    // TODO do we need to set the context on every update of the component?
     const context = this.createContext()
     this.actionManager.setContext(context)
     if (
@@ -675,11 +673,13 @@ export default {
         this.selectedSignMethod
       )
       this.$emit(`txIncluded`)
+      this.$apollo.queries.overview.refetch()
     },
     onSendingFailed(message) {
       this.step = signStep
       this.submissionError = `${this.submissionErrorPrefix}: ${message}.`
       this.trackEvent(`event`, `failed-submit`, this.title, message)
+      this.$apollo.queries.overview.refetch()
     },
     async connectLedger() {
       await this.$store.dispatch(`connectLedgerApp`)
@@ -869,7 +869,6 @@ export default {
   flex-direction: column;
   text-align: center;
   display: flex;
-  padding-bottom: 2rem;
 }
 
 .action-modal-title {
@@ -915,13 +914,20 @@ export default {
 
 .action-modal-footer {
   display: flex;
-  justify-content: flex-end;
-  padding: 1.5rem 0 1rem;
-
-  /* keeps button in bottom right no matter the size of the action modal */
   flex-grow: 1;
   align-self: flex-end;
   flex-direction: column;
+  padding: 1.5rem 0 1rem;
+}
+
+.action-modal-footer .tm-form-group .tm-form-group__field {
+  display: flex;
+  align-items: center;
+  justify-items: space-between;
+}
+
+.action-modal-footer .tm-form-group .tm-form-group__field .tertiary {
+  margin-right: 0.5rem;
 }
 
 .action-modal-footer .tm-form-group {
@@ -999,10 +1005,29 @@ export default {
     top: 0;
     overflow-x: scroll;
     padding-bottom: 69px;
+    padding-top: 4rem;
   }
 
   .action-modal-footer button {
     width: 100%;
+  }
+
+  .action-modal-icon.action-modal-close {
+    top: 3rem;
+  }
+}
+
+/* iPhone X and Xs Max */
+@media only screen and (min-device-width: 375px) and (min-device-height: 812px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait) {
+  .action-modal-footer {
+    padding-bottom: 1.8rem;
+  }
+}
+
+/* iPhone XR */
+@media only screen and (min-device-width: 414px) and (min-device-height: 896px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait) {
+  .action-modal-footer {
+    padding-bottom: 1.8rem;
   }
 }
 </style>

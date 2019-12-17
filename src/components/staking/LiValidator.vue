@@ -23,7 +23,7 @@
     </td>
     <td class="data-table__row__info">
       <Avatar
-        v-if="!validator || !validator.picture"
+        v-if="!validator || !validator.picture || validator.picture === 'null'"
         class="li-validator-image"
         alt="generic validator logo - generated avatar from address"
         :address="validator.operatorAddress"
@@ -137,11 +137,17 @@ export default {
   font-weight: 500;
   color: var(--bright);
   display: inline-block;
+  max-width: 20rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .li-validator-image {
   border-radius: 0.25rem;
   height: 2.5rem;
   width: 2.5rem;
+  min-height: 2.5rem;
+  min-width: 2.5rem;
   border: 1px solid var(--bc-dim);
 }
 .validator-status {
@@ -159,5 +165,10 @@ export default {
 .validator-status.active {
   color: var(--success);
   border-color: var(--success);
+}
+@media screen and (max-width: 768px) {
+  .li-validator-name {
+    max-width: 11rem;
+  }
 }
 </style>

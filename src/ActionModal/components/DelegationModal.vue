@@ -123,7 +123,7 @@
       field-id="amount"
       field-label="Amount"
     >
-      <span class="input-suffix-denom">{{ denom }}</span>
+      <span class="input-suffix max-button">{{ denom }}</span>
       <TmFieldGroup>
         <TmField
           id="amount"
