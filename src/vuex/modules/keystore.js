@@ -16,6 +16,8 @@ export default () => {
     }
   }
 
+  const networkPrefix = localStorage.getItem(`network`).split(`-`, 1)[0].substr(1)
+
   const actions = {
     async loadAccounts({ commit }) {
       const { getWalletIndex } = await import("@lunie/cosmos-keys")
@@ -37,7 +39,7 @@ export default () => {
     },
     async getAddressFromSeed(store, seedPhrase) {
       const { getNewWalletFromSeed } = await import("@lunie/cosmos-keys")
-      const wallet = getNewWalletFromSeed(seedPhrase)
+      const wallet = getNewWalletFromSeed(seedPhrase, networkPrefix)
       return wallet.cosmosAddress
     },
     async createKey({ dispatch, state }, { seedPhrase, password, name }) {
@@ -47,7 +49,7 @@ export default () => {
 
       state.externals.track(`event`, `session`, `create-keypair`)
 
-      const wallet = getNewWalletFromSeed(seedPhrase)
+      const wallet = getNewWalletFromSeed(seedPhrase, networkPrefix)
 
       storeWallet(wallet, name, password)
 
