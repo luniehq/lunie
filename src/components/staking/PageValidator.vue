@@ -8,8 +8,7 @@
     data-title="Validator"
     class="small"
   >
-    <TmDataLoading v-if="$apollo.queries.validator.loading" />
-    <template v-else-if="validator.operatorAddress" slot="managed-body">
+    <template v-if="validator.operatorAddress" slot="managed-body">
       <div class="status-container">
         <span :class="validator.status | toLower" class="validator-status">
           {{ validator.status }}
@@ -372,6 +371,10 @@ export default {
             networkId: this.network,
             address: this.userAddress
           }
+        },
+        skip() {
+          /* istanbul ignore next */
+          return !this.userAddress
         },
         query: UserTransactionAdded,
         result({ data }) {
