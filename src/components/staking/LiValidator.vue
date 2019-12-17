@@ -23,7 +23,7 @@
     </td>
     <td class="data-table__row__info">
       <Avatar
-        v-if="!validator || !validator.picture"
+        v-if="!validator || !validator.picture || validator.picture === 'null'"
         class="li-validator-image"
         alt="generic validator logo - generated avatar from address"
         :address="validator.operatorAddress"
