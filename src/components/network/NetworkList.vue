@@ -34,8 +34,7 @@ export default {
   methods: {
     async selectNetworkHandler(network) {
       if (this.connection.network !== network.id) {
-        await this.$store.dispatch(`setNetwork`, network)
-        this.$store.dispatch(`checkForPersistedSession`)
+        this.$store.dispatch(`setNetwork`, network)
       }
     }
   }

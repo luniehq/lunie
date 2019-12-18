@@ -1,7 +1,7 @@
 import config from "src/../config"
 import { Networks } from "../../gql"
 
-export default function({ apollo }) {
+export default function ({ apollo }) {
   const state = {
     stopConnecting: false,
     connected: true, // TODO do connection test
@@ -52,6 +52,7 @@ export default function({ apollo }) {
     async setNetwork({ commit, dispatch }, network) {
       dispatch(`signOut`)
       dispatch(`persistNetwork`, network)
+      dispatch(`checkForPersistedSession`) // check for persisted session on that network
       commit("setNetworkId", network.id)
       console.info(`Connecting to: ${network.id}`)
     }
