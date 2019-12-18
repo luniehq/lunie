@@ -10,6 +10,10 @@ describe(`UndelegationModal`, () => {
     operatorAddress: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au`
     // we don't need other props in this component
   }
+  const validator2 = {
+    operatorAddress: `cosmosvaladdr123`
+  }
+
   const localVue = createLocalVue()
   localVue.use(Vuelidate)
   localVue.directive("focus", () => { })
@@ -37,6 +41,10 @@ describe(`UndelegationModal`, () => {
         {
           validator,
           amount: 1000
+        },
+        {
+          validator: validator2,
+          amount: 5000
         }
       ],
       denom: "STAKE"
@@ -89,6 +97,11 @@ describe(`UndelegationModal`, () => {
       wrapper.vm.setMaxAmount()
       expect(wrapper.vm.amount).toBe(1000)
     })
+  })
+
+  it(`should select source validator`, async () => {
+    wrapper.vm.setFromSelectedIndex()
+    expect(wrapper.vm.fromSelectedIndex).toBe(1)
   })
 
   describe("Submission Data", () => {
