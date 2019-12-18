@@ -2,24 +2,25 @@ import Vuex from "vuex"
 import Vuelidate from "vuelidate"
 import { shallowMount, createLocalVue } from "@vue/test-utils"
 import TmSessionImportName from "common/TmSessionImportName"
-jest.mock(`scripts/google-analytics.js`, () => () => {})
+jest.mock(`scripts/google-analytics.js`, () => () => { })
 jest.mock("@lunie/cosmos-keys", () => ({
-  getWalletIndex: function() {
+  getWalletIndex: function () {
     return [{ name: `Happy Lunie User`, address: `xyz123` }]
   }
 }))
 const localVue = createLocalVue()
 localVue.use(Vuex)
 localVue.use(Vuelidate)
-localVue.directive(`tooltip`, () => {})
-localVue.directive(`focus`, () => {})
+localVue.directive(`tooltip`, () => { })
+localVue.directive(`focus`, () => { })
 
 describe(`TmSessionImportName`, () => {
   let wrapper, $store, getters
 
   beforeEach(() => {
     getters = {
-      connected: () => true
+      connected: () => true,
+      network: "fabo-net"
     }
     $store = {
       state: {

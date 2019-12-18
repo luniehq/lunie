@@ -36,15 +36,16 @@ export default () => {
       return getSeed()
     },
     async getAddressFromSeed(store, { seedPhrase, network }) {
-      const wallet = getWallet(seedPhrase, network)
+      const wallet = await getWallet(seedPhrase, network)
       return wallet.cosmosAddress
     },
     async createKey(
       { dispatch, state },
       { seedPhrase, password, name, network }
     ) {
+      // TODO extract the key storage from the key creation
       const { storeWallet } = await import("@lunie/cosmos-keys")
-      const wallet = getWallet(seedPhrase, network)
+      const wallet = await getWallet(seedPhrase, network)
 
       storeWallet(wallet, name, password)
 
@@ -85,7 +86,7 @@ function getCosmosAddressCreator(network) {
   }
 }
 
-function getWallet(seedPhrase, network) {
+async function getWallet(seedPhrase, network) {
   switch (network) {
     case "cosmos-hub-mainnet":
     case "cosmos-hub-testnet":
@@ -93,7 +94,7 @@ function getWallet(seedPhrase, network) {
     case "regen-mainnet":
     case "terra-testnet":
     case "terra-mainnet": {
-      const addressCreator = getCosmosAddressCreator(network)
+      const addressCreator = await getCosmosAddressCreator(network)
       return addressCreator(seedPhrase)
     }
     default:

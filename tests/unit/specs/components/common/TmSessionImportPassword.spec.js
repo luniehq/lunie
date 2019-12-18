@@ -2,18 +2,20 @@ import Vuex from "vuex"
 import Vuelidate from "vuelidate"
 import { shallowMount, createLocalVue } from "@vue/test-utils"
 import TmSessionImportPassword from "common/TmSessionImportPassword"
-jest.mock(`scripts/google-analytics.js`, () => () => {})
+jest.mock(`scripts/google-analytics.js`, () => () => { })
 const localVue = createLocalVue()
 localVue.use(Vuex)
 localVue.use(Vuelidate)
-localVue.directive(`tooltip`, () => {})
-localVue.directive(`focus`, () => {})
+localVue.directive(`tooltip`, () => { })
+localVue.directive(`focus`, () => { })
 
 describe(`TmSessionImportPassword`, () => {
   let wrapper, $store, getters
 
   beforeEach(() => {
-    getters = {}
+    getters = {
+      network: "fabo-net"
+    }
     $store = {
       state: {
         recover: {
@@ -86,7 +88,8 @@ describe(`TmSessionImportPassword`, () => {
     expect($store.dispatch).toHaveBeenCalledWith(`createKey`, {
       name: ``,
       password: `1234567890`,
-      seedPhrase: ``
+      seedPhrase: ``,
+      network: "fabo-net"
     })
   })
 
