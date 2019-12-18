@@ -97,6 +97,7 @@ export const Networks = gql`
       testnet
       title
       rpc_url
+      bech32_prefix
     }
   }
 `

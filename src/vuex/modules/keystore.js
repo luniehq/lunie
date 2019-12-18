@@ -1,6 +1,7 @@
 import { track } from "scripts/google-analytics"
+import { Networks } from "../../gql"
 
-export default () => {
+export default ({ apollo }) => {
   const state = {
     accounts: [],
     error: null,
@@ -16,10 +17,23 @@ export default () => {
     }
   }
 
-  const networkPrefix = localStorage
-    .getItem(`network`)
-    .split(`-`, 1)[0]
-    .substr(1)
+  const getBech32Prefix = async () => {
+    const { data } = await apollo.query({
+      query: Networks
+    })
+    const currentNetwork = JSON.parse(localStorage.getItem(`network`))
+    // search for the correct bech32prefix
+    const bech32Prefix = data.networks.filter(
+      network => network.id === currentNetwork
+    )[0].bech32_prefix
+
+    // handle exceptions
+    if (bech32Prefix === `0x`) {
+      console.error(`No current support for Livepeers accounts. Coming soon`)
+    }
+
+    return bech32Prefix
+  }
 
   const actions = {
     async loadAccounts({ commit }) {
@@ -42,7 +56,8 @@ export default () => {
     },
     async getAddressFromSeed(store, seedPhrase) {
       const { getNewWalletFromSeed } = await import("@lunie/cosmos-keys")
-      const wallet = getNewWalletFromSeed(seedPhrase, networkPrefix)
+      const bech32Prefix = await getBech32Prefix()
+      const wallet = getNewWalletFromSeed(seedPhrase, bech32Prefix)
       return wallet.cosmosAddress
     },
     async createKey({ dispatch, state }, { seedPhrase, password, name }) {
@@ -51,8 +66,8 @@ export default () => {
       )
 
       state.externals.track(`event`, `session`, `create-keypair`)
-
-      const wallet = getNewWalletFromSeed(seedPhrase, networkPrefix)
+      const bech32Prefix = await getBech32Prefix()
+      const wallet = getNewWalletFromSeed(seedPhrase, bech32Prefix)
 
       storeWallet(wallet, name, password)
 
