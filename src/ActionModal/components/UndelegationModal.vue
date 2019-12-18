@@ -4,26 +4,23 @@
     ref="actionModal"
     :validate="validateForm"
     :amount="0"
-    :title="isRedelegation ? 'Redelegate' : 'Undelegate'"
+    title="Unstake"
     class="undelegation-modal"
-    :submission-error-prefix="
-      isRedelegation ? 'Redelegating failed' : 'Undelegating failed'
-    "
+    submission-error-prefix="Unstaking failed"
     :transaction-data="transactionData"
     :notify-message="notifyMessage"
+    feature-flag="undelegate"
     @close="clear"
     @txIncluded="onSuccess"
   >
     <TmFormGroup class="action-modal-form-group">
       <div class="form-message notice">
-        <span v-if="!isRedelegation">
-          Undelegations take 21 days to complete and cannot be undone. Please
-          make sure you understand the rules of delegation.
-        </span>
-        <span v-else>
-          Voting power and rewards will change instantly upon redelegation —
-          your tokens will still be subject to the risks associated with the
-          original delegation for the duration of the undelegation period.
+        <span>
+          Unstaking takes 21 days to complete and cannot be undone. Please make
+          sure you understand the rules of staking. Would you prefer to
+          <a id="switch-to-redelgation" href="#" @click="switchToRedelegation()"
+            >redelegate?</a
+          >
         </span>
       </div>
     </TmFormGroup>
@@ -61,8 +58,8 @@
           v-model="amount"
           v-focus
           class="tm-field-addon"
+          placeholder="0"
           type="number"
-          placeholder="Amount"
           @keyup.enter.native="enterPressed"
         />
         <TmBtn
@@ -73,7 +70,7 @@
         />
       </TmFieldGroup>
       <span v-if="maximum > 0" class="form-message">
-        Currently Delegated: {{ maximum }} {{ denom }}s
+        Currently staked: {{ maximum }} {{ denom }}s
       </span>
       <TmFormMsg
         v-if="maximum === 0"
@@ -175,16 +172,9 @@ export default {
       }
     },
     notifyMessage() {
-      if (this.isRedelegation) {
-        return {
-          title: `Successful redelegation!`,
-          body: `You have successfully redelegated ${this.amount} ${this.denom}s`
-        }
-      } else {
-        return {
-          title: `Successful undelegation!`,
-          body: `You have successfully undelegated ${this.amount} ${this.denom}s.`
-        }
+      return {
+        title: `Successfully unstaked!`,
+        body: `You have successfully unstaked ${this.amount} ${this.denom}s.`
       }
     },
     fromOptions() {

@@ -7,6 +7,7 @@
     title="Claim Rewards"
     class="modal-withdraw-rewards"
     submission-error-prefix="Withdrawal failed"
+    feature-flag="claim_rewards"
     :rewards="rewards"
     :disable="validatorsWithRewards"
   >

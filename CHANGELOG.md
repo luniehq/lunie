@@ -7,6 +7,45 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.154] - 2019-12-16
+
+### Added
+
+- [#3271](https://github.com/cosmos/lunie/issues/3271) Now the stake on the validator will automatically update on PageValidator @Bitcoinera
+- [#3260](https://github.com/cosmos/lunie/pull/3260) Few fixes to better integrate with the Livepeer network @Bitcoinera
+- Show errors if transaction fail @faboweb
+- added bitrise widgets to readme @jbibla
+- [#3069](https://github.com/cosmos/lunie/issues/3069) Add intercom link to TmDataError component @mariopino
+
+### Changed
+
+- Reduce gas price to counter gas estimation increase in API @faboweb
+- Use the url param for the API also for the transaction service @faboweb
+- the proposal description length was unreasonably small, now it is much larger @jbibla
+- switched the little x on the action modal to be a proper button @jbibla
+- made the edit memo button a link for a cleaner send modal @jbibla
+- added explanation and made error message clearer for new ledger updates @jbibla
+- the networks page now lives in the mobile app footer instead of in the mobile menu - this is more consistent @jbibla
+
+### Fixed
+
+- [#3303](https://github.com/cosmos/lunie/pull/3303) Fix the continuous refreshing of the PageValidator component, which prevented from staking or doing any action at all @Bitcoinera
+- [#3304](https://github.com/cosmos/lunie/pull/3304) Fix scrollbar around AppMenu and weird resizing of the Help-Feedback button @Bitcoinera
+- [#3283](https://github.com/cosmos/lunie/pull/3283) Now the signin close button redirects directly to root (`/`) @Bitcoinera
+- [#3255](https://github.com/cosmos/lunie/pull/3255) Hide menu when changing to block view from menu @colw
+- Fix failing sends @faboweb
+- Handle validator image being null @faboweb
+- Show correct feature flag url for HID support under Windows @faboweb
+- Consecutive transactions would fail as the sequence number wasn't updated @faboweb
+- Use v2 library for cosmos hub mainnet @faboweb
+- [#3205](https://github.com/cosmos/lunie/issues/3205) resolved keyboard and button issues on iOS forms @jbibla
+- added special styles for the notch and bottom bar on iPhone X and 11 @jbibla
+- the input suffix styles were broken on the delegation modal, but now they are fixed!  @jbibla
+- [#3079](https://github.com/cosmos/lunie/issues/3079) Improve proposals in deposit period @mariopino
+- [#3269](https://github.com/cosmos/lunie/issues/3269) Improve behaviour of validator names / images @mariopino
+- [#3270](https://github.com/cosmos/lunie/issues/3270) Fix no validator found appears instead of Data loading @mariopino
+- [#3292](https://github.com/cosmos/lunie/issues/3292) Fix TmDataLoading component registration in PageValidator @mariopino
+
 ## [1.0.153] - 2019-12-15
 
 ### Added

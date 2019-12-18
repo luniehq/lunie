@@ -5,6 +5,7 @@ exports[`ModalWithdrawRewards should show the withdraw rewards modal 1`] = `
   amount="0"
   class="modal-withdraw-rewards"
   denom="stake"
+  featureflag="claim_rewards"
   id="modal-withdraw-rewards"
   notifymessage="[object Object]"
   rewards="0"

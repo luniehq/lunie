@@ -9,6 +9,7 @@
     submission-error-prefix="Depositing failed"
     :transaction-data="transactionData"
     :notify-message="notifyMessage"
+    feature-flag="deposit"
     @close="clear"
     @txIncluded="onSuccess"
   >
@@ -19,7 +20,13 @@
       field-label="Amount"
     >
       <span class="input-suffix">{{ denom | viewDenom }}</span>
-      <TmField id="amount" v-model="amount" type="number" />
+      <TmField
+        id="amount"
+        v-model="amount"
+        v-focus
+        type="number"
+        placeholder="0"
+      />
       <TmFormMsg
         v-if="balance.amount === 0"
         :msg="`doesn't have any ${viewDenom(denom)}s`"
@@ -85,9 +92,9 @@ export default {
     }
   },
   data: () => ({
-    amount: 0,
+    amount: null,
     balance: {
-      amount: 0,
+      amount: null,
       denom: ``
     }
   }),

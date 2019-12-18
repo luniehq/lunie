@@ -371,6 +371,10 @@ export default {
             address: this.userAddress
           }
         },
+        skip() {
+          /* istanbul ignore next */
+          return !this.userAddress
+        },
         query: UserTransactionAdded,
         result({ data }) {
           /* istanbul ignore next */
