@@ -20,8 +20,6 @@ jest.mock(`src/ActionModal/utils/ActionManager.js`, () => {
     return {
       setMessage: jest.fn(),
       setContext: mockSetContext,
-      simulate: mockSimulate,
-      send: mockSend,
       simulateTxAPI: mockSimulate,
       sendTxAPI: mockSend
     }
@@ -145,10 +143,8 @@ describe(`ActionModal`, () => {
       $apollo,
       actionManager: {
         setContext: () => { },
-        simulate: () => 12345,
-        send: ActionManagerSend,
         simulateTxAPI: jest.fn(),
-        sendTxAPI: jest.fn().mockResolvedValue({ hash: 12345 })
+        sendTxAPI: ActionManagerSend
       },
       transactionData: {
         type: "TYPE",

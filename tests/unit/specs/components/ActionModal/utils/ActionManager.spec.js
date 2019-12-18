@@ -1,8 +1,4 @@
 import ActionManager from "src/ActionModal/utils/ActionManager.js"
-// import {
-//   getTransactionSigner,
-//   transformMessage
-// } from "src/ActionModal/utils/MessageConstructor.js"
 import { sendTx, withdrawTx } from "./actions"
 
 let mockSimulate = jest.fn(() => 12345)
@@ -390,7 +386,6 @@ describe("ActionManager", () => {
         "MsgWithdrawDelegationReward",
         withdrawTx.txProps
       )
-      mockMsgWithdraw.mockClear()
       await actionManager.sendTxAPI(
         context,
         "MsgWithdrawDelegationReward",
@@ -398,15 +393,17 @@ describe("ActionManager", () => {
         withdrawTx.txProps,
         withdrawTx.txMetaData
       )
-      expect(mockMsgWithdraw).toBeCalledTimes(5)
 
-      expect(MsgSendFn).toHaveBeenCalledWith(
-        {
-          gas: "12335",
-          gasPrices: [{ amount: "2000000000", denom: "uatom" }],
-          memo: "memo"
-        },
-        "signer"
+      const expectArgs = {
+        simulate: false,
+        messageType: "MsgWithdrawDelegationReward",
+        networkId: "cosmos-hub-testnet",
+        signedMessage: "signedMessage",
+        txProperties: {}
+      }
+
+      expect(actionManager.transactionAPIRequest).toHaveBeenCalledWith(
+        expectArgs
       )
     })
   })
