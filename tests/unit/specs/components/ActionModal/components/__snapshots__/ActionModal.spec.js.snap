@@ -18,6 +18,17 @@ exports[`ActionModal back button renders and functions 1`] = `
   </div>
    
   <div
+    class="action-modal-icon action-modal-close"
+    id="closeBtn"
+  >
+    <i
+      class="material-icons"
+    >
+      close
+    </i>
+  </div>
+   
+  <div
     class="action-modal-header"
   >
     <span
@@ -95,6 +106,17 @@ exports[`ActionModal runs validation and changes step on sign step should dispal
       class="material-icons"
     >
       arrow_back
+    </i>
+  </div>
+   
+  <div
+    class="action-modal-icon action-modal-close"
+    id="closeBtn"
+  >
+    <i
+      class="material-icons"
+    >
+      close
     </i>
   </div>
    
@@ -177,6 +199,17 @@ exports[`ActionModal should show the action modal on success 1`] = `
   <!---->
    
   <div
+    class="action-modal-icon action-modal-close"
+    id="closeBtn"
+  >
+    <i
+      class="material-icons"
+    >
+      close
+    </i>
+  </div>
+   
+  <div
     class="action-modal-header"
   >
     <span
@@ -195,6 +228,7 @@ exports[`ActionModal should show the action modal on success 1`] = `
   >
     <tmdatamsg-stub
       icon="check"
+      success="true"
     >
       <div>
         
@@ -239,6 +273,17 @@ exports[`ActionModal should show the action modal waiting on inclusion 1`] = `
   <!---->
    
   <div
+    class="action-modal-icon action-modal-close"
+    id="closeBtn"
+  >
+    <i
+      class="material-icons"
+    >
+      close
+    </i>
+  </div>
+   
+  <div
     class="action-modal-header"
   >
     <span
@@ -278,6 +323,17 @@ exports[`ActionModal should show the action modal when user has logged in with e
       class="material-icons"
     >
       arrow_back
+    </i>
+  </div>
+   
+  <div
+    class="action-modal-icon action-modal-close"
+    id="closeBtn"
+  >
+    <i
+      class="material-icons"
+    >
+      close
     </i>
   </div>
    
@@ -349,6 +405,17 @@ exports[`ActionModal should show the action modal when user has logged in with e
       class="material-icons"
     >
       arrow_back
+    </i>
+  </div>
+   
+  <div
+    class="action-modal-icon action-modal-close"
+    id="closeBtn"
+  >
+    <i
+      class="material-icons"
+    >
+      close
     </i>
   </div>
    
@@ -434,6 +501,17 @@ exports[`ActionModal should show the action modal when user has logged in with e
   tabindex="0"
 >
   <!---->
+   
+  <div
+    class="action-modal-icon action-modal-close"
+    id="closeBtn"
+  >
+    <i
+      class="material-icons"
+    >
+      close
+    </i>
+  </div>
    
   <div
     class="action-modal-header"
@@ -529,6 +607,17 @@ exports[`ActionModal should show the action modal when user has logged in with e
   </div>
    
   <div
+    class="action-modal-icon action-modal-close"
+    id="closeBtn"
+  >
+    <i
+      class="material-icons"
+    >
+      close
+    </i>
+  </div>
+   
+  <div
     class="action-modal-header"
   >
     <span
@@ -596,6 +685,17 @@ exports[`ActionModal should show the action modal when user has logged in with e
       class="material-icons"
     >
       arrow_back
+    </i>
+  </div>
+   
+  <div
+    class="action-modal-icon action-modal-close"
+    id="closeBtn"
+  >
+    <i
+      class="material-icons"
+    >
+      close
     </i>
   </div>
    
@@ -676,6 +776,17 @@ exports[`ActionModal should show the action modal when user has logged in with e
   tabindex="0"
 >
   <!---->
+   
+  <div
+    class="action-modal-icon action-modal-close"
+    id="closeBtn"
+  >
+    <i
+      class="material-icons"
+    >
+      close
+    </i>
+  </div>
    
   <div
     class="action-modal-header"
@@ -767,6 +878,17 @@ exports[`ActionModal should show the action modal when user has logged in with l
   </div>
    
   <div
+    class="action-modal-icon action-modal-close"
+    id="closeBtn"
+  >
+    <i
+      class="material-icons"
+    >
+      close
+    </i>
+  </div>
+   
+  <div
     class="action-modal-header"
   >
     <span
@@ -838,6 +960,17 @@ exports[`ActionModal should show the action modal when user has logged in with l
   </div>
    
   <div
+    class="action-modal-icon action-modal-close"
+    id="closeBtn"
+  >
+    <i
+      class="material-icons"
+    >
+      close
+    </i>
+  </div>
+   
+  <div
     class="action-modal-header"
   >
     <span
@@ -903,6 +1036,17 @@ exports[`ActionModal should show the action modal when user has logged in with l
   tabindex="0"
 >
   <!---->
+   
+  <div
+    class="action-modal-icon action-modal-close"
+    id="closeBtn"
+  >
+    <i
+      class="material-icons"
+    >
+      close
+    </i>
+  </div>
    
   <div
     class="action-modal-header"
@@ -983,6 +1127,17 @@ exports[`ActionModal should show the action modal when user has logged in with l
   </div>
    
   <div
+    class="action-modal-icon action-modal-close"
+    id="closeBtn"
+  >
+    <i
+      class="material-icons"
+    >
+      close
+    </i>
+  </div>
+   
+  <div
     class="action-modal-header"
   >
     <span
@@ -1050,6 +1205,17 @@ exports[`ActionModal should show the action modal when user has logged in with l
       class="material-icons"
     >
       arrow_back
+    </i>
+  </div>
+   
+  <div
+    class="action-modal-icon action-modal-close"
+    id="closeBtn"
+  >
+    <i
+      class="material-icons"
+    >
+      close
     </i>
   </div>
    
@@ -1126,6 +1292,17 @@ exports[`ActionModal should show the action modal when user has logged in with l
   <!---->
    
   <div
+    class="action-modal-icon action-modal-close"
+    id="closeBtn"
+  >
+    <i
+      class="material-icons"
+    >
+      close
+    </i>
+  </div>
+   
+  <div
     class="action-modal-header"
   >
     <span
@@ -1199,6 +1376,17 @@ exports[`ActionModal should show the action modal when user hasn't logged in 1`]
   <!---->
    
   <div
+    class="action-modal-icon action-modal-close"
+    id="closeBtn"
+  >
+    <i
+      class="material-icons"
+    >
+      close
+    </i>
+  </div>
+   
+  <div
     class="action-modal-header"
   >
     <span
@@ -1258,6 +1446,17 @@ exports[`ActionModal shows a feature unavailable message 1`] = `
   tabindex="0"
 >
   <!---->
+   
+  <div
+    class="action-modal-icon action-modal-close"
+    id="closeBtn"
+  >
+    <i
+      class="material-icons"
+    >
+      close
+    </i>
+  </div>
    
   <div
     class="action-modal-header"

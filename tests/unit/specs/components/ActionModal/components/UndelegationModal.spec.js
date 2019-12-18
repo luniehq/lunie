@@ -12,7 +12,7 @@ describe(`UndelegationModal`, () => {
   }
   const localVue = createLocalVue()
   localVue.use(Vuelidate)
-  localVue.directive("focus", () => {})
+  localVue.directive("focus", () => { })
 
   beforeEach(() => {
     $store = {
@@ -117,8 +117,8 @@ describe(`UndelegationModal`, () => {
 
     it("should return correct notification message", () => {
       expect(wrapper.vm.notifyMessage).toEqual({
-        title: `Successful undelegation!`,
-        body: `You have successfully undelegated 10 STAKEs.`
+        title: `Successfully unstaked!`,
+        body: `You have successfully unstaked 10 STAKEs.`
       })
     })
   })
