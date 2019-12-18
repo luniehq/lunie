@@ -501,7 +501,7 @@ describe(`ActionModal`, () => {
       expect(wrapper.vm.txHash).toBe("HASH1234HASH")
     })
 
-    it(`should submit transaction using transactino api`, async () => {
+    it(`should submit transaction using transaction api`, async () => {
       const transactionProperties = {
         type: "MsgSend",
         toAddress: "comsos12345",
