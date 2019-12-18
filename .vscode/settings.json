@@ -2,7 +2,10 @@
   "eslint.validate": [
     "javascript",
     "javascriptreact",
-    { "language": "vue", "autoFix": false }
+    {
+      "language": "vue",
+      "autoFix": false
+    }
   ],
   "vetur.format.defaultFormatter.html": "prettier",
   "css.lint.emptyRules": "error",
@@ -10,5 +13,10 @@
   "css.lint.important": "warning",
   "css.lint.universalSelector": "warning",
   "css.lint.unknownVendorSpecificProperties": "warning",
-  "css.lint.zeroUnits": "warning"
+  "css.lint.zeroUnits": "warning",
+  "[vue]": {
+    "editor.codeActionsOnSave": {
+      "source.fixAll.eslint": false
+    }
+  }
 }
