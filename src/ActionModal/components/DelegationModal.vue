@@ -3,8 +3,8 @@
     id="delegation-modal"
     ref="actionModal"
     :validate="validateForm"
-    :amount="isRedelegation ? 0 : amount"
-    :title="isRedelegation ? 'Redelegate' : 'Stake'"
+    :amount="amount"
+    title="Stake"
     class="delegation-modal"
     submission-error-prefix="Staking failed"
     :transaction-data="transactionData"
@@ -15,15 +15,10 @@
   >
     <TmFormGroup class="action-modal-form-group">
       <div class="form-message notice">
-        <span v-if="!isRedelegation">
+        <span>
           It will take 21 days to unlock your tokens after they are staked.
           There is a risk that some tokens will be lost depending on the
           behaviour of the validator you choose.
-        </span>
-        <span v-else>
-          Voting power and rewards will change instantly upon redelegation — but
-          your tokens will still be subject to the risks associated with the
-          original stake for the duration of the unstaking period.
         </span>
       </div>
     </TmFormGroup>
@@ -35,15 +30,7 @@
         readonly
       />
       <TmFormMsg
-        v-if="targetValidator.status === 'INACTIVE' && !isRedelegation"
-        :msg="
-          `You are about to stake to an inactive validator (${targetValidator.statusDetailed})`
-        "
-        type="custom"
-        class="tm-form-msg--desc"
-      />
-      <TmFormMsg
-        v-if="targetValidator.status === 'INACTIVE' && isRedelegation"
+        v-if="targetValidator.status === 'INACTIVE'"
         :msg="
           `You are about to stake to an inactive validator (${targetValidator.statusDetailed})`
         "
@@ -51,7 +38,6 @@
         class="tm-form-msg--desc"
       />
     </TmFormGroup>
-
     <TmFormGroup
       v-if="fromOptions.length > 1"
       class="action-modal-form-group"
@@ -91,8 +77,7 @@
         />
       </TmFieldGroup>
       <span class="form-message">
-        {{ isRedelegation ? "Available to redelegate" : "Available to stake" }}
-        :
+        Available to stake:
         {{ maxAmount }}
         {{ denom }}s
       </span>
@@ -120,7 +105,7 @@
         type="between"
       />
       <TmFormMsg
-        v-else-if="isMaxAmount() && !isRedelegation"
+        v-else-if="isMaxAmount()"
         msg="You are about to use all your tokens for this transaction. Consider leaving a little bit left over to cover the network fees."
         type="custom"
         class="tm-form-msg--desc"
@@ -214,40 +199,20 @@ export default {
 
       return this.fromOptions[this.selectedIndex].address
     },
-    isRedelegation() {
-      return this.from !== this.address
-    },
     transactionData() {
-      if (!this.from) return {}
+      if (!this.targetValidator.operatorAddress) return {}
 
-      if (this.isRedelegation) {
-        return {
-          type: transaction.REDELEGATE,
-          validatorSourceAddress: this.from,
-          validatorDestinationAddress: this.targetValidator.operatorAddress,
-          amount: uatoms(this.amount),
-          denom: toMicroDenom(this.denom)
-        }
-      } else {
-        return {
-          type: transaction.DELEGATE,
-          validatorAddress: this.targetValidator.operatorAddress,
-          amount: uatoms(this.amount),
-          denom: toMicroDenom(this.denom)
-        }
+      return {
+        type: transaction.DELEGATE,
+        validatorAddress: this.targetValidator.operatorAddress,
+        amount: uatoms(this.amount),
+        denom: toMicroDenom(this.denom)
       }
     },
     notifyMessage() {
-      if (this.isRedelegation) {
-        return {
-          title: `Successful redelegation!`,
-          body: `You have successfully redelegated your ${this.denom}s`
-        }
-      } else {
-        return {
-          title: `Successfully staked!`,
-          body: `You have successfully staked your ${this.denom}s`
-        }
+      return {
+        title: `Successfully staked!`,
+        body: `You have successfully staked your ${this.denom}s`
       }
     },
     maxAmount() {

@@ -4,9 +4,11 @@
     ref="actionModal"
     :validate="validateForm"
     :amount="0"
-    title="Unstake"
+    :title="isRedelegation ? 'Restake' : 'Unstake'"
     class="undelegation-modal"
-    submission-error-prefix="Unstaking failed"
+    :submission-error-prefix="
+      isRedelegation ? 'Restaking failed' : 'Unstaking failed'
+    "
     :transaction-data="transactionData"
     :notify-message="notifyMessage"
     feature-flag="undelegate"
@@ -15,12 +17,14 @@
   >
     <TmFormGroup class="action-modal-form-group">
       <div class="form-message notice">
-        <span>
+        <span v-if="!isRedelegation">
           Unstaking takes 21 days to complete and cannot be undone. Please make
-          sure you understand the rules of staking. Would you prefer to
-          <a id="switch-to-redelgation" href="#" @click="switchToRedelegation()"
-            >redelegate?</a
-          >
+          sure you understand the rules of staking.
+        </span>
+        <span v-else>
+          Voting power and rewards will change instantly upon restaking — but
+          your tokens will still be subject to the risks associated with the
+          original stake for the duration of the unstaking period.
         </span>
       </div>
     </TmFormGroup>
@@ -172,9 +176,16 @@ export default {
       }
     },
     notifyMessage() {
-      return {
-        title: `Successfully unstaked!`,
-        body: `You have successfully unstaked ${this.amount} ${this.denom}s.`
+      if (this.isRedelegation) {
+        return {
+          title: `Successfully restaked!`,
+          body: `You have successfully restaked ${this.amount} ${this.denom}s.`
+        }
+      } else {
+        return {
+          title: `Successfully unstaked!`,
+          body: `You have successfully unstaked ${this.amount} ${this.denom}s.`
+        }
       }
     },
     fromOptions() {
