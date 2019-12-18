@@ -258,9 +258,11 @@ export default {
         }
       `,
       skip() {
+        /* istanbul ignore next */
         return !this.address
       },
       variables() {
+        /* istanbul ignore next */
         return {
           networkId: this.network,
           delegatorAddress: this.address
@@ -285,9 +287,11 @@ export default {
         }
       `,
       skip() {
+        /* istanbul ignore next */
         return !this.address
       },
       variables() {
+        /* istanbul ignore next */
         return {
           networkId: this.network,
           address: this.address,
@@ -305,6 +309,7 @@ export default {
         }
       `,
       variables() {
+        /* istanbul ignore next */
         return {
           networkId: this.network
         }
@@ -318,16 +323,19 @@ export default {
   $subscribe: {
     userTransactionAdded: {
       variables() {
+        /* istanbul ignore next */
         return {
           networkId: this.network,
           address: this.address
         }
       },
       skip() {
+        /* istanbul ignore next */
         return !this.address
       },
       query: UserTransactionAdded,
       result({ data }) {
+        /* istanbul ignore next */
         if (data.userTransactionAdded.success) {
           this.$apollo.queries.delegations.refetch()
         }

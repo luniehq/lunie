@@ -287,7 +287,6 @@ export default {
         }
       },
       update(data) {
-        console.log(JSON.stringify(data.delegations))
         /* istanbul ignore next */
         return data.delegations
       }
@@ -302,6 +301,7 @@ export default {
         }
       `,
       variables() {
+        /* istanbul ignore next */
         return {
           networkId: this.network
         }
@@ -329,6 +329,7 @@ export default {
         }
       `,
       variables() {
+        /* istanbul ignore next */
         return {
           networkId: this.network,
           activeOnly: true
