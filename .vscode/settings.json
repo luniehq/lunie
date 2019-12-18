@@ -12,11 +12,5 @@
   "css.lint.idSelector": "warning",
   "css.lint.important": "warning",
   "css.lint.universalSelector": "warning",
-  "css.lint.unknownVendorSpecificProperties": "warning",
-  "css.lint.zeroUnits": "warning",
-  "[vue]": {
-    "editor.codeActionsOnSave": {
-      "source.fixAll.eslint": false
-    }
-  }
+  "css.lint.unknownVendorSpecificProperties": "warning"
 }
