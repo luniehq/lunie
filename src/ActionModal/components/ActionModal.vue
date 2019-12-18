@@ -199,7 +199,7 @@
           v-else-if="step === successStep"
           class="action-modal-form success-step"
         >
-          <TmDataMsg icon="check" success="true">
+          <TmDataMsg icon="check" :success="true">
             <div slot="title">
               {{ notifyMessage.title }}
             </div>
@@ -948,7 +948,7 @@ export default {
   font-style: italic;
   color: var(--dim);
   display: inline-block;
-  padding: 0.5rem 0 0.5rem 1rem;
+  padding: 2rem 0 0.5rem 1rem;
 }
 
 .slide-fade-enter-active {
