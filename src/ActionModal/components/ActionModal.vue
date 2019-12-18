@@ -516,7 +516,7 @@ export default {
       let confirmResult = false
       if (this.session.currrentModalOpen) {
         confirmResult = window.confirm(
-          "You are in the middle of creating a transaction already. Are you sure you want to cancel this action?"
+          "You are in the middle of creating a transaction. Are you sure you want to cancel this action and start a new one?"
         )
         if (confirmResult) {
           this.session.currrentModalOpen.close()
@@ -952,7 +952,11 @@ export default {
   font-style: italic;
   color: var(--dim);
   display: inline-block;
-  padding: 2rem 0 0.5rem 1rem;
+  padding: 0.5rem;
+}
+
+.form-message.notice {
+  padding: 2rem 0.5rem 0.5rem;
 }
 
 .slide-fade-enter-active {
