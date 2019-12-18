@@ -23,7 +23,6 @@
         v-model.trim="title"
         v-focus
         type="text"
-        placeholder="Proposal title"
         @keyup.enter.native="refocusOn"
       />
       <TmFormMsg
@@ -50,7 +49,6 @@
         v-model.trim="description"
         type="textarea"
         class="textarea-large"
-        placeholder="Write your proposal here..."
       />
       <TmFormMsg
         v-if="$v.description.$error && !$v.description.maxLength"
@@ -76,6 +74,7 @@
         v-model="amount"
         :value="Number(amount)"
         type="number"
+        placeholder="0"
         @keyup.enter.native="enterPressed"
       />
       <TmFormMsg
@@ -151,9 +150,9 @@ export default {
     title: ``,
     description: ``,
     type: `Text`,
-    amount: 0,
+    amount: null,
     balance: {
-      amount: 0,
+      amount: null,
       denom: ``
     }
   }),

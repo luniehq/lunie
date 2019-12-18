@@ -44,8 +44,8 @@
           v-model="amount"
           v-focus
           class="tm-field-addon"
+          placeholder="0"
           type="number"
-          placeholder="Amount"
           @keyup.enter.native="enterPressed"
         />
         <TmBtn

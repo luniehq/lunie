@@ -50,7 +50,7 @@
           ref="amount"
           v-model="amount"
           class="tm-field-addon"
-          placeholder="Amount"
+          placeholder="0"
           type="number"
           @keyup.enter.native="enterPressed"
         />
@@ -104,9 +104,9 @@
     >
       <TmField
         id="memo"
+        v-focus
         v-model="memo"
         type="text"
-        placeholder="Memo"
         @keyup.enter.native="enterPressed"
       />
       <TmFormMsg
@@ -159,7 +159,7 @@ export default {
     max_memo_characters: 256,
     editMemo: false,
     balance: {
-      amount: 0,
+      amount: null,
       denom: ``
     }
   }),

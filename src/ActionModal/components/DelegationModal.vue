@@ -78,9 +78,9 @@
           id="amount"
           v-model="amount"
           v-focus
+          placeholder="0"
           class="tm-field-addon"
           type="number"
-          placeholder="Amount"
           @keyup.enter.native="enterPressed"
         />
         <TmBtn
@@ -162,10 +162,10 @@ export default {
     }
   },
   data: () => ({
-    amount: 0,
+    amount: null,
     selectedIndex: 0,
     balance: {
-      amount: 0,
+      amount: null,
       denom: ``
     },
     delegations: [],
@@ -274,7 +274,7 @@ export default {
       this.$v.$reset()
 
       this.selectedIndex = 0
-      this.amount = 0
+      this.amount = null
     },
     setMaxAmount() {
       this.amount = this.maxAmount
