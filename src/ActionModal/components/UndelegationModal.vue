@@ -4,9 +4,9 @@
     ref="actionModal"
     :validate="validateForm"
     :amount="0"
-    title="Undelegate"
+    title="Unstake"
     class="undelegation-modal"
-    submission-error-prefix="Undelegating failed"
+    submission-error-prefix="Unstaking failed"
     :transaction-data="transactionData"
     :notify-message="notifyMessage"
     @close="clear"
@@ -15,8 +15,8 @@
     <TmFormGroup class="action-modal-form-group">
       <div class="form-message notice">
         <span>
-          Undelegations take 21 days to complete and cannot be undone. Please
-          make sure you understand the rules of delegation. Would you prefer to
+          Unstaking takes 21 days to complete and cannot be undone. Please make
+          sure you understand the rules of staking. Would you prefer to
           <a id="switch-to-redelgation" href="#" @click="switchToRedelegation()"
             >redelegate?</a
           >
@@ -55,7 +55,7 @@
         />
       </TmFieldGroup>
       <span v-if="maximum > 0" class="form-message">
-        Currently Delegated: {{ maximum }} {{ denom }}s
+        Currently staked: {{ maximum }} {{ denom }}s
       </span>
       <TmFormMsg
         v-if="maximum === 0"
@@ -138,8 +138,8 @@ export default {
     },
     notifyMessage() {
       return {
-        title: `Successful undelegation!`,
-        body: `You have successfully undelegated ${this.amount} ${this.denom}s.`
+        title: `Successfully unstaked!`,
+        body: `You have successfully unstaked ${this.amount} ${this.denom}s.`
       }
     }
   },
