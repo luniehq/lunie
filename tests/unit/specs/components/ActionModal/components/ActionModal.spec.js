@@ -101,11 +101,11 @@ describe(`ActionModal`, () => {
           currrentModalOpen: false
         },
         overview,
-        network,
         delegations
       },
       getters: {
         connected: true,
+        network,
         networkId: "testnet",
         isExtensionAccount: false
       }
