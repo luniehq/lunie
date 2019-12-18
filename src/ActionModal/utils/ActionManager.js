@@ -106,45 +106,6 @@ export default class ActionManager {
     }
   }
 
-  async simulate(memo) {
-    this.readyCheck()
-    const gasEstimate = await this.message.simulate({
-      memo: memo
-    })
-    return gasEstimate
-  }
-
-  async send(memo, txMetaData) {
-    this.readyCheck()
-
-    let { gasEstimate, gasPrice, submitType, password } = txMetaData
-    const signer = await getSigner(config, submitType, {
-      address: this.context.userAddress,
-      password
-    })
-
-    if (this.messageType === transaction.WITHDRAW) {
-      this.message = await this.createWithdrawTransaction()
-    }
-
-    // temporary fix as the SDK doesn't return proper estimates for votes
-    // TODO move into transacton service
-    /* istanbul ignore next */
-    if (this.messageType === transaction.VOTE) {
-      gasEstimate = 30000
-    }
-
-    const messageMetadata = {
-      gas: String(gasEstimate),
-      gasPrices: convertCurrencyData([gasPrice]),
-      memo
-    }
-
-    const { included, hash } = await this.message.send(messageMetadata, signer)
-
-    return { included, hash }
-  }
-
   async sendTxAPI(context, type, memo, transactionProperties, txMetaData) {
     const { gasEstimate, gasPrice, submitType, password } = txMetaData
     const signer = await getSigner(config, submitType, {

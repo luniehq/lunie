@@ -6,7 +6,7 @@ import { focusParentLast } from "src/directives"
 const localVue = createLocalVue()
 localVue.use(Vuelidate)
 localVue.directive("focus-last", focusParentLast)
-localVue.directive("focus", () => {})
+localVue.directive("focus", () => { })
 
 let mockSimulate = jest.fn(() => 123456)
 let mockSend = jest.fn(() => ({
@@ -144,7 +144,7 @@ describe(`ActionModal`, () => {
       $store,
       $apollo,
       actionManager: {
-        setContext: () => {},
+        setContext: () => { },
         simulate: () => 12345,
         send: ActionManagerSend,
         simulateTxAPI: jest.fn(),
@@ -160,7 +160,7 @@ describe(`ActionModal`, () => {
       },
       submissionErrorPrefix: `PREFIX`,
       trackEvent: jest.fn(),
-      connectLedger: () => {},
+      connectLedger: () => { },
       onSendingFailed: jest.fn(),
       createContext: jest.fn()
     }
@@ -432,8 +432,7 @@ describe(`ActionModal`, () => {
       const data = {
         step: `details`,
         gasEstimate: null,
-        submissionError: null,
-        useTxService: true
+        submissionError: null
       }
       wrapper.vm.createContext = jest.fn()
       wrapper.setProps({ transactionProperties })
@@ -472,44 +471,6 @@ describe(`ActionModal`, () => {
         expect(wrapper.vm.step).toBe("fees")
         expect(wrapper.vm.gasPrice).toBe(0)
       })
-    })
-
-    it("should fail if simulation fails", async () => {
-      const mockSimulateFail = jest.fn(() =>
-        Promise.reject(new Error(`invalid request`))
-      )
-
-      const data = {
-        step: `details`,
-        gasEstimate: null,
-        submissionError: null,
-        actionManager: {
-          simulate: mockSimulateFail
-        },
-        useTxService: false
-      }
-
-      const transactionProperties = {
-        type: "MsgSend",
-        toAddress: "comsos12345",
-        amounts: [
-          {
-            amount: "100000",
-            denom: "uatoms"
-          }
-        ],
-        memo: "A memo"
-      }
-
-      wrapper.setProps({ transactionProperties })
-      wrapper.setData(data)
-      await wrapper.vm.simulate()
-      await wrapper.vm.$nextTick()
-      expect(wrapper.vm.gasEstimate).toBe(null)
-      expect(wrapper.vm.submissionError).toBe(
-        "Transaction failed: invalid request."
-      )
-      expect(wrapper.vm.step).toBe("details")
     })
   })
 
@@ -555,8 +516,7 @@ describe(`ActionModal`, () => {
       const data = {
         step: `sign`,
         gasEstimate: 12345,
-        submissionError: null,
-        useTxService: true
+        submissionError: null
       }
 
       wrapper.setProps({ transactionProperties })
@@ -565,42 +525,6 @@ describe(`ActionModal`, () => {
       await wrapper.vm.submit()
       expect(wrapper.vm.submissionError).toBe(null)
       expect(wrapper.vm.txHash).toBe("HASH1234HASH")
-    })
-
-    it("should fail if submitting fails", async () => {
-      const mockSubmitFail = jest.fn(() =>
-        Promise.reject(new Error(`invalid request`))
-      )
-
-      const data = {
-        step: `fees`,
-        gasEstimate: null,
-        submissionError: null,
-        actionManager: {
-          send: mockSubmitFail
-        },
-        useTxService: false
-      }
-
-      const transactionProperties = {
-        type: "MsgSend",
-        toAddress: "comsos12345",
-        amounts: [
-          {
-            amount: "100000",
-            denom: "uatoms"
-          }
-        ],
-        memo: "A memo"
-      }
-
-      wrapper.setProps({ transactionProperties })
-      wrapper.setData(data)
-      wrapper.vm.submit()
-      await wrapper.vm.$nextTick()
-
-      expect(wrapper.html()).toContain("Transaction failed: invalid request.")
-      expect(wrapper.vm.step).toBe("sign")
     })
   })
 
@@ -617,7 +541,7 @@ describe(`ActionModal`, () => {
         isValidInput: jest.fn(() => true),
         selectedSignMethod: `local`,
         step: `details`,
-        validateChangeStep: jest.fn(() => {})
+        validateChangeStep: jest.fn(() => { })
       }
     })
 
