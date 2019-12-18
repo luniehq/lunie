@@ -160,6 +160,17 @@ describe(`DelegationModal`, () => {
         body: `You have successfully staked your STAKEs`
       })
     })
+
+    it(`should send an event on success`, () => {
+      const self = {
+        $emit: jest.fn()
+      }
+      DelegationModal.methods.onSuccess.call(self)
+      expect(self.$emit).toHaveBeenCalledWith(
+        "success",
+        expect.objectContaining({})
+      )
+    })
   })
 
   describe(`if amount field max button clicked`, () => {
