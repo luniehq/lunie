@@ -321,9 +321,45 @@ exports[`TmSessionHardware sign in does show the instructions to enable HID on W
           <div class="tm-hardware-state-content">
             <!---->
             <div class="tm-hardware-state__label">
-              Using a Ledger on Windows requires experimental HID support in your
-              browser.
+              Due to recent Ledger updates, using a Ledger on Windows now requires
+              "Experimental Web Platform features" to be enabled.
               <!---->
+              <!----> <button class="button">
+                Sign In
+              </button></div> <img src="~assets/images/loader.svg" alt="a small spinning circle to display loading" style="display: none;">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="session-close"><button class="button session-close-button" color="secondary">
+      Back to Lunie
+    </button> <a class="user-box"><i class="material-icons">close</i></a></div>
+</div>
+`;
+
+exports[`TmSessionHardware sign in does show the instructions to fix connection issues for Linux users 1`] = `
+<div class="session-frame" name="component-fade" mode="out-in">
+  <router-link-stub to="/"><img src="~assets/images/lunie-logo-white.svg" class="session-logo"></router-link-stub>
+  <div class="session-outer-container">
+    <div class="session"><a><i class="material-icons circle back">arrow_back</i></a>
+      <h2 class="session-title">
+        Use my Ledger Nano
+      </h2>
+      <div class="session-main">
+        <div class="tm-hardware-state">
+          <div class="tm-hardware-state-content">
+            <!---->
+            <div class="tm-hardware-state__label">
+              Since we switched to WebUSB Linux users may experience connection
+              issues with their devices.
+              <br> <br>
+              Please visit the following site to learn more about how to fix them:
+              <div class="copy-feature-link">
+                https://support.ledger.com/hc/en-us/articles/360019301813-Fix-USB-issues
+                <i class="material-icons copied">
+                  check
+                </i></div> <br> <br>
               <!----> <button class="button">
                 Sign In
               </button></div> <img src="~assets/images/loader.svg" alt="a small spinning circle to display loading" style="display: none;">

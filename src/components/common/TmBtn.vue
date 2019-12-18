@@ -3,6 +3,7 @@
     class="button"
     :class="{
       secondary: type === `secondary`,
+      tertiary: type === `tertiary`,
       small: size === `small`,
       active: type === `active`
     }"
@@ -81,6 +82,15 @@ export default {
 
 .button.secondary:hover {
   background: var(--primary-dark);
+}
+
+.button.tertiary {
+  background: var(--bc-dim);
+  border-color: var(--bc);
+}
+
+.button.tertiary:hover {
+  background: var(--bc);
 }
 
 .button.secondary.small {

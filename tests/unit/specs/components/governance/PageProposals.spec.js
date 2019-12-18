@@ -56,6 +56,9 @@ describe(`PageProposals`, () => {
   })
 
   it(`opens a create proposal modal`, () => {
+    wrapper.setData({
+      loaded: true
+    })
     const $refs = { modalPropose: { open: jest.fn() } }
     wrapper.vm.$refs = $refs
     wrapper.find("#propose-btn").trigger("click")

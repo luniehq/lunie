@@ -1,6 +1,11 @@
 <template>
-  <TmPage data-title="Proposals" :managed="false" hide-header>
-    <div class="button-container">
+  <TmPage
+    data-title="Proposals"
+    :managed="true"
+    hide-header
+    :loading="$apollo.queries.proposals.loading && !loaded"
+  >
+    <div v-if="loaded" class="button-container">
       <TmBtn
         id="propose-btn"
         value="Create Proposal"
@@ -26,10 +31,7 @@
         </TmDataMsg>
       </div>
     </div>
-    <div v-else>
-      <TmDataLoading v-if="$apollo.loading" />
-      <TableProposals v-else :proposals="proposals" />
-    </div>
+    <TableProposals v-else :proposals="proposals" />
   </TmPage>
 </template>
 
@@ -39,10 +41,10 @@ import TableProposals from "governance/TableProposals"
 import TmPage from "common/TmPage"
 import TmBtn from "common/TmBtn"
 import TmDataMsg from "common/TmDataMsg"
-import TmDataLoading from "common/TmDataLoading"
 import { mapGetters } from "vuex"
 import { GovernanceParameters } from "src/gql"
 import gql from "graphql-tag"
+import refetchNetworkOnly from "scripts/refetch-network-only"
 
 export default {
   name: `page-proposals`,
@@ -50,7 +52,6 @@ export default {
     ModalPropose,
     TableProposals,
     TmDataMsg,
-    TmDataLoading,
     TmBtn,
     TmPage
   },
@@ -58,7 +59,8 @@ export default {
     proposals: [],
     parameters: {
       depositDenom: "xxx"
-    }
+    },
+    loaded: false
   }),
   computed: {
     ...mapGetters([`network`])
@@ -89,11 +91,14 @@ export default {
         `
       },
       variables() {
+        /* istanbul ignore next */
         return {
           networkId: this.network
         }
       },
       update(data) {
+        /* istanbul ignore next */
+        this.loaded = true
         /* istanbul ignore next */
         return data.proposals
       }
@@ -107,10 +112,35 @@ export default {
         /* istanbul ignore next */
         return data.governanceParameters
       }
+    },
+    $subscribe: {
+      blockAdded: {
+        variables() {
+          /* istanbul ignore next */
+          return {
+            networkId: this.network
+          }
+        },
+        query() {
+          /* istanbul ignore next */
+          return gql`
+            subscription($networkId: String!) {
+              blockAdded(networkId: $networkId) {
+                height
+              }
+            }
+          `
+        },
+        result() {
+          /* istanbul ignore next */
+          refetchNetworkOnly(this.$apollo.queries.proposals)
+        }
+      }
     }
   }
 }
 </script>
+
 <style scoped>
 .button-container {
   display: flex;

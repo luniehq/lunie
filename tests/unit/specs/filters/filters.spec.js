@@ -27,6 +27,12 @@ describe(`formatBech32 Filter`, () => {
     expect(formatBech32(``)).toBe(`Address Not Found`)
   })
 
+  it(`should return an abbreviated version of an Ethereum address, with "0x" and then the first four characters, followed by "..." and finally the last four characters`, () => {
+    expect(formatBech32(`0x00b1606fc5b771f3079b4fd3ea49e66a2d5fd665`)).toBe(
+      `0x00b1…d665`
+    )
+  })
+
   it(`should return 'Not A Valid Bech32 Address' when no 1 is present`, () => {
     expect(formatBech32(`cosmosaddress2asdfasdfasdf`)).toBe(
       `Not A Valid Bech32 Address`

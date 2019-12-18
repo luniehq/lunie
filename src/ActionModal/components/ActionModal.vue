@@ -186,15 +186,12 @@
           </form>
         </div>
         <div v-else-if="step === inclusionStep" class="action-modal-form">
-          <TmDataMsg icon="hourglass_empty">
+          <TmDataMsg icon="hourglass_empty" :spin="true">
             <div slot="title">
               Sent and confirming
             </div>
             <div slot="subtitle">
-              The transaction
-              <!-- with the hash {{ txHash }} -->
-              was successfully signed and sent the network. Waiting for it to be
-              confirmed.
+              Waiting for confirmation from {{ networkId }}.
             </div>
           </TmDataMsg>
         </div>
@@ -202,7 +199,7 @@
           v-else-if="step === successStep"
           class="action-modal-form success-step"
         >
-          <TmDataMsg icon="check">
+          <TmDataMsg icon="check" :success="true">
             <div slot="title">
               {{ notifyMessage.title }}
             </div>
@@ -228,45 +225,49 @@
               v-if="[defaultStep, feeStep, signStep].includes(step)"
               class="action-modal-group"
             >
-              <div>
-                <TmBtn
-                  v-if="requiresSignIn"
-                  v-focus
-                  value="Sign In"
-                  color="primary"
-                  @click.native="goToSession"
-                  @click.enter.native="goToSession"
-                />
-                <TmBtn
-                  v-else-if="sending"
-                  :value="submitButtonCaption"
-                  disabled="disabled"
-                  color="primary"
-                />
-                <TmBtn
-                  v-else-if="!connected"
-                  value="Connecting..."
-                  disabled="disabled"
-                  color="primary"
-                />
-                <TmBtn
-                  v-else-if="step !== signStep"
-                  ref="next"
-                  color="primary"
-                  value="Next"
-                  :disabled="
-                    disabled || (step === feeStep && $v.invoiceTotal.$invalid)
-                  "
-                  @click.native="validateChangeStep"
-                />
-                <TmBtn
-                  v-else
-                  color="primary"
-                  value="Send"
-                  :disabled="!selectedSignMethod"
-                  @click.native="validateChangeStep"
-                />
-              </div>
+              <TmBtn
+                id="closeBtn"
+                value="Cancel"
+                type="tertiary"
+                @click.native="close"
+              />
+              <TmBtn
+                v-if="requiresSignIn"
+                v-focus
+                value="Sign In"
+                type="primary"
+                @click.native="goToSession"
+                @click.enter.native="goToSession"
+              />
+              <TmBtn
+                v-else-if="sending"
+                :value="submitButtonCaption"
+                disabled="disabled"
+                type="primary"
+              />
+              <TmBtn
+                v-else-if="!connected"
+                value="Connecting..."
+                disabled="disabled"
+                type="primary"
+              />
+              <TmBtn
+                v-else-if="step !== signStep"
+                ref="next"
+                type="primary"
+                value="Next"
+                :disabled="
+                  disabled || (step === feeStep && $v.invoiceTotal.$invalid)
+                "
+                @click.native="validateChangeStep"
+              />
+              <TmBtn
+                v-else
+                type="primary"
+                value="Send"
+                :disabled="!selectedSignMethod"
+                @click.native="validateChangeStep"
+              />
             </TmFormGroup>
           </slot>
         </div>
@@ -378,6 +379,10 @@ export default {
         body: `You have successfully completed a transaction.`
       })
     },
+    featureFlag: {
+      type: String,
+      default: ``
+    },
     // disable proceeding from the first page
     disabled: {
       type: Boolean,
@@ -390,7 +395,7 @@ export default {
     password: null,
     sending: false,
     gasEstimate: null,
-    gasPrice: config.default_gas_price.toFixed(9),
+    gasPrice: (config.default_gas_price / 4).toFixed(9), // as we bump the gas amount by 4 in the API
     submissionError: null,
     show: false,
     actionManager: new ActionManager(),
@@ -412,7 +417,7 @@ export default {
     ...mapGetters([`connected`, `isExtensionAccount`]),
     ...mapGetters({ networkId: `network` }),
     checkFeatureAvailable() {
-      const action = `action_${this.title.toLowerCase().replace(" ", "_")}`
+      const action = `action_` + this.featureFlag
       return this.network[action] === true
     },
     requiresSignIn() {
@@ -481,6 +486,7 @@ export default {
     this.$apollo.skipAll = true
   },
   updated: function() {
+    // TODO do we need to set the context on every update of the component?
     const context = this.createContext()
     this.actionManager.setContext(context)
     if (
@@ -510,7 +516,7 @@ export default {
       let confirmResult = false
       if (this.session.currrentModalOpen) {
         confirmResult = window.confirm(
-          "You are in the middle of creating a transaction already. Are you sure you want to cancel this action?"
+          "You are in the middle of creating a transaction. Are you sure you want to cancel this action and start a new one?"
         )
         if (confirmResult) {
           this.session.currrentModalOpen.close()
@@ -675,11 +681,13 @@ export default {
         this.selectedSignMethod
       )
       this.$emit(`txIncluded`)
+      this.$apollo.queries.overview.refetch()
     },
     onSendingFailed(message) {
       this.step = signStep
       this.submissionError = `${this.submissionErrorPrefix}: ${message}.`
       this.trackEvent(`event`, `failed-submit`, this.title, message)
+      this.$apollo.queries.overview.refetch()
     }
   },
   validations() {
@@ -866,7 +874,6 @@ export default {
   flex-direction: column;
   text-align: center;
   display: flex;
-  padding-bottom: 2rem;
 }
 
 .action-modal-title {
@@ -912,13 +919,20 @@ export default {
 
 .action-modal-footer {
   display: flex;
-  justify-content: flex-end;
-  padding: 1.5rem 0 1rem;
-
-  /* keeps button in bottom right no matter the size of the action modal */
   flex-grow: 1;
   align-self: flex-end;
   flex-direction: column;
+  padding: 1.5rem 0 1rem;
+}
+
+.action-modal-footer .tm-form-group .tm-form-group__field {
+  display: flex;
+  align-items: center;
+  justify-items: space-between;
+}
+
+.action-modal-footer .tm-form-group .tm-form-group__field .tertiary {
+  margin-right: 0.5rem;
 }
 
 .action-modal-footer .tm-form-group {
@@ -935,7 +949,11 @@ export default {
   font-style: italic;
   color: var(--dim);
   display: inline-block;
-  padding: 0.5rem 0 0.5rem 1rem;
+  padding: 0.5rem;
+}
+
+.form-message.notice {
+  padding: 2rem 0.5rem 0.5rem;
 }
 
 .slide-fade-enter-active {
@@ -996,10 +1014,29 @@ export default {
     top: 0;
     overflow-x: scroll;
     padding-bottom: 69px;
+    padding-top: 4rem;
   }
 
   .action-modal-footer button {
     width: 100%;
+  }
+
+  .action-modal-icon.action-modal-close {
+    top: 3rem;
+  }
+}
+
+/* iPhone X and Xs Max */
+@media only screen and (min-device-width: 375px) and (min-device-height: 812px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait) {
+  .action-modal-footer {
+    padding-bottom: 1.8rem;
+  }
+}
+
+/* iPhone XR */
+@media only screen and (min-device-width: 414px) and (min-device-height: 896px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait) {
+  .action-modal-footer {
+    padding-bottom: 1.8rem;
   }
 }
 </style>

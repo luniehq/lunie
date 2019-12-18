@@ -2,6 +2,7 @@
 
 exports[`SendModal should display send modal form 1`] = `
 <actionmodal-stub
+  featureflag="send"
   id="send-modal"
   notifymessage="[object Object]"
   rewards=""
@@ -40,7 +41,7 @@ exports[`SendModal should display send modal form 1`] = `
       <tmfield-stub
         class="tm-field-addon"
         id="amount"
-        placeholder="Amount"
+        placeholder="0"
         type="number"
       />
        
@@ -54,17 +55,20 @@ exports[`SendModal should display send modal form 1`] = `
     <!---->
   </tmformgroup-stub>
    
-  <tmbtn-stub
+  <a
     id="edit-memo-btn"
-    type="secondary"
-    value="Edit Memo"
-  />
+  >
+    
+    Need to edit the memo field?
+  
+  </a>
 </actionmodal-stub>
 `;
 
 exports[`SendModal validation should show address required error 1`] = `
 <actionmodal-stub
   amount="2"
+  featureflag="send"
   id="send-modal"
   notifymessage="[object Object]"
   rewards=""
@@ -108,7 +112,7 @@ exports[`SendModal validation should show address required error 1`] = `
       <tmfield-stub
         class="tm-field-addon"
         id="amount"
-        placeholder="Amount"
+        placeholder="0"
         type="number"
         value="2"
       />
@@ -123,17 +127,20 @@ exports[`SendModal validation should show address required error 1`] = `
     <!---->
   </tmformgroup-stub>
    
-  <tmbtn-stub
+  <a
     id="edit-memo-btn"
-    type="secondary"
-    value="Edit Memo"
-  />
+  >
+    
+    Need to edit the memo field?
+  
+  </a>
 </actionmodal-stub>
 `;
 
 exports[`SendModal validation should show bech32 error when address length is too long 1`] = `
 <actionmodal-stub
   amount="2"
+  featureflag="send"
   id="send-modal"
   notifymessage="[object Object]"
   rewards=""
@@ -177,7 +184,7 @@ exports[`SendModal validation should show bech32 error when address length is to
       <tmfield-stub
         class="tm-field-addon"
         id="amount"
-        placeholder="Amount"
+        placeholder="0"
         type="number"
         value="2"
       />
@@ -192,17 +199,20 @@ exports[`SendModal validation should show bech32 error when address length is to
     <!---->
   </tmformgroup-stub>
    
-  <tmbtn-stub
+  <a
     id="edit-memo-btn"
-    type="secondary"
-    value="Edit Memo"
-  />
+  >
+    
+    Need to edit the memo field?
+  
+  </a>
 </actionmodal-stub>
 `;
 
 exports[`SendModal validation should show bech32 error when address length is too short 1`] = `
 <actionmodal-stub
   amount="2"
+  featureflag="send"
   id="send-modal"
   notifymessage="[object Object]"
   rewards=""
@@ -246,7 +256,7 @@ exports[`SendModal validation should show bech32 error when address length is to
       <tmfield-stub
         class="tm-field-addon"
         id="amount"
-        placeholder="Amount"
+        placeholder="0"
         type="number"
         value="2"
       />
@@ -261,16 +271,19 @@ exports[`SendModal validation should show bech32 error when address length is to
     <!---->
   </tmformgroup-stub>
    
-  <tmbtn-stub
+  <a
     id="edit-memo-btn"
-    type="secondary"
-    value="Edit Memo"
-  />
+  >
+    
+    Need to edit the memo field?
+  
+  </a>
 </actionmodal-stub>
 `;
 
 exports[`SendModal validation should show bech32 error when alphanumeric is wrong 1`] = `
 <actionmodal-stub
+  featureflag="send"
   id="send-modal"
   notifymessage="[object Object]"
   rewards=""
@@ -315,7 +328,7 @@ exports[`SendModal validation should show bech32 error when alphanumeric is wron
       <tmfield-stub
         class="tm-field-addon"
         id="amount"
-        placeholder="Amount"
+        placeholder="0"
         type="number"
       />
        
@@ -333,10 +346,12 @@ exports[`SendModal validation should show bech32 error when alphanumeric is wron
     />
   </tmformgroup-stub>
    
-  <tmbtn-stub
+  <a
     id="edit-memo-btn"
-    type="secondary"
-    value="Edit Memo"
-  />
+  >
+    
+    Need to edit the memo field?
+  
+  </a>
 </actionmodal-stub>
 `;

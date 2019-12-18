@@ -8,6 +8,7 @@ localVue.use(Vuex)
 localVue.use(Vuelidate)
 localVue.directive(`tooltip`, () => {})
 localVue.directive(`focus`, () => {})
+localVue.directive('clipboard', () => {})
 
 describe(`TmSessionHardware`, () => {
   let wrapper, store
@@ -113,7 +114,21 @@ describe(`TmSessionHardware`, () => {
 
       expect(wrapper.html()).toMatchSnapshot()
       expect(wrapper.html()).toContain(
-        "Using a Ledger on Windows requires experimental HID support in your"
+        "Due to recent Ledger updates, using a Ledger on Windows"
+      )
+    })
+
+    it(`does show the instructions to fix connection issues for Linux users`, () => {
+      wrapper.setData({
+        navigator: {
+          platform: "Linux i686",
+          userAgent: "Chrome"
+        }
+      })
+
+      expect(wrapper.html()).toMatchSnapshot()
+      expect(wrapper.html()).toContain(
+        "Since we switched to WebUSB Linux users may experience connection"
       )
     })
 

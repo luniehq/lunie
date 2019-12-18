@@ -78,7 +78,12 @@ describe(`ActionModal`, () => {
   ]
 
   $apollo = {
-    skipAll: jest.fn(() => false)
+    skipAll: jest.fn(() => false),
+    queries: {
+      overview: {
+        refetch: jest.fn()
+      }
+    }
   }
 
   beforeEach(() => {
@@ -96,11 +101,11 @@ describe(`ActionModal`, () => {
           currrentModalOpen: false
         },
         overview,
-        network,
         delegations
       },
       getters: {
         connected: true,
+        network,
         networkId: "testnet",
         isExtensionAccount: false
       }
@@ -111,6 +116,7 @@ describe(`ActionModal`, () => {
       propsData: {
         title: `Send`,
         validate: jest.fn(),
+        featureFlag: `send`,
         transactionData: {
           type: "MsgSend",
           denom: "uatom",
@@ -137,6 +143,7 @@ describe(`ActionModal`, () => {
     const $store = { dispatch: jest.fn() }
     const self = {
       $store,
+      $apollo,
       actionManager: {
         setContext: () => {},
         simulate: () => 12345,

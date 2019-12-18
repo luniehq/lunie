@@ -8,6 +8,7 @@
     submission-error-prefix="Sending tokens failed"
     :transaction-data="transactionData"
     :notify-message="notifyMessage"
+    feature-flag="send"
     @close="clear"
     @txIncluded="onSuccess"
   >
@@ -49,7 +50,7 @@
           ref="amount"
           v-model="amount"
           class="tm-field-addon"
-          placeholder="Amount"
+          placeholder="0"
           type="number"
           @keyup.enter.native="enterPressed"
         />
@@ -90,13 +91,9 @@
         class="tm-form-msg--desc max-message"
       />
     </TmFormGroup>
-    <TmBtn
-      v-if="editMemo === false"
-      id="edit-memo-btn"
-      value="Edit Memo"
-      type="secondary"
-      @click.native="showMemo()"
-    />
+    <a v-if="editMemo === false" id="edit-memo-btn" @click="showMemo()">
+      Need to edit the memo field?
+    </a>
     <TmFormGroup
       v-else
       id="memo"
@@ -108,8 +105,8 @@
       <TmField
         id="memo"
         v-model="memo"
+        v-focus
         type="text"
-        placeholder="Let everyone know how much you love Lunie"
         @keyup.enter.native="enterPressed"
       />
       <TmFormMsg
@@ -136,6 +133,7 @@ import TmFormMsg from "src/components/common/TmFormMsg"
 import ActionModal from "./ActionModal"
 import transaction from "../utils/transactionTypes"
 import { toMicroDenom } from "src/scripts/common"
+import config from "src/../config"
 
 const defaultMemo = "(Sent via Lunie)"
 
@@ -157,12 +155,12 @@ export default {
   },
   data: () => ({
     address: ``,
-    amount: null,
+    amount: config.development ? 0.000001 : null, // dev life, hard life > make simple
     memo: defaultMemo,
     max_memo_characters: 256,
     editMemo: false,
     balance: {
-      amount: 0,
+      amount: null,
       denom: ``
     }
   }),
@@ -289,5 +287,7 @@ export default {
 <style scoped>
 #edit-memo-btn {
   margin-top: 2.4rem;
+  font-size: 12px;
+  cursor: pointer;
 }
 </style>

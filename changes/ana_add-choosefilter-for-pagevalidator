@@ -1,0 +1,1 @@
+[Changed] [#3289](https://github.com/cosmos/lunie/pull/3289) Now PageValidator handles empty fields more uniformly, always displaying `--` @Bitcoinera
