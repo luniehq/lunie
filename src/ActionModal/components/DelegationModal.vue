@@ -199,10 +199,7 @@ export default {
     this.$apollo.queries.delegations.refetch()
   },
   methods: {
-    open(options) {
-      if (options && options.redelegation) {
-        this.selectedIndex = 1
-      }
+    open() {
       this.$refs.actionModal.open()
     },
     validateForm() {

@@ -235,8 +235,8 @@ export default {
     fromNow,
     noBlanks,
     moment,
-    onDelegation(options) {
-      this.$refs.delegationModal.open(options)
+    onDelegation() {
+      this.$refs.delegationModal.open()
     },
     onUndelegation() {
       this.$refs.undelegationModal.open()
