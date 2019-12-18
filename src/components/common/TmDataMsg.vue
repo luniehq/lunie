@@ -1,6 +1,6 @@
 <template>
   <div class="tm-data-msg">
-    <div class="tm-data-msg__icon">
+    <div class="tm-data-msg__icon" :class="{ success: success }">
       <i :class="spinnerClass" class="material-icons">{{ icon }}</i>
     </div>
     <div class="tm-data-msg__text">
@@ -37,6 +37,10 @@ export default {
     spin: {
       type: Boolean,
       default: false
+    },
+    success: {
+      type: Boolean,
+      default: false
     }
   },
   computed: {
@@ -67,6 +71,10 @@ export default {
   background: var(--warning);
   padding: 0.5rem;
   border-radius: 50%;
+}
+
+.tm-data-msg__icon.success i.material-icons {
+  background: var(--success);
 }
 
 .tm-data-msg__title {
