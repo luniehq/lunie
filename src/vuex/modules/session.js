@@ -88,8 +88,13 @@ export default ({ apollo }) => {
   }
 
   const actions = {
-    async checkForPersistedSession({ dispatch }) {
-      const session = localStorage.getItem(`session`)
+    async checkForPersistedSession({
+      dispatch,
+      rootState: {
+        connection: { network }
+      }
+    }) {
+      const session = localStorage.getItem(sessionKey(network))
       if (session) {
         const { address, sessionType } = JSON.parse(session)
         await dispatch(`signIn`, { address, sessionType })
@@ -101,8 +106,11 @@ export default ({ apollo }) => {
         await commit(`setUserAddresses`, JSON.parse(addresses))
       }
     },
-    async persistSession(store, { address, sessionType }) {
-      localStorage.setItem(`session`, JSON.stringify({ address, sessionType }))
+    async persistSession(store, { address, sessionType, networkId }) {
+      localStorage.setItem(
+        sessionKey(networkId),
+        JSON.stringify({ address, sessionType })
+      )
     },
     async persistAddresses(store, { addresses }) {
       localStorage.setItem(`addresses`, JSON.stringify(addresses))
@@ -122,7 +130,14 @@ export default ({ apollo }) => {
       }
     },
     async signIn(
-      { state, commit, dispatch },
+      {
+        state,
+        commit,
+        dispatch,
+        rootState: {
+          connection: { network }
+        }
+      },
       { address, sessionType = `ledger` }
     ) {
       if (state.signedIn) {
@@ -136,7 +151,8 @@ export default ({ apollo }) => {
 
       dispatch(`persistSession`, {
         address,
-        sessionType
+        sessionType,
+        networkId: network
       })
       const addresses = state.addresses
       dispatch(`persistAddresses`, {
@@ -215,4 +231,8 @@ export default ({ apollo }) => {
     mutations,
     actions
   }
+}
+
+function sessionKey(networkId) {
+  return `session_${networkId}`
 }
