@@ -8,6 +8,7 @@
     submission-error-prefix="Voting failed"
     :transaction-data="transactionData"
     :notify-message="notifyMessage"
+    feature-flag="vote"
     @close="clear"
     @txIncluded="onSuccess"
   >

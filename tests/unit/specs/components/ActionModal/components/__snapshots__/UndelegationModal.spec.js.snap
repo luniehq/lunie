@@ -4,11 +4,12 @@ exports[`UndelegationModal should display undelegation modal form 1`] = `
 <actionmodal-stub
   amount="0"
   class="undelegation-modal"
+  featureflag="undelegate"
   id="undelegation-modal"
   notifymessage="[object Object]"
   rewards=""
-  submissionerrorprefix="Undelegating failed"
-  title="Undelegate"
+  submissionerrorprefix="Unstaking failed"
+  title="Unstake"
   transactiondata="[object Object]"
   validate="function () { [native code] }"
 >
@@ -20,8 +21,8 @@ exports[`UndelegationModal should display undelegation modal form 1`] = `
     >
       <span>
         
-        Undelegations take 21 days to complete and cannot be undone. Please
-        make sure you understand the rules of delegation. Would you prefer to
+        Unstaking takes 21 days to complete and cannot be undone. Please make
+        sure you understand the rules of staking. Would you prefer to
         
         <a
           href="#"
@@ -61,7 +62,7 @@ exports[`UndelegationModal should display undelegation modal form 1`] = `
       <tmfield-stub
         class="tm-field-addon"
         id="amount"
-        placeholder="Amount"
+        placeholder="0"
         type="number"
       />
        
@@ -76,7 +77,7 @@ exports[`UndelegationModal should display undelegation modal form 1`] = `
       class="form-message"
     >
       
-      Currently Delegated: 1000 STAKEs
+      Currently staked: 1000 STAKEs
     
     </span>
      

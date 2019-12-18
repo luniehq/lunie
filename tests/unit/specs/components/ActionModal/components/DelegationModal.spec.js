@@ -29,7 +29,7 @@ describe(`DelegationModal`, () => {
   let wrapper
   const localVue = createLocalVue()
   localVue.use(Vuelidate)
-  localVue.directive("focus", () => {})
+  localVue.directive("focus", () => { })
 
   const state = {
     session: {
@@ -49,8 +49,8 @@ describe(`DelegationModal`, () => {
         $store: { getters, state },
         $apollo: {
           queries: {
-            balance: { refetch: () => {} },
-            delegations: { refetch: () => {} }
+            balance: { refetch: () => { } },
+            delegations: { refetch: () => { } }
           }
         }
       },
@@ -110,7 +110,7 @@ describe(`DelegationModal`, () => {
     DelegationModal.methods.clear.call(self)
     expect(self.$v.$reset).toHaveBeenCalled()
     expect(self.selectedIndex).toBe(0)
-    expect(self.amount).toBe(0)
+    expect(self.amount).toBe(null)
   })
 
   describe(`if amount field max button clicked`, () => {
@@ -162,8 +162,8 @@ describe(`DelegationModal`, () => {
 
     it("should return correct notification message for delegating", () => {
       expect(wrapper.vm.notifyMessage).toEqual({
-        title: `Successful delegation!`,
-        body: `You have successfully delegated your STAKEs`
+        title: `Successfully staked!`,
+        body: `You have successfully staked your STAKEs`
       })
     })
   })
@@ -229,7 +229,7 @@ describe(`DelegationModal`, () => {
         selectedIndex: 0
       })
       expect(wrapper.html()).toContain(
-        "You are about to delegate to an inactive validator (temporally banned from the network)"
+        "You are about to stake to an inactive validator (temporally banned from the network)"
       )
     })
   })
@@ -244,7 +244,7 @@ describe(`DelegationModal`, () => {
         selectedIndex: 0
       })
       expect(wrapper.html()).toContain(
-        "You are about to delegate to an inactive validator (banned from the network)"
+        "You are about to stake to an inactive validator (banned from the network)"
       )
     })
   })
@@ -257,7 +257,7 @@ describe(`DelegationModal`, () => {
         targetValidator: validators[0] // Active validator
       })
       expect(wrapper.html()).not.toContain(
-        "You are about to delegate to an inactive validator"
+        "You are about to stake to an inactive validator"
       )
       expect(wrapper.find("#to .tm-form-msg--desc").exists()).toBe(false)
     })

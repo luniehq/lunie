@@ -8,6 +8,7 @@
     submission-error-prefix="Sending tokens failed"
     :transaction-data="transactionData"
     :notify-message="notifyMessage"
+    feature-flag="send"
     @close="clear"
     @txIncluded="onSuccess"
   >
@@ -49,7 +50,7 @@
           ref="amount"
           v-model="amount"
           class="tm-field-addon"
-          placeholder="Amount"
+          placeholder="0"
           type="number"
           @keyup.enter.native="enterPressed"
         />
@@ -104,8 +105,8 @@
       <TmField
         id="memo"
         v-model="memo"
+        v-focus
         type="text"
-        placeholder="Memo"
         @keyup.enter.native="enterPressed"
       />
       <TmFormMsg
@@ -159,7 +160,7 @@ export default {
     max_memo_characters: 256,
     editMemo: false,
     balance: {
-      amount: 0,
+      amount: null,
       denom: ``
     }
   }),
