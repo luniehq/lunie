@@ -4,9 +4,9 @@
     ref="actionModal"
     :validate="validateForm"
     :amount="isRedelegation ? 0 : amount"
-    :title="isRedelegation ? 'Redelegate' : 'Delegate'"
+    :title="isRedelegation ? 'Redelegate' : 'Stake'"
     class="delegation-modal"
-    submission-error-prefix="Delegating failed"
+    submission-error-prefix="Staking failed"
     :transaction-data="transactionData"
     :notify-message="notifyMessage"
     @close="clear"
@@ -15,14 +15,14 @@
     <TmFormGroup class="action-modal-form-group">
       <div class="form-message notice">
         <span v-if="!isRedelegation">
-          It will take 21 days to unlock your tokens after a delegation and
-          there is a risk that some tokens will be lost depending on the
-          behaviour of the validator.
+          It will take 21 days to unlock your tokens after they are staked.
+          There is a risk that some tokens will be lost depending on the
+          behaviour of the validator you choose.
         </span>
         <span v-else>
-          Voting power and rewards will change instantly upon redelegation —
+          Voting power and rewards will change instantly upon redelegation — but
           your tokens will still be subject to the risks associated with the
-          original delegation for the duration of the undelegation period.
+          original stake for the duration of the unstaking period.
         </span>
       </div>
     </TmFormGroup>
@@ -36,7 +36,7 @@
       <TmFormMsg
         v-if="targetValidator.status === 'INACTIVE' && !isRedelegation"
         :msg="
-          `You are about to delegate to an inactive validator (${targetValidator.statusDetailed})`
+          `You are about to stake to an inactive validator (${targetValidator.statusDetailed})`
         "
         type="custom"
         class="tm-form-msg--desc"
@@ -44,7 +44,7 @@
       <TmFormMsg
         v-if="targetValidator.status === 'INACTIVE' && isRedelegation"
         :msg="
-          `You are about to redelegate to an inactive validator (${targetValidator.statusDetailed})`
+          `You are about to stake to an inactive validator (${targetValidator.statusDetailed})`
         "
         type="custom"
         class="tm-form-msg--desc"
@@ -90,9 +90,7 @@
         />
       </TmFieldGroup>
       <span class="form-message">
-        {{
-          isRedelegation ? "Available to Redelegate" : "Available to Delegate"
-        }}
+        {{ isRedelegation ? "Available to redelegate" : "Available to stake" }}
         :
         {{ maxAmount }}
         {{ denom }}s
@@ -246,8 +244,8 @@ export default {
         }
       } else {
         return {
-          title: `Successful delegation!`,
-          body: `You have successfully delegated your ${this.denom}s`
+          title: `Successfully staked!`,
+          body: `You have successfully staked your ${this.denom}s`
         }
       }
     },
