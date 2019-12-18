@@ -29,6 +29,7 @@ export default ({ apollo }) => {
 
     // handle exceptions
     if (bech32Prefix === `0x`) {
+      // TODO: display this error also for the user
       console.error(`No current support for Livepeers accounts. Coming soon`)
     }
 
