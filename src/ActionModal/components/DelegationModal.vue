@@ -39,7 +39,6 @@
       />
     </TmFormGroup>
     <TmFormGroup
-      v-if="fromOptions.length > 1"
       class="action-modal-form-group"
       field-id="from"
       field-label="From"
@@ -160,7 +159,7 @@ export default {
     ...mapState([`session`]),
     ...mapGetters([`network`, `address`]),
     fromOptions() {
-      let options = [
+      return [
         // from wallet
         {
           address: this.address,
@@ -169,30 +168,6 @@ export default {
           value: 0
         }
       ]
-
-      options = options.concat(
-        this.delegations
-          // exclude the validator we are delegating to as a source
-          .filter(
-            delegation =>
-              delegation.validator.operatorAddress !=
-              this.targetValidator.operatorAddress
-          )
-          .map((delegation, index) => {
-            return {
-              address: delegation.validator.operatorAddress,
-              maximum: Number(delegation.amount),
-              key: `${delegation.validator.name} - ${formatBech32(
-                delegation.validator.operatorAddress,
-                false,
-                20
-              )}`,
-              value: index + 1
-            }
-          })
-      )
-
-      return options
     },
     from() {
       if (!this.session.signedIn) return ``
