@@ -21,11 +21,6 @@ exports[`UndelegationModal should display undelegation modal form 1`] = `
     >
       <span>
         
-<<<<<<< HEAD
-        Undelegations take 21 days to complete and cannot be undone. Please
-        make sure you understand the rules of delegation.
-      
-=======
         Unstaking takes 21 days to complete and cannot be undone. Please make
         sure you understand the rules of staking. Would you prefer to
         
@@ -35,7 +30,6 @@ exports[`UndelegationModal should display undelegation modal form 1`] = `
         >
           redelegate?
         </a>
->>>>>>> develop
       </span>
     </div>
   </tmformgroup-stub>
