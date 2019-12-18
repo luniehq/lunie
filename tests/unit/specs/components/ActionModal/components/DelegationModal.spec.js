@@ -95,12 +95,6 @@ describe(`DelegationModal`, () => {
     expect($refs.actionModal.open).toHaveBeenCalled()
   })
 
-  it(`opens and switches to redelegaion when selected`, () => {
-    wrapper.vm.$refs = { actionModal: { open: jest.fn() } }
-    wrapper.vm.open({ redelegation: true })
-    expect(wrapper.vm.selectedIndex).toBe(1)
-  })
-
   it(`clears on close`, () => {
     const self = {
       $v: { $reset: jest.fn() },
@@ -164,36 +158,6 @@ describe(`DelegationModal`, () => {
       expect(wrapper.vm.notifyMessage).toEqual({
         title: `Successfully staked!`,
         body: `You have successfully staked your STAKEs`
-      })
-    })
-  })
-
-  describe("Submission Data for Redelegating", () => {
-    beforeEach(() => {
-      wrapper.setProps({
-        targetValidator: validators[1]
-      })
-      wrapper.setData({
-        amount: 10,
-        selectedIndex: 1
-      })
-    })
-
-    it("should return correct transaction data for delegating", () => {
-      expect(wrapper.vm.transactionData).toEqual({
-        type: "MsgRedelegate",
-        validatorSourceAddress: "cosmosvaladdr12324536463",
-        validatorDestinationAddress: "cosmosvaladdr1sdsdsd123123",
-        amount: "10000000",
-        denom: "stake"
-      })
-      // expect(wrapper.vm.transactionData).toEqual()
-    })
-
-    it("should return correct notification message for delegating", () => {
-      expect(wrapper.vm.notifyMessage).toEqual({
-        title: `Successful redelegation!`,
-        body: `You have successfully redelegated your STAKEs`
       })
     })
   })
