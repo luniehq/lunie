@@ -110,7 +110,7 @@ describe(`DelegationModal`, () => {
     DelegationModal.methods.clear.call(self)
     expect(self.$v.$reset).toHaveBeenCalled()
     expect(self.selectedIndex).toBe(0)
-    expect(self.amount).toBe(0)
+    expect(self.amount).toBe(null)
   })
 
   describe(`if amount field max button clicked`, () => {

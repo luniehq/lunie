@@ -2,8 +2,8 @@
 
 exports[`ModalDeposit should display deposit modal form 1`] = `
 <actionmodal-stub
-  amount="0"
   class="modal-deposit"
+  featureflag="deposit"
   id="modal-deposit"
   notifymessage="[object Object]"
   rewards=""
@@ -25,8 +25,8 @@ exports[`ModalDeposit should display deposit modal form 1`] = `
      
     <tmfield-stub
       id="amount"
+      placeholder="0"
       type="number"
-      value="0"
     />
      
     <!---->

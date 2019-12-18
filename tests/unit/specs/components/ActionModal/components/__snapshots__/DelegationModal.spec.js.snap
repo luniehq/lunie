@@ -2,8 +2,8 @@
 
 exports[`DelegationModal should display the delegation modal form 1`] = `
 <actionmodal-stub
-  amount="0"
   class="delegation-modal"
+  featureflag="delegate"
   id="delegation-modal"
   notifymessage="[object Object]"
   rewards=""
@@ -74,9 +74,8 @@ exports[`DelegationModal should display the delegation modal form 1`] = `
       <tmfield-stub
         class="tm-field-addon"
         id="amount"
-        placeholder="Amount"
+        placeholder="0"
         type="number"
-        value="0"
       />
        
       <tmbtn-stub

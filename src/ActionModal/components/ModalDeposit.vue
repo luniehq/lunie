@@ -23,9 +23,9 @@
       <TmField
         id="amount"
         v-model="amount"
+        v-focus
         type="number"
         placeholder="0"
-        v-focus
       />
       <TmFormMsg
         v-if="balance.amount === 0"

@@ -116,6 +116,7 @@ describe(`ActionModal`, () => {
       propsData: {
         title: `Send`,
         validate: jest.fn(),
+        featureFlag: `send`,
         transactionData: {
           type: "MsgSend",
           denom: "uatom",
