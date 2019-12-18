@@ -193,6 +193,7 @@ export default class ActionManager {
       simulate: false,
       messageType: type,
       networkId: context.networkId,
+      senderAddress: context.userAddress,
       signedMessage
     }
     const result = await this.transactionAPIRequest(txPayload)
