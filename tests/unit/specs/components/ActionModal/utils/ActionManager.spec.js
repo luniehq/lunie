@@ -308,7 +308,8 @@ describe("ActionManager", () => {
         simulate: false,
         messageType: "MsgSend",
         networkId: "cosmos-hub-testnet",
-        signedMessage: "signedMessage"
+        signedMessage: "signedMessage",
+        senderAddress: "cosmos12345"
       }
 
       expect(actionManager.transactionAPIRequest).toHaveBeenCalledWith(
@@ -341,7 +342,8 @@ describe("ActionManager", () => {
         simulate: false,
         messageType: "MsgWithdrawDelegationReward",
         networkId: "cosmos-hub-testnet",
-        signedMessage: "signedMessage"
+        signedMessage: "signedMessage",
+        senderAddress: "cosmos12345"
       }
 
       expect(actionManager.transactionAPIRequest).toHaveBeenCalledWith(

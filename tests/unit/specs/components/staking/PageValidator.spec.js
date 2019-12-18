@@ -97,4 +97,21 @@ describe(`PageValidator`, () => {
     $store.state.session.signedIn = false
     expect(wrapper.element).toMatchSnapshot()
   })
+  it(`if uptimePercentage is blank`, () => {
+    wrapper.setProps({ validator: { uptimePercentage: `` } })
+    expect(wrapper.element).toMatchSnapshot()
+  })
+})
+
+describe(`isBlankField method`, () => {
+  it(`returns "--"`, async () => {
+    validator.maxCommission = null
+    const percent = jest.fn()
+    const afterFilter = PageValidator.methods.isBlankField(
+      validator.maxCommission,
+      percent
+    )
+
+    expect(afterFilter).toBe(`--`)
+  })
 })
