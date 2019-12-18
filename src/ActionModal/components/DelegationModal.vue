@@ -9,6 +9,7 @@
     submission-error-prefix="Staking failed"
     :transaction-data="transactionData"
     :notify-message="notifyMessage"
+    feature-flag="delegate"
     @close="clear"
     @txIncluded="onSuccess"
   >

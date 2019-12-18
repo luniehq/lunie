@@ -9,6 +9,7 @@
     submission-error-prefix="Unstaking failed"
     :transaction-data="transactionData"
     :notify-message="notifyMessage"
+    feature-flag="undelegate"
     @close="clear"
     @txIncluded="onSuccess"
   >

@@ -9,6 +9,7 @@
     submission-error-prefix="Depositing failed"
     :transaction-data="transactionData"
     :notify-message="notifyMessage"
+    feature-flag="deposit"
     @close="clear"
     @txIncluded="onSuccess"
   >

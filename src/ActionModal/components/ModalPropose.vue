@@ -4,10 +4,11 @@
     ref="actionModal"
     :validate="validateForm"
     :amount="amount"
-    title="Proposal"
+    title="Create Proposal"
     submission-error-prefix="Submitting proposal failed"
     :transaction-data="transactionData"
     :notify-message="notifyMessage"
+    feature-flag="proposal"
     @close="clear"
     @txIncluded="onSuccess"
   >

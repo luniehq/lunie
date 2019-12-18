@@ -379,6 +379,10 @@ export default {
         body: `You have successfully completed a transaction.`
       })
     },
+    featureFlag: {
+      type: String,
+      default: ``
+    },
     // disable proceeding from the first page
     disabled: {
       type: Boolean,
@@ -413,7 +417,7 @@ export default {
     ...mapGetters([`connected`, `isExtensionAccount`]),
     ...mapGetters({ networkId: `network` }),
     checkFeatureAvailable() {
-      const action = `action_${this.title.toLowerCase().replace(" ", "_")}`
+      const action = `action_` + this.featureFlag
       return this.network[action] === true
     },
     requiresSignIn() {

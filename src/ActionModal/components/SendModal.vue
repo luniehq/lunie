@@ -8,6 +8,7 @@
     submission-error-prefix="Sending tokens failed"
     :transaction-data="transactionData"
     :notify-message="notifyMessage"
+    feature-flag="send"
     @close="clear"
     @txIncluded="onSuccess"
   >
