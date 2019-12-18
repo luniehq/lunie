@@ -191,10 +191,7 @@
               Sent and confirming
             </div>
             <div slot="subtitle">
-              The transaction
-              <!-- with the hash {{ txHash }} -->
-              was successfully signed and sent the network. Waiting for it to be
-              confirmed.
+              Waiting for confirmation from {{ networkId }}.
             </div>
           </TmDataMsg>
         </div>
