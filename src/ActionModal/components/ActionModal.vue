@@ -186,7 +186,7 @@
           </form>
         </div>
         <div v-else-if="step === inclusionStep" class="action-modal-form">
-          <TmDataMsg icon="hourglass_empty">
+          <TmDataMsg icon="hourglass_empty" spin="true">
             <div slot="title">
               Sent and confirming
             </div>

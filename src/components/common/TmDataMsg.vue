@@ -81,6 +81,19 @@ export default {
   word-break: break-word;
 }
 
+.fa-spin {
+  animation: spin 1400ms linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 @media screen and (max-width: 767px) {
   .tm-data-msg {
     padding: 2rem 1rem;
