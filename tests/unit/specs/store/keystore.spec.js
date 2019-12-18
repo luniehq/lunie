@@ -12,7 +12,7 @@ const mockKeysLib = {
       address: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`
     }
   ],
-  storeWallet: () => { }
+  storeWallet: () => {}
 }
 jest.mock("@lunie/cosmos-keys", () => mockKeysLib)
 
@@ -58,7 +58,7 @@ describe(`Module: Keystore`, () => {
   it(`should test if the login works`, async () => {
     jest.doMock("@lunie/cosmos-keys", () => ({
       ...mockKeysLib,
-      testPassword: () => { }
+      testPassword: () => {}
     }))
     let output = await actions.testLogin(
       { state },

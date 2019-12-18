@@ -2,12 +2,12 @@ import Vuex from "vuex"
 import Vuelidate from "vuelidate"
 import { shallowMount, createLocalVue } from "@vue/test-utils"
 import TmSessionImportPassword from "common/TmSessionImportPassword"
-jest.mock(`scripts/google-analytics.js`, () => () => { })
+jest.mock(`scripts/google-analytics.js`, () => () => {})
 const localVue = createLocalVue()
 localVue.use(Vuex)
 localVue.use(Vuelidate)
-localVue.directive(`tooltip`, () => { })
-localVue.directive(`focus`, () => { })
+localVue.directive(`tooltip`, () => {})
+localVue.directive(`focus`, () => {})
 
 describe(`TmSessionImportPassword`, () => {
   let wrapper, $store, getters
