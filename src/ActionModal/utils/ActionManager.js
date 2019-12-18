@@ -81,7 +81,7 @@ export default class ActionManager {
     const graphqlHost = urlParams =>
       (urlParams.graphql ? decodeURIComponent(urlParams.graphql) : false) ||
       config.graphqlHost
-    const urlParams = `http://localhost:4000`
+    const urlParams = getURLParams(window)
 
     return fetch(
       `${graphqlHost(urlParams)}/transaction/${command}`,
