@@ -28,7 +28,15 @@
         <template v-for="(step, index) in steps">
           <template v-if="currentStep === index + 1">
             <h1 :key="`title-${index}`">{{ step.title }}</h1>
-            <p :key="`content-${index}`" v-html="step.content"></p>
+            <p :key="`content-${index}`">
+              <span
+                v-for="(item, contentIndex) in step.content"
+                :key="`content-item-${index}-${contentIndex}`"
+                class="content-item"
+              >
+                {{ item }}
+              </span>
+            </p>
             <button
               :key="`btn-${index}`"
               class="button primary"
@@ -218,5 +226,9 @@ export default {
   color: #458dff;
   font-weight: 500;
   margin-bottom: 1.5rem;
+}
+
+.content-item {
+  display: block;
 }
 </style>
