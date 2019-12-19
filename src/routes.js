@@ -212,7 +212,7 @@ export default [
       session: () => import(`./components/common/TmSessionExplore`)
     },
     meta: {
-      feature: "Session"
+      feature: "Explore"
     }
   },
   {
