@@ -4,6 +4,7 @@
       <DelegationsOverview />
       <Undelegations />
       <ModalTutorial
+        v-if="showTutorial"
         :steps="steps"
         fullguide="https://lunie.io"
         :close="closeTutorial"
@@ -31,6 +32,7 @@ export default {
   },
   // Just to test tutorial component
   data: () => ({
+    showTutorial: true,
     steps: [
       {
         title: "How to get tokens?",
