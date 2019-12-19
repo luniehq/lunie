@@ -21,7 +21,7 @@ exports[`DelegateMessageDetails renders a redelegate transaction message 1`] = `
     </span>
      
     <router-link-stub
-      to="staking/validators/cosmos1"
+      to="/staking/validators/cosmos1"
     >
       <!---->
       
