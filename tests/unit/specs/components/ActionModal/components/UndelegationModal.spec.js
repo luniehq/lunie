@@ -47,7 +47,8 @@ describe(`UndelegationModal`, () => {
           amount: 5000
         }
       ],
-      denom: "STAKE"
+      denom: "STAKE",
+      validators: [validator, validator2]
     })
   })
 

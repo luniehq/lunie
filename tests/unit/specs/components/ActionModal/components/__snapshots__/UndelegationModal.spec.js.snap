@@ -49,6 +49,7 @@ exports[`UndelegationModal should display undelegation modal form 1`] = `
   >
     <tmfield-stub
       id="to"
+      options="[object Object],[object Object]"
       type="select"
       value="0"
     />

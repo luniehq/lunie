@@ -137,6 +137,7 @@ export default {
   data: () => ({
     amount: null,
     delegations: [],
+    validators: [],
     denom: "",
     fromSelectedIndex: 1,
     toSelectedIndex: `0`,
@@ -203,6 +204,37 @@ export default {
             value: index + 1
           }
         })
+      )
+      return options
+    },
+    toOptions() {
+      let options = [
+        // from wallet
+        {
+          address: this.address,
+          maximum: Number(this.balance.amount),
+          key: `My Wallet - ${formatBech32(this.address, false, 20)}`,
+          value: 0
+        }
+      ]
+      options = options.concat(
+        this.validators
+          // exclude the validator we are redelegating from
+          .filter(
+            validator =>
+              validator.operatorAddress !== this.sourceValidator.operatorAddress
+          )
+          .map(validator => {
+            return {
+              address: validator.operatorAddress,
+              key: `${validator.name} - ${formatBech32(
+                validator.operatorAddress,
+                false,
+                20
+              )}`,
+              value: validator.operatorAddress
+            }
+          })
       )
       return options
     },
@@ -311,7 +343,7 @@ export default {
         return data.network.stakingDenom
       }
     },
-    toOptions: {
+    validators: {
       query: gql`
         query validators(
           $networkId: String!
@@ -335,37 +367,9 @@ export default {
           activeOnly: true
         }
       },
-      update: function(result) {
-        let options = [
-          // from wallet
-          {
-            address: this.address,
-            maximum: Number(this.balance.amount),
-            key: `My Wallet - ${formatBech32(this.address, false, 20)}`,
-            value: 0
-          }
-        ]
-        options = options.concat(
-          result.validators
-            // exclude the validator we are redelegating from
-            .filter(
-              validator =>
-                validator.operatorAddress !==
-                this.sourceValidator.operatorAddress
-            )
-            .map(validator => {
-              return {
-                address: validator.operatorAddress,
-                key: `${validator.name} - ${formatBech32(
-                  validator.operatorAddress,
-                  false,
-                  20
-                )}`,
-                value: validator.operatorAddress
-              }
-            })
-        )
-        return options
+      update(data) {
+        /* istanbul ignore next */
+        return data.validators
       }
     }
   }
