@@ -21,7 +21,16 @@
       </div>
 
       <div class="content">
-        <div class="steps"></div>
+        <div class="steps">
+          <span class="current-step">STEP {{ currentStep }}</span>
+          <div class="dot-container">
+            <span :key="`dot-${index}`"
+              v-for="(item, index) in steps.length"
+              :class="{ dot: true, filled: index < currentStep}"
+            >
+            </span>
+          </div>
+        </div>
 
         <template v-for="(step, index) in steps">
           <template v-if="currentStep === index + 1">
@@ -32,7 +41,11 @@
               class="button primary"
               @click="nextLink"
             >
-              Next step
+              {{
+                currentStep === steps.length
+                  ? `Read the full guide`
+                  : `Next step`
+              }}
               <i class="material-icons arrow_forward"></i>
             </button>
           </template>
@@ -74,6 +87,11 @@ export default {
           title: "How to get tokens? III",
           content:
             "Praesent vitae tristique erat.<br />Integer ullamcorper ligula vel dolor sagittis nec fermentum risus pharetra.<br />Nulla mollis tempus sem, a sollicitudin est facilisis ac"
+        },
+        {
+          title: "How to get tokens? IV",
+          content:
+            "Praesent vitae tristique erat.<br />Integer ullamcorper ligula vel dolor sagittis nec fermentum risus pharetra.<br />Nulla mollis tempus sem, a sollicitudin est facilisis ac"
         }
       ]
     }
@@ -102,7 +120,7 @@ export default {
   right: 1rem;
   z-index: var(--z-modal);
   width: 24rem;
-  height: 35rem;
+  height: 39rem;
   display: flex;
   outline: none;
 }
@@ -172,7 +190,7 @@ export default {
 .button {
   font-family: var(--sans);
   font-size: 1.1rem;
-  font-weight: 400;
+  font-weight: 500;
   padding: 1.2rem;
   min-width: 100px;
   color: #445381;
@@ -199,5 +217,30 @@ export default {
   top: 1rem;
   right: 1rem;
   margin: 0;
+}
+
+.tm-modal-tutorial .dot-container {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.tm-modal-tutorial .steps .dot {
+  height: 0.6rem;
+  width: 0.6rem;
+  border-radius: 50%;
+  margin-left: 2rem;
+  background-color: #f1f3f7;
+  display: inline-block;
+}
+
+.tm-modal-tutorial .steps .dot.filled {
+  background-color: #458dff;
+}
+
+.steps {
+  position: relative;
+  color: #458dff;
+  font-weight: 500;
 }
 </style>
