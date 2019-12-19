@@ -102,9 +102,6 @@ export default [
     name: `welcome`,
     components: {
       session: () => import(`./components/common/TmSessionWelcome`)
-    },
-    meta: {
-      feature: "Session"
     }
   },
   {
