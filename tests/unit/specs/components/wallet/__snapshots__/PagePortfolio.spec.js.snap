@@ -14,7 +14,8 @@ exports[`PagePortfolio should display the portfolio page 1`] = `
      
     <modaltutorial-stub
       close="function () { [native code] }"
-      show="true"
+      fullguide="https://lunie.io"
+      steps="[object Object],[object Object],[object Object],[object Object]"
     />
   </template>
 </tmpage-stub>

@@ -56,43 +56,24 @@ export default {
       type: Function,
       required: true
     },
-    show: {
-      type: Boolean,
+    fullguide: {
+      type: String,
+      required: true
+    },
+    steps: {
+      type: Array,
       required: true
     }
   },
   data: function() {
     return {
-      targetURL: "https://lunie.io",
-      currentStep: 1,
-      steps: [
-        {
-          title: "How to get tokens?",
-          content:
-            "Praesent vitae tristique erat.<br />Integer ullamcorper ligula vel dolor sagittis nec fermentum risus pharetra.<br />Nulla mollis tempus sem, a sollicitudin est facilisis ac"
-        },
-        {
-          title: "How to get tokens?",
-          content:
-            "Praesent vitae tristique erat.<br />Integer ullamcorper ligula vel dolor sagittis nec fermentum risus pharetra.<br />Nulla mollis tempus sem, a sollicitudin est facilisis ac"
-        },
-        {
-          title: "How to get tokens?",
-          content:
-            "Praesent vitae tristique erat.<br />Integer ullamcorper ligula vel dolor sagittis nec fermentum risus pharetra.<br />Nulla mollis tempus sem, a sollicitudin est facilisis ac"
-        },
-        {
-          title: "How to get tokens?",
-          content:
-            "Praesent vitae tristique erat.<br />Integer ullamcorper ligula vel dolor sagittis nec fermentum risus pharetra.<br />Nulla mollis tempus sem, a sollicitudin est facilisis ac"
-        }
-      ]
+      currentStep: 1
     }
   },
   methods: {
     nextLink() {
       if (this.currentStep === this.steps.length) {
-        window.open(this.targetURL, "_blank")
+        window.open(this.fullguide, "_blank")
       } else {
         this.currentStep++
       }
