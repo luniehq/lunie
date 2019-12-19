@@ -7,14 +7,31 @@
     @keyup.esc="close()"
   >
     <main class="tm-modal-tutorial-main">
-      <slot name="main" />
+      <template v-for="(step, index) in steps">
+        <template v-if="currentStep === index + 1">
+          <h1 :key="index + step.title">{{ step.title }}</h1>
+          <p :key="index + step.content" v-html="step.content"></p>
+          <TmBtn
+            :key="index + `btn`"
+            v-focus
+            value="Next"
+            type="primary"
+            @click.native="nextLink"
+          />
+        </template>
+      </template>
     </main>
   </div>
 </template>
 
 <script>
+import TmBtn from "src/components/common/TmBtn"
+
 export default {
   name: `tm-modal-tutorial`,
+  components: {
+    TmBtn
+  },
   props: {
     close: {
       type: Function,
@@ -23,6 +40,39 @@ export default {
     show: {
       type: Boolean,
       required: true
+    }
+  },
+  data: function() {
+    return {
+      targetURL: "https://lunie.io",
+      currentStep: 1,
+      steps: [
+        {
+          title: "How to get tokens? I",
+          content:
+            "Praesent vitae tristique erat.<br />Integer ullamcorper ligula vel dolor sagittis nec fermentum risus pharetra.<br />Nulla mollis tempus sem, a sollicitudin est facilisis ac"
+        },
+        {
+          title: "How to get tokens? II",
+          content:
+            "Praesent vitae tristique erat.<br />Integer ullamcorper ligula vel dolor sagittis nec fermentum risus pharetra.<br />Nulla mollis tempus sem, a sollicitudin est facilisis ac"
+        },
+        {
+          title: "How to get tokens? III",
+          content:
+            "Praesent vitae tristique erat.<br />Integer ullamcorper ligula vel dolor sagittis nec fermentum risus pharetra.<br />Nulla mollis tempus sem, a sollicitudin est facilisis ac"
+        }
+      ]
+    }
+  },
+  methods: {
+    nextLink() {
+      if (this.steps.length === this.currentStep) {
+        window.open(this.targetURL, "_blank")
+        this.close()
+      } else {
+        this.currentStep = this.currentStep + 1
+      }
     }
   }
 }
@@ -57,5 +107,10 @@ export default {
   display: flex;
   flex-flow: column;
   padding: 1.5rem;
+}
+
+.tm-modal-tutorial .button {
+  width: 100%;
+  margin-top: 2rem;
 }
 </style>
