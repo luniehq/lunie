@@ -71,8 +71,8 @@ export default {
   }),
   // Just to test tutorial component
   methods: {
-    /* istanbul ignore next */
     closeTutorial() {
+      /* istanbul ignore next */
       this.showTutorial = false
     }
   }
