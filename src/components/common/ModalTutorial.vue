@@ -120,7 +120,7 @@ export default {
   right: 1rem;
   z-index: var(--z-modal);
   width: 24rem;
-  height: 40rem;
+  height: 38rem;
   display: flex;
   outline: none;
 }
