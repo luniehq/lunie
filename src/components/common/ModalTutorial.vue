@@ -74,22 +74,22 @@ export default {
       currentStep: 1,
       steps: [
         {
-          title: "How to get tokens? I",
+          title: "How to get tokens?",
           content:
             "Praesent vitae tristique erat.<br />Integer ullamcorper ligula vel dolor sagittis nec fermentum risus pharetra.<br />Nulla mollis tempus sem, a sollicitudin est facilisis ac"
         },
         {
-          title: "How to get tokens? II",
+          title: "How to get tokens?",
           content:
             "Praesent vitae tristique erat.<br />Integer ullamcorper ligula vel dolor sagittis nec fermentum risus pharetra.<br />Nulla mollis tempus sem, a sollicitudin est facilisis ac"
         },
         {
-          title: "How to get tokens? III",
+          title: "How to get tokens?",
           content:
             "Praesent vitae tristique erat.<br />Integer ullamcorper ligula vel dolor sagittis nec fermentum risus pharetra.<br />Nulla mollis tempus sem, a sollicitudin est facilisis ac"
         },
         {
-          title: "How to get tokens? IV",
+          title: "How to get tokens?",
           content:
             "Praesent vitae tristique erat.<br />Integer ullamcorper ligula vel dolor sagittis nec fermentum risus pharetra.<br />Nulla mollis tempus sem, a sollicitudin est facilisis ac"
         }
