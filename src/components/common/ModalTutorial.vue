@@ -1,13 +1,7 @@
 <template>
-  <div
-    v-if="show"
-    v-focus-last
-    class="tm-modal-tutorial"
-    tabindex="0"
-    @keyup.esc="close()"
-  >
-    <main class="tm-modal-tutorial-main">
-      <div class="tm-modal-tutorial-header">
+  <div v-focus-last class="modal-tutorial" tabindex="0" @keyup.esc="close()">
+    <main class="modal-tutorial-main">
+      <div class="modal-tutorial-header">
         <a href="#" @click="prevLink">
           <i class="material-icons chevron_left"></i>
         </a>
@@ -19,20 +13,18 @@
         </a>
         <div class="top-bg"></div>
       </div>
-
       <div class="content">
         <div class="steps">
           <span class="current-step">STEP {{ currentStep }}</span>
-          <div class="dot-container">
+          <div class="steps-container">
             <span
               v-for="(item, index) in steps.length"
-              :key="`dot-${index}`"
-              :class="{ dot: true, filled: index < currentStep }"
+              :key="`step-${index}`"
+              :class="{ step: true, completed: index < currentStep }"
             >
             </span>
           </div>
         </div>
-
         <template v-for="(step, index) in steps">
           <template v-if="currentStep === index + 1">
             <h1 :key="`title-${index}`">{{ step.title }}</h1>
@@ -58,7 +50,7 @@
 
 <script>
 export default {
-  name: `tm-modal-tutorial`,
+  name: `modal-tutorial`,
   props: {
     close: {
       type: Function,
@@ -99,7 +91,7 @@ export default {
   },
   methods: {
     nextLink() {
-      if (this.steps.length === this.currentStep) {
+      if (this.currentStep === this.steps.length) {
         window.open(this.targetURL, "_blank")
       } else {
         this.currentStep++
@@ -115,7 +107,7 @@ export default {
 </script>
 
 <style scoped>
-.tm-modal-tutorial {
+.modal-tutorial {
   position: fixed;
   bottom: 0;
   right: 1rem;
@@ -126,30 +118,30 @@ export default {
   outline: none;
 }
 
-.tm-modal-tutorial-main {
+.modal-tutorial-main {
   display: flex;
   flex-flow: column;
   padding: 0 0 1.5rem 0;
 }
 
-.tm-modal-tutorial h1 {
+.modal-tutorial h1 {
   font-size: 1.6rem;
   color: #000f50;
   margin-bottom: 2rem;
   font-weight: 400;
 }
 
-.tm-modal-tutorial b {
+.modal-tutorial b {
   font-weight: 500;
   color: var(--bright);
 }
 
-.tm-modal-tutorial .button {
+.modal-tutorial .button {
   width: 100%;
   margin-top: 1rem;
 }
 
-.tm-modal-tutorial-header i {
+.modal-tutorial-header i {
   color: #7a88b8;
   background: #e4e7f1;
   width: 2rem;
@@ -164,14 +156,14 @@ export default {
   border-radius: 50%;
 }
 
-.tm-modal-tutorial-header i.close {
+.modal-tutorial-header i.close {
   position: absolute;
   top: 0;
   right: 0;
   margin: 0;
 }
 
-.tm-modal-tutorial .top-bg {
+.modal-tutorial .top-bg {
   margin-top: 1rem;
   background-image: url("/img/tutorials/bg1.png");
   background-size: cover;
@@ -183,7 +175,7 @@ export default {
   border-top-right-radius: 6px;
 }
 
-.tm-modal-tutorial .content {
+.modal-tutorial .content {
   padding: 2rem;
   background-color: white;
   color: #445381;
@@ -221,13 +213,13 @@ export default {
   margin: 0;
 }
 
-.tm-modal-tutorial .dot-container {
+.modal-tutorial .steps-container {
   position: absolute;
   top: 0;
   right: 0;
 }
 
-.tm-modal-tutorial .steps .dot {
+.modal-tutorial .steps .step {
   height: 0.5rem;
   width: 0.5rem;
   border-radius: 50%;
@@ -236,7 +228,7 @@ export default {
   display: inline-block;
 }
 
-.tm-modal-tutorial .steps .dot.filled {
+.modal-tutorial .steps .step.completed {
   background-color: #458dff;
 }
 

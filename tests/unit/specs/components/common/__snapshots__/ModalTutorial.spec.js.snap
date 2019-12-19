@@ -2,14 +2,14 @@
 
 exports[`TmModal has the expected html structure 1`] = `
 <div
-  class="tm-modal-tutorial"
+  class="modal-tutorial"
   tabindex="0"
 >
   <main
-    class="tm-modal-tutorial-main"
+    class="modal-tutorial-main"
   >
     <div
-      class="tm-modal-tutorial-header"
+      class="modal-tutorial-header"
     >
       <a
         href="#"
@@ -53,19 +53,19 @@ exports[`TmModal has the expected html structure 1`] = `
         </span>
          
         <div
-          class="dot-container"
+          class="steps-container"
         >
           <span
-            class="dot filled"
+            class="step completed"
           />
           <span
-            class="dot"
+            class="step"
           />
           <span
-            class="dot"
+            class="step"
           />
           <span
-            class="dot"
+            class="step"
           />
         </div>
       </div>
