@@ -3,7 +3,7 @@
     <template slot="managed-body">
       <DelegationsOverview />
       <Undelegations />
-      <TmModalTutorial :show="showTutorial" :close="closeTutorial" />
+      <ModalTutorial :show="showTutorial" :close="closeTutorial" />
     </template>
   </TmPage>
 </template>
@@ -14,7 +14,7 @@ import DelegationsOverview from "staking/DelegationsOverview"
 import Undelegations from "staking/Undelegations"
 
 // Just to test tutorial component
-import TmModalTutorial from "common/TmModalTutorial"
+import ModalTutorial from "common/ModalTutorial"
 
 export default {
   name: `page-portfolio`,
@@ -23,7 +23,7 @@ export default {
     Undelegations,
     DelegationsOverview,
     // Just to test tutorial component
-    TmModalTutorial
+    ModalTutorial
   },
   // Just to test tutorial component
   data: () => ({

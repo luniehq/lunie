@@ -1,0 +1,203 @@
+<template>
+  <div
+    v-if="show"
+    v-focus-last
+    class="tm-modal-tutorial"
+    tabindex="0"
+    @keyup.esc="close()"
+  >
+    <main class="tm-modal-tutorial-main">
+      <div class="tm-modal-tutorial-header">
+        <a href="#" @click="prevLink">
+          <i class="material-icons chevron_left"></i>
+        </a>
+        <a href="#" @click="nextLink">
+          <i class="material-icons chevron_right"></i>
+        </a>
+        <a href="#" @click="close">
+          <i class="material-icons close"></i>
+        </a>
+        <div class="top-bg"></div>
+      </div>
+
+      <div class="content">
+        <div class="steps"></div>
+
+        <template v-for="(step, index) in steps">
+          <template v-if="currentStep === index + 1">
+            <h1 :key="`title-${index}`">{{ step.title }}</h1>
+            <p :key="`content-${index}`" v-html="step.content"></p>
+            <button
+              :key="`btn-${index}`"
+              class="button primary"
+              @click="nextLink"
+            >
+              Next step
+              <i class="material-icons arrow_forward"></i>
+            </button>
+          </template>
+        </template>
+      </div>
+    </main>
+  </div>
+</template>
+
+<script>
+export default {
+  name: `tm-modal-tutorial`,
+  props: {
+    close: {
+      type: Function,
+      required: true
+    },
+    show: {
+      type: Boolean,
+      required: true
+    }
+  },
+  data: function() {
+    return {
+      targetURL: "https://lunie.io",
+      currentStep: 1,
+      steps: [
+        {
+          title: "How to get tokens? I",
+          content:
+            "Praesent vitae tristique erat.<br />Integer ullamcorper ligula vel dolor sagittis nec fermentum risus pharetra.<br />Nulla mollis tempus sem, a sollicitudin est facilisis ac"
+        },
+        {
+          title: "How to get tokens? II",
+          content:
+            "Praesent vitae tristique erat.<br />Integer ullamcorper ligula vel dolor sagittis nec fermentum risus pharetra.<br />Nulla mollis tempus sem, a sollicitudin est facilisis ac"
+        },
+        {
+          title: "How to get tokens? III",
+          content:
+            "Praesent vitae tristique erat.<br />Integer ullamcorper ligula vel dolor sagittis nec fermentum risus pharetra.<br />Nulla mollis tempus sem, a sollicitudin est facilisis ac"
+        }
+      ]
+    }
+  },
+  methods: {
+    nextLink() {
+      if (this.steps.length === this.currentStep) {
+        window.open(this.targetURL, "_blank")
+      } else {
+        this.currentStep++
+      }
+    },
+    prevLink() {
+      if (this.currentStep > 1) {
+        this.currentStep--
+      }
+    }
+  }
+}
+</script>
+
+<style scoped>
+.tm-modal-tutorial {
+  position: fixed;
+  bottom: 0;
+  right: 1rem;
+  z-index: var(--z-modal);
+  width: 24rem;
+  height: 35rem;
+  display: flex;
+  outline: none;
+}
+
+.tm-modal-tutorial-main {
+  display: flex;
+  flex-flow: column;
+  padding: 0 0 1.5rem 0;
+}
+
+.tm-modal-tutorial h1 {
+  font-size: 1.6rem;
+  color: #000f50;
+  margin-bottom: 1rem;
+}
+
+.tm-modal-tutorial b {
+  font-weight: 500;
+  color: var(--bright);
+}
+
+.tm-modal-tutorial .button {
+  width: 100%;
+  margin-top: 2rem;
+}
+
+.tm-modal-tutorial-header i {
+  color: #7a88b8;
+  background: #e4e7f1;
+  width: 2rem;
+  height: 2rem;
+  font-size: var(--m);
+  display: inline-block;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  padding: 0.5rem;
+  margin-right: 1rem;
+  border-radius: 50%;
+}
+
+.tm-modal-tutorial-header i.close {
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: 0;
+}
+
+.tm-modal-tutorial .top-bg {
+  margin-top: 1rem;
+  background-image: url("/img/tutorials/bg1.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+  width: 100%;
+  height: 186px;
+  border-top-left-radius: 6px;
+  border-top-right-radius: 6px;
+}
+
+.tm-modal-tutorial .content {
+  padding: 2rem;
+  background-color: white;
+  color: #445381;
+}
+
+.button {
+  font-family: var(--sans);
+  font-size: 1.1rem;
+  font-weight: 400;
+  padding: 1.2rem;
+  min-width: 100px;
+  color: #445381;
+  margin: 0;
+  border-radius: 0.4rem;
+  cursor: pointer;
+  background: #f1f3f7;
+  border: 2px solid #f1f3f7;
+  transition: all 0.5s ease;
+  white-space: nowrap;
+  outline: none;
+  text-align: left;
+  position: relative;
+}
+
+.button:hover {
+  background: #445381;
+  color: #f1f3f7;
+  border-color: #445381;
+}
+
+.button i.arrow_forward {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  margin: 0;
+}
+</style>
