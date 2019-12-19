@@ -11,6 +11,11 @@ exports[`PagePortfolio should display the portfolio page 1`] = `
     <delegationsoverview-stub />
      
     <undelegations-stub />
+     
+    <modaltutorial-stub
+      close="function () { [native code] }"
+      show="true"
+    />
   </template>
 </tmpage-stub>
 `;
