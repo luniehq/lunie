@@ -120,7 +120,7 @@ export default {
   right: 1rem;
   z-index: var(--z-modal);
   width: 24rem;
-  height: 39rem;
+  height: 40rem;
   display: flex;
   outline: none;
 }
@@ -134,7 +134,8 @@ export default {
 .tm-modal-tutorial h1 {
   font-size: 1.6rem;
   color: #000f50;
-  margin-bottom: 1rem;
+  margin-bottom: 2rem;
+  font-weight: 400;
 }
 
 .tm-modal-tutorial b {
@@ -144,7 +145,7 @@ export default {
 
 .tm-modal-tutorial .button {
   width: 100%;
-  margin-top: 2rem;
+  margin-top: 1rem;
 }
 
 .tm-modal-tutorial-header i {
@@ -226,8 +227,8 @@ export default {
 }
 
 .tm-modal-tutorial .steps .dot {
-  height: 0.6rem;
-  width: 0.6rem;
+  height: 0.5rem;
+  width: 0.5rem;
   border-radius: 50%;
   margin-left: 2rem;
   background-color: #f1f3f7;
@@ -242,5 +243,6 @@ export default {
   position: relative;
   color: #458dff;
   font-weight: 500;
+  margin-bottom: 1.5rem;
 }
 </style>
