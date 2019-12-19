@@ -24,9 +24,10 @@
         <div class="steps">
           <span class="current-step">STEP {{ currentStep }}</span>
           <div class="dot-container">
-            <span :key="`dot-${index}`"
+            <span
               v-for="(item, index) in steps.length"
-              :class="{ dot: true, filled: index < currentStep}"
+              :key="`dot-${index}`"
+              :class="{ dot: true, filled: index < currentStep }"
             >
             </span>
           </div>
