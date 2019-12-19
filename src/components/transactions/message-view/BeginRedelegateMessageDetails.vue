@@ -8,7 +8,7 @@
       <h3>{{ caption }}</h3>
       <span>From&nbsp;</span>
       <router-link
-        :to="`staking/validators/${transaction.value.validator_src_address}`"
+        :to="`/staking/validators/${transaction.value.validator_src_address}`"
       >
         <img
           v-if="sourceValidator && sourceValidator.picture"

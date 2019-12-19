@@ -8,7 +8,7 @@
       <h3>{{ caption }}</h3>
       <span>moniker&nbsp;</span>
       <router-link
-        :to="`staking/validators/${transaction.value.validator_address}`"
+        :to="`/staking/validators/${transaction.value.validator_address}`"
       >
         <img
           v-if="validator && validator.picture"
