@@ -160,14 +160,14 @@ export default {
     },
     addressValidate(address) {
       return this.bech32Validate(address) || this.isEthereumAddress(address)
-    },
-    validations() {
-      return {
-        address: {
-          required,
-          addressValidate: this.addressValidate,
-          isNotAValidatorAddress: this.isNotAValidatorAddress
-        }
+    }
+  },
+  validations() {
+    return {
+      address: {
+        required,
+        addressValidate: this.addressValidate,
+        isNotAValidatorAddress: this.isNotAValidatorAddress
       }
     }
   }
