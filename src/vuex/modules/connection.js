@@ -1,7 +1,7 @@
 import config from "src/../config"
 import { Networks } from "../../gql"
 
-export default function ({ apollo }) {
+export default function({ apollo }) {
   const state = {
     stopConnecting: false,
     connected: true, // TODO do connection test
