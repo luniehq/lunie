@@ -32,21 +32,9 @@ export default {
     ...mapState([`connection`])
   },
   methods: {
-    selectNetworkHandler(network) {
-      let confirm = this.confirmModalOpen()
-      if (this.connection.network !== network.id && confirm) {
+    async selectNetworkHandler(network) {
+      if (this.connection.network !== network.id) {
         this.$store.dispatch(`setNetwork`, network)
-      }
-    },
-    confirmModalOpen() {
-      let confirm = false
-      if (this.session.signedIn) {
-        confirm = window.confirm(
-          `By switching the network you will get signed out of your current address: ${this.$store.state.session.address}`
-        )
-        return confirm
-      } else {
-        return true
       }
     }
   }
