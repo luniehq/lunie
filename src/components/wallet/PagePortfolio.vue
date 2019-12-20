@@ -4,7 +4,7 @@
       <DelegationsOverview />
       <Undelegations />
       <ModalTutorial
-        v-if="showTutorial"
+        v-if="showTutorial && session.experimentalMode"
         :steps="steps"
         fullguide="https://lunie.io"
         :close="closeTutorial"
@@ -14,11 +14,10 @@
 </template>
 
 <script>
+import { mapState } from "vuex"
 import TmPage from "common/TmPage"
 import DelegationsOverview from "staking/DelegationsOverview"
 import Undelegations from "staking/Undelegations"
-
-// Just to test tutorial component
 import ModalTutorial from "common/ModalTutorial"
 
 export default {
@@ -27,12 +26,11 @@ export default {
     TmPage,
     Undelegations,
     DelegationsOverview,
-    // Just to test tutorial component
     ModalTutorial
   },
-  // Just to test tutorial component
   data: () => ({
     showTutorial: true,
+    // Tutorial steps
     steps: [
       {
         title: "How to get tokens?",
@@ -69,7 +67,9 @@ export default {
       }
     ]
   }),
-  // Just to test tutorial component
+  computed: {
+    ...mapState([`session`])
+  },
   methods: {
     closeTutorial() {
       /* istanbul ignore next */
@@ -78,4 +78,3 @@ export default {
   }
 }
 </script>
-
