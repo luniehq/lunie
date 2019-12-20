@@ -12,11 +12,7 @@ exports[`PagePortfolio should display the portfolio page 1`] = `
      
     <undelegations-stub />
      
-    <modaltutorial-stub
-      close="function () { [native code] }"
-      fullguide="https://lunie.io"
-      steps="[object Object],[object Object],[object Object],[object Object]"
-    />
+    <!---->
   </template>
 </tmpage-stub>
 `;
