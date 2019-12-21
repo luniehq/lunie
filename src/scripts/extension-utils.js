@@ -31,7 +31,7 @@ const filterExtensionMessage = callback => message => {
   }
 }
 
-// exported for easyier testing
+// exported for easier testing
 export const processLunieExtensionMessages = store =>
   filterExtensionMessage(data => {
     const message = unWrapMessageFromContentScript(data)
