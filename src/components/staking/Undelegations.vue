@@ -1,16 +1,12 @@
 <template>
   <div
-    v-if="
-      !$apollo.queries.undelegations.loading &&
-        undelegations.length > 0 &&
-        filterOnlyPendingUndelegations(undelegations).length > 0
-    "
+    v-if="!$apollo.queries.undelegations.loading && undelegations.length > 0"
   >
     <h3 class="tab-header">
       Pending Undelegations
     </h3>
     <TableUndelegations
-      :undelegations="filterOnlyPendingUndelegations(undelegations)"
+      :undelegations="undelegations"
     />
   </div>
 </template>
@@ -31,13 +27,6 @@ export default {
   }),
   computed: {
     ...mapGetters([`address`, `network`])
-  },
-  methods: {
-    filterOnlyPendingUndelegations(undelegations) {
-      return undelegations.filter(undelegation => {
-        undelegation.endTime < Date.now()
-      })
-    }
   },
   apollo: {
     undelegations: {
