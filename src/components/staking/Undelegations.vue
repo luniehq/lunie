@@ -5,9 +5,7 @@
     <h3 class="tab-header">
       Pending Undelegations
     </h3>
-    <TableUndelegations
-      :undelegations="undelegations"
-    />
+    <TableUndelegations :undelegations="undelegations" />
   </div>
 </template>
 
@@ -15,7 +13,7 @@
 import { mapGetters } from "vuex"
 import TableUndelegations from "staking/TableUndelegations"
 import refetchNetworkOnly from "scripts/refetch-network-only"
-import { UndelegationsForDelegator, UserTransactionAdded } from "src/gql"
+import { PendingUndelegationsForDelegator, UserTransactionAdded } from "src/gql"
 
 export default {
   name: `undelegations`,
@@ -32,7 +30,7 @@ export default {
     undelegations: {
       query() {
         /* istanbul ignore next */
-        return UndelegationsForDelegator(this.network)
+        return PendingUndelegationsForDelegator(this.network)
       },
       variables() {
         /* istanbul ignore next */

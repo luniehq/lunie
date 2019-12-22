@@ -38,6 +38,15 @@ const ValidatorFragment = `
   delegatorDelegation
 `
 
+const UndelegationFragment = `
+  validator {
+    ${ValidatorFragment}
+  }
+  amount
+  startHeight
+  endTime
+`
+
 export const AllValidators = () => {
   const currentNetwork = getCurrentNetwork()
   // console.log(`currentNetwork`, currentNetwork)
@@ -68,12 +77,15 @@ export const DelegatorValidators = schema => gql`
 export const UndelegationsForDelegator = schema => gql`
   query Undelegations($delegatorAddress: String!) {
     undelegations(networkId: "${schema}", delegatorAddress: $delegatorAddress) {
-      validator {
-        ${ValidatorFragment}
-      }
-      amount
-      startHeight
-      endTime
+      ${UndelegationFragment}
+    }
+  }
+`
+
+export const PendingUndelegationsForDelegator = schema => gql`
+  query PendingUndelegations($delegatorAddress: String!) {
+    pendingundelegations(networkId: "${schema}", delegatorAddress: $delegatorAddress) {
+      ${UndelegationFragment}
     }
   }
 `
