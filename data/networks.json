@@ -2,9 +2,9 @@
   "cosmos-hub-testnet": {
     "id": "cosmos-hub-testnet",
     "title": "Gaia Testnet",
-    "chain_id": "gaia-13006",
-    "rpc_url": "wss://gaia-13006.lunie.io:26657/websocket",
-    "api_url": "https://gaia-13006.lunie.io",
+    "chain_id": "gaia-13007",
+    "rpc_url": "wss://gaia-13007.lunie.io:26657/websocket",
+    "api_url": "https://gaia-13007.lunie.io",
     "bech32_prefix": "cosmos",
     "testnet": true,
     "feature_session": true,
