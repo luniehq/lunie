@@ -52,8 +52,8 @@ export default function ({ apollo }) {
     async setNetwork({ commit, dispatch }, network) {
       dispatch(`signOut`)
       dispatch(`persistNetwork`, network)
-      dispatch(`checkForPersistedSession`) // check for persisted session on that network
       commit("setNetworkId", network.id)
+      dispatch(`checkForPersistedSession`) // check for persisted session on that network
       console.info(`Connecting to: ${network.id}`)
     }
   }
