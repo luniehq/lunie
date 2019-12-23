@@ -103,8 +103,8 @@
         <li>
           <h4>Self Stake</h4>
           <span id="page-profile__self-bond">
-            {{ validator.selfStake | shortDecimals }} /
-            {{ (validator.selfStake / validator.tokens) | percent }}
+            {{ selfStake.amount | shortDecimals }} /
+            {{ (selfStake.amount / validator.tokens) | percent }}
           </span>
         </li>
         <li>
@@ -175,7 +175,7 @@ import Avatar from "common/Avatar"
 import Bech32 from "common/Bech32"
 import TmPage from "common/TmPage"
 import gql from "graphql-tag"
-import { ValidatorProfile, UserTransactionAdded } from "src/gql"
+import { ValidatorProfile, UserTransactionAdded, SelfStake } from "src/gql"
 
 function getStatusText(statusDetailed) {
   switch (statusDetailed) {
@@ -217,6 +217,7 @@ export default {
     validator: {},
     rewards: 0,
     delegation: {},
+    selfStake: 0,
     error: false,
     loaded: false
   }),
@@ -341,6 +342,21 @@ export default {
       },
       result(queryResult) {
         this.loaded = !!queryResult.data.validator
+      }
+    },
+    selfStake: {
+      query: SelfStake,
+      variables() {
+        return {
+          networkId: this.network,
+          operatorAddress: this.$route.params.validator
+        }
+      },
+      update: result => {
+        return result.selfStake
+      },
+      result(queryResult) {
+        this.loaded = !!queryResult.data.selfStake
       }
     },
     $subscribe: {

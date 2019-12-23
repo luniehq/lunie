@@ -89,6 +89,14 @@ export const DelegationsForDelegator = schema => gql`
   }
 `
 
+export const SelfStake = gql`
+  query SelfStake($networkId: String!, $operatorAddress: String!) {
+    selfStake(networkId: $networkId, operatorAddress: $operatorAddress) {
+      amount
+    }
+  }
+`
+
 export const Networks = gql`
   query Networks {
     networks {
