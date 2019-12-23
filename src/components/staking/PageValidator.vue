@@ -175,7 +175,7 @@ import Avatar from "common/Avatar"
 import Bech32 from "common/Bech32"
 import TmPage from "common/TmPage"
 import gql from "graphql-tag"
-import { ValidatorProfile, UserTransactionAdded, SelfStake } from "src/gql"
+import { ValidatorProfile, UserTransactionAdded } from "src/gql"
 
 function getStatusText(statusDetailed) {
   switch (statusDetailed) {
@@ -345,11 +345,20 @@ export default {
       }
     },
     selfStake: {
-      query: SelfStake,
+      query: gql`
+        query SelfStakePageValidator(
+          $networkId: String!
+          $validator: Validator!
+        ) {
+          selfStake(networkId: $networkId, validator: $validator) {
+            amount
+          }
+        }
+      `,
       variables() {
         return {
           networkId: this.network,
-          operatorAddress: this.$route.params.validator
+          validator: this.validator
         }
       },
       update: result => {
