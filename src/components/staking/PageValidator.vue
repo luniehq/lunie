@@ -348,7 +348,7 @@ export default {
       query: gql`
         query SelfStakePageValidator(
           $networkId: String!
-          $validator: Validator!
+          $validator: Validator! --> This is what I am struggling to figure out
         ) {
           selfStake(networkId: $networkId, validator: $validator) {
             amount
