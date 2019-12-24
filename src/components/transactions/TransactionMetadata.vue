@@ -15,7 +15,7 @@
     <p v-if="transaction.memo">
       <i class="material-icons">message</i> Memo: {{ transaction.memo }}
     </p>
-    <p>
+    <p v-if="transaction.fee">
       Fee:
       <b>{{ transaction.fee.amount }}</b>
       <span> {{ transaction.fee.denom }}</span>
