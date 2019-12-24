@@ -248,7 +248,7 @@ function getTop4RewardsValidators(bondDenom, rewards) {
   const byBalance = (a, b) => b.amount - a.amount
   const validatorList = rewards
     .sort(byBalance)
-    .slice(0, 4) // Just the top 5
+    .slice(0, 4) // Just the top 4
     .map(({ validator }) => validator.operatorAddress)
 
   return validatorList
