@@ -160,7 +160,7 @@ export default class ActionManager {
 
     let txMessages = []
     if (type === transaction.WITHDRAW) {
-      const validators = getTop5RewardsValidators(
+      const validators = getTop4RewardsValidators(
         context.bondDenom,
         context.rewards
       )
@@ -205,7 +205,7 @@ export default class ActionManager {
   }
 
   async createWithdrawTransaction() {
-    const addresses = getTop5RewardsValidators(
+    const addresses = getTop4RewardsValidators(
       this.context.bondDenom,
       this.context.rewards
     )
@@ -243,12 +243,12 @@ function toMicroAtomString(amount) {
 }
 
 // // limitation of the block, so we pick the top 5 rewards and inform the user.
-function getTop5RewardsValidators(bondDenom, rewards) {
+function getTop4RewardsValidators(bondDenom, rewards) {
   // Compares the amount in a [address1, {denom: amount}] array
   const byBalance = (a, b) => b.amount - a.amount
   const validatorList = rewards
     .sort(byBalance)
-    .slice(0, 5) // Just the top 5
+    .slice(0, 4) // Just the top 5
     .map(({ validator }) => validator.operatorAddress)
 
   return validatorList

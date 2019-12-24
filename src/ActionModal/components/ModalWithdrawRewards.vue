@@ -12,7 +12,7 @@
     :disable="validatorsWithRewards"
   >
     <span class="form-message notice withdraw-limit">
-      Lunie will only withdraw rewards from 5 validators at a time because of a
+      Lunie will only withdraw rewards from 4 validators at a time because of a
       limitation with the Ledger Nano&nbsp;S.
     </span>
     <TmFormGroup

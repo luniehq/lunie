@@ -426,7 +426,7 @@ describe("ActionManager", () => {
       )
       mockMsgWithdraw.mockClear()
       await actionManager.send("memo", withdrawTx.txMetaData)
-      expect(mockMsgWithdraw).toBeCalledTimes(5)
+      expect(mockMsgWithdraw).toBeCalledTimes(4)
 
       expect(MsgSendFn).toHaveBeenCalledWith(
         {
