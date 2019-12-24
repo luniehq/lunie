@@ -25,7 +25,7 @@ export default {
   props: {
     address: {
       type: String,
-      required: true
+      required: false
     },
     longForm: {
       type: Boolean,
