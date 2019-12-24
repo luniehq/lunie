@@ -1,0 +1,1 @@
+[Changed] [#3356](https://github.com/cosmos/lunie/pull/3356) Now the TransactionMetadata component checks if transaction.fee does exist @Bitcoinera
