@@ -2,8 +2,7 @@ const express = require('express')
 const http = require('http')
 const cors = require('cors')
 const { createApolloServer } = require('./lib/apollo')
-const transaction = require('./lib/routes/transaction')
-const push = require('./lib/routes/push')
+const { transaction, push } = require('./lib/routes')
 
 const config = require('./config')
 
@@ -29,3 +28,5 @@ httpServer.listen({ port: config.port }, () => {
   )
   console.log(`Transaction service ready at ${config.transactionPath}`)
 })
+
+module.exports = httpServer

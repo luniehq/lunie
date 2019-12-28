@@ -11,7 +11,7 @@
     "dev": "cross-env NODE_ENV=development nodemon index.js",
     "dev-cache": "cross-env NODE_ENV=development ENABLE_CACHE=true nodemon index.js",
     "dev-docker": "docker build -t lunie-api-dev . && docker run --init -it -p 4000:4000 lunie-api-dev",
-    "lint": "eslint index.js config.js lib",
+    "lint": "eslint index.js config.js lib tests",
     "lint-fix": "yarn lint --fix",
     "start": "node index.js",
     "test": "jest"
@@ -24,6 +24,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@hapi/joi": "^16.1.8",
     "@sentry/node": "^5.9.0",
     "apollo-datasource-rest": "^0.6.6",
     "apollo-server": "^2.9.9",
@@ -36,6 +37,9 @@
     "graphql": "^14.5.8",
     "graphql-redis-subscriptions": "^2.1.1",
     "lodash": "^4.17.15",
+    "nock": "^11.7.0",
+    "should": "^13.2.3",
+    "supertest": "^4.0.2",
     "websocket": "^1.0.30"
   },
   "devDependencies": {
