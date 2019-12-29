@@ -17,7 +17,8 @@
 import { mapGetters } from "vuex"
 import TableUndelegations from "staking/TableUndelegations"
 import refetchNetworkOnly from "scripts/refetch-network-only"
-import { PendingUndelegationsForDelegator, UserTransactionAdded } from "src/gql"
+import { UndelegationFragment, UserTransactionAdded } from "src/gql"
+import gql from "graphql-tag"
 
 export default {
   name: `undelegations`,
@@ -34,11 +35,18 @@ export default {
     undelegations: {
       query() {
         /* istanbul ignore next */
-        return PendingUndelegationsForDelegator(this.network)
+        return gql`
+          query pendingundelegations($networkId: String!, $delegatorAddress: String!) {
+            pendingundelegations(networkId: $networkId, delegatorAddress: $delegatorAddress) {
+              ${UndelegationFragment}
+            }
+          }
+        `
       },
       variables() {
         /* istanbul ignore next */
         return {
+          networkId: this.network,
           delegatorAddress: this.address
         }
       },

@@ -38,7 +38,7 @@ const ValidatorFragment = `
   delegatorDelegation
 `
 
-const UndelegationFragment = `
+export const UndelegationFragment = `
   validator {
     ${ValidatorFragment}
   }
@@ -77,14 +77,6 @@ export const DelegatorValidators = schema => gql`
 export const UndelegationsForDelegator = schema => gql`
   query Undelegations($delegatorAddress: String!) {
     undelegations(networkId: "${schema}", delegatorAddress: $delegatorAddress) {
-      ${UndelegationFragment}
-    }
-  }
-`
-
-export const PendingUndelegationsForDelegator = schema => gql`
-  query PendingUndelegations($delegatorAddress: String!) {
-    pendingundelegations(networkId: "${schema}", delegatorAddress: $delegatorAddress) {
       ${UndelegationFragment}
     }
   }
