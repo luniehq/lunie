@@ -35,7 +35,6 @@ const ValidatorFragment = `
   statusDetailed
   expectedReturns
   selfStake
-  delegatorDelegation
 `
 
 export const UndelegationFragment = `

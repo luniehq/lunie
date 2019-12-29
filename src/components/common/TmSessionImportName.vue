@@ -84,6 +84,7 @@ export default {
   }),
   computed: {
     ...mapGetters([`connected`, `recover`]),
+    ...mapGetters({ networkId: `network` }),
     name: {
       get() {
         return this.$store.state.recover.name
@@ -96,7 +97,10 @@ export default {
   async created() {
     this.importCosmosAddress = await this.$store.dispatch(
       `getAddressFromSeed`,
-      this.$store.state.recover.seed
+      {
+        seedPhrase: this.$store.state.recover.seed,
+        network: this.networkId
+      }
     )
   },
   methods: {

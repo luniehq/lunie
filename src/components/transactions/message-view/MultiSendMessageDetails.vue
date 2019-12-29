@@ -11,7 +11,7 @@
       </template>
       <template v-else-if="sentFromSessionAddress">
         <span>To&nbsp;</span>
-        <Bech32 :address="transaction.value.to_address" />
+        <Bech32 :address="transaction.value.outputs[0].address" />
       </template>
       <template v-else-if="receivedToSessionAddress">
         <span>From&nbsp;</span>

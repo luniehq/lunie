@@ -1,0 +1,17 @@
+name: AlertOnPR
+
+on:
+  pull_request:
+    types: [opened]
+jobs:
+  test:
+    name: Compile
+    runs-on: ubuntu-latest
+    steps:
+    - uses: rtCamp/action-slack-notify@master
+      env:
+        SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+        SLACK_CHANNEL: 'pr_alerts'
+        SLACK_USERNAME: 'luniebot'
+        SLACK_ICON: 'https://emoji.slack-edge.com/TH6F97TDF/lunie/4ac63c1d435c04dc.png'
+        SLACK_MESSAGE: ${{ github.event.pull_request.title }} | ${{ github.event.pull_request.body }} | ${{ github.event.pull_request._links.html.href }}
