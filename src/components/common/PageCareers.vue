@@ -21,7 +21,7 @@
         Open Positions
       </h2>
       <p>
-        The following are full-time roles based in Toronto or Berlin.
+        The following are our 100% remote full-time roles.
       </p>
       <ul class="jobs-list">
         <li>
