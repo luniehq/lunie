@@ -24,6 +24,8 @@ exports[`TmBalance do not show available atoms when the user has none in the fir
         </h2>
       </div>
        
+      <!---->
+       
       <div
         class="row small-container"
       >
@@ -82,6 +84,8 @@ exports[`TmBalance show the balance header when signed in 1`] = `
         
         </h2>
       </div>
+       
+      <!---->
        
       <div
         class="row small-container"
