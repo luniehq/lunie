@@ -17,7 +17,20 @@
             {{ overview.totalStake | shortDecimals | noBlanks }}
           </h2>
         </div>
-
+        <div v-if="overview.balances" class="row small-container">
+          <div class="col">
+            <h3>Total Tokens</h3>
+            <h2>
+              <TmField
+                id="balance"
+                :options="balances"
+                :placeholder="totalFiatValue"
+                type="select"
+                :is-disabled="true"
+              />
+            </h2>
+          </div>
+        </div>
         <div class="row small-container">
           <div v-if="overview.totalStake > 0" class="available-atoms">
             <h3>Available {{ stakingDenom }}</h3>
@@ -58,6 +71,7 @@ import { noBlanks } from "src/filters"
 import TmBtn from "common/TmBtn"
 import SendModal from "src/ActionModal/components/SendModal"
 import ModalWithdrawRewards from "src/ActionModal/components/ModalWithdrawRewards"
+import TmField from "src/components/common/TmField"
 import { UserTransactionAdded } from "src/gql"
 import { mapGetters } from "vuex"
 import gql from "graphql-tag"
@@ -65,6 +79,7 @@ export default {
   name: `tm-balance`,
   components: {
     TmBtn,
+    TmField,
     SendModal,
     ModalWithdrawRewards
   },
@@ -75,7 +90,8 @@ export default {
   data() {
     return {
       overview: {},
-      stakingDenom: ""
+      stakingDenom: "",
+      totalFiatValue: `Total Tokens Fiat Value`
     }
   },
   computed: {
@@ -84,6 +100,18 @@ export default {
     // the validator rewards are needed to filter the top 5 validators to withdraw from
     readyToWithdraw() {
       return this.overview.totalRewards > 0
+    },
+    balances() {
+      let balances = this.overview.balances
+      return balances.map(({ denom, amount }) => ({
+        value: ``,
+        key: denom.concat(` ` + amount)
+      }))
+    }
+  },
+  mounted() {
+    if (this.overview.balances) {
+      this.totalFiatValue = this.calculateTotalFiatValue()
     }
   },
   methods: {
@@ -92,6 +120,54 @@ export default {
     },
     onSend() {
       this.$refs.SendModal.open()
+    },
+    // This function will receive the desired fiat currency to display as a parameter
+    // Right now it is EUR by default
+    async calculateTotalFiatValue() {
+      // When e-Money goes live they will count with a trading platform where the value
+      // for the different backed tokens will be changing slightly.
+      // They will provide with an API for us to query these values.
+      // For now we will assume a 1:1 ratio and treat each token like it were the real
+      // fiat currency it represents.
+
+      // First we filter out the NGM balance and get the real fiat currencies names
+      const fiatBalances = this.overview.balances
+        .filter(({ denom }) => !denom.includes(`NGM`))
+        .map(({ denom, amount }) => ({
+          denom: denom.substr(2),
+          amount
+        }))
+      // Now we use the public API https://exchangeratesapi.io/ to add all balances into
+      // a single fiat currency value
+      const allTickers = fiatBalances
+        .map(({ denom }) => denom)
+        .filter(denom => denom !== `EUR`)
+        .join(`,`)
+      const exchangeRates = await fetch(
+        `https://api.exchangeratesapi.io/latest?&symbols=${allTickers}`
+      )
+        .then(r => r.json())
+        .catch(error => console.error(error))
+
+      const tickersKeyMap = Object.keys(exchangeRates.rates)
+      const tickersValueMap = Object.values(exchangeRates.rates)
+      let totalFiatValue = 0
+      this.overview.balances.forEach(({ denom, amount }) => {
+        // in case it is Euro, we add it directly
+        if (denom.includes(`EUR`)) {
+          totalFiatValue += parseFloat(amount)
+        } else {
+          tickersKeyMap.forEach((ticker, index) => {
+            if (denom.includes(ticker)) {
+              totalFiatValue += parseFloat(amount) / tickersValueMap[index]
+            }
+          })
+        }
+      })
+      this.totalFiatValue = totalFiatValue
+        .toFixed(6)
+        .toString()
+        .concat(` €`)
     }
   },
   apollo: {
@@ -101,6 +177,10 @@ export default {
           overview(networkId: $networkId, address: $address) {
             totalRewards
             liquidStake
+            balances {
+              denom
+              amount
+            }
             totalStake
           }
         }
