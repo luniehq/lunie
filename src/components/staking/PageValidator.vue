@@ -9,13 +9,24 @@
     class="small"
   >
     <template v-if="validator.operatorAddress" slot="managed-body">
-      <div class="status-container">
-        <span :class="validator.status | toLower" class="validator-status">
-          {{ validator.status }}
-        </span>
-        <span v-if="validator.statusDetailed" class="validator-status-detailed">
-          {{ validator.statusDetailed }}
-        </span>
+      <div class="status-button-container">
+        <div class="status-container">
+          <span :class="validator.status | toLower" class="validator-status">
+            {{ validator.status }}
+          </span>
+          <span
+            v-if="validator.statusDetailed"
+            class="validator-status-detailed"
+          >
+            {{ validator.statusDetailed }}
+          </span>
+        </div>
+        <TmBtn
+          class="validators-list-button"
+          value="Back to Validators"
+          color="secondary"
+          @click.native="$router.push(`/validators`)"
+        />
       </div>
       <tr class="li-validator">
         <td class="data-table__row__info">
@@ -389,6 +400,12 @@ export default {
 }
 </script>
 <style scoped>
+.validators-list-button {
+  position: absolute;
+  right: 1.25rem;
+  top: 1.25rem;
+}
+
 .li-validator {
   display: flex;
   justify-content: space-between;
@@ -478,8 +495,22 @@ span {
   margin-top: 0.4rem;
   font-size: 0.8rem;
 }
-</style>
-<style>
+
+@media screen and (max-width: 425px) {
+  .status-button-container {
+    display: flex;
+    flex-direction: column-reverse;
+  }
+
+  .validators-list-button {
+    position: relative;
+    width: 150px;
+    margin-left: 1.25rem;
+    right: 0;
+    top: 0;
+  }
+}
+
 @media screen and (max-width: 667px) {
   .button-container {
     width: 100%;
