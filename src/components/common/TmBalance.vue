@@ -91,7 +91,7 @@ export default {
     return {
       overview: {},
       stakingDenom: "",
-      totalFiatValue: `Total Tokens Fiat Value`
+      totalFiatValue: `Tokens Total Fiat Value`
     }
   },
   computed: {
