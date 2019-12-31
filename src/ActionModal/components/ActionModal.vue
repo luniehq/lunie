@@ -9,17 +9,15 @@
       >
         <i class="material-icons">arrow_back</i>
       </div>
-      <div
-        id="closeBtn"
-        class="action-modal-icon action-modal-close"
-        @click="close"
-      >
+      <div id="closeBtn" class="action-modal-icon action-modal-close" @click="close">
         <i class="material-icons">close</i>
       </div>
       <div class="action-modal-header">
-        <span class="action-modal-title">{{
+        <span class="action-modal-title">
+          {{
           requiresSignIn ? `Sign in required` : title
-        }}</span>
+          }}
+        </span>
         <Steps
           v-if="
             [defaultStep, feeStep, signStep].includes(step) &&
@@ -63,16 +61,12 @@
             field-id="gasPrice"
             field-label="Gas Price"
           >
-            <span class="input-suffix">{{
+            <span class="input-suffix">
+              {{
               network.stakingDenom | viewDenom
-            }}</span>
-            <TmField
-              id="gas-price"
-              v-model="gasPrice"
-              step="0.000000001"
-              type="number"
-              min="0"
-            />
+              }}
+            </span>
+            <TmField id="gas-price" v-model="gasPrice" step="0.000000001" type="number" min="0" />
             <TmFormMsg
               v-if="overview.liquidStake === 0"
               :msg="`doesn't have any ${network.stakingDenom}s`"
@@ -106,8 +100,10 @@
           />
         </div>
         <div v-else-if="step === signStep" class="action-modal-form">
+          <!-- fallback to prevent the user to submit a tx before the sequence was loaded -->
+          <TmDataLoading v-if="!context.account || context.account.sequence === undefined" />
           <TmFormGroup
-            v-if="signMethods.length > 1"
+            v-else-if="signMethods.length > 1"
             class="action-modal-form-group"
             field-id="sign-method"
             field-label="Signing Method"
@@ -120,15 +116,15 @@
             />
           </TmFormGroup>
           <HardwareState
-            v-if="selectedSignMethod === SIGN_METHODS.LEDGER"
+            v-else-if="selectedSignMethod === SIGN_METHODS.LEDGER"
             :icon="session.browserWithLedgerSupport ? 'usb' : 'info'"
             :loading="!!sending"
           >
             <div v-if="session.browserWithLedgerSupport">
               {{
-                sending
-                  ? `Please verify and sign the transaction on your Ledger`
-                  : `Please plug in your Ledger&nbsp;Nano and open
+              sending
+              ? `Please verify and sign the transaction on your Ledger`
+              : `Please plug in your Ledger&nbsp;Nano and open
               the Cosmos app`
               }}
             </div>
@@ -138,7 +134,7 @@
             </div>
           </HardwareState>
           <HardwareState
-            v-if="selectedSignMethod === SIGN_METHODS.EXTENSION"
+            v-else-if="selectedSignMethod === SIGN_METHODS.EXTENSION"
             :icon="session.browserWithLedgerSupport ? 'laptop' : 'info'"
             :loading="!!sending"
           >
@@ -156,8 +152,7 @@
                 href="https://chrome.google.com/webstore/category/extensions?ref=lunie"
                 target="_blank"
                 rel="noopener norefferer"
-                >Chrome Web Store</a
-              >.
+              >Chrome Web Store</a>.
             </div>
           </HardwareState>
           <form
@@ -187,50 +182,32 @@
         </div>
         <div v-else-if="step === inclusionStep" class="action-modal-form">
           <TmDataMsg icon="hourglass_empty" :spin="true">
-            <div slot="title">
-              Sent and confirming
-            </div>
-            <div slot="subtitle">
-              Waiting for confirmation from {{ networkId }}.
-            </div>
+            <div slot="title">Sent and confirming</div>
+            <div slot="subtitle">Waiting for confirmation from {{ networkId }}.</div>
           </TmDataMsg>
         </div>
-        <div
-          v-else-if="step === successStep"
-          class="action-modal-form success-step"
-        >
+        <div v-else-if="step === successStep" class="action-modal-form success-step">
           <TmDataMsg icon="check" :success="true">
-            <div slot="title">
-              {{ notifyMessage.title }}
-            </div>
+            <div slot="title">{{ notifyMessage.title }}</div>
             <div slot="subtitle">
               {{ notifyMessage.body }}
               <br />
               <br />Block
-              <router-link :to="`/blocks/${includedHeight}`"
-                >#{{ prettyIncludedHeight }}</router-link
-              >
+              <router-link :to="`/blocks/${includedHeight}`">#{{ prettyIncludedHeight }}</router-link>
             </div>
           </TmDataMsg>
         </div>
         <p
           v-if="submissionError"
           class="tm-form-msg sm tm-form-msg--error submission-error"
-        >
-          {{ submissionError }}
-        </p>
+        >{{ submissionError }}</p>
         <div class="action-modal-footer">
           <slot name="action-modal-footer">
             <TmFormGroup
               v-if="[defaultStep, feeStep, signStep].includes(step)"
               class="action-modal-group"
             >
-              <TmBtn
-                id="closeBtn"
-                value="Cancel"
-                type="tertiary"
-                @click.native="close"
-              />
+              <TmBtn id="closeBtn" value="Cancel" type="tertiary" @click.native="close" />
               <TmBtn
                 v-if="requiresSignIn"
                 v-focus
@@ -284,6 +261,7 @@ import TmBtn from "src/components/common/TmBtn"
 import TmField from "src/components/common/TmField"
 import TmFormGroup from "src/components/common/TmFormGroup"
 import TmFormMsg from "src/components/common/TmFormMsg"
+import TmDataLoading from "src/components/common/TmDataLoading"
 import FeatureNotAvailable from "src/components/common/FeatureNotAvailable"
 import TmDataMsg from "common/TmDataMsg"
 import TableInvoice from "./TableInvoice"
@@ -340,6 +318,7 @@ export default {
     TmFormGroup,
     TmFormMsg,
     TmDataMsg,
+    TmDataLoading,
     TableInvoice,
     Steps,
     FeatureNotAvailable
@@ -469,6 +448,22 @@ export default {
     },
     prettyIncludedHeight() {
       return prettyInt(this.includedHeight)
+    },
+    // TODO lets slice this monstrocity
+    context() {
+      return {
+        url: this.network.api_url,
+        networkId: this.network.id,
+        chainId: this.network.chain_id,
+        connected: this.connected,
+        userAddress: this.session.address,
+        rewards: this.rewards,
+        totalRewards: this.overview.totalRewards,
+        delegations: this.delegations,
+        bondDenom: this.network.stakingDenom,
+        isExtensionAccount: this.isExtensionAccount,
+        account: this.overview.accountInformation
+      }
     }
   },
   watch: {
@@ -480,15 +475,18 @@ export default {
           this.selectedSignMethod = signMethods[0].value
         }
       }
+    },
+    context: {
+      immediate: true,
+      handler(context) {
+        this.actionManager.setContext(context)
+      }
     }
   },
   created() {
     this.$apollo.skipAll = true
   },
   updated: function() {
-    // TODO do we need to set the context on every update of the component?
-    const context = this.createContext()
-    this.actionManager.setContext(context)
     if (
       (this.title === "Withdraw" || this.step === "fees") &&
       this.$refs.next
@@ -497,21 +495,6 @@ export default {
     }
   },
   methods: {
-    createContext() {
-      return {
-        url: this.network.api_url, // state.connection.externals.node.url,
-        networkId: this.network.id, // state.connection.lastHeader.chain_id,
-        chainId: this.network.chain_id, // state.connection.lastHeader.chain_id,
-        connected: this.connected,
-        userAddress: this.session.address,
-        rewards: this.rewards, // state.distribution.rewards,
-        totalRewards: this.overview.totalRewards, // getters.totalRewards,
-        delegations: this.delegations, // state.delegates.delegates,
-        bondDenom: this.network.stakingDenom, // getters.bondDenom,
-        isExtensionAccount: this.isExtensionAccount,
-        account: this.overview.accountInformation
-      }
-    },
     confirmModalOpen() {
       let confirmResult = false
       if (this.session.currrentModalOpen) {
@@ -618,7 +601,7 @@ export default {
           this.gasEstimate = await this.actionManager.simulate(memo)
         } else {
           this.gasEstimate = await this.actionManager.simulateTxAPI(
-            this.createContext(),
+            this.context,
             type,
             properties,
             memo
@@ -656,8 +639,9 @@ export default {
         if (!this.useTxService) {
           hashResult = await this.actionManager.send(memo, feeProperties)
         } else {
+          await this.$apollo.queries.overview.refetch()
           hashResult = await this.actionManager.sendTxAPI(
-            this.createContext(),
+            this.context,
             type,
             memo,
             properties,

@@ -15,6 +15,11 @@ let mockSend = jest.fn(() => ({
 }))
 let mockSetContext = jest.fn()
 
+jest.mock("src/../config.js", () => ({
+  default_gas_price: 2.5e-8,
+  graphqlHost: "http://localhost:4000"
+}))
+
 jest.mock(`src/ActionModal/utils/ActionManager.js`, () => {
   return jest.fn(() => {
     return {
@@ -132,7 +137,12 @@ describe(`ActionModal`, () => {
       },
       stubs: ["router-link"]
     })
-    wrapper.setData({ network, overview })
+    const context = {
+      account: {
+        sequence: 0
+      }
+    }
+    wrapper.setData({ network, overview, context })
     wrapper.vm.open()
   })
 
@@ -618,7 +628,12 @@ describe(`ActionModal`, () => {
         isValidInput: jest.fn(() => true),
         selectedSignMethod: `local`,
         step: `details`,
-        validateChangeStep: jest.fn(() => {})
+        validateChangeStep: jest.fn(() => {}),
+        context: {
+          account: {
+            sequence: 0
+          }
+        }
       }
     })
 
@@ -701,6 +716,15 @@ describe(`ActionModal`, () => {
         expect(
           wrapper.find(".form-message.notice.extension-address").exists()
         ).toBe(true)
+        expect(wrapper.element).toMatchSnapshot()
+      })
+
+      it("should display loading if the sequence is not available yet", () => {
+        wrapper.setData({
+          context: { account: { sequence: undefined } },
+          step: "sign"
+        })
+        expect(wrapper.find("tmdataloading-stub").exists()).toBe(true)
         expect(wrapper.element).toMatchSnapshot()
       })
     })
