@@ -110,9 +110,9 @@ export default {
     }
   },
   mounted() {
-    if (this.overview.balances) {
+    setTimeout(() => {
       this.totalFiatValue = this.calculateTotalFiatValue()
-    }
+    }, 1000)
   },
   methods: {
     onWithdrawal() {
@@ -131,43 +131,48 @@ export default {
       // fiat currency it represents.
 
       // First we filter out the NGM balance and get the real fiat currencies names
-      const fiatBalances = this.overview.balances
-        .filter(({ denom }) => !denom.includes(`NGM`))
-        .map(({ denom, amount }) => ({
-          denom: denom.substr(2),
-          amount
-        }))
-      // Now we use the public API https://exchangeratesapi.io/ to add all balances into
-      // a single fiat currency value
-      const allTickers = fiatBalances
-        .map(({ denom }) => denom)
-        .filter(denom => denom !== `EUR`)
-        .join(`,`)
-      const exchangeRates = await fetch(
+      if (this.overview.balances) {
+        const fiatBalances = this.overview.balances
+          .filter(({ denom }) => !denom.includes(`NGM`))
+          .map(({ denom, amount }) => ({
+            denom: denom.substr(2),
+            amount
+          }))
+        // Now we use the public API https://exchangeratesapi.io/ to add all balances into
+        // a single fiat currency value
+        const allTickers = fiatBalances
+          .map(({ denom }) => denom)
+          .filter(denom => denom !== `EUR`)
+          .join(`,`)
+        const exchangeRates = await this.fetchExchangeRates(allTickers)
+
+        const tickersKeyMap = Object.keys(exchangeRates.rates)
+        const tickersValueMap = Object.values(exchangeRates.rates)
+        let totalFiatValue = 0
+        this.overview.balances.forEach(({ denom, amount }) => {
+          // in case it is Euro, we add it directly
+          if (denom.includes(`EUR`)) {
+            totalFiatValue += parseFloat(amount)
+          } else {
+            tickersKeyMap.forEach((ticker, index) => {
+              if (denom.includes(ticker)) {
+                totalFiatValue += parseFloat(amount) / tickersValueMap[index]
+              }
+            })
+          }
+        })
+        this.totalFiatValue = totalFiatValue
+          .toFixed(6)
+          .toString()
+          .concat(` €`)
+      }
+    },
+    async fetchExchangeRates(allTickers) {
+      return await fetch(
         `https://api.exchangeratesapi.io/latest?&symbols=${allTickers}`
       )
         .then(r => r.json())
         .catch(error => console.error(error))
-
-      const tickersKeyMap = Object.keys(exchangeRates.rates)
-      const tickersValueMap = Object.values(exchangeRates.rates)
-      let totalFiatValue = 0
-      this.overview.balances.forEach(({ denom, amount }) => {
-        // in case it is Euro, we add it directly
-        if (denom.includes(`EUR`)) {
-          totalFiatValue += parseFloat(amount)
-        } else {
-          tickersKeyMap.forEach((ticker, index) => {
-            if (denom.includes(ticker)) {
-              totalFiatValue += parseFloat(amount) / tickersValueMap[index]
-            }
-          })
-        }
-      })
-      this.totalFiatValue = totalFiatValue
-        .toFixed(6)
-        .toString()
-        .concat(` €`)
     }
   },
   apollo: {
