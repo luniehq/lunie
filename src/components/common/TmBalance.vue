@@ -17,20 +17,16 @@
             {{ overview.totalStake | shortDecimals | noBlanks }}
           </h2>
         </div>
-        <TmFormStruct :submit="onSubmit">
-          <TmFormGroup
-            field-id="currency-selector"
-            field-label="Select Currency"
-          >
-            <TmField
-              id="currency-selector"
-              v-model="selectedFiatCurrency"
-              :options="fiatCurrencies"
-              :placeholder="`Select your currency...`"
-              type="select"
-            />
-          </TmFormGroup>
-        </TmFormStruct>
+        <TmFormGroup field-id="currency" field-label="Currency">
+          <TmField
+            id="currency-selector"
+            v-model="selectedFiatCurrency"
+            :title="currency"
+            :options="fiatCurrencies"
+            placeholder="Select your currency..."
+            type="select"
+          />
+        </TmFormGroup>
         <div v-if="overview.balances" class="row small-container">
           <div class="col">
             <h3>Total Tokens</h3>
@@ -85,6 +81,8 @@ import { noBlanks } from "src/filters"
 import TmBtn from "common/TmBtn"
 import SendModal from "src/ActionModal/components/SendModal"
 import ModalWithdrawRewards from "src/ActionModal/components/ModalWithdrawRewards"
+import TmFormStruct from "common/TmFormStruct"
+import TmFormGroup from "common/TmFormGroup"
 import TmField from "src/components/common/TmField"
 import { UserTransactionAdded } from "src/gql"
 import { mapGetters } from "vuex"
@@ -92,8 +90,9 @@ import gql from "graphql-tag"
 export default {
   name: `tm-balance`,
   components: {
-    TmBtn,
+    TmFormGroup,
     TmField,
+    TmBtn,
     SendModal,
     ModalWithdrawRewards
   },
@@ -106,7 +105,8 @@ export default {
       overview: {},
       stakingDenom: "",
       totalFiatValue: `Tokens Total Fiat Value`,
-      selectedFiatCurrency: ``
+      selectedFiatCurrency: ``,
+      currencySign: ``
     }
   },
   computed: {
@@ -130,6 +130,11 @@ export default {
         { key: `GBP`, value: `GBP` },
         { key: `CHF`, value: `CHF` }
       ]
+    },
+    async currency() {
+      if (!this.selectedFiatCurrency) return ``
+
+      await this.calculateTotalFiatValue()
     }
   },
   mounted() {
@@ -138,9 +143,6 @@ export default {
     }, 1000)
   },
   methods: {
-    async onSubmit() {
-      await this.calculateTotalFiatValue()
-    },
     onWithdrawal() {
       this.$refs.ModalWithdrawRewards.open()
     },
@@ -185,10 +187,11 @@ export default {
             })
           }
         })
+        this.getCurrencySign(this.selectedFiatCurrency)
         this.totalFiatValue = totalFiatValue
           .toFixed(6)
           .toString()
-          .concat(` €`)
+          .concat(` ${this.currencySign}`)
       }
     },
     async fetchExchangeRates(allTickers) {
@@ -197,6 +200,28 @@ export default {
       )
         .then(r => r.json())
         .catch(error => console.error(error))
+    },
+    getCurrencySign(currency) {
+      switch (currency) {
+        case `EUR`:
+          this.currencySign = `€`
+          break
+        case `USD`:
+          this.currencySign = `$`
+          break
+        case `GBP`:
+          this.currencySign = `£`
+          break
+        case `CHF`:
+          this.currencySign = `Fr`
+          break
+        case `JPY`:
+          this.currencySign = `¥`
+          break
+        default:
+          this.currencySign = `?`
+          break
+      }
     }
   },
   apollo: {
