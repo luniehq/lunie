@@ -17,6 +17,20 @@
             {{ overview.totalStake | shortDecimals | noBlanks }}
           </h2>
         </div>
+        <TmFormStruct :submit="onSubmit">
+          <TmFormGroup
+            field-id="currency-selector"
+            field-label="Select Currency"
+          >
+            <TmField
+              id="currency-selector"
+              v-model="selectedFiatCurrency"
+              :options="fiatCurrencies"
+              :placeholder="`Select your currency...`"
+              type="select"
+            />
+          </TmFormGroup>
+        </TmFormStruct>
         <div v-if="overview.balances" class="row small-container">
           <div class="col">
             <h3>Total Tokens</h3>
@@ -91,7 +105,8 @@ export default {
     return {
       overview: {},
       stakingDenom: "",
-      totalFiatValue: `Tokens Total Fiat Value`
+      totalFiatValue: `Tokens Total Fiat Value`,
+      selectedFiatCurrency: ``
     }
   },
   computed: {
@@ -107,6 +122,14 @@ export default {
         value: ``,
         key: denom.concat(` ` + amount)
       }))
+    },
+    fiatCurrencies() {
+      return [
+        { key: `EUR`, value: `EUR` },
+        { key: `USD`, value: `USD` },
+        { key: `GBP`, value: `GBP` },
+        { key: `CHF`, value: `CHF` }
+      ]
     }
   },
   mounted() {
@@ -115,14 +138,15 @@ export default {
     }, 1000)
   },
   methods: {
+    async onSubmit() {
+      await this.calculateTotalFiatValue()
+    },
     onWithdrawal() {
       this.$refs.ModalWithdrawRewards.open()
     },
     onSend() {
       this.$refs.SendModal.open()
     },
-    // This function will receive the desired fiat currency to display as a parameter
-    // Right now it is EUR by default
     async calculateTotalFiatValue() {
       // When e-Money goes live they will count with a trading platform where the value
       // for the different backed tokens will be changing slightly.
@@ -131,7 +155,7 @@ export default {
       // fiat currency it represents.
 
       // First we filter out the NGM balance and get the real fiat currencies names
-      if (this.overview.balances) {
+      if (this.overview.balances && this.selectedFiatCurrency) {
         const fiatBalances = this.overview.balances
           .filter(({ denom }) => !denom.includes(`NGM`))
           .map(({ denom, amount }) => ({
@@ -142,7 +166,7 @@ export default {
         // a single fiat currency value
         const allTickers = fiatBalances
           .map(({ denom }) => denom)
-          .filter(denom => denom !== `EUR`)
+          .filter(denom => denom !== this.selectedFiatCurrency)
           .join(`,`)
         const exchangeRates = await this.fetchExchangeRates(allTickers)
 
@@ -150,8 +174,8 @@ export default {
         const tickersValueMap = Object.values(exchangeRates.rates)
         let totalFiatValue = 0
         this.overview.balances.forEach(({ denom, amount }) => {
-          // in case it is Euro, we add it directly
-          if (denom.includes(`EUR`)) {
+          // in case it is the base fiat currency selected, we add it directly
+          if (denom.includes(this.selectedFiatCurrency)) {
             totalFiatValue += parseFloat(amount)
           } else {
             tickersKeyMap.forEach((ticker, index) => {
@@ -302,6 +326,12 @@ export default {
   padding-right: 2.5rem;
 }
 
+#currency-selector.tm-select {
+  position: absolute;
+  right: 1.25rem;
+  top: 1.25rem;
+}
+
 .rewards h2 {
   color: var(--success);
   font-size: var(--m);
@@ -360,6 +390,10 @@ export default {
   .total-atoms {
     padding: 1rem 0;
     text-align: center;
+  }
+
+  #currency-selector.tm-select {
+    width: 40px;
   }
 
   .button-container {
