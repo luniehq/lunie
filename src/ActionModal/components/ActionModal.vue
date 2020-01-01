@@ -9,14 +9,16 @@
       >
         <i class="material-icons">arrow_back</i>
       </div>
-      <div id="closeBtn" class="action-modal-icon action-modal-close" @click="close">
+      <div
+        id="closeBtn"
+        class="action-modal-icon action-modal-close"
+        @click="close"
+      >
         <i class="material-icons">close</i>
       </div>
       <div class="action-modal-header">
         <span class="action-modal-title">
-          {{
-          requiresSignIn ? `Sign in required` : title
-          }}
+          {{ requiresSignIn ? `Sign in required` : title }}
         </span>
         <Steps
           v-if="
@@ -62,11 +64,15 @@
             field-label="Gas Price"
           >
             <span class="input-suffix">
-              {{
-              network.stakingDenom | viewDenom
-              }}
+              {{ network.stakingDenom | viewDenom }}
             </span>
-            <TmField id="gas-price" v-model="gasPrice" step="0.000000001" type="number" min="0" />
+            <TmField
+              id="gas-price"
+              v-model="gasPrice"
+              step="0.000000001"
+              type="number"
+              min="0"
+            />
             <TmFormMsg
               v-if="overview.liquidStake === 0"
               :msg="`doesn't have any ${network.stakingDenom}s`"
@@ -101,7 +107,9 @@
         </div>
         <div v-else-if="step === signStep" class="action-modal-form">
           <!-- fallback to prevent the user to submit a tx before the sequence was loaded -->
-          <TmDataLoading v-if="!context.account || context.account.sequence === undefined" />
+          <TmDataLoading
+            v-if="!context.account || context.account.sequence === undefined"
+          />
           <TmFormGroup
             v-else-if="signMethods.length > 1"
             class="action-modal-form-group"
@@ -122,9 +130,9 @@
           >
             <div v-if="session.browserWithLedgerSupport">
               {{
-              sending
-              ? `Please verify and sign the transaction on your Ledger`
-              : `Please plug in your Ledger&nbsp;Nano and open
+                sending
+                  ? `Please verify and sign the transaction on your Ledger`
+                  : `Please plug in your Ledger&nbsp;Nano and open
               the Cosmos app`
               }}
             </div>
@@ -152,7 +160,8 @@
                 href="https://chrome.google.com/webstore/category/extensions?ref=lunie"
                 target="_blank"
                 rel="noopener norefferer"
-              >Chrome Web Store</a>.
+                >Chrome Web Store</a
+              >.
             </div>
           </HardwareState>
           <form
@@ -183,31 +192,45 @@
         <div v-else-if="step === inclusionStep" class="action-modal-form">
           <TmDataMsg icon="hourglass_empty" :spin="true">
             <div slot="title">Sent and confirming</div>
-            <div slot="subtitle">Waiting for confirmation from {{ networkId }}.</div>
+            <div slot="subtitle">
+              Waiting for confirmation from {{ networkId }}.
+            </div>
           </TmDataMsg>
         </div>
-        <div v-else-if="step === successStep" class="action-modal-form success-step">
+        <div
+          v-else-if="step === successStep"
+          class="action-modal-form success-step"
+        >
           <TmDataMsg icon="check" :success="true">
             <div slot="title">{{ notifyMessage.title }}</div>
             <div slot="subtitle">
               {{ notifyMessage.body }}
               <br />
               <br />Block
-              <router-link :to="`/blocks/${includedHeight}`">#{{ prettyIncludedHeight }}</router-link>
+              <router-link :to="`/blocks/${includedHeight}`"
+                >#{{ prettyIncludedHeight }}</router-link
+              >
             </div>
           </TmDataMsg>
         </div>
         <p
           v-if="submissionError"
           class="tm-form-msg sm tm-form-msg--error submission-error"
-        >{{ submissionError }}</p>
+        >
+          {{ submissionError }}
+        </p>
         <div class="action-modal-footer">
           <slot name="action-modal-footer">
             <TmFormGroup
               v-if="[defaultStep, feeStep, signStep].includes(step)"
               class="action-modal-group"
             >
-              <TmBtn id="closeBtn" value="Cancel" type="tertiary" @click.native="close" />
+              <TmBtn
+                id="closeBtn"
+                value="Cancel"
+                type="tertiary"
+                @click.native="close"
+              />
               <TmBtn
                 v-if="requiresSignIn"
                 v-focus
@@ -272,6 +295,7 @@ import { between, requiredIf } from "vuelidate/lib/validators"
 import { track } from "scripts/google-analytics"
 import { UserTransactionAdded } from "src/gql"
 import config from "src/../config"
+import * as Sentry from "@sentry/browser"
 
 import ActionManager from "../utils/ActionManager"
 
@@ -652,8 +676,8 @@ export default {
         const { hash } = hashResult
         this.txHash = hash
         this.step = inclusionStep
-      } catch ({ message }) {
-        this.onSendingFailed(message)
+      } catch (error) {
+        this.onSendingFailed(error)
       }
     },
     onTxIncluded() {
@@ -667,10 +691,17 @@ export default {
       this.$emit(`txIncluded`)
       this.$apollo.queries.overview.refetch()
     },
-    onSendingFailed(message) {
+    onSendingFailed(error) {
+      Sentry.withScope(function(scope) {
+        scope.setExtra("signMethod", this.selectedSignMethod)
+        scope.setExtra("transactionData", this.transactionData)
+        scope.setExtra("gasEstimate", this.gasEstimate)
+        scope.setExtra("gasPrice", this.gasPrice)
+        Sentry.captureException(error)
+      })
       this.step = signStep
-      this.submissionError = `${this.submissionErrorPrefix}: ${message}.`
-      this.trackEvent(`event`, `failed-submit`, this.title, message)
+      this.submissionError = `${this.submissionErrorPrefix}: ${error.message}.`
+      this.trackEvent(`event`, `failed-submit`, this.title, error.message)
       this.$apollo.queries.overview.refetch()
     },
     async connectLedger() {
@@ -826,7 +857,7 @@ export default {
               this.onTxIncluded()
             } else {
               /* istanbul ignore next */
-              this.onSendingFailed(log)
+              this.onSendingFailed(new Error(log))
             }
           }
           this.txHash = null
