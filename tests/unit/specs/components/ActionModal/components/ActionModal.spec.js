@@ -33,6 +33,11 @@ jest.mock(`src/ActionModal/utils/ActionManager.js`, () => {
   })
 })
 
+// TODO move into global mock to not duplicate everywhere
+jest.mock("@sentry/browser", () => ({
+  withScope: () => {}
+}))
+
 describe(`ActionModal`, () => {
   let wrapper, $store, $apollo
 
@@ -177,10 +182,10 @@ describe(`ActionModal`, () => {
     }
     await ActionModal.methods.submit.call(self)
     expect(self.onSendingFailed).toHaveBeenCalledWith(
-      "some kind of error message"
+      new Error("some kind of error message")
     )
 
-    ActionModal.methods.onSendingFailed.call(self, "some kind of error message")
+    ActionModal.methods.onSendingFailed.call(self, new Error("some kind of error message"))
     expect(self.submissionError).toEqual(`PREFIX: some kind of error message.`)
   })
 
