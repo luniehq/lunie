@@ -86,8 +86,12 @@ export default {
       return this.overview.totalRewards > 0
     },
     getAllDenoms() {
-      const balances = this.overview.balances
-      return balances.map(({ denom }) => denom)
+      if (this.overview.balances) {
+        const balances = this.overview.balances
+        return balances.map(({ denom }) => denom)
+      } else {
+        return [this.stakingDenom]
+      }
     }
   },
   methods: {
