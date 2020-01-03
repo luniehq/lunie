@@ -47,7 +47,7 @@
       field-id="amount"
       field-label="Amount"
     >
-      <span class="input-suffix max-button">{{ denoms[0] }}</span>
+      <span class="input-suffix max-button">{{ selectedToken }}</span>
       <TmFieldGroup>
         <TmField
           id="amount"
@@ -66,8 +66,8 @@
         />
       </TmFieldGroup>
       <TmFormMsg
-        v-if="balances[0].amount === 0"
-        :msg="`doesn't have any ${denoms[0]}s`"
+        v-if="selectedBalance.amount === 0"
+        :msg="`doesn't have any ${selectedToken}s`"
         name="Wallet"
         type="custom"
       />
@@ -93,6 +93,25 @@
         msg="You are about to use all your tokens for this transaction. Consider leaving a little bit left over to cover the network fees."
         type="custom"
         class="tm-form-msg--desc max-message"
+      />
+    </TmFormGroup>
+    <TmFormGroup
+      :error="$v.token.$error"
+      class="action-modal-form-group"
+      field-id="selected-token"
+      field-label="Token"
+    >
+      <TmField
+        v-model="selectedToken"
+        :title="token"
+        :options="getDenoms"
+        placeholder="Select the token"
+        type="select"
+      />
+      <TmFormMsg
+        v-if="$v.token.$error && !$v.token.required && !selectedToken"
+        name="Token"
+        type="required"
       />
     </TmFormGroup>
     <a v-if="editMemo === false" id="edit-memo-btn" @click="showMemo()">
@@ -163,6 +182,8 @@ export default {
     memo: defaultMemo,
     max_memo_characters: 256,
     editMemo: false,
+    selectedToken: ``,
+    selectedBalance: ``,
     balances: [
       {
         amount: null,
@@ -174,13 +195,15 @@ export default {
     ...mapGetters([`network`]),
     ...mapGetters({ userAddress: `address` }),
     transactionData() {
+      // This is the best place I have found so far to call this function
+      this.getBalance()
       return {
         type: transaction.SEND,
         toAddress: this.address,
         amounts: [
           {
             amount: uatoms(+this.amount),
-            denom: toMicroDenom(this.balances[0].denom)
+            denom: toMicroDenom(this.selectedToken)
           }
         ],
         memo: this.memo
@@ -189,15 +212,27 @@ export default {
     notifyMessage() {
       return {
         title: `Successful Send`,
-        body: `Successfully sent ${+this.amount} ${this.denoms[0]}s to ${
+        body: `Successfully sent ${+this.amount} ${this.selectedToken}s to ${
           this.address
         }`
       }
+    },
+    getDenoms() {
+      return this.denoms.map(denom => (denom = { key: denom, value: denom }))
     }
   },
   methods: {
     debug() {
       console.log("DENOMS are", this.denoms)
+      console.log("Selected Token is", this.selectedToken)
+      console.log("Selected Balance is", this.selectedBalance)
+    },
+    getBalance() {
+      if (this.selectedToken) {
+        this.selectedBalance = this.balances.filter(
+          balance => balance.denom === this.selectedToken
+        )[0]
+      }
     },
     open() {
       this.$refs.actionModal.open()
@@ -220,14 +255,21 @@ export default {
       this.sending = false
     },
     setMaxAmount() {
-      this.amount = this.balances[0].amount
+      this.amount = this.selectedBalance.amount
     },
     isMaxAmount() {
-      if (this.balances[0].amount === 0) {
+      if (this.selectedBalance.amount === 0) {
         return false
       } else {
-        return parseFloat(this.amount) === parseFloat(this.balances[0].amount)
+        return (
+          parseFloat(this.amount) === parseFloat(this.selectedBalance.amount)
+        )
       }
+    },
+    token() {
+      if (!this.selectedToken) return ``
+
+      return this.selectedToken
     },
     bech32Validate(param) {
       try {
@@ -257,9 +299,10 @@ export default {
       amount: {
         required: x => !!x && x !== `0`,
         decimal,
-        between: between(SMALLEST, this.balances[0].amount)
+        between: between(SMALLEST, this.selectedBalance.amount)
       },
       denom: { required },
+      token: { required },
       memo: {
         maxLength: maxLength(this.max_memo_characters)
       }
