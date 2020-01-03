@@ -9,19 +9,37 @@ exports[`TmBalance do not show available atoms when the user has none in the fir
       class="values-container"
     >
       <div
-        class="total-atoms"
+        class="upper-header"
       >
-        <h3>
-          Total ATOM
-        </h3>
-         
-        <h2
-          class="total-atoms__value"
+        <div
+          class="total-atoms"
         >
+          <h3>
+            Total ATOM
+          </h3>
+           
+          <h2
+            class="total-atoms__value"
+          >
+            
+            0
           
-          0
-        
-        </h2>
+          </h2>
+        </div>
+         
+        <tmformgroup-stub
+          class="currency-selector"
+          fieldid="currency"
+          fieldlabel="Currency"
+        >
+          <tmfield-stub
+            options="[object Object],[object Object],[object Object],[object Object],[object Object]"
+            placeholder="Select your currency..."
+            title=""
+            type="select"
+            value=""
+          />
+        </tmformgroup-stub>
       </div>
        
       <!---->
@@ -70,19 +88,37 @@ exports[`TmBalance show the balance header when signed in 1`] = `
       class="values-container"
     >
       <div
-        class="total-atoms"
+        class="upper-header"
       >
-        <h3>
-          Total ATOM
-        </h3>
-         
-        <h2
-          class="total-atoms__value"
+        <div
+          class="total-atoms"
         >
+          <h3>
+            Total ATOM
+          </h3>
+           
+          <h2
+            class="total-atoms__value"
+          >
+            
+            3,210
           
-          3,210
-        
-        </h2>
+          </h2>
+        </div>
+         
+        <tmformgroup-stub
+          class="currency-selector"
+          fieldid="currency"
+          fieldlabel="Currency"
+        >
+          <tmfield-stub
+            options="[object Object],[object Object],[object Object],[object Object],[object Object]"
+            placeholder="Select your currency..."
+            title=""
+            type="select"
+            value=""
+          />
+        </tmformgroup-stub>
       </div>
        
       <!---->
