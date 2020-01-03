@@ -148,8 +148,8 @@ export default {
     TmBtn
   },
   props: {
-    denom: {
-      type: String,
+    denoms: {
+      type: Array,
       required: true
     }
   },

@@ -46,7 +46,7 @@
         />
       </div>
 
-      <SendModal ref="SendModal" :denom="stakingDenom" />
+      <SendModal ref="SendModal" :denoms="allDenoms" />
       <ModalWithdrawRewards ref="ModalWithdrawRewards" />
     </div>
   </div>
@@ -75,7 +75,8 @@ export default {
   data() {
     return {
       overview: {},
-      stakingDenom: ""
+      stakingDenom: "",
+      allDenoms: []
     }
   },
   computed: {
@@ -84,7 +85,11 @@ export default {
     // the validator rewards are needed to filter the top 5 validators to withdraw from
     readyToWithdraw() {
       return this.overview.totalRewards > 0
-    }
+    },
+    getDenoms() {
+      let balances = this.overview.balances
+      this.allDenoms = balances.map(({ denom }) => denom)
+    },
   },
   methods: {
     onWithdrawal() {
