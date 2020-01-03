@@ -89,7 +89,7 @@ export default {
       default: null
     },
     placeholder: {
-      type: ``, // temporary fix while I figure this out
+      type: String,
       default: null
     },
     size: {

@@ -11,22 +11,27 @@
     </div>
     <div v-else>
       <div class="values-container">
-        <div class="total-atoms">
-          <h3>Total {{ stakingDenom }}</h3>
-          <h2 class="total-atoms__value">
-            {{ overview.totalStake | shortDecimals | noBlanks }}
-          </h2>
+        <div class="upper-header">
+          <div class="total-atoms">
+            <h3>Total {{ stakingDenom }}</h3>
+            <h2 class="total-atoms__value">
+              {{ overview.totalStake | shortDecimals | noBlanks }}
+            </h2>
+          </div>
+          <TmFormGroup
+            class="currency-selector"
+            field-id="currency"
+            field-label="Currency"
+          >
+            <TmField
+              v-model="selectedFiatCurrency"
+              :title="currency"
+              :options="fiatCurrencies"
+              placeholder="Select your currency..."
+              type="select"
+            />
+          </TmFormGroup>
         </div>
-        <TmFormGroup field-id="currency" field-label="Currency">
-          <TmField
-            id="currency-selector"
-            v-model="selectedFiatCurrency"
-            :title="currency"
-            :options="fiatCurrencies"
-            placeholder="Select your currency..."
-            type="select"
-          />
-        </TmFormGroup>
         <div v-if="overview.balances" class="row small-container">
           <div class="col">
             <h3>Total Tokens</h3>
@@ -81,7 +86,6 @@ import { noBlanks } from "src/filters"
 import TmBtn from "common/TmBtn"
 import SendModal from "src/ActionModal/components/SendModal"
 import ModalWithdrawRewards from "src/ActionModal/components/ModalWithdrawRewards"
-import TmFormStruct from "common/TmFormStruct"
 import TmFormGroup from "common/TmFormGroup"
 import TmField from "src/components/common/TmField"
 import { UserTransactionAdded } from "src/gql"
@@ -128,19 +132,15 @@ export default {
         { key: `EUR`, value: `EUR` },
         { key: `USD`, value: `USD` },
         { key: `GBP`, value: `GBP` },
-        { key: `CHF`, value: `CHF` }
+        { key: `CHF`, value: `CHF` },
+        { key: `JPY`, value: `JPY` }
       ]
     },
-    async currency() {
+    currency() {
       if (!this.selectedFiatCurrency) return ``
 
-      await this.calculateTotalFiatValue()
+      return this.calculateTotalFiatValue()
     }
-  },
-  mounted() {
-    setTimeout(() => {
-      this.totalFiatValue = this.calculateTotalFiatValue()
-    }, 1000)
   },
   methods: {
     onWithdrawal() {
@@ -170,8 +170,12 @@ export default {
           .map(({ denom }) => denom)
           .filter(denom => denom !== this.selectedFiatCurrency)
           .join(`,`)
-        const exchangeRates = await this.fetchExchangeRates(allTickers)
-
+        const exchangeRates = await this.fetchExchangeRates(
+          this.selectedFiatCurrency,
+          allTickers
+        )
+        // Now we have the exchange rates, we can proceed to add all the tokens times
+        // their fiat value
         const tickersKeyMap = Object.keys(exchangeRates.rates)
         const tickersValueMap = Object.values(exchangeRates.rates)
         let totalFiatValue = 0
@@ -187,6 +191,7 @@ export default {
             })
           }
         })
+        // Finally we get the proper currency sign to display
         this.getCurrencySign(this.selectedFiatCurrency)
         this.totalFiatValue = totalFiatValue
           .toFixed(6)
@@ -194,9 +199,9 @@ export default {
           .concat(` ${this.currencySign}`)
       }
     },
-    async fetchExchangeRates(allTickers) {
+    async fetchExchangeRates(selectedFiatCurrency, allTickers) {
       return await fetch(
-        `https://api.exchangeratesapi.io/latest?&symbols=${allTickers}`
+        `https://api.exchangeratesapi.io/latest?base=${selectedFiatCurrency}&symbols=${allTickers}`
       )
         .then(r => r.json())
         .catch(error => console.error(error))
@@ -351,10 +356,10 @@ export default {
   padding-right: 2.5rem;
 }
 
-#currency-selector.tm-select {
+.currency-selector.tm-form-group {
   position: absolute;
   right: 1.25rem;
-  top: 1.25rem;
+  top: -0.7rem;
 }
 
 .rewards h2 {
@@ -417,8 +422,9 @@ export default {
     text-align: center;
   }
 
-  #currency-selector.tm-select {
+  .currency-selector.tm-form-group {
     width: 40px;
+    right: 2.5rem;
   }
 
   .button-container {
