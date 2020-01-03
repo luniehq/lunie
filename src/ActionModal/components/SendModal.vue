@@ -12,10 +12,6 @@
     @close="clear"
     @txIncluded="onSuccess"
   >
-    <div
-      style="width:30px;height:30px;border:5px black solid"
-      @click="debug()"
-    ></div>
     <TmFormGroup
       :error="$v.address.$error && $v.address.$invalid"
       class="action-modal-form-group"
@@ -96,14 +92,16 @@
       />
     </TmFormGroup>
     <TmFormGroup
+      v-if="getDenoms.length > 1"
       :error="$v.selectedToken.$error"
       class="action-modal-form-group"
       field-id="selected-token"
       field-label="Token"
     >
       <TmField
+        id="token"
         v-model="selectedToken"
-        :title="token"
+        :title="`Select the token you wish to operate with`"
         :options="getDenoms"
         placeholder="Select the token"
         type="select"
@@ -195,8 +193,12 @@ export default {
     ...mapGetters([`network`]),
     ...mapGetters({ userAddress: `address` }),
     transactionData() {
-      // This is the best place I have found so far to call this function
-      this.getBalance()
+      if (!this.selectedToken) {
+        this.setTokenandBalance()
+      } else {
+        // This is the best place I have found so far to call this function
+        this.getBalance()
+      }
       return {
         type: transaction.SEND,
         toAddress: this.address,
@@ -222,18 +224,6 @@ export default {
     }
   },
   methods: {
-    debug() {
-      console.log("DENOMS are", this.denoms)
-      console.log("Selected Token is", this.selectedToken)
-      console.log("Selected Balance is", this.selectedBalance)
-    },
-    getBalance() {
-      if (this.selectedToken) {
-        this.selectedBalance = this.balances.filter(
-          balance => balance.denom === this.selectedToken
-        )[0]
-      }
-    },
     open() {
       this.$refs.actionModal.open()
     },
@@ -265,6 +255,17 @@ export default {
           parseFloat(this.amount) === parseFloat(this.selectedBalance.amount)
         )
       }
+    },
+    getBalance() {
+      if (this.selectedToken) {
+        this.selectedBalance = this.balances.filter(
+          balance => balance.denom === this.selectedToken
+        )[0]
+      }
+    },
+    setTokenandBalance() {
+      this.selectedToken = this.getDenoms[0].value
+      this.selectedBalance = this.balances[0]
     },
     token() {
       if (!this.selectedToken) return ``
@@ -336,5 +337,10 @@ export default {
   margin-top: 2.4rem;
   font-size: 12px;
   cursor: pointer;
+}
+
+#token {
+  width: 155px;
+  margin-bottom: 10px;
 }
 </style>
