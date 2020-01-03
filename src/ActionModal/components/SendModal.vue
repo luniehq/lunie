@@ -12,6 +12,10 @@
     @close="clear"
     @txIncluded="onSuccess"
   >
+    <div
+      style="width:30px;height:30px;border:5px black solid"
+      @click="debug()"
+    ></div>
     <TmFormGroup
       :error="$v.address.$error && $v.address.$invalid"
       class="action-modal-form-group"
@@ -43,7 +47,7 @@
       field-id="amount"
       field-label="Amount"
     >
-      <span class="input-suffix max-button">{{ denom }}</span>
+      <span class="input-suffix max-button">{{ denoms[0] }}</span>
       <TmFieldGroup>
         <TmField
           id="amount"
@@ -62,8 +66,8 @@
         />
       </TmFieldGroup>
       <TmFormMsg
-        v-if="balance.amount === 0"
-        :msg="`doesn't have any ${denom}s`"
+        v-if="balances[0].amount === 0"
+        :msg="`doesn't have any ${denoms[0]}s`"
         name="Wallet"
         type="custom"
       />
@@ -159,10 +163,12 @@ export default {
     memo: defaultMemo,
     max_memo_characters: 256,
     editMemo: false,
-    balance: {
-      amount: null,
-      denom: ``
-    }
+    balances: [
+      {
+        amount: null,
+        denom: ``
+      }
+    ]
   }),
   computed: {
     ...mapGetters([`network`]),
@@ -174,7 +180,7 @@ export default {
         amounts: [
           {
             amount: uatoms(+this.amount),
-            denom: toMicroDenom(this.denom)
+            denom: toMicroDenom(this.balances[0].denom)
           }
         ],
         memo: this.memo
@@ -183,13 +189,16 @@ export default {
     notifyMessage() {
       return {
         title: `Successful Send`,
-        body: `Successfully sent ${+this.amount} ${this.denom}s to ${
+        body: `Successfully sent ${+this.amount} ${this.denoms[0]}s to ${
           this.address
         }`
       }
     }
   },
   methods: {
+    debug() {
+      console.log("DENOMS are", this.denoms)
+    },
     open() {
       this.$refs.actionModal.open()
     },
@@ -211,13 +220,13 @@ export default {
       this.sending = false
     },
     setMaxAmount() {
-      this.amount = this.balance.amount
+      this.amount = this.balances[0].amount
     },
     isMaxAmount() {
-      if (this.balance.amount === 0) {
+      if (this.balances[0].amount === 0) {
         return false
       } else {
-        return parseFloat(this.amount) === parseFloat(this.balance.amount)
+        return parseFloat(this.amount) === parseFloat(this.balances[0].amount)
       }
     },
     bech32Validate(param) {
@@ -248,7 +257,7 @@ export default {
       amount: {
         required: x => !!x && x !== `0`,
         decimal,
-        between: between(SMALLEST, this.balance.amount)
+        between: between(SMALLEST, this.balances[0].amount)
       },
       denom: { required },
       memo: {
@@ -257,14 +266,10 @@ export default {
     }
   },
   apollo: {
-    balance: {
+    balances: {
       query: gql`
-        query BalanceSendModal(
-          $networkId: String!
-          $address: String!
-          $denom: String!
-        ) {
-          balance(networkId: $networkId, address: $address, denom: $denom) {
+        query BalancesSendModal($networkId: String!, $address: String!) {
+          balances(networkId: $networkId, address: $address) {
             amount
             denom
           }
@@ -276,8 +281,7 @@ export default {
       variables() {
         return {
           networkId: this.network,
-          address: this.userAddress,
-          denom: this.denom
+          address: this.userAddress
         }
       }
     }

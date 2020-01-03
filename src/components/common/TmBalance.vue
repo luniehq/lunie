@@ -46,7 +46,7 @@
         />
       </div>
 
-      <SendModal ref="SendModal" :denoms="allDenoms" />
+      <SendModal ref="SendModal" :denoms="getAllDenoms" />
       <ModalWithdrawRewards ref="ModalWithdrawRewards" />
     </div>
   </div>
@@ -75,8 +75,7 @@ export default {
   data() {
     return {
       overview: {},
-      stakingDenom: "",
-      allDenoms: []
+      stakingDenom: ""
     }
   },
   computed: {
@@ -86,10 +85,10 @@ export default {
     readyToWithdraw() {
       return this.overview.totalRewards > 0
     },
-    getDenoms() {
-      let balances = this.overview.balances
-      this.allDenoms = balances.map(({ denom }) => denom)
-    },
+    getAllDenoms() {
+      const balances = this.overview.balances
+      return balances.map(({ denom }) => denom)
+    }
   },
   methods: {
     onWithdrawal() {
@@ -106,6 +105,10 @@ export default {
           overview(networkId: $networkId, address: $address) {
             totalRewards
             liquidStake
+            balances {
+              denom
+              amount
+            }
             totalStake
           }
         }
