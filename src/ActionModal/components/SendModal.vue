@@ -96,7 +96,7 @@
       />
     </TmFormGroup>
     <TmFormGroup
-      :error="$v.token.$error"
+      :error="$v.selectedToken.$error"
       class="action-modal-form-group"
       field-id="selected-token"
       field-label="Token"
@@ -109,7 +109,7 @@
         type="select"
       />
       <TmFormMsg
-        v-if="$v.token.$error && !$v.token.required && !selectedToken"
+        v-if="$v.selectedToken.$error && !$v.selectedToken.required"
         name="Token"
         type="required"
       />
@@ -302,7 +302,7 @@ export default {
         between: between(SMALLEST, this.selectedBalance.amount)
       },
       denom: { required },
-      token: { required },
+      selectedToken: { required },
       memo: {
         maxLength: maxLength(this.max_memo_characters)
       }
