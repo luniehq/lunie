@@ -30,16 +30,18 @@ describe(`SendModal`, () => {
         $store
       },
       propsData: {
-        denom: "STAKE"
+        denoms: ["STAKE"]
       },
       sync: false
     })
 
     wrapper.setData({
-      balance: {
-        denom: `STAKE`,
-        amount: 10000
-      }
+      balances: [
+        {
+          denom: `STAKE`,
+          amount: 10000
+        }
+      ]
     })
 
     wrapper.vm.$refs.actionModal = {
@@ -204,10 +206,12 @@ describe(`SendModal`, () => {
     })
     it(`should not show warning message if balance = 0`, async () => {
       wrapper.setData({
-        balance: {
-          amount: 0,
-          denom: "STAKE"
-        }
+        balances: [
+          {
+            amount: 0,
+            denom: "STAKE"
+          }
+        ]
       })
       wrapper.vm.setMaxAmount()
       await wrapper.vm.$nextTick()
@@ -217,10 +221,12 @@ describe(`SendModal`, () => {
     })
     it(`isMaxAmount() should return false if balance = 0`, async () => {
       wrapper.setData({
-        balance: {
-          amount: 0,
-          denom: "STAKE"
-        }
+        balances: [
+          {
+            amount: 0,
+            denom: "STAKE"
+          }
+        ]
       })
       wrapper.vm.setMaxAmount()
       await wrapper.vm.$nextTick()
