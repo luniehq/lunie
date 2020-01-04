@@ -56,6 +56,13 @@
             name="You can't sign in with a validator address"
             type="custom"
           />
+          <TmFormMsg
+            v-else-if="
+              $v.address.$error && !$v.address.isNotAnyOtherCosmosAddress
+            "
+            name="You can only sign in with a regular Cosmos address, starting with 'cosmos1'"
+            type="custom"
+          />
         </TmFormGroup>
       </div>
       <div class="session-footer">
@@ -127,6 +134,18 @@ export default {
         return false
       }
     },
+    isNotAnyOtherCosmosAddress(param) {
+      if (
+        param.substring(0, 9) !== "cosmospub" &&
+        param.substring(0, 13) !== "cosmosvalcons" &&
+        param.substring(0, 16) !== "cosmosvalconspub" &&
+        param.substring(0, 16) !== "cosmosvaloperpub"
+      ) {
+        return true
+      } else {
+        return false
+      }
+    },
     getAddressIcon(addressType) {
       if (addressType === "explore") return `language`
       if (addressType === "ledger") return `vpn_key`
@@ -149,7 +168,8 @@ export default {
       address: {
         required,
         bech32Validate: this.bech32Validate,
-        isNotAValidatorAddress: this.isNotAValidatorAddress
+        isNotAValidatorAddress: this.isNotAValidatorAddress,
+        isNotAnyOtherCosmosAddress: this.isNotAnyOtherCosmosAddress
       }
     }
   }
