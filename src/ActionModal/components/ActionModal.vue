@@ -692,7 +692,7 @@ export default {
       this.$apollo.queries.overview.refetch()
     },
     onSendingFailed(error) {
-      Sentry.withScope(function(scope) {
+      Sentry.withScope(scope => {
         scope.setExtra("signMethod", this.selectedSignMethod)
         scope.setExtra("transactionData", this.transactionData)
         scope.setExtra("gasEstimate", this.gasEstimate)
