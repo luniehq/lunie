@@ -200,7 +200,7 @@ export default class ActionManager {
     if (result.success) {
       return { hash: result.hash }
     } else {
-      throw Error("Broadcast was not successfull: " + result.error)
+      throw Error("Broadcast was not successful: " + result.error)
     }
   }
 
