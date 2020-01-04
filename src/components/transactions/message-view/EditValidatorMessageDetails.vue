@@ -19,7 +19,7 @@
     </div>
     <div class="tx__content__right">
       <p class="amount">
-        {{ fee.amount | atoms | prettyLong }}&nbsp;
+        {{ fee.amount | prettyLong }}&nbsp;
         {{ fee.denom | viewDenom }}
       </p>
     </div>
@@ -27,14 +27,13 @@
 </template>
 
 <script>
-import { atoms, viewDenom, prettyLong } from "scripts/num.js"
+import { viewDenom, prettyLong } from "scripts/num.js"
 import { resolveValidatorName } from "src/filters"
 import TransactionIcon from "../TransactionIcon"
 
 export default {
   name: `edit-validator-message-details`,
   filters: {
-    atoms,
     viewDenom,
     prettyLong,
     resolveValidatorName

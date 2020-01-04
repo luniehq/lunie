@@ -23,14 +23,14 @@
     </div>
     <div class="tx__content__right">
       <p class="amount">
-        {{ coin.amount | atoms | prettyLong }} {{ coin.denom | viewDenom }}
+        {{ coin.amount | prettyLong }} {{ coin.denom | viewDenom }}
       </p>
     </div>
   </div>
 </template>
 
 <script>
-import { atoms, viewDenom, prettyLong } from "scripts/num.js"
+import { viewDenom, prettyLong } from "scripts/num.js"
 import { resolveValidatorName } from "src/filters"
 import { getCoin } from "scripts/transaction-utils"
 import TransactionIcon from "../TransactionIcon"
@@ -38,7 +38,6 @@ import TransactionIcon from "../TransactionIcon"
 export default {
   name: `undelegate-message-details`,
   filters: {
-    atoms,
     viewDenom,
     prettyLong,
     resolveValidatorName
