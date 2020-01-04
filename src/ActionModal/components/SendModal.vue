@@ -303,7 +303,7 @@ export default {
         decimal,
         between: between(SMALLEST, this.selectedBalance.amount)
       },
-      denom: { required },
+      denoms: { required },
       selectedToken: { required },
       memo: {
         maxLength: maxLength(this.max_memo_characters)
