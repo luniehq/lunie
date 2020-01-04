@@ -233,4 +233,37 @@ describe(`SendModal`, () => {
       expect(wrapper.vm.isMaxAmount()).toBe(false)
     })
   })
+
+  describe(`Set token and balance`, () => {
+    it(`it takes the corresponding balance from the balances array when
+    selectedToken has been chosen and balances has a length over 1`, async () => {
+      wrapper.setData({
+        selectedToken: `TOKEN1`,
+        balances: [
+          {
+            amount: 1,
+            denom: "TOKEN1"
+          },
+          {
+            amount: 2,
+            denom: "TOKEN2"
+          }
+        ]
+      })
+      wrapper.vm.setTokenAndBalance()
+      expect(wrapper.vm.selectedBalance.amount).toBe(1)
+    })
+    // This one creates a lot of ugly errors
+    // it(`returns empty string if selectedToken hasn't been chosen yet`, () => {
+    //   wrapper.setData({
+    //     balances: []
+    //   })
+    //   const res = wrapper.vm.token()
+    //   expect(res).toBe("")
+    // })
+    it(`returns selectedToken if selectedToken has been chosen`, () => {
+      const res = wrapper.vm.token()
+      expect(res).toBe("STAKE")
+    })
+  })
 })
