@@ -37,15 +37,6 @@ const ValidatorFragment = `
   selfStake
 `
 
-export const UndelegationFragment = `
-  validator {
-    ${ValidatorFragment}
-  }
-  amount
-  startHeight
-  endTime
-`
-
 export const AllValidators = () => {
   const currentNetwork = getCurrentNetwork()
   // console.log(`currentNetwork`, currentNetwork)
@@ -76,7 +67,12 @@ export const DelegatorValidators = schema => gql`
 export const UndelegationsForDelegator = schema => gql`
   query Undelegations($delegatorAddress: String!) {
     undelegations(networkId: "${schema}", delegatorAddress: $delegatorAddress) {
-      ${UndelegationFragment}
+      validator {
+        ${ValidatorFragment}
+      }
+      amount
+      startHeight
+      endTime
     }
   }
 `
