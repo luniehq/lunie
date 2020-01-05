@@ -19,6 +19,7 @@
             </h2>
           </div>
           <TmFormGroup
+            v-if="overview.balances"
             class="currency-selector"
             field-id="currency"
             field-label="Currency"
@@ -121,11 +122,13 @@ export default {
       return this.overview.totalRewards > 0
     },
     balances() {
-      let balances = this.overview.balances
-      return balances.map(({ denom, amount }) => ({
-        value: ``,
-        key: denom.concat(` ` + amount)
-      }))
+      if (this.overview.balances) {
+        let balances = this.overview.balances
+        return balances.map(({ denom, amount }) => ({
+          value: ``,
+          key: denom.concat(` ` + amount)
+        }))
+      }
     },
     fiatCurrencies() {
       return [
@@ -139,7 +142,7 @@ export default {
     currency() {
       if (!this.selectedFiatCurrency) return ``
 
-      return this.calculateTotalFiatValue()
+      return this.totalFiatValue
     }
   },
   methods: {
@@ -148,85 +151,6 @@ export default {
     },
     onSend() {
       this.$refs.SendModal.open()
-    },
-    async calculateTotalFiatValue() {
-      // When e-Money goes live they will count with a trading platform where the value
-      // for the different backed tokens will be changing slightly.
-      // They will provide with an API for us to query these values.
-      // For now we will assume a 1:1 ratio and treat each token like it were the real
-      // fiat currency it represents.
-
-      // First we filter out the NGM balance and get the real fiat currencies names
-      if (this.overview.balances && this.selectedFiatCurrency) {
-        const fiatBalances = this.overview.balances
-          .filter(({ denom }) => !denom.includes(`NGM`))
-          .map(({ denom, amount }) => ({
-            denom: denom.substr(2),
-            amount
-          }))
-        // Now we use the public API https://exchangeratesapi.io/ to add all balances into
-        // a single fiat currency value
-        const allTickers = fiatBalances
-          .map(({ denom }) => denom)
-          .filter(denom => denom !== this.selectedFiatCurrency)
-          .join(`,`)
-        const exchangeRates = await this.fetchExchangeRates(
-          this.selectedFiatCurrency,
-          allTickers
-        )
-        // Now we have the exchange rates, we can proceed to add all the tokens times
-        // their fiat value
-        const tickersKeyMap = Object.keys(exchangeRates.rates)
-        const tickersValueMap = Object.values(exchangeRates.rates)
-        let totalFiatValue = 0
-        this.overview.balances.forEach(({ denom, amount }) => {
-          // in case it is the base fiat currency selected, we add it directly
-          if (denom.includes(this.selectedFiatCurrency)) {
-            totalFiatValue += parseFloat(amount)
-          } else {
-            tickersKeyMap.forEach((ticker, index) => {
-              if (denom.includes(ticker)) {
-                totalFiatValue += parseFloat(amount) / tickersValueMap[index]
-              }
-            })
-          }
-        })
-        // Finally we get the proper currency sign to display
-        this.getCurrencySign(this.selectedFiatCurrency)
-        this.totalFiatValue = totalFiatValue
-          .toFixed(6)
-          .toString()
-          .concat(` ${this.currencySign}`)
-      }
-    },
-    async fetchExchangeRates(selectedFiatCurrency, allTickers) {
-      return await fetch(
-        `https://api.exchangeratesapi.io/latest?base=${selectedFiatCurrency}&symbols=${allTickers}`
-      )
-        .then(r => r.json())
-        .catch(error => console.error(error))
-    },
-    getCurrencySign(currency) {
-      switch (currency) {
-        case `EUR`:
-          this.currencySign = `€`
-          break
-        case `USD`:
-          this.currencySign = `$`
-          break
-        case `GBP`:
-          this.currencySign = `£`
-          break
-        case `CHF`:
-          this.currencySign = `Fr`
-          break
-        case `JPY`:
-          this.currencySign = `¥`
-          break
-        default:
-          this.currencySign = `?`
-          break
-      }
     }
   },
   apollo: {
@@ -280,6 +204,33 @@ export default {
         /* istanbul ignore next */
         return data.network.stakingDenom
       }
+    },
+    totalFiatValue: {
+    // if(this.overview.balances) {
+        query() {
+          if(this.overview.balances) {
+            gql`
+            query TotalFiatValue($networkId: String!, $balances: [BalanceInput], $selectedFiatCurrency: String!) {
+              totalfiatvalue(networkId: $networkId, balances: $balances, selectedFiatCurrency: $selectedFiatCurrency)
+            }
+            `
+          }
+        }
+        ,
+        variables() {
+          if(this.overview.balances) {
+            return {
+              networkId: this.network,
+              balances: this.overview.balances,
+              selectedFiatCurrency: this.selectedFiatCurrency
+            }
+          }
+        },
+        update(data) {
+          /* istanbul ignore next */
+          return data
+        }
+      // }
     },
     $subscribe: {
       userTransactionAdded: {
