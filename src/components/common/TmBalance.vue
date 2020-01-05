@@ -26,7 +26,7 @@
           >
             <TmField
               v-model="selectedFiatCurrency"
-              :title="currency"
+              :title="totalValue"
               :options="fiatCurrencies"
               placeholder="Select your currency..."
               type="select"
@@ -92,6 +92,7 @@ import TmField from "src/components/common/TmField"
 import { UserTransactionAdded } from "src/gql"
 import { mapGetters } from "vuex"
 import gql from "graphql-tag"
+
 export default {
   name: `tm-balance`,
   components: {
@@ -122,13 +123,14 @@ export default {
       return this.overview.totalRewards > 0
     },
     balances() {
+      let balances = ``
       if (this.overview.balances) {
-        let balances = this.overview.balances
-        return balances.map(({ denom, amount }) => ({
+        balances = this.overview.balances.map(({ denom, amount }) => ({
           value: ``,
           key: denom.concat(` ` + amount)
         }))
       }
+      return balances
     },
     fiatCurrencies() {
       return [
@@ -139,8 +141,9 @@ export default {
         { key: `JPY`, value: `JPY` }
       ]
     },
-    currency() {
+    totalValue() {
       if (!this.selectedFiatCurrency) return ``
+      this.fireQuery()
 
       return this.totalFiatValue
     }
@@ -151,6 +154,13 @@ export default {
     },
     onSend() {
       this.$refs.SendModal.open()
+    },
+    fireQuery() {
+      this.$apollo.queries.totalFiatValue.refetch({
+        networkId: this.network,
+        balances: this.overview.balances,
+        selectedFiatCurrency: this.selectedFiatCurrency
+      })
     }
   },
   apollo: {
@@ -206,31 +216,42 @@ export default {
       }
     },
     totalFiatValue: {
-    // if(this.overview.balances) {
-        query() {
-          if(this.overview.balances) {
-            gql`
-            query TotalFiatValue($networkId: String!, $balances: [BalanceInput], $selectedFiatCurrency: String!) {
-              totalfiatvalue(networkId: $networkId, balances: $balances, selectedFiatCurrency: $selectedFiatCurrency)
-            }
-            `
+      query() {
+        console.log("Inside QUERY")
+        return gql`
+          query totalFiatValue(
+            $networkId: String!
+            $balances: [BalanceInput]
+            $selectedFiatCurrency: String!
+          ) {
+            totalFiatValue(
+              networkId: $networkId
+              balances: $balances
+              selectedFiatCurrency: $selectedFiatCurrency
+            )
           }
+        `
+      },
+      variables() {
+        console.log("selected fiat currency is", this.selectedFiatCurrency)
+        return {
+          networkId: this.network,
+          balances: this.overview.balances,
+          selectedFiatCurrency: this.selectedFiatCurrency
         }
-        ,
-        variables() {
-          if(this.overview.balances) {
-            return {
-              networkId: this.network,
-              balances: this.overview.balances,
-              selectedFiatCurrency: this.selectedFiatCurrency
-            }
-          }
-        },
-        update(data) {
-          /* istanbul ignore next */
-          return data
+      },
+      update(data) {
+        /* istanbul ignore next */
+        console.log("data in totalFiatValue is ", data)
+        return data.totalFiatValue
+      },
+      skip() {
+        console.log("balances are ", this.overview.balances)
+        if (!this.overview.balances) {
+          console.log("Are we skipping this query?")
+          return this.skipQuery
         }
-      // }
+      }
     },
     $subscribe: {
       userTransactionAdded: {
