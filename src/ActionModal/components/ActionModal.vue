@@ -108,7 +108,7 @@
         <div v-else-if="step === signStep" class="action-modal-form">
           <!-- fallback to prevent the user to submit a tx before the sequence was loaded -->
           <TmDataLoading
-            v-if="!context.account || context.account.sequence === undefined"
+            v-if="!context.account || !Number.isInteger(context.account.sequence)"
           />
           <TmFormGroup
             v-else-if="signMethods.length > 1"
