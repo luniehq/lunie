@@ -238,7 +238,7 @@ export default {
         return {
           type: transaction.REDELEGATE,
           validatorSourceAddress: this.from,
-          validatorDestinationAddress: this.toSelectedIndex,
+          validatorDestinationAddress: this.targetValidator.operatorAddress,
           amount: uatoms(this.amount),
           denom: toMicroDenom(this.denom)
         }
@@ -255,7 +255,7 @@ export default {
       if (this.isRedelegation) {
         return {
           title: `Successfully restaked!`,
-          body: `You have successfully restaked your ${this.denom}s.`
+          body: `You have successfully restaked your ${this.denom}s`
         }
       } else {
         return {

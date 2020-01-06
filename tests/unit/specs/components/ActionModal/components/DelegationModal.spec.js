@@ -49,8 +49,9 @@ describe(`DelegationModal`, () => {
         $store: { getters, state },
         $apollo: {
           queries: {
-            balance: { refetch: () => { } },
-            delegations: { refetch: () => { } }
+            balance: { refetch: () => {} },
+            delegations: { refetch: () => {} },
+            validators: { refetch: () => {} }
           }
         }
       },
@@ -67,13 +68,18 @@ describe(`DelegationModal`, () => {
         {
           validator: validators[1],
           amount: 124
+        },
+        {
+          validator: validators[2],
+          amount: 200
         }
       ],
       denom: "STAKE",
       balance: {
         amount: 1000,
         denom: "STAKE"
-      }
+      },
+      validators: validators
     })
   })
 
@@ -158,6 +164,46 @@ describe(`DelegationModal`, () => {
       expect(wrapper.vm.notifyMessage).toEqual({
         title: `Successfully staked!`,
         body: `You have successfully staked your STAKEs`
+      })
+    })
+
+    it(`should send an event on success`, () => {
+      const self = {
+        $emit: jest.fn()
+      }
+      DelegationModal.methods.onSuccess.call(self)
+      expect(self.$emit).toHaveBeenCalledWith(
+        "success",
+        expect.objectContaining({})
+      )
+    })
+  })
+
+  describe("Submission Data for Redelegating", () => {
+    beforeEach(() => {
+      wrapper.setProps({
+        targetValidator: validators[2]
+      })
+      wrapper.setData({
+        amount: 10,
+        fromSelectedIndex: 2
+      })
+    })
+
+    it("should return correct transaction data for redelegating", () => {
+      expect(wrapper.vm.transactionData).toEqual({
+        type: "MsgRedelegate",
+        validatorDestinationAddress: "cosmosvaladdr1kjisjsd862323",
+        validatorSourceAddress: "cosmosvaladdr1sdsdsd123123",
+        amount: "10000000",
+        denom: "stake"
+      })
+    })
+
+    it("should return correct notification message for delegating", () => {
+      expect(wrapper.vm.notifyMessage).toEqual({
+        title: `Successfully restaked!`,
+        body: `You have successfully restaked your STAKEs`
       })
     })
 
