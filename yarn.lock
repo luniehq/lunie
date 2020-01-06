@@ -831,14 +831,22 @@
   resolved "https://registry.yarnpkg.com/@ledgerhq/logs/-/logs-4.72.0.tgz#43df23af013ad1135407e5cf33ca6e4c4c7708d5"
   integrity sha512-o+TYF8vBcyySRsb2kqBDv/KMeme8a2nwWoG+lAWzbDmWfb2/MrVWYCVYDYvjXdSoI/Cujqy1i0gIDrkdxa9chA==
 
-"@lunie/cosmos-keys@0.0.11":
-  version "0.0.11"
-  resolved "https://registry.yarnpkg.com/@lunie/cosmos-keys/-/cosmos-keys-0.0.11.tgz#694bcdd1b3106dfbe3078a9a8435de8428c030f9"
-  integrity sha512-iqxHMYAeqxRTo+qGdDJaBDxeMqH/2Zmtre0NgmKbfrL2pz1VTn8+mcx7cJPBpU3GtGBFSDsywWeK+ukIOa88pA==
+"@lunie/cosmos-api@0.2.5":
+  version "0.2.5"
+  resolved "https://registry.yarnpkg.com/@lunie/cosmos-api/-/cosmos-api-0.2.5.tgz#77bf93a14a9a68eabffa99d07f9e6c297a26fd19"
+  integrity sha512-4p2lNr1ByYeVGGQwKkp+BdK8fI5yZwOYNoDfFSOpJ80ybQeOF8ox5jTRZrWOetEP47fqBZA0Gv5jt5tTtJWW2A==
+  dependencies:
+    "@babel/runtime" "^7.5.4"
+    axios "^0.19.0"
+
+"@lunie/cosmos-keys@0.0.12":
+  version "0.0.12"
+  resolved "https://registry.yarnpkg.com/@lunie/cosmos-keys/-/cosmos-keys-0.0.12.tgz#686ba1a9121920c0c1c11b1d01dc0ba23ed4408e"
+  integrity sha512-djYRP/t23DE/1uQBe9LSXy0HZQ5alXWTEGyxKEolWF03FzODaZNIGn27EeUHhWOgyYzXg0KeOyXw438RNJKX+Q==
   dependencies:
     bech32 "^1.1.3"
-    bip32 "^1.0.4"
-    bip39 "^3.0.1"
+    bip32 "^2.0.4"
+    bip39 "^3.0.2"
     crypto-js "^3.1.9-1"
     secp256k1 "^3.6.2"
 
@@ -964,6 +972,11 @@
   version "12.12.14"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-12.12.14.tgz#1c1d6e3c75dba466e0326948d56e8bd72a1903d2"
   integrity sha512-u/SJDyXwuihpwjXy7hOOghagLEV1KdAST6syfnOk6QZAMzZuWZqXy5aYYZbh8Jdpd4escVFP0MvftHNDb9pruA==
+
+"@types/node@10.12.18":
+  version "10.12.18"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-10.12.18.tgz#1d3ca764718915584fcd9f6344621b7672665c67"
+  integrity sha512-fh+pAqt4xRzPfqA6eh3Z2y6fyZavRIumvjhaCL753+TVkGKGhpPeyrJG2JftD0T9q4GF00KjefsQ+PQNDdWQaQ==
 
 "@types/node@11.11.6":
   version "11.11.6"
@@ -2400,19 +2413,20 @@ bindings@^1.3.0, bindings@^1.5.0:
   dependencies:
     file-uri-to-path "1.0.0"
 
-bip32@^1.0.4:
-  version "1.0.4"
-  resolved "https://registry.yarnpkg.com/bip32/-/bip32-1.0.4.tgz#188ad57a45fb1342c9aabe969d0612c704a987b4"
-  integrity sha512-8T21eLWylZETolyqCPgia+MNp+kY37zFr7PTFDTPObHeNi9JlfG4qGIh8WzerIJidtwoK+NsWq2I5i66YfHoIw==
+bip32@^2.0.4:
+  version "2.0.4"
+  resolved "https://registry.yarnpkg.com/bip32/-/bip32-2.0.4.tgz#b662bd28710d4676fb351ba8a13be45cb4d85d01"
+  integrity sha512-ioPytarPDIrWckWMuK4RNUtvwhvWEc2fvuhnO0WEwu732k5OLjUXv4rXi2c/KJHw9ZMNQMkYRJrBw81RujShGQ==
   dependencies:
+    "@types/node" "10.12.18"
     bs58check "^2.1.1"
     create-hash "^1.2.0"
     create-hmac "^1.1.7"
-    tiny-secp256k1 "^1.0.0"
+    tiny-secp256k1 "^1.1.0"
     typeforce "^1.11.5"
     wif "^2.0.6"
 
-bip39@^3.0.1:
+bip39@^3.0.2:
   version "3.0.2"
   resolved "https://registry.yarnpkg.com/bip39/-/bip39-3.0.2.tgz#2baf42ff3071fc9ddd5103de92e8f80d9257ee32"
   integrity sha512-J4E1r2N0tUylTKt07ibXvhpT2c5pyAFgvuA5q1H9uDy6dEGpjV8jmymh3MTYJDLCNbIVClSB9FbND49I6N24MQ==
@@ -10658,11 +10672,6 @@ serialize-javascript@>=2.1.1, serialize-javascript@^1.4.0, serialize-javascript@
   resolved "https://registry.yarnpkg.com/serialize-javascript/-/serialize-javascript-2.1.1.tgz#952907a04a3e3a75af7f73d92d15e233862048b2"
   integrity sha512-MPLPRpD4FNqWq9tTIjYG5LesFouDhdyH0EPY3gVK4DRD5+g4aDqdNSzLIwceulo3Yj+PL1bPh6laE5+H6LTcrQ==
 
-serialize-javascript@^2.1.1:
-  version "2.1.1"
-  resolved "https://registry.yarnpkg.com/serialize-javascript/-/serialize-javascript-2.1.1.tgz#952907a04a3e3a75af7f73d92d15e233862048b2"
-  integrity sha512-MPLPRpD4FNqWq9tTIjYG5LesFouDhdyH0EPY3gVK4DRD5+g4aDqdNSzLIwceulo3Yj+PL1bPh6laE5+H6LTcrQ==
-
 serve-index@^1.9.1:
   version "1.9.1"
   resolved "https://registry.yarnpkg.com/serve-index/-/serve-index-1.9.1.tgz#d3768d69b1e7d82e5ce050fff5b453bea12a9239"
@@ -11672,7 +11681,7 @@ tiny-emitter@^2.0.0:
   resolved "https://registry.yarnpkg.com/tiny-emitter/-/tiny-emitter-2.1.0.tgz#1d1a56edfc51c43e863cbb5382a72330e3555423"
   integrity sha512-NB6Dk1A9xgQPMoGqC5CVXn123gWyte215ONT5Pp5a0yt4nlEoO1ZWeCwpncaekPHXO60i47ihFnZPiRPjRMq4Q==
 
-tiny-secp256k1@^1.0.0:
+tiny-secp256k1@^1.1.0:
   version "1.1.3"
   resolved "https://registry.yarnpkg.com/tiny-secp256k1/-/tiny-secp256k1-1.1.3.tgz#e93b1e1bf62e9bd1ad3ab24af27ff6127ce0e077"
   integrity sha512-ZpobrhOtHP98VYEN51IYQH1YcrbFpnxFhI6ceWa3OEbJn7eHvSd8YFjGPxbedGCy7PNYU1v/+BRsdvyr5uRd4g==

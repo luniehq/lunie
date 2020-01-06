@@ -12,7 +12,7 @@ const mockKeysLib = {
       address: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`
     }
   ],
-  storeWallet: () => {}
+  storeWallet: () => { }
 }
 jest.mock("@lunie/cosmos-keys", () => mockKeysLib)
 
@@ -58,7 +58,7 @@ describe(`Module: Keystore`, () => {
   it(`should test if the login works`, async () => {
     jest.doMock("@lunie/cosmos-keys", () => ({
       ...mockKeysLib,
-      testPassword: () => {}
+      testPassword: () => { }
     }))
     let output = await actions.testLogin(
       { state },
@@ -101,7 +101,8 @@ describe(`Module: Keystore`, () => {
       {
         seedPhrase,
         password,
-        name
+        name,
+        network: "cosmos-hub-mainnet"
       }
     )
     expect(dispatch).toHaveBeenCalledWith(`signIn`, {
@@ -121,7 +122,8 @@ describe(`Module: Keystore`, () => {
       {
         seedPhrase,
         password,
-        name
+        name,
+        network: "cosmos-hub-mainnet"
       }
     )
     expect(dispatch).toHaveBeenCalledWith(`loadAccounts`)
@@ -137,12 +139,32 @@ describe(`Module: Keystore`, () => {
       {
         seedPhrase,
         password,
-        name
+        name,
+        network: "cosmos-hub-mainnet"
       }
     )
     expect(dispatch).toHaveBeenCalledWith(`signIn`, {
       address,
       sessionType: "local"
     })
+  })
+
+  it("should handle networks not being supported for account creation (as a fallback)", async () => {
+    const seedPhrase = `abc`
+    const password = `123`
+    const name = `def`
+    await expect(
+      actions.createKey(
+        { state },
+        {
+          seedPhrase,
+          password,
+          name,
+          network: "fabo-net"
+        }
+      )
+    ).rejects.toThrowError(
+      "Lunie doesn't support address creation for this network."
+    )
   })
 })
