@@ -48,6 +48,14 @@
         :options="toOptions"
         type="select"
       />
+      <TmFormMsg
+        v-if="targetValidator.status === 'INACTIVE' && isRedelegation"
+        :msg="
+          `You are about to restake to an inactive validator (${targetValidator.statusDetailed})`
+        "
+        type="custom"
+        class="tm-form-msg--desc"
+      />
     </TmFormGroup>
     <TmFormGroup
       :error="$v.amount.$error && $v.amount.$invalid"
@@ -238,6 +246,13 @@ export default {
       )
       return options
     },
+    targetValidator() {
+      return (
+        this.validators.find(
+          validator => validator.operatorAddress === this.toSelectedIndex
+        ) || { status: `` }
+      )
+    },
     isRedelegation() {
       return this.toSelectedIndex !== `0`
     }
@@ -345,26 +360,19 @@ export default {
     },
     validators: {
       query: gql`
-        query validators(
-          $networkId: String!
-          $searchTerm: String
-          $activeOnly: Boolean
-        ) {
-          validators(
-            networkId: $networkId
-            searchTerm: $searchTerm
-            activeOnly: $activeOnly
-          ) {
+        query validators($networkId: String!) {
+          validators(networkId: $networkId) {
             name
             operatorAddress
+            status
+            statusDetailed
           }
         }
       `,
       variables() {
         /* istanbul ignore next */
         return {
-          networkId: this.network,
-          activeOnly: true
+          networkId: this.network
         }
       },
       update(data) {

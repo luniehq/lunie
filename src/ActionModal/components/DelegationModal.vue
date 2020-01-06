@@ -30,10 +30,26 @@
     <TmFormGroup class="action-modal-form-group" field-id="to" field-label="To">
       <TmField
         id="to"
-        v-model="tofromSelectedIndex"
+        v-model="toSelectedIndex"
         :options="toOptions"
         type="select"
         :is-disabled="true"
+      />
+      <TmFormMsg
+        v-if="targetValidator.status === 'INACTIVE' && !isRedelegation"
+        :msg="
+          `You are about to stake to an inactive validator (${targetValidator.statusDetailed})`
+        "
+        type="custom"
+        class="tm-form-msg--desc"
+      />
+      <TmFormMsg
+        v-if="targetValidator.status === 'INACTIVE' && isRedelegation"
+        :msg="
+          `You are about to restake to an inactive validator (${targetValidator.statusDetailed})`
+        "
+        type="custom"
+        class="tm-form-msg--desc"
       />
     </TmFormGroup>
 
@@ -146,7 +162,7 @@ export default {
   },
   data: () => ({
     amount: null,
-    tofromSelectedIndex: 0,
+    toSelectedIndex: 0,
     fromSelectedIndex: `0`,
     balance: {
       amount: null,
@@ -297,16 +313,8 @@ export default {
   apollo: {
     validators: {
       query: gql`
-        query validators(
-          $networkId: String!
-          $searchTerm: String
-          $activeOnly: Boolean
-        ) {
-          validators(
-            networkId: $networkId
-            searchTerm: $searchTerm
-            activeOnly: $activeOnly
-          ) {
+        query validators($networkId: String!) {
+          validators(networkId: $networkId) {
             name
             operatorAddress
           }
@@ -315,8 +323,7 @@ export default {
       variables() {
         /* istanbul ignore next */
         return {
-          networkId: this.network,
-          activeOnly: true
+          networkId: this.network
         }
       },
       update(data) {

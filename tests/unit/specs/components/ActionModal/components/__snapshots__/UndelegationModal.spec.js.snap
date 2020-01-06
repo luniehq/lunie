@@ -53,6 +53,8 @@ exports[`UndelegationModal should display undelegation modal form 1`] = `
       type="select"
       value="0"
     />
+     
+    <!---->
   </tmformgroup-stub>
    
   <tmformgroup-stub

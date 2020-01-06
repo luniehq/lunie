@@ -98,12 +98,12 @@ describe(`DelegationModal`, () => {
   it(`clears on close`, () => {
     const self = {
       $v: { $reset: jest.fn() },
-      selectedIndex: 1,
+      fromSelectedIndex: 1,
       amount: 10
     }
     DelegationModal.methods.clear.call(self)
     expect(self.$v.$reset).toHaveBeenCalled()
-    expect(self.selectedIndex).toBe(0)
+    expect(self.fromSelectedIndex).toBe(0)
     expect(self.amount).toBe(null)
   })
 
@@ -141,7 +141,7 @@ describe(`DelegationModal`, () => {
       })
       wrapper.setData({
         amount: 10,
-        selectedIndex: 0
+        fromSelectedIndex: `0`
       })
     })
 
@@ -177,7 +177,7 @@ describe(`DelegationModal`, () => {
     it(`amount has to be 1000 atom`, async () => {
       wrapper.setData({
         amount: 1,
-        selectedIndex: 0
+        fromSelectedIndex: `0`
       })
       wrapper.vm.setMaxAmount()
       expect(wrapper.vm.amount).toBe(1000)
@@ -185,7 +185,7 @@ describe(`DelegationModal`, () => {
     it(`should show warning message`, async () => {
       wrapper.setData({
         amount: 1000,
-        selectedIndex: 0
+        fromSelectedIndex: `0`
       })
       //await wrapper.vm.$nextTick()
       expect(wrapper.html()).toContain(
@@ -201,7 +201,7 @@ describe(`DelegationModal`, () => {
       })
       wrapper.setData({
         amount: 1,
-        selectedIndex: 0
+        fromSelectedIndex: `0`
       })
       expect(wrapper.html()).toContain(
         "You are about to stake to an inactive validator (temporally banned from the network)"
@@ -216,7 +216,7 @@ describe(`DelegationModal`, () => {
       })
       wrapper.setData({
         amount: 1,
-        selectedIndex: 0
+        fromSelectedIndex: `0`
       })
       expect(wrapper.html()).toContain(
         "You are about to stake to an inactive validator (banned from the network)"
@@ -228,7 +228,7 @@ describe(`DelegationModal`, () => {
     it(`must not show warn message`, async () => {
       wrapper.setData({
         amount: 1,
-        selectedIndex: 0,
+        fromSelectedIndex: `0`,
         targetValidator: validators[0] // Active validator
       })
       expect(wrapper.html()).not.toContain(
