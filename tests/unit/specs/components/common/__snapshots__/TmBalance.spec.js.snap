@@ -27,19 +27,7 @@ exports[`TmBalance do not show available atoms when the user has none in the fir
           </h2>
         </div>
          
-        <tmformgroup-stub
-          class="currency-selector"
-          fieldid="currency"
-          fieldlabel="Currency"
-        >
-          <tmfield-stub
-            options="[object Object],[object Object],[object Object],[object Object],[object Object]"
-            placeholder="Select your currency..."
-            title=""
-            type="select"
-            value=""
-          />
-        </tmformgroup-stub>
+        <!---->
       </div>
        
       <!---->
@@ -106,19 +94,7 @@ exports[`TmBalance show the balance header when signed in 1`] = `
           </h2>
         </div>
          
-        <tmformgroup-stub
-          class="currency-selector"
-          fieldid="currency"
-          fieldlabel="Currency"
-        >
-          <tmfield-stub
-            options="[object Object],[object Object],[object Object],[object Object],[object Object]"
-            placeholder="Select your currency..."
-            title=""
-            type="select"
-            value=""
-          />
-        </tmformgroup-stub>
+        <!---->
       </div>
        
       <!---->
