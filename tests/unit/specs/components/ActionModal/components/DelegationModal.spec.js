@@ -29,7 +29,7 @@ describe(`DelegationModal`, () => {
   let wrapper
   const localVue = createLocalVue()
   localVue.use(Vuelidate)
-  localVue.directive("focus", () => { })
+  localVue.directive("focus", () => {})
 
   const state = {
     session: {
@@ -49,8 +49,8 @@ describe(`DelegationModal`, () => {
         $store: { getters, state },
         $apollo: {
           queries: {
-            balance: { refetch: () => { } },
-            delegations: { refetch: () => { } }
+            balance: { refetch: () => {} },
+            delegations: { refetch: () => {} }
           }
         }
       },
