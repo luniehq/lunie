@@ -26,7 +26,7 @@
           >
             <TmField
               v-model="selectedFiatCurrency"
-              :title="totalValue"
+              :title="`Select your fiat currency`"
               :options="fiatCurrencies"
               placeholder="Select your currency..."
               type="select"
@@ -140,12 +140,6 @@ export default {
         { key: `CHF`, value: `CHF` },
         { key: `JPY`, value: `JPY` }
       ]
-    },
-    totalValue() {
-      if (!this.selectedFiatCurrency) return ``
-      this.fireQuery()
-
-      return this.totalFiatValue
     }
   },
   methods: {
@@ -154,13 +148,6 @@ export default {
     },
     onSend() {
       this.$refs.SendModal.open()
-    },
-    fireQuery() {
-      this.$apollo.queries.totalFiatValue.refetch({
-        networkId: this.network,
-        balances: this.overview.balances,
-        selectedFiatCurrency: this.selectedFiatCurrency
-      })
     }
   },
   apollo: {
@@ -216,41 +203,42 @@ export default {
       }
     },
     totalFiatValue: {
-      query() {
-        console.log("Inside QUERY")
-        return gql`
-          query totalFiatValue(
-            $networkId: String!
-            $balances: [BalanceInput]
-            $selectedFiatCurrency: String!
-          ) {
-            totalFiatValue(
-              networkId: $networkId
-              balances: $balances
-              selectedFiatCurrency: $selectedFiatCurrency
-            )
-          }
-        `
-      },
+      query: gql`
+        query totalFiatValue(
+          $networkId: String!
+          $balances: [BalanceInput]!
+          $selectedFiatCurrency: String!
+        ) {
+          totalFiatValue(
+            networkId: $networkId
+            balances: $balances
+            selectedFiatCurrency: $selectedFiatCurrency
+          )
+        }
+      `,
       variables() {
-        console.log("selected fiat currency is", this.selectedFiatCurrency)
+        // We need to create new balances objects because of the __typename field.
+        // The delete command is really bad for performance so this is the best way.
+        let balances = []
+        this.overview.balances.forEach(balance => {
+          let newBalance = {
+            amount: balance.amount,
+            denom: balance.denom
+          }
+          balances.push(newBalance)
+        })
         return {
           networkId: this.network,
-          balances: this.overview.balances,
+          balances,
           selectedFiatCurrency: this.selectedFiatCurrency
         }
       },
       update(data) {
         /* istanbul ignore next */
-        console.log("data in totalFiatValue is ", data)
         return data.totalFiatValue
       },
       skip() {
-        console.log("balances are ", this.overview.balances)
-        if (!this.overview.balances) {
-          console.log("Are we skipping this query?")
-          return this.skipQuery
-        }
+        return !this.overview.balances || !this.selectedFiatCurrency
       }
     },
     $subscribe: {
