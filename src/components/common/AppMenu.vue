@@ -4,9 +4,20 @@
       <div>
         <h3>Your Address</h3>
         <Bech32 :address="address || ''" />
+        <TmFormMsg
+          v-if="ledgerAddressError"
+          :msg="ledgerAddressError"
+          type="custom"
+        />
       </div>
-      <a class="show-on-ledger" v-if="session.sessionType === 'ledger'" @click="showAddressOnLedger()">
-        <i v-tooltip.top="'Show on Ledger'" class="material-icons">remove_red_eye</i>
+      <a
+        v-if="session.sessionType === 'ledger'"
+        class="show-on-ledger"
+        @click="showAddressOnLedger()"
+      >
+        <i v-tooltip.top="'Show on Ledger'" class="material-icons"
+          >remove_red_eye</i
+        >
       </a>
       <a v-if="session.signedIn" id="sign-out" @click="signOut()">
         <i v-tooltip.top="'Sign Out'" class="material-icons">exit_to_app</i>
@@ -152,6 +163,7 @@
 import Bech32 from "common/Bech32"
 import ConnectedNetwork from "common/TmConnectedNetwork"
 import TmBtn from "common/TmBtn"
+import TmFormMsg from "common/TmFormMsg"
 import { mapGetters, mapState } from "vuex"
 import { atoms, viewDenom, shortDecimals } from "scripts/num.js"
 export default {
@@ -159,13 +171,17 @@ export default {
   components: {
     Bech32,
     ConnectedNetwork,
-    TmBtn
+    TmBtn,
+    TmFormMsg
   },
   filters: {
     atoms,
     viewDenom,
     shortDecimals
   },
+  data: () => ({
+    ledgerAddressError: undefined
+  }),
   computed: {
     ...mapState([`session`]),
     ...mapGetters([`address`])
@@ -183,8 +199,20 @@ export default {
       this.$router.push(`/welcome`)
       this.$emit(`close`)
     },
-    showAddressOnLedger() {
-      this.$store.dispatch("showAddressOnLedger")
+    async showAddressOnLedger() {
+      if (this.messageTimeout) {
+        clearTimeout(this.messageTimeout)
+      }
+      this.ledgerAddressError = undefined
+      try {
+        await this.$store.dispatch("showAddressOnLedger")
+      } catch (error) {
+        this.ledgerAddressError = error.message
+        this.messageTimeout = setTimeout(
+          () => (this.ledgerAddressError = undefined),
+          8000
+        )
+      }
     }
   }
 }
