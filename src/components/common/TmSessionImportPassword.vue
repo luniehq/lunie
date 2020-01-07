@@ -117,7 +117,6 @@ export default {
           name: this.recover.name,
           network: this.networkId
         })
-        this.$store.dispatch(`resetRecoverData`)
         this.$router.push(`/`)
       } catch (error) {
         this.error = true

@@ -73,6 +73,9 @@ export default {
       }
     }
   },
+  mounted: function() {
+    this.$store.dispatch(`resetRecoverData`)
+  },
   methods: {
     onSubmit() {
       this.$v.$touch()
