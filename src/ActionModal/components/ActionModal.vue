@@ -106,12 +106,8 @@
           />
         </div>
         <div v-else-if="step === signStep" class="action-modal-form">
-          <!-- fallback to prevent the user to submit a tx before the sequence was loaded -->
-          <TmDataLoading
-            v-if="!context.account || !Number.isInteger(context.account.sequence)"
-          />
           <TmFormGroup
-            v-else-if="signMethods.length > 1"
+            v-if="signMethods.length > 1"
             class="action-modal-form-group"
             field-id="sign-method"
             field-label="Signing Method"
@@ -284,7 +280,6 @@ import TmBtn from "src/components/common/TmBtn"
 import TmField from "src/components/common/TmField"
 import TmFormGroup from "src/components/common/TmFormGroup"
 import TmFormMsg from "src/components/common/TmFormMsg"
-import TmDataLoading from "src/components/common/TmDataLoading"
 import FeatureNotAvailable from "src/components/common/FeatureNotAvailable"
 import TmDataMsg from "common/TmDataMsg"
 import TableInvoice from "./TableInvoice"
@@ -342,7 +337,6 @@ export default {
     TmFormGroup,
     TmFormMsg,
     TmDataMsg,
-    TmDataLoading,
     TableInvoice,
     Steps,
     FeatureNotAvailable

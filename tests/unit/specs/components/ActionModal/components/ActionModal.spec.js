@@ -723,15 +723,6 @@ describe(`ActionModal`, () => {
         ).toBe(true)
         expect(wrapper.element).toMatchSnapshot()
       })
-
-      it("should display loading if the sequence is not available yet", () => {
-        wrapper.setData({
-          context: { account: { sequence: undefined } },
-          step: "sign"
-        })
-        expect(wrapper.find("tmdataloading-stub").exists()).toBe(true)
-        expect(wrapper.element).toMatchSnapshot()
-      })
     })
 
     describe(`invalid step`, () => {
