@@ -4,6 +4,9 @@
       <div>
         <h3>Your Address</h3>
         <Bech32 :address="address || ''" />
+        <a class="show-on-ledger" v-if="session.sessionType === 'ledger'" @click="showAddressOnLedger()">
+          Show On Ledger
+        </a>
       </div>
       <a v-if="session.signedIn" id="sign-out" @click="signOut()">
         <i v-tooltip.top="'Sign Out'" class="material-icons">exit_to_app</i>
@@ -179,6 +182,9 @@ export default {
     signIn() {
       this.$router.push(`/welcome`)
       this.$emit(`close`)
+    },
+    showAddressOnLedger() {
+      this.$store.dispatch("showAddressOnLedger")
     }
   }
 }
@@ -212,6 +218,11 @@ export default {
 
 .session-link {
   margin: 2.5rem 1rem 1rem;
+}
+
+.show-on-ledger {
+  display: flex;
+  cursor: pointer;
 }
 
 .user-box {

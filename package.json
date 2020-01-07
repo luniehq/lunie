@@ -29,7 +29,7 @@
     "@dicebear/avatars-jdenticon-sprites": "1.1.4",
     "@lunie/cosmos-api": "0.2.5",
     "@lunie/cosmos-keys": "0.0.12",
-    "@lunie/cosmos-ledger": "0.1.4",
+    "@lunie/cosmos-ledger": "0.1.5",
     "@sentry/browser": "5.7.1",
     "@sentry/integrations": "5.7.1",
     "apollo-boost": "^0.4.3",
