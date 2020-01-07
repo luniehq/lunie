@@ -111,7 +111,6 @@ export default {
           name: this.signup.signUpName,
           network: this.networkId
         })
-        this.$store.dispatch(`resetSignUpData`)
         this.$router.push(`/`)
       } catch (error) {
         this.error = true
