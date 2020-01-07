@@ -101,9 +101,6 @@ export default {
       }
     }
   },
-  mounted: function() {
-    this.$store.dispatch(`resetSignUpData`)
-  },
   methods: {
     async onSubmit() {
       this.$v.$touch()

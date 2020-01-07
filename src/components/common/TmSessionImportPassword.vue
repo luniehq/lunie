@@ -106,6 +106,9 @@ export default {
       }
     }
   },
+  beforeDestroy: function() {
+    this.$store.dispatch(`resetRecoverData`)
+  },
   methods: {
     async onSubmit() {
       this.$v.$touch()
