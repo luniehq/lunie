@@ -35,10 +35,9 @@ exports[`UndelegationModal should display undelegation modal form 1`] = `
   >
     <tmfield-stub
       id="from"
-      isdisabled="true"
-      options="[object Object],[object Object]"
-      type="select"
-      value="1"
+      readonly=""
+      type="text"
+      value="undefined - cosmosvaladdr…3p4mqpjyrm5ctplpn3au"
     />
   </tmformgroup-stub>
    

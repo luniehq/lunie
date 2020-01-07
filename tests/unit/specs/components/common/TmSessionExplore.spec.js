@@ -107,7 +107,7 @@ describe(`TmSessionExplore`, () => {
       sessionType: `explore`
     })
   })
-  
+
   it(`returns "true" if receives a correct Ethereum address all in small caps`, () => {
     const ethereumAddress = `0x010afb8548a5d1a3a3d62f58ca0a5a1329974206`
     const check = TmSessionExplore.methods.isEthereumAddress(ethereumAddress)

@@ -35,10 +35,9 @@ exports[`DelegationModal should display the delegation modal form 1`] = `
   >
     <tmfield-stub
       id="to"
-      isdisabled="true"
-      options="[object Object]"
-      type="select"
-      value="0"
+      readonly=""
+      type="text"
+      value="undefined - cosmosvaladdr…osvaladdr12324536463"
     />
      
     <!---->

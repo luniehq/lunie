@@ -30,10 +30,9 @@
     <TmFormGroup class="action-modal-form-group" field-id="to" field-label="To">
       <TmField
         id="to"
-        v-model="toSelectedIndex"
-        :options="toOptions"
-        type="select"
-        :is-disabled="true"
+        :value="targetValidator | validatorEntry"
+        type="text"
+        readonly
       />
       <TmFormMsg
         v-if="targetValidator.status === 'INACTIVE' && !isRedelegation"
@@ -141,7 +140,7 @@ import TmFormMsg from "src/components/common/TmFormMsg"
 import ActionModal from "./ActionModal"
 import transaction from "../utils/transactionTypes"
 import { toMicroDenom } from "src/scripts/common"
-import { formatBech32 } from "src/filters"
+import { formatBech32, validatorEntry } from "src/filters"
 import { UserTransactionAdded } from "src/gql"
 
 export default {
@@ -153,6 +152,9 @@ export default {
     TmFormGroup,
     TmFormMsg,
     ActionModal
+  },
+  filters: {
+    validatorEntry
   },
   props: {
     targetValidator: {
@@ -215,11 +217,7 @@ export default {
             return {
               address: delegation.validator.operatorAddress,
               maximum: Number(delegation.amount),
-              key: `${delegation.validator.name} - ${formatBech32(
-                delegation.validator.operatorAddress,
-                false,
-                20
-              )}`,
+              key: validatorEntry(delegation.validator),
               value: index + 1
             }
           })

@@ -38,3 +38,6 @@ export const resolveValidatorName = (address, validators) => {
   }
   return formatBech32(address)
 }
+
+export const validatorEntry = validator =>
+  `${validator.name} - ${formatBech32(validator.operatorAddress, false, 20)}`

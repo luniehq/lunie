@@ -35,10 +35,9 @@
     >
       <TmField
         id="from"
-        v-model="fromSelectedIndex"
-        :options="fromOptions"
-        type="select"
-        :is-disabled="true"
+        :value="sourceValidator | validatorEntry"
+        type="text"
+        readonly
       />
     </TmFormGroup>
     <TmFormGroup class="action-modal-form-group" field-id="to" field-label="To">
@@ -124,7 +123,7 @@ import TmFormGroup from "src/components/common/TmFormGroup"
 import TmFormMsg from "src/components/common/TmFormMsg"
 import transaction from "../utils/transactionTypes"
 import { toMicroDenom } from "src/scripts/common"
-import { formatBech32 } from "src/filters"
+import { formatBech32, validatorEntry } from "src/filters"
 
 export default {
   name: `undelegation-modal`,
@@ -135,6 +134,9 @@ export default {
     TmBtn,
     TmFormGroup,
     TmFormMsg
+  },
+  filters: {
+    validatorEntry
   },
   props: {
     sourceValidator: {
@@ -235,11 +237,7 @@ export default {
           .map(validator => {
             return {
               address: validator.operatorAddress,
-              key: `${validator.name} - ${formatBech32(
-                validator.operatorAddress,
-                false,
-                20
-              )}`,
+              key: validatorEntry(validator),
               value: validator.operatorAddress
             }
           })
