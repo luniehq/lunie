@@ -50,7 +50,8 @@ describe(`DelegationModal`, () => {
         $apollo: {
           queries: {
             balance: { refetch: () => {} },
-            delegations: { refetch: () => {} }
+            delegations: { refetch: () => {} },
+            validators: { refetch: () => {} }
           }
         }
       },
@@ -67,13 +68,18 @@ describe(`DelegationModal`, () => {
         {
           validator: validators[1],
           amount: 124
+        },
+        {
+          validator: validators[2],
+          amount: 200
         }
       ],
       denom: "STAKE",
       balance: {
         amount: 1000,
         denom: "STAKE"
-      }
+      },
+      validators: validators
     })
   })
 
@@ -95,21 +101,15 @@ describe(`DelegationModal`, () => {
     expect($refs.actionModal.open).toHaveBeenCalled()
   })
 
-  it(`opens and switches to redelegaion when selected`, () => {
-    wrapper.vm.$refs = { actionModal: { open: jest.fn() } }
-    wrapper.vm.open({ redelegation: true })
-    expect(wrapper.vm.selectedIndex).toBe(1)
-  })
-
   it(`clears on close`, () => {
     const self = {
       $v: { $reset: jest.fn() },
-      selectedIndex: 1,
+      fromSelectedIndex: 1,
       amount: 10
     }
     DelegationModal.methods.clear.call(self)
     expect(self.$v.$reset).toHaveBeenCalled()
-    expect(self.selectedIndex).toBe(0)
+    expect(self.fromSelectedIndex).toBe(0)
     expect(self.amount).toBe(null)
   })
 
@@ -147,7 +147,7 @@ describe(`DelegationModal`, () => {
       })
       wrapper.setData({
         amount: 10,
-        selectedIndex: 0
+        fromSelectedIndex: `0`
       })
     })
 
@@ -166,35 +166,56 @@ describe(`DelegationModal`, () => {
         body: `You have successfully staked your STAKEs`
       })
     })
+
+    it(`should send an event on success`, () => {
+      const self = {
+        $emit: jest.fn()
+      }
+      DelegationModal.methods.onSuccess.call(self)
+      expect(self.$emit).toHaveBeenCalledWith(
+        "success",
+        expect.objectContaining({})
+      )
+    })
   })
 
   describe("Submission Data for Redelegating", () => {
     beforeEach(() => {
       wrapper.setProps({
-        targetValidator: validators[1]
+        targetValidator: validators[2]
       })
       wrapper.setData({
         amount: 10,
-        selectedIndex: 1
+        fromSelectedIndex: 2
       })
     })
 
-    it("should return correct transaction data for delegating", () => {
+    it("should return correct transaction data for redelegating", () => {
       expect(wrapper.vm.transactionData).toEqual({
         type: "MsgRedelegate",
-        validatorSourceAddress: "cosmosvaladdr12324536463",
-        validatorDestinationAddress: "cosmosvaladdr1sdsdsd123123",
+        validatorDestinationAddress: "cosmosvaladdr1kjisjsd862323",
+        validatorSourceAddress: "cosmosvaladdr1sdsdsd123123",
         amount: "10000000",
         denom: "stake"
       })
-      // expect(wrapper.vm.transactionData).toEqual()
     })
 
     it("should return correct notification message for delegating", () => {
       expect(wrapper.vm.notifyMessage).toEqual({
-        title: `Successful redelegation!`,
-        body: `You have successfully redelegated your STAKEs`
+        title: `Successfully restaked!`,
+        body: `You have successfully restaked your STAKEs`
       })
+    })
+
+    it(`should send an event on success`, () => {
+      const self = {
+        $emit: jest.fn()
+      }
+      DelegationModal.methods.onSuccess.call(self)
+      expect(self.$emit).toHaveBeenCalledWith(
+        "success",
+        expect.objectContaining({})
+      )
     })
   })
 
@@ -202,7 +223,7 @@ describe(`DelegationModal`, () => {
     it(`amount has to be 1000 atom`, async () => {
       wrapper.setData({
         amount: 1,
-        selectedIndex: 0
+        fromSelectedIndex: `0`
       })
       wrapper.vm.setMaxAmount()
       expect(wrapper.vm.amount).toBe(1000)
@@ -210,7 +231,7 @@ describe(`DelegationModal`, () => {
     it(`should show warning message`, async () => {
       wrapper.setData({
         amount: 1000,
-        selectedIndex: 0
+        fromSelectedIndex: `0`
       })
       //await wrapper.vm.$nextTick()
       expect(wrapper.html()).toContain(
@@ -226,7 +247,7 @@ describe(`DelegationModal`, () => {
       })
       wrapper.setData({
         amount: 1,
-        selectedIndex: 0
+        fromSelectedIndex: `0`
       })
       expect(wrapper.html()).toContain(
         "You are about to stake to an inactive validator (temporally banned from the network)"
@@ -241,7 +262,7 @@ describe(`DelegationModal`, () => {
       })
       wrapper.setData({
         amount: 1,
-        selectedIndex: 0
+        fromSelectedIndex: `0`
       })
       expect(wrapper.html()).toContain(
         "You are about to stake to an inactive validator (banned from the network)"
@@ -253,7 +274,7 @@ describe(`DelegationModal`, () => {
     it(`must not show warn message`, async () => {
       wrapper.setData({
         amount: 1,
-        selectedIndex: 0,
+        fromSelectedIndex: `0`,
         targetValidator: validators[0] // Active validator
       })
       expect(wrapper.html()).not.toContain(
