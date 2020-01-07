@@ -164,7 +164,6 @@ export default {
   },
   data: () => ({
     amount: null,
-    toSelectedIndex: 0,
     fromSelectedIndex: `0`,
     balance: {
       amount: null,

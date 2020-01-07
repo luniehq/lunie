@@ -100,11 +100,6 @@ describe(`UndelegationModal`, () => {
     })
   })
 
-  it(`should show source validator selected in from field`, async () => {
-    wrapper.vm.setFromSelectedIndex()
-    expect(wrapper.vm.fromSelectedIndex).toBe(1)
-  })
-
   it(`should send an event on success`, () => {
     const self = {
       $emit: jest.fn()

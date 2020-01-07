@@ -149,7 +149,6 @@ export default {
     delegations: [],
     validators: [],
     denom: "",
-    fromSelectedIndex: 1,
     toSelectedIndex: `0`,
     balance: {
       amount: 0,
@@ -264,9 +263,6 @@ export default {
       }
     }
   },
-  mounted: function() {
-    this.setFromSelectedIndex()
-  },
   methods: {
     open() {
       this.$refs.actionModal.open()
@@ -289,16 +285,6 @@ export default {
     },
     onSuccess(event) {
       this.$emit(`success`, event)
-    },
-    setFromSelectedIndex() {
-      this.delegations.forEach((delegation, index) => {
-        if (
-          delegation.validator.operatorAddress ===
-          this.sourceValidator.operatorAddress
-        ) {
-          this.fromSelectedIndex = index + 1
-        }
-      })
     }
   },
   apollo: {
