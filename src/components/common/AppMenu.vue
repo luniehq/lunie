@@ -4,10 +4,10 @@
       <div>
         <h3>Your Address</h3>
         <Bech32 :address="address || ''" />
-        <a class="show-on-ledger" v-if="session.sessionType === 'ledger'" @click="showAddressOnLedger()">
-          Show On Ledger
-        </a>
       </div>
+      <a class="show-on-ledger" v-if="session.sessionType === 'ledger'" @click="showAddressOnLedger()">
+        <i v-tooltip.top="'Show on Ledger'" class="material-icons">remove_red_eye</i>
+      </a>
       <a v-if="session.signedIn" id="sign-out" @click="signOut()">
         <i v-tooltip.top="'Sign Out'" class="material-icons">exit_to_app</i>
       </a>
@@ -221,8 +221,7 @@ export default {
 }
 
 .show-on-ledger {
-  display: flex;
-  cursor: pointer;
+  padding-right: 1rem;
 }
 
 .user-box {
@@ -234,6 +233,10 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+.user-box > div {
+  flex: 1;
 }
 
 .user-box i {
