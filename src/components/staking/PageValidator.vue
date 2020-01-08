@@ -412,6 +412,7 @@ export default {
   color: #7a88b8;
   border: 1px solid rgb(122, 136, 184, 0.1);
   border-radius: 5px;
+  cursor: pointer;
 }
 
 .validators-list-button:hover {
@@ -515,14 +516,6 @@ span {
     display: flex;
     flex-direction: column-reverse;
   }
-
-  .validators-list-button {
-    position: relative;
-    width: 150px;
-    margin-left: 1.25rem;
-    right: 0;
-    top: 0;
-  }
 }
 
 @media screen and (max-width: 667px) {
@@ -533,6 +526,12 @@ span {
 
   .button-container button {
     width: 50%;
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  .validators-list-button {
+    display: none;
   }
 }
 </style>
