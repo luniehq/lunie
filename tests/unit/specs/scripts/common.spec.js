@@ -1,4 +1,4 @@
-import { coinsToObject, calculateShares } from "scripts/common"
+import { coinsToObject, calculateShares, toMicroDenom, sleep } from "scripts/common"
 
 describe(`calculateShares`, () => {
   it(`should calculates shares `, () => {
@@ -23,5 +23,24 @@ describe(`coinsToObject`, () => {
       stake: 100,
       photino: 15
     })
+  })
+})
+
+describe(`toMicroDenom`, () => {
+  it(`returns the right micro denom of a given network`, () => {
+    const microDenom = toMicroDenom(`ATOM`)
+    expect(microDenom).toBe(`uatom`)
+  })
+})
+
+describe(`sleep`, () => {
+  it(`returns a true as a promise`, () => {
+    function isPromise(object){
+      if(Promise && Promise.resolve){
+        return Promise.resolve(object) == object;
+      }
+    }
+    const sleepPromise = sleep()
+    expect(isPromise(sleepPromise)).toBe(true)
   })
 })
