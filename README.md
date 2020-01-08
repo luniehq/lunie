@@ -50,3 +50,27 @@ When running you can access GraphQL Playground at http://localhost:4000/. You ca
 | `ENGINE_API_KEY` | Enable Apollo GraphQL metrics through https://engine.apollographql.com/  |
 | `SENTRY_DSN` | Sentry (https://sentry.io) data source name in format `https://<key>@sentry.io/<project>` |
 
+## Networks
+
+A new network only requires 3 things:
+
+ 1. An entry in the `data/networks.json` array.
+ 2. A class to source information from an external endpoint.
+ 3. A class to 'listen' for block events.
+
+For example, the Cosmos Hub classes are defined within the `networks.json` config like so:
+
+ ```
+"source_class_name": "source/cosmosV2-source",
+"block_listener_class_name": "block-listeners/cosmos-node-subscription",
+```
+
+Be careful to prefix the path with `source` and `block-listeners` respectively.
+These refer to folders underneath the root `lib` directory, and are where the
+classes should be placed.
+
+Some notes:
+
+- Networks are automatically loaded and will begin fetching blocks once the application starts.
+- To disable a network, set it's `enable` property to `false`.
+- Network configurations are validated during testing.

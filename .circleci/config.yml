@@ -3,6 +3,10 @@ jobs:
   build:
     docker:
       - image: node:10-alpine
+    environment:
+      TESTNET: 'true'
+      TESTNET_RPC_URL: 'ws://localhost:26657/websocket'
+      TESTNET_API_URL: 'http://localhost:9071'
     steps:
       - checkout
       - run:
@@ -13,4 +17,4 @@ jobs:
           command: yarn lint
       - run:
           name: Test
-          command: yarn test          
+          command: yarn test

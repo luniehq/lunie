@@ -1,11 +1,13 @@
-{
-  "cosmos-hub-testnet": {
+[
+  {
     "id": "cosmos-hub-testnet",
     "title": "Gaia Testnet",
     "chain_id": "gaia-13007",
     "rpc_url": "wss://gaia-13007.lunie.io:26657/websocket",
     "api_url": "https://gaia-13007.lunie.io",
     "bech32_prefix": "cosmos",
+    "source_class_name": "source/cosmosV2-source",
+    "block_listener_class_name": "block-listeners/cosmos-node-subscription",
     "testnet": true,
     "feature_session": true,
     "feature_explore": true,
@@ -23,15 +25,18 @@
     "action_vote": true,
     "action_proposal": true,
     "default": true,
-    "stakingDenom": "MUON"
+    "stakingDenom": "MUON",
+    "enabled": true
   },
-  "cosmos-hub-mainnet": {
+  {
     "id": "cosmos-hub-mainnet",
     "title": "Cosmos Hub",
     "chain_id": "cosmoshub-3",
     "rpc_url": "wss://cosmos-hub-3.lunie.io/websocket",
     "api_url": "https://cosmos-hub-3.lunie.io",
     "bech32_prefix": "cosmos",
+    "source_class_name": "source/cosmosV2-source",
+    "block_listener_class_name": "block-listeners/cosmos-node-subscription",    
     "testnet": false,
     "feature_session": true,
     "feature_explore": true,
@@ -48,16 +53,19 @@
     "action_deposit": true,
     "action_vote": true,
     "action_proposal": true,
-    "default": true,
-    "stakingDenom": "ATOM"
+    "default": false,
+    "stakingDenom": "ATOM",
+    "enabled": true
   },
-  "regen-testnet": {
+  {
     "id": "regen-testnet",
     "title": "Regen Testnet",
     "chain_id": "congo-1",
     "rpc_url": "wss://regen-congo-1.lunie.io/websocket",
     "api_url": "https://regen-congo-1.lunie.io",
     "bech32_prefix": "xrn:",
+    "source_class_name": "source/regenV0-source",
+    "block_listener_class_name": "block-listeners/cosmos-node-subscription",    
     "testnet": true,
     "feature_session": false,
     "feature_explore": true,
@@ -74,16 +82,19 @@
     "action_deposit": true,
     "action_vote": true,
     "action_proposal": true,
-    "default": true,
-    "stakingDenom": "TREE"
+    "default": false,
+    "stakingDenom": "TREE",
+    "enabled": true
   },
-  "terra-testnet": {
+  {
     "id": "terra-testnet",
     "title": "Terra",
     "chain_id": "soju-0013",
     "api_url": "http://terra-testnet.lunie.io/",
     "rpc_url": "wss://terra-testnet.lunie.io/websocket",
     "bech32_prefix": "terra",
+    "source_class_name": "source/terraV3-source",
+    "block_listener_class_name": "block-listeners/cosmos-node-subscription",      
     "testnet": true,
     "feature_session": false,
     "feature_explore": true,
@@ -101,15 +112,47 @@
     "action_vote": false,
     "action_proposal": false,
     "default": false,
-    "stakingDenom": "LUNA"
+    "stakingDenom": "LUNA",
+    "enabled": true
   },
-  "livepeer-mainnet": {
+  {
+    "id": "emoney-testnet",
+    "title": "e-Money",
+    "chain_id": "lilmermaid-4",
+    "api_url": "https://emoney-lilmermaid-4.lunie.io/",
+    "rpc_url": "wss://emoney-lilmermaid-4.lunie.io/websocket",
+    "bech32_prefix": "emoney",
+    "source_class_name": "source/emoneyV0-source",
+    "block_listener_class_name": "block-listeners/cosmos-node-subscription",
+    "testnet": true,
+    "feature_session": false,
+    "feature_explore": false,
+    "feature_portfolio": false,
+    "feature_validators": true,
+    "feature_proposals": false,
+    "feature_activity": false,
+    "feature_explorer": false,
+    "action_send": false,
+    "action_claim_rewards": false,
+    "action_delegate": false,
+    "action_redelegate": false,
+    "action_undelegate": false,
+    "action_deposit": false,
+    "action_vote": false,
+    "action_proposal": false,
+    "default": false,
+    "stakingDenom": "NGM",
+    "enabled": false
+  },
+  {
     "id": "livepeer-mainnet",
     "title": "Livepeer",
     "chain_id": "ethereum-1",
     "api_url": "https://livepeer-mainnet.lunie.io/",
     "rpc_url": "wss://livepeer-mainnet.lunie.io/websocket",
     "bech32_prefix": "0x",
+    "source_class_name": "source/livepeerV0-source",
+    "block_listener_class_name": "block-listeners/livepeer-node-polling",
     "testnet": false,
     "feature_session": false,
     "feature_explore": true,
@@ -127,6 +170,7 @@
     "action_vote": false,
     "action_proposal": false,
     "default": false,
-    "stakingDenom": "LPT"
+    "stakingDenom": "LPT",
+    "enabled": false
   }
-}
+]
