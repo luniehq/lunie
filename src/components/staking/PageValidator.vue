@@ -9,6 +9,15 @@
     class="small"
   >
     <template v-if="validator.operatorAddress" slot="managed-body">
+      <button
+        class="validators-list-button"
+        color="secondary"
+        @click="$router.push(`/validators`)"
+      >
+        <img src="/img/icons/arrow-icon.svg" />
+        <div style="width: 20px;display: inline-block"></div>
+        Back to Validators
+      </button>
       <div class="status-button-container">
         <div class="status-container">
           <span :class="validator.status | toLower" class="validator-status">
@@ -21,12 +30,6 @@
             {{ validator.statusDetailed }}
           </span>
         </div>
-        <TmBtn
-          class="validators-list-button"
-          value="Back to Validators"
-          color="secondary"
-          @click.native="$router.push(`/validators`)"
-        />
       </div>
       <tr class="li-validator">
         <td class="data-table__row__info">
@@ -401,9 +404,20 @@ export default {
 </script>
 <style scoped>
 .validators-list-button {
-  position: absolute;
-  right: 1.25rem;
-  top: 1.25rem;
+  margin: 0 0 20px 10px;
+  width: 177px;
+  height: 40px;
+  background-color: #272b48;
+  font-size: 14px;
+  color: #7a88b8;
+  border: 1px solid rgb(122, 136, 184, 0.1);
+  border-radius: 5px;
+}
+
+.validators-list-button:hover {
+  background: #445381;
+  color: #f1f3f7;
+  border-color: #445381;
 }
 
 .li-validator {
