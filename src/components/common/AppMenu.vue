@@ -2,26 +2,22 @@
   <menu class="app-menu">
     <div v-if="session.signedIn" class="user-box">
       <div>
-        <h3>Your Address</h3>
-        <Bech32 :address="address || ''" />
-        <TmFormMsg
-          v-if="ledgerAddressError"
-          :msg="ledgerAddressError"
-          type="custom"
-        />
+        <div>
+          <h3>Your Address</h3>
+          <Bech32 :address="address || ''" />
+        </div>
+        <a v-if="session.signedIn" id="sign-out" @click="signOut()">
+          <i v-tooltip.top="'Sign Out'" class="material-icons">exit_to_app</i>
+        </a>
       </div>
-      <a
-        v-if="session.sessionType === 'ledger'"
-        class="show-on-ledger"
-        @click="showAddressOnLedger()"
-      >
-        <i v-tooltip.top="'Show on Ledger'" class="material-icons"
-          >remove_red_eye</i
-        >
+      <a v-if="true" class="show-on-ledger" @click="showAddressOnLedger()">
+        Show on Ledger
       </a>
-      <a v-if="session.signedIn" id="sign-out" @click="signOut()">
-        <i v-tooltip.top="'Sign Out'" class="material-icons">exit_to_app</i>
-      </a>
+      <TmFormMsg
+        v-if="ledgerAddressError"
+        :msg="ledgerAddressError"
+        type="custom"
+      />
     </div>
     <TmBtn
       v-else
@@ -249,7 +245,12 @@ export default {
 }
 
 .show-on-ledger {
-  padding-right: 1rem;
+  display: block;
+  padding-top: 1rem;
+}
+
+.show-on-ledger:hover {
+  cursor: pointer;
 }
 
 .user-box {
@@ -258,13 +259,12 @@ export default {
   padding: 0.5rem 0.75rem;
   border: 2px solid var(--bc);
   border-radius: 0.25rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
 }
 
 .user-box > div {
-  flex: 1;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .user-box i {
