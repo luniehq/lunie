@@ -53,6 +53,7 @@ export default function({ apollo }) {
       dispatch(`signOut`)
       dispatch(`persistNetwork`, network)
       commit("setNetworkId", network.id)
+      dispatch(`checkForPersistedSession`) // check for persisted session on that network
       console.info(`Connecting to: ${network.id}`)
     }
   }

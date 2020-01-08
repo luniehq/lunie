@@ -101,11 +101,11 @@ describe(`ActionModal`, () => {
           currrentModalOpen: false
         },
         overview,
-        network,
         delegations
       },
       getters: {
         connected: true,
+        network,
         networkId: "testnet",
         isExtensionAccount: false
       }
@@ -116,6 +116,7 @@ describe(`ActionModal`, () => {
       propsData: {
         title: `Send`,
         validate: jest.fn(),
+        featureFlag: `send`,
         transactionData: {
           type: "MsgSend",
           denom: "uatom",

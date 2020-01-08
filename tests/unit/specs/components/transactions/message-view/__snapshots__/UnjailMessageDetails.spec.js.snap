@@ -21,7 +21,7 @@ exports[`UnjailMessageDetails renders a unjail validator transaction message 1`]
     </span>
      
     <router-link-stub
-      to="staking/validators/cosmos16wgw3k7rspegl9khx79fuaa37unf4nfmxf7pyr"
+      to="/staking/validators/cosmos16wgw3k7rspegl9khx79fuaa37unf4nfmxf7pyr"
     >
       cosmos…7pyr
     </router-link-stub>

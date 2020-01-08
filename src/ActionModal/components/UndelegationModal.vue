@@ -4,22 +4,27 @@
     ref="actionModal"
     :validate="validateForm"
     :amount="0"
-    title="Undelegate"
+    :title="isRedelegation ? 'Restake' : 'Unstake'"
     class="undelegation-modal"
-    submission-error-prefix="Undelegating failed"
+    :submission-error-prefix="
+      isRedelegation ? 'Restaking failed' : 'Unstaking failed'
+    "
     :transaction-data="transactionData"
     :notify-message="notifyMessage"
+    feature-flag="undelegate"
     @close="clear"
     @txIncluded="onSuccess"
   >
     <TmFormGroup class="action-modal-form-group">
       <div class="form-message notice">
-        <span>
-          Undelegations take 21 days to complete and cannot be undone. Please
-          make sure you understand the rules of delegation. Would you prefer to
-          <a id="switch-to-redelgation" href="#" @click="switchToRedelegation()"
-            >redelegate?</a
-          >
+        <span v-if="!isRedelegation">
+          Unstaking takes 21 days to complete and cannot be undone. Please make
+          sure you understand the rules of staking.
+        </span>
+        <span v-else>
+          Voting power and rewards will change instantly upon restaking — but
+          your tokens will still be subject to the risks associated with the
+          original stake for the duration of the unstaking period.
         </span>
       </div>
     </TmFormGroup>
@@ -28,7 +33,28 @@
       field-id="from"
       field-label="From"
     >
-      <TmField id="from" v-model="sourceValidator.operatorAddress" readonly />
+      <TmField
+        id="from"
+        :value="sourceValidator | validatorEntry"
+        type="text"
+        readonly
+      />
+    </TmFormGroup>
+    <TmFormGroup class="action-modal-form-group" field-id="to" field-label="To">
+      <TmField
+        id="to"
+        v-model="toSelectedIndex"
+        :options="toOptions"
+        type="select"
+      />
+      <TmFormMsg
+        v-if="targetValidator.status === 'INACTIVE' && isRedelegation"
+        :msg="
+          `You are about to restake to an inactive validator (${targetValidator.statusDetailed})`
+        "
+        type="custom"
+        class="tm-form-msg--desc"
+      />
     </TmFormGroup>
     <TmFormGroup
       :error="$v.amount.$error && $v.amount.$invalid"
@@ -43,8 +69,8 @@
           v-model="amount"
           v-focus
           class="tm-field-addon"
+          placeholder="0"
           type="number"
-          placeholder="Amount"
           @keyup.enter.native="enterPressed"
         />
         <TmBtn
@@ -55,7 +81,7 @@
         />
       </TmFieldGroup>
       <span v-if="maximum > 0" class="form-message">
-        Currently Delegated: {{ maximum }} {{ denom }}s
+        Currently staked: {{ maximum }} {{ denom }}s
       </span>
       <TmFormMsg
         v-if="maximum === 0"
@@ -85,7 +111,7 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex"
+import { mapState, mapGetters } from "vuex"
 import gql from "graphql-tag"
 import { uatoms, SMALLEST } from "src/scripts/num"
 import { between, decimal } from "vuelidate/lib/validators"
@@ -97,6 +123,7 @@ import TmFormGroup from "src/components/common/TmFormGroup"
 import TmFormMsg from "src/components/common/TmFormMsg"
 import transaction from "../utils/transactionTypes"
 import { toMicroDenom } from "src/scripts/common"
+import { formatBech32, validatorEntry } from "src/filters"
 
 export default {
   name: `undelegation-modal`,
@@ -108,6 +135,9 @@ export default {
     TmFormGroup,
     TmFormMsg
   },
+  filters: {
+    validatorEntry
+  },
   props: {
     sourceValidator: {
       type: Object,
@@ -117,9 +147,16 @@ export default {
   data: () => ({
     amount: null,
     delegations: [],
-    denom: ""
+    validators: [],
+    denom: "",
+    toSelectedIndex: `0`,
+    balance: {
+      amount: 0,
+      denom: ``
+    }
   }),
   computed: {
+    ...mapState([`session`]),
     ...mapGetters([`network`, `address`]),
     maximum() {
       const delegation = this.delegations.find(
@@ -129,18 +166,92 @@ export default {
       return delegation ? Number(delegation.amount) : 0
     },
     transactionData() {
-      return {
-        type: transaction.UNDELEGATE,
-        validatorAddress: this.sourceValidator.operatorAddress,
-        amount: uatoms(this.amount),
-        denom: toMicroDenom(this.denom)
+      if (!this.sourceValidator.operatorAddress) return {}
+
+      if (this.isRedelegation) {
+        return {
+          type: transaction.REDELEGATE,
+          validatorSourceAddress: this.sourceValidator.operatorAddress,
+          validatorDestinationAddress: this.toSelectedIndex,
+          amount: uatoms(this.amount),
+          denom: toMicroDenom(this.denom)
+        }
+      } else {
+        return {
+          type: transaction.UNDELEGATE,
+          validatorAddress: this.sourceValidator.operatorAddress,
+          amount: uatoms(this.amount),
+          denom: toMicroDenom(this.denom)
+        }
       }
     },
     notifyMessage() {
-      return {
-        title: `Successful undelegation!`,
-        body: `You have successfully undelegated ${this.amount} ${this.denom}s.`
+      if (this.isRedelegation) {
+        return {
+          title: `Successfully restaked!`,
+          body: `You have successfully restaked ${this.amount} ${this.denom}s.`
+        }
+      } else {
+        return {
+          title: `Successfully unstaked!`,
+          body: `You have successfully unstaked ${this.amount} ${this.denom}s.`
+        }
       }
+    },
+    fromOptions() {
+      let options = []
+      options = options.concat(
+        this.delegations.map((delegation, index) => {
+          return {
+            address: delegation.validator.operatorAddress,
+            maximum: Number(delegation.amount),
+            key: `${delegation.validator.name} - ${formatBech32(
+              delegation.validator.operatorAddress,
+              false,
+              20
+            )}`,
+            value: index + 1
+          }
+        })
+      )
+      return options
+    },
+    toOptions() {
+      let options = [
+        // from wallet
+        {
+          address: this.address,
+          maximum: Number(this.balance.amount),
+          key: `My Wallet - ${formatBech32(this.address, false, 20)}`,
+          value: 0
+        }
+      ]
+      options = options.concat(
+        this.validators
+          // exclude the validator we are redelegating from
+          .filter(
+            validator =>
+              validator.operatorAddress !== this.sourceValidator.operatorAddress
+          )
+          .map(validator => {
+            return {
+              address: validator.operatorAddress,
+              key: validatorEntry(validator),
+              value: validator.operatorAddress
+            }
+          })
+      )
+      return options
+    },
+    targetValidator() {
+      return (
+        this.validators.find(
+          validator => validator.operatorAddress === this.toSelectedIndex
+        ) || { status: `` }
+      )
+    },
+    isRedelegation() {
+      return this.toSelectedIndex !== `0`
     }
   },
   validations() {
@@ -172,10 +283,6 @@ export default {
     enterPressed() {
       this.$refs.actionModal.validateChangeStep()
     },
-    switchToRedelegation() {
-      this.$refs.actionModal.close()
-      this.$emit("switchToRedelegation")
-    },
     onSuccess(event) {
       this.$emit(`success`, event)
     }
@@ -193,15 +300,18 @@ export default {
           ) {
             amount
             validator {
+              name
               operatorAddress
             }
           }
         }
       `,
       skip() {
+        /* istanbul ignore next */
         return !this.address
       },
       variables() {
+        /* istanbul ignore next */
         return {
           networkId: this.network,
           delegatorAddress: this.address
@@ -222,6 +332,7 @@ export default {
         }
       `,
       variables() {
+        /* istanbul ignore next */
         return {
           networkId: this.network
         }
@@ -229,6 +340,28 @@ export default {
       update(data) {
         /* istanbul ignore next */
         return data.network.stakingDenom
+      }
+    },
+    validators: {
+      query: gql`
+        query validators($networkId: String!) {
+          validators(networkId: $networkId) {
+            name
+            operatorAddress
+            status
+            statusDetailed
+          }
+        }
+      `,
+      variables() {
+        /* istanbul ignore next */
+        return {
+          networkId: this.network
+        }
+      },
+      update(data) {
+        /* istanbul ignore next */
+        return data.validators
       }
     }
   }

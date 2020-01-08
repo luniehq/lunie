@@ -68,7 +68,7 @@ import TmFormStruct from "common/TmFormStruct"
 import TmField from "common/TmField"
 import TmFormMsg from "common/TmFormMsg"
 import SessionFrame from "common/SessionFrame"
-import { mapState } from "vuex"
+import { mapState, mapGetters } from "vuex"
 import Steps from "../../ActionModal/components/Steps"
 
 export default {
@@ -88,6 +88,7 @@ export default {
   }),
   computed: {
     ...mapState([`recover`]),
+    ...mapGetters({ networkId: `network` }),
     password: {
       get() {
         return this.$store.state.recover.password
@@ -105,6 +106,9 @@ export default {
       }
     }
   },
+  beforeDestroy: function() {
+    this.$store.dispatch(`resetRecoverData`)
+  },
   methods: {
     async onSubmit() {
       this.$v.$touch()
@@ -113,9 +117,9 @@ export default {
         await this.$store.dispatch(`createKey`, {
           seedPhrase: this.recover.seed,
           password: this.recover.password,
-          name: this.recover.name
+          name: this.recover.name,
+          network: this.networkId
         })
-        this.$store.dispatch(`resetRecoverData`)
         this.$router.push(`/`)
       } catch (error) {
         this.error = true

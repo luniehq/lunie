@@ -9,6 +9,13 @@
       >
         <i class="material-icons">arrow_back</i>
       </div>
+      <div
+        id="closeBtn"
+        class="action-modal-icon action-modal-close"
+        @click="close"
+      >
+        <i class="material-icons">close</i>
+      </div>
       <div class="action-modal-header">
         <span class="action-modal-title">{{
           requiresSignIn ? `Sign in required` : title
@@ -146,7 +153,7 @@
             <div v-if="!extension.enabled">
               Please install the Lunie Browser Extension from the
               <a
-                href="https://chrome.google.com/webstore/category/extensions?ref=lunie"
+                href="http://bit.ly/lunie-ext"
                 target="_blank"
                 rel="noopener norefferer"
                 >Chrome Web Store</a
@@ -179,15 +186,12 @@
           </form>
         </div>
         <div v-else-if="step === inclusionStep" class="action-modal-form">
-          <TmDataMsg icon="hourglass_empty">
+          <TmDataMsg icon="hourglass_empty" :spin="true">
             <div slot="title">
               Sent and confirming
             </div>
             <div slot="subtitle">
-              The transaction
-              <!-- with the hash {{ txHash }} -->
-              was successfully signed and sent the network. Waiting for it to be
-              confirmed.
+              Waiting for confirmation from {{ networkId }}.
             </div>
           </TmDataMsg>
         </div>
@@ -195,7 +199,7 @@
           v-else-if="step === successStep"
           class="action-modal-form success-step"
         >
-          <TmDataMsg icon="check">
+          <TmDataMsg icon="check" :success="true">
             <div slot="title">
               {{ notifyMessage.title }}
             </div>
@@ -375,6 +379,10 @@ export default {
         body: `You have successfully completed a transaction.`
       })
     },
+    featureFlag: {
+      type: String,
+      default: ``
+    },
     // disable proceeding from the first page
     disabled: {
       type: Boolean,
@@ -409,7 +417,7 @@ export default {
     ...mapGetters([`connected`, `isExtensionAccount`]),
     ...mapGetters({ networkId: `network` }),
     checkFeatureAvailable() {
-      const action = `action_${this.title.toLowerCase().replace(" ", "_")}`
+      const action = `action_` + this.featureFlag
       return this.network[action] === true
     },
     requiresSignIn() {
@@ -508,7 +516,7 @@ export default {
       let confirmResult = false
       if (this.session.currrentModalOpen) {
         confirmResult = window.confirm(
-          "You are in the middle of creating a transaction already. Are you sure you want to cancel this action?"
+          "You are in the middle of creating a transaction. Are you sure you want to cancel this action and start a new one?"
         )
         if (confirmResult) {
           this.session.currrentModalOpen.close()
@@ -944,7 +952,11 @@ export default {
   font-style: italic;
   color: var(--dim);
   display: inline-block;
-  padding: 0.5rem 0 0.5rem 1rem;
+  padding: 0.5rem;
+}
+
+.form-message.notice {
+  padding: 2rem 0.5rem 0.5rem;
 }
 
 .slide-fade-enter-active {
