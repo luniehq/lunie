@@ -56,6 +56,13 @@
             name="You can't sign in with a validator address"
             type="custom"
           />
+          <TmFormMsg
+            v-else-if="
+              $v.address.$error && !$v.address.isAWhitelistedBech32Prefix
+            "
+            name="You can only sign in with a regular address"
+            type="custom"
+          />
         </TmFormGroup>
       </div>
       <div class="session-footer">
@@ -129,6 +136,19 @@ export default {
         return false
       }
     },
+    isAWhitelistedBech32Prefix(param) {
+      if (
+        param.substring(0, 7) === "cosmos1" ||
+        param.substring(0, 6) === "terra1" ||
+        param.substring(0, 5) === "xrn:1" ||
+        param.substring(0, 7) === "emoney1" ||
+        param.substring(0, 2) === "0x"
+      ) {
+        return true
+      } else {
+        return false
+      }
+    },
     getAddressIcon(addressType) {
       if (addressType === "explore") return `language`
       if (addressType === "ledger") return `vpn_key`
@@ -157,7 +177,8 @@ export default {
       address: {
         required,
         addressValidate: this.addressValidate,
-        isNotAValidatorAddress: this.isNotAValidatorAddress
+        isNotAValidatorAddress: this.isNotAValidatorAddress,
+        isAWhitelistedBech32Prefix: this.isAWhitelistedBech32Prefix
       }
     }
   }

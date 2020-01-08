@@ -9,13 +9,29 @@
     class="small"
   >
     <template v-if="validator.operatorAddress" slot="managed-body">
-      <div class="status-container">
-        <span :class="validator.status | toLower" class="validator-status">
-          {{ validator.status }}
-        </span>
-        <span v-if="validator.statusDetailed" class="validator-status-detailed">
-          {{ validator.statusDetailed }}
-        </span>
+      <button
+        class="validators-list-button"
+        color="secondary"
+        @click="$router.push(`/validators`)"
+      >
+        <div style="display:flex; flex-direction:row; align-items: center;">
+          <i class="material-icons arrow">arrow_back</i>
+          <div style="width: 20px;display: inline-block;"></div>
+          Back to Validators
+        </div>
+      </button>
+      <div class="status-button-container">
+        <div class="status-container">
+          <span :class="validator.status | toLower" class="validator-status">
+            {{ validator.status }}
+          </span>
+          <span
+            v-if="validator.statusDetailed"
+            class="validator-status-detailed"
+          >
+            {{ validator.statusDetailed }}
+          </span>
+        </div>
       </div>
       <tr class="li-validator">
         <td class="data-table__row__info">
@@ -399,6 +415,24 @@ export default {
 }
 </script>
 <style scoped>
+.validators-list-button {
+  margin: 0 0 20px 10px;
+  width: 177px;
+  height: 40px;
+  background-color: #272b48;
+  font-size: 14px;
+  color: #7a88b8;
+  border: 1px solid rgb(122, 136, 184, 0.1);
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.validators-list-button:hover {
+  background: #445381;
+  color: #f1f3f7;
+  border-color: #445381;
+}
+
 .li-validator {
   display: flex;
   justify-content: space-between;
@@ -488,8 +522,14 @@ span {
   margin-top: 0.4rem;
   font-size: 0.8rem;
 }
-</style>
-<style>
+
+@media screen and (max-width: 425px) {
+  .status-button-container {
+    display: flex;
+    flex-direction: column-reverse;
+  }
+}
+
 @media screen and (max-width: 667px) {
   .button-container {
     width: 100%;
@@ -498,6 +538,12 @@ span {
 
   .button-container button {
     width: 50%;
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  .validators-list-button {
+    display: none;
   }
 }
 </style>

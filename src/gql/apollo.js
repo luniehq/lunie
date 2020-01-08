@@ -1,6 +1,7 @@
 import Vue from "vue"
 import { ApolloClient } from "apollo-boost"
 import { BatchHttpLink } from "apollo-link-batch-http"
+import { RetryLink } from "apollo-link-retry"
 import { createPersistedQueryLink } from "apollo-link-persisted-queries"
 import { WebSocketLink } from "apollo-link-ws"
 import { InMemoryCache } from "apollo-cache-inmemory"
@@ -25,7 +26,8 @@ const makeHttpLink = urlParams => {
   return createPersistedQueryLink().concat(
     new BatchHttpLink({
       uri
-    })
+    }),
+    new RetryLink()
   )
 }
 
