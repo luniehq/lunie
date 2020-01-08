@@ -10,7 +10,11 @@
           <i v-tooltip.top="'Sign Out'" class="material-icons">exit_to_app</i>
         </a>
       </div>
-      <a v-if="true" class="show-on-ledger" @click="showAddressOnLedger()">
+      <a
+        v-if="session.signedIn"
+        class="show-on-ledger"
+        @click="showAddressOnLedger()"
+      >
         Show on Ledger
       </a>
       <TmFormMsg
