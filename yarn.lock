@@ -1024,7 +1024,7 @@
     "@types/unist" "*"
     "@types/vfile-message" "*"
 
-"@types/zen-observable@^0.8.0":
+"@types/zen-observable@0.8.0", "@types/zen-observable@^0.8.0":
   version "0.8.0"
   resolved "https://registry.yarnpkg.com/@types/zen-observable/-/zen-observable-0.8.0.tgz#8b63ab7f1aa5321248aad5ac890a485656dcea4d"
   integrity sha512-te5lMAWii1uEJ4FwLjzdlbw3+n0FZNOvFXHxQDKeT0dilh7HOzdMzV2TrJVUzq8ep7J4Na8OUYPRLSQkJHAlrg==
@@ -1777,6 +1777,15 @@ apollo-link-persisted-queries@0.2.2:
   dependencies:
     apollo-link "^1.2.1"
     hash.js "^1.1.3"
+
+apollo-link-retry@2.2.15:
+  version "2.2.15"
+  resolved "https://registry.yarnpkg.com/apollo-link-retry/-/apollo-link-retry-2.2.15.tgz#4cc3202fcb6251fed6f6b57ade99b4b1ad05c619"
+  integrity sha512-ltwXGxm+2NXzskrk+GTofj66LQtcc9OGCjIxAPbjlvtHanpKJn8CviWq8dIsMiYGS9T9rGG/kPPx/VdJfcFb6w==
+  dependencies:
+    "@types/zen-observable" "0.8.0"
+    apollo-link "^1.2.13"
+    tslib "^1.9.3"
 
 apollo-link-ws@1.0.19:
   version "1.0.19"
