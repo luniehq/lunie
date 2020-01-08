@@ -14,9 +14,11 @@
         color="secondary"
         @click="$router.push(`/validators`)"
       >
-        <img src="/img/icons/arrow-icon.svg" />
-        <div style="width: 20px;display: inline-block"></div>
-        Back to Validators
+        <div style="display:flex; flex-direction:row; align-items: center;">
+          <i class="material-icons arrow">arrow_back</i>
+          <div style="width: 20px;display: inline-block;"></div>
+          Back to Validators
+        </div>
       </button>
       <div class="status-button-container">
         <div class="status-container">
