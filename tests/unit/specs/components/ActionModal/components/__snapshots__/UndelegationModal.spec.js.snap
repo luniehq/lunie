@@ -22,14 +22,8 @@ exports[`UndelegationModal should display undelegation modal form 1`] = `
       <span>
         
         Unstaking takes 21 days to complete and cannot be undone. Please make
-        sure you understand the rules of staking. Would you prefer to
-        
-        <a
-          href="#"
-          id="switch-to-redelgation"
-        >
-          redelegate?
-        </a>
+        sure you understand the rules of staking.
+      
       </span>
     </div>
   </tmformgroup-stub>
@@ -43,8 +37,23 @@ exports[`UndelegationModal should display undelegation modal form 1`] = `
       id="from"
       readonly=""
       type="text"
-      value="cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au"
+      value="undefined - cosmosvaladdr…3p4mqpjyrm5ctplpn3au"
     />
+  </tmformgroup-stub>
+   
+  <tmformgroup-stub
+    class="action-modal-form-group"
+    fieldid="to"
+    fieldlabel="To"
+  >
+    <tmfield-stub
+      id="to"
+      options="[object Object],[object Object]"
+      type="select"
+      value="0"
+    />
+     
+    <!---->
   </tmformgroup-stub>
    
   <tmformgroup-stub

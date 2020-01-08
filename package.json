@@ -1,6 +1,6 @@
 {
   "name": "lunie",
-  "version": "1.0.154",
+  "version": "1.0.155",
   "description": "Lunie is the staking and governance platform for proof-of-stake blockchains.",
   "author": "Lunie International Software Systems Inc. <hello@lunie.io>",
   "scripts": {
@@ -69,7 +69,8 @@
     "vue-infinite-scroll": "^2.0.2",
     "vue-router": "^3.0.3",
     "vuelidate": "^0.7.4",
-    "vuex": "^3.1.1"
+    "vuex": "^3.1.1",
+    "web3-utils": "1.2.4"
   },
   "devDependencies": {
     "@ascendancyy/vue-cli-plugin-stylelint": "^1.1.2",

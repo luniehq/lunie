@@ -147,7 +147,6 @@
       <UndelegationModal
         ref="undelegationModal"
         :source-validator="validator"
-        @switchToRedelegation="onDelegation({ redelegation: true })"
         @success="clearUndelegationCache"
       />
     </template>
@@ -236,8 +235,8 @@ export default {
     fromNow,
     noBlanks,
     moment,
-    onDelegation(options) {
-      this.$refs.delegationModal.open(options)
+    onDelegation() {
+      this.$refs.delegationModal.open()
     },
     onUndelegation() {
       this.$refs.undelegationModal.open()
@@ -279,16 +278,19 @@ export default {
         }
       `,
       skip() {
+        /* istanbul ignore next */
         return !this.userAddress
       },
       variables() {
+        /* istanbul ignore next */
         return {
           networkId: this.network,
           delegatorAddress: this.userAddress,
           operatorAddress: this.$route.params.validator
         }
       },
-      update: result => {
+      update(result) {
+        /* istanbul ignore next */
         return {
           ...result.delegation,
           amount: Number(result.delegation.amount)
@@ -312,40 +314,47 @@ export default {
         }
       `,
       skip() {
+        /* istanbul ignore next */
         return !this.userAddress
       },
       variables() {
+        /* istanbul ignore next */
         return {
           networkId: this.network,
           delegatorAddress: this.userAddress,
           operatorAddress: this.$route.params.validator
         }
       },
-      update: result => {
+      update(result) {
+        /* istanbul ignore next */
         return result.rewards.length > 0 ? result.rewards[0] : { amount: 0 }
       }
     },
     validator: {
       query: ValidatorProfile,
       variables() {
+        /* istanbul ignore next */
         return {
           networkId: this.network,
           operatorAddress: this.$route.params.validator
         }
       },
-      update: result => {
+      update(result) {
+        /* istanbul ignore next */
         return {
           ...result.validator,
           statusDetailed: getStatusText(result.validator.statusDetailed)
         }
       },
       result(queryResult) {
+        /* istanbul ignore next */
         this.loaded = !!queryResult.data.validator
       }
     },
     $subscribe: {
       blockAdded: {
         variables() {
+          /* istanbul ignore next */
           return {
             networkId: this.network
           }
@@ -361,6 +370,7 @@ export default {
           `
         },
         result() {
+          /* istanbul ignore next */
           refetchNetworkOnly(this.$apollo.queries.rewards)
         }
       },
