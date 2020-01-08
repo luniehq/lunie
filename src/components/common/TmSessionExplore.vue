@@ -58,9 +58,9 @@
           />
           <TmFormMsg
             v-else-if="
-              $v.address.$error && !$v.address.isNotAnyOtherCosmosAddress
+              $v.address.$error && !$v.address.isAWhitelistedBech32Prefix
             "
-            name="You can only sign in with a regular Cosmos address, starting with 'cosmos1'"
+            name="You can only sign in with a regular address"
             type="custom"
           />
         </TmFormGroup>
@@ -134,12 +134,13 @@ export default {
         return false
       }
     },
-    isNotAnyOtherCosmosAddress(param) {
+    isAWhitelistedBech32Prefix(param) {
       if (
-        param.substring(0, 9) !== "cosmospub" &&
-        param.substring(0, 13) !== "cosmosvalcons" &&
-        param.substring(0, 16) !== "cosmosvalconspub" &&
-        param.substring(0, 16) !== "cosmosvaloperpub"
+        param.substring(0, 7) === "cosmos1" ||
+        param.substring(0, 6) === "terra1" ||
+        param.substring(0, 5) === "xrn:1" ||
+        param.substring(0, 7) === "emoney1" ||
+        param.substring(0, 16) === "0x"
       ) {
         return true
       } else {
@@ -169,7 +170,7 @@ export default {
         required,
         bech32Validate: this.bech32Validate,
         isNotAValidatorAddress: this.isNotAValidatorAddress,
-        isNotAnyOtherCosmosAddress: this.isNotAnyOtherCosmosAddress
+        isAWhitelistedBech32Prefix: this.isAWhitelistedBech32Prefix
       }
     }
   }
