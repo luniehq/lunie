@@ -17,9 +17,9 @@
         <i class="material-icons">close</i>
       </div>
       <div class="action-modal-header">
-        <span class="action-modal-title">{{
-          requiresSignIn ? `Sign in required` : title
-        }}</span>
+        <span class="action-modal-title">
+          {{ requiresSignIn ? `Sign in required` : title }}
+        </span>
         <Steps
           v-if="
             [defaultStep, feeStep, signStep].includes(step) &&
@@ -63,9 +63,9 @@
             field-id="gasPrice"
             field-label="Gas Price"
           >
-            <span class="input-suffix">{{
-              network.stakingDenom | viewDenom
-            }}</span>
+            <span class="input-suffix">
+              {{ network.stakingDenom | viewDenom }}
+            </span>
             <TmField
               id="gas-price"
               v-model="gasPrice"
@@ -120,7 +120,7 @@
             />
           </TmFormGroup>
           <HardwareState
-            v-if="selectedSignMethod === SIGN_METHODS.LEDGER"
+            v-else-if="selectedSignMethod === SIGN_METHODS.LEDGER"
             :icon="session.browserWithLedgerSupport ? 'usb' : 'info'"
             :loading="!!sending"
           >
@@ -138,7 +138,7 @@
             </div>
           </HardwareState>
           <HardwareState
-            v-if="selectedSignMethod === SIGN_METHODS.EXTENSION"
+            v-else-if="selectedSignMethod === SIGN_METHODS.EXTENSION"
             :icon="session.browserWithLedgerSupport ? 'laptop' : 'info'"
             :loading="!!sending"
           >
@@ -187,9 +187,7 @@
         </div>
         <div v-else-if="step === inclusionStep" class="action-modal-form">
           <TmDataMsg icon="hourglass_empty" :spin="true">
-            <div slot="title">
-              Sent and confirming
-            </div>
+            <div slot="title">Sent and confirming</div>
             <div slot="subtitle">
               Waiting for confirmation from {{ networkId }}.
             </div>
@@ -200,9 +198,7 @@
           class="action-modal-form success-step"
         >
           <TmDataMsg icon="check" :success="true">
-            <div slot="title">
-              {{ notifyMessage.title }}
-            </div>
+            <div slot="title">{{ notifyMessage.title }}</div>
             <div slot="subtitle">
               {{ notifyMessage.body }}
               <br />
@@ -294,6 +290,7 @@ import { between, requiredIf } from "vuelidate/lib/validators"
 import { track } from "scripts/google-analytics"
 import { UserTransactionAdded } from "src/gql"
 import config from "src/../config"
+import * as Sentry from "@sentry/browser"
 
 import ActionManager from "../utils/ActionManager"
 
@@ -469,6 +466,22 @@ export default {
     },
     prettyIncludedHeight() {
       return prettyInt(this.includedHeight)
+    },
+    // TODO lets slice this monstrocity
+    context() {
+      return {
+        url: this.network.api_url,
+        networkId: this.network.id,
+        chainId: this.network.chain_id,
+        connected: this.connected,
+        userAddress: this.session.address,
+        rewards: this.rewards,
+        totalRewards: this.overview.totalRewards,
+        delegations: this.delegations,
+        bondDenom: this.network.stakingDenom,
+        isExtensionAccount: this.isExtensionAccount,
+        account: this.overview.accountInformation
+      }
     }
   },
   watch: {
@@ -480,15 +493,18 @@ export default {
           this.selectedSignMethod = signMethods[0].value
         }
       }
+    },
+    context: {
+      immediate: true,
+      handler(context) {
+        this.actionManager.setContext(context)
+      }
     }
   },
   created() {
     this.$apollo.skipAll = true
   },
   updated: function() {
-    // TODO do we need to set the context on every update of the component?
-    const context = this.createContext()
-    this.actionManager.setContext(context)
     if (
       (this.title === "Withdraw" || this.step === "fees") &&
       this.$refs.next
@@ -497,21 +513,6 @@ export default {
     }
   },
   methods: {
-    createContext() {
-      return {
-        url: this.network.api_url, // state.connection.externals.node.url,
-        networkId: this.network.id, // state.connection.lastHeader.chain_id,
-        chainId: this.network.chain_id, // state.connection.lastHeader.chain_id,
-        connected: this.connected,
-        userAddress: this.session.address,
-        rewards: this.rewards, // state.distribution.rewards,
-        totalRewards: this.overview.totalRewards, // getters.totalRewards,
-        delegations: this.delegations, // state.delegates.delegates,
-        bondDenom: this.network.stakingDenom, // getters.bondDenom,
-        isExtensionAccount: this.isExtensionAccount,
-        account: this.overview.accountInformation
-      }
-    },
     confirmModalOpen() {
       let confirmResult = false
       if (this.session.currrentModalOpen) {
@@ -618,7 +619,7 @@ export default {
           this.gasEstimate = await this.actionManager.simulate(memo)
         } else {
           this.gasEstimate = await this.actionManager.simulateTxAPI(
-            this.createContext(),
+            this.context,
             type,
             properties,
             memo
@@ -656,8 +657,9 @@ export default {
         if (!this.useTxService) {
           hashResult = await this.actionManager.send(memo, feeProperties)
         } else {
+          await this.$apollo.queries.overview.refetch()
           hashResult = await this.actionManager.sendTxAPI(
-            this.createContext(),
+            this.context,
             type,
             memo,
             properties,
@@ -668,8 +670,8 @@ export default {
         const { hash } = hashResult
         this.txHash = hash
         this.step = inclusionStep
-      } catch ({ message }) {
-        this.onSendingFailed(message)
+      } catch (error) {
+        this.onSendingFailed(error)
       }
     },
     onTxIncluded() {
@@ -683,10 +685,17 @@ export default {
       this.$emit(`txIncluded`)
       this.$apollo.queries.overview.refetch()
     },
-    onSendingFailed(message) {
+    onSendingFailed(error) {
+      Sentry.withScope(scope => {
+        scope.setExtra("signMethod", this.selectedSignMethod)
+        scope.setExtra("transactionData", this.transactionData)
+        scope.setExtra("gasEstimate", this.gasEstimate)
+        scope.setExtra("gasPrice", this.gasPrice)
+        Sentry.captureException(error)
+      })
       this.step = signStep
-      this.submissionError = `${this.submissionErrorPrefix}: ${message}.`
-      this.trackEvent(`event`, `failed-submit`, this.title, message)
+      this.submissionError = `${this.submissionErrorPrefix}: ${error.message}.`
+      this.trackEvent(`event`, `failed-submit`, this.title, error.message)
       this.$apollo.queries.overview.refetch()
     },
     async connectLedger() {
@@ -842,7 +851,7 @@ export default {
               this.onTxIncluded()
             } else {
               /* istanbul ignore next */
-              this.onSendingFailed(log)
+              this.onSendingFailed(new Error(log))
             }
           }
           this.txHash = null

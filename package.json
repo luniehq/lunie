@@ -60,6 +60,7 @@
     "moment": "^2.24.0",
     "no-scroll": "^2.1.1",
     "register-service-worker": "^1.6.2",
+    "serialize-javascript": ">=2.1.1",
     "subscriptions-transport-ws": "0.9.16",
     "timezone-mock": "^1.0.8",
     "vue": "^2.6.10",
