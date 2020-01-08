@@ -175,7 +175,7 @@ export default {
     return {
       address: {
         required,
-        addressValidate: this.addressValidate,        
+        addressValidate: this.addressValidate,
         isNotAValidatorAddress: this.isNotAValidatorAddress,
         isAWhitelistedBech32Prefix: this.isAWhitelistedBech32Prefix
       }

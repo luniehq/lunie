@@ -185,7 +185,10 @@ describe(`ActionModal`, () => {
       new Error("some kind of error message")
     )
 
-    ActionModal.methods.onSendingFailed.call(self, new Error("some kind of error message"))
+    ActionModal.methods.onSendingFailed.call(
+      self,
+      new Error("some kind of error message")
+    )
     expect(self.submissionError).toEqual(`PREFIX: some kind of error message.`)
   })
 
