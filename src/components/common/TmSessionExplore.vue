@@ -83,7 +83,8 @@ import TmField from "common/TmField"
 import TmFormMsg from "common/TmFormMsg"
 import bech32 from "bech32"
 import { formatBech32 } from "src/filters"
-import * as Web3Utils from "web3-utils"
+import { isAddress } from "web3-utils"
+const isEthereumAddress = isAddress
 
 export default {
   name: `session-explore`,
@@ -165,7 +166,7 @@ export default {
       this.onSubmit()
     },
     isEthereumAddress(address) {
-      return Web3Utils.isAddress(address)
+      return isEthereumAddress(address)
     },
     addressValidate(address) {
       return this.bech32Validate(address) || this.isEthereumAddress(address)
