@@ -3,8 +3,8 @@
     id="delegation-modal"
     ref="actionModal"
     :validate="validateForm"
-    :amount="isRedelegation ? 0 : amount"
-    :title="isRedelegation ? 'Redelegate' : 'Stake'"
+    :amount="amount"
+    :title="isRedelegation ? 'Restake' : 'Stake'"
     class="delegation-modal"
     submission-error-prefix="Staking failed"
     :transaction-data="transactionData"
@@ -21,7 +21,7 @@
           behaviour of the validator you choose.
         </span>
         <span v-else>
-          Voting power and rewards will change instantly upon redelegation — but
+          Voting power and rewards will change instantly upon restaking — but
           your tokens will still be subject to the risks associated with the
           original stake for the duration of the unstaking period.
         </span>
@@ -30,7 +30,7 @@
     <TmFormGroup class="action-modal-form-group" field-id="to" field-label="To">
       <TmField
         id="to"
-        v-model="targetValidator.operatorAddress"
+        :value="targetValidator | validatorEntry"
         type="text"
         readonly
       />
@@ -45,7 +45,7 @@
       <TmFormMsg
         v-if="targetValidator.status === 'INACTIVE' && isRedelegation"
         :msg="
-          `You are about to stake to an inactive validator (${targetValidator.statusDetailed})`
+          `You are about to restake to an inactive validator (${targetValidator.statusDetailed})`
         "
         type="custom"
         class="tm-form-msg--desc"
@@ -53,14 +53,13 @@
     </TmFormGroup>
 
     <TmFormGroup
-      v-if="fromOptions.length > 1"
       class="action-modal-form-group"
       field-id="from"
       field-label="From"
     >
       <TmField
         id="from"
-        v-model="selectedIndex"
+        v-model="fromSelectedIndex"
         :title="from"
         :options="fromOptions"
         type="select"
@@ -91,8 +90,7 @@
         />
       </TmFieldGroup>
       <span class="form-message">
-        {{ isRedelegation ? "Available to redelegate" : "Available to stake" }}
-        :
+        Available to stake:
         {{ maxAmount }}
         {{ denom }}s
       </span>
@@ -142,7 +140,7 @@ import TmFormMsg from "src/components/common/TmFormMsg"
 import ActionModal from "./ActionModal"
 import transaction from "../utils/transactionTypes"
 import { toMicroDenom } from "src/scripts/common"
-import { formatBech32 } from "src/filters"
+import { formatBech32, validatorEntry } from "src/filters"
 import { UserTransactionAdded } from "src/gql"
 
 export default {
@@ -155,6 +153,9 @@ export default {
     TmFormMsg,
     ActionModal
   },
+  filters: {
+    validatorEntry
+  },
   props: {
     targetValidator: {
       type: Object,
@@ -163,17 +164,36 @@ export default {
   },
   data: () => ({
     amount: null,
-    selectedIndex: 0,
+    fromSelectedIndex: `0`,
     balance: {
       amount: null,
       denom: ``
     },
+    validators: [],
     delegations: [],
     denom: ``
   }),
   computed: {
     ...mapState([`session`]),
     ...mapGetters([`network`, `address`]),
+    toOptions() {
+      return this.validators
+        .filter(
+          validator =>
+            validator.operatorAddress === this.targetValidator.operatorAddress
+        )
+        .map(validator => {
+          return {
+            address: validator.operatorAddress,
+            key: `${validator.name} - ${formatBech32(
+              validator.operatorAddress,
+              false,
+              20
+            )}`,
+            value: 0
+          }
+        })
+    },
     fromOptions() {
       let options = [
         // from wallet
@@ -184,24 +204,19 @@ export default {
           value: 0
         }
       ]
-
       options = options.concat(
         this.delegations
-          // exclude the validator we are delegating to as a source
+          // exclude target validator
           .filter(
             delegation =>
-              delegation.validator.operatorAddress !=
+              delegation.validator.operatorAddress !==
               this.targetValidator.operatorAddress
           )
           .map((delegation, index) => {
             return {
               address: delegation.validator.operatorAddress,
               maximum: Number(delegation.amount),
-              key: `${delegation.validator.name} - ${formatBech32(
-                delegation.validator.operatorAddress,
-                false,
-                20
-              )}`,
+              key: validatorEntry(delegation.validator),
               value: index + 1
             }
           })
@@ -212,13 +227,10 @@ export default {
     from() {
       if (!this.session.signedIn) return ``
 
-      return this.fromOptions[this.selectedIndex].address
-    },
-    isRedelegation() {
-      return this.from !== this.address
+      return this.fromOptions[this.fromSelectedIndex].address
     },
     transactionData() {
-      if (!this.from) return {}
+      if (!this.targetValidator.operatorAddress) return {}
 
       if (this.isRedelegation) {
         return {
@@ -240,8 +252,8 @@ export default {
     notifyMessage() {
       if (this.isRedelegation) {
         return {
-          title: `Successful redelegation!`,
-          body: `You have successfully redelegated your ${this.denom}s`
+          title: `Successfully restaked!`,
+          body: `You have successfully restaked your ${this.denom}s`
         }
       } else {
         return {
@@ -251,7 +263,10 @@ export default {
       }
     },
     maxAmount() {
-      return this.fromOptions[this.selectedIndex].maximum
+      return this.fromOptions[this.fromSelectedIndex].maximum
+    },
+    isRedelegation() {
+      return this.fromSelectedIndex !== `0`
     }
   },
   mounted() {
@@ -259,21 +274,16 @@ export default {
     this.$apollo.queries.delegations.refetch()
   },
   methods: {
-    open(options) {
-      if (options && options.redelegation && this.fromOptions.length > 1) {
-        this.selectedIndex = 1
-      }
+    open() {
       this.$refs.actionModal.open()
     },
     validateForm() {
       this.$v.$touch()
-
       return !this.$v.$invalid
     },
     clear() {
       this.$v.$reset()
-
-      this.selectedIndex = 0
+      this.fromSelectedIndex = 0
       this.amount = null
     },
     setMaxAmount() {
@@ -299,6 +309,26 @@ export default {
     }
   },
   apollo: {
+    validators: {
+      query: gql`
+        query validators($networkId: String!) {
+          validators(networkId: $networkId) {
+            name
+            operatorAddress
+          }
+        }
+      `,
+      variables() {
+        /* istanbul ignore next */
+        return {
+          networkId: this.network
+        }
+      },
+      update(data) {
+        /* istanbul ignore next */
+        return data.validators
+      }
+    },
     delegations: {
       query: gql`
         query DelegationsDelegationModal(
@@ -318,9 +348,11 @@ export default {
         }
       `,
       skip() {
+        /* istanbul ignore next */
         return !this.address
       },
       variables() {
+        /* istanbul ignore next */
         return {
           networkId: this.network,
           delegatorAddress: this.address
@@ -345,9 +377,11 @@ export default {
         }
       `,
       skip() {
+        /* istanbul ignore next */
         return !this.address
       },
       variables() {
+        /* istanbul ignore next */
         return {
           networkId: this.network,
           address: this.address,
@@ -365,6 +399,7 @@ export default {
         }
       `,
       variables() {
+        /* istanbul ignore next */
         return {
           networkId: this.network
         }
@@ -378,16 +413,19 @@ export default {
   $subscribe: {
     userTransactionAdded: {
       variables() {
+        /* istanbul ignore next */
         return {
           networkId: this.network,
           address: this.address
         }
       },
       skip() {
+        /* istanbul ignore next */
         return !this.address
       },
       query: UserTransactionAdded,
       result({ data }) {
+        /* istanbul ignore next */
         if (data.userTransactionAdded.success) {
           this.$apollo.queries.delegations.refetch()
         }

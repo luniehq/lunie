@@ -116,4 +116,28 @@ describe(`TmSessionExplore`, () => {
       sessionType: `explore`
     })
   })
+
+  it(`returns "true" if receives a correct Ethereum address all in small caps`, () => {
+    const ethereumAddress = `0x010afb8548a5d1a3a3d62f58ca0a5a1329974206`
+    const check = TmSessionExplore.methods.isEthereumAddress(ethereumAddress)
+    expect(check).toBe(true)
+  })
+
+  it(`returns "true" if receives a correct Ethereum address all in big caps`, () => {
+    const ethereumAddress = `0x010AFB8548A5D1A3A3D62F58CA0A5A1329974206`
+    const check = TmSessionExplore.methods.isEthereumAddress(ethereumAddress)
+    expect(check).toBe(true)
+  })
+
+  it(`returns "false" if receives an incorrect Ethereum address`, () => {
+    const ethereumAddress = `0x010AFB8548A5D1A3A3D62F58`
+    const check = TmSessionExplore.methods.isEthereumAddress(ethereumAddress)
+    expect(check).toBe(false)
+  })
+
+  it(`returns "true" if receives a checksummed Ethereum address`, () => {
+    const ethereumAddress = `0x28f4961F8b06F7361A1efD5E700DE717b1db5292`
+    const check = TmSessionExplore.methods.isEthereumAddress(ethereumAddress)
+    expect(check).toBe(true)
+  })
 })

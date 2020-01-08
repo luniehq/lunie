@@ -7,6 +7,19 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.155] - 2019-12-18
+
+### Changed
+
+- [#3313](https://github.com/cosmos/lunie/issues/3313) Now when Linux users go to sign in with Ledger they get a warning message with a link to the Ledger documentation to fix connection issues @Bitcoinera
+- [#3289](https://github.com/cosmos/lunie/pull/3289) Now PageValidator handles empty fields more uniformly, always displaying `--` @Bitcoinera
+
+### Fixed
+
+- [#3323](https://github.com/cosmos/lunie/pull/3323) Fixes the userTransactionAdded subscription and deletes the double TmLoadingComponent @Bitcoinera
+- Show failing txs in action modal @faboweb
+- [#3277](https://github.com/cosmos/lunie/issues/3277) Update proposals every 10 blocks @mariopino
+
 ## [1.0.154] - 2019-12-16
 
 ### Added

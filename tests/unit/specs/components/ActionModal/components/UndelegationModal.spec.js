@@ -10,9 +10,13 @@ describe(`UndelegationModal`, () => {
     operatorAddress: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au`
     // we don't need other props in this component
   }
+  const validator2 = {
+    operatorAddress: `cosmosvaladdr123`
+  }
+
   const localVue = createLocalVue()
   localVue.use(Vuelidate)
-  localVue.directive("focus", () => { })
+  localVue.directive("focus", () => {})
 
   beforeEach(() => {
     $store = {
@@ -37,9 +41,14 @@ describe(`UndelegationModal`, () => {
         {
           validator,
           amount: 1000
+        },
+        {
+          validator: validator2,
+          amount: 5000
         }
       ],
-      denom: "STAKE"
+      denom: "STAKE",
+      validators: [validator, validator2]
     })
   })
 
@@ -51,13 +60,6 @@ describe(`UndelegationModal`, () => {
     const $refs = { actionModal: { open: jest.fn() } }
     UndelegationModal.methods.open.call({ $refs })
     expect($refs.actionModal.open).toHaveBeenCalled()
-  })
-
-  it(`emits switch to redelegation event`, () => {
-    wrapper.vm.$refs = { actionModal: { close: jest.fn() } }
-    wrapper.find("#switch-to-redelgation").trigger("click")
-    expect(wrapper.vm.$refs.actionModal.close).toHaveBeenCalled()
-    expect(wrapper.emitted().switchToRedelegation).toBeTruthy()
   })
 
   it(`clears on close`, () => {
@@ -98,7 +100,18 @@ describe(`UndelegationModal`, () => {
     })
   })
 
-  describe("Submission Data", () => {
+  it(`should send an event on success`, () => {
+    const self = {
+      $emit: jest.fn()
+    }
+    UndelegationModal.methods.onSuccess.call(self)
+    expect(self.$emit).toHaveBeenCalledWith(
+      "success",
+      expect.objectContaining({})
+    )
+  })
+
+  describe("Undelegation Submission Data", () => {
     beforeEach(() => {
       wrapper.setData({
         amount: 10
@@ -119,6 +132,33 @@ describe(`UndelegationModal`, () => {
       expect(wrapper.vm.notifyMessage).toEqual({
         title: `Successfully unstaked!`,
         body: `You have successfully unstaked 10 STAKEs.`
+      })
+    })
+  })
+
+  describe("Redelegation Submission Data", () => {
+    beforeEach(() => {
+      wrapper.setData({
+        amount: 10
+      })
+      wrapper.vm.toSelectedIndex = `cosmosvaladdrXYZ`
+    })
+
+    it("should return correct transaction data", () => {
+      expect(wrapper.vm.transactionData).toEqual({
+        type: "MsgRedelegate",
+        validatorSourceAddress:
+          "cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au",
+        validatorDestinationAddress: "cosmosvaladdrXYZ",
+        amount: "10000000",
+        denom: "stake"
+      })
+    })
+
+    it("should return correct notification message", () => {
+      expect(wrapper.vm.notifyMessage).toEqual({
+        title: `Successfully restaked!`,
+        body: `You have successfully restaked 10 STAKEs.`
       })
     })
   })

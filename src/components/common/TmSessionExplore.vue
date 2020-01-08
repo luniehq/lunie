@@ -47,7 +47,7 @@
             type="required"
           />
           <TmFormMsg
-            v-else-if="$v.address.$error && !$v.address.bech32Validate"
+            v-else-if="$v.address.$error && !$v.address.addressValidate"
             name="Your Cosmos Address"
             type="bech32"
           />
@@ -83,6 +83,7 @@ import TmField from "common/TmField"
 import TmFormMsg from "common/TmFormMsg"
 import bech32 from "bech32"
 import { formatBech32 } from "src/filters"
+import * as Web3Utils from "web3-utils"
 
 export default {
   name: `session-explore`,
@@ -162,13 +163,19 @@ export default {
     exploreWith(address) {
       this.address = address
       this.onSubmit()
+    },
+    isEthereumAddress(address) {
+      return Web3Utils.isAddress(address)
+    },
+    addressValidate(address) {
+      return this.bech32Validate(address) || this.isEthereumAddress(address)
     }
   },
   validations() {
     return {
       address: {
         required,
-        bech32Validate: this.bech32Validate,
+        addressValidate: this.addressValidate,        
         isNotAValidatorAddress: this.isNotAValidatorAddress,
         isAWhitelistedBech32Prefix: this.isAWhitelistedBech32Prefix
       }
