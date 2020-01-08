@@ -34,10 +34,14 @@ async function getLedgerConnector(network) {
     case "terra-mainnet": {
       const { default: Ledger } = await import("@lunie/cosmos-ledger")
 
-      const ledger = new Ledger({
-        testModeAllowed: config.testModeAllowed,
-        hrp: config.bech32Prefixes[network]
-      })
+      const HDPATH = [44, 118, 0, 0, 0]
+      const ledger = new Ledger(
+        {
+          testModeAllowed: config.testModeAllowed
+        },
+        HDPATH,
+        config.bech32Prefixes[network]
+      )
 
       return ledger
     }
