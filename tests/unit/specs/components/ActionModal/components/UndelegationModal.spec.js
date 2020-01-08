@@ -12,7 +12,7 @@ describe(`UndelegationModal`, () => {
   }
   const localVue = createLocalVue()
   localVue.use(Vuelidate)
-  localVue.directive("focus", () => { })
+  localVue.directive("focus", () => {})
 
   beforeEach(() => {
     $store = {
