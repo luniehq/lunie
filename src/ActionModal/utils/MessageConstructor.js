@@ -20,6 +20,11 @@ const getMessageConstructor = async context => {
       return (messageType, userAddress, transactionProperties) =>
         cosmos[messageType](userAddress, transactionProperties)
     }
+    // TODO specify message constructor class in new networks architecture
+    case `regen-mainnet`:
+    case `regen-testnet`:
+    case `terra-mainnet`:
+    case `terra-testnet`:
     case `cosmos-hub-mainnet`:
     case `cosmos-hub-testnet`: {
       const { default: Cosmos } = await import("cosmos-apiV2")
@@ -37,6 +42,11 @@ export const getTransactionSigner = async context => {
       const { createSignedTransaction } = await import("cosmos-apiV0")
       return createSignedTransaction
     }
+    // TODO specify message constructor class in new networks architecture
+    case `regen-mainnet`:
+    case `regen-testnet`:
+    case `terra-mainnet`:
+    case `terra-testnet`:
     case `cosmos-hub-mainnet`:
     case `cosmos-hub-testnet`: {
       const { createSignedTransaction } = await import("cosmos-apiV2")
