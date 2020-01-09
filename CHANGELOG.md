@@ -7,6 +7,52 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.157] - 2020-01-09
+
+### Added
+
+- [#3362](https://github.com/cosmos/lunie/pull/3362) Adds "Back to Validators" button in PageValidator @Bitcoinera
+- [#3358](https://github.com/cosmos/lunie/pull/3358) Adds the e-Money network icon @Bitcoinera
+- [#3314](https://github.com/cosmos/lunie/issues/3314) Keep sessions per network @faboweb
+- Allow address creation in all cosmos networks @faboweb
+- [#3364](https://github.com/cosmos/lunie/pull/3364) Track failing transactions clientside in Sentry @faboweb
+- Retry graphql fetches on failed attempts @faboweb
+- [#3375](https://github.com/cosmos/lunie/pull/3375) Allow user to show address on Ledger Nano @faboweb
+- added little x back to action modal @jbibla
+- [#3345](https://github.com/cosmos/lunie/issues/3345) New tutorial component @mariopino
+
+### Changed
+
+- [#3313](https://github.com/cosmos/lunie/issues/3313) Now when Linux users go to sign in with Ledger they get a warning message with a link to the Ledger documentation to fix connection issues @Bitcoinera
+- [#3289](https://github.com/cosmos/lunie/pull/3289) Now PageValidator handles empty fields more uniformly, always displaying `--` @Bitcoinera
+- [#3366](https://github.com/cosmos/lunie/pull/3366) Fix link in ActionModal for lunie browser extension  @Bitcoinera
+- [#3371](https://github.com/cosmos/lunie/pull/3371) Strengthen the validation for cosmos addresses signin @Bitcoinera
+- [#3349](https://github.com/cosmos/lunie/pull/3349) Now it is possible to also sign in with an Ethereum address @Bitcoinera
+- [#3349](https://github.com/cosmos/lunie/pull/3349) Now the Undelegations component filters for only pending undelegations @Bitcoinera
+- success screen icon is green instead of orange @jbibla
+- delegation and undelegation are now "stake" and "unstake" @jbibla
+
+### Fixed
+
+- [#3384](https://github.com/cosmos/lunie/pull/3384) Now fees in action modals for all enabled networks work. Micro denoms are properly set @Bitcoinera
+- [#3354](https://github.com/cosmos/lunie/pull/3354) Fix session per network so it signs in to the current network @Bitcoinera
+- [#3323](https://github.com/cosmos/lunie/pull/3323) Fixes the userTransactionAdded subscription and deletes the double TmLoadingComponent @Bitcoinera
+- [#3359](https://github.com/cosmos/lunie/pull/3359) Fixes address undefined for the "To address" in multisends @Bitcoinera
+- [#3350](https://github.com/cosmos/lunie/pull/3350) Remove field not present in API schema @colw
+- [#3351](https://github.com/cosmos/lunie/pull/3351) A typo @colw
+- [#3364](https://github.com/cosmos/lunie/pull/3364) Improve handling of sequence querying in ActionModal @faboweb
+- Show failing txs in action modal @faboweb
+- [#3096](https://github.com/cosmos/lunie/issues/3096) Fix redelegation to and from fields @mariopino
+- [#3277](https://github.com/cosmos/lunie/issues/3277) Update proposals every 10 blocks @mariopino
+- [#3328](https://github.com/cosmos/lunie/issues/3328) Fix error 404 in validator links from transactions in page block @mariopino
+- [#3339](https://github.com/cosmos/lunie/issues/3339) Fix session modal validation triggers on closing @mariopino
+
+### Repository
+
+- Merge back master into develop before releasing @faboweb
+- Cleaned packages @faboweb
+- Lint before push @faboweb
+
 ## [1.0.156] - 2020-01-08
 
 ### Added
