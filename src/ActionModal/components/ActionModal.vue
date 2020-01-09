@@ -187,7 +187,9 @@
         </div>
         <div v-else-if="step === inclusionStep" class="action-modal-form">
           <TmDataMsg icon="hourglass_empty" :spin="true">
-            <div slot="title">Sent and confirming</div>
+            <div slot="title">
+              Sent and confirming
+            </div>
             <div slot="subtitle">
               Waiting for confirmation from {{ networkId }}.
             </div>
@@ -198,7 +200,9 @@
           class="action-modal-form success-step"
         >
           <TmDataMsg icon="check" :success="true">
-            <div slot="title">{{ notifyMessage.title }}</div>
+            <div slot="title">
+              {{ notifyMessage.title }}
+            </div>
             <div slot="subtitle">
               {{ notifyMessage.body }}
               <br />
