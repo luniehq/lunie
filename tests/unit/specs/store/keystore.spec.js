@@ -96,6 +96,17 @@ describe(`Module: Keystore`, () => {
     expect(seed).toBe(`xxx`)
   })
 
+  it(`should create an address from a seed phrase`, async () => {
+    const address = await actions.getAddressFromSeed(
+      {},
+      {
+        seedPhrase: `xxx`,
+        network: `cosmos-hub-mainnet`
+      }
+    )
+    expect(address).toBe(`cosmos1234`)
+  })
+
   it(`should create a key from a seed phrase`, async () => {
     const seedPhrase = `abc`
     const password = `123`
