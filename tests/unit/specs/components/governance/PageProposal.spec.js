@@ -194,10 +194,7 @@ describe(`PageProposal`, () => {
     it(`refetches user vote after a successful voting`, () => {
       wrapper.vm.$apollo.queries.vote.refetch = jest.fn()
       wrapper.vm.afterVote()
-      expect(wrapper.vm.$apollo.queries.vote.refetch).toHaveBeenCalledWith({
-        proposalId: 33,
-        address: "cosmos1xxxx"
-      })
+      expect(wrapper.vm.$apollo.queries.vote.refetch).toHaveBeenCalled()
     })
   })
 
@@ -215,9 +212,7 @@ describe(`PageProposal`, () => {
     it(`refetches proposal data after a successful depositing`, () => {
       wrapper.vm.$apollo.queries.proposal.refetch = jest.fn()
       wrapper.vm.afterDeposit()
-      expect(wrapper.vm.$apollo.queries.proposal.refetch).toHaveBeenCalledWith({
-        id: 33
-      })
+      expect(wrapper.vm.$apollo.queries.proposal.refetch).toHaveBeenCalled()
     })
   })
 })

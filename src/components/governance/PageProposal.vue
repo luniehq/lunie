@@ -268,11 +268,15 @@ export default {
     onVote() {
       this.$refs.modalVote.open()
     },
-    afterVote() {},
+    afterVote() {
+      this.$apollo.queries.vote.refetch()
+    },
     onDeposit() {
       this.$refs.modalDeposit.open()
     },
-    afterDeposit() {},
+    afterDeposit() {
+      this.$apollo.queries.proposal.refetch()
+    },
     getProposalIndex(num) {
       let proposalsObj = this.proposals
       let proposalsIdArr = Object.values(proposalsObj).map(
