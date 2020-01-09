@@ -32,7 +32,12 @@ describe(`Module: Keystore`, () => {
     mutations = module.mutations
 
     state.externals = {
-      track: jest.fn()
+      track: jest.fn(),
+      config: {
+        bech32Prefixes: {
+          "cosmos-hub-mainnet": "cosmos"
+        }
+      }
     }
   })
 
@@ -101,7 +106,8 @@ describe(`Module: Keystore`, () => {
       {
         seedPhrase,
         password,
-        name
+        name,
+        network: "cosmos-hub-mainnet"
       }
     )
     expect(dispatch).toHaveBeenCalledWith(`signIn`, {
@@ -121,7 +127,8 @@ describe(`Module: Keystore`, () => {
       {
         seedPhrase,
         password,
-        name
+        name,
+        network: "cosmos-hub-mainnet"
       }
     )
     expect(dispatch).toHaveBeenCalledWith(`loadAccounts`)
@@ -137,7 +144,8 @@ describe(`Module: Keystore`, () => {
       {
         seedPhrase,
         password,
-        name
+        name,
+        network: "cosmos-hub-mainnet"
       }
     )
     expect(dispatch).toHaveBeenCalledWith(`signIn`, {
