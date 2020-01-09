@@ -171,6 +171,7 @@ export default {
           `
         },
         result() {
+          /* istanbul ignore next */
           this.$apollo.queries.rewards.refetch()
         }
       }
