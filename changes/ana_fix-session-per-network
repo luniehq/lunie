@@ -1,0 +1,1 @@
+[Fixed] [#3354](https://github.com/cosmos/lunie/pull/3354) Fix session per network so it signs in to the current network @Bitcoinera

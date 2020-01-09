@@ -7,7 +7,9 @@
     <div class="tx__content__left">
       <h3>{{ caption }}</h3>
       <span>from&nbsp;</span>
-      <router-link :to="`/validators/${transaction.value.validator_address}`">
+      <router-link
+        :to="`/staking/validators/${transaction.value.validator_address}`"
+      >
         <img
           v-if="validator && validator.picture"
           :src="validator.picture"

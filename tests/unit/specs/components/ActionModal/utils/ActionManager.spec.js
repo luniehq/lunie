@@ -1,9 +1,10 @@
 import ActionManager from "src/ActionModal/utils/ActionManager.js"
-// import {
-//   getTransactionSigner,
-//   transformMessage
-// } from "src/ActionModal/utils/MessageConstructor.js"
 import { sendTx, withdrawTx } from "./actions"
+
+jest.mock("src/../config.js", () => ({
+  default_gas_price: 2.5e-8,
+  graphqlHost: "http://localhost:4000"
+}))
 
 let mockSimulate = jest.fn(() => 12345)
 const MsgSendFn = jest.fn(() => ({ included: () => async () => true }))

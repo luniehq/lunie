@@ -20,7 +20,7 @@ describe(`TmSessionImportName`, () => {
   beforeEach(() => {
     getters = {
       connected: () => true,
-      network: () => "lunie-net"
+      network: "fabo-net"
     }
     $store = {
       state: {

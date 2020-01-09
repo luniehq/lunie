@@ -2,12 +2,26 @@
   <menu class="app-menu">
     <div v-if="session.signedIn" class="user-box">
       <div>
-        <h3>Your Address</h3>
-        <Bech32 :address="address || ''" />
+        <div>
+          <h3>Your Address</h3>
+          <Bech32 :address="address || ''" />
+        </div>
+        <a v-if="session.signedIn" id="sign-out" @click="signOut()">
+          <i v-tooltip.top="'Sign Out'" class="material-icons">exit_to_app</i>
+        </a>
       </div>
-      <a v-if="session.signedIn" id="sign-out" @click="signOut()">
-        <i v-tooltip.top="'Sign Out'" class="material-icons">exit_to_app</i>
+      <a
+        v-if="session.signedIn"
+        class="show-on-ledger"
+        @click="showAddressOnLedger()"
+      >
+        Show on Ledger
       </a>
+      <TmFormMsg
+        v-if="ledgerAddressError"
+        :msg="ledgerAddressError"
+        type="custom"
+      />
     </div>
     <TmBtn
       v-else
@@ -149,23 +163,30 @@
 import Bech32 from "common/Bech32"
 import ConnectedNetwork from "common/TmConnectedNetwork"
 import TmBtn from "common/TmBtn"
+import TmFormMsg from "common/TmFormMsg"
 import { mapGetters, mapState } from "vuex"
 import { atoms, viewDenom, shortDecimals } from "scripts/num.js"
+import { showAddressOnLedger } from "scripts/ledger"
 export default {
   name: `app-menu`,
   components: {
     Bech32,
     ConnectedNetwork,
-    TmBtn
+    TmBtn,
+    TmFormMsg
   },
   filters: {
     atoms,
     viewDenom,
     shortDecimals
   },
+  data: () => ({
+    ledgerAddressError: undefined,
+    showAddressOnLedgerFn: showAddressOnLedger
+  }),
   computed: {
     ...mapState([`session`]),
-    ...mapGetters([`address`])
+    ...mapGetters([`address`, `network`])
   },
   methods: {
     handleClick() {
@@ -179,6 +200,21 @@ export default {
     signIn() {
       this.$router.push(`/welcome`)
       this.$emit(`close`)
+    },
+    async showAddressOnLedger() {
+      if (this.messageTimeout) {
+        clearTimeout(this.messageTimeout)
+      }
+      this.ledgerAddressError = undefined
+      try {
+        await this.showAddressOnLedgerFn(this.network)
+      } catch (error) {
+        this.ledgerAddressError = error.message
+        this.messageTimeout = setTimeout(
+          () => (this.ledgerAddressError = undefined),
+          8000
+        )
+      }
     }
   }
 }
@@ -214,12 +250,24 @@ export default {
   margin: 2.5rem 1rem 1rem;
 }
 
+.show-on-ledger {
+  display: block;
+  padding-top: 1rem;
+}
+
+.show-on-ledger:hover {
+  cursor: pointer;
+}
+
 .user-box {
   font-size: 12px;
   margin: 1rem;
   padding: 0.5rem 0.75rem;
   border: 2px solid var(--bc);
   border-radius: 0.25rem;
+}
+
+.user-box > div {
   display: flex;
   justify-content: space-between;
   align-items: center;

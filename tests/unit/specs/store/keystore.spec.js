@@ -153,4 +153,23 @@ describe(`Module: Keystore`, () => {
       sessionType: "local"
     })
   })
+
+  it("should handle networks not being supported for account creation (as a fallback)", async () => {
+    const seedPhrase = `abc`
+    const password = `123`
+    const name = `def`
+    await expect(
+      actions.createKey(
+        { state },
+        {
+          seedPhrase,
+          password,
+          name,
+          network: "fabo-net"
+        }
+      )
+    ).rejects.toThrowError(
+      "Lunie doesn't support address creation for this network."
+    )
+  })
 })

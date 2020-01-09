@@ -61,4 +61,30 @@ describe(`AppMenu`, () => {
     expect(self.$emit).toHaveBeenCalledWith(`close`)
     expect(window.scrollTo).toHaveBeenCalledWith(0, 0)
   })
+
+  it(`shows a warning if showing address on Ledger fails`, async () => {
+    const self = {
+      showAddressOnLedgerFn: jest.fn(() =>
+        Promise.reject(new Error("Expected Error"))
+      )
+    }
+    await AppMenu.methods.showAddressOnLedger.call(self)
+    expect(self.showAddressOnLedgerFn).toHaveBeenCalled()
+    expect(self.ledgerAddressError).toBe("Expected Error")
+  })
+
+  it(`clears the warning if showing address on Ledger fails after a while`, async () => {
+    jest.useFakeTimers()
+    const self = {
+      showAddressOnLedgerFn: jest.fn(() =>
+        Promise.reject(new Error("Expected Error"))
+      )
+    }
+    await AppMenu.methods.showAddressOnLedger.call(self)
+
+    jest.runAllTimers()
+    expect(self.ledgerAddressError).toBe(undefined)
+
+    jest.useRealTimers()
+  })
 })

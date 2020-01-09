@@ -37,16 +37,17 @@ export default () => {
       const { getSeed } = await import("@lunie/cosmos-keys")
       return getSeed()
     },
-    async getAddressFromSeed({ state }, { seedPhrase, network }) {
-      const wallet = await getWallet(state.externals.config, seedPhrase, network)
+    async getAddressFromSeed(store, { seedPhrase, network }) {
+      const wallet = await getWallet(seedPhrase, network)
       return wallet.cosmosAddress
     },
     async createKey(
       { dispatch, state },
       { seedPhrase, password, name, network }
     ) {
+      // TODO extract the key storage from the key creation
       const { storeWallet } = await import("@lunie/cosmos-keys")
-      const wallet = await getWallet(state.externals.config, seedPhrase, network)
+      const wallet = await getWallet(seedPhrase, network)
 
       storeWallet(wallet, name, password)
 
@@ -72,14 +73,14 @@ export default () => {
 }
 
 // creates a cosmos addres for the network desired
-function getCosmosAddressCreator(config, network) {
+function getCosmosAddressCreator(network) {
   return async seedPhrase => {
     const { getNewWalletFromSeed } = await import("@lunie/cosmos-keys")
     return getNewWalletFromSeed(seedPhrase, config.bech32Prefixes[network])
   }
 }
 
-function getWallet(config, seedPhrase, network) {
+async function getWallet(seedPhrase, network) {
   switch (network) {
     case "cosmos-hub-mainnet":
     case "cosmos-hub-testnet":
@@ -87,7 +88,7 @@ function getWallet(config, seedPhrase, network) {
     case "regen-mainnet":
     case "terra-testnet":
     case "terra-mainnet": {
-      const addressCreator = getCosmosAddressCreator(config, network)
+      const addressCreator = await getCosmosAddressCreator(network)
       return addressCreator(seedPhrase)
     }
     default:
