@@ -124,6 +124,7 @@ import TmFormMsg from "src/components/common/TmFormMsg"
 import transaction from "../utils/transactionTypes"
 import { toMicroDenom } from "src/scripts/common"
 import { formatBech32, validatorEntry } from "src/filters"
+import { UserTransactionAdded } from "src/gql"
 
 export default {
   name: `undelegation-modal`,
@@ -306,6 +307,7 @@ export default {
           }
         }
       `,
+      fetchPolicy: "cache-and-network",
       skip() {
         /* istanbul ignore next */
         return !this.address
@@ -362,6 +364,27 @@ export default {
       update(data) {
         /* istanbul ignore next */
         return data.validators
+      }
+    },
+
+    $subscribe: {
+      userTransactionAdded: {
+        variables() {
+          /* istanbul ignore next */
+          return {
+            networkId: this.network,
+            address: this.userAddress
+          }
+        },
+        skip() {
+          /* istanbul ignore next */
+          return !this.userAddress
+        },
+        query: UserTransactionAdded,
+        result() {
+          /* istanbul ignore next */
+          this.$apollo.queries.delegations.refetch()
+        }
       }
     }
   }

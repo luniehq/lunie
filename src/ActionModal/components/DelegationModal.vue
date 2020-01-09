@@ -347,6 +347,7 @@ export default {
           }
         }
       `,
+      fetchPolicy: "cache-and-network",
       skip() {
         /* istanbul ignore next */
         return !this.address
@@ -427,6 +428,7 @@ export default {
       result({ data }) {
         /* istanbul ignore next */
         if (data.userTransactionAdded.success) {
+          this.$apollo.queries.balance.refetch()
           this.$apollo.queries.delegations.refetch()
         }
       }

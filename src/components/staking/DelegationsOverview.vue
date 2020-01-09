@@ -38,7 +38,6 @@ import { mapGetters } from "vuex"
 import TmDataMsg from "common/TmDataMsg"
 import TableValidators from "staking/TableValidators"
 import { DelegationsForDelegator, UserTransactionAdded } from "src/gql"
-import refetchNetworkOnly from "scripts/refetch-network-only"
 
 export default {
   name: `delegations-overview`,
@@ -58,6 +57,7 @@ export default {
         /* istanbul ignore next */
         return DelegationsForDelegator(this.network)
       },
+      fetchPolicy: "cache-and-network",
       variables() {
         /* istanbul ignore next */
         return {
@@ -83,7 +83,7 @@ export default {
         query: UserTransactionAdded,
         result({ data }) {
           if (data.userTransactionAdded.success) {
-            refetchNetworkOnly(this.$apollo.queries.delegations)
+            this.$apollo.queries.delegations.refetch()
           }
         }
       }

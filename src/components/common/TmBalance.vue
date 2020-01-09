@@ -53,12 +53,10 @@
 </template>
 <script>
 import { shortDecimals } from "scripts/num"
-import refetchNetworkOnly from "scripts/refetch-network-only"
 import { noBlanks } from "src/filters"
 import TmBtn from "common/TmBtn"
 import SendModal from "src/ActionModal/components/SendModal"
 import ModalWithdrawRewards from "src/ActionModal/components/ModalWithdrawRewards"
-import { UserTransactionAdded } from "src/gql"
 import { mapGetters } from "vuex"
 import gql from "graphql-tag"
 export default {
@@ -105,6 +103,7 @@ export default {
           }
         }
       `,
+      fetchPolicy: "cache-and-network",
       variables() {
         /* istanbul ignore next */
         return {
@@ -143,22 +142,6 @@ export default {
       }
     },
     $subscribe: {
-      userTransactionAdded: {
-        variables() {
-          return {
-            networkId: this.network,
-            address: this.address
-          }
-        },
-        skip() {
-          return !this.address
-        },
-        query: UserTransactionAdded,
-        result() {
-          // query if successful or not as even an unsuccessful tx costs fees
-          refetchNetworkOnly(this.$apollo.queries.overview)
-        }
-      },
       blockAdded: {
         variables() {
           return {
@@ -176,7 +159,7 @@ export default {
           `
         },
         result() {
-          refetchNetworkOnly(this.$apollo.queries.overview)
+          this.$apollo.queries.overview.refetch()
         }
       }
     }
