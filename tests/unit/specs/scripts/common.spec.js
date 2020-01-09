@@ -1,4 +1,11 @@
-import { coinsToObject, calculateShares, toMicroDenom, sleep } from "scripts/common"
+import {
+  coinsToObject,
+  calculateShares,
+  toMicroDenom,
+  sleep
+} from "scripts/common"
+
+jest.useFakeTimers()
 
 describe(`calculateShares`, () => {
   it(`should calculates shares `, () => {
@@ -35,12 +42,8 @@ describe(`toMicroDenom`, () => {
 
 describe(`sleep`, () => {
   it(`returns a true as a promise`, () => {
-    function isPromise(object){
-      if(Promise && Promise.resolve){
-        return Promise.resolve(object) == object;
-      }
-    }
-    const sleepPromise = sleep()
-    expect(isPromise(sleepPromise)).toBe(true)
+    sleep()
+    expect(setTimeout).toHaveBeenCalledTimes(1)
+    expect(sleep(10)).resolves.toEqual(10)
   })
 })
