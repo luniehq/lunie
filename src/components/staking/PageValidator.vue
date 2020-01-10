@@ -16,7 +16,6 @@
       >
         <div style="display:flex; flex-direction:row; align-items: center;">
           <i class="material-icons arrow">arrow_back</i>
-          <div style="width: 20px;display: inline-block;"></div>
           Back to Validators
         </div>
       </button>
@@ -431,6 +430,10 @@ export default {
   background: #445381;
   color: #f1f3f7;
   border-color: #445381;
+}
+
+i.arrow {
+  padding-right: 20px;
 }
 
 .li-validator {
