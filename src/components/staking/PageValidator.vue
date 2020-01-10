@@ -336,14 +336,12 @@ export default {
       },
       update(result) {
         /* istanbul ignore next */
+        this.loaded = true
+        /* istanbul ignore next */
         return {
           ...result.validator,
           statusDetailed: getStatusText(result.validator.statusDetailed)
         }
-      },
-      result(queryResult) {
-        /* istanbul ignore next */
-        this.loaded = !!queryResult.data.validator
       }
     },
     $subscribe: {
