@@ -269,13 +269,11 @@ export default {
       return this.fromSelectedIndex !== `0`
     }
   },
-  mounted() {
-    this.$apollo.queries.balance.refetch()
-    this.$apollo.queries.delegations.refetch()
-  },
   methods: {
     open() {
       this.$refs.actionModal.open()
+      this.$apollo.queries.balance.refetch()
+      this.$apollo.queries.delegations.refetch()
     },
     validateForm() {
       this.$v.$touch()
