@@ -1,7 +1,7 @@
 <template>
   <menu class="app-menu">
     <div v-if="session.signedIn" class="user-box">
-      <div>
+      <div class="user-box-address">
         <div>
           <h3>Your Address</h3>
           <Bech32 :address="address || ''" />
@@ -263,12 +263,14 @@ export default {
   padding: 0.5rem 0.75rem;
   border: 2px solid var(--bc);
   border-radius: 0.25rem;
+  display: block;
 }
 
-.user-box > div {
+.user-box-address {
+  width: 100%;
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
 }
 
 .user-box i {
