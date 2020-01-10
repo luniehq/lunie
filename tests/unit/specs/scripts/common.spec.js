@@ -5,8 +5,6 @@ import {
   sleep
 } from "scripts/common"
 
-jest.useFakeTimers()
-
 describe(`calculateShares`, () => {
   it(`should calculates shares `, () => {
     const validator = {
@@ -42,8 +40,10 @@ describe(`toMicroDenom`, () => {
 
 describe(`sleep`, () => {
   it(`returns a true as a promise`, () => {
+    jest.useFakeTimers()
     sleep()
     expect(setTimeout).toHaveBeenCalledTimes(1)
     expect(sleep(10)).resolves.toEqual(10)
+    jest.useRealTimers()
   })
 })
