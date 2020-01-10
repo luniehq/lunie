@@ -267,6 +267,7 @@ export default {
   methods: {
     open() {
       this.$refs.actionModal.open()
+      this.$apollo.queries.delegations.refetch()
     },
     validateForm() {
       this.$v.$touch()
