@@ -274,7 +274,7 @@ export default {
           }
         }
       `,
-            skip() {
+      skip() {
         return !this.userAddress
       },
       variables() {

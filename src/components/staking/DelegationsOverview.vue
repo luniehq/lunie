@@ -57,7 +57,7 @@ export default {
         /* istanbul ignore next */
         return DelegationsForDelegator(this.network)
       },
-            variables() {
+      variables() {
         /* istanbul ignore next */
         return {
           delegatorAddress: this.address

@@ -79,7 +79,7 @@ export default {
           }
         }
       `,
-            skip() {
+      skip() {
         return !this.address
       },
       variables() {

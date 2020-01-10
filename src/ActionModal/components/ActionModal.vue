@@ -737,7 +737,7 @@ export default {
           }
         }
       `,
-            variables() {
+      variables() {
         /* istanbul ignore next */
         return {
           networkId: this.networkId,
