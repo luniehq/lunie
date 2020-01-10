@@ -3714,6 +3714,11 @@ copy-webpack-plugin@5.1.1, copy-webpack-plugin@^5.0.5:
     serialize-javascript "^2.1.2"
     webpack-log "^2.0.0"
 
+cordova-plugin-intercom@8.0.0:
+  version "8.0.0"
+  resolved "https://registry.yarnpkg.com/cordova-plugin-intercom/-/cordova-plugin-intercom-8.0.0.tgz#d1aa03d1db06d41e82f2b19e0dbe5b0d4323dd3a"
+  integrity sha512-HYZAebtCq2aB0UG+2+Q8R7x5QrhPrrwIH6TObVt23K0UVNXGpFzrBZotty1ibGYxEfwaRNa5X0Eg2ODy8BQHeA==
+
 core-js@^2.4.0, core-js@^2.6.5:
   version "2.6.11"
   resolved "https://registry.yarnpkg.com/core-js/-/core-js-2.6.11.tgz#38831469f9922bded8ee21c9dc46985e0399308c"
