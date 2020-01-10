@@ -424,7 +424,9 @@ export default {
       },
       query: UserTransactionAdded,
       result() {
+        /* istanbul ignore next */
         this.$apollo.queries.balance.refetch()
+        /* istanbul ignore next */
         this.$apollo.queries.delegations.refetch()
       }
     }
