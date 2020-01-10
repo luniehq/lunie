@@ -1,4 +1,4 @@
-import { getAddressFromLedger } from "scripts/ledger.js"
+import { getAddressFromLedger, showAddressOnLedger } from "scripts/ledger.js"
 
 jest.mock("src/../config", () => ({
   bech32Prefixes: {
@@ -11,6 +11,7 @@ jest.mock(
   () =>
     class mockLedger {
       constructor() {
+        this.confirmLedgerAddress = jest.fn()
         this.getCosmosAddress = () => "cosmos1"
         this.cosmosApp = {
           transport: {
@@ -35,6 +36,7 @@ describe(`Ledger Connector`, () => {
         () =>
           class mockLedger {
             constructor() {
+              this.confirmLedgerAddress = jest.fn()
               this.getCosmosAddress = () => {
                 throw new Error("XXX")
               }
@@ -51,6 +53,12 @@ describe(`Ledger Connector`, () => {
         "XXX"
       )
     })
+  })
+  describe(`showAddressOnLedger`, () => {
+    // shallow test as it doesn't test if this is doing anything.
+    it(`shows address on Ledger Nano`, async () => {
+      await showAddressOnLedger("cosmos-hub-mainnet")
+    })
 
     it(`handles errors`, async () => {
       jest.resetModules()
@@ -59,7 +67,7 @@ describe(`Ledger Connector`, () => {
         () =>
           class mockLedger {
             constructor() {
-              this.getCosmosAddress = () => {
+              this.confirmLedgerAddress = () => {
                 throw new Error("XXX")
               }
               this.cosmosApp = {
@@ -70,8 +78,8 @@ describe(`Ledger Connector`, () => {
             }
           }
       )
-      const { getAddressFromLedger } = require("scripts/ledger.js")
-      await expect(getAddressFromLedger("cosmos-hub-mainnet")).rejects.toThrow(
+      const { showAddressOnLedger } = require("scripts/ledger.js")
+      await expect(showAddressOnLedger("cosmos-hub-mainnet")).rejects.toThrow(
         "XXX"
       )
     })
