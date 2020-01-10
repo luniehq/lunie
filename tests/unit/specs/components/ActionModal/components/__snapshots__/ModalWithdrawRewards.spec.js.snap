@@ -39,7 +39,7 @@ exports[`ModalWithdrawRewards should show the withdraw rewards modal 1`] = `
       disabled="disabled"
       id="amount"
       type="number"
-      value="0"
+      value="0.000000"
     />
   </tmformgroup-stub>
 </actionmodal-stub>

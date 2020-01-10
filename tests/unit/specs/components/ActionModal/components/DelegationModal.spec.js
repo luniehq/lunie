@@ -95,9 +95,10 @@ describe(`DelegationModal`, () => {
     expect(self.$refs.actionModal.validateChangeStep).toHaveBeenCalled()
   })
 
-  it(`opens`, () => {
+  it.only(`opens`, () => {
     const $refs = { actionModal: { open: jest.fn() } }
-    DelegationModal.methods.open.call({ $refs })
+    const $apollo = wrapper.vm.$apollo
+    DelegationModal.methods.open.call({ $refs, $apollo })
     expect($refs.actionModal.open).toHaveBeenCalled()
   })
 

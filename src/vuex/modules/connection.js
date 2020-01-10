@@ -21,7 +21,8 @@ export default function({ apollo }) {
     async checkForPersistedNetwork({ dispatch, commit }) {
       const persistedNetwork = JSON.parse(localStorage.getItem(`network`))
       const { data } = await apollo.query({
-        query: Networks
+        query: Networks,
+        fetchPolicy: "cache-first"
       })
       let availNetworks = Object.values(data.networks).map(
         network => network.id
