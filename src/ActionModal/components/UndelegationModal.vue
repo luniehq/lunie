@@ -307,7 +307,6 @@ export default {
           }
         }
       `,
-      fetchPolicy: "cache-and-network",
       skip() {
         /* istanbul ignore next */
         return !this.address
@@ -333,6 +332,7 @@ export default {
           }
         }
       `,
+      fetchPolicy: "cache-first",
       variables() {
         /* istanbul ignore next */
         return {

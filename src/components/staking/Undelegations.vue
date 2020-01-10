@@ -47,8 +47,7 @@ export default {
         }
       `
       },
-      fetchPolicy: "cache-and-network",
-      variables() {
+            variables() {
         /* istanbul ignore next */
         return {
           networkId: this.network,

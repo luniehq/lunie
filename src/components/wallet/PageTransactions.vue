@@ -79,8 +79,7 @@ export default {
           }
         }
       `,
-      fetchPolicy: "cache-and-network",
-      skip() {
+            skip() {
         return !this.address
       },
       variables() {

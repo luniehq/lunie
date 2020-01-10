@@ -116,6 +116,7 @@ export default {
           }
         }
       `,
+      fetchPolicy: "cache-first",
       variables() {
         return {
           networkId: this.network
