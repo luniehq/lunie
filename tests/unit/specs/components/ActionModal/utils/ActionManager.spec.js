@@ -171,7 +171,7 @@ describe("ActionManager", () => {
     }
   })
 
-  describe("simulating and sending", async () => {
+  describe("simulating and sending", () => {
     beforeEach(async () => {
       const context = {
         url: "blah",
