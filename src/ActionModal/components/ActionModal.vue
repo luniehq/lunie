@@ -481,7 +481,6 @@ export default {
         userAddress: this.session.address,
         rewards: this.rewards,
         totalRewards: this.overview.totalRewards,
-        delegations: this.delegations,
         bondDenom: this.network.stakingDenom,
         isExtensionAccount: this.isExtensionAccount,
         account: this.overview.accountInformation
@@ -735,7 +734,6 @@ export default {
           overview(networkId: $networkId, address: $address) {
             totalRewards
             liquidStake
-            totalStake
             accountInformation {
               accountNumber
               sequence
@@ -767,11 +765,8 @@ export default {
         query NetworkActionModal($networkId: String!) {
           network(id: $networkId) {
             id
-            testnet
             stakingDenom
             chain_id
-            rpc_url
-            api_url
             action_send
             action_claim_rewards
             action_delegate
@@ -793,39 +788,6 @@ export default {
         /* istanbul ignore next */
 
         return data.network
-      }
-    },
-    delegations: {
-      query: gql`
-        query DelegationsActionModal(
-          $networkId: String!
-          $delegatorAddress: String!
-        ) {
-          delegations(
-            networkId: $networkId
-            delegatorAddress: $delegatorAddress
-          ) {
-            amount
-            validator {
-              operatorAddress
-            }
-          }
-        }
-      `,
-      skip() {
-        /* istanbul ignore next */
-        return !this.session.address
-      },
-      variables() {
-        /* istanbul ignore next */
-        return {
-          networkId: this.networkId,
-          delegatorAddress: this.session.address
-        }
-      },
-      update(data) {
-        /* istanbul ignore next */
-        return data.delegations
       }
     },
     $subscribe: {
