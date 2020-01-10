@@ -204,6 +204,7 @@ export default {
     async showAddressOnLedger() {
       if (this.messageTimeout) {
         clearTimeout(this.messageTimeout)
+        this.messageTimeout = undefined
       }
       this.ledgerAddressError = undefined
       try {

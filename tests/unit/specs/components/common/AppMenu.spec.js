@@ -87,4 +87,19 @@ describe(`AppMenu`, () => {
 
     jest.useRealTimers()
   })
+
+  it(`clears the warning timeout if user intents to show address on Ledger again`, async () => {
+    jest.useFakeTimers()
+    const self = {
+      showAddressOnLedgerFn: jest.fn(() =>
+        Promise.reject(new Error("Expected Error"))
+      )
+    }
+    await AppMenu.methods.showAddressOnLedger.call(self)
+    expect(self.messageTimeout).toBeDefined()
+    AppMenu.methods.showAddressOnLedger.call(self)
+    expect(self.messageTimeout).toBeUndefined()
+
+    jest.useRealTimers()
+  })
 })
