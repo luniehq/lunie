@@ -155,15 +155,10 @@
         </li>
       </ul>
 
-      <DelegationModal
-        ref="delegationModal"
-        :target-validator="validator"
-        @success="clearDelegationCache"
-      />
+      <DelegationModal ref="delegationModal" :target-validator="validator" />
       <UndelegationModal
         ref="undelegationModal"
         :source-validator="validator"
-        @success="clearUndelegationCache"
       />
     </template>
     <template v-else>
@@ -256,8 +251,6 @@ export default {
     onUndelegation() {
       this.$refs.undelegationModal.open()
     },
-    clearDelegationCache() {},
-    clearUndelegationCache() {},
     isBlankField(field, alternateFilter) {
       return field ? alternateFilter(field) : noBlanks(field)
     }
