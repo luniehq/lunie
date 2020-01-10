@@ -425,12 +425,9 @@ export default {
         return !this.address
       },
       query: UserTransactionAdded,
-      result({ data }) {
-        /* istanbul ignore next */
-        if (data.userTransactionAdded.success) {
-          this.$apollo.queries.balance.refetch()
-          this.$apollo.queries.delegations.refetch()
-        }
+      result() {
+        this.$apollo.queries.balance.refetch()
+        this.$apollo.queries.delegations.refetch()
       }
     }
   }
