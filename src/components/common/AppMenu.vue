@@ -11,7 +11,7 @@
         </a>
       </div>
       <a
-        v-if="session.signedIn"
+        v-if="!session.isMobile && session.sessionType === 'ledger'"
         class="show-on-ledger"
         @click="showAddressOnLedger()"
       >
