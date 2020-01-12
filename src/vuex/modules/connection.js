@@ -1,7 +1,7 @@
 import config from "src/../config"
 import { Networks } from "../../gql"
 
-export default function ({ apollo }) {
+export default function({ apollo }) {
   const state = {
     stopConnecting: false,
     connected: true, // TODO do connection test
@@ -21,7 +21,8 @@ export default function ({ apollo }) {
     async checkForPersistedNetwork({ dispatch, commit }) {
       const persistedNetwork = JSON.parse(localStorage.getItem(`network`))
       const { data } = await apollo.query({
-        query: Networks
+        query: Networks,
+        fetchPolicy: "cache-first"
       })
       let availNetworks = Object.values(data.networks).map(
         network => network.id

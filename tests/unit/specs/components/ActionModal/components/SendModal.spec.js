@@ -27,7 +27,14 @@ describe(`SendModal`, () => {
     wrapper = shallowMount(SendModal, {
       localVue,
       mocks: {
-        $store
+        $store,
+        $apollo: {
+          queries: {
+            balance: {
+              refetch: () => {}
+            }
+          }
+        }
       },
       propsData: {
         denom: "STAKE"
