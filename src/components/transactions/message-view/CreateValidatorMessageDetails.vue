@@ -25,14 +25,13 @@
 </template>
 
 <script>
-import { atoms, viewDenom, prettyLong } from "scripts/num.js"
+import { viewDenom, prettyLong } from "scripts/num.js"
 import { resolveValidatorName } from "src/filters"
 import TransactionIcon from "../TransactionIcon"
 
 export default {
   name: `create-validator-message-details`,
   filters: {
-    atoms,
     viewDenom,
     prettyLong,
     resolveValidatorName

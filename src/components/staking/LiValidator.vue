@@ -60,7 +60,7 @@
 </template>
 
 <script>
-import { percent, shortDecimals, atoms } from "scripts/num"
+import { percent, shortDecimals } from "scripts/num"
 import Avatar from "common/Avatar"
 export default {
   name: `li-validator`,
@@ -68,7 +68,6 @@ export default {
     Avatar
   },
   filters: {
-    atoms,
     shortDecimals,
     percent,
     toLower: text => text.toLowerCase()

@@ -181,7 +181,7 @@
 
 <script>
 import { mapGetters } from "vuex"
-import { atoms, percent, prettyInt } from "scripts/num"
+import { percent, prettyInt } from "scripts/num"
 import { date, fromNow } from "src/filters"
 import TmBtn from "common/TmBtn"
 import TmDataError from "common/TmDataError"
@@ -212,7 +212,6 @@ export default {
   },
   filters: {
     prettyInt,
-    atoms,
     percent,
     date,
     fromNow,

@@ -19,6 +19,7 @@
     </div>
     <div class="tx__content__right">
       <p class="amount">
+        <!-- TODO: FE should be network agnostic -->
         {{ fee.amount | atoms | prettyLong }}&nbsp;
         {{ fee.denom | viewDenom }}
       </p>

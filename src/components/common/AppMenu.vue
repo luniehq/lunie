@@ -165,7 +165,7 @@ import ConnectedNetwork from "common/TmConnectedNetwork"
 import TmBtn from "common/TmBtn"
 import TmFormMsg from "common/TmFormMsg"
 import { mapGetters, mapState } from "vuex"
-import { atoms, viewDenom, shortDecimals } from "scripts/num.js"
+import { viewDenom, shortDecimals } from "scripts/num.js"
 export default {
   name: `app-menu`,
   components: {
@@ -175,7 +175,6 @@ export default {
     TmFormMsg
   },
   filters: {
-    atoms,
     viewDenom,
     shortDecimals
   },
