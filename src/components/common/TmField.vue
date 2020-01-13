@@ -3,6 +3,7 @@
     <select
       :class="css"
       :value="value"
+      :disabled="isDisabled"
       @input="updateValue($event.target.value)"
       @change="onChange"
       @keyup="onKeyup"

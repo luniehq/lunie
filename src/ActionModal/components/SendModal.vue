@@ -157,6 +157,7 @@ import ActionModal from "./ActionModal"
 import transaction from "../utils/transactionTypes"
 import { toMicroDenom } from "src/scripts/common"
 import config from "src/../config"
+import { UserTransactionAdded } from "src/gql"
 
 const defaultMemo = "(Sent via Lunie)"
 
@@ -220,6 +221,9 @@ export default {
     getDenoms() {
       return this.denoms.map(denom => (denom = { key: denom, value: denom }))
     }
+  },
+  mounted() {
+    this.$apollo.queries.balance.refetch()
   },
   methods: {
     open() {
@@ -327,6 +331,26 @@ export default {
         return {
           networkId: this.network,
           address: this.userAddress
+        }
+      }
+    },
+    $subscribe: {
+      userTransactionAdded: {
+        variables() {
+          /* istanbul ignore next */
+          return {
+            networkId: this.network,
+            address: this.userAddress
+          }
+        },
+        skip() {
+          /* istanbul ignore next */
+          return !this.userAddress
+        },
+        query: UserTransactionAdded,
+        result() {
+          /* istanbul ignore next */
+          this.$apollo.queries.balance.refetch()
         }
       }
     }
