@@ -124,7 +124,7 @@ module.exports = {
     )
   }
 }
-
+/*
 function setSelect(browser, selector, option) {
   browser.execute(
     function(selector, option) {
@@ -140,3 +140,4 @@ function setSelect(browser, selector, option) {
     [selector, option]
   )
 }
+*/
