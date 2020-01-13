@@ -23,7 +23,7 @@
         v-model.number="$v.address.$model"
         v-focus
         type="text"
-        placeholder="Address..."
+        placeholder="Address"
         @keyup.enter.native="refocusOnAmount"
       />
       <TmFormMsg
