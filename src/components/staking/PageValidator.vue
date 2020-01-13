@@ -69,6 +69,14 @@
           type="secondary"
           @click.native="onUndelegation"
         />
+        <TmBtn
+          v-if="rewards.amount > 0"
+          id="withdraw-btn"
+          :disabled="!readyToWithdraw"
+          class="withdraw-rewards"
+          value="Claim Rewards"
+          @click.native="readyToWithdraw && onWithdrawal()"
+        />
       </div>
 
       <ul class="row">
@@ -159,6 +167,7 @@
         ref="undelegationModal"
         :source-validator="validator"
       />
+      <ModalWithdrawRewards ref="ModalWithdrawRewards" />
     </template>
     <template v-else>
       <div slot="title">Validator Not Found</div>
@@ -179,6 +188,7 @@ import { noBlanks, fromNow } from "src/filters"
 import TmBtn from "common/TmBtn"
 import DelegationModal from "src/ActionModal/components/DelegationModal"
 import UndelegationModal from "src/ActionModal/components/UndelegationModal"
+import ModalWithdrawRewards from "src/ActionModal/components/ModalWithdrawRewards"
 import Avatar from "common/Avatar"
 import Bech32 from "common/Bech32"
 import TmPage from "common/TmPage"
@@ -202,6 +212,7 @@ export default {
     Bech32,
     DelegationModal,
     UndelegationModal,
+    ModalWithdrawRewards,
     Avatar,
     TmBtn,
     TmPage
@@ -231,7 +242,10 @@ export default {
   computed: {
     ...mapState([`session`]),
     ...mapGetters([`network`]),
-    ...mapGetters({ userAddress: `address` })
+    ...mapGetters({ userAddress: `address` }),
+    readyToWithdraw() {
+      return this.rewards.amount > 0
+    }
   },
   mounted() {
     this.$apollo.queries.rewards.refetch()
@@ -249,6 +263,9 @@ export default {
     },
     onUndelegation() {
       this.$refs.undelegationModal.open()
+    },
+    onWithdrawal() {
+      this.$refs.ModalWithdrawRewards.open()
     },
     isBlankField(field, alternateFilter) {
       return field ? alternateFilter(field) : noBlanks(field)
@@ -472,6 +489,13 @@ span {
 
 .button-container button:first-child {
   margin-right: 0.5rem;
+}
+
+.button-container button.withdraw-rewards {
+  width: 100px;
+  height: 35.5px;
+  margin-left: 0.5rem;
+  padding-left: 2px;
 }
 
 .status-container {
