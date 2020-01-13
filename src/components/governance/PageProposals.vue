@@ -44,7 +44,6 @@ import TmDataMsg from "common/TmDataMsg"
 import { mapGetters } from "vuex"
 import { GovernanceParameters } from "src/gql"
 import gql from "graphql-tag"
-import refetchNetworkOnly from "scripts/refetch-network-only"
 
 export default {
   name: `page-proposals`,
@@ -71,7 +70,6 @@ export default {
     },
     afterPropose() {
       this.$apollo.queries.proposals.refetch()
-      this.$store.commit("invalidateCache", [`overview`, `transactions`])
     }
   },
   apollo: {
@@ -133,7 +131,7 @@ export default {
         },
         result() {
           /* istanbul ignore next */
-          refetchNetworkOnly(this.$apollo.queries.proposals)
+          this.$apollo.queries.proposals.refetch()
         }
       }
     }
