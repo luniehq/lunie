@@ -23,7 +23,7 @@
         v-model.number="$v.address.$model"
         v-focus
         type="text"
-        placeholder="Address"
+        placeholder="Address..."
         @keyup.enter.native="refocusOnAmount"
       />
       <TmFormMsg
@@ -59,6 +59,7 @@
       />
     </TmFormGroup>
     <TmFormGroup
+      id="form-group-amount"
       :error="$v.amount.$error && $v.amount.$invalid"
       class="action-modal-form-group"
       field-id="amount"
@@ -183,6 +184,7 @@ export default {
     memo: defaultMemo,
     max_memo_characters: 256,
     editMemo: false,
+    isFirstLoad: true,
     selectedToken: ``,
     selectedBalance: ``,
     balances: [
@@ -226,7 +228,11 @@ export default {
     // we set the amount in the input to zero every time the user selects another token so they
     // realize they are dealing with a different balance each time
     selectedToken: function() {
-      this.amount = 0
+      if (!this.isFirstLoad) {
+        this.amount = 0
+      } else {
+        this.isFirstLoad = false
+      }
     }
   },
   mounted() {
@@ -370,7 +376,8 @@ export default {
   font-size: 12px;
   cursor: pointer;
 }
-div.tm-field-group {
+
+#form-group-amount {
   margin-bottom: 30px;
 }
 </style>
