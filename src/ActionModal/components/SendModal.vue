@@ -38,6 +38,27 @@
       />
     </TmFormGroup>
     <TmFormGroup
+      v-if="getDenoms.length > 1"
+      :error="$v.selectedToken.$error"
+      class="action-modal-form-group"
+      field-id="selected-token"
+      field-label="Token"
+    >
+      <TmField
+        id="token"
+        v-model="selectedToken"
+        :title="`Select the token you wish to operate with`"
+        :options="getDenoms"
+        placeholder="Select the token"
+        type="select"
+      />
+      <TmFormMsg
+        v-if="$v.selectedToken.$error && !$v.selectedToken.required"
+        name="Token"
+        type="required"
+      />
+    </TmFormGroup>
+    <TmFormGroup
       :error="$v.amount.$error && $v.amount.$invalid"
       class="action-modal-form-group"
       field-id="amount"
@@ -91,27 +112,6 @@
         msg="You are about to use all your tokens for this transaction. Consider leaving a little bit left over to cover the network fees."
         type="custom"
         class="tm-form-msg--desc max-message"
-      />
-    </TmFormGroup>
-    <TmFormGroup
-      v-if="getDenoms.length > 1"
-      :error="$v.selectedToken.$error"
-      class="action-modal-form-group"
-      field-id="selected-token"
-      field-label="Token"
-    >
-      <TmField
-        id="token"
-        v-model="selectedToken"
-        :title="`Select the token you wish to operate with`"
-        :options="getDenoms"
-        placeholder="Select the token"
-        type="select"
-      />
-      <TmFormMsg
-        v-if="$v.selectedToken.$error && !$v.selectedToken.required"
-        name="Token"
-        type="required"
       />
     </TmFormGroup>
     <a v-if="editMemo === false" id="edit-memo-btn" @click="showMemo()">
@@ -220,6 +220,13 @@ export default {
     },
     getDenoms() {
       return this.denoms.map(denom => (denom = { key: denom, value: denom }))
+    }
+  },
+  watch: {
+    // we set the amount in the input to zero every time the user selects another token so they
+    // realize they are dealing with a different balance each time
+    selectedToken: function() {
+      this.amount = 0
     }
   },
   mounted() {
@@ -363,9 +370,7 @@ export default {
   font-size: 12px;
   cursor: pointer;
 }
-
-#token {
-  width: 155px;
-  margin-bottom: 10px;
+div.tm-field-group {
+  margin-bottom: 30px;
 }
 </style>
