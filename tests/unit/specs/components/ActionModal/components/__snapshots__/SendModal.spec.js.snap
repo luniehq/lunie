@@ -18,7 +18,7 @@ exports[`SendModal should display send modal form 1`] = `
   >
     <tmfield-stub
       id="send-address"
-      placeholder="Address"
+      placeholder="Address..."
       type="text"
       value=""
     />
@@ -26,10 +26,13 @@ exports[`SendModal should display send modal form 1`] = `
     <!---->
   </tmformgroup-stub>
    
+  <!---->
+   
   <tmformgroup-stub
     class="action-modal-form-group"
     fieldid="amount"
     fieldlabel="Amount"
+    id="form-group-amount"
   >
     <span
       class="input-suffix max-button"
@@ -54,8 +57,6 @@ exports[`SendModal should display send modal form 1`] = `
      
     <!---->
   </tmformgroup-stub>
-   
-  <!---->
    
   <a
     id="edit-memo-btn"
@@ -87,7 +88,7 @@ exports[`SendModal validation should show address required error 1`] = `
   >
     <tmfield-stub
       id="send-address"
-      placeholder="Address"
+      placeholder="Address..."
       type="text"
       value=""
     />
@@ -99,10 +100,13 @@ exports[`SendModal validation should show address required error 1`] = `
     />
   </tmformgroup-stub>
    
+  <!---->
+   
   <tmformgroup-stub
     class="action-modal-form-group"
     fieldid="amount"
     fieldlabel="Amount"
+    id="form-group-amount"
   >
     <span
       class="input-suffix max-button"
@@ -128,8 +132,6 @@ exports[`SendModal validation should show address required error 1`] = `
      
     <!---->
   </tmformgroup-stub>
-   
-  <!---->
    
   <a
     id="edit-memo-btn"
@@ -161,7 +163,7 @@ exports[`SendModal validation should show bech32 error when address length is to
   >
     <tmfield-stub
       id="send-address"
-      placeholder="Address"
+      placeholder="Address..."
       type="text"
       value="asdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdf"
     />
@@ -173,10 +175,13 @@ exports[`SendModal validation should show bech32 error when address length is to
     />
   </tmformgroup-stub>
    
+  <!---->
+   
   <tmformgroup-stub
     class="action-modal-form-group"
     fieldid="amount"
     fieldlabel="Amount"
+    id="form-group-amount"
   >
     <span
       class="input-suffix max-button"
@@ -202,8 +207,6 @@ exports[`SendModal validation should show bech32 error when address length is to
      
     <!---->
   </tmformgroup-stub>
-   
-  <!---->
    
   <a
     id="edit-memo-btn"
@@ -235,7 +238,7 @@ exports[`SendModal validation should show bech32 error when address length is to
   >
     <tmfield-stub
       id="send-address"
-      placeholder="Address"
+      placeholder="Address..."
       type="text"
       value="asdf"
     />
@@ -247,10 +250,13 @@ exports[`SendModal validation should show bech32 error when address length is to
     />
   </tmformgroup-stub>
    
+  <!---->
+   
   <tmformgroup-stub
     class="action-modal-form-group"
     fieldid="amount"
     fieldlabel="Amount"
+    id="form-group-amount"
   >
     <span
       class="input-suffix max-button"
@@ -276,8 +282,6 @@ exports[`SendModal validation should show bech32 error when address length is to
      
     <!---->
   </tmformgroup-stub>
-   
-  <!---->
    
   <a
     id="edit-memo-btn"
@@ -308,7 +312,7 @@ exports[`SendModal validation should show bech32 error when alphanumeric is wron
   >
     <tmfield-stub
       id="send-address"
-      placeholder="Address"
+      placeholder="Address..."
       type="text"
       value=""
     />
@@ -320,11 +324,14 @@ exports[`SendModal validation should show bech32 error when alphanumeric is wron
     />
   </tmformgroup-stub>
    
+  <!---->
+   
   <tmformgroup-stub
     class="action-modal-form-group"
     error="true"
     fieldid="amount"
     fieldlabel="Amount"
+    id="form-group-amount"
   >
     <span
       class="input-suffix max-button"
@@ -353,8 +360,6 @@ exports[`SendModal validation should show bech32 error when alphanumeric is wron
       type="required"
     />
   </tmformgroup-stub>
-   
-  <!---->
    
   <a
     id="edit-memo-btn"
