@@ -63,6 +63,7 @@ async function actionModalCheckout(
   expectedTotalChange = 0,
   expectedAvailableTokensChange = 0
 ) {
+  /*
   // grab page we came from as we want to go to another page and come back
   let sourcePage
   browser.url(function(result) {
@@ -85,11 +86,9 @@ async function actionModalCheckout(
   browser.url(sourcePage)
 
   browser.pause(500)
-
+  */
   // open modal and enter amount
-  browser.expect.element(btnSelector).to.be.visible.before(10000)
   browser.click(btnSelector)
-
   browser.expect.element(".action-modal").to.be.visible.before(10000)
 
   browser.pause(500)
@@ -97,7 +96,7 @@ async function actionModalCheckout(
   await detailsActionFn()
 
   // proceed to invoice step
-  browser.click(".action-modal-footer .button")
+  browser.click(".action-modal-footer .button:nth-of-type(2)")
   browser.expect.element(`.table-invoice`).to.be.visible.before(10000)
 
   // check invoice
@@ -123,15 +122,17 @@ async function actionModalCheckout(
   // await nextBlock(browser)
 
   // submit
-  browser.click(".action-modal-footer .button")
-  browser.setValue("#password", "1234567890")
-  browser.click(".action-modal-footer .button")
+  browser.click(".action-modal-footer .button:nth-of-type(2)")
+  browser.setValue("#password", browser.globals.password)
+  browser.click(".action-modal-footer .button:nth-of-type(2)")
+  browser.pause(5000)
 
-  browser.expect.element(".success-step").to.be.present.before(20 * 1000)
+  browser.expect.element(".success-step").to.be.present.before(30 * 1000)
+  // wait for success-step modal
+  //browser.isVisible(".success-step", async () => {
   browser.click("#closeBtn")
-
   // go to portfolio to remember balances
-  browser.url(browser.launch_url + "#/portfolio")
+  browser.url(browser.launch_url + "/portfolio")
 
   // check if balance header updates as expected
   // TODO find a way to know the rewards on an undelegation to know the final balance 100%
@@ -139,7 +140,7 @@ async function actionModalCheckout(
   await waitFor(
     async () => {
       const approximatedBalanceAfter =
-        balanceBefore - expectedTotalChange - fees
+        browser.globals.totalAtoms - expectedTotalChange - fees
       expect(
         Math.abs(approximatedBalanceAfter - (await getBalance(browser)))
       ).to.be.lessThan(2) // acounting for rewards being withdrawn on an undelegation
@@ -151,7 +152,7 @@ async function actionModalCheckout(
   await waitFor(
     async () => {
       const approximatedAvailableBalanceAfter =
-        availableTokensBefore - expectedAvailableTokensChange - fees
+        browser.globals.availableAtoms - expectedAvailableTokensChange - fees
       expect(
         Math.abs(
           approximatedAvailableBalanceAfter -
@@ -162,8 +163,12 @@ async function actionModalCheckout(
     10,
     2000
   )
+  //})
+  //browser.expect.element(".success-step").to.be.present.before(20 * 1000)
 }
 async function nextBlock(browser) {
+  // should be fixed
+  browser
   browser.expect
     .element(`#tm-connected-network__block`)
     .to.be.visible.before(10000)

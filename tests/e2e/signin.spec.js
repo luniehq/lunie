@@ -1,22 +1,24 @@
 module.exports = {
+  /*
   "Sign in with local account": async function(browser) {
     prepare(browser)
 
-    browser.click("#use-an-existing-address")
-    browser.waitForElementVisible("#sign-in-with-account", 10000, true)
-    browser.pause(500)
-    browser.click("#sign-in-with-account")
-    browser.waitForElementVisible("#sign-in-name", 10000, true)
-    browser.click(
+    await browser.click("#use-an-existing-address")
+    await browser.waitForElementVisible("#sign-in-with-account", 10000, true)
+    await browser.pause(500)
+    await browser.click("#sign-in-with-account")
+    await browser.waitForElementVisible("#sign-in-name", 10000, true)
+    await browser.click(
       "#sign-in-name option[value=cosmos1ek9cd8ewgxg9w5xllq9um0uf4aaxaruvcw4v9e]"
     )
     browser.setValue("#sign-in-password", "1234567890")
     await next(browser)
     // check if signed in
-    browser.waitForElementNotPresent(".session", 10000, true)
+    await browser.waitForElementNotPresent(".session", 10000, true)
     openMenu(browser)
-    browser.waitForElementVisible("#sign-out", 10000, true)
+    await browser.waitForElementVisible("#sign-out", 10000, true)
   },
+  */
   "Create local account": async function(browser) {
     prepare(browser)
 
@@ -38,6 +40,7 @@ module.exports = {
 
     browser.waitForElementVisible(".seed-table", 10000, true)
     browser.expect
+
       .element(".seed-table")
       .text.to.match(/(\d+\s+\w+\s+){23}\d+\s+\w+/)
       .before(10000)
@@ -104,30 +107,45 @@ async function next(browser) {
 }
 
 function openMenu(browser) {
-  browser.waitForElementVisible(".open-menu", 10000, true)
-  browser.pause(500)
-  browser.click(".open-menu")
+  return new Promise(resolve => {
+    browser.waitForElementVisible(".open-menu", 10000, true, () => {
+      browser.click(".open-menu", () => {
+        resolve()
+      })
+    })
+  })
 }
 
-function signOut(browser) {
-  openMenu(browser)
-  browser.waitForElementVisible("#sign-out", 10000, true)
-  browser.click("#sign-out")
+async function signOut(browser) {
+  return new Promise(resolve => {
+    openMenu(browser).then(() => {
+      browser.waitForElementVisible("#sign-out", 10000, true, () => {
+        // browser click doesn't always work
+        browser.execute("document.getElementById('sign-out').click()")
+        resolve()
+      })
+    })
+  })
 }
 
 function signIn(browser) {
-  openMenu(browser)
-  browser.waitForElementVisible("#sign-in", 10000, true)
-  browser.click("#sign-in")
+  return new Promise(resolve => {
+    openMenu(browser).then(() => {
+      browser.waitForElementVisible("#sign-in", 10000, true, () => {
+        browser.click("#sign-in")
+        resolve()
+      })
+    })
+  })
 }
 
 function prepare(browser) {
   browser.resizeWindow(400, 1024) // force mobile screen to be able to click some out of screen buttons
-  browser.url(browser.launch_url)
-  browser.waitForElementVisible(`body`, 10000, true)
-  browser.waitForElementVisible(`#app-content`, 10000, true)
-  signOut(browser)
-  signIn(browser)
-
-  browser.waitForElementVisible("#session-welcome", 10000, true)
+  browser.url(browser.launch_url + "?insecure=true", () => {
+    browser.waitForElementVisible(`body`, 10000, true)
+    browser.waitForElementVisible(`#app-content`, 10000, true, () => {
+      signOut(browser).then(() => signIn(browser))
+      browser.waitForElementVisible("#session-welcome", 10000, true)
+    })
+  })
 }
