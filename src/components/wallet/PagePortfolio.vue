@@ -20,6 +20,28 @@ import DelegationsOverview from "staking/DelegationsOverview"
 import Undelegations from "staking/Undelegations"
 import ModalTutorial from "common/ModalTutorial"
 
+//
+// Intercom stuff
+import { Intercom } from "capacitor-intercom"
+const intercom = new Intercom()
+
+console.log(intercom)
+
+import { Plugins } from "@capacitor/core"
+const { PushNotifications } = Plugins
+
+//
+// Register for push notifications from Intercom
+PushNotifications.register()
+
+//
+// Register an user
+intercom.registerIdentifiedUser({ userId: "Lunie" })
+
+//
+// Display the message composer
+intercom.displayMessageComposer({ message: "Hello there!" })
+
 export default {
   name: `page-portfolio`,
   components: {
@@ -30,6 +52,7 @@ export default {
   },
   data: () => ({
     showTutorial: true,
+    intercom: intercom,
     // Tutorial steps
     steps: [
       {
@@ -69,6 +92,9 @@ export default {
   }),
   computed: {
     ...mapState([`session`])
+  },
+  mounted: function() {
+
   },
   methods: {
     closeTutorial() {

@@ -9,11 +9,10 @@ android {
 
 apply from: "../capacitor-cordova-android-plugins/cordova.variables.gradle"
 dependencies {
-
+    implementation project(':capacitor-intercom')
 
 }
-apply from: "../../node_modules/cordova-plugin-intercom/src/android/intercom.gradle"
-apply from: "../../node_modules/cordova-plugin-intercom/src/android/build-extras-intercom.gradle"
+
 
 if (hasProperty('postBuildExtras')) {
   postBuildExtras()
