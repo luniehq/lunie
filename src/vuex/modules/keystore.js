@@ -79,7 +79,9 @@ function getCosmosAddressCreator(network) {
       "regen-testnet": "xrn:",
       "regen-mainnet": "xrn:",
       "terra-testnet": "terra",
-      "terra-mainnet": "terra"
+      "terra-mainnet": "terra",
+      "emoney-testnet": "emoney",
+      "emoney-mainnet": "emoney"
     }
     const { getNewWalletFromSeed } = await import("@lunie/cosmos-keys")
     return getNewWalletFromSeed(seedPhrase, bech32Prefixes[network])
@@ -93,6 +95,8 @@ async function getWallet(seedPhrase, network) {
     case "regen-testnet":
     case "regen-mainnet":
     case "terra-testnet":
+    case "emoney-testnet":
+    case "emoney-mainnet":
     case "terra-mainnet": {
       const addressCreator = await getCosmosAddressCreator(network)
       return addressCreator(seedPhrase)

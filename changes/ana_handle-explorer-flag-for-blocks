@@ -1,0 +1,1 @@
+[Changed] [#3282](https://github.com/cosmos/lunie/issues/3282) Now the block links in the activity section are active or not depending on the feature_explorer feature flag of the network @Bitcoinera
