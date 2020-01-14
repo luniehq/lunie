@@ -1,5 +1,5 @@
 <template>
-  <TmDataMsg icon="sentiment_very_dissatisfied">
+  <TmDataMsg icon="sentiment_very_dissatisfied" @on:intercom="handleIntercom()">
     <div slot="title">
       Aw shucks!
     </div>
@@ -7,7 +7,7 @@
       Even though you're connected a full node, we can't display this data for
       you right now. Please try again later or
       <a href="https://github.com/luniehq/lunie/issues">file a bug report</a> or
-      <a class="intercom-button" href="#" @click="$emit('handleIntercom')">
+      <a class="intercom-button" href="#" @click="$emit('intercom')">
         open a support chat
       </a>
       . Apologies!
@@ -22,13 +22,6 @@ export default {
   name: `tm-data-error`,
   components: { TmDataMsg },
   methods: {
-    handleIntercom() {
-      if (config.mobileApp) {
-        this.$mobileIntercom.displayMessenger()
-      }
-    }
-  },
-  events: {
     handleIntercom() {
       if (config.mobileApp) {
         this.$mobileIntercom.displayMessenger()
