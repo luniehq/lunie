@@ -204,7 +204,7 @@ describe(`Module: Session`, () => {
         { sessionType: `explore`, address }
       )
 
-      expect(dispatch).toHaveBeenCalledWith(`resetSessionData`)
+      expect(dispatch).toHaveBeenCalledWith(`resetSessionData`, undefined)
     })
 
     it("should dispatch required actions", async () => {
@@ -304,7 +304,7 @@ describe(`Module: Session`, () => {
     const dispatch = jest.fn()
     await actions.signOut({ state, commit, dispatch })
 
-    expect(dispatch).toHaveBeenCalledWith(`resetSessionData`)
+    expect(dispatch).toHaveBeenCalledWith(`resetSessionData`, undefined)
     expect(commit).toHaveBeenCalledWith(`setSignIn`, false)
     expect(state.externals.track).toHaveBeenCalled()
   })

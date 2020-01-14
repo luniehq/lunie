@@ -127,6 +127,10 @@ export default () => {
       },
       { address, sessionType = `ledger` }
     ) {
+      if (state.signedIn) {
+        await dispatch(`resetSessionData`, undefined)
+      }
+
       commit(`setSignIn`, true)
       commit(`setSessionType`, sessionType)
       commit(`setUserAddress`, address)
