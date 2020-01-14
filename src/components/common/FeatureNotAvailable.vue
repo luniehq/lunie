@@ -5,7 +5,7 @@
       This feature hasn't been implemented on this network yet.
       <br />
       <br />
-      <a class="intercom-button" href="#" @click.native="handleIntercom()"
+      <a class="intercom-button" href="#"
         >Reach out if you'd like us to enable this feature.</a
       >
     </div>
@@ -14,7 +14,6 @@
 
 <script>
 import TmDataMsg from "common/TmDataMsg"
-import config from "src/../config"
 export default {
   name: `feature-not-available`,
   components: { TmDataMsg },
@@ -22,13 +21,6 @@ export default {
     feature: {
       type: String,
       required: true
-    }
-  },
-  methods: {
-    handleIntercom() {
-      if (config.mobileApp) {
-        this.$mobileIntercom.displayMessenger()
-      }
     }
   }
 }
