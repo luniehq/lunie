@@ -7,15 +7,26 @@
       Even though you're connected a full node, we can't display this data for
       you right now. Please try again later or
       <a href="https://github.com/luniehq/lunie/issues">file a bug report</a> or
-      <a class="intercom-button" href="#">open a support chat</a>. Apologies!
+      <a class="intercom-button" href="#" @click.native="handleIntercom()">
+        open a support chat
+      </a>
+      . Apologies!
     </div>
   </TmDataMsg>
 </template>
 
 <script>
 import TmDataMsg from "common/TmDataMsg"
+import config from "src/../config"
 export default {
   name: `tm-data-error`,
-  components: { TmDataMsg }
+  components: { TmDataMsg },
+  methods: {
+    handleIntercom() {
+      if (config.mobileApp) {
+        this.$mobileIntercom.displayMessenger()
+      }
+    }
+  }
 }
 </script>
