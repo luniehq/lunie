@@ -184,7 +184,7 @@ export default {
   }),
   computed: {
     ...mapState([`session`]),
-    ...mapGetters([`address`])
+    ...mapGetters([`address`, `network`])
   },
   methods: {
     handleClick() {
@@ -193,7 +193,7 @@ export default {
     },
     signOut() {
       this.$emit(`close`)
-      this.$store.dispatch(`signOut`)
+      this.$store.dispatch(`signOut`, this.network)
     },
     signIn() {
       this.$router.push(`/welcome`)
