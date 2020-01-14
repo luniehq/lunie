@@ -5,9 +5,13 @@ const localVue = createLocalVue()
 localVue.directive(`tooltip`, () => {})
 
 describe(`AppMenu`, () => {
-  let $store
+  let wrapper, $store, getters
 
   beforeEach(async () => {
+    getters = {
+      address: `cosmos1`,
+      network: `la-red-feliz`
+    }
     $store = {
       commit: jest.fn(),
       state: {
@@ -15,12 +19,9 @@ describe(`AppMenu`, () => {
           signedIn: true
         }
       },
-      getters: {
-        address: `cosmos1`
-      }
+      getters
     }
-
-    shallowMount(AppMenu, {
+    wrapper = shallowMount(AppMenu, {
       localVue,
       mocks: {
         $store
@@ -41,7 +42,7 @@ describe(`AppMenu`, () => {
     const $store = { dispatch: jest.fn() }
     const self = { $store, $router: { push: jest.fn() }, $emit: jest.fn() }
     AppMenu.methods.signOut.call(self)
-    expect($store.dispatch).toHaveBeenCalledWith(`signOut`)
+    expect($store.dispatch).toHaveBeenCalledWith(`signOut`, `la-red-feliz`)
   })
 
   it(`closes menu on sign out`, () => {
