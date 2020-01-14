@@ -46,7 +46,7 @@
         />
       </div>
 
-      <SendModal ref="SendModal" :denoms="getAllDenoms" />
+      <SendModal ref="SendModal" :denoms="getAllDenoms" :balances="balances" />
       <ModalWithdrawRewards ref="ModalWithdrawRewards" />
     </div>
   </div>
@@ -73,7 +73,8 @@ export default {
   data() {
     return {
       overview: {},
-      stakingDenom: ""
+      stakingDenom: "",
+      balances: []
     }
   },
   computed: {
@@ -84,8 +85,8 @@ export default {
       return this.overview.totalRewards > 0
     },
     getAllDenoms() {
-      if (this.overview.balances) {
-        const balances = this.overview.balances
+      if (this.balances) {
+        const balances = this.balances
         return balances.map(({ denom }) => denom)
       } else {
         return [this.stakingDenom]
@@ -107,10 +108,6 @@ export default {
           overview(networkId: $networkId, address: $address) {
             totalRewards
             liquidStake
-            balances {
-              denom
-              amount
-            }
             totalStake
           }
         }
@@ -130,7 +127,33 @@ export default {
         }
       },
       skip() {
+        /* istanbul ignore next */
         return !this.address
+      }
+    },
+    balances: {
+      query: gql`
+        query BalancesSendModal($networkId: String!, $address: String!) {
+          balances(networkId: $networkId, address: $address) {
+            amount
+            denom
+          }
+        }
+      `,
+      skip() {
+        /* istanbul ignore next */
+        return !this.address
+      },
+      variables() {
+        /* istanbul ignore next */
+        return {
+          networkId: this.network,
+          address: this.address
+        }
+      },
+      update(data) {
+        /* istanbul ignore next */
+        return data.balances
       }
     },
     stakingDenom: {
@@ -143,6 +166,7 @@ export default {
         }
       `,
       variables() {
+        /* istanbul ignore next */
         return {
           networkId: this.network
         }
@@ -155,11 +179,13 @@ export default {
     $subscribe: {
       blockAdded: {
         variables() {
+          /* istanbul ignore next */
           return {
             networkId: this.network
           }
         },
         query() {
+          /* istanbul ignore next */
           return gql`
             subscription($networkId: String!) {
               blockAdded(networkId: $networkId) {

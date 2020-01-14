@@ -235,9 +235,6 @@ export default {
       }
     }
   },
-  mounted() {
-    this.$apollo.queries.balance.refetch()
-  },
   methods: {
     open() {
       this.$refs.actionModal.open()
