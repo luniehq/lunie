@@ -551,7 +551,6 @@ exports[`ActionModal should show the action modal when user has logged in with e
        
       <tmbtn-stub
         disabled="true"
-        id="sending-button"
         type="primary"
         value="Sending..."
       />
@@ -821,7 +820,6 @@ exports[`ActionModal should show the action modal when user has logged in with e
        
       <tmbtn-stub
         disabled="true"
-        id="sending-button"
         type="primary"
         value="Waiting for Extension"
       />
@@ -1069,7 +1067,6 @@ exports[`ActionModal should show the action modal when user has logged in with l
        
       <tmbtn-stub
         disabled="true"
-        id="sending-button"
         type="primary"
         value="Waiting for Ledger"
       />
@@ -1326,7 +1323,6 @@ exports[`ActionModal should show the action modal when user has logged in with l
        
       <tmbtn-stub
         disabled="true"
-        id="sending-button"
         type="primary"
         value="Sending..."
       />

@@ -241,7 +241,6 @@
               />
               <TmBtn
                 v-else-if="sending"
-                id="sending-button"
                 :value="submitButtonCaption"
                 disabled="disabled"
                 type="primary"
@@ -955,10 +954,6 @@ export default {
 
 #send-modal .tm-data-msg {
   margin: 2rem 0 2rem 0;
-}
-
-#sending-button {
-  min-width: 170px;
 }
 
 /* max width of the action modal */
