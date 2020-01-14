@@ -33,7 +33,8 @@ describe(`UndelegationModal`, () => {
         $store
       },
       propsData: {
-        sourceValidator: validator
+        sourceValidator: validator,
+        targetValidator: validator2
       }
     })
     wrapper.setData({
