@@ -15,15 +15,15 @@ commands:
     steps:
       - restore_cache:
           keys:
-            - v5-dependencies-root-{{ checksum "yarn.lock" }}
-            - v5-dependencies-root-
+            - v6-dependencies-root-{{ checksum "yarn.lock" }}
+            - v6-dependencies-root-
 
       - run: yarn install
       - save_cache:
           paths:
             - yarn.lock
             - node_modules
-          key: v5-dependencies-root-{{ checksum "yarn.lock" }}
+          key: v6-dependencies-root-{{ checksum "yarn.lock" }}
 
   # use npm as the extension install happens in the mashine image which doesn't have yarn
   npm-install-extension:
