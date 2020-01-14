@@ -59,7 +59,8 @@ describe(`UndelegationModal`, () => {
 
   it(`opens`, () => {
     const $refs = { actionModal: { open: jest.fn() } }
-    UndelegationModal.methods.open.call({ $refs })
+    const $apollo = { queries: { delegations: { refetch: jest.fn() } } }
+    UndelegationModal.methods.open.call({ $refs, $apollo })
     expect($refs.actionModal.open).toHaveBeenCalled()
   })
 

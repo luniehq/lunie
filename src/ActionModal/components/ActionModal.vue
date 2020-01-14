@@ -187,7 +187,9 @@
         </div>
         <div v-else-if="step === inclusionStep" class="action-modal-form">
           <TmDataMsg icon="hourglass_empty" :spin="true">
-            <div slot="title">Sent and confirming</div>
+            <div slot="title">
+              Sent and confirming
+            </div>
             <div slot="subtitle">
               Waiting for confirmation from {{ networkId }}.
             </div>
@@ -198,7 +200,9 @@
           class="action-modal-form success-step"
         >
           <TmDataMsg icon="check" :success="true">
-            <div slot="title">{{ notifyMessage.title }}</div>
+            <div slot="title">
+              {{ notifyMessage.title }}
+            </div>
             <div slot="subtitle">
               {{ notifyMessage.body }}
               <br />
@@ -477,7 +481,6 @@ export default {
         userAddress: this.session.address,
         rewards: this.rewards,
         totalRewards: this.overview.totalRewards,
-        delegations: this.delegations,
         bondDenom: this.network.stakingDenom,
         isExtensionAccount: this.isExtensionAccount,
         account: this.overview.accountInformation
@@ -728,7 +731,6 @@ export default {
           overview(networkId: $networkId, address: $address) {
             totalRewards
             liquidStake
-            totalStake
             accountInformation {
               accountNumber
               sequence
@@ -760,11 +762,8 @@ export default {
         query NetworkActionModal($networkId: String!) {
           network(id: $networkId) {
             id
-            testnet
             stakingDenom
             chain_id
-            rpc_url
-            api_url
             action_send
             action_claim_rewards
             action_delegate
@@ -786,39 +785,6 @@ export default {
         /* istanbul ignore next */
 
         return data.network
-      }
-    },
-    delegations: {
-      query: gql`
-        query DelegationsActionModal(
-          $networkId: String!
-          $delegatorAddress: String!
-        ) {
-          delegations(
-            networkId: $networkId
-            delegatorAddress: $delegatorAddress
-          ) {
-            amount
-            validator {
-              operatorAddress
-            }
-          }
-        }
-      `,
-      skip() {
-        /* istanbul ignore next */
-        return !this.session.address
-      },
-      variables() {
-        /* istanbul ignore next */
-        return {
-          networkId: this.networkId,
-          delegatorAddress: this.session.address
-        }
-      },
-      update(data) {
-        /* istanbul ignore next */
-        return data.delegations
       }
     },
     $subscribe: {
