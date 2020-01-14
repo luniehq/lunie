@@ -12,8 +12,47 @@ import config from "src/../config"
 
 Vue.use(VueApollo)
 
+// persistent api
+// setting api url in localStorage
+const checkPersistentAPI = urlParams => {
+  if (
+    typeof urlParams.iwouldliketochangetheapipersistentlyandiknowwhatido !==
+    "undefined"
+  ) {
+    // removing presistent api on false value
+    if (
+      !urlParams.iwouldliketochangetheapipersistentlyandiknowwhatido ||
+      urlParams.iwouldliketochangetheapipersistentlyandiknowwhatido == "false"
+    ) {
+      localStorage.removeItem(`persistentapi`)
+      return false
+    }
+    // setting presistent api
+    if (urlParams.iwouldliketochangetheapipersistentlyandiknowwhatido) {
+      localStorage.setItem(
+        `persistentapi`,
+        decodeURIComponent(
+          urlParams.iwouldliketochangetheapipersistentlyandiknowwhatido
+        )
+      )
+      return decodeURIComponent(
+        urlParams.iwouldliketochangetheapipersistentlyandiknowwhatido
+      )
+    }
+  }
+
+  if (localStorage.getItem(`persistentapi`)) {
+    console.warn(
+      "Your API version differ from normal. Query ?iwouldliketochangetheapipersistentlyandiknowwhatido=false to reset"
+    )
+    return localStorage.getItem(`persistentapi`)
+  }
+  return false
+}
+
 const graphqlHost = urlParams =>
-  (urlParams.graphql ? decodeURIComponent(urlParams.graphql) : false) ||
+  checkPersistentAPI(urlParams) ||
+  (urlParams.api ? decodeURIComponent(urlParams.api) : false) ||
   config.graphqlHost
 
 const makeHttpLink = urlParams => {
