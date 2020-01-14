@@ -9,6 +9,27 @@ export default () => {
   const mutations = {}
 
   const actions = {
+    async showAddressOnLedger() {
+      const { default: Ledger } = await import("@lunie/cosmos-ledger")
+
+      const ledger = new Ledger({
+        testModeAllowed: state.externals.config.testModeAllowed
+      })
+
+      try {
+        await ledger.confirmLedgerAddress()
+      } catch (err) {
+        /* istanbul ignore next: specific error rewrite */
+        if (err.message.trim().startsWith("Device is already open")) {
+          throw new Error(
+            "Something went wrong connecting to your Ledger. Please refresh your page and try again."
+          )
+        }
+        throw err
+      }
+
+      ledger.cosmosApp.transport.close()
+    },
     async connectLedgerApp({ state }) {
       const { default: Ledger } = await import("@lunie/cosmos-ledger")
 

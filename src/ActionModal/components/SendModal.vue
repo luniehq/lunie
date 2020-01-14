@@ -38,6 +38,28 @@
       />
     </TmFormGroup>
     <TmFormGroup
+      v-if="getDenoms.length > 1"
+      :error="$v.selectedToken.$error"
+      class="action-modal-form-group"
+      field-id="selected-token"
+      field-label="Token"
+    >
+      <TmField
+        id="token"
+        v-model="selectedToken"
+        :title="`Select the token you wish to operate with`"
+        :options="getDenoms"
+        placeholder="Select the token"
+        type="select"
+      />
+      <TmFormMsg
+        v-if="$v.selectedToken.$error && !$v.selectedToken.required"
+        name="Token"
+        type="required"
+      />
+    </TmFormGroup>
+    <TmFormGroup
+      id="form-group-amount"
       :error="$v.amount.$error && $v.amount.$invalid"
       class="action-modal-form-group"
       field-id="amount"
@@ -93,27 +115,6 @@
         class="tm-form-msg--desc max-message"
       />
     </TmFormGroup>
-    <TmFormGroup
-      v-if="getDenoms.length > 1"
-      :error="$v.selectedToken.$error"
-      class="action-modal-form-group"
-      field-id="selected-token"
-      field-label="Token"
-    >
-      <TmField
-        id="token"
-        v-model="selectedToken"
-        :title="`Select the token you wish to operate with`"
-        :options="getDenoms"
-        placeholder="Select the token"
-        type="select"
-      />
-      <TmFormMsg
-        v-if="$v.selectedToken.$error && !$v.selectedToken.required"
-        name="Token"
-        type="required"
-      />
-    </TmFormGroup>
     <a v-if="editMemo === false" id="edit-memo-btn" @click="showMemo()">
       Need to edit the memo field?
     </a>
@@ -157,6 +158,7 @@ import ActionModal from "./ActionModal"
 import transaction from "../utils/transactionTypes"
 import { toMicroDenom } from "src/scripts/common"
 import config from "src/../config"
+import { UserTransactionAdded } from "src/gql"
 
 const defaultMemo = "(Sent via Lunie)"
 
@@ -182,6 +184,7 @@ export default {
     memo: defaultMemo,
     max_memo_characters: 256,
     editMemo: false,
+    isFirstLoad: true,
     selectedToken: ``,
     selectedBalance: ``,
     balances: [
@@ -220,6 +223,20 @@ export default {
     getDenoms() {
       return this.denoms.map(denom => (denom = { key: denom, value: denom }))
     }
+  },
+  watch: {
+    // we set the amount in the input to zero every time the user selects another token so they
+    // realize they are dealing with a different balance each time
+    selectedToken: function() {
+      if (!this.isFirstLoad) {
+        this.amount = 0
+      } else {
+        this.isFirstLoad = false
+      }
+    }
+  },
+  mounted() {
+    this.$apollo.queries.balance.refetch()
   },
   methods: {
     open() {
@@ -329,6 +346,26 @@ export default {
           address: this.userAddress
         }
       }
+    },
+    $subscribe: {
+      userTransactionAdded: {
+        variables() {
+          /* istanbul ignore next */
+          return {
+            networkId: this.network,
+            address: this.userAddress
+          }
+        },
+        skip() {
+          /* istanbul ignore next */
+          return !this.userAddress
+        },
+        query: UserTransactionAdded,
+        result() {
+          /* istanbul ignore next */
+          this.$apollo.queries.balance.refetch()
+        }
+      }
     }
   }
 }
@@ -340,8 +377,7 @@ export default {
   cursor: pointer;
 }
 
-#token {
-  width: 155px;
-  margin-bottom: 10px;
+#form-group-amount {
+  margin-bottom: 30px;
 }
 </style>

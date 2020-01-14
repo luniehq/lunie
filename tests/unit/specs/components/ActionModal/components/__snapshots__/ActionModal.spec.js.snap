@@ -34,7 +34,9 @@ exports[`ActionModal back button renders and functions 1`] = `
     <span
       class="action-modal-title"
     >
-      Send
+      
+        Send
+      
     </span>
      
     <steps-stub
@@ -48,10 +50,6 @@ exports[`ActionModal back button renders and functions 1`] = `
   <div
     class="action-modal-form"
   >
-    <!---->
-     
-    <!---->
-     
     <form>
       <tmformgroup-stub
         class="action-modal-group"
@@ -126,7 +124,9 @@ exports[`ActionModal runs validation and changes step on sign step should dispal
     <span
       class="action-modal-title"
     >
-      Send
+      
+        Send
+      
     </span>
      
     <steps-stub
@@ -147,10 +147,6 @@ exports[`ActionModal runs validation and changes step on sign step should dispal
   <div
     class="action-modal-form"
   >
-    <!---->
-     
-    <!---->
-     
     <hardwarestate-stub
       icon="info"
     >
@@ -215,7 +211,9 @@ exports[`ActionModal should show the action modal on success 1`] = `
     <span
       class="action-modal-title"
     >
-      Send
+      
+        Send
+      
     </span>
      
     <!---->
@@ -289,7 +287,9 @@ exports[`ActionModal should show the action modal waiting on inclusion 1`] = `
     <span
       class="action-modal-title"
     >
-      Send
+      
+        Send
+      
     </span>
      
     <!---->
@@ -343,7 +343,9 @@ exports[`ActionModal should show the action modal when user has logged in with e
     <span
       class="action-modal-title"
     >
-      Send
+      
+        Send
+      
     </span>
      
     <steps-stub
@@ -425,7 +427,9 @@ exports[`ActionModal should show the action modal when user has logged in with e
     <span
       class="action-modal-title"
     >
-      Send
+      
+        Send
+      
     </span>
      
     <steps-stub
@@ -451,24 +455,6 @@ exports[`ActionModal should show the action modal when user has logged in with e
         value="local"
       />
     </tmformgroup-stub>
-     
-    <!---->
-     
-    <form>
-      <tmformgroup-stub
-        class="action-modal-group"
-        fieldid="password"
-        fieldlabel="Password"
-      >
-        <tmfield-stub
-          id="password"
-          placeholder="Password"
-          type="password"
-        />
-         
-        <!---->
-      </tmformgroup-stub>
-    </form>
   </div>
    
   <!---->
@@ -519,7 +505,9 @@ exports[`ActionModal should show the action modal when user has logged in with e
     <span
       class="action-modal-title"
     >
-      Send
+      
+        Send
+      
     </span>
      
     <steps-stub
@@ -545,24 +533,6 @@ exports[`ActionModal should show the action modal when user has logged in with e
         value="local"
       />
     </tmformgroup-stub>
-     
-    <!---->
-     
-    <form>
-      <tmformgroup-stub
-        class="action-modal-group"
-        fieldid="password"
-        fieldlabel="Password"
-      >
-        <tmfield-stub
-          id="password"
-          placeholder="Password"
-          type="password"
-        />
-         
-        <!---->
-      </tmformgroup-stub>
-    </form>
   </div>
    
   <!---->
@@ -623,7 +593,9 @@ exports[`ActionModal should show the action modal when user has logged in with e
     <span
       class="action-modal-title"
     >
-      Send
+      
+        Send
+      
     </span>
      
     <steps-stub
@@ -705,7 +677,9 @@ exports[`ActionModal should show the action modal when user has logged in with e
     <span
       class="action-modal-title"
     >
-      Send
+      
+        Send
+      
     </span>
      
     <steps-stub
@@ -726,10 +700,6 @@ exports[`ActionModal should show the action modal when user has logged in with e
   <div
     class="action-modal-form"
   >
-    <!---->
-     
-    <!---->
-     
     <hardwarestate-stub
       icon="info"
     >
@@ -794,7 +764,9 @@ exports[`ActionModal should show the action modal when user has logged in with e
     <span
       class="action-modal-title"
     >
-      Send
+      
+        Send
+      
     </span>
      
     <steps-stub
@@ -815,10 +787,6 @@ exports[`ActionModal should show the action modal when user has logged in with e
   <div
     class="action-modal-form"
   >
-    <!---->
-     
-    <!---->
-     
     <hardwarestate-stub
       icon="info"
       loading="true"
@@ -894,7 +862,9 @@ exports[`ActionModal should show the action modal when user has logged in with l
     <span
       class="action-modal-title"
     >
-      Send
+      
+        Send
+      
     </span>
      
     <steps-stub
@@ -976,7 +946,9 @@ exports[`ActionModal should show the action modal when user has logged in with l
     <span
       class="action-modal-title"
     >
-      Send
+      
+        Send
+      
     </span>
      
     <steps-stub
@@ -990,8 +962,6 @@ exports[`ActionModal should show the action modal when user has logged in with l
   <div
     class="action-modal-form"
   >
-    <!---->
-     
     <hardwarestate-stub
       icon="info"
     >
@@ -1002,8 +972,6 @@ exports[`ActionModal should show the action modal when user has logged in with l
           
       </div>
     </hardwarestate-stub>
-     
-    <!---->
   </div>
    
   <!---->
@@ -1054,7 +1022,9 @@ exports[`ActionModal should show the action modal when user has logged in with l
     <span
       class="action-modal-title"
     >
-      Send
+      
+        Send
+      
     </span>
      
     <steps-stub
@@ -1068,8 +1038,6 @@ exports[`ActionModal should show the action modal when user has logged in with l
   <div
     class="action-modal-form"
   >
-    <!---->
-     
     <hardwarestate-stub
       icon="info"
       loading="true"
@@ -1081,8 +1049,6 @@ exports[`ActionModal should show the action modal when user has logged in with l
           
       </div>
     </hardwarestate-stub>
-     
-    <!---->
   </div>
    
   <!---->
@@ -1143,7 +1109,9 @@ exports[`ActionModal should show the action modal when user has logged in with l
     <span
       class="action-modal-title"
     >
-      Send
+      
+        Send
+      
     </span>
      
     <steps-stub
@@ -1225,7 +1193,9 @@ exports[`ActionModal should show the action modal when user has logged in with l
     <span
       class="action-modal-title"
     >
-      Send
+      
+        Send
+      
     </span>
      
     <steps-stub
@@ -1239,10 +1209,6 @@ exports[`ActionModal should show the action modal when user has logged in with l
   <div
     class="action-modal-form"
   >
-    <!---->
-     
-    <!---->
-     
     <form>
       <tmformgroup-stub
         class="action-modal-group"
@@ -1308,7 +1274,9 @@ exports[`ActionModal should show the action modal when user has logged in with l
     <span
       class="action-modal-title"
     >
-      Send
+      
+        Send
+      
     </span>
      
     <steps-stub
@@ -1322,10 +1290,6 @@ exports[`ActionModal should show the action modal when user has logged in with l
   <div
     class="action-modal-form"
   >
-    <!---->
-     
-    <!---->
-     
     <form>
       <tmformgroup-stub
         class="action-modal-group"
@@ -1392,7 +1356,9 @@ exports[`ActionModal should show the action modal when user hasn't logged in 1`]
     <span
       class="action-modal-title"
     >
-      Sign in required
+      
+        Sign in required
+      
     </span>
      
     <steps-stub
@@ -1464,7 +1430,9 @@ exports[`ActionModal shows a feature unavailable message 1`] = `
     <span
       class="action-modal-title"
     >
-      Send
+      
+        Send
+      
     </span>
      
     <steps-stub
