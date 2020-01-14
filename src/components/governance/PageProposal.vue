@@ -196,7 +196,6 @@ import { ProposalItem, GovernanceParameters, Vote } from "src/gql"
 import BigNumber from "bignumber.js"
 import Bech32 from "common/Bech32"
 import gql from "graphql-tag"
-import refetchNetworkOnly from "scripts/refetch-network-only"
 
 export default {
   name: `page-proposal`,
@@ -270,20 +269,13 @@ export default {
       this.$refs.modalVote.open()
     },
     afterVote() {
-      this.$apollo.queries.vote.refetch({
-        proposalId: this.proposal.id,
-        address: this.address
-      })
-      this.$store.commit("invalidateCache", [`overview`, `transactions`])
+      this.$apollo.queries.vote.refetch()
     },
     onDeposit() {
       this.$refs.modalDeposit.open()
     },
     afterDeposit() {
-      this.$apollo.queries.proposal.refetch({
-        id: this.proposal.id
-      })
-      this.$store.commit("invalidateCache", [`overview`, `transactions`])
+      this.$apollo.queries.proposal.refetch()
     },
     getProposalIndex(num) {
       let proposalsObj = this.proposals
@@ -424,9 +416,9 @@ export default {
             this.proposal.status !== "Rejected" &&
             this.loaded
           ) {
-            refetchNetworkOnly(this.$apollo.queries.proposal)
-            refetchNetworkOnly(this.$apollo.queries.parameters)
-            refetchNetworkOnly(this.$apollo.queries.vote)
+            this.$apollo.queries.proposal.refetch()
+            this.$apollo.queries.parameters.refetch()
+            this.$apollo.queries.vote.refetch()
           }
         }
       }

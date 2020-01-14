@@ -87,6 +87,8 @@ async function getWallet(seedPhrase, network) {
     case "regen-testnet":
     case "regen-mainnet":
     case "terra-testnet":
+    case "emoney-testnet":
+    case "emoney-mainnet":
     case "terra-mainnet": {
       const addressCreator = await getCosmosAddressCreator(network)
       return addressCreator(seedPhrase)

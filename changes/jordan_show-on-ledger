@@ -1,0 +1,1 @@
+[Fixed] there was a styling issue with the "show on ledger" button and it was being displayed for all signed in sessions, not just ledger sessions @jbibla

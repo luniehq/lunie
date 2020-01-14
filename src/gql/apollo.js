@@ -63,6 +63,12 @@ const createApolloClient = urlParams => {
 
 export const createApolloProvider = urlParams => {
   return new VueApollo({
-    defaultClient: createApolloClient(urlParams)
+    defaultClient: createApolloClient(urlParams),
+    defaultOptions: {
+      // apollo options applied to all queries in components
+      $query: {
+        fetchPolicy: "cache-and-network"
+      }
+    }
   })
 }

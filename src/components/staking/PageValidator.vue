@@ -16,7 +16,6 @@
       >
         <div style="display:flex; flex-direction:row; align-items: center;">
           <i class="material-icons arrow">arrow_back</i>
-          <div style="width: 20px;display: inline-block;"></div>
           Back to Validators
         </div>
       </button>
@@ -155,15 +154,10 @@
         </li>
       </ul>
 
-      <DelegationModal
-        ref="delegationModal"
-        :target-validator="validator"
-        @success="clearDelegationCache"
-      />
+      <DelegationModal ref="delegationModal" :target-validator="validator" />
       <UndelegationModal
         ref="undelegationModal"
         :source-validator="validator"
-        @success="clearUndelegationCache"
       />
     </template>
     <template v-else>
@@ -182,7 +176,6 @@ import moment from "moment"
 import { mapGetters, mapState } from "vuex"
 import { atoms, shortDecimals, fullDecimals, percent } from "scripts/num"
 import { noBlanks, fromNow } from "src/filters"
-import refetchNetworkOnly from "scripts/refetch-network-only"
 import TmBtn from "common/TmBtn"
 import DelegationModal from "src/ActionModal/components/DelegationModal"
 import UndelegationModal from "src/ActionModal/components/UndelegationModal"
@@ -256,21 +249,6 @@ export default {
     },
     onUndelegation() {
       this.$refs.undelegationModal.open()
-    },
-    clearDelegationCache() {
-      this.$store.commit("invalidateCache", [
-        `overview`,
-        `delegations`,
-        `transactions`
-      ]) // TODO use more finegrained query string (network and address)
-    },
-    clearUndelegationCache() {
-      this.$store.commit("invalidateCache", [
-        `overview`,
-        `delegations`,
-        `undelegations`,
-        `transactions`
-      ]) // TODO use more finegrained query string (network and address)
     },
     isBlankField(field, alternateFilter) {
       return field ? alternateFilter(field) : noBlanks(field)
@@ -357,14 +335,12 @@ export default {
       },
       update(result) {
         /* istanbul ignore next */
+        this.loaded = true
+        /* istanbul ignore next */
         return {
           ...result.validator,
           statusDetailed: getStatusText(result.validator.statusDetailed)
         }
-      },
-      result(queryResult) {
-        /* istanbul ignore next */
-        this.loaded = !!queryResult.data.validator
       }
     },
     $subscribe: {
@@ -387,7 +363,7 @@ export default {
         },
         result() {
           /* istanbul ignore next */
-          refetchNetworkOnly(this.$apollo.queries.rewards)
+          this.$apollo.queries.rewards.refetch()
         }
       },
       userTransactionAdded: {
@@ -406,7 +382,7 @@ export default {
         result({ data }) {
           /* istanbul ignore next */
           if (data.userTransactionAdded.success) {
-            refetchNetworkOnly(this.$apollo.queries.delegation)
+            this.$apollo.queries.delegation.refetch()
           }
         }
       }
@@ -431,6 +407,10 @@ export default {
   background: #445381;
   color: #f1f3f7;
   border-color: #445381;
+}
+
+i.arrow {
+  padding-right: 20px;
 }
 
 .li-validator {

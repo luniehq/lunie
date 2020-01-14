@@ -8,12 +8,10 @@ exports[`TransactionMetadata renders correct transaction metadata 1`] = `
     
     Block
     
-    <router-link-stub
-      to="[object Object]"
-    >
-      
+    <span>
       #1,234,567
-    </router-link-stub>
+    </span>
+    
      
     <i
       class="material-icons"

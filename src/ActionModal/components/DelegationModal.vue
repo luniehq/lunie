@@ -269,13 +269,11 @@ export default {
       return this.fromSelectedIndex !== `0`
     }
   },
-  mounted() {
-    this.$apollo.queries.balance.refetch()
-    this.$apollo.queries.delegations.refetch()
-  },
   methods: {
     open() {
       this.$refs.actionModal.open()
+      this.$apollo.queries.balance.refetch()
+      this.$apollo.queries.delegations.refetch()
     },
     validateForm() {
       this.$v.$touch()
@@ -398,6 +396,7 @@ export default {
           }
         }
       `,
+      fetchPolicy: "cache-first",
       variables() {
         /* istanbul ignore next */
         return {
@@ -424,11 +423,11 @@ export default {
         return !this.address
       },
       query: UserTransactionAdded,
-      result({ data }) {
+      result() {
         /* istanbul ignore next */
-        if (data.userTransactionAdded.success) {
-          this.$apollo.queries.delegations.refetch()
-        }
+        this.$apollo.queries.balance.refetch()
+        /* istanbul ignore next */
+        this.$apollo.queries.delegations.refetch()
       }
     }
   }
