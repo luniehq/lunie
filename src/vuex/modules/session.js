@@ -77,6 +77,7 @@ export default () => {
   const actions = {
     async checkForPersistedSession({
       dispatch,
+      commit,
       rootState: {
         connection: { network }
       }
@@ -85,6 +86,8 @@ export default () => {
       if (session) {
         const { address, sessionType } = JSON.parse(session)
         await dispatch(`signIn`, { address, sessionType })
+      } else {
+        commit(`setSignIn`, false)
       }
     },
     async checkForPersistedAddresses({ commit }) {
@@ -153,14 +156,7 @@ export default () => {
     resetSessionData({ commit, state }, networkId) {
       state.history = ["/"]
       commit(`setUserAddress`, null)
-      // Hack. In case we receive the networkId parameter, we reset session data for
-      // that particular network. Otherwise we do things like before.
-      // This is to keep the cool automatic signin feature while switching networks
-      if (networkId) {
-        localStorage.removeItem(sessionKey(networkId))
-      } else {
-        localStorage.removeItem(`session`)
-      }
+      localStorage.removeItem(sessionKey(networkId))
     },
     loadLocalPreferences({ state, dispatch }) {
       const localPreferences = localStorage.getItem(USER_PREFERENCES_KEY)
