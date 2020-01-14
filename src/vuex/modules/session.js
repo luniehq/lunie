@@ -127,10 +127,6 @@ export default () => {
       },
       { address, sessionType = `ledger` }
     ) {
-      if (state.signedIn) {
-        await dispatch(`resetSessionData`)
-      }
-
       commit(`setSignIn`, true)
       commit(`setSessionType`, sessionType)
       commit(`setUserAddress`, address)
@@ -148,16 +144,23 @@ export default () => {
 
       state.externals.track(`event`, `session`, `sign-in`, sessionType)
     },
-    signOut({ state, commit, dispatch }) {
+    signOut({ state, commit, dispatch }, networkId) {
       state.externals.track(`event`, `session`, `sign-out`)
 
-      dispatch(`resetSessionData`)
+      dispatch(`resetSessionData`, networkId)
       commit(`setSignIn`, false)
     },
-    resetSessionData({ commit, state }) {
+    resetSessionData({ commit, state }, networkId) {
       state.history = ["/"]
       commit(`setUserAddress`, null)
-      localStorage.removeItem(`session`)
+      // Hack. In case we receive the networkId parameter, we reset session data for
+      // that particular network. Otherwise we do things like before.
+      // This is to keep the cool automatic signin feature while switching networks
+      if (networkId) {
+        localStorage.removeItem(sessionKey(networkId))
+      } else {
+        localStorage.removeItem(`session`)
+      }
     },
     loadLocalPreferences({ state, dispatch }) {
       const localPreferences = localStorage.getItem(USER_PREFERENCES_KEY)
