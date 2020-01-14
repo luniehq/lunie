@@ -28,6 +28,8 @@ export default {
     "regen-testnet": "xrn:",
     "regen-mainnet": "xrn:",
     "terra-testnet": "terra",
-    "terra-mainnet": "terra"
+    "terra-mainnet": "terra",
+    "emoney-testnet": "emoney",
+    "emoney-mainnet": "emoney"
   }
 }
