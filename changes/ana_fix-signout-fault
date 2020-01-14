@@ -1,0 +1,1 @@
+[Fixed] [#3405](https://github.com/cosmos/lunie/issues/3405) Fixes sign out so the user is not signed back in upon refreshing the page @Bitcoinera
