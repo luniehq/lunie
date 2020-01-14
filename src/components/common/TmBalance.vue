@@ -84,8 +84,8 @@ export default {
       return this.overview.totalRewards > 0
     },
     getAllDenoms() {
-      if (this.overview.balances) {
-        const balances = this.overview.balances
+      if (this.balances) {
+        const balances = this.balances
         return balances.map(({ denom }) => denom)
       } else {
         return [this.stakingDenom]
@@ -107,10 +107,6 @@ export default {
           overview(networkId: $networkId, address: $address) {
             totalRewards
             liquidStake
-            balances {
-              denom
-              amount
-            }
             totalStake
           }
         }
@@ -127,6 +123,26 @@ export default {
         return {
           ...data.overview,
           totalRewards: Number(data.overview.totalRewards)
+        }
+      },
+      skip() {
+        return !this.address
+      }
+    },
+    balances: {
+      query: gql`
+        query balances($networkId: String!, $address: String!) {
+          balances(networkId: $networkId, address: $address) {
+            denom
+            amount
+          }
+        }
+      `,
+      variables() {
+        /* istanbul ignore next */
+        return {
+          networkId: this.network,
+          address: this.address
         }
       },
       skip() {
