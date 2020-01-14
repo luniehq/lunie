@@ -12632,7 +12632,7 @@ vue-infinite-scroll@^2.0.2:
   resolved "https://registry.yarnpkg.com/vue-infinite-scroll/-/vue-infinite-scroll-2.0.2.tgz#ca37a91fe92ee0ad3b74acf8682c00917144b711"
   integrity sha512-n+YghR059YmciANGJh9SsNWRi1YZEBVlODtmnb/12zI+4R72QZSWd+EuZ5mW6auEo/yaJXgxzwsuhvALVnm73A==
 
-vue-jest@^3.0.5:
+vue-jest@3.0.5, vue-jest@^3.0.5:
   version "3.0.5"
   resolved "https://registry.yarnpkg.com/vue-jest/-/vue-jest-3.0.5.tgz#d6f124b542dcbff207bf9296c19413f4c40b70c9"
   integrity sha512-xWDxde91pDqYBGDlODENZ3ezPgw+IQFoVDtf+5Awlg466w3KvMSqWzs8PxcTeTr+wmAHi0j+a+Lm3R7aUJa1jA==
