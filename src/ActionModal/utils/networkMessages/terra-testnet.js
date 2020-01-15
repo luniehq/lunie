@@ -6,4 +6,28 @@ export const MsgSend = (...args) => {
   return msg
 }
 
-// TODO all message types
+export const MsgDelegate = (...args) => {
+  const msg = CosmosMessages.MsgDelegate(...args)
+  msg.type = "staking/MsgDelegate"
+  return msg
+}
+
+export const MsgUndelegate = (...args) => {
+  const msg = CosmosMessages.MsgUndelegate(...args)
+  msg.type = "staking/MsgUndelegate"
+  return msg
+}
+
+export const MsgRedelegate = (...args) => {
+  const msg = CosmosMessages.MsgRedelegate(...args)
+  msg.type = "staking/MsgBeginRedelegate"
+  return msg
+}
+
+export const MsgWithdrawDelegationReward = (...args) => {
+  const msg = CosmosMessages.MsgWithdrawDelegationReward(...args)
+  msg.type = "distribution/MsgWithdrawDelegationReward"
+  return msg
+}
+
+// No governance for now
