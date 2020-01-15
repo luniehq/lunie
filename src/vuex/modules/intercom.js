@@ -13,12 +13,20 @@ export default () => {
     state: {
       intercom
     },
-    actions: {
-      displayMessenger({ state }) {
+    mutations: {
+      displayMessenger(state) {
         state.intercom.displayMessenger()
       },
-      displayHelpCenter({ state }) {
+      displayHelpCenter(state) {
         state.intercom.displayHelpCenter()
+      }
+    },
+    actions: {
+      displayMessenger({ commit }) {
+        commit(`displayMessenger`)
+      },
+      displayHelpCenter({ commit }) {
+        commit(`displayHelpCenter`)
       }
     }
   }
