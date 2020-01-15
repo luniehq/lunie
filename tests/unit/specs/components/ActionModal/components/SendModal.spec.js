@@ -30,7 +30,7 @@ describe(`SendModal`, () => {
         $store,
         $apollo: {
           queries: {
-            balance: {
+            balances: {
               refetch: () => {}
             }
           }

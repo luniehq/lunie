@@ -166,6 +166,7 @@ import TmBtn from "common/TmBtn"
 import TmFormMsg from "common/TmFormMsg"
 import { mapGetters, mapState } from "vuex"
 import { atoms, viewDenom, shortDecimals } from "scripts/num.js"
+import { showAddressOnLedger } from "scripts/ledger"
 export default {
   name: `app-menu`,
   components: {
@@ -180,7 +181,8 @@ export default {
     shortDecimals
   },
   data: () => ({
-    ledgerAddressError: undefined
+    ledgerAddressError: undefined,
+    showAddressOnLedgerFn: showAddressOnLedger
   }),
   computed: {
     ...mapState([`session`]),
@@ -202,10 +204,11 @@ export default {
     async showAddressOnLedger() {
       if (this.messageTimeout) {
         clearTimeout(this.messageTimeout)
+        this.messageTimeout = undefined
       }
       this.ledgerAddressError = undefined
       try {
-        await this.$store.dispatch("showAddressOnLedger")
+        await this.showAddressOnLedgerFn(this.network)
       } catch (error) {
         this.ledgerAddressError = error.message
         this.messageTimeout = setTimeout(

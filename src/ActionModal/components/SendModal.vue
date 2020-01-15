@@ -236,7 +236,7 @@ export default {
     }
   },
   mounted() {
-    this.$apollo.queries.balance.refetch()
+    this.$apollo.queries.balances.refetch()
   },
   methods: {
     open() {
@@ -363,7 +363,7 @@ export default {
         query: UserTransactionAdded,
         result() {
           /* istanbul ignore next */
-          this.$apollo.queries.balance.refetch()
+          this.$apollo.queries.balances.refetch()
         }
       }
     }

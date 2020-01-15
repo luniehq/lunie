@@ -700,9 +700,6 @@ export default {
       this.submissionError = `${this.submissionErrorPrefix}: ${error.message}.`
       this.trackEvent(`event`, `failed-submit`, this.title, error.message)
       this.$apollo.queries.overview.refetch()
-    },
-    async connectLedger() {
-      await this.$store.dispatch(`connectLedgerApp`)
     }
   },
   validations() {
