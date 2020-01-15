@@ -71,7 +71,7 @@
   </div>
 </template>
 <script>
-import { mapGetters } from "vuex"
+import { mapState, mapGetters } from "vuex"
 import { prettyInt } from "scripts/num"
 import TmBtn from "common/TmBtn"
 import gql from "graphql-tag"
@@ -89,6 +89,7 @@ export default {
     block: {}
   }),
   computed: {
+    ...mapState([`intercom`]),
     ...mapGetters([`network`]),
     networkTooltip() {
       return `You're connected to ${this.block.chainId}.`
@@ -101,7 +102,7 @@ export default {
     },
     handleIntercom() {
       if (config.mobileApp) {
-        this.$mobileIntercom.displayMessenger()
+        this.$store.dispatch(`displayMessenger`)
       }
     }
   },

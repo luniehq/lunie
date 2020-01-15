@@ -7,7 +7,9 @@
   "plugins": {
     "IntercomPlugin": {
       "android-apiKey": "android_sdk-xxxx",
-      "android-appId": "yyyy"
+      "android-appId": "yyyy",
+      "ios-apiKey": "ios_sdk-xxxx",
+      "ios-appId": "yyyy"
     }
   }
 }
