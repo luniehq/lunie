@@ -221,7 +221,9 @@ export default {
       }
     },
     getDenoms() {
-      return this.denoms.map(denom => (denom = { key: denom, value: denom }))
+      return this.denoms
+        ? this.denoms.map(denom => (denom = { key: denom, value: denom }))
+        : []
     }
   },
   watch: {
