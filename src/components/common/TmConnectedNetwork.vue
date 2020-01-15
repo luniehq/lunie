@@ -6,6 +6,7 @@
       value="Help / Feedback"
       type="secondary"
       size="small"
+      @click.native="handleIntercom()"
     />
     <div
       v-if="!$apollo.queries.block.loading"
@@ -74,6 +75,7 @@ import { mapGetters } from "vuex"
 import { prettyInt } from "scripts/num"
 import TmBtn from "common/TmBtn"
 import gql from "graphql-tag"
+import config from "src/../config"
 
 export default {
   name: `tm-connected-network`,
@@ -96,6 +98,11 @@ export default {
     handleClick() {
       this.$emit(`close-menu`)
       window.scrollTo(0, 0)
+    },
+    handleIntercom() {
+      if (config.mobileApp) {
+        this.$mobileIntercom.displayMessenger()
+      }
     }
   },
   apollo: {

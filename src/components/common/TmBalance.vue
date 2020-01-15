@@ -46,7 +46,7 @@
         />
       </div>
 
-      <SendModal ref="SendModal" :denom="stakingDenom" />
+      <SendModal ref="SendModal" :denoms="getAllDenoms" />
       <ModalWithdrawRewards ref="ModalWithdrawRewards" />
     </div>
   </div>
@@ -82,6 +82,14 @@ export default {
     // the validator rewards are needed to filter the top 5 validators to withdraw from
     readyToWithdraw() {
       return this.overview.totalRewards > 0
+    },
+    getAllDenoms() {
+      if (this.balances) {
+        const balances = this.balances
+        return balances.map(({ denom }) => denom)
+      } else {
+        return [this.stakingDenom]
+      }
     }
   },
   methods: {
@@ -115,6 +123,26 @@ export default {
         return {
           ...data.overview,
           totalRewards: Number(data.overview.totalRewards)
+        }
+      },
+      skip() {
+        return !this.address
+      }
+    },
+    balances: {
+      query: gql`
+        query balances($networkId: String!, $address: String!) {
+          balances(networkId: $networkId, address: $address) {
+            denom
+            amount
+          }
+        }
+      `,
+      variables() {
+        /* istanbul ignore next */
+        return {
+          networkId: this.network,
+          address: this.address
         }
       },
       skip() {

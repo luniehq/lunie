@@ -244,13 +244,6 @@ describe(`ActionModal`, () => {
     expect(wrapper.find(`#password`).exists()).toBe(false)
   })
 
-  it(`should dispatch connectLedgerApp`, () => {
-    const $store = { dispatch: jest.fn() }
-    const self = { $store }
-    ActionModal.methods.connectLedger.call(self)
-    expect($store.dispatch).toHaveBeenCalledWith(`connectLedgerApp`)
-  })
-
   describe(`should show the action modal`, () => {
     describe(`when user has logged in`, () => {
       const signMethods = ["local", "ledger", "extension", "explore"]
