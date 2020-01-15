@@ -36,7 +36,6 @@ module.exports = {
       )
     })
   },
-  /*
   "Redelegate Action": async function(browser) {
     // move to according page
     browser.url(browser.launch_url + "/validators", async () => {
@@ -81,7 +80,6 @@ module.exports = {
       )
     })
   },
-  */
   "Undelegate Action": async function(browser) {
     // be sure that the balance has updated, if we don't wait, the baseline (balance) shifts
     await nextBlock(browser)
@@ -124,7 +122,6 @@ module.exports = {
     )
   }
 }
-/*
 function setSelect(browser, selector, option) {
   browser.execute(
     function(selector, option) {
@@ -140,4 +137,3 @@ function setSelect(browser, selector, option) {
     [selector, option]
   )
 }
-*/

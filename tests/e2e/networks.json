@@ -5,7 +5,8 @@
         "wallet": "6195a9b0a9da26869cd099be96b507c9ce2225606459fbe961102e2441c664d5DjfY2ofG9VRGxMNdwRpzuZuv/dBK7nVGyWxD93GdrOjrY3LJsq4JR6NXeufhVdsgwuEReqXRgH1oS6Y21LkcXsDqoPbctjLyzinbwR5v3jFc68oWPVNo9zoSixHkyjTHKgO0ufLfQXATPkCWJeUcSunVx/7XyWUybx0nZbd6mBXEqWVmw7PSiJs8npxMWDAY3QcOyHLNqpmsIxK0M2AbPdhfGjA5RUGaYqcxKspnQGgK6l2oKtJ/omQTWiWWWIVoYAZRR2XhYp8lG3mlD4JFHrEJgPtLAOM55CEoe6Q7RBDhHfc/43h+qvXqCT1+QEbw",
         "password": "Serverver86",
         "stakeAmount": 0.00001,
-        "restakeAmount": 0.000001
+        "restakeAmount": 0.000001,
+        "fundingAmount": 0.4
     },
     {
         "address": "cosmos1ek9cd8ewgxg9w5xllq9um0uf4aaxaruvcw4v9e",
@@ -14,6 +15,7 @@
         "password": "1234567890",
         "name": "rich_account",
         "stakeAmount": 10.86,
-        "restakeAmount": 5.43
+        "restakeAmount": 5.43,
+        "fundingAmount": 20
     }
 ]
