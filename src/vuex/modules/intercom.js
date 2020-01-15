@@ -2,6 +2,7 @@ import config from "src/../config"
 import { Intercom } from "capacitor-intercom"
 
 let intercom = null
+/* istanbul ignore next */
 if (config.mobileApp) {
   intercom = new Intercom()
   const userId = "lunie-app-" + Math.floor(Math.random() * 10000 + 1).toString()
