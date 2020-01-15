@@ -95,7 +95,7 @@
         {{ denom }}s
       </span>
       <TmFormMsg
-        v-if="balance === 0"
+        v-if="balance.amount === '0'"
         :msg="`doesn't have any ${denom}s`"
         name="Wallet"
         type="custom"
@@ -376,7 +376,7 @@ export default {
       `,
       skip() {
         /* istanbul ignore next */
-        return !this.address
+        return !this.address || !this.denom
       },
       variables() {
         /* istanbul ignore next */
