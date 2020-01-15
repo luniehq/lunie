@@ -68,7 +68,7 @@ async function getMessageFormatter(network, messageType) {
 
   if (!messageFormatter) {
     throw new Error(
-      `Creating the message ${messageType} for the network ${network} is not supported`
+      `Creating the '${messageType}' message for the ${network} network is not supported`
     )
   }
 
