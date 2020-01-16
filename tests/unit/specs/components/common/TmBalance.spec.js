@@ -126,9 +126,8 @@ describe(`TmBalance`, () => {
   })
 
   it(`should return balances concatanating denoms and fiat values`, () => {
-    const self = {
-      convertedBalances: [],
-      balancesWithFiat: [
+    wrapper.setData({
+      balances: [
         {
           amount: 1,
           denom: `TOKEN1`,
@@ -140,9 +139,8 @@ describe(`TmBalance`, () => {
           fiatValue: 3.04
         }
       ]
-    }
-    TmBalance.watch.balancesWithFiat.call(self)
-    expect(self.convertedBalances).toEqual([
+    })
+    expect(wrapper.vm.convertedBalances).toEqual([
       { key: `TOKEN1 1.52`, value: `` },
       { key: `TOKEN2 3.04`, value: `` }
     ])

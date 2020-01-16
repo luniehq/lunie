@@ -28,7 +28,7 @@
               v-model="selectedFiatCurrency"
               :title="`Select your fiat currency`"
               :options="fiatCurrencies"
-              placeholder="Select your currency..."
+              :placeholder="selectedFiatCurrency"
               type="select"
             />
           </TmFormGroup>
@@ -113,10 +113,8 @@ export default {
       overview: {},
       stakingDenom: "",
       balances: [],
-      balancesWithFiat: [],
       selectedTokenFiatValue: `Tokens Total Fiat Value`,
-      selectedFiatCurrency: ``,
-      convertedBalances: []
+      selectedFiatCurrency: `EUR` // EUR is our default fiat currency
     }
   },
   computed: {
@@ -138,6 +136,14 @@ export default {
       }
       return balancesArray
     },
+    convertedBalances() {
+      return this.balances
+        .filter(balance => !balance.denom.includes(this.stakingDenom))
+        .map(({ denom, fiatValue }) => ({
+          value: ``,
+          key: denom.concat(` ` + fiatValue)
+        }))
+    },
     fiatCurrencies() {
       return [
         { key: `EUR`, value: `EUR` },
@@ -154,16 +160,6 @@ export default {
       } else {
         return [this.stakingDenom]
       }
-    }
-  },
-  watch: {
-    balancesWithFiat: function() {
-      this.convertedBalances = this.balancesWithFiat
-        .filter(balance => !balance.denom.includes(this.stakingDenom))
-        .map(({ denom, fiatValue }) => ({
-          value: ``,
-          key: denom.concat(` ` + fiatValue)
-        }))
     }
   },
   methods: {
@@ -206,27 +202,6 @@ export default {
     },
     balances: {
       query: gql`
-        query balances($networkId: String!, $address: String!) {
-          balances(networkId: $networkId, address: $address) {
-            denom
-            amount
-          }
-        }
-      `,
-      /* istanbul ignore next */
-      variables() {
-        return {
-          networkId: this.network,
-          address: this.address
-        }
-      },
-      /* istanbul ignore next */
-      skip() {
-        return !this.address
-      }
-    },
-    balancesWithFiat: {
-      query: gql`
         query balances(
           $networkId: String!
           $address: String!
@@ -253,7 +228,7 @@ export default {
       },
       /* istanbul ignore next */
       skip() {
-        return !this.address || !this.selectedFiatCurrency
+        return !this.address
       },
       /* istanbul ignore next */
       update(data) {
