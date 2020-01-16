@@ -1,4 +1,5 @@
 import recoverModule from "src/vuex/modules/intercom.js"
+jest.mock(`capacitor-intercom`, () => ({}))
 
 describe(`Module: Intercom`, () => {
   let module, state, actions, node

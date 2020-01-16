@@ -6,7 +6,7 @@ module.exports = {
       "jest-transform-stub",
     "^.+\\.jsx?$": "babel-jest"
   },
-  transformIgnorePatterns: ["/node_modules/?!(capacitor-intercom)"],
+  transformIgnorePatterns: ["/node_modules/"],
   moduleNameMapper: {
     "^src/(.*)$": `<rootDir>/src/$1`,
     "^assets/(.*)$": `<rootDir>/src/assets/$1`,
