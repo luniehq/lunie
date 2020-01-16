@@ -276,6 +276,7 @@ export default {
         },
         /* istanbul ignore next */
         result() {
+          /* istanbul ignore next */
           this.$apollo.queries.overview.refetch()
         }
       }
