@@ -266,7 +266,7 @@ export default {
       return this.fromOptions[this.fromSelectedIndex].maximum
     },
     isRedelegation() {
-      return this.fromSelectedIndex !== 0
+      return this.fromSelectedIndex !== 0 && this.fromSelectedIndex !== "0" // where are these 0 strings comming from?
     }
   },
   methods: {
