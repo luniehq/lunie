@@ -3,5 +3,13 @@
   "appName": "Lunie",
   "bundledWebRuntime": false,
   "npmClient": "yarn",
-  "webDir": "dist"
+  "webDir": "dist",
+  "plugins": {
+    "IntercomPlugin": {
+      "android-apiKey": "android_sdk-xxxx",
+      "android-appId": "yyyy",
+      "ios-apiKey": "ios_sdk-xxxx",
+      "ios-appId": "yyyy"
+    }
+  }
 }
