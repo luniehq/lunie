@@ -124,4 +124,27 @@ describe(`TmBalance`, () => {
       { key: `JPY`, value: `JPY` }
     ])
   })
+
+  it(`should return balances concatanating denoms and fiat values`, () => {
+    const self = {
+      convertedBalances: [],
+      balancesWithFiat: [
+        {
+          amount: 1,
+          denom: `TOKEN1`,
+          fiatValue: 1.52
+        },
+        {
+          amount: 2,
+          denom: `TOKEN2`,
+          fiatValue: 3.04
+        }
+      ]
+    }
+    TmBalance.watch.balancesWithFiat.call(self)
+    expect(self.convertedBalances).toEqual([
+      { key: `TOKEN1 1.52`, value: `` },
+      { key: `TOKEN2 3.04`, value: `` }
+    ])
+  })
 })
