@@ -86,7 +86,7 @@
         />
       </TmFieldGroup>
       <TmFormMsg
-        v-if="selectedBalance.amount === 0"
+        v-if="selectedBalance().amount === 0"
         :msg="`doesn't have any ${selectedToken}s`"
         name="Wallet"
         type="custom"
@@ -186,7 +186,6 @@ export default {
     editMemo: false,
     isFirstLoad: true,
     selectedToken: ``,
-    selectedBalance: ``,
     balances: [
       {
         amount: null,
@@ -198,6 +197,7 @@ export default {
     ...mapGetters([`network`]),
     ...mapGetters({ userAddress: `address` }),
     transactionData() {
+      this.selectedBalance()
       return {
         type: transaction.SEND,
         toAddress: this.address,
@@ -219,12 +219,9 @@ export default {
       }
     },
     getDenoms() {
-      return this.denoms.map(denom => (denom = { key: denom, value: denom }))
-    },
-    selectedBalance: function() {
-      return this.balances.filter(
-        balance => balance.denom === this.selectedToken
-      )[0]
+      return this.denoms
+        ? this.denoms.map(denom => (denom = { key: denom, value: denom }))
+        : []
     }
   },
   watch: {
@@ -262,15 +259,20 @@ export default {
       this.memo = defaultMemo
       this.sending = false
     },
+    selectedBalance() {
+      return this.balances.filter(
+        balance => balance.denom === this.selectedToken || this.denoms[0]
+      )[0]
+    },
     setMaxAmount() {
-      this.amount = this.selectedBalance.amount
+      this.amount = this.selectedBalance().amount
     },
     isMaxAmount() {
-      if (this.selectedBalance.amount === 0) {
+      if (this.selectedBalance().amount === 0) {
         return false
       } else {
         return (
-          parseFloat(this.amount) === parseFloat(this.selectedBalance.amount)
+          parseFloat(this.amount) === parseFloat(this.selectedBalance().amount)
         )
       }
     },
@@ -307,7 +309,7 @@ export default {
       amount: {
         required: x => !!x && x !== `0`,
         decimal,
-        between: between(SMALLEST, this.selectedBalance.amount)
+        between: between(SMALLEST, this.selectedBalance().amount)
       },
       denoms: { required },
       selectedToken: { required },
