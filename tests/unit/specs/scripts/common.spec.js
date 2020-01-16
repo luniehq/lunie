@@ -39,11 +39,13 @@ describe(`toMicroDenom`, () => {
 })
 
 describe(`sleep`, () => {
-  it(`returns a true as a promise`, () => {
-    jest.useFakeTimers()
-    sleep()
-    expect(setTimeout).toHaveBeenCalledTimes(1)
-    expect(sleep(10)).resolves.toEqual(10)
-    jest.useRealTimers()
+  it(`returns a true as a promise`, async () => {
+    const sleepCheck = () => {
+      return sleep(1000).then(() => {
+        return true
+      })
+    }
+    const res = await sleepCheck()
+    expect(res).toBe(true)
   })
 })
