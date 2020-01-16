@@ -48,4 +48,17 @@ describe(`sleep`, () => {
     const res = await sleepCheck()
     expect(res).toBe(true)
   })
+
+  it(`the timer works properly, taking as many millisecons as we input`, () => {
+    jest.useFakeTimers()
+    const sleepCheck = timer => {
+      return sleep(timer).then(() => {
+        return true
+      })
+    }
+    sleepCheck(1000)
+    expect(setTimeout).toHaveBeenCalledTimes(1)
+    expect(setTimeout).toHaveBeenLastCalledWith(expect.any(Function), 1000)
+    jest.useRealTimers()
+  })
 })
