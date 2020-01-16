@@ -14,20 +14,9 @@ export default () => {
     state: {
       intercom
     },
-    mutations: {
-      displayMessenger(state) {
-        state.intercom.displayMessenger()
-      },
-      displayHelpCenter(state) {
-        state.intercom.displayHelpCenter()
-      }
-    },
     actions: {
-      displayMessenger({ commit }) {
-        commit(`displayMessenger`)
-      },
-      displayHelpCenter({ commit }) {
-        commit(`displayHelpCenter`)
+      displayMessenger({ state }) {
+        state.intercom.displayMessenger()
       }
     }
   }
