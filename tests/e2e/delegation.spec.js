@@ -6,7 +6,9 @@ module.exports = {
     browser.url(browser.launch_url + "/validators", async () => {
       // move to validator page
       browser.expect.element(".li-validator").to.be.visible.before(10000)
-      browser.click(".li-validator:nth-of-type(1)")
+      browser.click(
+        `.li-validator[data-name="${browser.globals.validatorOneName}"]`
+      )
 
       const value = browser.globals.stakeAmount
       await actionModalCheckout(
@@ -41,9 +43,9 @@ module.exports = {
     browser.url(browser.launch_url + "/validators", async () => {
       // move to validator page
       browser.expect.element(".li-validator").to.be.visible.before(10000)
-      browser.click(".li-validator:nth-of-type(2)")
-
-
+      browser.click(
+        `.li-validator[data-name="${browser.globals.validatorTwoName}"]`
+      )
       const value = browser.globals.restakeAmount
       await actionModalCheckout(
         browser,
@@ -66,7 +68,7 @@ module.exports = {
       await nextBlock(browser)
 
       // check if tx shows
-      browser.url(browser.launch_url + "/transactions")
+      await browser.url(browser.launch_url + "/transactions")
 
       await waitForText(
         browser,
@@ -82,16 +84,18 @@ module.exports = {
   },
   "Undelegate Action": async function(browser) {
     // be sure that the balance has updated, if we don't wait, the baseline (balance) shifts
-    await nextBlock(browser)
+    //await nextBlock(browser)
 
     // move to according page
     browser.url(browser.launch_url + "/validators")
 
     // move to validator page
     browser.expect.element(".li-validator").to.be.visible.before(10000)
-    browser.click(".li-validator:nth-of-type(2)")
+    browser.click(
+      `.li-validator[data-name="${browser.globals.validatorOneName}"]`
+    )
 
-    const value = browser.globals.stakeAmount
+    const value = browser.globals.restakeAmount
     await actionModalCheckout(
       browser,
       "#undelegation-btn",
@@ -103,7 +107,7 @@ module.exports = {
       "0"
     )
 
-    await nextBlock(browser)
+    //await nextBlock(browser)
 
     // check if tx shows
     browser.url(browser.launch_url + "/transactions")

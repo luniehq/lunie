@@ -63,35 +63,19 @@ async function actionModalCheckout(
   expectedTotalChange = 0,
   expectedAvailableTokensChange = 0
 ) {
-  /*
-  // grab page we came from as we want to go to another page and come back
-  let sourcePage
-  browser.url(function(result) {
-    sourcePage = result.value
+  // deacivate intercom
+  await browser.execute(function() {
+    var sheet = window.document.styleSheets[0]
+    sheet.insertRule(
+      ".intercom-app { margin-right: -200px }",
+      sheet.cssRules.length
+    )
   })
 
-  // go to portfolio to remember balances
-  browser.url(browser.launch_url + "#/portfolio")
-
-  // remember balance to compare later if send got through
-  browser.expect.element(`.total-atoms__value`).to.be.visible.before(10000)
-  browser.expect
-    .element(".total-atoms__value")
-    .text.not.to.contain("--")
-    .before(10 * 1000)
-  const balanceBefore = await getBalance(browser)
-  const availableTokensBefore = await getAvailableTokens(browser)
-
-  // go back to source page to checkout
-  browser.url(sourcePage)
-
-  browser.pause(500)
-  */
-  // open modal and enter amount
-  browser.click(btnSelector)
+  await browser.click(btnSelector)
   browser.expect.element(".action-modal").to.be.visible.before(10000)
 
-  browser.pause(500)
+  await browser.pause(500)
 
   await detailsActionFn()
 
