@@ -18,13 +18,17 @@
 <script>
 import TmDataMsg from "common/TmDataMsg"
 import config from "src/../config"
+import { mapState } from "vuex"
 export default {
   name: `tm-data-error`,
   components: { TmDataMsg },
+  computed: {
+    ...mapState([`intercom`])
+  },
   methods: {
     handleIntercom() {
       if (config.mobileApp) {
-        this.$mobileIntercom.displayMessenger()
+        this.$store.dispatch(`displayMessenger`)
       }
     }
   }

@@ -7,5 +7,6 @@ export default opts => ({
   keystore: require(`./keystore.js`).default(opts),
   extension: require(`./extension.js`).default(opts),
   signup: require(`./signup.js`).default(opts),
-  recover: require(`./recover.js`).default(opts)
+  recover: require(`./recover.js`).default(opts),
+  intercom: require(`./intercom.js`).default(opts)
 })

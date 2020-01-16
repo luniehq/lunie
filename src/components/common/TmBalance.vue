@@ -11,13 +11,46 @@
     </div>
     <div v-else>
       <div class="values-container">
-        <div class="total-atoms">
-          <h3>Total {{ stakingDenom }}</h3>
-          <h2 class="total-atoms__value">
-            {{ overview.totalStake | shortDecimals | noBlanks }}
-          </h2>
+        <div class="upper-header">
+          <div class="total-atoms">
+            <h3>Total {{ stakingDenom }}</h3>
+            <h2 class="total-atoms__value">
+              {{ overview.totalStake | shortDecimals | noBlanks }}
+            </h2>
+          </div>
+          <TmFormGroup
+            v-if="balances && balances.length > 1"
+            class="currency-selector"
+            field-id="currency"
+            field-label="Currency"
+          >
+            <TmField
+              v-model="selectedFiatCurrency"
+              :title="`Select your fiat currency`"
+              :options="fiatCurrencies"
+              :placeholder="selectedFiatCurrency"
+              type="select"
+            />
+          </TmFormGroup>
         </div>
-
+        <div v-if="balances && balances.length > 1" class="row small-container">
+          <div class="col">
+            <h3>Total Tokens</h3>
+            <h2>
+              <TmField
+                id="balance"
+                :title="`All your token balances`"
+                :options="
+                  convertedBalances.length > 1
+                    ? convertedBalances
+                    : concatBalances
+                "
+                :placeholder="selectedTokenFiatValue"
+                type="select"
+              />
+            </h2>
+          </div>
+        </div>
         <div class="row small-container">
           <div v-if="overview.totalStake > 0" class="available-atoms">
             <h3>Available {{ stakingDenom }}</h3>
@@ -57,11 +90,16 @@ import { noBlanks } from "src/filters"
 import TmBtn from "common/TmBtn"
 import SendModal from "src/ActionModal/components/SendModal"
 import ModalWithdrawRewards from "src/ActionModal/components/ModalWithdrawRewards"
+import TmFormGroup from "common/TmFormGroup"
+import TmField from "src/components/common/TmField"
 import { mapGetters } from "vuex"
 import gql from "graphql-tag"
+
 export default {
   name: `tm-balance`,
   components: {
+    TmFormGroup,
+    TmField,
     TmBtn,
     SendModal,
     ModalWithdrawRewards
@@ -73,7 +111,10 @@ export default {
   data() {
     return {
       overview: {},
-      stakingDenom: ""
+      stakingDenom: "",
+      balances: [],
+      selectedTokenFiatValue: `Tokens Total Fiat Value`,
+      selectedFiatCurrency: `EUR` // EUR is our default fiat currency
     }
   },
   computed: {
@@ -82,6 +123,35 @@ export default {
     // the validator rewards are needed to filter the top 5 validators to withdraw from
     readyToWithdraw() {
       return this.overview.totalRewards > 0
+    },
+    concatBalances() {
+      let balancesArray = []
+      if (this.balances.length > 1) {
+        balancesArray = this.balances
+          .filter(balance => !balance.denom.includes(this.stakingDenom))
+          .map(({ denom, amount }) => ({
+            value: ``,
+            key: denom.concat(` ` + amount)
+          }))
+      }
+      return balancesArray
+    },
+    convertedBalances() {
+      return this.balances
+        .filter(balance => !balance.denom.includes(this.stakingDenom))
+        .map(({ denom, fiatValue }) => ({
+          value: ``,
+          key: denom.concat(` ` + fiatValue)
+        }))
+    },
+    fiatCurrencies() {
+      return [
+        { key: `EUR`, value: `EUR` },
+        { key: `USD`, value: `USD` },
+        { key: `GBP`, value: `GBP` },
+        { key: `CHF`, value: `CHF` },
+        { key: `JPY`, value: `JPY` }
+      ]
     },
     getAllDenoms() {
       if (this.balances) {
@@ -111,42 +181,58 @@ export default {
           }
         }
       `,
+      /* istanbul ignore next */
       variables() {
-        /* istanbul ignore next */
         return {
           networkId: this.network,
           address: this.address
         }
       },
+      /* istanbul ignore next */
       update(data) {
-        /* istanbul ignore next */
         return {
           ...data.overview,
           totalRewards: Number(data.overview.totalRewards)
         }
       },
+      /* istanbul ignore next */
       skip() {
         return !this.address
       }
     },
     balances: {
       query: gql`
-        query balances($networkId: String!, $address: String!) {
-          balances(networkId: $networkId, address: $address) {
+        query balances(
+          $networkId: String!
+          $address: String!
+          $fiatCurrency: String
+        ) {
+          balances(
+            networkId: $networkId
+            address: $address
+            fiatCurrency: $fiatCurrency
+          ) {
             denom
             amount
+            fiatValue
           }
         }
       `,
+      /* istanbul ignore next */
       variables() {
-        /* istanbul ignore next */
         return {
           networkId: this.network,
-          address: this.address
+          address: this.address,
+          fiatCurrency: this.selectedFiatCurrency
         }
       },
+      /* istanbul ignore next */
       skip() {
         return !this.address
+      },
+      /* istanbul ignore next */
+      update(data) {
+        return data.balances
       }
     },
     stakingDenom: {
@@ -158,23 +244,26 @@ export default {
           }
         }
       `,
+      /* istanbul ignore next */
       variables() {
         return {
           networkId: this.network
         }
       },
+      /* istanbul ignore next */
       update(data) {
-        /* istanbul ignore next */
         return data.network.stakingDenom
       }
     },
     $subscribe: {
       blockAdded: {
+        /* istanbul ignore next */
         variables() {
           return {
             networkId: this.network
           }
         },
+        /* istanbul ignore next */
         query() {
           return gql`
             subscription($networkId: String!) {
@@ -185,6 +274,7 @@ export default {
             }
           `
         },
+        /* istanbul ignore next */
         result() {
           /* istanbul ignore next */
           this.$apollo.queries.overview.refetch()
@@ -226,6 +316,12 @@ export default {
 .available-atoms,
 .rewards {
   padding-right: 2.5rem;
+}
+
+.currency-selector.tm-form-group {
+  position: absolute;
+  right: 1.25rem;
+  top: -0.7rem;
 }
 
 .rewards h2 {
@@ -286,6 +382,11 @@ export default {
   .total-atoms {
     padding: 1rem 0;
     text-align: center;
+  }
+
+  .currency-selector.tm-form-group {
+    width: 40px;
+    right: 2.5rem;
   }
 
   .button-container {
