@@ -92,7 +92,6 @@ import SendModal from "src/ActionModal/components/SendModal"
 import ModalWithdrawRewards from "src/ActionModal/components/ModalWithdrawRewards"
 import TmFormGroup from "common/TmFormGroup"
 import TmField from "src/components/common/TmField"
-import { UserTransactionAdded } from "src/gql"
 import { mapGetters } from "vuex"
 import gql from "graphql-tag"
 
@@ -282,25 +281,6 @@ export default {
       }
     },
     $subscribe: {
-      userTransactionAdded: {
-        /* istanbul ignore next */
-        variables() {
-          return {
-            networkId: this.network,
-            address: this.address
-          }
-        },
-        /* istanbul ignore next */
-        skip() {
-          return !this.address
-        },
-        query: UserTransactionAdded,
-        /* istanbul ignore next */
-        result() {
-          // query if successful or not as even an unsuccessful tx costs fees
-          this.$apollo.queries.overview.refetch()
-        }
-      },
       blockAdded: {
         /* istanbul ignore next */
         variables() {
