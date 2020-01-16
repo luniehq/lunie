@@ -164,7 +164,7 @@ export default {
   },
   data: () => ({
     amount: null,
-    fromSelectedIndex: `0`,
+    fromSelectedIndex: 0,
     balance: {
       amount: null,
       denom: ``
@@ -266,7 +266,7 @@ export default {
       return this.fromOptions[this.fromSelectedIndex].maximum
     },
     isRedelegation() {
-      return this.fromSelectedIndex !== `0`
+      return this.fromSelectedIndex !== 0
     }
   },
   methods: {
