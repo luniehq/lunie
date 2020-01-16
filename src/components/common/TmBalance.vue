@@ -186,22 +186,22 @@ export default {
           }
         }
       `,
+      /* istanbul ignore next */
       variables() {
-        /* istanbul ignore next */
         return {
           networkId: this.network,
           address: this.address
         }
       },
+      /* istanbul ignore next */
       update(data) {
-        /* istanbul ignore next */
         return {
           ...data.overview,
           totalRewards: Number(data.overview.totalRewards)
         }
       },
+      /* istanbul ignore next */
       skip() {
-        /* istanbul ignore next */
         return !this.address
       }
     },
@@ -214,15 +214,15 @@ export default {
           }
         }
       `,
+      /* istanbul ignore next */
       variables() {
-        /* istanbul ignore next */
         return {
           networkId: this.network,
           address: this.address
         }
       },
+      /* istanbul ignore next */
       skip() {
-        /* istanbul ignore next */
         return !this.address
       }
     },
@@ -244,20 +244,20 @@ export default {
           }
         }
       `,
+      /* istanbul ignore next */
       variables() {
-        /* istanbul ignore next */
         return {
           networkId: this.network,
           address: this.address,
           fiatCurrency: this.selectedFiatCurrency
         }
       },
+      /* istanbul ignore next */
       skip() {
-        /* istanbul ignore next */
         return !this.address || !this.selectedFiatCurrency
       },
+      /* istanbul ignore next */
       update(data) {
-        /* istanbul ignore next */
         return data.balances
       }
     },
@@ -270,45 +270,46 @@ export default {
           }
         }
       `,
+      /* istanbul ignore next */
       variables() {
-        /* istanbul ignore next */
         return {
           networkId: this.network
         }
       },
+      /* istanbul ignore next */
       update(data) {
-        /* istanbul ignore next */
         return data.network.stakingDenom
       }
     },
     $subscribe: {
       userTransactionAdded: {
+        /* istanbul ignore next */
         variables() {
-          /* istanbul ignore next */
           return {
             networkId: this.network,
             address: this.address
           }
         },
+        /* istanbul ignore next */
         skip() {
-          /* istanbul ignore next */
           return !this.address
         },
         query: UserTransactionAdded,
+        /* istanbul ignore next */
         result() {
           // query if successful or not as even an unsuccessful tx costs fees
           this.$apollo.queries.overview.refetch()
         }
       },
       blockAdded: {
+        /* istanbul ignore next */
         variables() {
-          /* istanbul ignore next */
           return {
             networkId: this.network
           }
         },
+        /* istanbul ignore next */
         query() {
-          /* istanbul ignore next */
           return gql`
             subscription($networkId: String!) {
               blockAdded(networkId: $networkId) {
@@ -318,8 +319,8 @@ export default {
             }
           `
         },
+        /* istanbul ignore next */
         result() {
-          /* istanbul ignore next */
           this.$apollo.queries.overview.refetch()
         }
       }
