@@ -19,7 +19,7 @@
             </h2>
           </div>
           <TmFormGroup
-            v-if="overview.balances"
+            v-if="balances && balances.length > 1"
             class="currency-selector"
             field-id="currency"
             field-label="Currency"
@@ -33,14 +33,19 @@
             />
           </TmFormGroup>
         </div>
-        <div v-if="overview.balances" class="row small-container">
+        <div v-if="balances && balances.length > 1" class="row small-container">
           <div class="col">
             <h3>Total Tokens</h3>
             <h2>
               <TmField
                 id="balance"
-                :options="balances"
-                :placeholder="totalFiatValue"
+                :title="`All your token balances`"
+                :options="
+                  convertedBalances.length > 1
+                    ? convertedBalances
+                    : concatBalances
+                "
+                :placeholder="selectedTokenFiatValue"
                 type="select"
                 :is-disabled="true"
               />
@@ -110,9 +115,11 @@ export default {
     return {
       overview: {},
       stakingDenom: "",
-      totalFiatValue: `Tokens Total Fiat Value`,
+      balances: [],
+      balancesWithFiat: [],
+      selectedTokenFiatValue: `Tokens Total Fiat Value`,
       selectedFiatCurrency: ``,
-      currencySign: ``
+      convertedBalances: []
     }
   },
   computed: {
@@ -122,15 +129,15 @@ export default {
     readyToWithdraw() {
       return this.overview.totalRewards > 0
     },
-    balances() {
-      let balances = ``
-      if (this.overview.balances) {
-        balances = this.overview.balances.map(({ denom, amount }) => ({
+    concatBalances() {
+      let balancesArray = []
+      if (this.balances.length > 1) {
+        balancesArray = this.balances.map(({ denom, amount }) => ({
           value: ``,
           key: denom.concat(` ` + amount)
         }))
       }
-      return balances
+      return balancesArray
     },
     fiatCurrencies() {
       return [
@@ -140,6 +147,16 @@ export default {
         { key: `CHF`, value: `CHF` },
         { key: `JPY`, value: `JPY` }
       ]
+    }
+  },
+  watch: {
+    balancesWithFiat: function() {
+      this.convertedBalances = this.balancesWithFiat.map(
+        ({ denom, fiatValue }) => ({
+          value: ``,
+          key: denom.concat(` ` + fiatValue)
+        })
+      )
     }
   },
   methods: {
@@ -157,10 +174,6 @@ export default {
           overview(networkId: $networkId, address: $address) {
             totalRewards
             liquidStake
-            balances {
-              denom
-              amount
-            }
             totalStake
           }
         }
@@ -180,7 +193,64 @@ export default {
         }
       },
       skip() {
+        /* istanbul ignore next */
         return !this.address
+      }
+    },
+    balances: {
+      query: gql`
+        query balances($networkId: String!, $address: String!) {
+          balances(networkId: $networkId, address: $address) {
+            denom
+            amount
+          }
+        }
+      `,
+      variables() {
+        /* istanbul ignore next */
+        return {
+          networkId: this.network,
+          address: this.address
+        }
+      },
+      skip() {
+        /* istanbul ignore next */
+        return !this.address
+      }
+    },
+    balancesWithFiat: {
+      query: gql`
+        query balances(
+          $networkId: String!
+          $address: String!
+          $fiatCurrency: String
+        ) {
+          balances(
+            networkId: $networkId
+            address: $address
+            fiatCurrency: $fiatCurrency
+          ) {
+            denom
+            amount
+            fiatValue
+          }
+        }
+      `,
+      variables() {
+        /* istanbul ignore next */
+        return {
+          networkId: this.network,
+          address: this.address,
+          fiatCurrency: this.selectedFiatCurrency
+        }
+      },
+      skip() {
+        /* istanbul ignore next */
+        return !this.address || !this.selectedFiatCurrency
+      },
+      update(data) {
+        /* istanbul ignore next */
+        return data.balances
       }
     },
     stakingDenom: {
@@ -193,6 +263,7 @@ export default {
         }
       `,
       variables() {
+        /* istanbul ignore next */
         return {
           networkId: this.network
         }
@@ -202,54 +273,17 @@ export default {
         return data.network.stakingDenom
       }
     },
-    totalFiatValue: {
-      query: gql`
-        query totalFiatValue(
-          $networkId: String!
-          $balances: [BalanceInput]!
-          $selectedFiatCurrency: String!
-        ) {
-          totalFiatValue(
-            networkId: $networkId
-            balances: $balances
-            selectedFiatCurrency: $selectedFiatCurrency
-          )
-        }
-      `,
-      variables() {
-        // We need to create new balances objects because of the __typename field.
-        // The delete command is really bad for performance so this is the best way.
-        let balances = []
-        this.overview.balances.forEach(balance => {
-          let newBalance = {
-            amount: balance.amount,
-            denom: balance.denom
-          }
-          balances.push(newBalance)
-        })
-        return {
-          networkId: this.network,
-          balances,
-          selectedFiatCurrency: this.selectedFiatCurrency
-        }
-      },
-      update(data) {
-        /* istanbul ignore next */
-        return data.totalFiatValue
-      },
-      skip() {
-        return !this.overview.balances || !this.selectedFiatCurrency
-      }
-    },
     $subscribe: {
       userTransactionAdded: {
         variables() {
+          /* istanbul ignore next */
           return {
             networkId: this.network,
             address: this.address
           }
         },
         skip() {
+          /* istanbul ignore next */
           return !this.address
         },
         query: UserTransactionAdded,
@@ -260,11 +294,13 @@ export default {
       },
       blockAdded: {
         variables() {
+          /* istanbul ignore next */
           return {
             networkId: this.network
           }
         },
         query() {
+          /* istanbul ignore next */
           return gql`
             subscription($networkId: String!) {
               blockAdded(networkId: $networkId) {

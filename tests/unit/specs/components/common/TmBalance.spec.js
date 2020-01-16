@@ -91,20 +91,18 @@ describe(`TmBalance`, () => {
 
   it(`should return the balances for the balances dropdown`, () => {
     wrapper.setData({
-      overview: {
-        balances: [
-          {
-            amount: 1,
-            denom: `TOKEN1`
-          },
-          {
-            amount: 2,
-            denom: `TOKEN2`
-          },
-        ] 
-      }
+      balances: [
+        {
+          amount: 1,
+          denom: `TOKEN1`
+        },
+        {
+          amount: 2,
+          denom: `TOKEN2`
+        },
+      ] 
     })
-    expect(wrapper.vm.balances).toEqual([{value: ``, key: `TOKEN1 1`}, {value: ``, key: `TOKEN2 2`}])
+    expect(wrapper.vm.concatBalances).toEqual([{value: ``, key: `TOKEN1 1`}, {value: ``, key: `TOKEN2 2`}])
   })
 
   it(`should return the fiat currencies for the currencies selector`, () => {
