@@ -88,4 +88,61 @@ describe(`TmBalance`, () => {
     wrapper.find("#withdraw-btn").trigger("click")
     expect($refs.ModalWithdrawRewards.open).not.toHaveBeenCalled()
   })
+
+  it(`should return the balances for the balances dropdown`, () => {
+    wrapper.setData({
+      balances: [
+        {
+          amount: 1,
+          denom: `TOKEN1`
+        },
+        {
+          amount: 2,
+          denom: `TOKEN2`
+        }
+      ]
+    })
+    expect(wrapper.vm.concatBalances).toEqual([
+      { value: ``, key: `TOKEN1 1` },
+      { value: ``, key: `TOKEN2 2` }
+    ])
+  })
+
+  it(`if no balances are found, then it returns the staking denom`, () => {
+    wrapper.setData({
+      balances: ``
+    })
+    expect(wrapper.vm.getAllDenoms).toEqual(["ATOM"])
+  })
+
+  it(`should return the fiat currencies for the currencies selector`, () => {
+    expect(wrapper.vm.fiatCurrencies).toEqual([
+      { key: `EUR`, value: `EUR` },
+      { key: `USD`, value: `USD` },
+      { key: `GBP`, value: `GBP` },
+      { key: `CHF`, value: `CHF` },
+      { key: `JPY`, value: `JPY` }
+    ])
+  })
+
+  it(`should return balances concatanating denoms and fiat values`, () => {
+    wrapper.setData({
+      balances: [
+        {
+          amount: 1,
+          denom: `TOKEN1`,
+          fiatValue: 1.52
+        },
+        {
+          amount: 2,
+          denom: `TOKEN2`,
+          fiatValue: 3.04
+        }
+      ]
+    })
+    expect(wrapper.vm.convertedBalances).toEqual([
+      { key: `TOKEN1 1.52`, value: `` },
+      { key: `TOKEN2 3.04`, value: `` }
+    ])
+  })
 })

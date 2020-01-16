@@ -9,20 +9,28 @@ exports[`TmBalance do not show available atoms when the user has none in the fir
       class="values-container"
     >
       <div
-        class="total-atoms"
+        class="upper-header"
       >
-        <h3>
-          Total ATOM
-        </h3>
-         
-        <h2
-          class="total-atoms__value"
+        <div
+          class="total-atoms"
         >
+          <h3>
+            Total ATOM
+          </h3>
+           
+          <h2
+            class="total-atoms__value"
+          >
+            
+            0
           
-          0
-        
-        </h2>
+          </h2>
+        </div>
+         
+        <!---->
       </div>
+       
+      <!---->
        
       <div
         class="row small-container"
@@ -51,7 +59,7 @@ exports[`TmBalance do not show available atoms when the user has none in the fir
     </div>
      
     <sendmodal-stub
-      denoms="ATOM"
+      denoms=""
     />
      
     <modalwithdrawrewards-stub />
@@ -68,20 +76,28 @@ exports[`TmBalance show the balance header when signed in 1`] = `
       class="values-container"
     >
       <div
-        class="total-atoms"
+        class="upper-header"
       >
-        <h3>
-          Total ATOM
-        </h3>
-         
-        <h2
-          class="total-atoms__value"
+        <div
+          class="total-atoms"
         >
+          <h3>
+            Total ATOM
+          </h3>
+           
+          <h2
+            class="total-atoms__value"
+          >
+            
+            3,210
           
-          3,210
-        
-        </h2>
+          </h2>
+        </div>
+         
+        <!---->
       </div>
+       
+      <!---->
        
       <div
         class="row small-container"
@@ -129,7 +145,7 @@ exports[`TmBalance show the balance header when signed in 1`] = `
     </div>
      
     <sendmodal-stub
-      denoms="ATOM"
+      denoms=""
     />
      
     <modalwithdrawrewards-stub />
