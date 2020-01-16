@@ -32,7 +32,12 @@ describe(`Module: Keystore`, () => {
     mutations = module.mutations
 
     state.externals = {
-      track: jest.fn()
+      track: jest.fn(),
+      config: {
+        bech32Prefixes: {
+          "cosmos-hub-mainnet": "cosmos"
+        }
+      }
     }
   })
 
@@ -89,6 +94,17 @@ describe(`Module: Keystore`, () => {
   it(`should create a seed phrase`, async () => {
     const seed = await actions.createSeed()
     expect(seed).toBe(`xxx`)
+  })
+
+  it(`should create an address from a seed phrase`, async () => {
+    const address = await actions.getAddressFromSeed(
+      {},
+      {
+        seedPhrase: `xxx`,
+        network: `cosmos-hub-mainnet`
+      }
+    )
+    expect(address).toBe(`cosmos1234`)
   })
 
   it(`should create a key from a seed phrase`, async () => {

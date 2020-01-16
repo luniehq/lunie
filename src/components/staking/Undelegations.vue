@@ -16,7 +16,6 @@
 <script>
 import { mapGetters } from "vuex"
 import TableUndelegations from "staking/TableUndelegations"
-import refetchNetworkOnly from "scripts/refetch-network-only"
 import { ValidatorFragment, UserTransactionAdded } from "src/gql"
 import gql from "graphql-tag"
 
@@ -77,7 +76,7 @@ export default {
         result({ data }) {
           /* istanbul ignore next */
           if (data.userTransactionAdded.success) {
-            refetchNetworkOnly(this.$apollo.queries.undelegations)
+            this.$apollo.queries.undelegations.refetch()
           }
         }
       }

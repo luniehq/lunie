@@ -1,7 +1,7 @@
 <template>
   <menu class="app-menu">
     <div v-if="session.signedIn" class="user-box">
-      <div>
+      <div class="user-box-address">
         <div>
           <h3>Your Address</h3>
           <Bech32 :address="address || ''" />
@@ -11,7 +11,7 @@
         </a>
       </div>
       <a
-        v-if="session.signedIn"
+        v-if="!session.isMobile && session.sessionType === 'ledger'"
         class="show-on-ledger"
         @click="showAddressOnLedger()"
       >
@@ -166,6 +166,7 @@ import TmBtn from "common/TmBtn"
 import TmFormMsg from "common/TmFormMsg"
 import { mapGetters, mapState } from "vuex"
 import { atoms, viewDenom, shortDecimals } from "scripts/num.js"
+import { showAddressOnLedger } from "scripts/ledger"
 export default {
   name: `app-menu`,
   components: {
@@ -180,11 +181,12 @@ export default {
     shortDecimals
   },
   data: () => ({
-    ledgerAddressError: undefined
+    ledgerAddressError: undefined,
+    showAddressOnLedgerFn: showAddressOnLedger
   }),
   computed: {
     ...mapState([`session`]),
-    ...mapGetters([`address`])
+    ...mapGetters([`address`, `network`])
   },
   methods: {
     handleClick() {
@@ -193,7 +195,7 @@ export default {
     },
     signOut() {
       this.$emit(`close`)
-      this.$store.dispatch(`signOut`)
+      this.$store.dispatch(`signOut`, this.network)
     },
     signIn() {
       this.$router.push(`/welcome`)
@@ -202,10 +204,11 @@ export default {
     async showAddressOnLedger() {
       if (this.messageTimeout) {
         clearTimeout(this.messageTimeout)
+        this.messageTimeout = undefined
       }
       this.ledgerAddressError = undefined
       try {
-        await this.$store.dispatch("showAddressOnLedger")
+        await this.showAddressOnLedgerFn(this.network)
       } catch (error) {
         this.ledgerAddressError = error.message
         this.messageTimeout = setTimeout(
@@ -263,12 +266,14 @@ export default {
   padding: 0.5rem 0.75rem;
   border: 2px solid var(--bc);
   border-radius: 0.25rem;
+  display: block;
 }
 
-.user-box > div {
+.user-box-address {
+  width: 100%;
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
 }
 
 .user-box i {

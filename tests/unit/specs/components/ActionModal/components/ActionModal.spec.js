@@ -185,7 +185,10 @@ describe(`ActionModal`, () => {
       new Error("some kind of error message")
     )
 
-    ActionModal.methods.onSendingFailed.call(self, new Error("some kind of error message"))
+    ActionModal.methods.onSendingFailed.call(
+      self,
+      new Error("some kind of error message")
+    )
     expect(self.submissionError).toEqual(`PREFIX: some kind of error message.`)
   })
 
@@ -239,13 +242,6 @@ describe(`ActionModal`, () => {
     wrapper.vm.step = `sign`
     expect(wrapper.vm.selectedSignMethod).toBe(`ledger`)
     expect(wrapper.find(`#password`).exists()).toBe(false)
-  })
-
-  it(`should dispatch connectLedgerApp`, () => {
-    const $store = { dispatch: jest.fn() }
-    const self = { $store }
-    ActionModal.methods.connectLedger.call(self)
-    expect($store.dispatch).toHaveBeenCalledWith(`connectLedgerApp`)
   })
 
   describe(`should show the action modal`, () => {

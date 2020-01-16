@@ -1,0 +1,1 @@
+[Fixed] [#3390](https://github.com/cosmos/lunie/pull/3390) Fix ActionModal data being out of date if a live update of data happened @faboweb

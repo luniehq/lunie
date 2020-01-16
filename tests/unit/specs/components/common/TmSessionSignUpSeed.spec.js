@@ -11,7 +11,7 @@ describe(`TmSessionSignUpSeed`, () => {
   beforeEach(() => {
     $store = {
       getters: {
-        network: "fabo-net"
+        network: "lunie-net"
       },
       state: {
         session: { insecureMode: true },
@@ -67,7 +67,7 @@ describe(`TmSessionSignUpSeed`, () => {
     expect($store.dispatch).toHaveBeenCalledWith(`createKey`, {
       name: "HappyLunieUser",
       password: "1234567890",
-      network: "fabo-net",
+      network: "lunie-net",
       seedPhrase:
         "asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf"
     })

@@ -1,3 +1,4 @@
+jest.mock(`capacitor-intercom`, () => ({}))
 const Modules = require(`src/vuex/modules`).default
 
 describe(`Module Index`, () => {

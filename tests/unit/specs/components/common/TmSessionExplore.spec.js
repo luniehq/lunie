@@ -88,6 +88,15 @@ describe(`TmSessionExplore`, () => {
     expect(wrapper.find(`.tm-form-msg-error`)).toBeDefined()
   })
 
+  it(`should show error if address is a "cosmospub" address`, () => {
+    wrapper.setData({
+      address: `cosmospub1addwnpepqgadvwk7ev0kk2x0tua0hrt056p8tqpv35r0mwydz45ytxp3wfaz5e7nxun`
+    })
+    wrapper.vm.onSubmit()
+    expect($store.commit.mock.calls[1]).toBeUndefined()
+    expect(wrapper.find(`.tm-form-msg-error`)).toBeDefined()
+  })
+
   it(`should show the last account used`, () => {
     localStorage.setItem(`prevAddress`, `cosmos1xxx`)
 

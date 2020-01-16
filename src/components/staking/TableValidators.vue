@@ -29,7 +29,6 @@
 
 <script>
 import { mapGetters } from "vuex"
-import refetchNetworkOnly from "scripts/refetch-network-only"
 import orderBy from "lodash.orderby"
 import LiValidator from "staking/LiValidator"
 import PanelSort from "staking/PanelSort"
@@ -172,7 +171,8 @@ export default {
           `
         },
         result() {
-          refetchNetworkOnly(this.$apollo.queries.rewards)
+          /* istanbul ignore next */
+          this.$apollo.queries.rewards.refetch()
         }
       }
     }
