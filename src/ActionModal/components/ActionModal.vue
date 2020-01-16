@@ -17,9 +17,9 @@
         <i class="material-icons">close</i>
       </div>
       <div class="action-modal-header">
-        <span class="action-modal-title">{{
-          requiresSignIn ? `Sign in required` : title
-        }}</span>
+        <span class="action-modal-title">
+          {{ requiresSignIn ? `Sign in required` : title }}
+        </span>
         <Steps
           v-if="
             [defaultStep, feeStep, signStep].includes(step) &&
@@ -63,9 +63,9 @@
             field-id="gasPrice"
             field-label="Gas Price"
           >
-            <span class="input-suffix">{{
-              network.stakingDenom | viewDenom
-            }}</span>
+            <span class="input-suffix">
+              {{ network.stakingDenom | viewDenom }}
+            </span>
             <TmField
               id="gas-price"
               v-model="gasPrice"
@@ -120,7 +120,7 @@
             />
           </TmFormGroup>
           <HardwareState
-            v-if="selectedSignMethod === SIGN_METHODS.LEDGER"
+            v-else-if="selectedSignMethod === SIGN_METHODS.LEDGER"
             :icon="session.browserWithLedgerSupport ? 'usb' : 'info'"
             :loading="!!sending"
           >
@@ -138,7 +138,7 @@
             </div>
           </HardwareState>
           <HardwareState
-            v-if="selectedSignMethod === SIGN_METHODS.EXTENSION"
+            v-else-if="selectedSignMethod === SIGN_METHODS.EXTENSION"
             :icon="session.browserWithLedgerSupport ? 'laptop' : 'info'"
             :loading="!!sending"
           >
@@ -153,7 +153,7 @@
             <div v-if="!extension.enabled">
               Please install the Lunie Browser Extension from the
               <a
-                href="https://chrome.google.com/webstore/category/extensions?ref=lunie"
+                href="http://bit.ly/lunie-ext"
                 target="_blank"
                 rel="noopener norefferer"
                 >Chrome Web Store</a
@@ -294,6 +294,7 @@ import { between, requiredIf } from "vuelidate/lib/validators"
 import { track } from "scripts/google-analytics"
 import { UserTransactionAdded } from "src/gql"
 import config from "src/../config"
+import * as Sentry from "@sentry/browser"
 
 import ActionManager from "../utils/ActionManager"
 
@@ -469,6 +470,21 @@ export default {
     },
     prettyIncludedHeight() {
       return prettyInt(this.includedHeight)
+    },
+    // TODO lets slice this monstrocity
+    context() {
+      return {
+        url: this.network.api_url,
+        networkId: this.network.id,
+        chainId: this.network.chain_id,
+        connected: this.connected,
+        userAddress: this.session.address,
+        rewards: this.rewards,
+        totalRewards: this.overview.totalRewards,
+        bondDenom: this.network.stakingDenom,
+        isExtensionAccount: this.isExtensionAccount,
+        account: this.overview.accountInformation
+      }
     }
   },
   watch: {
@@ -480,15 +496,18 @@ export default {
           this.selectedSignMethod = signMethods[0].value
         }
       }
+    },
+    context: {
+      immediate: true,
+      handler(context) {
+        this.actionManager.setContext(context)
+      }
     }
   },
   created() {
     this.$apollo.skipAll = true
   },
   updated: function() {
-    // TODO do we need to set the context on every update of the component?
-    const context = this.createContext()
-    this.actionManager.setContext(context)
     if (
       (this.title === "Withdraw" || this.step === "fees") &&
       this.$refs.next
@@ -497,21 +516,6 @@ export default {
     }
   },
   methods: {
-    createContext() {
-      return {
-        url: this.network.api_url, // state.connection.externals.node.url,
-        networkId: this.network.id, // state.connection.lastHeader.chain_id,
-        chainId: this.network.chain_id, // state.connection.lastHeader.chain_id,
-        connected: this.connected,
-        userAddress: this.session.address,
-        rewards: this.rewards, // state.distribution.rewards,
-        totalRewards: this.overview.totalRewards, // getters.totalRewards,
-        delegations: this.delegations, // state.delegates.delegates,
-        bondDenom: this.network.stakingDenom, // getters.bondDenom,
-        isExtensionAccount: this.isExtensionAccount,
-        account: this.overview.accountInformation
-      }
-    },
     confirmModalOpen() {
       let confirmResult = false
       if (this.session.currrentModalOpen) {
@@ -618,7 +622,7 @@ export default {
           this.gasEstimate = await this.actionManager.simulate(memo)
         } else {
           this.gasEstimate = await this.actionManager.simulateTxAPI(
-            this.createContext(),
+            this.context,
             type,
             properties,
             memo
@@ -656,8 +660,9 @@ export default {
         if (!this.useTxService) {
           hashResult = await this.actionManager.send(memo, feeProperties)
         } else {
+          await this.$apollo.queries.overview.refetch()
           hashResult = await this.actionManager.sendTxAPI(
-            this.createContext(),
+            this.context,
             type,
             memo,
             properties,
@@ -668,8 +673,8 @@ export default {
         const { hash } = hashResult
         this.txHash = hash
         this.step = inclusionStep
-      } catch ({ message }) {
-        this.onSendingFailed(message)
+      } catch (error) {
+        this.onSendingFailed(error)
       }
     },
     onTxIncluded() {
@@ -683,14 +688,18 @@ export default {
       this.$emit(`txIncluded`)
       this.$apollo.queries.overview.refetch()
     },
-    onSendingFailed(message) {
+    onSendingFailed(error) {
+      Sentry.withScope(scope => {
+        scope.setExtra("signMethod", this.selectedSignMethod)
+        scope.setExtra("transactionData", this.transactionData)
+        scope.setExtra("gasEstimate", this.gasEstimate)
+        scope.setExtra("gasPrice", this.gasPrice)
+        Sentry.captureException(error)
+      })
       this.step = signStep
-      this.submissionError = `${this.submissionErrorPrefix}: ${message}.`
-      this.trackEvent(`event`, `failed-submit`, this.title, message)
+      this.submissionError = `${this.submissionErrorPrefix}: ${error.message}.`
+      this.trackEvent(`event`, `failed-submit`, this.title, error.message)
       this.$apollo.queries.overview.refetch()
-    },
-    async connectLedger() {
-      await this.$store.dispatch(`connectLedgerApp`)
     }
   },
   validations() {
@@ -722,7 +731,6 @@ export default {
           overview(networkId: $networkId, address: $address) {
             totalRewards
             liquidStake
-            totalStake
             accountInformation {
               accountNumber
               sequence
@@ -754,11 +762,8 @@ export default {
         query NetworkActionModal($networkId: String!) {
           network(id: $networkId) {
             id
-            testnet
             stakingDenom
             chain_id
-            rpc_url
-            api_url
             action_send
             action_claim_rewards
             action_delegate
@@ -780,39 +785,6 @@ export default {
         /* istanbul ignore next */
 
         return data.network
-      }
-    },
-    delegations: {
-      query: gql`
-        query DelegationsActionModal(
-          $networkId: String!
-          $delegatorAddress: String!
-        ) {
-          delegations(
-            networkId: $networkId
-            delegatorAddress: $delegatorAddress
-          ) {
-            amount
-            validator {
-              operatorAddress
-            }
-          }
-        }
-      `,
-      skip() {
-        /* istanbul ignore next */
-        return !this.session.address
-      },
-      variables() {
-        /* istanbul ignore next */
-        return {
-          networkId: this.networkId,
-          delegatorAddress: this.session.address
-        }
-      },
-      update(data) {
-        /* istanbul ignore next */
-        return data.delegations
       }
     },
     $subscribe: {
@@ -842,7 +814,7 @@ export default {
               this.onTxIncluded()
             } else {
               /* istanbul ignore next */
-              this.onSendingFailed(log)
+              this.onSendingFailed(new Error(log))
             }
           }
           this.txHash = null

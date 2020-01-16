@@ -1,7 +1,7 @@
 import { track, deanonymize, anonymize } from "scripts/google-analytics"
 import config from "src/../config"
 
-export default ({ apollo }) => {
+export default () => {
   const USER_PREFERENCES_KEY = `lunie_user_preferences`
 
   const state = {
@@ -71,25 +71,13 @@ export default ({ apollo }) => {
     },
     setCurrrentModalOpen(state, modal) {
       state.currrentModalOpen = modal
-    },
-
-    // TODO to own store module?
-    // clear the cache manually so we can force reloading of stale data in not mounted components
-    invalidateCache(state, queries) {
-      let rootQuery = apollo.cache.data.data.ROOT_QUERY
-      Object.keys(rootQuery)
-        .filter(query =>
-          queries.find(queryToClear => query.startsWith(queryToClear))
-        )
-        .forEach(query => {
-          delete rootQuery[query]
-        })
     }
   }
 
   const actions = {
     async checkForPersistedSession({
       dispatch,
+      commit,
       rootState: {
         connection: { network }
       }
@@ -98,6 +86,8 @@ export default ({ apollo }) => {
       if (session) {
         const { address, sessionType } = JSON.parse(session)
         await dispatch(`signIn`, { address, sessionType })
+      } else {
+        commit(`setSignIn`, false)
       }
     },
     async checkForPersistedAddresses({ commit }) {
@@ -140,10 +130,6 @@ export default ({ apollo }) => {
       },
       { address, sessionType = `ledger` }
     ) {
-      if (state.signedIn) {
-        await dispatch(`resetSessionData`)
-      }
-
       commit(`setSignIn`, true)
       commit(`setSessionType`, sessionType)
       commit(`setUserAddress`, address)
@@ -161,16 +147,16 @@ export default ({ apollo }) => {
 
       state.externals.track(`event`, `session`, `sign-in`, sessionType)
     },
-    signOut({ state, commit, dispatch }) {
+    signOut({ state, commit, dispatch }, networkId) {
       state.externals.track(`event`, `session`, `sign-out`)
 
-      dispatch(`resetSessionData`)
+      dispatch(`resetSessionData`, networkId)
       commit(`setSignIn`, false)
     },
-    resetSessionData({ commit, state }) {
+    resetSessionData({ commit, state }, networkId) {
       state.history = ["/"]
       commit(`setUserAddress`, null)
-      localStorage.removeItem(`session`)
+      localStorage.removeItem(sessionKey(networkId))
     },
     loadLocalPreferences({ state, dispatch }) {
       const localPreferences = localStorage.getItem(USER_PREFERENCES_KEY)

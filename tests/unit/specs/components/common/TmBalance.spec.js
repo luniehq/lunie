@@ -99,10 +99,13 @@ describe(`TmBalance`, () => {
         {
           amount: 2,
           denom: `TOKEN2`
-        },
-      ] 
+        }
+      ]
     })
-    expect(wrapper.vm.concatBalances).toEqual([{value: ``, key: `TOKEN1 1`}, {value: ``, key: `TOKEN2 2`}])
+    expect(wrapper.vm.concatBalances).toEqual([
+      { value: ``, key: `TOKEN1 1` },
+      { value: ``, key: `TOKEN2 2` }
+    ])
   })
 
   it(`should return the fiat currencies for the currencies selector`, () => {

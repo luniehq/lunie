@@ -16,6 +16,7 @@ import config from "src/../config"
 import * as Sentry from "@sentry/browser"
 import * as Integrations from "@sentry/integrations"
 import "material-design-icons-iconfont/dist/material-design-icons.css"
+import { Intercom } from "capacitor-intercom"
 
 if (config.sentryDSN) {
   Sentry.init({
@@ -42,6 +43,14 @@ Vue.directive(`focus-last`, focusParentLast)
 const urlParams = getURLParams(window)
 const { store, router, apolloProvider } = init(urlParams)
 const { SplashScreen, StatusBar } = Plugins
+
+// Mobile Intercom
+if (config.mobileApp) {
+  const intercom = new Intercom()
+  const userId = "lunie-app-" + Math.floor(Math.random() * 10000 + 1).toString()
+  intercom.registerIdentifiedUser({ userId })
+  Vue.prototype.$mobileIntercom = intercom
+}
 
 new Vue({
   router,

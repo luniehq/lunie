@@ -15,6 +15,11 @@ let mockSend = jest.fn(() => ({
 }))
 let mockSetContext = jest.fn()
 
+jest.mock("src/../config.js", () => ({
+  default_gas_price: 2.5e-8,
+  graphqlHost: "http://localhost:4000"
+}))
+
 jest.mock(`src/ActionModal/utils/ActionManager.js`, () => {
   return jest.fn(() => {
     return {
@@ -27,6 +32,11 @@ jest.mock(`src/ActionModal/utils/ActionManager.js`, () => {
     }
   })
 })
+
+// TODO move into global mock to not duplicate everywhere
+jest.mock("@sentry/browser", () => ({
+  withScope: () => {}
+}))
 
 describe(`ActionModal`, () => {
   let wrapper, $store, $apollo
@@ -132,7 +142,12 @@ describe(`ActionModal`, () => {
       },
       stubs: ["router-link"]
     })
-    wrapper.setData({ network, overview })
+    const context = {
+      account: {
+        sequence: 0
+      }
+    }
+    wrapper.setData({ network, overview, context })
     wrapper.vm.open()
   })
 
@@ -167,10 +182,13 @@ describe(`ActionModal`, () => {
     }
     await ActionModal.methods.submit.call(self)
     expect(self.onSendingFailed).toHaveBeenCalledWith(
-      "some kind of error message"
+      new Error("some kind of error message")
     )
 
-    ActionModal.methods.onSendingFailed.call(self, "some kind of error message")
+    ActionModal.methods.onSendingFailed.call(
+      self,
+      new Error("some kind of error message")
+    )
     expect(self.submissionError).toEqual(`PREFIX: some kind of error message.`)
   })
 
@@ -224,13 +242,6 @@ describe(`ActionModal`, () => {
     wrapper.vm.step = `sign`
     expect(wrapper.vm.selectedSignMethod).toBe(`ledger`)
     expect(wrapper.find(`#password`).exists()).toBe(false)
-  })
-
-  it(`should dispatch connectLedgerApp`, () => {
-    const $store = { dispatch: jest.fn() }
-    const self = { $store }
-    ActionModal.methods.connectLedger.call(self)
-    expect($store.dispatch).toHaveBeenCalledWith(`connectLedgerApp`)
   })
 
   describe(`should show the action modal`, () => {
@@ -618,7 +629,12 @@ describe(`ActionModal`, () => {
         isValidInput: jest.fn(() => true),
         selectedSignMethod: `local`,
         step: `details`,
-        validateChangeStep: jest.fn(() => {})
+        validateChangeStep: jest.fn(() => {}),
+        context: {
+          account: {
+            sequence: 0
+          }
+        }
       }
     })
 

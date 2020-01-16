@@ -47,7 +47,6 @@
                 "
                 :placeholder="selectedTokenFiatValue"
                 type="select"
-                :is-disabled="true"
               />
             </h2>
           </div>
@@ -80,14 +79,13 @@
         />
       </div>
 
-      <SendModal ref="SendModal" :denom="stakingDenom" />
+      <SendModal ref="SendModal" :denoms="getAllDenoms" />
       <ModalWithdrawRewards ref="ModalWithdrawRewards" />
     </div>
   </div>
 </template>
 <script>
 import { shortDecimals } from "scripts/num"
-import refetchNetworkOnly from "scripts/refetch-network-only"
 import { noBlanks } from "src/filters"
 import TmBtn from "common/TmBtn"
 import SendModal from "src/ActionModal/components/SendModal"
@@ -132,10 +130,12 @@ export default {
     concatBalances() {
       let balancesArray = []
       if (this.balances.length > 1) {
-        balancesArray = this.balances.map(({ denom, amount }) => ({
-          value: ``,
-          key: denom.concat(` ` + amount)
-        }))
+        balancesArray = this.balances
+          .filter(balance => !balance.denom.includes(this.stakingDenom))
+          .map(({ denom, amount }) => ({
+            value: ``,
+            key: denom.concat(` ` + amount)
+          }))
       }
       return balancesArray
     },
@@ -147,16 +147,24 @@ export default {
         { key: `CHF`, value: `CHF` },
         { key: `JPY`, value: `JPY` }
       ]
+    },
+    getAllDenoms() {
+      if (this.balances) {
+        const balances = this.balances
+        return balances.map(({ denom }) => denom)
+      } else {
+        return [this.stakingDenom]
+      }
     }
   },
   watch: {
     balancesWithFiat: function() {
-      this.convertedBalances = this.balancesWithFiat.map(
-        ({ denom, fiatValue }) => ({
+      this.convertedBalances = this.balancesWithFiat
+        .filter(balance => !balance.denom.includes(this.stakingDenom))
+        .map(({ denom, fiatValue }) => ({
           value: ``,
           key: denom.concat(` ` + fiatValue)
-        })
-      )
+        }))
     }
   },
   methods: {
@@ -289,7 +297,7 @@ export default {
         query: UserTransactionAdded,
         result() {
           // query if successful or not as even an unsuccessful tx costs fees
-          refetchNetworkOnly(this.$apollo.queries.overview)
+          this.$apollo.queries.overview.refetch()
         }
       },
       blockAdded: {
@@ -311,7 +319,8 @@ export default {
           `
         },
         result() {
-          refetchNetworkOnly(this.$apollo.queries.overview)
+          /* istanbul ignore next */
+          this.$apollo.queries.overview.refetch()
         }
       }
     }

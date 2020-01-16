@@ -14,7 +14,7 @@ export const schemaMap = {
   testnet: "gaia_testnet_"
 }
 
-const ValidatorFragment = `
+export const ValidatorFragment = `
   name
   operatorAddress
   consensusPubkey
@@ -60,19 +60,6 @@ export const DelegatorValidators = schema => gql`
   query ValidatorInfo($delegatorAddress: String!) {
     validators(networkId: "${schema}", delegatorAddress: $delegatorAddress) {
       ${ValidatorFragment}
-    }
-  }
-`
-
-export const UndelegationsForDelegator = schema => gql`
-  query Undelegations($delegatorAddress: String!) {
-    undelegations(networkId: "${schema}", delegatorAddress: $delegatorAddress) {
-      validator {
-        ${ValidatorFragment}
-      }
-      amount
-      startHeight
-      endTime
     }
   }
 `

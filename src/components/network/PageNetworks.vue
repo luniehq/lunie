@@ -37,6 +37,7 @@ export default {
   apollo: {
     networks: {
       query: Networks,
+      fetchPolicy: "cache-first",
       update: NetworksResult
     }
   }

@@ -100,6 +100,9 @@ export default {
       })
     })
   },
+  beforeDestroy: function() {
+    this.$store.dispatch(`resetSignUpData`)
+  },
   methods: {
     async onSubmit() {
       this.$v.$touch()
@@ -111,7 +114,6 @@ export default {
           name: this.signup.signUpName,
           network: this.networkId
         })
-        this.$store.dispatch(`resetSignUpData`)
         this.$router.push(`/`)
       } catch (error) {
         this.error = true

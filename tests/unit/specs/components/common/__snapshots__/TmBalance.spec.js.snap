@@ -59,7 +59,7 @@ exports[`TmBalance do not show available atoms when the user has none in the fir
     </div>
      
     <sendmodal-stub
-      denom="ATOM"
+      denoms=""
     />
      
     <modalwithdrawrewards-stub />
@@ -145,7 +145,7 @@ exports[`TmBalance show the balance header when signed in 1`] = `
     </div>
      
     <sendmodal-stub
-      denom="ATOM"
+      denoms=""
     />
      
     <modalwithdrawrewards-stub />

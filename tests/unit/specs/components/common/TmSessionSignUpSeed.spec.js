@@ -11,7 +11,7 @@ describe(`TmSessionSignUpSeed`, () => {
   beforeEach(() => {
     $store = {
       getters: {
-        network: "fabo-net"
+        network: "lunie-net"
       },
       state: {
         session: { insecureMode: true },
@@ -67,19 +67,15 @@ describe(`TmSessionSignUpSeed`, () => {
     expect($store.dispatch).toHaveBeenCalledWith(`createKey`, {
       name: "HappyLunieUser",
       password: "1234567890",
-      network: "fabo-net",
+      network: "lunie-net",
       seedPhrase:
         "asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf"
     })
     expect(wrapper.vm.$router.push).toHaveBeenCalledWith(`/`)
   })
 
-  it(`should dispatch resetSignUpData if form is submitted`, async () => {
-    wrapper.vm.$store.state.signup.signUpSeed = `asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf`
-    wrapper.vm.$store.state.signup.signUpPassword = `1234567890`
-    wrapper.vm.$store.state.signup.signUpName = `HappyLunieUser`
-    wrapper.vm.$store.state.signup.signUpWarning = true
-    await wrapper.vm.onSubmit()
+  it(`should dispatch resetSignUpData when the component is destroyed`, async () => {
+    wrapper.destroy()
     expect($store.dispatch).toHaveBeenCalledWith(`resetSignUpData`)
   })
 

@@ -106,6 +106,9 @@ export default {
       }
     }
   },
+  beforeDestroy: function() {
+    this.$store.dispatch(`resetRecoverData`)
+  },
   methods: {
     async onSubmit() {
       this.$v.$touch()
@@ -117,7 +120,6 @@ export default {
           name: this.recover.name,
           network: this.networkId
         })
-        this.$store.dispatch(`resetRecoverData`)
         this.$router.push(`/`)
       } catch (error) {
         this.error = true
