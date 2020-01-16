@@ -6,10 +6,10 @@
   "webDir": "dist",
   "plugins": {
     "IntercomPlugin": {
-      "android-apiKey": "android_sdk-xxxx",
-      "android-appId": "yyyy",
-      "ios-apiKey": "ios_sdk-xxxx",
-      "ios-appId": "yyyy"
+      "android-apiKey": "android_sdk-1234",
+      "android-appId": "app_id-1234",
+      "ios-apiKey": "ios_sdk-1234",
+      "ios-appId": "app_id-1234"
     }
   }
 }

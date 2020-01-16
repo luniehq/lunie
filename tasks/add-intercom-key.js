@@ -1,37 +1,39 @@
+/*
+ * this script adds the required intercom keys to the capacitor config
+ * this is done in this script to avoid checking the keys into GitHub
+ *
+ * Usage:
+ *
+ * node tasks/add-intercom-key.js INTERCOM_APP_ID INTERCOM_ANDROID_KEY INTERCOM_IOS_KEY
+ *
+ */
+
 const fs = require("fs")
 
-const iosConfigPath = "ios/App/App/capacitor.config.json"
-const androidConfigPath = "android/app/src/main/assets/capacitor.config.json"
-
-/*
- * this script adds the required intercom keys to the capacitor configs
- * this is done in this script to avoid checking the keys into GitHub
- */
+const capacitorConfigPath = "capacitor.config.json"
 
 function main() {
   const intercomAppId = process.argv[2]
   const androidKey = process.argv[3]
   const iosKey = process.argv[4]
 
-  const iosConfig = JSON.parse(fs.readFileSync(iosConfigPath))
-  if (!iosConfig.plugins) {
-    iosConfigPath.plugins = {}
+  const capacitorConfig = JSON.parse(fs.readFileSync(capacitorConfigPath))
+
+  if (!capacitorConfig.plugins) {
+    capacitorConfigPath.plugins = {}
   }
-  iosConfig.plugins.IntercomPlugin = {
+
+  capacitorConfig.plugins.IntercomPlugin = {
+    "android-apiKey": androidKey,
+    "android-appId": intercomAppId,
     "ios-apiKey": iosKey,
     "ios-appId": intercomAppId
   }
-  fs.writeFileSync(iosConfigPath, JSON.stringify(iosConfig))
 
-  const androidConfig = JSON.parse(fs.readFileSync(androidConfigPath))
-  if (!androidConfig.plugins) {
-    androidConfig.plugins = {}
-  }
-  androidConfig.plugins.IntercomPlugin = {
-    "android-apiKey": androidKey,
-    "android-appId": intercomAppId
-  }
-  fs.writeFileSync(androidConfigPath, JSON.stringify(androidConfig))
+  fs.writeFileSync(
+    capacitorConfigPath,
+    JSON.stringify(capacitorConfig, null, 2)
+  )
 }
 
 main()
