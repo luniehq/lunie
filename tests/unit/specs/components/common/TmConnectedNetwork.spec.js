@@ -64,10 +64,7 @@ describe(`TmConnectedNetwork`, () => {
       localVue,
       mocks: {
         $store,
-        $apollo,
-        config: {
-          mobileApp: true
-        }
+        $apollo
       },
       stubs: [`router-link`]
     })
