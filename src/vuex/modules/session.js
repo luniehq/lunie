@@ -77,6 +77,7 @@ export default () => {
   const actions = {
     async checkForPersistedSession({
       dispatch,
+      commit,
       rootState: {
         connection: { network }
       }
@@ -85,6 +86,8 @@ export default () => {
       if (session) {
         const { address, sessionType } = JSON.parse(session)
         await dispatch(`signIn`, { address, sessionType })
+      } else {
+        commit(`setSignIn`, false)
       }
     },
     async checkForPersistedAddresses({ commit }) {
@@ -127,10 +130,6 @@ export default () => {
       },
       { address, sessionType = `ledger` }
     ) {
-      if (state.signedIn) {
-        await dispatch(`resetSessionData`)
-      }
-
       commit(`setSignIn`, true)
       commit(`setSessionType`, sessionType)
       commit(`setUserAddress`, address)
@@ -148,16 +147,16 @@ export default () => {
 
       state.externals.track(`event`, `session`, `sign-in`, sessionType)
     },
-    signOut({ state, commit, dispatch }) {
+    signOut({ state, commit, dispatch }, networkId) {
       state.externals.track(`event`, `session`, `sign-out`)
 
-      dispatch(`resetSessionData`)
+      dispatch(`resetSessionData`, networkId)
       commit(`setSignIn`, false)
     },
-    resetSessionData({ commit, state }) {
+    resetSessionData({ commit, state }, networkId) {
       state.history = ["/"]
       commit(`setUserAddress`, null)
-      localStorage.removeItem(`session`)
+      localStorage.removeItem(sessionKey(networkId))
     },
     loadLocalPreferences({ state, dispatch }) {
       const localPreferences = localStorage.getItem(USER_PREFERENCES_KEY)

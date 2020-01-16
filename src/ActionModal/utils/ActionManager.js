@@ -242,7 +242,7 @@ function toMicroAtomString(amount) {
   return String(uatoms(amount))
 }
 
-// // limitation of the block, so we pick the top 5 rewards and inform the user.
+// limitation of the Ledger Nano S, so we pick the top 5 rewards and inform the user.
 function getTop5RewardsValidators(bondDenom, rewards) {
   // Compares the amount in a [address1, {denom: amount}] array
   const byBalance = (a, b) => b.amount - a.amount
