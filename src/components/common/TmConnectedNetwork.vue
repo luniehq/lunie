@@ -117,6 +117,7 @@ export default {
         }
       `,
       variables() {
+        /* istanbul ignore next */
         return {
           networkId: this.network
         }
@@ -125,6 +126,7 @@ export default {
     $subscribe: {
       blockAdded: {
         variables() {
+          /* istanbul ignore next */
           return {
             networkId: this.network
           }
@@ -140,6 +142,7 @@ export default {
           `
         },
         result({ data }) {
+          /* istanbul ignore next */
           this.block = data.blockAdded
         }
       }
