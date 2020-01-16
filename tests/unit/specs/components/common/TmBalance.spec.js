@@ -108,6 +108,13 @@ describe(`TmBalance`, () => {
     ])
   })
 
+  it(`if no balances are found, then it returns the staking denom`, () => {
+    wrapper.setData({
+      balances: ``
+    })
+    expect(wrapper.vm.getAllDenoms).toEqual(["ATOM"])
+  })
+
   it(`should return the fiat currencies for the currencies selector`, () => {
     expect(wrapper.vm.fiatCurrencies).toEqual([
       { key: `EUR`, value: `EUR` },
