@@ -54,6 +54,42 @@ async function waitForText(
   )
 }
 
+async function getLastActivityItemHash(browser) {
+  return await browser.execute(function() {
+    return new Promise(resolve => {
+      let attempts = 5
+      let step = 1
+      const f = () => {
+        if (step == 1) {
+          const container = document.querySelector(".tx-container .tx")
+          if (!container && attempts-- > 0) {
+            setTimeout(f, 2000)
+            return false
+          }
+          if (container) {
+            container.click()
+            step = 2
+            attempts = 5
+            f()
+          } else {
+            resolve()
+          }
+        } else if (step == 2) {
+          const hash = document.querySelector(
+            ".tx-container:nth-of-type(1) .hash"
+          )
+          if (!hash && attempts-- > 0) {
+            setTimeout(f, 2000)
+            return false
+          }
+          resolve(hash ? hash.textContent : false)
+        }
+      }
+      f()
+    })
+  })
+}
+
 // performs some details actions and handles checking of the invoice step + signing
 async function actionModalCheckout(
   browser,
@@ -174,5 +210,6 @@ module.exports = {
   waitFor,
   waitForText,
   actionModalCheckout,
+  getLastActivityItemHash,
   nextBlock
 }

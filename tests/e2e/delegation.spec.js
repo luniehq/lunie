@@ -1,15 +1,21 @@
-const { actionModalCheckout, nextBlock, waitForText } = require("./helpers.js")
+const {
+  actionModalCheckout,
+  waitForText,
+  getLastActivityItemHash
+} = require("./helpers.js")
 
 module.exports = {
   "Delegate Action": async function(browser) {
+    await browser.url(browser.launch_url + "/transactions", async () => {
+      browser.globals.lastHash = (await getLastActivityItemHash(browser)).value
+    })
     // move to according page
     browser.url(browser.launch_url + "/validators", async () => {
       // move to validator page
-      browser.expect.element(".li-validator").to.be.visible.before(10000)
-      browser.click(
+      await browser.expect.element(".li-validator").to.be.visible.before(10000)
+      await browser.click(
         `.li-validator[data-name="${browser.globals.validatorOneName}"]`
       )
-
       const value = browser.globals.stakeAmount
       await actionModalCheckout(
         browser,
@@ -22,23 +28,30 @@ module.exports = {
         0,
         value
       )
-      await nextBlock(browser)
-
-      // check if tx shows
-      browser.url(browser.launch_url + "/transactions")
-      await waitForText(
-        browser,
-        ".tx:nth-of-type(1) .tx__content .tx__content__left",
-        `Staked`
-      )
-      await waitForText(
-        browser,
-        ".tx:nth-of-type(1) .tx__content .tx__content__right .amount",
-        `${value} ${browser.globals.denom}`
-      )
+      // check if the hash is changed
+      await browser.url(browser.launch_url + "/transactions", async () => {
+        // check if tx shows
+        await waitForText(
+          browser,
+          ".tx:nth-of-type(1) .tx__content .tx__content__left",
+          `Staked`
+        )
+        await waitForText(
+          browser,
+          ".tx:nth-of-type(1) .tx__content .tx__content__right .amount",
+          `${value} ${browser.globals.denom}`
+        )
+        let hash = (await getLastActivityItemHash(browser)).value
+        if (hash == browser.globals.lastHash) {
+          throw new Error(`Hash didn't changed!`)
+        }
+      })
     })
   },
   "Redelegate Action": async function(browser) {
+    await browser.url(browser.launch_url + "/transactions", async () => {
+      browser.globals.lastHash = (await getLastActivityItemHash(browser)).value
+    })
     // move to according page
     browser.url(browser.launch_url + "/validators", async () => {
       // move to validator page
@@ -65,24 +78,30 @@ module.exports = {
         value
       )
 
-      await nextBlock(browser)
-
       // check if tx shows
-      await browser.url(browser.launch_url + "/transactions")
-
-      await waitForText(
-        browser,
-        ".tx:nth-of-type(1) .tx__content .tx__content__left",
-        `Restaked`
-      )
-      await waitForText(
-        browser,
-        ".tx:nth-of-type(1) .tx__content .tx__content__right .amount",
-        `${value} ${browser.globals.denom}`
-      )
+      // check if the hash is changed
+      await browser.url(browser.launch_url + "/transactions", async () => {
+        await waitForText(
+          browser,
+          ".tx:nth-of-type(1) .tx__content .tx__content__left",
+          `Restaked`
+        )
+        await waitForText(
+          browser,
+          ".tx:nth-of-type(1) .tx__content .tx__content__right .amount",
+          `${value} ${browser.globals.denom}`
+        )
+        let hash = (await getLastActivityItemHash(browser)).value
+        if (hash == browser.globals.lastHash) {
+          throw new Error(`Hash didn't changed!`)
+        }
+      })
     })
   },
   "Undelegate Action": async function(browser) {
+    await browser.url(browser.launch_url + "/transactions", async () => {
+      browser.globals.lastHash = (await getLastActivityItemHash(browser)).value
+    })
     // be sure that the balance has updated, if we don't wait, the baseline (balance) shifts
     //await nextBlock(browser)
 
@@ -107,23 +126,25 @@ module.exports = {
       "0"
     )
 
-    //await nextBlock(browser)
-
     // check if tx shows
-    browser.url(browser.launch_url + "/transactions")
-
-    await waitForText(
-      browser,
-      ".tx:nth-of-type(1) .tx__content .tx__content__left",
-      `Unstaked`,
-      10,
-      2000
-    )
-    await waitForText(
-      browser,
-      ".tx:nth-of-type(1) .tx__content .tx__content__right .amount",
-      `${value} ${browser.globals.denom}`
-    )
+    await browser.url(browser.launch_url + "/transactions", async () => {
+      await waitForText(
+        browser,
+        ".tx:nth-of-type(1) .tx__content .tx__content__left",
+        `Unstaked`,
+        10,
+        2000
+      )
+      await waitForText(
+        browser,
+        ".tx:nth-of-type(1) .tx__content .tx__content__right .amount",
+        `${value} ${browser.globals.denom}`
+      )
+      let hash = (await getLastActivityItemHash(browser)).value
+      if (hash == browser.globals.lastHash) {
+        throw new Error(`Hash didn't changed!`)
+      }
+    })
   }
 }
 function setSelect(browser, selector, option) {

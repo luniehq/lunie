@@ -2,7 +2,11 @@ const axios = require("axios")
 const chai = require("chai")
 chai.use(require("chai-string"))
 const networks = require("./networks.json")
-const { actionModalCheckout, waitForText } = require("./helpers.js")
+const {
+  actionModalCheckout,
+  waitForText,
+  getLastActivityItemHash
+} = require("./helpers.js")
 
 module.exports = {
   // controls the timeout time for async hooks. Expects the done() callback to be invoked within this time
@@ -201,35 +205,11 @@ async function storeAccountData(browser, networkData) {
   })
 }
 
-/*
-async function getLastActivityItemHash(browser) {
-  return await browser.execute(function() {
-    return new Promise(resolve => {
-      let attempts = 5
-      const f = () => {
-        const hash = document.querySelector(
-          ".tx-container:nth-of-type(1) .hash"
-        )
-        console.log(hash)
-        if (!hash && attempts-- > 0) {
-          setTimeout(f, 2000)
-          return false
-        }
-        resolve(hash)
-      }
-      f()
-    })
-  })
-}
-*/
-
 async function fundingTempAccount(browser, networkData) {
-  // let's remember the hash of the last transaction
-  /*await browser.url(browser.launch_url + "/transactions", async () => {
+  // remember the hash of the last transaction
+  await browser.url(browser.launch_url + "/transactions", async () => {
     browser.globals.lastHash = (await getLastActivityItemHash(browser)).value
-    console.log(browser.globals.lastHash)
   })
-  */
   return browser.url(browser.launch_url + "/portfolio", async () => {
     //browser.click(".modal-tutorial .close")
     await actionModalCheckout(
@@ -244,19 +224,24 @@ async function fundingTempAccount(browser, networkData) {
       // expected subtotal
       networkData.fundingAmount
     )
-    // check if tx shows
-    browser.url(browser.launch_url + "/transactions")
-    browser.pause(1000)
-    await waitForText(
-      browser,
-      ".tx:nth-of-type(1) .tx__content .tx__content__left",
-      "Sent"
-    )
-    await waitForText(
-      browser,
-      ".tx:nth-of-type(1) .tx__content .tx__content__right",
-      `${networkData.fundingAmount} ${browser.globals.denom}`
-    )
+    // check if the hash is changed
+    await browser.url(browser.launch_url + "/transactions", async () => {
+      // check if tx shows
+      await waitForText(
+        browser,
+        ".tx:nth-of-type(1) .tx__content .tx__content__left",
+        "Sent"
+      )
+      await waitForText(
+        browser,
+        ".tx:nth-of-type(1) .tx__content .tx__content__right",
+        `${networkData.fundingAmount} ${browser.globals.denom}`
+      )
+      let hash = (await getLastActivityItemHash(browser)).value
+      if (hash == browser.globals.lastHash) {
+        throw new Error(`Hash didn't changed!`)
+      }
+    })
   })
 }
 
