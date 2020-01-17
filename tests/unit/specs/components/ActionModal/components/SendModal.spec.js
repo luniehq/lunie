@@ -48,7 +48,8 @@ describe(`SendModal`, () => {
           denom: `STAKE`,
           amount: 10000
         }
-      ]
+      ],
+      selectedToken: "STAKE"
     })
 
     wrapper.vm.$refs.actionModal = {
@@ -257,7 +258,6 @@ describe(`SendModal`, () => {
           }
         ]
       })
-      wrapper.vm.setTokenAndBalance()
       expect(wrapper.vm.selectedBalance.amount).toBe(1)
     })
     // This one creates a lot of ugly errors

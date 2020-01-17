@@ -159,14 +159,22 @@ export default class ActionManager {
         context.bondDenom,
         context.rewards
       )
-      validators.forEach(validator => {
-        const txMessage = transformMessage(type, context.userAddress, {
-          validatorAddress: validator
+      await Promise.all(
+        validators.map(async validator => {
+          const txMessage = await transformMessage(
+            context.networkId,
+            type,
+            context.userAddress,
+            {
+              validatorAddress: validator
+            }
+          )
+          txMessages.push(txMessage)
         })
-        txMessages.push(txMessage)
-      })
+      )
     } else {
-      const txMessage = transformMessage(
+      const txMessage = await transformMessage(
+        context.networkId,
         type,
         context.userAddress,
         transactionProperties

@@ -186,7 +186,6 @@ export default {
     editMemo: false,
     isFirstLoad: true,
     selectedToken: ``,
-    selectedBalance: ``,
     balances: [
       {
         amount: null,
@@ -197,9 +196,12 @@ export default {
   computed: {
     ...mapGetters([`network`]),
     ...mapGetters({ userAddress: `address` }),
+    selectedBalance() {
+      return this.balances.filter(
+        balance => balance.denom === this.selectedToken || this.denoms[0]
+      )[0]
+    },
     transactionData() {
-      // This is the best place I have found so far to call this function
-      this.setTokenAndBalance()
       return {
         type: transaction.SEND,
         toAddress: this.address,
@@ -221,7 +223,9 @@ export default {
       }
     },
     getDenoms() {
-      return this.denoms.map(denom => (denom = { key: denom, value: denom }))
+      return this.denoms
+        ? this.denoms.map(denom => (denom = { key: denom, value: denom }))
+        : []
     }
   },
   watch: {
@@ -269,20 +273,6 @@ export default {
         return (
           parseFloat(this.amount) === parseFloat(this.selectedBalance.amount)
         )
-      }
-    },
-    setTokenAndBalance() {
-      // if it is single-token network, then we take the first and only value from the
-      // balances array
-      if (this.balances.length === 1) {
-        this.selectedToken = this.getDenoms[0].value
-        this.selectedBalance = this.balances[0]
-        // if it is a multiple-tokens network and we already have a selectedToken by the user
-        // then we search for the corresponding balance from the array
-      } else if (this.selectedToken) {
-        this.selectedBalance = this.balances.filter(
-          balance => balance.denom === this.selectedToken
-        )[0]
       }
     },
     token() {
