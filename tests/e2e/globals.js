@@ -14,10 +14,13 @@ module.exports = {
   asyncHookTimeout: 60000,
 
   async beforeEach(browser, done) {
-    // default settings
-    let networkData = await initialiseDefaults(browser)
-    // creating testing account and funding it with the master account
-    await createAccountAndFundIt(browser, done, networkData)
+    if (!browser.globals.init) {
+      // default settings
+      let networkData = await initialiseDefaults(browser)
+      // creating testing account and funding it with the master account
+      await createAccountAndFundIt(browser, done, networkData)
+      browser.globals.init = true
+    }
     done()
   },
 
