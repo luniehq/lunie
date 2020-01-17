@@ -1,0 +1,2 @@
+[Changed] [#3415](https://github.com/cosmos/lunie/issues/3415) graphql url parameter changed to 'api' @iambeone
+[Added] [#3415](https://github.com/cosmos/lunie/issues/3415) added a parameter to persist API change @iambeone
