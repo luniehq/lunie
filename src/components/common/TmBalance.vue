@@ -20,6 +20,7 @@
           </div>
           <TmFormGroup
             v-if="balances && balances.length > 1"
+            style="display: none;"
             class="currency-selector"
             field-id="currency"
             field-label="Currency"
@@ -33,34 +34,31 @@
             />
           </TmFormGroup>
         </div>
-        <div v-if="balances && balances.length > 1" class="row small-container">
-          <div class="col">
-            <h3>Total Tokens</h3>
-            <h2>
-              <TmField
-                id="balance"
-                :title="`All your token balances`"
-                :options="
-                  convertedBalances.length > 1
-                    ? convertedBalances
-                    : concatBalances
-                "
-                :placeholder="selectedTokenFiatValue"
-                type="select"
-              />
-            </h2>
-          </div>
-        </div>
-        <div class="row small-container">
-          <div v-if="overview.totalStake > 0" class="available-atoms">
-            <h3>Available {{ stakingDenom }}</h3>
-            <h2>{{ overview.liquidStake | shortDecimals | noBlanks }}</h2>
-          </div>
+          <div class="scroll">
+            <div class="row small-container">
+              <div v-if="overview.totalStake > 0" class="available-atoms">
+                <h3>Available {{ stakingDenom }}</h3>
+                <h2>{{ overview.liquidStake | shortDecimals | noBlanks }}</h2>
+              </div>
 
-          <div v-if="overview.totalRewards" class="rewards">
-            <h3>Total Rewards</h3>
-            <h2>+{{ overview.totalRewards | shortDecimals | noBlanks }}</h2>
-          </div>
+              <div v-if="overview.totalRewards" class="rewards">
+                <h3>Total Rewards</h3>
+                <h2>+{{ overview.totalRewards | shortDecimals | noBlanks }}</h2>
+              </div>
+            </div>
+            <div
+              v-if="balances && balances.length > 1"
+              class="row small-container tokens-div"
+            >
+              <div
+                v-for="balance in formattedBalances"
+                :key="balance.denom"
+                class="col"
+              >
+                <p id="tokenDenom">{{ balance.denom }}</p>
+                <p id="tokenBalance">{{ balance.amount }}</p>
+              </div>
+            </div>
         </div>
       </div>
       <div class="button-container">
@@ -123,6 +121,20 @@ export default {
     // the validator rewards are needed to filter the top 5 validators to withdraw from
     readyToWithdraw() {
       return this.overview.totalRewards > 0
+    },
+    formattedBalances() {
+      return this.balances
+        .filter(balance => !balance.denom.includes(this.stakingDenom))
+        .map(
+          balance =>
+            (balance = {
+              denom: balance.denom
+                .charAt(0)
+                .toLowerCase()
+                .concat(balance.denom.slice(-3)),
+              amount: parseFloat(balance.amount).toFixed(2)
+            })
+        )
     },
     concatBalances() {
       let balancesArray = []
@@ -318,6 +330,25 @@ export default {
   padding-right: 2.5rem;
 }
 
+.tokens-div {
+  position: absolute;
+  right: 1.25rem;
+  top: 3.5rem;
+}
+
+.tokens-div > .col {
+  margin-right: 1rem;
+}
+
+p#tokenDenom {
+  font-size: 12px;
+  float: left;
+}
+
+p#tokenBalance {
+  font-weight: bold;
+}
+
 .currency-selector.tm-form-group {
   position: absolute;
   right: 1.25rem;
@@ -382,6 +413,12 @@ export default {
   .total-atoms {
     padding: 1rem 0;
     text-align: center;
+  }
+
+  .tokens-div {
+    position: inherit;
+    margin: 0;
+    top: 0;
   }
 
   .currency-selector.tm-form-group {
