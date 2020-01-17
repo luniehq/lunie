@@ -79,8 +79,8 @@ export default class ActionManager {
 
     const graphqlHost = getGraphqlHost()
 
-    return fetch(`${graphqlHost}/transaction/${command}`, options).then(r =>
-      r.json()
+    return fetch(`${graphqlHost}/transaction/${command}`, options).then(result =>
+      result.json()
     )
   }
 
