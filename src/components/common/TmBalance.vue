@@ -34,31 +34,32 @@
             />
           </TmFormGroup>
         </div>
-          <div class="scroll">
-            <div class="row small-container">
-              <div v-if="overview.totalStake > 0" class="available-atoms">
-                <h3>Available {{ stakingDenom }}</h3>
-                <h2>{{ overview.liquidStake | shortDecimals | noBlanks }}</h2>
-              </div>
+        <div class="scroll">
+          <div class="row small-container scroll-item">
+            <div v-if="overview.totalStake > 0" class="available-atoms">
+              <h3>Available {{ stakingDenom }}</h3>
+              <h2>{{ overview.liquidStake | shortDecimals | noBlanks }}</h2>
+            </div>
 
-              <div v-if="overview.totalRewards" class="rewards">
-                <h3>Total Rewards</h3>
-                <h2>+{{ overview.totalRewards | shortDecimals | noBlanks }}</h2>
-              </div>
+            <div v-if="overview.totalRewards" class="rewards">
+              <h3>Total Rewards</h3>
+              <h2>+{{ overview.totalRewards | shortDecimals | noBlanks }}</h2>
             </div>
+          </div>
+          <div
+            v-if="balances && balances.length > 1"
+            id="scroll-item"
+            class="row small-container tokens-div scroll-item"
+          >
             <div
-              v-if="balances && balances.length > 1"
-              class="row small-container tokens-div"
+              v-for="balance in formattedBalances"
+              :key="balance.denom"
+              class="col"
             >
-              <div
-                v-for="balance in formattedBalances"
-                :key="balance.denom"
-                class="col"
-              >
-                <p id="tokenDenom">{{ balance.denom }}</p>
-                <p id="tokenBalance">{{ balance.amount }}</p>
-              </div>
+              <p id="tokenDenom">{{ balance.denom }}</p>
+              <p id="tokenBalance">{{ balance.amount }}</p>
             </div>
+          </div>
         </div>
       </div>
       <div class="button-container">
@@ -415,10 +416,31 @@ p#tokenBalance {
     text-align: center;
   }
 
+  .scroll {
+    display: flex;
+    width: 90vw;
+    overflow-x: auto;
+    /* Make it smooth scrolling on iOS devices */
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* This doesn't work */
+  /* .scroll > .scroll-item {
+    flex: 0 0 auto;
+  } */
+
+  .scroll > .row > div {
+    margin-right: 3rem;
+  }
+
   .tokens-div {
     position: inherit;
     margin: 0;
     top: 0;
+  }
+
+  p#tokenDenom {
+    float: none;
   }
 
   .currency-selector.tm-form-group {
