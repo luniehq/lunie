@@ -17,6 +17,8 @@ const getMessageConstructor = async context => {
     case `local-cosmos-hub-testnet`:
     case `terra-mainnet`:
     case `terra-testnet`:
+    case `emoney-mainnet`:
+    case `emoney-testnet`:
     case `cosmos-hub-mainnet`:
     case `cosmos-hub-testnet`: {
       const { default: Cosmos } = await import("cosmos-apiV2")
@@ -33,6 +35,8 @@ export const getTransactionSigner = async context => {
     case `local-cosmos-hub-testnet`:
     case `terra-mainnet`:
     case `terra-testnet`:
+    case `emoney-mainnet`:
+    case `emoney-testnet`:
     case `cosmos-hub-mainnet`:
     case `cosmos-hub-testnet`: {
       const { createSignedTransaction } = await import("cosmos-apiV2")
