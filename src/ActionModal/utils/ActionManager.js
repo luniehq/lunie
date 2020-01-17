@@ -79,9 +79,10 @@ export default class ActionManager {
 
     const graphqlHost = getGraphqlHost()
 
-    return fetch(`${graphqlHost}/transaction/${command}`, options).then(result =>
-      result.json()
-    )
+    return fetch(
+      `${graphqlHost}/transaction/${command}`,
+      options
+    ).then(result => result.json())
   }
 
   async simulateTxAPI(context, type, txProps, memo) {
