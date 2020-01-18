@@ -8,7 +8,7 @@ module.exports = [
     rpc_url: config.testnetRPC,
     api_url: config.testnetAPI,
     bech32_prefix: 'cosmos',
-    source_class_name: 'source/cosmosV0-source',
+    source_class_name: 'source/cosmosV2-source',
     block_listener_class_name: 'block-listeners/cosmos-node-subscription',
     testnet: true,
     feature_explore: true,

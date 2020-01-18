@@ -52,7 +52,7 @@ describe('POST /transaction', function() {
         .set('Accept', 'application/json')
         .expect('Content-Type', /json/)
         // .expect({ gasEstimate: 74072, success: true })
-        .expect({ gasEstimate: 450000, success: true }) // fixed for now
+        .expect({ gasEstimate: 550000, success: true }) // fixed for now
         .expect(200, done)
     })
   })
