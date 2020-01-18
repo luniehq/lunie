@@ -439,7 +439,7 @@ export default {
     top: 0;
   }
 
-  p#tokenDenom {
+  .token-denom {
     float: none;
   }
 
