@@ -82,7 +82,7 @@ export default {
   }),
   computed: {
     messageTypeComponent: function() {
-      // TODO this only works for Cosmos networks. This whole logic will chang with: https://github.com/luniehq/lunie-api/issues/259
+      // TODO this only works for Cosmos networks. This whole logic will change with: https://github.com/luniehq/lunie-api/issues/259
       const typeOfTransaction = this.transaction.type.split("/")[1] // removed prefix to be compatible across networks (gaia and emoney have different prefixes)
       // TODO Could improve this using dynamic loading.
       switch (typeOfTransaction) {
