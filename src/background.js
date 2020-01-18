@@ -7,7 +7,11 @@ import { bindRequestsToTabs } from './tabsHandler'
 global.browser = require('webextension-polyfill')
 
 const extensionHost = location.origin
-const whitelisted = ['https://app.lunie.io', extensionHost]
+const whitelisted = [
+  'https://app.lunie.io',
+  /https:\/\/\w+--lunieio.netlify.com/, // to use the extension with deployment previews
+  extensionHost
+]
 if (process.env.NODE_ENV === 'development') {
   whitelisted.push('https://localhost')
   whitelisted.push('http://localhost')
@@ -34,13 +38,26 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 
   return true
 })
-bindRequestsToTabs(signRequestQueue, whitelisted)
 
 // only allow whitelisted websites to send us messages
 function senderAllowed(sender) {
   // if sender.tab is not defined, the message comes from the extension
-  if (sender.tab && !whitelisted.find(url => sender.tab.url.startsWith(url))) {
+  if (sender.tab && !whitelistedChecker(sender.tab.url)) {
     return false
   }
   return true
 }
+
+const whitelistedChecker = url => {
+  return !!whitelisted.find(whitelistedUrl => {
+    // check regexps
+    if (whitelistedUrl instanceof RegExp) {
+      whitelistedUrl.exec(url)
+      return whitelistedUrl.lastIndex === 0 // check if the regex matches on index 0 (to avoid any possible hack later on)
+    }
+    // prefer normal strings as easier to read and error check
+    return url.startsWith(whitelistedUrl)
+  })
+}
+
+bindRequestsToTabs(signRequestQueue, whitelistedChecker)

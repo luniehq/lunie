@@ -40,7 +40,9 @@ describe('Sign request queue', () => {
         }
       }
     }
-    bindRequestsToTabs(signRequestQueue, ['https://lunie.io'])
+    bindRequestsToTabs(signRequestQueue, url =>
+      ['https://lunie.io'].find(whitelisted => whitelisted.startsWith(url))
+    )
 
     expect(signRequestQueue.unqueueSignRequestForTab).toHaveBeenCalledWith(42)
     expect(signRequestQueue.unqueueSignRequestForTab).toHaveBeenCalledTimes(1)
