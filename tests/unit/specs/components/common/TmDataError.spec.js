@@ -1,6 +1,10 @@
 import { mount } from "@vue/test-utils"
 import TmDataError from "common/TmDataError"
 
+jest.mock(`src/../config.js`, () => ({
+  mobileApp: true
+}))
+
 describe(`TmDataError`, () => {
   let wrapper
   beforeEach(() => {
@@ -38,5 +42,14 @@ describe(`TmDataError`, () => {
     ).toContain(
       `Even though you're connected a full node, we can't display this data`
     )
+  })
+
+  it(`handleIntercom should dispatch displayMessenger action`, () => {
+    const $store = { dispatch: jest.fn() }
+    const self = {
+      $store
+    }
+    TmDataError.methods.handleIntercom.call(self)
+    expect($store.dispatch).toHaveBeenCalledWith(`displayMessenger`)
   })
 })

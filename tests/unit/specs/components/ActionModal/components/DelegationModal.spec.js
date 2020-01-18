@@ -148,7 +148,7 @@ describe(`DelegationModal`, () => {
       })
       wrapper.setData({
         amount: 10,
-        fromSelectedIndex: `0`
+        fromSelectedIndex: 0
       })
     })
 

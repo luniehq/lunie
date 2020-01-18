@@ -10,6 +10,10 @@ localVue.directive(`tooltip`, () => {})
 localVue.directive(`focus`, () => {})
 localVue.directive("clipboard", () => {})
 
+jest.mock("scripts/ledger", () => ({
+  getAddressFromLedger: () => "cosmos1234"
+}))
+
 describe(`TmSessionHardware`, () => {
   let wrapper, store
 
@@ -74,7 +78,6 @@ describe(`TmSessionHardware`, () => {
         confirmAddress: jest.fn(() => true)
       }
       await TmSessionHardware.methods.signIn.call(self)
-      expect(self.$store.dispatch).toHaveBeenCalledWith(`connectLedgerApp`)
       expect(self.connectionError).toBeNull()
       expect(self.$store.dispatch).toHaveBeenCalledWith(`signIn`, {
         sessionType: `ledger`,
@@ -83,11 +86,16 @@ describe(`TmSessionHardware`, () => {
     })
 
     it(`doesn't sign in if ledger not connected`, async () => {
+      jest.resetModules()
+      jest.doMock("scripts/ledger", () => ({
+        getAddressFromLedger: () => Promise.reject(new Error(`No Ledger found`))
+      }))
+      const TmSessionHardware = require("common/TmSessionHardware").default
+
       const $store = {
-        dispatch: jest.fn(async () =>
-          Promise.reject(new Error(`No Ledger found`))
-        )
+        dispatch: jest.fn(() => "cosmos1234")
       }
+
       const self = {
         $store,
         status: `connect`,

@@ -6,6 +6,7 @@
       value="Help / Feedback"
       type="secondary"
       size="small"
+      @click.native="handleIntercom()"
     />
     <div
       v-if="!$apollo.queries.block.loading"
@@ -70,10 +71,11 @@
   </div>
 </template>
 <script>
-import { mapGetters } from "vuex"
+import { mapState, mapGetters } from "vuex"
 import { prettyInt } from "scripts/num"
 import TmBtn from "common/TmBtn"
 import gql from "graphql-tag"
+import config from "src/../config"
 
 export default {
   name: `tm-connected-network`,
@@ -87,6 +89,7 @@ export default {
     block: {}
   }),
   computed: {
+    ...mapState([`intercom`]),
     ...mapGetters([`network`]),
     networkTooltip() {
       return `You're connected to ${this.block.chainId}.`
@@ -96,6 +99,11 @@ export default {
     handleClick() {
       this.$emit(`close-menu`)
       window.scrollTo(0, 0)
+    },
+    handleIntercom() {
+      if (config.mobileApp) {
+        this.$store.dispatch(`displayMessenger`)
+      }
     }
   },
   apollo: {
@@ -109,6 +117,7 @@ export default {
         }
       `,
       variables() {
+        /* istanbul ignore next */
         return {
           networkId: this.network
         }
@@ -117,6 +126,7 @@ export default {
     $subscribe: {
       blockAdded: {
         variables() {
+          /* istanbul ignore next */
           return {
             networkId: this.network
           }
@@ -132,6 +142,7 @@ export default {
           `
         },
         result({ data }) {
+          /* istanbul ignore next */
           this.block = data.blockAdded
         }
       }
