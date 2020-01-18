@@ -47,7 +47,7 @@
             </div>
           </div>
           <div
-            v-if="balances && balances.length > 1"
+            v-if="formattedBalances.length > 0"
             id="scroll-item"
             class="row small-container tokens-div scroll-item"
           >
