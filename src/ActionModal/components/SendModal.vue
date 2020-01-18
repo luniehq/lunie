@@ -186,20 +186,19 @@ export default {
     editMemo: false,
     isFirstLoad: true,
     selectedToken: ``,
-    balances: [
-      {
-        amount: null,
-        denom: ``
-      }
-    ]
+    balances: []
   }),
   computed: {
     ...mapGetters([`network`]),
     ...mapGetters({ userAddress: `address` }),
     selectedBalance() {
-      return this.balances.filter(
+      const selectedBalance = this.balances.filter(
         balance => balance.denom === this.selectedToken || this.denoms[0]
-      )[0]
+      )
+      if (selectedBalance.length > 0) {
+        return selectedBalance[0]
+      }
+      return { amount: 0 }
     },
     transactionData() {
       return {
@@ -237,6 +236,10 @@ export default {
       } else {
         this.isFirstLoad = false
       }
+    },
+    balances: function(balances) {
+      if (balances.length === 0) return
+      this.selectedToken = balances[0].denom
     }
   },
   mounted() {
