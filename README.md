@@ -54,3 +54,44 @@ $ yarn run build
 
 1. Go to chrome://extensions/ and check the box for Developer mode in the top right.
 2. Click the Load unpacked extension button in the top left and select the build folder `lunie-browser-extension/dist/` to install it.
+
+# Third-party Integration
+
+If you would like to integrate your website with the Lunie Browser Extension, enabling your users to securely sign transactions, please follow these instructions.
+
+To communicate with the extension we internally use the browser messaging API. Thankfully this is done for you. Please copy the code from the `https://github.com/luniehq/lunie/blob/master/src/scripts/extension-utils.js` to your own website. This code exports functions that you may use through out your website to send and receive messages from the extension.
+
+We use Vue.js to create Lunie and our extension utils assumes the use of Vuex.
+
+There are 3 main functions:
+
+## `listenToExtensionMessages(store)`
+Calling `listenToExtensionMessages` and passing it a Vuex store will enable your Vue instance to commit and dispatch messages to your app.
+
+It's not essential that it be Vuex, but the store object must have equivalent dispatch and commmit methods. When initialising they are called with the following arguments:
+
+- `store.commit("setExtensionAvailable")`
+- `store.dispatch("getAddressesFromExtension")`
+
+## `getAccountsFromExtension()`
+Used to retrieve the current addresses registered in the extension.
+
+The store utilised when initialising your website will send a commit message with an argument of `setExtensionAccounts` and include the accounts object.
+
+- `store.commit("setExtensionAccounts", payload)`
+
+## `signWithExtension(messageToSign, senderAddress)`
+This will pass pass the transaction message and a sender address to the extension, and return an object shaped as follows:
+
+```
+  {
+    signature: Buffer,
+    publicKey: Buffer
+  }
+```
+
+The final step would be to request your website domain is added to the allowed list of domains that the extension will accept.
+
+## Internal Note
+- Export the `extension-utils.js` functionality to a package users can install.
+- Potentiallty might need to filter messages by domain.
