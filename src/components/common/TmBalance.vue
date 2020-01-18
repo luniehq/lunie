@@ -56,8 +56,8 @@
               :key="balance.denom"
               class="col"
             >
-              <p id="tokenDenom">{{ balance.denom }}</p>
-              <p id="tokenBalance">{{ balance.amount }}</p>
+              <p class="token-denom">{{ balance.denom }}</p>
+              <p class="token-balance">{{ balance.amount }}</p>
             </div>
           </div>
         </div>
@@ -341,12 +341,12 @@ export default {
   margin-right: 1rem;
 }
 
-p#tokenDenom {
+.token-denom {
   font-size: 12px;
   float: left;
 }
 
-p#tokenBalance {
+.token-balance {
   font-weight: bold;
 }
 
