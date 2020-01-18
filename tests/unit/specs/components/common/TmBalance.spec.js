@@ -110,7 +110,7 @@ describe(`TmBalance`, () => {
 
   it(`if no balances are found, then it returns the staking denom`, () => {
     wrapper.setData({
-      balances: ``
+      balances: []
     })
     expect(wrapper.vm.getAllDenoms).toEqual(["ATOM"])
   })

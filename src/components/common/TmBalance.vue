@@ -167,7 +167,7 @@ export default {
       ]
     },
     getAllDenoms() {
-      if (this.balances) {
+      if (this.balances.length > 0) {
         const balances = this.balances
         return balances.map(({ denom }) => denom)
       } else {
@@ -245,7 +245,7 @@ export default {
       },
       /* istanbul ignore next */
       update(data) {
-        return data.balances
+        return data.balances || []
       }
     },
     stakingDenom: {
