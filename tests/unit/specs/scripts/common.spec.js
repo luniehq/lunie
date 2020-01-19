@@ -39,26 +39,18 @@ describe(`toMicroDenom`, () => {
 })
 
 describe(`sleep`, () => {
-  it(`returns a true as a promise`, async () => {
-    const sleepCheck = () => {
-      return sleep(1000).then(() => {
-        return true
-      })
-    }
-    const res = await sleepCheck()
-    expect(res).toBe(true)
-  })
+  it(`the timer works properly, taking as many millisecons as we input and the Promise returns true`, done => {
+    let check = false
+    const cb = jest.fn(() => (check = true))
 
-  it(`the timer works properly, taking as many millisecons as we input`, () => {
     jest.useFakeTimers()
-    const sleepCheck = timer => {
-      return sleep(timer).then(() => {
-        return true
-      })
-    }
-    sleepCheck(1000)
-    expect(setTimeout).toHaveBeenCalledTimes(1)
-    expect(setTimeout).toHaveBeenLastCalledWith(expect.any(Function), 1000)
+    sleep(10000)
+      .then(cb)
+      .then(() => expect(cb).toHaveBeenCalled())
+      .then(() => expect(check).toBe(true))
+      .then(done)
+
+    jest.runAllTimers()
     jest.useRealTimers()
   })
 })
