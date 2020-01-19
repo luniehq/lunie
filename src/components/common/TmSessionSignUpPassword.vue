@@ -111,10 +111,13 @@ export default {
     }
   },
   methods: {
+    prefix() {
+      return this.$route.params.prefix
+    },
     async onSubmit() {
       this.$v.$touch()
       if (this.$v.$error) return
-      this.$router.push(`/create/confirm`)
+      this.$router.push(`/create/${this.prefix()}/confirm`)
     }
   },
   validations: () => ({

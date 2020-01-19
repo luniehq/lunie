@@ -27,7 +27,7 @@ export default {
       required: true
     },
     route: {
-      type: String,
+      type: String || Object, // this is not working. Where is type any
       default: ``
     }
   }

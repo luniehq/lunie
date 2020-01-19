@@ -104,6 +104,9 @@ export default {
     this.$store.dispatch(`resetSignUpData`)
   },
   methods: {
+    prefix() {
+      return this.$route.params.prefix
+    },
     async onSubmit() {
       this.$v.$touch()
       if (this.$v.$error) return
@@ -112,7 +115,8 @@ export default {
           seedPhrase: this.signup.signUpSeed,
           password: this.signup.signUpPassword,
           name: this.signup.signUpName,
-          network: this.networkId
+          network: this.networkId,
+          networkPrefix: this.prefix()
         })
         this.$router.push(`/`)
       } catch (error) {

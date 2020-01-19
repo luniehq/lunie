@@ -43,11 +43,11 @@ export default () => {
     },
     async createKey(
       { dispatch, state },
-      { seedPhrase, password, name, network }
+      { seedPhrase, password, name, network, networkPrefix }
     ) {
       // TODO extract the key storage from the key creation
       const { storeWallet } = await import("@lunie/cosmos-keys")
-      const wallet = await getWallet(seedPhrase, network)
+      const wallet = await getWallet(seedPhrase, network, networkPrefix)
 
       storeWallet(wallet, name, password)
 
@@ -73,29 +73,38 @@ export default () => {
 }
 
 // creates a cosmos addres for the network desired
-function getCosmosAddressCreator(network) {
+function getCosmosAddressCreator(network, networkPrefix) {
   return async seedPhrase => {
     const { getNewWalletFromSeed } = await import("@lunie/cosmos-keys")
-    return getNewWalletFromSeed(seedPhrase, config.bech32Prefixes[network])
+    if (networkPrefix) {
+      return getNewWalletFromSeed(seedPhrase, networkPrefix)
+    } else {
+      return getNewWalletFromSeed(seedPhrase, config.bech32Prefixes[network])
+    }
   }
 }
 
-async function getWallet(seedPhrase, network) {
-  switch (network) {
-    case "cosmos-hub-mainnet":
-    case "cosmos-hub-testnet":
-    case "regen-testnet":
-    case "regen-mainnet":
-    case "terra-testnet":
-    case "emoney-testnet":
-    case "emoney-mainnet":
-    case "terra-mainnet": {
-      const addressCreator = await getCosmosAddressCreator(network)
-      return addressCreator(seedPhrase)
+async function getWallet(seedPhrase, network, networkPrefix) {
+  if (networkPrefix) {
+    const addressCreator = await getCosmosAddressCreator(network, networkPrefix)
+    return addressCreator(seedPhrase)
+  } else {
+    switch (network) {
+      case "cosmos-hub-mainnet":
+      case "cosmos-hub-testnet":
+      case "regen-testnet":
+      case "regen-mainnet":
+      case "terra-testnet":
+      case "emoney-testnet":
+      case "emoney-mainnet":
+      case "terra-mainnet": {
+        const addressCreator = await getCosmosAddressCreator(network)
+        return addressCreator(seedPhrase)
+      }
+      default:
+        throw new Error(
+          "Lunie doesn't support address creation for this network."
+        )
     }
-    default:
-      throw new Error(
-        "Lunie doesn't support address creation for this network."
-      )
   }
 }

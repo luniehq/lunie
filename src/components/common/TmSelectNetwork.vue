@@ -8,7 +8,7 @@
           :key="network.title"
           icon="language"
           :title="network.title"
-          route="create"
+          :route="{ name: 'create', params: { network: network.id } }"
         />
       </div>
     </div>
@@ -35,6 +35,7 @@ export default {
         query Networks {
           networks {
             title
+            id
           }
         }
       `
