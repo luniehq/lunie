@@ -7,7 +7,7 @@
 
       <div v-if="session.addresses.length > 0" class="session-list">
         <div
-          v-for="account in session.addresses.slice(-3)"
+          v-for="account in filteredAddresses"
           :key="account.address"
           :title="account.address"
           @click="exploreWith(account.address)"
@@ -73,7 +73,7 @@
 </template>
 
 <script>
-import { mapState } from "vuex"
+import { mapState, mapGetters } from "vuex"
 import { required } from "vuelidate/lib/validators"
 import TmBtn from "common/TmBtn"
 import SessionFrame from "common/SessionFrame"
@@ -104,7 +104,14 @@ export default {
     error: ``
   }),
   computed: {
-    ...mapState([`session`])
+    ...mapState([`session`]),
+    ...mapGetters([`network`]),
+    filteredAddresses() {
+      const networkPrefix = this.network.split(`-`)[0]
+      return this.session.addresses
+        .filter(address => address.address.startsWith(networkPrefix))
+        .slice(-3)
+    }
   },
   mounted() {
     this.address = localStorage.getItem(`prevAddress`)

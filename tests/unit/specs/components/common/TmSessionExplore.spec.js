@@ -12,6 +12,9 @@ describe(`TmSessionExplore`, () => {
     $store = {
       commit: jest.fn(),
       dispatch: jest.fn(() => true),
+      getters: {
+        network: "cosmos-hub"
+      },
       state: {
         session: {
           address: ``,
