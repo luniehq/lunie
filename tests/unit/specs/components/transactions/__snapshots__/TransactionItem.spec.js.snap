@@ -1,17 +1,13 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`TransactionItem renders a cosmos-sdk/MsgBeginRedelegate transaction item 1`] = `
+exports[`TransactionItem renders a MsgBeginRedelegate transaction item 1`] = `
 <div
   class="tx-container"
 >
   <div
     class="tx"
   >
-    <begin-redelegate-message-details-stub
-      session-address="cosmos1"
-      transaction="[object Object]"
-      validators="[object Object]"
-    />
+    <!---->
      
     <div
       class="toggle"
@@ -28,18 +24,14 @@ exports[`TransactionItem renders a cosmos-sdk/MsgBeginRedelegate transaction ite
 </div>
 `;
 
-exports[`TransactionItem renders a cosmos-sdk/MsgCreateValidator transaction item 1`] = `
+exports[`TransactionItem renders a MsgCreateValidator transaction item 1`] = `
 <div
   class="tx-container"
 >
   <div
     class="tx"
   >
-    <create-validator-message-details-stub
-      session-address="cosmos1"
-      transaction="[object Object]"
-      validators="[object Object]"
-    />
+    <!---->
      
     <div
       class="toggle"
@@ -56,18 +48,14 @@ exports[`TransactionItem renders a cosmos-sdk/MsgCreateValidator transaction ite
 </div>
 `;
 
-exports[`TransactionItem renders a cosmos-sdk/MsgDelegate transaction item 1`] = `
+exports[`TransactionItem renders a MsgDelegate transaction item 1`] = `
 <div
   class="tx-container"
 >
   <div
     class="tx"
   >
-    <delegate-message-details-stub
-      session-address="cosmos1"
-      transaction="[object Object]"
-      validators="[object Object]"
-    />
+    <!---->
      
     <div
       class="toggle"
@@ -84,18 +72,14 @@ exports[`TransactionItem renders a cosmos-sdk/MsgDelegate transaction item 1`] =
 </div>
 `;
 
-exports[`TransactionItem renders a cosmos-sdk/MsgDeposit transaction item 1`] = `
+exports[`TransactionItem renders a MsgDeposit transaction item 1`] = `
 <div
   class="tx-container"
 >
   <div
     class="tx"
   >
-    <deposit-message-details-stub
-      session-address="cosmos1"
-      transaction="[object Object]"
-      validators="[object Object]"
-    />
+    <!---->
      
     <div
       class="toggle"
@@ -112,18 +96,14 @@ exports[`TransactionItem renders a cosmos-sdk/MsgDeposit transaction item 1`] = 
 </div>
 `;
 
-exports[`TransactionItem renders a cosmos-sdk/MsgEditValidator transaction item 1`] = `
+exports[`TransactionItem renders a MsgEditValidator transaction item 1`] = `
 <div
   class="tx-container"
 >
   <div
     class="tx"
   >
-    <edit-validator-message-details-stub
-      session-address="cosmos1"
-      transaction="[object Object]"
-      validators="[object Object]"
-    />
+    <!---->
      
     <div
       class="toggle"
@@ -140,18 +120,14 @@ exports[`TransactionItem renders a cosmos-sdk/MsgEditValidator transaction item 
 </div>
 `;
 
-exports[`TransactionItem renders a cosmos-sdk/MsgMultiSend transaction item 1`] = `
+exports[`TransactionItem renders a MsgMultiSend transaction item 1`] = `
 <div
   class="tx-container"
 >
   <div
     class="tx"
   >
-    <multi-send-message-details-stub
-      sessionaddress="cosmos1"
-      transaction="[object Object]"
-      validators="[object Object]"
-    />
+    <!---->
      
     <div
       class="toggle"
@@ -168,18 +144,14 @@ exports[`TransactionItem renders a cosmos-sdk/MsgMultiSend transaction item 1`] 
 </div>
 `;
 
-exports[`TransactionItem renders a cosmos-sdk/MsgSend transaction item 1`] = `
+exports[`TransactionItem renders a MsgSend transaction item 1`] = `
 <div
   class="tx-container"
 >
   <div
     class="tx"
   >
-    <send-message-details-stub
-      sessionaddress="cosmos1"
-      transaction="[object Object]"
-      validators="[object Object]"
-    />
+    <!---->
      
     <div
       class="toggle"
@@ -196,18 +168,14 @@ exports[`TransactionItem renders a cosmos-sdk/MsgSend transaction item 1`] = `
 </div>
 `;
 
-exports[`TransactionItem renders a cosmos-sdk/MsgSetWithdrawAddress transaction item 1`] = `
+exports[`TransactionItem renders a MsgSetWithdrawAddress transaction item 1`] = `
 <div
   class="tx-container"
 >
   <div
     class="tx"
   >
-    <set-withdraw-address-message-details-stub
-      session-address="cosmos1"
-      transaction="[object Object]"
-      validators="[object Object]"
-    />
+    <!---->
      
     <div
       class="toggle"
@@ -224,18 +192,14 @@ exports[`TransactionItem renders a cosmos-sdk/MsgSetWithdrawAddress transaction 
 </div>
 `;
 
-exports[`TransactionItem renders a cosmos-sdk/MsgSubmitProposal transaction item 1`] = `
+exports[`TransactionItem renders a MsgSubmitProposal transaction item 1`] = `
 <div
   class="tx-container"
 >
   <div
     class="tx"
   >
-    <submit-proposal-message-details-stub
-      session-address="cosmos1"
-      transaction="[object Object]"
-      validators="[object Object]"
-    />
+    <!---->
      
     <div
       class="toggle"
@@ -252,18 +216,14 @@ exports[`TransactionItem renders a cosmos-sdk/MsgSubmitProposal transaction item
 </div>
 `;
 
-exports[`TransactionItem renders a cosmos-sdk/MsgUndelegate transaction item 1`] = `
+exports[`TransactionItem renders a MsgUndelegate transaction item 1`] = `
 <div
   class="tx-container"
 >
   <div
     class="tx"
   >
-    <undelegate-message-details-stub
-      session-address="cosmos1"
-      transaction="[object Object]"
-      validators="[object Object]"
-    />
+    <!---->
      
     <div
       class="toggle"
@@ -280,18 +240,14 @@ exports[`TransactionItem renders a cosmos-sdk/MsgUndelegate transaction item 1`]
 </div>
 `;
 
-exports[`TransactionItem renders a cosmos-sdk/MsgUnjail transaction item 1`] = `
+exports[`TransactionItem renders a MsgUnjail transaction item 1`] = `
 <div
   class="tx-container"
 >
   <div
     class="tx"
   >
-    <unjail-message-details-stub
-      session-address="cosmos1"
-      transaction="[object Object]"
-      validators="[object Object]"
-    />
+    <!---->
      
     <div
       class="toggle"
@@ -308,18 +264,14 @@ exports[`TransactionItem renders a cosmos-sdk/MsgUnjail transaction item 1`] = `
 </div>
 `;
 
-exports[`TransactionItem renders a cosmos-sdk/MsgVote transaction item 1`] = `
+exports[`TransactionItem renders a MsgVote transaction item 1`] = `
 <div
   class="tx-container"
 >
   <div
     class="tx"
   >
-    <vote-message-details-stub
-      session-address="cosmos1"
-      transaction="[object Object]"
-      validators="[object Object]"
-    />
+    <!---->
      
     <div
       class="toggle"
@@ -336,18 +288,14 @@ exports[`TransactionItem renders a cosmos-sdk/MsgVote transaction item 1`] = `
 </div>
 `;
 
-exports[`TransactionItem renders a cosmos-sdk/MsgWithdrawDelegationReward transaction item 1`] = `
+exports[`TransactionItem renders a MsgWithdrawDelegationReward transaction item 1`] = `
 <div
   class="tx-container"
 >
   <div
     class="tx"
   >
-    <withdraw-delegation-reward-message-details-stub
-      session-address="cosmos1"
-      transaction="[object Object]"
-      validators="[object Object]"
-    />
+    <!---->
      
     <div
       class="toggle"

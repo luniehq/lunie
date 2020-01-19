@@ -1,6 +1,6 @@
 {
   "name": "lunie",
-  "version": "1.0.156",
+  "version": "1.0.158",
   "description": "Lunie is the staking and governance platform for proof-of-stake blockchains.",
   "author": "Lunie International Software Systems Inc. <hello@lunie.io>",
   "scripts": {
@@ -9,7 +9,7 @@
     "changelog": "simsala log --pending-path ./changes",
     "lint": "vue-cli-service lint",
     "lint:style": "vue-cli-service lint:style",
-    "release": "git fetch --all && git checkout origin/develop -B develop && git pull && git merge origin/master && git push -u origin develop & git push origin develop:release",
+    "release": "git fetch --all && git checkout origin/develop -B develop && git pull && git merge origin/master && git push -u origin develop && git push origin develop:release",
     "serve": "kill-port 9080 && vue-cli-service serve --port 9080",
     "serve:dist": "live-server --port=9080 --no-browser ./dist",
     "serve:mobile": "cross-env MOBILE_APP=true npm run serve",

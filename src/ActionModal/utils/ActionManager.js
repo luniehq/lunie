@@ -3,7 +3,7 @@ import { getSigner } from "./signer"
 import transaction from "./transactionTypes"
 import { uatoms } from "scripts/num"
 import { toMicroDenom } from "src/scripts/common"
-import { getURLParams } from "scripts/url"
+import { getGraphqlHost } from "scripts/url"
 import {
   getMessage,
   getMultiMessage,
@@ -77,16 +77,12 @@ export default class ActionManager {
 
     const command = payload.simulate ? "estimate" : "broadcast"
 
-    // TODO refactor and put into config.js
-    const graphqlHost = urlParams =>
-      (urlParams.graphql ? decodeURIComponent(urlParams.graphql) : false) ||
-      config.graphqlHost
-    const urlParams = getURLParams(window)
+    const graphqlHost = getGraphqlHost()
 
     return fetch(
-      `${graphqlHost(urlParams)}/transaction/${command}`,
+      `${graphqlHost}/transaction/${command}`,
       options
-    ).then(r => r.json())
+    ).then(result => result.json())
   }
 
   async simulateTxAPI(context, type, txProps, memo) {
@@ -164,14 +160,22 @@ export default class ActionManager {
         context.bondDenom,
         context.rewards
       )
-      validators.forEach(validator => {
-        const txMessage = transformMessage(type, context.userAddress, {
-          validatorAddress: validator
+      await Promise.all(
+        validators.map(async validator => {
+          const txMessage = await transformMessage(
+            context.networkId,
+            type,
+            context.userAddress,
+            {
+              validatorAddress: validator
+            }
+          )
+          txMessages.push(txMessage)
         })
-        txMessages.push(txMessage)
-      })
+      )
     } else {
-      const txMessage = transformMessage(
+      const txMessage = await transformMessage(
+        context.networkId,
         type,
         context.userAddress,
         transactionProperties

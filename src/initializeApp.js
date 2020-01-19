@@ -30,7 +30,7 @@ export default function init(urlParams, env = process.env) {
 
   console.log(`Expecting backend at: ${config.graphqlHost}`)
 
-  const apolloProvider = createApolloProvider(urlParams)
+  const apolloProvider = createApolloProvider()
   const apolloClient = apolloProvider.clients.defaultClient
 
   const store = Store({ apollo: apolloClient })
