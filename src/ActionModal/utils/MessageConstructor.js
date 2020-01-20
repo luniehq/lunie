@@ -26,6 +26,13 @@ const getMessageConstructor = async context => {
       return (messageType, userAddress, transactionProperties) =>
         cosmos[messageType](userAddress, transactionProperties)
     }
+    case "regen-mainnet":
+    case "regen-testnet": {
+      const { default: Cosmos } = await import("cosmos-apiV0")
+      const cosmos = new Cosmos(context.url || "", context.chainId || "")
+      return (messageType, userAddress, transactionProperties) =>
+        cosmos[messageType](userAddress, transactionProperties)
+    }
   }
   throw Error("Network is not supported for signing transactions.")
 }
@@ -42,6 +49,11 @@ export const getTransactionSigner = async context => {
       const { createSignedTransaction } = await import("cosmos-apiV2")
       return createSignedTransaction
     }
+    case "regen-mainnet":
+    case "regen-testnet": {
+      const { createSignedTransaction } = await import("cosmos-apiV0")
+      return createSignedTransaction
+    }
   }
   throw Error("Network is not supported for signing transactions.")
 }
@@ -54,6 +66,12 @@ export const getMultiMessage = async (context, messages) => {
     case `cosmos-hub-mainnet`:
     case `cosmos-hub-testnet`: {
       const { default: Cosmos } = await import("cosmos-apiV2")
+      const cosmos = new Cosmos(context.url || "", context.chainId || "")
+      return cosmos.MultiMessage(context.userAddress, messages)
+    }
+    case "regen-mainnet":
+    case "regen-testnet": {
+      const { default: Cosmos } = await import("cosmos-apiV0")
       const cosmos = new Cosmos(context.url || "", context.chainId || "")
       return cosmos.MultiMessage(context.userAddress, messages)
     }
