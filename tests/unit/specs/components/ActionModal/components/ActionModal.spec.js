@@ -211,6 +211,15 @@ describe(`ActionModal`, () => {
     expect(wrapper.element).toMatchSnapshot()
   })
 
+  it("sets the loaded state when apollo is done loading", () => {
+    let self = { loaded: false }
+    ActionModal.watch["$apollo.loading"].call(self, true)
+    expect(self.loaded).toBe(false)
+
+    ActionModal.watch["$apollo.loading"].call(self, false)
+    expect(self.loaded).toBe(true)
+  })
+
   it(`should confirm modal closing`, () => {
     global.confirm = () => true
     const closeModal = jest.fn()
