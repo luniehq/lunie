@@ -1,6 +1,5 @@
 module.exports = {
-  /*
-  "Sign in with local account": async function(browser) {
+  /*"Sign in with local account": async function(browser) {
     prepare(browser)
 
     await browser.click("#use-an-existing-address")
@@ -17,43 +16,7 @@ module.exports = {
     await browser.waitForElementNotPresent(".session", 10000, true)
     openMenu(browser)
     await browser.waitForElementVisible("#sign-out", 10000, true)
-  },
-  */
-  "Create local account": async function(browser) {
-    prepare(browser)
-
-    browser.click("#create-new-address")
-
-    browser.waitForElementVisible("#sign-up-name", 10000, true)
-    await next(browser)
-    browser.expect.elements(".tm-form-msg--error").count.to.equal(1)
-    browser.setValue("#sign-up-name", "demo-account")
-    await next(browser)
-
-    browser.waitForElementVisible("#sign-up-password", 10000, true)
-    await next(browser)
-    browser.expect.elements(".tm-form-msg--error").count.to.equal(1)
-    browser.setValue("#sign-up-password", "1234567890")
-    await next(browser)
-    browser.setValue("#sign-up-password-confirm", "1234567890")
-    await next(browser)
-
-    browser.waitForElementVisible(".seed-table", 10000, true)
-    browser.expect
-
-      .element(".seed-table")
-      .text.to.match(/(\d+\s+\w+\s+){23}\d+\s+\w+/)
-      .before(10000)
-    await next(browser)
-    browser.expect.elements(".tm-form-msg--error").count.to.equal(1)
-    browser.click("#sign-up-warning")
-    await next(browser)
-
-    // check if signed in
-    browser.waitForElementNotPresent(".session", 10000, true)
-    openMenu(browser)
-    browser.waitForElementVisible("#sign-out", 10000, true)
-  },
+  },*/
   "Import local account": async function(browser) {
     prepare(browser)
 
@@ -143,8 +106,19 @@ function prepare(browser) {
   browser.resizeWindow(400, 1024) // force mobile screen to be able to click some out of screen buttons
   browser.url(browser.launch_url + "?insecure=true", () => {
     browser.waitForElementVisible(`body`, 10000, true)
-    browser.waitForElementVisible(`#app-content`, 10000, true, () => {
-      signOut(browser).then(() => signIn(browser))
+    browser.waitForElementVisible(`#app-content`, 10000, true, async () => {
+      // check if we are already singed in
+      const isSigned = await browser.execute(function() {
+        const signOutElement = document.getElementById("sign-out")
+        if (signOutElement) {
+          return true
+        }
+        return false
+      })
+      const resolve = isSigned.value
+        ? signOut(browser)
+        : Promise.resolve("Success")
+      await resolve.then(() => signIn(browser))
       browser.waitForElementVisible("#session-welcome", 10000, true)
     })
   })
