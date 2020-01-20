@@ -33,36 +33,34 @@ export default {
     // Tutorial steps
     steps: [
       {
-        title: "How to get tokens?",
+        title: "How Cosmos Governance Works",
         // Each content array element will be enclosed in a span (newline)
         content: [
-          "Praesent vitae tristique erat.",
-          "Integer ullamcorper ligula vel dolor sagittis nec fermentum risus pharetra.",
-          "Nulla mollis tempus sem, a sollicitudin est facilisis ac."
+          "If you are staking your ATOM on Cosmos, you should also consider participating in it’s on-chain governance. Here we’ll show you how to explore some of the unique governance features that Lunie gives you access to:"
         ]
       },
       {
-        title: "How to get tokens?",
+        title: " Do you have something at stake?",
         content: [
-          "Praesent vitae tristique erat.",
-          "Integer ullamcorper ligula vel dolor sagittis nec fermentum risus pharetra.",
-          "Nulla mollis tempus sem, a sollicitudin est facilisis ac."
+          "If you have tokens staked on this network, you’re eligible to participate in the network’s governance system. If you don’t have tokens yet, click here [link to staking guide]."
         ]
       },
       {
-        title: "How to get tokens?",
+        title: "Proposals",
         content: [
-          "Praesent vitae tristique erat.",
-          "Integer ullamcorper ligula vel dolor sagittis nec fermentum risus pharetra.",
-          "Nulla mollis tempus sem, a sollicitudin est facilisis ac."
+          "In the Proposals view you will see all past and present proposals as well as the “Create Proposal” button to create your own. If you believe in this network and what it stands for, you should participate!!"
         ]
       },
       {
-        title: "How to get tokens?",
+        title: "Deposit Period",
         content: [
-          "Praesent vitae tristique erat.",
-          "Integer ullamcorper ligula vel dolor sagittis nec fermentum risus pharetra.",
-          "Nulla mollis tempus sem, a sollicitudin est facilisis ac."
+          "If a proposal is in the “Deposit Period” you will be able to contribute ATOM to the proposal if you wish to see it move to a voting stage."
+        ]
+      },
+      {
+        title: "Vote!",
+        content: [
+          "If a proposal is in the voting stage you can vote on whether you support it or not."
         ]
       }
     ]
