@@ -24,7 +24,7 @@
     "action_deposit": true,
     "action_vote": true,
     "action_proposal": true,
-    "default": true,
+    "default": false,
     "stakingDenom": "MUON",
     "enabled": true
   },
@@ -53,7 +53,7 @@
     "action_deposit": true,
     "action_vote": true,
     "action_proposal": true,
-    "default": false,
+    "default": true,
     "stakingDenom": "ATOM",
     "enabled": true
   },
@@ -88,7 +88,7 @@
   },
   {
     "id": "terra-testnet",
-    "title": "Terra",
+    "title": "Terra Testnet",
     "chain_id": "soju-0013",
     "api_url": "https://terra-testnet.lunie.io",
     "rpc_url": "wss://terra-testnet.lunie.io/websocket",
@@ -117,7 +117,7 @@
   },
   {
     "id": "emoney-testnet",
-    "title": "e-Money",
+    "title": "e-Money Testnet",
     "chain_id": "lilmermaid-4",
     "api_url": "https://emoney-lilmermaid-4.lunie.io",
     "rpc_url": "wss://emoney-lilmermaid-4.lunie.io/websocket",
