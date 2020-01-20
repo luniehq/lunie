@@ -1,5 +1,3 @@
-const { actionModalCheckout, nextBlock, waitForText } = require("./helpers.js")
-
 module.exports = {
   "Validator Search": async function(browser) {
     // move to according page
