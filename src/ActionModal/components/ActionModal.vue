@@ -17,9 +17,9 @@
         <i class="material-icons">close</i>
       </div>
       <div class="action-modal-header">
-        <span class="action-modal-title">
-          {{ requiresSignIn ? `Sign in required` : title }}
-        </span>
+        <span class="action-modal-title">{{
+          requiresSignIn ? `Sign in required` : title
+        }}</span>
         <Steps
           v-if="
             [defaultStep, feeStep, signStep].includes(step) &&
@@ -63,9 +63,9 @@
             field-id="gasPrice"
             field-label="Gas Price"
           >
-            <span class="input-suffix">
-              {{ network.stakingDenom | viewDenom }}
-            </span>
+            <span class="input-suffix">{{
+              network.stakingDenom | viewDenom
+            }}</span>
             <TmField
               id="gas-price"
               v-model="gasPrice"
@@ -187,9 +187,7 @@
         </div>
         <div v-else-if="step === inclusionStep" class="action-modal-form">
           <TmDataMsg icon="hourglass_empty" :spin="true">
-            <div slot="title">
-              Sent and confirming
-            </div>
+            <div slot="title">Sent and confirming</div>
             <div slot="subtitle">
               Waiting for confirmation from {{ networkId }}.
             </div>
@@ -200,9 +198,7 @@
           class="action-modal-form success-step"
         >
           <TmDataMsg icon="check" :success="true">
-            <div slot="title">
-              {{ notifyMessage.title }}
-            </div>
+            <div slot="title">{{ notifyMessage.title }}</div>
             <div slot="subtitle">
               {{ notifyMessage.body }}
               <br />
@@ -746,6 +742,11 @@ export default {
         }
       },
       update(data) {
+        if (!data.overview) {
+          return {
+            totalRewards: 0
+          }
+        }
         /* istanbul ignore next */
         return {
           ...data.overview,
