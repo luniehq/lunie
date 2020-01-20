@@ -147,7 +147,7 @@ describe(`ActionModal`, () => {
         sequence: 0
       }
     }
-    wrapper.setData({ network, overview, context })
+    wrapper.setData({ network, overview, context, loaded: true })
     wrapper.vm.open()
   })
 
@@ -202,6 +202,13 @@ describe(`ActionModal`, () => {
 
     expect(wrapper.isEmpty()).not.toBe(true)
     expect(wrapper.vm.trackEvent).toHaveBeenCalled()
+  })
+
+  it("shows loading when there is still data to be loaded", () => {
+    wrapper.setData({ loaded: false })
+
+    expect(wrapper.find("TmDataLoading-stub").exists()).toBe(true)
+    expect(wrapper.element).toMatchSnapshot()
   })
 
   it(`should confirm modal closing`, () => {
