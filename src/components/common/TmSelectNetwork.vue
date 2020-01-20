@@ -35,7 +35,9 @@ export default {
       if (this.networks) {
         const sortedNetworks = this.networks
         return sortedNetworks.sort((a, b) => {
-          return a.testnet - b.testnet
+          return b.testnet - a.testnet
+        }).sort((a, b) => {
+          return b.default - a.default
         })
       } else {
         return null
@@ -50,6 +52,7 @@ export default {
             id
             title
             testnet
+            default
           }
         }
       `
