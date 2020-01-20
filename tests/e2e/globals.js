@@ -20,6 +20,8 @@ module.exports = {
       // creating testing account and funding it with the master account
       await createAccountAndFundIt(browser, done, networkData)
       browser.globals.init = true
+    } else {
+      browser.launch_url = browser.globals.feURI
     }
     done()
   },
@@ -109,7 +111,7 @@ async function initialiseDefaults(browser) {
   if (!apiURI) {
     throw new Error(`API uri for "${network}" is not set`)
   }
-  browser.launch_url = feURI
+  browser.globals.feURI = browser.launch_url = feURI
   browser.globals.apiURI = apiURI
   // checking the API for a localhost API
   if (apiURI.indexOf("//localhost:") !== -1) {
