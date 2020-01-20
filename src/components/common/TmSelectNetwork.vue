@@ -34,11 +34,13 @@ export default {
       // sorts networks setting mainnets at the top and the default one the first
       if (this.networks) {
         const sortedNetworks = this.networks
-        return sortedNetworks.sort((a, b) => {
-          return b.testnet - a.testnet
-        }).sort((a, b) => {
-          return b.default - a.default
-        })
+        return sortedNetworks
+          .sort((a, b) => {
+            return b.testnet - a.testnet
+          })
+          .sort((a, b) => {
+            return b.default - a.default
+          })
       } else {
         return null
       }

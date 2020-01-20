@@ -4,10 +4,7 @@
       <i class="material-icons circle">{{ icon }}</i>
     </div>
     <div v-if="img" class="tm-li-session-icon">
-      <img
-        :src="`img/networks/${img}.png`"
-        :alt="`logo for network ${img}`"
-      />
+      <img :src="`img/networks/${img}.png`" :alt="`logo for network ${img}`" />
     </div>
     <div class="tm-li-session-text">
       <div class="tm-li-session-title">
