@@ -1,7 +1,13 @@
 <template>
   <router-link :to="route" class="tm-li-session">
-    <div class="tm-li-session-icon">
+    <div v-if="icon" class="tm-li-session-icon">
       <i class="material-icons circle">{{ icon }}</i>
+    </div>
+    <div v-if="img" class="tm-li-session-icon">
+      <img
+        :src="`img/networks/${img}.png`"
+        :alt="`logo for network ${img}`"
+      />
     </div>
     <div class="tm-li-session-text">
       <div class="tm-li-session-title">
@@ -20,7 +26,11 @@ export default {
   props: {
     icon: {
       type: String,
-      required: true
+      default: ``
+    },
+    img: {
+      type: String,
+      default: ``
     },
     title: {
       type: String,
@@ -57,6 +67,12 @@ export default {
 
 .tm-li-session-icon i {
   font-size: 1.25rem;
+}
+
+.tm-li-session-icon img {
+  max-height: 100%;
+  max-width: 52px;
+  display: block;
 }
 
 .tm-li-session-title {

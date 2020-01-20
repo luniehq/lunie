@@ -6,7 +6,7 @@
         <LiSession
           v-for="network in sortedNetworks"
           :key="network.title"
-          icon="language"
+          :img="network.id"
           :title="network.title"
           :route="{ name: 'create', params: { network: network.id } }"
         />
