@@ -4,7 +4,7 @@
       <h2 class="session-title">Select a Network</h2>
       <div class="select-networks-list">
         <LiSession
-          v-for="network in networks"
+          v-for="network in sortedNetworks"
           :key="network.title"
           icon="language"
           :title="network.title"
@@ -29,13 +29,27 @@ export default {
   data: () => ({
     networks: []
   }),
+  computed: {
+    sortedNetworks() {
+      // sorts networks setting mainnets at the top and the default one the first
+      if (this.networks) {
+        const sortedNetworks = this.networks
+        return sortedNetworks.sort((a, b) => {
+          return a.testnet - b.testnet
+        })
+      } else {
+        return null
+      }
+    }
+  },
   apollo: {
     networks: {
       query: gql`
         query Networks {
           networks {
-            title
             id
+            title
+            testnet
           }
         }
       `

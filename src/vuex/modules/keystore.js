@@ -76,11 +76,8 @@ export default () => {
 function getCosmosAddressCreator(network, networkPrefix) {
   return async seedPhrase => {
     const { getNewWalletFromSeed } = await import("@lunie/cosmos-keys")
-    if (networkPrefix) {
-      return getNewWalletFromSeed(seedPhrase, networkPrefix)
-    } else {
-      return getNewWalletFromSeed(seedPhrase, config.bech32Prefixes[network])
-    }
+    networkPrefix = networkPrefix || config.bech32Prefixes[network]
+    return getNewWalletFromSeed(seedPhrase, networkPrefix)
   }
 }
 
