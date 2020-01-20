@@ -74,6 +74,7 @@
 
 <script>
 import { mapState, mapGetters } from "vuex"
+import config from "src/../config"
 import { required } from "vuelidate/lib/validators"
 import TmBtn from "common/TmBtn"
 import SessionFrame from "common/SessionFrame"
@@ -107,9 +108,10 @@ export default {
     ...mapState([`session`]),
     ...mapGetters([`network`]),
     filteredAddresses() {
-      const networkPrefix = this.network.split(`-`)[0]
       return this.session.addresses
-        .filter(address => address.address.startsWith(networkPrefix))
+        .filter(address =>
+          address.address.startsWith(config.bech32Prefixes[this.network])
+        )
         .slice(-3)
     }
   },
