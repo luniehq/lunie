@@ -324,6 +324,33 @@ export default {
         return data.delegations
       }
     },
+    balance: {
+      query: gql`
+        query BalanceModalPropos(
+          $networkId: String!
+          $address: String!
+          $denom: String!
+        ) {
+          balance(networkId: $networkId, address: $address, denom: $denom) {
+            amount
+            denom
+          }
+        }
+      `,
+      skip() {
+        return !this.userAddress
+      },
+      variables() {
+        return {
+          networkId: this.network,
+          address: this.userAddress,
+          denom: this.denom
+        }
+      },
+      update(data) {
+        return data.balance || { amount: 0 }
+      }
+    },
     denom: {
       query: gql`
         query NetworksUndelegationModal($networkId: String!) {
@@ -342,7 +369,7 @@ export default {
       },
       update(data) {
         /* istanbul ignore next */
-        return data.network.stakingDenom
+        return data.network ? data.network.stakingDenom : ""
       }
     },
     validators: {
@@ -364,7 +391,7 @@ export default {
       },
       update(data) {
         /* istanbul ignore next */
-        return data.validators
+        return data.validators || []
       }
     },
 
