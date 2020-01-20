@@ -99,16 +99,16 @@ export default {
       set(value) {
         this.$store.commit(`updateField`, { field: `signUpName`, value })
       }
+    },
+    networkId() {
+      return this.$route.params.network
     }
   },
   methods: {
-    prefix() {
-      return this.$route.params.network.split(`-`)[0]
-    },
     async onSubmit() {
       this.$v.$touch()
       if (this.$v.$error) return
-      this.$router.push(`/create/${this.prefix()}/password`)
+      this.$router.push(`/create/${this.networkId}/password`)
     }
   },
   validations: () => ({

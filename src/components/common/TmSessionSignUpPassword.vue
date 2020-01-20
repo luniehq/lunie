@@ -108,16 +108,16 @@ export default {
           value
         })
       }
+    },
+    networkId() {
+      return this.$route.params ? this.$route.params.networkId : undefined
     }
   },
   methods: {
-    prefix() {
-      return this.$route.params.prefix
-    },
     async onSubmit() {
       this.$v.$touch()
       if (this.$v.$error) return
-      this.$router.push(`/create/${this.prefix()}/confirm`)
+      this.$router.push(`/create/${this.networkId}/confirm`)
     }
   },
   validations: () => ({

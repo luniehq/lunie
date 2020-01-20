@@ -49,6 +49,7 @@
 
 <script>
 import { mapState, mapGetters } from "vuex"
+import config from "src/../config"
 import { sameAs } from "vuelidate/lib/validators"
 import TmBtn from "common/TmBtn"
 import TmFormGroup from "common/TmFormGroup"
@@ -90,6 +91,9 @@ export default {
       set(value) {
         this.$store.commit(`updateField`, { field: `signUpWarning`, value })
       }
+    },
+    networkId() {
+      return this.$route.params ? this.$route.params.networkId : undefined
     }
   },
   mounted() {
@@ -104,19 +108,17 @@ export default {
     this.$store.dispatch(`resetSignUpData`)
   },
   methods: {
-    prefix() {
-      return this.$route.params.prefix
-    },
     async onSubmit() {
       this.$v.$touch()
       if (this.$v.$error) return
       try {
+        console.log("prefix", config.bech32Prefixes[this.networkId])
         await this.$store.dispatch(`createKey`, {
           seedPhrase: this.signup.signUpSeed,
           password: this.signup.signUpPassword,
           name: this.signup.signUpName,
           network: this.networkId,
-          networkPrefix: this.prefix()
+          prefix: config.bech32Prefixes[this.networkId]
         })
         this.$router.push(`/`)
       } catch (error) {
