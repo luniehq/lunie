@@ -14,6 +14,9 @@ module.exports = {
   asyncHookTimeout: 60000,
 
   async beforeEach(browser, done) {
+    // standardize window format
+    browser.resizeWindow(1350, 1080)
+
     if (!browser.globals.init) {
       // default settings
       let networkData = await initialiseDefaults(browser)
@@ -117,7 +120,7 @@ async function initialiseDefaults(browser) {
   }
   // checking if network is local, the API should be local too
   if (network.indexOf("local-") === 0) {
-    if (apiURI.indexOf("//localhost:") === -1){
+    if (apiURI.indexOf("//localhost:") === -1) {
       throw new Error(
         `Can't test local network "${network}" against nonlocal API`
       )
@@ -129,6 +132,9 @@ async function initialiseDefaults(browser) {
       function(apiURI) {
         // setting the api to localStorage
         window.localStorage.setItem("persistentapi", apiURI)
+
+        // clear data from older tests
+        window.localStorage.removeItem(`cosmos-wallets-index`)
       },
       [apiURI]
     )
@@ -324,7 +330,6 @@ async function switchToAccount(
         },
         [{ address, network, wallet, name }]
       )
-      browser.resizeWindow(1350, 1080)
       browser.refresh()
       // wait until on portfolio page to make sure future tests have the same state
       browser.expect.element(".balance-header").to.be.visible.before(10000)
