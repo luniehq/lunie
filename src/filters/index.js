@@ -21,6 +21,8 @@ export const percentOrPending = function(value, totalValue, pending) {
 export const formatBech32 = (address, longForm = false, length = 4) => {
   if (!address) {
     return `Address Not Found`
+  } else if (address.startsWith(`0x`)) {
+    return address.slice(0, 6) + `…` + address.slice(-1 * length)
   } else if (address.indexOf(`1`) === -1) {
     return `Not A Valid Bech32 Address`
   } else if (longForm) {
@@ -36,3 +38,6 @@ export const resolveValidatorName = (address, validators) => {
   }
   return formatBech32(address)
 }
+
+export const validatorEntry = validator =>
+  `${validator.name} - ${formatBech32(validator.operatorAddress, false, 20)}`

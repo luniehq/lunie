@@ -32,10 +32,24 @@ exports[`SessionFrame shows an overview of all wallets to sign in with from the 
     </div>
   </div>
    
-  <tmbtn-stub
+  <div
     class="session-close"
-    color="secondary"
-    value="Back to Lunie"
-  />
+  >
+    <tmbtn-stub
+      class="session-close-button"
+      color="secondary"
+      value="Back to Lunie"
+    />
+     
+    <a
+      class="user-box"
+    >
+      <i
+        class="material-icons"
+      >
+        close
+      </i>
+    </a>
+  </div>
 </div>
 `;

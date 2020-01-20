@@ -1,30 +1,34 @@
 <template>
-  <div>
-    <div class="tx__content__caption">
-      <p>
-        {{ caption }}
-        <b> {{ coin.amount | atoms | prettyLong }}</b>
-        <span> {{ coin.denom | viewDenom }}</span>
-      </p>
-    </div>
-    <div class="tx__content__information">
+  <div class="tx__content">
+    <TransactionIcon
+      :transaction-group="transaction.group"
+      :transaction-type="type"
+    />
+    <div class="tx__content__left">
+      <h3>{{ caption }}</h3>
       <template v-if="toYourself">
-        To yourself!
+        <span>To yourself —&nbsp;</span>
+        <Bech32 :address="transaction.value.to_address" />
       </template>
       <template v-else-if="sentFromSessionAddress">
-        To&nbsp;
+        <span>To&nbsp;</span>
         <Bech32 :address="transaction.value.to_address" />
       </template>
       <template v-else-if="receivedToSessionAddress">
-        From&nbsp;
+        <span>From&nbsp;</span>
         <Bech32 :address="transaction.value.from_address" />
       </template>
       <template v-else>
-        From&nbsp;
-        <Bech32 :address="transaction.value.from_address" />&nbsp;to&nbsp;
+        <span>From&nbsp;</span>
+        <Bech32 :address="transaction.value.from_address" />
+        <i class="material-icons arrow">arrow_right_alt</i>
         <Bech32 :address="transaction.value.to_address" />
       </template>
-      <span v-if="transaction.memo">&nbsp;- {{ transaction.memo }}</span>
+    </div>
+    <div class="tx__content__right">
+      <p class="amount">
+        {{ coin.amount | atoms | prettyLong }} {{ coin.denom | viewDenom }}
+      </p>
     </div>
   </div>
 </template>
@@ -33,6 +37,7 @@
 import { atoms, viewDenom, prettyLong } from "scripts/num.js"
 import Bech32 from "common/Bech32"
 import { getCoin } from "scripts/transaction-utils"
+import TransactionIcon from "../TransactionIcon"
 
 export default {
   name: `send-message-details`,
@@ -42,7 +47,8 @@ export default {
     prettyLong
   },
   components: {
-    Bech32
+    Bech32,
+    TransactionIcon
   },
   props: {
     transaction: {
@@ -76,6 +82,16 @@ export default {
         this.sessionAddress === this.transaction.value.to_address &&
         this.sessionAddress !== this.transaction.value.from_address
       )
+    },
+    type() {
+      if (
+        this.transaction.value.to_address === this.sessionAddress &&
+        this.transaction.value.from_address !== this.sessionAddress
+      ) {
+        return "Received"
+      } else {
+        return "Sent"
+      }
     },
     caption() {
       if (

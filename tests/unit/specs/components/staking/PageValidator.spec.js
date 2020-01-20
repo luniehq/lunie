@@ -85,8 +85,33 @@ describe(`PageValidator`, () => {
   it(`if user has signed in`, () => {
     expect(wrapper.element).toMatchSnapshot()
   })
+  it(`if user has signed in - status text banned`, () => {
+    wrapper.setProps({ validator: { statusDetailed: "banned" } })
+    expect(wrapper.element).toMatchSnapshot()
+  })
+  it(`if user has signed in - status text inactive`, () => {
+    wrapper.setProps({ validator: { statusDetailed: "inactive" } })
+    expect(wrapper.element).toMatchSnapshot()
+  })
   it(`if user hasn't signed in`, () => {
     $store.state.session.signedIn = false
     expect(wrapper.element).toMatchSnapshot()
+  })
+  it(`if uptimePercentage is blank`, () => {
+    wrapper.setProps({ validator: { uptimePercentage: `` } })
+    expect(wrapper.element).toMatchSnapshot()
+  })
+})
+
+describe(`isBlankField method`, () => {
+  it(`returns "--"`, async () => {
+    validator.maxCommission = null
+    const percent = jest.fn()
+    const afterFilter = PageValidator.methods.isBlankField(
+      validator.maxCommission,
+      percent
+    )
+
+    expect(afterFilter).toBe(`--`)
   })
 })

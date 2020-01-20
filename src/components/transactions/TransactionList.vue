@@ -97,7 +97,7 @@ export default {
 </script>
 <style scoped>
 h3 {
-  margin: 2rem 0 0.25rem 1rem;
+  margin: 2rem 0 0.5rem 1.5rem;
   color: var(--dim);
   font-size: var(--sm);
   font-weight: 500;

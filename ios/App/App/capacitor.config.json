@@ -9,7 +9,12 @@
   },
   "plugins": {
     "Keyboard": {
+      "resize": "none",
       "style": "dark"
+    },
+    "IntercomPlugin": {
+      "ios-apiKey": "ios_sdk-xxxx",
+      "ios-appId": "yyyy"
     }
   }
 }

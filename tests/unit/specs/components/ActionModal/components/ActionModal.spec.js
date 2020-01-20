@@ -15,16 +15,28 @@ let mockSend = jest.fn(() => ({
 }))
 let mockSetContext = jest.fn()
 
+jest.mock("src/../config.js", () => ({
+  default_gas_price: 2.5e-8,
+  graphqlHost: "http://localhost:4000"
+}))
+
 jest.mock(`src/ActionModal/utils/ActionManager.js`, () => {
   return jest.fn(() => {
     return {
       setMessage: jest.fn(),
       setContext: mockSetContext,
       simulate: mockSimulate,
-      send: mockSend
+      send: mockSend,
+      simulateTxAPI: mockSimulate,
+      sendTxAPI: mockSend
     }
   })
 })
+
+// TODO move into global mock to not duplicate everywhere
+jest.mock("@sentry/browser", () => ({
+  withScope: () => {}
+}))
 
 describe(`ActionModal`, () => {
   let wrapper, $store, $apollo
@@ -76,7 +88,12 @@ describe(`ActionModal`, () => {
   ]
 
   $apollo = {
-    skipAll: jest.fn(() => false)
+    skipAll: jest.fn(() => false),
+    queries: {
+      overview: {
+        refetch: jest.fn()
+      }
+    }
   }
 
   beforeEach(() => {
@@ -94,11 +111,11 @@ describe(`ActionModal`, () => {
           currrentModalOpen: false
         },
         overview,
-        network,
         delegations
       },
       getters: {
         connected: true,
+        network,
         networkId: "testnet",
         isExtensionAccount: false
       }
@@ -109,6 +126,7 @@ describe(`ActionModal`, () => {
       propsData: {
         title: `Send`,
         validate: jest.fn(),
+        featureFlag: `send`,
         transactionData: {
           type: "MsgSend",
           denom: "uatom",
@@ -124,7 +142,12 @@ describe(`ActionModal`, () => {
       },
       stubs: ["router-link"]
     })
-    wrapper.setData({ network, overview })
+    const context = {
+      account: {
+        sequence: 0
+      }
+    }
+    wrapper.setData({ network, overview, context })
     wrapper.vm.open()
   })
 
@@ -135,10 +158,13 @@ describe(`ActionModal`, () => {
     const $store = { dispatch: jest.fn() }
     const self = {
       $store,
+      $apollo,
       actionManager: {
         setContext: () => {},
         simulate: () => 12345,
-        send: ActionManagerSend
+        send: ActionManagerSend,
+        simulateTxAPI: jest.fn(),
+        sendTxAPI: jest.fn().mockResolvedValue({ hash: 12345 })
       },
       transactionData: {
         type: "TYPE",
@@ -151,14 +177,18 @@ describe(`ActionModal`, () => {
       submissionErrorPrefix: `PREFIX`,
       trackEvent: jest.fn(),
       connectLedger: () => {},
-      onSendingFailed: jest.fn()
+      onSendingFailed: jest.fn(),
+      createContext: jest.fn()
     }
     await ActionModal.methods.submit.call(self)
     expect(self.onSendingFailed).toHaveBeenCalledWith(
-      "some kind of error message"
+      new Error("some kind of error message")
     )
 
-    ActionModal.methods.onSendingFailed.call(self, "some kind of error message")
+    ActionModal.methods.onSendingFailed.call(
+      self,
+      new Error("some kind of error message")
+    )
     expect(self.submissionError).toEqual(`PREFIX: some kind of error message.`)
   })
 
@@ -212,13 +242,6 @@ describe(`ActionModal`, () => {
     wrapper.vm.step = `sign`
     expect(wrapper.vm.selectedSignMethod).toBe(`ledger`)
     expect(wrapper.find(`#password`).exists()).toBe(false)
-  })
-
-  it(`should dispatch connectLedgerApp`, () => {
-    const $store = { dispatch: jest.fn() }
-    const self = { $store }
-    ActionModal.methods.connectLedger.call(self)
-    expect($store.dispatch).toHaveBeenCalledWith(`connectLedgerApp`)
   })
 
   describe(`should show the action modal`, () => {
@@ -406,6 +429,35 @@ describe(`ActionModal`, () => {
       })
     })
 
+    it(`should simulate transaction to get estimated gas using Transaction API`, async () => {
+      const transactionProperties = {
+        type: "MsgSend",
+        toAddress: "comsos12345",
+        amounts: [
+          {
+            amount: "100000",
+            denom: "uatoms"
+          }
+        ],
+        memo: "A memo"
+      }
+      const data = {
+        step: `details`,
+        gasEstimate: null,
+        submissionError: null,
+        useTxService: true
+      }
+      wrapper.vm.createContext = jest.fn()
+      wrapper.setProps({ transactionProperties })
+      wrapper.setData(data)
+      await wrapper.vm.simulate()
+      wrapper.vm.$nextTick(() => {
+        expect(wrapper.vm.gasEstimate).toBe(123456)
+        expect(wrapper.vm.submissionError).toBe(null)
+        expect(wrapper.vm.step).toBe("fees")
+      })
+    })
+
     it(`should max fees to the available amount`, async () => {
       const transactionProperties = {
         type: "MsgSend",
@@ -445,7 +497,8 @@ describe(`ActionModal`, () => {
         submissionError: null,
         actionManager: {
           simulate: mockSimulateFail
-        }
+        },
+        useTxService: false
       }
 
       const transactionProperties = {
@@ -473,9 +526,7 @@ describe(`ActionModal`, () => {
   })
 
   describe(`submit`, () => {
-    // Transactions are confirmed int the apollo subscription methods
-    // which we are yet to test.
-    xit(`should submit transaction`, async () => {
+    it(`should submit transaction`, async () => {
       const transactionProperties = {
         type: "MsgSend",
         toAddress: "comsos12345",
@@ -498,15 +549,34 @@ describe(`ActionModal`, () => {
       wrapper.vm.$emit = jest.fn()
       await wrapper.vm.submit()
       expect(wrapper.vm.submissionError).toBe(null)
-      expect(wrapper.vm.$emit).toHaveBeenCalledWith(`txIncluded`, {
-        txMeta: {
-          gasEstimate: 12345,
-          gasPrice: { amount: "0.000000025", denom: "uatom" },
-          password: null,
-          submitType: "local"
-        },
-        txProps: { denom: "uatom", validatorAddress: "cosmos12345" }
-      })
+      expect(wrapper.vm.txHash).toBe("HASH1234HASH")
+    })
+
+    it(`should submit transaction using transactino api`, async () => {
+      const transactionProperties = {
+        type: "MsgSend",
+        toAddress: "comsos12345",
+        amounts: [
+          {
+            amount: "10",
+            denom: "atoms"
+          }
+        ],
+        memo: "A memo"
+      }
+      const data = {
+        step: `sign`,
+        gasEstimate: 12345,
+        submissionError: null,
+        useTxService: true
+      }
+
+      wrapper.setProps({ transactionProperties })
+      wrapper.setData(data)
+      wrapper.vm.$emit = jest.fn()
+      await wrapper.vm.submit()
+      expect(wrapper.vm.submissionError).toBe(null)
+      expect(wrapper.vm.txHash).toBe("HASH1234HASH")
     })
 
     it("should fail if submitting fails", async () => {
@@ -520,7 +590,8 @@ describe(`ActionModal`, () => {
         submissionError: null,
         actionManager: {
           send: mockSubmitFail
-        }
+        },
+        useTxService: false
       }
 
       const transactionProperties = {
@@ -543,43 +614,6 @@ describe(`ActionModal`, () => {
       expect(wrapper.html()).toContain("Transaction failed: invalid request.")
       expect(wrapper.vm.step).toBe("sign")
     })
-
-    it("should fail if can't connect to Ledger", async () => {
-      $store.dispatch = jest.fn(() =>
-        Promise.reject(new Error(`couldn't find Ledger`))
-      )
-
-      const data = {
-        step: `sign`,
-        gasEstimate: null,
-        submissionError: null,
-        actionManager: {},
-        selectedSignMethod: "ledger"
-      }
-
-      const transactionProperties = {
-        type: "MsgSend",
-        toAddress: "comsos12345",
-        amounts: [
-          {
-            amount: "100000",
-            denom: "uatoms"
-          }
-        ],
-        memo: "A memo"
-      }
-
-      wrapper.setProps({ transactionProperties })
-      wrapper.setData(data)
-      wrapper.vm.submit()
-      await wrapper.vm.$nextTick()
-      await wrapper.vm.$nextTick()
-
-      expect(wrapper.html()).toContain(
-        "Transaction failed: couldn't find Ledger."
-      )
-      expect(wrapper.vm.step).toBe("sign")
-    })
   })
 
   describe(`runs validation and changes step`, () => {
@@ -595,7 +629,12 @@ describe(`ActionModal`, () => {
         isValidInput: jest.fn(() => true),
         selectedSignMethod: `local`,
         step: `details`,
-        validateChangeStep: jest.fn(() => {})
+        validateChangeStep: jest.fn(() => {}),
+        context: {
+          account: {
+            sequence: 0
+          }
+        }
       }
     })
 
@@ -777,18 +816,5 @@ describe(`ActionModal`, () => {
     await wrapper.vm.open()
     expect(wrapper.element).toMatchSnapshot()
     expect(wrapper.exists("featurenotavailable-stub")).toBe(true)
-  })
-
-  describe(`windows`, () => {
-    it(`shows windows warning`, async () => {
-      wrapper.setData({
-        session: {
-          windowsDevice: true,
-          windowsWarning: "WINDOWS WARNING MESSAGE"
-        }
-      })
-      expect(wrapper.element).toMatchSnapshot()
-      expect(wrapper.text()).toMatch(/WINDOWS WARNING MESSAGE/)
-    })
   })
 })

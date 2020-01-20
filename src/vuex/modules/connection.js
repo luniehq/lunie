@@ -1,6 +1,7 @@
 import config from "src/../config"
+import { Networks } from "../../gql"
 
-export default function() {
+export default function({ apollo }) {
   const state = {
     stopConnecting: false,
     connected: true, // TODO do connection test
@@ -17,10 +18,33 @@ export default function() {
   }
 
   const actions = {
-    async checkForPersistedNetwork({ commit }) {
-      const network = localStorage.getItem(`network`)
-      if (network) {
-        await commit(`setNetworkId`, JSON.parse(network))
+    async checkForPersistedNetwork({ dispatch, commit }) {
+      const persistedNetwork = JSON.parse(localStorage.getItem(`network`))
+      const { data } = await apollo.query({
+        query: Networks,
+        fetchPolicy: "cache-first"
+      })
+      let availNetworks = Object.values(data.networks).map(
+        network => network.id
+      )
+      if (persistedNetwork && availNetworks.includes(persistedNetwork)) {
+        await commit(`setNetworkId`, persistedNetwork)
+      } else {
+        const defaultNetwork = state.externals.config.network
+        if (availNetworks.find(network => network === defaultNetwork)) {
+          await dispatch(
+            `setNetwork`,
+            data.networks.find(({ id }) => id === defaultNetwork)
+          )
+        } else {
+          // otherwise we connect to a fallback network
+          await dispatch(
+            `setNetwork`,
+            data.networks.find(
+              ({ id }) => id === state.externals.config.fallbackNetwork
+            )
+          )
+        }
       }
     },
     async persistNetwork(store, network) {
@@ -30,6 +54,7 @@ export default function() {
       dispatch(`signOut`)
       dispatch(`persistNetwork`, network)
       commit("setNetworkId", network.id)
+      dispatch(`checkForPersistedSession`) // check for persisted session on that network
       console.info(`Connecting to: ${network.id}`)
     }
   }

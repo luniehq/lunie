@@ -134,6 +134,24 @@
   padding: 0 1rem;
 }
 
+.user-box {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+}
+
+.user-box i {
+  padding: 0.25rem;
+  border-radius: 50%;
+  background: var(--bc-dim);
+  color: var(--dim);
+}
+
+.user-box i:hover {
+  background: var(--bc);
+}
+
 .session .material-icons.circle.back {
   background: var(--app-fg);
   color: var(--dim);
@@ -158,6 +176,10 @@
     display: none;
   }
 
+  .session-close-mobile {
+    display: none;
+  }
+
   .session-paragraph {
     display: none;
   }
@@ -166,7 +188,7 @@
 @media screen and (max-width: 666px) {
   .session {
     height: 100vh;
-    padding: 1.5rem 1rem 1rem;
+    padding: 3rem 1rem 1rem;
   }
 
   .session-outer-container {
@@ -194,10 +216,31 @@
   .session-footer button {
     width: 100%;
   }
+
+  .session-close-mobile {
+    display: block;
+    position: absolute;
+    right: 1.9rem;
+    top: 4.4rem;
+  }
+
+  .session-close-mobile i {
+    font-size: 1.25rem;
+  }
+
+  .session-close {
+    display: none;
+  }
 }
 
 @media screen and (max-width: 1023px) {
-  .session-frame .session-close {
+  .session-close .session-close-button {
+    display: none;
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  .session-close .user-box {
     display: none;
   }
 }

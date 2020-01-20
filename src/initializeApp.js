@@ -30,7 +30,7 @@ export default function init(urlParams, env = process.env) {
 
   console.log(`Expecting backend at: ${config.graphqlHost}`)
 
-  const apolloProvider = createApolloProvider(urlParams)
+  const apolloProvider = createApolloProvider()
   const apolloClient = apolloProvider.clients.defaultClient
 
   const store = Store({ apollo: apolloClient })
@@ -45,9 +45,10 @@ export default function init(urlParams, env = process.env) {
   setOptions(urlParams, store)
 
   store.dispatch(`loadLocalPreferences`)
-  store.dispatch(`checkForPersistedSession`)
+  store.dispatch(`checkForPersistedNetwork`).then(() => {
+    store.dispatch(`checkForPersistedSession`)
+  })
   store.dispatch(`checkForPersistedAddresses`)
-  store.dispatch(`checkForPersistedNetwork`)
 
   listenToExtensionMessages(store)
 

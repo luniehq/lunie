@@ -6,6 +6,7 @@
       value="Help / Feedback"
       type="secondary"
       size="small"
+      @click.native="handleIntercom()"
     />
     <div
       v-if="!$apollo.queries.block.loading"
@@ -39,6 +40,7 @@
             name: `block`,
             params: { height: block.height }
           }"
+          @click.native="handleClick()"
         >
           #{{ block.height | prettyInt }}
         </router-link>
@@ -58,7 +60,6 @@
         alt="a small spinning circle to display loading"
       />
       <div
-        v-tooltip.top="'Seeking connection'"
         class="
         tm-connected-network__string
         tm-connected-network__string--connecting
@@ -70,10 +71,11 @@
   </div>
 </template>
 <script>
-import { mapGetters } from "vuex"
+import { mapState, mapGetters } from "vuex"
 import { prettyInt } from "scripts/num"
 import TmBtn from "common/TmBtn"
 import gql from "graphql-tag"
+import config from "src/../config"
 
 export default {
   name: `tm-connected-network`,
@@ -87,12 +89,20 @@ export default {
     block: {}
   }),
   computed: {
+    ...mapState([`intercom`]),
     ...mapGetters([`network`]),
     networkTooltip() {
-      if (!this.$apollo.queries.block.loading) {
-        return `You're connected to ${this.block.chainId}.`
-      } else {
-        return `Seeking connection`
+      return `You're connected to ${this.block.chainId}.`
+    }
+  },
+  methods: {
+    handleClick() {
+      this.$emit(`close-menu`)
+      window.scrollTo(0, 0)
+    },
+    handleIntercom() {
+      if (config.mobileApp) {
+        this.$store.dispatch(`displayMessenger`)
       }
     }
   },
@@ -107,6 +117,7 @@ export default {
         }
       `,
       variables() {
+        /* istanbul ignore next */
         return {
           networkId: this.network
         }
@@ -115,6 +126,7 @@ export default {
     $subscribe: {
       blockAdded: {
         variables() {
+          /* istanbul ignore next */
           return {
             networkId: this.network
           }
@@ -130,6 +142,7 @@ export default {
           `
         },
         result({ data }) {
+          /* istanbul ignore next */
           this.block = data.blockAdded
         }
       }
@@ -147,6 +160,7 @@ export default {
   left: 0;
   right: 0;
   max-width: 208px; /* sidebar width minus margin */
+  background: var(--app-nav);
 }
 
 .intercom-button {
@@ -215,9 +229,15 @@ export default {
   background: var(--success);
 }
 
-@media screen and (max-width: 767px) {
+@media screen and (max-width: 1023px) {
   .sidebar-bottom {
     max-width: 100%;
+  }
+}
+
+@media screen and (max-height: 600px) {
+  .sidebar-bottom {
+    position: static;
   }
 }
 </style>

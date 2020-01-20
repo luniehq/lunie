@@ -6,11 +6,54 @@
 
     <template v-if="session.browserWithLedgerSupport">
       <div class="session-main">
-        <p v-if="session.windowsDevice" class="form-message notice">
-          {{ session.windowsWarning }}
-        </p>
         <HardwareState :loading="status === `connect` ? false : true">
-          <template v-if="status === `connect` || status === `detect`">
+          <template v-if="isWindows && !hasHIDEnabled">
+            Due to recent Ledger updates, using a Ledger on Windows now requires
+            "Experimental Web Platform features" to be enabled.
+            <template v-if="isChrome">
+              <br />
+              <br />
+              <p>
+                Please copy the link below into a new tab and set the
+                "Experimental Web Platform features" flag to "Enabled":
+              </p>
+              <div
+                v-clipboard:copy="hidFeatureLink"
+                v-clipboard:success="() => onCopy()"
+                class="copy-feature-link"
+              >
+                {{ hidFeatureLink }}
+                <i
+                  class="material-icons copied"
+                  :class="{ active: copySuccess }"
+                >
+                  check
+                </i>
+              </div>
+              <br />
+              <br />
+            </template>
+          </template>
+          <template v-else-if="isLinux">
+            Since we switched to WebUSB Linux users may experience connection
+            issues with their devices.
+            <br />
+            <br />
+            Please visit the following site to learn more about how to fix them:
+            <div
+              v-clipboard:copy="linuxLedgerConnectionLink"
+              v-clipboard:success="() => onCopy()"
+              class="copy-feature-link"
+            >
+              {{ linuxLedgerConnectionLink }}
+              <i class="material-icons copied" :class="{ active: copySuccess }">
+                check
+              </i>
+            </div>
+            <br />
+            <br />
+          </template>
+          <template v-else-if="status === `connect` || status === `detect`">
             <p>
               Please plug in your Ledger&nbsp;Nano and open the Cosmos Ledger
               app
@@ -21,7 +64,11 @@
           </p>
           <TmBtn
             :value="submitCaption"
-            :disabled="status === `connect` ? false : `disabled`"
+            :disabled="
+              status === `connect` || (isWindows && !hasHIDEnabled)
+                ? false
+                : `disabled`
+            "
             @click.native="signIn()"
           />
         </HardwareState>
@@ -30,8 +77,7 @@
 
     <div v-else class="session-main">
       <p>
-        Please use Chrome, Opera, or Brave. Ledger is not supported in this
-        browser.
+        Please use Chrome or Brave. Ledger is not supported in this browser.
       </p>
     </div>
   </SessionFrame>
@@ -39,9 +85,11 @@
 
 <script>
 import TmBtn from "common/TmBtn"
-import { mapState } from "vuex"
+import { mapState, mapGetters } from "vuex"
 import HardwareState from "common/TmHardwareState"
 import SessionFrame from "common/SessionFrame"
+import { getAddressFromLedger } from "scripts/ledger"
+
 export default {
   name: `session-hardware`,
   components: {
@@ -52,15 +100,33 @@ export default {
   data: () => ({
     status: `connect`,
     connectionError: null,
-    address: null
+    address: null,
+    copySuccess: false,
+    hidFeatureLink: `chrome://flags/#enable-experimental-web-platform-features`,
+    linuxLedgerConnectionLink: `https://support.ledger.com/hc/en-us/articles/360019301813-Fix-USB-issues`,
+    navigator: window.navigator
   }),
   computed: {
     ...mapState([`session`]),
+    ...mapGetters({ networkId: `network` }),
     submitCaption() {
       return {
         connect: "Sign In",
         detect: "Waiting for Ledger"
       }[this.status]
+    },
+    isWindows() {
+      return this.navigator.platform.indexOf("Win") > -1
+    },
+    isLinux() {
+      return this.navigator.platform.indexOf("Lin") > -1
+    },
+    hasHIDEnabled() {
+      return !!this.navigator.hid
+    },
+    isChrome() {
+      const ua = navigator.userAgent.toLowerCase()
+      return /chrome|crios/.test(ua) && !/edge|opr\//.test(ua)
     }
   },
   methods: {
@@ -69,7 +135,7 @@ export default {
       this.status = `detect`
       this.address = null
       try {
-        this.address = await this.$store.dispatch(`connectLedgerApp`)
+        this.address = await getAddressFromLedger(this.networkId)
         this.$router.push(`/`)
       } catch ({ message }) {
         this.status = `connect`
@@ -81,6 +147,12 @@ export default {
         sessionType: `ledger`,
         address: this.address
       })
+    },
+    onCopy() {
+      this.copySuccess = true
+      setTimeout(() => {
+        this.copySuccess = false
+      }, 2500)
     }
   }
 }
@@ -128,5 +200,34 @@ export default {
   font-size: 14px;
   font-style: normal;
   width: 100%;
+}
+
+.copy-feature-link {
+  display: initial;
+  font-size: 0.8rem;
+  cursor: pointer;
+  margin-bottom: 0.2rem;
+  color: var(--link);
+}
+
+.copy-feature-link .material-icons {
+  font-size: 12px;
+}
+
+.copy-feature-link .copied {
+  padding-bottom: 2px;
+  padding-right: 0;
+  transition: opacity 500ms ease;
+  color: var(--success);
+  opacity: 0;
+}
+
+.copy-feature-link .copied.active {
+  opacity: 1;
+}
+
+.session-main .button {
+  margin: 0 auto;
+  display: block;
 }
 </style>

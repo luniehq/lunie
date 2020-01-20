@@ -1,16 +1,19 @@
 <template>
-  <div>
-    <div class="tx__content__caption">
-      <p>Update withdraw address</p>
-    </div>
-    <div class="tx__content__information">
-      To {{ transaction.value.withdraw_address }}
+  <div class="tx__content">
+    <TransactionIcon
+      :transaction-group="transaction.group"
+      :transaction-type="type"
+    />
+    <div class="tx__content__left">
+      <h3>{{ caption }}</h3>
+      to {{ transaction.value.withdraw_address }}
     </div>
   </div>
 </template>
 
 <script>
 import { atoms, viewDenom, prettyLong } from "scripts/num.js"
+import TransactionIcon from "../TransactionIcon"
 
 export default {
   name: `set-withdraw-address-message-details`,
@@ -18,6 +21,9 @@ export default {
     atoms,
     viewDenom,
     prettyLong
+  },
+  components: {
+    TransactionIcon
   },
   props: {
     transaction: {
@@ -27,6 +33,12 @@ export default {
     validators: {
       type: Object,
       required: true
+    }
+  },
+  data: () => {
+    return {
+      type: `Update`,
+      caption: `Update withdraw address`
     }
   }
 }

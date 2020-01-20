@@ -60,9 +60,11 @@ export default {
   },
   watch: {
     "sort.property": function() {
+      /* istanbul ignore next */
       this.showing = 15
     },
     "sort.order": function() {
+      /* istanbul ignore next */
       this.showing = 15
     }
   },

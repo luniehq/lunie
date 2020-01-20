@@ -1,14 +1,18 @@
 <template>
-  <div>
-    <div class="tx__content__caption">
-      <p>
-        Submitted {{ transaction.value.proposal_type.toLowerCase() }} proposal
-        <b>{{ initialDeposit.amount | atoms | prettyLong }}</b>
-        <span>&nbsp;{{ initialDeposit.denom | viewDenom }}</span>
-      </p>
+  <div class="tx__content">
+    <TransactionIcon
+      :transaction-group="transaction.group"
+      :transaction-type="type"
+    />
+    <div class="tx__content__left">
+      <h3>{{ caption }}</h3>
+      <span>{{ transaction.value.title }}</span>
     </div>
-    <div class="tx__content__information">
-      Title&nbsp;<i>{{ transaction.value.title }}</i>
+    <div class="tx__content__right">
+      <p class="amount">
+        {{ initialDeposit.amount | atoms | prettyLong }}&nbsp;
+        {{ initialDeposit.denom | viewDenom }}
+      </p>
     </div>
   </div>
 </template>
@@ -16,6 +20,7 @@
 <script>
 import { atoms, viewDenom, prettyLong } from "scripts/num.js"
 import { formatBech32 } from "src/filters"
+import TransactionIcon from "../TransactionIcon"
 
 export default {
   name: `submit-proposal-message-details`,
@@ -25,6 +30,9 @@ export default {
     prettyLong,
     formatBech32
   },
+  components: {
+    TransactionIcon
+  },
   props: {
     transaction: {
       type: Object,
@@ -33,6 +41,12 @@ export default {
     validators: {
       type: Object,
       required: true
+    }
+  },
+  data: () => {
+    return {
+      type: `Submitted`,
+      caption: `Submitted proposal`
     }
   },
   computed: {

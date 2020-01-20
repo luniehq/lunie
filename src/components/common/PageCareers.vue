@@ -26,7 +26,7 @@
       <ul class="jobs-list">
         <li>
           <a
-            href="https://angel.co/lunie/jobs/553123-senior-software-engineer-api-engineering-blockchain-systems"
+            href="https://angel.co/lunie/jobs/553123-senior-software-engineer-api-engineering-blockchain-systems?ref=lunie"
             class="job-title"
             target="_blank"
             rel="nofollow noreferrer noopener"
@@ -36,7 +36,7 @@
         </li>
         <li>
           <a
-            href="https://angel.co/lunie/jobs/553137-senior-software-engineer-javascript-frontend"
+            href="https://angel.co/lunie/jobs/553137-senior-software-engineer-javascript-frontend?ref=lunie"
             class="job-title"
             target="_blank"
             rel="nofollow noreferrer noopener"
@@ -46,7 +46,7 @@
         </li>
         <li>
           <a
-            href="https://angel.co/lunie/jobs/553139-senior-designer-product-marketing"
+            href="https://angel.co/lunie/jobs/553139-senior-designer-product-marketing?ref=lunie"
             class="job-title"
             target="_blank"
             rel="nofollow noreferrer noopener"

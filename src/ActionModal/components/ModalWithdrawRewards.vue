@@ -7,6 +7,7 @@
     title="Claim Rewards"
     class="modal-withdraw-rewards"
     submission-error-prefix="Withdrawal failed"
+    feature-flag="claim_rewards"
     :rewards="rewards"
     :disable="validatorsWithRewards"
   >
@@ -62,7 +63,9 @@ export default {
       }
     },
     totalRewards() {
-      return this.rewards.reduce((sum, { amount }) => sum + Number(amount), 0)
+      return this.rewards
+        .reduce((sum, { amount }) => sum + Number(amount), 0)
+        .toFixed(6)
     },
     notifyMessage() {
       return {
@@ -115,6 +118,7 @@ export default {
           }
         }
       `,
+      fetchPolicy: "cache-first",
       variables() {
         return {
           networkId: this.network

@@ -1,6 +1,6 @@
 <template>
   <nav class="app-header" :class="{ mobile: !desktop }">
-    <div class="container">
+    <div class="container" :class="{ open: open }">
       <div class="header-item" :class="{ open: open }">
         <a v-if="!isMobileApp" href="https://lunie.io">
           <img
@@ -104,6 +104,18 @@ export default {
   padding-top: 1.4rem;
 }
 
+@media screen and (max-width: 1023px) {
+  .app-header > .container.open {
+    height: 100%;
+    overflow: auto;
+  }
+
+  .app-header > .container {
+    position: fixed;
+    top: 0;
+  }
+}
+
 .app-header .header-item {
   padding: 1.75rem;
   font-size: 0;
@@ -146,8 +158,23 @@ export default {
 @media screen and (min-width: 1024px) {
   .app-header > .container {
     position: fixed;
-    min-height: 100vh;
+    height: 100%;
+    overflow: auto;
     background: var(--app-nav);
+  }
+}
+
+/* iPhone X and Xs Max */
+@media only screen and (min-device-width: 375px) and (min-device-height: 812px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait) {
+  .app-header > .container {
+    padding-top: 2.2rem;
+  }
+}
+
+/* iPhone XR */
+@media only screen and (min-device-width: 414px) and (min-device-height: 896px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait) {
+  .app-header > .container {
+    padding-top: 2.2rem;
   }
 }
 </style>

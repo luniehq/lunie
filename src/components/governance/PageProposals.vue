@@ -1,58 +1,46 @@
 <template>
-  <PageContainer
+  <TmPage
     data-title="Proposals"
     :managed="true"
-    :loading="
-      $apollo.queries.proposals.loading && $apollo.queries.parameters.loading
-    "
-    :error="$apollo.queries.proposals.error || $apollo.queries.parameters.error"
     hide-header
+    :loading="$apollo.queries.proposals.loading && !loaded"
   >
-    <template slot="no-data">
-      <!-- duplicated, I have no proper way of refactoring this -->
-      <div class="button-container">
-        <TmBtn
-          id="propose-btn"
-          value="Create Proposal"
-          type="secondary"
-          @click.native="onPropose"
-        />
-      </div>
-      <TmDataMsg
-        title="No Governance Proposals"
-        subtitle="There are currently no governance proposals to display.
-    Click the 'Create Proposal' button to submit a proposal."
-        icon="gavel"
+    <div v-if="loaded" class="button-container">
+      <TmBtn
+        id="propose-btn"
+        value="Create Proposal"
+        type="secondary"
+        @click.native="onPropose"
       />
-    </template>
-    <template slot="managed-body">
-      <!-- duplicated, I have no proper way of refactoring this -->
-      <div class="button-container">
-        <TmBtn
-          id="propose-btn"
-          value="Create Proposal"
-          type="secondary"
-          @click.native="onPropose"
-        />
+    </div>
+    <ModalPropose
+      ref="modalPropose"
+      :denom="parameters.depositDenom"
+      @success="() => afterPropose()"
+    />
+    <div v-if="!$apollo.loading && proposals.length === 0">
+      <div>
+        <TmDataMsg icon="gavel">
+          <div slot="title">
+            No Governance Proposals
+          </div>
+          <div slot="subtitle">
+            There are currently no governance proposals to display. Click the
+            'Create Proposal' button to submit the first network proposal!
+          </div>
+        </TmDataMsg>
       </div>
-      <TmDataLoading v-if="$apollo.loading" />
-      <TableProposals v-else :proposals="proposals" />
-      <ModalPropose
-        ref="modalPropose"
-        :denom="parameters.depositDenom"
-        @success="() => afterPropose()"
-      />
-    </template>
-  </PageContainer>
+    </div>
+    <TableProposals v-else :proposals="proposals" />
+  </TmPage>
 </template>
 
 <script>
 import ModalPropose from "src/ActionModal/components/ModalPropose"
 import TableProposals from "governance/TableProposals"
+import TmPage from "common/TmPage"
 import TmBtn from "common/TmBtn"
-import PageContainer from "common/PageContainer"
 import TmDataMsg from "common/TmDataMsg"
-import TmDataLoading from "common/TmDataLoading"
 import { mapGetters } from "vuex"
 import { GovernanceParameters } from "src/gql"
 import gql from "graphql-tag"
@@ -63,15 +51,15 @@ export default {
     ModalPropose,
     TableProposals,
     TmDataMsg,
-    TmDataLoading,
     TmBtn,
-    PageContainer
+    TmPage
   },
   data: () => ({
     proposals: [],
     parameters: {
       depositDenom: "xxx"
-    }
+    },
+    loaded: false
   }),
   computed: {
     ...mapGetters([`network`])
@@ -82,7 +70,6 @@ export default {
     },
     afterPropose() {
       this.$apollo.queries.proposals.refetch()
-      this.$store.commit("invalidateCache", [`overview`, `transactions`])
     }
   },
   apollo: {
@@ -102,11 +89,14 @@ export default {
         `
       },
       variables() {
+        /* istanbul ignore next */
         return {
           networkId: this.network
         }
       },
       update(data) {
+        /* istanbul ignore next */
+        this.loaded = true
         /* istanbul ignore next */
         return data.proposals
       }
@@ -120,10 +110,35 @@ export default {
         /* istanbul ignore next */
         return data.governanceParameters
       }
+    },
+    $subscribe: {
+      blockAdded: {
+        variables() {
+          /* istanbul ignore next */
+          return {
+            networkId: this.network
+          }
+        },
+        query() {
+          /* istanbul ignore next */
+          return gql`
+            subscription($networkId: String!) {
+              blockAdded(networkId: $networkId) {
+                height
+              }
+            }
+          `
+        },
+        result() {
+          /* istanbul ignore next */
+          this.$apollo.queries.proposals.refetch()
+        }
+      }
     }
   }
 }
 </script>
+
 <style scoped>
 .button-container {
   display: flex;

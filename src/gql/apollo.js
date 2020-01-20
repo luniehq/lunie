@@ -1,40 +1,40 @@
 import Vue from "vue"
 import { ApolloClient } from "apollo-boost"
+import { BatchHttpLink } from "apollo-link-batch-http"
+import { RetryLink } from "apollo-link-retry"
 import { createPersistedQueryLink } from "apollo-link-persisted-queries"
-import { createHttpLink } from "apollo-link-http"
 import { WebSocketLink } from "apollo-link-ws"
 import { InMemoryCache } from "apollo-cache-inmemory"
 import { split } from "apollo-link"
 import { getMainDefinition } from "apollo-utilities"
 import VueApollo from "vue-apollo"
-import config from "src/../config"
+import { getGraphqlHost } from "scripts/url"
 
 Vue.use(VueApollo)
 
-const graphqlHost = urlParams => urlParams.graphql || config.graphqlHost
-
-const makeHttpLink = urlParams => {
-  const host = graphqlHost(urlParams)
+const makeHttpLink = () => {
+  const host = getGraphqlHost()
   const uri = host
 
   // We create a createPersistedQueryLink to lower network usage.
   // With this, a prefetch is done using a hash of the query.
-  // if the server recognises the hash, it will reply with the full reponse.
+  // if the server recognises the hash, it will reply with the full response.
   return createPersistedQueryLink().concat(
-    createHttpLink({
+    new BatchHttpLink({
       uri
-    })
+    }),
+    new RetryLink()
   )
 }
 
-const makeWebSocketLink = urlParams => {
-  const host = graphqlHost(urlParams)
+const makeWebSocketLink = () => {
+  const host = getGraphqlHost()
   const uri = `${host.replace("http", "ws")}/graphql`
   console.log("ws", uri)
   return new WebSocketLink({ uri })
 }
 
-const createApolloClient = urlParams => {
+const createApolloClient = () => {
   const link = split(
     ({ query }) => {
       const definition = getMainDefinition(query)
@@ -43,8 +43,8 @@ const createApolloClient = urlParams => {
         definition.operation === "subscription"
       )
     },
-    makeWebSocketLink(urlParams),
-    makeHttpLink(urlParams)
+    makeWebSocketLink(),
+    makeHttpLink()
   )
 
   const cache = new InMemoryCache()
@@ -52,12 +52,19 @@ const createApolloClient = urlParams => {
   return new ApolloClient({
     link,
     cache,
-    connectToDevTools: true
+    connectToDevTools: true,
+    shouldBatch: true
   })
 }
 
-export const createApolloProvider = urlParams => {
+export const createApolloProvider = () => {
   return new VueApollo({
-    defaultClient: createApolloClient(urlParams)
+    defaultClient: createApolloClient(),
+    defaultOptions: {
+      // apollo options applied to all queries in components
+      $query: {
+        fetchPolicy: "cache-and-network"
+      }
+    }
   })
 }

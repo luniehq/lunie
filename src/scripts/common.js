@@ -45,8 +45,12 @@ export const sleep = function(amount) {
 }
 
 export function toMicroDenom(denom) {
-  if (denom === "ATOM") {
-    return "uatom"
+  const lookup = {
+    ATOM: "uatom",
+    MUON: "umuon",
+    LUNA: "uluna",
+    TREE: "seed",
+    NGM: "x3ngm"
   }
-  return denom.toLowerCase()
+  return lookup[denom] ? lookup[denom] : denom.toLowerCase()
 }

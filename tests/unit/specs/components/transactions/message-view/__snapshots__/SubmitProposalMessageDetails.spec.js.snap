@@ -1,0 +1,37 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SubmitProposalMessageDetails renders a submit proposal transaction message 1`] = `
+<div
+  class="tx__content"
+>
+  <transactionicon-stub
+    transactiongroup="governance"
+    transactiontype="Submitted"
+  />
+   
+  <div
+    class="tx__content__left"
+  >
+    <h3>
+      Submitted proposal
+    </h3>
+     
+    <span>
+      Bla bla bla
+    </span>
+  </div>
+   
+  <div
+    class="tx__content__right"
+  >
+    <p
+      class="amount"
+    >
+      
+      100 
+      ATOM
+    
+    </p>
+  </div>
+</div>
+`;

@@ -48,8 +48,11 @@ module.exports = {
 
     browser.resizeWindow(1350, 1080)
     browser.refresh()
+    // wait until on portfolio page to make sure future tests have the same state
+    browser.expect.element(".balance-header").to.be.visible.before(10000)
     done()
   },
+
   /**
    * After all the tests are run, evaluate if there were errors and exit appropriately.
    *
@@ -70,6 +73,7 @@ module.exports = {
 }
 
 async function apiUp() {
+  console.log("Testing if API is up")
   const start = new Date().getTime()
   // we need to wait until the testnet is up and the account has money
   let apiUp = false
@@ -85,7 +89,7 @@ async function apiUp() {
       if (response.data.errors) {
         throw new Error(JSON.stringify(response.data.errors))
       }
-      if (response.data.data.overview.totalStake !== "1000") {
+      if (Number(response.data.data.overview.totalStake) === 0) {
         continue
       }
       apiUp = true
@@ -98,6 +102,7 @@ async function apiUp() {
 }
 
 async function schemaAvailable() {
+  console.log("Testing if DB is up")
   const start = new Date().getTime()
   // we need to wait until the database is up and has the expected shema
   let databaseUp = false

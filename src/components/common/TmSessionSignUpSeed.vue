@@ -48,7 +48,7 @@
 </template>
 
 <script>
-import { mapState } from "vuex"
+import { mapState, mapGetters } from "vuex"
 import { sameAs } from "vuelidate/lib/validators"
 import TmBtn from "common/TmBtn"
 import TmFormGroup from "common/TmFormGroup"
@@ -77,6 +77,7 @@ export default {
   }),
   computed: {
     ...mapState([`session`, `signup`]),
+    ...mapGetters({ networkId: `network` }),
     fieldSeed: {
       get() {
         return this.$store.state.signup.signUpSeed
@@ -99,6 +100,9 @@ export default {
       })
     })
   },
+  beforeDestroy: function() {
+    this.$store.dispatch(`resetSignUpData`)
+  },
   methods: {
     async onSubmit() {
       this.$v.$touch()
@@ -107,9 +111,9 @@ export default {
         await this.$store.dispatch(`createKey`, {
           seedPhrase: this.signup.signUpSeed,
           password: this.signup.signUpPassword,
-          name: this.signup.signUpName
+          name: this.signup.signUpName,
+          network: this.networkId
         })
-        this.$store.dispatch(`resetSignUpData`)
         this.$router.push(`/`)
       } catch (error) {
         this.error = true

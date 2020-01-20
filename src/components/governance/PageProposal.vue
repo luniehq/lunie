@@ -1,10 +1,7 @@
 <template>
   <TmPage data-title="Proposal" hide-header class="small">
-    <TmDataLoading
-      v-if="
-        $apollo.queries.proposal.loading || $apollo.queries.parameters.loading
-      "
-    />
+    <TmDataLoading v-if="$apollo.loading && !loaded" />
+    <TmDataNotFound v-else-if="!found" />
     <TmDataError v-else-if="error" />
     <template v-else>
       <div class="proposal">
@@ -188,6 +185,7 @@ import { atoms, percent, prettyInt } from "scripts/num"
 import { date, fromNow } from "src/filters"
 import TmBtn from "common/TmBtn"
 import TmDataError from "common/TmDataError"
+import TmDataNotFound from "common/TmDataNotFound"
 import TmDataLoading from "common/TmDataLoading"
 import TextBlock from "common/TextBlock"
 import ModalDeposit from "src/ActionModal/components/ModalDeposit"
@@ -206,6 +204,7 @@ export default {
     ModalDeposit,
     ModalVote,
     TmDataError,
+    TmDataNotFound,
     TmDataLoading,
     TmPage,
     TextBlock,
@@ -237,7 +236,9 @@ export default {
     parameters: {
       depositDenom: "TESTCOIN"
     },
-    error: undefined
+    error: undefined,
+    found: false,
+    loaded: false
   }),
   computed: {
     ...mapGetters([`address`, `network`]),
@@ -257,25 +258,24 @@ export default {
       return id
     }
   },
+  watch: {
+    // Needed to show data loading component when you are browsing from one proposal to another
+    $route: function() {
+      this.loaded = false
+    }
+  },
   methods: {
     onVote() {
       this.$refs.modalVote.open()
     },
     afterVote() {
-      this.$apollo.queries.vote.refetch({
-        proposalId: this.proposal.id,
-        address: this.address
-      })
-      this.$store.commit("invalidateCache", [`overview`, `transactions`])
+      this.$apollo.queries.vote.refetch()
     },
     onDeposit() {
       this.$refs.modalDeposit.open()
     },
     afterDeposit() {
-      this.$apollo.queries.proposal.refetch({
-        id: this.proposal.id
-      })
-      this.$store.commit("invalidateCache", [`overview`, `transactions`])
+      this.$apollo.queries.proposal.refetch()
     },
     getProposalIndex(num) {
       let proposalsObj = this.proposals
@@ -299,11 +299,20 @@ export default {
         `
       },
       variables() {
+        /* istanbul ignore next */
         return {
           networkId: this.network
         }
       },
       update(data) {
+        /* istanbul ignore next */
+        if (
+          data.proposals.find(
+            proposal => proposal.id === parseInt(this.proposalId, 10)
+          )
+        ) {
+          this.found = true
+        }
         /* istanbul ignore next */
         return data.proposals
       }
@@ -315,6 +324,8 @@ export default {
       },
       update(data) {
         /* istanbul ignore next */
+        this.loaded = true
+        /* istanbul ignore next */
         return data.proposal
       },
       variables() {
@@ -322,6 +333,10 @@ export default {
         return {
           id: +this.proposalId
         }
+      },
+      skip() {
+        /* istanbul ignore next */
+        return !this.found
       },
       result(data) {
         /* istanbul ignore next */
@@ -336,6 +351,10 @@ export default {
       update(data) {
         /* istanbul ignore next */
         return data.governanceParameters
+      },
+      skip() {
+        /* istanbul ignore next */
+        return !this.found
       },
       result(data) {
         /* istanbul ignore next */
@@ -355,7 +374,8 @@ export default {
         }
       },
       skip() {
-        return !this.address
+        /* istanbul ignore next */
+        return !this.address || !this.found
       },
       update(data) {
         /* istanbul ignore next */
@@ -365,11 +385,51 @@ export default {
         /* istanbul ignore next */
         this.error = data.error
       }
+    },
+    $subscribe: {
+      blockAdded: {
+        variables() {
+          /* istanbul ignore next */
+          return {
+            networkId: this.network
+          }
+        },
+        query() {
+          /* istanbul ignore next */
+          return gql`
+            subscription($networkId: String!) {
+              blockAdded(networkId: $networkId) {
+                height
+              }
+            }
+          `
+        },
+        skip() {
+          /* istanbul ignore next */
+          return !this.found
+        },
+        result() {
+          /* istanbul ignore next */
+          if (
+            // Don't update passed or rejected proposals
+            this.proposal.status !== "Passed" &&
+            this.proposal.status !== "Rejected" &&
+            this.loaded
+          ) {
+            this.$apollo.queries.proposal.refetch()
+            this.$apollo.queries.parameters.refetch()
+            this.$apollo.queries.vote.refetch()
+          }
+        }
+      }
     }
   }
 }
 </script>
+
 <style scoped>
+@import "../../styles/proposal-status.css";
+
 .proposal-title__row {
   color: var(--bright);
   display: flex;

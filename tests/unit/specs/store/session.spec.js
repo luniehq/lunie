@@ -28,12 +28,6 @@ describe(`Module: Session`, () => {
     expect(state.address).toBe(null)
   })
 
-  it(`should set windows device property`, () => {
-    jest.spyOn(window.navigator, "platform", "get").mockReturnValue("win32")
-    state = sessionModule({ node }).state
-    expect(state.windowsDevice).toBe(true)
-  })
-
   it("should always default to disable the local signer", () => {
     expect(state.insecureMode).toBe(false)
   })
@@ -120,7 +114,14 @@ describe(`Module: Session`, () => {
       const sessionType = `local`
       const address = `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`
       await actions.signIn(
-        { state, commit, dispatch },
+        {
+          state,
+          commit,
+          dispatch,
+          rootState: {
+            connection: { network: "fabo-net" }
+          }
+        },
         { address, sessionType }
       )
       expect(commit).toHaveBeenCalledWith(
@@ -141,7 +142,14 @@ describe(`Module: Session`, () => {
       const commit = jest.fn()
       const dispatch = jest.fn()
       await actions.signIn(
-        { state, commit, dispatch },
+        {
+          state,
+          commit,
+          dispatch,
+          rootState: {
+            connection: { network: "fabo-net" }
+          }
+        },
         { sessionType: `ledger`, address }
       )
       expect(commit).toHaveBeenCalledWith(`setUserAddress`, address)
@@ -159,7 +167,14 @@ describe(`Module: Session`, () => {
       const commit = jest.fn()
       const dispatch = jest.fn()
       await actions.signIn(
-        { state, commit, dispatch },
+        {
+          state,
+          commit,
+          dispatch,
+          rootState: {
+            connection: { network: "fabo-net" }
+          }
+        },
         { sessionType: `explore`, address }
       )
       expect(commit).toHaveBeenCalledWith(`setUserAddress`, address)
@@ -170,19 +185,6 @@ describe(`Module: Session`, () => {
         `sign-in`,
         `explore`
       )
-    })
-
-    it("should sign out before signing in to bust caches", async () => {
-      const address = `cosmos1qpd4xgtqmxyf9ktjh757nkdfnzpnkamny3cpzv`
-      const commit = jest.fn()
-      const dispatch = jest.fn()
-      state.signedIn = true
-      await actions.signIn(
-        { state, commit, dispatch },
-        { sessionType: `explore`, address }
-      )
-
-      expect(dispatch).toHaveBeenCalledWith(`resetSessionData`)
     })
 
     it("should dispatch required actions", async () => {
@@ -201,7 +203,14 @@ describe(`Module: Session`, () => {
         }
       ]
       await actions.signIn(
-        { state, commit, dispatch },
+        {
+          state,
+          commit,
+          dispatch,
+          rootState: {
+            connection: { network: "fabo-net" }
+          }
+        },
         { sessionType: `explore`, address }
       )
       expect(dispatch).toHaveBeenCalledWith(`persistAddresses`, {
@@ -218,7 +227,8 @@ describe(`Module: Session`, () => {
       })
       expect(dispatch).toHaveBeenCalledWith(`persistSession`, {
         address: `cosmos1z8mzakma7vnaajysmtkwt4wgjqr2m84tzvyfkz`,
-        sessionType: `explore`
+        sessionType: `explore`,
+        networkId: "fabo-net"
       })
       expect(dispatch).toHaveBeenCalledWith(`rememberAddress`, {
         address: `cosmos1z8mzakma7vnaajysmtkwt4wgjqr2m84tzvyfkz`,
@@ -272,9 +282,9 @@ describe(`Module: Session`, () => {
   it(`should sign out`, async () => {
     const commit = jest.fn()
     const dispatch = jest.fn()
-    await actions.signOut({ state, commit, dispatch })
+    await actions.signOut({ state, commit, dispatch }, "red-feliz")
 
-    expect(dispatch).toHaveBeenCalledWith(`resetSessionData`)
+    expect(dispatch).toHaveBeenCalledWith(`resetSessionData`, "red-feliz")
     expect(commit).toHaveBeenCalledWith(`setSignIn`, false)
     expect(state.externals.track).toHaveBeenCalled()
   })
@@ -390,8 +400,11 @@ describe(`Module: Session`, () => {
 
   describe(`persistance`, () => {
     it(`persists the session in localstorage`, async () => {
-      await actions.persistSession({}, { address: `xxx`, sessionType: `local` })
-      expect(localStorage.getItem(`session`)).toEqual(
+      await actions.persistSession(
+        {},
+        { address: `xxx`, sessionType: `local`, networkId: "fabo-net" }
+      )
+      expect(localStorage.getItem(`session_fabo-net`)).toEqual(
         JSON.stringify({
           address: `xxx`,
           sessionType: `local`
@@ -402,7 +415,14 @@ describe(`Module: Session`, () => {
     it(`persists the session on sign in`, async () => {
       const dispatch = jest.fn()
       await actions.signIn(
-        { state, commit: jest.fn(), dispatch },
+        {
+          state,
+          commit: jest.fn(),
+          dispatch,
+          rootState: {
+            connection: { network: "fabo-net" }
+          }
+        },
         {
           address: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
           sessionType: `local`
@@ -410,12 +430,20 @@ describe(`Module: Session`, () => {
       )
       expect(dispatch).toHaveBeenCalledWith(`persistSession`, {
         address: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
-        sessionType: `local`
+        sessionType: `local`,
+        networkId: "fabo-net"
       })
 
       dispatch.mockClear()
       await actions.signIn(
-        { state, commit: jest.fn(), dispatch },
+        {
+          state,
+          commit: jest.fn(),
+          dispatch,
+          rootState: {
+            connection: { network: "fabo-net" }
+          }
+        },
         {
           address: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
           sessionType: `ledger`
@@ -423,30 +451,63 @@ describe(`Module: Session`, () => {
       )
       expect(dispatch).toHaveBeenCalledWith(`persistSession`, {
         address: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
-        sessionType: `ledger`
+        sessionType: `ledger`,
+        networkId: "fabo-net"
       })
     })
 
     it(`signs the user in if a session was found`, async () => {
       const dispatch = jest.fn()
+      const commit = jest.fn()
       localStorage.setItem(
-        `session`,
+        `session_fabo-net`,
         JSON.stringify({
           address: `xxx`,
           sessionType: `local`
         })
       )
-      await actions.checkForPersistedSession({ dispatch })
+      await actions.checkForPersistedSession({
+        dispatch,
+        rootState: {
+          connection: { network: "fabo-net" }
+        }
+      })
       expect(dispatch).toHaveBeenCalledWith(`signIn`, {
         address: `xxx`,
         sessionType: `local`
       })
 
       dispatch.mockClear()
-      localStorage.removeItem(`session`)
-      await actions.checkForPersistedSession({ dispatch })
+      localStorage.removeItem(`session_fabo-net`)
+      await actions.checkForPersistedSession({
+        commit,
+        dispatch,
+        rootState: {
+          connection: { network: "fabo-net" }
+        }
+      })
       expect(dispatch).not.toHaveBeenCalled()
     })
+  })
+
+  it(`signes the user out if no persisted session for the network was found`, async () => {
+    const dispatch = jest.fn()
+    const commit = jest.fn()
+    localStorage.setItem(
+      `session_fabo-net`,
+      JSON.stringify({
+        address: `xxx`,
+        sessionType: `local`
+      })
+    )
+    await actions.checkForPersistedSession({
+      dispatch,
+      commit,
+      rootState: {
+        connection: { network: "red-feliz" }
+      }
+    })
+    expect(commit).toHaveBeenCalledWith(`setSignIn`, false)
   })
 
   it("should save used addresses in local storage", async () => {

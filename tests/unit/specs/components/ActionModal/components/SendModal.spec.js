@@ -27,19 +27,29 @@ describe(`SendModal`, () => {
     wrapper = shallowMount(SendModal, {
       localVue,
       mocks: {
-        $store
+        $store,
+        $apollo: {
+          queries: {
+            balances: {
+              refetch: () => {}
+            }
+          }
+        }
       },
       propsData: {
-        denom: "STAKE"
+        denoms: ["STAKE"]
       },
       sync: false
     })
 
     wrapper.setData({
-      balance: {
-        denom: `STAKE`,
-        amount: 10000
-      }
+      balances: [
+        {
+          denom: `STAKE`,
+          amount: 10000
+        }
+      ],
+      selectedToken: "STAKE"
     })
 
     wrapper.vm.$refs.actionModal = {
@@ -204,10 +214,12 @@ describe(`SendModal`, () => {
     })
     it(`should not show warning message if balance = 0`, async () => {
       wrapper.setData({
-        balance: {
-          amount: 0,
-          denom: "STAKE"
-        }
+        balances: [
+          {
+            amount: 0,
+            denom: "STAKE"
+          }
+        ]
       })
       wrapper.vm.setMaxAmount()
       await wrapper.vm.$nextTick()
@@ -217,14 +229,61 @@ describe(`SendModal`, () => {
     })
     it(`isMaxAmount() should return false if balance = 0`, async () => {
       wrapper.setData({
-        balance: {
-          amount: 0,
-          denom: "STAKE"
-        }
+        balances: [
+          {
+            amount: 0,
+            denom: "STAKE"
+          }
+        ]
       })
       wrapper.vm.setMaxAmount()
       await wrapper.vm.$nextTick()
       expect(wrapper.vm.isMaxAmount()).toBe(false)
+    })
+  })
+
+  describe(`Set token and balance`, () => {
+    it(`it takes the corresponding balance from the balances array when
+    selectedToken has been chosen and balances has a length over 1`, async () => {
+      wrapper.setData({
+        selectedToken: `TOKEN1`,
+        balances: [
+          {
+            amount: 1,
+            denom: "TOKEN1"
+          },
+          {
+            amount: 2,
+            denom: "TOKEN2"
+          }
+        ]
+      })
+      expect(wrapper.vm.selectedBalance.amount).toBe(1)
+    })
+
+    it(`it automatically picks the balance from the balances array when
+    balances are only one denom`, async () => {
+      wrapper.setData({
+        balances: [
+          {
+            amount: 1,
+            denom: "TOKEN1"
+          }
+        ]
+      })
+      expect(wrapper.vm.selectedBalance.amount).toBe(1)
+    })
+    // This one creates a lot of ugly errors
+    // it(`returns empty string if selectedToken hasn't been chosen yet`, () => {
+    //   wrapper.setData({
+    //     balances: []
+    //   })
+    //   const res = wrapper.vm.token()
+    //   expect(res).toBe("")
+    // })
+    it(`returns selectedToken if selectedToken has been chosen`, () => {
+      const res = wrapper.vm.token()
+      expect(res).toBe("STAKE")
     })
   })
 })

@@ -1,6 +1,16 @@
 <template>
   <div>
-    <div v-if="!$apollo.queries.delegations.loading && delegations.length > 0">
+    <div
+      v-if="$apollo.queries.delegations.loading && !delegations.length"
+      class="loading-image-container"
+    >
+      <img
+        class="loading-image"
+        src="/img/portfolio-loading.svg"
+        alt="geometric placeholder shapes"
+      />
+    </div>
+    <div v-else-if="delegations.length > 0">
       <TableValidators
         :validators="delegations.map(({ validator }) => validator)"
         :delegations="delegations"
@@ -8,7 +18,7 @@
       />
     </div>
     <TmDataMsg
-      v-else-if="delegations.length === 0"
+      v-else-if="delegations.length === 0 && !$apollo.loading"
       icon="sentiment_dissatisfied"
     >
       <div slot="title">
@@ -28,7 +38,6 @@ import { mapGetters } from "vuex"
 import TmDataMsg from "common/TmDataMsg"
 import TableValidators from "staking/TableValidators"
 import { DelegationsForDelegator, UserTransactionAdded } from "src/gql"
-import refetchNetworkOnly from "scripts/refetch-network-only"
 
 export default {
   name: `delegations-overview`,
@@ -72,8 +81,9 @@ export default {
         },
         query: UserTransactionAdded,
         result({ data }) {
+          /* istanbul ignore next */
           if (data.userTransactionAdded.success) {
-            refetchNetworkOnly(this.$apollo.query.delegations)
+            this.$apollo.queries.delegations.refetch()
           }
         }
       }

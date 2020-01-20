@@ -4,18 +4,12 @@ exports[`Bar shows a primary bar 1`] = `
 <div
   class="bar primary"
 >
-  <i />
-   
   <p />
    
-  <a
-    class="close"
+  <i
+    class="material-icons close-icon"
   >
-    <i
-      class="material-icons close-icon"
-    >
-      close
-    </i>
-  </a>
+    close
+  </i>
 </div>
 `;

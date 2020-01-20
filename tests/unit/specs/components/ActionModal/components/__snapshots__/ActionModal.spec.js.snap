@@ -34,7 +34,9 @@ exports[`ActionModal back button renders and functions 1`] = `
     <span
       class="action-modal-title"
     >
-      Send
+      
+        Send
+      
     </span>
      
     <steps-stub
@@ -45,15 +47,9 @@ exports[`ActionModal back button renders and functions 1`] = `
     <!---->
   </div>
    
-  <!---->
-   
   <div
     class="action-modal-form"
   >
-    <!---->
-     
-    <!---->
-     
     <form>
       <tmformgroup-stub
         class="action-modal-group"
@@ -79,12 +75,16 @@ exports[`ActionModal back button renders and functions 1`] = `
     <tmformgroup-stub
       class="action-modal-group"
     >
-      <div>
-        <tmbtn-stub
-          color="primary"
-          value="Send"
-        />
-      </div>
+      <tmbtn-stub
+        id="closeBtn"
+        type="tertiary"
+        value="Cancel"
+      />
+       
+      <tmbtn-stub
+        type="primary"
+        value="Send"
+      />
     </tmformgroup-stub>
   </div>
 </div>
@@ -124,7 +124,9 @@ exports[`ActionModal runs validation and changes step on sign step should dispal
     <span
       class="action-modal-title"
     >
-      Send
+      
+        Send
+      
     </span>
      
     <steps-stub
@@ -142,15 +144,9 @@ exports[`ActionModal runs validation and changes step on sign step should dispal
     </p>
   </div>
    
-  <!---->
-   
   <div
     class="action-modal-form"
   >
-    <!---->
-     
-    <!---->
-     
     <hardwarestate-stub
       icon="info"
     >
@@ -175,12 +171,16 @@ exports[`ActionModal runs validation and changes step on sign step should dispal
     <tmformgroup-stub
       class="action-modal-group"
     >
-      <div>
-        <tmbtn-stub
-          color="primary"
-          value="Send"
-        />
-      </div>
+      <tmbtn-stub
+        id="closeBtn"
+        type="tertiary"
+        value="Cancel"
+      />
+       
+      <tmbtn-stub
+        type="primary"
+        value="Send"
+      />
     </tmformgroup-stub>
   </div>
 </div>
@@ -211,7 +211,9 @@ exports[`ActionModal should show the action modal on success 1`] = `
     <span
       class="action-modal-title"
     >
-      Send
+      
+        Send
+      
     </span>
      
     <!---->
@@ -219,13 +221,12 @@ exports[`ActionModal should show the action modal on success 1`] = `
     <!---->
   </div>
    
-  <!---->
-   
   <div
     class="action-modal-form success-step"
   >
     <tmdatamsg-stub
       icon="check"
+      success="true"
     >
       <div>
         
@@ -286,15 +287,15 @@ exports[`ActionModal should show the action modal waiting on inclusion 1`] = `
     <span
       class="action-modal-title"
     >
-      Send
+      
+        Send
+      
     </span>
      
     <!---->
      
     <!---->
   </div>
-   
-  <!---->
    
   <!---->
    
@@ -342,7 +343,9 @@ exports[`ActionModal should show the action modal when user has logged in with e
     <span
       class="action-modal-title"
     >
-      Send
+      
+        Send
+      
     </span>
      
     <steps-stub
@@ -352,8 +355,6 @@ exports[`ActionModal should show the action modal when user has logged in with e
      
     <!---->
   </div>
-   
-  <!---->
    
   <div
     class="action-modal-form"
@@ -377,12 +378,16 @@ exports[`ActionModal should show the action modal when user has logged in with e
     <tmformgroup-stub
       class="action-modal-group"
     >
-      <div>
-        <tmbtn-stub
-          color="primary"
-          value="Next"
-        />
-      </div>
+      <tmbtn-stub
+        id="closeBtn"
+        type="tertiary"
+        value="Cancel"
+      />
+       
+      <tmbtn-stub
+        type="primary"
+        value="Next"
+      />
     </tmformgroup-stub>
   </div>
 </div>
@@ -422,7 +427,9 @@ exports[`ActionModal should show the action modal when user has logged in with e
     <span
       class="action-modal-title"
     >
-      Send
+      
+        Send
+      
     </span>
      
     <steps-stub
@@ -432,8 +439,6 @@ exports[`ActionModal should show the action modal when user has logged in with e
      
     <!---->
   </div>
-   
-  <!---->
    
   <div
     class="action-modal-form"
@@ -450,24 +455,6 @@ exports[`ActionModal should show the action modal when user has logged in with e
         value="local"
       />
     </tmformgroup-stub>
-     
-    <!---->
-     
-    <form>
-      <tmformgroup-stub
-        class="action-modal-group"
-        fieldid="password"
-        fieldlabel="Password"
-      >
-        <tmfield-stub
-          id="password"
-          placeholder="Password"
-          type="password"
-        />
-         
-        <!---->
-      </tmformgroup-stub>
-    </form>
   </div>
    
   <!---->
@@ -478,12 +465,16 @@ exports[`ActionModal should show the action modal when user has logged in with e
     <tmformgroup-stub
       class="action-modal-group"
     >
-      <div>
-        <tmbtn-stub
-          color="primary"
-          value="Send"
-        />
-      </div>
+      <tmbtn-stub
+        id="closeBtn"
+        type="tertiary"
+        value="Cancel"
+      />
+       
+      <tmbtn-stub
+        type="primary"
+        value="Send"
+      />
     </tmformgroup-stub>
   </div>
 </div>
@@ -514,7 +505,9 @@ exports[`ActionModal should show the action modal when user has logged in with e
     <span
       class="action-modal-title"
     >
-      Send
+      
+        Send
+      
     </span>
      
     <steps-stub
@@ -524,8 +517,6 @@ exports[`ActionModal should show the action modal when user has logged in with e
      
     <!---->
   </div>
-   
-  <!---->
    
   <div
     class="action-modal-form"
@@ -542,24 +533,6 @@ exports[`ActionModal should show the action modal when user has logged in with e
         value="local"
       />
     </tmformgroup-stub>
-     
-    <!---->
-     
-    <form>
-      <tmformgroup-stub
-        class="action-modal-group"
-        fieldid="password"
-        fieldlabel="Password"
-      >
-        <tmfield-stub
-          id="password"
-          placeholder="Password"
-          type="password"
-        />
-         
-        <!---->
-      </tmformgroup-stub>
-    </form>
   </div>
    
   <!---->
@@ -570,13 +543,17 @@ exports[`ActionModal should show the action modal when user has logged in with e
     <tmformgroup-stub
       class="action-modal-group"
     >
-      <div>
-        <tmbtn-stub
-          color="primary"
-          disabled="true"
-          value="Sending..."
-        />
-      </div>
+      <tmbtn-stub
+        id="closeBtn"
+        type="tertiary"
+        value="Cancel"
+      />
+       
+      <tmbtn-stub
+        disabled="true"
+        type="primary"
+        value="Sending..."
+      />
     </tmformgroup-stub>
   </div>
 </div>
@@ -616,7 +593,9 @@ exports[`ActionModal should show the action modal when user has logged in with e
     <span
       class="action-modal-title"
     >
-      Send
+      
+        Send
+      
     </span>
      
     <steps-stub
@@ -626,8 +605,6 @@ exports[`ActionModal should show the action modal when user has logged in with e
      
     <!---->
   </div>
-   
-  <!---->
    
   <div
     class="action-modal-form"
@@ -651,12 +628,16 @@ exports[`ActionModal should show the action modal when user has logged in with e
     <tmformgroup-stub
       class="action-modal-group"
     >
-      <div>
-        <tmbtn-stub
-          color="primary"
-          value="Next"
-        />
-      </div>
+      <tmbtn-stub
+        id="closeBtn"
+        type="tertiary"
+        value="Cancel"
+      />
+       
+      <tmbtn-stub
+        type="primary"
+        value="Next"
+      />
     </tmformgroup-stub>
   </div>
 </div>
@@ -696,7 +677,9 @@ exports[`ActionModal should show the action modal when user has logged in with e
     <span
       class="action-modal-title"
     >
-      Send
+      
+        Send
+      
     </span>
      
     <steps-stub
@@ -714,15 +697,9 @@ exports[`ActionModal should show the action modal when user has logged in with e
     </p>
   </div>
    
-  <!---->
-   
   <div
     class="action-modal-form"
   >
-    <!---->
-     
-    <!---->
-     
     <hardwarestate-stub
       icon="info"
     >
@@ -747,12 +724,16 @@ exports[`ActionModal should show the action modal when user has logged in with e
     <tmformgroup-stub
       class="action-modal-group"
     >
-      <div>
-        <tmbtn-stub
-          color="primary"
-          value="Send"
-        />
-      </div>
+      <tmbtn-stub
+        id="closeBtn"
+        type="tertiary"
+        value="Cancel"
+      />
+       
+      <tmbtn-stub
+        type="primary"
+        value="Send"
+      />
     </tmformgroup-stub>
   </div>
 </div>
@@ -783,7 +764,9 @@ exports[`ActionModal should show the action modal when user has logged in with e
     <span
       class="action-modal-title"
     >
-      Send
+      
+        Send
+      
     </span>
      
     <steps-stub
@@ -801,15 +784,9 @@ exports[`ActionModal should show the action modal when user has logged in with e
     </p>
   </div>
    
-  <!---->
-   
   <div
     class="action-modal-form"
   >
-    <!---->
-     
-    <!---->
-     
     <hardwarestate-stub
       icon="info"
       loading="true"
@@ -835,13 +812,17 @@ exports[`ActionModal should show the action modal when user has logged in with e
     <tmformgroup-stub
       class="action-modal-group"
     >
-      <div>
-        <tmbtn-stub
-          color="primary"
-          disabled="true"
-          value="Waiting for Extension"
-        />
-      </div>
+      <tmbtn-stub
+        id="closeBtn"
+        type="tertiary"
+        value="Cancel"
+      />
+       
+      <tmbtn-stub
+        disabled="true"
+        type="primary"
+        value="Waiting for Extension"
+      />
     </tmformgroup-stub>
   </div>
 </div>
@@ -881,7 +862,9 @@ exports[`ActionModal should show the action modal when user has logged in with l
     <span
       class="action-modal-title"
     >
-      Send
+      
+        Send
+      
     </span>
      
     <steps-stub
@@ -891,8 +874,6 @@ exports[`ActionModal should show the action modal when user has logged in with l
      
     <!---->
   </div>
-   
-  <!---->
    
   <div
     class="action-modal-form"
@@ -916,12 +897,16 @@ exports[`ActionModal should show the action modal when user has logged in with l
     <tmformgroup-stub
       class="action-modal-group"
     >
-      <div>
-        <tmbtn-stub
-          color="primary"
-          value="Next"
-        />
-      </div>
+      <tmbtn-stub
+        id="closeBtn"
+        type="tertiary"
+        value="Cancel"
+      />
+       
+      <tmbtn-stub
+        type="primary"
+        value="Next"
+      />
     </tmformgroup-stub>
   </div>
 </div>
@@ -961,7 +946,9 @@ exports[`ActionModal should show the action modal when user has logged in with l
     <span
       class="action-modal-title"
     >
-      Send
+      
+        Send
+      
     </span>
      
     <steps-stub
@@ -972,25 +959,19 @@ exports[`ActionModal should show the action modal when user has logged in with l
     <!---->
   </div>
    
-  <!---->
-   
   <div
     class="action-modal-form"
   >
-    <!---->
-     
     <hardwarestate-stub
       icon="info"
     >
       <div>
         
-            Please use Chrome, Brave, or Opera. Ledger is not supported in
-            this browser.
+            Please use Chrome or Brave. Ledger is not supported in this
+            browser.
           
       </div>
     </hardwarestate-stub>
-     
-    <!---->
   </div>
    
   <!---->
@@ -1001,12 +982,16 @@ exports[`ActionModal should show the action modal when user has logged in with l
     <tmformgroup-stub
       class="action-modal-group"
     >
-      <div>
-        <tmbtn-stub
-          color="primary"
-          value="Send"
-        />
-      </div>
+      <tmbtn-stub
+        id="closeBtn"
+        type="tertiary"
+        value="Cancel"
+      />
+       
+      <tmbtn-stub
+        type="primary"
+        value="Send"
+      />
     </tmformgroup-stub>
   </div>
 </div>
@@ -1037,7 +1022,9 @@ exports[`ActionModal should show the action modal when user has logged in with l
     <span
       class="action-modal-title"
     >
-      Send
+      
+        Send
+      
     </span>
      
     <steps-stub
@@ -1048,26 +1035,20 @@ exports[`ActionModal should show the action modal when user has logged in with l
     <!---->
   </div>
    
-  <!---->
-   
   <div
     class="action-modal-form"
   >
-    <!---->
-     
     <hardwarestate-stub
       icon="info"
       loading="true"
     >
       <div>
         
-            Please use Chrome, Brave, or Opera. Ledger is not supported in
-            this browser.
+            Please use Chrome or Brave. Ledger is not supported in this
+            browser.
           
       </div>
     </hardwarestate-stub>
-     
-    <!---->
   </div>
    
   <!---->
@@ -1078,13 +1059,17 @@ exports[`ActionModal should show the action modal when user has logged in with l
     <tmformgroup-stub
       class="action-modal-group"
     >
-      <div>
-        <tmbtn-stub
-          color="primary"
-          disabled="true"
-          value="Waiting for Ledger"
-        />
-      </div>
+      <tmbtn-stub
+        id="closeBtn"
+        type="tertiary"
+        value="Cancel"
+      />
+       
+      <tmbtn-stub
+        disabled="true"
+        type="primary"
+        value="Waiting for Ledger"
+      />
     </tmformgroup-stub>
   </div>
 </div>
@@ -1124,7 +1109,9 @@ exports[`ActionModal should show the action modal when user has logged in with l
     <span
       class="action-modal-title"
     >
-      Send
+      
+        Send
+      
     </span>
      
     <steps-stub
@@ -1134,8 +1121,6 @@ exports[`ActionModal should show the action modal when user has logged in with l
      
     <!---->
   </div>
-   
-  <!---->
    
   <div
     class="action-modal-form"
@@ -1159,12 +1144,16 @@ exports[`ActionModal should show the action modal when user has logged in with l
     <tmformgroup-stub
       class="action-modal-group"
     >
-      <div>
-        <tmbtn-stub
-          color="primary"
-          value="Next"
-        />
-      </div>
+      <tmbtn-stub
+        id="closeBtn"
+        type="tertiary"
+        value="Cancel"
+      />
+       
+      <tmbtn-stub
+        type="primary"
+        value="Next"
+      />
     </tmformgroup-stub>
   </div>
 </div>
@@ -1204,7 +1193,9 @@ exports[`ActionModal should show the action modal when user has logged in with l
     <span
       class="action-modal-title"
     >
-      Send
+      
+        Send
+      
     </span>
      
     <steps-stub
@@ -1215,15 +1206,9 @@ exports[`ActionModal should show the action modal when user has logged in with l
     <!---->
   </div>
    
-  <!---->
-   
   <div
     class="action-modal-form"
   >
-    <!---->
-     
-    <!---->
-     
     <form>
       <tmformgroup-stub
         class="action-modal-group"
@@ -1249,12 +1234,16 @@ exports[`ActionModal should show the action modal when user has logged in with l
     <tmformgroup-stub
       class="action-modal-group"
     >
-      <div>
-        <tmbtn-stub
-          color="primary"
-          value="Send"
-        />
-      </div>
+      <tmbtn-stub
+        id="closeBtn"
+        type="tertiary"
+        value="Cancel"
+      />
+       
+      <tmbtn-stub
+        type="primary"
+        value="Send"
+      />
     </tmformgroup-stub>
   </div>
 </div>
@@ -1285,7 +1274,9 @@ exports[`ActionModal should show the action modal when user has logged in with l
     <span
       class="action-modal-title"
     >
-      Send
+      
+        Send
+      
     </span>
      
     <steps-stub
@@ -1296,15 +1287,9 @@ exports[`ActionModal should show the action modal when user has logged in with l
     <!---->
   </div>
    
-  <!---->
-   
   <div
     class="action-modal-form"
   >
-    <!---->
-     
-    <!---->
-     
     <form>
       <tmformgroup-stub
         class="action-modal-group"
@@ -1330,13 +1315,17 @@ exports[`ActionModal should show the action modal when user has logged in with l
     <tmformgroup-stub
       class="action-modal-group"
     >
-      <div>
-        <tmbtn-stub
-          color="primary"
-          disabled="true"
-          value="Sending..."
-        />
-      </div>
+      <tmbtn-stub
+        id="closeBtn"
+        type="tertiary"
+        value="Cancel"
+      />
+       
+      <tmbtn-stub
+        disabled="true"
+        type="primary"
+        value="Sending..."
+      />
     </tmformgroup-stub>
   </div>
 </div>
@@ -1367,7 +1356,9 @@ exports[`ActionModal should show the action modal when user hasn't logged in 1`]
     <span
       class="action-modal-title"
     >
-      Sign in required
+      
+        Sign in required
+      
     </span>
      
     <steps-stub
@@ -1377,8 +1368,6 @@ exports[`ActionModal should show the action modal when user hasn't logged in 1`]
      
     <!---->
   </div>
-   
-  <!---->
    
   <div
     class="action-modal-form"
@@ -1401,12 +1390,16 @@ exports[`ActionModal should show the action modal when user hasn't logged in 1`]
     <tmformgroup-stub
       class="action-modal-group"
     >
-      <div>
-        <tmbtn-stub
-          color="primary"
-          value="Sign In"
-        />
-      </div>
+      <tmbtn-stub
+        id="closeBtn"
+        type="tertiary"
+        value="Cancel"
+      />
+       
+      <tmbtn-stub
+        type="primary"
+        value="Sign In"
+      />
     </tmformgroup-stub>
   </div>
 </div>
@@ -1437,85 +1430,18 @@ exports[`ActionModal shows a feature unavailable message 1`] = `
     <span
       class="action-modal-title"
     >
-      Send
-    </span>
-     
-    <steps-stub
-      activestep="details"
-      steps="Details,Fees,Sign"
-    />
-     
-    <!---->
-  </div>
-   
-  <!---->
-   
-  <div
-    class="action-modal-form"
-  />
-   
-  <!---->
-   
-  <div
-    class="action-modal-footer"
-  >
-    <tmformgroup-stub
-      class="action-modal-group"
-    >
-      <div>
-        <tmbtn-stub
-          color="primary"
-          value="Next"
-        />
-      </div>
-    </tmformgroup-stub>
-  </div>
-</div>
-`;
-
-exports[`ActionModal windows shows windows warning 1`] = `
-<div
-  class="action-modal"
-  name="slide-fade"
-  tabindex="0"
->
-  <!---->
-   
-  <div
-    class="action-modal-icon action-modal-close"
-    id="closeBtn"
-  >
-    <i
-      class="material-icons"
-    >
-      close
-    </i>
-  </div>
-   
-  <div
-    class="action-modal-header"
-  >
-    <span
-      class="action-modal-title"
-    >
-      Send
-    </span>
-     
-    <steps-stub
-      activestep="details"
-      steps="Details,Fees,Sign"
-    />
-     
-    <!---->
-  </div>
-   
-  <p
-    class="form-message notice"
-  >
-    
-        WINDOWS WARNING MESSAGE
       
-  </p>
+        Send
+      
+    </span>
+     
+    <steps-stub
+      activestep="details"
+      steps="Details,Fees,Sign"
+    />
+     
+    <!---->
+  </div>
    
   <div
     class="action-modal-form"
@@ -1529,12 +1455,16 @@ exports[`ActionModal windows shows windows warning 1`] = `
     <tmformgroup-stub
       class="action-modal-group"
     >
-      <div>
-        <tmbtn-stub
-          color="primary"
-          value="Next"
-        />
-      </div>
+      <tmbtn-stub
+        id="closeBtn"
+        type="tertiary"
+        value="Cancel"
+      />
+       
+      <tmbtn-stub
+        type="primary"
+        value="Next"
+      />
     </tmformgroup-stub>
   </div>
 </div>

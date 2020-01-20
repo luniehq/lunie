@@ -17,9 +17,9 @@
         <i class="material-icons">close</i>
       </div>
       <div class="action-modal-header">
-        <span class="action-modal-title">{{
-          requiresSignIn ? `Sign in required` : title
-        }}</span>
+        <span class="action-modal-title">
+          {{ requiresSignIn ? `Sign in required` : title }}
+        </span>
         <Steps
           v-if="
             [defaultStep, feeStep, signStep].includes(step) &&
@@ -46,12 +46,6 @@
         <FeatureNotAvailable :feature="title" />
       </template>
       <template v-else>
-        <p
-          v-if="session.windowsDevice && step !== successStep"
-          class="form-message notice"
-        >
-          {{ session.windowsWarning }}
-        </p>
         <div v-if="requiresSignIn" class="action-modal-form">
           <p class="form-message notice">
             You're using Lunie in explore mode. Please sign in or create an
@@ -69,9 +63,9 @@
             field-id="gasPrice"
             field-label="Gas Price"
           >
-            <span class="input-suffix">{{
-              network.stakingDenom | viewDenom
-            }}</span>
+            <span class="input-suffix">
+              {{ network.stakingDenom | viewDenom }}
+            </span>
             <TmField
               id="gas-price"
               v-model="gasPrice"
@@ -126,7 +120,7 @@
             />
           </TmFormGroup>
           <HardwareState
-            v-if="selectedSignMethod === SIGN_METHODS.LEDGER"
+            v-else-if="selectedSignMethod === SIGN_METHODS.LEDGER"
             :icon="session.browserWithLedgerSupport ? 'usb' : 'info'"
             :loading="!!sending"
           >
@@ -139,12 +133,12 @@
               }}
             </div>
             <div v-else>
-              Please use Chrome, Brave, or Opera. Ledger is not supported in
-              this browser.
+              Please use Chrome or Brave. Ledger is not supported in this
+              browser.
             </div>
           </HardwareState>
           <HardwareState
-            v-if="selectedSignMethod === SIGN_METHODS.EXTENSION"
+            v-else-if="selectedSignMethod === SIGN_METHODS.EXTENSION"
             :icon="session.browserWithLedgerSupport ? 'laptop' : 'info'"
             :loading="!!sending"
           >
@@ -159,7 +153,7 @@
             <div v-if="!extension.enabled">
               Please install the Lunie Browser Extension from the
               <a
-                href="https://chrome.google.com/webstore/category/extensions"
+                href="http://bit.ly/lunie-ext"
                 target="_blank"
                 rel="noopener norefferer"
                 >Chrome Web Store</a
@@ -192,15 +186,12 @@
           </form>
         </div>
         <div v-else-if="step === inclusionStep" class="action-modal-form">
-          <TmDataMsg icon="hourglass_empty">
+          <TmDataMsg icon="hourglass_empty" :spin="true">
             <div slot="title">
               Sent and confirming
             </div>
             <div slot="subtitle">
-              The transaction
-              <!-- with the hash {{ txHash }} -->
-              was successfully signed and sent the network. Waiting for it to be
-              confirmed.
+              Waiting for confirmation from {{ networkId }}.
             </div>
           </TmDataMsg>
         </div>
@@ -208,7 +199,7 @@
           v-else-if="step === successStep"
           class="action-modal-form success-step"
         >
-          <TmDataMsg icon="check">
+          <TmDataMsg icon="check" :success="true">
             <div slot="title">
               {{ notifyMessage.title }}
             </div>
@@ -234,45 +225,49 @@
               v-if="[defaultStep, feeStep, signStep].includes(step)"
               class="action-modal-group"
             >
-              <div>
-                <TmBtn
-                  v-if="requiresSignIn"
-                  v-focus
-                  value="Sign In"
-                  color="primary"
-                  @click.native="goToSession"
-                  @click.enter.native="goToSession"
-                />
-                <TmBtn
-                  v-else-if="sending"
-                  :value="submitButtonCaption"
-                  disabled="disabled"
-                  color="primary"
-                />
-                <TmBtn
-                  v-else-if="!connected"
-                  value="Connecting..."
-                  disabled="disabled"
-                  color="primary"
-                />
-                <TmBtn
-                  v-else-if="step !== signStep"
-                  ref="next"
-                  color="primary"
-                  value="Next"
-                  :disabled="
-                    disabled || (step === feeStep && $v.invoiceTotal.$invalid)
-                  "
-                  @click.native="validateChangeStep"
-                />
-                <TmBtn
-                  v-else
-                  color="primary"
-                  value="Send"
-                  :disabled="!selectedSignMethod"
-                  @click.native="validateChangeStep"
-                />
-              </div>
+              <TmBtn
+                id="closeBtn"
+                value="Cancel"
+                type="tertiary"
+                @click.native="close"
+              />
+              <TmBtn
+                v-if="requiresSignIn"
+                v-focus
+                value="Sign In"
+                type="primary"
+                @click.native="goToSession"
+                @click.enter.native="goToSession"
+              />
+              <TmBtn
+                v-else-if="sending"
+                :value="submitButtonCaption"
+                disabled="disabled"
+                type="primary"
+              />
+              <TmBtn
+                v-else-if="!connected"
+                value="Connecting..."
+                disabled="disabled"
+                type="primary"
+              />
+              <TmBtn
+                v-else-if="step !== signStep"
+                ref="next"
+                type="primary"
+                value="Next"
+                :disabled="
+                  disabled || (step === feeStep && $v.invoiceTotal.$invalid)
+                "
+                @click.native="validateChangeStep"
+              />
+              <TmBtn
+                v-else
+                type="primary"
+                value="Send"
+                :disabled="!selectedSignMethod"
+                @click.native="validateChangeStep"
+              />
             </TmFormGroup>
           </slot>
         </div>
@@ -299,6 +294,7 @@ import { between, requiredIf } from "vuelidate/lib/validators"
 import { track } from "scripts/google-analytics"
 import { UserTransactionAdded } from "src/gql"
 import config from "src/../config"
+import * as Sentry from "@sentry/browser"
 
 import ActionManager from "../utils/ActionManager"
 
@@ -384,6 +380,10 @@ export default {
         body: `You have successfully completed a transaction.`
       })
     },
+    featureFlag: {
+      type: String,
+      default: ``
+    },
     // disable proceeding from the first page
     disabled: {
       type: Boolean,
@@ -396,7 +396,7 @@ export default {
     password: null,
     sending: false,
     gasEstimate: null,
-    gasPrice: config.default_gas_price.toFixed(9),
+    gasPrice: (config.default_gas_price / 4).toFixed(9), // as we bump the gas amount by 4 in the API
     submissionError: null,
     show: false,
     actionManager: new ActionManager(),
@@ -410,14 +410,15 @@ export default {
     featureAvailable: true,
     network: {},
     overview: {},
-    isMobileApp: config.mobileApp
+    isMobileApp: config.mobileApp,
+    useTxService: config.enableTxAPI
   }),
   computed: {
     ...mapState([`extension`, `session`]),
     ...mapGetters([`connected`, `isExtensionAccount`]),
     ...mapGetters({ networkId: `network` }),
     checkFeatureAvailable() {
-      const action = `action_${this.title.toLowerCase().replace(" ", "_")}`
+      const action = `action_` + this.featureFlag
       return this.network[action] === true
     },
     requiresSignIn() {
@@ -467,14 +468,23 @@ export default {
           return "Sending..."
       }
     },
-    hasSigningMethod() {
-      return (
-        this.session.browserWithLedgerSupport ||
-        (this.selectedSignMethod === "extension" && this.isExtensionAccount)
-      )
-    },
     prettyIncludedHeight() {
       return prettyInt(this.includedHeight)
+    },
+    // TODO lets slice this monstrocity
+    context() {
+      return {
+        url: this.network.api_url,
+        networkId: this.network.id,
+        chainId: this.network.chain_id,
+        connected: this.connected,
+        userAddress: this.session.address,
+        rewards: this.rewards,
+        totalRewards: this.overview.totalRewards,
+        bondDenom: this.network.stakingDenom,
+        isExtensionAccount: this.isExtensionAccount,
+        account: this.overview.accountInformation
+      }
     }
   },
   watch: {
@@ -486,14 +496,18 @@ export default {
           this.selectedSignMethod = signMethods[0].value
         }
       }
+    },
+    context: {
+      immediate: true,
+      handler(context) {
+        this.actionManager.setContext(context)
+      }
     }
   },
   created() {
     this.$apollo.skipAll = true
   },
   updated: function() {
-    const context = this.createContext()
-    this.actionManager.setContext(context)
     if (
       (this.title === "Withdraw" || this.step === "fees") &&
       this.$refs.next
@@ -502,25 +516,11 @@ export default {
     }
   },
   methods: {
-    createContext() {
-      return {
-        url: this.network.api_url, // state.connection.externals.node.url,
-        networkId: this.network.id, // state.connection.lastHeader.chain_id,
-        chainId: this.network.chain_id, // state.connection.lastHeader.chain_id,
-        connected: this.connected,
-        userAddress: this.session.address,
-        rewards: this.rewards, // state.distribution.rewards,
-        totalRewards: this.overview.totalRewards, // getters.totalRewards,
-        delegations: this.delegations, // state.delegates.delegates,
-        bondDenom: this.network.stakingDenom, // getters.bondDenom,
-        isExtensionAccount: this.isExtensionAccount
-      }
-    },
     confirmModalOpen() {
       let confirmResult = false
       if (this.session.currrentModalOpen) {
         confirmResult = window.confirm(
-          "You are in the middle of creating a transaction already. Are you sure you want to cancel this action?"
+          "You are in the middle of creating a transaction. Are you sure you want to cancel this action and start a new one?"
         )
         if (confirmResult) {
           this.session.currrentModalOpen.close()
@@ -618,7 +618,16 @@ export default {
       const { type, memo, ...properties } = this.transactionData
       await this.actionManager.setMessage(type, properties)
       try {
-        this.gasEstimate = await this.actionManager.simulate(memo)
+        if (!this.useTxService) {
+          this.gasEstimate = await this.actionManager.simulate(memo)
+        } else {
+          this.gasEstimate = await this.actionManager.simulateTxAPI(
+            this.context,
+            type,
+            properties,
+            memo
+          )
+        }
         this.step = feeStep
       } catch ({ message }) {
         this.submissionError = `${this.submissionErrorPrefix}: ${message}.`
@@ -634,36 +643,38 @@ export default {
       this.submissionError = null
       this.trackEvent(`event`, `submit`, this.title, this.selectedSignMethod)
 
-      if (this.selectedSignMethod === SIGN_METHODS.LEDGER) {
-        try {
-          await this.connectLedger()
-        } catch (error) {
-          this.submissionError = `${this.submissionErrorPrefix}: ${error.message}.`
-          this.sending = false
-          return
-        }
-      }
-
-      const { memo } = this.transactionData
-
-      const gasPrice = {
-        amount: this.gasPrice,
-        denom: this.network.stakingDenom
-      }
+      const { type, memo, ...properties } = this.transactionData
 
       const feeProperties = {
         gasEstimate: this.gasEstimate,
-        gasPrice: gasPrice,
+        gasPrice: {
+          amount: this.gasPrice,
+          denom: this.network.stakingDenom
+        },
         submitType: this.selectedSignMethod,
         password: this.password
       }
 
       try {
-        const { hash } = await this.actionManager.send(memo, feeProperties)
+        let hashResult
+        if (!this.useTxService) {
+          hashResult = await this.actionManager.send(memo, feeProperties)
+        } else {
+          await this.$apollo.queries.overview.refetch()
+          hashResult = await this.actionManager.sendTxAPI(
+            this.context,
+            type,
+            memo,
+            properties,
+            feeProperties
+          )
+        }
+
+        const { hash } = hashResult
         this.txHash = hash
         this.step = inclusionStep
-      } catch ({ message }) {
-        this.onSendingFailed(message)
+      } catch (error) {
+        this.onSendingFailed(error)
       }
     },
     onTxIncluded() {
@@ -675,14 +686,20 @@ export default {
         this.selectedSignMethod
       )
       this.$emit(`txIncluded`)
+      this.$apollo.queries.overview.refetch()
     },
-    onSendingFailed(message) {
+    onSendingFailed(error) {
+      Sentry.withScope(scope => {
+        scope.setExtra("signMethod", this.selectedSignMethod)
+        scope.setExtra("transactionData", this.transactionData)
+        scope.setExtra("gasEstimate", this.gasEstimate)
+        scope.setExtra("gasPrice", this.gasPrice)
+        Sentry.captureException(error)
+      })
       this.step = signStep
-      this.submissionError = `${this.submissionErrorPrefix}: ${message}.`
-      this.trackEvent(`event`, `failed-submit`, this.title, message)
-    },
-    async connectLedger() {
-      await this.$store.dispatch(`connectLedgerApp`)
+      this.submissionError = `${this.submissionErrorPrefix}: ${error.message}.`
+      this.trackEvent(`event`, `failed-submit`, this.title, error.message)
+      this.$apollo.queries.overview.refetch()
     }
   },
   validations() {
@@ -714,7 +731,10 @@ export default {
           overview(networkId: $networkId, address: $address) {
             totalRewards
             liquidStake
-            totalStake
+            accountInformation {
+              accountNumber
+              sequence
+            }
           }
         }
       `,
@@ -733,6 +753,7 @@ export default {
         }
       },
       skip() {
+        /* istanbul ignore next */
         return !this.session.address
       }
     },
@@ -741,11 +762,8 @@ export default {
         query NetworkActionModal($networkId: String!) {
           network(id: $networkId) {
             id
-            testnet
             stakingDenom
             chain_id
-            rpc_url
-            api_url
             action_send
             action_claim_rewards
             action_delegate
@@ -758,6 +776,7 @@ export default {
         }
       `,
       variables() {
+        /* istanbul ignore next */
         return {
           networkId: this.networkId
         }
@@ -768,58 +787,34 @@ export default {
         return data.network
       }
     },
-    delegations: {
-      query: gql`
-        query DelegationsActionModal(
-          $networkId: String!
-          $delegatorAddress: String!
-        ) {
-          delegations(
-            networkId: $networkId
-            delegatorAddress: $delegatorAddress
-          ) {
-            amount
-            validator {
-              operatorAddress
-            }
-          }
-        }
-      `,
-      skip() {
-        return !this.session.address
-      },
-      variables() {
-        return {
-          networkId: this.networkId,
-          delegatorAddress: this.session.address
-        }
-      },
-      update(data) {
-        /* istanbul ignore next */
-        return data.delegations
-      }
-    },
     $subscribe: {
       userTransactionAdded: {
         variables() {
+          /* istanbul ignore next */
           return {
             networkId: this.networkId,
             address: this.session.address
           }
         },
         skip() {
+          /* istanbul ignore next */
           return !this.txHash
         },
         query: UserTransactionAdded,
         result({ data }) {
+          /* istanbul ignore next */
           const { hash, height, success, log } = data.userTransactionAdded
+          /* istanbul ignore next */
           if (hash === this.txHash) {
+            /* istanbul ignore next */
             this.includedHeight = height
-
+            /* istanbul ignore next */
             if (success) {
+              /* istanbul ignore next */
               this.onTxIncluded()
             } else {
-              this.onSendingFailed(log)
+              /* istanbul ignore next */
+              this.onSendingFailed(new Error(log))
             }
           }
           this.txHash = null
@@ -854,7 +849,6 @@ export default {
   flex-direction: column;
   text-align: center;
   display: flex;
-  padding-bottom: 2rem;
 }
 
 .action-modal-title {
@@ -900,13 +894,20 @@ export default {
 
 .action-modal-footer {
   display: flex;
-  justify-content: flex-end;
-  padding: 1.5rem 0 1rem;
-
-  /* keeps button in bottom right no matter the size of the action modal */
   flex-grow: 1;
   align-self: flex-end;
   flex-direction: column;
+  padding: 1.5rem 0 1rem;
+}
+
+.action-modal-footer .tm-form-group .tm-form-group__field {
+  display: flex;
+  align-items: center;
+  justify-items: space-between;
+}
+
+.action-modal-footer .tm-form-group .tm-form-group__field .tertiary {
+  margin-right: 0.5rem;
 }
 
 .action-modal-footer .tm-form-group {
@@ -923,7 +924,11 @@ export default {
   font-style: italic;
   color: var(--dim);
   display: inline-block;
-  padding: 0.5rem 0 0.5rem 1rem;
+  padding: 0.5rem;
+}
+
+.form-message.notice {
+  padding: 2rem 0.5rem 0.5rem;
 }
 
 .slide-fade-enter-active {
@@ -984,10 +989,29 @@ export default {
     top: 0;
     overflow-x: scroll;
     padding-bottom: 69px;
+    padding-top: 4rem;
   }
 
   .action-modal-footer button {
     width: 100%;
+  }
+
+  .action-modal-icon.action-modal-close {
+    top: 3rem;
+  }
+}
+
+/* iPhone X and Xs Max */
+@media only screen and (min-device-width: 375px) and (min-device-height: 812px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait) {
+  .action-modal-footer {
+    padding-bottom: 1.8rem;
+  }
+}
+
+/* iPhone XR */
+@media only screen and (min-device-width: 414px) and (min-device-height: 896px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait) {
+  .action-modal-footer {
+    padding-bottom: 1.8rem;
   }
 }
 </style>

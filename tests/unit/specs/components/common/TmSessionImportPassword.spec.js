@@ -13,7 +13,9 @@ describe(`TmSessionImportPassword`, () => {
   let wrapper, $store, getters
 
   beforeEach(() => {
-    getters = {}
+    getters = {
+      network: "lunie-net"
+    }
     $store = {
       state: {
         recover: {
@@ -86,6 +88,7 @@ describe(`TmSessionImportPassword`, () => {
     expect($store.dispatch).toHaveBeenCalledWith(`createKey`, {
       name: ``,
       password: `1234567890`,
+      network: "lunie-net",
       seedPhrase: ``
     })
   })
@@ -95,13 +98,6 @@ describe(`TmSessionImportPassword`, () => {
     wrapper.vm.$store.state.recover.passwordConfirm = `1234567890`
     await wrapper.vm.onSubmit()
     expect(wrapper.vm.$router.push).toHaveBeenCalledWith(`/`)
-  })
-
-  it(`should dispatch resetRecoverData when submit the form`, async () => {
-    wrapper.vm.$store.state.recover.password = `1234567890`
-    wrapper.vm.$store.state.recover.passwordConfirm = `1234567890`
-    await wrapper.vm.onSubmit()
-    expect($store.dispatch).toHaveBeenCalledWith(`resetRecoverData`)
   })
 
   it(`should show error on createKey dispatch error`, async () => {
@@ -114,10 +110,8 @@ describe(`TmSessionImportPassword`, () => {
     expect(wrapper.vm.error).toBe(true)
   })
 
-  it(`should dispatch resetRecoverData when submit the form`, async () => {
-    wrapper.vm.$store.state.recover.password = `1234567890`
-    wrapper.vm.$store.state.recover.passwordConfirm = `1234567890`
-    await wrapper.vm.onSubmit()
+  it(`should dispatch resetRecoverData when the component is destroyed`, async () => {
+    wrapper.destroy()
     expect($store.dispatch).toHaveBeenCalledWith(`resetRecoverData`)
   })
 })

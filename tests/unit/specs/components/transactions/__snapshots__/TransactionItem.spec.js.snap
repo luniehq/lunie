@@ -1,18 +1,313 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`TransactionItem renders a transaction item 1`] = `
+exports[`TransactionItem renders a MsgBeginRedelegate transaction item 1`] = `
 <div
-  class="tx"
+  class="tx-container"
 >
-  <transactionicon-stub
-    transactiongroup="banking"
-  />
+  <div
+    class="tx"
+  >
+    <!---->
+     
+    <div
+      class="toggle"
+    >
+      <i
+        class="material-icons toggle-icon"
+      >
+        keyboard_arrow_down
+      </i>
+    </div>
+  </div>
    
-  <transactiondetails-stub
-    address="cosmos1"
-    showmetadata="true"
-    transaction="[object Object]"
-    validators="[object Object]"
-  />
+  <!---->
+</div>
+`;
+
+exports[`TransactionItem renders a MsgCreateValidator transaction item 1`] = `
+<div
+  class="tx-container"
+>
+  <div
+    class="tx"
+  >
+    <!---->
+     
+    <div
+      class="toggle"
+    >
+      <i
+        class="material-icons toggle-icon"
+      >
+        keyboard_arrow_down
+      </i>
+    </div>
+  </div>
+   
+  <!---->
+</div>
+`;
+
+exports[`TransactionItem renders a MsgDelegate transaction item 1`] = `
+<div
+  class="tx-container"
+>
+  <div
+    class="tx"
+  >
+    <!---->
+     
+    <div
+      class="toggle"
+    >
+      <i
+        class="material-icons toggle-icon"
+      >
+        keyboard_arrow_down
+      </i>
+    </div>
+  </div>
+   
+  <!---->
+</div>
+`;
+
+exports[`TransactionItem renders a MsgDeposit transaction item 1`] = `
+<div
+  class="tx-container"
+>
+  <div
+    class="tx"
+  >
+    <!---->
+     
+    <div
+      class="toggle"
+    >
+      <i
+        class="material-icons toggle-icon"
+      >
+        keyboard_arrow_down
+      </i>
+    </div>
+  </div>
+   
+  <!---->
+</div>
+`;
+
+exports[`TransactionItem renders a MsgEditValidator transaction item 1`] = `
+<div
+  class="tx-container"
+>
+  <div
+    class="tx"
+  >
+    <!---->
+     
+    <div
+      class="toggle"
+    >
+      <i
+        class="material-icons toggle-icon"
+      >
+        keyboard_arrow_down
+      </i>
+    </div>
+  </div>
+   
+  <!---->
+</div>
+`;
+
+exports[`TransactionItem renders a MsgMultiSend transaction item 1`] = `
+<div
+  class="tx-container"
+>
+  <div
+    class="tx"
+  >
+    <!---->
+     
+    <div
+      class="toggle"
+    >
+      <i
+        class="material-icons toggle-icon"
+      >
+        keyboard_arrow_down
+      </i>
+    </div>
+  </div>
+   
+  <!---->
+</div>
+`;
+
+exports[`TransactionItem renders a MsgSend transaction item 1`] = `
+<div
+  class="tx-container"
+>
+  <div
+    class="tx"
+  >
+    <!---->
+     
+    <div
+      class="toggle"
+    >
+      <i
+        class="material-icons toggle-icon"
+      >
+        keyboard_arrow_down
+      </i>
+    </div>
+  </div>
+   
+  <!---->
+</div>
+`;
+
+exports[`TransactionItem renders a MsgSetWithdrawAddress transaction item 1`] = `
+<div
+  class="tx-container"
+>
+  <div
+    class="tx"
+  >
+    <!---->
+     
+    <div
+      class="toggle"
+    >
+      <i
+        class="material-icons toggle-icon"
+      >
+        keyboard_arrow_down
+      </i>
+    </div>
+  </div>
+   
+  <!---->
+</div>
+`;
+
+exports[`TransactionItem renders a MsgSubmitProposal transaction item 1`] = `
+<div
+  class="tx-container"
+>
+  <div
+    class="tx"
+  >
+    <!---->
+     
+    <div
+      class="toggle"
+    >
+      <i
+        class="material-icons toggle-icon"
+      >
+        keyboard_arrow_down
+      </i>
+    </div>
+  </div>
+   
+  <!---->
+</div>
+`;
+
+exports[`TransactionItem renders a MsgUndelegate transaction item 1`] = `
+<div
+  class="tx-container"
+>
+  <div
+    class="tx"
+  >
+    <!---->
+     
+    <div
+      class="toggle"
+    >
+      <i
+        class="material-icons toggle-icon"
+      >
+        keyboard_arrow_down
+      </i>
+    </div>
+  </div>
+   
+  <!---->
+</div>
+`;
+
+exports[`TransactionItem renders a MsgUnjail transaction item 1`] = `
+<div
+  class="tx-container"
+>
+  <div
+    class="tx"
+  >
+    <!---->
+     
+    <div
+      class="toggle"
+    >
+      <i
+        class="material-icons toggle-icon"
+      >
+        keyboard_arrow_down
+      </i>
+    </div>
+  </div>
+   
+  <!---->
+</div>
+`;
+
+exports[`TransactionItem renders a MsgVote transaction item 1`] = `
+<div
+  class="tx-container"
+>
+  <div
+    class="tx"
+  >
+    <!---->
+     
+    <div
+      class="toggle"
+    >
+      <i
+        class="material-icons toggle-icon"
+      >
+        keyboard_arrow_down
+      </i>
+    </div>
+  </div>
+   
+  <!---->
+</div>
+`;
+
+exports[`TransactionItem renders a MsgWithdrawDelegationReward transaction item 1`] = `
+<div
+  class="tx-container"
+>
+  <div
+    class="tx"
+  >
+    <!---->
+     
+    <div
+      class="toggle"
+    >
+      <i
+        class="material-icons toggle-icon"
+      >
+        keyboard_arrow_down
+      </i>
+    </div>
+  </div>
+   
+  <!---->
 </div>
 `;

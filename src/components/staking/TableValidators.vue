@@ -152,6 +152,29 @@ export default {
       update: result => {
         return result.rewards || []
       }
+    },
+    $subscribe: {
+      blockAdded: {
+        variables() {
+          return {
+            networkId: this.network
+          }
+        },
+        query() {
+          return gql`
+            subscription($networkId: String!) {
+              blockAdded(networkId: $networkId) {
+                height
+                chainId
+              }
+            }
+          `
+        },
+        result() {
+          /* istanbul ignore next */
+          this.$apollo.queries.rewards.refetch()
+        }
+      }
     }
   }
 }

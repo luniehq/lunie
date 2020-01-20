@@ -1,0 +1,23 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SetWithdrawAddressMessageDetails renders a set withdraw address transaction message 1`] = `
+<div
+  class="tx__content"
+>
+  <transactionicon-stub
+    transactiongroup="staking"
+    transactiontype="Update"
+  />
+   
+  <div
+    class="tx__content__left"
+  >
+    <h3>
+      Update withdraw address
+    </h3>
+    
+    to cosmos1
+  
+  </div>
+</div>
+`;

@@ -8,6 +8,9 @@
           alt="a small spinning circle to display loading"
         />
       </router-link>
+      <router-link to="/" class="session-close-mobile user-box">
+        <i class="material-icons">close</i>
+      </router-link>
 
       <h2 class="session-title welcome">
         Welcome to Lunie

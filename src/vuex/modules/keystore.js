@@ -1,4 +1,5 @@
 import { track } from "scripts/google-analytics"
+import config from "src/../config"
 
 export default () => {
   const state = {
@@ -6,7 +7,8 @@ export default () => {
     error: null,
     // import into state to be able to test easier
     externals: {
-      track
+      track,
+      config
     }
   }
 
@@ -35,21 +37,21 @@ export default () => {
       const { getSeed } = await import("@lunie/cosmos-keys")
       return getSeed()
     },
-    async getAddressFromSeed(store, seedPhrase) {
-      const { getNewWalletFromSeed } = await import("@lunie/cosmos-keys")
-      const wallet = getNewWalletFromSeed(seedPhrase)
+    async getAddressFromSeed(store, { seedPhrase, network }) {
+      const wallet = await getWallet(seedPhrase, network)
       return wallet.cosmosAddress
     },
-    async createKey({ dispatch, state }, { seedPhrase, password, name }) {
-      const { getNewWalletFromSeed, storeWallet } = await import(
-        "@lunie/cosmos-keys"
-      )
-
-      state.externals.track(`event`, `session`, `create-keypair`)
-
-      const wallet = getNewWalletFromSeed(seedPhrase)
+    async createKey(
+      { dispatch, state },
+      { seedPhrase, password, name, network }
+    ) {
+      // TODO extract the key storage from the key creation
+      const { storeWallet } = await import("@lunie/cosmos-keys")
+      const wallet = await getWallet(seedPhrase, network)
 
       storeWallet(wallet, name, password)
+
+      state.externals.track(`event`, `session`, `create-keypair`)
 
       // reload accounts as we just added a new one
       dispatch("loadAccounts")
@@ -67,5 +69,33 @@ export default () => {
     state,
     mutations,
     actions
+  }
+}
+
+// creates a cosmos addres for the network desired
+function getCosmosAddressCreator(network) {
+  return async seedPhrase => {
+    const { getNewWalletFromSeed } = await import("@lunie/cosmos-keys")
+    return getNewWalletFromSeed(seedPhrase, config.bech32Prefixes[network])
+  }
+}
+
+async function getWallet(seedPhrase, network) {
+  switch (network) {
+    case "cosmos-hub-mainnet":
+    case "cosmos-hub-testnet":
+    case "regen-testnet":
+    case "regen-mainnet":
+    case "terra-testnet":
+    case "emoney-testnet":
+    case "emoney-mainnet":
+    case "terra-mainnet": {
+      const addressCreator = await getCosmosAddressCreator(network)
+      return addressCreator(seedPhrase)
+    }
+    default:
+      throw new Error(
+        "Lunie doesn't support address creation for this network."
+      )
   }
 }

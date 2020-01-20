@@ -1,6 +1,11 @@
 import ActionManager from "src/ActionModal/utils/ActionManager.js"
 import { sendTx, withdrawTx } from "./actions"
 
+jest.mock("src/../config.js", () => ({
+  default_gas_price: 2.5e-8,
+  graphqlHost: "http://localhost:4000"
+}))
+
 let mockSimulate = jest.fn(() => 12345)
 const MsgSendFn = jest.fn(() => ({ included: () => async () => true }))
 const mockGet = jest.fn()
@@ -19,24 +24,46 @@ const mockMsgWithdraw = jest.fn(() => ({
   send: () => ({ included: () => async () => true })
 }))
 
+const mockGetTransactionSigner = jest.fn(() => {
+  console.log("mockGetTransactionSigner executed")
+  return jest.fn().mockResolvedValue(() => console.log("Hello"))
+})
+
 const mockMessageConstructor = jest.fn().mockImplementation(() => {
   return {
     get: mockGet,
     MsgSend: mockMsgSend,
     MsgWithdrawDelegationReward: mockMsgWithdraw,
-    MultiMessage: mockMultiMessage
+    MultiMessage: mockMultiMessage,
+    getTransactionSigner: mockGetTransactionSigner
   }
 })
-jest.mock(`cosmos-apiV0`, () => mockMessageConstructor)
-jest.mock(`cosmos-apiV2`, () => mockMessageConstructor)
+jest.mock(`cosmos-apiV0`, () => ({
+  default: mockMessageConstructor,
+  createSignedTransaction: jest.fn(() => "signedMessage"),
+  __esModule: true
+}))
+jest.mock(`cosmos-apiV2`, () => ({
+  default: mockMessageConstructor,
+  createSignedTransaction: jest.fn(() => "signedMessage"),
+  __esModule: true
+}))
 
 jest.mock(`src/ActionModal/utils/signer.js`, () => ({
   getSigner: jest.fn(() => "signer")
 }))
 
+const mockFetch = jest.fn(() =>
+  Promise.resolve({
+    json: () => ({ success: true, hash: "abcdsuperhash" })
+  })
+)
+
 let actionManager
 describe("ActionManager", () => {
   beforeEach(async () => {
+    global.fetch = mockFetch
+
     actionManager = new ActionManager()
     await actionManager.setContext({
       url: "blah",
@@ -144,7 +171,7 @@ describe("ActionManager", () => {
     }
   })
 
-  describe("simulating and sending", async () => {
+  describe("simulating and sending", () => {
     beforeEach(async () => {
       const context = {
         url: "blah",
@@ -212,6 +239,184 @@ describe("ActionManager", () => {
           memo: "memo"
         },
         "signer"
+      )
+    })
+
+    it("should estimate via Tx API", async () => {
+      actionManager.transactionAPIRequest = jest
+        .fn()
+        .mockResolvedValue({ success: true, gasEstimate: 12345 })
+
+      await actionManager.simulateTxAPI(
+        actionManager.context,
+        "MsgSend",
+        sendTx.txProps
+      )
+
+      const expectArgs = {
+        simulate: true,
+        messageType: "MsgSend",
+        address: "cosmos12345",
+        networkId: "cosmos-hub-testnet",
+        txProperties: {
+          amounts: [{ amount: "20000", denom: "uatom" }],
+          toAddress: "cosmos123"
+        }
+      }
+
+      expect(actionManager.transactionAPIRequest).toHaveBeenCalledWith(
+        expectArgs
+      )
+    })
+
+    it("should estimate via Tx API FAILS", async () => {
+      actionManager.transactionAPIRequest = jest
+        .fn()
+        .mockResolvedValue({ success: false })
+
+      await expect(
+        actionManager.simulateTxAPI(
+          actionManager.context,
+          "MsgSend",
+          sendTx.txProps,
+          "memo"
+        )
+      ).rejects.toThrow()
+    })
+
+    it("should send via Tx API", async () => {
+      const context = {
+        ...actionManager.context,
+        account: {
+          accountNumber: 1,
+          sequence: 1
+        }
+      }
+
+      actionManager.transactionAPIRequest = jest
+        .fn()
+        .mockResolvedValue({ success: true, hash: "abcdsuperhash" })
+
+      await actionManager.sendTxAPI(
+        context,
+        "MsgSend",
+        "memo",
+        sendTx.txProps,
+        sendTx.txMetaData
+      )
+
+      const expectArgs = {
+        simulate: false,
+        messageType: "MsgSend",
+        networkId: "cosmos-hub-testnet",
+        signedMessage: "signedMessage",
+        senderAddress: "cosmos12345"
+      }
+
+      expect(actionManager.transactionAPIRequest).toHaveBeenCalledWith(
+        expectArgs
+      )
+    })
+
+    it("should send via Tx API (withdraw)", async () => {
+      const context = {
+        ...actionManager.context,
+        account: {
+          accountNumber: 1,
+          sequence: 1
+        }
+      }
+
+      actionManager.transactionAPIRequest = jest
+        .fn()
+        .mockResolvedValue({ success: true, hash: "abcdsuperhash" })
+
+      await actionManager.sendTxAPI(
+        context,
+        "MsgWithdrawDelegationReward",
+        "memo",
+        sendTx.txProps,
+        sendTx.txMetaData
+      )
+
+      const expectArgs = {
+        simulate: false,
+        messageType: "MsgWithdrawDelegationReward",
+        networkId: "cosmos-hub-testnet",
+        signedMessage: "signedMessage",
+        senderAddress: "cosmos12345"
+      }
+
+      expect(actionManager.transactionAPIRequest).toHaveBeenCalledWith(
+        expectArgs
+      )
+    })
+
+    it("should send via Tx API FAILS", async () => {
+      const context = {
+        ...actionManager.context,
+        account: {
+          accountNumber: 1,
+          sequence: 1
+        }
+      }
+
+      actionManager.transactionAPIRequest = jest
+        .fn()
+        .mockResolvedValue({ success: false, hash: 1234 })
+
+      await expect(
+        actionManager.sendTxAPI(
+          context,
+          "MsgSend",
+          "memo",
+          sendTx.txProps,
+          sendTx.txMetaData
+        )
+      ).rejects.toThrow()
+    })
+
+    it("should send estimate request", () => {
+      const payload = {
+        simulate: true,
+        messageType: "MsgSend",
+        networkId: "cosmos-hub-testnet",
+        signedMessage: "signedMessage"
+      }
+
+      const args2 = {
+        body:
+          '{"payload":{"simulate":true,"messageType":"MsgSend","networkId":"cosmos-hub-testnet","signedMessage":"signedMessage"}}',
+        headers: { "Content-Type": "application/json" },
+        method: "POST"
+      }
+
+      actionManager.transactionAPIRequest(payload)
+      expect(mockFetch).toHaveBeenLastCalledWith(
+        "http://localhost:4000/transaction/estimate",
+        args2
+      )
+    })
+
+    it("should send broadcast request", () => {
+      const payload = {
+        simulate: false,
+        messageType: "MsgSend",
+        networkId: "cosmos-hub-testnet",
+        signedMessage: "signedMessage"
+      }
+
+      const args2 = {
+        body:
+          '{"payload":{"simulate":false,"messageType":"MsgSend","networkId":"cosmos-hub-testnet","signedMessage":"signedMessage"}}',
+        headers: { "Content-Type": "application/json" },
+        method: "POST"
+      }
+
+      actionManager.transactionAPIRequest(payload)
+      expect(mockFetch).toHaveBeenLastCalledWith(
+        "http://localhost:4000/transaction/broadcast",
+        args2
       )
     })
 

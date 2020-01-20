@@ -4,6 +4,7 @@ exports[`ModalVote should display vote modal form 1`] = `
 <actionmodal-stub
   amount="0"
   class="modal-vote"
+  featureflag="vote"
   id="modal-vote"
   notifymessage="[object Object]"
   rewards=""

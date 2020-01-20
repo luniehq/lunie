@@ -38,9 +38,14 @@ describe(`AppMenu`, () => {
 
   it(`call dispatch to sign the user out`, () => {
     const $store = { dispatch: jest.fn() }
-    const self = { $store, $router: { push: jest.fn() }, $emit: jest.fn() }
+    const self = {
+      network: `la-red-feliz`,
+      $store,
+      $router: { push: jest.fn() },
+      $emit: jest.fn()
+    }
     AppMenu.methods.signOut.call(self)
-    expect($store.dispatch).toHaveBeenCalledWith(`signOut`)
+    expect($store.dispatch).toHaveBeenCalledWith(`signOut`, `la-red-feliz`)
   })
 
   it(`closes menu on sign out`, () => {
@@ -60,5 +65,46 @@ describe(`AppMenu`, () => {
     AppMenu.methods.handleClick.call(self)
     expect(self.$emit).toHaveBeenCalledWith(`close`)
     expect(window.scrollTo).toHaveBeenCalledWith(0, 0)
+  })
+
+  it(`shows a warning if showing address on Ledger fails`, async () => {
+    const self = {
+      showAddressOnLedgerFn: jest.fn(() =>
+        Promise.reject(new Error("Expected Error"))
+      )
+    }
+    await AppMenu.methods.showAddressOnLedger.call(self)
+    expect(self.showAddressOnLedgerFn).toHaveBeenCalled()
+    expect(self.ledgerAddressError).toBe("Expected Error")
+  })
+
+  it(`clears the warning if showing address on Ledger fails after a while`, async () => {
+    jest.useFakeTimers()
+    const self = {
+      showAddressOnLedgerFn: jest.fn(() =>
+        Promise.reject(new Error("Expected Error"))
+      )
+    }
+    await AppMenu.methods.showAddressOnLedger.call(self)
+
+    jest.runAllTimers()
+    expect(self.ledgerAddressError).toBe(undefined)
+
+    jest.useRealTimers()
+  })
+
+  it(`clears the warning timeout if user intents to show address on Ledger again`, async () => {
+    jest.useFakeTimers()
+    const self = {
+      showAddressOnLedgerFn: jest.fn(() =>
+        Promise.reject(new Error("Expected Error"))
+      )
+    }
+    await AppMenu.methods.showAddressOnLedger.call(self)
+    expect(self.messageTimeout).toBeDefined()
+    AppMenu.methods.showAddressOnLedger.call(self)
+    expect(self.messageTimeout).toBeUndefined()
+
+    jest.useRealTimers()
   })
 })

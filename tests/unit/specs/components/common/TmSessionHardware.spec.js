@@ -8,6 +8,11 @@ localVue.use(Vuex)
 localVue.use(Vuelidate)
 localVue.directive(`tooltip`, () => {})
 localVue.directive(`focus`, () => {})
+localVue.directive("clipboard", () => {})
+
+jest.mock("scripts/ledger", () => ({
+  getAddressFromLedger: () => "cosmos1234"
+}))
 
 describe(`TmSessionHardware`, () => {
   let wrapper, store
@@ -73,7 +78,6 @@ describe(`TmSessionHardware`, () => {
         confirmAddress: jest.fn(() => true)
       }
       await TmSessionHardware.methods.signIn.call(self)
-      expect(self.$store.dispatch).toHaveBeenCalledWith(`connectLedgerApp`)
       expect(self.connectionError).toBeNull()
       expect(self.$store.dispatch).toHaveBeenCalledWith(`signIn`, {
         sessionType: `ledger`,
@@ -82,11 +86,16 @@ describe(`TmSessionHardware`, () => {
     })
 
     it(`doesn't sign in if ledger not connected`, async () => {
+      jest.resetModules()
+      jest.doMock("scripts/ledger", () => ({
+        getAddressFromLedger: () => Promise.reject(new Error(`No Ledger found`))
+      }))
+      const TmSessionHardware = require("common/TmSessionHardware").default
+
       const $store = {
-        dispatch: jest.fn(async () =>
-          Promise.reject(new Error(`No Ledger found`))
-        )
+        dispatch: jest.fn(() => "cosmos1234")
       }
+
       const self = {
         $store,
         status: `connect`,
@@ -100,6 +109,46 @@ describe(`TmSessionHardware`, () => {
         `signIn`,
         expect.objectContaining({})
       )
+    })
+
+    it(`does show the instructions to enable HID on Windows`, () => {
+      wrapper.setData({
+        navigator: {
+          hid: undefined,
+          platform: "Win64",
+          userAgent: "Chrome"
+        }
+      })
+
+      expect(wrapper.html()).toMatchSnapshot()
+      expect(wrapper.html()).toContain(
+        "Due to recent Ledger updates, using a Ledger on Windows"
+      )
+    })
+
+    it(`does show the instructions to fix connection issues for Linux users`, () => {
+      wrapper.setData({
+        navigator: {
+          platform: "Linux i686",
+          userAgent: "Chrome"
+        }
+      })
+
+      expect(wrapper.html()).toMatchSnapshot()
+      expect(wrapper.html()).toContain(
+        "Since we switched to WebUSB Linux users may experience connection"
+      )
+    })
+
+    describe(`onCopy`, () => {
+      it(`should set and reset copySuccess`, () => {
+        jest.useFakeTimers()
+        wrapper.vm.onCopy() // old test style to make timer work
+        expect(wrapper.vm.copySuccess).toBe(true)
+
+        jest.runAllTimers()
+        expect(wrapper.vm.copySuccess).toBe(false)
+      })
     })
   })
 })

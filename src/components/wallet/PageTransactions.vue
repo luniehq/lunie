@@ -138,6 +138,7 @@ export default {
           validators(networkId: $networkId) {
             name
             operatorAddress
+            picture
           }
         }
       `,

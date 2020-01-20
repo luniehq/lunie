@@ -34,8 +34,13 @@ describe(`PageProposal`, () => {
       getters,
       state
     }
+
     const $apollo = {
       queries: {
+        proposals: {
+          loading: false,
+          error: undefined
+        },
         proposal: {
           loading: false,
           error: undefined
@@ -63,7 +68,8 @@ describe(`PageProposal`, () => {
     }
     wrapper = shallowMount(PageProposal, args)
     wrapper.setData({
-      proposal: proposals[2]
+      proposal: proposals[2],
+      found: true
     })
   })
 
@@ -112,6 +118,13 @@ describe(`PageProposal`, () => {
       proposals: proposals
     })
     expect(wrapper.vm.getProposalIndex(1)).toEqual(32)
+  })
+
+  it(`should set loaded to false on route change`, () => {
+    wrapper.vm.loaded = true
+    // Call directly watcher function
+    wrapper.vm.$options.watch.$route.call(wrapper.vm, { path: "xxxx" })
+    expect(wrapper.vm.loaded).toBe(false)
   })
 
   describe(`Proposal status`, () => {
@@ -181,10 +194,7 @@ describe(`PageProposal`, () => {
     it(`refetches user vote after a successful voting`, () => {
       wrapper.vm.$apollo.queries.vote.refetch = jest.fn()
       wrapper.vm.afterVote()
-      expect(wrapper.vm.$apollo.queries.vote.refetch).toHaveBeenCalledWith({
-        proposalId: 33,
-        address: "cosmos1xxxx"
-      })
+      expect(wrapper.vm.$apollo.queries.vote.refetch).toHaveBeenCalled()
     })
   })
 
@@ -202,9 +212,7 @@ describe(`PageProposal`, () => {
     it(`refetches proposal data after a successful depositing`, () => {
       wrapper.vm.$apollo.queries.proposal.refetch = jest.fn()
       wrapper.vm.afterDeposit()
-      expect(wrapper.vm.$apollo.queries.proposal.refetch).toHaveBeenCalledWith({
-        id: 33
-      })
+      expect(wrapper.vm.$apollo.queries.proposal.refetch).toHaveBeenCalled()
     })
   })
 })

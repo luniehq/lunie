@@ -8,6 +8,7 @@
     submission-error-prefix="Sending tokens failed"
     :transaction-data="transactionData"
     :notify-message="notifyMessage"
+    feature-flag="send"
     @close="clear"
     @txIncluded="onSuccess"
   >
@@ -37,19 +38,43 @@
       />
     </TmFormGroup>
     <TmFormGroup
+      v-if="getDenoms.length > 1"
+      :error="$v.selectedToken.$error"
+      class="action-modal-form-group"
+      field-id="selected-token"
+      field-label="Token"
+    >
+      <TmField
+        id="token"
+        v-model="selectedToken"
+        :title="`Select the token you wish to operate with`"
+        :options="getDenoms"
+        placeholder="Select the token"
+        type="select"
+      />
+      <TmFormMsg
+        v-if="$v.selectedToken.$error && !$v.selectedToken.required"
+        name="Token"
+        type="required"
+      />
+    </TmFormGroup>
+    <TmFormGroup
+      id="form-group-amount"
       :error="$v.amount.$error && $v.amount.$invalid"
       class="action-modal-form-group"
       field-id="amount"
       field-label="Amount"
     >
-      <span class="input-suffix max-button">{{ denom }}</span>
+      <span v-if="selectedToken" class="input-suffix max-button">{{
+        selectedToken
+      }}</span>
       <TmFieldGroup>
         <TmField
           id="amount"
           ref="amount"
           v-model="amount"
           class="tm-field-addon"
-          placeholder="Amount"
+          placeholder="0"
           type="number"
           @keyup.enter.native="enterPressed"
         />
@@ -61,8 +86,8 @@
         />
       </TmFieldGroup>
       <TmFormMsg
-        v-if="balance.amount === 0"
-        :msg="`doesn't have any ${denom}s`"
+        v-if="selectedBalance.amount === 0"
+        :msg="`doesn't have any ${selectedToken}s`"
         name="Wallet"
         type="custom"
       />
@@ -90,13 +115,9 @@
         class="tm-form-msg--desc max-message"
       />
     </TmFormGroup>
-    <TmBtn
-      v-if="editMemo === false"
-      id="edit-memo-btn"
-      value="Edit Memo"
-      type="secondary"
-      @click.native="showMemo()"
-    />
+    <a v-if="editMemo === false" id="edit-memo-btn" @click="showMemo()">
+      Need to edit the memo field?
+    </a>
     <TmFormGroup
       v-else
       id="memo"
@@ -108,8 +129,8 @@
       <TmField
         id="memo"
         v-model="memo"
+        v-focus
         type="text"
-        placeholder="Let everyone know how much you love Lunie"
         @keyup.enter.native="enterPressed"
       />
       <TmFormMsg
@@ -136,6 +157,8 @@ import TmFormMsg from "src/components/common/TmFormMsg"
 import ActionModal from "./ActionModal"
 import transaction from "../utils/transactionTypes"
 import { toMicroDenom } from "src/scripts/common"
+import config from "src/../config"
+import { UserTransactionAdded } from "src/gql"
 
 const defaultMemo = "(Sent via Lunie)"
 
@@ -150,25 +173,33 @@ export default {
     TmBtn
   },
   props: {
-    denom: {
-      type: String,
+    denoms: {
+      type: Array,
       required: true
     }
   },
   data: () => ({
     address: ``,
-    amount: null,
+    amount: config.development ? 0.000001 : null, // dev life, hard life > make simple
     memo: defaultMemo,
     max_memo_characters: 256,
     editMemo: false,
-    balance: {
-      amount: 0,
-      denom: ``
-    }
+    isFirstLoad: true,
+    selectedToken: ``,
+    balances: []
   }),
   computed: {
     ...mapGetters([`network`]),
     ...mapGetters({ userAddress: `address` }),
+    selectedBalance() {
+      const selectedBalance = this.balances.filter(
+        balance => balance.denom === this.selectedToken || this.denoms[0]
+      )
+      if (selectedBalance.length > 0) {
+        return selectedBalance[0]
+      }
+      return { amount: 0 }
+    },
     transactionData() {
       return {
         type: transaction.SEND,
@@ -176,7 +207,7 @@ export default {
         amounts: [
           {
             amount: uatoms(+this.amount),
-            denom: toMicroDenom(this.denom)
+            denom: toMicroDenom(this.selectedToken)
           }
         ],
         memo: this.memo
@@ -185,11 +216,34 @@ export default {
     notifyMessage() {
       return {
         title: `Successful Send`,
-        body: `Successfully sent ${+this.amount} ${this.denom}s to ${
+        body: `Successfully sent ${+this.amount} ${this.selectedToken}s to ${
           this.address
         }`
       }
+    },
+    getDenoms() {
+      return this.denoms
+        ? this.denoms.map(denom => (denom = { key: denom, value: denom }))
+        : []
     }
+  },
+  watch: {
+    // we set the amount in the input to zero every time the user selects another token so they
+    // realize they are dealing with a different balance each time
+    selectedToken: function() {
+      if (!this.isFirstLoad) {
+        this.amount = 0
+      } else {
+        this.isFirstLoad = false
+      }
+    },
+    balances: function(balances) {
+      if (balances.length === 0) return
+      this.selectedToken = balances[0].denom
+    }
+  },
+  mounted() {
+    this.$apollo.queries.balances.refetch()
   },
   methods: {
     open() {
@@ -213,14 +267,21 @@ export default {
       this.sending = false
     },
     setMaxAmount() {
-      this.amount = this.balance.amount
+      this.amount = this.selectedBalance.amount
     },
     isMaxAmount() {
-      if (this.balance.amount === 0) {
+      if (this.selectedBalance.amount === 0) {
         return false
       } else {
-        return parseFloat(this.amount) === parseFloat(this.balance.amount)
+        return (
+          parseFloat(this.amount) === parseFloat(this.selectedBalance.amount)
+        )
       }
+    },
+    token() {
+      if (!this.selectedToken) return ``
+
+      return this.selectedToken
     },
     bech32Validate(param) {
       try {
@@ -250,23 +311,20 @@ export default {
       amount: {
         required: x => !!x && x !== `0`,
         decimal,
-        between: between(SMALLEST, this.balance.amount)
+        between: between(SMALLEST, this.selectedBalance.amount)
       },
-      denom: { required },
+      denoms: { required },
+      selectedToken: { required },
       memo: {
         maxLength: maxLength(this.max_memo_characters)
       }
     }
   },
   apollo: {
-    balance: {
+    balances: {
       query: gql`
-        query BalanceSendModal(
-          $networkId: String!
-          $address: String!
-          $denom: String!
-        ) {
-          balance(networkId: $networkId, address: $address, denom: $denom) {
+        query BalancesSendModal($networkId: String!, $address: String!) {
+          balances(networkId: $networkId, address: $address) {
             amount
             denom
           }
@@ -278,8 +336,27 @@ export default {
       variables() {
         return {
           networkId: this.network,
-          address: this.userAddress,
-          denom: this.denom
+          address: this.userAddress
+        }
+      }
+    },
+    $subscribe: {
+      userTransactionAdded: {
+        variables() {
+          /* istanbul ignore next */
+          return {
+            networkId: this.network,
+            address: this.userAddress
+          }
+        },
+        skip() {
+          /* istanbul ignore next */
+          return !this.userAddress
+        },
+        query: UserTransactionAdded,
+        result() {
+          /* istanbul ignore next */
+          this.$apollo.queries.balances.refetch()
         }
       }
     }
@@ -289,5 +366,11 @@ export default {
 <style scoped>
 #edit-memo-btn {
   margin-top: 2.4rem;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+#form-group-amount {
+  margin-bottom: 30px;
 }
 </style>

@@ -32,7 +32,12 @@ describe(`Module: Keystore`, () => {
     mutations = module.mutations
 
     state.externals = {
-      track: jest.fn()
+      track: jest.fn(),
+      config: {
+        bech32Prefixes: {
+          "cosmos-hub-mainnet": "cosmos"
+        }
+      }
     }
   })
 
@@ -91,6 +96,17 @@ describe(`Module: Keystore`, () => {
     expect(seed).toBe(`xxx`)
   })
 
+  it(`should create an address from a seed phrase`, async () => {
+    const address = await actions.getAddressFromSeed(
+      {},
+      {
+        seedPhrase: `xxx`,
+        network: `cosmos-hub-mainnet`
+      }
+    )
+    expect(address).toBe(`cosmos1234`)
+  })
+
   it(`should create a key from a seed phrase`, async () => {
     const seedPhrase = `abc`
     const password = `123`
@@ -101,7 +117,8 @@ describe(`Module: Keystore`, () => {
       {
         seedPhrase,
         password,
-        name
+        name,
+        network: "cosmos-hub-mainnet"
       }
     )
     expect(dispatch).toHaveBeenCalledWith(`signIn`, {
@@ -121,7 +138,8 @@ describe(`Module: Keystore`, () => {
       {
         seedPhrase,
         password,
-        name
+        name,
+        network: "cosmos-hub-mainnet"
       }
     )
     expect(dispatch).toHaveBeenCalledWith(`loadAccounts`)
@@ -137,12 +155,32 @@ describe(`Module: Keystore`, () => {
       {
         seedPhrase,
         password,
-        name
+        name,
+        network: "cosmos-hub-mainnet"
       }
     )
     expect(dispatch).toHaveBeenCalledWith(`signIn`, {
       address,
       sessionType: "local"
     })
+  })
+
+  it("should handle networks not being supported for account creation (as a fallback)", async () => {
+    const seedPhrase = `abc`
+    const password = `123`
+    const name = `def`
+    await expect(
+      actions.createKey(
+        { state },
+        {
+          seedPhrase,
+          password,
+          name,
+          network: "fabo-net"
+        }
+      )
+    ).rejects.toThrowError(
+      "Lunie doesn't support address creation for this network."
+    )
   })
 })

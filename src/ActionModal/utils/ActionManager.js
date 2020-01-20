@@ -3,7 +3,20 @@ import { getSigner } from "./signer"
 import transaction from "./transactionTypes"
 import { uatoms } from "scripts/num"
 import { toMicroDenom } from "src/scripts/common"
-import { getMessage, getMultiMessage } from "./MessageConstructor.js"
+import { getGraphqlHost } from "scripts/url"
+import {
+  getMessage,
+  getMultiMessage,
+  getTransactionSigner,
+  transformMessage
+} from "./MessageConstructor.js"
+
+const txFetchOptions = {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json"
+  }
+}
 
 export default class ActionManager {
   constructor() {
@@ -49,10 +62,44 @@ export default class ActionManager {
     if (!this.context) {
       throw Error("This modal has no context.")
     }
+    this.txProps = transactionProperties
 
     this.messageTypeCheck(type)
     this.messageType = type
     this.message = await getMessage(type, transactionProperties, this.context)
+  }
+
+  async transactionAPIRequest(payload) {
+    const options = {
+      ...txFetchOptions,
+      body: JSON.stringify({ payload })
+    }
+
+    const command = payload.simulate ? "estimate" : "broadcast"
+
+    const graphqlHost = getGraphqlHost()
+
+    return fetch(
+      `${graphqlHost}/transaction/${command}`,
+      options
+    ).then(result => result.json())
+  }
+
+  async simulateTxAPI(context, type, txProps, memo) {
+    const txPayload = {
+      simulate: true,
+      networkId: context.networkId,
+      messageType: type,
+      address: context.userAddress,
+      txProperties: txProps,
+      memo
+    }
+    const result = await this.transactionAPIRequest(txPayload)
+    if (result.success) {
+      return result.gasEstimate
+    } else {
+      throw Error("Simulation unsuccessful")
+    }
   }
 
   async simulate(memo) {
@@ -66,7 +113,7 @@ export default class ActionManager {
   async send(memo, txMetaData) {
     this.readyCheck()
 
-    const { gasEstimate, gasPrice, submitType, password } = txMetaData
+    let { gasEstimate, gasPrice, submitType, password } = txMetaData
     const signer = await getSigner(config, submitType, {
       address: this.context.userAddress,
       password
@@ -74,6 +121,13 @@ export default class ActionManager {
 
     if (this.messageType === transaction.WITHDRAW) {
       this.message = await this.createWithdrawTransaction()
+    }
+
+    // temporary fix as the SDK doesn't return proper estimates for votes
+    // TODO move into transacton service
+    /* istanbul ignore next */
+    if (this.messageType === transaction.VOTE) {
+      gasEstimate = 30000
     }
 
     const messageMetadata = {
@@ -85,6 +139,73 @@ export default class ActionManager {
     const { included, hash } = await this.message.send(messageMetadata, signer)
 
     return { included, hash }
+  }
+
+  async sendTxAPI(context, type, memo, transactionProperties, txMetaData) {
+    const { gasEstimate, gasPrice, submitType, password } = txMetaData
+    const signer = await getSigner(config, submitType, {
+      address: context.userAddress,
+      password
+    })
+
+    const messageMetadata = {
+      gas: String(gasEstimate),
+      gasPrices: convertCurrencyData([gasPrice]),
+      memo
+    }
+
+    let txMessages = []
+    if (type === transaction.WITHDRAW) {
+      const validators = getTop5RewardsValidators(
+        context.bondDenom,
+        context.rewards
+      )
+      await Promise.all(
+        validators.map(async validator => {
+          const txMessage = await transformMessage(
+            context.networkId,
+            type,
+            context.userAddress,
+            {
+              validatorAddress: validator
+            }
+          )
+          txMessages.push(txMessage)
+        })
+      )
+    } else {
+      const txMessage = await transformMessage(
+        context.networkId,
+        type,
+        context.userAddress,
+        transactionProperties
+      )
+      txMessages.push(txMessage)
+    }
+
+    const createSignedTransaction = await getTransactionSigner(context)
+    const signedMessage = await createSignedTransaction(
+      messageMetadata,
+      txMessages,
+      signer,
+      context.chainId,
+      context.account.accountNumber,
+      context.account.sequence
+    )
+
+    const txPayload = {
+      simulate: false,
+      messageType: type,
+      networkId: context.networkId,
+      senderAddress: context.userAddress,
+      signedMessage
+    }
+    const result = await this.transactionAPIRequest(txPayload)
+    if (result.success) {
+      return { hash: result.hash }
+    } else {
+      throw Error("Broadcast was not successful: " + result.error)
+    }
   }
 
   async createWithdrawTransaction() {
@@ -125,7 +246,7 @@ function toMicroAtomString(amount) {
   return String(uatoms(amount))
 }
 
-// // limitation of the block, so we pick the top 5 rewards and inform the user.
+// limitation of the Ledger Nano S, so we pick the top 5 rewards and inform the user.
 function getTop5RewardsValidators(bondDenom, rewards) {
   // Compares the amount in a [address1, {denom: amount}] array
   const byBalance = (a, b) => b.amount - a.amount
