@@ -34,7 +34,7 @@
       </div>
 
       <div class="session-main">
-        <TmFormGroup field-id="sign-in-name" field-label="Your Cosmos Address">
+        <TmFormGroup field-id="sign-in-name" field-label="Your Address">
           <TmField
             v-model="address"
             type="text"
@@ -48,7 +48,7 @@
           />
           <TmFormMsg
             v-else-if="$v.address.$error && !$v.address.addressValidate"
-            name="Your Cosmos Address"
+            name="Your Address"
             type="bech32"
           />
           <TmFormMsg
@@ -61,6 +61,11 @@
               $v.address.$error && !$v.address.isAWhitelistedBech32Prefix
             "
             name="You can only sign in with a regular address"
+            type="custom"
+          />
+          <TmFormMsg
+            v-else-if="$v.address.$error && !$v.address.isANetworkAddress"
+            name="This address doesn't belong to the network you are currently connected to"
             type="custom"
           />
         </TmFormGroup>
@@ -158,6 +163,13 @@ export default {
         return false
       }
     },
+    isANetworkAddress(param) {
+      if (param.startsWith(config.bech32Prefixes[this.network])) {
+        return true
+      } else {
+        return false
+      }
+    },
     getAddressIcon(addressType) {
       if (addressType === "explore") return `language`
       if (addressType === "ledger") return `vpn_key`
@@ -187,7 +199,8 @@ export default {
         required,
         addressValidate: this.addressValidate,
         isNotAValidatorAddress: this.isNotAValidatorAddress,
-        isAWhitelistedBech32Prefix: this.isAWhitelistedBech32Prefix
+        isAWhitelistedBech32Prefix: this.isAWhitelistedBech32Prefix,
+        isANetworkAddress: this.isANetworkAddress
       }
     }
   }

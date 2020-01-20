@@ -13,7 +13,7 @@ describe(`TmSessionExplore`, () => {
       commit: jest.fn(),
       dispatch: jest.fn(() => true),
       getters: {
-        network: "cosmos-hub"
+        network: "cosmos-hub-testnet"
       },
       state: {
         session: {
