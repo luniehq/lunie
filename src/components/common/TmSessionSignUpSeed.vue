@@ -77,7 +77,7 @@ export default {
     errorMessage: ``
   }),
   computed: {
-    ...mapState([`session`, `signup`]),
+    ...mapState([`session`, `signup`, `connection`]),
     ...mapGetters({ networkId: `network` }),
     fieldSeed: {
       get() {
@@ -91,9 +91,6 @@ export default {
       set(value) {
         this.$store.commit(`updateField`, { field: `signUpWarning`, value })
       }
-    },
-    networkId() {
-      return this.$route.params ? this.$route.params.networkId : undefined
     }
   },
   mounted() {
@@ -112,13 +109,13 @@ export default {
       this.$v.$touch()
       if (this.$v.$error) return
       try {
-        console.log("prefix", config.bech32Prefixes[this.networkId])
+        console.log("prefix", config.bech32Prefixes[this.connection.network])
         await this.$store.dispatch(`createKey`, {
           seedPhrase: this.signup.signUpSeed,
           password: this.signup.signUpPassword,
           name: this.signup.signUpName,
-          network: this.networkId,
-          prefix: config.bech32Prefixes[this.networkId]
+          network: this.connection.network,
+          prefix: config.bech32Prefixes[this.connection.network]
         })
         this.$router.push(`/`)
       } catch (error) {

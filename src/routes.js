@@ -128,7 +128,7 @@ export default [
     }
   },
   {
-    path: `/create/:network`,
+    path: `/create`,
     name: `create`,
     components: {
       session: () => import(`./components/common/TmSessionSignUp`)
@@ -138,7 +138,7 @@ export default [
     }
   },
   {
-    path: `/create/:networkId/password`,
+    path: `/create/password`,
     name: `create-password`,
     components: {
       session: () => import(`./components/common/TmSessionSignUpPassword`)
@@ -155,7 +155,7 @@ export default [
     }
   },
   {
-    path: `/create/:networkId/confirm`,
+    path: `/create/confirm`,
     name: `create-confirm`,
     components: {
       session: () => import(`./components/common/TmSessionSignUpSeed`)
