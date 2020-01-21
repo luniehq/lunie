@@ -1,15 +1,12 @@
 import { track } from "scripts/google-analytics"
-import config from "src/../config"
 import gql from "graphql-tag"
 
 export default ({ apollo }) => {
   const state = {
     accounts: [],
-    error: null,
     // import into state to be able to test easier
     externals: {
-      track,
-      config
+      track
     }
   }
 
