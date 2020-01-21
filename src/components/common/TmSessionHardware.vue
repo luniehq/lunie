@@ -135,7 +135,7 @@ export default {
       this.status = `detect`
       this.address = null
       try {
-        this.address = await getAddressFromLedger(this.networkId)
+        this.address = await getAddressFromLedger(this.networkId, this.$apollo)
         this.$router.push(`/`)
       } catch ({ message }) {
         this.status = `connect`
