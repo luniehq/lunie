@@ -71,7 +71,7 @@ export default ({ apollo }) => {
 }
 
 // creates a cosmos addres for the network desired
-function getCosmosaddress_creator(bech32Prefix) {
+function getCosmosAddressCreator(bech32Prefix) {
   return async seedPhrase => {
     const { getNewWalletFromSeed } = await import("@lunie/cosmos-keys")
     return getNewWalletFromSeed(seedPhrase, bech32Prefix)
@@ -100,7 +100,7 @@ async function getWallet(seedPhrase, networkId, apollo) {
 
   switch (network.address_creator) {
     case "cosmos": {
-      const addressCreator = await getCosmosaddress_creator(
+      const addressCreator = await getCosmosAddressCreator(
         network.address_prefix
       )
       return addressCreator(seedPhrase)
