@@ -1,4 +1,5 @@
 import { track } from "scripts/google-analytics"
+import config from "src/../config"
 
 export default () => {
   const state = {
@@ -6,7 +7,8 @@ export default () => {
     error: null,
     // import into state to be able to test easier
     externals: {
-      track
+      track,
+      config
     }
   }
 
@@ -73,16 +75,8 @@ export default () => {
 // creates a cosmos addres for the network desired
 function getCosmosAddressCreator(network) {
   return async seedPhrase => {
-    const bech32Prefixes = {
-      "cosmos-hub-mainnet": "cosmos",
-      "cosmos-hub-testnet": "cosmos",
-      "regen-testnet": "xrn:",
-      "regen-mainnet": "xrn:",
-      "terra-testnet": "terra",
-      "terra-mainnet": "terra"
-    }
     const { getNewWalletFromSeed } = await import("@lunie/cosmos-keys")
-    return getNewWalletFromSeed(seedPhrase, bech32Prefixes[network])
+    return getNewWalletFromSeed(seedPhrase, config.bech32Prefixes[network])
   }
 }
 
@@ -93,6 +87,8 @@ async function getWallet(seedPhrase, network) {
     case "regen-testnet":
     case "regen-mainnet":
     case "terra-testnet":
+    case "emoney-testnet":
+    case "emoney-mainnet":
     case "terra-mainnet": {
       const addressCreator = await getCosmosAddressCreator(network)
       return addressCreator(seedPhrase)

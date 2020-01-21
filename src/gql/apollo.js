@@ -8,16 +8,12 @@ import { InMemoryCache } from "apollo-cache-inmemory"
 import { split } from "apollo-link"
 import { getMainDefinition } from "apollo-utilities"
 import VueApollo from "vue-apollo"
-import config from "src/../config"
+import { getGraphqlHost } from "scripts/url"
 
 Vue.use(VueApollo)
 
-const graphqlHost = urlParams =>
-  (urlParams.graphql ? decodeURIComponent(urlParams.graphql) : false) ||
-  config.graphqlHost
-
-const makeHttpLink = urlParams => {
-  const host = graphqlHost(urlParams)
+const makeHttpLink = () => {
+  const host = getGraphqlHost()
   const uri = host
 
   // We create a createPersistedQueryLink to lower network usage.
@@ -31,14 +27,14 @@ const makeHttpLink = urlParams => {
   )
 }
 
-const makeWebSocketLink = urlParams => {
-  const host = graphqlHost(urlParams)
+const makeWebSocketLink = () => {
+  const host = getGraphqlHost()
   const uri = `${host.replace("http", "ws")}/graphql`
   console.log("ws", uri)
   return new WebSocketLink({ uri })
 }
 
-const createApolloClient = urlParams => {
+const createApolloClient = () => {
   const link = split(
     ({ query }) => {
       const definition = getMainDefinition(query)
@@ -47,8 +43,8 @@ const createApolloClient = urlParams => {
         definition.operation === "subscription"
       )
     },
-    makeWebSocketLink(urlParams),
-    makeHttpLink(urlParams)
+    makeWebSocketLink(),
+    makeHttpLink()
   )
 
   const cache = new InMemoryCache()
@@ -61,9 +57,9 @@ const createApolloClient = urlParams => {
   })
 }
 
-export const createApolloProvider = urlParams => {
+export const createApolloProvider = () => {
   return new VueApollo({
-    defaultClient: createApolloClient(urlParams),
+    defaultClient: createApolloClient(),
     defaultOptions: {
       // apollo options applied to all queries in components
       $query: {

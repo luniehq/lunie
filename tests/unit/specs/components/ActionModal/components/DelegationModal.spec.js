@@ -95,7 +95,7 @@ describe(`DelegationModal`, () => {
     expect(self.$refs.actionModal.validateChangeStep).toHaveBeenCalled()
   })
 
-  it(`opens`, () => {
+  it.only(`opens`, () => {
     const $refs = { actionModal: { open: jest.fn() } }
     const $apollo = wrapper.vm.$apollo
     DelegationModal.methods.open.call({ $refs, $apollo })
@@ -148,7 +148,7 @@ describe(`DelegationModal`, () => {
       })
       wrapper.setData({
         amount: 10,
-        fromSelectedIndex: `0`
+        fromSelectedIndex: 0
       })
     })
 
