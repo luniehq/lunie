@@ -28,7 +28,7 @@ exports[`SubmitProposalMessageDetails renders a submit proposal transaction mess
       class="amount"
     >
       
-      100 
+      100,000,000 
       ATOM
     
     </p>

@@ -37,7 +37,7 @@ exports[`UndelegateMessageDetails renders a undelegate transaction message 1`] =
       class="amount"
     >
       
-      0.1 ATOM
+      100,000 ATOM
     
     </p>
   </div>

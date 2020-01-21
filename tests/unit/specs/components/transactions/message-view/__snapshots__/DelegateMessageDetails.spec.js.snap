@@ -37,7 +37,7 @@ exports[`DelegateMessageDetails renders a redelegate transaction message 1`] = `
       class="amount"
     >
       
-      10,000 ATOM
+      10,000,000,000 ATOM
     
     </p>
   </div>
