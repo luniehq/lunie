@@ -48,7 +48,9 @@ async function getLedgerConnector(network) {
     case "regen-testnet":
     case "regen-mainnet":
     case "terra-testnet":
-    case "terra-mainnet": {
+    case "terra-mainnet":
+    case "emoney-testnet":
+    case "emoney-mainnet": {
       const { default: Ledger } = await import("@lunie/cosmos-ledger")
 
       const HDPATH = [44, 118, 0, 0, 0]
