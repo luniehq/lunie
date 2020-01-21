@@ -7,6 +7,7 @@
         v-if="showTutorial && session.experimentalMode"
         :steps="cosmosGovernance.steps"
         :fullguide="cosmosGovernance.fullguide"
+        :background="cosmosGovernance.background"
         :close="closeTutorial"
       />
     </template>
@@ -32,6 +33,7 @@ export default {
     showTutorial: true,
     cosmosGovernance: {
       fullguide: `http://lunie.io`,
+      background: `lightblue`,
       steps: [
         {
           title: "How Cosmos Governance Works",
@@ -68,6 +70,7 @@ export default {
     },
     cosmosStaking: {
       fullguide: `http://lunie.io`,
+      background: `blue`,
       steps: [
         {
           title: "Staking tokens",
@@ -102,6 +105,7 @@ export default {
     },
     cosmosTokens: {
       fullguide: `http://lunie.io`,
+      background: `red`,
       steps: [
         {
           title: "How To Get Tokens",
@@ -144,6 +148,7 @@ export default {
     },
     manageYourKeys: {
       fullguide: `http://lunie.io`,
+      background: `yellow`,
       steps: [
         {
           title: "How to Manage Your Keys",

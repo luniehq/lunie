@@ -11,7 +11,7 @@
         <a href="#" @click="close">
           <i class="material-icons close"></i>
         </a>
-        <div class="top-bg"></div>
+        <div class="top-bg" :class="background"></div>
       </div>
       <div class="content">
         <div class="steps">
@@ -70,6 +70,11 @@ export default {
     },
     steps: {
       type: Array,
+      required: true
+    },
+    // Possible values: red, green, yellow, blue and lightblue
+    background: {
+      type: String,
       required: true
     }
   },
@@ -154,7 +159,7 @@ export default {
 
 .modal-tutorial .top-bg {
   margin-top: 0.6rem;
-  background-image: url("/img/tutorials/bg1.png");
+  background-image: url("/img/tutorials/bg-red.png");
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center center;
@@ -162,6 +167,26 @@ export default {
   height: 160px;
   border-top-left-radius: 6px;
   border-top-right-radius: 6px;
+}
+
+.modal-tutorial .top-bg.yellow {
+  background-image: url("/img/tutorials/bg-yellow.png");
+}
+
+.modal-tutorial .top-bg.green {
+  background-image: url("/img/tutorials/bg-green.png");
+}
+
+.modal-tutorial .top-bg.blue {
+  background-image: url("/img/tutorials/bg-blue.png");
+}
+
+.modal-tutorial .top-bg.lightblue {
+  background-image: url("/img/tutorials/bg-lightblue.png");
+}
+
+.modal-tutorial .top-bg.red {
+  background-image: url("/img/tutorials/bg-red.png");
 }
 
 .modal-tutorial .content {
