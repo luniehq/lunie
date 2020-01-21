@@ -37,6 +37,31 @@ async function waitFor(check, iterations = 10, timeout = 1000) {
   console.error("Condition was not meet in time")
   process.exit(2) // exiting here so the e2e tests actually fail. if not they pass
 }
+
+async function fundMasterAccount(browser, network, address) {
+  if (network == "cosmos-hub-testnet") {
+    return browser.url("https://riot.im/app/#/login", () => {
+      browser.setValue("#mx_PasswordLogin_username", "luniestaking")
+      browser.setValue("#mx_PasswordLogin_password", process.env.CHT_PWD)
+      return browser.click(".mx_Login_submit", () => {
+        return browser.url(
+          "https://riot.im/app/#/room/#cosmos-faucet:matrix.org",
+          () => {
+            browser.setValue(
+              ".mx_BasicMessageComposer_input",
+              `show me the money! ${address}`,
+              () => {
+                browser.keys(browser.Keys.ENTER)
+              }
+            )
+          }
+        )
+      })
+    })
+  }
+  return true
+}
+
 async function waitForText(
   browser,
   selector,
@@ -86,6 +111,17 @@ async function getLastActivityItemHash(browser) {
         }
       }
       f()
+    })
+  })
+}
+
+// fetching errors from console
+async function checkBrowserLogs(browser) {
+  browser.getLog("browser", function(logEntriesArray) {
+    logEntriesArray.forEach(function(log) {
+      if (log.level == "ERROR") {
+        throw new Error(log.message)
+      }
     })
   })
 }
@@ -147,10 +183,13 @@ async function actionModalCheckout(
   browser.click(".action-modal-footer .button:nth-of-type(2)")
   browser.pause(5000)
 
-  browser.expect.element(".success-step").to.be.present.before(30 * 1000)
+  await browser.expect.element(".success-step").to.be.present.before(30 * 1000)
   // wait for success-step modal
-  //browser.isVisible(".success-step", async () => {
-  browser.click("#closeBtn")
+  await browser.expect
+    .element("#closeBtn")
+    .to.be.present.before(30 * 1000, () => {
+      browser.click("#closeBtn")
+    })
   // go to portfolio to remember balances
   browser.url(browser.launch_url + "/portfolio")
 
@@ -211,5 +250,7 @@ module.exports = {
   waitForText,
   actionModalCheckout,
   getLastActivityItemHash,
-  nextBlock
+  nextBlock,
+  checkBrowserLogs,
+  fundMasterAccount
 }

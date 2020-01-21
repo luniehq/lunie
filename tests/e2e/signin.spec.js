@@ -1,5 +1,5 @@
 module.exports = {
-  /*"Sign in with local account": async function(browser) {
+  "Sign in with local account": async function(browser) {
     prepare(browser)
 
     await browser.click("#use-an-existing-address")
@@ -16,7 +16,7 @@ module.exports = {
     await browser.waitForElementNotPresent(".session", 10000, true)
     openMenu(browser)
     await browser.waitForElementVisible("#sign-out", 10000, true)
-  },*/
+  },
   "Import local account": async function(browser) {
     prepare(browser)
 
@@ -79,6 +79,16 @@ function openMenu(browser) {
   })
 }
 
+function closeMenu(browser) {
+  return new Promise(resolve => {
+    browser.waitForElementVisible(".close-menu", 10000, true, () => {
+      browser.click(".close-menu", () => {
+        resolve()
+      })
+    })
+  })
+}
+
 async function signOut(browser) {
   return new Promise(resolve => {
     openMenu(browser).then(() => {
@@ -104,22 +114,60 @@ function signIn(browser) {
 
 function prepare(browser) {
   browser.resizeWindow(400, 1024) // force mobile screen to be able to click some out of screen buttons
-  browser.url(browser.launch_url + "?insecure=true", () => {
+  browser.url(browser.launch_url + "?insecure=true", async () => {
     browser.waitForElementVisible(`body`, 10000, true)
     browser.waitForElementVisible(`#app-content`, 10000, true, async () => {
-      // check if we are already singed in
-      const isSigned = await browser.execute(function() {
-        const signOutElement = document.getElementById("sign-out")
-        if (signOutElement) {
-          return true
-        }
-        return false
+      await browser.execute(function() {
+        window.localStorage.setItem(
+          "cosmos-wallets-index",
+          JSON.stringify([
+            {
+              name: "demo",
+              address: "cosmos1ek9cd8ewgxg9w5xllq9um0uf4aaxaruvcw4v9e"
+            }
+          ])
+        )
+        window.localStorage.setItem(
+          `cosmos-wallets-cosmos1ek9cd8ewgxg9w5xllq9um0uf4aaxaruvcw4v9e`,
+          JSON.stringify({
+            name: `rich_account`,
+            address: `cosmos1ek9cd8ewgxg9w5xllq9um0uf4aaxaruvcw4v9e`,
+            wallet: `ae1d20a49e1085cca29a71e270c6f64f8f86794cb67c6922caea6bcba0ed9e60g+nSTgP8/wHpWaomDkhW/7g2Xldvno3VRFggvdpWIDrRV+n4BJtpk3UpLKo0K3SDL5dRzxz3NmGFnSA8znggFmtesdqu6jWJYzSNqaQhM/gCPTVabF7t1UHaybze1NRlYcm/wl5oOyXRpki6ugOHxNhF7+4wlzhYxMilAB7ekDB4+VVHoPMUinU4dsUdtC4XwDUA0rbX1TTmrh+i1eBp6UTQ+nHGiZXL1TkhhR1mE0fR3bLRunz5XagYtjoST33pecQWzqeaZZQ/mgm9QXu/i+ymfbnPQkh8ivx+J6/d2RfZuAV4NnwFZDUr7CzPX4TU`
+          })
+        )
+        return true
+      }, [])
+      await browser.refresh()
+      openMenu(browser).then(async () => {
+        // check if we are already singed in
+        const isSigned = await browser.execute(function() {
+          return new Promise(resolve => {
+            let attempts = 3
+            const f = () => {
+              const signOutElement = document.querySelector(
+                ".user-box-address #sign-out"
+              )
+              const singInElement = document.querySelector(".app-menu #sign-in")
+              if (!signOutElement < 2 && attempts-- > 0) {
+                setTimeout(f, 2000)
+                return false
+              }
+              if (!signOutElement && !singInElement) {
+                throw new Error(`No sign-in or sign-out buttons`)
+              }
+              resolve(signOutElement ? true : false)
+            }
+            f()
+          })
+        })
+        closeMenu(browser).then(async () => {
+          const resolve = isSigned.value
+            ? signOut(browser)
+            : Promise.resolve("Success")
+          await resolve.then(() => signIn(browser))
+          browser.waitForElementVisible("#session-welcome", 10000, true)
+        })
       })
-      const resolve = isSigned.value
-        ? signOut(browser)
-        : Promise.resolve("Success")
-      await resolve.then(() => signIn(browser))
-      browser.waitForElementVisible("#session-welcome", 10000, true)
     })
   })
 }

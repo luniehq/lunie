@@ -5,7 +5,9 @@ const networks = require("./networks.json")
 const {
   actionModalCheckout,
   waitForText,
-  getLastActivityItemHash
+  getLastActivityItemHash,
+  checkBrowserLogs,
+  fundMasterAccount
 } = require("./helpers.js")
 
 module.exports = {
@@ -21,11 +23,18 @@ module.exports = {
       // default settings
       let networkData = await initialiseDefaults(browser)
       // creating testing account and funding it with the master account
+      networkData.password = process.env.PASSWORD
       await createAccountAndFundIt(browser, done, networkData)
       browser.globals.init = true
     } else {
       browser.launch_url = browser.globals.feURI
     }
+    checkBrowserLogs(browser)
+    done()
+  },
+
+  async afterEach(browser, done) {
+    checkBrowserLogs(browser)
     done()
   },
 
@@ -274,6 +283,11 @@ async function createAccountAndFundIt(browser, done, networkData) {
   await storeAccountData(browser, networkData)
   // switching to master account
   await switchToAccount(browser, networkData)
+  // funding main account
+  console.log(browser.globals.availableAtoms)
+  if (browser.globals.availableAtoms * 1 < 25) {
+    await fundMasterAccount(browser, networkData.network, networkData.address)
+  }
   // funding temp account
   await fundingTempAccount(browser, networkData)
   networkData.address = browser.globals.address
