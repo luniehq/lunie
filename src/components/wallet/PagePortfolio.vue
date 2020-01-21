@@ -9,6 +9,7 @@
         :fullguide="cosmosGovernance.fullguide"
         :close="closeTutorial"
       />
+    </template>
   </TmPage>
 </template>
 
