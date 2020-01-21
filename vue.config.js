@@ -37,7 +37,7 @@ module.exports = {
             NODE_ENV: JSON.stringify(process.env.NODE_ENV),
             NETWORK: JSON.stringify(process.env.NETWORK),
             SENTRY_DSN: JSON.stringify(process.env.SENTRY_DSN),
-            LUNIE_VERSION: version,
+            LUNIE_VERSION: JSON.stringify(version),
             GOOGLE_ANALYTICS_UID: JSON.stringify(
               process.env.GOOGLE_ANALYTICS_UID
             ),
