@@ -119,7 +119,7 @@ export default [
   },
   {
     path: `/selectnetwork`,
-    name: `/select-network`,
+    name: `select-network`,
     components: {
       session: () => import(`./components/common/TmSelectNetwork`)
     },
