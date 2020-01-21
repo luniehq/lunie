@@ -896,14 +896,14 @@
   dependencies:
     axios "^0.19.0"
 
-"@lunie/cosmos-keys@^0.1.0":
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/@lunie/cosmos-keys/-/cosmos-keys-0.1.0.tgz#f7c4beba376d90866291913a8a862b3f55673b38"
-  integrity sha512-Hbhh7KfRoC1U6G38UGUwh0UM8bbm+EE1U+w1BvyxOLZka6xmfKiffX7z3XEumlt0QPt9SezLYOHdYrH7XzeDZg==
+"@lunie/cosmos-keys@^0.0.12":
+  version "0.0.12"
+  resolved "https://registry.yarnpkg.com/@lunie/cosmos-keys/-/cosmos-keys-0.0.12.tgz#686ba1a9121920c0c1c11b1d01dc0ba23ed4408e"
+  integrity sha512-djYRP/t23DE/1uQBe9LSXy0HZQ5alXWTEGyxKEolWF03FzODaZNIGn27EeUHhWOgyYzXg0KeOyXw438RNJKX+Q==
   dependencies:
     bech32 "^1.1.3"
-    bip32 "^1.0.4"
-    bip39 "^3.0.1"
+    bip32 "^2.0.4"
+    bip39 "^3.0.2"
     crypto-js "^3.1.9-1"
     secp256k1 "^3.6.2"
 
@@ -1074,6 +1074,11 @@
   version "13.1.8"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-13.1.8.tgz#1d590429fe8187a02707720ecf38a6fe46ce294b"
   integrity sha512-6XzyyNM9EKQW4HKuzbo/CkOIjn/evtCmsU+MUM1xDfJ+3/rNjBttM1NgN7AOQvN6tP1Sl1D1PIKMreTArnxM9A==
+
+"@types/node@10.12.18":
+  version "10.12.18"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-10.12.18.tgz#1d3ca764718915584fcd9f6344621b7672665c67"
+  integrity sha512-fh+pAqt4xRzPfqA6eh3Z2y6fyZavRIumvjhaCL753+TVkGKGhpPeyrJG2JftD0T9q4GF00KjefsQ+PQNDdWQaQ==
 
 "@types/node@11.11.6":
   version "11.11.6"
@@ -1994,19 +1999,20 @@ bindings@^1.3.0, bindings@^1.5.0:
   dependencies:
     file-uri-to-path "1.0.0"
 
-bip32@^1.0.4:
-  version "1.0.4"
-  resolved "https://registry.yarnpkg.com/bip32/-/bip32-1.0.4.tgz#188ad57a45fb1342c9aabe969d0612c704a987b4"
-  integrity sha512-8T21eLWylZETolyqCPgia+MNp+kY37zFr7PTFDTPObHeNi9JlfG4qGIh8WzerIJidtwoK+NsWq2I5i66YfHoIw==
+bip32@^2.0.4:
+  version "2.0.5"
+  resolved "https://registry.yarnpkg.com/bip32/-/bip32-2.0.5.tgz#e3808a9e97a880dbafd0f5f09ca4a1e14ee275d2"
+  integrity sha512-zVY4VvJV+b2fS0/dcap/5XLlpqtgwyN8oRkuGgAS1uLOeEp0Yo6Tw2yUTozTtlrMJO3G8n4g/KX/XGFHW6Pq3g==
   dependencies:
+    "@types/node" "10.12.18"
     bs58check "^2.1.1"
     create-hash "^1.2.0"
     create-hmac "^1.1.7"
-    tiny-secp256k1 "^1.0.0"
+    tiny-secp256k1 "^1.1.3"
     typeforce "^1.11.5"
     wif "^2.0.6"
 
-bip39@^3.0.1:
+bip39@^3.0.2:
   version "3.0.2"
   resolved "https://registry.yarnpkg.com/bip39/-/bip39-3.0.2.tgz#2baf42ff3071fc9ddd5103de92e8f80d9257ee32"
   integrity sha512-J4E1r2N0tUylTKt07ibXvhpT2c5pyAFgvuA5q1H9uDy6dEGpjV8jmymh3MTYJDLCNbIVClSB9FbND49I6N24MQ==
@@ -9340,7 +9346,7 @@ tiny-emitter@^2.0.0:
   resolved "https://registry.yarnpkg.com/tiny-emitter/-/tiny-emitter-2.1.0.tgz#1d1a56edfc51c43e863cbb5382a72330e3555423"
   integrity sha512-NB6Dk1A9xgQPMoGqC5CVXn123gWyte215ONT5Pp5a0yt4nlEoO1ZWeCwpncaekPHXO60i47ihFnZPiRPjRMq4Q==
 
-tiny-secp256k1@^1.0.0:
+tiny-secp256k1@^1.1.3:
   version "1.1.3"
   resolved "https://registry.yarnpkg.com/tiny-secp256k1/-/tiny-secp256k1-1.1.3.tgz#e93b1e1bf62e9bd1ad3ab24af27ff6127ce0e077"
   integrity sha512-ZpobrhOtHP98VYEN51IYQH1YcrbFpnxFhI6ceWa3OEbJn7eHvSd8YFjGPxbedGCy7PNYU1v/+BRsdvyr5uRd4g==
