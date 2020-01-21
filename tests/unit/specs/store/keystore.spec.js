@@ -42,12 +42,7 @@ describe(`Module: Keystore`, () => {
     mutations = module.mutations
 
     state.externals = {
-      track: jest.fn(),
-      config: {
-        bech32Prefixes: {
-          "cosmos-hub-mainnet": "cosmos"
-        }
-      }
+      track: jest.fn()
     }
   })
 
