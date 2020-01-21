@@ -36,7 +36,7 @@ exports[`TmModal has the expected html structure 1`] = `
       </a>
        
       <div
-        class="top-bg"
+        class="top-bg red"
       />
     </div>
      
@@ -70,9 +70,9 @@ exports[`TmModal has the expected html structure 1`] = `
         </div>
       </div>
        
-      <h1>
+      <h2>
         How to get tokens?
-      </h1>
+      </h2>
        
       <p>
         <span
