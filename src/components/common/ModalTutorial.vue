@@ -27,7 +27,7 @@
         </div>
         <template v-for="(step, index) in steps">
           <template v-if="currentStep === index + 1">
-            <h1 :key="`title-${index}`">{{ step.title }}</h1>
+            <h2 :key="`title-${index}`">{{ step.title }}</h2>
             <p :key="`content-${index}`">
               <span
                 v-for="(item, contentIndex) in step.content"
@@ -101,8 +101,8 @@ export default {
   bottom: 0;
   right: 1rem;
   z-index: var(--z-modal);
-  width: 24rem;
-  height: 38rem;
+  width: 20rem;
+  /*  height: 34rem; */
   display: flex;
   outline: none;
 }
@@ -110,13 +110,13 @@ export default {
 .modal-tutorial-main {
   display: flex;
   flex-flow: column;
-  padding: 0 0 1.5rem 0;
+  padding: 0;
 }
 
-.modal-tutorial h1 {
-  font-size: 1.6rem;
-  color: #000f50;
-  margin-bottom: 2rem;
+.modal-tutorial h2 {
+  font-size: 1.2rem;
+  color: #324175;
+  margin-bottom: 1rem;
   font-weight: 400;
 }
 
@@ -153,30 +153,32 @@ export default {
 }
 
 .modal-tutorial .top-bg {
-  margin-top: 1rem;
+  margin-top: 0.6rem;
   background-image: url("/img/tutorials/bg1.png");
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center center;
   width: 100%;
-  height: 186px;
+  height: 160px;
   border-top-left-radius: 6px;
   border-top-right-radius: 6px;
 }
 
 .modal-tutorial .content {
-  padding: 2rem;
+  padding: 1rem;
   background-color: white;
   color: #445381;
+  border-bottom-left-radius: 6px;
+  border-bottom-right-radius: 6px;
 }
 
 .button {
   font-family: var(--sans);
-  font-size: 1.1rem;
+  font-size: 1rem;
   font-weight: 500;
-  padding: 1.2rem;
+  padding: 0.9rem;
   min-width: 100px;
-  color: #445381;
+  color: #7a88b8;
   margin: 0;
   border-radius: 0.4rem;
   cursor: pointer;
@@ -212,7 +214,7 @@ export default {
   height: 0.5rem;
   width: 0.5rem;
   border-radius: 50%;
-  margin-left: 2rem;
+  margin-left: 1.5rem;
   background-color: #f1f3f7;
   display: inline-block;
 }
@@ -225,10 +227,17 @@ export default {
   position: relative;
   color: #458dff;
   font-weight: 500;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1rem;
+  font-size: 0.8rem;
 }
 
 .content-item {
   display: block;
+  font-size: 0.8rem;
+  word-break: break-all;
+}
+
+p .content-item:last-child {
+  margin-bottom: 1rem;
 }
 </style>
