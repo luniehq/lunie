@@ -79,7 +79,6 @@
 
 <script>
 import { mapState, mapGetters } from "vuex"
-import config from "src/../config"
 import { required } from "vuelidate/lib/validators"
 import TmBtn from "common/TmBtn"
 import SessionFrame from "common/SessionFrame"
@@ -90,6 +89,7 @@ import TmFormMsg from "common/TmFormMsg"
 import bech32 from "bech32"
 import { formatBech32 } from "src/filters"
 import { isAddress } from "web3-utils"
+import gql from "graphql-tag"
 const isEthereumAddress = isAddress
 
 export default {
@@ -107,15 +107,22 @@ export default {
   },
   data: () => ({
     address: ``,
-    error: ``
+    error: ``,
+    addressPrefixes: []
   }),
   computed: {
     ...mapState([`session`]),
     ...mapGetters([`network`]),
     filteredAddresses() {
+      const selectedNetwork = this.addressPrefixes.find(
+        ({ id }) => id === this.network
+      )
+      // handling query not loaded yet or failed
+      if (!selectedNetwork) return []
+
       return this.session.addresses
         .filter(address =>
-          address.address.startsWith(config.bech32Prefixes[this.network])
+          address.address.startsWith(selectedNetwork.address_prefix)
         )
         .slice(-3)
     }
@@ -164,7 +171,13 @@ export default {
       }
     },
     isANetworkAddress(param) {
-      if (param.startsWith(config.bech32Prefixes[this.network])) {
+      const selectedNetwork = this.addressPrefixes.find(
+        ({ id }) => id === this.network
+      )
+      // handling query not loaded yet or failed
+      if (!selectedNetwork) return false
+
+      if (param.startsWith(selectedNetwork.address_prefix)) {
         return true
       } else {
         return false
@@ -202,6 +215,23 @@ export default {
         isAWhitelistedBech32Prefix: this.isAWhitelistedBech32Prefix,
         isANetworkAddress: this.isANetworkAddress
       }
+    }
+  },
+  apollo: {
+    addressPrefixes: {
+      query: gql`
+        query Network {
+          networks {
+            id
+            address_prefix
+          }
+        }
+      `,
+      /* istanbul ignore next */
+      update(data) {
+        return data.networks
+      },
+      fetchPolicy: "cache-first"
     }
   }
 }

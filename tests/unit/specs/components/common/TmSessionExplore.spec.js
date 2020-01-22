@@ -49,6 +49,15 @@ describe(`TmSessionExplore`, () => {
         $store
       }
     })
+
+    wrapper.setData({
+      addressPrefixes: [
+        {
+          id: "cosmos-hub-testnet",
+          address_prefix: "cosmos"
+        }
+      ]
+    })
   })
 
   it(`shows a form to sign in with an address`, () => {
