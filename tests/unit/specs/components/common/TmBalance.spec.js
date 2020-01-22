@@ -153,4 +153,12 @@ describe(`TmBalance`, () => {
       { key: `TOKEN2 3.04`, value: `` }
     ])
   })
+
+  it(`should show How To Get Tokens tutorial`, () => {
+    wrapper.setData({
+      showTutorial: false
+    })
+    wrapper.vm.openTutorial()
+    expect(wrapper.vm.showTutorial).toBe(true)
+  })
 })

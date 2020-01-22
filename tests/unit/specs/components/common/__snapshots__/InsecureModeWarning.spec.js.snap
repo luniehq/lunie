@@ -1,0 +1,63 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`insecureModeWarning has the expected html structure 1`] = `
+<div>
+  <p>
+    
+    Did you know that storing your key in the browser is considered unsafe?
+  
+  </p>
+   
+  <p>
+    
+    Check out our quick guide
+    
+    <a
+      href="#"
+    >
+      How to Manage Your Keys
+    </a>
+  </p>
+   
+  <p>
+    
+    We offer a more secure ways to storing your keys like our
+    
+    <a
+      href="http://bit.ly/lunie-ext"
+      rel="noopener norefferer"
+      target="_blank"
+    >
+      
+      browser extension
+    </a>
+    
+    and also our mobile apps for
+    
+    <a
+      href="http://bit.ly/lunie-android"
+      target="_blank"
+    >
+      Android
+    </a>
+    
+    and 
+    <a
+      href="http://bit.ly/lunie-ios"
+      target="_blank"
+    >
+      IOS
+    </a>
+    .
+  
+  </p>
+   
+  <router-link-stub
+    to="existing"
+  >
+    Want to use an existing address?
+  </router-link-stub>
+   
+  <!---->
+</div>
+`;

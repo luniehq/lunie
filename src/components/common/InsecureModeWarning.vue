@@ -53,7 +53,7 @@ export default {
   },
   data: () => ({
     showTutorial: false,
-    cosmoscosmosKeysTutorial: {
+    cosmosKeysTutorial: {
       fullguide: `http://lunie.io`,
       background: `yellow`,
       steps: [
