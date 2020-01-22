@@ -424,7 +424,7 @@ export default {
     requiresSignIn() {
       return (
         !this.session.signedIn ||
-        (this.isMobileApp && this.session.sessionType === sessionType.EXPLORE)
+        (this.session.sessionType === sessionType.EXPLORE)
       )
     },
     estimatedFee() {
