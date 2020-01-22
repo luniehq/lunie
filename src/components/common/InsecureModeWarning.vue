@@ -1,5 +1,6 @@
 <template>
   <div>
+    There a number of ways to create an address with Lunie.
     <p
       v-if="
         session.experimentalMode &&
@@ -7,22 +8,39 @@
             connection.network === 'cosmos-hub-testnet')
       "
     >
-      Check out our guide for
-      <a href="#" @click="openTutorial()">how to safely manage your keys</a>.
+      We'd recommend starting with our guide:
+      <a href="#" @click="openTutorial()">how to manage your&nbsp;keys</a>.
     </p>
-    <p>
-      We offer a more secure ways to storing your keys like our
-      <a
-        href="http://bit.ly/lunie-ext"
-        target="_blank"
-        rel="noopener norefferer"
-      >
-        browser extension</a
-      >
-      and also our mobile apps for
-      <a href="http://bit.ly/lunie-android" target="_blank">Android</a>
-      and <a href="http://bit.ly/lunie-ios" target="_blank">IOS</a>.
-    </p>
+    <p>If you're ready to get started, here are your options:</p>
+    <ul>
+      <li><router-link to="ledger">Ledger Nano</router-link></li>
+      <li>
+        <a
+          href="http://bit.ly/lunie-ext"
+          rel="noopener norefferer"
+          target="_blank"
+        >
+          Lunie browser extension</a
+        >
+      </li>
+      <li>
+        <a
+          href="http://bit.ly/lunie-ios"
+          rel="noopener norefferer"
+          target="_blank"
+          >Lunie iOS</a
+        >
+      </li>
+      <li>
+        <a
+          href="http://bit.ly/lunie-android"
+          rel="noopener norefferer"
+          target="_blank"
+          >Lunie Android</a
+        >
+      </li>
+    </ul>
+
     <router-link to="existing">Want to use an existing address?</router-link>
     <ModalTutorial
       v-if="
@@ -107,3 +125,9 @@ export default {
   }
 }
 </script>
+<style scoped>
+ul {
+  margin: 0 0 2rem 2rem;
+  list-style-type: circle;
+}
+</style>
