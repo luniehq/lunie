@@ -25,7 +25,7 @@ describe(`TmModal`, () => {
             title: "How to get tokens?",
             // Each content array element will be enclosed in a span (newline)
             content: [
-              "Praesent vitae tristique erat ###https://lunie.io###.",
+              "Praesent vitae tristique erat.",
               "Integer ullamcorper ligula vel dolor sagittis nec fermentum risus pharetra.",
               "Nulla mollis tempus sem, a sollicitudin est facilisis ac."
             ]
