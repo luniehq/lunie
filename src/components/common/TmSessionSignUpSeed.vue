@@ -49,7 +49,6 @@
 
 <script>
 import { mapState, mapGetters } from "vuex"
-import config from "src/../config"
 import { sameAs } from "vuelidate/lib/validators"
 import TmBtn from "common/TmBtn"
 import TmFormGroup from "common/TmFormGroup"
@@ -59,6 +58,7 @@ import SessionFrame from "common/SessionFrame"
 import InsecureModeWarning from "common/InsecureModeWarning"
 import Steps from "../../ActionModal/components/Steps"
 import TmSeed from "common/TmSeed"
+import gql from "graphql-tag"
 
 export default {
   name: `session-sign-up`,
@@ -74,7 +74,8 @@ export default {
   },
   data: () => ({
     error: false,
-    errorMessage: ``
+    errorMessage: ``,
+    addressPrefixes: []
   }),
   computed: {
     ...mapState([`session`, `signup`, `connection`]),
@@ -109,19 +110,38 @@ export default {
       this.$v.$touch()
       if (this.$v.$error) return
       try {
-        console.log("prefix", config.bech32Prefixes[this.connection.network])
+        const selectedNetwork = this.addressPrefixes.find(
+          ({ id }) => id === this.networkId
+        )
         await this.$store.dispatch(`createKey`, {
           seedPhrase: this.signup.signUpSeed,
           password: this.signup.signUpPassword,
           name: this.signup.signUpName,
           network: this.connection.network,
-          prefix: config.bech32Prefixes[this.connection.network]
+          prefix: selectedNetwork.address_prefix
         })
         this.$router.push(`/`)
       } catch (error) {
         this.error = true
         this.errorMessage = error.message
       }
+    }
+  },
+  apollo: {
+    addressPrefixes: {
+      query: gql`
+        query Network {
+          networks {
+            id
+            address_prefix
+          }
+        }
+      `,
+      /* istanbul ignore next */
+      update(data) {
+        return data.networks
+      },
+      fetchPolicy: "cache-first"
     }
   },
   validations: () => ({
