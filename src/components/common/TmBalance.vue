@@ -10,6 +10,14 @@
       />
     </div>
     <div v-else>
+      <div class="tutorial-container">
+        <TmBtn
+          class="open-tutorial"
+          value="How To Get Tokens"
+          type="secondary"
+          @click.native="openTutorial()"
+        />
+      </div>
       <div class="values-container">
         <div class="upper-header">
           <div class="total-atoms">
@@ -80,6 +88,13 @@
 
       <SendModal ref="SendModal" :denoms="getAllDenoms" />
       <ModalWithdrawRewards ref="ModalWithdrawRewards" />
+      <ModalTutorial
+        v-if="showTutorial && session.experimentalMode"
+        :steps="tokensTutorial.steps"
+        :fullguide="tokensTutorial.fullguide"
+        :background="tokensTutorial.background"
+        :close="hideTutorial"
+      />
     </div>
   </div>
 </template>
@@ -91,8 +106,9 @@ import SendModal from "src/ActionModal/components/SendModal"
 import ModalWithdrawRewards from "src/ActionModal/components/ModalWithdrawRewards"
 import TmFormGroup from "common/TmFormGroup"
 import TmField from "src/components/common/TmField"
-import { mapGetters } from "vuex"
+import { mapGetters, mapState } from "vuex"
 import gql from "graphql-tag"
+import ModalTutorial from "common/ModalTutorial"
 
 export default {
   name: `tm-balance`,
@@ -101,7 +117,8 @@ export default {
     TmField,
     TmBtn,
     SendModal,
-    ModalWithdrawRewards
+    ModalWithdrawRewards,
+    ModalTutorial
   },
   filters: {
     shortDecimals,
@@ -113,10 +130,56 @@ export default {
       stakingDenom: "",
       balances: [],
       selectedTokenFiatValue: `Tokens Total Fiat Value`,
-      selectedFiatCurrency: `EUR` // EUR is our default fiat currency
+      selectedFiatCurrency: `EUR`, // EUR is our default fiat currency
+      showTutorial: false,
+      tokensTutorial: {
+        fullguide: `http://lunie.io`,
+        background: `red`,
+        steps: [
+          {
+            title: "How To Get Tokens",
+            // Each content array item will be enclosed in a span (newline)
+            content: [
+              "Are you ready to get started staking with Lunie? Time to get some tokens. Let’s go!"
+            ]
+          },
+          {
+            title: "Create your address",
+            content: [
+              "You can receive, store and stake tokens with Lunie using the browser extension wallet, the mobile wallet or Ledger Nano S hardware wallet."
+            ]
+          },
+          {
+            title: "Back it up!",
+            content: [
+              "Seriously, make sure you have recorded your backup code in a secure place. Create several digital and physical copies of it and keep it safe. Don’t show it to anyone!"
+            ]
+          },
+          {
+            title: "Purchase some tokens",
+            content: [
+              "Find a reputable exchange to purchase tokens from, like Coinbase or Binance, based on your geography and jurisdiction."
+            ]
+          },
+          {
+            title: "Send to your Lunie address",
+            content: [
+              "The address will be formatted like this:",
+              "cosmos1y4xpks58v3439zfs9nsgep9n2ykk3z9qlge6c5"
+            ]
+          },
+          {
+            title: "Want more?",
+            content: [
+              "Once your Lunie balance reflects what you expect you are ready to begin staking and participating in governance!"
+            ]
+          }
+        ]
+      }
     }
   },
   computed: {
+    ...mapState([`session`]),
     ...mapGetters([`address`, `network`]),
     // only be ready to withdraw of the validator rewards are loaded and the user has rewards to withdraw
     // the validator rewards are needed to filter the top 5 validators to withdraw from
@@ -181,6 +244,12 @@ export default {
     },
     onSend() {
       this.$refs.SendModal.open()
+    },
+    openTutorial() {
+      this.showTutorial = true
+    },
+    hideTutorial() {
+      this.showTutorial = false
     }
   },
   apollo: {
@@ -464,5 +533,12 @@ export default {
     padding: 1rem 0;
     text-align: center;
   }
+  .tutorial-container {
+    padding-right: 1rem;
+  }
+}
+
+.tutorial-container {
+  text-align: right;
 }
 </style>
