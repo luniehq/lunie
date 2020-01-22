@@ -79,22 +79,55 @@ exports[`TmModal has the expected html structure 1`] = `
           class="content-item"
         >
           
-              Praesent vitae tristique erat.
+                
+                
+          <a
+            href=""
+            target="_blank"
+          >
             
+                  
+                
+          </a>
+          
+                aesent vitae tristique erat.
+              
         </span>
         <span
           class="content-item"
         >
           
-              Integer ullamcorper ligula vel dolor sagittis nec fermentum risus pharetra.
+                
+                
+          <a
+            href=""
+            target="_blank"
+          >
             
+                  
+                
+          </a>
+          
+                teger ullamcorper ligula vel dolor sagittis nec fermentum risus pharetra.
+              
         </span>
         <span
           class="content-item"
         >
           
-              Nulla mollis tempus sem, a sollicitudin est facilisis ac.
+                
+                
+          <a
+            href=""
+            target="_blank"
+          >
             
+                  
+                
+          </a>
+          
+                lla mollis tempus sem, a sollicitudin est facilisis ac.
+              
         </span>
       </p>
        

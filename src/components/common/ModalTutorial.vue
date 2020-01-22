@@ -34,7 +34,34 @@
                 :key="`content-item-${index}-${contentIndex}`"
                 class="content-item"
               >
-                {{ item }}
+                <template v-if="item.indexOf(`###`)">
+                  {{ item.substr(0, item.indexOf(`###`)) }}
+                  <a
+                    :href="
+                      item.substr(
+                        item.indexOf(`###`) + 3,
+                        item.lastIndexOf(`###`) - item.indexOf(`###`) - 3
+                      )
+                    "
+                    target="_blank"
+                  >
+                    {{
+                      item.substr(
+                        item.indexOf(`###`) + 3,
+                        item.lastIndexOf(`###`) - item.indexOf(`###`) - 3
+                      )
+                    }}
+                  </a>
+                  {{
+                    item.substr(
+                      item.lastIndexOf(`###`) + 3,
+                      item.length - item.lastIndexOf(`###`) - 3
+                    )
+                  }}
+                </template>
+                <template v-else>
+                  {{ item }}
+                </template>
               </span>
             </p>
             <button
