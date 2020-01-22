@@ -1,0 +1,2 @@
+[Fixed] [#3330](https://github.com/cosmos/lunie/issues/3330) send button is now disabled if extension is not installed @jbibla
+[Changed] display ledger and extension instructions when these signing options are selected @jbibla
