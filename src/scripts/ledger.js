@@ -49,6 +49,7 @@ async function getLedgerConnector(networkId, apollo) {
     query: gql`
       query Network {
         network(id: "${networkId}") {
+          id
           ledger_app,
           address_prefix
         }
