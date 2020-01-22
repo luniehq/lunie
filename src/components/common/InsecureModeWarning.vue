@@ -11,7 +11,7 @@
       "
     >
       Check out our guide for
-      <a href="#" @click="openTutorial()">How to Manage Your Keys</a>
+      <a href="#" @click="openTutorial()">how to safely manage your keys</a>.
     </p>
     <p>
       We offer a more secure ways to storing your keys like our
