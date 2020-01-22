@@ -1,8 +1,5 @@
 <template>
   <div>
-    <p>
-      Did you know that storing your key in the browser is considered unsafe?
-    </p>
     <p
       v-if="
         session.experimentalMode &&
