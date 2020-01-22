@@ -4,19 +4,15 @@ exports[`InsecureModeWarning has the expected html structure 1`] = `
 <div>
   <p>
     
-    Did you know that storing your key in the browser is considered unsafe?
-  
-  </p>
-   
-  <p>
-    
-    Check out our quick guide
+    Check out our guide for
     
     <a
       href="#"
     >
-      How to Manage Your Keys
+      how to safely manage your keys
     </a>
+    .
+  
   </p>
    
   <p>
