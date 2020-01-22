@@ -10,25 +10,6 @@
       />
     </div>
     <div v-else>
-      <div
-        v-if="
-          connection.network === 'cosmos-hub-mainnet' ||
-            connection.network === 'cosmos-hub-testnet'
-        "
-        class="tutorial-container"
-      >
-        <TmBtn
-          v-if="
-            session.experimentalMode &&
-              (connection.network === 'cosmos-hub-mainnet' ||
-                connection.network === 'cosmos-hub-testnet')
-          "
-          class="open-tutorial"
-          value="How To Get Tokens"
-          type="secondary"
-          @click.native="openTutorial()"
-        />
-      </div>
       <div class="values-container">
         <div class="upper-header">
           <div class="total-atoms">
@@ -82,18 +63,30 @@
         </div>
       </div>
       <div class="button-container">
+        <div>
+          <TmBtn
+            class="send-button"
+            value="Send"
+            type="secondary"
+            @click.native="onSend()"
+          />
+          <TmBtn
+            id="withdraw-btn"
+            :disabled="!readyToWithdraw"
+            class="withdraw-rewards"
+            value="Claim Rewards"
+            @click.native="readyToWithdraw && onWithdrawal()"
+          />
+        </div>
         <TmBtn
-          class="send-button"
-          value="Send"
-          type="secondary"
-          @click.native="onSend()"
-        />
-        <TmBtn
-          id="withdraw-btn"
-          :disabled="!readyToWithdraw"
-          class="withdraw-rewards"
-          value="Claim Rewards"
-          @click.native="readyToWithdraw && onWithdrawal()"
+          v-if="
+            connection.network === 'cosmos-hub-mainnet' ||
+              connection.network === 'cosmos-hub-testnet'
+          "
+          class="open-tutorial"
+          value="Need help getting tokens?"
+          type="tertiary"
+          @click.native="openTutorial()"
         />
       </div>
 
@@ -457,6 +450,7 @@ export default {
 .button-container {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   padding: 0.5rem 2rem;
   width: 100%;
   border-bottom: 1px solid var(--bc-dim);
@@ -475,6 +469,10 @@ export default {
 
 .small-container {
   padding-top: 1rem;
+}
+
+.open-tutorial {
+  justify-self: end;
 }
 
 @media screen and (max-width: 667px) {
