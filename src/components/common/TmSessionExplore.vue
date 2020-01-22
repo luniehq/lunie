@@ -79,7 +79,6 @@
 
 <script>
 import { mapState, mapGetters } from "vuex"
-import config from "src/../config"
 import { required } from "vuelidate/lib/validators"
 import TmBtn from "common/TmBtn"
 import SessionFrame from "common/SessionFrame"
@@ -172,7 +171,13 @@ export default {
       }
     },
     isANetworkAddress(param) {
-      if (param.startsWith(config.bech32Prefixes[this.network])) {
+      const selectedNetwork = this.addressPrefixes.find(
+        ({ id }) => id === this.network
+      )
+      // handling query not loaded yet or failed
+      if (!selectedNetwork) return false
+
+      if (param.startsWith(selectedNetwork.address_prefix)) {
         return true
       } else {
         return false
@@ -222,6 +227,10 @@ export default {
           }
         }
       `,
+      /* istanbul ignore next */
+      update(data) {
+        return data.networks
+      },
       fetchPolicy: "cache-first"
     }
   }
