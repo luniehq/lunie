@@ -259,7 +259,7 @@ export default {
 .content-item {
   display: block;
   font-size: 0.8rem;
-  word-break: break-all;
+  /* word-break: break-all; */
 }
 
 p .content-item:last-child {

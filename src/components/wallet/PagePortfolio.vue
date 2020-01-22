@@ -39,7 +39,7 @@ export default {
           title: "How Cosmos Governance Works",
           // Each content array item will be enclosed in a span (newline)
           content: [
-            "If you are staking your ATOM on Cosmos, you should also consider participating in it’s on-chain governance. Here we’ll show you how to explore some of the unique governance features that Lunie gives you access to:"
+            "If you are staking your ATOM on Cosmos, you should also consider participating in it’s on-chain governance. Here we’ll show you how to explore some of the unique governance features that Lunie gives you access to."
           ]
         },
         {
@@ -76,7 +76,7 @@ export default {
           title: "Staking tokens",
           // Each content array item will be enclosed in a span (newline)
           content: [
-            "Do you have some tokens in your Lunie wallet? Yes? Great! If not, see here (link to get tokens guide)"
+            "Do you have some tokens in your Lunie wallet? Yes? Great! If not, check the How to get tokens guide in https://lunie.io."
           ]
         },
         {
@@ -111,7 +111,7 @@ export default {
           title: "How To Get Tokens",
           // Each content array item will be enclosed in a span (newline)
           content: [
-            "Are you ready to get started staking with Lunie? Time to get some tokens. Let’s go:"
+            "Are you ready to get started staking with Lunie? Time to get some tokens. Let’s go!"
           ]
         },
         {
@@ -135,7 +135,8 @@ export default {
         {
           title: "Send to your Lunie address",
           content: [
-            "The address will be formatted like this: cosmos1y4xpks58v3439zfs9nsgep9n2ykk3z9qlge6c5"
+            "The address will be formatted like this:",
+            "cosmos1y4xpks58v3439zfs9nsgep9n2ykk3z9qlge6c5"
           ]
         },
         {
@@ -154,7 +155,7 @@ export default {
           title: "How to Manage Your Keys",
           // Each content array item will be enclosed in a span (newline)
           content: [
-            "The first rule of cryptocurrency? Secure your keys. The second rule of cryptocurrency? Refer to rule #1. Lunie gives you a backup code that is easy to record and secure. Good security doesn’t need to feel intimidating:"
+            "The first rule of cryptocurrency? Secure your keys. The second rule of cryptocurrency? Refer to rule #1. Lunie gives you a backup code that is easy to record and secure. Good security doesn’t need to feel intimidating."
           ]
         },
         {
@@ -178,7 +179,7 @@ export default {
         {
           title: "Use a hardware wallet",
           content: [
-            "The safest way to store your cryptocurrency is with a hardware wallet. Our [browser extension] and [mobile] [apps] will keep your keys safe, but nothing beats the security of a [hardware wallet]."
+            "The safest way to store your cryptocurrency is with a hardware wallet. Our browser extension and mobile apps will keep your keys safe, but nothing beats the security of a hardware wallet."
           ]
         },
         {
