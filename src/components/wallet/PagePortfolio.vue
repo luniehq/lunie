@@ -45,7 +45,7 @@ export default {
         {
           title: " Do you have something at stake?",
           content: [
-            "If you have tokens staked on this network, you’re eligible to participate in the network’s governance system. If you don’t have tokens yet, click here [link to staking guide]."
+            "If you have tokens staked on this network, you’re eligible to participate in the network’s governance system. If you don’t have tokens yet, check the How to get tokens guide in https://lunie.io."
           ]
         },
         {
