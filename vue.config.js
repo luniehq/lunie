@@ -1,15 +1,11 @@
 const path = require(`path`)
 const webpack = require(`webpack`)
 const CSPWebpackPlugin = require(`csp-webpack-plugin`)
+const { version } = require("./package.json")
 
 function resolve(dir) {
   return path.join(__dirname, dir)
 }
-
-const commitHash = require(`child_process`)
-  .execSync(`git rev-parse HEAD`)
-  .toString()
-  .trim()
 
 module.exports = {
   publicPath: `/`,
@@ -41,7 +37,7 @@ module.exports = {
             NODE_ENV: JSON.stringify(process.env.NODE_ENV),
             NETWORK: JSON.stringify(process.env.NETWORK),
             SENTRY_DSN: JSON.stringify(process.env.SENTRY_DSN),
-            RELEASE: JSON.stringify(commitHash),
+            LUNIE_VERSION: JSON.stringify(version),
             GOOGLE_ANALYTICS_UID: JSON.stringify(
               process.env.GOOGLE_ANALYTICS_UID
             ),

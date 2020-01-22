@@ -20,7 +20,8 @@ import "material-design-icons-iconfont/dist/material-design-icons.css"
 if (config.sentryDSN) {
   Sentry.init({
     dsn: config.sentryDSN,
-    integrations: [new Integrations.Vue({ Vue, attachProps: true })]
+    integrations: [new Integrations.Vue({ Vue, attachProps: true })],
+    release: process.env.LUNIE_VERSION
   })
 }
 
