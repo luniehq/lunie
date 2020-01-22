@@ -18,6 +18,11 @@
         class="tutorial-container"
       >
         <TmBtn
+          v-if="
+            session.experimentalMode &&
+              (connection.network === 'cosmos-hub-mainnet' ||
+                connection.network === 'cosmos-hub-testnet')
+          "
           class="open-tutorial"
           value="How To Get Tokens"
           type="secondary"

@@ -3,7 +3,13 @@
     <p>
       Did you know that storing your key in the browser is considered unsafe?
     </p>
-    <p>
+    <p
+      v-if="
+        session.experimentalMode &&
+          (connection.network === 'cosmos-hub-mainnet' ||
+            connection.network === 'cosmos-hub-testnet')
+      "
+    >
       Check out our quick guide
       <a href="#" @click="openTutorial()">How to Manage Your Keys</a>
     </p>

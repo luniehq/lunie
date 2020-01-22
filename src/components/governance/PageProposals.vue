@@ -8,8 +8,9 @@
     <div v-if="loaded" class="button-container">
       <TmBtn
         v-if="
-          connection.network === 'cosmos-hub-mainnet' ||
-            connection.network === 'cosmos-hub-testnet'
+          session.experimentalMode &&
+            (connection.network === 'cosmos-hub-mainnet' ||
+              connection.network === 'cosmos-hub-testnet')
         "
         id="tutorial-btn"
         class="tutorial-btn"
