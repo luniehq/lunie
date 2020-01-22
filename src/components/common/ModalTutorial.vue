@@ -103,7 +103,7 @@ export default {
 <style scoped>
 .modal-tutorial {
   position: fixed;
-  bottom: 0;
+  bottom: 1rem;
   right: 1rem;
   z-index: var(--z-modal);
   max-width: 20rem;
@@ -258,7 +258,6 @@ export default {
 .content-item {
   display: block;
   font-size: 0.8rem;
-  /* word-break: break-all; */
 }
 
 p .content-item:last-child {
