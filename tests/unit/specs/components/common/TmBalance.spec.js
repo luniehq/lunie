@@ -9,6 +9,11 @@ describe(`TmBalance`, () => {
       getters: {
         address: "cosmos1address",
         network: "test-network"
+      },
+      state: {
+        connection: {
+          network: "cosmos-hub-mainnet"
+        }
       }
     }
 

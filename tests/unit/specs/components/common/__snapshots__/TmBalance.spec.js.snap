@@ -6,6 +6,16 @@ exports[`TmBalance do not show available atoms when the user has none in the fir
 >
   <div>
     <div
+      class="tutorial-container"
+    >
+      <tmbtn-stub
+        class="open-tutorial"
+        type="secondary"
+        value="How To Get Tokens"
+      />
+    </div>
+     
+    <div
       class="values-container"
     >
       <div
@@ -67,6 +77,8 @@ exports[`TmBalance do not show available atoms when the user has none in the fir
     />
      
     <modalwithdrawrewards-stub />
+     
+    <!---->
   </div>
 </div>
 `;
@@ -76,6 +88,16 @@ exports[`TmBalance show the balance header when signed in 1`] = `
   class="balance-header"
 >
   <div>
+    <div
+      class="tutorial-container"
+    >
+      <tmbtn-stub
+        class="open-tutorial"
+        type="secondary"
+        value="How To Get Tokens"
+      />
+    </div>
+     
     <div
       class="values-container"
     >
@@ -157,6 +179,8 @@ exports[`TmBalance show the balance header when signed in 1`] = `
     />
      
     <modalwithdrawrewards-stub />
+     
+    <!---->
   </div>
 </div>
 `;

@@ -9,7 +9,11 @@ describe(`PageProposals`, () => {
     $store = {
       commit: jest.fn(),
       dispatch: jest.fn(),
-      state: {},
+      state: {
+        connection: {
+          network: "cosmos-hub-mainnet"
+        }
+      },
       getters: {}
     }
     $apollo = {
