@@ -64,10 +64,22 @@
         <TmBtn id="delegation-btn" value="Stake" @click.native="onDelegation" />
         <TmBtn
           id="undelegation-btn"
+          class="undelegation-btn"
           :disabled="delegation.amount === 0"
           value="Unstake"
           type="secondary"
           @click.native="onUndelegation"
+        />
+        <TmBtn
+          v-if="
+            connection.network === 'cosmos-hub-mainnet' ||
+              connection.network === 'cosmos-hub-testnet'
+          "
+          id="tutorial-btn"
+          class="tutorial-btn"
+          value="How staking works"
+          type="secondary"
+          @click.native="openTutorial()"
         />
       </div>
 
@@ -168,6 +180,18 @@
         all validators
       </div>
     </template>
+    <ModalTutorial
+      v-if="
+        showTutorial &&
+          session.experimentalMode &&
+          (connection.network === 'cosmos-hub-mainnet' ||
+            connection.network === 'cosmos-hub-testnet')
+      "
+      :steps="cosmosStakingTutorial.steps"
+      :fullguide="cosmosStakingTutorial.fullguide"
+      :background="cosmosStakingTutorial.background"
+      :close="hideTutorial"
+    />
   </TmPage>
 </template>
 
@@ -184,6 +208,7 @@ import Bech32 from "common/Bech32"
 import TmPage from "common/TmPage"
 import gql from "graphql-tag"
 import { ValidatorProfile, UserTransactionAdded } from "src/gql"
+import ModalTutorial from "common/ModalTutorial"
 
 function getStatusText(statusDetailed) {
   switch (statusDetailed) {
@@ -204,7 +229,8 @@ export default {
     UndelegationModal,
     Avatar,
     TmBtn,
-    TmPage
+    TmPage,
+    ModalTutorial
   },
   filters: {
     atoms,
@@ -226,10 +252,46 @@ export default {
     rewards: 0,
     delegation: {},
     error: false,
-    loaded: false
+    loaded: false,
+    showTutorial: false,
+    cosmosStakingTutorial: {
+      fullguide: `http://lunie.io`,
+      background: `blue`,
+      steps: [
+        {
+          title: "Staking tokens",
+          // Each content array item will be enclosed in a span (newline)
+          content: [
+            "Do you have some tokens in your Lunie wallet? Yes? Great! If not, check out the “How to get tokens” guide in Lunie website."
+          ]
+        },
+        {
+          title: "The Validator list",
+          content: [
+            "Click the Validators view to browse all active and available validators sorted by expected rewards and voting power."
+          ]
+        },
+        {
+          title: "How much will you stake?",
+          content: [
+            "Choose how much you want to stake with a specific validator based on their fees and validating history. Once you stake, your tokens will be locked up for 21 days, but you can always unstake or restake at a later date."
+          ]
+        },
+        {
+          title: "Claim your rewards",
+          content: [
+            "Everyone is rewarded for putting something at stake but periodically you’ll have to claim your rewards. Look for the “Claim Rewards” button on your portfolio page."
+          ]
+        },
+        {
+          title: "Want more?",
+          content: ["Learn more about the in’s and out’s of staking on Cosmos."]
+        }
+      ]
+    }
   }),
   computed: {
-    ...mapState([`session`]),
+    ...mapState([`session`, `connection`]),
     ...mapGetters([`network`]),
     ...mapGetters({ userAddress: `address` })
   },
@@ -252,6 +314,12 @@ export default {
     },
     isBlankField(field, alternateFilter) {
       return field ? alternateFilter(field) : noBlanks(field)
+    },
+    openTutorial() {
+      this.showTutorial = true
+    },
+    hideTutorial() {
+      this.showTutorial = false
     }
   },
   apollo: {
@@ -501,6 +569,10 @@ span {
   display: block;
   margin-top: 0.4rem;
   font-size: 0.8rem;
+}
+
+.undelegation-btn {
+  margin-right: 0.5rem;
 }
 
 @media screen and (max-width: 425px) {

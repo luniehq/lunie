@@ -101,9 +101,9 @@
             (connection.network === 'cosmos-hub-mainnet' ||
               connection.network === 'cosmos-hub-testnet')
         "
-        :steps="tokensTutorial.steps"
-        :fullguide="tokensTutorial.fullguide"
-        :background="tokensTutorial.background"
+        :steps="cosmosTokensTutorial.steps"
+        :fullguide="cosmosTokensTutorial.fullguide"
+        :background="cosmosTokensTutorial.background"
         :close="hideTutorial"
       />
     </div>
@@ -143,7 +143,7 @@ export default {
       selectedTokenFiatValue: `Tokens Total Fiat Value`,
       selectedFiatCurrency: `EUR`, // EUR is our default fiat currency
       showTutorial: false,
-      tokensTutorial: {
+      cosmosTokensTutorial: {
         fullguide: `http://lunie.io`,
         background: `red`,
         steps: [

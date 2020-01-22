@@ -28,9 +28,9 @@
           (connection.network === 'cosmos-hub-mainnet' ||
             connection.network === 'cosmos-hub-testnet')
       "
-      :steps="keysTutorial.steps"
-      :fullguide="keysTutorial.fullguide"
-      :background="keysTutorial.background"
+      :steps="cosmosKeysTutorial.steps"
+      :fullguide="cosmosKeysTutorial.fullguide"
+      :background="cosmosKeysTutorial.background"
       :close="hideTutorial"
     />
   </div>
@@ -47,7 +47,7 @@ export default {
   },
   data: () => ({
     showTutorial: false,
-    keysTutorial: {
+    cosmoscosmosKeysTutorial: {
       fullguide: `http://lunie.io`,
       background: `yellow`,
       steps: [
