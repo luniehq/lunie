@@ -117,8 +117,15 @@ export default {
   padding: 0;
 }
 
+.modal-tutorial p {
+  line-height: 24px;
+  font-size: 12px;
+  color: #324175;
+  opacity: 0.7;
+}
+
 .modal-tutorial h2 {
-  font-size: 1.2rem;
+  font-size: 18px;
   color: #324175;
   margin-bottom: 1rem;
   font-weight: 400;
@@ -197,11 +204,9 @@ export default {
 }
 
 .button {
-  font-family: var(--sans);
-  font-size: 1rem;
+  font-size: 13px;
   font-weight: 500;
-  padding: 0.9rem;
-  min-width: 100px;
+  padding: 1rem;
   color: #7a88b8;
   margin: 0;
   border-radius: 0.4rem;
@@ -213,6 +218,9 @@ export default {
   outline: none;
   text-align: left;
   position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .button:hover {
@@ -222,10 +230,7 @@ export default {
 }
 
 .button i.arrow_forward {
-  position: absolute;
-  top: 1rem;
-  right: 1rem;
-  margin: 0;
+  font-size: 1rem;
 }
 
 .modal-tutorial .steps-container {
@@ -235,10 +240,10 @@ export default {
 }
 
 .modal-tutorial .steps .step {
-  height: 0.5rem;
-  width: 0.5rem;
+  height: 6px;
+  width: 6px;
   border-radius: 50%;
-  margin-left: 1.5rem;
+  margin-left: 1rem;
   background-color: #f1f3f7;
   display: inline-block;
 }
@@ -252,13 +257,12 @@ export default {
   color: #458dff;
   font-weight: 500;
   margin-bottom: 1rem;
-  font-size: 0.8rem;
+  font-size: 10px;
 }
 
 .content-item {
   display: block;
   font-size: 0.8rem;
-  /* word-break: break-all; */
 }
 
 p .content-item:last-child {
