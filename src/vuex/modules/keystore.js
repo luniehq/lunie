@@ -85,6 +85,7 @@ async function getWallet(seedPhrase, networkId, apollo) {
     query: gql`
       query Network {
         network(id: "${networkId}") {
+          id
           address_creator,
           address_prefix
         }
