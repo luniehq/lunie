@@ -35,29 +35,11 @@
                 class="content-item"
               >
                 <template v-if="item.indexOf(`###`) !== -1">
-                  {{ item.substr(0, item.indexOf(`###`)) }}
-                  <a
-                    :href="
-                      item.substr(
-                        item.indexOf(`###`) + 3,
-                        item.lastIndexOf(`###`) - item.indexOf(`###`) - 3
-                      )
-                    "
-                    target="_blank"
-                  >
-                    {{
-                      item.substr(
-                        item.indexOf(`###`) + 3,
-                        item.lastIndexOf(`###`) - item.indexOf(`###`) - 3
-                      )
-                    }}
-                  </a>
-                  {{
-                    item.substr(
-                      item.lastIndexOf(`###`) + 3,
-                      item.length - item.lastIndexOf(`###`) - 3
-                    )
-                  }}
+                  {{ getContentItemBeforeLink(item) }}
+                  <a :href="getContentItemLink(item)" target="_blank">{{
+                    getContentItemLink(item)
+                  }}</a>
+                  {{ getContentItemAfterLink(item) }}
                 </template>
                 <template v-else>
                   {{ item }}
@@ -122,6 +104,21 @@ export default {
       if (this.currentStep > 1) {
         this.currentStep--
       }
+    },
+    getContentItemLink(item) {
+      return item.substr(
+        item.indexOf(`###`) + 3,
+        item.lastIndexOf(`###`) - item.indexOf(`###`) - 3
+      )
+    },
+    getContentItemBeforeLink(item) {
+      return item.substr(0, item.indexOf(`###`))
+    },
+    getContentItemAfterLink(item) {
+      return item.substr(
+        item.lastIndexOf(`###`) + 3,
+        item.length - item.lastIndexOf(`###`) - 3
+      )
     }
   }
 }
