@@ -161,4 +161,12 @@ describe(`TmBalance`, () => {
     wrapper.vm.openTutorial()
     expect(wrapper.vm.showTutorial).toBe(true)
   })
+
+  it(`should hide How To Get Tokens tutorial`, () => {
+    wrapper.setData({
+      showTutorial: true
+    })
+    wrapper.vm.hideTutorial()
+    expect(wrapper.vm.showTutorial).toBe(false)
+  })
 })

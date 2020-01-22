@@ -108,6 +108,13 @@ describe(`PageValidator`, () => {
     wrapper.vm.openTutorial()
     expect(wrapper.vm.showTutorial).toBe(true)
   })
+  it(`should hide Staking tokens tutorial`, () => {
+    wrapper.setData({
+      showTutorial: true
+    })
+    wrapper.vm.hideTutorial()
+    expect(wrapper.vm.showTutorial).toBe(false)
+  })
 })
 
 describe(`isBlankField method`, () => {

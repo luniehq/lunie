@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`insecureModeWarning has the expected html structure 1`] = `
+exports[`InsecureModeWarning has the expected html structure 1`] = `
 <div>
   <p>
     

@@ -1,7 +1,7 @@
 import { shallowMount } from "@vue/test-utils"
 import InsecureModeWarning from "common/InsecureModeWarning"
 
-describe(`insecureModeWarning`, () => {
+describe(`InsecureModeWarning`, () => {
   let $store, wrapper
 
   beforeEach(() => {
@@ -23,16 +23,21 @@ describe(`insecureModeWarning`, () => {
       stubs: [`router-link`]
     })
   })
-
   it(`has the expected html structure`, async () => {
     expect(wrapper.element).toMatchSnapshot()
   })
-
   it(`should show How to Manage Your Keys tutorial`, () => {
     wrapper.setData({
       showTutorial: false
     })
     wrapper.vm.openTutorial()
     expect(wrapper.vm.showTutorial).toBe(true)
+  })
+  it(`should hide How to Manage Your Keys tutorial`, () => {
+    wrapper.setData({
+      showTutorial: true
+    })
+    wrapper.vm.hideTutorial()
+    expect(wrapper.vm.showTutorial).toBe(false)
   })
 })

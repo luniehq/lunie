@@ -85,4 +85,12 @@ describe(`PageProposals`, () => {
     wrapper.vm.openTutorial()
     expect(wrapper.vm.showTutorial).toBe(true)
   })
+
+  it(`should hide How Cosmos Governance Works tutorial`, () => {
+    wrapper.setData({
+      showTutorial: true
+    })
+    wrapper.vm.hideTutorial()
+    expect(wrapper.vm.showTutorial).toBe(false)
+  })
 })
