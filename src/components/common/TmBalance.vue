@@ -10,7 +10,13 @@
       />
     </div>
     <div v-else>
-      <div class="tutorial-container">
+      <div
+        v-if="
+          connection.network === 'cosmos-hub-mainnet' ||
+            connection.network === 'cosmos-hub-testnet'
+        "
+        class="tutorial-container"
+      >
         <TmBtn
           class="open-tutorial"
           value="How To Get Tokens"
@@ -89,7 +95,12 @@
       <SendModal ref="SendModal" :denoms="getAllDenoms" />
       <ModalWithdrawRewards ref="ModalWithdrawRewards" />
       <ModalTutorial
-        v-if="showTutorial && session.experimentalMode"
+        v-if="
+          showTutorial &&
+            session.experimentalMode &&
+            (connection.network === 'cosmos-hub-mainnet' ||
+              connection.network === 'cosmos-hub-testnet')
+        "
         :steps="tokensTutorial.steps"
         :fullguide="tokensTutorial.fullguide"
         :background="tokensTutorial.background"
@@ -179,7 +190,7 @@ export default {
     }
   },
   computed: {
-    ...mapState([`session`]),
+    ...mapState([`session`, `connection`]),
     ...mapGetters([`address`, `network`]),
     // only be ready to withdraw of the validator rewards are loaded and the user has rewards to withdraw
     // the validator rewards are needed to filter the top 5 validators to withdraw from
@@ -237,6 +248,9 @@ export default {
         return [this.stakingDenom]
       }
     }
+  },
+  mounted: function() {
+    console.log(this.connection)
   },
   methods: {
     onWithdrawal() {
