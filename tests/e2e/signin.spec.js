@@ -124,7 +124,18 @@ async function prepare(browser) {
 
   // check if we are already singed in
   await openMenu(browser)
-  const isSignedIn = await browser.execute(async function() {
+  const signedIn = await isSignedIn(browser)
+  await closeMenu(browser)
+
+  if (signedIn) {
+    await signOut(browser)
+  }
+  await signIn(browser)
+  browser.waitForElementVisible("#session-welcome", 10000, true)
+}
+
+async function isSignedIn(browser) {
+  const { value } = await browser.execute(async function() {
     let signOutElement
     for (let attempts = 3; attempts > 0; attempts--) {
       signOutElement = document.querySelector(".user-box-address #sign-out")
@@ -134,16 +145,10 @@ async function prepare(browser) {
       }
     }
     if (!signOutElement) {
-      throw new Error(`No sign-out buttons`)
+      return false // not signed in
     }
-
-    return true
+    return true // signed in as sign out element present
   })
-  await closeMenu(browser)
 
-  if (isSignedIn) {
-    await signOut(browser)
-  }
-  await signIn(browser)
-  browser.waitForElementVisible("#session-welcome", 10000, true)
+  return value
 }
