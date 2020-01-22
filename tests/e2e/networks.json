@@ -1,0 +1,19 @@
+[
+    {
+        "address": "cosmos1rwmfrdr8dz2va39pdahphzee4d373j6jz6up8j",
+        "network": "cosmos-hub-testnet",
+        "wallet": "5ed79d74ca9b5935a8cfe266ca6a484330ad4372c33f0729bd5c95eeac512354LGx4cYERQN7vnVHnj8jAX4IHTBP7i8BUDiWPwj3cPASUKgA8IoSu+ZDJtXSaDuCsMgOuPt2+sVbQGxsJkPfmwhCYEC4Nv8zdGKwnPqugQwKehHNL4HgTG5hJMfgn79TyBjYbrGGG5jntQ5iqIrDAMS0xUEZ3/N5BiTs1HSSUOtAU0mJpOfE3YYKk2Dc/futTpheUTmwGVuQCOkQZ6LIoityPhr2fsBdbOsb7sDlAxe2V9EFkDxrgbvuMi2lWCHTqiYxebGB2zexAzc44k4izK7CXRW9DgFZ4zu1ysZjs1GPdhWs6f50OyjKDDv0vGhBP",
+        "stakeAmount": 0.1,
+        "restakeAmount": 0.01,
+        "fundingAmount": 0.4
+    },
+    {
+        "address": "cosmos1ek9cd8ewgxg9w5xllq9um0uf4aaxaruvcw4v9e",
+        "network": "local-cosmos-hub-testnet",
+        "wallet": "ae1d20a49e1085cca29a71e270c6f64f8f86794cb67c6922caea6bcba0ed9e60g+nSTgP8/wHpWaomDkhW/7g2Xldvno3VRFggvdpWIDrRV+n4BJtpk3UpLKo0K3SDL5dRzxz3NmGFnSA8znggFmtesdqu6jWJYzSNqaQhM/gCPTVabF7t1UHaybze1NRlYcm/wl5oOyXRpki6ugOHxNhF7+4wlzhYxMilAB7ekDB4+VVHoPMUinU4dsUdtC4XwDUA0rbX1TTmrh+i1eBp6UTQ+nHGiZXL1TkhhR1mE0fR3bLRunz5XagYtjoST33pecQWzqeaZZQ/mgm9QXu/i+ymfbnPQkh8ivx+J6/d2RfZuAV4NnwFZDUr7CzPX4TU",
+        "name": "rich_account",
+        "stakeAmount": 10.86,
+        "restakeAmount": 5.43,
+        "fundingAmount": 20
+    }
+]
