@@ -45,7 +45,7 @@ export default {
         {
           title: "Do you have something at stake?",
           content: [
-            "If you have tokens staked on this network, you’re eligible to participate in the network’s governance system. If you don’t have tokens yet, check out the “How to get tokens” guide in ###https://lunie.io###."
+            "If you have tokens staked on this network, you’re eligible to participate in the network’s governance system. If you don’t have tokens yet, check out the “How to get tokens” guide in Lunie website"
           ]
         },
         {
@@ -75,9 +75,8 @@ export default {
         {
           title: "Staking tokens",
           // Each content array item will be enclosed in a span (newline)
-          // Use only one link macro per item
           content: [
-            "Do you have some tokens in your Lunie wallet? Yes? Great! If not, check out the “How to get tokens” guide in ###https://lunie.io###."
+            "Do you have some tokens in your Lunie wallet? Yes? Great! If not, check out the “How to get tokens” guide in Lunie website."
           ]
         },
         {
