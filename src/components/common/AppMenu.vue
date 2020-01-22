@@ -27,7 +27,7 @@
       v-else
       id="sign-in"
       class="session-link"
-      value="Sign In"
+      value="Sign In / Sign Up"
       type="secondary"
       size="small"
       @click.native="signIn()"

@@ -234,7 +234,7 @@
               <TmBtn
                 v-if="requiresSignIn"
                 v-focus
-                value="Sign In"
+                value="Sign In / Sign Up"
                 type="primary"
                 @click.native="goToSession"
                 @click.enter.native="goToSession"
