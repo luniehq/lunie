@@ -90,6 +90,7 @@ import TmFormMsg from "common/TmFormMsg"
 import bech32 from "bech32"
 import { formatBech32 } from "src/filters"
 import { isAddress } from "web3-utils"
+import gql from "graphql-tag"
 const isEthereumAddress = isAddress
 
 export default {
@@ -107,15 +108,22 @@ export default {
   },
   data: () => ({
     address: ``,
-    error: ``
+    error: ``,
+    addressPrefixes: []
   }),
   computed: {
     ...mapState([`session`]),
     ...mapGetters([`network`]),
     filteredAddresses() {
+      const selectedNetwork = this.addressPrefixes.find(
+        ({ id }) => id === this.network
+      )
+      // handling query not loaded yet or failed
+      if (!selectedNetwork) return []
+
       return this.session.addresses
         .filter(address =>
-          address.address.startsWith(config.bech32Prefixes[this.network])
+          address.address.startsWith(selectedNetwork.address_prefix)
         )
         .slice(-3)
     }
@@ -202,6 +210,19 @@ export default {
         isAWhitelistedBech32Prefix: this.isAWhitelistedBech32Prefix,
         isANetworkAddress: this.isANetworkAddress
       }
+    }
+  },
+  apollo: {
+    addressPrefixes: {
+      query: gql`
+        query Network {
+          networks {
+            id
+            address_prefix
+          }
+        }
+      `,
+      fetchPolicy: "cache-first"
     }
   }
 }
