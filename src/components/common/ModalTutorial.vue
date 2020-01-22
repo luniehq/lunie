@@ -34,7 +34,7 @@
                 :key="`content-item-${index}-${contentIndex}`"
                 class="content-item"
               >
-                <template v-if="item.indexOf(`###`)">
+                <template v-if="item.indexOf(`###`) !== -1">
                   {{ item.substr(0, item.indexOf(`###`)) }}
                   <a
                     :href="
