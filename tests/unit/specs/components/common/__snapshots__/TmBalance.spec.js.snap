@@ -6,16 +6,6 @@ exports[`TmBalance do not show available atoms when the user has none in the fir
 >
   <div>
     <div
-      class="tutorial-container"
-    >
-      <tmbtn-stub
-        class="open-tutorial"
-        type="secondary"
-        value="How To Get Tokens"
-      />
-    </div>
-     
-    <div
       class="values-container"
     >
       <div
@@ -58,17 +48,25 @@ exports[`TmBalance do not show available atoms when the user has none in the fir
     <div
       class="button-container"
     >
-      <tmbtn-stub
-        class="send-button"
-        type="secondary"
-        value="Send"
-      />
+      <div>
+        <tmbtn-stub
+          class="send-button"
+          type="secondary"
+          value="Send"
+        />
+         
+        <tmbtn-stub
+          class="withdraw-rewards"
+          disabled="true"
+          id="withdraw-btn"
+          value="Claim Rewards"
+        />
+      </div>
        
       <tmbtn-stub
-        class="withdraw-rewards"
-        disabled="true"
-        id="withdraw-btn"
-        value="Claim Rewards"
+        class="open-tutorial"
+        type="tertiary"
+        value="Need help getting tokens?"
       />
     </div>
      
@@ -88,16 +86,6 @@ exports[`TmBalance show the balance header when signed in 1`] = `
   class="balance-header"
 >
   <div>
-    <div
-      class="tutorial-container"
-    >
-      <tmbtn-stub
-        class="open-tutorial"
-        type="secondary"
-        value="How To Get Tokens"
-      />
-    </div>
-     
     <div
       class="values-container"
     >
@@ -161,16 +149,24 @@ exports[`TmBalance show the balance header when signed in 1`] = `
     <div
       class="button-container"
     >
-      <tmbtn-stub
-        class="send-button"
-        type="secondary"
-        value="Send"
-      />
+      <div>
+        <tmbtn-stub
+          class="send-button"
+          type="secondary"
+          value="Send"
+        />
+         
+        <tmbtn-stub
+          class="withdraw-rewards"
+          id="withdraw-btn"
+          value="Claim Rewards"
+        />
+      </div>
        
       <tmbtn-stub
-        class="withdraw-rewards"
-        id="withdraw-btn"
-        value="Claim Rewards"
+        class="open-tutorial"
+        type="tertiary"
+        value="Need help getting tokens?"
       />
     </div>
      
