@@ -3,9 +3,9 @@
     <TmDataLoading v-if="$apollo.loading" />
     <template v-else-if="!$apollo.loading">
       <h3>Main Networks</h3>
-      <NetworkList :networks="mainNetworks" />
+      <NetworkList :route="route" :networks="mainNetworks" />
       <h3>Test Networks</h3>
-      <NetworkList :networks="testNetworks" />
+      <NetworkList :route="route" :networks="testNetworks" />
     </template>
   </TmPage>
 </template>
@@ -22,6 +22,12 @@ export default {
     TmPage,
     NetworkList,
     TmDataLoading
+  },
+  props: {
+    route: {
+      type: String,
+      default: ``
+    }
   },
   data: () => ({
     networks: []

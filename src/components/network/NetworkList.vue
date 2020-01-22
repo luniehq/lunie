@@ -5,7 +5,7 @@
       :key="network.chain_id"
       class="select-network-item"
       :class="{ selected: connection.network === network.id }"
-      @click="selectNetworkHandler(network)"
+      @click="clickHandler(network)"
     >
       <NetworkItem :network="network" />
     </li>
@@ -25,6 +25,10 @@ export default {
     networks: {
       type: Array,
       required: true
+    },
+    route: {
+      type: String,
+      default: ``
     }
   },
   computed: {
@@ -36,6 +40,10 @@ export default {
       if (this.connection.network !== network.id) {
         this.$store.dispatch(`setNetwork`, network)
       }
+    },
+    clickHandler(network) {
+      this.selectNetworkHandler(network)
+      this.route ? this.$router.push(this.route) : null
     }
   }
 }

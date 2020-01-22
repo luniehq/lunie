@@ -2,84 +2,28 @@
   <SessionFrame>
     <div class="select-network">
       <h2 class="session-title">Select a Network</h2>
-      <ul class="select-network-list">
-        <li
-          v-for="network in sortedNetworks"
-          :key="network.chain_id"
-          class="select-network-item"
-          :class="{ selected: connection.network === network.id }"
-          @click="selectNetworkHandler(network) && $router.push(`/create`)"
-        >
-          <NetworkItem :network="network" />
-        </li>
-      </ul>
+      <div class="page-networks">
+        <PageNetworks :route="`/create`" />
+      </div>
     </div>
   </SessionFrame>
 </template>
 
 <script>
-import { mapState } from "vuex"
-import NetworkItem from "network/NetworkItem"
+// import NetworkItem from "network/NetworkItem"
+import PageNetworks from "network/PageNetworks"
 import SessionFrame from "common/SessionFrame"
-import gql from "graphql-tag"
 
 export default {
   name: `select-network`,
   components: {
     SessionFrame,
-    NetworkItem
-  },
-  data: () => ({
-    networks: []
-  }),
-  computed: {
-    ...mapState([`connection`]),
-    sortedNetworks() {
-      // sorts networks setting mainnets at the top and the default one the first
-      if (this.networks) {
-        const sortedNetworks = this.networks
-        return sortedNetworks
-          .sort((a, b) => {
-            return b.testnet - a.testnet
-          })
-          .sort((a, b) => {
-            return b.default - a.default
-          })
-      } else {
-        return null
-      }
-    }
-  },
-  methods: {
-    async selectNetworkHandler(network) {
-      if (this.connection.network !== network.id) {
-        this.$store.dispatch(`setNetwork`, network)
-      }
-    }
-  },
-  apollo: {
-    networks: {
-      query: gql`
-        query Networks {
-          networks {
-            id
-            chain_id
-            title
-            testnet
-            default
-          }
-        }
-      `,
-      /* istanbul ignore next */
-      update(data) {
-        return data.networks
-      }
-    }
+    PageNetworks
   }
 }
 </script>
 <style scoped>
-.select-network-list {
-  list-style-type: none;
+.page-networks {
+  overflow: scroll;
 }
 </style>
