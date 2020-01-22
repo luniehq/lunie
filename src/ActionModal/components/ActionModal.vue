@@ -427,7 +427,7 @@ export default {
     requiresSignIn() {
       return (
         !this.session.signedIn ||
-        (this.session.sessionType === sessionType.EXPLORE)
+        this.session.sessionType === sessionType.EXPLORE
       )
     },
     estimatedFee() {
