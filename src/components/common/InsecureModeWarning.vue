@@ -10,7 +10,7 @@
             connection.network === 'cosmos-hub-testnet')
       "
     >
-      Check out our quick guide
+      Check out our guide for
       <a href="#" @click="openTutorial()">How to Manage Your Keys</a>
     </p>
     <p>
