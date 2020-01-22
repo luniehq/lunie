@@ -12,6 +12,9 @@ describe(`PageProposals`, () => {
       state: {
         connection: {
           network: "cosmos-hub-mainnet"
+        },
+        session: {
+          experimentalMode: true
         }
       },
       getters: {}

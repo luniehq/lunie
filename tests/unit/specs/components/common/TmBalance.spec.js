@@ -13,6 +13,9 @@ describe(`TmBalance`, () => {
       state: {
         connection: {
           network: "cosmos-hub-mainnet"
+        },
+        session: {
+          experimentalMode: true
         }
       }
     }
