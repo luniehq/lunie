@@ -265,7 +265,10 @@
                 v-else
                 type="primary"
                 value="Send"
-                :disabled="!selectedSignMethod"
+                :disabled="
+                  !selectedSignMethod ||
+                    (!extension.enabled && selectedSignMethod === 'extension')
+                "
                 @click.native="validateChangeStep"
               />
             </TmFormGroup>
