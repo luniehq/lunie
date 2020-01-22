@@ -136,10 +136,11 @@ async function actionModalCheckout(
   expectedAvailableTokensChange = 0
 ) {
   // deacivate intercom
+  // can't be inserted before each as it would be removed on a refresh
   await browser.execute(function() {
     var sheet = window.document.styleSheets[0]
     sheet.insertRule(
-      ".intercom-app { margin-right: -200px }",
+      "#intercom-container { display: none !important; }",
       sheet.cssRules.length
     )
   })
