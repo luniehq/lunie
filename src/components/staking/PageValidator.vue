@@ -61,25 +61,30 @@
       </tr>
 
       <div class="button-container">
-        <TmBtn id="delegation-btn" value="Stake" @click.native="onDelegation" />
-        <TmBtn
-          id="undelegation-btn"
-          class="undelegation-btn"
-          :disabled="delegation.amount === 0"
-          value="Unstake"
-          type="secondary"
-          @click.native="onUndelegation"
-        />
+        <div>
+          <TmBtn
+            id="delegation-btn"
+            value="Stake"
+            @click.native="onDelegation"
+          />
+          <TmBtn
+            id="undelegation-btn"
+            class="undelegation-btn"
+            :disabled="delegation.amount === 0"
+            value="Unstake"
+            type="secondary"
+            @click.native="onUndelegation"
+          />
+        </div>
         <TmBtn
           v-if="
-            session.experimentalMode &&
-              (connection.network === 'cosmos-hub-mainnet' ||
-                connection.network === 'cosmos-hub-testnet')
+            connection.network === 'cosmos-hub-mainnet' ||
+              connection.network === 'cosmos-hub-testnet'
           "
           id="tutorial-btn"
           class="tutorial-btn"
-          value="How staking works"
-          type="secondary"
+          value="Want to learn about staking?"
+          type="tertiary"
           @click.native="openTutorial()"
         />
       </div>
@@ -534,7 +539,8 @@ span {
 
 .button-container {
   display: flex;
-  align-items: flex-end;
+  align-items: center;
+  justify-content: space-between;
   padding: 0.5rem 1rem;
   border-bottom: 1px solid var(--bc-dim);
 }
