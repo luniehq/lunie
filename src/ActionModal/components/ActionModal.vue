@@ -120,7 +120,7 @@
             />
           </TmFormGroup>
           <HardwareState
-            v-else-if="selectedSignMethod === SIGN_METHODS.LEDGER"
+            v-if="selectedSignMethod === SIGN_METHODS.LEDGER"
             :icon="session.browserWithLedgerSupport ? 'usb' : 'info'"
             :loading="!!sending"
           >
