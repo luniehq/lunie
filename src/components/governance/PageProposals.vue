@@ -7,22 +7,21 @@
   >
     <div v-if="loaded" class="button-container">
       <TmBtn
-        v-if="
-          session.experimentalMode &&
-            (connection.network === 'cosmos-hub-mainnet' ||
-              connection.network === 'cosmos-hub-testnet')
-        "
-        id="tutorial-btn"
-        class="tutorial-btn"
-        value="How Cosmos Governance Works"
-        type="secondary"
-        @click.native="openTutorial()"
-      />
-      <TmBtn
         id="propose-btn"
         value="Create Proposal"
         type="secondary"
         @click.native="onPropose"
+      />
+      <TmBtn
+        v-if="
+          connection.network === 'cosmos-hub-mainnet' ||
+            connection.network === 'cosmos-hub-testnet'
+        "
+        id="tutorial-btn"
+        class="tutorial-btn"
+        value="Want to learn how governance works?"
+        type="tertiary"
+        @click.native="openTutorial()"
       />
     </div>
     <ModalPropose
@@ -214,15 +213,11 @@ export default {
 .button-container {
   display: flex;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: space-between;
   width: 100%;
   padding: 1rem 1rem 0 1rem;
   max-width: 680px;
   margin: 0 auto;
-}
-
-.tutorial-btn {
-  margin-right: 1rem;
 }
 
 @media screen and (max-width: 667px) {
