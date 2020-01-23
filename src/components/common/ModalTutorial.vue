@@ -106,7 +106,7 @@ export default {
   bottom: 1rem;
   right: 1rem;
   z-index: var(--z-modal);
-  max-width: 20rem;
+  max-width: 295px;
   display: flex;
   outline: none;
 }
@@ -120,15 +120,16 @@ export default {
 .modal-tutorial p {
   line-height: 24px;
   font-size: 12px;
-  color: #324175;
+  color: var(--dark-grey-blue);
   opacity: 0.7;
+  margin-bottom: 18px;
 }
 
 .modal-tutorial h2 {
-  font-size: 18px;
-  color: #324175;
-  margin-bottom: 1rem;
-  font-weight: 400;
+  font-size: 16px;
+  font-weight: normal;
+  color: var(--dark-grey-blue);
+  margin-bottom: 18px;
 }
 
 .modal-tutorial b {
@@ -138,7 +139,7 @@ export default {
 
 .modal-tutorial .button {
   width: 100%;
-  margin-top: 1rem;
+  margin-top: 20px;
 }
 
 .modal-tutorial-header i {
@@ -170,7 +171,7 @@ export default {
   background-repeat: no-repeat;
   background-position: center center;
   width: 100%;
-  height: 160px;
+  height: 146px;
   border-top-left-radius: 6px;
   border-top-right-radius: 6px;
 }
@@ -196,9 +197,9 @@ export default {
 }
 
 .modal-tutorial .content {
-  padding: 1rem;
+  padding: 20px;
   background-color: white;
-  color: #445381;
+  color: var(--faded-blue);
   border-bottom-left-radius: 6px;
   border-bottom-right-radius: 6px;
 }
@@ -206,13 +207,13 @@ export default {
 .button {
   font-size: 13px;
   font-weight: 500;
-  padding: 1rem;
-  color: #7a88b8;
+  padding: 16px;
+  background-color: rgba(122, 136, 184, 0.1);
+  color: var(--faded-blue);
   margin: 0;
-  border-radius: 0.4rem;
+  border-radius: 4px;
   cursor: pointer;
-  background: #f1f3f7;
-  border: 2px solid #f1f3f7;
+  border: 0;
   transition: all 0.5s ease;
   white-space: nowrap;
   outline: none;
@@ -224,9 +225,8 @@ export default {
 }
 
 .button:hover {
-  background: #445381;
+  background: var(--faded-blue);
   color: #f1f3f7;
-  border-color: #445381;
 }
 
 .button i.arrow_forward {
@@ -249,23 +249,19 @@ export default {
 }
 
 .modal-tutorial .steps .step.completed {
-  background-color: #458dff;
+  background-color: var(--sky-blue);
 }
 
 .steps {
   position: relative;
-  color: #458dff;
+  color: var(--sky-blue);
   font-weight: 500;
-  margin-bottom: 1rem;
+  margin-bottom: 18px;
   font-size: 10px;
 }
 
 .content-item {
   display: block;
-  font-size: 0.8rem;
-}
-
-p .content-item:last-child {
-  margin-bottom: 1rem;
+  font-size: 12px;
 }
 </style>
