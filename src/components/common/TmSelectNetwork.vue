@@ -40,10 +40,10 @@ export default {
         const sortedNetworks = this.networks
         return sortedNetworks
           .sort((a, b) => {
-            return b.testnet - a.testnet
+            return a.testnet - b.testnet
           })
           .sort((a, b) => {
-            return b.default - a.default
+            return a.default - b.default
           })
       } else {
         return null
