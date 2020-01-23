@@ -167,7 +167,7 @@ exports[`TmSessionExplore shows a form to sign in with an address 1`] = `
     </div>
      
     <div
-      class="session-main"
+      class="session-main bottom-indent"
     >
       <tmformgroup-stub
         fieldid="sign-in-name"
