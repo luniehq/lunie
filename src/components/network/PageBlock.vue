@@ -134,7 +134,6 @@ export default {
               }
               signature
               value
-              amount
             }
             proposer_address
           }
