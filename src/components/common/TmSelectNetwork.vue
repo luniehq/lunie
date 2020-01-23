@@ -43,7 +43,7 @@ export default {
             return a.testnet - b.testnet
           })
           .sort((a, b) => {
-            return a.default - b.default
+            return b.default - a.default
           })
       } else {
         return null
