@@ -4,7 +4,7 @@
       <h2 class="session-title">
         Choose name
       </h2>
-      <div class="session-main">
+      <div class="session-main bottom-indent">
         <Steps :steps="[`Recover`, `Name`, `Password`]" active-step="Name" />
         <TmFormGroup field-id="import-name" field-label="Your Address">
           <p class="address">{{ importCosmosAddress }}</p>

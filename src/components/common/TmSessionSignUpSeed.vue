@@ -8,7 +8,7 @@
         <InsecureModeWarning />
       </div>
       <div v-else>
-        <div class="session-main">
+        <div class="session-main bottom-indent reorder">
           <Steps
             v-if="!session.mobile"
             :steps="[`Create`, `Password`, `Backup`]"

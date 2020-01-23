@@ -33,7 +33,7 @@
         </div>
       </div>
 
-      <div class="session-main">
+      <div class="session-main bottom-indent">
         <TmFormGroup field-id="sign-in-name" field-label="Your Address">
           <TmField
             v-model="address"

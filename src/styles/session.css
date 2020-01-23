@@ -4,11 +4,16 @@
   left: 0;
   z-index: var(--z-modal);
   width: 100vw;
-  height: 100vh;
+  height: 100%;
   background: var(--app-nav-light);
   display: flex;
+  max-width: 400px;
   justify-content: center;
   align-items: center;
+}
+.session-frame .back{
+  position: absolute;
+  margin: -20px 0 0 0;
 }
 
 .session-outer-container {
@@ -189,6 +194,22 @@
   .session {
     height: 100vh;
     padding: 3rem 1rem 1rem;
+  }  
+
+  .bottom-indent {
+    margin-bottom: 60px;
+  }
+
+  .bottom-indent.reorder{
+    flex-direction: column;
+    display: flex;
+  }
+
+  .bottom-indent.reorder .seed-phrase{
+    order: 2;
+  }
+  .bottom-indent.reorder .field-checkbox{
+    order: 1;
   }
 
   .session-outer-container {
@@ -243,4 +264,4 @@
   .session-close .user-box {
     display: none;
   }
-}
+} 
