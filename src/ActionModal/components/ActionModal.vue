@@ -1,5 +1,5 @@
 <template>
-  <transition v-if="show && !$apollo.loading" name="slide-fade">
+  <transition v-if="show" name="slide-fade">
     <div v-focus-last class="action-modal" tabindex="0" @keyup.esc="close">
       <div
         v-if="(step === feeStep || step === signStep) && !sending"
@@ -17,9 +17,9 @@
         <i class="material-icons">close</i>
       </div>
       <div class="action-modal-header">
-        <span class="action-modal-title">
-          {{ requiresSignIn ? `Sign in required` : title }}
-        </span>
+        <span class="action-modal-title">{{
+          requiresSignIn ? `Sign in required` : title
+        }}</span>
         <Steps
           v-if="
             [defaultStep, feeStep, signStep].includes(step) &&
@@ -45,6 +45,7 @@
       <template v-if="!checkFeatureAvailable">
         <FeatureNotAvailable :feature="title" />
       </template>
+      <TmDataLoading v-else-if="!loaded" />
       <template v-else>
         <div v-if="requiresSignIn" class="action-modal-form">
           <p class="form-message notice">
@@ -63,9 +64,9 @@
             field-id="gasPrice"
             field-label="Gas Price"
           >
-            <span class="input-suffix">
-              {{ network.stakingDenom | viewDenom }}
-            </span>
+            <span class="input-suffix">{{
+              network.stakingDenom | viewDenom
+            }}</span>
             <TmField
               id="gas-price"
               v-model="gasPrice"
@@ -187,9 +188,7 @@
         </div>
         <div v-else-if="step === inclusionStep" class="action-modal-form">
           <TmDataMsg icon="hourglass_empty" :spin="true">
-            <div slot="title">
-              Sent and confirming
-            </div>
+            <div slot="title">Sent and confirming</div>
             <div slot="subtitle">
               Waiting for confirmation from {{ networkId }}.
             </div>
@@ -200,9 +199,7 @@
           class="action-modal-form success-step"
         >
           <TmDataMsg icon="check" :success="true">
-            <div slot="title">
-              {{ notifyMessage.title }}
-            </div>
+            <div slot="title">{{ notifyMessage.title }}</div>
             <div slot="subtitle">
               {{ notifyMessage.body }}
               <br />
@@ -284,6 +281,7 @@ import TmBtn from "src/components/common/TmBtn"
 import TmField from "src/components/common/TmField"
 import TmFormGroup from "src/components/common/TmFormGroup"
 import TmFormMsg from "src/components/common/TmFormMsg"
+import TmDataLoading from "src/components/common/TmDataLoading"
 import FeatureNotAvailable from "src/components/common/FeatureNotAvailable"
 import TmDataMsg from "common/TmDataMsg"
 import TableInvoice from "./TableInvoice"
@@ -341,6 +339,7 @@ export default {
     TmFormGroup,
     TmFormMsg,
     TmDataMsg,
+    TmDataLoading,
     TableInvoice,
     Steps,
     FeatureNotAvailable
@@ -399,6 +398,7 @@ export default {
     gasPrice: (config.default_gas_price / 4).toFixed(9), // as we bump the gas amount by 4 in the API
     submissionError: null,
     show: false,
+    loaded: false,
     actionManager: new ActionManager(),
     txHash: null,
     defaultStep,
@@ -502,6 +502,9 @@ export default {
       handler(context) {
         this.actionManager.setContext(context)
       }
+    },
+    "$apollo.loading": function(loading) {
+      this.loaded = this.loaded || !loading
     }
   },
   created() {
@@ -553,7 +556,10 @@ export default {
       this.$apollo.skipAll = true
 
       // reset form
-      this.$v.$reset()
+      // in some cases $v is not yet set
+      if (this.$v) {
+        this.$v.$reset()
+      }
       this.$emit(`close`)
     },
     trackEvent(...args) {
@@ -700,9 +706,6 @@ export default {
       this.submissionError = `${this.submissionErrorPrefix}: ${error.message}.`
       this.trackEvent(`event`, `failed-submit`, this.title, error.message)
       this.$apollo.queries.overview.refetch()
-    },
-    async connectLedger() {
-      await this.$store.dispatch(`connectLedgerApp`)
     }
   },
   validations() {

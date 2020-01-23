@@ -147,7 +147,7 @@ describe(`ActionModal`, () => {
         sequence: 0
       }
     }
-    wrapper.setData({ network, overview, context })
+    wrapper.setData({ network, overview, context, loaded: true })
     wrapper.vm.open()
   })
 
@@ -204,6 +204,22 @@ describe(`ActionModal`, () => {
     expect(wrapper.vm.trackEvent).toHaveBeenCalled()
   })
 
+  it("shows loading when there is still data to be loaded", () => {
+    wrapper.setData({ loaded: false })
+
+    expect(wrapper.find("TmDataLoading-stub").exists()).toBe(true)
+    expect(wrapper.element).toMatchSnapshot()
+  })
+
+  it("sets the loaded state when apollo is done loading", () => {
+    let self = { loaded: false }
+    ActionModal.watch["$apollo.loading"].call(self, true)
+    expect(self.loaded).toBe(false)
+
+    ActionModal.watch["$apollo.loading"].call(self, false)
+    expect(self.loaded).toBe(true)
+  })
+
   it(`should confirm modal closing`, () => {
     global.confirm = () => true
     const closeModal = jest.fn()
@@ -242,13 +258,6 @@ describe(`ActionModal`, () => {
     wrapper.vm.step = `sign`
     expect(wrapper.vm.selectedSignMethod).toBe(`ledger`)
     expect(wrapper.find(`#password`).exists()).toBe(false)
-  })
-
-  it(`should dispatch connectLedgerApp`, () => {
-    const $store = { dispatch: jest.fn() }
-    const self = { $store }
-    ActionModal.methods.connectLedger.call(self)
-    expect($store.dispatch).toHaveBeenCalledWith(`connectLedgerApp`)
   })
 
   describe(`should show the action modal`, () => {

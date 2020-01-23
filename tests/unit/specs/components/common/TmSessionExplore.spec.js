@@ -12,6 +12,9 @@ describe(`TmSessionExplore`, () => {
     $store = {
       commit: jest.fn(),
       dispatch: jest.fn(() => true),
+      getters: {
+        network: "cosmos-hub-testnet"
+      },
       state: {
         session: {
           address: ``,
@@ -45,6 +48,15 @@ describe(`TmSessionExplore`, () => {
         },
         $store
       }
+    })
+
+    wrapper.setData({
+      addressPrefixes: [
+        {
+          id: "cosmos-hub-testnet",
+          address_prefix: "cosmos"
+        }
+      ]
     })
   })
 
