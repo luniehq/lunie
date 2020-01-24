@@ -1,7 +1,7 @@
 <template>
   <SessionFrame>
     <TmFormStruct :submit="onSubmit">
-      <h2 class="session-title">
+      <h2 class="session-title bottom-indent">
         Explore with any address
       </h2>
 
