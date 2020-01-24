@@ -130,6 +130,13 @@ export default () => {
       },
       { address, sessionType = `ledger` }
     ) {
+      const addressNetwork = await dispatch(`getNetworkByAddress`, address)
+      if (addressNetwork) {
+        if (network !== addressNetwork.id) {
+          await dispatch(`setNetwork`, addressNetwork)
+        }
+        network = addressNetwork.id
+      }
       commit(`setSignIn`, true)
       commit(`setSessionType`, sessionType)
       commit(`setUserAddress`, address)

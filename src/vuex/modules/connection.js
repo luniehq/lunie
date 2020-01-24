@@ -18,6 +18,16 @@ export default function({ apollo }) {
   }
 
   const actions = {
+    async getNetworkByAddress(store, address) {
+      const { data } = await apollo.query({
+        query: Networks,
+        fetchPolicy: "cache-first"
+      })
+      const network = data.networks.find(
+        network => address.indexOf(network.address_prefix) == 0
+      )
+      return network || false
+    },
     async checkForPersistedNetwork({ dispatch, commit }) {
       const persistedNetwork = JSON.parse(localStorage.getItem(`network`))
       const { data } = await apollo.query({
