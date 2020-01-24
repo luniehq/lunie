@@ -79,7 +79,6 @@ export default {
   }),
   computed: {
     ...mapState([`session`, `signup`, `connection`]),
-    ...mapGetters({ networkId: `network` }),
     fieldSeed: {
       get() {
         return this.$store.state.signup.signUpSeed
@@ -111,7 +110,7 @@ export default {
       if (this.$v.$error) return
       try {
         const selectedNetwork = this.addressPrefixes.find(
-          ({ id }) => id === this.networkId
+          ({ id }) => id === this.connection.network
         )
         await this.$store.dispatch(`createKey`, {
           seedPhrase: this.signup.signUpSeed,
