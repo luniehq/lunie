@@ -129,7 +129,7 @@ export default [
   },
   {
     path: `/selectnetwork/:recover`,
-    name: `select-network`,
+    name: `select-network-recover`,
     components: {
       session: () => import(`./components/common/TmSelectNetwork`)
     },
