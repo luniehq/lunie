@@ -114,7 +114,6 @@ export default {
       this.$v.$touch()
       if (this.$v.$error) return
       try {
-        console.log(this.recover)
         await this.$store.dispatch(`createKey`, {
           seedPhrase: this.recover.seed,
           password: this.recover.password,
