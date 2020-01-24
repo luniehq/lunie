@@ -22,6 +22,7 @@ import { mapState } from "vuex"
 import gql from "graphql-tag"
 import NetworkItem from "../network/NetworkItem"
 import SessionFrame from "common/SessionFrame"
+import { mapGetters } from "vuex"
 
 export default {
   name: `select-network`,
@@ -34,6 +35,7 @@ export default {
   }),
   computed: {
     ...mapState([`connection`]),
+    ...mapGetters({ networkId: `network` }),
     sortedNetworks() {
       // sorts networks setting mainnets at the top and the default one the first
       if (this.networks) {
