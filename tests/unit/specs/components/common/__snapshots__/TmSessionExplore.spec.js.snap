@@ -7,7 +7,7 @@ exports[`TmSessionExplore shows a form to sign in with an address 1`] = `
     width=""
   >
     <h2
-      class="session-title"
+      class="session-title bottom-indent"
     >
       
       Explore with any address

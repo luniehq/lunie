@@ -43,11 +43,32 @@ describe(`TmSessionImportName`, () => {
       localVue,
       mocks: {
         $store,
+        $apollo: {
+          queries: {
+            addressPrefixes: { refetch: () => {} }
+          }
+        },
         $router: {
           push: jest.fn()
         }
       },
       stubs: [`router-link`]
+    })
+    wrapper.setData({
+      addressPrefixes: [
+        {
+          id: `cosmos-hub-mainnet`,
+          address_prefix: `cosmos`
+        },
+        {
+          id: `livepeer-mainnet`,
+          address_prefix: `0x`
+        },
+        {
+          id: `emoney-testnet`,
+          address_prefix: `emoney`
+        }
+      ]
     })
   })
 

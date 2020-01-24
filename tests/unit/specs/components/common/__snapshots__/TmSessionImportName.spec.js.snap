@@ -15,7 +15,7 @@ exports[`TmSessionImportName has the expected html structure 1`] = `
     </h2>
      
     <div
-      class="session-main"
+      class="session-main bottom-indent"
     >
       <steps-stub
         activestep="Name"
@@ -29,7 +29,7 @@ exports[`TmSessionImportName has the expected html structure 1`] = `
         <p
           class="address"
         >
-          true
+          {}
         </p>
       </tmformgroup-stub>
        

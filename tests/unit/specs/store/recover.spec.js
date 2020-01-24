@@ -8,6 +8,7 @@ describe(`Module: Recover`, () => {
     seed: ``,
     password: ``,
     passwordConfirm: ``,
+    prefix: ``,
     warning: false
   }
 
