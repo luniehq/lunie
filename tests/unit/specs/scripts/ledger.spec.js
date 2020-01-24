@@ -23,9 +23,23 @@ jest.mock(
 )
 
 describe(`Ledger Connector`, () => {
+  let apollo
+  beforeEach(() => {
+    apollo = {
+      query: jest.fn(() => ({
+        data: {
+          network: {
+            ledger_app: "cosmos",
+            address_prefix: "cosmos"
+          }
+        }
+      }))
+    }
+  })
+
   describe(`getAddressFromLedger`, () => {
     it(`successfully gets address from Ledger Nano`, async () => {
-      const address = await getAddressFromLedger("cosmos-hub-mainnet")
+      const address = await getAddressFromLedger("cosmos-hub-mainnet", apollo)
       expect(address).toBe("cosmos1")
     })
 
@@ -49,15 +63,15 @@ describe(`Ledger Connector`, () => {
           }
       )
       const { getAddressFromLedger } = require("scripts/ledger.js")
-      await expect(getAddressFromLedger("cosmos-hub-mainnet")).rejects.toThrow(
-        "XXX"
-      )
+      await expect(
+        getAddressFromLedger("cosmos-hub-mainnet", apollo)
+      ).rejects.toThrow("XXX")
     })
   })
   describe(`showAddressOnLedger`, () => {
     // shallow test as it doesn't test if this is doing anything.
     it(`shows address on Ledger Nano`, async () => {
-      await showAddressOnLedger("cosmos-hub-mainnet")
+      await showAddressOnLedger("cosmos-hub-mainnet", apollo)
     })
 
     it(`handles errors`, async () => {
@@ -79,9 +93,9 @@ describe(`Ledger Connector`, () => {
           }
       )
       const { showAddressOnLedger } = require("scripts/ledger.js")
-      await expect(showAddressOnLedger("cosmos-hub-mainnet")).rejects.toThrow(
-        "XXX"
-      )
+      await expect(
+        showAddressOnLedger("cosmos-hub-mainnet", apollo)
+      ).rejects.toThrow("XXX")
     })
   })
 })

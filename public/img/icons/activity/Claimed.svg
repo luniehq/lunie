@@ -1,15 +1,1 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg width="52px" height="52px" viewBox="0 0 52 52" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <!-- Generator: Sketch 59.1 (86144) - https://sketch.com -->
-    <title>Withdrawal</title>
-    <desc>Created with Sketch.</desc>
-    <g id="icons" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g id="Withdrawal">
-            <path d="M26,52 C40.3594,52 52,40.3594 52,26 C52,11.6406 40.3594,0 26,0 C11.6406,0 0,11.6406 0,26 C0,40.3594 11.6406,52 26,52 Z" id="Path" fill="#292B47" fill-rule="nonzero"></path>
-            <line x1="13" y1="18" x2="39" y2="18" id="Path" stroke="#36C936" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></line>
-            <polyline id="Path" stroke="#36C936" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" points="34 22 34 37 18 37 18 22"></polyline>
-            <polyline id="Path" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" points="29 29 26 32 23 29"></polyline>
-            <line x1="26" y1="23" x2="26" y2="31" id="Path" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></line>
-        </g>
-    </g>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64"><defs><style>.cls-1{fill:#324175;}.cls-2{fill:#fff;}.cls-3{fill:#66a1ff;}.cls-4{fill:#f67f70;}</style></defs><title>lunie_icon_claimreward</title><g id="Vrstva_2" data-name="Vrstva 2"><g id="Vrstva_1-2" data-name="Vrstva 1"><circle class="cls-1" cx="32" cy="32" r="32"/><path class="cls-2" d="M25,44H39a4,4,0,0,0,4-4V25a1,1,0,1,0-2,0V40a2,2,0,0,1-2,2H25a2,2,0,0,1-2-2V25a1,1,0,0,0-2,0V40A4,4,0,0,0,25,44Z"/><path class="cls-3" d="M47,20H17a1,1,0,0,0,0,2H47a1,1,0,0,0,0-2Z"/><path class="cls-4" d="M30.48,40h3A5.52,5.52,0,0,0,39,34.5v-3a5.52,5.52,0,0,0-5.5-5.5h-3A5.51,5.51,0,0,0,25,31.5v3A5.52,5.52,0,0,0,30.48,40ZM32,31a2,2,0,1,1-2,2A2,2,0,0,1,32,31Z"/></g></g></svg>
