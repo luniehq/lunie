@@ -69,7 +69,7 @@ export default {
   data: () => ({
     showTutorial: false,
     cosmosKeysTutorial: {
-      fullguide: `http://lunie.io`,
+      fullguide: `https://lunie.io/guides/how-to-manage-your-keys/`,
       background: `yellow`,
       steps: [
         {

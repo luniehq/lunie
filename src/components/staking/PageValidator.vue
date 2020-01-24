@@ -261,7 +261,7 @@ export default {
     loaded: false,
     showTutorial: false,
     cosmosStakingTutorial: {
-      fullguide: `http://lunie.io`,
+      fullguide: `https://lunie.io/guides/how-cosmos-staking-works/`,
       background: `blue`,
       steps: [
         {

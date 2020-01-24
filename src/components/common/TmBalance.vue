@@ -142,7 +142,7 @@ export default {
       selectedFiatCurrency: `EUR`, // EUR is our default fiat currency
       showTutorial: false,
       cosmosTokensTutorial: {
-        fullguide: `http://lunie.io`,
+        fullguide: `https://lunie.io/guides/how-to-get-tokens/`,
         background: `red`,
         steps: [
           {

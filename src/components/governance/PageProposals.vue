@@ -87,7 +87,7 @@ export default {
     loaded: false,
     showTutorial: false,
     cosmosGovernanceTutorial: {
-      fullguide: `http://lunie.io`,
+      fullguide: `https://lunie.io/guides/how-cosmos-governance-works/`,
       background: `lightblue`,
       steps: [
         {
