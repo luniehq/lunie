@@ -4,7 +4,7 @@
   left: 0;
   z-index: var(--z-modal);
   width: 100vw;
-  height: 100%;
+  height: 100vh;
   background: var(--app-nav-light);
   display: flex;
   justify-content: center;

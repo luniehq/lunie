@@ -8,7 +8,7 @@
           :key="network.chain_id"
           class="select-network-item"
           :class="{ selected: connection.network === network.id }"
-          @click="selectNetworkHandler(network) && $router.push(`/create`)"
+          @click="selectNetworkHandler(network) && $router.push(whichFlow)"
         >
           <NetworkItem :network="network" />
         </li>
@@ -36,6 +36,13 @@ export default {
   computed: {
     ...mapState([`connection`]),
     ...mapGetters({ networkId: `network` }),
+    whichFlow() {
+      if (this.$route.params.recover) {
+        return `/recover`
+      } else {
+        return `/create`
+      }
+    },
     sortedNetworks() {
       // sorts networks setting mainnets at the top and the default one the first
       if (this.networks) {

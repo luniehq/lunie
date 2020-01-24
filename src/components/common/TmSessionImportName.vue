@@ -55,9 +55,10 @@ import TmFormStruct from "common/TmFormStruct"
 import TmField from "common/TmField"
 import TmFormMsg from "common/TmFormMsg"
 import SessionFrame from "common/SessionFrame"
-import { mapGetters } from "vuex"
+import { mapState, mapGetters } from "vuex"
 import Steps from "../../ActionModal/components/Steps"
 import { getWalletIndex } from "@lunie/cosmos-keys"
+import gql from "graphql-tag"
 
 const nameExists = value => {
   const walletIndex = getWalletIndex()
@@ -80,9 +81,11 @@ export default {
     Steps
   },
   data: () => ({
-    importCosmosAddress: {}
+    importCosmosAddress: {},
+    addressPrefixes: []
   }),
   computed: {
+    ...mapState([`connection`]),
     ...mapGetters([`connected`, `recover`]),
     ...mapGetters({ networkId: `network` }),
     name: {
@@ -94,20 +97,41 @@ export default {
       }
     }
   },
-  async created() {
-    this.importCosmosAddress = await this.$store.dispatch(
-      `getAddressFromSeed`,
-      {
-        seedPhrase: this.$store.state.recover.seed,
-        network: this.networkId
-      }
-    )
-  },
   methods: {
     onSubmit() {
       this.$v.$touch()
       if (this.$v.name.$invalid) return
       this.$router.push("/recover/password")
+    },
+    async created() {
+      const selectedNetwork = this.addressPrefixes.find(
+        ({ id }) => id === this.connection.network
+      )
+      this.importCosmosAddress = await this.$store.dispatch(
+        `getAddressFromSeed`,
+        {
+          seedPhrase: this.$store.state.recover.seed,
+          network: this.networkId,
+          prefix: selectedNetwork.address_prefix
+        }
+      )
+    }
+  },
+  apollo: {
+    addressPrefixes: {
+      query: gql`
+        query Network {
+          networks {
+            id
+            address_prefix
+          }
+        }
+      `,
+      /* istanbul ignore next */
+      update(data) {
+        return data.networks
+      },
+      fetchPolicy: "cache-first"
     }
   },
   validations: () => ({
