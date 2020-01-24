@@ -32,7 +32,8 @@ const schema = Joi.object({
   default: Joi.boolean(),
   stakingDenom: Joi.string().uppercase(),
   enabled: Joi.boolean(),
-  experimental: Joi.boolean().optional()
+  experimental: Joi.boolean().optional(),
+  icon: Joi.string().optional()
 })
 
 describe('Network configs', function() {
