@@ -121,7 +121,7 @@
             />
           </TmFormGroup>
           <HardwareState
-            v-else-if="selectedSignMethod === SIGN_METHODS.LEDGER"
+            v-if="selectedSignMethod === SIGN_METHODS.LEDGER"
             :icon="session.browserWithLedgerSupport ? 'usb' : 'info'"
             :loading="!!sending"
           >
@@ -231,7 +231,7 @@
               <TmBtn
                 v-if="requiresSignIn"
                 v-focus
-                value="Sign In"
+                value="Sign In / Sign Up"
                 type="primary"
                 @click.native="goToSession"
                 @click.enter.native="goToSession"
@@ -262,7 +262,10 @@
                 v-else
                 type="primary"
                 value="Send"
-                :disabled="!selectedSignMethod"
+                :disabled="
+                  !selectedSignMethod ||
+                    (!extension.enabled && selectedSignMethod === 'extension')
+                "
                 @click.native="validateChangeStep"
               />
             </TmFormGroup>
@@ -424,7 +427,7 @@ export default {
     requiresSignIn() {
       return (
         !this.session.signedIn ||
-        (this.isMobileApp && this.session.sessionType === sessionType.EXPLORE)
+        this.session.sessionType === sessionType.EXPLORE
       )
     },
     estimatedFee() {
