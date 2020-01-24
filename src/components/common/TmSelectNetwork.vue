@@ -66,6 +66,7 @@ export default {
             chain_id
             title
             testnet
+            icon
           }
         }
       `,
