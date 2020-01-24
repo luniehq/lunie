@@ -7,7 +7,6 @@
   height: 100%;
   background: var(--app-nav-light);
   display: flex;
-  max-width: 400px;
   justify-content: center;
   align-items: center;
 }
@@ -194,7 +193,11 @@
   .session {
     height: 100vh;
     padding: 3rem 1rem 1rem;
-  }  
+  }
+
+  .session-frame {
+    max-width: 400px;
+  }
 
   .bottom-indent {
     margin-bottom: 60px;
