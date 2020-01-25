@@ -8,6 +8,9 @@ const schema = Joi.object({
   rpc_url: Joi.string().uri(),
   api_url: Joi.string().uri(),
   bech32_prefix: Joi.string(),
+  address_prefix: Joi.string(),
+  address_creator: Joi.string(),
+  ledger_app: Joi.string(),
   source_class_name: Joi.string(),
   block_listener_class_name: Joi.string(),
   testnet: Joi.boolean(),
@@ -29,7 +32,8 @@ const schema = Joi.object({
   default: Joi.boolean(),
   stakingDenom: Joi.string().uppercase(),
   enabled: Joi.boolean(),
-  experimental: Joi.boolean().optional()
+  experimental: Joi.boolean().optional(),
+  icon: Joi.string().optional()
 })
 
 describe('Network configs', function() {
