@@ -2,7 +2,7 @@ import { shallowMount } from "@vue/test-utils"
 import TmSelectNetwork from "common/TmSelectNetwork"
 
 describe(`TmSelectNetwork`, () => {
-  let wrapper
+  let wrapper, $store
   const networks = [
     {
       id: `awesomenet`,
@@ -32,36 +32,51 @@ describe(`TmSelectNetwork`, () => {
   ]
 
   beforeEach(() => {
+    $store = {
+      dispatch: jest.fn(),
+      getters: {
+        network: `localnet`
+      }
+    }
     wrapper = shallowMount(TmSelectNetwork, {
       mocks: {
-        $store: {
-          dispatch: jest.fn(),
-          state: {
-            connection: {
-              network: `gaia-testnet`
-            }
-          }
-        }
+        $router: {
+          push: jest.fn()
+        },
+        $route: {
+          params: {}
+        },
+        $store
       }
     })
     wrapper.setData({ networks })
   })
-  // hack to prevent "You may have an infinite update loop in a component render function." error
-  // destroying test. Looking for the real fix
-  // afterAll(() => setTimeout(() => process.exit(), 1))
 
   it(`has the expected html structure`, async () => {
     expect(wrapper.element).toMatchSnapshot()
   })
 
-  // it(`returns the networks sorted by the following criteria: mainnets first and default
-  //   network the first of all of them`, () => {
-  //   expect(wrapper.vm.sortedNetworks).toEqual([
-  //     { default: true, id: "la-red-feliz", testnet: false },
-  //     { default: false, id: "emilys-chain", testnet: false },
-  //     { default: false, id: "awesomenet", testnet: true },
-  //     { default: false, id: "keine-ahnungnet", testnet: true },
-  //     { default: false, id: "localnet", testnet: true }
-  //   ])
-  // })
+  it(`returns the networks sorted by the following criteria: current first, then default then mainnets, then testnets`, () => {
+    expect(wrapper.vm.sortedNetworks).toEqual([
+      { default: false, id: "localnet", testnet: true },
+      { default: true, id: "la-red-feliz", testnet: false },
+      { default: false, id: "emilys-chain", testnet: false },
+      { default: false, id: "awesomenet", testnet: true },
+      { default: false, id: "keine-ahnungnet", testnet: true }
+    ])
+  })
+
+  it(`sets the network the user selects`, async () => {
+    await wrapper.vm.selectNetworkHandler({ id: "emilys-chain" })
+    expect($store.dispatch).toHaveBeenCalledWith(`setNetwork`, {
+      id: "emilys-chain"
+    })
+  })
+
+  it(`switches the next route based on a parameter`, async () => {
+    expect(wrapper.vm.whichFlow).toBe("/create")
+
+    wrapper.setData({ $route: { params: { recover: true } } })
+    expect(wrapper.vm.whichFlow).toBe("/recover")
+  })
 })

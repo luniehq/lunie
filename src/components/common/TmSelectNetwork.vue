@@ -7,8 +7,8 @@
           v-for="network in sortedNetworks"
           :key="network.chain_id"
           class="select-network-item"
-          :class="{ selected: connection.network === network.id }"
-          @click="selectNetworkHandler(network) && $router.push(whichFlow)"
+          :class="{ selected: networkId === network.id }"
+          @click="selectNetworkHandler(network)"
         >
           <NetworkItem :network="network" />
         </li>
@@ -68,9 +68,12 @@ export default {
   },
   methods: {
     async selectNetworkHandler(network) {
-      if (this.connection.network !== network.id) {
+      console.log(this.networkId, network.id)
+      if (this.networkId !== network.id) {
         this.$store.dispatch(`setNetwork`, network)
       }
+
+      this.$router.push(this.whichFlow)
     }
   },
   apollo: {

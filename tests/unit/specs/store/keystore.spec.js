@@ -172,12 +172,7 @@ describe(`Module: Keystore`, () => {
 
   it("should handle networks not being supported for account creation (as a fallback)", async () => {
     apollo.query.mockImplementationOnce(() => ({
-      data: {
-        network: {
-          address_creator: "eos",
-          address_prefix: "eos"
-        }
-      }
+      data: {}
     }))
 
     const seedPhrase = `abc`

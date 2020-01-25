@@ -95,9 +95,7 @@ async function getWallet(seedPhrase, networkId, apollo) {
   })
 
   if (!network)
-    throw new Error(
-      "Couldn't get network information. Please try again later or contact the Lunie team."
-    )
+    throw new Error("Lunie doesn't support address creation for this network.")
 
   switch (network.address_creator) {
     case "cosmos": {
