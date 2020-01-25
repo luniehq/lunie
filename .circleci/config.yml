@@ -257,7 +257,7 @@ jobs:
           node node_modules/simsala/src/cli.js release-candidate --semver patch --pending-path ./changes --owner luniehq --repository lunie --token $GIT_BOT_TOKEN --message "Please manually test before merging this to master"
       
   # Push merges to master immediately back to develop to stay in sync
-  mergeBack:
+  publish:
     executor: node
     steps:
       - checkout
@@ -266,10 +266,7 @@ jobs:
             git config user.email "bot@lunie.io"
             git config user.name "MergeBack Lunie Bot"
             git remote add bot https://${GIT_BOT_TOKEN}@github.com/luniehq/lunie.git
-            git checkout develop
-            git pull
-            git merge origin/master --no-edit
-            git push
+            git push origin develop:master
 
 
 workflows:
@@ -347,10 +344,12 @@ workflows:
             branches:
               only: release
 
-  mergeBack:
+  publish:
     jobs:
-      - mergeBack:
+      - publish:
           filters:
             branches:
-              only: master
+              only: develop
+            tags:
+              only: /^v.*/
               
