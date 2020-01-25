@@ -48,7 +48,7 @@
 </template>
 
 <script>
-import { mapState } from "vuex"
+import { mapState, mapGetters } from "vuex"
 import { sameAs } from "vuelidate/lib/validators"
 import TmBtn from "common/TmBtn"
 import TmFormGroup from "common/TmFormGroup"
@@ -78,7 +78,8 @@ export default {
     addressPrefixes: []
   }),
   computed: {
-    ...mapState([`session`, `signup`, `connection`]),
+    ...mapState([`session`, `signup`]),
+    ...mapGetters({ networkId: `network` }),
     fieldSeed: {
       get() {
         return this.$store.state.signup.signUpSeed
@@ -109,15 +110,11 @@ export default {
       this.$v.$touch()
       if (this.$v.$error) return
       try {
-        const selectedNetwork = this.addressPrefixes.find(
-          ({ id }) => id === this.connection.network
-        )
         await this.$store.dispatch(`createKey`, {
           seedPhrase: this.signup.signUpSeed,
           password: this.signup.signUpPassword,
           name: this.signup.signUpName,
-          network: this.connection.network,
-          prefix: selectedNetwork.address_prefix
+          network: this.networkId
         })
         this.$router.push(`/`)
       } catch (error) {

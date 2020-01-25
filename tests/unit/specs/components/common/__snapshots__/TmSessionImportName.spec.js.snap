@@ -29,7 +29,7 @@ exports[`TmSessionImportName has the expected html structure 1`] = `
         <p
           class="address"
         >
-          {}
+          cosmos1234
         </p>
       </tmformgroup-stub>
        

@@ -27,7 +27,7 @@
       v-else
       id="sign-in"
       class="session-link"
-      value="Sign In"
+      value="Sign In / Sign Up"
       type="secondary"
       size="small"
       @click.native="signIn()"
@@ -208,7 +208,7 @@ export default {
       }
       this.ledgerAddressError = undefined
       try {
-        await this.showAddressOnLedgerFn(this.network)
+        await this.showAddressOnLedgerFn(this.network, this.$apollo)
       } catch (error) {
         this.ledgerAddressError = error.message
         this.messageTimeout = setTimeout(

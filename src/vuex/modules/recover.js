@@ -3,7 +3,6 @@ const emptyState = {
   seed: ``,
   password: ``,
   passwordConfirm: ``,
-  prefix: ``,
   warning: false
 }
 

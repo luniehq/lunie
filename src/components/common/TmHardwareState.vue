@@ -1,17 +1,18 @@
 <template>
   <div class="tm-hardware-state">
     <div class="tm-hardware-state-content">
-      <i v-if="icon" class="tm-hardware-state__icon material-icons">
+      <img
+        v-if="loading"
+        src="~assets/images/loader.svg"
+        alt="a small spinning circle to display loading"
+        class="tm-hardware-state__icon"
+      />
+      <i v-else-if="icon" class="tm-hardware-state__icon material-icons">
         {{ icon }}
       </i>
       <div class="tm-hardware-state__label">
         <slot />
       </div>
-      <img
-        v-show="loading"
-        src="~assets/images/loader.svg"
-        alt="a small spinning circle to display loading"
-      />
     </div>
   </div>
 </template>
