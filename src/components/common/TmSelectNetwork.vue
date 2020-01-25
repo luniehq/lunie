@@ -44,18 +44,21 @@ export default {
       }
     },
     sortedNetworks() {
-      // sorts networks setting mainnets at the top and the default one the first
-      if (this.networks) {
-        const sortedNetworks = this.networks
-        return sortedNetworks
-          .sort((a, b) => {
-            return a.testnet - b.testnet
-          })
-          .sort((a, b) => {
-            return b.default - a.default
-          })
+      // sorts networks setting showing the current network first, mainnets at the top and the default one the first
+      if (this.networks.length > 0) {
+        return [
+          this.networks.find(({ id }) => id === this.networkId),
+          ...this.networks
+            .filter(({ id }) => id !== this.networkId)
+            .sort((a, b) => {
+              return a.testnet - b.testnet
+            })
+            .sort((a, b) => {
+              return b.default - a.default
+            })
+        ]
       } else {
-        return null
+        return []
       }
     }
   },
