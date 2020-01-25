@@ -17,7 +17,7 @@ const mockKeysLib = {
 jest.mock("@lunie/cosmos-keys", () => mockKeysLib)
 
 describe(`Module: Keystore`, () => {
-  let module, state, actions, mutations
+  let module, state, actions, mutations, apollo
   const accounts = [
     {
       address: `tb1zg69v7yszg69v7yszg69v7yszg69v7ysd8ep6q`,
@@ -26,7 +26,17 @@ describe(`Module: Keystore`, () => {
   ]
 
   beforeEach(() => {
-    module = keystoreModule()
+    apollo = {
+      query: jest.fn(() => ({
+        data: {
+          network: {
+            address_creator: "cosmos",
+            address_prefix: "cosmos"
+          }
+        }
+      }))
+    }
+    module = keystoreModule({ apollo })
     state = module.state
     actions = module.actions
     mutations = module.mutations
@@ -91,6 +101,17 @@ describe(`Module: Keystore`, () => {
     expect(seed).toBe(`xxx`)
   })
 
+  it(`should create an address from a seed phrase`, async () => {
+    const address = await actions.getAddressFromSeed(
+      {},
+      {
+        seedPhrase: `xxx`,
+        network: `cosmos-hub-mainnet`
+      }
+    )
+    expect(address).toBe(`cosmos1234`)
+  })
+
   it(`should create a key from a seed phrase`, async () => {
     const seedPhrase = `abc`
     const password = `123`
@@ -150,6 +171,15 @@ describe(`Module: Keystore`, () => {
   })
 
   it("should handle networks not being supported for account creation (as a fallback)", async () => {
+    apollo.query.mockImplementationOnce(() => ({
+      data: {
+        network: {
+          address_creator: "eos",
+          address_prefix: "eos"
+        }
+      }
+    }))
+
     const seedPhrase = `abc`
     const password = `123`
     const name = `def`

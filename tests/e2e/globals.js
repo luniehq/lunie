@@ -284,7 +284,6 @@ async function createAccountAndFundIt(browser, done, networkData) {
   // switching to master account
   await switchToAccount(browser, networkData)
   // funding main account
-  console.log(browser.globals.availableAtoms)
   if (browser.globals.availableAtoms * 1 < 25) {
     await fundMasterAccount(browser, networkData.network, networkData.address)
   }

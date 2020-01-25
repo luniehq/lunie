@@ -85,9 +85,11 @@
 
 <script>
 import TmBtn from "common/TmBtn"
-import { mapState } from "vuex"
+import { mapState, mapGetters } from "vuex"
 import HardwareState from "common/TmHardwareState"
 import SessionFrame from "common/SessionFrame"
+import { getAddressFromLedger } from "scripts/ledger"
+
 export default {
   name: `session-hardware`,
   components: {
@@ -106,6 +108,7 @@ export default {
   }),
   computed: {
     ...mapState([`session`]),
+    ...mapGetters({ networkId: `network` }),
     submitCaption() {
       return {
         connect: "Sign In",
@@ -132,7 +135,7 @@ export default {
       this.status = `detect`
       this.address = null
       try {
-        this.address = await this.$store.dispatch(`connectLedgerApp`)
+        this.address = await getAddressFromLedger(this.networkId, this.$apollo)
         this.$router.push(`/`)
       } catch ({ message }) {
         this.status = `connect`

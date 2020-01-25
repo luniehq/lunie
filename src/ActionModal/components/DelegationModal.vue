@@ -95,7 +95,7 @@
         {{ denom }}s
       </span>
       <TmFormMsg
-        v-if="balance === 0"
+        v-if="balance.amount === '0'"
         :msg="`doesn't have any ${denom}s`"
         name="Wallet"
         type="custom"
@@ -164,7 +164,7 @@ export default {
   },
   data: () => ({
     amount: null,
-    fromSelectedIndex: `0`,
+    fromSelectedIndex: 0,
     balance: {
       amount: null,
       denom: ``
@@ -266,7 +266,7 @@ export default {
       return this.fromOptions[this.fromSelectedIndex].maximum
     },
     isRedelegation() {
-      return this.fromSelectedIndex !== `0`
+      return this.fromSelectedIndex !== 0 && this.fromSelectedIndex !== "0" // where are these 0 strings comming from?
     }
   },
   methods: {
@@ -376,7 +376,7 @@ export default {
       `,
       skip() {
         /* istanbul ignore next */
-        return !this.address
+        return !this.address || !this.denom
       },
       variables() {
         /* istanbul ignore next */

@@ -14,7 +14,7 @@ describe(`TmSessionImportPassword`, () => {
 
   beforeEach(() => {
     getters = {
-      network: "fabo-net"
+      network: "lunie-net"
     }
     $store = {
       state: {
@@ -88,8 +88,8 @@ describe(`TmSessionImportPassword`, () => {
     expect($store.dispatch).toHaveBeenCalledWith(`createKey`, {
       name: ``,
       password: `1234567890`,
-      seedPhrase: ``,
-      network: "fabo-net"
+      network: "lunie-net",
+      seedPhrase: ``
     })
   })
 

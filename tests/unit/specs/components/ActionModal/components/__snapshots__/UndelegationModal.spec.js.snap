@@ -9,6 +9,7 @@ exports[`UndelegationModal should display undelegation modal form 1`] = `
   notifymessage="[object Object]"
   rewards=""
   submissionerrorprefix="Unstaking failed"
+  targetvalidator="[object Object]"
   title="Unstake"
   transactiondata="[object Object]"
   validate="function () { [native code] }"
