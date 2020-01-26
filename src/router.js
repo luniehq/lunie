@@ -16,13 +16,22 @@ export const routeGuard = (store, apollo) => async (to, from, next) => {
     next(path)
     return
   }
-
   if (
     to.meta.feature &&
     !(store.state.connection.network === "testnet") && // TODO remove once we have Hasura integrated in e2e tests
-    !(await featureAvailable(apollo, store.state.connection.network, to))
+    !(await featureAvailable(apollo, store.state.connection.network, to)) &&
+    !(
+      (await featureAvailable(apollo, store.state.connection.network, to)) ===
+      `not-present`
+    )
   ) {
     next(`/feature-not-available/${to.meta.feature}`)
+    return
+  } else if (
+    (await featureAvailable(apollo, store.state.connection.network, to)) ===
+    `not-present`
+  ) {
+    next(`/feature-not-present`)
     return
   }
 
@@ -44,9 +53,13 @@ export default router
 
 // check if feature is allowed and redirect if not
 async function featureAvailable(apollo, networkId, to) {
-  const feature = `feature_${to.meta.feature.toLowerCase()}`
-  const { data } = await apollo.query({
-    query: NetworkCapability(networkId)
-  })
-  return NetworkCapabilityResult(feature)(data)
+  if (!to.meta.feature) {
+    return `not-present`
+  } else {
+    const feature = `feature_${to.meta.feature.toLowerCase()}`
+    const { data } = await apollo.query({
+      query: NetworkCapability(networkId)
+    })
+    return NetworkCapabilityResult(feature)(data)
+  }
 }

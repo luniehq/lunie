@@ -271,5 +271,9 @@ export default [
     component: () => import(`./components/common/PageFeatureNotAvailable`),
     props: true
   },
+  {
+    path: `/feature-not-present`,
+    component: () => import(`./components/common/FeatureNotPresent`)
+  },
   { path: `*`, component: () => import(`./components/common/Page404`) }
 ]
