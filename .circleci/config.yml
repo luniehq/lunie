@@ -256,17 +256,13 @@ jobs:
           git config user.name "Release Lunie Bot"
           node node_modules/simsala/src/cli.js release-candidate --semver patch --pending-path ./changes --owner luniehq --repository lunie --token $GIT_BOT_TOKEN --message "Please manually test before merging this to master"
       
-  # Push merges to master immediately back to develop to stay in sync
+  # Push tagged versions on develop to master
   publish:
     executor: node
     steps:
       - checkout
       - run:
-          command: |
-            git config user.email "bot@lunie.io"
-            git config user.name "MergeBack Lunie Bot"
-            git remote add bot https://${GIT_BOT_TOKEN}@github.com/luniehq/lunie.git
-            git push origin develop:master
+          command: ./tasks/publish.sh
 
 
 workflows:
