@@ -326,7 +326,7 @@ export default {
     },
     balance: {
       query: gql`
-        query BalanceModalPropos(
+        query Balance (
           $networkId: String!
           $address: String!
           $denom: String!
