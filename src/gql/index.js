@@ -83,6 +83,7 @@ export const Networks = gql`
       testnet
       title
       rpc_url
+      icon
     }
   }
 `

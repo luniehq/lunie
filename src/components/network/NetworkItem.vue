@@ -5,7 +5,7 @@
   >
     <div class="network-icon">
       <img
-        :src="`img/networks/${network.id}.png`"
+        :src="`${network.icon}`"
         :alt="`logo for network ${network.title}`"
       />
     </div>

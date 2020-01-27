@@ -385,6 +385,9 @@ export default {
           address: this.address,
           denom: this.denom
         }
+      },
+      update(data) {
+        return data.balance || { amount: 0 }
       }
     },
     denom: {
@@ -405,7 +408,7 @@ export default {
       },
       update(data) {
         /* istanbul ignore next */
-        return data.network.stakingDenom
+        return data.network ? data.network.stakingDenom : ""
       }
     }
   },

@@ -26,7 +26,7 @@
           id="create-new-address"
           icon="person_add"
           title="Create a new address"
-          route="create"
+          route="selectnetwork"
         />
         <LiSession
           id="use-an-existing-address"
