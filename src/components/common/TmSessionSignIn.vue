@@ -41,6 +41,22 @@
             type="minLength"
             min="10"
           />
+          <TmFormMsg
+            v-if="
+              $v.signInAddress.$error && !$v.signInAddress.isANetworkAddress
+            "
+            name="This address doesn't belong to the network you are currently connected to"
+            type="custom"
+          />
+          <div
+            v-if="
+              $v.signInAddress.$error && !$v.signInAddress.isANetworkAddress
+            "
+          >
+            <p class="error-message">
+              Please select the correct network <a href="/networks">here</a>
+            </p>
+          </div>
           <TmFormMsg v-if="error" type="custom" :msg="error" />
         </TmFormGroup>
       </div>
@@ -52,7 +68,7 @@
 </template>
 
 <script>
-import { mapState } from "vuex"
+import { mapState, mapGetters } from "vuex"
 import { required, minLength } from "vuelidate/lib/validators"
 import TmBtn from "common/TmBtn"
 import TmFormGroup from "common/TmFormGroup"
@@ -60,6 +76,7 @@ import TmField from "common/TmField"
 import TmFormMsg from "common/TmFormMsg"
 import TmFormStruct from "common/TmFormStruct"
 import SessionFrame from "common/SessionFrame"
+import gql from "graphql-tag"
 export default {
   name: `session-sign-in`,
   components: {
@@ -73,10 +90,12 @@ export default {
   data: () => ({
     signInAddress: ``,
     signInPassword: ``,
-    error: ``
+    error: ``,
+    addressPrefixes: []
   }),
   computed: {
     ...mapState([`keystore`]),
+    ...mapGetters([`network`]),
     accounts() {
       let accounts = this.keystore.accounts
       return accounts.map(({ name, address }) => ({
@@ -125,11 +144,53 @@ export default {
       } else {
         this.$el.querySelector(`#sign-in-name`).focus()
       }
+    },
+    isANetworkAddress(param) {
+      const selectedNetwork = this.addressPrefixes.find(
+        ({ id }) => id === this.network
+      )
+      // handling query not loaded yet or failed
+      if (!selectedNetwork) return false
+
+      if (param.startsWith(selectedNetwork.address_prefix)) {
+        return true
+      } else {
+        return false
+      }
     }
   },
-  validations: () => ({
-    signInAddress: { required },
-    signInPassword: { required, minLength: minLength(10) }
-  })
+  validations() {
+    return {
+      signInAddress: { required, isANetworkAddress: this.isANetworkAddress },
+      signInPassword: { required, minLength: minLength(10) }
+    }
+  },
+  apollo: {
+    addressPrefixes: {
+      query: gql`
+        query Network {
+          networks {
+            id
+            address_prefix
+          }
+        }
+      `,
+      /* istanbul ignore next */
+      update(data) {
+        if (data.network) return data.network.stakingDenom
+        return ""
+      },
+      fetchPolicy: "cache-first"
+    }
+  }
 }
 </script>
+<style scoped>
+p.error-message {
+  font-size: var(--sm);
+  color: var(--danger);
+  font-style: italic;
+  font-weight: 500;
+  padding-left: 16px;
+}
+</style>
