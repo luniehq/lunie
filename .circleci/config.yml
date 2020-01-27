@@ -281,10 +281,10 @@ workflows:
   test:
     jobs:
       - prep
-      # - run:
-      #   name: "Setup GraphQL endpoint"
-      #   command: |
-      #     echo 'export VUE_APP_GRAPHQL_URL="https://production-api.lunie.io/"' >> $BASH_ENV
+      - run:
+        name: "Setup GraphQL endpoint"
+        command: |
+          echo 'export VUE_APP_GRAPHQL_URL="https://production-api.lunie.io/"' >> $BASH_ENV
 
       # Static checks before
       - pendingUpdated:
