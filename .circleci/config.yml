@@ -103,19 +103,15 @@ jobs:
           name: Audit
           command: |
             set +e
-
             yarn audit
-
             SUMMARY="$(yarn audit | grep Severity)"
             VULNERABILITIES=".*(High|Critical).*"
-
             if [[ $SUMMARY =~ $VULNERABILITIES ]]; then
               echo "Unsafe dependencies found: $SUMMARY" >&2
               exit 1
             fi
             echo "Your dependencies are secure enough: $SUMMARY"
             exit 0
-
   testE2e:
     machine: true
     working_directory: *WORKSPACE
@@ -270,16 +266,8 @@ jobs:
             git pull
             git merge origin/master --no-edit
             git push
-
-
 workflows:
   version: 2
-  build:
-    jobs: 
-      - run:
-          name: "Setup GraphQL endpoint"
-          command: |
-            echo 'export VUE_APP_GRAPHQL_URL="https://production-api.lunie.io/"' >> $BASH_ENV
   test:
     jobs:
       - prep
@@ -347,6 +335,7 @@ workflows:
   #     - release
 
   releaseManually:
+    jobs:
       - release:
           filters:
             branches:
