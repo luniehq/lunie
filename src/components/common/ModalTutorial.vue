@@ -51,7 +51,7 @@
                   ? `Read the full guide`
                   : `Next step`
               }}
-              <i class="material-icons arrow_forward"></i>
+              <i class="material-icons arrow_forward" :class="currentStep === steps.length ? `final-step` : ``"></i>
             </button>
           </template>
         </template>
@@ -273,5 +273,9 @@ export default {
 .content-item {
   display: block;
   font-size: 12px;
+}
+
+.final-step {
+  transform: rotate(-45deg);
 }
 </style>

@@ -3,9 +3,8 @@
     There a number of ways to create an address with Lunie.
     <p
       v-if="
-        session.experimentalMode &&
-          (connection.network === 'cosmos-hub-mainnet' ||
-            connection.network === 'cosmos-hub-testnet')
+        connection.network === 'cosmos-hub-mainnet' ||
+          connection.network === 'cosmos-hub-testnet'
       "
     >
       We'd recommend starting with our guide:
