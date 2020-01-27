@@ -1,6 +1,5 @@
 <template>
   <div class="balance-header">
-    <span class="error-message">{{ gqlError }}</span>
     <div
       v-if="$apollo.queries.overview.loading && !overview.totalStake"
       class="loading-image-container"
@@ -114,8 +113,7 @@ export default {
       stakingDenom: "",
       balances: [],
       selectedTokenFiatValue: `Tokens Total Fiat Value`,
-      selectedFiatCurrency: `EUR`, // EUR is our default fiat currency
-      gqlError: ""
+      selectedFiatCurrency: `EUR` // EUR is our default fiat currency
     }
   },
   computed: {
@@ -205,6 +203,11 @@ export default {
       },
       /* istanbul ignore next */
       update(data) {
+        if (!data.overview) {
+          return {
+            totalRewards: 0
+          }
+        }
         return {
           ...data.overview,
           totalRewards: Number(data.overview.totalRewards)
@@ -213,12 +216,6 @@ export default {
       /* istanbul ignore next */
       skip() {
         return !this.address
-      },
-      error(error) {
-        this.gqlError = JSON.stringify(error.message);
-        return {
-          totalRewards: 0
-        }
       }
     },
     balances: {
@@ -269,6 +266,7 @@ export default {
       },
       /* istanbul ignore next */
       update(data) {
+        if (!data.network) return ""
         return data.network.stakingDenom
       }
     },
@@ -352,13 +350,6 @@ export default {
 
 .token-balance {
   font-weight: bold;
-}
-
-.error-message {
-  color: var(--danger);
-  font-style: italic;
-  font-weight: 500;
-  padding: 1rem 2rem;
 }
 
 .currency-selector.tm-form-group {
