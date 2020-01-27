@@ -61,10 +61,6 @@ jobs:
       - attach_workspace:
           at: *WORKSPACE
       - checkout
-      - run:
-        name: "Setup GraphQL endpoint"
-        command: |
-          echo 'export VUE_APP_GRAPHQL_URL="https://production-api.lunie.io/"' >> $BASH_ENV
       - yarn-install
       - persist_to_workspace:
           root: *WORKSPACE
@@ -281,10 +277,6 @@ workflows:
   test:
     jobs:
       - prep
-      - run:
-        name: "Setup GraphQL endpoint"
-        command: |
-          echo 'export VUE_APP_GRAPHQL_URL="https://production-api.lunie.io/"' >> $BASH_ENV
 
       # Static checks before
       - pendingUpdated:
@@ -350,6 +342,10 @@ workflows:
 
   releaseManually:
     jobs:
+      - run:
+        name: "Setup GraphQL endpoint"
+        command: |
+          echo 'export VUE_APP_GRAPHQL_URL="https://production-api.lunie.io/"' >> $BASH_ENV
       - release:
           filters:
             branches:
