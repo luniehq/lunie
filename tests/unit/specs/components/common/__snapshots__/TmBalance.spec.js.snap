@@ -8,65 +8,65 @@ exports[`TmBalance do not show available atoms when the user has none in the fir
     <div
       class="values-container"
     >
-      <div
-        class="upper-header"
-      >
+      <div>
         <div
-          class="total-atoms"
+          class="upper-header"
         >
-          <h3>
-            Total ATOM
-          </h3>
-           
-          <h2
-            class="total-atoms__value"
+          <div
+            class="total-atoms"
           >
+            <h3>
+              Total ATOM
+            </h3>
+             
+            <h2
+              class="total-atoms__value"
+            >
+              
+              0
             
-            0
-          
-          </h2>
+            </h2>
+          </div>
+           
+          <button
+            class="tutorial-button"
+          >
+            <span>
+              Need some tokens?
+            </span>
+          </button>
         </div>
          
-        <!---->
-      </div>
-       
-      <div
-        class="scroll"
-      >
         <div
-          class="row small-container scroll-item"
+          class="scroll"
         >
-          <!---->
+          <div
+            class="row small-container scroll-item"
+          >
+            <!---->
+             
+            <!---->
+          </div>
            
           <!---->
         </div>
-         
-        <!---->
       </div>
     </div>
      
     <div
       class="button-container"
     >
-      <div>
-        <tmbtn-stub
-          class="send-button"
-          type="secondary"
-          value="Send"
-        />
-         
-        <tmbtn-stub
-          class="withdraw-rewards"
-          disabled="true"
-          id="withdraw-btn"
-          value="Claim Rewards"
-        />
-      </div>
+      <tmbtn-stub
+        class="send-button"
+        type="secondary"
+        value="Send"
+      />
        
       <tmbtn-stub
-        class="open-tutorial"
-        type="tertiary"
-        value="Need some tokens?"
+        class="withdraw-rewards"
+        disabled="true"
+        id="withdraw-btn"
+        value="Claim Rewards"
       />
     </div>
      
@@ -89,84 +89,84 @@ exports[`TmBalance show the balance header when signed in 1`] = `
     <div
       class="values-container"
     >
-      <div
-        class="upper-header"
-      >
+      <div>
         <div
-          class="total-atoms"
+          class="upper-header"
         >
-          <h3>
-            Total ATOM
-          </h3>
-           
-          <h2
-            class="total-atoms__value"
+          <div
+            class="total-atoms"
           >
+            <h3>
+              Total ATOM
+            </h3>
+             
+            <h2
+              class="total-atoms__value"
+            >
+              
+              3,210
             
-            3,210
-          
-          </h2>
-        </div>
-         
-        <!---->
-      </div>
-       
-      <div
-        class="scroll"
-      >
-        <div
-          class="row small-container scroll-item"
-        >
-          <div
-            class="available-atoms"
-          >
-            <h3>
-              Available ATOM
-            </h3>
-             
-            <h2>
-              1,230
             </h2>
           </div>
            
-          <div
-            class="rewards"
+          <button
+            class="tutorial-button"
           >
-            <h3>
-              Total Rewards
-            </h3>
-             
-            <h2>
-              +1,000.45
-            </h2>
-          </div>
+            <span>
+              Need some tokens?
+            </span>
+          </button>
         </div>
          
-        <!---->
+        <div
+          class="scroll"
+        >
+          <div
+            class="row small-container scroll-item"
+          >
+            <div
+              class="available-atoms"
+            >
+              <h3>
+                Available ATOM
+              </h3>
+               
+              <h2>
+                1,230
+              </h2>
+            </div>
+             
+            <div
+              class="rewards"
+            >
+              <h3>
+                Total Rewards
+              </h3>
+               
+              <h2>
+                +1,000.45
+              </h2>
+            </div>
+          </div>
+           
+          <!---->
+        </div>
       </div>
     </div>
      
     <div
       class="button-container"
     >
-      <div>
-        <tmbtn-stub
-          class="send-button"
-          type="secondary"
-          value="Send"
-        />
-         
-        <tmbtn-stub
-          class="withdraw-rewards"
-          id="withdraw-btn"
-          value="Claim Rewards"
-        />
-      </div>
+      <tmbtn-stub
+        class="send-button"
+        type="secondary"
+        value="Send"
+      />
        
       <tmbtn-stub
-        class="open-tutorial"
-        type="tertiary"
-        value="Need some tokens?"
+        class="withdraw-rewards"
+        id="withdraw-btn"
+        value="Claim Rewards"
       />
     </div>
      
