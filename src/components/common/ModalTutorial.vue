@@ -116,6 +116,7 @@ export default {
   max-width: 295px;
   display: flex;
   outline: none;
+  font-family: var(--sans);
 }
 
 .modal-tutorial-main {
