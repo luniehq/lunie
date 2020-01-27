@@ -1,5 +1,5 @@
 <template>
-  <TmDataMsg icon="newreleases">
+  <TmDataMsg icon="error">
     <div slot="title">Feature not present</div>
     <div slot="subtitle">
       This feature doesn't exist on this network.

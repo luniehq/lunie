@@ -31,7 +31,7 @@ export const routeGuard = (store, apollo) => async (to, from, next) => {
     (await featureAvailable(apollo, store.state.connection.network, to)) ===
     `not-present`
   ) {
-    next(`/feature-not-present`)
+    next(`/feature-not-present/${to.meta.feature}`)
     return
   }
 
@@ -53,16 +53,14 @@ export default router
 
 // check if feature is allowed and redirect if not
 async function featureAvailable(apollo, networkId, to) {
-  if (to.meta === {}) {
-    console.log("ABORT")
+  if (to.meta.feature === undefined) {
     return
   } else {
-    console.log(to.meta)
     const feature = `feature_${to.meta.feature.toLowerCase()}`
     const { data } = await apollo.query({
       query: NetworkCapability(networkId)
     })
-    if (data.network[feature] == null) {
+    if (data.network[feature] === null) {
       return `not-present`
     }
     return NetworkCapabilityResult(feature)(data)

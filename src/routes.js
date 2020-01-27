@@ -272,7 +272,7 @@ export default [
     props: true
   },
   {
-    path: `/feature-not-present`,
+    path: `/feature-not-present/:feature`,
     component: () => import(`./components/common/FeatureNotPresent`)
   },
   { path: `*`, component: () => import(`./components/common/Page404`) }
