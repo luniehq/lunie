@@ -1,0 +1,2 @@
+[Changed] [#3488](https://github.com/cosmos/lunie/pull/3488) Adds the isANetworkAddress validatin to the sign in with account @Bitcoinera
+[Changed] [#3488](https://github.com/cosmos/lunie/pull/3488) Adds the link to networks as part of the validation error message for isANetworkAddress @Bitcoinera
