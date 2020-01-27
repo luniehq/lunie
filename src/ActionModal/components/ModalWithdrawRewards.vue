@@ -125,8 +125,8 @@ export default {
         }
       },
       update(data) {
-        /* istanbul ignore next */
-        return data.network.stakingDenom
+        if (data.network) return data.network.stakingDenom
+        return ""
       }
     }
   }

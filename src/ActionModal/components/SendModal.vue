@@ -363,7 +363,8 @@ export default {
       },
       /* istanbul ignore next */
       update(data) {
-        return data.network.stakingDenom
+        if (data.network) return data.network.stakingDenom
+        return ""
       }
     },
     $subscribe: {
