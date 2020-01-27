@@ -72,7 +72,7 @@ export default {
       background: `yellow`,
       steps: [
         {
-          title: "Managing keys 101",
+          title: "Managing your keys",
           // Each content array item will be enclosed in a span (newline)
           content: [
             "When you create an address, we're also creating a public and private key-pair for you in the background. Your address can be public but your backup code should remain private."

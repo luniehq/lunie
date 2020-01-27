@@ -222,7 +222,7 @@ function getStatusText(statusDetailed) {
     case "banned":
       return "Validator is permanently banned from the network"
     default:
-      return "Validator is online and earning rewards"
+      return "Validator is online and generating rewards"
   }
 }
 
@@ -264,7 +264,7 @@ export default {
       background: `blue`,
       steps: [
         {
-          title: "Staking 101",
+          title: "Intro to staking",
           // Each content array item will be enclosed in a span (newline)
           content: [
             "First things first, you'll need to have some staking tokens. On this network, they are called ATOMs."

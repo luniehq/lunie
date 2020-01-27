@@ -90,7 +90,7 @@ export default {
       background: `lightblue`,
       steps: [
         {
-          title: "Governance 101",
+          title: "Intro to governance",
           // Each content array item will be enclosed in a span (newline)
           content: [
             "If you have staked ATOMs on the Cosmos Hub, you can submit your own improvement proposal and vote on what others have proposed."

@@ -145,7 +145,7 @@ export default {
         background: `red`,
         steps: [
           {
-            title: "Tokens 101",
+            title: "How to get tokens",
             // Each content array item will be enclosed in a span (newline)
             content: [
               "The easiest way to get tokens is to find a reputable exchange, like Coinbase or Binance, to purchase your tokens from."
