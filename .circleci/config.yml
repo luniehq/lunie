@@ -274,6 +274,12 @@ jobs:
 
 workflows:
   version: 2
+  build:
+    jobs: 
+      - run:
+          name: "Setup GraphQL endpoint"
+          command: |
+            echo 'export VUE_APP_GRAPHQL_URL="https://production-api.lunie.io/"' >> $BASH_ENV
   test:
     jobs:
       - prep
@@ -341,11 +347,6 @@ workflows:
   #     - release
 
   releaseManually:
-    jobs:
-      - run:
-        name: "Setup GraphQL endpoint"
-        command: |
-          echo 'export VUE_APP_GRAPHQL_URL="https://production-api.lunie.io/"' >> $BASH_ENV
       - release:
           filters:
             branches:
