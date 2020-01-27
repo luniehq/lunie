@@ -46,12 +46,11 @@
               class="button primary"
               @click="nextLink"
             >
-              {{
-                currentStep === steps.length
-                  ? `Read the full guide`
-                  : `Next step`
-              }}
-              <i class="material-icons arrow_forward" :class="currentStep === steps.length ? `final-step` : ``"></i>
+              {{ finalStep ? `Read the full guide` : `Next step` }}
+              <i
+                class="material-icons arrow_forward"
+                :class="finalStep ? `final-step` : ``"
+              ></i>
             </button>
           </template>
         </template>
@@ -85,6 +84,11 @@ export default {
   data: function() {
     return {
       currentStep: 1
+    }
+  },
+  computed: {
+    finalStep() {
+      return this.currentStep === this.steps.length
     }
   },
   methods: {
