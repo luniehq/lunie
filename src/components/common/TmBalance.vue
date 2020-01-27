@@ -95,7 +95,6 @@
       <ModalTutorial
         v-if="
           showTutorial &&
-            session.experimentalMode &&
             (connection.network === 'cosmos-hub-mainnet' ||
               connection.network === 'cosmos-hub-testnet')
         "
@@ -181,7 +180,7 @@ export default {
     }
   },
   computed: {
-    ...mapState([`session`, `connection`]),
+    ...mapState([`connection`]),
     ...mapGetters([`address`, `network`]),
     // only be ready to withdraw of the validator rewards are loaded and the user has rewards to withdraw
     // the validator rewards are needed to filter the top 5 validators to withdraw from

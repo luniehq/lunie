@@ -46,7 +46,6 @@
     <ModalTutorial
       v-if="
         showTutorial &&
-          session.experimentalMode &&
           (connection.network === 'cosmos-hub-mainnet' ||
             connection.network === 'cosmos-hub-testnet')
       "
@@ -125,7 +124,7 @@ export default {
     }
   }),
   computed: {
-    ...mapState([`session`, `connection`]),
+    ...mapState([`connection`]),
     ...mapGetters([`network`])
   },
   methods: {
