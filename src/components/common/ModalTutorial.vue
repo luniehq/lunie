@@ -2,13 +2,13 @@
   <div v-focus-last class="modal-tutorial" tabindex="0" @keyup.esc="close()">
     <main class="modal-tutorial-main">
       <div class="modal-tutorial-header">
-        <a href="#" @click="prevLink">
+        <a href="#" @click.prevent="prevLink">
           <i class="material-icons chevron_left"></i>
         </a>
-        <a href="#" @click="nextLink">
+        <a href="#" @click.prevent="nextLink">
           <i class="material-icons chevron_right"></i>
         </a>
-        <a href="#" @click="close">
+        <a href="#" @click.prevent="close">
           <i class="material-icons close"></i>
         </a>
         <div class="top-bg" :class="background"></div>
