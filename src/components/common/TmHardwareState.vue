@@ -57,5 +57,6 @@ export default {
 
 .tm-hardware-state__label {
   color: var(--bright);
+  margin-right: 1rem;
 }
 </style>

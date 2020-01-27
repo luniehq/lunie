@@ -9,25 +9,37 @@ exports[`TmBalance do not show available atoms when the user has none in the fir
       class="values-container"
     >
       <div
-        class="total-atoms"
+        class="upper-header"
       >
-        <h3>
-          Total ATOM
-        </h3>
-         
-        <h2
-          class="total-atoms__value"
+        <div
+          class="total-atoms"
         >
+          <h3>
+            Total ATOM
+          </h3>
+           
+          <h2
+            class="total-atoms__value"
+          >
+            
+            0
           
-          0
-        
-        </h2>
+          </h2>
+        </div>
+         
+        <!---->
       </div>
        
       <div
-        class="row small-container"
+        class="scroll"
       >
-        <!---->
+        <div
+          class="row small-container scroll-item"
+        >
+          <!---->
+           
+          <!---->
+        </div>
          
         <!---->
       </div>
@@ -51,7 +63,7 @@ exports[`TmBalance do not show available atoms when the user has none in the fir
     </div>
      
     <sendmodal-stub
-      denom="ATOM"
+      denoms="ATOM"
     />
      
     <modalwithdrawrewards-stub />
@@ -68,47 +80,59 @@ exports[`TmBalance show the balance header when signed in 1`] = `
       class="values-container"
     >
       <div
-        class="total-atoms"
+        class="upper-header"
       >
-        <h3>
-          Total ATOM
-        </h3>
-         
-        <h2
-          class="total-atoms__value"
+        <div
+          class="total-atoms"
         >
+          <h3>
+            Total ATOM
+          </h3>
+           
+          <h2
+            class="total-atoms__value"
+          >
+            
+            3,210
           
-          3,210
-        
-        </h2>
+          </h2>
+        </div>
+         
+        <!---->
       </div>
        
       <div
-        class="row small-container"
+        class="scroll"
       >
         <div
-          class="available-atoms"
+          class="row small-container scroll-item"
         >
-          <h3>
-            Available ATOM
-          </h3>
+          <div
+            class="available-atoms"
+          >
+            <h3>
+              Available ATOM
+            </h3>
+             
+            <h2>
+              1,230
+            </h2>
+          </div>
            
-          <h2>
-            1,230
-          </h2>
+          <div
+            class="rewards"
+          >
+            <h3>
+              Total Rewards
+            </h3>
+             
+            <h2>
+              +1,000.45
+            </h2>
+          </div>
         </div>
          
-        <div
-          class="rewards"
-        >
-          <h3>
-            Total Rewards
-          </h3>
-           
-          <h2>
-            +1,000.45
-          </h2>
-        </div>
+        <!---->
       </div>
     </div>
      
@@ -129,7 +153,7 @@ exports[`TmBalance show the balance header when signed in 1`] = `
     </div>
      
     <sendmodal-stub
-      denom="ATOM"
+      denoms="ATOM"
     />
      
     <modalwithdrawrewards-stub />

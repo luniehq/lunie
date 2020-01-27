@@ -49,7 +49,8 @@ export function toMicroDenom(denom) {
     ATOM: "uatom",
     MUON: "umuon",
     LUNA: "uluna",
-    TREE: "seed"
+    TREE: "seed",
+    NGM: "x3ngm"
   }
   return lookup[denom] ? lookup[denom] : denom.toLowerCase()
 }
