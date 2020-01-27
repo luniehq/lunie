@@ -186,7 +186,8 @@ export default {
     editMemo: false,
     isFirstLoad: true,
     selectedToken: ``,
-    balances: []
+    balances: [],
+    denom: ``
   }),
   computed: {
     ...mapGetters([`network`]),
@@ -238,8 +239,12 @@ export default {
       }
     },
     balances: function(balances) {
-      if (balances.length === 0) return
-      this.selectedToken = balances[0].denom
+      // in case the account has no balances we will display the staking denom received from the denom query
+      if (balances.length === 0) {
+        this.selectedToken = this.denom
+      } else {
+        this.selectedToken = balances[0].denom
+      }
     }
   },
   mounted() {
@@ -338,6 +343,27 @@ export default {
           networkId: this.network,
           address: this.userAddress
         }
+      }
+    },
+    denom: {
+      query: gql`
+        query NetworksDelegationModal($networkId: String!) {
+          network(id: $networkId) {
+            id
+            stakingDenom
+          }
+        }
+      `,
+      fetchPolicy: "cache-first",
+      /* istanbul ignore next */
+      variables() {
+        return {
+          networkId: this.network
+        }
+      },
+      /* istanbul ignore next */
+      update(data) {
+        return data.network.stakingDenom
       }
     },
     $subscribe: {
