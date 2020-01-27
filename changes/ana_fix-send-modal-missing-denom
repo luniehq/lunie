@@ -1,0 +1,1 @@
+[Fixed] [#3484](https://github.com/cosmos/lunie/pull/3484) Fixes missing denom when there are no balances in SendModal @Bitcoinera

@@ -381,8 +381,8 @@ export default {
         return !this.address || !this.found
       },
       update(data) {
-        /* istanbul ignore next */
-        return data.vote.option
+        if (data.vote) return data.vote.option
+        return undefined
       },
       result(data) {
         /* istanbul ignore next */
