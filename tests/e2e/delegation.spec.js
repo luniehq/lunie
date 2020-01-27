@@ -5,6 +5,22 @@ const {
   getLastActivityItemHash
 } = require("./helpers.js")
 
+function setSelect(browser, selector, option) {
+  browser.execute(
+    function(selector, option) {
+      const select = document.querySelector(selector)
+      select.value = option
+
+      // Create a new 'change' event
+      var event = new Event("input")
+
+      // Dispatch it.
+      select.dispatchEvent(event)
+    },
+    [selector, option]
+  )
+}
+
 module.exports = {
   "Delegate Action": async function(browser) {
     await browser.url(browser.launch_url + "/transactions", async () => {
@@ -148,19 +164,4 @@ module.exports = {
       }
     })
   }
-}
-function setSelect(browser, selector, option) {
-  browser.execute(
-    function(selector, option) {
-      const select = document.querySelector(selector)
-      select.value = option
-
-      // Create a new 'change' event
-      var event = new Event("input")
-
-      // Dispatch it.
-      select.dispatchEvent(event)
-    },
-    [selector, option]
-  )
 }
