@@ -68,6 +68,11 @@
             name="This address doesn't belong to the network you are currently connected to"
             type="custom"
           />
+          <div v-if="$v.address.$error && !$v.address.isANetworkAddress">
+            <p class="error-message">
+              Please select the correct network <a href="/networks">here</a>
+            </p>
+          </div>
         </TmFormGroup>
       </div>
       <div class="session-footer">
@@ -237,6 +242,14 @@ export default {
 }
 </script>
 <style scoped>
+.error-message {
+  font-size: var(--sm);
+  color: var(--danger);
+  font-style: italic;
+  font-weight: 500;
+  padding-left: 16px;
+}
+
 .tm-li-session {
   display: flex;
   padding: 1rem;
