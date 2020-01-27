@@ -3091,10 +3091,10 @@ canvas-renderer@~2.1.1:
   resolved "https://registry.yarnpkg.com/canvas-renderer/-/canvas-renderer-2.1.1.tgz#d91fe9511ab48056ff9fa8a04514bede76535f55"
   integrity sha512-/V0XetN7s1Mk3NO7x2wxPZYv0pLMQtGAhecuOuKR88beiYCUle1AbCcFZNLu+4NVzi9RVHS0rXtIgzPEaKidLw==
 
-capacitor-intercom@0.2.2:
-  version "0.2.2"
-  resolved "https://registry.yarnpkg.com/capacitor-intercom/-/capacitor-intercom-0.2.2.tgz#d201071316f8065e426336509ca32c8e1e797d5a"
-  integrity sha512-FY8NuXW5SbP9Hs/HVqoUaLgI1CqlJnEQPniv5SvNdos/W1zZIhU7yebjBdQdn5SuIobuaiWMddg9c/+UagaJKg==
+capacitor-intercom@0.2.3:
+  version "0.2.3"
+  resolved "https://registry.yarnpkg.com/capacitor-intercom/-/capacitor-intercom-0.2.3.tgz#0d34c8f98277dde41bc69fa4b1651665b2fc39b0"
+  integrity sha512-1A1r8oIHBsJTcKnn6yZKKH1Zr58L3KznvZ6sps61XGqbidXcjCBuN7YNUxYLPVlv7FpghY2bMSBjCt0v51QGFg==
   dependencies:
     "@capacitor/core" latest
 
@@ -11041,10 +11041,10 @@ simple-swizzle@^0.2.2:
   dependencies:
     is-arrayish "^0.3.1"
 
-simsala@0.0.18:
-  version "0.0.18"
-  resolved "https://registry.yarnpkg.com/simsala/-/simsala-0.0.18.tgz#441f5e6799a896016216f07bbbc0ddf2b5a6e421"
-  integrity sha512-gB3ehpGxigdZ2+riCznVHZk4cQdqFs2c6d+p2UKZJun5KuCoEggG4WcJMGm6iF72q3nx5R8NB3OQWay4XKPN1A==
+simsala@0.0.19:
+  version "0.0.19"
+  resolved "https://registry.yarnpkg.com/simsala/-/simsala-0.0.19.tgz#c9d6e943ec19f48ba41ecb26122c6b609a12b011"
+  integrity sha512-Ik3tOmMdRhUj5mu/mBUUhhvwb05o0ClBJcao6vjmTmOdqaHKpxbQ2NcIo71FJWVkFUIdY3lcehK342ljPvPOQQ==
   dependencies:
     axios "^0.18.0"
     commander "^2.20.0"

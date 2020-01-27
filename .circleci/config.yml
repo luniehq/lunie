@@ -348,7 +348,8 @@ workflows:
       - publish:
           filters:
             branches:
-              only: develop
+              ignore:
+                - /^(?!develop).*$/
             tags:
               only: /^v.*/
               
