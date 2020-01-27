@@ -11,82 +11,61 @@
     </div>
     <div v-else>
       <div class="values-container">
-        <div class="upper-header">
-          <div class="total-atoms">
-            <h3>Total {{ stakingDenom }}</h3>
-            <h2 class="total-atoms__value">
-              {{ overview.totalStake | shortDecimals | noBlanks }}
-            </h2>
-          </div>
-          <TmFormGroup
-            v-if="balances && balances.length > 1"
-            style="display: none;"
-            class="currency-selector"
-            field-id="currency"
-            field-label="Currency"
-          >
-            <TmField
-              v-model="selectedFiatCurrency"
-              :title="`Select your fiat currency`"
-              :options="fiatCurrencies"
-              :placeholder="selectedFiatCurrency"
-              type="select"
-            />
-          </TmFormGroup>
-        </div>
-        <div class="scroll">
-          <div class="row small-container scroll-item">
-            <div v-if="overview.totalStake > 0" class="available-atoms">
-              <h3>Available {{ stakingDenom }}</h3>
-              <h2>{{ overview.liquidStake | shortDecimals | noBlanks }}</h2>
+        <div>
+          <div class="upper-header">
+            <div class="total-atoms">
+              <h3>Total {{ stakingDenom }}</h3>
+              <h2 class="total-atoms__value">
+                {{ overview.totalStake | shortDecimals | noBlanks }}
+              </h2>
             </div>
+            <button class="tutorial-button" @click="openTutorial()">
+              <i v-if="false" class="material-icons">help_outline</i>
+              <span v-else>Need some tokens?</span>
+            </button>
+          </div>
+          <div class="scroll">
+            <div class="row small-container scroll-item">
+              <div v-if="overview.totalStake > 0" class="available-atoms">
+                <h3>Available {{ stakingDenom }}</h3>
+                <h2>{{ overview.liquidStake | shortDecimals | noBlanks }}</h2>
+              </div>
 
-            <div v-if="overview.totalRewards" class="rewards">
-              <h3>Total Rewards</h3>
-              <h2>+{{ overview.totalRewards | shortDecimals | noBlanks }}</h2>
+              <div v-if="overview.totalRewards" class="rewards">
+                <h3>Total Rewards</h3>
+                <h2>+{{ overview.totalRewards | shortDecimals | noBlanks }}</h2>
+              </div>
             </div>
-          </div>
-          <div
-            v-if="formattedBalances.length > 0"
-            id="scroll-item"
-            class="row small-container tokens-div scroll-item"
-          >
             <div
-              v-for="balance in formattedBalances"
-              :key="balance.denom"
-              class="col"
+              v-if="formattedBalances.length > 0"
+              id="scroll-item"
+              class="row small-container tokens-div scroll-item"
             >
-              <p class="token-denom">{{ balance.denom }}</p>
-              <p class="token-balance">{{ balance.amount }}</p>
+              <div
+                v-for="balance in formattedBalances"
+                :key="balance.denom"
+                class="col"
+              >
+                <p class="token-denom">{{ balance.denom }}</p>
+                <p class="token-balance">{{ balance.amount }}</p>
+              </div>
             </div>
           </div>
         </div>
       </div>
       <div class="button-container">
-        <div>
-          <TmBtn
-            class="send-button"
-            value="Send"
-            type="secondary"
-            @click.native="onSend()"
-          />
-          <TmBtn
-            id="withdraw-btn"
-            :disabled="!readyToWithdraw"
-            class="withdraw-rewards"
-            value="Claim Rewards"
-            @click.native="readyToWithdraw && onWithdrawal()"
-          />
-        </div>
         <TmBtn
-          v-if="
-            connection.network === 'cosmos-hub-mainnet' ||
-              connection.network === 'cosmos-hub-testnet'
-          "
-          class="open-tutorial"
-          value="Need some tokens?"
-          type="tertiary"
-          @click.native="openTutorial()"
+          class="send-button"
+          value="Send"
+          type="secondary"
+          @click.native="onSend()"
+        />
+        <TmBtn
+          id="withdraw-btn"
+          :disabled="!readyToWithdraw"
+          class="withdraw-rewards"
+          value="Claim Rewards"
+          @click.native="readyToWithdraw && onWithdrawal()"
         />
       </div>
 
@@ -112,8 +91,6 @@ import { noBlanks } from "src/filters"
 import TmBtn from "common/TmBtn"
 import SendModal from "src/ActionModal/components/SendModal"
 import ModalWithdrawRewards from "src/ActionModal/components/ModalWithdrawRewards"
-import TmFormGroup from "common/TmFormGroup"
-import TmField from "src/components/common/TmField"
 import { mapGetters, mapState } from "vuex"
 import gql from "graphql-tag"
 import ModalTutorial from "common/ModalTutorial"
@@ -121,8 +98,6 @@ import ModalTutorial from "common/ModalTutorial"
 export default {
   name: `tm-balance`,
   components: {
-    TmFormGroup,
-    TmField,
     TmBtn,
     SendModal,
     ModalWithdrawRewards,
@@ -378,11 +353,8 @@ export default {
 }
 
 .values-container {
-  display: flex;
   position: relative;
-  width: 100%;
   padding: 1rem 2rem;
-  flex-direction: column;
 }
 
 .values-container h2 {
@@ -439,10 +411,15 @@ export default {
   line-height: 20px;
 }
 
-.button-container {
+.upper-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
+}
+
+.button-container {
+  display: flex;
+  align-items: center;
   padding: 0.5rem 2rem;
   width: 100%;
   border-bottom: 1px solid var(--bc-dim);
@@ -467,10 +444,41 @@ export default {
   justify-self: end;
 }
 
+.tutorial-button {
+  padding: 0.5rem 1rem;
+  width: auto;
+  font-size: 14px;
+  background: transparent;
+  color: #7a88b8;
+  border: 2px solid rgb(122, 136, 184, 0.1);
+  border-radius: 0.5rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  font-family: var(--sans);
+  margin-left: auto;
+}
+
+.tutorial-button i {
+  font-size: 1rem;
+}
+
+.tutorial-button span {
+  font-size: 14px;
+}
+
+.tutorial-button:hover {
+  background-color: rgba(255, 255, 255, 0.02);
+}
+
 @media screen and (max-width: 667px) {
   .balance-header {
     display: flex;
     flex-direction: column;
+  }
+
+  .upper-header {
+    flex-direction: column-reverse;
   }
 
   .values-container {
@@ -494,12 +502,20 @@ export default {
     text-align: center;
   }
 
+  .tutorial-button {
+    margin: 0 auto 1rem auto;
+  }
+
   .scroll {
     display: flex;
     width: 90vw;
     overflow-x: auto;
     /* Make it smooth scrolling on iOS devices */
     -webkit-overflow-scrolling: touch;
+  }
+
+  .scroll-item {
+    width: 100%;
   }
 
   /* This doesn't work */
@@ -545,9 +561,5 @@ export default {
   .tutorial-container {
     padding-right: 1rem;
   }
-}
-
-.tutorial-container {
-  text-align: right;
 }
 </style>
