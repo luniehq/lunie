@@ -191,6 +191,10 @@ describe(`DelegationModal`, () => {
       })
     })
 
+    it("should set the subtotal to 0 on a restake", () => {
+      expect(wrapper.html()).toMatchSnapshot()
+    })
+
     it("should return correct transaction data for redelegating", () => {
       expect(wrapper.vm.transactionData).toEqual({
         type: "MsgRedelegate",

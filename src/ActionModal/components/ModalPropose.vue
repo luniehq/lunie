@@ -253,6 +253,9 @@ export default {
           address: this.userAddress,
           denom: this.denom
         }
+      },
+      update(data) {
+        return data.balance || { amount: 0 }
       }
     }
   }

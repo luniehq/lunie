@@ -645,7 +645,7 @@ export default {
       // limit fees to the maximum the user has
       if (this.invoiceTotal > this.overview.liquidStake) {
         this.gasPrice =
-          (this.overview.liquidStake - Number(this.amount)) / this.gasEstimate
+          (Number(this.overview.liquidStake) - Number(this.amount)) / this.gasEstimate
       }
     },
     async submit() {
@@ -755,6 +755,11 @@ export default {
         }
       },
       update(data) {
+        if (!data.overview) {
+          return {
+            totalRewards: 0
+          }
+        }
         /* istanbul ignore next */
         return {
           ...data.overview,
