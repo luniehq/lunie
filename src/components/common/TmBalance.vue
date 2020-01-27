@@ -203,6 +203,11 @@ export default {
       },
       /* istanbul ignore next */
       update(data) {
+        if (!data.overview) {
+          return {
+            totalRewards: 0
+          }
+        }
         return {
           ...data.overview,
           totalRewards: Number(data.overview.totalRewards)
@@ -242,10 +247,6 @@ export default {
       /* istanbul ignore next */
       skip() {
         return !this.address
-      },
-      /* istanbul ignore next */
-      update(data) {
-        return data.balances || []
       }
     },
     stakingDenom: {
@@ -265,6 +266,7 @@ export default {
       },
       /* istanbul ignore next */
       update(data) {
+        if (!data.network) return ""
         return data.network.stakingDenom
       }
     },

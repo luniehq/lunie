@@ -305,6 +305,9 @@ export default {
         }
       },
       update(data) {
+        if (!data.proposals) {
+          return []
+        }
         /* istanbul ignore next */
         if (
           data.proposals.find(
@@ -326,7 +329,7 @@ export default {
         /* istanbul ignore next */
         this.loaded = true
         /* istanbul ignore next */
-        return data.proposal
+        return data.proposal || {}
       },
       variables() {
         /* istanbul ignore next */
