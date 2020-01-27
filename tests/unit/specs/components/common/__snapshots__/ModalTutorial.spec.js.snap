@@ -11,29 +11,35 @@ exports[`TmModal has the expected html structure 1`] = `
     <div
       class="modal-tutorial-header"
     >
-      <a
-        href="#"
+      <div
+        class="modal-tutorial-button-container"
       >
-        <i
-          class="material-icons chevron_left"
-        />
-      </a>
-       
-      <a
-        href="#"
-      >
-        <i
-          class="material-icons chevron_right"
-        />
-      </a>
-       
-      <a
-        href="#"
-      >
-        <i
-          class="material-icons close"
-        />
-      </a>
+        <div>
+          <a
+            href="#"
+          >
+            <i
+              class="material-icons chevron_left"
+            />
+          </a>
+           
+          <a
+            href="#"
+          >
+            <i
+              class="material-icons chevron_right"
+            />
+          </a>
+        </div>
+         
+        <a
+          href="#"
+        >
+          <i
+            class="material-icons close"
+          />
+        </a>
+      </div>
        
       <div
         class="top-bg red"

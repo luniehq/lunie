@@ -2,15 +2,19 @@
   <div v-focus-last class="modal-tutorial" tabindex="0" @keyup.esc="close()">
     <main class="modal-tutorial-main">
       <div class="modal-tutorial-header">
-        <a href="#" @click.prevent="prevLink">
-          <i class="material-icons chevron_left"></i>
-        </a>
-        <a href="#" @click.prevent="nextLink">
-          <i class="material-icons chevron_right"></i>
-        </a>
-        <a href="#" @click.prevent="close">
-          <i class="material-icons close"></i>
-        </a>
+        <div class="modal-tutorial-button-container">
+          <div>
+            <a href="#" @click="prevLink">
+              <i class="material-icons chevron_left"></i>
+            </a>
+            <a href="#" @click="nextLink">
+              <i class="material-icons chevron_right"></i>
+            </a>
+          </div>
+          <a href="#" @click="close">
+            <i class="material-icons close"></i>
+          </a>
+        </div>
         <div class="top-bg" :class="background"></div>
       </div>
       <div class="content">
@@ -142,26 +146,29 @@ export default {
   margin-top: 20px;
 }
 
-.modal-tutorial-header i {
-  color: #7a88b8;
-  background: #e4e7f1;
-  width: 2rem;
-  height: 2rem;
-  font-size: var(--m);
-  display: inline-block;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
+.modal-tutorial-button-container {
+  display: flex;
+  justify-content: space-between;
   align-items: center;
-  padding: 0.5rem;
-  margin-right: 1rem;
-  border-radius: 50%;
 }
 
-.modal-tutorial-header i.close {
-  position: absolute;
-  top: 0;
-  right: 0;
-  margin: 0;
+.modal-tutorial-header a:first-child {
+  margin-right: 0.5rem;
+}
+
+.modal-tutorial-header i {
+  background: rgba(122, 136, 184, 0.2);
+  width: 2rem;
+  height: 2rem;
+  display: inline-block;
+  padding: 0.5rem;
+  border-radius: 50%;
+  color: var(--faded-blue);
+  font-size: var(--m);
+}
+
+.modal-tutorial-header a:hover i {
+  background: rgba(122, 136, 184, 0.3);
 }
 
 .modal-tutorial .top-bg {
@@ -225,8 +232,7 @@ export default {
 }
 
 .button:hover {
-  background: var(--faded-blue);
-  color: #f1f3f7;
+  background-color: rgba(122, 136, 184, 0.25);
 }
 
 .button i.arrow_forward {
@@ -258,6 +264,10 @@ export default {
   font-weight: 500;
   margin-bottom: 18px;
   font-size: 10px;
+}
+
+.content p {
+  min-height: 96px;
 }
 
 .content-item {

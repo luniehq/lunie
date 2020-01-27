@@ -84,7 +84,7 @@
               connection.network === 'cosmos-hub-testnet'
           "
           class="open-tutorial"
-          value="Need help getting tokens?"
+          value="Need some tokens?"
           type="tertiary"
           @click.native="openTutorial()"
         />
@@ -146,41 +146,34 @@ export default {
         background: `red`,
         steps: [
           {
-            title: "How To Get Tokens",
+            title: "Tokens 101",
             // Each content array item will be enclosed in a span (newline)
             content: [
-              "Are you ready to get started staking with Lunie? Time to get some tokens. Let’s go!"
+              "The easiest way to get tokens is to find a reputable exchange, like Coinbase or Binance, to purchase your tokens from."
             ]
           },
           {
             title: "Create your address",
             content: [
-              "You can receive, store and stake tokens with Lunie using the browser extension wallet, the mobile wallet or Ledger Nano S hardware wallet."
+              "You can create an address with Lunie using our browser extension, our mobile wallets or a Ledger Nano hardware wallet."
             ]
           },
           {
             title: "Back it up!",
             content: [
-              "Seriously, make sure you have recorded your backup code in a secure place. Create several digital and physical copies of it and keep it safe. Don’t show it to anyone!"
+              "When you create an address, ensure your backup code is correct and in a secure place. We don't recommend using an address if you haven't backed it up appropriately."
             ]
           },
           {
-            title: "Purchase some tokens",
+            title: "Send to your address",
             content: [
-              "Find a reputable exchange to purchase tokens from, like Coinbase or Binance, based on your geography and jurisdiction."
+              "The short version of your address will look something like this: cosmos...7yqp. Make sure to use the full version of your address to successfully receive tokens."
             ]
           },
           {
-            title: "Send to your Lunie address",
+            title: "Have more questions?",
             content: [
-              "The address will be formatted like this:",
-              "cosmos1y4xpks58v3439zfs9nsgep9n2ykk3z9qlge6c5"
-            ]
-          },
-          {
-            title: "Want more?",
-            content: [
-              "Once your Lunie balance reflects what you expect you are ready to begin staking and participating in governance!"
+              "Check out our full guide to getting tokens so you can start staking!"
             ]
           }
         ]

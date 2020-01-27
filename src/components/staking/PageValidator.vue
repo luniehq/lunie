@@ -265,33 +265,41 @@ export default {
       background: `blue`,
       steps: [
         {
-          title: "Staking tokens",
+          title: "Staking 101",
           // Each content array item will be enclosed in a span (newline)
           content: [
-            "Do you have some tokens in your Lunie wallet? Yes? Great! If not, check out the “How to get tokens” guide in Lunie website."
+            "First things first, you'll need to have some staking tokens. On this network, they are called ATOMs."
           ]
         },
         {
-          title: "The Validator list",
+          title: "Validators",
           content: [
-            "Click the Validators view to browse all active and available validators sorted by expected rewards and voting power."
+            "Validators are network operators who collect a fee for maintaining the integrity of the blockchain."
           ]
         },
         {
-          title: "How much will you stake?",
+          title: "Choosing a validator",
           content: [
-            "Choose how much you want to stake with a specific validator based on their fees and validating history. Once you stake, your tokens will be locked up for 21 days, but you can always unstake or restake at a later date."
+            "You can 'stake' your tokens with any validator you like. Choose by comparing their commission rate, their uptime history, and how they vote on proposals."
           ]
         },
         {
-          title: "Claim your rewards",
+          title: "Earning rewards",
           content: [
-            "Everyone is rewarded for putting something at stake but periodically you’ll have to claim your rewards. Look for the “Claim Rewards” button on your portfolio page."
+            "Once you 'stake' your tokens, you'll instantly start earning rewards. Look for the “Claim Rewards” button on your portfolio page to add your rewards to your wallet."
           ]
         },
         {
-          title: "Want more?",
-          content: ["Learn more about the in’s and out’s of staking on Cosmos."]
+          title: "Lock-up period",
+          content: [
+            "While your tokens are 'staked' you will not be able to transfer or spend them. It will take 21 days for your tokens to be in your wallet after you 'unstake' them."
+          ]
+        },
+        {
+          title: "Have more questions?",
+          content: [
+            "Check out our full staking guide for an in depth explanation of all things staking."
+          ]
         }
       ]
     }
