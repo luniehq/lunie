@@ -180,6 +180,8 @@ exports[`TmSessionExplore shows a form to sign in with an address 1`] = `
         />
          
         <!---->
+         
+        <!---->
       </tmformgroup-stub>
     </div>
      
