@@ -221,11 +221,13 @@ export default {
 
 @media screen and (max-width: 667px) {
   .button-container {
+    padding-top: 0;
     justify-content: center;
+    flex-direction: column-reverse;
   }
 
-  .button-container button {
-    width: 50%;
+  .button-container .tutorial-btn {
+    margin-bottom: 0.5rem;
   }
 }
 </style>
