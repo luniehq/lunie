@@ -3,7 +3,7 @@
     id="delegation-modal"
     ref="actionModal"
     :validate="validateForm"
-    :amount="amount"
+    :amount="isRedelegation ? 0 : amount"
     :title="isRedelegation ? 'Restake' : 'Stake'"
     class="delegation-modal"
     submission-error-prefix="Staking failed"

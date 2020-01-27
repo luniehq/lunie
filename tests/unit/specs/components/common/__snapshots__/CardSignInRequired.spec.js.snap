@@ -17,6 +17,11 @@ exports[`CardSignInRequired shows a sign in required card 1`] = `
     <a>
       sign in
     </a>
+     or
+    
+    <a>
+      sign up
+    </a>
     .
   
   </div>

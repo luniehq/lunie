@@ -1,5 +1,5 @@
 <template>
-  <transition v-if="show && !$apollo.loading" name="slide-fade">
+  <transition v-if="show" name="slide-fade">
     <div v-focus-last class="action-modal" tabindex="0" @keyup.esc="close">
       <div
         v-if="(step === feeStep || step === signStep) && !sending"
@@ -45,6 +45,7 @@
       <template v-if="!checkFeatureAvailable">
         <FeatureNotAvailable :feature="title" />
       </template>
+      <TmDataLoading v-else-if="!loaded" />
       <template v-else>
         <div v-if="requiresSignIn" class="action-modal-form">
           <p class="form-message notice">
@@ -120,7 +121,7 @@
             />
           </TmFormGroup>
           <HardwareState
-            v-else-if="selectedSignMethod === SIGN_METHODS.LEDGER"
+            v-if="selectedSignMethod === SIGN_METHODS.LEDGER"
             :icon="session.browserWithLedgerSupport ? 'usb' : 'info'"
             :loading="!!sending"
           >
@@ -230,7 +231,7 @@
               <TmBtn
                 v-if="requiresSignIn"
                 v-focus
-                value="Sign In"
+                value="Sign In / Sign Up"
                 type="primary"
                 @click.native="goToSession"
                 @click.enter.native="goToSession"
@@ -261,7 +262,10 @@
                 v-else
                 type="primary"
                 value="Send"
-                :disabled="!selectedSignMethod"
+                :disabled="
+                  !selectedSignMethod ||
+                    (!extension.enabled && selectedSignMethod === 'extension')
+                "
                 @click.native="validateChangeStep"
               />
             </TmFormGroup>
@@ -280,6 +284,7 @@ import TmBtn from "src/components/common/TmBtn"
 import TmField from "src/components/common/TmField"
 import TmFormGroup from "src/components/common/TmFormGroup"
 import TmFormMsg from "src/components/common/TmFormMsg"
+import TmDataLoading from "src/components/common/TmDataLoading"
 import FeatureNotAvailable from "src/components/common/FeatureNotAvailable"
 import TmDataMsg from "common/TmDataMsg"
 import TableInvoice from "./TableInvoice"
@@ -337,6 +342,7 @@ export default {
     TmFormGroup,
     TmFormMsg,
     TmDataMsg,
+    TmDataLoading,
     TableInvoice,
     Steps,
     FeatureNotAvailable
@@ -395,6 +401,7 @@ export default {
     gasPrice: (config.default_gas_price / 4).toFixed(9), // as we bump the gas amount by 4 in the API
     submissionError: null,
     show: false,
+    loaded: false,
     actionManager: new ActionManager(),
     txHash: null,
     defaultStep,
@@ -420,7 +427,7 @@ export default {
     requiresSignIn() {
       return (
         !this.session.signedIn ||
-        (this.isMobileApp && this.session.sessionType === sessionType.EXPLORE)
+        this.session.sessionType === sessionType.EXPLORE
       )
     },
     estimatedFee() {
@@ -498,6 +505,9 @@ export default {
       handler(context) {
         this.actionManager.setContext(context)
       }
+    },
+    "$apollo.loading": function(loading) {
+      this.loaded = this.loaded || !loading
     }
   },
   created() {
@@ -549,7 +559,10 @@ export default {
       this.$apollo.skipAll = true
 
       // reset form
-      this.$v.$reset()
+      // in some cases $v is not yet set
+      if (this.$v) {
+        this.$v.$reset()
+      }
       this.$emit(`close`)
     },
     trackEvent(...args) {
@@ -632,7 +645,7 @@ export default {
       // limit fees to the maximum the user has
       if (this.invoiceTotal > this.overview.liquidStake) {
         this.gasPrice =
-          (this.overview.liquidStake - Number(this.amount)) / this.gasEstimate
+          (Number(this.overview.liquidStake) - Number(this.amount)) / this.gasEstimate
       }
     },
     async submit() {

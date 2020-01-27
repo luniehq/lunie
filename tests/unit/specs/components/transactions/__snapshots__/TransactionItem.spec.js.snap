@@ -24,30 +24,6 @@ exports[`TransactionItem renders a MsgBeginRedelegate transaction item 1`] = `
 </div>
 `;
 
-exports[`TransactionItem renders a MsgCreateValidator transaction item 1`] = `
-<div
-  class="tx-container"
->
-  <div
-    class="tx"
-  >
-    <!---->
-     
-    <div
-      class="toggle"
-    >
-      <i
-        class="material-icons toggle-icon"
-      >
-        keyboard_arrow_down
-      </i>
-    </div>
-  </div>
-   
-  <!---->
-</div>
-`;
-
 exports[`TransactionItem renders a MsgDelegate transaction item 1`] = `
 <div
   class="tx-container"
@@ -73,30 +49,6 @@ exports[`TransactionItem renders a MsgDelegate transaction item 1`] = `
 `;
 
 exports[`TransactionItem renders a MsgDeposit transaction item 1`] = `
-<div
-  class="tx-container"
->
-  <div
-    class="tx"
-  >
-    <!---->
-     
-    <div
-      class="toggle"
-    >
-      <i
-        class="material-icons toggle-icon"
-      >
-        keyboard_arrow_down
-      </i>
-    </div>
-  </div>
-   
-  <!---->
-</div>
-`;
-
-exports[`TransactionItem renders a MsgEditValidator transaction item 1`] = `
 <div
   class="tx-container"
 >
@@ -168,30 +120,6 @@ exports[`TransactionItem renders a MsgSend transaction item 1`] = `
 </div>
 `;
 
-exports[`TransactionItem renders a MsgSetWithdrawAddress transaction item 1`] = `
-<div
-  class="tx-container"
->
-  <div
-    class="tx"
-  >
-    <!---->
-     
-    <div
-      class="toggle"
-    >
-      <i
-        class="material-icons toggle-icon"
-      >
-        keyboard_arrow_down
-      </i>
-    </div>
-  </div>
-   
-  <!---->
-</div>
-`;
-
 exports[`TransactionItem renders a MsgSubmitProposal transaction item 1`] = `
 <div
   class="tx-container"
@@ -217,30 +145,6 @@ exports[`TransactionItem renders a MsgSubmitProposal transaction item 1`] = `
 `;
 
 exports[`TransactionItem renders a MsgUndelegate transaction item 1`] = `
-<div
-  class="tx-container"
->
-  <div
-    class="tx"
-  >
-    <!---->
-     
-    <div
-      class="toggle"
-    >
-      <i
-        class="material-icons toggle-icon"
-      >
-        keyboard_arrow_down
-      </i>
-    </div>
-  </div>
-   
-  <!---->
-</div>
-`;
-
-exports[`TransactionItem renders a MsgUnjail transaction item 1`] = `
 <div
   class="tx-container"
 >

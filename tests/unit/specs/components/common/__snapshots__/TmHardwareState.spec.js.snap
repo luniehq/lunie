@@ -7,24 +7,17 @@ exports[`TmHardwareState has the expected html structure 1`] = `
   <div
     class="tm-hardware-state-content"
   >
-    <i
-      class="tm-hardware-state__icon material-icons"
-    >
-      
-      rotate_right
-    
-    </i>
+    <img
+      alt="a small spinning circle to display loading"
+      class="tm-hardware-state__icon"
+      src="~assets/images/loader.svg"
+    />
      
     <div
       class="tm-hardware-state__label"
     >
       Detecting your Ledger Wallet
     </div>
-     
-    <img
-      alt="a small spinning circle to display loading"
-      src="~assets/images/loader.svg"
-    />
   </div>
 </div>
 `;
