@@ -103,19 +103,15 @@ jobs:
           name: Audit
           command: |
             set +e
-
             yarn audit
-
             SUMMARY="$(yarn audit | grep Severity)"
             VULNERABILITIES=".*(High|Critical).*"
-
             if [[ $SUMMARY =~ $VULNERABILITIES ]]; then
               echo "Unsafe dependencies found: $SUMMARY" >&2
               exit 1
             fi
             echo "Your dependencies are secure enough: $SUMMARY"
             exit 0
-
   testE2e:
     machine: true
     working_directory: *WORKSPACE
@@ -263,8 +259,7 @@ jobs:
       - checkout
       - run:
           command: ./tasks/publish.sh
-
-
+          
 workflows:
   version: 2
   test:
@@ -344,8 +339,4 @@ workflows:
       - publish:
           filters:
             branches:
-              ignore:
-                - /^(?!develop).*$/
-            tags:
-              only: /^v.*/
-              
+              only: develop

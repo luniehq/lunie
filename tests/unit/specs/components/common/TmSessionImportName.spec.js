@@ -20,7 +20,7 @@ describe(`TmSessionImportName`, () => {
   beforeEach(() => {
     getters = {
       connected: () => true,
-      network: "fabo-net"
+      network: "cosmos-hub-mainnet"
     }
     $store = {
       state: {
@@ -34,7 +34,7 @@ describe(`TmSessionImportName`, () => {
       },
       getters,
       commit: jest.fn(),
-      dispatch: jest.fn(async () => true),
+      dispatch: jest.fn(async () => `cosmos1234`),
       mutations: {
         updateField: jest.fn()
       }
@@ -43,11 +43,32 @@ describe(`TmSessionImportName`, () => {
       localVue,
       mocks: {
         $store,
+        $apollo: {
+          queries: {
+            addressPrefixes: { refetch: () => {} }
+          }
+        },
         $router: {
           push: jest.fn()
         }
       },
       stubs: [`router-link`]
+    })
+    wrapper.setData({
+      addressPrefixes: [
+        {
+          id: `cosmos-hub-mainnet`,
+          address_prefix: `cosmos`
+        },
+        {
+          id: `livepeer-mainnet`,
+          address_prefix: `0x`
+        },
+        {
+          id: `emoney-testnet`,
+          address_prefix: `emoney`
+        }
+      ]
     })
   })
 

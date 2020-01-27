@@ -118,6 +118,26 @@ export default [
     }
   },
   {
+    path: `/selectnetwork`,
+    name: `select-network`,
+    components: {
+      session: () => import(`./components/common/TmSelectNetwork`)
+    },
+    meta: {
+      feature: "Session"
+    }
+  },
+  {
+    path: `/selectnetwork/:recover`,
+    name: `select-network-recover`,
+    components: {
+      session: () => import(`./components/common/TmSelectNetwork`)
+    },
+    meta: {
+      feature: "Session"
+    }
+  },
+  {
     path: `/create`,
     name: `create`,
     components: {

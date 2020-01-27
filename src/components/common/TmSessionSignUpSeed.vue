@@ -8,7 +8,7 @@
         <InsecureModeWarning />
       </div>
       <div v-else>
-        <div class="session-main">
+        <div class="session-main bottom-indent reorder">
           <Steps
             v-if="!session.mobile"
             :steps="[`Create`, `Password`, `Backup`]"
@@ -58,6 +58,7 @@ import SessionFrame from "common/SessionFrame"
 import InsecureModeWarning from "common/InsecureModeWarning"
 import Steps from "../../ActionModal/components/Steps"
 import TmSeed from "common/TmSeed"
+import gql from "graphql-tag"
 
 export default {
   name: `session-sign-up`,
@@ -73,7 +74,8 @@ export default {
   },
   data: () => ({
     error: false,
-    errorMessage: ``
+    errorMessage: ``,
+    addressPrefixes: []
   }),
   computed: {
     ...mapState([`session`, `signup`]),
@@ -119,6 +121,23 @@ export default {
         this.error = true
         this.errorMessage = error.message
       }
+    }
+  },
+  apollo: {
+    addressPrefixes: {
+      query: gql`
+        query Network {
+          networks {
+            id
+            address_prefix
+          }
+        }
+      `,
+      /* istanbul ignore next */
+      update(data) {
+        return data.networks
+      },
+      fetchPolicy: "cache-first"
     }
   },
   validations: () => ({

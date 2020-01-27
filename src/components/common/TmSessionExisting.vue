@@ -39,7 +39,7 @@
           id="recover-with-backup"
           icon="settings_backup_restore"
           title="Recover with backup code"
-          route="recover"
+          route="selectnetwork/recover"
         />
       </div>
       <router-link to="create" class="footnote">
