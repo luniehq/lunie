@@ -7,6 +7,7 @@ const {
   waitForText,
   getLastActivityItemHash,
   checkBrowserLogs,
+  getAccountBallance,
   fundMasterAccount
 } = require("./helpers.js")
 
@@ -72,11 +73,11 @@ async function next(browser) {
 
 async function createNewAccount(browser) {
   return browser.url(
-    browser.launch_url + "/welcome?insecure=true",
+    browser.launch_url + "/welcome?insecure=true", 
     async () => {
-      browser.waitForElementVisible(`body`, 10000, true)
-      browser.click("#create-new-address")
-      browser.waitForElementVisible("#sign-up-name", 10000, true)
+      await browser.waitForElementVisible(`body`, 10000, true)
+      await browser.click("#create-new-address")
+      await browser.waitForElementVisible("#sign-up-name", 10000, true)
       browser.setValue("#sign-up-name", "demo-account")
       await next(browser)
       browser.waitForElementVisible("#sign-up-password", 10000, true)
@@ -93,6 +94,7 @@ async function createNewAccount(browser) {
       browser.expect.elements(".tm-form-msg--error").count.to.equal(1)
       browser.click("#sign-up-warning")
       await next(browser)
+      return true
     }
   )
 }
@@ -125,6 +127,7 @@ async function initialiseDefaults(browser) {
   }
   browser.globals.feURI = browser.launch_url = feURI
   browser.globals.apiURI = apiURI
+  browser.globals.expectedDiff = networkData.expectedDiff
   // checking the API for a localhost API
   if (apiURI.indexOf("//localhost:") !== -1) {
     apiUp(browser)
@@ -186,7 +189,8 @@ async function defineNeededValidators(browser, networkData) {
 
 async function storeAccountData(browser, networkData) {
   // refreshing and saving all needed info of a newly created account
-  return browser.url(browser.launch_url, async () => {
+  await browser.pause(500) // needed for localStorage variable setting
+  return await browser.url(browser.launch_url, async () => {
     const tempAcc = await browser.execute(
       function(networkData) {
         // saving account info from localStorage
@@ -222,6 +226,7 @@ async function storeAccountData(browser, networkData) {
     browser.globals.wallet = tempAcc.value.wallet
     // address
     browser.globals.address = tempAcc.value.address
+    return true
   })
 }
 
@@ -242,6 +247,8 @@ async function fundingTempAccount(browser, networkData) {
         browser.setValue("#amount", networkData.fundingAmount)
       },
       // expected subtotal
+      networkData.fundingAmount,
+      networkData.fundingAmount,
       networkData.fundingAmount
     )
     // check if the hash is changed
@@ -346,22 +353,9 @@ async function switchToAccount(
         [{ address, network, wallet, name }]
       )
       browser.refresh()
+      await getAccountBallance(browser)
       // wait until on portfolio page to make sure future tests have the same state
       browser.expect.element(".balance-header").to.be.visible.before(10000)
-      // save denom
-      await browser.url(browser.launch_url + "/portfolio", async () => {
-        // waiting till balance loaded
-        await browser.waitForElementVisible(".total-atoms h3", 5000, false)
-        await browser.getText(".total-atoms h3", result => {
-          browser.globals.denom = result.value.replace("Total ", "")
-        })
-        await browser.getText(".available-atoms h2", result => {
-          browser.globals.availableAtoms = result.value
-        })
-        await browser.getText(".total-atoms__value", result => {
-          browser.globals.totalAtoms = result.value
-        })
-      })
       // switching to homepage
       await browser.url(browser.launch_url)
       return true

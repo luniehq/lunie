@@ -1,6 +1,7 @@
 const {
   actionModalCheckout,
   waitForText,
+  getAccountBallance,
   getLastActivityItemHash
 } = require("./helpers.js")
 
@@ -28,6 +29,7 @@ module.exports = {
         0,
         value
       )
+      await getAccountBallance(browser)
       // check if the hash is changed
       await browser.url(browser.launch_url + "/transactions", async () => {
         // check if tx shows
@@ -73,10 +75,9 @@ module.exports = {
           browser.setValue("#amount", value)
         },
         // expected subtotal
-        value,
-        0,
         value
       )
+      await getAccountBallance(browser)
 
       // check if tx shows
       // check if the hash is changed
@@ -125,6 +126,7 @@ module.exports = {
       // expected subtotal
       "0"
     )
+    await getAccountBallance(browser)
 
     // check if tx shows
     await browser.url(browser.launch_url + "/transactions", async () => {

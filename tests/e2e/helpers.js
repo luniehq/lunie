@@ -203,7 +203,7 @@ async function actionModalCheckout(
         browser.globals.totalAtoms - expectedTotalChange - fees
       expect(
         Math.abs(approximatedBalanceAfter - (await getBalance(browser)))
-      ).to.be.lessThan(2) // acounting for rewards being withdrawn on an undelegation
+      ).to.be.lessThan(browser.globals.expectedDiff) // acounting for rewards being withdrawn on an undelegation
     },
     10,
     2000
@@ -218,7 +218,7 @@ async function actionModalCheckout(
           approximatedAvailableBalanceAfter -
             (await getAvailableTokens(browser))
         )
-      ).to.be.lessThan(2) // acounting for rewards being withdrawn on an undelegation
+      ).to.be.lessThan(browser.globals.expectedDiff) // acounting for rewards being withdrawn on an undelegation
     },
     10,
     2000
@@ -226,6 +226,24 @@ async function actionModalCheckout(
   //})
   //browser.expect.element(".success-step").to.be.present.before(20 * 1000)
 }
+
+async function getAccountBallance(browser) {
+  // save denom
+  return await browser.url(browser.launch_url + "/portfolio", async () => {
+    // waiting till balance loaded
+    await browser.waitForElementVisible(".total-atoms h3", 5000, false)
+    await browser.getText(".total-atoms h3", result => {
+      browser.globals.denom = result.value.replace("Total ", "")
+    })
+    await browser.getText(".available-atoms h2", result => {
+      browser.globals.availableAtoms = result.value.replace(",", "")
+    })
+    await browser.getText(".total-atoms__value", result => {
+      browser.globals.totalAtoms = result.value.replace(",", "")
+    })
+  })
+}
+
 async function nextBlock(browser) {
   // should be fixed
   browser
@@ -252,6 +270,7 @@ module.exports = {
   actionModalCheckout,
   getLastActivityItemHash,
   nextBlock,
+  getAccountBallance,
   checkBrowserLogs,
   fundMasterAccount
 }
