@@ -177,7 +177,7 @@ export default {
       `,
       /* istanbul ignore next */
       update(data) {
-        if (data.network) return data.network.stakingDenom
+        if (data.networks) return data.networks
         return ""
       },
       fetchPolicy: "cache-first"
