@@ -4,14 +4,14 @@
       <div class="modal-tutorial-header">
         <div class="modal-tutorial-button-container">
           <div>
-            <a href="#" @click="prevLink">
+            <a href="#" @click.prevent="prevLink">
               <i class="material-icons chevron_left"></i>
             </a>
-            <a href="#" @click="nextLink">
+            <a href="#" @click.prevent="nextLink">
               <i class="material-icons chevron_right"></i>
             </a>
           </div>
-          <a href="#" @click="close">
+          <a href="#" @click.prevent="close">
             <i class="material-icons close"></i>
           </a>
         </div>
@@ -51,7 +51,10 @@
                   ? `Read the full guide`
                   : `Next step`
               }}
-              <i class="material-icons arrow_forward" :class="currentStep === steps.length ? `final-step` : ``"></i>
+              <i
+                class="material-icons arrow_forward"
+                :class="currentStep === steps.length ? `final-step` : ``"
+              ></i>
             </button>
           </template>
         </template>
