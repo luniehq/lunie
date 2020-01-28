@@ -112,11 +112,11 @@ jobs:
             fi
             echo "Your dependencies are secure enough: $SUMMARY"
             exit 0
-  testE2E:
+  testE2e:
     executor: web
     steps:
-      - checkout
-      - yarn-install
+      - attach_workspace:
+          at: *WORKSPACE
       - run:
           # needs to be done in CI to be sure it is build once we start the tests
           name: Run tests
@@ -248,7 +248,9 @@ workflows:
             branches:
               ignore: release
 
-      - testE2e
+      - testE2e:
+          requires:
+            - prep
 
       # - testExtension:
       #     requires:
