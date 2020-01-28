@@ -127,9 +127,7 @@ jobs:
       - run:
           # needs to be done in CI to be sure it is build once we start the tests
           name: Run tests
-          command: |
-            yarn install
-            yarn test:e2e:local --fe=https://deploy-preview-${CI_PULL_REQUEST}--lunieio.netlify.com --api=https://staging-api.lunie.io
+          command: yarn test:e2e:local --fe=https://deploy-preview-${CI_PULL_REQUEST}--lunieio.netlify.com --api=https://staging-api.lunie.io
           environment:
             PASSWORD: ${NETWORK_PASSWORD}
             CHT_PWD: ${ACCOUNT_PASSWORD}
