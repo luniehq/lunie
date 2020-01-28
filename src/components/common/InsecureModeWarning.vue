@@ -54,7 +54,7 @@
 
 <script>
 import { mapState } from "vuex"
-import keysTutorial from "src/components/tutorials/cosmos/Staking.vue"
+import keysTutorial from "src/components/tutorials/cosmos/Keys.vue"
 
 export default {
   name: `insecure-mode-warning`,

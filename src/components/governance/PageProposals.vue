@@ -43,16 +43,13 @@
       </div>
     </div>
     <TableProposals v-else :proposals="proposals" />
-    <ModalTutorial
+    <GovernanceTutorial
       v-if="
         showTutorial &&
           (connection.network === 'cosmos-hub-mainnet' ||
             connection.network === 'cosmos-hub-testnet')
       "
-      :steps="cosmosGovernanceTutorial.steps"
-      :fullguide="cosmosGovernanceTutorial.fullguide"
-      :background="cosmosGovernanceTutorial.background"
-      :close="hideTutorial"
+      @close-tutorial="closeTutorial"
     />
   </TmPage>
 </template>
@@ -66,7 +63,7 @@ import TmDataMsg from "common/TmDataMsg"
 import { mapGetters, mapState } from "vuex"
 import { GovernanceParameters } from "src/gql"
 import gql from "graphql-tag"
-import ModalTutorial from "common/ModalTutorial"
+import GovernanceTutorial from "src/components/tutorials/cosmos/Governance.vue"
 
 export default {
   name: `page-proposals`,
@@ -76,7 +73,7 @@ export default {
     TmDataMsg,
     TmBtn,
     TmPage,
-    ModalTutorial
+    GovernanceTutorial
   },
   data: () => ({
     proposals: [],
@@ -84,44 +81,7 @@ export default {
       depositDenom: "xxx"
     },
     loaded: false,
-    showTutorial: false,
-    cosmosGovernanceTutorial: {
-      fullguide: `https://lunie.io/guides/how-cosmos-governance-works/`,
-      background: `lightblue`,
-      steps: [
-        {
-          title: "Intro to governance",
-          // Each content array item will be enclosed in a span (newline)
-          content: [
-            "If you have staked ATOMs on the Cosmos Hub, you can submit your own improvement proposal and vote on what others have proposed."
-          ]
-        },
-        {
-          title: "Proposals",
-          content: [
-            "Proposals are submitted by community members and typically include ideas for how to improve the underlying protocols. Proposals are stored 'on-chain'."
-          ]
-        },
-        {
-          title: "Deposit Period",
-          content: [
-            "Proposals start in the 'Deposit Period' and require a certain number of deposits, before the proposal can be voted on. This is both a spam prevention and signalling mechanism."
-          ]
-        },
-        {
-          title: "The Vote!",
-          content: [
-            "Validators have an obligation to vote and do so on behalf of the people who 'staked' tokens with them. As a token holder, you can vote independently of your validators if you wish."
-          ]
-        },
-        {
-          title: "Have more questions?",
-          content: [
-            "Check out our full governance guide for an in depth explanation of all things governance."
-          ]
-        }
-      ]
-    }
+    showTutorial: false
   }),
   computed: {
     ...mapState([`connection`]),
@@ -137,7 +97,7 @@ export default {
     openTutorial() {
       this.showTutorial = true
     },
-    hideTutorial() {
+    closeTutorial() {
       this.showTutorial = false
     }
   },
