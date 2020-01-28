@@ -1,5 +1,5 @@
 <template>
-  <div v-focus-last class="modal-tutorial" tabindex="0" @keyup.esc="close()">
+  <div v-focus-last class="modal-tutorial" tabindex="0" @keyup.esc="close">
     <main class="modal-tutorial-main">
       <div class="modal-tutorial-header">
         <div class="modal-tutorial-button-container">
@@ -22,27 +22,18 @@
           <span class="current-step">STEP {{ currentStep }}</span>
           <div class="steps-container">
             <span
-              v-for="(item, index) in steps.length"
-              :key="`step-${index}`"
-              :class="{ step: true, completed: index < currentStep }"
+              v-for="step in steps"
+              :key="`step-${step}`"
+              :class="{ step: true, completed: step < currentStep }"
             >
             </span>
           </div>
         </div>
-        <template v-for="(step, index) in steps">
-          <template v-if="currentStep === index + 1">
-            <h2 :key="`title-${index}`">{{ step.title }}</h2>
-            <p :key="`content-${index}`">
-              <span
-                v-for="(item, contentIndex) in step.content"
-                :key="`content-item-${index}-${contentIndex}`"
-                class="content-item"
-              >
-                {{ item }}
-              </span>
-            </p>
+        <template v-for="step in steps">
+          <template v-if="currentStep === step + 1">
+            <slot :name="`step${step + 1}`"></slot>
             <button
-              :key="`btn-${index}`"
+              :key="`btn-${step}`"
               class="button primary"
               @click="nextLink"
             >
@@ -71,8 +62,8 @@ export default {
       type: String,
       required: true
     },
-    steps: {
-      type: Array,
+    stepsNum: {
+      type: Number,
       required: true
     },
     // Possible values: red, green, yellow, blue and lightblue
@@ -87,6 +78,9 @@ export default {
     }
   },
   computed: {
+    steps() {
+      return Array.from(Array(this.stepsNum).keys())
+    },
     finalStep() {
       return this.currentStep === this.steps.length
     }
