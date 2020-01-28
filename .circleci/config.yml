@@ -112,38 +112,9 @@ jobs:
             fi
             echo "Your dependencies are secure enough: $SUMMARY"
             exit 0
-  testE2e:
+  testE2E:
     machine: true
-    working_directory: *WORKSPACE
     steps:
-      - attach_workspace:
-          at: *WORKSPACE
-      - add_ssh_keys:
-          fingerprints:
-            - "65:5f:43:fd:be:48:c8:45:d5:39:ef:86:14:d6:e1:12"
-      - run:
-          name: Add GitHub to known hosts
-          command: |
-            mkdir -p ~/.ssh
-            touch ~/.ssh/known_hosts
-            ssh-keygen -R github.com
-            ssh-keyscan github.com >> ~/.ssh/known_hosts
-      - run:
-          name: checkout backend
-          command: |
-            git clone git@github.com:luniehq/lunie-backend.git
-            cd lunie-backend
-            git checkout origin/develop
-      - run: 
-          name: Use NVM
-          command: |
-            echo 'export NVM_DIR="/opt/circleci/.nvm"' >> $BASH_ENV
-            echo ' [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"' >> $BASH_ENV
-      - run:
-          name: Install node version
-          command: |
-            nvm install v10.13.0
-            nvm alias default v10.13.0
       - run:
           name: Install Chrome
           command: |
@@ -152,14 +123,15 @@ jobs:
             sudo apt-get update
             sudo apt-get -y install google-chrome-stable
       - run:
-          name: Run testnet
+          # needs to be done in CI to be sure it is build once we start the tests
+          name: Run tests
           command: |
-            cd lunie-backend
-            docker-compose up --build -d
-      - run:
-          name: Test
-          command: npm run serve:dist & npm run test:e2e:local
-          no_output_timeout: 120
+            cd lunie
+            yarn install
+            npm run test:e2e:local -- --fe=https://deploy-preview-${CI_PULL_REQUEST}--lunieio.netlify.com --api=https://staging-api.lunie.io
+          environment:
+            PASSWORD: ${NETWORK_PASSWORD}
+            CHT_PWD: ${ACCOUNT_PASSWORD}
       - store_artifacts:
           path: ./screenshots
           when: on_fail
@@ -298,18 +270,18 @@ workflows:
             branches:
               ignore: release
 
-      # - e2eBuild: 
-      #     requires:
-      #       - prep
-      #     filters:
-      #       branches:
-      #         ignore:
-      #           - release
-      #           - master
+       - e2eBuild: 
+           requires:
+             - prep
+           filters:
+             branches:
+               ignore:
+                 - release
+                 - master
 
-      # - testE2e:
-      #     requires:
-      #       - e2eBuild
+       - testE2e:
+           requires:
+             - e2eBuild
 
       # - testExtension:
       #     requires:
