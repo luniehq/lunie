@@ -41,7 +41,7 @@
     </ul>
 
     <router-link to="existing">Want to use an existing address?</router-link>
-    <keysTutorial
+    <KeysTutorial
       v-if="
         showTutorial &&
           (connection.network === 'cosmos-hub-mainnet' ||
@@ -54,12 +54,12 @@
 
 <script>
 import { mapState } from "vuex"
-import keysTutorial from "src/components/tutorials/cosmos/Keys.vue"
+import KeysTutorial from "src/components/tutorials/cosmos/Keys.vue"
 
 export default {
   name: `insecure-mode-warning`,
   components: {
-    keysTutorial
+    KeysTutorial
   },
   data: () => ({
     showTutorial: false

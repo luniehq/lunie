@@ -71,16 +71,13 @@
 
       <SendModal ref="SendModal" :denoms="getAllDenoms" />
       <ModalWithdrawRewards ref="ModalWithdrawRewards" />
-      <ModalTutorial
+      <TokensTutorial
         v-if="
           showTutorial &&
             (connection.network === 'cosmos-hub-mainnet' ||
               connection.network === 'cosmos-hub-testnet')
         "
-        :steps="cosmosTokensTutorial.steps"
-        :fullguide="cosmosTokensTutorial.fullguide"
-        :background="cosmosTokensTutorial.background"
-        :close="hideTutorial"
+        @close-tutorial="closeTutorial"
       />
     </div>
   </div>
@@ -93,7 +90,7 @@ import SendModal from "src/ActionModal/components/SendModal"
 import ModalWithdrawRewards from "src/ActionModal/components/ModalWithdrawRewards"
 import { mapGetters, mapState } from "vuex"
 import gql from "graphql-tag"
-import ModalTutorial from "common/ModalTutorial"
+import TokensTutorial from "src/components/tutorials/cosmos/Tokens.vue"
 
 export default {
   name: `tm-balance`,
@@ -101,7 +98,7 @@ export default {
     TmBtn,
     SendModal,
     ModalWithdrawRewards,
-    ModalTutorial
+    TokensTutorial
   },
   filters: {
     shortDecimals,
@@ -114,44 +111,7 @@ export default {
       balances: [],
       selectedTokenFiatValue: `Tokens Total Fiat Value`,
       selectedFiatCurrency: `EUR`, // EUR is our default fiat currency
-      showTutorial: false,
-      cosmosTokensTutorial: {
-        fullguide: `https://lunie.io/guides/how-to-get-tokens/`,
-        background: `red`,
-        steps: [
-          {
-            title: "How to get tokens",
-            // Each content array item will be enclosed in a span (newline)
-            content: [
-              "The easiest way to get tokens is to find a reputable exchange, like Coinbase or Binance, to purchase your tokens from."
-            ]
-          },
-          {
-            title: "Create your address",
-            content: [
-              "You can create an address with Lunie using our browser extension, our mobile wallets or a Ledger Nano hardware wallet."
-            ]
-          },
-          {
-            title: "Back it up!",
-            content: [
-              "When you create an address, ensure your backup code is correct and in a secure place. We don't recommend using an address if you haven't backed it up appropriately."
-            ]
-          },
-          {
-            title: "Send to your address",
-            content: [
-              "The short version of your address will look something like this: cosmos...7yqp. Make sure to use the full version of your address to successfully receive tokens."
-            ]
-          },
-          {
-            title: "Have more questions?",
-            content: [
-              "Check out our full guide to getting tokens so you can start staking!"
-            ]
-          }
-        ]
-      }
+      showTutorial: false
     }
   },
   computed: {
@@ -227,7 +187,7 @@ export default {
     openTutorial() {
       this.showTutorial = true
     },
-    hideTutorial() {
+    closeTutorial() {
       this.showTutorial = false
     }
   },
