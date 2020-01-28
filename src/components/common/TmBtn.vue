@@ -53,7 +53,6 @@ export default {
   border: 2px solid var(--primary);
   transition: all 0.5s ease;
   white-space: nowrap;
-  outline: none;
 }
 
 .button:hover {

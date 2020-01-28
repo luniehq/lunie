@@ -19,6 +19,7 @@ describe(`TmModal`, () => {
       propsData: {
         close: mockCloseFn,
         fullguide: "https://lunie.io",
+        background: "red",
         steps: [
           {
             title: "How to get tokens?",
