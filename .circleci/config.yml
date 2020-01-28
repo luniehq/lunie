@@ -113,22 +113,16 @@ jobs:
             echo "Your dependencies are secure enough: $SUMMARY"
             exit 0
   testE2E:
-    machine: true
+    executor: web
     steps:
-      - run:
-          name: Install Chrome
-          command: |
-            wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
-            sudo sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list'
-            sudo apt-get update
-            sudo apt-get -y install google-chrome-stable
+      - checkout
+      - yarn-install
       - run:
           # needs to be done in CI to be sure it is build once we start the tests
           name: Run tests
           command: |
-            cd lunie
             yarn install
-            npm run test:e2e:local -- --fe=https://deploy-preview-${CI_PULL_REQUEST}--lunieio.netlify.com --api=https://staging-api.lunie.io
+            yarn test:e2e:local --fe=https://deploy-preview-${CI_PULL_REQUEST}--lunieio.netlify.com --api=https://staging-api.lunie.io
           environment:
             PASSWORD: ${NETWORK_PASSWORD}
             CHT_PWD: ${ACCOUNT_PASSWORD}
@@ -197,22 +191,6 @@ jobs:
           path: ./screenshots
           when: on_fail
 
-  e2eBuild:
-    executor: node
-    steps:
-      - attach_workspace:
-          at: *WORKSPACE
-      - run:
-          name: Build for E2e
-          command: npm run test:e2e:build
-          environment:
-            VUE_APP_GRAPHQL_URL: http://127.0.0.1:4000 # Browserstack tunneling doesn't work with "localhost"
-            NETWORK: local-cosmos-hub-testnet # Connect directly to the testnet
-      - persist_to_workspace:
-          root: *WORKSPACE
-          paths:
-            - "*"
-
   # Create release.
   release:
     executor: node
@@ -270,18 +248,7 @@ workflows:
             branches:
               ignore: release
 
-       - e2eBuild: 
-           requires:
-             - prep
-           filters:
-             branches:
-               ignore:
-                 - release
-                 - master
-
-       - testE2e:
-           requires:
-             - e2eBuild
+      - testE2e
 
       # - testExtension:
       #     requires:
