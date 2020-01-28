@@ -174,9 +174,6 @@ export default {
       }
     }
   },
-  mounted: function() {
-    console.log(this.connection)
-  },
   methods: {
     onWithdrawal() {
       this.$refs.ModalWithdrawRewards.open()
