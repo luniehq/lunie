@@ -104,6 +104,9 @@ export default {
       }))
     }
   },
+  created() {
+    this.$store.dispatch("loadAccounts")
+  },
   mounted() {
     this.setDefaultAccount(this.accounts)
   },
