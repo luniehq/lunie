@@ -47,7 +47,7 @@ export default ({ apollo }) => {
       const { storeWallet } = await import("@lunie/cosmos-keys")
       const wallet = await getWallet(seedPhrase, network, apollo)
 
-      storeWallet(wallet, name, password)
+      storeWallet(wallet, name, password, network)
 
       state.externals.track(`event`, `session`, `create-keypair`)
 
