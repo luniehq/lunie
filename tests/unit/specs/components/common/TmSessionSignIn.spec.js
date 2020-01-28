@@ -7,12 +7,43 @@ describe(`TmSessionSignIn`, () => {
   localVue.use(Vuelidate)
 
   let wrapper, $store
+  const addressPrefixes = [
+    {
+      id: "cosmos-hub-testnet",
+      address_prefix: "cosmos"
+    }
+  ]
+  const formattedAddressPrefixes = JSON.stringify(addressPrefixes)
 
   beforeEach(() => {
     $store = {
       commit: jest.fn(),
       dispatch: jest.fn(() => true),
+      getters: {
+        network: "cosmos-hub-testnet"
+      },
       state: {
+        session: {
+          address: ``,
+          addresses: [
+            {
+              address: `cosmos1z8mzakma7vnaajysmtkwt4wgjqr2m84tzvyfkz`,
+              type: `explore`
+            },
+            {
+              address: `cosmos1unc788q8md2jymsns24eyhua58palg5kc7cstv`,
+              type: `ledger`
+            },
+            {
+              address: `cosmos1vxkye0mpdtjhzrc6va5lcnxnuaa7m64khj8klc`,
+              type: `extension`
+            },
+            {
+              address: `cosmos1vxkye0mpdtjhzrc6va5lcnxnuaa7m64khj8xyz`,
+              type: `local`
+            }
+          ]
+        },
         keystore: {
           accounts: [
             {
@@ -33,6 +64,8 @@ describe(`TmSessionSignIn`, () => {
         $store
       }
     })
+
+    wrapper.setData({ formattedAddressPrefixes })
   })
 
   it(`has the expected html structure`, () => {
