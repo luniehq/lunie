@@ -146,12 +146,12 @@ export default {
       }
     },
     isANetworkAddress(param) {
-      const selectedNetwork = this.addressPrefixes.find(
-        ({ id }) => id === this.network
+      let selectedNetwork = JSON.stringify(
+        this.addressPrefixes.find(({ id }) => id === this.network)
       )
       // handling query not loaded yet or failed
       if (!selectedNetwork) return false
-
+      selectedNetwork = JSON.parse(selectedNetwork)
       if (param.startsWith(selectedNetwork.address_prefix)) {
         return true
       } else {

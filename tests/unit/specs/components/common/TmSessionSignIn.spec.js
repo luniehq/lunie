@@ -13,7 +13,10 @@ describe(`TmSessionSignIn`, () => {
       address_prefix: "cosmos"
     }
   ]
-  const formattedAddressPrefixes = JSON.stringify(addressPrefixes)
+  const addresses = [
+    `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
+    `cosmos1pxdf0lvq5jvl9uxznklgc5gxuwzpdy5ynem546`
+  ]
 
   beforeEach(() => {
     $store = {
@@ -23,6 +26,13 @@ describe(`TmSessionSignIn`, () => {
         network: "cosmos-hub-testnet"
       },
       state: {
+        keys: [
+          {
+            name: `cosmosdefault`,
+            password: `1234567890`,
+            address: addresses[0]
+          }
+        ],
         session: {
           address: ``,
           addresses: [
@@ -65,7 +75,7 @@ describe(`TmSessionSignIn`, () => {
       }
     })
 
-    wrapper.setData({ formattedAddressPrefixes })
+    wrapper.setData({ addressPrefixes })
   })
 
   it(`has the expected html structure`, () => {
@@ -75,7 +85,7 @@ describe(`TmSessionSignIn`, () => {
   it(`should close the modal on successful login`, async () => {
     wrapper.setData({
       signInPassword: `1234567890`,
-      signInAddress: `default`
+      signInAddress: `cosmosdefault`
     })
     wrapper.vm.$emit = jest.fn()
     await wrapper.vm.onSubmit()
@@ -85,12 +95,12 @@ describe(`TmSessionSignIn`, () => {
   it(`should signal signedin state on successful login`, async () => {
     wrapper.setData({
       signInPassword: `1234567890`,
-      signInAddress: `default`
+      signInAddress: `cosmosdefault`
     })
     await wrapper.vm.onSubmit()
     expect($store.dispatch).toHaveBeenCalledWith(`signIn`, {
       password: `1234567890`,
-      address: "default",
+      address: "cosmosdefault",
       sessionType: `local`
     })
   })
@@ -105,8 +115,8 @@ describe(`TmSessionSignIn`, () => {
   it(`should show a notification if signin failed`, async () => {
     $store.dispatch = jest.fn().mockResolvedValueOnce(false)
     wrapper.setData({
-      signInPassword: `1234567890`,
-      signInAddress: `default`
+      signInPassword: `1234567889`,
+      signInAddress: `cosmosdefault`
     })
     await wrapper.vm.onSubmit()
     expect(wrapper.vm.error).toBe(`The provided username or password is wrong.`)
