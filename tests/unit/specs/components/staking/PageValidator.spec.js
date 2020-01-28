@@ -101,6 +101,20 @@ describe(`PageValidator`, () => {
     wrapper.setProps({ validator: { uptimePercentage: `` } })
     expect(wrapper.element).toMatchSnapshot()
   })
+  it(`should show Staking tokens tutorial`, () => {
+    wrapper.setData({
+      showTutorial: false
+    })
+    wrapper.vm.openTutorial()
+    expect(wrapper.vm.showTutorial).toBe(true)
+  })
+  it(`should hide Staking tokens tutorial`, () => {
+    wrapper.setData({
+      showTutorial: true
+    })
+    wrapper.vm.hideTutorial()
+    expect(wrapper.vm.showTutorial).toBe(false)
+  })
 })
 
 describe(`isBlankField method`, () => {
@@ -111,7 +125,6 @@ describe(`isBlankField method`, () => {
       validator.maxCommission,
       percent
     )
-
     expect(afterFilter).toBe(`--`)
   })
 })

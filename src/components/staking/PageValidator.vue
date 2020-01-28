@@ -9,16 +9,16 @@
     class="small"
   >
     <template v-if="validator.operatorAddress" slot="managed-body">
-      <button
-        class="validators-list-button"
-        color="secondary"
-        @click="$router.push(`/validators`)"
-      >
-        <div style="display:flex; flex-direction:row; align-items: center;">
+      <div class="button-container">
+        <button class="back-button" @click="$router.push(`/validators`)">
           <i class="material-icons arrow">arrow_back</i>
           Back to Validators
-        </div>
-      </button>
+        </button>
+        <button class="tutorial-button" @click="openTutorial()">
+          <i v-if="false" class="material-icons">help_outline</i>
+          <span v-else>Want to learn about staking?</span>
+        </button>
+      </div>
       <div class="status-button-container">
         <div class="status-container">
           <span :class="validator.status | toLower" class="validator-status">
@@ -60,10 +60,11 @@
         </td>
       </tr>
 
-      <div class="button-container">
+      <div class="action-button-container">
         <TmBtn id="delegation-btn" value="Stake" @click.native="onDelegation" />
         <TmBtn
           id="undelegation-btn"
+          class="undelegation-btn"
           :disabled="delegation.amount === 0"
           value="Unstake"
           type="secondary"
@@ -168,6 +169,17 @@
         all validators
       </div>
     </template>
+    <ModalTutorial
+      v-if="
+        showTutorial &&
+          (connection.network === 'cosmos-hub-mainnet' ||
+            connection.network === 'cosmos-hub-testnet')
+      "
+      :steps="cosmosStakingTutorial.steps"
+      :fullguide="cosmosStakingTutorial.fullguide"
+      :background="cosmosStakingTutorial.background"
+      :close="hideTutorial"
+    />
   </TmPage>
 </template>
 
@@ -184,6 +196,7 @@ import Bech32 from "common/Bech32"
 import TmPage from "common/TmPage"
 import gql from "graphql-tag"
 import { ValidatorProfile, UserTransactionAdded } from "src/gql"
+import ModalTutorial from "common/ModalTutorial"
 
 function getStatusText(statusDetailed) {
   switch (statusDetailed) {
@@ -192,7 +205,7 @@ function getStatusText(statusDetailed) {
     case "banned":
       return "Validator is permanently banned from the network"
     default:
-      return "Validator is online and earning rewards"
+      return "Validator is online and generating rewards"
   }
 }
 
@@ -204,7 +217,8 @@ export default {
     UndelegationModal,
     Avatar,
     TmBtn,
-    TmPage
+    TmPage,
+    ModalTutorial
   },
   filters: {
     atoms,
@@ -226,10 +240,54 @@ export default {
     rewards: 0,
     delegation: {},
     error: false,
-    loaded: false
+    loaded: false,
+    showTutorial: false,
+    cosmosStakingTutorial: {
+      fullguide: `https://lunie.io/guides/how-cosmos-staking-works/`,
+      background: `blue`,
+      steps: [
+        {
+          title: "Intro to staking",
+          // Each content array item will be enclosed in a span (newline)
+          content: [
+            "First things first, you'll need to have some staking tokens. On this network, they are called ATOMs."
+          ]
+        },
+        {
+          title: "Validators",
+          content: [
+            "Validators are network operators who collect a fee for maintaining the integrity of the blockchain."
+          ]
+        },
+        {
+          title: "Choosing a validator",
+          content: [
+            "You can 'stake' your tokens with any validator you like. Choose by comparing their commission rate, their uptime history, and how they vote on proposals."
+          ]
+        },
+        {
+          title: "Earning rewards",
+          content: [
+            "Once you 'stake' your tokens, you'll instantly start earning rewards. Look for the “Claim Rewards” button on your portfolio page to add your rewards to your wallet."
+          ]
+        },
+        {
+          title: "Lock-up period",
+          content: [
+            "While your tokens are 'staked' you will not be able to transfer or spend them. It will take 21 days for your tokens to be in your wallet after you 'unstake' them."
+          ]
+        },
+        {
+          title: "Have more questions?",
+          content: [
+            "Check out our full staking guide for an in depth explanation of all things staking."
+          ]
+        }
+      ]
+    }
   }),
   computed: {
-    ...mapState([`session`]),
+    ...mapState([`connection`]),
     ...mapGetters([`network`]),
     ...mapGetters({ userAddress: `address` })
   },
@@ -252,6 +310,12 @@ export default {
     },
     isBlankField(field, alternateFilter) {
       return field ? alternateFilter(field) : noBlanks(field)
+    },
+    openTutorial() {
+      this.showTutorial = true
+    },
+    hideTutorial() {
+      this.showTutorial = false
     }
   },
   apollo: {
@@ -400,26 +464,37 @@ export default {
 }
 </script>
 <style scoped>
-.validators-list-button {
-  margin: 0 0 20px 10px;
-  width: 177px;
-  height: 40px;
-  background-color: #272b48;
+.back-button,
+.tutorial-button {
+  padding: 0.5rem 1rem;
+  width: auto;
   font-size: 14px;
+  background: transparent;
   color: #7a88b8;
-  border: 1px solid rgb(122, 136, 184, 0.1);
-  border-radius: 5px;
+  border: 2px solid rgb(122, 136, 184, 0.1);
+  border-radius: 0.5rem;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  font-family: var(--sans);
 }
 
-.validators-list-button:hover {
-  background: #445381;
-  color: #f1f3f7;
-  border-color: #445381;
+.back-button i {
+  padding-right: 1rem;
 }
 
-i.arrow {
-  padding-right: 20px;
+.back-button i,
+.tutorial-button i {
+  font-size: 1rem;
+}
+
+.tutorial-button span {
+  font-size: 14px;
+}
+
+.back-button:hover,
+.tutorial-button:hover {
+  background-color: rgba(255, 255, 255, 0.02);
 }
 
 .li-validator {
@@ -473,12 +548,21 @@ span {
 }
 
 .button-container {
+  justify-content: space-between;
+}
+
+.button-container,
+.action-button-container {
   display: flex;
-  align-items: flex-end;
+  align-items: center;
   padding: 0.5rem 1rem;
+}
+
+.action-button-container {
   border-bottom: 1px solid var(--bc-dim);
 }
 
+.action-button-container button:first-child,
 .button-container button:first-child {
   margin-right: 0.5rem;
 }
@@ -522,17 +606,12 @@ span {
 @media screen and (max-width: 667px) {
   .button-container {
     width: 100%;
-    padding: 1rem;
+    padding: 0 1rem;
   }
 
-  .button-container button {
+  .button-container button,
+  .action-button-container button {
     width: 50%;
-  }
-}
-
-@media screen and (min-width: 1024px) {
-  .validators-list-button {
-    display: none;
   }
 }
 </style>
