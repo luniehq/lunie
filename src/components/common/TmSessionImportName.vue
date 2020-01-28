@@ -94,16 +94,29 @@ export default {
       set(value) {
         this.$store.commit(`updateField`, { field: `name`, value })
       }
+    },
+    prefix: {
+      get() {
+        return this.$store.state.recover.prefix
+      },
+      set(value) {
+        this.$store.commit(`updateField`, { field: `prefix`, value })
+      }
     }
   },
   async created() {
     // needs to load addresses before using
-    await this.$apollo.queries.addressPrefixes.refetch()
+    await this.$apollo.queries.addressPrefixes.refetch()    
+    const selectedNetwork = this.addressPrefixes.find(
+      ({ id }) => id === this.networkId
+    )
+    this.prefix = selectedNetwork.address_prefix
     this.importCosmosAddress = await this.$store.dispatch(
       `getAddressFromSeed`,
       {
         seedPhrase: this.$store.state.recover.seed,
-        network: this.networkId
+        network: this.networkId,
+        prefix: this.prefix
       }
     )
   },

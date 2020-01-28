@@ -118,7 +118,8 @@ export default {
           seedPhrase: this.recover.seed,
           password: this.recover.password,
           name: this.recover.name,
-          network: this.networkId
+          network: this.networkId,
+          prefix: this.recover.prefix
         })
         this.$router.push(`/`)
       } catch (error) {

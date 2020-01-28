@@ -46,9 +46,10 @@ export default {
     sortedNetworks() {
       // sorts networks setting showing the current network first, mainnets at the top and the default one the first
       if (this.networks.length > 0) {
+        const selectedNetwork = this.networks.find(({ id }) => id === this.networkId)
         return [
           // current network first
-          this.networks.find(({ id }) => id === this.networkId),
+          ...(selectedNetwork ? [selectedNetwork] : []),
           ...this.networks
             // ignore the current network in the rest of the list as already showing on the top
             .filter(({ id }) => id !== this.networkId)
@@ -68,7 +69,6 @@ export default {
   },
   methods: {
     async selectNetworkHandler(network) {
-      console.log(this.networkId, network.id)
       if (this.networkId !== network.id) {
         this.$store.dispatch(`setNetwork`, network)
       }

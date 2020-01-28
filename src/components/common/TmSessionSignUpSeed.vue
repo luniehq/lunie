@@ -110,11 +110,15 @@ export default {
       this.$v.$touch()
       if (this.$v.$error) return
       try {
+        const selectedNetwork = this.addressPrefixes.find(
+          ({ id }) => id === this.networkId
+        )
         await this.$store.dispatch(`createKey`, {
           seedPhrase: this.signup.signUpSeed,
           password: this.signup.signUpPassword,
           name: this.signup.signUpName,
-          network: this.networkId
+          network: this.networkId,
+          prefix: selectedNetwork.address_prefix
         })
         this.$router.push(`/`)
       } catch (error) {
