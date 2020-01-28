@@ -71,12 +71,18 @@ async function next(browser) {
   return await browser.click(".session-footer .button")
 }
 
-async function createNewAccount(browser) {
+async function createNewAccount(browser, networkData) {
   return browser.url(
     browser.launch_url + "/welcome?insecure=true",
     async () => {
       await browser.waitForElementVisible(`body`, 10000, true)
       await browser.click("#create-new-address")
+      await browser.waitForElementVisible(
+        `.select-network-item[data-name=${networkData.network}`,
+        10000,
+        true
+      )
+      browser.click(`.select-network-item[data-name=${networkData.network}`)
       await browser.waitForElementVisible("#sign-up-name", 10000, true)
       browser.setValue("#sign-up-name", "demo-account")
       await next(browser)
@@ -286,7 +292,7 @@ async function createAccountAndFundIt(browser, done, networkData) {
   await defineNeededValidators(browser, networkData)
   await browser.refresh()
   // creating account
-  await createNewAccount(browser)
+  await createNewAccount(browser, networkData)
   await storeAccountData(browser, networkData)
   // switching to master account
   await switchToAccount(browser, networkData)
