@@ -7,6 +7,33 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.161] - 2020-01-28
+
+### Added
+
+- add terra network to tests @iambeone
+- [#3439](https://github.com/cosmos/lunie/pull/3439) Allow for network selection on account creation and import @bitcoinera
+- [#3432](https://github.com/cosmos/lunie/issues/3432) Finish tutorials @mariopino
+- [#3483](https://github.com/cosmos/lunie/issues/3483) Dont register Intercom user at init in mobile apps  @mariopino
+
+### Fixed
+
+- bugfix on creating and restoring account in different networks @iambeone
+- Bugs around networks sign-in in extension @iambeone
+- bugfix in tests @iambeone
+- [#3484](https://github.com/cosmos/lunie/pull/3484) Fixes missing denom when there are no balances in SendModal @Bitcoinera
+- Fix restaking using wrong subtotal for calculations @faboweb
+- [#3447](https://github.com/cosmos/lunie/issues/3447) Handle some failing GraphQL queries @faboweb
+- Handle network not being set in network selector (like in the extension) @faboweb
+
+### Repository
+
+- [#3468](https://github.com/cosmos/lunie/issues/3468) Do not track issues in Sentry for deploy previews @faboweb
+- Check for changelog updates on release-candidates @faboweb
+- Added script to add version to build files @faboweb
+- Deploy previews in development mode @faboweb
+- Fix publish was always triggered on develop @faboweb
+
 ## [1.0.160] - 2020-01-25
 
 ### Added
