@@ -1002,10 +1002,10 @@
     "@babel/runtime" "^7.5.4"
     axios "^0.19.0"
 
-"@lunie/cosmos-keys@0.0.12":
-  version "0.0.12"
-  resolved "https://registry.yarnpkg.com/@lunie/cosmos-keys/-/cosmos-keys-0.0.12.tgz#686ba1a9121920c0c1c11b1d01dc0ba23ed4408e"
-  integrity sha512-djYRP/t23DE/1uQBe9LSXy0HZQ5alXWTEGyxKEolWF03FzODaZNIGn27EeUHhWOgyYzXg0KeOyXw438RNJKX+Q==
+"@lunie/cosmos-keys@0.2.0":
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/@lunie/cosmos-keys/-/cosmos-keys-0.2.0.tgz#29661499d89930d07b9ef3aaf36ac18eb1ceb0ec"
+  integrity sha512-GxClN7Q9CtbdrA1reVvCOtIbgSRe6zH+ROnBOTkAaOwUAUJxGyBSK73T45LeQEfUfqd/QXtSui/fJdlRN84e1w==
   dependencies:
     bech32 "^1.1.3"
     bip32 "^2.0.4"

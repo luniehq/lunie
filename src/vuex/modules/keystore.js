@@ -35,8 +35,8 @@ export default ({ apollo }) => {
       const { getSeed } = await import("@lunie/cosmos-keys")
       return getSeed()
     },
-    async getAddressFromSeed(store, { seedPhrase, network, prefix }) {
-      const wallet = await getWallet(seedPhrase, network, apollo, prefix)
+    async getAddressFromSeed(store, { seedPhrase, network }) {
+      const wallet = await getWallet(seedPhrase, network, apollo)
       return wallet.cosmosAddress
     },
     async createKey(
@@ -47,7 +47,7 @@ export default ({ apollo }) => {
       const { storeWallet } = await import("@lunie/cosmos-keys")
       const wallet = await getWallet(seedPhrase, network, apollo)
 
-      storeWallet(wallet, name, password)
+      storeWallet(wallet, name, password, network)
 
       state.externals.track(`event`, `session`, `create-keypair`)
 

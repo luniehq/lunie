@@ -58,7 +58,6 @@ import SessionFrame from "common/SessionFrame"
 import InsecureModeWarning from "common/InsecureModeWarning"
 import Steps from "../../ActionModal/components/Steps"
 import TmSeed from "common/TmSeed"
-import gql from "graphql-tag"
 
 export default {
   name: `session-sign-up`,
@@ -74,8 +73,7 @@ export default {
   },
   data: () => ({
     error: false,
-    errorMessage: ``,
-    addressPrefixes: []
+    errorMessage: ``
   }),
   computed: {
     ...mapState([`session`, `signup`]),
@@ -110,38 +108,17 @@ export default {
       this.$v.$touch()
       if (this.$v.$error) return
       try {
-        const selectedNetwork = this.addressPrefixes.find(
-          ({ id }) => id === this.networkId
-        )
         await this.$store.dispatch(`createKey`, {
           seedPhrase: this.signup.signUpSeed,
           password: this.signup.signUpPassword,
           name: this.signup.signUpName,
-          network: this.networkId,
-          prefix: selectedNetwork.address_prefix
+          network: this.networkId
         })
         this.$router.push(`/`)
       } catch (error) {
         this.error = true
         this.errorMessage = error.message
       }
-    }
-  },
-  apollo: {
-    addressPrefixes: {
-      query: gql`
-        query Network {
-          networks {
-            id
-            address_prefix
-          }
-        }
-      `,
-      /* istanbul ignore next */
-      update(data) {
-        return data.networks
-      },
-      fetchPolicy: "cache-first"
     }
   },
   validations: () => ({
