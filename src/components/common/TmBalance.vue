@@ -71,12 +71,10 @@
 
       <SendModal ref="SendModal" :denoms="getAllDenoms" />
       <ModalWithdrawRewards ref="ModalWithdrawRewards" />
-      <TokensTutorial
-        v-if="
-          showTutorial &&
-            (connection.network === 'cosmos-hub-mainnet' ||
-              connection.network === 'cosmos-hub-testnet')
-        "
+      <AnyTutorial
+        v-if="showTutorial"
+        :network="connection.network"
+        topic="tokens"
         @close-tutorial="closeTutorial"
       />
     </div>
@@ -90,7 +88,7 @@ import SendModal from "src/ActionModal/components/SendModal"
 import ModalWithdrawRewards from "src/ActionModal/components/ModalWithdrawRewards"
 import { mapGetters, mapState } from "vuex"
 import gql from "graphql-tag"
-import TokensTutorial from "src/components/tutorials/cosmos/Tokens.vue"
+import AnyTutorial from "common/AnyTutorial"
 
 export default {
   name: `tm-balance`,
@@ -98,7 +96,7 @@ export default {
     TmBtn,
     SendModal,
     ModalWithdrawRewards,
-    TokensTutorial
+    AnyTutorial
   },
   filters: {
     shortDecimals,

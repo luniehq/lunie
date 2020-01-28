@@ -43,12 +43,10 @@
       </div>
     </div>
     <TableProposals v-else :proposals="proposals" />
-    <GovernanceTutorial
-      v-if="
-        showTutorial &&
-          (connection.network === 'cosmos-hub-mainnet' ||
-            connection.network === 'cosmos-hub-testnet')
-      "
+    <AnyTutorial
+      v-if="showTutorial"
+      :network="connection.network"
+      topic="governance"
       @close-tutorial="closeTutorial"
     />
   </TmPage>
@@ -63,7 +61,7 @@ import TmDataMsg from "common/TmDataMsg"
 import { mapGetters, mapState } from "vuex"
 import { GovernanceParameters } from "src/gql"
 import gql from "graphql-tag"
-import GovernanceTutorial from "src/components/tutorials/cosmos/Governance.vue"
+import AnyTutorial from "common/AnyTutorial"
 
 export default {
   name: `page-proposals`,
@@ -73,7 +71,7 @@ export default {
     TmDataMsg,
     TmBtn,
     TmPage,
-    GovernanceTutorial
+    AnyTutorial
   },
   data: () => ({
     proposals: [],

@@ -169,12 +169,10 @@
         all validators
       </div>
     </template>
-    <StakingTutorial
-      v-if="
-        showTutorial &&
-          (connection.network === 'cosmos-hub-mainnet' ||
-            connection.network === 'cosmos-hub-testnet')
-      "
+    <AnyTutorial
+      v-if="showTutorial"
+      :network="connection.network"
+      topic="staking"
       @close-tutorial="closeTutorial"
     />
   </TmPage>
@@ -193,7 +191,7 @@ import Bech32 from "common/Bech32"
 import TmPage from "common/TmPage"
 import gql from "graphql-tag"
 import { ValidatorProfile, UserTransactionAdded } from "src/gql"
-import StakingTutorial from "src/components/tutorials/cosmos/Staking.vue"
+import AnyTutorial from "common/AnyTutorial"
 
 function getStatusText(statusDetailed) {
   switch (statusDetailed) {
@@ -215,7 +213,7 @@ export default {
     Avatar,
     TmBtn,
     TmPage,
-    StakingTutorial
+    AnyTutorial
   },
   filters: {
     atoms,
