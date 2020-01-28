@@ -95,7 +95,7 @@ describe(`DelegationModal`, () => {
     expect(self.$refs.actionModal.validateChangeStep).toHaveBeenCalled()
   })
 
-  it.only(`opens`, () => {
+  it(`opens`, () => {
     const $refs = { actionModal: { open: jest.fn() } }
     const $apollo = wrapper.vm.$apollo
     DelegationModal.methods.open.call({ $refs, $apollo })
@@ -189,6 +189,10 @@ describe(`DelegationModal`, () => {
         amount: 10,
         fromSelectedIndex: 2
       })
+    })
+
+    it("should set the subtotal to 0 on a restake", () => {
+      expect(wrapper.html()).toMatchSnapshot()
     })
 
     it("should return correct transaction data for redelegating", () => {

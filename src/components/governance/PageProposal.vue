@@ -305,6 +305,9 @@ export default {
         }
       },
       update(data) {
+        if (!data.proposals) {
+          return []
+        }
         /* istanbul ignore next */
         if (
           data.proposals.find(
@@ -326,7 +329,7 @@ export default {
         /* istanbul ignore next */
         this.loaded = true
         /* istanbul ignore next */
-        return data.proposal
+        return data.proposal || {}
       },
       variables() {
         /* istanbul ignore next */
@@ -378,8 +381,8 @@ export default {
         return !this.address || !this.found
       },
       update(data) {
-        /* istanbul ignore next */
-        return data.vote.option
+        if (data.vote) return data.vote.option
+        return undefined
       },
       result(data) {
         /* istanbul ignore next */

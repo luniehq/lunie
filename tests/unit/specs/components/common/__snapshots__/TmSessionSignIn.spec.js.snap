@@ -16,7 +16,7 @@ exports[`TmSessionSignIn has the expected html structure 1`] = `
     </h2>
      
     <div
-      class="session-main"
+      class="session-main bottom-indent"
     >
       <tmformgroup-stub
         fieldid="sign-in-name"

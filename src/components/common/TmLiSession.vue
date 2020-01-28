@@ -20,7 +20,11 @@ export default {
   props: {
     icon: {
       type: String,
-      required: true
+      default: ``
+    },
+    img: {
+      type: String,
+      default: ``
     },
     title: {
       type: String,
@@ -57,6 +61,12 @@ export default {
 
 .tm-li-session-icon i {
   font-size: 1.25rem;
+}
+
+.tm-li-session-icon img {
+  max-height: 100%;
+  max-width: 52px;
+  display: block;
 }
 
 .tm-li-session-title {

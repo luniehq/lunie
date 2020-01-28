@@ -16,7 +16,7 @@ exports[`TmSessionSignUp renders 1`] = `
      
     <div>
       <div
-        class="session-main"
+        class="session-main bottom-indent"
       >
         <steps-stub
           activestep="Create"

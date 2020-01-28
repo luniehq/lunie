@@ -20,7 +20,7 @@ exports[`TmSessionHardware should show a state indicator for different states of
               <!----> <button class="button">
                 Sign In
               </button>
-            </div> <img src="~assets/images/loader.svg" alt="a small spinning circle to display loading" style="display: none;">
+            </div>
           </div>
         </div>
       </div>
@@ -42,8 +42,7 @@ exports[`TmSessionHardware should show a state indicator for different states of
       </h2>
       <div class="session-main">
         <div class="tm-hardware-state">
-          <div class="tm-hardware-state-content">
-            <!---->
+          <div class="tm-hardware-state-content"><img src="~assets/images/loader.svg" alt="a small spinning circle to display loading" class="tm-hardware-state__icon">
             <div class="tm-hardware-state__label">
               <p>
                 Please plug in your Ledger&nbsp;Nano and open the Cosmos Ledger
@@ -52,7 +51,7 @@ exports[`TmSessionHardware should show a state indicator for different states of
               <!----> <button class="button" disabled="disabled">
                 Waiting for Ledger
               </button>
-            </div> <img src="~assets/images/loader.svg" alt="a small spinning circle to display loading" style="">
+            </div>
           </div>
         </div>
       </div>
@@ -74,13 +73,12 @@ exports[`TmSessionHardware should show a state indicator for different states of
       </h2>
       <div class="session-main">
         <div class="tm-hardware-state">
-          <div class="tm-hardware-state-content">
-            <!---->
+          <div class="tm-hardware-state-content"><img src="~assets/images/loader.svg" alt="a small spinning circle to display loading" class="tm-hardware-state__icon">
             <div class="tm-hardware-state__label">
               <!---->
               <!----> <button class="button" disabled="disabled">
 
-              </button></div> <img src="~assets/images/loader.svg" alt="a small spinning circle to display loading" style="">
+              </button></div>
           </div>
         </div>
       </div>
@@ -166,12 +164,6 @@ exports[`TmSessionHardware shows the ledger conection view when there're errors 
 
               </button>
             </div>
-             
-            <img
-              alt="a small spinning circle to display loading"
-              src="~assets/images/loader.svg"
-              style="display: none;"
-            />
           </div>
         </div>
       </div>
@@ -271,12 +263,6 @@ exports[`TmSessionHardware shows the ledger conection view with no errors 1`] = 
 
               </button>
             </div>
-             
-            <img
-              alt="a small spinning circle to display loading"
-              src="~assets/images/loader.svg"
-              style="display: none;"
-            />
           </div>
         </div>
       </div>
@@ -326,7 +312,7 @@ exports[`TmSessionHardware sign in does show the instructions to enable HID on W
               <!---->
               <!----> <button class="button">
                 Sign In
-              </button></div> <img src="~assets/images/loader.svg" alt="a small spinning circle to display loading" style="display: none;">
+              </button></div>
           </div>
         </div>
       </div>
@@ -362,7 +348,7 @@ exports[`TmSessionHardware sign in does show the instructions to fix connection 
                 </i></div> <br> <br>
               <!----> <button class="button">
                 Sign In
-              </button></div> <img src="~assets/images/loader.svg" alt="a small spinning circle to display loading" style="display: none;">
+              </button></div>
           </div>
         </div>
       </div>

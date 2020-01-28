@@ -348,6 +348,11 @@ export default {
         }
       },
       update(result) {
+        if (!result.delegation) {
+          return {
+            amount: 0
+          }
+        }
         /* istanbul ignore next */
         return {
           ...result.delegation,
@@ -385,7 +390,9 @@ export default {
       },
       update(result) {
         /* istanbul ignore next */
-        return result.rewards.length > 0 ? result.rewards[0] : { amount: 0 }
+        return result.rewards && result.rewards.length > 0
+          ? result.rewards[0]
+          : { amount: 0 }
       }
     },
     validator: {
@@ -398,6 +405,8 @@ export default {
         }
       },
       update(result) {
+        if (!result.validator) return {}
+
         /* istanbul ignore next */
         this.loaded = true
         /* istanbul ignore next */

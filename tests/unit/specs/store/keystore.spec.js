@@ -17,7 +17,7 @@ const mockKeysLib = {
 jest.mock("@lunie/cosmos-keys", () => mockKeysLib)
 
 describe(`Module: Keystore`, () => {
-  let module, state, actions, mutations
+  let module, state, actions, mutations, apollo
   const accounts = [
     {
       address: `tb1zg69v7yszg69v7yszg69v7yszg69v7ysd8ep6q`,
@@ -26,18 +26,23 @@ describe(`Module: Keystore`, () => {
   ]
 
   beforeEach(() => {
-    module = keystoreModule()
+    apollo = {
+      query: jest.fn(() => ({
+        data: {
+          network: {
+            address_creator: "cosmos",
+            address_prefix: "cosmos"
+          }
+        }
+      }))
+    }
+    module = keystoreModule({ apollo })
     state = module.state
     actions = module.actions
     mutations = module.mutations
 
     state.externals = {
-      track: jest.fn(),
-      config: {
-        bech32Prefixes: {
-          "cosmos-hub-mainnet": "cosmos"
-        }
-      }
+      track: jest.fn()
     }
   })
 
@@ -166,6 +171,10 @@ describe(`Module: Keystore`, () => {
   })
 
   it("should handle networks not being supported for account creation (as a fallback)", async () => {
+    apollo.query.mockImplementationOnce(() => ({
+      data: {}
+    }))
+
     const seedPhrase = `abc`
     const password = `123`
     const name = `def`
