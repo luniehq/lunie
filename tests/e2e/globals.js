@@ -49,7 +49,7 @@ module.exports = {
   reporter: function(results) {
     if (
       (typeof results.failed === `undefined` || results.failed === 0) &&
-      (typeof results.error === `undefined` || results.error === 0)
+      (typeof results.errors === `undefined` || results.errors === 0)
     ) {
       process.exit(0)
     } else {
