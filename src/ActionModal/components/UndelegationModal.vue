@@ -326,11 +326,7 @@ export default {
     },
     balance: {
       query: gql`
-        query Balance (
-          $networkId: String!
-          $address: String!
-          $denom: String!
-        ) {
+        query Balance($networkId: String!, $address: String!, $denom: String!) {
           balance(networkId: $networkId, address: $address, denom: $denom) {
             amount
             denom
