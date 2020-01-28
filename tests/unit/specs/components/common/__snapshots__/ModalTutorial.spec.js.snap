@@ -3,6 +3,7 @@
 exports[`TmModal has the expected html structure 1`] = `
 <div
   class="modal-tutorial"
+  steps="[object Object],[object Object],[object Object],[object Object]"
   tabindex="0"
 >
   <main
@@ -64,59 +65,19 @@ exports[`TmModal has the expected html structure 1`] = `
           <span
             class="step completed"
           />
-          <span
-            class="step"
-          />
-          <span
-            class="step"
-          />
-          <span
-            class="step"
-          />
         </div>
       </div>
-       
-      <h2>
-        How to get tokens?
-      </h2>
-       
-      <p>
-        <span
-          class="content-item"
-        >
-          
-              Praesent vitae tristique erat.
-            
-        </span>
-        <span
-          class="content-item"
-        >
-          
-              Integer ullamcorper ligula vel dolor sagittis nec fermentum risus pharetra.
-            
-        </span>
-        <span
-          class="content-item"
-        >
-          
-              Nulla mollis tempus sem, a sollicitudin est facilisis ac.
-            
-        </span>
-      </p>
-       
+        
       <button
         class="button primary"
       >
         
-            Next step
+            Read the full guide
             
         <i
-          class="material-icons arrow_forward"
+          class="material-icons arrow_forward final-step"
         />
       </button>
-      <!---->
-      <!---->
-      <!---->
     </div>
   </main>
 </div>

@@ -8,6 +8,22 @@ import TutorialCosmosKeys from "src/components/tutorials/cosmos/Keys.vue"
 import TutorialCosmosTokens from "src/components/tutorials/cosmos/Tokens.vue"
 import TutorialCosmosGovernance from "src/components/tutorials/cosmos/Governance.vue"
 
+// Map network/topic to component
+const tutorials = {
+  "cosmos-hub-mainnet": {
+    staking: `tutorial-cosmos-staking`,
+    keys: `tutorial-cosmos-keys`,
+    tokens: `tutorial-cosmos-tokens`,
+    governance: `tutorial-cosmos-governance`
+  },
+  "cosmos-hub-testnet": {
+    staking: `tutorial-cosmos-staking`,
+    keys: `tutorial-cosmos-keys`,
+    tokens: `tutorial-cosmos-tokens`,
+    governance: `tutorial-cosmos-governance`
+  }
+}
+
 export default {
   name: `any-tutorial`,
   components: {
@@ -26,34 +42,14 @@ export default {
       required: true
     }
   },
+  data: function() {
+    return {
+      tutorials
+    }
+  },
   computed: {
     tutorialComponent() {
-      if (
-        (this.network === `cosmos-hub-mainnet` ||
-          this.network === `cosmos-hub-testnet`) &&
-        this.topic === `staking`
-      ) {
-        return `tutorial-cosmos-staking`
-      } else if (
-        (this.network === `cosmos-hub-mainnet` ||
-          this.network === `cosmos-hub-testnet`) &&
-        this.topic === `governance`
-      ) {
-        return `tutorial-cosmos-governance`
-      } else if (
-        (this.network === `cosmos-hub-mainnet` ||
-          this.network === `cosmos-hub-testnet`) &&
-        this.topic === `keys`
-      ) {
-        return `tutorial-cosmos-keys`
-      } else if (
-        (this.network === `cosmos-hub-mainnet` ||
-          this.network === `cosmos-hub-testnet`) &&
-        this.topic === `tokens`
-      ) {
-        return `tutorial-cosmos-tokens`
-      }
-      return ``
+      return tutorials[this.network][this.topic] || ``
     }
   },
   methods: {
