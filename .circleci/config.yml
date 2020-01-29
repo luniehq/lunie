@@ -121,8 +121,8 @@ jobs:
           # needs to be done in CI to be sure it is build once we start the tests
           name: Run tests
           command: |
-            PASSWORD=$NETWORK_PASSWORD
-            CHT_PWD=$ACCOUNT_PASSWORD
+            set PASSWORD=$NETWORK_PASSWORD
+            set CHT_PWD=$ACCOUNT_PASSWORD
             PR_NUMBER="$(echo $CIRCLE_PULL_REQUEST | cut -d'/' -f 7)"
             yarn test:e2e:browserstack --fe=https://deploy-preview-${PR_NUMBER}--lunieio.netlify.com --api=https://staging-api.lunie.io
 
