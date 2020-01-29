@@ -138,13 +138,10 @@ export default {
       try {
         this.address = await getAddressFromLedger(this.networkId, this.$apollo)
         this.$router.push(`/`)
-      } catch ({ message }) {
+      } catch (error) {
         this.status = `connect`
-        this.connectionError = message
-        Sentry.withScope(scope => {
-          scope.setExtra("ledgerConnectionError", message)
-          Sentry.captureException(message)
-        })
+        this.connectionError = error.message
+        Sentry.captureException(error)
         return
       }
 
