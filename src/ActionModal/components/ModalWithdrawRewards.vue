@@ -103,7 +103,7 @@ export default {
       },
       update(data) {
         /* istanbul ignore next */
-        return data.rewards
+        return data.rewards || []
       },
       skip() {
         return !this.address

@@ -167,7 +167,7 @@ export default {
         /* istanbul ignore next */
         this.loaded = true
         /* istanbul ignore next */
-        return data.proposals
+        return data.proposals || []
       }
     },
     parameters: {
@@ -177,7 +177,7 @@ export default {
       },
       update(data) {
         /* istanbul ignore next */
-        return data.governanceParameters
+        return data.governanceParameters || {}
       }
     },
     $subscribe: {

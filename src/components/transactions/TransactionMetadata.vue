@@ -86,7 +86,7 @@ export default {
       },
       update(data) {
         /* istanbul ignore next */
-        return data.network
+        return data.network || {}
       }
     }
   }

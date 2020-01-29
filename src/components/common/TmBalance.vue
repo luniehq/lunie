@@ -290,6 +290,10 @@ export default {
         }
       },
       /* istanbul ignore next */
+      update(data) {
+        return data.balances || []
+      },
+      /* istanbul ignore next */
       skip() {
         return !this.address
       }

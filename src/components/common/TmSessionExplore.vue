@@ -229,7 +229,7 @@ export default {
       `,
       /* istanbul ignore next */
       update(data) {
-        return data.networks
+        return data.networks || []
       },
       fetchPolicy: "cache-first"
     }

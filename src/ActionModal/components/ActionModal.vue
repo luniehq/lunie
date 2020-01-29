@@ -755,13 +755,13 @@ export default {
           address: this.session.address
         }
       },
+      /* istanbul ignore next */
       update(data) {
         if (!data.overview) {
           return {
             totalRewards: 0
           }
         }
-        /* istanbul ignore next */
         return {
           ...data.overview,
           totalRewards: Number(data.overview.totalRewards)
@@ -798,8 +798,7 @@ export default {
       },
       update(data) {
         /* istanbul ignore next */
-
-        return data.network
+        return data.network || {}
       }
     },
     $subscribe: {

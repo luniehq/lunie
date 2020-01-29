@@ -30,7 +30,7 @@ export default {
           }
         }
       `,
-      update: result => result.maintenance
+      update: result => result.maintenance || []
     }
   }
 }

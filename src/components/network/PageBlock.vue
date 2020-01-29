@@ -104,7 +104,13 @@ export default {
           networkId: this.network
         }
       },
+      /* istanbul ignore next */
       update: function(result) {
+        if (!result) {
+          return {
+            validators: []
+          }
+        }
         return result.validators
       }
     },

@@ -226,7 +226,7 @@ export default {
   },
   data: () => ({
     proposals: [],
-    vote: undefined,
+    vote: {},
     proposal: {
       status: "",
       proposer: "",
@@ -353,7 +353,7 @@ export default {
       },
       update(data) {
         /* istanbul ignore next */
-        return data.governanceParameters
+        return data.governanceParameters || {}
       },
       skip() {
         /* istanbul ignore next */
@@ -382,7 +382,7 @@ export default {
       },
       update(data) {
         if (data.vote) return data.vote.option
-        return undefined
+        return {}
       },
       result(data) {
         /* istanbul ignore next */

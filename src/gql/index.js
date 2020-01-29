@@ -112,8 +112,9 @@ query Networks {
 }
 `
 
-export const NetworkCapabilityResult = action => data => data.network[action]
-export const NetworksResult = data => data.networks
+export const NetworkCapabilityResult = action => data =>
+  data ? data.network[action] : ""
+export const NetworksResult = data => (data ? data.networks : [])
 
 const ProposalFragment = `
   id

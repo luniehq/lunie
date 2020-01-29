@@ -324,7 +324,7 @@ export default {
       },
       update(data) {
         /* istanbul ignore next */
-        return data.validators
+        return data.validators || []
       }
     },
     delegations: {
@@ -358,7 +358,7 @@ export default {
       },
       update(data) {
         /* istanbul ignore next */
-        return data.delegations
+        return data.delegations || []
       }
     },
     balance: {
