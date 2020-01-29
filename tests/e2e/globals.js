@@ -11,6 +11,8 @@ const {
   fundMasterAccount
 } = require("./helpers.js")
 
+let initializedAccount = false
+
 module.exports = {
   // controls the timeout time for async hooks. Expects the done() callback to be invoked within this time
   // or an error is thrown
@@ -21,14 +23,14 @@ module.exports = {
     browser.resizeWindow(1350, 1080)
 
     browser.launch_url = browser.globals.feURI
+    // default settings
+    let networkData = await initialiseDefaults(browser)
+    // creating testing account and funding it with the master account
+    networkData.password = process.env.PASSWORD
 
-    if (!browser.globals.init) {
-      // default settings
-      let networkData = await initialiseDefaults(browser)
-      // creating testing account and funding it with the master account
-      networkData.password = process.env.PASSWORD
+    if (!initializedAccount) {
       await createAccountAndFundIt(browser, done, networkData)
-      browser.globals.init = true
+      initializedAccount = true
     }
 
     checkBrowserLogs(browser)
