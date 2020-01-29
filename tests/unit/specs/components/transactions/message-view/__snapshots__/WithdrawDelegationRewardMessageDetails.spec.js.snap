@@ -17,19 +17,21 @@ exports[`WithdrawalDelegationRewardMessageDetails renders a withdraw delegation 
     </h3>
      
     <div>
-      <span>
-        Rewards from 
-      </span>
-       
-      <router-link-stub
-        class="validator-link"
-        to="/staking/validators/cosmosvaloper15r4tc0m6hc7z8drq3dzlrtcs6rq2q9l2nvwher"
-      >
-        <!---->
+      <div>
+        <span>
+          Rewards from 
+        </span>
+         
+        <router-link-stub
+          class="validator-link"
+          to="/staking/validators/cosmosvaloper15r4tc0m6hc7z8drq3dzlrtcs6rq2q9l2nvwher"
+        >
+          <!---->
+          
+          SuperValidator
         
-        SuperValidator
-      
-      </router-link-stub>
+        </router-link-stub>
+      </div>
     </div>
   </div>
 </div>
@@ -52,19 +54,21 @@ exports[`WithdrawalDelegationRewardMessageDetails renders a withdraw delegation 
     </h3>
      
     <div>
-      <span>
-        Rewards from 
-      </span>
-       
-      <router-link-stub
-        class="validator-link"
-        to="/staking/validators/cosmosvaloper15r4tc0m6hc7z8drq3dzlrtcs6rq2q9l2nvwher"
-      >
-        <!---->
+      <div>
+        <span>
+          Rewards from 
+        </span>
+         
+        <router-link-stub
+          class="validator-link"
+          to="/staking/validators/cosmosvaloper15r4tc0m6hc7z8drq3dzlrtcs6rq2q9l2nvwher"
+        >
+          <!---->
+          
+          SuperValidator
         
-        SuperValidator
-      
-      </router-link-stub>
+        </router-link-stub>
+      </div>
     </div>
   </div>
 </div>
