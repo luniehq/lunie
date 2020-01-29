@@ -7,7 +7,7 @@
     <template v-if="session.browserWithLedgerSupport">
       <div class="session-main">
         <HardwareState :loading="status === `connect` ? false : true">
-          <template v-if="isWindows && !hasHIDEnabled">
+          <template v-if="!hasHIDEnabled">
             Due to recent Ledger updates, using a Ledger on Windows now requires
             "Experimental Web Platform features" to be enabled.
             <template v-if="isChrome">
@@ -33,25 +33,6 @@
               <br />
               <br />
             </template>
-          </template>
-          <template v-else-if="isLinux">
-            Since we switched to WebUSB Linux users may experience connection
-            issues with their devices.
-            <br />
-            <br />
-            Please visit the following site to learn more about how to fix them:
-            <div
-              v-clipboard:copy="linuxLedgerConnectionLink"
-              v-clipboard:success="() => onCopy()"
-              class="copy-feature-link"
-            >
-              {{ linuxLedgerConnectionLink }}
-              <i class="material-icons copied" :class="{ active: copySuccess }">
-                check
-              </i>
-            </div>
-            <br />
-            <br />
           </template>
           <template v-else-if="status === `connect` || status === `detect`">
             <p>

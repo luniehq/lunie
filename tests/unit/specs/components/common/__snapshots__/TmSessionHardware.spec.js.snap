@@ -13,14 +13,12 @@ exports[`TmSessionHardware should show a state indicator for different states of
           <div class="tm-hardware-state-content">
             <!---->
             <div class="tm-hardware-state__label">
-              <p>
-                Please plug in your Ledger&nbsp;Nano and open the Cosmos Ledger
-                app
-              </p>
+              Due to recent Ledger updates, using a Ledger on Windows now requires
+              "Experimental Web Platform features" to be enabled.
+              <!---->
               <!----> <button class="button">
                 Sign In
-              </button>
-            </div>
+              </button></div>
           </div>
         </div>
       </div>
@@ -44,14 +42,12 @@ exports[`TmSessionHardware should show a state indicator for different states of
         <div class="tm-hardware-state">
           <div class="tm-hardware-state-content"><img src="~assets/images/loader.svg" alt="a small spinning circle to display loading" class="tm-hardware-state__icon">
             <div class="tm-hardware-state__label">
-              <p>
-                Please plug in your Ledger&nbsp;Nano and open the Cosmos Ledger
-                app
-              </p>
+              Due to recent Ledger updates, using a Ledger on Windows now requires
+              "Experimental Web Platform features" to be enabled.
+              <!---->
               <!----> <button class="button" disabled="disabled">
                 Waiting for Ledger
-              </button>
-            </div>
+              </button></div>
           </div>
         </div>
       </div>
@@ -75,6 +71,8 @@ exports[`TmSessionHardware should show a state indicator for different states of
         <div class="tm-hardware-state">
           <div class="tm-hardware-state-content"><img src="~assets/images/loader.svg" alt="a small spinning circle to display loading" class="tm-hardware-state__icon">
             <div class="tm-hardware-state__label">
+              Due to recent Ledger updates, using a Ledger on Windows now requires
+              "Experimental Web Platform features" to be enabled.
               <!---->
               <!----> <button class="button" disabled="disabled">
 
@@ -141,12 +139,11 @@ exports[`TmSessionHardware shows the ledger conection view when there're errors 
             <div
               class="tm-hardware-state__label"
             >
-              <p>
-                
-            Please plug in your Ledger Nano and open the Cosmos Ledger
-            app
+              
+          Due to recent Ledger updates, using a Ledger on Windows now requires
+          "Experimental Web Platform features" to be enabled.
           
-              </p>
+              <!---->
                
               <p
                 class="error-message"
@@ -246,12 +243,11 @@ exports[`TmSessionHardware shows the ledger conection view with no errors 1`] = 
             <div
               class="tm-hardware-state__label"
             >
-              <p>
-                
-            Please plug in your Ledger Nano and open the Cosmos Ledger
-            app
+              
+          Due to recent Ledger updates, using a Ledger on Windows now requires
+          "Experimental Web Platform features" to be enabled.
           
-              </p>
+              <!---->
                
               <!---->
                
@@ -337,15 +333,9 @@ exports[`TmSessionHardware sign in does show the instructions to fix connection 
           <div class="tm-hardware-state-content">
             <!---->
             <div class="tm-hardware-state__label">
-              Since we switched to WebUSB Linux users may experience connection
-              issues with their devices.
-              <br> <br>
-              Please visit the following site to learn more about how to fix them:
-              <div class="copy-feature-link">
-                https://support.ledger.com/hc/en-us/articles/360019301813-Fix-USB-issues
-                <i class="material-icons copied">
-                  check
-                </i></div> <br> <br>
+              Due to recent Ledger updates, using a Ledger on Windows now requires
+              "Experimental Web Platform features" to be enabled.
+              <!---->
               <!----> <button class="button">
                 Sign In
               </button></div>
