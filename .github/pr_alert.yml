@@ -15,3 +15,5 @@ jobs:
         SLACK_USERNAME: 'luniebot'
         SLACK_ICON: 'https://emoji.slack-edge.com/TH6F97TDF/lunie/4ac63c1d435c04dc.png'
         SLACK_MESSAGE: ${{ github.event.pull_request.title }} | ${{ github.event.pull_request.body }} | ${{ github.event.pull_request._links.html.href }}
+    - name: curl message
+      run: curl -X POST --data-urlencode "payload={\"channel\": \"#pr_alerts\", \"username\": \"pr_alert\", \"text\": \"Some pr need to be merged.\", \"icon_emoji\": \":ghost:\"}" https://hooks.slack.com/services/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
