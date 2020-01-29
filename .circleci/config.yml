@@ -122,7 +122,7 @@ jobs:
           name: Run tests
           command: |
             PR_NUMBER="$(echo $CIRCLE_PULL_REQUEST | cut -d'/' -f 7)"
-            yarn test:e2e:browserstack --fe=https://deploy-preview-${PR_NUMBER}--lunieio.netlify.com --api=https://staging-api.lunie.io
+            yarn test:e2e:local --fe=https://deploy-preview-${PR_NUMBER}--lunieio.netlify.com --api=https://staging-api.lunie.io
           environment:
             PASSWORD: ${NETWORK_PASSWORD}
             CHT_PWD: ${ACCOUNT_PASSWORD}
