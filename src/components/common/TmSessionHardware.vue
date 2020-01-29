@@ -89,6 +89,7 @@ import { mapState, mapGetters } from "vuex"
 import HardwareState from "common/TmHardwareState"
 import SessionFrame from "common/SessionFrame"
 import { getAddressFromLedger } from "scripts/ledger"
+import * as Sentry from "@sentry/browser"
 
 export default {
   name: `session-hardware`,
@@ -140,6 +141,10 @@ export default {
       } catch ({ message }) {
         this.status = `connect`
         this.connectionError = message
+        Sentry.withScope(scope => {
+          scope.setExtra("ledgerConnectionError", message)
+          Sentry.captureException(message)
+        })
         return
       }
 
