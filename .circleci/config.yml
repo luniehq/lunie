@@ -117,6 +117,16 @@ jobs:
     steps:
       - attach_workspace:
           at: *WORKSPACE
+      - run: 
+          name: Use NVM
+          command: |
+            echo 'export NVM_DIR="/opt/circleci/.nvm"' >> $BASH_ENV
+            echo ' [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"' >> $BASH_ENV
+      - run:
+          name: Install node version
+          command: |
+            nvm install v10.13.0
+            nvm alias default v10.13.0
       - run:
           name: Install Chrome
           command: |
@@ -129,7 +139,7 @@ jobs:
           name: Run tests
           command: |
             PR_NUMBER="$(echo $CIRCLE_PULL_REQUEST | cut -d'/' -f 7)"
-            yarn test:e2e:local --fe=https://deploy-preview-${PR_NUMBER}--lunieio.netlify.com --api=https://staging-api.lunie.io
+            npm run test:e2e:local -- --fe=https://deploy-preview-${PR_NUMBER}--lunieio.netlify.com --api=https://staging-api.lunie.io
           environment:
             PASSWORD: ${NETWORK_PASSWORD}
             CHT_PWD: ${ACCOUNT_PASSWORD}
