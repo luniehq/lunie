@@ -89,6 +89,7 @@ import { mapState, mapGetters } from "vuex"
 import HardwareState from "common/TmHardwareState"
 import SessionFrame from "common/SessionFrame"
 import { getAddressFromLedger } from "scripts/ledger"
+import * as Sentry from "@sentry/browser"
 
 export default {
   name: `session-hardware`,
@@ -137,9 +138,10 @@ export default {
       try {
         this.address = await getAddressFromLedger(this.networkId, this.$apollo)
         this.$router.push(`/`)
-      } catch ({ message }) {
+      } catch (error) {
         this.status = `connect`
-        this.connectionError = message
+        this.connectionError = error.message
+        Sentry.captureException(error)
         return
       }
 
