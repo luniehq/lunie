@@ -20,6 +20,8 @@ module.exports = {
     // standardize window format
     browser.resizeWindow(1350, 1080)
 
+    browser.launch_url = browser.globals.feURI
+
     if (!browser.globals.init) {
       // default settings
       let networkData = await initialiseDefaults(browser)
@@ -27,9 +29,8 @@ module.exports = {
       networkData.password = process.env.PASSWORD
       await createAccountAndFundIt(browser, done, networkData)
       browser.globals.init = true
-    } else {
-      browser.launch_url = browser.globals.feURI
     }
+
     checkBrowserLogs(browser)
     done()
   },
