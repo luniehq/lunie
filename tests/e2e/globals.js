@@ -80,9 +80,18 @@ async function createNewAccount(browser, networkData) {
       await browser.waitForElementVisible(
         `.select-network-item[data-network=${networkData.network}]`,
         10000,
-        true
+        true,
+        () => {
+          browser.execute(
+            function(network) {
+              document
+                .querySelector(`.select-network-item[data-network=${network}]`)
+                .click()
+            },
+            [networkData.network]
+          )
+        }
       )
-      browser.click(`.select-network-item[data-network=${networkData.network}]`)
       await browser.waitForElementVisible("#sign-up-name", 10000, true)
       browser.setValue("#sign-up-name", "demo-account")
       await next(browser)
