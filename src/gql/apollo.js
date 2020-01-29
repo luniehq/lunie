@@ -2,6 +2,7 @@ import Vue from "vue"
 import { ApolloClient } from "apollo-boost"
 import { BatchHttpLink } from "apollo-link-batch-http"
 import { RetryLink } from "apollo-link-retry"
+import { ApolloLink, Observable as LinkObservable } from "apollo-link"
 import { createPersistedQueryLink } from "apollo-link-persisted-queries"
 import { WebSocketLink } from "apollo-link-ws"
 import { InMemoryCache } from "apollo-cache-inmemory"
@@ -35,17 +36,48 @@ const makeWebSocketLink = () => {
 }
 
 const createApolloClient = () => {
-  const link = split(
-    ({ query }) => {
-      const definition = getMainDefinition(query)
-      return (
-        definition.kind === "OperationDefinition" &&
-        definition.operation === "subscription"
-      )
-    },
-    makeWebSocketLink(),
-    makeHttpLink()
-  )
+  const link = ApolloLink.from([
+    // suspending errors, preventing to fire them
+    new ApolloLink((operation, forward) => {
+      return new LinkObservable(observer => {
+        let sub
+        sub = forward(operation).subscribe({
+          next: result => {
+            observer.next(result)
+          },
+          error: err => {
+            console.log(err)
+            /*
+            here we can somehow manage errors
+            // loggin them
+            console.log(err)
+            // firing an error
+            observer.error(err);
+            // or just call end function with some data
+            observer.next({
+              error: 'we have an error!'
+            })
+            */
+          },
+          complete: observer.complete.bind(observer)
+        })
+        return () => {
+          if (sub) sub.unsubscribe()
+        }
+      })
+    }),
+    split(
+      ({ query }) => {
+        const definition = getMainDefinition(query)
+        return (
+          definition.kind === "OperationDefinition" &&
+          definition.operation === "subscription"
+        )
+      },
+      makeWebSocketLink(),
+      makeHttpLink()
+    )
+  ])
 
   const cache = new InMemoryCache()
 
