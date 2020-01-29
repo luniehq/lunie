@@ -6,21 +6,21 @@
     />
     <div class="tx__content__left">
       <h3>{{ caption }}</h3>
-      <span>Rewards from&nbsp;</span>
-      <router-link
-        :to="`/staking/validators/${transaction.value.validator_address}`"
-        class="validator-link"
-      >
-        <img
-          v-if="validator && validator.picture"
-          :src="validator.picture"
-          class="validator-image"
-          :alt="`validator logo for ` + validator.name"
-        />
-        {{
-          transaction.value.validator_address | resolveValidatorName(validators)
-        }}
-      </router-link>
+      <div v-for="validator in getValidators" :key="validator.name">
+        <span>Rewards from&nbsp;</span>
+        <router-link
+          :to="`/staking/validators/${validator.operatorAddress}`"
+          class="validator-link"
+        >
+          <img
+            v-if="getValidators.length > 0 && validator.picture"
+            :src="validator.picture"
+            class="validator-image"
+            :alt="`validator logo for ` + validator.name"
+          />
+          {{ validator.operatorAddress | resolveValidatorName(validators) }}
+        </router-link>
+      </div>
     </div>
   </div>
 </template>
@@ -58,8 +58,15 @@ export default {
     }
   },
   computed: {
-    validator() {
-      return this.validators[this.transaction.value.validator_address] || false
+    getValidators() {
+      if (this.transaction.value.length > 1) {
+        let validators = []
+        this.transaction.value.forEach(msg => {
+          validators.push(this.validators[msg.value.validator_address] || {})
+        })
+        return validators
+      }
+      return [this.validators[this.transaction.value.validator_address]] || []
     }
   }
 }
