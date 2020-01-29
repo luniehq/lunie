@@ -1,5 +1,3 @@
-require("browserstack-local")
-
 const nightwatch_config = {
   src_folders: ["tests/e2e"],
   globals_path: "./globals.js",
@@ -20,7 +18,6 @@ const nightwatch_config = {
         "browserstack.user": process.env.BROWSERSTACK_USERNAME || "",
         "browserstack.key": process.env.BROWSERSTACK_ACCESS_KEY || "",
         "browserstack.debug": true,
-        "browserstack.local": true,
         "browserstack.networkLogs": false,
         browser: "chrome",
         resolution: "1920x1080",
