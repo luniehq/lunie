@@ -113,7 +113,7 @@ jobs:
             echo "Your dependencies are secure enough: $SUMMARY"
             exit 0
   testE2e:
-    executor: web
+    machine: true
     steps:
       - attach_workspace:
           at: *WORKSPACE
