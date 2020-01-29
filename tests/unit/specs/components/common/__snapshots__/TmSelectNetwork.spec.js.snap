@@ -16,6 +16,7 @@ exports[`TmSelectNetwork has the expected html structure 1`] = `
     >
       <li
         class="select-network-item selected"
+        data-network="localnet"
       >
         <networkitem-stub
           network="[object Object]"
@@ -23,6 +24,7 @@ exports[`TmSelectNetwork has the expected html structure 1`] = `
       </li>
       <li
         class="select-network-item"
+        data-network="la-red-feliz"
       >
         <networkitem-stub
           network="[object Object]"
@@ -30,6 +32,7 @@ exports[`TmSelectNetwork has the expected html structure 1`] = `
       </li>
       <li
         class="select-network-item"
+        data-network="emilys-chain"
       >
         <networkitem-stub
           network="[object Object]"
@@ -37,6 +40,7 @@ exports[`TmSelectNetwork has the expected html structure 1`] = `
       </li>
       <li
         class="select-network-item"
+        data-network="awesomenet"
       >
         <networkitem-stub
           network="[object Object]"
@@ -44,6 +48,7 @@ exports[`TmSelectNetwork has the expected html structure 1`] = `
       </li>
       <li
         class="select-network-item"
+        data-network="keine-ahnungnet"
       >
         <networkitem-stub
           network="[object Object]"
