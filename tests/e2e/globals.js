@@ -25,10 +25,11 @@ module.exports = {
     browser.launch_url = browser.globals.feURI
     // default settings
     let networkData = await initialiseDefaults(browser)
-    // creating testing account and funding it with the master account
     networkData.password = process.env.PASSWORD
+    browser.globals.password = networkData.password
 
     if (!initializedAccount) {
+      // creating testing account and funding it with the master account
       await createAccountAndFundIt(browser, done, networkData)
       initializedAccount = true
     }
