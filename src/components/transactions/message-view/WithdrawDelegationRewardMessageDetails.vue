@@ -8,7 +8,11 @@
       <h3>{{ caption }}</h3>
       <div v-if="getValidators.length > 0">
         <div v-for="validator in getValidators" :key="validator.name">
-          <span>Rewards from&nbsp;</span>
+          <span v-if="validator === getValidators[0]">Rewards from&nbsp;</span>
+          <div
+            v-if="validator !== getValidators[0]"
+            class="validator-margin"
+          ></div>
           <router-link
             :to="`/staking/validators/${validator.operatorAddress}`"
             class="validator-link"
@@ -78,3 +82,10 @@ export default {
   }
 }
 </script>
+<style scoped>
+.validator-margin {
+  width: 92px;
+  float: left;
+  height: 15px;
+}
+</style>
