@@ -9,6 +9,9 @@ import config from "src/../config"
 import router, { routeGuard } from "./router"
 import Store from "./vuex/store"
 import { createApolloProvider } from "src/gql/apollo.js"
+import { main } from "../tasks/check-chunks-version"
+
+main()
 
 function setOptions(urlParams, store) {
   if (urlParams.experimental) {
