@@ -77,7 +77,7 @@ module.exports = {
 
     return config
   },
-  productionSourceMap: false,
+
   pluginOptions: {
     lintStyleOnBuild: false,
     stylelint: {}
