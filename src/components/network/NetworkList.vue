@@ -7,7 +7,7 @@
       :class="{ selected: currentNetwork === network.id }"
       @click="selectNetworkHandler(network)"
     >
-      <NetworkItem :network-in-item="network" />
+      <NetworkItem :networkitem="network" />
     </li>
   </ul>
 </template>

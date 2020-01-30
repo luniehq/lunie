@@ -1,28 +1,28 @@
 <template>
-  <div class="network-item" :class="{ active: network === networkInItem.id }">
+  <div class="network-item" :class="{ active: network === networkitem.id }">
     <div class="network-icon">
       <img
-        :src="`${networkInItem.icon}`"
-        :alt="`logo for network ${networkInItem.title}`"
+        :src="`${networkitem.icon}`"
+        :alt="`logo for network ${networkitem.title}`"
       />
     </div>
     <div class="network-content">
       <h4 class="network-title">
-        {{ networkInItem.title }}
+        {{ networkitem.title }}
       </h4>
       <p class="network-caption">
-        {{ networkInItem.chain_id }}
+        {{ networkitem.chain_id }}
       </p>
     </div>
     <div class="network-status">
       <img
-        v-if="!connected && network === networkInItem.id"
+        v-if="!connected && network === networkitem.id"
         class="tm-connected-network-loader"
         src="~assets/images/loader.svg"
         alt="a small spinning circle to display loading"
       />
       <div
-        v-else-if="connected && network === networkInItem.id"
+        v-else-if="connected && network === networkitem.id"
         class="network-selected"
       >
         <i class="material-icons">check</i>
@@ -37,7 +37,7 @@ import { mapGetters } from "vuex"
 export default {
   name: `network-item`,
   props: {
-    networkInItem: {
+    networkitem: {
       type: Object,
       required: true
     },
@@ -47,8 +47,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters([`connected`]),
-    ...mapGetters([`network`])
+    ...mapGetters([`connected`, `network`])
   }
 }
 </script>
