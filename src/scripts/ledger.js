@@ -24,7 +24,9 @@ export const getAddressFromLedger = async (networkId, apollo) => {
   } finally {
     // cleanup. if we leave this open, the next connection will brake for HID
     // TODO move this into the leder lib
-    ledger.cosmosApp.transport.close()
+    if (ledger && ledger.cosmosApp) {
+      ledger.cosmosApp.transport.close()
+    }
   }
 }
 
@@ -38,7 +40,9 @@ export async function showAddressOnLedger(networkId, apollo) {
   } finally {
     // cleanup. if we leave this open, the next connection will brake for HID
     // TODO move this into the leder lib
-    ledger.cosmosApp.transport.close()
+    if (ledger && ledger.cosmosApp) {
+      ledger.cosmosApp.transport.close()
+    }
   }
 }
 
