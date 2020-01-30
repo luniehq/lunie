@@ -43,16 +43,21 @@ const createApolloClient = () => {
         let sub
         sub = forward(operation).subscribe({
           next: result => {
-            observer.next(result)
+            // check if we have errors
+            if (!result.errors) {
+              observer.next(result)
+            } else {
+              console.log(result.errors)
+            }
           },
           error: err => {
             console.log(err)
+            //observer.error(err);
             /*
             here we can somehow manage errors
             // loggin them
             console.log(err)
             // firing an error
-            observer.error(err);
             // or just call end function with some data
             observer.next({
               error: 'we have an error!'
