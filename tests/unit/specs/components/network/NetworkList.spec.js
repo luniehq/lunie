@@ -4,7 +4,7 @@ import NetworkList from "network/NetworkList"
 const localVue = createLocalVue()
 
 describe(`NetworkList`, () => {
-  let wrapper
+  let wrapper, $store
 
   const networks = [
     {
@@ -24,23 +24,19 @@ describe(`NetworkList`, () => {
   ]
 
   beforeEach(() => {
+    $store = {
+      dispatch: jest.fn(),
+      getters: {
+        network: `cosmoshub`
+      }
+    }
     wrapper = shallowMount(NetworkList, {
       localVue,
       propsData: {
         networks
       },
       mocks: {
-        $store: {
-          dispatch: jest.fn(),
-          state: {
-            connection: {
-              network: `cosmoshub`
-            },
-            session: {
-              signedIn: false
-            }
-          }
-        },
+        $store,
         $route: {
           params: { height: `100` }
         },
