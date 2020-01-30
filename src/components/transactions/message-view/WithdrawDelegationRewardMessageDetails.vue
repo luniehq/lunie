@@ -6,24 +6,42 @@
     />
     <div class="tx__content__left">
       <h3>{{ caption }}</h3>
-      <div v-if="getValidators.length > 0">
+      <div v-if="getValidators && getValidators.length === 1">
+        <span>Rewards from&nbsp;</span>
+        <router-link
+          :to="`/staking/validators/${transaction.value.validator_address}`"
+          class="validator-link"
+        >
+          <img
+            v-if="getValidators.picture"
+            :src="getValidators.picture"
+            class="validator-image"
+            :alt="`validator logo for ` + getValidators.name"
+          />
+          {{
+            transaction.value.validator_address
+              | resolveValidatorName(validators)
+          }}
+        </router-link>
+      </div>
+      <div v-if="getValidators && getValidators.length > 1">
         <div v-for="validator in getValidators" :key="validator.name">
-          <span v-if="validator === getValidators[0]">Rewards from&nbsp;</span>
-          <div
-            v-if="validator !== getValidators[0]"
-            class="validator-margin"
-          ></div>
           <router-link
-            :to="`/staking/validators/${validator.operatorAddress}`"
+            :to="`/staking/validators/${transaction.value.validator_address}`"
             class="validator-link"
           >
+            <Avatar
+              v-if="!validator.picture || validator.picture === 'null'"
+              class="validator-image"
+              alt="generic validator logo - generated avatar from address"
+              :address="validator.operatorAddress"
+            />
             <img
-              v-if="validator.picture"
+              v-if="validator && validator.picture"
               :src="validator.picture"
               class="validator-image"
               :alt="`validator logo for ` + validator.name"
             />
-            {{ validator.operatorAddress | resolveValidatorName(validators) }}
           </router-link>
         </div>
       </div>
@@ -35,6 +53,7 @@
 import { atoms, viewDenom, prettyLong } from "scripts/num.js"
 import { resolveValidatorName } from "src/filters"
 import TransactionIcon from "../TransactionIcon"
+import Avatar from "common/Avatar"
 
 export default {
   name: `withdraw-delegation-reward-message-details`,
@@ -45,7 +64,8 @@ export default {
     resolveValidatorName
   },
   components: {
-    TransactionIcon
+    TransactionIcon,
+    Avatar
   },
   props: {
     transaction: {
