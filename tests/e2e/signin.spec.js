@@ -25,6 +25,21 @@ module.exports = {
     browser.pause(500)
     browser.click("#recover-with-backup")
 
+    await browser.waitForElementVisible(
+      `.select-network-item[data-network=cosmos-hub-mainnet]`,
+      10000,
+      true,
+      () => {
+        browser.execute(function() {
+          document
+            .querySelector(
+              `.select-network-item[data-network=cosmos-hub-mainnet]`
+            )
+            .click()
+        }, [])
+      }
+    )
+
     browser.waitForElementVisible("#import-seed", 10000, true)
     await next(browser)
     browser.expect.elements(".tm-form-msg--error").count.to.equal(1)
