@@ -40,6 +40,13 @@ const router = new Router({
   routes
 })
 
+router.onError(error => {
+  // if we fail fetching any chunk, we refresh the page to fetch the new version chunks
+  if (/loading chunk \d* failed./i.test(error.message)) {
+    window.location.reload()
+  }
+})
+
 export default router
 
 // check if feature is allowed and redirect if not
