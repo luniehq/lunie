@@ -16,7 +16,7 @@
     </div>
     <div class="network-status">
       <img
-        v-if="!connected && network === networkitem.id"
+        v-if="!connected && network === networkitem.id && connection"
         class="tm-connected-network-loader"
         src="~assets/images/loader.svg"
         alt="a small spinning circle to display loading"
@@ -32,7 +32,7 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex"
+import { mapGetters, mapState } from "vuex"
 
 export default {
   name: `network-item`,
@@ -47,7 +47,8 @@ export default {
     }
   },
   computed: {
-    ...mapGetters([`connected`, `network`])
+    ...mapGetters([`connected`, `network`]),
+    ...mapState([`connection`])
   }
 }
 </script>
