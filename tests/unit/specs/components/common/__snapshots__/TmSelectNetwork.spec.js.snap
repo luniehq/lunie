@@ -18,35 +18,35 @@ exports[`TmSelectNetwork has the expected html structure 1`] = `
         class="select-network-item selected"
       >
         <networkitem-stub
-          network="[object Object]"
+          networkitem="[object Object]"
         />
       </li>
       <li
         class="select-network-item"
       >
         <networkitem-stub
-          network="[object Object]"
+          networkitem="[object Object]"
         />
       </li>
       <li
         class="select-network-item"
       >
         <networkitem-stub
-          network="[object Object]"
+          networkitem="[object Object]"
         />
       </li>
       <li
         class="select-network-item"
       >
         <networkitem-stub
-          network="[object Object]"
+          networkitem="[object Object]"
         />
       </li>
       <li
         class="select-network-item"
       >
         <networkitem-stub
-          network="[object Object]"
+          networkitem="[object Object]"
         />
       </li>
     </ul>
