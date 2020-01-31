@@ -49,7 +49,7 @@
               class="row-validator-image"
             >
               <Avatar
-                class="validator-image validator-avatar"
+                class="validator-image"
                 alt="generic validator logo - generated avatar from address"
                 :address="validator.operatorAddress"
               />
@@ -132,12 +132,12 @@ export default {
 }
 .multi-claim-reward-row {
   display: flex;
+  align-items: center;
 }
 .multi-claim-reward-h3 {
   margin-right: 20px;
 }
 .row-validator-image {
-  float: left;
   padding: 5px;
 }
 .validator-image {
@@ -148,12 +148,8 @@ export default {
   vertical-align: middle;
   margin: 0 2px 2px 2px;
 }
-.validator-avatar {
-  margin: 3px 4px 0 4px;
-}
 .multi-claim-reward-show {
   margin-left: 40px;
-  margin-top: 5px;
   color: var(--link);
 }
 .multi-claim-reward-show:hover {
