@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import App from './App'
-import store from '../store'
-import router from './router'
+import Store from '../store'
+import Router from './router'
 import config from '../../config'
 import Vuelidate from 'vuelidate'
 import VueAnalytics from 'vue-analytics'
@@ -10,11 +10,17 @@ import Tooltip from 'vue-directive-tooltip'
 import { focusElement } from 'src/directives'
 import * as Sentry from '@sentry/browser'
 import * as Integrations from '@sentry/integrations'
+import { createApolloProvider } from './gql/apollo.js'
 
 global.browser = require('webextension-polyfill')
 Vue.prototype.$browser = global.browser
 
+const apolloProvider = createApolloProvider()
+const apolloClient = apolloProvider.clients.defaultClient
+const store = Store({ apollo: apolloClient })
 store.dispatch('loadAccounts')
+
+const router = Router(store)
 
 Vue.use(Tooltip, { delay: 1 })
 Vue.use(Vuelidate)
@@ -54,5 +60,6 @@ new Vue({
   el: '#app',
   store,
   router,
+  apolloProvider,
   render: h => h(App)
 })

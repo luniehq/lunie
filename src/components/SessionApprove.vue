@@ -80,7 +80,9 @@ import Bech32 from 'common/Bech32'
 import { required } from 'vuelidate/lib/validators'
 import { parseTx, parseFee, parseValueObj } from '../scripts/parsers.js'
 import { atoms } from 'scripts/num.js'
-import { getValidatorsData } from '../store/actions.js'
+import actions from '../store/actions.js'
+
+const getValidatorsData = actions({}).getValidatorsData
 
 import { flattenTransactionMsgs } from 'scripts/transaction-utils'
 

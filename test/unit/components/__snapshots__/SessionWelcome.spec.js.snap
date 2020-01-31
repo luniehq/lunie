@@ -18,20 +18,23 @@ exports[`SessionWelcome has the expected html structure 1`] = `
       <lisession-stub
         icon="person_add"
         id="create-new-address"
-        route="/create"
+        img=""
+        route="/selectnetwork"
         title="Create a new address"
       />
        
       <lisession-stub
         icon="settings_backup_restore"
         id="recover-with-backup"
-        route="/recover"
+        img=""
+        route="/selectnetwork/recover"
         title="Recover with backup code"
       />
        
       <lisession-stub
         icon="person"
         id="see-accounts"
+        img=""
         route="/accounts"
         title="See existing accounts"
       />

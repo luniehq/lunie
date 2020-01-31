@@ -26,8 +26,7 @@ $ cd lunie-browser-extension
 This repository uses Lunie core as a dependency. Install the submodule via:
 
 ```bash
-$ git submodule init
-$ git submodule update
+$ yarn initiate-submodule
 ```
 
 Note: To reference components easily some aliases are set to the submodule in the webpack config.
@@ -38,7 +37,7 @@ Note: To reference components easily some aliases are set to the submodule in th
 $ yarn install
 ```
 
-## Set environment 
+## Set environment
 
 You need to provide the endpoint of the Lunie API via the environment variable `LUNIE_API`
 
@@ -63,9 +62,9 @@ $ yarn run build
 
 If you would like to integrate your website with the Lunie Browser Extension, enabling your users to securely sign transactions, please follow these instructions.
 
-To communicate with the extension we internally use the browser messaging API. Thankfully this is done for you. Please copy the code from the `https://github.com/luniehq/lunie/blob/master/src/scripts/extension-utils.js` to your own website. This code exports functions that you may use through out your website to send and receive messages from the extension.
+To communicate with the extension we internally use the browser messaging API. Thankfully this is done for you. Please copy the code from the `https://github.com/luniehq/lunie/blob/master/src/scripts/extension-utils.js` to your website. This code exports functions that you may use throughout your website to send and receive messages from the extension.
 
-We use Vue.js to create Lunie and our extension utils assumes the use of Vuex.
+We use Vue.js to create Lunie and our extension utils assume the use of Vuex.
 
 There are 3 main functions:
 

@@ -4,36 +4,36 @@ import Vuelidate from 'vuelidate'
 
 import * as getters from './getters'
 import * as mutations from './mutations'
-import * as actions from './actions'
+import actions from './actions'
 
 Vue.use(Vuex)
 Vue.use(Vuelidate)
 
-const modules = {}
-
-export default new Vuex.Store({
-  state: {
-    accounts: [],
-    signRequest: null,
-    session: {
-      insecureMode: true
+export default (opts = {}) => {
+  return new Vuex.Store({
+    state: {
+      accounts: [],
+      signRequest: null,
+      session: {
+        insecureMode: true
+      },
+      signup: {
+        signUpName: ``,
+        signUpPassword: ``,
+        signUpPasswordConfirm: ``,
+        signUpWarning: false,
+        signUpSeed: ``
+      },
+      recover: {
+        seed: ``,
+        name: ``,
+        password: ``,
+        passwordConfirm: ``
+      },
+      network: ''
     },
-    signup: {
-      signUpName: ``,
-      signUpPassword: ``,
-      signUpPasswordConfirm: ``,
-      signUpWarning: false,
-      signUpSeed: ``
-    },
-    recover: {
-      seed: ``,
-      name: ``,
-      password: ``,
-      passwordConfirm: ``
-    }
-  },
-  getters,
-  modules,
-  actions,
-  mutations
-})
+    getters,
+    actions: actions(opts),
+    mutations
+  })
+}

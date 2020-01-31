@@ -6,8 +6,9 @@ export const setAccounts = (state, accounts) => {
   state.accounts = accounts
 }
 
-export const setInsecureMode = () => {}
-export const notify = () => {}
+export const setNetworkId = (state, networkId) => {
+  state.network = networkId
+}
 
 export const updateField = (state, payload) => {
   // Recover flow
@@ -19,6 +20,9 @@ export const updateField = (state, payload) => {
   }
   if (payload.field === `password`) {
     state.recover.password = payload.value
+  }
+  if (payload.field === `prefix`) {
+    state.recover.prefix = payload.value
   }
   if (payload.field === `passwordConfirm`) {
     state.recover.passwordConfirm = payload.value

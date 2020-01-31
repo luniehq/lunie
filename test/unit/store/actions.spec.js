@@ -1,4 +1,15 @@
-import {
+import actions from 'store/actions'
+
+let mockApollo = {
+  async query() {
+    return {
+      data: {
+        network: { id: `localnet`, address_prefix: 'lcl' }
+      }
+    }
+  }
+}
+const {
   createSeed,
   createKey,
   loadAccounts,
@@ -7,7 +18,9 @@ import {
   approveSignRequest,
   rejectSignRequest,
   getValidatorsData
-} from 'store/actions'
+} = actions({
+  apollo: mockApollo
+})
 
 describe('actions', () => {
   beforeEach(() => {
@@ -38,7 +51,12 @@ describe('actions', () => {
     )
     await createKey(
       { dispatch },
-      { seedPhrase: 'seed words', password: '1234567890', name: 'TEST' }
+      {
+        seedPhrase: 'seed words',
+        password: '1234567890',
+        name: 'TEST',
+        network: 'localnet'
+      }
     )
     expect(dispatch).toHaveBeenCalledWith('loadAccounts')
     expect(window.chrome.runtime.sendMessage).toHaveBeenCalledWith(
@@ -47,7 +65,9 @@ describe('actions', () => {
         payload: {
           password: '1234567890',
           name: 'TEST',
-          mnemonic: 'seed words'
+          network: 'localnet',
+          mnemonic: 'seed words',
+          prefix: 'lcl'
         }
       },
       expect.any(Function)
