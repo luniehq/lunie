@@ -58,6 +58,8 @@
   <!-- built files will be auto injected -->
 
   <script>
+    // check for the current version on the server and refresh the page if that is the local version is outdated
+    // in plain JS so this is served with the index.html ans executed immediatly
     if (process.env.NODE_ENV === "production") {
       const currentVersion = "<%= process.env.LUNIE_VERSION %>"
 
