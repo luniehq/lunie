@@ -37,8 +37,8 @@ All functionality listed below will work with the appropriate combination of Lun
 - [ ] View transaction history
 
 **Staking functionality**
-- [ ] View Akash validator list in Lunie
-- [ ] Ability to view Akash network portfolio
+- [ ] View validator list in Lunie
+- [ ] Ability to view network portfolio
 - [ ] Ability to stake tokens
 - [ ] Ability to unstake, restake tokens
 - [ ] Ability to claim rewards
