@@ -18,7 +18,7 @@
         </p>
       </div>
 
-      <div v-else class="session-main">
+      <div v-else-if="accounts.length" class="session-main">
         <p class="extension-message">
           Below is a list of accounts we've received from the Lunie browser
           extension.
@@ -28,6 +28,13 @@
           :button-action="signIn"
           :button-text="`Use Account`"
         />
+      </div>
+
+      <div v-else class="session-main">
+        <p class="extension-message">
+          Looks like you don't have any accounts yet. Head over to
+          <router-link to="selectnetwork">create one</router-link>.
+        </p>
       </div>
     </div>
   </SessionFrame>
