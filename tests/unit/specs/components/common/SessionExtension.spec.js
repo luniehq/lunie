@@ -4,20 +4,22 @@ import TmSessionExtension from "common/TmSessionExtension"
 describe(`SessionExtension`, () => {
   let wrapper, $store
 
+  const accounts = [
+    {
+      address: "cosmos1234",
+      name: "TEST_WALLET"
+    },
+    {
+      address: "cosmos15678",
+      name: "TEST_WALLET_2"
+    }
+  ]
+
   beforeEach(() => {
     const state = {
       extension: {
         enabled: true,
-        accounts: [
-          {
-            address: "cosmos1234",
-            name: "TEST_WALLET"
-          },
-          {
-            address: "cosmos15678",
-            name: "TEST_WALLET_2"
-          }
-        ]
+        accounts
       }
     }
 
@@ -50,10 +52,11 @@ describe(`SessionExtension`, () => {
   })
 
   it("should trigger sign in call and route the user to the homepage", () => {
-    wrapper.vm.signIn(`cosmosaddress123`)
+    wrapper.vm.signIn(accounts[0])
     expect($store.dispatch).toHaveBeenCalledWith("signIn", {
-      sessionType: `extension`,
-      address: "cosmosaddress123"
+      address: "cosmos1234",
+      networkId: "cosmos-hub-mainnet",
+      sessionType: `extension`
     })
     expect(wrapper.vm.$router.push).toHaveBeenCalledWith(`/`)
   })
