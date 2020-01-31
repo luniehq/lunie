@@ -14,7 +14,7 @@
         >
           <Avatar
             v-if="
-              !getValidators[0].picture || getValidators[0].picture === null
+              !getValidators[0].picture || getValidators[0].picture === 'null'
             "
             class="validator-image"
             alt="generic validator logo - generated avatar from address"
@@ -44,17 +44,21 @@
             :to="`/staking/validators/${transaction.value.validator_address}`"
             class="validator-link"
           >
-            <div class="row-validator-image">
+            <div
+              v-if="!validator.picture || validator.picture === 'null'"
+              class="row-validator-image"
+            >
               <Avatar
-                v-if="!validator.picture || validator.picture === 'null'"
                 class="validator-image validator-avatar"
                 alt="generic validator logo - generated avatar from address"
                 :address="validator.operatorAddress"
               />
             </div>
-            <div class="row-validator-image">
+            <div
+              v-if="validator && validator.picture"
+              class="row-validator-image"
+            >
               <img
-                v-if="validator && validator.picture"
                 :src="validator.picture"
                 class="validator-image"
                 :alt="`validator logo for ` + validator.name"
@@ -109,24 +113,12 @@ export default {
         this.transaction.value.forEach(msg => {
           validators.push(this.validators[msg.value.validator_address] || {})
         })
-        if (
-          this.transaction.hash ===
-          "BFB1707EFDE6B79948ACBF343068379BD14405AFABD430803B12922E0E229411"
-        ) {
-          console.log(validators)
-        }
         return validators
       }
       // hack for something I don't fully understand yet. a [{...}, [Observer]] structure coming up in Terra
       if (this.transaction.value.validator_address) {
         return [this.validators[this.transaction.value.validator_address]] || []
       } else {
-        if (
-          this.transaction.hash ===
-          "BFB1707EFDE6B79948ACBF343068379BD14405AFABD430803B12922E0E229411"
-        ) {
-          console.log(this.transaction.value[0].value.validator_address)
-        }
         return [this.transaction.value[0].value.validator_address] || []
       }
     }
@@ -148,8 +140,16 @@ export default {
   float: left;
   padding: 5px;
 }
+.validator-image {
+  border-radius: 100%;
+  padding: -1px;
+  height: 1rem;
+  width: 1rem;
+  vertical-align: middle;
+  margin: 0 2px 2px 2px;
+}
 .validator-avatar {
-  margin: 3px -9px 0 9px;
+  margin: 3px 4px 0 4px;
 }
 .multi-claim-reward-show {
   margin-left: 40px;
