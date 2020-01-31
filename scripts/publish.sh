@@ -1,5 +1,10 @@
-#!/bin/sh
-
-ACCESS_TOKEN=$(curl "https://www.googleapis.com/oauth2/v4/token" -d "client_id=${GAPI_CLIENT_ID}&client_secret=${GAPI_CLIENT_SECRET}&refresh_token=${GAPI_REFRESH_TOKEN}&grant_type=refresh_token" | jq -r .access_token)
-curl -H "Authorization: Bearer ${ACCESS_TOKEN}" -H "x-goog-api-version: 2" -X PUT -T $1 -v "https://www.googleapis.com/upload/chromewebstore/v1.1/items/${APP_ID}"
-curl -H "Authorization: Bearer ${ACCESS_TOKEN}" -H "x-goog-api-version: 2" -H "Content-Length: 0" -X POST -v "https://www.googleapis.com/chromewebstore/v1.1/items/${APP_ID}/publish"
+if git describe --exact-match --tags HEAD $1 >/dev/null 2>&1
+then
+    echo "Publishing"
+    git config user.email "bot@lunie.io"
+    git config user.name "MergeBack Lunie Bot"
+    git remote add bot https://${GIT_BOT_TOKEN}@github.com/luniehq/lunie.git
+    git push origin develop:master
+else
+    echo "No tag found so not publishing"
+fi

@@ -171,23 +171,17 @@ jobs:
           git config user.email "bot@lunie.io"
           git config user.name "Lunie Bot"
           node node_modules/simsala/src/cli.js release-candidate --owner luniehq --repository lunie-browser-extension --token $GIT_BOT_TOKEN
-
-  # Push merges to master immediatly back to develop to stay in sync
-  mergeBack:
+            
+  publish:
     docker:
       - image: circleci/node:10.15.3
     steps:
       - checkout
       - run:
-          command: |
-            git remote add bot https://${GIT_BOT_TOKEN}@github.com/luniehq/lunie.git
-            git checkout develop -f
-            git pull -f --no-edit
-            git merge origin/master --no-edit
-            git push
+          command: ./scripts/publish.sh
 
-  # publish to the Chrome Web Store
-  publish:
+  # deploy to the Chrome Web Store
+  deploy:
     docker:
       - image: circleci/node:10.15.3
     steps:
@@ -197,7 +191,7 @@ jobs:
           npm run initiate-submodule
           npm run build
           npm run build-zip
-          ./scripts/publish.sh ./dist-zip/lunie-browser-extension.zip
+          ./scripts/deploy.sh ./dist-zip/lunie-browser-extension.zip
 
 workflows:
   version: 2
@@ -240,15 +234,17 @@ workflows:
             branches:
               only:
                 - release
-  mergeBack:
-    jobs:
-      - mergeBack:
-          filters:
-            branches:
-              only: master
+          
   publish:
     jobs:
       - publish:
+          filters:
+            branches:
+              only: develop
+          
+  deploy:
+    jobs:
+      - deploy:
           filters:
             branches:
               only: master

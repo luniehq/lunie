@@ -38,6 +38,10 @@ Note: To reference components easily some aliases are set to the submodule in th
 $ yarn install
 ```
 
+## Set environment 
+
+You need to provide the endpoint of the Lunie API via the environment variable `LUNIE_API`
+
 ## Develop (with hot reload)
 
 ```bash
