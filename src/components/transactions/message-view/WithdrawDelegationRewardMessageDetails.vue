@@ -4,19 +4,27 @@
       :transaction-group="transaction.group"
       :transaction-type="type"
     />
-    <div class="tx__content__left">
-      <h3>{{ caption }}</h3>
-      <div v-if="getValidators && getValidators.length === 1">
+    <div v-if="getValidators && getValidators.length === 1">
+      <div class="tx__content__left">
+        <h3>{{ caption }}</h3>
         <span>Rewards from&nbsp;</span>
         <router-link
           :to="`/staking/validators/${transaction.value.validator_address}`"
           class="validator-link"
         >
-          <img
-            v-if="getValidators.picture"
-            :src="getValidators.picture"
+          <Avatar
+            v-if="
+              !getValidators[0].picture || getValidators[0].picture === null
+            "
             class="validator-image"
-            :alt="`validator logo for ` + getValidators.name"
+            alt="generic validator logo - generated avatar from address"
+            :address="getValidators[0].operatorAddress"
+          />
+          <img
+            v-if="getValidators[0].picture"
+            :src="getValidators[0].picture"
+            class="validator-image"
+            :alt="`validator logo for ` + getValidators[0].name"
           />
           {{
             transaction.value.validator_address
@@ -24,26 +32,37 @@
           }}
         </router-link>
       </div>
-      <div v-if="getValidators && getValidators.length > 1">
+    </div>
+    <div
+      v-if="getValidators && getValidators.length > 1"
+      class="validators-images-row"
+    >
+      <div class="tx__content__left multi-claim-reward-row">
+        <h3 class="multi-claim-reward-h3">{{ caption }}</h3>
         <div v-for="validator in getValidators" :key="validator.name">
           <router-link
             :to="`/staking/validators/${transaction.value.validator_address}`"
             class="validator-link"
           >
-            <Avatar
-              v-if="!validator.picture || validator.picture === 'null'"
-              class="validator-image"
-              alt="generic validator logo - generated avatar from address"
-              :address="validator.operatorAddress"
-            />
-            <img
-              v-if="validator && validator.picture"
-              :src="validator.picture"
-              class="validator-image"
-              :alt="`validator logo for ` + validator.name"
-            />
+            <div class="row-validator-image">
+              <Avatar
+                v-if="!validator.picture || validator.picture === 'null'"
+                class="validator-image validator-avatar"
+                alt="generic validator logo - generated avatar from address"
+                :address="validator.operatorAddress"
+              />
+            </div>
+            <div class="row-validator-image">
+              <img
+                v-if="validator && validator.picture"
+                :src="validator.picture"
+                class="validator-image"
+                :alt="`validator logo for ` + validator.name"
+              />
+            </div>
           </router-link>
         </div>
+        <span class="multi-claim-reward-show">Show</span>
       </div>
     </div>
   </div>
@@ -90,12 +109,24 @@ export default {
         this.transaction.value.forEach(msg => {
           validators.push(this.validators[msg.value.validator_address] || {})
         })
+        if (
+          this.transaction.hash ===
+          "BFB1707EFDE6B79948ACBF343068379BD14405AFABD430803B12922E0E229411"
+        ) {
+          console.log(validators)
+        }
         return validators
       }
       // hack for something I don't fully understand yet. a [{...}, [Observer]] structure coming up in Terra
       if (this.transaction.value.validator_address) {
         return [this.validators[this.transaction.value.validator_address]] || []
       } else {
+        if (
+          this.transaction.hash ===
+          "BFB1707EFDE6B79948ACBF343068379BD14405AFABD430803B12922E0E229411"
+        ) {
+          console.log(this.transaction.value[0].value.validator_address)
+        }
         return [this.transaction.value[0].value.validator_address] || []
       }
     }
@@ -103,9 +134,29 @@ export default {
 }
 </script>
 <style scoped>
-.validator-margin {
-  width: 92px;
+.validators-images-row {
+  display: flex;
+  flex-direction: row;
+}
+.multi-claim-reward-row {
+  display: flex;
+}
+.multi-claim-reward-h3 {
+  margin-right: 20px;
+}
+.row-validator-image {
   float: left;
-  height: 15px;
+  padding: 5px;
+}
+.validator-avatar {
+  margin: 3px -9px 0 9px;
+}
+.multi-claim-reward-show {
+  margin-left: 40px;
+  margin-top: 5px;
+  color: var(--link);
+}
+.multi-claim-reward-show:hover {
+  color: var(--link-hover);
 }
 </style>
