@@ -7,6 +7,29 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.10] - 2020-01-31
+
+### Added
+
+- [#108](https://github.com/cosmos/lunie/issues/108) Sentry integration was added @iambeone
+- Allow extension in netlify deployment previews @faboweb
+- Add stepped create and recover account flows @mariopino
+
+### Changed
+
+- [#125](https://github.com/cosmos/lunie/pull/125) Updates to the latest cosmos-keys version, where we can create accounts for different networks @Bitcoinera
+- fixed errors with prefix @iambeone
+
+### Fixed
+
+- [#128](https://github.com/cosmos/lunie/pull/128) Fixes account creation by adding "cosmos" as the default address prefix @Bitcoinera
+- [#110](https://github.com/cosmos/lunie/pull/110) Fix e2e tests by using the lunie-backend docker-compose to run the stack @faboweb
+- [#45](https://github.com/cosmos/lunie/issues/45) Modify jest command to let it use the testMatch pattern defined in jest.config.js instead of passing paths by param @mariopino
+
+### Repository
+
+- [#134](https://github.com/cosmos/lunie/pull/134) Use new release flow @faboweb
+
 ## [1.0.9] - 2019-09-27
 
 ### Changed
