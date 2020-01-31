@@ -67,10 +67,11 @@ export default {
     getAddressesFromExtension() {
       this.$store.dispatch("getAddressesFromExtension")
     },
-    async signIn(address) {
+    async signIn(account) {
       this.$store.dispatch(`signIn`, {
         sessionType: `extension`,
-        address: address
+        address: account.address,
+        networkId: account.network ? account.network : "cosmos-hub-mainnet" // defaulting to cosmos-hub-mainnet
       })
       this.$router.push(`/`)
     }

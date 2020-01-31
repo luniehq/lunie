@@ -10,7 +10,7 @@
         class="account-button"
         :value="buttonText"
         color="primary"
-        @click.native="buttonAction(account.address)"
+        @click.native="buttonAction(account)"
       />
     </li>
   </ul>
