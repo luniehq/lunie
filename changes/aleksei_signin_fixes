@@ -1,2 +1,3 @@
 [Changed] Add no accounts allert on use extension step @iambeone
 [Changed] change create new account flow, remove select network step in default mode @iambeone
+[Added] Network change on login with extension @iambeone
