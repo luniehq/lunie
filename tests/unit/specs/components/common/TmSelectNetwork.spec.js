@@ -66,6 +66,17 @@ describe(`TmSelectNetwork`, () => {
     ])
   })
 
+  it(`works in the extension where there is no current network`, () => {
+    wrapper.vm.$store.getters.network = undefined
+    expect(wrapper.vm.sortedNetworks).toEqual([
+      { default: true, id: "la-red-feliz", testnet: false },
+      { default: false, id: "emilys-chain", testnet: false },
+      { default: false, id: "awesomenet", testnet: true },
+      { default: false, id: "keine-ahnungnet", testnet: true },
+      { default: false, id: "localnet", testnet: true }
+    ])
+  })
+
   it(`sets the network the user selects`, async () => {
     await wrapper.vm.selectNetworkHandler({ id: "emilys-chain" })
     expect($store.dispatch).toHaveBeenCalledWith(`setNetwork`, {

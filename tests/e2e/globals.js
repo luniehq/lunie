@@ -11,25 +11,29 @@ const {
   fundMasterAccount
 } = require("./helpers.js")
 
+let initializedAccount = false
+
 module.exports = {
   // controls the timeout time for async hooks. Expects the done() callback to be invoked within this time
   // or an error is thrown
-  asyncHookTimeout: 60000,
+  asyncHookTimeout: 120000,
 
   async beforeEach(browser, done) {
     // standardize window format
     browser.resizeWindow(1350, 1080)
 
-    if (!browser.globals.init) {
-      // default settings
-      let networkData = await initialiseDefaults(browser)
+    browser.launch_url = browser.globals.feURI
+    // default settings
+    let networkData = await initialiseDefaults(browser)
+    networkData.password = process.env.PASSWORD
+    browser.globals.password = networkData.password
+
+    if (!initializedAccount) {
       // creating testing account and funding it with the master account
-      networkData.password = process.env.PASSWORD
       await createAccountAndFundIt(browser, done, networkData)
-      browser.globals.init = true
-    } else {
-      browser.launch_url = browser.globals.feURI
+      initializedAccount = true
     }
+
     checkBrowserLogs(browser)
     done()
   },
@@ -49,7 +53,7 @@ module.exports = {
   reporter: function(results) {
     if (
       (typeof results.failed === `undefined` || results.failed === 0) &&
-      (typeof results.error === `undefined` || results.error === 0)
+      (typeof results.errors === `undefined` || results.errors === 0)
     ) {
       process.exit(0)
     } else {
@@ -71,12 +75,27 @@ async function next(browser) {
   return await browser.click(".session-footer .button")
 }
 
-async function createNewAccount(browser) {
+async function createNewAccount(browser, networkData) {
   return browser.url(
     browser.launch_url + "/welcome?insecure=true",
     async () => {
       await browser.waitForElementVisible(`body`, 10000, true)
       await browser.click("#create-new-address")
+      await browser.waitForElementVisible(
+        `.select-network-item[data-network=${networkData.network}]`,
+        10000,
+        true,
+        () => {
+          browser.execute(
+            function(network) {
+              document
+                .querySelector(`.select-network-item[data-network=${network}]`)
+                .click()
+            },
+            [networkData.network]
+          )
+        }
+      )
       await browser.waitForElementVisible("#sign-up-name", 10000, true)
       browser.setValue("#sign-up-name", "demo-account")
       await next(browser)
@@ -286,7 +305,7 @@ async function createAccountAndFundIt(browser, done, networkData) {
   await defineNeededValidators(browser, networkData)
   await browser.refresh()
   // creating account
-  await createNewAccount(browser)
+  await createNewAccount(browser, networkData)
   await storeAccountData(browser, networkData)
   // switching to master account
   await switchToAccount(browser, networkData)

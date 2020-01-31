@@ -7,10 +7,11 @@
           v-for="network in sortedNetworks"
           :key="network.chain_id"
           class="select-network-item"
+          :data-network="network.id"
           :class="{ selected: networkId === network.id }"
           @click="selectNetworkHandler(network)"
         >
-          <NetworkItem :network="network" />
+          <NetworkItem :networkitem="network" />
         </li>
       </ul>
     </div>
@@ -46,21 +47,25 @@ export default {
     sortedNetworks() {
       // sorts networks setting showing the current network first, mainnets at the top and the default one the first
       if (this.networks.length > 0) {
-        return [
-          // current network first
-          this.networks.find(({ id }) => id === this.networkId),
-          ...this.networks
-            // ignore the current network in the rest of the list as already showing on the top
-            .filter(({ id }) => id !== this.networkId)
-            // show all mainnets next
-            .sort((a, b) => {
-              return a.testnet - b.testnet
-            })
-            // show the default network on the top
-            .sort((a, b) => {
-              return b.default - a.default
-            })
-        ]
+        return (
+          [
+            // current network first
+            this.networks.find(({ id }) => id === this.networkId),
+            ...this.networks
+              // ignore the current network in the rest of the list as already showing on the top
+              .filter(({ id }) => id !== this.networkId)
+              // show all mainnets next
+              .sort((a, b) => {
+                return a.testnet - b.testnet
+              })
+              // show the default network on the top
+              .sort((a, b) => {
+                return b.default - a.default
+              })
+          ]
+            // filter out undefineds (happens if this.networkId is not set like in the extension)
+            .filter(x => !!x)
+        )
       } else {
         return []
       }
@@ -68,7 +73,6 @@ export default {
   },
   methods: {
     async selectNetworkHandler(network) {
-      console.log(this.networkId, network.id)
       if (this.networkId !== network.id) {
         this.$store.dispatch(`setNetwork`, network)
       }

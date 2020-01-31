@@ -58,7 +58,6 @@ import SessionFrame from "common/SessionFrame"
 import { mapGetters } from "vuex"
 import Steps from "../../ActionModal/components/Steps"
 import { getWalletIndex } from "@lunie/cosmos-keys"
-import gql from "graphql-tag"
 
 const nameExists = value => {
   const walletIndex = getWalletIndex()
@@ -81,8 +80,7 @@ export default {
     Steps
   },
   data: () => ({
-    importCosmosAddress: {},
-    addressPrefixes: []
+    importCosmosAddress: {}
   }),
   computed: {
     ...mapGetters([`connected`, `recover`]),
@@ -97,8 +95,6 @@ export default {
     }
   },
   async created() {
-    // needs to load addresses before using
-    await this.$apollo.queries.addressPrefixes.refetch()
     this.importCosmosAddress = await this.$store.dispatch(
       `getAddressFromSeed`,
       {
@@ -106,24 +102,6 @@ export default {
         network: this.networkId
       }
     )
-  },
-  apollo: {
-    addressPrefixes: {
-      query: gql`
-        query Network {
-          networks {
-            id
-            address_prefix
-          }
-        }
-      `,
-      /* istanbul ignore next */
-      update(data) {
-        return data.networks
-      },
-      prefetch: "true",
-      fetchPolicy: "cache-first"
-    }
   },
   methods: {
     onSubmit() {

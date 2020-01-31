@@ -1,6 +1,6 @@
 {
   "name": "lunie",
-  "version": "1.0.160",
+  "version": "1.0.161",
   "description": "Lunie is the staking and governance platform for proof-of-stake blockchains.",
   "author": "Lunie International Software Systems Inc. <hello@lunie.io>",
   "scripts": {
@@ -18,7 +18,7 @@
     "test:coverage-branch": "npm run test:unit -- --coverage && git diff origin/develop | diff-test-coverage -c ./coverage/lcov.info -t lcov --",
     "test:e2e": "node tests/e2e/local-run.js",
     "test:e2e:build": "cross-env VUE_APP_E2E=true vue-cli-service build --mode production",
-    "test:e2e:browserstack": "node tests/e2e/browserstack.runner.js -c  tests/e2e/browserstack.conf.js",
+    "test:e2e:browserstack": "nightwatch -c tests/e2e/browserstack.conf.js",
     "test:e2e:local": "kill-port 9515 && nightwatch --config ./tests/e2e/local-chrome.conf.js",
     "test:e2e:serve": "kill-port 9080 && cross-env VUE_APP_E2E=true NETWORK=local-cosmos-hub-testnet vue-cli-service serve --mode production --port 9080",
     "test:unit": "vue-cli-service test:unit"
@@ -27,9 +27,8 @@
     "@babel/polyfill": "^7.4.4",
     "@dicebear/avatars": "3.1.4",
     "@dicebear/avatars-jdenticon-sprites": "1.1.4",
-    "@lunie/cosmos-api": "0.2.5",
-    "@lunie/cosmos-keys": "0.0.12",
-    "@lunie/cosmos-ledger": "0.1.5",
+    "@lunie/cosmos-keys": "0.2.0",
+    "@lunie/cosmos-ledger": "0.1.6",
     "@sentry/browser": "5.7.1",
     "@sentry/integrations": "5.7.1",
     "apollo-boost": "^0.4.3",
@@ -95,7 +94,6 @@
     "@vue/test-utils": "1.0.0-beta.29",
     "babel-eslint": "^10.0.1",
     "babel-jest": "24.9.0",
-    "browserstack-local": "1.4.2",
     "chai": "^4.2.0",
     "chai-string": "^1.5.0",
     "chromedriver": "78.0.1",

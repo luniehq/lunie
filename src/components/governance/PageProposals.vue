@@ -12,6 +12,17 @@
         type="secondary"
         @click.native="onPropose"
       />
+      <TmBtn
+        v-if="
+          connection.network === 'cosmos-hub-mainnet' ||
+            connection.network === 'cosmos-hub-testnet'
+        "
+        id="tutorial-btn"
+        class="tutorial-btn"
+        value="Want to learn how governance works?"
+        type="tertiary"
+        @click.native="openTutorial()"
+      />
     </div>
     <ModalPropose
       ref="modalPropose"
@@ -32,6 +43,17 @@
       </div>
     </div>
     <TableProposals v-else :proposals="proposals" />
+    <ModalTutorial
+      v-if="
+        showTutorial &&
+          (connection.network === 'cosmos-hub-mainnet' ||
+            connection.network === 'cosmos-hub-testnet')
+      "
+      :steps="cosmosGovernanceTutorial.steps"
+      :fullguide="cosmosGovernanceTutorial.fullguide"
+      :background="cosmosGovernanceTutorial.background"
+      :close="hideTutorial"
+    />
   </TmPage>
 </template>
 
@@ -41,9 +63,10 @@ import TableProposals from "governance/TableProposals"
 import TmPage from "common/TmPage"
 import TmBtn from "common/TmBtn"
 import TmDataMsg from "common/TmDataMsg"
-import { mapGetters } from "vuex"
+import { mapGetters, mapState } from "vuex"
 import { GovernanceParameters } from "src/gql"
 import gql from "graphql-tag"
+import ModalTutorial from "common/ModalTutorial"
 
 export default {
   name: `page-proposals`,
@@ -52,16 +75,56 @@ export default {
     TableProposals,
     TmDataMsg,
     TmBtn,
-    TmPage
+    TmPage,
+    ModalTutorial
   },
   data: () => ({
     proposals: [],
     parameters: {
       depositDenom: "xxx"
     },
-    loaded: false
+    loaded: false,
+    showTutorial: false,
+    cosmosGovernanceTutorial: {
+      fullguide: `https://lunie.io/guides/how-cosmos-governance-works/`,
+      background: `lightblue`,
+      steps: [
+        {
+          title: "Intro to governance",
+          // Each content array item will be enclosed in a span (newline)
+          content: [
+            "If you have staked ATOMs on the Cosmos Hub, you can submit your own improvement proposal and vote on what others have proposed."
+          ]
+        },
+        {
+          title: "Proposals",
+          content: [
+            "Proposals are submitted by community members and typically include ideas for how to improve the underlying protocols. Proposals are stored 'on-chain'."
+          ]
+        },
+        {
+          title: "Deposit Period",
+          content: [
+            "Proposals start in the 'Deposit Period' and require a certain number of deposits, before the proposal can be voted on. This is both a spam prevention and signalling mechanism."
+          ]
+        },
+        {
+          title: "The Vote!",
+          content: [
+            "Validators have an obligation to vote and do so on behalf of the people who 'staked' tokens with them. As a token holder, you can vote independently of your validators if you wish."
+          ]
+        },
+        {
+          title: "Have more questions?",
+          content: [
+            "Check out our full governance guide for an in depth explanation of all things governance."
+          ]
+        }
+      ]
+    }
   }),
   computed: {
+    ...mapState([`connection`]),
     ...mapGetters([`network`])
   },
   methods: {
@@ -70,6 +133,12 @@ export default {
     },
     afterPropose() {
       this.$apollo.queries.proposals.refetch()
+    },
+    openTutorial() {
+      this.showTutorial = true
+    },
+    hideTutorial() {
+      this.showTutorial = false
     }
   },
   apollo: {
@@ -143,7 +212,7 @@ export default {
 .button-container {
   display: flex;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: space-between;
   width: 100%;
   padding: 1rem 1rem 0 1rem;
   max-width: 680px;
@@ -152,11 +221,13 @@ export default {
 
 @media screen and (max-width: 667px) {
   .button-container {
+    padding-top: 0;
     justify-content: center;
+    flex-direction: column-reverse;
   }
 
-  .button-container button {
-    width: 50%;
+  .button-container .tutorial-btn {
+    margin-bottom: 0.5rem;
   }
 }
 </style>

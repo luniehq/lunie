@@ -11,53 +11,44 @@
     </div>
     <div v-else>
       <div class="values-container">
-        <div class="upper-header">
-          <div class="total-atoms">
-            <h3>Total {{ stakingDenom }}</h3>
-            <h2 class="total-atoms__value">
-              {{ overview.totalStake | shortDecimals | noBlanks }}
-            </h2>
-          </div>
-          <TmFormGroup
-            v-if="balances && balances.length > 1"
-            style="display: none;"
-            class="currency-selector"
-            field-id="currency"
-            field-label="Currency"
-          >
-            <TmField
-              v-model="selectedFiatCurrency"
-              :title="`Select your fiat currency`"
-              :options="fiatCurrencies"
-              :placeholder="selectedFiatCurrency"
-              type="select"
-            />
-          </TmFormGroup>
-        </div>
-        <div class="scroll">
-          <div class="row small-container scroll-item">
-            <div v-if="overview.totalStake > 0" class="available-atoms">
-              <h3>Available {{ stakingDenom }}</h3>
-              <h2>{{ overview.liquidStake | shortDecimals | noBlanks }}</h2>
+        <div>
+          <div class="upper-header">
+            <div class="total-atoms">
+              <h3>Total {{ stakingDenom }}</h3>
+              <h2 class="total-atoms__value">
+                {{ overview.totalStake | shortDecimals | noBlanks }}
+              </h2>
             </div>
+            <button class="tutorial-button" @click="openTutorial()">
+              <i v-if="false" class="material-icons">help_outline</i>
+              <span v-else>Need some tokens?</span>
+            </button>
+          </div>
+          <div class="scroll">
+            <div class="row small-container scroll-item">
+              <div v-if="overview.totalStake > 0" class="available-atoms">
+                <h3>Available {{ stakingDenom }}</h3>
+                <h2>{{ overview.liquidStake | shortDecimals | noBlanks }}</h2>
+              </div>
 
-            <div v-if="overview.totalRewards" class="rewards">
-              <h3>Total Rewards</h3>
-              <h2>+{{ overview.totalRewards | shortDecimals | noBlanks }}</h2>
+              <div v-if="overview.totalRewards" class="rewards">
+                <h3>Total Rewards</h3>
+                <h2>+{{ overview.totalRewards | shortDecimals | noBlanks }}</h2>
+              </div>
             </div>
-          </div>
-          <div
-            v-if="formattedBalances.length > 0"
-            id="scroll-item"
-            class="row small-container tokens-div scroll-item"
-          >
             <div
-              v-for="balance in formattedBalances"
-              :key="balance.denom"
-              class="col"
+              v-if="formattedBalances.length > 0"
+              id="scroll-item"
+              class="row small-container tokens-div scroll-item"
             >
-              <p class="token-denom">{{ balance.denom }}</p>
-              <p class="token-balance">{{ balance.amount }}</p>
+              <div
+                v-for="balance in formattedBalances"
+                :key="balance.denom"
+                class="col"
+              >
+                <p class="token-denom">{{ balance.denom }}</p>
+                <p class="token-balance">{{ balance.amount }}</p>
+              </div>
             </div>
           </div>
         </div>
@@ -80,6 +71,17 @@
 
       <SendModal ref="SendModal" :denoms="getAllDenoms" />
       <ModalWithdrawRewards ref="ModalWithdrawRewards" />
+      <ModalTutorial
+        v-if="
+          showTutorial &&
+            (connection.network === 'cosmos-hub-mainnet' ||
+              connection.network === 'cosmos-hub-testnet')
+        "
+        :steps="cosmosTokensTutorial.steps"
+        :fullguide="cosmosTokensTutorial.fullguide"
+        :background="cosmosTokensTutorial.background"
+        :close="hideTutorial"
+      />
     </div>
   </div>
 </template>
@@ -89,19 +91,17 @@ import { noBlanks } from "src/filters"
 import TmBtn from "common/TmBtn"
 import SendModal from "src/ActionModal/components/SendModal"
 import ModalWithdrawRewards from "src/ActionModal/components/ModalWithdrawRewards"
-import TmFormGroup from "common/TmFormGroup"
-import TmField from "src/components/common/TmField"
-import { mapGetters } from "vuex"
+import { mapGetters, mapState } from "vuex"
 import gql from "graphql-tag"
+import ModalTutorial from "common/ModalTutorial"
 
 export default {
   name: `tm-balance`,
   components: {
-    TmFormGroup,
-    TmField,
     TmBtn,
     SendModal,
-    ModalWithdrawRewards
+    ModalWithdrawRewards,
+    ModalTutorial
   },
   filters: {
     shortDecimals,
@@ -113,10 +113,49 @@ export default {
       stakingDenom: "",
       balances: [],
       selectedTokenFiatValue: `Tokens Total Fiat Value`,
-      selectedFiatCurrency: `EUR` // EUR is our default fiat currency
+      selectedFiatCurrency: `EUR`, // EUR is our default fiat currency
+      showTutorial: false,
+      cosmosTokensTutorial: {
+        fullguide: `https://lunie.io/guides/how-to-get-tokens/`,
+        background: `red`,
+        steps: [
+          {
+            title: "How to get tokens",
+            // Each content array item will be enclosed in a span (newline)
+            content: [
+              "The easiest way to get tokens is to find a reputable exchange, like Coinbase or Binance, to purchase your tokens from."
+            ]
+          },
+          {
+            title: "Create your address",
+            content: [
+              "You can create an address with Lunie using our browser extension, our mobile wallets or a Ledger Nano hardware wallet."
+            ]
+          },
+          {
+            title: "Back it up!",
+            content: [
+              "When you create an address, ensure your backup code is correct and in a secure place. We don't recommend using an address if you haven't backed it up appropriately."
+            ]
+          },
+          {
+            title: "Send to your address",
+            content: [
+              "The short version of your address will look something like this: cosmos...7yqp. Make sure to use the full version of your address to successfully receive tokens."
+            ]
+          },
+          {
+            title: "Have more questions?",
+            content: [
+              "Check out our full guide to getting tokens so you can start staking!"
+            ]
+          }
+        ]
+      }
     }
   },
   computed: {
+    ...mapState([`connection`]),
     ...mapGetters([`address`, `network`]),
     // only be ready to withdraw of the validator rewards are loaded and the user has rewards to withdraw
     // the validator rewards are needed to filter the top 5 validators to withdraw from
@@ -181,6 +220,12 @@ export default {
     },
     onSend() {
       this.$refs.SendModal.open()
+    },
+    openTutorial() {
+      this.showTutorial = true
+    },
+    hideTutorial() {
+      this.showTutorial = false
     }
   },
   apollo: {
@@ -307,11 +352,8 @@ export default {
 }
 
 .values-container {
-  display: flex;
   position: relative;
-  width: 100%;
   padding: 1rem 2rem;
-  flex-direction: column;
 }
 
 .values-container h2 {
@@ -368,6 +410,12 @@ export default {
   line-height: 20px;
 }
 
+.upper-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
 .button-container {
   display: flex;
   align-items: center;
@@ -391,10 +439,45 @@ export default {
   padding-top: 1rem;
 }
 
+.open-tutorial {
+  justify-self: end;
+}
+
+.tutorial-button {
+  padding: 0.5rem 1rem;
+  width: auto;
+  font-size: 14px;
+  background: transparent;
+  color: #7a88b8;
+  border: 2px solid rgb(122, 136, 184, 0.1);
+  border-radius: 0.5rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  font-family: var(--sans);
+  margin-left: auto;
+}
+
+.tutorial-button i {
+  font-size: 1rem;
+}
+
+.tutorial-button span {
+  font-size: 14px;
+}
+
+.tutorial-button:hover {
+  background-color: rgba(255, 255, 255, 0.02);
+}
+
 @media screen and (max-width: 667px) {
   .balance-header {
     display: flex;
     flex-direction: column;
+  }
+
+  .upper-header {
+    flex-direction: column-reverse;
   }
 
   .values-container {
@@ -418,12 +501,20 @@ export default {
     text-align: center;
   }
 
+  .tutorial-button {
+    margin: 0 auto 1rem auto;
+  }
+
   .scroll {
     display: flex;
     width: 90vw;
     overflow-x: auto;
     /* Make it smooth scrolling on iOS devices */
     -webkit-overflow-scrolling: touch;
+  }
+
+  .scroll-item {
+    width: 100%;
   }
 
   /* This doesn't work */
@@ -465,6 +556,9 @@ export default {
     justify-content: space-evenly;
     padding: 1rem 0;
     text-align: center;
+  }
+  .tutorial-container {
+    padding-right: 1rem;
   }
 }
 </style>

@@ -9,6 +9,14 @@ describe(`TmBalance`, () => {
       getters: {
         address: "cosmos1address",
         network: "test-network"
+      },
+      state: {
+        connection: {
+          network: "cosmos-hub-mainnet"
+        },
+        session: {
+          experimentalMode: true
+        }
       }
     }
 
@@ -144,5 +152,21 @@ describe(`TmBalance`, () => {
       { key: `TOKEN1 1.52`, value: `` },
       { key: `TOKEN2 3.04`, value: `` }
     ])
+  })
+
+  it(`should show How To Get Tokens tutorial`, () => {
+    wrapper.setData({
+      showTutorial: false
+    })
+    wrapper.vm.openTutorial()
+    expect(wrapper.vm.showTutorial).toBe(true)
+  })
+
+  it(`should hide How To Get Tokens tutorial`, () => {
+    wrapper.setData({
+      showTutorial: true
+    })
+    wrapper.vm.hideTutorial()
+    expect(wrapper.vm.showTutorial).toBe(false)
   })
 })
