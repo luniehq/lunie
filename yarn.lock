@@ -1055,10 +1055,10 @@
     crypto-js "^3.1.9-1"
     secp256k1 "^3.6.2"
 
-"@lunie/cosmos-ledger@0.1.6":
-  version "0.1.6"
-  resolved "https://registry.yarnpkg.com/@lunie/cosmos-ledger/-/cosmos-ledger-0.1.6.tgz#09bcc7b572f3a0446b331b74c66b10cd2fd3efac"
-  integrity sha512-SeFPx5m3+r1hYNTwOBMllLwqg9VZ9NpkbTbOSXJ5jEmmKUL6jHSUOxsHYmJDN5uajPU9+KbCv159SvoUzrRUfw==
+"@lunie/cosmos-ledger@0.1.7":
+  version "0.1.7"
+  resolved "https://registry.yarnpkg.com/@lunie/cosmos-ledger/-/cosmos-ledger-0.1.7.tgz#3216703605abec65a283125b7f7f47eee280b1b2"
+  integrity sha512-NGPwhudWVcAkPdJaaPz1nj9pDCWxvc6RkJrfef0y5WTUCFNCBjaTdLybEC5u1H74M67FkpAZgS7vx9yFqBoFnw==
   dependencies:
     "@ledgerhq/hw-transport-webhid" "^5.7.0"
     "@ledgerhq/hw-transport-webusb" "^5.7.0"
