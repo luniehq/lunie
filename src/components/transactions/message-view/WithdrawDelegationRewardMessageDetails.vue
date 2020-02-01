@@ -7,66 +7,77 @@
     <div v-if="getValidators && getValidators.length === 1">
       <div class="tx__content__left">
         <h3>{{ caption }}</h3>
-        <span>Rewards from&nbsp;</span>
-        <router-link
-          :to="`/staking/validators/${transaction.value.validator_address}`"
-          class="validator-link"
-        >
-          <Avatar
-            v-if="
-              !getValidators[0].picture || getValidators[0].picture === 'null'
-            "
-            class="validator-image"
-            alt="generic validator logo - generated avatar from address"
-            :address="getValidators[0].operatorAddress"
-          />
-          <img
-            v-if="getValidators[0].picture"
-            :src="getValidators[0].picture"
-            class="validator-image"
-            :alt="`validator logo for ` + getValidators[0].name"
-          />
-          {{
-            transaction.value.validator_address
-              | resolveValidatorName(validators)
-          }}
-        </router-link>
+        <div class="multi-claim-reward-row">
+          <span>Rewards from&nbsp;</span>
+          <router-link
+            :to="`/staking/validators/${transaction.value.validator_address}`"
+            class="validator-link"
+          >
+            <Avatar
+              v-if="
+                !getValidators[0].picture || getValidators[0].picture === 'null'
+              "
+              class="validator-image"
+              alt="generic validator logo - generated avatar from address"
+              :address="getValidators[0].operatorAddress"
+            />
+            <img
+              v-if="getValidators[0].picture"
+              :src="getValidators[0].picture"
+              class="validator-image"
+              :alt="`validator logo for ` + getValidators[0].name"
+            />
+            {{
+              transaction.value.validator_address
+                | resolveValidatorName(validators)
+            }}
+          </router-link>
+        </div>
       </div>
     </div>
     <div
       v-if="getValidators && getValidators.length > 1"
       class="validators-images-row"
+      @click="validatorsDetail"
     >
       <div class="tx__content__left multi-claim-reward-row">
         <h3 class="multi-claim-reward-h3">{{ caption }}</h3>
-        <div v-for="validator in getValidators" :key="validator.name">
-          <router-link
-            :to="`/staking/validators/${transaction.value.validator_address}`"
-            class="validator-link"
-          >
-            <div
-              v-if="!validator.picture || validator.picture === 'null'"
-              class="row-validator-image"
+        <div class="multi-claim-reward-row" :class="{ validatorsToggle: show }">
+          <div v-for="validator in getValidators" :key="validator.name">
+            <router-link
+              :to="`/staking/validators/${validator.operatorAddress}`"
+              class="validator-link"
             >
-              <Avatar
-                class="validator-image"
-                alt="generic validator logo - generated avatar from address"
-                :address="validator.operatorAddress"
-              />
-            </div>
-            <div
-              v-if="validator && validator.picture"
-              class="row-validator-image"
-            >
-              <img
-                :src="validator.picture"
-                class="validator-image"
-                :alt="`validator logo for ` + validator.name"
-              />
-            </div>
-          </router-link>
+              <div
+                v-if="!validator.picture || validator.picture === 'null'"
+                class="row-validator-image"
+              >
+                <Avatar
+                  class="validator-image"
+                  alt="generic validator logo - generated avatar from address"
+                  :address="validator.operatorAddress"
+                />
+                <span v-if="show" class="validator-span">{{
+                  validator.operatorAddress | resolveValidatorName(validators)
+                }}</span>
+              </div>
+              <div
+                v-if="validator && validator.picture"
+                class="row-validator-image"
+              >
+                <img
+                  :src="validator.picture"
+                  class="validator-image"
+                  :alt="`validator logo for ` + validator.name"
+                />
+                <span v-if="show" class="validator-span">{{
+                  validator.operatorAddress | resolveValidatorName(validators)
+                }}</span>
+              </div>
+            </router-link>
+          </div>
+          <span v-if="!show" class="multi-claim-reward-show">Show</span>
         </div>
-        <span class="multi-claim-reward-show">Show</span>
       </div>
     </div>
   </div>
@@ -103,7 +114,8 @@ export default {
   data: () => {
     return {
       type: `Claimed`,
-      caption: `Claimed`
+      caption: `Claimed`,
+      show: false
     }
   },
   computed: {
@@ -119,7 +131,18 @@ export default {
       if (this.transaction.value.validator_address) {
         return [this.validators[this.transaction.value.validator_address]] || []
       } else {
-        return [this.transaction.value[0].value.validator_address] || []
+        return (
+          [
+            this.validators[this.transaction.value[0].value.validator_address]
+          ] || []
+        )
+      }
+    }
+  },
+  methods: {
+    validatorsDetail(event) {
+      if (event.target.className !== `address`) {
+        this.show = !this.show
       }
     }
   }
@@ -142,6 +165,11 @@ export default {
 }
 .validator-image {
   border-radius: 100%;
+  float: left;
+}
+.validator-span {
+  float: left;
+  margin-left: 5px;
 }
 .multi-claim-reward-show {
   margin-left: 40px;
@@ -149,5 +177,8 @@ export default {
 }
 .multi-claim-reward-show:hover {
   color: var(--link-hover);
+}
+.multi-claim-reward-row.validatorsToggle {
+  display: block;
 }
 </style>
