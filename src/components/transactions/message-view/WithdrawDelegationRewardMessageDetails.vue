@@ -38,7 +38,6 @@
     <div
       v-if="getValidators && getValidators.length > 1"
       class="validators-images-row"
-      @click="validatorsDetail"
     >
       <div class="tx__content__left multi-claim-reward-row">
         <h3 class="multi-claim-reward-h3">{{ caption }}</h3>
@@ -109,13 +108,16 @@ export default {
     validators: {
       type: Object,
       required: true
+    },
+    show: {
+      type: Boolean,
+      required: true
     }
   },
   data: () => {
     return {
       type: `Claimed`,
-      caption: `Claimed`,
-      show: false
+      caption: `Claimed`
     }
   },
   computed: {
@@ -138,13 +140,6 @@ export default {
         )
       }
     }
-  },
-  methods: {
-    validatorsDetail(event) {
-      if (event.target.className !== `address`) {
-        this.show = !this.show
-      }
-    }
   }
 }
 </script>
@@ -162,6 +157,8 @@ export default {
 }
 .row-validator-image {
   padding: 5px;
+  display: flex;
+  align-items: center;
 }
 .validator-image {
   border-radius: 100%;
