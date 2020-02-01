@@ -48,7 +48,8 @@ describe(`WithdrawalDelegationRewardMessageDetails`, () => {
     wrapper = shallowMount(WithdrawDelegationRewardMessageDetails, {
       propsData: {
         transaction: tx,
-        validators: validators
+        validators: validators,
+        show: false
       },
       stubs: [`router-link`]
     })
@@ -59,7 +60,8 @@ describe(`WithdrawalDelegationRewardMessageDetails`, () => {
     wrapper = shallowMount(WithdrawDelegationRewardMessageDetails, {
       propsData: {
         transaction: tx,
-        validators: validators
+        validators: validators,
+        show: false
       },
       stubs: [`router-link`]
     })
@@ -90,7 +92,8 @@ describe(`WithdrawalDelegationRewardMessageDetails`, () => {
     wrapper = shallowMount(WithdrawDelegationRewardMessageDetails, {
       propsData: {
         transaction: multiTx,
-        validators: validators
+        validators: validators,
+        show: false
       },
       stubs: [`router-link`]
     })
@@ -115,7 +118,8 @@ describe(`WithdrawalDelegationRewardMessageDetails`, () => {
     wrapper = shallowMount(WithdrawDelegationRewardMessageDetails, {
       propsData: {
         transaction: tx,
-        validators: validators
+        validators: validators,
+        show: false
       },
       stubs: [`router-link`]
     })

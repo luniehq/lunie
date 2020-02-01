@@ -17,25 +17,29 @@ exports[`WithdrawalDelegationRewardMessageDetails renders a withdraw delegation 
         Claimed
       </h3>
        
-      <span>
-        Rewards from 
-      </span>
-       
-      <router-link-stub
-        class="validator-link"
-        to="/staking/validators/cosmosvaloper15r4tc0m6hc7z8drq3dzlrtcs6rq2q9l2nvwher"
+      <div
+        class="multi-claim-reward-row"
       >
-        <avatar-stub
-          address="cosmosvaloper15r4tc0m6hc7z8drq3dzlrtcs6rq2q9l2nvwher"
-          alt="generic validator logo - generated avatar from address"
-          class="validator-image"
-        />
+        <span>
+          Rewards from 
+        </span>
          
-        <!---->
+        <router-link-stub
+          class="validator-link"
+          to="/staking/validators/cosmosvaloper15r4tc0m6hc7z8drq3dzlrtcs6rq2q9l2nvwher"
+        >
+          <avatar-stub
+            address="cosmosvaloper15r4tc0m6hc7z8drq3dzlrtcs6rq2q9l2nvwher"
+            alt="generic validator logo - generated avatar from address"
+            class="validator-image"
+          />
+           
+          <!---->
+          
+          SuperValidator
         
-        SuperValidator
-      
-      </router-link-stub>
+        </router-link-stub>
+      </div>
     </div>
   </div>
    
@@ -60,25 +64,29 @@ exports[`WithdrawalDelegationRewardMessageDetails renders a withdraw delegation 
         Claimed
       </h3>
        
-      <span>
-        Rewards from 
-      </span>
-       
-      <router-link-stub
-        class="validator-link"
-        to="/staking/validators/cosmosvaloper15r4tc0m6hc7z8drq3dzlrtcs6rq2q9l2nvwher"
+      <div
+        class="multi-claim-reward-row"
       >
-        <avatar-stub
-          address="cosmosvaloper15r4tc0m6hc7z8drq3dzlrtcs6rq2q9l2nvwher"
-          alt="generic validator logo - generated avatar from address"
-          class="validator-image"
-        />
+        <span>
+          Rewards from 
+        </span>
          
-        <!---->
+        <router-link-stub
+          class="validator-link"
+          to="/staking/validators/cosmosvaloper15r4tc0m6hc7z8drq3dzlrtcs6rq2q9l2nvwher"
+        >
+          <avatar-stub
+            address="cosmosvaloper15r4tc0m6hc7z8drq3dzlrtcs6rq2q9l2nvwher"
+            alt="generic validator logo - generated avatar from address"
+            class="validator-image"
+          />
+           
+          <!---->
+          
+          SuperValidator
         
-        SuperValidator
-      
-      </router-link-stub>
+        </router-link-stub>
+      </div>
     </div>
   </div>
    
