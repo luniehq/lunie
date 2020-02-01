@@ -142,11 +142,6 @@ export default {
 }
 .validator-image {
   border-radius: 100%;
-  padding: -1px;
-  height: 1rem;
-  width: 1rem;
-  vertical-align: middle;
-  margin: 0 2px 2px 2px;
 }
 .multi-claim-reward-show {
   margin-left: 40px;
