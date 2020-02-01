@@ -4,7 +4,7 @@
   "description": "Lunie is the staking and governance platform for proof-of-stake blockchains.",
   "author": "Lunie International Software Systems Inc. <hello@lunie.io>",
   "scripts": {
-    "build": "node tasks/create-version.js && vue-cli-service build",
+    "build": "node tasks/create-version-file.js && vue-cli-service build",
     "build:mobile": "cross-env MOBILE_APP=true npm run build",
     "changelog": "simsala log --pending-path ./changes",
     "lint": "vue-cli-service lint",
