@@ -7,10 +7,11 @@
           v-for="network in sortedNetworks"
           :key="network.chain_id"
           class="select-network-item"
+          :data-network="network.id"
           :class="{ selected: networkId === network.id }"
           @click="selectNetworkHandler(network)"
         >
-          <NetworkItem :network="network" />
+          <NetworkItem :networkitem="network" />
         </li>
       </ul>
     </div>

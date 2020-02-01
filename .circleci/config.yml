@@ -113,56 +113,32 @@ jobs:
             echo "Your dependencies are secure enough: $SUMMARY"
             exit 0
   testE2e:
-    machine: true
-    working_directory: *WORKSPACE
+    executor: node
     steps:
       - attach_workspace:
           at: *WORKSPACE
-      - add_ssh_keys:
-          fingerprints:
-            - "65:5f:43:fd:be:48:c8:45:d5:39:ef:86:14:d6:e1:12"
       - run:
-          name: Add GitHub to known hosts
+          # needs to be done in CI to be sure it is build once we start the tests
+          name: Run tests
           command: |
-            mkdir -p ~/.ssh
-            touch ~/.ssh/known_hosts
-            ssh-keygen -R github.com
-            ssh-keyscan github.com >> ~/.ssh/known_hosts
-      - run:
-          name: checkout backend
-          command: |
-            git clone git@github.com:luniehq/lunie-backend.git
-            cd lunie-backend
-            git checkout origin/develop
-      - run: 
-          name: Use NVM
-          command: |
-            echo 'export NVM_DIR="/opt/circleci/.nvm"' >> $BASH_ENV
-            echo ' [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"' >> $BASH_ENV
-      - run:
-          name: Install node version
-          command: |
-            nvm install v10.13.0
-            nvm alias default v10.13.0
-      - run:
-          name: Install Chrome
-          command: |
-            wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
-            sudo sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list'
-            sudo apt-get update
-            sudo apt-get -y install google-chrome-stable
-      - run:
-          name: Run testnet
-          command: |
-            cd lunie-backend
-            docker-compose up --build -d
-      - run:
-          name: Test
-          command: npm run serve:dist & npm run test:e2e:local
-          no_output_timeout: 120
-      - store_artifacts:
-          path: ./screenshots
-          when: on_fail
+            PR_NUMBER="$(echo $CIRCLE_PULL_REQUEST | cut -d'/' -f 7)"
+            FE_URL=https://deploy-preview-${PR_NUMBER}--lunieio.netlify.com
+
+            attempt_counter=0
+            max_attempts=10
+
+            until $(curl --output /dev/null --silent --head --fail ${FE_URL}); do
+                if [ ${attempt_counter} -eq ${max_attempts} ];then
+                  echo "Max attempts reached"
+                  exit 1
+                fi
+
+                printf '.'
+                attempt_counter=$(($attempt_counter+1))
+                sleep 30
+            done
+
+            PASSWORD=${NETWORK_PASSWORD} CHT_PWD=${ACCOUNT_PASSWORD} yarn test:e2e:browserstack --fe=${FE_URL} --api=https://production-api.lunie.io
 
   testExtension:
     machine: true
@@ -225,22 +201,6 @@ jobs:
           path: ./screenshots
           when: on_fail
 
-  e2eBuild:
-    executor: node
-    steps:
-      - attach_workspace:
-          at: *WORKSPACE
-      - run:
-          name: Build for E2e
-          command: npm run test:e2e:build
-          environment:
-            VUE_APP_GRAPHQL_URL: http://127.0.0.1:4000 # Browserstack tunneling doesn't work with "localhost"
-            NETWORK: local-cosmos-hub-testnet # Connect directly to the testnet
-      - persist_to_workspace:
-          root: *WORKSPACE
-          paths:
-            - "*"
-
   # Create release.
   release:
     executor: node
@@ -298,18 +258,9 @@ workflows:
             branches:
               ignore: release
 
-      # - e2eBuild: 
-      #     requires:
-      #       - prep
-      #     filters:
-      #       branches:
-      #         ignore:
-      #           - release
-      #           - master
-
-      # - testE2e:
-      #     requires:
-      #       - e2eBuild
+      - testE2e:
+          requires:
+            - prep
 
       # - testExtension:
       #     requires:
