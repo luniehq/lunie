@@ -122,22 +122,18 @@ export default {
   },
   computed: {
     getValidators() {
-      if (this.transaction.value.length > 1) {
+      if (this.transaction.withdrawValidators) {
         let validators = []
-        this.transaction.value.forEach(msg => {
+        JSON.parse(this.transaction.withdrawValidators).forEach(msg => {
           validators.push(this.validators[msg.value.validator_address] || {})
         })
         return validators
-      }
-      // hack for something I don't fully understand yet. a [{...}, [Observer]] structure coming up in Terra
-      if (this.transaction.value.validator_address) {
-        return [this.validators[this.transaction.value.validator_address]] || []
+      } else if (this.transaction.value.validator_address) {
+        // Theoretically this shouldn't ever be triggered
+        return [this.validators[this.transaction.value.validator_address]]
       } else {
-        return (
-          [
-            this.validators[this.transaction.value[0].value.validator_address]
-          ] || []
-        )
+        // This would be an error
+        return null
       }
     }
   }
