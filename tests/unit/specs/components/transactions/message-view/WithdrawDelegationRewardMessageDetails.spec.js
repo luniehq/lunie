@@ -72,7 +72,7 @@ describe(`WithdrawalDelegationRewardMessageDetails`, () => {
   of more than one element too`, () => {
     const multiTx = {
       ...tx,
-      value: [
+      withdrawValidators: JSON.stringify([
         {
           value: {
             delegator_address: "cosmos15r4tc0m6hc7z8drq3dzlrtcs6rq2q9l2kc6z4s",
@@ -87,7 +87,7 @@ describe(`WithdrawalDelegationRewardMessageDetails`, () => {
               "cosmosvaloper12w6tynmjzq4l8zdla3v4x0jt8lt4rcz5gk7zg2"
           }
         }
-      ]
+      ])
     }
     wrapper = shallowMount(WithdrawDelegationRewardMessageDetails, {
       propsData: {
