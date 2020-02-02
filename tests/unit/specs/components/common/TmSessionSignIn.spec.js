@@ -11,6 +11,10 @@ describe(`TmSessionSignIn`, () => {
     {
       id: "cosmos-hub-testnet",
       address_prefix: "cosmos"
+    },
+    {
+      id: "cosmos-hub-mainnet",
+      address_prefix: "cosmos"
     }
   ]
   const addresses = [
@@ -22,13 +26,15 @@ describe(`TmSessionSignIn`, () => {
     $store = {
       commit: jest.fn(),
       dispatch: jest.fn(() => true),
-      getters: {
-        network: "cosmos-hub-testnet"
-      },
       state: {
         keys: [
           {
             name: `cosmosdefault`,
+            password: `1234567890`,
+            address: addresses[0]
+          },
+          {
+            name: `terradefault`,
             password: `1234567890`,
             address: addresses[0]
           }
@@ -178,5 +184,26 @@ describe(`TmSessionSignIn`, () => {
 
     expect(self.signInAddress).toBe(undefined)
     expect(self.$el.querySelector).toHaveBeenCalledWith(`#sign-in-name`)
+  })
+
+  it(`automatically connects to the network an address belongs to`, async () => {
+    localStorage.setItem(`network`, `cosmos-hub-mainnet`)
+    wrapper.setData({
+      signInPassword: `1234567889`,
+      signInAddress: `terradefault`
+    })
+    await wrapper.vm.onSubmit()
+    expect(localStorage.getItem(`network`)).toEqual(`terra-tesnet`)
+  })
+
+  it(`automatically connects to the testnet network an address belongs to if "tesnet" is set to true`, async () => {
+    localStorage.setItem(`network`, `cosmos-hub-mainnet`)
+    wrapper.setData({
+      signInPassword: `1234567889`,
+      signInAddress: `cosmosdefault`,
+      testnet: true
+    })
+    await wrapper.vm.onSubmit()
+    expect(localStorage.getItem(`network`)).toEqual(`cosmos-hub-tesnet`)
   })
 })
