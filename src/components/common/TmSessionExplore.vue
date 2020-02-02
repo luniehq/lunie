@@ -63,19 +63,21 @@
             name="You can only sign in with a regular address"
             type="custom"
           />
-          <TmFormMsg
-            v-else-if="$v.address.$error && !$v.address.isANetworkAddress"
-            name="This address doesn't belong to the network you are currently connected to"
-            type="custom"
-          />
-          <div v-if="$v.address.$error && !$v.address.isANetworkAddress">
-            <p class="error-message">
-              Please select the correct network <a href="/networks">here</a>
-            </p>
-          </div>
         </TmFormGroup>
       </div>
       <div class="session-footer">
+        <TmFormGroup
+          class="field-checkbox"
+          field-id="sign-up-warning"
+          field-label
+        >
+          <div class="field-checkbox-input">
+            <label class="field-checkbox-label" for="select-testnet">
+              <input id="select-testnet" v-model="testnet" type="checkbox" />
+              Select testnet</label
+            >
+          </div>
+        </TmFormGroup>
         <TmBtn value="Explore" />
       </div>
     </TmFormStruct>
@@ -113,7 +115,8 @@ export default {
   data: () => ({
     address: ``,
     error: ``,
-    addressPrefixes: []
+    addressPrefixes: [],
+    testnet: false
   }),
   computed: {
     ...mapState([`session`]),
@@ -139,7 +142,7 @@ export default {
     async onSubmit() {
       this.$v.$touch()
       if (this.$v.$error) return
-
+      this.selectNetworkByAddress(this.address)
       this.$store.dispatch(`signIn`, {
         sessionType: `explore`,
         address: this.address
@@ -175,18 +178,24 @@ export default {
         return false
       }
     },
-    isANetworkAddress(param) {
-      const selectedNetwork = this.addressPrefixes.find(
-        ({ id }) => id === this.network
+    async selectNetworkByAddress(address) {
+      let selectedNetwork = this.addressPrefixes.filter(({ address_prefix }) =>
+        address.startsWith(address_prefix)
       )
       // handling query not loaded yet or failed
-      if (!selectedNetwork) return false
-
-      if (param.startsWith(selectedNetwork.address_prefix)) {
-        return true
-      } else {
-        return false
+      if (!selectedNetwork) {
+        console.error("Connecting to the selected network failed")
+        return
       }
+      // handling when there are both mainnet and testnet networks
+      if (selectedNetwork.length > 1) {
+        selectedNetwork = selectedNetwork.filter(({ id }) =>
+          this.testnet ? id.slice(-7) === `testnet` : id.slice(-7) === `mainnet`
+        )[0]
+      } else {
+        selectedNetwork = selectedNetwork[0]
+      }
+      this.$store.dispatch(`setNetwork`, selectedNetwork)
     },
     getAddressIcon(addressType) {
       if (addressType === "explore") return `language`
@@ -217,8 +226,7 @@ export default {
         required,
         addressValidate: this.addressValidate,
         isNotAValidatorAddress: this.isNotAValidatorAddress,
-        isAWhitelistedBech32Prefix: this.isAWhitelistedBech32Prefix,
-        isANetworkAddress: this.isANetworkAddress
+        isAWhitelistedBech32Prefix: this.isAWhitelistedBech32Prefix
       }
     }
   },
@@ -242,14 +250,6 @@ export default {
 }
 </script>
 <style scoped>
-.error-message {
-  font-size: var(--sm);
-  color: var(--danger);
-  font-style: italic;
-  font-weight: 500;
-  padding-left: 16px;
-}
-
 .tm-li-session {
   display: flex;
   padding: 1rem;
@@ -301,5 +301,27 @@ export default {
   border: 2px solid var(--dim);
   border-radius: 50%;
   padding: 0.5rem;
+}
+
+.field-checkbox-label {
+  color: var(--link);
+}
+
+.field-checkbox-label:hover {
+  color: var(--link-hover);
+}
+
+input[type="checkbox"] {
+  vertical-align: middle;
+}
+
+.session-footer {
+  justify-content: space-between;
+}
+
+@media screen and (min-width: 667px) {
+  .field-checkbox-input {
+    padding-left: 0;
+  }
 }
 </style>

@@ -198,4 +198,12 @@ export default {
 .field-checkbox-label:hover {
   color: var(--link-hover);
 }
+input[type="checkbox"] {
+  vertical-align: middle;
+}
+@media screen and (min-width: 667px) {
+  .field-checkbox-input {
+    padding-left: 0;
+  }
+}
 </style>
