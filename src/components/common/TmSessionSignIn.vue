@@ -43,6 +43,18 @@
           />
           <TmFormMsg v-if="error" type="custom" :msg="error" />
         </TmFormGroup>
+        <TmFormGroup
+          class="field-checkbox"
+          field-id="sign-up-warning"
+          field-label
+        >
+          <div class="field-checkbox-input">
+            <label class="field-checkbox-label" for="select-testnet">
+              <input id="select-testnet" v-model="testnet" type="checkbox" />
+              Select testnet</label
+            >
+          </div>
+        </TmFormGroup>
       </div>
       <div class="session-footer">
         <TmBtn value="Sign In" />
@@ -75,7 +87,8 @@ export default {
     signInAddress: ``,
     signInPassword: ``,
     error: ``,
-    addressPrefixes: []
+    addressPrefixes: [],
+    testnet: false
   }),
   computed: {
     ...mapState([`keystore`]),
@@ -143,8 +156,8 @@ export default {
       }
       // handling when there are both mainnet and testnet networks
       if (selectedNetwork.length > 1) {
-        selectedNetwork = selectedNetwork.filter(
-          ({ id }) => id.slice(-7) === `mainnet`
+        selectedNetwork = selectedNetwork.filter(({ id }) =>
+          this.testnet ? id.slice(-7) === `testnet` : id.slice(-7) === `mainnet`
         )[0]
       } else {
         selectedNetwork = selectedNetwork[0]
@@ -178,3 +191,11 @@ export default {
   }
 }
 </script>
+<style scoped>
+.field-checkbox-label {
+  color: var(--link);
+}
+.field-checkbox-label:hover {
+  color: var(--link-hover);
+}
+</style>
