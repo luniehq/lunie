@@ -112,7 +112,6 @@ export default class ActionManager {
 
   async send(memo, txMetaData) {
     this.readyCheck()
-
     let { gasEstimate, gasPrice, submitType, password } = txMetaData
     const signer = await getSigner(config, submitType, {
       address: this.context.userAddress,
@@ -145,7 +144,8 @@ export default class ActionManager {
     const { gasEstimate, gasPrice, submitType, password } = txMetaData
     const signer = await getSigner(config, submitType, {
       address: context.userAddress,
-      password
+      password,
+      network: context.networkId
     })
 
     const messageMetadata = {
