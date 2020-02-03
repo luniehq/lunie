@@ -22,4 +22,15 @@ const transactionGroup = {
   [messageType.WITHDRAW_DELEGATION_REWARD]: "distribution"
 }
 
-export { messageType, transactionGroup }
+const getTransactionGroup = group => {
+  if (typeof transactionGroup[group] === "undefined") {
+    const groups = group.split("/")
+    if (groups.length > 1) {
+      return transactionGroup[groups[1]]
+    }
+    return false
+  }
+  return transactionGroup[group]
+}
+
+export { messageType, transactionGroup, getTransactionGroup }

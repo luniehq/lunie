@@ -256,6 +256,16 @@ export default [
     }
   },
   {
+    path: `/extension/:address/:network`,
+    name: `extension`,
+    components: {
+      session: () => import(`./components/common/TmSessionExtension`)
+    },
+    meta: {
+      feature: "Session"
+    }
+  },
+  {
     path: `/existing`,
     name: `existing`,
     components: {

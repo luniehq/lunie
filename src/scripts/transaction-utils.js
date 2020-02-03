@@ -3,7 +3,7 @@
 import { getUnbondTimeFromTX } from "scripts/time"
 import {
   messageType,
-  transactionGroup
+  getTransactionGroup
 } from "src/components/transactions/messageTypes"
 
 const getFees = (transaction, defaultDenom = "ATOM") => {
@@ -23,7 +23,7 @@ const makeTxObject = (tx, fees, memo, time, height, hash, msgIndex) => {
     key: `${hash}_${msgIndex}`,
     blockNumber: Number(height),
     time: new Date(time),
-    group: transactionGroup[tx.type],
+    group: getTransactionGroup(tx.type),
     memo,
     fees
   }
@@ -32,7 +32,7 @@ const makeTxObject = (tx, fees, memo, time, height, hash, msgIndex) => {
 export const addTransactionTypeData = state => tx => {
   return {
     ...tx,
-    group: transactionGroup[tx.type],
+    group: getTransactionGroup(tx.type),
     liquidDate: getUnbondTimeFromTX(tx, state.delegation.unbondingDelegations)
   }
 }

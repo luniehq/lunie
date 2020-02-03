@@ -32,7 +32,8 @@ export default {
     NetworkItem
   },
   data: () => ({
-    networks: []
+    networks: [],
+    sortedNetworks: []
   }),
   computed: {
     ...mapState([`connection`]),
@@ -43,32 +44,30 @@ export default {
       } else {
         return `/create`
       }
-    },
-    sortedNetworks() {
-      // sorts networks setting showing the current network first, mainnets at the top and the default one the first
-      if (this.networks.length > 0) {
-        return (
-          [
-            // current network first
-            this.networks.find(({ id }) => id === this.networkId),
-            ...this.networks
-              // ignore the current network in the rest of the list as already showing on the top
-              .filter(({ id }) => id !== this.networkId)
-              // show all mainnets next
-              .sort((a, b) => {
-                return a.testnet - b.testnet
-              })
-              // show the default network on the top
-              .sort((a, b) => {
-                return b.default - a.default
-              })
-          ]
-            // filter out undefineds (happens if this.networkId is not set like in the extension)
-            .filter(x => !!x)
-        )
-      } else {
-        return []
-      }
+    }
+  },
+  mounted: async function() {
+    await this.$apollo.queries.networks.refetch()
+    if (this.networks.length > 0) {
+      this.sortedNetworks = [
+        // current network first
+        this.networks.find(({ id }) => id === this.networkId),
+        ...this.networks
+          // ignore the current network in the rest of the list as already showing on the top
+          .filter(({ id }) => id !== this.networkId)
+          // show all mainnets next
+          .sort((a, b) => {
+            return a.testnet - b.testnet
+          })
+          // show the default network on the top
+          .sort((a, b) => {
+            return b.default - a.default
+          })
+      ]
+        // filter out undefineds (happens if this.networkId is not set like in the extension)
+        .filter(x => !!x)
+    } else {
+      this.sortedNetworks = []
     }
   },
   methods: {
