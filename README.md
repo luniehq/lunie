@@ -27,6 +27,7 @@ This repository uses Lunie core as a dependency. Clone the Lunie Core repository
 
 ```bash
 $ git clone https://github.com/luniehq/lunie.git
+$ cd lunie
 $ git checkout origin/master
 ```
 
