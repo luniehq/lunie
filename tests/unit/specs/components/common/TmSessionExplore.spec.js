@@ -54,7 +54,8 @@ describe(`TmSessionExplore`, () => {
       addressPrefixes: [
         {
           id: "cosmos-hub-testnet",
-          address_prefix: "cosmos"
+          address_prefix: "cosmos",
+          testnet: false
         }
       ]
     })

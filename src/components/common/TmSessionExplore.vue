@@ -142,7 +142,7 @@ export default {
     async onSubmit() {
       this.$v.$touch()
       if (this.$v.$error) return
-      this.selectNetworkByAddress(this.address)
+      await this.selectNetworkByAddress(this.address)
       this.$store.dispatch(`signIn`, {
         sessionType: `explore`,
         address: this.address
@@ -159,6 +159,7 @@ export default {
       }
     },
     isNotAValidatorAddress(param) {
+      // TODO this only works for cosmos
       if (param.substring(0, 13) !== "cosmosvaloper") {
         return true
       } else {
@@ -182,20 +183,22 @@ export default {
       let selectedNetworksArray = this.addressPrefixes.filter(
         ({ address_prefix }) => address.startsWith(address_prefix)
       )
-      let selectedNetwork = ``
+
       // handling query not loaded yet or failed
       if (!selectedNetworksArray) {
-        console.error("Connecting to the selected network failed")
-        return
+        throw new Error("Connecting to the selected network failed")
       }
+
       // handling when there are both mainnet and testnet networks
-      if (selectedNetworksArray.length > 1) {
-        selectedNetwork = selectedNetworksArray.filter(({ testnet }) =>
-          this.testnet ? testnet === true : testnet === false
-        )[0]
-      } else {
-        selectedNetwork = selectedNetworksArray[0]
+      const selectedNetwork = selectedNetworksArray.find(({ testnet }) =>
+        this.testnet ? testnet === true : testnet === false
+      )
+      if (!selectedNetwork) {
+        throw new Error(
+          `No ${this.testnet ? "testnet" : "mainnet"} for this address found`
+        )
       }
+
       this.$store.dispatch(`setNetwork`, selectedNetwork)
     },
     getAddressIcon(addressType) {
@@ -244,7 +247,7 @@ export default {
       `,
       /* istanbul ignore next */
       update(data) {
-        return data.networks
+        return data.networks || []
       },
       fetchPolicy: "cache-first"
     }
