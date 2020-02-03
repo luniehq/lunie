@@ -89,6 +89,7 @@ export function atoms(number = 0) {
 export function uatoms(number = 0) {
   return BigNumber(number)
     .times(1e6)
+    .toFixed(0)
     .toString()
 }
 
