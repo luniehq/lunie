@@ -33,6 +33,13 @@ describe(`SessionExtension`, () => {
         $store,
         $router: {
           push: jest.fn()
+        },
+        $route: {
+          name: `r1`,
+          params: {
+            address: `cosmos1234`,
+            network: `cosmos-hub-mainnet`
+          }
         }
       }
     })
