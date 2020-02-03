@@ -179,21 +179,22 @@ export default {
       }
     },
     async selectNetworkByAddress(address) {
-      let selectedNetwork = this.addressPrefixes.filter(({ address_prefix }) =>
-        address.startsWith(address_prefix)
+      let selectedNetworksArray = this.addressPrefixes.filter(
+        ({ address_prefix }) => address.startsWith(address_prefix)
       )
+      let selectedNetwork = ``
       // handling query not loaded yet or failed
-      if (!selectedNetwork) {
+      if (!selectedNetworksArray) {
         console.error("Connecting to the selected network failed")
         return
       }
       // handling when there are both mainnet and testnet networks
-      if (selectedNetwork.length > 1) {
-        selectedNetwork = selectedNetwork.filter(({ testnet }) =>
+      if (selectedNetworksArray.length > 1) {
+        selectedNetwork = selectedNetworksArray.filter(({ testnet }) =>
           this.testnet ? testnet === true : testnet === false
         )[0]
       } else {
-        selectedNetwork = selectedNetwork[0]
+        selectedNetwork = selectedNetworksArray[0]
       }
       this.$store.dispatch(`setNetwork`, selectedNetwork)
     },
