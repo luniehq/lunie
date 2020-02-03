@@ -114,7 +114,7 @@ import {
   between,
   decimal
 } from "vuelidate/lib/validators"
-import { uatoms, SMALLEST } from "scripts/num"
+import { SMALLEST } from "scripts/num"
 import isEmpty from "lodash.isempty"
 import trim from "lodash.trim"
 import TmField from "common/TmField"
@@ -167,7 +167,7 @@ export default {
         description: this.description,
         initialDeposits: [
           {
-            amount: uatoms(this.amount),
+            amount: this.amount,
             denom: toMicroDenom(this.denom)
           }
         ]

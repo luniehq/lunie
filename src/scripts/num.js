@@ -1,5 +1,4 @@
 "use strict"
-import BigNumber from "bignumber.js"
 
 /**
  * Defines all numerical methods
@@ -80,21 +79,9 @@ export function percent(number = 0) {
   )
 }
 
-export function atoms(number = 0) {
-  return BigNumber(number)
-    .div(1e6)
-    .toNumber()
-}
-
-export function uatoms(number = 0) {
-  return BigNumber(number)
-    .times(1e6)
-    .toString()
-}
-
 export function createDisplayCoin({ amount, denom }, length = 3) {
   return {
-    amount: setDecimalLength(atoms(amount), length),
+    amount: setDecimalLength(amount, length),
     denom
   }
 }
@@ -149,8 +136,6 @@ export const roundObjectPercentages = dataMap => {
 
 export default {
   SMALLEST,
-  atoms,
-  uatoms,
   createDisplayCoin,
   shortDecimals,
   fullDecimals,

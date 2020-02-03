@@ -131,7 +131,7 @@
 import { mapState, mapGetters } from "vuex"
 import { between, decimal } from "vuelidate/lib/validators"
 import gql from "graphql-tag"
-import { uatoms, SMALLEST } from "src/scripts/num"
+import { SMALLEST } from "src/scripts/num"
 import TmField from "src/components/common/TmField"
 import TmFieldGroup from "src/components/common/TmFieldGroup"
 import TmBtn from "src/components/common/TmBtn"
@@ -237,14 +237,14 @@ export default {
           type: transaction.REDELEGATE,
           validatorSourceAddress: this.from,
           validatorDestinationAddress: this.targetValidator.operatorAddress,
-          amount: uatoms(this.amount),
+          amount: this.amount,
           denom: toMicroDenom(this.denom)
         }
       } else {
         return {
           type: transaction.DELEGATE,
           validatorAddress: this.targetValidator.operatorAddress,
-          amount: uatoms(this.amount),
+          amount: this.amount,
           denom: toMicroDenom(this.denom)
         }
       }

@@ -57,7 +57,7 @@
 <script>
 import { mapGetters } from "vuex"
 import gql from "graphql-tag"
-import { uatoms, SMALLEST } from "src/scripts/num"
+import { SMALLEST } from "src/scripts/num"
 import { between, decimal } from "vuelidate/lib/validators"
 import TmField from "src/components/common/TmField"
 import TmFormGroup from "src/components/common/TmFormGroup"
@@ -104,7 +104,7 @@ export default {
         proposalId: this.proposalId,
         amounts: [
           {
-            amount: uatoms(this.amount),
+            amount: this.amount,
             denom: toMicroDenom(this.denom)
           }
         ]

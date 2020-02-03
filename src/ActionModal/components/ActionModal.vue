@@ -425,7 +425,7 @@ export default {
       )
     },
     estimatedFee() {
-      return Number(this.gasPrice) * Number(this.gasEstimate) // already in atoms
+      return Number(this.gasPrice) * Number(this.gasEstimate)
     },
     invoiceTotal() {
       return (

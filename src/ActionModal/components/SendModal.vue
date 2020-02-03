@@ -147,7 +147,7 @@
 import gql from "graphql-tag"
 import b32 from "scripts/b32"
 import { required, between, decimal, maxLength } from "vuelidate/lib/validators"
-import { uatoms, SMALLEST } from "src/scripts/num"
+import { SMALLEST } from "src/scripts/num"
 import { mapGetters } from "vuex"
 import TmFormGroup from "src/components/common/TmFormGroup"
 import TmField from "src/components/common/TmField"
@@ -206,7 +206,7 @@ export default {
         toAddress: this.address,
         amounts: [
           {
-            amount: uatoms(+this.amount),
+            amount: +this.amount,
             denom: toMicroDenom(this.selectedToken)
           }
         ],

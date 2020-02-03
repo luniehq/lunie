@@ -20,7 +20,7 @@
     <div class="tx__content__right">
       <p class="amount">
         <!-- TODO: FE should be network agnostic -->
-        {{ fee.amount | atoms | prettyLong }}&nbsp;
+        {{ fee.amount | prettyLong }}&nbsp;
         {{ fee.denom }}
       </p>
     </div>
@@ -28,13 +28,12 @@
 </template>
 
 <script>
-import { atoms, prettyLong } from "scripts/num.js"
+import { prettyLong } from "scripts/num.js"
 import { resolveValidatorName } from "src/filters"
 import TransactionIcon from "../TransactionIcon"
 export default {
   name: `edit-validator-message-details`,
   filters: {
-    atoms,
     prettyLong,
     resolveValidatorName
   },
