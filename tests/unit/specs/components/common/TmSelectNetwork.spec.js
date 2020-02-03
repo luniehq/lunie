@@ -2,7 +2,16 @@ import { shallowMount } from "@vue/test-utils"
 import TmSelectNetwork from "common/TmSelectNetwork"
 
 describe(`TmSelectNetwork`, () => {
-  let wrapper, $store
+  let wrapper, $store, $apollo
+
+  $apollo = {
+    queries: {
+      networks: {
+        refetch: jest.fn()
+      }
+    }
+  }
+
   const networks = [
     {
       id: `awesomenet`,
@@ -34,6 +43,9 @@ describe(`TmSelectNetwork`, () => {
   beforeEach(() => {
     $store = {
       dispatch: jest.fn(),
+      state: {
+        networks
+      },
       getters: {
         network: `localnet`
       }
@@ -46,7 +58,8 @@ describe(`TmSelectNetwork`, () => {
         $route: {
           params: {}
         },
-        $store
+        $store,
+        $apollo
       }
     })
     wrapper.setData({ networks })
@@ -69,11 +82,11 @@ describe(`TmSelectNetwork`, () => {
   it(`works in the extension where there is no current network`, () => {
     wrapper.vm.$store.getters.network = undefined
     expect(wrapper.vm.sortedNetworks).toEqual([
+      { default: false, id: "localnet", testnet: true },
       { default: true, id: "la-red-feliz", testnet: false },
       { default: false, id: "emilys-chain", testnet: false },
       { default: false, id: "awesomenet", testnet: true },
-      { default: false, id: "keine-ahnungnet", testnet: true },
-      { default: false, id: "localnet", testnet: true }
+      { default: false, id: "keine-ahnungnet", testnet: true }
     ])
   })
 
