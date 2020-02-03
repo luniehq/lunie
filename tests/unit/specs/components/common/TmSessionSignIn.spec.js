@@ -7,12 +7,66 @@ describe(`TmSessionSignIn`, () => {
   localVue.use(Vuelidate)
 
   let wrapper, $store
+  const addressPrefixes = [
+    {
+      id: "cosmos-hub-testnet",
+      address_prefix: "cosmos",
+      testnet: true
+    },
+    {
+      id: "cosmos-hub-mainnet",
+      address_prefix: "cosmos",
+      testnet: false
+    },
+    {
+      id: "terra-testnet",
+      address_prefix: "terra",
+      testnet: true
+    }
+  ]
+  const addresses = [
+    `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
+    `cosmos1pxdf0lvq5jvl9uxznklgc5gxuwzpdy5ynem546`
+  ]
 
   beforeEach(() => {
     $store = {
       commit: jest.fn(),
       dispatch: jest.fn(() => true),
       state: {
+        keys: [
+          {
+            name: `cosmosdefault`,
+            password: `1234567890`,
+            address: addresses[0]
+          },
+          {
+            name: `terradefault`,
+            password: `1234567890`,
+            address: addresses[0]
+          }
+        ],
+        session: {
+          address: ``,
+          addresses: [
+            {
+              address: `cosmos1z8mzakma7vnaajysmtkwt4wgjqr2m84tzvyfkz`,
+              type: `explore`
+            },
+            {
+              address: `cosmos1unc788q8md2jymsns24eyhua58palg5kc7cstv`,
+              type: `ledger`
+            },
+            {
+              address: `cosmos1vxkye0mpdtjhzrc6va5lcnxnuaa7m64khj8klc`,
+              type: `extension`
+            },
+            {
+              address: `cosmos1vxkye0mpdtjhzrc6va5lcnxnuaa7m64khj8xyz`,
+              type: `local`
+            }
+          ]
+        },
         keystore: {
           accounts: [
             {
@@ -33,6 +87,8 @@ describe(`TmSessionSignIn`, () => {
         $store
       }
     })
+
+    wrapper.setData({ addressPrefixes })
   })
 
   it(`has the expected html structure`, () => {
@@ -42,7 +98,7 @@ describe(`TmSessionSignIn`, () => {
   it(`should close the modal on successful login`, async () => {
     wrapper.setData({
       signInPassword: `1234567890`,
-      signInAddress: `default`
+      signInAddress: `cosmosdefault`
     })
     wrapper.vm.$emit = jest.fn()
     await wrapper.vm.onSubmit()
@@ -52,12 +108,12 @@ describe(`TmSessionSignIn`, () => {
   it(`should signal signedin state on successful login`, async () => {
     wrapper.setData({
       signInPassword: `1234567890`,
-      signInAddress: `default`
+      signInAddress: `cosmosdefault`
     })
     await wrapper.vm.onSubmit()
     expect($store.dispatch).toHaveBeenCalledWith(`signIn`, {
       password: `1234567890`,
-      address: "default",
+      address: "cosmosdefault",
       sessionType: `local`
     })
   })
@@ -72,8 +128,8 @@ describe(`TmSessionSignIn`, () => {
   it(`should show a notification if signin failed`, async () => {
     $store.dispatch = jest.fn().mockResolvedValueOnce(false)
     wrapper.setData({
-      signInPassword: `1234567890`,
-      signInAddress: `default`
+      signInPassword: `1234567889`,
+      signInAddress: `cosmosdefault`
     })
     await wrapper.vm.onSubmit()
     expect(wrapper.vm.error).toBe(`The provided username or password is wrong.`)
@@ -135,5 +191,26 @@ describe(`TmSessionSignIn`, () => {
 
     expect(self.signInAddress).toBe(undefined)
     expect(self.$el.querySelector).toHaveBeenCalledWith(`#sign-in-name`)
+  })
+
+  it(`automatically connects to the network an address belongs to`, async () => {
+    await wrapper.vm.selectNetworkByAddress(`terradefault`)
+    expect($store.dispatch).toHaveBeenCalledWith(`setNetwork`, {
+      id: "terra-testnet",
+      address_prefix: "terra",
+      testnet: true
+    })
+  })
+
+  it(`automatically connects to the testnet network an address belongs to if "tesnet" is set to true`, async () => {
+    wrapper.setData({
+      testnet: true
+    })
+    await wrapper.vm.selectNetworkByAddress(`cosmosdefault`)
+    expect($store.dispatch).toHaveBeenCalledWith(`setNetwork`, {
+      id: "cosmos-hub-testnet",
+      address_prefix: "cosmos",
+      testnet: true
+    })
   })
 })

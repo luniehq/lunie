@@ -43,6 +43,18 @@
           />
           <TmFormMsg v-if="error" type="custom" :msg="error" />
         </TmFormGroup>
+        <TmFormGroup
+          class="field-checkbox"
+          field-id="sign-up-warning"
+          field-label
+        >
+          <div class="field-checkbox-input">
+            <label class="field-checkbox-label" for="select-testnet">
+              <input id="select-testnet" v-model="testnet" type="checkbox" />
+              Select testnet</label
+            >
+          </div>
+        </TmFormGroup>
       </div>
       <div class="session-footer">
         <TmBtn value="Sign In" />
@@ -60,6 +72,7 @@ import TmField from "common/TmField"
 import TmFormMsg from "common/TmFormMsg"
 import TmFormStruct from "common/TmFormStruct"
 import SessionFrame from "common/SessionFrame"
+import gql from "graphql-tag"
 export default {
   name: `session-sign-in`,
   components: {
@@ -73,7 +86,9 @@ export default {
   data: () => ({
     signInAddress: ``,
     signInPassword: ``,
-    error: ``
+    error: ``,
+    addressPrefixes: [],
+    testnet: false
   }),
   computed: {
     ...mapState([`keystore`]),
@@ -84,6 +99,9 @@ export default {
         key: name
       }))
     }
+  },
+  created() {
+    this.$store.dispatch("loadAccounts")
   },
   mounted() {
     this.setDefaultAccount(this.accounts)
@@ -97,6 +115,7 @@ export default {
         address: this.signInAddress
       })
       if (sessionCorrect) {
+        this.selectNetworkByAddress(this.signInAddress)
         this.$store.dispatch(`signIn`, {
           password: this.signInPassword,
           address: this.signInAddress,
@@ -125,11 +144,65 @@ export default {
       } else {
         this.$el.querySelector(`#sign-in-name`).focus()
       }
+    },
+    async selectNetworkByAddress(address) {
+      let selectedNetworksArray = this.addressPrefixes.filter(
+        ({ address_prefix }) => address.startsWith(address_prefix)
+      )
+      let selectedNetwork = ``
+
+      // handling when there are both mainnet and testnet networks
+      if (selectedNetworksArray.length > 1) {
+        /* istanbul ignore next */
+        selectedNetwork = selectedNetworksArray.filter(({ testnet }) =>
+          this.testnet ? testnet === true : testnet === false
+        )[0]
+      } else {
+        selectedNetwork = selectedNetworksArray[0]
+      }
+      this.$store.dispatch(`setNetwork`, selectedNetwork)
     }
   },
-  validations: () => ({
-    signInAddress: { required },
-    signInPassword: { required, minLength: minLength(10) }
-  })
+  validations() {
+    return {
+      signInAddress: { required },
+      signInPassword: { required, minLength: minLength(10) }
+    }
+  },
+  apollo: {
+    addressPrefixes: {
+      query: gql`
+        query Network {
+          networks {
+            id
+            address_prefix
+            testnet
+          }
+        }
+      `,
+      /* istanbul ignore next */
+      update(data) {
+        if (data.networks) return data.networks
+        return ""
+      },
+      fetchPolicy: "cache-first"
+    }
+  }
 }
 </script>
+<style scoped>
+.field-checkbox-label {
+  color: var(--link);
+}
+.field-checkbox-label:hover {
+  color: var(--link-hover);
+}
+input[type="checkbox"] {
+  vertical-align: middle;
+}
+@media screen and (min-width: 667px) {
+  .field-checkbox-input {
+    padding-left: 0;
+  }
+}
+</style>

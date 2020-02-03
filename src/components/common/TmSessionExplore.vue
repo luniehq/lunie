@@ -63,14 +63,22 @@
             name="You can only sign in with a regular address"
             type="custom"
           />
-          <TmFormMsg
-            v-else-if="$v.address.$error && !$v.address.isANetworkAddress"
-            name="This address doesn't belong to the network you are currently connected to"
-            type="custom"
-          />
+          <TmFormMsg v-else-if="error" :name="error" type="custom" />
         </TmFormGroup>
       </div>
       <div class="session-footer">
+        <TmFormGroup
+          class="field-checkbox"
+          field-id="sign-up-warning"
+          field-label
+        >
+          <div class="field-checkbox-input">
+            <label class="field-checkbox-label" for="select-testnet">
+              <input id="select-testnet" v-model="testnet" type="checkbox" />
+              Select testnet</label
+            >
+          </div>
+        </TmFormGroup>
         <TmBtn value="Explore" />
       </div>
     </TmFormStruct>
@@ -108,7 +116,8 @@ export default {
   data: () => ({
     address: ``,
     error: ``,
-    addressPrefixes: []
+    addressPrefixes: [],
+    testnet: false
   }),
   computed: {
     ...mapState([`session`]),
@@ -125,6 +134,17 @@ export default {
           address.address.startsWith(selectedNetwork.address_prefix)
         )
         .slice(-3)
+    },
+    networkOfAddress() {
+      const selectedNetworksArray = this.addressPrefixes.filter(
+        ({ address_prefix }) => this.address.startsWith(address_prefix)
+      )
+
+      const selectedNetwork = selectedNetworksArray.find(({ testnet }) =>
+        this.testnet ? testnet === true : testnet === false
+      )
+
+      return selectedNetwork
     }
   },
   mounted() {
@@ -132,13 +152,24 @@ export default {
   },
   methods: {
     async onSubmit() {
+      this.error = null
       this.$v.$touch()
       if (this.$v.$error) return
+
+      if (!this.networkOfAddress) {
+        this.error = `No ${
+          this.testnet ? "testnet" : "mainnet"
+        } for this address found`
+        return
+      }
 
       this.$store.dispatch(`signIn`, {
         sessionType: `explore`,
         address: this.address
       })
+      // doing this async to not update the UI with the new networks past addresses
+      this.selectNetworkByAddress()
+
       localStorage.setItem(`prevAddress`, this.address)
       this.$router.push(`/`)
     },
@@ -151,6 +182,7 @@ export default {
       }
     },
     isNotAValidatorAddress(param) {
+      // TODO this only works for cosmos
       if (param.substring(0, 13) !== "cosmosvaloper") {
         return true
       } else {
@@ -170,18 +202,8 @@ export default {
         return false
       }
     },
-    isANetworkAddress(param) {
-      const selectedNetwork = this.addressPrefixes.find(
-        ({ id }) => id === this.network
-      )
-      // handling query not loaded yet or failed
-      if (!selectedNetwork) return false
-
-      if (param.startsWith(selectedNetwork.address_prefix)) {
-        return true
-      } else {
-        return false
-      }
+    async selectNetworkByAddress() {
+      this.$store.dispatch(`setNetwork`, this.networkOfAddress)
     },
     getAddressIcon(addressType) {
       if (addressType === "explore") return `language`
@@ -212,8 +234,7 @@ export default {
         required,
         addressValidate: this.addressValidate,
         isNotAValidatorAddress: this.isNotAValidatorAddress,
-        isAWhitelistedBech32Prefix: this.isAWhitelistedBech32Prefix,
-        isANetworkAddress: this.isANetworkAddress
+        isAWhitelistedBech32Prefix: this.isAWhitelistedBech32Prefix
       }
     }
   },
@@ -224,12 +245,13 @@ export default {
           networks {
             id
             address_prefix
+            testnet
           }
         }
       `,
       /* istanbul ignore next */
       update(data) {
-        return data.networks
+        return data.networks || []
       },
       fetchPolicy: "cache-first"
     }
@@ -288,5 +310,27 @@ export default {
   border: 2px solid var(--dim);
   border-radius: 50%;
   padding: 0.5rem;
+}
+
+.field-checkbox-label {
+  color: var(--link);
+}
+
+.field-checkbox-label:hover {
+  color: var(--link-hover);
+}
+
+input[type="checkbox"] {
+  vertical-align: middle;
+}
+
+.session-footer {
+  justify-content: space-between;
+}
+
+@media screen and (min-width: 667px) {
+  .field-checkbox-input {
+    padding-left: 0;
+  }
 }
 </style>
