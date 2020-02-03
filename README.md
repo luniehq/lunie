@@ -23,10 +23,11 @@ $ cd lunie-browser-extension
 
 ## Prepare
 
-This repository uses Lunie core as a dependency. Install the submodule via:
+This repository uses Lunie core as a dependency. Clone the Lunie Core repository (using branch `master`) via:
 
 ```bash
-$ yarn initiate-submodule
+$ git clone https://github.com/luniehq/lunie.git
+$ git checkout origin/master
 ```
 
 Note: To reference components easily some aliases are set to the submodule in the webpack config.
@@ -51,6 +52,12 @@ $ yarn watch:dev
 
 ```bash
 $ yarn run build
+```
+
+## Build enabling localhost connection
+
+```bash
+$ yarn run build:dev
 ```
 
 ## Test in Chrome
