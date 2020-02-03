@@ -63,6 +63,7 @@
             name="You can only sign in with a regular address"
             type="custom"
           />
+          <TmFormMsg v-else-if="error" :name="error" type="custom" />
         </TmFormGroup>
       </div>
       <div class="session-footer">
@@ -133,6 +134,17 @@ export default {
           address.address.startsWith(selectedNetwork.address_prefix)
         )
         .slice(-3)
+    },
+    networkOfAddress() {
+      const selectedNetworksArray = this.addressPrefixes.filter(
+        ({ address_prefix }) => this.address.startsWith(address_prefix)
+      )
+
+      const selectedNetwork = selectedNetworksArray.find(({ testnet }) =>
+        this.testnet ? testnet === true : testnet === false
+      )
+
+      return selectedNetwork
     }
   },
   mounted() {
@@ -140,13 +152,24 @@ export default {
   },
   methods: {
     async onSubmit() {
+      this.error = null
       this.$v.$touch()
       if (this.$v.$error) return
-      await this.selectNetworkByAddress(this.address)
+
+      if (!this.networkOfAddress) {
+        this.error = `No ${
+          this.testnet ? "testnet" : "mainnet"
+        } for this address found`
+        return
+      }
+
       this.$store.dispatch(`signIn`, {
         sessionType: `explore`,
         address: this.address
       })
+      // doing this async to not update the UI with the new networks past addresses
+      this.selectNetworkByAddress()
+
       localStorage.setItem(`prevAddress`, this.address)
       this.$router.push(`/`)
     },
@@ -179,27 +202,8 @@ export default {
         return false
       }
     },
-    async selectNetworkByAddress(address) {
-      let selectedNetworksArray = this.addressPrefixes.filter(
-        ({ address_prefix }) => address.startsWith(address_prefix)
-      )
-
-      // handling query not loaded yet or failed
-      if (!selectedNetworksArray) {
-        throw new Error("Connecting to the selected network failed")
-      }
-
-      // handling when there are both mainnet and testnet networks
-      const selectedNetwork = selectedNetworksArray.find(({ testnet }) =>
-        this.testnet ? testnet === true : testnet === false
-      )
-      if (!selectedNetwork) {
-        throw new Error(
-          `No ${this.testnet ? "testnet" : "mainnet"} for this address found`
-        )
-      }
-
-      this.$store.dispatch(`setNetwork`, selectedNetwork)
+    async selectNetworkByAddress() {
+      this.$store.dispatch(`setNetwork`, this.networkOfAddress)
     },
     getAddressIcon(addressType) {
       if (addressType === "explore") return `language`
