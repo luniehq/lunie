@@ -102,6 +102,7 @@ export default {
     ...mapGetters([`network`]),
     ...mapGetters({ userAddress: `address` }),
     transactionData() {
+      if (Number.isNaN(this.amount)) return {}
       return {
         type: transaction.DEPOSIT,
         proposalId: this.proposalId,

@@ -202,6 +202,7 @@ export default {
       return { amount: 0 }
     },
     transactionData() {
+      if (Number.isNaN(this.amount)) return {}
       return {
         type: transaction.SEND,
         toAddress: this.address,

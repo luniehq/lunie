@@ -167,7 +167,8 @@ export default {
       return delegation ? Number(delegation.amount) : 0
     },
     transactionData() {
-      if (!this.sourceValidator.operatorAddress) return {}
+      if (!this.sourceValidator.operatorAddress || Number.isNaN(this.amount))
+        return {}
 
       if (this.isRedelegation) {
         return {
