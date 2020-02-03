@@ -44,9 +44,13 @@ describe(`SessionAccounts`, () => {
   it(`has correct go to lunie method`, () => {
     const openFn = jest.fn()
     window.open = openFn
-    wrapper.vm.goToLunie()
+    const account = {
+      address: 'testaddress',
+      network: 'testnetwork'
+    }
+    wrapper.vm.goToLunie(account)
     expect(openFn).toHaveBeenCalledWith(
-      'https://app.lunie.io/#/extension',
+      'https://app.lunie.io/extension/testaddress/testnetwork',
       '_blank',
       'noreferrer noopener'
     )

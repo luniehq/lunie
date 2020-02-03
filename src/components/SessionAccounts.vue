@@ -40,9 +40,9 @@ export default {
     }
   },
   methods: {
-    goToLunie() {
+    goToLunie(account) {
       window.open(
-        `${config.lunieLink}/#/extension`,
+        `${config.lunieLink}/extension/${account.address}/${account.network}`,
         '_blank',
         'noreferrer noopener'
       )
