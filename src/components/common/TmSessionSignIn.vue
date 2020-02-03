@@ -146,6 +146,7 @@ export default {
       }
     },
     async selectNetworkByAddress(address) {
+      /* istanbul ignore next */
       let selectedNetworksArray = this.addressPrefixes.filter(
         ({ address_prefix }) => address.startsWith(address_prefix)
       )
