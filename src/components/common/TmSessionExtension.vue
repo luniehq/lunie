@@ -32,8 +32,8 @@
 
       <div v-else class="session-main">
         <p class="extension-message">
-          Looks like you don't have any accounts yet. Head over to
-          <router-link to="selectnetwork">create one</router-link>.
+          Looks like you don't have any accounts yet. How about opening the
+          extension and creating an account right now?
         </p>
       </div>
     </div>
