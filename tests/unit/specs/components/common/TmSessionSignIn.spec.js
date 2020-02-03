@@ -213,16 +213,4 @@ describe(`TmSessionSignIn`, () => {
       testnet: true
     })
   })
-
-  it(`if addressPrefixes i.e. networks haven't loaded correctly, selecNetworkByAddress does nothing`, async () => {
-    wrapper.setData({
-      addressPrefixes: []
-    })
-    await wrapper.vm.selectNetworkByAddress(`cosmosdefault`)
-    expect($store.dispatch).not.toHaveBeenCalledWith(`setNetwork`, {
-      id: "cosmos-hub-mainnet",
-      address_prefix: "cosmos",
-      testnet: false
-    })
-  })
 })

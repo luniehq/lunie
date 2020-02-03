@@ -179,11 +179,6 @@ export default {
       }
     },
     async selectNetworkByAddress(address) {
-      // handling query not loaded yet or failed
-      if (!this.addressPrefixes) {
-        console.error("Connecting to the selected network failed")
-        return
-      }
       let selectedNetworksArray = this.addressPrefixes.filter(
         ({ address_prefix }) => address.startsWith(address_prefix)
       )
