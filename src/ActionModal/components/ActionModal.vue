@@ -651,6 +651,12 @@ export default {
     },
     async submit() {
       this.submissionError = null
+
+      if (this.transactionData === {}) {
+        this.onSendingFailed(`Error in transaction data`)
+        return
+      }
+
       this.trackEvent(`event`, `submit`, this.title, this.selectedSignMethod)
 
       const { type, memo, ...properties } = this.transactionData

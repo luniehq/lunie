@@ -167,10 +167,15 @@ export default {
       return delegation ? Number(delegation.amount) : 0
     },
     transactionData() {
-      if (!this.sourceValidator.operatorAddress || Number.isNaN(this.amount))
-        return {}
-
       if (this.isRedelegation) {
+        if (
+          Number.isNaN(this.amount) ||
+          !this.sourceValidator.operatorAddress ||
+          !this.toSelectedIndex ||
+          !this.denom
+        ) {
+          return {}
+        }
         return {
           type: transaction.REDELEGATE,
           validatorSourceAddress: this.sourceValidator.operatorAddress,
@@ -179,6 +184,13 @@ export default {
           denom: toMicroDenom(this.denom)
         }
       } else {
+        if (
+          Number.isNaN(this.amount) ||
+          !this.sourceValidator.operatorAddress ||
+          !this.denom
+        ) {
+          return {}
+        }
         return {
           type: transaction.UNDELEGATE,
           validatorAddress: this.sourceValidator.operatorAddress,
