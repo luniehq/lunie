@@ -134,7 +134,7 @@
   {
     "id": "emoney-testnet",
     "title": "e-Money Testnet",
-    "chain_id": "lilmermaid-4",
+    "chain_id": "lilmermaid-5",
     "api_url": "http://lilmermaid.validator.network/light",
     "rpc_url": "wss://lilmermaid.validator.network/websocket",
     "bech32_prefix": "emoney",
