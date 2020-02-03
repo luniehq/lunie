@@ -1,5 +1,0 @@
-[Changed] Add no accounts alert on use extension step @iambeone
-[Changed] change create new account flow, remove select network step in default mode @iambeone
-[Added] Network change on login with extension @iambeone
-[Changed] rewrite networkSort to fix network order change after selection @iambeone
-[Added] sign-in with the url parameters @iambeone
