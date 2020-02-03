@@ -179,17 +179,19 @@ export default {
       }
     },
     async selectNetworkByAddress(address) {
+      // handling query not loaded yet or failed
+      if (!this.addressPrefixes) {
+        console.error("Connecting to the selected network failed")
+        return
+      }
       let selectedNetworksArray = this.addressPrefixes.filter(
         ({ address_prefix }) => address.startsWith(address_prefix)
       )
       let selectedNetwork = ``
-      // handling query not loaded yet or failed
-      if (!selectedNetworksArray) {
-        console.error("Connecting to the selected network failed")
-        return
-      }
+
       // handling when there are both mainnet and testnet networks
       if (selectedNetworksArray.length > 1) {
+        /* istanbul ignore next */
         selectedNetwork = selectedNetworksArray.filter(({ testnet }) =>
           this.testnet ? testnet === true : testnet === false
         )[0]
