@@ -163,12 +163,12 @@ export default {
         return
       }
 
+      // needs to be done first because if not we are logging into the current network
+      await this.selectNetworkByAddress()
       this.$store.dispatch(`signIn`, {
         sessionType: `explore`,
         address: this.address
       })
-      // doing this async to not update the UI with the new networks past addresses
-      this.selectNetworkByAddress()
 
       localStorage.setItem(`prevAddress`, this.address)
       this.$router.push(`/`)
