@@ -10,11 +10,18 @@ describe(`TmSessionSignIn`, () => {
   const addressPrefixes = [
     {
       id: "cosmos-hub-testnet",
-      address_prefix: "cosmos"
+      address_prefix: "cosmos",
+      testnet: true
     },
     {
       id: "cosmos-hub-mainnet",
-      address_prefix: "cosmos"
+      address_prefix: "cosmos",
+      testnet: false
+    },
+    {
+      id: "terra-testnet",
+      address_prefix: "terra",
+      testnet: true
     }
   ]
   const addresses = [
@@ -187,23 +194,23 @@ describe(`TmSessionSignIn`, () => {
   })
 
   it(`automatically connects to the network an address belongs to`, async () => {
-    localStorage.setItem(`network`, `cosmos-hub-mainnet`)
-    wrapper.setData({
-      signInPassword: `1234567889`,
-      signInAddress: `terradefault`
+    await wrapper.vm.selectNetworkByAddress(`terradefault`)
+    expect($store.dispatch).toHaveBeenCalledWith(`setNetwork`, {
+      id: "terra-testnet",
+      address_prefix: "terra",
+      testnet: true
     })
-    await wrapper.vm.onSubmit()
-    expect(localStorage.getItem(`network`)).toEqual(`terra-tesnet`)
   })
 
   it(`automatically connects to the testnet network an address belongs to if "tesnet" is set to true`, async () => {
-    localStorage.setItem(`network`, `cosmos-hub-mainnet`)
     wrapper.setData({
-      signInPassword: `1234567889`,
-      signInAddress: `cosmosdefault`,
       testnet: true
     })
-    await wrapper.vm.onSubmit()
-    expect(localStorage.getItem(`network`)).toEqual(`cosmos-hub-tesnet`)
+    await wrapper.vm.selectNetworkByAddress(`cosmosdefault`)
+    expect($store.dispatch).toHaveBeenCalledWith(`setNetwork`, {
+      id: "cosmos-hub-testnet",
+      address_prefix: "cosmos",
+      testnet: true
+    })
   })
 })
