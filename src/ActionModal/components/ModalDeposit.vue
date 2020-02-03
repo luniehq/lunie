@@ -19,7 +19,7 @@
       field-id="amount"
       field-label="Amount"
     >
-      <span class="input-suffix">{{ denom | viewDenom }}</span>
+      <span class="input-suffix">{{ denom }}</span>
       <TmField
         id="amount"
         v-model="amount"
@@ -29,7 +29,7 @@
       />
       <TmFormMsg
         v-if="balance.amount === 0"
-        :msg="`doesn't have any ${viewDenom(denom)}s`"
+        :msg="`doesn't have any ${denom}s`"
         name="Wallet"
         type="custom"
       />
@@ -57,7 +57,7 @@
 <script>
 import { mapGetters } from "vuex"
 import gql from "graphql-tag"
-import { uatoms, viewDenom, SMALLEST } from "src/scripts/num"
+import { uatoms, SMALLEST } from "src/scripts/num"
 import { between, decimal } from "vuelidate/lib/validators"
 import TmField from "src/components/common/TmField"
 import TmFormGroup from "src/components/common/TmFormGroup"
@@ -73,9 +73,6 @@ export default {
     TmField,
     TmFormGroup,
     TmFormMsg
-  },
-  filters: {
-    viewDenom
   },
   props: {
     proposalId: {
@@ -116,9 +113,7 @@ export default {
     notifyMessage() {
       return {
         title: `Successful deposit!`,
-        body: `You have successfully deposited your ${viewDenom(
-          this.denom
-        )}s on proposal #${this.proposalId}`
+        body: `You have successfully deposited your ${this.denom}s on proposal #${this.proposalId}`
       }
     }
   },
@@ -132,7 +127,6 @@ export default {
     }
   },
   methods: {
-    viewDenom,
     open() {
       this.$refs.actionModal.open()
     },

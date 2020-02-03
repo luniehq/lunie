@@ -12,13 +12,12 @@
 </template>
 
 <script>
-import { viewDenom, prettyLong } from "scripts/num.js"
+import { prettyLong } from "scripts/num.js"
 import TransactionIcon from "../TransactionIcon"
 
 export default {
   name: `set-withdraw-address-message-details`,
   filters: {
-    viewDenom,
     prettyLong
   },
   components: {

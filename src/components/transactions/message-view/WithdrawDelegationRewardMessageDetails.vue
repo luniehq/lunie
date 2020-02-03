@@ -26,14 +26,13 @@
 </template>
 
 <script>
-import { viewDenom, prettyLong } from "scripts/num.js"
+import { prettyLong } from "scripts/num.js"
 import { resolveValidatorName } from "src/filters"
 import TransactionIcon from "../TransactionIcon"
 
 export default {
   name: `withdraw-delegation-reward-message-details`,
   filters: {
-    viewDenom,
     prettyLong,
     resolveValidatorName
   },

@@ -64,7 +64,7 @@
             field-label="Gas Price"
           >
             <span class="input-suffix">
-              {{ network.stakingDenom | viewDenom }}
+              {{ network.stakingDenom }}
             </span>
             <TmField
               id="gas-price"
@@ -289,7 +289,7 @@ import TmDataMsg from "common/TmDataMsg"
 import TableInvoice from "./TableInvoice"
 import Steps from "./Steps"
 import { mapState, mapGetters } from "vuex"
-import { viewDenom, prettyInt } from "src/scripts/num"
+import { prettyInt } from "src/scripts/num"
 import { between, requiredIf } from "vuelidate/lib/validators"
 import { track } from "scripts/google-analytics"
 import { UserTransactionAdded } from "src/gql"
@@ -344,9 +344,6 @@ export default {
     TableInvoice,
     Steps,
     FeatureNotAvailable
-  },
-  filters: {
-    viewDenom
   },
   props: {
     title: {

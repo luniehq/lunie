@@ -3,30 +3,29 @@
     <ul class="table-invoice">
       <li v-if="subTotal > 0">
         <span>Subtotal</span>
-        <span> {{ subTotal | fullDecimals }} {{ bondDenom | viewDenom }} </span>
+        <span> {{ subTotal | fullDecimals }} {{ bondDenom }} </span>
       </li>
       <li>
         <span>Network Fee</span>
         <span>
           {{ estimatedFee | fullDecimals }}
-          {{ bondDenom | viewDenom }}
+          {{ bondDenom }}
         </span>
       </li>
       <li class="total-row">
         <span>Total</span>
-        <span> {{ total | fullDecimals }} {{ bondDenom | viewDenom }} </span>
+        <span> {{ total | fullDecimals }} {{ bondDenom }} </span>
       </li>
     </ul>
   </div>
 </template>
 <script>
-import { fullDecimals, viewDenom } from "../../scripts/num"
+import { fullDecimals } from "../../scripts/num"
 
 export default {
   name: `table-invoice`,
   filters: {
-    fullDecimals,
-    viewDenom
+    fullDecimals
   },
   props: {
     amount: {

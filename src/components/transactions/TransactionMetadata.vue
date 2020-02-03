@@ -33,13 +33,11 @@
 import { mapGetters } from "vuex"
 import gql from "graphql-tag"
 import moment from "moment"
-import { viewDenom } from "scripts/num.js"
 import { prettyInt } from "scripts/num"
 
 export default {
   name: `transaction-metadata`,
   filters: {
-    viewDenom,
     prettyInt
   },
   props: {

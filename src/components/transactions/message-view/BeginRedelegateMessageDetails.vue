@@ -37,15 +37,13 @@
       </router-link>
     </div>
     <div class="tx__content__right">
-      <p class="amount">
-        {{ coin.amount | prettyLong }} {{ coin.denom | viewDenom }}
-      </p>
+      <p class="amount">{{ coin.amount | prettyLong }} {{ coin.denom }}</p>
     </div>
   </div>
 </template>
 
 <script>
-import { viewDenom, prettyLong } from "scripts/num.js"
+import { prettyLong } from "scripts/num.js"
 import { resolveValidatorName } from "src/filters"
 import { getCoin } from "scripts/transaction-utils"
 import TransactionIcon from "../TransactionIcon"
@@ -53,7 +51,6 @@ import TransactionIcon from "../TransactionIcon"
 export default {
   name: `begin-redelegate-message-details`,
   filters: {
-    viewDenom,
     prettyLong,
     resolveValidatorName
   },

@@ -11,21 +11,20 @@
     <div class="tx__content__right">
       <p class="amount">
         {{ initialDeposit.amount | prettyLong }}&nbsp;
-        {{ initialDeposit.denom | viewDenom }}
+        {{ initialDeposit.denom }}
       </p>
     </div>
   </div>
 </template>
 
 <script>
-import { viewDenom, prettyLong } from "scripts/num.js"
+import { prettyLong } from "scripts/num.js"
 import { formatBech32 } from "src/filters"
 import TransactionIcon from "../TransactionIcon"
 
 export default {
   name: `submit-proposal-message-details`,
   filters: {
-    viewDenom,
     prettyLong,
     formatBech32
   },

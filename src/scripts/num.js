@@ -92,18 +92,10 @@ export function uatoms(number = 0) {
     .toString()
 }
 
-// convert micro denoms like uatom to display denoms like ATOM
-export function viewDenom(denom) {
-  if (denom.charAt(0) === `u`) {
-    return denom.substr(1).toUpperCase()
-  }
-  return denom.toUpperCase()
-}
-
 export function createDisplayCoin({ amount, denom }, length = 3) {
   return {
     amount: setDecimalLength(atoms(amount), length),
-    denom: viewDenom(denom)
+    denom
   }
 }
 
@@ -159,7 +151,6 @@ export default {
   SMALLEST,
   atoms,
   uatoms,
-  viewDenom,
   createDisplayCoin,
   shortDecimals,
   fullDecimals,

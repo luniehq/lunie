@@ -14,21 +14,20 @@
     <div class="tx__content__right">
       <p class="amount">
         {{ deposit.amount | prettyLong }}&nbsp;
-        {{ deposit.denom | viewDenom }}
+        {{ deposit.denom }}
       </p>
     </div>
   </div>
 </template>
 
 <script>
-import { viewDenom, prettyLong } from "scripts/num.js"
+import { prettyLong } from "scripts/num.js"
 import { formatBech32 } from "src/filters"
 import TransactionIcon from "../TransactionIcon"
 
 export default {
   name: `deposit-message-details`,
   filters: {
-    viewDenom,
     prettyLong,
     formatBech32
   },

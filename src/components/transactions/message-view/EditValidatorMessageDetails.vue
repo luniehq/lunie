@@ -21,21 +21,20 @@
       <p class="amount">
         <!-- TODO: FE should be network agnostic -->
         {{ fee.amount | atoms | prettyLong }}&nbsp;
-        {{ fee.denom | viewDenom }}
+        {{ fee.denom }}
       </p>
     </div>
   </div>
 </template>
 
 <script>
-import { atoms, viewDenom, prettyLong } from "scripts/num.js"
+import { atoms, prettyLong } from "scripts/num.js"
 import { resolveValidatorName } from "src/filters"
 import TransactionIcon from "../TransactionIcon"
 export default {
   name: `edit-validator-message-details`,
   filters: {
     atoms,
-    viewDenom,
     prettyLong,
     resolveValidatorName
   },
