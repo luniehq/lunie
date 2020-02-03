@@ -156,8 +156,8 @@ export default {
       }
       // handling when there are both mainnet and testnet networks
       if (selectedNetwork.length > 1) {
-        selectedNetwork = selectedNetwork.filter(({ id }) =>
-          this.testnet ? id.slice(-7) === `testnet` : id.slice(-7) === `mainnet`
+        selectedNetwork = selectedNetwork.filter(({ testnet }) =>
+          this.testnet ? testnet === true : testnet === false
         )[0]
       } else {
         selectedNetwork = selectedNetwork[0]
@@ -178,6 +178,7 @@ export default {
           networks {
             id
             address_prefix
+            testnet
           }
         }
       `,
