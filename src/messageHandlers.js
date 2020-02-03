@@ -17,7 +17,7 @@ export function signMessageHandler(
 ) {
   switch (message.type) {
     case 'LUNIE_SIGN_REQUEST': {
-      const { signMessage, senderAddress } = message.payload
+      const { signMessage, senderAddress, network } = message.payload
       const wallet = getWalletFromIndex(getWalletIndex(), senderAddress)
       if (!wallet) {
         throw new Error('No wallet found matching the sender address.')
@@ -25,6 +25,7 @@ export function signMessageHandler(
       signRequestQueue.queueSignRequest({
         signMessage,
         senderAddress,
+        network,
         tabID: sender.tab.id
       })
       break

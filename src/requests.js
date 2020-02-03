@@ -4,8 +4,14 @@ export default class SignRequestQueue {
     this.unqueueSignRequest('') // to reset the icon in the beginning
   }
 
-  queueSignRequest({ signMessage, senderAddress, tabID }) {
-    this.queue.push({ signMessage, senderAddress, id: Date.now(), tabID })
+  queueSignRequest({ signMessage, senderAddress, tabID, network }) {
+    this.queue.push({
+      signMessage,
+      senderAddress,
+      network,
+      id: Date.now(),
+      tabID
+    })
     chrome.browserAction.setIcon({ path: 'icons/128x128-alert.png' })
   }
 

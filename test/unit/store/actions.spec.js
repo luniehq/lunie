@@ -192,7 +192,7 @@ describe('actions', () => {
   })
 
   it('Get Validators Name when Un/Delegating', async () => {
-    const mockSuccessResponse = { description: { moniker: 'name1' } }
+    const mockSuccessResponse = { data: { validator: { name: 'name1' } } }
     const mockJsonPromise = Promise.resolve(mockSuccessResponse)
     const mockFetchPromise = Promise.resolve({
       json: () => mockJsonPromise
@@ -213,17 +213,17 @@ describe('actions', () => {
     }
 
     await expect(getValidatorsData(v1)).resolves.toEqual([
-      { description: { moniker: 'name1' }, operator_address: 'address1' }
+      { name: 'name1', operator_address: 'address1' }
     ])
   })
 
   it('Get Validators Name when Redelegating', async () => {
     const mockFetchPromise = Promise.resolve({
-      json: () => Promise.resolve({ description: { moniker: 'src' } })
+      json: () => Promise.resolve({ data: { validator: { name: 'src' } } })
     })
 
     const mockFetchPromise2 = Promise.resolve({
-      json: () => Promise.resolve({ description: { moniker: 'dst' } })
+      json: () => Promise.resolve({ data: { validator: { name: 'dst' } } })
     })
 
     window.fetch = jest
@@ -246,8 +246,8 @@ describe('actions', () => {
     }
 
     await expect(getValidatorsData(validatorAddress)).resolves.toEqual([
-      { operator_address: 'srcaddress1', description: { moniker: 'src' } },
-      { operator_address: 'dstaddress1', description: { moniker: 'dst' } }
+      { operator_address: 'srcaddress1', name: 'src' },
+      { operator_address: 'dstaddress1', name: 'dst' }
     ])
   })
 

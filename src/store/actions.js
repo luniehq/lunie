@@ -101,25 +101,25 @@ export default ({ apollo }) => {
     })
   }
 
-  const getValidatorsData = async validatorAddress => {
+  const getValidatorsData = async (validatorAddress, network) => {
     const txMessage = validatorAddress.value.msg[0]
     if (
-      txMessage.type === 'cosmos-sdk/MsgDelegate' ||
-      txMessage.type === 'cosmos-sdk/MsgUndelegate'
+      txMessage.type.indexOf('/MsgDelegate') !== -1 ||
+      txMessage.type.indexOf('/MsgUndelegate') !== -1
     ) {
       const validatorAddress = txMessage.value.validator_address
-      const validatorToMoniker = await fetchValidatorData(validatorAddress)
-
+      const validatorToMoniker = await fetchValidatorData(
+        validatorAddress,
+        network
+      )
       return [
         {
           operator_address: validatorAddress,
-          description: {
-            moniker: validatorToMoniker
-          }
+          name: validatorToMoniker
         }
       ]
     }
-    if (txMessage.type === 'cosmos-sdk/MsgBeginRedelegate') {
+    if (txMessage.type.indexOf('/MsgBeginRedelegate') !== -1) {
       const validator_src_address = txMessage.value.validator_src_address
       const validator_src_moniker = await fetchValidatorData(
         validator_src_address
@@ -132,26 +132,28 @@ export default ({ apollo }) => {
       return [
         {
           operator_address: validator_src_address,
-          description: {
-            moniker: validator_src_moniker
-          }
+          name: validator_src_moniker
         },
         {
           operator_address: validator_dst_address,
-          description: {
-            moniker: validator_dst_moniker
-          }
+          name: validator_dst_moniker
         }
       ]
     }
     return []
   }
 
-  const fetchValidatorData = async validatorAddress => {
-    return fetch(`${config.stargate}/staking/validators/${validatorAddress}`)
+  const fetchValidatorData = async (validatorAddress, network) => {
+    return fetch(`${config.graphqlHost}/`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json;charset=utf-8'
+      },
+      body: `{"query": "query{validator(operatorAddress: \\"${validatorAddress}\\", networkId: \\"${network}\\"){ name }}"}`
+    })
       .then(async function(response) {
         const validatorObject = await response.json()
-        return validatorObject.description.moniker
+        return validatorObject.data.validator.name
       })
       .catch(function(error) {
         console.log('Error: ', error)

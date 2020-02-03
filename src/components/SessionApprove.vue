@@ -107,6 +107,9 @@ export default {
     tx() {
       return this.signRequest ? parseTx(this.signRequest.signMessage) : null
     },
+    network() {
+      return this.signRequest ? this.signRequest.network : null
+    },
     transaction() {
       return flattenTransactionMsgs([], this.tx)[0]
     },
@@ -139,7 +142,7 @@ export default {
     }
   },
   async mounted() {
-    const validatorsObject = await getValidatorsData(this.tx.tx)
+    const validatorsObject = await getValidatorsData(this.tx.tx, this.network)
     this.validators = validatorsObject
   },
   methods: {
