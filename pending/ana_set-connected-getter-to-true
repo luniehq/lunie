@@ -1,0 +1,1 @@
+[Changed] [#136](https://github.com/cosmos/lunie/pull/136) Adds a getter called connected that always returns true. This is to hack the loading circle in the select network component @Bitcoinera
