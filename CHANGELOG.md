@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
-## [1.0.11] - 2020-02-04
+## [1.0.11] - 2020-02-04 
 
 ### Added
 
