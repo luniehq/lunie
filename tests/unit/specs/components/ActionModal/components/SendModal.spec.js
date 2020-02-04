@@ -185,6 +185,17 @@ describe(`SendModal`, () => {
     expect(wrapper.vm.transactionData).toEqual({})
   })
 
+  it(`sends an event on success`, () => {
+    const self = {
+      $emit: jest.fn()
+    }
+    SendModal.methods.onSuccess.call(self)
+    expect(self.$emit).toHaveBeenCalledWith(
+      "success",
+      expect.objectContaining({})
+    )
+  })
+
   it("should return notification message", () => {
     wrapper.setProps({
       denom: `STAKE`

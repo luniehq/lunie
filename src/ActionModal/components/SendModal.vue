@@ -338,9 +338,11 @@ export default {
           }
         }
       `,
+      /* istanbul ignore next */
       skip() {
         return !this.userAddress
       },
+      /* istanbul ignore next */
       variables() {
         return {
           networkId: this.network,
@@ -372,20 +374,20 @@ export default {
     },
     $subscribe: {
       userTransactionAdded: {
+        /* istanbul ignore next */
         variables() {
-          /* istanbul ignore next */
           return {
             networkId: this.network,
             address: this.userAddress
           }
         },
+        /* istanbul ignore next */
         skip() {
-          /* istanbul ignore next */
           return !this.userAddress
         },
         query: UserTransactionAdded,
+        /* istanbul ignore next */
         result() {
-          /* istanbul ignore next */
           this.$apollo.queries.balances.refetch()
         }
       }
