@@ -192,7 +192,7 @@ export default ({ apollo }) => {
         query Networks {
           networks {
             testnet
-            title
+            id
             address_prefix
           }
         }
@@ -203,7 +203,7 @@ export default ({ apollo }) => {
       .filter(network => address.indexOf(network.address_prefix) == 0)
       .sort(a => a.testnet)
       .shift()
-    return network ? network.title : ''
+    return network ? network.id : ''
   }
 
   const rejectSignRequest = ({ commit }, signRequest) => {
