@@ -186,6 +186,26 @@ export default ({ apollo }) => {
     })
   }
 
+  const getNetworkByAddress = async (store, address) => {
+    const { data } = await apollo.query({
+      query: gql`
+        query Networks {
+          networks {
+            testnet
+            title
+            address_prefix
+          }
+        }
+      `,
+      fetchPolicy: 'cache-first'
+    })
+    const network = data.networks
+      .filter(network => address.indexOf(network.address_prefix) == 0)
+      .sort(a => a.testnet)
+      .shift()
+    return network ? network.title : ''
+  }
+
   const rejectSignRequest = ({ commit }, signRequest) => {
     return new Promise(resolve => {
       chrome.runtime.sendMessage(
@@ -221,6 +241,7 @@ export default ({ apollo }) => {
     createSeed,
     createKey,
     loadAccounts,
+    getNetworkByAddress,
     testLogin,
     getSignRequest,
     getValidatorsData,

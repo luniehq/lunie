@@ -28,6 +28,7 @@
 import AccountList from 'common/AccountList'
 import SessionFrame from 'common/SessionFrame'
 import config from 'config'
+
 export default {
   name: `session-accounts`,
   components: {
@@ -40,7 +41,14 @@ export default {
     }
   },
   methods: {
-    goToLunie(account) {
+    async goToLunie(account) {
+      // needs to fetch network from address prefix if no network provided
+      if (!account.network) {
+        account.network = await this.$store.dispatch(
+          `getNetworkByAddress`,
+          account.address
+        )
+      }
       window.open(
         `${config.lunieLink}/extension/${account.address}/${account.network}`,
         '_blank',
