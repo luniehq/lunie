@@ -217,9 +217,9 @@ export default {
       if (addressType === "extension") return `Lunie Browser Extension`
       if (addressType === "local") return `Mobile App`
     },
-    exploreWith(address) {
+    async exploreWith(address) {
       this.address = address
-      this.onSubmit()
+      await this.onSubmit()
     },
     isEthereumAddress(address) {
       return isEthereumAddress(address)

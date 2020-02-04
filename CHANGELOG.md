@@ -7,6 +7,43 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.162] - 2020-02-03
+
+### Added
+
+- Network change on login with extension @iambeone
+- sign-in with the url parameters @iambeone
+
+### Changed
+
+- passing network id to extension in sign flow @iambeone
+- Change transactionGroup getting method @iambeone
+- Add no accounts alert on use extension step @iambeone
+- change create new account flow, remove select network step in default mode @iambeone
+- rewrite networkSort to fix network order change after selection @iambeone
+- [#3488](https://github.com/cosmos/lunie/pull/3488) Adds the isANetworkAddress validatin to the sign in with account @Bitcoinera
+- [#3488](https://github.com/cosmos/lunie/pull/3488) Adds the link to networks as part of the validation error message for isANetworkAddress @Bitcoinera
+- [#3505](https://github.com/cosmos/lunie/pull/3505) Logs Ledger connection errors to Sentry @Bitcoinera
+
+### Fixed
+
+- [#3488](https://github.com/cosmos/lunie/pull/3488) Fixes accounts not loading on refresh in TmSessionSignIn @Bitcoinera
+- Handle ledger app not being defined @faboweb
+- Fix tests not running @faboweb
+- Force refresh of the app if the local files are outdated @faboweb
+- Trying to fix transport undefined bug by updating ledger library @faboweb
+- correctly throw unknown ledger errors for webusb @faboweb
+
+### Code Improvements
+
+- [#3521](https://github.com/cosmos/lunie/pull/3521) Removes the hack used in NetworkItem to avoid displaying the loader in extension in SelectNetwork @Bitcoinera
+- [#3510](https://github.com/cosmos/lunie/pull/3510) Refactored NetworkItem to use network getter to be compatible with extension @bitcoinera
+- [#3526](https://github.com/cosmos/lunie/pull/3526) Updates the micro denom for e-Money to ungm @Bitcoinera
+
+### Repository
+
+- [#3517](https://github.com/cosmos/lunie/issues/3517) Wait for deploy preview to be available before starting e2e tests @faboweb
+
 ## [1.0.161] - 2020-01-28
 
 ### Added
