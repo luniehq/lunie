@@ -7,6 +7,23 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.11] - 2020-02-04
+
+### Added
+
+- [#139](https://github.com/cosmos/lunie/issues/139) Sign-in from extension in one click @iambeone
+
+### Changed
+
+- change cosmos-keys package version @iambeone
+- getting network by address prefix if no network provided @iambeone
+- [#136](https://github.com/cosmos/lunie/pull/136) Adds a getter called connected that always returns true. This is to hack the loading circle in the select network component @Bitcoinera
+
+### Fixed
+
+- Fix validator name in sign transaction step @iambeone
+- Use ID of network for network signin @faboweb
+
 ## [1.0.10] - 2020-01-31
 
 ### Added
