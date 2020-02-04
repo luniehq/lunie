@@ -192,6 +192,37 @@ describe(`ActionModal`, () => {
     expect(self.submissionError).toEqual(`PREFIX: some kind of error message.`)
   })
 
+  it(`should trigger onSendingFailed if transaction data is empty`, async () => {
+    const ActionManagerSend = jest
+      .fn()
+      .mockRejectedValue(new Error(`some kind of error message`))
+    const $store = { dispatch: jest.fn() }
+    const self = {
+      $store,
+      $apollo,
+      actionManager: {
+        setContext: () => {},
+        simulate: () => 12345,
+        send: ActionManagerSend,
+        simulateTxAPI: jest.fn(),
+        sendTxAPI: jest.fn().mockResolvedValue({ hash: 12345 })
+      },
+      transactionData: {},
+      network: {
+        stakingDenom: "ATOM"
+      },
+      submissionErrorPrefix: `PREFIX`,
+      trackEvent: jest.fn(),
+      connectLedger: () => {},
+      onSendingFailed: jest.fn(),
+      createContext: jest.fn()
+    }
+    await ActionModal.methods.submit.call(self)
+    expect(self.onSendingFailed).toHaveBeenCalledWith(
+      new Error(`Error in transaction data`)
+    )
+  })
+
   it(`should default to submissionError being null`, () => {
     expect(wrapper.vm.submissionError).toBe(null)
   })

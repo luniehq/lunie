@@ -652,7 +652,10 @@ export default {
     async submit() {
       this.submissionError = null
 
-      if (this.transactionData === {}) {
+      if (
+        Object.entries(this.transactionData).length === 0 &&
+        this.transactionData.constructor === Object
+      ) {
         this.onSendingFailed(new Error(`Error in transaction data`))
         return
       }
@@ -754,13 +757,14 @@ export default {
           }
         }
       `,
+      /* istanbul ignore next */
       variables() {
-        /* istanbul ignore next */
         return {
           networkId: this.networkId,
           address: this.session.address
         }
       },
+      /* istanbul ignore next */
       update(data) {
         /* istanbul ignore next */
         if (!data.overview) {
@@ -774,8 +778,8 @@ export default {
           totalRewards: Number(data.overview.totalRewards)
         }
       },
+      /* istanbul ignore next */
       skip() {
-        /* istanbul ignore next */
         return !this.session.address
       }
     },
@@ -805,7 +809,6 @@ export default {
       },
       update(data) {
         /* istanbul ignore next */
-
         return data.network
       }
     },
