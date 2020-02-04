@@ -762,6 +762,7 @@ export default {
         }
       },
       update(data) {
+        /* istanbul ignore next */
         if (!data.overview) {
           return {
             totalRewards: 0

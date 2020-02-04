@@ -568,10 +568,10 @@ describe(`ActionModal`, () => {
       expect(wrapper.vm.txHash).toBe("HASH1234HASH")
     })
 
-    it(`should submit transaction using transactino api`, async () => {
+    it(`should submit transaction using transaction api`, async () => {
       const transactionProperties = {
         type: "MsgSend",
-        toAddress: "comsos12345",
+        toAddress: "cosmos12345",
         amounts: [
           {
             amount: "10",
@@ -629,6 +629,43 @@ describe(`ActionModal`, () => {
 
       expect(wrapper.html()).toContain("Transaction failed: invalid request.")
       expect(wrapper.vm.step).toBe("sign")
+    })
+
+    it(`Should call onSendingFailed if transaction data is empty`, async () => {
+      const ActionManagerSend = jest
+        .fn()
+        .mockRejectedValue(new Error(`Error in transaction data`))
+      const $store = { dispatch: jest.fn() }
+      const self = {
+        $store,
+        $apollo,
+        actionManager: {
+          setContext: () => {},
+          simulate: () => 12345,
+          send: ActionManagerSend,
+          simulateTxAPI: jest.fn(),
+          sendTxAPI: jest.fn().mockResolvedValue({ hash: 12345 })
+        },
+        transactionData: {},
+        network: {
+          stakingDenom: "ATOM"
+        },
+        submissionErrorPrefix: `PREFIX`,
+        trackEvent: jest.fn(),
+        connectLedger: () => {},
+        onSendingFailed: jest.fn(),
+        createContext: jest.fn()
+      }
+      await ActionModal.methods.submit.call(self)
+      expect(self.onSendingFailed).toHaveBeenCalledWith(
+        new Error(`Error in transaction data`)
+      )
+
+      ActionModal.methods.onSendingFailed.call(
+        self,
+        new Error(`Error in transaction data`)
+      )
+      expect(self.submissionError).toEqual(`PREFIX: Error in transaction data.`)
     })
   })
 

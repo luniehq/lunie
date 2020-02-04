@@ -169,7 +169,7 @@ export default {
     transactionData() {
       if (this.isRedelegation) {
         if (
-          Number.isNaN(this.amount) ||
+          isNaN(this.amount) ||
           !this.sourceValidator.operatorAddress ||
           !this.toSelectedIndex ||
           !this.denom
@@ -185,7 +185,7 @@ export default {
         }
       } else {
         if (
-          Number.isNaN(this.amount) ||
+          isNaN(this.amount) ||
           !this.sourceValidator.operatorAddress ||
           !this.denom
         ) {

@@ -161,7 +161,7 @@ export default {
     ...mapGetters({ userAddress: `address` }),
     transactionData() {
       if (
-        Number.isNaN(this.amount) ||
+        isNaN(this.amount) ||
         !this.type ||
         !this.title ||
         !this.description ||

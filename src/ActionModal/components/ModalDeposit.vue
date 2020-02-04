@@ -102,7 +102,7 @@ export default {
     ...mapGetters([`network`]),
     ...mapGetters({ userAddress: `address` }),
     transactionData() {
-      if (Number.isNaN(this.amount) || !this.proposalId || !this.denom) {
+      if (isNaN(this.amount) || !this.proposalId || !this.denom) {
         return {}
       }
       return {
@@ -168,9 +168,11 @@ export default {
         }
       `,
       skip() {
+        /* istanbul ignore next */
         return !this.userAddress
       },
       variables() {
+        /* istanbul ignore next */
         return {
           networkId: this.network,
           address: this.userAddress,
@@ -178,6 +180,7 @@ export default {
         }
       },
       update(data) {
+        /* istanbul ignore next */
         return data.balance || { amount: 0 }
       }
     }

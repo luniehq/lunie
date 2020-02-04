@@ -174,6 +174,17 @@ describe(`SendModal`, () => {
     })
   })
 
+  it("should return empty transaction data if amount is NaN", () => {
+    wrapper.setProps({
+      denom: `STAKE`
+    })
+    wrapper.setData({
+      address: `cosmos12345`,
+      amount: `NaN`
+    })
+    expect(wrapper.vm.transactionData).toEqual({})
+  })
+
   it("should return notification message", () => {
     wrapper.setProps({
       denom: `STAKE`
