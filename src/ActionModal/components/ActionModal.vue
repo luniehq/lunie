@@ -708,6 +708,7 @@ export default {
       this.$apollo.queries.overview.refetch()
     },
     onSendingFailed(error) {
+      /* istanbul ignore next */
       Sentry.withScope(scope => {
         scope.setExtra("signMethod", this.selectedSignMethod)
         scope.setExtra("transactionData", this.transactionData)
@@ -766,13 +767,11 @@ export default {
       },
       /* istanbul ignore next */
       update(data) {
-        /* istanbul ignore next */
         if (!data.overview) {
           return {
             totalRewards: 0
           }
         }
-        /* istanbul ignore next */
         return {
           ...data.overview,
           totalRewards: Number(data.overview.totalRewards)
@@ -801,44 +800,39 @@ export default {
           }
         }
       `,
+      /* istanbul ignore next */
       variables() {
-        /* istanbul ignore next */
         return {
           networkId: this.networkId
         }
       },
+      /* istanbul ignore next */
       update(data) {
-        /* istanbul ignore next */
         return data.network
       }
     },
     $subscribe: {
       userTransactionAdded: {
+        /* istanbul ignore next */
         variables() {
-          /* istanbul ignore next */
           return {
             networkId: this.networkId,
             address: this.session.address
           }
         },
+        /* istanbul ignore next */
         skip() {
-          /* istanbul ignore next */
           return !this.txHash
         },
         query: UserTransactionAdded,
+        /* istanbul ignore next */
         result({ data }) {
-          /* istanbul ignore next */
           const { hash, height, success, log } = data.userTransactionAdded
-          /* istanbul ignore next */
           if (hash === this.txHash) {
-            /* istanbul ignore next */
             this.includedHeight = height
-            /* istanbul ignore next */
             if (success) {
-              /* istanbul ignore next */
               this.onTxIncluded()
             } else {
-              /* istanbul ignore next */
               this.onSendingFailed(new Error(log))
             }
           }
