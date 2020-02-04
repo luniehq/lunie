@@ -653,8 +653,7 @@ export default {
       this.submissionError = null
 
       if (this.transactionData === {}) {
-        const error = new Error(`Error in transaction data`)
-        this.onSendingFailed(error)
+        this.onSendingFailed(new Error(`Error in transaction data`))
         return
       }
 
