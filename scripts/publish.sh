@@ -1,4 +1,5 @@
-if git describe --exact-match --tags HEAD $1 >/dev/null 2>&1
+COMMIT_MESSAGE=$(git log --format=%B -n 1)
+if [[ $COMMIT_MESSAGE == release* ]]
 then
     echo "Publishing"
     git config user.email "bot@lunie.io"
