@@ -1,3 +1,5 @@
+#!/bin/bash
+
 if git describe --exact-match --tags HEAD $1 >/dev/null 2>&1
 then
     echo "Publishing"
