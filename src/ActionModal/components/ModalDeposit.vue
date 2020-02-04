@@ -167,20 +167,20 @@ export default {
           }
         }
       `,
+      /* istanbul ignore next */
       skip() {
-        /* istanbul ignore next */
         return !this.userAddress
       },
+      /* istanbul ignore next */
       variables() {
-        /* istanbul ignore next */
         return {
           networkId: this.network,
           address: this.userAddress,
           denom: this.denom
         }
       },
+      /* istanbul ignore next */
       update(data) {
-        /* istanbul ignore next */
         return data.balance || { amount: 0 }
       }
     }
