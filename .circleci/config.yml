@@ -191,7 +191,7 @@ jobs:
           npm run initiate-submodule
           npm run build
           npm run build-zip
-          ./scripts/deploy.sh ./dist-zip/lunie-browser-extension.zip
+          sh ./scripts/deploy.sh ./dist-zip/lunie-browser-extension.zip
 
 workflows:
   version: 2
