@@ -1,4 +1,5 @@
-if git describe --exact-match --tags HEAD $1 >/dev/null 2>&1
+COMMIT_MESSAGE=$(git log --format=%B -n 1)
+if [[ $COMMIT_MESSAGE == "[Simsala] automatic release"* ]]
 then
     echo "Publishing"
     git config user.email "bot@lunie.io"
@@ -6,5 +7,5 @@ then
     git remote add bot https://${GIT_BOT_TOKEN}@github.com/luniehq/lunie.git
     git push origin develop:master
 else
-    echo "No tag found so not publishing"
+    echo "No release detected, so not publishing"
 fi
