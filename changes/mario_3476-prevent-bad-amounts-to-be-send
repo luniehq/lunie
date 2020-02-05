@@ -1,0 +1,1 @@
+[Fixed] [#3476](https://github.com/cosmos/lunie/issues/3476) Prevent bad amounts to be send to backend @mariopino

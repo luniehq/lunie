@@ -102,6 +102,9 @@ export default {
     ...mapGetters([`network`]),
     ...mapGetters({ userAddress: `address` }),
     transactionData() {
+      if (isNaN(this.amount) || !this.proposalId || !this.denom) {
+        return {}
+      }
       return {
         type: transaction.DEPOSIT,
         proposalId: this.proposalId,
@@ -164,9 +167,11 @@ export default {
           }
         }
       `,
+      /* istanbul ignore next */
       skip() {
         return !this.userAddress
       },
+      /* istanbul ignore next */
       variables() {
         return {
           networkId: this.network,
@@ -174,6 +179,7 @@ export default {
           denom: this.denom
         }
       },
+      /* istanbul ignore next */
       update(data) {
         return data.balance || { amount: 0 }
       }

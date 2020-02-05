@@ -174,6 +174,28 @@ describe(`SendModal`, () => {
     })
   })
 
+  it("should return empty transaction data if amount is NaN", () => {
+    wrapper.setProps({
+      denom: `STAKE`
+    })
+    wrapper.setData({
+      address: `cosmos12345`,
+      amount: `NaN`
+    })
+    expect(wrapper.vm.transactionData).toEqual({})
+  })
+
+  it(`sends an event on success`, () => {
+    const self = {
+      $emit: jest.fn()
+    }
+    SendModal.methods.onSuccess.call(self)
+    expect(self.$emit).toHaveBeenCalledWith(
+      "success",
+      expect.objectContaining({})
+    )
+  })
+
   it("should return notification message", () => {
     wrapper.setProps({
       denom: `STAKE`
