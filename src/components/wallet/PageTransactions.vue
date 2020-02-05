@@ -19,6 +19,16 @@
         />
       </div>
       <br />
+      <TmDataMsg icon="archive">
+        <div slot="title">
+          Past Chain Transactions
+        </div>
+        <div slot="subtitle">
+          Transactions from past chains are not displayed here. If you are
+          looking forward to access those,
+          <a href="mailto:contact@lunie.io">write us</a>!
+        </div>
+      </TmDataMsg>
     </template>
   </TmPage>
 </template>
@@ -26,6 +36,7 @@
 <script>
 import { mapGetters } from "vuex"
 import DataEmptyTx from "common/TmDataEmptyTx"
+import TmDataMsg from "common/TmDataMsg"
 import TmPage from "common/TmPage"
 import TransactionList from "transactions/TransactionList"
 import gql from "graphql-tag"
@@ -35,6 +46,7 @@ export default {
   components: {
     TransactionList,
     DataEmptyTx,
+    TmDataMsg,
     TmPage
   },
   data: () => ({
