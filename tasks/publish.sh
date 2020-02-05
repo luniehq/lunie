@@ -7,5 +7,5 @@ then
     git remote add bot https://${GIT_BOT_TOKEN}@github.com/luniehq/lunie.git
     git push origin develop:master
 else
-    echo "No release detected found so not publishing"
+    echo "No release detected, so not publishing"
 fi
