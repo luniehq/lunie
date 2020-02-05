@@ -50,9 +50,7 @@ const createApolloClient = () => {
             } else {
               // pass errors to sentry
               result.errors.map(err => {
-                Sentry.captureException(err, {
-                  level: "error"
-                })
+                Sentry.captureException(err)
               })
             }
           },
