@@ -2,6 +2,7 @@ import Vue from "vue"
 import { ApolloClient } from "apollo-boost"
 import { BatchHttpLink } from "apollo-link-batch-http"
 import { RetryLink } from "apollo-link-retry"
+import { ApolloLink, Observable as LinkObservable } from "apollo-link"
 import { createPersistedQueryLink } from "apollo-link-persisted-queries"
 import { WebSocketLink } from "apollo-link-ws"
 import { InMemoryCache } from "apollo-cache-inmemory"
@@ -9,6 +10,7 @@ import { split } from "apollo-link"
 import { getMainDefinition } from "apollo-utilities"
 import VueApollo from "vue-apollo"
 import { getGraphqlHost } from "scripts/url"
+import * as Sentry from "@sentry/browser"
 
 Vue.use(VueApollo)
 
@@ -35,17 +37,50 @@ const makeWebSocketLink = () => {
 }
 
 const createApolloClient = () => {
-  const link = split(
-    ({ query }) => {
-      const definition = getMainDefinition(query)
-      return (
-        definition.kind === "OperationDefinition" &&
-        definition.operation === "subscription"
-      )
-    },
-    makeWebSocketLink(),
-    makeHttpLink()
-  )
+  const link = ApolloLink.from([
+    // suspending errors, preventing to fire them
+    new ApolloLink((operation, forward) => {
+      return new LinkObservable(observer => {
+        let sub
+        sub = forward(operation).subscribe({
+          next: result => {
+            // check if we have errors
+            if (!result.errors) {
+              observer.next(result)
+            } else {
+              // pass errors to sentry
+              result.errors.map(err => {
+                Sentry.captureException(err, {
+                  level: "error"
+                })
+              })
+            }
+          },
+          error: err => {
+            // pass errors to sentry
+            Sentry.captureException(err, {
+              level: "error"
+            })
+          },
+          complete: observer.complete.bind(observer)
+        })
+        return () => {
+          if (sub) sub.unsubscribe()
+        }
+      })
+    }),
+    split(
+      ({ query }) => {
+        const definition = getMainDefinition(query)
+        return (
+          definition.kind === "OperationDefinition" &&
+          definition.operation === "subscription"
+        )
+      },
+      makeWebSocketLink(),
+      makeHttpLink()
+    )
+  ])
 
   const cache = new InMemoryCache()
 
