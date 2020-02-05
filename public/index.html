@@ -63,7 +63,6 @@
     if ("<%= process.env.NODE_ENV  %>" === "production") {
       async function main() {
         const currentVersion = "<%= process.env.LUNIE_VERSION %>"
-
         const { version } = await fetch("/version.json", { cache: "no-store" }).then(res => res.json())
 
         if (version !== currentVersion) {
