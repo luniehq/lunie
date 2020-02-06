@@ -49,7 +49,7 @@
       </div>
     </td>
     <td :class="{ 'hide-xs': showOnMobile !== 'expectedReturns' }">
-      {{ validator.expectedReturns | bigPercent }}
+      {{ validator.expectedReturns | percentBig }}
     </td>
     <td :class="{ 'hide-xs': showOnMobile !== 'voting-power' }">
       {{ validator.votingPower | percent }}
@@ -58,7 +58,7 @@
 </template>
 
 <script>
-import { percent, shortDecimals, atoms, bigPercent } from "scripts/num"
+import { percent, percentBig, shortDecimals, atoms } from "scripts/num"
 import Avatar from "common/Avatar"
 
 export default {
@@ -71,7 +71,7 @@ export default {
     shortDecimals,
     percent,
     toLower: text => text.toLowerCase(),
-    bigPercent
+    percentBig
   },
   props: {
     validator: {

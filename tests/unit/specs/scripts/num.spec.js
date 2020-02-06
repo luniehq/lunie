@@ -6,6 +6,7 @@ import {
   prettyInt,
   percent,
   percentInt,
+  percentBig,
   createDisplayCoin,
   prettyDecimals,
   viewDenom,
@@ -78,6 +79,10 @@ describe(`number helper`, () => {
 
   it(`should format percent with decimals`, () => {
     expect(percent(0.2612)).toBe(`26.12%`)
+  })
+
+  it(`should format a very big percent`, () => {
+    expect(percentBig(`719010560462937.9`)).toBe(`71,901.06 T %`)
   })
 
   it(`should format long decimals well`, () => {

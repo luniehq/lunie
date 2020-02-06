@@ -81,29 +81,27 @@ export function percent(number = 0) {
 }
 
 // Needed for e-money. This func uses short scale billions and trillions (respectively 1e9 and 1e12)
-export function bigPercent(amount) {
-  let formattedAmount, suffix
-  if (Math.abs(Number(amount)) >= 1e12) {
-    formattedAmount = Math.abs(Number(amount)) / 1e12
+export function percentBig(number = 0) {
+  let formatted = Math.round(number * 10000) / 100
+  let suffix = ""
+  if (Math.abs(Number(formatted)) >= 1e12) {
+    formatted = Number(formatted) / 1e12
     suffix = "T"
-  } else if (Math.abs(Number(amount)) >= 1e9) {
-    formattedAmount = Math.abs(Number(amount)) / 1e9
+  } else if (Math.abs(Number(formatted)) >= 1e9) {
+    formatted = Number(formatted) / 1e9
     suffix = "B"
-  } else if (Math.abs(Number(amount)) >= 1e6) {
-    formattedAmount = Math.abs(Number(amount)) / 1e6
+  } else if (Math.abs(Number(formatted)) >= 1e6) {
+    formatted = Number(formatted) / 1e6
     suffix = "M"
-  } else if (Math.abs(Number(amount)) >= 1e3) {
-    formattedAmount = Math.abs(Number(amount)) / 1e3
+  } else if (Math.abs(Number(formatted)) >= 1e3) {
+    formatted = Number(formatted) / 1e3
     suffix = "K"
-  } else {
-    formattedAmount = amount
-    suffix = ""
   }
   return (
     new Intl.NumberFormat(language, {
       minimumFractionDigits: 2,
       maximumFractionDigits: 2
-    }).format(Math.round(formattedAmount * 10000) / 100) + ` ${suffix} %`
+    }).format(formatted) + ` ${suffix} %`
   )
 }
 
@@ -196,7 +194,7 @@ export default {
   prettyLong,
   percent,
   percentInt,
-  bigPercent,
+  percentBig,
   prettyDecimals,
   roundObjectPercentages
 }
