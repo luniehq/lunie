@@ -49,14 +49,7 @@
       </div>
     </td>
     <td :class="{ 'hide-xs': showOnMobile !== 'expectedReturns' }">
-      <span v-if="network === `emoney-testnet`">
-        {{ validator.expectedReturns | bigPercent }}
-      </span>
-      <span v-else>
-        {{
-          validator.expectedReturns ? percent(validator.expectedReturns) : `--`
-        }}
-      </span>
+      {{ validator.expectedReturns | bigPercent }}
     </td>
     <td :class="{ 'hide-xs': showOnMobile !== 'voting-power' }">
       {{ validator.votingPower | percent }}
@@ -101,10 +94,6 @@ export default {
       type: String,
       /* istanbul ignore next */
       default: () => "returns"
-    },
-    network: {
-      type: String,
-      default: ``
     }
   },
   methods: {
