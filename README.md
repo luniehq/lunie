@@ -31,7 +31,7 @@ $ cd lunie
 $ git checkout origin/master
 ```
 
-Note: To reference components easily some aliases are set to the submodule in the webpack config.
+Note: To reference components easily some aliases are set to the submodule in the Webpack config.
 
 ## Install dependencies
 
@@ -79,7 +79,7 @@ There are 3 main functions:
 ## `listenToExtensionMessages(store)`
 Calling `listenToExtensionMessages` and passing it a Vuex store will enable your Vue instance to commit and dispatch messages to your app.
 
-It's not essential that it be Vuex, but the store object must have equivalent dispatch and commmit methods. When initialising they are called with the following arguments:
+It doesn't have to be Vuex, but the store object must have equivalent dispatch and commit methods. When initializing they are called with the following arguments:
 
 - `store.commit("setExtensionAvailable")`
 - `store.dispatch("getAddressesFromExtension")`
@@ -105,4 +105,9 @@ The final step would be to request your website domain is added to the allowed l
 
 ## Internal Note
 - Export the `extension-utils.js` functionality to a package users can install.
-- Potentiallty might need to filter messages by domain.
+- Potentially might need to filter messages by domain.
+
+# Publish
+
+The CI handles publishing. The publish script can be found in `scripts/deploy.sh`.
+If publishing fails, the refresh token could be outdated. In that case, follow these instructions: https://developer.chrome.com/webstore/using_webstore_api. After having used the console (not after the OAuth screen) you will receive a refresh token. Now set the environment variable `GAPI_REFRESH_TOKEN` in CircleCI with this token.
