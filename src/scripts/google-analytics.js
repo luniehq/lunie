@@ -32,6 +32,9 @@ module.exports.disableGoogleAnalytics = function disableGoogleAnalytics(gaUID) {
   window[`ga-disable-${gaUID}`] = true
 }
 
+/*
+GA takes parameters like dimension1 or dimension2. This replaces the human readable values with the by GA required values.
+*/
 function customToNum(custom) {
   const dimensions = {
     network: 1,
