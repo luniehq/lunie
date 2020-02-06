@@ -49,9 +49,14 @@
       </div>
     </td>
     <td :class="{ 'hide-xs': showOnMobile !== 'expectedReturns' }">
-      {{
-        validator.expectedReturns ? percent(validator.expectedReturns) : `--`
-      }}
+      <span v-if="network === `emoney-testnet`">
+        {{ validator.expectedReturns | bigPercent }}
+      </span>
+      <span v-else>
+        {{
+          validator.expectedReturns ? percent(validator.expectedReturns) : `--`
+        }}
+      </span>
     </td>
     <td :class="{ 'hide-xs': showOnMobile !== 'voting-power' }">
       {{ validator.votingPower | percent }}
@@ -60,8 +65,9 @@
 </template>
 
 <script>
-import { percent, shortDecimals, atoms } from "scripts/num"
+import { percent, shortDecimals, atoms, bigPercent } from "scripts/num"
 import Avatar from "common/Avatar"
+
 export default {
   name: `li-validator`,
   components: {
@@ -71,7 +77,8 @@ export default {
     atoms,
     shortDecimals,
     percent,
-    toLower: text => text.toLowerCase()
+    toLower: text => text.toLowerCase(),
+    bigPercent
   },
   props: {
     validator: {
@@ -94,6 +101,10 @@ export default {
       type: String,
       /* istanbul ignore next */
       default: () => "returns"
+    },
+    network: {
+      type: String,
+      default: ``
     }
   },
   methods: {

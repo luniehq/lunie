@@ -80,6 +80,33 @@ export function percent(number = 0) {
   )
 }
 
+// Needed for e-money. This func uses short scale billions and trillions (respectively 1e9 and 1e12)
+export function bigPercent(amount) {
+  let formattedAmount, suffix
+  if (Math.abs(Number(amount)) >= 1e12) {
+    formattedAmount = Math.abs(Number(amount)) / 1e12
+    suffix = "T"
+  } else if (Math.abs(Number(amount)) >= 1e9) {
+    formattedAmount = Math.abs(Number(amount)) / 1e9
+    suffix = "B"
+  } else if (Math.abs(Number(amount)) >= 1e6) {
+    formattedAmount = Math.abs(Number(amount)) / 1e6
+    suffix = "M"
+  } else if (Math.abs(Number(amount)) >= 1e3) {
+    formattedAmount = Math.abs(Number(amount)) / 1e3
+    suffix = "K"
+  } else {
+    formattedAmount = amount
+    suffix = ""
+  }
+  return (
+    new Intl.NumberFormat(language, {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2
+    }).format(Math.round(formattedAmount * 10000) / 100) + ` ${suffix} %`
+  )
+}
+
 export function atoms(number = 0) {
   return BigNumber(number)
     .div(1e6)
@@ -169,6 +196,7 @@ export default {
   prettyLong,
   percent,
   percentInt,
+  bigPercent,
   prettyDecimals,
   roundObjectPercentages
 }

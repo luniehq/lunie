@@ -21,6 +21,7 @@
           :delegation="getDelegation(validator)"
           :rewards="getRewards(validator)"
           :show-on-mobile="showOnMobile"
+          :network="network"
         />
       </tbody>
     </table>
