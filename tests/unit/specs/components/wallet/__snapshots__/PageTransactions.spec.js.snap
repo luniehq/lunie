@@ -38,7 +38,7 @@ exports[`PageTransactions Renders correctly and does not load transactions if th
       <div>
         
         Transactions from past chains are not displayed here. If you are
-        looking forward to access those,
+        looking forward to accessing those,
         
         <a
           href="mailto:contact@lunie.io"
@@ -92,7 +92,7 @@ exports[`PageTransactions Renders correctly and loads transactions 1`] = `
       <div>
         
         Transactions from past chains are not displayed here. If you are
-        looking forward to access those,
+        looking forward to accessing those,
         
         <a
           href="mailto:contact@lunie.io"
