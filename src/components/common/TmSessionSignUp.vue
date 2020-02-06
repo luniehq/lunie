@@ -4,7 +4,14 @@
       <h2 class="session-title">
         Create a new address
       </h2>
-      <div v-if="!session.insecureMode && !session.mobile" class="session-main">
+      <div
+        v-if="
+          !session.insecureMode &&
+            !session.mobile &&
+            !(network.slice(-7) === `testnet`)
+        "
+        class="session-main"
+      >
         <InsecureModeWarning />
       </div>
       <div v-else>
@@ -55,7 +62,7 @@
 </template>
 
 <script>
-import { mapState } from "vuex"
+import { mapState, mapGetters } from "vuex"
 import { required, minLength } from "vuelidate/lib/validators"
 import TmBtn from "common/TmBtn"
 import TmFormGroup from "common/TmFormGroup"
@@ -92,6 +99,7 @@ export default {
   },
   computed: {
     ...mapState([`session`, `signup`]),
+    ...mapGetters([`network`]),
     fieldName: {
       get() {
         return this.$store.state.signup.signUpName
