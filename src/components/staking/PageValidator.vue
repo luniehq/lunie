@@ -59,8 +59,14 @@
               </div>
             </div>
           </div>
-          <span class="no-img-info" v-if="!validator.picture || validator.picture === 'null'">
-            No logo?&nbsp;<a href="mailto:contact@lunie.io">Write us</a>
+          <span
+            v-if="!validator.picture || validator.picture === 'null'"
+            class="no-img-info"
+          >
+            Would you like us to display your logo?&nbsp;<a
+              href="mailto:contact@lunie.io"
+              >Write us</a
+            >
           </span>
         </td>
       </tr>
