@@ -53,9 +53,11 @@ exports[`LiValidator has the expected html structure 1`] = `
   <td
     class="hide-xs"
   >
+    <span>
+      
+      12,300.00%
     
-    12,300.00%
-  
+    </span>
   </td>
    
   <td
