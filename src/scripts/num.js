@@ -83,6 +83,7 @@ export function percent(number = 0) {
 // Needed for e-money. This func uses short scale billions and trillions (respectively 1e9 and 1e12)
 export function percentBig(number = 0) {
   let formatted = Math.round(number * 10000) / 100
+  
   let suffix = ""
   if (Math.abs(Number(formatted)) >= 1e12) {
     formatted = Number(formatted) / 1e12
