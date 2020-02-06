@@ -292,7 +292,7 @@ import Steps from "./Steps"
 import { mapState, mapGetters } from "vuex"
 import { viewDenom, prettyInt } from "src/scripts/num"
 import { between, requiredIf } from "vuelidate/lib/validators"
-import { track } from "scripts/google-analytics"
+import { track, sendEvent } from "scripts/google-analytics"
 import { UserTransactionAdded } from "src/gql"
 import config from "src/../config"
 import * as Sentry from "@sentry/browser"
@@ -540,7 +540,6 @@ export default {
       if (this.session.currrentModalOpen) {
         return
       }
-
       this.$store.commit(`setCurrrentModalOpen`, this)
       this.trackEvent(`event`, `modal`, this.title)
       this.gasPrice = config.default_gas_price.toFixed(9)
@@ -567,6 +566,9 @@ export default {
     },
     trackEvent(...args) {
       track(...args)
+    },
+    sendEvent(customObject, ...args) {
+      sendEvent(customObject, ...args)
     },
     goToSession() {
       this.close()
@@ -705,6 +707,17 @@ export default {
         this.selectedSignMethod
       )
       this.$emit(`txIncluded`)
+      // sending to ga
+      this.sendEvent(
+        {
+          network: this.network,
+          address: this.address
+        },
+        "Action",
+        this.featureFlag,
+        "",
+        this.amount
+      )
       this.$apollo.queries.overview.refetch()
     },
     onSendingFailed(error) {
