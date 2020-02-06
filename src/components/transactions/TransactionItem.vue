@@ -6,7 +6,6 @@
         :transaction="transaction"
         :validators="validators"
         :session-address="address"
-        :show="show"
       />
       <div class="toggle" :class="{ up: show }">
         <i class="material-icons toggle-icon">keyboard_arrow_down</i>
