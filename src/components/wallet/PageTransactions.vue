@@ -19,14 +19,14 @@
         />
       </div>
       <br />
-      <TmDataMsg icon="archive">
+      <TmDataMsg icon="calendar_today">
         <div slot="title">
           Looking for older transactions?
         </div>
         <div slot="subtitle">
-          Transactions from past chains are not displayed here. If you are
-          Let us know if you'd like to access these transactions.
-          <a href="mailto:contact@lunie.io">write us</a>!
+          Unfortunately, we can't display transactions from previous chains
+          right now. <a @click="handleIntercom()">Let us know</a> if you'd like
+          access these transactions.
         </div>
       </TmDataMsg>
     </template>
@@ -70,6 +70,9 @@ export default {
   methods: {
     loadMore() {
       this.showing += 10
+    },
+    handleIntercom() {
+      this.$store.dispatch(`displayMessenger`)
     }
   },
   apollo: {
