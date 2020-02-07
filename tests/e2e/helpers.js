@@ -45,6 +45,7 @@ async function fundMasterAccount(browser, network, address) {
    */
   if (network == "cosmos-hub-testnet") {
     await browser.url("https://riot.im/app/#/login")
+    await browser.waitForElementVisible("#mx_PasswordLogin_username", 60000)
     await browser.setValue("#mx_PasswordLogin_username", "luniestaking")
     await browser.setValue("#mx_PasswordLogin_password", process.env.CHT_PWD)
     await browser.click(".mx_Login_submit")
