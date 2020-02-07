@@ -63,10 +63,9 @@
             v-if="!validator.picture || validator.picture === 'null'"
             class="no-img-info"
           >
-            Looks like we don't have this validator logo.<a
-              href="mailto:contact@lunie.io"
-              >Contact us</a
-            >
+            Looks like we don't have this validator logo — if this is your
+            validator
+            <a @click="handleIntercom()">contact us</a>.
           </span>
         </td>
       </tr>
@@ -327,6 +326,9 @@ export default {
     },
     hideTutorial() {
       this.showTutorial = false
+    },
+    handleIntercom() {
+      this.$store.dispatch(`displayMessenger`)
     }
   },
   apollo: {
