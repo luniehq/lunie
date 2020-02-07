@@ -65,7 +65,7 @@
           >
             Looks like we don't have this validator logo.<a
               href="mailto:contact@lunie.io"
-              >Write us</a
+              >Contact us</a
             >
           </span>
         </td>
