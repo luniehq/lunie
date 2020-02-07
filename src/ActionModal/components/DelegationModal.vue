@@ -230,8 +230,7 @@ export default {
       return this.fromOptions[this.fromSelectedIndex].address
     },
     transactionData() {
-      if (!this.targetValidator.operatorAddress || isNaN(this.amount))
-        return {}
+      if (!this.targetValidator.operatorAddress || isNaN(this.amount)) return {}
 
       if (this.isRedelegation) {
         return {
