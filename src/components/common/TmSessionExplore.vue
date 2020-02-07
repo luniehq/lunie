@@ -128,8 +128,26 @@ export default {
       )
       // handling query not loaded yet or failed
       if (!selectedNetwork) return []
-
       return this.session.addresses
+        .map(address => {
+          // addresses could be with the names, need to standardize
+          if (typeof address.address == "object") {
+            address.address = address.address.address // omg
+          }
+          return address
+        })
+        .filter(
+          // filter possible duplicates
+          (address, index) =>
+            !this.session.addresses.find(
+              (_address, _index) =>
+                (typeof _address.address === "object"
+                  ? _address.address
+                  : _address
+                ).address == address.address && _index > index
+            )
+        )
+        .filter(address => !!address.address) // filter undefined values
         .filter(address =>
           address.address.startsWith(selectedNetwork.address_prefix)
         )
