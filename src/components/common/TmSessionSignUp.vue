@@ -5,11 +5,7 @@
         Create a new address
       </h2>
       <div
-        v-if="
-          !session.insecureMode &&
-            !session.mobile &&
-            !(network.slice(-7) === `testnet`)
-        "
+        v-if="!session.insecureMode && !session.mobile && !isTestnet"
         class="session-main"
       >
         <InsecureModeWarning />
@@ -62,6 +58,7 @@
 </template>
 
 <script>
+import gql from "graphql-tag"
 import { mapState, mapGetters } from "vuex"
 import { required, minLength } from "vuelidate/lib/validators"
 import TmBtn from "common/TmBtn"
@@ -97,6 +94,9 @@ export default {
     InsecureModeWarning,
     Steps
   },
+  data: () => ({
+    networks: []
+  }),
   computed: {
     ...mapState([`session`, `signup`]),
     ...mapGetters([`network`]),
@@ -107,6 +107,10 @@ export default {
       set(value) {
         this.$store.commit(`updateField`, { field: `signUpName`, value })
       }
+    },
+    isTestnet() {
+      // this.networks is undefined here O.o why??
+      return this.networks.filter(({ id }) => id === this.network)[0].testnet
     }
   },
   methods: {
@@ -114,6 +118,22 @@ export default {
       this.$v.$touch()
       if (this.$v.$error) return
       this.$router.push(`/create/password`)
+    }
+  },
+  apollo: {
+    networks: {
+      query: gql`
+        query Networks {
+          networks {
+            id
+            testnet
+          }
+        }
+      `,
+      /* istanbul ignore next */
+      update(data) {
+        return data.networks || []
+      }
     }
   },
   validations: () => ({
