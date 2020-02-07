@@ -39,25 +39,22 @@ async function waitFor(check, iterations = 10, timeout = 1000) {
 }
 
 async function fundMasterAccount(browser, network, address) {
+  /*
+   * there is a riot channel that funds the gaia testnet
+   * we will sign in to riot and request the new account to be funded
+   */
   if (network == "cosmos-hub-testnet") {
-    return browser.url("https://riot.im/app/#/login", () => {
-      browser.setValue("#mx_PasswordLogin_username", "luniestaking")
-      browser.setValue("#mx_PasswordLogin_password", process.env.CHT_PWD)
-      return browser.click(".mx_Login_submit", () => {
-        return browser.url(
-          "https://riot.im/app/#/room/#cosmos-faucet:matrix.org",
-          () => {
-            browser.setValue(
-              ".mx_BasicMessageComposer_input",
-              `show me the money! ${address}`,
-              () => {
-                browser.keys(browser.Keys.ENTER)
-              }
-            )
-          }
-        )
-      })
-    })
+    await browser.url("https://riot.im/app/#/login")
+    await browser.setValue("#mx_PasswordLogin_username", "luniestaking")
+    await browser.setValue("#mx_PasswordLogin_password", process.env.CHT_PWD)
+    await browser.click(".mx_Login_submit")
+    await browser.waitForElementVisible(".mx_RoomHeader_settingsButton", 60000)
+    await browser.url("https://riot.im/app/#/room/#cosmos-faucet:matrix.org")
+    await browser.setValue(
+      ".mx_BasicMessageComposer_input",
+      `show me the money! ${address}` // required message to get the account funded
+    )
+    await browser.keys(browser.Keys.ENTER)
   }
   return true
 }
