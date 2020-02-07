@@ -21,7 +21,7 @@
       <br />
       <TmDataMsg icon="archive">
         <div slot="title">
-          Past Chain Transactions
+          Looking for older transactions?
         </div>
         <div slot="subtitle">
           Transactions from past chains are not displayed here. If you are
