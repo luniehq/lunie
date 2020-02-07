@@ -272,6 +272,16 @@ export default {
             "totalStake",
             data.overview.totalStake
           )
+          sendEvent(
+            {
+              network: this.network,
+              address: this.address
+            },
+            "Portfolio",
+            "Balance",
+            "totalRewards",
+            data.overview.totalRewards
+          )
           this.sentToGA = true
         }
         if (!data.overview) {
