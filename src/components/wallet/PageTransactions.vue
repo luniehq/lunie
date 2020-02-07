@@ -25,7 +25,7 @@
         </div>
         <div slot="subtitle">
           Transactions from past chains are not displayed here. If you are
-          looking forward to accessing those,
+          Let us know if you'd like to access these transactions.
           <a href="mailto:contact@lunie.io">write us</a>!
         </div>
       </TmDataMsg>
