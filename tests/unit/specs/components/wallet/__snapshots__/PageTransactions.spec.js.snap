@@ -27,25 +27,23 @@ exports[`PageTransactions Renders correctly and does not load transactions if th
     <br />
      
     <tmdatamsg-stub
-      icon="archive"
+      icon="calendar_today"
     >
       <div>
         
-        Past Chain Transactions
+        Looking for older transactions?
       
       </div>
        
       <div>
         
-        Transactions from past chains are not displayed here. If you are
-        looking forward to accessing those,
-        
-        <a
-          href="mailto:contact@lunie.io"
-        >
-          write us
+        Unfortunately, we can't display transactions from previous chains
+        right now. 
+        <a>
+          Let us know
         </a>
-        !
+         if you'd like
+        access these transactions.
       
       </div>
     </tmdatamsg-stub>
@@ -81,25 +79,23 @@ exports[`PageTransactions Renders correctly and loads transactions 1`] = `
     <br />
      
     <tmdatamsg-stub
-      icon="archive"
+      icon="calendar_today"
     >
       <div>
         
-        Past Chain Transactions
+        Looking for older transactions?
       
       </div>
        
       <div>
         
-        Transactions from past chains are not displayed here. If you are
-        looking forward to accessing those,
-        
-        <a
-          href="mailto:contact@lunie.io"
-        >
-          write us
+        Unfortunately, we can't display transactions from previous chains
+        right now. 
+        <a>
+          Let us know
         </a>
-        !
+         if you'd like
+        access these transactions.
       
       </div>
     </tmdatamsg-stub>
