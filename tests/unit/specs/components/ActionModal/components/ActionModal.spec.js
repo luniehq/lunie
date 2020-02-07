@@ -901,4 +901,42 @@ describe(`ActionModal`, () => {
     expect(wrapper.element).toMatchSnapshot()
     expect(wrapper.exists("featurenotavailable-stub")).toBe(true)
   })
+
+  it("triggers the tx included functions on subscription", () => {
+    const hash = "superhash"
+    const self = {
+      onTxIncluded: jest.fn(),
+      txHash: hash
+    }
+    ActionModal.apollo.$subscribe.userTransactionAdded.result.call(self, {
+      data: {
+        userTransactionAdded: {
+          hash,
+          success: true
+        }
+      }
+    })
+
+    expect(self.onTxIncluded).toHaveBeenCalled()
+  })
+
+  it("triggers the tx inclusion failure functions on subscription", () => {
+    const hash = "superhash"
+    const self = {
+      onTxIncluded: jest.fn(),
+      onSendingFailed: jest.fn(),
+      txHash: hash
+    }
+    ActionModal.apollo.$subscribe.userTransactionAdded.result.call(self, {
+      data: {
+        userTransactionAdded: {
+          hash,
+          success: false,
+          log: "error"
+        }
+      }
+    })
+
+    expect(self.onSendingFailed).toHaveBeenCalledWith(new Error("error"))
+  })
 })
