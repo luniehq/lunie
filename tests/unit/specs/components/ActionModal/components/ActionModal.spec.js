@@ -176,6 +176,7 @@ describe(`ActionModal`, () => {
       },
       submissionErrorPrefix: `PREFIX`,
       trackEvent: jest.fn(),
+      sendEvent: jest.fn(),
       connectLedger: () => {},
       onSendingFailed: jest.fn(),
       createContext: jest.fn()
@@ -213,6 +214,7 @@ describe(`ActionModal`, () => {
       },
       submissionErrorPrefix: `PREFIX`,
       trackEvent: jest.fn(),
+      sendEvent: jest.fn(),
       connectLedger: () => {},
       onSendingFailed: jest.fn(),
       createContext: jest.fn()
