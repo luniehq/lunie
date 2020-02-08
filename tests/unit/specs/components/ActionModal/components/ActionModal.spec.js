@@ -214,7 +214,6 @@ describe(`ActionModal`, () => {
       },
       submissionErrorPrefix: `PREFIX`,
       trackEvent: jest.fn(),
-      sendEvent: jest.fn(),
       connectLedger: () => {},
       onSendingFailed: jest.fn(),
       createContext: jest.fn()
@@ -940,5 +939,23 @@ describe(`ActionModal`, () => {
     })
 
     expect(self.onSendingFailed).toHaveBeenCalledWith(new Error("error"))
+  })
+
+  it(`triggers sendEvent to Google Analytics`, () => {
+    const googleAnalytics = require(`scripts/google-analytics`)
+    const spy = jest.spyOn(googleAnalytics, `sendEvent`)
+    const self = {
+      $emit: jest.fn(),
+      trackEvent: jest.fn(),
+      sendEvent: jest.fn(),
+      $apollo: {
+        queries: {
+          overview: { refetch: jest.fn() }
+        }
+      }
+    }
+    ActionModal.methods.onTxIncluded.call(self)
+    expect(spy).toHaveBeenCalled()
+    googleAnalytics.sendEvent.mockClear()
   })
 })
