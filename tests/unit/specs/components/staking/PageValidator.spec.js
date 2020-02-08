@@ -115,6 +115,15 @@ describe(`PageValidator`, () => {
     wrapper.vm.hideTutorial()
     expect(wrapper.vm.showTutorial).toBe(false)
   })
+  it(`should trigger intercom opening`, () => {
+    const self = {
+      $store: {
+        dispatch: jest.fn()
+      }
+    }
+    PageValidator.methods.handleIntercom.call(self)
+    expect(self.$store.dispatch).toHaveBeenCalledWith("displayMessenger")
+  })
 })
 
 describe(`isBlankField method`, () => {

@@ -10,11 +10,12 @@ if (config.mobileApp) {
 export default () => {
   return {
     state: {
-      intercom
+      intercom,
+      mobileApp: config.mobileApp
     },
     actions: {
       displayMessenger({ state }) {
-        state.intercom.displayMessenger()
+        if (state.mobileApp) state.intercom.displayMessenger()
       }
     }
   }
