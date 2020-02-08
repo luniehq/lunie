@@ -25,8 +25,9 @@
         </div>
         <div slot="subtitle">
           Unfortunately, we can't display transactions from previous chains
-          right now. <a @click="handleIntercom()">Let us know</a> if you'd like
-          access these transactions.
+          right now.
+          <a class="intercom-button" @click="handleIntercom()">Let us know</a>
+          if you'd like access these transactions.
         </div>
       </TmDataMsg>
     </template>

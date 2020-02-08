@@ -38,12 +38,15 @@ exports[`PageTransactions Renders correctly and does not load transactions if th
       <div>
         
         Unfortunately, we can't display transactions from previous chains
-        right now. 
-        <a>
+        right now.
+        
+        <a
+          class="intercom-button"
+        >
           Let us know
         </a>
-         if you'd like
-        access these transactions.
+        
+        if you'd like access these transactions.
       
       </div>
     </tmdatamsg-stub>
@@ -90,12 +93,15 @@ exports[`PageTransactions Renders correctly and loads transactions 1`] = `
       <div>
         
         Unfortunately, we can't display transactions from previous chains
-        right now. 
-        <a>
+        right now.
+        
+        <a
+          class="intercom-button"
+        >
           Let us know
         </a>
-         if you'd like
-        access these transactions.
+        
+        if you'd like access these transactions.
       
       </div>
     </tmdatamsg-stub>
