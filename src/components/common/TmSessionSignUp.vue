@@ -109,8 +109,10 @@ export default {
       }
     },
     isTestnet() {
-      // this.networks is undefined here O.o why??
-      return this.networks.filter(({ id }) => id === this.network)[0].testnet
+      const selectedNetwork = this.networks.find(
+        ({ id }) => id === this.network
+      )
+      return selectedNetwork ? selectedNetwork.testnet : false
     }
   },
   methods: {
