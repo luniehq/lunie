@@ -38,6 +38,10 @@ describe(`PageValidator`, () => {
   const localVue = createLocalVue()
   localVue.directive(`tooltip`, () => {})
 
+  jest.mock(`src/../config.js`, () => ({
+    mobileApp: true
+  }))
+
   beforeEach(() => {
     $store = {
       state: {
@@ -121,8 +125,22 @@ describe(`PageValidator`, () => {
         dispatch: jest.fn()
       }
     }
-    PageValidator.methods.handleIntercom.call(self)
+    PageValidator.methods.handleContactUs.call(self)
     expect(self.$store.dispatch).toHaveBeenCalledWith("displayMessenger")
+  })
+  it(`should trigger mailto opening`, () => {
+    jest.mock(`src/../config.js`, () => ({
+      mobileApp: false
+    }))
+    global.window = Object.create(window)
+    Object.defineProperty(window, "location", {
+      value: {
+        href: ``
+      },
+      writable: true
+    })
+    PageValidator.methods.handleContactUs.call(self)
+    expect(window.location.href).toEqual(`mailto:contact@lunie.io`)
   })
 })
 
