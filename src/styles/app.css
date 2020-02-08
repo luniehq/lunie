@@ -161,3 +161,6 @@ input.tm-field {
   }
 }
 
+.intercom-button {
+  cursor: pointer;
+}
