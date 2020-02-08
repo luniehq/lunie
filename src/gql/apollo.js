@@ -11,6 +11,7 @@ import { getMainDefinition } from "apollo-utilities"
 import VueApollo from "vue-apollo"
 import { getGraphqlHost } from "scripts/url"
 import * as Sentry from "@sentry/browser"
+import config from "src/../config"
 
 Vue.use(VueApollo)
 
@@ -48,15 +49,24 @@ const createApolloClient = () => {
             if (!result.errors) {
               observer.next(result)
             } else {
-              // pass errors to sentry
               result.errors.map(err => {
-                Sentry.captureException(err)
+                // if sentry is enabled pass all error directly to sentry
+                if (config.sentryDSN) {
+                  // pass errors to sentry
+                  Sentry.captureException(err)
+                } else {
+                  throw err
+                }
               })
             }
           },
           error: err => {
             // pass errors to sentry
-            Sentry.captureException(err)
+            if (config.sentryDSN) {
+              Sentry.captureException(err)
+            } else {
+              throw err
+            }
           },
           complete: observer.complete.bind(observer)
         })

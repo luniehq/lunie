@@ -92,6 +92,7 @@ export default {
               denom
             }
             value
+            withdrawValidators
           }
         }
       `,
