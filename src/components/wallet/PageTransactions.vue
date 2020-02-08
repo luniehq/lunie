@@ -26,7 +26,7 @@
         <div slot="subtitle">
           Unfortunately, we can't display transactions from previous chains
           right now.
-          <a class="intercom-button" @click="handleIntercom()">Let us know</a>
+          <a class="intercom-button" @click="handleContactUs()">Let us know</a>
           if you'd like access these transactions.
         </div>
       </TmDataMsg>
@@ -40,6 +40,7 @@ import DataEmptyTx from "common/TmDataEmptyTx"
 import TmDataMsg from "common/TmDataMsg"
 import TmPage from "common/TmPage"
 import TransactionList from "transactions/TransactionList"
+import config from "src/../config"
 import gql from "graphql-tag"
 
 export default {
@@ -72,8 +73,12 @@ export default {
     loadMore() {
       this.showing += 10
     },
-    handleIntercom() {
-      this.$store.dispatch(`displayMessenger`)
+    handleContactUs() {
+      if (config.mobileApp) {
+        this.$store.dispatch(`displayMessenger`)
+      } else {
+        window.location.href = `mailto:contact@lunie.io`
+      }
     }
   },
   apollo: {

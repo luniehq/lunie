@@ -65,7 +65,8 @@
           >
             Looks like we don't have this validator logo — if this is your
             validator
-            <a class="intercom-button" @click="handleIntercom()">contact us</a>.
+            <a class="intercom-button" @click="handleContactUs()">contact us</a
+            >.
           </span>
         </td>
       </tr>
@@ -206,6 +207,7 @@ import Bech32 from "common/Bech32"
 import TmPage from "common/TmPage"
 import gql from "graphql-tag"
 import { ValidatorProfile, UserTransactionAdded } from "src/gql"
+import config from "src/../config"
 import ModalTutorial from "common/ModalTutorial"
 
 function getStatusText(statusDetailed) {
@@ -327,8 +329,12 @@ export default {
     hideTutorial() {
       this.showTutorial = false
     },
-    handleIntercom() {
-      this.$store.dispatch(`displayMessenger`)
+    handleContactUs() {
+      if (config.mobileApp) {
+        this.$store.dispatch(`displayMessenger`)
+      } else {
+        window.location.href = `mailto:contact@lunie.io`
+      }
     }
   },
   apollo: {
