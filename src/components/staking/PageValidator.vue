@@ -65,7 +65,7 @@
           >
             Looks like we don't have this validator logo — if this is your
             validator
-            <a @click="handleIntercom()">contact us</a>.
+            <a class="intercom-button" @click="handleIntercom()">contact us</a>.
           </span>
         </td>
       </tr>
