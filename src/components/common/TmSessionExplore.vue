@@ -66,19 +66,19 @@
           <TmFormMsg v-else-if="error" :name="error" type="custom" />
         </TmFormGroup>
       </div>
+      <TmFormGroup
+        class="field-checkbox"
+        field-id="sign-up-warning"
+        field-label
+      >
+        <span>
+          <label class="field-checkbox-label" for="select-testnet">
+            <input id="select-testnet" v-model="testnet" type="checkbox" />
+            This is a testnet address</label
+          >
+        </span>
+      </TmFormGroup>
       <div class="session-footer">
-        <TmFormGroup
-          class="field-checkbox"
-          field-id="sign-up-warning"
-          field-label
-        >
-          <div class="field-checkbox-input">
-            <label class="field-checkbox-label" for="select-testnet">
-              <input id="select-testnet" v-model="testnet" type="checkbox" />
-              Select testnet</label
-            >
-          </div>
-        </TmFormGroup>
         <TmBtn value="Explore" />
       </div>
     </TmFormStruct>
@@ -259,6 +259,11 @@ export default {
 }
 </script>
 <style scoped>
+input[type="checkbox"] {
+  vertical-align: middle;
+  margin: 0.5rem 0.2rem 0.5rem 0;
+}
+
 .tm-li-session {
   display: flex;
   padding: 1rem;
@@ -312,20 +317,8 @@ export default {
   padding: 0.5rem;
 }
 
-.field-checkbox-label {
-  color: var(--link);
-}
-
-.field-checkbox-label:hover {
-  color: var(--link-hover);
-}
-
-input[type="checkbox"] {
-  vertical-align: middle;
-}
-
-.session-footer {
-  justify-content: space-between;
+.button {
+  min-width: 90px;
 }
 
 @media screen and (min-width: 667px) {

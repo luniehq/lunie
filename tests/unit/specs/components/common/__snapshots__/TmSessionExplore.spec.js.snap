@@ -183,31 +183,29 @@ exports[`TmSessionExplore shows a form to sign in with an address 1`] = `
       </tmformgroup-stub>
     </div>
      
+    <tmformgroup-stub
+      class="field-checkbox"
+      fieldid="sign-up-warning"
+      fieldlabel=""
+    >
+      <span>
+        <label
+          class="field-checkbox-label"
+          for="select-testnet"
+        >
+          <input
+            id="select-testnet"
+            type="checkbox"
+          />
+          
+          This is a testnet address
+        </label>
+      </span>
+    </tmformgroup-stub>
+     
     <div
       class="session-footer"
     >
-      <tmformgroup-stub
-        class="field-checkbox"
-        fieldid="sign-up-warning"
-        fieldlabel=""
-      >
-        <div
-          class="field-checkbox-input"
-        >
-          <label
-            class="field-checkbox-label"
-            for="select-testnet"
-          >
-            <input
-              id="select-testnet"
-              type="checkbox"
-            />
-            
-            Select testnet
-          </label>
-        </div>
-      </tmformgroup-stub>
-       
       <tmbtn-stub
         value="Explore"
       />
