@@ -14,7 +14,7 @@ export default () => {
     },
     actions: {
       displayMessenger({ state }) {
-        state.intercom.displayMessenger()
+        if (config.mobileApp) state.intercom.displayMessenger()
       }
     }
   }
