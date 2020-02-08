@@ -87,3 +87,4 @@ describe(`TmSessionSignUp`, () => {
     expect(wrapper.vm.$router.push).toHaveBeenCalledWith(`/create/password`)
   })
 })
+
