@@ -34,29 +34,39 @@
       </div>
       <tr class="li-validator">
         <td class="data-table__row__info">
-          <Avatar
-            v-if="!validator.picture || validator.picture === 'null'"
-            class="li-validator-image"
-            alt="generic geometric symbol - generated avatar from address"
-            :address="validator.operatorAddress"
-          />
-          <img
-            v-else-if="validator.picture"
-            :src="validator.picture"
-            :alt="`validator logo for ` + validator.name"
-            class="li-validator-image"
-          />
-          <div class="validator-info">
-            <h3 class="li-validator-name">
-              {{ validator.name }}
-            </h3>
-            <div v-if="delegation.amount">
-              <h4>{{ delegation.amount | fullDecimals }}</h4>
-              <h5 v-if="rewards">
-                +{{ rewards.amount | fullDecimals | noBlanks }}
-              </h5>
+          <div class="li-validator-name-row">
+            <Avatar
+              v-if="!validator.picture || validator.picture === 'null'"
+              class="li-validator-image"
+              alt="generic geometric symbol - generated avatar from address"
+              :address="validator.operatorAddress"
+            />
+            <img
+              v-else-if="validator.picture"
+              :src="validator.picture"
+              :alt="`validator logo for ` + validator.name"
+              class="li-validator-image"
+            />
+            <div class="validator-info">
+              <h3 class="li-validator-name">
+                {{ validator.name }}
+              </h3>
+              <div v-if="delegation.amount">
+                <h4>{{ delegation.amount | fullDecimals }}</h4>
+                <h5 v-if="rewards">
+                  +{{ rewards.amount | fullDecimals | noBlanks }}
+                </h5>
+              </div>
             </div>
           </div>
+          <span
+            v-if="!validator.picture || validator.picture === 'null'"
+            class="no-img-info"
+          >
+            Looks like we don't have this validator logo — if this is your
+            validator
+            <a class="intercom-button" @click="handleIntercom()">contact us</a>.
+          </span>
         </td>
       </tr>
 
@@ -316,6 +326,9 @@ export default {
     },
     hideTutorial() {
       this.showTutorial = false
+    },
+    handleIntercom() {
+      this.$store.dispatch(`displayMessenger`)
     }
   },
   apollo: {
@@ -535,6 +548,16 @@ export default {
 .li-validator h5 {
   padding-left: 0.5rem;
   color: var(--success);
+}
+
+.li-validator > .data-table__row__info {
+  display: block;
+  width: 100%;
+}
+
+.li-validator .li-validator-name-row {
+  display: flex;
+  align-items: center;
 }
 
 span {

@@ -14,7 +14,7 @@ describe(`Module: Intercom`, () => {
     node = {}
     module = recoverModule({ node })
     actions = module.actions
-    state = { intercom }
+    state = { intercom, mobileApp: true }
   })
 
   describe(`actions`, () => {

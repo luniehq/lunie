@@ -1,0 +1,1 @@
+[Fixed] [#3530](https://github.com/cosmos/lunie/issues/3530) Fix Safari bug where variable is not available in context @faboweb
