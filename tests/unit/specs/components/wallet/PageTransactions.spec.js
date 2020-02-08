@@ -205,12 +205,27 @@ describe(`PageTransactions`, () => {
   })
 
   it(`should trigger intercom opening`, () => {
+    jest.mock(`src/../config.js`, () => ({
+      mobileApp: true
+    }))
     const self = {
       $store: {
         dispatch: jest.fn()
       }
     }
-    PageTransactions.methods.handleIntercom.call(self)
+    PageTransactions.methods.handleContactUs.call(self)
     expect(self.$store.dispatch).toHaveBeenCalledWith("displayMessenger")
+  })
+
+  it(`should trigger mailto opening`, () => {
+    global.window = Object.create(window)
+    Object.defineProperty(window, "location", {
+      value: {
+        href: ``
+      },
+      writable: true
+    })
+    PageTransactions.methods.handleContactUs.call(self)
+    expect(window.location.href).toEqual(`mailto:contact@lunie.io`)
   })
 })
