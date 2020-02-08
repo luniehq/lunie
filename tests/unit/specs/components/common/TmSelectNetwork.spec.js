@@ -40,7 +40,7 @@ describe(`TmSelectNetwork`, () => {
     }
   ]
 
-  beforeEach(() => {
+  beforeEach(async () => {
     $store = {
       dispatch: jest.fn(),
       state: {
@@ -63,6 +63,14 @@ describe(`TmSelectNetwork`, () => {
       }
     })
     wrapper.setData({ networks })
+    self.networkId = `localnet`
+    wrapper.setData({
+      // network id is not set there
+      sortedNetworks: TmSelectNetwork.methods.updateSelectedNetwork.call(
+        self,
+        networks
+      )
+    })
   })
 
   it(`has the expected html structure`, async () => {

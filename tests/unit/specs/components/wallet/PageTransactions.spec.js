@@ -203,4 +203,14 @@ describe(`PageTransactions`, () => {
       "cosmos1c"
     ])
   })
+
+  it(`should trigger intercom opening`, () => {
+    const self = {
+      $store: {
+        dispatch: jest.fn()
+      }
+    }
+    PageTransactions.methods.handleIntercom.call(self)
+    expect(self.$store.dispatch).toHaveBeenCalledWith("displayMessenger")
+  })
 })
