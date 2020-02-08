@@ -43,20 +43,14 @@
           />
           <TmFormMsg v-if="error" type="custom" :msg="error" />
         </TmFormGroup>
-        <TmFormGroup
-          class="field-checkbox"
-          field-id="sign-up-warning"
-          field-label
-        >
-          <div class="field-checkbox-input">
-            <label class="field-checkbox-label" for="select-testnet">
-              <input id="select-testnet" v-model="testnet" type="checkbox" />
-              Select testnet</label
-            >
-          </div>
-        </TmFormGroup>
       </div>
       <div class="session-footer">
+        <div class="field-checkbox-input">
+          <label class="field-checkbox-label" for="select-testnet">
+            <input id="select-testnet" v-model="testnet" type="checkbox" />
+            This is a testnet address</label
+          >
+        </div>
         <TmBtn value="Sign In" />
       </div>
     </TmFormStruct>
@@ -192,10 +186,15 @@ export default {
 </script>
 <style scoped>
 .field-checkbox-label {
-  color: var(--link);
+  color: var(--txt);
+  line-height: 38px;
 }
+
 .field-checkbox-label:hover {
-  color: var(--link-hover);
+  color: var(--dim);
+}
+.session-footer {
+  justify-content: space-between;
 }
 input[type="checkbox"] {
   vertical-align: middle;

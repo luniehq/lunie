@@ -67,18 +67,12 @@
         </TmFormGroup>
       </div>
       <div class="session-footer">
-        <TmFormGroup
-          class="field-checkbox"
-          field-id="sign-up-warning"
-          field-label
-        >
-          <div class="field-checkbox-input">
-            <label class="field-checkbox-label" for="select-testnet">
-              <input id="select-testnet" v-model="testnet" type="checkbox" />
-              Select testnet</label
-            >
-          </div>
-        </TmFormGroup>
+        <div class="field-checkbox-input">
+          <label class="field-checkbox-label" for="select-testnet">
+            <input id="select-testnet" v-model="testnet" type="checkbox" />
+            This is a testnet address</label
+          >
+        </div>
         <TmBtn value="Explore" />
       </div>
     </TmFormStruct>
@@ -313,11 +307,12 @@ export default {
 }
 
 .field-checkbox-label {
-  color: var(--link);
+  color: var(--txt);
+  line-height: 38px;
 }
 
 .field-checkbox-label:hover {
-  color: var(--link-hover);
+  color: var(--dim);
 }
 
 input[type="checkbox"] {
