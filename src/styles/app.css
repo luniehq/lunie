@@ -114,6 +114,10 @@ input.tm-field {
   padding-top: 2rem;
 }
 
+.intercom-button {
+  cursor: pointer;
+}
+
 @media screen and (max-width: 1023px) {
   #app-content {
     padding-top: 66px;
@@ -159,8 +163,4 @@ input.tm-field {
   #app-content {
     padding-top: 80px;
   }
-}
-
-.intercom-button {
-  cursor: pointer;
 }
