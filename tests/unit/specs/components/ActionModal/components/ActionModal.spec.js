@@ -942,8 +942,6 @@ describe(`ActionModal`, () => {
   })
 
   it(`triggers sendEvent to Google Analytics`, () => {
-    const googleAnalytics = require(`scripts/google-analytics`)
-    const spy = jest.spyOn(googleAnalytics, `sendEvent`)
     const self = {
       $emit: jest.fn(),
       trackEvent: jest.fn(),
@@ -954,8 +952,9 @@ describe(`ActionModal`, () => {
         }
       }
     }
+    const spy = jest.spyOn(self, `sendEvent`)
     ActionModal.methods.onTxIncluded.call(self)
     expect(spy).toHaveBeenCalled()
-    googleAnalytics.sendEvent.mockClear()
+    self.sendEvent.mockClear()
   })
 })
