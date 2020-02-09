@@ -56,7 +56,9 @@ exports[`TmSessionSignIn has the expected html structure 1`] = `
         fieldid="sign-up-warning"
         fieldlabel=""
       >
-        <span>
+        <div
+          class="field-checkbox-testnet"
+        >
           <label
             class="field-checkbox-label"
             for="select-testnet"
@@ -68,7 +70,7 @@ exports[`TmSessionSignIn has the expected html structure 1`] = `
             
             This is a testnet address
           </label>
-        </span>
+        </div>
       </tmformgroup-stub>
     </div>
      

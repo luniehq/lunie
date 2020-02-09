@@ -48,12 +48,12 @@
           field-id="sign-up-warning"
           field-label
         >
-          <span>
+          <div class="field-checkbox-testnet">
             <label class="field-checkbox-label" for="select-testnet">
               <input id="select-testnet" v-model="testnet" type="checkbox" />
               This is a testnet address</label
             >
-          </span>
+          </div>
         </TmFormGroup>
       </div>
       <div class="session-footer">
@@ -194,6 +194,11 @@ export default {
 input[type="checkbox"] {
   vertical-align: middle;
   margin: 0.5rem 0.2rem 0.5rem 0;
+}
+.field-checkbox-testnet {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
 @media screen and (min-width: 667px) {
   .field-checkbox-input {

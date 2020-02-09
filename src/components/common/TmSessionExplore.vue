@@ -71,12 +71,12 @@
         field-id="sign-up-warning"
         field-label
       >
-        <span>
+        <div class="field-checkbox-testnet">
           <label class="field-checkbox-label" for="select-testnet">
             <input id="select-testnet" v-model="testnet" type="checkbox" />
             This is a testnet address</label
           >
-        </span>
+        </div>
       </TmFormGroup>
       <div class="session-footer">
         <TmBtn value="Explore" />
@@ -319,6 +319,12 @@ input[type="checkbox"] {
 
 .button {
   min-width: 90px;
+}
+
+.field-checkbox-testnet {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
 
 @media screen and (min-width: 667px) {
