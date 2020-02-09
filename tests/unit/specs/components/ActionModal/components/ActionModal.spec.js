@@ -176,6 +176,7 @@ describe(`ActionModal`, () => {
       },
       submissionErrorPrefix: `PREFIX`,
       trackEvent: jest.fn(),
+      sendEvent: jest.fn(),
       connectLedger: () => {},
       onSendingFailed: jest.fn(),
       createContext: jest.fn()
@@ -900,5 +901,60 @@ describe(`ActionModal`, () => {
     await wrapper.vm.open()
     expect(wrapper.element).toMatchSnapshot()
     expect(wrapper.exists("featurenotavailable-stub")).toBe(true)
+  })
+
+  it("triggers the tx included functions on subscription", () => {
+    const hash = "superhash"
+    const self = {
+      onTxIncluded: jest.fn(),
+      txHash: hash
+    }
+    ActionModal.apollo.$subscribe.userTransactionAdded.result.call(self, {
+      data: {
+        userTransactionAdded: {
+          hash,
+          success: true
+        }
+      }
+    })
+
+    expect(self.onTxIncluded).toHaveBeenCalled()
+  })
+
+  it("triggers the tx inclusion failure functions on subscription", () => {
+    const hash = "superhash"
+    const self = {
+      onTxIncluded: jest.fn(),
+      onSendingFailed: jest.fn(),
+      txHash: hash
+    }
+    ActionModal.apollo.$subscribe.userTransactionAdded.result.call(self, {
+      data: {
+        userTransactionAdded: {
+          hash,
+          success: false,
+          log: "error"
+        }
+      }
+    })
+
+    expect(self.onSendingFailed).toHaveBeenCalledWith(new Error("error"))
+  })
+
+  it(`triggers sendEvent to Google Analytics`, () => {
+    const self = {
+      $emit: jest.fn(),
+      trackEvent: jest.fn(),
+      sendEvent: jest.fn(),
+      $apollo: {
+        queries: {
+          overview: { refetch: jest.fn() }
+        }
+      }
+    }
+    const spy = jest.spyOn(self, `sendEvent`)
+    ActionModal.methods.onTxIncluded.call(self)
+    expect(spy).toHaveBeenCalled()
+    self.sendEvent.mockClear()
   })
 })
