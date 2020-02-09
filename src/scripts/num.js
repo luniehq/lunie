@@ -80,7 +80,6 @@ export function percent(number = 0) {
   )
 }
 
-// Needed for e-money. This func uses short scale billions and trillions (respectively 1e9 and 1e12)
 export function percentBig(number = 0) {
   let formatted = Math.round(number * 100) / 100
 
@@ -100,8 +99,8 @@ export function percentBig(number = 0) {
   }
   return (
     new Intl.NumberFormat(language, {
-      minimumFractionDigits: 2,
-      maximumFractionDigits: 2
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 1
     }).format(formatted) + ` ${suffix} %`
   )
 }

@@ -82,19 +82,19 @@ describe(`number helper`, () => {
   })
 
   it(`should format a very big percent. Convert it to trillions`, () => {
-    expect(percentBig(`8719010560462937.9`)).toBe(`8,719.01 T %`)
+    expect(percentBig(`8719010560462937.9`)).toBe(`8,719 T %`)
   })
 
   it(`should format a very big percent. Convert it to billions`, () => {
-    expect(percentBig(`719010560462.9379`)).toBe(`719.01 B %`)
+    expect(percentBig(`719010560462.9379`)).toBe(`719 B %`)
   })
 
   it(`should format a very big percent. Convert it to millions`, () => {
-    expect(percentBig(`7010560.46`)).toBe(`7.01 M %`)
+    expect(percentBig(`7010560.46`)).toBe(`7 M %`)
   })
 
   it(`should format a very big percent. Convert it to k-thousands`, () => {
-    expect(percentBig(`719010.56`)).toBe(`719.01 K %`)
+    expect(percentBig(`719010.56`)).toBe(`719 K %`)
   })
 
   it(`should format long decimals well`, () => {
