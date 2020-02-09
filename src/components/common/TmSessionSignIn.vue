@@ -98,6 +98,17 @@ export default {
         value: address,
         key: name
       }))
+    },
+    networkOfAddress() {
+      const selectedNetworksArray = this.addressPrefixes.filter(
+        ({ address_prefix }) => this.signInAddress.startsWith(address_prefix)
+      )
+
+      const selectedNetwork = selectedNetworksArray.find(({ testnet }) =>
+        this.testnet ? testnet === true : testnet === false
+      )
+
+      return selectedNetwork
     }
   },
   created() {
@@ -110,6 +121,13 @@ export default {
     async onSubmit() {
       this.$v.$touch()
       if (this.$v.$error) return
+
+      if (!this.networkOfAddress) {
+        this.error = `No ${
+          this.testnet ? "testnet" : "mainnet"
+        } for this address found`
+        return
+      }
       const sessionCorrect = await this.$store.dispatch(`testLogin`, {
         password: this.signInPassword,
         address: this.signInAddress
