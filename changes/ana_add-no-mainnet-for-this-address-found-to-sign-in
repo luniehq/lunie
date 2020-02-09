@@ -1,0 +1,1 @@
+[Changed] [#3553](https://github.com/cosmos/lunie/pull/3553) Adds check in SessionSignIn to verify the signin address belongs to an existing mainnet. Otherwise displays an error message @Bitcoinera
