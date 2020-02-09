@@ -94,6 +94,7 @@ import ModalWithdrawRewards from "src/ActionModal/components/ModalWithdrawReward
 import { mapGetters, mapState } from "vuex"
 import gql from "graphql-tag"
 import ModalTutorial from "common/ModalTutorial"
+import { sendEvent } from "scripts/google-analytics"
 
 export default {
   name: `tm-balance`,
@@ -111,6 +112,7 @@ export default {
     return {
       overview: {},
       stakingDenom: "",
+      sentToGA: false,
       balances: [],
       selectedTokenFiatValue: `Tokens Total Fiat Value`,
       selectedFiatCurrency: `EUR`, // EUR is our default fiat currency
@@ -248,6 +250,40 @@ export default {
       },
       /* istanbul ignore next */
       update(data) {
+        if (!this.sentToGA) {
+          // sending to ga only once
+          sendEvent(
+            {
+              network: this.network,
+              address: this.address
+            },
+            "Portfolio",
+            "Balance",
+            "liquidStake",
+            data.overview.liquidStake
+          )
+          sendEvent(
+            {
+              network: this.network,
+              address: this.address
+            },
+            "Portfolio",
+            "Balance",
+            "totalStake",
+            data.overview.totalStake
+          )
+          sendEvent(
+            {
+              network: this.network,
+              address: this.address
+            },
+            "Portfolio",
+            "Balance",
+            "totalRewards",
+            data.overview.totalRewards
+          )
+          this.sentToGA = true
+        }
         if (!data.overview) {
           return {
             totalRewards: 0
