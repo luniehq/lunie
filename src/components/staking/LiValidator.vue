@@ -40,16 +40,16 @@
         </h3>
         <div v-if="delegation.amount > 0">
           <h4>
-            {{ delegation.amount | shortDecimals }}
+            {{ delegation.amount | bigFigureOrShortDecimals }}
           </h4>
           <h5 v-if="rewards.amount > 0.001">
-            +{{ rewards.amount | shortDecimals }}
+            +{{ rewards.amount | bigFigureOrShortDecimals }}
           </h5>
         </div>
       </div>
     </td>
     <td :class="{ 'hide-xs': showOnMobile !== 'expectedReturns' }">
-      {{ validator.expectedReturns | percentBig }}
+      {{ validator.expectedReturns | bigFigureOrShortDecimals }}
     </td>
     <td :class="{ 'hide-xs': showOnMobile !== 'voting-power' }">
       {{ validator.votingPower | percent }}
@@ -58,7 +58,7 @@
 </template>
 
 <script>
-import { percent, percentBig, shortDecimals, atoms } from "scripts/num"
+import { percent, bigFigureOrShortDecimals, atoms } from "scripts/num"
 import Avatar from "common/Avatar"
 
 export default {
@@ -68,10 +68,9 @@ export default {
   },
   filters: {
     atoms,
-    shortDecimals,
     percent,
     toLower: text => text.toLowerCase(),
-    percentBig
+    bigFigureOrShortDecimals
   },
   props: {
     validator: {

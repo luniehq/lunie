@@ -80,7 +80,7 @@ export function percent(number = 0) {
   )
 }
 
-export function percentBig(number = 0) {
+export function bigFigure(number = 0) {
   let formatted = Math.round(number * 100) / 100
 
   let suffix = ""
@@ -93,16 +93,22 @@ export function percentBig(number = 0) {
   } else if (Math.abs(Number(formatted)) >= 1e6) {
     formatted = Number(formatted) / 1e6
     suffix = "M"
-  } else if (Math.abs(Number(formatted)) >= 1e3) {
-    formatted = Number(formatted) / 1e3
-    suffix = "K"
   }
   return (
     new Intl.NumberFormat(language, {
       minimumFractionDigits: 0,
       maximumFractionDigits: 1
-    }).format(formatted) + ` ${suffix} %`
+    }).format(formatted) + ` ${suffix}`
   )
+}
+
+export function bigFigureOrShortDecimals(number) {
+  // here we check how many positive digits the number has to see if we should format it
+  if (Math.abs(Number(number)) < 1e6) {
+    return shortDecimals(number)
+  } else {
+    return bigFigure(number)
+  }
 }
 
 export function atoms(number = 0) {
@@ -194,7 +200,8 @@ export default {
   prettyLong,
   percent,
   percentInt,
-  percentBig,
   prettyDecimals,
-  roundObjectPercentages
+  roundObjectPercentages,
+  bigFigure,
+  bigFigureOrShortDecimals
 }

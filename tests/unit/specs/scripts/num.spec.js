@@ -6,7 +6,7 @@ import {
   prettyInt,
   percent,
   percentInt,
-  percentBig,
+  bigFigure,
   createDisplayCoin,
   prettyDecimals,
   viewDenom,
@@ -82,19 +82,15 @@ describe(`number helper`, () => {
   })
 
   it(`should format a very big percent. Convert it to trillions`, () => {
-    expect(percentBig(`8719010560462937.9`)).toBe(`8,719 T %`)
+    expect(bigFigure(`8719010560462937.9`)).toBe(`8,719 T`)
   })
 
   it(`should format a very big percent. Convert it to billions`, () => {
-    expect(percentBig(`719010560462.9379`)).toBe(`719 B %`)
+    expect(bigFigure(`719010560462.9379`)).toBe(`719 B`)
   })
 
   it(`should format a very big percent. Convert it to millions`, () => {
-    expect(percentBig(`7010560.46`)).toBe(`7 M %`)
-  })
-
-  it(`should format a very big percent. Convert it to k-thousands`, () => {
-    expect(percentBig(`719010.56`)).toBe(`719 K %`)
+    expect(bigFigure(`7010560.46`)).toBe(`7 M`)
   })
 
   it(`should format long decimals well`, () => {
