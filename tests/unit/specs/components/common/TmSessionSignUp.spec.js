@@ -25,6 +25,9 @@ describe(`TmSessionSignUp`, () => {
       dispatch: jest.fn(),
       mutations: {
         updateField: jest.fn()
+      },
+      getters: {
+        network: `cosmos-hub-mainnet`
       }
     }
 
@@ -85,5 +88,18 @@ describe(`TmSessionSignUp`, () => {
     wrapper.vm.$store.state.signup.signUpName = `HappyLunieUser`
     await wrapper.vm.onSubmit()
     expect(wrapper.vm.$router.push).toHaveBeenCalledWith(`/create/password`)
+  })
+
+  it(`isTesnet should return false if current network is mainnet`, () => {
+    const self = {
+      networks: [
+        {
+          id: `cosmos-hub-mainnet`,
+          testnet: false
+        }
+      ]
+    }
+    const isTesnet = TmSessionSignUp.computed.isTestnet.call(self)
+    expect(isTesnet).toBe(false)
   })
 })
