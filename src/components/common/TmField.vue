@@ -192,7 +192,8 @@ export default {
 
 <style>
 input[type="checkbox"] {
-  margin: 0.5rem 0.5rem 0.5rem 0;
+  margin: 0.3rem 0.3rem 0.5rem 0;
+  vertical-align: middle;
 }
 
 .tm-field {

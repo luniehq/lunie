@@ -189,7 +189,7 @@ exports[`TmSessionExplore shows a form to sign in with an address 1`] = `
       fieldlabel=""
     >
       <div
-        class="field-checkbox-testnet"
+        class="field-checkbox-input"
       >
         <label
           class="field-checkbox-label"

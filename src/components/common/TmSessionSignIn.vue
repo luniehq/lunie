@@ -190,19 +190,3 @@ export default {
   }
 }
 </script>
-<style scoped>
-input[type="checkbox"] {
-  vertical-align: middle;
-  margin: 0.5rem 0.2rem 0.5rem 0;
-}
-.field-checkbox-testnet {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-}
-@media screen and (min-width: 667px) {
-  .field-checkbox-input {
-    padding-left: 0;
-  }
-}
-</style>

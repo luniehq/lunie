@@ -20,6 +20,7 @@
         >
           <TmField
             id="sign-up-password"
+            v-focus
             v-model="fieldPassword"
             type="password"
             placeholder="Must be at least 10 characters"

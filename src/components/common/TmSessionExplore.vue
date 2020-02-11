@@ -71,7 +71,7 @@
         field-id="sign-up-warning"
         field-label
       >
-        <div class="field-checkbox-testnet">
+        <div class="field-checkbox-input">
           <label class="field-checkbox-label" for="select-testnet">
             <input id="select-testnet" v-model="testnet" type="checkbox" />
             This is a testnet address</label
@@ -259,11 +259,6 @@ export default {
 }
 </script>
 <style scoped>
-input[type="checkbox"] {
-  vertical-align: middle;
-  margin: 0.5rem 0.2rem 0.5rem 0;
-}
-
 .tm-li-session {
   display: flex;
   padding: 1rem;
@@ -313,23 +308,12 @@ input[type="checkbox"] {
 
 .material-icons.circle {
   border: 2px solid var(--dim);
+  color: var(--dim);
   border-radius: 50%;
   padding: 0.5rem;
 }
 
 .button {
   min-width: 90px;
-}
-
-.field-checkbox-testnet {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-}
-
-@media screen and (min-width: 667px) {
-  .field-checkbox-input {
-    padding-left: 0;
-  }
 }
 </style>
