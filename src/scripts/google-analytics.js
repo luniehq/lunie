@@ -60,9 +60,6 @@ module.exports.sendEvent = function event(customObject, ...args) {
       }
       delete customObject[key]
     })
-    if (args[3]) {
-      args[3] = Math.round(args[3] * 1000) // GA accepts only integer
-    }
     window.ga(`send`, `event`, ...args, customObject)
   }
 }
