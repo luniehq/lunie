@@ -946,6 +946,12 @@ describe(`ActionModal`, () => {
       $emit: jest.fn(),
       trackEvent: jest.fn(),
       sendEvent: jest.fn(),
+      network: {
+        id: "testnetwork"
+      },
+      session: {
+        address: "testaddress"
+      },
       $apollo: {
         queries: {
           overview: { refetch: jest.fn() }
