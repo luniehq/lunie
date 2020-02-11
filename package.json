@@ -13,7 +13,7 @@
     "dev-docker": "docker build -t lunie-api-dev . && docker run --init -it -p 4000:4000 lunie-api-dev",
     "lint": "eslint index.js config.js lib tests",
     "lint-fix": "yarn lint --fix",
-    "start": "node index.js",
+    "start": "node index.js ",
     "test": "jest"
   },
   "husky": {
