@@ -49,7 +49,7 @@
       </div>
     </td>
     <td :class="{ 'hide-xs': showOnMobile !== 'expectedReturns' }">
-      {{ validator.expectedReturns | bigFigureOrShortDecimals }}
+      {{ validator.expectedReturns | bigFigureOrShortDecimals }} %
     </td>
     <td :class="{ 'hide-xs': showOnMobile !== 'voting-power' }">
       {{ validator.votingPower | percent }}
