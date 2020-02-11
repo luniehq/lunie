@@ -548,6 +548,10 @@ export default {
     },
     close() {
       if (config.isMobileApp) noScroll.off()
+      if (this.step == "sign") {
+        // rejecting sign-in
+        this.actionManager.cancel(this.context, this.selectedSignMethod)
+      }
       this.$store.commit(`setCurrrentModalOpen`, false)
       this.submissionError = null
       this.password = null

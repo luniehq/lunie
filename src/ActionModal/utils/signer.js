@@ -1,4 +1,13 @@
-import { signWithExtension } from "src/scripts/extension-utils"
+import {
+  signWithExtension,
+  cancelSigninWithExtension
+} from "src/scripts/extension-utils"
+
+export async function cancelSignIn(submitType = "", { address, network }) {
+  if (submitType === `extension`) {
+    cancelSigninWithExtension(address, network)
+  }
+}
 
 export async function getSigner(
   config,
