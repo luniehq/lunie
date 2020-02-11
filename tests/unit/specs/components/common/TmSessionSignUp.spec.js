@@ -2,13 +2,14 @@ import { createLocalVue, shallowMount } from "@vue/test-utils"
 import Vuelidate from "vuelidate"
 import TmSessionSignUp from "common/TmSessionSignUp"
 jest.mock("@lunie/cosmos-keys", () => ({
-  getWalletIndex: function() {
+  getWalletIndex: function () {
     return [{ name: `Happy Lunie User`, address: `xyz123` }]
   }
 }))
 
 describe(`TmSessionSignUp`, () => {
   const localVue = createLocalVue()
+  localVue.directive(`focus`, () => { })
   localVue.use(Vuelidate)
 
   let wrapper, $store
