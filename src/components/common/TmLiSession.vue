@@ -85,6 +85,7 @@ export default {
 
 .material-icons.circle {
   border: 2px solid var(--dim);
+  color: var(--dim);
   border-radius: 50%;
   padding: 0.5rem;
 }
