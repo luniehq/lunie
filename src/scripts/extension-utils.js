@@ -105,7 +105,7 @@ export const signWithExtension = async (
   }
 }
 
-export const cancelSigninWithExtension = async (senderAddress, network) => {
+export const cancelSignWithExtension = async (senderAddress, network) => {
   await sendAsyncMessageToContentScript({
     type: "LUNIE_SIGN_REQUEST_CANCEL",
     payload: {

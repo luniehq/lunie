@@ -1,11 +1,11 @@
 import {
   signWithExtension,
-  cancelSigninWithExtension
+  cancelSignWithExtension
 } from "src/scripts/extension-utils"
 
-export async function cancelSignIn(submitType = "", { address, network }) {
+export async function cancelSign(submitType = "", { address, network }) {
   if (submitType === `extension`) {
-    cancelSigninWithExtension(address, network)
+    cancelSignWithExtension(address, network)
   }
 }
 

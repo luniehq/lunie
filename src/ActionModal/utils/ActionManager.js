@@ -1,5 +1,5 @@
 import config from "src/../config"
-import { getSigner, cancelSignIn } from "./signer"
+import { getSigner, cancelSign } from "./signer"
 import transaction from "./transactionTypes"
 import { uatoms } from "scripts/num"
 import { toMicroDenom } from "src/scripts/common"
@@ -86,7 +86,7 @@ export default class ActionManager {
   }
 
   async cancel(context, submitType) {
-    return await cancelSignIn(submitType, {
+    return await cancelSign(submitType, {
       address: context.userAddress,
       network: context.networkId
     })
