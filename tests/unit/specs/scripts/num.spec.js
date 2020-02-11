@@ -81,15 +81,15 @@ describe(`number helper`, () => {
     expect(percent(0.2612)).toBe(`26.12%`)
   })
 
-  it(`should format a very big percent. Convert it to trillions`, () => {
-    expect(bigFigure(`8719010560462937.9`)).toBe(`8,719 T`)
+  it(`should format a very big number. Convert it to trillions`, () => {
+    expect(bigFigure(`-8719010560462937.9`)).toBe(`-8,719 T`)
   })
 
-  it(`should format a very big percent. Convert it to billions`, () => {
+  it(`should format a very big number. Convert it to billions`, () => {
     expect(bigFigure(`719010560462.9379`)).toBe(`719 B`)
   })
 
-  it(`should format a very big percent. Convert it to millions`, () => {
+  it(`should format a very big number. Convert it to millions`, () => {
     expect(bigFigure(`7010560.46`)).toBe(`7 M`)
   })
 
