@@ -17,9 +17,13 @@ const language = window.navigator.userLanguage || window.navigator.language
 function setDecimalLength(value, length) {
   if (value === undefined || value === null || Number.isNaN(value)) return null
 
+  // rounding up the last decimal
+  const roundedValue =
+    Math.round(value * Math.pow(10, length)) / Math.pow(10, length)
+
   return new Intl.NumberFormat(language, {
     minimumFractionDigits: length > 3 ? length : 0
-  }).format(truncate(value, length))
+  }).format(truncate(roundedValue, length))
 }
 export function shortDecimals(value) {
   return setDecimalLength(value, 3)
@@ -113,10 +117,10 @@ export function bigFigureOrShortDecimals(number) {
 
 export function bigFigureOrPercent(number) {
   // once again, the same logic
-  if (Math.abs(Number(number)) < 1e6) {
+  if (Math.abs(Number(number)) < 1e4) {
     return percent(number)
   } else {
-    return bigFigure(number)
+    return bigFigure(number * 100)
       .toString()
       .concat(` %`)
   }
