@@ -9,18 +9,13 @@
       <template v-if="toYourself">
         <span>To yourself —&nbsp;</span>
       </template>
-      <template v-else-if="sentFromSessionAddress">
+      <template v-else-if="isSent">
         <span>To&nbsp;</span>
-        <Bech32 :address="transaction.value.outputs[0].address" />
-      </template>
-      <template v-else-if="receivedToSessionAddress">
-        <span>From&nbsp;</span>
-        <Bech32 :address="transaction.value.inputs[0].address" />
+        <Bech32 :address="recipient" />
       </template>
       <template v-else>
         <span>From&nbsp;</span>
-        <Bech32 :address="transaction.value.inputs[0].address" /> to
-        <Bech32 :address="sessionAddress" />
+        <Bech32 :address="sender" />
       </template>
     </div>
     <div class="tx__content__right">
@@ -60,12 +55,35 @@ export default {
     }
   },
   computed: {
+    recipient() {
+      let index = this.transaction.value.inputs.findIndex(
+        input => input.address == this.sessionAddress
+      )
+      if (index !== undefined && this.transaction.value.outputs[index]) {
+        return this.transaction.value.outputs[index].address
+      }
+      return false
+    },
+    sender() {
+      let index = this.transaction.value.outputs.findIndex(
+        output => output.address == this.sessionAddress
+      )
+      if (index !== undefined && this.transaction.value.inputs[index]) {
+        return this.transaction.value.inputs[index].address
+      }
+      return false
+    },
+    isSent() {
+      return this.transaction.value.inputs.find(
+        input => input.address === this.sessionAddress
+      )
+    },
     coin() {
       return getMultiSendCoin(this.transaction, this.sessionAddress)
     },
     toYourself() {
       let toYourself = false
-      if (this.transaction.value.inputs[0].address === this.sessionAddress) {
+      if (this.isSent) {
         this.transaction.value.outputs.map(output => {
           if (output.address === this.sessionAddress) {
             toYourself = true
@@ -74,33 +92,15 @@ export default {
       }
       return toYourself
     },
-    sentFromSessionAddress() {
-      if (this.transaction.value.inputs[0].address === this.sessionAddress) {
-        return true
-      } else {
-        return false
-      }
-    },
-    receivedToSessionAddress() {
-      let receivedToSessionAddress = false
-      if (this.transaction.value.inputs[0].address !== this.sessionAddress) {
-        this.transaction.value.outputs.map(output => {
-          if (output.address === this.sessionAddress) {
-            receivedToSessionAddress = true
-          }
-        })
-      }
-      return receivedToSessionAddress
-    },
     type() {
-      if (this.transaction.value.inputs[0].address === this.sessionAddress) {
+      if (this.isSent) {
         return "Sent"
       } else {
         return "Received"
       }
     },
     caption() {
-      if (this.transaction.value.inputs[0].address === this.sessionAddress) {
+      if (this.isSent) {
         return "Sent"
       } else {
         return "Received"
