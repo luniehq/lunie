@@ -103,11 +103,22 @@ export function bigFigure(number = 0) {
 }
 
 export function bigFigureOrShortDecimals(number) {
-  // here we check how many positive digits the number has to see if we should format it
+  // here we check how many positive digits the number has to see how we should format it
   if (Math.abs(Number(number)) < 1e6) {
     return shortDecimals(number)
   } else {
     return bigFigure(number)
+  }
+}
+
+export function bigFigureOrPercent(number) {
+  // once again, the same logic
+  if (Math.abs(Number(number)) < 1e6) {
+    return percent(number)
+  } else {
+    return bigFigure(number)
+      .toString()
+      .concat(` %`)
   }
 }
 
@@ -203,5 +214,6 @@ export default {
   prettyDecimals,
   roundObjectPercentages,
   bigFigure,
-  bigFigureOrShortDecimals
+  bigFigureOrShortDecimals,
+  bigFigureOrPercent
 }

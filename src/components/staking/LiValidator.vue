@@ -49,16 +49,24 @@
       </div>
     </td>
     <td :class="{ 'hide-xs': showOnMobile !== 'expectedReturns' }">
-      {{ validator.expectedReturns | bigFigureOrShortDecimals }} %
+      {{
+        validator.expectedReturns
+          ? bigFigureOrPercent(validator.expectedReturns)
+          : `--`
+      }}
     </td>
     <td :class="{ 'hide-xs': showOnMobile !== 'voting-power' }">
-      {{ validator.votingPower | percent }}
+      {{ validator.votingPower | bigFigureOrPercent }}
     </td>
   </tr>
 </template>
 
 <script>
-import { percent, bigFigureOrShortDecimals, atoms } from "scripts/num"
+import {
+  bigFigureOrPercent,
+  bigFigureOrShortDecimals,
+  atoms
+} from "scripts/num"
 import Avatar from "common/Avatar"
 
 export default {
@@ -68,9 +76,9 @@ export default {
   },
   filters: {
     atoms,
-    percent,
     toLower: text => text.toLowerCase(),
-    bigFigureOrShortDecimals
+    bigFigureOrShortDecimals,
+    bigFigureOrPercent
   },
   props: {
     validator: {
@@ -96,7 +104,7 @@ export default {
     }
   },
   methods: {
-    percent
+    bigFigureOrPercent
   }
 }
 </script>
