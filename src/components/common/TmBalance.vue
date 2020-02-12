@@ -32,7 +32,13 @@
               </div>
 
               <div v-if="overview.totalRewards" class="rewards">
-                <h3>Total Rewards</h3>
+                <h3>
+                  {{
+                    isMultiDenomReward
+                      ? `Total Rewards in ${stakingDenom}`
+                      : `Total Rewards`
+                  }}
+                </h3>
                 <h2>+{{ overview.totalRewards | shortDecimals | noBlanks }}</h2>
               </div>
             </div>
@@ -48,6 +54,11 @@
               >
                 <p class="token-denom">{{ balance.denom }}</p>
                 <p class="token-balance">{{ balance.amount }}</p>
+                <p class="rewards">
+                  +{{
+                    calculateTotalRewardsDenom(balance.denom) | shortDecimals
+                  }}
+                </p>
               </div>
             </div>
           </div>
@@ -117,6 +128,7 @@ export default {
       selectedTokenFiatValue: `Tokens Total Fiat Value`,
       selectedFiatCurrency: `EUR`, // EUR is our default fiat currency
       showTutorial: false,
+      rewards: [],
       cosmosTokensTutorial: {
         fullguide: `https://lunie.io/guides/how-to-get-tokens/`,
         background: `red`,
@@ -214,6 +226,15 @@ export default {
       } else {
         return [this.stakingDenom]
       }
+    },
+    isMultiDenomReward() {
+      if (this.overview.rewards && this.overview.rewards.length > 0) {
+        return this.overview.rewards[0].denom !== this.overview.rewards[1].denom
+          ? true
+          : false
+      } else {
+        return false
+      }
     }
   },
   methods: {
@@ -228,6 +249,17 @@ export default {
     },
     hideTutorial() {
       this.showTutorial = false
+    },
+    calculateTotalRewardsDenom(denom) {
+      if (this.overview.rewards && this.overview.rewards.length > 0) {
+        let rewardsAccumulator = 0
+        this.overview.rewards
+          .filter(reward => reward.denom === denom.toLowerCase())
+          .forEach(reward => {
+            rewardsAccumulator += parseFloat(reward.amount)
+          })
+        return rewardsAccumulator
+      }
     }
   },
   apollo: {
@@ -238,6 +270,10 @@ export default {
             totalRewards
             liquidStake
             totalStake
+            rewards {
+              amount
+              denom
+            }
           }
         }
       `,
@@ -291,7 +327,8 @@ export default {
         }
         return {
           ...data.overview,
-          totalRewards: Number(data.overview.totalRewards)
+          totalRewards: Number(data.overview.totalRewards),
+          rewards: data.overview.rewards
         }
       },
       /* istanbul ignore next */
@@ -423,7 +460,6 @@ export default {
 
 .token-denom {
   font-size: 12px;
-  float: left;
 }
 
 .token-balance {
@@ -434,6 +470,11 @@ export default {
   position: absolute;
   right: 1.25rem;
   top: -0.7rem;
+}
+
+p.rewards {
+  color: var(--success);
+  font-size: var(--s);
 }
 
 .rewards h2 {
@@ -459,6 +500,7 @@ export default {
   width: 100%;
   border-bottom: 1px solid var(--bc-dim);
   border-top: 1px solid var(--bc-dim);
+  margin-top: 1rem;
   margin-bottom: 2rem;
 }
 
@@ -552,11 +594,6 @@ export default {
   .scroll-item {
     width: 100%;
   }
-
-  /* This doesn't work */
-  /* .scroll > .scroll-item {
-    flex: 0 0 auto;
-  } */
 
   .scroll > .row > div {
     margin-right: 3rem;

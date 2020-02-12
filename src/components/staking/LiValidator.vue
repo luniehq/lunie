@@ -43,7 +43,12 @@
             {{ delegation.amount | shortDecimals }}
           </h4>
           <h5 v-if="rewards.amount > 0.001">
-            +{{ rewards.amount | shortDecimals }}
+            <span v-if="isMultiDenomReward"
+              >+{{
+                shortDecimals(rewards.amount).concat(` ${stakingDenom}`)
+              }}</span
+            >
+            <span v-else>+{{ rewards.amount | shortDecimals }}</span>
           </h5>
         </div>
       </div>
@@ -94,10 +99,19 @@ export default {
       type: String,
       /* istanbul ignore next */
       default: () => "returns"
+    },
+    isMultiDenomReward: {
+      type: Boolean,
+      default: false
+    },
+    stakingDenom: {
+      type: String,
+      default: ""
     }
   },
   methods: {
-    percent
+    percent,
+    shortDecimals
   }
 }
 </script>

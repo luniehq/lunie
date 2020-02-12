@@ -22,6 +22,7 @@ exports[`TableValidators shows a validator table 1`] = `
         index="0"
         rewards="[object Object]"
         showonmobile="returns"
+        stakingdenom=""
         validator="[object Object]"
       />
       <livalidator-stub
@@ -29,6 +30,7 @@ exports[`TableValidators shows a validator table 1`] = `
         index="1"
         rewards="[object Object]"
         showonmobile="returns"
+        stakingdenom=""
         validator="[object Object]"
       />
       <livalidator-stub
@@ -36,6 +38,7 @@ exports[`TableValidators shows a validator table 1`] = `
         index="2"
         rewards="[object Object]"
         showonmobile="returns"
+        stakingdenom=""
         validator="[object Object]"
       />
       <livalidator-stub
@@ -43,6 +46,7 @@ exports[`TableValidators shows a validator table 1`] = `
         index="3"
         rewards="[object Object]"
         showonmobile="returns"
+        stakingdenom=""
         validator="[object Object]"
       />
       <livalidator-stub
@@ -50,6 +54,7 @@ exports[`TableValidators shows a validator table 1`] = `
         index="4"
         rewards="[object Object]"
         showonmobile="returns"
+        stakingdenom=""
         validator="[object Object]"
       />
       <livalidator-stub
@@ -57,6 +62,7 @@ exports[`TableValidators shows a validator table 1`] = `
         index="5"
         rewards="[object Object]"
         showonmobile="returns"
+        stakingdenom=""
         validator="[object Object]"
       />
       <livalidator-stub
@@ -64,6 +70,7 @@ exports[`TableValidators shows a validator table 1`] = `
         index="6"
         rewards="[object Object]"
         showonmobile="returns"
+        stakingdenom=""
         validator="[object Object]"
       />
       <livalidator-stub
@@ -71,6 +78,7 @@ exports[`TableValidators shows a validator table 1`] = `
         index="7"
         rewards="[object Object]"
         showonmobile="returns"
+        stakingdenom=""
         validator="[object Object]"
       />
       <livalidator-stub
@@ -78,6 +86,7 @@ exports[`TableValidators shows a validator table 1`] = `
         index="8"
         rewards="[object Object]"
         showonmobile="returns"
+        stakingdenom=""
         validator="[object Object]"
       />
       <livalidator-stub
@@ -85,6 +94,7 @@ exports[`TableValidators shows a validator table 1`] = `
         index="9"
         rewards="[object Object]"
         showonmobile="returns"
+        stakingdenom=""
         validator="[object Object]"
       />
       <livalidator-stub
@@ -92,6 +102,7 @@ exports[`TableValidators shows a validator table 1`] = `
         index="10"
         rewards="[object Object]"
         showonmobile="returns"
+        stakingdenom=""
         validator="[object Object]"
       />
       <livalidator-stub
@@ -99,6 +110,7 @@ exports[`TableValidators shows a validator table 1`] = `
         index="11"
         rewards="[object Object]"
         showonmobile="returns"
+        stakingdenom=""
         validator="[object Object]"
       />
       <livalidator-stub
@@ -106,6 +118,7 @@ exports[`TableValidators shows a validator table 1`] = `
         index="12"
         rewards="[object Object]"
         showonmobile="returns"
+        stakingdenom=""
         validator="[object Object]"
       />
       <livalidator-stub
@@ -113,6 +126,7 @@ exports[`TableValidators shows a validator table 1`] = `
         index="13"
         rewards="[object Object]"
         showonmobile="returns"
+        stakingdenom=""
         validator="[object Object]"
       />
       <livalidator-stub
@@ -120,6 +134,7 @@ exports[`TableValidators shows a validator table 1`] = `
         index="14"
         rewards="[object Object]"
         showonmobile="returns"
+        stakingdenom=""
         validator="[object Object]"
       />
     </tbody>

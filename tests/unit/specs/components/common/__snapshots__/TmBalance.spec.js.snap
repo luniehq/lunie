@@ -140,7 +140,9 @@ exports[`TmBalance show the balance header when signed in 1`] = `
               class="rewards"
             >
               <h3>
+                
                 Total Rewards
+              
               </h3>
                
               <h2>

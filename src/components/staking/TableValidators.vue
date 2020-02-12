@@ -21,6 +21,8 @@
           :delegation="getDelegation(validator)"
           :rewards="getRewards(validator)"
           :show-on-mobile="showOnMobile"
+          :is-multi-denom-reward="isMultiDenomReward"
+          :staking-denom="stakingDenom"
         />
       </tbody>
     </table>
@@ -29,6 +31,7 @@
 
 <script>
 import { mapGetters } from "vuex"
+import { toMicroDenom } from "src/scripts/common"
 import orderBy from "lodash.orderby"
 import LiValidator from "staking/LiValidator"
 import PanelSort from "staking/PanelSort"
@@ -60,7 +63,8 @@ export default {
       property: `expectedReturns`,
       order: `desc`
     },
-    showing: 15
+    showing: 15,
+    stakingDenom: ""
   }),
   computed: {
     ...mapGetters([`address`, `network`]),
@@ -100,6 +104,13 @@ export default {
           tooltip: `Percentage of voting shares`
         }
       ]
+    },
+    isMultiDenomReward() {
+      if (this.rewards && this.rewards.length > 0) {
+        return this.rewards[0].denom !== this.rewards[1].denom ? true : false
+      } else {
+        return false
+      }
     }
   },
   watch: {
@@ -123,9 +134,9 @@ export default {
       )
     },
     getRewards({ operatorAddress }) {
-      return this.rewards.find(
-        ({ validator }) => validator.operatorAddress === operatorAddress
-      )
+      return this.rewards
+        .filter(({ denom }) => denom === toMicroDenom(this.stakingDenom))
+        .find(({ validator }) => validator.operatorAddress === operatorAddress)
     }
   },
   apollo: {
@@ -137,6 +148,7 @@ export default {
               operatorAddress
             }
             amount
+            denom
           }
         }
       `,
@@ -151,6 +163,27 @@ export default {
       },
       update: result => {
         return result.rewards || []
+      }
+    },
+    stakingDenom: {
+      query: gql`
+        query Network($networkId: String!) {
+          network(id: $networkId) {
+            id
+            stakingDenom
+          }
+        }
+      `,
+      /* istanbul ignore next */
+      variables() {
+        return {
+          networkId: this.network
+        }
+      },
+      /* istanbul ignore next */
+      update(data) {
+        if (!data.network) return ""
+        return data.network.stakingDenom
       }
     },
     $subscribe: {
