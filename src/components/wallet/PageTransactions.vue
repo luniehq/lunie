@@ -94,16 +94,8 @@ export default {
   apollo: {
     transactions: {
       query: gql`
-        query transactions(
-          $networkId: String!
-          $address: String!
-          $block: Int
-        ) {
-          transactions(
-            networkId: $networkId
-            address: $address
-            block: $block
-          ) {
+        query transactions($networkId: String!, $address: String!) {
+          transactions(networkId: $networkId, address: $address) {
             hash
             type
             group
