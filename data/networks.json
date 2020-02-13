@@ -100,7 +100,7 @@
   },
   {
     "id": "terra-mainnet",
-    "title": "Terra mainnet",
+    "title": "Terra",
     "chain_id": "columbus-3",
     "api_url": "https://fcd.terra.dev/",
     "rpc_url": "ws://52.78.43.42:26657/websocket",
