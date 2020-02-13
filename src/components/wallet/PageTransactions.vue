@@ -1,8 +1,8 @@
 <template>
   <TmPage
     :managed="true"
-    :loading="$apollo.queries.transactions.loading"
-    :loaded="!$apollo.queries.transactions.loading"
+    :loading="$apollo.queries.transactions.loading && dataEmpty"
+    :loaded="!$apollo.queries.transactions.loading && !dataEmpty"
     :error="$apollo.queries.transactions.error"
     :data-empty="transactions.length === 0"
     data-title="Transactions"
@@ -11,11 +11,12 @@
   >
     <DataEmptyTx slot="no-data" />
     <template slot="managed-body">
-      <div v-infinite-scroll="loadMore" infinite-scroll-distance="80">
+      <div>
         <TransactionList
-          :transactions="transactions"
+          :transactions="showingTransactions"
           :address="address"
           :validators="validatorsAddressMap"
+          @loadMore="loadMore"
         />
       </div>
       <br />
@@ -52,8 +53,11 @@ export default {
   },
   data: () => ({
     showing: 15,
+    block: 0,
     validators: [],
-    transactions: []
+    transactions: [],
+    loadedTransactions: [],
+    lastLoadedRecordsCount: 0
   }),
   computed: {
     ...mapGetters([`address`, `network`]),
@@ -66,11 +70,22 @@ export default {
     },
     dataEmpty() {
       return this.transactions.length === 0
+    },
+    showingTransactions() {
+      return this.transactions.slice(0, this.showing)
     }
   },
   methods: {
     loadMore() {
-      this.showing += 10
+      this.showing += 50
+      // preload next transactions before scroll end and check if last loading loads new records
+      if (
+        this.showing > this.transactions.length - 100 &&
+        this.lastLoadedRecordsCount
+      ) {
+        // loads new portion
+        this.block++
+      }
     },
     handleIntercom() {
       this.$store.dispatch(`displayMessenger`)
@@ -79,8 +94,16 @@ export default {
   apollo: {
     transactions: {
       query: gql`
-        query transactions($networkId: String!, $address: String!) {
-          transactions(networkId: $networkId, address: $address) {
+        query transactions(
+          $networkId: String!
+          $address: String!
+          $block: Int
+        ) {
+          transactions(
+            networkId: $networkId
+            address: $address
+            block: $block
+          ) {
             hash
             type
             group
@@ -102,51 +125,22 @@ export default {
       variables() {
         return {
           networkId: this.network,
-          address: this.address
+          address: this.address,
+          block: this.block
         }
       },
-      update: result => {
+      update(result) {
+        let trx = []
         if (Array.isArray(result.transactions)) {
-          return result.transactions.map(tx => ({
+          trx = result.transactions.map(tx => ({
             ...tx,
             timestamp: new Date(tx.timestamp),
             value: JSON.parse(tx.value)
           }))
         }
-        return []
-      },
-      subscribeToMore: {
-        document: gql`
-          subscription($networkId: String!, $address: String!) {
-            userTransactionAdded(networkId: $networkId, address: $address) {
-              hash
-              type
-              group
-              height
-              timestamp
-              gasUsed
-              fee {
-                amount
-                denom
-              }
-              value
-            }
-          }
-        `,
-        updateQuery: (previousResult, { subscriptionData }) => {
-          return {
-            transactions: [
-              subscriptionData.data.userTransactionAdded,
-              ...previousResult.transactions
-            ]
-          }
-        },
-        variables() {
-          return {
-            networkId: this.network,
-            address: this.address
-          }
-        }
+        this.lastLoadedRecordsCount = trx.length
+        this.loadedTransactions = [...this.loadedTransactions, ...trx]
+        return this.loadedTransactions
       }
     },
     validators: {
