@@ -81,4 +81,65 @@ describe(`MultiSendMessageDetails`, () => {
     })
     expect(wrapper.element).toMatchSnapshot()
   })
+
+  it(`returns the recipient's address of the transaction`, () => {
+    wrapper = shallowMount(MultiSendMessageDetails, {
+      propsData: {
+        transaction: tx,
+        sessionAddress: "cosmos1ahtlr29s38w23xxq7slcwmmz4c8x9efmr8qmee"
+      }
+    })
+    expect(wrapper.vm.recipient).toEqual(
+      `cosmos1ahtlr29s38w23xxq7slcwmmz4c8x9efmr8qmee`
+    )
+  })
+
+  it(`returns an empty string if it couldn't find the index of the user's address in inputs`, () => {
+    const emptyTx = {
+      ...tx,
+      value: {
+        inputs: [
+          {
+            address: ``,
+            coins: [
+              {
+                amount: "20000000000",
+                denom: "uatom"
+              }
+            ]
+          }
+        ],
+        outputs: [
+          {
+            address: `cosmos1ahtlr29s38w23xxq7slcwmmz4c8x9efmr8qmee`,
+            coins: [
+              {
+                amount: "10000000000",
+                denom: "uatom"
+              }
+            ]
+          }
+        ]
+      }
+    }
+    wrapper = shallowMount(MultiSendMessageDetails, {
+      propsData: {
+        transaction: emptyTx,
+        sessionAddress: "cosmos1ahtlr29s38w23xxq7slcwmmz4c8x9efmr8qmee"
+      }
+    })
+    expect(wrapper.vm.recipient).toEqual(``)
+  })
+
+  it(`returns the sender's address of the transaction`, () => {
+    wrapper = shallowMount(MultiSendMessageDetails, {
+      propsData: {
+        transaction: tx,
+        sessionAddress: "cosmos1ahtlr29s38w23xxq7slcwmmz4c8x9efmr8qmee"
+      }
+    })
+    expect(wrapper.vm.sender).toEqual(
+      `cosmos1ahtlr29s38w23xxq7slcwmmz4c8x9efmr8qmee`
+    )
+  })
 })
