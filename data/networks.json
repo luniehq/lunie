@@ -37,7 +37,7 @@
     "title": "Cosmos Hub",
     "chain_id": "cosmoshub-3",
     "rpc_url": "wss://cosmos-hub-3.lunie.io/websocket",
-    "api_url": "https://cosmos-hub-3.lunie.io",
+    "api_url": "https://lcd.nylira.net",
     "bech32_prefix": "cosmos",
     "address_prefix": "cosmos",
     "address_creator": "cosmos",
