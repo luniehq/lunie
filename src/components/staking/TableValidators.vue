@@ -125,6 +125,7 @@ export default {
     this.$apollo.queries.rewards.startPolling(1000 * 60 * 5)
   },
   methods: {
+    toMicroDenom,
     loadMore() {
       this.showing += 10
     },
@@ -134,9 +135,13 @@ export default {
       )
     },
     getRewards({ operatorAddress }) {
-      return this.rewards
-        .filter(({ denom }) => denom === toMicroDenom(this.stakingDenom))
-        .find(({ validator }) => validator.operatorAddress === operatorAddress)
+      if (this.rewards) {
+        return this.rewards
+          .filter(({ denom }) => denom === this.toMicroDenom(this.stakingDenom))
+          .find(
+            ({ validator }) => validator.operatorAddress === operatorAddress
+          )
+      }
     }
   },
   apollo: {
