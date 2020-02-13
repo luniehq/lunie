@@ -50,7 +50,6 @@ export default {
     },
     sessionAddress: {
       type: String,
-      required: false,
       default: null
     }
   },
@@ -62,7 +61,7 @@ export default {
       if (index !== undefined && this.transaction.value.outputs[index]) {
         return this.transaction.value.outputs[index].address
       }
-      return false
+      return ""
     },
     sender() {
       let index = this.transaction.value.outputs.findIndex(
@@ -71,7 +70,7 @@ export default {
       if (index !== undefined && this.transaction.value.inputs[index]) {
         return this.transaction.value.inputs[index].address
       }
-      return false
+      return ""
     },
     isSent() {
       return this.transaction.value.inputs.find(

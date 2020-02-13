@@ -21,7 +21,7 @@ exports[`MultiSendMessageDetails renders a received transaction message 1`] = `
     </span>
      
     <bech32-stub
-      address="cosmos1ahtlr29s38w23xxq7slcwmmz4c8x9efmr8qmee"
+      address=""
     />
   </div>
    
