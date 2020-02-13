@@ -56,7 +56,7 @@ export default {
   computed: {
     recipient() {
       let index = this.transaction.value.inputs.findIndex(
-        input => input.address == this.sessionAddress
+        input => input.address === this.sessionAddress
       )
       if (index !== undefined && this.transaction.value.outputs[index]) {
         return this.transaction.value.outputs[index].address
@@ -65,7 +65,7 @@ export default {
     },
     sender() {
       let index = this.transaction.value.outputs.findIndex(
-        output => output.address == this.sessionAddress
+        output => output.address === this.sessionAddress
       )
       if (index !== undefined && this.transaction.value.inputs[index]) {
         return this.transaction.value.inputs[index].address
