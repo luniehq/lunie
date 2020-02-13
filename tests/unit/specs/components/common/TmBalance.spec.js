@@ -40,7 +40,21 @@ describe(`TmBalance`, () => {
       overview: {
         totalStake: 3210,
         liquidStake: 1230,
-        totalRewards: 1000.45
+        totalRewards: 1000.45,
+        rewards: [
+          {
+            amount: 1,
+            denom: `utoken1`
+          },
+          {
+            amount: 2,
+            denom: `utoken2`
+          },
+          {
+            amount: 1.5,
+            denom: `utoken1`
+          }
+        ]
       }
     })
   })
@@ -154,6 +168,10 @@ describe(`TmBalance`, () => {
     ])
   })
 
+  it(`should return true if rewards contain multiple denoms`, () => {
+    expect(wrapper.vm.isMultiDenomReward).toBe(true)
+  })
+
   it(`should show How To Get Tokens tutorial`, () => {
     wrapper.setData({
       showTutorial: false
@@ -168,5 +186,10 @@ describe(`TmBalance`, () => {
     })
     wrapper.vm.hideTutorial()
     expect(wrapper.vm.showTutorial).toBe(false)
+  })
+
+  it(`should calculate the total rewards amount for each denom when rewards contain multiple denoms`, () => {
+    const totalDenomRewards = wrapper.vm.calculateTotalRewardsDenom(`UTOKEN1`)
+    expect(totalDenomRewards).toBe(2.5)
   })
 })

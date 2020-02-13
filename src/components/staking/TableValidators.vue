@@ -136,11 +136,16 @@ export default {
     },
     getRewards({ operatorAddress }) {
       if (this.rewards) {
-        return this.rewards
-          .filter(({ denom }) => denom === this.toMicroDenom(this.stakingDenom))
-          .find(
-            ({ validator }) => validator.operatorAddress === operatorAddress
-          )
+        return (
+          this.rewards
+            /* istanbul ignore next */
+            .filter(
+              ({ denom }) => denom === this.toMicroDenom(this.stakingDenom)
+            )
+            .find(
+              ({ validator }) => validator.operatorAddress === operatorAddress
+            )
+        )
       }
     }
   },
