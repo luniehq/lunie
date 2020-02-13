@@ -44,7 +44,7 @@
             </div>
             <div
               v-if="formattedBalances.length > 0"
-              id="scroll-item"
+              id="multidenom-rewards"
               class="row small-container tokens-div scroll-item"
             >
               <div
@@ -548,6 +548,15 @@ p.rewards {
   background-color: rgba(255, 255, 255, 0.02);
 }
 
+@media screen and (max-width: 1168px) {
+  div.tokens-div {
+    position: initial;
+  }
+  #multidenom-rewards {
+    margin-top: 0.3rem;
+  }
+}
+
 @media screen and (max-width: 667px) {
   .balance-header {
     display: flex;
@@ -600,13 +609,17 @@ p.rewards {
   }
 
   .tokens-div {
-    position: inherit;
+    position: relative;
     margin: 0;
     top: 0;
   }
 
   .token-denom {
     float: none;
+  }
+
+  #multidenom-rewards {
+    margin-top: 4.3rem;
   }
 
   .currency-selector.tm-form-group {
@@ -629,6 +642,8 @@ p.rewards {
     justify-content: space-evenly;
     padding: 1rem 0;
     text-align: center;
+    height: 90px;
+    position: absolute;
   }
   .tutorial-container {
     padding-right: 1rem;
