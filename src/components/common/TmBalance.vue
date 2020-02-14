@@ -239,9 +239,7 @@ export default {
     },
     isMultiDenomReward() {
       if (this.overview.rewards && this.overview.rewards.length > 0) {
-        return this.overview.rewards[0].denom !== this.overview.rewards[1].denom
-          ? true
-          : false
+        return this.overview.rewards[0].denom ? true : false
       } else {
         return false
       }

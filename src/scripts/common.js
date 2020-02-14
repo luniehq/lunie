@@ -57,6 +57,6 @@ export function toMicroDenom(denom) {
 
 export function removeUFromMicroDenom(denom) {
   if (denom.startsWith(`u`)) {
-    return denom.slice(-3)
+    return denom.slice(1, denom.length)
   }
 }

@@ -107,7 +107,7 @@ export default {
     },
     isMultiDenomReward() {
       if (this.rewards && this.rewards.length > 0) {
-        return this.rewards[0].denom !== this.rewards[1].denom ? true : false
+        return this.rewards[0].denom ? true : false
       } else {
         return false
       }

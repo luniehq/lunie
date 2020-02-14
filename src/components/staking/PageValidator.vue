@@ -198,6 +198,7 @@ import moment from "moment"
 import { mapGetters, mapState } from "vuex"
 import { atoms, shortDecimals, fullDecimals, percent } from "scripts/num"
 import { noBlanks, fromNow } from "src/filters"
+import { removeUFromMicroDenom } from "src/scripts/common"
 import TmBtn from "common/TmBtn"
 import DelegationModal from "src/ActionModal/components/DelegationModal"
 import UndelegationModal from "src/ActionModal/components/UndelegationModal"
@@ -301,13 +302,21 @@ export default {
   computed: {
     ...mapState([`connection`]),
     ...mapGetters([`network`]),
-    ...mapGetters({ userAddress: `address` })
+    ...mapGetters({ userAddress: `address` }),
+    isMultiDenomReward() {
+      if (this.rewards && this.rewards.length > 0) {
+        return this.rewards[0].denom ? true : false
+      } else {
+        return false
+      }
+    }
   },
   mounted() {
     this.$apollo.queries.rewards.refetch()
     this.$apollo.queries.delegation.refetch()
   },
   methods: {
+    removeUFromMicroDenom,
     shortDecimals,
     fullDecimals,
     atoms,
@@ -346,7 +355,11 @@ export default {
         // we return the reward with the highest amount
         this.mostRelevantReward = this.fullDecimals(rewards[0].amount)
           .toString()
-          .concat(` ${rewards[0].denom.slice(-3).toUpperCase()}`)
+          .concat(
+            this.isMultiDenomReward
+              ? ` ${this.removeUFromMicroDenom(rewards[0].denom).toUpperCase()}`
+              : ``
+          )
       } else {
         if (this.mostRelevantReward !== "") {
           return this.mostRelevantReward
