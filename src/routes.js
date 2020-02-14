@@ -12,89 +12,11 @@ export default [
     redirect: `/portfolio`
   },
   {
-    path: `/proposals`,
-    name: `Proposals`,
-    meta: {
-      feature: "Proposals"
-    },
-    component: () => import(`./components/governance/PageProposals`)
-  },
-  // for depredecated routes
-  {
-    path: `/governance/proposals`,
-    redirect: `/proposals`
-  },
-  {
-    path: `/proposals/:proposalId`,
-    name: `Proposal`,
-    meta: {
-      feature: "Proposals"
-    },
-    component: () => import(`./components/governance/PageProposal`),
-    props: true
-  },
-  // for depredecated routes
-  {
-    path: `/governance/proposals/:proposalId`,
-    redirect: `/proposals/:proposalId`
-  },
-  {
-    path: `/validators`,
-    name: `Validators`,
-    meta: {
-      feature: "Validators"
-    },
-    component: () => import(`./components/staking/PageValidators`)
-  },
-  // for depredecated routes
-  {
-    path: `/staking/validators`,
-    redirect: `/validators`
-  },
-  {
-    path: `/validators/:validator`,
-    name: `validator`,
-    meta: {
-      feature: "Validators"
-    },
-    component: () => import(`./components/staking/PageValidator`)
-  },
-  {
-    path: `/staking/validators/:validator`,
-    redirect: `/validators/:validator`
-  },
-  {
-    path: `/portfolio`,
-    name: `portfolio`,
-    component: () => import(`./components/wallet/PagePortfolio`),
-    meta: {
-      requiresAuth: true,
-      feature: "Portfolio"
-    }
-  },
-  {
-    path: `/transactions`,
-    name: `transactions`,
-    component: () => import(`./components/wallet/PageTransactions`),
-    meta: {
-      requiresAuth: true,
-      feature: "Activity"
-    }
-  },
-  {
     path: `/networks`,
     name: `networks`,
     component: () => import(`./components/network/PageNetworks`),
     meta: {
       requiresAuth: false
-    }
-  },
-  {
-    path: `/blocks/:height`,
-    name: `block`,
-    component: () => import(`./components/network/PageBlock`),
-    meta: {
-      feature: "Explorer"
     }
   },
   {
@@ -299,7 +221,92 @@ export default [
   {
     path: `/feature-not-available/:feature`,
     component: () => import(`./components/common/PageFeatureNotAvailable`),
+    name: `fns`,
     props: true
   },
-  { path: `*`, component: () => import(`./components/common/Page404`) }
+  {
+    path: `/:networkId`,
+    component: () => import(`./components/common/setNetwork`),
+    children: [
+      {
+        path: `proposals`,
+        name: `Proposals`,
+        meta: {
+          feature: "Proposals"
+        },
+        component: () => import(`./components/governance/PageProposals`)
+      },
+      // for depredecated routes
+      {
+        path: `governance/proposals`,
+        redirect: `/proposals`
+      },
+      {
+        path: `/proposals/:proposalId`,
+        name: `Proposal`,
+        meta: {
+          feature: "Proposals"
+        },
+        component: () => import(`./components/governance/PageProposal`),
+        props: true
+      },
+      // for depredecated routes
+      {
+        path: `governance/proposals/:proposalId`,
+        redirect: `/proposals/:proposalId`
+      },
+      {
+        path: `validators`,
+        name: `Validators`,
+        meta: {
+          feature: "Validators"
+        },
+        component: () => import(`./components/staking/PageValidators`)
+      },
+      // for depredecated routes
+      {
+        path: `staking/validators`,
+        redirect: `/validators`
+      },
+      {
+        path: `validators/:validator`,
+        name: `validator`,
+        meta: {
+          feature: "Validators"
+        },
+        component: () => import(`./components/staking/PageValidator`)
+      },
+      {
+        path: `staking/validators/:validator`,
+        redirect: `/validators/:validator`
+      },
+      {
+        path: `portfolio`,
+        name: `portfolio`,
+        component: () => import(`./components/wallet/PagePortfolio`),
+        meta: {
+          requiresAuth: true,
+          feature: "Portfolio"
+        }
+      },
+      {
+        path: `transactions`,
+        name: `transactions`,
+        component: () => import(`./components/wallet/PageTransactions`),
+        meta: {
+          requiresAuth: true,
+          feature: "Activity"
+        }
+      },
+      {
+        path: `blocks/:height`,
+        name: `block`,
+        component: () => import(`./components/network/PageBlock`),
+        meta: {
+          feature: "Explorer"
+        }
+      },
+      { path: `*`, component: () => import(`./components/common/Page404`) }
+    ]
+  },
 ]
