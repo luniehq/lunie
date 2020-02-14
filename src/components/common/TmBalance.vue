@@ -31,7 +31,10 @@
                 <h2>{{ overview.liquidStake | shortDecimals | noBlanks }}</h2>
               </div>
 
-              <div v-if="overview.totalRewards" class="rewards">
+              <div
+                v-if="overview.totalRewards && overview.totalRewards > 0.001"
+                class="rewards"
+              >
                 <h3>
                   {{
                     isMultiDenomReward
@@ -54,7 +57,10 @@
               >
                 <p class="token-denom">{{ balance.denom }}</p>
                 <p class="token-balance">{{ balance.amount }}</p>
-                <p class="rewards">
+                <p
+                  v-if="calculateTotalRewardsDenom(balance.denom) > 0.001"
+                  class="rewards"
+                >
                   +{{
                     calculateTotalRewardsDenom(balance.denom) | shortDecimals
                   }}
