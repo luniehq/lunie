@@ -10,10 +10,6 @@
   justify-content: center;
   align-items: center;
 }
-.session-frame .back{
-  position: absolute;
-  margin: -20px 0 0 0;
-}
 
 .session-outer-container {
   position: relative;
@@ -169,11 +165,6 @@
   .session {
     width: 100%;
     min-width: 560px;
-  }
-
-  .field-checkbox-input {
-    padding-left: 1.5rem;
-    text-indent: -1.5rem;
   }
 
   .session-logo-mobile {
