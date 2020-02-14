@@ -35,7 +35,6 @@ export default {
   computed: {
     ...mapGetters([`network`]),
     url() {
-        console.log(this.to)
       if (this.network.length) {
         return `/${this.network}${this.to}`
       }
