@@ -33,8 +33,8 @@
       @click.native="signIn()"
     />
     <div class="app-menu-main">
-      <router-link
-        class="app-menu-item hide-xs"
+      <routerLinkNetwork
+        cclass="app-menu-item hide-xs"
         to="/portfolio"
         exact="exact"
         title="Portfolio"
@@ -44,9 +44,9 @@
           Portfolio
         </h2>
         <i class="material-icons">chevron_right</i>
-      </router-link>
-      <router-link
-        class="app-menu-item hide-xs"
+      </routerLinkNetwork>
+      <routerLinkNetwork
+        cclass="app-menu-item hide-xs"
         to="/validators"
         title="Validators"
         @click.native="handleClick()"
@@ -55,10 +55,10 @@
           Validators
         </h2>
         <i class="material-icons">chevron_right</i>
-      </router-link>
+      </routerLinkNetwork>
 
-      <router-link
-        class="app-menu-item hide-xs"
+      <routerLinkNetwork
+        cclass="app-menu-item hide-xs"
         to="/proposals"
         title="Proposals"
         @click.native="handleClick()"
@@ -67,10 +67,10 @@
           Proposals
         </h2>
         <i class="material-icons">chevron_right</i>
-      </router-link>
+      </routerLinkNetwork>
 
-      <router-link
-        class="app-menu-item hide-xs"
+      <routerLinkNetwork
+        cclass="app-menu-item hide-xs"
         to="/transactions"
         exact="exact"
         title="Transactions"
@@ -80,7 +80,7 @@
           Activity
         </h2>
         <i class="material-icons">chevron_right</i>
-      </router-link>
+      </routerLinkNetwork>
 
       <router-link
         class="app-menu-item hide-xs"
@@ -163,6 +163,7 @@
 import Bech32 from "common/Bech32"
 import ConnectedNetwork from "common/TmConnectedNetwork"
 import TmBtn from "common/TmBtn"
+import routerLinkNetwork from "common/RouterLinkNetwork"
 import TmFormMsg from "common/TmFormMsg"
 import { mapGetters, mapState } from "vuex"
 import { atoms, viewDenom, shortDecimals } from "scripts/num.js"
@@ -173,6 +174,7 @@ export default {
     Bech32,
     ConnectedNetwork,
     TmBtn,
+    routerLinkNetwork,
     TmFormMsg
   },
   filters: {
