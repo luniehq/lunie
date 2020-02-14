@@ -252,6 +252,8 @@ export default {
     error: false,
     loaded: false,
     showTutorial: false,
+    isMostRelevantRewardSelected: false,
+    mostRelevantReward: ``,
     cosmosStakingTutorial: {
       fullguide: `https://lunie.io/guides/how-cosmos-staking-works/`,
       background: `blue`,
@@ -332,12 +334,24 @@ export default {
       this.$store.dispatch(`displayMessenger`)
     },
     selectMostRelevantReward(rewards) {
-      // this results in an infinite loop O.o
-      // rewards.sort( (a ,b) => b.amount - a.amount)
-      // we return the reward with the highest amount
-      return fullDecimals(rewards[0].amount)
-        .toString()
-        .concat(` ${rewards[0].denom.slice(-3).toUpperCase()}`)
+      if (
+        !this.isMostRelevantRewardSelected &&
+        this.rewards &&
+        this.rewards.length > 0
+      ) {
+        // this results in an infinite loop O.o
+        rewards.sort((a, b) => b.amount - a.amount)
+        // avoid infinite loop
+        this.isMostRelevantRewardSelected = true
+        // we return the reward with the highest amount
+        this.mostRelevantReward = this.fullDecimals(rewards[0].amount)
+          .toString()
+          .concat(` ${rewards[0].denom.slice(-3).toUpperCase()}`)
+      } else {
+        if (this.mostRelevantReward !== "") {
+          return this.mostRelevantReward
+        }
+      }
     }
   },
   apollo: {
