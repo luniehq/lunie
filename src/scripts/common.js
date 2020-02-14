@@ -54,3 +54,9 @@ export function toMicroDenom(denom) {
   }
   return lookup[denom] ? lookup[denom] : denom.toLowerCase()
 }
+
+export function removeUFromMicroDenom(denom) {
+  if (denom.startsWith(`u`)) {
+    return denom.slice(-3)
+  }
+}

@@ -20,7 +20,7 @@ exports[`TableValidators shows a validator table 1`] = `
       <livalidator-stub
         delegation="[object Object]"
         index="0"
-        rewards="[object Object]"
+        rewards=""
         showonmobile="returns"
         stakingdenom=""
         validator="[object Object]"
@@ -28,7 +28,7 @@ exports[`TableValidators shows a validator table 1`] = `
       <livalidator-stub
         delegation="[object Object]"
         index="1"
-        rewards="[object Object]"
+        rewards=""
         showonmobile="returns"
         stakingdenom=""
         validator="[object Object]"
@@ -36,7 +36,7 @@ exports[`TableValidators shows a validator table 1`] = `
       <livalidator-stub
         delegation="[object Object]"
         index="2"
-        rewards="[object Object]"
+        rewards=""
         showonmobile="returns"
         stakingdenom=""
         validator="[object Object]"
@@ -44,7 +44,7 @@ exports[`TableValidators shows a validator table 1`] = `
       <livalidator-stub
         delegation="[object Object]"
         index="3"
-        rewards="[object Object]"
+        rewards=""
         showonmobile="returns"
         stakingdenom=""
         validator="[object Object]"
@@ -52,7 +52,7 @@ exports[`TableValidators shows a validator table 1`] = `
       <livalidator-stub
         delegation="[object Object]"
         index="4"
-        rewards="[object Object]"
+        rewards=""
         showonmobile="returns"
         stakingdenom=""
         validator="[object Object]"
@@ -60,7 +60,7 @@ exports[`TableValidators shows a validator table 1`] = `
       <livalidator-stub
         delegation="[object Object]"
         index="5"
-        rewards="[object Object]"
+        rewards=""
         showonmobile="returns"
         stakingdenom=""
         validator="[object Object]"
@@ -68,7 +68,7 @@ exports[`TableValidators shows a validator table 1`] = `
       <livalidator-stub
         delegation="[object Object]"
         index="6"
-        rewards="[object Object]"
+        rewards=""
         showonmobile="returns"
         stakingdenom=""
         validator="[object Object]"
@@ -76,7 +76,7 @@ exports[`TableValidators shows a validator table 1`] = `
       <livalidator-stub
         delegation="[object Object]"
         index="7"
-        rewards="[object Object]"
+        rewards=""
         showonmobile="returns"
         stakingdenom=""
         validator="[object Object]"
@@ -84,7 +84,7 @@ exports[`TableValidators shows a validator table 1`] = `
       <livalidator-stub
         delegation="[object Object]"
         index="8"
-        rewards="[object Object]"
+        rewards=""
         showonmobile="returns"
         stakingdenom=""
         validator="[object Object]"
@@ -92,7 +92,7 @@ exports[`TableValidators shows a validator table 1`] = `
       <livalidator-stub
         delegation="[object Object]"
         index="9"
-        rewards="[object Object]"
+        rewards=""
         showonmobile="returns"
         stakingdenom=""
         validator="[object Object]"
@@ -100,7 +100,7 @@ exports[`TableValidators shows a validator table 1`] = `
       <livalidator-stub
         delegation="[object Object]"
         index="10"
-        rewards="[object Object]"
+        rewards=""
         showonmobile="returns"
         stakingdenom=""
         validator="[object Object]"
@@ -108,7 +108,7 @@ exports[`TableValidators shows a validator table 1`] = `
       <livalidator-stub
         delegation="[object Object]"
         index="11"
-        rewards="[object Object]"
+        rewards=""
         showonmobile="returns"
         stakingdenom=""
         validator="[object Object]"
@@ -116,7 +116,7 @@ exports[`TableValidators shows a validator table 1`] = `
       <livalidator-stub
         delegation="[object Object]"
         index="12"
-        rewards="[object Object]"
+        rewards=""
         showonmobile="returns"
         stakingdenom=""
         validator="[object Object]"
@@ -124,7 +124,7 @@ exports[`TableValidators shows a validator table 1`] = `
       <livalidator-stub
         delegation="[object Object]"
         index="13"
-        rewards="[object Object]"
+        rewards=""
         showonmobile="returns"
         stakingdenom=""
         validator="[object Object]"
@@ -132,7 +132,7 @@ exports[`TableValidators shows a validator table 1`] = `
       <livalidator-stub
         delegation="[object Object]"
         index="14"
-        rewards="[object Object]"
+        rewards=""
         showonmobile="returns"
         stakingdenom=""
         validator="[object Object]"

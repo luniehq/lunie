@@ -65,6 +65,12 @@ describe(`LiValidator`, () => {
       localVue,
       propsData: {
         validator,
+        rewards: [
+          {
+            amount: 1,
+            denom: `token1`
+          }
+        ],
         index,
         showOnMobile: "returns"
       },

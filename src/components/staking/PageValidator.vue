@@ -54,7 +54,7 @@
               <div v-if="delegation.amount">
                 <h4>{{ delegation.amount | fullDecimals }}</h4>
                 <h5 v-if="rewards">
-                  +{{ rewards.amount | fullDecimals | noBlanks }}
+                  +{{ selectMostRelevantReward(rewards) | noBlanks }}
                 </h5>
               </div>
             </div>
@@ -307,6 +307,7 @@ export default {
   },
   methods: {
     shortDecimals,
+    fullDecimals,
     atoms,
     percent,
     fromNow,
@@ -329,6 +330,14 @@ export default {
     },
     handleIntercom() {
       this.$store.dispatch(`displayMessenger`)
+    },
+    selectMostRelevantReward(rewards) {
+      // this results in an infinite loop O.o
+      // rewards.sort( (a ,b) => b.amount - a.amount)
+      // we return the reward with the highest amount
+      return fullDecimals(rewards[0].amount)
+        .toString()
+        .concat(` ${rewards[0].denom.slice(-3).toUpperCase()}`)
     }
   },
   apollo: {
@@ -386,6 +395,7 @@ export default {
             operatorAddress: $operatorAddress
           ) {
             amount
+            denom
           }
         }
       `,
@@ -404,7 +414,7 @@ export default {
       update(result) {
         /* istanbul ignore next */
         return result.rewards && result.rewards.length > 0
-          ? result.rewards[0]
+          ? result.rewards
           : { amount: 0 }
       }
     },

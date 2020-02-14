@@ -55,7 +55,9 @@
                 :key="balance.denom"
                 class="col"
               >
-                <p class="token-denom">{{ balance.denom }}</p>
+                <p class="token-denom">
+                  {{ balance.denom | removeUFromMicroDenom }}
+                </p>
                 <p class="token-balance">{{ balance.amount }}</p>
                 <p
                   v-if="calculateTotalRewardsDenom(balance.denom) > 0.001"
@@ -105,6 +107,7 @@
 <script>
 import { shortDecimals } from "scripts/num"
 import { noBlanks } from "src/filters"
+import { removeUFromMicroDenom } from "src/scripts/common"
 import TmBtn from "common/TmBtn"
 import SendModal from "src/ActionModal/components/SendModal"
 import ModalWithdrawRewards from "src/ActionModal/components/ModalWithdrawRewards"
@@ -122,6 +125,7 @@ export default {
     ModalTutorial
   },
   filters: {
+    removeUFromMicroDenom,
     shortDecimals,
     noBlanks
   },

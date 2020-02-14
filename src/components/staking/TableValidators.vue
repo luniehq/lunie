@@ -139,10 +139,10 @@ export default {
         return (
           this.rewards
             /* istanbul ignore next */
+            // .filter(
+            //   ({ denom }) => denom === this.toMicroDenom(this.stakingDenom)
+            // )
             .filter(
-              ({ denom }) => denom === this.toMicroDenom(this.stakingDenom)
-            )
-            .find(
               ({ validator }) => validator.operatorAddress === operatorAddress
             )
         )

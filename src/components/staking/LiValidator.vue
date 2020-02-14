@@ -42,11 +42,9 @@
           <h4>
             {{ delegation.amount | shortDecimals }}
           </h4>
-          <h5 v-if="rewards.amount > 0.001">
+          <h5 v-if="rewards.find(reward => reward.amount > 0.001)">
             <span v-if="isMultiDenomReward"
-              >+{{
-                shortDecimals(rewards.amount).concat(` ${stakingDenom}`)
-              }}</span
+              >+{{ selectMostRelevantReward(rewards) }}</span
             >
             <span v-else>+{{ rewards.amount | shortDecimals }}</span>
           </h5>
@@ -88,7 +86,7 @@ export default {
       default: () => ({})
     },
     rewards: {
-      type: Object,
+      type: Array,
       default: () => ({})
     },
     index: {
@@ -111,7 +109,14 @@ export default {
   },
   methods: {
     percent,
-    shortDecimals
+    shortDecimals,
+    selectMostRelevantReward(rewards) {
+      rewards.sort((a, b) => b.amount - a.amount)
+      // we return the reward with the highest amount
+      return shortDecimals(rewards[0].amount)
+        .toString()
+        .concat(` ${rewards[0].denom.slice(-3).toUpperCase()}`)
+    }
   }
 }
 </script>

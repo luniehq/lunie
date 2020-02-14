@@ -56,10 +56,12 @@ describe(`TableValidators`, () => {
     wrapper.setData({
       rewards: [
         {
+          validator: { name: "cosmos1a", operatorAddress: "cosmos1a" },
           amount: 1,
           denom: `utoken1`
         },
         {
+          validator: { name: "cosmos1a", operatorAddress: "cosmos1a" },
           amount: 2,
           denom: `utoken2`
         }
