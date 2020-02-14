@@ -54,7 +54,7 @@
               <div v-if="delegation.amount">
                 <h4>{{ delegation.amount | fullDecimals }}</h4>
                 <h5 v-if="rewards">
-                  +{{ selectMostRelevantReward(rewards) | noBlanks }}
+                  +{{ filterStakingDenomReward(rewards) | noBlanks }}
                 </h5>
               </div>
             </div>
@@ -198,7 +198,7 @@ import moment from "moment"
 import { mapGetters, mapState } from "vuex"
 import { atoms, shortDecimals, fullDecimals, percent } from "scripts/num"
 import { noBlanks, fromNow } from "src/filters"
-import { removeUFromMicroDenom } from "src/scripts/common"
+import { toMicroDenom } from "src/scripts/common"
 import TmBtn from "common/TmBtn"
 import DelegationModal from "src/ActionModal/components/DelegationModal"
 import UndelegationModal from "src/ActionModal/components/UndelegationModal"
@@ -305,7 +305,7 @@ export default {
     ...mapGetters({ userAddress: `address` }),
     isMultiDenomReward() {
       if (this.rewards && this.rewards.length > 0) {
-        return this.rewards[0].denom ? true : false
+        return !this.rewards.length > 1 ? true : false
       } else {
         return false
       }
@@ -316,7 +316,7 @@ export default {
     this.$apollo.queries.delegation.refetch()
   },
   methods: {
-    removeUFromMicroDenom,
+    toMicroDenom,
     shortDecimals,
     fullDecimals,
     atoms,
@@ -342,28 +342,14 @@ export default {
     handleIntercom() {
       this.$store.dispatch(`displayMessenger`)
     },
-    selectMostRelevantReward(rewards) {
-      if (
-        !this.isMostRelevantRewardSelected &&
-        this.rewards &&
-        this.rewards.length > 0
-      ) {
-        // this results in an infinite loop O.o
-        rewards.sort((a, b) => b.amount - a.amount)
-        // avoid infinite loop
-        this.isMostRelevantRewardSelected = true
-        // we return the reward with the highest amount
-        this.mostRelevantReward = this.fullDecimals(rewards[0].amount)
-          .toString()
-          .concat(
-            this.isMultiDenomReward
-              ? ` ${this.removeUFromMicroDenom(rewards[0].denom).toUpperCase()}`
-              : ``
-          )
-      } else {
-        if (this.mostRelevantReward !== "") {
-          return this.mostRelevantReward
-        }
+    filterStakingDenomReward(rewards) {
+      if (this.rewards && this.rewards.length > 0) {
+        const stakingDenomsRewards = rewards.filter(
+          reward => reward.denom === this.toMicroDenom(this.stakingDenom)
+        )
+        return shortDecimals(stakingDenomsRewards[0].amount).concat(
+          this.isMultiDenomReward ? ` ${this.stakingDenom}` : ``
+        )
       }
     }
   },
@@ -464,6 +450,27 @@ export default {
           ...result.validator,
           statusDetailed: getStatusText(result.validator.statusDetailed)
         }
+      }
+    },
+    stakingDenom: {
+      query: gql`
+        query Network($networkId: String!) {
+          network(id: $networkId) {
+            id
+            stakingDenom
+          }
+        }
+      `,
+      /* istanbul ignore next */
+      variables() {
+        return {
+          networkId: this.network
+        }
+      },
+      /* istanbul ignore next */
+      update(data) {
+        if (!data.network) return ""
+        return data.network.stakingDenom
       }
     },
     $subscribe: {

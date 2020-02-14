@@ -42,8 +42,16 @@
           <h4>
             {{ delegation.amount | shortDecimals }}
           </h4>
-          <h5 v-if="rewards.find(reward => reward.amount > 0.001)">
-            <span>+{{ selectMostRelevantReward(rewards) }}</span>
+          <h5
+            v-if="
+              rewards.find(
+                reward =>
+                  reward.denom === toMicroDenom(stakingDenom) &&
+                  reward.amount > 0.001
+              )
+            "
+          >
+            <span>+{{ filterStakingDenomReward(rewards) }}</span>
           </h5>
         </div>
       </div>
@@ -61,6 +69,7 @@
 
 <script>
 import { percent, shortDecimals, atoms } from "scripts/num"
+import { toMicroDenom } from "src/scripts/common"
 import Avatar from "common/Avatar"
 export default {
   name: `li-validator`,
@@ -107,16 +116,14 @@ export default {
   methods: {
     percent,
     shortDecimals,
-    selectMostRelevantReward(rewards) {
-      rewards.sort((a, b) => b.amount - a.amount)
-      // we return the reward with the highest amount
-      return shortDecimals(rewards[0].amount)
-        .toString()
-        .concat(
-          this.isMultiDenomReward
-            ? ` ${rewards[0].denom.slice(-3).toUpperCase()}`
-            : ``
-        )
+    toMicroDenom,
+    filterStakingDenomReward(rewards) {
+      const stakingDenomsRewards = rewards.filter(
+        reward => reward.denom === this.toMicroDenom(this.stakingDenom)
+      )
+      return shortDecimals(stakingDenomsRewards[0].amount).concat(
+        this.isMultiDenomReward ? ` ${this.stakingDenom}` : ``
+      )
     }
   }
 }
