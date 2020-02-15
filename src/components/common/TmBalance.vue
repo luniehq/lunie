@@ -66,7 +66,9 @@
                 <p class="token-denom">
                   {{ balance.denom | removeUFromMicroDenom }}
                 </p>
-                <p class="token-balance">{{ balance.amount }}</p>
+                <p class="token-balance">
+                  {{ balance.amount | bigFigureOrShortDecimals }}
+                </p>
                 <p
                   v-if="calculateTotalRewardsDenom(balance.denom) > 0.001"
                   class="rewards"
