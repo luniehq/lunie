@@ -46,7 +46,11 @@
                       : `Total Rewards`
                   }}
                 </h3>
-                <h2>+{{ overview.totalRewards | bigFigureOrShortDecimals | noBlanks }}</h2>
+                <h2>
+                  +{{
+                    overview.totalRewards | bigFigureOrShortDecimals | noBlanks
+                  }}
+                </h2>
               </div>
             </div>
             <div
@@ -68,7 +72,8 @@
                   class="rewards"
                 >
                   +{{
-                    calculateTotalRewardsDenom(balance.denom) | bigFigureOrShortDecimals
+                    calculateTotalRewardsDenom(balance.denom)
+                      | bigFigureOrShortDecimals
                   }}
                 </p>
               </div>
@@ -243,7 +248,9 @@ export default {
     },
     isMultiDenomReward() {
       if (this.overview.rewards && this.overview.rewards.length > 0) {
-        return this.overview.rewards[0].denom !== this.overview.rewards[1].denom ? true : false
+        return this.overview.rewards[0].denom !== this.overview.rewards[1].denom
+          ? true
+          : false
       } else {
         return false
       }
