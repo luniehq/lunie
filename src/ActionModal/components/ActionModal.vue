@@ -65,7 +65,7 @@
             field-label="Gas Price"
           >
             <span class="input-suffix">{{
-              network.stakingDenom | viewDenom
+              chooseBondDenom() | viewDenom
             }}</span>
             <TmField
               id="gas-price"
@@ -96,7 +96,7 @@
           <TableInvoice
             :amount="Number(amount)"
             :estimated-fee="estimatedFee"
-            :bond-denom="network.stakingDenom"
+            :bond-denom="chooseBondDenom()"
           />
           <TmFormMsg
             v-if="$v.invoiceTotal.$invalid"
@@ -734,6 +734,9 @@ export default {
       this.submissionError = `${this.submissionErrorPrefix}: ${error.message}.`
       this.trackEvent(`event`, `failed-submit`, this.title, error.message)
       this.$apollo.queries.overview.refetch()
+    },
+    chooseBondDenom() {
+      return this.balances.find(({ amount }) => amount > 0.001).denom
     }
   },
   validations() {
@@ -759,6 +762,27 @@ export default {
     }
   },
   apollo: {
+    balances: {
+      query: gql`
+        query balances($networkId: String!, $address: String!) {
+          balances(networkId: $networkId, address: $address) {
+            denom
+            amount
+          }
+        }
+      `,
+      /* istanbul ignore next */
+      variables() {
+        return {
+          networkId: this.networkId,
+          address: this.session.address
+        }
+      },
+      /* istanbul ignore next */
+      skip() {
+        return !this.address
+      }
+    },
     overview: {
       query: gql`
         query OverviewActionModal($networkId: String!, $address: String!) {
