@@ -535,7 +535,7 @@ p.rewards {
 }
 
 .small-container {
-  padding-top: 1rem;
+  padding: 1rem 1rem 1rem 0;
 }
 
 .open-tutorial {
@@ -575,6 +575,7 @@ p.rewards {
   }
   #multidenom-rewards {
     margin-top: 0.3rem;
+    padding: 0;
   }
 }
 
@@ -640,7 +641,7 @@ p.rewards {
   }
 
   #multidenom-rewards {
-    margin-top: 4.3rem;
+    margin-top: 5.3rem;
   }
 
   .currency-selector.tm-form-group {
@@ -652,6 +653,7 @@ p.rewards {
     width: 100%;
     padding: 1rem;
     border-top: 1px solid var(--bc);
+    margin-top: 0rem;
   }
 
   .button-container button {
