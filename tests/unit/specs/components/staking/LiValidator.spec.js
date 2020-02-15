@@ -1,4 +1,5 @@
 import { shallowMount, createLocalVue } from "@vue/test-utils"
+import { toMicroDenom } from "scripts/common"
 import VueApollo from "vue-apollo"
 import LiValidator from "src/components/staking/LiValidator"
 
@@ -97,5 +98,31 @@ describe(`LiValidator`, () => {
       }
     })
     expect(wrapper.find("avatar-stub").exists())
+  })
+
+  it(`should filter the staking denom reward`, () => {
+    const rewards = [
+      {
+        amount: 1,
+        denom: `utoken1`
+      },
+      {
+        amount: 2,
+        denom: `utoken2`
+      },
+      {
+        amount: 3,
+        denom: `utoken3`
+      }
+    ]
+    const self = {
+      stakingDenom: `UTOKEN1`,
+      rewards: rewards,
+      toMicroDenom
+    }
+    const stakingDenomReward = LiValidator.methods.filterStakingDenomReward.call(
+      self
+    )
+    expect(stakingDenomReward).toEqual(`1`)
   })
 })

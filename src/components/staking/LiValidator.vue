@@ -51,7 +51,7 @@
               )
             "
           >
-            <span>+{{ filterStakingDenomReward(rewards) }}</span>
+            <span>+{{ filterStakingDenomReward() }}</span>
           </h5>
         </div>
       </div>
@@ -94,10 +94,12 @@ export default {
       type: Object,
       required: true
     },
+    /* istanbul ignore next */
     delegation: {
       type: Object,
       default: () => ({})
     },
+    /* istanbul ignore next */
     rewards: {
       type: Array,
       default: () => ({})
@@ -106,9 +108,9 @@ export default {
       type: Number,
       required: true
     },
+    /* istanbul ignore next */
     showOnMobile: {
       type: String,
-      /* istanbul ignore next */
       default: () => "returns"
     },
     isMultiDenomReward: {
@@ -124,11 +126,11 @@ export default {
     toMicroDenom,
     bigFigureOrPercent,
     bigFigureOrShortDecimals,
-    filterStakingDenomReward(rewards) {
-      const stakingDenomsRewards = rewards.filter(
+    filterStakingDenomReward() {
+      const stakingDenomRewards = this.rewards.filter(
         reward => reward.denom === this.toMicroDenom(this.stakingDenom)
       )
-      return bigFigureOrShortDecimals(stakingDenomsRewards[0].amount).concat(
+      return bigFigureOrShortDecimals(stakingDenomRewards[0].amount).concat(
         this.isMultiDenomReward ? ` ${this.stakingDenom}` : ``
       )
     }

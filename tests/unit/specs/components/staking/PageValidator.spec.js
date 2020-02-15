@@ -1,4 +1,5 @@
 import PageValidator from "staking/PageValidator"
+import { toMicroDenom } from "scripts/common"
 import { shallowMount, createLocalVue } from "@vue/test-utils"
 
 const validator = {
@@ -123,6 +124,50 @@ describe(`PageValidator`, () => {
     }
     PageValidator.methods.handleIntercom.call(self)
     expect(self.$store.dispatch).toHaveBeenCalledWith("displayMessenger")
+  })
+  it(`returns true if the validator holds a multidenom reward`, () => {
+    wrapper.setData({
+      rewards: [
+        {
+          amount: 1,
+          denom: `utoken1`
+        },
+        {
+          amount: 2,
+          denom: `utoken2`
+        },
+        {
+          amount: 3,
+          denom: `utoken3`
+        }
+      ]
+    })
+    expect(wrapper.vm.isMultiDenomReward).toBe(true)
+  })
+  it(`should filter the staking denom reward`, () => {
+    const rewards = [
+      {
+        amount: 1,
+        denom: `utoken1`
+      },
+      {
+        amount: 2,
+        denom: `utoken2`
+      },
+      {
+        amount: 3,
+        denom: `utoken3`
+      }
+    ]
+    const self = {
+      stakingDenom: `UTOKEN1`,
+      rewards: rewards,
+      toMicroDenom
+    }
+    const stakingDenomReward = PageValidator.methods.filterStakingDenomReward.call(
+      self
+    )
+    expect(stakingDenomReward).toEqual(`1`)
   })
 })
 

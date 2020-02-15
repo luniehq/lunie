@@ -31,7 +31,6 @@
 
 <script>
 import { mapGetters } from "vuex"
-import { toMicroDenom } from "src/scripts/common"
 import orderBy from "lodash.orderby"
 import LiValidator from "staking/LiValidator"
 import PanelSort from "staking/PanelSort"
@@ -125,7 +124,6 @@ export default {
     this.$apollo.queries.rewards.startPolling(1000 * 60 * 5)
   },
   methods: {
-    toMicroDenom,
     loadMore() {
       this.showing += 10
     },
@@ -139,9 +137,6 @@ export default {
         return (
           this.rewards
             /* istanbul ignore next */
-            // .filter(
-            //   ({ denom }) => denom === this.toMicroDenom(this.stakingDenom)
-            // )
             .filter(
               ({ validator }) => validator.operatorAddress === operatorAddress
             )
@@ -162,15 +157,18 @@ export default {
           }
         }
       `,
+      /* istanbul ignore next */
       skip() {
         return !this.address
       },
+      /* istanbul ignore next */
       variables() {
         return {
           networkId: this.network,
           delegatorAddress: this.address
         }
       },
+      /* istanbul ignore next */
       update: result => {
         return result.rewards || []
       }
@@ -198,11 +196,13 @@ export default {
     },
     $subscribe: {
       blockAdded: {
+        /* istanbul ignore next */
         variables() {
           return {
             networkId: this.network
           }
         },
+        /* istanbul ignore next */
         query() {
           return gql`
             subscription($networkId: String!) {
@@ -213,8 +213,8 @@ export default {
             }
           `
         },
+        /* istanbul ignore next */
         result() {
-          /* istanbul ignore next */
           this.$apollo.queries.rewards.refetch()
         }
       }

@@ -54,7 +54,7 @@
               <div v-if="delegation.amount">
                 <h4>{{ delegation.amount | fullDecimals }}</h4>
                 <h5 v-if="rewards">
-                  +{{ filterStakingDenomReward(rewards) | noBlanks }}
+                  +{{ filterStakingDenomReward() | noBlanks }}
                 </h5>
               </div>
             </div>
@@ -305,7 +305,7 @@ export default {
     ...mapGetters({ userAddress: `address` }),
     isMultiDenomReward() {
       if (this.rewards && this.rewards.length > 0) {
-        return !this.rewards.length > 1 ? true : false
+        return this.rewards.length > 1 ? true : false
       } else {
         return false
       }
@@ -324,12 +324,15 @@ export default {
     fromNow,
     noBlanks,
     moment,
+    /* istanbul ignore next */
     onDelegation() {
       this.$refs.delegationModal.open()
     },
+    /* istanbul ignore next */
     onUndelegation() {
       this.$refs.undelegationModal.open()
     },
+    /* istanbul ignore next */
     isBlankField(field, alternateFilter) {
       return field ? alternateFilter(field) : noBlanks(field)
     },
@@ -342,12 +345,12 @@ export default {
     handleIntercom() {
       this.$store.dispatch(`displayMessenger`)
     },
-    filterStakingDenomReward(rewards) {
+    filterStakingDenomReward() {
       if (this.rewards && this.rewards.length > 0) {
-        const stakingDenomsRewards = rewards.filter(
+        const stakingDenomRewards = this.rewards.filter(
           reward => reward.denom === this.toMicroDenom(this.stakingDenom)
         )
-        return shortDecimals(stakingDenomsRewards[0].amount).concat(
+        return shortDecimals(stakingDenomRewards[0].amount).concat(
           this.isMultiDenomReward ? ` ${this.stakingDenom}` : ``
         )
       }
@@ -370,18 +373,19 @@ export default {
           }
         }
       `,
+      /* istanbul ignore next */
       skip() {
-        /* istanbul ignore next */
         return !this.userAddress
       },
+      /* istanbul ignore next */
       variables() {
-        /* istanbul ignore next */
         return {
           networkId: this.network,
           delegatorAddress: this.userAddress,
           operatorAddress: this.$route.params.validator
         }
       },
+      /* istanbul ignore next */
       update(result) {
         if (!result.delegation) {
           return {
@@ -412,20 +416,20 @@ export default {
           }
         }
       `,
+      /* istanbul ignore next */
       skip() {
-        /* istanbul ignore next */
         return !this.userAddress
       },
+      /* istanbul ignore next */
       variables() {
-        /* istanbul ignore next */
         return {
           networkId: this.network,
           delegatorAddress: this.userAddress,
           operatorAddress: this.$route.params.validator
         }
       },
+      /* istanbul ignore next */
       update(result) {
-        /* istanbul ignore next */
         return result.rewards && result.rewards.length > 0
           ? result.rewards
           : { amount: 0 }
@@ -433,19 +437,18 @@ export default {
     },
     validator: {
       query: ValidatorProfile,
+      /* istanbul ignore next */
       variables() {
-        /* istanbul ignore next */
         return {
           networkId: this.network,
           operatorAddress: this.$route.params.validator
         }
       },
+      /* istanbul ignore next */
       update(result) {
         if (!result.validator) return {}
 
-        /* istanbul ignore next */
         this.loaded = true
-        /* istanbul ignore next */
         return {
           ...result.validator,
           statusDetailed: getStatusText(result.validator.statusDetailed)
@@ -475,12 +478,13 @@ export default {
     },
     $subscribe: {
       blockAdded: {
+        /* istanbul ignore next */
         variables() {
-          /* istanbul ignore next */
           return {
             networkId: this.network
           }
         },
+        /* istanbul ignore next */
         query() {
           return gql`
             subscription($networkId: String!) {
@@ -491,26 +495,26 @@ export default {
             }
           `
         },
+        /* istanbul ignore next */
         result() {
-          /* istanbul ignore next */
           this.$apollo.queries.rewards.refetch()
         }
       },
       userTransactionAdded: {
+        /* istanbul ignore next */
         variables() {
-          /* istanbul ignore next */
           return {
             networkId: this.network,
             address: this.userAddress
           }
         },
+        /* istanbul ignore next */
         skip() {
-          /* istanbul ignore next */
           return !this.userAddress
         },
         query: UserTransactionAdded,
+        /* istanbul ignore next */
         result({ data }) {
-          /* istanbul ignore next */
           if (data.userTransactionAdded.success) {
             this.$apollo.queries.delegation.refetch()
           }
