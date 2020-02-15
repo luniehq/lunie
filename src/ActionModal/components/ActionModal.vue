@@ -653,7 +653,6 @@ export default {
     },
     async submit() {
       this.submissionError = null
-
       if (
         Object.entries(this.transactionData).length === 0 &&
         this.transactionData.constructor === Object
@@ -710,13 +709,15 @@ export default {
       // sending to ga
       this.sendEvent(
         {
-          network: this.network,
-          address: this.address
+          network: this.network.id,
+          address: this.session.address
         },
         "Action",
+        "Modal",
         this.featureFlag,
-        "",
-        this.amount
+        this.featureFlag == "claim_rewards"
+          ? this.rewards[0].amount
+          : this.amount
       )
       this.$apollo.queries.overview.refetch()
     },

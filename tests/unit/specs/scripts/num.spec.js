@@ -6,11 +6,16 @@ import {
   prettyInt,
   percent,
   percentInt,
+  bigFigure,
   createDisplayCoin,
   prettyDecimals,
   viewDenom,
   roundObjectPercentages
 } from "scripts/num"
+import {
+  bigFigureOrShortDecimals,
+  bigFigureOrPercent
+} from "../../../../src/scripts/num"
 
 const tally = {
   yes: 13.626332,
@@ -78,6 +83,26 @@ describe(`number helper`, () => {
 
   it(`should format percent with decimals`, () => {
     expect(percent(0.2612)).toBe(`26.12%`)
+  })
+
+  it(`should format a very big number. Convert it to trillions`, () => {
+    expect(bigFigure(`-8719010560462937.9`)).toBe(`-8,719 T`)
+  })
+
+  it(`should format a very big number. Convert it to billions`, () => {
+    expect(bigFigure(`719010560462.9379`)).toBe(`719 B`)
+  })
+
+  it(`should format a very big number. Convert it to millions`, () => {
+    expect(bigFigure(`7010560.46`)).toBe(`7 M`)
+  })
+
+  it(`should apply the shortDecimals filter over the bigFigure one`, () => {
+    expect(bigFigureOrShortDecimals(`701560.4658221`)).toBe(`701,560.466`)
+  })
+
+  it(`should apply the percent filter over the bigFigure one`, () => {
+    expect(bigFigureOrPercent(`701560.4658221`)).toBe(`70.2 M %`)
   })
 
   it(`should format long decimals well`, () => {

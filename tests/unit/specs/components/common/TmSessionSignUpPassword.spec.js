@@ -4,6 +4,8 @@ import TmSessionSignUpPassword from "common/TmSessionSignUpPassword"
 
 describe(`TmSessionSignUpPassword`, () => {
   const localVue = createLocalVue()
+
+  localVue.directive(`focus`, () => { })
   localVue.use(Vuelidate)
 
   let wrapper, $store

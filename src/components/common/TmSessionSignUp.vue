@@ -25,6 +25,7 @@
           >
             <TmField
               id="sign-up-name"
+              v-focus
               v-model.trim="fieldName"
               type="text"
               placeholder="Must be at least 3 characters"

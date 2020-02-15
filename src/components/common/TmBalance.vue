@@ -16,7 +16,7 @@
             <div class="total-atoms">
               <h3>Total {{ stakingDenom }}</h3>
               <h2 class="total-atoms__value">
-                {{ overview.totalStake | shortDecimals | noBlanks }}
+                {{ overview.totalStake | bigFigureOrShortDecimals | noBlanks }}
               </h2>
             </div>
             <button class="tutorial-button" @click="openTutorial()">
@@ -28,7 +28,11 @@
             <div class="row small-container scroll-item">
               <div v-if="overview.totalStake > 0" class="available-atoms">
                 <h3>Available {{ stakingDenom }}</h3>
-                <h2>{{ overview.liquidStake | shortDecimals | noBlanks }}</h2>
+                <h2>
+                  {{
+                    overview.liquidStake | bigFigureOrShortDecimals | noBlanks
+                  }}
+                </h2>
               </div>
 
               <div
@@ -38,11 +42,11 @@
                 <h3>
                   {{
                     isMultiDenomReward
-                      ? `Total Rewards in ${stakingDenom}`
+                      ? `${stakingDenom} Rewards`
                       : `Total Rewards`
                   }}
                 </h3>
-                <h2>+{{ overview.totalRewards | shortDecimals | noBlanks }}</h2>
+                <h2>+{{ overview.totalRewards | bigFigureOrShortDecimals | noBlanks }}</h2>
               </div>
             </div>
             <div
@@ -64,7 +68,7 @@
                   class="rewards"
                 >
                   +{{
-                    calculateTotalRewardsDenom(balance.denom) | shortDecimals
+                    calculateTotalRewardsDenom(balance.denom) | bigFigureOrShortDecimals
                   }}
                 </p>
               </div>
@@ -105,7 +109,7 @@
   </div>
 </template>
 <script>
-import { shortDecimals } from "scripts/num"
+import { bigFigureOrShortDecimals } from "scripts/num"
 import { noBlanks } from "src/filters"
 import { removeUFromMicroDenom } from "src/scripts/common"
 import TmBtn from "common/TmBtn"
@@ -126,7 +130,7 @@ export default {
   },
   filters: {
     removeUFromMicroDenom,
-    shortDecimals,
+    bigFigureOrShortDecimals,
     noBlanks
   },
   data() {
@@ -239,7 +243,7 @@ export default {
     },
     isMultiDenomReward() {
       if (this.overview.rewards && this.overview.rewards.length > 0) {
-        return this.overview.rewards[0].denom ? true : false
+        return this.overview.rewards[0].denom !== this.overview.rewards[1].denom ? true : false
       } else {
         return false
       }

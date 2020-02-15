@@ -24,6 +24,7 @@
             <div class="field-checkbox-input">
               <label class="field-checkbox-label" for="sign-up-warning">
                 <input
+                  v-focus
                   id="sign-up-warning"
                   v-model="fieldWarning"
                   type="checkbox"
@@ -126,8 +127,3 @@ export default {
   })
 }
 </script>
-<style>
-.session .field-checkbox-input {
-  text-align: center;
-}
-</style>

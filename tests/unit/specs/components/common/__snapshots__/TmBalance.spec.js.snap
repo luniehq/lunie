@@ -132,7 +132,9 @@ exports[`TmBalance show the balance header when signed in 1`] = `
               </h3>
                
               <h2>
+                
                 1,230
+              
               </h2>
             </div>
              
@@ -141,7 +143,7 @@ exports[`TmBalance show the balance header when signed in 1`] = `
             >
               <h3>
                 
-                Total Rewards in ATOM
+                Total Rewards
               
               </h3>
                

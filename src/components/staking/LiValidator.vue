@@ -40,7 +40,7 @@
         </h3>
         <div v-if="delegation.amount > 0">
           <h4>
-            {{ delegation.amount | shortDecimals }}
+            {{ delegation.amount | bigFigureOrShortDecimals }}
           </h4>
           <h5
             v-if="
@@ -58,19 +58,26 @@
     </td>
     <td :class="{ 'hide-xs': showOnMobile !== 'expectedReturns' }">
       {{
-        validator.expectedReturns ? percent(validator.expectedReturns) : `--`
+        validator.expectedReturns
+          ? bigFigureOrPercent(validator.expectedReturns)
+          : `--`
       }}
     </td>
     <td :class="{ 'hide-xs': showOnMobile !== 'voting-power' }">
-      {{ validator.votingPower | percent }}
+      {{ validator.votingPower | bigFigureOrPercent }}
     </td>
   </tr>
 </template>
 
 <script>
-import { percent, shortDecimals, atoms } from "scripts/num"
+import {
+  bigFigureOrPercent,
+  bigFigureOrShortDecimals,
+  atoms
+} from "scripts/num"
 import { toMicroDenom } from "src/scripts/common"
 import Avatar from "common/Avatar"
+
 export default {
   name: `li-validator`,
   components: {
@@ -78,9 +85,9 @@ export default {
   },
   filters: {
     atoms,
-    shortDecimals,
-    percent,
-    toLower: text => text.toLowerCase()
+    toLower: text => text.toLowerCase(),
+    bigFigureOrShortDecimals,
+    bigFigureOrPercent
   },
   props: {
     validator: {
@@ -114,14 +121,14 @@ export default {
     }
   },
   methods: {
-    percent,
-    shortDecimals,
     toMicroDenom,
+    bigFigureOrPercent,
+    bigFigureOrShortDecimals,
     filterStakingDenomReward(rewards) {
       const stakingDenomsRewards = rewards.filter(
         reward => reward.denom === this.toMicroDenom(this.stakingDenom)
       )
-      return shortDecimals(stakingDenomsRewards[0].amount).concat(
+      return bigFigureOrShortDecimals(stakingDenomsRewards[0].amount).concat(
         this.isMultiDenomReward ? ` ${this.stakingDenom}` : ``
       )
     }

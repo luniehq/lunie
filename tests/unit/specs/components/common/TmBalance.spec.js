@@ -48,7 +48,7 @@ describe(`TmBalance`, () => {
           },
           {
             amount: 2,
-            denom: `utoken2`
+            denom: `utoken1`
           },
           {
             amount: 1.5,
@@ -169,6 +169,20 @@ describe(`TmBalance`, () => {
   })
 
   it(`should return true if rewards contain multiple denoms`, () => {
+    wrapper.setData({
+      overview: {
+        rewards: [
+          {
+            amount: 1,
+            denom: `utoken1`
+          },
+          {
+            amount: 2,
+            denom: `utoken2`
+          }
+        ]
+      }
+    })
     expect(wrapper.vm.isMultiDenomReward).toBe(true)
   })
 
@@ -190,6 +204,6 @@ describe(`TmBalance`, () => {
 
   it(`should calculate the total rewards amount for each denom when rewards contain multiple denoms`, () => {
     const totalDenomRewards = wrapper.vm.calculateTotalRewardsDenom(`UTOKEN1`)
-    expect(totalDenomRewards).toBe(2.5)
+    expect(totalDenomRewards).toBe(4.5)
   })
 })
