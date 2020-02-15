@@ -221,12 +221,11 @@ export default [
   {
     path: `/feature-not-available/:feature`,
     component: () => import(`./components/common/PageFeatureNotAvailable`),
-    name: `fns`,
     props: true
   },
   {
     path: `/:networkId`,
-    component: () => import(`./components/common/setNetwork`),
+    component: () => import(`./components/common/SetNetwork`),
     children: [
       {
         path: `proposals`,
@@ -308,5 +307,5 @@ export default [
       },
       { path: `*`, component: () => import(`./components/common/Page404`) }
     ]
-  },
+  }
 ]

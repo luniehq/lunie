@@ -1,6 +1,6 @@
 <template>
   <router-link
-    :class="cclass"
+    :class="routerClass"
     :to="url"
     :exact="exact"
     :title="title"
@@ -15,7 +15,7 @@ import { mapGetters } from "vuex"
 export default {
   name: `routerLinkNetwork`,
   props: {
-    cclass: {
+    routerClass: {
       type: String,
       default: null
     },
@@ -36,7 +36,10 @@ export default {
     ...mapGetters([`network`]),
     url() {
       if (this.network.length) {
-        return `/${this.network}${this.to}`
+        const networkName = this.network.includes(`mainnet`)
+          ? this.network.slice(0, -8)
+          : this.network
+        return `/${networkName}${this.to}`
       }
       return this.to
     }

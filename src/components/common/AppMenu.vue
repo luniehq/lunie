@@ -34,7 +34,7 @@
     />
     <div class="app-menu-main">
       <routerLinkNetwork
-        cclass="app-menu-item hide-xs"
+        router-class="app-menu-item hide-xs"
         to="/portfolio"
         exact="exact"
         title="Portfolio"
@@ -46,7 +46,7 @@
         <i class="material-icons">chevron_right</i>
       </routerLinkNetwork>
       <routerLinkNetwork
-        cclass="app-menu-item hide-xs"
+        router-class="app-menu-item hide-xs"
         to="/validators"
         title="Validators"
         @click.native="handleClick()"
@@ -58,7 +58,7 @@
       </routerLinkNetwork>
 
       <routerLinkNetwork
-        cclass="app-menu-item hide-xs"
+        router-class="app-menu-item hide-xs"
         to="/proposals"
         title="Proposals"
         @click.native="handleClick()"
@@ -70,7 +70,7 @@
       </routerLinkNetwork>
 
       <routerLinkNetwork
-        cclass="app-menu-item hide-xs"
+        router-class="app-menu-item hide-xs"
         to="/transactions"
         exact="exact"
         title="Transactions"
