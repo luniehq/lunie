@@ -65,7 +65,7 @@
             field-label="Gas Price"
           >
             <span class="input-suffix">{{
-              chooseBondDenom() | viewDenom
+              chooseFeeToken() | viewDenom
             }}</span>
             <TmField
               id="gas-price"
@@ -96,7 +96,7 @@
           <TableInvoice
             :amount="Number(amount)"
             :estimated-fee="estimatedFee"
-            :bond-denom="chooseBondDenom()"
+            :bond-denom="chooseFeeToken()"
           />
           <TmFormMsg
             v-if="$v.invoiceTotal.$invalid"
@@ -735,7 +735,7 @@ export default {
       this.trackEvent(`event`, `failed-submit`, this.title, error.message)
       this.$apollo.queries.overview.refetch()
     },
-    chooseBondDenom() {
+    chooseFeeToken() {
       return this.balances.find(({ amount }) => amount > 0.001).denom
     }
   },
