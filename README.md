@@ -1,6 +1,4 @@
-Hello API!
-
-## Installation 
+## Installation
 
 Clone the repository:
 
