@@ -24,9 +24,9 @@
             <div class="field-checkbox-input">
               <label class="field-checkbox-label" for="sign-up-warning">
                 <input
-                  v-focus
                   id="sign-up-warning"
                   v-model="fieldWarning"
+                  v-focus
                   type="checkbox"
                 />
                 I understand that lost seeds cannot be recovered.</label
