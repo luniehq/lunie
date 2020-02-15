@@ -225,7 +225,7 @@ export default [
   },
   {
     path: `/:networkId`,
-    component: () => import(`./components/common/SetNetwork`),
+    component: () => import(`./components/common/NetworkSetter`),
     children: [
       {
         path: `proposals`,
