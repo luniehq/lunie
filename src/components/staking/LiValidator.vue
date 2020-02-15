@@ -40,28 +40,35 @@
         </h3>
         <div v-if="delegation.amount > 0">
           <h4>
-            {{ delegation.amount | shortDecimals }}
+            {{ delegation.amount | bigFigureOrShortDecimals }}
           </h4>
           <h5 v-if="rewards.amount > 0.001">
-            +{{ rewards.amount | shortDecimals }}
+            +{{ rewards.amount | bigFigureOrShortDecimals }}
           </h5>
         </div>
       </div>
     </td>
     <td :class="{ 'hide-xs': showOnMobile !== 'expectedReturns' }">
       {{
-        validator.expectedReturns ? percent(validator.expectedReturns) : `--`
+        validator.expectedReturns
+          ? bigFigureOrPercent(validator.expectedReturns)
+          : `--`
       }}
     </td>
     <td :class="{ 'hide-xs': showOnMobile !== 'voting-power' }">
-      {{ validator.votingPower | percent }}
+      {{ validator.votingPower | bigFigureOrPercent }}
     </td>
   </tr>
 </template>
 
 <script>
-import { percent, shortDecimals, atoms } from "scripts/num"
+import {
+  bigFigureOrPercent,
+  bigFigureOrShortDecimals,
+  atoms
+} from "scripts/num"
 import Avatar from "common/Avatar"
+
 export default {
   name: `li-validator`,
   components: {
@@ -69,9 +76,9 @@ export default {
   },
   filters: {
     atoms,
-    shortDecimals,
-    percent,
-    toLower: text => text.toLowerCase()
+    toLower: text => text.toLowerCase(),
+    bigFigureOrShortDecimals,
+    bigFigureOrPercent
   },
   props: {
     validator: {
@@ -97,7 +104,7 @@ export default {
     }
   },
   methods: {
-    percent
+    bigFigureOrPercent
   }
 }
 </script>

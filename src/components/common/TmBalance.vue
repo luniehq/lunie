@@ -16,7 +16,7 @@
             <div class="total-atoms">
               <h3>Total {{ stakingDenom }}</h3>
               <h2 class="total-atoms__value">
-                {{ overview.totalStake | shortDecimals | noBlanks }}
+                {{ overview.totalStake | bigFigureOrShortDecimals | noBlanks }}
               </h2>
             </div>
             <button class="tutorial-button" @click="openTutorial()">
@@ -28,12 +28,20 @@
             <div class="row small-container scroll-item">
               <div v-if="overview.totalStake > 0" class="available-atoms">
                 <h3>Available {{ stakingDenom }}</h3>
-                <h2>{{ overview.liquidStake | shortDecimals | noBlanks }}</h2>
+                <h2>
+                  {{
+                    overview.liquidStake | bigFigureOrShortDecimals | noBlanks
+                  }}
+                </h2>
               </div>
 
               <div v-if="overview.totalRewards" class="rewards">
                 <h3>Total Rewards</h3>
-                <h2>+{{ overview.totalRewards | shortDecimals | noBlanks }}</h2>
+                <h2>
+                  +{{
+                    overview.totalRewards | bigFigureOrShortDecimals | noBlanks
+                  }}
+                </h2>
               </div>
             </div>
             <div
@@ -47,7 +55,9 @@
                 class="col"
               >
                 <p class="token-denom">{{ balance.denom }}</p>
-                <p class="token-balance">{{ balance.amount }}</p>
+                <p class="token-balance">
+                  {{ balance.amount | bigFigureOrShortDecimals }}
+                </p>
               </div>
             </div>
           </div>
@@ -86,7 +96,7 @@
   </div>
 </template>
 <script>
-import { shortDecimals } from "scripts/num"
+import { bigFigureOrShortDecimals } from "scripts/num"
 import { noBlanks } from "src/filters"
 import TmBtn from "common/TmBtn"
 import SendModal from "src/ActionModal/components/SendModal"
@@ -105,7 +115,7 @@ export default {
     ModalTutorial
   },
   filters: {
-    shortDecimals,
+    bigFigureOrShortDecimals,
     noBlanks
   },
   data() {
