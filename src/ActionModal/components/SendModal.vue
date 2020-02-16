@@ -193,8 +193,10 @@ export default {
     ...mapGetters([`network`]),
     ...mapGetters({ userAddress: `address` }),
     selectedBalance() {
-      const selectedBalance = this.balances.filter(
-        balance => balance.denom === this.selectedToken || this.denoms[0]
+      const selectedBalance = this.balances.filter(balance =>
+        this.selectedToken
+          ? balance.denom === this.selectedToken
+          : balance.denom === this.denoms[0]
       )
       if (selectedBalance.length > 0) {
         return selectedBalance[0]

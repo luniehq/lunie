@@ -286,10 +286,11 @@ describe(`SendModal`, () => {
     it(`it automatically picks the balance from the balances array when
     balances are only one denom`, async () => {
       wrapper.setData({
+        selectedToken: ``,
         balances: [
           {
             amount: 1,
-            denom: "TOKEN1"
+            denom: "STAKE"
           }
         ]
       })
