@@ -65,7 +65,7 @@
             field-label="Gas Price"
           >
             <span class="input-suffix">{{
-              chooseFeeToken() | viewDenom
+              maxTokenBalance().denom | viewDenom
             }}</span>
             <TmField
               id="gas-price"
@@ -96,7 +96,7 @@
           <TableInvoice
             :amount="Number(amount)"
             :estimated-fee="estimatedFee"
-            :bond-denom="chooseFeeToken()"
+            :bond-denom="maxTokenBalance().denom"
           />
           <TmFormMsg
             v-if="$v.invoiceTotal.$invalid"
@@ -645,9 +645,9 @@ export default {
       }
 
       // limit fees to the maximum the user has
-      if (this.invoiceTotal > this.overview.liquidStake) {
+      if (this.invoiceTotal > this.maxFeeTokenAmount()) {
         this.gasPrice =
-          (Number(this.overview.liquidStake) - Number(this.amount)) /
+          (Number(this.maxFeeTokenAmount()) - Number(this.amount)) /
           this.gasEstimate
       }
     },
@@ -735,8 +735,16 @@ export default {
       this.trackEvent(`event`, `failed-submit`, this.title, error.message)
       this.$apollo.queries.overview.refetch()
     },
-    chooseFeeToken() {
-      return this.balances.find(({ amount }) => amount > 0.001).denom
+    maxTokenBalance() {
+      return this.balances
+        .filter(({ amount }) => amount > 0.001)
+        .sort((a, b) => b.amount - a.amount)[0]
+    },
+    maxFeeTokenAmount() {
+      // here we assume that in all multidenom networks we will be able to pay fees with non-staking tokens
+      return this.overview.liquidStake > this.maxTokenBalance().amount
+        ? this.overview.liquidStake
+        : this.maxTokenBalance().amount
     }
   },
   validations() {
@@ -754,10 +762,10 @@ export default {
         ),
         // we don't use SMALLEST as min gas price because it can be a fraction of uatom
         // min is 0 because we support sending 0 fees
-        between: between(0, this.overview.liquidStake)
+        between: between(0, this.maxFeeTokenAmount())
       },
       invoiceTotal: {
-        between: between(0, this.overview.liquidStake)
+        between: between(0, this.maxFeeTokenAmount())
       }
     }
   },
