@@ -135,7 +135,7 @@ export function atoms(number = 0) {
 export function uatoms(number = 0) {
   return BigNumber(number)
     .times(1e6)
-    .toFixed(0)
+    //.toFixed(0) // removing this will solve the issue with fee amount if extension
     .toString()
 }
 
