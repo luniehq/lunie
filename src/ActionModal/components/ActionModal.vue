@@ -103,7 +103,7 @@
             name="Total"
             type="between"
             min="0"
-            :max="overview.liquidStake"
+            :max="maxFeeTokenAmount()"
           />
         </div>
         <div v-else-if="step === signStep" class="action-modal-form">
