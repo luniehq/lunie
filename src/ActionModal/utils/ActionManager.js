@@ -1,7 +1,7 @@
 import config from "src/../config"
 import { getSigner } from "./signer"
 import transaction from "./transactionTypes"
-import { uatoms } from "scripts/num"
+import { gasMilliUnits } from "scripts/num"
 import { toMicroDenom } from "src/scripts/common"
 import { getGraphqlHost } from "scripts/url"
 import {
@@ -237,13 +237,13 @@ export default class ActionManager {
 
 function convertCurrencyData(amounts) {
   return amounts.map(({ amount, denom }) => ({
-    amount: toMicroAtomString(amount),
+    amount: toGasMilliUnitString(amount),
     denom: toMicroDenom(denom)
   }))
 }
 
-function toMicroAtomString(amount) {
-  return String(uatoms(amount))
+function toGasMilliUnitString(amount) {
+  return String(gasMilliUnits(amount))
 }
 
 // limitation of the Ledger Nano S, so we pick the top 5 rewards and inform the user.
