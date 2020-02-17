@@ -669,7 +669,7 @@ export default {
         gasEstimate: this.gasEstimate,
         gasPrice: {
           amount: this.gasPrice,
-          denom: this.network.stakingDenom
+          denom: this.maxTokenBalance().denom
         },
         submitType: this.selectedSignMethod,
         password: this.password
