@@ -9,14 +9,17 @@
         #{{ transaction.height | prettyInt }}</router-link
       >
       <span v-else>#{{ transaction.height | prettyInt }}</span>
-      &nbsp;<i class="material-icons">access_time</i>&nbsp;{{ date }}
+      &nbsp;<i class="material-icons notranslate">access_time</i>&nbsp;{{
+        date
+      }}
     </p>
     <p v-if="transaction.undelegationEndTime">
       Liquid date:
       {{ getUndelegationEndTime() }}
     </p>
     <p v-if="transaction.memo">
-      <i class="material-icons">message</i> Memo: {{ transaction.memo }}
+      <i class="material-icons notranslate">message</i> Memo:&nbsp;
+      {{ transaction.memo }}
     </p>
     <p>
       Fee:

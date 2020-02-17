@@ -27,7 +27,7 @@ exports[`TmSessionExplore shows a form to sign in with an address 1`] = `
             class="tm-li-session-icon"
           >
             <i
-              class="material-icons circle"
+              class="material-icons notranslate circle"
             >
               
               vpn_key
@@ -59,7 +59,7 @@ exports[`TmSessionExplore shows a form to sign in with an address 1`] = `
             class="tm-li-session-icon"
           >
             <i
-              class="material-icons"
+              class="material-icons notranslate"
             >
               arrow_forward
             </i>
@@ -76,7 +76,7 @@ exports[`TmSessionExplore shows a form to sign in with an address 1`] = `
             class="tm-li-session-icon"
           >
             <i
-              class="material-icons circle"
+              class="material-icons notranslate circle"
             >
               
               laptop
@@ -108,7 +108,7 @@ exports[`TmSessionExplore shows a form to sign in with an address 1`] = `
             class="tm-li-session-icon"
           >
             <i
-              class="material-icons"
+              class="material-icons notranslate"
             >
               arrow_forward
             </i>
@@ -125,7 +125,7 @@ exports[`TmSessionExplore shows a form to sign in with an address 1`] = `
             class="tm-li-session-icon"
           >
             <i
-              class="material-icons circle"
+              class="material-icons notranslate circle"
             >
               
               phone_iphone
@@ -157,7 +157,7 @@ exports[`TmSessionExplore shows a form to sign in with an address 1`] = `
             class="tm-li-session-icon"
           >
             <i
-              class="material-icons"
+              class="material-icons notranslate"
             >
               arrow_forward
             </i>

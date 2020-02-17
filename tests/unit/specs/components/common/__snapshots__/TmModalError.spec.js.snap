@@ -11,7 +11,7 @@ exports[`TmModalError has the expected html structure 1`] = `
       class="tm-modal-error__icon"
     >
       <i
-        class="material-icons"
+        class="material-icons notranslate"
       >
         error_outline
       </i>

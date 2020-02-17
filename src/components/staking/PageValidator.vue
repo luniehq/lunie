@@ -11,11 +11,11 @@
     <template v-if="validator.operatorAddress" slot="managed-body">
       <div class="button-container">
         <button class="back-button" @click="$router.push(`/validators`)">
-          <i class="material-icons arrow">arrow_back</i>
+          <i class="material-icons notranslate arrow">arrow_back</i>
           Back to Validators
         </button>
         <button class="tutorial-button" @click="openTutorial()">
-          <i v-if="false" class="material-icons">help_outline</i>
+          <i v-if="false" class="material-icons notranslate">help_outline</i>
           <span v-else>Want to learn about staking?</span>
         </button>
       </div>

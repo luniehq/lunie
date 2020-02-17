@@ -12,7 +12,10 @@
       class="copy-seed"
     >
       Copy to clipboard
-      <i class="material-icons copied" :class="{ active: copySuccess }">
+      <i
+        class="material-icons notranslate copied"
+        :class="{ active: copySuccess }"
+      >
         check
       </i>
     </div>
