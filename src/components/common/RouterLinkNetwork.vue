@@ -36,9 +36,7 @@ export default {
     ...mapGetters([`network`]),
     url() {
       if (this.network.length) {
-        const networkName = this.network.includes(`mainnet`)
-          ? this.network.slice(0, -8)
-          : this.network
+        const networkName = this.network.replace(/-mainnet$/, ``)
         return `/${networkName}${this.to}`
       }
       return this.to

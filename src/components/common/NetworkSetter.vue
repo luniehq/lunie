@@ -8,15 +8,10 @@ export default {
   name: `select-network`,
   methods: {
     findNetwork(networks) {
-      if (this.$route.params.networkId.includes(`testnet`)) {
-        return networks.find(
-          network => network === this.$route.params.networkId
-        )
-      } else {
-        return networks.find(
-          network => network === this.$route.params.networkId.concat(`-mainnet`)
-        )
-      }
+      return networks.find(
+        network =>
+          network.replace(/-mainnet$/, ``) === this.$route.params.networkId
+      )
     }
   },
   apollo: {
@@ -35,9 +30,13 @@ export default {
       /* istanbul ignore next */
       update(data) {
         const networks = data.networks.map(network => network.id)
-        if (this.$route.params.networkId && this.findNetwork(networks)) {
+        let networkTitle
+        if (
+          this.$route.params.networkId &&
+          (networkTitle = this.findNetwork(networks))
+        ) {
           this.$store.dispatch(`setNetwork`, {
-            id: this.findNetwork(networks)
+            id: networkTitle
           })
         } else {
           this.$router.push("/feature-not-available/network")
