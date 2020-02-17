@@ -35,7 +35,7 @@ export default {
   computed: {
     ...mapGetters([`network`]),
     url() {
-      if (this.network.length) {
+      if (this.network) {
         const networkName = this.network.replace(/-mainnet$/, ``)
         return `/${networkName}${this.to}`
       }
