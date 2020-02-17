@@ -22,7 +22,7 @@ exports[`TmSeed should render the seed in a table component 1`] = `
     Copy to clipboard
     
     <i
-      class="material-icons copied"
+      class="material-icons notranslate copied"
     >
       
       check

@@ -1,7 +1,7 @@
 <template>
   <router-link :to="route" class="tm-li-session">
     <div class="tm-li-session-icon">
-      <i class="material-icons circle">{{ icon }}</i>
+      <i class="material-icons notranslate circle">{{ icon }}</i>
     </div>
     <div class="tm-li-session-text">
       <div class="tm-li-session-title">

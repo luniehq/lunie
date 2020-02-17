@@ -94,7 +94,7 @@
         <h2 class="app-menu-title">
           Networks
         </h2>
-        <i class="material-icons hide-xs">chevron_right</i>
+        <i class="material-icons notranslate hide-xs">chevron_right</i>
       </router-link>
 
       <router-link

@@ -14,7 +14,7 @@
         >
           <div class="tm-li-session">
             <div class="tm-li-session-icon">
-              <i class="material-icons circle">
+              <i class="material-icons notranslate circle">
                 {{ getAddressIcon(account.type) }}
               </i>
             </div>
