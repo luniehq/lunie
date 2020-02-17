@@ -20,7 +20,7 @@
           @click.native="$router.push(`/`)"
         />
         <a class="user-box" @click="$router.push(`/`)">
-          <i class="material-icons">close</i>
+          <i class="material-icons notranslate">close</i>
         </a>
       </div>
     </div>

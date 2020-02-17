@@ -7,7 +7,9 @@
           <Bech32 :address="address || ''" />
         </div>
         <a v-if="session.signedIn" id="sign-out" @click="signOut()">
-          <i v-tooltip.top="'Sign Out'" class="material-icons">exit_to_app</i>
+          <i v-tooltip.top="'Sign Out'" class="material-icons notranslate">
+            exit_to_app
+          </i>
         </a>
       </div>
       <a
@@ -43,7 +45,7 @@
         <h2 class="app-menu-title">
           Portfolio
         </h2>
-        <i class="material-icons">chevron_right</i>
+        <i class="material-icons notranslate">chevron_right</i>
       </router-link>
       <router-link
         class="app-menu-item hide-xs"
@@ -54,7 +56,7 @@
         <h2 class="app-menu-title">
           Validators
         </h2>
-        <i class="material-icons">chevron_right</i>
+        <i class="material-icons notranslate">chevron_right</i>
       </router-link>
 
       <router-link
@@ -66,7 +68,7 @@
         <h2 class="app-menu-title">
           Proposals
         </h2>
-        <i class="material-icons">chevron_right</i>
+        <i class="material-icons notranslate">chevron_right</i>
       </router-link>
 
       <router-link
@@ -79,7 +81,7 @@
         <h2 class="app-menu-title">
           Activity
         </h2>
-        <i class="material-icons">chevron_right</i>
+        <i class="material-icons notranslate">chevron_right</i>
       </router-link>
 
       <router-link

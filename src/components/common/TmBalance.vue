@@ -20,7 +20,9 @@
               </h2>
             </div>
             <button class="tutorial-button" @click="openTutorial()">
-              <i v-if="false" class="material-icons">help_outline</i>
+              <i v-if="false" class="material-icons notranslate">
+                help_outline
+              </i>
               <span v-else>Need some tokens?</span>
             </button>
           </div>

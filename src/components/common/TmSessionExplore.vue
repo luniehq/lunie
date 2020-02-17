@@ -27,7 +27,7 @@
               </div>
             </div>
             <div class="tm-li-session-icon">
-              <i class="material-icons">arrow_forward</i>
+              <i class="material-icons notranslate">arrow_forward</i>
             </div>
           </div>
         </div>

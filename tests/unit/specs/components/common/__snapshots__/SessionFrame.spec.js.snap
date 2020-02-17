@@ -45,7 +45,7 @@ exports[`SessionFrame shows an overview of all wallets to sign in with from the 
       class="user-box"
     >
       <i
-        class="material-icons"
+        class="material-icons notranslate"
       >
         close
       </i>

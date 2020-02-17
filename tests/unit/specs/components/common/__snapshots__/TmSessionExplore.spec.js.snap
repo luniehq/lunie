@@ -59,7 +59,7 @@ exports[`TmSessionExplore shows a form to sign in with an address 1`] = `
             class="tm-li-session-icon"
           >
             <i
-              class="material-icons"
+              class="material-icons notranslate"
             >
               arrow_forward
             </i>
@@ -108,7 +108,7 @@ exports[`TmSessionExplore shows a form to sign in with an address 1`] = `
             class="tm-li-session-icon"
           >
             <i
-              class="material-icons"
+              class="material-icons notranslate"
             >
               arrow_forward
             </i>
@@ -157,7 +157,7 @@ exports[`TmSessionExplore shows a form to sign in with an address 1`] = `
             class="tm-li-session-icon"
           >
             <i
-              class="material-icons"
+              class="material-icons notranslate"
             >
               arrow_forward
             </i>
