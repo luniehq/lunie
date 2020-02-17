@@ -216,7 +216,12 @@
         >
           {{ submissionError }}
         </p>
-        <div class="action-modal-footer">
+        <div
+          :class="{
+            'action-modal-footer': true,
+            'fixed-action-modal-footer': !isMobileApp
+          }"
+        >
           <slot name="action-modal-footer">
             <TmFormGroup
               v-if="[defaultStep, feeStep, signStep].includes(step)"
@@ -988,7 +993,7 @@ export default {
 
 /* max width of the action modal */
 @media screen and (max-width: 564px) {
-  .action-modal-footer {
+  .fixed-action-modal-footer {
     width: 100%;
     position: fixed;
     bottom: 0;
