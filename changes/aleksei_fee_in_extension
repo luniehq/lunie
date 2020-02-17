@@ -1,0 +1,1 @@
+[Fixed] if fee is lower that 1 denom item it wasn't shown in extension in sign action @iambeone
