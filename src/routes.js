@@ -9,7 +9,7 @@
 export default [
   {
     path: `/`,
-    redirect: `/portfolio`
+    component: () => import(`./components/common/NetworkSetter`)
   },
   {
     path: `/networks`,

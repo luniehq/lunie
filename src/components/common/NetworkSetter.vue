@@ -22,17 +22,18 @@ export default {
           networks {
             slug
             id
+            default
           }
         }
       `,
       /* istanbul ignore next */
       update(data) {
         let network = this.findNetwork(data.networks)
-        if (network) {
-          this.$store.dispatch(`setNetwork`, network)
-        } else {
-          this.$router.push("/feature-not-available/network")
+        if (!network) {
+          network = data.networks.find(network => network.default === true)
         }
+        this.$store.dispatch(`setNetwork`, network)
+        this.$router.push(`/${network.slug}/portfolio`)
       }
     }
   }
