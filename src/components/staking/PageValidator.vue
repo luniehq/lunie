@@ -14,7 +14,14 @@
           <i class="material-icons notranslate arrow">arrow_back</i>
           Back to Validators
         </button>
-        <button class="tutorial-button" @click="openTutorial()">
+        <button
+          v-if="
+            connection.network === 'cosmos-hub-mainnet' ||
+              connection.network === 'cosmos-hub-testnet'
+          "
+          class="tutorial-button"
+          @click="openTutorial()"
+        >
           <i v-if="false" class="material-icons notranslate">help_outline</i>
           <span v-else>Want to learn about staking?</span>
         </button>
