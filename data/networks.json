@@ -30,7 +30,8 @@
     "default": false,
     "stakingDenom": "MUON",
     "enabled": true,
-    "icon": "https://app.lunie.io/img/networks/cosmos-hub-mainnet.png"
+    "icon": "https://app.lunie.io/img/networks/cosmos-hub-mainnet.png",
+    "slug": "cosmos-hub-testnet"
   },
   {
     "id": "cosmos-hub-mainnet",
@@ -63,7 +64,8 @@
     "default": true,
     "stakingDenom": "ATOM",
     "enabled": true,
-    "icon": "https://app.lunie.io/img/networks/cosmos-hub-mainnet.png"
+    "icon": "https://app.lunie.io/img/networks/cosmos-hub-mainnet.png",
+    "slug": "cosmos-hub"
   },
   {
     "id": "regen-testnet",
@@ -96,7 +98,8 @@
     "default": false,
     "stakingDenom": "TREE",
     "enabled": true,
-    "icon": "https://app.lunie.io/img/networks/regen-testnet.png"
+    "icon": "https://app.lunie.io/img/networks/regen-testnet.png",
+    "slug": "regen-testnet"
   },
   {
     "id": "terra-mainnet",
@@ -129,7 +132,8 @@
     "default": false,
     "stakingDenom": "LUNA",
     "enabled": true,
-    "icon": "https://app.lunie.io/img/networks/terra-mainnet.png"
+    "icon": "https://app.lunie.io/img/networks/terra-mainnet.png",
+    "slug": "terra"
   },
   {
     "id": "terra-testnet",
@@ -162,7 +166,8 @@
     "default": false,
     "stakingDenom": "LUNA",
     "enabled": true,
-    "icon": "https://app.lunie.io/img/networks/terra-testnet.png"
+    "icon": "https://app.lunie.io/img/networks/terra-testnet.png",
+    "slug": "terra-testnet"
   },
   {
     "id": "emoney-testnet",
@@ -195,7 +200,8 @@
     "default": false,
     "stakingDenom": "NGM",
     "enabled": true,
-    "icon": "https://app.lunie.io/img/networks/emoney-testnet.png"
+    "icon": "https://app.lunie.io/img/networks/emoney-testnet.png",
+    "slug": "emoney-testnet"
   },
   {
     "id": "livepeer-mainnet",
@@ -228,6 +234,7 @@
     "default": false,
     "stakingDenom": "LPT",
     "enabled": false,
-    "icon": "https://app.lunie.io/img/networks/livepeer-mainnet.png"
+    "icon": "https://app.lunie.io/img/networks/livepeer-mainnet.png",
+    "slug": "livepeer"
   }
 ]
