@@ -19,7 +19,14 @@
                 {{ overview.totalStake | bigFigureOrShortDecimals | noBlanks }}
               </h2>
             </div>
-            <button class="tutorial-button" @click="openTutorial()">
+            <button
+              v-if="
+                connection.network === 'cosmos-hub-mainnet' ||
+                  connection.network === 'cosmos-hub-testnet'
+              "
+              class="tutorial-button"
+              @click="openTutorial()"
+            >
               <i v-if="false" class="material-icons notranslate">
                 help_outline
               </i>
