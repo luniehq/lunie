@@ -122,16 +122,16 @@ export default {
         }
       },
       update(result) {
-        let trx = []
+        let transactions = []
         if (Array.isArray(result.transactions)) {
-          trx = result.transactions.map(tx => ({
+          transactions = result.transactions.map(tx => ({
             ...tx,
             timestamp: new Date(tx.timestamp),
             value: JSON.parse(tx.value)
           }))
         }
-        this.lastLoadedRecordsCount = trx.length
-        this.loadedTransactions = [...this.loadedTransactions, ...trx]
+        this.lastLoadedRecordsCount = transactions.length
+        this.loadedTransactions = [...this.loadedTransactions, ...transactions]
         return this.loadedTransactions
       }
     },
