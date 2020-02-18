@@ -508,6 +508,14 @@ export default {
     },
     "$apollo.loading": function(loading) {
       this.loaded = this.loaded || !loading
+    },
+    // wait for query balances to finish to get the gas price (if we are in a multidenom network)
+    balances: {
+      handler() {
+        this.gasPrice = this.maxTokenBalance().gasPrice
+          ? this.maxTokenBalance().gasPrice
+          : config.default_gas_price.toFixed(9)
+      }
     }
   },
   created() {
@@ -776,6 +784,7 @@ export default {
           balances(networkId: $networkId, address: $address) {
             denom
             amount
+            gasPrice
           }
         }
       `,
