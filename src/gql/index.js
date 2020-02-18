@@ -84,6 +84,7 @@ export const Networks = gql`
       title
       rpc_url
       icon
+      slug
     }
   }
 `

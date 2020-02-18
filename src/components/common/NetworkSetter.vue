@@ -8,9 +8,10 @@ export default {
   name: `select-network`,
   methods: {
     findNetwork(networks) {
-      return networks.find(
-        network =>
-          network.replace(/-mainnet$/, ``) === this.$route.params.networkId
+      return (
+        this.$route.params.networkId && // checking if network is set in the url
+        // finding network with the same slug
+        networks.find(network => network.slug === this.$route.params.networkId)
       )
     }
   },
@@ -19,25 +20,16 @@ export default {
       query: gql`
         query Networks {
           networks {
+            slug
             id
-            chain_id
-            title
-            testnet
-            icon
           }
         }
       `,
       /* istanbul ignore next */
       update(data) {
-        const networks = data.networks.map(network => network.id)
-        let networkTitle
-        if (
-          this.$route.params.networkId &&
-          (networkTitle = this.findNetwork(networks))
-        ) {
-          this.$store.dispatch(`setNetwork`, {
-            id: networkTitle
-          })
+        let network = this.findNetwork(data.networks)
+        if (network) {
+          this.$store.dispatch(`setNetwork`, network)
         } else {
           this.$router.push("/feature-not-available/network")
         }

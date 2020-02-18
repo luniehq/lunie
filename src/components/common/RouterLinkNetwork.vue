@@ -33,11 +33,10 @@ export default {
     }
   },
   computed: {
-    ...mapGetters([`network`]),
+    ...mapGetters([`networkSlug`]),
     url() {
-      if (this.network) {
-        const networkName = this.network.replace(/-mainnet$/, ``)
-        return `/${networkName}${this.to}`
+      if (this.networkSlug) {
+        return `/${this.networkSlug}${this.to}`
       }
       return this.to
     }
