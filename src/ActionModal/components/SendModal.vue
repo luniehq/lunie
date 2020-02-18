@@ -7,6 +7,7 @@
     title="Send"
     submission-error-prefix="Sending tokens failed"
     :transaction-data="transactionData"
+    :selected-balance="selectedBalance"
     :notify-message="notifyMessage"
     feature-flag="send"
     @close="clear"

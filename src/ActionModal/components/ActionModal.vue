@@ -65,7 +65,7 @@
             field-label="Gas Price"
           >
             <span class="input-suffix">{{
-              maxTokenBalance().denom | viewDenom
+              selectFeeTokenDenom() | viewDenom
             }}</span>
             <TmField
               id="gas-price"
@@ -96,14 +96,14 @@
           <TableInvoice
             :amount="Number(amount)"
             :estimated-fee="estimatedFee"
-            :bond-denom="maxTokenBalance().denom"
+            :bond-denom="selectFeeTokenDenom()"
           />
           <TmFormMsg
             v-if="$v.invoiceTotal.$invalid"
             name="Total"
             type="between"
             min="0"
-            :max="maxFeeTokenAmount()"
+            :max="selectFeeToken()"
           />
         </div>
         <div v-else-if="step === signStep" class="action-modal-form">
@@ -390,6 +390,10 @@ export default {
     disabled: {
       type: Boolean,
       default: false
+    },
+    selectedBalance: {
+      type: Object,
+      default: () => {}
     }
   },
   data: () => ({
@@ -488,6 +492,12 @@ export default {
         isExtensionAccount: this.isExtensionAccount,
         account: this.overview.accountInformation
       }
+    },
+    isMultiDenomNetwork() {
+      return this.balances.length > 1 &&
+        this.balances[0].denom !== this.balances[1].denom
+        ? true
+        : false
     }
   },
   watch: {
@@ -512,9 +522,14 @@ export default {
     // wait for query balances to finish to get the gas price (if we are in a multidenom network)
     balances: {
       handler() {
-        this.gasPrice = this.maxTokenBalance().gasPrice
-          ? this.maxTokenBalance().gasPrice
+        this.gasPrice = this.balances.find(
+          ({ denom }) => denom === this.selectFeeTokenDenom()
+        ).gasPrice
+          ? this.balances.find(
+              ({ denom }) => denom === this.selectFeeTokenDenom()
+            ).gasPrice
           : config.default_gas_price.toFixed(9)
+        this.estimatedFee
       }
     }
   },
@@ -652,12 +667,14 @@ export default {
         this.submissionError = `${this.submissionErrorPrefix}: ${message}.`
       }
 
-      // limit fees to the maximum the user has
-      if (this.invoiceTotal > this.maxFeeTokenAmount()) {
-        this.gasPrice =
-          (Number(this.maxFeeTokenAmount()) - Number(this.amount)) /
-          this.gasEstimate
-      }
+      // TODO: move this logic to validations
+      //
+      // // limit fees to the maximum the user has
+      // if (this.invoiceTotal > this.selectFeeToken()) {
+      //   this.gasPrice =
+      //     (Number(this.selectFeeToken()) - Number(this.amount)) /
+      //     this.gasEstimate
+      // }
     },
     async submit() {
       this.submissionError = null
@@ -677,7 +694,7 @@ export default {
         gasEstimate: this.gasEstimate,
         gasPrice: {
           amount: this.gasPrice,
-          denom: this.maxTokenBalance().denom
+          denom: this.selectFeeTokenDenom()
         },
         submitType: this.selectedSignMethod,
         password: this.password
@@ -743,16 +760,37 @@ export default {
       this.trackEvent(`event`, `failed-submit`, this.title, error.message)
       this.$apollo.queries.overview.refetch()
     },
-    maxTokenBalance() {
+    selectMaxBalanceToken() {
       return this.balances
         .filter(({ amount }) => amount > 0.001)
         .sort((a, b) => b.amount - a.amount)[0]
     },
-    maxFeeTokenAmount() {
+    selectFeeTokenAmount() {
       // here we assume that in all multidenom networks we will be able to pay fees with non-staking tokens
-      return this.overview.liquidStake > this.maxTokenBalance().amount
-        ? this.overview.liquidStake
-        : this.maxTokenBalance().amount
+      if (this.isMultiDenomNetwork && this.selectedBalance) {
+        return this.selectedBalance && this.selectedBalance.amount > 0.001
+          ? this.selectedBalance.amount
+          : this.overview.liquidStake > 0.001
+          ? this.overview.liquidStake
+          : this.selectMaxBalanceToken().amount
+      } else {
+        return this.balances.find(
+          ({ denom }) => denom === this.network.stakingDenom
+        ).amount
+      }
+    },
+    selectFeeTokenDenom() {
+      if (this.isMultiDenomNetwork && this.selectedBalance) {
+        return this.selectedBalance && this.selectedBalance.amount > 0.001
+          ? this.selectedBalance.denom
+          : this.overview.liquidStake > 0.001
+          ? this.network.stakingDenom
+          : this.selectMaxBalanceToken().denom
+      } else {
+        return this.balances.find(
+          ({ denom }) => denom === this.network.stakingDenom
+        ).denom
+      }
     }
   },
   validations() {
@@ -770,10 +808,10 @@ export default {
         ),
         // we don't use SMALLEST as min gas price because it can be a fraction of uatom
         // min is 0 because we support sending 0 fees
-        between: between(0, this.maxFeeTokenAmount())
+        between: between(0, this.selectFeeTokenAmount())
       },
       invoiceTotal: {
-        between: between(0, this.maxFeeTokenAmount())
+        between: between(0, this.selectFeeTokenAmount())
       }
     }
   },
