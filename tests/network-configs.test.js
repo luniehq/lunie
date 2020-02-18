@@ -33,7 +33,8 @@ const schema = Joi.object({
   stakingDenom: Joi.string().uppercase(),
   enabled: Joi.boolean(),
   experimental: Joi.boolean().optional(),
-  icon: Joi.string().optional()
+  icon: Joi.string().optional(),
+  slug: Joi.string().optional()
 })
 
 describe('Network configs', function() {
