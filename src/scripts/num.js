@@ -139,7 +139,7 @@ export function uatoms(number = 0) {
     .toString()
 }
 
-export function gasMilliUnits(number = 0) {
+export function multiplyToGasDecimals(number = 0) {
   return BigNumber(number)
     .times(1e6)
     .toString()
