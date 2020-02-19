@@ -523,18 +523,14 @@ export default {
     // wait for query balances to finish to get the gas price (if we are in a multidenom network)
     balances: {
       handler() {
-        this.gasPrice =
-          this.isMultiDenomNetwork && this.balances.length > 0
-            ? // if it finds the selected fee token denom in the balances array, then returns its gas price
-              // otherwise returns the default for Cosmos
-              (this.gasPrice = this.balances.find(
-                ({ denom }) => denom === this.selectFeeTokenDenom()
-              ).gasPrice
-                ? this.balances.find(
-                    ({ denom }) => denom === this.selectFeeTokenDenom()
-                  ).gasPrice
-                : config.default_gas_price.toFixed(9))
-            : config.default_gas_price.toFixed(9)
+        this.gasPriceSetter()
+      }
+    },
+    selectedBalance: {
+      handler() {
+        if (this.balances) {
+          this.gasPriceSetter()
+        }
       }
     }
   },
@@ -616,6 +612,20 @@ export default {
           this.step = defaultStep
           break
       }
+    },
+    gasPriceSetter() {
+      this.gasPrice =
+        this.isMultiDenomNetwork && this.balances.length > 0
+          ? // if it finds the selected fee token denom in the balances array, then returns its gas price
+            // otherwise returns the default for Cosmos
+            (this.gasPrice = this.balances.find(
+              ({ denom }) => denom === this.selectFeeTokenDenom()
+            ).gasPrice
+              ? this.balances.find(
+                  ({ denom }) => denom === this.selectFeeTokenDenom()
+                ).gasPrice
+              : config.default_gas_price.toFixed(9))
+          : config.default_gas_price.toFixed(9)
     },
     async validateChangeStep() {
       if (this.disabled) return
