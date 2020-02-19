@@ -4,7 +4,7 @@
       <div :key="group[0].title">
         <h3>{{ group[0].title }}</h3>
         <TransactionItem
-          v-for="tx in group"
+          v-for="tx in transactions"
           :key="tx.hash"
           :transaction="tx.tx"
           :validators="validators"
@@ -17,8 +17,8 @@
 
 <script>
 import TransactionItem from "./TransactionItem"
-import groupBy from "lodash.groupby"
-import orderBy from "lodash.orderby"
+// import groupBy from "lodash.groupby"
+// import orderBy from "lodash.orderby"
 import moment from "moment"
 
 const categories = [
@@ -56,13 +56,13 @@ export default {
     }
   },
   computed: {
-    groupedTransactions() {
-      return orderBy(
-        groupBy(this.categorizedTransactions, "title"),
-        group => group[0].tx.timestamp,
-        "desc"
-      )
-    },
+    // groupedTransactions() {
+    //   return orderBy(
+    //     groupBy(this.categorizedTransactions, "title"),
+    //     group => group[0].tx.timestamp,
+    //     "desc"
+    //   )
+    // },
     categorizedTransactions() {
       return this.transactions.map(tx => {
         // check if the tx is in Today, Yesterday or Last Week

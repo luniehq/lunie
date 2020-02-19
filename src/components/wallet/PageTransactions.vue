@@ -11,18 +11,13 @@
   >
     <DataEmptyTx slot="no-data" />
     <template slot="managed-body">
-      <!-- <div v-infinite-scroll="loadMore" infinite-scroll-distance="80">
+      <div v-infinite-scroll="loadMore" infinite-scroll-distance="80">
         <TransactionList
           :transactions="transactions"
           :address="address"
           :validators="validatorsAddressMap"
         />
-      </div> -->
-
-      <div v-for="transaction in transactions" :key="transaction.hash">
-        {{ transaction }}
       </div>
-
       <br />
       <TmDataMsg icon="calendar_today">
         <div slot="title">
@@ -167,9 +162,8 @@ export default {
         }
       },
       update: result => {
-        console.log(result)
-        if (Array.isArray(result.transactions)) {
-          return result.transactions
+        if (Array.isArray(result.transactionsV2)) {
+          return result.transactionsV2
         }
         return []
       },

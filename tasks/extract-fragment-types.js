@@ -1,7 +1,11 @@
 /*
  * this script extracts the fragment types from the api schema
+ *
  * this is needed to use union types (i.e: used in TransactionV2 type)
  * in apollo client
+ *
+ * we need to run this script every time we add or update a union type
+ * in api schema
  *
  * Reference:
  *

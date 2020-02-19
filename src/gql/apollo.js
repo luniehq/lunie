@@ -5,13 +5,17 @@ import { RetryLink } from "apollo-link-retry"
 import { ApolloLink, Observable as LinkObservable } from "apollo-link"
 import { createPersistedQueryLink } from "apollo-link-persisted-queries"
 import { WebSocketLink } from "apollo-link-ws"
-import { InMemoryCache } from "apollo-cache-inmemory"
+import {
+  InMemoryCache,
+  IntrospectionFragmentMatcher
+} from "apollo-cache-inmemory"
 import { split } from "apollo-link"
 import { getMainDefinition } from "apollo-utilities"
 import VueApollo from "vue-apollo"
 import { getGraphqlHost } from "scripts/url"
 import * as Sentry from "@sentry/browser"
 import config from "src/../config"
+import introspectionQueryResultData from "src/../fragmentTypes.json"
 
 Vue.use(VueApollo)
 
@@ -88,7 +92,10 @@ const createApolloClient = () => {
     )
   ])
 
-  const cache = new InMemoryCache()
+  const fragmentMatcher = new IntrospectionFragmentMatcher({
+    introspectionQueryResultData
+  })
+  const cache = new InMemoryCache({ fragmentMatcher })
 
   return new ApolloClient({
     link,
