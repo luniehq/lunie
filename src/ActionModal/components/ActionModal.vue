@@ -614,18 +614,24 @@ export default {
       }
     },
     gasPriceSetter() {
-      this.gasPrice =
-        this.isMultiDenomNetwork && this.balances.length > 0
-          ? // if it finds the selected fee token denom in the balances array, then returns its gas price
-            // otherwise returns the default for Cosmos
-            (this.gasPrice = this.balances.find(
-              ({ denom }) => denom === this.selectFeeTokenDenom()
-            ).gasPrice
-              ? this.balances.find(
-                  ({ denom }) => denom === this.selectFeeTokenDenom()
-                ).gasPrice
-              : config.default_gas_price.toFixed(9))
-          : config.default_gas_price.toFixed(9)
+      // first we check if the selected token is the staking denom
+      // in that case, we apply the default gas prices for Cosmos
+      if (this.selectFeeTokenDenom() === this.network.stakingDenom) {
+        this.gasPrice = config.default_gas_price.toFixed(9)
+      } else {
+        this.gasPrice =
+          this.isMultiDenomNetwork && this.balances.length > 0
+            ? // if it finds the selected fee token denom in the balances array, then returns its gas price
+              // otherwise returns the default for Cosmos
+              (this.gasPrice = this.balances.find(
+                ({ denom }) => denom === this.selectFeeTokenDenom()
+              ).gasPrice
+                ? this.balances.find(
+                    ({ denom }) => denom === this.selectFeeTokenDenom()
+                  ).gasPrice
+                : config.default_gas_price.toFixed(9))
+            : config.default_gas_price.toFixed(9)
+      }
     },
     async validateChangeStep() {
       if (this.disabled) return
