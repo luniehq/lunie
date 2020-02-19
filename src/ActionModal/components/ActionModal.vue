@@ -693,6 +693,8 @@ export default {
           (Number(this.selectFeeTokenAmount()) - Number(this.amount)) /
           this.gasEstimate
       }
+      // BACKUP HACK, the gasPrice can never be negative, this should not happen :shrug:
+      this.gasPrice = this.gasPrice >= 0 ? this.gasPrice : 0
     },
     async submit() {
       this.submissionError = null
