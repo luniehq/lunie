@@ -140,6 +140,7 @@
 <script>
 import { bigFigureOrShortDecimals } from "scripts/num"
 import { noBlanks } from "src/filters"
+// TODO: remove when PR add-token-gas-prices is merged
 import { removeUFromMicroDenom } from "src/scripts/common"
 import TmBtn from "common/TmBtn"
 import SendModal from "src/ActionModal/components/SendModal"
@@ -219,6 +220,7 @@ export default {
     readyToWithdraw() {
       return this.overview.totalRewards > 0
     },
+    // TODO: remove when PR add-token-gas-prices is merged
     formattedBalances() {
       return this.balances
         .filter(balance => !balance.denom.includes(this.stakingDenom))
