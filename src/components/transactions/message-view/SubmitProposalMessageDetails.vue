@@ -15,17 +15,13 @@
 </template>
 
 <script>
-import { atoms, viewDenom, prettyLong } from "scripts/num.js"
-// import { formatBech32 } from "src/filters"
+import { prettyLong } from "scripts/num.js"
 import TransactionIcon from "../TransactionIcon"
 
 export default {
   name: `submit-proposal-message-details`,
   filters: {
-    atoms,
-    viewDenom,
-    prettyLong,
-    // formatBech32
+    prettyLong
   },
   components: {
     TransactionIcon

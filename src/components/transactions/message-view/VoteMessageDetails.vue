@@ -15,14 +15,10 @@
 </template>
 
 <script>
-import { formatBech32 } from "src/filters"
 import TransactionIcon from "../TransactionIcon"
 
 export default {
   name: `vote-message-details`,
-  filters: {
-    formatBech32
-  },
   components: {
     TransactionIcon
   },

@@ -26,15 +26,13 @@
 </template>
 
 <script>
-import { atoms, viewDenom, prettyLong } from "scripts/num.js"
+import { prettyLong } from "scripts/num.js"
 import Bech32 from "common/Bech32"
 import TransactionIcon from "../TransactionIcon"
 
 export default {
   name: `send-message-details`,
   filters: {
-    atoms,
-    viewDenom,
     prettyLong
   },
   components: {
