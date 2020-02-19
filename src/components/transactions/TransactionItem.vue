@@ -1,13 +1,14 @@
 <template>
   <div class="tx-container">
     <div class="tx" @click="toggleDetail">
-      <component
+      {{ transaction.hash }}
+      <!-- <component
         :is="messageTypeComponent"
         :transaction="transaction"
         :validators="validators"
         :session-address="address"
         :show="show"
-      />
+      /> -->
       <div class="toggle" :class="{ up: show }">
         <i class="material-icons notranslate toggle-icon">
           keyboard_arrow_down
@@ -25,34 +26,34 @@
 <script>
 import { messageType } from "./messageTypes.js"
 import TransactionMetadata from "./TransactionMetadata"
-import Bech32 from "common/Bech32"
+// import Bech32 from "common/Bech32"
 
-import {
-  SendMessageDetails,
-  MultiSendMessageDetails,
-  DelegateMessageDetails,
-  DepositMessageDetails,
-  SubmitProposalMessageDetails,
-  UndelegateMessageDetails,
-  VoteMessageDetails,
-  BeginRedelegateMessageDetails,
-  WithdrawDelegationRewardMessageDetails
-} from "./message-view"
+// import {
+//   SendMessageDetails,
+//   MultiSendMessageDetails,
+//   DelegateMessageDetails,
+//   DepositMessageDetails,
+//   SubmitProposalMessageDetails,
+//   UndelegateMessageDetails,
+//   VoteMessageDetails,
+//   BeginRedelegateMessageDetails,
+//   WithdrawDelegationRewardMessageDetails
+// } from "./message-view"
 
 export default {
   name: `tx-item`,
   components: {
     TransactionMetadata,
-    Bech32,
-    SendMessageDetails,
-    MultiSendMessageDetails,
-    DelegateMessageDetails,
-    DepositMessageDetails,
-    SubmitProposalMessageDetails,
-    UndelegateMessageDetails,
-    VoteMessageDetails,
-    BeginRedelegateMessageDetails,
-    WithdrawDelegationRewardMessageDetails
+    // Bech32,
+    // SendMessageDetails,
+    // MultiSendMessageDetails,
+    // DelegateMessageDetails,
+    // DepositMessageDetails,
+    // SubmitProposalMessageDetails,
+    // UndelegateMessageDetails,
+    // VoteMessageDetails,
+    // BeginRedelegateMessageDetails,
+    // WithdrawDelegationRewardMessageDetails
   },
   props: {
     transaction: {

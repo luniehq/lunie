@@ -39,13 +39,13 @@ import { mapGetters } from "vuex"
 import DataEmptyTx from "common/TmDataEmptyTx"
 import TmDataMsg from "common/TmDataMsg"
 import TmPage from "common/TmPage"
-// import TransactionList from "transactions/TransactionList"
+import TransactionList from "transactions/TransactionList"
 import gql from "graphql-tag"
 
 export default {
   name: `page-transactions`,
   components: {
-    // TransactionList,
+    TransactionList,
     DataEmptyTx,
     TmDataMsg,
     TmPage
