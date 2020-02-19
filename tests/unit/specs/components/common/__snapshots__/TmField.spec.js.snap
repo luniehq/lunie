@@ -251,7 +251,7 @@ exports[`TmField displays as a select 1`] = `
     class="tm-field-select-addon"
   >
     <i
-      class="material-icons"
+      class="material-icons notranslate"
     >
       arrow_drop_down
     </i>
@@ -297,7 +297,7 @@ exports[`TmField displays as a select 2`] = `
     class="tm-field-select-addon"
   >
     <i
-      class="material-icons"
+      class="material-icons notranslate"
     >
       arrow_drop_down
     </i>
@@ -343,7 +343,7 @@ exports[`TmField displays as a select 3`] = `
     class="tm-field-select-addon"
   >
     <i
-      class="material-icons"
+      class="material-icons notranslate"
     >
       arrow_drop_down
     </i>

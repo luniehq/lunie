@@ -184,10 +184,11 @@
   .session {
     height: 100vh;
     padding: 3rem 1rem 1rem;
+    max-width: 100%;
   }
 
   .session-frame {
-    max-width: 400px;
+    max-width: 100%;
   }
 
   .bottom-indent {

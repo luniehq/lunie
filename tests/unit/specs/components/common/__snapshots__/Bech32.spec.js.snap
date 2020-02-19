@@ -16,7 +16,7 @@ exports[`Bech32 should show a long address 1`] = `
     class="copied"
   >
     <i
-      class="material-icons"
+      class="material-icons notranslate"
     >
       check
     </i>
@@ -40,7 +40,7 @@ exports[`Bech32 should show a short address 1`] = `
     class="copied"
   >
     <i
-      class="material-icons"
+      class="material-icons notranslate"
     >
       check
     </i>

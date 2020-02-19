@@ -19,7 +19,7 @@ exports[`TmModal has the expected html structure 1`] = `
             href="#"
           >
             <i
-              class="material-icons chevron_left"
+              class="material-icons notranslate chevron_left"
             />
           </a>
            
@@ -27,7 +27,7 @@ exports[`TmModal has the expected html structure 1`] = `
             href="#"
           >
             <i
-              class="material-icons chevron_right"
+              class="material-icons notranslate chevron_right"
             />
           </a>
         </div>
@@ -36,7 +36,7 @@ exports[`TmModal has the expected html structure 1`] = `
           href="#"
         >
           <i
-            class="material-icons close"
+            class="material-icons notranslate close"
           />
         </a>
       </div>
@@ -111,7 +111,7 @@ exports[`TmModal has the expected html structure 1`] = `
             Next step
             
         <i
-          class="material-icons arrow_forward"
+          class="material-icons notranslate arrow_forward"
         />
       </button>
       <!---->

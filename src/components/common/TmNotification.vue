@@ -2,7 +2,7 @@
   <div v-if="active" :class="cssClass" @click="deactivate()">
     <header>
       <div v-if="icon" class="icon">
-        <i class="material-icons">{{ icon }}</i>
+        <i class="material-icons notranslate">{{ icon }}</i>
       </div>
       <div v-if="title" class="title">
         {{ title }}

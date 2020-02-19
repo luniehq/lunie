@@ -51,7 +51,6 @@ describe(`ActionModal`, () => {
     id: "cosmos-hub-testnet",
     stakingDenom: "STAKE",
     chain_id: "gaia-13006",
-    rpc_url: "wss://gaia-13006.lunie.io:26657/websocket",
     api_url: "https://gaia-13006.lunie.io",
     action_send: true // to enable the feature send, needs to match the title of the ActionModal
   }
