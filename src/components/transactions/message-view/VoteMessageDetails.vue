@@ -4,9 +4,10 @@
     <div class="tx__content__left">
       <h3>{{ caption }}</h3>
       <span
-        ><i class="italic">{{ transaction.details.voteOption }}</i> on&nbsp;</span
+        ><i class="italic">{{ transaction.details.voteOption }}</i>
+        &nbsp;on&nbsp;</span
       >
-      <router-link :to="`/governance/${transaction.details.proposalId}`"
+      <router-link :to="`/proposals/${transaction.details.proposalId}`"
         >Proposal &#35;{{ transaction.details.proposalId }}</router-link
       >
     </div>
