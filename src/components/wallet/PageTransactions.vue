@@ -11,13 +11,18 @@
   >
     <DataEmptyTx slot="no-data" />
     <template slot="managed-body">
-      <div v-infinite-scroll="loadMore" infinite-scroll-distance="80">
+      <!-- <div v-infinite-scroll="loadMore" infinite-scroll-distance="80">
         <TransactionList
           :transactions="transactions"
           :address="address"
           :validators="validatorsAddressMap"
         />
+      </div> -->
+
+      <div v-for="transaction in transactions" :key="transaction.hash">
+        {{ transaction }}
       </div>
+
       <br />
       <TmDataMsg icon="calendar_today">
         <div slot="title">
@@ -39,13 +44,13 @@ import { mapGetters } from "vuex"
 import DataEmptyTx from "common/TmDataEmptyTx"
 import TmDataMsg from "common/TmDataMsg"
 import TmPage from "common/TmPage"
-import TransactionList from "transactions/TransactionList"
+// import TransactionList from "transactions/TransactionList"
 import gql from "graphql-tag"
 
 export default {
   name: `page-transactions`,
   components: {
-    TransactionList,
+    // TransactionList,
     DataEmptyTx,
     TmDataMsg,
     TmPage
@@ -79,20 +84,76 @@ export default {
   apollo: {
     transactions: {
       query: gql`
-        query transactions($networkId: String!, $address: String!) {
-          transactions(networkId: $networkId, address: $address) {
-            hash
+        query transactionsV2($networkId: String!, $address: String!) {
+          transactionsV2(networkId: $networkId, address: $address) {
             type
-            group
+            hash
             height
             timestamp
-            gasUsed
-            fee {
-              amount
+            memo
+            success
+            fees {
               denom
+              amount
             }
-            value
-            withdrawValidators
+            details {
+              ... on SendTx {
+                to
+                amount {
+                  denom
+                  amount
+                }
+              }
+              ... on StakeTx {
+                to
+                amount {
+                  denom
+                  amount
+                }
+              }
+              ... on RestakeTx {
+                to
+                from
+                amount {
+                  denom
+                  amount
+                }
+              }
+              ... on UnstakeTx {
+                from
+                amount {
+                  denom
+                  amount
+                }
+              }
+              ... on ClaimRewardsTx {
+                from
+                amount {
+                  denom
+                  amount
+                }
+              }
+              ... on SubmitProposalTx {
+                proposalType
+                proposalTitle
+                proposalDescription
+                initialDeposit {
+                  denom
+                  amount
+                }
+              }
+              ... on VoteTx {
+                proposalId
+                voteOption
+              }
+              ... on DepositTx {
+                proposalId
+                amount {
+                  denom
+                  amount
+                }
+              }
+            }
           }
         }
       `,
@@ -106,30 +167,84 @@ export default {
         }
       },
       update: result => {
+        console.log(result)
         if (Array.isArray(result.transactions)) {
-          return result.transactions.map(tx => ({
-            ...tx,
-            timestamp: new Date(tx.timestamp),
-            value: JSON.parse(tx.value)
-          }))
+          return result.transactions
         }
         return []
       },
       subscribeToMore: {
         document: gql`
           subscription($networkId: String!, $address: String!) {
-            userTransactionAdded(networkId: $networkId, address: $address) {
-              hash
+            userTransactionAddedV2(networkId: $networkId, address: $address) {
               type
-              group
+              hash
               height
               timestamp
-              gasUsed
-              fee {
-                amount
+              memo
+              success
+              fees {
                 denom
+                amount
               }
-              value
+              details {
+                ... on SendTx {
+                  to
+                  amount {
+                    denom
+                    amount
+                  }
+                }
+                ... on StakeTx {
+                  to
+                  amount {
+                    denom
+                    amount
+                  }
+                }
+                ... on RestakeTx {
+                  to
+                  from
+                  amount {
+                    denom
+                    amount
+                  }
+                }
+                ... on UnstakeTx {
+                  from
+                  amount {
+                    denom
+                    amount
+                  }
+                }
+                ... on ClaimRewardsTx {
+                  from
+                  amount {
+                    denom
+                    amount
+                  }
+                }
+                ... on SubmitProposalTx {
+                  proposalType
+                  proposalTitle
+                  proposalDescription
+                  initialDeposit {
+                    denom
+                    amount
+                  }
+                }
+                ... on VoteTx {
+                  proposalId
+                  voteOption
+                }
+                ... on DepositTx {
+                  proposalId
+                  amount {
+                    denom
+                    amount
+                  }
+                }
+              }
             }
           }
         `,
