@@ -1,14 +1,13 @@
 <template>
   <div class="tx-container">
     <div class="tx" @click="toggleDetail">
-      {{ transaction.hash }}
-      <!-- <component
+      <component
         :is="messageTypeComponent"
         :transaction="transaction"
         :validators="validators"
         :session-address="address"
         :show="show"
-      /> -->
+      />
       <div class="toggle" :class="{ up: show }">
         <i class="material-icons notranslate toggle-icon">
           keyboard_arrow_down
@@ -26,34 +25,32 @@
 <script>
 import { messageType } from "./messageTypes.js"
 import TransactionMetadata from "./TransactionMetadata"
-// import Bech32 from "common/Bech32"
+import Bech32 from "common/Bech32"
 
-// import {
-//   SendMessageDetails,
-//   MultiSendMessageDetails,
-//   DelegateMessageDetails,
-//   DepositMessageDetails,
-//   SubmitProposalMessageDetails,
-//   UndelegateMessageDetails,
-//   VoteMessageDetails,
-//   BeginRedelegateMessageDetails,
-//   WithdrawDelegationRewardMessageDetails
-// } from "./message-view"
+import {
+  SendMessageDetails,
+  DelegateMessageDetails,
+  DepositMessageDetails,
+  SubmitProposalMessageDetails,
+  UndelegateMessageDetails,
+  VoteMessageDetails,
+  BeginRedelegateMessageDetails,
+  WithdrawDelegationRewardMessageDetails
+} from "./message-view"
 
 export default {
   name: `tx-item`,
   components: {
     TransactionMetadata,
-    // Bech32,
-    // SendMessageDetails,
-    // MultiSendMessageDetails,
-    // DelegateMessageDetails,
-    // DepositMessageDetails,
-    // SubmitProposalMessageDetails,
-    // UndelegateMessageDetails,
-    // VoteMessageDetails,
-    // BeginRedelegateMessageDetails,
-    // WithdrawDelegationRewardMessageDetails
+    Bech32,
+    SendMessageDetails,
+    DelegateMessageDetails,
+    DepositMessageDetails,
+    SubmitProposalMessageDetails,
+    UndelegateMessageDetails,
+    VoteMessageDetails,
+    BeginRedelegateMessageDetails,
+    WithdrawDelegationRewardMessageDetails
   },
   props: {
     transaction: {
@@ -78,19 +75,15 @@ export default {
   }),
   computed: {
     messageTypeComponent: function() {
-      // TODO this only works for Cosmos networks. This whole logic will change with: https://github.com/luniehq/lunie-api/issues/259
-      const typeOfTransaction = this.transaction.type.split("/")[1] // removed prefix to be compatible across networks (gaia and emoney have different prefixes)
-      // TODO Could improve this using dynamic loading.
-      switch (typeOfTransaction) {
+      console.log(this.transaction.type)
+      switch (this.transaction.type) {
         case messageType.SEND:
           return `send-message-details`
-        case messageType.MULTISEND:
-          return `multi-send-message-details`
-        case messageType.DELEGATE:
+        case messageType.STAKE:
           return `delegate-message-details`
-        case messageType.UNDELEGATE:
+        case messageType.UNSTAKE:
           return `undelegate-message-details`
-        case messageType.BEGIN_REDELEGATE:
+        case messageType.RESTAKE:
           return `begin-redelegate-message-details`
         case messageType.SUBMIT_PROPOSAL:
           return `submit-proposal-message-details`

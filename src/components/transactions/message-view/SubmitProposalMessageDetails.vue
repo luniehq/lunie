@@ -1,17 +1,14 @@
 <template>
   <div class="tx__content">
-    <TransactionIcon
-      :transaction-group="transaction.group"
-      :transaction-type="type"
-    />
+    <TransactionIcon :transaction-type="type" />
     <div class="tx__content__left">
       <h3>{{ caption }}</h3>
-      <span>{{ transaction.value.title }}</span>
+      <span>{{ transaction.details.proposalTitle }}</span>
     </div>
     <div class="tx__content__right">
       <p class="amount">
-        {{ initialDeposit.amount | atoms | prettyLong }}&nbsp;
-        {{ initialDeposit.denom | viewDenom }}
+        {{ transaction.details.initialDeposit.amount | prettyLong }}&nbsp;
+        {{ transaction.details.initialDeposit.denom }}
       </p>
     </div>
   </div>
@@ -19,7 +16,7 @@
 
 <script>
 import { atoms, viewDenom, prettyLong } from "scripts/num.js"
-import { formatBech32 } from "src/filters"
+// import { formatBech32 } from "src/filters"
 import TransactionIcon from "../TransactionIcon"
 
 export default {
@@ -28,7 +25,7 @@ export default {
     atoms,
     viewDenom,
     prettyLong,
-    formatBech32
+    // formatBech32
   },
   components: {
     TransactionIcon
@@ -47,11 +44,6 @@ export default {
     return {
       type: `Submitted`,
       caption: `Submitted proposal`
-    }
-  },
-  computed: {
-    initialDeposit() {
-      return this.transaction.value.initial_deposit[0]
     }
   }
 }

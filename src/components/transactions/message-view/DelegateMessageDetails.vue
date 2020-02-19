@@ -1,29 +1,23 @@
 <template>
   <div class="tx__content">
-    <TransactionIcon
-      :transaction-group="transaction.group"
-      :transaction-type="type"
-    />
+    <TransactionIcon :transaction-type="type" />
     <div class="tx__content__left">
       <h3>{{ caption }}</h3>
       <span>With&nbsp;</span>
-      <router-link
-        :to="`/staking/validators/${transaction.value.validator_address}`"
-      >
+      <router-link :to="`/staking/validators/${transaction.details.to[0]}`">
         <img
           v-if="validator && validator.picture"
           :src="validator.picture"
           class="validator-image"
           :alt="`validator logo for ` + validator.name"
         />
-        {{
-          transaction.value.validator_address | resolveValidatorName(validators)
-        }}
+        {{ transaction.details.to[0] | resolveValidatorName(validators) }}
       </router-link>
     </div>
     <div class="tx__content__right">
       <p class="amount">
-        {{ coin.amount | atoms | prettyLong }} {{ coin.denom | viewDenom }}
+        {{ transaction.details.amount.amount | prettyLong }}&nbsp;
+        {{ transaction.details.amount.denom }}
       </p>
     </div>
   </div>
@@ -32,7 +26,6 @@
 <script>
 import { atoms, viewDenom, prettyLong } from "scripts/num.js"
 import { resolveValidatorName } from "src/filters"
-import { getCoin } from "scripts/transaction-utils"
 import TransactionIcon from "../TransactionIcon"
 
 export default {
@@ -63,11 +56,8 @@ export default {
     }
   },
   computed: {
-    coin() {
-      return getCoin(this.transaction)
-    },
     validator() {
-      return this.validators[this.transaction.value.validator_address] || false
+      return this.validators[this.transaction.details.to[0]] || false
     }
   }
 }

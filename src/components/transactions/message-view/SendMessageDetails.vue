@@ -1,33 +1,25 @@
 <template>
   <div class="tx__content">
-    <TransactionIcon
-      :transaction-group="transaction.group"
-      :transaction-type="type"
-    />
+    <TransactionIcon :transaction-type="type" />
     <div class="tx__content__left">
-      <h3>{{ caption }}</h3>
+      <h3>{{ type }}</h3>
       <template v-if="toYourself">
         <span>To yourself —&nbsp;</span>
-        <Bech32 :address="transaction.value.to_address" />
+        <Bech32 :address="sessionAddress" />
       </template>
       <template v-else-if="sentFromSessionAddress">
         <span>To&nbsp;</span>
-        <Bech32 :address="transaction.value.to_address" />
-      </template>
-      <template v-else-if="receivedToSessionAddress">
-        <span>From&nbsp;</span>
-        <Bech32 :address="transaction.value.from_address" />
+        <Bech32 :address="transaction.details.to[0]" />
       </template>
       <template v-else>
         <span>From&nbsp;</span>
-        <Bech32 :address="transaction.value.from_address" />
-        <i class="material-icons notranslate arrow">arrow_right_alt</i>
-        <Bech32 :address="transaction.value.to_address" />
+        <Bech32 :address="transaction.details.to[0]" />
       </template>
     </div>
     <div class="tx__content__right">
       <p class="amount">
-        {{ coin.amount | atoms | prettyLong }} {{ coin.denom | viewDenom }}
+        {{ transaction.details.amount.amount | prettyLong }}&nbsp;
+        {{ transaction.details.amount.denom }}
       </p>
     </div>
   </div>
@@ -36,7 +28,6 @@
 <script>
 import { atoms, viewDenom, prettyLong } from "scripts/num.js"
 import Bech32 from "common/Bech32"
-import { getCoin } from "scripts/transaction-utils"
 import TransactionIcon from "../TransactionIcon"
 
 export default {
@@ -62,42 +53,14 @@ export default {
     }
   },
   computed: {
-    coin() {
-      return getCoin(this.transaction)
-    },
     toYourself() {
-      return (
-        this.transaction.value.from_address === this.sessionAddress &&
-        this.transaction.value.to_address === this.sessionAddress
-      )
+      return this.transaction.details.to[0] === this.sessionAddress
     },
     sentFromSessionAddress() {
-      return (
-        this.sessionAddress === this.transaction.value.from_address &&
-        this.sessionAddress !== this.transaction.value.to_address
-      )
-    },
-    receivedToSessionAddress() {
-      return (
-        this.sessionAddress === this.transaction.value.to_address &&
-        this.sessionAddress !== this.transaction.value.from_address
-      )
+      return this.transaction.details.to[0] !== this.sessionAddress
     },
     type() {
-      if (
-        this.transaction.value.to_address === this.sessionAddress &&
-        this.transaction.value.from_address !== this.sessionAddress
-      ) {
-        return "Received"
-      } else {
-        return "Sent"
-      }
-    },
-    caption() {
-      if (
-        this.transaction.value.to_address === this.sessionAddress &&
-        this.transaction.value.from_address !== this.sessionAddress
-      ) {
+      if (this.transaction.details.to[0] === this.sessionAddress) {
         return "Received"
       } else {
         return "Sent"

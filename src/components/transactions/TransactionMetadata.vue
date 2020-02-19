@@ -22,9 +22,14 @@
       {{ transaction.memo }}
     </p>
     <p>
-      Fee:
-      <b>{{ transaction.fee.amount }}</b>
-      <span> {{ transaction.fee.denom }}</span>
+      Fees:&nbsp;
+      <span v-if="transaction.fees.length > 0">
+        <b>{{ transaction.fees[0].amount }}</b>
+        <span> {{ transaction.fees[0].denom }}</span>
+      </span>
+      <span v-else>
+        0
+      </span>
     </p>
     <p>
       Hash: <span class="hash">{{ transaction.hash }}</span>

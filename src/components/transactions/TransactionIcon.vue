@@ -1,6 +1,6 @@
 <template>
   <div class="tx__icon">
-    <img :class="transactionGroup" :src="icon" :alt="transactionType" />
+    <img :src="icon" :alt="transactionType" />
   </div>
 </template>
 
@@ -8,10 +8,6 @@
 export default {
   name: `transaction-icon`,
   props: {
-    transactionGroup: {
-      type: String,
-      required: true
-    },
     transactionType: {
       type: String,
       required: true
