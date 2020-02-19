@@ -667,14 +667,12 @@ export default {
         this.submissionError = `${this.submissionErrorPrefix}: ${message}.`
       }
 
-      // TODO: move this logic to validations
-      //
-      // // limit fees to the maximum the user has
-      // if (this.invoiceTotal > this.selectFeeToken()) {
-      //   this.gasPrice =
-      //     (Number(this.selectFeeToken()) - Number(this.amount)) /
-      //     this.gasEstimate
-      // }
+      // limit fees to the maximum the user has
+      if (this.invoiceTotal > this.selectFeeTokenAmount()) {
+        this.gasPrice =
+          (Number(this.selectFeeTokenAmount()) - Number(this.amount)) /
+          this.gasEstimate
+      }
     },
     async submit() {
       this.submissionError = null
