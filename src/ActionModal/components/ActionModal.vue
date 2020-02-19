@@ -936,7 +936,7 @@ export default {
 .action-modal-footer .tm-form-group .tm-form-group__field {
   display: flex;
   align-items: center;
-  justify-items: space-between;
+  justify-content: flex-end;
 }
 
 .action-modal-footer .tm-form-group .tm-form-group__field .tertiary {
