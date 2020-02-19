@@ -4,7 +4,7 @@ import VueApollo from "vue-apollo"
 import LiValidator from "src/components/staking/LiValidator"
 
 const localVue = createLocalVue()
-localVue.directive(`tooltip`, () => {})
+localVue.directive(`tooltip`, () => { })
 localVue.use(VueApollo)
 
 describe(`LiValidator`, () => {
@@ -123,6 +123,6 @@ describe(`LiValidator`, () => {
     const stakingDenomReward = LiValidator.methods.filterStakingDenomReward.call(
       self
     )
-    expect(stakingDenomReward).toEqual(`1`)
+    expect(stakingDenomReward).toEqual(1)
   })
 })

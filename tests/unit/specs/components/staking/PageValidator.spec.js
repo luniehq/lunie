@@ -37,7 +37,7 @@ const validator = {
 describe(`PageValidator`, () => {
   let wrapper, $store, $apollo
   const localVue = createLocalVue()
-  localVue.directive(`tooltip`, () => {})
+  localVue.directive(`tooltip`, () => { })
 
   beforeEach(() => {
     $store = {
@@ -56,15 +56,15 @@ describe(`PageValidator`, () => {
         validator: {
           loading: false,
           error: false,
-          refetch: () => {}
+          refetch: () => { }
         },
         rewards: {
           loading: false,
           error: false,
-          refetch: () => {}
+          refetch: () => { }
         },
         delegation: {
-          refetch: () => {}
+          refetch: () => { }
         }
       }
     }
@@ -167,7 +167,7 @@ describe(`PageValidator`, () => {
     const stakingDenomReward = PageValidator.methods.filterStakingDenomReward.call(
       self
     )
-    expect(stakingDenomReward).toEqual(`1`)
+    expect(stakingDenomReward).toEqual(1)
   })
 })
 
