@@ -47,6 +47,19 @@ describe(`ActionModal`, () => {
     totalStake: 1430000000
   }
 
+  const balances = [
+    {
+      denom: "token1",
+      amount: 1,
+      gasPrice: 0.001
+    },
+    {
+      denom: "token2",
+      amount: 2,
+      gasPrice: 0.002
+    }
+  ]
+
   const network = {
     id: "cosmos-hub-testnet",
     stakingDenom: "STAKE",
@@ -91,6 +104,9 @@ describe(`ActionModal`, () => {
     queries: {
       overview: {
         refetch: jest.fn()
+      },
+      balances: {
+        refetch: jest.fn()
       }
     }
   }
@@ -110,6 +126,7 @@ describe(`ActionModal`, () => {
           currrentModalOpen: false
         },
         overview,
+        balances,
         delegations
       },
       getters: {
@@ -146,7 +163,7 @@ describe(`ActionModal`, () => {
         sequence: 0
       }
     }
-    wrapper.setData({ network, overview, context, loaded: true })
+    wrapper.setData({ network, overview, balances, context, loaded: true })
     wrapper.vm.open()
   })
 
@@ -615,7 +632,8 @@ describe(`ActionModal`, () => {
         step: `sign`,
         gasEstimate: 12345,
         submissionError: null,
-        useTxService: true
+        useTxService: true,
+        balances
       }
 
       wrapper.setProps({ transactionProperties })
