@@ -36,7 +36,7 @@
           <div class="scroll">
             <div
               class="row lower-header scroll-item"
-              :class="{ 'single-denom-rewards': !isMultiDenomReward }"
+              :class="{ 'single-denom-rewards': !isMultiDenomNetwork }"
             >
               <div class="row">
                 <div v-if="overview.totalStake > 0" class="available-atoms">
@@ -47,7 +47,7 @@
                     }}
                   </h2>
                   <div class="rewards multi-denom">
-                    <h2 v-if="isMultiDenomReward">
+                    <h2 v-if="isMultiDenomNetwork">
                       +{{
                         overview.totalRewards
                           | bigFigureOrShortDecimals
@@ -59,7 +59,7 @@
 
                 <div
                   v-if="
-                    !isMultiDenomReward &&
+                    !isMultiDenomNetwork &&
                       overview.totalRewards &&
                       overview.totalRewards > 0.001
                   "
@@ -76,14 +76,14 @@
                 </div>
               </div>
 
-              <div
-                v-if="formattedBalances.length > 0"
-                class="row values-container"
-              >
-                <div v-for="balance in formattedBalances" :key="balance.denom">
+              <div v-if="isMultiDenomNetwork" class="row values-container">
+                <div
+                  v-for="balance in filteredMultiDenomBalances"
+                  :key="balance.denom"
+                >
                   <div class="available-atoms">
                     <h3>
-                      {{ balance.denom | removeUFromMicroDenom }}
+                      {{ balance.denom }}
                     </h3>
                     <h2>
                       {{ balance.amount | bigFigureOrShortDecimals }}
@@ -140,8 +140,6 @@
 <script>
 import { bigFigureOrShortDecimals } from "scripts/num"
 import { noBlanks } from "src/filters"
-// TODO: remove when PR add-token-gas-prices is merged
-import { removeUFromMicroDenom } from "src/scripts/common"
 import TmBtn from "common/TmBtn"
 import SendModal from "src/ActionModal/components/SendModal"
 import ModalWithdrawRewards from "src/ActionModal/components/ModalWithdrawRewards"
@@ -159,7 +157,6 @@ export default {
     ModalTutorial
   },
   filters: {
-    removeUFromMicroDenom,
     bigFigureOrShortDecimals,
     noBlanks
   },
@@ -220,20 +217,10 @@ export default {
     readyToWithdraw() {
       return this.overview.totalRewards > 0
     },
-    // TODO: remove when PR add-token-gas-prices is merged
-    formattedBalances() {
-      return this.balances
-        .filter(balance => !balance.denom.includes(this.stakingDenom))
-        .map(
-          balance =>
-            (balance = {
-              denom: balance.denom
-                .charAt(0)
-                .toLowerCase()
-                .concat(balance.denom.slice(-3)),
-              amount: parseFloat(balance.amount).toFixed(2)
-            })
-        )
+    filteredMultiDenomBalances() {
+      return this.balances.filter(
+        balance => !balance.denom.includes(this.stakingDenom)
+      )
     },
     concatBalances() {
       let balancesArray = []
@@ -272,10 +259,11 @@ export default {
         return [this.stakingDenom]
       }
     },
-    // TODO: replace for the multi field in the network schema
-    isMultiDenomReward() {
-      if (this.overview.rewards && this.overview.rewards.length > 0) {
-        return this.overview.rewards[0].denom !== this.overview.rewards[1].denom
+    isMultiDenomNetwork() {
+      if (this.balances && this.balances.length > 0) {
+        return this.balances.find(
+          balance => balance.denom !== this.stakingDenom
+        )
           ? true
           : false
       } else {

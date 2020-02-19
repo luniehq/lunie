@@ -54,12 +54,3 @@ export function toMicroDenom(denom) {
   }
   return lookup[denom] ? lookup[denom] : denom.toLowerCase()
 }
-
-// TODO: remove when PR add-token-gas-prices is merged
-export function removeUFromMicroDenom(denom) {
-  if (denom.startsWith(`u`)) {
-    return denom.slice(1, denom.length)
-  } else {
-    return denom
-  }
-}

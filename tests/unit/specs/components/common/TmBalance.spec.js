@@ -170,20 +170,18 @@ describe(`TmBalance`, () => {
 
   it(`should return true if rewards contain multiple denoms`, () => {
     wrapper.setData({
-      overview: {
-        rewards: [
-          {
-            amount: 1,
-            denom: `utoken1`
-          },
-          {
-            amount: 2,
-            denom: `utoken2`
-          }
-        ]
-      }
+      balances: [
+        {
+          amount: 1,
+          denom: `utoken1`
+        },
+        {
+          amount: 2,
+          denom: `utoken2`
+        }
+      ]
     })
-    expect(wrapper.vm.isMultiDenomReward).toBe(true)
+    expect(wrapper.vm.isMultiDenomNetwork).toBe(true)
   })
 
   it(`should show How To Get Tokens tutorial`, () => {
