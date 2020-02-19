@@ -103,7 +103,7 @@
             name="Total"
             type="between"
             min="0"
-            :max="selectFeeToken()"
+            :max="selectFeeTokenAmount()"
           />
         </div>
         <div v-else-if="step === signStep" class="action-modal-form">
@@ -493,6 +493,7 @@ export default {
         account: this.overview.accountInformation
       }
     },
+    // TODO: delete in favor of the multi field in network
     isMultiDenomNetwork() {
       return this.balances.length > 1 &&
         this.balances[0].denom !== this.balances[1].denom
@@ -522,14 +523,14 @@ export default {
     // wait for query balances to finish to get the gas price (if we are in a multidenom network)
     balances: {
       handler() {
-        this.gasPrice = this.balances.find(
-          ({ denom }) => denom === this.selectFeeTokenDenom()
-        ).gasPrice
-          ? this.balances.find(
-              ({ denom }) => denom === this.selectFeeTokenDenom()
-            ).gasPrice
-          : config.default_gas_price.toFixed(9)
-        this.estimatedFee
+        this.gasPriceSetter()
+      }
+    },
+    selectedBalance: {
+      handler() {
+        if (this.balances) {
+          this.gasPriceSetter()
+        }
       }
     }
   },
@@ -565,7 +566,6 @@ export default {
       }
       this.$store.commit(`setCurrrentModalOpen`, this)
       this.trackEvent(`event`, `modal`, this.title)
-      this.gasPrice = config.default_gas_price.toFixed(9)
       this.show = true
       if (config.isMobileApp) noScroll.on()
     },
@@ -611,6 +611,26 @@ export default {
         case feeStep:
           this.step = defaultStep
           break
+      }
+    },
+    gasPriceSetter() {
+      // first we check if the selected token is the staking denom
+      // in that case, we apply the default gas prices for Cosmos
+      if (this.selectFeeTokenDenom() === this.network.stakingDenom) {
+        this.gasPrice = config.default_gas_price.toFixed(9)
+      } else {
+        this.gasPrice =
+          this.isMultiDenomNetwork && this.balances.length > 0
+            ? // if it finds the selected fee token denom in the balances array, then returns its gas price
+              // otherwise returns the default for Cosmos
+              (this.gasPrice = this.balances.find(
+                ({ denom }) => denom === this.selectFeeTokenDenom()
+              ).gasPrice
+                ? this.balances.find(
+                    ({ denom }) => denom === this.selectFeeTokenDenom()
+                  ).gasPrice
+                : config.default_gas_price.toFixed(9))
+            : config.default_gas_price.toFixed(9)
       }
     },
     async validateChangeStep() {
